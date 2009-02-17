@@ -219,7 +219,7 @@ public class BIRTCubeResultSetEvaluator extends
 				}
 
 				// Add break index for each start point
-				lstBreaks.add( new Integer( iIndex ) );
+				lstBreaks.add( Integer.valueOf( iIndex ) );
 
 				subEdgeCursor.first( );
 				return mainEdgeCursor.next( );

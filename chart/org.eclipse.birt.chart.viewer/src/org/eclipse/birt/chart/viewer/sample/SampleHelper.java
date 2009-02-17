@@ -173,11 +173,11 @@ public class SampleHelper
 						"Report Designer" //$NON-NLS-1$
 				},
 				{
-						new Integer( 100 ),
-						new Integer( 80 ),
-						new Integer( 60 ),
-						new Integer( 90 ),
-						new Integer( 120 )
+						Integer.valueOf( 100 ),
+						Integer.valueOf( 80 ),
+						Integer.valueOf( 60 ),
+						Integer.valueOf( 90 ),
+						Integer.valueOf( 120 )
 				}
 		};
 		return new SimpleDataRowExpressionEvaluator( set, data );

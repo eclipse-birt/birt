@@ -57,7 +57,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -102,8 +101,6 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 	private Composite paramsComposite;
 
 	private Map<String, Control> paramsMap = new HashMap<String, Control>( );
-
-	private String expression;
 
 	private Composite composite;
 	private Text txtDisplayName;
@@ -459,7 +456,6 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void setDataFieldExpression( String expression )
 	{
-		this.expression = expression;
 		if ( expression != null )
 		{
 			if ( txtExpression != null && !txtExpression.isDisposed( ) )

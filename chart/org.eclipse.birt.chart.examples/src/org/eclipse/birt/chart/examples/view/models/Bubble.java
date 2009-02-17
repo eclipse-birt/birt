@@ -89,27 +89,27 @@ public class Bubble
 		});
 		BubbleDataSet values1 = BubbleDataSetImpl.create( new BubbleEntry[]{
 				null,
-				new BubbleEntry( new Integer( 15 ), new Integer( 100 ) ),
-				new BubbleEntry( new Integer( 18 ), new Integer( 80 ) ),
+				new BubbleEntry( Integer.valueOf( 15 ), Integer.valueOf( 100 ) ),
+				new BubbleEntry( Integer.valueOf( 18 ), Integer.valueOf( 80 ) ),
 				null,
-				new BubbleEntry( new Integer( 23 ), new Integer( 100 ) ),
+				new BubbleEntry( Integer.valueOf( 23 ), Integer.valueOf( 100 ) ),
 				null
 		} );
 		BubbleDataSet values2 = BubbleDataSetImpl.create( new BubbleEntry[]{
-				new BubbleEntry( new Integer( 50 ), new Integer( 60 ) ),
+				new BubbleEntry( Integer.valueOf( 50 ), Integer.valueOf( 60 ) ),
 				null,
 				null,
-				new BubbleEntry( new Integer( 43 ), new Integer( 80 ) ),
-				new BubbleEntry( new Integer( 12 ), new Integer( 100 ) ),
+				new BubbleEntry( Integer.valueOf( 43 ), Integer.valueOf( 80 ) ),
+				new BubbleEntry( Integer.valueOf( 12 ), Integer.valueOf( 100 ) ),
 				null
 		} );
 		BubbleDataSet values3 = BubbleDataSetImpl.create( new BubbleEntry[]{
 				null,
 				null,
-				new BubbleEntry( new Integer( 43 ), new Integer( 75 ) ),
-				new BubbleEntry( new Integer( 31 ), new Integer( 93 ) ),
+				new BubbleEntry( Integer.valueOf( 43 ), Integer.valueOf( 75 ) ),
+				new BubbleEntry( Integer.valueOf( 31 ), Integer.valueOf( 93 ) ),
 				null,
-				new BubbleEntry( new Integer( 25 ), new Integer( 50 ) )
+				new BubbleEntry( Integer.valueOf( 25 ), Integer.valueOf( 50 ) )
 		} );
 		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
 		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );

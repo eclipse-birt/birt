@@ -50,7 +50,7 @@ public final class FieldAssistHelper
 	private String DEC_CONTENTASSIST_ID = "org.eclipse.birt.chart.ui.swt.fieldassist.contentAssistDecoration"; //$NON-NLS-1$
 
 	/** Default decoration margin. */
-	private final int DECORATION_MARGIN = IDialogConstants.HORIZONTAL_MARGIN;
+	private static final int DECORATION_MARGIN = IDialogConstants.HORIZONTAL_MARGIN;
 
 	/** The handle of preference properties store. */
 	private IPreferenceStore soPreferenceStore = null;

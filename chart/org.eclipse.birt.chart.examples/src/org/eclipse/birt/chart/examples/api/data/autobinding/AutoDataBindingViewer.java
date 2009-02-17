@@ -163,7 +163,7 @@ public final class AutoDataBindingViewer implements
 				{
 						"A", "B", "C"//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}, {
-						new Integer( 7 ), new Integer( 2 ), new Integer( 5 )
+						Integer.valueOf( 7 ), Integer.valueOf( 2 ), Integer.valueOf( 5 )
 				}
 		};
 		dree = new SimpleDataRowExpressionEvaluator( set, data );

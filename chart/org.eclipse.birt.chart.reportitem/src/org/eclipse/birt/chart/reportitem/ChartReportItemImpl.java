@@ -609,7 +609,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 		}
 		else if ( propName.equals( "plot.transposed" ) ) //$NON-NLS-1$
 		{
-			return new Boolean( ( cm instanceof ChartWithAxes ) ? ( (ChartWithAxes) cm ).isTransposed( )
+			return Boolean.valueOf( ( cm instanceof ChartWithAxes ) ? ( (ChartWithAxes) cm ).isTransposed( )
 					: false );
 		}
 		else if ( propName.equals( ChartReportItemUtil.PROPERTY_SCRIPT )

@@ -800,7 +800,7 @@ public class ChartUIUtil
 				sd.getDesignTimeSeries( )
 						.setSeriesIdentifier( MessageFormat.format( seriesText,
 								new Object[]{
-									new Integer( i + 1 )
+									Integer.valueOf( i + 1 )
 								} ) );
 			}
 

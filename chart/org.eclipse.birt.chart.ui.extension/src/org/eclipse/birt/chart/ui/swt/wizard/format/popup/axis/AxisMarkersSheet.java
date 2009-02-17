@@ -759,7 +759,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
 					formatspecifier,
 					getAxisForProcessing( ).getType( ),
-					new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLine" ) ).format( new Object[]{new Integer( getMarkerIndex( ) + 1 ), sAxisTitle} ) ); //$NON-NLS-1$
+					new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLine" ) ).format( new Object[]{ Integer.valueOf( getMarkerIndex( ) + 1 ), sAxisTitle} ) ); //$NON-NLS-1$
 			if ( editor.open( ) == Window.OK )
 			{
 				if ( editor.getFormatSpecifier( ) == null )
@@ -806,7 +806,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
 					formatspecifier,
 					getAxisForProcessing( ).getType( ),
-					new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerRange" ) ).format( new Object[]{new Integer( getMarkerIndex( ) + 1 ), sAxisTitle} ) ); //$NON-NLS-1$
+					new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerRange" ) ).format( new Object[]{ Integer.valueOf( getMarkerIndex( ) + 1 ), sAxisTitle} ) ); //$NON-NLS-1$
 			if ( editor.open( ) == Window.OK )
 			{
 				if ( editor.getFormatSpecifier( ) == null )

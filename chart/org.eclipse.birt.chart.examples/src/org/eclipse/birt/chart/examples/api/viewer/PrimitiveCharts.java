@@ -1206,10 +1206,10 @@ public final class PrimitiveCharts
 				-10, 20, 80, 90
 		} );
 		BubbleDataSet dsNumericValues2 = BubbleDataSetImpl.create( new BubbleEntry[]{
-				new BubbleEntry( new Integer( 20 ), new Integer( 10 ) ),
-				new BubbleEntry( new Integer( 30 ), new Integer( -10 ) ),
+				new BubbleEntry( Integer.valueOf( 20 ), Integer.valueOf( 10 ) ),
+				new BubbleEntry( Integer.valueOf( 30 ), Integer.valueOf( -10 ) ),
 				new BubbleEntry( null, null ),
-				new BubbleEntry( new Integer( -20 ), new Integer( 30 ) )
+				new BubbleEntry( Integer.valueOf( -20 ), Integer.valueOf( 30 ) )
 		} );
 
 		// X-Series

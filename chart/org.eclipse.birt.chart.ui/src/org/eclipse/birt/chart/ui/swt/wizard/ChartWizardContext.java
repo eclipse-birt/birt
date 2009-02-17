@@ -238,7 +238,7 @@ public class ChartWizardContext implements IWizardContext
 		{
 			mSheetEnabled = new HashMap<String, Boolean>( );
 		}
-		mSheetEnabled.put( id, new Boolean( bEnabled ) );
+		mSheetEnabled.put( id, Boolean.valueOf( bEnabled ) );
 	}
 
 	/**

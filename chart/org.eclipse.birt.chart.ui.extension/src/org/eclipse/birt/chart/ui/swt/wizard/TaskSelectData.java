@@ -90,7 +90,7 @@ public class TaskSelectData extends SimpleTask implements
 	private SashForm foSashForm;
 	private Point fLeftSize;
 	private Point fRightSize;
-	private final int DEFAULT_HEIGHT = 580;
+	private static final int DEFAULT_HEIGHT = 580;
 	private Composite fHeaderArea;
 	private ScrolledComposite fDataArea;
 

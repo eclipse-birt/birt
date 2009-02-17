@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -650,20 +651,21 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			if ( queryMap.containsKey( expression ) )
 			{
 				int expCount = queryMap.get( expression ).intValue( );
-				queryMap.put( expression, new Integer( expCount++ ) );
+				queryMap.put( expression, Integer.valueOf( expCount++ ) );
 			}
 			else
 			{
-				queryMap.put( expression, new Integer( 1 ) );
+				queryMap.put( expression, Integer.valueOf( 1 ) );
 			}
 		}
 		// If the expression count is the same to the count of all, delete this
 		// color registry of the expression
-		for ( Iterator<String> iterator = queryMap.keySet( ).iterator( ); iterator.hasNext( ); )
+		for ( Iterator<Entry<String, Integer>> iterator = queryMap.entrySet( ).iterator( ); iterator.hasNext( ); )
 		{
-			String expression = iterator.next( );
+			Entry<String, Integer> entry = iterator.next();
+			String expression = entry.getKey( );
 			if ( DataDefinitionTextManager.getInstance( )
-					.getNumberOfSameDataDefinition( expression ) == queryMap.get( expression )
+					.getNumberOfSameDataDefinition( expression ) == entry.getValue( )
 					.intValue( ) )
 			{
 				ColorPalette.getInstance( ).retrieveColor( expression );

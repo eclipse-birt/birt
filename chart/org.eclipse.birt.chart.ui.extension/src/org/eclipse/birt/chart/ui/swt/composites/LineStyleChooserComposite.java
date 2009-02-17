@@ -32,7 +32,7 @@ public class LineStyleChooserComposite extends CustomChooserComposite
 
 		public Object getValue( )
 		{
-			return new Integer( getLineStyle( ) );
+			return Integer.valueOf( getLineStyle( ) );
 		}
 
 		public void setValue( Object value )
@@ -48,7 +48,7 @@ public class LineStyleChooserComposite extends CustomChooserComposite
 	public LineStyleChooserComposite( Composite parent, int style,
 			int iLineStyle )
 	{
-		this( parent, style, new Integer( iLineStyle ), new Integer[]{
+		this( parent, style, iLineStyle, new Integer[]{
 				SWT.LINE_SOLID, SWT.LINE_DASH, SWT.LINE_DASHDOT, SWT.LINE_DOT
 		} );
 	}
@@ -56,7 +56,7 @@ public class LineStyleChooserComposite extends CustomChooserComposite
 	public LineStyleChooserComposite( Composite parent, int style,
 			int iLineStyle, Integer[] lineStyleItems )
 	{
-		super( parent, style, new Integer( iLineStyle ) );
+		super( parent, style, Integer.valueOf( iLineStyle ) );
 		setItems( lineStyleItems );
 	}
 
@@ -64,7 +64,7 @@ public class LineStyleChooserComposite extends CustomChooserComposite
 	{
 		if ( choiceValue == null )
 		{
-			choiceValue = new Integer( 0 );
+			choiceValue = Integer.valueOf( 0 );
 		}
 		return new LineStyleChoice( parent,
 				SWT.NONE,
@@ -83,7 +83,7 @@ public class LineStyleChooserComposite extends CustomChooserComposite
 
 	public void setLineStyle( int iStyle )
 	{
-		setChoiceValue( new Integer( iStyle ) );
+		setChoiceValue( Integer.valueOf( iStyle ) );
 	}
 
 }

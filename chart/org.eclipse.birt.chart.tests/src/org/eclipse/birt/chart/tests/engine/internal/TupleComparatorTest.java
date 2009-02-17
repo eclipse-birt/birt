@@ -34,8 +34,8 @@ public class TupleComparatorTest extends TestCase {
 		assertEquals(-1, TupleComparator.compareObjects("ab", "b", null) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals(0, TupleComparator.compareObjects("abc", "abc", null) ); //$NON-NLS-1$ //$NON-NLS-2$
 		
-		Integer n1 = new Integer(80);
-		Integer n2 = new Integer(60);
+		Integer n1 = Integer.valueOf(80);
+		Integer n2 = Integer.valueOf(60);
 		assertEquals(1, TupleComparator.compareObjects(n1, n2, null) );
 		assertEquals(-1, TupleComparator.compareObjects(n2, n1, null) );
 		

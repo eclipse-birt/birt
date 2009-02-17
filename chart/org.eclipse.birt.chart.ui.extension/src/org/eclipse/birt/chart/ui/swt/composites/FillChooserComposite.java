@@ -596,7 +596,7 @@ public class FillChooserComposite extends Composite implements
 			}
 			lblTransparency.setText( new MessageFormat( Messages.getString( "FillChooserComposite.Lbl.Opacity" ) ) //$NON-NLS-1$
 			.format( new Object[]{
-				new Integer( srTransparency.getSelection( ) )
+				Integer.valueOf( srTransparency.getSelection( ) )
 			} ) );
 			srTransparency.setToolTipText( String.valueOf( srTransparency.getSelection( ) ) );
 			srTransparency.addSelectionListener( this );
@@ -905,7 +905,7 @@ public class FillChooserComposite extends Composite implements
 			iTransparency = srTransparency.getSelection( );
 			lblTransparency.setText( new MessageFormat( Messages.getString( "FillChooserComposite.Lbl.Opacity" ) ) //$NON-NLS-1$
 			.format( new Object[]{
-				new Integer( srTransparency.getSelection( ) )
+				Integer.valueOf( srTransparency.getSelection( ) )
 			} ) );
 			srTransparency.setToolTipText( String.valueOf( srTransparency.getSelection( ) ) );
 

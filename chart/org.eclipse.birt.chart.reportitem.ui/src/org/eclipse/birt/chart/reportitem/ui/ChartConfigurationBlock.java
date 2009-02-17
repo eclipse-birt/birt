@@ -128,7 +128,7 @@ public class ChartConfigurationBlock extends OptionsConfigurationBlock
 		final StatusInfo status = new StatusInfo( );
 		String errorMessage = Messages.getString( "ChartPreferencePage.Error.MaxRowInvalid", //$NON-NLS-1$
 				new Object[]{
-					new Integer( MAX_ROW_LIMIT )
+					Integer.valueOf( MAX_ROW_LIMIT )
 				} );
 		if ( number.length( ) == 0 )
 		{

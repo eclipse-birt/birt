@@ -1032,7 +1032,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		Object[] returnObj = new Object[2];
-		returnObj[0] = new Boolean( false );
+		returnObj[0] = Boolean.FALSE;
 		String columnName = getQueryStringForProcessing( expression );
 
 		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getAllColumnBindingsIterator( itemHandle );
@@ -1049,7 +1049,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING )
 						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB ) )
 				{
-					returnObj[0] = new Boolean( true );
+					returnObj[0] = Boolean.TRUE;
 					returnObj[1] = DataType.TEXT_LITERAL;
 					break;
 				}
@@ -1058,7 +1058,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER )
 						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) )
 				{
-					returnObj[0] = new Boolean( true );
+					returnObj[0] = Boolean.TRUE;
 					returnObj[1] = DataType.NUMERIC_LITERAL;
 					break;
 				}
@@ -1066,13 +1066,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
 						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
 				{
-					returnObj[0] = new Boolean( true );
+					returnObj[0] = Boolean.TRUE;
 					returnObj[1] = DataType.DATE_TIME_LITERAL;
 					break;
 				}
 				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
 				{
-					returnObj[0] = new Boolean( true );
+					returnObj[0] = Boolean.TRUE;
 					returnObj[1] = null;
 					break;
 				}
@@ -1642,18 +1642,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				|| filterProperty.getListValue( ) == null
 				|| filterProperty.getListValue( ).size( ) == 0 )
 		{
-			Map appContext = new HashMap( );
+			Map<String, Integer> appContext = new HashMap<String, Integer>( );
 			if ( !isCudeMode )
 			{
 				appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
-						new Integer( maxRow ) );
+						Integer.valueOf( maxRow ) );
 			}
 			else
 			{
 				appContext.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE,
-						new Integer( maxRow ) );
+						Integer.valueOf( maxRow ) );
 				appContext.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
-						new Integer( maxRow ) );
+						Integer.valueOf( maxRow ) );
 			}
 			engineTask.setAppContext( appContext );
 		}
@@ -1683,18 +1683,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				|| filterProperty.getListValue( ) == null
 				|| filterProperty.getListValue( ).size( ) == 0 )
 		{
-			Map appContext = new HashMap( );
+			Map<String, Integer> appContext = new HashMap<String, Integer>( );
 			if ( !isCudeMode )
 			{
 				appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
-						new Integer( maxRow ) );
+						Integer.valueOf( maxRow ) );
 			}
 			else
 			{
 				appContext.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE,
-						new Integer( maxRow ) );
+						Integer.valueOf( maxRow ) );
 				appContext.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
-						new Integer( maxRow ) );
+						Integer.valueOf( maxRow ) );
 			}
 			dsc.setAppContext( appContext );
 		}
@@ -2834,7 +2834,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( checkState( IDataServiceProvider.HAS_CUBE )
 					|| checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
 			{
-				return new Boolean( ChartXTabUIUtil.checkQueryExpression( checkType,
+				return Boolean.valueOf( ChartXTabUIUtil.checkQueryExpression( checkType,
 						data,
 						context.getModel( ),
 						itemHandle,

@@ -837,7 +837,7 @@ public class AggregateEditorComposite extends Composite implements
 		aggregationCombo.setData( aggFunctions );
 	}
 	
-	class AggregationAction extends Action implements IMenuCreator
+	static class AggregationAction extends Action implements IMenuCreator
 	{
 
 		private Menu lastMenu;

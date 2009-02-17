@@ -449,7 +449,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 						168,
 						218 ) : ColorDefinitionImpl.GREY( ),
 				renderMarker,
-				new Integer( 4 ),
+				Integer.valueOf( 4 ),
 				null,
 				false,
 				false );

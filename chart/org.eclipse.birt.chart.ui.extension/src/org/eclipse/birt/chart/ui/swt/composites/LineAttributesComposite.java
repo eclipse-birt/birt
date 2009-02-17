@@ -353,7 +353,7 @@ public class LineAttributesComposite extends Composite implements
 		{
 			// Notify Listeners that a change has occurred in the value
 			fireValueChangedEvent( LineAttributesComposite.VISIBILITY_CHANGED_EVENT,
-					new Boolean( cbVisible.getSelection( ) ) );
+					Boolean.valueOf( cbVisible.getSelection( ) ) );
 			// Notification may cause this class disposed
 			if ( isDisposed( ) )
 			{
@@ -469,7 +469,7 @@ public class LineAttributesComposite extends Composite implements
 		else if ( cmbWidth != null && cmbWidth.equals( event.widget ) )
 		{
 			fireValueChangedEvent( LineAttributesComposite.WIDTH_CHANGED_EVENT,
-					new Integer( cmbWidth.getLineWidth( ) ) );
+					Integer.valueOf( cmbWidth.getLineWidth( ) ) );
 		}
 	}
 

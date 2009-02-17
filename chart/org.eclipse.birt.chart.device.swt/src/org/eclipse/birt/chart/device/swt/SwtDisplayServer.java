@@ -72,7 +72,7 @@ public final class SwtDisplayServer extends DisplayAdapter
 				Messages.getString( "SwtDisplayServer.info.display.server", //$NON-NLS-1$
 						new Object[]{
 								SWT.getPlatform( ),
-								new Integer( SWT.getVersion( ) )
+								Integer.valueOf( SWT.getVersion( ) )
 						},
 						getULocale( ) ) );
 	}

@@ -145,7 +145,7 @@ public class CustomPreviewTable extends Composite implements
 					Event newEvent = new Event( );
 					newEvent.widget = event.widget;
 					newEvent.type = FOCUS_IN;
-					newEvent.data = new Integer( iColumnIndex );
+					newEvent.data = Integer.valueOf( iColumnIndex );
 					fireEvent( newEvent );
 					break;
 			}
@@ -318,7 +318,7 @@ public class CustomPreviewTable extends Composite implements
 		{
 			fd.width = preferWidth;
 			columnWidths.remove( index );
-			columnWidths.add( index, new Integer( preferWidth + SPLITTER_WIDTH ) );
+			columnWidths.add( index, Integer.valueOf( preferWidth + SPLITTER_WIDTH ) );
 		}
 		else
 		{
@@ -368,14 +368,14 @@ public class CustomPreviewTable extends Composite implements
 		}
 		fd.width = SPLITTER_WIDTH;
 		splitter.setLayoutData( fd );
-		splitter.setData( new Integer( i - 1 ) );
+		splitter.setData( Integer.valueOf( i - 1 ) );
 		splitter.addMouseListener( this );
 		splitter.addMouseMoveListener( this );
 	}
 
 	public void addColumn( String sColumnHeading, Color clr, int iWidth )
 	{
-		columnWidths.add( new Integer( iWidth ) );
+		columnWidths.add( Integer.valueOf( iWidth ) );
 		fHeadings.add( sColumnHeading );
 		addHeaderButton( iHeaderAlignment, sColumnHeading, iWidth );
 		cmpHeaders.layout( true );
@@ -572,7 +572,7 @@ public class CustomPreviewTable extends Composite implements
 		for ( int i = 0; i < headers.length; i++ )
 		{
 			fHeadings.add( headers[i] );
-			columnWidths.add( new Integer( iW ) );
+			columnWidths.add( Integer.valueOf( iW ) );
 		}
 		placeComponents( );
 	}
@@ -593,7 +593,7 @@ public class CustomPreviewTable extends Composite implements
 		for ( int i = 0; i < headers.length; i++ )
 		{
 			fHeadings.add( headers[i] );
-			columnWidths.add( new Integer( iW ) );
+			columnWidths.add( Integer.valueOf( iW ) );
 		}
 		placeComponents( );
 	}
@@ -609,7 +609,7 @@ public class CustomPreviewTable extends Composite implements
 		for ( int i = 0; i < headers.length; i++ )
 		{
 			fHeadings.add( headers[i] );
-			columnWidths.add( new Integer( widths[i] ) );
+			columnWidths.add( Integer.valueOf( widths[i] ) );
 		}
 		placeComponents( );
 	}
@@ -619,7 +619,7 @@ public class CustomPreviewTable extends Composite implements
 		Event e = new Event( );
 		e.type = MOUSE_RIGHT_CLICK_TYPE;
 		e.button = 3;
-		e.data = new Integer( iColumnIndex );
+		e.data = Integer.valueOf( iColumnIndex );
 		e.doit = doit;
 
 		// let the handler know which widget fires the event, then the handler
@@ -662,7 +662,7 @@ public class CustomPreviewTable extends Composite implements
 			int columnIndex = ( (Integer) e.widget.getData( ) ).intValue( );
 			int width = cnvCells.calculateMaxColumnWidth( columnIndex,
 					(Label) e.widget );
-			columnWidths.set( columnIndex, new Integer( width + SPLITTER_WIDTH ) );
+			columnWidths.set( columnIndex, Integer.valueOf( width + SPLITTER_WIDTH ) );
 			( (FormData) btnHeaders.get( columnIndex ).getLayoutData( ) ).width = width;
 			cmpHeaders.layout( );
 			cnvCells.updateScrollbars( );
@@ -721,7 +721,7 @@ public class CustomPreviewTable extends Composite implements
 						( (FormData) btnHeaders.get( iResizingColumnIndex )
 								.getLayoutData( ) ).width += ( x - iDragStartXLocation );
 						columnWidths.set( iResizingColumnIndex,
-								new Integer( newWidth ) );
+								Integer.valueOf( newWidth ) );
 						iDragStartXLocation = x;
 						cmpHeaders.layout( );
 						cnvCells.updateScrollbars( );

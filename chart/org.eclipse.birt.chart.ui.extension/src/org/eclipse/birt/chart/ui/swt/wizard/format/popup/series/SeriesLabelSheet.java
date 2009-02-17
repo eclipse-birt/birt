@@ -325,13 +325,13 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				// Add general components
 				sArr.add( LiteralHelper.dataPointComponentTypeSet.getDisplayNameByName( dpc.getType( )
 						.getName( ) ) );
-				dataPointIndex.add( new Integer( i ) );
+				dataPointIndex.add( Integer.valueOf( i ) );
 			}
 			else if ( mapDataPointNames.containsKey( dpc.getOrthogonalType( ) ) )
 			{
 				// Add series-specific components of current series
 				sArr.add( mapDataPointNames.get( dpc.getOrthogonalType( ) ) );
-				dataPointIndex.add( new Integer( i ) );
+				dataPointIndex.add( Integer.valueOf( i ) );
 			}
 		}
 		return sArr.toArray( new String[0] );
@@ -779,7 +779,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		dpc.eAdapters( ).addAll( dp.eAdapters( ) );
 		dp.getComponents( ).add( dpc );
 
-		dataPointIndex.add( iComponentIndex, new Integer( dp.getComponents( )
+		dataPointIndex.add( iComponentIndex, Integer.valueOf( dp.getComponents( )
 				.size( ) - 1 ) );
 	}
 
@@ -844,7 +844,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 			for ( int i = iComponentIndex; i < dataPointIndex.size( ); i++ )
 			{
 				dataPointIndex.set( i,
-						new Integer( dataPointIndex.get( i ) - 1 ) );
+						Integer.valueOf( dataPointIndex.get( i ) - 1 ) );
 			}
 		}
 	}

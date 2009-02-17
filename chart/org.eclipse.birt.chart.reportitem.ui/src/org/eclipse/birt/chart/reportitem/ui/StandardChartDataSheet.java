@@ -1346,7 +1346,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 	}
 
-	class HeaderShowAction extends Action
+	static class HeaderShowAction extends Action
 	{
 
 		HeaderShowAction( String header )
@@ -1704,7 +1704,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 				items.add( ReportDataServiceProvider.OPTION_NONE );
 			}
-			selectDataTypes.add( new Integer( SELECT_NONE ) );
+			selectDataTypes.add( Integer.valueOf( SELECT_NONE ) );
 		}
 
 		if ( isDataItemSupported( SELECT_DATA_SET ) )
@@ -1715,19 +1715,19 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				if ( isDataItemSupported( SELECT_NEXT ) )
 				{
 					items.add( Messages.getString( "StandardChartDataSheet.Combo.DataSets" ) ); //$NON-NLS-1$
-					selectDataTypes.add( new Integer( SELECT_NEXT ) );
+					selectDataTypes.add( Integer.valueOf( SELECT_NEXT ) );
 				}
 
 				for ( int i = 0; i < dataSets.length; i++ )
 				{
 					items.add( dataSets[i] );
-					selectDataTypes.add( new Integer( SELECT_DATA_SET ) );
+					selectDataTypes.add( Integer.valueOf( SELECT_DATA_SET ) );
 				}
 			}
 			if ( isDataItemSupported( SELECT_NEW_DATASET ) )
 			{
 				items.add( Messages.getString( "StandardChartDataSheet.NewDataSet" ) ); //$NON-NLS-1$
-				selectDataTypes.add( new Integer( SELECT_NEW_DATASET ) );
+				selectDataTypes.add( Integer.valueOf( SELECT_NEW_DATASET ) );
 			}
 		}
 
@@ -1739,18 +1739,18 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				if ( isDataItemSupported( SELECT_NEXT ) )
 				{
 					items.add( Messages.getString( "StandardChartDataSheet.Combo.DataCubes" ) ); //$NON-NLS-1$
-					selectDataTypes.add( new Integer( SELECT_NEXT ) );
+					selectDataTypes.add( Integer.valueOf( SELECT_NEXT ) );
 				}
 				for ( int i = 0; i < dataCubes.length; i++ )
 				{
 					items.add( dataCubes[i] );
-					selectDataTypes.add( new Integer( SELECT_DATA_CUBE ) );
+					selectDataTypes.add( Integer.valueOf( SELECT_DATA_CUBE ) );
 				}
 			}
 			if ( isDataItemSupported( SELECT_NEW_DATACUBE ) )
 			{
 				items.add( Messages.getString( "StandardChartDataSheet.NewDataCube" ) ); //$NON-NLS-1$
-				selectDataTypes.add( new Integer( SELECT_NEW_DATACUBE ) );
+				selectDataTypes.add( Integer.valueOf( SELECT_NEW_DATACUBE ) );
 			}
 		}
 
@@ -1763,7 +1763,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				if ( isDataItemSupported( SELECT_NEXT ) )
 				{
 					items.add( Messages.getString( "StandardChartDataSheet.Combo.ReportItems" ) ); //$NON-NLS-1$
-					selectDataTypes.add( new Integer( SELECT_NEXT ) );
+					selectDataTypes.add( Integer.valueOf( SELECT_NEXT ) );
 				}
 				for ( int i = 0; i < dataRefs.length; i++ )
 				{
@@ -1778,7 +1778,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						}
 					}
 					items.add( dataRefs[i] );
-					selectDataTypes.add( new Integer( SELECT_REPORT_ITEM ) );
+					selectDataTypes.add( Integer.valueOf( SELECT_REPORT_ITEM ) );
 				}
 				// didn't add any reportitem reference
 				if ( items.size( ) == curSize + 1 )

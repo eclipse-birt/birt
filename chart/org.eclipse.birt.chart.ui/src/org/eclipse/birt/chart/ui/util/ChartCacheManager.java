@@ -309,7 +309,7 @@ public final class ChartCacheManager
 	 */
 	public void cacheCategory( String chartType, boolean bCategory )
 	{
-		cacheCharts.put( PREFIX_CATEGORY + chartType, new Boolean( bCategory ) );
+		cacheCharts.put( PREFIX_CATEGORY + chartType, Boolean.valueOf( bCategory ) );
 	}
 
 	/**

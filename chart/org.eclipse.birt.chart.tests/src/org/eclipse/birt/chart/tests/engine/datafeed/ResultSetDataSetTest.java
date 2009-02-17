@@ -31,9 +31,9 @@ public class ResultSetDataSetTest extends TestCase
 
 	List result = new ArrayList( );
 	Object[] oaTuple1 = new Object[]{
-			"A", "M1", new Integer( 10 ), new Integer( 10 )};//$NON-NLS-1$ //$NON-NLS-2$
+			"A", "M1", Integer.valueOf( 10 ), Integer.valueOf( 10 )};//$NON-NLS-1$ //$NON-NLS-2$
 	Object[] oaTuple2 = new Object[]{
-			"B", "M2", new Integer( 8 ), new Integer( 8 )};//$NON-NLS-1$ //$NON-NLS-2$
+			"B", "M2", Integer.valueOf( 8 ), Integer.valueOf( 8 )};//$NON-NLS-1$ //$NON-NLS-2$
 
 	ResultSetWrapper wrapper;
 	ResultSetDataSet dataset;

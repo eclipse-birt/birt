@@ -1026,7 +1026,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		idr = ChartEngine.instance( ).getRenderer( "dv." //$NON-NLS-1$
 				+ sExtension.toUpperCase( Locale.US ) );
 
-		idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, new Integer( dpi ) );
+		idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, Integer.valueOf( dpi ) );
 
 		if ( "SVG".equalsIgnoreCase( sExtension ) ) //$NON-NLS-1$
 		{

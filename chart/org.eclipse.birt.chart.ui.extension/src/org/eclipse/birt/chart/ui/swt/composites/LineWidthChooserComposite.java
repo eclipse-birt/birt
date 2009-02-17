@@ -23,10 +23,10 @@ public class LineWidthChooserComposite extends CustomChooserComposite
 {
 
 	private static final Integer[] iLineWidths = new Integer[]{
-			new Integer( 1 ),
-			new Integer( 2 ),
-			new Integer( 3 ),
-			new Integer( 4 )
+			Integer.valueOf( 1 ),
+			Integer.valueOf( 2 ),
+			Integer.valueOf( 3 ),
+			Integer.valueOf( 4 )
 	};
 
 	static class LineWidthChoice extends LineCanvas implements ICustomChoice
@@ -39,7 +39,7 @@ public class LineWidthChooserComposite extends CustomChooserComposite
 
 		public Object getValue( )
 		{
-			return new Integer( getLineWidth( ) );
+			return Integer.valueOf( getLineWidth( ) );
 		}
 
 		public void setValue( Object value )
@@ -54,7 +54,7 @@ public class LineWidthChooserComposite extends CustomChooserComposite
 
 	public LineWidthChooserComposite( Composite parent, int style, int iWidth )
 	{
-		super( parent, style, new Integer( iWidth ) );
+		super( parent, style, Integer.valueOf( iWidth ) );
 		setItems( iLineWidths );
 	}
 
@@ -62,7 +62,7 @@ public class LineWidthChooserComposite extends CustomChooserComposite
 	{
 		if ( choiceValue == null )
 		{
-			choiceValue = new Integer( 0 );
+			choiceValue = Integer.valueOf( 0 );
 		}
 		return new LineWidthChoice( parent,
 				SWT.NONE,
@@ -81,7 +81,7 @@ public class LineWidthChooserComposite extends CustomChooserComposite
 
 	public void setLineWidth( int iWidth )
 	{
-		setChoiceValue( new Integer( iWidth ) );
+		setChoiceValue( Integer.valueOf( iWidth ) );
 	}
 
 }

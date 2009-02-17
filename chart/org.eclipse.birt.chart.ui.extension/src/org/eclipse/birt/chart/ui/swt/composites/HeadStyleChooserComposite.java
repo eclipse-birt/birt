@@ -24,9 +24,9 @@ public class HeadStyleChooserComposite extends CustomChooserComposite
 {
 
 	private static final Integer[] iLineDecorators = new Integer[]{
-			new Integer( LineDecorator.ARROW ),
-			new Integer( LineDecorator.NONE ),
-			new Integer( LineDecorator.CIRCLE )
+			Integer.valueOf( LineDecorator.ARROW ),
+			Integer.valueOf( LineDecorator.NONE ),
+			Integer.valueOf( LineDecorator.CIRCLE )
 	};
 
 	static class HeaderStyleChoice extends HeadStyleCanvas implements
@@ -40,7 +40,7 @@ public class HeadStyleChooserComposite extends CustomChooserComposite
 
 		public Object getValue( )
 		{
-			return new Integer( getHeadStyle( ) );
+			return Integer.valueOf( getHeadStyle( ) );
 		}
 
 		public void setValue( Object value )
@@ -56,7 +56,7 @@ public class HeadStyleChooserComposite extends CustomChooserComposite
 	public HeadStyleChooserComposite( Composite parent, int style,
 			int iLineDecorator )
 	{
-		super( parent, style, new Integer( iLineDecorator ) );
+		super( parent, style, Integer.valueOf( iLineDecorator ) );
 		setItems( iLineDecorators );
 	}
 
@@ -64,7 +64,7 @@ public class HeadStyleChooserComposite extends CustomChooserComposite
 	{
 		if ( choiceValue == null )
 		{
-			choiceValue = new Integer( 0 );
+			choiceValue = Integer.valueOf( 0 );
 		}
 		return new HeaderStyleChoice( parent,
 				SWT.NONE,
@@ -82,6 +82,6 @@ public class HeadStyleChooserComposite extends CustomChooserComposite
 
 	public void setHeadStyle( int iStyle )
 	{
-		setChoiceValue( new Integer( iStyle ) );
+		setChoiceValue( Integer.valueOf( iStyle ) );
 	}
 }

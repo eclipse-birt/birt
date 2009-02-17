@@ -361,7 +361,7 @@ public class GanttLineAttributesComposite extends Composite implements
 		{
 			// Notify Listeners that a change has occurred in the value
 			fireValueChangedEvent( GanttLineAttributesComposite.VISIBILITY_CHANGED_EVENT,
-					new Boolean( cbVisible.getSelection( ) ) );
+					Boolean.valueOf( cbVisible.getSelection( ) ) );
 			// Notification may cause this class disposed
 			if ( isDisposed( ) )
 			{
@@ -473,7 +473,7 @@ public class GanttLineAttributesComposite extends Composite implements
 		else if ( iscWidth != null && iscWidth.equals( event.widget ) )
 		{
 			fireValueChangedEvent( GanttLineAttributesComposite.WIDTH_CHANGED_EVENT,
-					new Integer( iscWidth.getValue( ) ) );
+					Integer.valueOf( iscWidth.getValue( ) ) );
 		}
 	}
 }

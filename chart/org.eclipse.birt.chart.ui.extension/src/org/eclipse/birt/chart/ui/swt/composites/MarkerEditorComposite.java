@@ -323,7 +323,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 						168,
 						218 ) : ColorDefinitionImpl.GREY( ),
 				renderMarker,
-				new Integer( 4 ),
+				Integer.valueOf( 4 ),
 				null,
 				false,
 				false );
@@ -470,7 +470,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				gd.heightHint = MARKER_BLOCK_HEIGHT;
 				gd.widthHint = MARKER_BLOCK_WIDTH;
 				cnvType.setLayoutData( gd );
-				cnvType.setData( new Integer( i ) );
+				cnvType.setData( Integer.valueOf( i ) );
 				cnvType.addPaintListener( this );
 
 				if ( i < typeDisplayNameSet.length )

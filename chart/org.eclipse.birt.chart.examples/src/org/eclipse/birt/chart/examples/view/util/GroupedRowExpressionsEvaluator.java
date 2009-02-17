@@ -229,12 +229,12 @@ public class GroupedRowExpressionsEvaluator extends
 			{
 				fCountOfAvaiableRows++;
 				// Add break point to current grouping.
-				getGroupBreaksList( startIndex - 1 ).add( new Integer( fCountOfAvaiableRows ) );
+				getGroupBreaksList( startIndex - 1 ).add( Integer.valueOf( fCountOfAvaiableRows ) );
 				// Also the sub-groupings of current grouping should be
 				// added the break point.
 				for ( int i = startIndex; i < fGroupCount; i++ )
 				{
-					getGroupBreaksList( i ).add( new Integer( fCountOfAvaiableRows ) );
+					getGroupBreaksList( i ).add( Integer.valueOf( fCountOfAvaiableRows ) );
 				}
 
 				return true;

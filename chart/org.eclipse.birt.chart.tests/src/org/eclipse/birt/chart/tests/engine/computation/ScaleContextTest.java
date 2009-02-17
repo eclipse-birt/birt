@@ -30,9 +30,9 @@ public class ScaleContextTest extends TestCase
 		// Without fixed value
 		ScaleContext scale = new ScaleContext( 0,
 				IConstants.LINEAR,
-				new Integer( 0 ),
-				new Integer( 5 ),
-				new Integer( 1 ) );
+				Integer.valueOf( 0 ),
+				Integer.valueOf( 5 ),
+				Integer.valueOf( 1 ) );
 		scale.computeMinMax( );
 		assertEquals( new Double( 0 ), scale.getMin( ) );
 		assertEquals( new Double( 6 ), scale.getMax( ) );
@@ -41,8 +41,8 @@ public class ScaleContextTest extends TestCase
 
 		scale = new ScaleContext( 0,
 				IConstants.LINEAR,
-				new Integer( 0 ),
-				new Integer( 5 ),
+				Integer.valueOf( 0 ),
+				Integer.valueOf( 5 ),
 				new Double( 1.2 ) );
 		scale.computeMinMax( );
 		assertEquals( new Double( 0 ), scale.getMin( ) );
@@ -50,8 +50,8 @@ public class ScaleContextTest extends TestCase
 
 		scale = new ScaleContext( 0,
 				IConstants.LINEAR,
-				new Integer( 0 ),
-				new Integer( 6 ),
+				Integer.valueOf( 0 ),
+				Integer.valueOf( 6 ),
 				new Double( 1.2 ) );
 		scale.computeMinMax( );
 		assertEquals( new Double( 0 ), scale.getMin( ) );
@@ -59,8 +59,8 @@ public class ScaleContextTest extends TestCase
 
 		scale = new ScaleContext( 0,
 				IConstants.LINEAR,
-				new Integer( 1 ),
-				new Integer( 6 ),
+				Integer.valueOf( 1 ),
+				Integer.valueOf( 6 ),
 				new Double( 1.5 ) );
 		scale.computeMinMax( );
 		assertEquals( new Double( 0 ), scale.getMin( ) );
@@ -68,8 +68,8 @@ public class ScaleContextTest extends TestCase
 
 		scale = new ScaleContext( 0,
 				IConstants.LINEAR,
-				new Integer( -1 ),
-				new Integer( 6 ),
+				Integer.valueOf( -1 ),
+				Integer.valueOf( 6 ),
 				new Double( 1.5 ) );
 		scale.computeMinMax( );
 		assertEquals( new Double( -1.5 ), scale.getMin( ) );
@@ -81,9 +81,9 @@ public class ScaleContextTest extends TestCase
 		// With fixed value
 		ScaleContext scale = new ScaleContext( 0,
 				IConstants.LINEAR,
-				new Integer( 0 ),
-				new Integer( 5 ),
-				new Integer( 1 ) );
+				Integer.valueOf( 0 ),
+				Integer.valueOf( 5 ),
+				Integer.valueOf( 1 ) );
 		scale.setFixedValue( true, false, new Double( 1 ), null );
 		scale.computeMinMax( );
 		assertEquals( new Double( 1 ), scale.getMin( ) );
@@ -93,8 +93,8 @@ public class ScaleContextTest extends TestCase
 
 		scale = new ScaleContext( 0,
 				IConstants.LINEAR,
-				new Integer( 0 ),
-				new Integer( 5 ),
+				Integer.valueOf( 0 ),
+				Integer.valueOf( 5 ),
 				new Double( 1.2 ) );
 		scale.setFixedValue( true, true, new Double( 1 ), new Double( 5 ) );
 		scale.computeMinMax( );
@@ -110,17 +110,17 @@ public class ScaleContextTest extends TestCase
 		// With margin area
 		ScaleContext scale = new ScaleContext( 20,
 				IConstants.LINEAR,
-				new Integer( 1 ),
-				new Integer( 5 ),
-				new Integer( 1 ) );
+				Integer.valueOf( 1 ),
+				Integer.valueOf( 5 ),
+				Integer.valueOf( 1 ) );
 		scale.computeMinMax( );
 		assertEquals( new Double( 0 ), scale.getMin( ) );
 		assertEquals( new Double( 6 ), scale.getMax( ) );
 
 		scale = new ScaleContext( 20,
 				IConstants.LINEAR,
-				new Integer( 1 ),
-				new Integer( 6 ),
+				Integer.valueOf( 1 ),
+				Integer.valueOf( 6 ),
 				new Double( 1 ) );
 		scale.computeMinMax( );
 		assertEquals( new Double( 0 ), scale.getMin( ) );
@@ -212,7 +212,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.YEAR,
 				CDateTime.parse( "01-01-2007 00:00:00" ),
 				CDateTime.parse( "03-31-2007 00:00:00" ),
-				new Integer( 1 ) );
+				Integer.valueOf( 1 ) );
 		scale.computeMinMax( );
 		assertEquals( CDateTime.parse( "01-01-2006 00:00:00" ), scale.getMin( ) );
 		assertEquals( CDateTime.parse( "01-01-2008 00:00:00" ), scale.getMax( ) );
@@ -225,7 +225,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.MONTH,
 				CDateTime.parse( "01-01-2007 00:00:00" ),
 				CDateTime.parse( "03-31-2007 00:00:00" ),
-				new Integer( 1 ) );
+				Integer.valueOf( 1 ) );
 		scale.computeMinMax( );
 		assertEquals( CDateTime.parse( "12-01-2006 00:00:00" ), scale.getMin( ) );
 		assertEquals( CDateTime.parse( "04-01-2007 00:00:00" ), scale.getMax( ) );
@@ -235,7 +235,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.DAY_OF_MONTH,
 				CDateTime.parse( "01-01-2007 00:00:00" ),
 				CDateTime.parse( "03-31-2007 00:00:00" ),
-				new Integer( 1 ) );
+				Integer.valueOf( 1 ) );
 		scale.computeMinMax( );
 		assertEquals( CDateTime.parse( "12-31-2006 00:00:00" ), scale.getMin( ) );
 		assertEquals( CDateTime.parse( "04-01-2007 00:00:00" ), scale.getMax( ) );
@@ -245,7 +245,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.HOUR,
 				CDateTime.parse( "03-10-2007 10:12:12" ),
 				CDateTime.parse( "03-31-2007 09:13:22" ),
-				new Integer( 1 ) );
+				Integer.valueOf( 1 ) );
 		scale.computeMinMax( );
 		assertEquals( CDateTime.parse( "03-10-2007 09:00:00" ), scale.getMin( ) );
 		assertEquals( CDateTime.parse( "03-31-2007 10:00:00" ), scale.getMax( ) );
@@ -255,7 +255,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.MINUTE,
 				CDateTime.parse( "03-10-2007 10:12:12" ),
 				CDateTime.parse( "03-31-2007 09:13:22" ),
-				new Integer( 1 ) );
+				Integer.valueOf( 1 ) );
 		scale.computeMinMax( );
 		assertEquals( CDateTime.parse( "03-10-2007 10:11:00" ), scale.getMin( ) );
 		assertEquals( CDateTime.parse( "03-31-2007 09:14:00" ), scale.getMax( ) );
@@ -265,7 +265,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.SECOND,
 				CDateTime.parse( "03-10-2007 10:12:12" ),
 				CDateTime.parse( "03-31-2007 09:13:22" ),
-				new Integer( 1 ) );
+				Integer.valueOf( 1 ) );
 		scale.computeMinMax( );
 		assertEquals( CDateTime.parse( "03-10-2007 10:12:11" ), scale.getMin( ) );
 		assertEquals( CDateTime.parse( "03-31-2007 09:13:23" ), scale.getMax( ) );
@@ -279,7 +279,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.YEAR,
 				CDateTime.parse( "01-01-2007 00:00:00" ),
 				CDateTime.parse( "03-31-2007 00:00:00" ),
-				new Integer( 1 ) );
+				Integer.valueOf( 1 ) );
 		scale.setFixedValue( true,
 				false,
 				CDateTime.parse( "01-01-2007 00:00:00" ),
@@ -296,7 +296,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.MONTH,
 				CDateTime.parse( "01-01-2007 00:00:00" ),
 				CDateTime.parse( "03-31-2007 00:00:00" ),
-				new Integer( 1 ) );
+				Integer.valueOf( 1 ) );
 		scale.setFixedValue( true,
 				true,
 				CDateTime.parse( "01-01-2007 00:00:00" ),
@@ -310,7 +310,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.DAY_OF_MONTH,
 				CDateTime.parse( "01-01-2007 00:00:00" ),
 				CDateTime.parse( "03-31-2007 00:00:00" ),
-				new Integer( 1 ) );
+				Integer.valueOf( 1 ) );
 		scale.setFixedValue( true,
 				true,
 				CDateTime.parse( "01-01-2007 00:00:00" ),
@@ -324,7 +324,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.HOUR,
 				CDateTime.parse( "03-10-2007 10:12:12" ),
 				CDateTime.parse( "03-31-2007 09:13:22" ),
-				new Integer( 1 ) );
+				Integer.valueOf( 1 ) );
 		scale.setFixedValue( true,
 				true,
 				CDateTime.parse( "03-10-2007 11:00:00" ),
@@ -338,7 +338,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.MINUTE,
 				CDateTime.parse( "03-10-2007 10:12:12" ),
 				CDateTime.parse( "03-31-2007 09:13:22" ),
-				new Integer( 1 ) );
+				Integer.valueOf( 1 ) );
 		scale.setFixedValue( true,
 				true,
 				CDateTime.parse( "03-01-2007 01:12:00" ),
@@ -352,7 +352,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.SECOND,
 				CDateTime.parse( "03-10-2007 10:12:12" ),
 				CDateTime.parse( "03-31-2007 09:13:22" ),
-				new Integer( 1 ) );
+				Integer.valueOf( 1 ) );
 		scale.setFixedValue( true,
 				true,
 				CDateTime.parse( "03-01-2007 01:12:12" ),
@@ -367,27 +367,27 @@ public class ScaleContextTest extends TestCase
 		// Without fixed value
 		ScaleContext scale = new ScaleContext( 0,
 				IConstants.LOGARITHMIC,
-				new Integer( 0 ),
-				new Integer( 5 ),
-				new Integer( 10 ) );
+				Integer.valueOf( 0 ),
+				Integer.valueOf( 5 ),
+				Integer.valueOf( 10 ) );
 		scale.computeMinMax( );
 		assertEquals( new Double( 0 ), scale.getMin( ) );
 		assertEquals( new Double( 10 ), scale.getMax( ) );
 
 		scale = new ScaleContext( 0,
 				IConstants.LOGARITHMIC,
-				new Integer( 1 ),
-				new Integer( 5 ),
-				new Integer( 10 ) );
+				Integer.valueOf( 1 ),
+				Integer.valueOf( 5 ),
+				Integer.valueOf( 10 ) );
 		scale.computeMinMax( );
 		assertEquals( new Double( 1 ), scale.getMin( ) );
 		assertEquals( new Double( 10 ), scale.getMax( ) );
 
 		scale = new ScaleContext( 0,
 				IConstants.LOGARITHMIC,
-				new Integer( 2 ),
-				new Integer( 12 ),
-				new Integer( 10 ) );
+				Integer.valueOf( 2 ),
+				Integer.valueOf( 12 ),
+				Integer.valueOf( 10 ) );
 		scale.computeMinMax( );
 		assertEquals( new Double( 1 ), scale.getMin( ) );
 		assertEquals( new Double( 100 ), scale.getMax( ) );
@@ -398,9 +398,9 @@ public class ScaleContextTest extends TestCase
 		// Without fixed value
 		ScaleContext scale = new ScaleContext( 0,
 				IConstants.LOGARITHMIC,
-				new Integer( 0 ),
-				new Integer( 5 ),
-				new Integer( 10 ) );
+				Integer.valueOf( 0 ),
+				Integer.valueOf( 5 ),
+				Integer.valueOf( 10 ) );
 		scale.computeMinMax( );
 		scale.setFixedValue( true, true, new Double( 1 ), new Double( 6 ) );
 		assertEquals( new Double( 1 ), scale.getMin( ) );
@@ -408,9 +408,9 @@ public class ScaleContextTest extends TestCase
 
 		scale = new ScaleContext( 0,
 				IConstants.LOGARITHMIC,
-				new Integer( 1 ),
-				new Integer( 5 ),
-				new Integer( 10 ) );
+				Integer.valueOf( 1 ),
+				Integer.valueOf( 5 ),
+				Integer.valueOf( 10 ) );
 		scale.computeMinMax( );
 		scale.setFixedValue( true, true, new Double( 1 ), new Double( 6 ) );
 		assertEquals( new Double( 1 ), scale.getMin( ) );
@@ -418,9 +418,9 @@ public class ScaleContextTest extends TestCase
 
 		scale = new ScaleContext( 0,
 				IConstants.LOGARITHMIC,
-				new Integer( 2 ),
-				new Integer( 12 ),
-				new Integer( 10 ) );
+				Integer.valueOf( 2 ),
+				Integer.valueOf( 12 ),
+				Integer.valueOf( 10 ) );
 		scale.computeMinMax( );
 		scale.setFixedValue( true, true, new Double( 1 ), new Double( 100 ) );
 		assertEquals( new Double( 1 ), scale.getMin( ) );

@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.chart.integration.wtp.ui.internal.i18n.BirtWTPMessages;
 import org.eclipse.birt.chart.integration.wtp.ui.internal.util.Logger;
@@ -184,13 +185,14 @@ public class ImportChartRuntimeAction extends Action
 			webPath = webPath.removeFirstSegments( 1 );
 
 		// get conflict resources
-		Map map = BirtWizardUtil.initConflictResources( null );
+		Map<String, List<String>> map = BirtWizardUtil.initConflictResources( null );
 
 		// clear
-		Iterator it = map.keySet( ).iterator( );
+		Iterator<Entry<String, List<String>>> it = map.entrySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			String folder = (String) it.next( );
+			Entry<String, List<String>> entry = it.next();
+			String folder = (String) entry.getKey( );
 			if ( folder == null )
 				continue;
 
@@ -200,7 +202,7 @@ public class ImportChartRuntimeAction extends Action
 			if ( tempFolder == null || !tempFolder.exists( ) )
 				continue;
 
-			List files = (List) map.get( folder );
+			List<String> files = (List<String>) entry.getValue( );
 			if ( files == null || files.size( ) <= 0 )
 			{
 				// delete the whole folder
@@ -301,21 +303,21 @@ public class ImportChartRuntimeAction extends Action
 	 * lib folder.
 	 * 
 	 */
-	private class LibResourceVisitor implements IResourceVisitor
+	private static class LibResourceVisitor implements IResourceVisitor
 	{
 
 		// progress monitor
 		private IProgressMonitor monitor;
 
 		// file list
-		private List files;
+		private List<String> files;
 
 		/**
 		 * default constructor
 		 * 
 		 * @param monitor
 		 */
-		public LibResourceVisitor( IProgressMonitor monitor, List files )
+		public LibResourceVisitor( IProgressMonitor monitor, List<String> files )
 		{
 			this.monitor = monitor;
 			this.files = files;
@@ -335,10 +337,10 @@ public class ImportChartRuntimeAction extends Action
 				if ( file == null || files == null )
 					return true;
 
-				Iterator it = files.iterator( );
+				Iterator<String> it = files.iterator( );
 				while ( it.hasNext( ) )
 				{
-					String name = (String) it.next( );
+					String name = it.next( );
 					if ( name != null && file.getName( ).startsWith( name ) )
 					{
 						file.delete( true, monitor );
@@ -354,7 +356,7 @@ public class ImportChartRuntimeAction extends Action
 	 * Implement IOverwriteQuery for importing process
 	 * 
 	 */
-	private class ImportOverwriteQuery implements IOverwriteQuery
+	private static class ImportOverwriteQuery implements IOverwriteQuery
 	{
 
 		// if all

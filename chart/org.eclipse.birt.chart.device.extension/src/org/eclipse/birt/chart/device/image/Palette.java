@@ -69,7 +69,7 @@ final class Palette
 				for ( int j = 0; j < w; j++ )
 				{
 					int col = row[j];
-					Integer x = new Integer( col );
+					Integer x = Integer.valueOf( col );
 					ColourEntry ce = tempHash.get( x );
 					if ( ce == null )
 					{
@@ -96,7 +96,7 @@ final class Palette
 			for ( int i = 0; i < extraColours.length; i++ )
 			{
 				int col = extraColours[i].getRGB( );
-				Integer x = new Integer( col );
+				Integer x = Integer.valueOf( col );
 				ColourEntry ce = tempHash.get( x );
 				if ( ce == null )
 				{
@@ -168,7 +168,6 @@ final class Palette
 					* minCe.population )
 					/ totalPop );
 			closeCe.population = totalPop;
-			minCe.follow = closeCe;
 			colours.removeElementAt( minIndex );
 		}
 
@@ -180,7 +179,7 @@ final class Palette
 			int argb = 0xffffffff;
 			while ( true )
 			{
-				ColourEntry ce = tempHash.get( new Integer( argb ) );
+				ColourEntry ce = tempHash.get( Integer.valueOf( argb ) );
 				if ( ce == null )
 					break;
 				argb--;
@@ -295,8 +294,6 @@ final class Palette
 		int population;
 
 		int argb;
-
-		ColourEntry follow = null;
 
 		int index;
 

@@ -31,7 +31,7 @@ public class AverageTest extends TestCase {
 				
 		for ( int i = 0; i < seriesCount; i++ )
 		{
-			indexes[i] = new Integer(i + 3);
+			indexes[i] = Integer.valueOf(i + 3);
 			ave.accumulate( indexes[i] );
 		}
 		

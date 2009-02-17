@@ -113,7 +113,7 @@ public final class ChartReportItemPresentationAxisImpl extends
 			public Object evaluate( String expression )
 			{
 				return bDatetypeAxis ? Calendar.getInstance( )
-						: new Integer( 1 );
+						: Integer.valueOf( 1 );
 			}
 
 			public Object evaluateGlobal( String expression )

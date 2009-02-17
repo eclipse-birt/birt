@@ -88,7 +88,7 @@ public final class PaletteEditorComposite extends Composite implements
 	/**
 	 * The height of each color entry in the palette
 	 */
-	private final int iItemHeight = 30;
+	private static final int ITEM_HEIGHT = 30;
 
 	/**
 	 * The vertical scrollbar associated with the widget
@@ -255,7 +255,7 @@ public final class PaletteEditorComposite extends Composite implements
 					iFillChooserStyle,
 					wizardContext,
 					null );
-			coEditor.setBounds( 3, 3, rCA.width - 6, iItemHeight - 6 );
+			coEditor.setBounds( 3, 3, rCA.width - 6, ITEM_HEIGHT - 6 );
 			( (FillChooserComposite) coEditor ).addListener( this );
 		}
 
@@ -269,15 +269,15 @@ public final class PaletteEditorComposite extends Composite implements
 		gc.fillRectangle( rCA );
 
 		iViewHeight = rCA.height;
-		int iStartIndex = iViewY / iItemHeight;
+		int iStartIndex = iViewY / ITEM_HEIGHT;
 		if ( iStartIndex < 0 )
 		{
 			iStartIndex = 0;
 		}
-		iVisibleCount = iViewHeight / iItemHeight + 2;
+		iVisibleCount = iViewHeight / ITEM_HEIGHT + 2;
 		int iAvailableItems = Math.min( iVisibleCount, elPaletteEntries1.size( )
 				- iStartIndex );
-		int iY = -( iViewY % iItemHeight );
+		int iY = -( iViewY % ITEM_HEIGHT );
 
 		gc.setForeground( d.getSystemColor( SWT.COLOR_GRAY ) );
 
@@ -298,7 +298,7 @@ public final class PaletteEditorComposite extends Composite implements
 			{
 				rre.setBackground( (Fill) ( (MultipleFill) fi ).getFills( )
 						.get( 0 ) );
-				bo.set( 3, iY + 3, ( rCA.width - 6 ) / 2, iItemHeight - 6 );
+				bo.set( 3, iY + 3, ( rCA.width - 6 ) / 2, ITEM_HEIGHT - 6 );
 				try
 				{
 					idrSWT.fillRectangle( rre );
@@ -311,7 +311,7 @@ public final class PaletteEditorComposite extends Composite implements
 				bo.set( rCA.width / 2,
 						iY + 3,
 						( rCA.width - 6 ) / 2,
-						iItemHeight - 6 );
+						ITEM_HEIGHT - 6 );
 				rre.setBackground( (Fill) ( (MultipleFill) fi ).getFills( )
 						.get( 1 ) );
 				try
@@ -323,7 +323,7 @@ public final class PaletteEditorComposite extends Composite implements
 					logger.log( rex );
 				}
 
-				bo.set( 3, iY + 3, rCA.width - 6, iItemHeight - 6 );
+				bo.set( 3, iY + 3, rCA.width - 6, ITEM_HEIGHT - 6 );
 				try
 				{
 					idrSWT.drawRectangle( rre );
@@ -336,7 +336,7 @@ public final class PaletteEditorComposite extends Composite implements
 			else
 			{
 				rre.setBackground( fi );
-				bo.set( 3, iY + 3, rCA.width - 6, iItemHeight - 6 );
+				bo.set( 3, iY + 3, rCA.width - 6, ITEM_HEIGHT - 6 );
 				try
 				{
 					idrSWT.fillRectangle( rre );
@@ -358,7 +358,7 @@ public final class PaletteEditorComposite extends Composite implements
 				coEditor.setLocation( 3, iY + 3 );
 				( (FillChooserComposite) coEditor ).setFill( fi );
 			}
-			iY += iItemHeight;
+			iY += ITEM_HEIGHT;
 		}
 
 		// OUT OF RANGE; HIDE EDITOR
@@ -380,7 +380,7 @@ public final class PaletteEditorComposite extends Composite implements
 	private final void updateScrollBar( )
 	{
 		sb.setPageIncrement( iViewHeight );
-		sb.setMaximum( iItemHeight * elPaletteEntries1.size( ) - iViewHeight );
+		sb.setMaximum( ITEM_HEIGHT * elPaletteEntries1.size( ) - iViewHeight );
 		sb.setSelection( iViewY );
 	}
 
@@ -395,7 +395,7 @@ public final class PaletteEditorComposite extends Composite implements
 			return;
 		}
 
-		int iStartIndex = iViewY / iItemHeight;
+		int iStartIndex = iViewY / ITEM_HEIGHT;
 		if ( iStartIndex < 0 )
 		{
 			iStartIndex = 0;
@@ -403,7 +403,7 @@ public final class PaletteEditorComposite extends Composite implements
 
 		if ( iIndex > iStartIndex && iIndex < iStartIndex + iVisibleCount - 1 )
 		{
-			iViewY = ( iIndex * iItemHeight ) - iViewHeight + iItemHeight;
+			iViewY = ( iIndex * ITEM_HEIGHT ) - iViewHeight + ITEM_HEIGHT;
 			if ( iViewY < 0 )
 				iViewY = 0;
 		}
@@ -414,17 +414,17 @@ public final class PaletteEditorComposite extends Composite implements
 			{
 				iMoveUpTo = 0;
 			}
-			iViewY = iMoveUpTo * iItemHeight;
+			iViewY = iMoveUpTo * ITEM_HEIGHT;
 		}
 		else
 		{
 			// ADJUST LOWER END IF WE GO BEYOND
 			int iY = ( iIndex - iStartIndex )
-					* iItemHeight
-					- ( iViewY % iItemHeight );
-			if ( iY + iItemHeight > iViewHeight ) // BELOW THE LOWER EDGE
+					* ITEM_HEIGHT
+					- ( iViewY % ITEM_HEIGHT );
+			if ( iY + ITEM_HEIGHT > iViewHeight ) // BELOW THE LOWER EDGE
 			{
-				iViewY += iY + iItemHeight - iViewHeight;
+				iViewY += iY + ITEM_HEIGHT - iViewHeight;
 			}
 		}
 		updateScrollBar( );
@@ -449,7 +449,7 @@ public final class PaletteEditorComposite extends Composite implements
 		if ( coEditor != null )
 		{
 			final Rectangle rCA = coPaletteEntries.getClientArea( );
-			coEditor.setSize( rCA.width - 6, iItemHeight - 6 );
+			coEditor.setSize( rCA.width - 6, ITEM_HEIGHT - 6 );
 		}
 	}
 
@@ -525,13 +525,13 @@ public final class PaletteEditorComposite extends Composite implements
 	public void mouseDown( MouseEvent mev )
 	{
 		int iClickedY = mev.y;
-		int iStartIndex = iViewY / iItemHeight;
+		int iStartIndex = iViewY / ITEM_HEIGHT;
 		if ( iStartIndex < 0 )
 		{
 			iStartIndex = 0;
 		}
-		int iY = -( iViewY % iItemHeight );
-		int iClickedIndex = iStartIndex + ( iClickedY - iY ) / iItemHeight;
+		int iY = -( iViewY % ITEM_HEIGHT );
+		int iClickedIndex = iStartIndex + ( iClickedY - iY ) / ITEM_HEIGHT;
 		if ( iClickedIndex < 0 || iClickedIndex > elPaletteEntries1.size( ) )
 		{
 			return;

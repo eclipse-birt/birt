@@ -145,7 +145,7 @@ public final class SwingImageCache
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "SwingImageCache.info.flushed.swing.images",//$NON-NLS-1$
 						new Object[]{
-							new Integer( n )
+							Integer.valueOf( n )
 						},
 						idsSWING.getULocale( ) ) );
 	}

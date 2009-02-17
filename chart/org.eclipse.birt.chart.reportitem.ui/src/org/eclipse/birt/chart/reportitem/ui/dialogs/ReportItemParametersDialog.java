@@ -298,7 +298,7 @@ public class ReportItemParametersDialog extends BaseDialog
 		return reportItemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP );
 	}
 
-	private class BindingLabelProvider extends LabelProvider
+	private static class BindingLabelProvider extends LabelProvider
 			implements
 				ITableLabelProvider
 	{

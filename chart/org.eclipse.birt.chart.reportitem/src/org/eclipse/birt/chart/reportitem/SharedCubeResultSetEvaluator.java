@@ -350,7 +350,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 				}
 
 				// Add break index for each start point
-				lstBreaks.add( new Integer( iIndex ) );
+				lstBreaks.add( Integer.valueOf( iIndex ) );
 				subEdgeCursor.first( );
 				fSubPositionNodes.updatePosition( );
 
@@ -439,7 +439,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 	 * The class records the position of dimension cursor and parent dimension
 	 * cursor.
 	 */
-	class CursorPositionNode
+	static class CursorPositionNode
 	{
 
 		private RowDataNavigation fCursor;

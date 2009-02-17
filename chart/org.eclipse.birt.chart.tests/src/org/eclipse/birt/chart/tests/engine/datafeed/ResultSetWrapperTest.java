@@ -30,9 +30,9 @@ public class ResultSetWrapperTest extends TestCase
 
 	List result = new ArrayList( );
 	Object[] oaTuple1 = new Object[]{
-			"A", "M1", new Integer( 10 ), new Integer( 10 )};//$NON-NLS-1$ //$NON-NLS-2$
+			"A", "M1", Integer.valueOf( 10 ), Integer.valueOf( 10 )};//$NON-NLS-1$ //$NON-NLS-2$
 	Object[] oaTuple2 = new Object[]{
-			"B", "M2", new Integer( 8 ), new Integer( 8 )};//$NON-NLS-1$ //$NON-NLS-2$
+			"B", "M2", Integer.valueOf( 8 ), Integer.valueOf( 8 )};//$NON-NLS-1$ //$NON-NLS-2$
 
 	ResultSetWrapper wrapper;
 
@@ -71,9 +71,9 @@ public class ResultSetWrapperTest extends TestCase
 
 	public void testGetGroupKey( )
 	{
-		assertEquals( new Integer( 10 ), wrapper.getGroupKey( 0, 2 ) );
+		assertEquals( Integer.valueOf( 10 ), wrapper.getGroupKey( 0, 2 ) );
 		assertEquals( "A", wrapper.getGroupKey( 0, "Product", "Sum" ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		assertEquals( new Integer( 10 ),
+		assertEquals( Integer.valueOf( 10 ),
 				wrapper.getGroupKey( 0, "Month", "Sum" ) );//$NON-NLS-1$ //$NON-NLS-2$
 	}
 }

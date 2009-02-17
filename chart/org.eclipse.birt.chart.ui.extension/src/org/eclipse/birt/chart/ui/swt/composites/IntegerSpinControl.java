@@ -280,7 +280,7 @@ public class IntegerSpinControl extends Composite
 		{
 			Event se = new Event( );
 			se.widget = this;
-			se.data = new Integer( iCurrentValue );
+			se.data = Integer.valueOf( iCurrentValue );
 			se.type = IntegerSpinControl.VALUE_CHANGED_EVENT;
 			( (Listener) vListeners.get( iL ) ).handleEvent( se );
 		}

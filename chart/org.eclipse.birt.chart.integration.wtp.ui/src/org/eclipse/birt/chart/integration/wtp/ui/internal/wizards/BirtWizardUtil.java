@@ -346,10 +346,10 @@ public class BirtWizardUtil implements IBirtWizardConstants
 	 * @param map
 	 * @return
 	 */
-	public static Map initConflictResources( Map map )
+	public static Map<String, List<String>> initConflictResources( Map<String, List<String>> map )
 	{
 		if ( map == null )
-			map = new HashMap( );
+			map = new HashMap<String, List<String>>( );
 
 		// find configuration elements
 		IConfigurationElement[] elements = findConfigurationElementsByExtension( BIRT_RESOURCES_EXTENSION_POINT );
@@ -376,7 +376,7 @@ public class BirtWizardUtil implements IBirtWizardConstants
 
 				// get file elements
 				IConfigurationElement[] files = folders[j].getChildren( EXT_FILE );
-				List fileList = new ArrayList( );
+				List<String> fileList = new ArrayList<String>( );
 				for ( int k = 0; k < files.length; k++ )
 				{
 					String name = files[k].getAttribute( "name" ); //$NON-NLS-1$

@@ -40,9 +40,6 @@ public class BarSeriesAttributeComposite extends Composite
 		implements
 			Listener
 {
-
-	Composite cmpContent = null;
-
 	FillChooserComposite fccRiserOutline = null;
 
 	Series series = null;

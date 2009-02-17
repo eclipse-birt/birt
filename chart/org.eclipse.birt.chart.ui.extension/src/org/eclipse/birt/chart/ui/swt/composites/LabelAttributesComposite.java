@@ -660,7 +660,7 @@ public class LabelAttributesComposite extends Composite implements
 		}
 		else if ( e.getSource( ).equals( cbVisible ) )
 		{
-			eLabel.data = new Boolean( cbVisible.getSelection( ) );
+			eLabel.data = Boolean.valueOf( cbVisible.getSelection( ) );
 			eLabel.type = VISIBILITY_CHANGED_EVENT;
 
 			setVisibleState( cbVisible.getSelection( ) );

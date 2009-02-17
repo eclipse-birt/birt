@@ -755,7 +755,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 	/**
 	 * RotationEditorAssistField
 	 */
-	class RotationEditorAssistField extends TextNumberEditorAssistField
+	static class RotationEditorAssistField extends TextNumberEditorAssistField
 	{
 
 		/**

@@ -74,10 +74,6 @@ public class StockReport
 
 	ElementFactory elementFactory = null;
 
-	StructureFactory structFactory = null;
-
-	IMetaDataDictionary dict = null;
-	
 	ComputedColumn cs1, cs2, cs3, cs4, cs5, cs6 = null;
 
 	public static void main( String[] args ) throws SemanticException,
@@ -96,10 +92,6 @@ public class StockReport
 
 		// Element factory is used to create instances of BIRT elements.
 		elementFactory = reportDesignHandle.getElementFactory( );
-
-		structFactory = new StructureFactory( );
-
-		dict = new DesignEngine( null ).getMetaData( );
 
 		createMasterPages( );
 		createDataSources( );

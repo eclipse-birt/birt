@@ -55,8 +55,6 @@ public class MeterChartExample
 
 	ElementFactory elementFactory = null;
 
-	IMetaDataDictionary dict = null;
-
 	ComputedColumn cs1, cs2, cs3 = null;
 
 	public static void main( String[] args ) throws SemanticException,
@@ -75,8 +73,6 @@ public class MeterChartExample
 
 		// Element factory is used to create instances of BIRT elements.
 		elementFactory = reportDesignHandle.getElementFactory( );
-
-		dict = new DesignEngine( null ).getMetaData( );
 
 		createMasterPages( );
 		createDataSources( );
