@@ -200,23 +200,23 @@ public class ReportContentWriterV3 implements IReportContentWriter
 	protected void updateIndex(IContent content) throws IOException
 	{
 		long index = cntOffset;
-		long parent = -1;
 		long previous = -1;
+		// the parent document extension of current content 
+		DocumentExtension pDocExt = null;
+		// the document extension of current content
+		DocumentExtension docExt = new DocumentExtension(index);
+		docExt.setContentId( content.getInstanceID( ).getUniqueID( ) );
+		content.setExtension( IContent.DOCUMENT_EXTENSION, docExt);
 		
 		IContent pContent = (IContent) content.getParent( );
 		if ( pContent != null )
 		{
-			DocumentExtension pDocExt = (DocumentExtension) pContent
+			pDocExt = (DocumentExtension) pContent
 					.getExtension( IContent.DOCUMENT_EXTENSION );
 			if ( pDocExt != null )
 			{
-				parent = pDocExt.getIndex( );
-				long lastChild = pDocExt.getLastChild( );
-				if ( lastChild != -1 )
-				{
-					previous = lastChild;
-				}
-				pDocExt.setLastChild( index );
+				pDocExt.add( docExt );
+				previous = docExt.getPrevious( );
 			}
 			else
 			{
@@ -229,31 +229,27 @@ public class ReportContentWriterV3 implements IReportContentWriter
 			previous = rootOffset;
 			rootOffset = index;
 		}
-		DocumentExtension docExt = new DocumentExtension(index);
-		docExt.setParent(parent);
-		docExt.setPrevious(previous);
-		content.setExtension( IContent.DOCUMENT_EXTENSION, docExt);
 
 		cntStream.seek( VERSION_SIZE + index );
-		cntStream.writeLong(parent);	//parent
-		cntStream.writeLong(-1);		//next
-		cntStream.writeLong(-1);		//first child
+		cntStream.writeLong( docExt.getParent( ) ); 		// parent
+		cntStream.writeLong( docExt.getNext( ) ); 			// next
+		cntStream.writeLong(-1);							//first child
 		cntOffset += INDEX_ENTRY_SIZE;
 		
 		// update the links refer to this content
 		if ( previous == -1 )
 		{
-			// it has no previous sibling, so it is the first
-			// element of its parent
-			if ( parent != -1 )
+			// it has no previous sibling 
+			// it may be the first element of its parent, always updates this field.
+			if ( docExt.getParent( ) != -1 )
 			{
-				cntStream.seek( VERSION_SIZE + parent + OFFSET_CHILD );
+				cntStream.seek( VERSION_SIZE + docExt.getParent( ) + OFFSET_CHILD );
 				cntStream.writeLong( index );
 			}
 		}
 		else
 		{
-			// update the previou's link
+			// update the previous link
 			cntStream.seek( VERSION_SIZE + previous + OFFSET_NEXT );
 			cntStream.writeLong( index );
 		}
