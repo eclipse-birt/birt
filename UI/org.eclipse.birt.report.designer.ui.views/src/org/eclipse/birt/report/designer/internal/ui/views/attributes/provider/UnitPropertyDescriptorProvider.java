@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.CSSUtil;
@@ -26,8 +27,12 @@ public class UnitPropertyDescriptorProvider extends PropertyDescriptorProvider
 			return value;
 		try
 		{
-			DimensionValue dimensionValue = DimensionValue.parse( value );
-			return StringUtil.doubleToString( dimensionValue.getMeasure( ), 3 );
+			DimensionValue dimensionValue = StringUtil.parse( value );
+			return StringUtil.doubleToString( dimensionValue.getMeasure( ),
+					3,
+					SessionHandleAdapter.getInstance( )
+							.getSessionHandle( )
+							.getULocale( ) );
 		}
 		catch ( PropertyValueException e )
 		{
@@ -52,7 +57,7 @@ public class UnitPropertyDescriptorProvider extends PropertyDescriptorProvider
 		}
 		return choice.getName( );
 	}
-	
+
 	public String getUnitDisplayName( String key )
 	{
 		IChoice choice = ChoiceSetFactory.getDimensionChoiceSet( getElement( ),
@@ -71,20 +76,22 @@ public class UnitPropertyDescriptorProvider extends PropertyDescriptorProvider
 		if ( value == null || value.equals( "" ) ) //$NON-NLS-1$
 			return value;
 
-		DimensionValue dimensionValue = DimensionValue.parse( value );
+		DimensionValue dimensionValue = StringUtil.parse( value );
 		return dimensionValue.getUnits( );
 	}
 
-	public boolean validateDimensionValue( String value,String unit )
+	public boolean validateDimensionValue( String value, String unit )
 	{
 		String unitValue = ChoiceSetFactory.getDimensionChoiceSet( getElement( ),
 				getProperty( ) )
-				.findChoiceByDisplayName( unit ).getName( );
+				.findChoiceByDisplayName( unit )
+				.getName( );
 
 		boolean val = true;
 		try
 		{
-			DimensionValue dimensionValue = DimensionValue.parse( value + unitValue );
+			DimensionValue dimensionValue = StringUtil.parse( value
+					+ unitValue );
 
 			if ( dimensionValue == null )
 			{

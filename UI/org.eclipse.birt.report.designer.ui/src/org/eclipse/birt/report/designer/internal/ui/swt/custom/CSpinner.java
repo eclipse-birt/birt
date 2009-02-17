@@ -66,7 +66,7 @@ public class CSpinner extends Composite
 	 */
 	private NumberFormatter formatter = new NumberFormatter( SessionHandleAdapter.getInstance( )
 			.getSessionHandle( )
-			.getLocale( ) ); //$NON-NLS-1$
+			.getULocale( ) ); //$NON-NLS-1$
 
 	/**
 	 * The list keeps IValueChangedListener.
@@ -412,7 +412,8 @@ public class CSpinner extends Composite
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Control#setFont(org.eclipse.swt.graphics.Font)
+	 * @see
+	 * org.eclipse.swt.widgets.Control#setFont(org.eclipse.swt.graphics.Font)
 	 */
 	public void setFont( Font font )
 	{
