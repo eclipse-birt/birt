@@ -83,7 +83,7 @@ public final class SwingLiveChartViewer extends JPanel
 	/**
 	 * Maintains the structure of the chart for quick refresh
 	 */
-	private GeneratedChartState gcState = null;
+	private transient GeneratedChartState gcState = null;
 
 	/**
 	 * Used in building the chart for the first time

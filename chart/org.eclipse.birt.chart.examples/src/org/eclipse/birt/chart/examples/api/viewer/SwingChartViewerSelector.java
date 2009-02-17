@@ -66,7 +66,7 @@ public final class SwingChartViewerSelector extends JPanel implements
 
 	private boolean bNeedsGeneration = true;
 
-	private GeneratedChartState gcs = null;
+	private transient GeneratedChartState gcs = null;
 
 	private Chart cm = null;
 

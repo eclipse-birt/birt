@@ -33,7 +33,7 @@ import com.ibm.icu.util.ULocale;
 public class SeriesNameFormat
 {
 
-	public static SeriesNameFormat DEFAULT_FORMAT = new SeriesNameFormat( );
+	public static final SeriesNameFormat DEFAULT_FORMAT = new SeriesNameFormat( );
 
 	private SeriesNameFormat( )
 	{

@@ -170,37 +170,39 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		{
 			return itemHandle.columnBindingsIterator( );
 		}
-		DesignElementHandle handle = getBindingHolder( itemHandle );
-		if ( handle instanceof ReportItemHandle )
+		ReportItemHandle handle = getBindingHolder( itemHandle );
+		if ( handle == null )
 		{
-			Map<String, ComputedColumnHandle> bindingMap = new LinkedHashMap<String, ComputedColumnHandle>( );
-			ArrayList<ComputedColumnHandle> list = new ArrayList<ComputedColumnHandle>( );
-			Iterator i = ( (ReportItemHandle) handle ).columnBindingsIterator( );
+			return null;
+		}
+
+		Map<String, ComputedColumnHandle> bindingMap = new LinkedHashMap<String, ComputedColumnHandle>( );
+		ArrayList<ComputedColumnHandle> list = new ArrayList<ComputedColumnHandle>( );
+		Iterator i = handle.columnBindingsIterator( );
+		while ( i.hasNext( ) )
+		{
+			ComputedColumnHandle cch = (ComputedColumnHandle) i.next( );
+			list.add( cch );
+			bindingMap.put( cch.getName( ), cch );
+		}
+		if ( handle != itemHandle )
+		{
+			// Do not add same handle twice
+			i = itemHandle.columnBindingsIterator( );
 			while ( i.hasNext( ) )
 			{
 				ComputedColumnHandle cch = (ComputedColumnHandle) i.next( );
 				list.add( cch );
 				bindingMap.put( cch.getName( ), cch );
 			}
-			if ( handle != itemHandle )
-			{
-				// Do not add same handle twice
-				i = itemHandle.columnBindingsIterator( );
-				while ( i.hasNext( ) )
-				{
-					ComputedColumnHandle cch = (ComputedColumnHandle) i.next( );
-					list.add( cch );
-					bindingMap.put( cch.getName( ), cch );
-				}
-			}
-			if ( unique )
-			{
-				return bindingMap.values( ).iterator( );
-			}
-			else
-				return list.iterator( );
 		}
-		return null;
+		if ( unique )
+		{
+			return bindingMap.values( ).iterator( );
+		}
+		else
+			return list.iterator( );
+		
 	}
 
 	/**

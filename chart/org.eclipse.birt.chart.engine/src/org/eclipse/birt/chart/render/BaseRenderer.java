@@ -204,7 +204,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	/**
 	 * Transparency for translucent color. Should between 0 and 100.
 	 */
-	protected static double OVERRIDE_TRANSPARENCY = 50;
+	protected static final double OVERRIDE_TRANSPARENCY = 50;
 
 	/**
 	 * The associated runtimeContext.

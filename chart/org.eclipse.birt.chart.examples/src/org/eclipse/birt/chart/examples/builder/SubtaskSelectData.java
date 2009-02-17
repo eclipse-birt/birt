@@ -52,12 +52,10 @@ public class SubtaskSelectData extends SubtaskSheetImpl implements
 
 	public void changeTask( Notification notification )
 	{
-		if ( task instanceof ITaskChangeListener )
-		{
-			// Preview by delegating notification from TaskFormatChart to
-			// TaskSelectData
-			( (ITaskChangeListener) task ).changeTask( notification );
-		}
+		// Preview by delegating notification from TaskFormatChart to
+		// TaskSelectData
+		( (ITaskChangeListener) task ).changeTask( notification );
+		
 		if ( notification.getNotifier( ) instanceof Axis )
 		{
 			// Update tree if series or axes are updated

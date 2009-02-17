@@ -125,6 +125,10 @@ public class SVGImage extends Image
 				return BASE64 + new String( Base64.encodeBase64( data ) );
 
 			}
+			else
+			{
+				return ""; //$NON-NLS-1$
+			}
 		}
 		return url.toExternalForm( );
 	}

@@ -62,7 +62,6 @@ public class TimeScaleTest extends BaseChartTestCase
 		assertTrue( scale instanceof ITimeScale );
 
 		ITimeScale ls = (ITimeScale) scale;
-		Date date = new Date( );
 		assertEquals( ls.getMin( ).getYear( ), 2002 - 1900 );
 		assertEquals( ls.getMin( ).getDate( ), 19 );
 

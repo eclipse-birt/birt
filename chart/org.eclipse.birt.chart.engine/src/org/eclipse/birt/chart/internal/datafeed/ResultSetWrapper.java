@@ -1840,7 +1840,6 @@ public final class ResultSetWrapper
 	{
 		if ( seriesGrouping.getGroupType( ) == DataType.DATE_TIME_LITERAL )
 		{
-			int cunit = GroupingUtil.groupingUnit2CDateUnit( seriesGrouping.getGroupingUnit( ) );
 			CDateTime baseReference = null;
 			for ( Iterator iter = resultSet.iterator( ); iter.hasNext( ); )
 			{

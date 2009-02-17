@@ -108,8 +108,7 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	public Object[] getDataForColumns( String[] sExpressions, int iMaxRecords,
 			boolean byRow )
 	{
-		// Always provide data by column
-		byRow = false;
+		// Always provide data by column whatever the byRow is false/true.
 		Object[] array = new Object[sExpressions.length];
 		for ( int i = 0; i < sExpressions.length; i++ )// a column
 		{

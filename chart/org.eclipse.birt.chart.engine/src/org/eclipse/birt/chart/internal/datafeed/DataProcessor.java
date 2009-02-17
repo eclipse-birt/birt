@@ -355,13 +355,8 @@ public class DataProcessor
 		{
 			liResultSet = evaluateRowSet( idre, co.toArray( ) );
 		}
-		catch ( Exception e )
+		catch ( RuntimeException e )
 		{
-			if ( e instanceof ChartException )
-			{
-				throw (ChartException) e;
-			}
-			
 			throw new ChartException( ChartEnginePlugin.ID, ChartException.GENERATION, e);
 		}
 
@@ -1370,10 +1365,10 @@ public class DataProcessor
 	 * @return
 	 * @since 2.3
 	 */
-	public List evaluateRowSet( IDataRowExpressionEvaluator idre,
+	public List<Object[]> evaluateRowSet( IDataRowExpressionEvaluator idre,
 			final Object[] columns )
 	{
-		List liResultSet = new ArrayList( );
+		List<Object[]> liResultSet = new ArrayList<Object[]>( );
 		final int iColumnCount = columns.length;
 		Object[] oaTuple;
 		final int MAX_ROW_COUNT = ChartUtil.getSupportedMaxRowCount( rtc );

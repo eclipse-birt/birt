@@ -169,8 +169,7 @@ public class ChartCubeQueryHelper
 				ISubCubeQueryDefinition subQuery = createSubCubeQuery( );
 				if ( subQuery != null )
 				{
-					if ( parent instanceof ICubeQueryDefinition
-							&& ChartXTabUtil.isPlotChart( handle ) )
+					if ( ChartXTabUtil.isPlotChart( handle ) )
 					{
 						// Adds min and max binding to parent query definition
 						// for shared scale. Only added for plot chart

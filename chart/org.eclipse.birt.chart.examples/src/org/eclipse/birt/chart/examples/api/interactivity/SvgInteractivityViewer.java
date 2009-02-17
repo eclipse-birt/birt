@@ -145,7 +145,6 @@ public class SvgInteractivityViewer extends Composite implements
 
 				idr = PluginSettings.instance( ).getDevice( "dv.SVG" ); //$NON-NLS-1$
 				Generator gr = Generator.instance( );
-				GeneratedChartState gcs = null;
 				Bounds bo = BoundsImpl.create( 0, 0, 450, 300 );
 				gcs = gr.build( idr.getDisplayServer( ),
 						cm,
