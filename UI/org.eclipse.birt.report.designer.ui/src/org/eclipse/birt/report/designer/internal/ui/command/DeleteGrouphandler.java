@@ -30,14 +30,14 @@ public class DeleteGrouphandler extends SelectionHandler
 		Object obj = context.getVariable( ICommandParameterNameContants.DELETE_GROUP_HANDLE );
 		if ( ( obj == null ) || ( !( obj instanceof GroupHandle ) ) )
 		{
-			return Boolean.valueOf( false );
+			return Boolean.FALSE;
 		}
 		handle = (GroupHandle) obj;
 
 		obj = context.getVariable( ICommandParameterNameContants.DELETE_GROUP_EDIT_PART );
 		if ( ( obj == null ) || ( !( obj instanceof ReportElementEditPart ) ) )
 		{
-			return Boolean.valueOf( false );
+			return Boolean.FALSE;
 		}
 		editPart = (ReportElementEditPart) obj;
 
@@ -60,7 +60,7 @@ public class DeleteGrouphandler extends SelectionHandler
 			viewer.select( editPart );
 		}
 
-		return Boolean.valueOf( true );
+		return Boolean.TRUE;
 	}
 
 	/**

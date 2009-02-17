@@ -79,6 +79,6 @@ public class InsertExpressionHandler extends BaseInsertHandler
 			}
 		}
 
-		return Boolean.valueOf( false );
+		return Boolean.FALSE;
 	}
 }

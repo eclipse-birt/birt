@@ -48,7 +48,7 @@ public class ReloadCssStyleHandler extends SelectionHandler
 		{
 			List tmpList = (List) obj;
 			if ( tmpList.size( ) < 1 )
-				return Boolean.valueOf( true );
+				return Boolean.TRUE;
 			obj = tmpList.get( 0 );
 		}
 		if ( obj instanceof CssStyleSheetHandle )

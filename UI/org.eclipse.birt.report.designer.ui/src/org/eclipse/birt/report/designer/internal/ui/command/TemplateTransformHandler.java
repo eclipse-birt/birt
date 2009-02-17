@@ -30,6 +30,6 @@ public class TemplateTransformHandler extends SelectionHandler
 	{
 		super.execute( event );
 
-		return Boolean.valueOf( true );
+		return Boolean.TRUE;
 	}
 }

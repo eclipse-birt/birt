@@ -44,7 +44,7 @@ public class CopyHandler extends SelectionHandler
 			Clipboard.getDefault( ).setContents( cloneElements );
 		}	
 		
-		return Boolean.valueOf( true );
+		return Boolean.TRUE;
 	}
 	
 }

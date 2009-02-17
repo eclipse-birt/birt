@@ -42,7 +42,7 @@ public class RevertToTemplateHandler extends SelectionHandler
 		if ( selElementHandle == null
 				|| ( !( selElementHandle instanceof DesignElementHandle ) ) )
 		{
-			return Boolean.valueOf( false );
+			return Boolean.FALSE;
 		}
 
 		else if ( ((DesignElementHandle)selElementHandle).isTemplateParameterValue( ) )

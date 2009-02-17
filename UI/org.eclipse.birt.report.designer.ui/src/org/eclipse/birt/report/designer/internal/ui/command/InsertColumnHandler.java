@@ -58,7 +58,7 @@ public class InsertColumnHandler extends SelectionHandler
 			getTableEditPart( ).insertColumns( intPos, getColumnNumbers( ) );
 		}
 
-		return Boolean.valueOf( true );
+		return Boolean.TRUE;
 	}
 
 	/**

@@ -45,7 +45,7 @@ public class RevertToReportItemHandler extends SelectionHandler
 		if ( selElementHandle == null
 				|| ( !( selElementHandle instanceof DesignElementHandle ) ) )
 		{
-			return Boolean.valueOf( false );
+			return Boolean.FALSE;
 		}
 
 		if ( ( (DesignElementHandle) selElementHandle ).isTemplateParameterValue( ) )

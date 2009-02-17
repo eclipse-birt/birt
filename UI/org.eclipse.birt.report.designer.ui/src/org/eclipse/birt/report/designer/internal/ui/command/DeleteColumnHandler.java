@@ -35,7 +35,7 @@ public class DeleteColumnHandler extends SelectionHandler
 			part.deleteColumn( getColumnNumbers( ) );
 			viewer.select( part );
 		}
-		return Boolean.valueOf( true );
+		return Boolean.TRUE;
 	}
 
 	/**

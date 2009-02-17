@@ -37,7 +37,7 @@ public class CopyCellContentsHandler extends SelectionHandler
 		Object[] selections = getElementHandles( ).toArray( );
 
 		if ( selections.length != 1 )
-			return Boolean.valueOf( false );
+			return Boolean.FALSE;
 
 		CellHandle cellHandle = (CellHandle) selections[0];
 
@@ -53,7 +53,7 @@ public class CopyCellContentsHandler extends SelectionHandler
 			Clipboard.getDefault( ).setContents( cloneElements );
 		}
 
-		return Boolean.valueOf( true );
+		return Boolean.TRUE;
 	}
 
 }

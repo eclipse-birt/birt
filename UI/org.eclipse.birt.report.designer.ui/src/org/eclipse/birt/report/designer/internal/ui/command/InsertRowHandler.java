@@ -53,7 +53,7 @@ public class InsertRowHandler extends SelectionHandler
 			getTableEditPart( ).insertRows( intPos, getRowNumbers( ) );
 		}
 		
-		return Boolean.valueOf( true );
+		return Boolean.TRUE;
 	}
 	
 	/**

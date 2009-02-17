@@ -53,7 +53,7 @@ public class CutHandler extends SelectionHandler
 			Clipboard.getDefault( ).setContents( cloneElements );
 		}
 		
-		return Boolean.valueOf( true );
+		return Boolean.TRUE;
 	}
 	
 	protected DeleteAction createDeleteAction( final Object objects )

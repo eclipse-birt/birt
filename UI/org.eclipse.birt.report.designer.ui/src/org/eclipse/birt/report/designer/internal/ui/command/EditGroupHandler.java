@@ -71,7 +71,7 @@ public class EditGroupHandler extends SelectionHandler
 			stack.rollbackAll( );
 		}
 
-		return Boolean.valueOf( true );
+		return Boolean.TRUE;
 	}
 
 	/**

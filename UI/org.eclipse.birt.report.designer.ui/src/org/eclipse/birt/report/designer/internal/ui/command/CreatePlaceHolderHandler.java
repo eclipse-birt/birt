@@ -45,14 +45,14 @@ public class CreatePlaceHolderHandler extends SelectionHandler
 
 		if ( selElementHandle == null )
 		{
-			return Boolean.valueOf( false );
+			return Boolean.FALSE;
 		}
 
 		INodeProvider provider = ProviderFactory.createProvider( selElementHandle );
 
 		if ( provider == null )
 		{
-			return Boolean.valueOf( false );
+			return Boolean.FALSE;
 		}
 
 		boolean retBool = false;
