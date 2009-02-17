@@ -134,8 +134,10 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 				else
 					resourcePath = getContainerFullPath( ).append( getFileName( ) );
 				
-				if ( resourcePath.lastSegment( ).equals( "." + fileExtension ) )
+				if ( resourcePath.lastSegment( ).equals( "." + fileExtension ) ){
 					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameEmpty" ) ); //$NON-NLS-1$
+					return false;
+				}
 
 				IWorkspace workspace = ResourcesPlugin.getWorkspace( );
 
@@ -162,9 +164,10 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 				else
 					resourcePath = getContainerFullPath( ).append( getFileName( ) );
 				
-				if ( resourcePath.lastSegment( ).equals( "." + fileExtension ) )
+				if ( resourcePath.lastSegment( ).equals( "." + fileExtension ) ){
 					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameEmpty" ) ); //$NON-NLS-1$
-
+					return false;
+				}
 				IWorkspace workspace = ResourcesPlugin.getWorkspace( );
 				if ( workspace.getRoot( )
 						.getFolder( resourcePath )
