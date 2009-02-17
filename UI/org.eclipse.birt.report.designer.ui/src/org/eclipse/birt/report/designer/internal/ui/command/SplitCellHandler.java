@@ -41,7 +41,7 @@ public class SplitCellHandler extends SelectionHandler
 			getTableEditPart( ).splitCell( getTableCellEditPart( ) );
 		}
 
-		return new Boolean( true );
+		return Boolean.valueOf( true );
 	}
 
 	/**

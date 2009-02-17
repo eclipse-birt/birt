@@ -42,6 +42,6 @@ public class PublishToTemplateHandler extends SelectionHandler
 		dialog.setPageSize( 500, 250 );
 		dialog.open( );
 
-		return new Boolean( retBoolean );
+		return Boolean.valueOf( retBoolean );
 	}
 }

@@ -39,14 +39,14 @@ public class EditHandler extends SelectionHandler
 		Object obj = getFirstSelectVariable( );
 		if ( ( obj == null ) || ( !( obj instanceof DesignElementHandle ) ) )
 		{
-			return new Boolean( false );
+			return Boolean.valueOf( false );
 		}
 
 		DesignElementHandle elmentHandle = (DesignElementHandle) obj;
 
 		if ( elmentHandle == null )
 		{
-			return new Boolean( false );
+			return Boolean.valueOf( false );
 		}
 
 		INodeProvider provider = ProviderFactory.createProvider( elmentHandle );
@@ -61,6 +61,6 @@ public class EditHandler extends SelectionHandler
 			retBoolean = false;
 		}
 
-		return new Boolean( retBoolean );
+		return Boolean.valueOf( retBoolean );
 	}
 }

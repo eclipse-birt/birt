@@ -75,7 +75,7 @@ public class BaseInsertHandler extends SelectionHandler
 		boolean retValue = initializeVariable(event);
 		if(retValue == false)
 		{
-			return new Boolean( false );
+			return Boolean.valueOf( false );
 		}
 		
 		try
@@ -86,7 +86,7 @@ public class BaseInsertHandler extends SelectionHandler
 				stack.commit( );
 				selectElement( req.getExtendedData( )
 						.get( IRequestConstants.REQUEST_KEY_RESULT ), true );
-				return new Boolean( true );
+				return Boolean.valueOf( true );
 			}
 		}
 		catch ( Exception e )
@@ -95,7 +95,7 @@ public class BaseInsertHandler extends SelectionHandler
 		}
 		stack.rollback( );
 		
-		return new Boolean( false );
+		return Boolean.valueOf( false );
 	}
 	
 	protected boolean initializeVariable(ExecutionEvent event)

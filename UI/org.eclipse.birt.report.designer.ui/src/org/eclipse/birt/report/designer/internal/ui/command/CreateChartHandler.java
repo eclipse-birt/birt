@@ -54,7 +54,7 @@ public class CreateChartHandler extends SelectionHandler
 		Object[] objs = ElementAdapterManager.getAdapters( handle,  IReportItemViewProvider.class);
 		if (objs == null || objs.length>1)
 		{
-			return new Boolean( false );
+			return Boolean.valueOf( false );
 		}
 		IReportItemViewProvider provider = (IReportItemViewProvider)objs[0];
 		
@@ -69,16 +69,16 @@ public class CreateChartHandler extends SelectionHandler
 					.editElement( chart ) )	
 			{
 				module.getCommandStack( ).rollbackAll( );
-				return new Boolean( false );
+				return Boolean.valueOf( false );
 			}
 		}
 		catch ( BirtException e )
 		{
 			module.getCommandStack( ).rollbackAll( );
-			return new Boolean( false );
+			return Boolean.valueOf( false );
 		}
 		module.getCommandStack( ).commit( );
-		return new Boolean( true );
+		return Boolean.valueOf( true );
 	}
 	
 }

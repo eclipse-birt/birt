@@ -39,6 +39,6 @@ public class ImpotCSSStyleHandler extends SelectionHandler
 				.getActiveShell( ), new SelectCssStyleWizard( getSelection() ) );
 		dialog.open( );
 
-		return new Boolean( retBoolean );
+		return Boolean.valueOf( retBoolean );
 	}
 }

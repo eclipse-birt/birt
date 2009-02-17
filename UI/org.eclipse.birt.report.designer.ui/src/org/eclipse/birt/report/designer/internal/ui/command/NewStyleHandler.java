@@ -120,7 +120,7 @@ public class NewStyleHandler extends SelectionHandler
 			retBoolean = false;
 		}
 
-		return new Boolean( retBoolean );
+		return Boolean.valueOf( retBoolean );
 	}
 
 	/**

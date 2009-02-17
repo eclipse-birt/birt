@@ -46,7 +46,7 @@ public class EditStyleHandler extends SelectionHandler
 
 		if ( handle == null )
 		{
-			return new Boolean( false );
+			return Boolean.valueOf( false );
 		}
 
 		if ( Policy.TRACING_ACTIONS )
@@ -58,6 +58,6 @@ public class EditStyleHandler extends SelectionHandler
 				.getActiveShell( ), handle, StyleBuilder.DLG_TITLE_EDIT );
 		builder.open( );
 
-		return new Boolean( true );
+		return Boolean.valueOf( true );
 	}
 }

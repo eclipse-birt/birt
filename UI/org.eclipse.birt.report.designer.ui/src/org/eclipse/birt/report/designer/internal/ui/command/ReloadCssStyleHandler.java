@@ -48,7 +48,7 @@ public class ReloadCssStyleHandler extends SelectionHandler
 		{
 			List tmpList = (List) obj;
 			if ( tmpList.size( ) < 1 )
-				return new Boolean( true );
+				return Boolean.valueOf( true );
 			obj = tmpList.get( 0 );
 		}
 		if ( obj instanceof CssStyleSheetHandle )
@@ -63,7 +63,7 @@ public class ReloadCssStyleHandler extends SelectionHandler
 		}
 
 		retBoolean = reloadCss( (CssStyleSheetHandle) obj, container );
-		return new Boolean( retBoolean );
+		return Boolean.valueOf( retBoolean );
 	}
 
 	private boolean reloadCss( CssStyleSheetHandle cssCtyleSheetHandle,

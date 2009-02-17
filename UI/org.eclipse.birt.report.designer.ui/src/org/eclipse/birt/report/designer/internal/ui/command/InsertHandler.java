@@ -87,7 +87,7 @@ public class InsertHandler extends AbstractHandler
 					.notifyRequest( r );
 
 		}
-		return new Boolean( bool );
+		return Boolean.valueOf( bool );
 	}
 
 }

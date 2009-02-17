@@ -42,7 +42,7 @@ public class RevertToTemplateHandler extends SelectionHandler
 		if ( selElementHandle == null
 				|| ( !( selElementHandle instanceof DesignElementHandle ) ) )
 		{
-			return new Boolean( false );
+			return Boolean.valueOf( false );
 		}
 
 		else if ( ((DesignElementHandle)selElementHandle).isTemplateParameterValue( ) )
@@ -59,6 +59,6 @@ public class RevertToTemplateHandler extends SelectionHandler
 			}
 		}
 		
-		return new Boolean( retBoolean ); 
+		return Boolean.valueOf( retBoolean );
 	}
 }

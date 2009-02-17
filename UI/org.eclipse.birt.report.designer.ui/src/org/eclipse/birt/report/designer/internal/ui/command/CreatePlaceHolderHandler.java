@@ -45,14 +45,14 @@ public class CreatePlaceHolderHandler extends SelectionHandler
 
 		if ( selElementHandle == null )
 		{
-			return new Boolean( false );
+			return Boolean.valueOf( false );
 		}
 
 		INodeProvider provider = ProviderFactory.createProvider( selElementHandle );
 
 		if ( provider == null )
 		{
-			return new Boolean( false );
+			return Boolean.valueOf( false );
 		}
 
 		boolean retBool = false;
@@ -67,6 +67,6 @@ public class CreatePlaceHolderHandler extends SelectionHandler
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 
-		return new Boolean( retBool );
+		return Boolean.valueOf( retBool );
 	}
 }

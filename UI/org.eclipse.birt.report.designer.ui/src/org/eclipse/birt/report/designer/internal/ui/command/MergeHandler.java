@@ -42,6 +42,6 @@ public class MergeHandler extends SelectionHandler
 			part.merge( );
 		}
 
-		return new Boolean( true );
+		return Boolean.valueOf( true );
 	}
 }

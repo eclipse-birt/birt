@@ -36,7 +36,7 @@ public class ResetImageSizeHandler extends SelectionHandler
 		super.execute( event );
 		Object selected = ( (StructuredSelection) InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart( getSelection( ) ) ) ).getFirstElement( );
 		if ( selected == null || !( selected instanceof ImageHandle ) )
-			return new Boolean( false );
+			return Boolean.valueOf( false );
 		ImageHandle image = (ImageHandle) selected;
 		try
 		{
@@ -46,7 +46,7 @@ public class ResetImageSizeHandler extends SelectionHandler
 		catch ( SemanticException e )
 		{
 		}
-		return new Boolean( true );
+		return Boolean.valueOf( true );
 	}
 
 }

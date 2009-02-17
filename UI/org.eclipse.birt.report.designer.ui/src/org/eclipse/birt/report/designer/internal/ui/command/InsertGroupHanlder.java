@@ -90,7 +90,7 @@ public class InsertGroupHanlder extends SelectionHandler
 			stack.rollbackAll( );
 		}
 
-		return new Boolean( true );
+		return Boolean.valueOf( true );
 	}
 	
 	//fix bug 217589

@@ -57,7 +57,7 @@ public class PublishToLibraryHandler extends SelectionHandler
 		dialog.setPageSize( 500, 250 );
 		dialog.open( );
 		
-		return new Boolean( true );
+		return Boolean.valueOf( true );
 	}
 	
 

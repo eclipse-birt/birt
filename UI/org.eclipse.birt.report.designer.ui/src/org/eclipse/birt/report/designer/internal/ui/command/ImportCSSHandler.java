@@ -39,6 +39,6 @@ public class ImportCSSHandler extends SelectionHandler
 				.getActiveShell( ), new SelectCssStyleWizard( getSelection( ) ) );
 		dialog.open( );
 
-		return new Boolean( true );
+		return Boolean.valueOf( true );
 	}
 }

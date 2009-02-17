@@ -39,7 +39,7 @@ public class DeleteHandler extends SelectionHandler
 			createDeleteCommand( getElementHandles( ).toArray( ) ).execute( );
 		}
 
-		return new Boolean( hasExecuted );
+		return Boolean.valueOf( hasExecuted );
 	}
 
 	protected Command createDeleteCommand( Object objects )

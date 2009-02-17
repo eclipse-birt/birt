@@ -36,7 +36,7 @@ public class DeleteRowHandler extends SelectionHandler
 			viewer.select( part );
 		}
 
-		return new Boolean( true );
+		return Boolean.valueOf( true );
 	}
 
 	/**
