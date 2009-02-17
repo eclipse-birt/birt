@@ -2180,9 +2180,9 @@ public class ParameterDialog extends BaseDialog
 			inputParameter.setDataType( DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) )
 					.getName( ) );
 
-			// Clear original choices list
 			PropertyHandle selectionChioceList = inputParameter.getPropertyHandle( ScalarParameterHandle.SELECTION_LIST_PROP );
-			selectionChioceList.setValue( null );
+			// Clear original choices list
+			selectionChioceList.setValue( new ArrayList() );
 
 			if ( isStatic( ) )
 			{
