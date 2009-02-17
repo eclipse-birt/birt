@@ -123,7 +123,7 @@ public class TogglePropertyDescriptor extends PropertyDescriptor
 	{
 		try
 		{
-			save( new Boolean( button.getSelection( ) ) );
+			save( Boolean.valueOf( button.getSelection( ) ) );
 		}
 		catch ( SemanticException e1 )
 		{

@@ -199,7 +199,7 @@ class BIRTGotoMarker implements IGotoMarker
 	protected ReportElementHandle getReportElementHandle(
 			ModuleHandle moduleHandle, IMarker marker )
 	{
-		Integer elementId = new Integer( 0 );
+		Integer elementId = Integer.valueOf( 0 );
 		try
 		{
 			elementId = (Integer) marker.getAttribute( IDEMultiPageReportEditor.ELEMENT_ID );

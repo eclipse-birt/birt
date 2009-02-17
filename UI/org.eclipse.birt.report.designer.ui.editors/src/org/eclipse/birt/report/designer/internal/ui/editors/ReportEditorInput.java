@@ -158,6 +158,12 @@ public class ReportEditorInput implements
 			return false;
 		return file.equals( ( (ReportEditorInput) obj ).file );
 	}
+	
+	@Override
+	public int hashCode( )
+	{
+		return file.hashCode( );
+	}
 
 	public File getFile( )
 	{

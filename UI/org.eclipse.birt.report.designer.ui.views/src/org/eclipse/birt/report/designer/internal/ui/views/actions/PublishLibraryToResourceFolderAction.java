@@ -26,10 +26,6 @@ public class PublishLibraryToResourceFolderAction extends AbstractViewAction
 
 	public static final String ACTION_TEXT = Messages.getString( "PublishLibraryToResourceFolderAction.Action.Text" ); //$NON-NLS-1$
 
-	private String filePath;
-	private String fileName;
-	private String folderName;
-
 	/**
 	 * @param selectedObject
 	 */

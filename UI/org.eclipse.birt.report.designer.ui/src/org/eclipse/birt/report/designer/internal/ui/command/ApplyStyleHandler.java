@@ -82,7 +82,7 @@ public class ApplyStyleHandler extends SelectionHandler
 			stack.rollbackAll( );
 			ExceptionHandler.handle( e );
 		}
-		return new Boolean( true );
+		return Boolean.valueOf( true );
 	}
 
 

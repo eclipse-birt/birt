@@ -22,7 +22,7 @@ public class RepeatHeaderDescriptorProvider extends AbstractDescriptorProvider
 		{
 			ListingHandle listingHandle = (ListingHandle) DEUtil.getInputFirstElement( input );
 
-			return new Boolean( listingHandle.repeatHeader( ) ).toString( );
+			return Boolean.valueOf( listingHandle.repeatHeader( ) ).toString( );
 
 		}
 		return Boolean.FALSE.toString( ); //$NON-NLS-1$

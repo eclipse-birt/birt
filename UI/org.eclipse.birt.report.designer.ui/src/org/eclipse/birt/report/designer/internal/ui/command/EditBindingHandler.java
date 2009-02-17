@@ -57,7 +57,7 @@ public class EditBindingHandler extends SelectionHandler
 			}
 		}
 
-		return new Boolean( true );
+		return Boolean.valueOf( true );
 	}
 
 	private ReportItemHandle getSelectedElement( )

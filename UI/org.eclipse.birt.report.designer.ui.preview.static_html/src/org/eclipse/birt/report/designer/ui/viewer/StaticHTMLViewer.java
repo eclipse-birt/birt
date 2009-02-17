@@ -900,8 +900,8 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 					form.setBusy( false );
 					form.setText( MessageFormat.format( TITLE_MESSAGE,
 							new Object[]{
-									new Long( currentPageNum ),
-									new Long( totalPageNum )
+									Long.valueOf( currentPageNum ),
+									Long.valueOf( totalPageNum )
 							} ) );
 					reRunReportAction.setEnabled( true );
 					paramAction.setEnabled( hasParas );

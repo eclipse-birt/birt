@@ -97,7 +97,7 @@ public class GUIException extends BirtException
 			Throwable cause, String errorCode )
 	{
 		GUIException ex = new GUIException( pluginId, errorCode, cause );
-		if ( errorCode != GUI_ERROR_CODE_UNEXPECTED )
+		if ( !GUI_ERROR_CODE_UNEXPECTED.equals( errorCode ) )
 		{
 			ex.setSeverity( BirtException.INFO | BirtException.ERROR );
 		}

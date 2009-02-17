@@ -391,7 +391,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 						&& errorDetail.getElement( ).getID( ) != 0 )
 				{
 					attrib.put( ELEMENT_ID,
-							new Integer( (int) errorDetail.getElement( )
+							Integer.valueOf( (int) errorDetail.getElement( )
 									.getID( ) ) );
 				}
 

@@ -44,7 +44,7 @@ public class IDEReportPlugin extends AbstractUIPlugin
 
 		// make higher ranking than default service
 		Hashtable<String, Object> dict = new Hashtable<String, Object>( );
-		dict.put( Constants.SERVICE_RANKING, new Integer( 3 ) );
+		dict.put( Constants.SERVICE_RANKING, Integer.valueOf( 3 ) );
 
 		syncService = context.registerService( IReportResourceSynchronizer.class.getName( ),
 				new IDEResourceSynchronizer( ),

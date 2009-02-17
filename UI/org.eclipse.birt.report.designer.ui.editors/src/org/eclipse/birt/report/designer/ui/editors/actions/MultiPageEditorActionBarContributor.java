@@ -200,12 +200,11 @@ public abstract class MultiPageEditorActionBarContributor extends
 					.getGlobalActionHandlers( );
 			if ( handlers != null )
 			{
-				Set keys = handlers.keySet( );
-				for ( Iterator iter = keys.iterator( ); iter.hasNext( ); )
+				for ( Iterator iter = handlers.entrySet( ).iterator( ); iter.hasNext( ); )
 				{
-					String id = (String) iter.next( );
-					rootBar.setGlobalActionHandler( id,
-							(IAction) handlers.get( id ) );
+					Map.Entry entry = (Map.Entry) iter.next( );
+					rootBar.setGlobalActionHandler( entry.getKey( ).toString( ),
+							(IAction) entry.getValue( ) );
 				}
 			}
 			currentActionBarDef.activate( );
