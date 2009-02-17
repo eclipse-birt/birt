@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.TableBorderHelper;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -333,9 +334,12 @@ public class TableLayout extends XYLayout
 			rowHeights[i - 1].trueMinRowHeight = ( rowHeights[i - 1].isForce && !rowHeights[i - 1].isPercentage )
 					? rowHeights[i - 1].height
 					: rowHeights[i - 1].minRowHeight;
-
+					
+			if (rowHeights[i - 1].trueMinRowHeight < RowHandleAdapter.DEFAULT_MINHEIGHT)
+			{
+				rowHeights[i - 1].trueMinRowHeight = RowHandleAdapter.DEFAULT_MINHEIGHT;
+			}
 		}
-
 	}
 
 	private void initRowMinSize( List children )
@@ -415,7 +419,7 @@ public class TableLayout extends XYLayout
 			{
 				for ( int j = rowNumber; j < rowNumber + rowSpan; j++ )
 				{
-					adjustRow.add( new Integer( j ) );
+					adjustRow.add( Integer.valueOf( j ) );
 				}
 			}
 		}
@@ -454,7 +458,7 @@ public class TableLayout extends XYLayout
 			for ( int j = rowNumber; j < rowNumber + rowSpan; j++ )
 			{
 				TableLayoutData.RowData rowData = data.findRowData( j );
-				if ( !hasAdjust.contains( new Integer( j ) ) )
+				if ( !hasAdjust.contains( Integer.valueOf( j ) ) )
 				{
 					int len = adjustNumber.length;
 					int temp[] = new int[len + 1];
@@ -510,8 +514,8 @@ public class TableLayout extends XYLayout
 					.findRowData( adjustMaxNumber );
 			rowData.minRowHeight = adjustMax;
 			rowData.trueMinRowHeight = trueAdjustMax;
-			adjust.remove( new Integer( adjustMaxNumber ) );
-			hasAdjust.add( new Integer( adjustMaxNumber ) );
+			adjust.remove( Integer.valueOf( adjustMaxNumber ) );
+			hasAdjust.add( Integer.valueOf( adjustMaxNumber ) );
 			caleMergeMinHeight( figures, adjust, hasAdjust );
 		}
 	}
@@ -727,7 +731,7 @@ public class TableLayout extends XYLayout
 			{
 				for ( int j = rowNumber; j < rowNumber + rowSpan; j++ )
 				{
-					adjustRow.add( new Integer( j ) );
+					adjustRow.add( Integer.valueOf( j ) );
 				}
 			}
 
@@ -735,7 +739,7 @@ public class TableLayout extends XYLayout
 			{
 				for ( int j = columnNumber; j < columnNumber + columnSpan; j++ )
 				{
-					adjustColumn.add( new Integer( j ) );
+					adjustColumn.add( Integer.valueOf( j ) );
 				}
 			}
 		}
@@ -773,7 +777,7 @@ public class TableLayout extends XYLayout
 			for ( int j = rowNumber; j < rowNumber + rowSpan; j++ )
 			{
 				TableLayoutData.RowData rowData = data.findRowData( j );
-				if ( !hasAdjust.contains( new Integer( j ) ) )
+				if ( !hasAdjust.contains( Integer.valueOf( j ) ) )
 				{
 					int len = adjustNumber.length;
 					int temp[] = new int[len + 1];
@@ -832,8 +836,8 @@ public class TableLayout extends XYLayout
 					.findRowData( adjustMaxNumber );
 			rowData.minRowHeight = adjustMax;
 			rowData.trueMinRowHeight = trueAdjustMax;
-			adjust.remove( new Integer( adjustMaxNumber ) );
-			hasAdjust.add( new Integer( adjustMaxNumber ) );
+			adjust.remove( Integer.valueOf( adjustMaxNumber ) );
+			hasAdjust.add( Integer.valueOf( adjustMaxNumber ) );
 			caleMergeMinHeight( figures, adjust, hasAdjust );
 		}
 	}
@@ -867,7 +871,7 @@ public class TableLayout extends XYLayout
 			{
 				TableLayoutData.ColumnData columnData = data.findColumnData( j );
 
-				if ( !hasAdjust.contains( new Integer( j ) ) )
+				if ( !hasAdjust.contains( Integer.valueOf( j ) ) )
 				{
 					int len = adjustNumber.length;
 					int temp[] = new int[len + 1];
@@ -927,8 +931,8 @@ public class TableLayout extends XYLayout
 					.findColumnData( adjustMaxNumber );
 			columnData.minColumnWidth = adjustMax;
 			columnData.trueMinColumnWidth = trueAdjustMax;
-			adjust.remove( new Integer( adjustMaxNumber ) );
-			hasAdjust.add( new Integer( adjustMaxNumber ) );
+			adjust.remove( Integer.valueOf( adjustMaxNumber ) );
+			hasAdjust.add( Integer.valueOf( adjustMaxNumber ) );
 			caleMergeMinWidth( figures, adjust, hasAdjust );
 		}
 
@@ -969,6 +973,11 @@ public class TableLayout extends XYLayout
 			rowHeights[i - 1].trueMinRowHeight = ( rowHeights[i - 1].isForce && !rowHeights[i - 1].isPercentage )
 					? rowHeights[i - 1].height
 					: rowHeights[i - 1].minRowHeight;
+					
+			if (rowHeights[i - 1].trueMinRowHeight < RowHandleAdapter.DEFAULT_MINHEIGHT)
+			{
+				rowHeights[i - 1].trueMinRowHeight = RowHandleAdapter.DEFAULT_MINHEIGHT;
+			}
 
 		}
 
