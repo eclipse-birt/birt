@@ -981,7 +981,6 @@ ssPreferencesContentAssistKeyAsterisk= * (Asterisk)
 ssPreferencesContentAssistKeyAnyKey= Alphanumeric key (on auto-activate delay)
 ssPreferencesContentAssistKeyCustom= Custom
 ssPreferencesContentAssistKeyPropagate= Propagate keystrokes to control when popup is active
-Preferences_ShowProposalCue = Decorate fields that have content assist
 ssPreferencesContentAssistDelay= Delay (in milliseconds) when content assist is auto-activated:
 ssPreferencesDescription= This page controls the decorations used in the chart builder dialog.
 ssPreferencesDecoratorVert= Vertical location:

@@ -95,42 +95,6 @@ public class FieldAssistPreferencePage extends FieldEditorPreferencePage impleme
 		editor.setValidRange( 0, 10 );
 		addField( editor );
 
-// Label label = new Label(getFieldEditorParent(), SWT.WRAP);
-// label.setText(FieldAssistMessages.Preferences_ErrorIndicator);
-// addField(new BooleanFieldEditor(
-// PreferenceConstants.PREF_SHOWERRORMESSAGE,
-// FieldAssistMessages.Preferences_ShowErrorMessage,
-// getFieldEditorParent()));
-//
-// addField(new BooleanFieldEditor(
-// PreferenceConstants.PREF_SHOWERRORDECORATION,
-// FieldAssistMessages.Preferences_ShowErrorDecorator,
-// getFieldEditorParent()));
-//
-// label = new Label(getFieldEditorParent(), SWT.WRAP);
-// label
-// .setText(FieldAssistMessages.Preferences_RequiredFieldIndicator);
-// addField(new BooleanFieldEditor(
-// PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR,
-// FieldAssistMessages.Preferences_ShowRequiredFieldLabelIndicator,
-// getFieldEditorParent()));
-//
-// addField(new BooleanFieldEditor(
-// PreferenceConstants.PREF_SHOWREQUIREDFIELDDECORATION,
-// FieldAssistMessages.Preferences_ShowRequiredFieldDecorator,
-// getFieldEditorParent()));
-//
-// label = new Label(getFieldEditorParent(), SWT.WRAP);
-// label.setText(FieldAssistMessages.Preferences_DecoratorDetails);
-// addField(new BooleanFieldEditor(
-// PreferenceConstants.PREF_SHOWWARNINGDECORATION,
-// FieldAssistMessages.Preferences_ShowWarningDecorator,
-// getFieldEditorParent()));
-// addField(new BooleanFieldEditor(
-// PreferenceConstants.PREF_SHOWCONTENTPROPOSALCUE,
-// FieldAssistMessages.Preferences_ShowProposalCue,
-// getFieldEditorParent()));
-
 		Dialog.applyDialogFont( getFieldEditorParent( ) );
 	}
 
