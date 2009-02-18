@@ -100,7 +100,8 @@ public class SubqueryResultMetaData implements IResultMetaData
 			if ( binding != null )
 			{
 				List aggregates = binding.getAggregatOns( );
-				if ( aggregates != null && aggregates.size( ) > 0 )
+				if ( ( aggregates != null && aggregates.size( ) > 0 )
+						|| binding.getAggrFunction( ) != null )
 				{
 					result = true;
 				}
