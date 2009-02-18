@@ -299,7 +299,10 @@ public class PublishResourceWizard extends Wizard
 
 		if ( !targetFolder.exists( ) )
 		{
-			targetFolder.mkdirs( );
+			if ( !targetFolder.mkdirs( ) )
+			{
+				return null;
+			}
 		}
 
 		return new File( targetFolder, fileName );

@@ -459,7 +459,11 @@ public abstract class ResourceAction extends Action
 						{
 							copyFile( srcFile, targetFile );
 						}
-						fireResourceChanged( targetFile.getAbsolutePath( ) );
+
+						if ( targetFile != null )
+						{
+							fireResourceChanged( targetFile.getAbsolutePath( ) );
+						}
 					}
 				}
 				catch ( IOException e )
@@ -507,6 +511,11 @@ public abstract class ResourceAction extends Action
 	public static void copyFolder( File srcFolder, File targetFolder,
 			IProgressMonitor monitor ) throws IOException
 	{
+		if ( targetFolder == null )
+		{
+			throw new IOException( Messages.getString( "PublishResourceAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
+		}
+
 		if ( createdFiles.contains( srcFolder ) )
 		{
 			return;
@@ -525,6 +534,7 @@ public abstract class ResourceAction extends Action
 			{
 				return;
 			}
+
 			File target = new Path( targetFolder.getAbsolutePath( ) ).append( source.getName( ) )
 					.toFile( );
 
@@ -552,6 +562,11 @@ public abstract class ResourceAction extends Action
 	public static void copyFile( File srcFile, File destFile )
 			throws IOException
 	{
+		if ( destFile == null )
+		{
+			throw new IOException( Messages.getString( "PublishResourceAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
+		}
+
 		if ( srcFile.equals( destFile ) )
 		{
 			// Does nothing if fils are same.
