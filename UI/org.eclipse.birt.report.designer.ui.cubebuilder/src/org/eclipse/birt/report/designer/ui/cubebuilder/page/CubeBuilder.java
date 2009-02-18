@@ -57,10 +57,6 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		this.input = input;
 	}
 
-	private DatasetSelectionPage datasetPage = null;
-	private GroupsPage groupsPage = null;
-	private LinkGroupsPage linkGroupsPage = null;
-
 	protected boolean needRememberLastSize( )
 	{
 		return true;
@@ -77,15 +73,15 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		datasetNode = new PropertyNode( DATASETSELECTIONPAGE,
 				Messages.getString( "DatasetPage.Title" ), //$NON-NLS-1$
 				null,
-				datasetPage = new DatasetSelectionPage( this, model ) );
+				new DatasetSelectionPage( this, model ) );
 		groupsNode = new PropertyNode( GROUPPAGE,
 				Messages.getString( "GroupsPage.Title" ), //$NON-NLS-1$
 				null,
-				groupsPage = new GroupsPage( this, model ) );
+				new GroupsPage( this, model ) );
 		linkGroupNode = new PropertyNode( LINKGROUPSPAGE,
 				Messages.getString( "LinkGroupsPage.Title" ), //$NON-NLS-1$
 				null,
-				linkGroupsPage = new LinkGroupsPage( this, model ) );
+				new LinkGroupsPage( this, model ) );
 		addNodeTo( "/", datasetNode ); //$NON-NLS-1$
 		addNodeTo( "/", groupsNode ); //$NON-NLS-1$
 		addNodeTo( "/", linkGroupNode ); //$NON-NLS-1$

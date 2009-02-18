@@ -32,12 +32,6 @@ public class CubeGeneratorFactory implements IAdapterFactory
 		{
 			return null;
 		}
-		TabularCubeHandle cube = (TabularCubeHandle) adaptableObject;
-
-		if ( cube == null )
-		{
-			return null;
-		}
 		return new CubePageGenerator( );
 	}
 

@@ -9,7 +9,6 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
 import java.util.Collections;
@@ -39,7 +38,6 @@ public class DatasetFilterConditionBuilder extends FilterConditionBuilder
 		super( parentShell, title, message );
 	}
 
-
 	protected void setColumnList( DesignElementHandle handle )
 	{
 		try
@@ -52,18 +50,14 @@ public class DatasetFilterConditionBuilder extends FilterConditionBuilder
 			else if ( handle instanceof TabularDimensionHandle )
 			{
 				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ( (TabularDimensionHandle) handle ).getDefaultHierarchy( );
-				if ( hierarchy.getDataSet( ) != null )
+				if ( hierarchy != null )
 					dataset = hierarchy.getDataSet( );
-				else
-					dataset = ( (TabularHierarchyHandle) handle ).getDataSet( );
 			}
 			else if ( handle instanceof TabularHierarchyHandle )
 			{
 				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) handle;
-				if ( hierarchy.getDataSet( ) != null )
+				if ( hierarchy != null )
 					dataset = hierarchy.getDataSet( );
-				else
-					dataset = ( (TabularHierarchyHandle) handle ).getDataSet( );
 			}
 			if ( dataset != null )
 				columnList = DataUtil.getColumnList( dataset );

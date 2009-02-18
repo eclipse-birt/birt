@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures;
 
-import org.eclipse.draw2d.Figure;
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.LabeledBorder;
 import org.eclipse.draw2d.Panel;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -26,9 +23,6 @@ import org.eclipse.swt.widgets.Display;
  */
 public class TableNodeFigure extends Panel
 {
-
-	private LabeledBorder frameBorder;
-	Figure tableContainer;
 
 	public TableNodeFigure( String name )
 	{
@@ -70,17 +64,6 @@ public class TableNodeFigure extends Panel
 		return getPreferredSize( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.draw2d.IFigure#getMinimumSize(int, int)
-	 */
-	public IFigure getContents( )
-	{
-
-		return tableContainer;
-	}
-
 	/**
 	 * Sets the color of the figure , when it is selected.
 	 * 
@@ -103,23 +86,6 @@ public class TableNodeFigure extends Panel
 		this.setForegroundColor( Display.getCurrent( )
 				.getSystemColor( SWT.COLOR_LIST_FOREGROUND ) );
 		( (TableBorderFigure) this.getBorder( ) ).setDeselectedColors( isFact );
-	}
-
-	/**
-	 * @return The Name of the Table to be represented
-	 */
-	public String getName( )
-	{
-		return frameBorder.getLabel( );
-	}
-
-	/**
-	 * @param The
-	 *            Name of the table to be displayed
-	 */
-	public void setName( String string )
-	{
-		frameBorder.setLabel( string );
 	}
 
 }

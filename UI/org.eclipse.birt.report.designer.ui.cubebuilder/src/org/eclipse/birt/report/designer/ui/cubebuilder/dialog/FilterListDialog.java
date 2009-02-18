@@ -53,6 +53,7 @@ import org.eclipse.swt.widgets.TableColumn;
 
 public class FilterListDialog extends BaseDialog implements Listener
 {
+
 	private Button btnAdd, btnEdit, btnDel;
 
 	private Table table;
@@ -77,7 +78,7 @@ public class FilterListDialog extends BaseDialog implements Listener
 	{
 		this.input = input;
 	}
-	
+
 	protected Control createDialogArea( Composite parent )
 	{
 		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_FILTER_LIST_DIALOG );
@@ -105,10 +106,10 @@ public class FilterListDialog extends BaseDialog implements Listener
 		refresh( );
 		updateBtnStatus( );
 		updateBindingParameters( );
-		
+
 		return dialogArea;
 	}
-	
+
 	private void createFilterArea( final Composite comp )
 	{
 		table = new Table( comp, SWT.SINGLE
@@ -273,12 +274,11 @@ public class FilterListDialog extends BaseDialog implements Listener
 		layout.verticalSpacing = WidgetUtil.SPACING;
 		comp.setLayout( layout );
 
-		GridData data = new GridData( GridData.FILL_BOTH);
+		GridData data = new GridData( GridData.FILL_BOTH );
 		data.verticalSpan = 5;
 		data.minimumWidth = 430;
 		data.minimumHeight = 200;
 		table.setLayoutData( data );
-
 
 		setButtonLayoutData( btnAdd );
 		setButtonLayoutData( btnEdit );
@@ -375,24 +375,21 @@ public class FilterListDialog extends BaseDialog implements Listener
 
 	private void updateBindingParameters( )
 	{
-		if ( provider instanceof FilterHandleProvider )
-		{
-			ParamBindingHandle[] bindingParams = null;
+		ParamBindingHandle[] bindingParams = null;
 
-			if ( inputList.get( 0 ) instanceof ReportItemHandle )
+		if ( inputList.get( 0 ) instanceof ReportItemHandle )
+		{
+			ReportItemHandle inputHandle = (ReportItemHandle) inputList.get( 0 );
+			List list = new ArrayList( );
+			for ( Iterator iterator = inputHandle.paramBindingsIterator( ); iterator.hasNext( ); )
 			{
-				ReportItemHandle inputHandle = (ReportItemHandle) inputList.get( 0 );
-				List list = new ArrayList( );
-				for ( Iterator iterator = inputHandle.paramBindingsIterator( ); iterator.hasNext( ); )
-				{
-					ParamBindingHandle handle = (ParamBindingHandle) iterator.next( );
-					list.add( handle );
-				}
-				bindingParams = new ParamBindingHandle[list.size( )];
-				list.toArray( bindingParams );
+				ParamBindingHandle handle = (ParamBindingHandle) iterator.next( );
+				list.add( handle );
 			}
-			( (FilterHandleProvider) provider ).setBindingParams( bindingParams );
+			bindingParams = new ParamBindingHandle[list.size( )];
+			list.toArray( bindingParams );
 		}
+		provider.setBindingParams( bindingParams );
 	}
 
 	private class TableLabelProvider extends LabelProvider implements

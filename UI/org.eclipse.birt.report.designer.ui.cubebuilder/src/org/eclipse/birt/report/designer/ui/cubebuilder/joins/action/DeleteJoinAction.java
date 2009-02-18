@@ -21,30 +21,25 @@ import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
-import org.eclipse.gef.ui.actions.DeleteAction;
 
 public class DeleteJoinAction extends AbstractViewAction
 {
 
 	JoinConditionEditPart editPart = null;
-	DeleteAction action = null;
 
 	/**
-	 * @param root:
-	 *            The Query model object
-	 * @param editPart:
-	 *            The edit part currently selected
-	 * @param selectedObject:
-	 *            The selected Object
+	 * @param root
+	 *            : The Query model object
+	 * @param editPart
+	 *            : The edit part currently selected
+	 * @param selectedObject
+	 *            : The selected Object
 	 */
 	public DeleteJoinAction( JoinConditionEditPart editPart,
 			Object selectedObject )
 	{
 		super( selectedObject );
-		if ( editPart instanceof JoinConditionEditPart )
-		{
-			this.editPart = editPart;
-		}
+		this.editPart = editPart;
 	}
 
 	public void run( )
@@ -69,7 +64,7 @@ public class DeleteJoinAction extends AbstractViewAction
 						condition.removeJoinCondition( (DimensionJoinCondition) joinCondition.getStructure( ) );
 					}
 				}
-			
+
 			}
 			editPart.setFocus( false );
 			editPart.setSelected( 0 );

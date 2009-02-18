@@ -186,62 +186,62 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		if ( input != null )
 		{
 			expressionEditor.setExpressionProvider( new CubeExpressionProvider( input ) );
-		}
-		if ( input.getLevelType( ) == null )
-		{
-			try
+			if ( input.getLevelType( ) == null )
 			{
-				input.setLevelType( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC );
+				try
+				{
+					input.setLevelType( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
 			}
-			catch ( SemanticException e )
+
+			refreshDynamicViewer( );
+			dataset = OlapUtil.getHierarchyDataset( (TabularHierarchyHandle) input.getContainer( ) );
+			if ( dataset != null )
+				attributeItems = OlapUtil.getDataFieldNames( dataset );
+			resetEditorItems( );
+
+			if ( input.getName( ) != null )
+				nameText.setText( input.getName( ) );
+			dynamicDataTypeCombo.setItems( getDataTypeDisplayNames( ) );
+			dynamicDataTypeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) );
+
+			fieldCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
+			if ( input.getColumnName( ) != null )
+				fieldCombo.setText( input.getColumnName( ) );
+			else
+				fieldCombo.select( 0 );
+
+			displayKeyCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
+			displayKeyCombo.add( Messages.getString( "LevelPropertyDialog.None" ), 0 ); //$NON-NLS-1$
+
+			if ( input.getDisplayColumnName( ) != null )
 			{
-				ExceptionHandler.handle( e );
+				displayKeyCombo.setText( input.getDisplayColumnName( ) );
 			}
-		}
+			else if ( displayKeyCombo.getItemCount( ) > 0 )
+				displayKeyCombo.select( 0 );
 
-		refreshDynamicViewer( );
-		dataset = OlapUtil.getHierarchyDataset( (TabularHierarchyHandle) input.getContainer( ) );
-		if ( dataset != null )
-			attributeItems = OlapUtil.getDataFieldNames( dataset );
-		resetEditorItems( );
+			staticDataTypeCombo.setItems( getDataTypeDisplayNames( ) );
+			staticNameText.setText( input.getName( ) );
+			staticDataTypeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) );
+			refreshStaticViewer( );
+			// dynamicViewer.setInput( dynamicAttributes );
 
-		if ( input.getName( ) != null )
-			nameText.setText( input.getName( ) );
-		dynamicDataTypeCombo.setItems( getDataTypeDisplayNames( ) );
-		dynamicDataTypeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) );
-
-		fieldCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
-		if ( input.getColumnName( ) != null )
-			fieldCombo.setText( input.getColumnName( ) );
-		else
-			fieldCombo.select( 0 );
-
-		displayKeyCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
-		displayKeyCombo.add( Messages.getString( "LevelPropertyDialog.None" ), 0 ); //$NON-NLS-1$
-
-		if ( input.getDisplayColumnName( ) != null )
-		{
-			displayKeyCombo.setText( input.getDisplayColumnName( ) );
-		}
-		else if ( displayKeyCombo.getItemCount( ) > 0 )
-			displayKeyCombo.select( 0 );
-
-		staticDataTypeCombo.setItems( getDataTypeDisplayNames( ) );
-		staticNameText.setText( input.getName( ) );
-		staticDataTypeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) );
-		refreshStaticViewer( );
-		// dynamicViewer.setInput( dynamicAttributes );
-
-		if ( input.getLevelType( )
-				.equals( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC ) )
-		{
-			dynamicButton.setSelection( true );
-			updateButtonStatus( dynamicButton );
-		}
-		else
-		{
-			staticButton.setSelection( true );
-			updateButtonStatus( staticButton );
+			if ( input.getLevelType( )
+					.equals( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC ) )
+			{
+				dynamicButton.setSelection( true );
+				updateButtonStatus( dynamicButton );
+			}
+			else
+			{
+				staticButton.setSelection( true );
+				updateButtonStatus( staticButton );
+			}
 		}
 	}
 
@@ -573,13 +573,13 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				resetEditorItems( handle.getName( ) );
 				for ( int i = 0; i < editor.getItems( ).length; i++ )
 					if ( handle.getName( ).equals( editor.getItems( )[i] ) )
-						return new Integer( i );
+						return Integer.valueOf( i );
 			}
 			if ( element instanceof String )
 			{
 				resetEditorItems( );
 			}
-			return new Integer( -1 );
+			return Integer.valueOf( -1 );
 		}
 
 		public void modify( Object element, String property, Object value )

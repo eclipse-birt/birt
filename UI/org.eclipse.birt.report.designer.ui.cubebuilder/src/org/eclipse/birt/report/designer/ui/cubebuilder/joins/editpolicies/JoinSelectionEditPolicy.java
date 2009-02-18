@@ -27,8 +27,7 @@ public class JoinSelectionEditPolicy extends SelectionEditPolicy
 	{
 		JoinConditionEditPart part = (JoinConditionEditPart) this.getHost( );
 		( (ColumnConnection) this.getHostFigure( ) ).setLineWidth( 1 );
-		if ( part.getSource( ) instanceof EditPart
-				&& part.getTarget( ) instanceof ColumnEditPart )
+		if ( part.getTarget( ) instanceof ColumnEditPart )
 		{
 			part.getSource( ).setSelected( EditPart.SELECTED_NONE );
 			part.getTarget( ).setSelected( EditPart.SELECTED_NONE );
@@ -44,8 +43,7 @@ public class JoinSelectionEditPolicy extends SelectionEditPolicy
 	{
 		JoinConditionEditPart part = (JoinConditionEditPart) this.getHost( );
 		( (ColumnConnection) this.getHostFigure( ) ).setLineWidth( 2 );
-		if ( part.getSource( ) instanceof EditPart
-				&& part.getTarget( ) instanceof ColumnEditPart )
+		if ( part.getTarget( ) instanceof ColumnEditPart )
 		{
 			part.getSource( ).setSelected( EditPart.SELECTED );
 			part.getTarget( ).setSelected( EditPart.SELECTED );

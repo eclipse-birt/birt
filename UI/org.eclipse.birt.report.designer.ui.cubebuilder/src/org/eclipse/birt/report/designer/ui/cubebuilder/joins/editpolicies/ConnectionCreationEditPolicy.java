@@ -41,7 +41,9 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCompleteCommand(org.eclipse.gef.requests.CreateConnectionRequest)
+	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
+	 * getConnectionCompleteCommand
+	 * (org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
 	protected org.eclipse.gef.commands.Command getConnectionCompleteCommand(
 			CreateConnectionRequest request )
@@ -49,9 +51,10 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 
 		ConnectionCommand command = (ConnectionCommand) request.getStartCommand( );
 
+		if ( command == null )
+			return null;
 		EditPart sourcePart = command.getSource( );
-		if ( command == null
-				|| !( getHost( ) instanceof ColumnEditPart )
+		if ( !( getHost( ) instanceof ColumnEditPart )
 				|| getHost( ) == sourcePart
 				|| getHost( ).getParent( ) == sourcePart.getParent( ) )
 		{
@@ -73,7 +76,9 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.CreateConnectionRequest)
+	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
+	 * getConnectionCreateCommand
+	 * (org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
 	protected org.eclipse.gef.commands.Command getConnectionCreateCommand(
 			CreateConnectionRequest request )
@@ -88,7 +93,8 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectTargetCommand(org.eclipse.gef.requests.ReconnectRequest)
+	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
+	 * getReconnectTargetCommand(org.eclipse.gef.requests.ReconnectRequest)
 	 */
 	protected Command getReconnectTargetCommand( ReconnectRequest request )
 	{
@@ -98,7 +104,8 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectSourceCommand(org.eclipse.gef.requests.ReconnectRequest)
+	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
+	 * getReconnectSourceCommand(org.eclipse.gef.requests.ReconnectRequest)
 	 */
 	protected Command getReconnectSourceCommand( ReconnectRequest request )
 	{
@@ -119,7 +126,9 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#eraseCreationFeedback(org.eclipse.gef.requests.CreateConnectionRequest)
+	 * @see
+	 * org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#eraseCreationFeedback
+	 * (org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
 	protected void eraseCreationFeedback( CreateConnectionRequest request )
 	{
@@ -130,7 +139,8 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.EditPolicy#eraseSourceFeedback(org.eclipse.gef.Request)
+	 * @see
+	 * org.eclipse.gef.EditPolicy#eraseSourceFeedback(org.eclipse.gef.Request)
 	 */
 	public void eraseSourceFeedback( Request request )
 	{
@@ -141,7 +151,8 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#eraseTargetConnectionFeedback(org.eclipse.gef.requests.DropRequest)
+	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
+	 * eraseTargetConnectionFeedback(org.eclipse.gef.requests.DropRequest)
 	 */
 	protected void eraseTargetConnectionFeedback( DropRequest request )
 	{
@@ -152,7 +163,8 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.EditPolicy#eraseTargetFeedback(org.eclipse.gef.Request)
+	 * @see
+	 * org.eclipse.gef.EditPolicy#eraseTargetFeedback(org.eclipse.gef.Request)
 	 */
 	public void eraseTargetFeedback( Request request )
 	{
@@ -174,7 +186,9 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getFeedbackHelper(org.eclipse.gef.requests.CreateConnectionRequest)
+	 * @see
+	 * org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getFeedbackHelper
+	 * (org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
 	protected FeedbackHelper getFeedbackHelper( CreateConnectionRequest request )
 	{
@@ -185,7 +199,9 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getSourceConnectionAnchor(org.eclipse.gef.requests.CreateConnectionRequest)
+	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
+	 * getSourceConnectionAnchor
+	 * (org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
 	protected ConnectionAnchor getSourceConnectionAnchor(
 			CreateConnectionRequest request )
@@ -197,7 +213,9 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getTargetConnectionAnchor(org.eclipse.gef.requests.CreateConnectionRequest)
+	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
+	 * getTargetConnectionAnchor
+	 * (org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
 	protected ConnectionAnchor getTargetConnectionAnchor(
 			CreateConnectionRequest request )
@@ -209,7 +227,8 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.EditPolicy#getTargetEditPart(org.eclipse.gef.Request)
+	 * @see
+	 * org.eclipse.gef.EditPolicy#getTargetEditPart(org.eclipse.gef.Request)
 	 */
 	public EditPart getTargetEditPart( Request request )
 	{
@@ -220,7 +239,9 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#showCreationFeedback(org.eclipse.gef.requests.CreateConnectionRequest)
+	 * @see
+	 * org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#showCreationFeedback
+	 * (org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
 	protected void showCreationFeedback( CreateConnectionRequest request )
 	{
@@ -231,7 +252,8 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.EditPolicy#showSourceFeedback(org.eclipse.gef.Request)
+	 * @see
+	 * org.eclipse.gef.EditPolicy#showSourceFeedback(org.eclipse.gef.Request)
 	 */
 	public void showSourceFeedback( Request request )
 	{
@@ -242,7 +264,8 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#showTargetConnectionFeedback(org.eclipse.gef.requests.DropRequest)
+	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
+	 * showTargetConnectionFeedback(org.eclipse.gef.requests.DropRequest)
 	 */
 	protected void showTargetConnectionFeedback( DropRequest request )
 	{
@@ -253,7 +276,8 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.EditPolicy#showTargetFeedback(org.eclipse.gef.Request)
+	 * @see
+	 * org.eclipse.gef.EditPolicy#showTargetFeedback(org.eclipse.gef.Request)
 	 */
 	public void showTargetFeedback( Request request )
 	{

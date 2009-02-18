@@ -163,17 +163,6 @@ public class CubeGroupContent extends Composite implements Listener
 		createContent( );
 	}
 
-	private CubeBuilder builder;
-
-	public CubeGroupContent( CubeBuilder builder, Composite parent, int style )
-	{
-		super( parent, style );
-		this.builder = builder;
-		GridLayout layout = new GridLayout( 4, false );
-		layout.marginTop = 0;
-		this.setLayout( layout );
-		createContent( );
-	}
 
 	public void dispose( )
 	{

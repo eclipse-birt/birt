@@ -39,7 +39,7 @@ public class GroupsPage extends AbstractDescriptionPropertyPage
 	{
 		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_GROUPS_PAGE );
 		
-		cubeGroup = new CubeGroupContent( builder, parent, SWT.NONE );
+		cubeGroup = new CubeGroupContent( parent, SWT.NONE );
 		return cubeGroup;
 	}
 
