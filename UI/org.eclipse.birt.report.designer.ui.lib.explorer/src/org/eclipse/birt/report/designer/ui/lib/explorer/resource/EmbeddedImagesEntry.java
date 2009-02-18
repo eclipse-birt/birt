@@ -37,12 +37,15 @@ public class EmbeddedImagesEntry extends ReportElementEntry
 	@Override
 	public boolean equals( Object object )
 	{
-		if ( object == null )
-			return false;
 		if ( !( object instanceof EmbeddedImagesEntry ) )
+		{
 			return false;
+		}
+
 		if ( object == this )
+		{
 			return true;
+		}
 		else
 		{
 			EmbeddedImagesEntry temp = (EmbeddedImagesEntry) object;

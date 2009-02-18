@@ -87,6 +87,16 @@ public class ReportElementEntry extends ReportResourceEntry
 	}
 
 	@Override
+	public int hashCode( )
+	{
+		if ( element == null )
+		{
+			return 0;
+		}
+		return element.getClass( ).hashCode( );
+	}
+
+	@Override
 	public boolean equals( Object object )
 	{
 		if ( !( object instanceof ReportElementEntry ) )

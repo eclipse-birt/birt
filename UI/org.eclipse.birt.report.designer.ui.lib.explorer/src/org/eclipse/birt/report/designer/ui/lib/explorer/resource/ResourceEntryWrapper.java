@@ -11,11 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer.resource;
 
-import java.io.IOException;
 import java.net.URL;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
-import org.eclipse.birt.report.designer.ui.lib.explorer.action.ResourceAction;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -101,14 +99,18 @@ public class ResourceEntryWrapper implements ResourceEntry
 		return proxy.getAdapter( adapter );
 	}
 
+	@Override
 	public boolean equals( Object object )
 	{
-		if ( object == null )
+		if ( !( object instanceof ResourceEntryWrapper ) )
+		{
 			return false;
-		if ( !( object instanceof ResourceEntryWrapper || object instanceof String) )
-			return false;
+		}
+
 		if ( object == this )
+		{
 			return true;
+		}
 		else
 		{
 			if ( object instanceof ResourceEntryWrapper )
@@ -117,25 +119,11 @@ public class ResourceEntryWrapper implements ResourceEntry
 				if ( temp.proxy.equals( this.proxy ) && temp.type == this.type )
 					return true;
 			}
-			else if ( object instanceof String )
-			{
-				try
-				{
-					if ( object.equals( ResourceAction.convertToFile( getURL( ) )
-							.getAbsolutePath( ) ) )
-					{
-						return true;
-					}
-				}
-				catch ( IOException e )
-				{
-					return false;
-				}
-			}
 		}
 		return false;
 	}
 
+	@Override
 	public int hashCode( )
 	{
 		return proxy.hashCode( ) * 7 + type;

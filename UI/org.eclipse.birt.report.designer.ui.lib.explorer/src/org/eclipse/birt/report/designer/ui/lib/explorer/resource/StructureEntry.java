@@ -44,12 +44,15 @@ public class StructureEntry extends ReportElementEntry
 	@Override
 	public boolean equals( Object object )
 	{
-		if ( object == null )
-			return false;
 		if ( !( object instanceof StructureEntry ) )
+		{
 			return false;
+		}
+
 		if ( object == this )
+		{
 			return true;
+		}
 		else
 		{
 			StructureEntry temp = (StructureEntry) object;

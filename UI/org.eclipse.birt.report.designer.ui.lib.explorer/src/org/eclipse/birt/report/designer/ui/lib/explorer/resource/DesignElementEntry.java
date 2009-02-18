@@ -37,12 +37,15 @@ public class DesignElementEntry extends ReportElementEntry
 	@Override
 	public boolean equals( Object object )
 	{
-		if ( object == null )
-			return false;
 		if ( !( object instanceof DesignElementEntry ) )
+		{
 			return false;
+		}
+
 		if ( object == this )
+		{
 			return true;
+		}
 		else
 		{
 			DesignElementEntry temp = (DesignElementEntry) object;

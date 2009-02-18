@@ -37,12 +37,15 @@ public class SlotEntry extends ReportElementEntry
 	@Override
 	public boolean equals( Object object )
 	{
-		if ( object == null )
-			return false;
 		if ( !( object instanceof SlotEntry ) )
+		{
 			return false;
+		}
+
 		if ( object == this )
+		{
 			return true;
+		}
 		else
 		{
 			SlotEntry temp = (SlotEntry) object;

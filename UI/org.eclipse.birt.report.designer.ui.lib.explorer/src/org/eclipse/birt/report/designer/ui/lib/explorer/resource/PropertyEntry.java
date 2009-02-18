@@ -29,12 +29,15 @@ public class PropertyEntry extends ReportElementEntry
 	@Override
 	public boolean equals( Object object )
 	{
-		if ( object == null )
-			return false;
 		if ( !( object instanceof PropertyEntry ) )
+		{
 			return false;
+		}
+
 		if ( object == this )
+		{
 			return true;
+		}
 		else
 		{
 			PropertyEntry temp = (PropertyEntry) object;

@@ -37,12 +37,15 @@ public class LibraryNodeEntry extends ReportElementEntry
 	@Override
 	public boolean equals( Object object )
 	{
-		if ( object == null )
-			return false;
 		if ( !( object instanceof LibraryNodeEntry ) )
+		{
 			return false;
+		}
+
 		if ( object == this )
+		{
 			return true;
+		}
 		else
 		{
 			LibraryNodeEntry temp = (LibraryNodeEntry) object;
