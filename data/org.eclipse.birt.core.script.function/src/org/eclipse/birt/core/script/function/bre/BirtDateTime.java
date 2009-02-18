@@ -218,7 +218,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static int quarter( Date d )
 	{
 		if ( d == null )
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 
 		int month = getCalendar( d ).get( Calendar.MONTH );
 		switch ( month )
@@ -278,7 +278,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static int month( Date d )
 	{
 		if ( d == null )
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 
 		return getCalendar( d ).get( Calendar.MONTH ) + 1;
 	}
@@ -297,7 +297,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	{
 		// TODO: finish me.
 		if ( d == null )
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 
 		Calendar c = getCalendar( d );
 		int month = c.get( Calendar.MONTH );
@@ -348,7 +348,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static int week( Date d )
 	{
 		if ( d == null )
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 
 		return getCalendar( d ).get( Calendar.WEEK_OF_YEAR );
 	}
@@ -385,7 +385,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static int day( Date d )
 	{
 		if ( d == null )
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 
 		return getCalendar( d ).get( Calendar.DAY_OF_MONTH );
 	}
@@ -425,7 +425,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static String weekDay( Date d )
 	{
 		if ( d == null )
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 
 		return String.valueOf(getCalendar( d ).get( Calendar.DAY_OF_WEEK ));
 	}
@@ -444,7 +444,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static String weekDay( Date d, int option )
 	{
 		if ( d == null )
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 		switch ( option )
 		{
 			case 1 :
@@ -560,7 +560,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	{
 		if ( d1 == null || d2 == null )
 		{
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 		}
 		int startYear = year( d1 );
 		int endYear = year( d2 );
@@ -602,7 +602,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	{
 		if ( d1 == null || d2 == null )
 		{
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 		}
 
 		int startMonth = year( d1 ) * 12 + month( d1 );
@@ -645,7 +645,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	{
 		if ( d1 == null || d2 == null )
 		{
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 		}
 
 		int startQuter = year( d1 ) * 4 + quarter( d1 );
@@ -915,7 +915,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	{
 		if ( d1 == null || d2 == null )
 		{
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 		}
 		long diff = d2.getTime( ) - d1.getTime( );
 

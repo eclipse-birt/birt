@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.script.function.bre;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.function.i18n.Messages;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 
@@ -25,16 +26,32 @@ abstract class Function_temp implements IScriptFunctionExecutor
 	
 	public Object execute( Object[] args, IScriptFunctionContext context  )
 	{
-		if ( args == null || ( isFixed? args.length != length: args.length > length) )
-			throw new IllegalArgumentException( "The number of arguement is incorrect." );
-		
+		if ( args == null )
+			throw new IllegalArgumentException( Messages.getString( "error.arguement.cannot.empty" ) );
+		if ( isFixed )
+		{
+			if ( args.length != length )
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.incorrect.number.function.fixedArgument",
+						new Object[]{
+								length, args.length
+						} ) );
+		}
+		else
+		{
+			if ( args.length > length )
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.incorrect.number.function.variableArgument",
+						new Object[]{
+								length, args.length
+						} ) );
+		}
+
 		try
 		{
 			return getValue( args );
 		}
 		catch ( BirtException e )
 		{
-			throw new IllegalArgumentException( "The type of arguement is incorrect." );
+			throw new IllegalArgumentException( Messages.getString( "error.incorrect.type.function.argument" ) );
 		}
 	}
 	protected abstract Object getValue( Object[] args ) throws BirtException;

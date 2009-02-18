@@ -56,6 +56,7 @@ public class BirtComp implements IScriptFunctionExecutor
 	private static final String MATCH = "match";
 	private static final String COMPARE_STRING = "compareString";
 	private static final String PLUGIN_ID = "org.eclipse.birt.core";
+	private static final String PACKAGE_ID = "org.eclipse.birt.core.script.function.bre";
 
 	private IScriptFunctionExecutor executor;
 	/**
@@ -92,7 +93,7 @@ public class BirtComp implements IScriptFunctionExecutor
 		else if( COMPARE_STRING.equals( functionName ))
 			this.executor = new Function_Compare( Function_Compare.MODE_COMPARE_STRING );
 		else
-			throw new BirtException( "org.eclipse.birt.core.script.function.bre",
+			throw new BirtException( PACKAGE_ID,
 					null,
 					Messages.getString( "invalid.function.name" )
 							+ "BirtComp." + functionName );	}
@@ -264,7 +265,7 @@ public class BirtComp implements IScriptFunctionExecutor
 	{
 		if ( obj2 == null )
 		{
-			throw new java.lang.IllegalArgumentException( "pattern value can not be null!" );
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtComp.match.invalid.pattern" ) );
 		}
 		if ( obj1 == null )
 		{
@@ -332,7 +333,7 @@ public class BirtComp implements IScriptFunctionExecutor
 	{
 		if ( obj2 == null )
 		{
-			throw new java.lang.IllegalArgumentException( "pattern value can not be null!" );
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtComp.like.invalid.pattern" ) );
 		}
 		if ( obj1 == null )
 		{

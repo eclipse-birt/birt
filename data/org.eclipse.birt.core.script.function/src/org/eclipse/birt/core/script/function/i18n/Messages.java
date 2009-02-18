@@ -13,6 +13,7 @@
 
 package org.eclipse.birt.core.script.function.i18n;
 
+import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -42,4 +43,10 @@ public class Messages
             return '!' + key + '!';
         }
     }
+    
+    public static String getFormattedString( String key, Object[] arguments )
+    {
+        return MessageFormat.format( getString( key ), arguments );
+    }
+
 }

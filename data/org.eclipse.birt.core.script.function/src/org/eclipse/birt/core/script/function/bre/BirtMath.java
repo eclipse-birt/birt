@@ -26,6 +26,8 @@ class BirtMath implements IScriptFunctionExecutor
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private static final String PACKAGE_ID = "org.eclipse.birt.core.script.function.bre";
+	
 	private IScriptFunctionExecutor executor;
 	BirtMath( String functionName ) throws BirtException
 	{
@@ -51,10 +53,11 @@ class BirtMath implements IScriptFunctionExecutor
 		else if( "safeDivide".equals( functionName ))
 			this.executor = new Function_SafeDivide( );
 		else
-			throw new BirtException( "org.eclipse.birt.core.script.function.bre",
+			throw new BirtException( PACKAGE_ID,
 					null,
 					Messages.getString( "invalid.function.name" )
-							+ "BirtMath." + functionName );	}
+							+ "BirtMath." + functionName );
+	}
 	
 	private class Function_Add extends Function_temp
 	{
@@ -373,7 +376,10 @@ class BirtMath implements IScriptFunctionExecutor
 			return 0;
 		
 		if( n * significance < 0 )
-			throw new IllegalArgumentException("The given significance cannot be applied to the number");
+			throw new IllegalArgumentException( Messages.getFormattedString( "error.BirtMath.ceiling.significance.notApplied",
+					new Object[]{
+							significance, n
+					} ) );
 		
 		if( Math.abs( n ) < Math.abs( significance ) )
 			return significance;
@@ -411,8 +417,8 @@ class BirtMath implements IScriptFunctionExecutor
 	 */
 	private static double mod( double n, double div )
 	{
-		if( div == 0 )
-			throw new IllegalArgumentException("The divisor cannot be 0"); 
+		if ( div == 0 )
+			throw new IllegalArgumentException( Messages.getString( "error.BirtMath.mod.invalid.divisor" ) );
 		
 		return n - div*Math.floor((n/div));
 	}

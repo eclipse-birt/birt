@@ -65,6 +65,7 @@ class BirtStr implements IScriptFunctionExecutor
 
 	private class Function_Left implements IScriptFunctionExecutor
 	{
+		private static final int maxArgumentNum = 2;
 
 		/**
 		 * 
@@ -83,7 +84,10 @@ class BirtStr implements IScriptFunctionExecutor
 		private String left( String str, int n )
 		{
 			if ( n < 0 )
-				throw new IllegalArgumentException( "The value of argument n is invalid:" + n );
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.BirtStr.left.invalidArgument",
+						new Object[]{
+							n
+						} ) );
 			if ( str == null )
 				return null;
 			if ( n == 0 )
@@ -107,8 +111,14 @@ class BirtStr implements IScriptFunctionExecutor
 
 		public Object execute( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
-			if ( args == null || args.length > 2 )
-				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+			if ( args == null )
+				throw new IllegalArgumentException( Messages.getString( "error.arguement.cannot.empty" ) );
+
+			if ( args.length > maxArgumentNum )
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.incorrect.number.function.variableArgument",
+						new Object[]{
+								maxArgumentNum, args.length
+						} ) );
 
 			if ( args.length == 1 )
 			{
@@ -124,6 +134,7 @@ class BirtStr implements IScriptFunctionExecutor
 
 	private class Function_Right implements IScriptFunctionExecutor
 	{
+		private static final int maxArgumentNum = 2;
 
 		/**
 		 * 
@@ -142,7 +153,10 @@ class BirtStr implements IScriptFunctionExecutor
 		public String right( String str, int n )
 		{
 			if ( n < 0 )
-				throw new IllegalArgumentException( "The value of argument n is invalid:" + n );
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.BirtStr.right.invalidArgument",
+						new Object[]{
+							n
+						} ) );
 			if ( str == null )
 				return null;
 			if ( n == 0 )
@@ -166,8 +180,14 @@ class BirtStr implements IScriptFunctionExecutor
 
 		public Object execute( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
-			if ( args == null || args.length > 2 )
-				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+			if ( args == null )
+				throw new IllegalArgumentException( Messages.getString( "error.arguement.cannot.empty" ) );
+
+			if ( args.length > maxArgumentNum )
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.incorrect.number.function.variableArgument",
+						new Object[]{
+								maxArgumentNum, args.length
+						} ) );
 
 			if ( args.length == 1 )
 			{
@@ -192,7 +212,7 @@ class BirtStr implements IScriptFunctionExecutor
 		public Object execute( Object[] args ,IScriptFunctionContext context ) throws BirtException
 		{
 			if ( args == null )
-				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+				throw new IllegalArgumentException( Messages.getString( "error.arguement.cannot.empty" ) );
 
 			String result = "";
 
@@ -207,6 +227,7 @@ class BirtStr implements IScriptFunctionExecutor
 
 	private class Function_ToUpper implements IScriptFunctionExecutor
 	{
+		private static final int fixedArgumentNum = 1;
 
 		/**
 		 * 
@@ -215,8 +236,13 @@ class BirtStr implements IScriptFunctionExecutor
 
 		public Object execute( Object[] args ,IScriptFunctionContext context  ) throws BirtException
 		{
-			if ( args == null || args.length != 1 )
-				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+			if ( args == null )
+				throw new IllegalArgumentException( Messages.getString( "error.arguement.cannot.empty" ) );
+			if ( args.length != fixedArgumentNum )
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.incorrect.number.function.fixedArgument",
+						new Object[]{
+								fixedArgumentNum, args.length
+						} ) );
 
 			return args[0] == null ? null : ( (String) args[0] ).toUpperCase( );
 		}
@@ -225,6 +251,8 @@ class BirtStr implements IScriptFunctionExecutor
 	private class Function_ToLower implements IScriptFunctionExecutor
 	{
 
+		private static final int fixedArgumentNum = 1;
+		
 		/**
 		 * 
 		 */
@@ -232,8 +260,13 @@ class BirtStr implements IScriptFunctionExecutor
 
 		public Object execute( Object[] args,IScriptFunctionContext context  ) throws BirtException
 		{
-			if ( args == null || args.length != 1 )
-				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+			if ( args == null )
+				throw new IllegalArgumentException( Messages.getString( "error.arguement.cannot.empty" ) );
+			if ( args.length != fixedArgumentNum )
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.incorrect.number.function.fixedArgument",
+						new Object[]{
+								fixedArgumentNum, args.length
+						} ) );
 
 			return args[0] == null ? null : ( (String) args[0] ).toLowerCase( );
 		}
@@ -241,6 +274,8 @@ class BirtStr implements IScriptFunctionExecutor
 
 	private class Function_Trim implements IScriptFunctionExecutor
 	{
+
+		private static final int fixedArgumentNum = 1;
 
 		/**
 		 * 
@@ -267,8 +302,13 @@ class BirtStr implements IScriptFunctionExecutor
 
 		public Object execute( Object[] args , IScriptFunctionContext context ) throws BirtException
 		{
-			if ( args == null || args.length != 1 )
-				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+			if ( args == null )
+				throw new IllegalArgumentException( Messages.getString( "error.arguement.cannot.empty" ) );
+			if ( args.length != fixedArgumentNum )
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.incorrect.number.function.fixedArgument",
+						new Object[]{
+								fixedArgumentNum, args.length
+						} ) );
 
 			return trim( args[0] == null ? null : (String) args[0] );
 		}
@@ -276,6 +316,8 @@ class BirtStr implements IScriptFunctionExecutor
 
 	private class Function_TrimLeft implements IScriptFunctionExecutor
 	{
+
+		private static final int fixedArgumentNum = 1;
 
 		/**
 		 * 
@@ -307,8 +349,13 @@ class BirtStr implements IScriptFunctionExecutor
 
 		public Object execute( Object[] args,IScriptFunctionContext context  ) throws BirtException
 		{
-			if ( args == null || args.length != 1 )
-				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+			if ( args == null )
+				throw new IllegalArgumentException( Messages.getString( "error.arguement.cannot.empty" ) );
+			if ( args.length != fixedArgumentNum )
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.incorrect.number.function.fixedArgument",
+						new Object[]{
+								fixedArgumentNum, args.length
+						} ) );
 
 			return trimLeft( args[0] == null ? null : (String) args[0] );
 		}
@@ -316,6 +363,8 @@ class BirtStr implements IScriptFunctionExecutor
 
 	private class Function_TrimRight implements IScriptFunctionExecutor
 	{
+
+		private static final int fixedArgumentNum = 1;
 
 		/**
 		 * 
@@ -348,8 +397,13 @@ class BirtStr implements IScriptFunctionExecutor
 
 		public Object execute( Object[] args,IScriptFunctionContext context  ) throws BirtException
 		{
-			if ( args == null || args.length != 1 )
-				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+			if ( args == null )
+				throw new IllegalArgumentException( Messages.getString( "error.arguement.cannot.empty" ) );
+			if ( args.length != fixedArgumentNum )
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.incorrect.number.function.fixedArgument",
+						new Object[]{
+								fixedArgumentNum, args.length
+						} ) );
 
 			return trimRight( args[0] == null ? null : (String) args[0] );
 		}
@@ -363,6 +417,10 @@ class BirtStr implements IScriptFunctionExecutor
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
+
+		private static final int minArgumentNum = 2;
+
+		private static final int maxArgumentNum = 3;
 
 		/**
 		 * Searches for find_text in str and returns the index of first
@@ -378,7 +436,10 @@ class BirtStr implements IScriptFunctionExecutor
 		private int indexOf( String find_text, String str, int start )
 		{
 			if ( start < 0 )
-				throw new IllegalArgumentException( "The start value is invalid:" + start );
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.BirtStr.indexOf.invalidArgument",
+						new Object[]{
+							start
+						} ) );
 			if ( find_text == null
 					|| str == null || str.indexOf( find_text ) < 0 )
 				return -1;
@@ -405,8 +466,13 @@ class BirtStr implements IScriptFunctionExecutor
 
 		public Object execute( Object[] args,IScriptFunctionContext context ) throws BirtException
 		{
-			if ( args == null || args.length > 3 || args.length < 2 )
-				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+			if ( args == null )
+				throw new IllegalArgumentException( Messages.getString( "error.arguement.cannot.empty" ) );
+			if ( args.length > 3 || args.length < 2 )
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.argument.number.outofValidRange",
+						new Object[]{
+								minArgumentNum, maxArgumentNum, args.length
+						} ) );
 
 			if ( args.length == 3 )
 			{
@@ -431,6 +497,10 @@ class BirtStr implements IScriptFunctionExecutor
 		 */
 		private static final long serialVersionUID = 1L;
 
+		private static final int minArgumentNum = 2;
+
+		private static final int maxArgumentNum = 3;
+
 		/**
 		 * Similar to indexOf function, except that: (1) string comparison is
 		 * case-insensitive (2) pattern string can contain wildcard characters:
@@ -445,8 +515,10 @@ class BirtStr implements IScriptFunctionExecutor
 		private int search( String pattern, String str, int start )
 		{
 			if ( start < 0 )
-				throw new IllegalArgumentException( "The start value is invalid:"
-						+ start );
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.BirtStr.indexOf.invalidArgument",
+						new Object[]{
+						start
+					} ) );
 			if ( pattern == null || str == null )
 				return -1;
 			else
@@ -544,8 +616,13 @@ class BirtStr implements IScriptFunctionExecutor
 
 		public Object execute( Object[] args,IScriptFunctionContext context ) throws BirtException
 		{
-			if ( args == null || args.length > 3 || args.length < 2 )
-				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+			if ( args == null )
+				throw new IllegalArgumentException( Messages.getString( "error.arguement.cannot.empty" ) );
+			if ( args.length > 3 || args.length < 2 )
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.argument.number.outofValidRange",
+						new Object[]{
+								minArgumentNum, maxArgumentNum, args.length
+						} ) );
 
 			if ( args.length == 3 )
 			{
@@ -569,6 +646,8 @@ class BirtStr implements IScriptFunctionExecutor
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
+		
+		private static final int fixedArgumentNum = 1;
 
 		/**
 		 * Returns the number of characters in string.
@@ -587,8 +666,13 @@ class BirtStr implements IScriptFunctionExecutor
 		public Object execute( Object[] args, IScriptFunctionContext context )
 				throws BirtException
 		{
-			if ( args == null || args.length != 1 )
-				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+			if ( args == null )
+				throw new IllegalArgumentException( Messages.getString( "error.arguement.cannot.empty" ) );
+			if ( args.length != fixedArgumentNum )
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.incorrect.number.function.fixedArgument",
+						new Object[]{
+								fixedArgumentNum, args.length
+						} ) );
 
 			return new Integer( charLength( args[0] == null ? null
 					: (String) args[0] ) );
