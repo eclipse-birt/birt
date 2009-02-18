@@ -130,7 +130,9 @@ public class ReportPropertySheetPage extends Page implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite
+	 * )
 	 */
 	public void createControl( Composite parent )
 	{
@@ -357,7 +359,7 @@ public class ReportPropertySheetPage extends Page implements
 				if ( parent.getItem( i ) == item )
 				{
 					MementoElement memento = new MementoElement( item.getText( ),
-							new Integer( i ),
+							Integer.valueOf( i ),
 							MementoElement.Type_Element );
 					if ( tempMemento != null )
 						memento.addChild( tempMemento );
@@ -368,7 +370,7 @@ public class ReportPropertySheetPage extends Page implements
 			}
 		}
 		MementoElement memento = new MementoElement( item.getText( ),
-				new Integer( 0 ),
+				Integer.valueOf( 0 ),
 				MementoElement.Type_Element );
 		if ( tempMemento != null )
 			memento.addChild( tempMemento );
@@ -655,7 +657,7 @@ public class ReportPropertySheetPage extends Page implements
 						Memento elementMemento = (Memento) viewerMemento.createChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ),
 								MementoElement.Type_Element );
 						elementMemento.getMementoElement( )
-								.setValue( new Integer( 0 ) );
+								.setValue( Integer.valueOf( 0 ) );
 					}
 				}
 				if ( memento != null && memento instanceof Memento )
@@ -677,8 +679,8 @@ public class ReportPropertySheetPage extends Page implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.IWorkbenchPart,
-	 *      org.eclipse.jface.viewers.ISelection)
+	 * @seeorg.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.
+	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void handleSelectionChanged( ISelection selection )
 	{
@@ -704,28 +706,30 @@ public class ReportPropertySheetPage extends Page implements
 
 		registerListeners( );
 
-		Object element = handle.getElements( ).get( 0 );
-		if ( element instanceof DesignElementHandle )
+		if ( handle != null && DEUtil.getInputSize( handle ) > 0 )
 		{
-			IMemento memento = viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) element ) );
-			if ( memento == null )
+			Object element = handle.getElements( ).get( 0 );
+			if ( element instanceof DesignElementHandle )
 			{
-				expandToDefaultLevel( );
-				if ( viewer.getTree( ).getItemCount( ) > 0 )
+				IMemento memento = viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) element ) );
+				if ( memento == null )
 				{
-					Memento elementMemento = (Memento) viewerMemento.createChild( PropertyMementoUtil.getElementType( (DesignElementHandle) element ),
-							MementoElement.Type_Element );
-					elementMemento.getMementoElement( )
-							.setValue( new Integer( 0 ) );
+					expandToDefaultLevel( );
+					if ( viewer.getTree( ).getItemCount( ) > 0 )
+					{
+						Memento elementMemento = (Memento) viewerMemento.createChild( PropertyMementoUtil.getElementType( (DesignElementHandle) element ),
+								MementoElement.Type_Element );
+						elementMemento.getMementoElement( )
+								.setValue( Integer.valueOf( 0 ) );
+					}
+				}
+				else if ( memento instanceof Memento )
+				{
+					expandToDefaultLevel( );
+					expandTreeFromMemento( (Memento) memento );
 				}
 			}
-			else if ( memento instanceof Memento )
-			{
-				expandToDefaultLevel( );
-				expandTreeFromMemento( (Memento) memento );
-			}
 		}
-
 	}
 
 	private void expandTreeFromMemento( Memento memento )
@@ -884,8 +888,10 @@ public class ReportPropertySheetPage extends Page implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Listener#elementChanged(org.eclipse.birt.report.model.api.DesignElementHandle,
-	 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Listener#elementChanged(org.eclipse
+	 * .birt.report.model.api.DesignElementHandle,
+	 * org.eclipse.birt.report.model.activity.NotificationEvent)
 	 */
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
@@ -903,7 +909,7 @@ public class ReportPropertySheetPage extends Page implements
 						Memento elementMemento = (Memento) viewerMemento.createChild( PropertyMementoUtil.getElementType( focus ),
 								MementoElement.Type_Element );
 						elementMemento.getMementoElement( )
-								.setValue( new Integer( 0 ) );
+								.setValue( Integer.valueOf( 0 ) );
 					}
 				}
 				if ( memento != null && memento instanceof Memento )
@@ -972,7 +978,11 @@ public class ReportPropertySheetPage extends Page implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+	 * @see
+	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
+	 * (
+	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
+	 * )
 	 */
 	public void performRequest( ReportRequest request )
 	{
@@ -992,7 +1002,7 @@ public class ReportPropertySheetPage extends Page implements
 		}
 	}
 
-	class CustomTreeViewer extends TreeViewer
+	private static class CustomTreeViewer extends TreeViewer
 	{
 
 		public CustomTreeViewer( Composite parent, int style )
