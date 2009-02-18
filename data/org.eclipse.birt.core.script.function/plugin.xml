@@ -27,7 +27,7 @@
    		<Argument isOptional="true" name="start"></Argument>
    		<DataType value="%dataType.Integer"></DataType></Function>
    	<Function
-          desc="Returns the first n characters of the string str. &#xa;If n is 0, an empty string is returned. &#xa;If n is greater than the length of str, the entire string is returned. &amp;#xa;If n is omitted, a value of 1 is used."
+          desc="Returns the first n characters of the string str. &#xa;If n is 0, an empty string is returned. &#xa;If n is greater than the length of str, the entire string is returned. &#xa;If n is omitted, a value of 1 is used."
           name="left">
    		<Argument name="source">
    			<DataType value="%dataType.String"></DataType></Argument>
@@ -35,7 +35,7 @@
    			<DataType value="%dataType.Integer"></DataType></Argument>
    		<DataType value="%dataType.String"></DataType></Function>
    	<Function
-          desc="Returns the last n characters of the string str. &#xa;If n is 0, an empty string is returned. If n is greater than the length of str, the entire string is returned. &amp;#xa;If n is omitted, a value of 1 is used."
+          desc="Returns the last n characters of the string str. &#xa;If n is 0, an empty string is returned. If n is greater than the length of str, the entire string is returned. &#xa;If n is omitted, a value of 1 is used."
           name="right">
    		<Argument name="source">
    			<DataType value="%dataType.String"></DataType></Argument>
