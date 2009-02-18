@@ -641,6 +641,11 @@ Choices.scalarParamType.ad-hoc=Ad-hoc
 Choices.bidiDirection.rtl=오른쪽에서 왼쪽
 Choices.bidiDirection.ltr=왼쪽에서 오른쪽
 
+#78. backgroundSize
+Choices.backgroundSize.auto=자동
+Choices.backgroundSize.contain=Contain
+Choices.backgroundSize.cover=Cover
+
 ###########################################################
 # Classes
 
@@ -2450,6 +2455,8 @@ Element.Style.background.image=배경 이미지
 Element.Style.background.positionX=가로 위치
 Element.Style.background.positionY=세로 위치
 Element.Style.background.repeat=배경 반복
+Element.Style.background.size.width=Background size width
+Element.Style.background.size.height=Background size height
 Element.Style.border=테두리
 Element.Style.border.bottom.color=테두리 아래쪽 색
 Element.Style.border.bottom.style=테두리 아래쪽 스타일

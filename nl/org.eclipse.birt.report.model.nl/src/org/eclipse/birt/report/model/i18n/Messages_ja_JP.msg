@@ -641,6 +641,11 @@ Choices.scalarParamType.ad-hoc=アドホック
 Choices.bidiDirection.rtl=右から左へ
 Choices.bidiDirection.ltr=左から右へ
 
+#78. backgroundSize
+Choices.backgroundSize.auto=自動
+Choices.backgroundSize.contain=Contain
+Choices.backgroundSize.cover=Cover
+
 ###########################################################
 # Classes
 
@@ -2450,6 +2455,8 @@ Element.Style.background.image=背景イメージ
 Element.Style.background.positionX=左右の位置
 Element.Style.background.positionY=上下の位置
 Element.Style.background.repeat=背景を繰り返す
+Element.Style.background.size.width=Background size width
+Element.Style.background.size.height=Background size height
 Element.Style.border=罫線
 Element.Style.border.bottom.color=一番下の罫線の色
 Element.Style.border.bottom.style=一番下の罫線の線種

@@ -641,6 +641,11 @@ Choices.scalarParamType.ad-hoc=Ad-hoc
 Choices.bidiDirection.rtl=De derecha a izquierda
 Choices.bidiDirection.ltr=De izquierda a derecha
 
+#78. backgroundSize
+Choices.backgroundSize.auto=Automática
+Choices.backgroundSize.contain=Contain
+Choices.backgroundSize.cover=Cover
+
 ###########################################################
 # Classes
 
@@ -2450,6 +2455,8 @@ Element.Style.background.image=Imagen de fondo
 Element.Style.background.positionX=Posición horizontal
 Element.Style.background.positionY=Posición vertical
 Element.Style.background.repeat=Repetición de fondo
+Element.Style.background.size.width=Background size width
+Element.Style.background.size.height=Background size height
 Element.Style.border=Borde
 Element.Style.border.bottom.color=Color inferior de borde
 Element.Style.border.bottom.style=Estilo inferior de borde

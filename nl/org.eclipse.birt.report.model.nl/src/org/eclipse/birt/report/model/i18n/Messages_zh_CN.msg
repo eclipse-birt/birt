@@ -641,6 +641,11 @@ Choices.scalarParamType.ad-hoc=特定
 Choices.bidiDirection.rtl=从右到左
 Choices.bidiDirection.ltr=从左到右
 
+#78. backgroundSize
+Choices.backgroundSize.auto=自动
+Choices.backgroundSize.contain=Contain
+Choices.backgroundSize.cover=Cover
+
 ###########################################################
 # Classes
 
@@ -2450,6 +2455,8 @@ Element.Style.background.image=背景图像
 Element.Style.background.positionX=水平位置
 Element.Style.background.positionY=垂直位置
 Element.Style.background.repeat=背景重复
+Element.Style.background.size.width=Background size width
+Element.Style.background.size.height=Background size height
 Element.Style.border=边框
 Element.Style.border.bottom.color=下边框颜色
 Element.Style.border.bottom.style=下边框样式
