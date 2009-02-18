@@ -113,11 +113,11 @@ public class ResourceEntryWrapper implements ResourceEntry
 		}
 		else
 		{
-			if ( object instanceof ResourceEntryWrapper )
+			ResourceEntryWrapper temp = (ResourceEntryWrapper) object;
+
+			if ( temp.proxy.equals( this.proxy ) && temp.type == this.type )
 			{
-				ResourceEntryWrapper temp = (ResourceEntryWrapper) object;
-				if ( temp.proxy.equals( this.proxy ) && temp.type == this.type )
-					return true;
+				return true;
 			}
 		}
 		return false;
