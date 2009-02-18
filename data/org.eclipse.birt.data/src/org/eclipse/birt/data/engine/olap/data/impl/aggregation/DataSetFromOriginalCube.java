@@ -375,4 +375,15 @@ class DataSetFromOriginalCube implements IDataSet4Aggregation
 			return factTableRowIterator.getMeasure( factTableRowIterator.getMeasureIndex( measureName ) );
 		}
 	}
+
+	public void close( ) throws BirtException, IOException
+	{
+		factTableRowIterator.close( );
+		factTableRowIterator = null;
+		for( int i=0;i<dimensionResultIterators.length;i++)
+		{
+			dimensionResultIterators[i].close( );
+		}
+		dimensionResultIterators = null;
+	}
 }

@@ -135,6 +135,7 @@ public class AggregationExecutor
 					getKeyNames( i ),
 					getAttributeNames( i ) );
 		}
+		this.dataSet4Aggregation.close( );
 		return resultSets;
 	}
 	

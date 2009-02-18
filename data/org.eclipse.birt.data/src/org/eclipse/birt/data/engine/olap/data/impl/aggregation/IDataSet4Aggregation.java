@@ -32,6 +32,8 @@ public interface IDataSet4Aggregation
 	//Move to next row
 	boolean next() throws DataException, IOException;
 	
+	void close( )throws BirtException, IOException;
+	
 	//current row values
 	Object getMeasureValue(int measureIndex) throws DataException, IOException;
 	Member getMember(int dimIndex, int levelIndex) throws DataException, IOException;
