@@ -1332,7 +1332,7 @@ Have a nice day!
         
         <target name="NoDiskSpace">
             <property file="${eclipse.build.configs}/../../config.properties" />
-            <mail mailport="${mail.port}" subject="No enough disk space for build" tolist="${build.engineer}">
+            <mail mailport="${mail.port}" subject="No enough disk space for build" tolist="${build.engineer},${QA.leaders}">
                   <from address="${mail.from}"/>
                   <replyto address="${replyto.address}"/>
                   <message>
