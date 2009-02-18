@@ -148,6 +148,11 @@
     <Choice displayNameID="Choices.lineWidth.medium" name="medium"/>
     <Choice displayNameID="Choices.lineWidth.thick" name="thick"/>
   </ChoiceType>
+  <ChoiceType name="backgroundSize">
+    <Choice displayNameID="Choices.backgroundSize.auto" name="auto"/>
+    <Choice displayNameID="Choices.backgroundSize.contain" name="contain"/>
+    <Choice displayNameID="Choices.backgroundSize.cover" name="cover"/>
+  </ChoiceType>
   <ChoiceType name="inherit">
     <Choice displayNameID="Choices.inherit.inherit" name="inherit"/>
   </ChoiceType>
@@ -2002,6 +2007,12 @@
       </Property>
       <Property canInherit="false" detailType="backgroundRepeat" displayNameID="Element.Style.background.repeat" isStyleProperty="true" name="backgroundRepeat" since="reserved" type="choice">
         <Default>repeat</Default>
+      </Property>
+      <Property canInherit="false" detailType="backgroundSize" displayNameID="Element.Style.background.size.width" isStyleProperty="true" name="backgroundSizeWidth" since="2.5" type="dimension" validator="NonNegativeValueValidator">
+        <Default>auto</Default>        
+      </Property>
+      <Property canInherit="false" detailType="backgroundSize" displayNameID="Element.Style.background.size.height" isStyleProperty="true" name="backgroundSizeHeight" since="2.5" type="dimension" validator="NonNegativeValueValidator">
+        <Default>auto</Default>        
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.text">

@@ -2057,4 +2057,38 @@ public abstract class StyleHandle extends ReportElementHandle
 		setStringProperty( IStyleModel.TEXT_DIRECTION_PROP, value );
 	}
 
+	/**
+	 * Gets a dimension handle to deal with the size height for the background.
+	 * Besides the dimension value, the dimension handle may return one of
+	 * constants defined in <code>DesignChoiceConstants</code>:
+	 * <ul>
+	 * <li><code>BACKGROUND_SIZE_AUTO</code>
+	 * <li><code>BACKGROUND_SIZE_CONTAIN</code>
+	 * <li><code>BACKGROUND_SIZE_COVER</code>
+	 * </ul>
+	 * 
+	 * @return a DimensionHandle for the background size height.
+	 */
+	public DimensionHandle getBackgroundSizeHeight( )
+	{
+		return getDimensionProperty( IStyleModel.BACKGROUND_SIZE_HEIGHT );
+	}
+
+	/**
+	 * Gets a dimension handle to deal with the size width for the background.
+	 * Besides the dimension value, the dimension handle may return one of
+	 * constants defined in <code>DesignChoiceConstants</code>:
+	 * <ul>
+	 * <li><code>BACKGROUND_SIZE_AUTO</code>
+	 * <li><code>BACKGROUND_SIZE_CONTAIN</code>
+	 * <li><code>BACKGROUND_SIZE_COVER</code>
+	 * </ul>
+	 * 
+	 * @return a DimensionHandle for the background size width.
+	 */
+	public DimensionHandle getBackgroundSizeWidth( )
+	{
+		return getDimensionProperty( IStyleModel.BACKGROUND_SIZE_WIDTH );
+	}
+
 }

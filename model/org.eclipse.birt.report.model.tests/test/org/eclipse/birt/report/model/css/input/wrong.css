@@ -13,7 +13,8 @@
 	font : 2em small-caps "Bitstream Vera Sans", Tahoma, Verdana, "Myriad Web", Syntax, sans-serif; 
     
     /* wrong background */
-    background-image : u(images/header);      
+    background-image : u(images/header);
+    background-size : test1 test2;      
     
 }
 

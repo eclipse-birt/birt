@@ -2410,6 +2410,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IStyleModel.BACKGROUND_POSITION_X_PROP );
 		property( obj, IStyleModel.BACKGROUND_POSITION_Y_PROP );
 		property( obj, IStyleModel.BACKGROUND_REPEAT_PROP );
+		property( obj, IStyleModel.BACKGROUND_SIZE_HEIGHT );
+		property( obj, IStyleModel.BACKGROUND_SIZE_WIDTH );
 
 		// Font
 

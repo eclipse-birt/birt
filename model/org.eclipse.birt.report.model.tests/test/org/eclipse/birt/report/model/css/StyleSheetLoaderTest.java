@@ -89,10 +89,12 @@ public class StyleSheetLoaderTest extends BaseTestCase
 	{
 		fileName = "base.css"; //$NON-NLS-1$
 
-		Iterator styles = loadStyleSheet( fileName ).getStyleIterator( );
+		Iterator<StyleHandle> styles = loadStyleSheet( fileName )
+				.getStyleIterator( );
 
-		StyleHandle style1 = (StyleHandle) styles.next( );
-		StyleHandle style2 = (StyleHandle) styles.next( );
+		StyleHandle style1 = styles.next( );
+		StyleHandle style2 = styles.next( );
+		StyleHandle style3 = styles.next( );
 		assertFalse( styles.hasNext( ) );
 
 		assertEquals( "fullstyle", style1.getName( ) ); //$NON-NLS-1$
@@ -100,88 +102,93 @@ public class StyleSheetLoaderTest extends BaseTestCase
 
 		// font
 
-		isSame( styles, IStyleModel.FONT_FAMILY_PROP,
-				"\"Bitstream Vera Sans\", Tahoma, Verdana, \"Myriad Web\", Syntax, sans-serif" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.FONT_SIZE_PROP, "2em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.FONT_STYLE_PROP,
-				DesignChoiceConstants.FONT_STYLE_ITALIC );
-		isSame( styles, IStyleModel.FONT_VARIANT_PROP,
-				DesignChoiceConstants.FONT_VARIANT_SMALL_CAPS );
-		isSame( styles, IStyleModel.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_BOLD );
+		assertEquals(
+				"\"Bitstream Vera Sans\", \"Tahoma\", \"Verdana\", \"Myriad Web\", \"Syntax\", sans-serif", style1.getFontFamilyHandle( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "2em", style1.getFontSize( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.FONT_STYLE_ITALIC, style1
+				.getFontStyle( ) );
+		assertEquals( DesignChoiceConstants.FONT_VARIANT_SMALL_CAPS, style1
+				.getFontVariant( ) );
+		assertEquals( DesignChoiceConstants.FONT_WEIGHT_BOLD, style1
+				.getFontWeight( ) );
 
 		// text
-
-		isSame( styles, IStyleModel.TEXT_ALIGN_PROP,
-				DesignChoiceConstants.TEXT_ALIGN_JUSTIFY );
-		isSame( styles, IStyleModel.TEXT_INDENT_PROP, "2em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.TEXT_UNDERLINE_PROP,
-				DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE );
-		isSame( styles, IStyleModel.TEXT_OVERLINE_PROP,
-				DesignChoiceConstants.TEXT_OVERLINE_OVERLINE );
-		isSame( styles, IStyleModel.TEXT_LINE_THROUGH_PROP,
-				DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH );
-		isSame( styles, IStyleModel.LETTER_SPACING_PROP, "1pt" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.WORD_SPACING_PROP, "2pt" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.TEXT_TRANSFORM_PROP,
-				DesignChoiceConstants.TRANSFORM_UPPERCASE );
-		isSame( styles, IStyleModel.WHITE_SPACE_PROP,
-				DesignChoiceConstants.WHITE_SPACE_PRE );
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_JUSTIFY, style1
+				.getTextAlign( ) );
+		assertEquals( "2em", style1.getTextIndent( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE, style1
+				.getTextUnderline( ) );
+		assertEquals( DesignChoiceConstants.TEXT_OVERLINE_OVERLINE, style1
+				.getTextOverline( ) );
+		assertEquals( DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH,
+				style1.getTextLineThrough( ) );
+		assertEquals( "1pt", style1.getLetterSpacing( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "2pt", style1.getWordSpacing( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.TRANSFORM_UPPERCASE, style1
+				.getTextTransform( ) );
+		assertEquals( DesignChoiceConstants.WHITE_SPACE_PRE, style1
+				.getWhiteSpace( ) );
 
 		// margin
-
-		isSame( styles, IStyleModel.MARGIN_BOTTOM_PROP, "1em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.MARGIN_LEFT_PROP, "1em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.MARGIN_RIGHT_PROP, "1em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.MARGIN_TOP_PROP, "1em" ); //$NON-NLS-1$
+		assertEquals( "1em", style1.getMarginBottom( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "1em", style1.getMarginLeft( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "1em", style1.getMarginRight( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "1em", style1.getMarginTop( ).getStringValue( ) );//$NON-NLS-1$
 
 		// padding
-
-		isSame( styles, IStyleModel.PADDING_BOTTOM_PROP, "1em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.PADDING_LEFT_PROP, "1em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.PADDING_RIGHT_PROP, "1em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.PADDING_TOP_PROP, "1em" ); //$NON-NLS-1$
+		assertEquals( "1em", style1.getPaddingBottom( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "1em", style1.getPaddingLeft( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "1em", style1.getPaddingRight( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "1em", style1.getPaddingTop( ).getStringValue( ) );//$NON-NLS-1$
 
 		// background
 
 		// color is rgb( 0, 79, 147)
-		isSame( styles, IStyleModel.COLOR_PROP, "#004F93" ); //$NON-NLS-1$ 
-		isSame( styles, IStyleModel.BACKGROUND_COLOR_PROP,
-				IColorConstants.BLACK );
-		isSame( styles, IStyleModel.BACKGROUND_IMAGE_PROP, "images/header" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.BACKGROUND_REPEAT_PROP,
-				DesignChoiceConstants.BACKGROUND_REPEAT_NO_REPEAT );
-		isSame( styles, IStyleModel.BACKGROUND_ATTACHMENT_PROP,
-				DesignChoiceConstants.BACKGROUND_ATTACHMENT_SCROLL );
-		isSame( styles, IStyleModel.BACKGROUND_POSITION_X_PROP, "50%" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.BACKGROUND_POSITION_Y_PROP,
-				DesignChoiceConstants.BACKGROUND_POSITION_TOP );
+		assertEquals( "#004F93", style1.getColor( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( IColorConstants.BLACK, style1.getBackgroundColor( )
+				.getStringValue( ) );
+		assertEquals( "images/header", style1.getBackgroundImage( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.BACKGROUND_REPEAT_NO_REPEAT, style1
+				.getBackgroundRepeat( ) );
+		assertEquals( DesignChoiceConstants.BACKGROUND_ATTACHMENT_SCROLL,
+				style1.getBackgroundAttachment( ) );
+		assertEquals( "50%", style1.getBackGroundPositionX( ).getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.BACKGROUND_POSITION_TOP, style1
+				.getBackGroundPositionY( ).getStringValue( ) );
 
 		// page meida
 
-		isSame( styles, IStyleModel.ORPHANS_PROP, "1" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.WIDOWS_PROP, "3" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.DISPLAY_PROP,
-				DesignChoiceConstants.DISPLAY_INLINE );
-		isSame( styles, IStyleModel.PAGE_BREAK_BEFORE_PROP,
-				DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS );
-		isSame( styles, IStyleModel.PAGE_BREAK_AFTER_PROP,
-				DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS );
-		isSame( styles, IStyleModel.PAGE_BREAK_INSIDE_PROP,
-				DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
+		assertEquals( "1", style1.getOrphans( ) );//$NON-NLS-1$
+		assertEquals( "3", style1.getWidows( ) );//$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.DISPLAY_INLINE, style1.getDisplay( ) );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS, style1
+				.getPageBreakBefore( ) );
+
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS, style1
+				.getPageBreakAfter( ) );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AUTO, style1
+				.getPageBreakInside( ) );
 
 		// visual
 
-		isSame( styles, IStyleModel.VERTICAL_ALIGN_PROP,
-				DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE );
-		isSame( styles, IStyleModel.LINE_HEIGHT_PROP, "120%" ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE, style1
+				.getVerticalAlign( ) );
+		assertEquals( "120%", style1.getLineHeight( ).getStringValue( ) );//$NON-NLS-1$
 
 		// border
 
-		isSame( styles, IStyleModel.BORDER_BOTTOM_COLOR_PROP, "#445566" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.BORDER_BOTTOM_STYLE_PROP,
-				DesignChoiceConstants.LINE_STYLE_SOLID );
-		isSame( styles, IStyleModel.BORDER_BOTTOM_WIDTH_PROP, "10px" ); //$NON-NLS-1$		
+		assertEquals(
+				"#445566", style1.getBorderBottomColor( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.LINE_STYLE_SOLID, style1
+				.getBorderBottomStyle( ) );
+		assertEquals( "10px", style1.getBorderBottomWidth( ).getDisplayValue( ) );//$NON-NLS-1$
+
+		assertEquals( "test", style3.getName( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN, style3
+				.getBackgroundSizeWidth( ).getStringValue( ) );
+
+		assertEquals( DesignChoiceConstants.BACKGROUND_SIZE_AUTO, style3
+				.getBackgroundSizeHeight( ).getStringValue( ) );
 
 	}
 
@@ -195,7 +202,7 @@ public class StyleSheetLoaderTest extends BaseTestCase
 		CssStyleSheetHandle styleSheetHandle = loadStyleSheet( fileName );
 		assertNotNull( styleSheetHandle );
 
-		Iterator iter = styleSheetHandle.getStyleIterator( );
+		Iterator<StyleHandle> iter = styleSheetHandle.getStyleIterator( );
 		int i = 0;
 		while ( iter.hasNext( ) )
 		{
@@ -225,7 +232,7 @@ public class StyleSheetLoaderTest extends BaseTestCase
 		CssStyleSheetHandle styleSheetHandle = loadStyleSheet( fileName );
 		assertNotNull( styleSheetHandle );
 
-		Iterator iter = styleSheetHandle.getStyleIterator( );
+		Iterator<StyleHandle> iter = styleSheetHandle.getStyleIterator( );
 		int i = 0;
 		while ( iter.hasNext( ) )
 		{
@@ -253,7 +260,8 @@ public class StyleSheetLoaderTest extends BaseTestCase
 	public void testWrongAtKeyWord( ) throws Exception
 	{
 		fileName = "wrong_1.css"; //$NON-NLS-1$
-		Iterator styles = loadStyleSheet( fileName ).getStyleIterator( );
+		Iterator<StyleHandle> styles = loadStyleSheet( fileName )
+				.getStyleIterator( );
 		assertNotNull( styles.next( ) );
 		assertFalse( styles.hasNext( ) );
 	}
@@ -268,7 +276,8 @@ public class StyleSheetLoaderTest extends BaseTestCase
 	public void testWrongSelector( ) throws Exception
 	{
 		fileName = "wrong_2.css"; //$NON-NLS-1$
-		Iterator styles = loadStyleSheet( fileName ).getStyleIterator( );
+		Iterator<StyleHandle> styles = loadStyleSheet( fileName )
+				.getStyleIterator( );
 		assertNotNull( styles.next( ) );
 		assertFalse( styles.hasNext( ) );
 	}
@@ -279,7 +288,8 @@ public class StyleSheetLoaderTest extends BaseTestCase
 	public void testPropertyCombination( ) throws Exception
 	{
 		fileName = "property_combination.css"; //$NON-NLS-1$
-		Iterator styles = loadStyleSheet( fileName ).getStyleIterator( );
+		Iterator<StyleHandle> styles = loadStyleSheet( fileName )
+				.getStyleIterator( );
 
 		isSame(
 				styles,
@@ -300,62 +310,63 @@ public class StyleSheetLoaderTest extends BaseTestCase
 	public void testShortHand( ) throws Exception
 	{
 		fileName = "property_shorthand.css"; //$NON-NLS-1$
-		Iterator styles = loadStyleSheet( fileName ).getStyleIterator( );
-		StyleHandle style = (StyleHandle) styles.next( );
+		Iterator<StyleHandle> styles = loadStyleSheet( fileName )
+				.getStyleIterator( );
+		StyleHandle style = styles.next( );
 		assertEquals( "table", style.getName( ) ); //$NON-NLS-1$
 
 		assertFalse( styles.hasNext( ) );
 
 		// font
-		isSame(
-				styles,
-				IStyleModel.FONT_FAMILY_PROP,
-				"\"Bitstream Vera Sans\", \"Tahoma\", \"Verdana\", \"Myriad Web\", \"Syntax\", sans-serif" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.FONT_SIZE_PROP, "2em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.FONT_STYLE_PROP,
-				DesignChoiceConstants.FONT_STYLE_ITALIC );
-		isSame( styles, IStyleModel.FONT_VARIANT_PROP,
-				DesignChoiceConstants.FONT_VARIANT_SMALL_CAPS );
-		isSame( styles, IStyleModel.FONT_WEIGHT_PROP,
-				DesignChoiceConstants.FONT_WEIGHT_BOLD );
+		assertEquals(
+				"\"Bitstream Vera Sans\", \"Tahoma\", \"Verdana\", \"Myriad Web\", \"Syntax\", sans-serif",//$NON-NLS-1$
+				style.getFontFamilyHandle( ).getStringValue( ) );
+		assertEquals( "2em", style.getFontSize( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.FONT_STYLE_ITALIC, style
+				.getFontStyle( ) );
+		assertEquals( DesignChoiceConstants.FONT_VARIANT_SMALL_CAPS, style
+				.getFontVariant( ) );
+		assertEquals( DesignChoiceConstants.FONT_WEIGHT_BOLD, style
+				.getFontWeight( ) );
 
 		// margin
 
-		isSame( styles, IStyleModel.MARGIN_BOTTOM_PROP, "1em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.MARGIN_LEFT_PROP, "1em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.MARGIN_RIGHT_PROP, "1em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.MARGIN_TOP_PROP, "1em" ); //$NON-NLS-1$
+		assertEquals( "1em", style.getMarginBottom( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "1em", style.getMarginLeft( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "1em", style.getMarginRight( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "1em", style.getMarginTop( ).getStringValue( ) );//$NON-NLS-1$
 
 		// padding
 
-		isSame( styles, IStyleModel.PADDING_BOTTOM_PROP, "1em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.PADDING_LEFT_PROP, "1em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.PADDING_RIGHT_PROP, "1em" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.PADDING_TOP_PROP, "1em" ); //$NON-NLS-1$
+		assertEquals( "1em", style.getPaddingBottom( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "1em", style.getPaddingLeft( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "1em", style.getPaddingRight( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "1em", style.getPaddingTop( ).getStringValue( ) );//$NON-NLS-1$
 
 		// background
 
-		isSame( styles, IStyleModel.BACKGROUND_COLOR_PROP,
-				IColorConstants.BLACK );
-		isSame( styles, IStyleModel.BACKGROUND_IMAGE_PROP, "images/header" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.BACKGROUND_REPEAT_PROP,
-				DesignChoiceConstants.BACKGROUND_REPEAT_NO_REPEAT );
-		isSame( styles, IStyleModel.BACKGROUND_ATTACHMENT_PROP,
-				DesignChoiceConstants.BACKGROUND_ATTACHMENT_SCROLL );
-		isSame( styles, IStyleModel.BACKGROUND_POSITION_X_PROP, "50%" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.BACKGROUND_POSITION_Y_PROP,
-				DesignChoiceConstants.BACKGROUND_POSITION_TOP );
+		assertEquals( IColorConstants.BLACK, style.getBackgroundColor( )
+				.getStringValue( ) );
+		assertEquals( "images/header", style.getBackgroundImage( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.BACKGROUND_REPEAT_NO_REPEAT, style
+				.getBackgroundRepeat( ) );
+		assertEquals( DesignChoiceConstants.BACKGROUND_ATTACHMENT_SCROLL, style
+				.getBackgroundAttachment( ) );
+		assertEquals( "50%", style.getBackGroundPositionX( ).getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.BACKGROUND_POSITION_TOP, style
+				.getBackGroundPositionY( ).getStringValue( ) );
 
 		// visual
 
-		isSame( styles, IStyleModel.LINE_HEIGHT_PROP, "120%" ); //$NON-NLS-1$
+		assertEquals( "120%", style.getLineHeight( ).getStringValue( ) );//$NON-NLS-1$
 
 		// border
 
-		isSame( styles, IStyleModel.BORDER_BOTTOM_COLOR_PROP, "#445566" ); //$NON-NLS-1$
-		isSame( styles, IStyleModel.BORDER_BOTTOM_STYLE_PROP,
-				DesignChoiceConstants.LINE_STYLE_SOLID );
-		isSame( styles, IStyleModel.BORDER_BOTTOM_WIDTH_PROP, "10px" ); //$NON-NLS-1$		
+		assertEquals( "#445566", style.getBorderBottomColor( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.LINE_STYLE_SOLID, style
+				.getBorderBottomStyle( ) );
+		assertEquals( "10px", style.getBorderBottomWidth( ).getStringValue( ) );//$NON-NLS-1$
+
 	}
 
 	/**
@@ -368,22 +379,23 @@ public class StyleSheetLoaderTest extends BaseTestCase
 	{
 		fileName = "wrong.css"; //$NON-NLS-1$
 		CssStyleSheetHandle styleSheet = loadStyleSheet( fileName );
-		Iterator styles = styleSheet.getStyleIterator( );
+		Iterator<StyleHandle> styles = styleSheet.getStyleIterator( );
 
-		StyleHandle style = (StyleHandle) styles.next( );
+		StyleHandle style = styles.next( );
 		assertEquals( "fullstyle", style.getName( ) ); //$NON-NLS-1$
 
-		List errors = styleSheet.getWarnings( style.getName( ) );
-		assertEquals( 2, errors.size( ) );
+		List<StyleSheetParserException> errors = styleSheet.getWarnings( style
+				.getName( ) );
+		assertEquals( 4, errors.size( ) );
 		StyleSheetParserException e = null;
-		e = (StyleSheetParserException) errors.get( 0 );
+		e = errors.get( 0 );
 		assertEquals(
 				StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SHORT_HAND_CSSPROPERTY_VALUE,
 				e.getErrorCode( ) );
 		assertEquals( CssPropertyConstants.ATTR_FONT, e.getCSSPropertyName( ) );
 		assertEquals(
 				"2em small-caps \"Bitstream Vera Sans\", Tahoma, Verdana, \"Myriad Web\", Syntax, sans-serif", e.getCSSValue( ) ); //$NON-NLS-1$
-		e = (StyleSheetParserException) errors.get( 1 );
+		e = errors.get( 1 );
 		assertEquals(
 				StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE,
 				e.getErrorCode( ) );
@@ -391,19 +403,35 @@ public class StyleSheetLoaderTest extends BaseTestCase
 				.getCSSPropertyName( ) );
 		assertEquals( "uattr(images) / attr(header))", e.getCSSValue( ) ); //$NON-NLS-1$
 
-		style = (StyleHandle) styles.next( );
+		e = errors.get( 2 );
+		assertEquals(
+				StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE,
+				e.getErrorCode( ) );
+		assertEquals( CssPropertyConstants.ATTR_BACKGROUND_SIZE, e
+				.getCSSPropertyName( ) );
+		assertEquals( "test1", e.getCSSValue( ) ); //$NON-NLS-1$
+
+		e = errors.get( 3 );
+		assertEquals(
+				StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE,
+				e.getErrorCode( ) );
+		assertEquals( CssPropertyConstants.ATTR_BACKGROUND_SIZE, e
+				.getCSSPropertyName( ) );
+		assertEquals( "test2", e.getCSSValue( ) ); //$NON-NLS-1$
+
+		style = styles.next( );
 		assertEquals( "table", style.getName( ) ); //$NON-NLS-1$
 		errors = styleSheet.getWarnings( style.getName( ) );
-		assertEquals( 3, errors.size( ) );
-		e = (StyleSheetParserException) errors.get( 2 );
+		assertEquals( 5, errors.size( ) );
+		e = errors.get( 4 );
 		assertEquals(
 				StyleSheetParserException.DESIGN_EXCEPTION_PROPERTY_NOT_SUPPORTED,
 				e.getErrorCode( ) );
 		assertEquals( "wrongproperty", e.getCSSPropertyName( ) ); //$NON-NLS-1$
 		assertEquals( "value", e.getCSSValue( ) ); //$NON-NLS-1$
 
-		List unsupportedStyles = styleSheet.getUnsupportedStyles( );
-		assertEquals( "table:link", (String) unsupportedStyles.get( 0 ) ); //$NON-NLS-1$
+		List<String> unsupportedStyles = styleSheet.getUnsupportedStyles( );
+		assertEquals( "table:link", unsupportedStyles.get( 0 ) ); //$NON-NLS-1$
 
 	}
 
@@ -435,11 +463,12 @@ public class StyleSheetLoaderTest extends BaseTestCase
 	 * @param value
 	 */
 
-	private void isSame( Iterator styles, String propName, Object value )
+	private void isSame( Iterator<StyleHandle> styles, String propName,
+			Object value )
 	{
 		for ( ; styles.hasNext( ); )
 		{
-			StyleHandle style = (StyleHandle) styles.next( );
+			StyleHandle style = styles.next( );
 			assertEquals( value, style.getStringProperty( propName ) );
 		}
 	}

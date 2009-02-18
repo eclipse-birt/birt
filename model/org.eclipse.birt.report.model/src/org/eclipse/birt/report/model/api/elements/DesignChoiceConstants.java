@@ -100,6 +100,12 @@ public interface DesignChoiceConstants
 	public static final String BACKGROUND_POSITION_TOP = "top"; //$NON-NLS-1$
 	public static final String BACKGROUND_POSITION_BOTTOM = "bottom"; //$NON-NLS-1$
 
+	// backgroundSize
+	public static final String CHOICE_BACKGROUND_SIZE = "backgroundSize"; //$NON-NLS-1$
+	public static final String BACKGROUND_SIZE_AUTO = "auto"; //$NON-NLS-1$
+	public static final String BACKGROUND_SIZE_CONTAIN = "contain"; //$NON-NLS-1$
+	public static final String BACKGROUND_SIZE_COVER = "cover"; //$NON-NLS-1$
+
 	// transform
 
 	public static final String CHOICE_TRANSFORM = "transform"; //$NON-NLS-1$

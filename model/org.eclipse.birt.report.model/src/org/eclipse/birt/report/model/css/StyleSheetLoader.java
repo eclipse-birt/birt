@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -529,6 +530,14 @@ public final class StyleSheetLoader
 						errors.addAll( ret );
 				}
 				else if ( cssName
+						.equalsIgnoreCase( CssPropertyConstants.ATTR_BACKGROUND_SIZE ) )
+				{
+					List<StyleSheetParserException> ret = handleBackgroundSize(
+							cssValue, properties );
+					if ( !ret.isEmpty( ) )
+						errors.addAll( ret );
+				}
+				else if ( cssName
 						.equalsIgnoreCase( CssPropertyConstants.ATTR_TEXT_DECORATION ) )
 				{
 					handleTextDecoration( cssValue, properties );
@@ -744,8 +753,8 @@ public final class StyleSheetLoader
 	 * @return the error list during the parse
 	 */
 
-	List<StyleSheetParserException> handleBackgroundPosition( String cssValue,
-			LinkedHashMap<String, Object> properties )
+	private List<StyleSheetParserException> handleBackgroundPosition(
+			String cssValue, LinkedHashMap<String, Object> properties )
 	{
 		assert cssValue != null;
 		List<StyleSheetParserException> errors = new ArrayList<StyleSheetParserException>( );
@@ -779,48 +788,120 @@ public final class StyleSheetLoader
 				errors.add( exception );
 				break;
 		}
-		if ( !StringUtil.isBlank( positionX ) )
-		{
-			ElementPropertyDefn propDefn = (ElementPropertyDefn) style
-					.getProperty( IStyleModel.BACKGROUND_POSITION_X_PROP );
-			assert propDefn != null;
-			try
-			{
-				Object value = propDefn.validateXml( module, positionX );
-				properties.put( IStyleModel.BACKGROUND_POSITION_X_PROP, value );
-			}
-			catch ( PropertyValueException e )
-			{
-				StyleSheetParserException exception = new StyleSheetParserException(
-						StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE,
+		errors
+				.addAll( handleBackgroundValue(
 						CssPropertyConstants.ATTR_BACKGROUND_POSITION,
-						positionX, e );
-				semanticWarning( exception );
-				errors.add( exception );
-			}
-		}
-		if ( !StringUtil.isBlank( positionY ) )
-		{
-			ElementPropertyDefn propDefn = (ElementPropertyDefn) style
-					.getProperty( IStyleModel.BACKGROUND_POSITION_Y_PROP );
-			assert propDefn != null;
-			try
-			{
-				Object value = propDefn.validateXml( module, positionY );
-				properties.put( IStyleModel.BACKGROUND_POSITION_Y_PROP, value );
-			}
-			catch ( PropertyValueException e )
-			{
-				StyleSheetParserException exception = new StyleSheetParserException(
-						StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE,
+						IStyleModel.BACKGROUND_POSITION_X_PROP, positionX,
+						properties ) );
+
+		errors
+				.addAll( handleBackgroundValue(
 						CssPropertyConstants.ATTR_BACKGROUND_POSITION,
-						positionY, e );
-				semanticWarning( exception );
-				errors.add( exception );
-			}
-		}
+						IStyleModel.BACKGROUND_POSITION_Y_PROP, positionY,
+						properties ) );
 
 		return errors;
+	}
+
+	/**
+	 * Converts the background-size property in CSS3 to background-size-width
+	 * and background-size-height in BIRT and adds property values into the
+	 * given hash map.
+	 * 
+	 * @param cssValue
+	 *            the value of the background-size
+	 * @param properties
+	 *            the hash map to store the result property values
+	 * @return the error list during the parse
+	 */
+	private List<StyleSheetParserException> handleBackgroundSize(
+			String cssValue, LinkedHashMap<String, Object> properties )
+	{
+		assert cssValue != null;
+		List<StyleSheetParserException> errors = new ArrayList<StyleSheetParserException>( );
+
+		String[] values = cssValue.split( "[\\s]" ); //$NON-NLS-1$
+		String sizeWidth = null;
+		String sizeHeight = null;
+		switch ( values.length )
+		{
+			case 0 :
+
+				break;
+
+			case 1 :
+
+				sizeWidth = values[0].trim( );
+				break;
+
+			case 2 :
+
+				sizeWidth = values[0].trim( );
+				sizeHeight = values[1].trim( );
+				break;
+
+			default :
+
+				StyleSheetParserException exception = new StyleSheetParserException(
+						StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SHORT_HAND_CSSPROPERTY_VALUE,
+						CssPropertyConstants.ATTR_BACKGROUND_SIZE, cssValue );
+				semanticWarning( exception );
+				errors.add( exception );
+				break;
+		}
+		errors.addAll( handleBackgroundValue(
+				CssPropertyConstants.ATTR_BACKGROUND_SIZE,
+				IStyleModel.BACKGROUND_SIZE_WIDTH, sizeWidth, properties ) );
+
+		errors.addAll( handleBackgroundValue(
+				CssPropertyConstants.ATTR_BACKGROUND_SIZE,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT, sizeHeight, properties ) );
+
+		return errors;
+
+	}
+
+	/**
+	 * Validates and sets the css background value.
+	 * 
+	 * @param cssName
+	 *            the css name
+	 * @param backgroundProp
+	 *            the background property name
+	 * @param backgroundValue
+	 *            the background css value
+	 * @param properties
+	 *            the hash map to store the result property values
+	 * @return the error list during the parse
+	 */
+	private List<StyleSheetParserException> handleBackgroundValue( String cssName,
+			String backgroundProp, String backgroundValue,
+			LinkedHashMap<String, Object> properties )
+	{
+		if ( !StringUtil.isBlank( backgroundValue ) )
+		{
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) style
+					.getProperty( backgroundProp );
+
+			assert propDefn != null;
+
+			try
+			{
+				Object value = propDefn.validateXml( module, backgroundValue );
+				properties.put( backgroundProp, value );
+			}
+			catch ( PropertyValueException e )
+			{
+				StyleSheetParserException exception = new StyleSheetParserException(
+						StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE,
+						cssName, backgroundValue, e );
+				semanticWarning( exception );
+				List<StyleSheetParserException> errors = new ArrayList<StyleSheetParserException>( );
+				errors.add( exception );
+				return errors;
+			}
+		}
+		return Collections.emptyList( );
 	}
 
 	private void handleTextDecoration( String cssValue,

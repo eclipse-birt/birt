@@ -12,6 +12,8 @@
                     <property name="backgroundPositionX">50%</property>
                     <property name="backgroundPositionY">top</property>
                     <property name="backgroundRepeat">no-repeat</property>
+                    <property name="backgroundSizeHeight">contain</property>
+            		<property name="backgroundSizeWidth">20%</property>
                     <property name="fontFamily">"Bitstream Vera Sans", "Tahoma", "Verdana", "Myriad Web", "Syntax", sans-serif</property>
                     <property name="fontSize">2em</property>
                     <property name="fontWeight">bold</property>
@@ -54,6 +56,7 @@
                     <property name="display">inline</property>
                     <property name="pageBreakAfter">always</property>
                     <property name="pageBreakBefore">always</property>
+                    <property name="pageBreakInside">auto</property>
                 </style>
                 <style name="table" id="5">
                     <property name="backgroundAttachment">scroll</property>
@@ -62,6 +65,8 @@
                     <property name="backgroundPositionX">50%</property>
                     <property name="backgroundPositionY">top</property>
                     <property name="backgroundRepeat">no-repeat</property>
+                    <property name="backgroundSizeHeight">contain</property>
+            		<property name="backgroundSizeWidth">20%</property>
                     <property name="fontFamily">"Bitstream Vera Sans", "Tahoma", "Verdana", "Myriad Web", "Syntax", sans-serif</property>
                     <property name="fontSize">2em</property>
                     <property name="fontWeight">bold</property>
@@ -104,7 +109,11 @@
                     <property name="display">inline</property>
                     <property name="pageBreakAfter">always</property>
                     <property name="pageBreakBefore">always</property>
+                    <property name="pageBreakInside">auto</property>
                 </style>
+                <style name="test" id="6">
+        			<property name="backgroundSizeWidth">contain</property>
+        		</style>
             </styles>
         </theme>
     </themes>

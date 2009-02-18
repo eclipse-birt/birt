@@ -20,6 +20,8 @@ backgroundImage
 backgroundPositionX
 backgroundPositionY
 backgroundRepeat
+backgroundSizeWidth
+backgroundSizeHeight
 letterSpacing
 lineHeight
 textAlign

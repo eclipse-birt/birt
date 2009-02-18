@@ -10,6 +10,8 @@
             <property name="backgroundPositionX">center</property>
             <property name="backgroundPositionY">top</property>
             <property name="backgroundRepeat">repeat</property>
+            <property name="backgroundSizeWidth">contain</property>
+            <property name="backgroundSizeHeight">cover</property>
             <property name="fontFamily">fantasy</property>
             <property name="fontSize">larger</property>
             <property name="fontWeight">bold</property>

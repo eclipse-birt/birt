@@ -43,7 +43,8 @@
     background-image : url(images/header);  
     background-repeat : no-repeat;  
     background-attachment : scroll;  
-    background-position : 50% top;  
+    background-position : 50% top;
+    background-size : 20% contain;  
     
     /* page media */
     orphans : 1;  
@@ -51,7 +52,7 @@
     display : inline;
     page-break-before : always;  
     page-break-after : always;  
-    page-break-inside : avoid;  
+    page-break-inside : auto;  
     
     /* visual */ 
     vertical-align : middle;  
@@ -70,5 +71,9 @@
     border-top-color : #456;  
     border-top-style : solid;  
     border-top-width : 10px; 
+}
+
+.test {
+	background-size : contain; 
 }
 

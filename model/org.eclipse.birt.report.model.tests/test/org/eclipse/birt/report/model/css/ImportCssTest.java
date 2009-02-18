@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -75,10 +76,11 @@ public class ImportCssTest extends BaseTestCase
 	 * @return a list containing styles. Each item is <code>StyleHandle</code>.
 	 */
 
-	private List getAllStyles( CssStyleSheetHandle styleSheet )
+	private List<StyleHandle> getAllStyles( CssStyleSheetHandle styleSheet )
 	{
-		List selectedStyles = new ArrayList( );
-		for ( Iterator iter1 = styleSheet.getStyleIterator( ); iter1.hasNext( ); )
+		List<StyleHandle> selectedStyles = new ArrayList<StyleHandle>( );
+		for ( Iterator<StyleHandle> iter1 = styleSheet.getStyleIterator( ); iter1
+				.hasNext( ); )
 			selectedStyles.add( iter1.next( ) );
 
 		return selectedStyles;
@@ -142,12 +144,11 @@ public class ImportCssTest extends BaseTestCase
 		// import css styles to the specified theme.
 
 		libraryHandle = sessionHandle.createLibrary( );
-		libraryHandle.getThemes( ).add( libraryHandle.getElementFactory( )
-				.newTheme( "theme1" ) ); //$NON-NLS-1$
+		libraryHandle.getThemes( ).add(
+				libraryHandle.getElementFactory( ).newTheme( "theme1" ) ); //$NON-NLS-1$
 		styleSheet = loadStyleSheet( cssFileName, libraryHandle );
 
-		libraryHandle.importCssStyles( styleSheet,
-				getAllStyles( styleSheet ),
+		libraryHandle.importCssStyles( styleSheet, getAllStyles( styleSheet ),
 				"theme1" ); //$NON-NLS-1$
 
 		saveLibrary( );
@@ -171,17 +172,16 @@ public class ImportCssTest extends BaseTestCase
 		// import css styles to the specified theme.
 
 		libraryHandle = sessionHandle.createLibrary( );
-		ThemeHandle theme1 = libraryHandle.getElementFactory( )
-				.newTheme( "theme1" );//$NON-NLS-1$		
+		ThemeHandle theme1 = libraryHandle.getElementFactory( ).newTheme(
+				"theme1" );//$NON-NLS-1$		
 		libraryHandle.getThemes( ).add( theme1 );
-		theme1.getStyles( ).add( libraryHandle.getElementFactory( )
-				.newStyle( "table" ) ); //$NON-NLS-1$
+		theme1.getStyles( ).add(
+				libraryHandle.getElementFactory( ).newStyle( "table" ) ); //$NON-NLS-1$
 
 		CssStyleSheetHandle styleSheet = loadStyleSheet( cssFileName,
 				libraryHandle );
 
-		libraryHandle.importCssStyles( styleSheet,
-				getAllStyles( styleSheet ),
+		libraryHandle.importCssStyles( styleSheet, getAllStyles( styleSheet ),
 				"theme1" ); //$NON-NLS-1$
 
 		saveLibrary( );
@@ -198,14 +198,13 @@ public class ImportCssTest extends BaseTestCase
 	public void testContainerOfCssStyleSheet( ) throws Exception
 	{
 		openDesign( "ImportCssReport.xml" ); //$NON-NLS-1$
-		CssStyleSheetHandle cssStyleSheetHandle = (CssStyleSheetHandle) designHandle.getTheme( )
-				.getAllCssStyleSheets( )
-				.get( 0 );
+		CssStyleSheetHandle cssStyleSheetHandle = designHandle.getTheme( )
+				.getAllCssStyleSheets( ).get( 0 );
 		SharedStyleHandle styleHandle = cssStyleSheetHandle.findStyle( "table" ); //$NON-NLS-1$
 		assertTrue( styleHandle instanceof CssSharedStyleHandle );
 		CssSharedStyleHandle cssStyleHandle = (CssSharedStyleHandle) styleHandle;
-		DesignElementHandle elementHandle = cssStyleHandle.getCssStyleSheetHandle( )
-				.getContainerHandle( );
+		DesignElementHandle elementHandle = cssStyleHandle
+				.getCssStyleSheetHandle( ).getContainerHandle( );
 		assertTrue( elementHandle instanceof ThemeHandle );
 	}
 

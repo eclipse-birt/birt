@@ -432,6 +432,14 @@ public class StyleParseTest extends BaseTestCase
 		assertNotNull( iter.next( ) );
 		assertNotNull( iter.next( ) );
 
+		DimensionHandle handle = sh.getBackgroundSizeWidth( );
+		assertEquals( DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN, handle
+				.getStringValue( ) );
+
+		handle = sh.getBackgroundSizeHeight( );
+		assertEquals( DesignChoiceConstants.BACKGROUND_SIZE_COVER, handle
+				.getStringValue( ) );
+
 		style = design.findStyle( "test" ); //$NON-NLS-1$
 		StyleHandle styleHandle = (StyleHandle) style.getHandle( design );
 
@@ -705,6 +713,11 @@ public class StyleParseTest extends BaseTestCase
 				.setNumberFormat( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC );
 
 		style.setTextDirection( DesignChoiceConstants.BIDI_DIRECTION_LTR );
+
+		DimensionHandle handle = style.getBackgroundSizeHeight( );
+		handle.setStringValue( "19pt" ); //$NON-NLS-1$
+		handle = style.getBackgroundSizeWidth( );
+		handle.setStringValue( "0.5in" ); //$NON-NLS-1$
 
 		DataItemHandle label = (DataItemHandle) designHandle
 				.findElement( "my data 2" ); //$NON-NLS-1$

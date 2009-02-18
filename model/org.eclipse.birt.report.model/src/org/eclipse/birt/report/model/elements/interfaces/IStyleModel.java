@@ -25,6 +25,8 @@ public interface IStyleModel
 	public static final String BACKGROUND_POSITION_X_PROP = "backgroundPositionX"; //$NON-NLS-1$
 	public static final String BACKGROUND_POSITION_Y_PROP = "backgroundPositionY"; //$NON-NLS-1$
 	public static final String BACKGROUND_REPEAT_PROP = "backgroundRepeat"; //$NON-NLS-1$
+	public static final String BACKGROUND_SIZE_WIDTH = "backgroundSizeWidth"; //$NON-NLS-1$
+	public static final String BACKGROUND_SIZE_HEIGHT = "backgroundSizeHeight"; //$NON-NLS-1$
 	public static final String BORDER_BOTTOM_COLOR_PROP = "borderBottomColor"; //$NON-NLS-1$
 	public static final String BORDER_BOTTOM_STYLE_PROP = "borderBottomStyle"; //$NON-NLS-1$
 	public static final String BORDER_BOTTOM_WIDTH_PROP = "borderBottomWidth"; //$NON-NLS-1$
