@@ -29,6 +29,9 @@ public abstract class SheetData
 
 	Span span;
 
+	private static final String HYPERLINK_COLOR = "#0000FF";
+	private static final String HYPERLINK_UNDERLINE = "1";
+
 	public int getRspan( )
 	{
 		return rspan;
@@ -189,6 +192,12 @@ public abstract class SheetData
 	public void setHyperlinkDef( HyperlinkDef def )
 	{
 		this.hyperLink = def;
+		if ( hyperLink != null )
+		{
+			style.setProperty( StyleConstant.COLOR_PROP, HYPERLINK_COLOR );
+			style.setProperty( StyleConstant.TEXT_UNDERLINE_PROP,
+					HYPERLINK_UNDERLINE );
+		}
 	}
 
 	public void setSpan( Span span )
