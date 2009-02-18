@@ -202,13 +202,26 @@ public class ElementAdapter
 		return apt;
 	}
 
+	@Override
 	public boolean equals( Object obj )
 	{
-		if ( obj instanceof ElementAdapter )
+		if ( obj == this )
 		{
-			return this.getId( ).equals( ( (ElementAdapter) obj ).getId( ) );
+			return true;
 		}
-		return super.equals( obj );
+
+		if ( !( obj instanceof ElementAdapter ) )
+		{
+			return false;
+		}
+
+		return this.getId( ).equals( ( (ElementAdapter) obj ).getId( ) );
+	}
+
+	@Override
+	public int hashCode( )
+	{
+		return this.getId( ).hashCode( );
 	}
 
 	public String toString( )

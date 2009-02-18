@@ -1551,7 +1551,7 @@ public class DEUtil
 	 *            Sort comparator.
 	 * @return font names.
 	 */
-	public static String[] getSystemFontNames( Comparator comparator )
+	synchronized public static String[] getSystemFontNames( Comparator comparator )
 	{
 		if ( scalable_system_fonts == null )
 		{

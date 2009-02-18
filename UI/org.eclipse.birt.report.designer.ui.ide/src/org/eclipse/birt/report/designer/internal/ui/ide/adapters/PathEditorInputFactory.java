@@ -13,11 +13,14 @@ package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
 import org.eclipse.birt.report.designer.ui.editors.IPathEditorInputFactory;
 import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.ide.FileStoreEditorInput;
+import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * Adapter factory for <code>IEditorInput</code> based on the local file system
@@ -49,6 +52,15 @@ public class PathEditorInputFactory implements IAdapterFactory
 				 */
 				public IEditorInput create( IPath path )
 				{
+					final IFile file = ResourcesPlugin.getWorkspace( )
+							.getRoot( )
+							.getFileForLocation( path );
+
+					if ( file != null )
+					{
+						return new FileEditorInput( file );
+					}
+
 					return new PathEditorInput( path );
 				}
 			};
