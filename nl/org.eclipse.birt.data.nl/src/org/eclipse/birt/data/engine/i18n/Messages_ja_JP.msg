@@ -110,7 +110,7 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=ŒvZ—ñ "{0}" ‚Ì’l‚ğŒvZ‚Å‚«‚
 data.engine.ScriptResult.WrongSystemComputedColumn=ƒ\[ƒg®AƒOƒ‹[ƒv®A‚Ü‚½‚ÍƒtƒBƒ‹ƒ^®‚Ì’l‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
 data.engine.ComputedColumnCycle=ŒvZ—ñ "{0}" ‚ÌˆË‘¶ŠÖŒW‚ªzŠÂQÆ‚É‚È‚Á‚Ä‚¢‚Ü‚·B
 
-data.engine.SortOnAggregation=Exists an invalid Sort whose sort key references an Aggregation "{0}".
+data.engine.SortOnAggregation=Exists an invalid Sort whose sort key refers to an Aggregation "{0}".
 
 data.engine.BadFilterExpr=ƒtƒBƒ‹ƒ^® "{0}" ‚ª–³Œø‚Å‚·B
 data.engine.BadFilterDefn=ƒtƒBƒ‹ƒ^’è‹`® "{0}" ‚ª–³Œø‚Å‚·B
