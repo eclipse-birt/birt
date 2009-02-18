@@ -208,7 +208,7 @@ class PreparedQueryUtil
 					for ( String bindingName : bindingNames )
 					{
 						IBinding binding = (IBinding)queryDefn.getBindings( ).get( bindingName );
-						if ( binding.getAggrFunction( ) != null )
+						if ( binding != null && binding.getAggrFunction( ) != null )
 						{
 							//sort key expression can't base on Aggregation
 							throw new DataException( ResourceConstants.SORT_ON_AGGR, bindingName );
