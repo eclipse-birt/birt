@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.CellDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.DragTracker;
+import org.eclipse.gef.Request;
 
 /**
  * Abstract class for the cell editpart
@@ -54,5 +57,26 @@ public abstract class AbstractCellEditPart extends ReportElementEditPart impleme
 	public Rectangle getBounds( )
 	{
 		return getFigure( ).getBounds( );
+	}
+		
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
+	 */
+	public DragTracker getDragTracker( Request req )
+	{
+		return new CellDragTracker( this );
+	}
+	
+	@Override
+	public Object getAdapter( Class key )
+	{
+		if (key == IDelaySelectionDragTracker.class)
+		{
+			return new CellDragTracker( this );
+		}
+			
+		return super.getAdapter( key );
 	}
 }

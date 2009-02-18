@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigu
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.LabelDirectEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportElementDragTracker;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.figures.FirstLevelHandleDataItemFigure;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
@@ -107,7 +108,7 @@ public class FirstLevelHandleDataItemEditPart extends DataEditPart
 	 */
 	public DragTracker getDragTracker( Request req )
 	{
-		DragEditPartsTracker track = new DragEditPartsTracker( this ) {
+		DragEditPartsTracker track = new ReportElementDragTracker( this ) {
 
 			/*
 			 * (non-Javadoc)

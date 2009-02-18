@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportElementDragTracker;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.MouseEvent;
@@ -78,7 +79,7 @@ public abstract class AbstractGuideHandle extends AbstractHandle implements Mous
 	 */
 	protected DragTracker createDragTracker( )
 	{
-		return new org.eclipse.gef.tools.DragEditPartsTracker(getOwner());
+		return new ReportElementDragTracker(getOwner());
 	}
 	protected ReportElementEditPart getReportElementEditPart()
 	{

@@ -19,13 +19,14 @@ import java.util.ListIterator;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.TableCellSelectionHelper;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.IDelaySelectionDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
@@ -48,7 +49,7 @@ import org.eclipse.swt.widgets.Display;
  *  
  */
 public class CellDragTracker extends DragEditPartsTracker implements
-		DragTracker
+	IDelaySelectionDragTracker
 {
 
 	/**
@@ -377,7 +378,7 @@ public class CellDragTracker extends DragEditPartsTracker implements
 	/**
 	 * @see org.eclipse.gef.tools.AbstractTool#handleDragInProgress()
 	 */
-	protected boolean handleDragInProgress( )
+	public boolean handleDragInProgress( )
 	{
 		if ( isInState( STATE_DRAG | STATE_DRAG_IN_PROGRESS ) )
 		{
@@ -568,5 +569,31 @@ public class CellDragTracker extends DragEditPartsTracker implements
 			schedulePaint = false;
 		}
 
+	}
+	
+	@Override
+	public void setStartLocation( Point p )
+	{
+		super.setStartLocation( p );
+	}
+	
+	@Override
+	public void setState( int state )
+	{
+		super.setState( state );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.IDelaySelectionDragTracker#setLocation(org.eclipse.draw2d.geometry.Point)
+	 */
+	public void setLocation( Point p )
+	{
+		getCurrentInput( ).setMouseLocation( p.x, p.y );
+	}
+	
+	@Override
+	public EditPart getSourceEditPart( )
+	{
+		return super.getSourceEditPart( );
 	}
 }

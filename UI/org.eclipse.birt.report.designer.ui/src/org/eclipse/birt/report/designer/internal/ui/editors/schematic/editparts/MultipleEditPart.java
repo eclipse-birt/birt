@@ -253,4 +253,17 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 		}
 		return guideLabel;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.Class)
+	 */
+	public Object getAdapter( Class key )
+	{
+		if (key == IDelaySelectionDragTracker.class)
+		{
+			return getParent( ).getAdapter( IDelaySelectionDragTracker.class );
+		}
+			
+		return super.getAdapter( key );
+	}
 }

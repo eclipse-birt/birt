@@ -30,6 +30,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportElementDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -385,22 +386,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 */
 	public DragTracker getDragTracker( Request req )
 	{
-		DragEditPartsTracker track = new DragEditPartsTracker( this ) {
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see org.eclipse.gef.tools.SelectEditPartTracker#handleButtonDown(int)
-			 */
-			protected boolean handleButtonDown( int button )
-			{
-				if ( getCurrentViewer( ) instanceof DeferredGraphicalViewer )
-				{
-					( (DeferredGraphicalViewer) getCurrentViewer( ) ).initStepDat( );
-				}
-				return super.handleButtonDown( button );
-			}
-		};
+		DragEditPartsTracker track = new ReportElementDragTracker( this );
 		return track;
 	}
 

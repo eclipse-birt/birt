@@ -231,15 +231,6 @@ public class CrosstabCellEditPart extends AbstractCellEditPart
 		return figure;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
-	 */
-	public DragTracker getDragTracker( Request req )
-	{
-		return new CellDragTracker( this );
-	}
 
 	/**
 	 * @return

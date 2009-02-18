@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.MultipleEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.providers.SchematicContextMenuProvider;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportElementDragTracker;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
@@ -367,7 +368,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 	/**
 	 * ChildrenDragTracker
 	 */
-	private static class ChildrenDragTracker extends DragEditPartsTracker
+	private static class ChildrenDragTracker extends ReportElementDragTracker
 	{
 
 		private IMenuListener listener = new IMenuListener( ) {
