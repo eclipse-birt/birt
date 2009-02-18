@@ -213,7 +213,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				|| context.getDataServiceProvider( )
 						.checkState( IDataServiceProvider.HAS_CUBE ) )
 				&& predefinedQuery != null;
-		boolean hasContentAssist = predefinedQuery != null;
+		boolean hasContentAssist = ( predefinedQuery != null && predefinedQuery.length > 0 );
 		if ( needComboField )
 		{
 			// Create a composite to decorate combo field for the content assist function.
