@@ -3,7 +3,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PreviewLabel;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
@@ -408,12 +407,12 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
-		if ( fTableViewer.getContentProvider( ) == null )
-		{
-			return;
-		}
 		if ( fTableViewer != null )
 		{
+			if ( fTableViewer.getContentProvider( ) == null )
+			{
+				return;
+			}
 			fTableViewer.setInput( input );
 			refreshTableItemView( );
 		}

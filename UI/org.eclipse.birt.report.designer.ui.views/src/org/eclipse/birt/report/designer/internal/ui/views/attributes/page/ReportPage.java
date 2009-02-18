@@ -112,22 +112,23 @@ public class ReportPage extends ModulePage
 				if ( dialog.shouldSetThumbnail( ) )
 				{
 					Image image = dialog.getImage( );
-					ImageData imageData = image.getImageData( );
-					ImageLoader imageLoader = new ImageLoader( );
-					imageLoader.data = new ImageData[1];
-					imageLoader.data[0] = imageData;
-					ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
-					imageLoader.save( outputStream, SWT.IMAGE_PNG );
-					try
-					{
-						handle.setThumbnail( outputStream.toByteArray( ) );
-					}
-					catch ( SemanticException e1 )
-					{
-						ExceptionHandler.handle( e1 );
-					}
 					if ( image != null )
 					{
+						ImageData imageData = image.getImageData( );
+						ImageLoader imageLoader = new ImageLoader( );
+						imageLoader.data = new ImageData[1];
+						imageLoader.data[0] = imageData;
+						ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
+						imageLoader.save( outputStream, SWT.IMAGE_PNG );
+						try
+						{
+							handle.setThumbnail( outputStream.toByteArray( ) );
+						}
+						catch ( SemanticException e1 )
+						{
+							ExceptionHandler.handle( e1 );
+						}
+
 						image.dispose( );
 						image = null;
 					}

@@ -25,7 +25,7 @@ public class DesignerOutlineEventProcessor extends AbstractModelEventProcessor i
 		IFastConsumerProcessor
 {
 
-	public static String EVENT_CONTENT = "Event Content"; //$NON-NLS-1$
+	public final static String EVENT_CONTENT = "Event Content"; //$NON-NLS-1$
 
 	/**
 	 * @param factory

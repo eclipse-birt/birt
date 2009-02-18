@@ -13,33 +13,34 @@ public class HighlightPropertyDescriptor extends PreviewPropertyDescriptor
 		super( formStyle );
 	}
 
-	protected HighlightDescriptorProvider provider;
+	protected HighlightDescriptorProvider highlightProvider;
 
 	public void setDescriptorProvider( IDescriptorProvider provider )
 	{
 		super.setDescriptorProvider( provider );
 		if ( provider instanceof HighlightDescriptorProvider )
-			this.provider = (HighlightDescriptorProvider) provider;
+			this.highlightProvider = (HighlightDescriptorProvider) provider;
 	}
 
 	protected void updatePreview( Object handle )
 	{
-		if ( handle != null )
+		if ( handle != null && highlightProvider != null )
 		{
-			String familyValue = provider.getFontFamily( handle );
-			int sizeValue = provider.getFontSize( handle );
+			String familyValue = highlightProvider.getFontFamily( handle );
+			int sizeValue = highlightProvider.getFontSize( handle );
 			previewLabel.setFontFamily( familyValue );
 			previewLabel.setFontSize( sizeValue );
-			previewLabel.setBold( provider.isBold( handle ) );
-			previewLabel.setItalic( provider.isItalic( handle ) );
-			previewLabel.setForeground( provider.getColor( handle ) );
-			previewLabel.setBackground( provider.getBackgroundColor( handle ) );
-			previewLabel.setUnderline( provider.isUnderline( handle ) );
-			previewLabel.setLinethrough( provider.isLinethrough( handle ) );
-			previewLabel.setOverline( provider.isOverline( handle ) );
+			previewLabel.setBold( highlightProvider.isBold( handle ) );
+			previewLabel.setItalic( highlightProvider.isItalic( handle ) );
+			previewLabel.setForeground( highlightProvider.getColor( handle ) );
+			previewLabel.setBackground( highlightProvider.getBackgroundColor( handle ) );
+			previewLabel.setUnderline( highlightProvider.isUnderline( handle ) );
+			previewLabel.setLinethrough( highlightProvider.isLinethrough( handle ) );
+			previewLabel.setOverline( highlightProvider.isOverline( handle ) );
 			previewLabel.updateView( );
 
-			if ( provider.getBackgroundColor( handle ) == null && isFormStyle( ) )
+			if ( highlightProvider.getBackgroundColor( handle ) == null
+					&& isFormStyle( ) )
 			{
 				FormWidgetFactory.getInstance( ).paintFormStyle( previewLabel );
 				FormWidgetFactory.getInstance( ).adapt( previewLabel );

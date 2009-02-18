@@ -209,8 +209,7 @@ public class TextPage extends GeneralPage
 
 		for ( int i = 0; i < providers.length; i++ )
 		{
-			if ( providers[i] instanceof PropertyDescriptorProvider )
-				( (PropertyDescriptorProvider) providers[i] ).enableReset( true );
+			( (PropertyDescriptorProvider) providers[i] ).enableReset( true );
 		}
 
 		return providers;

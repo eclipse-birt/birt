@@ -186,14 +186,6 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor {
 		}
 	}
 
-	private String buttonText;
-
-	public void setButtonText(String text) {
-		// if ( button != null )
-		// button.setText( text );
-		// buttonText = text;
-	}
-
 	public void setText(String text) {
 		this.text.setText(text);
 	}

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.data.providers;
 
 import java.util.Map;
+
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
@@ -41,7 +42,7 @@ public class ParametersNodeProvider extends DefaultNodeProvider
 	{
 		if ( model instanceof ModuleHandle )
 			return new Object[]{
-				 ( (ModuleHandle) model ).getParameters( ) 
+				( (ModuleHandle) model ).getParameters( )
 			};
 		return super.getChildren( model );
 	}
@@ -84,7 +85,9 @@ public class ParametersNodeProvider extends DefaultNodeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#createElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
+	 * #createElement(java.lang.String)
 	 */
 	protected DesignElementHandle createElement( String type ) throws Exception
 	{
@@ -107,6 +110,8 @@ public class ParametersNodeProvider extends DefaultNodeProvider
 			// required default value
 			( (ParameterDialog) dialog ).setInput( handle );
 		}
+		if ( dialog == null )
+			return null;
 		if ( dialog.open( ) == Dialog.CANCEL )
 		{
 			return null;
@@ -117,7 +122,7 @@ public class ParametersNodeProvider extends DefaultNodeProvider
 	protected boolean performInsert( Object model, SlotHandle slotHandle,
 			String type, String position, Map extendData ) throws Exception
 	{
-		if ( type == ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT )
+		if ( ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT.equals( type ) )
 		{
 			DesignElementHandle handle = super.createElement( type );
 			slotHandle.add( handle );
@@ -138,7 +143,9 @@ public class ParametersNodeProvider extends DefaultNodeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName
+	 * (java.lang.Object)
 	 */
 	public String getIconName( Object model )
 	{

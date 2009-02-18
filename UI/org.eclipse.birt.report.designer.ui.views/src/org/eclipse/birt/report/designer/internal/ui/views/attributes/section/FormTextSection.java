@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormWidgetFactory;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -179,13 +178,6 @@ public class FormTextSection extends Section
 	public void load( )
 	{
 
-	}
-
-	IDescriptorProvider provider;
-
-	public IDescriptorProvider getProvider( )
-	{
-		return provider;
 	}
 
 	public void setInput( Object input )

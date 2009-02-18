@@ -28,8 +28,8 @@ public class DataViewEventProcessor extends AbstractModelEventProcessor implemen
 		IFastConsumerProcessor
 {
 
-	public static String EVENT_CONTENT = "Event Content"; //$NON-NLS-1$
-	public static String VARIABLE_NAME = "Variable Name"; //$NON-NLS-1$
+	public final static String EVENT_CONTENT = "Event Content"; //$NON-NLS-1$
+	public final static String VARIABLE_NAME = "Variable Name"; //$NON-NLS-1$
 
 	/**
 	 * @param factory

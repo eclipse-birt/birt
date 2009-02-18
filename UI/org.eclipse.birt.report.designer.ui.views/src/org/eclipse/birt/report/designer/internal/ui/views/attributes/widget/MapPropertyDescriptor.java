@@ -13,21 +13,21 @@ public class MapPropertyDescriptor extends PreviewPropertyDescriptor
 		super( formStyle );
 	}
 
-	protected MapDescriptorProvider provider;
+	protected MapDescriptorProvider mapProvider;
 
 	public void setDescriptorProvider( IDescriptorProvider provider )
 	{
 		super.setDescriptorProvider( provider );
 		if ( provider instanceof MapDescriptorProvider )
-			this.provider = (MapDescriptorProvider) provider;
+			this.mapProvider = (MapDescriptorProvider) provider;
 	}
 
 	protected void updatePreview( Object handle )
 	{
 
-		if ( handle != null )
+		if ( handle != null && mapProvider != null )
 		{
-			previewLabel.setText( provider.getDisplayText( handle ) );
+			previewLabel.setText( mapProvider.getDisplayText( handle ) );
 			previewLabel.updateView( );
 		}
 		else

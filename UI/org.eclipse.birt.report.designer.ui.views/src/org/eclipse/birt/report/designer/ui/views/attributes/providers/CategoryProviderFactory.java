@@ -151,7 +151,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 	/**
 	 * CategoryHolder
 	 */
-	protected class CategoryHolder
+	protected static class CategoryHolder
 	{
 
 		String[] keys;

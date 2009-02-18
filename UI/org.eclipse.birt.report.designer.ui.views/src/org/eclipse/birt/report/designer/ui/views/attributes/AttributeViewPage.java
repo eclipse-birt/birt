@@ -328,8 +328,7 @@ public class AttributeViewPage extends Page implements
 					&& !ReportPlugin.getDefault( )
 							.containIgnoreViewID( part.getSite( ).getId( ) ) )
 			{
-				selection = new StructuredSelection( );
-				handleSelectionChanged( selection );
+				handleSelectionChanged( new StructuredSelection( ) );
 			}
 		}
 	}

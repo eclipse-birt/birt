@@ -37,7 +37,7 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 			{
 				try
 				{
-					hideHandle = createHideRuleHandle( element,
+					createHideRuleHandle( element,
 							format,
 							expression );
 				}

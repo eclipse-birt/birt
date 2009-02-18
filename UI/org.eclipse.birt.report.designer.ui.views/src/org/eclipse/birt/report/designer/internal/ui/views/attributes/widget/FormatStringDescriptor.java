@@ -650,7 +650,6 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 		else if ( provider.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER.equals( category ) )
 		{
 			String pattern = FormatStringPattern.getPatternForCategory( category );
-			gText = SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER;
 			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );

@@ -231,26 +231,27 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 	 */
 	public void load( )
 	{
-		String value = marignProvider.load( ).toString( );
-		deMesurementValue = value;
-
-		// special case for null value.
-		if ( value == null )
-		{
-			valueCombo.deselectAll( );
-			valueCombo.setEnabled( false );
-			unitCombo.deselectAll( );
-			unitCombo.setEnabled( false );
-			return;
-		}
-		boolean stateFlag = ( ( value == null ) == valueCombo.getEnabled( ) );
-		if ( stateFlag )
-		{
-			valueCombo.setEnabled( value != null );
-			unitCombo.setEnabled( value != null );
-		}
 		if ( marignProvider != null )
 		{
+			String value = marignProvider.load( ).toString( );
+			deMesurementValue = value;
+
+			// special case for null value.
+			if ( value == null )
+			{
+				valueCombo.deselectAll( );
+				valueCombo.setEnabled( false );
+				unitCombo.deselectAll( );
+				unitCombo.setEnabled( false );
+				return;
+			}
+			boolean stateFlag = ( ( value == null ) == valueCombo.getEnabled( ) );
+			if ( stateFlag )
+			{
+				valueCombo.setEnabled( value != null );
+				unitCombo.setEnabled( value != null );
+			}
+
 			valueCombo.setItems( marignProvider.getValueItems( ) );
 			unitCombo.setItems( marignProvider.getUnitItems( ) );
 

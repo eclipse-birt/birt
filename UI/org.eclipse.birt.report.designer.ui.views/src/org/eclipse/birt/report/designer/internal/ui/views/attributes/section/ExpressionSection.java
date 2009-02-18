@@ -170,19 +170,4 @@ public class ExpressionSection extends Section
 		if ( placeholderLabel != null )
 			placeholderLabel.setVisible( isVisible );
 	}
-
-	private String buttonText;
-
-	public void setButtonText( String text )
-	{
-		buttonText = text;
-		if ( expression != null )
-			expression.setButtonText( text );
-	}
-
-	public String getButtonText( )
-	{
-		return buttonText;
-	}
-
 }

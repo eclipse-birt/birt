@@ -43,7 +43,7 @@ public class CategoryPageGenerator extends TabPageGenerator
 	 */
 	protected BaseAttributePage basicPage;
 
-	private ICategoryProviderFactory factory;
+	private ICategoryProviderFactory factory = null;
 
 	public CategoryPageGenerator( )
 	{
