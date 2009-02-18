@@ -76,6 +76,7 @@ NewLibraryDialog.label.NewLibrary=ĞÂ¿âÃû
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=´íÎó
 PublishCSSAction.wizard.message=ÎŞ·¨½« CSS ÎÄ¼ş·¢²¼µ½ËüËùÔÚµÄÄ¿Â¼£¬ÇëÑ¡ÔñÆäËüÄ¿Â¼½øĞĞ·¢²¼¡£
+PublishCSSAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishCSSAction.wizard.message.SourceFileNotExist=Ô´ÎÄ¼ş²»´æÔÚ¡£
 PublishCSSAction.wizard.notvalidfolder=Ê×Ñ¡ÏîÖĞ¶¨ÒåµÄ×ÊÔ´ÎÄ¼ş¼ĞÎŞĞ§¡£
 
@@ -491,9 +492,9 @@ dataset.editor.settings.dataFetchSetting.errorNumberFormat=ÇëÎªĞĞÈ¡ÊıÏŞÖÆÊäÈëÒ»¸
 dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=ÇëÎª½á¹û¼¯ÊıÖµÊäÈëÒ»¸öÕıÕûÊı¡£
 dataset.editor.settings.dataFetchSetting=Êı¾İÌáÈ¡ÉèÖÃ
 dataset.editor.settings.resultsetselection.resultSetSelection=½á¹û¼¯Ñ¡Ôñ
-dataset.editor.settings.resultsetselection.enableResultSetSelection=ÆôÓÃ½á¹û¼¯Ñ¡Ôñ
-dataset.editor.settings.resultsetselection.selectResultSetByName=°´Ãû³ÆÑ¡Ôñ½á¹û¼¯:
-dataset.editor.settings.resultsetselection.selectResultSetByNumber=°´ÊıÖµÑ¡Ôñ½á¹û¼¯:
+dataset.editor.settings.resultsetselection.enableResultSetSelection=&Enable Result Set Selection
+dataset.editor.settings.resultsetselection.selectResultSetByName=Select &Result Set By Name:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result &Set By Number:
 dataset.editor.settings.dataFetchSetting.fetchAll=Fetch &all rows from data source.
 dataset.editor.settings.cachePreference.errorNumberFormat=ÇëÎª»º´æĞĞ´óĞ¡ÊäÈëÒ»¸ö´óÓÚÁãµÄÊı¡£
 dataset.editor.settings.cachePreference=»º´æÊ×Ñ¡Ïî
@@ -2941,6 +2942,7 @@ PublishTemplateAction.wizard.page.title=·¢²¼Ä£°å
 PublishTemplateAction.wizard.title=·¢²¼Ä£°å
 PublishTemplateAction.wizard.errorTitle=´íÎó
 PublishTemplateAction.wizard.message=Unable to publish the template to the directory where it exists, please choose another directory to publish.
+PublishTemplateAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishTemplateAction.wizard.notvalidfolder=Ê×Ñ¡ÏîÖĞ¶¨ÒåµÄÄ£°åÎÄ¼ş¼ĞÎŞĞ§¡£
 PublishTemplateAction.wizard.page.nameInfo=±ØĞëÌá¹©ÏÔÊ¾Ãû³Æ
 PublishTemplateAction.wizard.message.SourceFileNotExist=Ô´ÎÄ¼ş²»´æÔÚ¡£
@@ -2952,6 +2954,7 @@ PublishTemplateAction.wizard.message.PreviewImageNotValid=Ô¤ÀÀÍ¼ÏñÎÄ¼ş²»ÊÇÓĞĞ§µÄ
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=´íÎó
 PublishLibraryAction.wizard.message=Unable to publish the library to the directory where it exists, please choose another directory to publish.
+PublishLibraryAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishLibraryAction.wizard.message.SourceFileNotExist=Ô´ÎÄ¼ş²»´æÔÚ¡£
 PublishLibraryAction.wizard.notvalidfolder=Ê×Ñ¡ÏîÖĞ¶¨ÒåµÄ¿âÎÄ¼ş¼ĞÎŞĞ§¡£
 

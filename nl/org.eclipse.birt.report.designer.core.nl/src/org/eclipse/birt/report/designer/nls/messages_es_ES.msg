@@ -76,6 +76,7 @@ NewLibraryDialog.label.NewLibrary=Nuevo nombre de librería
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=Error
 PublishCSSAction.wizard.message=No es posible publicar el archivo CCS en el directorio donde se encuentra, seleccione otro directorio para la publicación.
+PublishCSSAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishCSSAction.wizard.message.SourceFileNotExist=El archivo fuente no existe.
 PublishCSSAction.wizard.notvalidfolder=La carpeta del archivo CSS definida como preferencia no es válida.
 
@@ -491,9 +492,9 @@ dataset.editor.settings.dataFetchSetting.errorNumberFormat=Introduzca un número 
 dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Introduzca un número entero positivo como Número de conjunto del resultado
 dataset.editor.settings.dataFetchSetting=Ajustes de recuperación de datos
 dataset.editor.settings.resultsetselection.resultSetSelection=Selección de conjunto de resultados
-dataset.editor.settings.resultsetselection.enableResultSetSelection=Activar selección de conjunto de resultados.
-dataset.editor.settings.resultsetselection.selectResultSetByName=Seleccionar conjunto de resultados por nombre:
-dataset.editor.settings.resultsetselection.selectResultSetByNumber=Seleccionar conjunto de resultados por número:
+dataset.editor.settings.resultsetselection.enableResultSetSelection=&Enable Result Set Selection
+dataset.editor.settings.resultsetselection.selectResultSetByName=Select &Result Set By Name:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result &Set By Number:
 dataset.editor.settings.dataFetchSetting.fetchAll=Fetch &all rows from data source.
 dataset.editor.settings.cachePreference.errorNumberFormat=Introduzca un número mayor que cero para el tamaño de la fila de caché.
 dataset.editor.settings.cachePreference=Preferencia de caché
@@ -2941,6 +2942,7 @@ PublishTemplateAction.wizard.page.title=Publicar plantilla
 PublishTemplateAction.wizard.title=Publicar plantilla
 PublishTemplateAction.wizard.errorTitle=Error
 PublishTemplateAction.wizard.message=Unable to publish the template to the directory where it exists, please choose another directory to publish.
+PublishTemplateAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishTemplateAction.wizard.notvalidfolder=La carpeta de plantillas definida como preferencia no es válida.
 PublishTemplateAction.wizard.page.nameInfo=Es necesario un nombre en pantalla
 PublishTemplateAction.wizard.message.SourceFileNotExist=El archivo fuente no existe.
@@ -2952,6 +2954,7 @@ PublishTemplateAction.wizard.message.PreviewImageNotValid=El archivo de vista pr
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=Error
 PublishLibraryAction.wizard.message=Unable to publish the library to the directory where it exists, please choose another directory to publish.
+PublishLibraryAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishLibraryAction.wizard.message.SourceFileNotExist=El archivo fuente no existe.
 PublishLibraryAction.wizard.notvalidfolder=La carpeta de librerías definida como preferencia no es válida.
 

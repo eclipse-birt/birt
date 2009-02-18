@@ -76,6 +76,7 @@ NewLibraryDialog.label.NewLibrary=새 라이브러리 이름
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=오류
 PublishCSSAction.wizard.message=CSS 파일이 들어 있는 디렉터리에는 게시할 수 없습니다. 게시할 다른 디렉터리를 선택하십시오.
+PublishCSSAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishCSSAction.wizard.message.SourceFileNotExist=원본 파일이 없습니다.
 PublishCSSAction.wizard.notvalidfolder=기본 설정에 정의된 리소스 폴더가 올바르지 않습니다.
 
@@ -491,9 +492,9 @@ dataset.editor.settings.dataFetchSetting.errorNumberFormat=행 인출 한계에 0보다 
 dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=결과 집합 수에 양수를 입력하십시오.
 dataset.editor.settings.dataFetchSetting=데이터 인출 설정
 dataset.editor.settings.resultsetselection.resultSetSelection=결과 집합 선택
-dataset.editor.settings.resultsetselection.enableResultSetSelection=결과 집합 선택 설정
-dataset.editor.settings.resultsetselection.selectResultSetByName=이름별 결과 집합 선택:
-dataset.editor.settings.resultsetselection.selectResultSetByNumber=숫자별 결과 집합 선택:
+dataset.editor.settings.resultsetselection.enableResultSetSelection=&Enable Result Set Selection
+dataset.editor.settings.resultsetselection.selectResultSetByName=Select &Result Set By Name:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result &Set By Number:
 dataset.editor.settings.dataFetchSetting.fetchAll=Fetch &all rows from data source.
 dataset.editor.settings.cachePreference.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
 dataset.editor.settings.cachePreference=캐시 기본 설정
@@ -2941,6 +2942,7 @@ PublishTemplateAction.wizard.page.title=템플릿 게시
 PublishTemplateAction.wizard.title=템플릿 게시
 PublishTemplateAction.wizard.errorTitle=오류
 PublishTemplateAction.wizard.message=Unable to publish the template to the directory where it exists, please choose another directory to publish.
+PublishTemplateAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishTemplateAction.wizard.notvalidfolder=기본 설정에 정의한 템플릿 폴더가 올바르지 않습니다.
 PublishTemplateAction.wizard.page.nameInfo=표시 이름이 필요함
 PublishTemplateAction.wizard.message.SourceFileNotExist=원본 파일이 없습니다.
@@ -2952,6 +2954,7 @@ PublishTemplateAction.wizard.message.PreviewImageNotValid=미리 보기 이미지 파일�
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=오류
 PublishLibraryAction.wizard.message=Unable to publish the library to the directory where it exists, please choose another directory to publish.
+PublishLibraryAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishLibraryAction.wizard.message.SourceFileNotExist=원본 파일이 없습니다.
 PublishLibraryAction.wizard.notvalidfolder=기본 설정에 정의한 라이브러리 폴더가 올바르지 않습니다.
 

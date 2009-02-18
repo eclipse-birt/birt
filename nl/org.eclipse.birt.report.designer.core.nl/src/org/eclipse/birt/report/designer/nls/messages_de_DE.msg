@@ -76,6 +76,7 @@ NewLibraryDialog.label.NewLibrary=Name der neuen Bibliothek
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=Fehler
 PublishCSSAction.wizard.message=Die CSS-Datei kann nicht in dem Verzeichnis veröffentlicht werden, in dem sie sich befindet. Wählen Sie zur Veröffentlichung ein anderes Verzeichnis.
+PublishCSSAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishCSSAction.wizard.message.SourceFileNotExist=Die Quelldatei ist nicht vorhanden.
 PublishCSSAction.wizard.notvalidfolder=Der in der Einstellung definierte Ressourcenordner ist ungültig.
 
@@ -491,9 +492,9 @@ dataset.editor.settings.dataFetchSetting.errorNumberFormat=Geben Sie für die max
 dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Geben Sie für die Ergebnisnummer eine positive Ganzzahl ein.
 dataset.editor.settings.dataFetchSetting=Einstellung für den Abruf von Daten
 dataset.editor.settings.resultsetselection.resultSetSelection=Ergebnisauswahl
-dataset.editor.settings.resultsetselection.enableResultSetSelection=Ergebnisauswahl aktivieren
-dataset.editor.settings.resultsetselection.selectResultSetByName=Ergebnisauswahl nach Namen:
-dataset.editor.settings.resultsetselection.selectResultSetByNumber=Ergebnisauswahl nach Nummer:
+dataset.editor.settings.resultsetselection.enableResultSetSelection=&Enable Result Set Selection
+dataset.editor.settings.resultsetselection.selectResultSetByName=Select &Result Set By Name:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result &Set By Number:
 dataset.editor.settings.dataFetchSetting.fetchAll=Fetch &all rows from data source.
 dataset.editor.settings.cachePreference.errorNumberFormat=Geben Sie für die Zeilengröße des Caches eine Zahl ein, die größer als Null ist.
 dataset.editor.settings.cachePreference=Voreinstellungen für Cache
@@ -2941,6 +2942,7 @@ PublishTemplateAction.wizard.page.title=Vorlage veröffentlichen
 PublishTemplateAction.wizard.title=Vorlage veröffentlichen
 PublishTemplateAction.wizard.errorTitle=Fehler
 PublishTemplateAction.wizard.message=Unable to publish the template to the directory where it exists, please choose another directory to publish.
+PublishTemplateAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishTemplateAction.wizard.notvalidfolder=Der in den Voreinstellungen festgelegte Vorlagenordner ist ungültig.
 PublishTemplateAction.wizard.page.nameInfo=Anzeigename erforderlich
 PublishTemplateAction.wizard.message.SourceFileNotExist=Die Quelldatei ist nicht vorhanden.
@@ -2952,6 +2954,7 @@ PublishTemplateAction.wizard.message.PreviewImageNotValid=Die Vorschaubilddatei 
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=Fehler
 PublishLibraryAction.wizard.message=Unable to publish the library to the directory where it exists, please choose another directory to publish.
+PublishLibraryAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishLibraryAction.wizard.message.SourceFileNotExist=Die Quelldatei ist nicht vorhanden.
 PublishLibraryAction.wizard.notvalidfolder=Der in der Einstellung definierte Berichtordner ist ungültig.
 

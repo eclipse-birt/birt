@@ -76,6 +76,7 @@ NewLibraryDialog.label.NewLibrary=Nom de la nouvelle bibliothèque
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=Erreur
 PublishCSSAction.wizard.message=Impossible de publier le fichier CSS dans son propre répertoire ; sélectionnez un autre répertoire pour procéder à la publication.
+PublishCSSAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishCSSAction.wizard.message.SourceFileNotExist=Le fichier source n'existe pas.
 PublishCSSAction.wizard.notvalidfolder=Le dossier de ressources défini dans les préférences n'est pas valide.
 
@@ -491,9 +492,9 @@ dataset.editor.settings.dataFetchSetting.errorNumberFormat=Entrez un nombre enti
 dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Entrez un entier positif pour le nombre de jeux de résultats.
 dataset.editor.settings.dataFetchSetting=Paramètre de récupération de données
 dataset.editor.settings.resultsetselection.resultSetSelection=Sélection du jeu de résultats
-dataset.editor.settings.resultsetselection.enableResultSetSelection=Activer la sélection du jeu de résultats
-dataset.editor.settings.resultsetselection.selectResultSetByName=Sélectionner le jeu de résultats par nom :
-dataset.editor.settings.resultsetselection.selectResultSetByNumber=Sélectionner le jeu de résultats par nombre :
+dataset.editor.settings.resultsetselection.enableResultSetSelection=&Enable Result Set Selection
+dataset.editor.settings.resultsetselection.selectResultSetByName=Select &Result Set By Name:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result &Set By Number:
 dataset.editor.settings.dataFetchSetting.fetchAll=Fetch &all rows from data source.
 dataset.editor.settings.cachePreference.errorNumberFormat=Entrez un nombre supérieur à zéro pour la taille des lignes en cache.
 dataset.editor.settings.cachePreference=Préférences de cache
@@ -2941,6 +2942,7 @@ PublishTemplateAction.wizard.page.title=Publier le modèle
 PublishTemplateAction.wizard.title=Publier le modèle
 PublishTemplateAction.wizard.errorTitle=Erreur
 PublishTemplateAction.wizard.message=Unable to publish the template to the directory where it exists, please choose another directory to publish.
+PublishTemplateAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishTemplateAction.wizard.notvalidfolder=Le dossier modèle défini dans la préférence n'est pas valide.
 PublishTemplateAction.wizard.page.nameInfo=Le nom d'affichage est requis
 PublishTemplateAction.wizard.message.SourceFileNotExist=Le fichier source n'existe pas.
@@ -2952,6 +2954,7 @@ PublishTemplateAction.wizard.message.PreviewImageNotValid=Le fichier de prévisua
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=Erreur
 PublishLibraryAction.wizard.message=Unable to publish the library to the directory where it exists, please choose another directory to publish.
+PublishLibraryAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
 PublishLibraryAction.wizard.message.SourceFileNotExist=Le fichier source n'existe pas.
 PublishLibraryAction.wizard.notvalidfolder=Le dossier de bibliothèque défini dans la préférence n'est pas valide.
 
