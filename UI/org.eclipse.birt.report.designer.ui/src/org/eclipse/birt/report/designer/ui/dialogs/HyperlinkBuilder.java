@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -1580,8 +1579,7 @@ public class HyperlinkBuilder extends BaseDialog
 					tmpReportDesign = (ReportDesignHandle) targetReportHandle;
 				}
 
-				if ( tmpReportDesign != null
-						&& tmpReportDesign instanceof ReportDesignHandle )
+				if ( tmpReportDesign != null )
 				{
 					if ( targetReportHandle instanceof ReportDesignHandle )
 					{
@@ -1663,7 +1661,7 @@ public class HyperlinkBuilder extends BaseDialog
 			if ( isToc )
 			{
 				List chooserItems = ( (ReportDesignHandle) handle ).getAllTocs( );
-				chooserItems.add( 0, (Object) new String( "---" ) ); //$NON-NLS-1$
+				chooserItems.add( 0, (Object)"---" ); //$NON-NLS-1$
 				// anchorChooser.setItems( (String[]) ( (ReportDesignHandle)
 				// handle ).getAllTocs( )
 				// .toArray( new String[0] ) );
@@ -1672,7 +1670,7 @@ public class HyperlinkBuilder extends BaseDialog
 			else
 			{
 				List chooserItems = ( (ReportDesignHandle) handle ).getAllBookmarks( );
-				chooserItems.add( 0, (Object) new String( "---" ) ); //$NON-NLS-1$
+				chooserItems.add( 0, (Object) "---" ); //$NON-NLS-1$
 				// anchorChooser.setItems( (String[]) ( (ReportDesignHandle)
 				// handle ).getAllBookmarks( )
 				// .toArray( new String[0] ) );
@@ -1696,7 +1694,7 @@ public class HyperlinkBuilder extends BaseDialog
 				// TOCNode rootTocNode = ( (IReportDocument) handle ).findTOC(
 				// null );
 				List chooserItems = getAllTocDisplayString( rootTocNode );
-				chooserItems.add( 0, (Object) new String( "---" ) ); //$NON-NLS-1$
+				chooserItems.add( 0, (Object) "---" ); //$NON-NLS-1$
 				// anchorChooser.setItems( (String[]) getAllTocDisplayString(
 				// rootTocNode ).toArray( new String[0] ) );
 				anchorChooser.setItems( (String[]) chooserItems.toArray( new String[0] ) );

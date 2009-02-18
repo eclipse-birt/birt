@@ -362,10 +362,8 @@ public class InsertInLayoutUtil
 
 			DataSetHandle dataSetHandle = null;
 
-			if ( groupContainer instanceof ReportItemHandle )
-			{
-				dataSetHandle = ( (ReportItemHandle) groupContainer ).getDataSet( );
-			}
+			dataSetHandle = groupContainer.getDataSet( );
+
 			if ( dataSetHandle == null )
 			{
 				for ( DesignElementHandle elementHandle = groupContainer; elementHandle != null; elementHandle = elementHandle.getContainer( ) )

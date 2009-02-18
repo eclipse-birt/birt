@@ -391,7 +391,7 @@ public class ImageBuilder extends BaseDialog
 
 			public void focusLost( FocusEvent e )
 			{
-				preview( DEUtil.RemoveQuote( uriEditor.getText( ) ) );
+				preview( DEUtil.removeQuote( uriEditor.getText( ) ) );
 			}
 		} );
 
@@ -484,7 +484,7 @@ public class ImageBuilder extends BaseDialog
 					{
 						String uri = expressionBuilder.getResult( );
 						uriEditor.setText( uri );
-						preview( DEUtil.RemoveQuote( uri ) );
+						preview( DEUtil.removeQuote( uri ) );
 					}
 				}
 			} );
@@ -768,7 +768,7 @@ public class ImageBuilder extends BaseDialog
 		clearPreview( );
 		if ( !uri.equals( "" ) && selectedType != BLOB_TYPE ) //$NON-NLS-1$
 		{
-			preview( DEUtil.RemoveQuote( uri ) );
+			preview( DEUtil.removeQuote( uri ) );
 		}
 	}
 
@@ -831,7 +831,7 @@ public class ImageBuilder extends BaseDialog
 		{
 			String uri = expressionBuilder.getResult( );
 			uriEditor.setText( uri );
-			preview( DEUtil.RemoveQuote( uri ) );
+			preview( DEUtil.removeQuote( uri ) );
 		}
 	}
 

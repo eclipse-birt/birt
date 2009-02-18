@@ -108,10 +108,20 @@ public class PublishTemplateWizard extends Wizard
 		//					Messages.getString( "PublishTemplateAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
 		// return true;
 		// }
-		if ( !targetFolder.exists( ) )
+		
+		boolean folderExists = targetFolder.exists( );
+		if ( !folderExists )
 		{
-			targetFolder.mkdirs( );
+			folderExists = targetFolder.mkdirs( );
 		}
+		
+		if ( !folderExists )
+		{
+			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
+					Messages.getString( "PublishTemplateAction.wizard.msgDirErr" ) ); //$NON-NLS-1$
+			return true;
+		}
+		
 		String targetFileName = fileName;
 		if ( ReportPlugin.getDefault( ).isReportDesignFile( fileName ) )
 		{

@@ -17,7 +17,6 @@ import java.net.URL;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ReportGraphicsViewPainter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.AddImageResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -276,9 +275,8 @@ public class ThumbnailBuilder extends BaseDialog
 	protected boolean initDialog( )
 	{
 		hasThumbnail = false;
-		ModuleHandle moduleHandle = getModuleHandle( );
-		if ( ( moduleHandle == null )
-				|| ( !( moduleHandle instanceof ReportDesignHandle ) ) )
+		ReportDesignHandle moduleHandle = getModuleHandle( );
+		if ( moduleHandle == null )
 		{
 			btnImport.setEnabled( false );
 			btnRemove.setEnabled( false );
@@ -286,7 +284,7 @@ public class ThumbnailBuilder extends BaseDialog
 			return true;
 		}
 
-		ReportDesignHandle handle = (ReportDesignHandle) moduleHandle;
+		ReportDesignHandle handle = moduleHandle;
 		byte[] thumbnailData = handle.getThumbnail( );
 		if ( thumbnailData == null || thumbnailData.length == 0 )
 		{

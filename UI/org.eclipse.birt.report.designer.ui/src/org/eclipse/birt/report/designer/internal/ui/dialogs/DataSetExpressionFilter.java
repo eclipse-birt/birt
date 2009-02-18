@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 
 /**
  * Expression filter for data set, filtering birt_objects and parameters when

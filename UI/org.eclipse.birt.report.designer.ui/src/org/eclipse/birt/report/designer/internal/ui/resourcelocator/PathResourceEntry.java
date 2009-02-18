@@ -324,7 +324,7 @@ public class PathResourceEntry extends BaseResourceEntity
 		{
 			if ( !this.isFolder && this.cssStyleHandle == null )
 			{
-				String projectFolder = UIUtil.getProjectFolder( );
+//				String projectFolder = UIUtil.getProjectFolder( );
 
 				try
 				{

@@ -1269,7 +1269,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 					cal.set( colorDialog.getYear( ),
 							colorDialog.getMonth( ),
 							colorDialog.getDay( ) );
-					insertText( DEUtil.AddQuote( DateFormatISO8601.format( cal.getTime( ) ) ) );
+					insertText( DEUtil.addQuote( DateFormatISO8601.format( cal.getTime( ) ) ) );
 					if ( !shell.isDisposed( ) )
 						shell.close( );
 					if ( sourceViewer != null

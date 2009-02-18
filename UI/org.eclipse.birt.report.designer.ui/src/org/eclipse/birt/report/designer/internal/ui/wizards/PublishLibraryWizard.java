@@ -50,8 +50,8 @@ public class PublishLibraryWizard extends Wizard
 
 	private WizardLibrarySettingPage page;
 
-	public static int HAVE_HANDLE = 1;
-	public static int HAVE_NO_HANDLE = 0;
+	public static final int HAVE_HANDLE = 1;
+	public static final int HAVE_NO_HANDLE = 0;
 
 	int type;
 
@@ -155,9 +155,16 @@ public class PublishLibraryWizard extends Wizard
 			//$NON-NLS-1$
 			return true;
 		}
-		if ( !targetFolder.exists( ) )
+		boolean folderExists = targetFolder.exists( );
+		if ( !folderExists )
 		{
-			targetFolder.mkdirs( );
+			folderExists = targetFolder.mkdirs( );
+		}
+		if( !folderExists )
+		{
+			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishLibraryAction.wizard.errorTitle" ), //$NON-NLS-1$
+					Messages.getString( "PublishLibraryAction.wizard.msgDirErr" ) ); //$NON-NLS-1$
+			return false;
 		}
 		File targetFile = new File( targetFolder, fileName );
 		if ( new File( filePath ).compareTo( targetFile ) == 0 )

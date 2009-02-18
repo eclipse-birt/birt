@@ -34,9 +34,9 @@ import org.eclipse.core.runtime.Platform;
 public class DNDService implements IRegistryChangeListener
 {
 
-	public static int LOGIC_TRUE = 1;
-	public static int LOGIC_FALSE = -1;
-	public static int LOGIC_UNKNOW = 0;
+	public static final int LOGIC_TRUE = 1;
+	public static final int LOGIC_FALSE = -1;
+	public static final int LOGIC_UNKNOW = 0;
 
 	private List dragAdapterList = new ArrayList( );
 	private List dropAdapterList = new ArrayList( );

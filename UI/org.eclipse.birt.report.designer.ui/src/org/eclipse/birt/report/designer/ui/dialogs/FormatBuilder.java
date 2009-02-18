@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatDateTimePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatStringPage;

@@ -27,7 +27,6 @@ import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -271,8 +270,6 @@ public class CascadingParametersDialog extends BaseDialog
 	private String formatPattern;
 
 	private String formatCategroy;
-
-	private boolean loading = true;
 
 	private Button isRequired;
 
@@ -1570,7 +1567,6 @@ public class CascadingParametersDialog extends BaseDialog
 			setControlEnabled( false );
 			return;
 		}
-		loading = true;
 
 		setControlEnabled( true );
 
@@ -1644,7 +1640,6 @@ public class CascadingParametersDialog extends BaseDialog
 
 		changeDataType( selectedParameter.getDataType( ) );
 
-		loading = false;
 	}
 
 	private void clearParamProperties( )

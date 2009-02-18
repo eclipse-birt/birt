@@ -58,7 +58,7 @@ public class SpinnerYear extends Composite implements ActionListener
 
 	private int value = 1;
 
-	private final int delay = 150;
+	private static final int DELAY = 150;
 
 	/**
 	 * Constructs a new instance of this class given its parent and a style
@@ -90,7 +90,7 @@ public class SpinnerYear extends Composite implements ActionListener
 
 		textContend = String.valueOf( year );
 		text.setText( textContend );
-		timer = new Timer( delay, this );
+		timer = new Timer( DELAY, this );
 	}
 
 	/**

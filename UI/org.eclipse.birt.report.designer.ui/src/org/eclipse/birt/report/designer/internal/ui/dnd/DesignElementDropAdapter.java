@@ -83,7 +83,7 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter
 					System.out.println( "DND >> Dropped. Operation: Apply Theme, Target: " //$NON-NLS-1$
 							+ getCurrentTarget( ) );
 				}
-				return ApplyTheme( (ThemeHandle) ( (Object[]) data )[0],
+				return applyTheme( (ThemeHandle) ( (Object[]) data )[0],
 						(ModuleHandle) getCurrentTarget( ) );
 			}
 			else
@@ -162,7 +162,7 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter
 	 */
 	protected abstract boolean moveData( Object transfer, Object target );
 
-	protected abstract boolean ApplyTheme( ThemeHandle themeHandle,
+	protected abstract boolean applyTheme( ThemeHandle themeHandle,
 			ModuleHandle moudelHandle );
 
 	/**

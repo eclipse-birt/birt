@@ -51,7 +51,7 @@ public class BidiUIUtils
 	private TextLayout layout;
 	private boolean isInitialized = false;
 	
-	public static BidiUIUtils INSTANCE = new BidiUIUtils( );
+	public static final BidiUIUtils INSTANCE = new BidiUIUtils( );
 	
 	private BidiUIUtils( )
 	{

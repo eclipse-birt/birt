@@ -162,10 +162,19 @@ public class PublishCSSWizard extends Wizard
 			//$NON-NLS-1$
 			return true;
 		}
-		if ( !targetFolder.exists( ) )
+		boolean folderExists = targetFolder.exists( );
+		if ( !folderExists)
 		{
-			targetFolder.mkdirs( );
+			// if creating dirs fails, it'll return false.
+			folderExists = targetFolder.mkdirs( );
 		}
+		if (!folderExists )
+		{
+			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishCSSAction.wizard.errorTitle" ), //$NON-NLS-1$
+					Messages.getString( "PublishCSSAction.wizard.msgDirErr" ) ); //$NON-NLS-1$
+			return false;
+		}
+		
 		File targetFile = new File( targetFolder, fileName );
 		if ( new File( filePath ).compareTo( targetFile ) == 0 )
 		{

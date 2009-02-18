@@ -74,7 +74,7 @@ import org.osgi.framework.Bundle;
  */
 public class WizardTemplateChoicePage extends WizardPage
 {
-	protected static Logger logger = Logger.getLogger( WizardTemplateChoicePage.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( WizardTemplateChoicePage.class.getName( ) );
 
 	private static final String[] IMAGE_TYPES = new String[]{
 			".bmp", //$NON-NLS-1$
@@ -194,7 +194,11 @@ public class WizardTemplateChoicePage extends WizardPage
 		{
 			if ( !templateDirectory.exists( ) )
 			{
-				templateDirectory.mkdirs( );
+				boolean createSucc = templateDirectory.mkdirs( );
+				if(!createSucc)
+				{
+					return new ReportDesignHandle[0];
+				}
 			}
 			File[] filesArray = templateDirectory.listFiles( new FilenameFilter( ) {
 

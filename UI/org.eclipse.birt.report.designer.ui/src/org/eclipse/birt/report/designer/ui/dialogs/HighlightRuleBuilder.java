@@ -960,7 +960,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		{
 			StyleHandle style = (StyleHandle) styles.get( stylesChooser.getText( ) );
 
-			String familyValue = DEUtil.RemoveQuote( style.getFontFamilyHandle( )
+			String familyValue = DEUtil.removeQuote( style.getFontFamilyHandle( )
 					.getStringValue( ) );
 			int sizeValue = DEUtil.getFontSize( style.getFontSize( )
 					.getDisplayValue( ) );
@@ -1376,7 +1376,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 	{
 		if ( handle != null && handle.getStyle( ) == null )
 		{
-			String fm = DEUtil.RemoveQuote( handle.getFontFamilyHandle( )
+			String fm = DEUtil.removeQuote( handle.getFontFamilyHandle( )
 					.getDisplayValue( ) );
 
 			if ( innerSyncFamily( fm ) )

@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 abstract public class CDialogCellEditor extends DialogCellEditor
 {
 
-	protected static Logger logger = Logger.getLogger( CDialogCellEditor.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( CDialogCellEditor.class.getName( ) );
 
 	private Button result;
 	/**

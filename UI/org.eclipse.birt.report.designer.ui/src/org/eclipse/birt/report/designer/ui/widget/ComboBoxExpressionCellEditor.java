@@ -14,10 +14,10 @@ package org.eclipse.birt.report.designer.ui.widget;
 import java.text.MessageFormat;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.DialogCellEditor;
@@ -135,7 +135,7 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor
 	public void setItems( String[] items )
 	{
 		Assert.isNotNull( items );
-		this.items = items;
+		this.items = items.clone( );
 		populateComboBoxItems( );
 	}
 

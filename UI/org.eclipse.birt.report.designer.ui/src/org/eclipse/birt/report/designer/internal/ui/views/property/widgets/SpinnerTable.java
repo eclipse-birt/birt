@@ -37,9 +37,9 @@ public class SpinnerTable extends Composite
 
 	private TableCursor cursor = null;
 
-	private final int DAY_WEEK_COUNT = 7;
+	private static final int DAY_WEEK_COUNT = 7;
 
-	private final int ROW_COUNT = 7;
+	private static final int ROW_COUNT = 7;
 
 	private Calendar cale = null;
 

@@ -182,7 +182,7 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 				public void paint(IFigure figure, Graphics graphics, Insets insets) 
 				{ 
 					tempRect.setBounds(getPaintRectangle(figure, insets));
-					if (getWidth() % 2 == 1) {
+					if (getWidth() % 2 != 0) {
 						tempRect.width--;
 						tempRect.height--;
 					}

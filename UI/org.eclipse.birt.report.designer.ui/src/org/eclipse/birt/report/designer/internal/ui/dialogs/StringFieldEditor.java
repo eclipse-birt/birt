@@ -57,7 +57,7 @@ public class StringFieldEditor extends AbstractFieldEditor
 	 * Text limit constant (value <code>-1</code>) indicating unlimited text
 	 * limit and width.
 	 */
-	public static int UNLIMITED = -1;
+	public static final int UNLIMITED = -1;
 
 	/**
 	 * Cached valid state.
@@ -201,12 +201,16 @@ public class StringFieldEditor extends AbstractFieldEditor
 			result = true;
 
 		if ( textField == null )
-			result = false;
+		{
+			return false;
+		}			
 
 		String txt = textField.getText( );
 
 		if ( txt == null )
-			result = false;
+		{
+			return false;
+		}			
 
 		result = ( txt.trim( ).length( ) > 0 ) || emptyStringAllowed;
 

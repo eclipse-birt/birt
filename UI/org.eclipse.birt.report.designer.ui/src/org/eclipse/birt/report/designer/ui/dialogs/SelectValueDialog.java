@@ -19,7 +19,6 @@ import java.util.Iterator;
 
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -44,7 +43,7 @@ import com.ibm.icu.util.ULocale;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.33 $ $Date: 2008/09/17 07:14:15 $
+ * @version $Revision: 1.34 $ $Date: 2009/02/18 03:24:31 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -74,7 +73,7 @@ public class SelectValueDialog extends BaseDialog
 	 */
 	public ParamBindingHandle[] getBindingParams( )
 	{
-		return bindingParams;
+		return bindingParams.clone( );
 	}
 
 	/**
@@ -225,7 +224,7 @@ public class SelectValueDialog extends BaseDialog
 				{
 					exprValue = "new java.math.BigDecimal(\""
 							+ viewerValue
-							+ "\")";
+							+ "\")" ;
 				}
 				else
 				{
@@ -338,9 +337,6 @@ public class SelectValueDialog extends BaseDialog
 			}
 			else
 			{
-				selectValueList.removeAll( );
-				modelValueList.clear( );
-				viewerValueList.clear( );
 				ExceptionHandler.openErrorMessageBox( Messages.getString( "SelectValueDialog.errorRetrievinglist" ), Messages.getString( "SelectValueDialog.noExpressionSet" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			if ( selectValueList.getItemCount( ) > 0 )

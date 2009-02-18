@@ -67,7 +67,7 @@ public class SpinnerTime extends Composite implements
 
 	private int value = 1;
 
-	private final int delay = 150;
+	private static final int DELAY = 150;
 
 	private ArrayList listenerList = new ArrayList( );
 
@@ -105,7 +105,7 @@ public class SpinnerTime extends Composite implements
 		initActions( );
 
 		setSize( 86, 28 );
-		timer = new Timer( delay, this );
+		timer = new Timer( DELAY, this );
 	}
 
 	/*

@@ -159,7 +159,7 @@ public final class DNDUtil
 					report = (ReportDesignHandle) ( (SlotHandle) container ).getElementHandle( );
 				}
 
-				return ImportCssStyle( (CssSharedStyleHandle) ( (Object[]) transferData )[0],
+				return importCssStyle( (CssSharedStyleHandle) ( (Object[]) transferData )[0],
 						report );
 			}
 			else if ( ( container instanceof SlotHandle && ( (SlotHandle) container ).getElementHandle( ) instanceof ThemeHandle )
@@ -174,7 +174,7 @@ public final class DNDUtil
 				{
 					theme = (ThemeHandle) ( (SlotHandle) container ).getElementHandle( );
 				}
-				return ImportCssStyle( (CssSharedStyleHandle) ( (Object[]) transferData )[0],
+				return importCssStyle( (CssSharedStyleHandle) ( (Object[]) transferData )[0],
 						theme );
 			}
 
@@ -1456,7 +1456,7 @@ public final class DNDUtil
 		return true;
 	}
 
-	protected static boolean ImportCssStyle( CssSharedStyleHandle css,
+	protected static boolean importCssStyle( CssSharedStyleHandle css,
 			ReportDesignHandle report )
 	{
 		CssStyleSheetHandle cssStyleSheet = css.getCssStyleSheetHandle( );
@@ -1466,7 +1466,7 @@ public final class DNDUtil
 		return true;
 	}
 
-	protected static boolean ImportCssStyle( CssSharedStyleHandle css,
+	protected static boolean importCssStyle( CssSharedStyleHandle css,
 			ThemeHandle theme )
 	{
 		CssStyleSheetHandle cssStyleSheet = css.getCssStyleSheetHandle( );

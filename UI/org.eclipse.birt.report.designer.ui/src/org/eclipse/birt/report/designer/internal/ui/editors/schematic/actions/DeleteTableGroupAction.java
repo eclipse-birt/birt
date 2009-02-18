@@ -24,7 +24,7 @@ import org.eclipse.ui.IWorkbenchPart;
 public class DeleteTableGroupAction extends ContextSelectionAction
 {
 
-	public static String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteGroupAction"; //$NON-NLS-1$
+	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteGroupAction"; //$NON-NLS-1$
 
 	private String ACTION_MSG_DELETE_GROUP = Messages.getString( "DeleteGroupAction.actionMsg.deleteGroup" ); //$NON-NLS-1$
 

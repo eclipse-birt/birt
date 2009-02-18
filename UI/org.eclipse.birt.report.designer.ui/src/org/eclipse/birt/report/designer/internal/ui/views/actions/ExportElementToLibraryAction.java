@@ -143,7 +143,7 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 			return true;
 		}
 
-		setNameAction renameAction = new setNameAction( selection );
+		SetNameAction renameAction = new SetNameAction( selection );
 		if ( renameAction.isEnabled( ) == false )
 		{
 			MessageBox box = new MessageBox( UIUtil.getDefaultShell( ) );
@@ -168,7 +168,7 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 	 * This class represents the rename action
 	 */
 
-	public static class setNameAction extends Action
+	public static class SetNameAction extends Action
 	{
 
 		/**
@@ -195,7 +195,7 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 		 * 		the source viewer
 		 * 
 		 */
-		public setNameAction( Object obj )
+		public SetNameAction( Object obj )
 		{
 			this( obj, TEXT );
 			this.selectedObj = obj;
@@ -210,7 +210,7 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 		 * @param text
 		 * 		the text of the action
 		 */
-		public setNameAction( Object obj, String text )
+		public SetNameAction( Object obj, String text )
 		{
 			super( text );
 			this.selectedObj = obj;

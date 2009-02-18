@@ -1540,7 +1540,7 @@ public class DEUtil
 			sorted_system_fonts = getSystemFontNames( new AlphabeticallyComparator( ) );
 		}
 
-		return sorted_system_fonts;
+		return sorted_system_fonts.clone( );
 	}
 
 	/**
@@ -2752,7 +2752,7 @@ public class DEUtil
 	 * @param string
 	 * @return
 	 */
-	public static String AddQuote( String string )
+	public static String addQuote( String string )
 	{
 		if ( string != null
 				&& ( !( string.startsWith( "\"" ) && string.endsWith( "\"" ) ) ) ) //$NON-NLS-1$//$NON-NLS-2$
@@ -2768,7 +2768,7 @@ public class DEUtil
 	 * @param string
 	 * @return
 	 */
-	public static String RemoveQuote( String string )
+	public static String removeQuote( String string )
 	{
 		if ( string != null
 				&& string.length( ) >= 2

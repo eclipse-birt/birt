@@ -194,7 +194,7 @@ public class ExceptionHandler
 		if ( e instanceof DesignFileException )
 		{
 			detail = e.toString( ).split( "\n" ); //$NON-NLS-1$			
-			reason = new String( detail[0] );
+			reason = detail[0];
 			detail[0] = LABEL_ERROR_MESSAGE + ":" + detail[0]; //$NON-NLS-1$
 		}
 		else

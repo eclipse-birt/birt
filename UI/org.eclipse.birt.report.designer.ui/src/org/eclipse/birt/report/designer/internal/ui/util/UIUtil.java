@@ -168,7 +168,7 @@ import com.ibm.icu.text.Collator;
 public class UIUtil
 {
 
-	protected static Logger logger = Logger.getLogger( UIUtil.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( UIUtil.class.getName( ) );
 
 	private static final String MSG_DIALOG_TITLE = Messages.getString( "ImportLibraryAction.Title.ImportSuccessfully" ); //$NON-NLS-1$
 	private static final String MSG_DIALOG_MSG = Messages.getString( "ImportLibraryAction.Message.ImportSuccessfully" ); //$NON-NLS-1$
@@ -1945,7 +1945,7 @@ public class UIUtil
 
 		String family = (String) ( styleHandle.getFontFamilyHandle( ).getValue( ) );
 		// some font not defined in model is enclosed with quote.
-		family = DEUtil.RemoveQuote( family );
+		family = DEUtil.removeQuote( family );
 		String FontFamily = (String) DesignerConstants.familyMap.get( family );
 
 		if ( FontFamily == null )

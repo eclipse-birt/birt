@@ -22,7 +22,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 
 public abstract class AbstractViewAction extends Action
 {
-	protected static Logger logger = Logger.getLogger( AbstractViewAction.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( AbstractViewAction.class.getName( ) );
 
 	private Object selection;
 

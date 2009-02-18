@@ -397,7 +397,7 @@ public class TableEditPart extends AbstractTableEditPart implements
 		int endWidth = 0;
 
 		startWidth = TableUtil.caleVisualWidth( this, startColumn );
-		endWidth = TableUtil.caleVisualWidth( this, endColumn );
+//		endWidth = TableUtil.caleVisualWidth( this, endColumn );
 
 		try
 		{

@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.eclipse.birt.core.format.DateFormatter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;

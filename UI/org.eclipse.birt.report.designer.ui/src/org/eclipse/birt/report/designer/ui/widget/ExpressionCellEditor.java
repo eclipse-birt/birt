@@ -13,9 +13,9 @@ package org.eclipse.birt.report.designer.ui.widget;
 
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -37,7 +37,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2006/11/21 10:21:01 $
+ * @version $Revision: 1.4 $ $Date: 2007/08/28 03:28:27 $
  */
 public class ExpressionCellEditor extends DialogCellEditor
 {

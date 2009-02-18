@@ -606,8 +606,7 @@ public final class DataSetProvider
 					if ( paramDefn.getDefaultInputValue( ) != null )
 					{
 						InputParameterBinding binding = new InputParameterBinding( paramDefn.getName( ),
-								new ScriptExpression( paramDefn.getDefaultInputValue( )
-										.toString( ) ) );
+								new ScriptExpression( paramDefn.getDefaultInputValue( ) ) );
 						defn.addInputParamBinding( binding );
 					}
 				}

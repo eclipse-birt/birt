@@ -213,11 +213,10 @@ public class SelectionHandler extends AbstractHandler
 	 */
 	protected List getSelectedObjects( )
 	{
-		Object selectVariable = getSelection( );
-		if ( selectVariable == null
-				|| !( selectVariable instanceof IStructuredSelection ) )
+		IStructuredSelection selectVariable = getSelection( );
+		if ( selectVariable == null )
 			return Collections.EMPTY_LIST;
-		return ( (IStructuredSelection) selectVariable ).toList( );
+		return selectVariable.toList( );
 	}
 
 	/**

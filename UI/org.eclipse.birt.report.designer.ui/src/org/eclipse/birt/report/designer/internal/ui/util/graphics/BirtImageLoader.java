@@ -38,28 +38,35 @@ public class BirtImageLoader
 	public byte[] load( String fileName ) throws IOException
 	{
 		FileInputStream file = null;
+		byte data[] = null;
 		try
 		{
 			file = new FileInputStream( fileName );
+			
+			if ( file != null )
+			{
+				try
+				{
+					data = new byte[file.available( )];
+					file.read( data );
+				}
+				catch ( IOException e1 )
+				{
+					throw e1;
+				}
+			}
 		}
 		catch ( FileNotFoundException e )
 		{
 			throw e;
+		}finally
+		{
+			if(file != null)
+			{
+				file.close( );
+			}
 		}
 
-		byte data[] = null;
-		if ( file != null )
-		{
-			try
-			{
-				data = new byte[file.available( )];
-				file.read( data );
-			}
-			catch ( IOException e1 )
-			{
-				throw e1;
-			}
-		}
 		return data;
 
 	}

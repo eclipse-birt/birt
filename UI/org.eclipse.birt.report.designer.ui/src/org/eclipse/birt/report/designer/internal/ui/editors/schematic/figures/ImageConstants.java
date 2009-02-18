@@ -24,12 +24,12 @@ public class ImageConstants implements PositionConstants
 	public static int NO_REPEAT = 0;
 
 	/** repeat-x */
-	public static int REPEAT_X = 1;
+	public static final int REPEAT_X = 1;
 
 	/** repeat-y */
-	public static int REPEAT_Y = 2;
+	public static final int REPEAT_Y = 2;
 
 	/** repeat */
-	public static int REPEAT = REPEAT_X | REPEAT_Y;
+	public static final int REPEAT = REPEAT_X | REPEAT_Y;
 
 }

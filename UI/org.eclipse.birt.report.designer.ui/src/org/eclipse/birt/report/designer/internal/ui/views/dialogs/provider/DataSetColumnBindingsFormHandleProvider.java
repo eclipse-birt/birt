@@ -57,7 +57,7 @@ public class DataSetColumnBindingsFormHandleProvider implements
 		ISortingFormHandleProvider
 {
 
-	protected static Logger logger = Logger.getLogger( DataSetColumnBindingsFormHandleProvider.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( DataSetColumnBindingsFormHandleProvider.class.getName( ) );
 
 	private static final String ALL = Messages.getString( "DataSetColumnBindingsFormHandleProvider.ALL" );//$NON-NLS-1$
 	private static final String NONE = Messages.getString( "DataSetColumnBindingsFormHandleProvider.NONE" );//$NON-NLS-1$

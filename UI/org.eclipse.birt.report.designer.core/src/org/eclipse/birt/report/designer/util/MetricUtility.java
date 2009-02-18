@@ -25,7 +25,7 @@ public class MetricUtility
 	 * the horizontal and vertical DPI
 	 */
 
-	public static org.eclipse.swt.graphics.Point dpi = Display.getDefault( )
+	public static final org.eclipse.swt.graphics.Point dpi = Display.getDefault( )
 			.getDPI( );
 
 	/**

@@ -32,7 +32,7 @@ public class FormatDateTimePattern
 	public static final String DATETIEM_FORMAT_TYPE_SECONTDS = "datetiem_format_type_secontds"; //$NON-NLS-1$
 	public static final String DATETIEM_FORMAT_TYPE_GENERAL_TIME = "datetiem_format_type_general_time"; //$NON-NLS-1$
 
-	public static HashMap<String, String> customFormatMap = new LinkedHashMap<String, String>( );
+	public static final HashMap<String, String> customFormatMap = new LinkedHashMap<String, String>( );
 
 	static
 	{

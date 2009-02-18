@@ -767,7 +767,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER.equals( category ) )
 		{
 			String pattern = FormatStringPattern.getPatternForCategory( category );
-			gText = SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER;
+//			gText = SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER;
 			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );

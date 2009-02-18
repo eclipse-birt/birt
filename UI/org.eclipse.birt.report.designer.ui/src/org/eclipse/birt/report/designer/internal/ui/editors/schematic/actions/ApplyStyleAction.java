@@ -109,7 +109,7 @@ public class ApplyStyleAction extends DynamicItemAction
 		}
 
 		CommandUtils.setVariable( ICommandParameterNameContants.APPLAY_STYLE_ACTION_STYLE_CHECKED,
-				new Boolean( isChecked( ) ) );
+				Boolean.valueOf( isChecked( ) ) );
 		try
 		{
 			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.applyStyleCommand", //$NON-NLS-1$

@@ -161,7 +161,7 @@ public class FontPreferencePage extends BaseStylePreferencePage
 			 */
 			protected void updateComboForValue( String value )
 			{
-				super.updateComboForValue( DEUtil.RemoveQuote( value ) );
+				super.updateComboForValue( DEUtil.removeQuote( value ) );
 			}
 		};
 
@@ -288,7 +288,7 @@ public class FontPreferencePage extends BaseStylePreferencePage
 			int sizeValue = Integer.valueOf( (String) DesignerConstants.fontMap.get( fontSize ) )
 					.intValue( );
 
-			if ( size.InComboNamesList( size.getComboBoxControl( getFieldEditorParent( ) )
+			if ( size.inComboNamesList( size.getComboBoxControl( getFieldEditorParent( ) )
 					.getText( ) ) )
 			{
 				fontSize = size.getBoxValueForName( size.getComboBoxControl( getFieldEditorParent( ) )

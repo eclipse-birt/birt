@@ -128,7 +128,7 @@ public class FilterHandleProvider implements IFormHandleProvider
 		{
 			columnNames = modelAdapter.getColumnNames( columnKeys );
 		}
-		return columnNames;
+		return columnNames.clone( );
 	}
 
 	/*

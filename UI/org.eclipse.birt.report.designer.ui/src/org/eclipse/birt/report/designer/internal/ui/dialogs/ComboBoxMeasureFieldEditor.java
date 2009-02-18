@@ -333,7 +333,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 	{
 		if ( hasChoice )
 		{
-			if ( InComboNamesList( getComboBoxControl( parent ).getText( ) ) )
+			if ( inComboNamesList( getComboBoxControl( parent ).getText( ) ) )
 			{
 				return getBoxValueForName( getComboBoxControl( parent ).getText( ) );
 			}
@@ -352,7 +352,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 	 * @param name
 	 * @return
 	 */
-	public boolean InComboNamesList( String name )
+	public boolean inComboNamesList( String name )
 	{
 		if ( name == null )
 		{
@@ -462,7 +462,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 
 				public void modifyText( ModifyEvent e )
 				{
-					boolean cusType = !InComboNamesList( fCombo.getText( ) );
+					boolean cusType = !inComboNamesList( fCombo.getText( ) );
 
 					if ( cusType )
 					{

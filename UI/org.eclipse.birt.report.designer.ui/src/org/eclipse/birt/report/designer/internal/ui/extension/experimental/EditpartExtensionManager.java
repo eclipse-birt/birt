@@ -42,7 +42,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 public class EditpartExtensionManager
 {
 
-	protected static Logger logger = Logger.getLogger( EditpartExtensionManager.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( EditpartExtensionManager.class.getName( ) );
 
 	private static Map<Expression, IConfigurationElement> extensionMap = new HashMap<Expression, IConfigurationElement>( );
 	private static List<PaletteEntryExtension> palettes = new ArrayList<PaletteEntryExtension>( );

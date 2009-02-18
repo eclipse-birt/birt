@@ -9,7 +9,7 @@
 
 package org.eclipse.birt.report.designer.data.ui.property;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPageContainer;
 import org.eclipse.core.runtime.ListenerList;
@@ -65,7 +65,7 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.13 $ $Date: 2008/06/12 08:05:56 $
+ * @version $Revision: 1.14 $ $Date: 2008/12/11 05:58:07 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog

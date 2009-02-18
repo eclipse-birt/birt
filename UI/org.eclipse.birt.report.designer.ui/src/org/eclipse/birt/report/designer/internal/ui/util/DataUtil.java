@@ -356,8 +356,7 @@ public class DataUtil
 					{
 						InputParameterBinding binding = new InputParameterBinding(
 								paramDefn.getName( ), new ScriptExpression(
-										paramDefn.getDefaultInputValue( )
-												.toString( ) ) );
+										paramDefn.getDefaultInputValue( ) ) );
 						defn.addInputParamBinding( binding );
 					}
 				}
