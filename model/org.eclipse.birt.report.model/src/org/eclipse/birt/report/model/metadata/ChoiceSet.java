@@ -65,6 +65,9 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 	public Object clone( ) throws CloneNotSupportedException
 	{
 		ChoiceSet set = (ChoiceSet) super.clone( );
+		// new instance of cloned ChoiceSet choices
+		set.choices = new ArrayList<IChoice>( );
+
 		if ( choices != null )
 		{
 			for ( int i = 0; i < choices.size( ); i++ )
