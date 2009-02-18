@@ -73,7 +73,7 @@ public class ElementAdapterInvocationHandler implements InvocationHandler
 						if ( returnValue != result.booleanValue( ) )
 							returnValue = returnValue ^ result.booleanValue( );
 					}
-					return new Boolean( returnValue );
+					return Boolean.valueOf( returnValue );
 				}
 				else if ( returnType == Void.TYPE )
 				{

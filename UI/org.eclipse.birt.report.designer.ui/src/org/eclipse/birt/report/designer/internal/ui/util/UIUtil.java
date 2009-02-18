@@ -1475,7 +1475,7 @@ public class UIUtil
 				{
 					if ( bracket.empty( ) )
 					{
-						bracket.add( new Character( c ) );
+						bracket.add( Character.valueOf( c ) );
 					}
 					else
 					{
@@ -1486,7 +1486,7 @@ public class UIUtil
 						}
 						else
 						{
-							bracket.add( new Character( c ) );
+							bracket.add( Character.valueOf( c ) );
 						}
 					}
 				}
@@ -1495,7 +1495,7 @@ public class UIUtil
 			else
 			{
 				level[i] = bidi.getLevelAt( i );
-				if ( level[i] % 2 == 1 )
+				if ( level[i] % 2 != 0 )
 				{
 					bidiStart = true;
 				}
@@ -1822,10 +1822,10 @@ public class UIUtil
 			elementSorter.addElement( IPreferenceConstants.PALETTE_CONTENT, def );
 		}
 
-		for ( String category : extendedEntriesMap.keySet( ) )
+		for ( Map.Entry<String,SortedSet<IElementDefn>> entry : extendedEntriesMap.entrySet( ))
 		{
-			for ( IElementDefn def : extendedEntriesMap.get( category ) )
-				elementSorter.addElement( category, def );
+			for ( IElementDefn def : entry.getValue( ) )
+				elementSorter.addElement( entry.getKey( ), def );
 		}
 
 		List<IElementDefn> sortedElements = elementSorter.getSortedElements( );

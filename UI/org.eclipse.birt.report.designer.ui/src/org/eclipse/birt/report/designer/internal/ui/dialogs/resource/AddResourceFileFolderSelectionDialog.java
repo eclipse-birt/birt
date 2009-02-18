@@ -45,8 +45,9 @@ public class AddResourceFileFolderSelectionDialog extends
 	 * @param labelProvider
 	 * @param contentProvider
 	 */
-	public AddResourceFileFolderSelectionDialog( String[] pattern, String[] suffix)
-	{		
+	public AddResourceFileFolderSelectionDialog( String[] pattern,
+			String[] suffix )
+	{
 		super( true, pattern );
 		this.FILENAME_PATTERN = pattern;
 		this.FILENAME_SUFFIX = suffix;
@@ -75,22 +76,24 @@ public class AddResourceFileFolderSelectionDialog extends
 
 		} );
 		setAllowMultiple( true );
-		
+
 		String fileSuf = "";
-		for(int i = 0; i < FILENAME_SUFFIX.length; i ++)
+		for ( int i = 0; i < FILENAME_SUFFIX.length; i++ )
 		{
-			if( i == FILENAME_SUFFIX.length - 1 && FILENAME_SUFFIX.length >= 2)
+			if ( i == FILENAME_SUFFIX.length - 1 && FILENAME_SUFFIX.length >= 2 )
 			{
-				fileSuf = fileSuf + " " + Messages.getString( "AddJarResourceFileFolderSelectionDialog.Message.Or" );
+				fileSuf = fileSuf
+						+ " "
+						+ Messages.getString( "AddJarResourceFileFolderSelectionDialog.Message.Or" );
 			}
-			if(i != 0)
+			if ( i != 0 )
 			{
 				fileSuf = fileSuf + " ";
 			}
 			fileSuf = fileSuf + FILENAME_SUFFIX[i];
 		}
-		setTitle( Messages.getFormattedString( "ModulePage.Resourcefile.Dialog.Title" , new String[]{fileSuf}) ); //$NON-NLS-1$
-		setMessage( Messages.getFormattedString( "AddJarResourceFileFolderSelectionDialog.Message",new String[]{fileSuf}) ); //$NON-NLS-1$
+		setTitle( Messages.getFormattedString( "ModulePage.Resourcefile.Dialog.Title", new String[]{fileSuf} ) ); //$NON-NLS-1$
+		setMessage( Messages.getFormattedString( "AddJarResourceFileFolderSelectionDialog.Message", new String[]{fileSuf} ) ); //$NON-NLS-1$
 	}
 
 	public void setExistFiles( String[] existFiles )
@@ -107,21 +110,22 @@ public class AddResourceFileFolderSelectionDialog extends
 	protected Control createDialogArea( Composite parent )
 	{
 		Control control = super.createDialogArea( parent );
-//		UIUtil.bindHelp( parent, IHelpContextIds.ADD_JAR_FILES_DIALOG_ID );
-		if(helpDialogId != null)
+		// UIUtil.bindHelp( parent, IHelpContextIds.ADD_JAR_FILES_DIALOG_ID );
+		if ( helpDialogId != null )
 		{
 			UIUtil.bindHelp( parent, helpDialogId );
 		}
 		return control;
 	}
-	
+
 	private String helpDialogId = null;
-	public void setHelpDialogId(String id)
+
+	public void setHelpDialogId( String id )
 	{
-		this.helpDialogId = new String(id);
+		this.helpDialogId = id;
 	}
-	
-	public String getHelpDialogId()
+
+	public String getHelpDialogId( )
 	{
 		return helpDialogId;
 	}

@@ -44,7 +44,7 @@ import com.ibm.icu.util.ULocale;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.32 $ $Date: 2008/07/07 03:38:53 $
+ * @version $Revision: 1.33 $ $Date: 2008/09/17 07:14:15 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -223,9 +223,9 @@ public class SelectValueDialog extends BaseDialog
 				}
 				else if ( modelValue instanceof BigDecimal )
 				{
-					exprValue = new String( "new java.math.BigDecimal(\""
+					exprValue = "new java.math.BigDecimal(\""
 							+ viewerValue
-							+ "\")" );
+							+ "\")";
 				}
 				else
 				{
@@ -273,9 +273,9 @@ public class SelectValueDialog extends BaseDialog
 					}
 					else if ( modelValue instanceof BigDecimal )
 					{
-						exprValues[i] = new String( "new java.math.BigDecimal(\""
+						exprValues[i] = "new java.math.BigDecimal(\""
 								+ viewerValue
-								+ "\")" );
+								+ "\")";
 					}
 					else
 					{

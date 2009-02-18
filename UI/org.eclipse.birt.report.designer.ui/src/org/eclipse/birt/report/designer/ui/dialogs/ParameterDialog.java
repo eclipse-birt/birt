@@ -2403,7 +2403,7 @@ public class ParameterDialog extends BaseDialog
 	 */
 	protected void checkBoxChange( Button checkBox, String key )
 	{
-		dirtyProperties.put( key, new Boolean( checkBox.getSelection( ) ) );
+		dirtyProperties.put( key, Boolean.valueOf( checkBox.getSelection( ) ) );
 		if ( CHECKBOX_ISREQUIRED.equals( key )
 				|| CHECKBOX_DISTINCT.equals( key ) )
 		{

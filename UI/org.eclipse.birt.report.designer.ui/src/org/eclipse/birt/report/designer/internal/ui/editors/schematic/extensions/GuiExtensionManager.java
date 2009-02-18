@@ -267,12 +267,12 @@ public class GuiExtensionManager
 			containerEntriesMap.get( category ).add( combined );
 		}
 
-		for ( String category : containerEntriesMap.keySet( ) )
+		for ( Map.Entry<String, SortedSet<CombinedTemplateCreationEntry>> entry : containerEntriesMap.entrySet( ) )
 		{
-			PaletteContainer entry = findCategory( list, category );
-			for ( CombinedTemplateCreationEntry combined : containerEntriesMap.get( category ) )
+			PaletteContainer container = findCategory( list, entry.getKey( ) );
+			for ( CombinedTemplateCreationEntry combined : entry.getValue( ) )
 			{
-				entry.add( combined );
+				container.add( combined );
 			}
 		}
 

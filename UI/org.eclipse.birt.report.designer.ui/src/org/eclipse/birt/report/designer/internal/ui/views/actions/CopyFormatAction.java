@@ -26,7 +26,7 @@ import org.eclipse.ui.IWorkbenchPart;
 public class CopyFormatAction extends ContextSelectionAction
 {
 
-	public class ElementFormatWrapper implements Listener
+	private static class ElementFormatWrapper implements Listener
 	{
 
 		private DesignElementHandle element;

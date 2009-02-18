@@ -160,7 +160,7 @@ public class ResourceFilterDialog extends BaseDialog
 		viewer.setInput( filters );
 	}
 
-	class FilterProvider extends LabelProvider implements
+	private static class FilterProvider extends LabelProvider implements
 			IStructuredContentProvider
 	{
 

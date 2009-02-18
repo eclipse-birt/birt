@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.core.commands.AbstractParameterValueConverter;
 import org.eclipse.core.commands.Command;
@@ -96,10 +97,11 @@ public class CommandUtils
 		List paramList = new ArrayList( );
 		if ( paramMap != null )
 		{
-			for ( Iterator iter = paramMap.keySet( ).iterator( ); iter.hasNext( ); )
+			for ( Iterator iter = paramMap.entrySet( ).iterator( ); iter.hasNext( ); )
 			{
-				String paramId = (String) iter.next( );
-				Object value = paramMap.get( paramId );
+				Map.Entry entry = (Entry) iter.next( );
+				String paramId = entry.getKey( ).toString( );
+				Object value = entry.getValue( );
 				if ( value != null )
 				{
 					paramList.add( createParameter( cmd, paramId, value ) );

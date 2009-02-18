@@ -394,7 +394,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 		return parsedEntries.contains( url );
 	}
 
-	class FileFilter
+	private static class FileFilter
 	{
 
 		private String[] filePattern;

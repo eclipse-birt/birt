@@ -18,10 +18,10 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 
 	public BorderDescriptorProvider( )
 	{
-		styleMap.put( StyleHandle.BORDER_LEFT_STYLE_PROP, Boolean.valueOf( false ) );
-		styleMap.put( StyleHandle.BORDER_RIGHT_STYLE_PROP, Boolean.valueOf( false ) );
-		styleMap.put( StyleHandle.BORDER_TOP_STYLE_PROP, Boolean.valueOf( false ) );
-		styleMap.put( StyleHandle.BORDER_BOTTOM_STYLE_PROP, Boolean.valueOf( false ) );
+		styleMap.put( StyleHandle.BORDER_LEFT_STYLE_PROP, Boolean.FALSE );
+		styleMap.put( StyleHandle.BORDER_RIGHT_STYLE_PROP, Boolean.FALSE );
+		styleMap.put( StyleHandle.BORDER_TOP_STYLE_PROP, Boolean.FALSE );
+		styleMap.put( StyleHandle.BORDER_BOTTOM_STYLE_PROP, Boolean.FALSE );
 	}
 
 	public void setStyleProperty( String style, Boolean value )

@@ -19,7 +19,6 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -149,13 +148,13 @@ public class ImageBuilder extends BaseDialog
 
 	static
 	{
-		descriptionMap.put( new Integer( URI_TYPE ),
+		descriptionMap.put( Integer.valueOf( URI_TYPE ),
 				Messages.getString( "ImageBuilder.Description.URI" ) ); //$NON-NLS-1$
-		descriptionMap.put( new Integer( FILE_TYPE ),
+		descriptionMap.put( Integer.valueOf( FILE_TYPE ),
 				Messages.getString( "ImageBuilder.Description.ResourceFile" ) ); //$NON-NLS-1$
-		descriptionMap.put( new Integer( EMBEDDED_TYPE ),
+		descriptionMap.put( Integer.valueOf( EMBEDDED_TYPE ),
 				Messages.getString( "ImageBuilder.Description.Embedded" ) ); //$NON-NLS-1$
-		descriptionMap.put( new Integer( BLOB_TYPE ),
+		descriptionMap.put( Integer.valueOf( BLOB_TYPE ),
 				Messages.getString( "ImageBuilder.Description.Dynamic" ) ); //$NON-NLS-1$
 	}
 
@@ -163,11 +162,11 @@ public class ImageBuilder extends BaseDialog
 
 	static
 	{
-		uriEditorLabelMap.put( new Integer( URI_TYPE ),
+		uriEditorLabelMap.put( Integer.valueOf( URI_TYPE ),
 				Messages.getString( "ImageBuilder.Label.EnterURI" ) ); //$NON-NLS-1$
-		uriEditorLabelMap.put( new Integer( FILE_TYPE ),
+		uriEditorLabelMap.put( Integer.valueOf( FILE_TYPE ),
 				Messages.getString( "ImageBuilder.Label.EnterResourceFile" ) ); //$NON-NLS-1$
-		uriEditorLabelMap.put( new Integer( BLOB_TYPE ),
+		uriEditorLabelMap.put( Integer.valueOf( BLOB_TYPE ),
 				Messages.getString( "ImageBuilder.Label.EnterExpr" ) ); //$NON-NLS-1$
 	}
 
@@ -332,7 +331,7 @@ public class ImageBuilder extends BaseDialog
 		selectedType = type;
 
 		clearPreview( );
-		description.setText( descriptionMap.get( new Integer( type ) ) );
+		description.setText( descriptionMap.get( Integer.valueOf( type ) ) );
 
 		Control[] controls = inputArea.getChildren( );
 		for ( int i = 0; i < controls.length; i++ )
@@ -365,7 +364,7 @@ public class ImageBuilder extends BaseDialog
 		GridData labelGd = new GridData( GridData.FILL_HORIZONTAL );
 		labelGd.horizontalSpan = 3;
 		uriEditorLabel.setLayoutData( labelGd );
-		uriEditorLabel.setText( uriEditorLabelMap.get( new Integer( type ) ) );
+		uriEditorLabel.setText( uriEditorLabelMap.get( Integer.valueOf( type ) ) );
 
 		uriEditor = new Text( inputArea, SWT.SINGLE | SWT.BORDER );
 		GridData textGd = new GridData( GridData.GRAB_HORIZONTAL
