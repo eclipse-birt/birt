@@ -36,7 +36,7 @@ public class SampleReportsEntry implements ResourceEntry
 
 	private static final String SAMPLE_REPORTS_HOST = "org.eclipse.birt.report.designer.samplereports"; //$NON-NLS-1$
 
-	public static Bundle samplesBundle = Platform.getBundle( SAMPLE_REPORTS_HOST );
+	public static final Bundle samplesBundle = Platform.getBundle( SAMPLE_REPORTS_HOST );
 
 	private String name;
 

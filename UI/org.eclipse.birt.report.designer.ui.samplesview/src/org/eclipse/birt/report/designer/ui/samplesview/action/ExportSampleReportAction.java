@@ -90,7 +90,10 @@ public class ExportSampleReportAction extends Action implements Listener
 			setEnabled( false );
 		TreeItem item = (TreeItem) event.widget;
 		if ( item == null )
+		{
 			super.setEnabled( false );
+			return;
+		}			
 		Object selectedElement = item.getData( );
 		if ( selectedElement == null )
 			super.setEnabled( false );

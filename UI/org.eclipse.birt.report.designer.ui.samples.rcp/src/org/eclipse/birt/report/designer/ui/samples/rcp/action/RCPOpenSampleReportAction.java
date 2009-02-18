@@ -153,7 +153,10 @@ public class RCPOpenSampleReportAction extends Action implements
 			setEnabled( false );
 		TreeItem item = (TreeItem) event.widget;
 		if ( item == null )
+		{
 			super.setEnabled( false );
+			return;
+		}
 		Object selectedElement = item.getData( );
 		if ( selectedElement == null )
 			super.setEnabled( false );

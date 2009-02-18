@@ -180,7 +180,7 @@ public class DesignerDropListener extends DesignElementDropAdapter
 	/**
 	 * 
 	 */
-	protected boolean ApplyTheme( ThemeHandle themeHandle,
+	protected boolean applyTheme( ThemeHandle themeHandle,
 			ModuleHandle moudelHandle )
 	{
 

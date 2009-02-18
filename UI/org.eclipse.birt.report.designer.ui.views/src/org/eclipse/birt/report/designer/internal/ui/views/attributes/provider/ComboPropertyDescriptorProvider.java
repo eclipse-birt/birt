@@ -48,7 +48,7 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
 						sysFont.length );
 				for ( int i = 0; i < items.length; i++ )
 				{
-					DEUtil.RemoveQuote( items[i] );
+					DEUtil.removeQuote( items[i] );
 				}
 				this.items = items;
 			}
@@ -78,7 +78,7 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
 	{
 		if ( StyleHandle.FONT_FAMILY_PROP.equals( getProperty( ) ) )
 		{
-			return DEUtil.RemoveQuote( super.load( ).toString( ) );
+			return DEUtil.removeQuote( super.load( ).toString( ) );
 		}
 		else if ( StyleHandle.TEXT_ALIGN_PROP.equals( getProperty( ) )
 				|| StyleHandle.VERTICAL_ALIGN_PROP.equals( getProperty( ) ) )
@@ -136,7 +136,7 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
 				&& needAddQuote( value == null ? null : value.toString( ) ) )
 		{
 
-			super.save( DEUtil.AddQuote( value == null ? null
+			super.save( DEUtil.addQuote( value == null ? null
 					: value.toString( ) ) );
 		}
 		else

@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;

@@ -466,7 +466,7 @@ public class ReportExamples
 		listenerList.add( selectedListener );
 	}
 
-	private class ContributeDialog extends TitleAreaDialog
+	static private class ContributeDialog extends TitleAreaDialog
 	{
 
 		/**
@@ -482,7 +482,7 @@ public class ReportExamples
 			Composite container = (Composite) super.createDialogArea( parent );
 			setTitle( Messages.getString( "ReportExamples.ContributeSamples.title" ) ); //$NON-NLS-1$
 			setMessage( Messages.getString( "ReportExamples.ContributeSamples.messages" ) ); //$NON-NLS-1$	
-			getShell( ).setText( Messages.getString( "ReportExamples.ContributeSamples.title" ) ); //$NON-NLS-1$
+			super.getShell( ).setText( Messages.getString( "ReportExamples.ContributeSamples.title" ) ); //$NON-NLS-1$
 
 			Composite composite = new Composite( container, SWT.NONE );
 			GridData gd = new GridData( GridData.FILL_BOTH

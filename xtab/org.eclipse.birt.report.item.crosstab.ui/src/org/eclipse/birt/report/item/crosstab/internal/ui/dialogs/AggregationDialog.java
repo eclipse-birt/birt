@@ -14,9 +14,9 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -542,6 +542,20 @@ public class AggregationDialog extends BaseDialog
 			&& temp.getPosition( ).equals( levelView.getAggregationHeaderLocation( ));
 		}
 
+		/**
+		 * @see java.lang.Object#hashCode()
+		 */
+		public int hashCode( )
+		{
+			int hash = 31;
+			hash = hash * 31 + level.hashCode( );
+			hash = hash
+					* 31
+					+ ( measureQualifiedName == null ? 0
+							: measureQualifiedName.hashCode( ) );
+			return hash;
+		}
+		
 		public boolean isAssociation( )
 		{
 			return isAssociation;

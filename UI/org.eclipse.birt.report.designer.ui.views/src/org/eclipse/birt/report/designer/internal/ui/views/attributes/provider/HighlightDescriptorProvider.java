@@ -10,9 +10,9 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.HighlightRuleBuilder;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -544,7 +544,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 	{
 		HighlightRuleHandle hrHandle = (HighlightRuleHandle) object;
 		// String rfm = hrHandle.getFontFamilyHandle( ).getStringValue( );
-		String rfm = DEUtil.RemoveQuote( hrHandle.getFontFamilyHandle( )
+		String rfm = DEUtil.removeQuote( hrHandle.getFontFamilyHandle( )
 				.getStringValue( ) );
 
 		if ( rfm == null || rfm.length( ) == 0 )

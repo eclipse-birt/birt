@@ -555,7 +555,10 @@ public class IDEOpenSampleReportAction extends Action implements
 			setEnabled( false );
 		TreeItem item = (TreeItem) event.widget;
 		if ( item == null )
+		{
 			super.setEnabled( false );
+			return;
+		}			
 		Object selectedElement = item.getData( );
 		if ( selectedElement == null )
 			super.setEnabled( false );
@@ -563,7 +566,7 @@ public class IDEOpenSampleReportAction extends Action implements
 			super.setEnabled( selectedElement instanceof ReportDesignHandle );
 	}
 
-	class ProjectNameDialog extends Dialog
+	static class ProjectNameDialog extends Dialog
 	{
 
 		Text text;

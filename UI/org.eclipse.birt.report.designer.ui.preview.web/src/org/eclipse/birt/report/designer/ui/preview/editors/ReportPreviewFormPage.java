@@ -51,7 +51,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		IReportEditorPage
 {
 
-	protected static Logger logger = Logger.getLogger( ReportPreviewFormPage.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( ReportPreviewFormPage.class.getName( ) );
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.preview.web"; //$NON-NLS-1$
 

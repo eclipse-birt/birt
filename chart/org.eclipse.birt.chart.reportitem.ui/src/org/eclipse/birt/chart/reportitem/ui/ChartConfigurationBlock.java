@@ -12,10 +12,10 @@
 package org.eclipse.birt.chart.reportitem.ui;
 
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
-import org.eclipse.birt.report.designer.internal.ui.util.PixelConverter;
 import org.eclipse.birt.report.designer.ui.preferences.IStatusChangeListener;
 import org.eclipse.birt.report.designer.ui.preferences.OptionsConfigurationBlock;
 import org.eclipse.birt.report.designer.ui.preferences.StatusInfo;
+import org.eclipse.birt.report.designer.ui.util.PixelConverter;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.swt.SWT;
