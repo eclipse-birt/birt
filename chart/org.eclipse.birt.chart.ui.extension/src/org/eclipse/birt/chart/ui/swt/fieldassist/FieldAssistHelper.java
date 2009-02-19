@@ -92,7 +92,7 @@ public final class FieldAssistHelper
 		String triggerKey = store.getString( PreferenceConstants.PREF_CONTENTASSISTKEY );
 		if ( triggerKey.equals( PreferenceConstants.PREF_CONTENTASSISTKEYAUTO ) )
 		{
-			// null means automatically assist when character typed
+			// Null means automatically assist when character typed
 			return null;
 		}
 		if ( triggerKey.equals( PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOM ) )
@@ -103,6 +103,23 @@ public final class FieldAssistHelper
 		return triggerKey;
 	}
 
+	private String getTriggerKeyText( )
+	{
+		IPreferenceStore store = getPreferenceStore( );
+		String triggerKey = store.getString( PreferenceConstants.PREF_CONTENTASSISTKEY );
+		if ( triggerKey.equals( PreferenceConstants.PREF_CONTENTASSISTKEYAUTO ) )
+		{
+			// It means automatically assist when character typed
+			return "alphanumeric key"; //$NON-NLS-1$
+		}
+		if ( triggerKey.equals( PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOM ) )
+		{
+			return getPreferenceStore( ).getString( PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOMKEY );
+		}
+		
+		return triggerKey;
+	}
+	
 	private int getMarginWidth( )
 	{
 		IPreferenceStore store = getPreferenceStore( );
@@ -464,14 +481,14 @@ public final class FieldAssistHelper
 			FieldDecoration standardDecoration = registry.getFieldDecoration( FieldDecorationRegistry.DEC_CONTENT_PROPOSAL );
 			registry.registerFieldDecoration( DEC_CONTENTASSIST_ID,
 					NLS.bind( FieldAssistMessages.ssDecoratorContentAssist,
-							getTriggerKey( ) ),
+							getTriggerKeyText( ) ),
 					standardDecoration.getImage( ) );
 			dec = registry.getFieldDecoration( DEC_CONTENTASSIST_ID );
 		}
 		else
 		{
 			dec.setDescription( NLS.bind( FieldAssistMessages.ssDecoratorContentAssist,
-					getTriggerKey( ) ) );
+					getTriggerKeyText( ) ) );
 		}
 		return dec;
 	}
