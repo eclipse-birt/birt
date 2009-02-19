@@ -87,14 +87,14 @@ public class ThemeTest extends BaseTestCase
 		super.setUp( );
 		removeResource( );
 
-		 copyInputToFile ( INPUT_FOLDER + "/" + LibA );
-		 copyInputToFile ( INPUT_FOLDER + "/" + LibB );
-		 copyInputToFile ( INPUT_FOLDER + "/" + LibC );
-		 copyInputToFile ( INPUT_FOLDER + "/" + LibC1 );
-		 copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest1.xml" );
-		 copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest2.xml" );
-		 copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest2_1.xml" );
-		 copyInputToFile ( INPUT_FOLDER + "/" + LibCInclTheme );
+		// copyInputToFile ( INPUT_FOLDER + "/" + LibA );
+		// copyInputToFile ( INPUT_FOLDER + "/" + LibB );
+		// copyInputToFile ( INPUT_FOLDER + "/" + LibC );
+		// copyInputToFile ( INPUT_FOLDER + "/" + LibC1 );
+		// copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest1.xml" );
+		// copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest2.xml" );
+		// copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest2_1.xml" );
+		// copyInputToFile ( INPUT_FOLDER + "/" + LibCInclTheme );
 		// System.out.println("ThemeTest1.xml");
 	}
 
@@ -237,7 +237,7 @@ public class ThemeTest extends BaseTestCase
 		// designHandle.save();
 
 		// drop selector styles in library
-//		openLibrary( "LibraryCIncludeTheme.xml" );
+		openLibrary( "LibraryCIncludeTheme.xml" );
 		assertNotNull( libraryHandle.findTheme( "theme1" ).findStyle( "table" ) );
 		libraryHandle.findTheme( "theme1" ).findStyle( "label" ).drop( );
 		libraryHandle.save( );

@@ -88,21 +88,11 @@ abstract public class BaseTestCase extends TestCase
 		super.tearDown( );
 	}
 
-	/**
-	 * Get input folder
-	 * 
-	 * @return input folder
-	 */
 	protected File getInputFolder( )
 	{
 		return new File( getBaseFolder( ), INPUT_FOLDER );
 	}
 
-	/**
-	 * Get base folder
-	 * 
-	 * @return base folder
-	 */
 	private File getBaseFolder( )
 	{
 		if ( classFolder == null )

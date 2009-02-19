@@ -188,6 +188,7 @@ public class AllRegressionTests
 		test.addTestSuite( Regression_159033.class );
 		test.addTestSuite( Regression_159858.class );
 		test.addTestSuite( Regression_160176.class );
+		test.addTestSuite( Regression_160193.class );
 		test.addTestSuite( Regression_160419.class );
 		test.addTestSuite( Regression_160429.class );
 		test.addTestSuite( Regression_160808.class );
@@ -246,10 +247,7 @@ public class AllRegressionTests
 		test.addTestSuite( Regression_236825.class );
 		test.addTestSuite( Regression_240813.class );
 		test.addTestSuite( Regression_241931.class );
-		test.addTestSuite( Regression_245931.class );
-		test.addTestSuite( Regression_246198.class );
-		test.addTestSuite( Regression_246686.class );
-		test.addTestSuite( Regression_245341.class );
+		
 		return test;
 	}
 }
