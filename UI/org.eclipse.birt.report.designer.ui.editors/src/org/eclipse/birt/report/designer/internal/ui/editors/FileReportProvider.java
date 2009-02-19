@@ -410,13 +410,20 @@ public class FileReportProvider implements IReportProvider
 			}
 		}
 
-		if ( exception instanceof IOException )
+		if ( exception instanceof RuntimeException )
+		{
+			throw (RuntimeException) exception;
+		}
+		else if ( exception instanceof IOException )
 		{
 			throw (IOException) exception;
 		}
-		else if ( exception instanceof RuntimeException )
+		else
 		{
-			throw (RuntimeException) exception;
+			if ( exception != null )
+			{
+				logger.log( Level.SEVERE, exception.getMessage( ), exception );
+			}
 		}
 	}
 
