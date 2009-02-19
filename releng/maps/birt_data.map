@@ -1,5 +1,5 @@
 !**************** BIRT DATA ********************
-plugin@org.eclipse.birt.data=r232_v20090211,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
+plugin@org.eclipse.birt.data=r232_v20090219,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
 plugin@org.eclipse.birt.data.aggregation=r232_v20090211,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.aggregation
 plugin@org.eclipse.birt.report.data.adapter=r232_v20090211,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.adapter
 plugin@org.eclipse.birt.report.data.oda.jdbc=r232_v20090212,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc
