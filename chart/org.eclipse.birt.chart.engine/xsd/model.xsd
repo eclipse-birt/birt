@@ -58,7 +58,7 @@ expected to be present for all charts.
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Dimension"
-				type="attribute:ChartDimension">
+				type="attribute:ChartDimension" default="Two_Dimensional">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 						Specifies the dimensions for the chart.
