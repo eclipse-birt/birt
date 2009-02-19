@@ -219,7 +219,7 @@ public class PreviewToolbarMenuAction implements
 				if ( type.getId( )
 						.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" )
 						|| type.getId( )
-								.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ) )
+								.equals( "org.eclipse.birt.report.designer.ui.editors.reporttemplate" ) )
 					return true;
 			}
 		}
