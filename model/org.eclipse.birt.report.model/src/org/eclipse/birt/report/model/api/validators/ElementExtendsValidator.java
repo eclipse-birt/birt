@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api.validators;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -23,10 +22,12 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
  * Validates the element extends property. If the value can refer to an actual
- * element, it will be resolved after validation. <h3>Rule</h3> The rule is that
- * the element extends value should refer to an actual element in the same
- * report or included libraries. <h3>Applicability</h3> This validator is only
- * applied to the element extends property.
+ * element, it will be resolved after validation.
+ * <h3>Rule</h3>
+ * The rule is that the element extends value should refer to an actual element
+ * in the same report or included libraries.
+ * <h3>Applicability</h3>
+ * This validator is only applied to the element extends property.
  */
 
 public class ElementExtendsValidator extends AbstractElementValidator
@@ -66,16 +67,14 @@ public class ElementExtendsValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
-		List<SemanticException> list = new ArrayList<SemanticException>( );
+		List list = new ArrayList( );
 
 		if ( !StringUtil.isEmpty( element.getExtendsName( ) )
 				&& element.getExtendsElement( ) == null )
 		{
-			list.add( new InvalidParentException( element, element
-					.getExtendsName( ),
+			list.add( new InvalidParentException( element, element.getExtendsName( ),
 					InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND ) );
 		}
 

@@ -72,9 +72,8 @@ public class CopyUtil
 	 *             if the element is not allowed in the slot
 	 */
 
-	public static List<ErrorDetail> paste( IElementCopy copy,
-			DesignElementHandle container, int slotID )
-			throws SemanticException
+	public static List paste( IElementCopy copy, DesignElementHandle container,
+			int slotID ) throws SemanticException
 	{
 		ContainerContext context = new ContainerContext(
 				container.getElement( ), slotID );
@@ -92,7 +91,7 @@ public class CopyUtil
 		container.getModuleHandle( ).rename( container, target );
 
 		if ( chosen == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 
 		container.getSlot( slotID ).add( target );
 		return checkPostPasteErrors( target.getElement( ), root );
@@ -115,9 +114,8 @@ public class CopyUtil
 	 *             if the element is not allowed in the slot
 	 */
 
-	public static List<ErrorDetail> paste( IElementCopy copy,
-			DesignElementHandle container, int slotID, int newPos )
-			throws SemanticException
+	public static List paste( IElementCopy copy, DesignElementHandle container,
+			int slotID, int newPos ) throws SemanticException
 	{
 		ContainerContext context = new ContainerContext(
 				container.getElement( ), slotID );
@@ -134,7 +132,7 @@ public class CopyUtil
 				.preWorkForPaste( context, copy, root );
 
 		if ( chosen == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 
 		DesignElementHandle target = chosen.getHandle( root );
 		container.getModuleHandle( ).rename( container, target );
@@ -159,9 +157,8 @@ public class CopyUtil
 	 *             if the element is not allowed in the slot
 	 */
 
-	public static List<ErrorDetail> paste( IElementCopy copy,
-			DesignElementHandle container, String propName )
-			throws SemanticException
+	public static List paste( IElementCopy copy, DesignElementHandle container,
+			String propName ) throws SemanticException
 	{
 		ContainerContext context = new ContainerContext(
 				container.getElement( ), propName );
@@ -178,7 +175,7 @@ public class CopyUtil
 				.preWorkForPaste( context, copy, root );
 
 		if ( chosen == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 
 		DesignElementHandle target = chosen.getHandle( root );
 		container.getModuleHandle( ).rename( container, target );
@@ -205,9 +202,8 @@ public class CopyUtil
 	 *             if the element is not allowed in the slot
 	 */
 
-	public static List<ErrorDetail> paste( IElementCopy copy,
-			DesignElementHandle container, String propName, int newPos )
-			throws SemanticException
+	public static List paste( IElementCopy copy, DesignElementHandle container,
+			String propName, int newPos ) throws SemanticException
 	{
 		ContainerContext context = new ContainerContext(
 				container.getElement( ), propName );
@@ -227,7 +223,7 @@ public class CopyUtil
 		container.getModuleHandle( ).rename( container, target );
 
 		if ( chosen == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 
 		container.add( propName, target, newPos );
 		return checkPostPasteErrors( target.getElement( ), root );
@@ -294,18 +290,15 @@ public class CopyUtil
 	 *         <code>ErrorDetail</code>.
 	 */
 
-	private static List<ErrorDetail> checkPostPasteErrors(
-			DesignElement content, Module root )
+	private static List checkPostPasteErrors( DesignElement content, Module root )
 	{
 		revisePropertyNameSpace( root, content, content.getDefn( ).getProperty(
 				IDesignElementModel.EXTENDS_PROP ) );
 
 		reviseNameSpace( root, content );
 
-		List<SemanticException> exceptionList = content
-				.validateWithContents( root );
-		List<ErrorDetail> errorDetailList = ErrorDetail
-				.convertExceptionList( exceptionList );
+		List exceptionList = content.validateWithContents( root );
+		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
 
 		return errorDetailList;
 	}
@@ -325,23 +318,22 @@ public class CopyUtil
 
 	private static void reviseNameSpace( Module module, DesignElement content )
 	{
-		Iterator<String> propNames = content.propertyWithLocalValueIterator( );
+		Iterator propNames = content.propertyWithLocalValueIterator( );
 		IElementDefn defn = content.getDefn( );
 
 		while ( propNames.hasNext( ) )
 		{
-			String propName = propNames.next( );
+			String propName = (String) propNames.next( );
 
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) defn
 					.getProperty( propName );
 			revisePropertyNameSpace( module, content, propDefn );
 		}
 
-		Iterator<DesignElement> iter = new LevelContentIterator( module,
-				content, 1 );
+		Iterator iter = new LevelContentIterator( module, content, 1 );
 		while ( iter.hasNext( ) )
 		{
-			DesignElement item = iter.next( );
+			DesignElement item = (DesignElement) iter.next( );
 			reviseNameSpace( module, item );
 		}
 	}

@@ -202,9 +202,7 @@ public class DataSetParameter extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
-	 * .lang.String)
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -236,9 +234,8 @@ public class DataSetParameter extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
-	 * .lang.String, java.lang.Object)
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
+	 *      java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -498,9 +495,8 @@ public class DataSetParameter extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
-	 * report.model.api.SimpleValueHandle, int)
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
+	 *      int)
 	 */
 
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
@@ -511,16 +507,13 @@ public class DataSetParameter extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
-	 * .report.model.elements.ReportDesign,
-	 * org.eclipse.birt.report.model.core.DesignElement)
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
+	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
-		ArrayList<SemanticException> list = new ArrayList<SemanticException>( );
+		ArrayList list = new ArrayList( );
 
 		if ( StringUtil.isBlank( getName( ) ) )
 		{
@@ -559,9 +552,13 @@ public class DataSetParameter extends Structure
 	 * possible values are:
 	 * 
 	 * <ul>
-	 * <li>PARAM_TYPE_ANY <li>PARAM_TYPE_INTEGER <li>PARAM_TYPE_STRING <li>
-	 * PARAM_TYPE_DATETIME <li>PARAM_TYPE_DECIMAL <li>PARAM_TYPE_FLOAT <li>
-	 * PARAM_TYPE_BOOLEAN
+	 * <li>PARAM_TYPE_ANY
+	 * <li>PARAM_TYPE_INTEGER
+	 * <li>PARAM_TYPE_STRING
+	 * <li>PARAM_TYPE_DATETIME
+	 * <li>PARAM_TYPE_DECIMAL
+	 * <li>PARAM_TYPE_FLOAT
+	 * <li>PARAM_TYPE_BOOLEAN
 	 * </ul>
 	 * 
 	 * @return the data type of this parameter.
@@ -577,9 +574,13 @@ public class DataSetParameter extends Structure
 	 * allowed values are:
 	 * 
 	 * <ul>
-	 * <li>PARAM_TYPE_ANY <li>PARAM_TYPE_INTEGER <li>PARAM_TYPE_STRING <li>
-	 * PARAM_TYPE_DATETIME <li>PARAM_TYPE_DECIMAL <li>PARAM_TYPE_FLOAT <li>
-	 * PARAM_TYPE_BOOLEAN
+	 * <li>PARAM_TYPE_ANY
+	 * <li>PARAM_TYPE_INTEGER
+	 * <li>PARAM_TYPE_STRING
+	 * <li>PARAM_TYPE_DATETIME
+	 * <li>PARAM_TYPE_DECIMAL
+	 * <li>PARAM_TYPE_FLOAT
+	 * <li>PARAM_TYPE_BOOLEAN
 	 * </ul>
 	 * 
 	 * @param dataType

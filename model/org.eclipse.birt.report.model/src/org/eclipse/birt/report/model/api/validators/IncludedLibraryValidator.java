@@ -54,12 +54,12 @@ public class IncludedLibraryValidator extends AbstractElementValidator
 			DesignElement element )
 	{
 
-		List<SemanticException> errors = new ArrayList<SemanticException>( );
-		List<Library> libs = module.getAllLibraries( );
+		List errors = new ArrayList( );
+		List libs = module.getAllLibraries( );
 
 		for ( int i = 0; i < libs.size( ); i++ )
 		{
-			Library lib = libs.get( i );
+			Library lib = (Library) libs.get( i );
 
 			if ( !lib.isValid( ) )
 			{

@@ -70,7 +70,7 @@ class ElementExporter
 	 * value is element in library handle.
 	 */
 
-	private Map<DesignElementHandle, DesignElementHandle> propBindingMap = new HashMap<DesignElementHandle, DesignElementHandle>( );
+	private Map propBindingMap = new HashMap( );
 
 	/**
 	 * Constructs the exporter with the handle of target library.
@@ -313,7 +313,7 @@ class ElementExporter
 
 		while ( iter.hasNext( ) )
 		{
-			DesignElement element = iter.next( );
+			DesignElement element = (DesignElement) iter.next( );
 			if ( element.getName( ) == null )
 				continue;
 			dropDuplicatedElement( element );
@@ -501,7 +501,7 @@ class ElementExporter
 			long id = struct.getID( ).longValue( );
 			DesignElementHandle tempHandle = designToExport.getElementByID( id );
 
-			DesignElementHandle tempCopyInLibHandle = propBindingMap
+			DesignElementHandle tempCopyInLibHandle = (DesignElementHandle) propBindingMap
 					.get( tempHandle );
 			if ( tempCopyInLibHandle != null )
 				struct.setID( tempCopyInLibHandle.getID( ) );
@@ -571,7 +571,7 @@ class ElementExporter
 
 			// First export element which has name.
 
-			List<DesignElementHandle> noNameList = new ArrayList<DesignElementHandle>( );
+			List noNameList = new ArrayList( );
 			while ( iter.hasNext( ) )
 			{
 				DesignElementHandle contentHandle = (DesignElementHandle) iter

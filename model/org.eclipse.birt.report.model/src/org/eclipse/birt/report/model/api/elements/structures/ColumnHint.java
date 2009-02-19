@@ -16,7 +16,6 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -38,12 +37,12 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * within the result set.</dd>
  * 
  * <dt><strong>Alias </strong></dt>
- * <dd>a column hint has an optional alias. It provides an ¡°alias¡± name used for
- * the column within the report.</dd>
+ * <dd>a column hint has an optional alias. It provides an ¡°alias¡± name used
+ * for the column within the report.</dd>
  * 
  * <dt><strong>Searching </strong></dt>
- * <dd>a column hint has an optional searching. It indicates how the column will
- * be used when searching.</dd>
+ * <dd>a column hint has an optional searching. It indicates how the column
+ * will be used when searching.</dd>
  * 
  * <dt><strong>Export </strong></dt>
  * <dd>a column hint has an optional export. It determines how the column will
@@ -74,14 +73,14 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * localize the display name.</dd>
  * 
  * <dt><strong>Help Text </strong></dt>
- * <dd>a column hint has an optional help text. It provides optional localizable
- * descriptive text that explains the column to the end user.</dd>
+ * <dd>a column hint has an optional help text. It provides optional
+ * localizable descriptive text that explains the column to the end user.</dd>
  * 
  * <dt><strong>Help Text ID </strong></dt>
  * <dd>a column hint has an optional help text ID. It provides the key to
  * localize the help text.</dd>
  * </dl>
- * 
+ *  
  */
 
 public class ColumnHint extends PropertyStructure
@@ -138,8 +137,9 @@ public class ColumnHint extends PropertyStructure
 	/**
 	 * Name of the parent level member. This member is used when a column¡¯s
 	 * <code>ANALYSIS_MEMBER</code> property is set to
-	 * <code>ANALYSIS_TYPE_DIMENSION</code> or <code>ANALYSIS_TYPE_DETAIL</code>
-	 * . For <code>ANALYSIS_TYPE_DIMENSION</code>, this property establishes the
+	 * <code>ANALYSIS_TYPE_DIMENSION</code> or
+	 * <code>ANALYSIS_TYPE_DETAIL</code>. For
+	 * <code>ANALYSIS_TYPE_DIMENSION</code>, this property establishes the
 	 * dimension hierarchy. Lower (more detailed) dimensions identify their
 	 * parent (more general) dimensions. For <code>ANALYSIS_TYPE_DETAIL</code>,
 	 * this property identifies the dimension for which this column is a detail.
@@ -204,10 +204,9 @@ public class ColumnHint extends PropertyStructure
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
-		List<SemanticException> list = super.validate( module, element );
+		List list = super.validate( module, element );
 
 		PropertyDefn propDefn = (PropertyDefn) getDefn( ).getMember(
 				COLUMN_NAME_MEMBER );
@@ -225,9 +224,8 @@ public class ColumnHint extends PropertyStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
-	 * report.model.api.SimpleValueHandle, int)
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
+	 *      int)
 	 */
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{

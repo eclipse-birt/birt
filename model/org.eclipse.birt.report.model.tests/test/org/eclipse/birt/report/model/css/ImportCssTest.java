@@ -198,8 +198,8 @@ public class ImportCssTest extends BaseTestCase
 	public void testContainerOfCssStyleSheet( ) throws Exception
 	{
 		openDesign( "ImportCssReport.xml" ); //$NON-NLS-1$
-		CssStyleSheetHandle cssStyleSheetHandle = designHandle.getTheme( )
-				.getAllCssStyleSheets( ).get( 0 );
+		CssStyleSheetHandle cssStyleSheetHandle = (CssStyleSheetHandle) designHandle
+				.getTheme( ).getAllCssStyleSheets( ).get( 0 );
 		SharedStyleHandle styleHandle = cssStyleSheetHandle.findStyle( "table" ); //$NON-NLS-1$
 		assertTrue( styleHandle instanceof CssSharedStyleHandle );
 		CssSharedStyleHandle cssStyleHandle = (CssSharedStyleHandle) styleHandle;

@@ -34,8 +34,7 @@ public class GroupElementFactory
 	 */
 
 	public static GroupElementHandle newGroupElement(
-			ModuleHandle moduleHandle,
-			List<DesignElementHandle> selectedElements )
+			ModuleHandle moduleHandle, List selectedElements )
 	{
 		if ( moduleHandle == null || selectedElements == null )
 			return new EmptyGroupElementHandle( );

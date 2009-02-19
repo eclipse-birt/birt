@@ -64,9 +64,9 @@ class ColumnBandPasteAction extends ColumnBandCopyAction
 		if ( adapter.hasParent( ) )
 			return false;
 
-		List<CellContextInfo> cells = data.getCells( );
+		List cells = data.getCells( );
 
-		List<CellContextInfo> originalCells = getCellsContextInfo( adapter
+		List originalCells = getCellsContextInfo( adapter
 				.getCellsUnderColumn( columnIndex ) );
 
 		if ( !isRectangleArea( originalCells, 1 ) )
@@ -106,8 +106,8 @@ class ColumnBandPasteAction extends ColumnBandCopyAction
 	 *             is <code>false</code> and the layout of cells are different.
 	 */
 
-	protected List<ErrorDetail> pasteColumnBand( int columnIndex,
-			boolean inForce, ColumnBandData data ) throws SemanticException
+	protected List pasteColumnBand( int columnIndex, boolean inForce,
+			ColumnBandData data ) throws SemanticException
 	{
 		boolean canDone = canPaste( columnIndex, inForce, data );
 
@@ -122,8 +122,8 @@ class ColumnBandPasteAction extends ColumnBandCopyAction
 					SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_DIFFERENT_LAYOUT );
 
 		TableColumn column = data.getColumn( );
-		List<CellContextInfo> cells = data.getCells( );
-		List<CellContextInfo> originalCells = getCellsContextInfo( adapter
+		List cells = data.getCells( );
+		List originalCells = getCellsContextInfo( adapter
 				.getCellsUnderColumn( columnIndex ) );
 
 		ActivityStack as = adapter.getModule( ).getActivityStack( );

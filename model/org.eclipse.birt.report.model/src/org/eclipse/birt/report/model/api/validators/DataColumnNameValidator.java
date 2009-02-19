@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -78,11 +77,10 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		if ( !( element instanceof DataItem ) )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 
 		return doValidate( module, (DataItem) element );
 	}
@@ -95,10 +93,9 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	 * @return the list containing semantic errors.
 	 */
 
-	private List<SemanticException> doValidate( Module module,
-			DataItem toValidate )
+	private List doValidate( Module module, DataItem toValidate )
 	{
-		List<SemanticException> list = new ArrayList<SemanticException>( );
+		List list = new ArrayList( );
 
 		// find the corresponding data column in the data binding. If not find
 		// logs the error.
@@ -180,8 +177,7 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	 * container.
 	 * 
 	 * @param element
-	 * @return <true> if this element is a data-container, otherwise return
-	 *         <false>.
+	 * @return
 	 */
 	private static boolean isDataContainer( DesignElement element )
 	{

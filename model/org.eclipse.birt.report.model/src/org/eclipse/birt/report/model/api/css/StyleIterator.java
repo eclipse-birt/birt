@@ -15,23 +15,21 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.css.CssStyle;
 
 /**
  * Iterates over the styles of an include style sheet.
  */
 
-public class StyleIterator implements Iterator<StyleHandle>
+public class StyleIterator implements Iterator
 {
 
 	/**
 	 * The cached iterator.
 	 */
 
-	protected Iterator<CssStyle> iter;
+	protected Iterator iter;
 
 	/**
 	 * Module.
@@ -94,12 +92,12 @@ public class StyleIterator implements Iterator<StyleHandle>
 	 * @see SharedStyleHandle
 	 */
 
-	public StyleHandle next( )
+	public Object next( )
 	{
 		if ( iter != null )
 		{
-			StyleElement style = iter.next( );
-			return (StyleHandle) style.getHandle( module );
+			StyleElement style = (StyleElement) iter.next( );
+			return style.getHandle( module );
 		}
 		return null;
 	}

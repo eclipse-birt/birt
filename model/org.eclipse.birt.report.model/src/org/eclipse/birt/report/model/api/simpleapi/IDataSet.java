@@ -71,10 +71,10 @@ public interface IDataSet
 	 *            the value of a public driver property
 	 * 
 	 * @throws SemanticException
-	 *             if <code>name</code> is <code>null</code> or an empty string
-	 *             after trimming.
+	 *             if <code>name</code> is <code>null</code> or an empty
+	 *             string after trimming.
 	 */
-
+	
 	void setPrivateDriverProperty( String name, String value )
 			throws SemanticException;
 
@@ -84,6 +84,6 @@ public interface IDataSet
 	 * @return collection each iteam is <code>IResultSetColumn</code>.
 	 */
 
-	List<IResultSetColumn> getCachedResultSetColumns( );
+	List getCachedResultSetColumns( );
 
 }

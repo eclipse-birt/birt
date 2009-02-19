@@ -377,11 +377,12 @@ public class ImageItemParseTest extends BaseTestCase
 		openDesign( "ImageItemParseTest_2.xml" ); //$NON-NLS-1$
 		printSemanticErrors( );
 
-		ErrorDetail detail = designHandle.getWarningList( ).get( 0 );
+		ErrorDetail detail = (ErrorDetail) designHandle.getWarningList( ).get(
+				0 );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT,
 				detail.getErrorCode( ) );
 
-		detail = designHandle.getWarningList( ).get( 1 );
+		detail = (ErrorDetail) designHandle.getWarningList( ).get( 1 );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT,
 				detail.getErrorCode( ) );
 

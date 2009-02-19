@@ -27,7 +27,7 @@ public class ModuleOption implements IModuleOption
 	 * Maps to store the key/value pairs.
 	 */
 
-	protected HashMap<String, Object> options = new HashMap<String, Object>( );
+	protected HashMap options = new HashMap( );
 
 	/**
 	 * Default constructor.
@@ -45,7 +45,7 @@ public class ModuleOption implements IModuleOption
 	 *            the option settings to add
 	 */
 
-	public ModuleOption( Map<String, Boolean> options )
+	public ModuleOption( Map options )
 	{
 		if ( options != null && !options.isEmpty( ) )
 			this.options.putAll( options );
@@ -224,7 +224,7 @@ public class ModuleOption implements IModuleOption
 	public Object copy( ) throws CloneNotSupportedException
 	{
 		ModuleOption obj = new ModuleOption( );
-		obj.options = new HashMap<String, Object>( );
+		obj.options = new HashMap( );
 		obj.options.putAll( options );
 		return obj;
 	}

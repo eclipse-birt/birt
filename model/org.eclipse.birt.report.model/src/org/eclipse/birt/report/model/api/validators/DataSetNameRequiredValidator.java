@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -28,11 +27,12 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 /**
  * Validates the data set name of scalar parameter is required.
  * 
- * <h3>Rule</h3> The rule is that DATASET_NAME_PROP is required when
- * LABEL_EXPR_PROP or VALUE_EXPR_PROP is provided.
+ * <h3>Rule</h3>
+ * The rule is that DATASET_NAME_PROP is required when LABEL_EXPR_PROP or
+ * VALUE_EXPR_PROP is provided.
  * 
- * <h3>Applicability</h3> This validator is only applied to
- * <code>ScalarParameter</code>.
+ * <h3>Applicability</h3>
+ * This validator is only applied to <code>ScalarParameter</code>.
  * 
  */
 
@@ -55,25 +55,21 @@ public class DataSetNameRequiredValidator extends AbstractElementValidator
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.validators.core.AbstractElementValidator
-	 * #validate(org.eclipse.birt.report.model.elements.ReportDesign,
-	 * org.eclipse.birt.report.model.core.DesignElement)
+	 * @see org.eclipse.birt.report.model.validators.core.AbstractElementValidator#validate(org.eclipse.birt.report.model.elements.ReportDesign,
+	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		if ( !( element instanceof ScalarParameter ) )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 
 		return doValidate( module, (ScalarParameter) element );
 	}
 
-	private List<SemanticException> doValidate( Module module,
-			ScalarParameter toValidate )
+	private List doValidate( Module module, ScalarParameter toValidate )
 	{
-		List<SemanticException> list = new ArrayList<SemanticException>( );
+		List list = new ArrayList( );
 
 		String labelExpr = toValidate.getStringProperty( module,
 				IScalarParameterModel.LABEL_EXPR_PROP );

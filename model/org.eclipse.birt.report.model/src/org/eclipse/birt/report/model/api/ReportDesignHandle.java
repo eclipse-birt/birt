@@ -1184,15 +1184,14 @@ public class ReportDesignHandle extends ModuleHandle
 	public List<IncludedCssStyleSheetHandle> getAllExternalIncludedCsses( )
 	{
 		List<IncludedCssStyleSheetHandle> ret = new ArrayList<IncludedCssStyleSheetHandle>( );
-		List<? extends StructureHandle> values = getNativeStructureList( CSSES_PROP );
+		List<IncludedCssStyleSheetHandle> values = getNativeStructureList( CSSES_PROP );
 
 		// first, look css style sheet in the design itself
 		if ( values != null && !values.isEmpty( ) )
 		{
 			for ( int i = 0; i < values.size( ); i++ )
 			{
-				IncludedCssStyleSheetHandle sheetHandle = (IncludedCssStyleSheetHandle) values
-						.get( i );
+				IncludedCssStyleSheetHandle sheetHandle = values.get( i );
 				if ( sheetHandle.getExternalCssURI( ) != null )
 					ret.add( sheetHandle );
 			}
@@ -1232,7 +1231,6 @@ public class ReportDesignHandle extends ModuleHandle
 		}
 
 		return ret;
-
 	}
 
 	/**

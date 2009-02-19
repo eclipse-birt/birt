@@ -18,7 +18,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
@@ -77,7 +76,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 *         type {@link SharedStyleHandle}.
 	 */
 
-	public Iterator<StyleHandle> getStyleIterator( )
+	public Iterator getStyleIterator( )
 	{
 		return new StyleIterator( this );
 	}
@@ -105,7 +104,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 * @return the list of the unsupported style name
 	 */
 
-	public List<String> getUnsupportedStyles( )
+	public List getUnsupportedStyles( )
 	{
 		return styleSheet.getUnsupportedStyle( );
 	}
@@ -120,7 +119,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 * @see org.eclipse.birt.report.model.api.css.StyleSheetParserException
 	 */
 
-	public List<StyleSheetParserException> getWarnings( String styleName )
+	public List getWarnings( String styleName )
 	{
 		return styleSheet.getWarnings( styleName );
 	}
@@ -131,7 +130,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 * @return the message list for the parser errors
 	 */
 
-	public List<String> getParserErrors( )
+	public List getParserErrors( )
 	{
 		return styleSheet.getErrorHandler( ).getParserErrors( );
 	}
@@ -142,7 +141,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 * @return the message list for the parser fatal errors
 	 */
 
-	public List<String> getParserFatalErrors( )
+	public List getParserFatalErrors( )
 	{
 		return styleSheet.getErrorHandler( ).getParserFatalErrors( );
 	}
@@ -153,7 +152,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 * @return the message list for the parser warnings
 	 */
 
-	public List<String> getParserWarnings( )
+	public List getParserWarnings( )
 	{
 		return styleSheet.getErrorHandler( ).getParserWarnings( );
 	}
@@ -172,13 +171,13 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	/**
 	 * Gets container handle.
 	 * 
-	 * @return the container handle.
+	 * @return
 	 */
 
 	public DesignElementHandle getContainerHandle( )
 	{
-		DesignElement tmpElement = styleSheet.getContainer( );
-		if ( tmpElement == null )
+		DesignElement tmpElement =  styleSheet.getContainer( );
+		if(  tmpElement == null )
 			return null;
 		return tmpElement.getHandle( elementHandle.getModule( ) );
 	}

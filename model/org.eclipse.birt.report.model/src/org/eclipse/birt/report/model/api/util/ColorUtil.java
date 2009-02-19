@@ -38,13 +38,13 @@ public class ColorUtil
 	 * Stores rgb value keyed by css color name.
 	 */
 
-	static Map<String, Integer> cssToRgbMap = new HashMap<String, Integer>( );
+	static Map cssToRgbMap = new HashMap( );
 
 	/**
 	 * Stores css color name keyed by rgb value.
 	 */
 
-	static Map<Integer, String> rgbToCssMap = new HashMap<Integer, String>( );
+	static Map rgbToCssMap = new HashMap( );
 
 	/**
 	 * Static table stores the colors. It provides the name and the rgb value of
@@ -157,13 +157,14 @@ public class ColorUtil
 
 	/**
 	 * Gets the integer value of a predefined color. The <code>color</code>
-	 * should be a predefined color name, otherwise <code>-1</code> is returned.
+	 * should be a predefined color name, otherwise <code>-1</code> is
+	 * returned.
 	 * 
 	 * @param color
 	 *            a given color name, it is case insensitive.
 	 * @return the integer value of a predefined color, return -1 if the name of
 	 *         the given color is not defined.
-	 * 
+	 *  
 	 */
 
 	public static int parsePredefinedColor( String color )
@@ -171,7 +172,7 @@ public class ColorUtil
 		if ( color == null )
 			return -1;
 
-		Integer rgbValue = cssToRgbMap.get( color.toLowerCase( ) );
+		Integer rgbValue = (Integer) cssToRgbMap.get( color.toLowerCase( ) );
 		return rgbValue == null ? -1 : rgbValue.intValue( );
 	}
 
@@ -186,7 +187,7 @@ public class ColorUtil
 
 	public static String getPredefinedColor( int rgb )
 	{
-		return rgbToCssMap.get( new Integer( rgb ) );
+		return (String) rgbToCssMap.get( new Integer( rgb ) );
 	}
 
 	/**
@@ -227,8 +228,8 @@ public class ColorUtil
 	 * 
 	 * @param value
 	 *            a string color value
-	 * @return <code>true</code> if the color value is in a valid css relative.
-	 *         color representation.
+	 * @return <code>true</code> if the color value is in a valid css
+	 *         relative. color representation.
 	 */
 
 	public static boolean isCssRelative( String value )
@@ -268,7 +269,7 @@ public class ColorUtil
 	 * @see ColorUtil#CSS_ABSOLUTE_FORMAT
 	 * @see ColorUtil#CSS_RELATIVE_FORMAT
 	 * @see ColorUtil#DEFAULT_FORMAT
-	 * 
+	 *  
 	 */
 
 	public static String format( int rgbValue, int rgbFormat )
@@ -308,8 +309,8 @@ public class ColorUtil
 	 *            {@link ColorUtil#CSS_ABSOLUTE_FORMAT}will be applied.
 	 * @return a string representation of the color in the target format.
 	 * @exception NumberFormatException
-	 *                if the <code>String</code> representing a numerical value
-	 *                does not contain a parsable integer.
+	 *                if the <code>String</code> representing a numerical
+	 *                value does not contain a parsable integer.
 	 * 
 	 * @see ColorUtil#INT_FORMAT
 	 * @see ColorUtil#HTML_FORMAT
@@ -320,7 +321,7 @@ public class ColorUtil
 	 * 
 	 * @see #parseColor(String)
 	 * @see #format(int, int)
-	 * 
+	 *  
 	 */
 
 	public static String format( String value, int rgbFormat )
@@ -339,8 +340,8 @@ public class ColorUtil
 	 * @param hexColor
 	 *            an hex color text
 	 * @param isAbsolute
-	 *            if <tt>true</tt>, return will be in css absolute format, e.g,
-	 *            RGB(255,0,0); if <tt>false</tt>, return will be in css
+	 *            if <tt>true</tt>, return will be in css absolute format,
+	 *            e.g, RGB(255,0,0); if <tt>false</tt>, return will be in css
 	 *            relative format, e.g, RGB(100.0%,0%,0%).
 	 * 
 	 * @return a formatted css relative or absolute color format.
@@ -493,12 +494,12 @@ public class ColorUtil
 	 * "#FFFFFF" will be clipped.</li>
 	 * <li>A hexadecimal number in Java format: "0xRRGGBB"</li>
 	 * <li>A css predefined color name: "red", "green", "yellow" etc.</li>
-	 * <li>A css absolute or relative notation: "rgb(r,g,b)" or "rgb(r%,g%,b%)".
-	 * 'rgb(' followed by a comma-separated list of three numerical values
-	 * (either three integer values in the range of 0-255, or three percentage
-	 * values in the range of 0.0% to 100.0%) followed by '), Values outside the
-	 * numerical ranges will be clipped. Whitespace characters are allowed
-	 * around the numerical values.</li>
+	 * <li>A css absolute or relative notation: "rgb(r,g,b)" or
+	 * "rgb(r%,g%,b%)". 'rgb(' followed by a comma-separated list of three
+	 * numerical values (either three integer values in the range of 0-255, or
+	 * three percentage values in the range of 0.0% to 100.0%) followed by '),
+	 * Values outside the numerical ranges will be clipped. Whitespace
+	 * characters are allowed around the numerical values.</li>
 	 * </ul>
 	 * <p>
 	 * These examples given a allowed color value that can be parsed into an
@@ -520,7 +521,7 @@ public class ColorUtil
 	 *         valid integer format, return value will be clipped to 0 ~
 	 *         0xFFFFFF
 	 * 
-	 * 
+	 *  
 	 */
 
 	public static int parseColor( String value )

@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
@@ -47,7 +48,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 
 	private int targetColumnIndex;
 
-	private List<CellContextInfo> originalCells = null;
+	private List originalCells = null;
 
 	/**
 	 * The row span for the last cell of which the column span increases.
@@ -177,14 +178,14 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 	 * 
 	 */
 
-	private boolean isValidInsertAndPasteArea( List<CellContextInfo> cells )
+	private boolean isValidInsertAndPasteArea( List cells )
 	{
 		int numOfRows = adapter.getRowCount( );
 		int rowCount = 0;
 
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			CellContextInfo contextInfo = cells.get( i );
+			CellContextInfo contextInfo = (CellContextInfo) cells.get( i );
 			rowCount += contextInfo.getRowSpan( );
 		}
 

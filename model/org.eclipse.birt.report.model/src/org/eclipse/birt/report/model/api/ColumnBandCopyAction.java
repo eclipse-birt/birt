@@ -64,8 +64,8 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 
 		TableColumn clonedColumn = copyColumn( adapter.getColumns( ),
 				columnNumber );
-		List<CellContextInfo> cells = cloneCells( adapter
-				.getCellsUnderColumn( columnNumber ), columnNumber );
+		List cells = cloneCells( adapter.getCellsUnderColumn( columnNumber ),
+				columnNumber );
 
 		data.setColumn( clonedColumn );
 		data.setCells( cells );
@@ -95,16 +95,15 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 	 * @return a list containing new cloned cells
 	 */
 
-	private List<CellContextInfo> cloneCells( List<CellHandle> cells,
-			int columnNumber )
+	private List cloneCells( List cells, int columnNumber )
 	{
-		List<CellContextInfo> list = new ArrayList<CellContextInfo>( );
+		List list = new ArrayList( );
 
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			CellHandle originalCell = cells.get( i );
+			CellHandle originalCell = (CellHandle) cells.get( i );
 			Cell clonedCell = null;
-
+			
 			try
 			{
 				clonedCell = (Cell) originalCell.getElement( ).clone( );
@@ -205,8 +204,9 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 
 	/**
 	 * Performs insert and paste or paste operations. Removes cells in
-	 * <code>originalCells</code> if <code>isInsert</code> is <code>true</code>.
-	 * Then inserts cells in <code>copiedCells</code> to the element.
+	 * <code>originalCells</code> if <code>isInsert</code> is
+	 * <code>true</code>. Then inserts cells in <code>copiedCells</code> to
+	 * the element.
 	 * 
 	 * @param copiedCells
 	 *            a list containing cells that is to be inserted.
@@ -221,9 +221,8 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 	 *             if any error occurs during pasting cells.
 	 */
 
-	protected void pasteCells( List<CellContextInfo> copiedCells,
-			List<CellContextInfo> originalCells, int columnIndex,
-			boolean isInsert ) throws SemanticException
+	protected void pasteCells( List copiedCells, List originalCells,
+			int columnIndex, boolean isInsert ) throws SemanticException
 	{
 
 		// get the insertion positions if the column is inserted to the head or
@@ -236,7 +235,8 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 
 		for ( int i = 0; !isInsert && i < originalCells.size( ); i++ )
 		{
-			CellContextInfo contextInfo = originalCells.get( i );
+			CellContextInfo contextInfo = (CellContextInfo) originalCells
+					.get( i );
 			CellHandle cell = contextInfo.getCell( ).handle(
 					adapter.getModule( ) );
 			if ( !isInsert )
@@ -248,7 +248,7 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 		for ( int i = 0; i < copiedCells.size( ); i++ )
 		{
 
-			CellContextInfo contextInfo = copiedCells.get( i );
+			CellContextInfo contextInfo = (CellContextInfo) copiedCells.get( i );
 
 			// groupId is equal to -1, means this is a top slot in the table
 

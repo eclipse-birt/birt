@@ -224,9 +224,8 @@ public class ComputedColumn extends PropertyStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
-	 * report.model.api.SimpleValueHandle, int)
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
+	 *      int)
 	 */
 
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
@@ -244,10 +243,9 @@ public class ComputedColumn extends PropertyStructure
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
-		List<SemanticException> list = super.validate( module, element );
+		List list = super.validate( module, element );
 
 		String columnName = getName( );
 		if ( StringUtil.isBlank( columnName ) )

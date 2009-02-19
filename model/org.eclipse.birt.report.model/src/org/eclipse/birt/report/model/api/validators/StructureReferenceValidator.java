@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api.validators;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -24,16 +23,16 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 
+
 /**
  * Validates the property whose type is structure reference. If the value can
- * refer to an actual structure, it will be resolved after validation. The rule
- * is that the structure reference value should refer to an actual structure in
- * the same report design.
+ * refer to an actual structure, it will be resolved after validation.
+ * The rule is that the structure reference value should refer to an actual
+ * structure in the same report design.
  */
 
 public class StructureReferenceValidator extends AbstractPropertyValidator
 {
-
 	/**
 	 * Name of this validator.
 	 */
@@ -43,7 +42,7 @@ public class StructureReferenceValidator extends AbstractPropertyValidator
 	/**
 	 * The singleton validator instance.
 	 */
-
+	
 	private final static StructureReferenceValidator instance = new StructureReferenceValidator( );
 
 	/**
@@ -70,10 +69,10 @@ public class StructureReferenceValidator extends AbstractPropertyValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element, String propName )
+	public List validate( Module module, DesignElement element,
+			String propName )
 	{
-		List<SemanticException> list = new ArrayList<SemanticException>( );
+		List list = new ArrayList( );
 
 		if ( !checkStructureReference( module, element, propName ) )
 		{
@@ -99,8 +98,8 @@ public class StructureReferenceValidator extends AbstractPropertyValidator
 	 *            the element holding this structure reference property
 	 * @param propName
 	 *            the name of the property
-	 * @return <code>true</code> if the property is resolved; <code>false</code>
-	 *         otherwise.
+	 * @return <code>true</code> if the property is resolved;
+	 *         <code>false</code> otherwise.
 	 */
 
 	private boolean checkStructureReference( Module module,

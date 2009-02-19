@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -49,8 +48,8 @@ class PropertyIterator implements Iterator
 	/**
 	 * Constructs the handle for a group parameters with the given element
 	 * handle. The application does not normally create objects of this class
-	 * directly. Instead, it uses the <code>iterator</code> method of an element
-	 * handle to create the iterator.
+	 * directly. Instead, it uses the <code>iterator</code> method of an
+	 * element handle to create the iterator.
 	 * 
 	 * @param handle
 	 *            a handle to an element
@@ -60,8 +59,7 @@ class PropertyIterator implements Iterator
 	{
 		this.elementHandle = handle;
 
-		List<IElementPropertyDefn> propDefns = elementHandle.getElement( )
-				.getPropertyDefns( );
+		List propDefns = elementHandle.getElement( ).getPropertyDefns( );
 		iter = propDefns.iterator( );
 	}
 

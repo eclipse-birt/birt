@@ -442,11 +442,11 @@ public class ElementExportUtil
 			if ( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR == e
 					.getErrorCode( ) )
 			{
-				List<ErrorDetail> errorList = e.getErrorList( );
+				List errorList = e.getErrorList( );
 
 				// FILE_NOT_FOUND error is always the first one.
 
-				ErrorDetail error = errorList.get( 0 );
+				ErrorDetail error = ( (ErrorDetail) errorList.get( 0 ) );
 				if ( DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND == error
 						.getErrorCode( ) )
 				{
@@ -597,13 +597,10 @@ public class ElementExportUtil
 		if ( canOverride )
 			return true;
 
-		List<SemanticException> results = StructureListValidator.getInstance( )
-				.validateForAdding(
-						targetLibraryHandle,
-						propDefn,
-						targetLibraryHandle
-								.getListProperty( propDefn.getName( ) ),
-						structToExport.getStructure( ) );
+		List results = StructureListValidator.getInstance( ).validateForAdding(
+				targetLibraryHandle, propDefn,
+				targetLibraryHandle.getListProperty( propDefn.getName( ) ),
+				structToExport.getStructure( ) );
 		if ( results.isEmpty( ) )
 			return true;
 

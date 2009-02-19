@@ -165,11 +165,11 @@ public class SlotHandle extends ElementDetailHandle
 	 *             if the element has a duplicate or illegal name
 	 */
 
-	public List<ErrorDetail> paste( DesignElementHandle content )
-			throws ContentException, NameException
+	public List paste( DesignElementHandle content ) throws ContentException,
+			NameException
 	{
 		if ( content == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 		add( content );
 
 		return getElementHandle( ).checkPostPasteErrors( content.getElement( ) );
@@ -188,11 +188,11 @@ public class SlotHandle extends ElementDetailHandle
 	 *             if the element has a duplicate or illegal name
 	 */
 
-	public List<ErrorDetail> paste( IDesignElement content )
-			throws ContentException, NameException
+	public List paste( IDesignElement content ) throws ContentException,
+			NameException
 	{
 		if ( content == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 		add( content.getHandle( getModule( ) ) );
 
 		return getElementHandle( ).checkPostPasteErrors(
@@ -214,14 +214,15 @@ public class SlotHandle extends ElementDetailHandle
 	 *             if the element has a duplicate or illegal name
 	 */
 
-	public List<ErrorDetail> paste( DesignElementHandle content, int newPos )
+	public List paste( DesignElementHandle content, int newPos )
 			throws ContentException, NameException
 	{
 		if ( content == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 		add( content, newPos );
 
-		return getElementHandle( ).checkPostPasteErrors( content.getElement( ) );
+		return Collections.EMPTY_LIST;
+		// return checkPostPasteErrors( content.getElement( ) );
 	}
 
 	/**
@@ -239,11 +240,11 @@ public class SlotHandle extends ElementDetailHandle
 	 *             if the element has a duplicate or illegal name
 	 */
 
-	public List<ErrorDetail> paste( IDesignElement content, int newPos )
+	public List paste( IDesignElement content, int newPos )
 			throws ContentException, NameException
 	{
 		if ( content == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 		add( content.getHandle( getModule( ) ), newPos );
 
 		return getElementHandle( ).checkPostPasteErrors(
@@ -273,19 +274,18 @@ public class SlotHandle extends ElementDetailHandle
 	 *         contents.
 	 */
 
-	public List<DesignElementHandle> getContents( )
+	public List getContents( )
 	{
-		List<DesignElement> contents = getElement( ).getSlot( slotID )
-				.getContents( );
+		List contents = getElement( ).getSlot( slotID ).getContents( );
 
 		if ( contents == null )
-			return Collections.emptyList( );
+			return Collections.EMPTY_LIST;
 
-		ArrayList<DesignElementHandle> retList = new ArrayList<DesignElementHandle>( );
-		for ( Iterator<DesignElement> iter = contents.iterator( ); iter
-				.hasNext( ); )
+		ArrayList retList = new ArrayList( );
+		for ( Iterator iter = contents.iterator( ); iter.hasNext( ); )
 		{
-			retList.add( iter.next( ).getHandle( getModule( ) ) );
+			retList.add( ( (DesignElement) iter.next( ) )
+					.getHandle( getModule( ) ) );
 		}
 		return retList;
 	}

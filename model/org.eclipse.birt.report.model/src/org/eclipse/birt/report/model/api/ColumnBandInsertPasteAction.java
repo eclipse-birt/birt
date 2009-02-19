@@ -58,7 +58,7 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction
 		int columnCount = adapter.getColumnCount( );
 		int targetColumnIndex = columnIndex + 1;
 
-		List<CellContextInfo> originalCells = null;
+		List originalCells = null;
 
 		if ( targetColumnIndex > columnCount )
 		{
@@ -76,7 +76,7 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction
 				return false;
 		}
 
-		List<CellContextInfo> cells = data.getCells( );
+		List cells = data.getCells( );
 		try
 		{
 			isSameLayout( cells, originalCells );
@@ -113,8 +113,8 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction
 					SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN );
 
 		TableColumn column = data.getColumn( );
-		List<CellContextInfo> cells = data.getCells( );
-		List<CellContextInfo> originalCells = getCellsContextInfo( adapter
+		List cells = data.getCells( );
+		List originalCells = getCellsContextInfo( adapter
 				.getCellsUnderColumn( columnIndex ) );
 
 		ActivityStack as = adapter.getModule( ).getActivityStack( );
@@ -153,14 +153,14 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction
 	 * 
 	 */
 
-	private boolean isValidInsertAndPasteArea( List<CellContextInfo> cells )
+	private boolean isValidInsertAndPasteArea( List cells )
 	{
 		int numOfRows = adapter.getRowCount( );
 		int rowCount = 0;
 
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			CellContextInfo contextInfo = cells.get( i );
+			CellContextInfo contextInfo = (CellContextInfo) cells.get( i );
 			rowCount += contextInfo.getRowSpan( );
 		}
 

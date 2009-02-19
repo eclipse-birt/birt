@@ -51,7 +51,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	 * List of handles to design elements.
 	 */
 
-	protected List<DesignElementHandle> elements = null;
+	protected List elements = null;
 
 	/**
 	 * Constructs a handle to deal with a list of report elements. The contents
@@ -65,8 +65,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	 * @see DesignElementHandle
 	 */
 
-	public SimpleGroupElementHandle( ModuleHandle moduleHandle,
-			List<DesignElementHandle> elements )
+	public SimpleGroupElementHandle( ModuleHandle moduleHandle, List elements )
 	{
 		assert moduleHandle != null;
 		module = moduleHandle.getModule( );
@@ -81,7 +80,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getElements()
 	 */
 
-	public List<DesignElementHandle> getElements( )
+	public List getElements( )
 	{
 		return elements;
 	}
@@ -117,24 +116,24 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	 * ()
 	 */
 
-	public List<IElementPropertyDefn> getCommonProperties( )
+	public List getCommonProperties( )
 	{
 		if ( elements.size( ) == 1 )
-			return Collections.unmodifiableList( ( elements.get( 0 ) )
-					.getElement( ).getPropertyDefns( ) );
+			return Collections
+					.unmodifiableList( ( (DesignElementHandle) elements.get( 0 ) )
+							.getElement( ).getPropertyDefns( ) );
 
-		List<IElementPropertyDefn> minProps = getMinPropDefns( );
-		List<IElementPropertyDefn> commonProps = new ArrayList<IElementPropertyDefn>(
-				minProps );
+		List minProps = getMinPropDefns( );
+		List commonProps = new ArrayList( minProps );
 
-		Iterator<IElementPropertyDefn> iter = minProps.iterator( );
+		Iterator iter = minProps.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			PropertyDefn propDefn = (PropertyDefn) iter.next( );
 			for ( int i = 0; i < elements.size( ); i++ )
 			{
-				if ( ( elements.get( i ) ).getElement( ).getPropertyDefn(
-						propDefn.getName( ) ) == null )
+				if ( ( (DesignElementHandle) elements.get( i ) ).getElement( )
+						.getPropertyDefn( propDefn.getName( ) ) == null )
 				{
 					commonProps.remove( propDefn );
 					break;
@@ -151,19 +150,19 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	 * @return the property definition list that has the minimum size.
 	 */
 
-	private List<IElementPropertyDefn> getMinPropDefns( )
+	private List getMinPropDefns( )
 	{
 		int min = Integer.MAX_VALUE;
-		List<IElementPropertyDefn> rtnPropDefns = Collections.emptyList( );
+		List rtnPropDefns = Collections.EMPTY_LIST;
 
 		for ( int j = 0; j < elements.size( ); j++ )
 		{
 			Object item = elements.get( j );
 			if ( !( item instanceof DesignElementHandle ) )
-				return Collections.emptyList( );
+				return Collections.EMPTY_LIST;
 
-			List<IElementPropertyDefn> propDefns = ( (DesignElementHandle) item )
-					.getElement( ).getPropertyDefns( );
+			List propDefns = ( (DesignElementHandle) item ).getElement( )
+					.getPropertyDefns( );
 
 			if ( propDefns.size( ) < min )
 			{
@@ -216,12 +215,12 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 	public Iterator visiblePropertyIterator( )
 	{
-		List<IElementPropertyDefn> list = getCommonProperties( );
-		final List<IElementPropertyDefn> visibleList = new ArrayList<IElementPropertyDefn>( );
+		List list = getCommonProperties( );
+		final List visibleList = new ArrayList( );
 
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			IElementPropertyDefn propDefn = list.get( i );
+			IElementPropertyDefn propDefn = (IElementPropertyDefn) list.get( i );
 			if ( isPropertyVisible( propDefn.getName( ) ) )
 			{
 				visibleList.add( propDefn );
@@ -241,11 +240,11 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 	protected boolean isPropertyVisible( String propName )
 	{
-		List<DesignElementHandle> elements = getElements( );
+		List elements = getElements( );
 		for ( int i = 0; i < elements.size( ); i++ )
 		{
-			PropertyHandle propertyHandle = ( elements.get( i ) )
-					.getPropertyHandle( propName );
+			PropertyHandle propertyHandle = ( (DesignElementHandle) elements
+					.get( i ) ).getPropertyHandle( propName );
 
 			// if the property is not defined, then it is invisible; if the
 			// property exsits and set to invisible in ROM, then it is invisible
@@ -327,8 +326,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 		if ( elements.isEmpty( ) )
 			return false;
 
-		for ( Iterator<DesignElementHandle> iter = elements.iterator( ); iter
-				.hasNext( ); )
+		for ( Iterator iter = elements.iterator( ); iter.hasNext( ); )
 		{
 			Object next = iter.next( );
 			if ( !( next instanceof DesignElementHandle ) )
@@ -359,8 +357,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 		if ( elements.isEmpty( ) )
 			return false;
 
-		for ( Iterator<DesignElementHandle> iter = elements.iterator( ); iter
-				.hasNext( ); )
+		for ( Iterator iter = elements.iterator( ); iter.hasNext( ); )
 		{
 			Object next = iter.next( );
 			if ( !( next instanceof DesignElementHandle ) )
@@ -393,8 +390,8 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 	{
 		for ( int i = 0; i < elements.size( ); i++ )
 		{
-			PropertyHandle propertyHandle = ( elements.get( i ) )
-					.getPropertyHandle( propName );
+			PropertyHandle propertyHandle = ( (DesignElementHandle) elements
+					.get( i ) ).getPropertyHandle( propName );
 
 			// if the property is not defined, then it is read-only; if it
 			// exsits and set to read-only in ROM, then it is read-only too.
@@ -432,7 +429,8 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 		for ( int i = 0; i < elements.size( ); i++ )
 		{
-			DesignElementHandle current = ( elements.get( i ) );
+			DesignElementHandle current = ( (DesignElementHandle) elements
+					.get( i ) );
 			DesignElementHandle container = current.getContainer( );
 
 			// hide "drop" property for all cells except cells in group
@@ -473,7 +471,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 	public GroupPropertyHandle getPropertyHandle( String propName )
 	{
-		List<IElementPropertyDefn> commProps = getCommonProperties( );
+		List commProps = getCommonProperties( );
 		for ( int i = 0; i < commProps.size( ); i++ )
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) commProps

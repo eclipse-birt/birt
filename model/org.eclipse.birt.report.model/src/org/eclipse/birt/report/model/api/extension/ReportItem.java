@@ -191,9 +191,8 @@ public class ReportItem
 		return null;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getPredefinedStyles()
+	/**
+	 * 
 	 */
 	public List getPredefinedStyles( )
 	{

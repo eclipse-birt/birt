@@ -37,7 +37,7 @@ public class LayoutRow
 	 * Cells in the row.
 	 */
 
-	private List<LayoutCell> cells;
+	private List cells;
 
 	/**
 	 * The slot in which the row resides.
@@ -58,7 +58,7 @@ public class LayoutRow
 	{
 		this.container = container;
 		this.rowId = rowId;
-		cells = new ArrayList<LayoutCell>( );
+		cells = new ArrayList( );
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class LayoutRow
 		if ( colId < 0 || colId > cells.size( ) - 1 )
 			return null;
 
-		return cells.get( colId );
+		return (LayoutCell) cells.get( colId );
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class LayoutRow
 	{
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			LayoutCell layoutCell = cells.get( i );
+			LayoutCell layoutCell = (LayoutCell) cells.get( i );
 			if ( layoutCell.getContent( ) == cell.getElement( ) )
 				return layoutCell;
 		}
@@ -109,21 +109,20 @@ public class LayoutRow
 	}
 
 	/**
-	 * Tests whether cells are occupied within the space <code>colPos</code> and
-	 * <code>colPos + colSpan - 1</code>
+	 * Tests whether cells are occupied within the space <code>colPos</code>
+	 * and <code>colPos + colSpan - 1</code>
 	 * 
 	 * @param colId
 	 *            the 0-based column position
 	 * @param colSpan
 	 *            the column span
-	 * @return a list containing <code>LayoutCells</code>s that are overlapped
-	 *         with the check area.
+	 * @return a list containing <code>LayoutCells</code>s that are
+	 *         overlapped with the check area.
 	 */
 
-	protected List<LayoutCell> checkOverlappedLayoutCells( int colId,
-			int colSpan )
+	protected List checkOverlappedLayoutCells( int colId, int colSpan )
 	{
-		List<LayoutCell> retValue = new ArrayList<LayoutCell>( );
+		List retValue = new ArrayList( );
 
 		for ( int i = 0; i < colSpan; i++ )
 		{
@@ -198,7 +197,7 @@ public class LayoutRow
 	{
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			LayoutCell tmpCell = cells.get( i );
+			LayoutCell tmpCell = (LayoutCell) cells.get( i );
 			if ( tmpCell.isUsed( ) && cell == tmpCell.getContent( ) )
 			{
 				assert tmpCell.isCellStartPosition( );
@@ -250,7 +249,7 @@ public class LayoutRow
 		StringBuffer sb = new StringBuffer( );
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			LayoutCell cell = cells.get( i );
+			LayoutCell cell = (LayoutCell) cells.get( i );
 			sb.append( cell.getLayoutString( ) );
 		}
 		sb.append( "\r\n" ); //$NON-NLS-1$
@@ -285,31 +284,31 @@ public class LayoutRow
 	}
 
 	/**
-	 * Returns <code>LayoutCell</code>s in the row. Note that modifications on
-	 * the return iterator do not affect the table layout.
+	 * Returns <code>LayoutCell</code>s in the row. Note that modifications
+	 * on the return iterator do not affect the table layout.
 	 * 
 	 * @return an iterator containing <code>LayoutCell</code>s.
 	 */
 
-	public Iterator<LayoutCell> layoutCellsIterator( )
+	public Iterator layoutCellsIterator( )
 	{
-		return new ArrayList<LayoutCell>( cells ).iterator( );
+		return new ArrayList( cells ).iterator( );
 	}
 
 	/**
-	 * Returns handles of <code>Cell</code>s in the row. Note that modifications
-	 * on the return iterator do not affect the table layout.
+	 * Returns handles of <code>Cell</code>s in the row. Note that
+	 * modifications on the return iterator do not affect the table layout.
 	 * 
 	 * @return an iterator containing <code>CellHandle</code>s.
 	 */
 
-	public Iterator<CellHandle> cellsIterator( )
+	public Iterator cellsIterator( )
 	{
-		Set<CellHandle> retValue = new LinkedHashSet<CellHandle>( );
+		Set retValue = new LinkedHashSet( );
 
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			LayoutCell cell = cells.get( i );
+			LayoutCell cell = (LayoutCell) cells.get( i );
 			if ( cell.isUsed( ) && cell.isCellStartPosition( ) )
 				retValue.add( cell.getCell( ) );
 

@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.core.ContainerContext;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
@@ -56,7 +55,7 @@ abstract class RowBandAction
 
 	protected IDesignElement copyRow( RowHandle rowHandle )
 	{
-		return rowHandle.copy( );
+		return rowHandle.copy( );		
 	}
 
 	/**
@@ -168,8 +167,8 @@ abstract class RowBandAction
 
 	protected int computeColumnCount( TableRow row )
 	{
-		List<DesignElement> contents = row.getContentsSlot( );
-		Iterator<DesignElement> cellIter = contents.iterator( );
+		List contents = row.getContentsSlot( );
+		Iterator cellIter = contents.iterator( );
 		int count = 0;
 		while ( cellIter.hasNext( ) )
 		{
@@ -198,8 +197,8 @@ abstract class RowBandAction
 	 * 
 	 * @param parameters
 	 *            parameters for getting slot container.
-	 * @return if can be found, return <code>SlotHandle</code>.Otherwise return
-	 *         null.
+	 * @return if can be found, return <code>SlotHandle</code>.Otherwise
+	 *         return null.
 	 */
 
 	protected SlotHandle getSlotHandle( RowOperationParameters parameters )

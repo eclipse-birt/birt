@@ -76,15 +76,15 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * @return all styles.each item is <code>StyleHandle</code>
 	 */
 
-	public List<DesignElementHandle> getAllStyles( )
+	public List getAllStyles( )
 	{
 		Theme theme = (Theme) getElement( );
-		List<DesignElementHandle> styles = new ArrayList<DesignElementHandle>( );
-		List<StyleElement> styleList = theme.getAllStyles( );
-		Iterator<StyleElement> iter = styleList.iterator( );
+		List styles = new ArrayList( );
+		List styleList = theme.getAllStyles( );
+		Iterator iter = styleList.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			StyleElement style = iter.next( );
+			StyleElement style = (StyleElement) iter.next( );
 			styles.add( style.getHandle( module ) );
 		}
 		return styles;
@@ -96,14 +96,14 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * @return each item is <code>CssStyleSheetHandle</code>
 	 */
 
-	public List<CssStyleSheetHandle> getAllCssStyleSheets( )
+	public List getAllCssStyleSheets( )
 	{
 		Theme theme = (Theme) getElement( );
-		List<CssStyleSheetHandle> allStyles = new ArrayList<CssStyleSheetHandle>( );
-		List<CssStyleSheet> csses = theme.getCsses( );
+		List allStyles = new ArrayList( );
+		List csses = theme.getCsses( );
 		for ( int i = 0; csses != null && i < csses.size( ); ++i )
 		{
-			CssStyleSheet sheet = csses.get( i );
+			CssStyleSheet sheet = (CssStyleSheet) csses.get( i );
 			allStyles.add( sheet.handle( getModule( ) ) );
 		}
 		return allStyles;
@@ -141,7 +141,7 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		assert this != null;
 
 		SlotHandle styles = getStyles( );
-		Set<String> set = new HashSet<String>( );
+		Set set = new HashSet( );
 		for ( int i = 0; i < styles.getCount( ); i++ )
 		{
 			StyleHandle style = (StyleHandle) styles.get( i );

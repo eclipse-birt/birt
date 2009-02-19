@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.IncludedLibraryHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -91,9 +90,7 @@ public class IncludedLibrary extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
-	 * .lang.String)
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -110,9 +107,8 @@ public class IncludedLibrary extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
-	 * .lang.String, java.lang.Object)
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
+	 *      java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -128,16 +124,13 @@ public class IncludedLibrary extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
-	 * .report.model.elements.ReportDesign,
-	 * org.eclipse.birt.report.model.core.DesignElement)
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
+	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
-		ArrayList<SemanticException> list = new ArrayList<SemanticException>( );
+		ArrayList list = new ArrayList( );
 
 		PropertyDefn memberDefn = (PropertyDefn) getDefn( ).getMember(
 				FILE_NAME_MEMBER );
@@ -193,7 +186,7 @@ public class IncludedLibrary extends Structure
 	 * @param namespace
 	 *            the namespace to set.
 	 */
-
+	
 	public void setNamespace( String namespace )
 	{
 		this.namespace = namespace;
@@ -202,9 +195,8 @@ public class IncludedLibrary extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
-	 * report.model.api.SimpleValueHandle, int)
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
+	 *      int)
 	 */
 	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{

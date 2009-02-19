@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -26,7 +25,7 @@ import org.eclipse.birt.report.model.core.Structure;
 
 /**
  * This class represents one Extended property.
- * 
+ *  
  */
 
 public class ExtendedProperty extends Structure
@@ -96,12 +95,8 @@ public class ExtendedProperty extends Structure
 		return Extended_PROPERTY_STRUCT;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
-	 * .lang.String)
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -114,13 +109,9 @@ public class ExtendedProperty extends Structure
 		assert false;
 		return null;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
-	 * .lang.String, java.lang.Object)
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -182,21 +173,18 @@ public class ExtendedProperty extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
-	 * .report.model.elements.ReportDesign,
-	 * org.eclipse.birt.report.model.core.DesignElement)
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
+	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
-		ArrayList<SemanticException> list = new ArrayList<SemanticException>( );
+		ArrayList list = new ArrayList( );
 
 		if ( StringUtil.isBlank( name ) )
 		{
-			list.add( new PropertyValueException( element, getDefn( )
-					.getMember( NAME_MEMBER ), name,
+			list.add( new PropertyValueException( element,
+					getDefn( ).getMember( NAME_MEMBER ), name,
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
@@ -206,9 +194,8 @@ public class ExtendedProperty extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
-	 * report.model.api.SimpleValueHandle, int)
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
+	 *      int)
 	 */
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{

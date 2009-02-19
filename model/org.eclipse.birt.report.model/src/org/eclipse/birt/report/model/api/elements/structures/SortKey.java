@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -36,7 +35,7 @@ import org.eclipse.birt.report.model.core.Structure;
  * <dt><strong>Direction </strong></dt>
  * <dd>the sort direction:asc or desc.</dd>
  * </dl>
- * 
+ *  
  */
 
 public class SortKey extends Structure
@@ -91,7 +90,7 @@ public class SortKey extends Structure
 
 	/**
 	 * Default constructor.
-	 * 
+	 *  
 	 */
 
 	public SortKey( )
@@ -112,9 +111,7 @@ public class SortKey extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
-	 * .lang.String)
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -131,9 +128,8 @@ public class SortKey extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
-	 * .lang.String, java.lang.Object)
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
+	 *      java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -208,9 +204,8 @@ public class SortKey extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
-	 * report.model.api.SimpleValueHandle, int)
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
+	 *      int)
 	 */
 
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
@@ -250,20 +245,18 @@ public class SortKey extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
-	 * .report.model.elements.ReportDesign,
-	 * org.eclipse.birt.report.model.core.DesignElement)
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
+	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
-		ArrayList<SemanticException> list = new ArrayList<SemanticException>( );
+		ArrayList list = new ArrayList( );
 
 		if ( StringUtil.isBlank( getKey( ) ) )
 		{
-			list.add( new PropertyValueException( element, getDefn( )
-					.getMember( KEY_MEMBER ), getColumnName( ),
+			list.add( new PropertyValueException( element,
+					getDefn( ).getMember( KEY_MEMBER ),
+					getColumnName( ),
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 		return list;

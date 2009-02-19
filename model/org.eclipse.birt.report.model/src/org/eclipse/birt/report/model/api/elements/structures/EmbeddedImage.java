@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -27,8 +26,8 @@ import org.eclipse.birt.report.model.elements.ImageItem;
 
 /**
  * Represents an embedded image. The class gives the name and type of the image.
- * Used when an image element {@link ImageItem}gives a name. Each embedded image
- * has the following properties:
+ * Used when an image element {@link ImageItem}gives a name. Each embedded
+ * image has the following properties:
  * 
  * <p>
  * <dl>
@@ -37,8 +36,8 @@ import org.eclipse.birt.report.model.elements.ImageItem;
  * use the image name to identify an embedded image.</dd>
  * 
  * <dt><strong>Type </strong></dt>
- * <dd>an embedded image has a choice and required type: bmp, gif, png or x-png.
- * </dd>
+ * <dd>an embedded image has a choice and required type: bmp, gif, png or
+ * x-png.</dd>
  * 
  * <dt><strong>Data </strong></dt>
  * <dd>value of the image data in Base64 encoding.</dd>
@@ -156,9 +155,7 @@ public class EmbeddedImage extends ReferencableStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
-	 * .lang.String)
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -176,9 +173,8 @@ public class EmbeddedImage extends ReferencableStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
-	 * .lang.String, java.lang.Object)
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
+	 *      java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -322,9 +318,8 @@ public class EmbeddedImage extends ReferencableStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
-	 * report.model.api.SimpleValueHandle, int)
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
+	 *      int)
 	 */
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{
@@ -332,19 +327,16 @@ public class EmbeddedImage extends ReferencableStructure
 	}
 
 	/*
-	 * Validates this structure. The following are the rules: <ul><li> The image
-	 * name is required. <li> The image data is required. </ul>
+	 * Validates this structure. The following are the rules: <ul><li> The
+	 * image name is required. <li> The image data is required. </ul>
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
-	 * .report.model.elements.ReportDesign,
-	 * org.eclipse.birt.report.model.core.DesignElement)
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
+	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
-		List<SemanticException> list = super.validate( module, element );
+		List list = super.validate( module, element );
 
 		if ( StringUtil.isBlank( name ) )
 		{
@@ -365,8 +357,7 @@ public class EmbeddedImage extends ReferencableStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seeorg.eclipse.birt.report.model.core.ReferencableStructure#
-	 * isReferencableProperty(java.lang.String)
+	 * @see org.eclipse.birt.report.model.core.ReferencableStructure#isReferencableProperty(java.lang.String)
 	 */
 	public boolean isReferencableProperty( String memberName )
 	{
@@ -376,8 +367,7 @@ public class EmbeddedImage extends ReferencableStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getReferencableProperty()
+	 * @see org.eclipse.birt.report.model.core.Structure#getReferencableProperty()
 	 */
 
 	public String getReferencableProperty( )

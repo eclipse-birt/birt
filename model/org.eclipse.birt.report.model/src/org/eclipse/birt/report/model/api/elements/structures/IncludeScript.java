@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -37,7 +36,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * <dd>a include script structure in the report design has a required file name
  * to load the script.</dd>
  * </dl>
- * 
+ *  
  */
 
 public class IncludeScript extends Structure
@@ -64,7 +63,7 @@ public class IncludeScript extends Structure
 
 	/**
 	 * Default constructor.
-	 * 
+	 *  
 	 */
 
 	public IncludeScript( )
@@ -97,9 +96,7 @@ public class IncludeScript extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
-	 * .lang.String)
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -114,9 +111,8 @@ public class IncludeScript extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
-	 * .lang.String, java.lang.Object)
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
+	 *      java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -153,21 +149,19 @@ public class IncludeScript extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
-	 * .report.model.elements.ReportDesign,
-	 * org.eclipse.birt.report.model.core.DesignElement)
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
+	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
-		ArrayList<SemanticException> list = new ArrayList<SemanticException>( );
+		ArrayList list = new ArrayList( );
 
 		if ( StringUtil.isBlank( fileName ) )
 		{
-			list.add( new PropertyValueException( element, getDefn( )
-					.getMember( FILE_NAME_MEMBER ), fileName,
+			list.add( new PropertyValueException( element,
+					getDefn( ).getMember( FILE_NAME_MEMBER ),
+					fileName,
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
@@ -177,9 +171,8 @@ public class IncludeScript extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
-	 * report.model.api.SimpleValueHandle, int)
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
+	 *      int)
 	 */
 	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{

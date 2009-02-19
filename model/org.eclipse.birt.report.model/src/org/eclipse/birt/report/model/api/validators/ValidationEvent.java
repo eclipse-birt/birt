@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.api.validators;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 
@@ -31,7 +30,7 @@ public class ValidationEvent extends NotificationEvent
 	 * <code>ErrorDetail</code>.
 	 */
 
-	private List<ErrorDetail> errors;
+	private List errors;
 
 	/**
 	 * The ID of one validation, which is used to identify one validation.
@@ -51,8 +50,7 @@ public class ValidationEvent extends NotificationEvent
 	 *            instance of <code>ErrorDetail</code>.
 	 */
 
-	public ValidationEvent( DesignElement obj, String validationID,
-			List<ErrorDetail> errors )
+	public ValidationEvent( DesignElement obj, String validationID, List errors )
 	{
 		super( obj );
 
@@ -64,8 +62,7 @@ public class ValidationEvent extends NotificationEvent
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.NotificationEvent#getEventType()
+	 * @see org.eclipse.birt.report.model.activity.NotificationEvent#getEventType()
 	 */
 
 	public int getEventType( )
@@ -80,7 +77,7 @@ public class ValidationEvent extends NotificationEvent
 	 * @return the error list returned after validation
 	 */
 
-	public List<ErrorDetail> getErrors( )
+	public List getErrors( )
 	{
 		return errors;
 	}

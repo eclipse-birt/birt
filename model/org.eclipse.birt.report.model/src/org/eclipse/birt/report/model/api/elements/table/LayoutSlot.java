@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.elements.Cell;
@@ -45,7 +44,7 @@ public class LayoutSlot
 	 * Rows in the slot.
 	 */
 
-	private List<LayoutRow> rows;
+	private List rows;
 
 	/**
 	 * The maximal number of columns of rows in the slot.
@@ -86,8 +85,8 @@ public class LayoutSlot
 	}
 
 	/**
-	 * Constructs a <code>Slot</code> with the given column number and the group
-	 * level.
+	 * Constructs a <code>Slot</code> with the given column number and the
+	 * group level.
 	 * 
 	 * @param table
 	 *            the layout table
@@ -101,7 +100,7 @@ public class LayoutSlot
 	{
 		this.groupLevel = groupId;
 
-		rows = new ArrayList<LayoutRow>( );
+		rows = new ArrayList( );
 		this.colCount = colBufferSize;
 		tableContainer = table;
 	}
@@ -194,18 +193,18 @@ public class LayoutSlot
 	 *            the row span
 	 * @param colSpan
 	 *            the column span
-	 * @return a list containing <code>LayoutCells</code>s that are overlapped
-	 *         with the check area.
+	 * @return a list containing <code>LayoutCells</code>s that are
+	 *         overlapped with the check area.
 	 */
 
-	protected List<LayoutCell> checkOverlappedLayoutCells( int rowId,
-			int colId, int rowSpan, int colSpan )
+	protected List checkOverlappedLayoutCells( int rowId, int colId,
+			int rowSpan, int colSpan )
 	{
-		List<LayoutCell> retValue = new ArrayList<LayoutCell>( );
+		List retValue = new ArrayList( );
 
 		for ( int i = 0; i < rowSpan; i++ )
 		{
-			LayoutRow row = rows.get( rowId + i );
+			LayoutRow row = (LayoutRow) rows.get( rowId + i );
 			retValue.addAll( row.checkOverlappedLayoutCells( colId, colSpan ) );
 		}
 
@@ -238,7 +237,7 @@ public class LayoutSlot
 	{
 		for ( int i = 0; i < rowSpan; i++ )
 		{
-			LayoutRow row = rows.get( rowId + i );
+			LayoutRow row = (LayoutRow) rows.get( rowId + i );
 			row.fillCells( cellId, colId, colSpan, i, content, isEffectualDrop );
 		}
 	}
@@ -269,12 +268,12 @@ public class LayoutSlot
 
 		for ( int i = 0; i < rows.size( ); i++ )
 		{
-			LayoutRow row = rows.get( i );
+			LayoutRow row = (LayoutRow) rows.get( i );
 			row.fillDropSpannedCells( cellId, colId, colSpan, i + 1, content );
 		}
 	}
 
-	private void addOverlappedCells( List<LayoutCell> overlappedAreas )
+	private void addOverlappedCells( List overlappedAreas )
 	{
 		if ( !overlappedAreas.isEmpty( ) )
 		{
@@ -285,7 +284,7 @@ public class LayoutSlot
 
 			for ( int i = 0; i < overlappedAreas.size( ); i++ )
 			{
-				LayoutCell layoutCell = overlappedAreas.get( i );
+				LayoutCell layoutCell = (LayoutCell) overlappedAreas.get( i );
 				LayoutRow layoutRow = layoutCell.getLayoutContainer( );
 
 				tableContainer.addOverlappedCell( layoutCell.getContent( ),
@@ -329,7 +328,7 @@ public class LayoutSlot
 		{
 			for ( int rowId = 0; rowId < rowCount; rowId++ )
 			{
-				LayoutRow row = rows.get( rowId );
+				LayoutRow row = (LayoutRow) rows.get( rowId );
 				for ( int colId = colCount; colId < newColumnCount; colId++ )
 				{
 					row.addCell( LayoutCell.EMPTY_CELL );
@@ -382,7 +381,7 @@ public class LayoutSlot
 		if ( rowId >= rows.size( ) )
 			return null;
 
-		return rows.get( rowId );
+		return (LayoutRow) rows.get( rowId );
 	}
 
 	/**
@@ -458,7 +457,7 @@ public class LayoutSlot
 		if ( rowId < 0 || rowId > getRowCount( ) - 1 )
 			return null;
 
-		LayoutRow row = getLayoutRow( rowId );
+		LayoutRow row = (LayoutRow) getLayoutRow( rowId );
 		return row.getLayoutCell( colId );
 	}
 
@@ -477,7 +476,7 @@ public class LayoutSlot
 		if ( rowId < 0 || rowId > getRowCount( ) - 1 )
 			return null;
 
-		LayoutRow row = getLayoutRow( rowId );
+		LayoutRow row = (LayoutRow) getLayoutRow( rowId );
 		return row.getLayoutCell( cell );
 	}
 
@@ -495,7 +494,7 @@ public class LayoutSlot
 		StringBuffer sb = new StringBuffer( );
 		for ( int i = 0; i < rows.size( ); i++ )
 		{
-			LayoutRow row = rows.get( i );
+			LayoutRow row = (LayoutRow) rows.get( i );
 			sb.append( row.getLayoutString( ) );
 		}
 
@@ -562,26 +561,25 @@ public class LayoutSlot
 	 * @return an iterator containing <code>LayoutRow</code>s.
 	 */
 
-	public Iterator<LayoutRow> layoutRowsIterator( )
+	public Iterator layoutRowsIterator( )
 	{
-		return new ArrayList<LayoutRow>( rows.subList( 0, currentRowId ) )
-				.iterator( );
+		return new ArrayList( rows.subList( 0, currentRowId ) ).iterator( );
 	}
 
 	/**
-	 * Returns handles of <code>Row</code>s in the row. Note that modifications
-	 * on the return iterator do not affect the table layout.
+	 * Returns handles of <code>Row</code>s in the row. Note that
+	 * modifications on the return iterator do not affect the table layout.
 	 * 
 	 * @return an iterator containing <code>RowHandle</code>s.
 	 */
 
-	public Iterator<RowHandle> rowsIterator( )
+	public Iterator rowsIterator( )
 	{
-		Set<RowHandle> retValue = new LinkedHashSet<RowHandle>( );
+		Set retValue = new LinkedHashSet( );
 
 		for ( int i = 0; i < currentRowId; i++ )
 		{
-			LayoutRow row = rows.get( i );
+			LayoutRow row = (LayoutRow) rows.get( i );
 			retValue.add( row.getRow( ) );
 
 		}
