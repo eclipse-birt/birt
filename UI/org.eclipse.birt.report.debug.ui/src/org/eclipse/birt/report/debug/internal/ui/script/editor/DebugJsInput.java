@@ -225,6 +225,8 @@ public class DebugJsInput implements
 			try
 			{
 				handle = getSessionHandle( ).openModule( getFile( ).getAbsolutePath( ),
+						// No need to close the stream here, the report
+						// design parser will automaically close it.
 						new FileInputStream( getFile( ) ) );
 			}
 			catch ( DesignFileException e )

@@ -190,6 +190,8 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 					report = SessionHandleAdapter.getInstance( )
 							.getSessionHandle( )
 							.openDesign( path.toOSString( ),
+							// No need to close the stream here, the report
+							// design parser will automaically close it.
 									new FileInputStream( path.toFile( ) ) );
 					if ( checkReport )
 					{
@@ -559,7 +561,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		try
 		{
 			getModel( ).serialize( out );
-			String newInput = out.toString( getModel( ).getFileEncoding( ));
+			String newInput = out.toString( getModel( ).getFileEncoding( ) );
 
 			reportXMLEditor.getDocumentProvider( )
 					.getDocument( getEditorInput( ) )
@@ -615,7 +617,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		{
 			setInput( prePage.getEditorInput( ) );
 		}
-		if (getStaleType( ) == IPageStaleType.MODEL_RELOAD)
+		if ( getStaleType( ) == IPageStaleType.MODEL_RELOAD )
 		{
 			reloadEditorInput( );
 			doSave( null );
@@ -623,7 +625,8 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		else if ( prePage != this
 				&& ( prePage.isDirty( ) || prePage.getStaleType( ) != IPageStaleType.NONE ) )
 		{
-			ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ), false );
+			ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ),
+					false );
 			if ( ModuleUtil.compareReportVersion( ModuleUtil.getReportVersion( ),
 					model.getVersion( ) ) > 0 )
 			{
@@ -650,7 +653,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		SessionHandleAdapter.getInstance( )
 				.getMediator( getModel( ) )
 				.notifyRequest( request );
-		
+
 		reportXMLEditor.setFocus( );
 		return true;
 	}
@@ -785,8 +788,9 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 			ModuleHandle model = provider.getReportModuleHandle( getEditorInput( ),
 					true );
 			SessionHandleAdapter.getInstance( ).setReportDesignHandle( model );
-			UIUtil.processSessionResourceFolder( getEditorInput( ), 
-					UIUtil.getProjectFromInput( getEditorInput( ) ), model );
+			UIUtil.processSessionResourceFolder( getEditorInput( ),
+					UIUtil.getProjectFromInput( getEditorInput( ) ),
+					model );
 
 			SessionHandleAdapter.getInstance( )
 					.getMediator( model )

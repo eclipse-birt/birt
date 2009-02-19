@@ -46,6 +46,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
@@ -169,6 +170,17 @@ public class FileReportProvider implements IReportProvider
 	private void saveFile( final ModuleHandle moduleHandle, final File file,
 			final IPath oldReportPath, IProgressMonitor monitor )
 	{
+		if ( file.exists( ) && !file.canWrite( ) )
+		{
+			MessageDialog.openError( UIUtil.getDefaultShell( ),
+					Messages.getString( "IDEFileReportProvider.ReadOnlyEncounter.Title" ), //$NON-NLS-1$
+					Messages.getFormattedString( "IDEFileReportProvider.ReadOnlyEncounter.Message", //$NON-NLS-1$
+							new Object[]{
+								file.getAbsolutePath( )
+							} ) );
+			return;
+		}
+
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
 			public synchronized final void run( IProgressMonitor monitor )

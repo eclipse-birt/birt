@@ -155,6 +155,8 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 					report = SessionHandleAdapter.getInstance( )
 							.getSessionHandle( )
 							.openDesign( path.toOSString( ),
+									// No need to close the stream here, the report
+									// design parser will automaically close it.
 									new FileInputStream( path.toFile( ) ) );
 					if ( checkReport )
 					{

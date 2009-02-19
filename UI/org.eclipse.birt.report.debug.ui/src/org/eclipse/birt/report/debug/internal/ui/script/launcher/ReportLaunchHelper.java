@@ -353,7 +353,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 
 			public void run( )
 			{
-				result[0] = new Boolean( getParameterValues( getInputParameters( fileName,
+				result[0] = Boolean.valueOf( getParameterValues( getInputParameters( fileName,
 						taskType,
 						engine ),
 						paramValues ) );

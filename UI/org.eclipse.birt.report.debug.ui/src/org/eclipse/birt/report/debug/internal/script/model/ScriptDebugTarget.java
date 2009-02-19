@@ -196,6 +196,8 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 			try
 			{
 				handle = getSessionHandle( ).openModule( getFileName( ),
+						// No need to close the stream here, the report
+						// design parser will automaically close it.
 						new FileInputStream( getFileName( ) ) );
 			}
 			catch ( DesignFileException e )
