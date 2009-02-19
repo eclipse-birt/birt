@@ -90,9 +90,11 @@ public class FileReportProvider implements IReportProvider
 			if ( path != null )
 			{
 				String fileName = path.toOSString( );
+				InputStream stream = null;
+
 				try
 				{
-					InputStream stream = new FileInputStream( path.toFile( ) );
+					stream = new FileInputStream( path.toFile( ) );
 
 					Map properties = new HashMap( );
 
@@ -123,6 +125,20 @@ public class FileReportProvider implements IReportProvider
 				catch ( FileNotFoundException e )
 				{
 					logger.log(Level.SEVERE, e.getMessage(),e);
+				}
+				finally
+				{
+					try
+					{
+						if ( stream != null )
+						{
+							stream.close( );
+						}
+					}
+					catch ( IOException e )
+					{
+						logger.log( Level.SEVERE, e.getMessage( ), e );
+					}
 				}
 			}
 		}
@@ -229,8 +245,15 @@ public class FileReportProvider implements IReportProvider
 				if ( file.exists( ) || file.createNewFile( ) )
 				{
 					FileOutputStream out = new FileOutputStream( file );
-					moduleHandle.serialize( out );
-					out.close( );
+
+					try
+					{
+						moduleHandle.serialize( out );
+					}
+					finally
+					{
+						out.close( );
+					}
 
 					if ( oldReportPath != null )
 					{
@@ -285,7 +308,16 @@ public class FileReportProvider implements IReportProvider
 			}
 			else
 			{
-				newConfigFile.delete( );
+				if ( newConfigFile.exists( ) )
+				{
+					if ( !newConfigFile.delete( ) )
+					{
+						throw new IOException( Messages.getFormattedString( "FileReportProvider.CopyConfigFile.DeleteFailure", //$NON-NLS-1$
+								new Object[]{
+									newConfigFile.getAbsolutePath( )
+								} ) );
+					}
+				}
 			}
 		}
 	}
