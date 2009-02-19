@@ -111,7 +111,8 @@ public class ReportElementInstance implements IReportElementInstance
 		{
 			ReportElementDesign design = (ReportElementDesign) generatedBy;
 			DesignElementHandle handle = design.getHandle( );
-			UserPropertyDefnHandle prop = handle.getUserPropertyDefnHandle( name );
+			UserPropertyDefnHandle prop = handle
+					.getUserPropertyDefnHandle( name );
 			if ( prop != null )
 			{
 				try
@@ -126,9 +127,19 @@ public class ReportElementInstance implements IReportElementInstance
 		}
 	}
 
-	public IReportElementInstance getParent( ) throws BirtException
+	public IReportElementInstance getParent( ) throws ScriptException
 	{
-		return ElementUtil.getInstance( content.getParent( ), context );
+		try
+		{
+			return ElementUtil.getInstance( content.getParent( ), context );
+		}
+		catch ( BirtException e )
+		{
+			ScriptException scriptException = new ScriptException( e
+					.getLocalizedMessage( ) );
+			scriptException.initCause( e );
+			throw scriptException;
+		}
 	}
 
 	/*
@@ -211,7 +222,7 @@ public class ReportElementInstance implements IReportElementInstance
 		content.setHeight( DimensionType.parserUnit( height ) );
 	}
 
-	public IRowData getRowData( ) throws BirtException
+	public IRowData getRowData( ) throws ScriptException
 	{
 		if ( rowData != null )
 		{

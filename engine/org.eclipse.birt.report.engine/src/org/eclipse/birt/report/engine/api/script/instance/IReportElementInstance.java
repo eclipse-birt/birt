@@ -84,18 +84,20 @@ public interface IReportElementInstance
 
 	/**
 	 * Get the parent (container) of this element
+	 * @throws ScriptException 
 	 * 
 	 * @throws BirtException
 	 * 
 	 */
-	IReportElementInstance getParent( ) throws BirtException;
+	IReportElementInstance getParent( ) throws ScriptException;
 
 	/**
 	 * Get the row data used to create the instance. The row data is defined by
 	 * the column binding.
+	 * @throws ScriptException 
 	 * 
 	 * @throws BirtException
 	 */
-	IRowData getRowData( ) throws BirtException;
+	IRowData getRowData( ) throws ScriptException;
 
 }
