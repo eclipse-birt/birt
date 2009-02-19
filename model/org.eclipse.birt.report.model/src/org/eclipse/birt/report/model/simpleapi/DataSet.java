@@ -117,9 +117,9 @@ public class DataSet implements IDataSet
 	 * ()
 	 */
 
-	public List<IResultSetColumn> getCachedResultSetColumns( )
+	public List getCachedResultSetColumns( )
 	{
-		List<IResultSetColumn> values = new ArrayList<IResultSetColumn>( );
+		List values = new ArrayList( );
 		CachedMetaDataHandle metaDataHandle = dataSet.getCachedMetaDataHandle( );
 		if ( metaDataHandle == null )
 			return values;
