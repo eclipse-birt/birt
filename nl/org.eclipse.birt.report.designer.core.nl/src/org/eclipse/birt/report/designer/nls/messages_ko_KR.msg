@@ -2582,6 +2582,7 @@ NewReportWizard.title.ReportWizard=보고서 마법사
 NewReportWizard.title.Template=TemplateChoicePage
 NewReportWizard.title.WizardPage=WizardPage
 NewReportWizard.widowTitle.new=새로 만들기
+NewReportWizard.wizard.msgDirErr=The target directory does not exist, but cannot be created.
 
 
 ###########################################################
@@ -4450,3 +4451,7 @@ ExportElementToLibraryAction.waringMsg=요소에 이름이 없지만 해당 요소의 이름을 �
 #UIUtil
 UIUtil.previewconfirm.title=보고서 오류
 UIUtil.previewconfirm.message=보고서에 오류가 있습니다. 미리 보기를 계속하시겠습니까?
+
+###########################################################
+#FileReportProvider
+FileReportProvider.CopyConfigFile.DeleteFailure=Delete file failure: {0}

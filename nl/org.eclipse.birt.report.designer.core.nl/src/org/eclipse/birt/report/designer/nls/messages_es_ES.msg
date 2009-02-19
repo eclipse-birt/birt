@@ -2582,6 +2582,7 @@ NewReportWizard.title.ReportWizard=Asistente de informes
 NewReportWizard.title.Template=TemplateChoicePage
 NewReportWizard.title.WizardPage=WizardPage
 NewReportWizard.widowTitle.new=Nuevo
+NewReportWizard.wizard.msgDirErr=The target directory does not exist, but cannot be created.
 
 
 ###########################################################
@@ -4450,3 +4451,7 @@ ExportElementToLibraryAction.waringMsg=El elemento no tiene nombre, pero no se p
 #UIUtil
 UIUtil.previewconfirm.title=Errores en el informe
 UIUtil.previewconfirm.message=El informe contiene errores, ¿desea continuar para realizar la vista previa?
+
+###########################################################
+#FileReportProvider
+FileReportProvider.CopyConfigFile.DeleteFailure=Delete file failure: {0}

@@ -2582,6 +2582,7 @@ NewReportWizard.title.ReportWizard=ƒŒƒ|[ƒgƒEƒBƒU[ƒh
 NewReportWizard.title.Template=TemplateChoicePage
 NewReportWizard.title.WizardPage=WizardPage
 NewReportWizard.widowTitle.new=V‹Kì¬
+NewReportWizard.wizard.msgDirErr=The target directory does not exist, but cannot be created.
 
 
 ###########################################################
@@ -4450,3 +4451,7 @@ ExportElementToLibraryAction.waringMsg=—v‘f‚É–¼‘O‚ª•t‚¢‚Ä‚¢‚Ü‚¹‚ñ‚ªA–¼‘O‚ğİ’è‚
 #UIUtil
 UIUtil.previewconfirm.title=ƒŒƒ|[ƒg‚ÌƒGƒ‰[
 UIUtil.previewconfirm.message=ƒŒƒ|[ƒg‚ÉƒGƒ‰[‚ª‚ ‚è‚Ü‚·BƒvƒŒƒrƒ…[‚ğ‘±s‚µ‚Ü‚·‚© ?
+
+###########################################################
+#FileReportProvider
+FileReportProvider.CopyConfigFile.DeleteFailure=Delete file failure: {0}

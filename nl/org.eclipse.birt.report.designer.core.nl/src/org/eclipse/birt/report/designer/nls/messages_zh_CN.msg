@@ -2582,6 +2582,7 @@ NewReportWizard.title.ReportWizard=报表向导
 NewReportWizard.title.Template=TemplateChoicePage
 NewReportWizard.title.WizardPage=WizardPage
 NewReportWizard.widowTitle.new=新建
+NewReportWizard.wizard.msgDirErr=The target directory does not exist, but cannot be created.
 
 
 ###########################################################
@@ -4450,3 +4451,7 @@ ExportElementToLibraryAction.waringMsg=元素没有名称，但不能为其设置名称。
 #UIUtil
 UIUtil.previewconfirm.title=报表中存在错误
 UIUtil.previewconfirm.message=报表包含错误，是否继续预览?
+
+###########################################################
+#FileReportProvider
+FileReportProvider.CopyConfigFile.DeleteFailure=Delete file failure: {0}
