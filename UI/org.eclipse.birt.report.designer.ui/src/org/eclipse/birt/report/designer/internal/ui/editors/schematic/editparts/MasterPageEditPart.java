@@ -21,7 +21,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Re
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.MasterPageLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -31,7 +30,6 @@ import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -47,7 +45,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractEditPart;
 import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Master Page editor
@@ -330,6 +328,24 @@ public class MasterPageEditPart extends AbstractReportEditPart
 		}
 		
 		super.propertyChange(info);
+		if ( info.get( MasterPageHandle.WIDTH_PROP ) instanceof MasterPageHandle 
+				|| info.get( MasterPageHandle.HEIGHT_PROP ) instanceof MasterPageHandle)
+		{
+			//fix  bug 265256
+			Display.getCurrent( ).asyncExec( new Runnable()
+			{
+
+				public void run( )
+				{
+					List list = getChildren( );
+					int size = list.size( );
+					for ( int i = 0; i < size; i++ )
+					{
+						( (ReportElementEditPart) list.get( i ) ).refreshVisuals( );
+					}	
+				}
+			});
+		}
 		
 		if ( invalidate )
 		{
