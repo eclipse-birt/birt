@@ -101,6 +101,7 @@ public abstract class AbstractWordXmlWriter
 		writer.attribute( "filled", "f" );
 		writer.attribute( "stroked", "f" );
 		writer.openTag( "v:stroke" );
+		writer.attribute( "imagealignshape", "false" );
 		writer.attribute( "joinstyle", "miter" );
 		writer.closeTag( "v:stroke" );
 		writer.openTag( "v:formulas" );
