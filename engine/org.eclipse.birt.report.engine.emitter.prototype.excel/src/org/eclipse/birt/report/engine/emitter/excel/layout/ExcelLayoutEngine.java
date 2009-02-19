@@ -292,6 +292,10 @@ public class ExcelLayoutEngine
 			rowIndexes[currentColumnIndex - startColumnIndex] = rowIndex;
 			maxRowIndex = maxRowIndex > rowIndex ? maxRowIndex : rowIndex;
 		}
+		if ( maxRowIndex == rowContainer.getRowIndex( ) )
+		{
+			maxRowIndex++;
+		}
 		rowContainer.setRowIndex( maxRowIndex );
 		for ( int currentColumnIndex = startColumnIndex; currentColumnIndex < endColumnIndex; currentColumnIndex++ )
 		{
