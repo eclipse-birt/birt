@@ -281,8 +281,8 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 				{
 					preference.setValue( name, value );
 					firePreferenceChangeEvent( name,
-							new Integer( oldValue ),
-							new Integer( value ) );
+							Integer.valueOf( oldValue ),
+							Integer.valueOf( value ) );
 				}
 				return;
 			}
@@ -291,8 +291,8 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 		{
 			prefsStore.setValue( name, value );
 			firePreferenceChangeEvent( name,
-					new Integer( oldValue ),
-					new Integer( value ) );
+					Integer.valueOf( oldValue ),
+					Integer.valueOf( value ) );
 		}
 	}
 
@@ -308,8 +308,8 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 				{
 					preference.setValue( name, value );
 					firePreferenceChangeEvent( name,
-							new Long( oldValue ),
-							new Long( value ) );
+							Long.valueOf( oldValue ),
+							Long.valueOf( value ) );
 				}
 				return;
 			}
@@ -318,8 +318,8 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 		{
 			prefsStore.setValue( name, value );
 			firePreferenceChangeEvent( name,
-					new Long( oldValue ),
-					new Long( value ) );
+					Long.valueOf( oldValue ),
+					Long.valueOf( value ) );
 		}
 	}
 
@@ -358,8 +358,8 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 				{
 					preference.setValue( name, value );
 					firePreferenceChangeEvent( name,
-							new Boolean( oldValue ),
-							new Boolean( value ) );
+							Boolean.valueOf( oldValue ),
+							Boolean.valueOf( value ) );
 				}
 				return;
 			}
@@ -368,8 +368,8 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 		{
 			prefsStore.setValue( name, value );
 			firePreferenceChangeEvent( name,
-					new Boolean( oldValue ),
-					new Boolean( value ) );
+					Boolean.valueOf( oldValue ),
+					Boolean.valueOf( value ) );
 		}
 	}
 

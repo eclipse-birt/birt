@@ -65,7 +65,7 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.14 $ $Date: 2008/12/11 05:58:07 $
+ * @version $Revision: 1.15 $ $Date: 2009/02/18 10:59:08 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
@@ -594,7 +594,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	/**
 	 *
 	 */
-	class DialogPageAdapter extends DialogPage
+	static class DialogPageAdapter extends DialogPage
 	{
 
 		private PropertyNode node;

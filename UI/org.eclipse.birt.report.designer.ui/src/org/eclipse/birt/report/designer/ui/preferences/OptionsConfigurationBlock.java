@@ -51,7 +51,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 public abstract class OptionsConfigurationBlock
 {
 
-	public final class Key
+	public static final class Key
 	{
 
 		private String fQualifier;
@@ -118,7 +118,7 @@ public abstract class OptionsConfigurationBlock
 
 	}
 
-	protected class ControlData
+	protected static class ControlData
 	{
 
 		private Key fKey;
@@ -274,7 +274,7 @@ public abstract class OptionsConfigurationBlock
 
 	protected abstract Control createContents( Composite parent );
 
-	public class RadioComposite extends Group
+	public static class RadioComposite extends Group
 	{
 
 		List<Button> radioBtns = new ArrayList<Button>( );;

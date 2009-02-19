@@ -206,8 +206,8 @@ public class SpinnerYear extends Composite implements ActionListener
 		//fire value
 		firePropertyListener( new PropertyChangeEvent( new Object( ),
 				IPropertyEventConstants.YEAR_CHANGE_EVENT,
-				new Integer( Integer.parseInt( textContend ) ),
-				new Integer( value ) ) );
+				Integer.valueOf( Integer.parseInt( textContend ) ),
+				Integer.valueOf( value ) ) );
 		this.textContend = text;
 		this.text.setText( textContend );
 

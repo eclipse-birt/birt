@@ -729,7 +729,7 @@ public class ReportPlugin extends AbstractUIPlugin
 				{
 					return null;
 				}
-				return new String( customNameArray[i] );
+				return customNameArray[i];
 			}
 		}
 		return null;
@@ -745,14 +745,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static String[] convert( String preferenceValue )
 	{
 
-		String preferenceValueCopy = new String( );
-		preferenceValueCopy = new String( PREFERENCE_DELIMITER )
-				+ preferenceValue;
-		String replaceString = new String( PREFERENCE_DELIMITER )
-				+ new String( PREFERENCE_DELIMITER );
-		String regrex = new String( PREFERENCE_DELIMITER )
-				+ SPACE
-				+ new String( PREFERENCE_DELIMITER );
+		String preferenceValueCopy = PREFERENCE_DELIMITER + preferenceValue;
+		String replaceString = PREFERENCE_DELIMITER + PREFERENCE_DELIMITER;
+		String regrex = PREFERENCE_DELIMITER + SPACE + PREFERENCE_DELIMITER;
 		while ( preferenceValueCopy.indexOf( replaceString ) != -1 )
 		{
 			preferenceValueCopy = preferenceValueCopy.replaceFirst( replaceString,
@@ -947,7 +942,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setDefaultTemplatePreference( )
 	{
-		String defaultDir = new String( UIUtil.getHomeDirectory( ) );
+		String defaultDir = UIUtil.getHomeDirectory( );
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
 				.setDefault( TEMPLATE_PREFERENCE, defaultDir );
@@ -1295,25 +1290,27 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String getResourceFolder( IProject project )
 	{
-		return getResourceFolder( project, SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
+		return getResourceFolder( project, SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( ) );
 	}
-	
+
 	/**
 	 * @param project
 	 * @param module
 	 * @return
 	 */
-	public String getResourceFolder( IProject project,  ModuleHandle module)
+	public String getResourceFolder( IProject project, ModuleHandle module )
 	{
-		return getResourceFolder(project, module == null?"":module.getResourceFolder( ));
+		return getResourceFolder( project, module == null ? ""
+				: module.getResourceFolder( ) );
 	}
-	
+
 	/**
 	 * @param project
 	 * @param parentPath
 	 * @return
 	 */
-	public String getResourceFolder( IProject project,  String parentPath )
+	public String getResourceFolder( IProject project, String parentPath )
 	{
 		String resourceFolder = ReportPlugin.getDefault( )
 				.getResourcePreference( project );
@@ -1323,11 +1320,11 @@ public class ReportPlugin extends AbstractUIPlugin
 			resourceFolder = parentPath;
 		}
 
-		if (resourceFolder == null)
+		if ( resourceFolder == null )
 		{
 			resourceFolder = "";//$NON-NLS-1$
 		}
-			
+
 		String str = resourceFolder;
 		try
 		{
@@ -1347,11 +1344,13 @@ public class ReportPlugin extends AbstractUIPlugin
 		{
 			if ( project != null )
 			{
-				 resourceFolder = project.getLocation( ).append( resourceFolder).toOSString( );
+				resourceFolder = project.getLocation( )
+						.append( resourceFolder )
+						.toOSString( );
 			}
 			else
 			{
-				if (!resourceFolder.startsWith( File.separator ))
+				if ( !resourceFolder.startsWith( File.separator ) )
 				{
 					resourceFolder = File.separator + resourceFolder;
 				}

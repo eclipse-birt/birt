@@ -32,7 +32,8 @@ public class TreeValueDialog extends ElementTreeSelectionDialog
 {
 
 	List<ListenerClass> listeners = new ArrayList<ListenerClass>();
-	private class ListenerClass 
+
+	private static class ListenerClass
 	{
 		int type;
 		Listener listener;

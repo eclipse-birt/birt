@@ -93,7 +93,7 @@ public class DateSetPreferencePage extends PreferencePage implements
 		maxRowEditor.setTextLimit( Integer.toString( MAX_MAX_ROW ).length( ) );
 		maxRowEditor.setErrorMessage( Messages.getFormattedString( "designer.preview.preference.resultset.maxrow.errormessage", //$NON-NLS-1$
 				new Object[]{
-					new Integer( MAX_MAX_ROW )
+					Integer.valueOf( MAX_MAX_ROW )
 				} ) );
 		maxRowEditor.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
 		maxRowEditor.setValidRange( 1, MAX_MAX_ROW );

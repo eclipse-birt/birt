@@ -530,8 +530,8 @@ class SpinnerTimeText extends Text
 
 		PropertyChangeEvent event = new PropertyChangeEvent( new Object( ),
 				getChangeName( ),
-				new Integer( Integer.parseInt( value ) ),
-				new Integer( intValue ) );
+				Integer.valueOf( Integer.parseInt( value ) ),
+				Integer.valueOf( intValue ) );
 
 		firePropertyListener( event );
 

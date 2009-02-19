@@ -804,7 +804,7 @@ public class TextEditor extends BaseDialog
 	}
 
 	// inner class definition for create text editor actions.
-	class EBTextAction extends TextEditorAction
+	static class EBTextAction extends TextEditorAction
 	{
 
 		SourceViewer sourceViewer;

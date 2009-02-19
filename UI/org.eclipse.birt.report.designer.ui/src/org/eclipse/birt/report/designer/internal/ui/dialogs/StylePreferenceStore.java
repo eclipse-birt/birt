@@ -481,7 +481,7 @@ public class StylePreferenceStore implements IPreferenceStore
 	{
 		try
 		{
-			( (StyleHandle) model ).setProperty( name, new Integer( value ) );
+			( (StyleHandle) model ).setProperty( name, Integer.valueOf( value ) );
 		}
 		catch ( SemanticException e )
 		{

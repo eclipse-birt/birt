@@ -134,7 +134,8 @@ public abstract class PropertyAndPreferencePage extends PreferencePage implement
 
 					public void dialogFieldChanged( DialogField field )
 					{
-						enableProjectSpecificSettings( ( (SelectionButtonDialogField) field ).isSelected( ) );
+						if ( field instanceof SelectionButtonDialogField )
+							enableProjectSpecificSettings( ( (SelectionButtonDialogField) field ).isSelected( ) );
 					}
 				};
 

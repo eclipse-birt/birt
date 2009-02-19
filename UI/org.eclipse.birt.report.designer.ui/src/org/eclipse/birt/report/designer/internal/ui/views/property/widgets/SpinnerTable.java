@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
 import java.util.ArrayList;
-import com.ibm.icu.util.Calendar;
 
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -26,6 +25,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * The Spinner component base on SWT,Fetch and setting the day value
@@ -169,8 +170,8 @@ public class SpinnerTable extends Composite
 				//source I think is a Object
 				firePropertyListener( new PropertyChangeEvent( new Object( ),
 						"daychange", //$NON-NLS-1$
-						new Integer( oldValue ),
-						new Integer( strValue ) ) );
+						Integer.valueOf( oldValue ),
+						Integer.valueOf( strValue ) ) );
 
 			}
 		} );

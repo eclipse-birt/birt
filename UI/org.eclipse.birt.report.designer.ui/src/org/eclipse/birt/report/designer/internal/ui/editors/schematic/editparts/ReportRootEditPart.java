@@ -327,7 +327,7 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 
 	}
 
-	class FeedbackLayer extends FreeformLayer
+	static class FeedbackLayer extends FreeformLayer
 	{
 
 		FeedbackLayer( )

@@ -2354,7 +2354,7 @@ public class ParameterDialog extends BaseDialog
 						null );
 			}
 		}
-		catch ( Exception e )
+		catch ( SemanticException e )
 		{
 			ExceptionHandler.handle( e );
 			return;

@@ -79,7 +79,7 @@ public class ToggleMarginVisibilityAction extends Action
 			System.out.println( "Toggle margin action >> Run ..." ); //$NON-NLS-1$
 		}
 		diagramViewer.setProperty( DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY,
-				new Boolean( !isChecked( ) ) );
+				Boolean.valueOf( !isChecked( ) ) );
 	}
 
 }

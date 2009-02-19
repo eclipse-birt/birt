@@ -274,7 +274,7 @@ public class ParameterBindingPage extends Composite implements Listener
 		}
 	}
 
-	private class BindingLabelProvider extends LabelProvider implements
+	private static class BindingLabelProvider extends LabelProvider implements
 			ITableLabelProvider
 	{
 
@@ -333,7 +333,8 @@ public class ParameterBindingPage extends Composite implements Listener
 		}
 	}
 
-	private class BindingContentProvider implements IStructuredContentProvider
+	private static class BindingContentProvider implements
+			IStructuredContentProvider
 	{
 
 		/*

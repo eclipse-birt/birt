@@ -172,7 +172,7 @@ public class PopupSelectionList
 			}
 			if ( items[n].equals( "-" ) ) //$NON-NLS-1$
 			{
-				separatorIndexes.add( new Integer( n ) );
+				separatorIndexes.add( Integer.valueOf( n ) );
 			}
 
 		}
@@ -184,7 +184,7 @@ public class PopupSelectionList
 			list.setItem( ( (Integer) iter.next( ) ).intValue( ), separator );
 		}
 
-		return maxWidth + 5;
+		return maxWidth + 5 ;
 	}
 
 	private void closeShell( )

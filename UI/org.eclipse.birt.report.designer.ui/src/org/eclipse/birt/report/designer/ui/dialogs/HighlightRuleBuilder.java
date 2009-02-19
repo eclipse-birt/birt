@@ -1604,12 +1604,12 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 					if ( color.getRGB( ) != null )
 					{
 						rule.setProperty( HighlightRule.COLOR_MEMBER,
-								new Integer( colorValue ) );
+								Integer.valueOf( colorValue ) );
 					}
 					if ( backColor.getRGB( ) != null )
 					{
 						rule.setProperty( HighlightRule.BACKGROUND_COLOR_MEMBER,
-								new Integer( backColorValue ) );
+								Integer.valueOf( backColorValue ) );
 					}
 					if ( familyValue != null )
 					{
