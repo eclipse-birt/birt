@@ -157,7 +157,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 	 */
 	public String[] getItems( )
 	{
-		return this.items.clone( );
+		return this.items;
 	}
 
 	/**

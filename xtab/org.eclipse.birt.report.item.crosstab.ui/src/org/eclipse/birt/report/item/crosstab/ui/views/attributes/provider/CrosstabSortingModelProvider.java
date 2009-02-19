@@ -356,7 +356,7 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 	}
 	
 	
-	class LevelSortKeyHandle
+	static class LevelSortKeyHandle
 	{
 		protected LevelViewHandle levelHandle;
 		protected SortElementHandle sortKeyHandle;

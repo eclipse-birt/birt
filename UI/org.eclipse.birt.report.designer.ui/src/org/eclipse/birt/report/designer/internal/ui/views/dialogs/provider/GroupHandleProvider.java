@@ -85,7 +85,7 @@ public class GroupHandleProvider implements IFormHandleProvider
 		{
 			columnNames = modelAdapter.getColumnNames( columnKeys );
 		}
-		return columnNames.clone( );
+		return columnNames;
 	}
 
 	/*

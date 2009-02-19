@@ -43,7 +43,7 @@ import com.ibm.icu.util.ULocale;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.34 $ $Date: 2009/02/18 03:24:31 $
+ * @version $Revision: 1.35 $ $Date: 2009/02/18 10:59:07 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -73,7 +73,7 @@ public class SelectValueDialog extends BaseDialog
 	 */
 	public ParamBindingHandle[] getBindingParams( )
 	{
-		return bindingParams.clone( );
+		return bindingParams;
 	}
 
 	/**

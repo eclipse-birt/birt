@@ -135,7 +135,7 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor
 	public void setItems( String[] items )
 	{
 		Assert.isNotNull( items );
-		this.items = items.clone( );
+		this.items = items;
 		populateComboBoxItems( );
 	}
 
