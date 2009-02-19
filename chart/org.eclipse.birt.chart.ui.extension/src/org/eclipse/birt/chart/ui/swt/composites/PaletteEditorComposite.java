@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.Palette;
@@ -762,7 +763,11 @@ public final class PaletteEditorComposite extends Composite implements
 		{
 			int index1 = iIndex1;
 			int index2 = iIndex2;
-			if( isMultiAxes( ) )
+			if ( isMultiAxes( )
+					&& wizardContext.getModel( )
+							.getLegend( )
+							.getItemType( )
+							.getValue( ) == LegendItemType.SERIES )
 			{
 				int min = Math.min( index1, index2 );
 				int max = Math.max( index1, index2 );

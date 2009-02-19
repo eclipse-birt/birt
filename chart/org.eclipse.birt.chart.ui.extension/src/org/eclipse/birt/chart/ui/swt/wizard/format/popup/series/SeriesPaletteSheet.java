@@ -142,7 +142,7 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 		}
 		else
 		{
-			if ( isMultiAxes( ) )
+			if ( isMultiAxes( ) && isColoredByValue( ) )
 			{
 
 				for ( int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber( context.getModel( ) ); i++ )
