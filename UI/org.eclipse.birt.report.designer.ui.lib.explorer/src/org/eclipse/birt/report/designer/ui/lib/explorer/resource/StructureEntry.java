@@ -44,7 +44,7 @@ public class StructureEntry extends ReportElementEntry
 	@Override
 	public boolean equals( Object object )
 	{
-		if ( !( object instanceof StructureEntry ) )
+		if ( object == null || !object.getClass( ).equals( getClass( ) ) )
 		{
 			return false;
 		}

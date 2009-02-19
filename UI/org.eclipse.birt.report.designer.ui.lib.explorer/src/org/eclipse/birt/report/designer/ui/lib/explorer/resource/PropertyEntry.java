@@ -29,7 +29,7 @@ public class PropertyEntry extends ReportElementEntry
 	@Override
 	public boolean equals( Object object )
 	{
-		if ( !( object instanceof PropertyEntry ) )
+		if ( object == null || !object.getClass( ).equals( getClass( ) ) )
 		{
 			return false;
 		}

@@ -37,7 +37,7 @@ public class LibraryNodeEntry extends ReportElementEntry
 	@Override
 	public boolean equals( Object object )
 	{
-		if ( !( object instanceof LibraryNodeEntry ) )
+		if ( object == null || !object.getClass( ).equals( getClass( ) ) )
 		{
 			return false;
 		}

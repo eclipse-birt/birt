@@ -37,7 +37,7 @@ public class SlotEntry extends ReportElementEntry
 	@Override
 	public boolean equals( Object object )
 	{
-		if ( !( object instanceof SlotEntry ) )
+		if ( object == null || !object.getClass( ).equals( getClass( ) ) )
 		{
 			return false;
 		}

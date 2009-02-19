@@ -37,7 +37,7 @@ public class EmbeddedImagesEntry extends ReportElementEntry
 	@Override
 	public boolean equals( Object object )
 	{
-		if ( !( object instanceof EmbeddedImagesEntry ) )
+		if ( object == null || !object.getClass( ).equals( getClass( ) ) )
 		{
 			return false;
 		}

@@ -99,7 +99,7 @@ public class ReportElementEntry extends ReportResourceEntry
 	@Override
 	public boolean equals( Object object )
 	{
-		if ( !( object instanceof ReportElementEntry ) )
+		if ( object == null || !object.getClass( ).equals( getClass( ) ) )
 		{
 			return false;
 		}
