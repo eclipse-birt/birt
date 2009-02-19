@@ -357,21 +357,41 @@ public class FileReportProvider implements IReportProvider
 		}
 		finally
 		{
-			if ( fis != null )
+			// Uses try-finally blocks to insure that all resources are closed,
+			// even if some exceptions are threw during closing those resources.
+			try
 			{
-				fis.close( );
+				if ( fis != null )
+				{
+					fis.close( );
+				}
 			}
-			if ( fos != null )
+			finally
 			{
-				fos.close( );
-			}
-			if ( fcin != null )
-			{
-				fcin.close( );
-			}
-			if ( fcout != null )
-			{
-				fcout.close( );
+				try
+				{
+					if ( fos != null )
+					{
+						fos.close( );
+					}
+				}
+				finally
+				{
+					try
+					{
+						if ( fcin != null )
+						{
+							fcin.close( );
+						}
+					}
+					finally
+					{
+						if ( fcout != null )
+						{
+							fcout.close( );
+						}
+					}
+				}
 			}
 		}
 	}
