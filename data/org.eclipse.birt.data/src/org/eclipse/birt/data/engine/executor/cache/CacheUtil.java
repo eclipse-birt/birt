@@ -18,8 +18,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.RandomAccessFile;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -100,42 +98,26 @@ public class CacheUtil
 	
 	// ------------------------service for DiskCache-------------------------
 
-	public static String createTempRootDir( final String tempDir )
+	public static String createTempRootDir( String tempDir )
 	{
-		try
+		String rootDirStr = null;
+
+		// system default temp dir is used
+		File tempDtEDir = null;
+		tempDtEDir = new File(tempDir, "BirtDataTemp"
+				+ System.currentTimeMillis() + cacheCounter1.intValue() );
+		cacheCounter1.add(1);
+		int x = 0;
+		while (tempDtEDir.exists())
 		{
-			return (String) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
-
-				public Object run( ) throws Exception
-				{
-					String rootDirStr = null;
-
-					// system default temp dir is used
-					File tempDtEDir = null;
-					tempDtEDir = new File( tempDir, "BirtDataTemp"
-							+ System.currentTimeMillis( )
-							+ cacheCounter1.intValue( ) );
-					cacheCounter1.add( 1 );
-					int x = 0;
-					while ( tempDtEDir.exists( ) )
-					{
-						x++;
-						tempDtEDir = new File( tempDir, "BirtDataTemp"
-								+ System.currentTimeMillis( )
-								+ cacheCounter1.intValue( ) + "_" + x );
-					}
-					tempDtEDir.mkdirs( );
-					tempDtEDir.deleteOnExit( );
-					rootDirStr = getCanonicalPath( tempDtEDir );
-					return rootDirStr;
-
-				}
-			} );
+			x++;
+			tempDtEDir = new File(tempDir, "BirtDataTemp"
+					+ System.currentTimeMillis() + cacheCounter1.intValue() + "_" + x);
 		}
-		catch ( Exception e )
-		{
-			return null;// throw new DataException( e.getLocalizedMessage( ) );
-		}
+		tempDtEDir.mkdirs();
+		tempDtEDir.deleteOnExit();
+		rootDirStr = getCanonicalPath( tempDtEDir );
+		return rootDirStr;
 	}
 
 	/**
@@ -143,53 +125,39 @@ public class CacheUtil
 	 * @throws DataException 
 	 * @throws IOException 
 	 */
-	public static String createSessionTempDir( final String tempRootDir ) throws DataException
+	public static String createSessionTempDir( String tempRootDir ) throws DataException
 	{
-		try
-		{
-			return (String) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
-				public Object run( ) throws Exception
-				{
-					final String prefix = "session_";
-					File sessionFile = null;
-					
-					// Here we use complex algorithm so that to avoid the repeating of
-					// dir names in 1.same jvm but different threads 2.different jvm.
-					String sessionTempDir = tempRootDir + File.separator + prefix
-							+ System.currentTimeMillis() + cacheCounter2.intValue();
-					cacheCounter2.add(1);
-					sessionFile = new File(sessionTempDir);
-
-					int i = 0;
-					String tempDir = sessionTempDir;
-					while (sessionFile.exists( ) )
-					{
-						i++;
-						sessionTempDir = tempDir + "_" + i;
-						sessionFile = new File(sessionTempDir);
-						if (i > MAX_DIR_CREATION_ATTEMPT)
-						{
-							throw new DataException(
-									ResourceConstants.FAIL_TO_CREATE_TEMP_DIR, diagnosticMkdirs( sessionFile ) );
-						}
-					}
-					if ( !sessionFile.mkdirs( ) )
-					{
-						throw new DataException(
-								ResourceConstants.FAIL_TO_CREATE_TEMP_DIR, diagnosticMkdirs( sessionFile ) );
-					}
-					sessionFile.deleteOnExit();
-					return getCanonicalPath( sessionFile );
-
-				}
-			} );
-		}
-		catch ( Exception e )
-		{
-			return null;// throw new DataException( e.getLocalizedMessage( ) );
-		}
+		final String prefix = "session_";
+		File sessionFile = null;
 		
+		// Here we use complex algorithm so that to avoid the repeating of
+		// dir names in 1.same jvm but different threads 2.different jvm.
+		String sessionTempDir = tempRootDir + File.separator + prefix
+				+ System.currentTimeMillis() + cacheCounter2.intValue();
+		cacheCounter2.add(1);
+		sessionFile = new File(sessionTempDir);
+
+		int i = 0;
+		String tempDir = sessionTempDir;
+		while (sessionFile.exists( ) )
+		{
+			i++;
+			sessionTempDir = tempDir + "_" + i;
+			sessionFile = new File(sessionTempDir);
+			if (i > MAX_DIR_CREATION_ATTEMPT)
+			{
+				throw new DataException(
+						ResourceConstants.FAIL_TO_CREATE_TEMP_DIR, diagnosticMkdirs( sessionFile ) );
+			}
+		}
+		if ( !sessionFile.mkdirs( ) )
+		{
+			throw new DataException(
+					ResourceConstants.FAIL_TO_CREATE_TEMP_DIR, diagnosticMkdirs( sessionFile ) );
+		}
+		sessionFile.deleteOnExit();
+		return getCanonicalPath( sessionFile );
 	}
 
 	/**
@@ -197,51 +165,37 @@ public class CacheUtil
 	 * @param directory
 	 * @return
 	 */
-	private static String diagnosticMkdirs( final File directory )
+	private static String diagnosticMkdirs( File directory )
 	{
-		try
+		while ( true )
 		{
-			return (String) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
-
-				public Object run( ) throws Exception
-				{
-					while ( true )
-					{
-						File canonFile = null;
-				        try 
-				        {
-				            canonFile = directory.getCanonicalFile();
-				        }
-				        catch (IOException e) 
-				        {
-				            return directory.getAbsolutePath();
-				        }
-				        String parent = canonFile.getParent();
-				        if( parent == null )
-				        {
-				        	return directory.getAbsolutePath();
-				        }
-				        File newDirectory = new File( parent );
-				        if( newDirectory.exists( ) || newDirectory.mkdirs( ) )
-				        {
-				        	try
-				        	{
-								return canonFile.getCanonicalPath( );
-							}
-				        	catch (IOException e)
-				        	{
-								return newDirectory.getAbsolutePath();
-							}
-				        }
-					}
+			File canonFile = null;
+	        try 
+	        {
+	            canonFile = directory.getCanonicalFile();
+	        }
+	        catch (IOException e) 
+	        {
+	            return directory.getAbsolutePath();
+	        }
+	        String parent = canonFile.getParent();
+	        if( parent == null )
+	        {
+	        	return directory.getAbsolutePath();
+	        }
+	        directory = new File( parent );
+	        if( directory.exists( ) || directory.mkdirs( ) )
+	        {
+	        	try
+	        	{
+					return canonFile.getCanonicalPath( );
 				}
-			} );
+	        	catch (IOException e)
+	        	{
+					return directory.getAbsolutePath();
+				}
+	        }
 		}
-		catch ( Exception e )
-		{
-			return null;// throw new DataException( e.getLocalizedMessage( ) );
-		}
-		
 	}
 	
 	/**
@@ -250,28 +204,15 @@ public class CacheUtil
 	 * @return
 	 * @throws IOException
 	 */
-	private static String getCanonicalPath( final File file )
+	private static String getCanonicalPath( File file )
 	{
 		try
 		{
-			return (String) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
-
-				public Object run( ) throws Exception
-				{
-					try
-					{
-						return file.getCanonicalPath( );
-					}
-					catch ( IOException e )
-					{
-						return file.getAbsolutePath( );
-					}
-				}
-			} );
+			return file.getCanonicalPath( );
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
-			return null;// throw new DataException( e.getLocalizedMessage( ) );
+			return file.getAbsolutePath( );
 		}
 	}
 	
@@ -282,32 +223,18 @@ public class CacheUtil
 	 * @param dataSetDesign
 	 * @return
 	 */
-	public static String createIncrementalTempDir( final DataEngineSession session, 
-			final IIncreCacheDataSetDesign dataSetDesign)
+	public static String createIncrementalTempDir( DataEngineSession session, 
+			IIncreCacheDataSetDesign dataSetDesign)
 	{
-		try
+		final String prefix = PS_;
+		File cacheDir = new File( session.getTempDir( )
+				+ PATH_SEP + prefix + PATH_SEP
+				+ Md5Util.getMD5( dataSetDesign.getConfigFileUrl( ).toString( ) ) + PATH_SEP + dataSetDesign.getName( ) );
+		if ( cacheDir.exists( ) == false )
 		{
-			return (String) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
-
-				public Object run( ) throws Exception
-				{
-					final String prefix = PS_;
-					File cacheDir = new File( session.getTempDir( )
-							+ PATH_SEP + prefix + PATH_SEP
-							+ Md5Util.getMD5( dataSetDesign.getConfigFileUrl( ).toString( ) ) + PATH_SEP + dataSetDesign.getName( ) );
-					if ( cacheDir.exists( ) == false )
-					{
-						cacheDir.mkdirs( );
-					}
-					return getCanonicalPath( cacheDir );
-				}
-			} );
+			cacheDir.mkdirs( );
 		}
-		catch ( Exception e )
-		{
-			return null;// throw new DataException( e.getLocalizedMessage( ) );
-		}
-		
+		return getCanonicalPath( cacheDir );
 	}
 
 
@@ -319,36 +246,36 @@ public class CacheUtil
 	 * @throws DataException
 	 * @throws ClassNotFoundException
 	 */
-	public static String getLastTime( final String folder ) throws DataException
+	public static String getLastTime( String folder ) throws DataException
 	{
 		try
 		{
-			return (String) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+			File file = new File( folder + PATH_SEP + TIME_DATA );
+			if ( !file.exists( ) )
+			{
+				return null;
+			}
+			FileInputStream fis = new FileInputStream( file );
+			ObjectInputStream ois = new ObjectInputStream( fis );
 
-				public Object run( ) throws Exception
-				{
-					File file = new File( folder + PATH_SEP + TIME_DATA );
-					if ( !file.exists( ) )
-					{
-						return null;
-					}
-					FileInputStream fis = new FileInputStream( file );
-					ObjectInputStream ois = new ObjectInputStream( fis );
+			String lastTime = (String) ois.readObject( );
 
-					String lastTime = (String) ois.readObject( );
+			fis.close( );
+			ois.close( );
 
-					fis.close( );
-					ois.close( );
-
-					return lastTime;
-				}
-			} );
+			return lastTime;
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
 			throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
 					e );
 		}
+		catch ( ClassNotFoundException e )
+		{
+			e.printStackTrace( );
+			assert false;
+		}
+		return null;
 	}
 
 	/**
@@ -356,44 +283,38 @@ public class CacheUtil
 	 * 
 	 * @param folder
 	 */
-	public static void saveCurrentTime( final String folder ) throws DataException
+	public static void saveCurrentTime( String folder ) throws DataException
 	{
 		try
 		{
-			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+			FileOutputStream fos;
 
-				public Object run( ) throws Exception
-				{
-					FileOutputStream fos;
+			fos = new FileOutputStream( new File( folder + PATH_SEP + TIME_DATA ) );
 
-					fos = new FileOutputStream( new File( folder + PATH_SEP + TIME_DATA ) );
+			ObjectOutputStream oos = new ObjectOutputStream( fos );
 
-					ObjectOutputStream oos = new ObjectOutputStream( fos );
+			Calendar calendar = Calendar.getInstance( );
 
-					Calendar calendar = Calendar.getInstance( );
+			StringBuffer buffer = new StringBuffer( );
 
-					StringBuffer buffer = new StringBuffer( );
+			buffer.append( populate2DigitString( calendar.get( Calendar.YEAR ) ) );
+			buffer.append( populate2DigitString( calendar.get( Calendar.MONTH ) + 1 ) );
+			buffer.append( populate2DigitString( calendar.get( Calendar.DATE ) ) );
+			if ( calendar.get( Calendar.AM_PM ) == Calendar.PM )
+				buffer.append( populate2DigitString( calendar.get( Calendar.HOUR ) + 12 ) );
+			buffer.append( populate2DigitString( calendar.get( Calendar.MINUTE ) ) );
+			buffer.append( populate2DigitString( calendar.get( Calendar.SECOND ) ) );
 
-					buffer.append( populate2DigitString( calendar.get( Calendar.YEAR ) ) );
-					buffer.append( populate2DigitString( calendar.get( Calendar.MONTH ) + 1 ) );
-					buffer.append( populate2DigitString( calendar.get( Calendar.DATE ) ) );
-					if ( calendar.get( Calendar.AM_PM ) == Calendar.PM )
-						buffer.append( populate2DigitString( calendar.get( Calendar.HOUR ) + 12 ) );
-					buffer.append( populate2DigitString( calendar.get( Calendar.MINUTE ) ) );
-					buffer.append( populate2DigitString( calendar.get( Calendar.SECOND ) ) );
+			oos.writeObject( buffer.toString( ) );
 
-					oos.writeObject( buffer.toString( ) );
-
-					fos.close( );
-					oos.close( );
-					return null;
-				}
-			} );
+			fos.close( );
+			oos.close( );
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
 			throw new DataException( e.getLocalizedMessage( ) );
 		}
+
 	}
 	
 	/**
@@ -417,25 +338,19 @@ public class CacheUtil
 	 * @throws DataException
 	 * @throws ClassNotFoundException
 	 */
-	public static long getLastTimestamp( final String folder ) throws DataException
+	public static long getLastTimestamp( String folder ) throws DataException
 	{
 		try
 		{
-			return (Long) AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
-
-				public Object run( ) throws Exception
-				{
-					RandomAccessFile raf = new RandomAccessFile( folder
-							+ PATH_SEP + IncreDataSetCacheObject.TIMESTAMP_DATA, "r" );
-					long timestamp = raf.readLong( );
-					raf.close( );
-					return timestamp;
-				}
-			} );
+			RandomAccessFile raf = new RandomAccessFile( folder
+					+ PATH_SEP + IncreDataSetCacheObject.TIMESTAMP_DATA, "r" );
+			long timestamp = raf.readLong( );
+			raf.close( );
+			return timestamp;
 		}
 		catch ( Exception e )
 		{
-			throw new DataException( e.getLocalizedMessage( ) );
+			throw new DataException( e.getMessage( ) );
 		}
 	}
 
@@ -444,27 +359,20 @@ public class CacheUtil
 	 * 
 	 * @param folder
 	 */
-	public static void saveCurrentTimestamp( final String folder )
+	public static void saveCurrentTimestamp( String folder )
 			throws DataException
 	{
 		try
 		{
-			AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
-
-				public Object run( ) throws Exception
-				{
-					RandomAccessFile raf = new RandomAccessFile( folder
-							+ PATH_SEP + IncreDataSetCacheObject.TIMESTAMP_DATA, "rw" );
-					Calendar calendar = Calendar.getInstance( );
-					raf.writeLong( calendar.getTimeInMillis( ) );
-					raf.close( );
-					return null;
-				}
-			} );
+			RandomAccessFile raf = new RandomAccessFile( folder
+					+ PATH_SEP + IncreDataSetCacheObject.TIMESTAMP_DATA, "rw" );
+			Calendar calendar = Calendar.getInstance( );
+			raf.writeLong( calendar.getTimeInMillis( ) );
+			raf.close( );
 		}
 		catch ( Exception e )
 		{
-			throw new DataException( e.getLocalizedMessage( ) );
+			throw new DataException( e.getMessage( ) );
 		}
 	}
 }

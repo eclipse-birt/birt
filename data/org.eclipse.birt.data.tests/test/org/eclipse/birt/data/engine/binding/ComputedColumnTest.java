@@ -573,7 +573,7 @@ public class ComputedColumnTest extends APITestCase
 		argument.add( new ScriptExpression("3") );
 		ComputedColumn cc1 = new ComputedColumn( "cc1",
 				"row.COL0",
-				DataType.INTEGER_TYPE,
+				DataType.BOOLEAN_TYPE,
 				"ISTOPN",
 				null,
 				argument );
