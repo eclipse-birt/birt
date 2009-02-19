@@ -1890,8 +1890,12 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					}
 					catch ( IllegalArgumentException nvex )
 					{
-						// dY = dOrthogonalZero; // MAP TO ZERO
-						dX = Double.NaN;
+						dY = dOrthogonalZero; // MAP TO ZERO
+						// TED#11755: not set NaN to x coordinate if first
+						// orthogonal value is null, so that subsequent runtime
+						// series can still use x coordinate to compute bar
+						// width correctly.
+						// dX = Double.NaN;
 					}
 					catch ( ChartException dfex )
 					{
