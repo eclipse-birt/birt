@@ -121,7 +121,10 @@ public class TableGuideHandle extends AbstractGuideHandle
 
 			getReference( ).translateToAbsolute( bounds );
 			target.translateToRelative( bounds );
-			target.setBounds( bounds );
+			if (target.getBounds( ).width < bounds.width || target.getBounds( ).height < bounds.height)
+			{
+				target.setBounds( bounds );
+			}
 		}
 
 		public GraphicalEditPart getOwner( )
