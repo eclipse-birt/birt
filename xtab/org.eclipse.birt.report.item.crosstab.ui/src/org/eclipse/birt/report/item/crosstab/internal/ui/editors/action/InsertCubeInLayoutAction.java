@@ -278,10 +278,6 @@ public class InsertCubeInLayoutAction extends AbstractViewAction
 					map.put( DesignerConstants.KEY_NEWOBJECT, handle );
 					CreateCommand command = new CreateCommand( map );
 
-					if ( targetPart == null )
-					{
-						targetPart = UIUtil.getCurrentEditPart( );
-					}
 
 					Object parentModel = DNDUtil.unwrapToModel( targetPart.getModel( ) );
 

@@ -156,8 +156,10 @@ public class FileReportDocumentProvider extends DocumentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.DocumentProvider#doSaveDocument(org.eclipse.core.runtime.IProgressMonitor,
-	 *      java.lang.Object, org.eclipse.jface.text.IDocument, boolean)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.DocumentProvider
+	 * #doSaveDocument(org.eclipse.core.runtime.IProgressMonitor,
+	 * java.lang.Object, org.eclipse.jface.text.IDocument, boolean)
 	 */
 	protected void doSaveDocument( IProgressMonitor monitor, Object element,
 			IDocument document, boolean overwrite ) throws CoreException
@@ -167,10 +169,13 @@ public class FileReportDocumentProvider extends DocumentProvider
 			byte[] bytes = document.get( ).getBytes( );
 			IPathEditorInput input = (IPathEditorInput) element;
 			File file = input.getPath( ).toFile( );
+			OutputStream out = null;
+			InputStream in = null;
+
 			try
 			{
-				OutputStream out = new FileOutputStream( file );
-				InputStream in = new ByteArrayInputStream( bytes );
+				out = new FileOutputStream( file );
+				in = new ByteArrayInputStream( bytes );
 				int length;
 				byte[] read = new byte[64];
 				while ( ( length = in.read( read ) ) != -1 )
@@ -183,6 +188,35 @@ public class FileReportDocumentProvider extends DocumentProvider
 			}
 			catch ( IOException e )
 			{
+			}
+			finally
+			{
+				try
+				{
+					if ( out != null )
+					{
+						out.close( );
+					}
+				}
+				catch ( IOException e )
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace( );
+				}
+
+				try
+				{
+					if ( in != null )
+					{
+						in.close( );
+					}
+				}
+				catch ( IOException e )
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace( );
+				}
+
 			}
 		}
 	}

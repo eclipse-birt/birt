@@ -93,7 +93,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 				LevelViewHandle levelHandle = viewHandle.getLevel( i );
 				if ( levelHandle.getCubeLevel( ) == null )
 				{
-					nullLevelHandle.add( new Integer( levelHandle.getIndex( ) ) );
+					nullLevelHandle.add( Integer.valueOf( levelHandle.getIndex( ) ) );
 				}
 				else
 				{

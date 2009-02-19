@@ -631,18 +631,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		}
 		updateButtons( );
 	}
-
-	protected SelectionListener OpoertorSelection = new SelectionListener( ) {
-
-		public void widgetSelected( SelectionEvent e )
-		{
-			operatorChange( );
-		}
-
-		public void widgetDefaultSelected( SelectionEvent e )
-		{
-		}
-	};
+	
 
 	/**
 	 * @param title
@@ -732,7 +721,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		cgdata.horizontalSpan = 2;
 		dummyLabel.setLayoutData( cgdata );
 
-		comboGroupLevel.addListener( SWT.Modify, ComboGroupLeveModify );
+		comboGroupLevel.addListener( SWT.Modify, comboGroupLeveModify );
 
 		Label lb = new Label( groupLevelParent, SWT.NONE );
 		lb.setText( Messages.getString( "FilterConditionBuilder.text.Condition" ) ); //$NON-NLS-1$
@@ -758,7 +747,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		{
 			operator.add( OPERATOR[i][0] );
 		}
-		operator.addSelectionListener( OpoertorSelection );
+		operator.addSelectionListener( operatorSelection );
 		new Label( groupLevelParent, SWT.NONE );
 
 		create2ValueComposite( groupLevelParent );
@@ -1097,7 +1086,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		{
 		}
 	};
-	protected Listener ComboGroupLeveModify = new Listener( ) {
+	protected Listener comboGroupLeveModify = new Listener( ) {
 
 		public void handleEvent( Event e )
 		{
@@ -2398,7 +2387,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		return list;
 	}
 
-	class BindingGroup
+	static class BindingGroup
 	{
 
 		int type;

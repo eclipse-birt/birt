@@ -84,7 +84,7 @@ public class AggregationCellProviderWrapper
 			
 	}
 
-	class ProviderComparator implements Comparator
+	static class ProviderComparator implements Comparator
 	{
 		private boolean ascending = true;
 		

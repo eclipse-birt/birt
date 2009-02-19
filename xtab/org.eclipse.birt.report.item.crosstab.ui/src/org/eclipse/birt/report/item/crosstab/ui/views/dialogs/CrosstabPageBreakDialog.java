@@ -354,7 +354,6 @@ public class CrosstabPageBreakDialog extends BaseDialog
 			type = PAGE_BREAK_BEFORE;
 		}
 
-		String retArray[] = new String[pageBreakChoices[type].length];
 		for ( int i = 0; i < pageBreakChoices[type].length; i++ )
 		{
 			if ( pageBreakChoices[type][i].getName( ).equals( name ) )
@@ -399,7 +398,6 @@ public class CrosstabPageBreakDialog extends BaseDialog
 			type = PAGE_BREAK_BEFORE;
 		}
 
-		String retArray[] = new String[pageBreakChoices[type].length];
 		for ( int i = 0; i < pageBreakChoices[type].length; i++ )
 		{
 			if ( pageBreakChoices[type][i].getName( ).equals( name ) )
@@ -447,7 +445,6 @@ public class CrosstabPageBreakDialog extends BaseDialog
 	private LevelViewHandle getLevelFromName(
 			CrosstabReportItemHandle crosstabHandle, String name, int axis )
 	{
-		List list = new ArrayList( );
 		if ( crosstabHandle.getCrosstabView( axis ) == null )
 		{
 			return null;

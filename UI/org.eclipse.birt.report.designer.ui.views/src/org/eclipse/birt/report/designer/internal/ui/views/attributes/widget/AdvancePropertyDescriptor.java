@@ -668,7 +668,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 			UIUtil.getModelEventManager( ).addModelEventProcessor( this );
 	}
 
-	class CustomTreeViewer extends TreeViewer
+	static class CustomTreeViewer extends TreeViewer
 	{
 
 		public CustomTreeViewer( Composite parent, int style )

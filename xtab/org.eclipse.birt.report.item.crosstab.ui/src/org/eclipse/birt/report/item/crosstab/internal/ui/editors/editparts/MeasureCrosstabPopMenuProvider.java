@@ -72,20 +72,18 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 			element = ( (CrosstabCellAdapter) firstSelectedElement ).getDesignElementHandle( );
 		}
 
-		if ( element instanceof DesignElementHandle )
-		{
-			buildShowMenu( menu, element );
+		buildShowMenu( menu, element );
 
-			IAction action = new AddComputedMeasureAction( element );
-			menu.add( action );
+		IAction action = new AddComputedMeasureAction( element );
+		menu.add( action );
 
-			action = new AddMeasureViewHandleAction( element );
-			menu.add( action );
+		action = new AddMeasureViewHandleAction( element );
+		menu.add( action );
 
-			action = new DeleteMeasureHandleAction( element );
-			menu.add( action );
+		action = new DeleteMeasureHandleAction( element );
+		menu.add( action );
 
-		}
+	
 	}
 
 	protected void buildShowMenu( IMenuManager menu, DesignElementHandle element )

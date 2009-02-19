@@ -53,8 +53,8 @@ public class PublishResourceWizard extends Wizard
 
 	private WizardResourceSettingPage page;
 
-	public static int HAVE_HANDLE = 1;
-	public static int HAVE_NO_HANDLE = 0;
+	public static final int HAVE_HANDLE = 1;
+	public static final int HAVE_NO_HANDLE = 0;
 
 	int type;
 

@@ -302,10 +302,10 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		}
 	}
 
-	private void markSwitchViews( GrandOpration newOperation, int axisType )
-	{
-		markSwitchViews( newOperation, axisType, false );
-	}
+//	private void markSwitchViews( GrandOpration newOperation, int axisType )
+//	{
+//		markSwitchViews( newOperation, axisType, false );
+//	}
 
 	private AggregationCellHandle getGrandAggregationCell(
 			MeasureViewHandle measureView, LevelViewHandle levelHandle,
@@ -448,10 +448,10 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 
 	}
 
-	private void markSwitchViews( SubOpration newOperation )
-	{
-		markSwitchViews( newOperation, false );
-	}
+//	private void markSwitchViews( SubOpration newOperation )
+//	{
+//		markSwitchViews( newOperation, false );
+//	}
 
 	private void markSwitchViews( SubOpration newOperation, boolean isNew )
 	{
@@ -584,7 +584,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		{
 			return;
 		}
-		CrosstabUIHelper.CreateGrandTotalLabel( cellHandle );
+		CrosstabUIHelper.createGrandTotalLabel( cellHandle );
 	}
 
 	private void addAggregationHeader( LevelViewHandle levelView,
@@ -596,7 +596,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		{
 			return;
 		}
-		CrosstabUIHelper.CreateSubTotalLabel( levelView, cellHandle );
+		CrosstabUIHelper.createSubTotalLabel( levelView, cellHandle );
 	}
 
 	private List<MeasureViewHandle> findMeasureViewHandleList( List<String> list )
@@ -673,9 +673,9 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		{
 			if ( info.isAggregationOn( ) )
 			{
-				functions.add( new String( info.getFunction( ) ) );
-				measures.add( new String( info.getAggregateOnMeasureName( ) ) );
-				expectedViews.add( new String( info.getExpectedView( ) ) );
+				functions.add( info.getFunction( ) );
+				measures.add( info.getAggregateOnMeasureName( ) );
+				expectedViews.add( info.getExpectedView( ) );
 			}
 		}
 
@@ -706,9 +706,9 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		{
 			if ( info.isAggregationOn( ) )
 			{
-				functions.add( new String( info.getFunction( ) ) );
-				measures.add( new String( info.getMeasureQualifiedName( ) ) );
-				expectedViews.add( new String( info.getExpectedView( ) ) );
+				functions.add( info.getFunction( ) );
+				measures.add( info.getMeasureQualifiedName( ) );
+				expectedViews.add( info.getExpectedView( ) );
 			}
 		}
 
@@ -847,7 +847,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					AggregationCellHandle cell = getSubAggregationCell( (MeasureViewHandle) measures.get( j ),
 							tempViewHandle );
 					String view = getExpectedView( cell );
-					info.setExpectedView( new String( view ) ); //$NON-NLS-1$
+					info.setExpectedView( view ); //$NON-NLS-1$
 
 					replaceInfo( info, retValue );
 				}
@@ -932,7 +932,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					levelHandle,
 					axis );
 			String view = getExpectedView( cell );
-			info.setExpectedView( new String( view ) ); //$NON-NLS-1$
+			info.setExpectedView( view ); //$NON-NLS-1$
 
 			replaceInfo( info, retValue );
 		}

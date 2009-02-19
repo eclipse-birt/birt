@@ -54,7 +54,7 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 		providerWrapper = new AggregationCellProviderWrapper( measureViewHandle.getCrosstab( ) );
 		expectedViewDisplayName = providerWrapper.getViewDisplayName( expectedView );
 		setText( "&" + index + " " + NAME + " " + expectedViewDisplayName ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		this.expectedView = new String( expectedView );	
+		this.expectedView = expectedView;	
 	}
 
 	/*

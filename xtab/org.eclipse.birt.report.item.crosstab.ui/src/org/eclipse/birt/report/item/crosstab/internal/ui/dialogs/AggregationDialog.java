@@ -455,7 +455,7 @@ public class AggregationDialog extends BaseDialog
 
 		public void setExpectedView( String expectedView )
 		{
-			this.expectedView = new String(expectedView);
+			this.expectedView = expectedView;
 		}
 
 
@@ -491,12 +491,12 @@ public class AggregationDialog extends BaseDialog
 
 		public void setAggregateOnMeasureName( String name )
 		{
-			this.measureQualifiedName = new String(name);
+			this.measureQualifiedName = name;
 		}
 
 		public void setAggregateOnMeasureDisplayName( String displayName )
 		{
-			this.measureDisplayName = new String(displayName);
+			this.measureDisplayName = displayName;
 		}
 		
 		public void setAggregationOn( boolean aggregationOn )
@@ -594,7 +594,7 @@ public class AggregationDialog extends BaseDialog
 			retValue.setMeasureQualifiedName( getMeasureQualifiedName( ) );
 			retValue.setMeasureDisplayName( getMeasureDisplayName( ) );
 			retValue.setAssociation( isAssociation( ) );
-			retValue.setExpectedView( new String( expectedView ) );
+			retValue.setExpectedView( expectedView );
 			return retValue;
 		}
 
@@ -640,12 +640,12 @@ public class AggregationDialog extends BaseDialog
 
 		public void setMeasureQualifiedName( String name )
 		{
-			this.measureQualifiedName = new String(name);
+			this.measureQualifiedName = name;
 		}
 
 		public void setMeasureDisplayName( String displayName )
 		{
-			this.measureDisplayName = new String(displayName);
+			this.measureDisplayName = displayName;
 		}
 		
 		public boolean isSameInfo( Object obj )

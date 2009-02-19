@@ -345,7 +345,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 					}
 					SubTotalInfo info = new SubTotalInfo( );
 //					info.measure = measure;
-					info.measureName = new String(measure.getCubeMeasureName( ));
+					info.measureName = measure.getCubeMeasureName( );
 					info.function = levelHandle.getAggregationFunction( measure );
 					info.level = levelHandle;
 					list.add( info );
@@ -384,7 +384,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 		
 		public void setMeasureName(String name)
 		{
-			measureName = new String(name);
+			measureName = name;
 		}
 		
 		public String getFunction( )

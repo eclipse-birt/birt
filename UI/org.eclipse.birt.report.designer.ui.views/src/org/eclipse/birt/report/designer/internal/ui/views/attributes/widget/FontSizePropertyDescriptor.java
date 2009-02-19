@@ -69,8 +69,6 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor
 		return builder;
 	}
 
-	boolean needSaved = true;
-
 	public Control createControl( Composite parent )
 	{
 		builder = new FontSizeBuilder( parent, SWT.NONE, isFormStyle( ) );

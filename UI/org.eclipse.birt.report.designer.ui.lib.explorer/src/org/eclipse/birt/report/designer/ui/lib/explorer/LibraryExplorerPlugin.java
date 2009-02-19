@@ -27,7 +27,7 @@ public class LibraryExplorerPlugin extends AbstractUIPlugin
 	// The shared instance.
 	private static LibraryExplorerPlugin plugin;
 
-	public static String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.lib.explorer"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.lib.explorer"; //$NON-NLS-1$
 
 	/**
 	 * The constructor.

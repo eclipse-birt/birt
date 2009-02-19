@@ -311,7 +311,7 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 			{
 				info.setShow( true );
 				String view = getExpectedView( viewHandle );
-				info.setExpectedView( new String( view ) );
+				info.setExpectedView( view );
 				break;
 			}
 		}

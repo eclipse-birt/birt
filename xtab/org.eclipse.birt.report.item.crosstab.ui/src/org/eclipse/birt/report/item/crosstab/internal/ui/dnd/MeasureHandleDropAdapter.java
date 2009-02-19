@@ -102,33 +102,30 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 		{
 			EditPart editPart = (EditPart) target;
 
-			if ( editPart != null )
+			CreateRequest request = new CreateRequest( );
+
+			request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT,
+					transfer );
+			request.setLocation( location.getPoint( ) );
+			Command command = editPart.getCommand( request );
+			if ( command != null && command.canExecute( ) )
 			{
-				CreateRequest request = new CreateRequest( );
+				editPart.getViewer( )
+						.getEditDomain( )
+						.getCommandStack( )
+						.execute( command );
 
-				request.getExtendedData( )
-						.put( DesignerConstants.KEY_NEWOBJECT, transfer );
-				request.setLocation( location.getPoint( ) );
-				Command command = editPart.getCommand( request );
-				if ( command != null && command.canExecute( ) )
+				CrosstabReportItemHandle crosstab = getCrosstab( editPart );
+				if ( crosstab != null )
 				{
-					editPart.getViewer( )
-							.getEditDomain( )
-							.getCommandStack( )
-							.execute( command );
-
-					CrosstabReportItemHandle crosstab = getCrosstab( editPart );
-					if ( crosstab != null )
-					{
-						AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
-						providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
-					}
-					return true;
+					AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
+					providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
 				}
-				else
-					return false;
+				return true;
 			}
-			return false;
+			else
+				return false;
+
 		}
 		return false;
 	}

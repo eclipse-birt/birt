@@ -290,7 +290,7 @@ public class SwitchCellInfo
 	/**
 	 * GrandTotalInfo
 	 */
-	public class GrandTotalInfo
+	public static class GrandTotalInfo
 	{
 		private String expectedView = ""; //$NON-NLS-1$
 //		private MeasureHandle measure;
@@ -304,10 +304,10 @@ public class SwitchCellInfo
 				int axis )
 		{
 			this.aggregationOn = grandTotalIn.isAggregationOn( );
-			this.function = new String( grandTotalIn.getFunction( ) );
-			this.MeasureQualifiedName = new String(grandTotalIn.getMeasureQualifiedName( ));
+			this.function = grandTotalIn.getFunction( );
+			this.MeasureQualifiedName = grandTotalIn.getMeasureQualifiedName( );
 			this.isAssociation = grandTotalIn.isAssociation( );
-			this.expectedView = new String( grandTotalIn.getExpectedView( ) ) ;
+			this.expectedView = grandTotalIn.getExpectedView( );
 			
 			this.axis = axis;
 		}
@@ -333,7 +333,7 @@ public class SwitchCellInfo
 		
 		public String getFunction()
 		{
-			return new String(this.function);
+			return this.function;
 		}
 		
 		public int getAxisType()
@@ -345,7 +345,7 @@ public class SwitchCellInfo
 	/**
 	 * SubTotalInfo
 	 */
-	public class SubTotalInfo
+	public static class SubTotalInfo
 	{
 		private String expectedView = ""; //$NON-NLS-1$
 		private LevelHandle level;
@@ -357,12 +357,12 @@ public class SwitchCellInfo
 
 		public SubTotalInfo( AggregationDialog.SubTotalInfo subTotalIn )
 		{
-			this.measureName = new String(subTotalIn.getAggregateOnMeasureName( ));
+			this.measureName = subTotalIn.getAggregateOnMeasureName( );
 			this.aggregationOn = subTotalIn.isAggregationOn( );
-			this.function = new String( subTotalIn.getFunction( ) );
+			this.function = subTotalIn.getFunction( );
 			this.level = subTotalIn.getLevel( );
 			this.isAssociation = subTotalIn.isAssociation( );
-			this.expectedView = new String( subTotalIn.getExpectedView( ) ) ;
+			this.expectedView = subTotalIn.getExpectedView( );
 		}
 		
 //		public MeasureHandle getAggregateOnMeasure(  )
@@ -391,14 +391,14 @@ public class SwitchCellInfo
 		
 		public String getFunction()
 		{
-			return new String(this.function);
+			return this.function;
 		}
 	}
 
 	/**
 	 * GrandTotalInfo
 	 */
-	public class MeasureInfo
+	public static class MeasureInfo
 	{
 		private String expectedView = ""; //$NON-NLS-1$
 //		private MeasureHandle measure;
@@ -408,15 +408,15 @@ public class SwitchCellInfo
 		public MeasureInfo( ShowSummaryFieldDialog.MeasureInfo measureInfoIn )
 		{
 			this.isShow = measureInfoIn.isShow( );
-			this.measureName = new String(measureInfoIn.getMeasureName( ));
-			this.expectedView = new String( measureInfoIn.getExpectedView( ) ) ;
+			this.measureName = measureInfoIn.getMeasureName( );
+			this.expectedView = measureInfoIn.getExpectedView( );
 		}
 		
 		public MeasureInfo(boolean isShow, String measureName,String expectedName)
 		{
 			this.isShow = isShow;
-			this.measureName = new String(measureName);
-			this.expectedView = new String(expectedName);
+			this.measureName = measureName;
+			this.expectedView = expectedName;
 		}
 		
 		public String getMeasureName()

@@ -384,7 +384,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		GridData gdata = new GridData( );
 		gdata.widthHint = 100;
 		expression.setLayoutData( gdata );
-		expression.addListener( SWT.Selection, ComboModify );
+		expression.addListener( SWT.Selection, comboModify );
 		expression.setItems( getDataSetColumns( ) );
 		if ( expression.getItemCount( ) == 0 )
 		{
@@ -431,7 +431,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		{
 			operator.add( OPERATOR[i][0] );
 		}
-		operator.addSelectionListener( OpoertorSelection );
+		operator.addSelectionListener( operatorSelection );
 
 		create2ValueComposite( condition );
 
@@ -1152,7 +1152,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		updateButtons( );
 	}
 
-	protected SelectionListener OpoertorSelection = new SelectionListener( ) {
+	protected SelectionListener operatorSelection = new SelectionListener( ) {
 
 		public void widgetSelected( SelectionEvent e )
 		{
@@ -1167,7 +1167,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		}
 	};
 
-	protected Listener ComboModify = new Listener( ) {
+	protected Listener comboModify = new Listener( ) {
 
 		public void handleEvent( Event e )
 		{

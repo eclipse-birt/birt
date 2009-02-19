@@ -65,7 +65,7 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 			return items;
 		}
 
-		String[] tmpItems = null;
+		String[] tmpItems = new String[0];
 		if ( IReportItemModel.CUBE_PROP.equals( getProperty( ) ) )
 		{
 			tmpItems = ChoiceSetFactory.getCubes( );

@@ -199,8 +199,8 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 			{
 				number = 1;
 			}
-			map.put( area, new Integer( number ) );
-			map.put( otherArea, new Integer( 2 ) );
+			map.put( area, Integer.valueOf( number ) );
+			map.put( otherArea, Integer.valueOf( 2 ) );
 		}
 
 	}
@@ -593,7 +593,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 
 				retValue.add( cellAdapter );
 				// put the property for build the measure area
-				map.put( levelHandle, new Integer( rowNumber ) );
+				map.put( levelHandle, Integer.valueOf( rowNumber ) );
 
 				LevelViewHandle preLevelHandle = getPreviousLevelViewHandle( dimensionHandle,
 						levelHandle );
@@ -678,8 +678,8 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 			columnNumber = 1;
 			rowNumber = 1;
 		}
-		map.put( ROWAREA_COLUMN, new Integer( columnNumber ) );
-		map.put( ROWAREA_ROW, new Integer( rowNumber ) );
+		map.put( ROWAREA_COLUMN, Integer.valueOf( columnNumber ) );
+		map.put( ROWAREA_ROW, Integer.valueOf( rowNumber ) );
 		// covert the row number
 		covertColumnNumber( columnNumber, retValue );
 		// debug( "row", retValue );
@@ -743,7 +743,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 
 				retValue.add( cellAdapter );
 				// put the property for build the measure area
-				map.put( levelHandle, new Integer( columnNumber ) );
+				map.put( levelHandle, Integer.valueOf( columnNumber ) );
 
 				LevelViewHandle preLevelHandle = getPreviousLevelViewHandle( dimensionHandle,
 						levelHandle );
@@ -834,8 +834,8 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 			columnNumber = 1;
 			rowNumber = 1;
 		}
-		map.put( COLUMNAREA_COLUMN, new Integer( columnNumber ) );
-		map.put( COLUMNAREA_ROW, new Integer( rowNumber ) );
+		map.put( COLUMNAREA_COLUMN, Integer.valueOf( columnNumber ) );
+		map.put( COLUMNAREA_ROW, Integer.valueOf( rowNumber ) );
 
 		// covert the row number
 		covertRowNumber( rowNumber, retValue );
@@ -1489,7 +1489,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 	/**
 	 * Comparator the cell adapter row by row , column by column ModelComparator
 	 */
-	private class ModelComparator implements Comparator
+	private static class ModelComparator implements Comparator
 	{
 
 		public int compare( Object o1, Object o2 )

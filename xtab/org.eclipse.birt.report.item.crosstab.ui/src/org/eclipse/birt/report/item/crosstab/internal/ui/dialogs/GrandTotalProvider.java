@@ -56,7 +56,6 @@ public class GrandTotalProvider extends TotalProvider implements
 
 	private void initializeItems( GrandTotalInfo grandTotalInfo )
 	{
-		String firstItem = Messages.getString( "GrandTotalProvider.ViewStatus" ); //$NON-NLS-1$
 		List<String> viewNameList = new ArrayList<String>( );
 		List<String> itemList = new ArrayList<String>( );
 
@@ -232,10 +231,10 @@ public class GrandTotalProvider extends TotalProvider implements
 				String expectedView = ( (GrandTotalInfo) ( element ) ).getExpectedView( );
 				if ( expectedView == null || expectedView.length( ) == 0 )
 				{
-					return new Integer( 0 );
+					return Integer.valueOf( 0 );
 				}
 				int sel = Arrays.asList( viewNames ).indexOf( expectedView );
-				value = sel <= 0 ? new Integer( 0 ) : new Integer( sel );
+				value = sel <= 0 ? Integer.valueOf( 0 ) : Integer.valueOf( sel );
 				break;
 			default :
 		}

@@ -396,7 +396,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.horizontalSpan = 2;
 		comboGroupLevel.setLayoutData( gdata );
-		comboGroupLevel.addListener( SWT.Selection, ComboGroupLeveModify );
+		comboGroupLevel.addListener( SWT.Selection, comboGroupLeveModify );
 
 		getLevels( );
 		String groupLeveNames[] = (String[]) groupLevelNameList.toArray( new String[groupLevelNameList.size( )] );
@@ -407,7 +407,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		textKey = new Combo( content, SWT.BORDER );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		textKey.setLayoutData( gdata );
-		textKey.addListener( SWT.Selection, ComboKeySelection );
+		textKey.addListener( SWT.Selection, comboKeySelection );
 		textKey.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -513,7 +513,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		updateButtons( );
 	}
 
-	protected Listener ComboGroupLeveModify = new Listener( ) {
+	protected Listener comboGroupLeveModify = new Listener( ) {
 
 		public void handleEvent( Event e )
 		{
@@ -522,7 +522,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		}
 	};
 
-	protected Listener ComboKeySelection = new Listener( ) {
+	protected Listener comboKeySelection = new Listener( ) {
 
 		public void handleEvent( Event e )
 		{

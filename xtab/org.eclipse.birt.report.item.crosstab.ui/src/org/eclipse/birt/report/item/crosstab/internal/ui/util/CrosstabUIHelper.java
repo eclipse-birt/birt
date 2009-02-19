@@ -152,7 +152,7 @@ public class CrosstabUIHelper
 
 	private static final String LABEL_NAME = Messages.getString( "AddSubTotalAction.LabelName" );//$NON-NLS-1$
 
-	public static void CreateGrandTotalLabel( CrosstabCellHandle cellHandle )
+	public static void createGrandTotalLabel( CrosstabCellHandle cellHandle )
 			throws SemanticException
 	{
 		LabelHandle dataHandle = DesignElementFactory.getInstance( )
@@ -166,7 +166,7 @@ public class CrosstabUIHelper
 	private static final String DISPALY_NAME = Messages.getString( "AddSubTotalAction.TotalName" );//$NON-NLS-1$
 
 
-	public static void CreateSubTotalLabel( LevelViewHandle levelView,
+	public static void createSubTotalLabel( LevelViewHandle levelView,
 			CrosstabCellHandle cellHandle ) throws SemanticException
 	{
 		CrosstabReportItemHandle crosstab = levelView.getCrosstab( );

@@ -666,7 +666,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 				CrosstabCellHandle cellHandle = getLevel( ).addSubTotal( measureList,
 						functionList );
 				if ( cellHandle != null )
-					CrosstabUIHelper.CreateSubTotalLabel( getLevel( ),
+					CrosstabUIHelper.createSubTotalLabel( getLevel( ),
 							cellHandle );
 				stack.commit( );
 			}

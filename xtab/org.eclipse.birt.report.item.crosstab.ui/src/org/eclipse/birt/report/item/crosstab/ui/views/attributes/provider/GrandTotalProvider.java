@@ -488,7 +488,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 
 		public void setMeasureName( String name )
 		{
-			this.measureName = new String( name );
+			this.measureName = name;
 		}
 
 		public String getFunction( )

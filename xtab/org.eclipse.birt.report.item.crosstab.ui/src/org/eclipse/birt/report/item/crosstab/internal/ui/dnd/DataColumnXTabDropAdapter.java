@@ -291,12 +291,10 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 		if ( target instanceof EditPart )
 		{
 			EditPart part = (EditPart) target;
-			if ( target instanceof IAdaptable )
-			{
-				DesignElementHandle handle = (DesignElementHandle) ( (IAdaptable) target ).getAdapter( DesignElementHandle.class );
-				if ( handle == null && part.getParent( ) != null )
-					return getExtendedItemHandle( part.getParent( ) );
-			}
+			DesignElementHandle handle = (DesignElementHandle) ( (IAdaptable) target ).getAdapter( DesignElementHandle.class );
+			if ( handle == null && part.getParent( ) != null )
+				return getExtendedItemHandle( part.getParent( ) );
+			
 		}
 		return null;
 	}

@@ -154,7 +154,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 						expectedView = "";
 					}
 					int sel = Arrays.asList( viewNames ).indexOf( expectedView );
-					value = sel <= 0 ? new Integer( 0 ) : new Integer( sel );
+					value = sel <= 0 ? Integer.valueOf( 0 ) :Integer.valueOf( sel );
 					break;
 				default :
 			}
@@ -390,7 +390,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			retValue.setShow( isShow( ) );
 			retValue.setMeasureName( getMeasureName( ) );
 			retValue.setMeasureDisplayName( getMeasureDisplayName( ) );
-			retValue.setExpectedView( new String( expectedView ) );
+			retValue.setExpectedView( expectedView );
 			return retValue;
 		}
 
@@ -408,7 +408,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 
 		public void setExpectedView( String view )
 		{
-			this.expectedView = new String( view );
+			this.expectedView = view;
 		}
 
 		public String getExpectedView( )
@@ -443,7 +443,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 
 		public void setMeasureName( String name )
 		{
-			measureName = new String( name );
+			measureName = name;
 		}
 
 		public String getMeasureDisplayName( )
@@ -453,7 +453,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 
 		public void setMeasureDisplayName( String displayName )
 		{
-			measureDisplayName = new String( displayName );
+			measureDisplayName = displayName;
 		}
 
 		// public boolean isSameInfo( Object obj )
@@ -477,11 +477,21 @@ public class ShowSummaryFieldDialog extends BaseDialog
 					&& temp.isShow( ) == isShow
 					&& temp.getExpectedView( ) == expectedView;
 		}
+		
+		public int hashCode()
+		{
+			int hash = 31;
+			hash = hash * 31 + measureName.hashCode( );
+			hash = hash
+					* 31
+					+ ( expectedView == null ? 0
+							: expectedView.hashCode( ) );
+			return hash;
+		}
 	}
 
 	private void initializeItems( MeasureInfo measureInfo )
 	{
-		String firstItem = Messages.getString( "GrandTotalProvider.ViewStatus" ); //$NON-NLS-1$
 		List<String> viewNameList = new ArrayList<String>( );
 		List<String> itemList = new ArrayList<String>( );
 

@@ -180,7 +180,7 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 		final StatusInfo status = new StatusInfo( );
 		String errorMessage = Messages.getString( "CrosstabPreferencePage.Error.MaxRowInvalid", //$NON-NLS-1$
 				new Object[]{
-					new Integer( MAX_FILTER_LIMIT )
+				Integer.valueOf( MAX_FILTER_LIMIT )
 				} );
 		if ( number.length( ) == 0 )
 		{

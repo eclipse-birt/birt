@@ -83,7 +83,6 @@ public class SubTotalProvider extends TotalProvider implements
 
 	private void initializeItems(SubTotalInfo subTotalInfo)
 	{
-		String firstItem = Messages.getString( "GrandTotalProvider.ViewStatus" ); //$NON-NLS-1$
 		List viewNameList = new ArrayList( );
 		List itemList = new ArrayList( );
 		
@@ -260,26 +259,27 @@ public class SubTotalProvider extends TotalProvider implements
 		{
 			case 1:
 				break;
-			case 2:
-				initializeItems((SubTotalInfo) element );
-				((ComboBoxCellEditor)cellEditor[2]).setItems( comboItems );
-				String expectedView = ( (SubTotalInfo) (element )).getExpectedView( );
-				if(expectedView == null || expectedView.length( ) == 0)
+			case 2 :
+				initializeItems( (SubTotalInfo) element );
+				( (ComboBoxCellEditor) cellEditor[2] ).setItems( comboItems );
+				String expectedView = ( (SubTotalInfo) ( element ) ).getExpectedView( );
+				if ( expectedView == null || expectedView.length( ) == 0 )
 				{
-					return new Integer(0);
-				}					
-				int sel = Arrays.asList( viewNames ).indexOf( expectedView );
-				value = sel <= 0 ? new Integer(0) : new Integer(sel);
-				break;
-			case 3:
-				String pos = ( (SubTotalInfo) (element )).getPosition( );
-				if(pos == null || pos.length( ) == 0)
-				{
-					return new Integer(0);
+					return Integer.valueOf( 0 );
 				}
-				int posIndex = Arrays.asList( positionValues  ).indexOf( pos );
-				value = posIndex <= 0 ? new Integer(0) : new Integer(posIndex);
-			default:
+				int sel = Arrays.asList( viewNames ).indexOf( expectedView );
+				value = sel <= 0 ? Integer.valueOf( 0 ) : Integer.valueOf( sel );
+				break;
+			case 3 :
+				String pos = ( (SubTotalInfo) ( element ) ).getPosition( );
+				if ( pos == null || pos.length( ) == 0 )
+				{
+					return Integer.valueOf( 0 );
+				}
+				int posIndex = Arrays.asList( positionValues ).indexOf( pos );
+				value = posIndex <= 0 ? Integer.valueOf( 0 )
+						: Integer.valueOf( posIndex );
+			default :
 		}
 		return value;
 	}

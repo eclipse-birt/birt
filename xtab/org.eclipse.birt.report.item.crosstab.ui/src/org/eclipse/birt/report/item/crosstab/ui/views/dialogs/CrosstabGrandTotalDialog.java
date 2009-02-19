@@ -121,7 +121,7 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 						measureList,
 						functionList );
 				if ( cellHandle != null )
-					CrosstabUIHelper.CreateGrandTotalLabel( cellHandle );
+					CrosstabUIHelper.createGrandTotalLabel( cellHandle );
 				stack.commit( );
 			}
 			catch ( SemanticException e )

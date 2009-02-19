@@ -1540,7 +1540,7 @@ public class DEUtil
 			sorted_system_fonts = getSystemFontNames( new AlphabeticallyComparator( ) );
 		}
 
-		return sorted_system_fonts.clone( );
+		return sorted_system_fonts;
 	}
 
 	/**

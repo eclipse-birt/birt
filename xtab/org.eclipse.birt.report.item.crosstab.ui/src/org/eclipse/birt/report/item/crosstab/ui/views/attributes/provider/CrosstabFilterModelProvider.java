@@ -415,7 +415,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 		return false;
 	}
 
-	class TargetFilterConditionHandle
+	static class TargetFilterConditionHandle
 	{
 
 		protected FilterConditionElementHandle filterHandle;

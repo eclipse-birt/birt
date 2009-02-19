@@ -58,7 +58,7 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
  */
 public class FileReportProvider implements IReportProvider
 {
-	protected static Logger logger = Logger.getLogger( FileReportProvider.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( FileReportProvider.class.getName( ) );
 
 	private ModuleHandle model;
 	private static final String VERSION_MESSAGE = Messages.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$

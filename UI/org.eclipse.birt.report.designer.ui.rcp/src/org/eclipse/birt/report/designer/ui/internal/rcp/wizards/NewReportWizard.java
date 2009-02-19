@@ -278,10 +278,19 @@ public class NewReportWizard extends Wizard implements
 		try
 		{
 			File container = new File( locationPath.toString( ) );
-			if ( !container.exists( ) )
+
+			boolean conExists = container.exists( );
+			if ( !conExists )
 			{
-				container.mkdirs( );
+				conExists = container.mkdirs( );
 			}
+			if( !conExists )
+			{
+				ExceptionHandler.openErrorMessageBox( Messages.getString( "NewReportWizard.title.Error" ), //$NON-NLS-1$
+						Messages.getString( "NewReportWizard.wizard.msgDirErr" ) ); //$NON-NLS-1$
+				return;
+			}
+			
 			ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
 					.getSessionHandle( )
 					.createDesignFromTemplate( sourceFileName );
