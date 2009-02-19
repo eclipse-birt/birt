@@ -246,18 +246,17 @@ public class OlapUtil
 
 	public static IChoice[] getDateTimeLevelTypeChoices( )
 	{
-		return Arrays.copyOf( DATE_TIME_LEVEL_TYPE_ALL,
-				DATE_TIME_LEVEL_TYPE_ALL.length );
+		return DATE_TIME_LEVEL_TYPE_ALL;
 	}
 
 	public static IChoice[] getDateLevelTypeChoices( )
 	{
-		return Arrays.copyOf( DATE_LEVEL_TYPE_ALL, DATE_LEVEL_TYPE_ALL.length );
+		return DATE_LEVEL_TYPE_ALL;
 	}
 
 	public static IChoice[] getTimeLevelTypeChoices( )
 	{
-		return Arrays.copyOf( TIME_LEVEL_TYPE_ALL, TIME_LEVEL_TYPE_ALL.length );
+		return TIME_LEVEL_TYPE_ALL;
 	}
 
 }
