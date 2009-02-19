@@ -324,9 +324,18 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		try
 		{
 			container = new File( locationPath.toString( ) );
-			if ( !container.exists( ) )
+			if ( container == null )
 			{
-				container.mkdirs( );
+				return;
+			}
+			boolean conExists = container.exists( );
+			if ( !conExists )
+			{
+				conExists = container.mkdirs( );
+			}
+			if( !conExists )
+			{
+				return;
 			}
 
 		}
@@ -335,10 +344,6 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 			ExceptionHandler.handle( e );
 		}
 
-		if ( container == null )
-		{
-			return;
-		}
 		final File file = new File( locationPath.toString( ), fileName );
 
 		try
