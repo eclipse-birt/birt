@@ -37,7 +37,6 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -344,6 +343,7 @@ public class FileReportProvider implements IReportProvider
 		FileOutputStream fos = null;
 		FileChannel fcin = null;
 		FileChannel fcout = null;
+		Throwable exception = null;
 
 		try
 		{
@@ -355,44 +355,68 @@ public class FileReportProvider implements IReportProvider
 			// Does the file copy.
 			fcin.transferTo( 0, fcin.size( ), fcout );
 		}
+		catch ( Exception e )
+		{
+			exception = e;
+		}
 		finally
 		{
-			// Uses try-finally blocks to insure that all resources are closed,
-			// even if some exceptions are threw during closing those resources.
-			try
-			{
-				if ( fis != null )
-				{
-					fis.close( );
-				}
-			}
-			finally
+			if ( fis != null )
 			{
 				try
 				{
-					if ( fos != null )
-					{
-						fos.close( );
-					}
+					fis.close( );
 				}
-				finally
+				catch ( Exception e )
 				{
-					try
-					{
-						if ( fcin != null )
-						{
-							fcin.close( );
-						}
-					}
-					finally
-					{
-						if ( fcout != null )
-						{
-							fcout.close( );
-						}
-					}
+					exception = exception == null ? e : exception;
 				}
 			}
+
+			if ( fos != null )
+			{
+				try
+				{
+					fos.close( );
+				}
+				catch ( Exception e )
+				{
+					exception = exception == null ? e : exception;
+				}
+			}
+
+			if ( fcin != null )
+			{
+				try
+				{
+					fcin.close( );
+				}
+				catch ( Exception e )
+				{
+					exception = exception == null ? e : exception;
+				}
+			}
+
+			if ( fcout != null )
+			{
+				try
+				{
+					fcout.close( );
+				}
+				catch ( Exception e )
+				{
+					exception = exception == null ? e : exception;
+				}
+			}
+		}
+
+		if ( exception instanceof IOException )
+		{
+			throw (IOException) exception;
+		}
+		else if ( exception instanceof RuntimeException )
+		{
+			throw (RuntimeException) exception;
 		}
 	}
 
