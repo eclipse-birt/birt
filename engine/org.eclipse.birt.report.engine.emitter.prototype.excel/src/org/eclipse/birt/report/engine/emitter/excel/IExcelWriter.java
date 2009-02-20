@@ -38,9 +38,10 @@ public interface IExcelWriter
 
 	public void end( ) throws IOException;
 
-	public void startSheet( int[] coordinates ) throws IOException;
+	public void startSheet( int[] coordinates, String pageHeader,
+			String pageFooter ) throws IOException;
 
-	public void endSheet( );
+	public void endSheet( String orientation );
 
 	public void startRow( double rowHeight );
 

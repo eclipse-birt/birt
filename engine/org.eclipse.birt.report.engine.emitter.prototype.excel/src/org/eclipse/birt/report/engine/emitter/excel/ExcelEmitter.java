@@ -366,8 +366,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	protected void createWriter( )
 	{
-		writer = new ExcelWriter( out, context, isRTLSheet,
-				pageHeader, pageFooter, orientation );
+		writer = new ExcelWriter( out, context, isRTLSheet );
 	}
 
 	/**
@@ -376,13 +375,13 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	 */
 	public void outputCacheData( ) throws IOException
 	{
-		writer.startSheet( engine.getCoordinates( ) );
+		writer.startSheet( engine.getCoordinates( ), pageHeader, pageFooter );
 		Iterator<RowData> it = engine.getIterator( );
 		while ( it.hasNext( ) )
 		{
 			outputRowData( it.next( ) );
 		}
-		writer.endSheet( );
+		writer.endSheet( orientation );
 	}
 
 	private void outputRowData( RowData rowData ) throws IOException

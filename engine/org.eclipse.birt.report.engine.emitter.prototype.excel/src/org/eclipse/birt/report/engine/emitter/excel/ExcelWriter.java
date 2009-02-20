@@ -36,9 +36,6 @@ public class ExcelWriter implements IExcelWriter
 	private final ExcelContext context;
 	private final OutputStream out;
 	private final boolean isRTLSheet;
-	private final String pageHeader;
-	private final String pageFooter;
-	private final String orientation;
 	private String tempFilePath;
 	private int sheetIndex = 1;
 
@@ -51,15 +48,11 @@ public class ExcelWriter implements IExcelWriter
 	 * @param orientation
 	 */
 	public ExcelWriter( OutputStream out, ExcelContext context,
-			boolean isRtlSheet, String pageHeader, String pageFooter,
-			String orientation )
+			boolean isRtlSheet )
 	{
 		this.out = out;
 		this.context = context;
 		this.isRTLSheet = isRtlSheet;
-		this.pageHeader = pageHeader;
-		this.pageFooter = pageFooter;
-		this.orientation = orientation;
 	}
 
 
@@ -73,9 +66,9 @@ public class ExcelWriter implements IExcelWriter
 		writer.endRow( );
 	}
 
-	public void endSheet( )
+	public void endSheet( String oritentation )
 	{
-		writer.endSheet( );
+		writer.endSheet( oritentation );
 	}
 
 	public void outputData( SheetData data ) throws IOException
@@ -86,8 +79,7 @@ public class ExcelWriter implements IExcelWriter
 	public void start( IReportContent report, Map<StyleEntry, Integer> styles,
 			HashMap<String, BookmarkDef> bookmarkList ) throws IOException
 	{
-		writer = new ExcelXmlWriter( out, context, isRTLSheet, pageHeader,
-				pageFooter, orientation );
+		writer = new ExcelXmlWriter( out, context, isRTLSheet );
 		writer.setSheetIndex( sheetIndex );
 		writer.start( report, styles, bookmarkList );
 		copyOutputData( );
@@ -127,13 +119,14 @@ public class ExcelWriter implements IExcelWriter
 		writer.startRow( rowHeight );
 	}
 
-	public void startSheet( int[] coordinates ) throws IOException
+	public void startSheet( int[] coordinates, String pageHeader,
+			String pageFooter ) throws IOException
 	{
 		if ( writer == null )
 		{
 			initializeWriterAsTempWriter( );
 		}
-		writer.startSheet( coordinates );
+		writer.startSheet( coordinates, pageHeader, pageFooter );
 		sheetIndex++;
 	}
 
@@ -147,8 +140,7 @@ public class ExcelWriter implements IExcelWriter
 				+ "_BIRTEMITTER_EXCEL_TEMP_FILE"
 				+ Thread.currentThread( ).getId( );
 		FileOutputStream out = new FileOutputStream( tempFilePath );
-		tempWriter = new ExcelXmlWriter( out, context, isRTLSheet, pageHeader,
-				pageFooter, orientation );
+		tempWriter = new ExcelXmlWriter( out, context, isRTLSheet );
 		writer = tempWriter;
 	}
 

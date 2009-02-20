@@ -112,14 +112,10 @@ public class ExcelXmlWriter implements IExcelWriter
 	 *            : represents the direction of the excel sheet.
 	 */
 	public ExcelXmlWriter( OutputStream out, ExcelContext context,
-			boolean isRTLSheet, String pageHeader, String pageFooter,
-			String orientation )
+			boolean isRTLSheet )
 	{
 		this( out, "UTF-8", context );
 		this.isRTLSheet = isRTLSheet;
-		this.pageHeader = pageHeader;
-		this.pageFooter = pageFooter;
-		this.orientation = orientation;
 	}
 
 	/**
@@ -715,14 +711,17 @@ public class ExcelXmlWriter implements IExcelWriter
 		startSheet( "Sheet" + String.valueOf( sheetIndex ) );
 	}
 
-	public void startSheet( int[] coordinates )
+	public void startSheet( int[] coordinates, String pageHeader,
+			String pageFooter )
 	{
+		this.pageHeader = pageHeader;
+		this.pageFooter = pageFooter;
 		startSheet( sheetIndex );
 		ouputColumns( coordinates );
 		sheetIndex += 1;
 	}
 
-	public void endSheet( )
+	public void endSheet( String orientaion )
 	{
 		endTable( );
 		declareWorkSheetOptions( orientation, pageHeader, pageFooter );
