@@ -33,7 +33,6 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.ObjectSecurity;
 import org.eclipse.birt.data.engine.executor.ResultObject;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -206,11 +205,6 @@ public class ResultObjectUtil
 					}
 					ois.close( );
 				}
-				else
-				{
-					throw new DataException( ResourceConstants.BAD_DATA_TYPE,
-						fieldType.toString( ) );
-				}
 			}
 			rowDatas[i] = newResultObject( obs );
 
@@ -320,11 +314,6 @@ public class ResultObjectUtil
 				ObjectOutputStream oo = ObjectSecurity.createObjectOutputStream( dos );
 				oo.writeObject( fieldValue );
 				oo.close( );
-			}
-			else
-			{
-				throw new DataException( ResourceConstants.BAD_DATA_TYPE,
-					fieldType.toString( ) );
 			}
 		}
 		dos.flush( );

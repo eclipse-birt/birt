@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
@@ -144,12 +143,9 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 		}
 		if ( dataType == null )
 		{
-			throw new DataException ( ResourceConstants.BAD_DATA_TYPE, "null");
+			throw new DataException ( ResourceConstants.BAD_DATA_TYPE);
 		}
-		if( !DataType.isValidDataType( dataType ) )
-		{
-			throw new DataException ( ResourceConstants.BAD_DATA_TYPE, dataType.toString( ));
-		}
+		
 		int nextIndex = describedColumns.size() + 1;
 		// All script data set columns are "custom", to allow setting
 		// values later
