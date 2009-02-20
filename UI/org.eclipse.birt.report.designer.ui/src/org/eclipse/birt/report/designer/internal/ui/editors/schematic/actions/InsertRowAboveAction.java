@@ -50,9 +50,10 @@ public class InsertRowAboveAction extends InsertRowAction
 	 */
 	public void run( )
 	{
-		
-		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_ROW_POSITION, new Integer(-1));
-		
+
+		CommandUtils.setVariable( ICommandParameterNameContants.INSERT_ROW_POSITION,
+				Integer.valueOf( -1 ) );
+
 		try
 		{
 			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertRowCommand",null ); //$NON-NLS-1$

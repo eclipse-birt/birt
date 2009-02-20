@@ -27,8 +27,10 @@ import org.eclipse.ui.IWorkbenchPart;
 
 public class SelectRowAction extends ContextSelectionAction
 {
+
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SelectRowAction"; //$NON-NLS-1$
+
 	/**
 	 * Constructs new instance
 	 * 
@@ -49,49 +51,48 @@ public class SelectRowAction extends ContextSelectionAction
 	protected boolean calculateEnabled( )
 	{
 		int[] intValue = getSelectionRowNumbers( );
-		if (intValue == null || intValue.length == 0)
+		if ( intValue == null || intValue.length == 0 )
 		{
 			return false;
 		}
 		return TableUtil.isContinue( intValue );
 	}
-	
-	
 
 	/**
 	 * Runs action.
-	 *  
+	 * 
 	 */
 	public void run( )
 	{
 		int[] intValue = getSelectionRowNumbers( );
 		Arrays.sort( intValue );
 		TableEditPart part = getTableEditPart( );
-		if (part != null)
+		if ( part != null )
 		{
 			part.selectRow( intValue );
 		}
 	}
-	
-	private int[] getSelectionRowNumbers()
+
+	private int[] getSelectionRowNumbers( )
 	{
 		List list = getElementHandles( );
-		if (!TableUtil.isAllCell( list ))
+		if ( !TableUtil.isAllCell( list ) )
 		{
 			return new int[]{};
 		}
 		int size = list.size( );
-		List temp = new ArrayList();
-		for (int i=0; i<size; i++)
+		List temp = new ArrayList( );
+		for ( int i = 0; i < size; i++ )
 		{
 			Object obj = list.get( i );
-			CellHandleAdapter adapt = HandleAdapterFactory.getInstance( ).getCellHandleAdapter( obj );
+			CellHandleAdapter adapt = HandleAdapterFactory.getInstance( )
+					.getCellHandleAdapter( obj );
 			int rowNumber = adapt.getRowNumber( );
 			int rowSpan = adapt.getRowSpan( );
-			for (int j =rowNumber; j<rowNumber + rowSpan; j++)
+			for ( int j = rowNumber; j < rowNumber + rowSpan; j++ )
 			{
-				Integer value = new Integer(j);
-				if (!temp.contains( value ))
+				Integer value = Integer.valueOf( j );
+				if ( !temp.contains( value ) )
 				{
 					temp.add( value );
 				}
@@ -99,13 +100,12 @@ public class SelectRowAction extends ContextSelectionAction
 		}
 		size = temp.size( );
 		int[] retValue = new int[size];
-		for (int i=0; i<size; i++)
+		for ( int i = 0; i < size; i++ )
 		{
-			Integer value = (Integer)temp.get( i );
+			Integer value = (Integer) temp.get( i );
 			retValue[i] = value.intValue( );
 		}
 		return retValue;
 	}
-	
-	
+
 }

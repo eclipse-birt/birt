@@ -26,7 +26,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * Action of inserting a column into table.
  * 
  * @author Dazhen Gao
- * @version $Revision: 1.7 $ $Date: 2007/08/01 08:04:52 $
+ * @version $Revision: 1.8 $ $Date: 2008/01/25 08:37:53 $
  */
 public class InsertColumnAction extends ContextSelectionAction
 {
@@ -87,7 +87,8 @@ public class InsertColumnAction extends ContextSelectionAction
 			System.out.println( "Insert column action >> Run ..." ); //$NON-NLS-1$
 		}
 
-		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_COLUMN_POSITION, new Integer(-1));
+		CommandUtils.setVariable( ICommandParameterNameContants.INSERT_COLUMN_POSITION,
+				Integer.valueOf( -1 ) );
 
 		try
 		{

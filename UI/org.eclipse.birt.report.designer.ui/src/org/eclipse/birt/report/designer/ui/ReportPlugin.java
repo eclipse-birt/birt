@@ -77,7 +77,7 @@ import com.ibm.icu.util.StringTokenizer;
 public class ReportPlugin extends AbstractUIPlugin
 {
 
-	protected static Logger logger = Logger.getLogger( ReportPlugin.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( ReportPlugin.class.getName( ) );
 
 	public static final String LTR_BIDI_DIRECTION = "report.designer.ui.preferences.bidiproperties.ltrdirection"; //$NON-NLS-1$
 

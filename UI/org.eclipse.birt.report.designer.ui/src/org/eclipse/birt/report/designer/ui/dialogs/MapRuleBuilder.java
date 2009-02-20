@@ -112,7 +112,7 @@ public class MapRuleBuilder extends BaseDialog
 
 	protected String[] popupItems = null;
 
-	protected static String[] EMPTY_ARRAY = new String[]{};
+	protected static final String[] EMPTY_ARRAY = new String[]{};
 
 	public static final String DLG_TITLE_NEW = Messages.getString( "MapRuleBuilder.DialogTitle.New" ); //$NON-NLS-1$
 	public static final String DLG_TITLE_EDIT = Messages.getString( "MapRuleBuilder.DialogTitle.Edit" ); //$NON-NLS-1$

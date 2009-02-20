@@ -39,8 +39,8 @@ public class HighlightHandleProvider
 
 	private static final HighlightRuleHandle[] EMPTY = new HighlightRuleHandle[0];
 
-	public static int EXPRESSION_TYPE_ROW = 0;
-	public static int EXPRESSION_TYPE_DATA = 1;
+	public static final int EXPRESSION_TYPE_ROW = 0;
+	public static final int EXPRESSION_TYPE_DATA = 1;
 
 	protected DesignElementHandle elementHandle;
 

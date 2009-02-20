@@ -117,7 +117,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 	protected String[] popupItems = null;
 
-	protected static String[] EMPTY_ARRAY = new String[]{};
+	protected static final String[] EMPTY_ARRAY = new String[]{};
 
 	private static final String NONE_DISPLAY_TEXT = Messages.getString( "HighlightRuleBuilderDialog.displayText.None" ); //$NON-NLS-1$
 

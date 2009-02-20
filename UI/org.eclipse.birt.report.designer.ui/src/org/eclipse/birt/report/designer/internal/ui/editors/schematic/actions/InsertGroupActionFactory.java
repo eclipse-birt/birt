@@ -147,25 +147,27 @@ abstract class InsertPositionGroupAction extends Action
 		if ( getTableEditPart( ) != null )
 		{
 			TableHandle table = (TableHandle) getTableEditPart( ).getModel( );
-			if(table.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
+			if ( table.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 				canContain = false;
-			else canContain = table.canContain( TableHandle.GROUP_SLOT,
-					ReportDesignConstants.TABLE_GROUP_ELEMENT );
+			else
+				canContain = table.canContain( TableHandle.GROUP_SLOT,
+						ReportDesignConstants.TABLE_GROUP_ELEMENT );
 		}
-		
+
 		if ( getTableMultipleEditPart( ) != null )
 		{
 			TableHandle table = (TableHandle) getTableMultipleEditPart( ).getModel( );
-			if(table.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
+			if ( table.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 				canContain = false;
-			else canContain = table.canContain( TableHandle.GROUP_SLOT,
-					ReportDesignConstants.TABLE_GROUP_ELEMENT );
+			else
+				canContain = table.canContain( TableHandle.GROUP_SLOT,
+						ReportDesignConstants.TABLE_GROUP_ELEMENT );
 		}
-		
+
 		if ( getListEditPart( ) != null )
 		{
 			ListHandle list = (ListHandle) getListEditPart( ).getModel( );
-			if(list.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
+			if ( list.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 				canContain = false;
 			canContain = ( (ListHandle) getListEditPart( ).getModel( ) ).canContain( ListHandle.GROUP_SLOT,
 					ReportDesignConstants.LIST_GROUP_ELEMENT );
@@ -185,7 +187,7 @@ abstract class InsertPositionGroupAction extends Action
 				currentModel );
 
 		CommandUtils.setVariable( ICommandParameterNameContants.INSERT_GROUP_POSITION,
-				new Integer( getPosition( ) ) );
+				Integer.valueOf( getPosition( ) ) );
 		try
 		{
 			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertGroupCommand", //$NON-NLS-1$
@@ -301,8 +303,8 @@ abstract class InsertPositionGroupAction extends Action
 			return null;
 		return part;
 	}
-	
-	//fix bug 217589
+
+	// fix bug 217589
 	private ReportElementEditPart getTableMultipleEditPart( )
 	{
 		if ( getSelection( ) == null || getSelection( ).isEmpty( ) )
@@ -319,11 +321,12 @@ abstract class InsertPositionGroupAction extends Action
 			}
 
 			ReportElementEditPart currentEditPart = null;
-			if ( obj instanceof MultipleEditPart && ((MultipleEditPart)obj).getModel( ) instanceof TableHandle)
+			if ( obj instanceof MultipleEditPart
+					&& ( (MultipleEditPart) obj ).getModel( ) instanceof TableHandle )
 			{
 				currentEditPart = (ReportElementEditPart) obj;
 			}
-			
+
 			else if ( obj instanceof DummyEditpart )
 			{
 				continue;
@@ -469,7 +472,9 @@ class InsertAboveGroupAction extends InsertPositionGroupAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertPositionGroupAction#getPosition()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
+	 * .InsertPositionGroupAction#getPosition()
 	 */
 	protected int getPosition( )
 	{
@@ -504,7 +509,9 @@ class InsertBelowGroupAction extends InsertPositionGroupAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertPositionGroupAction#getPosition()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
+	 * .InsertPositionGroupAction#getPosition()
 	 */
 	protected int getPosition( )
 	{
@@ -542,7 +549,9 @@ class InsertIntoGroupAction extends InsertPositionGroupAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertPositionGroupAction#isEnabled()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
+	 * .InsertPositionGroupAction#isEnabled()
 	 */
 	public boolean isEnabled( )
 	{
@@ -552,7 +561,9 @@ class InsertIntoGroupAction extends InsertPositionGroupAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertPositionGroupAction#getPosition()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
+	 * .InsertPositionGroupAction#getPosition()
 	 */
 	protected int getPosition( )
 	{

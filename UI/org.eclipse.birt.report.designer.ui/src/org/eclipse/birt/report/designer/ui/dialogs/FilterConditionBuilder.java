@@ -129,7 +129,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 	protected transient ReportElementHandle currentItem = null;
 
-	protected static String[] EMPTY_ARRAY = new String[]{};
+	protected static final String[] EMPTY_ARRAY = new String[]{};
 
 	protected List columnList;
 

@@ -58,8 +58,9 @@ public class InsertColumnLeftAction extends InsertColumnAction
 	 */
 	public void run( )
 	{
-		
-		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_COLUMN_POSITION, new Integer(-1));
+
+		CommandUtils.setVariable( ICommandParameterNameContants.INSERT_COLUMN_POSITION,
+				Integer.valueOf( -1 ) );
 
 		try
 		{

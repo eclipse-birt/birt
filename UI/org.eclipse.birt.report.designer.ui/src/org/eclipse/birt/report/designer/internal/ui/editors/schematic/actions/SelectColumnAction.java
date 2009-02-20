@@ -27,8 +27,10 @@ import org.eclipse.ui.IWorkbenchPart;
 
 public class SelectColumnAction extends ContextSelectionAction
 {
+
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SelectColumnAction"; //$NON-NLS-1$
+
 	/**
 	 * Constructs new instance
 	 * 
@@ -49,49 +51,48 @@ public class SelectColumnAction extends ContextSelectionAction
 	protected boolean calculateEnabled( )
 	{
 		int[] intValue = getSelectionColumnNumbers( );
-		if (intValue == null || intValue.length == 0)
+		if ( intValue == null || intValue.length == 0 )
 		{
 			return false;
 		}
 		return TableUtil.isContinue( intValue );
 	}
-	
-	
 
 	/**
 	 * Runs action.
-	 *  
+	 * 
 	 */
 	public void run( )
 	{
 		int[] intValue = getSelectionColumnNumbers( );
 		Arrays.sort( intValue );
 		TableEditPart part = getTableEditPart( );
-		if (part != null)
+		if ( part != null )
 		{
 			part.selectColumn( intValue );
 		}
 	}
-	
-	private int[] getSelectionColumnNumbers()
+
+	private int[] getSelectionColumnNumbers( )
 	{
 		List list = getElementHandles( );
-		if (!TableUtil.isAllCell( list ))
+		if ( !TableUtil.isAllCell( list ) )
 		{
 			return new int[]{};
 		}
 		int size = list.size( );
-		List temp = new ArrayList();
-		for (int i=0; i<size; i++)
+		List temp = new ArrayList( );
+		for ( int i = 0; i < size; i++ )
 		{
 			Object obj = list.get( i );
-			CellHandleAdapter adapt = HandleAdapterFactory.getInstance( ).getCellHandleAdapter( obj );
+			CellHandleAdapter adapt = HandleAdapterFactory.getInstance( )
+					.getCellHandleAdapter( obj );
 			int colNumber = adapt.getColumnNumber( );
 			int colSpan = adapt.getColumnSpan( );
-			for (int j =colNumber; j<colNumber + colSpan; j++)
+			for ( int j = colNumber; j < colNumber + colSpan; j++ )
 			{
-				Integer value = new Integer(j);
-				if (!temp.contains( value ))
+				Integer value = Integer.valueOf( j );
+				if ( !temp.contains( value ) )
 				{
 					temp.add( value );
 				}
@@ -99,9 +100,9 @@ public class SelectColumnAction extends ContextSelectionAction
 		}
 		size = temp.size( );
 		int[] retValue = new int[size];
-		for (int i=0; i<size; i++)
+		for ( int i = 0; i < size; i++ )
 		{
-			Integer value = (Integer)temp.get( i );
+			Integer value = (Integer) temp.get( i );
 			retValue[i] = value.intValue( );
 		}
 		return retValue;

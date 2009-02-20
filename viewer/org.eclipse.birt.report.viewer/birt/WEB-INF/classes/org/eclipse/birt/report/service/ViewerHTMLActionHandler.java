@@ -46,8 +46,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	/**
 	 * Logger for this handler.
 	 */
-
-	protected Logger log = Logger.getLogger( ViewerHTMLActionHandler.class.getName( ) );
+	private Logger log = Logger.getLogger( ViewerHTMLActionHandler.class.getName( ) );
 
 	/**
 	 * Document instance.

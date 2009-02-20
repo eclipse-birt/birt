@@ -89,8 +89,9 @@ public class InsertRowAction extends ContextSelectionAction
 		{
 			System.out.println( "Insert row action >> Run ..." ); //$NON-NLS-1$
 		}
-		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_ROW_POSITION, new Integer(-1));
-		
+		CommandUtils.setVariable( ICommandParameterNameContants.INSERT_ROW_POSITION,
+				Integer.valueOf( -1 ) );
+
 		try
 		{
 			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertRowCommand",null ); //$NON-NLS-1$

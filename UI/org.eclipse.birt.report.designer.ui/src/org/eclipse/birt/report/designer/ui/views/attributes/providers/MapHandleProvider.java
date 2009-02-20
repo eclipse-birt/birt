@@ -36,8 +36,8 @@ public class MapHandleProvider
 
 	private static final MapRuleHandle[] EMPTY = new MapRuleHandle[0];
 
-	public static int EXPRESSION_TYPE_ROW = 0;
-	public static int EXPRESSION_TYPE_DATA = 1;
+	public static final int EXPRESSION_TYPE_ROW = 0;
+	public static final int EXPRESSION_TYPE_DATA = 1;
 
 	protected DesignElementHandle elementHandle;
 	private int expressionType;

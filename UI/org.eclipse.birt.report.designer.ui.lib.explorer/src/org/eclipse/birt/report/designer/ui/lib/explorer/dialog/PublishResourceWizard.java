@@ -39,8 +39,6 @@ import org.eclipse.jface.wizard.Wizard;
 public class PublishResourceWizard extends Wizard
 {
 
-	LibraryHandle handle;
-
 	private static String windowTitle = Messages.getString( "PublishResourceDialog.ShellText" ); //$NON-NLS-1$
 	private static String PAGE_TITLE = Messages.getString( "PublishResourceDialog.TitleArea" ); //$NON-NLS-1$
 	private static String PAGE_DESC = Messages.getString( "PublishResourceDialog.Message" ); //$NON-NLS-1$
@@ -73,7 +71,6 @@ public class PublishResourceWizard extends Wizard
 		setWindowTitle( windowTitle );
 		this.fileName = fileName;
 		this.folderName = folderName;
-		this.handle = handle;
 		this.filePath = handle.getFileName( );
 		type = HAVE_HANDLE;
 	}
@@ -86,7 +83,6 @@ public class PublishResourceWizard extends Wizard
 		setWindowTitle( addLibraryTitle );
 		this.fileName = null;
 		this.folderName = folderName;
-		this.handle = null;
 		type = HAVE_NO_HANDLE;
 	}
 

@@ -40,7 +40,7 @@ import org.eclipse.core.runtime.Platform;
 public class ElementAdapterManager
 {
 
-	protected static Logger logger = Logger.getLogger( ElementAdapterManager.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( ElementAdapterManager.class.getName( ) );
 
 	private static Map adaptersMap = new HashMap( ) {
 

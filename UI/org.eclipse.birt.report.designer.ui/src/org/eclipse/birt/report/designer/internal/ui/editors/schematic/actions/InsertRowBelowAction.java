@@ -58,8 +58,9 @@ public class InsertRowBelowAction extends InsertRowAction
 	 */
 	public void run( )
 	{
-		
-		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_ROW_POSITION, new Integer(1));
+
+		CommandUtils.setVariable( ICommandParameterNameContants.INSERT_ROW_POSITION,
+				Integer.valueOf( 1 ) );
 
 		try
 		{

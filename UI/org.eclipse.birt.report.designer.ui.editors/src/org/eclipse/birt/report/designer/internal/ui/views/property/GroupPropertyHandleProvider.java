@@ -434,7 +434,7 @@ public class GroupPropertyHandleProvider
 				index = i;
 			}
 		}
-		return new Integer( index );
+		return Integer.valueOf( index );
 	}
 
 	/**
