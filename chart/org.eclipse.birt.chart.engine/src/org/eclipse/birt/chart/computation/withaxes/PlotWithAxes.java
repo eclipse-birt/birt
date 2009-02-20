@@ -958,6 +958,7 @@ public abstract class PlotWithAxes extends Methods
 				axPV.getLabel( ),
 				VERTICAL );
 
+
 		// Compute axes decoration thickness, the value sequence is either
 		// [left,right] or
 		// [top, bottom]
@@ -1012,6 +1013,30 @@ public abstract class PlotWithAxes extends Methods
 		}
 		double dX = getLocation( scX, iv ), dX1 = dX, dX2 = dX;
 		double dWTotal = Math.abs( scX.getStart( ) - scX.getEnd( ) );
+
+		// handle fixed label thickness #177744
+		if ( axPV.getModelAxis( ).isSetLabelThickness( ) )
+		{
+			double dFixedLabelThickness = axPV.getModelAxis( )
+					.getLabelThickness( );
+
+			// if the fixed label thickness is to greate, it will not take
+			// affect.
+			if ( dFixedLabelThickness < dWTotal - 2 * getTickSize( ) )
+			{
+				if ( dYAxisLabelsThickness + dYAxisTitleThickness > dFixedLabelThickness )
+				{
+					axPV.setShowLabels( false );
+				}
+				if ( dYAxisTitleThickness > dFixedLabelThickness )
+				{
+					laYAxisTitle.setVisible( false );
+					dYAxisTitleThickness = 0;
+				}
+				dYAxisLabelsThickness = dFixedLabelThickness
+						- dYAxisTitleThickness;
+			}
+		}
 
 		// COMPUTE VALUES FOR x1, x, x2
 		// x = HORIZONTAL LOCATION OF Y-AXIS ALONG PLOT
@@ -1074,6 +1099,13 @@ public abstract class PlotWithAxes extends Methods
 			{
 				// drop the labels of vertical axis
 				axPV.setShowLabels( false );
+
+				// if ( dFixedPos > 0 )
+				// {
+				// dX1 -= dW1;
+				// dX2 += dW2;
+				// dWTotal -= ( dW1 + dW2 );
+				// }
 			}
 
 			if ( iYTitleLocation == LEFT )
@@ -1915,6 +1947,32 @@ public abstract class PlotWithAxes extends Methods
 			laXAxisTitle.getCaption( ).setValue( sPreviousValue );
 		}
 
+		double dHTotal = Math.abs( scY.getStart( ) - scY.getEnd( ) );
+
+		// handle fixed label thickness #177744
+		if ( axPH.getModelAxis( ).isSetLabelThickness( ) )
+		{
+			double dFixedLabelThickness = axPH.getModelAxis( )
+					.getLabelThickness( );
+
+			// if the fixed label thickness is to greate, it will not take
+			// affect.
+			if ( dFixedLabelThickness < dHTotal - 2 * getTickSize( ) )
+			{
+				if ( dXAxisTitleThickness + dXAxisLabelsThickness > dFixedLabelThickness )
+				{
+					axPH.setShowLabels( false );
+				}
+				if ( dXAxisTitleThickness > dFixedLabelThickness )
+				{
+					laXAxisTitle.setVisible( false );
+					dXAxisLabelsThickness = 0;
+				}
+				dXAxisLabelsThickness = dFixedLabelThickness
+						- dXAxisTitleThickness;
+			}
+		}
+
 		double dY = getLocation( scY, iv ), dY1 = dY, dY2 = dY;
 		final boolean bTicksAbove = ( iXTickStyle & TICK_ABOVE ) == TICK_ABOVE;
 		final boolean bTicksBelow = ( iXTickStyle & TICK_BELOW ) == TICK_BELOW;
@@ -1929,8 +1987,6 @@ public abstract class PlotWithAxes extends Methods
 		if ( ( bForwardScale && iv.iType == IConstants.MIN )
 				|| ( !bForwardScale && iv.iType == IConstants.MAX ) )
 		{
-			double dHTotal = Math.abs( scY.getStart( ) - scY.getEnd( ) );
-
 			// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MIN'
 
 			dY -= dAppliedXAxisPlotSpacing;
@@ -2078,8 +2134,6 @@ public abstract class PlotWithAxes extends Methods
 				|| ( !bForwardScale && iv.iType == IConstants.MIN ) )
 		{
 			// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MAX'
-
-			double dHTotal = Math.abs( scY.getStart( ) - scY.getEnd( ) );
 
 			dY += dAppliedXAxisPlotSpacing;
 			dHTotal -= dAppliedXAxisPlotSpacing;
@@ -2247,7 +2301,6 @@ public abstract class PlotWithAxes extends Methods
 		}
 		else
 		{
-			double dHTotal = Math.abs( scY.getStart( ) - scY.getEnd( ) );
 			double dDeltaY1 = 0, dDeltaY2 = 0;
 			if ( iXLabelLocation == ABOVE )
 			{

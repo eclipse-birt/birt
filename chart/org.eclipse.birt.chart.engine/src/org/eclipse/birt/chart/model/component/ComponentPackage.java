@@ -320,12 +320,21 @@ public interface ComponentPackage extends EPackage
 	int AXIS__CURSOR = 28;
 
 	/**
+	 * The feature id for the '<em><b>Label Thickness</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AXIS__LABEL_THICKNESS = 29;
+
+	/**
 	 * The number of structural features of the '<em>Axis</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS_FEATURE_COUNT = 29;
+	int AXIS_FEATURE_COUNT = 30;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.
@@ -1558,6 +1567,17 @@ public interface ComponentPackage extends EPackage
 	EReference getAxis_Cursor( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#getLabelThickness <em>Label Thickness</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Label Thickness</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Axis#getLabelThickness()
+	 * @see #getAxis()
+	 * @generated
+	 */
+	EAttribute getAxis_LabelThickness( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.ChartPreferences <em>Chart Preferences</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Chart Preferences</em>'.
@@ -2706,6 +2726,14 @@ public interface ComponentPackage extends EPackage
 		 * @generated
 		 */
 		EReference AXIS__CURSOR = eINSTANCE.getAxis_Cursor( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label Thickness</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__LABEL_THICKNESS = eINSTANCE.getAxis_LabelThickness( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.

@@ -66,6 +66,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isAligned <em>Aligned</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isSideBySide <em>Side By Side</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getCursor <em>Cursor</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getLabelThickness <em>Label Thickness</em>}</li>
  * </ul>
  * </p>
  *
@@ -1160,7 +1161,9 @@ public interface Axis extends EObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The element represents a cursor for axis area.
+	 * 
+	 * 						The element represents a cursor for axis area.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Cursor</em>' containment reference.
 	 * @see #setCursor(Cursor)
@@ -1180,6 +1183,63 @@ public interface Axis extends EObject
 	 * @generated
 	 */
 	void setCursor( Cursor value );
+
+	/**
+	 * Returns the value of the '<em><b>Label Thickness</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 						Give the user a way to customize a fixed thickness of axis label. 
+	 * 						Thickness means width for vertical axis, and height for horizontal 
+	 * 						axis.  By default, this value is unset.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Label Thickness</em>' attribute.
+	 * @see #isSetLabelThickness()
+	 * @see #unsetLabelThickness()
+	 * @see #setLabelThickness(double)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_LabelThickness()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 *        extendedMetaData="kind='element' name='LabelThickness'"
+	 * @generated
+	 */
+	double getLabelThickness( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getLabelThickness <em>Label Thickness</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Label Thickness</em>' attribute.
+	 * @see #isSetLabelThickness()
+	 * @see #unsetLabelThickness()
+	 * @see #getLabelThickness()
+	 * @generated
+	 */
+	void setLabelThickness( double value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getLabelThickness <em>Label Thickness</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetLabelThickness()
+	 * @see #getLabelThickness()
+	 * @see #setLabelThickness(double)
+	 * @generated
+	 */
+	void unsetLabelThickness( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getLabelThickness <em>Label Thickness</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Label Thickness</em>' attribute is set.
+	 * @see #unsetLabelThickness()
+	 * @see #getLabelThickness()
+	 * @see #setLabelThickness(double)
+	 * @generated
+	 */
+	boolean isSetLabelThickness( );
 
 	/**
 	 * 

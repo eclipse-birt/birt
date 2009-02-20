@@ -88,6 +88,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isAligned <em>Aligned</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isSideBySide <em>Side By Side</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getCursor <em>Cursor</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabelThickness <em>Label Thickness</em>}</li>
  * </ul>
  * </p>
  *
@@ -612,6 +613,35 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @ordered
 	 */
 	protected Cursor cursor;
+
+	/**
+	 * The default value of the '{@link #getLabelThickness() <em>Label Thickness</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLabelThickness()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double LABEL_THICKNESS_EDEFAULT = 0.0;
+
+	/**
+	 * The cached value of the '{@link #getLabelThickness() <em>Label Thickness</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLabelThickness()
+	 * @generated
+	 * @ordered
+	 */
+	protected double labelThickness = LABEL_THICKNESS_EDEFAULT;
+
+	/**
+	 * This is true if the Label Thickness attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean labelThicknessESet;
 
 	/*
 	 * private static int iLastID = Integer.MIN_VALUE; private final int iID;
@@ -2132,6 +2162,66 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public double getLabelThickness( )
+	{
+		return labelThickness;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLabelThickness( double newLabelThickness )
+	{
+		double oldLabelThickness = labelThickness;
+		labelThickness = newLabelThickness;
+		boolean oldLabelThicknessESet = labelThicknessESet;
+		labelThicknessESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.AXIS__LABEL_THICKNESS,
+					oldLabelThickness,
+					labelThickness,
+					!oldLabelThicknessESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetLabelThickness( )
+	{
+		double oldLabelThickness = labelThickness;
+		boolean oldLabelThicknessESet = labelThicknessESet;
+		labelThickness = LABEL_THICKNESS_EDEFAULT;
+		labelThicknessESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.AXIS__LABEL_THICKNESS,
+					oldLabelThickness,
+					LABEL_THICKNESS_EDEFAULT,
+					oldLabelThicknessESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetLabelThickness( )
+	{
+		return labelThicknessESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
@@ -2205,7 +2295,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__SERIES_DEFINITIONS :
 				return getSeriesDefinitions( );
 			case ComponentPackage.AXIS__GAP_WIDTH :
-				return new Double( getGapWidth( ) );
+				return getGapWidth( );
 			case ComponentPackage.AXIS__ORIENTATION :
 				return getOrientation( );
 			case ComponentPackage.AXIS__LINE_ATTRIBUTES :
@@ -2217,9 +2307,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__LABEL_POSITION :
 				return getLabelPosition( );
 			case ComponentPackage.AXIS__STAGGERED :
-				return isStaggered( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isStaggered( );
 			case ComponentPackage.AXIS__INTERVAL :
-				return new Integer( getInterval( ) );
+				return getInterval( );
 			case ComponentPackage.AXIS__MARKER_LINES :
 				return getMarkerLines( );
 			case ComponentPackage.AXIS__MARKER_RANGES :
@@ -2235,19 +2325,21 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__ORIGIN :
 				return getOrigin( );
 			case ComponentPackage.AXIS__PRIMARY_AXIS :
-				return isPrimaryAxis( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isPrimaryAxis( );
 			case ComponentPackage.AXIS__CATEGORY_AXIS :
-				return isCategoryAxis( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isCategoryAxis( );
 			case ComponentPackage.AXIS__PERCENT :
-				return isPercent( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isPercent( );
 			case ComponentPackage.AXIS__LABEL_WITHIN_AXES :
-				return isLabelWithinAxes( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isLabelWithinAxes( );
 			case ComponentPackage.AXIS__ALIGNED :
-				return isAligned( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isAligned( );
 			case ComponentPackage.AXIS__SIDE_BY_SIDE :
-				return isSideBySide( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isSideBySide( );
 			case ComponentPackage.AXIS__CURSOR :
 				return getCursor( );
+			case ComponentPackage.AXIS__LABEL_THICKNESS :
+				return getLabelThickness( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -2288,7 +2380,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 				getSeriesDefinitions( ).addAll( (Collection<? extends SeriesDefinition>) newValue );
 				return;
 			case ComponentPackage.AXIS__GAP_WIDTH :
-				setGapWidth( ( (Double) newValue ).doubleValue( ) );
+				setGapWidth( (Double) newValue );
 				return;
 			case ComponentPackage.AXIS__ORIENTATION :
 				setOrientation( (Orientation) newValue );
@@ -2306,10 +2398,10 @@ public class AxisImpl extends EObjectImpl implements Axis
 				setLabelPosition( (Position) newValue );
 				return;
 			case ComponentPackage.AXIS__STAGGERED :
-				setStaggered( ( (Boolean) newValue ).booleanValue( ) );
+				setStaggered( (Boolean) newValue );
 				return;
 			case ComponentPackage.AXIS__INTERVAL :
-				setInterval( ( (Integer) newValue ).intValue( ) );
+				setInterval( (Integer) newValue );
 				return;
 			case ComponentPackage.AXIS__MARKER_LINES :
 				getMarkerLines( ).clear( );
@@ -2336,25 +2428,28 @@ public class AxisImpl extends EObjectImpl implements Axis
 				setOrigin( (AxisOrigin) newValue );
 				return;
 			case ComponentPackage.AXIS__PRIMARY_AXIS :
-				setPrimaryAxis( ( (Boolean) newValue ).booleanValue( ) );
+				setPrimaryAxis( (Boolean) newValue );
 				return;
 			case ComponentPackage.AXIS__CATEGORY_AXIS :
-				setCategoryAxis( ( (Boolean) newValue ).booleanValue( ) );
+				setCategoryAxis( (Boolean) newValue );
 				return;
 			case ComponentPackage.AXIS__PERCENT :
-				setPercent( ( (Boolean) newValue ).booleanValue( ) );
+				setPercent( (Boolean) newValue );
 				return;
 			case ComponentPackage.AXIS__LABEL_WITHIN_AXES :
-				setLabelWithinAxes( ( (Boolean) newValue ).booleanValue( ) );
+				setLabelWithinAxes( (Boolean) newValue );
 				return;
 			case ComponentPackage.AXIS__ALIGNED :
-				setAligned( ( (Boolean) newValue ).booleanValue( ) );
+				setAligned( (Boolean) newValue );
 				return;
 			case ComponentPackage.AXIS__SIDE_BY_SIDE :
-				setSideBySide( ( (Boolean) newValue ).booleanValue( ) );
+				setSideBySide( (Boolean) newValue );
 				return;
 			case ComponentPackage.AXIS__CURSOR :
 				setCursor( (Cursor) newValue );
+				return;
+			case ComponentPackage.AXIS__LABEL_THICKNESS :
+				setLabelThickness( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -2457,6 +2552,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__CURSOR :
 				setCursor( (Cursor) null );
 				return;
+			case ComponentPackage.AXIS__LABEL_THICKNESS :
+				unsetLabelThickness( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -2530,6 +2628,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return isSetSideBySide( );
 			case ComponentPackage.AXIS__CURSOR :
 				return cursor != null;
+			case ComponentPackage.AXIS__LABEL_THICKNESS :
+				return isSetLabelThickness( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -2608,6 +2708,11 @@ public class AxisImpl extends EObjectImpl implements Axis
 		result.append( ", sideBySide: " ); //$NON-NLS-1$
 		if ( sideBySideESet )
 			result.append( sideBySide );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", labelThickness: " ); //$NON-NLS-1$
+		if ( labelThicknessESet )
+			result.append( labelThickness );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
