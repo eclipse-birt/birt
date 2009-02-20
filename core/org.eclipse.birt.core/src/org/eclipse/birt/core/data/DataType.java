@@ -105,6 +105,23 @@ public abstract class DataType
 	}
 	
 	/**
+	 * 
+	 * @param objClass
+	 * @return
+	 */
+	public static boolean isValidDataType( Class objClass )
+	{
+		for ( int i = 0; i < classes.length; i++ )
+		{
+			if ( classes[i].equals( objClass ) )
+			{
+				return true;
+			}
+		}
+		return true;
+	}
+	
+	/**
 	 * Other type can be found in JDK, such as Integer and String, but AnyType
 	 * have to be manually created to make it correspond to "Any" name. 
 	 */
