@@ -127,8 +127,7 @@ public class FileReportDocumentProvider extends DocumentProvider
 		{
 			try
 			{
-				if ( element instanceof IEncodedStorage )
-					return ( (IEncodedStorage) element ).getCharset( );
+				return ( (IEncodedStorage) element ).getCharset( );
 			}
 			catch ( CoreException e )
 			{

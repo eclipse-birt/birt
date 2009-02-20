@@ -49,7 +49,6 @@ public class CreateMultipleMeasureCommand extends AbstractCrosstabCommand
 			List list )
 	{
 		super( handleAdpter.getDesignElementHandle( ) );
-		assert list == null;
 		this.handleAdpter = handleAdpter;
 		this.list = list;
 		

@@ -78,18 +78,26 @@ public class IDEFileReportDocumentProvider extends FileReportDocumentProvider
 
 			if ( file != null && file.exists( ) )
 			{
+				InputStream stream = null;
 				try
 				{
-					InputStream stream = new FileInputStream( file );
+					stream = new FileInputStream( file );
 					setDocumentContent( document, stream, encoding );
-					stream.close( );
 					return true;
 				}
-				catch ( FileNotFoundException e )
+				catch ( Exception e )
 				{
 				}
-				catch ( IOException e )
+				finally
 				{
+					if ( stream != null )
+						try
+						{
+							stream.close( );
+						}
+						catch ( IOException e )
+						{
+						}
 				}
 			}
 		}
