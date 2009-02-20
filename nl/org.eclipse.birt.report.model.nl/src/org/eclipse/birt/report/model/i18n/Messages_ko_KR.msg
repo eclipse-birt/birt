@@ -646,6 +646,12 @@ Choices.backgroundSize.auto=자동
 Choices.backgroundSize.contain=Contain
 Choices.backgroundSize.cover=Cover
 
+#79 scopeType
+Choices.scopeType.row=행
+Choices.scopeType.col=열
+Choices.scopeType.rowgroup=Row group
+Choices.scopeType.colgroup=Column group
+
 ###########################################################
 # Classes
 
@@ -2775,6 +2781,9 @@ Element.Cell.slot.content=내용
 Element.Cell.width=너비
 Element.Cell.eventHandlerClass=이벤트 처리기 클래스
 Element.Cell.newHandlerOnEachEvent=각 이벤트 시 새 처리기
+Element.Cell.scope=Scope
+Element.Cell.bookmark=책갈피
+Element.Cell.headers=Headers
 Element.Cell.onPrepare=준비 중
 Element.Cell.onPrepare.toolTip=TBD
 Element.Cell.onPrepare.this=셀

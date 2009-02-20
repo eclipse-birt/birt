@@ -646,6 +646,12 @@ Choices.backgroundSize.auto=Automática
 Choices.backgroundSize.contain=Contain
 Choices.backgroundSize.cover=Cover
 
+#79 scopeType
+Choices.scopeType.row=Fila
+Choices.scopeType.col=Columna
+Choices.scopeType.rowgroup=Row group
+Choices.scopeType.colgroup=Column group
+
 ###########################################################
 # Classes
 
@@ -2775,6 +2781,9 @@ Element.Cell.slot.content=Contenido
 Element.Cell.width=Ancho
 Element.Cell.eventHandlerClass=Clase de controlador de evento
 Element.Cell.newHandlerOnEachEvent=Nuevo controlador en cada evento
+Element.Cell.scope=Scope
+Element.Cell.bookmark=Marcador
+Element.Cell.headers=Headers
 Element.Cell.onPrepare=En preparación
 Element.Cell.onPrepare.toolTip=TBD
 Element.Cell.onPrepare.this=Celda

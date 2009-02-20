@@ -646,6 +646,12 @@ Choices.backgroundSize.auto=自動
 Choices.backgroundSize.contain=Contain
 Choices.backgroundSize.cover=Cover
 
+#79 scopeType
+Choices.scopeType.row=行
+Choices.scopeType.col=Column
+Choices.scopeType.rowgroup=Row group
+Choices.scopeType.colgroup=Column group
+
 ###########################################################
 # Classes
 
@@ -2775,6 +2781,9 @@ Element.Cell.slot.content=コンテンツ
 Element.Cell.width=幅
 Element.Cell.eventHandlerClass=イベントハンドラのクラス
 Element.Cell.newHandlerOnEachEvent=各イベントの新しいハンドラ
+Element.Cell.scope=Scope
+Element.Cell.bookmark=ブックマーク
+Element.Cell.headers=Headers
 Element.Cell.onPrepare=準備時
 Element.Cell.onPrepare.toolTip=TBD
 Element.Cell.onPrepare.this=セル

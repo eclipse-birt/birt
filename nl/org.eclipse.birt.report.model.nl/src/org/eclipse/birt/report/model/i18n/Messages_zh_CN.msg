@@ -646,6 +646,12 @@ Choices.backgroundSize.auto=自动
 Choices.backgroundSize.contain=Contain
 Choices.backgroundSize.cover=Cover
 
+#79 scopeType
+Choices.scopeType.row=行
+Choices.scopeType.col=列
+Choices.scopeType.rowgroup=Row group
+Choices.scopeType.colgroup=Column group
+
 ###########################################################
 # Classes
 
@@ -2775,6 +2781,9 @@ Element.Cell.slot.content=内容
 Element.Cell.width=宽度
 Element.Cell.eventHandlerClass=事件处理程序类
 Element.Cell.newHandlerOnEachEvent=在每个事件上新建处理程序
+Element.Cell.scope=Scope
+Element.Cell.bookmark=书签
+Element.Cell.headers=Headers
 Element.Cell.onPrepare=准备时
 Element.Cell.onPrepare.toolTip=TBD
 Element.Cell.onPrepare.this=单元格
