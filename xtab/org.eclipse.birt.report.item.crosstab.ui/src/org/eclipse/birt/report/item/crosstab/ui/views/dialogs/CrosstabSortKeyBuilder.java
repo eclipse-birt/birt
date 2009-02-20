@@ -107,7 +107,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			Messages.getString( "SelColumnMemberValue.Column.Value" ) //$NON-NLS-1$
 	};
 
-	protected SortElementHandle input;
+	protected SortElementHandle sortElementHandle;
 	protected List groupLevelList;
 	protected List groupLevelNameList;
 
@@ -136,7 +136,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 	public void setInput( SortElementHandle input,
 			LevelViewHandle levelViewHandle )
 	{
-		this.input = input;
+		this.sortElementHandle = input;
 		this.levelViewHandle = levelViewHandle;
 	}
 
@@ -147,7 +147,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 	 */
 	protected boolean initDialog( )
 	{
-		if ( input == null )
+		if ( sortElementHandle == null )
 		{
 			textKey.setText( "" ); //$NON-NLS-1$
 			if ( comboGroupLevel.getItemCount( ) == 0 )
@@ -174,24 +174,24 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			updateBindings( );
 		}
 
-		if ( input.getKey( ) != null && input.getKey( ).trim( ).length( ) != 0 )
+		if ( sortElementHandle.getKey( ) != null && sortElementHandle.getKey( ).trim( ).length( ) != 0 )
 		{
-			int index = getBindingIndex( input.getKey( ) );
+			int index = getBindingIndex( sortElementHandle.getKey( ) );
 			if ( index != -1 )
 			{
 				textKey.setText( ExpressionUtil.createJSDataExpression( textKey.getItem( index ) ) );
 			}
 			else
 			{
-				textKey.setText( input.getKey( ) );
+				textKey.setText( sortElementHandle.getKey( ) );
 			}
 
 		}
 
-		if ( input.getDirection( ) != null
-				&& input.getDirection( ).trim( ).length( ) != 0 )
+		if ( sortElementHandle.getDirection( ) != null
+				&& sortElementHandle.getDirection( ).trim( ).length( ) != 0 )
 		{
-			String value = input.getDirection( ).trim( );
+			String value = sortElementHandle.getDirection( ).trim( );
 			IChoice choice = choiceSet.findChoice( value );
 			if ( choice != null )
 				value = choice.getDisplayName( );
@@ -226,7 +226,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		stack.startTrans( title );
 		try
 		{
-			if ( input == null )
+			if ( sortElementHandle == null )
 			{
 
 				SortElementHandle sortElement = DesignElementFactory.getInstance( )
@@ -271,15 +271,15 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			{
 				if ( level == levelViewHandle )
 				{
-					input.setKey( textKey.getText( ) );
+					sortElementHandle.setKey( textKey.getText( ) );
 					if ( index >= 0 )
 					{
-						input.setDirection( choice.getName( ) );
+						sortElementHandle.setDirection( choice.getName( ) );
 					}
 
-					if ( input.getMember( ) != null )
+					if ( sortElementHandle.getMember( ) != null )
 					{
-						input.drop( ISortElementModel.MEMBER_PROP, 0 );
+						sortElementHandle.drop( ISortElementModel.MEMBER_PROP, 0 );
 					}
 
 					// test code -- begin --
@@ -303,7 +303,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 					if ( referencedLevelList != null
 							&& referencedLevelList.size( ) > 0 )
 					{
-						input.add( ISortElementModel.MEMBER_PROP,
+						sortElementHandle.add( ISortElementModel.MEMBER_PROP,
 								memberValueHandle );
 					}
 				}
@@ -343,7 +343,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 								memberValueHandle );
 					}
 					levelViewHandle.getModelHandle( )
-							.drop( ILevelViewConstants.SORT_PROP, input );
+							.drop( ILevelViewConstants.SORT_PROP, sortElementHandle );
 					level.getModelHandle( ).add( ILevelViewConstants.SORT_PROP,
 							sortElement );
 				}
@@ -947,7 +947,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		memberValueHandle = null;
 		if ( level == levelViewHandle )
 		{
-			memberValueHandle = input.getMember( );
+			memberValueHandle = sortElementHandle.getMember( );
 		}
 
 		if ( memberValueHandle == null )

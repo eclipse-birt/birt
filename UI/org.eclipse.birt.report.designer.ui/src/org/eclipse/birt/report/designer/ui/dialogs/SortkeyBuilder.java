@@ -66,7 +66,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 	public static final String DLG_MESSAGE_NEW = Messages.getString( "SortkeyBuilder.DialogMessage.New" ); //$NON-NLS-1$
 	public static final String DLG_TITLE_EDIT = Messages.getString( "SortkeyBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
 	public static final String DLG_MESSAGE_EDIT = Messages.getString( "SortkeyBuilder.DialogMessage.Edit" ); //$NON-NLS-1$
-	protected SortKeyHandle input;
+	protected SortKeyHandle sortKey;
 
 	protected DesignElementHandle handle;
 
@@ -153,7 +153,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		{
 			comboKey.add( DEUtil.resolveNull( null ) );
 		}
-		comboKey.addListener( SWT.Selection, ComboKeyModify );
+		comboKey.addListener( SWT.Selection, comboKeyModify );
 		comboKey.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -195,7 +195,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		comboDirection.setLayoutData( gdata );
 		return content;
 	}
-	protected Listener ComboKeyModify = new Listener( ) {
+	protected Listener comboKeyModify = new Listener( ) {
 
 		public void handleEvent( Event e )
 		{
@@ -256,22 +256,22 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 	 */
 	protected boolean initDialog( )
 	{
-		if ( input == null )
+		if ( sortKey == null )
 		{
 			comboKey.setText( "" ); //$NON-NLS-1$
 			comboDirection.select( 0 );
 			return true;
 		}
 
-		if ( input.getKey( ) != null && input.getKey( ).trim( ).length( ) != 0 )
+		if ( sortKey.getKey( ) != null && sortKey.getKey( ).trim( ).length( ) != 0 )
 		{
-			comboKey.setText( input.getKey( ).trim( ) );
+			comboKey.setText( sortKey.getKey( ).trim( ) );
 		}
 
-		if ( input.getDirection( ) != null
-				&& input.getDirection( ).trim( ).length( ) != 0 )
+		if ( sortKey.getDirection( ) != null
+				&& sortKey.getDirection( ).trim( ).length( ) != 0 )
 		{
-			String value = input.getDirection( ).trim( );
+			String value = sortKey.getDirection( ).trim( );
 			IChoice choice = choiceSet.findChoice( value );
 			if ( choice != null )
 				value = choice.getDisplayName( );
@@ -332,7 +332,7 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 		stack.startTrans( title ); //$NON-NLS-1$ 
 		try
 		{
-			if ( input == null )
+			if ( sortKey == null )
 			{
 				SortKey sortKey = StructureFactory.createSortKey( );
 				sortKey.setKey( comboKey.getText( ).trim( ) );
@@ -349,10 +349,10 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 			// edit
 			{
 
-				input.setKey( comboKey.getText( ).trim( ) );
+				sortKey.setKey( comboKey.getText( ).trim( ) );
 				if ( index >= 0 )
 				{
-					input.setDirection( choice.getName( ) );
+					sortKey.setDirection( choice.getName( ) );
 				}
 
 			}
@@ -387,11 +387,11 @@ public class SortkeyBuilder extends BaseTitleAreaDialog
 	{
 		if ( input instanceof SortKeyHandle )
 		{
-			this.input = (SortKeyHandle) input;
+			this.sortKey = (SortKeyHandle) input;
 		}
 		else
 		{
-			this.input = null;
+			this.sortKey = null;
 		}
 
 	}

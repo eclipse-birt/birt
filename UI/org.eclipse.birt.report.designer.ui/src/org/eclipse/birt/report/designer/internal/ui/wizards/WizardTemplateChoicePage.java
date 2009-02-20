@@ -554,10 +554,13 @@ public class WizardTemplateChoicePage extends WizardPage
 					}
 
 				}
+				if (img != null)
+				{
+					previewCanvas.clear( );
+					previewCanvas.loadImage( ( (Image) img ) );
+					// previewCanvas.showOriginal( );
+				}
 
-				previewCanvas.clear( );
-				previewCanvas.loadImage( ( (Image) img ) );
-				// previewCanvas.showOriginal( );
 
 			}
 			else

@@ -295,7 +295,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		return 0;
 	}
 
-	protected FilterConditionHandle inputHandle;
+	protected FilterConditionHandle filterCondition;
 
 	protected Combo expression, operator;
 
@@ -435,7 +435,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 		create2ValueComposite( condition );
 
-		if ( inputHandle != null )
+		if ( filterCondition != null )
 		{
 			syncViewProperties( );
 		}
@@ -1111,9 +1111,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			int ret = createValueListComposite( operator.getParent( ) );
 			if ( ret != 0 )
 			{
-				if ( inputHandle != null )
+				if ( filterCondition != null )
 				{
-					valueList = new ArrayList( inputHandle.getValue1List( ) );
+					valueList = new ArrayList( filterCondition.getValue1List( ) );
 				}
 
 				tableViewer.setInput( valueList );
@@ -1122,10 +1122,10 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		else
 		{
 			int ret = create2ValueComposite( operator.getParent( ) );
-			if ( ret != 0 && inputHandle != null )
+			if ( ret != 0 && filterCondition != null )
 			{
-				expressionValue1.setText( DEUtil.resolveNull( inputHandle.getValue1( ) ) );
-				expressionValue2.setText( DEUtil.resolveNull( inputHandle.getValue2( ) ) );
+				expressionValue1.setText( DEUtil.resolveNull( filterCondition.getValue1( ) ) );
+				expressionValue2.setText( DEUtil.resolveNull( filterCondition.getValue2( ) ) );
 			}
 
 		}
@@ -1225,7 +1225,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	 */
 	public void updateHandle( FilterConditionHandle handle, int handleCount )
 	{
-		this.inputHandle = handle;
+		this.filterCondition = handle;
 	}
 
 	/*
@@ -1292,7 +1292,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	 */
 	public FilterConditionHandle getInputHandle( )
 	{
-		return inputHandle;
+		return filterCondition;
 	}
 
 	/**
@@ -1495,21 +1495,21 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	protected void syncViewProperties( )
 	{
 
-		expression.setText( DEUtil.resolveNull( inputHandle.getExpr( ) ) );
-		operator.select( getIndexForOperatorValue( inputHandle.getOperator( ) ) );
-		valueVisible = determineValueVisible( inputHandle.getOperator( ) );
+		expression.setText( DEUtil.resolveNull( filterCondition.getExpr( ) ) );
+		operator.select( getIndexForOperatorValue( filterCondition.getOperator( ) ) );
+		valueVisible = determineValueVisible( filterCondition.getOperator( ) );
 
 		if ( valueVisible == 3 )
 		{
 			createValueListComposite( operator.getParent( ) );
-			valueList = new ArrayList( inputHandle.getValue1List( ) );
+			valueList = new ArrayList( filterCondition.getValue1List( ) );
 			tableViewer.setInput( valueList );
 		}
 		else
 		{
 			create2ValueComposite( operator.getParent( ) );
-			expressionValue1.setText( DEUtil.resolveNull( inputHandle.getValue1( ) ) );
-			expressionValue2.setText( DEUtil.resolveNull( inputHandle.getValue2( ) ) );
+			expressionValue1.setText( DEUtil.resolveNull( filterCondition.getValue1( ) ) );
+			expressionValue2.setText( DEUtil.resolveNull( filterCondition.getValue2( ) ) );
 		}
 
 		if ( valueVisible == 0 )
@@ -1555,7 +1555,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	{
 		try
 		{
-			if ( inputHandle == null )
+			if ( filterCondition == null )
 			{
 				FilterCondition filter = StructureFactory.createFilterCond( );
 				filter.setProperty( FilterCondition.OPERATOR_MEMBER,
@@ -1591,11 +1591,11 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 			}
 			else
 			{
-				inputHandle.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
+				filterCondition.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
 				if ( valueVisible == 3 )
 				{
-					inputHandle.setValue1( valueList );
-					inputHandle.setValue2( NULL_STRING );
+					filterCondition.setValue1( valueList );
+					filterCondition.setValue2( NULL_STRING );
 				}
 				else
 				{
@@ -1603,23 +1603,23 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 					assert ( !expressionValue2.isDisposed( ) );
 					if ( expressionValue1.getVisible( ) )
 					{
-						inputHandle.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
+						filterCondition.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
 					}
 					else
 					{
-						inputHandle.setValue1( NULL_STRING );
+						filterCondition.setValue1( NULL_STRING );
 					}
 
 					if ( expressionValue2.getVisible( ) )
 					{
-						inputHandle.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
+						filterCondition.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
 					}
 					else
 					{
-						inputHandle.setValue2( NULL_STRING );
+						filterCondition.setValue2( NULL_STRING );
 					}
 				}
-				inputHandle.setExpr( DEUtil.resolveNull( expression.getText( ) ) );
+				filterCondition.setExpr( DEUtil.resolveNull( expression.getText( ) ) );
 			}
 		}
 		catch ( Exception e )
@@ -1684,17 +1684,17 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	/**
 	 * Sets the model input.
 	 * 
-	 * @param input
+	 * @param sortKey
 	 */
 	public void setInput( Object inputHandle )
 	{
 		if ( inputHandle instanceof FilterConditionHandle )
 		{
-			this.inputHandle = (FilterConditionHandle) inputHandle;
+			this.filterCondition = (FilterConditionHandle) inputHandle;
 		}
 		else
 		{
-			this.inputHandle = null;
+			this.filterCondition = null;
 		}
 
 	}

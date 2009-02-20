@@ -43,7 +43,7 @@ public class CutHandler extends SelectionHandler
 		Object selection = getElementHandles().toArray( );
 		if ( Policy.TRACING_ACTIONS )
 		{
-			System.out.println( "Cut action >> Cut " + selection ); //$NON-NLS-1$
+			System.out.println( "Cut action >> Cut " + selection.toString( ) ); //$NON-NLS-1$
 		}
 		Object cloneElements = DNDUtil.cloneSource( selection );
 		DeleteAction action = createDeleteAction( selection );

@@ -43,7 +43,7 @@ public class CopyCellContentsHandler extends SelectionHandler
 
 		if ( Policy.TRACING_ACTIONS )
 		{
-			System.out.println( "Copy action >> Copy " + selections ); //$NON-NLS-1$
+			System.out.println( "Copy action >> Copy " + selections.toString( ) ); //$NON-NLS-1$
 		}
 		Object cloneElements = DNDUtil.cloneSource( cellHandle.getContent( )
 				.getContents( )

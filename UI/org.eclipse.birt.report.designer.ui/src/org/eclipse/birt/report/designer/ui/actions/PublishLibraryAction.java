@@ -111,15 +111,19 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 			}
 		}
 
-		PublishLibraryWizard publishLibrary = new PublishLibraryWizard( libHandle,
-				fileName,
-				ReportPlugin.getDefault( ).getResourceFolder( ) );
+		if( fileName != null && libHandle != null )
+		{
+			PublishLibraryWizard publishLibrary = new PublishLibraryWizard( libHandle,
+					fileName,
+					ReportPlugin.getDefault( ).getResourceFolder( ) );
 
-		WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
-				publishLibrary );
+			WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
+					publishLibrary );
 
-		dialog.setPageSize( 500, 250 );
-		dialog.open( );
+			dialog.setPageSize( 500, 250 );
+			dialog.open( );
+		}
+
 	}
 
 	/*

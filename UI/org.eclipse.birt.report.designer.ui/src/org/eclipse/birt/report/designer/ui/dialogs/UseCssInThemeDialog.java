@@ -62,7 +62,7 @@ import org.eclipse.swt.widgets.Text;
 public class UseCssInThemeDialog extends TitleAreaDialog
 {
 
-	protected Logger logger = Logger.getLogger( UseCssInThemeDialog.class.getName( ) );
+	protected final Logger logger = Logger.getLogger( UseCssInThemeDialog.class.getName( ) );
 
 	private final static String DIALOG_TITLE = Messages.getString( "UseCssInReportDialog.Wizard.Title" ); //$NON-NLS-1$
 	private final static String TITLE_AREA_TITLE = Messages.getString( "UseCssInThemeDialog.TitleArea.Title" ); //$NON-NLS-1$
@@ -197,7 +197,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 		createFileNameComposite( topComposite );
 		createStyleComposite( topComposite );
 
-		InitializeContents( );
+		initializeContents( );
 		UIUtil.bindHelp( parent, IHelpContextIds.USE_CSS_IN_REPORT_DIALOG_ID );
 
 		this.setTitle( areaTitle );
@@ -207,7 +207,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 
 	}
 
-	protected void InitializeContents( )
+	protected void initializeContents( )
 	{
 		if ( fileName != null )
 		{

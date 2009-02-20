@@ -36,7 +36,7 @@ public class CopyHandler extends SelectionHandler
 		
 		if ( Policy.TRACING_ACTIONS )
 		{
-			System.out.println( "Copy action >> Copy " + selection ); //$NON-NLS-1$
+			System.out.println( "Copy action >> Copy " + selection.toString( ) ); //$NON-NLS-1$
 		}
 		Object cloneElements = DNDUtil.cloneSource( selection );
 		if(cloneElements != null)
