@@ -90,11 +90,11 @@ MeasureSubNodeProvider.Aggregation=Agregación
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=Nivel de grupo
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Error
-SortkeyBuilder.DialogTitle.Label.Key=&Key:
+SortkeyBuilder.DialogTitle.Label.Key=&Clave:
 CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Destino
-CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Group &Level:
+CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Nivel de &grupo:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Hacer clic para llamar al compilador de expresiones
-SortkeyBuilder.DialogTitle.Label.Direction=&Direction:
+SortkeyBuilder.DialogTitle.Label.Direction=Di&rección
 
 ###########################################################
 #GrossTabPageGenerator properties
@@ -160,8 +160,8 @@ FilterConditionBuilder.DialogTitle.Edit=Editar condición de filtro
 FilterConditionBuilder.choice.ValueOfThisDataItem=Valor de este elemento de datos
 FilterConditionBuilder.tooltip.ExpBuilder=Hacer clic para llamar al compilador de expresiones.
 FilterConditionBuilder.text.AND=Y
-FilterConditionBuilder.text.Condition=Filter &Condition:
-FilterConditionBuilder.text.GroupLevel=Group &Level:
+FilterConditionBuilder.text.Condition=&Condición de filtro:
+FilterConditionBuilder.text.GroupLevel=Nivel de &grupo:
 FilterConditionBuilder.list.item1=Valor
 FilterConditionBuilder.button.edit=Editar...
 FilterConditionBuilder.button.delete=Quitar
@@ -175,8 +175,8 @@ CrosstabFilterConditionBuilder.DialogMessage.New=Seleccione el nivel de grupo al
 CrosstabFilterConditionBuilder.DialogMessage.Edit=Seleccione el nivel de grupo al que aplicar el filtro y, a continuación, establezca la condición de filtro.
 CrosstabFilterConditionBuilder.label.value=Valor
 CrosstabFilterConditionBuilder.Label.Target=Destino: 
-CrosstabFilterConditionBuilder.Button.GroupLevel=&Group Level
-CrosstabFilterConditionBuilder.Button.Measure=&Measure
+CrosstabFilterConditionBuilder.Button.GroupLevel=&Nivel de grupo
+CrosstabFilterConditionBuilder.Button.Measure=&Medida
 
 FilterbyTree.Bindings.Catogory.Measures=Medida
 FilterbyTree.Bindings.Catogory.Dimension=Dimensión
@@ -235,8 +235,8 @@ CrosstabPageGenerator.List.GrandTotals=Totales generales
 CrosstabPageGenerator.List.PageBreak=Salto de página
 
 PageLayoutPropertyDescriptorProvider.PageLayout=Diseño de página:
-RowPageBreak.RepeatColumnHeader=Repeat &Column Header
-ColumnPageBreak.RepeatRowHeader=Re&peat Row Header
+RowPageBreak.RepeatColumnHeader=Repetir &encabezado de columna
+ColumnPageBreak.RepeatRowHeader=Re&petir encabezado de fila
 
 ###########################################################
 #ExpressionValueCellEditor properties
@@ -249,8 +249,8 @@ CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Seleccionar columna Valor de m
 CrosstabSortKeyBuilder.Label.SelRowMemberValue=Seleccionar fila Valor de miembro
 CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Seleccionar columna Valor de miembro
 CrosstabFilterConditionBuilder.Label.SelRowMemberValue=Seleccionar fila Valor de miembro
-CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel=Group &Level:
-CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=Mea&sure:
+CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel=Nivel de &grupo:
+CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=Me&dida:
 SelColumnMemberValue.Column.Level=Nivel
 SelColumnMemberValue.Column.Value=Valor
 ChoiceSetFactory.choice.None=Ninguno

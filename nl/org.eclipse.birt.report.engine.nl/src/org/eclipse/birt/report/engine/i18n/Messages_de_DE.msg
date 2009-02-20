@@ -90,7 +90,7 @@ Error.ReportDesignNotFoundError = Berichtdesign in Berichtdokument nicht gefunde
 Error.PreparedQueryNotFoundError = Vorbereitete Abfrage nicht gefunden: {0}.
 Error.IncorrectParentResultSetError = Falsches übergeordnetes Ergebnis für Unterabfrage: {0}.
 Error.UnsupportedQueryTypeError = Nicht unterstützter Abfragetyp: {0}.
-Error.QueryNotBuiltError = Fail to build query for element: {0}.
+Error.QueryNotBuiltError = Fehler beim Erstellen der Abfrage für Element: {0}.
 
 Error.RenderTaskNotFinishedError = Rendern noch nicht abgeschlossen.
 Error.RenderOptionError = Zum Rendern eines Berichts müssen Renderoptionen angegeben werden.

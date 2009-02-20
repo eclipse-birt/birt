@@ -1354,12 +1354,12 @@ Element.Toc.Sytle=样式(&Y)
 ###########################################################
 #EmbeddedImageNodeProvider properties
 
-EmbeddedImageNodeProvider.action.New=New Em&bedded Image
+EmbeddedImageNodeProvider.action.New=新建嵌入图像(&B)
 
 ###########################################################
 #EmbeddedImagesNodeProvider properties
 
-EmbeddedImagesNodeProvider.action.New=New Em&bedded Image
+EmbeddedImagesNodeProvider.action.New=新建嵌入图像(&B)
 
 ###########################################################
 #ElementIdDescriptorProvider properties
@@ -1824,7 +1824,7 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz  (font size =
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=此数据项的值
 HighlightRuleBuilderDialog.text.AND=与
 HighlightRuleBuilderDialog.text.Any=任意
-HighlightRuleBuilderDialog.text.BackgroundColor=&Background Color:
+HighlightRuleBuilderDialog.text.BackgroundColor=背景色(&B):
 HighlightRuleBuilderDialog.text.Between=介于
 HighlightRuleBuilderDialog.text.Color=颜色(&C):
 HighlightRuleBuilderDialog.text.Default=自动
@@ -1850,7 +1850,7 @@ HighlightRuleBuilderDialog.tooltip.Bold=粗体
 HighlightRuleBuilderDialog.tooltip.Italic=斜体
 HighlightRuleBuilderDialog.tooltip.Underline=下划线
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=文本删除线
-HighlightRuleBuilderDialog.text.applyStyle=Apply St&yle:
+HighlightRuleBuilderDialog.text.applyStyle=应用样式(&Y):
 HighlightRuleBuilderDialog.displayText.None=无
 HighlightRuleBuilderDialog.text.Description=向 {0} 应用条件格式。请指定条件表达式和格式。\n如果表达式判定为“真”，则将应用格式。
 HighlightRuleBuilderDialog.text.Description.Element.Table=表
@@ -2097,7 +2097,7 @@ InputParameterDialog.ErrorTitle.Error=错误
 ###########################################################
 #InsertAction properties
 
-InsertAction.text=I&nsert Element
+InsertAction.text=插入元素(&N)
 
 ###########################################################
 #InsertColumnAction properties
@@ -2367,7 +2367,7 @@ MapPreferencePage.toolTipText.Down=映射规则下移
 
 MapRuleBuilder.DialogTitle.New=新建映射规则
 MapRuleBuilder.DialogTitle.Edit=编辑映射规则
-MapRuleBuilder.Button.ResourceKey=Resource &Key:
+MapRuleBuilder.Button.ResourceKey=资源关键字(&K):
 MapRuleBuilder.Button.Reset=重置(&R)
 
 
@@ -2395,8 +2395,8 @@ SortkeyBuilder.DialogTitle.Edit=编辑排序关键字
 SortkeyBuilder.DialogMessage.New=请填充下列内容以创建排序关键字。
 SortkeyBuilder.DialogMessage.Edit=请编辑下列内容以更新排序关键字。
 SortkeyBuilder.DialogTitle.Label.Prompt=输入用作排序依据的关键字:
-SortkeyBuilder.DialogTitle.Label.Key=&Key:
-SortkeyBuilder.DialogTitle.Label.Direction=&Direction:
+SortkeyBuilder.DialogTitle.Label.Key=关键字(&K):
+SortkeyBuilder.DialogTitle.Label.Direction=方向(&D):
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=打开表达式生成器
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=错误
 
@@ -2701,10 +2701,10 @@ ParameterDialog.Boolean.True=真
 ParameterDialog.Button.ChangeFormat=更改(&G)...
 ParameterDialog.Button.CreateDataSet=新建(&W)...
 ParameterDialog.Button.ImportValue=导入值(&U)...
-ParameterDialog.Button.RemoveDefault=Remove Def&ault
+ParameterDialog.Button.RemoveDefault=删除默认值(&A)
 ParameterDialog.Button.SetDefault=设为默认值(&A)
 ParameterDialog.CheckBox.IsRequired=必需(&Q)
-ParameterDialog.CheckBox.DoNotEchoInput=Do not ech&o input
+ParameterDialog.CheckBox.DoNotEchoInput=不回显输入内容(&O)
 ParameterDialog.CheckBox.Hidden=隐藏(&H)
 ParameterDialog.CheckBox.Distinct=允许重复值(&L)
 ParameterDialog.Choice.NoDefault=无默认值
@@ -2753,7 +2753,7 @@ ParameterDialog.Label.Null=NULL
 ParameterDialog.Label.Preview=带格式预览
 ParameterDialog.Label.PromptText=提示文本(&P):
 ParameterDialog.Label.SelectDataSet=数据集(&A):
-ParameterDialog.Label.SortKey=Sort &by:
+ParameterDialog.Label.SortKey=排序依据(&B):
 ParameterDialog.Label.SortDirection=排序方向(&C):
 ParameterDialog.SelectionDialog.New=新建选择选项
 ParameterDialog.SelectionDialog.Label.DisplayTextKey=显示文本关键字(&K):
@@ -3013,7 +3013,7 @@ RefreshLibExplorerAction.Text=刷新
 ###########################################################
 #RemoveLibraryAction properties
 
-RemoveLibraryAction.Text=Remove Li&brary
+RemoveLibraryAction.Text=删除库(&B)
 RemoveLibraryAction.config.Title=确认库删除
 RemoveLibraryAction.config.Message=是否确实要删除此库?
 
@@ -3079,7 +3079,7 @@ report.designer.ui.preferences.library.export.title=在将设计元素导出到库中时覆盖
 report.designer.ui.preferences.template.openDialogTitle=请为模板选择一个文件夹。
 report.designer.ui.preferences.template.select=选择(&S)...
 report.designer.ui.preferences.template.templatedir=模板
-report.designer.ui.preferences.template.templatefolder=&Template folder
+report.designer.ui.preferences.template.templatefolder=模板文件夹(&T)
 report.designer.ui.preferences.template.title=请选择模板文件夹。
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=创建报表设计时生成注释(&G) 
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=版权所有 (c) 2008 <<此处是您公司的名称>>
@@ -3212,11 +3212,11 @@ ResourceEditDialog.text.Add=添加(&A)
 ResourceEditDialog.text.AddWarningMsg=不允许空白键。
 ResourceEditDialog.text.AddWarningTitle=Warning
 ResourceEditDialog.text.Delete=删除(&D)
-ResourceEditDialog.text.Key.TableColumn=Key
-ResourceEditDialog.text.Key=&Key
+ResourceEditDialog.text.Key.TableColumn=关键字
+ResourceEditDialog.text.Key=关键字(&K)
 ResourceEditDialog.text.QuickAdd=快速添加
 ResourceEditDialog.text.Value.TableColumn=值
-ResourceEditDialog.text.Value=&Value
+ResourceEditDialog.text.Value=值(&V)
 
 ###########################################################
 #ResourceKeyDescriptor properties
@@ -3519,7 +3519,7 @@ TableOptionDialog.text.TableDetail=明细数据数(&D):
 TableOptionDialog.text.TableSize=表大小
 TableOptionDialog.title.InsertGrid=插入网格
 TableOptionDialog.title.InsertTable=插入表
-TableOptionDialog.text.DataSet=Data &Set:
+TableOptionDialog.text.DataSet=数据集(&S):
 
 ###########################################################
 #TablePageGenerator properties
@@ -4175,9 +4175,9 @@ ThumbnailBuilder.Button.Text.Browse=浏览(&B)...
 ThumbnailBuilder.FileDialog.Title=选择图像文件
 ThumbnailBuilder.FileDialog.FileNameError.Title=错误
 ThumbnailBuilder.FileDialog.FileNameError.Message=您选择的文件不是图像。
-ThumbnailBuilder.Button.GenerateFromReport=Ge&nerate from the report
-ThumbnailBuilder.Button.BrowseFromFileSystem=&Browse from file system
-ThumbnailBuilder.Button.ImportFromResource=&Import from shared resources
+ThumbnailBuilder.Button.GenerateFromReport=从报表生成(&N)
+ThumbnailBuilder.Button.BrowseFromFileSystem=从文件系统浏览(&B)
+ThumbnailBuilder.Button.ImportFromResource=从共享资源导入(&I)
 ThumbnailBuilder.Image.DefaultName=缩略图
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=警告
 ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=您选择了大图像(大于 1014x768)，可能导致内存不足异常。\n是否继续?

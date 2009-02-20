@@ -10,4 +10,4 @@
 ###############################################################################
 
 preference.chart=グラフ
-menu.lable.chart=&Chart
+menu.lable.chart=グラフ(&C)

@@ -43,7 +43,7 @@ Property.literalString=String literal
 Property.element=Elemento
 Property.structRef=Referencia de estructura
 Property.contentElement=Elemento como valor de la propiedad
-Property.locale=Locale
+Property.locale=Configuración regional
 
 ###########################################################
 # Choice values
@@ -2013,27 +2013,27 @@ Structure.CachedMetaData.resultSet=Columnas de conjuntos de resultados
 #19. NumberFormatValue
 Structure.NumberFormatValue.category=Categoría
 Structure.NumberFormatValue.pattern=Patrón
-Structure.NumberFormatValue.locale=Locale
+Structure.NumberFormatValue.locale=Configuración regional
 
 #20. StringFormatValue
 Structure.StringFormatValue.category=Categoría
 Structure.StringFormatValue.pattern=Patrón
-Structure.StringFormatValue.locale=Locale
+Structure.StringFormatValue.locale=Configuración regional
 
 #21. DateTimeFormatValue
 Structure.DateTimeFormatValue.category=Categoría
 Structure.DateTimeFormatValue.pattern=Patrón
-Structure.DateTimeFormatValue.locale=Locale
+Structure.DateTimeFormatValue.locale=Configuración regional
 
 #21. DateFormatValue
 Structure.DateFormatValue.category=Categoría
 Structure.DateFormatValue.pattern=Patrón
-Structure.DateFormatValue.locale=Locale
+Structure.DateFormatValue.locale=Configuración regional
 
 #21. TimeFormatValue
 Structure.TimeFormatValue.category=Categoría
 Structure.TimeFormatValue.pattern=Patrón
-Structure.TimeFormatValue.locale=Locale
+Structure.TimeFormatValue.locale=Configuración regional
 
 #22. UserMethod
 Structure.UserMethod.name=Nombre
@@ -2054,7 +2054,7 @@ Structure.JoinCondition.rightExpression=Expresión derecha
 #25. ParameterFormatValue
 Structure.ParameterFormatValue.category=Categoría
 Structure.ParameterFormatValue.pattern=Patrón
-Structure.ParameterFormatValue.locale=Locale
+Structure.ParameterFormatValue.locale=Configuración regional
 
 #26. OdaDesignerState
 Structure.OdaDesignerState.version=Versión

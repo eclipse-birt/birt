@@ -1354,12 +1354,12 @@ Element.Toc.Sytle=Es&tilo
 ###########################################################
 #EmbeddedImageNodeProvider properties
 
-EmbeddedImageNodeProvider.action.New=New Em&bedded Image
+EmbeddedImageNodeProvider.action.New=Nueva &imagen incrustada
 
 ###########################################################
 #EmbeddedImagesNodeProvider properties
 
-EmbeddedImagesNodeProvider.action.New=New Em&bedded Image
+EmbeddedImagesNodeProvider.action.New=Nueva &imagen incrustada
 
 ###########################################################
 #ElementIdDescriptorProvider properties
@@ -1824,7 +1824,7 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz (tamaño de fuente =
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=Valor de este elemento de datos
 HighlightRuleBuilderDialog.text.AND=Y
 HighlightRuleBuilderDialog.text.Any=es cualquiera
-HighlightRuleBuilderDialog.text.BackgroundColor=&Background Color:
+HighlightRuleBuilderDialog.text.BackgroundColor=&Color de fondo:
 HighlightRuleBuilderDialog.text.Between=Está entre
 HighlightRuleBuilderDialog.text.Color=&Color:
 HighlightRuleBuilderDialog.text.Default=Automático
@@ -1850,7 +1850,7 @@ HighlightRuleBuilderDialog.tooltip.Bold=Negrita
 HighlightRuleBuilderDialog.tooltip.Italic=Cursiva
 HighlightRuleBuilderDialog.tooltip.Underline=Subrayado
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=Línea a través del texto
-HighlightRuleBuilderDialog.text.applyStyle=Apply St&yle:
+HighlightRuleBuilderDialog.text.applyStyle=Aplicar est&ilo:
 HighlightRuleBuilderDialog.displayText.None=Ninguno
 HighlightRuleBuilderDialog.text.Description=Aplique formato condicional a {0}. Especifique la expresión y el formato condicional.\nEl formato se aplicará si la expresión se evalúa con True.
 HighlightRuleBuilderDialog.text.Description.Element.Table=tabla
@@ -2097,7 +2097,7 @@ InputParameterDialog.ErrorTitle.Error=Error
 ###########################################################
 #InsertAction properties
 
-InsertAction.text=I&nsert Element
+InsertAction.text=I&nsertar elemento
 
 ###########################################################
 #InsertColumnAction properties
@@ -2367,7 +2367,7 @@ MapPreferencePage.toolTipText.Down=Mover regla de asignación hacia abajo
 
 MapRuleBuilder.DialogTitle.New=Nueva regla de asignación
 MapRuleBuilder.DialogTitle.Edit=Editar regla de asignación
-MapRuleBuilder.Button.ResourceKey=Resource &Key:
+MapRuleBuilder.Button.ResourceKey=Clave de &recursos:
 MapRuleBuilder.Button.Reset=&Restablecer
 
 
@@ -2395,8 +2395,8 @@ SortkeyBuilder.DialogTitle.Edit=Editar clave de ordenación
 SortkeyBuilder.DialogMessage.New=Rellene el siguiente contenido para crear una clave de ordenación.
 SortkeyBuilder.DialogMessage.Edit=Edite el siguiente contenido para actualizar la clave de ordenación.
 SortkeyBuilder.DialogTitle.Label.Prompt=Introducir una clave para ordenar según:
-SortkeyBuilder.DialogTitle.Label.Key=&Key:
-SortkeyBuilder.DialogTitle.Label.Direction=&Direction:
+SortkeyBuilder.DialogTitle.Label.Key=&Clave:
+SortkeyBuilder.DialogTitle.Label.Direction=Di&rección
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Abrir el compilador de expresiones
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Error
 
@@ -2701,10 +2701,10 @@ ParameterDialog.Boolean.True=True
 ParameterDialog.Button.ChangeFormat=Camb&iar...
 ParameterDialog.Button.CreateDataSet=Crear nue&vo...
 ParameterDialog.Button.ImportValue=Importar valor&es...
-ParameterDialog.Button.RemoveDefault=Remove Def&ault
+ParameterDialog.Button.RemoveDefault=Quitar pre&determinado
 ParameterDialog.Button.SetDefault=Configurar &como predeterminada
 ParameterDialog.CheckBox.IsRequired=&Es necesario
-ParameterDialog.CheckBox.DoNotEchoInput=Do not ech&o input
+ParameterDialog.CheckBox.DoNotEchoInput=No realizar comando &eco de entrada
 ParameterDialog.CheckBox.Hidden=&Oculto
 ParameterDialog.CheckBox.Distinct=Permitir va&lores duplicados
 ParameterDialog.Choice.NoDefault=Ningún valor predeterminado
@@ -2753,7 +2753,7 @@ ParameterDialog.Label.Null=Nulo
 ParameterDialog.Label.Preview=Vista previa con formato
 ParameterDialog.Label.PromptText=Texto de solicit&ud:
 ParameterDialog.Label.SelectDataSet=Conjunto de &datos:
-ParameterDialog.Label.SortKey=Sort &by:
+ParameterDialog.Label.SortKey=Ordenar &por:
 ParameterDialog.Label.SortDirection=Dire&cción de orden:
 ParameterDialog.SelectionDialog.New=Nueva opción de selección
 ParameterDialog.SelectionDialog.Label.DisplayTextKey=&Visualizar clave de texto:
@@ -3013,7 +3013,7 @@ RefreshLibExplorerAction.Text=Actualizar
 ###########################################################
 #RemoveLibraryAction properties
 
-RemoveLibraryAction.Text=Remove Li&brary
+RemoveLibraryAction.Text=Quitar li&brería
 RemoveLibraryAction.config.Title=Confirmar eliminación de librería
 RemoveLibraryAction.config.Message=¿Desea eliminar esta librería?
 
@@ -3079,7 +3079,7 @@ report.designer.ui.preferences.library.export.title=Sobrescribir elemento existe
 report.designer.ui.preferences.template.openDialogTitle=Seleccione una carpeta para plantillas.
 report.designer.ui.preferences.template.select=Sel&eccionar...
 report.designer.ui.preferences.template.templatedir=plantillas
-report.designer.ui.preferences.template.templatefolder=&Template folder
+report.designer.ui.preferences.template.templatefolder=&Carpeta de plantillas
 report.designer.ui.preferences.template.title=Seleccione la carpeta de plantillas.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=&Generar comentario al crear un diseño de informe 
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<ponga el nombre de su empresa aquí>>
@@ -3212,11 +3212,11 @@ ResourceEditDialog.text.Add=&Añadir
 ResourceEditDialog.text.AddWarningMsg=No se permiten claves en blanco.
 ResourceEditDialog.text.AddWarningTitle=Warning
 ResourceEditDialog.text.Delete=&Eliminar
-ResourceEditDialog.text.Key.TableColumn=Key
-ResourceEditDialog.text.Key=&Key
+ResourceEditDialog.text.Key.TableColumn=Clave
+ResourceEditDialog.text.Key=&Clave
 ResourceEditDialog.text.QuickAdd=Añadir rápido
 ResourceEditDialog.text.Value.TableColumn=Valor
-ResourceEditDialog.text.Value=&Value
+ResourceEditDialog.text.Value=&Valor
 
 ###########################################################
 #ResourceKeyDescriptor properties
@@ -3519,7 +3519,7 @@ TableOptionDialog.text.TableDetail=Número de deta&lles:
 TableOptionDialog.text.TableSize=Tamaño de tabla
 TableOptionDialog.title.InsertGrid=Insertar cuadrícula
 TableOptionDialog.title.InsertTable=Insertar tabla
-TableOptionDialog.text.DataSet=Data &Set:
+TableOptionDialog.text.DataSet=Conjunto de d&atos:
 
 ###########################################################
 #TablePageGenerator properties
@@ -4175,9 +4175,9 @@ ThumbnailBuilder.Button.Text.Browse=&Examinar...
 ThumbnailBuilder.FileDialog.Title=Seleccionar archivo de imagen
 ThumbnailBuilder.FileDialog.FileNameError.Title=Error
 ThumbnailBuilder.FileDialog.FileNameError.Message=El archivo seleccionado no es una imagen.
-ThumbnailBuilder.Button.GenerateFromReport=Ge&nerate from the report
-ThumbnailBuilder.Button.BrowseFromFileSystem=&Browse from file system
-ThumbnailBuilder.Button.ImportFromResource=&Import from shared resources
+ThumbnailBuilder.Button.GenerateFromReport=Ge&nerar desde el informe
+ThumbnailBuilder.Button.BrowseFromFileSystem=&Examinar en el sistema de archivos
+ThumbnailBuilder.Button.ImportFromResource=&Importar desde los recursos compartidos
 ThumbnailBuilder.Image.DefaultName=Imagen en miniatura
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=Advertencia
 ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=Ha seleccionado una imagen de gran tamaño (superior a 1014 x 768) que puede provocar una excepción por memoria insuficiente.\n¿Desea continuar?

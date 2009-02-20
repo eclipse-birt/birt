@@ -1354,12 +1354,12 @@ Element.Toc.Sytle=스타일(&Y)
 ###########################################################
 #EmbeddedImageNodeProvider properties
 
-EmbeddedImageNodeProvider.action.New=New Em&bedded Image
+EmbeddedImageNodeProvider.action.New=새 포함 이미지(&B)
 
 ###########################################################
 #EmbeddedImagesNodeProvider properties
 
-EmbeddedImagesNodeProvider.action.New=New Em&bedded Image
+EmbeddedImagesNodeProvider.action.New=새 포함 이미지(&B)
 
 ###########################################################
 #ElementIdDescriptorProvider properties
@@ -1824,7 +1824,7 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz(글꼴 크기 =
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=이 데이터 항목 값
 HighlightRuleBuilderDialog.text.AND=및
 HighlightRuleBuilderDialog.text.Any=모두
-HighlightRuleBuilderDialog.text.BackgroundColor=&Background Color:
+HighlightRuleBuilderDialog.text.BackgroundColor=배경색(&B):
 HighlightRuleBuilderDialog.text.Between=사이에 있음
 HighlightRuleBuilderDialog.text.Color=색상(&C):
 HighlightRuleBuilderDialog.text.Default=자동
@@ -1850,7 +1850,7 @@ HighlightRuleBuilderDialog.tooltip.Bold=굵게
 HighlightRuleBuilderDialog.tooltip.Italic=기울임꼴
 HighlightRuleBuilderDialog.tooltip.Underline=밑줄
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=텍스트 가운데 선 긋기
-HighlightRuleBuilderDialog.text.applyStyle=Apply St&yle:
+HighlightRuleBuilderDialog.text.applyStyle=스타일 적용(&Y):
 HighlightRuleBuilderDialog.displayText.None=없음
 HighlightRuleBuilderDialog.text.Description={0}에 조건부 서식을 적용합니다. 조건식 및 서식을 지정하십시오.\n조건식 계산 결과가 True인 경우 서식이 적용됩니다.
 HighlightRuleBuilderDialog.text.Description.Element.Table=표
@@ -2097,7 +2097,7 @@ InputParameterDialog.ErrorTitle.Error=오류
 ###########################################################
 #InsertAction properties
 
-InsertAction.text=I&nsert Element
+InsertAction.text=요소 삽입(&N)
 
 ###########################################################
 #InsertColumnAction properties
@@ -2367,7 +2367,7 @@ MapPreferencePage.toolTipText.Down=맵 규칙 아래로 이동
 
 MapRuleBuilder.DialogTitle.New=새 맵 규칙
 MapRuleBuilder.DialogTitle.Edit=맵 규칙 편집
-MapRuleBuilder.Button.ResourceKey=Resource &Key:
+MapRuleBuilder.Button.ResourceKey=리소스 키(&K):
 MapRuleBuilder.Button.Reset=재설정(&R)
 
 
@@ -2395,8 +2395,8 @@ SortkeyBuilder.DialogTitle.Edit=정렬 키 편집
 SortkeyBuilder.DialogMessage.New=정렬 키를 만들기 위해 다음 내용을 입력하십시오.
 SortkeyBuilder.DialogMessage.Edit=정렬 키를 업데이트하기 위해 다음 내용을 편집하십시오.
 SortkeyBuilder.DialogTitle.Label.Prompt=정렬할 키 입력:
-SortkeyBuilder.DialogTitle.Label.Key=&Key:
-SortkeyBuilder.DialogTitle.Label.Direction=&Direction:
+SortkeyBuilder.DialogTitle.Label.Key=키(&K):
+SortkeyBuilder.DialogTitle.Label.Direction=방향(&D):
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=식 빌더 열기
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=오류
 
@@ -2701,10 +2701,10 @@ ParameterDialog.Boolean.True=TRUE
 ParameterDialog.Button.ChangeFormat=변경(&G)...
 ParameterDialog.Button.CreateDataSet=새로 생성(&W)...
 ParameterDialog.Button.ImportValue=값 가져오기(&U)...
-ParameterDialog.Button.RemoveDefault=Remove Def&ault
+ParameterDialog.Button.RemoveDefault=기본값 제거(&A)
 ParameterDialog.Button.SetDefault=기본값으로 설정(&A)
 ParameterDialog.CheckBox.IsRequired=필요(&Q)
-ParameterDialog.CheckBox.DoNotEchoInput=Do not ech&o input
+ParameterDialog.CheckBox.DoNotEchoInput=입력 반향 안 함(&O)
 ParameterDialog.CheckBox.Hidden=숨김(&H)
 ParameterDialog.CheckBox.Distinct=중복 값 허용(&L)
 ParameterDialog.Choice.NoDefault=기본값 없음
@@ -2753,7 +2753,7 @@ ParameterDialog.Label.Null=널(null)
 ParameterDialog.Label.Preview=형식 미리 보기
 ParameterDialog.Label.PromptText=프롬프트 텍스트(&P):
 ParameterDialog.Label.SelectDataSet=데이터 집합(&A):
-ParameterDialog.Label.SortKey=Sort &by:
+ParameterDialog.Label.SortKey=정렬 기준(&B):
 ParameterDialog.Label.SortDirection=정렬 방향(C):
 ParameterDialog.SelectionDialog.New=새 선택 항목
 ParameterDialog.SelectionDialog.Label.DisplayTextKey=표시 텍스트 키(&K):
@@ -3013,7 +3013,7 @@ RefreshLibExplorerAction.Text=새로 고침
 ###########################################################
 #RemoveLibraryAction properties
 
-RemoveLibraryAction.Text=Remove Li&brary
+RemoveLibraryAction.Text=라이브러리 제거(&B)
 RemoveLibraryAction.config.Title=라이브러리 제거 확인
 RemoveLibraryAction.config.Message=이 라이브러리를 제거하시겠습니까?
 
@@ -3079,7 +3079,7 @@ report.designer.ui.preferences.library.export.title=디자인 요소를 라이브러리로 �
 report.designer.ui.preferences.template.openDialogTitle=템플릿 폴더를 선택하십시오.
 report.designer.ui.preferences.template.select=선택(&S)...
 report.designer.ui.preferences.template.templatedir=템플릿
-report.designer.ui.preferences.template.templatefolder=&Template folder
+report.designer.ui.preferences.template.templatefolder=템플릿 폴더(&T)
 report.designer.ui.preferences.template.title=템플릿 폴더를 선택하십시오.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=보고서 디자인 생성 시 설명 작성(&G) 
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<회사 이름>>
@@ -3212,11 +3212,11 @@ ResourceEditDialog.text.Add=추가(&A)
 ResourceEditDialog.text.AddWarningMsg=빈 키는 허용되지 않습니다.
 ResourceEditDialog.text.AddWarningTitle=Warning
 ResourceEditDialog.text.Delete=삭제(&D)
-ResourceEditDialog.text.Key.TableColumn=Key
-ResourceEditDialog.text.Key=&Key
+ResourceEditDialog.text.Key.TableColumn=키
+ResourceEditDialog.text.Key=키(&K)
 ResourceEditDialog.text.QuickAdd=빠른 추가
 ResourceEditDialog.text.Value.TableColumn=값
-ResourceEditDialog.text.Value=&Value
+ResourceEditDialog.text.Value=값(&V)
 
 ###########################################################
 #ResourceKeyDescriptor properties
@@ -3519,7 +3519,7 @@ TableOptionDialog.text.TableDetail=상세 정보 개수(&D):
 TableOptionDialog.text.TableSize=테이블 크기
 TableOptionDialog.title.InsertGrid=눈금 삽입
 TableOptionDialog.title.InsertTable=테이블 삽입
-TableOptionDialog.text.DataSet=Data &Set:
+TableOptionDialog.text.DataSet=데이터 집합(&S):
 
 ###########################################################
 #TablePageGenerator properties
@@ -4175,9 +4175,9 @@ ThumbnailBuilder.Button.Text.Browse=찾아보기(&B)...
 ThumbnailBuilder.FileDialog.Title=이미지 파일 선택
 ThumbnailBuilder.FileDialog.FileNameError.Title=오류
 ThumbnailBuilder.FileDialog.FileNameError.Message=선택한 파일이 이미지가 아닙니다.
-ThumbnailBuilder.Button.GenerateFromReport=Ge&nerate from the report
-ThumbnailBuilder.Button.BrowseFromFileSystem=&Browse from file system
-ThumbnailBuilder.Button.ImportFromResource=&Import from shared resources
+ThumbnailBuilder.Button.GenerateFromReport=보고서에서 생성(&N)
+ThumbnailBuilder.Button.BrowseFromFileSystem=파일 시스템에서 찾아보기(&B)
+ThumbnailBuilder.Button.ImportFromResource=공유 리소스에서 가져오기(&I)
 ThumbnailBuilder.Image.DefaultName=축소판 이미지
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=경고
 ThumbnailBuilder.PreviewImage.WarningDialog.Prompt=너무 큰 이미지(1014x768 이상)를 선택하여 메모리 부족 예외가 발생할 수 있습니다.\n계속하시겠습니까?

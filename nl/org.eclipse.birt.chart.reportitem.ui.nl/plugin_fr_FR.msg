@@ -10,4 +10,4 @@
 ###############################################################################
 
 preference.chart=Graphique
-menu.lable.chart=&Chart
+menu.lable.chart=&Graphique

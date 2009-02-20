@@ -11,5 +11,5 @@ ZAxis=Axe de profondeur
 Plot=Tracé
 Legend=Légende
 Title=Titre
-preference.chart.fieldassist=Field Assist
-preference.chart.fieldassist.contentassist=Content Assist
+preference.chart.fieldassist=Assistant de champ
+preference.chart.fieldassist.contentassist=Assistant de contenu

@@ -90,7 +90,7 @@ Error.ReportDesignNotFoundError = No se puede encontrar el diseño de informe en 
 Error.PreparedQueryNotFoundError = No se puede encontrar la consulta preparada {0}.
 Error.IncorrectParentResultSetError = Conjunto de resultados principal para subconsulta incorrecto: {0}.
 Error.UnsupportedQueryTypeError = Tipo de consulta no admitido {0}.
-Error.QueryNotBuiltError = Fail to build query for element: {0}.
+Error.QueryNotBuiltError = Error al crear una consulta para el elemento: {0}.
 
 Error.RenderTaskNotFinishedError = La tarea de procesamiento no se ha finalizado.
 Error.RenderOptionError = Se deben especificar las opciones de procesamiento para procesar un informe.

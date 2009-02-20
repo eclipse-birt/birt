@@ -43,7 +43,7 @@ Property.literalString=リテラル文字列
 Property.element=要素
 Property.structRef=構造参照
 Property.contentElement=プロパティ値としての要素
-Property.locale=Locale
+Property.locale=ロケール
 
 ###########################################################
 # Choice values
@@ -2013,27 +2013,27 @@ Structure.CachedMetaData.resultSet=結果セット列
 #19. NumberFormatValue
 Structure.NumberFormatValue.category=カテゴリ
 Structure.NumberFormatValue.pattern=パターン
-Structure.NumberFormatValue.locale=Locale
+Structure.NumberFormatValue.locale=ロケール
 
 #20. StringFormatValue
 Structure.StringFormatValue.category=カテゴリ
 Structure.StringFormatValue.pattern=パターン
-Structure.StringFormatValue.locale=Locale
+Structure.StringFormatValue.locale=ロケール
 
 #21. DateTimeFormatValue
 Structure.DateTimeFormatValue.category=カテゴリ
 Structure.DateTimeFormatValue.pattern=パターン
-Structure.DateTimeFormatValue.locale=Locale
+Structure.DateTimeFormatValue.locale=ロケール
 
 #21. DateFormatValue
 Structure.DateFormatValue.category=カテゴリ
 Structure.DateFormatValue.pattern=パターン
-Structure.DateFormatValue.locale=Locale
+Structure.DateFormatValue.locale=ロケール
 
 #21. TimeFormatValue
 Structure.TimeFormatValue.category=カテゴリ
 Structure.TimeFormatValue.pattern=パターン
-Structure.TimeFormatValue.locale=Locale
+Structure.TimeFormatValue.locale=ロケール
 
 #22. UserMethod
 Structure.UserMethod.name=名前
@@ -2054,7 +2054,7 @@ Structure.JoinCondition.rightExpression=右側の式
 #25. ParameterFormatValue
 Structure.ParameterFormatValue.category=カテゴリ
 Structure.ParameterFormatValue.pattern=パターン
-Structure.ParameterFormatValue.locale=Locale
+Structure.ParameterFormatValue.locale=ロケール
 
 #26. OdaDesignerState
 Structure.OdaDesignerState.version=バージョン

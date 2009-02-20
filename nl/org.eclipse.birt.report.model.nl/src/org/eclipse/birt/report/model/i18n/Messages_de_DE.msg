@@ -43,7 +43,7 @@ Property.literalString=Literalzeichenfolge
 Property.element=Element
 Property.structRef=Strukturbezug
 Property.contentElement=Element als Eigenschaftswert
-Property.locale=Locale
+Property.locale=Gebietsschema
 
 ###########################################################
 # Choice values
@@ -2013,27 +2013,27 @@ Structure.CachedMetaData.resultSet=Ergebnis Satzspalten
 #19. NumberFormatValue
 Structure.NumberFormatValue.category=Kategorie
 Structure.NumberFormatValue.pattern=Zusammengesetzter Ausdruck
-Structure.NumberFormatValue.locale=Locale
+Structure.NumberFormatValue.locale=Gebietsschema
 
 #20. StringFormatValue
 Structure.StringFormatValue.category=Kategorie
 Structure.StringFormatValue.pattern=Zusammengesetzter Ausdruck
-Structure.StringFormatValue.locale=Locale
+Structure.StringFormatValue.locale=Gebietsschema
 
 #21. DateTimeFormatValue
 Structure.DateTimeFormatValue.category=Kategorie
 Structure.DateTimeFormatValue.pattern=Zusammengesetzter Ausdruck
-Structure.DateTimeFormatValue.locale=Locale
+Structure.DateTimeFormatValue.locale=Gebietsschema
 
 #21. DateFormatValue
 Structure.DateFormatValue.category=Kategorie
 Structure.DateFormatValue.pattern=Zusammengesetzter Ausdruck
-Structure.DateFormatValue.locale=Locale
+Structure.DateFormatValue.locale=Gebietsschema
 
 #21. TimeFormatValue
 Structure.TimeFormatValue.category=Kategorie
 Structure.TimeFormatValue.pattern=Zusammengesetzter Ausdruck
-Structure.TimeFormatValue.locale=Locale
+Structure.TimeFormatValue.locale=Gebietsschema
 
 #22. UserMethod
 Structure.UserMethod.name=Name
@@ -2054,7 +2054,7 @@ Structure.JoinCondition.rightExpression=Rechter Ausdruck
 #25. ParameterFormatValue
 Structure.ParameterFormatValue.category=Kategorie
 Structure.ParameterFormatValue.pattern=Zusammengesetzter Ausdruck
-Structure.ParameterFormatValue.locale=Locale
+Structure.ParameterFormatValue.locale=Gebietsschema
 
 #26. OdaDesignerState
 Structure.OdaDesignerState.version=Version

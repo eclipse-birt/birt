@@ -110,7 +110,7 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=계산된 열 "{0}"에 대한 값을 
 data.engine.ScriptResult.WrongSystemComputedColumn=정렬, 그룹 또는 필터 식에서 값을 계산하지 못했습니다.
 data.engine.ComputedColumnCycle=계산 열 "{0}"에 종속 사이클이 형성되어 있습니다.
 
-data.engine.SortOnAggregation=Exists an invalid Sort whose sort key refers to an Aggregation "{0}".
+data.engine.SortOnAggregation=정렬 키가 집계 "{0}"을(를) 참조하는 잘못된 정렬이 있습니다.
 
 data.engine.BadFilterExpr=필터 식 "{0}"이(가) 잘못되었습니다.
 data.engine.BadFilterDefn=식 "{0}"을(를) 사용한 필터 정의가 잘못되었습니다.

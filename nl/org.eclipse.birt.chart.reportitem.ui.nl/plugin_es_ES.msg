@@ -10,4 +10,4 @@
 ###############################################################################
 
 preference.chart=Diagrama
-menu.lable.chart=&Chart
+menu.lable.chart=&Diagrama

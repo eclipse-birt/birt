@@ -10,4 +10,4 @@
 ###############################################################################
 
 preference.chart=차트
-menu.lable.chart=&Chart
+menu.lable.chart=차트(&C)

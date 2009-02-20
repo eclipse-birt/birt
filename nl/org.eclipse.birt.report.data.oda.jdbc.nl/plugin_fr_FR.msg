@@ -27,17 +27,17 @@ datasource.property.odaDataSource=Source de données
 datasource.property.odaUser=&Nom d'utilisateur
 datasource.property.odaPassword=&Mot de passe
 datasource.property.odaJndiURL=&URL JNDI
-datasource.property.autocommit= &Auto Commit
-datasource.property.isolationmode=&Isolation Mode
+datasource.property.autocommit= Validation &automatique
+datasource.property.isolationmode=Mode &isolation
 dataset.query.sqltype=Requête de sélection SQL
 dataset.query.sptype=Requête de procédure stockée SQL
 dataset.property.queryTimeOut=Délai d'expiration de re&quête (en secondes)
-dataset.connection.autocommit.false=false
-dataset.connection.autocommit.true=true
-dataset.connection.isolationmode.read-uncommitted=read-uncommitted
-dataset.connection.isolationmode.read-committed=read-committed
-dataset.connection.isolationmode.repeatable-read=repeatable-read
-dataset.connection.isolationmode.serializable=serializable
+dataset.connection.autocommit.false=faux
+dataset.connection.autocommit.true=vrai
+dataset.connection.isolationmode.read-uncommitted=lecture non validée
+dataset.connection.isolationmode.read-committed=lecture validée
+dataset.connection.isolationmode.repeatable-read=lecture renouvelable
+dataset.connection.isolationmode.serializable=sérialisable
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
