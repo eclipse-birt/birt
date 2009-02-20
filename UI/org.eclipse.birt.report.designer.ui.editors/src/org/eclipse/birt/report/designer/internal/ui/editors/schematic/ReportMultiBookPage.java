@@ -322,14 +322,10 @@ public class ReportMultiBookPage extends Page implements
 
 		public void setActionBars( IActionBars actionBars )
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		public void setFocus( )
 		{
-			// TODO Auto-generated method stub
-
 		}
 	}
 

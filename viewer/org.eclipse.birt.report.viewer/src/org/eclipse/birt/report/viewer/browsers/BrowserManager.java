@@ -94,7 +94,7 @@ public class BrowserManager
 	 * 
 	 * @return browser manager instance
 	 */
-	public static BrowserManager getInstance( )
+	synchronized public static BrowserManager getInstance( )
 	{
 		if ( instance == null )
 		{

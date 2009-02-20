@@ -21,8 +21,6 @@ import java.util.logging.Level;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
-import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.extension.IUseCubeQueryList;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
@@ -30,8 +28,9 @@ import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.MapHandleProvider;
@@ -591,8 +590,8 @@ public class MapRuleBuilder extends BaseDialog
 				if ( result.length( ) == 0 )
 				{
 					MessageDialog.openInformation( getShell( ),
-							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Title" ),
-							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Msg" ) );
+							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Title" ), //$NON-NLS-1$
+							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Msg" ) ); //$NON-NLS-1$
 					return;
 				}
 				int index = table.getSelectionIndex( );
@@ -650,17 +649,10 @@ public class MapRuleBuilder extends BaseDialog
 		addBtn.setText( Messages.getString( "FilterConditionBuilder.button.add" ) ); //$NON-NLS-1$
 		addBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( addBtn );
-		addBtn.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
+		addBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				String value = addExpressionValue.getText( ).trim( );
 				if ( valueList.indexOf( value ) < 0 )
 				{
@@ -706,16 +698,10 @@ public class MapRuleBuilder extends BaseDialog
 			column.setText( columNames[i] );
 			column.setWidth( columLength[i] );
 		}
-		table.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-			}
+		table.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				checkEditDelButtonStatus( );
 			}
 		} );
@@ -724,7 +710,6 @@ public class MapRuleBuilder extends BaseDialog
 
 			public void keyPressed( KeyEvent e )
 			{
-				// TODO Auto-generated method stub
 				if ( e.keyCode == SWT.DEL )
 				{
 					delTableValue( );
@@ -734,8 +719,6 @@ public class MapRuleBuilder extends BaseDialog
 
 			public void keyReleased( KeyEvent e )
 			{
-				// TODO Auto-generated method stub
-
 			}
 
 		} );
@@ -764,17 +747,10 @@ public class MapRuleBuilder extends BaseDialog
 		editBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ) ); //$NON-NLS-1$
 		editBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.edit.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( editBtn );
-		editBtn.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
+		editBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				editTableValue( );
 			}
 
@@ -784,17 +760,10 @@ public class MapRuleBuilder extends BaseDialog
 		delBtn.setText( Messages.getString( "FilterConditionBuilder.button.delete" ) ); //$NON-NLS-1$
 		delBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.delete.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( delBtn );
-		delBtn.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
+		delBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				delTableValue( );
 			}
 
@@ -804,17 +773,10 @@ public class MapRuleBuilder extends BaseDialog
 		delAllBtn.setText( Messages.getString( "FilterConditionBuilder.button.deleteall" ) ); //$NON-NLS-1$
 		delAllBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.deleteall.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( delAllBtn );
-		delAllBtn.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
+		delAllBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// TODO Auto-generated method stub
 				int count = valueList.size( );
 				if ( count > 0 )
 				{
@@ -854,7 +816,6 @@ public class MapRuleBuilder extends BaseDialog
 
 		public String[] doSelection( String input )
 		{
-			// TODO Auto-generated method stub
 			String[] retValue = null;
 
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
@@ -894,7 +855,6 @@ public class MapRuleBuilder extends BaseDialog
 
 		public void doAfterSelection( MultiValueCombo combo )
 		{
-			// TODO Auto-generated method stub
 			mAddSelValueAction.doAfterSelection( combo );
 		}
 
@@ -904,7 +864,6 @@ public class MapRuleBuilder extends BaseDialog
 
 		public String[] doSelection( String input )
 		{
-			// TODO Auto-generated method stub
 			String[] retValue = null;
 
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
@@ -1017,8 +976,6 @@ public class MapRuleBuilder extends BaseDialog
 
 		public void doAfterSelection( MultiValueCombo combo )
 		{
-			// TODO Auto-generated method stub
-
 			addBtn.setEnabled( false );
 
 			if ( addExpressionValue.getSelStrings( ).length == 1 )
@@ -1053,13 +1010,11 @@ public class MapRuleBuilder extends BaseDialog
 
 		public Image getColumnImage( Object element, int columnIndex )
 		{
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		public String getColumnText( Object element, int columnIndex )
 		{
-			// TODO Auto-generated method stub
 			if ( columnIndex == 0 )
 			{
 				return (String) element;
@@ -1069,26 +1024,19 @@ public class MapRuleBuilder extends BaseDialog
 
 		public void addListener( ILabelProviderListener listener )
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		public void dispose( )
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		public boolean isLabelProperty( Object element, String property )
 		{
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		public void removeListener( ILabelProviderListener listener )
 		{
-			// TODO Auto-generated method stub
-
 		}
 	};
 
@@ -1096,20 +1044,15 @@ public class MapRuleBuilder extends BaseDialog
 
 		public void dispose( )
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		public void inputChanged( Viewer viewer, Object oldInput,
 				Object newInput )
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		public Object[] getElements( Object inputElement )
 		{
-			// TODO Auto-generated method stub
 			if ( inputElement == null )
 			{
 				return new Object[0];
@@ -1270,7 +1213,6 @@ public class MapRuleBuilder extends BaseDialog
 		{
 			String retValue = null;
 
-			// TODO Auto-generated method stub
 			ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getActiveShell( ),
@@ -1294,7 +1236,7 @@ public class MapRuleBuilder extends BaseDialog
 		public String doSelection( String input )
 		{
 			String retValue = null;
-			// TODO Auto-generated method stub
+
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 			{
 				String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
@@ -1759,15 +1701,15 @@ public class MapRuleBuilder extends BaseDialog
 		return dummy;
 	}
 
-	private Text createText( Composite parent )
-	{
-		Text txt = new Text( parent, SWT.BORDER );
-		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.widthHint = 100;
-		txt.setLayoutData( gdata );
-
-		return txt;
-	}
+	// private Text createText( Composite parent )
+	// {
+	// Text txt = new Text( parent, SWT.BORDER );
+	// GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
+	// gdata.widthHint = 100;
+	// txt.setLayoutData( gdata );
+	//
+	// return txt;
+	// }
 
 	/*
 	 * Update handle for the Map Rule builder
@@ -1825,12 +1767,12 @@ public class MapRuleBuilder extends BaseDialog
 
 	private void fillExpression( Combo control )
 	{
-		String te = "";//$NON-NLS-1$
-
-		if ( handle != null )
-		{
-			te = handle.getTestExpression( );
-		}
+		//		String te = "";//$NON-NLS-1$
+		//
+		// if ( handle != null )
+		// {
+		// te = handle.getTestExpression( );
+		// }
 
 		// String te = provider.getTestExpression( );
 
@@ -2137,7 +2079,7 @@ public class MapRuleBuilder extends BaseDialog
 		}
 		catch ( Exception e )
 		{
-			WidgetUtil.processError( getShell( ), e );
+			ExceptionUtil.handle( e );
 		}
 
 		super.okPressed( );

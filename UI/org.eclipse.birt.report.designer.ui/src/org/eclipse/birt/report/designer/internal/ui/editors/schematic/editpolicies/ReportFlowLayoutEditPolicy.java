@@ -115,7 +115,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 	 */
 	protected Command createAddCommand( EditPart child, EditPart after )
 	{
-		return createAddCommand( null, child, after );
+		return null;
 	}
 
 	/*

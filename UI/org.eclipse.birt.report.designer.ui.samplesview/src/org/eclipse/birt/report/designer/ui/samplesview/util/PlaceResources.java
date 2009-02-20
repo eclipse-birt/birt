@@ -85,14 +85,27 @@ public class PlaceResources
 		}
 		finally
 		{
-			try
+			if ( input != null )
 			{
-				input.close( );
-				output.close( );
+				try
+				{
+					input.close( );
+				}
+				catch ( IOException e )
+				{
+					ExceptionHandler.handle( e );
+				}
 			}
-			catch ( IOException e )
+			if ( output != null )
 			{
-				ExceptionHandler.handle( e );
+				try
+				{
+					output.close( );
+				}
+				catch ( IOException e )
+				{
+					ExceptionHandler.handle( e );
+				}
 			}
 		}
 	}
