@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.command;
 
+import java.util.Arrays;
+
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -43,7 +45,7 @@ public class CopyCellContentsHandler extends SelectionHandler
 
 		if ( Policy.TRACING_ACTIONS )
 		{
-			System.out.println( "Copy action >> Copy " + selections.toString( ) ); //$NON-NLS-1$
+			System.out.println( "Copy action >> Copy " + Arrays.toString( selections ) ); //$NON-NLS-1$
 		}
 		Object cloneElements = DNDUtil.cloneSource( cellHandle.getContent( )
 				.getContents( )

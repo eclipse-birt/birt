@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.command;
 
+import java.util.Arrays;
+
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -32,11 +34,11 @@ public class CopyHandler extends SelectionHandler
 	{
 		super.execute( event );
 
-		Object selection = getElementHandles().toArray( );
+		Object[] selection = getElementHandles().toArray( );
 		
 		if ( Policy.TRACING_ACTIONS )
 		{
-			System.out.println( "Copy action >> Copy " + selection.toString( ) ); //$NON-NLS-1$
+			System.out.println( "Copy action >> Copy " + Arrays.toString( selection ) ); //$NON-NLS-1$
 		}
 		Object cloneElements = DNDUtil.cloneSource( selection );
 		if(cloneElements != null)
