@@ -2072,6 +2072,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ICellModel.ANTIDIAGONAL_THICKNESS_PROP );
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 		property( obj, IDesignElementModel.NEW_HANDLER_ON_EACH_EVENT_PROP );
+		property( obj, ICellModel.SCOPE_PROP );
+		property( obj, ICellModel.BOOKMARK_PROP );
+		property( obj, ICellModel.HEADERS_PROP );
 		property( obj, ICellModel.ON_PREPARE_METHOD );
 		property( obj, ICellModel.ON_CREATE_METHOD );
 		property( obj, ICellModel.ON_RENDER_METHOD );

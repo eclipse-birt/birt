@@ -499,4 +499,89 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 				antidiagonalStyle );
 	}
 
+	/**
+	 * Sets the scope value of the cell.The input value is one of the constants
+	 * defined in <code>DesignChoiceConstants</code>:
+	 * 
+	 * <ul>
+	 * <li><code>SCOPE_TYPE_ROW</code></li>
+	 * <li><code>SCOPE_TYPE_COL</code></li>
+	 * <li><code>SCOPE_TYPE_ROWGROUP</code></li>
+	 * <li><code>SCOPE_TYPE_COLGROUP</code></li>
+	 * </ul>
+	 * 
+	 * @param scope
+	 *            the scope
+	 * @throws SemanticException
+	 *             if the input value is not one of the above values.
+	 */
+	public void setScope( String scope ) throws SemanticException
+	{
+		setStringProperty( ICellModel.SCOPE_PROP, scope );
+	}
+
+	/**
+	 * Gets the scope value of the cell.The return value is one of the constants
+	 * defined in <code>DesignChoiceConstants</code>:
+	 * 
+	 * <ul>
+	 * <li><code>SCOPE_TYPE_ROW</code></li>
+	 * <li><code>SCOPE_TYPE_COL</code></li>
+	 * <li><code>SCOPE_TYPE_ROWGROUP</code></li>
+	 * <li><code>SCOPE_TYPE_COLGROUP</code></li>
+	 * </ul>
+	 * 
+	 * @return the scope.
+	 */
+	public String getScope( )
+	{
+		return getStringProperty( ICellModel.SCOPE_PROP );
+	}
+
+	/**
+	 * Sets the book mark value on the cell element.
+	 * 
+	 * @param bookmark
+	 *            the book mark.
+	 * @throws SemanticException
+	 *             if this property is locked.
+	 */
+	public void setBookmark( String bookmark ) throws SemanticException
+	{
+		setStringProperty( ICellModel.BOOKMARK_PROP, bookmark );
+	}
+
+	/**
+	 * Gets the book mark value on the cell element.
+	 * 
+	 * @return the book mark value.
+	 */
+	public String getBookmark( )
+	{
+		return getStringProperty( ICellModel.BOOKMARK_PROP );
+	}
+
+	/**
+	 * Gets the headers value on the cell element.
+	 * 
+	 * @return the headers value.
+	 */
+	public String getHeaders( )
+	{
+		return getStringProperty( ICellModel.HEADERS_PROP );
+	}
+
+	/**
+	 * Sets the headers value on the cell element.
+	 * 
+	 * @param headers
+	 *            the headers value.
+	 * @throws SemanticException
+	 *             if this property is locked.
+	 */
+	public void setHeaders( String headers ) throws SemanticException
+	{
+		setStringProperty( ICellModel.HEADERS_PROP, headers );
+	}
+
 }

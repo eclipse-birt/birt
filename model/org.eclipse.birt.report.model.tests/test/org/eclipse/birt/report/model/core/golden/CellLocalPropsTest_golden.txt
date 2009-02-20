@@ -6,6 +6,9 @@ height
 width
 eventHandlerClass
 newHandlerOnEachEvent
+scope
+bookmark
+headers
 viewAction
 diagonalNumber
 antidiagonalNumber

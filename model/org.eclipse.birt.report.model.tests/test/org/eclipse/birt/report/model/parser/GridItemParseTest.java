@@ -103,17 +103,9 @@ public class GridItemParseTest extends ParserTestCase
 {
 
 	String fileName = "GridItemParseTest.xml"; //$NON-NLS-1$
-	String outFileName = "GridItemParseTest_out.xml"; //$NON-NLS-1$
 	String goldenFileName = "GridItemParseTest_golden.xml"; //$NON-NLS-1$
 	String semanticCheckFileName = "GridItemParseTest_1.xml"; //$NON-NLS-1$
 
-	/*
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
 
 	/**
 	 * Test parser and its properties.
@@ -207,6 +199,11 @@ public class GridItemParseTest extends ParserTestCase
 		dimensionHandle = cell.getAntidiagonalThickness( );
 		assertEquals( "20mm", dimensionHandle.getStringValue( ) ); //$NON-NLS-1$
 
+		assertEquals( DesignChoiceConstants.SCOPE_TYPE_ROWGROUP, cell
+				.getScope( ) );
+		assertEquals( "bookmark for cell", cell.getBookmark( ) ); //$NON-NLS-1$
+		assertEquals( "headers for cell", cell.getHeaders( ) ); //$NON-NLS-1$
+
 		// reads in a grid that exists in the components.
 
 		grid = (GridHandle) designHandle.findElement( "componentsGrid" ); //$NON-NLS-1$
@@ -296,6 +293,10 @@ public class GridItemParseTest extends ParserTestCase
 		cell.setProperty( ICellModel.DIAGONAL_THICKNESS_PROP, "1.5mm" ); //$NON-NLS-1$
 		cell.setProperty( ICellModel.ANTIDIAGONAL_THICKNESS_PROP, "2.5mm" ); //$NON-NLS-1$
 
+		cell.setScope( DesignChoiceConstants.SCOPE_TYPE_COL );
+		cell.setBookmark( "new bookmark for cell" );//$NON-NLS-1$
+		cell.setHeaders( "new headers for cell" );//$NON-NLS-1$
+
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
 	}
@@ -308,23 +309,23 @@ public class GridItemParseTest extends ParserTestCase
 	public void testSemanticCheck( ) throws Exception
 	{
 		openDesign( semanticCheckFileName );
-		List errors = design.getErrorList( );
+		List<ErrorDetail> errors = design.getErrorList( );
 		this.printSemanticErrors( );
 		assertEquals( 3, errors.size( ) );
 
 		int i = 0;
 
-		ErrorDetail error = ( (ErrorDetail) errors.get( i++ ) );
+		ErrorDetail error = errors.get( i++ );
 		assertEquals( "First grid", error.getElement( ).getName( ) ); //$NON-NLS-1$
 		assertEquals(
 				SemanticError.DESIGN_EXCEPTION_INCONSITENT_GRID_COL_COUNT,
 				error.getErrorCode( ) );
 
-		error = ( (ErrorDetail) errors.get( i++ ) );
+		error = errors.get( i++ );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS, error
 				.getErrorCode( ) );
 
-		error = ( (ErrorDetail) errors.get( i++ ) );
+		error = errors.get( i++ );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS, error
 				.getErrorCode( ) );
 	}

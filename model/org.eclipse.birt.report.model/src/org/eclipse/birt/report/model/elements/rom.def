@@ -586,6 +586,12 @@
     <Choice displayNameID="Choices.bidiDirection.ltr" name="ltr"/>
     <Choice displayNameID="Choices.bidiDirection.rtl" name="rtl"/>
   </ChoiceType>
+  <ChoiceType name="scopeType">
+  	<Choice displayNameID="Choices.scopeType.row" name="row"/>
+  	<Choice displayNameID="Choices.scopeType.col" name="col"/>
+  	<Choice displayNameID="Choices.scopeType.rowgroup" name="rowgroup"/>
+  	<Choice displayNameID="Choices.scopeType.colgroup" name="colgroup"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -3003,6 +3009,9 @@
     <Property displayNameID="Element.Cell.newHandlerOnEachEvent" name="newHandlerOnEachEvent" runtimeSettable="true" since="2.5" type="boolean">
     	<Default>false</Default>
     </Property>
+    <Property detailType="scopeType" displayNameID="Element.Cell.scope" name="scope" runtimeSettable="false" since="2.5" type="choice"/>
+    <Property displayNameID="Element.Cell.bookmark" name="bookmark" returnType="string" runtimeSettable="false" since="2.5" type="expression"/>
+    <Property displayNameID="Element.Cell.headers" name="headers" returnType="string" runtimeSettable="false" since="2.5" type="expression"/>
     <Property canInherit="false" detailType="viewAction" displayNameID="Element.Cell.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
     	<Default>NoChange</Default>
     </Property>

@@ -78,6 +78,9 @@
         			<property name="antidiagonalThickness">20mm</property>
         			<property name="diagonalStyle">solid</property>
         			<property name="antidiagonalStyle">dashed</property>
+        			<property name="scope">rowgroup</property>
+        			<expression name="bookmark">bookmark for cell</expression>
+        			<expression name="headers">headers for cell</expression>
                     <label name="address">
                         <property name="x">1.1mm</property>
                         <property name="y">2.2mm</property>

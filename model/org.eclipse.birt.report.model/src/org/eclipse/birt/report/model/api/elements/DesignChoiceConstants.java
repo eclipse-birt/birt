@@ -918,4 +918,13 @@ public interface DesignChoiceConstants
 	public static final String CHOICE_BIDI_DIRECTION = "bidiDirection"; //$NON-NLS-1$
 	public static final String BIDI_DIRECTION_RTL = "rtl"; //$NON-NLS-1$
 	public static final String BIDI_DIRECTION_LTR = "ltr"; //$NON-NLS-1$
+
+	/**
+	 * Choice constants for scope type.
+	 */
+	public static final String CHOICE_SCOPE_TYPE = "scopeType"; //$NON-NLS-1$
+	public static final String SCOPE_TYPE_ROW = "row"; //$NON-NLS-1$
+	public static final String SCOPE_TYPE_COL = "col"; //$NON-NLS-1$
+	public static final String SCOPE_TYPE_ROWGROUP = "rowgroup"; //$NON-NLS-1$
+	public static final String SCOPE_TYPE_COLGROUP = "colgroup"; //$NON-NLS-1$
 };

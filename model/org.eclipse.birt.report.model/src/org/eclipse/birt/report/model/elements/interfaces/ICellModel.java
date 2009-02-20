@@ -129,4 +129,21 @@ public interface ICellModel
 	 */
 	public static final String ANTIDIAGONAL_STYLE_PROP = "antidiagonalStyle"; //$NON-NLS-1$
 
+	/**
+	 * Name of the scope property that defines the current cell provides header
+	 * information for the container where the cell locates in.
+	 */
+	public static final String SCOPE_PROP = "scope"; //$NON-NLS-1$
+
+	/**
+	 * Name of the book mark property which specifies the id of header cells.
+	 */
+	public static final String BOOKMARK_PROP = "bookmark"; //$NON-NLS-1$
+
+	/**
+	 * Name of the headers property. User can choose book mark defined as
+	 * headers of the data cell.
+	 */
+	public static final String HEADERS_PROP = "headers"; //$NON-NLS-1$
+
 }
