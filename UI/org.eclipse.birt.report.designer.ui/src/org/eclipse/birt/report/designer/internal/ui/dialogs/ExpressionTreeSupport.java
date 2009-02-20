@@ -24,25 +24,21 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionCategory;
 import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.aggregation.AggregationUtil;
-import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IIndexInfo;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.expressions.IContextExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
@@ -89,8 +85,6 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	private static final Image IMAGE_FOLDER = ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJ_FOLDER );
 
 	private static final Image IMAGE_OPERATOR = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR );
-
-	private static final Image IMAGE_COLUMN = getIconImage( IReportGraphicConstants.ICON_DATA_COLUMN );
 
 	private static final Image IMAGE_GOLBAL = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_GLOBAL );
 
@@ -197,8 +191,6 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 	private static final String TREE_ITEM_BIRT_OBJECTS = Messages.getString( "ExpressionProvider.Category.BirtObjects" ); //$NON-NLS-1$ 
 
-	private static final String TREE_ITEM_DATASETS = Messages.getString( "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
-
 	private static final String TREE_ITEM_PARAMETERS = Messages.getString( "ExpressionProvider.Category.Parameters" ); //$NON-NLS-1$
 
 	private static final String TREE_ITEM_NATIVE_OBJECTS = Messages.getString( "ExpressionProvider.Category.NativeObjects" ); //$NON-NLS-1$
@@ -223,82 +215,202 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	private static final String OBJECTS_TYPE_NATIVE = "native";//$NON-NLS-1$
 	private static final String OBJECTS_TYPE_BIRT = "birt";//$NON-NLS-1$
 
-	/**
-	 * TODO use model constant ?
-	 */
-	private static final String CLIENT_CONTEXT = "client"; //$NON-NLS-1$
-
-	/**
-	 * public tree name constants used to be identified when a filter is added.
-	 */
-	public static final String TREE_NAME_OPERATORS = "Operators"; //$NON-NLS-1$
-	public static final String TREE_NAME_NATIVE_OBJECTS = "Native Objects"; //$NON-NLS-1$
-	public static final String TREE_NAME_BIRT_OBJECTS = "Birt Objects"; //$NON-NLS-1$
-	public static final String TREE_NAME_DATASETS = "DataSets"; //$NON-NLS-1$
-	public static final String TREE_NAME_PARAMETERS = "Parameters"; //$NON-NLS-1$
-	public static final String TREE_NAME_CONTEXT = "Context"; //$NON-NLS-1$
-
 	private SourceViewer expressionViewer;
 	private Tree tree;
 	private DropTarget dropTarget;
 	private DropTargetAdapter dropTargetAdapter;
 
 	private Object currentEditObject;
-	private String currentMethodName, currentContextName;
-	private TreeItem contextItem, dataSetsItem, parametersItem,
-			nativeObejctsItem, birtObjectsItem;
+	private String currentMethodName;
+	private TreeItem contextItem, parametersItem, nativeObejctsItem,
+			birtObjectsItem, operatorsItem;
 	private List<TreeItem> dynamicItems;
+
+	private List staticFilters;
+
+	public ExpressionTreeSupport( )
+	{
+		super( );
+	}
 
 	/**
 	 * Creates all expression trees in default order
-	 * 
-	 * @param dataSetList
-	 *            list for DataSet tree
 	 */
-	public void createDefaultExpressionTree( List dataSetList )
+	public void createDefaultExpressionTree( )
 	{
-		createFilteredExpressionTree( dataSetList, null );
+		createFilteredExpressionTree( null );
 	}
 
 	/**
 	 * Creates selected expression trees with given filter list.
 	 * 
-	 * @param dataSetList
-	 *            list for DataSet tree
 	 * @param filterList
 	 *            list of filters
 	 */
-	public void createFilteredExpressionTree( List dataSetList, List filterList )
+	public void createFilteredExpressionTree( List filterList )
 	{
-		// if ( filter( TREE_NAME_DATASETS, filterList ) )
-		// {
-		// createDataSetsTree( dataSetList );
-		// }
-		if ( filter( TREE_NAME_CONTEXT, filterList ) )
+		this.staticFilters = filterList;
+
+		createExpressionTree( );
+	}
+
+	private void createExpressionTree( )
+	{
+		if ( tree == null || tree.isDisposed( ) )
 		{
-			createContextCatagory( );
-		}
-		if ( filter( TREE_NAME_PARAMETERS, filterList ) )
-		{
-			createParamtersCategory( );
-		}
-		if ( filter( TREE_NAME_NATIVE_OBJECTS, filterList ) )
-		{
-			createNativeObjectsCategory( );
-		}
-		if ( filter( TREE_NAME_BIRT_OBJECTS, filterList ) )
-		{
-			createBirtObjectsCategory( );
-		}
-		if ( filter( TREE_NAME_OPERATORS, filterList ) )
-		{
-			createOperatorsCategory( );
+			return;
 		}
 
-		if ( currentMethodName != null )
+		List<IExpressionProvider> dynamicContextProviders = null;
+		List<ExpressionFilter> dynamicFilters = null;
+
+		if ( currentEditObject != null && currentMethodName != null )
 		{
-			switchContext( );
+			Object[] adapters = ElementAdapterManager.getAdapters( currentEditObject,
+					IContextExpressionProvider.class );
+
+			if ( adapters != null )
+			{
+				for ( Object adapt : adapters )
+				{
+					IContextExpressionProvider contextProvider = (IContextExpressionProvider) adapt;
+
+					if ( contextProvider != null )
+					{
+						IExpressionProvider exprProvider = contextProvider.getExpressionProvider( currentMethodName );
+
+						if ( exprProvider != null )
+						{
+							if ( dynamicContextProviders == null )
+							{
+								dynamicContextProviders = new ArrayList<IExpressionProvider>( );
+							}
+
+							dynamicContextProviders.add( exprProvider );
+						}
+
+						ExpressionFilter exprFilter = contextProvider.getExpressionFilter( currentMethodName );
+
+						if ( exprFilter != null )
+						{
+							if ( dynamicFilters == null )
+							{
+								dynamicFilters = new ArrayList<ExpressionFilter>( );
+							}
+
+							dynamicFilters.add( exprFilter );
+						}
+					}
+				}
+			}
 		}
+
+		List<ExpressionFilter> filters = null;
+
+		if ( staticFilters != null && dynamicFilters != null )
+		{
+			filters = new ArrayList<ExpressionFilter>( );
+			filters.addAll( staticFilters );
+			filters.addAll( dynamicFilters );
+		}
+		else if ( staticFilters != null )
+		{
+			filters = staticFilters;
+		}
+		else if ( dynamicFilters != null )
+		{
+			filters = dynamicFilters;
+		}
+
+		// flag to check if some bulit-in categories need be removed
+		boolean hasContext = false;
+		boolean hasParameters = false;
+		boolean hasNativeObjects = false;
+		boolean hasBirtObjects = false;
+		boolean hasOperators = false;
+
+		// check and create built-in categories
+		if ( filter( ExpressionFilter.CATEGORY,
+				ExpressionFilter.CATEGORY_CONTEXT,
+				filters ) )
+		{
+			hasContext = true;
+			clearSubTreeItem( contextItem );
+			createContextCatagory( );
+		}
+		if ( filter( ExpressionFilter.CATEGORY,
+				ExpressionFilter.CATEGORY_PARAMETERS,
+				filters ) )
+		{
+			hasParameters = true;
+			if ( parametersItem == null || parametersItem.isDisposed( ) )
+			{
+				// only create once
+				createParamtersCategory( );
+			}
+		}
+		if ( filter( ExpressionFilter.CATEGORY,
+				ExpressionFilter.CATEGORY_NATIVE_OBJECTS,
+				filters ) )
+		{
+			hasNativeObjects = true;
+			if ( nativeObejctsItem == null || nativeObejctsItem.isDisposed( ) )
+			{
+				// only create once
+				createNativeObjectsCategory( );
+			}
+		}
+		if ( filter( ExpressionFilter.CATEGORY,
+				ExpressionFilter.CATEGORY_BIRT_OBJECTS,
+				filters ) )
+		{
+			hasBirtObjects = true;
+			if ( birtObjectsItem == null || birtObjectsItem.isDisposed( ) )
+			{
+				// only create once
+				createBirtObjectsCategory( );
+			}
+		}
+		if ( filter( ExpressionFilter.CATEGORY,
+				ExpressionFilter.CATEGORY_OPERATORS,
+				filters ) )
+		{
+			hasOperators = true;
+			if ( operatorsItem == null || operatorsItem.isDisposed( ) )
+			{
+				// only create once
+				createOperatorsCategory( );
+			}
+		}
+
+		if ( !hasContext )
+		{
+			clearTreeItem( contextItem );
+		}
+		if ( !hasParameters )
+		{
+			clearTreeItem( parametersItem );
+		}
+		if ( !hasNativeObjects )
+		{
+			clearTreeItem( nativeObejctsItem );
+		}
+		if ( !hasBirtObjects )
+		{
+			clearTreeItem( birtObjectsItem );
+		}
+		if ( !hasOperators )
+		{
+			clearTreeItem( operatorsItem );
+		}
+
+		clearDynamicItems( );
+
+		if ( dynamicContextProviders != null )
+		{
+			updateDynamicItems( dynamicContextProviders );
+		}
+
 	}
 
 	/**
@@ -310,22 +422,18 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 *            the filter list.
 	 * @return true if the tree name passes the filter list.
 	 */
-	private boolean filter( String treeName, List filters )
+	private boolean filter( Object parent, Object child,
+			List<ExpressionFilter> filters )
 	{
 		if ( filters == null )
 		{
 			return true;
 		}
-		for ( Iterator iter = filters.iterator( ); iter.hasNext( ); )
+		for ( ExpressionFilter ft : filters )
 		{
-			Object obj = iter.next( );
-
-			if ( obj instanceof org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter )
+			if ( ft != null && !ft.select( parent, child ) )
 			{
-				if ( !( (org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter) obj ).select( this, treeName ) )
-				{
-					return false;
-				}
+				return false;
 			}
 		}
 		return true;
@@ -338,14 +446,22 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	protected void createOperatorsCategory( )
 	{
 		assert tree != null;
-		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_OPERATORS );
-		TreeItem subItem = createSubFolderItem( topItem, TREE_ITEM_ASSIGNMENT );
+
+		int idx = getIndex( birtObjectsItem,
+				nativeObejctsItem,
+				parametersItem,
+				contextItem );
+
+		operatorsItem = createTopTreeItem( tree, TREE_ITEM_OPERATORS, idx );
+
+		TreeItem subItem = createSubFolderItem( operatorsItem,
+				TREE_ITEM_ASSIGNMENT );
 		createSubTreeItems( subItem, OPERATORS_ASSIGNMENT, IMAGE_OPERATOR );
-		subItem = createSubFolderItem( topItem, TREE_ITEM_COMPARISON );
+		subItem = createSubFolderItem( operatorsItem, TREE_ITEM_COMPARISON );
 		createSubTreeItems( subItem, OPERATORS_COMPARISON, IMAGE_OPERATOR );
-		subItem = createSubFolderItem( topItem, TREE_ITEM_COMPUTATIONAL );
+		subItem = createSubFolderItem( operatorsItem, TREE_ITEM_COMPUTATIONAL );
 		createSubTreeItems( subItem, OPERATORS_COMPUTATIONAL, IMAGE_OPERATOR );
-		subItem = createSubFolderItem( topItem, TREE_ITEM_LOGICAL );
+		subItem = createSubFolderItem( operatorsItem, TREE_ITEM_LOGICAL );
 		createSubTreeItems( subItem, OPERATORS_LOGICAL, IMAGE_OPERATOR );
 	}
 
@@ -356,7 +472,12 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	protected void createNativeObjectsCategory( )
 	{
 		assert tree != null;
-		nativeObejctsItem = createTopTreeItem( tree, TREE_ITEM_NATIVE_OBJECTS );
+
+		int idx = getIndex( parametersItem, contextItem );
+
+		nativeObejctsItem = createTopTreeItem( tree,
+				TREE_ITEM_NATIVE_OBJECTS,
+				idx );
 		createObjects( nativeObejctsItem, OBJECTS_TYPE_NATIVE );
 	}
 
@@ -367,7 +488,10 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	protected void createParamtersCategory( )
 	{
 		assert tree != null;
-		parametersItem = createTopTreeItem( tree, TREE_ITEM_PARAMETERS );
+
+		int idx = getIndex( contextItem );
+
+		parametersItem = createTopTreeItem( tree, TREE_ITEM_PARAMETERS, idx );
 		buildParameterTree( );
 	}
 
@@ -410,73 +534,34 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	}
 
 	/**
-	 * Create data sets band.Must set Tree before execution.
-	 * 
-	 */
-	protected void createDataSetsCategory( List dataSetList )
-	{
-		assert tree != null;
-		dataSetsItem = createTopTreeItem( tree, TREE_ITEM_DATASETS );
-		buildDataSetsTree( dataSetList );
-	}
-
-	private void buildDataSetsTree( List dataSetList )
-	{
-		clearTreeItem( dataSetsItem );
-		for ( Iterator iterator = dataSetList.iterator( ); iterator.hasNext( ); )
-		{
-			DataSetHandle handle = (DataSetHandle) iterator.next( );
-			TreeItem dataSetItem = createSubTreeItem( dataSetsItem,
-					DEUtil.getDisplayLabel( handle, false ),
-					ReportPlatformUIImages.getImage( handle ),
-					true );
-
-			try
-			{
-				CachedMetaDataHandle cachedMetadata = DataSetUIUtil.getCachedMetaDataHandle( handle );
-				for ( Iterator iter = cachedMetadata.getResultSet( ).iterator( ); iter.hasNext( ); )
-				{
-					ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
-					createSubTreeItem( dataSetItem,
-							element.getColumnName( ),
-							IMAGE_COLUMN,
-							DEUtil.getExpression( element ),
-							element.getColumnName( ),
-							true );
-				}
-			}
-			catch ( SemanticException e )
-			{
-			}
-		}
-	}
-
-	/**
 	 * Creates birt object tree. Must set Tree before execution.
 	 * 
 	 */
 	protected void createBirtObjectsCategory( )
 	{
 		assert tree != null;
-		birtObjectsItem = createTopTreeItem( tree, TREE_ITEM_BIRT_OBJECTS );
+
+		int idx = getIndex( nativeObejctsItem, parametersItem, contextItem );
+
+		birtObjectsItem = createTopTreeItem( tree, TREE_ITEM_BIRT_OBJECTS, idx );
 		createObjects( birtObjectsItem, OBJECTS_TYPE_BIRT );
 	}
 
-	/**
-	 * Creates a top tree item
-	 * 
-	 * @param parent
-	 * @param text
-	 * @return tree item
-	 */
-	private TreeItem createTopTreeItem( Tree parent, String text )
-	{
-		TreeItem item = new TreeItem( parent, SWT.NONE );
-		item.setText( text );
-		item.setImage( IMAGE_FOLDER );
-		item.setData( ITEM_DATA_KEY_TOOLTIP, "" );//$NON-NLS-1$
-		return item;
-	}
+	// /**
+	// * Creates a top tree item
+	// *
+	// * @param parent
+	// * @param text
+	// * @return tree item
+	// */
+	// private TreeItem createTopTreeItem( Tree parent, String text )
+	// {
+	// TreeItem item = new TreeItem( parent, SWT.NONE );
+	// item.setText( text );
+	// item.setImage( IMAGE_FOLDER );
+	//		item.setData( ITEM_DATA_KEY_TOOLTIP, "" );//$NON-NLS-1$
+	// return item;
+	// }
 
 	private TreeItem createTopTreeItem( Tree parent, String text, int index )
 	{
@@ -843,7 +928,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			IMethodInfo[] methods = (IMethodInfo[]) methodList.toArray( new IMethodInfo[0] );
 			for ( int i = 0; i < methods.length; i++ )
 			{
-				IMethodInfo mi = (IMethodInfo) methods[i];
+				IMethodInfo mi = methods[i];
 				processMethods( classInfo, mi, childrenList );
 			}
 
@@ -925,7 +1010,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		}
 	}
 
-	public void sortLocalizableInfo( ILocalizableInfo[][] infos )
+	private void sortLocalizableInfo( ILocalizableInfo[][] infos )
 	{
 		Arrays.sort( infos, new Comparator<ILocalizableInfo[]>( ) {
 
@@ -949,8 +1034,8 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 			public int compare( ILocalizableInfo[] o1, ILocalizableInfo[] o2 )
 			{
-				ILocalizableInfo info1 = ( (ILocalizableInfo[]) o1 )[1];
-				ILocalizableInfo info2 = ( (ILocalizableInfo[]) o2 )[1];
+				ILocalizableInfo info1 = o1[1];
+				ILocalizableInfo info2 = o2[1];
 
 				int w1 = computeWeight( info1 );
 				int w2 = computeWeight( info2 );
@@ -965,7 +1050,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		} );
 	}
 
-	public Image getImage( Object element )
+	private Image getImage( Object element )
 	{
 		if ( element instanceof ILocalizableInfo[] )
 		{
@@ -994,7 +1079,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		return null;
 	}
 
-	public String getInsertText( Object element )
+	private String getInsertText( Object element )
 	{
 		if ( element instanceof VariableElementHandle )
 		{
@@ -1033,7 +1118,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		return null;
 	}
 
-	public String getTooltipText( Object element )
+	private String getTooltipText( Object element )
 	{
 		if ( element instanceof ILocalizableInfo[] )
 		{
@@ -1047,7 +1132,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			{
 				tooltip = ( (IMethodInfo) info ).getToolTip( );
 			}
-			return tooltip == null ? "" : tooltip;
+			return tooltip == null ? "" : tooltip; //$NON-NLS-1$
 		}
 		return null;
 	}
@@ -1169,17 +1254,21 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		{
 			if ( category.getName( ) != null )
 			{
-				textData.append( category.getName( ) + "." );//$NON-NLS-1$
+				textData.append( category.getName( ) + "." ); //$NON-NLS-1$
 			}
 		}
-		textData.append( function.getName( ) + "()" );
+		textData.append( function.getName( ) + "()" ); //$NON-NLS-1$
 		return textData.toString( );
 	}
 
 	protected void createContextCatagory( )
 	{
 		assert tree != null;
-		contextItem = createTopTreeItem( tree, TREE_ITEM_CONTEXT );
+
+		if ( contextItem == null || contextItem.isDisposed( ) )
+		{
+			contextItem = createTopTreeItem( tree, TREE_ITEM_CONTEXT, 0 );
+		}
 		createContextObjects( currentMethodName );
 	}
 
@@ -1189,12 +1278,8 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 */
 	protected void createContextObjects( String methodName )
 	{
-		if ( contextItem != null
-				&& !contextItem.isDisposed( )
-				&& currentEditObject != null
-				&& methodName != null )
+		if ( currentEditObject != null && methodName != null )
 		{
-			clearTreeItem( contextItem );
 			DesignElementHandle handle = (DesignElementHandle) currentEditObject;
 			List args = DEUtil.getDesignElementMethodArgumentsInfo( handle,
 					methodName );
@@ -1214,8 +1299,6 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	public void setCurrentEditObject( Object obj )
 	{
 		this.currentEditObject = obj;
-		clearTreeItem( contextItem );
-		clearDynamicItems( );
 	}
 
 	private void clearTreeItem( TreeItem treeItem )
@@ -1224,13 +1307,19 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		{
 			return;
 		}
+		treeItem.dispose( );
+	}
+
+	private void clearSubTreeItem( TreeItem treeItem )
+	{
+		if ( treeItem == null || treeItem.isDisposed( ) )
+		{
+			return;
+		}
 		TreeItem[] items = treeItem.getItems( );
 		for ( int i = 0; i < items.length; i++ )
 		{
-			if ( items[i] != null && !items[i].isDisposed( ) )
-			{
-				items[i].dispose( );
-			}
+			clearTreeItem( items[i] );
 		}
 	}
 
@@ -1240,10 +1329,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		{
 			for ( TreeItem ti : dynamicItems )
 			{
-				if ( ti != null && !ti.isDisposed( ) )
-				{
-					ti.dispose( );
-				}
+				clearTreeItem( ti );
 			}
 
 			dynamicItems.clear( );
@@ -1272,109 +1358,20 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 					IPropertyDefn elePropDefn = (IPropertyDefn) sel[0];
 
 					currentMethodName = elePropDefn.getName( );
-					currentContextName = elePropDefn.getContext( );
 
-					switchContext( );
+					createExpressionTree( );
 				}
 			}
 		}
 	}
 
-	protected void switchContext( )
+	private void updateDynamicItems( List<IExpressionProvider> providers )
 	{
-
-		if ( tree == null || tree.isDisposed( ) )
+		for ( IExpressionProvider exprProvider : providers )
 		{
-			return;
-		}
-
-		createContextObjects( currentMethodName );
-
-		updateClientContext( );
-
-		updateDynamicItems( );
-	}
-
-	private void updateClientContext( )
-	{
-		if ( CLIENT_CONTEXT.equals( currentContextName ) )
-		{
-			if ( parametersItem != null && !parametersItem.isDisposed( ) )
+			if ( exprProvider != null )
 			{
-				parametersItem.dispose( );
-				parametersItem = null;
-			}
-
-			if ( birtObjectsItem != null && !birtObjectsItem.isDisposed( ) )
-			{
-				birtObjectsItem.dispose( );
-				birtObjectsItem = null;
-			}
-		}
-		else
-		{
-			if ( parametersItem == null || parametersItem.isDisposed( ) )
-			{
-				int idx = tree.indexOf( contextItem );
-
-				if ( idx == -1 )
-				{
-					parametersItem = createTopTreeItem( tree,
-							TREE_ITEM_PARAMETERS );
-				}
-				else
-				{
-					parametersItem = createTopTreeItem( tree,
-							TREE_ITEM_PARAMETERS,
-							idx + 1 );
-				}
-				buildParameterTree( );
-			}
-
-			if ( birtObjectsItem == null || birtObjectsItem.isDisposed( ) )
-			{
-				int idx = tree.indexOf( nativeObejctsItem );
-
-				if ( idx == -1 )
-				{
-					birtObjectsItem = createTopTreeItem( tree,
-							TREE_ITEM_BIRT_OBJECTS );
-				}
-				else
-				{
-					birtObjectsItem = createTopTreeItem( tree,
-							TREE_ITEM_BIRT_OBJECTS,
-							idx + 1 );
-				}
-				createObjects( birtObjectsItem, OBJECTS_TYPE_BIRT );
-			}
-		}
-	}
-
-	private void updateDynamicItems( )
-	{
-		clearDynamicItems( );
-
-		Object[] adapters = ElementAdapterManager.getAdapters( currentEditObject,
-				IContextExpressionProvider.class );
-
-		if ( adapters == null )
-		{
-			return;
-		}
-
-		for ( Object adapt : adapters )
-		{
-			IContextExpressionProvider contextProvider = (IContextExpressionProvider) adapt;
-
-			if ( contextProvider != null )
-			{
-				IExpressionProvider exprProvider = contextProvider.getExpressionProvider( currentMethodName );
-
-				if ( exprProvider != null )
-				{
-					createDynamicCategory( exprProvider );
-				}
+				createDynamicCategory( exprProvider );
 			}
 		}
 	}
@@ -1463,7 +1460,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	{
 		if ( parametersItem != null && !parametersItem.isDisposed( ) )
 		{
-			clearTreeItem( parametersItem );
+			clearSubTreeItem( parametersItem );
 			buildParameterTree( );
 		}
 	}
@@ -1491,5 +1488,24 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 				} );
 			}
 		}
+	}
+
+	/**
+	 * Calculates the first available position according to the given item list.
+	 */
+	private int getIndex( TreeItem... items )
+	{
+		if ( items != null )
+		{
+			for ( TreeItem ti : items )
+			{
+				if ( ti != null && !ti.isDisposed( ) )
+				{
+					return tree.indexOf( ti ) + 1;
+				}
+			}
+		}
+
+		return 0;
 	}
 }

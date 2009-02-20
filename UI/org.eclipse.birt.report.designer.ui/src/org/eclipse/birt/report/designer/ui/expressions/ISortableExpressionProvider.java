@@ -15,6 +15,8 @@ import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 
 /**
  * ISortableExpressionProvider
+ * 
+ * @since 2.3.1
  */
 public interface ISortableExpressionProvider extends IExpressionProvider
 {

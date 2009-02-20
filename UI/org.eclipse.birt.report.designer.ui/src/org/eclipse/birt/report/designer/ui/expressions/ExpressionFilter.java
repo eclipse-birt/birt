@@ -27,6 +27,13 @@ public abstract class ExpressionFilter
 	 */
 	public static final String CATEGORY = "Category"; //$NON-NLS-1$
 
+	// A set of bulilt-in categories
+	public static final String CATEGORY_OPERATORS = "Operators"; //$NON-NLS-1$
+	public static final String CATEGORY_NATIVE_OBJECTS = "Native Objects"; //$NON-NLS-1$
+	public static final String CATEGORY_BIRT_OBJECTS = "Birt Objects"; //$NON-NLS-1$
+	public static final String CATEGORY_PARAMETERS = "Parameters"; //$NON-NLS-1$
+	public static final String CATEGORY_CONTEXT = "Context"; //$NON-NLS-1$
+
 	/**
 	 * Filters the given elements for the given viewer. The input array is not
 	 * modified.

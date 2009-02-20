@@ -432,5 +432,21 @@
                type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
          </adapter>
       </adaptable>
+      <adaptable
+            class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+         <adapter
+               class="org.eclipse.birt.report.item.crosstab.internal.ui.CrosstabContextExpressionProvider"
+               id="Crosstab.ContextExpressionProvider"
+               singleton="true"
+               type="org.eclipse.birt.report.designer.ui.expressions.IContextExpressionProvider">
+            <enablement>
+               <test
+                     forcePluginActivation="true"
+                     property="ExtendItemHandle.extensionName"
+                     value="Crosstab">
+               </test>
+            </enablement>
+         </adapter>
+      </adaptable>
    </extension>
 </plugin>

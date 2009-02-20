@@ -12,7 +12,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.script;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionTreeSupport;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
@@ -80,9 +79,7 @@ public class TreeViewPalettePage extends Page implements
 		treeCommon.setTree( tree );
 		treeCommon.setExpressionViewer( getViewer( ) );
 
-		treeCommon.createDefaultExpressionTree( SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getVisibleDataSets( ) );
+		treeCommon.createDefaultExpressionTree( );
 
 		treeCommon.addMouseTrackListener( );
 		treeCommon.addMouseListener( );

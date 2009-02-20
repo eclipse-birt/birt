@@ -18,6 +18,8 @@ import org.eclipse.swt.graphics.Image;
 /**
  * The adapter class for IExpressionProvider. For expression provider user
  * extension, it's recommended to extend from this class.
+ * 
+ * @since 2.3.2
  */
 public abstract class AbstractExpressionProvider implements IExpressionProvider
 {
