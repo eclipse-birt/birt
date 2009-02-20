@@ -571,7 +571,6 @@
 <projectInfo><property name="projectName" value="org.eclipse.datatools.enablement.sybase.asa.nl" /><property name="repositoryPath" value="${ODA.repository.nl.path}" /><property name="buildFileName" value="build.xml" /><property name="cvs.options" value="${oda.build.version}" /><property name="cvsRoot" value="${oda.cvs.root}" /></projectInfo>
 <projectInfo><property name="projectName" value="org.eclipse.datatools.enablement.sybase.asa.models.nl" /><property name="repositoryPath" value="${ODA.repository.nl.path}" /><property name="buildFileName" value="build.xml" /><property name="cvs.options" value="${oda.build.version}" /><property name="cvsRoot" value="${oda.cvs.root}" /></projectInfo>
 <projectInfo><property name="projectName" value="org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl" /><property name="repositoryPath" value="${ODA.repository.nl.path}" /><property name="buildFileName" value="build.xml" /><property name="cvs.options" value="${oda.build.version}" /><property name="cvsRoot" value="${oda.cvs.root}" /></projectInfo>
-<projectInfo><property name="projectName" value="org.eclipse.datatools.enablement.sybase.ase.profile.nl" /><property name="repositoryPath" value="${ODA.repository.nl.path}" /><property name="buildFileName" value="build.xml" /><property name="cvs.options" value="${oda.build.version}" /><property name="cvsRoot" value="${oda.cvs.root}" /></projectInfo>
 
                 <projectInfo>
                         <property name="projectName" value="org.eclipse.datatools.modelbase.dbdefinition.nl" />
