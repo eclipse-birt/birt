@@ -289,7 +289,7 @@ public class ParamDefTag extends BodyTagSupport
 			return;
 
 		// data type
-		String dataType = ParameterDataTypeConverter.ConvertDataType( paramDef
+		String dataType = ParameterDataTypeConverter.convertDataType( paramDef
 				.getDataType( ) );
 
 		// pattern format

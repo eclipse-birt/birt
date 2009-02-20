@@ -421,7 +421,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 							// get cached parameter type
 							String dataType = ParameterDataTypeConverter
-									.ConvertDataType( parameter.getDataType( ) );
+									.convertDataType( parameter.getDataType( ) );
 							String cachedDateType = null;
 							if ( typeVar != null )
 								cachedDateType = typeVar.getValue( );
@@ -820,7 +820,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 				// get parameter data type
 				String dataType = ParameterDataTypeConverter
-						.ConvertDataType( parameter.getDataType( ) );
+						.convertDataType( parameter.getDataType( ) );
 
 				// check whether locale string
 				boolean isLocale = this.locParams.contains( paramName );

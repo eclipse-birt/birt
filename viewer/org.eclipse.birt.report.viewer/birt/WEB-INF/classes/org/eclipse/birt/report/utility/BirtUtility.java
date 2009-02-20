@@ -523,7 +523,7 @@ public class BirtUtility
 				continue;
 
 			String pattern = parameter.getPattern( );
-			String dataType = ParameterDataTypeConverter.ConvertDataType( parameter.getDataType( ) );
+			String dataType = ParameterDataTypeConverter.convertDataType( parameter.getDataType( ) );
 
 			// check whether it is a locale String.
 			boolean isLocale = locs.contains( paramName );

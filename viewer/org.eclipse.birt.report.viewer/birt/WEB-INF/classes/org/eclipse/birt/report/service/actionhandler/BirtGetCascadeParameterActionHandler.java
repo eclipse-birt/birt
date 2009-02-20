@@ -110,7 +110,7 @@ public class BirtGetCascadeParameterActionHandler
 			// Convert parameter
 			String format = parameter.getPattern( );
 			String dataType = ParameterDataTypeConverter
-					.ConvertDataType( parameter.getDataType( ) );
+					.convertDataType( parameter.getDataType( ) );
 			Object paramValue = DataUtil.validate( paramName, dataType, format,
 					param.getValue( ), attrBean.getLocale( ), attrBean.getTimeZone(), isLocale );
 

@@ -191,7 +191,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 
 			String pattern = parameter.getPattern( );
 			String dataType = ParameterDataTypeConverter
-					.ConvertDataType( parameter.getDataType( ) );
+					.convertDataType( parameter.getDataType( ) );
 
 			// check whether it is a locale String.
 			boolean isLocale = locs.contains( paramName );
@@ -283,7 +283,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		if ( map.containsKey( paramName ) )
 			return;
 
-		String dataType = ParameterDataTypeConverter.ConvertDataType( parameter
+		String dataType = ParameterDataTypeConverter.convertDataType( parameter
 				.getDataType( ) );
 
 		// add parameter type

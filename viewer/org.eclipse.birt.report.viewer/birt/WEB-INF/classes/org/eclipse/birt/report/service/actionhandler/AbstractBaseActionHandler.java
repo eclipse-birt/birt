@@ -271,7 +271,7 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 		{
 			String id = (String) activeIds.get( i );
 			int firstComma = id.indexOf( ',' );
-			if ( id == null || firstComma == -1 )
+			if ( firstComma == -1 )
 			{
 				AxisFault fault = new AxisFault( );
 				fault.setFaultCode( new QName(

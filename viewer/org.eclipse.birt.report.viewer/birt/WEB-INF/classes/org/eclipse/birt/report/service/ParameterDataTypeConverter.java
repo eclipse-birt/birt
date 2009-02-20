@@ -14,7 +14,7 @@ public class ParameterDataTypeConverter
 	 *            String
 	 * @return
 	 */
-	public static final int ConvertDataType( String type )
+	public static final int convertDataType( String type )
 	{
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
 		{
@@ -58,7 +58,7 @@ public class ParameterDataTypeConverter
 	 *            String
 	 * @return
 	 */
-	public static final String ConvertDataType( int type )
+	public static final String convertDataType( int type )
 	{
 		String dataType = DesignChoiceConstants.PARAM_TYPE_ANY;
 
