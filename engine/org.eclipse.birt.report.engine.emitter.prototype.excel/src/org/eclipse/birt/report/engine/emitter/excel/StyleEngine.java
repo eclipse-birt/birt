@@ -185,7 +185,11 @@ public class StyleEngine
 	 */
 	public void applyContainerBottomStyle( )
 	{
-		XlsContainer container = engine.getCurrentContainer( );
+		applyContainerBottomStyle( engine.getCurrentContainer( ) );
+	}
+
+	public void applyContainerBottomStyle( XlsContainer container )
+	{
 		ContainerSizeInfo rule = container.getSizeInfo( );
 		StyleEntry entry = container.getStyle( );
 		int start = rule.getStartCoordinate( );

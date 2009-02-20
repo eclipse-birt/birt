@@ -685,7 +685,7 @@ public class ExcelLayoutEngine
 
 	public void complete( )
 	{
-		endNormalContainer( );
+		engine.applyContainerBottomStyle( containers.get( 0 ) );
 		Iterator<SheetData[]> iterator = cache.getRowIterator( );
 		while ( iterator.hasNext( ) )
 		{

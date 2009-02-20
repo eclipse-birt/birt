@@ -297,7 +297,11 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	}
 	
 	public void startImage( IImageContent image )
-	{	
+	{
+		IStyle style = image.getComputedStyle( );
+		HyperlinkDef url = parseHyperLink( image );
+		BookmarkDef bookmark = getBookmark( image );
+		engine.addImageData( image, style, url, bookmark );
 	}
 	
 	public void startLabel( ILabelContent label )

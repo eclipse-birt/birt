@@ -277,6 +277,8 @@ public class ExcelXmlWriter implements IExcelWriter
 
 	public void outputData( SheetData sheetData )
 	{
+		if ( sheetData.getDatatype( ) == SheetData.IMAGE )
+			return;
 		Data d = (Data) sheetData;
 		startCell( d.span.getCol( ), d.span.getColSpan( ), d.getRowSpan( ),
 				d.styleId, d.hyperLink, d.getLinkedBookmark( ) );
