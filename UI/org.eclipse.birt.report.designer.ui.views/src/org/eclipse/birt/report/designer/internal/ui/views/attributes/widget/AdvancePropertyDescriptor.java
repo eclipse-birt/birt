@@ -11,7 +11,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.AlphabeticallyViewSorter;
@@ -336,7 +335,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 				if ( parent.getItem( i ) == item )
 				{
 					MementoElement memento = new MementoElement( item.getText( ),
-							new Integer( i ),
+							Integer.valueOf( i ),
 							MementoElement.Type_Element );
 					if ( tempMemento != null )
 						memento.addChild( tempMemento );
@@ -347,7 +346,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 			}
 		}
 		MementoElement memento = new MementoElement( item.getText( ),
-				new Integer( 0 ),
+				Integer.valueOf( 0 ),
 				MementoElement.Type_Element );
 		if ( tempMemento != null )
 			memento.addChild( tempMemento );
@@ -729,7 +728,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 								Memento elementMemento = (Memento) viewerMemento.createChild( provider.getElementType( ),
 										MementoElement.Type_Element );
 								elementMemento.getMementoElement( )
-										.setValue( new Integer( 0 ) );
+										.setValue( Integer.valueOf( 0 ) );
 							}
 						}
 						else if ( memento instanceof Memento )
@@ -812,7 +811,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 						Memento elementMemento = (Memento) viewerMemento.createChild( provider.getElementType( ),
 								MementoElement.Type_Element );
 						elementMemento.getMementoElement( )
-								.setValue( new Integer( 0 ) );
+								.setValue( Integer.valueOf( 0 ) );
 					}
 				}
 				if ( memento != null && memento instanceof Memento )

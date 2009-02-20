@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
@@ -356,21 +357,35 @@ public class ResourceEditDialog extends BaseDialog
 			return false;
 		}
 
+		FileOutputStream fos = null;
 		try
 		{
 			if ( f.canWrite( ) )
 			{
-				FileOutputStream fos = new FileOutputStream( f );
+				fos = new FileOutputStream( f );
 
 				content.store( fos, "" ); //$NON-NLS-1$
 
-				fos.close( );
 			}
 			return true;
 		}
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
+		}
+		finally
+		{
+			if ( fos != null )
+			{
+				try
+				{
+					fos.close( );
+				}
+				catch ( IOException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
 		}
 		return false;
 	}

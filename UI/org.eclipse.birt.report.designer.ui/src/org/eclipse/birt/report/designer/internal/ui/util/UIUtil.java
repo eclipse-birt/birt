@@ -117,7 +117,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
@@ -1822,7 +1821,7 @@ public class UIUtil
 			elementSorter.addElement( IPreferenceConstants.PALETTE_CONTENT, def );
 		}
 
-		for ( Map.Entry<String,SortedSet<IElementDefn>> entry : extendedEntriesMap.entrySet( ))
+		for ( Map.Entry<String, SortedSet<IElementDefn>> entry : extendedEntriesMap.entrySet( ) )
 		{
 			for ( IElementDefn def : entry.getValue( ) )
 				elementSorter.addElement( entry.getKey( ), def );
@@ -2028,7 +2027,6 @@ public class UIUtil
 
 	public static final String DLG_REFERENCE_FOUND_TITLE = Messages.getString( "DefaultNodeProvider.Tree.Reference" ); //$NON-NLS-1$
 
-    
 	/**
 	 * Test if the passed object can be delete. This method will check whether
 	 * the deleted elements are referenced by others, if is, a confirm dialog
@@ -2149,11 +2147,18 @@ public class UIUtil
 		}
 		catch ( Exception e )
 		{
+			ExceptionHandler.handle( e );
+			return false;
 		}
-		return cubeQueryUtil.isValidDimensionName( name );
+		if ( cubeQueryUtil != null )
+			return cubeQueryUtil.isValidDimensionName( name );
+		else
+			return false;
 	}
 
-	/**Gets the project folder from the input
+	/**
+	 * Gets the project folder from the input
+	 * 
 	 * @param input
 	 * @return
 	 */
@@ -2176,7 +2181,9 @@ public class UIUtil
 		return null;
 	}
 
-	/**Sets the session the resource folder.
+	/**
+	 * Sets the session the resource folder.
+	 * 
 	 * @param input
 	 * @param project
 	 * @param handle
@@ -2191,11 +2198,11 @@ public class UIUtil
 			resourceFolder = getProjectFolder( input );
 		}
 
-		if (project == null)
+		if ( project == null )
 		{
 			project = getProjectFromInput( input );
 		}
-		
+
 		if ( StringUtil.isBlank( resourceFolder ) )
 		{
 			if ( project != null )
@@ -2219,15 +2226,17 @@ public class UIUtil
 				.getSessionHandle( )
 				.setResourceFolder( resourceFolder );
 	}
-	
-	/**Gets the project from the input
+
+	/**
+	 * Gets the project from the input
+	 * 
 	 * @param input
 	 * @return
 	 */
-	public static IProject getProjectFromInput(IEditorInput input)
+	public static IProject getProjectFromInput( IEditorInput input )
 	{
 		IProject retValue = null;
-		if (input == null)
+		if ( input == null )
 		{
 			retValue = getCurrentProject( );
 		}
@@ -2242,22 +2251,25 @@ public class UIUtil
 				retValue = file.getProject( );
 			}
 		}
-		
-		if (retValue == null)
+
+		if ( retValue == null )
 		{
 			retValue = getCurrentProject( );
 		}
-		
+
 		return retValue;
 	}
-	
-	/**Process the report design orientation change.
+
+	/**
+	 * Process the report design orientation change.
+	 * 
 	 * @param newOrientation
 	 * @param viewer
 	 */
-	public static void processOrientationChange(String newOrientation, EditPartViewer viewer)
+	public static void processOrientationChange( String newOrientation,
+			EditPartViewer viewer )
 	{
-		if (newOrientation == null || viewer == null)
+		if ( newOrientation == null || viewer == null )
 		{
 			return;
 		}
@@ -2266,8 +2278,7 @@ public class UIUtil
 		viewer.flush( );
 
 		// Apply new orientation to the view.
-		Composite parent = viewer.getControl( )
-				.getParent( );
+		Composite parent = viewer.getControl( ).getParent( );
 		BidiUIUtils.INSTANCE.applyOrientation( parent, mirrored );
 
 		parent.layout( true );
