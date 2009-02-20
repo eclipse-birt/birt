@@ -66,7 +66,7 @@ public class Printer
 	public static final int DUPLEX_VERTICAL = 2;
 
 	public static final int STATUS_ACCEPTING_JOBS = 0;
-	public static final int STATUS_NOT_ACCEPTING_JOBS = 0;
+	public static final int STATUS_NOT_ACCEPTING_JOBS = 1;
 	
 	/**
 	 * @return the name
