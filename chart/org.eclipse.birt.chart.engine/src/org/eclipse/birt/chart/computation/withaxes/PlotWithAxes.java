@@ -1033,8 +1033,7 @@ public abstract class PlotWithAxes extends Methods
 					laYAxisTitle.setVisible( false );
 					dYAxisTitleThickness = 0;
 				}
-				dYAxisLabelsThickness = dFixedLabelThickness
-						- dYAxisTitleThickness;
+				dYAxisLabelsThickness = dFixedLabelThickness;
 			}
 		}
 
@@ -1968,8 +1967,7 @@ public abstract class PlotWithAxes extends Methods
 					laXAxisTitle.setVisible( false );
 					dXAxisLabelsThickness = 0;
 				}
-				dXAxisLabelsThickness = dFixedLabelThickness
-						- dXAxisTitleThickness;
+				dXAxisLabelsThickness = dFixedLabelThickness;
 			}
 		}
 

@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
+import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -57,6 +58,8 @@ import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -80,7 +83,8 @@ import com.ibm.icu.util.TimeZone;
 abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		implements
 			Listener,
-			SelectionListener
+		SelectionListener,
+		ModifyListener
 {
 
 	private Button btnCategoryAxis;
@@ -106,6 +110,10 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 	private FontDefinitionComposite fdcFont;
 
 	private Button cbStaggered;
+
+	private LocalizedNumberEditorComposite lneLabelThickness;
+
+	private Button btnFixLabelThickness;
 
 	AbstractAxisSubtask( )
 	{
@@ -322,6 +330,28 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 			cbStaggered.setText( Messages.getString( "AbstractAxisSubtask.Label.Stagger" ) ); //$NON-NLS-1$
 			cbStaggered.addSelectionListener( this );
 			cbStaggered.setEnabled( bNot3D );
+		}
+
+		if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
+		{
+			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString("AbstractAxisSubtask.Label.LabelThickness") ); //$NON-NLS-1$
+			lneLabelThickness = new LocalizedNumberEditorComposite( cmpBasic,
+					SWT.BORDER );
+			{
+				lneLabelThickness.setValue( getAxisForProcessing( ).getLabelThickness( ) );
+				lneLabelThickness.addModifyListener( this );
+				GridData gd = new GridData( );
+				gd.widthHint = 250;
+				lneLabelThickness.setLayoutData( gd );
+				lneLabelThickness.setEnabled( getAxisForProcessing( ).isSetLabelThickness( ) );
+			}
+
+			btnFixLabelThickness = new Button( cmpBasic, SWT.CHECK );
+			{
+				btnFixLabelThickness.setText( Messages.getString("AbstractAxisSubtask.Button.Fixed") ); //$NON-NLS-1$
+				btnFixLabelThickness.addSelectionListener( this );
+				btnFixLabelThickness.setSelection( getAxisForProcessing( ).isSetLabelThickness( ) );
+			}
 		}
 
 		createButtonGroup( cmpContent );
@@ -567,6 +597,20 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 			attachPopup( ( (Button) e.widget ).getData( ).toString( ) );
 		}
 
+		if ( e.widget == btnFixLabelThickness )
+		{
+			boolean bLabelThickFixed = btnFixLabelThickness.getSelection( );
+			lneLabelThickness.setEnabled( bLabelThickFixed );
+			if ( !bLabelThickFixed )
+			{
+				getAxisForProcessing( ).unsetLabelWithinAxes( );
+			}
+			else
+			{
+				getAxisForProcessing( ).setLabelThickness( lneLabelThickness.getValue( ) );
+			}
+		}
+
 		if ( e.widget.equals( cmbTypes ) )
 		{
 			final AxisType axisType = AxisType.getByName( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) );
@@ -755,7 +799,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 					.size( );
 			for ( int i = 0; i < iOSDSize; i++ )
 			{
-				OrthogonalSampleData osd = (OrthogonalSampleData) getChart( ).getSampleData( )
+				OrthogonalSampleData osd = getChart( ).getSampleData( )
 						.getOrthogonalSampleData( )
 						.get( i );
 				if ( osd.getSeriesDefinitionIndex( ) >= iStartIndex
@@ -780,5 +824,13 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 					.size( );
 		}
 		return iTmp;
+	}
+
+	public void modifyText( ModifyEvent e )
+	{
+		if ( e.widget == lneLabelThickness )
+		{
+			getAxisForProcessing( ).setLabelThickness( lneLabelThickness.getValue( ) );
+		}
 	}
 }
