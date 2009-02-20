@@ -118,7 +118,7 @@ public abstract class DataType
 				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	/**
