@@ -1248,10 +1248,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		// TODO: label text may be changed in script,
 		// in such the ellipsis may need to be recalculated
-		la.getCaption( )
+		if ( la != null )
+		{
+			la.getCaption( )
 				.setValue( EllipsisHelper.ellipsisString( la.getCaption( )
 						.getValue( ),
 						lih.getValidItemLen( ) ) );
+		}
+		
 		ITextMetrics itm = xs.getTextMetrics( la );
 		itm.reuse( la, lg.getWrappingSize( ) );
 		itm.dispose( );

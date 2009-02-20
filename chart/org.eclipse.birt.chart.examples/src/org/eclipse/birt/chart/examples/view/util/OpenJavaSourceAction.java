@@ -171,7 +171,7 @@ public class OpenJavaSourceAction extends Action
 			descriptor = editorRegistry.findEditor( IEditorRegistry.SYSTEM_EXTERNAL_EDITOR_ID );
 		}
 
-		return descriptor.getId( );
+		return ( descriptor == null ) ? "" : descriptor.getId( ); //$NON-NLS-1$
 	}
 
 	private IContentType getContentType( IFileStore fileStore )

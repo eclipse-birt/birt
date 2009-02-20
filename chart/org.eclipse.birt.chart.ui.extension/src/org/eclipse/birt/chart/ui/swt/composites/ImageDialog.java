@@ -15,6 +15,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 import org.apache.commons.codec.binary.Base64;
@@ -279,12 +280,13 @@ public class ImageDialog extends TrayDialog
 				fCurrent = ImageImpl.create( removeQuote( uriEditor.getText( ).trim( ) ) );
 				break;
 			case EMBEDDED_TYPE :
+				BufferedInputStream bis = null;
 				try
 				{
 					fCurrent = EmbeddedImageImpl.create( new File( uriEditor.getText( )
 							.trim( ) ).getName( ),
 							imageData );
-					BufferedInputStream bis = new BufferedInputStream( new URL( uriEditor.getText( )
+					bis = new BufferedInputStream( new URL( uriEditor.getText( )
 							.trim( ) ).openStream( ) );
 					ByteArrayOutputStream bos = new ByteArrayOutputStream( );
 
@@ -304,6 +306,20 @@ public class ImageDialog extends TrayDialog
 				catch ( Exception e )
 				{
 					WizardBase.displayException( e );
+				}
+				finally
+				{
+					if ( bis != null )
+					{
+						try
+						{
+							bis.close( );
+						}
+						catch ( IOException e )
+						{
+							WizardBase.displayException( e );
+						}
+					}
 				}
 				break;
 		}

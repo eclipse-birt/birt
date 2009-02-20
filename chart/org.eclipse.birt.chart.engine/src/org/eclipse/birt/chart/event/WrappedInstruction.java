@@ -120,7 +120,7 @@ public final class WrappedInstruction implements IRenderInstruction
 		
 		return ( dc != null && dc.isTransposed( ) ) ? PrimitiveRenderEvent.compareTransposed( getBounds( ),
 				bo )
-				: PrimitiveRenderEvent.compareRegular( getBounds( ), bo );
+				: ( bo == null ? 1 : PrimitiveRenderEvent.compareRegular( getBounds( ), bo ) );
 	}
 
 	/**

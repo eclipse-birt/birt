@@ -385,6 +385,11 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 				return c.toString( );
 			}
 		}
+		if ( df == null)
+		{
+			return c.toString( );
+		}
+		
 		return df.format( c.getTime( ) );
 	}
 

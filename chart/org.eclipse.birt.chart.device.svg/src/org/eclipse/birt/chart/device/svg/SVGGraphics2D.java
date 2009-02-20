@@ -1367,7 +1367,8 @@ public class SVGGraphics2D extends ChartGraphics2D
 
 			return "#" + r + g + b; //$NON-NLS-1$
 		}
-		return serializeToString( cd );
+		
+		return ""; //$NON-NLS-1$
 	}
 
 	protected Element createLine( double arg0, double arg1, double arg2,

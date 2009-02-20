@@ -497,7 +497,7 @@ public class SVGInteractiveRenderer
 	private void addEventHandling( Element elm, StructureSource src,
 			Trigger[] triggers, Cursor cursor )
 	{
-		if ( elm != null )
+		if ( elm != null && triggers != null )
 		{
 			if ( triggers != null && triggers.length > 0 )
 			{

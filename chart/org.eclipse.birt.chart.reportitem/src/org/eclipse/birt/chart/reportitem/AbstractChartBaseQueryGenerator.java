@@ -385,10 +385,13 @@ public abstract class AbstractChartBaseQueryGenerator
 		}
 
 		// 4. Binding sort on category series.
-		bindSortOnCategorySeries( query,
+		if ( categorySD != null )
+		{
+			bindSortOnCategorySeries( query,
 				categorySD,
 				categoryGroupDefinition,
 				valueExprMap );
+		}
 	}
 
 	/**

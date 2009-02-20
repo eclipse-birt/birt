@@ -215,7 +215,7 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 						.get( 0 );
 			}
 
-			if ( baseSD.isSetSorting( ) )
+			if ( baseSD != null && baseSD.isSetSorting( ) )
 			{
 				Series s = (Series) baseSD.getSeries( ).get( 0 );
 				String baseExpr = ( (Query) s.getDataDefinition( ).get( 0 ) ).getDefinition( );

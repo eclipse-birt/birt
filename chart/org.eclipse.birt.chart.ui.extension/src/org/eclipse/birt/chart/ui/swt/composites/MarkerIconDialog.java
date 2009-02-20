@@ -553,7 +553,11 @@ public class MarkerIconDialog extends TrayDialog
 
 			count = bis.read( buf );
 		}
-
+		if ( bis != null )
+		{
+			bis.close( );
+		}
+		
 		String data = new String( Base64.encodeBase64( bos.toByteArray( ) ) );
 		icon = EmbeddedImageImpl.create( path,
 				data );

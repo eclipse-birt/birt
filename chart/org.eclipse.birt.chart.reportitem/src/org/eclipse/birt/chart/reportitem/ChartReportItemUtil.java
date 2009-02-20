@@ -499,7 +499,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 */
 	public static boolean isBaseGroupingDefined( SeriesDefinition baseSD )
 	{
-		if ( !baseSD.getDesignTimeSeries( ).getDataDefinition( ).isEmpty( )
+		if ( baseSD != null && !baseSD.getDesignTimeSeries( ).getDataDefinition( ).isEmpty( )
 				&& baseSD.getGrouping( ) != null
 				&& baseSD.getGrouping( ).isEnabled( ) )
 		{
