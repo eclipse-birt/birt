@@ -26,22 +26,8 @@ import org.eclipse.birt.core.exception.BirtException;
  * A detail row would also include any computed columns and
  * custom columns specified in a data set design. 
  */
-public interface IResultMetaData
+public interface IResultMetaData extends IBaseResultMetaData
 {
-	/**
-	 * Returns the number of columns in a detail row of the result set.
-	 * @return	the number of columns in a detail row.
-	 */
-	public int getColumnCount( );
-	
-	/**
-	 * Returns the column name at the specified index.
-	 * @param index	The projected column index.
-	 * @return		The name of the specified column.
-	 * @throws BirtException	if given index is invalid.
-	 */
-	public String getColumnName( int index ) throws BirtException;
-
 	/**
 	 * Returns the column alias at the specified index.
 	 * An alias is given to a column as a programmatic convenience.
@@ -53,15 +39,6 @@ public interface IResultMetaData
 	 */
 	public String getColumnAlias( int index ) throws BirtException;
 	
-	/**
-	 * Returns the data type of the column at the specified index.
-	 * @param index	The projected column index.
-	 * @return		The data type of the specified column, as an integer 
-     * 				defined in org.eclipse.birt.data.engine.api.DataType.
-	 * @throws BirtException	if given index is invalid.
-	 */
-	public int getColumnType( int index ) throws BirtException;
-
 	/**
 	 * Returns the Data Engine data type name of the column at the specified index.
 	 * @param index	The projected column index.

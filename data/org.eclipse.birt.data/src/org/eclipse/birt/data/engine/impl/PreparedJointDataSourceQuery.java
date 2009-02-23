@@ -22,6 +22,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IBaseResultMetaData;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
@@ -262,7 +263,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 * @return
 	 * @throws BirtException
 	 */
-	private int getTempColumnSize( IResultMetaData metaData )
+	private int getTempColumnSize( IBaseResultMetaData metaData )
 			throws BirtException
 	{
 		int size = 0;

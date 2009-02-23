@@ -23,7 +23,7 @@ import org.eclipse.birt.core.exception.BirtException;
  * merging with static input and output parameter hints specified 
  * in a data set design.
  */
-public interface IParameterMetaData
+public interface IParameterMetaData extends IBaseParameterMetaData
 {
 	/**
 	 * Returns whether this parameter is an input parameter.
@@ -44,44 +44,11 @@ public interface IParameterMetaData
 	public Boolean isOutputMode();
 
 	/**
-	 * Returns the name of this parameter.
-	 * @return	the parameter name of this parameter, 
-	 * 			or null if the name is non-specified or unknown.
-	 */
-	public String getName();
-	
-	/**
-	 * Returns the 1-based parameter position of this parameter,
-	 * as defined by the underlying data provider.
-	 * Not all data source parameters are defined with a position value.
-	 * @return 	the 1-based parameter position of this parameter, 
-	 * 			or -1 if the position is non-specified or unknown.
-	 */
-	public int getPosition();
-	
-	/**
-	 * Returns the data type of this parameter.
-	 * @return		The data type of this parameter, as an integer 
-     * 				defined in <code>org.eclipse.birt.core.data.DataType</code>.
-	 * @throws DataException	
-	 */
-	public int getDataType() throws BirtException;
-
-	/**
 	 * Returns the data type name of this parameter.
 	 * @return		The data type name of this parameter.
 	 * @throws DataException
 	 */
 	public String getDataTypeName() throws BirtException;
-
-	/**
-	 * Returns whether this parameter is optional.
-	 * @return	true if this parameter is optional, 
-	 * 			false if this parameter is required,
-	 * 			null if unknown.
-	 */
-	public Boolean isOptional();
-
 
 	/**
      * Returns the default value of this input parameter.
@@ -111,11 +78,5 @@ public interface IParameterMetaData
 	 */
 	public int getPrecision();
 	
-	/**
-	 * Returns whether a null value is allowed for this parameter.
-	 * @return	true if null is allowed for this parameter, 
-	 * 			false if null is not allowed, or
-	 * 			null if its nullability is not specified or unknown.
-	 */
-	public Boolean isNullable();
+
 }

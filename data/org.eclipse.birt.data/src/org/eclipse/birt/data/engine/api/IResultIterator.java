@@ -26,7 +26,7 @@ import org.mozilla.javascript.Scriptable;
  * the same <code>IQueryResults</code> object, such as in the case of an ODA data set
  * capable of producing multiple result sets.
  */
-public interface IResultIterator
+public interface IResultIterator extends IBaseResultIterator
 {
     /**
      * Returns the {@link org.eclipse.birt.data.engine.api.IQueryResults} 
@@ -46,23 +46,6 @@ public interface IResultIterator
     public Scriptable getScope();
 
     /**
-     * Returns the metadata of this result set's detail row.
-     * @return	The result metadata of a detail row.
-     */
-    public IResultMetaData getResultMetaData() throws BirtException;
-    
-    /**
-     * Moves down one element from its current position of the iterator.
-     * This method applies to a result whose ReportQuery is defined to 
-     * use detail or group rows. 
-     * @return 	true if next element exists and 
-     * 			has not reached the limit on the maximum number of rows 
-     * 			that can be accessed. 
-     * @throws 	BirtException if error occurs in Data Engine
-     */
-    public boolean next() throws BirtException;
-    
-    /**
 	 * Each row has its an ID associated with it, and this id will never be
 	 * changed no matter when the query is running against a data set or against
 	 * a report document.
@@ -75,41 +58,6 @@ public interface IResultIterator
 	public int getRowId( ) throws BirtException;
 	
 	/**
-	 * Each row has its own index, which indicates this row position in the
-	 * result set. This method retrieves current row index. The row index is 0
-	 * based, and -1 is returned when there is no current row.
-	 * 
-	 * @since 2.1
-	 * @return row index of current row
-	 * @throws BirtException
-	 *             if error occurs in Data Engine
-	 */
-	public int getRowIndex( ) throws BirtException;
-
-	/**
-	 * Moves iterator to the row with given absolute index. Valid index must be
-	 * both not less than current row index and not great than the maximum row
-	 * index. Presently backward see is not supportted.
-	 * 
-	 * @since 2.1
-	 * @param rowIndex,
-	 *            which index needs to advance to
-	 * @throws BirtException,
-	 *             if rowIndex is invalid
-	 */
-	public void moveTo( int rowIndex ) throws BirtException;
-
-	/**
-	 * Returns the value of a bound column. Currently it is only a dummy
-	 * implementation.
-	 * 
-	 * @param name of bound column
-	 * @return value of bound column
-	 * @throws BirtException
-	 */
-    public Object getValue( String name ) throws BirtException;
-    
-    /**
 	 * Returns the value of a bound column as the Boolean data type.
 	 * Currently it is only a dummy implementation.
 	 * 
@@ -243,14 +191,6 @@ public interface IResultIterator
     public IResultIterator getSecondaryIterator( String subQueryName, Scriptable scope ) 
     		throws BirtException;
 
-    /** 
-     * Closes this result and any associated secondary result iterator(s),  
-     * providing a hint that the consumer is done with this result,
-     * whose resources can be safely released as appropriate.  
-     * @throws BirtException 
-     */
-    public void close() throws BirtException;
-    
     /**
     * Move the current position of the iterator to the first element of the group with matching group key values.
     * To locate the [n]th inner group, values for all outer groups锟�? keys need to be provided in the array
@@ -264,15 +204,6 @@ public interface IResultIterator
     */
     public boolean findGroup( Object[] groupKeyValues ) throws BirtException;
 
-    /**
-	 * Judges if the IResultSetIterator is empty or not
-	 * 
-	 * @return true if IResultSetIterator is empty. false if the
-	 *         IResultSetIterator is not empty.
-	 * @throws BirtException
-	 */
-    public boolean isEmpty( ) throws BirtException;
-    
     /**
      * Retrieves whether the cursor is on the first row of
      * this <code>IResultIterator</code> object.
@@ -293,4 +224,16 @@ public interface IResultIterator
      * @exception BirtException
      */
     boolean isBeforeFirst() throws BirtException;
+    
+    /**
+	 * Moves iterator to the row with given absolute index. Valid index must be
+	 * both not less than current row index and not great than the maximum row
+	 * index. Presently backward see is not supported.
+	 * 
+	 * @param rowIndex,
+	 *            which index needs to advance to
+	 * @throws BirtException,
+	 *             if rowIndex is invalid
+	 */
+	public abstract void moveTo( int rowIndex ) throws BirtException;
 }

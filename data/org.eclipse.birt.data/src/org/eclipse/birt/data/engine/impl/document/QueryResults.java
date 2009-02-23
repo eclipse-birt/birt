@@ -18,6 +18,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IBaseResultIterator;
+import org.eclipse.birt.data.engine.api.IBaseResultMetaData;
 import org.eclipse.birt.data.engine.api.IGroupInstanceInfo;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -449,14 +451,14 @@ public class QueryResults implements IQueryResults, IQueryService
 	{
 		//
 		private IExecutorHelper parentHelper;
-		private IResultIterator currentIterator;
+		private IBaseResultIterator currentIterator;
 		
 		/**
 		 * 
 		 * @param parentHelper
 		 * @param currentIterator
 		 */
-		DummyJSResultSetRow( IExecutorHelper parentHelper, IResultIterator currentIterator )
+		DummyJSResultSetRow( IExecutorHelper parentHelper, IBaseResultIterator currentIterator )
 		{
 			this.parentHelper = parentHelper;
 			this.currentIterator = currentIterator;
