@@ -10,9 +10,9 @@ public class LibraryNameSpaceDescriptorProvider extends AbstractDescriptorProvid
 		ITextDescriptorProvider
 {
 
-	public boolean isReadOnly( )
+	public boolean isEditable( )
 	{
-		return true;
+		return false;
 	}
 
 	public String getDisplayName( )

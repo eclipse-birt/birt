@@ -19,9 +19,9 @@ public class ReferenceDescriptorProvider extends AbstractDescriptorProvider impl
 		ITextDescriptorProvider
 {
 
-	public boolean isReadOnly( )
+	public boolean isEditable( )
 	{
-		return true;
+		return false;
 	}
 
 	public String getDisplayName( )

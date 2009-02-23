@@ -59,7 +59,7 @@ public class TextPropertyDescriptorProvider extends PropertyDescriptorProvider i
 		super.save( value );
 	}
 
-	public boolean isReadOnly( )
+	public boolean isEditable( )
 	{
 		if ( ModuleHandle.CREATED_BY_PROP.equals( getProperty( ) )
 				|| DataSetHandle.DATA_SOURCE_PROP.equals( getProperty( ) )
@@ -67,9 +67,8 @@ public class TextPropertyDescriptorProvider extends PropertyDescriptorProvider i
 				|| ScalarParameterHandle.DATA_TYPE_PROP.equals( getProperty( ) )
 				|| ReportDesignHandle.ICON_FILE_PROP.equals( getProperty( ) ) )
 		{
-			return true;
+			return false;
 		}
-		return super.isReadOnly( );
+		return !super.isReadOnly( );
 	}
-
 }

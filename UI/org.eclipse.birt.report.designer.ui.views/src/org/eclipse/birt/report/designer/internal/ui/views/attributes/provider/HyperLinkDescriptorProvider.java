@@ -132,9 +132,9 @@ public class HyperLinkDescriptorProvider extends AbstractDescriptorProvider impl
 		return DEUtil.getActionHandle( (ReportItemHandle) DEUtil.getInputFirstElement( input ) );
 	}
 
-	public boolean isReadOnly( )
+	public boolean isEditable( )
 	{
-		return true;
+		return false;
 	}
 
 	public boolean isEnable( )

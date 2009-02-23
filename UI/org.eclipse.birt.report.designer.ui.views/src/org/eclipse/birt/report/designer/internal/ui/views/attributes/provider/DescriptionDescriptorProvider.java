@@ -10,9 +10,9 @@ public class DescriptionDescriptorProvider extends AbstractDescriptorProvider im
 		ITextDescriptorProvider
 {
 
-	public boolean isReadOnly( )
+	public boolean isEditable( )
 	{
-		return false;
+		return true;
 	}
 
 	public String getDisplayName( )

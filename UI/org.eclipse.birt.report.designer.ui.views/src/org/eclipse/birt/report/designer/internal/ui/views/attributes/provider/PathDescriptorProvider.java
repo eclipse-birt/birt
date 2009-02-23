@@ -16,9 +16,9 @@ public class PathDescriptorProvider extends AbstractDescriptorProvider implement
 	
 	private static String PATH_DELIMETER = "/\\:."; //$NON-NLS-1$
 
-	public boolean isReadOnly( )
+	public boolean isEditable( )
 	{
-		return true;
+		return false;
 	}
 
 	public String getDisplayName( )

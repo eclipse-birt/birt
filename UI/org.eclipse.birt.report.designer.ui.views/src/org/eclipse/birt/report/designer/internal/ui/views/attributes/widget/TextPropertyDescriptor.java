@@ -37,8 +37,7 @@ public class TextPropertyDescriptor extends PropertyDescriptor
 	{
 		if ( isFormStyle( ) )
 		{
-			text = FormWidgetFactory.getInstance( ).createText( parent,
-					"", //$NON-NLS-1$
+			text = FormWidgetFactory.getInstance( ).createText( parent, "", //$NON-NLS-1$
 					style );
 		}
 		else
@@ -125,13 +124,13 @@ public class TextPropertyDescriptor extends PropertyDescriptor
 
 	public void load( )
 	{
-		deValue = (String)getDescriptorProvider( ).load( );
+		deValue = (String) getDescriptorProvider( ).load( );
 		boolean stateFlag = ( ( deValue == null ) == text.getEnabled( ) );
 		if ( stateFlag )
 		{
 			text.setEnabled( deValue != null );
 		}
-		if ( ( (ITextDescriptorProvider) getDescriptorProvider( ) ).isReadOnly( ) )
+		if ( !( (ITextDescriptorProvider) getDescriptorProvider( ) ).isEditable( ) )
 		{
 			text.setEditable( false );
 		}

@@ -16,9 +16,9 @@ public class LibraryDescriptorProvider extends AbstractDescriptorProvider implem
 
 	private Object input;
 
-	public boolean isReadOnly( )
+	public boolean isEditable( )
 	{
-		return true;
+		return false;
 	}
 
 	public String getDisplayName( )

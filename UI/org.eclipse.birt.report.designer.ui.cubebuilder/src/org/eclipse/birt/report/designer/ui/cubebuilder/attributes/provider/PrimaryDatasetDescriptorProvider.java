@@ -24,9 +24,9 @@ public class PrimaryDatasetDescriptorProvider extends
 		ITextDescriptorProvider
 {
 
-	public boolean isReadOnly( )
+	public boolean isEditable( )
 	{
-		return true;
+		return false;
 	}
 
 	public String getDisplayName( )
