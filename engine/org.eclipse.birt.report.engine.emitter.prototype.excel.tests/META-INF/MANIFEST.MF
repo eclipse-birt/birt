@@ -7,6 +7,7 @@ Bundle-Activator: org.eclipse.birt.report.engine.emitter.prototype.excel.tests.A
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.birt.report.engine.emitter.prototype.excel;bundle-version="2.3.0",
- org.junit
+ org.junit,
+ com.ibm.icu;bundle-version="3.8.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
