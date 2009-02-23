@@ -686,4 +686,27 @@
       </adapter>
    </adaptable>
 </extension>
+<extension
+      point="org.eclipse.birt.report.designer.ui.elementAdapters">
+      <adaptable
+            class="org.eclipse.birt.report.model.api.ReportItemHandle">
+         <adapter
+            class="org.eclipse.birt.report.designer.internal.ui.views.ShowPropertiesViewMenu"
+            factory="com.actuate.birt.report.designer.ui.security.internal.SecurityMenuAdapterFactory"
+            id="org.eclipse.birt.report.designer.ui.showProperties.ReportItemHandle"
+            singleton="false"
+            type="org.eclipse.jface.action.IMenuListener">
+         </adapter>
+      </adaptable>
+      <adaptable
+            class="org.eclipse.birt.report.model.api.ReportDesignHandle">
+         <adapter
+            class="org.eclipse.birt.report.designer.internal.ui.views.ShowPropertiesViewMenu"
+            factory="com.actuate.birt.report.designer.ui.security.internal.SecurityMenuAdapterFactory"
+            id="org.eclipse.birt.report.designer.ui.showProperties.ReportDesignHandle"
+            singleton="false"
+            type="org.eclipse.jface.action.IMenuListener">
+         </adapter>
+      </adaptable>
+</extension>
 </plugin>
