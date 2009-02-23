@@ -18,6 +18,6 @@ menu.run=&Ausführen
 ###############################################################################
 # Actions
 ###############################################################################
-Menu.Report=Bericht
-Action.RunReport=Bericht ausf
-Action.ViewDocument=Dokument anzeigen
+Menu.Report=Repor&t
+Action.RunReport=&Run Report
+Action.ViewDocument=&View Document

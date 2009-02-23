@@ -18,6 +18,6 @@ menu.run=実行(&R)
 ###############################################################################
 # Actions
 ###############################################################################
-Menu.Report=レポート
-Action.RunReport=レポートの実行
-Action.ViewDocument=文書の表示
+Menu.Report=Repor&t
+Action.RunReport=&Run Report
+Action.ViewDocument=&View Document

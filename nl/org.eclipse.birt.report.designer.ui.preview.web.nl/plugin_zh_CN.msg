@@ -18,6 +18,6 @@ menu.run=运行(&R)
 ###############################################################################
 # Actions
 ###############################################################################
-Menu.Report=报表
-Action.RunReport=运行报表
-Action.ViewDocument=查看文档
+Menu.Report=Repor&t
+Action.RunReport=&Run Report
+Action.ViewDocument=&View Document

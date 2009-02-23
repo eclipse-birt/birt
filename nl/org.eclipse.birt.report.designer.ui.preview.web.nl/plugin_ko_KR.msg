@@ -18,6 +18,6 @@ menu.run=실행(&R)
 ###############################################################################
 # Actions
 ###############################################################################
-Menu.Report=보고서
-Action.RunReport=보고서 실행
-Action.ViewDocument=문서 보기
+Menu.Report=Repor&t
+Action.RunReport=&Run Report
+Action.ViewDocument=&View Document
