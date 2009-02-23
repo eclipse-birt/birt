@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 
@@ -65,7 +64,7 @@ public class ExcelLayoutEngine
 	
 	public final static int MAX_ROW_OFFICE2003 = 65535;
 	
-	public static int MAX_COLUMN_OFFICE2003 = 255;
+	public final static int MAX_COLUMN_OFFICE2003 = 255;
 	
 	private int maxRow = MAX_ROW_OFFICE2003;
 
@@ -89,6 +88,8 @@ public class ExcelLayoutEngine
 
 	private String messageFlashObjectNotSupported;
 	
+	private ULocale locale;
+
 	private HashMap<String, BookmarkDef> bookmarkList = new HashMap<String, BookmarkDef>( );
 
 	public ExcelLayoutEngine( PageDef page, ExcelContext context,
@@ -96,11 +97,7 @@ public class ExcelLayoutEngine
 	{
 		this.context = context;
 		this.emitter = emitter;
-		ULocale locale = context.getLocale( );
-		if ( locale == null )
-		{
-			locale = ULocale.getDefault( );
-		}
+		this.locale = context.getLocale( );
 		EngineResourceHandle resourceHandle = new EngineResourceHandle( locale );
 		messageFlashObjectNotSupported = resourceHandle
 				.getMessage( MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT );
@@ -514,7 +511,6 @@ public class ExcelLayoutEngine
 	public Data createData( Object txt, StyleEntry entry )
 	{
 		int type = SheetData.STRING;
-		Locale locale = emitter.getLocale( );
 		if ( SheetData.NUMBER==ExcelUtil.getType( txt )  )
 		{
 			String format = ExcelUtil.getPattern( txt, entry
@@ -540,7 +536,6 @@ public class ExcelLayoutEngine
 
 	private Data createDateData( Object txt, StyleEntry entry, String timeFormat )
 	{
-		Locale locale = emitter.getLocale( );
 		timeFormat = ExcelUtil.parse( timeFormat, locale );
 		if ( timeFormat.equals( "" ) )
 		{

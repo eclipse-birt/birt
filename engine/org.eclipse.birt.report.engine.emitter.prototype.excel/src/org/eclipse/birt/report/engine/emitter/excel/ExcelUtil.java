@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.emitter.excel;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -32,9 +31,11 @@ import org.eclipse.birt.report.engine.emitter.excel.GroupInfo.Position;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
+import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.TimeZone;
+import com.ibm.icu.util.ULocale;
 
 public class ExcelUtil
 {
@@ -730,7 +731,7 @@ public class ExcelUtil
 		}
 	}
 	
-	public static String parse(String dateTime,Locale locale)
+	public static String parse( String dateTime, ULocale locale )
 	{
 		if ( dateTime == null )
 		{
@@ -811,10 +812,10 @@ public class ExcelUtil
 
 	public static String formatNumberPattern(String givenValue)
 	{
-		return formatNumberPattern( givenValue, Locale.getDefault( ) );
+		return formatNumberPattern( givenValue, ULocale.getDefault( ) );
 	}
 	
-	public static String formatNumberPattern(String givenValue,Locale locale)
+	public static String formatNumberPattern( String givenValue, ULocale locale )
 	{
 		String returnStr ="";
 		if(givenValue == null )
@@ -931,7 +932,7 @@ public class ExcelUtil
 		return returnStr;
 	}
 
-	private static String getCurrencySymbol( Locale locale )
+	private static String getCurrencySymbol( ULocale locale )
 	{
 		NumberFormat format = NumberFormat
 				.getCurrencyInstance( locale );

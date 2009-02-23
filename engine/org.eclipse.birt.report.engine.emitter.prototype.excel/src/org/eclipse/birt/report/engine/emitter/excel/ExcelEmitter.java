@@ -98,7 +98,11 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		{
 			Locale locale = reportContext.getLocale( );
 			if ( locale != null )
+			{
 				context.setLocale( ULocale.forLocale( locale ) );
+			}
+			else
+				context.setLocale( ULocale.getDefault( ) );
 		}
 	}
 
@@ -642,19 +646,6 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			}
 		}
 		return isEmbeded;
-	}
-	
-	public Locale getLocale( )
-	{
-		if ( service != null )
-		{
-			IReportContext reportContext = service.getReportContext( );
-			if ( reportContext != null )
-			{
-				return reportContext.getLocale( );
-			}
-		}
-		return Locale.getDefault( );
 	}
 	
 	public TimeZone getTimeZone()
