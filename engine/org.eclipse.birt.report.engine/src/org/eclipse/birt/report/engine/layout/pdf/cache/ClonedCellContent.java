@@ -367,4 +367,24 @@ public class ClonedCellContent implements ICellContent
 	{
 		throw new UnsupportedOperationException( "setACL" );
 	}
+
+	public String getHeaders( )
+	{
+		return cellContent.getHeaders( );
+	}
+
+	public String getScope( )
+	{
+		return cellContent.getScope( );
+	}
+
+	public void setHeaders( String headers )
+	{
+		cellContent.setHeaders( headers );
+	}
+
+	public void setScope( String scope )
+	{
+		cellContent.setScope( scope );
+	}
 }

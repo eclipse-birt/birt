@@ -1288,7 +1288,7 @@ public class EngineIRVisitor extends DesignVisitor
 		// Create a Cell
 		CellDesign cell = new CellDesign( );
 		setupStyledElement( cell, handle );
-
+		setupAuralInfomation( cell, handle );
 		// Cell contents
 		SlotHandle contentSlot = handle.getContent( );
 		for ( int i = 0; i < contentSlot.getCount( ); i++ )
@@ -1345,6 +1345,19 @@ public class EngineIRVisitor extends DesignVisitor
 		setCurrentElement( cell );
 	}
 	
+	private void setupAuralInfomation( CellDesign cell, CellHandle handle )
+	{
+		String bookmark = handle.getBookmark( );
+		cell.setBookmark( createExpression( bookmark ) );
+		String headers = handle.getHeaders( );
+		cell.setHeaders( createExpression( headers ) );
+		String scope = handle.getScope( );
+		if ( scope != null )
+		{
+			cell.setScope( scope );
+		}
+	}
+
 	private boolean isCellInGroupHeader( CellHandle cellHandle )
 	{
 		DesignElementHandle rowHandle = cellHandle.getContainer( );

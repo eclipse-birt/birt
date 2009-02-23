@@ -1724,7 +1724,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			writer.openTag( HTMLTags.TAG_TD ); //$NON-NLS-1$
 		}
-
+		writer.attribute( "scope", cell.getScope( ) );
+		writer.attribute( "id", cell.getBookmark( ) );
+		writer.attribute( "headers", cell.getHeaders( ) );
 		// output class attribute.
 		String styleClass = cell.getStyleClass( );
 		setStyleName( styleClass, cell );

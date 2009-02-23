@@ -48,6 +48,10 @@ public class CellDesign extends ReportItemDesign
 	 */
 	private boolean displayGroupIcon = false;
 
+	private String headers;
+
+	private String scope;
+
 	/**
 	 * @return Returns the colSpan.
 	 */
@@ -164,5 +168,25 @@ public class CellDesign extends ReportItemDesign
 	public boolean getDisplayGroupIcon( )
 	{
 		return displayGroupIcon;
+	}
+
+	public void setHeaders( String headers )
+	{
+		this.headers = headers;
+	}
+
+	public String getHeaders( )
+	{
+		return this.headers;
+	}
+
+	public void setScope( String scope )
+	{
+		this.scope = scope;
+	}
+
+	public String getScope( )
+	{
+		return this.scope;
 	}
 }

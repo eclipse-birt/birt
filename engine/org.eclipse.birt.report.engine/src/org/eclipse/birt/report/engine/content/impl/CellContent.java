@@ -58,6 +58,10 @@ public class CellContent extends AbstractContent implements ICellContent
 	 */
 	protected Boolean displayGroupIcon;
 
+	private String headers;
+
+	private String scope;
+
 	public int getContentType( )
 	{
 		return CELL_CONTENT;
@@ -324,6 +328,26 @@ public class CellContent extends AbstractContent implements ICellContent
 	protected IContent cloneContent()
 	{
 		return new CellContent(this);
+	}
+
+	public String getHeaders( )
+	{
+		return headers;
+	}
+
+	public String getScope( )
+	{
+		return scope;
+	}
+
+	public void setHeaders( String headers )
+	{
+		this.headers = headers;
+	}
+
+	public void setScope( String scope )
+	{
+		this.scope = scope;
 	}
 
 }

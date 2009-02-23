@@ -54,4 +54,12 @@ public interface ICellContent extends IContainerContent
 	public void setDisplayGroupIcon( boolean displayGroupIcon );
 	
 	public boolean getDisplayGroupIcon( );
+
+	public String getHeaders( );
+
+	public void setHeaders( String headers );
+
+	public String getScope( );
+
+	public void setScope( String scope );
 }

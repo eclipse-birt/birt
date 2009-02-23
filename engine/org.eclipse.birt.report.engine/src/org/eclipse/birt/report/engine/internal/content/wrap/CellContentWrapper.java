@@ -154,4 +154,24 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 			return new CellContentWrapper( this );
 		}
 	}
+
+	public String getHeaders( )
+	{
+		return cell.getHeaders( );
+	}
+
+	public String getScope( )
+	{
+		return cell.getScope( );
+	}
+
+	public void setHeaders( String headers )
+	{
+		cell.setHeaders( headers );
+	}
+
+	public void setScope( String scope )
+	{
+		cell.setScope( scope );
+	}
 }
