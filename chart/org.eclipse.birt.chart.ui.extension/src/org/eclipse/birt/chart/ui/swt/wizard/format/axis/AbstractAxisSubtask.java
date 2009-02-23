@@ -30,7 +30,6 @@ import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -111,9 +110,9 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 	private Button cbStaggered;
 
-	private LocalizedNumberEditorComposite lneLabelThickness;
+	private LocalizedNumberEditorComposite lneLabelSpan;
 
-	private Button btnFixLabelThickness;
+	private Button btnFixLabelSpan;
 
 	AbstractAxisSubtask( )
 	{
@@ -183,7 +182,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		Label lblTitle = new Label( cmpBasic, SWT.NONE );
 		lblTitle.setText( Messages.getString( "AxisYSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 
-		List keys = null;
+		List<String> keys = null;
 		IUIServiceProvider serviceprovider = getContext( ).getUIServiceProvider( );
 		if ( serviceprovider != null )
 		{
@@ -334,23 +333,23 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 		if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
 		{
-			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString("AbstractAxisSubtask.Label.LabelThickness") ); //$NON-NLS-1$
-			lneLabelThickness = new LocalizedNumberEditorComposite( cmpBasic,
+			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "AbstractAxisSubtask.Label.LabelSpan" ) ); //$NON-NLS-1$
+			lneLabelSpan = new LocalizedNumberEditorComposite( cmpBasic,
 					SWT.BORDER );
 			{
-				lneLabelThickness.setValue( getAxisForProcessing( ).getLabelThickness( ) );
-				lneLabelThickness.addModifyListener( this );
+				lneLabelSpan.setValue( getAxisForProcessing( ).getLabelSpan( ) );
+				lneLabelSpan.addModifyListener( this );
 				GridData gd = new GridData( );
 				gd.widthHint = 250;
-				lneLabelThickness.setLayoutData( gd );
-				lneLabelThickness.setEnabled( getAxisForProcessing( ).isSetLabelThickness( ) );
+				lneLabelSpan.setLayoutData( gd );
+				lneLabelSpan.setEnabled( getAxisForProcessing( ).isSetLabelSpan( ) );
 			}
 
-			btnFixLabelThickness = new Button( cmpBasic, SWT.CHECK );
+			btnFixLabelSpan = new Button( cmpBasic, SWT.CHECK );
 			{
-				btnFixLabelThickness.setText( Messages.getString("AbstractAxisSubtask.Button.Fixed") ); //$NON-NLS-1$
-				btnFixLabelThickness.addSelectionListener( this );
-				btnFixLabelThickness.setSelection( getAxisForProcessing( ).isSetLabelThickness( ) );
+				btnFixLabelSpan.setText( Messages.getString("AbstractAxisSubtask.Button.Fixed") ); //$NON-NLS-1$
+				btnFixLabelSpan.addSelectionListener( this );
+				btnFixLabelSpan.setSelection( getAxisForProcessing( ).isSetLabelSpan( ) );
 			}
 		}
 
@@ -478,8 +477,9 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		NameSet ns = LiteralHelper.axisTypeSet;
 		if ( getAxisAngleType( ) == AngleType.Y )
 		{
-			ns = ChartUIUtil.getCompatibleAxisType( ( (SeriesDefinition) getAxisForProcessing( ).getSeriesDefinitions( )
-					.get( 0 ) ).getDesignTimeSeries( ) );
+			ns = ChartUIUtil.getCompatibleAxisType( getAxisForProcessing( ).getSeriesDefinitions( )
+					.get( 0 )
+					.getDesignTimeSeries( ) );
 
 		}
 		cmbTypes.setItems( ns.getDisplayNames( ) );
@@ -597,17 +597,17 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 			attachPopup( ( (Button) e.widget ).getData( ).toString( ) );
 		}
 
-		if ( e.widget == btnFixLabelThickness )
+		if ( e.widget == btnFixLabelSpan )
 		{
-			boolean bLabelThickFixed = btnFixLabelThickness.getSelection( );
-			lneLabelThickness.setEnabled( bLabelThickFixed );
+			boolean bLabelThickFixed = btnFixLabelSpan.getSelection( );
+			lneLabelSpan.setEnabled( bLabelThickFixed );
 			if ( !bLabelThickFixed )
 			{
-				getAxisForProcessing( ).unsetLabelWithinAxes( );
+				getAxisForProcessing( ).unsetLabelSpan( );
 			}
 			else
 			{
-				getAxisForProcessing( ).setLabelThickness( lneLabelThickness.getValue( ) );
+				getAxisForProcessing( ).setLabelSpan( lneLabelSpan.getValue( ) );
 			}
 		}
 
@@ -626,16 +626,16 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 				convertSampleData( axisType );
 				getAxisForProcessing( ).setFormatSpecifier( null );
 
-				EList markerLines = getAxisForProcessing( ).getMarkerLines( );
+				EList<MarkerLine> markerLines = getAxisForProcessing( ).getMarkerLines( );
 				for ( int i = 0; i < markerLines.size( ); i++ )
 				{
-					( (MarkerLine) markerLines.get( i ) ).setFormatSpecifier( null );
+					markerLines.get( i ).setFormatSpecifier( null );
 				}
 
-				EList markerRanges = getAxisForProcessing( ).getMarkerRanges( );
+				EList<MarkerRange> markerRanges = getAxisForProcessing( ).getMarkerRanges( );
 				for ( int i = 0; i < markerRanges.size( ); i++ )
 				{
-					( (MarkerRange) markerRanges.get( i ) ).setFormatSpecifier( null );
+					markerRanges.get( i ).setFormatSpecifier( null );
 				}
 			}
 			ChartAdapter.endIgnoreNotifications( );
@@ -774,7 +774,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 	{
 		if ( getAxisAngleType( ) == AngleType.X )
 		{
-			BaseSampleData bsd = (BaseSampleData) getChart( ).getSampleData( )
+			BaseSampleData bsd = getChart( ).getSampleData( )
 					.getBaseSampleData( )
 					.get( 0 );
 			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
@@ -828,9 +828,9 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 	public void modifyText( ModifyEvent e )
 	{
-		if ( e.widget == lneLabelThickness )
+		if ( e.widget == lneLabelSpan )
 		{
-			getAxisForProcessing( ).setLabelThickness( lneLabelThickness.getValue( ) );
+			getAxisForProcessing( ).setLabelSpan( lneLabelSpan.getValue( ) );
 		}
 	}
 }

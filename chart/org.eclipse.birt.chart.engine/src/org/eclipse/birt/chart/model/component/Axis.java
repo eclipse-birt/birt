@@ -66,7 +66,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isAligned <em>Aligned</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isSideBySide <em>Side By Side</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getCursor <em>Cursor</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getLabelThickness <em>Label Thickness</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getLabelSpan <em>Label Span</em>}</li>
  * </ul>
  * </p>
  *
@@ -1185,61 +1185,61 @@ public interface Axis extends EObject
 	void setCursor( Cursor value );
 
 	/**
-	 * Returns the value of the '<em><b>Label Thickness</b></em>' attribute.
+	 * Returns the value of the '<em><b>Label Span</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
 	 * 						Give the user a way to customize a fixed thickness of axis label. 
-	 * 						Thickness means width for vertical axis, and height for horizontal 
+	 * 						Span means width for vertical axis, and height for horizontal 
 	 * 						axis.  By default, this value is unset.
 	 * 					
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Label Thickness</em>' attribute.
-	 * @see #isSetLabelThickness()
-	 * @see #unsetLabelThickness()
-	 * @see #setLabelThickness(double)
-	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_LabelThickness()
+	 * @return the value of the '<em>Label Span</em>' attribute.
+	 * @see #isSetLabelSpan()
+	 * @see #unsetLabelSpan()
+	 * @see #setLabelSpan(double)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_LabelSpan()
 	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
-	 *        extendedMetaData="kind='element' name='LabelThickness'"
+	 *        extendedMetaData="kind='element' name='LabelSpan'"
 	 * @generated
 	 */
-	double getLabelThickness( );
+	double getLabelSpan( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getLabelThickness <em>Label Thickness</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getLabelSpan <em>Label Span</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Label Thickness</em>' attribute.
-	 * @see #isSetLabelThickness()
-	 * @see #unsetLabelThickness()
-	 * @see #getLabelThickness()
+	 * @param value the new value of the '<em>Label Span</em>' attribute.
+	 * @see #isSetLabelSpan()
+	 * @see #unsetLabelSpan()
+	 * @see #getLabelSpan()
 	 * @generated
 	 */
-	void setLabelThickness( double value );
+	void setLabelSpan( double value );
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getLabelThickness <em>Label Thickness</em>}' attribute.
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getLabelSpan <em>Label Span</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isSetLabelThickness()
-	 * @see #getLabelThickness()
-	 * @see #setLabelThickness(double)
+	 * @see #isSetLabelSpan()
+	 * @see #getLabelSpan()
+	 * @see #setLabelSpan(double)
 	 * @generated
 	 */
-	void unsetLabelThickness( );
+	void unsetLabelSpan( );
 
 	/**
-	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getLabelThickness <em>Label Thickness</em>}' attribute is set.
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getLabelSpan <em>Label Span</em>}' attribute is set.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Label Thickness</em>' attribute is set.
-	 * @see #unsetLabelThickness()
-	 * @see #getLabelThickness()
-	 * @see #setLabelThickness(double)
+	 * @return whether the value of the '<em>Label Span</em>' attribute is set.
+	 * @see #unsetLabelSpan()
+	 * @see #getLabelSpan()
+	 * @see #setLabelSpan(double)
 	 * @generated
 	 */
-	boolean isSetLabelThickness( );
+	boolean isSetLabelSpan( );
 
 	/**
 	 * 

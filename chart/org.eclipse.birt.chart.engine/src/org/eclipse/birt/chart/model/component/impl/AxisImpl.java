@@ -88,7 +88,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isAligned <em>Aligned</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isSideBySide <em>Side By Side</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getCursor <em>Cursor</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabelThickness <em>Label Thickness</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabelSpan <em>Label Span</em>}</li>
  * </ul>
  * </p>
  *
@@ -615,33 +615,33 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected Cursor cursor;
 
 	/**
-	 * The default value of the '{@link #getLabelThickness() <em>Label Thickness</em>}' attribute.
+	 * The default value of the '{@link #getLabelSpan() <em>Label Span</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getLabelThickness()
+	 * @see #getLabelSpan()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double LABEL_THICKNESS_EDEFAULT = 0.0;
+	protected static final double LABEL_SPAN_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getLabelThickness() <em>Label Thickness</em>}' attribute.
+	 * The cached value of the '{@link #getLabelSpan() <em>Label Span</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getLabelThickness()
+	 * @see #getLabelSpan()
 	 * @generated
 	 * @ordered
 	 */
-	protected double labelThickness = LABEL_THICKNESS_EDEFAULT;
+	protected double labelSpan = LABEL_SPAN_EDEFAULT;
 
 	/**
-	 * This is true if the Label Thickness attribute has been set.
+	 * This is true if the Label Span attribute has been set.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean labelThicknessESet;
+	protected boolean labelSpanESet;
 
 	/*
 	 * private static int iLastID = Integer.MIN_VALUE; private final int iID;
@@ -2162,9 +2162,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getLabelThickness( )
+	public double getLabelSpan( )
 	{
-		return labelThickness;
+		return labelSpan;
 	}
 
 	/**
@@ -2172,19 +2172,19 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setLabelThickness( double newLabelThickness )
+	public void setLabelSpan( double newLabelSpan )
 	{
-		double oldLabelThickness = labelThickness;
-		labelThickness = newLabelThickness;
-		boolean oldLabelThicknessESet = labelThicknessESet;
-		labelThicknessESet = true;
+		double oldLabelSpan = labelSpan;
+		labelSpan = newLabelSpan;
+		boolean oldLabelSpanESet = labelSpanESet;
+		labelSpanESet = true;
 		if ( eNotificationRequired( ) )
 			eNotify( new ENotificationImpl( this,
 					Notification.SET,
-					ComponentPackage.AXIS__LABEL_THICKNESS,
-					oldLabelThickness,
-					labelThickness,
-					!oldLabelThicknessESet ) );
+					ComponentPackage.AXIS__LABEL_SPAN,
+					oldLabelSpan,
+					labelSpan,
+					!oldLabelSpanESet ) );
 	}
 
 	/**
@@ -2192,19 +2192,19 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void unsetLabelThickness( )
+	public void unsetLabelSpan( )
 	{
-		double oldLabelThickness = labelThickness;
-		boolean oldLabelThicknessESet = labelThicknessESet;
-		labelThickness = LABEL_THICKNESS_EDEFAULT;
-		labelThicknessESet = false;
+		double oldLabelSpan = labelSpan;
+		boolean oldLabelSpanESet = labelSpanESet;
+		labelSpan = LABEL_SPAN_EDEFAULT;
+		labelSpanESet = false;
 		if ( eNotificationRequired( ) )
 			eNotify( new ENotificationImpl( this,
 					Notification.UNSET,
-					ComponentPackage.AXIS__LABEL_THICKNESS,
-					oldLabelThickness,
-					LABEL_THICKNESS_EDEFAULT,
-					oldLabelThicknessESet ) );
+					ComponentPackage.AXIS__LABEL_SPAN,
+					oldLabelSpan,
+					LABEL_SPAN_EDEFAULT,
+					oldLabelSpanESet ) );
 	}
 
 	/**
@@ -2212,9 +2212,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isSetLabelThickness( )
+	public boolean isSetLabelSpan( )
 	{
-		return labelThicknessESet;
+		return labelSpanESet;
 	}
 
 	/**
@@ -2338,8 +2338,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return isSideBySide( );
 			case ComponentPackage.AXIS__CURSOR :
 				return getCursor( );
-			case ComponentPackage.AXIS__LABEL_THICKNESS :
-				return getLabelThickness( );
+			case ComponentPackage.AXIS__LABEL_SPAN :
+				return getLabelSpan( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -2448,8 +2448,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__CURSOR :
 				setCursor( (Cursor) newValue );
 				return;
-			case ComponentPackage.AXIS__LABEL_THICKNESS :
-				setLabelThickness( (Double) newValue );
+			case ComponentPackage.AXIS__LABEL_SPAN :
+				setLabelSpan( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -2552,8 +2552,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__CURSOR :
 				setCursor( (Cursor) null );
 				return;
-			case ComponentPackage.AXIS__LABEL_THICKNESS :
-				unsetLabelThickness( );
+			case ComponentPackage.AXIS__LABEL_SPAN :
+				unsetLabelSpan( );
 				return;
 		}
 		super.eUnset( featureID );
@@ -2628,8 +2628,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return isSetSideBySide( );
 			case ComponentPackage.AXIS__CURSOR :
 				return cursor != null;
-			case ComponentPackage.AXIS__LABEL_THICKNESS :
-				return isSetLabelThickness( );
+			case ComponentPackage.AXIS__LABEL_SPAN :
+				return isSetLabelSpan( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -2710,9 +2710,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 			result.append( sideBySide );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", labelThickness: " ); //$NON-NLS-1$
-		if ( labelThicknessESet )
-			result.append( labelThickness );
+		result.append( ", labelSpan: " ); //$NON-NLS-1$
+		if ( labelSpanESet )
+			result.append( labelSpan );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );

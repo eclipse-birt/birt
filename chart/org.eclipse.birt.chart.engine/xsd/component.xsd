@@ -257,11 +257,11 @@ the various values plotted in each direction.  This class can further be extende
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="LabelThickness" type="xsd:double" minOccurs="0" maxOccurs="1">
+			<xsd:element name="LabelSpan" type="xsd:double" minOccurs="0" maxOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>
 						Give the user a way to customize a fixed thickness of axis label. 
-						Thickness means width for vertical axis, and height for horizontal 
+						Span means width for vertical axis, and height for horizontal 
 						axis.  By default, this value is unset.
 					</xsd:documentation>
 				</xsd:annotation>

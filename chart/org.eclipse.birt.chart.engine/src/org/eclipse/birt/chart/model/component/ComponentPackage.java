@@ -320,13 +320,13 @@ public interface ComponentPackage extends EPackage
 	int AXIS__CURSOR = 28;
 
 	/**
-	 * The feature id for the '<em><b>Label Thickness</b></em>' attribute.
+	 * The feature id for the '<em><b>Label Span</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__LABEL_THICKNESS = 29;
+	int AXIS__LABEL_SPAN = 29;
 
 	/**
 	 * The number of structural features of the '<em>Axis</em>' class.
@@ -1567,15 +1567,15 @@ public interface ComponentPackage extends EPackage
 	EReference getAxis_Cursor( );
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#getLabelThickness <em>Label Thickness</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#getLabelSpan <em>Label Span</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Label Thickness</em>'.
-	 * @see org.eclipse.birt.chart.model.component.Axis#getLabelThickness()
+	 * @return the meta object for the attribute '<em>Label Span</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Axis#getLabelSpan()
 	 * @see #getAxis()
 	 * @generated
 	 */
-	EAttribute getAxis_LabelThickness( );
+	EAttribute getAxis_LabelSpan( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.ChartPreferences <em>Chart Preferences</em>}'.
@@ -2728,12 +2728,12 @@ public interface ComponentPackage extends EPackage
 		EReference AXIS__CURSOR = eINSTANCE.getAxis_Cursor( );
 
 		/**
-		 * The meta object literal for the '<em><b>Label Thickness</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Label Span</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute AXIS__LABEL_THICKNESS = eINSTANCE.getAxis_LabelThickness( );
+		EAttribute AXIS__LABEL_SPAN = eINSTANCE.getAxis_LabelSpan( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.

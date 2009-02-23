@@ -512,7 +512,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAxis_LabelThickness( )
+	public EAttribute getAxis_LabelSpan( )
 	{
 		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 29 );
 	}
@@ -1382,7 +1382,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEAttribute( axisEClass, AXIS__ALIGNED );
 		createEAttribute( axisEClass, AXIS__SIDE_BY_SIDE );
 		createEReference( axisEClass, AXIS__CURSOR );
-		createEAttribute( axisEClass, AXIS__LABEL_THICKNESS );
+		createEAttribute( axisEClass, AXIS__LABEL_SPAN );
 
 		chartPreferencesEClass = createEClass( CHART_PREFERENCES );
 		createEReference( chartPreferencesEClass, CHART_PREFERENCES__LABELS );
@@ -1628,9 +1628,9 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				theAttributePackage.getCursor( ),
 				null,
 				"cursor", null, 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
-		initEAttribute( getAxis_LabelThickness( ),
+		initEAttribute( getAxis_LabelSpan( ),
 				theXMLTypePackage.getDouble( ),
-				"labelThickness", null, 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"labelSpan", null, 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( chartPreferencesEClass,
 				ChartPreferences.class,
@@ -2081,9 +2081,9 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Cursor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
-		addAnnotation( getAxis_LabelThickness( ), source, new String[]{
+		addAnnotation( getAxis_LabelSpan( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
-				"name", "LabelThickness" //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LabelSpan" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( chartPreferencesEClass, source, new String[]{
 				"name", "ChartPreferences", //$NON-NLS-1$ //$NON-NLS-2$
