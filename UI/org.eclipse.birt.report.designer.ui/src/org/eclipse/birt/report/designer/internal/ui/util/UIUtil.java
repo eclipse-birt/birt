@@ -1164,7 +1164,9 @@ public class UIUtil
 		String home = null;
 		try
 		{
-			home = FileLocator.resolve( url ).getPath( );
+			// Fixed Bugzilla 263905 - Default path of Template Folder in
+			// Preference setting is incorrect
+			home = new File( FileLocator.resolve( url ).getPath( ) ).getAbsolutePath( );
 		}
 		catch ( IOException e )
 		{
