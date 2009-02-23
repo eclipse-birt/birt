@@ -286,12 +286,11 @@ public class DataSetViewData
 
 	public static String getDataTypeDisplayName( String typeName )
 	{
-		String displayName = dataTypes[0].getDisplayName( );
 		for ( int i = 0; i < dataTypes.length; i++ )
 		{
 			if ( dataTypes[i].getName( ).equals( typeName ) )
 				return dataTypes[i].getDisplayName( );
 		}
-		return displayName;
+		return typeName;
 	}
 }
