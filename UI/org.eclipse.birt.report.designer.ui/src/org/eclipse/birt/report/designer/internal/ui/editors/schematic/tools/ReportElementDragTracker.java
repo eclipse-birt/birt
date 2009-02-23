@@ -22,7 +22,15 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -102,19 +110,53 @@ public class ReportElementDragTracker extends DragEditPartsTracker
 
 	private EditPart getEditPartUnderMouse( )
 	{
+		if (getCurrentViewer( ) == null)
+		{
+			return null;
+		}
 		EditPart editPart = getCurrentViewer( ).findObjectAtExcluding( getLocation( ),
 				new ArrayList( ) );
 
 		return editPart;
 	}
+	
+	@Override
+	public void mouseDoubleClick( MouseEvent me, EditPartViewer viewer )
+	{
+		activeHelper = null;
+		super.mouseDoubleClick( me, viewer );
+	}
 
 	class DelaySelectionHelper implements Runnable
 	{
-
+		private FocusListener focus;
+		
+		private KeyListener key;
 		public DelaySelectionHelper( )
 		{			
 			activeHelper = this;
+			hookControl( getSourceEditPart( ).getViewer( ).getControl( ) );
 			Display.getCurrent( ).timerExec( DELAY_TIME, this );	
+		}
+		
+		void abort() {
+			activeHelper = null;
+		}
+
+		void hookControl(Control control) {
+			control.addFocusListener(focus = new FocusAdapter() {
+				public void focusLost(FocusEvent e) {
+					abort();
+				}
+			});
+			control.addKeyListener(key = new KeyListener() {
+				public void keyPressed(KeyEvent e) {
+					abort();
+				}
+				public void keyReleased(KeyEvent e) {
+					abort();
+				}
+			});
 		}
 		
 		/* (non-Javadoc)
@@ -133,6 +175,10 @@ public class ReportElementDragTracker extends DragEditPartsTracker
 					&& viewer.getControl( ) != null
 					&& !viewer.getControl( ).isDisposed( ) )
 			{
+				
+				viewer.getControl().removeFocusListener(focus);
+				
+				viewer.getControl().removeKeyListener(key);
 				if ( viewer.getSelectedEditParts( ).size( ) == 1 )
 				{
 					if ( parent.getAdapter( IDelaySelectionDragTracker.class ) != null )
