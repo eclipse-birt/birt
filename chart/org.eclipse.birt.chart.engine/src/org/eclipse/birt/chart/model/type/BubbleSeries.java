@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BubbleSeries.java,v 1.1 2006/12/28 03:49:26 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.type;
@@ -79,7 +79,7 @@ public interface BubbleSeries extends ScatterSeries
 	 * @see #unsetAccOrientation()
 	 * @see #setAccOrientation(Orientation)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getBubbleSeries_AccOrientation()
-	 * @model default="Horizontal" unique="false" unsettable="true"
+	 * @model default="Horizontal" unsettable="true"
 	 *        extendedMetaData="kind='element' name='AccOrientation'"
 	 * @generated
 	 */

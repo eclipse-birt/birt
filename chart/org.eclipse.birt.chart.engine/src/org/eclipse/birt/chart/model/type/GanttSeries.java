@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GanttSeries.java,v 1.1 2006/12/28 03:49:26 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.type;
@@ -93,7 +93,7 @@ public interface GanttSeries extends Series
 	 * @see #unsetStartMarkerPosition()
 	 * @see #setStartMarkerPosition(Position)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getGanttSeries_StartMarkerPosition()
-	 * @model default="Above" unique="false" unsettable="true" required="true"
+	 * @model default="Above" unsettable="true" required="true"
 	 *        extendedMetaData="kind='element' name='StartMarkerPosition'"
 	 * @generated
 	 */
@@ -177,7 +177,7 @@ public interface GanttSeries extends Series
 	 * @see #unsetEndMarkerPosition()
 	 * @see #setEndMarkerPosition(Position)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getGanttSeries_EndMarkerPosition()
-	 * @model default="Above" unique="false" unsettable="true" required="true"
+	 * @model default="Above" unsettable="true" required="true"
 	 *        extendedMetaData="kind='element' name='EndMarkerPosition'"
 	 * @generated
 	 */
@@ -312,7 +312,7 @@ public interface GanttSeries extends Series
 	 * @see #unsetUseDecorationLabelValue()
 	 * @see #setUseDecorationLabelValue(boolean)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getGanttSeries_UseDecorationLabelValue()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='UseDecorationLabelValue'"
 	 * @generated
 	 */
@@ -398,7 +398,7 @@ public interface GanttSeries extends Series
 	 * @see #unsetDecorationLabelPosition()
 	 * @see #setDecorationLabelPosition(Position)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getGanttSeries_DecorationLabelPosition()
-	 * @model default="Above" unique="false" unsettable="true" required="true"
+	 * @model default="Above" unsettable="true" required="true"
 	 *        extendedMetaData="kind='element' name='DecorationLabelPosition'"
 	 * @generated
 	 */
@@ -452,7 +452,7 @@ public interface GanttSeries extends Series
 	 * @see #unsetPaletteLineColor()
 	 * @see #setPaletteLineColor(boolean)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getGanttSeries_PaletteLineColor()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='PaletteLineColor'"
 	 * @generated
 	 */

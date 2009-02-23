@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DifferenceSeries.java,v 1.1 2006/12/28 03:49:26 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.type;
@@ -15,6 +15,16 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Difference Series</b></em>'.
  * <!-- end-user-doc -->
+ *
+ * <!-- begin-model-doc -->
+ * 
+ * 				This is a Series type that, during design time, holds the query data for Difference charts, and during 
+ * 				run time, holds the values for each data point in the series.  Each data point in a Difference Series
+ * 				holds two values.  When rendered, a line connects each high value of each data point, another line
+ * 				connects each low value of each data point, and the area between the high and low lines is filled with 
+ * 				the series color.
+ * 			
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:

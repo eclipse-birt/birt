@@ -8,7 +8,7 @@
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Chart">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This is the basic type from which all charts should be extended. It defines the basic elements that are expected to be present for all charts.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This is the basic type from which all charts should be extended. It defines the basic elements that are &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;expected to be present for all charts.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Chart"/>
@@ -160,7 +160,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ChartWithAxes" eSuperTypes="#//Chart">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This is a chart with axes...(e.g. Bar Chart, Line Chart etc.).&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This is a chart with axes...(e.g. Bar Chart, Line Chart, etc).  It contains one base axis and one or more &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;orthoganal axes.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ChartWithAxes"/>
@@ -245,7 +245,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ChartWithoutAxes" eSuperTypes="#//Chart">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This is a chart without axes...(e.g. Pie Chart, Donut Chart etc.).&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This is a chart without axes...(e.g. Pie Chart, Donut Chart, etc).&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ChartWithoutAxes"/>
@@ -295,6 +295,9 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DialChart" eSuperTypes="#//ChartWithoutAxes">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;        &#x9;&#x9;This is a special type of ChartWithoutAxes class that contains information specific to dials.&#xD;&#xA;        &#x9;"/>
+    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DialChart"/>
       <details key="kind" value="elementOnly"/>

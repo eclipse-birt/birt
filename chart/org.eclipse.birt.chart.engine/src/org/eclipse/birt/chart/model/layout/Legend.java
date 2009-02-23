@@ -26,7 +26,8 @@ import org.eclipse.birt.chart.model.component.Label;
  *
  * <!-- begin-model-doc -->
  * 
- * 			The Legend in a chart.
+ * 				This type defines a legend in the chart, including the legend text, size and position.  
+ * 				The legend items usually describe either the series or categories, depeding on the chart type.
  * 			
  * <!-- end-model-doc -->
  *
@@ -847,7 +848,7 @@ public interface Legend extends Block
 	 * 								The maximal percent of space which the
 	 * 								legend title can take from the legend
 	 * 								block. By default, it's 0.6.
-	 * 
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Title Percent</em>' attribute.
 	 * @see #isSetTitlePercent()

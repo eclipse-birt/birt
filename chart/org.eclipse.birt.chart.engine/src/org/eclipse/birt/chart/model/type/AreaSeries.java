@@ -18,7 +18,9 @@ package org.eclipse.birt.chart.model.type;
  *
  * <!-- begin-model-doc -->
  * 
- * 			This is a Series type that holds data for Area Charts.
+ * 			This is a Series type that, during design time, holds the query data for Area charts, and during run time, 
+ * 			holds the value for each data point in the series.  When rendered, a line connects each data point, and 
+ * 			the area below the line is filled with the series color.
  * 			
  * <!-- end-model-doc -->
  *

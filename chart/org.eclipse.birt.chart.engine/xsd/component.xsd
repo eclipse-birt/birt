@@ -8,7 +8,9 @@
 	<xsd:complexType name="Axis">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This type defines the basic elements that are expected in any axis. This can further be extended for special axis types.
+				This type defines the basic elements that are expected in any axis.  An axis refers to a line 
+				along the X, Y, or Z co-ordinate system used in the plot.  It provides a point of reference for 
+				the various values plotted in each direction.  This class can further be extended for special axis types.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
@@ -193,7 +195,9 @@
 	<xsd:complexType name="Series">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This type defines a single (related) group of data to be plotted in a chart. A series is usually expected to be associated with a numerical axis.
+				This type defines a single (related) group of data to be plotted in a chart.  A series is usually expected to be associated with a numerical axis.
+				The series includes a name, visualization settings, and a query definition used to retrieve the data point values.  At designtime, the series
+				data set is null, while at runtime, each series' data set gets populated with the data for that series.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
@@ -277,7 +281,8 @@
 	<xsd:complexType name="Label">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This type defines a text label. It is not intended as a standalone element but should be associated with a chart element.
+				This type defines a text label. It is not intended as a standalone element but 
+				should be associated with a chart element.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
@@ -333,7 +338,8 @@
 	<xsd:complexType name="MarkerLine">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This type defines a single line element. It is intended for use as a marker associated with an Axis. e.g. To denote a Target value
+				This type defines a single line element. It is intended for use as a marker associated with an Axis.
+				It can be used to denote a target value or threshold.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
@@ -384,7 +390,7 @@
 	<xsd:complexType name="MarkerRange">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This type defines a marker area. It is intended for use as a range marker associated with an Axis.
+				This type defines a marker area. It is intended for use as a range marker associated with an Axis.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
@@ -552,7 +558,7 @@
 	<xsd:complexType name="ChartPreferences">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This type defines the global chart preferences.
+				This type defines the global chart preferences.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
@@ -635,7 +641,10 @@
 	</xsd:complexType>
 	<xsd:complexType name="Dial">
 		<xsd:annotation>
-			<xsd:documentation>			This type defines the basic elements that are expected in a dial chart. This can further be extended for special dial chart types.</xsd:documentation>
+			<xsd:documentation>			
+				This type defines the basic elements that are expected in a dial chart. 
+				This can further be extended for special dial chart types.
+			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element name="StartAngle" type="xsd:double" default="0" minOccurs="0">
@@ -702,7 +711,12 @@ extending across the dial between the start and end positions.</xsd:documentatio
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="EStringToDataSetMapEntry" ecore:instanceClass="java.util.Map$Entry">
-		<xsd:sequence>
+        <xsd:annotation>
+        	<xsd:documentation>
+        		Each entry makes up the value of an actual data point to be plotted in the chart.  
+        	</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
 			<xsd:element name="Key" type="xsd:string"/>
 			<xsd:element name="Value" type="data:DataSet"/>
 		</xsd:sequence>

@@ -25,7 +25,10 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 			This type defines the basic elements that are expected in a dial chart. This can further be extended for special dial chart types.
+ * 			
+ * 				This type defines the basic elements that are expected in a dial chart. 
+ * 				This can further be extended for special dial chart types.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -66,7 +69,7 @@ public interface Dial extends EObject
 	 * @see #unsetStartAngle()
 	 * @see #setStartAngle(double)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_StartAngle()
-	 * @model default="0" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model default="0" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='StartAngle'"
 	 * @generated
 	 */
@@ -120,7 +123,7 @@ public interface Dial extends EObject
 	 * @see #unsetStopAngle()
 	 * @see #setStopAngle(double)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_StopAngle()
-	 * @model default="180" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model default="180" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='StopAngle'"
 	 * @generated
 	 */
@@ -173,7 +176,7 @@ public interface Dial extends EObject
 	 * @see #unsetRadius()
 	 * @see #setRadius(double)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_Radius()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='Radius'"
 	 * @generated
 	 */
@@ -374,7 +377,7 @@ public interface Dial extends EObject
 	 * @see #unsetInverseScale()
 	 * @see #setInverseScale(boolean)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_InverseScale()
-	 * @model default="false" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model default="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='InverseScale'"
 	 * @generated
 	 */

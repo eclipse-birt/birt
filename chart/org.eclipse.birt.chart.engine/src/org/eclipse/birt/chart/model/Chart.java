@@ -28,7 +28,8 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <!-- begin-model-doc -->
  * 
- * 			This is the basic type from which all charts should be extended. It defines the basic elements that are expected to be present for all charts.
+ * 				This is the basic type from which all charts should be extended. It defines the basic elements that are 
+ * 				expected to be present for all charts.
  * 			
  * <!-- end-model-doc -->
  *
@@ -495,7 +496,7 @@ public interface Chart extends EObject
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Styles</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChart_Styles()
-	 * @model type="org.eclipse.birt.chart.model.attribute.StyleMap" containment="true" resolveProxies="false"
+	 * @model type="org.eclipse.birt.chart.model.attribute.StyleMap" containment="true"
 	 *        extendedMetaData="kind='element' name='Styles'"
 	 * @generated
 	 */
@@ -511,7 +512,7 @@ public interface Chart extends EObject
 	 * @return the value of the '<em>Interactivity</em>' containment reference.
 	 * @see #setInteractivity(Interactivity)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChart_Interactivity()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Interactivity'"
 	 * @generated
 	 */

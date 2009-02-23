@@ -13,7 +13,8 @@
 	<xsd:complexType name="Chart">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This is the basic type from which all charts should be extended. It defines the basic elements that are expected to be present for all charts.
+				This is the basic type from which all charts should be extended. It defines the basic elements that are 
+				expected to be present for all charts.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
@@ -117,7 +118,8 @@
 	<xsd:complexType name="ChartWithAxes">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This is a chart with axes...(e.g. Bar Chart, Line Chart etc.).
+				This is a chart with axes...(e.g. Bar Chart, Line Chart, etc).  It contains one base axis and one or more 
+				orthoganal axes.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
@@ -176,7 +178,7 @@
 	<xsd:complexType name="ChartWithoutAxes">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This is a chart without axes...(e.g. Pie Chart, Donut Chart etc.).
+				This is a chart without axes...(e.g. Pie Chart, Donut Chart, etc).
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
@@ -210,7 +212,12 @@
 	</xsd:complexType>
 	<!--	Dial Chart-->
 	<xsd:complexType name="DialChart">
-		<xsd:complexContent>
+        <xsd:annotation>
+        	<xsd:documentation>
+        		This is a special type of ChartWithoutAxes class that contains information specific to dials.
+        	</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
 			<xsd:extension base="ChartWithoutAxes">
 				<xsd:sequence>
 					<xsd:element name="DialSuperimposition" type="xsd:boolean" default="true" minOccurs="0">

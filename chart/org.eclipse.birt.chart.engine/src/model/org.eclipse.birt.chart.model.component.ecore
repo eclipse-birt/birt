@@ -8,7 +8,7 @@
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Axis">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines the basic elements that are expected in any axis. This can further be extended for special axis types.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type defines the basic elements that are expected in any axis.  An axis refers to a line &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;along the X, Y, or Z co-ordinate system used in the plot.  It provides a point of reference for &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;the various values plotted in each direction.  This class can further be extended for special axis types.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Axis"/>
@@ -286,7 +286,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ChartPreferences">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines the global chart preferences.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type defines the global chart preferences.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ChartPreferences"/>
@@ -356,7 +356,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Dial">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#x9;&#x9;&#x9;This type defines the basic elements that are expected in a dial chart. This can further be extended for special dial chart types."/>
+      <details key="documentation" value="&#x9;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type defines the basic elements that are expected in a dial chart. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This can further be extended for special dial chart types.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Dial"/>
@@ -512,6 +512,9 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EStringToDataSetMapEntry" instanceClassName="java.util.Map$Entry">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;        &#x9;&#x9;Each entry makes up the value of an actual data point to be plotted in the chart.  &#xD;&#xA;        &#x9;"/>
+    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="EStringToDataSetMapEntry"/>
       <details key="kind" value="elementOnly"/>
@@ -593,7 +596,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Label">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines a text label. It is not intended as a standalone element but should be associated with a chart element.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type defines a text label. It is not intended as a standalone element but &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;should be associated with a chart element.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Label"/>
@@ -679,7 +682,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MarkerLine">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines a single line element. It is intended for use as a marker associated with an Axis. e.g. To denote a Target value&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type defines a single line element. It is intended for use as a marker associated with an Axis.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;It can be used to denote a target value or threshold.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MarkerLine"/>
@@ -751,7 +754,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MarkerRange">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines a marker area. It is intended for use as a range marker associated with an Axis.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type defines a marker area. It is intended for use as a range marker associated with an Axis.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MarkerRange"/>
@@ -967,7 +970,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Series">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines a single (related) group of data to be plotted in a chart. A series is usually expected to be associated with a numerical axis.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type defines a single (related) group of data to be plotted in a chart.  A series is usually expected to be associated with a numerical axis.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;The series includes a name, visualization settings, and a query definition used to retrieve the data point values.  At designtime, the series&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;data set is null, while at runtime, each series' data set gets populated with the data for that series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Series"/>

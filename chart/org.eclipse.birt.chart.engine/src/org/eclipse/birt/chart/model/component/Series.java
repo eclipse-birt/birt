@@ -26,7 +26,9 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <!-- begin-model-doc -->
  * 
- * 			This type defines a single (related) group of data to be plotted in a chart. A series is usually expected to be associated with a numerical axis.
+ * 				This type defines a single (related) group of data to be plotted in a chart.  A series is usually expected to be associated with a numerical axis.
+ * 				The series includes a name, visualization settings, and a query definition used to retrieve the data point values.  At designtime, the series
+ * 				data set is null, while at runtime, each series' data set gets populated with the data for that series.
  * 			
  * <!-- end-model-doc -->
  *
@@ -518,7 +520,7 @@ public interface Series extends EObject
 	 * @return
 	 */
 	DataSet getDataSet( String userkey );
-	
+
 	/**
 	 * The method indicates if painting requests of series should be added to a
 	 * single cache.

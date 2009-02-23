@@ -20,7 +20,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * 
- * 			This is a chart without axes...(e.g. Pie Chart, Donut Chart etc.).
+ * 				This is a chart without axes...(e.g. Pie Chart, Donut Chart, etc).
  * 			
  * <!-- end-model-doc -->
  *
@@ -70,7 +70,7 @@ public interface ChartWithoutAxes extends Chart
 	 * @see #unsetMinSlice()
 	 * @see #setMinSlice(double)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithoutAxes_MinSlice()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='MinSlice'"
 	 * @generated
 	 */
@@ -123,7 +123,7 @@ public interface ChartWithoutAxes extends Chart
 	 * @see #unsetMinSlicePercent()
 	 * @see #setMinSlicePercent(boolean)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithoutAxes_MinSlicePercent()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='MinSlicePercent'"
 	 * @generated
 	 */
@@ -174,7 +174,7 @@ public interface ChartWithoutAxes extends Chart
 	 * @return the value of the '<em>Min Slice Label</em>' attribute.
 	 * @see #setMinSliceLabel(String)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithoutAxes_MinSliceLabel()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='MinSliceLabel'"
 	 * @generated
 	 */

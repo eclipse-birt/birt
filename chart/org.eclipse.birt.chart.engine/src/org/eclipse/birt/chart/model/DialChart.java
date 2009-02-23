@@ -16,6 +16,12 @@ package org.eclipse.birt.chart.model;
  * A representation of the model object '<em><b>Dial Chart</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <!-- begin-model-doc -->
+ * 
+ *         		This is a special type of ChartWithoutAxes class that contains information specific to dials.
+ *         	
+ * <!-- end-model-doc -->
+ *
  * <p>
  * The following features are supported:
  * <ul>
@@ -43,7 +49,7 @@ public interface DialChart extends ChartWithoutAxes
 	 * @see #unsetDialSuperimposition()
 	 * @see #setDialSuperimposition(boolean)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getDialChart_DialSuperimposition()
-	 * @model default="true" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @model default="true" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
 	 *        extendedMetaData="kind='element' name='DialSuperimposition'"
 	 * @generated
 	 */

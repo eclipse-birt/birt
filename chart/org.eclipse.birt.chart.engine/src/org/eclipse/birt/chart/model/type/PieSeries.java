@@ -23,7 +23,10 @@ import org.eclipse.birt.chart.model.component.Series;
  *
  * <!-- begin-model-doc -->
  * 
- * 			This is a Series type that holds data for Pie Charts.
+ * 			This is a Series type that, during design time, holds the query data for Pie charts, and during run time, 
+ * 			holds the value for each data point in the pie that represents the series.  When rendered, each series is 
+ * 			drawn as a complete pie, and each data point in that series defines the size of the pie's slices.  A pie chart
+ * 			with multiple series will draw multiple pies.
  * 			
  * <!-- end-model-doc -->
  *

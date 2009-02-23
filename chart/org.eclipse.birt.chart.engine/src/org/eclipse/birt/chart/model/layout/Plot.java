@@ -16,7 +16,9 @@ package org.eclipse.birt.chart.model.layout;
  *
  * <!-- begin-model-doc -->
  * 
- * 			The Plot Area of a chart.
+ * 				This is the area of the center of the chart, extending to but not including the axes.  
+ * 				For charts without axes, this area includes the data points and data labels, but not 
+ * 				the title or legend.
  * 			
  * <!-- end-model-doc -->
  *
@@ -154,7 +156,7 @@ public interface Plot extends Block
 	 * @return the value of the '<em>Client Area</em>' containment reference.
 	 * @see #setClientArea(ClientArea)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getPlot_ClientArea()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='ClientArea'"
 	 * @generated
 	 */

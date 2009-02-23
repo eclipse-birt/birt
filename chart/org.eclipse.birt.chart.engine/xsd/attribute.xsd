@@ -8,7 +8,9 @@
 	<xsd:simpleType name="AxisType">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This type defines the allowed values for Axis types. Any new Axis type needs to be added here to be supported.
+				The values of this type describe the type of values (numerical, textual, etc) and 
+				the type of scale (linear, logarithmic, etc) displayed along the axis.  Any new 
+				Axis type needs to be added here to be supported.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:restriction base="xsd:string">
@@ -780,7 +782,7 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 	<xsd:complexType name="Bounds">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This type defines the bounds of an element.
+				This type defines the physical size and position of an element.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>

@@ -20,7 +20,9 @@ import org.eclipse.birt.chart.model.component.Series;
  *
  * <!-- begin-model-doc -->
  * 
- * 			This is a Series type that holds data for Bar Charts.
+ * 			This is a Series type that, during design time, holds the query data for Bar charts, and during run time, 
+ * 			holds the value for each riser in the series.  When rendered, a riser extends from the x-axis to the 
+ * 			value of each data point.
  * 			
  * <!-- end-model-doc -->
  *

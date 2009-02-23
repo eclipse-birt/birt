@@ -103,7 +103,7 @@ public interface StockSeries extends Series
 	 * @see #unsetShowAsBarStick()
 	 * @see #setShowAsBarStick(boolean)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getStockSeries_ShowAsBarStick()
-	 * @model default="false" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @model default="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
 	 *        extendedMetaData="kind='element' name='ShowAsBarStick'"
 	 * @generated
 	 */
@@ -157,7 +157,7 @@ public interface StockSeries extends Series
 	 * @see #unsetStickLength()
 	 * @see #setStickLength(int)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getStockSeries_StickLength()
-	 * @model default="5" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+	 * @model default="5" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
 	 *        extendedMetaData="kind='element' name='StickLength'"
 	 * @generated
 	 */

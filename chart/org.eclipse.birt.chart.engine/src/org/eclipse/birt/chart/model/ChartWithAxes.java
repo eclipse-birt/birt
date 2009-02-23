@@ -24,7 +24,8 @@ import org.eclipse.emf.common.util.EList;
  *
  * <!-- begin-model-doc -->
  * 
- * 			This is a chart with axes...(e.g. Bar Chart, Line Chart etc.).
+ * 				This is a chart with axes...(e.g. Bar Chart, Line Chart, etc).  It contains one base axis and one or more 
+ * 				orthoganal axes.
  * 			
  * <!-- end-model-doc -->
  *

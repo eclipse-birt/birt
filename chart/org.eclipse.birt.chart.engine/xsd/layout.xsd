@@ -8,7 +8,9 @@
 	<xsd:complexType name="Plot">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			The Plot Area of a chart.
+				This is the area of the center of the chart, extending to but not including the axes.  
+				For charts without axes, this area includes the data points and data labels, but not 
+				the title or legend.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
@@ -42,7 +44,8 @@
 	<xsd:complexType name="Legend">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			The Legend in a chart.
+				This type defines a legend in the chart, including the legend text, size and position.  
+				The legend items usually describe either the series or categories, depeding on the chart type.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
@@ -215,7 +218,7 @@
 	<xsd:complexType name="LabelBlock">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This type defines a text block in the chart.
+				This type defines a text block in the chart, including the block's text, size and position.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
@@ -235,7 +238,8 @@
 	<xsd:complexType name="TitleBlock">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This type defines the Title in a chart.
+				This type defines the Title in a chart, including the title's text, location, and bounds.  
+				The title is optional and may be hidden.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
@@ -247,7 +251,7 @@
 	<xsd:complexType name="Block">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This type defines a modular area of a chart that can be positioned within the chart bounds.
+				This type defines a modular area of a chart that can be positioned within the chart bounds.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>

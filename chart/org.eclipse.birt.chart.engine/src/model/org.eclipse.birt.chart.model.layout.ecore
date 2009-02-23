@@ -8,7 +8,7 @@
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Block">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines a modular area of a chart that can be positioned within the chart bounds.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type defines a modular area of a chart that can be positioned within the chart bounds.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Block"/>
@@ -245,7 +245,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LabelBlock" eSuperTypes="#//Block">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines a text block in the chart.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type defines a text block in the chart, including the block's text, size and position.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="LabelBlock"/>
@@ -264,7 +264,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Legend" eSuperTypes="#//Block">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;The Legend in a chart.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type defines a legend in the chart, including the legend text, size and position.  &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;The legend items usually describe either the series or categories, depeding on the chart type.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Legend"/>
@@ -438,7 +438,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="titlePercent" lowerBound="1"
         eType="#//TitlePercentType" defaultValueLiteral="0.6" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The maximal percent of space which the&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;legend title can take from the legend&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;block. By default, it's 0.6.&#xD;&#xA;"/>
+        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The maximal percent of space which the&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;legend title can take from the legend&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;block. By default, it's 0.6.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -448,7 +448,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Plot" eSuperTypes="#//Block">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;The Plot Area of a chart.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This is the area of the center of the chart, extending to but not including the axes.  &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;For charts without axes, this area includes the data points and data labels, but not &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;the title or legend.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Plot"/>
@@ -487,7 +487,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TitleBlock" eSuperTypes="#//LabelBlock">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines the Title in a chart.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type defines the Title in a chart, including the title's text, location, and bounds.  &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;The title is optional and may be hidden.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TitleBlock"/>

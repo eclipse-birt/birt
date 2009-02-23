@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <!-- begin-model-doc -->
  * 
- * 			This type defines a modular area of a chart that can be positioned within the chart bounds.
+ * 				This type defines a modular area of a chart that can be positioned within the chart bounds.
  * 			
  * <!-- end-model-doc -->
  *
@@ -78,7 +78,7 @@ public interface Block extends EObject
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Children</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getBlock_Children()
-	 * @model type="org.eclipse.birt.chart.model.layout.Block" containment="true" resolveProxies="false" required="true"
+	 * @model type="org.eclipse.birt.chart.model.layout.Block" containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Children'"
 	 * @generated
 	 */
@@ -619,7 +619,7 @@ public interface Block extends EObject
 	 * @see #unsetWidthHint()
 	 * @see #setWidthHint(double)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getBlock_WidthHint()
-	 * @model default="-1" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model default="-1" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='WidthHint'"
 	 * @generated
 	 */
@@ -673,7 +673,7 @@ public interface Block extends EObject
 	 * @see #unsetHeightHint()
 	 * @see #setHeightHint(double)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getBlock_HeightHint()
-	 * @model default="-1" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model default="-1" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='HeightHint'"
 	 * @generated
 	 */

@@ -171,7 +171,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="AxisType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines the allowed values for Axis types. Any new Axis type needs to be added here to be supported.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;The values of this type describe the type of values (numerical, textual, etc) and &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;the type of scale (linear, logarithmic, etc) displayed along the axis.  Any new &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;Axis type needs to be added here to be supported.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="AxisType"/>
@@ -189,7 +189,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Bounds">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines the bounds of an element.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type defines the physical size and position of an element.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Bounds"/>
