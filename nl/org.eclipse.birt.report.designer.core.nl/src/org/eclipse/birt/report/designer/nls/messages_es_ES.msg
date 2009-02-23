@@ -48,7 +48,7 @@ AddCSSAction.Text=Añadir archivo CSS...
 ###########################################################
 #AddResourceAction properties
 
-AddResourceAction.Text=Añadir recurso...
+AddResourceAction.Text=Add Reso&urce...
 AddResourceAction.Dialog.Tilte=Seleccionar un recurso
 AddResourceAction.Error.Message=El archivo ya existe.
 AddResourceAction.Error.FileNotFound=No se ha encontrado el archivo ''{0}''.
@@ -83,14 +83,14 @@ PublishCSSAction.wizard.notvalidfolder=La carpeta del archivo CSS definida como 
 
 ###########################################################
 #ResourceAction properties
-DeleteLibraryAction.Text=Eliminar
-CopyLibraryAction.Text=Copiar
-PasteLibraryAction.Text=Pegar
-MoveLibraryAction.Text=Mover...
-RenameLibraryAction.Text=Cambiar nombre
-NewFolderAction.Text=Carpeta
-NewLibraryAction.Text=Librería
-NewResource.MenuGroup.Text=Nuevo
+DeleteLibraryAction.Text=&Eliminar
+CopyLibraryAction.Text=&Copiar
+PasteLibraryAction.Text=&Pegar
+MoveLibraryAction.Text=Mo&ve...
+RenameLibraryAction.Text=Ca&mbiar nombre
+NewFolderAction.Text=&Folder
+NewLibraryAction.Text=&Library
+NewResource.MenuGroup.Text=&New
 RenameResourceAction.nameExists=Ya existe un archivo o carpeta con este nombre
 RenameResourceAction.inputDialogTitle=Cambiar nombre del recurso
 RenameResourceAction.inputDialogMessage=Nuevo nombre:
@@ -3008,7 +3008,7 @@ RefreshAction.text=Ac&tualizar
 ###########################################################
 #RefreshLibExplorerAction properties
 
-RefreshLibExplorerAction.Text=Actualizar
+RefreshLibExplorerAction.Text=Ac&tualizar
 
 ###########################################################
 #RemoveLibraryAction properties
@@ -4455,3 +4455,9 @@ UIUtil.previewconfirm.message=El informe contiene errores, ¿desea continuar para
 ###########################################################
 #FileReportProvider
 FileReportProvider.CopyConfigFile.DeleteFailure=Delete file failure: {0}
+
+###########################################################
+#ShowPropertiesViewMenu
+ShowPropertiesViewMenu.ActionName=Prop&erties
+ShowPropertiesViewMenu.ErrorMessage=Fail to open Properties View
+ShowPropertiesViewMenu.ErrorTitle=Error

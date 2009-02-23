@@ -48,7 +48,7 @@ AddCSSAction.Text=添加 CSS 文件...
 ###########################################################
 #AddResourceAction properties
 
-AddResourceAction.Text=添加资源...
+AddResourceAction.Text=Add Reso&urce...
 AddResourceAction.Dialog.Tilte=选择资源
 AddResourceAction.Error.Message=文件已经存在。
 AddResourceAction.Error.FileNotFound=未找到文件 ''{0}''。
@@ -83,14 +83,14 @@ PublishCSSAction.wizard.notvalidfolder=首选项中定义的资源文件夹无效。
 
 ###########################################################
 #ResourceAction properties
-DeleteLibraryAction.Text=删除
-CopyLibraryAction.Text=复制
-PasteLibraryAction.Text=粘贴
-MoveLibraryAction.Text=移动...
-RenameLibraryAction.Text=重命名
-NewFolderAction.Text=文件夹
-NewLibraryAction.Text=库
-NewResource.MenuGroup.Text=新建
+DeleteLibraryAction.Text=删除(&D)
+CopyLibraryAction.Text=复制(&C)
+PasteLibraryAction.Text=粘贴(&P)
+MoveLibraryAction.Text=Mo&ve...
+RenameLibraryAction.Text=重命名(&M)
+NewFolderAction.Text=&Folder
+NewLibraryAction.Text=&Library
+NewResource.MenuGroup.Text=&New
 RenameResourceAction.nameExists=具有此名称的文件或文件夹已存在
 RenameResourceAction.inputDialogTitle=重命名资源
 RenameResourceAction.inputDialogMessage=新名称:
@@ -3008,7 +3008,7 @@ RefreshAction.text=刷新(&F)
 ###########################################################
 #RefreshLibExplorerAction properties
 
-RefreshLibExplorerAction.Text=刷新
+RefreshLibExplorerAction.Text=刷新(&F)
 
 ###########################################################
 #RemoveLibraryAction properties
@@ -4455,3 +4455,9 @@ UIUtil.previewconfirm.message=报表包含错误，是否继续预览?
 ###########################################################
 #FileReportProvider
 FileReportProvider.CopyConfigFile.DeleteFailure=Delete file failure: {0}
+
+###########################################################
+#ShowPropertiesViewMenu
+ShowPropertiesViewMenu.ActionName=Prop&erties
+ShowPropertiesViewMenu.ErrorMessage=Fail to open Properties View
+ShowPropertiesViewMenu.ErrorTitle=错误

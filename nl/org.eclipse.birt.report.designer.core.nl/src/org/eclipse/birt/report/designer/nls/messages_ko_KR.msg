@@ -48,7 +48,7 @@ AddCSSAction.Text=CSS 파일 추가...
 ###########################################################
 #AddResourceAction properties
 
-AddResourceAction.Text=리소스 추가...
+AddResourceAction.Text=Add Reso&urce...
 AddResourceAction.Dialog.Tilte=리소스 선택
 AddResourceAction.Error.Message=파일이 이미 있습니다.
 AddResourceAction.Error.FileNotFound=파일 ''{0}''이(가) 없습니다.
@@ -83,14 +83,14 @@ PublishCSSAction.wizard.notvalidfolder=기본 설정에 정의된 리소스 폴더가 올바르지
 
 ###########################################################
 #ResourceAction properties
-DeleteLibraryAction.Text=삭제
-CopyLibraryAction.Text=복사
-PasteLibraryAction.Text=붙여넣기
-MoveLibraryAction.Text=이동...
-RenameLibraryAction.Text=이름 바꾸기
-NewFolderAction.Text=폴더
-NewLibraryAction.Text=라이브러리
-NewResource.MenuGroup.Text=새로 만들기...
+DeleteLibraryAction.Text=삭제(&D)
+CopyLibraryAction.Text=복사(&C)
+PasteLibraryAction.Text=붙여넣기(&P)
+MoveLibraryAction.Text=Mo&ve...
+RenameLibraryAction.Text=이름 바꾸기(&M)
+NewFolderAction.Text=&Folder
+NewLibraryAction.Text=&Library
+NewResource.MenuGroup.Text=&New
 RenameResourceAction.nameExists=같은 이름의 파일 또는 폴더가 이미 있습니다.
 RenameResourceAction.inputDialogTitle=리소스 이름 바꾸기
 RenameResourceAction.inputDialogMessage=새 이름:
@@ -3008,7 +3008,7 @@ RefreshAction.text=새로 고침(&F)
 ###########################################################
 #RefreshLibExplorerAction properties
 
-RefreshLibExplorerAction.Text=새로 고침
+RefreshLibExplorerAction.Text=새로 고침(&F)
 
 ###########################################################
 #RemoveLibraryAction properties
@@ -4455,3 +4455,9 @@ UIUtil.previewconfirm.message=보고서에 오류가 있습니다. 미리 보기를 계속하시겠습
 ###########################################################
 #FileReportProvider
 FileReportProvider.CopyConfigFile.DeleteFailure=Delete file failure: {0}
+
+###########################################################
+#ShowPropertiesViewMenu
+ShowPropertiesViewMenu.ActionName=Prop&erties
+ShowPropertiesViewMenu.ErrorMessage=Fail to open Properties View
+ShowPropertiesViewMenu.ErrorTitle=오류

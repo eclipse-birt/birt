@@ -48,7 +48,7 @@ AddCSSAction.Text=CSS ƒtƒ@ƒCƒ‹‚Ì’Ç‰Á...
 ###########################################################
 #AddResourceAction properties
 
-AddResourceAction.Text=ƒŠƒ\[ƒX‚Ì’Ç‰Á...
+AddResourceAction.Text=Add Reso&urce...
 AddResourceAction.Dialog.Tilte=ƒŠƒ\[ƒX‚Ì‘I‘ğ
 AddResourceAction.Error.Message=ƒtƒ@ƒCƒ‹‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B
 AddResourceAction.Error.FileNotFound=ƒtƒ@ƒCƒ‹ ''{0}'' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
@@ -83,14 +83,14 @@ PublishCSSAction.wizard.notvalidfolder=İ’è‚É–³Œø‚ÈƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ª’è‹`‚³‚ê‚Ä‚
 
 ###########################################################
 #ResourceAction properties
-DeleteLibraryAction.Text=íœ
-CopyLibraryAction.Text=ƒRƒs[
-PasteLibraryAction.Text=“\‚è•t‚¯
-MoveLibraryAction.Text=ˆÚ“®...
-RenameLibraryAction.Text=–¼‘O‚Ì•ÏX
-NewFolderAction.Text=ƒtƒHƒ‹ƒ_
-NewLibraryAction.Text=ƒ‰ƒCƒuƒ‰ƒŠ
-NewResource.MenuGroup.Text=V‹Kì¬
+DeleteLibraryAction.Text=íœ(&D)
+CopyLibraryAction.Text=ƒRƒs[(&C)
+PasteLibraryAction.Text=“\‚è•t‚¯(&P)
+MoveLibraryAction.Text=Mo&ve...
+RenameLibraryAction.Text=–¼‘O‚Ì•ÏX(&M)
+NewFolderAction.Text=&Folder
+NewLibraryAction.Text=&Library
+NewResource.MenuGroup.Text=&New
 RenameResourceAction.nameExists=“¯‚¶–¼‘O‚Ìƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒtƒHƒ‹ƒ_‚ª‚ ‚è‚Ü‚·B
 RenameResourceAction.inputDialogTitle=ƒŠƒ\[ƒX–¼‚Ì•ÏX
 RenameResourceAction.inputDialogMessage=V‚µ‚¢–¼‘O :
@@ -3008,7 +3008,7 @@ RefreshAction.text=Ä•\¦(&F)
 ###########################################################
 #RefreshLibExplorerAction properties
 
-RefreshLibExplorerAction.Text=XV
+RefreshLibExplorerAction.Text=Ä•\¦(&F)
 
 ###########################################################
 #RemoveLibraryAction properties
@@ -4455,3 +4455,9 @@ UIUtil.previewconfirm.message=ƒŒƒ|[ƒg‚ÉƒGƒ‰[‚ª‚ ‚è‚Ü‚·BƒvƒŒƒrƒ…[‚ğ‘±s‚µ‚Ü‚·
 ###########################################################
 #FileReportProvider
 FileReportProvider.CopyConfigFile.DeleteFailure=Delete file failure: {0}
+
+###########################################################
+#ShowPropertiesViewMenu
+ShowPropertiesViewMenu.ActionName=Prop&erties
+ShowPropertiesViewMenu.ErrorMessage=Fail to open Properties View
+ShowPropertiesViewMenu.ErrorTitle=ƒGƒ‰[
