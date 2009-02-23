@@ -22,10 +22,7 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -114,10 +111,6 @@ public class ReportElementDragTracker extends DragEditPartsTracker
 	class DelaySelectionHelper implements Runnable
 	{
 
-		private FocusListener focus;
-		private MouseListener mouse;
-		private KeyListener key;
-
 		public DelaySelectionHelper( )
 		{			
 			activeHelper = this;
@@ -129,6 +122,10 @@ public class ReportElementDragTracker extends DragEditPartsTracker
 		 */
 		public void run( )
 		{
+			if (!getSourceEditPart( ).isActive( ))
+			{
+				return;
+			}
 			EditPartViewer viewer = getSourceEditPart( ).getViewer( );
 			EditPart parent = getSourceEditPart( ).getParent( );
 			if ( activeHelper == this
