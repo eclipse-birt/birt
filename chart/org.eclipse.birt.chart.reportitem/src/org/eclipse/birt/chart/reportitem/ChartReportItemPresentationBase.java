@@ -44,6 +44,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.ChartScriptContext;
@@ -54,12 +55,15 @@ import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
+import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.data.dte.CubeResultSet;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.ReportItemPresentationBase;
 import org.eclipse.birt.report.engine.extension.Size;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
@@ -67,6 +71,8 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.core.runtime.IAdapterManager;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.EvaluatorException;
 
@@ -99,7 +105,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 	private static List<String> registeredDevices = null;
 
-	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	protected static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	private Bounds boundsRuntime = null;
 
@@ -1003,10 +1009,32 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 	}
 
+	private IActionRenderer createActionRenderer( DesignElementHandle eih,
+			IHTMLActionHandler handler, IDataRowExpressionEvaluator evaluator,
+			IReportContext context )
+	{
+		IAdapterManager adapterManager = Platform.getAdapterManager( );
+		IActionRendererFactory arFactory = (IActionRendererFactory) adapterManager.loadAdapter( this.handle,
+				IActionRendererFactory.class.getName( ) );
+
+		if ( arFactory != null )
+		{
+			return arFactory.createActionRenderer( eih,
+					handler,
+					evaluator,
+					context );
+		}
+		else
+		{
+			return new BIRTActionRenderer( eih, handler, evaluator, context );
+		}
+	}
+
 	private void initializeRuntimeContext(
 			IDataRowExpressionEvaluator rowAdapter )
 	{
-		rtc.setActionRenderer( new BIRTActionRenderer( this.handle,
+
+		rtc.setActionRenderer( createActionRenderer( this.handle,
 				this.ah,
 				rowAdapter,
 				this.context ) );
