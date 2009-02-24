@@ -748,7 +748,7 @@ public class CascadingParametersDialog extends BaseDialog
 				.getCommandStack( );
 		cmdStack.startTrans( Messages.getString( "CascadingParametersDialog.Title.EditCascadingParameter" ) ); //$NON-NLS-1$
 
-		AddEditCascadingParameterDialog dialog = new AddEditCascadingParameterDialog( Messages.getString( "CascadingParametersDialog.Title.AddCascadingParameter" ) ); //$NON-NLS-1$
+		AddEditCascadingParameterDialog dialog = new AddEditCascadingParameterDialog( Messages.getString( "CascadingParametersDialog.Title.EditCascadingParameter" ) ); //$NON-NLS-1$
 		dialog.setParameter( param );
 		if ( dialog.open( ) != Dialog.OK )
 		{

@@ -171,6 +171,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private CLabel messageLine;
 
+	private Label toolTip;
 	private TableViewer paramBindingTable;
 
 	private ComboBoxCellEditor parameterChooser;
@@ -677,7 +678,9 @@ public class HyperlinkBuilder extends BaseDialog
 		formatsGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		formatsGroup.setText( STEPS[6]
 				+ Messages.getString( "HyperlinkBuilder.DrillThrough.Tooltip" ) ); //$NON-NLS-1$
-		formatsGroup.setLayout( new GridLayout( 1, false ) );
+		formatsGroup.setLayout( new GridLayout( 2, false ) );
+		toolTip = new Label( formatsGroup, SWT.NONE );
+		toolTip.setText( LABEL_TOOLTIP );
 		tooltipText = new Text( formatsGroup, SWT.BORDER );
 		tooltipText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 	}
