@@ -73,7 +73,6 @@ public class AddResourceAction extends ResourceAction
 		}
 
 		final PublishResourceWizard publishLibrary = new PublishResourceWizard( container.getAbsolutePath( ) );
-		final File targetFile = publishLibrary.getTargetFile( );
 		WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
 				publishLibrary ) {
 
@@ -81,16 +80,17 @@ public class AddResourceAction extends ResourceAction
 			protected void okPressed( )
 			{
 				publishLibrary.setCopyFileRunnable( createCopyFileRunnable( publishLibrary.getSourceFile( ),
-						targetFile ) );
+						publishLibrary.getTargetFile( ) ) );
 
 				super.okPressed( );
 			}
 		};
 
 		dialog.setPageSize( 500, 250 );
-		if ( dialog.open( ) == Window.OK && targetFile != null )
+		if ( dialog.open( ) == Window.OK )
 		{
-			fireResourceChanged( targetFile.getAbsolutePath( ) );
+			fireResourceChanged( publishLibrary.getTargetFile( )
+					.getAbsolutePath( ) );
 		}
 	}
 }
