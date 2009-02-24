@@ -249,7 +249,7 @@ public class ExcelWriter
 				urlAddress = "#" + urlAddress;
 
 			}
-			if ( urlAddress.length( ) >= 255 )
+			if ( urlAddress != null && urlAddress.length( ) >= 255 )
 			{
 				logger.log( Level.WARNING, "The URL: {" + urlAddress + "} is too long!" );
 				urlAddress = urlAddress.substring( 0, 254 );
