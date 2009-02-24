@@ -48,7 +48,7 @@ AddCSSAction.Text=CSS 파일 추가...
 ###########################################################
 #AddResourceAction properties
 
-AddResourceAction.Text=Add Reso&urce...
+AddResourceAction.Text=Add &Resource...
 AddResourceAction.Dialog.Tilte=리소스 선택
 AddResourceAction.Error.Message=파일이 이미 있습니다.
 AddResourceAction.Error.FileNotFound=파일 ''{0}''이(가) 없습니다.
@@ -363,8 +363,8 @@ CascadingParametersDialog.Choice.SelectValue=<값 선택...>
 CascadingParametersDialog.Button.Add=추가(&A)
 CascadingParametersDialog.Button.Edit=편집(&D)
 CascadingParametersDialog.Button.Delete=삭제(&T)
-CascadingParametersDialog.Title.AddCascadingParameter=계단식 매개 변수 추가
-CascadingParametersDialog.Title.EditCascadingParameter=계단식 매개 변수 편집
+CascadingParametersDialog.Title.AddCascadingParameter=Add Cascading Parameter
+CascadingParametersDialog.Title.EditCascadingParameter=계단식 매개변수 편집
 CascadingParametersDialog.items.None=<없음>
 
 ###########################################################
@@ -441,13 +441,11 @@ dataBinding.message.haveNoName=선택한 항목에 이름이 없습니다.\n\n항목을 선택하려
 dataBinding.title.haveNoName=이름이 없습니까?
 dataBinding.button.OK=확인(&O)
 
-parameterBinding.title=데이터 집합 매개 변수 바인딩...
-
+parameterBinding.title=Data Set Parameter Binding...
+ParameterBindingDialog.title=Data Set Parameter Binding
 
 dataBinding.title.generateOutputParam=바인딩 생성
 dataBinding.msg.generateOutputParam=데이터 집합에 하나 이상의 출력 매개 변수가 있습니다.\n\n 이에 대한 바인딩을 생성하시겠습니까?
-
-
 
 ###########################################################
 #DataEditPart properties
@@ -646,7 +644,7 @@ DataSetNodeProvider.menu.text=편집(&E)
 
 DataSetParametersPage.description=입력 매개 변수 정의:
 DataSetParametersPage.Filter.Tooltip=데이터 집합 안이나 밖으로 매개 변수 전달.
-DataSetParameterBindingInputDialog.Title=데이터 집합 매개 변수 바인딩 편집
+DataSetParameterBindingInputDialog.Title=Edit data set parameter binding
 DataSetParametersPage.ErrorTitle.InvalidInput=잘못된 입력.
 DataSetParameterBindingInputDialog.Label.Name=매개 변수 이름:
 DataSetParametersPage.ErrorMessage.CanootBeNull=값은 널(null)일 수 없습니다.
@@ -845,7 +843,7 @@ designer.preview.preference.timezone.description=표준 시간대(&T):
 designer.preview.preference.resultset.sqldatasetpage.group.title=쿼리 페이지
 designer.preview.preference.resultset.previewpage.group.title=미리 보기 페이지
 designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=행 제한 설정 미리 보기
-designer.preview.preference.resultset.NoLimitOfDispalyRow=표시할 행 수에 제한이 없습니다.
+designer.preview.preference.resultset.NoLimitOfDispalyRow=&No limits of the number of rows to display.
 designer.preview.preference.resultset.maxNoOfSchema.description=표시할 최대 스키마 수(&S):
 designer.preview.preference.resultset.maxNoOfTable.description=표시할 각 스키마의 최대 테이블 수(&T):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=최대 스키마에 대해 0과 {0} 사이의 숫자를 입력하십시오.
@@ -1599,7 +1597,7 @@ FormatDateTimeAttributePage.Trans.SetDateTimeFormat = 날짜 시간 형식을 설정합니�
 
 FormatDateTimePage.label.custom.settings.label=예 형식(하나를 눌러 아래 복사한 다음 수정):
 FormatDateTimePage.label.custom.settings=사용자 지정 설정
-FormatDateTimePage.label.format.code=형식 코드:
+FormatDateTimePage.label.format.code=Format &code:
 FormatDateTimePage.label.format.page=다음으로 형식 지정(&F):
 FormatDateTimePage.label.general.preview.group=형식 미리 보기
 
@@ -1609,7 +1607,7 @@ FormatDateTimePage.label.general.preview.group=형식 미리 보기
 FormatDateTimePage.label.guide.format=yyyy/MM/dd hh:mm:ss
 FormatDateTimePage.label.guide.text=다음 형식으로 입력하십시오: yyyy/MM/dd hh:mm:ss AM/PM
 
-FormatDateTimePage.label.preview.dateTime=미리 보기 날짜 시간: 
+FormatDateTimePage.label.preview.dateTime=DateTime to &preview: 
 FormatDateTimePage.label.preview.group=미리 보기
 FormatDateTimePage.label.preview.label=형식 미리 보기:
 FormatDateTimePage.label.table.column.format.name=예 형식
@@ -1637,22 +1635,22 @@ FormatNumberPage.label.custom.preview.group=미리 보기
 FormatNumberPage.label.custom.preview.label=형식 미리 보기:
 FormatNumberPage.label.custom.settings.lable=예 형식 (하나를 눌러 아래 복사한 다음 수정):
 FormatNumberPage.label.custom.settings=사용자 지정 설정
-FormatNumberPage.label.decimal.places=소수 자릿수: 
+FormatNumberPage.label.decimal.places=&Decimal places: 
 FormatNumberPage.label.fixed.settings=고정 설정
-FormatNumberPage.label.format.code=형식 코드:
+FormatNumberPage.label.format.code=Format &code:
 FormatNumberPage.label.format.number.page=다음으로 형식 지정(&F):
 FormatNumberPage.label.general.preview.group=형식 미리 보기
-FormatNumberPage.label.negative.numbers=음수: 
+FormatNumberPage.label.negative.numbers=&Negative numbers: 
 FormatNumberPage.label.percent.settings=백분율 설정
-FormatNumberPage.label.preview.number=미리 보기 숫자: 
+FormatNumberPage.label.preview.number=Number to &preview: 
 FormatNumberPage.label.scientific.settings=공학용 설정
-FormatNumberPage.label.symbol.position=기호 위치: 
-FormatNumberPage.label.symbol=기호: 
+FormatNumberPage.label.symbol.position=S&ymbol position: 
+FormatNumberPage.label.symbol=&Symbol: 
 FormatNumberPage.label.table.column.format.code=예 형식
 FormatNumberPage.label.table.column.format.result=예 형식 결과
-FormatNumberPage.label.use1000sSeparator=1000 단위 구분 기호 사용
+FormatNumberPage.label.use1000sSeparator=Use &1000s separator
 FormatNumberPage.label.useLeadingZero=선행 0 사용
-FormatNumberPage.label.useSymbolSpace=기호 공백 사용
+FormatNumberPage.label.useSymbolSpace=Use sy&mbol space
 FormatNumberPage.preview.invalidFormatCode=잘못된 형식 코드
 FormatNumberPage.preview.invalidNumber=잘못된 숫자 미리 보기
 FormatNumberPage.symblePos.after=이후
@@ -1680,10 +1678,10 @@ FormatStringPage.default.preview.text=내 문자열
 FormatStringPage.label.custom.preview.label=형식 미리 보기:
 FormatStringPage.label.custom.settings.label=예 형식(하나를 눌러 아래 복사한 다음 수정):
 FormatStringPage.label.customSettings=사용자 지정 설정
-FormatStringPage.label.format.code=형식 코드:
+FormatStringPage.label.format.code=Format &code:
 FormatStringPage.label.formatStringAs=다음으로 형식 지정(&F):
 FormatStringPage.label.preview.group=미리 보기
-FormatStringPage.label.preview.string=미리 보기 문자열: 
+FormatStringPage.label.preview.string=String to &preview: 
 FormatStringPage.label.previewWithFormat=형식 미리 보기
 FormatStringPage.label.table.collumn.exampleFormatCode=예 형식
 FormatStringPage.label.table.collumn.exampleFormatResult=예 형식 결과
@@ -1915,7 +1913,7 @@ HyperlinkBuilder.ParameterRequired=필수
 HyperlinkBuilder.Column.DataType=데이터 형식
 HyperlinkBuilder.Column.Values=값
 HyperlinkBuilder.DialogTitle=하이퍼링크 옵션
-HyperlinkBuilder.ErrorMessage.InvalidReport=잘못된 보고서 디자인입니다.
+HyperlinkBuilder.ErrorMessage.InvalidReport=Cannot resolve the target report design, the predefined parameter info will not be available.
 HyperlinkBuilder.ErrorMessage.ReportReqired=보고서 파일을 지정해야 합니다
 HyperlinkBuilder.DrillThroughTargetBookmark=대상 책갈피(&T)
 HyperlinkBuilder.DrillThroughLinkExpression=링크 식(&E):
@@ -1940,7 +1938,7 @@ HyperlinkBuilder.Radio.Bookmark=내부 책갈피(&K)
 HyperlinkBuilder.DrillThroughPdf=PDF
 HyperlinkBuilder.Radio.DrillThrough=드릴스루(&D)
 HyperlinkBuilder.ReportDesignButton=보고서 디자인(&R):
-HyperlinkBuilder.ReportDocumentButton=보고서 문서(&P):
+HyperlinkBuilder.ReportDocumentButton=Report Do&cument:
 HyperlinkBuilder.Radio.None=링크 없음(&O)
 HyperlinkBuilder.Radio.Uri=&URI
 HyperlinkBuilder.BrowseForFile=파일 찾아보기
@@ -2588,7 +2586,7 @@ NewReportWizard.wizard.msgDirErr=The target directory does not exist, but cannot
 ###########################################################
 #NewResourceFileDialog properties
 
-NewResourceFileDialog.label.NewFile=새 파일 이름:
+NewResourceFileDialog.label.NewFile=&New File Name:
 NewResourceFileDialog.ErrorMessage=파일 이름은 .properties로 끝나야 합니다.
 NewResourceFileDialog.ErrorMessageInvalid=잘못된 파일 이름
 
@@ -2979,7 +2977,7 @@ ExportToLibraryAction.wizard.page.foldererror=지정한 폴더가 없습니다.
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=리소스 폴더에 라이브러리 배치(&D)...
+PublishLibraryToResourceFolderAction.Action.Text=Place Li&brary in Resource Folder...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -3076,7 +3074,7 @@ report.designer.ui.preferences.library.export.overwrite.always=항상(&W)
 report.designer.ui.preferences.library.export.overwrite.never=안 함(&N)
 report.designer.ui.preferences.library.export.overwrite.prompt=묻기(&P)
 report.designer.ui.preferences.library.export.title=디자인 요소를 라이브러리로 내보낼 때 기존 요소를 덮어쓰기
-report.designer.ui.preferences.template.openDialogTitle=템플릿 폴더를 선택하십시오.
+report.designer.ui.preferences.template.openDialogTitle=Folder Selection
 report.designer.ui.preferences.template.select=선택(&S)...
 report.designer.ui.preferences.template.templatedir=템플릿
 report.designer.ui.preferences.template.templatefolder=템플릿 폴더(&T)
@@ -3934,7 +3932,7 @@ ReportPageGenerator.List.Resources.JsFile=Javascript 파일:
 #ClassFinder
 ClassFinder.TaskStart=처리기 클래스 검색 중...
 ClassFinder.DialogTitle=클래스 선택
-ClassFinder.DialogMessage=처리기 클래스 선택
+ClassFinder.DialogMessage=&Choose a handler class:
 ClassFinder.ErrorMessage=클래스를 찾을 수 없음
 
 ###########################################################
@@ -3958,9 +3956,9 @@ EventHandlerPage.Browse=찾아보기(&B)...
 IDEFileReportProvider.ReadOnlyEncounter.Title=읽기 전용 파일 발생
 IDEFileReportProvider.ReadOnlyEncounter.Message=''{0}'' 파일은 읽기 전용입니다. 먼저 파일에 쓸 수 있는지 확인하십시오.
 IDEResourcePageHelper.Dialog.Prompt=디렉터리 선택: 
-IDEResourcePageHelper.Dialog.Text=작업 영역과 관련된 위치 선택: 
+IDEResourcePageHelper.Dialog.Text=&Choose a location relative to the workspace:
 IDEResourcePageHelper.Dialog.Title=디렉터리 선택 
-IDEResourcePageHelper.File.Button=파일 시스템... 
+IDEResourcePageHelper.File.Button=&File System...
 IDEResourcePageHelper.Varible.Button=변수(&B)... 
 IDEResourcePageHelper.WorkSpace.Button=작업 영역(&W)...
 

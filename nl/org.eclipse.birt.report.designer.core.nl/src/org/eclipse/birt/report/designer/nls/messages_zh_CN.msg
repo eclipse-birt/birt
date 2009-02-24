@@ -48,7 +48,7 @@ AddCSSAction.Text=Ìí¼Ó CSS ÎÄ¼ş...
 ###########################################################
 #AddResourceAction properties
 
-AddResourceAction.Text=Add Reso&urce...
+AddResourceAction.Text=Add &Resource...
 AddResourceAction.Dialog.Tilte=Ñ¡Ôñ×ÊÔ´
 AddResourceAction.Error.Message=ÎÄ¼şÒÑ¾­´æÔÚ¡£
 AddResourceAction.Error.FileNotFound=Î´ÕÒµ½ÎÄ¼ş ''{0}''¡£
@@ -363,7 +363,7 @@ CascadingParametersDialog.Choice.SelectValue=<Ñ¡ÔñÖµ...>
 CascadingParametersDialog.Button.Add=Ìí¼Ó(&A)
 CascadingParametersDialog.Button.Edit=±à¼­(&D)
 CascadingParametersDialog.Button.Delete=É¾³ı(&T)
-CascadingParametersDialog.Title.AddCascadingParameter=Ìí¼Ó¼¶Áª²ÎÊı
+CascadingParametersDialog.Title.AddCascadingParameter=Add Cascading Parameter
 CascadingParametersDialog.Title.EditCascadingParameter=±à¼­¼¶Áª²ÎÊı
 CascadingParametersDialog.items.None=<ÎŞ>
 
@@ -441,13 +441,11 @@ dataBinding.message.haveNoName=ÄúÑ¡ÔñµÄÏîÄ¿Ã»ÓĞÃû³Æ¡£\n\nÇë·µ»Ø²¢ÎªÏîÄ¿Ö¸¶¨Ãû³Æ£
 dataBinding.title.haveNoName=Ã»ÓĞÃû³Æ?
 dataBinding.button.OK=È·¶¨(&O)
 
-parameterBinding.title=Êı¾İ¼¯²ÎÊı°ó¶¨...
-
+parameterBinding.title=Data Set Parameter Binding...
+ParameterBindingDialog.title=Data Set Parameter Binding
 
 dataBinding.title.generateOutputParam=Éú³É°ó¶¨?
 dataBinding.msg.generateOutputParam=Êı¾İ¼¯¾ßÓĞÒ»¸ö»ò¶à¸öÊä³ö²ÎÊı¡£\n\n ÄúÒªÎªËüÃÇÉú³É°ó¶¨Âğ?
-
-
 
 ###########################################################
 #DataEditPart properties
@@ -646,7 +644,7 @@ DataSetNodeProvider.menu.text=±à¼­(&E)
 
 DataSetParametersPage.description=¶¨ÒåÊäÈë²ÎÊı:
 DataSetParametersPage.Filter.Tooltip=½«²ÎÊı´«Èë»ò´«³öÊı¾İ¼¯¡£ 
-DataSetParameterBindingInputDialog.Title=±à¼­Êı¾İ¼¯²ÎÊı°ó¶¨¡£
+DataSetParameterBindingInputDialog.Title=Edit data set parameter binding
 DataSetParametersPage.ErrorTitle.InvalidInput=ÎŞĞ§ÊäÈë¡£
 DataSetParameterBindingInputDialog.Label.Name=²ÎÊıÃû³Æ:
 DataSetParametersPage.ErrorMessage.CanootBeNull=¸ÃÖµ²»ÄÜÎª null¡£
@@ -845,7 +843,7 @@ designer.preview.preference.timezone.description=Ê±Çø(&T):
 designer.preview.preference.resultset.sqldatasetpage.group.title=²éÑ¯Ò³Ãæ
 designer.preview.preference.resultset.previewpage.group.title=Ô¤ÀÀÒ³Ãæ
 designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=Ô¤ÀÀĞĞÏŞÖÆÉèÖÃ
-designer.preview.preference.resultset.NoLimitOfDispalyRow=ÒªÏÔÊ¾µÄĞĞÊıÎŞÏŞÖÆ¡£
+designer.preview.preference.resultset.NoLimitOfDispalyRow=&No limits of the number of rows to display.
 designer.preview.preference.resultset.maxNoOfSchema.description=ÒªÏÔÊ¾µÄ×î´ó¼Ü¹¹Êı(&S):
 designer.preview.preference.resultset.maxNoOfTable.description=Ã¿¸ö¼Ü¹¹ÖĞÒªÏÔÊ¾µÄ×î´ó±íÊı(&T):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=ÇëÎª×î´ó¼Ü¹¹ÊıÊäÈëÒ»¸ö½éÓÚ 0 ºÍ {0} Ö®¼äµÄÊı¡£
@@ -1599,7 +1597,7 @@ FormatDateTimeAttributePage.Trans.SetDateTimeFormat = ÉèÖÃÈÕÆÚÊ±¼ä¸ñÊ½¡£
 
 FormatDateTimePage.label.custom.settings.label=¸ñÊ½Ê¾Àı£¨µ¥»÷ÏÂÃæÒª¸´ÖÆµÄÒ»Ïî£¬È»ºó½øĞĞĞŞ¸Ä£©:
 FormatDateTimePage.label.custom.settings=×Ô¶¨ÒåÉèÖÃ
-FormatDateTimePage.label.format.code=¸ñÊ½´úÂë:
+FormatDateTimePage.label.format.code=Format &code:
 FormatDateTimePage.label.format.page=¸ñÊ½Îª(&F):
 FormatDateTimePage.label.general.preview.group=´ø¸ñÊ½Ô¤ÀÀ
 
@@ -1609,7 +1607,7 @@ FormatDateTimePage.label.general.preview.group=´ø¸ñÊ½Ô¤ÀÀ
 FormatDateTimePage.label.guide.format=yyyy/MM/dd hh:mm:ss a
 FormatDateTimePage.label.guide.text=Çë°´ÒÔÏÂ¸ñÊ½ÊäÈë: yyyy/MM/dd hh:mm:ss AM/PM
 
-FormatDateTimePage.label.preview.dateTime=ÒªÔ¤ÀÀµÄÈÕÆÚÊ±¼ä: 
+FormatDateTimePage.label.preview.dateTime=DateTime to &preview: 
 FormatDateTimePage.label.preview.group=Ô¤ÀÀ
 FormatDateTimePage.label.preview.label=´ø¸ñÊ½Ô¤ÀÀ:
 FormatDateTimePage.label.table.column.format.name=Ê¾Àı¸ñÊ½
@@ -1637,22 +1635,22 @@ FormatNumberPage.label.custom.preview.group=Ô¤ÀÀ
 FormatNumberPage.label.custom.preview.label=´ø¸ñÊ½Ô¤ÀÀ:
 FormatNumberPage.label.custom.settings.lable=¸ñÊ½Ê¾Àı £¨µ¥»÷ÏÂÃæÒª¸´ÖÆµÄÒ»Ïî£¬È»ºó½øĞĞĞŞ¸Ä£©:
 FormatNumberPage.label.custom.settings=×Ô¶¨ÒåÉèÖÃ
-FormatNumberPage.label.decimal.places=Ğ¡ÊıÎ»: 
+FormatNumberPage.label.decimal.places=&Decimal places: 
 FormatNumberPage.label.fixed.settings=¹Ì¶¨ÉèÖÃ
-FormatNumberPage.label.format.code=¸ñÊ½´úÂë:
+FormatNumberPage.label.format.code=Format &code:
 FormatNumberPage.label.format.number.page=¸ñÊ½Îª(&F):
 FormatNumberPage.label.general.preview.group=´ø¸ñÊ½Ô¤ÀÀ
-FormatNumberPage.label.negative.numbers=¸ºÊı: 
+FormatNumberPage.label.negative.numbers=&Negative numbers: 
 FormatNumberPage.label.percent.settings=°Ù·Ö±ÈÉèÖÃ
-FormatNumberPage.label.preview.number=ÒªÔ¤ÀÀµÄÊıÖµ: 
+FormatNumberPage.label.preview.number=Number to &preview: 
 FormatNumberPage.label.scientific.settings=¿ÆÑ§¼ÇÊıÉèÖÃ
-FormatNumberPage.label.symbol.position=·ûºÅÎ»ÖÃ: 
-FormatNumberPage.label.symbol=·ûºÅ: 
+FormatNumberPage.label.symbol.position=S&ymbol position: 
+FormatNumberPage.label.symbol=&Symbol: 
 FormatNumberPage.label.table.column.format.code=Ê¾Àı¸ñÊ½
 FormatNumberPage.label.table.column.format.result=Ê¾Àı¸ñÊ½½á¹û
-FormatNumberPage.label.use1000sSeparator=Ê¹ÓÃÇ§Î»·Ö¸ô·û
+FormatNumberPage.label.use1000sSeparator=Use &1000s separator
 FormatNumberPage.label.useLeadingZero=Ê¹ÓÃÇ°µ¼Áã
-FormatNumberPage.label.useSymbolSpace=Ê¹ÓÃ·ûºÅ¿Õ¼ä
+FormatNumberPage.label.useSymbolSpace=Use sy&mbol space
 FormatNumberPage.preview.invalidFormatCode=ÎŞĞ§¸ñÊ½´úÂë
 FormatNumberPage.preview.invalidNumber=ÒªÔ¤ÀÀµÄÊıÖµÎŞĞ§
 FormatNumberPage.symblePos.after=Ö®ºó
@@ -1680,10 +1678,10 @@ FormatStringPage.default.preview.text=ÎÒµÄ×Ö·û´®
 FormatStringPage.label.custom.preview.label=´ø¸ñÊ½Ô¤ÀÀ:
 FormatStringPage.label.custom.settings.label=¸ñÊ½Ê¾Àı£¨µ¥»÷ÏÂÃæÒª¸´ÖÆµÄÒ»Ïî£¬È»ºó½øĞĞĞŞ¸Ä£©:
 FormatStringPage.label.customSettings=×Ô¶¨ÒåÉèÖÃ
-FormatStringPage.label.format.code=¸ñÊ½´úÂë:
+FormatStringPage.label.format.code=Format &code:
 FormatStringPage.label.formatStringAs=¸ñÊ½Îª(&F):
 FormatStringPage.label.preview.group=Ô¤ÀÀ
-FormatStringPage.label.preview.string=ÒªÔ¤ÀÀµÄ×Ö·û´®: 
+FormatStringPage.label.preview.string=String to &preview: 
 FormatStringPage.label.previewWithFormat=´ø¸ñÊ½Ô¤ÀÀ
 FormatStringPage.label.table.collumn.exampleFormatCode=Ê¾Àı¸ñÊ½
 FormatStringPage.label.table.collumn.exampleFormatResult=Ê¾Àı¸ñÊ½½á¹û
@@ -1915,7 +1913,7 @@ HyperlinkBuilder.ParameterRequired=±ØĞè
 HyperlinkBuilder.Column.DataType=Êı¾İÀàĞÍ
 HyperlinkBuilder.Column.Values=Öµ
 HyperlinkBuilder.DialogTitle=³¬¼¶Á´½ÓÑ¡Ïî
-HyperlinkBuilder.ErrorMessage.InvalidReport=ÎŞĞ§µÄ±¨±íÉè¼Æ¡£
+HyperlinkBuilder.ErrorMessage.InvalidReport=Cannot resolve the target report design, the predefined parameter info will not be available.
 HyperlinkBuilder.ErrorMessage.ReportReqired=±ØĞëÖ¸¶¨±¨±íÎÄ¼ş¡£
 HyperlinkBuilder.DrillThroughTargetBookmark=Ä¿±êÊéÇ©(&T)
 HyperlinkBuilder.DrillThroughLinkExpression=Á´½Ó±í´ïÊ½(&E):
@@ -1940,7 +1938,7 @@ HyperlinkBuilder.Radio.Bookmark=ÄÚ²¿ÊéÇ©(&K)
 HyperlinkBuilder.DrillThroughPdf=PDF
 HyperlinkBuilder.Radio.DrillThrough=×·Ëİ(&D)
 HyperlinkBuilder.ReportDesignButton=±¨±íÉè¼Æ(&R):
-HyperlinkBuilder.ReportDocumentButton=±¨±íÎÄµµ(&P):
+HyperlinkBuilder.ReportDocumentButton=Report Do&cument:
 HyperlinkBuilder.Radio.None=ÎŞÁ´½Ó(&O)
 HyperlinkBuilder.Radio.Uri=URI(&U)
 HyperlinkBuilder.BrowseForFile=ä¯ÀÀÎÄ¼ş
@@ -2588,7 +2586,7 @@ NewReportWizard.wizard.msgDirErr=The target directory does not exist, but cannot
 ###########################################################
 #NewResourceFileDialog properties
 
-NewResourceFileDialog.label.NewFile=ĞÂÎÄ¼şÃû:
+NewResourceFileDialog.label.NewFile=&New File Name:
 NewResourceFileDialog.ErrorMessage=ÎÄ¼şÃû±ØĞëÒÔ .properties ½áÎ²
 NewResourceFileDialog.ErrorMessageInvalid=ÎÄ¼şÃûÎŞĞ§
 
@@ -2979,7 +2977,7 @@ ExportToLibraryAction.wizard.page.foldererror=Ö¸¶¨µÄÎÄ¼ş¼Ğ²»´æÔÚ
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=½«¿âÖÃÓÚ×ÊÔ´ÎÄ¼ş¼Ğ(&D)...
+PublishLibraryToResourceFolderAction.Action.Text=Place Li&brary in Resource Folder...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -3076,7 +3074,7 @@ report.designer.ui.preferences.library.export.overwrite.always=Ê¼ÖÕ(&W)
 report.designer.ui.preferences.library.export.overwrite.never=´Ó²»(&N)
 report.designer.ui.preferences.library.export.overwrite.prompt=ÌáÊ¾(&P)
 report.designer.ui.preferences.library.export.title=ÔÚ½«Éè¼ÆÔªËØµ¼³öµ½¿âÖĞÊ±¸²¸ÇÏÖÓĞÔªËØ¡£
-report.designer.ui.preferences.template.openDialogTitle=ÇëÎªÄ£°åÑ¡ÔñÒ»¸öÎÄ¼ş¼Ğ¡£
+report.designer.ui.preferences.template.openDialogTitle=Folder Selection
 report.designer.ui.preferences.template.select=Ñ¡Ôñ(&S)...
 report.designer.ui.preferences.template.templatedir=Ä£°å
 report.designer.ui.preferences.template.templatefolder=Ä£°åÎÄ¼ş¼Ğ(&T)
@@ -3934,7 +3932,7 @@ ReportPageGenerator.List.Resources.JsFile=Javascript ÎÄ¼ş:
 #ClassFinder
 ClassFinder.TaskStart=ÕıÔÚËÑË÷´¦Àí³ÌĞòÀà...
 ClassFinder.DialogTitle=ÀàÑ¡Ôñ
-ClassFinder.DialogMessage=Ñ¡Ôñ´¦Àí³ÌĞòÀà
+ClassFinder.DialogMessage=&Choose a handler class:
 ClassFinder.ErrorMessage=Î´ÕÒµ½Àà
 
 ###########################################################
@@ -3958,9 +3956,9 @@ EventHandlerPage.Browse=ä¯ÀÀ(&B)...
 IDEFileReportProvider.ReadOnlyEncounter.Title=Óöµ½Ö»¶ÁÎÄ¼ş
 IDEFileReportProvider.ReadOnlyEncounter.Message=ÎÄ¼ş¡°{0}¡±ÎªÖ»¶Á£¬ÇëÊ×ÏÈÈ·±£Ëü¿ÉÒÔĞ´Èë¡£
 IDEResourcePageHelper.Dialog.Prompt=Ñ¡ÔñÄ¿Â¼: 
-IDEResourcePageHelper.Dialog.Text=Ñ¡ÔñÏà¶ÔÓÚ¹¤×÷ÇøµÄÎ»ÖÃ: 
+IDEResourcePageHelper.Dialog.Text=&Choose a location relative to the workspace:
 IDEResourcePageHelper.Dialog.Title=Ä¿Â¼Ñ¡Ôñ 
-IDEResourcePageHelper.File.Button=ÎÄ¼şÏµÍ³... 
+IDEResourcePageHelper.File.Button=&File System...
 IDEResourcePageHelper.Varible.Button=±äÁ¿(&B)... 
 IDEResourcePageHelper.WorkSpace.Button=¹¤×÷Çø(&W)...
 
