@@ -237,11 +237,6 @@
 				description="Flag whether the report resources can only be accessed under the working folder. Defaults to false"/>
 
 			<context-param 
-				name="BIRT_OVERWRITE_DOCUMENT"
-				value="true"
-				description="Flag whether to always overwrite the generated document file. Defaults to true"/>
-
-			<context-param 
 				name="BIRT_VIEWER_MAX_ROWS"
 				value=""
 				description="Preview report rows limit. An empty value means no limit."/>

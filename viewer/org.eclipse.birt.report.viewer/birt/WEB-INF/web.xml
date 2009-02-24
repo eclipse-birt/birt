@@ -108,15 +108,6 @@
 		<param-value></param-value>
 	</context-param>
 
-	<!--
-		Flag whether to always overwrite the generated document file. For
-		designer, defaults to false.
-	-->
-	<context-param>
-		<param-name>BIRT_OVERWRITE_DOCUMENT</param-name>
-		<param-value>false</param-value>
-	</context-param>
-
 	<!-- Defines the BIRT viewer configuration file -->
 	<context-param>
 		<param-name>BIRT_VIEWER_CONFIG_FILE</param-name>
