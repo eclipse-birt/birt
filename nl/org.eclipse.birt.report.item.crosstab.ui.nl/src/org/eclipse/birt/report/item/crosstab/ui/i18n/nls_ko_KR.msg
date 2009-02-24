@@ -125,9 +125,6 @@ CrosstabGeneralPage.ForEmptyCell=빈 셀의 경우 표시(&S):
 LayoutMeasuresSection.DisplayName=방향:
 CrosstabGeneralPage.HideMeasureHeader=측정값 머리글 숨기기
 
-
-parameterBinding.title=데이터 집합 매개 변수 바인딩...
-
 ###########################################################
 #CrosstabEventHandlerPage properties
 CrosstabEventHandlerPage.dialog.Browse=찾아보기(&B)...

@@ -125,9 +125,6 @@ CrosstabGeneralPage.ForEmptyCell=空のセルに次を表示(&S) :
 LayoutMeasuresSection.DisplayName=向き :
 CrosstabGeneralPage.HideMeasureHeader=メジャーのヘッダを隠す
 
-
-parameterBinding.title=データセットパラメタのバインド...
-
 ###########################################################
 #CrosstabEventHandlerPage properties
 CrosstabEventHandlerPage.dialog.Browse=参照(&B)...

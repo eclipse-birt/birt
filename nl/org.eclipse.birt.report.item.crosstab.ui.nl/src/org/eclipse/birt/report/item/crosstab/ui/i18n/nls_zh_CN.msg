@@ -125,9 +125,6 @@ CrosstabGeneralPage.ForEmptyCell=对于空单元格，显示(&S):
 LayoutMeasuresSection.DisplayName=方向:
 CrosstabGeneralPage.HideMeasureHeader=隐藏度量头
 
-
-parameterBinding.title=数据集参数绑定...
-
 ###########################################################
 #CrosstabEventHandlerPage properties
 CrosstabEventHandlerPage.dialog.Browse=浏览(&B)...

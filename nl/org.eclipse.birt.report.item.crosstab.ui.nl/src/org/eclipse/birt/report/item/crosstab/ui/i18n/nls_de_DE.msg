@@ -125,9 +125,6 @@ CrosstabGeneralPage.ForEmptyCell=Leere Zellen anzeigen &als:
 LayoutMeasuresSection.DisplayName=Ausrichtung:
 CrosstabGeneralPage.HideMeasureHeader=Maßeinheiten-Kopfzeile ausblenden
 
-
-parameterBinding.title=Parameterbindung für Datensatz...
-
 ###########################################################
 #CrosstabEventHandlerPage properties
 CrosstabEventHandlerPage.dialog.Browse=&Durchsuchen...

@@ -125,9 +125,6 @@ CrosstabGeneralPage.ForEmptyCell=En las celdas vacías, &mostrar:
 LayoutMeasuresSection.DisplayName=Orientación:
 CrosstabGeneralPage.HideMeasureHeader=Encabezado Ocultar medidas
 
-
-parameterBinding.title=Enlace de parámetros de conjunto de datos...
-
 ###########################################################
 #CrosstabEventHandlerPage properties
 CrosstabEventHandlerPage.dialog.Browse=&Examinar...
