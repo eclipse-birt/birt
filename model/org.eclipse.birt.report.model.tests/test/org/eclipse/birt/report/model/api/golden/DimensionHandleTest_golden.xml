@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <styles>
-        <style name="My Style" id="2">
+        <style name="My-Style" id="2">
             <property name="backgroundPositionX">12000.123cm</property>
             <property name="fontFamily">fantasy</property>
             <property name="fontSize">12pt</property>
@@ -56,7 +56,7 @@
                 </structure>
             </list-property>
         </style>
-        <style name="My Style1" id="3">
+        <style name="My-Style1" id="3">
             <property name="fontSize">14pc</property>
             <list-property name="highlightRules">
                 <structure>
@@ -91,7 +91,7 @@
             </report-items>
         </free-form>
         <free-form name="form3" id="9">
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
             <property name="textIndent">3em</property>
             <report-items>
                 <text name="text3" id="10">

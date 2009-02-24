@@ -43,7 +43,8 @@ public class DimensionNameHelper extends AbstractNameHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.AbstractNameHelper#getNameSpaceCount()
+	 * @seeorg.eclipse.birt.report.model.core.namespace.AbstractNameHelper#
+	 * getNameSpaceCount()
 	 */
 	int getNameSpaceCount( )
 	{
@@ -53,7 +54,9 @@ public class DimensionNameHelper extends AbstractNameHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.AbstractNameHelper#initialize()
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.AbstractNameHelper#initialize
+	 * ()
 	 */
 	protected void initialize( )
 	{
@@ -69,7 +72,9 @@ public class DimensionNameHelper extends AbstractNameHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
+	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 	public String getUniqueName( DesignElement element )
 	{
@@ -133,23 +138,6 @@ public class DimensionNameHelper extends AbstractNameHelper
 		return name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#dropElement(org.eclipse.birt.report.model.core.DesignElement)
-	 */
-	public void dropElement( DesignElement element )
-	{
-		if ( element == null )
-			return;
-
-		ElementDefn defn = (ElementDefn) element.getDefn( );
-		int id = defn.getNameSpaceID( );
-		NameSpace ns = getCachedNameSpace( id );
-		if ( ns.getElement( element.getName( ) ) == element )
-			ns.remove( element );
-	}
-
 	/**
 	 * Adds a element to the cached name space.
 	 * 
@@ -172,8 +160,9 @@ public class DimensionNameHelper extends AbstractNameHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#addContentName(int,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#addContentName
+	 * (int, java.lang.String)
 	 */
 	public void addContentName( int id, String name )
 	{
@@ -183,7 +172,8 @@ public class DimensionNameHelper extends AbstractNameHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#getElement()
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getElement()
 	 */
 	public DesignElement getElement( )
 	{

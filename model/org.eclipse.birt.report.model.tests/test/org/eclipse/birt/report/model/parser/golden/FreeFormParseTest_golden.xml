@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <list-property name="colorPalette">
         <structure>
             <property name="name">myColor</property>
@@ -13,7 +13,7 @@
         </structure>
     </list-property>
     <styles>
-        <style name="My Style" id="2"/>
+        <style name="My-Style" id="2"/>
     </styles>
     <page-setup>
         <graphic-master-page name="My Page" id="3">
@@ -44,7 +44,7 @@
             <text-property name="displayName">The Section</text-property>
             <report-items>
                 <label name="StyleLabel" id="7">
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="fontSize">14mm</property>
                 </label>
                 <free-form name="freeFrom1" id="8">

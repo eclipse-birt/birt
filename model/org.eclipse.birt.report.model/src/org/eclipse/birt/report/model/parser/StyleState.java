@@ -17,8 +17,6 @@ import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.elements.Theme;
-import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -73,45 +71,17 @@ class StyleState extends ReportElementState
 	 *            the design file parser handler
 	 */
 
-	StyleState( ModuleParserHandler handler )
+	StyleState( ModuleParserHandler handler, DesignElement container, int slotId )
 	{
-		super( handler, handler.getModule( ), IReportDesignModel.STYLE_SLOT );
-	}
-
-	/**
-	 * Constructs for parsing the "private style" of an existing report item
-	 * with the design file parser handler and the design element that has
-	 * style.
-	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param obj
-	 *            the element being built
-	 */
-
-	StyleState( ModuleParserHandler handler, DesignElement obj )
-	{
-		super( handler );
-		element = obj;
-	}
-
-	/**
-	 * Constructs for creating a named shared style with the design file parser
-	 * handler.
-	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 */
-
-	StyleState( ModuleParserHandler handler, Theme element, int slotId )
-	{
-		super( handler, element, slotId );
+		super( handler, container, slotId );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -123,8 +93,10 @@ class StyleState extends ReportElementState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.ReportElementState#isNameSpaceRequired(org.eclipse.birt.report.model.core.DesignElement,
-	 *      int, org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.parser.ReportElementState#isNameSpaceRequired
+	 * (org.eclipse.birt.report.model.core.DesignElement, int,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
 	public DesignElement getElement( )

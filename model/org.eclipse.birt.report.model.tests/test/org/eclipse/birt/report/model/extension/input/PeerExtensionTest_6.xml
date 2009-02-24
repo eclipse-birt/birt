@@ -4,7 +4,7 @@
     <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.qualifier Build &lt;@BUILD@></property>
     <property name="units">in</property>
     <styles>
-    	<style name="My Style">
+    	<style name="My-Style">
             <property name="fontSize">small</property>            
         </style>
         <style name="testing-box">        	
@@ -40,7 +40,7 @@
             	<extended-item extensionName="TestingMatrix" name="detailMatrix">
             	</extended-item>
             	<extended-item extensionName="TestingMatrix" name="detailMatrixOne">
-            		<property name="style">My Style</property>
+            		<property name="style">My-Style</property>
             	</extended-item>
             </property>
             <property name="footer">

@@ -165,9 +165,9 @@ public class BidiParseTest extends BaseTestCase
 	static final String RTL = DesignChoiceConstants.BIDI_DIRECTION_RTL;
 
 	private static String[][] testStyleData = { //
-			{ "Bidi Style LTR", LTR }, //$NON-NLS-1$
-			{ "Bidi Style RTL", RTL }, //$NON-NLS-1$
-			{ "Empty Style", null }, //$NON-NLS-1$
+			{ "Bidi-Style-LTR", LTR }, //$NON-NLS-1$
+			{ "Bidi-Style-RTL", RTL }, //$NON-NLS-1$
+			{ "Empty-Style", null }, //$NON-NLS-1$
 			{ "table-detail", RTL } }; //$NON-NLS-1$
 
 	private static Object[][] testElementData = { //
@@ -247,34 +247,34 @@ public class BidiParseTest extends BaseTestCase
 		// or custom style of one element's slot.
 
 		TableItem table = (TableItem) design.findElement( "testTable" ); //$NON-NLS-1$
-		testPropertyFromSelector( table, false, false, false, "Bidi Style LTR" ); //$NON-NLS-1$
+		testPropertyFromSelector( table, false, false, false, "Bidi-Style-LTR" ); //$NON-NLS-1$
 
 		DesignElement element = table.getSlot( TableItem.DETAIL_SLOT )
 				.getContent( 0 );
 		testPropertyFromSelector( element, true, false, false, "table-detail" ); //$NON-NLS-1$
 
 		element = table.getSlot( TableItem.HEADER_SLOT ).getContent( 0 );
-		testPropertyFromSelector( element, false, false, true, "Bidi Style LTR" ); //$NON-NLS-1$
+		testPropertyFromSelector( element, false, false, true, "Bidi-Style-LTR" ); //$NON-NLS-1$
 
 		element = table.getSlot( TableItem.HEADER_SLOT ).getContent( 1 );
-		testPropertyFromSelector( element, true, false, false, "Bidi Style RTL" ); //$NON-NLS-1$
+		testPropertyFromSelector( element, true, false, false, "Bidi-Style-RTL" ); //$NON-NLS-1$
 
 		element = table.getSlot( TableItem.FOOTER_SLOT ).getContent( 0 );
-		testPropertyFromSelector( element, false, false, true, "Bidi Style LTR" ); //$NON-NLS-1$
+		testPropertyFromSelector( element, false, false, true, "Bidi-Style-LTR" ); //$NON-NLS-1$
 
 		element = table.getSlot( TableItem.COLUMN_SLOT ).getContent( 0 );
-		testPropertyFromSelector( element, false, false, true, "Bidi Style LTR" ); //$NON-NLS-1$
+		testPropertyFromSelector( element, false, false, true, "Bidi-Style-LTR" ); //$NON-NLS-1$
 
 		table.setStyle( null );
 		testPropertyFromSelector( element, true, true, true, "table-detail" ); //$NON-NLS-1$
 		assertNull( table.getFactoryProperty( design, DIRECTION ) );
 
-		table.setStyleName( "Bidi Style RTL" ); //$NON-NLS-1$
-		testPropertyFromSelector( element, true, false, true, "Bidi Style RTL" ); //$NON-NLS-1$
+		table.setStyleName( "Bidi-Style-RTL" ); //$NON-NLS-1$
+		testPropertyFromSelector( element, true, false, true, "Bidi-Style-RTL" ); //$NON-NLS-1$
 		assertNotNull( table.getFactoryProperty( design, DIRECTION ) );
 
-		table.setStyleName( "Bidi Style LTR" ); //$NON-NLS-1$
-		testPropertyFromSelector( element, false, false, true, "Bidi Style LTR" ); //$NON-NLS-1$
+		table.setStyleName( "Bidi-Style-LTR" ); //$NON-NLS-1$
+		testPropertyFromSelector( element, false, false, true, "Bidi-Style-LTR" ); //$NON-NLS-1$
 	}
 
 	private void testStyleElementProperty( String name, String value )
@@ -328,7 +328,7 @@ public class BidiParseTest extends BaseTestCase
 		openDesign( IN_FILE_NAME );
 
 		DesignElementHandle handle = designHandle.findElement( "testLabel" ); //$NON-NLS-1$
-		handle.setStyleName( "Bidi Style LTR" ); //$NON-NLS-1$
+		handle.setStyleName( "Bidi-Style-LTR" ); //$NON-NLS-1$
 
 		handle = designHandle.findElement( "testText" ); //$NON-NLS-1$
 		StyleHandle style = handle.getPrivateStyle( );
@@ -352,7 +352,7 @@ public class BidiParseTest extends BaseTestCase
 	{
 		openDesign( IN_FILE_NAME_1 );
 
-		StyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		Iterator highlightHandles = styleHandle.highlightRulesIterator( );
 		assertNotNull( highlightHandles );
 
@@ -371,14 +371,14 @@ public class BidiParseTest extends BaseTestCase
 	 * Test highlight writer.
 	 * 
 	 * @throws Exception
-	 *             any exception during reading/writting the design file.
+	 *             any exception during reading/writing the design file.
 	 */
 
 	public void testWriteHighlightRules( ) throws Exception
 	{
 		openDesign( IN_FILE_NAME_1 );
 
-		StyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		Iterator highlightHandles = styleHandle.highlightRulesIterator( );
 		assertNotNull( highlightHandles );
 
@@ -425,7 +425,7 @@ public class BidiParseTest extends BaseTestCase
 		assertNotNull( grid );
 
 		// Session default value
-		design.getSession( ).setDefaultValue( DIRECTION, LTR ); //$NON-NLS-1$
+		design.getSession( ).setDefaultValue( DIRECTION, LTR );
 
 		assertEquals( LTR, grid.getStringProperty( DIRECTION ) );
 		assertFalse( grid.isDirectionRTL( ) );

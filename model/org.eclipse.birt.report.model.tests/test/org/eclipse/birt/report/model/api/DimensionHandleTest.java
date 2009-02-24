@@ -169,7 +169,7 @@ public class DimensionHandleTest extends BaseTestCase
 
 	public void testGetDisplayValue( )
 	{
-		StyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		DimensionHandle fontSizeHandle = styleHandle.getFontSize( );
 		assertEquals( DesignChoiceConstants.UNITS_PT, fontSizeHandle
 				.getDefaultUnit( ) );
@@ -226,7 +226,7 @@ public class DimensionHandleTest extends BaseTestCase
 
 	public void testGetStringValue( )
 	{
-		StyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		DimensionHandle fontSizeHandle = styleHandle.getFontSize( );
 
 		assertEquals( "larger", fontSizeHandle.getStringValue( ) ); //$NON-NLS-1$
@@ -261,7 +261,7 @@ public class DimensionHandleTest extends BaseTestCase
 		dimensionHandle = highlightHandle.getFontSize( );
 		assertEquals( "10mm", dimensionHandle.getStringValue( ) ); //$NON-NLS-1$
 
-		styleHandle = designHandle.findStyle( "My Style1" ); //$NON-NLS-1$
+		styleHandle = designHandle.findStyle( "My-Style1" ); //$NON-NLS-1$
 
 		// not defined in the design file and with the default value.
 
@@ -287,7 +287,7 @@ public class DimensionHandleTest extends BaseTestCase
 
 	public void testSetValue( ) throws Exception
 	{
-		StyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		DimensionHandle fontSizeHandle = styleHandle.getFontSize( );
 
 		assertEquals( "larger", fontSizeHandle.getStringValue( ) ); //$NON-NLS-1$
@@ -337,7 +337,7 @@ public class DimensionHandleTest extends BaseTestCase
 		dimensionHandle = highlightHandle.getFontSize( );
 		dimensionHandle.setValue( "medium" ); //$NON-NLS-1$
 
-		styleHandle = designHandle.findStyle( "My Style1" ); //$NON-NLS-1$
+		styleHandle = designHandle.findStyle( "My-Style1" ); //$NON-NLS-1$
 
 		// not defined in the design file and with the default value.
 
@@ -368,7 +368,7 @@ public class DimensionHandleTest extends BaseTestCase
 
 	public void testIsKeyword( ) throws SemanticException
 	{
-		StyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 
 		DimensionHandle fontSizeHandle = styleHandle.getFontSize( );
 		assertEquals( "larger", fontSizeHandle.getStringValue( ) ); //$NON-NLS-1$
@@ -390,7 +390,7 @@ public class DimensionHandleTest extends BaseTestCase
 
 	public void testGetMeasure( ) throws SemanticException
 	{
-		StyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		DimensionHandle fontSizeHandle = styleHandle.getFontSize( );
 		assertEquals( DesignChoiceConstants.FONT_SIZE_LARGER, fontSizeHandle
 				.getStringValue( ) );
@@ -429,7 +429,7 @@ public class DimensionHandleTest extends BaseTestCase
 
 	public void testGetUnits( ) throws SemanticException
 	{
-		StyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		DimensionHandle fontSizeHandle = styleHandle.getFontSize( );
 		assertEquals( "larger", fontSizeHandle.getStringValue( ) ); //$NON-NLS-1$
 

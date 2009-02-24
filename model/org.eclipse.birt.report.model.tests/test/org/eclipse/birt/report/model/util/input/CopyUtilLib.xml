@@ -28,7 +28,7 @@
     </cubes>
 	<components>
 		<label name="Base Label">
-			<property name="style">My Style</property>
+			<property name="style">My-Style</property>
 			<property name="text">base text</property>
 		</label>
         <table name="NewTable" id="4">

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
+    <themes>
+    	<theme name="theme1">
+    		<styles>
+    			<style name="My-style-test"/>
+        		<style name="my-Style-test-1"/>
+        		<style name="my-Style-test"/>
+    		</styles>
+    	</theme>
+    	<theme name="theme2">
+    		<styles>
+    			<style name="My-style-test"/>
+        		<style name="my-Style-test-1"/>
+    		</styles>
+    	</theme>
+    </themes>
+</library>

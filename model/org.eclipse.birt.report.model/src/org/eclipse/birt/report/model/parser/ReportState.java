@@ -166,44 +166,6 @@ public class ReportState extends ModuleState
 	}
 
 	/**
-	 * Parses the contents of the list of styles.
-	 */
-
-	private static class StylesState extends SlotState
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
-		 * (java.lang.String)
-		 */
-
-		protected StylesState( ModuleParserHandler handler,
-				DesignElement container, int slot )
-		{
-			super( handler, container, slot );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
-		 * (java.lang.String)
-		 */
-
-		public AbstractParseState startElement( String tagName )
-		{
-			int tagValue = tagName.toLowerCase( ).hashCode( );
-			if ( ParserSchemaConstants.STYLE_TAG == tagValue )
-				return new StyleState( handler );
-			return super.startElement( tagName );
-		}
-	}
-
-	/**
 	 * Parses the contents of the list of data sources.
 	 */
 

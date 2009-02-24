@@ -14,7 +14,7 @@
         </structure>
     </list-property>
     <styles>
-        <style name="My Style"/>
+        <style name="My-Style"/>
     </styles>
     <page-setup>
         <graphic-master-page name="My Page">
@@ -43,12 +43,12 @@
         <free-form name="form1">
             <property name="comments">Sample Section</property>
             <property name="displayName">The Section</property>
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
         </free-form>
         <free-form name="form1">
             <property name="comments">Sample Section</property>
             <property name="displayName">The Section</property>
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>            
             <property name="backgroundColor">red</property>
         </free-form>
         <free-form name="form2">

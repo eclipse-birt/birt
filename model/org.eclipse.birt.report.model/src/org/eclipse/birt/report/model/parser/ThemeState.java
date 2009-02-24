@@ -13,9 +13,9 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
-import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
 
 /**
@@ -58,7 +58,9 @@ class ThemeState extends ReportElementState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
@@ -66,52 +68,22 @@ class ThemeState extends ReportElementState
 		int tagValue = tagName.toLowerCase( ).hashCode( );
 
 		if ( ParserSchemaConstants.STYLES_TAG == tagValue )
-			return new StylesState( );
+			return new StylesState( handler, getElement( ),
+					IThemeModel.STYLES_SLOT );
 		return super.startElement( tagName );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		initElement( attrs, true );
-	}
-
-	/**
-	 * Parses the contents of the list of styles.
-	 */
-
-	private class StylesState extends AbstractParseState
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-		 */
-
-		public AbstractParseState startElement( String tagName )
-		{
-			int tagValue = tagName.toLowerCase( ).hashCode( );
-			if ( ParserSchemaConstants.STYLE_TAG == tagValue )
-				return new StyleState( handler, element, Theme.STYLES_SLOT );
-			return super.startElement( tagName );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
-		 */
-
-		public XMLParserHandler getHandler( )
-		{
-			return handler;
-		}
 	}
 
 }

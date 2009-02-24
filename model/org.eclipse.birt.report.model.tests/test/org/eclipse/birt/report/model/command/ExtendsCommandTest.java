@@ -177,8 +177,8 @@ public class ExtendsCommandTest extends BaseTestCase
 		assertNotNull( design );
 
 		element = new Label( "Happy" ); //$NON-NLS-1$
-		NameSpace ns = design.getNameHelper( ).getNameSpace( ( (ElementDefn) element.getDefn( ) )
-				.getNameSpaceID( ) );
+		NameSpace ns = design.getNameHelper( ).getNameSpace(
+				( (ElementDefn) element.getDefn( ) ).getNameSpaceID( ) );
 		ns.insert( element );
 
 		lg = new ListGroup( );
@@ -189,9 +189,8 @@ public class ExtendsCommandTest extends BaseTestCase
 	 * 
 	 * Test case:
 	 * <ul>
-	 * <li>ExtendsName is <code>null</code>
-	 * <li>ExtendsName is ""
-	 * <li>Normal case with API call and undo/redo.
+	 * <li>ExtendsName is <code>null</code> <li>ExtendsName is "" <li>Normal
+	 * case with API call and undo/redo.
 	 * </ul>
 	 * 
 	 * @throws ExtendsException
@@ -279,10 +278,10 @@ public class ExtendsCommandTest extends BaseTestCase
 		// 2. Parent can not be the real father of element, WRONG_TYPE
 
 		DesignElement parent = new Style( );
-		parent.setName( "Parent Label" ); //$NON-NLS-1$
+		parent.setName( "parent_label" ); //$NON-NLS-1$
 
-		NameSpace ns = design.getNameHelper( ).getNameSpace( ( (ElementDefn) element.getDefn( ) )
-				.getNameSpaceID( ) );
+		NameSpace ns = design.getNameHelper( ).getNameSpace(
+				( (ElementDefn) element.getDefn( ) ).getNameSpaceID( ) );
 		ns.insert( parent );
 
 		try
@@ -382,8 +381,8 @@ public class ExtendsCommandTest extends BaseTestCase
 	 * <p>
 	 * 
 	 * <code>setExtendsElement(DesignElement)</code> actually makes a call to
-	 * <code>setExtendsName(String)</code>. Hence, ExtendsException issue is
-	 * not tested in this method.
+	 * <code>setExtendsName(String)</code>. Hence, ExtendsException issue is not
+	 * tested in this method.
 	 * 
 	 * <p>
 	 * Test case:
@@ -624,8 +623,8 @@ public class ExtendsCommandTest extends BaseTestCase
 	 * source codes for details.
 	 * 
 	 * <ul>
-	 * <li><code>ExtendsEvent</code> with
-	 * <code>NotifcationEvent.DIRECT</code> notification.
+	 * <li><code>ExtendsEvent</code> with <code>NotifcationEvent.DIRECT</code>
+	 * notification.
 	 * <li><code>ExtendsEvent</code> with
 	 * <code>NotifcationEvent.DESCENDENT</code> notification.
 	 * </ul>
@@ -704,8 +703,10 @@ public class ExtendsCommandTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.model.core.DesignElement,
-		 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
+		 * .report.model.core.DesignElement,
+		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 		public void elementChanged( DesignElementHandle focus,
 				NotificationEvent ev )

@@ -30,13 +30,13 @@
         </resource>
     </translations>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="color">red</property>
         </style>
-        <style name="My Style1">
+        <style name="My-Style1">
             <property name="color">#FF00FF</property>
         </style>
-        <style name="My Style2">
+        <style name="My-Style2">
             <list-property name="highlightRules">
                 <structure>
                     <property name="operator">eq</property>
@@ -45,7 +45,7 @@
                 </structure>
             </list-property>
         </style>
-        <style name="My Style3">
+        <style name="My-Style3">
             <property name="color">myColor1</property>
         </style>
     </styles>

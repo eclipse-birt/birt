@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.core.StyleNameSpace;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
@@ -90,7 +91,22 @@ public class ModuleNameHelper extends AbstractNameHelper
 		{
 			nameContexts[i] = NameContextFactory.createModuleNameContext(
 					module, i );
-			cachedContentNames[i] = new ArrayList( );
+			cachedContentNames[i] = new ArrayList<String>( );
+		}
+	}
+
+	/**
+	 * 
+	 */
+	protected void initCachedNameSpaces( )
+	{
+		cachedNameSpaces = new NameSpace[getNameSpaceCount( )];
+		for ( int i = 0; i < getNameSpaceCount( ); i++ )
+		{
+			if ( i == Module.STYLE_NAME_SPACE )
+				cachedNameSpaces[i] = new StyleNameSpace( );
+			else
+				cachedNameSpaces[i] = new NameSpace( );
 		}
 	}
 
@@ -161,9 +177,14 @@ public class ModuleNameHelper extends AbstractNameHelper
 		NameSpace nameSpace = getCachedNameSpace( nameSpaceID );
 		List<String> cachedContentNames = getCachedContentNames( nameSpaceID );
 		NameSpace moduleNameSpace = nameContexts[nameSpaceID].getNameSpace( );
-		if ( name != null && isValidInNameSpace( nameSpace, element, name )
-				&& isValidInNameSpace( moduleNameSpace, element, name )
-				&& !cachedContentNames.contains( name ) )
+
+		String validName = name;
+		if ( element instanceof StyleElement )
+			validName = validName == null ? null : validName.toLowerCase( );
+		if ( validName != null
+				&& isValidInNameSpace( nameSpace, element, validName )
+				&& isValidInNameSpace( moduleNameSpace, element, validName )
+				&& !cachedContentNames.contains( validName ) )
 			return name;
 
 		// If the element has no name, create it as "New<new name>" where
@@ -217,10 +238,17 @@ public class ModuleNameHelper extends AbstractNameHelper
 
 		int index = 0;
 		String baseName = name;
-		while ( nameSpace.contains( name ) || moduleNameSpace.contains( name )
-				|| cachedContentNames.contains( name ) )
+		validName = name;
+		if ( element instanceof StyleElement )
+			validName = validName == null ? null : validName.toLowerCase( );
+		while ( nameSpace.contains( validName )
+				|| moduleNameSpace.contains( validName )
+				|| cachedContentNames.contains( validName ) )
 		{
 			name = baseName + ++index;
+			validName = name;
+			if ( element instanceof StyleElement )
+				validName = validName == null ? null : validName.toLowerCase( );
 		}
 
 		return name;
@@ -259,25 +287,6 @@ public class ModuleNameHelper extends AbstractNameHelper
 	{
 		assert id >= 0 && id < Module.NAME_SPACE_COUNT;
 		return cachedContentNames[id];
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#dropElement(
-	 * org.eclipse.birt.report.model.core.DesignElement)
-	 */
-	public void dropElement( DesignElement element )
-	{
-		if ( element == null )
-			return;
-
-		ElementDefn defn = (ElementDefn) element.getDefn( );
-		int id = defn.getNameSpaceID( );
-		NameSpace ns = getCachedNameSpace( id );
-		if ( ns.getElement( element.getName( ) ) == element )
-			ns.remove( element );
 	}
 
 	/**

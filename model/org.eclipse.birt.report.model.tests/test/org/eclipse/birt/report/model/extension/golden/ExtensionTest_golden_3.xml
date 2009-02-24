@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <data-sources>
         <oda-data-source name="myDataSource" id="6"/>
         <oda-data-source name="myDataSource2" id="7"/>
@@ -10,7 +10,7 @@
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="My Style" id="2">
+        <style name="My-Style" id="2">
             <property name="backgroundAttachment">scroll</property>
             <property name="backgroundColor">red</property>
             <property name="backgroundImage">file</property>
@@ -60,7 +60,7 @@
         <free-form id="12">
             <property name="comments">Sample Section</property>
             <text-property name="displayName">The Section</text-property>
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
             <property name="backgroundColor">red</property>
             <property name="color">yellow</property>
             <report-items>
@@ -71,7 +71,7 @@
                     <property name="test5">choice1</property>
                     <property name="backgroundColor">white</property>
                     <property name="x">1.2mm</property>
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                 </extended-item>
                 <extended-item extensionName="TestingMatrix" name="style extended item" extends="parent"
  id="14">

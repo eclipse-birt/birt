@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -17,7 +17,6 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.util.BaseTestCase;
-
 
 /**
  * Test <code>ClientsIterator</code> and <code>DerivedIterator</code>.
@@ -60,11 +59,11 @@ public class ClientsDerivedIteratorTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		
+
 		openDesign( fileName );
-		
+
 		assertEquals( 0, design.getErrorList( ).size( ) );
-		
+
 	}
 
 	/**
@@ -76,14 +75,14 @@ public class ClientsDerivedIteratorTest extends BaseTestCase
 
 	public void testDerivedIterator( ) throws Exception
 	{
-		SlotHandle slotHandle = designHandle.getComponents();
-		LabelHandle lblHandle = (LabelHandle)slotHandle.get(0);
-		
+		SlotHandle slotHandle = designHandle.getComponents( );
+		LabelHandle lblHandle = (LabelHandle) slotHandle.get( 0 );
+
 		int derivedCount = 0;
-		
-		assertEquals("Label One",lblHandle.getElement().getName()); //$NON-NLS-1$
-		Iterator iter = lblHandle.derivedIterator();
-		
+
+		assertEquals( "Label One", lblHandle.getElement( ).getName( ) ); //$NON-NLS-1$
+		Iterator iter = lblHandle.derivedIterator( );
+
 		while ( iter.hasNext( ) )
 		{
 			DesignElementHandle derived = (DesignElementHandle) iter.next( );
@@ -102,7 +101,7 @@ public class ClientsDerivedIteratorTest extends BaseTestCase
 
 	public void testClientsIterator( ) throws Exception
 	{
-		DesignElement style = design.findStyle( "My Style" ); //$NON-NLS-1$
+		DesignElement style = design.findStyle( "My-Style" ); //$NON-NLS-1$
 
 		// Test the referable element
 

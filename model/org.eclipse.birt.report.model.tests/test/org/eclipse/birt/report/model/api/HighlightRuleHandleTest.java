@@ -54,8 +54,8 @@ public class HighlightRuleHandleTest extends BaseTestCase
 	public void testStyle( ) throws Exception
 	{
 		openDesign( inputFile );
-		StyleHandle style2 = designHandle.findStyle( "My Style2" ); //$NON-NLS-1$
-		StyleHandle style3 = designHandle.findStyle( "My Style3" ); //$NON-NLS-1$
+		StyleHandle style2 = designHandle.findStyle( "My-Style2" ); //$NON-NLS-1$
+		StyleHandle style3 = designHandle.findStyle( "My-Style3" ); //$NON-NLS-1$
 		Iterator highlightRules = style2.highlightRulesIterator( );
 		assert ( highlightRules.hasNext( ) );
 
@@ -72,12 +72,12 @@ public class HighlightRuleHandleTest extends BaseTestCase
 
 		assertNull( style2Highlight.getProperty( HighlightRule.VALUE2_MEMBER ) );
 
-		StyleHandle style1 = designHandle.findStyle( "My Style1" ); //$NON-NLS-1$
+		StyleHandle style1 = designHandle.findStyle( "My-Style1" ); //$NON-NLS-1$
 		List refs = ( (ReferenceableElement) style1.getElement( ) )
 				.getClientList( );
 		assertEquals( 1, refs.size( ) );
 		BackRef ref1 = (BackRef) refs.get( 0 );
-		assertEquals( "My Style2", ref1.getElement( ).getName( ) ); //$NON-NLS-1$
+		assertEquals( "My-Style2", ref1.getElement( ).getName( ) ); //$NON-NLS-1$
 		assertEquals( HighlightRule.STYLE_MEMBER, ref1.getPropertyName( ) ); //$NON-NLS-1$
 
 		// if remove the structure, the back reference should be break.
@@ -114,7 +114,7 @@ public class HighlightRuleHandleTest extends BaseTestCase
 		refs = ( (ReferenceableElement) style3.getElement( ) ).getClientList( );
 		assertEquals( 1, refs.size( ) );
 
-		assertEquals( "My Style2", ref1.getElement( ).getName( ) ); //$NON-NLS-1$
+		assertEquals( "My-Style2", ref1.getElement( ).getName( ) ); //$NON-NLS-1$
 		assertEquals( HighlightRule.STYLE_MEMBER, ref1.getPropertyName( ) ); //$NON-NLS-1$
 
 		// clear the style reference now.
@@ -150,7 +150,7 @@ public class HighlightRuleHandleTest extends BaseTestCase
 		
 		try
 		{
-			style3Highlight.setStyleName( "My Style2" ); //$NON-NLS-1$
+			style3Highlight.setStyleName( "My-Style2" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( SemanticException e )
@@ -163,7 +163,7 @@ public class HighlightRuleHandleTest extends BaseTestCase
 		// test cases on add item
 
 		HighlightRule newRule1 = StructureFactory.createHighlightRule( );
-		newRule1.setProperty( HighlightRule.STYLE_MEMBER, "My Style2" ); //$NON-NLS-1$
+		newRule1.setProperty( HighlightRule.STYLE_MEMBER, "My-Style2" ); //$NON-NLS-1$
 
 		try
 		{
@@ -197,7 +197,7 @@ public class HighlightRuleHandleTest extends BaseTestCase
 	{
 		openDesign( inputFile );
 
-		StyleHandle style2 = designHandle.findStyle( "My Style2" ); //$NON-NLS-1$
+		StyleHandle style2 = designHandle.findStyle( "My-Style2" ); //$NON-NLS-1$
 		TableHandle table = (TableHandle) designHandle.findElement( "myTable" ); //$NON-NLS-1$
 
 		HighlightRule rule = StructureFactory.createHighlightRule( );
@@ -298,7 +298,7 @@ public class HighlightRuleHandleTest extends BaseTestCase
 	{
 		openDesign( inputFile );
 
-		StyleHandle style2 = designHandle.findStyle( "My Style2" ); //$NON-NLS-1$
+		StyleHandle style2 = designHandle.findStyle( "My-Style2" ); //$NON-NLS-1$
 
 		StyleHandle newStyle = designHandle.getElementFactory( )
 				.newStyle( null );

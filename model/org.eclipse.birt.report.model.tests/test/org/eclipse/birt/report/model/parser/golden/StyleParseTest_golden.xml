@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <property name="refreshRate">30</property>
     <styles>
-        <style name="My Style" id="2">
+        <style name="My-Style" id="2">
             <property name="backgroundAttachment">scroll</property>
             <property name="backgroundColor">red</property>
             <property name="backgroundImage">file</property>
@@ -217,10 +217,10 @@
         <style name="footer" id="6">
             <property name="fontSize">x-large</property>
         </style>
-        <style name="Container Style" id="7">
+        <style name="Container-Style" id="7">
             <property name="fontSize">xx-large</property>
         </style>
-        <style name="Empty Style" id="8"/>
+        <style name="Empty-Style" id="8"/>
         <style name="free-form" id="9">
             <property name="fontVariant">small-caps</property>
         </style>
@@ -310,7 +310,7 @@
             </column>
             <detail>
                 <row id="29">
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <cell id="30">
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
@@ -370,7 +370,7 @@
         <free-form name="My Second Form" id="40">
             <report-items>
                 <label id="41">
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
                     <property name="height">3mm</property>
@@ -393,7 +393,7 @@
         <free-form name="My Fourth Form" id="44">
             <report-items>
                 <label id="45">
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="fontWeight">lighter</property>
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
@@ -472,7 +472,7 @@
             </footer>
         </table>
         <table name="My Sixth Table" id="63">
-            <property name="style">Container Style</property>
+            <property name="style">Container-Style</property>
             <column id="64">
                 <property name="width">2.5mm</property>
             </column>
@@ -563,7 +563,7 @@
             </header>
         </table>
         <table name="My Tenth Table" id="86">
-            <property name="style">Container Style</property>
+            <property name="style">Container-Style</property>
             <column id="87">
                 <property name="width">2.5mm</property>
             </column>
@@ -572,7 +572,7 @@
             </column>
             <header>
                 <row id="89">
-                    <property name="style">Empty Style</property>
+                    <property name="style">Empty-Style</property>
                     <cell id="90">
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
@@ -795,7 +795,7 @@
             </structure>
         </data>
         <data name="my data 2" id="137">
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
             <structure name="numberFormat">
                 <property name="category">Currency</property>
                 <property name="pattern">###.**</property>

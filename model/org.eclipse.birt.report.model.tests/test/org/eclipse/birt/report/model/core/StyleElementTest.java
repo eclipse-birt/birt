@@ -471,13 +471,13 @@ public class StyleElementTest extends BaseTestCase
 		prepareForSelectorBroadCastTest( );
 		assertFalse( clientListenerTable.done );
 
-		tableSelector.setName( "table style" ); //$NON-NLS-1$
+		tableSelector.setName( "table-style" ); //$NON-NLS-1$
 
 		assertTrue( clientListenerTable.done );
 		assertEquals( NotificationEvent.STYLE_CLIENT, clientListenerTable.path );
 		assertFalse( clientListenerLabel.done );
 
-		listSelector.setName( "list style" ); //$NON-NLS-1$
+		listSelector.setName( "list-style" ); //$NON-NLS-1$
 
 		assertTrue( clientListenerList1.done );
 		assertEquals( NotificationEvent.STYLE_CLIENT, clientListenerList1.path );

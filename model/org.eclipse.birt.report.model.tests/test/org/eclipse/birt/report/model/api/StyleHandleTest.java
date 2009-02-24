@@ -68,7 +68,7 @@ public class StyleHandleTest extends BaseTestCase
 
 	public void testStyleProperties( ) throws SemanticException
 	{
-		StyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 
 		ColorHandle colorHandle = styleHandle.getColor( );
 		colorHandle.setRGB( 0xFF0088 );
@@ -379,7 +379,7 @@ public class StyleHandleTest extends BaseTestCase
 	public void testHighlightProperties( ) throws SemanticException
 	{
 
-		StyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 
 		Iterator highlightHandles = styleHandle.highlightRulesIterator( );
 		assertNotNull( highlightHandles );
@@ -518,7 +518,7 @@ public class StyleHandleTest extends BaseTestCase
 
 	public void testMapRules( ) throws SemanticException
 	{
-		StyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		Iterator iter = styleHandle.mapRulesIterator( );
 
 		MapRuleHandle ruleHandle = (MapRuleHandle) iter.next( );

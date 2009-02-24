@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <data-sources>
         <oda-data-source name="myDataSource" id="2"/>
         <oda-data-source name="myDataSource2" id="3"/>
@@ -10,7 +10,7 @@
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="My Style" id="5">
+        <style name="My-Style" id="5">
             <property name="fontFamily">"Times"</property>
             <property name="fontSize">12mm</property>
             <property name="fontWeight">bold</property>
@@ -91,11 +91,11 @@
             <text-property name="caption" key="new caption key">new caption</text-property>
             <column id="13">
                 <property name="width">2.5mm</property>
-                <property name="style">My Style</property>
+                <property name="style">My-Style</property>
             </column>
             <column id="14">
                 <property name="width">1.5mm</property>
-                <property name="style">My Style</property>
+                <property name="style">My-Style</property>
             </column>
             <column id="15">
                 <property name="suppressDuplicates">true</property>

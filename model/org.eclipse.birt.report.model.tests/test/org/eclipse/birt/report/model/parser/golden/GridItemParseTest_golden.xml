@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <data-sources>
         <oda-data-source name="myDataSource" id="2"/>
     </data-sources>
@@ -9,7 +9,7 @@
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="My Style" id="4">
+        <style name="My-Style" id="4">
             <property name="backgroundColor">yellow</property>
             <property name="fontFamily">"Times"</property>
             <property name="fontSize">12mm</property>
@@ -37,16 +37,16 @@
             <column id="10">
                 <property name="width">2.5mm</property>
                 <property name="repeat">3</property>
-                <property name="style">My Style</property>
+                <property name="style">My-Style</property>
             </column>
             <column id="11">
                 <property name="width">1.5mm</property>
-                <property name="style">My Style</property>
+                <property name="style">My-Style</property>
             </column>
             <row id="12">
                 <property name="height">5mm</property>
                 <expression name="bookmark">This is bookmark for section.</expression>
-                <property name="style">My Style</property>
+                <property name="style">My-Style</property>
                 <cell id="13">
                     <property name="column">1</property>
                     <property name="colSpan">1</property>
@@ -75,7 +75,7 @@
         			<property name="scope">col</property>
         			<expression name="bookmark">new bookmark for cell</expression>
         			<expression name="headers">new headers for cell</expression>
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="backgroundColor">red</property>
                     <property name="borderTopColor">yellow</property>
                     <property name="borderTopStyle">dotted</property>

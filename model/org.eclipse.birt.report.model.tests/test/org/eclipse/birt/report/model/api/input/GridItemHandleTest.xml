@@ -2,7 +2,7 @@
 <!-- Written by Eclipse BIRT 2.0 -->
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <styles>
-        <style name="My Style"/>
+        <style name="My-Style"/>
     </styles>
     <page-setup>
         <graphic-master-page name="My Page">
@@ -25,7 +25,7 @@
                     <property name="x">6mm</property>
                 </label>
                 <data>
-                   <text-property name="helpText">Shows what parameter was used.</text-property>
+                    <text-property name="helpText">Shows what parameter was used.</text-property>
                 </data>
             </contents>
         </graphic-master-page>
@@ -35,16 +35,16 @@
             <column>
                 <property name="width">2.5mm</property>
                 <property name="repeat">3</property>
-                <property name="style">My Style</property>
+                <property name="style">My-Style</property>
             </column>
             <column>
                 <property name="width">1.5mm</property>
-                <property name="style">My Style</property>
+                <property name="style">My-Style</property>
             </column>
             <row>
                 <property name="height">5mm</property>
                 <expression name="bookmark">This is bookmark for section.</expression>
-                <property name="style">My Style</property>
+                <property name="style">My-Style</property>
                 <cell>
                     <property name="column">1</property>
                     <property name="colSpan">1</property>
@@ -60,7 +60,7 @@
                     <property name="drop">all</property>
                     <property name="height">1.5mm</property>
                     <property name="width">2mm</property>
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <label name="address">
                         <property name="x">1.1mm</property>
                         <property name="y">2.2mm</property>
@@ -82,7 +82,7 @@
             <row>
                 <property name="height">5mm</property>
                 <expression name="bookmark">This is bookmark for section.</expression>
-                <property name="style">My Style</property>
+                <property name="style">My-Style</property>
                 <cell>
                     <property name="column">1</property>
                     <property name="colSpan">1</property>
@@ -99,7 +99,7 @@
                     <property name="drop">all</property>
                     <property name="height">1.5mm</property>
                     <property name="width">2mm</property>
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <label name="address1">
                         <property name="x">1.1mm</property>
                         <property name="y">2.2mm</property>

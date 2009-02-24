@@ -147,7 +147,7 @@ public class FontHandleTest extends BaseTestCase
 
 	public void testParse( ) throws SemanticException
 	{
-		StyleHandle myStyle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle myStyle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		assertNotNull( myStyle );
 		fontHandle = myStyle.getFontFamilyHandle( );
 
@@ -292,7 +292,7 @@ public class FontHandleTest extends BaseTestCase
 
 	public void testSetValue( ) throws Exception
 	{
-		StyleHandle myStyle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle myStyle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		assertNotNull( myStyle );
 		fontHandle = myStyle.getFontFamilyHandle( );
 
@@ -367,7 +367,7 @@ public class FontHandleTest extends BaseTestCase
 
 	public void testCSSFontList( )
 	{
-		StyleHandle myStyle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle myStyle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		assertNotNull( myStyle );
 		fontHandle = myStyle.getFontFamilyHandle( );
 

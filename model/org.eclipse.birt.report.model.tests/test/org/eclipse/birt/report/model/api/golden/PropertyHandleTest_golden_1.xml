@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <styles>
-        <style name="My Style" id="2">
+        <style name="My-Style" id="2">
             <property name="fontFamily">cursive</property>
             <property name="fontSize">12mm</property>
             <property name="fontWeight">bolder</property>
@@ -39,7 +39,7 @@
             <text-property name="text">new label text</text-property>
         </label>
         <label name="child1" id="5" extends="base">
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
         </label>
     </components>
 </report>

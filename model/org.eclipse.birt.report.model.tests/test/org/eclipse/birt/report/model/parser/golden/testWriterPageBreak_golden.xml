@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <property name="refreshRate">30</property>
     <styles>
-        <style name="My Style" id="2">
+        <style name="My-Style" id="2">
             <property name="backgroundAttachment">scroll</property>
             <property name="backgroundColor">red</property>
             <property name="backgroundImage">file</property>
@@ -287,7 +287,7 @@
             </column>
             <detail>
                 <row id="26">
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <cell id="27">
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
@@ -348,7 +348,7 @@
         <free-form name="My Second Form" id="37">
             <report-items>
                 <label id="38">
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
                     <property name="height">3mm</property>
@@ -371,7 +371,7 @@
         <free-form name="My Fourth Form" id="41">
             <report-items>
                 <label id="42">
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="fontWeight">lighter</property>
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
@@ -777,7 +777,7 @@
             </structure>
         </data>
         <data name="my data 2" id="133">
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
         </data>
     </body>
 </report>

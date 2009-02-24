@@ -164,48 +164,13 @@ public class ColorHandleTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		openDesign( "ColorHandleTest.xml", TEST_LOCALE ); //$NON-NLS-1$ //$NON-NLS-2$ 
+		openDesign( "ColorHandleTest.xml", TEST_LOCALE ); //$NON-NLS-1$
 
-		colorHandle = designHandle.findStyle( "My Style" ).getColor( ); //$NON-NLS-1$
-		colorHandle1 = designHandle.findStyle( "My Style1" ).getColor( ); //$NON-NLS-1$
+		colorHandle = designHandle.findStyle( "My-Style" ).getColor( ); //$NON-NLS-1$
+		colorHandle1 = designHandle.findStyle( "My-Style1" ).getColor( ); //$NON-NLS-1$
 
 	}
 
-	/**
-	 * Test getDisplayValue().
-	 * 
-	 * @throws PropertyValueException
-	 */
-
-	/*public void testGetDisplayValue( ) throws PropertyValueException
-	{
-
-		// red( locale == CHINA )
-
-		assertEquals( "\u7ea2\u8272", colorHandle.getDisplayValue( ) ); //$NON-NLS-1$
-
-		// #FF00FF( preference = CSS_ABSOLUTE_FORMAT[Default] )
-		assertEquals( "RGB(255,0,255)", colorHandle1.getDisplayValue( ) ); //$NON-NLS-1$
-
-		// #FF00FF( preference = CSS_RELATIVE_FORMAT )
-		design.getSession( ).setColorFormat( ColorUtil.CSS_RELATIVE_FORMAT );
-		assertEquals( "RGB(100.0%,0.0%,100.0%)", colorHandle1.getDisplayValue( ) ); //$NON-NLS-1$
-
-		// #FF00FF( preference = HTML_FORMAT )
-		design.getSession( ).setColorFormat( ColorUtil.HTML_FORMAT );
-		assertEquals( "#FF00FF", colorHandle1.getDisplayValue( ) ); //$NON-NLS-1$
-
-		// #FF00FF( preference = JAVA_FORMAT )
-		design.getSession( ).setColorFormat( ColorUtil.JAVA_FORMAT );
-		assertEquals( "0xFF00FF", colorHandle1.getDisplayValue( ) ); //$NON-NLS-1$
-
-		ThreadResources.setLocale( ULocale.ENGLISH );
-		colorHandle = designHandle.findStyle( "My Style" ).getColor( ); //$NON-NLS-1$
-
-		// red( locale == ENGLISH )
-		assertEquals( "Red", colorHandle.getDisplayValue( ) ); //$NON-NLS-1$
-	}
-*/
 	/**
 	 * 
 	 * test setStringValue(), setIntValue() and setRGB().
@@ -218,7 +183,7 @@ public class ColorHandleTest extends BaseTestCase
 	public void testSetColor( ) throws Exception
 	{
 		// #FF00FF
-		colorHandle.setRGB( 16711935 ); //$NON-NLS-1$
+		colorHandle.setRGB( 16711935 );
 		assertEquals( 16711935, colorHandle.getRGB( ) );
 
 		colorHandle.setValue( "#FF00FF" ); //$NON-NLS-1$
@@ -242,17 +207,16 @@ public class ColorHandleTest extends BaseTestCase
 		assertEquals( "red", colorHandle.getStringValue( ) ); //$NON-NLS-1$
 		assertEquals( "red", colorHandle.getValue( ) ); //$NON-NLS-1$
 
-		ThreadResources.setLocale( TEST_LOCALE ); //$NON-NLS-1$ //$NON-NLS-2$
+		ThreadResources.setLocale( TEST_LOCALE );
 
 		// red for Chinese.
 
 		colorHandle.setStringValue( "\u7ea2\u8272" ); //$NON-NLS-1$
 		assertEquals( "red", colorHandle.getCssValue( ) ); //$NON-NLS-1$
 		assertEquals( "\u7ea2\u8272", colorHandle.getDisplayValue( ) ); //$NON-NLS-1$
-		
+
 		colorHandle.setStringValue( "myColor1" ); //$NON-NLS-1$
 		assertEquals( "myColor1", colorHandle.getStringValue( ) ); //$NON-NLS-1$
-
 
 		assertEquals( "sheng lan", colorHandle.getDisplayValue( ) ); //$NON-NLS-1$
 
@@ -263,7 +227,7 @@ public class ColorHandleTest extends BaseTestCase
 
 		// tests writing a color to a structure like a highlight rule.
 
-		Style style1 = (Style) design.findStyle( "My Style2" ); //$NON-NLS-1$
+		Style style1 = (Style) design.findStyle( "My-Style2" ); //$NON-NLS-1$
 		StyleHandle style2Handle = style1.handle( design );
 
 		Iterator highlightHandles = style2Handle.highlightRulesIterator( );
@@ -304,7 +268,7 @@ public class ColorHandleTest extends BaseTestCase
 		assertEquals( "RGB(255,0,255)", colorHandle.getCssValue( ) ); //$NON-NLS-1$
 		assertEquals( "#FF00FF", colorHandle.getStringValue( ) ); //$NON-NLS-1$
 
-		Style style1 = (Style) design.findStyle( "My Style2" ); //$NON-NLS-1$
+		Style style1 = (Style) design.findStyle( "My-Style2" ); //$NON-NLS-1$
 		StyleHandle style2Handle = style1.handle( design );
 
 		// has the default value in black.
@@ -330,13 +294,13 @@ public class ColorHandleTest extends BaseTestCase
 		assertNotNull( colorHandle );
 
 		assertEquals( "RGB(18,52,86)", colorHandle.getCssValue( ) ); //$NON-NLS-1$
-		assertEquals( 1193046, colorHandle.getRGB( ) ); //$NON-NLS-1$
+		assertEquals( 1193046, colorHandle.getRGB( ) );
 
 		colorHandle = highlightHandle.getBorderBottomColor( );
 		assertNotNull( colorHandle );
 
 		// value from custom color pallete.
-		colorHandle = designHandle.findStyle( "My Style3" ).getColor( ); //$NON-NLS-1$
+		colorHandle = designHandle.findStyle( "My-Style3" ).getColor( ); //$NON-NLS-1$
 		assertEquals( "myColor1", colorHandle.getStringValue( ) ); //$NON-NLS-1$
 		assertEquals( 1193210, colorHandle.getRGB( ) );
 
@@ -344,41 +308,12 @@ public class ColorHandleTest extends BaseTestCase
 
 	/**
 	 * test getColors().
-	 *  
+	 * 
 	 */
 
 	public void testGetCSSColors( )
 	{
 		List colors = colorHandle.getCSSColors( );
 		assertEquals( 17, colors.size( ) );
-	}
-
-	/**
-	 * MyColor1 's name is from the translations(China). MyColor2 's name is
-	 * from its display name. MyColor3 's name is from its internal name.
-	 */
-
-	/*public void testGetColors( )
-	{
-		ThreadResources.setLocale( ULocale.CHINA );
-
-		List colors = colorHandle.getColors( );
-		assertEquals( 20, colors.size( ) );
-
-		// from translation.
-		assertEquals( "sheng lan", (String) colors.get( 17 ) ); //$NON-NLS-1$
-
-		// from display name
-		assertEquals( "Color 2", (String) colors.get( 18 ) ); //$NON-NLS-1$
-
-		// from internal name
-		assertEquals( "myColor3", (String) colors.get( 19 ) ); //$NON-NLS-1$
-
-		// change locale to ENGLISH, also from the translation, but of locale
-		// EN.
-		ThreadResources.setLocale( ULocale.ENGLISH );
-		colors = colorHandle.getColors( );
-		assertEquals( "Deep blue en.", (String) colors.get( 17 ) ); //$NON-NLS-1$
-
-	}*/
+	}	
 }

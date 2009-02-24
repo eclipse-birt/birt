@@ -3,7 +3,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <text-property name="title" key="TITLE_ID">Sample Report</text-property>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="backgroundColor">yellow</property>
             <property name="fontFamily">Times</property>
             <property name="fontSize">12mm</property>

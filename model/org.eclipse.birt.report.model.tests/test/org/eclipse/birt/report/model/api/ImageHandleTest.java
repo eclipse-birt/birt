@@ -227,8 +227,8 @@ public class ImageHandleTest extends BaseTestCase
 					.getErrorCode( ) );
 		}
 
-		image.setStyleName( "My Style" ); //$NON-NLS-1$
-		assertEquals( "My Style", image.getStyle( ).getName( ) ); //$NON-NLS-1$
+		image.setStyleName( "My-Style" ); //$NON-NLS-1$
+		assertEquals( "My-Style", image.getStyle( ).getName( ) ); //$NON-NLS-1$
 
 		image.setBookmark( "bookMark" ); //$NON-NLS-1$
 		assertEquals( "bookMark", image.getBookmark( ) ); //$NON-NLS-1$

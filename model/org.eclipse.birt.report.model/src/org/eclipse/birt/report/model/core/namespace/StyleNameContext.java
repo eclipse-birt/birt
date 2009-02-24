@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.core.StyleNameSpace;
 import org.eclipse.birt.report.model.css.CssNameManager;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
@@ -62,6 +63,17 @@ public class StyleNameContext extends AbstractModuleNameContext
 	StyleNameContext( Module module )
 	{
 		super( module, Module.STYLE_NAME_SPACE );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.core.namespace.AbstractNameContext#
+	 * initNameSpace()
+	 */
+	protected void initNameSpace( )
+	{
+		this.namespace = new StyleNameSpace( );
 	}
 
 	/**
@@ -128,16 +140,17 @@ public class StyleNameContext extends AbstractModuleNameContext
 
 	private ElementRefValue resolve( String elementName )
 	{
+		String name = elementName == null ? null : elementName.toLowerCase( );
 		if ( module.isCached( ) )
 		{
-			DesignElement style = cachedStyles.get( elementName );
+			DesignElement style = cachedStyles.get( name );
 
 			// firstly, find it in the cached style list
 
 			if ( style != null )
 				return new ElementRefValue( null, style );
 
-			style = cachedTOCStyles.get( elementName );
+			style = cachedTOCStyles.get( name );
 			if ( style != null )
 				return new ElementRefValue( null, style );
 
@@ -158,7 +171,7 @@ public class StyleNameContext extends AbstractModuleNameContext
 		if ( module instanceof ReportDesign )
 		{
 			NameSpace ns = module.getNameHelper( ).getNameSpace( nameSpaceID );
-			target = ns.getElement( elementName );
+			target = ns.getElement( name );
 
 			if ( target != null )
 			{
@@ -172,7 +185,8 @@ public class StyleNameContext extends AbstractModuleNameContext
 			for ( int i = 0; csses != null && i < csses.size( ); ++i )
 			{
 				CssStyle s = csses.get( i );
-				if ( elementName.equalsIgnoreCase( s.getFullName( ) ) )
+				// style name is case-insensitive
+				if ( name.equalsIgnoreCase( s.getFullName( ) ) )
 				{
 					return new ElementRefValue( null, s );
 				}
@@ -184,7 +198,7 @@ public class StyleNameContext extends AbstractModuleNameContext
 		DesignElement libraryStyle = null;
 		if ( theme != null )
 		{
-			libraryStyle = theme.findStyle( elementName );
+			libraryStyle = theme.findStyle( name );
 		}
 
 		if ( libraryStyle != null )
@@ -198,7 +212,7 @@ public class StyleNameContext extends AbstractModuleNameContext
 
 		if ( cachedTOCStyles != null )
 		{
-			Style tmpStyle = (Style) cachedTOCStyles.get( elementName );
+			Style tmpStyle = (Style) cachedTOCStyles.get( name );
 			if ( tmpStyle != null )
 				return new ElementRefValue( null, tmpStyle );
 		}
@@ -302,7 +316,9 @@ public class StyleNameContext extends AbstractModuleNameContext
 			for ( int i = 0; i < styleList.size( ); i++ )
 			{
 				DesignElement style = styleList.get( i );
-				tmpMap.put( style.getName( ), (StyleElement) style );
+				// style name is case-insensitive
+				tmpMap.put( style.getName( ).toLowerCase( ),
+						(StyleElement) style );
 			}
 		}
 		return tmpMap;

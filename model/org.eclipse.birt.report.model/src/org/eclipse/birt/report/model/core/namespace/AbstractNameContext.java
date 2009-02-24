@@ -23,14 +23,24 @@ abstract public class AbstractNameContext
 			IAccessControl
 {
 
-	protected NameSpace namespace = new NameSpace( );
+	protected NameSpace namespace = null;
 
 	/**
 	 * 
 	 */
 	public AbstractNameContext( )
 	{
+		initNameSpace( );
+	}
 
+	/**
+	 * Creates a name space. Generally, we create a NameSpace. However, for
+	 * special elements, we must override this method to create special name
+	 * space.
+	 */
+	protected void initNameSpace( )
+	{
+		this.namespace = new NameSpace( );
 	}
 
 	/**
@@ -44,7 +54,9 @@ abstract public class AbstractNameContext
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#canContain(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#canContain(
+	 * java.lang.String)
 	 */
 	public boolean canContain( String elementName )
 	{

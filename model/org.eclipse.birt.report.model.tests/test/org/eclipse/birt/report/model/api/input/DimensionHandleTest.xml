@@ -2,7 +2,7 @@
 <!-- Written by Eclipse BIRT 2.0 -->
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="backgroundPositionX">12000.123cm</property>
             <property name="fontFamily">fantasy</property>
             <property name="fontSize">larger</property>
@@ -56,7 +56,7 @@
                 </structure>
             </list-property>
         </style>
-        <style name="My Style1">
+        <style name="My-Style1">
             <list-property name="highlightRules">
                 <structure>
                     <property name="operator">eq</property>
@@ -91,7 +91,7 @@
             </report-items>
         </free-form>
         <free-form name="form3">
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
             <property name="textIndent">3em</property>
             <report-items>
 				<!-- textIndent is computed with the font size from MyStyle. -->

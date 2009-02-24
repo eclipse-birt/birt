@@ -347,7 +347,7 @@ public class NameCommandTest extends BaseTestCase
 
 	public void testNotification( ) throws Exception
 	{
-		StyleElement myStyle = design.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleElement myStyle = design.findStyle( "My-Style" ); //$NON-NLS-1$
 
 		MyNameListener nameListener = new MyNameListener( );
 		myStyle.addListener( nameListener );

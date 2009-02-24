@@ -174,7 +174,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * 
  * <tr>
  * <td>{@link #testReplaceItemTwo()}</td>
- * <td>Use the first structure list in My style to replace the first structure
+ * <td>Use the first structure list in My-Style to replace the first structure
  * list in style2</td>
  * <td>the value of structure was replaced</td>
  * </tr>
@@ -182,7 +182,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <tr>
  * <td></td>
  * <td>Undo the operation and use the first structure list in style2 to replace
- * the first structure list in My style</td>
+ * the first structure list in My-Style</td>
  * <td>he value of structure was replaced</td>
  * </tr>
  * 
@@ -1224,12 +1224,12 @@ public class PropertyCommandTest extends BaseTestCase
 	/**
 	 * Tests replace methods. Test case:
 	 * <ul>
-	 * <li>get the map rule list from My Style.</li>
+	 * <li>get the map rule list from My-Style.</li>
 	 * <li>get the map rule list from style2</li>
-	 * <li>use the second structure list in My style to replace the first
+	 * <li>use the second structure list in My-Style to replace the first
 	 * structure list in style2</li>
 	 * <li>use the first structure list in style2 to replace the second
-	 * structure list in My Style.</li>
+	 * structure list in My-Style.</li>
 	 * 
 	 * <li>Replace an item within a member list</li>
 	 * </ul>
@@ -1239,7 +1239,7 @@ public class PropertyCommandTest extends BaseTestCase
 
 	public void testReplaceItemTwo( ) throws Exception
 	{
-		SharedStyleHandle styleHandle1 = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		SharedStyleHandle styleHandle1 = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		SharedStyleHandle styleHandle2 = designHandle.findStyle( "Style2" ); //$NON-NLS-1$
 
 		ComplexPropertyCommand command1 = new ComplexPropertyCommand( design,
@@ -1739,7 +1739,7 @@ public class PropertyCommandTest extends BaseTestCase
 
 	public void testNotification( ) throws Exception
 	{
-		SharedStyleHandle myStyle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		SharedStyleHandle myStyle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 
 		MyPropertyListener listener = new MyPropertyListener( );
 		myStyle.addListener( listener );

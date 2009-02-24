@@ -104,7 +104,7 @@ public class PropertyHandleTest extends BaseTestCase
 
 	public void testOtherOperations( )
 	{
-		StyleElement myStyle = design.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleElement myStyle = design.findStyle( "My-Style" ); //$NON-NLS-1$
 		PropertyHandle propHandle = myStyle.getHandle( design )
 				.getPropertyHandle( Style.FONT_FAMILY_PROP );
 
@@ -191,7 +191,7 @@ public class PropertyHandleTest extends BaseTestCase
 	public void testItemOperations( ) throws Exception
 	{
 		SharedStyleHandle myStyleHandle = (SharedStyleHandle) design.findStyle(
-				"My Style" ).getHandle( design ); //$NON-NLS-1$
+				"My-Style" ).getHandle( design ); //$NON-NLS-1$
 
 		// add one highlight rule.
 
@@ -398,7 +398,7 @@ public class PropertyHandleTest extends BaseTestCase
 	public void testEqual( )
 	{
 
-		StyleElement myStyle = design.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleElement myStyle = design.findStyle( "My-Style" ); //$NON-NLS-1$
 		PropertyHandle propHandle = myStyle.getHandle( design )
 				.getPropertyHandle( Style.FONT_FAMILY_PROP );
 		PropertyHandle propHandle1 = myStyle.getHandle( design )

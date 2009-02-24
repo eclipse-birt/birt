@@ -76,6 +76,11 @@ public class NameException extends SemanticException
 	public static final String DESIGN_EXCEPTION_INVALID_NAME = MessageConstants.NAME_EXCEPTION_INVALID_NAME;
 
 	/**
+	 * The style name is invalid for CSS2 specification.
+	 */
+	public static final String DESIGN_EXCEPTION_INVALID_STYLE_NAME = MessageConstants.NAME_EXCEPTION_INVALID_STYLE_NAME;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param obj
@@ -126,7 +131,8 @@ public class NameException extends SemanticException
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{getElementName( element )} );
 		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_NAME )
+		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_NAME
+				|| sResourceKey == DESIGN_EXCEPTION_INVALID_STYLE_NAME )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{name} );
 		}

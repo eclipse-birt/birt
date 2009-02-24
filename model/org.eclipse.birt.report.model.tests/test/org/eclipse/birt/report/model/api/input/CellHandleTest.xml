@@ -10,7 +10,7 @@
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="color">red</property>
         </style>
     </styles>
@@ -42,7 +42,7 @@
 		<!-- color defined on the row -->
 		<table name="My table2">
 			<column>
-				<property name="style">My Style</property>
+				<property name="style">My-Style</property>
 				<property name="verticalAlign">bottom</property>
 			</column>		
 			<property name="verticalAlign">top</property>	
@@ -62,7 +62,7 @@
 			<property name="color">silver</property>			
 			<property name="verticalAlign">top</property>			
 			<column>
-				<property name="style">My Style</property>
+				<property name="style">My-Style</property>
 			</column>			
 			<property name="dataSet">firstDataSet</property>
 			<detail>
@@ -87,7 +87,7 @@
 		<table name="My table5">
 			<property name="color">silver</property>			
 			<column>
-				<property name="style">My Style</property>
+				<property name="style">My-Style</property>
 			</column>			
 			<property name="dataSet">firstDataSet</property>
 			<detail>
@@ -114,7 +114,7 @@
 			<column>
 				<property name="width">2.5mm</property>
 				<property name="repeat">2</property>
-				<property name="style">My Style</property>
+				<property name="style">My-Style</property>
 			</column>
 			<column>
 				<property name="color">yellow</property>
@@ -146,7 +146,7 @@
 		<table name="My table13">
 			<property name="dataSet">firstDataSet</property>
 			<column>
-				<property name="style">My Style</property>
+				<property name="style">My-Style</property>
 			</column>
 			<column>
 				<property name="color">yellow</property>
@@ -156,7 +156,7 @@
 			</column>
 			<column>
 				<property name="color">green</property>
-				<property name="style">My Style</property>
+				<property name="style">My-Style</property>
 			</column>
 			<header>
 				<row>
@@ -223,7 +223,7 @@
 				<property name="color">green</property>
 			</column>
 			<column>
-				<property name="style">My Style</property>
+				<property name="style">My-Style</property>
 				<property name="repeat">2</property>
 			</column>
 			<group>
@@ -269,7 +269,7 @@
 				<property name="repeat">2</property>
 			</column>
 			<column>
-				<property name="style">My Style</property>
+				<property name="style">My-Style</property>
 			</column>
 			<column>
 				<property name="color">aqua</property>

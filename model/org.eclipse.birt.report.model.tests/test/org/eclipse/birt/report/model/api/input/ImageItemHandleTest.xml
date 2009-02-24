@@ -29,7 +29,7 @@
 	    </structure>
 	</list-property>
     <styles>
-        <style name="My Style"/>
+        <style name="My-Style"/>
         <style name="new style"/>
     </styles>
     <components>
@@ -94,7 +94,7 @@
                     <text-property name="text">Today's Date</text-property>
                 </label>
                 <image name="Image1" extends="newImage">
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="paddingTop">2mm</property>
                     <property name="x">100mm</property>
                     <property name="y">1009mm</property>

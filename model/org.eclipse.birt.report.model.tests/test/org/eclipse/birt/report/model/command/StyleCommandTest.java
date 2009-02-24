@@ -118,7 +118,7 @@ public class StyleCommandTest extends BaseTestCase
 		assertNotNull( design );
 		assertNotNull( designHandle );
 
-		style = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		style = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -320,8 +320,8 @@ public class StyleCommandTest extends BaseTestCase
 	 * <p>
 	 * Test Case:
 	 * <ul>
-	 * <li><code>SetStyle</code> of elements with the style's clients and
-	 * extend elements.
+	 * <li><code>SetStyle</code> of elements with the style's clients and extend
+	 * elements.
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -349,8 +349,8 @@ public class StyleCommandTest extends BaseTestCase
 		assertEquals( ( (StyleElement) style.getElement( ) ).getClientList( )
 				.size( ), 1 );
 
-		style.setName( "new style" ); //$NON-NLS-1$
-		assertEquals( "new style", //$NON-NLS-1$
+		style.setName( "new_style" ); //$NON-NLS-1$
+		assertEquals( "new_style", //$NON-NLS-1$
 				label.getStyleName( ) );
 
 		// remove the style from its client.
@@ -360,8 +360,8 @@ public class StyleCommandTest extends BaseTestCase
 				.size( ), 0 );
 
 		// restore style name.
-
-		style = designHandle.getElementFactory( ).newStyle( "new named style" ); //$NON-NLS-1$
+		String styleName = "new-named-style"; //$NON-NLS-1$
+		style = designHandle.getElementFactory( ).newStyle( styleName );
 		designHandle.getSlot( IReportDesignModel.STYLE_SLOT ).add( style );
 		label.getHandle( design ).setStyle( style );
 
@@ -388,18 +388,18 @@ public class StyleCommandTest extends BaseTestCase
 		 */
 
 		label1.getHandle( design ).setStyle( style );
-		assertEquals( ( (StyleElement) style.getElement( ) ).getClientList( ).size( ), 2 );
-		assertEquals( "new named style", //$NON-NLS-1$
-				label1.getStyleName( ) );
+		assertEquals( ( (StyleElement) style.getElement( ) ).getClientList( )
+				.size( ), 2 );
+		assertEquals( styleName, label1.getStyleName( ) );
 
 		Style tmpStyle = new Style( );
-		tmpStyle.getHandle( design ).setName( "another new style" ); //$NON-NLS-1$
+		styleName = "another-new-style"; //$NON-NLS-1$
+		tmpStyle.getHandle( design ).setName( styleName );
 		designHandle.getSlot( IReportDesignModel.STYLE_SLOT ).add(
 				tmpStyle.getHandle( design ) );
 		label.getHandle( design ).setStyleElement( tmpStyle );
-		assertEquals( "another new style", //$NON-NLS-1$
-				label.getStyleName( ) );
-		assertEquals( "new named style", //$NON-NLS-1$
+		assertEquals( styleName, label.getStyleName( ) );
+		assertEquals( "new-named-style", //$NON-NLS-1$
 				label1.getStyleName( ) );
 
 	}
@@ -412,8 +412,10 @@ public class StyleCommandTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.model.core.DesignElement,
-		 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
+		 * .report.model.core.DesignElement,
+		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 		public void elementChanged( DesignElementHandle focus,
 				NotificationEvent ev )

@@ -12,7 +12,7 @@
             <text-property name="text">First Page</text-property>
         </label>
         <label name="child1" extends="base">
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
             <text-property name="text">Today's Date</text-property>
         </label>
         <label name="child2" extends="base">

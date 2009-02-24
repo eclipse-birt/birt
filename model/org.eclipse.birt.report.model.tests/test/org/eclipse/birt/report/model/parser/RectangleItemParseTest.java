@@ -71,7 +71,7 @@ public class RectangleItemParseTest extends ParserTestCase
         RectangleHandle rectangle = (RectangleHandle) masterPage.getContent( )
                 .get( 0 );
 
-        SharedStyleHandle style = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+        SharedStyleHandle style = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 
         assertNotNull( rectangle );
         assertEquals( "12mm", rectangle.getX( ).getStringValue() ); //$NON-NLS-1$

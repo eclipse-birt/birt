@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
+	<list-property name="libraries">
+        <structure>
+            <property name="fileName">StyleNameTest_4.xml</property>
+            <property name="namespace">lib</property>
+        </structure>
+    </list-property>
+    <property name="theme">lib.theme_1</property>
+    <body>
+    	<label name="label_1">
+    		<property name="style">My style</property>    		
+    	</label>
+    	<label name="label_2">
+    		<property name="style">test-style</property>    		
+    	</label>
+    	<label name="label_3">
+    		<property name="style">Test-Style</property>    		
+    	</label>
+    </body>
+</report>

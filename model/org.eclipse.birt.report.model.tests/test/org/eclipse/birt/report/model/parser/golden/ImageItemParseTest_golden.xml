@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <list-property name="colorPalette">
         <structure>
             <property name="name">custom blue</property>
@@ -13,7 +13,7 @@
         </structure>
     </list-property>
     <styles>
-        <style name="My Style" id="2">
+        <style name="My-Style" id="2">
             <property name="fontFamily">"Times"</property>
             <property name="fontSize">12mm</property>
             <property name="fontWeight">bold</property>
@@ -36,7 +36,7 @@
                     <property name="x">6mm</property>
                 </label>
                 <image name="Image1" id="6">
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="paddingTop">2mm</property>
                     <property name="size">scale-to-item</property>
                     <property name="scale">0.8</property>

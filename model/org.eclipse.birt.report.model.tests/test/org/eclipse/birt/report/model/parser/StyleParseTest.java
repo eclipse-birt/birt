@@ -262,7 +262,7 @@ public class StyleParseTest extends BaseTestCase
 	public void testParser( ) throws Exception
 	{
 		openDesign( fileName );
-		StyleElement style = design.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleElement style = design.findStyle( "My-Style" ); //$NON-NLS-1$
 
 		DateFormatValue dateFormatValue = (DateFormatValue) style.getProperty(
 				design, Style.DATE_FORMAT_PROP );
@@ -502,7 +502,7 @@ public class StyleParseTest extends BaseTestCase
 		form = (FreeForm) design.findElement( "My Second Form" ); //$NON-NLS-1$
 		label = (Label) form.getSlot( FreeForm.REPORT_ITEMS_SLOT ).getContent(
 				0 );
-		assertEquals( "My Style", label.getStyleName( ) ); //$NON-NLS-1$
+		assertEquals( "My-Style", label.getStyleName( ) ); //$NON-NLS-1$
 		assertEquals(
 				"bold", label.getStringProperty( design, Style.FONT_WEIGHT_PROP ) ); //$NON-NLS-1$
 		assertEquals(
@@ -525,7 +525,7 @@ public class StyleParseTest extends BaseTestCase
 		form = (FreeForm) design.findElement( "My Fourth Form" ); //$NON-NLS-1$
 		label = (Label) form.getSlot( FreeForm.REPORT_ITEMS_SLOT ).getContent(
 				0 );
-		assertEquals( "My Style", label.getStyleName( ) ); //$NON-NLS-1$
+		assertEquals( "My-Style", label.getStyleName( ) ); //$NON-NLS-1$
 		assertEquals(
 				"lighter", label.getStringProperty( design, Style.FONT_WEIGHT_PROP ) ); //$NON-NLS-1$
 		assertEquals(
@@ -708,7 +708,7 @@ public class StyleParseTest extends BaseTestCase
 	{
 		openDesign( fileName );
 
-		StyleHandle style = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle style = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		style
 				.setNumberFormat( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC );
 
@@ -770,7 +770,7 @@ public class StyleParseTest extends BaseTestCase
 	{
 		openDesign( "StyleParseTest_1.xml" ); //$NON-NLS-1$
 
-		StyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		Iterator highlightHandles = styleHandle.highlightRulesIterator( );
 		assertNotNull( highlightHandles );
 
@@ -1075,7 +1075,7 @@ public class StyleParseTest extends BaseTestCase
 	{
 		openDesign( "StyleParseTest_1.xml" ); //$NON-NLS-1$
 
-		StyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		Iterator highlightHandles = styleHandle.highlightRulesIterator( );
 		assertNotNull( highlightHandles );
 

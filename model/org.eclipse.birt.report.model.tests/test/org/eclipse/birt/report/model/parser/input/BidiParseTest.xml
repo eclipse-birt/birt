@@ -5,13 +5,13 @@
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="bidiLayoutOrientation">rtl</property>
     <styles>
-        <style name="Bidi Style LTR" id="310">
+        <style name="Bidi-Style-LTR" id="310">
             <property name="bidiTextDirection">ltr</property>
         </style>
-        <style name="Bidi Style RTL" id="311">
+        <style name="Bidi-Style-RTL" id="311">
             <property name="bidiTextDirection">rtl</property>
         </style>
-        <style name="Empty Style" id="312"/>
+        <style name="Empty-Style" id="312"/>
         <style name="table-detail" id="313">
             <property name="bidiTextDirection">rtl</property>
         </style>
@@ -50,7 +50,7 @@
             <text-property name="text">RTL Document with components of various alignment and direction (RTL).</text-property>
         </label>
         <label name="testLabel" id="250">
-            <property name="style">Empty Style</property>
+            <property name="style">Empty-Style</property>
             <property name="backgroundColor">#FFCECE</property>
             <text-property name="text">no direction Label BEGIN</text-property>
         </label>
@@ -110,7 +110,7 @@
             <property name="borderTopColor">#000000</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">medium</property>
-            <property name="style">Bidi Style LTR</property>
+            <property name="style">Bidi-Style-LTR</property>
             <property name="width">100%</property>
             <column id="295"/>
             <column id="296"/>
@@ -133,7 +133,7 @@
                             <text-property name="text">Table rtl direction BEGIN</text-property>
                         </label>
                     </cell>
-                    <property name="style">Bidi Style RTL</property>
+                    <property name="style">Bidi-Style-RTL</property>
                 </row>
             </header>
             <detail>
@@ -187,7 +187,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">medium</property>
                         <label name="testTableLabelRTL" id="301">
-                            <property name="style">Bidi Style RTL</property>
+                            <property name="style">Bidi-Style-RTL</property>
                             <text-property name="text">Cell2 (rtl).</text-property>
                         </label>
                     </cell>
@@ -237,7 +237,7 @@
         </table>
         <list name="testList" id="279">
             <property name="backgroundColor">#8C8CFF</property>
-            <property name="style">Bidi Style RTL</property>
+            <property name="style">Bidi-Style-RTL</property>
             <header>
                 <label id="408">
                     <text-property name="text">List rtl (inherited) direction BEGIN</text-property>
@@ -255,7 +255,7 @@
                 </text>
                 <text name="testListTextRTL" id="282">
                     <property name="contentType">auto</property>
-                    <property name="style">Bidi Style RTL</property>
+                    <property name="style">Bidi-Style-RTL</property>
                     <text-property name="content"><![CDATA[List item 3 (rtl).]]></text-property>
                 </text>
             </detail>

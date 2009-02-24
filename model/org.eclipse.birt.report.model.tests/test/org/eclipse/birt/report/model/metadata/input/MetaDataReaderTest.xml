@@ -8,7 +8,7 @@
 			<margins bottom=".75mm" left=".8mm" top=".95mm" right=".9mm"/>
 			<contents>
 				<rectangle x="12mm" y="39mm" width="100mm" height="20mm">
-					<style name="My Style">
+					<style name="My-Style">
 						<border>
 							<top color="white" style="dotted" width="1mm"/>
 							<left color="white" style="dashed" width="2mm"/>

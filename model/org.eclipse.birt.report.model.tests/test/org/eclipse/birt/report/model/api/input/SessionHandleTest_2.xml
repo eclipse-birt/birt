@@ -2,7 +2,7 @@
 <!-- Written by Eclipse BIRT 2.0 -->
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <styles>
-        <style name="My Style"/>
+        <style name="My-Style"/>
     </styles>
     <body>
         <free-form>

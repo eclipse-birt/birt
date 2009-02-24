@@ -35,8 +35,8 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 public class FactoryElementHandle
 {
 
-	private static final String INHERIT_STYLE_NAME = "inherit_style"; //$NON-NLS-1$
-	private static final String RELATED_CONTAINER_STYLE_NAME = "related_container_style"; //$NON-NLS-1$
+	private static final String INHERIT_STYLE_NAME = "inherit-style"; //$NON-NLS-1$
+	private static final String RELATED_CONTAINER_STYLE_NAME = "related-container-style"; //$NON-NLS-1$
 
 	private DesignElementHandle elementHandle;
 

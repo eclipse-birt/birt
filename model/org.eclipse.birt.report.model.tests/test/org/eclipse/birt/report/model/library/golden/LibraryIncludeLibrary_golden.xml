@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="26">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="26">
     <property name="author">W.C. Fields</property>
     <property name="helpGuide">http://company.com/reportHelp.html</property>
     <property name="createdBy">Whiz-Bang Plus</property>

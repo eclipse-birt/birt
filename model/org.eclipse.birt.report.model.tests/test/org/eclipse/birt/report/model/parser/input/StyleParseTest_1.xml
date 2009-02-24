@@ -3,7 +3,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <property name="refreshRate">30</property>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <list-property name="highlightRules">
                 <structure>
                 	<expression name="testExpr">[this]</expression>

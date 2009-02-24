@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -62,7 +63,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	/**
 	 * 
 	 */
-	private void initCachedNameSpaces( )
+	protected void initCachedNameSpaces( )
 	{
 		cachedNameSpaces = new NameSpace[getNameSpaceCount( )];
 		for ( int i = 0; i < getNameSpaceCount( ); i++ )
@@ -116,8 +117,31 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 
 	public NameSpace getCachedNameSpace( int id )
 	{
-		assert id >= 0 && id < Module.NAME_SPACE_COUNT;
+		assert id >= 0 && id < getNameSpaceCount( );
 		return cachedNameSpaces[id];
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#dropElement(
+	 * org.eclipse.birt.report.model.core.DesignElement)
+	 */
+	public final void dropElement( DesignElement element )
+	{
+		if ( element == null )
+			return;
+
+		ElementDefn defn = (ElementDefn) element.getDefn( );
+		int id = defn.getNameSpaceID( );
+		NameSpace ns = getCachedNameSpace( id );
+
+		String name = element.getName( );
+		if ( element instanceof StyleElement )
+			name = name == null ? null : name.toLowerCase( );
+		if ( ns.getElement( name ) == element )
+			ns.remove( element );
 	}
 
 	/*
@@ -127,7 +151,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#rename(org.eclipse
 	 * .birt.report.model.core.DesignElement)
 	 */
-	public void rename( DesignElement element )
+	public final void rename( DesignElement element )
 	{
 		if ( element == null )
 			return;
@@ -204,7 +228,10 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		// set the unique name and add the element to the name manager
 
 		NameSpace nameSpace = getCachedNameSpace( eDefn.getNameSpaceID( ) );
-		DesignElement cachedElement = nameSpace.getElement( name );
+		String validName = name;
+		if ( element instanceof StyleElement )
+			validName = validName.toLowerCase( );
+		DesignElement cachedElement = nameSpace.getElement( validName );
 		if ( cachedElement == null )
 		{
 			element.setName( name.trim( ) );

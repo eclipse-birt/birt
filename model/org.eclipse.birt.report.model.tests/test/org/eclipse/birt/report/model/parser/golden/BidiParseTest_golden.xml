@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.3.0.qualifier Build &lt;@BUILD@></property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <styles>
-        <style name="Bidi Style LTR" id="310">
+        <style name="Bidi-Style-LTR" id="310">
             <property name="bidiTextDirection">ltr</property>
         </style>
-        <style name="Bidi Style RTL" id="311">
+        <style name="Bidi-Style-RTL" id="311">
             <property name="bidiTextDirection">rtl</property>
         </style>
-        <style name="Empty Style" id="312"/>
+        <style name="Empty-Style" id="312"/>
         <style name="table-detail" id="313">
             <property name="bidiTextDirection">rtl</property>
         </style>
@@ -50,7 +50,7 @@
             <text-property name="text">RTL Document with components of various alignment and direction (RTL).</text-property>
         </label>
         <label name="testLabel" id="250">
-            <property name="style">Bidi Style LTR</property>
+            <property name="style">Bidi-Style-LTR</property>
             <property name="backgroundColor">#FFCECE</property>
             <text-property name="text">no direction Label BEGIN</text-property>
         </label>
@@ -97,7 +97,7 @@
             </row>
         </grid>
         <table name="testTable" id="255">
-            <property name="style">Bidi Style LTR</property>
+            <property name="style">Bidi-Style-LTR</property>
             <property name="backgroundColor">#FFFF00</property>
             <property name="borderBottomColor">#000000</property>
             <property name="borderBottomStyle">solid</property>
@@ -126,7 +126,7 @@
                     </cell>
                 </row>
                 <row id="285">
-                    <property name="style">Bidi Style RTL</property>
+                    <property name="style">Bidi-Style-RTL</property>
                     <cell id="286">
                         <property name="colSpan">3</property>
                         <property name="rowSpan">1</property>
@@ -187,7 +187,7 @@
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">medium</property>
                         <label name="testTableLabelRTL" id="301">
-                            <property name="style">Bidi Style RTL</property>
+                            <property name="style">Bidi-Style-RTL</property>
                             <text-property name="text">Cell2 (rtl).</text-property>
                         </label>
                     </cell>
@@ -236,7 +236,7 @@
             </footer>
         </table>
         <list name="testList" id="279">
-            <property name="style">Bidi Style RTL</property>
+            <property name="style">Bidi-Style-RTL</property>
             <property name="backgroundColor">#8C8CFF</property>
             <header>
                 <label id="408">
@@ -254,7 +254,7 @@
                     <text-property name="content"><![CDATA[List item 2 (ltr).]]></text-property>
                 </text>
                 <text name="testListTextRTL" id="282">
-                    <property name="style">Bidi Style RTL</property>
+                    <property name="style">Bidi-Style-RTL</property>
                     <property name="contentType">auto</property>
                     <text-property name="content"><![CDATA[List item 3 (rtl).]]></text-property>
                 </text>

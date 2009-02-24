@@ -55,8 +55,8 @@ import com.ibm.icu.util.ULocale;
 /**
  * Test the clone feature of
  * <code>{@link org.eclipse.birt.report.model.core.DesignElement}</code> Clone
- * the original design element, and use the <code>rename</code> method, which
- * is provided by the
+ * the original design element, and use the <code>rename</code> method, which is
+ * provided by the
  * <code>{@link org.eclipse.birt.report.model.api.ReportDesignHandle#rename(DesignElementHandle)}</code>
  * to check whether is there any duplicate name existed. Then add the cloned
  * element into the design tree again. Use the golden file to check the cloned
@@ -288,7 +288,7 @@ public class DesignElementCloneTest extends BaseTestCase
 
 		// Copy style and check clients
 
-		SharedStyleHandle styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		SharedStyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		assertNotNull( styleHandle );
 		assertNotNull( CoreTestUtil.getCachedElementDefn( styleHandle
 				.getElement( ) ) );
@@ -320,7 +320,7 @@ public class DesignElementCloneTest extends BaseTestCase
 		// resolved style reference
 
 		assertEquals( styleHandle, labelHandle.getStyle( ) );
-		assertEquals( "My Style", page.getStyle( ).getName( ) ); //$NON-NLS-1$
+		assertEquals( "My-Style", page.getStyle( ).getName( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -403,7 +403,6 @@ public class DesignElementCloneTest extends BaseTestCase
 		designHandle.getStyles( ).paste( newStyle );
 
 		assertFalse( newStyle.getID( ) == myStyle.getID( ) );
-
 	}
 
 	/**

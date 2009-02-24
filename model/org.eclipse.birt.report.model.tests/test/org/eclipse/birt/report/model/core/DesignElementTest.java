@@ -1179,7 +1179,7 @@ public class DesignElementTest extends BaseTestCase
 		// get the property from the associated style
 
 		Label label = new Label( );
-		StyleElement style = new Style( "My Style" ); //$NON-NLS-1$
+		StyleElement style = new Style( "My-Style" ); //$NON-NLS-1$
 		design.getSlot( IReportDesignModel.STYLE_SLOT ).add( style );
 		style.setProperty( Style.COLOR_PROP, "red" ); //$NON-NLS-1$
 		o = style.getProperty( design, Style.COLOR_PROP );
@@ -3568,13 +3568,13 @@ public class DesignElementTest extends BaseTestCase
 		FreeFormHandle container4 = factory.newFreeForm( null );
 		designHandle.getBody( ).add( container4 );
 
-		StyleHandle style1 = factory.newStyle( "Style 1" );//$NON-NLS-1$
+		StyleHandle style1 = factory.newStyle( "Style-1" );//$NON-NLS-1$
 		designHandle.getStyles( ).add( style1 );
 
-		StyleHandle style2 = factory.newStyle( "Style 2" );//$NON-NLS-1$
+		StyleHandle style2 = factory.newStyle( "Style-2" );//$NON-NLS-1$
 		designHandle.getStyles( ).add( style2 );
 
-		StyleHandle style3 = factory.newStyle( "Style 3" );//$NON-NLS-1$
+		StyleHandle style3 = factory.newStyle( "Style-3" );//$NON-NLS-1$
 		designHandle.getStyles( ).add( style3 );
 
 		DataSourceHandle dataSource1 = factory

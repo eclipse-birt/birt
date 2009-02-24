@@ -2,7 +2,7 @@
 <!-- Written by Eclipse BIRT 2.0 -->
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="fontFamily">Times</property>
             <property name="fontSize">12mm</property>
             <property name="fontWeight">bold</property>
@@ -43,17 +43,17 @@
                     <text-property name="text">Address</text-property>
                 </label>
                 <text>
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                 </text>
                 <text>
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="x">1.2mm</property>
                     <property name="y">2.3mm</property>
                     <property name="height">3.4mm</property>
                     <property name="width">4.5mm</property>
                 </text>
                 <text>
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                 </text>
             </report-items>
         </free-form>

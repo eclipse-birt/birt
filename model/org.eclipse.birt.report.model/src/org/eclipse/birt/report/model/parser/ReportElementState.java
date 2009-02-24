@@ -26,10 +26,12 @@ import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.command.NameCommand;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
@@ -345,10 +347,8 @@ public abstract class ReportElementState extends DesignParseState
 					if ( nameRequired )
 					{
 						// if version<3.2.8, add it to the list and allocate
-						// a
-						// name in end-document; if the version < 3.2.12,
-						// add it
-						// to the list.
+						// a name in end-document; if the version < 3.2.12,
+						// add it to the list.
 						if ( handler.versionNumber <= VersionUtil.VERSION_3_2_12
 								&& element instanceof ExtendedItem )
 						{
@@ -357,7 +357,9 @@ public abstract class ReportElementState extends DesignParseState
 					}
 				}
 				else
+				{
 					element.setName( name );
+				}
 			}
 		}
 
@@ -482,6 +484,33 @@ public abstract class ReportElementState extends DesignParseState
 	private void addToNamespace( DesignElement content )
 	{
 		String name = content.getName( );
+		// check whether style name is valid for css2 spec
+		if ( content instanceof StyleElement )
+		{
+			if ( !NameCommand.styleNamePattern.matcher( name ).matches( ) )
+			{
+				if ( handler.versionNumber < VersionUtil.VERSION_3_2_19 )
+				{
+					// not fire error and handle it when all the styles are
+					// parsed in design file or a theme slot
+					return;
+					
+				}
+				else
+				{
+					handler
+							.getErrorHandler( )
+							.semanticError(
+									new NameException(
+											content,
+											name,
+											NameException.DESIGN_EXCEPTION_INVALID_NAME ) );
+					return;
+				}
+			}
+		}
+
+		name = content.getName( );
 		ElementDefn contentDefn = (ElementDefn) content.getDefn( );
 		boolean isManagedByNameSpace = slotID > DesignElement.NO_SLOT
 				? new ContainerContext( container, slotID )
@@ -513,12 +542,28 @@ public abstract class ReportElementState extends DesignParseState
 				&& isManagedByNameSpace )
 		{
 			NameSpace ns = new NameExecutor( content ).getNameSpace( module );
-
-			if ( ns.contains( name ) )
+			DesignElement existedElement = ns.getElement( name );
+			if ( existedElement != null )
 			{
-				handler.getErrorHandler( ).semanticError(
-						new NameException( content, name,
-								NameException.DESIGN_EXCEPTION_DUPLICATE ) );
+				// if name is identically equal, then fire error
+				if ( name.equals( existedElement.getName( ) ) )
+
+					handler.getErrorHandler( ).semanticError(
+							new NameException( content, name,
+									NameException.DESIGN_EXCEPTION_DUPLICATE ) );
+				else
+				{
+					// for some style name, we should do backward
+					// compatibilities
+					if ( handler.versionNumber >= VersionUtil.VERSION_3_2_19 )
+						handler
+								.getErrorHandler( )
+								.semanticError(
+										new NameException(
+												content,
+												name,
+												NameException.DESIGN_EXCEPTION_DUPLICATE ) );
+				}
 				return;
 			}
 			DesignElement parent = content.getExtendsElement( );

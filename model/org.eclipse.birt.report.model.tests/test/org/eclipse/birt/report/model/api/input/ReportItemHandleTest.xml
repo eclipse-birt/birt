@@ -22,7 +22,7 @@
         </structure>
     </list-property>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="verticalAlign">bottom</property>
         </style>        
     </styles>
@@ -52,7 +52,7 @@
         <free-form name="free form">
             <property name="comments">Sample Section</property>
             <text-property name="displayName">The Section</text-property>
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
             <property name="backgroundColor">red</property>
             <property name="dataSet">myDataSet</property>
             <structure name="toc">
@@ -60,7 +60,7 @@
            	</structure>
             <report-items>
                 <label name="StyleLabel">
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="fontSize">14mm</property>
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
@@ -131,7 +131,7 @@
 					</cell>
 				</row>
                 <row>
-					<property name="style">My Style</property>
+					<property name="style">My-Style</property>
 					<cell>	
 						<label name="nested label2"></label>					
 					</cell>

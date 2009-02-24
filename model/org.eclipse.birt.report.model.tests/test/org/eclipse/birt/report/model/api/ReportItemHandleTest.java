@@ -588,7 +588,7 @@ public class ReportItemHandleTest extends BaseTestCase
 
 		TextItemHandle textHandle = (TextItemHandle) designHandle
 				.findElement( "myText" ); //$NON-NLS-1$
-		textHandle.setStyleName( "My Style" ); //$NON-NLS-1$
+		textHandle.setStyleName( "My-Style" ); //$NON-NLS-1$
 
 		designHandle.getCommandStack( ).undo( );
 

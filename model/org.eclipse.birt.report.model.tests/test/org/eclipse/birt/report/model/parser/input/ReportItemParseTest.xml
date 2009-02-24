@@ -14,7 +14,7 @@
     	<tabular-cube name="testCube_one"/>
     </cubes>
     <styles>
-        <style name="My Style"/>
+        <style name="My-Style"/>
     </styles>
     <page-setup>
         <graphic-master-page name="My Page">
@@ -38,7 +38,7 @@
         <free-form name="free form">
             <property name="comments">Sample Section</property>
             <text-property name="displayName">The Section</text-property>
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
             <property name="backgroundColor">red</property>
             <property name="dataSet">myDataSet</property>
             <structure name="toc">
@@ -46,7 +46,7 @@
            	</structure>
             <report-items>
                 <label name="StyleLabel">
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="fontSize">14mm</property>
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>

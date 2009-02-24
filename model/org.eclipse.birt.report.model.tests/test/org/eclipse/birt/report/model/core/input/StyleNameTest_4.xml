@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
+    <property name="theme">theme_1</property>
+    <themes>
+    	<theme name="theme_1">
+    		<styles>
+    			<style name="My style"/>
+        		<style name="test-style"/>
+        		<style name="Test-Style"/>
+    		</styles>
+    	</theme>
+    </themes>    
+    <components>
+    	<label name="label_1">
+    		<property name="style">My style</property>    		
+    	</label>
+    	<label name="label_2">
+    		<property name="style">test-style</property>    		
+    	</label>
+    	<label name="label_3">
+    		<property name="style">Test-Style</property>    		
+    	</label>
+    </components>
+</library>

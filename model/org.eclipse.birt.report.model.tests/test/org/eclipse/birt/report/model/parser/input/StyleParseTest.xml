@@ -3,7 +3,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <property name="refreshRate">30</property>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="backgroundAttachment">scroll</property>
             <property name="backgroundColor">red</property>
             <property name="backgroundImage">file</property>
@@ -210,10 +210,10 @@
         <style name="footer">
             <property name="fontSize">x-large</property>
         </style>
-        <style name="Container Style">
+        <style name="Container-Style">
             <property name="fontSize">xx-large</property>
         </style>
-        <style name="Empty Style"/>
+        <style name="Empty-Style"/>
         <style name="free-form">
             <property name="fontVariant">small-caps</property>
         </style>
@@ -300,7 +300,7 @@
             </column>
             <detail>
                 <row>
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <cell>
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
@@ -360,7 +360,7 @@
         <free-form name="My Second Form">
             <report-items>
                 <label>
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
                     <property name="height">3mm</property>
@@ -383,7 +383,7 @@
         <free-form name="My Fourth Form">
             <report-items>
                 <label>
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="fontWeight">lighter</property>
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
@@ -458,7 +458,7 @@
             </footer>
         </table>
         <table name="My Sixth Table">
-            <property name="style">Container Style</property>
+            <property name="style">Container-Style</property>
             <column>
                 <property name="width">2.5mm</property>
             </column>
@@ -549,7 +549,7 @@
             </header>
         </table>
         <table name="My Tenth Table">
-            <property name="style">Container Style</property>
+            <property name="style">Container-Style</property>
             <column>
                 <property name="width">2.5mm</property>
             </column>
@@ -558,7 +558,7 @@
             </column>
             <header>
                 <row>
-                    <property name="style">Empty Style</property>
+                    <property name="style">Empty-Style</property>
                     <cell>
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
@@ -771,7 +771,7 @@
             </structure>
         </data>        
         <data name="my data 2">
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
         </data>
     </body>
 </report>

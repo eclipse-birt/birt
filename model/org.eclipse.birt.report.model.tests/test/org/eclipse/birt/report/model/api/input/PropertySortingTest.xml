@@ -3,7 +3,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <property name="author">W.C. Fields</property>
     <styles>
-        <style name="My Style1">
+        <style name="My-Style1">
             <property name="backgroundColor">yellow</property>
         </style>
     </styles>

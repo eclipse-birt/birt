@@ -117,7 +117,7 @@ public class PropertySortingTest extends BaseTestCase
 		pw = new PrintWriter( new FileOutputStream( new File( outputFolder
 				+ fileName ) ) );
 
-		StyleHandle styleHandle = designHandle.findStyle( "My Style1" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "My-Style1" ); //$NON-NLS-1$
 		Iterator iterator = styleHandle.getPropertyIterator( );
 
 		while ( iterator.hasNext( ) )

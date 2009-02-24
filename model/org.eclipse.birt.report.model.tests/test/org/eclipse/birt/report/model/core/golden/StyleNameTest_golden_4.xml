@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
+    <property name="theme">lib.theme_1</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">StyleNameTest_4.xml</property>
+            <property name="namespace">lib</property>
+        </structure>
+    </list-property>
+    <styles>
+        <style name="My-Style1" id="2"/>
+        <style name="TEST-style2" id="3"/>
+        <style name="TEST-Style11" id="4"/>
+    </styles>
+    <body>
+        <label name="label_1" id="5">
+            <property name="style">My-Style1</property>
+        </label>
+        <label name="label_2" id="6">
+            <property name="style">TEST-style2</property>
+        </label>
+        <label name="label_3" id="7">
+            <property name="style">TEST-Style11</property>
+        </label>
+    </body>
+</report>

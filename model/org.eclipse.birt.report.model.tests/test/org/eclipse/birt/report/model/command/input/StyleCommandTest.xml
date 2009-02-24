@@ -10,7 +10,7 @@
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="comments">This is a sample style</property>
         </style>
         <style name="Style1"/>

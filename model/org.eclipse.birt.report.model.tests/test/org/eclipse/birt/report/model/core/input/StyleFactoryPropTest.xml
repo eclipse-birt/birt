@@ -9,7 +9,7 @@
         </structure>
     </list-property>
     <styles>
-        <style name="My Style" id="3">
+        <style name="My-Style" id="3">
             <property name="fontFamily">cursive</property>
             <property name="fontSize">12mm</property>
             <property name="fontWeight">bolder</property>

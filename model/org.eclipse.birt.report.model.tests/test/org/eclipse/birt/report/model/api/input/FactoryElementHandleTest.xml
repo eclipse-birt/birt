@@ -3,7 +3,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <property name="refreshRate">30</property>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="backgroundAttachment">scroll</property>
             <property name="backgroundColor">red</property>
             <property name="backgroundImage">file</property>
@@ -97,7 +97,7 @@
             </column>
             <detail>
                 <row>
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <cell id="10">
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
@@ -137,7 +137,7 @@
             </footer>
         </table>
         <free-form name="My First Form">
-        	<property name="style">My Style</property>
+        	<property name="style">My-Style</property>
             <report-items>
                 <label>
                     <property name="x">1mm</property>

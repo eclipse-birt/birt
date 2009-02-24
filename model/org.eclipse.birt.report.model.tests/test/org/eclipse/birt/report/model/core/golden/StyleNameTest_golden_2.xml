@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
+    <styles>
+        <style name="My-style" id="2"/>
+        <style name="test-style" id="3"/>
+        <style name="Test-Style1" id="4"/>
+    </styles>
+    <body>
+        <label name="label_1" id="5">
+            <property name="style">My-style</property>
+        </label>
+        <label name="label_2" id="6">
+            <property name="style">test-style</property>
+        </label>
+        <label name="label_3" id="7">
+            <property name="style">Test-Style1</property>
+        </label>
+    </body>
+</report>

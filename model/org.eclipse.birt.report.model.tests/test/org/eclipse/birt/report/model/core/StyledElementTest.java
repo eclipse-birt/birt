@@ -174,9 +174,9 @@ public class StyledElementTest extends BaseTestCase
 		design = (ReportDesign) designHandle.getModule( );
 
 		SharedStyleHandle style1 = designHandle.getElementFactory( ).newStyle(
-				"style one" ); //$NON-NLS-1$
+				"style-one" ); //$NON-NLS-1$
 		SharedStyleHandle style2 = designHandle.getElementFactory( ).newStyle(
-				"style two" ); //$NON-NLS-1$
+				"style-two" ); //$NON-NLS-1$
 
 		designHandle.getStyles( ).add( style1 );
 		designHandle.getStyles( ).add( style2 );

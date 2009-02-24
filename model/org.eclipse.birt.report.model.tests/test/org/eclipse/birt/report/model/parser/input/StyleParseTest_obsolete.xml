@@ -3,7 +3,7 @@
 <report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd">
     <property name="refreshRate">30</property>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="no property">sadf</property>
             <property name="paddingRight">3mm</property>
             <property name="dateTimeFormat">yyyy/mm/dd</property>

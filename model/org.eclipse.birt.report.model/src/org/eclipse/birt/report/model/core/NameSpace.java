@@ -36,14 +36,14 @@ import java.util.List;
  * the model does not provide means to roll back a partially complete command.
  */
 
-public final class NameSpace implements Cloneable
+public class NameSpace implements Cloneable
 {
 
 	/**
 	 * The actual name space.
 	 */
 
-	private HashMap<String, DesignElement> names = new LinkedHashMap<String, DesignElement>( );
+	protected HashMap<String, DesignElement> names = new LinkedHashMap<String, DesignElement>( );
 
 	/**
 	 * Constructor.
@@ -145,7 +145,7 @@ public final class NameSpace implements Cloneable
 	 * @return The element count.
 	 */
 
-	public int getCount( )
+	public final int getCount( )
 	{
 		return names.size( );
 	}
@@ -156,12 +156,12 @@ public final class NameSpace implements Cloneable
 	 * @return the element list
 	 */
 
-	public List<DesignElement> getElements( )
+	public final List<DesignElement> getElements( )
 	{
 		return new ArrayList<DesignElement>( names.values( ) );
 	}
 
-	public Object clone( ) throws CloneNotSupportedException
+	public final Object clone( ) throws CloneNotSupportedException
 	{
 
 		NameSpace ns = (NameSpace) super.clone( );

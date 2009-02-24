@@ -149,13 +149,9 @@ public class ModelUtil
 		for ( int i = 0; i < styleList.size( ); ++i )
 		{
 			StyleElement style = styleList.get( i );
-			String styleName = style.getName( );
+			String styleName = style.getName( ).toLowerCase( );
 
-			boolean isSelector = MetaDataDictionary.getInstance( )
-					.getPredefinedStyle( styleName ) != null;
-
-			if ( ( !isSelector && styleName.equals( name ) )
-					|| ( isSelector && styleName.equalsIgnoreCase( name ) ) )
+			if ( styleName.equalsIgnoreCase( name ) )
 			{
 				return i;
 			}

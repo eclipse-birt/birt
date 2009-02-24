@@ -3,7 +3,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
     <property name="refreshRate">30</property>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="backgroundAttachment">scroll</property>
             <property name="backgroundColor">red</property>
             <property name="backgroundImage">file</property>
@@ -275,7 +275,7 @@
               		      <expression name="value1">1</expression>
              	  	   </structure>
            			 </list-property>
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <cell>
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
@@ -335,7 +335,7 @@
         <free-form name="My Second Form">
             <report-items>
                 <label>
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
                     <property name="height">3mm</property>
@@ -358,7 +358,7 @@
         <free-form name="My Fourth Form">
             <report-items>
                 <label>
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="fontWeight">lighter</property>
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
@@ -747,7 +747,7 @@
         </table>
         <free-form name="My Sixth Form"/>
         <label id="115" name="My Label1">
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
             <text-property name="text">label text</text-property>
         </label>
     </body>

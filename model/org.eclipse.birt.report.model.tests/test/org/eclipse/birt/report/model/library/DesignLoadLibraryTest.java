@@ -36,7 +36,6 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
-import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -590,7 +589,7 @@ public class DesignLoadLibraryTest extends BaseTestCase
 		// Drop the style from design file.
 
 		designStyleHandle.drop( );
-		assertEquals( null, label.getStyle( ) );
+		assertNull( label.getStyle( ) );
 	}
 
 	/**
@@ -1903,55 +1902,6 @@ public class DesignLoadLibraryTest extends BaseTestCase
 		save( );
 		compareFile( "LibraryWithLocation_golden.xml" ); //$NON-NLS-1$
 
-		// if we remove the base element id, then we can not find it in the
-		// included library
-
-		// try
-		// {
-		// includeLib.findElement( "newBase" ).drop( ); //$NON-NLS-1$
-		// childLabel = (LabelHandle) designHandle.getElementFactory( )
-		// .newElementFrom( baseLabel, "child" ); //$NON-NLS-1$
-		// fail( );
-		// }
-		// catch ( ExtendsException e )
-		// {
-		// assertEquals( ExtendsException.DESIGN_EXCEPTION_NOT_FOUND, e
-		// .getErrorCode( ) );
-		// }
-
-		// if we change the element id of name "baseLabel" to a Text element
-
-		// TextItemHandle baseText = includeLib.getElementFactory(
-		// ).newTextItem(
-		// "base" ); //$NON-NLS-1$
-		// includeLib.addElement( baseText, Library.COMPONENT_SLOT );
-		// try
-		// {
-		// baseText.getElement( ).setID( baseLabel.getID( ) );
-		// childLabel = (LabelHandle) designHandle.getElementFactory( )
-		// .newElementFrom( baseLabel, "child" ); //$NON-NLS-1$
-		// fail( );
-		// }
-		// catch ( ExtendsException e )
-		// {
-		// assertEquals( ExtendsException.DESIGN_EXCEPTION_NOT_FOUND, e
-		// .getErrorCode( ) );
-		// }
-
-		// drop the library and get the exception
-
-		// designHandle.dropLibrary( includeLib );
-		// try
-		// {
-		// childLabel = (LabelHandle) designHandle.getElementFactory( )
-		// .newElementFrom( baseLabel, "child" ); //$NON-NLS-1$
-		// fail( );
-		// }
-		// catch ( ExtendsException e )
-		// {
-		// assertEquals( ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_INCLUDE,
-		// e.getErrorCode( ) );
-		// }
 	}
 
 	/**

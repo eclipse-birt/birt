@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <data-sources>
         <oda-data-source name="myDataSource" id="2"/>
     </data-sources>
@@ -13,7 +13,7 @@
         <tabular-cube name="testCube_one" id="5"/>
     </cubes>
     <styles>
-        <style name="My Style" id="6"/>
+        <style name="My-Style" id="6"/>
     </styles>
     <page-setup>
         <graphic-master-page name="My Page" id="7">
@@ -37,7 +37,7 @@
         <free-form name="free form" id="11">
             <property name="comments">Sample Section</property>
             <text-property name="displayName">The Section</text-property>
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
             <property name="backgroundColor">red</property>
             <property name="dataSet">myDataSet</property>
             <structure name="toc">
@@ -45,7 +45,7 @@
             </structure>
             <report-items>
                 <label name="StyleLabel" id="12">
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="fontSize">14mm</property>
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>

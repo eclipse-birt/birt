@@ -3,7 +3,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
     <property name="refreshRate">30</property>
     <styles>
-        <style name="My Style1">
+        <style name="My-Style1">
             <property name="numberAlign">right</property>            
             <property name="textAlign">right</property>
             <property name="showIfBlank">true</property>
@@ -41,17 +41,17 @@
                 </structure>
             </list-property>
         </style>
-        <style name="My Style2">
+        <style name="My-Style2">
             <property name="fontWeight">bolder</property>
             <list-property name="highlightRules">
                 <structure>                         
                     <expression name="value1">"10"</expression>
-                    <property name="style">My Style1</property>
+                    <property name="style">My-Style1</property>
                     <property name="color">red</property>
                 </structure>
             </list-property>            
         </style>
-        <style name="My Style3">
+        <style name="My-Style3">
             <property name="fontWeight">lighter</property>     
  			<list-property name="highlightRules">
                 <structure>                         

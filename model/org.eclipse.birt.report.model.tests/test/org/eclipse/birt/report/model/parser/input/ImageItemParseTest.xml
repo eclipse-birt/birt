@@ -14,7 +14,7 @@
         </structure>
     </list-property>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="fontFamily">Times</property>
             <property name="fontSize">12mm</property>
             <property name="fontWeight">bold</property>
@@ -37,7 +37,7 @@
                     <property name="x">6mm</property>
                 </label>
                 <image name="Image1">
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="paddingTop">2mm</property>
                     <property name="size">scale-to-item</property>
                     <property name="scale">0.8</property>

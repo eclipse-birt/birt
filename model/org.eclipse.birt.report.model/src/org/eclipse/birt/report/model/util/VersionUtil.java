@@ -67,6 +67,8 @@ public class VersionUtil
 	public final static int VERSION_3_2_17 = 3021700;
 	
 	public final static int VERSION_3_2_18 = 3021800;
+	
+	public final static int VERSION_3_2_19 = 3021900;
 
 	/**
 	 * 

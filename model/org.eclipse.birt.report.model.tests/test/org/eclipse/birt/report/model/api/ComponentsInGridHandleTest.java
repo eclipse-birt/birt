@@ -49,7 +49,7 @@ public class ComponentsInGridHandleTest extends BaseTestCase
 		ColumnHandle column = (ColumnHandle) columns.get( 0 );
 		assertEquals( 2.5, column.getWidth( ).getMeasure( ), 0.1 );
 		assertEquals( 3, column.getRepeatCount( ) );
-		assertEquals( "My Style", column.getStyle( ).getName( ) ); //$NON-NLS-1$
+		assertEquals( "My-Style", column.getStyle( ).getName( ) ); //$NON-NLS-1$
 
 		column.setRepeatCount( 5 );
 		assertEquals( 5, column.getRepeatCount( ) );
@@ -68,7 +68,7 @@ public class ComponentsInGridHandleTest extends BaseTestCase
 		
 		assertEquals( "hello, new bookmark", row.getBookmark( ) ); //$NON-NLS-1$
 		
-		assertEquals( "My Style", row.getStyle( ).getName( ) ); //$NON-NLS-1$
+		assertEquals( "My-Style", row.getStyle( ).getName( ) ); //$NON-NLS-1$
 
 		// Test cell properties
 

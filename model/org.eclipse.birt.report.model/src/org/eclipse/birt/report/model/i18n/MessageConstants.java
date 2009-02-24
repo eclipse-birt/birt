@@ -136,6 +136,7 @@ public interface MessageConstants
 	public static final String NAME_EXCEPTION_DUPLICATE = "Error.NameException.DUPLICATE"; //$NON-NLS-1$
 	public static final String NAME_EXCEPTION_HAS_REFERENCES = "Error.NameException.HAS_REFERENCES"; //$NON-NLS-1$
 	public static final String NAME_EXCEPTION_INVALID_NAME = "Error.NameException.INVALID_NAME"; //$NON-NLS-1$
+	public static final String NAME_EXCEPTION_INVALID_STYLE_NAME = "Error.NameException.INVALID_STYLE_NAME"; //$NON-NLS-1$
 
 	// PropertyNameException
 	public static final String PROPERTY_NAME_EXCEPTION_PROPERTY_NOT_VALID = "Error.PropertyNameException.PROPERTY_NOT_VALID"; //$NON-NLS-1$
@@ -333,5 +334,6 @@ public interface MessageConstants
 	// EncryptionException
 	public static final String ENCRYPTION_EXCEPTION_INVALID_ENCRYPTABLE_PROPERTY = "Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY"; //$NON-NLS-1$
 	public static final String ENCRYPTION_EXCEPTION_INVALID_ENCRYPTION = "Error.EncryptionException.INVALID_ENCRYPTION"; //$NON-NLS-1$
+	
 
 }

@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -47,6 +49,7 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
@@ -60,10 +63,12 @@ import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -231,7 +236,48 @@ class PropertyState extends AbstractPropertyState
 				return;
 			}
 
-			( (StyledElement) element ).setStyleName( value );
+			if ( handler.versionNumber < VersionUtil.VERSION_3_2_19 )
+			{
+				Map<String, String> nameMap = null;
+				if ( handler.module instanceof ReportDesign )
+				{
+					nameMap = (Map<String, String>) handler.tempValue
+							.get( handler.module );
+				}
+				else
+				{
+					Theme theme = handler.module.getTheme( );
+					if ( theme != null )
+					{
+						nameMap = (Map<String, String>) handler.tempValue
+								.get( theme );
+					}
+				}
+
+				if ( nameMap != null && nameMap.get( value ) != null )
+				{
+					( (StyledElement) element ).setStyleName( nameMap
+							.get( value ) );
+				}
+				else
+				{
+					( (StyledElement) element ).setStyleName( value );
+				}
+
+				// add the element to help do backward compatibilities
+				if ( value != null )
+				{
+					if ( handler.styledElements == null )
+						handler.styledElements = new ArrayList<DesignElement>( );
+					handler.styledElements.add( element );
+				}
+
+			}
+			else
+			{
+				( (StyledElement) element ).setStyleName( value );
+			}
+
 		}
 
 		else

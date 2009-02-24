@@ -10,17 +10,17 @@
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="My Style"/>
+        <style name="My-Style"/>
     </styles>
 	<components>
 		<label name="Base Label">
-			<property name="style">My Style</property>
+			<property name="style">My-Style</property>
 			<property name="text">base text</property>
 		</label>
 	</components>
     <page-setup>
         <graphic-master-page name="My Page">
-		<property name="style">My Style</property>
+		<property name="style">My-Style</property>
               <contents>
                 <label>
                     <property name="x">1mm</property>
@@ -38,7 +38,7 @@
                     <text-property name="text">Today's Date</text-property>
                 </label>
                 <image name="Image1">
-                    <property name="style">My Style</property>
+                    <property name="style">My-Style</property>
                     <property name="paddingTop">2mm</property>
                     <property name="size">scale-to-item</property>
                     <property name="scale">0.8</property>

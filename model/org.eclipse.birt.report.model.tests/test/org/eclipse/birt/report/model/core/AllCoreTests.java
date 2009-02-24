@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.core;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-
 /**
  * Tests cases in core package.
  */
@@ -46,10 +45,8 @@ public class AllCoreTests
 		test.addTestSuite( StructureTest.class );
 		test.addTestSuite( StyledElementTest.class );
 		test.addTestSuite( StyleElementTest.class );
+		test.addTestSuite( StyleNameTest.class );
 
 		return test;
 	}
 }
-
-
-

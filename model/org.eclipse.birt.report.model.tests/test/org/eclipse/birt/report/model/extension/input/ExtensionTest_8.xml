@@ -11,7 +11,7 @@
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="My Style"/>
+        <style name="My-Style"/>
     </styles>
     <page-setup>
         <graphic-master-page name="My Page">

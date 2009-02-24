@@ -25,13 +25,22 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
+import org.eclipse.birt.report.model.css.CssNameManager;
+import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.ExtendedItem.StatusInfo;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.NamePropertyType;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -137,6 +146,11 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 * element or to parse the whole design file.
 	 */
 	protected boolean isReadOnlyModuleProperties = false;
+
+	/**
+	 * List to record all the elements that set the style property.
+	 */
+	protected List<DesignElement> styledElements = null;
 
 	/**
 	 * Constructs the module parser handler with the design session.
@@ -342,6 +356,11 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 			handleLineNumber( );
 		}
 
+		// handle the style name backward compatibilities, this must do before
+		// the semantic check to avoid wrong resolve
+		if ( versionNumber < VersionUtil.VERSION_3_2_19 )
+			handleStyleNameCompatibilities( );
+
 		// if module options not set the parser-semantic check options or set it
 		// to true, then perform semantic check. Semantic error is recoverable.
 
@@ -398,7 +417,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	}
 
 	/**
-	 * Allocates a unique id for all the unhandle elements.
+	 * Allocates a unique id for all the unhandled elements.
 	 */
 
 	private void handleID( )
@@ -600,6 +619,126 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	final void addExtendedItem( ExtendedItem element )
 	{
 		extendedItemList.add( element );
+	}
+
+	/**
+	 * Handles the style name compatibilities since the version 3.2.19 Model
+	 * changes the style name to be case-insensitive.
+	 */
+	private void handleStyleNameCompatibilities( )
+	{
+		// we only need handle the root module is report design, not need
+		// for library
+		if ( module instanceof ReportDesign )
+		{
+			List<DesignElement> designStyles = module.getSlot(
+					IReportDesignModel.STYLE_SLOT ).getContents( );
+			if ( designStyles == null || designStyles.isEmpty( ) )
+				return;
+			Map<String, DesignElement> styleMap = new HashMap<String, DesignElement>( );
+			Theme theme = module.getTheme( );
+
+			// if theme is null, handle the design style name and theme
+			// style name
+			if ( theme != null )
+			{
+				List<DesignElement> themeStyles = theme.getSlot(
+						IThemeModel.STYLES_SLOT ).getContents( );
+				if ( themeStyles != null )
+				{
+					for ( int i = 0; i < themeStyles.size( ); i++ )
+					{
+						DesignElement style = themeStyles.get( i );
+						String name = style.getName( ).toLowerCase( );
+						if ( !styleMap.containsKey( name ) )
+							styleMap.put( name, style );
+					}
+				}
+
+				// build imported css styles in theme
+				List<CssStyle> csses = CssNameManager.getStyles( theme );
+				for ( int i = 0; csses != null && i < csses.size( ); ++i )
+				{
+					CssStyle s = csses.get( i );
+					String name = s.getName( ).toLowerCase( );
+					if ( !styleMap.containsKey( name ) )
+						styleMap.put( name, s );
+				}
+			}
+
+			// build imported css styles in report design
+			List<CssStyle> csses = CssNameManager
+					.getStyles( (ICssStyleSheetOperation) module );
+			for ( int i = 0; csses != null && i < csses.size( ); ++i )
+			{
+				CssStyle s = csses.get( i );
+				String name = s.getName( ).toLowerCase( );
+				if ( !styleMap.containsKey( name ) )
+					styleMap.put( name, s );
+			}
+
+			if ( !styleMap.isEmpty( ) )
+			{
+				for ( int i = 0; i < designStyles.size( ); i++ )
+				{
+					DesignElement designStyle = designStyles.get( i );
+					String styleName = designStyle.getName( );
+					String lowerCaseName = styleName.toLowerCase( );
+
+					NameSpace ns = new NameExecutor( designStyle )
+							.getNameHelper( module ).getNameSpace(
+									ReportDesign.STYLE_NAME_SPACE );
+					if ( styleMap.containsKey( lowerCaseName ) )
+					{
+						DesignElement existedStyle = styleMap
+								.get( lowerCaseName );
+						assert existedStyle != null;
+
+						// if style name is not equal and just the same with
+						// different cases, then do the rename
+						if ( !existedStyle.getName( ).equals( styleName ) )
+						{
+							int index = 0;
+							String baseName = styleName;
+
+							// style name is case-insensitive
+							while ( styleMap.containsKey( lowerCaseName )
+									|| ns.contains( lowerCaseName ) )
+							{
+								styleName = baseName + ++index;
+								lowerCaseName = styleName.toLowerCase( );
+							}
+
+							// set the unique name and add the element to
+							// the name manager
+
+							ns.remove( designStyle );
+							// check if some element refers the original
+							// name, then changes the style reference
+							if ( styledElements != null )
+							{
+								for ( int j = 0; j < styledElements.size( ); j++ )
+								{
+									StyledElement styledElement = (StyledElement) styledElements
+											.get( j );
+									if ( designStyle.getName( ).equals(
+											styledElement.getStyleName( ) ) )
+									{
+										styledElement.setStyleName( styleName
+												.trim( ) );
+									}
+								}
+							}
+							designStyle.setName( styleName.trim( ) );
+							ns.insert( designStyle );
+						}
+					}
+
+				}
+			}
+
+		}
+
 	}
 
 	static class ModuleLexicalHandler implements LexicalHandler

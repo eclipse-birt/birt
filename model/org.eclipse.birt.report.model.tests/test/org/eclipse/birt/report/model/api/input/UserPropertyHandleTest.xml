@@ -11,7 +11,7 @@
         </resource>
     </translations>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="comments">This is a sample style</property>
             <expression name="mapTestExpr">[somefield]</expression>
             <list-property name="mapRules">

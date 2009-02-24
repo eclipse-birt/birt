@@ -17,7 +17,7 @@
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="fontFamily">cursive</property>
             <property name="fontSize">12mm</property>
             <property name="fontWeight">bolder</property>
@@ -50,7 +50,7 @@
             <text-property name="text">First Page</text-property>     
         </label>
         <label name="child1" extends="base">
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
             <property name="dataSet">firstDataSet</property>
         </label>
     </components>

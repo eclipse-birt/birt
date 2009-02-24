@@ -421,10 +421,10 @@ public class DesignElementHandleTest extends BaseTestCase
 
 		// resets the style on the label
 
-		styleHandle = designHandle.findStyle( "My Style" ); //$NON-NLS-1$	
+		styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$	
 		handle.setStyle( styleHandle );
 		assertNotNull( handle.getStyle( ) );
-		assertEquals( "My Style", handle.getStyle( ).getName( ) ); //$NON-NLS-1$
+		assertEquals( "My-Style", handle.getStyle( ).getName( ) ); //$NON-NLS-1$
 
 		// clears the style
 
@@ -870,7 +870,7 @@ public class DesignElementHandleTest extends BaseTestCase
 					NameException.DESIGN_EXCEPTION_NAME_REQUIRED );
 		}
 
-		style = factory.newStyle( "My Style" );//$NON-NLS-1$
+		style = factory.newStyle( "My_Style" );//$NON-NLS-1$
 		designHandle.getStyles( ).add( style );
 	}
 
@@ -1596,7 +1596,7 @@ public class DesignElementHandleTest extends BaseTestCase
 				"/report/body/table[@id=\"18\"]/detail/row[@id=\"19\"]/cell[@id=\"20\"]/text[@id=\"21\"]", //$NON-NLS-1$
 				element.getXPath( ) );
 
-		StyleHandle style = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		StyleHandle style = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		assertEquals( "/report/styles/style[@id=\"4\"]", //$NON-NLS-1$
 				style.getXPath( ) );
 

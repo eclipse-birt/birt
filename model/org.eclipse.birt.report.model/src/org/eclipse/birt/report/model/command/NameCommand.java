@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.command;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -25,6 +26,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.Library;
@@ -41,6 +43,17 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 public class NameCommand extends AbstractElementCommand
 {
+
+	// ident {nmstart}{nmchar}*
+	// h [0-9a-f]
+	// nonascii [^\0-\177]
+	// unicode \\{h}{1,6}[ \t\r\n\f]?
+	// escape {unicode}|\\[ -~\200-\4177777]
+	// nmstart [a-z]|{nonascii}|{escape}
+	// nmchar [a-z0-9-]|{nonascii}|{escape}
+	private static final String STYLE_NAME_PATTERN = "([a-z]|[^\0-\177]|((\\[0-9a-f]{1,6}[ \n\r\t\f]?)|\\[ -~\200-\4177777]))([a-z0-9-_]|[^\0-\177]|((\\[0-9a-f]{1,6}[ \n\r\t\f]?)|\\[ -~\200-\4177777]))*"; //$NON-NLS-1$
+	public static final Pattern styleNamePattern = Pattern.compile(
+			STYLE_NAME_PATTERN, Pattern.CASE_INSENSITIVE );
 
 	/**
 	 * Constructor.
@@ -152,6 +165,16 @@ public class NameCommand extends AbstractElementCommand
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_INVALID_NAME );
 			}
+
+			if ( element instanceof StyleElement )
+			{
+				if ( !styleNamePattern.matcher( name ).matches( ) )
+					throw new NameException( element, name,
+							NameException.DESIGN_EXCEPTION_INVALID_STYLE_NAME );
+			}
+
+			// if it is a style in the theme, no need to check duplicate names.
+			// In the library, style names can be duplicate.
 			if ( !isNameValidInContext( name ) )
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_DUPLICATE );
@@ -178,7 +201,7 @@ public class NameCommand extends AbstractElementCommand
 
 			// if the element is null, then the name is OK. Now, the name of the
 			// element is inserted into the namespace only if the element is in
-			// a design tree(module) and the slot it exsits is managed by
+			// a design tree(module) and the slot it exists is managed by
 			// namespace
 
 			if ( existedElement != null )
@@ -220,19 +243,17 @@ public class NameCommand extends AbstractElementCommand
 
 	private void addSymbol( )
 	{
-		if ( element.getName( ) == null )
+		String name = element.getName( );
+		if ( name == null )
 			return;
 
 		// add a style into theme
 		DesignElement container = element.getContainer( );
 		if ( container instanceof Theme )
 		{
-			( (Theme) container ).dropCachedName( element.getName( ) );
+			( (Theme) container ).dropCachedName( name );
 			return;
 		}
-
-		// if it is a style in the theme, no need to check duplicate names.
-		// In the library, style names can be duplicate.
 
 		if ( !element.isManagedByNameSpace( ) )
 			return;
@@ -240,15 +261,15 @@ public class NameCommand extends AbstractElementCommand
 		assert element.getRoot( ) != null;
 
 		// if the element has been in the name space, that is, the element
-		// is added to another element through handels but the outermost
+		// is added to another element through handles but the outermost
 		// compound element is not in the design tree, then do not insert
-		// the element to the name space agian.
+		// the element to the name space again.
 		NameExecutor nameExecutor = new NameExecutor( element );
 		INameHelper nameHelper = nameExecutor.getNameHelper( module );
 		assert nameHelper != null;
 		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
 		DesignElement existedElement = nameHelper.getNameSpace( ns )
-				.getElement( element.getName( ) );
+				.getElement( name );
 		assert existedElement == null;
 		getActivityStack( ).execute(
 				new NameSpaceRecord( nameHelper, ns, element, true ) );
@@ -281,8 +302,8 @@ public class NameCommand extends AbstractElementCommand
 
 	private void renameSymbolFrom( String oldName )
 	{
-		// only the slot the element to add or exsit need to handle some
-		// namespace issue, we will do some replace operarions for namespace; if
+		// only the slot the element to add or exist need to handle some
+		// namespace issue, we will do some replace operations for namespace; if
 		// not, we will not handle
 
 		if ( element.isManagedByNameSpace( ) )

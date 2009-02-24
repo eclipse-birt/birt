@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18" id="1193">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1193">
     <styles>
         <style name="MyStyle" id="1194">
             <property name="fontFamily">"Times"</property>

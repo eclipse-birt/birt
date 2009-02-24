@@ -184,7 +184,7 @@ public class ModuleUtilTest extends BaseTestCase {
 				INPUT_FOLDER + "CheckVersionDesign.xml").toString()); //$NON-NLS-1$
 		assertEquals(1, infos.size());
 		versionInfo = (VersionInfo) infos.get(0);
-		assertEquals("3.2.19", versionInfo.getDesignFileVersion()); //$NON-NLS-1$
+		assertEquals("3.2.19.1", versionInfo.getDesignFileVersion()); //$NON-NLS-1$
 		assertEquals(VersionInfo.INVALID_VERSION, versionInfo.getInfoCode());
 
 		infos = ModuleUtil.checkVersion(getResource(

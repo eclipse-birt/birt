@@ -75,7 +75,7 @@ public class FactoryPropertyHandleTest extends BaseTestCase
 	{
 		openDesign( "FactoryPropertyHandleTest.xml" ); //$NON-NLS-1$
 
-		SharedStyleHandle style = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		SharedStyleHandle style = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 
 		// dimension with extended choice with choice value
 		style.setStringProperty( Style.FONT_SIZE_PROP,

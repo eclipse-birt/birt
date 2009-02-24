@@ -11,7 +11,7 @@
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="fontFamily">Times</property>
             <property name="fontSize">12mm</property>
             <property name="fontWeight">bold</property>
@@ -121,11 +121,11 @@
             <text-property name="caption" key="blue he">bluehero</text-property>
             <column>
                 <property name="width">2.5mm</property>
-                <property name="style">My Style</property>
+                <property name="style">My-Style</property>
             </column>
             <column>
                 <property name="width">1.5mm</property>
-                <property name="style">My Style</property>
+                <property name="style">My-Style</property>
             </column>
             <header>
                 <row>

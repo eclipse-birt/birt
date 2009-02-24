@@ -11,7 +11,7 @@
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="My Style" id="2">
+        <style name="My-Style" id="2">
         	<property name="backgroundAttachment">scroll</property>
             <property name="backgroundColor">red</property>
             <property name="backgroundImage">file</property>
@@ -63,7 +63,7 @@
     	<free-form id="12">
             <property name="comments">Sample Section</property>
             <text-property name="displayName">The Section</text-property>
-            <property name="style">My Style</property>
+            <property name="style">My-Style</property>
             <property name="backgroundColor">red</property>
             <property name="color">yellow</property>
             <report-items>
@@ -73,7 +73,7 @@
         			<property name="test2">22</property>
         			<property name="test3"><![CDATA[type=bar,xScale=2,yScale=3]]></property>
         			<property name="test5">choice1</property>
-        			<property name="style">My Style</property>
+        			<property name="style">My-Style</property>
         			<property name="backgroundColor">white</property>
        			</extended-item>
        			<extended-item name="style extended item" extensionName="TestingMatrix" extends="parent" id="14">

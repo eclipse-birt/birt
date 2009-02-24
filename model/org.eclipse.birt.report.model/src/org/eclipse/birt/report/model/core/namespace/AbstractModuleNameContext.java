@@ -35,6 +35,7 @@ public abstract class AbstractModuleNameContext extends AbstractNameContext
 
 	public AbstractModuleNameContext( Module module, int nameSpaceID )
 	{
+		super( );
 		this.module = module;
 		this.nameSpaceID = nameSpaceID;
 	}

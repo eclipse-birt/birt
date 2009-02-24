@@ -6,7 +6,7 @@
         <oda-data-source name="myDataSource"/>
     </data-sources>
     <styles>
-        <style name="My Style">
+        <style name="My-Style">
             <property name="fontFamily">cursive</property>
             <property name="fontSize">12mm</property>
             <property name="fontWeight">bolder</property>

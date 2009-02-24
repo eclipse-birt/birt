@@ -188,7 +188,8 @@ public class Theme extends ReferenceableElement
 		for ( int i = 0; i < styles.size( ); ++i )
 		{
 			StyleElement style = styles.get( i );
-			if ( styleName.equals( style.getFullName( ) ) )
+			// style name is case-insensitive
+			if ( styleName.equalsIgnoreCase( style.getFullName( ) ) )
 			{
 				return style;
 			}
@@ -281,19 +282,26 @@ public class Theme extends ReferenceableElement
 
 		List<DesignElement> styles = slots[STYLES_SLOT].getContents( );
 		List<String> ns = new ArrayList<String>( styles.size( ) );
+		// style name is case-insensitive
 		for ( int i = 0; i < styles.size( ); i++ )
-			ns.add( ( (StyleElement) styles.get( i ) ).getName( ) );
+			ns.add( styles.get( i ).getName( ).toLowerCase( ) );
 
 		int index = 0;
 		String baseName = name;
-		while ( cachedStyleNames.contains( name ) || ns.contains( name ) )
+
+		assert name != null;
+		// style name is case-insensitive
+		String lowerCaseName = name.toLowerCase( );
+		while ( cachedStyleNames.contains( lowerCaseName )
+				|| ns.contains( lowerCaseName ) )
 		{
 			name = baseName + ++index;
+			lowerCaseName = name.toLowerCase( );
 		}
 
 		// set the unique name and add the element to the name manager
 		element.setName( name.trim( ) );
-		cachedStyleNames.add( name );
+		cachedStyleNames.add( lowerCaseName );
 	}
 
 	/**
@@ -305,6 +313,8 @@ public class Theme extends ReferenceableElement
 
 	public void dropCachedName( String name )
 	{
+		assert name != null;
+		name = name.toLowerCase( );
 		cachedStyleNames.remove( name );
 	}
 }
