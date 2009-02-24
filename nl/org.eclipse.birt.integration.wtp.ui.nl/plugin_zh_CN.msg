@@ -1,4 +1,4 @@
-birt.web.category.name=业务智能和报告工具
+birt.web.category.name=&Business Intelligence and Reporting Tools
 birt.web.project.name=具有 BIRT 运行时的 Web 项目 
 birt.web.project.description=创建包含 BIRT 运行时组件的 web 项目
 birt.web.actionsets.description=对 BIRT Web 项目的操作
@@ -14,4 +14,4 @@ JSP_Tag_context_type_Extension_Element.name=新建 BIRT JSP 标记
 
 BirtResourcesDefinition= BIRT Web 应用程序资源定义
 
-birt.action.importruntime.name=导入 BIRT 运行时组件...
+birt.action.importruntime.name=Import &BIRT runtime component...

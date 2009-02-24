@@ -1,4 +1,4 @@
-birt.web.category.name=ビジネスインテリジェンスとレポート作成ツール
+birt.web.category.name=&Business Intelligence and Reporting Tools
 birt.web.project.name=BIRT ランタイム付き Web プロジェクト 
 birt.web.project.description=BIRT ランタイムコンポーネントを含む Web プロジェクトを作成します。
 birt.web.actionsets.description=BIRT Web プロジェクトでの操作
@@ -14,4 +14,4 @@ JSP_Tag_context_type_Extension_Element.name=新規 BIRT JSP タグ
 
 BirtResourcesDefinition= BIRT Web アプリケーションリソースの定義
 
-birt.action.importruntime.name=BIRT ランタイムコンポーネントのインポート...
+birt.action.importruntime.name=Import &BIRT runtime component...
