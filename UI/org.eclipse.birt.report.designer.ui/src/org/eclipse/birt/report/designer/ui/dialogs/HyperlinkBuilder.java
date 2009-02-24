@@ -143,7 +143,7 @@ public class HyperlinkBuilder extends BaseDialog
 			Messages.getString( "HyperlinkBuilder.Step.5" ), //$NON-NLS-1$ 
 			Messages.getString( "HyperlinkBuilder.Step.6" ) //$NON-NLS-1$ 
 	};
-	
+
 	private static final String REQUIED_MARK = "*"; //$NON-NLS-1$
 
 	private static final IChoiceSet CHOICESET_TARGET = DEUtil.getMetaDataDictionary( )
@@ -431,18 +431,18 @@ public class HyperlinkBuilder extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
-		
+
 		createSelectionArea( composite );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		scrollContent = new ScrolledComposite(composite, SWT.V_SCROLL);
+		scrollContent = new ScrolledComposite( composite, SWT.V_SCROLL );
 		scrollContent.setAlwaysShowScrollBars( false );
 		scrollContent.setExpandHorizontal( true );
-		scrollContent.setLayoutData( new GridData(GridData.FILL_BOTH) );
-		
-		displayArea = new Composite(scrollContent, SWT.NONE);
+		scrollContent.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		displayArea = new Composite( scrollContent, SWT.NONE );
 		scrollContent.setContent( displayArea );
-		
+
 		Shell shell = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( )
 				.getShell( );
@@ -457,8 +457,8 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			height -= 50;
 		}
-		scrollContent.setLayoutData( new GridData( 500, height ) );
-		
+		scrollContent.setLayoutData( new GridData( 600, height ) );
+
 		displayArea.setLayout( new GridLayout( 3, false ) );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
@@ -466,7 +466,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 		Point size = displayArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		displayArea.setSize( size );
-		
+
 		return composite;
 	}
 
@@ -534,13 +534,13 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		typeFilterList.add( disabledType );
 	}
-	
-	public void setTargetEnabled(boolean bEnabled)
+
+	public void setTargetEnabled( boolean bEnabled )
 	{
 		this.bTargetEnabled = bEnabled;
 	}
-	
-	public void setTooltipEnabled(boolean bEnabled)
+
+	public void setTooltipEnabled( boolean bEnabled )
 	{
 		this.bTooltipEnabled = bEnabled;
 	}
@@ -568,7 +568,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 		initDisplayArea( );
 		displayArea.layout( );
-		
+
 		Point size = displayArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		displayArea.setSize( size );
 	}
@@ -1661,7 +1661,7 @@ public class HyperlinkBuilder extends BaseDialog
 			if ( isToc )
 			{
 				List chooserItems = ( (ReportDesignHandle) handle ).getAllTocs( );
-				chooserItems.add( 0, (Object)"---" ); //$NON-NLS-1$
+				chooserItems.add( 0, "---" ); //$NON-NLS-1$
 				// anchorChooser.setItems( (String[]) ( (ReportDesignHandle)
 				// handle ).getAllTocs( )
 				// .toArray( new String[0] ) );
@@ -1670,7 +1670,7 @@ public class HyperlinkBuilder extends BaseDialog
 			else
 			{
 				List chooserItems = ( (ReportDesignHandle) handle ).getAllBookmarks( );
-				chooserItems.add( 0, (Object) "---" ); //$NON-NLS-1$
+				chooserItems.add( 0, "---" ); //$NON-NLS-1$
 				// anchorChooser.setItems( (String[]) ( (ReportDesignHandle)
 				// handle ).getAllBookmarks( )
 				// .toArray( new String[0] ) );
@@ -1694,7 +1694,7 @@ public class HyperlinkBuilder extends BaseDialog
 				// TOCNode rootTocNode = ( (IReportDocument) handle ).findTOC(
 				// null );
 				List chooserItems = getAllTocDisplayString( rootTocNode );
-				chooserItems.add( 0, (Object) "---" ); //$NON-NLS-1$
+				chooserItems.add( 0, "---" ); //$NON-NLS-1$
 				// anchorChooser.setItems( (String[]) getAllTocDisplayString(
 				// rootTocNode ).toArray( new String[0] ) );
 				anchorChooser.setItems( (String[]) chooserItems.toArray( new String[0] ) );
@@ -1875,12 +1875,12 @@ public class HyperlinkBuilder extends BaseDialog
 
 			try
 			{
-				targetReportHandle = engine.openReportDocument( URIUtil.resolveAbsolutePath( getBasePath( ),
-						newFilename ) );
+				targetReportHandle = engine.openReportDocument( resolvePath( newFilename ) );
 			}
 			catch ( EngineException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
+				errorMessage = e.getMessage( );
 			}
 		}
 		else
@@ -1897,8 +1897,7 @@ public class HyperlinkBuilder extends BaseDialog
 				{
 					targetReportHandle = SessionHandleAdapter.getInstance( )
 							.getSessionHandle( )
-							.openDesign( URIUtil.resolveAbsolutePath( getBasePath( ),
-									newFilename ) );
+							.openDesign( resolvePath( newFilename ) );
 				}
 				catch ( DesignFileException e1 )
 				{
@@ -1910,14 +1909,24 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			messageLine.setText( errorMessage );
 			messageLine.setImage( ERROR_ICON );
-			paramBindingTable.getTable( ).setEnabled( false );
 		}
 		else
 		{
 			messageLine.setText( "" ); //$NON-NLS-1$
 			messageLine.setImage( null );
-			paramBindingTable.getTable( ).setEnabled( true );
 		}
+	}
+
+	private String resolvePath( String file_path )
+	{
+		String rootPath = null;
+		if ( file_path.startsWith( "/" ) )
+		{
+			rootPath = getProjectFolder();
+		}else{
+			rootPath = getBasePath( );
+		}
+		return URIUtil.resolveAbsolutePath( rootPath, file_path );
 	}
 
 	private String getBasePath( )
