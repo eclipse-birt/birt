@@ -52,6 +52,7 @@ BaseAxisDataSheetImpl.Lbl.YAxisCount=Número de ejes Y:
 AbstractScaleSheet.AutoExpand=A&mpliar automáticamente
 AbstractScaleSheet.Label.Step=Paso
 AbstractScaleSheet.Label.Auto=&Automático
+AbstractScaleSheet.Label.Factor=&Factor(Value/Points): 
 BaseAxisDataSheetImpl.Lbl.Minimum=&Mínimo:
 BaseAxisDataSheetImpl.Lbl.MajorGridStepNum=Número de paso de la cuadrícula principal:
 BaseAxisDataSheetImpl.Lbl.Maximum=Má&ximo:

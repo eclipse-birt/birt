@@ -52,6 +52,7 @@ BaseAxisDataSheetImpl.Lbl.YAxisCount=Y 轴的数量:
 AbstractScaleSheet.AutoExpand=自动展开(&U)
 AbstractScaleSheet.Label.Step=步幅
 AbstractScaleSheet.Label.Auto=自动(&A)
+AbstractScaleSheet.Label.Factor=&Factor(Value/Points): 
 BaseAxisDataSheetImpl.Lbl.Minimum=最小值(&M):
 BaseAxisDataSheetImpl.Lbl.MajorGridStepNum=主网格步数:
 BaseAxisDataSheetImpl.Lbl.Maximum=最大值(&X):

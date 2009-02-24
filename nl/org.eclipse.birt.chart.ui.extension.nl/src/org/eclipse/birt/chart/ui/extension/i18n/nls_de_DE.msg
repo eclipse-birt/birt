@@ -52,6 +52,7 @@ BaseAxisDataSheetImpl.Lbl.YAxisCount=Anzahl der Y-Achsen:
 AbstractScaleSheet.AutoExpand=A&utomatisch erweitern
 AbstractScaleSheet.Label.Step=Schritt
 AbstractScaleSheet.Label.Auto=&Auto
+AbstractScaleSheet.Label.Factor=&Factor(Value/Points): 
 BaseAxisDataSheetImpl.Lbl.Minimum=&Min.:
 BaseAxisDataSheetImpl.Lbl.MajorGridStepNum=Hauptraster-Schrittnummer:
 BaseAxisDataSheetImpl.Lbl.Maximum=Ma&x.:

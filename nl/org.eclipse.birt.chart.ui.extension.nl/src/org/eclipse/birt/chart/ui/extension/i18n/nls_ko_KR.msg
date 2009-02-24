@@ -52,6 +52,7 @@ BaseAxisDataSheetImpl.Lbl.YAxisCount=Y 축 개수:
 AbstractScaleSheet.AutoExpand=자동 확대(&A)
 AbstractScaleSheet.Label.Step=단계형
 AbstractScaleSheet.Label.Auto=자동(&A)
+AbstractScaleSheet.Label.Factor=&Factor(Value/Points): 
 BaseAxisDataSheetImpl.Lbl.Minimum=최소(&M):
 BaseAxisDataSheetImpl.Lbl.MajorGridStepNum=주 눈금 단계 번호:
 BaseAxisDataSheetImpl.Lbl.Maximum=최대(&X):

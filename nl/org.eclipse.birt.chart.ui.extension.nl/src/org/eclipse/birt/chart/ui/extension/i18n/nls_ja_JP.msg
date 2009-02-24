@@ -52,6 +52,7 @@ BaseAxisDataSheetImpl.Lbl.YAxisCount=Y 軸の数 :
 AbstractScaleSheet.AutoExpand=自動調節(&U)
 AbstractScaleSheet.Label.Step=ステップグラフ
 AbstractScaleSheet.Label.Auto=自動(&A)
+AbstractScaleSheet.Label.Factor=&Factor(Value/Points): 
 BaseAxisDataSheetImpl.Lbl.Minimum=最小 (&M):
 BaseAxisDataSheetImpl.Lbl.MajorGridStepNum=目盛線のステップ番号 : 
 BaseAxisDataSheetImpl.Lbl.Maximum=最大 (&X):

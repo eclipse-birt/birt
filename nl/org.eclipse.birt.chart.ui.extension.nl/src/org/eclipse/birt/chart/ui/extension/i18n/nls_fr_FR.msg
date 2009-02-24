@@ -52,6 +52,7 @@ BaseAxisDataSheetImpl.Lbl.YAxisCount=Nombre d'axes Y :
 AbstractScaleSheet.AutoExpand=Développer a&utomatiquement
 AbstractScaleSheet.Label.Step=Escalier
 AbstractScaleSheet.Label.Auto=&Automatique
+AbstractScaleSheet.Label.Factor=&Factor(Value/Points): 
 BaseAxisDataSheetImpl.Lbl.Minimum=&Min :
 BaseAxisDataSheetImpl.Lbl.MajorGridStepNum=Numéro de l'escalier de la grille principale :
 BaseAxisDataSheetImpl.Lbl.Maximum=Ma&x :
