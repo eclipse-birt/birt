@@ -250,7 +250,7 @@ public class ExcelXmlWriter implements IExcelWriter
 							+ "} is not defined!" );
 				}
 			}
-			if ( urlAddress.length( ) >= 255 )
+			if ( urlAddress != null && urlAddress.length( ) >= 255 )
 			{
 				logger.log( Level.WARNING, "The URL: {" + urlAddress
 						+ "} is too long!" );
