@@ -780,7 +780,7 @@ public class TaskSelectType extends SimpleTask implements
 					boolean bCategory = ChartCacheManager.getInstance( )
 							.findCategory( sType )
 							.booleanValue( );
-					( (Axis) ( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ) ).setCategoryAxis( bCategory );
+					( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ).setCategoryAxis( bCategory );
 				}
 				sSubType = null;
 				createAndDisplayTypesSheet( sType );
@@ -796,8 +796,7 @@ public class TaskSelectType extends SimpleTask implements
 			needUpdateModel = true;
 			lblSeriesType.setEnabled( isTwoAxesEnabled( ) );
 
-			Axis xAxis = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-					.get( 0 ) );
+			Axis xAxis = ( (ChartWithAxes) chartModel ).getAxes( ).get( 0 );
 
 			( (ChartWizardContext) getContext( ) ).setMoreAxesSupported( cbMultipleY.getSelectionIndex( ) == 2 );
 
@@ -846,10 +845,11 @@ public class TaskSelectType extends SimpleTask implements
 				}
 				else
 				{
-					Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( )
-							.get( 1 );
-					String sDisplayName = ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
-							.get( 0 ) ).getDesignTimeSeries( ).getDisplayName( );
+					Axis overlayAxis = xAxis.getAssociatedAxes( ).get( 1 );
+					String sDisplayName = overlayAxis.getSeriesDefinitions( )
+							.get( 0 )
+							.getDesignTimeSeries( )
+							.getDisplayName( );
 					cbSeriesType.setText( sDisplayName );
 				}
 				changeOverlaySeriesType( );
@@ -1034,19 +1034,18 @@ public class TaskSelectType extends SimpleTask implements
 		try
 		{
 			// CHANGE ALL OVERLAY SERIES TO NEW SELECTED TYPE
-			Axis XAxis = (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
+			Axis XAxis = ( (ChartWithAxes) chartModel ).getAxes( )
 					.get( 0 );
-			int iSeriesDefinitionIndex = 0 + ( (Axis) XAxis.getAssociatedAxes( )
+			int iSeriesDefinitionIndex = 0 + ( XAxis.getAssociatedAxes( )
 					.get( 0 ) ).getSeriesDefinitions( ).size( ); // SINCE
 			// THIS IS FOR THE ORTHOGONAL OVERLAY SERIES DEFINITION
-			int iOverlaySeriesCount = ( (Axis) XAxis.getAssociatedAxes( )
+			int iOverlaySeriesCount = ( XAxis.getAssociatedAxes( )
 					.get( 1 ) ).getSeriesDefinitions( ).size( );
 			// DISABLE NOTIFICATIONS WHILE MODEL UPDATE TAKES PLACE
 			ChartAdapter.beginIgnoreNotifications( );
 			for ( int i = 0; i < iOverlaySeriesCount; i++ )
 			{
-				Series lastSeries = ( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
-						.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getDesignTimeSeries( );
+				Series lastSeries = ( ( XAxis.getAssociatedAxes( ).get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getDesignTimeSeries( );
 				if ( !lastSeries.getDisplayName( )
 						.equals( cbSeriesType.getText( ) ) )
 				{
@@ -1057,11 +1056,9 @@ public class TaskSelectType extends SimpleTask implements
 					// ADD THE MODEL ADAPTERS TO THE NEW SERIES
 					newSeries.eAdapters( ).addAll( chartModel.eAdapters( ) );
 					// UPDATE THE SERIES DEFINITION WITH THE SERIES INSTANCE
-					( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
-							.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getSeries( )
+					( ( XAxis.getAssociatedAxes( ).get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getSeries( )
 							.clear( );
-					( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
-							.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getSeries( )
+					( ( XAxis.getAssociatedAxes( ).get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getSeries( )
 							.add( newSeries );
 					ChartUIUtil.setSeriesName( chartModel );
 				}
@@ -1110,7 +1107,7 @@ public class TaskSelectType extends SimpleTask implements
 		// Select the appropriate current series type if overlay series exists
 		if ( this.chartModel instanceof ChartWithAxes )
 		{
-			Axis xAxis = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
+			Axis xAxis = ( ( (ChartWithAxes) chartModel ).getAxes( )
 					.get( 0 ) );
 			if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
 			{
@@ -1118,10 +1115,10 @@ public class TaskSelectType extends SimpleTask implements
 				String lastType = ChartCacheManager.getInstance( )
 						.findSeriesType( );
 
-				Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( ).get( 1 );
+				Axis overlayAxis = xAxis.getAssociatedAxes( ).get( 1 );
 				if ( !overlayAxis.getSeriesDefinitions( ).isEmpty( ) )
 				{
-					Series oseries = ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+					Series oseries = ( overlayAxis.getSeriesDefinitions( )
 							.get( 0 ) ).getDesignTimeSeries( );
 					String sDisplayName = oseries.getDisplayName( );
 					if ( lastType != null )
@@ -1215,7 +1212,7 @@ public class TaskSelectType extends SimpleTask implements
 		{
 			ChartCacheManager.getInstance( )
 					.cacheCategory( sType,
-							( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
+							( ( (ChartWithAxes) chartModel ).getAxes( )
 									.get( 0 ) ).isCategoryAxis( ) );
 		}
 
@@ -1361,14 +1358,17 @@ public class TaskSelectType extends SimpleTask implements
 		SeriesDefinition sd = null;
 		if ( chartModel instanceof ChartWithAxes )
 		{
-			sd = ( (SeriesDefinition) ( (Axis) ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).getSeriesDefinitions( )
-					.get( 0 ) );
+			sd = ( (ChartWithAxes) chartModel ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( )
+					.get( 0 )
+					.getSeriesDefinitions( )
+					.get( 0 );
 		}
 		else if ( chartModel instanceof ChartWithoutAxes )
 		{
-			sd = (SeriesDefinition) ( (SeriesDefinition) ( (ChartWithoutAxes) chartModel ).getSeriesDefinitions( )
-					.get( 0 ) ).getSeriesDefinitions( ).get( 0 );
+			sd = ( ( (ChartWithoutAxes) chartModel ).getSeriesDefinitions( ).get( 0 ) ).getSeriesDefinitions( )
+					.get( 0 );
 		}
 		return sd;
 	}
@@ -1494,11 +1494,11 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		// To check the data type of base series and orthogonal series in chart
 		// with axes
-		List sdList = new ArrayList( );
+		List<SeriesDefinition> sdList = new ArrayList<SeriesDefinition>( );
 		sdList.addAll( ChartUIUtil.getBaseSeriesDefinitions( cm ) );
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
-			SeriesDefinition sd = (SeriesDefinition) sdList.get( i );
+			SeriesDefinition sd = sdList.get( i );
 			Series series = sd.getDesignTimeSeries( );
 			checkDataTypeForBaseSeries( ChartUIUtil.getDataQuery( sd, 0 ),
 					series );
@@ -1508,7 +1508,7 @@ public class TaskSelectType extends SimpleTask implements
 		sdList.addAll( ChartUIUtil.getAllOrthogonalSeriesDefinitions( cm ) );
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
-			SeriesDefinition sd = (SeriesDefinition) sdList.get( i );
+			SeriesDefinition sd = sdList.get( i );
 			Series series = sd.getDesignTimeSeries( );
 			checkDataTypeForOrthoSeries( ChartUIUtil.getDataQuery( sd, 0 ),
 					series );
@@ -1566,14 +1566,15 @@ public class TaskSelectType extends SimpleTask implements
 				if ( chartModel instanceof ChartWithAxes )
 				{
 					DataType dataType = getDataServiceProvider( ).getDataType( expression );
-					SeriesDefinition baseSD = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( chartModel ).get( 0 ) );
+					SeriesDefinition baseSD = ( ChartUIUtil.getBaseSeriesDefinitions( chartModel ).get( 0 ) );
 					SeriesDefinition orthSD = null;
 					orthSD = (SeriesDefinition) series.eContainer( );
 					String aggFunc = null;
 					try
 					{
 						aggFunc = ChartUtil.getAggregateFuncExpr( orthSD,
-								baseSD );
+								baseSD,
+								query );
 					}
 					catch ( ChartException e )
 					{
@@ -1662,16 +1663,16 @@ public class TaskSelectType extends SimpleTask implements
 			convertSampleData( axis, type );
 			axis.setFormatSpecifier( null );
 
-			EList markerLines = axis.getMarkerLines( );
+			EList<MarkerLine> markerLines = axis.getMarkerLines( );
 			for ( int i = 0; i < markerLines.size( ); i++ )
 			{
-				( (MarkerLine) markerLines.get( i ) ).setFormatSpecifier( null );
+				( markerLines.get( i ) ).setFormatSpecifier( null );
 			}
 
-			EList markerRanges = axis.getMarkerRanges( );
+			EList<MarkerRange> markerRanges = axis.getMarkerRanges( );
 			for ( int i = 0; i < markerRanges.size( ); i++ )
 			{
-				( (MarkerRange) markerRanges.get( i ) ).setFormatSpecifier( null );
+				( markerRanges.get( i ) ).setFormatSpecifier( null );
 			}
 		}
 		ChartAdapter.endIgnoreNotifications( );
@@ -1682,7 +1683,7 @@ public class TaskSelectType extends SimpleTask implements
 		if ( ( axis.getAssociatedAxes( ) != null )
 				&& ( axis.getAssociatedAxes( ).size( ) != 0 ) )
 		{
-			BaseSampleData bsd = (BaseSampleData) chartModel.getSampleData( )
+			BaseSampleData bsd = chartModel.getSampleData( )
 					.getBaseSampleData( )
 					.get( 0 );
 			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
@@ -1699,7 +1700,7 @@ public class TaskSelectType extends SimpleTask implements
 					.size( );
 			for ( int i = 0; i < iOSDSize; i++ )
 			{
-				OrthogonalSampleData osd = (OrthogonalSampleData) chartModel.getSampleData( )
+				OrthogonalSampleData osd = chartModel.getSampleData( )
 						.getOrthogonalSampleData( )
 						.get( i );
 				if ( osd.getSeriesDefinitionIndex( ) >= iStartIndex
@@ -1715,8 +1716,9 @@ public class TaskSelectType extends SimpleTask implements
 
 	private int getFirstSeriesDefinitionIndexForAxis( Axis axis )
 	{
-		List axisList = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-				.get( 0 ) ).getAssociatedAxes( );
+		List<Axis> axisList = ( (ChartWithAxes) chartModel ).getAxes( )
+				.get( 0 )
+				.getAssociatedAxes( );
 		int index = 0;
 		for ( int i = 0; i < axisList.size( ); i++ )
 		{
@@ -1771,10 +1773,10 @@ public class TaskSelectType extends SimpleTask implements
 				.getFont( )
 				.setRotation( curRotation >= 0 ? 90 - curRotation : -90
 						- curRotation );
-		EList aYs = aX.getAssociatedAxes( );
+		EList<Axis> aYs = aX.getAssociatedAxes( );
 		for ( int i = 0; i < aYs.size( ); i++ )
 		{
-			Axis aY = (Axis) aYs.get( i );
+			Axis aY = aYs.get( i );
 			if ( aY.getTitle( ).isVisible( ) )
 			{
 				bRender = true;

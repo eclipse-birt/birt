@@ -16,7 +16,9 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
@@ -136,6 +138,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	/**
 	 * 
+	 * 
 	 * @param style
 	 *            Specify buttons by using '|'. See {@link #BUTTON_GROUP},
 	 *            {@link #BUTTON_NONE}, {@link #BUTTON_AGGREGATION}
@@ -153,7 +156,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			ChartWizardContext context, String sTitle )
 	{
 		super( );
-		assert query != null;
 		this.query = query;
 		this.queryType = queryType;
 		this.seriesdefinition = seriesdefinition;
@@ -551,7 +553,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					.addDataDefinitionText( getInputControl( ), this );
 			if ( fAggEditorComposite != null )
 			{
-				fAggEditorComposite.setSeriesDefinition( seriesdefinition );
+				fAggEditorComposite.setAggregation( query );
 			}
 		}
 		setColor( );
@@ -804,10 +806,19 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		boolean enabled = ChartUIUtil.isGroupingSupported( context )
 				&& ( PluginSettings.instance( ).inEclipseEnv( ) || baseSD.getGrouping( )
 						.isEnabled( ) );
+		if ( query.getGrouping( ) == null )
+		{
+			// Set default aggregate function
+			SeriesGrouping aggGrouping = SeriesGroupingImpl.create( );
+			aggGrouping.setAggregateExpression( seriesdefinition.getGrouping( )
+					.getAggregateExpression( ) );
+			query.setGrouping( aggGrouping );
+		}
 		fAggEditorComposite = new AggregateEditorComposite( composite,
 				seriesdefinition,
 				context,
-				enabled );
+				enabled,
+				query );
 	}
 
 	private Control getInputControl( )
@@ -1016,15 +1027,14 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 				if ( isAggregationExpr )
 				{
-					seriesdefinition.getGrouping( ).setEnabled( true );
-					seriesdefinition.getGrouping( )
+					query.getGrouping( ).setEnabled( true );
+					query.getGrouping( )
 							.setAggregateExpression( chi.getChartAggExpression( ) );
 				}
 				else
 				{
-					seriesdefinition.getGrouping( ).setEnabled( false );
-					seriesdefinition.getGrouping( )
-							.setAggregateExpression( null );
+					query.getGrouping( ).setEnabled( false );
+					query.getGrouping( ).setAggregateExpression( null );
 				}
 			}
 			

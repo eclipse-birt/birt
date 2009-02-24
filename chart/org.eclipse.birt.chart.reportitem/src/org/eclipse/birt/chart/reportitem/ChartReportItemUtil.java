@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -582,18 +583,24 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				.get( 0 );
 		for ( SeriesDefinition orthoSD : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
 		{
-			String aggrFunc = ChartUtil.getAggregateFuncExpr( orthoSD, baseSD );
-			if ( aggrFunc == null )
+			for ( Query query : orthoSD.getDesignTimeSeries( )
+					.getDataDefinition( ) )
 			{
-				continue;
-			}
+				String aggrFunc = ChartUtil.getAggregateFuncExpr( orthoSD,
+						baseSD,
+						query );
+				if ( aggrFunc == null )
+				{
+					continue;
+				}
 
-			IAggregateFunction aFunc = PluginSettings.instance( )
-					.getAggregateFunction( aggrFunc );
-			if ( aFunc != null
-					&& aFunc.getType( ) == IAggregateFunction.RUNNING_AGGR )
-			{
-				return true;
+				IAggregateFunction aFunc = PluginSettings.instance( )
+						.getAggregateFunction( aggrFunc );
+				if ( aFunc != null
+						&& aFunc.getType( ) == IAggregateFunction.RUNNING_AGGR )
+				{
+					return true;
+				}
 			}
 		}
 
@@ -614,17 +621,23 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				.get( 0 );
 		for ( SeriesDefinition orthoSD : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
 		{
-			String aggrFunc = ChartUtil.getAggregateFuncExpr( orthoSD, baseSD );
-			if ( aggrFunc == null )
+			for ( Query query : orthoSD.getDesignTimeSeries( )
+					.getDataDefinition( ) )
 			{
-				continue;
-			}
-			IAggregateFunction aFunc = PluginSettings.instance( )
-					.getAggregateFunction( aggrFunc );
-			if ( aFunc != null
-					&& aFunc.getType( ) == IAggregateFunction.SUMMARY_AGGR )
-			{
-				return true;
+				String aggrFunc = ChartUtil.getAggregateFuncExpr( orthoSD,
+						baseSD,
+						query );
+				if ( aggrFunc == null )
+				{
+					continue;
+				}
+				IAggregateFunction aFunc = PluginSettings.instance( )
+						.getAggregateFunction( aggrFunc );
+				if ( aFunc != null
+						&& aFunc.getType( ) == IAggregateFunction.SUMMARY_AGGR )
+				{
+					return true;
+				}
 			}
 		}
 		
@@ -671,9 +684,15 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				{
 					for ( SeriesDefinition orthSD : a.getSeriesDefinitions( ) )
 					{
-						if ( ChartUtil.getAggregateFuncExpr( orthSD, baseSD ) != null )
+						for ( Query query : orthSD.getDesignTimeSeries( )
+								.getDataDefinition( ) )
 						{
-							return true;
+							if ( ChartUtil.getAggregateFuncExpr( orthSD,
+									baseSD,
+									query ) != null )
+							{
+								return true;
+							}
 						}
 					}
 				}
@@ -684,9 +703,15 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 						.get( 0 )
 						.getSeriesDefinitions( ) )
 				{
-					if ( ChartUtil.getAggregateFuncExpr( orthSD, baseSD ) != null )
+					for ( Query query : orthSD.getDesignTimeSeries( )
+							.getDataDefinition( ) )
 					{
-						return true;
+						if ( ChartUtil.getAggregateFuncExpr( orthSD,
+								baseSD,
+								query ) != null )
+						{
+							return true;
+						}
 					}
 				}
 			}

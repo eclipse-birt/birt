@@ -1644,7 +1644,7 @@ public final class Generator implements IGenerator
 				sExpression = qOrthogonalSeries.getDefinition( );
 				if ( needChangeValueExpr )
 				{
-					sExpression = ChartUtil.createValueSeriesRowFullExpression( sExpression,
+					sExpression = ChartUtil.createValueSeriesRowFullExpression( qOrthogonalSeries,
 							sd,
 							categorySD );
 				}
@@ -1816,7 +1816,7 @@ public final class Generator implements IGenerator
 					{
 						if ( needChangeValueExpr )
 						{
-							sExpression = ChartUtil.createValueSeriesRowFullExpression( sExpression,
+							sExpression = ChartUtil.createValueSeriesRowFullExpression( qOrthogonalSeries,
 									sd,
 									categorySD );
 						}

@@ -1773,26 +1773,24 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @throws DataException
 		 */
 		protected void addValueSeriesAggregateBindingForGrouping(
-				BaseQueryDefinition query, EList seriesDefinitions,
-				GroupDefinition innerMostGroupDef, Map valueExprMap,
-				SeriesDefinition baseSD ) throws ChartException
+				BaseQueryDefinition query,
+				EList<SeriesDefinition> seriesDefinitions,
+				GroupDefinition innerMostGroupDef,
+				Map<String, String[]> valueExprMap, SeriesDefinition baseSD )
+				throws ChartException
 		{
-			for ( Iterator iter = seriesDefinitions.iterator( ); iter.hasNext( ); )
+			for ( SeriesDefinition orthSD : seriesDefinitions )
 			{
-				SeriesDefinition orthSD = (SeriesDefinition) iter.next( );
 				Series series = orthSD.getDesignTimeSeries( );
 
 				// The qlist contains available expressions which have
 				// aggregation.
-				List qlist = ChartEngine.instance( )
+				List<Query> qlist = ChartEngine.instance( )
 						.getDataSetProcessor( series.getClass( ) )
 						.getDataDefinitionsForGrouping( series );
 
-				for ( Iterator iter_datadef = series.getDataDefinition( )
-						.iterator( ); iter_datadef.hasNext( ); )
+				for ( Query qry : series.getDataDefinition( ) )
 				{
-					Query qry = (Query) iter_datadef.next( );
-
 					String expr = qry.getDefinition( );
 					if ( expr == null || "".equals( expr ) ) //$NON-NLS-1$
 					{
@@ -1800,14 +1798,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					}
 
 					String aggName = ChartUtil.getAggregateFuncExpr( orthSD,
-							baseSD );
+							baseSD,
+							qry );
 					if ( aggName == null || "".equals( aggName ) ) //$NON-NLS-1$
 					{
 						continue;
 					}
 
 					// Get a unique name.
-					String name = ChartUtil.getValueSeriesFullExpression( expr,
+					String name = ChartUtil.getValueSeriesFullExpression( qry,
 							orthSD,
 							baseSD );
 					if ( fNameSet.contains( name ) )
@@ -1860,13 +1859,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 								.getAggregateFunction( aggName );
 						if ( aFunc.getParametersCount( ) > 0 )
 						{
-							Object[] parameters = ChartUtil.getAggFunParameters( orthSD,
-									baseSD );
+							String[] parameters = ChartUtil.getAggFunParameters( orthSD,
+									baseSD,
+									qry );
 
 							for ( int i = 0; i < parameters.length
 									&& i < aFunc.getParametersCount( ); i++ )
 							{
-								String param = (String) parameters[i];
+								String param = parameters[i];
 								colBinding.addArgument( new ScriptExpression( param ) );
 							}
 						}

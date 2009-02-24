@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -50,11 +49,11 @@ public class ChartVariableHelper
 	{
 		try
 		{
-			String categoryExpr = ( (Query) baseSD.getDesignTimeSeries( )
+			String categoryExpr = ( baseSD.getDesignTimeSeries( )
 					.getDataDefinition( )
 					.get( 0 ) ).getDefinition( );
-			String seriesExpr = ChartUtil.createValueSeriesRowFullExpression( ( (Query) currOrthoSeries.getDataDefinition( )
-					.get( 0 ) ).getDefinition( ),
+			String seriesExpr = ChartUtil.createValueSeriesRowFullExpression( currOrthoSeries.getDataDefinition( )
+					.get( 0 ),
 					currOrthoSD,
 					baseSD );
 			String seriesName = currOrthoSeries.getSeriesIdentifier( )

@@ -238,7 +238,7 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	 */
 	protected int[] getDataDefIdsForGrouping( Series series )
 	{
-		EList elDD = series.getDataDefinition( );
+		EList<Query> elDD = series.getDataDefinition( );
 		int[] DataDefIds = new int[elDD.size( )];
 		for ( int i = 0; i < DataDefIds.length; i++ )
 		{
@@ -250,15 +250,15 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	/**
 	 * 
 	 */
-	public List getDataDefinitionsForGrouping( Series series )
+	public List<Query> getDataDefinitionsForGrouping( Series series )
 	{
-		ArrayList list = new ArrayList( 1 );
-		EList elDD = series.getDataDefinition( );
+		List<Query> list = new ArrayList<Query>( 1 );
+		EList<Query> elDD = series.getDataDefinition( );
 		int IDs[] = getDataDefIdsForGrouping(series);
 		
 		for (int i=0;i<IDs.length;i++)
 		{
-			Query query = (Query) elDD.get( IDs[i] );
+			Query query = elDD.get( IDs[i] );
 			String sExpression = query.getDefinition( );
 
 			if ( sExpression != null && sExpression.trim( ).length( ) > 0 )

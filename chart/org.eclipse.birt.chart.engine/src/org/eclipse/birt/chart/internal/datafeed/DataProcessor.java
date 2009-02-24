@@ -70,32 +70,32 @@ public class DataProcessor
 	private static class AggregationExpressionHelper
 	{
 
-		private List aggregationExpsList = new ArrayList( 3 );
-		private List querysList = new ArrayList( 3 );
+		private List<String> aggregationExpsList = new ArrayList<String>( 3 );
+		private List<String> querysList = new ArrayList<String>( 3 );
 
-		//Group query for base aggregation
-		private List baseQueryList = new ArrayList( 3 );
+		// Group query for base aggregation
+		private List<String> baseQueryList = new ArrayList<String>( 3 );
 
-		public void addAggregation( String exp, List querys )
+		public void addAggregation( String aggExp, List<String> querys )
 		{
 			for ( int i = 0; i < querys.size( ); i++ )
 			{
-				aggregationExpsList.add( exp );
+				aggregationExpsList.add( aggExp );
 				querysList.add( querys.get( i ) );
 			}
 		}
 
 		public String[] getAggregations( )
 		{
-			return (String[]) aggregationExpsList.toArray( new String[aggregationExpsList.size( )] );
+			return aggregationExpsList.toArray( new String[aggregationExpsList.size( )] );
 		}
 
 		public String[] getDataDefinitions( )
 		{
-			return (String[]) querysList.toArray( new String[querysList.size( )] );
+			return querysList.toArray( new String[querysList.size( )] );
 		}
 		
-		public List getDataDefinitionsForBaseGrouping()
+		public List<String> getDataDefinitionsForBaseGrouping()
 		{
 			return  baseQueryList;
 		}
@@ -104,6 +104,7 @@ public class DataProcessor
 		{
 			aggregationExpsList.clear( );
 			querysList.clear( );
+			baseQueryList.clear( );
 		}
 
 		public boolean isEmpty( )
@@ -117,33 +118,41 @@ public class DataProcessor
 		 *            orthogonal series definitions list
 		 * @param lhmLookup
 		 */
-		public void addSeriesDefinitions( EList elSD,
+		public void addSeriesDefinitions( EList<SeriesDefinition> elSD,
 				GroupingLookupHelper lhmLookup ) throws ChartException
-		{		
-			for ( int k = 0; k < elSD.size( ); k++ )
+		{	
+			for ( SeriesDefinition sdOrthogonal : elSD )
 			{
-				SeriesDefinition sdOrthogonal = (SeriesDefinition) elSD.get( k );
 				Series series = sdOrthogonal.getDesignTimeSeries( );
-				List qlist = ChartEngine.instance( )
+				List<Query> qlist = ChartEngine.instance( )
 						.getDataSetProcessor( series.getClass( ) )
 						.getDataDefinitionsForGrouping( series );
-				
-				List slist = new ArrayList(1);
-				for ( int i = 0; i < qlist.size( ); i++ )
-				{
-					slist.add( ((Query)qlist.get( i )).getDefinition( ) );
-				}
 
 				String strOrtAgg = lhmLookup.getOrthogonalAggregationExpression( sdOrthogonal );
-				if ( strOrtAgg != null )
+				for ( Query query : qlist )
 				{
-					// cache orthogonal series grouping
-					addAggregation( strOrtAgg, slist );
-				}
-				else
-				{
-					// If no orthogonal grouping, use base grouping
-					baseQueryList.addAll( slist );
+					if ( strOrtAgg == null )
+					{
+						// If no orthogonal grouping, use base grouping
+						baseQueryList.add( query.getDefinition( ) );
+					}
+					else
+					{
+						// cache orthogonal series grouping
+						if ( query.getGrouping( ) == null )
+						{
+							// Keep backward compatibility by using aggregations
+							// in series definition
+							aggregationExpsList.add( strOrtAgg );
+						}
+						else
+						{
+							// Each query has one aggregation function
+							aggregationExpsList.add( query.getGrouping( )
+									.getAggregateExpression( ) );
+						}
+						querysList.add( query.getDefinition( ) );
+					}
 				}
 			}
 		}
@@ -492,15 +501,8 @@ public class DataProcessor
 	public void generateRuntimeSeries( IDataRowExpressionEvaluator idre,
 			Chart cm ) throws ChartException
 	{
-//		if ( idre instanceof IChartCubeResultSet )
-//		{
-//			generateRuntimeSeries( (IChartCubeResultSet) idre, cm );
-//		}
-//		else
-		// {
-			ResultSetWrapper rsw = mapToChartResultSet( idre, cm );
-			generateRuntimeSeries( cm, rsw );
-//		}
+		ResultSetWrapper rsw = mapToChartResultSet( idre, cm );
+		generateRuntimeSeries( cm, rsw );
 	}
 
 	private void generateRuntimeSeries( ChartWithoutAxes cwoa,
@@ -1415,18 +1417,6 @@ public class DataProcessor
 		}
 	}
 
-//	/**
-//	 * Generate runtime series with grouped multi-dimensional result set.
-//	 * 
-//	 * @param chartCubeResultSet
-//	 * @param chart
-//	 */
-//	private void generateRuntimeSeries( IChartCubeResultSet chartCubeResultSet,
-//			Chart chart )
-//	{
-//		// TODO Auto-generated method stub
-//	}
-
 	/**
 	 * Format base series data. Now it is only used to format datetime data,
 	 * format date for different grouping unit.
@@ -1447,14 +1437,13 @@ public class DataProcessor
 			// EACH BASE AXIS
 			for ( int j = 0; j < axaBase.length; j++ )
 			{
-				sdBase = (SeriesDefinition) axaBase[j].getSeriesDefinitions( )
-						.get( 0 );
+				sdBase = axaBase[j].getSeriesDefinitions( ).get( 0 );
 			}
 		}
 		else if ( cm instanceof ChartWithoutAxes )
 		{
 			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
-			sdBase = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
+			sdBase = cwoa.getSeriesDefinitions( ).get( 0 );
 		}
 		final SeriesGrouping sg = sdBase.getGrouping( );
 		if ( sg == null || !sg.isEnabled( ) )
@@ -1463,7 +1452,7 @@ public class DataProcessor
 		}
 
 		final Series seBaseDesignTime = sdBase.getDesignTimeSeries( );
-		final Query q = (Query) seBaseDesignTime.getDataDefinition( ).get( 0 );
+		final Query q = seBaseDesignTime.getDataDefinition( ).get( 0 );
 		final int iBaseColumnIndex = lhmLookup.findIndexOfBaseSeries( q.getDefinition( ) );
 
 		final DataType dtGrouping = sg.getGroupType( );

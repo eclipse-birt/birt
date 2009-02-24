@@ -801,23 +801,22 @@ public class ChartUtil
 	/**
 	 * Create row full expression of value series.
 	 * 
-	 * @param expr
+	 * @param orthQuery
 	 * @param orthSD
 	 * @param categorySD
-	 * @return
 	 * @throws ChartException
 	 * @since 2.3
 	 */
-	public static String createValueSeriesRowFullExpression( String expr,
+	public static String createValueSeriesRowFullExpression( Query orthQuery,
 			SeriesDefinition orthSD, SeriesDefinition categorySD )
 			throws ChartException
 	{
-		if ( isCubeRowExpression( expr, true ) )
+		if ( isCubeRowExpression( orthQuery.getDefinition( ), true ) )
 		{
-			return expr;
+			return orthQuery.getDefinition( );
 		}
 
-		return getValueSeriesRowFullExpression( expr,
+		return getValueSeriesRowFullExpression( orthQuery,
 				orthSD,
 				categorySD );
 	}
@@ -845,74 +844,83 @@ public class ChartUtil
 	/**
 	 * Returns full expression of value series.
 	 * 
-	 * @param valueExpr
+	 * @param orthQuery
 	 * @param orthoSD
 	 * @param categorySD
-	 * @return
 	 * @throws ChartException
 	 * @since 2.3
-	 *  
+	 * 
 	 */
-	public static String getValueSeriesFullExpression( String valueExpr, SeriesDefinition orthoSD, SeriesDefinition categorySD ) throws ChartException
+	public static String getValueSeriesFullExpression( Query orthQuery,
+			SeriesDefinition orthoSD, SeriesDefinition categorySD )
+			throws ChartException
 	{
 		String returnExpr = null;
-		String fullAggExpr = getFullAggregateExpression( orthoSD, categorySD );
+		String fullAggExpr = getFullAggregateExpression( orthoSD,
+				categorySD,
+				orthQuery );
 		if ( fullAggExpr == null )
 		{
-			returnExpr = valueExpr;
+			returnExpr = orthQuery.getDefinition( );
 		}
 		else
 		{
-			returnExpr = valueExpr + "_" + fullAggExpr; //$NON-NLS-1$
+			returnExpr = orthQuery.getDefinition( ) + "_" + fullAggExpr; //$NON-NLS-1$
 		}
 		return removeInvalidSymbols( returnExpr );
 	}
 
 	/**
 	 * Returns row full expression of value series.
-	 *  
-	 * @param valueExpr
+	 * 
+	 * @param orthQuery
 	 * @param orthoSD
 	 * @param categorySD
-	 * @return
 	 * @throws ChartException
 	 * @since 2.3
 	 * 
 	 */
-	public static String getValueSeriesRowFullExpression( String valueExpr, SeriesDefinition orthoSD, SeriesDefinition categorySD ) throws ChartException
+	public static String getValueSeriesRowFullExpression( Query orthQuery,
+			SeriesDefinition orthoSD, SeriesDefinition categorySD )
+			throws ChartException
 	{
-		String fullAggExpr = getFullAggregateExpression( orthoSD, categorySD );
+		String fullAggExpr = getFullAggregateExpression( orthoSD,
+				categorySD,
+				orthQuery );
 		if ( fullAggExpr == null )
 		{
-			return valueExpr;
+			return orthQuery.getDefinition( );
 		}
 		else
 		{
-			return ExpressionUtil.createRowExpression( removeInvalidSymbols( ( valueExpr
+			return ExpressionUtil.createRowExpression( removeInvalidSymbols( ( orthQuery.getDefinition( )
 					+ "_" + fullAggExpr ) ) ); //$NON-NLS-1$
 		}
 	}
 	
 	/**
-	 * Return full aggregate expression which includes aggregate func and aggregate parameters.
+	 * Return full aggregate expression which includes aggregate func and
+	 * aggregate parameters.
 	 * 
 	 * @param orthoSD
 	 * @param categorySD
-	 * @return
+	 * @param orthQuery
 	 * @throws ChartException
-	 * @since 2.3
+	 * @since 2.5
 	 */
-	public static String getFullAggregateExpression( SeriesDefinition orthoSD, SeriesDefinition categorySD ) throws ChartException
+	public static String getFullAggregateExpression( SeriesDefinition orthoSD,
+			SeriesDefinition categorySD, Query orthQuery )
+			throws ChartException
 	{
-		String expr = getAggregateFuncExpr( orthoSD, categorySD );
+		String expr = getAggregateFuncExpr( orthoSD, categorySD, orthQuery );
 		if ( expr == null )
 		{
 			return null;
 		}
 
 		expr = createFullAggregateString( expr,
-				ChartUtil.getAggFunParameters( orthoSD, categorySD ) );
-		
+				ChartUtil.getAggFunParameters( orthoSD, categorySD, orthQuery ) );
+
 		return expr;
 	}
 
@@ -950,28 +958,38 @@ public class ChartUtil
 	 * 
 	 * @param orthSD
 	 * @param baseSD
-	 * @return
-	 * @since 2.3
+	 * @param orthQuery
+	 * @since 2.5
 	 */
-	public static Object[] getAggFunParameters( SeriesDefinition orthSD,
-			SeriesDefinition baseSD )
+	public static String[] getAggFunParameters( SeriesDefinition orthSD,
+			SeriesDefinition baseSD, Query orthQuery )
 	{
-		if ( baseSD.getGrouping( ) != null &&
-				baseSD.getGrouping( ).isSetEnabled( ) &&
-				baseSD.getGrouping( ).isEnabled( ) )
+		if ( baseSD.getGrouping( ) != null
+				&& baseSD.getGrouping( ).isEnabled( ) )
 		{
 			SeriesGrouping grouping = orthSD.getGrouping( );
 			if ( grouping.isSetEnabled( ) && grouping.isEnabled( ) )
 			{
+				if ( orthQuery != null && orthQuery.getGrouping( ) != null )
+				{
+					return orthQuery.getGrouping( )
+							.getAggregateParameters( )
+							.toArray( new String[0] );
+				}
 				// Set own group
-				return grouping.getAggregateParameters( ).toArray( );
+				return grouping.getAggregateParameters( )
+						.toArray( new String[0] );
 			}
 
-			return baseSD.getGrouping( ).getAggregateParameters( ).toArray( );
+			return baseSD.getGrouping( )
+					.getAggregateParameters( )
+					.toArray( new String[0] );
 		}
 		else
 		{
-			return orthSD.getGrouping( ).getAggregateParameters( ).toArray( );
+			return orthSD.getGrouping( )
+					.getAggregateParameters( )
+					.toArray( new String[0] );
 		}
 	}
 	
@@ -984,26 +1002,34 @@ public class ChartUtil
 	 * @since BIRT 2.3
 	 */
 	public static String getAggregateFunctionExpr( SeriesDefinition orthoSD,
-			String strBaseAggExp ) throws ChartException
+			String strBaseAggExp, Query orthQuery ) throws ChartException
 	{
 		String strOrthoAgg = null;
 		SeriesGrouping grouping = orthoSD.getGrouping( );
-		// The enabled grouping means that aggregate is set on orthogonal series.
-		if ( grouping != null && grouping.isSetEnabled( ) && grouping.isEnabled( ) )
+		
+		// Set aggregation function from data query
+		if ( orthQuery != null
+				&& orthQuery.getGrouping( ) != null
+				&& orthQuery.getGrouping( ).isEnabled( ) )
 		{
-			// Set own group
+			strOrthoAgg = orthQuery.getGrouping( ).getAggregateExpression( );
+		}
+		else if ( grouping != null && grouping.isEnabled( ) )
+		{
+			// Set aggregation function from orthogonal series
 			strOrthoAgg = grouping.getAggregateExpression( );
-			if ( strBaseAggExp == null && strOrthoAgg != null )
+		}
+		
+		if ( strBaseAggExp == null && strOrthoAgg != null )
+		{
+			// If no category grouping is defined, value series aggregate
+			// only allow running aggregates.
+			// Check if series aggregate is running aggregate.
+			IAggregateFunction aFunc = PluginSettings.instance( )
+					.getAggregateFunction( strOrthoAgg );
+			if ( aFunc.getType( ) != IAggregateFunction.RUNNING_AGGR )
 			{
-				// If no category grouping is defined, value series aggregate
-				// only allow running aggregates.
-				// Check if series aggregate is running aggregate.
-				IAggregateFunction aFunc = PluginSettings.instance( )
-						.getAggregateFunction( strOrthoAgg );
-				if ( aFunc.getType( ) != IAggregateFunction.RUNNING_AGGR )
-				{
-					strOrthoAgg = null;
-				}
+				strOrthoAgg = null;
 			}
 		}
 
@@ -1026,7 +1052,7 @@ public class ChartUtil
 	 * @since BIRT 2.3
 	 */
 	public static String getAggregateFuncExpr( SeriesDefinition orthSD,
-			SeriesDefinition baseSD ) throws ChartException
+			SeriesDefinition baseSD, Query orthQuery ) throws ChartException
 	{
 		String strBaseAggExp = null;
 		if ( baseSD.getGrouping( ) != null
@@ -1035,7 +1061,7 @@ public class ChartUtil
 		{
 			strBaseAggExp = baseSD.getGrouping( ).getAggregateExpression( );
 		}
-		strBaseAggExp = getAggregateFunctionExpr( orthSD, strBaseAggExp );
+		strBaseAggExp = getAggregateFunctionExpr( orthSD, strBaseAggExp, orthQuery );
 		if ( strBaseAggExp != null && strBaseAggExp.trim( ).length( ) == 0 )
 		{
 			strBaseAggExp = null;

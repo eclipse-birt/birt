@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
@@ -85,11 +86,16 @@ public class AggregateEditorComposite extends Composite implements
 	
 	private AggregateDropDownEditorComposite fAggregateEditor;
 	
+	/**
+	 * Used to keep backward compatibility
+	 */
 	private SeriesDefinition fSeriesDefi;
 	
 	private ChartWizardContext fChartContext;
 
 	private SeriesGrouping fGrouping;
+	
+	private Query query;
 
 	private boolean fEnabled;
 
@@ -99,8 +105,16 @@ public class AggregateEditorComposite extends Composite implements
 	/** Holds the width of each marker UI block */
 	private final static int BLOCK_HEIGHT = 120;
 
-	
-	public AggregateEditorComposite( Composite parent, SeriesDefinition sd, ChartWizardContext context, boolean enabled  )
+	/**
+	 * 
+	 * @param parent
+	 * @param sd
+	 * @param context
+	 * @param enabled
+	 * @deprecated
+	 */
+	public AggregateEditorComposite( Composite parent, SeriesDefinition sd,
+			ChartWizardContext context, boolean enabled )
 	{
 		super( parent, SWT.NONE );
 		setSeriesDefinition( sd );
@@ -108,7 +122,22 @@ public class AggregateEditorComposite extends Composite implements
 		fEnabled = enabled;
 		placeComponents( );
 	}
+	
+	public AggregateEditorComposite( Composite parent, SeriesDefinition sd,
+			ChartWizardContext context, boolean enabled, Query query )
+	{
+		super( parent, SWT.NONE );
+		setAggregation( query );
+		fChartContext = context;
+		fEnabled = enabled;
+		placeComponents( );
+	}
 
+	/**
+	 * 
+	 * @param sd
+	 * @deprecated to use {@link #setAggregation(Query)} instead
+	 */
 	public void setSeriesDefinition( SeriesDefinition sd )
 	{
 		fSeriesDefi = sd;
@@ -119,6 +148,19 @@ public class AggregateEditorComposite extends Composite implements
 		else
 		{
 			fGrouping = SeriesGroupingImpl.create( );
+		}
+	}
+	
+	public void setAggregation( Query query )
+	{
+		this.query = query;
+		if ( query.getGrouping( ) == null )
+		{
+			fGrouping = SeriesGroupingImpl.create( );
+		}
+		else
+		{
+			fGrouping = (SeriesGrouping) EcoreUtil.copy( query.getGrouping( ) );
 		}
 	}
 	
@@ -203,7 +245,14 @@ public class AggregateEditorComposite extends Composite implements
 		shell.setSize( iShellWidth, iShellHeight );
 		shell.setLocation( iXLoc, iYLoc );
 
-		setSeriesDefinition( fSeriesDefi );
+		if ( fSeriesDefi == null )
+		{
+			setAggregation( query );
+		}
+		else
+		{
+			setSeriesDefinition( fSeriesDefi );
+		}
 		fAggregateEditor = new AggregateDropDownEditorComposite( shell, SWT.NONE, null );
 		
 		shell.layout( );
@@ -233,9 +282,9 @@ public class AggregateEditorComposite extends Composite implements
 
 		private Composite fAggParameterComposite;
 
-		private List fAggParamtersTextWidgets = new ArrayList( );
-		
-		private Map fExprBuilderWidgetsMap = new HashMap();
+		private List<Text> fAggParamtersTextWidgets = new ArrayList<Text>( );
+
+		private Map<Button, Text> fExprBuilderWidgetsMap = new HashMap<Button, Text>( );
 
 		private boolean isPressingKey = false;
 
@@ -553,9 +602,9 @@ public class AggregateEditorComposite extends Composite implements
 
 		private void setAggParameter( Text oSource )
 		{
-			String text = ( (Text) oSource ).getText( );
+			String text = oSource.getText( );
 			int index = fAggParamtersTextWidgets.indexOf( oSource );
-			EList parameters = fGrouping
+			EList<String> parameters = fGrouping
 					.getAggregateParameters( );
 			for ( int i = parameters.size( ); i < fAggParamtersTextWidgets.size( ); i++ )
 			{
@@ -567,17 +616,17 @@ public class AggregateEditorComposite extends Composite implements
 		private void populateAggParameters( )
 		{
 			SeriesGrouping grouping = fGrouping;
-			EList aggPars = grouping.getAggregateParameters( );
+			EList<String> aggPars = grouping.getAggregateParameters( );
 			if ( aggPars.size( ) > 0 )
 			{
 				int size = aggPars.size( ) > fAggParamtersTextWidgets.size( ) ? fAggParamtersTextWidgets.size( )
 						: aggPars.size( );
 				for ( int i = 0; i < size; i++ )
 				{
-					String value = (String) aggPars.get( i );
+					String value = aggPars.get( i );
 					if ( value != null )
 					{
-						( (Text) fAggParamtersTextWidgets.get( i ) ).setText( value );
+						fAggParamtersTextWidgets.get( i ).setText( value );
 					}
 				}
 			}
@@ -590,7 +639,7 @@ public class AggregateEditorComposite extends Composite implements
 //				fCmbAggregate.setEnabled( true );
 				for ( int i = 0; i < fAggParamtersTextWidgets.size( ); i++ )
 				{
-					( (Text) fAggParamtersTextWidgets.get( i ) ).setEnabled( true );
+					fAggParamtersTextWidgets.get( i ).setEnabled( true );
 				}
 			}
 			else
@@ -598,7 +647,7 @@ public class AggregateEditorComposite extends Composite implements
 //				fCmbAggregate.setEnabled( false );
 				for ( int i = 0; i < fAggParamtersTextWidgets.size( ); i++ )
 				{
-					( (Text) fAggParamtersTextWidgets.get( i ) ).setEnabled( false );
+					fAggParamtersTextWidgets.get( i ).setEnabled( false );
 				}
 			}
 		}
@@ -646,7 +695,7 @@ public class AggregateEditorComposite extends Composite implements
 			{
 				try
 				{
-					Text txtArg = (Text) fExprBuilderWidgetsMap.get( source );
+					Text txtArg = fExprBuilderWidgetsMap.get( source );
 					String sExpr = fChartContext.getUIServiceProvider( )
 							.invoke( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
 									txtArg.getText( ),
@@ -662,8 +711,16 @@ public class AggregateEditorComposite extends Composite implements
 			}
 			else if ( source == fBtnOK )
 			{
-				fSeriesDefi.setGrouping( fGrouping );
-				fSeriesDefi.getGrouping( ).eAdapters( ).addAll( fSeriesDefi.eAdapters( ) );
+				if ( fSeriesDefi == null )
+				{
+					query.setGrouping( fGrouping );
+					query.getGrouping( ).eAdapters( ).addAll( query.eAdapters( ) );
+				}
+				else
+				{
+					fSeriesDefi.setGrouping( fGrouping );
+					fSeriesDefi.getGrouping( ).eAdapters( ).addAll( fSeriesDefi.eAdapters( ) );
+				}				
 				
 				ChartUIUtil.isValidAggregation( fChartContext, fGrouping, false );
 				
@@ -750,7 +807,7 @@ public class AggregateEditorComposite extends Composite implements
 	 */
 	private boolean isBaseGroupingDefined( )
 	{
-		SeriesDefinition baseSD = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( fChartContext.getModel( ) )
+		SeriesDefinition baseSD = ChartUIUtil.getBaseSeriesDefinitions( fChartContext.getModel( ) )
 				.get( 0 );
 		if ( baseSD.getGrouping( ) != null && baseSD.getGrouping( ).isEnabled( ) )
 		{
@@ -782,7 +839,7 @@ public class AggregateEditorComposite extends Composite implements
 				aggDisplayNames = new String[names.length + 1];
 				aggFunctions = new String[names.length + 1];
 
-				SeriesDefinition baseSD = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( fChartContext.getModel( ) )
+				SeriesDefinition baseSD = ChartUIUtil.getBaseSeriesDefinitions( fChartContext.getModel( ) )
 						.get( 0 );
 				String aggFunc = baseSD.getGrouping( ).getAggregateExpression( );
 				int index = 0;

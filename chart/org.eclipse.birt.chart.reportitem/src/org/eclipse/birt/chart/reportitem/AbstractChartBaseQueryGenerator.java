@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -111,7 +110,6 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * Create base query definition.
 	 * 
 	 * @param parent
-	 * @return
 	 * @throws ChartException
 	 */
 	public abstract IDataQueryDefinition createBaseQuery(
@@ -121,7 +119,6 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * Create base query definition.
 	 * 
 	 * @param columns
-	 * @return
 	 * @throws ChartException
 	 */
 	public abstract IDataQueryDefinition createBaseQuery( List columns )
@@ -138,32 +135,32 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @throws ChartException
 	 */
 	protected void addValueSeriesAggregateBindingForGrouping(
-			BaseQueryDefinition query, EList seriesDefinitions,
-			GroupDefinition innerMostGroupDef, Map valueExprMap,
-			SeriesDefinition baseSD ) throws ChartException
+			BaseQueryDefinition query,
+			EList<SeriesDefinition> seriesDefinitions,
+			GroupDefinition innerMostGroupDef,
+			Map<String, String[]> valueExprMap, SeriesDefinition baseSD )
+			throws ChartException
 	{
-		for ( Iterator iter = seriesDefinitions.iterator( ); iter.hasNext( ); )
+		for ( SeriesDefinition orthSD : seriesDefinitions )
 		{
-			SeriesDefinition orthSD = (SeriesDefinition) iter.next( );
 			Series series = orthSD.getDesignTimeSeries( );
 			
 			// The qlist contains available expressions which have aggregation.
-			List qlist = ChartEngine.instance( )
+			List<Query> qlist = ChartEngine.instance( )
 					.getDataSetProcessor( series.getClass( ) )
 					.getDataDefinitionsForGrouping( series );
 
-			for ( Iterator iter_datadef = series.getDataDefinition( )
-					.iterator( ); iter_datadef.hasNext( ); )
+			for ( Query qry : series.getDataDefinition( ) )
 			{
-				Query qry = (Query) iter_datadef.next( );
-				
 				String expr = qry.getDefinition( );
 				if ( expr == null || "".equals( expr ) ) //$NON-NLS-1$
 				{
 					continue;
 				}
 				
-				String aggName = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
+				String aggName = ChartUtil.getAggregateFuncExpr( orthSD,
+						baseSD,
+						qry );
 				if ( aggName == null )
 				{
 					if ( !bCreateBindingForExpression
@@ -175,7 +172,9 @@ public abstract class AbstractChartBaseQueryGenerator
 				}
 				
 				// Get a unique name.
-				String name = ChartUtil.getValueSeriesFullExpression( expr, orthSD, baseSD );
+				String name = ChartUtil.getValueSeriesFullExpression( qry,
+						orthSD,
+						baseSD );
 				if ( fNameSet.contains( name ) )
 				{
 					continue;
@@ -209,13 +208,14 @@ public abstract class AbstractChartBaseQueryGenerator
 									.getAggregateFunction( aggName );
 							if ( aFunc.getParametersCount( ) > 0 )
 							{
-								Object[] parameters = ChartUtil.getAggFunParameters( orthSD,
-										baseSD );
+								String[] parameters = ChartUtil.getAggFunParameters( orthSD,
+										baseSD,
+										qry );
 
 								for ( int i = 0; i < parameters.length
 										&& i < aFunc.getParametersCount( ); i++ )
 								{
-									String param = (String) parameters[i];
+									String param = parameters[i];
 									colBinding.addArgument( new ScriptExpression( param ) );
 								}
 							}
@@ -298,20 +298,17 @@ public abstract class AbstractChartBaseQueryGenerator
 		if ( fChartModel instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes) fChartModel;
-			categorySD = (SeriesDefinition) cwa.getBaseAxes( )[0].getSeriesDefinitions( )
-					.get( 0 );
+			categorySD = cwa.getBaseAxes( )[0].getSeriesDefinitions( ).get( 0 );
 
 			orthAxisArray = cwa.getOrthogonalAxes( cwa.getBaseAxes( )[0], true );
-			orthSD = (SeriesDefinition) ( (Axis) orthAxisArray[0] ).getSeriesDefinitions( )
+			orthSD = ( (Axis) orthAxisArray[0] ).getSeriesDefinitions( )
 					.get( 0 );
 		}
 		else if ( fChartModel instanceof ChartWithoutAxes )
 		{
 			ChartWithoutAxes cwoa = (ChartWithoutAxes) fChartModel;
-			categorySD = (SeriesDefinition) cwoa.getSeriesDefinitions( )
-					.get( 0 );
-			orthSD = (SeriesDefinition) categorySD.getSeriesDefinitions( )
-					.get( 0 );
+			categorySD = cwoa.getSeriesDefinitions( ).get( 0 );
+			orthSD = categorySD.getSeriesDefinitions( ).get( 0 );
 		}
 
 		// 2. Add grouping.
@@ -329,7 +326,7 @@ public abstract class AbstractChartBaseQueryGenerator
 		// with new expression for evaluator. And if the expression of value
 		// series is a sort key, it also need using new expression instead of
 		// old expression as sort expression, the related code show in section 4.
-		Map valueExprMap = addAggregateBindings( query,
+		Map<String, String[]> valueExprMap = addAggregateBindings( query,
 				categorySD,
 				orthAxisArray );
 		
@@ -337,9 +334,8 @@ public abstract class AbstractChartBaseQueryGenerator
 		// binding to evaluate when required
 		if ( bCreateBindingForExpression )
 		{
-			String exprCategory = ( (Query) categorySD.getDesignTimeSeries( )
-					.getDataDefinition( )
-					.get( 0 ) ).getDefinition( );
+			String exprCategory = ( categorySD.getDesignTimeSeries( )
+					.getDataDefinition( ).get( 0 ) ).getDefinition( );
 			try
 			{
 				if ( !ChartReportItemUtil.isRowBinding( exprCategory, false ) )
@@ -402,7 +398,8 @@ public abstract class AbstractChartBaseQueryGenerator
 	 */
 	private void bindSortOnCategorySeries( BaseQueryDefinition query,
 			SeriesDefinition categorySD,
-			GroupDefinition categoryGroupDefinition, Map valueExprMap )
+			GroupDefinition categoryGroupDefinition,
+			Map<String, String[]> valueExprMap )
 	{
 		String baseSortExpr = getValidSortExpr( categorySD );
 		if ( !categorySD.isSetSorting( ) || baseSortExpr == null )
@@ -422,16 +419,15 @@ public abstract class AbstractChartBaseQueryGenerator
 		if ( ChartReportItemUtil.isBaseGroupingDefined( categorySD ) )
 		{
 			// If base series set group, add sort on group definition.
-			String baseExpr = ( (Query) categorySD.getDesignTimeSeries( )
-					.getDataDefinition( )
-					.get( 0 ) ).getDefinition( );
+			String baseExpr = ( categorySD.getDesignTimeSeries( )
+					.getDataDefinition( ).get( 0 ) ).getDefinition( );
 			if ( baseExpr.equals( getValidSortExpr( categorySD ) ) )
 			{
 				sd.setExpression( baseExpr );
 			}
 			else
 			{
-				String[] nameNewExprArray = (String[]) valueExprMap.get( baseSortExpr );
+				String[] nameNewExprArray = valueExprMap.get( baseSortExpr );
 				if ( nameNewExprArray != null && nameNewExprArray.length == 2 )
 				{
 					sd.setExpression( nameNewExprArray[1] );
@@ -458,9 +454,9 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @return
 	 * @throws ChartException
 	 */
-	private Map addAggregateBindings( BaseQueryDefinition query,
-			SeriesDefinition categorySD, Object[] orthAxisArray )
-			throws ChartException
+	private Map<String, String[]> addAggregateBindings(
+			BaseQueryDefinition query, SeriesDefinition categorySD,
+			Object[] orthAxisArray ) throws ChartException
 	{
 		GroupDefinition innerMostGroupDef = null;
 		if ( query.getGroups( ) != null && query.getGroups( ).size( ) > 0 )
@@ -469,7 +465,7 @@ public abstract class AbstractChartBaseQueryGenerator
 					.get( query.getGroups( ).size( ) - 1 );
 		}
 
-		Map valueExprMap = new HashMap( );
+		Map<String, String[]> valueExprMap = new HashMap<String, String[]>( );
 		// Add aggregates.
 		if ( fChartModel instanceof ChartWithAxes )
 		{
@@ -606,13 +602,14 @@ public abstract class AbstractChartBaseQueryGenerator
 								.getAggregateFunction( aggFunc );
 						if ( aFunc.getParametersCount( ) > 0 )
 						{
-							Object[] parameters = ChartUtil.getAggFunParameters( orthSD,
-									categorySD );
+							String[] parameters = ChartUtil.getAggFunParameters( orthSD,
+									categorySD,
+									null );
 
 							for ( int i = 0; i < parameters.length
 									&& i < aFunc.getParametersCount( ); i++ )
 							{
-								String param = (String) parameters[i];
+								String param =  parameters[i];
 								binding.addArgument( new ScriptExpression( param ) );
 							}
 						}
@@ -742,22 +739,22 @@ public abstract class AbstractChartBaseQueryGenerator
 		{
 			for ( int i = 0; i < orthAxisArray.length; i++ )
 			{
-				EList sds = ( (Axis) orthAxisArray[i] ).getSeriesDefinitions( );
-				for ( Iterator iter = sds.iterator( ); iter.hasNext( ); )
+				EList<SeriesDefinition> sds = ( (Axis) orthAxisArray[i] ).getSeriesDefinitions( );
+				for ( SeriesDefinition sd : sds )
 				{
-					SeriesDefinition sd = (SeriesDefinition) iter.next( );
 					if ( sd.getDesignTimeSeries( ).getDataDefinition( ) != null &&
 							sd.getDesignTimeSeries( )
 									.getDataDefinition( )
 									.get( 0 ) != null )
 					{
-						Query q = (Query) sd.getDesignTimeSeries( )
+						Query q = sd.getDesignTimeSeries( )
 								.getDataDefinition( )
 								.get( 0 );
 						if ( sortKey.equals( q.getDefinition( ) ) )
 						{
 							aggFunction = ChartUtil.getAggregateFunctionExpr( sd,
-									baseAggFunExpr );
+									baseAggFunExpr,
+									q );
 							break;
 						}
 					}
@@ -767,19 +764,21 @@ public abstract class AbstractChartBaseQueryGenerator
 		else if ( fChartModel instanceof ChartWithoutAxes )
 		{
 
-			for ( Iterator iter = baseSD.getSeriesDefinitions( ).iterator( ); iter.hasNext( ); )
+			for ( SeriesDefinition sd : baseSD.getSeriesDefinitions( ) )
 			{
-				SeriesDefinition sd = (SeriesDefinition) iter.next( );
-				if ( sd.getDesignTimeSeries( ).getDataDefinition( ) != null &&
-						sd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 ) != null )
+				if ( sd.getDesignTimeSeries( ).getDataDefinition( ) != null
+						&& sd.getDesignTimeSeries( )
+								.getDataDefinition( )
+								.get( 0 ) != null )
 				{
-					Query q = (Query) sd.getDesignTimeSeries( )
+					Query q = sd.getDesignTimeSeries( )
 							.getDataDefinition( )
 							.get( 0 );
 					if ( sortKey.equals( q.getDefinition( ) ) )
 					{
-						aggFunction =  ChartUtil.getAggregateFunctionExpr( sd,
-								baseAggFunExpr );
+						aggFunction = ChartUtil.getAggregateFunctionExpr( sd,
+								baseAggFunExpr,
+								q );
 						break;
 					}
 				}

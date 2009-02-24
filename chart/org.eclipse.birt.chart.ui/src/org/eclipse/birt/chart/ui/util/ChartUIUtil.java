@@ -59,7 +59,6 @@ import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainterBase;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -1834,8 +1833,8 @@ public class ChartUIUtil
 	
 
 	/**
-	 * help method for verifying the datatype compatibility of the series,
-	 * returns true if the series has a numeric aggreagion function
+	 * help method for verifying the data type compatibility of the series,
+	 * returns true if the series has a numeric aggregation function
 	 * 
 	 * @param series
 	 * @return
@@ -1843,27 +1842,26 @@ public class ChartUIUtil
 	public static boolean isNumericAggregate( Series series )
 	{
 		Chart cm = ChartUtil.getChartFromSeries( series );
-		SeriesDefinition baseSD = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( cm ).get( 0 ) );
+		SeriesDefinition baseSD = ( ChartUIUtil.getBaseSeriesDefinitions( cm ).get( 0 ) );
 		SeriesDefinition orthSD = null;
 		orthSD = (SeriesDefinition) series.eContainer( );
 
-		String aggFunc = null;
-		try
+		for ( Query query : series.getDataDefinition( ) )
 		{
-			aggFunc = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
+			String aggFunc = null;
+			try
+			{
+				aggFunc = ChartUtil.getAggregateFuncExpr( orthSD, baseSD, query );
+			}
+			catch ( ChartException e )
+			{
+			}
+			if ( baseSD != orthSD && ChartUtil.isMagicAggregate( aggFunc ) )
+			{
+				return true;
+			}
 		}
-		catch ( ChartException e )
-		{
-		}
-
-		if ( baseSD != orthSD && ChartUtil.isMagicAggregate( aggFunc ) )
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 

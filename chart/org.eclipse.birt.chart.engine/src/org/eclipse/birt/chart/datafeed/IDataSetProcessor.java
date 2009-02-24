@@ -17,6 +17,7 @@ import java.util.Locale;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.Query;
 
 import com.ibm.icu.util.ULocale;
 
@@ -135,5 +136,5 @@ public interface IDataSetProcessor
 	 * @return a list of data definitions for grouping
 	 * @since 2.2
 	 */
-	public List getDataDefinitionsForGrouping( Series series );
+	public List<Query> getDataDefinitionsForGrouping( Series series );
 }

@@ -51,21 +51,22 @@ public class GroupingLookupHelper
 		OLDER_STYLE {
 
 			@Override
-			public String buildExpr( String expr, SeriesDefinition orthSd,
+			public String buildExpr( Query orthQuery, SeriesDefinition orthSd,
 					SeriesDefinition categorySd ) throws ChartException
 			{
-				return expr;
+				return orthQuery.getDefinition( );
 			}
 		},
 		TRANSFORMED {
 
 			@Override
-			public String buildExpr( String expr, SeriesDefinition orthSd,
+			public String buildExpr( Query orthQuery, SeriesDefinition orthSd,
 					SeriesDefinition categorySd ) throws ChartException
 			{
-				if ( expr != null && expr.trim( ).length( ) > 0 )
+				if ( orthQuery.getDefinition( ) != null
+						&& orthQuery.getDefinition( ).trim( ).length( ) > 0 )
 				{
-					return ChartUtil.createValueSeriesRowFullExpression( expr,
+					return ChartUtil.createValueSeriesRowFullExpression( orthQuery,
 							orthSd,
 							categorySd );
 				}
@@ -76,7 +77,7 @@ public class GroupingLookupHelper
 			}
 		};
 
-		abstract public String buildExpr( String expr, SeriesDefinition orthSD,
+		abstract public String buildExpr( Query orthQuery, SeriesDefinition orthSD,
 				SeriesDefinition categorySD ) throws ChartException;
 
 		public String[] buildExpr( List<Query> querys, SeriesDefinition orthSD,
@@ -87,9 +88,7 @@ public class GroupingLookupHelper
 			String[] exprs = new String[querys.size( )];
 			for ( int i = 0; i < size; i++ )
 			{
-				exprs[i] = buildExpr( querys.get( i ).getDefinition( ),
-						orthSD,
-						categorySD );
+				exprs[i] = buildExpr( querys.get( i ), orthSD, categorySD );
 			}
 			return exprs;
 		}
@@ -370,7 +369,7 @@ public class GroupingLookupHelper
 					continue;
 				}
 
-				if ( addDataExp( valueSeriesExprBuilder.buildExpr( qOrthogonalSeries.getDefinition( ),
+				if ( addDataExp( valueSeriesExprBuilder.buildExpr( qOrthogonalSeries,
 						orthoSD,
 						baseSD ),
 						strOrthoAgg ) )

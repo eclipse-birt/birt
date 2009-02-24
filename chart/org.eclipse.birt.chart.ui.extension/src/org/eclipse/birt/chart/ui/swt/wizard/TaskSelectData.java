@@ -607,7 +607,7 @@ public class TaskSelectData extends SimpleTask implements
 				if ( getChartModel( ) instanceof ChartWithAxes )
 				{
 					DataType dataType = getDataServiceProvider( ).getDataType( expression );
-					SeriesDefinition baseSD = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) ).get( 0 ) );
+					SeriesDefinition baseSD = ( ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) ).get( 0 ) );
 					SeriesDefinition orthSD = null;
 					orthSD = (SeriesDefinition) series.eContainer( );
 
@@ -616,7 +616,8 @@ public class TaskSelectData extends SimpleTask implements
 					try
 					{
 						aggFunc = ChartUtil.getAggregateFuncExpr( orthSD,
-								baseSD );
+								baseSD,
+								query );
 					}
 					catch ( ChartException e )
 					{
@@ -740,16 +741,16 @@ public class TaskSelectData extends SimpleTask implements
 			convertSampleData( axis, type );
 			axis.setFormatSpecifier( null );
 
-			EList markerLines = axis.getMarkerLines( );
+			EList<MarkerLine> markerLines = axis.getMarkerLines( );
 			for ( int i = 0; i < markerLines.size( ); i++ )
 			{
-				( (MarkerLine) markerLines.get( i ) ).setFormatSpecifier( null );
+				( markerLines.get( i ) ).setFormatSpecifier( null );
 			}
 
-			EList markerRanges = axis.getMarkerRanges( );
+			EList<MarkerRange> markerRanges = axis.getMarkerRanges( );
 			for ( int i = 0; i < markerRanges.size( ); i++ )
 			{
-				( (MarkerRange) markerRanges.get( i ) ).setFormatSpecifier( null );
+				( markerRanges.get( i ) ).setFormatSpecifier( null );
 			}
 		}
 		ChartAdapter.endIgnoreNotifications( );
@@ -760,7 +761,7 @@ public class TaskSelectData extends SimpleTask implements
 		if ( ( axis.getAssociatedAxes( ) != null )
 				&& ( axis.getAssociatedAxes( ).size( ) != 0 ) )
 		{
-			BaseSampleData bsd = (BaseSampleData) getChartModel( ).getSampleData( )
+			BaseSampleData bsd = getChartModel( ).getSampleData( )
 					.getBaseSampleData( )
 					.get( 0 );
 			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
@@ -777,7 +778,7 @@ public class TaskSelectData extends SimpleTask implements
 					.size( );
 			for ( int i = 0; i < iOSDSize; i++ )
 			{
-				OrthogonalSampleData osd = (OrthogonalSampleData) getChartModel( ).getSampleData( )
+				OrthogonalSampleData osd = getChartModel( ).getSampleData( )
 						.getOrthogonalSampleData( )
 						.get( i );
 				if ( osd.getSeriesDefinitionIndex( ) >= iStartIndex
@@ -793,8 +794,9 @@ public class TaskSelectData extends SimpleTask implements
 
 	private int getFirstSeriesDefinitionIndexForAxis( Axis axis )
 	{
-		List axisList = ( (Axis) ( (ChartWithAxes) getChartModel( ) ).getAxes( )
-				.get( 0 ) ).getAssociatedAxes( );
+		List<Axis> axisList = ( (ChartWithAxes) getChartModel( ) ).getAxes( )
+				.get( 0 )
+				.getAssociatedAxes( );
 		int index = 0;
 		for ( int i = 0; i < axisList.size( ); i++ )
 		{
@@ -826,10 +828,10 @@ public class TaskSelectData extends SimpleTask implements
 	private List<String> checkDataTypeForChartWithAxes( )
 	{
 		List<String> errorMsgs = new ArrayList<String>( 2 );
-		List osds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChartModel( ) );
+		List<SeriesDefinition> osds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChartModel( ) );
 		for ( int i = 0; i < osds.size( ); i++ )
 		{
-			SeriesDefinition sd = (SeriesDefinition) osds.get( i );
+			SeriesDefinition sd = osds.get( i );
 			Series series = sd.getDesignTimeSeries( );
 			errorMsgs.addAll( checkDataType( ChartUIUtil.getDataQuery( sd, 0 ),
 					series ) );
