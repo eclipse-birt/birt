@@ -3492,6 +3492,7 @@ Error.NameException.NAME_FORBIDDEN=Le {0} n''est pas autorisé à porter un nom.
 Error.NameException.DUPLICATE=Le nom "{0}" est le doublon d''un nom existant. Choisissez un autre nom.
 Error.NameException.HAS_REFERENCES={0} comporte un élément dérivé, le nom ne peut pas être effacé.
 Error.NameException.INVALID_NAME=Le nom "{0}" n''est pas valide car il contient le caractère ".", "/", "\", "!", ";", "," .
+Error.NameException.INVALID_STYLE_NAME=The style name "{0}" is invalid to CSS2 specifications.
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=La propriété "{0}" est incorrecte pour l''élément "{1}".

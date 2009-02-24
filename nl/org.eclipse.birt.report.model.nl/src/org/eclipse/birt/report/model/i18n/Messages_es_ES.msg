@@ -3492,6 +3492,7 @@ Error.NameException.NAME_FORBIDDEN=No se permite al valor "{0}" tener nombre.
 Error.NameException.DUPLICATE=El nombre "{0}" duplica un nombre existente. Elija un nombre diferente.
 Error.NameException.HAS_REFERENCES=El valor {0} tiene un elemento derivado, el nombre no puede eliminarse.
 Error.NameException.INVALID_NAME=El nombre "{0}" no es válido, ya que contiene uno de los siguientes caracteres ".", "/", "\", "!", ";", "," .
+Error.NameException.INVALID_STYLE_NAME=The style name "{0}" is invalid to CSS2 specifications.
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=La propiedad "{0}" no es válida para el elemento "{1}".

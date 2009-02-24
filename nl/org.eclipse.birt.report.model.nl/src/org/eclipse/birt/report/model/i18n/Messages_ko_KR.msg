@@ -3492,6 +3492,7 @@ Error.NameException.NAME_FORBIDDEN={0}은(는) 이름을 가질 수 없습니다.
 Error.NameException.DUPLICATE=이름 "{0}"이(가) 기존 이름과 중복됩니다. 다른 이름을 선택하십시오.
 Error.NameException.HAS_REFERENCES={0}에 파생된 요소가 있어 이름을 지울 수 없습니다.
 Error.NameException.INVALID_NAME=이름 "{0}"이(가) 잘못되었습니다. 다음과 같은 문자를 포함하면 안 됩니다. ".", "/", "\", "!", ";", ","
+Error.NameException.INVALID_STYLE_NAME=The style name "{0}" is invalid to CSS2 specifications.
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=속성 "{0}"은(는) 요소 "{1}"에 알맞지 않습니다.
