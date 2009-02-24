@@ -45,9 +45,8 @@ class DimensionTraverse
 		this.beforeFirst( );
 		this.fetcher = relationMap.fetcher;
 		dimensionCursorPosition = findDimensionPosition( -1 );
-		endPosition = findDimensionPosition( this.relationMap.traverseLength - 1 );
-		edgeStart = 0;
-		edgeEnd = this.relationMap.traverseLength -1;
+		this.edgeStart = 0;
+		this.edgeEnd = this.relationMap.traverseLength -1;
 	}
 	
 	/**
@@ -66,7 +65,6 @@ class DimensionTraverse
 		this.edgeStart = edgeStart;
 		this.edgeEnd = edgeEnd;
 		dimensionCursorPosition = findDimensionPosition( edgeStart -1 );
-		endPosition = findDimensionPosition( edgeEnd );
 	}
 	
 	/**
@@ -574,17 +572,14 @@ class DimensionTraverse
 		}
 		for ( int k = relationMap.mirrorStartPosition; k <= dimAxisIndex; k++ )
 		{
-			int offset = 1;
+			int offset = this.dimensionCursorPosition[k];
+			if ( !isStart && k == dimAxisIndex )
+			{
+				offset = this.dimensionCursorPosition[k] + 1;
+			}
 			for ( int i = k + 1; i < this.dimAxis.length; i++ )
 			{
-				if ( k == dimAxisIndex && !isStart )
-					offset = offset *
-							( this.dimensionCursorPosition[k] + 1 ) *
-							relationMap.mirrorLength[i];
-				else
-					offset = offset *
-							this.dimensionCursorPosition[k] *
-							relationMap.mirrorLength[i];
+				offset = offset * relationMap.mirrorLength[i];
 			}
 			if ( k + 1 < this.dimAxis.length )
 				start += offset;
@@ -671,7 +666,7 @@ class DimensionTraverse
 	 * @param dimensionAxis
 	 * @return
 	 */
-	private EdgeInfo findCurrentEdgeInfo( int dimensionAxis )
+	EdgeInfo findCurrentEdgeInfo( int dimensionAxis )
 	{
 		if ( dimensionAxis < 0 || dimensionAxis > this.dimAxis.length )
 		{
