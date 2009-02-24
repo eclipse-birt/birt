@@ -460,7 +460,7 @@ public final class AxesRenderHelper
 
 		public void handlePostEachTick( int i ) throws ChartException
 		{
-			if ( i == da.size( ) - 2 )
+			if ( i == da.size( ) - 2 && !sc.isSetFactor( ) )
 			{
 				// This is the last tick, use pre-computed value to
 				// handle non-equal scale unit case.

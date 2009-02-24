@@ -293,6 +293,13 @@ public class Methods implements IConstants
 			double dMaximum = asDouble( sc.getMaximum( ) ).doubleValue( );
 			double[] da = sc.getEndPoints( );
 
+			if ( sc.isSetFactor( ) )
+			{
+				double delta = ( dValue - dMinimum ) / sc.getFactor( );
+				return da[0] < da[1] ? da[0] + delta : da[0]
+						- delta;
+			}
+
 			if ( dMaximum == dMinimum )
 			{
 				return da[0];

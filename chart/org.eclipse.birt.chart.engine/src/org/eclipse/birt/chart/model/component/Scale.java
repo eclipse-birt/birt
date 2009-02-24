@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories <em>Tick Between Categories</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#isAutoExpand <em>Auto Expand</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getMajorGridsStepNumber <em>Major Grids Step Number</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getFactor <em>Factor</em>}</li>
  * </ul>
  * </p>
  *
@@ -529,5 +530,60 @@ public interface Scale extends EObject
 	 * @generated
 	 */
 	boolean isSetMajorGridsStepNumber( );
+
+	/**
+	 * Returns the value of the '<em><b>Factor</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 						Specifies the fixed scaling factor.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Factor</em>' attribute.
+	 * @see #isSetFactor()
+	 * @see #unsetFactor()
+	 * @see #setFactor(double)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale_Factor()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 *        extendedMetaData="kind='element' name='Factor'"
+	 * @generated
+	 */
+	double getFactor( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getFactor <em>Factor</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Factor</em>' attribute.
+	 * @see #isSetFactor()
+	 * @see #unsetFactor()
+	 * @see #getFactor()
+	 * @generated
+	 */
+	void setFactor( double value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getFactor <em>Factor</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetFactor()
+	 * @see #getFactor()
+	 * @see #setFactor(double)
+	 * @generated
+	 */
+	void unsetFactor( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getFactor <em>Factor</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Factor</em>' attribute is set.
+	 * @see #unsetFactor()
+	 * @see #getFactor()
+	 * @see #setFactor(double)
+	 * @generated
+	 */
+	boolean isSetFactor( );
 
 } // Scale

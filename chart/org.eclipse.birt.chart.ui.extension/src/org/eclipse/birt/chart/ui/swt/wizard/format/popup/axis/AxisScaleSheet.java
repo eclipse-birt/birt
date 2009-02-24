@@ -87,6 +87,33 @@ public class AxisScaleSheet extends AbstractScaleSheet
 				&& !( getAxisForProcessing( ).isCategoryAxis( ) );
 
 		btnAutoExpand.setEnabled( bEnableAutoExpand );
+
+		if ( getAxisForProcessing( ).getType( ) == AxisType.LINEAR_LITERAL
+				&& !getAxisForProcessing( ).isCategoryAxis( ) )
+		{
+			if ( !getAxisForProcessing( ).getScale( ).isSetStepNumber( ) )
+			{
+				btnFactor.setEnabled( true );
+				if ( btnFactor.getSelection( ) )
+				{
+					txtFactor.setEnabled( true );
+				}
+				else
+				{
+					txtFactor.setEnabled( false );
+				}
+
+			}
+			if ( btnFactor.getSelection( ) )
+			{
+				btnStepNumber.setEnabled( false );
+				spnStepNumber.setEnabled( false );
+				lblMax.setEnabled( false );
+				txtScaleMax.setEnabled( false );
+				lblMin.setEnabled( false );
+				txtScaleMin.setEnabled( false );
+			}
+		}
 	}
 
 }

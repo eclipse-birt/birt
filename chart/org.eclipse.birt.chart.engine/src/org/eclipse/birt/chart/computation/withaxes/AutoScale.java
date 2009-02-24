@@ -89,6 +89,8 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private Integer oStepNumber;
 
+	private double dFactor = -1;
+
 	private Object oUnit;
 
 	private double dStartShift;
@@ -708,7 +710,9 @@ public final class AutoScale extends Methods implements Cloneable
 
 	final void setTickCordinates( AxisTickCoordinates atc )
 	{
-		if ( atc != null && atc.size( ) == 1 )
+		// if the factor is set, the tick number can be 1 if the step size is
+		// large.
+		if ( atc != null && atc.size( ) == 1 && !isSetFactor( ) )
 		{
 			throw new RuntimeException( new ChartException( ChartEnginePlugin.ID,
 					ChartException.COMPUTATION,
@@ -1061,6 +1065,21 @@ public final class AutoScale extends Methods implements Cloneable
 	public final void setStepNumber( Integer o )
 	{
 		this.oStepNumber = o;
+	}
+
+	public final double getFactor( )
+	{
+		return dFactor;
+	}
+
+	private void setFctor( double factor )
+	{
+		this.dFactor = factor;
+	}
+
+	public final boolean isSetFactor( )
+	{
+		return dFactor < 0 ? false : true;
 	}
 
 	/**
@@ -1962,6 +1981,116 @@ public final class AutoScale extends Methods implements Cloneable
 
 		final boolean bIsPercent = ax.getModelAxis( ).isPercent( );
 
+		// if factor is set
+		// add the factor logic separately
+		if ( scModel.isSetFactor( )
+				&& ( iType & LINEAR ) == LINEAR && !ax.isCategoryScale( ) )
+		{
+			// translate from value/point to value/pixel
+			double factor = scModel.getFactor( ) * 72 / xs.getDpiResolution( );
+
+			Object oValue;
+			double dValue, dMinValue = Double.MAX_VALUE, dMaxValue = -Double.MAX_VALUE;
+			dsi.reset( );
+			double dPrecision = 0;
+			while ( dsi.hasNext( ) )
+			{
+				oValue = dsi.next( );
+				if ( oValue == null ) // NULL VALUE CHECK
+				{
+					continue;
+				}
+				dValue = ( (Double) oValue ).doubleValue( );
+				if ( dValue < dMinValue )
+					dMinValue = dValue;
+				if ( dValue > dMaxValue )
+					dMaxValue = dValue;
+				dPrecision = getPrecision( dPrecision,
+						dValue,
+						fs,
+						rtc.getULocale( ),
+						bIsPercent );
+			}
+			
+			// modify min and max to include zero point
+			if ( dMinValue * dMaxValue > 0 )
+			{
+				if ( dMinValue > 0)
+				{
+					dMinValue = 0d;
+				}
+				else
+				{
+					dMaxValue = 0d;
+				}
+			}
+
+			// provide max value to compute a nice step size
+			double length = Math.abs( dEnd - dStart );
+			double valueLength = length * factor;
+			dMaxValue = dMinValue + valueLength;
+
+			double dStep = 1;
+
+			double dDelta = dMaxValue - dMinValue;
+			if ( dDelta == 0 ) // Min == Max
+			{
+				dStep = dPrecision;
+			}
+			else
+			{
+				dStep = Math.floor( Math.log( dDelta ) / LOG_10 );
+				dStep = Math.pow( 10, dStep );
+				// The automatic step should never be more precise than the
+				// data itself
+				if ( dStep < dPrecision )
+				{
+					dStep = dPrecision;
+				}
+			}
+			sc = new AutoScale( iType, new Double( 0 ), new Double( 0 ) );
+			sc.setStep( new Double( dStep ) );
+			sc.bStepFixed = true;
+			sc.oStepNumber = oStepNumber;
+			sc.setData( dsi );
+			sc.setDirection( direction );
+			sc.fs = fs; // FORMAT SPECIFIER
+			sc.rtc = rtc; // LOCALE
+			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
+			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
+			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
+			sc.dZoomFactor = zoomFactor;
+			sc.dPrecision = dPrecision;
+			sc.iMarginPercent = iMarginPercent;
+			sc.bExpandMinMax = scModel.isAutoExpand( );
+			sc.bAlignZero = ax.getModelAxis( ).isAligned( );
+
+			// OVERRIDE STEP IF SPECIFIED
+			// ignore step number if factor is set
+			setStepToScale( sc, oStep, null, rtc );
+
+			oMinValue = new Double( dMinValue );
+			oMaxValue = new Double( dMaxValue );
+			sc.setMinimum( oMinValue );
+			sc.setMaximum( oMaxValue );
+
+			sc.setFctor( factor );
+
+			sc.computeTicks( xs,
+					la,
+					iLabelLocation,
+					iOrientation,
+					dStart,
+					dEnd,
+					false,
+					null );
+
+			sc.setData( dsi );
+			return sc;
+
+		}
+
+		// the following code didn't change in factor enhancement:210913
 		if ( ( iType & TEXT ) == TEXT || ax.isCategoryScale( ) )
 		{
 			sc = new AutoScale( iType );
@@ -2649,6 +2778,25 @@ public final class AutoScale extends Methods implements Cloneable
 		// Update member variables
 		this.dStart = dStart;
 		this.dEnd = dEnd;
+
+		if ( isSetFactor( ) )
+		{
+			double step = Methods.asDouble( getStep( ) ).doubleValue( );
+			dTickGap = step / getFactor( );
+			int stepNum = (int) ( Math.abs( dStart - dEnd ) / dTickGap );
+			AxisTickCoordinates atc = new AxisTickCoordinates( stepNum + 1,
+					dStart,
+					dStart < dEnd ? dStart + dTickGap * stepNum : dStart
+							- dTickGap * stepNum,
+					dTickGap * iDirection,
+					true );
+
+
+
+			setTickCordinates( atc );
+			checkTickLabelsVisibility( xs, la, iLabelLocation );
+			return stepNum + 1;
+		}
 
 		nTicks = getTickCount( );
 		dLength = Math.abs( dStart - dEnd );

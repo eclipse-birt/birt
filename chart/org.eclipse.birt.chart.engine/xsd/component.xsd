@@ -692,6 +692,13 @@ It can be used to denote a target value or threshold.</xsd:documentation>
 				<xsd:annotation>
 					<xsd:documentation>Specify the step number of axis grid lines.</xsd:documentation>
 				</xsd:annotation></xsd:element>
+			<xsd:element name="Factor" type="xsd:double">
+				<xsd:annotation>
+					<xsd:documentation>
+						Specifies the fixed scaling factor.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ChartPreferences">

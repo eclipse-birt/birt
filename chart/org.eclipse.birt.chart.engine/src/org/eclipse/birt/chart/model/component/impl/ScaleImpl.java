@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isTickBetweenCategories <em>Tick Between Categories</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isAutoExpand <em>Auto Expand</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMajorGridsStepNumber <em>Major Grids Step Number</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getFactor <em>Factor</em>}</li>
  * </ul>
  * </p>
  *
@@ -289,6 +290,35 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * @ordered
 	 */
 	protected boolean majorGridsStepNumberESet;
+
+	/**
+	 * The default value of the '{@link #getFactor() <em>Factor</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFactor()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double FACTOR_EDEFAULT = 0.0;
+
+	/**
+	 * The cached value of the '{@link #getFactor() <em>Factor</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFactor()
+	 * @generated
+	 * @ordered
+	 */
+	protected double factor = FACTOR_EDEFAULT;
+
+	/**
+	 * This is true if the Factor attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean factorESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -910,6 +940,66 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public double getFactor( )
+	{
+		return factor;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFactor( double newFactor )
+	{
+		double oldFactor = factor;
+		factor = newFactor;
+		boolean oldFactorESet = factorESet;
+		factorESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.SCALE__FACTOR,
+					oldFactor,
+					factor,
+					!oldFactorESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetFactor( )
+	{
+		double oldFactor = factor;
+		boolean oldFactorESet = factorESet;
+		factor = FACTOR_EDEFAULT;
+		factorESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.SCALE__FACTOR,
+					oldFactor,
+					FACTOR_EDEFAULT,
+					oldFactorESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetFactor( )
+	{
+		return factorESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
@@ -955,6 +1045,8 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				return isAutoExpand( ) ? Boolean.TRUE : Boolean.FALSE;
 			case ComponentPackage.SCALE__MAJOR_GRIDS_STEP_NUMBER :
 				return new Integer( getMajorGridsStepNumber( ) );
+			case ComponentPackage.SCALE__FACTOR :
+				return new Double( getFactor( ) );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -998,6 +1090,9 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				return;
 			case ComponentPackage.SCALE__MAJOR_GRIDS_STEP_NUMBER :
 				setMajorGridsStepNumber( ( (Integer) newValue ).intValue( ) );
+				return;
+			case ComponentPackage.SCALE__FACTOR :
+				setFactor( ( (Double) newValue ).doubleValue( ) );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -1043,6 +1138,9 @@ public class ScaleImpl extends EObjectImpl implements Scale
 			case ComponentPackage.SCALE__MAJOR_GRIDS_STEP_NUMBER :
 				unsetMajorGridsStepNumber( );
 				return;
+			case ComponentPackage.SCALE__FACTOR :
+				unsetFactor( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -1077,6 +1175,8 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				return isSetAutoExpand( );
 			case ComponentPackage.SCALE__MAJOR_GRIDS_STEP_NUMBER :
 				return isSetMajorGridsStepNumber( );
+			case ComponentPackage.SCALE__FACTOR :
+				return isSetFactor( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -1130,6 +1230,11 @@ public class ScaleImpl extends EObjectImpl implements Scale
 		result.append( ", majorGridsStepNumber: " ); //$NON-NLS-1$
 		if ( majorGridsStepNumberESet )
 			result.append( majorGridsStepNumber );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", factor: " ); //$NON-NLS-1$
+		if ( factorESet )
+			result.append( factor );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );

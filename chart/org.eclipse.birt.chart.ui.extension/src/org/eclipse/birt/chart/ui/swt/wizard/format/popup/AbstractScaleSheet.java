@@ -62,6 +62,10 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 	protected Button btnStepAuto = null;
 
+	protected Button btnFactor = null;
+
+	protected TextEditorComposite txtFactor = null;
+
 	protected TextEditorComposite txtStepSize = null;
 
 	protected Label lblUnit = null;
@@ -177,6 +181,41 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		new Label( grpScale, SWT.NONE );
 		new Label( grpScale, SWT.NONE );
 
+		btnFactor = new Button( cmpContent, SWT.CHECK );
+		{
+			btnFactor.setText( Messages.getString("AbstractScaleSheet.Label.Factor") ); //$NON-NLS-1$
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 2;
+			btnFactor.setLayoutData( gd );
+			btnFactor.addListener( SWT.Selection, this );
+			if ( getScale( ).isSetFactor( ) )
+			{
+				btnFactor.setSelection( true );
+			}
+			else
+			{
+				btnFactor.setSelection( false );
+			}
+		}
+
+		txtFactor = new TextEditorComposite( cmpContent, SWT.BORDER
+				| SWT.SINGLE, TextEditorComposite.TYPE_NUMBERIC );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			// gd.widthHint = 100;
+			gd.horizontalSpan = 2;
+			txtFactor.setLayoutData( gd );
+			String str = ""; //$NON-NLS-1$
+			if ( getScale( ).isSetFactor( ) )
+			{
+				str = String.valueOf( getScale( ).getFactor( ) );
+			}
+			txtFactor.setText( str );
+			txtFactor.addListener( this );
+			txtFactor.addListener( SWT.Modify, this );
+			txtFactor.setDefaultValue( "" ); //$NON-NLS-1$
+		}
+
 		lblMin = new Label( cmpContent, SWT.NONE );
 		lblMin.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Minimum" ) ); //$NON-NLS-1$
 
@@ -273,6 +312,9 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		spnStepNumber.setEnabled( bEnabled
 				&& btnStepNumber.getSelection( )
 				&& getValueType( ) == TextEditorComposite.TYPE_NUMBERIC );
+
+		btnFactor.setEnabled( false );
+		txtFactor.setEnabled( false );
 
 		lblMin.setEnabled( bEnabled );
 		lblMax.setEnabled( bEnabled );
@@ -433,6 +475,47 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		{
 			getScale( ).setAutoExpand( btnAutoExpand.getSelection( ) );
 		}
+		else if ( event.widget == btnFactor )
+		{
+			if ( btnFactor.getSelection( ) )
+			{
+				getScale( ).unsetStepNumber( );
+				txtFactor.notifyListeners( SWT.Modify, null );
+			}
+			else
+			{
+				getScale( ).unsetFactor( );
+			}
+			setState( );
+		}
+		else if ( event.widget == txtFactor )
+		{
+			try
+			{
+				if ( txtFactor.getText( ).length( ) == 0 )
+				{
+					getScale( ).eUnset( ComponentPackage.eINSTANCE.getScale_Factor( ) );
+				}
+				else
+				{
+					double dbl = Double.valueOf( txtFactor.getText( ) )
+							.doubleValue( );
+					if ( dbl == 0 )
+					{
+						getScale( ).eUnset( ComponentPackage.eINSTANCE.getScale_Factor( ) );
+					}
+					else
+					{
+						getScale( ).setFactor( dbl );
+					}
+				}
+			}
+			catch ( NumberFormatException e1 )
+			{
+				txtFactor.setText( String.valueOf( getScale( ).getFactor( ) ) );
+			}
+		}
+
 	}
 
 	protected abstract Scale getScale( );
