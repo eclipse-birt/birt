@@ -60,8 +60,7 @@ public class ParameterBindingDialog extends BaseDialog
 		GridData data = new GridData( GridData.FILL_BOTH );
 		data.heightHint = 300;
 		page.setLayoutData( data );
-		this.getShell( )
-				.setText( Messages.getString( "parameterBinding.title" ) ); //$NON-NLS-1$
+		this.setTitle( Messages.getString( "ParameterBindingDialog.title" ) ); //$NON-NLS-1$
 		return composite;
 	}
 }

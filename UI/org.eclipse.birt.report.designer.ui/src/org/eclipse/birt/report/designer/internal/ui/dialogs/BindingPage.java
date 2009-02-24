@@ -83,7 +83,7 @@ public class BindingPage extends Composite implements Listener
 
 	private transient boolean enableAutoCommit = true;
 
-	private static final String DATA_SET_LABEL = Messages.getString( "Element.ReportItem.dataSet" ); //$NON-NLS-1$
+	private static final String DATA_SET_LABEL = Messages.getString( "BindingPage.Dataset.Label" ); //$NON-NLS-1$
 	private static final String REPORT_ITEM__LABEL = Messages.getString( "BindingPage.ReportItem.Label" ); //$NON-NLS-1$
 	private static final String BUTTON_BINDING = Messages.getString( "parameterBinding.title" ); //$NON-NLS-1$
 	private DataSetColumnBindingsFormPage columnBindingsFormPage;
