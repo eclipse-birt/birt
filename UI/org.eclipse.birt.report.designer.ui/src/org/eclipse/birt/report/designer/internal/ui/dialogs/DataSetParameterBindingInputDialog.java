@@ -90,8 +90,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 		IChoice choice = DATA_TYPE_CHOICE_SET.findChoice( type );
 		if ( choice != null )
 			return choice.getDisplayName( );
-		return DATA_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING )
-				.getDisplayName( );
+		return type;
 	}
 
 	protected Control createDialogArea( Composite parent )
