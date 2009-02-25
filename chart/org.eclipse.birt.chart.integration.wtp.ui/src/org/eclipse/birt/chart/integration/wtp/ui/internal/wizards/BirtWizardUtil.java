@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
@@ -289,10 +290,13 @@ public class BirtWizardUtil implements IBirtWizardConstants
 					list );
 			op.run( monitor );
 		}
-		catch ( Exception e )
+		catch(InterruptedException e)
+		{
+			// User cancel operation
+		}
+		catch ( InvocationTargetException e )
 		{
 			String message = srcZipFile.getName( ) + ": " + e.getMessage( ); //$NON-NLS-1$
-			Logger.logException( e );
 			throw ChartIntegrationException.getException( message, e );
 		}
 	}
