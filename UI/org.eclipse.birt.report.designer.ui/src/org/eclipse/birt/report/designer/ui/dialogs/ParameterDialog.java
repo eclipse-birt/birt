@@ -75,6 +75,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -83,6 +84,8 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -506,6 +509,8 @@ public class ParameterDialog extends BaseDialog
 
 	private Text listLimit;
 
+	private Composite displayArea;
+
 	/**
 	 * Create a new parameter dialog with given title under the active shell
 	 * 
@@ -539,17 +544,32 @@ public class ParameterDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		Composite parentComposite = (Composite) super.createDialogArea( parent );
+		ScrolledComposite scrollContent = new ScrolledComposite( (Composite) super.createDialogArea( parent ),
+				SWT.H_SCROLL | SWT.V_SCROLL );
+		scrollContent.setAlwaysShowScrollBars( false );
+		scrollContent.setExpandHorizontal( true );
+		scrollContent.setMinWidth( 600 );
+		scrollContent.setLayout( new FillLayout( ) );
+		scrollContent.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		Composite topComposite = new Composite( parentComposite, SWT.NONE );
+		displayArea = new Composite( scrollContent, SWT.NONE );
+
+		Composite topComposite = new Composite( displayArea, SWT.NONE );
 		topComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		topComposite.setLayout( new GridLayout( 2, false ) );
 
 		createPropertiesSection( topComposite );
 		createDisplayOptionsSection( topComposite );
-		createValuesDefineSection( parentComposite );
+		createValuesDefineSection( displayArea );
+		displayArea.setLayout( new GridLayout( ) );
+
+		Point size = displayArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		displayArea.setSize( size );
+
+		scrollContent.setContent( displayArea );
+
 		UIUtil.bindHelp( parent, IHelpContextIds.PARAMETER_DIALOG_ID );
-		return parentComposite;
+		return scrollContent;
 	}
 
 	private void createPropertiesSection( Composite composite )
@@ -895,6 +915,10 @@ public class ParameterDialog extends BaseDialog
 				.getDisplayName( ) );
 		switchParamterType( );
 		loading = false;
+
+		Point size = displayArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		displayArea.setSize( size );
+
 		return true;
 	}
 
@@ -2181,7 +2205,7 @@ public class ParameterDialog extends BaseDialog
 
 			PropertyHandle selectionChioceList = inputParameter.getPropertyHandle( ScalarParameterHandle.SELECTION_LIST_PROP );
 			// Clear original choices list
-			selectionChioceList.setValue( new ArrayList() );
+			selectionChioceList.setValue( new ArrayList( ) );
 
 			if ( isStatic( ) )
 			{
@@ -2835,7 +2859,7 @@ public class ParameterDialog extends BaseDialog
 				double doulbeValue = DEFAULT_PREVIEW_NUMBER;
 
 				if ( defaultValue != null )
-				{					
+				{
 					try
 					{
 						doulbeValue = Double.parseDouble( defaultValue );

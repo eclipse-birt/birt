@@ -83,6 +83,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -330,13 +331,13 @@ public class CascadingParametersDialog extends BaseDialog
 		sc.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		applyDialogFont( sc );
 
-		Composite composite = new Composite( sc, SWT.NONE );
+		mainContent = new Composite( sc, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.marginHeight = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_MARGIN );
 		layout.marginWidth = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_MARGIN );
 		layout.verticalSpacing = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_SPACING );
 		layout.horizontalSpacing = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_SPACING );
-		composite.setLayout( layout );
+		mainContent.setLayout( layout );
 
 		UIUtil.bindHelp( parent, IHelpContextIds.CASCADING_PARAMETER_DIALOG_ID );
 
@@ -344,36 +345,39 @@ public class CascadingParametersDialog extends BaseDialog
 		data.widthHint = 600;
 
 		maxStrLengthProperty = getMaxStrLength( PROPERTY_LABEL_STRING,
-				composite );
+				mainContent );
 
-		maxStrLengthOption = getMaxStrLength( OPTION_LABEL_STRING, composite );
+		maxStrLengthOption = getMaxStrLength( OPTION_LABEL_STRING, mainContent );
 
-		composite.setLayoutData( data );
+		mainContent.setLayoutData( data );
 
-		createGeneralPart( composite );
+		createGeneralPart( mainContent );
 
-		createChoicePart( composite );
+		createChoicePart( mainContent );
 
-		createDynamicParamsPart( composite );
+		createDynamicParamsPart( mainContent );
 
-		createPropertiesPart( composite );
+		createPropertiesPart( mainContent );
 
-		createSortingArea( composite );
+		createSortingArea( mainContent );
 
-		createOptionsPart( composite );
+		createOptionsPart( mainContent );
 
-		createLabel( composite, null );
-		errorMessageLine = new CLabel( composite, SWT.NONE );
+		createLabel( mainContent, null );
+		errorMessageLine = new CLabel( mainContent, SWT.NONE );
 		GridData msgLineGridData = new GridData( GridData.FILL_HORIZONTAL );
 		msgLineGridData.horizontalSpan = 2;
 		errorMessageLine.setLayoutData( msgLineGridData );
 
-		sc.setContent( composite );
+		sc.setContent( mainContent );
 		sc.setExpandHorizontal( true );
-		sc.setExpandVertical( true );
+//		sc.setExpandVertical( true );
 		sc.setMinWidth( 600 );
-		sc.setMinHeight( 570 );
+//		sc.setMinHeight( 570 );
 
+		Point size = mainContent.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		mainContent.setSize( size );
+		
 		return sc;
 	}
 
@@ -1161,6 +1165,10 @@ public class CascadingParametersDialog extends BaseDialog
 		refreshParameterProperties( );
 		initSorttingArea( );
 		updateButtons( );
+
+		Point size = mainContent.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		mainContent.setSize( size );
+		
 		return true;
 	}
 
@@ -1532,6 +1540,7 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 
 	};
+	private Composite mainContent;
 
 	protected int getTableIndex( Object element )
 	{
