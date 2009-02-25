@@ -497,9 +497,12 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 			Dimension dim = ( (MultipleGuideHandle) target ).calculateIndicatorDimension( );
 			bounds = new PrecisionRectangle( new Rectangle( bounds.x, bounds.y
 					+ bounds.height, dim.width, dim.height ) );
-
+			Rectangle copy = bounds.getCopy( );
 			getReference( ).translateToAbsolute( bounds );
 			target.translateToRelative( bounds );
+			bounds.width = copy.width;
+			bounds.height = copy.height;
+			
 			target.setBounds( bounds );
 			relocateChildren( target, getReference( ) );
 		}
