@@ -1124,6 +1124,30 @@ public class EngineIRReader implements IOConstants
 				boolean displayGroupIcon = IOUtil.readBool( in );
 				cell.setDisplayGroupIcon( displayGroupIcon );
 				break;
+			case FIELD_DIAGONAL_NUMBER :
+				int diagonalNumber = IOUtil.readInt( in );
+				cell.setDiagonalNumber( diagonalNumber );
+				break;
+			case FIELD_DIAGONAL_STYLE :
+				String diagonalStyle = IOUtil.readString( in );
+				cell.setDiagonalStyle( diagonalStyle );
+				break;
+			case FIELD_DIAGONAL_WIDTH :
+				DimensionType diagonalWidth = readDimension( in );
+				cell.setDiagonalWidth( diagonalWidth );
+				break;
+			case FIELD_ANTIDIAGONAL_NUMBER :
+				int antidiagonalNumber = IOUtil.readInt( in );
+				cell.setAntidiagonalNumber( antidiagonalNumber );
+				break;
+			case FIELD_ANTIDIAGONAL_STYLE :
+				String antidiagonalStyle = IOUtil.readString( in );
+				cell.setAntidiagonalStyle( antidiagonalStyle );
+				break;
+			case FIELD_ANTIDIAGONAL_WIDTH :
+				DimensionType antidiagonalWidth = readDimension( in );
+				cell.setAntidiagonalWidth( antidiagonalWidth );
+				break;
 			default :
 				readReportItemField( in, cell, fieldType );
 		}

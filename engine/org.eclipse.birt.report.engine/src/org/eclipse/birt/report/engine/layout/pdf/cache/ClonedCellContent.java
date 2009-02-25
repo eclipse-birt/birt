@@ -368,6 +368,66 @@ public class ClonedCellContent implements ICellContent
 		throw new UnsupportedOperationException( "setACL" );
 	}
 
+	public void setDiagonalNumber( int diagonalNumber )
+	{
+		throw new UnsupportedOperationException( "setDiagonalNumber" );
+	}
+
+	public int getDiagonalNumber( )
+	{
+		return cellContent.getDiagonalNumber( );
+	}
+
+	public void setDiagonalStyle( String diagonalStyle )
+	{
+		throw new UnsupportedOperationException( "setDiagonalStyle" );
+	}
+
+	public String getDiagonalStyle( )
+	{
+		return cellContent.getDiagonalStyle( );
+	}
+
+	public void setDiagonalWidth( DimensionType diagonalWidth )
+	{
+		throw new UnsupportedOperationException( "setDiagonalWidth" );
+	}
+
+	public DimensionType getDiagonalWidth( )
+	{
+		return cellContent.getDiagonalWidth( );
+	}
+
+	public void setAntidiagonalNumber( int antidiagonalNumber )
+	{
+		throw new UnsupportedOperationException( "setAntidiagonalNumber" );
+	}
+
+	public int getAntidiagonalNumber( )
+	{
+		return cellContent.getAntidiagonalNumber( );
+	}
+
+	public void setAntidiagonalStyle( String antidiagonalStyle )
+	{
+		throw new UnsupportedOperationException( "setAntidiagonalStyle" );
+	}
+
+	public String getAntidiagonalStyle( )
+	{
+		return cellContent.getAntidiagonalStyle( );
+	}
+
+	public void setAntidiagonalWidth( DimensionType antidiagonalWidth )
+	{
+		throw new UnsupportedOperationException( "setAntidiagonalWidth" );
+	}
+
+	public DimensionType getAntidiagonalWidth( )
+	{
+		return cellContent.getAntidiagonalWidth( );
+	}
+
 	public String getHeaders( )
 	{
 		return cellContent.getHeaders( );

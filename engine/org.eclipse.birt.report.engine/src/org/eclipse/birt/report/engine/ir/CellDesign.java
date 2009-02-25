@@ -47,7 +47,31 @@ public class CellDesign extends ReportItemDesign
 	 * If group icon should be displayed in this cell.
 	 */
 	private boolean displayGroupIcon = false;
-
+	/**
+	 * The number of the diagonal line.
+	 */
+	private int diagonalNumber = -1;
+	/**
+	 * The style of the diagonal line.
+	 */
+	private String diagonalStyle = null;
+	/**
+	 * The width of the diagonal line.
+	 */
+	private DimensionType diagonalWidth = null;
+	/**
+	 * The number of the antidiagonal line.
+	 */
+	private int antidiagonalNumber = -1;
+	/**
+	 * The style of the antidiagonal line.
+	 */
+	private String antidiagonalStyle = null;
+	/**
+	 * The width of the antidiagonal line.
+	 */
+	private DimensionType antidiagonalWidth = null;
+	
 	private String headers;
 
 	private String scope;
@@ -168,6 +192,66 @@ public class CellDesign extends ReportItemDesign
 	public boolean getDisplayGroupIcon( )
 	{
 		return displayGroupIcon;
+	}
+
+	public void setDiagonalNumber( int diagonalNumber )
+	{
+		this.diagonalNumber = diagonalNumber;
+	}
+
+	public int getDiagonalNumber( )
+	{
+		return diagonalNumber;
+	}
+
+	public void setDiagonalStyle( String diagonalStyle )
+	{
+		this.diagonalStyle = diagonalStyle;
+	}
+
+	public String getDiagonalStyle( )
+	{
+		return diagonalStyle;
+	}
+
+	public void setDiagonalWidth( DimensionType diagonalWidth )
+	{
+		this.diagonalWidth = diagonalWidth;
+	}
+
+	public DimensionType getDiagonalWidth( )
+	{
+		return diagonalWidth;
+	}
+
+	public void setAntidiagonalNumber( int antidiagonalNumber )
+	{
+		this.antidiagonalNumber = antidiagonalNumber;
+	}
+
+	public int getAntidiagonalNumber( )
+	{
+		return antidiagonalNumber;
+	}
+
+	public void setAntidiagonalStyle( String antidiagonalStyle )
+	{
+		this.antidiagonalStyle = antidiagonalStyle;
+	}
+
+	public String getAntidiagonalStyle( )
+	{
+		return antidiagonalStyle;
+	}
+
+	public void setAntidiagonalWidth( DimensionType antidiagonalWidth )
+	{
+		this.antidiagonalWidth = antidiagonalWidth;
+	}
+
+	public DimensionType getAntidiagonalWidth( )
+	{
+		return antidiagonalWidth;
 	}
 
 	public void setHeaders( String headers )

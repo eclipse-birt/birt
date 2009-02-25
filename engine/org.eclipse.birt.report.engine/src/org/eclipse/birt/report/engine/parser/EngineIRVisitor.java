@@ -1342,6 +1342,15 @@ public class EngineIRVisitor extends DesignVisitor
 		cell.setOnPageBreak( handle.getOnPageBreak( ) );
 		*/
 		
+		cell.setDiagonalNumber( handle.getDiagonalNumber( ) );
+		cell.setDiagonalStyle( handle.getDiagonalStyle( ) );
+		cell.setDiagonalWidth( createDimension( handle.getDiagonalThickness( ),
+				false ) );
+		cell.setAntidiagonalNumber( handle.getAntidiagonalNumber( ) );
+		cell.setAntidiagonalStyle( handle.getAntidiagonalStyle( ) );
+		cell.setAntidiagonalWidth( createDimension( handle.getAntidiagonalThickness( ),
+				false ) );
+				
 		setCurrentElement( cell );
 	}
 	

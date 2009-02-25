@@ -102,6 +102,12 @@ public interface IOConstants
 	static final short FIELD_ROW_SPAN = 102;
 	static final short FIELD_DROP = 103;
 	static final short FIELD_DISPLAY_GROUP_ICON = 104;
+	static final short FIELD_DIAGONAL_NUMBER = 105;
+	static final short FIELD_DIAGONAL_STYLE = 106;
+	static final short FIELD_DIAGONAL_WIDTH = 107;
+	static final short FIELD_ANTIDIAGONAL_NUMBER = 108;
+	static final short FIELD_ANTIDIAGONAL_STYLE = 109;
+	static final short FIELD_ANTIDIAGONAL_WIDTH = 110;
 
 	// label
 	static final short FIELD_TEXT = 110;

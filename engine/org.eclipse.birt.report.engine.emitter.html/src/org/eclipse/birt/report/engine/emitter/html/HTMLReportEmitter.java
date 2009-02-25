@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
@@ -66,6 +67,7 @@ import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
 import org.eclipse.birt.report.engine.emitter.HTMLWriter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
+import org.eclipse.birt.report.engine.emitter.html.util.DiagonalLineImage;
 import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
 import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementExceptionInfo;
 import org.eclipse.birt.report.engine.executor.css.HTMLProcessor;
@@ -76,6 +78,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.engine.util.SvgFile;
@@ -232,6 +235,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * indicates that the styled element is hidden or not
 	 */
 	protected Stack stack = new Stack( );
+	
+	HashMap<Long, String> diagonalCellImageMap = new HashMap( );
 
 	/**
 	 * An Log object that <code>HTMLReportEmitter</code> use to log the error,
@@ -292,7 +297,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	private String layoutPreference;
 	private boolean enableAgentStyleEngine;
 	private boolean outputMasterPageMargins;
+	/**
+	 * Following names will be name spaced by htmlIDNamespace: a.CSS style name.
+	 * b.id (bookmark). c.script name, which is created by BIRT.
+	 */
 	protected String htmlIDNamespace;
+	protected int imageDpi = -1;
 	
 	protected HTMLEmitter htmlEmitter;
 	protected Stack tableDIVWrapedFlagStack = new Stack( );
@@ -519,10 +529,30 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		ReportDesignHandle designHandle= null;
 		Report reportDesign = null;
-		if ( report != null)
+		if ( report != null )
 		{
 			reportDesign = report.getDesign( );
 			designHandle = reportDesign.getReportDesign( );
+
+			// Get dpi.
+			Map appContext = reportContext.getAppContext( );
+			if ( appContext != null )
+			{
+				Object tmp = appContext.get( EngineConstants.APPCONTEXT_CHART_RESOLUTION );
+				if ( tmp != null && tmp instanceof Number )
+				{
+					imageDpi = ( (Number) tmp ).intValue( );
+				}
+			}
+			if ( imageDpi <= 0 )
+			{
+				imageDpi = designHandle.getImageDPI( );
+			}
+			if ( imageDpi <= 0 )
+			{
+				// Set default image dpi.
+				imageDpi = 96;
+			}
 		}
 		retrieveRtLFlag( ); // bidi_hcg
 		if ( null == layoutPreference )
@@ -1772,10 +1802,109 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			startedGroups.clear( );
 		}
 		
+		startDiagonalCell( cell );
+		
 		if ( enableMetadata )
 		{
 			metadataEmitter.startCell( cell );
 		}
+	}
+	
+	protected void startDiagonalCell( ICellContent cell )
+	{
+		if ( cell.getDiagonalNumber( ) <= 0
+				&& cell.getAntidiagonalNumber( ) <= 0 )
+		{
+			return;
+		}
+
+		String imgUri = diagonalCellImageMap.get( cell.getInstanceID( )
+				.getComponentID( ) );
+		if ( imgUri == null )
+		{
+			// prepare to get the diagnal line image.
+			DiagonalLineImage imageCreater = new DiagonalLineImage( );
+			imageCreater.setDiagonalLine( cell.getDiagonalNumber( ),
+					cell.getDiagonalStyle( ),
+					cell.getDiagonalWidth( ) );
+			imageCreater.setAntidiagonalLine( cell.getAntidiagonalNumber( ),
+					cell.getAntidiagonalStyle( ),
+					cell.getAntidiagonalWidth( ) );
+			imageCreater.setImageDpi( imageDpi );
+			imageCreater.setImageSize( getCellWidth( cell ),
+					getCellHeight( cell ) );
+			IStyle cellComputedStyle = cell.getComputedStyle( );
+			String strColor = cellComputedStyle.getColor( );
+			imageCreater.setColor( PropertyUtil.getColor( strColor ) );
+			byte[] imageByteArray = null;
+			try
+			{
+				// draw the diagnal line image.
+				imageByteArray = imageCreater.drawImage( );
+			}
+			catch ( IOException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
+			}
+			if ( imageByteArray != null )
+			{
+				// get the image URI.
+				Image image = new Image( imageByteArray, null, ".png" );
+				imgUri = imageHandler.onCustomImage( image, reportContext );
+				if ( imgUri != null )
+				{
+					// Cache the image URI.
+					diagonalCellImageMap.put( cell.getInstanceID( )
+							.getComponentID( ), imgUri );
+				}
+			}
+		}
+
+		// FIXME: We should continue to improve the HTML source of how to output
+		// the diagonal line image.
+		// FIXME: We still need to solve the confilct between the cell's
+		// background and the diagonal line imag.
+		writer.openTag( HTMLTags.TAG_DIV );
+		writer.attribute( HTMLTags.ATTR_STYLE,
+				"position: relative; height: 100%;" );
+		if ( imgUri != null )
+		{
+			writer.openTag( HTMLTags.TAG_IMAGE );
+			writer.attributeAllowEmpty( HTMLTags.ATTR_ALT, "" );
+			writer.attribute( HTMLTags.ATTR_SRC, imgUri );
+			writer.attribute( HTMLTags.ATTR_STYLE,
+					"position: absolute; width: 100%; height: 100%; z-index: -1;" );
+			if ( null == htmlIDNamespace )
+			{
+				writer.attribute( HTMLTags.ATTR_ONLOAD, "fixPNG(this)" ); //$NON-NLS-1$
+			}
+			else
+			{
+				writer.attribute( HTMLTags.ATTR_ONLOAD, htmlIDNamespace
+						+ "fixPNG(this)" ); //$NON-NLS-1$
+			}
+			writer.closeTag( HTMLTags.TAG_IMAGE );
+		}
+	}
+
+	protected DimensionType getCellWidth( ICellContent cell )
+	{
+		IColumn column = cell.getColumnInstance( );
+		if ( null != column )
+		{
+			return column.getWidth( );
+		}
+		return null;
+	}
+
+	protected DimensionType getCellHeight( ICellContent cell )
+	{
+		IElement row = cell.getParent( );
+		if ( row instanceof IRowContent )
+		{
+			return ( (IRowContent) row ).getHeight( );
+		}
+		return null;
 	}
 
 	/*
@@ -1791,6 +1920,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			metadataEmitter.endCell( cell );
 		}
+		
+		endDiagonalCell( cell );
+		
 		if ( isCellInHead( cell )	)
 		{
 			writer.closeTag( HTMLTags.TAG_TH );
@@ -1798,6 +1930,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		else
 		{
 			writer.closeTag( HTMLTags.TAG_TD );
+		}
+	}
+
+	protected void endDiagonalCell( ICellContent cell )
+	{
+		if ( cell.getDiagonalNumber( ) > 0 || cell.getAntidiagonalNumber( ) > 0 )
+		{
+			writer.closeTag( HTMLTags.TAG_DIV );
 		}
 	}
 

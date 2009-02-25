@@ -28,6 +28,7 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.dom.CellComputedStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.ir.CellDesign;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
  * 
@@ -57,6 +58,31 @@ public class CellContent extends AbstractContent implements ICellContent
 	 * Flag indicading if this cell is the start of a group.
 	 */
 	protected Boolean displayGroupIcon;
+	
+	/**
+	 * The number of the diagonal line.
+	 */
+	private int diagonalNumber = -1;
+	/**
+	 * The style of the diagonal line.
+	 */
+	private String diagonalStyle = null;
+	/**
+	 * The width of the diagonal line.
+	 */
+	private DimensionType diagonalWidth = null;
+	/**
+	 * The number of the antidiagonal line.
+	 */
+	private int antidiagonalNumber = -1;
+	/**
+	 * The style of the antidiagonal line.
+	 */
+	private String antidiagonalStyle = null;
+	/**
+	 * The width of the antidiagonal line.
+	 */
+	private DimensionType antidiagonalWidth = null;
 
 	private String headers;
 
@@ -86,6 +112,12 @@ public class CellContent extends AbstractContent implements ICellContent
 		this.column = cell.getColumn( );
 		this.displayGroupIcon = new Boolean(cell.getDisplayGroupIcon( ));
 		this.columnInstance = cell.getColumnInstance( );
+		this.diagonalNumber = cell.getDiagonalNumber( );
+		this.diagonalStyle = cell.getDiagonalStyle( );
+		this.diagonalWidth = cell.getDiagonalWidth( );
+		this.antidiagonalNumber = cell.getAntidiagonalNumber( );
+		this.antidiagonalStyle = cell.getAntidiagonalStyle( );
+		this.antidiagonalWidth = cell.getAntidiagonalWidth( );
 	}
 
 	/**
@@ -220,6 +252,12 @@ public class CellContent extends AbstractContent implements ICellContent
 	static final protected short FIELD_COLUMN = 102;
 	static final protected short FIELD_START_OF_GROUP = 103;
 	static final protected short FIELD_DISPLAY_GROUP_ICON = 104;
+	static final protected short FIELD_DIAGONAL_NUMBER = 105;
+	static final protected short FIELD_DIAGONAL_STYLE = 106;
+	static final protected short FIELD_DIAGONAL_WIDTH = 107;
+	static final protected short FIELD_ANTIDIAGONAL_NUMBER = 108;
+	static final protected short FIELD_ANTIDIAGONAL_STYLE = 109;
+	static final protected short FIELD_ANTIDIAGONAL_WIDTH = 110;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -244,6 +282,37 @@ public class CellContent extends AbstractContent implements ICellContent
 			IOUtil.writeShort( out, FIELD_DISPLAY_GROUP_ICON );
 			IOUtil.writeBool( out, displayGroupIcon.booleanValue( ) );
 		}
+		if ( diagonalNumber != -1 )
+		{
+			IOUtil.writeShort( out, FIELD_DIAGONAL_NUMBER );
+			IOUtil.writeInt( out, diagonalNumber );
+		}
+		if ( diagonalStyle != null )
+		{
+			IOUtil.writeShort( out, FIELD_DIAGONAL_STYLE );
+			IOUtil.writeString( out, diagonalStyle );
+		}
+		if ( diagonalWidth != null )
+		{
+			IOUtil.writeShort( out, FIELD_DIAGONAL_WIDTH );
+			diagonalWidth.writeObject( out );
+		}
+		if ( antidiagonalNumber != -1 )
+		{
+			IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_NUMBER );
+			IOUtil.writeInt( out, antidiagonalNumber );
+		}
+		if ( antidiagonalStyle != null )
+		{
+			IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_STYLE );
+			IOUtil.writeString( out, antidiagonalStyle );
+		}
+		if ( antidiagonalWidth != null )
+		{
+			IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_WIDTH );
+			antidiagonalWidth.writeObject( out );
+		}
+		
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in,
@@ -266,6 +335,20 @@ public class CellContent extends AbstractContent implements ICellContent
 			case FIELD_DISPLAY_GROUP_ICON :
 				displayGroupIcon = Boolean.valueOf( IOUtil.readBool( in ) );
 				break;
+			case FIELD_DIAGONAL_NUMBER :
+				diagonalNumber = IOUtil.readInt( in );
+			case FIELD_DIAGONAL_STYLE :
+				diagonalStyle = IOUtil.readString( in );
+			case FIELD_DIAGONAL_WIDTH :
+				diagonalWidth = new DimensionType( );
+				diagonalWidth.readObject( in );
+			case FIELD_ANTIDIAGONAL_NUMBER :
+				antidiagonalNumber = IOUtil.readInt( in );
+			case FIELD_ANTIDIAGONAL_STYLE :
+				antidiagonalStyle = IOUtil.readString( in );
+			case FIELD_ANTIDIAGONAL_WIDTH :
+				antidiagonalWidth = new DimensionType( );
+				antidiagonalWidth.readObject( in );
 			default :
 				super.readField( version, filedId, in, loader );
 		}
@@ -278,6 +361,13 @@ public class CellContent extends AbstractContent implements ICellContent
 			return true;
 		}
 		if ( displayGroupIcon != null )
+		{
+			return true;
+		}
+		if ( diagonalNumber != -1
+				|| diagonalStyle != null || diagonalWidth != null
+				|| antidiagonalNumber != -1 || antidiagonalStyle != null
+				|| antidiagonalWidth != null )
 		{
 			return true;
 		}
@@ -328,6 +418,108 @@ public class CellContent extends AbstractContent implements ICellContent
 	protected IContent cloneContent()
 	{
 		return new CellContent(this);
+	}
+
+	public void setDiagonalNumber( int diagonalNumber )
+	{
+		this.diagonalNumber = diagonalNumber;
+	}
+
+	public int getDiagonalNumber( )
+	{
+		if ( diagonalNumber == -1 )
+		{
+			if ( generateBy instanceof CellDesign )
+			{
+				return ( (CellDesign) generateBy ).getDiagonalNumber( );
+			}
+		}
+		return diagonalNumber;
+	}
+
+	public void setDiagonalStyle( String diagonalStyle )
+	{
+		this.diagonalStyle = diagonalStyle;
+	}
+
+	public String getDiagonalStyle( )
+	{
+		if ( diagonalStyle == null )
+		{
+			if ( generateBy instanceof CellDesign )
+			{
+				return ( (CellDesign) generateBy ).getDiagonalStyle( );
+			}
+		}
+		return diagonalStyle;
+	}
+
+	public void setDiagonalWidth( DimensionType diagonalWidth )
+	{
+		this.diagonalWidth = diagonalWidth;
+	}
+
+	public DimensionType getDiagonalWidth( )
+	{
+		if ( diagonalWidth == null )
+		{
+			if ( generateBy instanceof CellDesign )
+			{
+				return ( (CellDesign) generateBy ).getDiagonalWidth( );
+			}
+		}
+		return diagonalWidth;
+	}
+
+	public void setAntidiagonalNumber( int antidiagonalNumber )
+	{
+		this.antidiagonalNumber = antidiagonalNumber;
+	}
+
+	public int getAntidiagonalNumber( )
+	{
+		if ( antidiagonalNumber == -1 )
+		{
+			if ( generateBy instanceof CellDesign )
+			{
+				return ( (CellDesign) generateBy ).getAntidiagonalNumber( );
+			}
+		}
+		return antidiagonalNumber;
+	}
+
+	public void setAntidiagonalStyle( String antidiagonalStyle )
+	{
+		this.antidiagonalStyle = antidiagonalStyle;
+	}
+
+	public String getAntidiagonalStyle( )
+	{
+		if ( antidiagonalStyle == null )
+		{
+			if ( generateBy instanceof CellDesign )
+			{
+				return ( (CellDesign) generateBy ).getAntidiagonalStyle( );
+			}
+		}
+		return antidiagonalStyle;
+	}
+
+	public void setAntidiagonalWidth( DimensionType antidiagonalWidth )
+	{
+		this.antidiagonalWidth = antidiagonalWidth;
+	}
+
+	public DimensionType getAntidiagonalWidth( )
+	{
+		if ( antidiagonalWidth == null )
+		{
+			if ( generateBy instanceof CellDesign )
+			{
+				return ( (CellDesign) generateBy ).getAntidiagonalWidth( );
+			}
+		}
+		return antidiagonalWidth;
 	}
 
 	public String getHeaders( )

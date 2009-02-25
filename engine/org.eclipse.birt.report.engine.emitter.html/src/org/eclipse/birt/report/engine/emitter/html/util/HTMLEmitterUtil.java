@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -135,5 +135,55 @@ public class HTMLEmitterUtil
 			return type;
 		}
 		return type | DISPLAY_BLOCK;
+	}
+	
+	/**
+	 * Convert DimensionType to a pixel value.
+	 * 
+	 * @param d
+	 *            DimensionType value
+	 * @return pixel value
+	 */
+	public static int getDimensionPixelValue( DimensionType d, int dpi )
+	{
+		if ( d == null )
+		{
+			return 0;
+		}
+		try
+		{
+			String units = d.getUnits( );
+			if ( units.equals( EngineIRConstants.UNITS_PX ) )
+			{
+				// use the default DPI.
+				return (int) d.getMeasure( );
+			}
+			else if ( units.equals( EngineIRConstants.UNITS_PT )
+					|| units.equals( EngineIRConstants.UNITS_CM )
+					|| units.equals( EngineIRConstants.UNITS_MM )
+					|| units.equals( EngineIRConstants.UNITS_PC )
+					|| units.equals( EngineIRConstants.UNITS_IN ) )
+			{
+				double point = d.convertTo( EngineIRConstants.UNITS_PT );
+				if ( dpi > 0 )
+				{
+					return (int) ( point / 72 * dpi );
+				}
+				else
+				{
+					// Use the default DPI.
+					return (int) ( point / 72 * 96 );
+				}
+			}
+			else if ( units.equals( EngineIRConstants.UNITS_PERCENTAGE ) )
+			{
+				return 0;
+			}
+		}
+		catch ( Exception e )
+		{
+			return 0;
+		}
+		return 0;
 	}
 }

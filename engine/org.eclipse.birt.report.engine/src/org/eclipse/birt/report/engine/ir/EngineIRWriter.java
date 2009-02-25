@@ -1309,6 +1309,42 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeShort( out, FIELD_DISPLAY_GROUP_ICON );
 			IOUtil.writeBool( out, displayGroupIcon );
 		}
+		int diagonalNumber = cell.getDiagonalNumber( );
+		if ( diagonalNumber != -1 )
+		{
+			IOUtil.writeShort( out, FIELD_DIAGONAL_NUMBER );
+			IOUtil.writeInt( out, diagonalNumber );
+		}
+		String diagonalStyle = cell.getDiagonalStyle( );
+		if ( diagonalStyle != null )
+		{
+			IOUtil.writeShort( out, FIELD_DIAGONAL_STYLE );
+			IOUtil.writeString( out, diagonalStyle );
+		}
+		DimensionType diagonalWidth = cell.getDiagonalWidth( );
+		if ( diagonalWidth != null )
+		{
+			IOUtil.writeShort( out, FIELD_DIAGONAL_WIDTH );
+			writeDimension( out, diagonalWidth );
+		}
+		int antidiagonalNumber = cell.getAntidiagonalNumber( );
+		if ( diagonalNumber != -1 )
+		{
+			IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_NUMBER );
+			IOUtil.writeInt( out, antidiagonalNumber );
+		}
+		String antidiagonalStyle = cell.getAntidiagonalStyle( );
+		if ( diagonalStyle != null )
+		{
+			IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_STYLE );
+			IOUtil.writeString( out, antidiagonalStyle );
+		}
+		DimensionType antidiagonalWidth = cell.getAntidiagonalWidth( );
+		if ( diagonalWidth != null )
+		{
+			IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_WIDTH );
+			writeDimension( out, antidiagonalWidth );
+		}
 	}
 
 	protected void writeFreeForm( DataOutputStream out,
