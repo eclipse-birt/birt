@@ -317,5 +317,9 @@ public interface IHTMLRenderOption extends IRenderOption
 	 */
 	public static final String HTML_OUTPUT_MASTER_PAGE_MARGINS = "org.eclipse.birt.report.engine.api.IHTMLRenderOption.outputMasterPageMargins"; //$NON-NLS-1$//false
 	
+	/**
+	 * HTMLIDNamespace is used to solve the name conflict problem when embedding
+	 * multiple reports into one page.
+	 */
 	public static final String HTML_ID_NAMESPACE = "HTMLIDNamespace";
 }
