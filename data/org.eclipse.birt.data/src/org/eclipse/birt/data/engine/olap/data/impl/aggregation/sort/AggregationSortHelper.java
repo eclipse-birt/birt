@@ -28,7 +28,6 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggregationRowAccessor;
-import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
@@ -64,7 +63,7 @@ public class AggregationSortHelper
 		return new AggregationResultSet( base.getAggregationDefinition( ),
 				baseDiskArray,
 				base.getKeyNames( ),
-				base.getAggributeNames( ) );
+				base.getAttributeNames( ) );
 	}
 
 	/**
@@ -490,8 +489,8 @@ class WrapperedDiskArray implements IDiskArray
 	 */
 	public boolean add( Object o ) throws IOException
 	{
-		assert o instanceof CombinedAggrResultRow;
-		CombinedAggrResultRow obj = (CombinedAggrResultRow) o;
+		assert o instanceof AggregationResultRow;
+		AggregationResultRow obj = (AggregationResultRow) o;
 		AggregationResultRow baseRow = new AggregationResultRow( );
 		baseRow.setLevelMembers( obj.getLevelMembers( ) );
 		this.baseArray.add( baseRow );
@@ -539,7 +538,7 @@ class WrapperedDiskArray implements IDiskArray
 	public Object get( int index ) throws IOException
 	{
 		this.index = index;
-		return new CombinedAggrResultRow( (IAggregationResultRow) this.getCurrentBaseRow( ),
+		return new AggregationResultRow( ((IAggregationResultRow) this.getCurrentBaseRow( )).getLevelMembers( ),
 				getCurrentKeyRow( ) );
 	}
 
@@ -554,66 +553,6 @@ class WrapperedDiskArray implements IDiskArray
 	}
 }
 
-/**
- * This class combine two AggregationResultRow object to one. Specifically,
- * it will get level values from "base", and aggregation values from "key".
- * 
- * @author Administrator
- * 
- */
-class CombinedAggrResultRow implements IAggregationResultRow
-{
-
-	private Member[] levelMember;
-	private Object[] aggr;
-
-	public CombinedAggrResultRow( IAggregationResultRow base, Object[] aggr )
-	{
-		this.levelMember = base.getLevelMembers( );
-		this.aggr = aggr;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow#getAggregationValues()
-	 */
-	public Object[] getAggregationValues( )
-	{
-		return this.aggr;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow#getLevelMembers()
-	 */
-	public Member[] getLevelMembers( )
-	{
-		return this.levelMember;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow#setAggregationValues(java.lang.Object[])
-	 */
-	public void setAggregationValues( Object[] aggregationValues )
-	{
-		this.aggr = aggregationValues;
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow#setLevelMembers(org.eclipse.birt.data.engine.olap.data.impl.dimension.Member[])
-	 */
-	public void setLevelMembers( Member[] levelMembers )
-	{
-		this.levelMember = levelMembers;
-	}
-}
 
 /**
  *

@@ -22,9 +22,9 @@ import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 
 /**
  * 
@@ -179,11 +179,8 @@ public class AggregationResultSetSaveUtil
 	 */
 	private static void saveOneResultSet( DataOutputStream outputStream, IAggregationResultSet resultSet ) throws IOException
 	{
-		if( resultSet instanceof AggregationResultSet )
-		{
-			saveMetaData( outputStream, (AggregationResultSet) resultSet );
-			saveAggregationRowSet( outputStream, (AggregationResultSet) resultSet );
-		}
+		saveMetaData( outputStream, resultSet );
+		saveAggregationRowSet( outputStream, resultSet );
 		outputStream.close( );
 	}
 	
@@ -193,13 +190,13 @@ public class AggregationResultSetSaveUtil
 	 * @param resultSet
 	 * @throws IOException 
 	 */
-	private static void saveAggregationRowSet( DataOutputStream outputStream, AggregationResultSet resultSet ) throws IOException
+	private static void saveAggregationRowSet( DataOutputStream outputStream, IAggregationResultSet resultSet ) throws IOException
 	{
 		IOUtil.writeInt( outputStream, resultSet.length( ) );
 		for( int i=0;i<resultSet.length( );i++)
 		{
 			resultSet.seek( i );
-			saveAggregationRow( outputStream, (AggregationResultRow)resultSet.getCurrentRow( ) );
+			saveAggregationRow( outputStream, resultSet.getCurrentRow( ) );
 			
 		}
 	}
@@ -210,7 +207,7 @@ public class AggregationResultSetSaveUtil
 	 * @param resultRow
 	 * @throws IOException
 	 */
-	private static void saveAggregationRow( DataOutputStream outputStream, AggregationResultRow resultRow ) throws IOException
+	private static void saveAggregationRow( DataOutputStream outputStream, IAggregationResultRow resultRow ) throws IOException
 	{
 		writeObjectArray( outputStream, resultRow.getFieldValues( ) );
 	}
@@ -236,7 +233,7 @@ public class AggregationResultSetSaveUtil
 	 * @param aggregationDef
 	 * @throws IOException 
 	 */
-	private static void saveMetaData( DataOutputStream outputStream, AggregationResultSet resultSet ) throws IOException
+	private static void saveMetaData( DataOutputStream outputStream, IAggregationResultSet resultSet ) throws IOException
 	{
 		//write level
 			//level names

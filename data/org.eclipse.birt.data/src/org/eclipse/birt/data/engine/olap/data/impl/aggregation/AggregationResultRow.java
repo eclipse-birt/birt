@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
-import org.eclipse.birt.data.engine.olap.data.util.IComparableStructure;
 import org.eclipse.birt.data.engine.olap.data.util.IStructure;
 import org.eclipse.birt.data.engine.olap.data.util.IStructureCreator;
 import org.eclipse.birt.data.engine.olap.data.util.ObjectArrayUtil;
@@ -22,10 +21,21 @@ import org.eclipse.birt.data.engine.olap.data.util.ObjectArrayUtil;
  * Describes a aggregation result row.
  */
 
-public class AggregationResultRow implements IComparableStructure, IAggregationResultRow
+public class AggregationResultRow implements IAggregationResultRow
 {
 	private Member[] levelMembers = null;
 	private Object[] aggregationValues = null;
+	
+	public AggregationResultRow( )
+	{
+		
+	}
+	
+	public AggregationResultRow( Member[] levelMembers, Object[] aggregationValues )
+	{
+		this.levelMembers = levelMembers;
+		this.aggregationValues = aggregationValues;
+	}
 
 	/*
 	 * (non-Javadoc)

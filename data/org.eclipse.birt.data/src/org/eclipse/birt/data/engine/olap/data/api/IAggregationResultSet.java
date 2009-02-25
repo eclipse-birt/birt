@@ -198,7 +198,7 @@ public interface IAggregationResultSet
 	
 	public AggregationDefinition getAggregationDefinition();
 	
-	public String[][] getAggributeNames();
+	public String[][] getAttributeNames();
 	
 	public String[][] getKeyNames();
 	
@@ -210,6 +210,18 @@ public interface IAggregationResultSet
 	
 	
 	public int getAggregationCount();
+	
+	public String[][] getLevelKeys( );
+	
+	public int[][] getLevelKeyDataType( );
+	
+	public String[][] getLevelAttributes( );
+	
+	public int[][] getLevelAttributeDataType( );
+	
+	public int[] getSortType( );
+	
+	public int[] getAggregationDataType( );
 	
 	/**
 	 * 

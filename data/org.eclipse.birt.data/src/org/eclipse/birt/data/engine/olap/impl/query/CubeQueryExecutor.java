@@ -222,6 +222,11 @@ public class CubeQueryExecutor
 		return this.outResults;
 	}
 	
+	public Scriptable getScope( )
+	{
+		return scope;
+	}
+	
 	/**
 	 * 
 	 * @param edgeType

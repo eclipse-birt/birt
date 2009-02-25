@@ -380,4 +380,5 @@ public class ResourceConstants
 	
 	public final static String UNSPECIFIED_BINDING_NAME = "data.olap.UnspecifiedBindingName";
 	public final static String NOT_NEST_AGGREGATION_BINDING = "data.olap.NotNestAggregationBinding";
+	public final static String INVALID_NEST_AGGREGATION_EXPRESSION = "data.olap.InvalidNestAggregationExpression";
 }

@@ -18,9 +18,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
@@ -56,6 +58,8 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ScriptableObject;
 
 import testutil.BaseTestCase;
 
@@ -1162,8 +1166,13 @@ public class FactTableHelperTest2 extends BaseTestCase
 		funcitons[0] = new AggregationFunctionDefinition( "max_total", "total", IBuildInAggregation.TOTAL_MAX_FUNC );
 		aggregations[0] = new AggregationDefinition( null, null, funcitons );
 
+		Context context = Context.enter( );
+		ScriptableObject scope = context.initStandardObjects( );
+		ScriptContext cx = new ScriptContext( scope );
 		dataSet4Aggregation 
-			= DataSet4AggregationFactory.createDataSet4Aggregation( sourceAggrResultSet );
+			= DataSet4AggregationFactory.createDataSet4Aggregation( sourceAggrResultSet, 
+					"max_total", new ScriptExpression("data[\"total\"]"), scope, cx);
+		
 		aggregationCalculatorExecutor = 
 				new AggregationExecutor( dataSet4Aggregation,
 						aggregations );
@@ -1184,7 +1193,8 @@ public class FactTableHelperTest2 extends BaseTestCase
 		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 
 		dataSet4Aggregation 
-			= DataSet4AggregationFactory.createDataSet4Aggregation( sourceAggrResultSet );
+			= DataSet4AggregationFactory.createDataSet4Aggregation( sourceAggrResultSet,
+					"sum_total", new ScriptExpression("data[\"total\"]"), scope, cx);
 		aggregationCalculatorExecutor = 
 				new AggregationExecutor( dataSet4Aggregation,
 						aggregations );
@@ -1203,6 +1213,9 @@ public class FactTableHelperTest2 extends BaseTestCase
 		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], new Integer(3) );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(38) );
 		closeResultSets( resultSet );
+		
+		Context.exit( );
+		cx.exit( );
 	}
 }
 

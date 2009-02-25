@@ -22,7 +22,6 @@ import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 

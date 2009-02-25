@@ -125,7 +125,9 @@ public class QueryExecutor
 			//In Interactive viewing mode, we always re-execute the query.
 			rs = cubeQueryExcutorHelper.execute( aggrDefns, stopSign );
 			CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
-					view.getPreparedCubeOperations( ) );
+					view.getPreparedCubeOperations( ),
+					view.getCubeQueryExecutor( ).getScope( ),
+					view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
 
 			rs = coe.execute( rs, stopSign );
 			
@@ -161,7 +163,9 @@ public class QueryExecutor
 			rs = cubeQueryExcutorHelper.execute( aggrDefns, new StopSign( ) );
 			
 			CubeOperationsExecutor coe = new CubeOperationsExecutor(view.getCubeQueryDefinition( ),
-					view.getPreparedCubeOperations( ));
+					view.getPreparedCubeOperations( ),
+					view.getCubeQueryExecutor( ).getScope( ),
+					view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
 			
 			rs = coe.execute( rs, stopSign );
 

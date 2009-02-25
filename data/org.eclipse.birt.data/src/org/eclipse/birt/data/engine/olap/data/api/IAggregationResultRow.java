@@ -12,12 +12,13 @@
 package org.eclipse.birt.data.engine.olap.data.api;
 
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
+import org.eclipse.birt.data.engine.olap.data.util.IComparableStructure;
 
 /**
  * 
  */
 
-public interface IAggregationResultRow
+public interface IAggregationResultRow extends IComparableStructure
 {
 
 	public abstract void setLevelMembers( Member[] levelMembers );

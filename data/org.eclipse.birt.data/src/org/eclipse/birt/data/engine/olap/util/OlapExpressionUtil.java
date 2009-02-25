@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -318,19 +319,19 @@ public class OlapExpressionUtil
 	}
 	
 	/**
-	 * This method returns a list of ICubeAggrDefn instances which describes the
+	 * This method returns a list of CubeAggrDefnOnMeasure instances which describes the
 	 * aggregations that need to be calculated in cube query.
 	 * 
 	 * @param bindings
 	 * @return
 	 * @throws DataException 
 	 */
-	public static ICubeAggrDefn[] getAggrDefns( List bindings ) throws DataException
+	public static CubeAggrDefnOnMeasure[] getAggrDefns( List bindings ) throws DataException
 	{
 		if ( bindings == null || bindings.size( ) == 0 )
-			return new ICubeAggrDefn[0];
+			return new CubeAggrDefnOnMeasure[0];
 
-		List cubeAggrDefns = new ArrayList( );
+		List<CubeAggrDefnOnMeasure> cubeAggrDefns = new ArrayList<CubeAggrDefnOnMeasure>( );
 		for ( Iterator it = bindings.iterator( ); it.hasNext( ); )
 		{
 			IBinding binding = ( (IBinding) it.next( ) );
@@ -338,7 +339,7 @@ public class OlapExpressionUtil
 			{
 				if ( binding.getAggrFunction( ) != null
 						|| binding.getAggregatOns( ).size( ) != 0 )
-					cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
+					cubeAggrDefns.add( new CubeAggrDefnOnMeasure( binding.getBindingName( ),
 							getMeasure( binding.getExpression( )==null?null:( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
 							convertToDimLevel( binding.getAggregatOns( ) ),
 							binding.getAggrFunction( ),
@@ -353,42 +354,43 @@ public class OlapExpressionUtil
 						binding.getBindingName( ) );
 			}
 		}
-
-		ICubeAggrDefn[] result = new ICubeAggrDefn[cubeAggrDefns.size( )];
-		for ( int i = 0; i < result.length; i++ )
-		{
-			result[i] = (ICubeAggrDefn) cubeAggrDefns.get( i );
-		}
-
-		return result;
+		return cubeAggrDefns.toArray( new CubeAggrDefnOnMeasure[0] );
 	}
 
+	
 	/**
-	 * This method returns a list of ICubeAggrDefn instances which describes the
+	 * This method returns a list of CubeNestAggrDefn instances which describes the
 	 * aggregations that need to be calculated in cube query.
 	 * 
 	 * @param bindings
+	 * @param basedBindings
 	 * @return
 	 * @throws DataException 
 	 */
-	public static ICubeAggrDefn[] getAggrDefnsByNestBinding( List<IBinding> bindings ) throws DataException
+	public static CubeNestAggrDefn[] getAggrDefnsByNestBinding( List<IBinding> bindings, IBinding[] basedBindings ) throws DataException
 	{
 		if ( bindings == null || bindings.size( ) == 0 )
-			return new ICubeAggrDefn[0];
+			return new CubeNestAggrDefn[0];
 
-		List<CubeAggrDefn> cubeAggrDefns = new ArrayList<CubeAggrDefn>( );
+		List<IBinding> based = new ArrayList<IBinding>( Arrays.asList( basedBindings ));
+			
+		List<CubeNestAggrDefn> cubeAggrDefns = new ArrayList<CubeNestAggrDefn>( );
 		for ( IBinding binding : bindings )
 		{
+			based.add( binding );
 			try
 			{
 				if ( binding.getAggrFunction( ) != null )
-					cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
-							getBindingName( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
+				{
+					cubeAggrDefns.add( new CubeNestAggrDefn( binding.getBindingName( ),
+							binding.getExpression( ),
 							convertToDimLevel( binding.getAggregatOns( ) ),
 							binding.getAggrFunction( ),
 							convertToDimLevelAttribute( binding.getArguments( ),
-									bindings ),
+									based ),
 							binding.getFilter( ) ) );
+				}
+					
 			}
 			catch ( DataException ex )
 			{
@@ -397,7 +399,7 @@ public class OlapExpressionUtil
 						binding.getBindingName( ) );
 			}
 		}
-		return cubeAggrDefns.toArray( new CubeAggrDefn[0] );
+		return cubeAggrDefns.toArray( new CubeNestAggrDefn[0] );
 	}
 	
 	public static boolean isAggregationBinding(IBinding binding) throws DataException
@@ -464,94 +466,7 @@ public class OlapExpressionUtil
 		return result;
 	}
 	
-	private static class CubeAggrDefn implements ICubeAggrDefn
-	{
-
-		//
-		private String name;
-		private String measure;
-		private List aggrLevels, arguments;
-		private String aggrName;
-		private IBaseExpression filterExpression;
-
-		/*
-		 * 
-		 */
-		CubeAggrDefn( String name, String measure, List aggrLevels,
-				String aggrName, List arguments, IBaseExpression filterExpression )
-		{
-			assert name != null;
-			assert aggrLevels != null;
-
-			this.name = name;
-			this.measure = measure;
-			this.aggrLevels = aggrLevels;
-			this.aggrName = aggrName;
-			this.arguments = arguments;
-			this.filterExpression = filterExpression;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn#getAggrLevels()
-		 */
-		public List getAggrLevels( )
-		{
-			return this.aggrLevels;
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn#getArguments()
-		 */
-		public List getArguments( )
-		{
-			return this.arguments;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn#getMeasure()
-		 */
-		public String getMeasure( )
-		{
-			return this.measure;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn#getName()
-		 */
-		public String getName( )
-		{
-			return this.name;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn#aggrName()
-		 */
-		public String getAggrName( )
-		{
-			return this.aggrName;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn#getFilter()
-		 */
-		public IBaseExpression getFilter( )
-		{
-			return this.filterExpression;
-		}
-
-	}
-
+	
 	/**
 	 * 
 	 * @param expr

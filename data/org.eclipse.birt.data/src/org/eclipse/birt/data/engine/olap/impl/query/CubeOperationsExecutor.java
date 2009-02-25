@@ -14,10 +14,12 @@ package org.eclipse.birt.data.engine.olap.impl.query;
 import java.io.IOException;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * A cube operation executor to execute all the prepared cube operations one by one
@@ -27,13 +29,19 @@ public class CubeOperationsExecutor
 {
 	private ICubeQueryDefinition cubeQueryDefinition;
 	private IPreparedCubeOperation[] cubeOperations;
+	private Scriptable scope;
+	private ScriptContext cx;
 
 	public CubeOperationsExecutor( 
 			ICubeQueryDefinition cubeQueryDefinition,
-			IPreparedCubeOperation[] cubeOperations) throws DataException
+			IPreparedCubeOperation[] cubeOperations,
+			Scriptable scope,
+			ScriptContext cx) throws DataException
 	{
 		this.cubeQueryDefinition = cubeQueryDefinition;
 		this.cubeOperations = cubeOperations;
+		this.scope = scope;
+		this.cx = cx;
 	}
 
 	/**
@@ -55,6 +63,8 @@ public class CubeOperationsExecutor
 		{
 			currentResult = co.execute( cubeQueryDefinition,
 					currentResult,
+					scope,
+					cx,
 					stopSign );
 
 		}

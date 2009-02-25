@@ -429,7 +429,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 		return currentPosition;
 	}
 
-	public String[][] getAggributeNames( )
+	public String[][] getAttributeNames( )
 	{
 		return this.attributeNames;
 	}
@@ -491,5 +491,35 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 			return aggregationNames[index];
 		}
 		return null;
+	}
+
+	public int[] getAggregationDataType( )
+	{
+		return this.aggregationDataType;
+	}
+
+	public int[][] getLevelAttributeDataType( )
+	{
+		return this.attributeDataTypes;
+	}
+
+	public String[][] getLevelAttributes( )
+	{
+		return this.attributeNames;
+	}
+
+	public int[][] getLevelKeyDataType( )
+	{
+		return keyDataTypes;
+	}
+
+	public String[][] getLevelKeys( )
+	{
+		return keyNames;
+	}
+
+	public int[] getSortType( )
+	{
+		return this.sortType;
 	}
 }

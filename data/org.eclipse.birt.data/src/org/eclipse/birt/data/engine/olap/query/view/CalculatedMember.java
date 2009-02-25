@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.data.engine.olap.query.view;
 
-import java.util.List;
-
-import org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn;
+import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
 
 /**
@@ -24,84 +22,23 @@ import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
 public class CalculatedMember
 {
 
-	private String aggrFunction, onMeasureName, name;
-	private List aggrOnList, arguments;
+	private CubeAggrDefn aggrDefn;
 	private int rsID;
 	private IJSMeasureFilterEvalHelper filterEvalHelper;
 
-	/**
-	 * 
-	 * @param onMeasureName
-	 * @param aggrOnList
-	 * @param aggrFunction
-	 * @param isMeasure
-	 */
-	CalculatedMember( String name, String onMeasureName, List aggrOnList,
-			String aggrFunction, int rsID )
-	{
-		this.name = name;
-		this.onMeasureName = onMeasureName;
-		this.aggrOnList = aggrOnList;
-		this.aggrFunction = aggrFunction;
-		this.rsID = rsID;
-	}
 
 	/**
 	 * 
 	 * @param aggrDefn
 	 * @param rsID
 	 */
-	CalculatedMember( ICubeAggrDefn aggrDefn, int rsID )
+	CalculatedMember( CubeAggrDefn aggrDefn, int rsID )
 	{
-		this.name = aggrDefn.getName( );
-		this.onMeasureName = aggrDefn.getMeasure( );
-		this.aggrOnList = aggrDefn.getAggrLevels( );
-		this.aggrFunction = aggrDefn.getAggrName( );
-		this.arguments = aggrDefn.getArguments( );
+		this.aggrDefn = aggrDefn;
 		this.rsID = rsID;
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	String getAggrFunction( )
-	{
-		return this.aggrFunction;
-	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	String getMeasureName( )
-	{
-		return onMeasureName;
-	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public List getAggrOnList( )
-	{
-		return this.aggrOnList;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String[] getFirstArgumentInfo( )
-	{
-		if ( this.arguments == null || this.arguments.isEmpty( ) )
-		{
-			return new String[0];
-		}
-		else
-			return (String[]) this.arguments.get( 0 );
-	}
-	
 	/**
 	 * 
 	 * @param filterEvalHelper
@@ -119,13 +56,9 @@ public class CalculatedMember
 		return this.filterEvalHelper;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	String getName( )
+	public CubeAggrDefn getCubeAggrDefn( )
 	{
-		return this.name;
+		return aggrDefn;
 	}
 	
 	/**

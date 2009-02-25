@@ -544,7 +544,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getAggributeNames()
 	 */
-	public String[][] getAggributeNames()
+	public String[][] getAttributeNames()
 	{
 		return this.attributeNames;
 	}

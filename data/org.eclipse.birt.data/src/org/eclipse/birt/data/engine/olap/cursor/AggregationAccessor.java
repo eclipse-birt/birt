@@ -135,7 +135,7 @@ public class AggregationAccessor implements Accessor
 		}
 
 		CalculatedMember member = this.view.getMeasureNameManger( ).getCalculatedMember( aggrName );
-		List memberList = member.getAggrOnList( );
+		List memberList = member.getCubeAggrDefn( ).getAggrLevels( );
 
 		Relationship relation = (Relationship) this.relationMap.get( aggrName );
 		List pageLevelList = relation.getLevelListOnPage( );

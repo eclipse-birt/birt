@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.data.engine.olap.impl.query;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -24,8 +23,6 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
  */
 public class AddingNestAggregations implements ICubeOperation
 {
-
-	private static final String EXPRESSION_FORMAT = "^\\Q" + ExpressionUtil.DATA_INDICATOR + "[\"\\E.+\\Q\"]\\E$";
 	
 	// used to define new nest aggregations
 	private IBinding[] nestAggregations;
@@ -40,21 +37,17 @@ public class AddingNestAggregations implements ICubeOperation
 	{
 		if ( nestAggregations == null || nestAggregations.length == 0 )
 		{
-			throw new IllegalArgumentException("nestAggregations is null or empty");
+			throw new IllegalArgumentException("nestAggregations is null or empty"); //$NON-NLS-1$
 		}
-
-		this.nestAggregations = new IBinding[nestAggregations.length];
-
-		int i = 0;
 
 		for ( IBinding addedBinding : nestAggregations )
 		{
 			if ( addedBinding == null )
 			{
-				throw new IllegalArgumentException("nestAggregations contains null member");
+				throw new IllegalArgumentException("nestAggregations contains null member"); //$NON-NLS-1$
 			}
 			String bindingName = addedBinding.getBindingName( );
-			if ( bindingName == null || bindingName.equals( "" ) )
+			if ( bindingName == null || bindingName.equals( "" ) ) //$NON-NLS-1$
 			{
 
 				throw new DataException( ResourceConstants.UNSPECIFIED_BINDING_NAME );
@@ -68,8 +61,8 @@ public class AddingNestAggregations implements ICubeOperation
 				throw new DataException( ResourceConstants.NOT_NEST_AGGREGATION_BINDING,
 						addedBinding.getBindingName( ) );
 			}
-			this.nestAggregations[i++] = addedBinding;
 		}
+		this.nestAggregations = nestAggregations;
 	}
 
 	public IBinding[] getNewBindings( )
@@ -91,11 +84,10 @@ public class AddingNestAggregations implements ICubeOperation
 			return false;
 		}
 		String expression = ((IScriptExpression)binding.getExpression( )).getText( );
-		if (expression == null)
+		if (expression == null || expression.trim( ).equals( "" )) //$NON-NLS-1$
 		{
 			return false;
 		}
-		expression = expression.trim( );
-		return expression.matches( EXPRESSION_FORMAT );
+		return true;
 	}
 }

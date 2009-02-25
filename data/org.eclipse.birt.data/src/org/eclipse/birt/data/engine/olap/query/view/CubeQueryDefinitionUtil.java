@@ -43,7 +43,8 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.LevelDefiniton;
 import org.eclipse.birt.data.engine.olap.impl.query.MeasureDefinition;
-import org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn;
+import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
+import org.eclipse.birt.data.engine.olap.util.CubeAggrDefnOnMeasure;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
@@ -72,7 +73,7 @@ public class CubeQueryDefinitionUtil
 			ICubeQueryDefinition queryDefn, Scriptable scope, Map measureMapping, ScriptContext cx ) throws DataException
 	{
 		List measureList = queryDefn.getMeasures( );
-		ICubeAggrDefn[] cubeAggrs = OlapExpressionUtil.getAggrDefns( queryDefn.getBindings( ) );
+		CubeAggrDefn[] cubeAggrs = OlapExpressionUtil.getAggrDefns( queryDefn.getBindings( ) );
 		
 		populateMeasureFromBinding( queryDefn, cx );
 		populateMeasureFromFilter( queryDefn, cx );
@@ -98,10 +99,8 @@ public class CubeQueryDefinitionUtil
 			// all the measures will consume one result set, and the default
 			// rsID is 0. If no unreferenced measures are found, the
 			// bindings' start index of rsID will be 0
-			calculatedMembers1[index] = new CalculatedMember( innerName,
-					measureDefn.getName( ),
-					measureAggrOns,
-					adaptAggrFunction( measureDefn ),
+			calculatedMembers1[index] = new CalculatedMember( 
+					new CubeAggrDefnOnMeasure( innerName, measureDefn.getName( ), measureAggrOns, adaptAggrFunction( measureDefn ), null, null ),
 					0 );
 			index++;
 		}
@@ -115,7 +114,7 @@ public class CubeQueryDefinitionUtil
 		
 	}
 	
-	public static CalculatedMember[] createCalculatedMembersByAggrOnList (int startRsId, ICubeAggrDefn[] cubeAggrs,
+	public static CalculatedMember[] createCalculatedMembersByAggrOnList (int startRsId, CubeAggrDefn[] cubeAggrs,
 			Scriptable scope, ScriptContext cx ) throws DataException
 	{
 		if (cubeAggrs == null)
@@ -129,7 +128,7 @@ public class CubeQueryDefinitionUtil
 		CalculatedMember[] result = new CalculatedMember[cubeAggrs.length];
 		List<CalculatedMember> withDistinctRsIds = new ArrayList<CalculatedMember>();
 		int index = 0;
-		for (ICubeAggrDefn cubeAggrDefn : cubeAggrs)
+		for (CubeAggrDefn cubeAggrDefn : cubeAggrs)
 		{
 			int id = getResultSetIndex( withDistinctRsIds,
 					cubeAggrDefn.getAggrLevels( ) );
@@ -156,35 +155,39 @@ public class CubeQueryDefinitionUtil
 		}
 		return result;
 	}
+
 	
-	public static CalculatedMember[] createCalculatedMembersByAggrOnListAndMeasureName (int startRsId, ICubeAggrDefn[] cubeAggrs,
+	public static CalculatedMember[] addCalculatedMembers (CubeAggrDefn[] cubeAggrs, MeasureNameManager manager,
 			Scriptable scope, ScriptContext cx ) throws DataException
 	{
 		if (cubeAggrs == null)
 		{
 			return new CalculatedMember[0];
 		}
-		
-		assert startRsId >= 0;
-		
-		int preparedRsId = startRsId;
 		CalculatedMember[] result = new CalculatedMember[cubeAggrs.length];
-		List<CalculatedMember> withDistinctRsIds = new ArrayList<CalculatedMember>();
+		int newRsId = manager.getBasedRsIndex( ) + 1;
+		CalculatedMember newCm = null;
 		int index = 0;
-		for (ICubeAggrDefn cubeAggrDefn : cubeAggrs)
+		for (CubeAggrDefn cubeAggrDefn : cubeAggrs)
 		{
-			int id = getResultSetIndex( withDistinctRsIds,
-					cubeAggrDefn.getAggrLevels( ), cubeAggrDefn.getMeasure( ) );
+			int id = -1;
+			for ( CalculatedMember cm : manager.getCalculatedMembers( ) )
+			{
+				if ( cm.getCubeAggrDefn( ).getAggrLevels( ).equals( cubeAggrDefn.getAggrLevels( ) ))
+				{
+					id = cm.getRsID( );
+					break;
+				}
+			}
 			if ( id == -1 )
 			{
-				result[index] = new CalculatedMember( cubeAggrDefn,
-						preparedRsId );
-				withDistinctRsIds.add( result[index] );
-				preparedRsId++;
+				newCm = new CalculatedMember( cubeAggrDefn,
+						newRsId );
+				newRsId++;
 			}
 			else
 			{
-				result[index] = new CalculatedMember( cubeAggrDefn,
+				newCm = new CalculatedMember( cubeAggrDefn,
 						id );
 			}
 
@@ -192,9 +195,10 @@ public class CubeQueryDefinitionUtil
 			{
 				IJSMeasureFilterEvalHelper filterEvalHelper = new JSMeasureFilterEvalHelper( scope, cx,
 						new FilterDefinition( cubeAggrDefn.getFilter( ) ));
-				result[index].setFilterEvalHelper( filterEvalHelper );
+				newCm.setFilterEvalHelper( filterEvalHelper );
 			}
-			index++;
+			manager.addCalculatedMembersFromCubeOperation( new CalculatedMember[]{newCm} );
+			result[index++] = newCm;
 		}
 		return result;
 	}
@@ -228,33 +232,32 @@ public class CubeQueryDefinitionUtil
 			AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[list.size( )];
 			for ( int index = 0; index < list.size( ); index++ )
 			{
-				String[] dimInfo = ( (CalculatedMember) list.get( index ) ).getFirstArgumentInfo( );
+				String[] dimInfo = ( (CalculatedMember) list.get( index ) ).getCubeAggrDefn( ).getFirstArgumentInfo( );
 				String dimName = null;
 				String levelName = null;
 				String attributeName = null;
 				DimLevel dimLevel = null;
 				if ( dimInfo != null && dimInfo.length == 3 )
 				{
-					dimName = ( (CalculatedMember) list.get( index ) ).getFirstArgumentInfo( )[0];
-					levelName = ( (CalculatedMember) list.get( index ) ).getFirstArgumentInfo( )[1];
-					attributeName = ( (CalculatedMember) list.get( index ) ).getFirstArgumentInfo( )[2];
+					dimName = dimInfo[0];
+					levelName = dimInfo[1];
+					attributeName = dimInfo[2];
 					dimLevel = new DimLevel( dimName, levelName );
 				}
-				funcitons[index] = new AggregationFunctionDefinition( list.get( index ).getName( ),
-						list.get( index ).getMeasureName( ),
+				funcitons[index] = new AggregationFunctionDefinition( list.get( index ).getCubeAggrDefn( ).getName( ),
+						list.get( index ).getCubeAggrDefn( ).getMeasure( ),
 						dimLevel,
 						attributeName,
-						list.get( index ).getAggrFunction( ),
+						list.get( index ).getCubeAggrDefn( ).getAggrName( ),
 						list.get( index ).getFilterEvalHelper( ) );
 			}
 
-			DimLevel[] levels = new DimLevel[calculatedMembers[i].getAggrOnList( )
+			DimLevel[] levels = new DimLevel[calculatedMembers[i].getCubeAggrDefn( ).getAggrLevels( )
 					.size( )];
-			int[] sortType = new int[calculatedMembers[i].getAggrOnList( ).size( )];
-			for ( int index = 0; index < calculatedMembers[i].getAggrOnList( )
-					.size( ); index++ )
+			int[] sortType = new int[levels.length];
+			for ( int index = 0; index < levels.length; index++ )
 			{
-				Object obj = calculatedMembers[i].getAggrOnList( )
+				Object obj = calculatedMembers[i].getCubeAggrDefn( ).getAggrLevels( )
 						.get( index );
 				levels[index] = (DimLevel) obj;
 				sortType[index] = getSortDirection( levels[index], query );
@@ -628,38 +631,12 @@ public class CubeQueryDefinitionUtil
 		for ( int i = 0; i < aggrList.size( ); i++ )
 		{
 			CalculatedMember member = (CalculatedMember) aggrList.get( i );
-			if ( member.getAggrOnList( ).equals( levelList ) )
+			if ( member.getCubeAggrDefn( ).getAggrLevels( ).equals( levelList ) )
 			{
 				return member.getRsID( );
 			}
 		}		
 		return -1;
-	}
-	
-	private static int getResultSetIndex( List aggrList, List levelList, String measureName )
-	{
-		for ( int i = 0; i < aggrList.size( ); i++ )
-		{
-			CalculatedMember member = (CalculatedMember) aggrList.get( i );
-			if ( member.getAggrOnList( ).equals( levelList ) 
-					&& isSameString(member.getMeasureName( ), measureName))
-			{
-				return member.getRsID( );
-			}
-		}		
-		return -1;
-	}
-	
-	private static boolean isSameString(String s1, String s2)
-	{
-		if (s1 == null)
-		{
-			return s2 == null;
-		}
-		else
-		{
-			return s1.equals( s2 );
-		}
 	}
 	
 	/**
@@ -703,7 +680,8 @@ public class CubeQueryDefinitionUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	public static Map getRelationWithMeasure( ICubeQueryDefinition queryDefn, Map measureMapping ) throws DataException
+	public static Map getRelationWithMeasure( ICubeQueryDefinition queryDefn, Map measureMapping,
+			CubeAggrDefn[] aggrsFromCubeOperations ) throws DataException
 	{
 		Map measureRelationMap = new HashMap( );
 		List pageLevelList = new ArrayList( );
@@ -749,11 +727,10 @@ public class CubeQueryDefinitionUtil
 		}
 		List orignalBindings = queryDefn.getBindings( );
 		List newBindings =  getNewBindingsFromCubeOperations(queryDefn);
-		ICubeAggrDefn[] cubeAggrs1 = OlapExpressionUtil.getAggrDefns( orignalBindings );
-		ICubeAggrDefn[] cubeAggrs2 = OlapExpressionUtil.getAggrDefnsByNestBinding( newBindings );
-		ICubeAggrDefn[] cubeAggrs = new ICubeAggrDefn[cubeAggrs1.length + cubeAggrs2.length];
+		CubeAggrDefn[] cubeAggrs1 = OlapExpressionUtil.getAggrDefns( orignalBindings );
+		CubeAggrDefn[] cubeAggrs = new CubeAggrDefn[cubeAggrs1.length + aggrsFromCubeOperations.length];
 		System.arraycopy( cubeAggrs1, 0, cubeAggrs, 0, cubeAggrs1.length );
-		System.arraycopy( cubeAggrs2, 0, cubeAggrs, cubeAggrs1.length, cubeAggrs2.length );
+		System.arraycopy( aggrsFromCubeOperations, 0, cubeAggrs, cubeAggrs1.length, aggrsFromCubeOperations.length );
 		 if ( cubeAggrs != null && cubeAggrs.length > 0 )
 		{
 			for ( int i = 0; i < cubeAggrs.length; i++ )

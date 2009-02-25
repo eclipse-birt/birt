@@ -11,12 +11,10 @@
 
 package org.eclipse.birt.data.engine.olap.impl.query;
 
-import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperationFactory;
-import org.mozilla.javascript.Scriptable;
 
 /**
  * A implementation of <code>ICubeOperationFactory</code>, single instance
@@ -62,21 +60,18 @@ public class CubeOperationFactory implements ICubeOperationFactory
 	 * @throws DataException
 	 */
 	public static IPreparedCubeOperation createPreparedCubeOperation(
-			ICubeOperation operation, Scriptable scope, int startRsId, ScriptContext cx )
+			ICubeOperation operation )
 			throws DataException
 	{
 		assert operation != null;
 		if ( operation instanceof AddingNestAggregations )
 		{
-			return new PreparedAddingNestAggregations( (AddingNestAggregations) operation,
-					scope,
-					startRsId,
-					cx);
+			return new PreparedAddingNestAggregations( (AddingNestAggregations) operation);
 		}
 		// Currently, only AddingNestAggregations is provided, program never
 		// goes here
 		assert false;
-		throw new IllegalArgumentException( "Unsupported cube operation:"
+		throw new IllegalArgumentException( "Unsupported cube operation:" //$NON-NLS-1$
 				+ operation );
 	}
 }

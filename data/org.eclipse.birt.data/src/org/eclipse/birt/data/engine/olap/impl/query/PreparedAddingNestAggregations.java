@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
@@ -15,10 +18,14 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.DataSet4AggregationFactory;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.IDataSet4Aggregation;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.MergedAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.CalculatedMember;
 import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
-import org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn;
+import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
+import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
+import org.eclipse.birt.data.engine.olap.util.CubeNestAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.mozilla.javascript.Scriptable;
 
@@ -28,38 +35,85 @@ import org.mozilla.javascript.Scriptable;
 public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 {
 	private AddingNestAggregations cubeOperation;
-	private Scriptable scope;
+	private CubeNestAggrDefn[] aggrDefns;
 	private CalculatedMember[] newMembers;
 	
-	public PreparedAddingNestAggregations( AddingNestAggregations cubeOperation, Scriptable scope, int startRsId, ScriptContext cx ) throws DataException
+	public PreparedAddingNestAggregations( AddingNestAggregations cubeOperation ) throws DataException
 	{
 		assert cubeOperation != null;
 		this.cubeOperation = cubeOperation;
-		this.scope = scope;
-		
-		ICubeAggrDefn[] aggrDefns = OlapExpressionUtil.getAggrDefnsByNestBinding( Arrays.asList( cubeOperation.getNewBindings( ) ) );
-		newMembers = CubeQueryDefinitionUtil.createCalculatedMembersByAggrOnListAndMeasureName( startRsId,
-				aggrDefns,
-				this.scope,
-				cx);
+	}
+	
+	public void prepare( Scriptable scope, ScriptContext cx, MeasureNameManager manager, IBinding[] basedBindings ) throws DataException
+	{
+		aggrDefns = OlapExpressionUtil.getAggrDefnsByNestBinding( Arrays.asList( cubeOperation.getNewBindings( ) ),
+				basedBindings );
+		newMembers = CubeQueryDefinitionUtil.addCalculatedMembers( aggrDefns, manager, scope, cx );
 	}
 
+	@SuppressWarnings("unchecked")
 	public IAggregationResultSet[] execute( ICubeQueryDefinition cubeQueryDefn,
-			IAggregationResultSet[] sources, StopSign stopSign )
+			IAggregationResultSet[] sources, 
+			Scriptable scope,
+			ScriptContext cx, StopSign stopSign )
 			throws IOException, BirtException
 	{
-		AggregationDefinition[] definitions = CubeQueryDefinitionUtil.createAggregationDefinitons( newMembers,
-				cubeQueryDefn );
 		List<IAggregationResultSet> currentSources = new ArrayList<IAggregationResultSet>( Arrays.asList( sources ) );
-		for ( AggregationDefinition definiton : definitions )
+		int index = 0;
+		for ( CubeNestAggrDefn cnaf : aggrDefns )
 		{
-			IAggregationResultSet dataSource = findDataSource( currentSources,
-					definiton );
-			IAggregationResultSet result = CubeQueryExecutorHelper.computeNestAggregation( dataSource,
-					definiton,
-					stopSign );
-			currentSources.add( result );
+			if ( stopSign.isStopped( ) ) 
+			{
+				break;
+			}
+			List<String> referencedBindings = 
+				ExpressionCompilerUtil.extractColumnExpression( 
+						cnaf.getBasedExpression( ), ExpressionUtil.DATA_INDICATOR );
+			if ( referencedBindings == null || referencedBindings.isEmpty( ) )
+			{
+				throw new DataException( ResourceConstants.INVALID_AGGR_BINDING_EXPRESSION );
+			}
+			String firstReference = referencedBindings.get( 0 );
+			IAggregationResultSet newArs = null;
+			for ( int i=0; i<sources.length && !stopSign.isStopped( ); i++ )
+			{
+				IAggregationResultSet ars = sources[i];
+				if ( ars.getAggregationIndex( firstReference ) >= 0 )
+				{
+					IDataSet4Aggregation ds4aggr = DataSet4AggregationFactory.createDataSet4Aggregation( 
+							ars, cnaf.getName( ), cnaf.getBasedExpression( ), scope, cx );
+					AggregationDefinition[] ads = CubeQueryDefinitionUtil.createAggregationDefinitons( 
+							new CalculatedMember[]{newMembers[index]}, cubeQueryDefn );
+					newArs = CubeQueryExecutorHelper.computeNestAggregation( 
+							ds4aggr, ads[0], stopSign );
+					break;
+				}
+			}
+			//referenced binding does not exist or not a aggregation 
+			if ( newArs == null )
+			{
+				throw new DataException( ResourceConstants.INVALID_AGGR_BINDING_EXPRESSION );
+			}
+			boolean merged = false;
+			for ( int i=0; i<currentSources.size( ) && !stopSign.isStopped( ); i++ )
+			{
+				IAggregationResultSet ars = currentSources.get( i );
+				if ( ars.getAggregationCount( ) > 0 //omit edge IAggregationResultSet 
+						&& Arrays.deepEquals( ars.getAllLevels( ), newArs.getAllLevels( ) ))
+				{
+					ars = new MergedAggregationResultSet( ars, newArs );
+					currentSources.set( i, ars );
+					merged = true;
+					break;
+				}
+			}
+			if ( !merged )
+			{
+				currentSources.add( newArs );
+			}
+			index++;
 		}
+		
 		return currentSources.toArray( new IAggregationResultSet[0] );
 	}
 
@@ -68,52 +122,10 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 		return cubeOperation;
 	}
 
-	public CalculatedMember[] getNewCalculatedMembers( )
-	{
-		return newMembers;
-	}
 
-	// Find out which IAggregationResultSet to be operated on
-	private IAggregationResultSet findDataSource(
-			List<IAggregationResultSet> sources,
-			AggregationDefinition definition ) throws DataException
-	{
-		// All the functions in definition have a same measure name in this case
-		String baseAggrName = definition.getAggregationFunctions( )[0].getMeasureName( );
 
-		if ( baseAggrName == null )
-		{
-			throw new DataException( ResourceConstants.NOT_NEST_AGGREGATION_BINDING,
-					getAllBindingNames( definition ) );
-		}
-		for ( IAggregationResultSet resultSet : sources )
-		{
-			for ( int i = 0; i < resultSet.getAggregationCount( ); i++ )
-			{
-				String aggrName = resultSet.getAggregationName( i );
-				if ( baseAggrName.equals( aggrName ) )
-				{
-					return resultSet;
-				}
-			}
-		}
-		// Failed to find a IAggregationResultSet to be operated on
-		throw new DataException( ResourceConstants.NOT_NEST_AGGREGATION_BINDING,
-				getAllBindingNames( definition ) );
-	}
-
-	/**
-	 * @return all binding names contained in definition
-	 */
-	private static String getAllBindingNames( AggregationDefinition definition )
+	public CubeAggrDefn[] getNewCubeAggrDefns( )
 	{
-		StringBuffer allBindingNames = new StringBuffer( "" );
-		for ( AggregationFunctionDefinition function : definition.getAggregationFunctions( ) )
-		{
-			allBindingNames.append( "[" )
-					.append( function.getName( ) )
-					.append( "]" );
-		}
-		return allBindingNames.toString( );
+		return aggrDefns;
 	}
 }

@@ -12,8 +12,11 @@
 package org.eclipse.birt.data.engine.olap.query.view;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,7 +24,9 @@ import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
@@ -33,6 +38,7 @@ import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeOperationFactory;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.impl.query.IPreparedCubeOperation;
+import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -82,27 +88,33 @@ public class BirtCubeView
 				queryExecutor.getSession( ).getEngineContext( ).getScriptContext( ));
 		manager = new MeasureNameManager( members );
 
-		prepareCubeOperations( manager.getBasedRsIndex( ) + 1 );
+		prepareCubeOperations( manager );
 	}
 	
-	private void prepareCubeOperations( int startRsId ) throws DataException
+	private void prepareCubeOperations( MeasureNameManager manager ) throws DataException
 	{
+		List<IBinding> bindings = new ArrayList( this.getCubeQueryDefinition( ).getBindings( ));
 		Scriptable scope = executor.getSession( ).getSharedScope( );
+		ScriptContext cx = executor.getSession( ).getEngineContext( ).getScriptContext( );
 		preparedCubeOperations = new IPreparedCubeOperation[this.getCubeQueryDefinition( ).getCubeOperations().length];
 		int i = 0;
-		int startId = startRsId;
 		for (ICubeOperation co : this.getCubeQueryDefinition( ).getCubeOperations())
 		{
-			IPreparedCubeOperation pco = CubeOperationFactory.createPreparedCubeOperation(co, scope, startId, executor.getSession( ).getEngineContext( ).getScriptContext( ));
-			preparedCubeOperations[i] = pco;
-			CalculatedMember[] newMembers = pco.getNewCalculatedMembers( );
-			if (newMembers != null && newMembers.length > 0)
-			{
-				startId = newMembers[newMembers.length - 1].getRsID( ) + 1;
-			}
-			manager.addCalculatedMembersFromCubeOperation( newMembers );
-			i++;
+			IPreparedCubeOperation pco = CubeOperationFactory.createPreparedCubeOperation( co );
+			preparedCubeOperations[i++] = pco;
+			pco.prepare( scope, cx, manager, bindings.toArray( new IBinding[0]) );
+			bindings.addAll( Arrays.asList( co.getNewBindings( )) );
 		}
+	}
+	
+	private CubeAggrDefn[] getAggrDefnsFromOperations( )
+	{
+		List<CubeAggrDefn> result = new ArrayList<CubeAggrDefn>( );
+		for (IPreparedCubeOperation pco : this.preparedCubeOperations )
+		{
+			result.addAll( Arrays.asList( pco.getNewCubeAggrDefns( ) ) );
+		}
+		return result.toArray( new CubeAggrDefn[0] );
 	}
 	
 	public BirtCubeView createSubView( ) throws DataException
@@ -148,7 +160,7 @@ public class BirtCubeView
 	public CubeCursor getCubeCursor( StopSign stopSign ) throws OLAPException, DataException
 	{
 		Map relationMap = CubeQueryDefinitionUtil.getRelationWithMeasure( this.getCubeQueryDefinition( ),
-				measureMapping );
+				measureMapping, this.getAggrDefnsFromOperations( ) );
 		queryExecutor = new QueryExecutor( );
 		try
 		{
@@ -195,7 +207,7 @@ public class BirtCubeView
 			throw new DataException( ResourceConstants.NO_PARENT_RESULT_CURSOR );
 		}
 		Map relationMap = CubeQueryDefinitionUtil.getRelationWithMeasure( this.getCubeQueryDefinition( ),
-				measureMapping );
+				measureMapping, this.getAggrDefnsFromOperations( ) );
 
 		int startingColumnLevelIndex = -1, startingRowLevelIndex = -1;
 		if ( startingColumnLevel != null )

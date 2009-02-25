@@ -11,17 +11,11 @@
 
 package org.eclipse.birt.data.engine.olap.query.view;
 
-import java.util.List;
-
-import org.eclipse.birt.data.engine.aggregation.AggregationUtil;
-import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
-import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
-import org.eclipse.birt.data.engine.olap.impl.query.ComputedMeasureDefinition;
 
 /**
  * validate cube query defintion with edge, measure definition.
@@ -57,66 +51,8 @@ class CubeQueryValidator
 		{
 			validateOnEdgeDefinition( cube, view.getRowEdgeView( ) );
 		}
-		if ( calculatedMember != null && calculatedMember.length > 0 )
-		{
-			validateCalculatedMember( defn, cube, calculatedMember );
-		}
 	}
 
-	/**
-	 * validate on calculated member to verify whether the measure reference
-	 * exist.
-	 * 
-	 * @param cube
-	 * @param measureDefn
-	 * @throws DataException
-	 */
-	static void validateCalculatedMember( ICubeQueryDefinition defn, ICube cube,
-			CalculatedMember[] calculatedMember ) throws DataException
-	{
-		boolean findMeasure = false;
-		for ( int i = 0; i < calculatedMember.length; i++ )
-		{
-			findMeasure = false;
-			String measureName = calculatedMember[i].getMeasureName( );
-			String[] names = cube.getMeasureNames( );
-			if ( names != null && names.length > 0 )
-			{
-				for ( int k = 0; k < names.length; k++ )
-				{
-					if ( names[k].equals( measureName ) )
-					{
-						findMeasure = true;
-						break;
-					}
-				}
-			}
-			
-			if ( !findMeasure )
-			{
-				List computedMeasures = defn.getComputedMeasures( );
-
-				for( int k = 0; k < computedMeasures.size( ); k++ )
-				{
-					if ( ((ComputedMeasureDefinition)computedMeasures.get( k )).getName( ).equals( measureName ) )
-					{
-						findMeasure = true;
-						break;
-					}
-				}
-				
-				final IAggrFunction aggrFunc = AggregationManager.getInstance( )
-						.getAggregation( calculatedMember[i].getAggrFunction( ) );
-//				if ( !findMeasure
-//						&& AggregationUtil.needDataField( aggrFunc ) )
-//					throw new DataException( ResourceConstants.MEASURE_NAME_NOT_FOUND,
-//							new Object[]{
-//								measureName
-//							} );
-			}
-
-		}
-	}
 
 	/**
 	 * validate on edge definition

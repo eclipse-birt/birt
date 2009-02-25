@@ -14,11 +14,16 @@ package org.eclipse.birt.data.engine.olap.impl.query;
 import java.io.IOException;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
-import org.eclipse.birt.data.engine.olap.query.view.CalculatedMember;
+import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
+import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * A prepared cube operation
@@ -32,14 +37,26 @@ public interface IPreparedCubeOperation
 	 */
 	ICubeOperation getCubeOperation( );
 
+	
+	
 	/**
-	 * calculatedMembers are used to locate IAggregationResultSet for the new
-	 * bindings introduced from ICubeOperation
 	 * 
-	 * @return new calculatedMembers introduced from the cube operation.
+	 * @param scope
+	 * @param cx
+	 * @param manager
+	 * @param basedBindings：the bindings this operation can refers to
+	 * @throws DataException
 	 */
-	CalculatedMember[] getNewCalculatedMembers( );
+	void prepare( Scriptable scope, ScriptContext cx, MeasureNameManager manager, IBinding[] basedBindings ) throws DataException;
 
+	
+	/**
+	 * called after prepare() is called
+	 * @return new CubeAggrDefns introduced from this operation.
+	 *         an empty array is returned if no CubeAggrDefn introduced 
+	 */
+	CubeAggrDefn[] getNewCubeAggrDefns( ); 
+	              
 	/**
 	 * execute the operation based on sources
 	 * 
@@ -53,6 +70,6 @@ public interface IPreparedCubeOperation
 	 * @throws BirtException
 	 */
 	IAggregationResultSet[] execute( ICubeQueryDefinition cubeQueryDefn,
-			IAggregationResultSet[] sources, StopSign stopSign )
+			IAggregationResultSet[] sources, Scriptable scope, ScriptContext cx, StopSign stopSign )
 			throws IOException, BirtException;
 }
