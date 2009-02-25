@@ -32,7 +32,8 @@ public class ReportletExecutorV4 extends AbstractReportExecutor
 	private Fragment fragment;
 	private IReportItemExecutor bodyExecutor;
 
-	public ReportletExecutorV4( ExecutionContext context, long offset ) throws IOException
+	public ReportletExecutorV4( ExecutionContext context, long offset )
+			throws IOException, BirtException
 			
 	{
 
@@ -68,11 +69,11 @@ public class ReportletExecutorV4 extends AbstractReportExecutor
 		return reportContent;
 	}
 
-	public IReportItemExecutor getNextChild( )
+	public IReportItemExecutor getNextChild( ) throws BirtException
 	{
 		if ( bodyExecutor != null )
 		{
-			IReportItemExecutor executor = bodyExecutor;
+			IReportItemExecutor executor = bodyExecutor.getNextChild( );
 			bodyExecutor = null;
 			return executor;
 		}

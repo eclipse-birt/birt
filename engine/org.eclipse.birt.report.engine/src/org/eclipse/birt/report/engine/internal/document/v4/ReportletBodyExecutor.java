@@ -31,12 +31,12 @@ public class ReportletBodyExecutor implements IReportItemExecutor
 	IReportItemExecutor childExecutor;
 
 	ReportletBodyExecutor( ExecutorManager manager, Fragment fragment,
-			long offset )
+			long offset ) throws BirtException
 	{
 		this.bodyExecutor = new ReportBodyExecutor( manager, fragment );
 		this.offset = offset;
 		parentExecutors.add( bodyExecutor );
-		childExecutor = bodyExecutor;
+		doExecute( );
 	}
 
 	public void close( ) throws BirtException
@@ -78,13 +78,9 @@ public class ReportletBodyExecutor implements IReportItemExecutor
 		}
 	}
 
-	public IContent execute( ) throws BirtException
+	public IContent execute( )
 	{
-		if ( bodyContent == null )
-		{
-			doExecute( );
-		}
-		return bodyContent;
+		return null;
 	}
 
 	public IContent getContent( )
