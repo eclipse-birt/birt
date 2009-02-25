@@ -482,6 +482,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private void createSQLOptionGroup( Composite tablescomposite )
 	{
 		Group sqlOptionGroup = new Group( tablescomposite, SWT.FILL );
+		sqlOptionGroup.setText( JdbcPlugin.getResourceString( "tablepage.group.title" ) ); //$NON-NLS-1$
 		GridLayout sqlOptionGroupLayout = new GridLayout( );
 		sqlOptionGroupLayout.verticalSpacing = 10;
 		sqlOptionGroup.setLayout( sqlOptionGroupLayout );
