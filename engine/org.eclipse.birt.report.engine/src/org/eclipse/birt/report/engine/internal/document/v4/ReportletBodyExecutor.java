@@ -36,7 +36,7 @@ public class ReportletBodyExecutor implements IReportItemExecutor
 		this.bodyExecutor = new ReportBodyExecutor( manager, fragment );
 		this.offset = offset;
 		parentExecutors.add( bodyExecutor );
-		childExecutor = bodyExecutor;
+		doExecute();
 	}
 
 	public void close( )
@@ -80,11 +80,7 @@ public class ReportletBodyExecutor implements IReportItemExecutor
 
 	public IContent execute( )
 	{
-		if ( bodyContent == null )
-		{
-			doExecute( );
-		}
-		return bodyContent;
+		return null;
 	}
 
 	public IContent getContent( )

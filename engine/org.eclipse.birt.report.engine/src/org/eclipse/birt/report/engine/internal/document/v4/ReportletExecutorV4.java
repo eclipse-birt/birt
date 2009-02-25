@@ -61,7 +61,7 @@ public class ReportletExecutorV4 extends AbstractReportExecutor
 	{
 		if ( bodyExecutor != null )
 		{
-			IReportItemExecutor executor = bodyExecutor;
+			IReportItemExecutor executor = bodyExecutor.getNextChild();
 			bodyExecutor = null;
 			return executor;
 		}
