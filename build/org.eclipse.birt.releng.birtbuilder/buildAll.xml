@@ -58,21 +58,17 @@
 				<antcall target="buildBirtNLFeature"/>
 				<antcall target="CreateUpdateSite"/>
 				<antcall target="pushUpdateSiteLocal"/>
-				<antcall target="iPortalSetup"/>
-				
+				<antcall target="iPortalSetup"/>			
 			</sequential>
 			<sequential>
-				<!--
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
 				<antcall target="generateJavaDoc"/>
-				-->
 			</sequential>
 		</parallel>
-		
-		<!--
 		<antcall target="runBirtTest"/>
-                <antcall target="runBirtPerformance"/>
+		<!--
+        <antcall target="runBirtPerformance"/>
 		-->
 	</target>
 
