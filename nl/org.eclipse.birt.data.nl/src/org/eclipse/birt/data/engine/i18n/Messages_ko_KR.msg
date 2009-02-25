@@ -381,7 +381,8 @@ data.olap.NonexistentLevel=존재하지 않는 수준:
 data.olap.NonexistentKeyOrAttr=존재하지 않는 키 또는 특성:
 data.olap.UnsupportedFunction=지원되지 않는 함수:
 data.olap.UnspecifiedBindingName=바인딩 이름이 지정되지 않았습니다.
-data.olap.NotNestAggregationBinding = 중첩 집계 바인딩이 아닙니다: {0}
+data.olap.NotNestAggregationBinding=Not cube nest aggregation binding: {0}
+data.olap.InvalidNestAggregationExpression=The expression of a cube nest aggregation is invalid.
 data.olap.sort.exprError=참조되는 차원 수준 집합에는 1개의 수준만 포함되어야 합니다!
 
 data.cache.UnsupportedIncrementalCacheMode=증가 캐시의 \"{0}\" 모드는 아직 지원되지 않습니다.

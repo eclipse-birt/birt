@@ -381,7 +381,8 @@ data.olap.NonexistentLevel=Niveau non existant :
 data.olap.NonexistentKeyOrAttr=Clé ou attribut non existant :
 data.olap.UnsupportedFunction=Fonction non prise en charge :
 data.olap.UnspecifiedBindingName=Le nom de liaison n'est pas spécifié.
-data.olap.NotNestAggregationBinding = Aucune liaison d'agrégation imbriquée : {0}
+data.olap.NotNestAggregationBinding=Not cube nest aggregation binding: {0}
+data.olap.InvalidNestAggregationExpression=The expression of a cube nest aggregation is invalid.
 data.olap.sort.exprError=Le jeu de niveaux de dimension référencés ne doit contenir qu'un seul niveau.
 
 data.cache.UnsupportedIncrementalCacheMode=Le mode \"{0}\" de cache incrémentiel n''est pas encore pris en charge !

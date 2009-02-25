@@ -381,7 +381,8 @@ data.olap.NonexistentLevel=不存在的级别:
 data.olap.NonexistentKeyOrAttr=不存在的关键字或属性:
 data.olap.UnsupportedFunction=不支持的函数:
 data.olap.UnspecifiedBindingName=未指定绑定名称。
-data.olap.NotNestAggregationBinding = 未嵌套的聚合绑定: {0}
+data.olap.NotNestAggregationBinding=Not cube nest aggregation binding: {0}
+data.olap.InvalidNestAggregationExpression=The expression of a cube nest aggregation is invalid.
 data.olap.sort.exprError=设置的引用维级别只应包含一个级别!
 
 data.cache.UnsupportedIncrementalCacheMode=尚未支持增量缓存的“{0}”模式!

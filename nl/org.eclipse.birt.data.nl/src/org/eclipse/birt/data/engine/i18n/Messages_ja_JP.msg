@@ -381,7 +381,8 @@ data.olap.NonexistentLevel=存在しないレベル :
 data.olap.NonexistentKeyOrAttr=存在しないキーまたは属性 :
 data.olap.UnsupportedFunction=サポートされていない関数 :
 data.olap.UnspecifiedBindingName=バインド名が指定されていません。
-data.olap.NotNestAggregationBinding = ネストされた集計のバインドではありません : {0}
+data.olap.NotNestAggregationBinding=Not cube nest aggregation binding: {0}
+data.olap.InvalidNestAggregationExpression=The expression of a cube nest aggregation is invalid.
 data.olap.sort.exprError=参照するディメンジョンレベルにつき 1 つのレベルしか含めることができません。
 
 data.cache.UnsupportedIncrementalCacheMode=増分キャッシュの \"{0}\" モードはまだサポートされていません。
