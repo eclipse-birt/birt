@@ -152,7 +152,6 @@ public class HyperlinkBuilder extends BaseDialog
 	private static final ParamBinding dummyParameterBinding = StructureFactory.createParamBinding( );
 
 	private ActionHandle inputHandle;
-	private List dataSetList;
 
 	private Composite displayArea;
 
@@ -1345,8 +1344,6 @@ public class HyperlinkBuilder extends BaseDialog
 
 	protected boolean initDialog( )
 	{
-		dataSetList = DEUtil.getDataSetList( inputHandle.getElementHandle( ) );
-
 		switchTo( inputHandle.getLinkType( ) );
 
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
@@ -1785,9 +1782,7 @@ public class HyperlinkBuilder extends BaseDialog
 		}
 		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
 		{
-			okEnable = targetReportHandle != null
-					&& ( !StringUtil.isBlank( locationEditor.getText( ) ) || !StringUtil.isBlank( documentEditor.getText( ) ) )
-					&& messageLine.getImage( ) == null;
+			okEnable = ( !StringUtil.isBlank( locationEditor.getText( ) ) || !StringUtil.isBlank( documentEditor.getText( ) ) );
 		}
 		getOkButton( ).setEnabled( okEnable );
 	}
@@ -1925,8 +1920,10 @@ public class HyperlinkBuilder extends BaseDialog
 		String rootPath = null;
 		if ( file_path.startsWith( "/" ) )
 		{
-			rootPath = getProjectFolder();
-		}else{
+			rootPath = getProjectFolder( );
+		}
+		else
+		{
 			rootPath = getBasePath( );
 		}
 		return URIUtil.resolveAbsolutePath( rootPath, file_path );
