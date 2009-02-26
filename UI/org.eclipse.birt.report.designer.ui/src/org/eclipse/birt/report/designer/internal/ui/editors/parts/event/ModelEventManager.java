@@ -139,9 +139,10 @@ public class ModelEventManager implements Listener
 	protected void clearEvent( )
 	{
 		int size = listenerList.size( );
+		List list = new ArrayList(listenerList);
 		for ( int i = 0; i < size; i++ )
 		{
-			IModelEventProcessor processor = (IModelEventProcessor) listenerList.get( i );
+			IModelEventProcessor processor = (IModelEventProcessor) list.get( i );
 			processor.clear( );
 		}
 	}
