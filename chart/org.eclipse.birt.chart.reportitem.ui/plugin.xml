@@ -118,6 +118,22 @@
        </enablement>
     </adapter>
  </adaptable>
+    <adaptable
+          class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+       <adapter
+             class="org.eclipse.birt.chart.reportitem.ui.views.provider.ChartContextExpressionProvider"
+             id="Chart.ContextExpressionProvider"
+             singleton="true"
+             type="org.eclipse.birt.report.designer.ui.expressions.IContextExpressionProvider">
+          <enablement>
+             <test
+                   forcePluginActivation="true"
+                   property="ExtendItemHandle.extensionName"
+                   value="Chart">
+             </test>
+          </enablement>
+       </adapter>
+    </adaptable>
    	</extension>
 
    <extension
