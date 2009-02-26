@@ -211,6 +211,8 @@ data.engine.failToCreateTempDir=Error al crear el directorio temporal en "{0}";
 data.engine.reportItem.SubQuery.Unsupported=Los elementos de informe para compartir no se pueden usar para una subconsulta.
 data.engine.emptyResultSet=El conjunto de resultados está vacío.
 data.engine.errorHappenWhenRetrieveResultSet=Se ha producido un error durante el acceso al conjunto de resultados "{0}". Es posible que el conjunto de resultados no exista.
+data.engine.invalidAggregationBindingForPLSReport=The aggregation binding "{0}" is invalid when page level security is enabled.
+
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=El nombre de columna no puede ser nulo ni estar vacío.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

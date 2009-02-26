@@ -211,6 +211,8 @@ data.engine.failToCreateTempDir="{0}" に一時ディレクトリを作成できません。
 data.engine.reportItem.SubQuery.Unsupported=サブクエリにはレポート項目を共有できません。
 data.engine.emptyResultSet=結果セットは空です。
 data.engine.errorHappenWhenRetrieveResultSet=結果セット "{0}" の表示中にエラーが発生しました。指定した結果セットが存在しない可能性があります。
+data.engine.invalidAggregationBindingForPLSReport=The aggregation binding "{0}" is invalid when page level security is enabled.
+
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名は空白または null にできません。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

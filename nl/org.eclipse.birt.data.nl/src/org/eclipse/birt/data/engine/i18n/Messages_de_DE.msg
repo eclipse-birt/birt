@@ -211,6 +211,8 @@ data.engine.failToCreateTempDir=Temporäres Verzeichnis in "{0}" konnte nicht ers
 data.engine.reportItem.SubQuery.Unsupported=Gemeinsames Berichtobjekt kann nicht für Teilabfrage verwendet werden.
 data.engine.emptyResultSet=Das Ergebnis ist leer.
 data.engine.errorHappenWhenRetrieveResultSet=Fehler beim Abrufen von Ergebnis "{0}". Möglicherweise ist das angegebene Ergebnis nicht vorhanden.
+data.engine.invalidAggregationBindingForPLSReport=The aggregation binding "{0}" is invalid when page level security is enabled.
+
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
