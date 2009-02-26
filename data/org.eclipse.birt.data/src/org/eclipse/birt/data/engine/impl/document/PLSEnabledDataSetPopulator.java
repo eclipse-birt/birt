@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.ResultObject;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.PLSUtil;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -109,7 +110,8 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 			}
 			catch ( BirtException e )
 			{
-				throw DataException.wrap( e );
+				throw new DataException( ResourceConstants.INVALID_AGGREGATION_BINDING_FOR_PLS, this.originalBindingNames.get( i
+						- curr.getResultClass( ).getFieldCount( ) )  );
 			}
 		}
 		return new ResultObject( this.resultClass, field );
