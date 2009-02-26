@@ -377,7 +377,7 @@
    	<Function
           desc="Returns a timestamp value which is midnight of the current date."
           name="today">
-   		<DataType value="%dataType.DateTime"></DataType></Function>
+   		<DataType value="%dataType.Date"></DataType></Function>
    	<Function
           desc="Returns the current timestamp."
           name="now">

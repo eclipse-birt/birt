@@ -492,8 +492,13 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static Date today( )
 	{
-		Calendar c = Calendar.getInstance( );
-		return c.getTime( );
+		Calendar calendar = Calendar.getInstance( );
+		calendar.set( Calendar.HOUR_OF_DAY, 0 );
+		calendar.clear( Calendar.MINUTE );
+		calendar.clear( Calendar.SECOND );
+		calendar.clear( Calendar.MILLISECOND );
+		
+		return calendar.getTime( );
 	}
 
 	private class Function_Now extends Function_temp
