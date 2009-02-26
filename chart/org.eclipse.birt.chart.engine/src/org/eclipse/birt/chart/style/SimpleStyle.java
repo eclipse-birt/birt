@@ -17,8 +17,8 @@ import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * A default implementaitn for IStyle.
@@ -89,7 +89,7 @@ public final class SimpleStyle implements IStyle
 			}
 			if ( src.getBackgroundImage( ) != null )
 			{
-				setBackgroundImage( (Image) EcoreUtil.copy( src.getBackgroundImage( ) ) );
+				setBackgroundImage( ImageImpl.copyInstance( src.getBackgroundImage( ) ) );
 			}
 			if ( src.getPadding( ) != null )
 			{
@@ -121,7 +121,7 @@ public final class SimpleStyle implements IStyle
 		}
 		if ( backimage != null )
 		{
-			ss.setBackgroundImage( (Image) EcoreUtil.copy( backimage ) );
+			ss.setBackgroundImage( ImageImpl.copyInstance( backimage ) );
 		}
 		if ( padding != null )
 		{

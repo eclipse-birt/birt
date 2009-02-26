@@ -85,6 +85,7 @@ import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.attribute.impl.SeriesValueImpl;
@@ -1207,8 +1208,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				&& valueLa != null
 				&& valueLa.getCaption( ) != null )
 		{
-			valueLa.getCaption( ).setFont( la.getCaption( ).getFont( ) );
-			valueLa.getCaption( ).setColor( la.getCaption( ).getColor( ) );
+			valueLa.getCaption( )
+					.setFont( FontDefinitionImpl.copyInstance( la.getCaption( )
+							.getFont( ) ) );
+			valueLa.getCaption( )
+					.setColor( ColorDefinitionImpl.copyInstance( la.getCaption( )
+							.getColor( ) ) );
 		}
 		
 		LegendEntryRenderingHints lerh = new LegendEntryRenderingHints( la,

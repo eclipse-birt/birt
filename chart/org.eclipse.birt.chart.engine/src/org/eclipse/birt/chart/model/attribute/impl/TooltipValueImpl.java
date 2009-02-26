@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -297,6 +296,29 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 			tv.setText( sText );
 		}
 		return tv;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static TooltipValue copyInstance( TooltipValue src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		TooltipValueImpl dest = new TooltipValueImpl( );
+
+		dest.text = src.getText( );
+		dest.delay = src.getDelay( );
+		dest.delayESet = src.isSetDelay( );
+
+		return dest;
 	}
 
 } // TooltipValueImpl

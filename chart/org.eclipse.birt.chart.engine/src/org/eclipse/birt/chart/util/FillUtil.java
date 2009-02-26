@@ -20,8 +20,8 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FillImpl;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Utility class for Fill conversion.
@@ -204,11 +204,6 @@ public class FillUtil
 	{
 		if ( fill instanceof ColorDefinition )
 		{
-			ColorDefinition color = (ColorDefinition) fill;
-			if ( color == null )
-			{
-				return null;
-			}
 			Gradient gradient = AttributeFactory.eINSTANCE.createGradient( );
 			ColorDefinition newStartColor = (ColorDefinition) changeBrightness( fill,
 					0.95 );
@@ -246,11 +241,11 @@ public class FillUtil
 				color.getBlue( ) );
 		if ( currentLuminance < 200 )
 		{
-			ColorDefinition newStartColor = (ColorDefinition) EcoreUtil.copy( color );
+			ColorDefinition newStartColor = ColorDefinitionImpl.copyInstance( color );
 			newStartColor.eAdapters( ).addAll( color.eAdapters( ) );
 			gradient.setStartColor( newStartColor );
 
-			ColorDefinition newColor = (ColorDefinition) EcoreUtil.copy( color );
+			ColorDefinition newColor = ColorDefinitionImpl.copyInstance( color );
 			newColor.eAdapters( ).addAll( color.eAdapters( ) );
 
 			int lumDiff = 240 - currentLuminance;
@@ -261,11 +256,11 @@ public class FillUtil
 		}
 		else
 		{
-			ColorDefinition newEndColor = (ColorDefinition) EcoreUtil.copy( color );
+			ColorDefinition newEndColor = ColorDefinitionImpl.copyInstance( color );
 			newEndColor.eAdapters( ).addAll( color.eAdapters( ) );
 			gradient.setEndColor( newEndColor );
 
-			ColorDefinition newColor = (ColorDefinition) EcoreUtil.copy( color );
+			ColorDefinition newColor = ColorDefinitionImpl.copyInstance( color );
 			newColor.eAdapters( ).addAll( color.eAdapters( ) );
 
 			int lumDiff = -100;
@@ -294,23 +289,14 @@ public class FillUtil
 	}
 
 	/**
-	 * The purpose of the Method is to make faster copy of Fill for rendering,
-	 * in the moment only copying of ColorDefinition is improved, which is the
-	 * most commonest case.
+	 * The purpose of the Method is to make faster copy of Fill for rendering.
 	 * 
 	 * @param src
 	 * @return fill copy
 	 */
 	public static Fill copyOf( Fill src )
 	{
-		if ( src instanceof ColorDefinition )
-		{
-			return ColorDefinitionImpl.copyInstance( (ColorDefinition) src );
-		}
-		else
-		{
-			return (Fill) EcoreUtil.copy( src );
-		}
+		return FillImpl.copyInstance( src );
 	}
 
 	/**

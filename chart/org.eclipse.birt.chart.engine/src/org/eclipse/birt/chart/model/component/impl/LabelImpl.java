@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FillImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
@@ -844,19 +845,40 @@ public class LabelImpl extends EObjectImpl implements Label
 		{
 			return null;
 		}
-		LabelImpl lb = new LabelImpl( );
+
+		LabelImpl dest = new LabelImpl( );
+
+		if ( src.getCaption( ) != null )
+		{
+			dest.setCaption( TextImpl.copyInstance( src.getCaption( ) ) );
+		}
+
 		if ( src.getBackground( ) != null )
 		{
-			lb.background = FillUtil.copyOf( src.getBackground( ) );
+			dest.setBackground( FillImpl.copyInstance( src.getBackground( ) ) );
 		}
-		lb.caption = TextImpl.copyInstance( src.getCaption( ) );
-		lb.insets = InsetsImpl.copyInstance( src.getInsets( ) );
-		lb.outline = LineAttributesImpl.copyInstance( src.getOutline( ) );
-		lb.shadowColor = ColorDefinitionImpl.copyInstance( src.getShadowColor( ) );
-		lb.visible = src.isVisible( );
-		lb.visibleESet = src.isSetVisible( );
-		lb.ellipsis = src.getEllipsis( );
-		return lb;
+
+		if ( src.getOutline( ) != null )
+		{
+			dest.setOutline( LineAttributesImpl.copyInstance( src.getOutline( ) ) );
+		}
+
+		if ( src.getShadowColor( ) != null )
+		{
+			dest.setShadowColor( ColorDefinitionImpl.copyInstance( src.getShadowColor( ) ) );
+		}
+
+		if ( src.getInsets( ) != null )
+		{
+			dest.setInsets( InsetsImpl.copyInstance( src.getInsets( ) ) );
+		}
+
+		dest.visible = src.isVisible( );
+		dest.visibleESet = src.isSetVisible( );
+		dest.ellipsis = src.getEllipsis( );
+		dest.ellipsisESet = src.isSetEllipsis( );
+
+		return dest;
 	}
 
 	/**

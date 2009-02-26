@@ -398,4 +398,28 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 		return format( c, ULocale.forLocale( lcl ) );
 	}
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static DateFormatSpecifier copyInstance( DateFormatSpecifier src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		DateFormatSpecifierImpl dest = new DateFormatSpecifierImpl( );
+
+		dest.type = src.getType( );
+		dest.typeESet = src.isSetType( );
+		dest.detail = src.getDetail( );
+		dest.detailESet = src.isSetDetail( );
+
+		return dest;
+	}
+
 } // DateFormatSpecifierImpl

@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -190,6 +189,27 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 		SeriesValue sv = AttributeFactoryImpl.eINSTANCE.createSeriesValue( );
 		sv.setName( name );
 		return sv;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static SeriesValue copyInstance( SeriesValue src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		SeriesValueImpl dest = new SeriesValueImpl( );
+
+		dest.name = src.getName( );
+
+		return dest;
 	}
 
 } // SeriesValueImpl

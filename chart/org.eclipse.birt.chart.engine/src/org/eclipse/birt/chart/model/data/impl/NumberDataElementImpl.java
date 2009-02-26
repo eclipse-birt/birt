@@ -235,4 +235,26 @@ public class NumberDataElementImpl extends DataElementImpl implements
 		return nde;
 	}
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static NumberDataElement copyInstance( NumberDataElement src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		NumberDataElementImpl dest = new NumberDataElementImpl( );
+
+		dest.value = src.getValue( );
+		dest.valueESet = src.isSetValue( );
+
+		return dest;
+	}
+
 } //NumberDataElementImpl

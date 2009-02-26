@@ -21,17 +21,27 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
+import org.eclipse.birt.chart.model.attribute.StyleMap;
+import org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FillImpl;
+import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
+import org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.AxisImpl;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
+import org.eclipse.birt.chart.model.data.impl.SampleDataImpl;
+import org.eclipse.birt.chart.model.layout.impl.BlockImpl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -1117,4 +1127,110 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 			}
 		}
 	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static ChartWithAxes copyInstance( ChartWithAxes src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		ChartWithAxesImpl dest = new ChartWithAxesImpl( );
+
+		if ( src.getDescription( ) != null )
+		{
+			dest.setDescription( TextImpl.copyInstance( src.getDescription( ) ) );
+		}
+
+		if ( src.getBlock( ) != null )
+		{
+			dest.setBlock( BlockImpl.copyInstance( src.getBlock( ) ) );
+		}
+
+		if ( src.getExtendedProperties( ) != null )
+		{
+			EList<ExtendedProperty> list = dest.getExtendedProperties( );
+			for ( ExtendedProperty element : src.getExtendedProperties( ) )
+			{
+				list.add( ExtendedPropertyImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getSampleData( ) != null )
+		{
+			dest.setSampleData( SampleDataImpl.copyInstance( src.getSampleData( ) ) );
+		}
+
+		if ( src.getStyles( ) != null )
+		{
+			EList<StyleMap> list = dest.getStyles( );
+			for ( StyleMap element : src.getStyles( ) )
+			{
+				list.add( StyleMapImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getInteractivity( ) != null )
+		{
+			dest.setInteractivity( InteractivityImpl.copyInstance( src.getInteractivity( ) ) );
+		}
+
+		if ( src.getEmptyMessage( ) != null )
+		{
+			dest.setEmptyMessage( LabelImpl.copyInstance( src.getEmptyMessage( ) ) );
+		}
+
+		if ( src.getAxes( ) != null )
+		{
+			EList<Axis> list = dest.getAxes( );
+			for ( Axis element : src.getAxes( ) )
+			{
+				list.add( AxisImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getWallFill( ) != null )
+		{
+			dest.setWallFill( FillImpl.copyInstance( src.getWallFill( ) ) );
+		}
+
+		if ( src.getFloorFill( ) != null )
+		{
+			dest.setFloorFill( FillImpl.copyInstance( src.getFloorFill( ) ) );
+		}
+
+		if ( src.getRotation( ) != null )
+		{
+			dest.setRotation( Rotation3DImpl.copyInstance( src.getRotation( ) ) );
+		}
+
+		dest.version = src.getVersion( );
+		dest.versionESet = src.isSetVersion( );
+		dest.type = src.getType( );
+		dest.subType = src.getSubType( );
+		dest.dimension = src.getDimension( );
+		dest.dimensionESet = src.isSetDimension( );
+		dest.script = src.getScript( );
+		dest.units = src.getUnits( );
+		dest.seriesThickness = src.getSeriesThickness( );
+		dest.seriesThicknessESet = src.isSetSeriesThickness( );
+		dest.gridColumnCount = src.getGridColumnCount( );
+		dest.gridColumnCountESet = src.isSetGridColumnCount( );
+		dest.orientation = src.getOrientation( );
+		dest.orientationESet = src.isSetOrientation( );
+		dest.unitSpacing = src.getUnitSpacing( );
+		dest.unitSpacingESet = src.isSetUnitSpacing( );
+		dest.reverseCategory = src.isReverseCategory( );
+		dest.reverseCategoryESet = src.isSetReverseCategory( );
+
+		return dest;
+	}
+
 }

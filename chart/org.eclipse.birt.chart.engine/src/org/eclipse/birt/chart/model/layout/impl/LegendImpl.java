@@ -26,12 +26,20 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.Text;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FillImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl;
+import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LayoutFactory;
@@ -2143,6 +2151,145 @@ public class LegendImpl extends BlockImpl implements Legend
 		{
 			// PLOT/LEGEND RELATIONSHIP IS FINE; DON'T DO ANYTHING
 		}
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Legend copyInstance( Legend src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		LegendImpl dest = new LegendImpl( );
+
+		if ( src.getChildren( ) != null )
+		{
+			EList<Block> list = dest.getChildren( );
+			for ( Block element : src.getChildren( ) )
+			{
+				list.add( BlockImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getBounds( ) != null )
+		{
+			dest.setBounds( BoundsImpl.copyInstance( src.getBounds( ) ) );
+		}
+
+		if ( src.getInsets( ) != null )
+		{
+			dest.setInsets( InsetsImpl.copyInstance( src.getInsets( ) ) );
+		}
+
+		if ( src.getMinSize( ) != null )
+		{
+			dest.setMinSize( SizeImpl.copyInstance( src.getMinSize( ) ) );
+		}
+
+		if ( src.getOutline( ) != null )
+		{
+			dest.setOutline( LineAttributesImpl.copyInstance( src.getOutline( ) ) );
+		}
+
+		if ( src.getBackground( ) != null )
+		{
+			dest.setBackground( FillImpl.copyInstance( src.getBackground( ) ) );
+		}
+
+		if ( src.getTriggers( ) != null )
+		{
+			EList<Trigger> list = dest.getTriggers( );
+			for ( Trigger element : src.getTriggers( ) )
+			{
+				list.add( TriggerImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getCursor( ) != null )
+		{
+			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
+		}
+
+		if ( src.getClientArea( ) != null )
+		{
+			dest.setClientArea( ClientAreaImpl.copyInstance( src.getClientArea( ) ) );
+		}
+
+		if ( src.getText( ) != null )
+		{
+			dest.setText( TextImpl.copyInstance( src.getText( ) ) );
+		}
+
+		if ( src.getSeparator( ) != null )
+		{
+			dest.setSeparator( LineAttributesImpl.copyInstance( src.getSeparator( ) ) );
+		}
+
+		if ( src.getTitle( ) != null )
+		{
+			dest.setTitle( LabelImpl.copyInstance( src.getTitle( ) ) );
+		}
+
+		if ( src.getFormatSpecifier( ) != null )
+		{
+			dest.setFormatSpecifier( FormatSpecifierImpl.copyInstance( src.getFormatSpecifier( ) ) );
+		}
+
+		dest.anchor = src.getAnchor( );
+		dest.anchorESet = src.isSetAnchor( );
+		dest.stretch = src.getStretch( );
+		dest.stretchESet = src.isSetStretch( );
+		dest.row = src.getRow( );
+		dest.rowESet = src.isSetRow( );
+		dest.column = src.getColumn( );
+		dest.columnESet = src.isSetColumn( );
+		dest.rowspan = src.getRowspan( );
+		dest.rowspanESet = src.isSetRowspan( );
+		dest.columnspan = src.getColumnspan( );
+		dest.columnspanESet = src.isSetColumnspan( );
+		dest.visible = src.isVisible( );
+		dest.visibleESet = src.isSetVisible( );
+		dest.widthHint = src.getWidthHint( );
+		dest.widthHintESet = src.isSetWidthHint( );
+		dest.heightHint = src.getHeightHint( );
+		dest.heightHintESet = src.isSetHeightHint( );
+		dest.horizontalSpacing = src.getHorizontalSpacing( );
+		dest.horizontalSpacingESet = src.isSetHorizontalSpacing( );
+		dest.verticalSpacing = src.getVerticalSpacing( );
+		dest.verticalSpacingESet = src.isSetVerticalSpacing( );
+		dest.orientation = src.getOrientation( );
+		dest.orientationESet = src.isSetOrientation( );
+		dest.direction = src.getDirection( );
+		dest.directionESet = src.isSetDirection( );
+		dest.position = src.getPosition( );
+		dest.positionESet = src.isSetPosition( );
+		dest.itemType = src.getItemType( );
+		dest.itemTypeESet = src.isSetItemType( );
+		dest.titlePosition = src.getTitlePosition( );
+		dest.titlePositionESet = src.isSetTitlePosition( );
+		dest.showValue = src.isShowValue( );
+		dest.showValueESet = src.isSetShowValue( );
+		dest.showPercent = src.isShowPercent( );
+		dest.showPercentESet = src.isSetShowPercent( );
+		dest.showTotal = src.isShowTotal( );
+		dest.showTotalESet = src.isSetShowTotal( );
+		dest.wrappingSize = src.getWrappingSize( );
+		dest.wrappingSizeESet = src.isSetWrappingSize( );
+		dest.maxPercent = src.getMaxPercent( );
+		dest.maxPercentESet = src.isSetMaxPercent( );
+		dest.titlePercent = src.getTitlePercent( );
+		dest.titlePercentESet = src.isSetTitlePercent( );
+		dest.ellipsis = src.getEllipsis( );
+		dest.ellipsisESet = src.isSetEllipsis( );
+
+		return dest;
 	}
 
 } // LegendImpl

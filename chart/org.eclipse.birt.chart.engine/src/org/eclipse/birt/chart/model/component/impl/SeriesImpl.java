@@ -13,15 +13,16 @@ package org.eclipse.birt.chart.model.component.impl;
 
 import java.util.Collection;
 
-import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
 import org.eclipse.birt.chart.model.attribute.impl.DataPointImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
@@ -32,6 +33,20 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
+import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.type.GanttSeries;
+import org.eclipse.birt.chart.model.type.LineSeries;
+import org.eclipse.birt.chart.model.type.PieSeries;
+import org.eclipse.birt.chart.model.type.StockSeries;
+import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
+import org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl;
+import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
+import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
+import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -1232,4 +1247,115 @@ public class SeriesImpl extends EObjectImpl implements Series
 	{
 		return false;
 	}
+
+	private static Series copyInstanceThis( Series src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		SeriesImpl dest = new SeriesImpl( );
+
+		if ( src.getLabel( ) != null )
+		{
+			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
+		}
+
+		if ( src.getDataDefinition( ) != null )
+		{
+			EList<Query> list = dest.getDataDefinition( );
+			for ( Query element : src.getDataDefinition( ) )
+			{
+				list.add( QueryImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getDataPoint( ) != null )
+		{
+			dest.setDataPoint( DataPointImpl.copyInstance( src.getDataPoint( ) ) );
+		}
+
+		if ( src.getDataSets( ) != null )
+		{
+			EMap<String, DataSet> map = dest.getDataSets( );
+			map.putAll( src.getDataSets( ) );
+		}
+
+		if ( src.getTriggers( ) != null )
+		{
+			EList<Trigger> list = dest.getTriggers( );
+			for ( Trigger element : src.getTriggers( ) )
+			{
+				list.add( TriggerImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getCurveFitting( ) != null )
+		{
+			dest.setCurveFitting( CurveFittingImpl.copyInstance( src.getCurveFitting( ) ) );
+		}
+
+		if ( src.getCursor( ) != null )
+		{
+			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
+		}
+
+		dest.visible = src.isVisible( );
+		dest.visibleESet = src.isSetVisible( );
+		dest.seriesIdentifier = src.getSeriesIdentifier( );
+		dest.labelPosition = src.getLabelPosition( );
+		dest.labelPositionESet = src.isSetLabelPosition( );
+		dest.stacked = src.isStacked( );
+		dest.stackedESet = src.isSetStacked( );
+		dest.translucent = src.isTranslucent( );
+		dest.translucentESet = src.isSetTranslucent( );
+
+		return dest;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Series copyInstance( Series src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		if ( src instanceof PieSeries )
+		{
+			return PieSeriesImpl.copyInstance( (PieSeries) src );
+		}
+		else if ( src instanceof StockSeries )
+		{
+			return StockSeriesImpl.copyInstance( (StockSeries) src );
+		}
+		else if ( src instanceof DialSeries )
+		{
+			return DialSeriesImpl.copyInstance( (DialSeries) src );
+		}
+		else if ( src instanceof LineSeries )
+		{
+			return LineSeriesImpl.copyInstance( (LineSeries) src );
+		}
+		else if ( src instanceof GanttSeries )
+		{
+			return GanttSeriesImpl.copyInstance( (GanttSeries) src );
+		}
+		else if ( src instanceof BarSeries )
+		{
+			return BarSeriesImpl.copyInstance( (BarSeries) src );
+		}
+		else
+		{
+			return copyInstanceThis( src );
+		}
+	}
+
 } // SeriesImpl

@@ -359,12 +359,15 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 		{
 			return null;
 		}
-		TextAlignmentImpl ta = new TextAlignmentImpl( );
-		ta.horizontalAlignment = src.getHorizontalAlignment( );
-		ta.horizontalAlignmentESet = src.isSetHorizontalAlignment( );
-		ta.verticalAlignment = src.getVerticalAlignment( );
-		ta.verticalAlignmentESet = src.isSetVerticalAlignment( );
-		return ta;
+
+		TextAlignmentImpl dest = new TextAlignmentImpl( );
+
+		dest.horizontalAlignment = src.getHorizontalAlignment( );
+		dest.horizontalAlignmentESet = src.isSetHorizontalAlignment( );
+		dest.verticalAlignment = src.getVerticalAlignment( );
+		dest.verticalAlignmentESet = src.isSetVerticalAlignment( );
+
+		return dest;
 	}
 
 	/*

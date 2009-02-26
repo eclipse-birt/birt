@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.attribute.impl;
 
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -416,6 +417,23 @@ public class LocationImpl extends EObjectImpl implements Location
 		setY( getY( ) * dScale );
 	}
 
+	private static Location copyInstanceThis( Location src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		LocationImpl dest = new LocationImpl( );
+
+		dest.x = src.getX( );
+		dest.xESet = src.isSetX( );
+		dest.y = src.getY( );
+		dest.yESet = src.isSetY( );
+
+		return dest;
+	}
+
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
@@ -429,12 +447,15 @@ public class LocationImpl extends EObjectImpl implements Location
 		{
 			return null;
 		}
-		LocationImpl lo = new LocationImpl( );
-		lo.x = src.getX( );
-		lo.y = src.getY( );
-		lo.xESet = src.isSetX( );
-		lo.yESet = src.isSetY( );
-		return lo;
+
+		if ( src instanceof Location3D )
+		{
+			return Location3DImpl.copyInstance( (Location3D) src );
+		}
+		else
+		{
+			return copyInstanceThis( src );
+		}
 	}
 
 	/*

@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -453,6 +452,35 @@ public class DataPointComponentImpl extends EObjectImpl implements
 		dpc.setFormatSpecifier( fs );
 		dpc.setType( dpct );
 		return dpc;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static DataPointComponent copyInstance( DataPointComponent src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		DataPointComponentImpl dest = new DataPointComponentImpl( );
+
+		if ( src.getFormatSpecifier( ) != null )
+		{
+			dest.setFormatSpecifier( FormatSpecifierImpl.copyInstance( src.getFormatSpecifier( ) ) );
+		}
+
+		dest.type = src.getType( );
+		dest.typeESet = src.isSetType( );
+		dest.orthogonalType = src.getOrthogonalType( );
+		dest.orthogonalTypeESet = src.isSetOrthogonalType( );
+
+		return dest;
 	}
 
 } // DataPointComponentImpl

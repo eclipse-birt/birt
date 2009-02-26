@@ -47,7 +47,7 @@ public final class BmpRendererImpl extends JavaxImageIOWriter
 	 */
 	public final int getImageType( )
 	{
-		return BufferedImage.TYPE_INT_RGB;
+		return BufferedImage.TYPE_3BYTE_BGR;
 	}
 
 	/*

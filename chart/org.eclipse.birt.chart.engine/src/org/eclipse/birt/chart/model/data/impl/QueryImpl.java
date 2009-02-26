@@ -358,4 +358,39 @@ public class QueryImpl extends EObjectImpl implements Query
 		return sDefinition != null && sDefinition.trim( ).length( ) != 0;
 	}
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Query copyInstance( Query src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		QueryImpl dest = new QueryImpl( );
+
+		if ( src.getRules( ) != null )
+		{
+			EList<Rule> list = dest.getRules( );
+			for ( Rule element : src.getRules( ) )
+			{
+				list.add( RuleImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getGrouping( ) != null )
+		{
+			dest.setGrouping( SeriesGroupingImpl.copyInstance( src.getGrouping( ) ) );
+		}
+
+		dest.definition = src.getDefinition( );
+
+		return dest;
+	}
+
 } //QueryImpl

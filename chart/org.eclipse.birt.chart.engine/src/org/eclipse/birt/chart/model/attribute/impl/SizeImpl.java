@@ -387,12 +387,15 @@ public class SizeImpl extends EObjectImpl implements Size
 		{
 			return null;
 		}
-		SizeImpl sz = new SizeImpl( );
-		sz.height = src.getHeight( );
-		sz.heightESet = src.isSetHeight( );
-		sz.width = src.getWidth( );
-		sz.widthESet = src.isSetWidth( );
-		return sz;
+
+		SizeImpl dest = new SizeImpl( );
+
+		dest.height = src.getHeight( );
+		dest.heightESet = src.isSetHeight( );
+		dest.width = src.getWidth( );
+		dest.widthESet = src.isSetWidth( );
+
+		return dest;
 	}
 
 } // SizeImpl

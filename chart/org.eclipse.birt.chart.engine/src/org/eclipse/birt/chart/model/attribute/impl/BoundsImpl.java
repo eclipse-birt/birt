@@ -782,16 +782,20 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 		{
 			return null;
 		}
-		BoundsImpl bo = new BoundsImpl( );
-		bo.height = src.getHeight( );
-		bo.heightESet = src.isSetHeight( );
-		bo.left = src.getLeft( );
-		bo.leftESet = src.isSetLeft( );
-		bo.top = src.getTop( );
-		bo.topESet = src.isSetTop( );
-		bo.width = src.getWidth( );
-		bo.widthESet = src.isSetWidth( );
-		return bo;
+
+		BoundsImpl dest = new BoundsImpl( );
+
+		dest.left = src.getLeft( );
+		dest.leftESet = src.isSetLeft( );
+		dest.top = src.getTop( );
+		dest.topESet = src.isSetTop( );
+		dest.width = src.getWidth( );
+		dest.widthESet = src.isSetWidth( );
+		dest.height = src.getHeight( );
+		dest.heightESet = src.isSetHeight( );
+
+		return dest;
 	}
+
 
 } // BoundsImpl

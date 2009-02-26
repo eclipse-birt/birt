@@ -38,8 +38,8 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
+import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
 import org.eclipse.birt.chart.util.FillUtil;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Engine3D
@@ -164,7 +164,7 @@ public final class Engine3D implements IConstants
 		dViewerWidth = viewerWidth;
 		dViewerHeight = viewerHeight;
 
-		ROT = (Rotation3D) EcoreUtil.copy( rotation );
+		ROT = Rotation3DImpl.copyInstance( rotation );
 		LDR = new Vector( lightDirection );
 
 		VIEW_DISTANCE = viewingDistance;
@@ -189,7 +189,7 @@ public final class Engine3D implements IConstants
 		dViewerWidth = viewerWidth;
 		dViewerHeight = viewerHeight;
 
-		ROT = (Rotation3D) EcoreUtil.copy( rotation );
+		ROT = Rotation3DImpl.copyInstance( rotation );
 		LDR = new Vector( lightDirection );
 
 		reset( );

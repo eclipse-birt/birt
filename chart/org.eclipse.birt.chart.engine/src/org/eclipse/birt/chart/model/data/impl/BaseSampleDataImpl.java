@@ -179,4 +179,25 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 		return result.toString( );
 	}
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static BaseSampleData copyInstance( BaseSampleData src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		BaseSampleDataImpl dest = new BaseSampleDataImpl( );
+
+		dest.dataSetRepresentation = src.getDataSetRepresentation( );
+
+		return dest;
+	}
+
 } //BaseSampleDataImpl

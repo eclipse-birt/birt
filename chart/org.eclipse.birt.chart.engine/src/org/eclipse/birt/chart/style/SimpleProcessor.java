@@ -15,16 +15,15 @@ import java.util.Iterator;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
-import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Style;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * A default implementation for IStyleProcessor.
@@ -110,7 +109,7 @@ public final class SimpleProcessor implements IStyleProcessor
 					}
 					if ( ss.getBackgroundImage( ) != null )
 					{
-						rt.setBackgroundImage( (Image) EcoreUtil.copy( ss.getBackgroundImage( ) ) );
+						rt.setBackgroundImage( ImageImpl.copyInstance( ss.getBackgroundImage( ) ) );
 					}
 					if ( ss.getPadding( ) != null )
 					{

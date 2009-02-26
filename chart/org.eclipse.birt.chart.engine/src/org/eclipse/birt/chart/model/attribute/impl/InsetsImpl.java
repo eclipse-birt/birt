@@ -626,17 +626,21 @@ public class InsetsImpl extends EObjectImpl implements Insets
 		{
 			return null;
 		}
-		InsetsImpl ins = new InsetsImpl( );
-		ins.bottom = src.getBottom( );
-		ins.bottomESet = src.isSetBottom( );
-		ins.left = src.getLeft( );
-		ins.leftESet = src.isSetLeft( );
-		ins.right = src.getRight( );
-		ins.rightESet = src.isSetRight( );
-		ins.top = src.getTop( );
-		ins.topESet = src.isSetTop( );
-		return ins;
+
+		InsetsImpl dest = new InsetsImpl( );
+
+		dest.top = src.getTop( );
+		dest.topESet = src.isSetTop( );
+		dest.left = src.getLeft( );
+		dest.leftESet = src.isSetLeft( );
+		dest.bottom = src.getBottom( );
+		dest.bottomESet = src.isSetBottom( );
+		dest.right = src.getRight( );
+		dest.rightESet = src.isSetRight( );
+
+		return dest;
 	}
+
 
 	/*
 	 * (non-Javadoc)

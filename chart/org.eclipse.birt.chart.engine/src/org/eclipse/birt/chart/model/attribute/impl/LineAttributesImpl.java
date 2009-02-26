@@ -574,15 +574,22 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 		{
 			return null;
 		}
-		LineAttributesImpl la = new LineAttributesImpl( );
-		la.color = ColorDefinitionImpl.copyInstance( src.getColor( ) );
-		la.style = src.getStyle( );
-		la.styleESet = src.isSetStyle( );
-		la.thickness = src.getThickness( );
-		la.thicknessESet = src.isSetThickness( );
-		la.visible = src.isVisible( );
-		la.visibleESet = src.isSetVisible( );
-		return la;
+
+		LineAttributesImpl dest = new LineAttributesImpl( );
+
+		if ( src.getColor( ) != null )
+		{
+			dest.setColor( ColorDefinitionImpl.copyInstance( src.getColor( ) ) );
+		}
+
+		dest.style = src.getStyle( );
+		dest.styleESet = src.isSetStyle( );
+		dest.thickness = src.getThickness( );
+		dest.thicknessESet = src.isSetThickness( );
+		dest.visible = src.isVisible( );
+		dest.visibleESet = src.isSetVisible( );
+
+		return dest;
 	}
 
 } // LineAttributesImpl

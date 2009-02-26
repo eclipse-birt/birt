@@ -18,7 +18,6 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -640,4 +639,43 @@ public class GradientImpl extends FillImpl implements Gradient
 		g.setCyclic( bCyclic );
 		return g;
 	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Gradient copyInstance( Gradient src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		GradientImpl dest = new GradientImpl( );
+
+		if ( src.getStartColor( ) != null )
+		{
+			dest.setStartColor( ColorDefinitionImpl.copyInstance( src.getStartColor( ) ) );
+		}
+
+		if ( src.getEndColor( ) != null )
+		{
+			dest.setEndColor( ColorDefinitionImpl.copyInstance( src.getEndColor( ) ) );
+		}
+
+		dest.type = src.getType( );
+		dest.typeESet = src.isSetType( );
+		dest.direction = src.getDirection( );
+		dest.directionESet = src.isSetDirection( );
+		dest.cyclic = src.isCyclic( );
+		dest.cyclicESet = src.isSetCyclic( );
+		dest.transparency = src.getTransparency( );
+		dest.transparencyESet = src.isSetTransparency( );
+
+		return dest;
+	}
+
 } // GradientImpl

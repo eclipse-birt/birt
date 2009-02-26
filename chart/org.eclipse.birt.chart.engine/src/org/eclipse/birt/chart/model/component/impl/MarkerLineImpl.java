@@ -14,13 +14,15 @@ package org.eclipse.birt.chart.model.component.impl;
 import java.util.Collection;
 
 import org.eclipse.birt.chart.model.attribute.Anchor;
-import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
@@ -29,6 +31,8 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.DataElementImpl;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -37,7 +41,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -785,8 +788,65 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 		ax.getMarkerLines( ).add( ml );
 		if ( ax.getFormatSpecifier( ) != null )
 		{
-			ml.setFormatSpecifier( (FormatSpecifier) EcoreUtil.copy( ax.getFormatSpecifier( ) ) );
+			ml.setFormatSpecifier( FormatSpecifierImpl.copyInstance( ax.getFormatSpecifier( ) ) );
 		}
 		return ml;
 	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static MarkerLine copyInstance( MarkerLine src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		MarkerLineImpl dest = new MarkerLineImpl( );
+
+		if ( src.getLineAttributes( ) != null )
+		{
+			dest.setLineAttributes( LineAttributesImpl.copyInstance( src.getLineAttributes( ) ) );
+		}
+
+		if ( src.getValue( ) != null )
+		{
+			dest.setValue( DataElementImpl.copyInstance( src.getValue( ) ) );
+		}
+
+		if ( src.getLabel( ) != null )
+		{
+			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
+		}
+
+		if ( src.getFormatSpecifier( ) != null )
+		{
+			dest.setFormatSpecifier( FormatSpecifierImpl.copyInstance( src.getFormatSpecifier( ) ) );
+		}
+
+		if ( src.getTriggers( ) != null )
+		{
+			EList<Trigger> list = dest.getTriggers( );
+			for ( Trigger element : src.getTriggers( ) )
+			{
+				list.add( TriggerImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getCursor( ) != null )
+		{
+			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
+		}
+
+		dest.labelAnchor = src.getLabelAnchor( );
+		dest.labelAnchorESet = src.isSetLabelAnchor( );
+
+		return dest;
+	}
+
 } // MarkerLineImpl

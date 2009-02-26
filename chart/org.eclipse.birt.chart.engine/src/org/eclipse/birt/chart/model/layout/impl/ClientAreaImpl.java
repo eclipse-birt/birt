@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FillImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.layout.ClientArea;
@@ -622,6 +623,48 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 		lia.setVisible( false );
 		setOutline( lia );
 		setInsets( InsetsImpl.create( 0, 0, 0, 0 ) );
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static ClientArea copyInstance( ClientArea src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		ClientAreaImpl dest = new ClientAreaImpl( );
+
+		if ( src.getBackground( ) != null )
+		{
+			dest.setBackground( FillImpl.copyInstance( src.getBackground( ) ) );
+		}
+
+		if ( src.getOutline( ) != null )
+		{
+			dest.setOutline( LineAttributesImpl.copyInstance( src.getOutline( ) ) );
+		}
+
+		if ( src.getShadowColor( ) != null )
+		{
+			dest.setShadowColor( ColorDefinitionImpl.copyInstance( src.getShadowColor( ) ) );
+		}
+
+		if ( src.getInsets( ) != null )
+		{
+			dest.setInsets( InsetsImpl.copyInstance( src.getInsets( ) ) );
+		}
+
+		dest.visible = src.isVisible( );
+		dest.visibleESet = src.isSetVisible( );
+
+		return dest;
 	}
 
 } //ClientAreaImpl

@@ -11,12 +11,8 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Image;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -194,6 +190,30 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 		i.setURL( sURL );
 		i.setData( sData );
 		return i;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static EmbeddedImage copyInstance( EmbeddedImage src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		EmbeddedImageImpl dest = new EmbeddedImageImpl( );
+
+		dest.type = src.getType( );
+		dest.typeESet = src.isSetType( );
+		dest.uRL = src.getURL( );
+		dest.data = src.getData( );
+
+		return dest;
 	}
 
 } // EmbeddedImageImpl

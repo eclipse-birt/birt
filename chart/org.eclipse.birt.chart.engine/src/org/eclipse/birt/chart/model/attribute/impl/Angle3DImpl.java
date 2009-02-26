@@ -604,4 +604,32 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 		setType( AngleType.NONE_LITERAL );
 	}
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Angle3D copyInstance( Angle3D src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		Angle3DImpl dest = new Angle3DImpl( );
+
+		dest.xAngle = src.getXAngle( );
+		dest.xAngleESet = src.isSetXAngle( );
+		dest.yAngle = src.getYAngle( );
+		dest.yAngleESet = src.isSetYAngle( );
+		dest.zAngle = src.getZAngle( );
+		dest.zAngleESet = src.isSetZAngle( );
+		dest.type = src.getType( );
+		dest.typeESet = src.isSetType( );
+
+		return dest;
+	}
+
 } // Angle3DImpl

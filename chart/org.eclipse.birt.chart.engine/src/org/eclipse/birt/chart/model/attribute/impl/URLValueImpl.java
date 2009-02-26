@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -805,6 +804,32 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 			}
 		}
 		return sb.toString( );
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static URLValue copyInstance( URLValue src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		URLValueImpl dest = new URLValueImpl( );
+
+		dest.baseUrl = src.getBaseUrl( );
+		dest.target = src.getTarget( );
+		dest.baseParameterName = src.getBaseParameterName( );
+		dest.valueParameterName = src.getValueParameterName( );
+		dest.seriesParameterName = src.getSeriesParameterName( );
+		dest.tooltip = src.getTooltip( );
+
+		return dest;
 	}
 
 } // URLValueImpl

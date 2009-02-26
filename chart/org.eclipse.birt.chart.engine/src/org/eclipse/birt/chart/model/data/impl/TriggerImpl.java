@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -457,16 +456,20 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 		{
 			return null;
 		}
-		TriggerImpl tg = new TriggerImpl( );
+
+		TriggerImpl dest = new TriggerImpl( );
+
 		if ( src.getAction( ) != null )
 		{
-			tg.action = (Action) EcoreUtil.copy( src.getAction( ) );
+			dest.setAction( ActionImpl.copyInstance( src.getAction( ) ) );
 		}
-		tg.condition = src.getCondition( );
-		tg.conditionESet = src.isSetCondition( );
-		tg.triggerFlow = src.getTriggerFlow( );
-		tg.triggerFlowESet = src.isSetTriggerFlow( );
-		return tg;
+
+		dest.condition = src.getCondition( );
+		dest.conditionESet = src.isSetCondition( );
+		dest.triggerFlow = src.getTriggerFlow( );
+		dest.triggerFlowESet = src.isSetTriggerFlow( );
+
+		return dest;
 	}
 
 } // TriggerImpl

@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.component.impl;
 
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Grid;
 import org.eclipse.emf.common.notify.Notification;
@@ -612,6 +613,42 @@ public class GridImpl extends EObjectImpl implements Grid
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Grid copyInstance( Grid src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		GridImpl dest = new GridImpl( );
+
+		if ( src.getLineAttributes( ) != null )
+		{
+			dest.setLineAttributes( LineAttributesImpl.copyInstance( src.getLineAttributes( ) ) );
+		}
+
+		if ( src.getTickAttributes( ) != null )
+		{
+			dest.setTickAttributes( LineAttributesImpl.copyInstance( src.getTickAttributes( ) ) );
+		}
+
+		dest.tickStyle = src.getTickStyle( );
+		dest.tickStyleESet = src.isSetTickStyle( );
+		dest.tickSize = src.getTickSize( );
+		dest.tickSizeESet = src.isSetTickSize( );
+		dest.tickCount = src.getTickCount( );
+		dest.tickCountESet = src.isSetTickCount( );
+
+		return dest;
 	}
 
 } // GridImpl

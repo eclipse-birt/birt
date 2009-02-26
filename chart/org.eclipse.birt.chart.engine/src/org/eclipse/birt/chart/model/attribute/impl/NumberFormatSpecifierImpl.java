@@ -490,4 +490,31 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 		return sb.toString( );
 	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static NumberFormatSpecifier copyInstance( NumberFormatSpecifier src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		NumberFormatSpecifierImpl dest = new NumberFormatSpecifierImpl( );
+
+		dest.prefix = src.getPrefix( );
+		dest.suffix = src.getSuffix( );
+		dest.multiplier = src.getMultiplier( );
+		dest.multiplierESet = src.isSetMultiplier( );
+		dest.fractionDigits = src.getFractionDigits( );
+		dest.fractionDigitsESet = src.isSetFractionDigits( );
+
+		return dest;
+	}
+
 } // NumberFormatSpecifierImpl

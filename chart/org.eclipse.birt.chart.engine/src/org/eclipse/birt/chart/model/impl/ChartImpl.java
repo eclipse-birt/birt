@@ -32,15 +32,20 @@ import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
+import org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.impl.SampleDataImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
@@ -59,7 +64,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -1493,7 +1497,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 		try
 		{
 			// Process Base SeriesDefinitions
-			Series seriesBaseRuntime = (Series) EcoreUtil.copy( getBaseSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) );
+			Series seriesBaseRuntime = SeriesImpl.copyInstance( getBaseSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) );
 
 			// Clear existing values from the dataset
 			seriesBaseRuntime.setDataSet( null );
@@ -1559,7 +1563,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 				// Create runtime series for SeriesDefinition index
 				sdTmp = (SeriesDefinition) vOSD.get( iSDIndex );
-				seriesOrthogonalRuntime = (Series) EcoreUtil.copy( sdTmp.getDesignTimeSeries( ) );
+				seriesOrthogonalRuntime = SeriesImpl.copyInstance( sdTmp.getDesignTimeSeries( ) );
 
 				// Clear existing values from the dataset
 				seriesOrthogonalRuntime.setDataSet( null );
@@ -1596,7 +1600,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 				if ( sdZ != null && sd.getAncillarySampleData( ).size( ) > 0 )
 				{
-					Series seriesZRuntime = (Series) EcoreUtil.copy( sdZ.getDesignTimeSeries( ) );
+					Series seriesZRuntime = SeriesImpl.copyInstance( sdZ.getDesignTimeSeries( ) );
 
 					seriesZRuntime.setDataSet( null );
 
@@ -1692,6 +1696,102 @@ public class ChartImpl extends EObjectImpl implements Chart
 			}
 		}
 		return vTmp;
+	}
+
+	private static Chart copyInstanceThis( Chart src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		ChartImpl dest = new ChartImpl( );
+
+		if ( src.getDescription( ) != null )
+		{
+			dest.setDescription( TextImpl.copyInstance( src.getDescription( ) ) );
+		}
+
+		if ( src.getBlock( ) != null )
+		{
+			dest.setBlock( BlockImpl.copyInstance( src.getBlock( ) ) );
+		}
+
+		if ( src.getExtendedProperties( ) != null )
+		{
+			EList<ExtendedProperty> list = dest.getExtendedProperties( );
+			for ( ExtendedProperty element : src.getExtendedProperties( ) )
+			{
+				list.add( ExtendedPropertyImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getSampleData( ) != null )
+		{
+			dest.setSampleData( SampleDataImpl.copyInstance( src.getSampleData( ) ) );
+		}
+
+		if ( src.getStyles( ) != null )
+		{
+			EList<StyleMap> list = dest.getStyles( );
+			for ( StyleMap element : src.getStyles( ) )
+			{
+				list.add( StyleMapImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getInteractivity( ) != null )
+		{
+			dest.setInteractivity( InteractivityImpl.copyInstance( src.getInteractivity( ) ) );
+		}
+
+		if ( src.getEmptyMessage( ) != null )
+		{
+			dest.setEmptyMessage( LabelImpl.copyInstance( src.getEmptyMessage( ) ) );
+		}
+
+		dest.version = src.getVersion( );
+		dest.versionESet = src.isSetVersion( );
+		dest.type = src.getType( );
+		dest.subType = src.getSubType( );
+		dest.dimension = src.getDimension( );
+		dest.dimensionESet = src.isSetDimension( );
+		dest.script = src.getScript( );
+		dest.units = src.getUnits( );
+		dest.seriesThickness = src.getSeriesThickness( );
+		dest.seriesThicknessESet = src.isSetSeriesThickness( );
+		dest.gridColumnCount = src.getGridColumnCount( );
+		dest.gridColumnCountESet = src.isSetGridColumnCount( );
+
+		return dest;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Chart copyInstance( Chart src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		if ( src instanceof ChartWithoutAxes )
+		{
+			return ChartWithoutAxesImpl.copyInstance( (ChartWithoutAxes) src );
+		}
+		else if ( src instanceof ChartWithAxes )
+		{
+			return ChartWithAxesImpl.copyInstance( (ChartWithAxes) src );
+		}
+		else
+		{
+			return copyInstanceThis( src );
+		}
 	}
 
 } // ChartImpl

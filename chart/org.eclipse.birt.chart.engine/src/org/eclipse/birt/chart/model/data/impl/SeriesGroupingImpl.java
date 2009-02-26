@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model.data.impl;
 
 import java.util.Collection;
+
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.data.DataElement;
@@ -20,6 +21,7 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -761,6 +763,51 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 		sg.setEnabled( false );
 		sg.setGroupType( DataType.TEXT_LITERAL );
 		return sg;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static SeriesGrouping copyInstance( SeriesGrouping src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		SeriesGroupingImpl dest = new SeriesGroupingImpl( );
+
+		if ( src.getGroupingOrigin( ) != null )
+		{
+			dest.setGroupingOrigin( DataElementImpl.copyInstance( src.getGroupingOrigin( ) ) );
+		}
+
+		dest.enabled = src.isEnabled( );
+		dest.enabledESet = src.isSetEnabled( );
+		dest.groupingUnit = src.getGroupingUnit( );
+		dest.groupingUnitESet = src.isSetGroupingUnit( );
+		dest.groupingInterval = src.getGroupingInterval( );
+		dest.groupingIntervalESet = src.isSetGroupingInterval( );
+		dest.groupType = src.getGroupType( );
+		dest.groupTypeESet = src.isSetGroupType( );
+		dest.aggregateExpression = src.getAggregateExpression( );
+		if ( src.getAggregateParameters( ) != null )
+		{
+			EList<String> list = new BasicEList<String>( src.getAggregateParameters( )
+					.size( ) );
+			for ( String element : src.getAggregateParameters( ) )
+			{
+				list.add( element );
+			}
+
+			dest.aggregateParameters = list;
+		}
+
+		return dest;
 	}
 
 } //SeriesGroupingImpl

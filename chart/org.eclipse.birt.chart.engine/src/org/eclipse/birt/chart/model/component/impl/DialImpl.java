@@ -19,6 +19,8 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FillImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
@@ -1265,6 +1267,78 @@ public class DialImpl extends EObjectImpl implements Dial
 		Scale sc = ComponentFactory.eINSTANCE.createScale( );
 		sc.setMinorGridsPerUnit( 5 );
 		setScale( sc );
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Dial copyInstance( Dial src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		DialImpl dest = new DialImpl( );
+
+		if ( src.getLineAttributes( ) != null )
+		{
+			dest.setLineAttributes( LineAttributesImpl.copyInstance( src.getLineAttributes( ) ) );
+		}
+
+		if ( src.getFill( ) != null )
+		{
+			dest.setFill( FillImpl.copyInstance( src.getFill( ) ) );
+		}
+
+		if ( src.getDialRegions( ) != null )
+		{
+			EList<DialRegion> list = dest.getDialRegions( );
+			for ( DialRegion element : src.getDialRegions( ) )
+			{
+				list.add( DialRegionImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getMajorGrid( ) != null )
+		{
+			dest.setMajorGrid( GridImpl.copyInstance( src.getMajorGrid( ) ) );
+		}
+
+		if ( src.getMinorGrid( ) != null )
+		{
+			dest.setMinorGrid( GridImpl.copyInstance( src.getMinorGrid( ) ) );
+		}
+
+		if ( src.getScale( ) != null )
+		{
+			dest.setScale( ScaleImpl.copyInstance( src.getScale( ) ) );
+		}
+
+		if ( src.getLabel( ) != null )
+		{
+			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
+		}
+
+		if ( src.getFormatSpecifier( ) != null )
+		{
+			dest.setFormatSpecifier( FormatSpecifierImpl.copyInstance( src.getFormatSpecifier( ) ) );
+		}
+
+		dest.startAngle = src.getStartAngle( );
+		dest.startAngleESet = src.isSetStartAngle( );
+		dest.stopAngle = src.getStopAngle( );
+		dest.stopAngleESet = src.isSetStopAngle( );
+		dest.radius = src.getRadius( );
+		dest.radiusESet = src.isSetRadius( );
+		dest.inverseScale = src.isInverseScale( );
+		dest.inverseScaleESet = src.isSetInverseScale( );
+
+		return dest;
 	}
 
 } // DialImpl

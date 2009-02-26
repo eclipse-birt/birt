@@ -13,17 +13,11 @@ import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
-
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -199,6 +193,34 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 			}
 		}
 		return rt;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Rotation3D copyInstance( Rotation3D src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		Rotation3DImpl dest = new Rotation3DImpl( );
+
+		if ( src.getAngles( ) != null )
+		{
+			EList<Angle3D> list = dest.getAngles( );
+			for ( Angle3D element : src.getAngles( ) )
+			{
+				list.add( Angle3DImpl.copyInstance( element ) );
+			}
+		}
+
+		return dest;
 	}
 
 } // Rotation3DImpl

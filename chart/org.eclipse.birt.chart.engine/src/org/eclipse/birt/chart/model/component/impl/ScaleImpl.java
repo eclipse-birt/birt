@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.data.DataElement;
+import org.eclipse.birt.chart.model.data.impl.DataElementImpl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -1239,6 +1240,54 @@ public class ScaleImpl extends EObjectImpl implements Scale
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Scale copyInstance( Scale src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		ScaleImpl dest = new ScaleImpl( );
+
+		if ( src.getMin( ) != null )
+		{
+			dest.setMin( DataElementImpl.copyInstance( src.getMin( ) ) );
+		}
+
+		if ( src.getMax( ) != null )
+		{
+			dest.setMax( DataElementImpl.copyInstance( src.getMax( ) ) );
+		}
+
+		dest.step = src.getStep( );
+		dest.stepESet = src.isSetStep( );
+		dest.unit = src.getUnit( );
+		dest.unitESet = src.isSetUnit( );
+		dest.minorGridsPerUnit = src.getMinorGridsPerUnit( );
+		dest.minorGridsPerUnitESet = src.isSetMinorGridsPerUnit( );
+		dest.stepNumber = src.getStepNumber( );
+		dest.stepNumberESet = src.isSetStepNumber( );
+		dest.showOutside = src.isShowOutside( );
+		dest.showOutsideESet = src.isSetShowOutside( );
+		dest.tickBetweenCategories = src.isTickBetweenCategories( );
+		dest.tickBetweenCategoriesESet = src.isSetTickBetweenCategories( );
+		dest.autoExpand = src.isAutoExpand( );
+		dest.autoExpandESet = src.isSetAutoExpand( );
+		dest.majorGridsStepNumber = src.getMajorGridsStepNumber( );
+		dest.majorGridsStepNumberESet = src.isSetMajorGridsStepNumber( );
+		dest.factor = src.getFactor( );
+		dest.factorESet = src.isSetFactor( );
+
+		return dest;
 	}
 
 } // ScaleImpl

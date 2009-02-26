@@ -1051,24 +1051,31 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 		{
 			return null;
 		}
-		FontDefinitionImpl fd = new FontDefinitionImpl( );
-		fd.alignment = TextAlignmentImpl.copyInstance( src.getAlignment( ) );
-		fd.bold = src.isBold( );
-		fd.boldESet = src.isSetBold( );
-		fd.italic = src.isItalic( );
-		fd.italicESet = src.isSetItalic( );
-		fd.name = src.getName( );
-		fd.rotation = src.getRotation( );
-		fd.rotationESet = src.isSetRotation( );
-		fd.size = src.getSize( );
-		fd.sizeESet = src.isSetSize( );
-		fd.strikethrough = src.isStrikethrough( );
-		fd.strikethroughESet = src.isSetStrikethrough( );
-		fd.underline = src.isUnderline( );
-		fd.underlineESet = src.isSetUnderline( );
-		fd.wordWrap = src.isWordWrap( );
-		fd.wordWrapESet = src.isSetWordWrap( );
-		return fd;
+
+		FontDefinitionImpl dest = new FontDefinitionImpl( );
+
+		if ( src.getAlignment( ) != null )
+		{
+			dest.setAlignment( TextAlignmentImpl.copyInstance( src.getAlignment( ) ) );
+		}
+
+		dest.name = src.getName( );
+		dest.size = src.getSize( );
+		dest.sizeESet = src.isSetSize( );
+		dest.bold = src.isBold( );
+		dest.boldESet = src.isSetBold( );
+		dest.italic = src.isItalic( );
+		dest.italicESet = src.isSetItalic( );
+		dest.strikethrough = src.isStrikethrough( );
+		dest.strikethroughESet = src.isSetStrikethrough( );
+		dest.underline = src.isUnderline( );
+		dest.underlineESet = src.isSetUnderline( );
+		dest.wordWrap = src.isWordWrap( );
+		dest.wordWrapESet = src.isSetWordWrap( );
+		dest.rotation = src.getRotation( );
+		dest.rotationESet = src.isSetRotation( );
+
+		return dest;
 	}
 
 	/*

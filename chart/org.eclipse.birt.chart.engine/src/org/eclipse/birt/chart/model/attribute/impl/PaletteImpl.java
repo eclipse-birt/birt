@@ -482,4 +482,34 @@ public class PaletteImpl extends EObjectImpl implements Palette
 		}
 	}
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Palette copyInstance( Palette src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		PaletteImpl dest = new PaletteImpl( );
+
+		if ( src.getEntries( ) != null )
+		{
+			EList<Fill> list = dest.getEntries( );
+			for ( Fill element : src.getEntries( ) )
+			{
+				list.add( FillImpl.copyInstance( element ) );
+			}
+		}
+
+		dest.name = src.getName( );
+
+		return dest;
+	}
+
 } // PaletteImpl

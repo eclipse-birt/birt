@@ -41,8 +41,10 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.impl.ChartImpl;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
@@ -64,7 +66,6 @@ import org.eclipse.birt.report.model.api.extension.ReportItem;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
 
@@ -309,7 +310,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 					&& sdBase.getFormatSpecifier( ) != null )
 			{
 				cm.getLegend( )
-						.setFormatSpecifier( (FormatSpecifier) EcoreUtil.copy( sdBase.getFormatSpecifier( ) ) );
+						.setFormatSpecifier( FormatSpecifierImpl.copyInstance( sdBase.getFormatSpecifier( ) ) );
 			}
 		}
 	}
@@ -798,7 +799,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 		// Do not copy model for axis chart since it uses reference
 		if ( !ChartXTabUtil.isAxisChart( handle ) )
 		{
-			crii.cm = cm == null ? null : (Chart) EcoreUtil.copy( cm );
+			crii.cm = cm == null ? null : ChartImpl.copyInstance( cm );
 		}
 		return crii;
 	}

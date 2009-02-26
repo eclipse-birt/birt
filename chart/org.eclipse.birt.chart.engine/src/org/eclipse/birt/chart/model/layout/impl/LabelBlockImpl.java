@@ -20,16 +20,25 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Size;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FillImpl;
+import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
 import org.eclipse.birt.chart.model.layout.LayoutFactory;
 import org.eclipse.birt.chart.model.layout.LayoutPackage;
+import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -286,4 +295,113 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 					uiex );
 		}
 	}
+
+	private static LabelBlock copyInstanceThis( LabelBlock src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		LabelBlockImpl dest = new LabelBlockImpl( );
+
+		if ( src.getChildren( ) != null )
+		{
+			EList<Block> list = dest.getChildren( );
+			for ( Block element : src.getChildren( ) )
+			{
+				list.add( BlockImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getBounds( ) != null )
+		{
+			dest.setBounds( BoundsImpl.copyInstance( src.getBounds( ) ) );
+		}
+
+		if ( src.getInsets( ) != null )
+		{
+			dest.setInsets( InsetsImpl.copyInstance( src.getInsets( ) ) );
+		}
+
+		if ( src.getMinSize( ) != null )
+		{
+			dest.setMinSize( SizeImpl.copyInstance( src.getMinSize( ) ) );
+		}
+
+		if ( src.getOutline( ) != null )
+		{
+			dest.setOutline( LineAttributesImpl.copyInstance( src.getOutline( ) ) );
+		}
+
+		if ( src.getBackground( ) != null )
+		{
+			dest.setBackground( FillImpl.copyInstance( src.getBackground( ) ) );
+		}
+
+		if ( src.getTriggers( ) != null )
+		{
+			EList<Trigger> list = dest.getTriggers( );
+			for ( Trigger element : src.getTriggers( ) )
+			{
+				list.add( TriggerImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getCursor( ) != null )
+		{
+			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
+		}
+
+		if ( src.getLabel( ) != null )
+		{
+			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
+		}
+
+		dest.anchor = src.getAnchor( );
+		dest.anchorESet = src.isSetAnchor( );
+		dest.stretch = src.getStretch( );
+		dest.stretchESet = src.isSetStretch( );
+		dest.row = src.getRow( );
+		dest.rowESet = src.isSetRow( );
+		dest.column = src.getColumn( );
+		dest.columnESet = src.isSetColumn( );
+		dest.rowspan = src.getRowspan( );
+		dest.rowspanESet = src.isSetRowspan( );
+		dest.columnspan = src.getColumnspan( );
+		dest.columnspanESet = src.isSetColumnspan( );
+		dest.visible = src.isVisible( );
+		dest.visibleESet = src.isSetVisible( );
+		dest.widthHint = src.getWidthHint( );
+		dest.widthHintESet = src.isSetWidthHint( );
+		dest.heightHint = src.getHeightHint( );
+		dest.heightHintESet = src.isSetHeightHint( );
+
+		return dest;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static LabelBlock copyInstance( LabelBlock src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		if ( src instanceof TitleBlock )
+		{
+			return TitleBlockImpl.copyInstance( (TitleBlock) src );
+		}
+		else
+		{
+			return copyInstanceThis( src );
+		}
+	}
+
 } // LabelBlockImpl

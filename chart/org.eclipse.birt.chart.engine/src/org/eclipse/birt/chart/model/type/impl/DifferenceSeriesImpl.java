@@ -16,14 +16,25 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
+import org.eclipse.birt.chart.model.attribute.impl.DataPointImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -326,6 +337,123 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 	public String getDisplayName( )
 	{
 		return Messages.getString( "DifferenceSeriesImpl.displayName" ); //$NON-NLS-1$	
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static DifferenceSeries copyInstance( DifferenceSeries src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		DifferenceSeriesImpl dest = new DifferenceSeriesImpl( );
+
+		if ( src.getLabel( ) != null )
+		{
+			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
+		}
+
+		if ( src.getDataDefinition( ) != null )
+		{
+			EList<Query> list = dest.getDataDefinition( );
+			for ( Query element : src.getDataDefinition( ) )
+			{
+				list.add( QueryImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getDataPoint( ) != null )
+		{
+			dest.setDataPoint( DataPointImpl.copyInstance( src.getDataPoint( ) ) );
+		}
+
+		if ( src.getDataSets( ) != null )
+		{
+			EMap<String, DataSet> map = dest.getDataSets( );
+			map.putAll( src.getDataSets( ) );
+		}
+
+		if ( src.getTriggers( ) != null )
+		{
+			EList<Trigger> list = dest.getTriggers( );
+			for ( Trigger element : src.getTriggers( ) )
+			{
+				list.add( TriggerImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getCurveFitting( ) != null )
+		{
+			dest.setCurveFitting( CurveFittingImpl.copyInstance( src.getCurveFitting( ) ) );
+		}
+
+		if ( src.getCursor( ) != null )
+		{
+			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
+		}
+
+		if ( src.getMarkers( ) != null )
+		{
+			EList<Marker> list = dest.getMarkers( );
+			for ( Marker element : src.getMarkers( ) )
+			{
+				list.add( MarkerImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getMarker( ) != null )
+		{
+			dest.setMarker( MarkerImpl.copyInstance( src.getMarker( ) ) );
+		}
+
+		if ( src.getLineAttributes( ) != null )
+		{
+			dest.setLineAttributes( LineAttributesImpl.copyInstance( src.getLineAttributes( ) ) );
+		}
+
+		if ( src.getShadowColor( ) != null )
+		{
+			dest.setShadowColor( ColorDefinitionImpl.copyInstance( src.getShadowColor( ) ) );
+		}
+
+		if ( src.getNegativeMarkers( ) != null )
+		{
+			EList<Marker> list = dest.getNegativeMarkers( );
+			for ( Marker element : src.getNegativeMarkers( ) )
+			{
+				list.add( MarkerImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getNegativeLineAttributes( ) != null )
+		{
+			dest.setNegativeLineAttributes( LineAttributesImpl.copyInstance( src.getNegativeLineAttributes( ) ) );
+		}
+
+		dest.visible = src.isVisible( );
+		dest.visibleESet = src.isSetVisible( );
+		dest.seriesIdentifier = src.getSeriesIdentifier( );
+		dest.labelPosition = src.getLabelPosition( );
+		dest.labelPositionESet = src.isSetLabelPosition( );
+		dest.stacked = src.isStacked( );
+		dest.stackedESet = src.isSetStacked( );
+		dest.translucent = src.isTranslucent( );
+		dest.translucentESet = src.isSetTranslucent( );
+		dest.paletteLineColor = src.isPaletteLineColor( );
+		dest.paletteLineColorESet = src.isSetPaletteLineColor( );
+		dest.curve = src.isCurve( );
+		dest.curveESet = src.isSetCurve( );
+		dest.connectMissingValue = src.isConnectMissingValue( );
+		dest.connectMissingValueESet = src.isSetConnectMissingValue( );
+
+		return dest;
 	}
 
 } // DifferenceSeriesImpl

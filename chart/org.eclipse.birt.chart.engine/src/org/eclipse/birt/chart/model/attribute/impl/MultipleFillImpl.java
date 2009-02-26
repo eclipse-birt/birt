@@ -13,14 +13,10 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
-
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -171,6 +167,37 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 	public static MultipleFill create( )
 	{
 		return AttributeFactory.eINSTANCE.createMultipleFill( );
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static MultipleFill copyInstance( MultipleFill src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		MultipleFillImpl dest = new MultipleFillImpl( );
+
+		if ( src.getFills( ) != null )
+		{
+			EList<Fill> list = dest.getFills( );
+			for ( Fill element : src.getFills( ) )
+			{
+				list.add( FillImpl.copyInstance( element ) );
+			}
+		}
+
+		dest.type = src.getType( );
+		dest.typeESet = src.isSetType( );
+
+		return dest;
 	}
 
 } // MultipleFillImpl

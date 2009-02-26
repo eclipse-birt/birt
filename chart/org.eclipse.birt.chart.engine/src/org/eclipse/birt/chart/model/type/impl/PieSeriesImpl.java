@@ -18,16 +18,26 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
+import org.eclipse.birt.chart.model.attribute.impl.DataPointImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -1128,4 +1138,106 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	{
 		return Messages.getString( "PieSeriesImpl.displayName" ); //$NON-NLS-1$
 	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static PieSeries copyInstance( PieSeries src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		PieSeriesImpl dest = new PieSeriesImpl( );
+
+		if ( src.getLabel( ) != null )
+		{
+			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
+		}
+
+		if ( src.getDataDefinition( ) != null )
+		{
+			EList<Query> list = dest.getDataDefinition( );
+			for ( Query element : src.getDataDefinition( ) )
+			{
+				list.add( QueryImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getDataPoint( ) != null )
+		{
+			dest.setDataPoint( DataPointImpl.copyInstance( src.getDataPoint( ) ) );
+		}
+
+		if ( src.getDataSets( ) != null )
+		{
+			EMap<String, DataSet> map = dest.getDataSets( );
+			map.putAll( src.getDataSets( ) );
+		}
+
+		if ( src.getTriggers( ) != null )
+		{
+			EList<Trigger> list = dest.getTriggers( );
+			for ( Trigger element : src.getTriggers( ) )
+			{
+				list.add( TriggerImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getCurveFitting( ) != null )
+		{
+			dest.setCurveFitting( CurveFittingImpl.copyInstance( src.getCurveFitting( ) ) );
+		}
+
+		if ( src.getCursor( ) != null )
+		{
+			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
+		}
+
+		if ( src.getTitle( ) != null )
+		{
+			dest.setTitle( LabelImpl.copyInstance( src.getTitle( ) ) );
+		}
+
+		if ( src.getLeaderLineAttributes( ) != null )
+		{
+			dest.setLeaderLineAttributes( LineAttributesImpl.copyInstance( src.getLeaderLineAttributes( ) ) );
+		}
+
+		if ( src.getSliceOutline( ) != null )
+		{
+			dest.setSliceOutline( ColorDefinitionImpl.copyInstance( src.getSliceOutline( ) ) );
+		}
+
+		dest.visible = src.isVisible( );
+		dest.visibleESet = src.isSetVisible( );
+		dest.seriesIdentifier = src.getSeriesIdentifier( );
+		dest.labelPosition = src.getLabelPosition( );
+		dest.labelPositionESet = src.isSetLabelPosition( );
+		dest.stacked = src.isStacked( );
+		dest.stackedESet = src.isSetStacked( );
+		dest.translucent = src.isTranslucent( );
+		dest.translucentESet = src.isSetTranslucent( );
+		dest.explosion = src.getExplosion( );
+		dest.explosionESet = src.isSetExplosion( );
+		dest.explosionExpression = src.getExplosionExpression( );
+		dest.titlePosition = src.getTitlePosition( );
+		dest.titlePositionESet = src.isSetTitlePosition( );
+		dest.leaderLineStyle = src.getLeaderLineStyle( );
+		dest.leaderLineStyleESet = src.isSetLeaderLineStyle( );
+		dest.leaderLineLength = src.getLeaderLineLength( );
+		dest.leaderLineLengthESet = src.isSetLeaderLineLength( );
+		dest.ratio = src.getRatio( );
+		dest.ratioESet = src.isSetRatio( );
+		dest.rotation = src.getRotation( );
+		dest.rotationESet = src.isSetRotation( );
+
+		return dest;
+	}
+
 } // PieSeriesImpl

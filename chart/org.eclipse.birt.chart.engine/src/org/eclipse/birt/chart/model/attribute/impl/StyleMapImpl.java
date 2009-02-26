@@ -18,11 +18,8 @@ import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -348,6 +345,33 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 		sm.setComponentName( name );
 		sm.setStyle( style );
 		return sm;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static StyleMap copyInstance( StyleMap src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		StyleMapImpl dest = new StyleMapImpl( );
+
+		if ( src.getStyle( ) != null )
+		{
+			dest.setStyle( StyleImpl.copyInstance( src.getStyle( ) ) );
+		}
+
+		dest.componentName = src.getComponentName( );
+		dest.componentNameESet = src.isSetComponentName( );
+
+		return dest;
 	}
 
 } // StyleMapImpl

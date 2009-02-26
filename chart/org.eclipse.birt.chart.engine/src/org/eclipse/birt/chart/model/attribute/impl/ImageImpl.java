@@ -13,10 +13,10 @@ package org.eclipse.birt.chart.model.attribute.impl;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -233,4 +233,45 @@ public class ImageImpl extends FillImpl implements Image
 			return false;
 		return true;
 	}
+
+	private static Image copyInstanceThis( Image src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		ImageImpl dest = new ImageImpl( );
+
+		dest.type = src.getType( );
+		dest.typeESet = src.isSetType( );
+		dest.uRL = src.getURL( );
+
+		return dest;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Image copyInstance( Image src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		if ( src instanceof EmbeddedImage )
+		{
+			return EmbeddedImageImpl.copyInstance( (EmbeddedImage) src );
+		}
+		else
+		{
+			return copyInstanceThis( src );
+		}
+	}
+
 } // ImageImpl

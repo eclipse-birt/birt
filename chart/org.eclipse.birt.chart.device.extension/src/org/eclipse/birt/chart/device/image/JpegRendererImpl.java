@@ -40,7 +40,7 @@ public final class JpegRendererImpl extends JavaxImageIOWriter
 	 */
 	protected final int getImageType( )
 	{
-		return BufferedImage.TYPE_INT_RGB; // NO TRANSPARENCY IN JPEG
+		return BufferedImage.TYPE_3BYTE_BGR; // NO TRANSPARENCY IN JPEG
 	}
 
 	/* (non-Javadoc)

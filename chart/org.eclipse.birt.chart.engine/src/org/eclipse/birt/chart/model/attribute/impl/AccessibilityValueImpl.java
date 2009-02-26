@@ -9,11 +9,8 @@ package org.eclipse.birt.chart.model.attribute.impl;
 
 import org.eclipse.birt.chart.model.attribute.AccessibilityValue;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -245,6 +242,28 @@ public class AccessibilityValueImpl extends ActionValueImpl implements
 		result.append( accessibility );
 		result.append( ')' );
 		return result.toString( );
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static AccessibilityValue copyInstance( AccessibilityValue src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		AccessibilityValueImpl dest = new AccessibilityValueImpl( );
+
+		dest.text = src.getText( );
+		dest.accessibility = src.getAccessibility( );
+
+		return dest;
 	}
 
 } //AccessibilityValueImpl

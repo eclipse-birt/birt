@@ -12,7 +12,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -190,6 +189,27 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue
 		CallBackValue cv = AttributeFactory.eINSTANCE.createCallBackValue( );
 		cv.setIdentifier( callBackIdentifier );
 		return cv;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static CallBackValue copyInstance( CallBackValue src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		CallBackValueImpl dest = new CallBackValueImpl( );
+
+		dest.identifier = src.getIdentifier( );
+
+		return dest;
 	}
 
 } // CallBackValueImpl

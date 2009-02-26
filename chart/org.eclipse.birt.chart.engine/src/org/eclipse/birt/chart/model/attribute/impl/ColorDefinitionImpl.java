@@ -818,16 +818,22 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 		{
 			return null;
 		}
-		ColorDefinitionImpl cd = new ColorDefinitionImpl( );
-		cd.blue = src.getBlue( );
-		cd.blueESet = src.isSetBlue( );
-		cd.green = src.getGreen( );
-		cd.greenESet = src.isSetGreen( );
-		cd.red = src.getRed( );
-		cd.redESet = src.isSetRed( );
-		cd.transparency = src.getTransparency( );
-		cd.transparencyESet = src.isSetTransparency( );
-		return cd;
+
+		ColorDefinitionImpl dest = new ColorDefinitionImpl( );
+
+		dest.type = src.getType( );
+		dest.typeESet = src.isSetType( );
+		dest.transparency = src.getTransparency( );
+		dest.transparencyESet = src.isSetTransparency( );
+		dest.red = src.getRed( );
+		dest.redESet = src.isSetRed( );
+		dest.green = src.getGreen( );
+		dest.greenESet = src.isSetGreen( );
+		dest.blue = src.getBlue( );
+		dest.blueESet = src.isSetBlue( );
+
+		return dest;
 	}
+
 
 } // ColorDefinitionImpl

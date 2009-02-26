@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -236,6 +235,28 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 		result.append( value );
 		result.append( ')' );
 		return result.toString( );
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static ExtendedProperty copyInstance( ExtendedProperty src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		ExtendedPropertyImpl dest = new ExtendedPropertyImpl( );
+
+		dest.name = src.getName( );
+		dest.value = src.getValue( );
+
+		return dest;
 	}
 
 } // ExtendedPropertyImpl

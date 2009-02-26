@@ -14,21 +14,27 @@ package org.eclipse.birt.chart.model.component.impl;
 import java.util.Collection;
 
 import org.eclipse.birt.chart.model.attribute.Anchor;
-import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FillImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.component.DialRegion;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.DataElementImpl;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -37,7 +43,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -970,9 +975,92 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 		ax.getMarkerRanges( ).add( mr );
 		if ( ax.getFormatSpecifier( ) != null )
 		{
-			mr.setFormatSpecifier( (FormatSpecifier) EcoreUtil.copy( ax.getFormatSpecifier( ) ) );
+			mr.setFormatSpecifier( FormatSpecifierImpl.copyInstance( ax.getFormatSpecifier( ) ) );
 		}
 		return mr;
+	}
+
+	private static MarkerRange copyInstanceThis( MarkerRange src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		MarkerRangeImpl dest = new MarkerRangeImpl( );
+
+		if ( src.getOutline( ) != null )
+		{
+			dest.setOutline( LineAttributesImpl.copyInstance( src.getOutline( ) ) );
+		}
+
+		if ( src.getFill( ) != null )
+		{
+			dest.setFill( FillImpl.copyInstance( src.getFill( ) ) );
+		}
+
+		if ( src.getStartValue( ) != null )
+		{
+			dest.setStartValue( DataElementImpl.copyInstance( src.getStartValue( ) ) );
+		}
+
+		if ( src.getEndValue( ) != null )
+		{
+			dest.setEndValue( DataElementImpl.copyInstance( src.getEndValue( ) ) );
+		}
+
+		if ( src.getLabel( ) != null )
+		{
+			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
+		}
+
+		if ( src.getFormatSpecifier( ) != null )
+		{
+			dest.setFormatSpecifier( FormatSpecifierImpl.copyInstance( src.getFormatSpecifier( ) ) );
+		}
+
+		if ( src.getTriggers( ) != null )
+		{
+			EList<Trigger> list = dest.getTriggers( );
+			for ( Trigger element : src.getTriggers( ) )
+			{
+				list.add( TriggerImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getCursor( ) != null )
+		{
+			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
+		}
+
+		dest.labelAnchor = src.getLabelAnchor( );
+		dest.labelAnchorESet = src.isSetLabelAnchor( );
+
+		return dest;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static MarkerRange copyInstance( MarkerRange src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		if ( src instanceof DialRegion )
+		{
+			return DialRegionImpl.copyInstance( (DialRegion) src );
+		}
+		else
+		{
+			return copyInstanceThis( src );
+		}
 	}
 
 } // MarkerRangeImpl

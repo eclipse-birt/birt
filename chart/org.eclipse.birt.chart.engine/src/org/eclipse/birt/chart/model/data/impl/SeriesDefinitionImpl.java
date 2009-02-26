@@ -20,8 +20,10 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.PaletteImpl;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
@@ -837,4 +839,70 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 		}
 		return alRTS;
 	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static SeriesDefinition copyInstance( SeriesDefinition src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		SeriesDefinitionImpl dest = new SeriesDefinitionImpl( );
+
+		if ( src.getQuery( ) != null )
+		{
+			dest.setQuery( QueryImpl.copyInstance( src.getQuery( ) ) );
+		}
+
+		if ( src.getSeriesPalette( ) != null )
+		{
+			dest.setSeriesPalette( PaletteImpl.copyInstance( src.getSeriesPalette( ) ) );
+		}
+
+		if ( src.getSeriesDefinitions( ) != null )
+		{
+			EList<SeriesDefinition> list = dest.getSeriesDefinitions( );
+			for ( SeriesDefinition element : src.getSeriesDefinitions( ) )
+			{
+				list.add( SeriesDefinitionImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getFormatSpecifier( ) != null )
+		{
+			dest.setFormatSpecifier( FormatSpecifierImpl.copyInstance( src.getFormatSpecifier( ) ) );
+		}
+
+		if ( src.getSeries( ) != null )
+		{
+			EList<Series> list = dest.getSeries( );
+			for ( Series element : src.getSeries( ) )
+			{
+				list.add( SeriesImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getGrouping( ) != null )
+		{
+			dest.setGrouping( SeriesGroupingImpl.copyInstance( src.getGrouping( ) ) );
+		}
+
+		if ( src.getSortKey( ) != null )
+		{
+			dest.setSortKey( QueryImpl.copyInstance( src.getSortKey( ) ) );
+		}
+
+		dest.sorting = src.getSorting( );
+		dest.sortingESet = src.isSetSorting( );
+
+		return dest;
+	}
+
 } //SeriesDefinitionImpl

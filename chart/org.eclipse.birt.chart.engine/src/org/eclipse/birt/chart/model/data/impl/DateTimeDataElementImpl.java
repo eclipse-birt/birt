@@ -274,4 +274,27 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 	{
 		return new CDateTime( value );
 	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static DateTimeDataElement copyInstance( DateTimeDataElement src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		DateTimeDataElementImpl dest = new DateTimeDataElementImpl( );
+
+		dest.value = src.getValue( );
+		dest.valueESet = src.isSetValue( );
+
+		return dest;
+	}
+
 } //DateTimeDataElementImpl

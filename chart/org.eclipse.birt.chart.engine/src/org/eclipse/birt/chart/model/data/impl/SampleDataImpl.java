@@ -252,4 +252,50 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 		return super.eIsSet( featureID );
 	}
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static SampleData copyInstance( SampleData src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		SampleDataImpl dest = new SampleDataImpl( );
+
+		if ( src.getBaseSampleData( ) != null )
+		{
+			EList<BaseSampleData> list = dest.getBaseSampleData( );
+			for ( BaseSampleData element : src.getBaseSampleData( ) )
+			{
+				list.add( BaseSampleDataImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getOrthogonalSampleData( ) != null )
+		{
+			EList<OrthogonalSampleData> list = dest.getOrthogonalSampleData( );
+			for ( OrthogonalSampleData element : src.getOrthogonalSampleData( ) )
+			{
+				list.add( OrthogonalSampleDataImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getAncillarySampleData( ) != null )
+		{
+			EList<BaseSampleData> list = dest.getAncillarySampleData( );
+			for ( BaseSampleData element : src.getAncillarySampleData( ) )
+			{
+				list.add( BaseSampleDataImpl.copyInstance( element ) );
+			}
+		}
+
+		return dest;
+	}
+
 } //SampleDataImpl

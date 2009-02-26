@@ -60,6 +60,7 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.impl.ChartImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
@@ -81,7 +82,6 @@ import org.eclipse.birt.chart.style.SimpleStyle;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.ULocale;
@@ -695,7 +695,7 @@ public final class Generator implements IGenerator
 		rtc.setScriptClassLoader( iscl );
 
 		// Update the context with a locale if it is undefined.
-		final Chart cmRunTime = (Chart) EcoreUtil.copy( model );
+		final Chart cmRunTime = ChartImpl.copyInstance( model );
 		rtc.setULocale( locale != null ? locale : ULocale.getDefault( ) );
 
 		ChartScriptContext csc = new ChartScriptContext( );
@@ -926,7 +926,7 @@ public final class Generator implements IGenerator
 		{
 			// re-init chart script context.
 			ChartScriptContext csc = new ChartScriptContext( );
-			Chart cmRunTime = (Chart) EcoreUtil.copy( cmDesignTime );
+			Chart cmRunTime = ChartImpl.copyInstance( cmDesignTime );
 			csc.setChartInstance( cmRunTime );
 			csc.setExternalContext( externalContext );
 			csc.setULocale( rtc.getULocale( ) );
@@ -939,7 +939,8 @@ public final class Generator implements IGenerator
 		{
 			// reset logger.
 			( (ChartScriptContext) icsc ).setLogger( logger );
-			Chart cmRuntime = (Chart) EcoreUtil.copy( cmDesignTime );
+			Chart cmRuntime = ChartImpl.copyInstance( cmDesignTime );
+			// Chart cmRuntime = (Chart) EcoreUtil.copy( cmDesignTime );
 			// Set runtime bounds to runtime chart model
 			cmRuntime.getBlock( ).setBounds( bo );
 			( (ChartScriptContext) icsc ).setChartInstance( cmRuntime );

@@ -39,7 +39,7 @@ public class PngRendererImpl extends JavaxImageIOWriter
      */
     public final int getImageType()
     {
-        return BufferedImage.TYPE_INT_ARGB; // SUPPORT ALPHA
+		return BufferedImage.TYPE_4BYTE_ABGR; // SUPPORT ALPHA
     }
 
 	protected boolean supportsTransparency( )

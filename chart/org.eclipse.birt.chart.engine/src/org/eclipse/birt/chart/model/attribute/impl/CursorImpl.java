@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CursorImpl.java,v 1.1 2009/01/04 10:05:06 heli Exp $
+ * $Id: CursorImpl.java,v 1.2 2009/01/05 09:13:36 heli Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -12,22 +12,16 @@ import java.util.Collection;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.CursorType;
-
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -297,6 +291,37 @@ public class CursorImpl extends EObjectImpl implements Cursor
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Cursor copyInstance( Cursor src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		CursorImpl dest = new CursorImpl( );
+
+		if ( src.getImage( ) != null )
+		{
+			EList<Image> list = dest.getImage( );
+			for ( Image element : src.getImage( ) )
+			{
+				list.add( ImageImpl.copyInstance( element ) );
+			}
+		}
+
+		dest.type = src.getType( );
+		dest.typeESet = src.isSetType( );
+
+		return dest;
 	}
 
 } //CursorImpl

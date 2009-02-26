@@ -408,11 +408,22 @@ public class TextImpl extends EObjectImpl implements Text
 		{
 			return null;
 		}
-		TextImpl txt = new TextImpl( );
-		txt.color = ColorDefinitionImpl.copyInstance( src.getColor( ) );
-		txt.font = FontDefinitionImpl.copyInstance( src.getFont( ) );
-		txt.value = src.getValue( );
-		return txt;
+
+		TextImpl dest = new TextImpl( );
+
+		if ( src.getFont( ) != null )
+		{
+			dest.setFont( FontDefinitionImpl.copyInstance( src.getFont( ) ) );
+		}
+
+		if ( src.getColor( ) != null )
+		{
+			dest.setColor( ColorDefinitionImpl.copyInstance( src.getColor( ) ) );
+		}
+
+		dest.value = src.getValue( );
+
+		return dest;
 	}
 
 } // TextImpl

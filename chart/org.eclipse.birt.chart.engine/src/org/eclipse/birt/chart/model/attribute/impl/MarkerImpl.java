@@ -672,4 +672,40 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	}
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Marker copyInstance( Marker src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		MarkerImpl dest = new MarkerImpl( );
+
+		if ( src.getFill( ) != null )
+		{
+			dest.setFill( FillImpl.copyInstance( src.getFill( ) ) );
+		}
+
+		if ( src.getIconPalette( ) != null )
+		{
+			dest.setIconPalette( PaletteImpl.copyInstance( src.getIconPalette( ) ) );
+		}
+
+		dest.type = src.getType( );
+		dest.typeESet = src.isSetType( );
+		dest.size = src.getSize( );
+		dest.sizeESet = src.isSetSize( );
+		dest.visible = src.isVisible( );
+		dest.visibleESet = src.isSetVisible( );
+
+		return dest;
+	}
+
 } // MarkerImpl

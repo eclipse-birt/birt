@@ -687,4 +687,35 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		return sb.toString( );
 	}
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static FractionNumberFormatSpecifier copyInstance(
+			FractionNumberFormatSpecifier src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		FractionNumberFormatSpecifierImpl dest = new FractionNumberFormatSpecifierImpl( );
+
+		dest.precise = src.isPrecise( );
+		dest.preciseESet = src.isSetPrecise( );
+		dest.fractionDigits = src.getFractionDigits( );
+		dest.fractionDigitsESet = src.isSetFractionDigits( );
+		dest.numerator = src.getNumerator( );
+		dest.numeratorESet = src.isSetNumerator( );
+		dest.prefix = src.getPrefix( );
+		dest.suffix = src.getSuffix( );
+		dest.delimiter = src.getDelimiter( );
+		dest.delimiterESet = src.isSetDelimiter( );
+
+		return dest;
+	}
+
 } // FractionNumberFormatSpecifierImpl

@@ -17,12 +17,21 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
-import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
+import org.eclipse.birt.chart.model.attribute.impl.DataPointImpl;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
+import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
@@ -31,6 +40,7 @@ import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -445,7 +455,9 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 		// Update the base axis to type text if it isn't already
 		if ( chart instanceof ChartWithAxes )
 		{
-			( (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
+			( (ChartWithAxes) chart ).getAxes( )
+					.get( 0 )
+					.setCategoryAxis( true );
 		}
 		else
 		{
@@ -536,4 +548,85 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	{
 		return isStacked( );
 	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static BarSeries copyInstance( BarSeries src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		BarSeriesImpl dest = new BarSeriesImpl( );
+
+		if ( src.getLabel( ) != null )
+		{
+			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
+		}
+
+		if ( src.getDataDefinition( ) != null )
+		{
+			EList<Query> list = dest.getDataDefinition( );
+			for ( Query element : src.getDataDefinition( ) )
+			{
+				list.add( QueryImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getDataPoint( ) != null )
+		{
+			dest.setDataPoint( DataPointImpl.copyInstance( src.getDataPoint( ) ) );
+		}
+
+		if ( src.getDataSets( ) != null )
+		{
+			EMap<String, DataSet> map = dest.getDataSets( );
+			map.putAll( src.getDataSets( ) );
+		}
+
+		if ( src.getTriggers( ) != null )
+		{
+			EList<Trigger> list = dest.getTriggers( );
+			for ( Trigger element : src.getTriggers( ) )
+			{
+				list.add( TriggerImpl.copyInstance( element ) );
+			}
+		}
+
+		if ( src.getCurveFitting( ) != null )
+		{
+			dest.setCurveFitting( CurveFittingImpl.copyInstance( src.getCurveFitting( ) ) );
+		}
+
+		if ( src.getCursor( ) != null )
+		{
+			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
+		}
+
+		if ( src.getRiserOutline( ) != null )
+		{
+			dest.setRiserOutline( ColorDefinitionImpl.copyInstance( src.getRiserOutline( ) ) );
+		}
+
+		dest.visible = src.isVisible( );
+		dest.visibleESet = src.isSetVisible( );
+		dest.seriesIdentifier = src.getSeriesIdentifier( );
+		dest.labelPosition = src.getLabelPosition( );
+		dest.labelPositionESet = src.isSetLabelPosition( );
+		dest.stacked = src.isStacked( );
+		dest.stackedESet = src.isSetStacked( );
+		dest.translucent = src.isTranslucent( );
+		dest.translucentESet = src.isSetTranslucent( );
+		dest.riser = src.getRiser( );
+		dest.riserESet = src.isSetRiser( );
+
+		return dest;
+	}
+
 } // BarSeriesImpl

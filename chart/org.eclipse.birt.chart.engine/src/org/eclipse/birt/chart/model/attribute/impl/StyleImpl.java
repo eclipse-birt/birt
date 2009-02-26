@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.model.attribute.Style;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -580,6 +579,50 @@ public class StyleImpl extends EObjectImpl implements Style
 		ss.setBackgroundImage( backimage );
 		ss.setPadding( padding );
 		return ss;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static Style copyInstance( Style src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		StyleImpl dest = new StyleImpl( );
+
+		if ( src.getFont( ) != null )
+		{
+			dest.setFont( FontDefinitionImpl.copyInstance( src.getFont( ) ) );
+		}
+
+		if ( src.getColor( ) != null )
+		{
+			dest.setColor( ColorDefinitionImpl.copyInstance( src.getColor( ) ) );
+		}
+
+		if ( src.getBackgroundColor( ) != null )
+		{
+			dest.setBackgroundColor( ColorDefinitionImpl.copyInstance( src.getBackgroundColor( ) ) );
+		}
+
+		if ( src.getBackgroundImage( ) != null )
+		{
+			dest.setBackgroundImage( ImageImpl.copyInstance( src.getBackgroundImage( ) ) );
+		}
+
+		if ( src.getPadding( ) != null )
+		{
+			dest.setPadding( InsetsImpl.copyInstance( src.getPadding( ) ) );
+		}
+
+		return dest;
 	}
 
 } // StyleImpl
