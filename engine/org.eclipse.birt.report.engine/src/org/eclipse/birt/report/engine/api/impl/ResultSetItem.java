@@ -66,11 +66,6 @@ public class ResultSetItem implements IResultSetItem {
 	 */
 	public String getResultSetName( )
 	{
-		if ( handle != null )
-		{
-			return ModuleUtil.getExternalizedValue( handle, handle.getName( ),
-					resultSetName, ULocale.forLocale( locale ) );
-		}
 		return resultSetName;
 	}
 	
@@ -80,5 +75,15 @@ public class ResultSetItem implements IResultSetItem {
 	public IResultMetaData getResultMetaData( )
 	{
 		return resultSetMetaData;
+	}
+
+	public String getResultSetDisplayName( )
+	{
+		if ( handle != null )
+		{
+			return ModuleUtil.getExternalizedValue( handle, handle.getName( ),
+					resultSetName, ULocale.forLocale( locale ) );
+		}
+		return resultSetName;
 	}
 }
