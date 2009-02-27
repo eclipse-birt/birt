@@ -205,13 +205,6 @@
 			<property name="cvsRoot" value="${cvs.root}" />
 		</projectInfo>
 		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.report.designer.ui.preview.nl" />
-			<property name="repositoryPath" value="source/nl" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.report.designer.ui.rcp.nl" />
 			<property name="repositoryPath" value="source/nl" />
 			<property name="buildFileName" value="build.xml" />
