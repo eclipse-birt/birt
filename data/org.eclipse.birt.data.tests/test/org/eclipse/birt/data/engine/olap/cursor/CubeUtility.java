@@ -53,8 +53,8 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 public class CubeUtility
 {
 	public static String cubeName = "cube";
-	
-	
+	public static String timeCube = "timeCube";
+		
 	CubeUtility( )
 	{
 	}
@@ -190,6 +190,135 @@ public class CubeUtility
 		documentManager.flush( );
 	}
 	
+	void createCube1( DataEngineImpl engine ) throws IOException,
+			BirtException, OLAPException
+	{
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( engine.getSession( ).getTempDir( ),
+				timeCube );
+		DocManagerMap.getDocManagerMap( ).set( String.valueOf( engine.hashCode( ) ), engine.getSession( ).getTempDir( ) + timeCube, documentManager );
+		engine.addShutdownListener( new DocManagerReleaser( engine ) );
+		Dimension[] dimensions = new Dimension[6];
+
+		// dimension0
+		String[] levelNames = new String[1];
+		levelNames[0] = "level11";
+		DimensionForTest iterator = new DimensionForTest( levelNames );
+		iterator.setLevelMember( 0, TestFactTable2.DIM0_L1Col );
+
+		ILevelDefn[] levelDefs = new ILevelDefn[1];
+		levelDefs[0] = new LevelDefinition( "level11", new String[]{
+			"level11"
+		}, null );
+		dimensions[0] = (Dimension) DimensionFactory.createDimension( "dimension1",
+				documentManager,
+				iterator,
+				levelDefs,
+				false );
+		IHierarchy hierarchy = dimensions[0].getHierarchy( );
+		IDiskArray allRow = dimensions[0].getAllRows( new StopSign( ) );
+		
+		// dimension1
+        levelNames = new String[1];
+		levelNames[0] = "level12";
+		iterator = new DimensionForTest( levelNames );
+		iterator.setLevelMember( 0, TestFactTable2.DIM0_L2Col );
+
+		levelDefs = new ILevelDefn[1];
+		levelDefs[0] = new LevelDefinition( "level12", new String[]{
+			"level12"
+		}, null );
+		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2",
+				documentManager,
+				iterator,
+				levelDefs,
+				false );
+		hierarchy = dimensions[1].getHierarchy( );
+		allRow = dimensions[1].getAllRows( new StopSign( ) );		
+		
+		// dimension2
+        levelNames = new String[1];
+		levelNames[0] = "level13";
+		iterator = new DimensionForTest( levelNames );
+		iterator.setLevelMember( 0, TestFactTable2.DIM0_L3Col );
+
+		levelDefs = new ILevelDefn[1];
+		levelDefs[0] = new LevelDefinition( "level13", new String[]{
+			"level13"
+		}, null );
+		dimensions[2] = (Dimension) DimensionFactory.createDimension( "dimension3",
+				documentManager,
+				iterator,
+				levelDefs,
+				false );
+		hierarchy = dimensions[2].getHierarchy( );
+		allRow = dimensions[2].getAllRows( new StopSign( ) );
+		
+		// dimension3
+        levelNames = new String[1];
+		levelNames[0] = "level14";
+		iterator = new DimensionForTest( levelNames );
+		iterator.setLevelMember( 0, TestFactTable2.DIM0_L4Col );
+
+		levelDefs = new ILevelDefn[1];
+		levelDefs[0] = new LevelDefinition( "level14", new String[]{
+			"level14"
+		}, null );
+		dimensions[3] = (Dimension) DimensionFactory.createDimension( "dimension4",
+				documentManager,
+				iterator,
+				levelDefs,
+				false );
+		hierarchy = dimensions[3].getHierarchy( );
+		allRow = dimensions[3].getAllRows( new StopSign( ) );
+		
+		// dimension4
+        levelNames = new String[1];
+		levelNames[0] = "level21";
+		iterator = new DimensionForTest( levelNames );
+		iterator.setLevelMember( 0, TestFactTable2.DIM1_L1Col );
+
+		levelDefs = new ILevelDefn[1];
+		levelDefs[0] = new LevelDefinition( "level21", new String[]{
+			"level21"
+		}, null );
+		dimensions[4] = (Dimension) DimensionFactory.createDimension( "dimension5",
+				documentManager,
+				iterator,
+				levelDefs,
+				false );
+		hierarchy = dimensions[4].getHierarchy( );
+		allRow = dimensions[4].getAllRows( new StopSign( ) );
+		
+		// dimension5
+		levelNames = new String[]{
+				"level22", "attributes220"
+		};
+		iterator = new DimensionForTest( levelNames );
+		iterator.setLevelMember( 0, TestFactTable2.DIM1_L2Col );
+
+		levelDefs = new ILevelDefn[1];
+		levelDefs[0] = new LevelDefinition( "level22", new String[]{
+			"level22"
+		}, new String[]{
+		} );
+		dimensions[5] = (Dimension) DimensionFactory.createDimension( "dimension6",
+				documentManager,
+				iterator,
+				levelDefs,
+				false );
+		hierarchy = dimensions[5].getHierarchy( );
+		allRow = dimensions[5].getAllRows( new StopSign( ) );
+		
+		TestFactTable2 factTable2 = new TestFactTable2( );
+		String[] measureColumnName = new String[1];
+		measureColumnName[0] = "measure1";
+		Cube cube = new Cube( timeCube, documentManager );
+
+		cube.create( getKeyColNames(dimensions), dimensions, factTable2, measureColumnName, new StopSign( ) );
+		cube.close( );
+		documentManager.flush( );
+	}
+
 	ICubeQueryDefinition createQueryDefinition( )
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -223,7 +352,7 @@ public class CubeUtility
 		return cqd;
 	}
 	
-	ICubeQueryDefinition createMirroredQueryDefinition( )
+	ICubeQueryDefinition createMirroredQueryDefinition( String cubeName, boolean breakHierarchy )
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 
@@ -236,8 +365,8 @@ public class CubeUtility
 		IDimensionDefinition productLineDim2 = columnEdge.createDimension( "dimension6" );
 		IHierarchyDefinition porductLineHie2 = productLineDim2.createHierarchy( "dimension6" );
 		ILevelDefinition columnLevel2 = porductLineHie2.createLevel( "level22" );
-
-		columnEdge.setMirrorStartingLevel( columnLevel2 );
+	
+		columnEdge.creatMirrorDefinition( columnLevel2, breakHierarchy );
 
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IDimensionDefinition geographyDim1 = rowEdge.createDimension( "dimension1" );
@@ -256,7 +385,7 @@ public class CubeUtility
 		IHierarchyDefinition geographyHier4 = geographyDim4.createHierarchy( "dimension4" );
 		geographyHier4.createLevel( "level14" );
 
-		rowEdge.setMirrorStartingLevel( startLevel );
+		rowEdge.creatMirrorDefinition( startLevel, breakHierarchy );
 		return cqd;
 	}
 	
@@ -940,4 +1069,199 @@ class TestFactTable1 implements IDatasetIterator
 			}
 			return true;
 		}
+}
+
+class TestFactTable2 implements IDatasetIterator
+{
+
+	int ptr = -1;
+	static String[] DIM0_L1Col = {
+		"CN", "CN", "CN", "CN",
+		"US", "US", "US", 
+		"UN", "UN",
+		"JP"
+	};
+	static String[] DIM0_L2Col = {
+		"2007","2007","2008","2008",
+		"2007","2007","2008",
+		"2007","2007",
+		"2008"
+   };
+	static String[] DIM0_L3Col = {
+		"Q1", "Q1", "Q1","Q2", 
+		"Q2","Q3","Q1",
+		"Q1","Q2",
+		"Q4"
+	};
+
+	static String[] DIM0_L4Col = {
+	    "01","02","03","04",
+        "05","07","03",
+        "02","05",
+        "10"
+	};
+  
+	static String[] DIM1_L1Col = {
+	    "P1","P1","P2","P2",
+	    "P3","P3","P2",
+        "P3","P3",
+        "P3"
+  	};
+  
+	static String[] DIM1_L2Col = {
+	    "PP1","PP2","PP1","PP3",
+        "PP1","PP2","PP3",
+        "PP1","PP2",
+        "PP1"
+    };
+	static int[] MEASURE_Col = {
+	  	1,2,3,6,
+	  	7,8,11,
+	  	16,21,
+	  	22,
+	};
+
+	public void close( ) throws BirtException
+	{
+	}
+
+	public Boolean getBoolean( int fieldIndex ) throws BirtException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Date getDate( int fieldIndex ) throws BirtException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Double getDouble( int fieldIndex ) throws BirtException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getFieldIndex( String name ) throws BirtException
+	{
+		if ( name.equals( "level11" ) )
+		{
+			return 0;
+		}
+		else if ( name.equals( "level12" ) )
+		{
+			return 1;
+		}
+		else if ( name.equals( "level13" ) )
+		{
+			return 2;
+		}
+		else if ( name.equals( "level14" ) )
+		{
+			return 3;
+		}
+		else if ( name.equals( "level21" ) )
+		{
+			return 4;
+		}
+		else if ( name.equals( "level22" ) )
+		{
+			return 5;
+		}			
+		else if ( name.equals( "measure1" ) )
+		{
+			return 6;
+		}
+		return -1;
+	}
+
+	public int getFieldType( String name ) throws BirtException
+	{
+		if ( name.equals( "level11" ) )
+		{
+			return DataType.STRING_TYPE;
+		}
+		else if ( name.equals( "level12" ) )
+		{
+			return DataType.STRING_TYPE;
+		}
+		else if ( name.equals( "level13" ) )
+		{
+			return DataType.STRING_TYPE;
+		}
+		else if ( name.equals( "level14" ) )
+		{
+			return DataType.STRING_TYPE;
+		}
+		else if ( name.equals( "level21" ) )
+		{
+			return DataType.STRING_TYPE;
+		}
+		else if ( name.equals( "level22" ) )
+		{
+			return DataType.STRING_TYPE;
+		}
+		else if ( name.equals( "measure1" ) )
+		{
+			return DataType.INTEGER_TYPE;
+		}
+
+		return -1;
+	}
+
+	public Integer getInteger( int fieldIndex ) throws BirtException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getString( int fieldIndex ) throws BirtException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object getValue( int fieldIndex ) throws BirtException
+	{
+		if ( fieldIndex == 0 )
+		{
+			return DIM0_L1Col[ptr];
+		}
+		else if ( fieldIndex == 1 )
+		{
+			return DIM0_L2Col[ptr];
+		}
+		else if ( fieldIndex == 2 )
+		{
+			return DIM0_L3Col[ptr];
+		}
+		else if ( fieldIndex == 3 )
+		{
+			return DIM0_L4Col[ptr];
+		}
+		else if ( fieldIndex == 4 )
+		{
+			return DIM1_L1Col[ptr];
+		}
+		else if ( fieldIndex == 5 )
+		{
+			return DIM1_L2Col[ptr];
+		}
+		else if ( fieldIndex == 6 )
+		{
+			return new Integer( MEASURE_Col[ptr] );
+		}
+		return null;
+	}
+
+	public boolean next( ) throws BirtException
+	{
+		ptr++;
+		if ( ptr >= MEASURE_Col.length )
+		{
+			return false;
+		}
+		return true;
+	}
 }

@@ -20,7 +20,7 @@ import javax.olap.cursor.EdgeCursor;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition;
 
 /**
  * An BirtEdgeView is part of the logical layout of a BirtCubeView.It aggregates
@@ -117,6 +117,11 @@ public class BirtEdgeView
 		return this.cubeView;
 	}
 
+	public IEdgeDefinition getEdgeDefintion( )
+	{
+		return this.edgeDefn;
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -137,38 +142,14 @@ public class BirtEdgeView
 
 	/**
 	 * 
-	 */
-	public boolean hasMirrored( )
-	{
-		if ( edgeDefn != null && edgeDefn.getMirrorStartingLevel( ) != null )
-		{
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * 
 	 * @return
 	 */
-	public int getMirrorStartingLevel( )
+	public IMirroredDefinition getMirroredDefinition( )
 	{
-		int index = 0;
-		if ( hasMirrored( ) )
-		{
-			ILevelDefinition[] levelArray = CubeQueryDefinitionUtil.getLevelsOnEdge( edgeDefn );
-			for ( int i = 0; i < levelArray.length; i++ )
-			{
-				if ( levelArray[i].equals( edgeDefn.getMirrorStartingLevel( ) ) )
-				{
-					index = i;
-					break;
-				}
-			}
-			return index;
-		}
+		if ( this.edgeDefn != null )
+			return this.edgeDefn.getMirroredDefinition( );
 		else
-			return index;
+			return null;
 	}
 	
 	public int getPageEndingIndex( )

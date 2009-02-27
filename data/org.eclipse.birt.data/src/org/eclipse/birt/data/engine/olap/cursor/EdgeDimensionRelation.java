@@ -64,9 +64,7 @@ import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
 class EdgeDimensionRelation
 {
 	List[] currentRelation;
-	int traverseLength, mirrorStartPosition;
-	// the dimension cursor position for each dimension axis
-	int[] mirrorLength;
+	int traverseLength;
 	ResultSetFetcher fetcher;
 	private List sectionList;
 	
@@ -74,28 +72,12 @@ class EdgeDimensionRelation
 			ResultSetFetcher fetcher, int fetchSize, boolean isPage )
 			throws IOException
 	{
-		IAggregationResultSet rs = service.getAggregationResultSet( );
+		IAggregationResultSet rs = fetcher.getAggrResultSet( );
 		DimensionAxis[] dimAxis = service.getDimensionAxis( );
 
-		this.mirrorStartPosition = service.getMirrorStartPosition( );
-		this.mirrorLength = new int[dimAxis.length];
 		this.sectionList = new ArrayList( );
 		this.fetcher = fetcher;
-		
-		//initial all variable
-		for ( int i = 0; i < dimAxis.length; i++ )
-		{
-			if ( i >= mirrorStartPosition && mirrorStartPosition>0  )
-			{
-				mirrorLength[i] = service.getDimensionAxis( )[i].getDisctinctValue( )
-						.size( );
-			}
-			else
-				mirrorLength[i] = 0;
-		}
-
-		int customDimSize = mirrorStartPosition > 0 ? mirrorStartPosition
-				: dimAxis.length;
+		int customDimSize = dimAxis.length;
 
 		if ( fetchSize > 0 && rs.length( ) > fetchSize )
 		{
@@ -183,19 +165,9 @@ class EdgeDimensionRelation
 			section.setBaseEnd( this.traverseLength - 1 );
 
 			this.currentRelation = ( (Section) this.sectionList.get( 0 ) ).getRelation( );
-			if ( mirrorStartPosition > 0 )
-			{
-				this.traverseLength = this.currentRelation[mirrorStartPosition - 1].size( );
-				for ( int i = mirrorStartPosition; i < dimAxis.length; i++ )
-				{
-					this.traverseLength = this.traverseLength
-							* this.mirrorLength[i];
-				}
-			}
-			else
-				this.traverseLength = ( (Section) this.sectionList.get( 0 ) ).getBaseEnd( )
-						- ( (Section) this.sectionList.get( 0 ) ).getBaseStart( )
-						+ 1;
+			this.traverseLength = ( (Section) this.sectionList.get( 0 ) ).getBaseEnd( )
+					- ( (Section) this.sectionList.get( 0 ) ).getBaseStart( )
+					+ 1;
 		}
 	}
 	
@@ -246,16 +218,6 @@ class EdgeDimensionRelation
 		if ( this.sectionList.size( ) > position )
 		{
 			this.currentRelation = ( (Section) this.sectionList.get( position ) ).getRelation( );
-			if ( mirrorStartPosition > 0 )
-			{
-				this.traverseLength = this.currentRelation[mirrorStartPosition - 1].size( );
-				for ( int i = mirrorStartPosition; i < this.mirrorLength.length; i++ )
-				{
-					this.traverseLength = this.traverseLength
-							* this.mirrorLength[i];
-				}
-			}
-			else
 			{
 				this.traverseLength = ( (Section) this.sectionList.get( position ) ).getBaseEnd( )
 						- ( (Section) this.sectionList.get( position ) ).getBaseStart( )

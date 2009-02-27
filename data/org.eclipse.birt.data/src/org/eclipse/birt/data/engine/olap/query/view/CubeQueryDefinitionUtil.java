@@ -645,7 +645,7 @@ public class CubeQueryDefinitionUtil
 	 * @param edgeDefn
 	 * @return
 	 */
-	static ILevelDefinition[] getLevelsOnEdge( IEdgeDefinition edgeDefn )
+	public static ILevelDefinition[] getLevelsOnEdge( IEdgeDefinition edgeDefn )
 	{
 		if ( edgeDefn == null )
 			return new ILevelDefinition[0];

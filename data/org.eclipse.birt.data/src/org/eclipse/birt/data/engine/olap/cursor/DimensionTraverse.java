@@ -74,7 +74,7 @@ class DimensionTraverse
 	private int[] findDimensionPosition( int currentPosition )
 	{
 		int position = currentPosition;
-		int[] pos = new int[this.relationMap.mirrorLength.length];
+		int[] pos = new int[this.dimAxis.length];
 		int count = 0;
 		for ( int i = pos.length - 1; i >= 0; i-- )
 		{
@@ -84,41 +84,33 @@ class DimensionTraverse
 				pos[i] = -1;
 				continue;
 			}
-			if ( this.relationMap.mirrorLength[i] == 0 )
-			{
-				EdgeInfo info = null;
-				if ( this.relationMap.currentRelation[i].size( ) > position )
-				{
-					info = (EdgeInfo) this.relationMap.currentRelation[i].get( position );
-				}
-				else
-				{
-					pos[i] = -1;
-					continue;
-				}
-				for ( int j = position - 1; j >= 0; j-- )
-				{
-					EdgeInfo lastInfo = (EdgeInfo) this.relationMap.currentRelation[i].get( j );
-					if ( info.parent == lastInfo.parent )
-					{
-						count++;
-					}
-					else
-					{
 
-						break;
-					}
-				}
-				position = info.parent;
-				pos[i] = count;
+			EdgeInfo info = null;
+			if ( this.relationMap.currentRelation[i].size( ) > position )
+			{
+				info = (EdgeInfo) this.relationMap.currentRelation[i].get( position );
 			}
 			else
 			{
-				int offset = position % this.relationMap.mirrorLength[i];
-				position = ( position - offset ) /
-						this.relationMap.mirrorLength[i];
-				pos[i] = offset;
+				pos[i] = -1;
+				continue;
 			}
+			for ( int j = position - 1; j >= 0; j-- )
+			{
+				EdgeInfo lastInfo = (EdgeInfo) this.relationMap.currentRelation[i].get( j );
+				if ( info.parent == lastInfo.parent )
+				{
+					count++;
+				}
+				else
+				{
+
+					break;
+				}
+			}
+			position = info.parent;
+			pos[i] = count;
+
 		}
 		return pos;
 	}
@@ -229,17 +221,9 @@ class DimensionTraverse
 		if ( this.relationMap.traverseLength <= 0 )
 			return false;
 
-		if ( !this.dimAxis[dimAxisIndex].isMirrored( ) )
-		{
-			int range = findFowardOffsetRange( dimAxisIndex );
-			this.dimensionCursorPosition[dimAxisIndex] += range;
-			return true;
-		}
-		else
-		{
-			this.dimensionCursorPosition[dimAxisIndex] = relationMap.mirrorLength[dimAxisIndex] - 1;
-			return true;
-		}
+		int range = findFowardOffsetRange( dimAxisIndex );
+		this.dimensionCursorPosition[dimAxisIndex] += range;
+		return true;
 	}
 
 	/**
@@ -356,49 +340,18 @@ class DimensionTraverse
 	 */
 	int getEdgeStart( int dimAxisIndex )
 	{
-		if ( this.relationMap.mirrorStartPosition == 0 )
+		int outer = this.dimAxis.length;
+		EdgeInfo edgeInfo = findCurrentEdgeInfo( dimAxisIndex );
+		if ( edgeInfo == null )
+			return -1;
+		int endPosition = edgeInfo.firstChild, position;
+		EdgeInfo info = edgeInfo;
+		for ( position = dimAxisIndex + 1; position < outer; position++ )
 		{
-			int outer = this.relationMap.mirrorStartPosition == 0
-					? this.dimAxis.length
-					: this.relationMap.mirrorStartPosition;
-			EdgeInfo edgeInfo = findCurrentEdgeInfo( dimAxisIndex );
-			if ( edgeInfo == null )
-				return -1;
-			int endPosition = edgeInfo.firstChild, position;
-			EdgeInfo info = edgeInfo;
-			for ( position = dimAxisIndex + 1; position < outer; position++ )
-			{
-				info = (EdgeInfo) ( (List) this.relationMap.currentRelation[position] ).get( endPosition );
-				endPosition = info.firstChild;
-			}
-			return info.firstChild;
+			info = (EdgeInfo) ( (List) this.relationMap.currentRelation[position] ).get( endPosition );
+			endPosition = info.firstChild;
 		}
-		else
-		{
-			if ( !this.dimAxis[dimAxisIndex].isMirrored( ) )
-			{
-				EdgeInfo edgeInfo = findCurrentEdgeInfo( dimAxisIndex );
-				int start = findOuterMostChildEdgeInfoIndex( dimAxisIndex,
-						edgeInfo );
-				if ( relationMap.mirrorStartPosition > 0 && start >= 0 )
-					for ( int i = relationMap.mirrorStartPosition; i < this.dimAxis.length; i++ )
-					{
-						start = start * this.relationMap.mirrorLength[i];
-					}
-				return start;
-			}
-			else
-			{
-				int start = caculateOffset( dimAxisIndex, true );
-				if ( start < 0 )
-					return start;
-				if ( dimAxisIndex == this.dimAxis.length - 1 )
-				{
-					start += this.dimensionCursorPosition[dimAxisIndex];
-				}
-				return start;
-			}
-		}
+		return info.firstChild;
 	}
 
 	/**
@@ -409,63 +362,24 @@ class DimensionTraverse
 	 */
 	int getEdgeEnd( int dimAxisIndex )
 	{
-		if ( this.relationMap.mirrorStartPosition == 0 )
-		{
-			EdgeInfo edgeInfo = findCurrentEdgeInfo( dimAxisIndex );
-			if ( edgeInfo == null )
-				return -1;
-			int endPosition = edgeInfo.firstChild;
+		EdgeInfo edgeInfo = findCurrentEdgeInfo( dimAxisIndex );
+		if ( edgeInfo == null )
+			return -1;
+		int endPosition = edgeInfo.firstChild;
 
-			int index = this.relationMap.currentRelation[dimAxisIndex].indexOf( edgeInfo );
-			if ( index < this.relationMap.currentRelation[dimAxisIndex].size( ) - 1 )
-			{
-				EdgeInfo nextEdgeInfo = (EdgeInfo) this.relationMap.currentRelation[dimAxisIndex].get( index + 1 );
-				EdgeInfo nextOuterEdgeInfo = this.findOuterMostChildEdgeInfo( dimAxisIndex,
-						nextEdgeInfo );
-				endPosition = nextOuterEdgeInfo.firstChild - 1;
-			}
-			else
-			{
-				endPosition = this.relationMap.traverseLength - 1;
-			}
-			return endPosition;
+		int index = this.relationMap.currentRelation[dimAxisIndex].indexOf( edgeInfo );
+		if ( index < this.relationMap.currentRelation[dimAxisIndex].size( ) - 1 )
+		{
+			EdgeInfo nextEdgeInfo = (EdgeInfo) this.relationMap.currentRelation[dimAxisIndex].get( index + 1 );
+			EdgeInfo nextOuterEdgeInfo = this.findOuterMostChildEdgeInfo( dimAxisIndex,
+					nextEdgeInfo );
+			endPosition = nextOuterEdgeInfo.firstChild - 1;
 		}
 		else
 		{
-			if ( !this.dimAxis[dimAxisIndex].isMirrored( ) )
-			{
-				EdgeInfo edgeInfo = findCurrentEdgeInfo( dimAxisIndex );
-
-				int index = this.relationMap.currentRelation[dimAxisIndex].indexOf( edgeInfo );
-				if ( index < this.relationMap.currentRelation[dimAxisIndex].size( ) - 1 )
-				{
-					EdgeInfo nextEdgeInfo = (EdgeInfo) this.relationMap.currentRelation[dimAxisIndex].get( index + 1 );
-					int start = findOuterMostChildEdgeInfoIndex( dimAxisIndex,
-							nextEdgeInfo );
-					if ( relationMap.mirrorStartPosition > 0 )
-						for ( int i = relationMap.mirrorStartPosition; i < this.dimAxis.length; i++ )
-						{
-							start = start * this.relationMap.mirrorLength[i];
-						}
-					return start - 1;
-				}
-				else
-				{
-					return this.relationMap.traverseLength - 1;
-				}
-			}
-			else
-			{
-				int start = caculateOffset( dimAxisIndex, false );
-				if ( start < 0 )
-					return start;
-				if ( dimAxisIndex == this.dimAxis.length - 1 )
-				{
-					start += this.dimensionCursorPosition[dimAxisIndex] + 1;
-				}
-				return start - 1;
-			}
+			endPosition = this.relationMap.traverseLength - 1;
 		}
+		return endPosition;
 	}
 
 	/**
@@ -545,73 +459,10 @@ class DimensionTraverse
 		EdgeInfo info = edgeInfo;
 		for ( int i = dimAxisIndex + 1; i < this.dimAxis.length; i++ )
 		{
-			if ( this.dimAxis[i].isMirrored( ) )
-				break;
 			info = (EdgeInfo) ( (List) this.relationMap.currentRelation[i] ).get( endPosition );
 			endPosition = info.firstChild;
 		}
 		return info;
-	}
-
-	/**
-	 * 
-	 * @param dimAxisIndex
-	 * @return
-	 */
-	private int caculateOffset( int dimAxisIndex, boolean isStart )
-	{
-		EdgeInfo edgeInfo = findCurrentEdgeInfo( relationMap.mirrorStartPosition - 1 );
-		int start = findOuterMostChildEdgeInfoIndex( relationMap.mirrorStartPosition - 1,
-				edgeInfo );
-		if ( start < 0 )
-			return start;
-		for ( int i = relationMap.mirrorStartPosition; i < this.dimAxis.length; i++ )
-		{
-			start = start * this.relationMap.mirrorLength[i];
-		}
-		for ( int k = relationMap.mirrorStartPosition; k <= dimAxisIndex; k++ )
-		{
-			int offset = this.dimensionCursorPosition[k];
-			if ( !isStart && k == dimAxisIndex )
-			{
-				offset = this.dimensionCursorPosition[k] + 1;
-			}
-			for ( int i = k + 1; i < this.dimAxis.length; i++ )
-			{
-				offset = offset * relationMap.mirrorLength[i];
-			}
-			if ( k + 1 < this.dimAxis.length )
-				start += offset;
-		}
-		return start;
-	}
-
-	/**
-	 * 
-	 * @param dimAxisIndex
-	 * @param edgeInfo
-	 * @return
-	 */
-	private int findOuterMostChildEdgeInfoIndex( int dimAxisIndex,
-			EdgeInfo edgeInfo )
-	{
-		if ( dimAxisIndex < 0 ||
-				dimAxisIndex >= this.dimAxis.length || edgeInfo == null )
-			return -1;
-		int endPosition = edgeInfo.firstChild;
-		EdgeInfo info = edgeInfo;
-		int index;
-		for ( index = dimAxisIndex + 1; index < this.dimAxis.length; index++ )
-		{
-			if ( this.dimAxis[index].isMirrored( ) )
-				break;
-			info = (EdgeInfo) ( (List) this.relationMap.currentRelation[index] ).get( endPosition );
-			endPosition = info.firstChild;
-		}
-		if ( index == this.relationMap.mirrorStartPosition )
-			return this.relationMap.currentRelation[index - 1].indexOf( info );
-		else
-			return this.relationMap.currentRelation[index].indexOf( info );
 	}
 
 	/**
@@ -622,40 +473,30 @@ class DimensionTraverse
 	 */
 	private boolean hasNext( int dimAxisIndex )
 	{
-		if ( !this.dimAxis[dimAxisIndex].isMirrored( ) )
+		EdgeInfo currentEdgeInfo = findCurrentEdgeInfo( dimAxisIndex );
+		// if current EdgeInfo is null, but the cursor is not initial,
+		// return true.
+		// else if current EdgeInfo is null, return false
+		if ( currentEdgeInfo == null )
 		{
-			EdgeInfo currentEdgeInfo = findCurrentEdgeInfo( dimAxisIndex );
-			// if current EdgeInfo is null, but the cursor is not initial,
-			// return true.
-			// else if current EdgeInfo is null, return false
-			if ( currentEdgeInfo == null )
-			{
-				if ( this.dimensionCursorPosition[dimAxisIndex] < 0 &&
-						this.relationMap.traverseLength > 0 )
-					return true;
-				else
-					return false;
-			}
-
-			int index = this.relationMap.currentRelation[dimAxisIndex].indexOf( currentEdgeInfo );
-			EdgeInfo nextEdgeInfo = null;
-			if ( this.relationMap.currentRelation[dimAxisIndex].size( ) > index + 1 )
-				nextEdgeInfo = (EdgeInfo) this.relationMap.currentRelation[dimAxisIndex].get( index + 1 );
-
-			if ( nextEdgeInfo == null )
-				return false;
-
-			if ( currentEdgeInfo.parent == nextEdgeInfo.parent )
-				return true;
-			return false;
-		}
-		else
-		{
-			if ( this.dimensionCursorPosition[dimAxisIndex] < relationMap.mirrorLength[dimAxisIndex] - 1 )
+			if ( this.dimensionCursorPosition[dimAxisIndex] < 0
+					&& this.relationMap.traverseLength > 0 )
 				return true;
 			else
 				return false;
 		}
+
+		int index = this.relationMap.currentRelation[dimAxisIndex].indexOf( currentEdgeInfo );
+		EdgeInfo nextEdgeInfo = null;
+		if ( this.relationMap.currentRelation[dimAxisIndex].size( ) > index + 1 )
+			nextEdgeInfo = (EdgeInfo) this.relationMap.currentRelation[dimAxisIndex].get( index + 1 );
+
+		if ( nextEdgeInfo == null )
+			return false;
+
+		if ( currentEdgeInfo.parent == nextEdgeInfo.parent )
+			return true;
+		return false;
 	}
 
 	/**
@@ -739,13 +580,6 @@ class DimensionTraverse
 				return range;
 		}
 
-		//If the dimension is mirrored
-		if ( dimensionAxis >= this.relationMap.mirrorStartPosition &&
-				this.relationMap.mirrorStartPosition > 0 )
-		{
-			return this.relationMap.mirrorLength[dimensionAxis] -
-					this.dimensionCursorPosition[dimensionAxis] - 1;
-		}
 
 		EdgeInfo currentInfo = this.findCurrentEdgeInfo( dimensionAxis );
 		if ( currentInfo == null )

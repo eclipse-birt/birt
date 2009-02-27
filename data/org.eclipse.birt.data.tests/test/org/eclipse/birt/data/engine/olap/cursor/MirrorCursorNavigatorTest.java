@@ -56,7 +56,8 @@ public class MirrorCursorNavigatorTest extends BaseTestCase
 
 	public void testNavigator( ) throws DataException, OLAPException
 	{
-		ICubeQueryDefinition cqd = creator.createMirroredQueryDefinition( );
+		ICubeQueryDefinition cqd = creator.createMirroredQueryDefinition( "cube",
+				true );
 
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,

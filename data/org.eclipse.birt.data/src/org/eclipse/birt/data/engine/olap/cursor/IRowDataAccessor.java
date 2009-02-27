@@ -14,13 +14,17 @@ import java.io.IOException;
 
 import javax.olap.OLAPException;
 
+import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+
 
 public interface IRowDataAccessor
 {
 
 	public void initialize( boolean isPage ) throws IOException;
 
-	public RowDataAccessorService getDataAccessorService( );
+	public IAggregationResultSet getAggregationResultSet( );
+	
+	public RowDataAccessorService getRowDataAccessorService( );
 	
 	public boolean dim_next( int dimAxisIndex ) throws OLAPException;
 
@@ -49,11 +53,10 @@ public interface IRowDataAccessor
 
 	public long dim_getPosition( int dimAxisIndex );
 
-	public Object dim_getCurrentMember( int dimAxisIndex, int attr, int sortType )
+	public Object dim_getCurrentMember( int dimAxisIndex, int attr )
 			throws OLAPException;
 
-	public Object dim_getCurrentMember( int dimAxisIndex, String attrName,
-			int sortType ) throws OLAPException;
+	public Object dim_getCurrentMember( int dimAxisIndex, String attrName ) throws OLAPException;
 
 	public void edge_afterLast( );
 

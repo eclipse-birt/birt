@@ -12,11 +12,6 @@
 package org.eclipse.birt.data.engine.olap.driver;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Vector;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.RowDataMetaData;
@@ -24,8 +19,6 @@ import javax.olap.cursor.RowDataMetaData;
 import org.eclipse.birt.data.engine.olap.cursor.IRowDataAccessor;
 import org.eclipse.birt.data.engine.olap.cursor.RowDataMetaDataImpl;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
-import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 
 /**
  * A DimensionAxis represents an axis based on certain level. It provides
@@ -39,9 +32,6 @@ public class DimensionAxis
 	private IAggregationResultSet rs;
 	private int dimAxisIndex, levelIndex;
 	private IRowDataAccessor accessor;
-	private boolean isMirrored = false; 
-	private int aggrSortType = IDimensionSortDefn.SORT_ASC;
-	private Vector valueObjects = null;
 
 	/**
 	 * 
@@ -54,7 +44,7 @@ public class DimensionAxis
 	public DimensionAxis( EdgeAxis container, IAggregationResultSet rs,
 			int dimAxisIndex, int levelIndex )
 	{
-		this( container, rs, dimAxisIndex, levelIndex, false, null );
+		this( container, rs, dimAxisIndex, levelIndex, false );
 	}
 	
 	/**
@@ -66,84 +56,16 @@ public class DimensionAxis
 	 * @param attrIndex
 	 */
 	public DimensionAxis( EdgeAxis container, IAggregationResultSet rs,
-			int dimAixsIndex, int levelIndex, boolean isMirrored,
-			AggrSortDefinition aggrSortDefinition )
+			int dimAixsIndex, int levelIndex, boolean isMirrored )
 	{
 		this.metaData = new ResultSetMetadata( rs, levelIndex );
 		this.rs = rs;
 		this.levelIndex = levelIndex;
 		this.accessor = container.getRowDataAccessor( );
 		this.dimAxisIndex = dimAixsIndex;
-		this.isMirrored = isMirrored;
-		if ( this.isMirrored )
-		{
-			valueObjects = populateValueVector( aggrSortDefinition );
-		}
+
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isMirrored( )
-	{
-		return this.isMirrored;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	private Vector populateValueVector( AggrSortDefinition aggrSortDefinition )
-	{
-		Set valueSet = new HashSet( );
-		if ( aggrSortDefinition != null )
-		{
-			if ( aggrSortDefinition.getAxisQualifierLevel( ).length == 0 )
-				aggrSortType = aggrSortDefinition.getSortDirection( );
-			else
-				aggrSortType = IDimensionSortDefn.SORT_UNDEFINED;
-		}
-
-		for ( int i = 0; i < this.rs.length( ); i++ )
-		{
-			try
-			{
-				this.rs.seek( i );
-			}
-			catch ( IOException e )
-			{
-			}
-			valueSet.add( this.rs.getLevelKeyValue( levelIndex )[ this.rs.getLevelKeyColCount( levelIndex )-1] );
-		}
-		
-		final int sortType = this.rs.getSortType( levelIndex );
-		Object[] value = valueSet.toArray( );
-		Arrays.sort( value, new Comparator( ) {
-
-			public int compare( final Object arg0, final Object arg1 )
-			{
-				if ( sortType == IDimensionSortDefn.SORT_ASC
-						|| sortType == IDimensionSortDefn.SORT_UNDEFINED )
-					return ( (Comparable) arg0 ).compareTo( arg1 );
-				else
-					return ( (Comparable) arg0 ).compareTo( arg1 ) * -1;
-			}
-		} );
-		Vector v = new Vector( );
-		v.addAll( Arrays.asList( value ) );
-		return v;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Vector getDisctinctValue( )
-	{
-		return this.valueObjects;
-	}
-	
 	/**
 	 * 
 	 * @return
@@ -153,14 +75,6 @@ public class DimensionAxis
 		return this.levelIndex;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public int getDimensionAxisIndex( )
-	{
-		return this.dimAxisIndex;
-	}
 
 	/**
 	 * 
@@ -393,7 +307,7 @@ public class DimensionAxis
 	 */
 	public Object getCurrentMember( int attr ) throws OLAPException
 	{
-		return this.accessor.dim_getCurrentMember( dimAxisIndex, attr, aggrSortType );
+		return this.accessor.dim_getCurrentMember( dimAxisIndex, attr );
 	}
 	
 	/**
@@ -404,7 +318,7 @@ public class DimensionAxis
 	 */
 	public Object getCurrentMember( String attrName ) throws OLAPException
 	{
-		return this.accessor.dim_getCurrentMember( dimAxisIndex, attrName, aggrSortType );
+		return this.accessor.dim_getCurrentMember( dimAxisIndex, attrName );
 	}
 	
 	/**

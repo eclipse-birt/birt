@@ -59,14 +59,35 @@ public interface IEdgeDefinition extends INamedObject
 	
 	/**
 	 * Return the level where mirror gets start.
+	 * @deprecated
+	 * @see getMirroredDefinition()
 	 * @return
 	 */
 	public ILevelDefinition getMirrorStartingLevel( );
-	
+
 	/**
 	 * Set whether the level is mirrored.
+	 * 
+	 * @deprecated
 	 * @param isMirrored
+	 * @see creatMirrorDefinition()
 	 * @return
 	 */
 	public void setMirrorStartingLevel( ILevelDefinition level );
+
+	/**
+	 * Set whether the level is mirrored.
+	 * 
+	 * @param isMirrored
+	 * @return
+	 */
+	public void creatMirrorDefinition( ILevelDefinition level,
+			boolean breakHierarchy );
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public IMirroredDefinition getMirroredDefinition( );
+	
 }

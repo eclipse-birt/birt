@@ -30,14 +30,15 @@ public class SubRowDataAccessor extends RowDataAccessor
 	 * @param service
 	 * @param parentNavigator
 	 * @param startingLevel
+	 * @throws IOException 
 	 */
-	public SubRowDataAccessor( RowDataAccessorService service, IRowDataAccessor parentNavigator, int startingLevel )
+	public SubRowDataAccessor( RowDataAccessorService service, IRowDataAccessor parentNavigator, int startingLevel ) throws IOException
 	{
-		super( service );
-		this.parentNavigator = (RowDataAccessor)parentNavigator;
+		super( service, parentNavigator.getAggregationResultSet( ) );
+		this.parentNavigator = (RowDataAccessor) parentNavigator;
 		this.startingLevel = startingLevel;
 		this.service = service;
-		this.rs = service.getAggregationResultSet( );
+		this.rs = parentNavigator.getAggregationResultSet( );
 	}
 	
 	/*
@@ -48,7 +49,7 @@ public class SubRowDataAccessor extends RowDataAccessor
 		if ( startingLevel < 0 )
 		{
 			edgeStart = 0;
-			int fetchSize = this.parentNavigator.getDataAccessorService( )
+			int fetchSize = this.parentNavigator.getRowDataAccessorService( )
 					.getFetchSize( );
 			if ( fetchSize > 0 && this.rs.length( ) > fetchSize )
 			{

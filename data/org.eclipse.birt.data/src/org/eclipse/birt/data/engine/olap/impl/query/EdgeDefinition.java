@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillingDownDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillingUpDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition;
 
 /**
  * 
@@ -28,6 +29,7 @@ public class EdgeDefinition extends NamedObject implements IEdgeDefinition
 {
 	private List dims;
 	private ILevelDefinition mirrorStartingLevel;
+	private IMirroredDefinition mirror;
 	
 	public EdgeDefinition( String name )
 	{
@@ -70,16 +72,30 @@ public class EdgeDefinition extends NamedObject implements IEdgeDefinition
 		return null;
 	}
 
+	public void creatMirrorDefinition( ILevelDefinition level,
+			boolean breakHierarchy )
+	{
+		this.mirror = new MirroredDefinition( level, breakHierarchy );
+	}
+	
+	public IMirroredDefinition getMirroredDefinition( )
+	{
+		return this.mirror;
+	}
+	
 	/*
 	 * (non-Javadoc)
+	 * @deprecated
 	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#setMirrorStartingLevel(org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition)
 	 */
 	public void setMirrorStartingLevel( ILevelDefinition level )
 	{
-		this.mirrorStartingLevel = level;
+		this.mirror = new MirroredDefinition( level, true );
 	}
+
 	public ILevelDefinition getMirrorStartingLevel( )
 	{
 		return this.mirrorStartingLevel;
 	}
+
 }

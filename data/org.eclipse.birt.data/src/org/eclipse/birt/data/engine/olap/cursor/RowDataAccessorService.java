@@ -1,7 +1,10 @@
 package org.eclipse.birt.data.engine.olap.cursor;
 
-import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition;
 import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
+import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
+import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
 
 /**
  * This class provide the available information when populating edgeInfo.
@@ -10,9 +13,9 @@ import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
 public class RowDataAccessorService
 {
 
-	private int mirrorStartPosition, pagePosition, fetchLimit = -1;
-	private IAggregationResultSet rs;
+	private int fetchLimit = -1;
 	private DimensionAxis[] dimAxis;
+	private BirtEdgeView view;
 
 	/**
 	 * 
@@ -21,18 +24,10 @@ public class RowDataAccessorService
 	 * @param dimAxis
 	 * @param mirrorStartPosition
 	 */
-	public RowDataAccessorService( IAggregationResultSet rs,
-			DimensionAxis[] dimAxis, int mirrorStartPosition, int pagePosition )
+	public RowDataAccessorService( DimensionAxis[] dimAxis, BirtEdgeView view )
 	{
-		this.rs = rs;
 		this.dimAxis = dimAxis;
-		this.mirrorStartPosition = mirrorStartPosition;
-		this.pagePosition = pagePosition;
-	}
-
-	public IAggregationResultSet getAggregationResultSet( )
-	{
-		return this.rs;
+		this.view = view;
 	}
 
 	public DimensionAxis[] getDimensionAxis( )
@@ -42,12 +37,41 @@ public class RowDataAccessorService
 
 	public int getMirrorStartPosition( )
 	{
-		return this.mirrorStartPosition;
+		int index = 0;
+		if ( view.getMirroredDefinition( ) != null )
+		{
+			IMirroredDefinition mirror = view.getMirroredDefinition( );
+			ILevelDefinition[] levelArray = CubeQueryDefinitionUtil.getLevelsOnEdge( view.getEdgeDefintion( ) );
+			for ( int i = 0; i < levelArray.length; i++ )
+			{
+				if ( levelArray[i].equals( mirror.getMirrorStartingLevel( ) ) )
+				{
+					if ( view.getPageEndingIndex( ) >= 0 )
+						index = i + view.getPageEndingIndex( ) + 1;
+					else
+						index = i;
+					break;
+				}
+			}
+			return index;
+		}
+		else
+			return index;
 	}
 	
-	public int getPagePosition()
+	public boolean isBreakHierarchy( )
 	{
-		return this.pagePosition;
+		if( view.getMirroredDefinition( )!= null )
+		{
+			return view.getMirroredDefinition( ).isBreakHierarchy( );
+		}
+		else
+			return false;
+	}
+	
+	public int getPagePosition( )
+	{
+		return this.view.getPageEndingIndex( );
 	}
 	
 	public int getFetchSize( )
