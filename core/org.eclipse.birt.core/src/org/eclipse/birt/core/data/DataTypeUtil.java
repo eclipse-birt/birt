@@ -202,6 +202,13 @@ public final class DataTypeUtil
 		{
 			// This takes care of BigDecimal, BigInteger, Byte, Double, 
 			// Float, Long, Short
+			if ( !isConvertableToInteger( (Number) source ) )
+			{
+				throw new CoreException( ResourceConstants.CONVERT_FAILS,
+						new Object[]{
+								source.toString( ), "Integer"
+						} );
+			}
 			int intValue = ( (Number) source ).intValue( );
 			return new Integer( intValue );
 		}
@@ -214,14 +221,20 @@ public final class DataTypeUtil
 		else if ( source instanceof Date )
 		{
 			long longValue = ( (Date) source ).getTime( );
+			if ( !isConvertableToInteger( Long.valueOf( longValue ) ))
+			{
+				throw new CoreException( ResourceConstants.CONVERT_FAILS,
+						new Object[]{
+								source.toString( ), "Integer"
+						} );
+			}
 			return new Integer( (int) longValue );
 		}
 		else if ( source instanceof String )
 		{
 			try
 			{
-				return new Integer( Double.valueOf( (String) source )
-						.intValue( ) );
+				return Integer.valueOf( (String) source );
 			}
 			catch ( NumberFormatException e )
 			{
@@ -229,7 +242,16 @@ public final class DataTypeUtil
 				{
 					Number number = NumberFormat.getInstance( JRE_DEFAULT_LOCALE ).parse( (String)source );
 					if( number != null )
+					{
+						if ( !isConvertableToInteger( number ))
+						{
+							throw new CoreException( ResourceConstants.CONVERT_FAILS,
+									new Object[]{
+											source.toString( ), "Integer"
+									} );
+						}
 						return new Integer( number.intValue( ));
+					}
 					
 					throw new CoreException( ResourceConstants.CONVERT_FAILS,
 							new Object[]{
@@ -884,7 +906,13 @@ public final class DataTypeUtil
 		}
 		else if ( source instanceof Number )
 		{
-			// Takes care of all numeric types
+			if ( !isConvertableToDouble( (Number) source ) )
+			{
+				throw new CoreException( ResourceConstants.CONVERT_FAILS,
+						new Object[]{
+								source.toString( ), "Double"
+						} );
+			}
 			double doubleValue = ( (Number) source ).doubleValue( );
 			return new Double( doubleValue );
 		}
@@ -912,7 +940,16 @@ public final class DataTypeUtil
 					Number number = NumberFormat.getInstance( JRE_DEFAULT_LOCALE )
 							.parse( (String) source );
 					if( number != null )
+					{
+						if ( !isConvertableToDouble( number ) )
+						{
+							throw new CoreException( ResourceConstants.CONVERT_FAILS,
+									new Object[]{
+											source.toString( ), "Double"
+									} );
+						}
 						return new Double( number.doubleValue( ));
+					}
 					
 					throw new CoreException( ResourceConstants.CONVERT_FAILS,
 							new Object[]{
@@ -1543,6 +1580,24 @@ public final class DataTypeUtil
             odaType = Types.BOOLEAN;
 
 		return odaType;
+	}
+	
+	private static boolean isConvertableToInteger( Number n )
+	{
+		assert n != null;
+		
+		long longValue = n.longValue( );
+		return longValue >= Integer.MIN_VALUE && longValue <= Integer.MAX_VALUE;
+		
+	}
+	
+	private static boolean isConvertableToDouble( Number n )
+	{
+		assert n != null;
+		
+		double doubleValue = n.doubleValue( );
+		return !Double.isInfinite( doubleValue );
+		
 	}
 }
 

@@ -134,7 +134,7 @@ public class DataTypeUtilTest extends TestCase
 				new Integer( 0 ),
 				new Integer( 1 ), 
 				new Integer( 0 ),
-				new Integer( (int) ( (Date) resultDate[9] ).getTime( ) ),
+				new Exception( "" ),
 				new Integer( (int) 1.1 ), 
 				new Integer( 0 ),
 				null,
@@ -329,8 +329,28 @@ public class DataTypeUtilTest extends TestCase
 					fail( "Should not throw Exception." );
 			}
 		}
-		
 		assertEquals( DataTypeUtil.toInteger("1.8"),new Integer(1));
+		
+		//test overflow check
+		try
+		{
+			result = DataTypeUtil.toInteger( Long.valueOf( Long.MAX_VALUE ) );
+			fail( "Should throw exception ");
+		}
+		catch ( BirtException e )
+		{
+			
+		}
+		
+		try
+		{
+			result = DataTypeUtil.toInteger( Long.valueOf( Long.MIN_VALUE ) );
+			fail( "Should throw exception ");
+		}
+		catch ( BirtException e )
+		{
+			
+		}
 	}
 
 	public void testToBigDecimal( )
@@ -747,13 +767,13 @@ public class DataTypeUtilTest extends TestCase
 			{
 				result = DataTypeUtil.toDouble( testObject[i] );
 				if ( resultDouble[i] instanceof Exception )
-					fail( "Should throw Exception." );
+					fail( "Should throw exception for " + i + "th object" );
 				assertEquals( result, resultDouble[i] );
 			}
 			catch ( BirtException e )
 			{
 				if ( !( resultDouble[i] instanceof Exception ) )
-					fail( "Should not throw Exception." );
+					fail( "Should not throw exception for " + i + "th object" );
 			}
 		}
 		for ( int i = 0; i < testObjectDouble.length; i++ )
@@ -762,18 +782,59 @@ public class DataTypeUtilTest extends TestCase
 			{
 				result = DataTypeUtil.toDouble( testObjectDouble[i] );
 				if ( resultObjectDouble[i] instanceof Exception )
-					fail( "Should throw Exception." );
+					fail( "Should throw exception for " + i + "th object" );
 				assertEquals( result, resultObjectDouble[i] );
 			}
 			catch ( BirtException e )
 			{
 				if ( !( resultObjectDouble[i] instanceof Exception ) )
-					fail( "Should not throw Exception." );
+					fail( "Should not throw exception for " + i + "th object" );
 			}
 			catch ( Exception e )
 			{
 				fail( "Should throw BirtException." );
 			}
+		}
+		
+		//test overflow check
+		try
+		{
+			assertTrue( Double.POSITIVE_INFINITY == DataTypeUtil.toDouble( Double.valueOf( Double.POSITIVE_INFINITY ) ));
+			assertTrue( Double.NEGATIVE_INFINITY == DataTypeUtil.toDouble( Double.valueOf( Double.NEGATIVE_INFINITY ) ));
+		}
+		catch ( BirtException e1 )
+		{
+			fail( "Should not throw exception ");
+		}
+		
+		try
+		{
+			result = DataTypeUtil.toDouble( Float.valueOf( Float.POSITIVE_INFINITY ) );
+			fail( "Should throw exception ");
+		}
+		catch ( BirtException e )
+		{
+			
+		}
+		
+		try
+		{
+			result = DataTypeUtil.toDouble( new BigDecimal( "1.7976931348623157e+309" ) );
+			fail( "Should throw exception ");
+		}
+		catch ( BirtException e )
+		{
+			
+		}
+		
+		try
+		{
+			result = DataTypeUtil.toDouble( new BigDecimal( "1.7976931348623157e+309" ).negate( ) );
+			fail( "Should throw exception ");
+		}
+		catch ( BirtException e )
+		{
+			
 		}
 	}
 
