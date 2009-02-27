@@ -813,6 +813,14 @@
 				<exclude name="org.eclipse.birt.chart.integration.wtp.ui.nl1_*.jar"/>
 				<exclude name="org.eclipse.birt.integration.wtp.ui.nl1_*.jar"/>
 				<exclude name="org.eclipse.birt.report.designer.ui.ide.nl1_*.jar"/>
+				<exclude name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl1_*.jar"/>
+				<exclude name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl1_*.jar"/>
+				<exclude name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nl1_*.jar"/>
+				<exclude name="org.eclipse.birt.report.debug.ui.nl1_*.jar"/>
+			    <exclude name="org.eclipse.birt.report.designer.ui.editor.script.nl1_*.jar"/>
+				<exclude name="org.eclipse.birt.report.designer.ui.editor.xml.wtp.nl1_*.jar"/>
+				<exclude name="org.eclipse.birt.report.designer.ui.preview.nl1_*.jar"/>
+				<exclude name="org.eclipse.birt.report.designer.ui.samples.ide.nl1_*.jar"/>
 			</zipfileset>
 		</zip>
 	</target>
