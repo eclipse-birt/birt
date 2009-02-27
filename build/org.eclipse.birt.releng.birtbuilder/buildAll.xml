@@ -16,17 +16,11 @@
 	<!--location of PDE Build configuration files for builder and packager-->
 	<property name="eclipse.build.configs" value="${basedir}/eclipse/buildConfigs" />
 	
-	<property name="sdkHelper" location="${eclipse.build.configs}/eclipse/helper.xml"/>
 	<property name="base.builder" value="${basedir}/../org.eclipse.releng.basebuilder" />
 	
 	<!--location of properties file containing last tag used for integration build-->
 	<property name="mapTag.properties" value="/home/users/releng/buildTools/eclipse33/mapTag.properties"/>
 	
-	<!--location of properties file containing last performance reference test information-->
-	<property name="ref.properties" value="/home/users/releng/buildTools/eclipse.perf/ref33.properties"/>
-	
-	<!--location of test update site-->
-	<property file="${ref.properties}"/>
 	
 	<!--default buildDirectory-->
 	<property name="buildDirectory" value="${basedir}/../src" />
@@ -58,7 +52,7 @@
 				<antcall target="buildBirtNLFeature"/>
 				<antcall target="CreateUpdateSite"/>
 				<antcall target="pushUpdateSiteLocal"/>
-				<antcall target="iPortalSetup"/>			
+				<!--antcall target="iPortalSetup"/-->			
 			</sequential>
 			<sequential>
 				<antcall target="generateJavaCrossReference"/>
@@ -290,13 +284,7 @@
 		<mkdir dir="${updateJarWorkingDir}/site" />
 		
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-wtp-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
-		</exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-report-framework-sdk-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
-		</exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-third-party-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
+			<arg line="-o -q birt-all.zip -d ${updateJarWorkingDir}" />
 		</exec>
 		<!--
 		<copy todir="${updateJarWorkingDir}/eclipse/plugins">
@@ -329,15 +317,19 @@
 		<jar destfile="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}.jar" 
 			basedir="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}"
 			manifest="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/META-INF/MANIFEST.MF" />
-
-		<!-- TODO:sign update jars -->
-		
+	
 		<!-- repack update jar -->
 		<replace file="${eclipse.build.configs}/../../extras/pack200" token="@pack200@" value="${jvm15_home}/bin/pack200"/>
 		<chmod file="${eclipse.build.configs}/../../extras/pack200" perm="755"/>
 		<exec executable="dos2unix" dir="${eclipse.build.configs}/../../extras">
 			<arg line=" pack200" />
 		</exec>
+		
+		<!-- TODO: generate p2 metadata -->
+		<!-- TODO: generate p2 composite update site -->
+		<!-- TODO: push to local update site -->
+		<antcall target = "pushUpdateSiteLocal"/>
+		
 		<!--
 		<java jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar"
 				fork="true"
@@ -368,7 +360,7 @@
 		-->
 	</target>
 	
-	<target name="pushUpdateSiteLocal" if="createUpdateSite">
+	<target name="pushUpdateSiteLocal">
 		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
 
 		<!-- generate site.xml -->
@@ -515,54 +507,39 @@
 	<target name="unpackUpdateJarsForPackaging">
 
 		<property name="tmpsite" value="${buildDirectory}/tmpsite" />
-		<property name="tmpsite2" value="${buildDirectory}/tmpsite2" />
-		<property name="tmpsite1" value="${buildDirectory}/tmpsite1" />
+	
 		<mkdir dir="${tmpsite}/new/eclipse/features" />
 		<mkdir dir="${tmpsite}/new/eclipse/plugins" />
-		<mkdir dir="${tmpsite1}/new/eclipse/features" />
-		<mkdir dir="${tmpsite1}/new/eclipse/plugins" />
-		<mkdir dir="${tmpsite2}/new/eclipse/features" />
-		<mkdir dir="${tmpsite2}/new/eclipse/plugins" />
 
 		<!-- BIRT framework-->
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-q birt-report-framework-sdk-${package.version}.zip -d ${tmpsite}" />
 		</exec>
-		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
 		<!-- BIRT third party -->
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-q birt-third-party-${package.version}.zip -d ${tmpsite2}" />
+			<arg line="-q birt-third-party-${package.version}.zip -d ${tmpsite} -o" />
 		</exec>
-		<unpackUpdateJars site="${tmpsite2}/eclipse" output="${tmpsite2}/new/eclipse"/>
 		<!-- BIRT wtp -->
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-q birt-wtp-${package.version}.zip -d ${tmpsite1}" />
+			<arg line="-q birt-wtp-${package.version}.zip -d ${tmpsite} -o" />
 		</exec>
-		<unpackUpdateJars site="${tmpsite1}/eclipse" output="${tmpsite1}/new/eclipse"/>
-
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-report-framework-sdk-${package.version}.zip -d ${tmpsite}" />
-		</exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-third-party-${package.version}.zip -d ${tmpsite2}" />
-		</exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-wtp-${package.version}.zip -d ${tmpsite1}" />
-		</exec>
-
-		<move file="${buildDirectory}/${buildId}/birt-report-framework-sdk-${package.version}.zip" tofile="${buildDirectory}/${buildId}/birt-report-framework-sdk-${package.version}.bak.zip" />
-		<move file="${buildDirectory}/${buildId}/birt-third-party-${package.version}.zip" tofile="${buildDirectory}/${buildId}/birt-third-party-${package.version}.bak.zip" />
-		<move file="${buildDirectory}/${buildId}/birt-wtp-${package.version}.zip" tofile="${buildDirectory}/${buildId}/birt-wtp-${package.version}.bak.zip" />
+		
+		<!-- backup un-signed and packed version -->
+		<exec executable="zip" dir="${tmpsite}/eclipse">
+			<arg line="-q ${buildDirectory}/${buildId}/birt-all-${package.version}.bak.zip -r eclipse" />
+		</exec>		
+		
+		<!-- TODO: Sign packed features and plugins. 
+		Download signed features and plugins back to replace ${tmpsite}/eclipse.
+		Back signed features and plugins as update site jars 
+		-->
+		
+		<!-- unpack features and plugins -->		
+		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
 
 		<exec executable="zip" dir="${tmpsite}/new">
-			<arg line="-q ${buildDirectory}/${buildId}/birt-report-framework-sdk-${package.version}.zip -r eclipse" />
+			<arg line="-q ${buildDirectory}/${buildId}/birt-all-${package.version}.zip -r eclipse" />
 		</exec>
-		<exec executable="zip" dir="${tmpsite1}/new">
-			<arg line="-q ${buildDirectory}/${buildId}/birt-wtp-${package.version}.zip -r eclipse" />
-		</exec>	
-		<exec executable="zip" dir="${tmpsite2}/new">
-			<arg line="-q ${buildDirectory}/${buildId}/birt-third-party-${package.version}.zip -r eclipse" />
-		</exec>	
 	</target>
 
 	<target name="integrateBirtFeatures" >
@@ -572,14 +549,9 @@
 		<property name="birtWtpPackageName" value="birt-wtp-${package.version}" />
 		
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q ${birtFramePackageName}.zip -d ${buildDirectory}/${buildId}" />
+			<arg line="-o -q birt-all-${package.version}.zip -d ${buildDirectory}/${buildId}" />
 		</exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q ${birtThirdPartyPackageName}.zip -d ${buildDirectory}/${buildId}" />
-		</exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q ${birtWtpPackageName}.zip -d ${buildDirectory}/${buildId}" />
-		</exec>
+
 	</target>
 
 	<target name="package">
