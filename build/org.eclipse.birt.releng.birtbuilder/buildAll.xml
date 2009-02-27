@@ -52,19 +52,19 @@
 				<antcall target="buildBirtNLFeature"/>
 				<antcall target="CreateUpdateSite"/>
 				<antcall target="pushUpdateSiteLocal"/>
-				<!--antcall target="iPortalSetup"/-->			
+				<antcall target="iPortalSetup"/>			
 			</sequential>
 			<sequential>
-				<!--
+
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
 				<antcall target="generateJavaDoc"/>
-				-->
+
 			</sequential>
 		</parallel>
-		<!--
-		<antcall target="runBirtTest"/>
 
+		<antcall target="runBirtTest"/>
+		<!--
         <antcall target="runBirtPerformance"/>
 		-->
 	</target>
@@ -287,7 +287,7 @@
 		<mkdir dir="${updateJarWorkingDir}/site" />
 		
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-all.zip -d ${updateJarWorkingDir}" />
+			<arg line="-o -q birt-all-${package.version}.zip -d ${updateJarWorkingDir}" />
 		</exec>
 		<!--
 		<copy todir="${updateJarWorkingDir}/eclipse/plugins">
@@ -528,7 +528,7 @@
 		</exec>
 		
 		<!-- backup un-signed and packed version -->
-		<exec executable="zip" dir="${tmpsite}/eclipse">
+		<exec executable="zip" dir="${tmpsite}">
 			<arg line="-q ${buildDirectory}/birt-all-${package.version}.bak.zip -r eclipse" />
 		</exec>		
 		
