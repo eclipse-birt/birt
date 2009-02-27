@@ -167,7 +167,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 
 		InputStream inputStream = jarConnection.getInputStream( );
 		assertNotNull( inputStream );
-		
+
 		inputStream.close( );
 	}
 
@@ -232,7 +232,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 
 		designHandle
 				.setResourceFolder( getResource( INPUT_FOLDER ).toString( ) );
-				
+
 		resource = rl.findResource( designHandle, testFile, 1 );
 		assertNull( resource );
 
@@ -240,7 +240,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 
 		sessionHandle.setResourceFolder( getResource( GOLDEN_FOLDER )
 				.toString( ) );
-		
+
 		resource = rl.findResource( designHandle, testFile, 1 );
 		assertNotNull( resource );
 		assertTrue( resource.toString( ).endsWith( testFile ) );
@@ -263,5 +263,17 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 				IResourceLocator.JAR_FILE );
 		assertNotNull( resource );
 
+	}
+
+	/**
+	 * Tests handle mail protocol.
+	 * 
+	 * @throws Exception
+	 */
+	public void testMail( ) throws Exception
+	{
+		String mail = "mailto:dmurphy@classicmodelcars.com"; //$NON-NLS-1$
+		URL resource = rl.findResource( designHandle, mail, -1 );
+		assertEquals( mail, resource.toString( ) );
 	}
 }

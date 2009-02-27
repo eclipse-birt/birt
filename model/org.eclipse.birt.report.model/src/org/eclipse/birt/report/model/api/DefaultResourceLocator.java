@@ -213,6 +213,8 @@ public class DefaultResourceLocator implements IResourceLocator
 				|| URIUtilImpl.HTTP_SCHEMA
 						.equalsIgnoreCase( url.getProtocol( ) )
 				|| URIUtilImpl.HTTPS_SCHEMA
+						.equalsIgnoreCase( url.getProtocol( ) )
+				|| URIUtilImpl.MAIL_SCHEMA
 						.equalsIgnoreCase( url.getProtocol( ) ) )
 			return true;
 

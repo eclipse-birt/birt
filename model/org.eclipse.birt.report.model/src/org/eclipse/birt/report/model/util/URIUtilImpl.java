@@ -50,12 +50,17 @@ public class URIUtilImpl
 	 */
 
 	public static final String HTTPS_SCHEMA = "https"; //$NON-NLS-1$
-	
+
 	/**
 	 * URL with FTP protocol.
 	 */
 
 	public static final String FTP_SCHEMA = "ftp"; //$NON-NLS-1$
+
+	/**
+	 * URL with mailto protocol
+	 */
+	public static final String MAIL_SCHEMA = "mailto"; //$NON-NLS-1$
 
 	/**
 	 * File with jar extension name.
@@ -68,7 +73,6 @@ public class URIUtilImpl
 	 */
 
 	private static final String URL_SIGNATURE = "://"; //$NON-NLS-1$
-
 
 	/**
 	 * Returns the URL object of the given string. If the input value is in URL
@@ -216,7 +220,9 @@ public class URIUtilImpl
 	 * Checks whether <code>filePath</code> is a valid file on the disk.
 	 * <code>filePath</code> can follow these scheme.
 	 * <ul>
-	 * <li>./../hello/ <li>C:\\hello\..\ <li>/C:/../hello/.
+	 * <li>./../hello/
+	 * <li>C:\\hello\..\
+	 * <li>/C:/../hello/.
 	 * </ul>
 	 * 
 	 * @param filePath
