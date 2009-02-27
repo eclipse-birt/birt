@@ -1354,12 +1354,35 @@ Hi All,
                   <message>
 Hi All,
 
-   Disk space usage of build server has exceed 95%.
+   Disk space usage of build server is less than 7GB.
 
    Please clean up disk !
 
                   </message>
             </mail>
         </target>
+      
+        <target name="ThirdPartyJarCheckNotification" if="CheckThirdpartylog">
+            <property file="${eclipse.build.configs}/../../config.properties" />
+            <mail mailport="${mail.port}" subject="ThirdPartyJars matching failed" tolist="${build.engineer}">
+                  <from address="${mail.from}"/>
+                  <replyto address="${replyto.address}"/>
+                  <message>
+Hi All,
+
+   ThirdPartyJars matching failed.
+
+   Please see the attachment for details.
+
+                  </message>
+                  <attachments>
+                     <fileset dir="${buildDirectory}">
+                       <include name="thirdParthJarDiff.log"/>
+                     </fileset>
+                  </attachments>
+            </mail>
+        </target>
+
+</project>
 
 </project>
