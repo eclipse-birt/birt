@@ -55,13 +55,16 @@
 				<!--antcall target="iPortalSetup"/-->			
 			</sequential>
 			<sequential>
+				<!--
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
 				<antcall target="generateJavaDoc"/>
+				-->
 			</sequential>
 		</parallel>
-		<antcall target="runBirtTest"/>
 		<!--
+		<antcall target="runBirtTest"/>
+
         <antcall target="runBirtPerformance"/>
 		-->
 	</target>
