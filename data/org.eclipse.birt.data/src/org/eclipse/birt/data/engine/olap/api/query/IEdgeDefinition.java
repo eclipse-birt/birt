@@ -76,14 +76,15 @@ public interface IEdgeDefinition extends INamedObject
 	public void setMirrorStartingLevel( ILevelDefinition level );
 
 	/**
-	 * Set whether the level is mirrored.
-	 * 
-	 * @param isMirrored
+	 * @param level
+	 *            The mirror starting level
+	 * @param breakHierarchy
+	 *            Whether to keep the relation ship between levels.
 	 * @return
 	 */
 	public void creatMirrorDefinition( ILevelDefinition level,
 			boolean breakHierarchy );
-	
+
 	/**
 	 * 
 	 * @return
