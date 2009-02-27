@@ -520,16 +520,16 @@
 		</exec>
 		<!-- BIRT third party -->
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-q birt-third-party-${package.version}.zip -d ${tmpsite} -o" />
+			<arg line="-o -q birt-third-party-${package.version}.zip -d ${tmpsite}" />
 		</exec>
 		<!-- BIRT wtp -->
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-q birt-wtp-${package.version}.zip -d ${tmpsite} -o" />
+			<arg line="-o -q birt-wtp-${package.version}.zip -d ${tmpsite}" />
 		</exec>
 		
 		<!-- backup un-signed and packed version -->
 		<exec executable="zip" dir="${tmpsite}/eclipse">
-			<arg line="-q ${buildDirectory}/${buildId}/birt-all-${package.version}.bak.zip -r eclipse" />
+			<arg line="-q ${buildDirectory}/birt-all-${package.version}.bak.zip -r eclipse" />
 		</exec>		
 		
 		<!-- TODO: Sign packed features and plugins. 
@@ -541,17 +541,13 @@
 		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
 
 		<exec executable="zip" dir="${tmpsite}/new">
-			<arg line="-q ${buildDirectory}/${buildId}/birt-all-${package.version}.zip -r eclipse" />
+			<arg line="-q ${buildDirectory}/birt-all-${package.version}.zip -r eclipse" />
 		</exec>
 	</target>
 
 	<target name="integrateBirtFeatures" >
 
-		<property name="birtFramePackageName" value="birt-report-framework-sdk-${package.version}" />
-		<property name="birtThirdPartyPackageName" value="birt-third-party-${package.version}" />
-		<property name="birtWtpPackageName" value="birt-wtp-${package.version}" />
-		
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
+		<exec executable="unzip" dir="${buildDirectory}/">
 			<arg line="-o -q birt-all-${package.version}.zip -d ${buildDirectory}/${buildId}" />
 		</exec>
 
