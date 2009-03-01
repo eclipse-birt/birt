@@ -51,7 +51,6 @@
 				<antcall target="CreateDistribute"/>
 				<antcall target="buildBirtNLFeature"/>
 				<antcall target="CreateUpdateSite"/>
-				<antcall target="pushUpdateSiteLocal"/>
 				<antcall target="iPortalSetup"/>			
 			</sequential>
 			<sequential>
