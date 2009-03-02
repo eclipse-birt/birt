@@ -977,26 +977,38 @@ public class TaskSelectType extends SimpleTask implements
 		return cbMultipleY.getSelectionIndex( ) == 1;
 	}
 
+	/**
+	 * Returns the object which can add adapters
+	 * 
+	 * @return chart model object to add adapters
+	 */
+	protected EObject getChartModelObject( )
+	{
+		return ( (ChartWizardContext) context ).getModel( );
+	}
+	
 	private void updateAdapters( )
 	{
+		EObject model = getChartModelObject( );
+		
 		if ( container instanceof ChartWizard )
 		{
 			// Refresh all adapters
 			EContentAdapter adapter = ( (ChartWizard) container ).getAdapter( );
 
-			chartModel.eAdapters( ).remove( adapter );
-			TreeIterator<EObject> iterator = chartModel.eAllContents( );
+			model.eAdapters( ).remove( adapter );
+			TreeIterator<EObject> iterator = model.eAllContents( );
 			while ( iterator.hasNext( ) )
 			{
 				EObject oModel = iterator.next( );
 				oModel.eAdapters( ).remove( adapter );
 			}
-			chartModel.eAdapters( ).add( adapter );
+			model.eAdapters( ).add( adapter );
 		}
 		else
 		{
 			// For extension case, create an adapter and add change listener
-			EList<Adapter> adapters = chartModel.eAdapters( );
+			EList<Adapter> adapters = model.eAdapters( );
 			if ( adapters.isEmpty( ) )
 			{
 				// Get the previous adapter if existent
@@ -1331,6 +1343,10 @@ public class TaskSelectType extends SimpleTask implements
 					this.orientation,
 					this.sDimension,
 					this.chartModel );
+			
+			( (ChartWizardContext) context ).setModel( chartModel );
+			( (ChartWizardContext) context ).setChartType( chartType );
+			
 			updateAdapters( );
 		}
 		catch ( Exception e )
