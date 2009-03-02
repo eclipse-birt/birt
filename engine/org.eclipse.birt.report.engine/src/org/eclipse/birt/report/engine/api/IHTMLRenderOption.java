@@ -322,4 +322,9 @@ public interface IHTMLRenderOption extends IRenderOption
 	 * multiple reports into one page.
 	 */
 	public static final String HTML_ID_NAMESPACE = "HTMLIDNamespace";
+	
+	/**
+	 * whether or not the HTML is indented. The default value is true.
+	 */
+	public static final String HTML_INDENT = "HTMLIndent";
 }

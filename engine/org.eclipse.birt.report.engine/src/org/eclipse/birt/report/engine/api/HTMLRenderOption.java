@@ -436,4 +436,29 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 		return getStringOption( HTML_ID_NAMESPACE );
 	}
 
+	/**
+	 * Sets the flag indicationg that if the HTML should be indented.
+	 * 
+	 * @param wrapTemplateTable
+	 *            the flag
+	 */
+	public void setHTMLIndent( boolean indent )
+	{
+		options.put( HTML_INDENT, new Boolean( indent ) );
+	}
+
+	/**
+	 * @return the HTML indent flag value.
+	 * The default value is true.
+	 */
+	public boolean getHTMLIndent( )
+	{
+		Object value = options.get( HTML_INDENT );
+		if ( value instanceof Boolean )
+		{
+			return ( (Boolean) value ).booleanValue( );
+		}
+		return true;
+	}
+
 }

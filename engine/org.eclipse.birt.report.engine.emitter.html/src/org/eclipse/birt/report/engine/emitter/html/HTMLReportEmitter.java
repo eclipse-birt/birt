@@ -396,6 +396,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					htmlIDNamespace = null;
 				}
 			}
+			writer.setIndent( htmlOption.getHTMLIndent( ) );
 		}
 	}
 	
