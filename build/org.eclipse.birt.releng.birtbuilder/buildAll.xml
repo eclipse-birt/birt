@@ -235,7 +235,7 @@
         <ant antfile="${eclipse.build.configs}/birt/tools/RepackageWithSignJar.xml"/>
 	</target>
 	
-	<target name="renamePackage">
+	<target name="renamePackage" unless="skip.rename.package">
 		<move file="${postingDirectory}/${buildId}/birt-charts-${package.version}.zip"
                     tofile="${postingDirectory}/${buildId}/birt-charts-${package.version}-${build.date}.zip"/>
 		<move file="${postingDirectory}/${buildId}/birt-database-${package.version}.zip"
