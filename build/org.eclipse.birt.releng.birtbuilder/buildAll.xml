@@ -176,7 +176,7 @@
 		<copy tofile="${postingDirectory}/finalFeaturesVersions.properties" file="${buildDirectory}/finalFeaturesVersions.properties" overwrite="true" />
         <!--copy build and update dtp log to output directory-->
         <copy todir="${postingDirectory}/${buildId}">
-            <fileset dir="." includes="adb.log,updatedtp.log"/>
+            <fileset dir="." includes="*.log"/>
         </copy>
 		<!-- Send build ready mail to QA -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformQA"/>
