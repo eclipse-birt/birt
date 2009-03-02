@@ -47,6 +47,7 @@ public class BidiUIUtils
 	private static Method		SET_WINDOW_LONG = null;
 	private static Method		INVALIDATE_RECT = null;
 	private static Field		STYLE_FIELD = null;
+	private static Field        HANDLE = null;
 
 	private TextLayout layout;
 	private boolean isInitialized = false;
@@ -92,6 +93,9 @@ public class BidiUIUtils
 	
 				STYLE_FIELD = Widget.class.getDeclaredField( "style" ); //$NON-NLS-1$
 				STYLE_FIELD.setAccessible( true );
+				
+				HANDLE = Control.class.getDeclaredField( "handle" ); //$NON-NLS-1$
+				HANDLE.setAccessible( true );
 			}
 		}
 		catch ( ClassNotFoundException e )
@@ -140,12 +144,12 @@ public class BidiUIUtils
 		try
 		{
 			int osStyle = ( (Integer) GET_WINDOW_LONG.invoke( null,
-					new Object[] { Integer.valueOf( control.handle ),
+					new Object[] { Integer.valueOf( getControHandle( control ) ),
 					Integer.valueOf( OS_STYLE_INDEX ) } ) ).intValue( );
 
 			if ( mirrored )
 			{
-				SET_WINDOW_LONG.invoke( null, new Object[] { Integer.valueOf( control.handle ),
+				SET_WINDOW_LONG.invoke( null, new Object[] { Integer.valueOf( getControHandle( control ) ),
 						Integer.valueOf( OS_STYLE_INDEX ), Integer.valueOf( osStyle
 						| WS_EX_LAYOUTRTL | WS_EX_NOINHERITLAYOUT ) } );
 				swtStyle |= SWT.RIGHT_TO_LEFT | SWT.MIRRORED;
@@ -153,13 +157,13 @@ public class BidiUIUtils
 			}
 			else
 			{
-				SET_WINDOW_LONG.invoke( null, new Object[] { Integer.valueOf( control.handle ),
+				SET_WINDOW_LONG.invoke( null, new Object[] { Integer.valueOf( getControHandle( control ) ),
 						Integer.valueOf( OS_STYLE_INDEX ), Integer.valueOf( osStyle
 						& ~WS_EX_LAYOUTRTL ) } );
 				swtStyle |= SWT.LEFT_TO_RIGHT;
 				STYLE_FIELD.setInt( control, swtStyle );
 			}
-			INVALIDATE_RECT.invoke( null, new Object[] { Integer.valueOf( control.handle ),
+			INVALIDATE_RECT.invoke( null, new Object[] { Integer.valueOf( getControHandle( control ) ),
 					null, Boolean.TRUE } );
 		}
 		catch ( SecurityException e )
@@ -204,8 +208,25 @@ public class BidiUIUtils
 				&& ( control.getStyle( ) & SWT.RIGHT_TO_LEFT ) != 0; 
 	}
 
-	
-
+	private int getControHandle(Control control)
+	{
+		if (HANDLE != null)
+		{
+			try
+			{
+				return HANDLE.getInt( control );
+			}
+			catch ( IllegalArgumentException e )
+			{
+				//do notjing now
+			}
+			catch ( IllegalAccessException e )
+			{
+				//do notjing now
+			}
+		}
+		return -1;
+	}
 	/**
 	 * Provides a TextLayout that can be used for Bidi purposes.  This 
 	 * TextLayout should not be disposed by clients.
