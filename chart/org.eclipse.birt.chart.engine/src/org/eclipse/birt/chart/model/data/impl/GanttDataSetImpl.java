@@ -68,4 +68,25 @@ public class GanttDataSetImpl extends DataSetImpl implements GanttDataSet
 	{
 	}
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static GanttDataSet copyInstance( GanttDataSet src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		GanttDataSetImpl dest = new GanttDataSetImpl( );
+
+		dest.values = src.getValues( );
+
+		return dest;
+	}
+
 } // GanttDataSetImpl

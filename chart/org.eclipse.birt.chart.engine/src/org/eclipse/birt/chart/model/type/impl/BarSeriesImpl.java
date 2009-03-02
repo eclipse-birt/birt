@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.type.impl;
 
+import java.util.Map;
+
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -30,6 +32,7 @@ import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.DataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
@@ -587,7 +590,12 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 		if ( src.getDataSets( ) != null )
 		{
 			EMap<String, DataSet> map = dest.getDataSets( );
-			map.putAll( src.getDataSets( ) );
+			for ( Map.Entry<String, DataSet> entry : src.getDataSets( )
+					.entrySet( ) )
+			{
+				map.put( entry.getKey( ),
+						DataSetImpl.copyInstance( entry.getValue( ) ) );
+			}
 		}
 
 		if ( src.getTriggers( ) != null )

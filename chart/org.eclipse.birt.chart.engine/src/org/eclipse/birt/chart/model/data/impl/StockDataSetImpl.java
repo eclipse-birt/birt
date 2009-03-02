@@ -70,4 +70,26 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet
 	protected void initialize( )
 	{
 	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static StockDataSet copyInstance( StockDataSet src )
+	{
+		if ( src == null )
+		{
+			return null;
+		}
+
+		StockDataSetImpl dest = new StockDataSetImpl( );
+
+		dest.values = src.getValues( );
+
+		return dest;
+	}
+
 } //StockDataSetImpl

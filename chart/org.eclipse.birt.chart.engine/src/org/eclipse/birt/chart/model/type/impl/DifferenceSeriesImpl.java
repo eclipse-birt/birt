@@ -8,6 +8,7 @@
 package org.eclipse.birt.chart.model.type.impl;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
@@ -26,6 +27,7 @@ import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.DataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
@@ -377,7 +379,12 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 		if ( src.getDataSets( ) != null )
 		{
 			EMap<String, DataSet> map = dest.getDataSets( );
-			map.putAll( src.getDataSets( ) );
+			for ( Map.Entry<String, DataSet> entry : src.getDataSets( )
+					.entrySet( ) )
+			{
+				map.put( entry.getKey( ),
+						DataSetImpl.copyInstance( entry.getValue( ) ) );
+			}
 		}
 
 		if ( src.getTriggers( ) != null )
