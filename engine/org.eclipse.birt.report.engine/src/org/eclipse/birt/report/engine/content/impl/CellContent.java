@@ -337,20 +337,27 @@ public class CellContent extends AbstractContent implements ICellContent
 				break;
 			case FIELD_DIAGONAL_NUMBER :
 				diagonalNumber = IOUtil.readInt( in );
+				break;
 			case FIELD_DIAGONAL_STYLE :
 				diagonalStyle = IOUtil.readString( in );
+				break;
 			case FIELD_DIAGONAL_WIDTH :
 				diagonalWidth = new DimensionType( );
 				diagonalWidth.readObject( in );
+				break;
 			case FIELD_ANTIDIAGONAL_NUMBER :
 				antidiagonalNumber = IOUtil.readInt( in );
+				break;
 			case FIELD_ANTIDIAGONAL_STYLE :
 				antidiagonalStyle = IOUtil.readString( in );
+				break;
 			case FIELD_ANTIDIAGONAL_WIDTH :
 				antidiagonalWidth = new DimensionType( );
 				antidiagonalWidth.readObject( in );
+				break;
 			default :
 				super.readField( version, filedId, in, loader );
+				break;
 		}
 	}
 
