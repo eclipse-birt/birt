@@ -485,8 +485,9 @@ public final class ScriptHandler extends ScriptableObject
 	 *            scriptable object that will be added to the scope
 	 * @throws ChartException
 	 */
-	public final void registerNewScriptableObject( Class<?> clsScriptable,
-			String sVarName ) throws ChartException
+	public final void registerNewScriptableObject(
+			Class<? extends Scriptable> clsScriptable, String sVarName )
+			throws ChartException
 	{
 		try
 		{
