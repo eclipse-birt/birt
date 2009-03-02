@@ -504,11 +504,31 @@ public abstract class EngineTask implements IEngineTask
 		return taskID;
 	}
 
-	protected Object convertToType( Object value, String type )
+	protected Object convertToType( List<String> values, String type, String paramType )
 	{
+		if ( values == null )
+		{
+			return null;
+		}
 		try
 		{
-			return convertParameterType( value, type );
+			if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( paramType ))
+			{
+				List<Object> list = new ArrayList<Object>();
+				for ( String string : values )
+				{
+					list.add( convertParameterType( string, type ) );
+				}
+				return list.toArray( );
+			}
+			else
+			{
+				if ( values.size( ) == 0 )
+				{
+					return null;
+				}
+				return convertParameterType( values.get( 0 ), type );
+			}
 		}
 		catch ( BirtException e )
 		{
@@ -1141,8 +1161,8 @@ public abstract class EngineTask implements IEngineTask
 				String name = param.getName( );
 				if ( !inputValues.containsKey( name ) )
 				{
-					Object value = convertToType( param.getDefaultValue( ),
-							param.getDataType( ) );
+					Object value = convertToType( param.getDefaultValueList( ),
+							param.getDataType( ), param.getParamType( ) );
 					executionContext.setParameterValue( name, value );
 					runValues.put( name, value );
 				}
