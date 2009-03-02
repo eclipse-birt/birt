@@ -17,6 +17,8 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 {
 	private static final long serialVersionUID = 6959747237392429540L;
 
+	public static final String ENTRYNAME_HYPERLINK = "Hyperlink";
+
 	public StyleEntry( )
 	{
 		props = new String[StyleConstant.COUNT];
@@ -123,6 +125,17 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 	}
 
 
+	public void setName( String name )
+	{
+		this.name = name;
+	}
+
+	public String getName( )
+	{
+		return name;
+	}
+
+	private String name = null;
 
 	private String[] props = null;	
 	

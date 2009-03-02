@@ -445,6 +445,7 @@ public class ExcelXmlWriter implements IExcelWriter
 
 		writer.openTag( "Style" );
 		writer.attribute( "ss:ID", id );
+		writer.attribute( "ss:Name", style.getName( ) );
 
 		if ( id >= StyleEngine.RESERVE_STYLE_ID )
 		{

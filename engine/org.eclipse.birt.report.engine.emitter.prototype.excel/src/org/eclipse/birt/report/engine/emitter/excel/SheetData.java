@@ -197,6 +197,7 @@ public abstract class SheetData
 			style.setProperty( StyleConstant.COLOR_PROP, HYPERLINK_COLOR );
 			style.setProperty( StyleConstant.TEXT_UNDERLINE_PROP,
 					HYPERLINK_UNDERLINE );
+			style.setName( StyleEntry.ENTRYNAME_HYPERLINK );
 		}
 	}
 
