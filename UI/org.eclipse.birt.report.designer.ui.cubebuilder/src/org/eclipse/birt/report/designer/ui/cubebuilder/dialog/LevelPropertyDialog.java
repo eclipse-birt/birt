@@ -708,12 +708,18 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			}
 			else if ( property.equals( prop_Expression ) )
 			{
-				if ( element != dummyChoice
-						&& !( value.toString( ).trim( ).equals( "" ) ) ) //$NON-NLS-1$
+				if ( element instanceof RuleHandle )
 				{
-					if ( element instanceof RuleHandle )
+					if ( element != dummyChoice
+							&& !( value.toString( ).trim( ).equals( "" ) ) ) //$NON-NLS-1$
 					{
+
 						( (RuleHandle) element ).setRuleExpression( value.toString( ) );
+
+					}
+					else
+					{
+						( (RuleHandle) element ).setRuleExpression( null );
 					}
 					refreshStaticViewer( );
 				}
