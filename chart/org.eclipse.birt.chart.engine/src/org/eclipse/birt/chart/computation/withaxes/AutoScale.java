@@ -1072,7 +1072,7 @@ public final class AutoScale extends Methods implements Cloneable
 		return dFactor;
 	}
 
-	private void setFctor( double factor )
+	private void setFactor( double factor )
 	{
 		this.dFactor = factor;
 	}
@@ -2074,7 +2074,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.setMinimum( oMinValue );
 			sc.setMaximum( oMaxValue );
 
-			sc.setFctor( factor );
+			sc.setFactor( factor );
 
 			sc.computeTicks( xs,
 					la,
