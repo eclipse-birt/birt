@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -19,11 +20,13 @@ import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.Filte
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.FilterListDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -135,9 +138,17 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				CommandStack stack = SessionHandleAdapter.getInstance( )
+						.getCommandStack( );
+				stack.startTrans( "" ); //$NON-NLS-1$
 				FilterListDialog dialog = new FilterListDialog( new FilterHandleProvider( ) );
 				dialog.setInput( input );
-				dialog.open( );
+				if ( dialog.open( ) == Window.OK )
+				{
+					stack.commit( );
+				}
+				else
+					stack.rollback( );
 			}
 
 		} );

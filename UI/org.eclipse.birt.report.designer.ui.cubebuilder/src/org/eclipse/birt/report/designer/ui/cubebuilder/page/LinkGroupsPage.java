@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -21,6 +22,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.joins.GraphicalViewerKeyH
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.DatasetNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.HierarchyNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
@@ -33,6 +35,7 @@ import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -58,7 +61,7 @@ public class LinkGroupsPage extends AbstractDescriptionPropertyPage
 	public Control createContents( Composite parent )
 	{
 		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_LINK_GROUPS_PAGE );
-		
+
 		Composite contents = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.verticalSpacing = 0;
@@ -86,12 +89,20 @@ public class LinkGroupsPage extends AbstractDescriptionPropertyPage
 			{
 				EditPart editPart = (EditPart) viewer.getSelectedEditParts( )
 						.get( 0 );
+				CommandStack stack = SessionHandleAdapter.getInstance( )
+						.getCommandStack( );
+				stack.startTrans( "" ); //$NON-NLS-1$
 				FilterListDialog dialog = new FilterListDialog( new FilterHandleProvider( ) );
 				if ( editPart instanceof DatasetNodeEditPart )
 					dialog.setInput( (ReportElementHandle) ( editPart.getParent( ).getModel( ) ) );
 				else if ( editPart instanceof HierarchyNodeEditPart )
 					dialog.setInput( (ReportElementHandle) ( editPart.getModel( ) ) );
-				dialog.open( );
+				if ( dialog.open( ) == Window.OK )
+				{
+					stack.commit( );
+				}
+				else
+					stack.rollback( );
 			}
 
 		} );
