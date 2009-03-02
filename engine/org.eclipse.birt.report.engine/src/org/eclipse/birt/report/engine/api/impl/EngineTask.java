@@ -504,6 +504,19 @@ public abstract class EngineTask implements IEngineTask
 		return taskID;
 	}
 
+	protected Object convertToType( Object value, String type )
+	{
+		try
+		{
+			return convertParameterType( value, type );
+		}
+		catch ( BirtException e )
+		{
+			log.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+		}
+		return null;
+	}
+
 	protected Object convertToType( List<String> values, String type, String paramType )
 	{
 		if ( values == null )
