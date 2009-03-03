@@ -20,6 +20,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
@@ -74,6 +76,7 @@ import com.ibm.icu.text.Collator;
 
 public class JdbcDriverManagerDialog extends TrayDialog
 {
+	private static Logger logger = Logger.getLogger( JdbcDriverManagerDialog.class.getName() );
 
 	private TableViewer jarViewer, driverViewer;
 
@@ -1266,6 +1269,7 @@ public class JdbcDriverManagerDialog extends TrayDialog
 				}
 				catch ( OdaException e )
 				{
+					logger.log( Level.WARNING, "", e );
 					MessageDialog.openError( null,
 							JdbcPlugin.getResourceString( "driverManagerDialog.ErrorDialog.addDriver.title" ),
 							JdbcPlugin.getResourceString( "driverManagerDialog.ErrorDialog.addDriver.message" )

@@ -1000,7 +1000,11 @@ public class JDBCDriverManager
 				String fileName = (String) files.nextElement();
 				if ( OdaJdbcDriver.isDriverFile( fileName ) )
 				{
-					foundNewFlag = addNewURL( fileName );
+					boolean newAdded = addNewURL( fileName );
+					if ( !foundNewFlag && newAdded )
+					{
+						foundNewFlag = true;
+					}
 				}
 			}
 			return foundNewFlag;
