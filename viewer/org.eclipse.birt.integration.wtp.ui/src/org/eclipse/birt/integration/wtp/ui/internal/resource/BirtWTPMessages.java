@@ -80,7 +80,12 @@ public class BirtWTPMessages extends NLS
 	 ***********************************************************************/
 	public static String BIRTConfiguration_group_paths;
 	public static String BIRTConfiguration_group_others;
-	public static String BIRTConfiguration_folder_button_text;
+	public static String BIRTConfiguration_resource_folder_button_text;
+	public static String BIRTConfiguration_working_folder_button_text;
+	public static String BIRTConfiguration_document_folder_button_text;
+	public static String BIRTConfiguration_image_folder_button_text;
+	public static String BIRTConfiguration_scriptlib_folder_button_text;
+	public static String BIRTConfiguration_log_folder_button_text;
 	
 	public static String BIRTConfiguration_resource_label;
 	public static String BIRTConfiguration_resource_dialog_title;

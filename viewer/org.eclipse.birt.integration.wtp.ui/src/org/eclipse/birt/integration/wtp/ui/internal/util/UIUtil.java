@@ -81,12 +81,9 @@ public class UIUtil implements IBirtWizardConstants
 		// create folder selection group
 		FolderSelectionGroup group = new FolderSelectionGroup( );
 		group.setLabelText( BirtWTPMessages.BIRTConfiguration_resource_label );
-		group
-				.setButtonText( BirtWTPMessages.BIRTConfiguration_folder_button_text );
-		group
-				.setDialogTitle( BirtWTPMessages.BIRTConfiguration_resource_dialog_title );
-		group
-				.setDialogMessage( BirtWTPMessages.BIRTConfiguration_resource_dialog_message );
+		group.setButtonText( BirtWTPMessages.BIRTConfiguration_resource_folder_button_text );
+		group.setDialogTitle( BirtWTPMessages.BIRTConfiguration_resource_dialog_title );
+		group.setDialogMessage( BirtWTPMessages.BIRTConfiguration_resource_dialog_message );
 		group.setDialogFilterPath( defaultFolder );
 		group.setTextValue( defaultFolder );
 
@@ -119,12 +116,9 @@ public class UIUtil implements IBirtWizardConstants
 		// create folder selection group
 		FolderSelectionGroup group = new FolderSelectionGroup( );
 		group.setLabelText( BirtWTPMessages.BIRTConfiguration_working_label );
-		group
-				.setButtonText( BirtWTPMessages.BIRTConfiguration_folder_button_text );
-		group
-				.setDialogTitle( BirtWTPMessages.BIRTConfiguration_working_dialog_title );
-		group
-				.setDialogMessage( BirtWTPMessages.BIRTConfiguration_working_dialog_message );
+		group.setButtonText( BirtWTPMessages.BIRTConfiguration_working_folder_button_text );
+		group.setDialogTitle( BirtWTPMessages.BIRTConfiguration_working_dialog_title );
+		group.setDialogMessage( BirtWTPMessages.BIRTConfiguration_working_dialog_message );
 
 		// set default value
 		group.setTextValue( DataUtil.getString(
@@ -160,12 +154,9 @@ public class UIUtil implements IBirtWizardConstants
 		// create folder selection group
 		FolderSelectionGroup group = new FolderSelectionGroup( );
 		group.setLabelText( BirtWTPMessages.BIRTConfiguration_document_label );
-		group
-				.setButtonText( BirtWTPMessages.BIRTConfiguration_folder_button_text );
-		group
-				.setDialogTitle( BirtWTPMessages.BIRTConfiguration_document_dialog_title );
-		group
-				.setDialogMessage( BirtWTPMessages.BIRTConfiguration_document_dialog_message );
+		group.setButtonText( BirtWTPMessages.BIRTConfiguration_document_folder_button_text );
+		group.setDialogTitle( BirtWTPMessages.BIRTConfiguration_document_dialog_title );
+		group.setDialogMessage( BirtWTPMessages.BIRTConfiguration_document_dialog_message );
 
 		// set default value
 		group.setTextValue( DataUtil.getString(
@@ -201,12 +192,9 @@ public class UIUtil implements IBirtWizardConstants
 		// create folder selection group
 		FolderSelectionGroup group = new FolderSelectionGroup( );
 		group.setLabelText( BirtWTPMessages.BIRTConfiguration_image_label );
-		group
-				.setButtonText( BirtWTPMessages.BIRTConfiguration_folder_button_text );
-		group
-				.setDialogTitle( BirtWTPMessages.BIRTConfiguration_image_dialog_title );
-		group
-				.setDialogMessage( BirtWTPMessages.BIRTConfiguration_image_dialog_message );
+		group.setButtonText( BirtWTPMessages.BIRTConfiguration_image_folder_button_text );
+		group.setDialogTitle( BirtWTPMessages.BIRTConfiguration_image_dialog_title );
+		group.setDialogMessage( BirtWTPMessages.BIRTConfiguration_image_dialog_message );
 
 		// set default value
 		group.setTextValue( DataUtil.getString( WebArtifactUtil
@@ -242,12 +230,9 @@ public class UIUtil implements IBirtWizardConstants
 		// create folder selection group
 		FolderSelectionGroup group = new FolderSelectionGroup( );
 		group.setLabelText( BirtWTPMessages.BIRTConfiguration_scriptlib_label );
-		group
-				.setButtonText( BirtWTPMessages.BIRTConfiguration_folder_button_text );
-		group
-				.setDialogTitle( BirtWTPMessages.BIRTConfiguration_scriptlib_dialog_title );
-		group
-				.setDialogMessage( BirtWTPMessages.BIRTConfiguration_scriptlib_dialog_message );
+		group.setButtonText( BirtWTPMessages.BIRTConfiguration_scriptlib_folder_button_text );
+		group.setDialogTitle( BirtWTPMessages.BIRTConfiguration_scriptlib_dialog_title );
+		group.setDialogMessage( BirtWTPMessages.BIRTConfiguration_scriptlib_dialog_message );
 
 		// set default value
 		group.setTextValue( DataUtil.getString( WebArtifactUtil
@@ -283,12 +268,9 @@ public class UIUtil implements IBirtWizardConstants
 		// create folder selection group
 		FolderSelectionGroup group = new FolderSelectionGroup( );
 		group.setLabelText( BirtWTPMessages.BIRTConfiguration_log_label );
-		group
-				.setButtonText( BirtWTPMessages.BIRTConfiguration_folder_button_text );
-		group
-				.setDialogTitle( BirtWTPMessages.BIRTConfiguration_log_dialog_title );
-		group
-				.setDialogMessage( BirtWTPMessages.BIRTConfiguration_log_dialog_message );
+		group.setButtonText( BirtWTPMessages.BIRTConfiguration_log_folder_button_text );
+		group.setDialogTitle( BirtWTPMessages.BIRTConfiguration_log_dialog_title );
+		group.setDialogMessage( BirtWTPMessages.BIRTConfiguration_log_dialog_message );
 
 		// set default value
 		group.setTextValue( DataUtil.getString( WebArtifactUtil
