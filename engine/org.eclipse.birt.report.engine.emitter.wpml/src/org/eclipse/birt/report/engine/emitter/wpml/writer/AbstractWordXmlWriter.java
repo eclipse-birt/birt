@@ -536,13 +536,17 @@ public abstract class AbstractWordXmlWriter
 				.parseSpacing( ( (FloatValue) letterSpacing ).getFloatValue( ) ) );
 	}
 
-	private void writeHyperlinkStyle( boolean isHyperlink )
+	private void writeHyperlinkStyle( boolean isHyperlink, IStyle style )
 	{
 		// deal with hyperlink
 		if ( isHyperlink )
 		{
-			writeAttrTag( "w:u", "single" );
-			writeAttrTag( "w:color", "0000ff" );
+			writeAttrTag( "w:rStyle", "Hyperlink" );
+		}
+		else
+		{
+			writeTextUnderline( style );
+			writeTextColor( style );
 		}
 	}
 
@@ -959,15 +963,13 @@ public abstract class AbstractWordXmlWriter
 	protected void writeRunProperties( IStyle style, String fontFamily,
 			boolean ishyperlink )
 	{
+		writeHyperlinkStyle( ishyperlink, style );
 		writeFont( fontFamily );
 		writeFontSize( style );
 		writeLetterSpacing( style );
-		writeTextUnderline( style );
 		writeTextLineThrough( style );
 		writeFontStyle( style );
 		writeFontWeight( style );
-		writeTextColor( style );
-		writeHyperlinkStyle( ishyperlink );
 	}
 
 	private void writeTextColor( IStyle style )

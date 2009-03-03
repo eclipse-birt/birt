@@ -95,6 +95,16 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 		writer.closeTag( "wx:font" );
 		writer.closeTag( "w:rPr" );
 		writer.closeTag( "w:style" );
+
+		writer.openTag( "w:style" );
+		writer.attribute( "w:type", "character" );
+		writer.attribute( "w:styleId", "Hyperlink" );
+		writeAttrTag( "w:name", "Hyperlink" );
+		writer.openTag( "w:rPr" );
+		writeAttrTag( "w:u", "single" );
+		writeAttrTag( "w:color", "0000ff" );
+		writer.closeTag( "w:rPr" );
+		writer.closeTag( "w:style" );
 		writer.closeTag( "w:styles" );
 
 		// For show background
