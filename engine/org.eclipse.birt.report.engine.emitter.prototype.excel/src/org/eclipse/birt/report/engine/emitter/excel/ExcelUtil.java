@@ -725,6 +725,17 @@ public class ExcelUtil
 		{
 			return (int) (value.getMeasure( ) / 100 * parent);
 		}
+		if ( DimensionType.UNITS_PX.equalsIgnoreCase( value.getUnits( ) ) )
+		{
+			return (int) ( value.getMeasure( ) * PX_PT );
+		}
+
+		// FIXME: We should use font size to calculate the EM/EX
+		if ( DimensionType.UNITS_EM.equalsIgnoreCase( value.getUnits( ) )
+				|| DimensionType.UNITS_EX.equalsIgnoreCase( value.getUnits( ) ) )
+		{
+			return (int) value.getMeasure( ) * 12;
+		}
 		else
 		{
 			return (int) (value.convertTo( DimensionType.UNITS_PT ));
