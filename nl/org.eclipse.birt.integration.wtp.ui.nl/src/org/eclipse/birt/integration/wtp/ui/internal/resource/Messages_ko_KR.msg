@@ -27,13 +27,19 @@ BIRTConfigurationDialog_title=BIRT 배포 설정 구성
 ###############################################################################
 BIRTConfiguration_group_paths=배포 폴더 설정
 BIRTConfiguration_group_others=기타 설정
-BIRTConfiguration_folder_button_text=찾아보기(&B)...
 
-BIRTConfiguration_resource_label=리소스 폴더(&R):
+BIRTConfiguration_resource_folder_button_text=찾아보기(&B)...
+BIRTConfiguration_working_folder_button_text=B&rowse...
+BIRTConfiguration_document_folder_button_text=Br&owse...
+BIRTConfiguration_image_folder_button_text=Bro&wse...
+BIRTConfiguration_scriptlib_folder_button_text=Brow&se...
+BIRTConfiguration_log_folder_button_text=Brows&e...
+
+BIRTConfiguration_resource_label=Reso&urce Folder:
 BIRTConfiguration_resource_dialog_title=리소스 폴더 찾아보기
 BIRTConfiguration_resource_dialog_message=기본 리소스 폴더를 선택하십시오.
 
-BIRTConfiguration_working_label=작업 폴더(&W):
+BIRTConfiguration_working_label=Wor&king Folder:
 BIRTConfiguration_working_dialog_title=작업 폴더 찾아보기
 BIRTConfiguration_working_dialog_message=기본 작업 폴더를 선택하십시오.
 
@@ -45,7 +51,7 @@ BIRTConfiguration_image_label=이미지 폴더(&I):
 BIRTConfiguration_image_dialog_title=이미지 폴더 찾아보기
 BIRTConfiguration_image_dialog_message=기본 이미지 폴더를 선택하십시오.
 
-BIRTConfiguration_scriptlib_label=ScriptLib 폴더(&S):
+BIRTConfiguration_scriptlib_label=ScriptLib &Folder:
 BIRTConfiguration_scriptlib_dialog_title=ScriptLib 폴더 찾아보기
 BIRTConfiguration_scriptlib_dialog_message=기본 scriptlib 폴더를 선택하십시오.
 
@@ -53,15 +59,15 @@ BIRTConfiguration_log_label=로그 폴더(&L):
 BIRTConfiguration_log_dialog_title=로그 폴더 찾아보기
 BIRTConfiguration_log_dialog_message=기본 로그 폴더를 선택하십시오.
 
-BIRTConfiguration_report_access_message=작업 폴더의 보고서 및 문서에만 액세스(&O)
+BIRTConfiguration_report_access_message=Onl&y access the report and document under working folder
 BIRTConfiguration_overwrite_message=생성된 문서 파일 항상 덮어쓰기(&A) 
 
 BIRTConfiguration_maxrows_label=데이터 집합 최대 행(&T):
 BIRTConfiguration_maxrowlevels_label=행 수준을 가져오는 최대 큐브(&M):
-BIRTConfiguration_maxcolumnlevels_label=열 수준을 가져오는 최대 큐브(&M):
-BIRTConfiguration_cubememsize_label=큐브 생성에 필요한 최대 메모리 크기(&X):
+BIRTConfiguration_maxcolumnlevels_label=Ma&x cube fetching column levels:
+BIRTConfiguration_cubememsize_label=Max memory si&ze for creating cube:
 
-BIRTConfiguration_loglevel_label=로그 수준 선택(&E):
+BIRTConfiguration_loglevel_label=Select Log Le&vel:
 BIRTConfiguration_loglevel_all=모두
 BIRTConfiguration_loglevel_severe=심각
 BIRTConfiguration_loglevel_warning=경고
