@@ -33,6 +33,7 @@ import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.PDFLayoutEmitterProxy;
+import org.eclipse.birt.report.engine.nLayout.LayoutEngine;
 
 /**
  * an engine task that runs a report and renders it to one of the output formats
@@ -97,7 +98,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			LayoutPageHandler layoutHandler = new LayoutPageHandler();
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
-				PDFLayoutEmitterProxy pdfLayoutEmitter = new PDFLayoutEmitterProxy(
+				LayoutEngine pdfLayoutEmitter = new LayoutEngine(
 						executor, emitter, renderOptions, executionContext
 								.getLocale( ), 0l );
 				pdfLayoutEmitter.setPageHandler( layoutHandler );

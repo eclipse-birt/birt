@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.layout.emitter;
 import java.awt.Color;
 import java.io.IOException;
 
-import org.eclipse.birt.report.engine.layout.TextStyle;
+import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
 public interface IPage
 {
@@ -79,7 +79,7 @@ public interface IPage
 	 *            the given line style
 	 */
 	void drawLine( int startX, int startY, int endX, int endY, int width,
-			Color color, String lineStyle );
+			Color color, int lineStyle );
 
 	/**
 	 * Draws the background color at the contentByteUnder of the pdf
@@ -98,6 +98,6 @@ public interface IPage
 	void drawBackgroundColor( Color color, int x, int y, int width, int height );
 
 	void drawBackgroundImage( int x, int y, int width, int height,
-			String repeat, String imageUrl, int absPosX, int absPosY )
+			int repeat, String imageUrl, int absPosX, int absPosY )
 			throws IOException;
 }

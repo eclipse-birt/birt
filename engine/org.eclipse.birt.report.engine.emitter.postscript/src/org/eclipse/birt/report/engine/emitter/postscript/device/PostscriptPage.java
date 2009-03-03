@@ -18,8 +18,8 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.eclipse.birt.report.engine.emitter.postscript.PostscriptWriter;
-import org.eclipse.birt.report.engine.layout.TextStyle;
 import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
+import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
 public class PostscriptPage extends AbstractPage
 {
@@ -118,7 +118,7 @@ public class PostscriptPage extends AbstractPage
 	 *      float, float, float, float, java.awt.Color, java.lang.String)
 	 */
 	protected void drawLine( float startX, float startY, float endX,
-			float endY, float width, Color color, String lineStyle )
+			float endY, float width, Color color, int lineStyle )
 	{
 		writer.drawLine( startX, startY, endX, endY, width, color, lineStyle );
 	}
@@ -146,7 +146,7 @@ public class PostscriptPage extends AbstractPage
 	 *      float)
 	 */
 	protected void drawBackgroundImage( float x, float y, float width,
-			float height, String repeat, String imageUrl, float absPosX,
+			float height, int repeat, String imageUrl, float absPosX,
 			float absPosY ) throws IOException
 	{
 		writer.drawBackgroundImage( imageUrl, x, y, width, height, absPosX,

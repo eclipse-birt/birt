@@ -15,8 +15,9 @@ import java.awt.Color;
 import java.io.IOException;
 
 import org.eclipse.birt.report.engine.layout.PDFConstants;
-import org.eclipse.birt.report.engine.layout.TextStyle;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
 
 public abstract class AbstractPage implements IPage
@@ -53,7 +54,7 @@ public abstract class AbstractPage implements IPage
 	}
 
 	public void drawBackgroundImage( int x, int y, int width, int height,
-			String repeat, String imageUrl, int absPosX, int absPosY )
+			int repeat, String imageUrl, int absPosX, int absPosY )
 			throws IOException
 	{
 		drawBackgroundImage( convertToPoint( x ), convertToPoint( y ),
@@ -80,7 +81,7 @@ public abstract class AbstractPage implements IPage
 	}
 
 	public void drawLine( int startX, int startY, int endX, int endY,
-			int width, Color color, String lineStyle )
+			int width, Color color, int lineStyle )
 	{
 		drawLine( convertToPoint( startX ), convertToPoint( startY ),
 				convertToPoint( endX ), convertToPoint( endY ),
@@ -121,7 +122,7 @@ public abstract class AbstractPage implements IPage
 	{
 		textY = textY + verticalOffset;
 		drawLine( textX, textY, textX + width, textY, lineWidth, color,
-				"solid" ); //$NON-NLS-1$
+				BorderInfo.BORDER_STYLE_SOLID ); //$NON-NLS-1$
 	}
 
 	protected abstract void clip( float startX, float startY, float width, float height );
@@ -134,7 +135,7 @@ public abstract class AbstractPage implements IPage
 			float height );
 
 	protected abstract void drawBackgroundImage( float x, float y, float width, float height,
-			String repeat, String imageUrl, float absPosX, float absPosY )
+			int repeat, String imageUrl, float absPosX, float absPosY )
 			throws IOException;
 
 	protected abstract void drawImage( String imageId, byte[] imageData,
@@ -146,7 +147,7 @@ public abstract class AbstractPage implements IPage
 			throws Exception;
 
 	protected abstract void drawLine( float startX, float startY, float endX, float endY,
-			float width, Color color, String lineStyle );
+			float width, Color color, int lineStyle );
 
 	protected abstract void drawText( String text, float textX, float textY, float baseline, float width,
 			float height, TextStyle textStyle );

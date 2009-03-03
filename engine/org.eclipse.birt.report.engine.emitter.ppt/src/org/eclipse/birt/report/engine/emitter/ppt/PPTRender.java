@@ -19,19 +19,18 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.ppt.device.PPTPage;
 import org.eclipse.birt.report.engine.emitter.ppt.device.PPTPageDevice;
-import org.eclipse.birt.report.engine.layout.TextStyle;
-import org.eclipse.birt.report.engine.layout.area.IArea;
-import org.eclipse.birt.report.engine.layout.area.IImageArea;
-import org.eclipse.birt.report.engine.layout.area.ITextArea;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
+import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
+import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
@@ -114,38 +113,33 @@ public class PPTRender extends PageDeviceRender
 	
 	private String getHyperlink( IArea area )
 	{
-		IContent content = area.getContent( );
-		if ( null != content )
+		IHyperlinkAction hyperlinkAction = area.getAction( );
+		if ( hyperlinkAction != null )
 		{
-			IHyperlinkAction hyperlinkAction = content.getHyperlinkAction( );
-			if ( hyperlinkAction != null )
+			try
 			{
-				try
+				if ( hyperlinkAction.getType( ) != IHyperlinkAction.ACTION_BOOKMARK )
 				{
-					if ( hyperlinkAction.getType( ) != IHyperlinkAction.ACTION_BOOKMARK )
+					String link = hyperlinkAction.getHyperlink( );
+					Object handler = services
+							.getOption( RenderOption.ACTION_HANDLER );
+					if ( handler != null
+							&& handler instanceof IHTMLActionHandler )
 					{
-						String link = hyperlinkAction.getHyperlink( );
-						Object handler = services
-								.getOption( RenderOption.ACTION_HANDLER );
-						if ( handler != null
-								&& handler instanceof IHTMLActionHandler )
-						{
-							IHTMLActionHandler actionHandler = (IHTMLActionHandler) handler;
-							String systemId = reportRunnable == null
-									? null
-									: reportRunnable.getReportName( );
-							Action action = new Action( systemId,
-									hyperlinkAction );
-							link = actionHandler.getURL( action, context );
-						}
-
-						return link;
+						IHTMLActionHandler actionHandler = (IHTMLActionHandler) handler;
+						String systemId = reportRunnable == null
+								? null
+								: reportRunnable.getReportName( );
+						Action action = new Action( systemId, hyperlinkAction );
+						link = actionHandler.getURL( action, context );
 					}
+
+					return link;
 				}
-				catch ( Exception e )
-				{
-					logger.log( Level.WARNING, e.getMessage( ), e );
-				}
+			}
+			catch ( Exception e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
 			}
 		}
 		return null;

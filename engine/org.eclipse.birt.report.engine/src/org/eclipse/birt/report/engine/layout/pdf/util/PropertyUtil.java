@@ -23,6 +23,8 @@ import org.eclipse.birt.report.engine.css.engine.value.RGBColorValue;
 import org.eclipse.birt.report.engine.css.engine.value.StringValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.EngineIRConstants;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.Element;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
@@ -277,6 +279,73 @@ public class PropertyUtil
 		}
 		return 0;
 	}
+	
+	public static int getDimensionValue( IContent content, DimensionType d )
+	{
+		return getDimensionValue(content,  d, 0, 0 );
+	}
+	
+	public static int getDimensionValue(  IContent content, DimensionType d,  int dpi, int referenceLength )
+	{
+		if ( d == null )
+		{
+			return 0;
+		}
+		try
+		{
+			String units = d.getUnits( );
+			if ( units.equals( EngineIRConstants.UNITS_PT )
+					|| units.equals( EngineIRConstants.UNITS_CM )
+					|| units.equals( EngineIRConstants.UNITS_MM )
+					|| units.equals( EngineIRConstants.UNITS_PC )
+					|| units.equals( EngineIRConstants.UNITS_IN ) )
+			{
+				double point = d.convertTo( EngineIRConstants.UNITS_PT ) * 1000;
+				return (int) point;
+			}
+			else if ( units.equals( EngineIRConstants.UNITS_PX ) )
+			{
+				if( dpi == 0 )
+				{
+					dpi = 96;
+				}
+				double point = d.getMeasure( ) / dpi * 72000d;
+				return (int) point;
+			}
+			else if ( units.equals( EngineIRConstants.UNITS_PERCENTAGE ) )
+			{
+				double point = referenceLength * d.getMeasure( ) / 100.0;
+				return (int) point;
+			}
+			else if ( units.equals( EngineIRConstants.UNITS_EM )
+					|| units.equals( EngineIRConstants.UNITS_EX ) )
+			{
+				int size = 9000;
+				if ( content != null )
+				{
+					IStyle style = content.getComputedStyle( );
+					CSSValue fontSize = style
+							.getProperty( IStyle.STYLE_FONT_SIZE );
+					size = getDimensionValue( fontSize );
+				}
+				double point = size * d.getMeasure( );
+				return (int) point;
+			}
+		}
+		catch ( Exception e )
+		{
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return 0;
+		}
+		return 0;
+	}
+	
+
+	public static int getDimensionValue( IContent content, DimensionType d, int referenceLength )
+	{
+		return getDimensionValue( content, d, 0, referenceLength );
+	}
+
     
 	public static int getIntAttribute( Element element, String attribute )
 	{

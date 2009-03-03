@@ -20,8 +20,8 @@ import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
-import org.eclipse.birt.report.engine.layout.area.ITextArea;
-import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 
 
 public abstract class PageEmitter extends ContentEmitterAdapter

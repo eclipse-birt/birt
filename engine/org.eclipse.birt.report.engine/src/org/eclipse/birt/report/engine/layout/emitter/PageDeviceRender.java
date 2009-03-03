@@ -15,7 +15,6 @@ import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
@@ -24,40 +23,30 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
-import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
-import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
-import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
-import org.eclipse.birt.report.engine.layout.PDFConstants;
-import org.eclipse.birt.report.engine.layout.TextStyle;
-import org.eclipse.birt.report.engine.layout.area.IArea;
-import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
-import org.eclipse.birt.report.engine.layout.area.IContainerArea;
-import org.eclipse.birt.report.engine.layout.area.IImageArea;
-import org.eclipse.birt.report.engine.layout.area.ITemplateArea;
-import org.eclipse.birt.report.engine.layout.area.ITextArea;
-import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
-import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
-import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
-import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
-import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
-import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorder.Border;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorder.BorderSegment;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
+import org.eclipse.birt.report.engine.nLayout.area.IAreaVisitor;
+import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITemplateArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.AbstractArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.RowArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
+import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
+import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
-
-import com.lowagie.text.Image;
 
 public abstract class PageDeviceRender implements IAreaVisitor
 {
@@ -267,7 +256,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		if ( container instanceof RowArea )
 		{
-			rowStyleStack.push( container.getStyle( ) );
+			rowStyleStack.push( container.getBoxStyle( ) );
 		}
 		else if ( container instanceof CellArea )
 		{
@@ -284,24 +273,26 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	protected void drawCell( IContainerArea container )
 	{
 		Color rowbc = null;
-		String rowImageUrl = null;
-		IStyle rowStyle = null;
+		BackgroundImageInfo rowbi = null;
+		BoxStyle rowStyle = null;
 		// get the style of the row
 		if ( rowStyleStack.size( ) > 0 )
 		{
-			rowStyle = (IStyle) rowStyleStack.peek( );
-			rowbc = PropertyUtil.getColor( rowStyle
-					.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
-			rowImageUrl = EmitterUtil.getBackgroundImageUrl( rowStyle,reportDesign );
+			rowStyle = (BoxStyle) rowStyleStack.peek( );
+			if(rowStyle!=null)
+			{
+				rowbc = rowStyle.getBackgroundColor( );
+				rowbi = rowStyle.getBackgroundImage( );
+			}
 		}
 
-		IStyle style = container.getStyle( );
-		Color bc = PropertyUtil.getColor( style
-				.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
-		String imageUrl = EmitterUtil.getBackgroundImageUrl( style,reportDesign );
+		BoxStyle style = container.getBoxStyle( );
+		Color bc = style.getBackgroundColor( );
+		BackgroundImageInfo bi = style.getBackgroundImage( );
+		//String imageUrl = EmitterUtil.getBackgroundImageUrl( style,reportDesign );
 
-		if ( rowbc != null || rowImageUrl != null || bc != null
-				|| imageUrl != null )
+		if ( rowbc != null || rowbi != null || bc != null
+				|| bi != null )
 		{
 			// the container's start position (the left top corner of the
 			// container)
@@ -317,9 +308,9 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				pageGraphic.drawBackgroundColor( rowbc, startX, startY, width,
 						height );
 			}
-			if ( rowImageUrl != null )
+			if ( rowbi != null )
 			{
-				drawBackgroundImage( rowStyle, rowImageUrl, startX, startY,
+				drawBackgroundImage( rowbi, startX, startY,
 						width, height );
 			}
 			if ( bc != null )
@@ -329,11 +320,11 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				pageGraphic.drawBackgroundColor( bc, startX, startY, width,
 						height );
 			}
-			if ( imageUrl != null )
+			if ( bi != null )
 			{
 				// Draws background image for the container. if the background
 				// image is NOT set, draws nothing.
-				drawBackgroundImage( style, imageUrl, startX, startY, width, height );
+				drawBackgroundImage( bi, startX, startY, width, height );
 			}
 		}
 	}
@@ -515,19 +506,18 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 		int pageHeight = getHeight( page );
 		int pageWidth = getWidth( page );
-
-		Color backgroundColor = PropertyUtil.getColor( page.getStyle( )
-				.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
+		
+		BoxStyle style = page.getBoxStyle( );
+		Color backgroundColor =style.getBackgroundColor( );
 		pageGraphic = pageDevice.newPage( pageWidth, pageHeight,
 				backgroundColor );
-		IStyle style = page.getStyle( );
-		String imageUrl = EmitterUtil.getBackgroundImageUrl( style ,reportDesign);
-		if ( imageUrl != null )
+		BackgroundImageInfo bi = style.getBackgroundImage( );
+		if ( bi != null )
 		{
 			// Draws background image for the new page. if the background image
 			// is
 			// NOT set, draw nothing.
-			drawBackgroundImage( style, imageUrl, 0, 0, pageWidth, pageHeight );
+			drawBackgroundImage( bi, 0, 0, pageWidth, pageHeight );
 		}
 
 	}
@@ -583,41 +573,18 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param height
 	 *            container height
 	 */
-	private void drawBackgroundImage( IStyle containerStyle, String imageUrl, int startX,
-			int startY, int width, int height )
+	private void drawBackgroundImage( BackgroundImageInfo bi,  int startX,
+			int startY, int width, int height ) 
 	{
-		FloatValue positionValX = (FloatValue) containerStyle
-				.getProperty( StyleConstants.STYLE_BACKGROUND_POSITION_X );
-		FloatValue positionValY = (FloatValue) containerStyle
-				.getProperty( StyleConstants.STYLE_BACKGROUND_POSITION_Y );
-
-		if ( positionValX == null || positionValY == null )
-			return;
-		boolean xMode, yMode;
-		float positionX, positionY;
-		if ( positionValX.getPrimitiveType( ) == CSSPrimitiveValue.CSS_PERCENTAGE )
+		try
 		{
-			positionX = PropertyUtil.getPercentageValue( positionValX );
-			xMode = true;
+			pageGraphic.drawBackgroundImage( startX, startY, width, height,bi.getRepeatedMode( ),
+					bi.getUrl( ), getScaledValue( bi.getXOffset( )), getScaledValue(bi.getYOffset( )) );
 		}
-		else
+		catch ( IOException e )
 		{
-			positionX = getScaledValue( positionValX );
-			xMode = false;
+			log( e, Level.WARNING );
 		}
-		if ( positionValY.getPrimitiveType( ) == CSSPrimitiveValue.CSS_PERCENTAGE )
-		{
-			positionY = PropertyUtil.getPercentageValue( positionValY );
-			yMode = true;
-		}
-		else
-		{
-			positionY = getScaledValue( positionValY );
-			yMode = false;
-		}
-		drawBackgroundImage( imageUrl, startX, startY, width, height,
-				positionX, positionY, containerStyle.getBackgroundRepeat( ),
-				xMode, yMode );
 	}
 	
 	/**
@@ -630,46 +597,40 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	protected void drawContainer( IContainerArea container )
 	{
 		// get the style of the container
-		IStyle style = container.getStyle( );
-		if ( null == style )
+		BoxStyle style = container.getBoxStyle( );
+		if ( null == style || style==BoxStyle.DEFAULT )
 		{
 			return;
 		}
-		// content is null means it is the internal line area which has no
-		// content mapping, so it has no background/border etc.
-		if ( container.getContent( ) != null )
-		{
 			
-			// Draws background color for the container, if the background
-			// color is NOT set, draws nothing.
-			Color bc = PropertyUtil.getColor( style
-					.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
-			String imageUrl = EmitterUtil.getBackgroundImageUrl( style,reportDesign );
+		// Draws background color for the container, if the background
+		// color is NOT set, draws nothing.
+		Color bc = style.getBackgroundColor( );
+		BackgroundImageInfo bi = style.getBackgroundImage( );
 
-			if ( bc != null || imageUrl != null )
+		if ( bc != null || bi != null )
+		{
+			// the container's start position (the left top corner of the
+			// container)
+			int startX = currentX + getX( container );
+			int startY = currentY + getY( container );
+
+			// the dimension of the container
+			int width = getWidth( container );
+			int height = getHeight( container );
+
+			if ( bc != null )
 			{
-				// the container's start position (the left top corner of the
-				// container)
-				int startX = currentX + getX( container );
-				int startY = currentY + getY( container );
-	
-				// the dimension of the container
-				int width = getWidth( container );
-				int height = getHeight( container );
-	
-				if ( bc != null )
-				{
-					pageGraphic.drawBackgroundColor( bc, startX, startY, width,
-							height );
-				}
-				if ( imageUrl != null )
-				{
-					// Draws background image for the container. if the
-					// background
-					// image is NOT set, draws nothing.
-					drawBackgroundImage( style, imageUrl, startX, startY,
-							width, height );
-				}
+				pageGraphic.drawBackgroundColor( bc, startX, startY, width,
+						height );
+			}
+			if ( bi != null )
+			{
+				// Draws background image for the container. if the
+				// background
+				// image is NOT set, draws nothing.
+				drawBackgroundImage( bi, startX, startY,
+						width, height );
 			}
 		}
 	}
@@ -677,7 +638,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	private BorderInfo[] cacheCellBorder( CellArea container )
 	{
 		// get the style of the container
-		IStyle style = container.getStyle( );
+		BoxStyle style = container.getBoxStyle( );
 		if ( null == style )
 		{
 			return null;
@@ -686,34 +647,26 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		{
 			return null;
 		}
+		//FIXME refactor and perform enhancement
 		// the width of each border
-		int borderTopWidth = getScaledValue( style
-				.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) );
-		int borderLeftWidth = getScaledValue( style
-				.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) );
-		int borderBottomWidth = getScaledValue( style
-				.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
-		int borderRightWidth = getScaledValue( style
-				.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
+		int borderTopWidth = getScaledValue( style.getTopBorderWidth( ) );
+		int borderLeftWidth = getScaledValue( style.getLeftBorderWidth( ));
+		int borderBottomWidth = getScaledValue( style.getBottomBorderWidth( ) );
+		int borderRightWidth = getScaledValue( style.getRightBorderWidth( ) );
 
 		if ( borderTopWidth > 0 || borderLeftWidth > 0 || borderBottomWidth > 0
 				|| borderRightWidth > 0 )
 		{
-			// the color of each border
-			Color borderTopColor = PropertyUtil.getColor( style
-					.getProperty( StyleConstants.STYLE_BORDER_TOP_COLOR ) );
-			Color borderRightColor = PropertyUtil.getColor( style
-					.getProperty( StyleConstants.STYLE_BORDER_RIGHT_COLOR ) );
-			Color borderBottomColor = PropertyUtil.getColor( style
-					.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_COLOR ) );
-			Color borderLeftColor = PropertyUtil.getColor( style
-					.getProperty( StyleConstants.STYLE_BORDER_LEFT_COLOR ) );
-
 			// Caches the border info
 			BorderInfo[] borders = new BorderInfo[4];
-			borders[BorderInfo.TOP_BORDER] = new BorderInfo( 0, 0, 0, 0,
-					borderTopWidth, borderTopColor,
-					style.getProperty( StyleConstants.STYLE_BORDER_TOP_STYLE ),
+			borders[BorderInfo.TOP_BORDER] = new BorderInfo( 
+					0,
+					0,
+					0,
+					0,
+					borderTopWidth,
+					style.getTopBorderColor( ),
+					style.getTopBorderStyle( ),
 					BorderInfo.TOP_BORDER );
 			borders[BorderInfo.RIGHT_BORDER] = new BorderInfo(
 					0,
@@ -721,8 +674,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 					0,
 					0,
 					borderRightWidth,
-					borderRightColor,
-					style.getProperty( StyleConstants.STYLE_BORDER_RIGHT_STYLE ),
+					style.getRightBorderColor( ),
+					style.getRightBorderStyle( ),
 					BorderInfo.RIGHT_BORDER );
 			borders[BorderInfo.BOTTOM_BORDER] = new BorderInfo(
 					0,
@@ -730,9 +683,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 					0,
 					0,
 					borderBottomWidth,
-					borderBottomColor,
-					style
-							.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_STYLE ),
+					style.getBottomBorderColor( ),
+					style.getBottomBorderStyle( ),
 					BorderInfo.BOTTOM_BORDER );
 			borders[BorderInfo.LEFT_BORDER] = new BorderInfo(
 					0,
@@ -740,8 +692,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 					0,
 					0,
 					borderLeftWidth,
-					borderLeftColor,
-					style.getProperty( StyleConstants.STYLE_BORDER_LEFT_STYLE ),
+					style.getLeftBorderColor( ),
+					style.getLeftBorderStyle( ),
 					BorderInfo.LEFT_BORDER );
 			return borders;
 		}
@@ -751,38 +703,20 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	private BorderInfo[] cacheBorderInfo( IContainerArea container )
 	{
 		// get the style of the container
-		IStyle style = container.getStyle( );
-		if ( null == style )
-		{
-			return null;
-		}
-		if ( container.getContent( ) == null )
+		BoxStyle style = container.getBoxStyle( );
+		if ( null == style || BoxStyle.DEFAULT == style )
 		{
 			return null;
 		}
 		// the width of each border
-		int borderTopWidth = getScaledValue( style
-				.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) );
-		int borderLeftWidth = getScaledValue( style
-				.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) );
-		int borderBottomWidth = getScaledValue( style
-				.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
-		int borderRightWidth = getScaledValue( style
-				.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
+		int borderTopWidth = getScaledValue( style.getTopBorderWidth( ) );
+		int borderLeftWidth = getScaledValue( style.getLeftBorderWidth( ));
+		int borderBottomWidth = getScaledValue( style.getBottomBorderWidth( ) );
+		int borderRightWidth = getScaledValue( style.getRightBorderWidth( ) );
 
 		if ( borderTopWidth > 0 || borderLeftWidth > 0 || borderBottomWidth > 0
 				|| borderRightWidth > 0 )
 		{
-			// the color of each border
-			Color borderTopColor = PropertyUtil.getColor( style
-					.getProperty( StyleConstants.STYLE_BORDER_TOP_COLOR ) );
-			Color borderRightColor = PropertyUtil.getColor( style
-					.getProperty( StyleConstants.STYLE_BORDER_RIGHT_COLOR ) );
-			Color borderBottomColor = PropertyUtil.getColor( style
-					.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_COLOR ) );
-			Color borderLeftColor = PropertyUtil.getColor( style
-					.getProperty( StyleConstants.STYLE_BORDER_LEFT_COLOR ) );
-
 			int startX = currentX + getX( container );
 			int startY = currentY + getY( container );
 
@@ -791,8 +725,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			borders[BorderInfo.TOP_BORDER] = new BorderInfo( startX, startY
 					+ borderTopWidth / 2, startX + getWidth( container ),
 					startY + borderTopWidth / 2, borderTopWidth,
-					borderTopColor,
-					style.getProperty( StyleConstants.STYLE_BORDER_TOP_STYLE ),
+					style.getTopBorderColor( ),
+					style.getTopBorderStyle( ),
 					BorderInfo.TOP_BORDER );
 			borders[BorderInfo.RIGHT_BORDER] = new BorderInfo(
 					startX + getWidth( container ) - borderRightWidth / 2,
@@ -800,8 +734,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 					startX + getWidth( container ) - borderRightWidth / 2,
 					startY + getHeight( container ),
 					borderRightWidth,
-					borderRightColor,
-					style.getProperty( StyleConstants.STYLE_BORDER_RIGHT_STYLE ),
+					style.getRightBorderColor( ),
+					style.getRightBorderStyle( ),
 					BorderInfo.RIGHT_BORDER );
 			borders[BorderInfo.BOTTOM_BORDER] = new BorderInfo(
 					startX,
@@ -809,9 +743,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 					startX + getWidth( container ),
 					startY + getHeight( container ) - borderBottomWidth / 2,
 					borderBottomWidth,
-					borderBottomColor,
-					style
-							.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_STYLE ),
+					style.getBottomBorderColor( ),
+					style.getBottomBorderStyle( ),
 					BorderInfo.BOTTOM_BORDER );
 			borders[BorderInfo.LEFT_BORDER] = new BorderInfo(
 					startX + borderLeftWidth / 2,
@@ -819,8 +752,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 					startX + borderLeftWidth / 2,
 					startY + getHeight( container ),
 					borderLeftWidth,
-					borderLeftColor,
-					style.getProperty( StyleConstants.STYLE_BORDER_LEFT_STYLE ),
+					style.getLeftBorderColor( ),
+					style.getLeftBorderStyle( ),
 					BorderInfo.LEFT_BORDER );
 			return borders;
 		}
@@ -835,55 +768,28 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 */
 	protected void drawText( ITextArea text )
 	{
-		IStyle style = text.getStyle( );
+		TextStyle style = text.getTextStyle( );
 		assert style != null;
 
 		int textX = currentX + getX( text );
 		int textY = currentY + getY( text );
 		// style.getFontVariant(); small-caps or normal
-		float fontSize = text.getFontInfo( ).getFontSize( );
+		float fontSize = style.getFontInfo( ).getFontSize( );
 		int x = textX + getScaledValue( (int) ( fontSize * H_TEXT_SPACE ) );
 		int y = textY + getScaledValue( (int) ( fontSize * V_TEXT_SPACE ) );
-		FontInfo fontInfo = new FontInfo( text.getFontInfo( ) );
-		fontInfo.setFontSize( fontInfo.getFontSize( ) * scale );
-		int characterSpacing = getScaledValue( PropertyUtil
-				.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_LETTER_SPACING ) ) );
-		int wordSpacing = getScaledValue( PropertyUtil.getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_WORD_SPACING ) ) );
-
-		Color color = PropertyUtil.getColor( style
-				.getProperty( StyleConstants.STYLE_COLOR ) );
-
-		CSSValue align = style.getProperty( StyleConstants.STYLE_TEXT_ALIGN );
-
-		// draw the overline,throughline or underline for the text if it has
-		// any.
-		boolean linethrough = IStyle.LINE_THROUGH_VALUE.equals( style
-				.getProperty( IStyle.STYLE_TEXT_LINETHROUGH ) );
-		boolean overline = IStyle.OVERLINE_VALUE.equals( style
-				.getProperty( IStyle.STYLE_TEXT_OVERLINE ) );
-		boolean underline = IStyle.UNDERLINE_VALUE.equals( style
-				.getProperty( IStyle.STYLE_TEXT_UNDERLINE ) );
-		boolean rtl = text instanceof TextArea ? ( ( (TextArea) text )
-				.getRunLevel( ) & 1 ) != 0 : CSSConstants.CSS_RTL_VALUE
-				.equals( style.getProperty( IStyle.STYLE_DIRECTION ) ); // bidi_hcg
-		IContent content = text.getContent( );
-		if ( content != null && content.getHyperlinkAction( ) != null )
+		if(scale!=1.0)
 		{
-			IStyle contentStyle = content.getStyle( );
-			CSSValue contentColor = contentStyle
-					.getProperty( StyleConstants.STYLE_COLOR );
-			if ( contentColor == null )
+			FontInfo fontInfo = new FontInfo( style.getFontInfo( ) );
+			fontInfo.setFontSize( fontInfo.getFontSize( ) * scale );
+			style = new TextStyle(style);
+			style.setFontInfo( fontInfo );
+			if(style.getLetterSpacing( )!=0 || style.getWordSpacing( )!=0)
 			{
-				underline = true;
-				color = Color.blue;
+				style.setLetterSpacing( getScaledValue( style.getLetterSpacing( ) ) );
+				style.setWordSpacing( getScaledValue( style.getWordSpacing( ) ) );
 			}
 		}
-
-		TextStyle textStyle = new TextStyle( fontInfo, characterSpacing,
-								wordSpacing, color, linethrough, overline, underline, rtl, align );
-		drawTextAt( text, x, y, getWidth( text ), getHeight( text ), textStyle );
+		drawTextAt( text, x, y, getWidth( text ), getHeight( text ), style );
 	}
 
 	protected void drawTextAt( ITextArea text, int x, int y, int width,
@@ -902,47 +808,37 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 		int imageX = currentX + getX( image );
 		int imageY = currentY + getY( image );
-		IImageContent imageContent = ( (IImageContent) image.getContent( ) );
 
 		InputStream in = null;
 		int height = getHeight( image );
 		int width = getWidth( image );
-		String helpText = imageContent.getHelpText( );
+		String helpText = image.getHelpText( );
 		try
 		{
-			// lookup the source type of the image area
-			String uri = imageContent.getURI( );
-			String extension = imageContent.getExtension( );
-			switch ( imageContent.getImageSource( ) )
+			byte[] data = image.getImageData( );
+			String extension = image.getExtension( );
+			String mimeType = image.getMIMEType( );
+			String uri = image.getImageUrl( );
+			if ( data != null )
 			{
-				case IImageContent.IMAGE_FILE :
-				case IImageContent.IMAGE_URL :
-					if ( null == uri )
-						return;
-					if ( SvgFile.isSvg( uri ) )
-					{
-						pageGraphic.drawImage( uri, SvgFile
-								.transSvgToArray( uri ), extension, imageX,
-								imageY, height, width, helpText );
-					}
-					else
-					{
-						pageGraphic.drawImage( uri, extension, imageX, imageY,
-								height, width, helpText );
-					}
-					break;
-				case IImageContent.IMAGE_NAME :
-				case IImageContent.IMAGE_EXPRESSION :
-					byte[] data = imageContent.getData( );
-					if ( null == data )
-						return;
-					in = new ByteArrayInputStream( data );
-					String mimeType = imageContent.getMIMEType( );
-					if ( SvgFile.isSvg( mimeType, uri, extension ) )
-						data = SvgFile.transSvgToArray( in );
-					pageGraphic.drawImage( uri, data, extension, imageX,
-							imageY, height, width, helpText );
-					break;
+				in = new ByteArrayInputStream( data );
+				if ( SvgFile.isSvg( mimeType, uri, extension ) )
+					data = SvgFile.transSvgToArray( in );
+				pageGraphic.drawImage( uri, data, extension, imageX, imageY,
+						height, width, helpText );
+			}
+			else if ( uri != null )
+			{
+				if ( SvgFile.isSvg( uri ) )
+				{
+					pageGraphic.drawImage( uri, SvgFile.transSvgToArray( uri ),
+							extension, imageX, imageY, height, width, helpText );
+				}
+				else
+				{
+					pageGraphic.drawImage( uri, extension, imageX, imageY,
+							height, width, helpText );
+				}
 			}
 			if ( in == null )
 				return;
@@ -1225,7 +1121,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	private void drawBorder( BorderInfo bi )
 	{
-		if ( "double".equals( bi.borderStyle ) )
+		if ( org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DOUBLE == bi.borderStyle )
 		{
 			drawDoubleBorder( bi );
 		}
@@ -1254,144 +1150,42 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				pageGraphic.drawLine( startX, startY - borderWidth / 2
 						+ outerBorderWidth / 2, endX, endY - borderWidth / 2
 						+ outerBorderWidth / 2, outerBorderWidth, borderColor,
-						"solid" ); //$NON-NLS-1$
+						org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_SOLID ); //$NON-NLS-1$
 				pageGraphic.drawLine( startX, startY + borderWidth / 2
 						- innerBorderWidth / 2, endX, endY + borderWidth / 2
 						- innerBorderWidth / 2, innerBorderWidth, borderColor,
-						"solid" ); //$NON-NLS-1$	
+						org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_SOLID ); //$NON-NLS-1$	
 				break;
 			case BorderInfo.RIGHT_BORDER :
 				pageGraphic.drawLine( startX + borderWidth / 2
 						- outerBorderWidth / 2, startY, endX + borderWidth / 2
 						- outerBorderWidth / 2, endY, outerBorderWidth,
-						borderColor, "solid" ); //$NON-NLS-1$
+						borderColor, org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_SOLID ); //$NON-NLS-1$
 				pageGraphic.drawLine( startX - borderWidth / 2
 						+ innerBorderWidth / 2, startY, endX - borderWidth / 2
 						+ innerBorderWidth / 2, endY, innerBorderWidth,
-						borderColor, "solid" ); //$NON-NLS-1$
+						borderColor, org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_SOLID ); //$NON-NLS-1$
 				break;
 			case BorderInfo.BOTTOM_BORDER :
 				pageGraphic.drawLine( startX, startY + borderWidth / 2
 						- outerBorderWidth / 2, endX, endY + borderWidth / 2
 						- outerBorderWidth / 2, outerBorderWidth, borderColor,
-						"solid" ); //$NON-NLS-1$
+						org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_SOLID ); //$NON-NLS-1$
 				pageGraphic.drawLine( startX, startY - borderWidth / 2
 						+ innerBorderWidth / 2, endX, endY - borderWidth / 2
 						+ innerBorderWidth / 2, innerBorderWidth, borderColor,
-						"solid" ); //$NON-NLS-1$
+						org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_SOLID ); //$NON-NLS-1$
 				break;
 			case BorderInfo.LEFT_BORDER :
 				pageGraphic.drawLine( startX - borderWidth / 2
 						+ outerBorderWidth / 2, startY, endX - borderWidth / 2
 						+ outerBorderWidth / 2, endY, outerBorderWidth,
-						borderColor, "solid" ); //$NON-NLS-1$
+						borderColor, org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_SOLID ); //$NON-NLS-1$
 				pageGraphic.drawLine( startX + borderWidth / 2
 						- innerBorderWidth / 2, startY, endX + borderWidth / 2
 						- innerBorderWidth / 2, endY, innerBorderWidth,
-						borderColor, "solid" ); //$NON-NLS-1$
+						borderColor, org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_SOLID ); //$NON-NLS-1$
 				break;
-		}
-	}
-
-	/**
-	 * Draws the background image at the contentByteUnder of the pdf with the
-	 * given offset
-	 * 
-	 * @param imageURI
-	 *            the URI referring the image
-	 * @param x
-	 *            the start X coordinate at the PDF where the image is
-	 *            positioned
-	 * @param y
-	 *            the start Y coordinate at the PDF where the image is
-	 *            positioned
-	 * @param width
-	 *            the width of the background dimension
-	 * @param height
-	 *            the height of the background dimension
-	 * @param positionX
-	 *            the offset X percentage relating to start X
-	 * @param positionY
-	 *            the offset Y percentage relating to start Y
-	 * @param repeat
-	 *            the background-repeat property
-	 * @param xMode
-	 *            whether the horizontal position is a percentage value or not
-	 * @param yMode
-	 *            whether the vertical position is a percentage value or not
-	 */
-	private void drawBackgroundImage( String imageURI, int x, int y, int width,
-			int height, float positionX, float positionY, String repeat,
-			boolean xMode, boolean yMode )
-	{
-		// the image URI is empty, ignore it.
-		if ( null == imageURI )
-		{
-			return;
-		}
-
-		if ( imageURI == null || "".equals( imageURI ) ) //$NON-NLS-1$
-		{
-			return;
-		}
-
-		// the background-repeat property is empty, use "repeat".
-		if ( null == repeat )
-		{
-			repeat = "repeat"; //$NON-NLS-1$
-		}
-
-		Image img = null;
-		try
-		{
-			try
-			{
-				img = Image.getInstance( new URL( imageURI ) );
-			}
-			catch ( IOException e )
-			{
-				if ( SvgFile.isSvg( imageURI ) )
-				{
-					try
-					{
-						img = Image
-								.getInstance( SvgFile.transSvgToArray( imageURI ) );
-					}
-					catch ( IOException ex )
-					{
-						throw ex;
-					}
-				}
-				else
-				{
-					throw e;
-				}
-			}
-			int absPosX, absPosY;
-			if ( xMode )
-			{
-				absPosX = (int) ( ( width - img.scaledWidth( )
-						* PDFConstants.LAYOUT_TO_PDF_RATIO ) * positionX );
-			}
-			else
-			{
-				absPosX = (int) positionX;
-			}
-			if ( yMode )
-			{
-				absPosY = (int) ( ( height - img.scaledHeight( )
-						* PDFConstants.LAYOUT_TO_PDF_RATIO ) * positionY );
-			}
-			else
-			{
-				absPosY = (int) positionY;
-			}
-			pageGraphic.drawBackgroundImage( x, y, width, height, repeat,
-					imageURI, absPosX, absPosY );
-		}
-		catch ( Exception e )
-		{
-			log( e, Level.WARNING );
 		}
 	}
 

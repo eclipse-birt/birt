@@ -61,7 +61,7 @@ public class TableBorderEx
 
 	class BorderSegment
 	{
-		BorderSegment( int start, int end, String style, int width, Color color )
+		BorderSegment( int start, int end, int style, int width, Color color )
 		{
 			this.start = start;
 			this.end = end;
@@ -72,7 +72,7 @@ public class TableBorderEx
 
 		int start;
 		int end;
-		String style;
+		int style;
 		int width;
 		Color color;
 	}
@@ -106,22 +106,22 @@ public class TableBorderEx
 		tableLRY = Math.max( position, tableLRY );
 	}
 
-	public void setColumnBorder( int position, int start, int end, String style, int width, Color color )
+	public void setColumnBorder( int position, int start, int end, int style, int width, Color color )
 	{
 		addBorderSegment( (Border) columnBorders.get( new Integer(position) ), start, end, style,
 				width, color );
 	}
 
-	public void setRowBorder( int position, int start, int end, String style, int width, Color color )
+	public void setRowBorder( int position, int start, int end, int style, int width, Color color )
 	{
 		addBorderSegment( (Border) rowBorders.get( new Integer(position) ), start, end, style,
 				width, color );
 	}
 
 	protected void addBorderSegment( Border border, int start, int end,
-			String style, int width, Color color )
+			int style, int width, Color color )
 	{
-		if (style == null || color == null || width ==0 )
+		if (style ==org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_NONE|| color == null || width ==0 )
 		{
 			return;
 		}
@@ -130,7 +130,7 @@ public class TableBorderEx
 		if ( !segments.isEmpty( ) )
 		{
 			last = (BorderSegment) segments.get( segments.size( ) - 1 );
-			if ( last.end == start && last.width == width && last.style.equals( style )
+			if ( last.end == start && last.width == width && last.style== style 
 					&& last.color.equals( color ) )
 			{
 				last.end = end;

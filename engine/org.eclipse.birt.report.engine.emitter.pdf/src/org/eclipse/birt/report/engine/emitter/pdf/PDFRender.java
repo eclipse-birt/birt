@@ -25,14 +25,14 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
-import org.eclipse.birt.report.engine.layout.TextStyle;
-import org.eclipse.birt.report.engine.layout.area.IArea;
-import org.eclipse.birt.report.engine.layout.area.IContainerArea;
-import org.eclipse.birt.report.engine.layout.area.IImageArea;
-import org.eclipse.birt.report.engine.layout.area.ITemplateArea;
-import org.eclipse.birt.report.engine.layout.area.ITextArea;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
+import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITemplateArea;
+import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
+import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class PDFRender extends PageDeviceRender
@@ -171,80 +171,71 @@ public class PDFRender extends PageDeviceRender
 
 	private void createHyperlink( IArea area, int x, int y )
 	{
-		IContent content = area.getContent( );
-		if ( null != content )
-		{
-			IHyperlinkAction hlAction = content.getHyperlinkAction( );
-			if ( null != hlAction )
-				try
+		IHyperlinkAction hlAction = area.getAction( );
+		if ( null != hlAction )
+			try
+			{
+				String systemId = reportRunnable == null
+						? null
+						: reportRunnable.getReportName( );
+				int width = getWidth( area );
+				int height = getHeight( area );
+				String bookmark = hlAction.getBookmark( );
+				String targetWindow = hlAction.getTargetWindow( );
+				int type = hlAction.getType( );
+				Action act = new Action( systemId, hlAction );
+				String link = null;
+				IHTMLActionHandler actionHandler = null;
+				Object ac = services.getOption( RenderOption.ACTION_HANDLER );
+				if ( ac != null && ac instanceof IHTMLActionHandler )
 				{
-					String systemId = reportRunnable == null
-							? null
-							: reportRunnable.getReportName( );
-					int width = getWidth( area );
-					int height = getHeight( area );
-					String bookmark = hlAction.getBookmark( );
-					String targetWindow = hlAction.getTargetWindow( );
-					int type = hlAction.getType( );
-					Action act = new Action( systemId, hlAction );
-					String link = null;
-					IHTMLActionHandler actionHandler = null;
-					Object ac = services
-							.getOption( RenderOption.ACTION_HANDLER );
-					if ( ac != null && ac instanceof IHTMLActionHandler )
-					{
-						actionHandler = (IHTMLActionHandler) ac;
-					}
-					if(actionHandler!=null)
-					{
-						link = actionHandler.getURL( act, context );
-					}
-					else
-					{
-						link = hlAction.getHyperlink( );
-					}
-
-					switch ( type )
-					{
-						case IHyperlinkAction.ACTION_BOOKMARK :
-							currentPage.createHyperlink( link, bookmark,
-									targetWindow, type, x, y, width, height );
-							break;
-
-						case IHyperlinkAction.ACTION_HYPERLINK :
-							currentPage.createHyperlink( link, null,
-									targetWindow, type, x, y, width, height );
-							break;
-
-						case IHyperlinkAction.ACTION_DRILLTHROUGH :
-							currentPage.createHyperlink( link, null,
-									targetWindow, type, x, y, width, height );
-							break;
-					}
+					actionHandler = (IHTMLActionHandler) ac;
 				}
-				catch ( Exception e )
+				if ( actionHandler != null )
 				{
-					logger.log( Level.WARNING, e.getMessage( ), e );
+					link = actionHandler.getURL( act, context );
 				}
-		}
+				else
+				{
+					link = hlAction.getHyperlink( );
+				}
+
+				switch ( type )
+				{
+					case IHyperlinkAction.ACTION_BOOKMARK :
+						currentPage.createHyperlink( link, bookmark,
+								targetWindow, type, x, y, width, height );
+						break;
+
+					case IHyperlinkAction.ACTION_HYPERLINK :
+						currentPage.createHyperlink( link, null, targetWindow,
+								type, x, y, width, height );
+						break;
+
+					case IHyperlinkAction.ACTION_DRILLTHROUGH :
+						currentPage.createHyperlink( link, null, targetWindow,
+								type, x, y, width, height );
+						break;
+				}
+			}
+			catch ( Exception e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
+			}
 	}
 
 	private void createBookmark( IArea area, int x, int y )
 	{
-		IContent content = area.getContent( );
-		if ( null != content )
+		String bookmark = area.getBookmark( );
+		if ( null != bookmark )
 		{
-			String bookmark = content.getBookmark( );
-			if ( null != bookmark )
-			{
-				int height = getHeight( area );
-				int width = getWidth( area );
-				currentPage.createBookmark( bookmark, x, y, width, height );
-				bookmarks.add(bookmark);
-			}
+			int height = getHeight( area );
+			int width = getWidth( area );
+			currentPage.createBookmark( bookmark, x, y, width, height );
+			bookmarks.add( bookmark );
 		}
 	}
-	
+
 	private void createTOC( )
 	{
 		currentPageDevice.createTOC(bookmarks);

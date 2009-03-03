@@ -1,0 +1,540 @@
+/***********************************************************************
+ * Copyright (c) 2009 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
+package org.eclipse.birt.report.engine.nLayout.area.impl;
+
+import java.awt.Color;
+import java.util.Iterator;
+import java.util.logging.Level;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.IPDFRenderOption;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IPageContent;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.layout.pdf.emitter.LayoutEmitterAdapter;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.nLayout.LayoutContext;
+import org.eclipse.birt.report.engine.nLayout.RegionLayoutEngine;
+import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+
+public class PageArea extends BlockContainerArea
+{
+
+	final static int DEFAULT_PAGE_WIDTH = 595275;
+	final static int DEFAULT_PAGE_HEIGHT = 841889;
+
+	private transient boolean extendToMultiplePages = false;
+
+	private transient boolean enlargePageSize = false;
+
+	protected ContainerArea root;
+	protected ContainerArea body;
+	protected ContainerArea header;
+	protected ContainerArea footer;
+	
+
+
+	protected transient IPageContent pageContent;
+	
+	protected transient LayoutEmitterAdapter emitter;
+	
+	private transient int pageContentWidth = DEFAULT_PAGE_WIDTH;
+	private transient int pageContentHeight = DEFAULT_PAGE_HEIGHT;
+	private transient int rootWidth;
+	private transient int rootHeight;
+	private transient int rootLeft;
+	private transient int rootTop;
+
+	public PageArea( LayoutContext context,
+			IContent content,
+			LayoutEmitterAdapter emitter )
+	{
+		super( null, context, content );
+		this.emitter = emitter;
+		pageContent = (IPageContent)content;
+	}
+
+	public PageArea(PageArea area)
+	{
+		super(area);
+	}
+
+	public IContainerArea getHeader( )
+	{
+		return header;
+	}
+	
+	public boolean isExtendToMultiplePages() 
+	{
+		return extendToMultiplePages;
+	}
+
+
+	public void removeHeader( )
+	{
+		( (ContainerArea) root ).removeChild( header );
+		header = null;
+	}
+
+	public void removeFooter( )
+	{
+		( (ContainerArea) root ).removeChild( footer );
+		footer = null;
+	}
+
+	public IContainerArea getFooter( )
+	{
+		return footer;
+	}
+
+	public IContainerArea getBody( )
+	{
+		return body;
+	}
+	
+	public IContainerArea getRoot( )
+	{
+		return root;
+	}
+
+	public void setRoot( ContainerArea root )
+	{
+		this.root = root;
+		this.children.add( root );
+	}
+
+	public void setBody( ContainerArea body )
+	{
+		if(this.body!=null)
+		{
+			body.setPosition( this.body.getX( ), this.body.getY() );
+			root.children.remove( this.body );
+		}
+		root.children.add( body );
+		body.setParent( root );
+		this.body = body;
+	}
+	
+	public void removeBody()
+	{
+		root.children.remove( body );
+		this.body = null;
+	}
+	
+	public void setHeader( ContainerArea header )
+	{
+		this.header = header;
+	}
+
+	public void setFooter( ContainerArea footer )
+	{
+		this.footer = footer;
+	}
+
+	public boolean isEnlargePageSize( )
+	{
+		return enlargePageSize;
+	}
+
+	public void setEnlargePageSize( boolean enlargePageSize )
+	{
+		this.enlargePageSize = enlargePageSize;
+	}
+	
+	public PageArea cloneArea( )
+	{
+		return new PageArea(this);
+	}
+	
+	public void initialize( ) throws BirtException
+	{
+		
+		createRoot( );
+		Color backgroundColor = PropertyUtil.getColor( pageContent.getStyle( )
+				.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
+		ReportDesignHandle designHandle = pageContent.getReportContent( )
+				.getDesign( ).getReportDesign( );
+		String imageUrl = EmitterUtil.getBackgroundImageUrl( pageContent
+				.getStyle( ), designHandle );
+		if ( backgroundColor != null || imageUrl != null )
+		{
+			boxStyle = new BoxStyle( );
+			boxStyle.setBackgroundColor( backgroundColor );
+			if ( imageUrl != null )
+			{
+				boxStyle
+						.setBackgroundImage( new BackgroundImageInfo( imageUrl ) );
+			}
+		}
+		context.setMaxHeight( root.getHeight( ) );
+		context.setMaxWidth( root.getWidth( ) );
+		layoutHeader( );
+		layoutFooter( );
+		updateBodySize( );
+		context.setMaxHeight( body.getHeight( ) );
+		context.setMaxWidth( body.getWidth( ) );
+		context.setMaxBP( body.getHeight( ));
+		maxAvaWidth = context.getMaxWidth( );
+	}
+
+	
+	/**
+	 * support body auto resize, remove invalid header and footer
+	 * 
+	 * @param page
+	 */
+	protected void updateBodySize(  )
+	{
+		if ( header != null && header.getHeight( ) >= root.getHeight( ) )
+		{
+			removeHeader( );
+			header = null;
+		}
+		if ( footer != null && footer.getHeight( ) >= root.getHeight( ) )
+		{
+			removeHeader( );
+			footer = null;
+		}
+		if ( header != null
+				&& footer != null
+				&& footer.getHeight( ) + header.getHeight( ) >= root
+						.getHeight( ) )
+		{
+			removeFooter( );
+			removeHeader( );
+		}
+
+		body.setHeight( root.getHeight( )
+				- ( header == null ? 0 : header.getHeight( ) )
+				- ( footer == null ? 0 : footer.getHeight( ) ) );
+		body.setPosition( body.getX( ), ( header == null ? 0 : header
+				.getHeight( ) ) );
+		if ( footer != null )
+		{
+			footer.setPosition( footer.getX( ), ( header == null ? 0 : header
+					.getHeight( ) )
+					+ ( body == null ? 0 : body.getHeight( ) ) );
+		}
+	}
+	/**
+	 * layout page header area
+	 * 
+	 */
+	protected void layoutHeader( )
+	{
+		IContent headerContent = pageContent.getPageHeader( );
+		boolean autoPageBreak = context.isAutoPageBreak( );
+		context.setAutoPageBreak( false );
+		RegionLayoutEngine rle = new RegionLayoutEngine( header,  context );
+		
+		try
+		{
+			rle.layout( headerContent );
+		}
+		catch ( BirtException e )
+		{
+			logger.log( Level.WARNING, e.getMessage( ), e );
+		}
+		context.setAutoPageBreak( autoPageBreak );
+
+	}
+
+	/**
+	 * layout page footer area
+	 * 
+	 */
+	protected void layoutFooter(  )
+	{
+		IContent footerContent = pageContent.getPageFooter( );
+		boolean autoPageBreak = context.isAutoPageBreak( );
+		context.setAutoPageBreak( false );
+		RegionLayoutEngine rle = new RegionLayoutEngine( footer, context );
+		try
+		{
+			rle.layout( footerContent );
+		}
+		catch ( BirtException e )
+		{
+			logger.log( Level.WARNING, e.getMessage( ), e );
+		}
+		context.setAutoPageBreak( autoPageBreak );
+	}
+
+	
+
+	public void floatingFooter(PageArea page )
+	{
+		ContainerArea footer = (ContainerArea) page.getFooter( );
+		IContainerArea body = page.getBody( );
+		IContainerArea header = page.getHeader( );
+		if ( footer != null )
+		{
+			footer.setPosition( footer.getX( ), ( header == null ? 0 : header
+					.getHeight( ) )
+					+ ( body == null ? 0 : body.getHeight( ) ) );
+		}
+	}
+	
+	
+	protected void createRoot( )
+	{
+		int overFlowType = context.getPageOverflow( );
+
+		if ( overFlowType == IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES )
+		{
+			//page.setExtendToMultiplePages( true );
+		}
+
+		pageContentWidth = getDimensionValue( pageContent, pageContent.getPageWidth( ) );
+		pageContentHeight = getDimensionValue( pageContent, pageContent.getPageHeight( ) );
+
+		// validate page width
+		if ( pageContentWidth <= 0 )
+		{
+			pageContentWidth = DEFAULT_PAGE_WIDTH;
+		}
+
+		// validate page height
+		if ( pageContentHeight <= 0 )
+		{
+			pageContentHeight = DEFAULT_PAGE_HEIGHT;
+		}
+
+		setWidth( pageContentWidth );
+		setHeight( pageContentHeight );
+
+		/**
+		 * set position and dimension for root
+		 */
+		ContainerArea pageRoot = new BlockContainerArea( );
+
+		rootLeft = getDimensionValue( pageContent, pageContent.getMarginLeft( ),
+				pageContentWidth );
+		rootTop = getDimensionValue(pageContent,  pageContent.getMarginTop( ), pageContentWidth );
+		rootLeft = Math.max( 0, rootLeft );
+		rootLeft = Math.min( pageContentWidth, rootLeft );
+		rootTop = Math.max( 0, rootTop );
+		rootTop = Math.min( pageContentHeight, rootTop );
+		pageRoot.setPosition( rootLeft, rootTop );
+		int rootRight = getDimensionValue( pageContent, pageContent.getMarginRight( ),
+				pageContentWidth );
+		int rootBottom = getDimensionValue( pageContent, pageContent.getMarginBottom( ),
+				pageContentWidth );
+		rootRight = Math.max( 0, rootRight );
+		rootBottom = Math.max( 0, rootBottom );
+		if ( rootLeft + rootRight > pageContentWidth )
+		{
+			rootRight = 0;
+		}
+		if ( rootTop + rootBottom > pageContentHeight )
+		{
+			rootBottom = 0;
+		}
+		
+		rootWidth = pageContentWidth - rootLeft - rootRight;
+		rootHeight = pageContentHeight - rootTop - rootBottom;
+		pageRoot.setWidth( rootWidth );
+		pageRoot.setHeight( rootHeight );
+		setRoot( pageRoot );
+		pageRoot.setParent( this );
+
+		/**
+		 * set position and dimension for header
+		 */
+		int headerHeight = getDimensionValue( pageContent, pageContent.getHeaderHeight( ),
+				pageRoot.getHeight( ) );
+		int headerWidth = pageRoot.getWidth( );
+		headerHeight = Math.max( 0, headerHeight );
+		headerHeight = Math.min( pageRoot.getHeight( ), headerHeight );
+		ContainerArea header = new BlockContainerArea(  );
+		header.setHeight( headerHeight );
+		header.setWidth( headerWidth );
+		header.context = context;
+		header.needClip = true;
+		header.setPosition( 0, 0 );
+		pageRoot.addChild( header );
+		setHeader( header );
+		header.setParent(pageRoot);
+
+		/**
+		 * set position and dimension for footer
+		 */
+		int footerHeight = getDimensionValue( pageContent, pageContent.getFooterHeight( ),
+				pageRoot.getHeight( ) );
+		int footerWidth = pageRoot.getWidth( );
+		footerHeight = Math.max( 0, footerHeight );
+		footerHeight = Math.min( pageRoot.getHeight( ) - headerHeight,
+				footerHeight );
+		ContainerArea footer = new BlockContainerArea( );
+		footer.setHeight( footerHeight );
+		footer.setWidth( footerWidth );
+		footer.context = context;
+		footer.needClip = true;
+		footer.setPosition( 0, pageRoot.getHeight( ) - footerHeight );
+		pageRoot.addChild( footer );
+		setFooter( footer );
+		footer.setParent(pageRoot);
+
+		/**
+		 * set position and dimension for body
+		 */
+		ContainerArea body = new BlockContainerArea( );
+		int bodyLeft = getDimensionValue(pageContent,  pageContent.getLeftWidth( ), pageRoot
+				.getWidth( ) );
+		bodyLeft = Math.max( 0, bodyLeft );
+		bodyLeft = Math.min( pageRoot.getWidth( ), bodyLeft );
+		body.setPosition( bodyLeft, headerHeight );
+		int bodyRight = getDimensionValue(pageContent,  pageContent.getRightWidth( ),
+				pageRoot.getWidth( ) );
+		bodyRight = Math.max( 0, bodyRight );
+		bodyRight = Math.min( pageRoot.getWidth( ) - bodyLeft, bodyRight );
+
+		body.setWidth( pageRoot.getWidth( ) - bodyLeft - bodyRight );
+		body.setHeight( pageRoot.getHeight( ) - headerHeight - footerHeight );
+		setBody( body );
+		if ( overFlowType == IPDFRenderOption.CLIP_CONTENT
+				|| overFlowType == IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES )
+		{
+			pageRoot.setNeedClip( true );
+			body.setNeedClip( true );
+		}
+		else
+		{
+			pageRoot.setNeedClip( false );
+		}
+		// TODO add left area and right area;
+	}
+
+	public void close( ) throws BirtException
+	{
+		int overFlowType = context.getPageOverflow( );
+		if ( overFlowType == IPDFRenderOption.FIT_TO_PAGE_SIZE )
+		{
+			float scale = calculatePageScale( this );
+			if ( 1f == scale )
+			{
+				pageContent.setExtension( IContent.LAYOUT_EXTENSION, this );
+				outputPage(pageContent);
+				return;
+			}
+			this.setScale( scale );
+			updatePageDimension( scale, this );
+		}
+		else if ( overFlowType == IPDFRenderOption.ENLARGE_PAGE_SIZE )
+		{
+			updatePageDimension( this );
+		}
+
+		pageContent.setExtension( IContent.LAYOUT_EXTENSION, this );
+		outputPage(pageContent);
+		finished = true;
+	}
+	
+	public boolean isPageEmpty( )
+	{
+		if ( body.getChildrenCount( ) > 0 )
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	public void outputPage( IPageContent page ) throws BirtException
+	{
+		emitter.outputPage( page );
+		//context.pageNumber++;
+	}
+	
+	private float calculatePageScale( PageArea page )
+	{
+		float scale = 1.0f;
+		if ( page != null && page.getRoot( ).getChildrenCount( ) > 0 )
+		{
+			int maxWidth = context.getMaxWidth( );
+			int maxHeight = context.getMaxHeight( );
+			int prefWidth = context.getPreferenceWidth( );
+			int prefHeight = body.getHeight( );
+			Iterator iter = page.getBody( ).getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				AbstractArea area = (AbstractArea) iter.next( );
+				prefWidth = Math.max( prefWidth, area.getAllocatedX( ) +area.getAllocatedWidth() );
+			}
+
+			if ( prefHeight > maxHeight )
+			{
+				( (ContainerArea) page.getBody( ) ).setHeight( prefHeight );
+				floatingFooter( page );
+			}
+
+			if ( prefWidth > maxWidth || prefHeight > maxHeight )
+			{
+				scale = Math.min( maxWidth / (float) prefWidth, maxHeight
+						/ (float) prefHeight );
+			}
+		}
+		return scale;
+	}
+
+	protected void updatePageDimension( float scale, PageArea page )
+	{
+		// 0 < scale <= 1
+		page.setHeight( (int) ( pageContentHeight / scale ) );
+		page.setWidth( (int) ( pageContentWidth / scale ) );
+		ContainerArea pageRoot = (ContainerArea) page.getRoot( );
+		pageRoot.setPosition( (int) ( rootLeft / scale ),
+				(int) ( rootTop / scale ) );
+		pageRoot.setHeight( (int) ( rootHeight / scale ) );
+		pageRoot.setWidth( (int) ( rootWidth / scale ) );
+	}
+	
+	protected void updatePageDimension( PageArea page )
+	{
+		if ( page != null && page.getRoot( ).getChildrenCount( ) > 0 )
+		{
+			int maxWidth = context.getMaxWidth( );
+			int maxHeight = context.getMaxHeight( );
+			int prefWidth = context.getPreferenceWidth( ); //0
+			int prefHeight = currentBP;
+			Iterator iter = page.getBody( ).getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				AbstractArea area = (AbstractArea) iter.next( );
+				prefWidth = Math.max( prefWidth, area.getAllocatedX( ) + area.getAllocatedWidth() );
+			}
+
+			if ( prefHeight > maxHeight )
+			{
+				( (ContainerArea) page.getBody( ) ).setHeight( prefHeight );
+				floatingFooter( page );
+				int deltaHeight = prefHeight - maxHeight;
+				ContainerArea pageRoot = (ContainerArea) page.getRoot( );
+				pageRoot.setHeight( pageRoot.getHeight( ) + deltaHeight );
+				page.setHeight( pageContentHeight + deltaHeight );
+			}
+
+			if ( prefWidth > maxWidth )
+			{
+				( (ContainerArea) page.getBody( ) ).setWidth( prefWidth );
+				int deltaWidth = prefWidth - maxWidth;
+				ContainerArea pageRoot = (ContainerArea) page.getRoot( );
+				pageRoot.setWidth( pageRoot.getWidth( ) + deltaWidth );
+				page.setWidth( pageContentWidth + deltaWidth );
+			}
+		}
+		
+	}
+	
+}

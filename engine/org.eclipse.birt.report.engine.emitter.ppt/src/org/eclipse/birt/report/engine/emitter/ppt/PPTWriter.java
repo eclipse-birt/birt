@@ -40,6 +40,7 @@ import org.apache.commons.codec.net.QuotedPrintableCodec;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 
 import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.lang.UCharacter.UnicodeBlock;
@@ -519,20 +520,20 @@ public class PPTWriter
 	 *            the given line style
 	 */
 	public void drawLine( double startX, double startY, double endX,
-			double endY, double width, Color color, String lineStyle )
+			double endY, double width, Color color, int lineStyle )
 	{
 		// if the border does NOT have color or the line width of the border
 		// is zero
 		// or the lineStyle is "none", just return.
 		if ( null == color || 0f == width
-				|| "none".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
+				|| lineStyle==BorderInfo.BORDER_STYLE_NONE) //$NON-NLS-1$
 		{
 			return;
 		}
-		if ( lineStyle.equalsIgnoreCase( "solid" )
-				|| lineStyle.equalsIgnoreCase( "dashed" )
-				|| lineStyle.equalsIgnoreCase( "dotted" )
-				|| lineStyle.equalsIgnoreCase( "double" ) )
+		if ( lineStyle==BorderInfo.BORDER_STYLE_SOLID
+				|| lineStyle==BorderInfo.BORDER_STYLE_DASHED
+				||lineStyle==BorderInfo.BORDER_STYLE_DOTTED
+				|| lineStyle==BorderInfo.BORDER_STYLE_DOUBLE )
 		{
 			drawRawLine( startX, startY, endX, endY, width, color, lineStyle );
 		}
@@ -541,7 +542,7 @@ public class PPTWriter
 			// the other line styles, e.g. 'ridge', 'outset', 'groove', 'insert'
 			// is NOT supported now.
 			// We look it as the default line style -- 'solid'
-			drawRawLine( startX, startY, endX, endY, width, color, "solid" );
+			drawRawLine( startX, startY, endX, endY, width, color,BorderInfo.BORDER_STYLE_SOLID );
 		}
 	}
 
@@ -565,22 +566,22 @@ public class PPTWriter
 	 *            the color of the line
 	 */
 	private void drawRawLine( double startX, double startY, double endX,
-			double endY, double width, Color color, String lineStyle )
+			double endY, double width, Color color, int lineStyle )
 	{
 		print( "<v:line id=3D\"" + ( ++shapeCount ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 		print( " style=3D'position:absolute' from=3D\"" + startX + "pt," + startY + "pt\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		print( " to=3D\"" + endX + "pt," + endY + "pt\"" );
 		print( " strokecolor=3D\"#" + getColorString( color ) + "\"" ); //$NON-NLS-1$
 		print( " strokeweight=3D\"" + width + "pt\"" ); //$NON-NLS-1$
-		if ( lineStyle.equalsIgnoreCase( "dashed" ) )
+		if ( lineStyle==BorderInfo.BORDER_STYLE_DASHED )
 		{
 			println( "<v:stroke dashstyle=3D\"dash\"/>" );
 		}
-		else if ( lineStyle.equalsIgnoreCase( "dotted" ) )
+		else if ( lineStyle==BorderInfo.BORDER_STYLE_DOTTED )
 		{
 			println( "<v:stroke dashstyle=3D\"1 1\"/>" );
 		}
-		else if ( lineStyle.equalsIgnoreCase( "double" ) )
+		else if ( lineStyle==BorderInfo.BORDER_STYLE_DOUBLE)
 		{
 			println( "<v:stroke linestyle=3D\"thinThin\"/>" );
 		}
@@ -650,7 +651,7 @@ public class PPTWriter
 	 */
 	public void drawBackgroundImage( String imageURI, float x, float y,
 			float width, float height, float positionX, float positionY,
-			String repeat )
+			int repeat )
 	{
 		if ( imageURI == null || imageURI.length( ) == 0 )
 		{

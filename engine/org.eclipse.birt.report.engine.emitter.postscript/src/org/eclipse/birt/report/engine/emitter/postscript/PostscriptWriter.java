@@ -50,6 +50,7 @@ import org.eclipse.birt.report.engine.emitter.postscript.util.FileUtil;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.w3c.dom.css.CSSValue;
 
 import com.lowagie.text.DocumentException;
@@ -439,7 +440,7 @@ public class PostscriptWriter
 	 */
 	public void drawBackgroundImage( String imageURI, float x, float y,
 			float width, float height, float positionX, float positionY,
-			String repeat ) throws IOException
+			int repeat ) throws IOException
 	{
 		URL url = new URL( imageURI );
 		InputStream imageStream = null;
@@ -503,24 +504,24 @@ public class PostscriptWriter
 	 *            the line style.
 	 */
 	public void drawLine( float startX, float startY, float endX, float endY,
-			float width, Color color, String lineStyle )
+			float width, Color color, int lineStyle )
 	{
 		if ( null == color || 0f == width
-				|| "none".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
+				|| lineStyle==BorderInfo.BORDER_STYLE_NONE ) //$NON-NLS-1$
 		{
 			return;
 		}
 		// double is not supported.
-		if ( "double".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
+		if ( lineStyle==BorderInfo.BORDER_STYLE_DOUBLE ) //$NON-NLS-1$
 		{
 			return;
 		}
 		int dashMode = 0;
-		if ( "dashed".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
+		if ( lineStyle==BorderInfo.BORDER_STYLE_DASHED ) //$NON-NLS-1$
 		{
 			dashMode = 1;
 		}
-		else if ( "dotted".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
+		else if (lineStyle==BorderInfo.BORDER_STYLE_DOTTED ) //$NON-NLS-1$
 		{
 			dashMode = 2;
 		}

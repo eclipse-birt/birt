@@ -346,9 +346,9 @@ public class TableBorderPSTest extends TestCase
 	}
 
 	private void drawLine( float startX, float startY, float endX, float endY,
-			String style, float width, Color color )
+			int style, float width, Color color )
 	{
-		writer.drawLine( startX, startY, endX, endY, width, color, "solid" );
+		writer.drawLine( startX, startY, endX, endY, width, color, org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_SOLID );
 	}
 	
 }

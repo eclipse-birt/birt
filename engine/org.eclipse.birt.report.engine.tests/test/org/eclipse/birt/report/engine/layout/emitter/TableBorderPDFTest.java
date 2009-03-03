@@ -2,7 +2,6 @@
 package org.eclipse.birt.report.engine.layout.emitter;
 
 import java.awt.Color;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
@@ -66,7 +65,7 @@ class BorderInfo
 	public static final int LEFT_BORDER = 3;
 	
 	public int borderWidth;
-	public String borderStyle = "solid";
+	public int borderStyle = org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_SOLID;
 	public Color borderColor = Color.black;
 }
 
@@ -361,7 +360,7 @@ public class TableBorderPDFTest extends TestCase
 	}
 
 	private void drawLine( float startX, float startY, float endX, float endY,
-			String style, float width, Color color )
+			int style, float width, Color color )
 	{
 		startY = transformY( startY );
 		endY = transformY( endY );

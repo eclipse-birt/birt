@@ -20,9 +20,11 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
-import org.eclipse.birt.report.engine.layout.TextStyle;
 import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.w3c.dom.css.CSSValue;
@@ -125,7 +127,7 @@ public class PDFPage extends AbstractPage
 	}
 
 	protected void drawBackgroundImage( float x, float y, float width,
-			float height, String repeat, String imageUrl, float absPosX,
+			float height, int repeat, String imageUrl, float absPosX,
 			float absPosY ) throws IOException
 	{
 		y = transformY( y );
@@ -156,7 +158,7 @@ public class PDFPage extends AbstractPage
 					throw e;
 				}
 			}
-			if ( "no-repeat".equalsIgnoreCase( repeat ) ) //$NON-NLS-1$
+			if ( BackgroundImageInfo.NO_REPEAT == repeat ) //$NON-NLS-1$
 			{
 				TplValueTriple triple = computeTplHorizontalValPair( absPosX,
 						x, width, img.scaledWidth( ) );
@@ -177,7 +179,7 @@ public class PDFPage extends AbstractPage
 
 			}
 			// "repeat-x":
-			else if ( "repeat-x".equalsIgnoreCase( repeat ) ) //$NON-NLS-1$
+			else if ( BackgroundImageInfo.REPEAT_X == repeat ) //$NON-NLS-1$
 			{
 				float remainX = width;
 				PdfTemplate template = null;
@@ -242,7 +244,7 @@ public class PDFPage extends AbstractPage
 				}
 			}
 			// "repeat-y":
-			else if ( "repeat-y".equalsIgnoreCase( repeat ) ) //$NON-NLS-1$
+			else if ( BackgroundImageInfo.REPEAT_Y == repeat ) //$NON-NLS-1$
 			{
 				float remainY = height;
 				// If the height of the container is smaller than the scaled
@@ -282,7 +284,7 @@ public class PDFPage extends AbstractPage
 				}
 			}
 			// "repeat":
-			else if ( "repeat".equalsIgnoreCase( repeat ) ) //$NON-NLS-1$
+			else if ( BackgroundImageInfo.REPEAT == repeat) //$NON-NLS-1$
 			{
 				float remainX = width;
 				float remainY = height;
@@ -436,31 +438,31 @@ public class PDFPage extends AbstractPage
 	 *            the style of the line.
 	 */
 	protected void drawLine( float startX, float startY, float endX, float endY,
-			float width, Color color, String lineStyle )
+			float width, Color color, int lineStyle )
 	{
 		// if the border does NOT have color or the line width of the border is
 		// zero or the lineStyle is "none", just return.
 		if ( null == color || 0f == width
-				|| "none".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
+				|| BorderInfo.BORDER_STYLE_NONE==lineStyle ) //$NON-NLS-1$
 		{
 			return;
 		}
 		contentByte.saveState( );
-		if ( "solid".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
+		if ( BorderInfo.BORDER_STYLE_SOLID==lineStyle ) //$NON-NLS-1$
 		{
 			drawRawLine( startX, startY, endX, endY, width, color, contentByte );
 		}
-		else if ( "dashed".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
+		else if ( BorderInfo.BORDER_STYLE_DASHED==lineStyle ) //$NON-NLS-1$
 		{
 			contentByte.setLineDash( 3 * width, 2 * width, 0f );
 			drawRawLine( startX, startY, endX, endY, width, color, contentByte );
 		}
-		else if ( "dotted".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
+		else if ( BorderInfo.BORDER_STYLE_DOTTED==lineStyle ) //$NON-NLS-1$
 		{
 			contentByte.setLineDash( width, width, 0f );
 			drawRawLine( startX, startY, endX, endY, width, color, contentByte );
 		}
-		else if ( "double".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
+		else if ( BorderInfo.BORDER_STYLE_DOUBLE==lineStyle ) //$NON-NLS-1$
 		{
 			return;
 		}
@@ -475,14 +477,14 @@ public class PDFPage extends AbstractPage
 	}
 
 	protected void drawText( String text, float textX, float textY, float baseline, float width,
-			float height, TextStyle fontStyle )
+			float height, TextStyle textStyle )
 	{
-		drawText( text, textX, textY + baseline, width, height, fontStyle
+		drawText( text, textX, textY + baseline, width, height, textStyle
 				.getFontInfo( ),
-				convertToPoint( fontStyle.getLetterSpacing( ) ),
-				convertToPoint( fontStyle.getWordSpacing( ) ), fontStyle
-						.getColor( ), fontStyle.isLinethrough( ), fontStyle
-						.isOverline( ), fontStyle.isUnderline( ), fontStyle
+				convertToPoint( textStyle.getLetterSpacing( ) ),
+				convertToPoint( textStyle.getWordSpacing( ) ), textStyle
+						.getColor( ), textStyle.isLinethrough( ), textStyle
+						.isOverline( ), textStyle.isUnderline( ), textStyle
 						.getAlign( ) );
 	}
 

@@ -98,7 +98,7 @@ public class TableBreakBuffer implements IPageBuffer
 								}
 	
 								buffers[i].openPage( list );
-								if ( hasRepeatedColumn )
+								if ( hasRepeatedColumn && repeatEnd>repeatStart)
 								{
 									buffers[i]
 											.addTableColumnHint( new TableColumnHint(
