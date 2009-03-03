@@ -151,6 +151,10 @@ public class PDFPageDevice implements IPageDevice
 	
 	public void createTOC(Set bookmarks)
 	{
+		if ( bookmarks.isEmpty( ) )
+		{
+			return;
+		}
 		ULocale ulocale = null;
 		Locale locale = context.getLocale( );
 		if(locale==null)
