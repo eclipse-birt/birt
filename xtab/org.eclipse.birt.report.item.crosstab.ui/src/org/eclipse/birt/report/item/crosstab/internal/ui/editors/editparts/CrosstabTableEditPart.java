@@ -915,7 +915,8 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 			Object obj = itor.next( );
 			if ( ICrosstabReportItemConstants.MEASURE_DIRECTION_PROP.equals( obj )
 					|| ICrosstabReportItemConstants.PAGE_LAYOUT_PROP.equals( obj )
-					|| ILevelViewConstants.AGGREGATION_HEADER_LOCATION_PROP.equals( obj ) )
+					|| ILevelViewConstants.AGGREGATION_HEADER_LOCATION_PROP.equals( obj ) 
+					|| ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP.equals( obj ))
 			{
 				refresh( );
 				return;
