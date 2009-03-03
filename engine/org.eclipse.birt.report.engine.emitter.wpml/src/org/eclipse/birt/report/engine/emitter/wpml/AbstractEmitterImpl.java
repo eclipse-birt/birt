@@ -36,6 +36,7 @@ import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
+import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
@@ -59,6 +60,7 @@ import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
@@ -596,7 +598,7 @@ public abstract class AbstractEmitterImpl
 			return;
 		}
 
-		Image imageInfo = org.eclipse.birt.report.engine.layout.emitter.EmitterUtil
+		Image imageInfo = EmitterUtil
 				.parseImage( image, image.getImageSource( ), uri, mimeType,
 						extension );
 		byte[] data=imageInfo.getData( );
@@ -756,7 +758,7 @@ public abstract class AbstractEmitterImpl
 					break;
 				case IHyperlinkAction.ACTION_HYPERLINK :
 				case IHyperlinkAction.ACTION_DRILLTHROUGH :
-					String url = org.eclipse.birt.report.engine.layout.emitter.EmitterUtil
+					String url = EmitterUtil
 							.getHyperlinkUrl( linkAction, reportRunnable,
 									actionHandler, reportContext );
 					hyperlink = new HyperlinkInfo( HyperlinkInfo.HYPERLINK,
@@ -962,7 +964,7 @@ public abstract class AbstractEmitterImpl
 		// Set the first page background which is not null to DOC
 		IStyle style = previousPage.getComputedStyle( );
 		String backgroundColor = style.getBackgroundColor( );
-		String backgroundImageUrl = org.eclipse.birt.report.engine.layout.emitter.EmitterUtil
+		String backgroundImageUrl = EmitterUtil
 				.getBackgroundImageUrl( style, reportContent.getDesign( )
 						.getReportDesign( ) );
 		wordWriter.drawDocumentBackground( backgroundColor, backgroundImageUrl );

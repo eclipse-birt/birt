@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.excel.BlankData;
 import org.eclipse.birt.report.engine.emitter.excel.BookmarkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
@@ -42,7 +43,7 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.layout.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.util.FlashFile;
 
 import com.ibm.icu.util.ULocale;
@@ -457,7 +458,8 @@ public class ExcelLayoutEngine
 			return createData( altText, entry);
 		}
 
-		org.eclipse.birt.report.engine.layout.emitter.Image imageInfo= EmitterUtil.parseImage( image, image.getImageSource( ), image.getURI( ),image.getMIMEType( ) ,
+		Image imageInfo = EmitterUtil.parseImage( image,
+				image.getImageSource( ), image.getURI( ), image.getMIMEType( ),
 				image.getExtension( ) );
 		byte[] data=imageInfo.getData( );
 		if ( data != null )

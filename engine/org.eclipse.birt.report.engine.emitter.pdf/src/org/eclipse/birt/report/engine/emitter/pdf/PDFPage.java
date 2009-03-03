@@ -19,9 +19,9 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.TextStyle;
 import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
-import org.eclipse.birt.report.engine.layout.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.engine.util.SvgFile;

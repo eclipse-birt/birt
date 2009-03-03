@@ -18,6 +18,7 @@ import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.report.engine.emitter.wpml.HyperlinkInfo;
 import org.eclipse.birt.report.engine.emitter.wpml.IWordWriter;
@@ -25,7 +26,6 @@ import org.eclipse.birt.report.engine.emitter.wpml.SpanInfo;
 import org.eclipse.birt.report.engine.emitter.wpml.WordUtil;
 import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.InlineFlag;
 import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.TextFlag;
-import org.eclipse.birt.report.engine.layout.emitter.EmitterUtil;
 import org.w3c.dom.css.CSSValue;
 
 public class DocWriter extends AbstractWordXmlWriter implements IWordWriter

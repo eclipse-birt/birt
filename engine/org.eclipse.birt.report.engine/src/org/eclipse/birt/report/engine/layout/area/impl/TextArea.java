@@ -12,10 +12,10 @@ package org.eclipse.birt.report.engine.layout.area.impl;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
 import org.eclipse.birt.report.engine.layout.area.ITextArea;
-import org.eclipse.birt.report.engine.layout.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 
 import com.ibm.icu.text.Bidi;

@@ -419,21 +419,19 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			switch ( linkAction.getType( ) )
 			{
 				case IHyperlinkAction.ACTION_BOOKMARK :
-						hyperlink = new HyperlinkDef( bookmark,
+					hyperlink = new HyperlinkDef( bookmark,
 							IHyperlinkAction.ACTION_BOOKMARK, tooltip );
 
 					break;
 				case IHyperlinkAction.ACTION_HYPERLINK :
-					String url = org.eclipse.birt.report.engine.layout.emitter.EmitterUtil
-							.getHyperlinkUrl( linkAction, reportRunnable,
-									actionHandler, reportContext );
+					String url = EmitterUtil.getHyperlinkUrl( linkAction,
+							reportRunnable, actionHandler, reportContext );
 					hyperlink = new HyperlinkDef( url,
 							IHyperlinkAction.ACTION_HYPERLINK, tooltip );
 					break;
 				case IHyperlinkAction.ACTION_DRILLTHROUGH :
-					url = org.eclipse.birt.report.engine.layout.emitter.EmitterUtil
-							.getHyperlinkUrl( linkAction, reportRunnable,
-									actionHandler, reportContext );
+					url = EmitterUtil.getHyperlinkUrl( linkAction,
+							reportRunnable, actionHandler, reportContext );
 					hyperlink = new HyperlinkDef( url,
 							IHyperlinkAction.ACTION_DRILLTHROUGH, tooltip );
 					break;
