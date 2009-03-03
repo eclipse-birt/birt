@@ -612,7 +612,8 @@ public class DataSetColumnBindingsFormHandleProvider extends
 		{
 			children.add( iter.next( ) );
 		}
-
+		if ( pos < 0 || pos >= children.size( ) )
+			return -1;
 		Object[] arrays = children.toArray( );
 		Arrays.sort( arrays, new BindingComparator( ) );
 		return Arrays.asList( arrays ).indexOf( children.get( pos ) );
