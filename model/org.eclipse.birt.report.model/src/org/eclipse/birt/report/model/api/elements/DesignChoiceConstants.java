@@ -393,6 +393,10 @@ public interface DesignChoiceConstants
 	public static final String IMAGE_TYPE_IMAGE_PNG = "image/png"; //$NON-NLS-1$
 	public static final String IMAGE_TYPE_IMAGE_X_PNG = "image/x-png"; //$NON-NLS-1$
 	public static final String IMAGE_TYPE_IMAGE_JPEG = "image/jpeg"; //$NON-NLS-1$
+	public static final String IMAGE_TYPE_IMAGE_ICO = "image/ico"; //$NON-NLS-1$
+	public static final String IMAGE_TYPE_IMAGE_TIFF = "image/tiff"; //$NON-NLS-1$
+	public static final String IMAGE_TYPE_IMAGE_SVG = "image/svg+xml"; //$NON-NLS-1$
+
 
 	// lineSpacing
 

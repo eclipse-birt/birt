@@ -311,6 +311,9 @@
     <Choice displayNameID="Choices.imageType.image/png" name="image/png"/>
     <Choice displayNameID="Choices.imageType.image/x-png" name="image/x-png"/>
     <Choice displayNameID="Choices.imageType.image/jpeg" name="image/jpeg"/>
+    <Choice displayNameID="Choices.imageType.image/ico" name="image/ico"/>
+    <Choice displayNameID="Choices.imageType.image/tiff" name="image/tiff"/>
+    <Choice displayNameID="Choices.imageType.image/svg+xml" name="image/svg+xml"/>
   </ChoiceType>
   <ChoiceType name="actionLinkType">
     <Choice displayNameID="Choices.actionLinkType.none" name="none"/>
