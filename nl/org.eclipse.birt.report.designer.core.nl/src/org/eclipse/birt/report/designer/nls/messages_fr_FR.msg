@@ -1191,7 +1191,7 @@ Element.ReportDesign.displayName=Nom d'afficha&ge :
 Element.ReportDesign.eventHandlerClass=&Classe de gestionnaire d'événements : 
 Element.ReportDesign.iconFile=Mi&niature : 
 Element.ReportDesign.refreshRate=Fréquence d'actualisation :
-Element.ReportDesign.bidiLayoutOrientation=&Orientation de l'état :
+Element.ReportDesign.bidiLayoutOrientation=&Report Orientation:
 Element.ReportElement.comments=&Commentaires :
 Element.ReportElement.Cube=&Données :
 Element.ReportElement.customXml=XML personnalisé :
@@ -2419,6 +2419,11 @@ FilterConditionBuilder.button.delete.tooltip=Supprimer la valeur sélectionnée de
 FilterConditionBuilder.button.deleteall.tooltip=Supprimer toutes les valeurs de la liste
 FilterConditionBuilder.button.add.tooltip=Ajouter la valeur à la liste
 FilterConditionBuilder.label.value=Valeur
+FilterConditionBuilder.multipleValue.label=&Valeur
+FilterConditionBuilder.multipleValue.button.add=&Ajouter
+FilterConditionBuilder.multipleValue.button.remove=Supp&rimer
+FilterConditionBuilder.multipleValue.button.removeAll=Re&move All
+FilterConditionBuilder.multipleValue.button.edit=&Modifier...
 
 ###########################################################
 #MarignPropertyDescriptor properties

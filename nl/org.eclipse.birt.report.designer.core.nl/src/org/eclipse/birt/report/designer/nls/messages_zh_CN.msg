@@ -1191,7 +1191,7 @@ Element.ReportDesign.displayName=显示名称(&Y):
 Element.ReportDesign.eventHandlerClass=事件处理程序类(&C): 
 Element.ReportDesign.iconFile=缩略图(&N): 
 Element.ReportDesign.refreshRate=刷新率:
-Element.ReportDesign.bidiLayoutOrientation=报表方向(&O):
+Element.ReportDesign.bidiLayoutOrientation=&Report Orientation:
 Element.ReportElement.comments=备注(&C):
 Element.ReportElement.Cube=数据(&D):
 Element.ReportElement.customXml=自定义 XML:
@@ -2419,6 +2419,11 @@ FilterConditionBuilder.button.delete.tooltip=从列表中删除选定值
 FilterConditionBuilder.button.deleteall.tooltip=从列表中删除所有值
 FilterConditionBuilder.button.add.tooltip=将值添加到值列表
 FilterConditionBuilder.label.value=值
+FilterConditionBuilder.multipleValue.label=值(&V)
+FilterConditionBuilder.multipleValue.button.add=添加(&A)
+FilterConditionBuilder.multipleValue.button.remove=删除(&R)
+FilterConditionBuilder.multipleValue.button.removeAll=Re&move All
+FilterConditionBuilder.multipleValue.button.edit=编辑(&D)...
 
 ###########################################################
 #MarignPropertyDescriptor properties

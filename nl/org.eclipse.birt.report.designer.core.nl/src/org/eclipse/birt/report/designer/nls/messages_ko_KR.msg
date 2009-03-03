@@ -1191,7 +1191,7 @@ Element.ReportDesign.displayName=표시 이름(&Y):
 Element.ReportDesign.eventHandlerClass=이벤트 처리기 클래스(&C): 
 Element.ReportDesign.iconFile=섬네일(&N): 
 Element.ReportDesign.refreshRate=새로 고침 빈도:
-Element.ReportDesign.bidiLayoutOrientation=보고서 방향(&O):
+Element.ReportDesign.bidiLayoutOrientation=&Report Orientation:
 Element.ReportElement.comments=설명(&C):
 Element.ReportElement.Cube=데이터(&D):
 Element.ReportElement.customXml=사용자 지정 XML:
@@ -2419,6 +2419,11 @@ FilterConditionBuilder.button.delete.tooltip=목록에서 선택한 값 삭제
 FilterConditionBuilder.button.deleteall.tooltip=목록에서 모든 값 삭제
 FilterConditionBuilder.button.add.tooltip=값 목록에 값 추가
 FilterConditionBuilder.label.value=값
+FilterConditionBuilder.multipleValue.label=값(&V)
+FilterConditionBuilder.multipleValue.button.add=추가(&A)
+FilterConditionBuilder.multipleValue.button.remove=제거(&R)
+FilterConditionBuilder.multipleValue.button.removeAll=Re&move All
+FilterConditionBuilder.multipleValue.button.edit=편집(&D)...
 
 ###########################################################
 #MarignPropertyDescriptor properties

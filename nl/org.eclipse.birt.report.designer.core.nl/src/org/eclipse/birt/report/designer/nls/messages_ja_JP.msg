@@ -1191,7 +1191,7 @@ Element.ReportDesign.displayName=表示名(&Y) :
 Element.ReportDesign.eventHandlerClass=イベントハンドラのクラス(&C) : 
 Element.ReportDesign.iconFile=サムネイル(&N) : 
 Element.ReportDesign.refreshRate=更新頻度 :
-Element.ReportDesign.bidiLayoutOrientation=レポートの向き(&O) :
+Element.ReportDesign.bidiLayoutOrientation=&Report Orientation:
 Element.ReportElement.comments=コメント(&C) :
 Element.ReportElement.Cube=データ(&D) :
 Element.ReportElement.customXml=カスタム XML :
@@ -2419,6 +2419,11 @@ FilterConditionBuilder.button.delete.tooltip=リストから選択した値を削除します。
 FilterConditionBuilder.button.deleteall.tooltip=リストからすべての値を削除します。
 FilterConditionBuilder.button.add.tooltip=値リストに値を追加します。
 FilterConditionBuilder.label.value=値
+FilterConditionBuilder.multipleValue.label=値(&V)
+FilterConditionBuilder.multipleValue.button.add=追加(&A)
+FilterConditionBuilder.multipleValue.button.remove=削除(&R)
+FilterConditionBuilder.multipleValue.button.removeAll=Re&move All
+FilterConditionBuilder.multipleValue.button.edit=編集(&D)...
 
 ###########################################################
 #MarignPropertyDescriptor properties
