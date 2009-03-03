@@ -1364,7 +1364,7 @@ Hi All,
       
         <target name="ThirdPartyJarCheckNotification" if="CheckThirdpartylog">
             <property file="${eclipse.build.configs}/../../config.properties" />
-            <mail mailport="${mail.port}" subject="ThirdPartyJars matching failed" tolist="${build.engineer}">
+            <mail mailport="${mail.port}" subject="ThirdPartyJars matching failed on ${local.hostname} ${package.version} build" tolist="${build.engineer}">
                   <from address="${mail.from}"/>
                   <replyto address="${replyto.address}"/>
                   <message>
@@ -1377,7 +1377,7 @@ Hi All,
                   </message>
                   <attachments>
                      <fileset dir="${buildDirectory}">
-                       <include name="thirdParthJarDiff.log"/>
+                       <include name="thirdPartyJarDiff.log"/>
                      </fileset>
                   </attachments>
             </mail>
