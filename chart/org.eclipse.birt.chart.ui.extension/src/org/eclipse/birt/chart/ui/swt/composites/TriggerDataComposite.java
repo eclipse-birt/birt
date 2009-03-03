@@ -319,7 +319,7 @@ public class TriggerDataComposite extends Composite
 		GridData gdLBLCursorType = new GridData( );
 		gdLBLCursorType.horizontalIndent = 4;
 		lblCursorType.setLayoutData( gdLBLCursorType );
-		lblCursorType.setText( "Cursor:" );
+		lblCursorType.setText( Messages.getString("TriggerDataComposite.Lbl.Cursor") ); //$NON-NLS-1$
 
 		cmbCursorType = new Combo( this, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCMBCursorType = new GridData( GridData.FILL_HORIZONTAL );
@@ -327,7 +327,7 @@ public class TriggerDataComposite extends Composite
 		cmbCursorType.addSelectionListener( this );
 		
 		btnCursorImage = new Button( this, SWT.NONE );
-		btnCursorImage.setText( "Image" );
+		btnCursorImage.setText( Messages.getString("TriggerDataComposite.Lbl.Image") ); //$NON-NLS-1$
 		GridData gdBTNCursorImage = new GridData( );
 		btnCursorImage.setLayoutData( gdBTNCursorImage );
 		btnCursorImage.addSelectionListener( this );
@@ -1169,7 +1169,7 @@ public class TriggerDataComposite extends Composite
 	
 	private Cursor getMouseCursor( )
 	{
-		EStructuralFeature esf = cursorContainer.eClass( ).getEStructuralFeature( "cursor" );
+		EStructuralFeature esf = cursorContainer.eClass( ).getEStructuralFeature( "cursor" ); //$NON-NLS-1$
 		return (Cursor) cursorContainer.eGet( esf );
 	}
 	
@@ -1178,7 +1178,7 @@ public class TriggerDataComposite extends Composite
 		Cursor c = getMouseCursor();
 		if ( c == null )
 		{
-			EStructuralFeature esf = cursorContainer.eClass( ).getEStructuralFeature( "cursor" );
+			EStructuralFeature esf = cursorContainer.eClass( ).getEStructuralFeature( "cursor" ); //$NON-NLS-1$
 			c = AttributeFactory.eINSTANCE.createCursor( );
 			cursorContainer.eSet( esf, c );
 			c.eAdapters( ).addAll( cursorContainer.eAdapters( ) );

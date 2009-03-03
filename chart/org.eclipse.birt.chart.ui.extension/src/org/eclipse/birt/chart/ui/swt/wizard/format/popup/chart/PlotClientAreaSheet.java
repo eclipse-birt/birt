@@ -186,7 +186,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		new Label( leftComp, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.WidthHint" ) ); //$NON-NLS-1$
 
 		btnWidth = new Button( leftComp, SWT.CHECK );
-		btnWidth.setText( Messages.getString("PlotClientAreaSheet.Btn.Auto") ); //$NON-NLS-1$
+		btnWidth.setText( Messages.getString( "PlotClientAreaSheet.Btn.Auto2" ) ); //$NON-NLS-1$
 		gd = new GridData( );
 		btnWidth.setLayoutData( gd );
 		btnWidth.addSelectionListener( this );
