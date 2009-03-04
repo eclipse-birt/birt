@@ -115,17 +115,17 @@
   <ChoiceType name="pageBreakAfter">
     <Choice displayNameID="Choices.pageBreakAfter.auto" name="auto"/>
     <Choice displayNameID="Choices.pageBreakAfter.always" name="always"/>
-    <!--Choice displayNameID="Choices.pageBreakAfter.avoid" name="avoid"/ -->
+    <Choice displayNameID="Choices.pageBreakAfter.avoid" name="avoid"/>
     <Choice displayNameID="Choices.pageBreakAfter.alwaysExcludingLast" name="always-excluding-last"/>
   </ChoiceType>
   <ChoiceType name="pageBreakBefore">
     <Choice displayNameID="Choices.pageBreakBefore.auto" name="auto"/>
     <Choice displayNameID="Choices.pageBreakBefore.always" name="always"/>
-    <!--Choice displayNameID="Choices.pageBreakBefore.avoid" name="avoid"/-->
+    <Choice displayNameID="Choices.pageBreakBefore.avoid" name="avoid"/>
     <Choice displayNameID="Choices.pageBreakBefore.alwaysExcludingFirst" name="always-excluding-first"/>
   </ChoiceType>
   <ChoiceType name="pageBreakInside">
-    <!--Choice displayNameID="Choices.pageBreakInside.avoid" name="avoid"/-->
+    <Choice displayNameID="Choices.pageBreakInside.avoid" name="avoid"/>
     <Choice displayNameID="Choices.pageBreakInside.auto" name="auto"/>
   </ChoiceType>
   <ChoiceType name="margin">
@@ -2066,11 +2066,11 @@
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.masterPage" isStyleProperty="true" name="masterPage" since="reserved" type="name"/>
       <Property canInherit="false" detailType="pageBreakBefore" displayNameID="Element.Style.pageBreakBefore" isStyleProperty="true" name="pageBreakBefore" since="1.0" type="choice">
-        <Allowed>auto,always</Allowed>
+        <Allowed>auto,always,avoid</Allowed>
         <Default>auto</Default>
       </Property>
       <Property canInherit="false" detailType="pageBreakAfter" displayNameID="Element.Style.pageBreakAfter" isStyleProperty="true" name="pageBreakAfter" since="1.0" type="choice">
-        <Allowed>auto,always</Allowed>
+        <Allowed>auto,always,avoid</Allowed>
         <Default>auto</Default>
       </Property>
       <Property detailType="pageBreakInside" displayNameID="Element.Style.pageBreakInside" isStyleProperty="true" name="pageBreakInside" since="1.0" type="choice">

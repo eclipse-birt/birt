@@ -311,28 +311,28 @@ public class PropertyDefnTest extends AbstractMetaTest
 		PropertyDefn propDefn = (ElementPropertyDefn) groupDefn
 				.getProperty( Style.PAGE_BREAK_AFTER_PROP );
 		IChoiceSet choices = propDefn.getAllowedChoices( );
-		assertEquals( 3, choices.getChoices( ).length );
+		assertEquals( 4, choices.getChoices( ).length );
 		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AUTO, choices
 				.getChoices( )[0].getName( ) );
 		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS, choices
 				.getChoices( )[1].getName( ) );
-		/*assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AVOID, choices
-				.getChoices( )[2].getName( ) );*/
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AVOID, choices
+				.getChoices( )[2].getName( ) );
 		assertEquals(
 				DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST,
-				choices.getChoices( )[2].getName( ) );
+				choices.getChoices( )[3].getName( ) );
 
 		IElementDefn labelDefn = MetaDataDictionary.getInstance( ).getElement(
 				ReportDesignConstants.LABEL_ITEM );
 		propDefn = (ElementPropertyDefn) labelDefn
 				.getProperty( Style.PAGE_BREAK_AFTER_PROP );
 		choices = propDefn.getAllowedChoices( );
-		assertEquals( 2, choices.getChoices( ).length );
+		assertEquals( 3, choices.getChoices( ).length );
 		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AUTO, choices
 				.getChoices( )[0].getName( ) );
 		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS, choices
 				.getChoices( )[1].getName( ) );
-		/*assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AVOID, choices
-				.getChoices( )[2].getName( ) );*/
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AVOID, choices
+				.getChoices( )[2].getName( ) );
 	}
 }
