@@ -251,7 +251,6 @@
    			<DataType value="%dataType.Number"></DataType>
    		</Argument>
    		<Argument
-           isVisible="false"
            name="n2">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
@@ -377,7 +376,9 @@
    	<Function
           desc="Returns a timestamp value which is midnight of the current date."
           name="today">
-   		<DataType value="%dataType.Date"></DataType></Function>
+            <DataType
+                  value="%dataType.DateTime">
+            </DataType></Function>
    	<Function
           desc="Returns the current timestamp."
           name="now">
