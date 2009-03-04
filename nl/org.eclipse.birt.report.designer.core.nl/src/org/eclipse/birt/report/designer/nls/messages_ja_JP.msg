@@ -2367,7 +2367,8 @@ MapRuleBuilder.DialogTitle.New=マップ規則の新規作成
 MapRuleBuilder.DialogTitle.Edit=マップ規則の編集
 MapRuleBuilder.Button.ResourceKey=リソースキー(&K) :
 MapRuleBuilder.Button.Reset=リセット(&R)
-
+MapRuleBuilder.Button.Browse=参照(&B)...
+MapRuleBuilder.Button.Browse.Tooltip=参照してキーを選択
 
 MapRuleBuilderDialog.text.Between=値に挟まれる
 MapRuleBuilderDialog.text.Condition=次の条件が True の場合(&I) : 
@@ -3198,6 +3199,9 @@ TemplateReportItemPageGenerator.List.TextKey=テキストキー :
 ReportPropertySheetPage.Column.Title.Property=プロパティ
 ReportPropertySheetPage.Column.Title.Value=値
 ReportPropertySheetPage.Root.Default.Title=情報
+ReportPropertySheetPage.Tooltip.Alphabetic=Sort by alphabetic
+ReportPropertySheetPage.Tooltip.Group=Sort by group
+ReportPropertySheetPage.Tooltip.Local=Show local properties
 ReportPropertySheetPage.Value.Inherited=継承済み
 
 ###########################################################
@@ -4443,6 +4447,9 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=エクスポートされたイメ
 NewStyleHandler.transaction.label=スタイルの新規作成...
 
 AdvancePropertyDescriptorProvider.DisplayName=詳細設定
+AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=Sort by alphabetic
+AdvancePropertyDescriptorProvider.Tooltip.Group=Sort by group
+AdvancePropertyDescriptorProvider.Tooltip.Local=Show local properties
 PropertyEditorFactory.Boolean.True=true
 PropertyEditorFactory.Boolean.False=false
 PropertyEditorFactory.Value.Auto=自動

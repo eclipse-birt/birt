@@ -2367,7 +2367,8 @@ MapRuleBuilder.DialogTitle.New=Nouvelle règle de mappage
 MapRuleBuilder.DialogTitle.Edit=Modifier la règle de mappage
 MapRuleBuilder.Button.ResourceKey=Clé de &ressource :
 MapRuleBuilder.Button.Reset=&Réinitialiser
-
+MapRuleBuilder.Button.Browse=& Parcourir...
+MapRuleBuilder.Button.Browse.Tooltip=Parcourir et sélectionner une clé
 
 MapRuleBuilderDialog.text.Between=est compris entre
 MapRuleBuilderDialog.text.Condition=S&i la condition suivante est vraie : 
@@ -3198,6 +3199,9 @@ TemplateReportItemPageGenerator.List.TextKey=Clé de texte :
 ReportPropertySheetPage.Column.Title.Property=Propriété
 ReportPropertySheetPage.Column.Title.Value=Valeur
 ReportPropertySheetPage.Root.Default.Title=Infos
+ReportPropertySheetPage.Tooltip.Alphabetic=Sort by alphabetic
+ReportPropertySheetPage.Tooltip.Group=Sort by group
+ReportPropertySheetPage.Tooltip.Local=Show local properties
 ReportPropertySheetPage.Value.Inherited=Hérité
 
 ###########################################################
@@ -4443,6 +4447,9 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=L'image incorporée réf
 NewStyleHandler.transaction.label=Nouveau style...
 
 AdvancePropertyDescriptorProvider.DisplayName=Avancé
+AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=Sort by alphabetic
+AdvancePropertyDescriptorProvider.Tooltip.Group=Sort by group
+AdvancePropertyDescriptorProvider.Tooltip.Local=Show local properties
 PropertyEditorFactory.Boolean.True=true
 PropertyEditorFactory.Boolean.False=false
 PropertyEditorFactory.Value.Auto=Auto

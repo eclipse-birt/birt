@@ -2367,7 +2367,8 @@ MapRuleBuilder.DialogTitle.New=새 맵 규칙
 MapRuleBuilder.DialogTitle.Edit=맵 규칙 편집
 MapRuleBuilder.Button.ResourceKey=리소스 키(&K):
 MapRuleBuilder.Button.Reset=재설정(&R)
-
+MapRuleBuilder.Button.Browse=찾아보기(&B)...
+MapRuleBuilder.Button.Browse.Tooltip=키를 찾아보고 선택합니다.
 
 MapRuleBuilderDialog.text.Between=사이에 있음
 MapRuleBuilderDialog.text.Condition=다음 조건이 참인 경우(&I): 
@@ -3198,6 +3199,9 @@ TemplateReportItemPageGenerator.List.TextKey=텍스트 키:
 ReportPropertySheetPage.Column.Title.Property=속성
 ReportPropertySheetPage.Column.Title.Value=값
 ReportPropertySheetPage.Root.Default.Title=정보
+ReportPropertySheetPage.Tooltip.Alphabetic=Sort by alphabetic
+ReportPropertySheetPage.Tooltip.Group=Sort by group
+ReportPropertySheetPage.Tooltip.Local=Show local properties
 ReportPropertySheetPage.Value.Inherited=상속됨
 
 ###########################################################
@@ -4443,6 +4447,9 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=내보낸 이미지에서 참조
 NewStyleHandler.transaction.label=새 스타일...
 
 AdvancePropertyDescriptorProvider.DisplayName=고급
+AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=Sort by alphabetic
+AdvancePropertyDescriptorProvider.Tooltip.Group=Sort by group
+AdvancePropertyDescriptorProvider.Tooltip.Local=Show local properties
 PropertyEditorFactory.Boolean.True=true
 PropertyEditorFactory.Boolean.False=false
 PropertyEditorFactory.Value.Auto=자동

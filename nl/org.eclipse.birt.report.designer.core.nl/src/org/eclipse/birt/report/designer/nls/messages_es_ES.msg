@@ -2367,7 +2367,8 @@ MapRuleBuilder.DialogTitle.New=Nueva regla de asignación
 MapRuleBuilder.DialogTitle.Edit=Editar regla de asignación
 MapRuleBuilder.Button.ResourceKey=Clave de &recursos:
 MapRuleBuilder.Button.Reset=&Restablecer
-
+MapRuleBuilder.Button.Browse=&Examinar...
+MapRuleBuilder.Button.Browse.Tooltip=Examinar y seleccionar una clave
 
 MapRuleBuilderDialog.text.Between=está entre
 MapRuleBuilderDialog.text.Condition=Si la siguiente condición es true: 
@@ -3198,6 +3199,9 @@ TemplateReportItemPageGenerator.List.TextKey=Clave de texto:
 ReportPropertySheetPage.Column.Title.Property=Propiedad
 ReportPropertySheetPage.Column.Title.Value=Valor
 ReportPropertySheetPage.Root.Default.Title=Información
+ReportPropertySheetPage.Tooltip.Alphabetic=Sort by alphabetic
+ReportPropertySheetPage.Tooltip.Group=Sort by group
+ReportPropertySheetPage.Tooltip.Local=Show local properties
 ReportPropertySheetPage.Value.Inherited=Heredado
 
 ###########################################################
@@ -4443,6 +4447,9 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=La imagen incrustada a
 NewStyleHandler.transaction.label=Nuevo estilo...
 
 AdvancePropertyDescriptorProvider.DisplayName=Avanzar
+AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=Sort by alphabetic
+AdvancePropertyDescriptorProvider.Tooltip.Group=Sort by group
+AdvancePropertyDescriptorProvider.Tooltip.Local=Show local properties
 PropertyEditorFactory.Boolean.True=true
 PropertyEditorFactory.Boolean.False=false
 PropertyEditorFactory.Value.Auto=Automático

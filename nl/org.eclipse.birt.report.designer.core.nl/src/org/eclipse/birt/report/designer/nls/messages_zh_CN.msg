@@ -2367,7 +2367,8 @@ MapRuleBuilder.DialogTitle.New=新建映射规则
 MapRuleBuilder.DialogTitle.Edit=编辑映射规则
 MapRuleBuilder.Button.ResourceKey=资源关键字(&K):
 MapRuleBuilder.Button.Reset=重置(&R)
-
+MapRuleBuilder.Button.Browse=浏览(&B)...
+MapRuleBuilder.Button.Browse.Tooltip=浏览和选择按键
 
 MapRuleBuilderDialog.text.Between=介于
 MapRuleBuilderDialog.text.Condition=如果以下条件为真(&I): 
@@ -3198,6 +3199,9 @@ TemplateReportItemPageGenerator.List.TextKey=文本关键字:
 ReportPropertySheetPage.Column.Title.Property=属性
 ReportPropertySheetPage.Column.Title.Value=值
 ReportPropertySheetPage.Root.Default.Title=信息
+ReportPropertySheetPage.Tooltip.Alphabetic=Sort by alphabetic
+ReportPropertySheetPage.Tooltip.Group=Sort by group
+ReportPropertySheetPage.Tooltip.Local=Show local properties
 ReportPropertySheetPage.Value.Inherited=已继承
 
 ###########################################################
@@ -4443,6 +4447,9 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=由导出的图像引用的嵌入
 NewStyleHandler.transaction.label=新建样式...
 
 AdvancePropertyDescriptorProvider.DisplayName=促进
+AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=Sort by alphabetic
+AdvancePropertyDescriptorProvider.Tooltip.Group=Sort by group
+AdvancePropertyDescriptorProvider.Tooltip.Local=Show local properties
 PropertyEditorFactory.Boolean.True=true
 PropertyEditorFactory.Boolean.False=false
 PropertyEditorFactory.Value.Auto=自动
