@@ -33,8 +33,9 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 	/**
 	 * trans name
 	 */
-	//private static final String NAME = "Add MeasureHandle";
+	// private static final String NAME = "Add MeasureHandle";
 	private static final String NAME = Messages.getString( "AddMeasureViewHandleCommand.TransName" );//$NON-NLS-1$
+
 	/**
 	 * Constructor
 	 * 
@@ -48,7 +49,7 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 		this.handleAdpter = handleAdpter;
 		this.measureHandle = measureHandle;
 		this.after = after;
-		
+
 		setLabel( NAME );
 	}
 
@@ -70,34 +71,42 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 	public void execute( )
 	{
 		transStart( NAME );
-		CrosstabReportItemHandle reportHandle = handleAdpter.getCrosstabCellHandle( ).getCrosstab( );
+		CrosstabReportItemHandle reportHandle = handleAdpter.getCrosstabCellHandle( )
+				.getCrosstab( );
 
 		try
 		{
-			//int position = reportHandle.getMeasureCount( );
+			// int position = reportHandle.getMeasureCount( );
 			int position = findPosition( );
-			CrosstabAdaptUtil.addMeasureHandle( reportHandle, measureHandle, position );
+			CrosstabAdaptUtil.addMeasureHandle( reportHandle,
+					measureHandle,
+					position );
+			transEnd( );
 		}
 		catch ( SemanticException e )
 		{
 			rollBack( );
 			ExceptionHandler.handle( e );
 		}
-		transEnd( );
 	}
-	
-	private int findPosition()
+
+	private int findPosition( )
 	{
-		int base = CrosstabAdaptUtil.getMeasureViewHandle((ExtendedItemHandle) handleAdpter.getCrosstabCellHandle( ).getModelHandle( )).getModelHandle( ).getIndex( );
-		if (after instanceof  DesignElementHandle)
+		int base = CrosstabAdaptUtil.getMeasureViewHandle( (ExtendedItemHandle) handleAdpter.getCrosstabCellHandle( )
+				.getModelHandle( ) )
+				.getModelHandle( )
+				.getIndex( );
+		if ( after instanceof DesignElementHandle )
 		{
-			int index = ((DesignElementHandle)after).getIndex( );
-			if (index == 0)
+			int index = ( (DesignElementHandle) after ).getIndex( );
+			if ( index == 0 )
 			{
 				return base;
 			}
 		}
 		return base + 1;
-		//return ((CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( )).getDimensionCount( getType( ) );
+		// return ((CrosstabReportItemHandle)
+		// handleAdpter.getCrosstabItemHandle( )).getDimensionCount( getType( )
+		// );
 	}
 }
