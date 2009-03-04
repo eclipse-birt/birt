@@ -39,7 +39,8 @@ import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelP
  * 
  * 
  */
-public class AdvancePropertyDescriptorProvider extends AbstractDescriptorProvider
+public class AdvancePropertyDescriptorProvider extends
+		AbstractDescriptorProvider
 {
 
 	public String getDisplayName( )
@@ -93,6 +94,20 @@ public class AdvancePropertyDescriptorProvider extends AbstractDescriptorProvide
 			displayName = Messages.getString( "ReportPropertySheetPage.Root.Default.Title" ); //$NON-NLS-1$
 		}
 		return displayName;
+	}
+
+	public final static int MODE_GROUPED = 0;
+	public final static int MODE_ALPHABETIC = 1;
+	public final static int MODE_LOCAL_ONLY = 2;
+
+	public void selectViewMode( int modeIndex )
+	{
+		contentProvider.setViewMode( modeIndex );
+	}
+
+	public int getViewMode( )
+	{
+		return contentProvider.getViewMode( );
 	}
 
 	private AdvancedPropertyContentProvider contentProvider = new AdvancedPropertyContentProvider( );
@@ -197,6 +212,20 @@ public class AdvancePropertyDescriptorProvider extends AbstractDescriptorProvide
 
 		return displayName;
 	}
+
+	public String getToolTipText( int mode )
+	{
+		switch ( mode )
+		{
+			case MODE_GROUPED :
+				return Messages.getString("AdvancePropertyDescriptorProvider.Tooltip.Group"); //$NON-NLS-1$
+			case MODE_ALPHABETIC :
+				return Messages.getString("AdvancePropertyDescriptorProvider.Tooltip.Alphabetic"); //$NON-NLS-1$
+			case MODE_LOCAL_ONLY :
+				return Messages.getString("AdvancePropertyDescriptorProvider.Tooltip.Local"); //$NON-NLS-1$
+		}
+		return "";//$NON-NLS-1$ 
+	}
 }
 
 class AdvancedPropertyNameLabelProvider extends ColumnLabelProvider implements
@@ -244,7 +273,6 @@ class AdvancedPropertyValueLabelProvider extends ColumnLabelProvider implements
 	public String getText( Object element )
 	{
 		String text = getStyledText( element ).toString( );
-		System.out.println( text );
 		return text;
 	}
 
@@ -266,12 +294,6 @@ class AdvancedPropertyValueLabelProvider extends ColumnLabelProvider implements
 					}
 					else
 					{
-						// GroupPropertyHandleProvider handle =
-						// GroupPropertyHandleProvider.getInstance( );
-						// if(handle.isDimensionProperty(propertyHandle))
-						// {
-						//							
-						// }
 						value = propertyHandle.getDisplayValue( );
 					}
 				}
@@ -282,7 +304,7 @@ class AdvancedPropertyValueLabelProvider extends ColumnLabelProvider implements
 		{
 			if ( showAuto( propertyHandle ) )
 			{
-				value = Messages.getString( "PropertyEditorFactory.Value.Auto" );
+				value = Messages.getString( "PropertyEditorFactory.Value.Auto" ); //$NON-NLS-1$
 			}
 			else
 			{
@@ -296,8 +318,8 @@ class AdvancedPropertyValueLabelProvider extends ColumnLabelProvider implements
 				&& propertyHandle.getDisplayValue( ) != null
 				&& propertyHandle.getLocalStringValue( ) == null )
 		{
-			styledString.append( " : "
-					+ Messages.getString( "ReportPropertySheetPage.Value.Inherited" ),
+			styledString.append( " : " //$NON-NLS-1$
+					+ Messages.getString( "ReportPropertySheetPage.Value.Inherited" ), //$NON-NLS-1$
 					StyledString.DECORATIONS_STYLER );
 		}
 		return styledString;
@@ -386,6 +408,18 @@ class AdvancedPropertyContentProvider implements ITreeContentProvider
 
 	private static final String ROOT_DEFAUL_TITLE = Messages.getString( "ReportPropertySheetPage.Root.Default.Title" ); //$NON-NLS-1$
 
+	private int viewMode = AdvancePropertyDescriptorProvider.MODE_GROUPED;
+
+	public void setViewMode( int mode )
+	{
+		this.viewMode = mode;
+	}
+
+	public int getViewMode( )
+	{
+		return this.viewMode;
+	}
+
 	public Object[] getChildren( Object parentElement )
 	{
 		if ( parentElement instanceof List )
@@ -395,25 +429,47 @@ class AdvancedPropertyContentProvider implements ITreeContentProvider
 		if ( parentElement instanceof PropertySheetRootElement )
 		{
 			ArrayList items = new ArrayList( );
-			HashMap map = new HashMap( );
 			GroupElementHandle handle = (GroupElementHandle) ( (PropertySheetRootElement) parentElement ).getModel( );
 
-			for ( Iterator it = handle.visiblePropertyIterator( ); it.hasNext( ); )
+			if ( viewMode == AdvancePropertyDescriptorProvider.MODE_GROUPED )
 			{
-				GroupPropertyHandle property = (GroupPropertyHandle) it.next( );
-				IElementPropertyDefn defn = property.getPropertyDefn( );
-				if ( defn.getGroupNameKey( ) == null )
-					items.add( new GroupPropertyHandleWrapper( property ) );
-				else
+				HashMap map = new HashMap( );
+				for ( Iterator it = handle.visiblePropertyIterator( ); it.hasNext( ); )
 				{
-					List group = (List) map.get( defn.getGroupNameKey( ) );
-					if ( group == null )
+					GroupPropertyHandle property = (GroupPropertyHandle) it.next( );
+					IElementPropertyDefn defn = property.getPropertyDefn( );
+					if ( defn.getGroupNameKey( ) == null )
+						items.add( new GroupPropertyHandleWrapper( property ) );
+					else
 					{
-						group = new ArrayList( );
-						items.add( group );
-						map.put( defn.getGroupNameKey( ), group );
+						List group = (List) map.get( defn.getGroupNameKey( ) );
+						if ( group == null )
+						{
+							group = new ArrayList( );
+							items.add( group );
+							map.put( defn.getGroupNameKey( ), group );
+						}
+						group.add( new GroupPropertyHandleWrapper( property ) );
 					}
-					group.add( new GroupPropertyHandleWrapper( property ) );
+				}
+			}
+			else if ( viewMode == AdvancePropertyDescriptorProvider.MODE_ALPHABETIC )
+			{
+				for ( Iterator it = handle.visiblePropertyIterator( ); it.hasNext( ); )
+				{
+					GroupPropertyHandle property = (GroupPropertyHandle) it.next( );
+
+					items.add( new GroupPropertyHandleWrapper( property ) );
+				}
+			}
+			else if ( viewMode == AdvancePropertyDescriptorProvider.MODE_LOCAL_ONLY )
+			{
+				for ( Iterator it = handle.visiblePropertyIterator( ); it.hasNext( ); )
+				{
+					GroupPropertyHandle property = (GroupPropertyHandle) it.next( );
+					if ( property != null
+							&& property.getLocalStringValue( ) != null )
+						items.add( new GroupPropertyHandleWrapper( property ) );
 				}
 			}
 			return items.toArray( );
@@ -436,35 +492,33 @@ class AdvancedPropertyContentProvider implements ITreeContentProvider
 	public Object[] getElements( Object input )
 	{
 		GroupElementHandle inputElement = DEUtil.getGroupElementHandle( DEUtil.getInputElements( input ) );
-		if ( inputElement instanceof GroupElementHandle )
+
+		PropertySheetRootElement root = new PropertySheetRootElement( inputElement );
+
+		String displayName = null;
+		Object element = ( (GroupElementHandle) inputElement ).getElements( )
+				.get( 0 );
+
+		if ( element instanceof DesignElementHandle )
 		{
-
-			PropertySheetRootElement root = new PropertySheetRootElement( inputElement );
-
-			String displayName = null;
-			Object element = ( (GroupElementHandle) inputElement ).getElements( )
-					.get( 0 );
-
-			if ( element instanceof DesignElementHandle )
-			{
-				displayName = ( (DesignElementHandle) element ).getDefn( )
-						.getDisplayName( );
-
-				if ( displayName == null || "".equals( displayName ) )//$NON-NLS-1$ 
-				{
-					displayName = ( (DesignElementHandle) element ).getDefn( )
-							.getName( );
-				}
-			}
+			displayName = ( (DesignElementHandle) element ).getDefn( )
+					.getDisplayName( );
 
 			if ( displayName == null || "".equals( displayName ) )//$NON-NLS-1$ 
 			{
-				displayName = ROOT_DEFAUL_TITLE;
+				displayName = ( (DesignElementHandle) element ).getDefn( )
+						.getName( );
 			}
-			root.setDisplayName( displayName );
-
-			roots[0] = root;
 		}
+
+		if ( displayName == null || "".equals( displayName ) )//$NON-NLS-1$ 
+		{
+			displayName = ROOT_DEFAUL_TITLE;
+		}
+		root.setDisplayName( displayName );
+
+		roots[0] = root;
+
 		return roots;
 	}
 

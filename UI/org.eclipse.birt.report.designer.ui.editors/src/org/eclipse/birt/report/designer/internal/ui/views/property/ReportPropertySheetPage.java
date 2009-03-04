@@ -23,11 +23,14 @@ import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyTit
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.AlphabeticallyViewSorter;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AdvancePropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.Memento;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoBuilder;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoElement;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -38,13 +41,13 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ColumnLayoutData;
-import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
+import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ICellEditorListener;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
@@ -62,8 +65,11 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.IMemento;
@@ -101,6 +107,7 @@ public class ReportPropertySheetPage extends Page implements
 
 	private static final String COLUMN_TITLE_PROPERTY = Messages.getString( "ReportPropertySheetPage.Column.Title.Property" ); //$NON-NLS-1$
 	private static final String COLUMN_TITLE_VALUE = Messages.getString( "ReportPropertySheetPage.Column.Title.Value" ); //$NON-NLS-1$
+	private static final String VIEW_MODE = "ViewMode"; //$NON-NLS-1$
 
 	private CustomTreeViewer viewer;
 	private ISelection selection;
@@ -120,6 +127,68 @@ public class ReportPropertySheetPage extends Page implements
 	private IMemento propertySheetMemento;
 	private IMemento viewerMemento;
 	protected String propertyViewerID = "Report_Property_Sheet_Page_Viewer_ID"; //$NON-NLS-1$
+	private ToolItem[] sortItems = new ToolItem[3];
+	private ToolItem sortItem;
+
+	private class SortsortItemListener extends SelectionAdapter
+	{
+
+		public void widgetSelected( SelectionEvent e )
+		{
+
+			sortItem = ( (ToolItem) e.widget );
+			if ( sortItem.getSelection( ) == false )
+			{
+				sortItem.setSelection( true );
+				return;
+			}
+			else
+			{
+				if ( sortItem == sortItems[0] )
+				{
+					sortItems[1].setSelection( false );
+					sortItems[2].setSelection( false );
+				}
+				else if ( sortItem == sortItems[1] )
+				{
+					sortItems[0].setSelection( false );
+					sortItems[2].setSelection( false );
+				}
+				else if ( sortItem == sortItems[2] )
+				{
+					sortItems[0].setSelection( false );
+					sortItems[1].setSelection( false );
+				}
+			}
+
+			Memento memento = (Memento) viewerMemento.getChild( getInputElementType( ) );
+			if ( memento != null )
+			{
+				MementoElement element = memento.getMementoElement( )
+						.getChild( VIEW_MODE );
+				if ( element == null )
+				{
+					element = new MementoElement( VIEW_MODE,
+							(Integer) sortItem.getData( ),
+							MementoElement.Type_Element );
+					memento.getMementoElement( ).addChild( element );
+				}
+				else
+				{
+					element.setValue( sortItem.getData( ) );
+				}
+
+				Object obj = ( (Memento) memento ).getMementoElement( )
+						.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
+				if ( obj != null )
+					( (Memento) memento ).getMementoElement( )
+							.setAttribute( MementoElement.ATTRIBUTE_SELECTED,
+									null );
+			}
+			deactivateCellEditor( );
+			execMemento( );
+		}
+	}
 
 	public ReportPropertySheetPage( ModuleHandle module )
 	{
@@ -151,13 +220,42 @@ public class ReportPropertySheetPage extends Page implements
 		viewerContainer.setLayout( layout );
 		viewerContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
+		ToolBar sortBar = new ToolBar( viewerContainer, SWT.NONE );
+		GridData gd = new GridData( );
+		gd.grabExcessHorizontalSpace = true;
+		gd.horizontalAlignment = SWT.END;
+		sortBar.setLayoutData( gd );
+
+		sortItems[0] = new ToolItem( sortBar, SWT.CHECK );
+		SortsortItemListener listener = new SortsortItemListener( );
+		sortItems[0].setToolTipText( Messages.getString("ReportPropertySheetPage.Tooltip.Group") ); //$NON-NLS-1$
+		sortItems[0].setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_GROUP_SORT ) );
+		sortItems[0].setSelection( true );
+		sortItem = sortItems[0];
+
+		sortItems[0].addSelectionListener( listener );
+		sortItems[0].setData( Integer.valueOf( AdvancePropertyDescriptorProvider.MODE_GROUPED ) );
+
+		sortItems[1] = new ToolItem( sortBar, SWT.CHECK );
+		sortItems[1].setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ALPHABETIC_SORT ) );
+		sortItems[1].setToolTipText( Messages.getString("ReportPropertySheetPage.Tooltip.Alphabetic") ); //$NON-NLS-1$
+		sortItems[1].addSelectionListener( listener );
+		sortItems[1].setData( Integer.valueOf( AdvancePropertyDescriptorProvider.MODE_ALPHABETIC ) );
+
+		sortItems[2] = new ToolItem( sortBar, SWT.CHECK );
+		sortItems[2].setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_LOCAL_PROPERTIES ) );
+		sortItems[2].setToolTipText( Messages.getString("ReportPropertySheetPage.Tooltip.Local") ); //$NON-NLS-1$
+		sortItems[2].addSelectionListener( listener );
+		sortItems[2].setData( Integer.valueOf( AdvancePropertyDescriptorProvider.MODE_LOCAL_ONLY ) );
+
 		viewer = new CustomTreeViewer( viewerContainer, SWT.FULL_SELECTION );
 		tableTree = viewer.getTree( );
 		tableTree.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		tableTree.setHeaderVisible( true );
 		tableTree.setLinesVisible( true );
 
-		viewer.setContentProvider( new ReportPropertySheetContentProvider( ) );
+		provider = new ReportPropertySheetContentProvider( );
+		viewer.setContentProvider( provider );
 
 		TreeViewerColumn tvc1 = new TreeViewerColumn( viewer, SWT.NONE );
 		tvc1.getColumn( ).setText( COLUMN_TITLE_PROPERTY ); //$NON-NLS-1$
@@ -272,7 +370,12 @@ public class ReportPropertySheetPage extends Page implements
 				TreeItem item = tableTree.getItem( pt );
 				if ( item != null )
 				{
-					handleSelect( item );
+					if ( tableTree.getColumn( 0 ).getWidth( ) < event.x )
+					{
+						handleSelect( item );
+					}
+					else
+						saveSelection( item );
 				}
 			}
 		} );
@@ -288,11 +391,35 @@ public class ReportPropertySheetPage extends Page implements
 					// Refresh the table when F5 pressed
 					// The following will simulate a reselect
 					viewer.setInput( viewer.getInput( ) );
+					execMemento( );
 				}
 			}
 		} );
 
-		tableTree.addTreeListener( new TreeListener( ) {
+		viewer.addDoubleClickListener( new IDoubleClickListener( ) {
+
+			public void doubleClick( DoubleClickEvent event )
+			{
+				IStructuredSelection selection = (IStructuredSelection) event.getSelection( );
+				Object element = selection.getFirstElement( );
+
+				if ( viewer.isExpandable( element ) )
+				{
+					viewer.setExpandedState( element,
+							!viewer.getExpandedState( element ) );
+					int style = SWT.Expand;
+					if ( !viewer.getExpandedState( element ) )
+						style = SWT.Collapse;
+					Event e = new Event( );
+					e.widget = tableTree;
+					if ( tableTree.getSelectionCount( ) > 0 )
+						e.item = tableTree.getSelection( )[0];
+					tableTree.notifyListeners( style, e );
+				}
+			}
+		} );
+
+		treeListener = new TreeListener( ) {
 
 			public void treeCollapsed( TreeEvent e )
 			{
@@ -345,7 +472,8 @@ public class ReportPropertySheetPage extends Page implements
 
 			}
 
-		} );
+		};
+		tableTree.addTreeListener( treeListener );
 	}
 
 	protected MementoElement[] createItemPath( TreeItem item )
@@ -584,32 +712,6 @@ public class ReportPropertySheetPage extends Page implements
 		return editor;
 	}
 
-	/**
-	 * Create default columns for property sheet page. The default columns are
-	 * Property and value.
-	 */
-	private void addColumns( )
-	{
-
-		TreeColumn column1 = new TreeColumn( tableTree, SWT.LEFT );
-		column1.setText( COLUMN_TITLE_PROPERTY );
-		TreeColumn column2 = new TreeColumn( tableTree, SWT.LEFT );
-		column2.setText( COLUMN_TITLE_VALUE );
-
-		// property column
-		ColumnLayoutData c1Layout = new ColumnWeightData( 40, false );
-
-		// value column
-		ColumnLayoutData c2Layout = new ColumnWeightData( 60, true );
-
-		// set columns in Table layout
-		TableLayout layout = new TableLayout( );
-		layout.addColumnData( c1Layout );
-		layout.addColumnData( c2Layout );
-		tableTree.setLayout( layout );
-
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -640,35 +742,119 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		viewer.refresh( true );
 
-		if ( !viewer.getTree( ).isDisposed( )
-				&& viewer.getInput( ) != null
-				&& viewer.getInput( ) instanceof GroupElementHandle )
+		deactivateCellEditor( );
+		if ( viewer.getInput( ) != null )
 		{
-			GroupElementHandle handle = (GroupElementHandle) viewer.getInput( );
-			Object obj = handle.getElements( ).get( 0 );
+			Object obj = DEUtil.getInputFirstElement( viewer.getInput( ) );
 			if ( obj instanceof DesignElementHandle )
 			{
-				IMemento memento = viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ) );
-				if ( memento == null )
-				{
-					expandToDefaultLevel( );
-					if ( viewer.getTree( ).getItemCount( ) > 0 )
-					{
-						Memento elementMemento = (Memento) viewerMemento.createChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ),
-								MementoElement.Type_Element );
-						elementMemento.getMementoElement( )
-								.setValue( Integer.valueOf( 0 ) );
-					}
-				}
-				if ( memento != null && memento instanceof Memento )
-				{
-					expandToDefaultLevel( );
-					expandTreeFromMemento( (Memento) memento );
-				}
+				execMemento( );
 			}
 		}
 
 		changed = false;
+	}
+
+	private boolean execMemento = false;
+
+	private void execMemento( )
+	{
+		if ( !execMemento )
+		{
+			execMemento = true;
+
+			Display.getDefault( ).asyncExec( new Runnable( ) {
+
+				public void run( )
+				{
+					if ( !viewer.getTree( ).isDisposed( ) )
+					{
+						// deactivateCellEditor( );
+						IMemento memento = viewerMemento.getChild( getInputElementType( ) );
+						if ( memento == null )
+						{
+							provider.setViewMode( (Integer) sortItem.getData( ) );
+							viewer.getTree( ).removeAll( );
+							viewer.refresh( );
+
+							expandToDefaultLevel( );
+
+							if ( viewer.getTree( ).getItemCount( ) > 0 )
+							{
+								Memento elementMemento = (Memento) viewerMemento.createChild( getInputElementType( ),
+										MementoElement.Type_Element );
+								elementMemento.getMementoElement( )
+										.setValue( new Integer( 0 ) );
+								MementoElement element = new MementoElement( VIEW_MODE,
+										(Integer) sortItem.getData( ),
+										MementoElement.Type_Element );
+								elementMemento.getMementoElement( )
+										.addChild( element );
+							}
+						}
+						else if ( memento instanceof Memento )
+						{
+							// expandToDefaultLevel( );
+
+							MementoElement viewModeElement = ( (Memento) memento ).getMementoElement( )
+									.getChild( VIEW_MODE );
+							if ( viewModeElement != null )
+							{
+								int selectIndex = ( (Integer) viewModeElement.getValue( ) ).intValue( );
+
+								if ( selectIndex != provider.getViewMode( ) )
+								{
+									for ( int i = 0; i < sortItems.length; i++ )
+										sortItems[i].setSelection( false );
+									sortItems[selectIndex].setSelection( true );
+
+									provider.setViewMode( selectIndex );
+
+									if ( treeListener != null )
+										viewer.getTree( )
+												.removeTreeListener( treeListener );
+									viewer.getTree( ).removeAll( );
+								}
+								viewer.refresh( );
+								expandToDefaultLevel( );
+								if ( treeListener != null )
+									viewer.getTree( )
+											.addTreeListener( treeListener );
+
+								if ( selectIndex == AdvancePropertyDescriptorProvider.MODE_GROUPED )
+									expandTreeFromMemento( (Memento) memento );
+
+								Object obj = ( (Memento) memento ).getMementoElement( )
+										.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
+								if ( obj != null )
+								{
+									restoreSelectedMemento( viewer.getTree( )
+											.getItem( 0 ),
+											(MementoElement[]) obj );
+								}
+							}
+
+						}
+					}
+					execMemento = false;
+				}
+			} );
+
+		}
+
+	}
+
+	private String getInputElementType( )
+	{
+		GroupElementHandle handle = (GroupElementHandle) viewer.getInput( );
+		if ( handle == null || handle.getElements( ).size( ) == 0 )
+			return null;
+		Object obj = handle.getElements( ).get( 0 );
+		if ( obj instanceof DesignElementHandle )
+		{
+			return PropertyMementoUtil.getElementType( (DesignElementHandle) obj );
+		}
+		return null;
 	}
 
 	public void selectionChanged( IWorkbenchPart part, ISelection selection )
@@ -721,6 +907,11 @@ public class ReportPropertySheetPage extends Page implements
 								MementoElement.Type_Element );
 						elementMemento.getMementoElement( )
 								.setValue( Integer.valueOf( 0 ) );
+						MementoElement mementoElement = new MementoElement( VIEW_MODE,
+								(Integer) sortItem.getData( ),
+								MementoElement.Type_Element );
+						elementMemento.getMementoElement( )
+								.addChild( mementoElement );
 					}
 				}
 				else if ( memento instanceof Memento )
@@ -884,6 +1075,8 @@ public class ReportPropertySheetPage extends Page implements
 	}
 
 	private boolean changed = false;
+	private ReportPropertySheetContentProvider provider;
+	private TreeListener treeListener;
 
 	/*
 	 * (non-Javadoc)
@@ -910,6 +1103,10 @@ public class ReportPropertySheetPage extends Page implements
 								MementoElement.Type_Element );
 						elementMemento.getMementoElement( )
 								.setValue( Integer.valueOf( 0 ) );
+						MementoElement element = new MementoElement( VIEW_MODE,
+								(Integer) sortItem.getData( ),
+								MementoElement.Type_Element );
+						elementMemento.getMementoElement( ).addChild( element );
 					}
 				}
 				if ( memento != null && memento instanceof Memento )

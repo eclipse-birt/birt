@@ -483,6 +483,15 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_ALPHABETIC_SORT, ICONS_PATH
 				+ OBJ16_PATH
 				+ "alpha_sort.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_GROUP_SORT, ICONS_PATH
+				+ OBJ16_PATH
+				+ "group_sort.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_LOCAL_PROPERTIES, ICONS_PATH
+				+ OBJ16_PATH
+				+ "local_prop.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_ALPHABETIC_SORT, ICONS_PATH
+				+ OBJ16_PATH
+				+ "alpha_sort.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR,
 				ICONS_PATH + OBJ16_PATH + "operator.gif" ); //$NON-NLS-1$
 

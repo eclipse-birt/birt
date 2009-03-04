@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
 import org.eclipse.birt.report.designer.core.model.views.property.PropertySheetRootElement;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AdvancePropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
@@ -33,6 +34,22 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider
 
 	private static final String ROOT_DEFAUL_TITLE = Messages.getString( "ReportPropertySheetPage.Root.Default.Title" ); //$NON-NLS-1$
 
+	public final static int MODE_GROUPED = 0;
+	public final static int MODE_ALPHABETIC = 1;
+	public final static int MODE_LOCAL_ONLY = 2;
+
+	private int viewMode = AdvancePropertyDescriptorProvider.MODE_GROUPED;
+
+	public void setViewMode( int mode )
+	{
+		this.viewMode = mode;
+	}
+
+	public int getViewMode( )
+	{
+		return this.viewMode;
+	}
+
 	public Object[] getChildren( Object parentElement )
 	{
 		if ( parentElement instanceof List )
@@ -42,25 +59,47 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider
 		if ( parentElement instanceof PropertySheetRootElement )
 		{
 			ArrayList items = new ArrayList( );
-			HashMap map = new HashMap( );
-			GroupElementHandle handle =  ( (PropertySheetRootElement) parentElement ).getModel( );
+			GroupElementHandle handle = (GroupElementHandle) ( (PropertySheetRootElement) parentElement ).getModel( );
 
-			for ( Iterator it = handle.visiblePropertyIterator( ); it.hasNext( ); )
+			if ( viewMode == AdvancePropertyDescriptorProvider.MODE_GROUPED )
 			{
-				GroupPropertyHandle property = (GroupPropertyHandle) it.next( );
-				IElementPropertyDefn defn = property.getPropertyDefn( );
-				if ( defn.getGroupNameKey( ) == null )
-					items.add( new GroupPropertyHandleWrapper( property ) );
-				else
+				HashMap map = new HashMap( );
+				for ( Iterator it = handle.visiblePropertyIterator( ); it.hasNext( ); )
 				{
-					List group = (List) map.get( defn.getGroupNameKey( ) );
-					if ( group == null )
+					GroupPropertyHandle property = (GroupPropertyHandle) it.next( );
+					IElementPropertyDefn defn = property.getPropertyDefn( );
+					if ( defn.getGroupNameKey( ) == null )
+						items.add( new GroupPropertyHandleWrapper( property ) );
+					else
 					{
-						group = new ArrayList( );
-						items.add( group );
-						map.put( defn.getGroupNameKey( ), group );
+						List group = (List) map.get( defn.getGroupNameKey( ) );
+						if ( group == null )
+						{
+							group = new ArrayList( );
+							items.add( group );
+							map.put( defn.getGroupNameKey( ), group );
+						}
+						group.add( new GroupPropertyHandleWrapper( property ) );
 					}
-					group.add( new GroupPropertyHandleWrapper( property ) );
+				}
+			}
+			else if ( viewMode == AdvancePropertyDescriptorProvider.MODE_ALPHABETIC )
+			{
+				for ( Iterator it = handle.visiblePropertyIterator( ); it.hasNext( ); )
+				{
+					GroupPropertyHandle property = (GroupPropertyHandle) it.next( );
+
+					items.add( new GroupPropertyHandleWrapper( property ) );
+				}
+			}
+			else if ( viewMode == AdvancePropertyDescriptorProvider.MODE_LOCAL_ONLY )
+			{
+				for ( Iterator it = handle.visiblePropertyIterator( ); it.hasNext( ); )
+				{
+					GroupPropertyHandle property = (GroupPropertyHandle) it.next( );
+					if ( property != null
+							&& property.getLocalStringValue( ) != null )
+						items.add( new GroupPropertyHandleWrapper( property ) );
 				}
 			}
 			return items.toArray( );

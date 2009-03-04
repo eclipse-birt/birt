@@ -36,6 +36,7 @@ public class AdvancePropertyPage extends AttributePage
 				container,
 				true,
 				false );
+		propertySection.setHeight( 200 );
 		propertySection.setProvider( provider );
 		propertySection.setFillControl( true );
 		addSection( PageSectionId.ADVANCE_PROPERTY, propertySection );

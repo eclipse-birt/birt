@@ -455,4 +455,8 @@ public interface IReportGraphicConstants
 	
 	//bidi_hcg BiDi-specific property
 	public static final String REPORT_BIDIORIENTATION_PROPERTY = "bidiLayoutOrientation";//$NON-NLS-1$ 
+
+	public static final String ICON_GROUP_SORT = "GroupSort";
+
+	public static final String ICON_LOCAL_PROPERTIES = "LocalProperties";
 }
