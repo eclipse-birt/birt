@@ -183,6 +183,9 @@ public interface IHelpContextIds
 
 	public static final String ADD_LIBRARY_DIALOG_ID = PREFIX
 			+ "AddLibraryDialog_ID"; //$NON-NLS-1$
+	
+	public static final String ADD_RESOURCE_DIALOG_ID = PREFIX
+	+ "AddResourceDialog_ID"; //$NON-NLS-1$
 
 	public static final String COLUMNBINDING_DIALOG_ID = PREFIX
 			+ "ColumnBindingDialog_ID"; //$NON-NLS-1$

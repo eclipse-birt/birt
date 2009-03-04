@@ -165,14 +165,8 @@ public class WizardResourceSettingPage extends WizardPage
 	 */
 	public void createControl( Composite parent )
 	{
-		if ( type == PublishResourceWizard.HAVE_NO_HANDLE )
-		{
-			UIUtil.bindHelp( parent, IHelpContextIds.ADD_LIBRARY_DIALOG_ID );
-		}
-		else
-		{
-			UIUtil.bindHelp( parent, IHelpContextIds.PUBLISH_LIBRARY_WIZARD_ID );
-		}
+
+		UIUtil.bindHelp( parent, IHelpContextIds.ADD_RESOURCE_DIALOG_ID );
 
 		Composite container = new Composite( parent, SWT.NONE );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
