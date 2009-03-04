@@ -63,7 +63,6 @@ public class LabelItemParserTest extends ParserTestCase
 {
 
 	String fileName = "LabelItemParseTest.xml"; //$NON-NLS-1$
-	String outFileName = "LabelItemtParseTest_out.xml"; //$NON-NLS-1$
 	String goldenFileName = "LabelItemParseTest_golden.xml"; //$NON-NLS-1$
 	String semanticCheckFileName = "LabelItemParseTest_1.xml"; //$NON-NLS-1$
 

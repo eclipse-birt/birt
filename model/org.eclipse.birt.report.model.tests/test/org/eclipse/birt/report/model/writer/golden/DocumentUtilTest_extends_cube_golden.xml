@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.v20070525 Build &lt;2.2.0.v20070525-1114></property>
-    <property name="units">in</property>
-    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
-    <html-property name="description">Creates a blank report with no predefined content.</html-property>
-    <text-property name="displayName">Blank Report</text-property>
-    <property name="iconFile">/templates/blank_report.gif</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="18">
             <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
@@ -21,13 +15,9 @@
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="17">
             <property name="dataSource">Data Source1</property>
-            <property name="queryText">select *
-from CLASSICMODELS.CUSTOMERS</property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set1" id="25">
             <property name="dataSource">Data Source1</property>
-            <property name="queryText">select *
-from CLASSICMODELS.CUSTOMERS</property>
         </oda-data-set>
     </data-sets>
     <cubes>
@@ -130,16 +120,6 @@ from CLASSICMODELS.CUSTOMERS</property>
             <property name="dataSet">Data Set1</property>
         </tabular-cube>
     </cubes>
-    <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
-        </simple-master-page>
-    </page-setup>
     <body>
         <extended-item extensionName="TestingTable" name="NewExtension Table" id="19">
             <property name="level">Group2/CUSTOMERNUMBER</property>

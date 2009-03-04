@@ -8,10 +8,10 @@
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet2" id="3">
-            <property name="queryText"></property>
+        	<xml-property name="queryText"><![CDATA[]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet3" id="4">
-            <property name="queryText">  </property>
+        	<xml-property name="queryText"><![CDATA[  ]]></xml-property>
         </oda-data-set>
     </data-sets>
 </report>

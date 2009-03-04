@@ -1,44 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.0.1 Build &lt;20060222-1204></property>
-    <property name="units">in</property>
-    <text-property name="displayName">rpt100</text-property>
-    <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="sqlserver" id="66">
-            <property name="odaDriverClass">net.sourceforge.jtds.jdbc.Driver</property>
-            <property name="odaURL">jdbc:jtds:sqlserver://192.168.30.67:1433;databaseName=BIRT_test</property>
-            <property name="odaUser">actest</property>
-            <encrypted-property name="odaPassword" encryptionID="base64">c3lzVGVzdA==</encrypted-property>
-        </oda-data-source>
-    </data-sources>
-    <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="sqlSet" id="67">
-            <list-property name="computedColumns">
-                <structure>
-                    <property name="name">Group</property>
-                    <expression name="expression">row["Category"] / 10000 - 0.5</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">Subgroup</property>
-                    <expression name="expression">row["Category"] / 100 - 0.5</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-            </list-property>
-            <property name="dataSource">sqlserver</property>
-            <property name="queryText">select dbo.rpt100.Category, dbo.rpt100.SubCat, dbo.rpt100.QTR1, dbo.rpt100.QTR2, dbo.rpt100.QTR3, dbo.rpt100.QTR4
-from dbo.rpt100
-</property>
-        </oda-data-set>
-    </data-sets>
-    <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-        	<property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
-        </simple-master-page>
-    </page-setup>
     <body>
         <table id="196">
             <property name="width">100%</property>

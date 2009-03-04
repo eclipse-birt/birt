@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
+    <data-sources>
+        <oda-data-source name="myDataSource1" extensionID="org.eclipse.birt.report.data.oda.jdbc" id="2">
+			<text-property name="displayName">My Data Source One</text-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+		<oda-data-set name="myDataSet1" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+            <xml-property name="queryText"><![CDATA[ test ]]&gt; test  ]]></xml-property>
+        </oda-data-set>
+        <oda-data-set name="myDataSet2" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+            <xml-property name="queryText"><![CDATA[select * from CLASSICMODELS.CUSTOMERS]]></xml-property>
+        </oda-data-set>
+        <oda-data-set name="myDataSet3" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+            <xml-property name="queryText"><![CDATA[    ]]></xml-property>
+        </oda-data-set>                
+    </data-sets>
+</report>

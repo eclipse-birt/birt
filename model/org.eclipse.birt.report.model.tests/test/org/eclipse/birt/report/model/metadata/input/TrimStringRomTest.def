@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
+<ReportMetaData>	
+<Element name="ReportDesign" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" displayNameID="Element.ReportDesign" isAbstract="false" allowsUserProperties="true" canExtend="false" hasStyle="false" nameSpace="none" selector="report" xmlName="report">
+	<Property displayNameID="Element.ReportDesign.noTrim" name="noTrim" since="1.0" trimOption="noTrim" type="xml" />
+	<Property displayNameID="Element.ReportDesign.trimSpace" name="trimSpace" since="1.0" trimOption="trimSpace" type="xml" />
+	<Property displayNameID="Element.ReportDesign.trimEmptyToNull" name="trimEmptyToNull" since="1.0" trimOption="trimEmptyToNull" type="xml" />
+	<Property displayNameID="Element.ReportDesign.trimEmptyAndNull" name="trimEmptyAndNull" since="1.0" trimOption="trimSpace;trimEmptyToNull" type="xml" />
+	<Property displayNameID="Element.ReportDesign.noTrimOptionValue" name="noTrimOptionValue" since="1.0" type="xml" />
+</Element>
+<Element name="ReportElement" displayNameID="Element.ReportElement" isAbstract="true" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none"/>
+<Element name="Style" javaClass="org.eclipse.birt.report.model.elements.Style" displayNameID="Element.Style" isAbstract="false" extends="ReportElement" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="(ReportDesign,style)" isNameRequired="true" xmlName="style"/>
+</ReportMetaData>

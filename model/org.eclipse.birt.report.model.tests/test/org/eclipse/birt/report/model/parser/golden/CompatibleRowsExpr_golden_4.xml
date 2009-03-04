@@ -1,36 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.0.1 Build &lt;20060222-1204></property>
-    <property name="units">in</property>
-    <data-sources>
-        <oda-data-source extensionID="org.eclipse.datatools.enablement.oda.xml" name="CustomerOfferXMLDatenquelle" id="393">
-            <property name="FILELIST">C:\tmp\CustomerOffer.xml</property>
-        </oda-data-source>
-    </data-sources>
-    <data-sets>
-        <oda-data-set extensionID="org.eclipse.datatools.enablement.oda.xml.dataSet" name="OfferPosition" id="403">
-            <property name="dataSource">CustomerOfferXMLDatenquelle</property>
-            <property name="queryText">table0#-TNAME-#table0#:#[/GloConDocuments/GloConDocument/positionText]#:#{position_uid;String;/position_uid},{positionNoLabel;String;../labels/positionNo},{positionNo;String;/positionNo},{textLine;String;/textLine},{receiverLabel;String;../labels/receiverLabel},{receiverCompanyName;String;../receiver/companyName},{receiverLocation;String;../receiver/location},{receiverLastname;String;../receiver/lastname},{receiverFirstname;String;../receiver/firstname},{receiverSalutation;String;../receiver/salutation},{receiverStreet;String;../receiver/street},{receiverCity;String;../receiver/city},{receiverCountry;String;../receiver/country},{receiverTel;String;../receiver/tel},{receiverFax;String;../receiver/fax},{receiverEmail;String;../receiver/email},{senderLabel;String;../labels/senderLabel},{senderCompany;String;../senderCompany},{signatureLine1;String;../signatureLine1},{signatureLine2;String;../signatureLine2},{payableLabel;String;../labels/payable},{payable;String;/payable},{courierLabel;String;../labels/courier},{courier;String;/courier},{additionalTextDetails;String;/additionalTextDetails},{validityLabel;String;../labels/validity},{validity;String;/validity},{transportUnitsLabel;String;../transportLabels/transportUnits},{senderStreet;String;../senderStreet},{senderCity;String;../senderCity},{senderCountry;String;../senderCountry},{senderPhone;String;../senderPhone},{senderFax;String;../senderFax},{senderEmail;String;../senderEmail},{offerLabel;String;../offerLabel},{phoneLabel;String;../labels/phone},{faxLabel;String;../labels/fax},{emailLabel;String;../labels/email},{dateLabel;String;../labels/date},{toLabel;String;../labels/to},{offerNoLabel;String;../labels/offerNo},{dateFromLabel;String;../labels/dateFromLabel},{offerTextLabel;String;../labels/offerTextLabel},{offerNoText;String;../offerNoText},{date;String;../date},{receiverPostbox;String;../receiver/postbox},{priceTextLabel;String;../priceLabels/priceText},{priceDescriptionLabel;String;../priceLabels/descriptionLabel},{priceRemarkLabel;String;../priceLabels/remarkLabel},{singlePriceLabel;String;../priceLabels/singlePriceLabel},{priceCountLabel;String;../priceLabels/countLabel},{totalPriceLabel;String;../priceLabels/totalPriceLabel},{priceCurrencyLabel;String;../priceLabels/currency},{transportPositionLabel;String;../transportLabels/positionLabel},{transportCountLabel;String;../transportLabels/countLabel},{transportDescriptionLabel;String;../transportLabels/descriptionLabel},{transportMeasureLabel;String;../transportLabels/measureLabel},{transportWeightLabel;String;../transportLabels/weightLabel},{transportKindOfGoodsLabel;String;../transportLabels/kindOfGoodsLabel},{transportImoClassLabel;String;../transportLabels/imoClassLabel}</property>
-        </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.datatools.enablement.oda.xml.dataSet" name="TransportUnit" id="409">
-            <property name="dataSource">CustomerOfferXMLDatenquelle</property>
-            <property name="queryText">table0#-TNAME-#table0#:#[/GloConDocuments/GloConDocument/transportUnit]#:#{tu_position_uid;String;/position_uid},{position;String;/position},{count;String;/count},{description;String;/description},{measure;String;/measure},{weight;String;/weight},{kindOfGoods;String;/kindOfGoods},{imoClass;String;/imoClass}</property>
-        </oda-data-set>
-        <oda-data-set extensionID="org.eclipse.datatools.enablement.oda.xml.dataSet" name="PricePosition" id="801">
-            <property name="dataSource">CustomerOfferXMLDatenquelle</property>
-            <property name="queryText">table0#-TNAME-#table0#:#[/GloConDocuments/GloConDocument/price]#:#{price_Position_uid;String;/position_uid},{description;String;/description},{remark;String;/remark},{singlePriceCurrency;String;/singlePriceCurrency},{singlePrice;String;/singlePrice},{count;String;/count},{totalPriceCurrency;String;/totalPriceCurrency},{totalPrice;String;/totalPrice}</property>
-        </oda-data-set>
-    </data-sets>
-    <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-            <property name="type">a4</property>
-            <property name="orientation">landscape</property>
-            <property name="topMargin">15mm</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
-        </simple-master-page>
-    </page-setup>
     <body>
         <table id="176">
             <property name="width">100%</property>

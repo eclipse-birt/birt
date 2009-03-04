@@ -51,9 +51,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Tests oda data set case.
- * <table border="1" cellpadding="0" cellspacing="0" * * * * * * * * * * * * *
- * style="border-collapse: collapse" bordercolor="#111111" width="100%" * * * *
- * * * * * * * * * * id="AutoNumber6">
+ * <table border="1" cellpadding="0" cellspacing="0" * * * * * * * * * * * * * * style="border-collapse: collapse" bordercolor="#111111" width="100%" * * * * * * * * * * * * * * id="AutoNumber6">
  * 
  * <tr>
  * <td width="33%"><b>Method </b></td>
@@ -89,17 +87,16 @@ public class OdaDataSetParseTest extends BaseTestCase
 {
 
 	String fileName = "OdaDataSetParseTest.xml"; //$NON-NLS-1$
-
-	String outFileName = "OdaDataSetParseTest_out.xml"; //$NON-NLS-1$
 	String goldenFileName = "OdaDataSetParseTest_golden.xml"; //$NON-NLS-1$
 
 	String queryTextInputFileName = "OdaDataSetParseTest_1.xml";//$NON-NLS-1$
-	String queryTextOutFileName = "OdaDataSetQueryTextParseTest_out.xml";//$NON-NLS-1$
 	String queryTextGoldenFileName = "OdaDataSetQueryTextParseTest_golden.xml";//$NON-NLS-1$
 
 	String obsoleteFileName = "OdaDataSetParseTest_obsolete.xml"; //$NON-NLS-1$
-	String obsoleteOutFileName = "OdaDataSetParseTest_obsolete_out.xml";//$NON-NLS-1$
 	String obsoleteGoldenFileName = "OdaDataSetParseTest_obsolete_golden.xml";//$NON-NLS-1$
+
+	String queryTextInputFileName2 = "OdaDataSetParseTest_3.xml";//$NON-NLS-1$
+	String queryTextGoldenFileName2 = "OdaDataSetParseTest_golden_3.xml";//$NON-NLS-1$
 
 	/*
 	 * @see BaseTestCase#setUp()
@@ -570,7 +567,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( queryTextGoldenFileName ) );
 	}
-	
+
 	/**
 	 * Tests all properties on an data set. JdbcSelectDataSet is used.
 	 * 
@@ -920,5 +917,30 @@ public class OdaDataSetParseTest extends BaseTestCase
 		assertNotNull( dataSet );
 
 		return dataSet;
+	}
+
+	/**
+	 * Tests query text property.
+	 */
+	public void testQueryText( ) throws Exception
+	{
+		openDesign( queryTextInputFileName2 );
+
+		OdaDataSetHandle odaHandle = (OdaDataSetHandle) designHandle
+				.findDataSet( "myDataSet1" ); //$NON-NLS-1$
+
+		assertEquals( " test ]]> test  ", odaHandle.getQueryText( ) ); //$NON-NLS-1$
+
+		odaHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet2" ); //$NON-NLS-1$
+
+		assertEquals(
+				"select * from CLASSICMODELS.CUSTOMERS", odaHandle.getQueryText( ) ); //$NON-NLS-1$
+
+		odaHandle
+				.setQueryText( "  select * from CLASSICMODELS.CUSTOMERS test ]]> test  " ); //$NON-NLS-1$
+
+		save( );
+
+		assertTrue( compareFile( queryTextGoldenFileName2 ) );
 	}
 }

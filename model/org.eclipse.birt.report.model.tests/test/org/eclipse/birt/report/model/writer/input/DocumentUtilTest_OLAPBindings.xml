@@ -33,16 +33,6 @@
             </overridden-values>
         </tabular-cube>
     </cubes>
-    <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
-        </simple-master-page>
-    </page-setup>
     <body>
         <extended-item extensionName="TestingTable" name="NewExtension Table1" extends="lib1.NewExtension Table1"
  id="19">

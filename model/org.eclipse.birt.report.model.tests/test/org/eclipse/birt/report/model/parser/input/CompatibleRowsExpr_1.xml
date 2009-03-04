@@ -1,39 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.1" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060411-2230 Build &lt;20060411-2230></property>
-    <property name="units">in</property>
-    <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
-            <text-property name="displayName">Data Source</text-property>
-            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
-            <property name="odaURL">jdbc:classicmodels:sampledb</property>
-            <property name="odaUser">ClassicModels</property>
-        </oda-data-source>
-    </data-sources>
-    <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
-            <text-property name="displayName">Data Set</text-property>
-            <property name="dataSource">Data Source</property>
-            <property name="queryText">SELECT CLASSICMODELS.CUSTOMERS.CUSTOMERNUMBER,
-       CLASSICMODELS.CUSTOMERS.CUSTOMERNAME,
-       CLASSICMODELS.CUSTOMERS.COUNTRY,
-       CLASSICMODELS.CUSTOMERS.SALESREPEMPLOYEENUMBER
- FROM  CLASSICMODELS.CUSTOMERS,
-       CLASSICMODELS.EMPLOYEES
- WHERE CLASSICMODELS.EMPLOYEES.EMPLOYEENUMBER=CLASSICMODELS.CUSTOMERS.SALESREPEMPLOYEENUMBER</property>
-        </oda-data-set>
-    </data-sets>
-    <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
-        </simple-master-page>
-    </page-setup>
     <body>
         <table id="6">
             <property name="width">100%</property>

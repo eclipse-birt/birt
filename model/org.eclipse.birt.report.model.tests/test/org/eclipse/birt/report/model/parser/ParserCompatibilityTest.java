@@ -546,8 +546,8 @@ public class ParserCompatibilityTest extends BaseTestCase
 	 * new OdaDataSet.resultSet.
 	 * <p>
 	 * The rule is by taking 1) the current ResultSet�s column name as the
-	 * �nativeName�, and 2) the ResultSetHints�s column name as the
-	 * �name�, in the merged OdaResultSetColumn structure.
+	 * �nativeName�, and 2) the ResultSetHints�s column name as the �name�, in
+	 * the merged OdaResultSetColumn structure.
 	 * 
 	 * 
 	 * @throws Exception
@@ -607,8 +607,9 @@ public class ParserCompatibilityTest extends BaseTestCase
 	/**
 	 * <ul>
 	 * <li>Tests toc backward.This function apply after version 3.2.9. TOC
-	 * expression string to the TOC structure. <li>for version between 3 and
-	 * 3.2.8, if no TOC specified, uses key expression as TOC.
+	 * expression string to the TOC structure.
+	 * <li>for version between 3 and 3.2.8, if no TOC specified, uses key
+	 * expression as TOC.
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -932,10 +933,25 @@ public class ParserCompatibilityTest extends BaseTestCase
 	 */
 	public void testEncryptionForPropertyBindingValue( ) throws Exception
 	{
-		openDesign("CompatiblePropertyBindingTest.xml"); //$NON-NLS-1$
-		
-		save();
-		assertTrue(compareFile("CompatiblePropertyBindingTest_golden.xml")); //$NON-NLS-1$
+		openDesign( "CompatiblePropertyBindingTest.xml" ); //$NON-NLS-1$
+
+		save( );
+		assertTrue( compareFile( "CompatiblePropertyBindingTest_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests query text property parser compatibility. The contents in the
+	 * property should be kept when the query text property is converted to
+	 * literal XML.
+	 * 
+	 * @throws Exception
+	 */
+	public void testQueryTextParser( ) throws Exception
+	{
+		openDesign( "CompatibleQueryTextParseTest.xml" ); //$NON-NLS-1$ 	
+		save( );
+		assertTrue( compareFile( "CompatibleQueryTextParseTest_golden.xml" ) ); //$NON-NLS-1$
+
 	}
 	
 	/**

@@ -66,6 +66,7 @@ public class AllMetadataTests
 		test.addTestSuite( URIPropertyTypeTest.class );
 		test.addTestSuite( ValidatorTriggerTest.class );
 		test.addTestSuite( XMLPropertyTypeTest.class );
+		test.addTestSuite( MetaDataStringTrimTest.class );
 
 		// add all test classes here
 

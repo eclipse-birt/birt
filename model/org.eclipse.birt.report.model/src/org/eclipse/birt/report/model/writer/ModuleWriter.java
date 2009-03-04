@@ -623,8 +623,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( value == null )
 			return null;
 
-		if ( propDefn instanceof ExtensionPropertyDefn
-				&& ( (ExtensionPropertyDefn) propDefn ).hasOwnModel( ) )
+		if ( ModelUtil.isExtensionPropertyOwnModel( propDefn ) )
 			return value;
 
 		// the sequence matters. Do not change.
@@ -3338,7 +3337,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( (String) obj.getLocalProperty( getModule( ),
 				IOdaDataSetModel.QUERY_TEXT_PROP ) != null )
 		{
-			property( obj, IOdaDataSetModel.QUERY_TEXT_PROP );
+			propertyCDATA( obj, IOdaDataSetModel.QUERY_TEXT_PROP );
 		}
 
 		property( obj, IOdaDataSetModel.RESULT_SET_NAME_PROP );

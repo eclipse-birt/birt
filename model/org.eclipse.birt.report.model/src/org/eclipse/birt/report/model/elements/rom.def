@@ -1863,7 +1863,7 @@
     <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string">
     	<Trigger validator="ExtensionValidator"/>
     </Property>
-    <Property displayNameID="Element.OdaDataSet.queryText" name="queryText" since="1.0" type="literalString"/>
+    <Property displayNameID="Element.OdaDataSet.queryText" name="queryText" since="1.0" trimOption="noTrim" type="xml" />
     <Property displayNameID="Element.OdaDataSet.resultSetName" name="resultSetName" since="reserved" type="string"/>
     <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.privateDriverProperties" isList="true" name="privateDriverProperties" since="1.0" type="structure"/>
     <Property detailType="OdaDesignerState" displayNameID="Element.OdaDataSet.designerState" name="designerState" since="2.1" type="structure"/>    

@@ -43,25 +43,25 @@ class CompatibleCDATATextPropertyState extends TextPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetProperty(org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetProperty
+	 * (org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
 	protected void doSetProperty( PropertyDefn propDefn, Object valueToSet )
 	{
 		if ( valueToSet == null )
 			return;
-		
+
 		assert valueToSet instanceof String;
 
 		// Validate the value.
 
 		String newValue = (String) valueToSet;
-		newValue = CompatibleCDATAPropertyState.deEscape( newValue );
-		
+		newValue = deEscape( newValue );
+
 		super.doSetProperty( propDefn, newValue );
 	}
-	
 
 	/*
 	 * (non-Javadoc)
@@ -77,7 +77,9 @@ class CompatibleCDATATextPropertyState extends TextPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.ExpressionState#versionConditionalJumpTo()
+	 * @see
+	 * org.eclipse.birt.report.model.parser.ExpressionState#versionConditionalJumpTo
+	 * ()
 	 */
 
 	protected AbstractParseState versionConditionalJumpTo( )

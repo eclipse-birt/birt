@@ -212,6 +212,12 @@ public class MetaDataParserException extends XMLParserException
 	public static final String DESIGN_EXCEPTION_MISSING_SUB_TYPE = "MISSING_SUB_TYPE"; //$NON-NLS-1$
 
 	/**
+	 * Error code constants indicating that the value of a property is invalid.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INVALID_TRIM_OPTION = "INVALID_TRIM_OPTION"; //$NON-NLS-1$
+
+	/**
 	 * Constructs an exception given the file name and error code.
 	 * 
 	 * @param name

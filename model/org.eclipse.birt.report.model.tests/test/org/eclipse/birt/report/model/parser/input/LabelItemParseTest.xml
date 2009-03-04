@@ -7,22 +7,11 @@
     <data-sets>
         <oda-data-set name="firstDataSet">
             <property name="dataSource">myDataSource</property>
-            <property name="queryText">SELECT * FROM Customers</property>
         </oda-data-set>
         <oda-data-set name="secondDataSet">
             <property name="dataSource">myDataSource</property>
-            <property name="queryText">SELECT * FROM Customers</property>
         </oda-data-set>
     </data-sets>
-    <styles>
-        <style name="My-Style">
-            <property name="backgroundColor">yellow</property>
-            <property name="fontFamily">Times</property>
-            <property name="fontSize">12mm</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">red</property>
-        </style>
-    </styles>
     <components>
         <label name="base">
             <property name="x">6mm</property>

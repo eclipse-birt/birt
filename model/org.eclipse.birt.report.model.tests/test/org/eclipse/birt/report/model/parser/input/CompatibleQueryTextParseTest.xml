@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+    <data-sets>
+		<oda-data-set name="myDataSet1" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+            <property name="queryText">   </property>
+        </oda-data-set>
+        <oda-data-set name="myDataSet2" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+            <property name="queryText">  select * from CLASSICMODELS.CUSTOMERS ]]&gt;  </property>
+        </oda-data-set>               
+    </data-sets>
+</report>

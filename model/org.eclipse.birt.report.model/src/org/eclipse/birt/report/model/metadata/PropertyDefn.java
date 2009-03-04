@@ -93,6 +93,12 @@ public abstract class PropertyDefn
 	protected String displayNameID = null;
 
 	/**
+	 * The trim option value.
+	 * 
+	 */
+	protected int trimOption = XMLPropertyType.NO_VALUE;
+
+	/**
 	 * Default unit of the dimension property. Some properties have special
 	 * default unit, sucha as font-size, margin and so on. Other properties
 	 * share the default unit set on the report design.
@@ -499,6 +505,7 @@ public abstract class PropertyDefn
 				}
 				details = elementTypes;
 				break;
+
 		}
 
 		if ( isValueRequired( ) )
@@ -578,6 +585,14 @@ public abstract class PropertyDefn
 				}
 			}
 		}
+
+		if ( getTypeCode( ) == IPropertyType.XML_TYPE
+				&& getTrimOption( ) == XMLPropertyType.NO_VALUE )
+		{
+			setTrimOption( XMLPropertyType.TRIM_SPACE_VALUE
+					| XMLPropertyType.TRIM_EMPTY_TO_NULL_VALUE );
+		}
+
 	}
 
 	/**
@@ -1540,12 +1555,32 @@ public abstract class PropertyDefn
 	}
 
 	/**
+	 * Set the trim option value.
+	 * 
+	 * @param value
+	 *            trim option value.
+	 */
+	protected void setTrimOption( int trimOption )
+	{
+		this.trimOption = trimOption;
+	}
+
+	/**
+	 * Gets the trim option value.
+	 * 
+	 * @return trim option value.
+	 */
+	int getTrimOption( )
+	{
+		return trimOption;
+	}
+
+	/**
 	 * Set the context for a method or expression.
 	 * 
 	 * @param value
 	 *            the context to set
 	 */
-
 	public void setContext( String value )
 	{
 		context = value;

@@ -97,6 +97,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
@@ -184,7 +185,7 @@ public class ModelUtil
 		{
 			return defn.getStringValue( module, value );
 		}
-		
+
 		if ( value instanceof ReferenceValue )
 			return ReferenceValueUtil.needTheNamespacePrefix(
 					(ReferenceValue) value, module );
@@ -477,10 +478,12 @@ public class ModelUtil
 	 * Clones the value.
 	 * <ul>
 	 * <li>If the value is of simple type, like integer, or string, the original
-	 * value will be returned. <li>If the value is strcuture list, the cloned
-	 * structure list will be cloned. <li>If the value is structure, the cloned
-	 * structure will be cloned. <li>If the value is element/strucuture
-	 * reference value, the element/structure name will be returned.
+	 * value will be returned.
+	 * <li>If the value is strcuture list, the cloned structure list will be
+	 * cloned.
+	 * <li>If the value is structure, the cloned structure will be cloned.
+	 * <li>If the value is element/strucuture reference value, the
+	 * element/structure name will be returned.
 	 * </ul>
 	 * 
 	 * @param propDefn
@@ -499,10 +502,12 @@ public class ModelUtil
 	 * Clones the value.
 	 * <ul>
 	 * <li>If the value is of simple type, like integer, or string, the original
-	 * value will be returned. <li>If the value is strcuture list, the cloned
-	 * structure list will be cloned. <li>If the value is structure, the cloned
-	 * structure will be cloned. <li>If the value is element/strucuture
-	 * reference value, the element/structure name will be returned.
+	 * value will be returned.
+	 * <li>If the value is strcuture list, the cloned structure list will be
+	 * cloned.
+	 * <li>If the value is structure, the cloned structure will be cloned.
+	 * <li>If the value is element/strucuture reference value, the
+	 * element/structure name will be returned.
 	 * </ul>
 	 * 
 	 * @param propDefn
@@ -1164,14 +1169,14 @@ public class ModelUtil
 	 * will throw semantic exception:
 	 * 
 	 * <ul>
-	 * <li>design file and library in the same folder:</li> <li> <list-property
-	 * name="libraries"> <structure> <property
+	 * <li>design file and library in the same folder:</li>
+	 * <li><list-property name="libraries"> <structure> <property
 	 * name="fileName">lib.xml</property> <property
 	 * name="namespace">lib</property> </structure> </list-property></li>
 	 * </ul>
 	 * <ul>
-	 * <li>folder of design file is "C:\design"</li> <li><list-property
-	 * name="libraries"> <structure> <property
+	 * <li>folder of design file is "C:\design"</li>
+	 * <li><list-property name="libraries"> <structure> <property
 	 * name="fileName">..\test\lib.xml</property> <property
 	 * name="namespace">lib</property> </structure> </list-property></li>
 	 * </ul>
@@ -1486,8 +1491,10 @@ public class ModelUtil
 	 * type is structure or structure list, this method can not be used.
 	 * 
 	 * <ul>
-	 * <li>EXPRESSION_TAG, if the property is expression; <li>XML_PROPERTY_TAG,
-	 * if the property is xml; <li>METHOD_TAG, if the property is method; <li>
+	 * <li>EXPRESSION_TAG, if the property is expression;
+	 * <li>XML_PROPERTY_TAG, if the property is xml;
+	 * <li>METHOD_TAG, if the property is method;
+	 * <li>
 	 * PROPERTY_TAG, if the property is string, number, and so on.
 	 * </ul>
 	 * 
@@ -1817,6 +1824,23 @@ public class ModelUtil
 			return false;
 
 		return true;
+	}
+
+	/**
+	 * Checks whether the property is extension property and this property has
+	 * its own model.
+	 * 
+	 * @param propDefn
+	 *            the property definition.
+	 * @return if the property is extension property and this property has its
+	 *         own model return <true>, otherwise return <false>.
+	 */
+	public static boolean isExtensionPropertyOwnModel( IPropertyDefn propDefn )
+	{
+		assert propDefn != null;
+
+		return propDefn instanceof ExtensionPropertyDefn
+				&& ( (ExtensionPropertyDefn) propDefn ).hasOwnModel( );
 	}
 
 }

@@ -6,24 +6,13 @@
     <data-sets>
         <oda-data-set name="firstDataSet" id="3">
             <property name="dataSource">myDataSource</property>
-            <property name="queryText">SELECT * FROM Customers</property>
         </oda-data-set>
         <oda-data-set name="secondDataSet" id="4">
             <property name="dataSource">myDataSource</property>
-            <property name="queryText">SELECT * FROM Customers</property>
         </oda-data-set>
     </data-sets>
-    <styles>
-        <style name="My-Style" id="5">
-            <property name="backgroundColor">yellow</property>
-            <property name="fontFamily">"Times"</property>
-            <property name="fontSize">12mm</property>
-            <property name="fontWeight">bold</property>
-            <property name="color">red</property>
-        </style>
-    </styles>
     <components>
-        <label name="base" id="6">
+        <label name="base" id="5">
             <property name="x">6mm</property>
             <property name="y">0.5mm</property>
             <property name="height">0.25mm</property>
@@ -31,20 +20,20 @@
             <property name="dataSet">firstDataSet</property>
             <text-property name="text">First Page</text-property>
         </label>
-        <label name="child1" id="7" extends="base">
+        <label name="child1" id="6" extends="base">
             <property name="style">My-Style</property>
                     <text-property name="text">Today's Date</text-property>
             <text-property name="helpText" key="help key">label help text</text-property>
         </label>
-        <label name="child2" id="8" extends="base">
+        <label name="child2" id="7" extends="base">
             <text-property name="text">Tomorrow's Date</text-property>
         </label>
-        <label name="tmp" id="9">
+        <label name="tmp" id="8">
             <text-property name="text">Tomorrow's Date</text-property>
         </label>
     </components>
     <page-setup>
-        <graphic-master-page name="My Page" id="10">
+        <graphic-master-page name="My Page" id="9">
             <property name="comments">Sample page</property>
             <property name="topMargin">0.95mm</property>
             <property name="leftMargin">0.8mm</property>
@@ -53,14 +42,14 @@
             <property name="columns">1</property>
             <property name="columnSpacing">0.25mm</property>
             <contents>
-                <label name="label1" id="11">
+                <label name="label1" id="10">
                     <property name="x">1mm</property>
                     <property name="y">0.5mm</property>
                     <property name="height">0.25mm</property>
                     <property name="width">2mm</property>
                     <text-property name="text">First Page</text-property>
                 </label>
-                <label name="labelTestWriter" id="12">
+                <label name="labelTestWriter" id="11">
                     <property name="fontFamily">"labelFace"</property>
                     <property name="fontSize">4mm</property>
                     <property name="fontWeight">bold</property>
@@ -78,9 +67,9 @@
         </graphic-master-page>
     </page-setup>
     <body>
-        <free-form id="13">
+        <free-form id="12">
             <report-items>
-                <label name="label3" id="14">
+                <label name="label3" id="13">
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
                     <property name="height">3mm</property>
@@ -89,7 +78,7 @@
                 </label>
             </report-items>
         </free-form>
-        <label name="bodyLabel" id="15">
+        <label name="bodyLabel" id="14">
             <xml-property name="customXml"><![CDATA[new custom <text> </text> for bodyLabel]]></xml-property>
             <property name="fontFamily">"bodyFont"</property>
             <property name="color">blue</property>
@@ -102,10 +91,10 @@
             <text-property name="text" key="new text resource key">Final day</text-property>
             <text-property name="helpText" key="new help text key">new help text</text-property>
         </label>
-        <list name="My List" id="16">
+        <list name="My List" id="15">
             <property name="dataSet">firstDataSet</property>
             <header>
-                <label name="listHeaderLabel" id="17">
+                <label name="listHeaderLabel" id="16">
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
                     <property name="height">3mm</property>
@@ -114,7 +103,7 @@
                 </label>
             </header>
             <detail>
-                <label name="listDetailLabel" id="18">
+                <label name="listDetailLabel" id="17">
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
                     <property name="height">3mm</property>
@@ -123,7 +112,7 @@
                 </label>
             </detail>
             <footer>
-                <label name="listFooterLabel" id="19">
+                <label name="listFooterLabel" id="18">
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
                     <property name="height">3mm</property>
@@ -132,16 +121,16 @@
                 </label>
             </footer>
         </list>
-        <table name="My table" id="20">
+        <table name="My table" id="19">
             <property name="dataSet">firstDataSet</property>
             <property name="repeatHeader">true</property>
             <header>
-                <row id="21">
-                    <cell id="22">
+                <row id="20">
+                    <cell id="21">
                         <property name="column">1</property>
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
-                        <label name="headerLabel" id="23">
+                        <label name="headerLabel" id="22">
                             <property name="x">1mm</property>
                             <property name="y">2mm</property>
                             <property name="height">3mm</property>
@@ -152,12 +141,12 @@
                 </row>
             </header>
             <detail>
-                <row id="24">
-                    <cell id="25">
+                <row id="23">
+                    <cell id="24">
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
-                        <label name="detailLabel" id="26">
+                        <label name="detailLabel" id="25">
                             <property name="x">1.1mm</property>
                             <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
@@ -168,12 +157,12 @@
                 </row>
             </detail>
             <footer>
-                <row id="27">
-                    <cell id="28">
+                <row id="26">
+                    <cell id="27">
                         <property name="column">1</property>
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
-                        <label name="footerLabel" id="29">
+                        <label name="footerLabel" id="28">
                             <property name="x">1.1mm</property>
                             <property name="y">2.2mm</property>
                             <property name="height">3.3mm</property>
@@ -186,7 +175,7 @@
         </table>
     </body>
     <scratch-pad>
-        <label name="scratchpadLabel" id="30">
+        <label name="scratchpadLabel" id="29">
             <property name="x">1.1mm</property>
             <property name="y">2.2mm</property>
             <property name="height">3.3mm</property>

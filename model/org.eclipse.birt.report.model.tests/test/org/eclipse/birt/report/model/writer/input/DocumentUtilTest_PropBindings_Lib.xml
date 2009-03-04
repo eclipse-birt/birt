@@ -35,12 +35,6 @@
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="6">
             <property name="dataSource">Data Source</property>
-            <property name="queryText">select *
-from CLASSICMODELS.OFFICES
-</property>
         </oda-data-set>
     </data-sets>
-    <page-setup>
-        <simple-master-page name="NewSimpleMasterPage" id="3"/>
-    </page-setup>
 </library>

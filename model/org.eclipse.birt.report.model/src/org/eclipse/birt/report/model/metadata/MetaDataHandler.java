@@ -105,6 +105,7 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String SINCE_ATTRIB = "since"; //$NON-NLS-1$
 	private static final String XML_NAME_ATTRIB = "xmlName"; //$NON-NLS-1$
 	private static final String RUNTIME_SETTABLE_ATTRIB = "runtimeSettable"; //$NON-NLS-1$
+	private static final String TRIM_OPTION_ATTRIB = "trimOption"; //$NON-NLS-1$
 	private static final String CONTEXT_ATTRIB = "context"; //$NON-NLS-1$
 	private static final String MODULES_ATTRIB = "modules"; //$NON-NLS-1$
 	private static final String IS_BIDI_PROPERTY_ATTRIB = "isBidiProperty"; //$NON-NLS-1$
@@ -122,6 +123,21 @@ class MetaDataHandler extends XMLParserHandler
 	protected SystemPropertyDefn propDefn = null;
 	protected StructureDefn struct = null;
 	protected ArrayList<Choice> choices = new ArrayList<Choice>( );
+
+	/**
+	 * The input string will not be trimmed.
+	 */
+	private static final String NO_TRIM = "noTrim"; //$NON-NLS-1$
+
+	/**
+	 * The space will be trimmed.
+	 */
+	private static final String TRIM_SPACE = "trimSpace"; //$NON-NLS-1$
+
+	/**
+	 * If the input string is empty, normalizes the string to an null string.
+	 */
+	private static final String TRIM_EMPTY_TO_NULL = "trimEmptyToNull"; //$NON-NLS-1$
 
 	/**
 	 * Constructor.
@@ -521,8 +537,21 @@ class MetaDataHandler extends XMLParserHandler
 			memberDefn.setSince( attrs.getValue( SINCE_ATTRIB ) );
 			memberDefn.setRuntimeSettable( getBooleanAttrib( attrs,
 					RUNTIME_SETTABLE_ATTRIB, true ) );
+			String trimOption = attrs.getValue( TRIM_OPTION_ATTRIB );
+			if ( trimOption != null )
+			{
+				try
+				{
+					int value = handleTrimOption( trimOption );
+					memberDefn.setTrimOption( value );
+				}
+				catch ( MetaDataParserException e )
+				{
+					errorHandler.semanticError( e );
+				}
+			}
 			memberDefn.setAllowExpression( getBooleanAttrib( attrs,
-					ALLOW_EXPRESSION_ATTRIB, false ) );			
+					ALLOW_EXPRESSION_ATTRIB, false ) );
 			if ( memberDefn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
 			{
 				memberDefn.setReturnType( attrs.getValue( RETURN_TYPE_ATTRIB ) );
@@ -967,6 +996,19 @@ class MetaDataHandler extends XMLParserHandler
 			propDefn.setSince( attrs.getValue( SINCE_ATTRIB ) );
 			propDefn.setRuntimeSettable( getBooleanAttrib( attrs,
 					RUNTIME_SETTABLE_ATTRIB, true ) );
+			String trimOption = attrs.getValue( TRIM_OPTION_ATTRIB );
+			if ( trimOption != null )
+			{
+				try
+				{
+					int value = handleTrimOption( trimOption );
+					propDefn.setTrimOption( value );
+				}
+				catch ( MetaDataParserException e )
+				{
+					errorHandler.semanticError( e );
+				}
+			}
 			propDefn.setAllowExpression( getBooleanAttrib( attrs,
 					ALLOW_EXPRESSION_ATTRIB, false ) );
 			if ( propDefn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
@@ -2102,4 +2144,57 @@ class MetaDataHandler extends XMLParserHandler
 
 		return (ChoiceSet) choiceSet;
 	}
+
+	/**
+	 * Transfers trim option string to trim option value. The input value is
+	 * defined in <code>ModelUtil</code> and can be one of:
+	 * 
+	 * <ul>
+	 * <li>NO_TRIM</li>
+	 * <li>TRIM_EMPTY</li>
+	 * <li>TRIM_NULL</li>
+	 * <li>TRIM_EMPTY&TRIM_NULL</li>
+	 * <li>NULL</li>
+	 * </ul>
+	 * 
+	 * @param trimOption
+	 *            the trim option.
+	 * @return the trim option value.
+	 */
+	private int handleTrimOption( String trimOption )
+			throws MetaDataParserException
+	{
+
+		// TODO: do some enhancement to enable textualPropertyType could
+		// not trim, trim string space or trim empty space to null according to
+		// the trim option.
+		String[] options = trimOption.split( ";" ); //$NON-NLS-1$
+
+		int value = XMLPropertyType.NO_VALUE;
+		for ( int i = 0; i < options.length; i++ )
+		{
+			String option = options[i];
+
+			if ( NO_TRIM.equals( option ) )
+			{
+				value |= XMLPropertyType.NO_TRIM_VALUE;
+			}
+			else if ( TRIM_SPACE.equals( option ) )
+			{
+				value |= XMLPropertyType.TRIM_SPACE_VALUE;
+			}
+			else if ( TRIM_EMPTY_TO_NULL.equals( option ) )
+			{
+				value |= XMLPropertyType.TRIM_EMPTY_TO_NULL_VALUE;
+			}
+			else
+			{
+				// invalid trim option.
+				throw new MetaDataParserException(
+						MetaDataParserException.DESIGN_EXCEPTION_INVALID_TRIM_OPTION );
+			}
+		}
+		return value;
+	}
+
 }

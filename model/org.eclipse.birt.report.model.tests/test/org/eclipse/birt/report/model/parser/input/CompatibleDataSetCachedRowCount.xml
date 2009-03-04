@@ -36,8 +36,6 @@
                     <property name="nativeDataType">4</property>
                 </structure>
             </list-property>
-            <property name="queryText">select *
-from CLASSICMODELS.EMPLOYEES</property>
 	</oda-data-set>
     </data-sets>
 </report>

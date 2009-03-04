@@ -126,7 +126,7 @@
                     <property name="isOutput">true</property>
                 </structure>
             </list-property>
-            <property name="queryText">new text</property>
+            <xml-property name="queryText"><![CDATA[new text]]></xml-property>
             <property name="resultSetName">new result set</property>
             <property name="resultSetNumber">3</property>
             <list-property name="privateDriverProperties">
