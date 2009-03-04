@@ -22,6 +22,8 @@ import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
@@ -304,9 +306,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		if ( dataSetParam == null )
 			return;
 
-		String name = dataSetParam.getName( );
-		if ( !StringUtil.isBlank( name ) )
-			reportParam.setName( name );
+		// should not convert report parameter name here.
 
 		String dataType = dataSetParam.getParameterDataType( );
 		if ( !StringUtil.isBlank( dataType ) )
@@ -379,8 +379,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 				return;
 		}
 
-		List<String> newValues = new ArrayList<String>( );
-		newValues.add( literalValue );
+		List<Expression> newValues = new ArrayList<Expression>( );
+		newValues.add( new Expression( literalValue, ExpressionType.CONSTANT ) );
 
 		setParam.setDefaultValueList( newValues );
 	}
@@ -974,14 +974,14 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			inputAttrs = designFactory.createInputElementAttributes( );
 
 		StaticValues newValues = null;
-		List<String> tmpValues = paramHandle.getDefaultValueList( );
+		List<Expression> tmpValues = paramHandle.getDefaultValueList( );
 		if ( tmpValues != null )
 		{
 			for ( int i = 0; i < tmpValues.size( ); i++ )
 			{
 				if ( newValues == null )
 					newValues = designFactory.createStaticValues( );
-				newValues.add( tmpValues.get( i ) );
+				newValues.add( tmpValues.get( i ).getStringExpression( ) );
 			}
 		}
 		inputAttrs.setDefaultValues( newValues );
