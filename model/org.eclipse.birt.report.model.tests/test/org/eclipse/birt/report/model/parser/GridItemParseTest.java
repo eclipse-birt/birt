@@ -310,7 +310,6 @@ public class GridItemParseTest extends ParserTestCase
 	{
 		openDesign( semanticCheckFileName );
 		List<ErrorDetail> errors = design.getErrorList( );
-		this.printSemanticErrors( );
 		assertEquals( 3, errors.size( ) );
 
 		int i = 0;

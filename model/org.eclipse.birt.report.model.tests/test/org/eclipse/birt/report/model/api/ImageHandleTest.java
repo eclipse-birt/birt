@@ -108,9 +108,7 @@ public class ImageHandleTest extends BaseTestCase
 	 */
 
 	public void testSearchFile( ) throws Exception
-	{
-		printSemanticErrors( );
-
+	{		
 		assertEquals( 0, design.getErrorList( ).size( ) );
 		assertEquals( 1, designHandle.getWarningList( ).size( ) );
 		assertEquals( 0, designHandle.getErrorList( ).size( ) );

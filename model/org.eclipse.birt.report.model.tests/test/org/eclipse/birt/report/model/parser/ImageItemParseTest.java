@@ -375,8 +375,7 @@ public class ImageItemParseTest extends BaseTestCase
 	public void testImageFileExist( ) throws Exception
 	{
 		openDesign( "ImageItemParseTest_2.xml" ); //$NON-NLS-1$
-		printSemanticErrors( );
-
+		
 		ErrorDetail detail = (ErrorDetail) designHandle.getWarningList( ).get(
 				0 );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT,

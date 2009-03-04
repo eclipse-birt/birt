@@ -14,12 +14,9 @@ package org.eclipse.birt.report.model.parser;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.command.ContentException;
-import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -84,7 +81,7 @@ public class ComponentScratchPadTest extends BaseTestCase
 	 * This test writes the design file and compare it with golden file.
 	 * 
 	 * @throws Exception
-	 *  
+	 * 
 	 */
 
 	public void testWriter( ) throws Exception
@@ -95,43 +92,17 @@ public class ComponentScratchPadTest extends BaseTestCase
 		ByteArrayInputStream is = new ByteArrayInputStream( out.toByteArray( ) );
 		openDesign( "", is ); //$NON-NLS-1$
 		assertNotNull( design );
-		save(); 
-		assertTrue( compareFile( "ComponentScratchPadTest_golden.xml") ); //$NON-NLS-1$
-	}
-
-	/**
-	 * Test parse error.
-	 * 
-	 *  
-	 */
-
-	public void testParseError( )
-	{
-		try
-		{
-			openDesign( "ComponentScratchPadTest_1.xml" ); //$NON-NLS-1$
-		}
-		catch ( DesignFileException e )
-		{
-			printSyntaxError( e );
-			assertEquals( 2, e.getErrorList( ).size( ) );
-			int i = 0;
-
-			assertEquals( ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_FOUND, ( (ErrorDetail) e
-					.getErrorList( ).get( i++ ) ).getErrorCode( ) );
-			assertEquals( ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_FOUND, ( (ErrorDetail) e
-					.getErrorList( ).get( i++ ) ).getErrorCode( ) );
-		}
-
-		//compareErrors( "ComponentScratchPadTest_golden.txt" ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "ComponentScratchPadTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
 	 * Test parsing elements from ScratchPad.
 	 * 
-	 * @throws Exception if any exception.
+	 * @throws Exception
+	 *             if any exception.
 	 */
-	
+
 	public void testParse( ) throws Exception
 	{
 		openDesign( "ComponentScratchPadTest.xml" ); //$NON-NLS-1$
@@ -199,18 +170,18 @@ public class ComponentScratchPadTest extends BaseTestCase
 		// In the out file, the parent is always before his children in the
 		// component slot.
 		SlotHandle comHandle = designHandle.getComponents( );
-		
+
 		GridItem gridItem = new GridItem( "grand" ); //$NON-NLS-1$
-		//grid.setExtendsName( "grid0" );
+		// grid.setExtendsName( "grid0" );
 		comHandle.add( gridItem.getHandle( design ) );
 
 		grid = (GridHandle) components.get( 0 );
-		//grid.setExtendsName( "grand" );
+		// grid.setExtendsName( "grand" );
 		Label labelItem = new Label( "label" ); //$NON-NLS-1$
-		//label.setExtendsName( "labelParent" );
+		// label.setExtendsName( "labelParent" );
 		comHandle.add( labelItem.getHandle( design ) );
 		gridItem = new GridItem( "grid0" ); //$NON-NLS-1$
-		comHandle.add(  gridItem.getHandle( design ) );
+		comHandle.add( gridItem.getHandle( design ) );
 		labelItem = new Label( "labelParent" ); //$NON-NLS-1$
 		comHandle.add( labelItem.getHandle( design ) );
 
@@ -220,6 +191,6 @@ public class ComponentScratchPadTest extends BaseTestCase
 				.findElement( "parent" ).setExtendsElement( design.findElement( "grand" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		design
 				.findElement( "label" ).setExtendsElement( design.findElement( "labelParent" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		save(); //$NON-NLS-1$
+		save( ); //$NON-NLS-1$
 	}
 }

@@ -63,7 +63,6 @@ public class StructRefTest extends BaseTestCase
 
 		// image item refers an embedded image that is not found in report
 		// design
-		printSemanticErrors( );
 		assertEquals( 1, designHandle.getErrorList( ).size( ) );
 	}
 
@@ -269,8 +268,10 @@ public class StructRefTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.api.core.Listener#elementChanged(org.eclipse.birt.report.model.api.DesignElementHandle,
-		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.api.core.Listener#elementChanged(org
+		 * .eclipse.birt.report.model.api.DesignElementHandle,
+		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
 		public void elementChanged( DesignElementHandle focus,
 				NotificationEvent ev )

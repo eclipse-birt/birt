@@ -528,7 +528,6 @@ public class LibraryParseTest extends BaseTestCase
 	public void testSemanticError( ) throws Exception
 	{
 		openLibrary( semanticCheckFileName );
-		printSemanticErrors( );
 		// assertEquals( 5, errors.size( ) );
 		//
 		// int i = 0;

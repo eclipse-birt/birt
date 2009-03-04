@@ -102,8 +102,8 @@ public class TextDataItemParseTest extends BaseTestCase
 		dataHandle
 				.setContentType( DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF );
 
-		save();
-		assertTrue( compareFile( goldenFileName) );
+		save( );
+		assertTrue( compareFile( goldenFileName ) );
 
 	}
 
@@ -117,15 +117,14 @@ public class TextDataItemParseTest extends BaseTestCase
 	{
 		openDesign( checkFileName );
 
-		List errors = design.getErrorList( );
+		List<ErrorDetail> errors = design.getErrorList( );
 
-		printSemanticErrors( );
 		assertEquals( 1, errors.size( ) );
 
 		int i = 0;
 
 		assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
-				( (ErrorDetail) errors.get( i++ ) ).getErrorCode( ) );
+				errors.get( i++ ).getErrorCode( ) );
 	}
 
 }

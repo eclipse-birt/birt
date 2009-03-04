@@ -119,7 +119,7 @@ public class ListItemParseTest extends ParserTestCase
 	 * Test the slots of List item.
 	 * 
 	 * @throws Exception
-	 * 		if any exception
+	 *             if any exception
 	 */
 	public void testParser( ) throws Exception
 	{
@@ -257,7 +257,7 @@ public class ListItemParseTest extends ParserTestCase
 	 * Test writer.
 	 * 
 	 * @throws Exception
-	 * 		if any exception
+	 *             if any exception
 	 */
 
 	public void testWriter( ) throws Exception
@@ -337,27 +337,27 @@ public class ListItemParseTest extends ParserTestCase
 	{
 		openDesign( "ListItemParseTest_2.xml" ); //$NON-NLS-1$
 
-		List errors = design.getErrorList( );
+		List<ErrorDetail> errors = design.getErrorList( );
 
 		int i = 0;
-		this.printSemanticErrors( );
+
 		assertEquals( 3, errors.size( ) );
 
-		ErrorDetail error = ( (ErrorDetail) errors.get( i++ ) );
+		ErrorDetail error = errors.get( i++ );
 		assertEquals( "group 2", //$NON-NLS-1$ 
 				error.getElement( ).getLocalProperty( design,
 						GroupElement.GROUP_NAME_PROP ) );
 		assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
 				error.getErrorCode( ) );
 
-		error = ( (ErrorDetail) errors.get( i++ ) );
+		error = errors.get( i++ );
 		assertEquals( "group 5", //$NON-NLS-1$ 
 				error.getElement( ).getLocalProperty( design,
 						GroupElement.GROUP_NAME_PROP ) );
 		assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
 				error.getErrorCode( ) );
 
-		error = ( (ErrorDetail) errors.get( i++ ) );
+		error = errors.get( i++ );
 		assertEquals( "group 4", //$NON-NLS-1$ 
 				error.getElement( ).getLocalProperty( design,
 						GroupElement.GROUP_NAME_PROP ) );

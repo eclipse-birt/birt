@@ -793,23 +793,22 @@ public class ReportDesignParseTest extends BaseTestCase
 	{
 		openDesign( semanticCheckFileName );
 
-		List errors = design.getAllErrors( );
+		List<ErrorDetail> errors = design.getAllErrors( );
 
-		printSemanticErrors( );
 		assertEquals( 5, errors.size( ) );
 
 		int i = 0;
 
 		assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
-				( (ErrorDetail) errors.get( i++ ) ).getErrorCode( ) );
+				errors.get( i++ ).getErrorCode( ) );
 		assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
-				( (ErrorDetail) errors.get( i++ ) ).getErrorCode( ) );
+				errors.get( i++ ).getErrorCode( ) );
 		assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS,
-				( (ErrorDetail) errors.get( i++ ) ).getErrorCode( ) );
+				errors.get( i++ ).getErrorCode( ) );
 		assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
-				( (ErrorDetail) errors.get( i++ ) ).getErrorCode( ) );
+				errors.get( i++ ).getErrorCode( ) );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_MASTER_PAGE,
-				( (ErrorDetail) errors.get( i++ ) ).getErrorCode( ) );
+				errors.get( i++ ).getErrorCode( ) );
 	}
 
 	/**

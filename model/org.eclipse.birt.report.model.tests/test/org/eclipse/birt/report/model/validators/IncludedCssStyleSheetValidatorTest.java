@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.validators;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
@@ -32,10 +33,9 @@ public class IncludedCssStyleSheetValidatorTest extends ValidatorTestCase
 		MetaDataDictionary.getInstance( ).setUseValidationTrigger( false );
 		openDesign( "IncludedCssStyleSheetValidatorTest.xml" ); //$NON-NLS-1$
 
-		List list = designHandle.getErrorList( );
+		List<ErrorDetail> list = design.getErrorList( );
 
 		assertEquals( 1, list.size( ) );
-		printSemanticErrors( );
 
 	}
 
@@ -50,10 +50,8 @@ public class IncludedCssStyleSheetValidatorTest extends ValidatorTestCase
 		MetaDataDictionary.getInstance( ).setUseValidationTrigger( false );
 		openLibrary( "IncludedCssStyleSheetValidatorInThemeTest.xml" ); //$NON-NLS-1$
 
-		List list = libraryHandle.getErrorList( );
+		List<ErrorDetail> list = libraryHandle.getModule( ).getErrorList( );
 
 		assertEquals( 1, list.size( ) );
-		printSemanticErrors( );
-
 	}
 }
