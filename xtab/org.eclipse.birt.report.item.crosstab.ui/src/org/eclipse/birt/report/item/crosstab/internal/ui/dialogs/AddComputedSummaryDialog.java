@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -154,6 +155,14 @@ public class AddComputedSummaryDialog extends BaseDialog
 		dataTypeCmb.setItems( dataTypes );
 		if ( dataTypeCmb.getItemCount( ) > 0 )
 		{
+			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+			{
+				if ( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( DATA_TYPE_CHOICES[i].getValue( ) ) )
+				{
+					dataTypeCmb.select( i );
+					return;
+				}
+			}
 			dataTypeCmb.select( 0 );
 		}
 	}
