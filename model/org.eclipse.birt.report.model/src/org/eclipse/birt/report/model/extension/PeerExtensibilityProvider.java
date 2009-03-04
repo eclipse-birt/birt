@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.parser.treebuild.IContentHandler;
+import org.eclipse.birt.report.model.util.EncryptionUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
@@ -291,7 +292,7 @@ public abstract class PeerExtensibilityProvider
 		}
 
 		return defn.isEncryptable( )
-				? ModelUtil.decryptLocalProperty( element, defn,
+				? EncryptionUtil.decrypt( element, defn,
 						extensionPropValues.get( propName ) )
 				: extensionPropValues.get( propName );
 	}
@@ -381,7 +382,7 @@ public abstract class PeerExtensibilityProvider
 		}
 
 		return defn.isEncryptable( )
-				? ModelUtil.decryptLocalProperty( element, defn,
+				? EncryptionUtil.decrypt( element, defn,
 						extensionPropValues.get( propName ) )
 				: extensionPropValues.get( propName );
 	}

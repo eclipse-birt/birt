@@ -25,6 +25,8 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.EncryptionUtil;
 
 /**
  * Represents the property binding structure. The property binding defines the
@@ -80,6 +82,11 @@ public class PropertyBinding extends Structure
 	protected String value = null;
 
 	/**
+	 * The encryption id for the encrypted property value.
+	 */
+	protected String encryptionID = null;
+
+	/**
 	 * Constructs a PropertyMask.
 	 */
 
@@ -103,7 +110,14 @@ public class PropertyBinding extends Structure
 		else if ( ID_MEMBER.equalsIgnoreCase( propName ) )
 			return id;
 		else if ( VALUE_MEMBER.equalsIgnoreCase( propName ) )
+		{
+			if ( encryptionID != null )
+			{
+				return EncryptionUtil.decrypt( (PropertyDefn) getDefn( )
+						.getMember( VALUE_MEMBER ), encryptionID, value );
+			}
 			return value;
+		}
 		else
 		{
 			assert false;
@@ -210,7 +224,7 @@ public class PropertyBinding extends Structure
 
 	public String getValue( )
 	{
-		return value;
+		return (String) getIntrinsicProperty( VALUE_MEMBER );
 	}
 
 	/**
@@ -262,6 +276,42 @@ public class PropertyBinding extends Structure
 		}
 
 		return list;
+	}
+
+	/**
+	 * Sets the encryption id for the encrypted value. This method is not
+	 * recommended to be called by users. It is just called by Model inner APIs.
+	 * Otherwise, if user sets a wrong id inconsistent with the value, they
+	 * might get an odd value.
+	 * 
+	 * @param encryptionID
+	 */
+	public void setEncryption( String encryptionID )
+	{
+		this.encryptionID = encryptionID;
+	}
+
+/**
+*
+*/
+	public String getEncryption( )
+	{
+		return this.encryptionID;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#equals(java.lang.Object)
+	 */
+	public boolean equals( Object obj )
+	{
+		if ( !super.equals( obj ) )
+			return false;
+		if ( encryptionID == null )
+			return ( (PropertyBinding) obj ).encryptionID == null;
+		return encryptionID.equals( ( (PropertyBinding) obj ).encryptionID );
 	}
 
 }

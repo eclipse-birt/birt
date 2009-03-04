@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
+import org.eclipse.birt.report.model.util.EncryptionUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -45,8 +46,10 @@ public class CopyForPastePolicy extends CopyPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.strategy.CopyStrategy#execute(org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.strategy.CopyStrategy#execute(
+	 * org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
 	public void execute( DesignElement source, DesignElement destination )
@@ -120,9 +123,10 @@ public class CopyForPastePolicy extends CopyPolicy
 						&& source.getLocalProperty( module, propDefn ) != null )
 				{
 					// if destination has local value and no local encryption,
-					// then set encryption for this encryption maybe inherits from
+					// then set encryption for this encryption maybe inherits
+					// from
 					// parent
-					
+
 					destination.setEncryptionHelper( propDefn, source
 							.getEncryptionID( propDefn ) );
 
@@ -164,9 +168,9 @@ public class CopyForPastePolicy extends CopyPolicy
 					{
 						destination
 								.setEncryptionHelper( propDefn, encryptionID );
-						destination.setProperty( propDefn, ModelUtil
-								.encryptProperty( destination, propDefn,
-										encryptionID, copyValue ) );
+						destination.setProperty( propDefn, EncryptionUtil
+								.encrypt( propDefn, encryptionID,
+										copyValue ) );
 					}
 					else
 					{

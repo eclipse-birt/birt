@@ -8,6 +8,11 @@
             <expression name="value">params[p3]</expression>
         </structure>
         <structure>
+            <property name="name">pswd</property>
+            <property name="id">30</property>
+            <encrypted-property name="value" encryptionID="oneEncryptionHelper">_ab_setNewPassword</encrypted-property>
+        </structure>
+        <structure>
             <property name="name">bookmark</property>
             <property name="id">20</property>
             <expression name="value">params[p]</expression>
@@ -16,6 +21,11 @@
             <property name="name">text</property>
             <property name="id">26</property>
             <expression name="value">params[p3]</expression>
+        </structure>
+        <structure>
+            <property name="name">pswd</property>
+            <property name="id">31</property>
+            <encrypted-property name="value" encryptionID="oneEncryptionHelper">_ab_createPassword</encrypted-property>
         </structure>
     </list-property>
     <page-setup>
@@ -91,5 +101,11 @@
                 </row>
             </footer>
         </table>
+        <extended-item extensionName="TestingTable" name="item_1" id="30">
+            <encrypted-property name="pswd" encryptionID="base64">TmV3IFBhc3N3b3Jk</encrypted-property>
+        </extended-item>
+        <extended-item extensionName="TestingTable" name="item_2" id="31">
+            <encrypted-property name="pswd" encryptionID="oneEncryptionHelper">_ab_mypswd</encrypted-property>
+        </extended-item>
     </body>
 </report>

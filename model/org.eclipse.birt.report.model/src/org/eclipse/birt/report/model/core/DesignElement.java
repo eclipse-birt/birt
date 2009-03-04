@@ -65,6 +65,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.EncryptionUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
@@ -1027,7 +1028,7 @@ public abstract class DesignElement
 		{
 			// This is an intrinsic system-defined property.
 			return isEncryptable
-					? ModelUtil.decryptLocalProperty( this, prop,
+					? EncryptionUtil.decrypt( this, prop,
 							getIntrinsicProperty( prop.getName( ) ) )
 					: getIntrinsicProperty( prop.getName( ) );
 		}
@@ -1047,7 +1048,7 @@ public abstract class DesignElement
 		}
 
 		// Get the value of a non-intrinsic property.
-		return isEncryptable ? ModelUtil.decryptLocalProperty( this, prop,
+		return isEncryptable ? EncryptionUtil.decrypt( this, prop,
 				propValues.get( prop.getName( ) ) ) : propValues.get( prop
 				.getName( ) );
 	}
@@ -3526,6 +3527,8 @@ public abstract class DesignElement
 	 */
 	public String getEncryptionID( ElementPropertyDefn propDefn )
 	{
+		if ( propDefn == null || !propDefn.isEncryptable( ) )
+			return null;
 		DesignElement e = this;
 		while ( e != null )
 		{

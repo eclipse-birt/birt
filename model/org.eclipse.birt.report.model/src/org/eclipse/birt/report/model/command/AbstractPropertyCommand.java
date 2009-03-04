@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
@@ -40,6 +41,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
+import org.eclipse.birt.report.model.util.EncryptionUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -216,7 +218,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 				// this is a special case, if the caller sets a resolved element
 				// on the structure, need to make it unresolved. For example,
 				// HighlightRule.style property.
-				
+
 				if ( refValue.isResolved( ) )
 				{
 					refValue.unresolved( refValue.getElement( ).getName( ) );
@@ -240,7 +242,16 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 					value = tmpMemberDefn.validateValue( module, value );
 			}
 
-			item.setProperty( tmpMemberDefn, value );
+			// do some special handle for binding value
+			if ( item instanceof PropertyBinding
+					&& tmpMemberDefn.getName( ).equals(
+							PropertyBinding.VALUE_MEMBER ) )
+			{
+				EncryptionUtil.setEncryptionBindingValue( module,
+						(Structure) item, tmpMemberDefn, value );
+			}
+			else
+				item.setProperty( tmpMemberDefn, value );
 		}
 
 		if ( item instanceof Structure )

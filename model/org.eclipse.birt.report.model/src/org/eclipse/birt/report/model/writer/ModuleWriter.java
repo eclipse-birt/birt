@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -188,6 +189,7 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 import org.eclipse.birt.report.model.parser.treebuild.ContentNode;
 import org.eclipse.birt.report.model.parser.treebuild.ContentTree;
 import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.EncryptionUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.XMLWriter;
 
@@ -588,8 +590,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * Escapes characters in the CDATA. Two characters are needed to convert:
 	 * 
 	 * <ul>
-	 * <li>& to &amp;
-	 * <li>]]> to ]]&gt;
+	 * <li>& to &amp; <li>]]> to ]]&gt;
 	 * </ul>
 	 * 
 	 * @param value
@@ -716,7 +717,7 @@ public abstract class ModuleWriter extends ElementVisitor
 			encryptionID = obj.getEncryptionID( (ElementPropertyDefn) propDefn );
 			tag = DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG;
 			// getLocalProperty will return decrypted value, so encrypt it here
-			xml = (String) ModelUtil.encryptProperty( obj,
+			xml = (String) EncryptionUtil.encrypt(
 					(ElementPropertyDefn) propDefn, encryptionID, xml );
 		}
 
@@ -1099,8 +1100,35 @@ public abstract class ModuleWriter extends ElementVisitor
 				// for example: highlightrule structure contains
 				// StringFormat,DateTimeFormat
 				// structure.
+				if ( struct instanceof PropertyBinding
+						&& memberDefn.getName( ).equals(
+								PropertyBinding.VALUE_MEMBER ) )
+				{
+					PropertyBinding propBinding = (PropertyBinding) struct;
+					String value = propBinding.getValue( );
+					if ( value == null )
+						break;
+					String encryptionID = propBinding.getEncryption( );
+					if ( encryptionID == null )
+						writeMember( struct, memberDefn );
+					else
+					{
+						String xml = memberDefn.getXmlValue( getModule( ),
+								value );
+						if ( xml == null )
+							break;
 
-				writeMember( struct, memberDefn );
+						xml = (String) EncryptionUtil.encrypt( memberDefn,
+								encryptionID, xml );
+						writeEntry(
+								DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG,
+								PropertyBinding.VALUE_MEMBER, encryptionID,
+								xml, false );
+					}
+
+				}
+				else
+					writeMember( struct, memberDefn );
 			}
 			writer.endElement( );
 		}

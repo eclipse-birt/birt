@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.EncryptionUtil;
 
 /**
  * Utility class to validate the property value.
@@ -262,9 +262,8 @@ public class PropertyValueValidationUtil
 				{
 					String encrptID = element.getElement( ).getEncryptionID(
 							propDefn );
-					retValue = ModelUtil
-							.encryptProperty( element.getElement( ), propDefn,
-									encrptID, retValue );
+					retValue = EncryptionUtil.encrypt( propDefn, encrptID,
+							retValue );
 					element.setEncryption( propName, encrptID );
 				}
 

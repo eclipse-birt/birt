@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
@@ -28,6 +29,7 @@ import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
+import org.eclipse.birt.report.model.util.EncryptionUtil;
 
 /**
  * Records setting the value of a structure member.
@@ -140,7 +142,19 @@ public class MemberRecord extends SimpleRecord
 			if ( value instanceof Structure )
 				context.add( (Structure) value );
 			else
-				structure.setProperty( prop, value );
+			{
+				if ( structure instanceof PropertyBinding
+						&& value != null
+						&& PropertyBinding.VALUE_MEMBER
+								.equals( prop.getName( ) ) )
+				{
+
+					EncryptionUtil.setEncryptionBindingValue( module,
+							structure, prop, value );
+				}
+				else
+					structure.setProperty( prop, value );
+			}
 		}
 	}
 

@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -35,6 +36,7 @@ public class PropertyBindingTest extends BaseTestCase
 {
 
 	private static final String FILE_NAME = "PropertyBindingTest.xml"; //$NON-NLS-1$
+	private static final String PROP_NAME = "pswd"; //$NON-NLS-1$
 
 	/**
 	 * Tests parser and properties.
@@ -60,9 +62,9 @@ public class PropertyBindingTest extends BaseTestCase
 
 	private void testParser( ModuleHandle moduleHandle )
 	{
-		List bindingList = moduleHandle.getListProperty( moduleHandle
-				.getModule( ), Module.PROPERTY_BINDINGS_PROP );
-		assertEquals( 2, bindingList.size( ) );
+		List bindingList = moduleHandle
+				.getListProperty( Module.PROPERTY_BINDINGS_PROP );
+		assertEquals( 3, bindingList.size( ) );
 
 		// test list and member values
 
@@ -75,6 +77,11 @@ public class PropertyBindingTest extends BaseTestCase
 		assertEquals( "column", binding.getName( ) ); //$NON-NLS-1$
 		assertEquals( 22, binding.getID( ).longValue( ) );
 		assertEquals( "params[p2]", binding.getValue( ) ); //$NON-NLS-1$
+
+		binding = (PropertyBinding) bindingList.get( 2 );
+		assertEquals( PROP_NAME, binding.getName( ) );
+		assertEquals( 30, binding.getID( ).longValue( ) );
+		assertEquals( "newPassword", binding.getValue( ) ); //$NON-NLS-1$
 
 		// get the element based on the id and test getPropertyBinding method
 
@@ -93,6 +100,14 @@ public class PropertyBindingTest extends BaseTestCase
 		assertEquals( "params[p2]", tempHandle.getPropertyBinding( "column" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( bindingList.get( 1 ), moduleHandle.getModule( )
 				.findPropertyBinding( tempHandle.getElement( ), "column" ) ); //$NON-NLS-1$
+
+		tempHandle = moduleHandle.getElementByID( 30 );
+		assertNotNull( tempHandle );
+		assertTrue( tempHandle instanceof ExtendedItemHandle );
+		assertNotNull( tempHandle.getPropertyDefn( PROP_NAME ) );
+		assertEquals( "newPassword", tempHandle.getPropertyBinding( PROP_NAME ) ); //$NON-NLS-1$
+		assertEquals( bindingList.get( 2 ), moduleHandle.getModule( )
+				.findPropertyBinding( tempHandle.getElement( ), PROP_NAME ) );
 	}
 
 	/**
@@ -129,6 +144,15 @@ public class PropertyBindingTest extends BaseTestCase
 		label = (LabelHandle) designHandle.getElementByID( 26 );
 		assertNotNull( label );
 		label.setPropertyBinding( LabelHandle.TEXT_PROP, "params[p3]" ); //$NON-NLS-1$
+
+		// set the encrypted new value
+		ExtendedItemHandle extended = (ExtendedItemHandle) designHandle
+				.getElementByID( 30 );
+		extended.setPropertyBinding( PROP_NAME, "setNewPassword" ); //$NON-NLS-1$
+
+		// add a binding for another extended item
+		extended = (ExtendedItemHandle) designHandle.getElementByID( 31 );
+		extended.setPropertyBinding( PROP_NAME, "createPassword" ); //$NON-NLS-1$
 
 		// test structure list validation for property binding
 

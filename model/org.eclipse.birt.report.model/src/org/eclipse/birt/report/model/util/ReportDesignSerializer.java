@@ -1883,8 +1883,8 @@ public class ReportDesignSerializer extends ElementVisitor
 									.getEncryptionID( propDefn );
 							newElement.setEncryptionHelper( propDefn,
 									encryption );
-							value = ModelUtil.encryptProperty( newElement,
-									propDefn, encryption, value );
+							value = EncryptionUtil.encrypt( propDefn,
+									encryption, value );
 							newElement.setProperty( propDefn, value );
 						}
 						else

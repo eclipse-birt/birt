@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.EncryptionUtil;
 
 /**
  * Records a change to the encryption of an element.
@@ -116,7 +116,7 @@ public class EncryptionRecord extends SimpleRecord
 				if ( encryptionID == null )
 					encryptionID = element.getEncryptionID( prop );
 
-				Object newValue = ModelUtil.encryptProperty( element, prop,
+				Object newValue = EncryptionUtil.encrypt( prop,
 						encryptionID, oldLocalValue );
 				element.setProperty( prop, newValue );
 				element.setEncryptionHelper( prop, encryptionID );
@@ -130,8 +130,8 @@ public class EncryptionRecord extends SimpleRecord
 
 				// if do then get value and encrypt it and set; if undo, then
 				// set null
-				Object newValue = undo ? null : ModelUtil.encryptProperty(
-						element, prop, encryptionID, oldValue );
+				Object newValue = undo ? null : EncryptionUtil.encrypt(
+						prop, encryptionID, oldValue );
 				element.setProperty( prop, newValue );
 				element.setEncryptionHelper( prop, encryptionID );
 			}

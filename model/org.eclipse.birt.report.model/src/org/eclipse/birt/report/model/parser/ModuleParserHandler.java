@@ -20,6 +20,8 @@ import java.util.Map;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -43,7 +45,9 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.NamePropertyType;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.EncryptionUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -359,7 +363,10 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		// handle the style name backward compatibilities, this must do before
 		// the semantic check to avoid wrong resolve
 		if ( versionNumber < VersionUtil.VERSION_3_2_19 )
+		{
 			handleStyleNameCompatibilities( );
+			handleEncryptionForPropertyBinding( );
+		}
 
 		// if module options not set the parser-semantic check options or set it
 		// to true, then perform semantic check. Semantic error is recoverable.
@@ -739,6 +746,28 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 
 		}
 
+	}
+
+	/**
+	 * Handles the backward compatibilities for encryption in property binding
+	 * value.
+	 */
+	private void handleEncryptionForPropertyBinding( )
+	{
+		List<Object> propBindingList = module.getListProperty( module,
+				IModuleModel.PROPERTY_BINDINGS_PROP );
+		if ( propBindingList != null )
+		{
+			for ( int i = 0; i < propBindingList.size( ); i++ )
+			{
+				PropertyBinding propBinding = (PropertyBinding) propBindingList
+						.get( i );
+				Object oldValue = propBinding.getValue( );
+				EncryptionUtil.setEncryptionBindingValue( module, propBinding,
+						(PropertyDefn) propBinding.getDefn( ).getMember(
+								PropertyBinding.VALUE_MEMBER ), oldValue );
+			}
+		}
 	}
 
 	static class ModuleLexicalHandler implements LexicalHandler

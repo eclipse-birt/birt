@@ -12,15 +12,18 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.SimpleEncryptionHelper;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
+import org.eclipse.birt.report.model.util.EncryptionUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -112,7 +115,7 @@ public class EncryptedPropertyState extends PropertyState
 			return;
 		}
 
-		if ( !propDefn.isEncryptable( ) )
+		if ( !EncryptionUtil.canEncrypt( propDefn ) )
 		{
 			DesignParserException e = new DesignParserException(
 					new String[]{propDefn.getName( )},
@@ -126,7 +129,7 @@ public class EncryptedPropertyState extends PropertyState
 		if ( null == valueToSet )
 			return;
 
-		// do some backward-compartibility
+		// do some backward-compatibility
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_15 )
 		{
 			IEncryptionHelper helper = null;
@@ -163,6 +166,12 @@ public class EncryptedPropertyState extends PropertyState
 
 		if ( struct != null )
 		{
+			// do some special for property binding value
+			if ( struct instanceof PropertyBinding )
+			{
+				PropertyBinding propBinding = (PropertyBinding) struct;
+				propBinding.setEncryption( encryptionID );
+			}
 			doSetMember( struct, propDefn.getName( ),
 					(StructPropertyDefn) propDefn, valueToSet );
 			return;

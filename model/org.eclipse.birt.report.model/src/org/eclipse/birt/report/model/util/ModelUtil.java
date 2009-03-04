@@ -46,7 +46,6 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
-import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -365,9 +364,9 @@ public class ModelUtil
 			{
 				String encryption = propHandle.getElement( ).getEncryptionID(
 						propDefn );
-				Object valueToSet = ModelUtil.encryptProperty( destination
-						.getElement( ), propDefn, encryption, ModelUtil
-						.copyValue( propHandle.getDefn( ), value ) );
+				Object valueToSet = EncryptionUtil.encrypt( propDefn,
+						encryption, ModelUtil.copyValue( propHandle.getDefn( ),
+								value ) );
 				destination.getElement( ).setProperty( propName, valueToSet );
 				destination.getElement( ).setEncryptionHelper( propDefn,
 						encryption );
@@ -472,12 +471,10 @@ public class ModelUtil
 	 * Clones the value.
 	 * <ul>
 	 * <li>If the value is of simple type, like integer, or string, the original
-	 * value will be returned.
-	 * <li>If the value is strcuture list, the cloned structure list will be
-	 * cloned.
-	 * <li>If the value is structure, the cloned structure will be cloned.
-	 * <li>If the value is element/strucuture reference value, the
-	 * element/structure name will be returned.
+	 * value will be returned. <li>If the value is strcuture list, the cloned
+	 * structure list will be cloned. <li>If the value is structure, the cloned
+	 * structure will be cloned. <li>If the value is element/strucuture
+	 * reference value, the element/structure name will be returned.
 	 * </ul>
 	 * 
 	 * @param propDefn
@@ -496,12 +493,10 @@ public class ModelUtil
 	 * Clones the value.
 	 * <ul>
 	 * <li>If the value is of simple type, like integer, or string, the original
-	 * value will be returned.
-	 * <li>If the value is strcuture list, the cloned structure list will be
-	 * cloned.
-	 * <li>If the value is structure, the cloned structure will be cloned.
-	 * <li>If the value is element/strucuture reference value, the
-	 * element/structure name will be returned.
+	 * value will be returned. <li>If the value is strcuture list, the cloned
+	 * structure list will be cloned. <li>If the value is structure, the cloned
+	 * structure will be cloned. <li>If the value is element/strucuture
+	 * reference value, the element/structure name will be returned.
 	 * </ul>
 	 * 
 	 * @param propDefn
@@ -1157,15 +1152,14 @@ public class ModelUtil
 	 * will throw semantic exception:
 	 * 
 	 * <ul>
-	 * <li>design file and library in the same folder:</li>
-	 * <li>
-	 * <list-property name="libraries"> <structure> <property
+	 * <li>design file and library in the same folder:</li> <li> <list-property
+	 * name="libraries"> <structure> <property
 	 * name="fileName">lib.xml</property> <property
 	 * name="namespace">lib</property> </structure> </list-property></li>
 	 * </ul>
 	 * <ul>
-	 * <li>folder of design file is "C:\design"</li>
-	 * <li><list-property name="libraries"> <structure> <property
+	 * <li>folder of design file is "C:\design"</li> <li><list-property
+	 * name="libraries"> <structure> <property
 	 * name="fileName">..\test\lib.xml</property> <property
 	 * name="namespace">lib</property> </structure> </list-property></li>
 	 * </ul>
@@ -1480,10 +1474,8 @@ public class ModelUtil
 	 * type is structure or structure list, this method can not be used.
 	 * 
 	 * <ul>
-	 * <li>EXPRESSION_TAG, if the property is expression;
-	 * <li>XML_PROPERTY_TAG, if the property is xml;
-	 * <li>METHOD_TAG, if the property is method;
-	 * <li>
+	 * <li>EXPRESSION_TAG, if the property is expression; <li>XML_PROPERTY_TAG,
+	 * if the property is xml; <li>METHOD_TAG, if the property is method; <li>
 	 * PROPERTY_TAG, if the property is string, number, and so on.
 	 * </ul>
 	 * 
@@ -1599,50 +1591,6 @@ public class ModelUtil
 			return false;
 
 		return true;
-	}
-
-	/**
-	 * Gets the decrypted value of the Encryptable property value. Now, in
-	 * memory, we stores the encrypted value, that is what is in the xml.
-	 * 
-	 * @param element
-	 * @param propDefn
-	 * @param value
-	 * @return the value.
-	 */
-	public static Object decryptLocalProperty( DesignElement element,
-			ElementPropertyDefn propDefn, Object value )
-	{
-		if ( !( value instanceof String ) || !propDefn.isEncryptable( ) )
-			return value;
-		String encryptedStr = (String) value;
-		String encryption = element.getEncryptionID( propDefn );
-		if ( encryption == null )
-			return encryptedStr;
-		IEncryptionHelper helper = MetaDataDictionary.getInstance( )
-				.getEncryptionHelper( encryption );
-		return helper == null ? encryptedStr : helper.decrypt( encryptedStr );
-	}
-
-	/**
-	 * Encrypts the input value.
-	 * 
-	 * @param element
-	 * @param propDefn
-	 * @param encryptionID
-	 * @param value
-	 * @return the value.
-	 */
-	public static Object encryptProperty( DesignElement element,
-			ElementPropertyDefn propDefn, String encryptionID, Object value )
-	{
-		if ( !( value instanceof String ) || !propDefn.isEncryptable( ) )
-			return value;
-		String str = (String) value;
-		IEncryptionHelper helper = MetaDataDictionary.getInstance( )
-				.getEncryptionHelper( encryptionID );
-		return helper == null ? value : helper.encrypt( str );
-
 	}
 
 	/**

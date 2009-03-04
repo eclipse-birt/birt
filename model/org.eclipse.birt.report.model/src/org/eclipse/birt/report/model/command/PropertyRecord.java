@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.EncryptionUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 import org.eclipse.birt.report.model.validators.ValidationNode;
 
@@ -242,8 +242,7 @@ public class PropertyRecord extends SimpleRecord
 						.getEncryptionID( propDefn ) : localEncryption;
 				assert encryption != null;
 
-				value = ModelUtil.encryptProperty( element, propDefn,
-						encryption, value );
+				value = EncryptionUtil.encrypt( propDefn, encryption, value );
 				element.setProperty( propDefn, value );
 				if ( localEncryption == null )
 					element.setEncryptionHelper( propDefn, encryption );
