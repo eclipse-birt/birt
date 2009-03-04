@@ -1,7 +1,0 @@
-!*************** DOC AND EXAMPLE ***********
-plugin@org.eclipse.birt.chart.cshelp=r232_v20081105,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.cshelp
-plugin@org.eclipse.birt.chart.doc.isv=r232_v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.doc.isv
-plugin@org.eclipse.birt.cshelp=r232_v20081113,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.cshelp
-plugin@org.eclipse.birt.doc=r232_v20081105,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.doc
-plugin@org.eclipse.birt.doc.isv=r232_v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.doc.isv
-plugin@org.eclipse.birt.example=r232_v20081107,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.example

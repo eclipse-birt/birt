@@ -326,19 +326,6 @@ public class URLClassLoader extends java.net.URLClassLoader
 			}
 		}
 
-		private String getFilePath( URL url )
-		{
-			String path = url.getFile( );
-			try
-			{
-				return URLDecoder.decode( path, "utf-8" );
-			}
-			catch ( UnsupportedEncodingException ex )
-			{
-				return path;
-			}
-		}
-
 		public void close( ) throws IOException
 		{
 			if ( jarFile != null )
@@ -442,7 +429,7 @@ public class URLClassLoader extends java.net.URLClassLoader
 		FileLoader( URL url )
 		{
 			baseUrl = url;
-			baseDir = new File( url.getFile( ) );
+			baseDir = new File( getFilePath( url ) );
 			codeSource = new CodeSource( baseUrl, (CodeSigner[]) null );
 		}
 
@@ -528,5 +515,18 @@ public class URLClassLoader extends java.net.URLClassLoader
 			readSize = in.read( bytes );
 		}
 		return out.toByteArray( );
+	}
+
+	private static String getFilePath( URL url )
+	{
+		String path = url.getFile( );
+		try
+		{
+			return URLDecoder.decode( path, "utf-8" );
+		}
+		catch ( UnsupportedEncodingException ex )
+		{
+			return path;
+		}
 	}
 }
