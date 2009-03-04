@@ -105,6 +105,14 @@
                name="altTextID"
                type="resourceKey">
          </property>
+         <property
+               canInherit="true"
+               defaultValue="true"
+               isEncryptable="false"
+               isList="false"
+               name="inheritColumns"
+               type="boolean">
+         </property>
       </reportItem>
    </extension>
    <extension

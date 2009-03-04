@@ -44,13 +44,17 @@ public interface IDataServiceProvider
 
 	/**
 	 * Indicates if current chart is using cube or sharing with crosstab or in
-	 * mulit-view, and cube's dimension count > 1.
+	 * multi-view, and cube's dimension count > 1.
 	 */
 	public static final int MULTI_CUBE_DIMENSIONS = 1 << 6;
 
 	public static final int SHARE_TABLE_QUERY = 1 << 7;
 
 	public static final int SHARE_CROSSTAB_QUERY = 1 << 8;
+	
+	public static final int INHERIT_COLUMNS_ONLY = 1 << 9;
+	
+	public static final int INHERIT_COLUMNS_GROUPS = 1 << 10;
 
 	/**
 	 * Returns all available style names.
@@ -114,12 +118,11 @@ public interface IDataServiceProvider
 	 * @param lExpressions
 	 * @param iMaxRecords
 	 * @param byRow
-	 * @return
 	 * @throws ChartException
 	 * @since BIRT 2.3
 	 */
 	public IDataRowExpressionEvaluator prepareRowExpressionEvaluator( Chart cm,
-			List lExpressions, int iMaxRecords, boolean byRow )
+			List<String> lExpressions, int iMaxRecords, boolean byRow )
 			throws ChartException;
 
 	/**
@@ -157,7 +160,6 @@ public interface IDataServiceProvider
 	 * 
 	 * @param checkType
 	 * @param data
-	 * @return
 	 * @since 2.3
 	 */
 	public Object checkData( String checkType, Object data );

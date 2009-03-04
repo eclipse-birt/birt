@@ -22,9 +22,11 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.engine.extension.ReportItemQueryBase;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 
@@ -124,7 +126,25 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 			// so create concrete query definition by getting
 			// bindings/groupings/filters/sorts
 			// information from referred report item handle.
-			ReportItemHandle itemHandle = ChartReportItemUtil.getReportItemReference( handle );
+			ReportItemHandle itemHandle = null;
+			if ( ChartReportItemUtil.isChartInheritGroups( handle ) )
+			{
+				// Share groups and aggregations from container
+				DesignElementHandle container = handle.getContainer( );
+				while ( container != null )
+				{
+					if ( container instanceof TableHandle )
+					{
+						itemHandle = (TableHandle) container;
+						return new ChartSharingQueryHelper( handle, cm ).createQuery( parent );
+					}
+					container = container.getContainer( );
+				}
+			}
+			else
+			{
+				itemHandle = ChartReportItemUtil.getReportItemReference( handle );
+			}
 			if ( itemHandle != null )
 			{
 				return new ChartSharingQueryHelper( itemHandle, cm ).createQuery( parent );

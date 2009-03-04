@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
@@ -160,7 +161,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					: (Chart) EcoreUtil.copy( cm );
 			// This array is for storing the latest chart data before pressing
 			// apply button
-			final Object[] applyData = new Object[2];
+			final Object[] applyData = new Object[3];
 
 			// Use workbench shell to open the dialog
 			Shell parentShell = null;
@@ -205,6 +206,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					// Save the data when applying
 					applyData[0] = EcoreUtil.copy( context.getModel( ) );
 					applyData[1] = context.getOutputFormat( );
+					applyData[1] = context.isInheritColumnsOnly( );
 
 					commandStack.commit( );
 					commandStack.startTrans( TRANS_NAME );
@@ -227,8 +229,11 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					context.setOutputFormat( "PNG" ); //$NON-NLS-1$
 				}
 				else
+				{
 					context.setOutputFormat( (String) of );
+				}
 			}
+			context.setInheritColumnsOnly( extendedHandle.getBooleanProperty( ChartReportItemUtil.PROPERTY_INHERIT_COLUMNS ) );
 			context.setExtendedItem( extendedHandle );
 			context.setProcessor( new ChartReportStyleProcessor( extendedHandle,
 					false ) );
@@ -249,7 +254,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						crii,
 						cm,
 						contextResult.getModel( ),
-						contextResult.getOutputFormat( ) );
+						contextResult.getOutputFormat( ),
+						contextResult.isInheritColumnsOnly( ) );
 				if ( dataProvider.isPartChart( ) )
 				{
 					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
@@ -270,7 +276,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						crii,
 						cm,
 						(Chart) applyData[0],
-						(String) applyData[1] );
+						(String) applyData[1],
+						(Boolean) applyData[2] );
 				if ( dataProvider.isPartChart( ) )
 				{
 					commandStack.startTrans( TRANS_NAME );
@@ -302,12 +309,14 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 
 	private void updateModel( ExtendedItemHandle eih, ChartWizard chartBuilder,
 			ChartReportItemImpl crii, Chart cmOld, Chart cmNew,
-			String outputFormat )
+			String outputFormat, boolean bInheritColumnsOnly )
 	{
 		try
 		{
 			// update the output format property information.
 			eih.setProperty( ChartReportItemUtil.PROPERTY_OUTPUT, outputFormat );
+			eih.setProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS,
+					bInheritColumnsOnly );
 
 			// TODO: Added till the model team sorts out pass-through
 			// for setProperty

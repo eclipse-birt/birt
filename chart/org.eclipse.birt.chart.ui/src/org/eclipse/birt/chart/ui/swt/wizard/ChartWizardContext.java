@@ -46,6 +46,7 @@ public class ChartWizardContext implements IWizardContext
 	private boolean isMoreAxesSupported;
 	private boolean isRtL;
 	private boolean isTextRtL;
+	private boolean isInheritColumnsOnly;
 	private Map<String, Boolean> mSheetEnabled;
 	private Map<String, Object[]> mQueries;
 	private IResourceFinder resourceFinder = null;
@@ -337,5 +338,22 @@ public class ChartWizardContext implements IWizardContext
 	public void setExternalizer( IExternalizer externalizer )
 	{
 		this.externalizer = externalizer;
+	}
+
+	/**
+	 * @param isInheritColumnsOnly
+	 *            The isInheritColumnsOnly to set.
+	 */
+	public void setInheritColumnsOnly( boolean isInheritColumnsOnly )
+	{
+		this.isInheritColumnsOnly = isInheritColumnsOnly;
+	}
+
+	/**
+	 * @return Returns the isInheritColumnsOnly.
+	 */
+	public boolean isInheritColumnsOnly( )
+	{
+		return isInheritColumnsOnly;
 	}
 }

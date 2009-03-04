@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -46,6 +47,7 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -149,7 +151,8 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 *            handle
 	 * @return Iterator of all bindings
 	 */
-	public static Iterator getColumnDataBindings( ReportItemHandle itemHandle )
+	public static Iterator<ComputedColumnHandle> getColumnDataBindings(
+			ReportItemHandle itemHandle )
 	{
 		return getColumnDataBindings( itemHandle, false );
 	}
@@ -161,11 +164,11 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 * @param unique
 	 *            <code>true</code> will ignore the binding of container if it
 	 *            is duplicate between handle and its container.
-	 * @return
+	 * @return ComputedColumnHandle iterator
 	 * @since 2.3.2
 	 */
-	public static Iterator getColumnDataBindings( ReportItemHandle itemHandle,
-			boolean unique )
+	public static Iterator<ComputedColumnHandle> getColumnDataBindings(
+			ReportItemHandle itemHandle, boolean unique )
 	{
 		if ( itemHandle.getDataSet( ) != null || itemHandle.getCube( ) != null )
 		{
@@ -179,10 +182,10 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 
 		Map<String, ComputedColumnHandle> bindingMap = new LinkedHashMap<String, ComputedColumnHandle>( );
 		ArrayList<ComputedColumnHandle> list = new ArrayList<ComputedColumnHandle>( );
-		Iterator i = handle.columnBindingsIterator( );
+		Iterator<ComputedColumnHandle> i = handle.columnBindingsIterator( );
 		while ( i.hasNext( ) )
 		{
-			ComputedColumnHandle cch = (ComputedColumnHandle) i.next( );
+			ComputedColumnHandle cch = i.next( );
 			list.add( cch );
 			bindingMap.put( cch.getName( ), cch );
 		}
@@ -192,7 +195,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			i = itemHandle.columnBindingsIterator( );
 			while ( i.hasNext( ) )
 			{
-				ComputedColumnHandle cch = (ComputedColumnHandle) i.next( );
+				ComputedColumnHandle cch = i.next( );
 				list.add( cch );
 				bindingMap.put( cch.getName( ), cch );
 			}
@@ -572,7 +575,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 * Check if running aggregates are set on chart.
 	 * 
 	 * @param cm
-	 * @return
+	 * @return set or not
 	 * @throws ChartException
      * @since 2.3.1
 	 */
@@ -608,10 +611,10 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	}
 
 	/**
-	 * Check fi summary aggregates are set on chart.
+	 * Check if summary aggregates are set on chart.
 	 * 
 	 * @param cm
-	 * @return
+	 * @return set or not
 	 * @throws ChartException
 	 */
 	public static boolean isSetSummaryAggregation( Chart cm )
@@ -673,23 +676,24 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		}
 
 		// Check if aggregation is just set on value series.
-		try
+		if ( cm instanceof ChartWithAxes )
 		{
-			if ( cm instanceof ChartWithAxes )
+			EList<Axis> axisList = ( (ChartWithAxes) cm ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( );
+			for ( Axis a : axisList )
 			{
-				EList<Axis> axisList = ( (ChartWithAxes) cm ).getAxes( )
-						.get( 0 )
-						.getAssociatedAxes( );
-				for ( Axis a : axisList )
+				for ( SeriesDefinition orthSD : a.getSeriesDefinitions( ) )
 				{
-					for ( SeriesDefinition orthSD : a.getSeriesDefinitions( ) )
+					SeriesGrouping grouping = orthSD.getGrouping( );
+					if ( grouping != null && grouping.isEnabled( ) )
 					{
 						for ( Query query : orthSD.getDesignTimeSeries( )
 								.getDataDefinition( ) )
 						{
-							if ( ChartUtil.getAggregateFuncExpr( orthSD,
-									baseSD,
-									query ) != null )
+							if ( query.getGrouping( ) != null
+									&& !ChartUtil.isEmpty( query.getGrouping( )
+											.getAggregateExpression( ) ) )
 							{
 								return true;
 							}
@@ -697,28 +701,28 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 					}
 				}
 			}
-			else if ( cm instanceof ChartWithoutAxes )
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			for ( SeriesDefinition orthSD : ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+					.get( 0 )
+					.getSeriesDefinitions( ) )
 			{
-				for ( SeriesDefinition orthSD : ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
-						.get( 0 )
-						.getSeriesDefinitions( ) )
+				SeriesGrouping grouping = orthSD.getGrouping( );
+				if ( grouping != null && grouping.isEnabled( ) )
 				{
 					for ( Query query : orthSD.getDesignTimeSeries( )
 							.getDataDefinition( ) )
 					{
-						if ( ChartUtil.getAggregateFuncExpr( orthSD,
-								baseSD,
-								query ) != null )
+						if ( query.getGrouping( ) != null
+								&& !ChartUtil.isEmpty( query.getGrouping( )
+										.getAggregateExpression( ) ) )
 						{
 							return true;
 						}
 					}
 				}
 			}
-		}
-		catch ( ChartException e )
-		{
-			logger.log( e );
 		}
 
 		return false;
@@ -1437,5 +1441,20 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				}
 				break;
 		}
+	}
+	
+	/**
+	 * Checks if chart inherits groupings and aggregations from container
+	 * 
+	 * @param handle
+	 *            chart handle
+	 * @return inherits groupings or not
+	 * @since 2.5
+	 */
+	public static boolean isChartInheritGroups( ReportItemHandle handle )
+	{
+		return handle.getContainer( ) instanceof CellHandle
+				&& handle.getDataSet( ) == null
+				&& !handle.getBooleanProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS );
 	}
 }

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
+import java.util.List;
+
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.data.DataPackage;
@@ -210,11 +212,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		
 		// If current is the sharing query case and predefined queries are not null,
 		// the input field should be a combo component.
-		boolean needComboField = ( context.getDataServiceProvider( )
-				.checkState( IDataServiceProvider.SHARE_QUERY )
-				|| context.getDataServiceProvider( )
-						.checkState( IDataServiceProvider.HAS_CUBE ) )
-				&& predefinedQuery != null;
+		boolean needComboField = predefinedQuery != null;
 		boolean hasContentAssist = ( predefinedQuery != null && predefinedQuery.length > 0 );
 		if ( needComboField )
 		{
@@ -463,10 +461,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	 */
 	private boolean isTableSharedBinding( )
 	{
-		return context.getDataServiceProvider( )
-				.checkState( IDataServiceProvider.SHARE_QUERY )
-				&& cmbDefinition != null
-				&& cmbDefinition.getData( ) != null;
+		return cmbDefinition != null
+				&& cmbDefinition.getData( ) != null
+				&& ( context.getDataServiceProvider( )
+						.checkState( IDataServiceProvider.SHARE_QUERY ) || context.getDataServiceProvider( )
+						.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) );
 	}
 
 	/**
@@ -1117,8 +1116,12 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			String columnExpr = null;
 			try
 			{
-				columnExpr = ( (IColumnBinding) ExpressionUtil.extractColumnExpressions( chi.getExpression( ) )
-						.get( 0 ) ).getResultSetColumnName( );
+				List bindings = ExpressionUtil.extractColumnExpressions( chi.getExpression( ) );
+				if ( bindings.isEmpty( ) )
+				{
+					continue;
+				}
+				columnExpr = ( (IColumnBinding) bindings.get( 0 ) ).getResultSetColumnName( );
 			}
 			catch ( BirtException e )
 			{

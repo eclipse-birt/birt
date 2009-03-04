@@ -743,7 +743,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			// Set sharing query flag.
 			boolean isSharingQuery = false;
 			if ( handle.getDataBindingReference( ) != null
-					|| handle.getContainer( ) instanceof MultiViewsHandle )
+					|| handle.getContainer( ) instanceof MultiViewsHandle
+					|| ChartReportItemUtil.isChartInheritGroups( handle ) )
 			{
 				isSharingQuery = true;
 			}

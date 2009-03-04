@@ -566,7 +566,8 @@ public class ChartUIUtil
 			IDataServiceProvider dataProvider, IActionEvaluator iae )
 			throws ChartException
 	{
-		boolean isSharingQuery = dataProvider.checkState( IDataServiceProvider.SHARE_QUERY );
+		boolean isSharingQuery = dataProvider.checkState( IDataServiceProvider.SHARE_QUERY )
+				|| dataProvider.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS );
 		final List expressions = Generator.instance( )
 				.getRowExpressions( chart, iae, !isSharingQuery );
 
@@ -1282,7 +1283,7 @@ public class ChartUIUtil
 			return LiteralHelper.fullPositionSet.getDisplayNames( );
 		}
 
-		List items = new ArrayList( 5 );
+		List<String> items = new ArrayList<String>( 5 );
 		// check vertical
 		if ( ( positionScope & ChartUIConstants.ALLOW_VERTICAL_POSITION ) == ChartUIConstants.ALLOW_VERTICAL_POSITION )
 		{
@@ -1322,7 +1323,7 @@ public class ChartUIUtil
 			items.add( LiteralHelper.inoutPositionSet.getDisplayNameByName( Position.OUTSIDE_LITERAL.getName( ) ) );
 		}
 
-		return (String[]) items.toArray( new String[items.size( )] );
+		return items.toArray( new String[items.size( )] );
 	}
 
 	private static void addArrayToList( Object[] array, List list )
@@ -1503,15 +1504,21 @@ public class ChartUIUtil
 		// store available expressions for the content assist on UI, so the
 		// predefined query should not be null. We just need to check the
 		// sharing query case to enable/disable the group.
-		return !wizardContext.getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_QUERY );
+		
+		// TED#12813 If inheritance is used, "inherit columns and groups" mode
+		// will disable grouping and aggregation
+		final int state = wizardContext.getDataServiceProvider( ).getState( );
+		return ( state & IDataServiceProvider.HAS_DATA_SET ) == IDataServiceProvider.HAS_DATA_SET
+				|| ( state & IDataServiceProvider.HAS_CUBE ) == IDataServiceProvider.HAS_CUBE
+				|| ( state & IDataServiceProvider.SHARE_QUERY ) != IDataServiceProvider.SHARE_QUERY
+				&& ( state & IDataServiceProvider.INHERIT_COLUMNS_ONLY ) == IDataServiceProvider.INHERIT_COLUMNS_ONLY;
 	}
 
 	private static String checkGroupTypeOnCategory( ChartWizardContext context,
 			Chart chart )
 	{
 		String isConsistent = ""; //$NON-NLS-1$
-		SeriesDefinition seriesdefinition = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
-				.get( 0 );
+		SeriesDefinition seriesdefinition = getBaseSeriesDefinitions( chart ).get( 0 );
 		DataType queryDataType = context.getDataServiceProvider( )
 				.getDataType( ChartUIUtil.getDataQuery( seriesdefinition, 0 )
 						.getDefinition( ) );

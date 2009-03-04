@@ -38,6 +38,7 @@ import org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.BaseGroupedQueryResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.ChartBaseQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
+import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.SharedCubeResultSetEvaluator;
@@ -86,10 +87,12 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
@@ -233,27 +236,31 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	public final String[] getPreviewHeader( ) throws ChartException
 	{
-		Iterator iterator = ChartReportItemUtil.getColumnDataBindings( itemHandle );
-		ArrayList list = new ArrayList( );
+		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getColumnDataBindings( itemHandle );
+		List<String> list = new ArrayList<String>( );
+		boolean bInheritColumnsOnly = isInheritColumnsOnly( );
 		while ( iterator.hasNext( ) )
 		{
-			list.add( ( (ComputedColumnHandle) iterator.next( ) ).getName( ) );
+			ComputedColumnHandle binding = iterator.next( );
+			// Remove the aggregation bindings if "inherit columns" used.
+			if ( bInheritColumnsOnly && binding.getAggregateFunction( ) != null )
+			{
+				continue;
+			}
+			list.add( ( binding ).getName( ) );
 		}
-		return (String[]) list.toArray( new String[list.size( )] );
+		return list.toArray( new String[list.size( )] );
 	}
 
 	public final List getPreviewData( ) throws ChartException
 	{
-		if ( !isSharedBinding( ) )
-		{
-			return getPreviewRowData( getPreviewHeader( true ), -1, true );
-		}
-		else
+		if ( isSharedBinding( ) || isInheritColumnsGroups( ) )
 		{
 			return fShareBindingQueryHelper.getPreviewRowData( getPreviewHeadersInfo( ),
 					-1,
 					true );
 		}
+		return getPreviewRowData( getPreviewHeader( true ), -1, true );
 	}
 
 	/**
@@ -265,11 +272,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	public final ColumnBindingInfo[] getPreviewHeadersInfo( )
 			throws ChartException
 	{
-		Iterator iterator = ChartReportItemUtil.getColumnDataBindings( itemHandle );
-		ArrayList columnList = new ArrayList( );
+		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getColumnDataBindings( itemHandle );
+		List<ComputedColumnHandle> columnList = new ArrayList<ComputedColumnHandle>( );
+		boolean bInheritColumnsOnly = isInheritColumnsOnly( );
 		while ( iterator.hasNext( ) )
 		{
-			columnList.add( iterator.next( ) );
+			ComputedColumnHandle binding = iterator.next( );
+			// Remove the aggregation bindings if "inherit columns" used.
+			if ( bInheritColumnsOnly && binding.getAggregateFunction( ) != null )
+			{
+				continue;
+			}
+			columnList.add( binding );
 		}
 
 		if ( columnList.size( ) == 0 )
@@ -278,7 +292,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		ColumnBindingInfo[] columnHeaders = null;
-		if ( isTableSharedBinding( ) )
+		if ( isTableSharedBinding( ) || isInheritColumnsGroups( ) )
 		{
 			columnHeaders = fShareBindingQueryHelper.getPreviewHeadersInfo( columnList );
 		}
@@ -287,7 +301,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			columnHeaders = new ColumnBindingInfo[columnList.size( )];
 			for ( int i = 0; i < columnHeaders.length; i++ )
 			{
-				ComputedColumnHandle cch = (ComputedColumnHandle) columnList.get( i );
+				ComputedColumnHandle cch = columnList.get( i );
 				columnHeaders[i] = new ColumnBindingInfo( cch.getName( ),
 						cch.getExpression( ),
 						null,
@@ -1144,7 +1158,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 *      java.lang.String[], int, boolean)
 	 */
 	public IDataRowExpressionEvaluator prepareRowExpressionEvaluator( Chart cm,
-			List columnExpression, int rowCount, boolean isStringType )
+			List<String> columnExpression, int rowCount, boolean isStringType )
 			throws ChartException
 	{
 		// Set thread context class loader so Rhino can find POJOs in workspace
@@ -1209,7 +1223,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				// Create evaluator for data set
 				if ( isSharedBinding( )
 						&& !ChartReportItemUtil.isOldChartUsingInternalGroup( itemHandle,
-								cm ) )
+								cm )
+						|| isInheritColumnsGroups( ) )
 				{
 					evaluator = fShareBindingQueryHelper.createShareBindingEvaluator( cm,
 							session,
@@ -1281,7 +1296,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @throws ChartException
 	 */
 	private IDataRowExpressionEvaluator createBaseEvaluator(
-			ExtendedItemHandle handle, Chart cm, List columnExpression,
+			ExtendedItemHandle handle, Chart cm, List<String> columnExpression,
 			final DataRequestSession session, final EngineTask engineTask )
 			throws ChartException
 	{
@@ -1356,7 +1371,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	}
 
 	/**
-	 * Create a simple expression evalutor, it will causes chart engine using
+	 * Create a simple expression evaluator, it will causes chart engine using
 	 * default grouping instead of DTE's grouping.
 	 * 
 	 * @param actualResultSet
@@ -1950,7 +1965,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	public void setPredefinedExpressions( ColumnBindingInfo[] headers )
 	{
-		if ( isSharedBinding( ) )
+		if ( isSharedBinding( ) || isInheritColumnsGroups( ) )
 		{
 			fShareBindingQueryHelper.setPredefinedExpressions( headers );
 		}
@@ -1967,9 +1982,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 			Object[][] expressions = new Object[commons.size( )][2];
 			int index = 0;
-			for ( Iterator<Map.Entry<String, ColumnBindingInfo>> iter = commons.entrySet( ).iterator( ); iter.hasNext( ); )
+			for ( Iterator<Map.Entry<String, ColumnBindingInfo>> iter = commons.entrySet( )
+					.iterator( ); iter.hasNext( ); )
 			{
-				Entry<String, ColumnBindingInfo> entry = (Entry<String, ColumnBindingInfo>) iter.next( );
+				Entry<String, ColumnBindingInfo> entry = iter.next( );
 				expressions[index][0] = entry.getKey( );
 				expressions[index][1] = entry.getValue( );
 				index++;
@@ -2394,11 +2410,23 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		private List getGroupsOfSharedBinding( )
 		{
 			List groupList = new ArrayList( );
-			ReportItemHandle handle = getReportItemHandle( );
-			handle = getSharedTableHandle( handle );
-			if ( handle instanceof TableHandle )
+			TableHandle table = null;
+			if ( isInheritColumnsGroups( ) )
 			{
-				SlotHandle groups = ( (TableHandle) handle ).getGroups( );
+				table = findTableInheritance( );
+			}
+			else
+			{
+				ReportItemHandle handle = getReportItemHandle( );
+				handle = getSharedTableHandle( handle );
+				if ( handle instanceof TableHandle )
+				{
+					table = (TableHandle) handle;
+				}
+			}
+			if ( table != null )
+			{
+				SlotHandle groups = table.getGroups( );
 				for ( Iterator iter = groups.iterator( ); iter.hasNext( ); )
 				{
 					groupList.add( iter.next( ) );
@@ -2578,6 +2606,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			List columns = new ArrayList( );
 			ReportItemHandle reportItemHandle = getReportItemHandle( );
+			if ( isInheritColumnsGroups( ) )
+			{
+				reportItemHandle = findTableInheritance( );
+			}
 			queryDefn.setDataSetName( reportItemHandle.getDataSet( )
 					.getQualifiedName( ) );
 			for ( int i = 0; i < headers.length; i++ )
@@ -2760,6 +2792,26 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		return false;
 	}
+	
+	boolean isInheritColumnsSet( )
+	{
+		PropertyHandle property = itemHandle.getPropertyHandle( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS );
+		return property != null && property.isSet( );
+	}
+	
+	boolean isInheritColumnsOnly( )
+	{
+		return itemHandle.getContainer( ) instanceof CellHandle
+				&& itemHandle.getDataSet( ) == null
+				&& context.isInheritColumnsOnly( );
+	}
+
+	boolean isInheritColumnsGroups( )
+	{
+		return itemHandle.getContainer( ) instanceof CellHandle
+				&& itemHandle.getDataSet( ) == null
+				&& !context.isInheritColumnsOnly( );
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -2805,6 +2857,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			states |= MULTI_CUBE_DIMENSIONS;
 		}
+		if ( isInheritColumnsOnly( ) )
+		{
+			states |= INHERIT_COLUMNS_ONLY;
+		}
+		if ( isInheritColumnsGroups( ) )
+		{
+			states |= INHERIT_COLUMNS_GROUPS;
+		}
 
 		return states;
 	}
@@ -2842,6 +2902,20 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 		}
 
+		return null;
+	}
+	
+	private TableHandle findTableInheritance( )
+	{
+		DesignElementHandle container = itemHandle.getContainer( );
+		while ( container != null )
+		{
+			if ( container instanceof TableHandle )
+			{
+				return (TableHandle) container;
+			}
+			container = container.getContainer( );
+		}
 		return null;
 	}
 	

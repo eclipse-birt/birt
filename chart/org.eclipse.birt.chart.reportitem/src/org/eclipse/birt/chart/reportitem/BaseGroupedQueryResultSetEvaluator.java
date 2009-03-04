@@ -54,7 +54,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	/** The boolean array indicates if related group of index is used by chart. */
 	protected boolean[] faEnabledGroups;
 	
-	protected List[] faGroupBreaks;
+	protected List<Integer>[] faGroupBreaks;
 
 	protected int fCountOfAvaiableRows = 0;
 
@@ -91,7 +91,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			faGroupBreaks = new List[fGroupDefinitions.size( )];
 			for ( int i = 0; i < faGroupBreaks.length; i++ )
 			{
-				faGroupBreaks[i] = new ArrayList( );
+				faGroupBreaks[i] = new ArrayList<Integer>( );
 			}
 
 			updateEnabledGroupIndexes( cm, fGroupDefinitions );
@@ -124,7 +124,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 					.getPreparedQuery( )
 					.getReportQueryDefn( )
 					.getSubqueries( );
-			if ( c != null )
+			if ( c != null && !c.isEmpty( ) )
 			{
 				subQuerys.addAll( c );
 			}
@@ -139,16 +139,15 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 				for ( Iterator iter = groups.iterator( ); iter.hasNext( ); )
 				{
 					c = ( (IGroupDefinition) iter.next( ) ).getSubqueries( );
-					if ( c != null )
+					if ( c != null && !c.isEmpty( ) )
 					{
 						subQuerys.addAll( c );
 					}
 				}
 			}
 			
-			// Iterator all sub queries and find chart sub query to get group defintions.
-			int i = 0;
-			for ( ; i < subQuerys.size( ); i++ )
+			// Iterator all sub queries and find chart sub query to get group definitions.
+			for ( int i = 0; i < subQuerys.size( ); i++ )
 			{
 				if ( ( ChartReportItemConstants.CHART_SUBQUERY + handle.getElement( )
 						.getID( ) ).equals( ( (ISubqueryDefinition) subQuerys.get( i ) ).getName( ) ) )
@@ -156,6 +155,14 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 					fGroupDefinitions = ( (ISubqueryDefinition) subQuerys.get( i ) ).getGroups( );
 					break;
 				}
+			}
+			
+			if ( fGroupDefinitions == null )
+			{
+				fGroupDefinitions = fResultIterator.getQueryResults( )
+						.getPreparedQuery( )
+						.getReportQueryDefn( )
+						.getGroups( );
 			}
 		}
 		else
@@ -173,7 +180,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			faGroupBreaks = new List[fGroupDefinitions.size( )];
 			for ( int i = 0; i < faGroupBreaks.length; i++ )
 			{
-				faGroupBreaks[i] = new ArrayList( );
+				faGroupBreaks[i] = new ArrayList<Integer>( );
 			}
 			
 			updateEnabledGroupIndexes( cm, fGroupDefinitions );
@@ -187,15 +194,15 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	 * @param groupLevel
 	 * @return
 	 */
-	protected List getGroupBreaksList( int groupLevel )
+	protected List<Integer> getGroupBreaksList( int groupLevel )
 	{
-		if ( faGroupBreaks == null ||
-				groupLevel < 0 ||
-				groupLevel > ( faGroupBreaks.length - 1 ) )
+		if ( faGroupBreaks == null
+				|| groupLevel < 0
+				|| groupLevel > ( faGroupBreaks.length - 1 ) )
 		{
-			return new ArrayList();
+			return new ArrayList<Integer>( );
 		}
-		
+
 		return faGroupBreaks[groupLevel];
 	}
 
@@ -416,9 +423,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 				continue;
 			}
 			
-			Query q = (Query) sd.getDesignTimeSeries( )
-					.getDataDefinition( )
-					.get( 0 );
+			Query q = sd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 );
 			String expr = q.getDefinition( );
 			int index = getGroupIndex( expr, groupDefinitions );
 			if ( index >= 0 )
@@ -431,7 +436,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 		List<SeriesDefinition> orthoSDs = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
 		for ( SeriesDefinition sd : orthoSDs )
 		{
-			Query q = (Query) sd.getQuery( );
+			Query q = sd.getQuery( );
 			if ( q == null
 					|| q.getDefinition( ) == null
 					|| "".equals( q.getDefinition( ).trim( ) ) ) //$NON-NLS-1$

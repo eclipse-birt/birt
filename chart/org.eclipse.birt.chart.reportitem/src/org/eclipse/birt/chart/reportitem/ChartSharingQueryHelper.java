@@ -19,6 +19,8 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -37,15 +39,15 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 	 * Constructor of the class.
 	 * 
 	 * @param handle
-	 * 		the referred report item handle contains actual
-	 * 		bindings/groupings/filters.
+	 *            the referred report item handle contains actual
+	 *            bindings/groupings/filters.
 	 * @param chart
 	 */
 	public ChartSharingQueryHelper( ReportItemHandle handle, Chart cm )
 	{
 		super( handle, cm );
 	}
-	
+
 	/**
 	 * Constructor of the class.
 	 * 
@@ -71,19 +73,48 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 	 * @return query definition
 	 * @throws BirtException
 	 */
-	public IDataQueryDefinition createQuery(
-			IDataQueryDefinition parent ) throws BirtException
+	public IDataQueryDefinition createQuery( IDataQueryDefinition parent )
+			throws BirtException
 	{
 		BaseQueryDefinition query = createQueryDefinition( parent );
-		if ( query == null ) {
+		if ( query == null )
+		{
 			return null;
 		}
-		
+
 		// Handle groups.
-		List groups = getGroups();
-		for ( Iterator iter = groups.iterator( ); iter.hasNext( ); )
+		List<GroupHandle> groups = getGroups( );
+		for ( Iterator<GroupHandle> iter = groups.iterator( ); iter.hasNext( ); )
 		{
-			handleGroup( (GroupHandle) iter.next( ), query );
+			handleGroup( iter.next( ), query );
+		}
+
+		if ( ChartReportItemUtil.isChartInheritGroups( fReportItemHandle ) )
+		{
+			// Copy aggregations from table container to chart
+			TableHandle table = null;
+			DesignElementHandle container = fReportItemHandle.getContainer( );
+			while ( container != null )
+			{
+				if ( container instanceof TableHandle )
+				{
+					table = (TableHandle) container;
+					break;
+				}
+				container = container.getContainer( );
+			}
+			if ( table != null )
+			{
+				Iterator<ComputedColumnHandle> iterator = table.columnBindingsIterator( );
+				while ( iterator.hasNext( ) )
+				{
+					ComputedColumnHandle binding = iterator.next( );
+					if ( binding.getAggregateFunction( ) != null )
+					{
+						addColumBinding( query, binding );
+					}
+				}
+			}
 		}
 		return query;
 	}
@@ -93,14 +124,31 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 	 * 
 	 * @return
 	 */
-	private List getGroups( )
+	private List<GroupHandle> getGroups( )
 	{
-		List groupList = new ArrayList( );
-		ReportItemHandle handle = fReportItemHandle;
-		if ( handle instanceof TableHandle )
+		List<GroupHandle> groupList = new ArrayList<GroupHandle>( );
+		TableHandle table = null;
+		if ( fReportItemHandle instanceof TableHandle )
 		{
-			SlotHandle groups = ( (TableHandle) handle ).getGroups( );
-			for ( Iterator iter = groups.iterator( ); iter.hasNext( ); )
+			table = (TableHandle) fReportItemHandle;
+		}
+		else if ( ChartReportItemUtil.isChartInheritGroups( fReportItemHandle ) )
+		{
+			DesignElementHandle container = fReportItemHandle.getContainer( );
+			while ( container != null )
+			{
+				if ( container instanceof TableHandle )
+				{
+					table = (TableHandle) container;
+					break;
+				}
+				container = container.getContainer( );
+			}
+		}
+		if ( table != null )
+		{
+			SlotHandle groups = table.getGroups( );
+			for ( Iterator<GroupHandle> iter = groups.iterator( ); iter.hasNext( ); )
 			{
 				groupList.add( iter.next( ) );
 			}
@@ -108,9 +156,13 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 		return groupList;
 	}
 
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.reportitem.ChartBaseQueryHelper#addSortAndFilter(org.eclipse.birt.report.model.api.ReportItemHandle, org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.reportitem.ChartBaseQueryHelper#addSortAndFilter
+	 * (org.eclipse.birt.report.model.api.ReportItemHandle,
+	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition)
 	 */
 	protected void addSortAndFilter( ReportItemHandle handle,
 			BaseQueryDefinition query )
