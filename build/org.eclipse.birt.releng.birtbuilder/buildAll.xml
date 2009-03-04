@@ -54,11 +54,11 @@
 				<antcall target="iPortalSetup"/>			
 			</sequential>
 			<sequential>
-
+                                
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
 				<antcall target="generateJavaDoc"/>
-
+                                
 			</sequential>
 		</parallel>
 
@@ -188,8 +188,6 @@
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
                 
-        <antcall target="SignUpdateSiteJars"/>
-                     
         <!--copy all packages to upload area-->
 		<echo message="start copying to download area..."/>
 	        <echo message="from dir: ${postingDirectory}/${buildId}"/>
@@ -207,32 +205,6 @@
 
 	       <antcall target="renamePackage"/>
                <antcall target="sendNotification"/>
-	</target>
-        
-    <target name="SignUpdateSiteJars" if="createUpdateSite">
-        <zip destfile="${postingDirectory}/${buildId}/UpdateSite/UpdatesiteJars.zip">
-            <fileset dir="${postingDirectory}/${buildId}/UpdateSite" includes="features/*.jar"/>
-            <fileset dir="${postingDirectory}/${buildId}/UpdateSite">
-		        <include name="plugins/*birt*.jar"/>
-                <include name="plugins/com.lowagie.itext_*.jar"/>
-                <include name="plugins/org.apache.derby.core_*.jar"/>
-                <include name="plugins/org.mozilla.rhino_*.jar"/>
-                <include name="plugins/org.w3c.sac_*.jar"/>
-                <exclude name="plugins/org.eclipse.birt.integration.wtp.ui_*.jar"/>
-                <exclude name="plugins/org.eclipse.birt.chart.integration.wtp.ui_*.jar"/>
-            </fileset>
-            <fileset dir="${eclipse.build.configs}/../../extras" includes="pack.properties"/>
-        </zip>
-        <scp todir="${username.sign}:${password.sign}@${hostname.sign}:${home.dir}" trust="true">
-            <fileset dir="${postingDirectory}/${buildId}/UpdateSite" includes="UpdatesiteJars.zip"/>
-        </scp>
-        <sshexec host="${hostname.sign}" username="${username.sign}" password="${password.sign}" trust="true"
-                    command="cd ${sign.dir};cp ${home.dir}/UpdatesiteJars.zip ./;sign UpdatesiteJars.zip nomail;"/>
-        <sleep minutes="20"/>
-        <scp localtofile="${postingDirectory}/${buildId}/UpdateSite/UpdatesiteJars.sign.zip" trust="true"
-             file="${username.sign}:${password.sign}@${hostname.sign}:${sign.dir}/UpdatesiteJars.zip"/>
-        <unzip src="${postingDirectory}/${buildId}/UpdateSite/UpdatesiteJars.sign.zip" dest="${postingDirectory}/${buildId}/UpdateSite"/>
-        <ant antfile="${eclipse.build.configs}/birt/tools/RepackageWithSignJar.xml"/>
 	</target>
 	
 	<target name="renamePackage" unless="skip.rename.package">
@@ -531,11 +503,12 @@
 			<arg line="-q ${buildDirectory}/birt-all-${package.version}.bak.zip -r eclipse" />
 		</exec>		
 		
-		<!-- TODO: Sign packed features and plugins. 
+		<!-- Sign packed features and plugins. 
 		Download signed features and plugins back to replace ${tmpsite}/eclipse.
 		Back signed features and plugins as update site jars 
 		-->
-		
+		<antcall target="SignJars"/>
+
 		<!-- unpack features and plugins -->		
 		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
 
@@ -543,6 +516,31 @@
 			<arg line="-q ${buildDirectory}/birt-all-${package.version}.zip -r eclipse" />
 		</exec>
 	</target>
+
+        <target name="SignJars" if="createUpdateSite">
+           <echo message="upload birt-all-${package.version}.bak.zip and sign it..."/>
+           <scp todir="${username.sign}:${password.sign}@${hostname.sign}:${home.dir}" trust="true">
+             <fileset dir="${buildDirectory}" includes="birt-all-${package.version}.bak.zip"/>
+           </scp>
+           <sshexec host="${hostname.sign}" username="${username.sign}" password="${password.sign}" trust="true"
+                    command="cd ${sign.dir};cp ${home.dir}/birt-all-${package.version}.bak.zip ./;sign birt-all-${package.version}.bak.zip nomail;"/>
+           <sleep minutes="30"/>
+           <scp localtofile="${buildDirectory}/birt-all-${package.version}.sign.zip" trust="true"
+                file="${username.sign}:${password.sign}@${hostname.sign}:${sign.dir}/birt-all-${package.version}.bak.zip"/>
+           <condition property="CompareSignPack" value="true">
+                <filesmatch file1="${buildDirectory}/birt-all-${package.version}.bak.zip"
+                            file2="${buildDirectory}/birt-all-${package.version}.sign.zip"/>
+           </condition>
+           <antcall target="DownloadSignedPackAgain"/>
+           <unzip src="${buildDirectory}/birt-all-${package.version}.sign.zip" dest="${tmpsite}"/>
+        </target>
+
+        <target name="DownloadSignedPackAgain" if="CompareSignPack">
+           <sleep minutes="10"/>
+           <echo message="download signed package again..."/>
+           <scp localtofile="${buildDirectory}/birt-all-${package.version}.sign.zip" trust="true"
+                file="${username.sign}:${password.sign}@${hostname.sign}:${sign.dir}/birt-all-${package.version}.bak.zip"/>
+        </target>
 
 	<target name="integrateBirtFeatures" >
 
@@ -564,19 +562,19 @@
             </ant>
     </target>
 
-	<target name="generateJavaCrossReference">
+	<target name="generateJavaCrossReference" unless="skip.gen.JavaCrossRef">
         <ant antfile="${eclipse.build.configs}/../../extras/CrossReferenceGenerator.xml" 
         	target="generateJavaCrossReference" >
         </ant>
 	</target>
 
-	<target name="generateDocumentCheck">
+	<target name="generateDocumentCheck" unless="skip.gen.DocuCheck">
         <ant antfile="${eclipse.build.configs}/../../extras/CrossReferenceGenerator.xml" 
         	target="generateDocumentCheck" >
         </ant>
 	</target>
 	
-    <target name="generateJavaDoc">
+    <target name="generateJavaDoc" unless="skip.gen.JavaDoc">
         <ant antfile="${eclipse.build.configs}/../../extras/antJavadoc.xml"/>
     </target>
 
