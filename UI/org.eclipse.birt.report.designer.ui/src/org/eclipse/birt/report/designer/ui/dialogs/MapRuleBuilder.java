@@ -1592,8 +1592,8 @@ public class MapRuleBuilder extends BaseDialog
 
 		btnBrowse = new Button( resourceKeyArea, SWT.PUSH );
 		btnBrowse.setLayoutData( new GridData( ) );
-		btnBrowse.setText( "..." ); //$NON-NLS-1$
-
+		btnBrowse.setText( Messages.getString( "MapRuleBuilder.Button.Browse" ) ); //$NON-NLS-1$
+		btnBrowse.setToolTipText( Messages.getString( "MapRuleBuilder.Button.Browse.Tooltip" ) ); //$NON-NLS-1$
 		btnBrowse.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
