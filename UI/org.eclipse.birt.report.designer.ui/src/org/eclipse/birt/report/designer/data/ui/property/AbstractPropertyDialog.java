@@ -65,7 +65,7 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.15 $ $Date: 2009/02/18 10:59:08 $
+ * @version $Revision: 1.16 $ $Date: 2009/02/19 10:07:59 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
@@ -558,7 +558,6 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 			// First check whether we can change the page.
 			if ( node == currentNode || !currentNode.getPage( ).canLeave( ) )
 			{
-				setFocusOnPageControl( );
 				return false;
 			}
 		}
@@ -576,21 +575,12 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		node.getPage( ).pageActivated( );
 		viewer.setSelection( new StructuredSelection( node ) );
 		propertyPane.layout( );
-		setFocusOnPageControl( );
 		firePageChanged( new PageChangedEvent( this,
 				new DialogPageAdapter( currentNode ) ) );
 		return true;
 
 	}
 
-	/**
-	 * 
-	 */
-	private void setFocusOnPageControl( )
-	{
-		currentNode.getPageControl( ).setFocus( );
-	}
-	
 	/**
 	 *
 	 */
