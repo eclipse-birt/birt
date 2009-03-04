@@ -212,7 +212,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		
 		// If current is the sharing query case and predefined queries are not null,
 		// the input field should be a combo component.
-		boolean needComboField = predefinedQuery != null;
+		final int state = context.getDataServiceProvider( ).getState( );
+		boolean needComboField = predefinedQuery != null
+				&& ( ( state & IDataServiceProvider.SHARE_QUERY ) == IDataServiceProvider.SHARE_QUERY
+						|| ( state & IDataServiceProvider.HAS_CUBE ) == IDataServiceProvider.HAS_CUBE || ( state & IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) == IDataServiceProvider.INHERIT_COLUMNS_GROUPS );
+
 		boolean hasContentAssist = ( predefinedQuery != null && predefinedQuery.length > 0 );
 		if ( needComboField )
 		{
