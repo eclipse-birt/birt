@@ -285,7 +285,7 @@
 		<mkdir dir="${updateJarWorkingDir}" />
 		<mkdir dir="${updateJarWorkingDir}/site" />
 		
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
+		<exec executable="unzip" dir="${buildDirectory}">
 			<arg line="-o -q birt-all-${package.version}.zip -d ${updateJarWorkingDir}" />
 		</exec>
 		<!--
