@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api.elements.structures;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.JoinConditionHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
@@ -24,6 +25,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents a condition used for joint data set. The joint data set is data
@@ -149,13 +151,13 @@ public class JoinCondition extends Structure
 	 * Value of the left coloumn property.
 	 */
 
-	protected String leftExpression = null;
+	protected Expression leftExpression = null;
 
 	/**
 	 * Value of the right coloumn property.
 	 */
 
-	protected String rightExpression = null;
+	protected Expression rightExpression = null;
 
 	/*
 	 * (non-Javadoc)
@@ -211,9 +213,9 @@ public class JoinCondition extends Structure
 		else if ( RIGHT_DATASET_MEMBER.equals( propName ) )
 			rightDataSet = (String) value;
 		else if ( LEFT_EXPRESSION_MEMBER.equals( propName ) )
-			leftExpression = (String) value;
+			leftExpression = convertObjectToExpression( value );
 		else if ( RIGHT_EXPRESSION_MEMBER.equals( propName ) )
-			rightExpression = (String) value;
+			rightExpression = convertObjectToExpression( value );
 
 		else
 			assert false;
@@ -392,10 +394,10 @@ public class JoinCondition extends Structure
 		checkStringMember( joinOperator, JOIN_OPERATOR_MEMBER, element, list );
 		checkStringMember( leftDataSet, LEFT_DATASET_MEMBER, element, list );
 		checkStringMember( rightDataSet, RIGHT_DATASET_MEMBER, element, list );
-		checkStringMember( leftExpression, LEFT_EXPRESSION_MEMBER, element,
-				list );
-		checkStringMember( rightExpression, RIGHT_EXPRESSION_MEMBER, element,
-				list );
+		checkStringMember( leftExpression == null ? null : leftExpression
+				.getStringExpression( ), LEFT_EXPRESSION_MEMBER, element, list );
+		checkStringMember( rightExpression == null ? null : rightExpression
+				.getStringExpression( ), RIGHT_EXPRESSION_MEMBER, element, list );
 
 		checkDataSet( module, leftDataSet, list, element );
 		checkDataSet( module, rightDataSet, list, element );
@@ -446,14 +448,14 @@ public class JoinCondition extends Structure
 			return;
 		}
 
-		List dataSetsReferences = (List) element.getProperty( module,
-				IJointDataSetModel.DATA_SETS_PROP );
+		List<ElementRefValue> dataSetsReferences = (List<ElementRefValue>) element
+				.getProperty( module, IJointDataSetModel.DATA_SETS_PROP );
 		if ( dataSetsReferences != null )
 		{
 			int dataSetIndex;
 			for ( dataSetIndex = 0; dataSetIndex < dataSetsReferences.size( ); dataSetIndex++ )
 			{
-				if ( ( (ElementRefValue) dataSetsReferences.get( dataSetIndex ) )
+				if ( dataSetsReferences.get( dataSetIndex )
 						.getQualifiedReference( ).equals( dataSetName ) )
 				{
 					return;

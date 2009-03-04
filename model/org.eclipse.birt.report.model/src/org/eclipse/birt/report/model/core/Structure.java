@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -575,4 +576,122 @@ public abstract class Structure implements IStructure
 		return ref;
 	}
 
+	/**
+	 * Get the string value.
+	 * 
+	 * @param memberName
+	 *            name of the member to get
+	 * @return String value of the member, or <code>null</code> if the member is
+	 *         not set or is not found.
+	 */
+
+	protected String getStringProperty( String memberName )
+	{
+		return getStringProperty( null, memberName );
+	}
+
+	/**
+	 * Get the string value.
+	 * 
+	 * @param module
+	 *            the root design/library
+	 * @param memberName
+	 *            name of the member to get
+	 * @return String value of the member, or <code>null</code> if the member is
+	 *         not set or is not found.
+	 */
+
+	public String getStringProperty( Module module, String memberName )
+	{
+		Object tmpValue = getProperty( module, memberName );
+		if ( tmpValue instanceof Expression )
+		{
+			return ( (Expression) tmpValue ).getStringExpression( );
+		}
+		else if ( tmpValue instanceof String )
+			return (String) tmpValue;
+
+		return null;
+	}
+
+	/**
+	 * Constructs the expression object for the given value.
+	 * 
+	 * @param value
+	 *            the value to convert
+	 * @return the expression object
+	 */
+
+	protected static Expression convertObjectToExpression( Object value )
+	{
+		Expression expression = null;
+
+		if ( value instanceof String )
+			expression = new Expression( value, null );
+		else if ( value instanceof Expression )
+			expression = (Expression) value;
+
+		return expression;
+	}
+
+	/**
+	 * Constructs the expression list for the given list.
+	 * 
+	 * @param values
+	 *            the list
+	 * @return the expression list
+	 */
+
+	protected static List<Expression> convertListToExpressionList(
+			List<String> values )
+	{
+		if ( values == null )
+			return null;
+
+		List<Expression> newList = new ArrayList<Expression>( );
+		if ( !values.isEmpty( ) )
+		{
+			for ( int i = 0; i < values.size( ); i++ )
+			{
+				Expression tmpValue = convertObjectToExpression( values.get( i ) );
+				if ( tmpValue != null )
+					newList.add( tmpValue );
+			}
+		}
+
+		return newList;
+	}
+
+	/**
+	 * Sets the value of the member as an expression.
+	 * 
+	 * @param memberName
+	 *            name of the member to set.
+	 * @param value
+	 *            the expression to set
+	 * @throws SemanticException
+	 *             if the member name is not defined on the structure or the
+	 *             value is not valid for the member.
+	 */
+
+	public void setExprssionProperty( String memberName, Expression value )
+	{
+		setProperty( memberName, value );
+	}
+
+	/**
+	 * Gets the value of the member as an expression.
+	 * 
+	 * @param memberName
+	 *            name of the member to set.
+	 * @return the expression
+	 * @throws SemanticException
+	 *             if the member name is not defined on the structure or the
+	 *             value is not valid for the member.
+	 */
+
+	public Expression getExprssionProperty( String memberName )
+	{
+		return (Expression) getProperty( null, memberName );
+	}
 }

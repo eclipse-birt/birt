@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api.elements.structures;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
@@ -22,6 +23,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * This class presents the parameter binding that bind data set input parameter
@@ -72,7 +74,7 @@ public class ParamBinding extends Structure
 	 * The parameter expression expression.
 	 */
 
-	private String expression = null;
+	private Expression expression = null;
 
 	/*
 	 * (non-Javadoc)
@@ -114,7 +116,9 @@ public class ParamBinding extends Structure
 		if ( PARAM_NAME_MEMBER.equals( propName ) )
 			paramName = (String) value;
 		else if ( EXPRESSION_MEMBER.equals( propName ) )
-			expression = (String) value;
+		{
+			expression = convertObjectToExpression( value );
+		}
 		else
 			assert false;
 
@@ -151,7 +155,7 @@ public class ParamBinding extends Structure
 
 	public String getExpression( )
 	{
-		return (String) getProperty( null, EXPRESSION_MEMBER );
+		return getStringProperty( EXPRESSION_MEMBER );
 	}
 
 	/**

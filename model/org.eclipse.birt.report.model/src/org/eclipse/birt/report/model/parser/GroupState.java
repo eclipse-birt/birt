@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
@@ -65,7 +66,9 @@ abstract class GroupState extends ReportElementState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -83,11 +86,18 @@ abstract class GroupState extends ReportElementState
 
 	public void end( ) throws SAXException
 	{
-		if ( handler.versionNumber < VersionUtil.VERSION_3_2_8 &&
-				handler.versionNumber > VersionUtil.VERSION_3_0_0 )
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_8
+				&& handler.versionNumber > VersionUtil.VERSION_3_0_0 )
 		{
-			String keyExpr = (String) group.getLocalProperty( handler.module,
+			Object tmpValue = group.getLocalProperty( handler.module,
 					IGroupElementModel.KEY_EXPR_PROP );
+			if ( tmpValue == null )
+			{
+				super.end( );
+				return;
+			}
+
+			String keyExpr = ( (Expression) tmpValue ).getStringExpression( );
 			if ( !StringUtil.isBlank( keyExpr ) )
 			{
 				TOC toc = (TOC) group.getLocalProperty( handler.module,

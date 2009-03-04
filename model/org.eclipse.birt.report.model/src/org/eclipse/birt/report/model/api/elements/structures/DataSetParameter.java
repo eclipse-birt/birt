@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -24,6 +25,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents the parameter for ODA drivers. The parameter is the part of the
@@ -180,7 +182,7 @@ public class DataSetParameter extends Structure
 	 * The default value of the parameter.
 	 */
 
-	private String defaultValue;
+	private Expression defaultValue;
 
 	/**
 	 * The native (database) data type.
@@ -249,7 +251,7 @@ public class DataSetParameter extends Structure
 		else if ( IS_OPTIONAL_MEMBER.equals( propName ) )
 			isOptional = (Boolean) value;
 		else if ( DEFAULT_VALUE_MEMBER.equals( propName ) )
-			defaultValue = (String) value;
+			defaultValue = convertObjectToExpression( value );
 		else if ( IS_NULLABLE_MEMBER.equals( propName )
 				|| ALLOW_NULL_MEMBER.equals( propName ) )
 			allowNull = (Boolean) value;
@@ -307,7 +309,7 @@ public class DataSetParameter extends Structure
 
 	public String getDefaultValue( )
 	{
-		return (String) getProperty( null, DEFAULT_VALUE_MEMBER );
+		return getStringProperty( DEFAULT_VALUE_MEMBER );
 	}
 
 	/**

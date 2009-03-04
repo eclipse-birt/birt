@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.util.OperatorUtil;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
@@ -144,10 +145,7 @@ public abstract class StyleRuleHandle extends StructureHandle
 
 	public String getValue1( )
 	{
-		List valueList = getValue1List( );
-		if ( valueList == null || valueList.isEmpty( ) )
-			return null;
-		return (String) valueList.get( 0 );
+		return getCompatibleValue1( StyleRule.VALUE1_MEMBER, getValue1List( ) );
 	}
 
 	/**

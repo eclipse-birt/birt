@@ -255,16 +255,19 @@ public class ColorPropertyType extends PropertyType
 	 * @see #validateValue(Module, PropertyDefn, Object)
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn, String value )
+	public Object validateXml( Module module, PropertyDefn defn, Object value )
 			throws PropertyValueException
 	{
-		value = StringUtil.trimString( value );
-		if ( value == null )
+		assert value == null || value instanceof String;
+		String tmpValue = (String) value;
+		
+		tmpValue = StringUtil.trimString( tmpValue );
+		if ( tmpValue == null )
 		{
 			return null;
 		}
 
-		Object validValue = validateColor( module, value );
+		Object validValue = validateColor( module, tmpValue );
 		if ( validValue != null )
 		{
 			return validValue;
@@ -272,9 +275,9 @@ public class ColorPropertyType extends PropertyType
 
 		// String does not make sense.
 
-		logger.log( Level.SEVERE, "Invalid color property value " + value ); //$NON-NLS-1$
+		logger.log( Level.SEVERE, "Invalid color property value " + tmpValue ); //$NON-NLS-1$
 
-		throw new PropertyValueException( value,
+		throw new PropertyValueException( tmpValue,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				COLOR_TYPE );
 	}

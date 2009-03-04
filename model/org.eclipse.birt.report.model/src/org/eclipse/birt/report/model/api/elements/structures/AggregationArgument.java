@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api.elements.structures;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -57,7 +58,7 @@ public class AggregationArgument extends Structure
 	 * The argument value.
 	 */
 
-	private String value = null;
+	private Expression value = null;
 
 	/*
 	 * (non-Javadoc)
@@ -99,7 +100,7 @@ public class AggregationArgument extends Structure
 		if ( NAME_MEMBER.equals( propName ) )
 			name = (String) value;
 		else if ( VALUE_MEMBER.equals( propName ) )
-			this.value = (String) value;
+			this.value = convertObjectToExpression( value );
 		else
 			assert false;
 	}

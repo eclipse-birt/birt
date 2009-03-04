@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
@@ -26,10 +27,13 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
+import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /**
  * Parses the "expression" tag. If the element property or structure member is
@@ -57,6 +61,12 @@ class ExpressionState extends PropertyState
 
 	private static final int GROUP_TOC_PROP = IGroupElementModel.TOC_PROP
 			.toLowerCase( ).hashCode( );
+
+	/**
+	 * The type for the expression.
+	 */
+
+	private String exprType = null;
 
 	/**
 	 * 
@@ -93,6 +103,8 @@ class ExpressionState extends PropertyState
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		super.parseAttrs( attrs );
+
+		exprType = attrs.getValue( DesignSchemaConstants.TYPE_TAG );
 	}
 
 	/*
@@ -209,6 +221,36 @@ class ExpressionState extends PropertyState
 			return state;
 		}
 		return super.versionConditionalJumpTo( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
+	 */
+
+	public void end( ) throws SAXException
+	{
+		String value = text.toString( );
+
+		Object toSet = value;
+
+		// in some old design file, the property/expression tags may be messed
+		// up.
+
+		PropertyDefn tmpPropDefn = null;
+		if ( struct != null )
+		{
+			StructureDefn structDefn = (StructureDefn) struct.getDefn( );
+			tmpPropDefn = (StructPropertyDefn) structDefn.getMember( name );
+		}
+		else
+			tmpPropDefn = element.getPropertyDefn( name );
+
+		if ( tmpPropDefn != null && tmpPropDefn.allowExpression( ) )
+			toSet = new Expression( value, exprType );
+
+		doEnd( toSet );
 	}
 
 }

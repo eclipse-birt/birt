@@ -108,11 +108,14 @@ public class MemberKeyPropertyType extends TextualPropertyType
 	 *      java.lang.String)
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn, String value )
+	public Object validateXml( Module module, PropertyDefn defn, Object value )
 			throws PropertyValueException
 	{
-		if ( value == null )
+		assert value == null || value instanceof String;
+		String tmpValue = (String) value;
+		
+		if ( tmpValue == null )
 			return null;
-		return StringUtil.trimString( value );
+		return StringUtil.trimString( tmpValue );
 	}
 }

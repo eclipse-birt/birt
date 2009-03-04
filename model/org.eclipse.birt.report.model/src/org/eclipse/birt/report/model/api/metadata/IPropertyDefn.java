@@ -178,4 +178,13 @@ public interface IPropertyDefn extends IContainerDefn
 	 */
 
 	public String getContext( );
+
+	/**
+	 * Checks whether the expression can be the value of this property.
+	 * 
+	 * @return <code>true</code> if the expression value is valid. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean allowExpression( );
 }

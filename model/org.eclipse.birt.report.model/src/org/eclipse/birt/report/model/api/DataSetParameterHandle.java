@@ -75,10 +75,17 @@ public class DataSetParameterHandle extends StructureHandle
 	 * Returns the data type of this parameter. The possible values are:
 	 * 
 	 * <ul>
-	 * <li>COLUMN_DATA_TYPE_ANY <li>COLUMN_DATA_TYPE_INTEGER <li>
-	 * COLUMN_DATA_TYPE_STRING <li>COLUMN_DATA_TYPE_DATETIME <li>
-	 * COLUMN_DATA_TYPE_DECIMAL <li>COLUMN_DATA_TYPE_FLOAT <li>
-	 * COLUMN_DATA_TYPE_STRUCTURE <li>COLUMN_DATA_TYPE_TABLE
+	 * <li>COLUMN_DATA_TYPE_ANY
+	 * <li>COLUMN_DATA_TYPE_INTEGER
+	 * <li>
+	 * COLUMN_DATA_TYPE_STRING
+	 * <li>COLUMN_DATA_TYPE_DATETIME
+	 * <li>
+	 * COLUMN_DATA_TYPE_DECIMAL
+	 * <li>COLUMN_DATA_TYPE_FLOAT
+	 * <li>
+	 * COLUMN_DATA_TYPE_STRUCTURE
+	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
 	 * 
 	 * @return the data type of this parameter.
@@ -97,10 +104,17 @@ public class DataSetParameterHandle extends StructureHandle
 	 * Sets the data type of this parameter. The allowed values are:
 	 * 
 	 * <ul>
-	 * <li>COLUMN_DATA_TYPE_ANY <li>COLUMN_DATA_TYPE_INTEGER <li>
-	 * COLUMN_DATA_TYPE_STRING <li>COLUMN_DATA_TYPE_DATETIME <li>
-	 * COLUMN_DATA_TYPE_DECIMAL <li>COLUMN_DATA_TYPE_FLOAT <li>
-	 * COLUMN_DATA_TYPE_STRUCTURE <li>COLUMN_DATA_TYPE_TABLE
+	 * <li>COLUMN_DATA_TYPE_ANY
+	 * <li>COLUMN_DATA_TYPE_INTEGER
+	 * <li>
+	 * COLUMN_DATA_TYPE_STRING
+	 * <li>COLUMN_DATA_TYPE_DATETIME
+	 * <li>
+	 * COLUMN_DATA_TYPE_DECIMAL
+	 * <li>COLUMN_DATA_TYPE_FLOAT
+	 * <li>
+	 * COLUMN_DATA_TYPE_STRUCTURE
+	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
 	 * 
 	 * @param dataType
@@ -227,7 +241,7 @@ public class DataSetParameterHandle extends StructureHandle
 
 	public String getDefaultValue( )
 	{
-		return (String) getProperty( DataSetParameter.DEFAULT_VALUE_MEMBER );
+		return getStringProperty( DataSetParameter.DEFAULT_VALUE_MEMBER );
 	}
 
 	/**
@@ -388,8 +402,14 @@ public class DataSetParameterHandle extends StructureHandle
 	 * possible values are:
 	 * 
 	 * <ul>
-	 * <li>PARAM_TYPE_ANY <li>PARAM_TYPE_INTEGER <li>PARAM_TYPE_STRING <li>
-	 * PARAM_TYPE_DATETIME <li>PARAM_TYPE_DECIMAL <li>PARAM_TYPE_FLOAT <li>
+	 * <li>PARAM_TYPE_ANY
+	 * <li>PARAM_TYPE_INTEGER
+	 * <li>PARAM_TYPE_STRING
+	 * <li>
+	 * PARAM_TYPE_DATETIME
+	 * <li>PARAM_TYPE_DECIMAL
+	 * <li>PARAM_TYPE_FLOAT
+	 * <li>
 	 * PARAM_TYPE_BOOLEAN
 	 * </ul>
 	 * 
@@ -406,8 +426,14 @@ public class DataSetParameterHandle extends StructureHandle
 	 * allowed values are:
 	 * 
 	 * <ul>
-	 * <li>PARAM_TYPE_ANY <li>PARAM_TYPE_INTEGER <li>PARAM_TYPE_STRING <li>
-	 * PARAM_TYPE_DATETIME <li>PARAM_TYPE_DECIMAL <li>PARAM_TYPE_FLOAT <li>
+	 * <li>PARAM_TYPE_ANY
+	 * <li>PARAM_TYPE_INTEGER
+	 * <li>PARAM_TYPE_STRING
+	 * <li>
+	 * PARAM_TYPE_DATETIME
+	 * <li>PARAM_TYPE_DECIMAL
+	 * <li>PARAM_TYPE_FLOAT
+	 * <li>
 	 * PARAM_TYPE_BOOLEAN
 	 * </ul>
 	 * 

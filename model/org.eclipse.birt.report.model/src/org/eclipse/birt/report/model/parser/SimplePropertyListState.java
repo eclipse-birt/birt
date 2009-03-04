@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -26,7 +27,10 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.CompatiblePropertyChangeTables;
+import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /**
@@ -47,13 +51,14 @@ public class SimplePropertyListState extends AbstractPropertyState
 	 * The definition of the property of this list property.
 	 */
 
-	PropertyDefn propDefn = null;
+	private PropertyDefn propDefn = null;
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#AbstractPropertyState(DesignParserHandler
-	 *      theHandler, DesignElement element, )
+	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
+	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement
+	 * element, )
 	 */
 
 	SimplePropertyListState( ModuleParserHandler theHandler,
@@ -89,8 +94,9 @@ public class SimplePropertyListState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetProperty(org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetProperty
+	 * (org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
 	protected void doSetProperty( PropertyDefn propDefn, Object valueToSet )
@@ -113,16 +119,12 @@ public class SimplePropertyListState extends AbstractPropertyState
 
 		try
 		{
-			for ( int i = 0; i < ( (List) valueToSet ).size( ); i++ )
-			{
-				String item = (String) ( (List) valueToSet ).get( i );
-				PropertyType type = propDefn.getSubType( );
-				Object propValue = type.validateXml( handler.getModule( ),
-						propDefn, item );
-				if ( propValue != null )
-					valueList.add( i, propValue );
 
-			}
+			PropertyType type = propDefn.getType( );
+			Object propValue = type.validateXml( handler.module, propDefn,
+					valueToSet );
+
+			valueList = (List) propValue;
 		}
 		catch ( PropertyValueException ex )
 		{
@@ -157,10 +159,11 @@ public class SimplePropertyListState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetMember(org.eclipse.birt.report.model.api.core.IStructure,
-	 *      java.lang.String,
-	 *      org.eclipse.birt.report.model.metadata.StructPropertyDefn,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetMember
+	 * (org.eclipse.birt.report.model.api.core.IStructure, java.lang.String,
+	 * org.eclipse.birt.report.model.metadata.StructPropertyDefn,
+	 * java.lang.Object)
 	 */
 
 	protected void doSetMember( IStructure struct, String propName,
@@ -216,36 +219,33 @@ public class SimplePropertyListState extends AbstractPropertyState
 
 	public void end( ) throws SAXException
 	{
-		if ( values != null )
-		{
-			if ( struct != null )
-			{
-				setMember( struct, propDefn.getName( ), name, values );
-			}
-			else
-			{
-				setProperty( name, values );
+		if ( values == null )
+			return;
 
-				PropertyDefn defn = element.getPropertyDefn( name );
-				if ( defn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+		if ( struct != null )
+		{
+			setMember( struct, propDefn.getName( ), name, values );
+			return;
+		}
+		setProperty( name, values );
+
+		if ( propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+		{
+			List propList = (List) element.getProperty( element.getRoot( ),
+					name );
+			if ( propList != null )
+			{
+				for ( int i = 0; i < propList.size( ); i++ )
 				{
-					List propList = (List) element.getProperty( element
-							.getRoot( ), name );
-					if ( propList != null )
+					Object obj = propList.get( i );
+					if ( obj instanceof ElementRefValue )
 					{
-						for ( int i = 0; i < propList.size( ); i++ )
+						ElementRefValue refValue = (ElementRefValue) obj;
+						if ( refValue.isResolved( ) )
 						{
-							Object obj = propList.get( i );
-							if ( obj instanceof ElementRefValue )
-							{
-								ElementRefValue refValue = (ElementRefValue) obj;
-								if ( refValue.isResolved( ) )
-								{
-									IReferencableElement referred = refValue
-											.getTargetElement( );
-									referred.addClient( element, name );
-								}
-							}
+							IReferencableElement referred = refValue
+									.getTargetElement( );
+							referred.addClient( element, name );
 						}
 					}
 				}
@@ -256,7 +256,9 @@ public class SimplePropertyListState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
@@ -265,6 +267,22 @@ public class SimplePropertyListState extends AbstractPropertyState
 		if ( ParserSchemaConstants.VALUE_TAG == tagValue )
 			return new ValueState( );
 		return super.startElement( tagName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#parseAttrs
+	 * (org.xml.sax.Attributes)
+	 */
+
+	public void parseAttrs( Attributes attrs ) throws XMLParserException
+	{
+		super.parseAttrs( attrs );
+
+		if ( propDefn == null )
+			propDefn = element.getPropertyDefn( name );
 	}
 
 	/**
@@ -284,6 +302,8 @@ public class SimplePropertyListState extends AbstractPropertyState
 	class ValueState extends InnerParseState
 	{
 
+		private String exprType;
+
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -294,8 +314,38 @@ public class SimplePropertyListState extends AbstractPropertyState
 		{
 			if ( values == null )
 				values = new ArrayList( );
-			values.add( text.toString( ) );
+
+			exprType = StringUtil.trimString( exprType );
+
+			if ( exprType == null )
+			{
+				exprType = CompatiblePropertyChangeTables.getDefaultExprType(
+						element.getDefn( ).getName( ), name,
+						handler.versionNumber );
+			}
+
+			Object value = text.toString( );
+			if ( propDefn.allowExpression( ) )
+			{
+				value = new Expression( text.toString( ), exprType );
+			}
+
+			values.add( value );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
+		 * org.xml.sax.Attributes)
+		 */
+
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			super.parseAttrs( attrs );
+
+			exprType = attrs.getValue( DesignSchemaConstants.TYPE_TAG );
 		}
 	}
-
 }

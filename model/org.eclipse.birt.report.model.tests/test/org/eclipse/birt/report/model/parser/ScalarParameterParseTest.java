@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -60,16 +62,6 @@ import com.ibm.icu.util.ULocale;
 public class ScalarParameterParseTest extends BaseTestCase
 {
 
-	/*
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		openDesign( "ScalarParameterParseTest.xml" ); //$NON-NLS-1$ 	
-
-	}
-
 	/**
 	 * Test the write for user-defined properties.
 	 * 
@@ -78,6 +70,7 @@ public class ScalarParameterParseTest extends BaseTestCase
 
 	public void testWrite( ) throws Exception
 	{
+		openDesign( "ScalarParameterParseTest.xml" ); //$NON-NLS-1$ 	
 
 		SlotHandle params = designHandle.getParameters( );
 		ScalarParameterHandle handle1 = (ScalarParameterHandle) params.get( 0 );
@@ -193,6 +186,8 @@ public class ScalarParameterParseTest extends BaseTestCase
 
 	public void testProperties( ) throws Exception
 	{
+		openDesign( "ScalarParameterParseTest.xml" ); //$NON-NLS-1$ 	
+
 		SlotHandle params = designHandle.getSlot( ReportDesign.PARAMETER_SLOT );
 		assertEquals( 4, params.getCount( ) );
 
@@ -208,10 +203,11 @@ public class ScalarParameterParseTest extends BaseTestCase
 				handle.getParamType( ) );
 		assertEquals( "the validation test", handle.getValidate( ) ); //$NON-NLS-1$
 		assertFalse( handle.isConcealValue( ) );
-		List<String> valueList = handle.getDefaultValueList( );
-		assertEquals( valueList.get( 0 ), handle.getDefaultValue( ) );
-		assertEquals( "value2", valueList.get( 1 ) ); //$NON-NLS-1$
-		assertEquals( "value3", valueList.get( 2 ) ); //$NON-NLS-1$
+		List<Expression> valueList = handle.getDefaultValueList( );
+		assertEquals( valueList.get( 0 ).getExpression( ), handle
+				.getDefaultValue( ) );
+		assertEquals( "value2", valueList.get( 1 ).getExpression( ) ); //$NON-NLS-1$
+		assertEquals( "value3", valueList.get( 2 ).getExpression( ) ); //$NON-NLS-1$
 
 		assertTrue( handle.isRequired( ) );
 		assertFalse( handle.distinct( ) );
@@ -282,6 +278,12 @@ public class ScalarParameterParseTest extends BaseTestCase
 		handle = (ScalarParameterHandle) params.get( 3 );
 		assertEquals( "test", getLocale( handle, //$NON-NLS-1$
 				IScalarParameterModel.FORMAT_PROP ).toString( ) );
+
+		valueList = handle.getDefaultValueList( );
+		assertEquals( "value1", valueList.get( 0 ).getExpression( ) ); //$NON-NLS-1$
+		assertEquals( ExpressionType.CONSTANT, valueList.get( 0 ).getType( ) );
+		assertEquals( "value2", valueList.get( 1 ).getExpression( ) ); //$NON-NLS-1$
+		assertEquals( ExpressionType.JAVASCRIPT, valueList.get( 1 ).getType( ) );
 
 	}
 

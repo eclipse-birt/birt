@@ -100,17 +100,30 @@ public class FilterConditionHandle extends StructureHandle
 	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are:
 	 * <ul>
-	 * <li><code>FILTER_OPERATOR_EQ</code> <li><code>FILTER_OPERATOR_NE</code>
-	 * <li><code>FILTER_OPERATOR_LT</code> <li><code>FILTER_OPERATOR_LE</code>
-	 * <li><code>FILTER_OPERATOR_GE</code> <li><code>FILTER_OPERATOR_GT</code>
-	 * <li><code>FILTER_OPERATOR_BETWEEN</code> <li><code>
-	 * FILTER_OPERATOR_NOT_BETWEEN</code> <li><code>FILTER_OPERATOR_NULL</code>
-	 * <li><code>FILTER_OPERATOR_NOT_NULL</code> <li><code>FILTER_OPERATOR_TRUE
-	 * </code> <li><code>FILTER_OPERATOR_FALSE</code> <li><code>
-	 * FILTER_OPERATOR_LIKE</code> <li><code>FILTER_OPERATOR_TOP_N</code> <li>
-	 * <code>FILTER_OPERATOR_BOTTOM_N</code> <li><code>
-	 * FILTER_OPERATOR_TOP_PERCENT</code> <li><code>
-	 * FILTER_OPERATOR_BOTTOM_PERCENT</code> <li><code>FILTER_OPERATOR_ANY
+	 * <li><code>FILTER_OPERATOR_EQ</code>
+	 * <li><code>FILTER_OPERATOR_NE</code>
+	 * <li><code>FILTER_OPERATOR_LT</code>
+	 * <li><code>FILTER_OPERATOR_LE</code>
+	 * <li><code>FILTER_OPERATOR_GE</code>
+	 * <li><code>FILTER_OPERATOR_GT</code>
+	 * <li><code>FILTER_OPERATOR_BETWEEN</code>
+	 * <li><code>
+	 * FILTER_OPERATOR_NOT_BETWEEN</code>
+	 * <li><code>FILTER_OPERATOR_NULL</code>
+	 * <li><code>FILTER_OPERATOR_NOT_NULL</code>
+	 * <li><code>FILTER_OPERATOR_TRUE
+	 * </code>
+	 * <li><code>FILTER_OPERATOR_FALSE</code>
+	 * <li><code>
+	 * FILTER_OPERATOR_LIKE</code>
+	 * <li><code>FILTER_OPERATOR_TOP_N</code>
+	 * <li>
+	 * <code>FILTER_OPERATOR_BOTTOM_N</code>
+	 * <li><code>
+	 * FILTER_OPERATOR_TOP_PERCENT</code>
+	 * <li><code>
+	 * FILTER_OPERATOR_BOTTOM_PERCENT</code>
+	 * <li><code>FILTER_OPERATOR_ANY
 	 * </code>
 	 * </ul>
 	 * 
@@ -128,17 +141,30 @@ public class FilterConditionHandle extends StructureHandle
 	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are:
 	 * <ul>
-	 * <li><code>FILTER_OPERATOR_EQ</code> <li><code>FILTER_OPERATOR_NE</code>
-	 * <li><code>FILTER_OPERATOR_LT</code> <li><code>FILTER_OPERATOR_LE</code>
-	 * <li><code>FILTER_OPERATOR_GE</code> <li><code>FILTER_OPERATOR_GT</code>
-	 * <li><code>FILTER_OPERATOR_BETWEEN</code> <li><code>
-	 * FILTER_OPERATOR_NOT_BETWEEN</code> <li><code>FILTER_OPERATOR_NULL</code>
-	 * <li><code>FILTER_OPERATOR_NOT_NULL</code> <li><code>FILTER_OPERATOR_TRUE
-	 * </code> <li><code>FILTER_OPERATOR_FALSE</code> <li><code>
-	 * FILTER_OPERATOR_LIKE</code> <li><code>FILTER_OPERATOR_TOP_N</code> <li>
-	 * <code>FILTER_OPERATOR_BOTTOM_N</code> <li><code>
-	 * FILTER_OPERATOR_TOP_PERCENT</code> <li><code>
-	 * FILTER_OPERATOR_BOTTOM_PERCENT</code> <li><code>FILTER_OPERATOR_ANY
+	 * <li><code>FILTER_OPERATOR_EQ</code>
+	 * <li><code>FILTER_OPERATOR_NE</code>
+	 * <li><code>FILTER_OPERATOR_LT</code>
+	 * <li><code>FILTER_OPERATOR_LE</code>
+	 * <li><code>FILTER_OPERATOR_GE</code>
+	 * <li><code>FILTER_OPERATOR_GT</code>
+	 * <li><code>FILTER_OPERATOR_BETWEEN</code>
+	 * <li><code>
+	 * FILTER_OPERATOR_NOT_BETWEEN</code>
+	 * <li><code>FILTER_OPERATOR_NULL</code>
+	 * <li><code>FILTER_OPERATOR_NOT_NULL</code>
+	 * <li><code>FILTER_OPERATOR_TRUE
+	 * </code>
+	 * <li><code>FILTER_OPERATOR_FALSE</code>
+	 * <li><code>
+	 * FILTER_OPERATOR_LIKE</code>
+	 * <li><code>FILTER_OPERATOR_TOP_N</code>
+	 * <li>
+	 * <code>FILTER_OPERATOR_BOTTOM_N</code>
+	 * <li><code>
+	 * FILTER_OPERATOR_TOP_PERCENT</code>
+	 * <li><code>
+	 * FILTER_OPERATOR_BOTTOM_PERCENT</code>
+	 * <li><code>FILTER_OPERATOR_ANY
 	 * </code>
 	 * </ul>
 	 * 
@@ -191,10 +217,8 @@ public class FilterConditionHandle extends StructureHandle
 
 	public String getValue1( )
 	{
-		List valueList = getValue1List( );
-		if ( valueList == null || valueList.isEmpty( ) )
-			return null;
-		return (String) valueList.get( 0 );
+		return getCompatibleValue1( FilterCondition.VALUE1_MEMBER,
+				getValue1List( ) );
 	}
 
 	/**
@@ -374,7 +398,8 @@ public class FilterConditionHandle extends StructureHandle
 	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are:
 	 * <ul>
-	 * <li><code>FILTER_TARGET_DATA_SET</code> <li><code>
+	 * <li><code>FILTER_TARGET_DATA_SET</code>
+	 * <li><code>
 	 * FILTER_TARGET_RESULT_SET</code>
 	 * </ul>
 	 * 
@@ -391,7 +416,8 @@ public class FilterConditionHandle extends StructureHandle
 	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
 	 * and they are:
 	 * <ul>
-	 * <li><code>FILTER_TARGET_DATA_SET</code> <li><code>
+	 * <li><code>FILTER_TARGET_DATA_SET</code>
+	 * <li><code>
 	 * FILTER_TARGET_RESULT_SET</code>
 	 * </ul>
 	 * 

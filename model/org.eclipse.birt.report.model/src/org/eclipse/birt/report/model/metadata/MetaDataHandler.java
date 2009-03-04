@@ -108,6 +108,7 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String CONTEXT_ATTRIB = "context"; //$NON-NLS-1$
 	private static final String MODULES_ATTRIB = "modules"; //$NON-NLS-1$
 	private static final String IS_BIDI_PROPERTY_ATTRIB = "isBidiProperty"; //$NON-NLS-1$
+	private static final String ALLOW_EXPRESSION_ATTRIB = "allowExpression"; //$NON-NLS-1$
 
 	private static final String THIS_KEYWORD = "this"; //$NON-NLS-1$ 
 
@@ -520,6 +521,8 @@ class MetaDataHandler extends XMLParserHandler
 			memberDefn.setSince( attrs.getValue( SINCE_ATTRIB ) );
 			memberDefn.setRuntimeSettable( getBooleanAttrib( attrs,
 					RUNTIME_SETTABLE_ATTRIB, true ) );
+			memberDefn.setAllowExpression( getBooleanAttrib( attrs,
+					ALLOW_EXPRESSION_ATTRIB, false ) );			
 			if ( memberDefn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
 			{
 				memberDefn.setReturnType( attrs.getValue( RETURN_TYPE_ATTRIB ) );
@@ -964,6 +967,8 @@ class MetaDataHandler extends XMLParserHandler
 			propDefn.setSince( attrs.getValue( SINCE_ATTRIB ) );
 			propDefn.setRuntimeSettable( getBooleanAttrib( attrs,
 					RUNTIME_SETTABLE_ATTRIB, true ) );
+			propDefn.setAllowExpression( getBooleanAttrib( attrs,
+					ALLOW_EXPRESSION_ATTRIB, false ) );
 			if ( propDefn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
 			{
 				propDefn.setReturnType( attrs.getValue( RETURN_TYPE_ATTRIB ) );

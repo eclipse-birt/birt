@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.util;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
@@ -60,6 +61,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
  * The utility to provide the way to visit all expressions for the given
@@ -88,7 +90,7 @@ public abstract class BoundColumnsMgr
 		if ( toc != null )
 			handleBoundsForValue( element, module, toc.getExpression( ) );
 
-		String value = (String) element.getLocalProperty( module,
+		String value = getLocalStringProperty( module, element,
 				IReportItemModel.BOOKMARK_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
@@ -534,7 +536,7 @@ public abstract class BoundColumnsMgr
 				IImageItemModel.URI_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
-		value = (String) element.getLocalProperty( module,
+		value = getLocalStringProperty( module, element,
 				IImageItemModel.VALUE_EXPR_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
@@ -601,8 +603,8 @@ public abstract class BoundColumnsMgr
 		String value = (String) action.getProperty( module, Action.URI_MEMBER );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
-		value = (String) action.getProperty( module,
-				Action.TARGET_BOOKMARK_MEMBER );
+		value = action
+				.getStringProperty( module, Action.TARGET_BOOKMARK_MEMBER );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 
@@ -679,7 +681,7 @@ public abstract class BoundColumnsMgr
 	protected void dealTextData( TextDataItem element, Module module )
 	{
 		dealReportItem( element, module );
-		String value = (String) element.getLocalProperty( module,
+		String value = getLocalStringProperty( module, element,
 				ITextDataItemModel.VALUE_EXPR_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
@@ -698,7 +700,7 @@ public abstract class BoundColumnsMgr
 	{
 		dealReportItem( element, module );
 
-		String content = (String) element.getLocalProperty( module,
+		String content = getLocalStringProperty( module, element,
 				ITextItemModel.CONTENT_PROP );
 		if ( StringUtil.isBlank( content ) )
 			return;
@@ -720,12 +722,21 @@ public abstract class BoundColumnsMgr
 
 	protected void dealScalarParameter( ScalarParameter element, Module module )
 	{
-		String value = (String) element.getLocalProperty( module,
+		Expression tmpValue = (Expression) element.getLocalProperty( module,
 				IScalarParameterModel.VALUE_EXPR_PROP );
+		String value = null;
+
+		if ( tmpValue != null )
+			value = tmpValue.getStringExpression( );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
-		value = (String) element.getLocalProperty( module,
+
+		tmpValue = (Expression) element.getLocalProperty( module,
 				IScalarParameterModel.LABEL_EXPR_PROP );
+
+		value = null;
+		if ( tmpValue != null )
+			value = tmpValue.getStringExpression( );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 	}
@@ -804,4 +815,26 @@ public abstract class BoundColumnsMgr
 
 	abstract protected void handleBoundsForParamBinding( DesignElement element,
 			Module module, String propValue );
+
+	/**
+	 * Gets a property converted to a string value.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param propName
+	 *            The name of the property to get.
+	 * @return The property value as a string.
+	 */
+
+	protected static String getLocalStringProperty( Module module,
+			DesignElement tmpElement, String propName )
+	{
+		ElementPropertyDefn prop = tmpElement.getPropertyDefn( propName );
+		if ( prop == null )
+			return null;
+
+		Object value = tmpElement.getLocalProperty( module, prop );
+		return prop.getStringValue( module, value );
+	}
+
 }

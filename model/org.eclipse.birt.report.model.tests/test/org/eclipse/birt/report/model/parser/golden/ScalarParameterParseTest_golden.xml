@@ -74,6 +74,10 @@
             <structure name="format"/>
         </scalar-parameter>
         <scalar-parameter name="Param 4" id="7">
+            <simple-property-list name="defaultValue">
+                <value type="constant">value1</value>
+                <value type="javascript">value2</value>
+            </simple-property-list>        
         	<structure name="format">
                 <property name="locale">test</property>
             </structure>

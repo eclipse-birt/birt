@@ -215,10 +215,13 @@ public class DimensionPropertyType extends PropertyType
 	 * 
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn, String value )
+	public Object validateXml( Module module, PropertyDefn defn, Object value )
 			throws PropertyValueException
 	{
-		DimensionValue dim = StringUtil.parse( value );
+		assert value == null || value instanceof String;
+		String tmpValue = (String) value;
+		
+		DimensionValue dim = StringUtil.parse( tmpValue );
 		if ( dim == null )
 		{
 			return null;

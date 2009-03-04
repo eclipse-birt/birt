@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
@@ -110,7 +111,7 @@ public class FilterCondition extends Structure
 	 * The filter expression.
 	 */
 
-	private String expr;
+	private Expression expr;
 
 	/**
 	 * The filter value 1 expression.
@@ -122,7 +123,7 @@ public class FilterCondition extends Structure
 	 * The filter value 2 expression.
 	 */
 
-	private String value2;
+	private Expression value2;
 
 	/**
 	 * Filter target. It can either <code>DataSet</code> or
@@ -185,11 +186,16 @@ public class FilterCondition extends Structure
 		if ( OPERATOR_MEMBER.equals( propName ) )
 			operator = (String) value;
 		else if ( EXPR_MEMBER.equals( propName ) )
-			expr = (String) value;
+			expr = convertObjectToExpression( value );
 		else if ( VALUE1_MEMBER.equals( propName ) )
-			value1 = (List) value;
+		{
+			if ( value == null )
+				value1 = null;
+			else if ( value instanceof List<?> )
+				value1 = convertListToExpressionList( (List<String>) value );
+		}
 		else if ( VALUE2_MEMBER.equals( propName ) )
-			value2 = (String) value;
+			value2 = convertObjectToExpression( value );
 		else if ( FILTER_TARGET_MEMBER.equals( propName ) )
 			filterTarget = (String) value;
 		else if ( IS_OPTIONAL_MEMBER.equals( propName ) )
@@ -206,7 +212,7 @@ public class FilterCondition extends Structure
 
 	public String getExpr( )
 	{
-		return (String) getProperty( null, EXPR_MEMBER );
+		return expr == null ? null : expr.getStringExpression( );
 	}
 
 	/**
@@ -299,7 +305,9 @@ public class FilterCondition extends Structure
 		List valueList = getValue1List( );
 		if ( valueList == null || valueList.isEmpty( ) )
 			return null;
-		return (String) valueList.get( 0 );
+
+		Expression tmpExpr = (Expression) valueList.get( 0 );
+		return tmpExpr.getStringExpression( );
 	}
 
 	/**
@@ -356,7 +364,7 @@ public class FilterCondition extends Structure
 
 	public String getValue2( )
 	{
-		return (String) getProperty( null, VALUE2_MEMBER );
+		return value2 == null ? null : value2.getStringExpression( );
 	}
 
 	/**

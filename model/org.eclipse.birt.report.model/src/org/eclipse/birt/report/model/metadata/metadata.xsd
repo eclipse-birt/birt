@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2007 sp1 (http://www.altova.com) by AAA (EMBRACE) -->
 <!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="ReportMetaData">
@@ -82,30 +83,30 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="string" />
-			<xs:enumeration value="number" />
-			<xs:enumeration value="integer" />
-			<xs:enumeration value="dimension" />
-			<xs:enumeration value="color" />
-			<xs:enumeration value="choice" />
-			<xs:enumeration value="boolean" />
-			<xs:enumeration value="expression" />
-			<xs:enumeration value="html" />
-			<xs:enumeration value="uri" />
-			<xs:enumeration value="dateTime" />
-			<xs:enumeration value="xml" />
-			<xs:enumeration value="name" />
-			<xs:enumeration value="extends" />
-			<xs:enumeration value="float" />
-			<xs:enumeration value="structure" />
-			<xs:enumeration value="resourceKey" />
-			<xs:enumeration value="literalString" />
-			<xs:enumeration value="structRef" />
-			<xs:enumeration value="memberKey" />
-			<xs:enumeration value="list" />
-			<xs:enumeration value="elementRef" />
-			<xs:enumeration value="element" />
-			<xs:enumeration value="contentElement"></xs:enumeration>
+			<xs:enumeration value="string"/>
+			<xs:enumeration value="number"/>
+			<xs:enumeration value="integer"/>
+			<xs:enumeration value="dimension"/>
+			<xs:enumeration value="color"/>
+			<xs:enumeration value="choice"/>
+			<xs:enumeration value="boolean"/>
+			<xs:enumeration value="expression"/>
+			<xs:enumeration value="html"/>
+			<xs:enumeration value="uri"/>
+			<xs:enumeration value="dateTime"/>
+			<xs:enumeration value="xml"/>
+			<xs:enumeration value="name"/>
+			<xs:enumeration value="extends"/>
+			<xs:enumeration value="float"/>
+			<xs:enumeration value="structure"/>
+			<xs:enumeration value="resourceKey"/>
+			<xs:enumeration value="literalString"/>
+			<xs:enumeration value="structRef"/>
+			<xs:enumeration value="memberKey"/>
+			<xs:enumeration value="list"/>
+			<xs:enumeration value="elementRef"/>
+			<xs:enumeration value="element"/>
+			<xs:enumeration value="contentElement"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="PropertyTypeDefnType">
@@ -228,8 +229,7 @@ The 'extends' attribute is optional, in this case, it means this report element 
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Trigger" type="TriggerDefnType"
-				minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Trigger" type="TriggerDefnType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
 						The trigger definition which defines the
@@ -252,15 +252,14 @@ The 'extends' attribute is optional, in this case, it means this report element 
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Type" type="ElementType" minOccurs="0"
-				maxOccurs="unbounded">
+			<xs:element name="Type" type="ElementType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
 						The element type
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="AllowedUnits" type="xs:string" maxOccurs="1" minOccurs="0"></xs:element>
+			<xs:element name="AllowedUnits" type="xs:string" minOccurs="0"/>
 		</xs:choice>
 		<xs:attribute name="name" type="xs:string" use="required"/>
 		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
@@ -281,13 +280,11 @@ The 'extends' attribute is optional, in this case, it means this report element 
 				<xs:documentation>Valid only when defining the style element. Indicates that the property defines the style and should be propagated to any element that has a style. A property not marked as a style property is one that defines the style itself (such as the name) and does not propagate to an element.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<!-- bidi_hcg start -->
 		<xs:attribute name="isBidiProperty" type="xs:boolean" use="optional" default="false">
 			<xs:annotation>
 				<xs:documentation>Indicates that the property is a bidirectional property mostly used in Hebrew and Arabic scripts.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<!-- bidi_hcg end -->
 		<xs:attribute name="detailType" type="xs:string" use="optional"/>
 		<xs:attribute name="valueRequired" type="xs:boolean" use="optional" default="false"/>
 		<xs:attribute name="isList" type="xs:boolean" use="optional" default="false"/>
@@ -296,6 +293,9 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		<xs:attribute name="runtimeSettable" type="xs:boolean" use="optional" default="true"/>
 		<xs:attribute name="context" type="ExprContextType" use="optional"/>
 		<xs:attribute name="returnType" type="xs:string" use="optional"/>
+		<xs:attribute name="allowExpression" type="xs:boolean" use="optional" default="false"/>
+		<!-- bidi_hcg start -->
+		<!-- bidi_hcg end -->
 	</xs:complexType>
 	<xs:complexType name="StyleDefnType">
 		<xs:attribute name="reference" type="xs:string" use="optional">
@@ -369,7 +369,7 @@ The 'extends' attribute is optional, in this case, it means this report element 
 			<xs:enumeration value="templateParameterDefinition"/>
 			<xs:enumeration value="cube"/>
 			<xs:enumeration value="(Dimension, level)"/>
-		</xs:restriction>		
+		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="ChoiceType">
 		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
@@ -418,10 +418,11 @@ The 'extends' attribute is optional, in this case, it means this report element 
 						</xs:simpleType>
 					</xs:attribute>
 					<xs:attribute name="subType" type="PropertyType" use="optional">
-					    <xs:annotation>
-				            <xs:documentation>If the property is "list" -- simeple property list type, then the sub-type of it is required. Now, only some simple type, such as Integer, Float, DateTime, Expression, Number, Element and so on are supported sub-types.</xs:documentation>
-				        </xs:annotation>
-                    </xs:attribute>
+						<xs:annotation>
+							<xs:documentation>If the property is "list" -- simeple property list type, then the sub-type of it is required. Now, only some simple type, such as Integer, Float, DateTime, Expression, Number, Element and so on are supported sub-types.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="allowExpression" type="xs:boolean" use="optional" default="false"/>
 				</xs:complexType>
 			</xs:element>
 		</xs:sequence>
@@ -490,7 +491,7 @@ The 'extends' attribute is optional, in this case, it means this report element 
 			<xs:enumeration value="readonly"/>
 		</xs:restriction>
 	</xs:simpleType>
-    <xs:complexType name="ElementType">
+	<xs:complexType name="ElementType">
 		<xs:attribute name="name" type="xs:string" use="required"/>
-    </xs:complexType>
+	</xs:complexType>
 </xs:schema>

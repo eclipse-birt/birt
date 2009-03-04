@@ -648,8 +648,17 @@ public class ReportDesignHandle extends ModuleHandle
 		// bookmark value in row, report item and listing group are the same
 		// now.
 
-		return ( (ReportDesign) module ).collectPropValues( BODY_SLOT,
-				IReportItemModel.BOOKMARK_PROP );
+		List bookmarks = ( (ReportDesign) module ).collectPropValues(
+				BODY_SLOT, IReportItemModel.BOOKMARK_PROP );
+
+		List resultList = new ArrayList( );
+		Iterator iterator = bookmarks.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			Expression expr = (Expression) iterator.next( );
+			resultList.add( expr.getStringExpression( ) );
+		}
+		return resultList;
 	}
 
 	/**
@@ -670,7 +679,8 @@ public class ReportDesignHandle extends ModuleHandle
 		while ( iterator.hasNext( ) )
 		{
 			TOC toc = (TOC) iterator.next( );
-			resultList.add( toc.getProperty( module, TOC.TOC_EXPRESSION ) );
+			resultList
+					.add( toc.getStringProperty( module, TOC.TOC_EXPRESSION ) );
 		}
 		return resultList;
 	}

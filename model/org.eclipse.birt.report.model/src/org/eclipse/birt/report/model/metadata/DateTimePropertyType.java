@@ -112,11 +112,14 @@ public class DateTimePropertyType extends PropertyType
 	 * @return object of type Date or null if <code>value</code> is null.
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn, String value )
+	public Object validateXml( Module module, PropertyDefn defn, Object value )
 			throws PropertyValueException
 	{
-		value = StringUtil.trimString( value );
-		if ( value == null )
+		assert value == null || value instanceof String;
+		String tmpValue = (String) value;
+		
+		tmpValue = StringUtil.trimString( tmpValue );
+		if ( tmpValue == null )
 		{
 			return null;
 		}
@@ -124,12 +127,12 @@ public class DateTimePropertyType extends PropertyType
 		// fixed xml format.
 		try
 		{
-			return formatter.parse( value );
+			return formatter.parse( tmpValue );
 		}
 		catch ( ParseException e )
 		{
-			logger.log( Level.SEVERE, "Invalid date value:" + value ); //$NON-NLS-1$
-			throw new PropertyValueException( value,
+			logger.log( Level.SEVERE, "Invalid date value:" + tmpValue ); //$NON-NLS-1$
+			throw new PropertyValueException( tmpValue,
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					getTypeCode( ) );
 		}

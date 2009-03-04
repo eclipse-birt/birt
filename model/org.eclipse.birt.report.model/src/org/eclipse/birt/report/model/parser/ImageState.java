@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.SecurityUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -93,7 +94,9 @@ public class ImageState extends ReportItemState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -113,8 +116,8 @@ public class ImageState extends ReportItemState
 		int type = 0;
 		Module module = handler.getModule( );
 
-		String uri = (String) image.getLocalProperty( module,
-				IImageItemModel.URI_PROP );
+		String uri = ModelUtil.getExpression( image, IImageItemModel.URI_PROP,
+				module );
 		if ( !StringUtil.isEmpty( uri ) )
 		{
 			uri = StringUtil.trimQuotes( uri );
@@ -138,8 +141,8 @@ public class ImageState extends ReportItemState
 			type++;
 		}
 
-		StructRefValue imageName = (StructRefValue) image.getLocalProperty( module,
-				IImageItemModel.IMAGE_NAME_PROP );
+		StructRefValue imageName = (StructRefValue) image.getLocalProperty(
+				module, IImageItemModel.IMAGE_NAME_PROP );
 		if ( imageName != null )
 		{
 			setProperty( IImageItemModel.SOURCE_PROP,
@@ -147,10 +150,10 @@ public class ImageState extends ReportItemState
 			type++;
 		}
 
-		String typeExpr = (String) image.getLocalProperty( module,
-				IImageItemModel.TYPE_EXPR_PROP );
-		String valueExpr = (String) image.getLocalProperty( module,
-				IImageItemModel.VALUE_EXPR_PROP );
+		String typeExpr = ModelUtil.getExpression( image,
+				IImageItemModel.TYPE_EXPR_PROP, module );
+		String valueExpr = ModelUtil.getExpression( image,
+				IImageItemModel.VALUE_EXPR_PROP, module );
 
 		if ( !StringUtil.isEmpty( typeExpr ) || !StringUtil.isEmpty( valueExpr ) )
 		{
@@ -160,8 +163,11 @@ public class ImageState extends ReportItemState
 		}
 
 		if ( type > 1 )
-			handler.getErrorHandler( )
-					.semanticError( new DesignParserException( DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
+			handler
+					.getErrorHandler( )
+					.semanticError(
+							new DesignParserException(
+									DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
 	}
 
 	/*
@@ -181,36 +187,49 @@ public class ImageState extends ReportItemState
 		String refType = image.getStringProperty( module,
 				IImageItemModel.SOURCE_PROP );
 
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equalsIgnoreCase( refType ) )
+		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR
+				.equalsIgnoreCase( refType ) )
 		{
 			String valueExpr = image.getStringProperty( module,
 					IImageItemModel.VALUE_EXPR_PROP );
 			if ( StringUtil.isEmpty( valueExpr ) )
 			{
-				handler.getErrorHandler( )
-						.semanticError( new DesignParserException( DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE ) );
+				handler
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE ) );
 			}
 		}
-		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( refType )
-				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( refType ) )
+		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL
+				.equalsIgnoreCase( refType )
+				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE
+						.equalsIgnoreCase( refType ) )
 		{
 			String uri = image.getStringProperty( module,
 					IImageItemModel.URI_PROP );
 			if ( StringUtil.isEmpty( uri ) )
 			{
-				handler.getErrorHandler( )
-						.semanticError( new DesignParserException( DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE ) );
+				handler
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE ) );
 			}
 		}
-		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equalsIgnoreCase( refType ) )
+		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
+				.equalsIgnoreCase( refType ) )
 		{
 			String name = image.getStringProperty( module,
 					IImageItemModel.IMAGE_NAME_PROP );
 
 			if ( StringUtil.isEmpty( name ) )
 			{
-				handler.getErrorHandler( )
-						.semanticError( new DesignParserException( DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE ) );
+				handler
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE ) );
 			}
 		}
 
@@ -246,11 +265,11 @@ public class ImageState extends ReportItemState
 			// ignore the error since this string is not in URL format
 		}
 		File file = new File( filePath );
-		
+
 		String scheme = SecurityUtil.getFiletoURISchemaPart( file );
 		if ( scheme == null )
 			return false;
-		
+
 		if ( scheme.equalsIgnoreCase( URIUtil.FILE_SCHEMA ) )
 		{
 			return true;

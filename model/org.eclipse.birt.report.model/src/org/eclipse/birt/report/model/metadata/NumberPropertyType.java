@@ -106,15 +106,20 @@ public class NumberPropertyType extends PropertyType
 	 * @see BigDecimal#BigDecimal(java.lang.String)
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn, String value )
+	public Object validateXml( Module module, PropertyDefn defn, Object value )
 			throws PropertyValueException
 	{
-		value = StringUtil.trimString( value );
-		if ( value == null )
+		assert value == null || value instanceof String;
+		String tmpValue = (String) value;
+
+		
+		tmpValue = StringUtil.trimString( tmpValue );
+		if ( tmpValue == null )
 			return null;
+		
 		try
 		{
-			return new BigDecimal( value );
+			return new BigDecimal( tmpValue );
 		}
 		catch ( NumberFormatException e )
 		{

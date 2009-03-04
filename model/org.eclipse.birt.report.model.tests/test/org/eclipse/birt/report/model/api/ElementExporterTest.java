@@ -1008,4 +1008,21 @@ public class ElementExporterTest extends BaseTestCase
 
 		assertTrue( compareFile( "ExportStyleTest_golden.xml" ) ); //$NON-NLS-1$
 	}
+
+	/**
+	 * Tests export expression values.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testExportExpressionValues( ) throws Exception
+	{
+		openDesign( "ExportExpressionValuesTest.xml" ); //$NON-NLS-1$
+		openLibrary( "ElementExporterTestLibrary.xml" ); //$NON-NLS-1$
+
+		ElementExportUtil.exportDesign( designHandle, libraryHandle, false,
+				false );
+		save( libraryHandle );
+		assertTrue( compareFile( "ExportExpressionValuesTest_golden.xml" ) ); //$NON-NLS-1$
+	}
 }

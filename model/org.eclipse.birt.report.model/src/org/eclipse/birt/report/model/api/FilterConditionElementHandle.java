@@ -16,11 +16,15 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.OperatorUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
 /**
@@ -186,7 +190,12 @@ public class FilterConditionElementHandle extends ContentElementHandle
 		List valueList = getValue1List( );
 		if ( valueList == null || valueList.isEmpty( ) )
 			return null;
-		return (String) valueList.get( 0 );
+
+		PropertyType tmpType = MetaDataDictionary.getInstance( )
+				.getPropertyType( IPropertyType.EXPRESSION_TYPE );
+		PropertyDefn tmpPropDefn = (PropertyDefn) getPropertyDefn( VALUE1_PROP );
+
+		return tmpType.toString( getModule( ), tmpPropDefn, valueList.get( 0 ) );
 	}
 
 	/**

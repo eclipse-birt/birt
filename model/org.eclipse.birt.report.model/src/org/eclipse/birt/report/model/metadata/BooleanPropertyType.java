@@ -97,11 +97,11 @@ public class BooleanPropertyType extends PropertyType
 	 * @return the value(Boolean Type) to store for the property of type
 	 *         Boolean. Returns <code>null</code> if the <code>value</code>
 	 *         parameter is null.
-	 *  
+	 * 
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn,
-			Object value ) throws PropertyValueException
+	public Object validateValue( Module module, PropertyDefn defn, Object value )
+			throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
@@ -132,24 +132,27 @@ public class BooleanPropertyType extends PropertyType
 	 * <p>
 	 * 
 	 * @return the value(Boolean Type) to store for the property from xml of
-	 *         type Boolean. Returns <code>null</code> if the
-	 *         <code>value</code> parameter is null or a blank string.
+	 *         type Boolean. Returns <code>null</code> if the <code>value</code>
+	 *         parameter is null or a blank string.
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn,
-			String value ) throws PropertyValueException
+	public Object validateXml( Module module, PropertyDefn defn, Object value )
+			throws PropertyValueException
 	{
-		value = StringUtil.trimString( value );
+		assert value == null || value instanceof String;
+		String tmpValue = (String) value;
 
-		if ( value == null )
+		tmpValue = StringUtil.trimString( tmpValue );
+
+		if ( tmpValue == null )
 			return null;
 
-		if ( value.equalsIgnoreCase( TRUE ) )
+		if ( tmpValue.equalsIgnoreCase( TRUE ) )
 			return Boolean.TRUE;
-		else if ( value.equalsIgnoreCase( FALSE ) )
+		else if ( tmpValue.equalsIgnoreCase( FALSE ) )
 			return Boolean.FALSE;
 
-		throw new PropertyValueException( value,
+		throw new PropertyValueException( tmpValue,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				getTypeCode( ) );
 	}
@@ -157,7 +160,8 @@ public class BooleanPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -180,10 +184,8 @@ public class BooleanPropertyType extends PropertyType
 	 * Converts a property of the boolean type to a integer value.
 	 * <ul>
 	 * <li>Value <code>null</code> will be convert into 0.</li>
-	 * <li>Value <code>true</code> will be convert into {@link #INT_TRUE}
-	 * </li>
-	 * <li>Value <code>false</code> will be convert into {@link #INT_FALSE}
-	 * </li>
+	 * <li>Value <code>true</code> will be convert into {@link #INT_TRUE}</li>
+	 * <li>Value <code>false</code> will be convert into {@link #INT_FALSE}</li>
 	 * </ul>
 	 * 
 	 * @return The boolean value as an integer, return <code>0</code> if value
@@ -220,21 +222,18 @@ public class BooleanPropertyType extends PropertyType
 	}
 
 	/**
-	 * Converts the boolean property value to a <code>Boolean</code>, return
-	 * the internal representation as a boolean.
+	 * Converts the boolean property value to a <code>Boolean</code>, return the
+	 * internal representation as a boolean.
 	 * <ul>
-	 * <li>Value <code>null</code> will be convert into <code>false</code>.
-	 * </li>
-	 * <li>Value <code>true</code> will be convert into <code>true</code>
-	 * </li>
-	 * <li>Value <code>false</code> will be convert into <code>false</code>
-	 * </li>
+	 * <li>Value <code>null</code> will be convert into <code>false</code>.</li>
+	 * <li>Value <code>true</code> will be convert into <code>true</code></li>
+	 * <li>Value <code>false</code> will be convert into <code>false</code></li>
 	 * </ul>
 	 * 
-	 * @return The value as a <code>boolean</code>, return <code>false</code>
-	 *         if value is null; return <code>true</code> if value is true;
-	 *         return <code>false</code> if value is false.
-	 *  
+	 * @return The value as a <code>boolean</code>, return <code>false</code> if
+	 *         value is null; return <code>true</code> if value is true; return
+	 *         <code>false</code> if value is false.
+	 * 
 	 */
 
 	public boolean toBoolean( Module module, Object value )
@@ -261,7 +260,7 @@ public class BooleanPropertyType extends PropertyType
 	 * @return the value(Boolean Type) to store for the property of type
 	 *         Boolean. Returns <code>null</code> if the <code>value</code>
 	 *         parameter is null or a blank string.
-	 *  
+	 * 
 	 */
 
 	public Object validateInputString( Module module, PropertyDefn defn,

@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.model.api.elements.structures;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.SearchKeyHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Structure for optional list of search criteria. It is used when we defined
@@ -52,7 +54,7 @@ public class SearchKey extends Structure
 	 * Value of the expression property.
 	 */
 
-	protected String expression = null;
+	protected Expression expression = null;
 
 	/*
 	 * (non-Javadoc)
@@ -90,7 +92,7 @@ public class SearchKey extends Structure
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
 		if ( EXPRESSION_MEMBER.equals( propName ) )
-			expression = (String) value;
+			expression = convertObjectToExpression( value );
 		else
 			assert false;
 	}

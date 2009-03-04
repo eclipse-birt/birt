@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -181,6 +183,7 @@ import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
@@ -553,6 +556,21 @@ public abstract class ModuleWriter extends ElementVisitor
 	}
 
 	/**
+	 * @param tag
+	 * @param name
+	 * @param encryptionID
+	 * @param value
+	 * @param cdata
+	 */
+
+	protected void writeEntry( String tag, String name, String encryptionID,
+			String value, boolean cdata )
+	{
+
+		writeEntry( tag, name, encryptionID, null, value, cdata );
+	}
+
+	/**
 	 * Writes the entry.
 	 * 
 	 * @param tag
@@ -566,8 +584,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	 *            whether the values should be written as CDATA.
 	 */
 
-	protected void writeEntry( String tag, String name, String encryptionID,
-			String value, boolean cdata )
+	private void writeEntry( String tag, String name, String encryptionID,
+			String exprType, String value, boolean cdata )
 	{
 		writer.startElement( tag );
 
@@ -576,6 +594,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( encryptionID != null )
 			writer.attribute( DesignSchemaConstants.ENCRYPTION_ID_ATTRIB,
 					encryptionID );
+		if ( exprType != null )
+			writer.attribute( DesignSchemaConstants.TYPE_TAG, exprType );
 
 		if ( cdata )
 			writer.textCDATA( value );
@@ -721,6 +741,12 @@ public abstract class ModuleWriter extends ElementVisitor
 					(ElementPropertyDefn) propDefn, encryptionID, xml );
 		}
 
+		String exprType = null;
+		if ( value instanceof Expression )
+		{
+			exprType = ( (Expression) value ).getUserDefinedType( );
+		}
+
 		if ( tag == null )
 			tag = ModelUtil.getTagByPropertyType( propDefn );
 
@@ -730,7 +756,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( cdata )
 			xml = escapeCDATAChars( propDefn, xml );
 
-		writeEntry( tag, propDefn.getName( ), encryptionID, xml, cdata );
+		writeEntry( tag, propDefn.getName( ), encryptionID, exprType, xml,
+				cdata );
 	}
 
 	/**
@@ -775,6 +802,12 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( xml == null )
 			return;
 
+		String exprType = null;
+		if ( value instanceof Expression )
+		{
+			exprType = ( (Expression) value ).getUserDefinedType( );
+		}
+
 		if ( tag == null )
 			tag = ModelUtil.getTagByPropertyType( propDefn );
 
@@ -782,9 +815,9 @@ public abstract class ModuleWriter extends ElementVisitor
 			cdata = true;
 
 		if ( withoutName )
-			writeEntry( tag, null, null, xml, cdata );
+			writeEntry( tag, null, null, exprType, xml, cdata );
 		else
-			writeEntry( tag, memberName, null, xml, cdata );
+			writeEntry( tag, memberName, null, exprType, xml, cdata );
 	}
 
 	/**
@@ -964,11 +997,40 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		for ( int i = 0; i < values.size( ); i++ )
 		{
-			PropertyType type = prop.getSubType( );
-			String xmlValue = type.toXml( getModule( ), prop, values.get( i ) );
+			int typeCode = prop.getSubTypeCode( );
+			Object toValidate = values.get( i );
+
+			if ( prop.allowExpression( )
+					&& typeCode != IPropertyType.EXPRESSION_TYPE )
+			{
+				if ( toValidate instanceof Expression )
+				{
+					Expression tmpValue = (Expression) toValidate;
+					if ( tmpValue.getUserDefinedType( ) != ExpressionType.CONSTANT )
+						typeCode = IPropertyType.EXPRESSION_TYPE;
+					else
+						toValidate = tmpValue.getExpression( );
+				}
+			}
+
+			PropertyType type = MetaDataDictionary.getInstance( )
+					.getPropertyType( typeCode );
+
+			String xmlValue = type.toXml( getModule( ), prop, toValidate );
+
+			String exprType = null;
+
+			if ( type.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
+			{
+				exprType = ( (Expression) values.get( i ) )
+						.getUserDefinedType( );
+			}
 			if ( xmlValue != null )
 			{
 				writer.startElement( DesignSchemaConstants.VALUE_TAG );
+				if ( exprType != null )
+					writer.attribute( DesignSchemaConstants.TYPE_TAG, exprType );
+
 				writer.text( xmlValue );
 				writer.endElement( );
 			}
@@ -1005,9 +1067,21 @@ public abstract class ModuleWriter extends ElementVisitor
 		{
 			PropertyType type = prop.getSubType( );
 			String xmlValue = type.toXml( getModule( ), prop, values.get( i ) );
+
+			String exprType = null;
+
+			if ( type.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
+			{
+				exprType = ( (Expression) values.get( i ) )
+						.getUserDefinedType( );
+			}
+
 			if ( xmlValue != null )
 			{
 				writer.startElement( DesignSchemaConstants.VALUE_TAG );
+				if ( exprType != null )
+					writer.attribute( DesignSchemaConstants.TYPE_TAG, exprType );
+
 				writer.text( xmlValue );
 				writer.endElement( );
 			}

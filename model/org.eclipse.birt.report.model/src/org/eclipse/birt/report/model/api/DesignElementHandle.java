@@ -1106,9 +1106,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Returns the element factory for creating new report elements. After
 	 * creating the element, add it to the design by calling the the <code>
-	 * {@link SlotHandle#add(DesignElementHandle ) add}</code> method of the
-	 * slot handle that represents the point in the design where the new element
-	 * should appear.
+	 * {@link SlotHandle#add(DesignElementHandle ) add}</code>
+	 * method of the slot handle that represents the point in the design where
+	 * the new element should appear.
 	 * 
 	 * @return a handle to the new element.
 	 * @see SlotHandle
@@ -1550,12 +1550,13 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public static void doSort( List list )
 	{
-		Collections.sort( list, new Comparator( ) {
+		Collections.sort( list, new Comparator<DesignElementHandle>( ) {
 
-			public int compare( Object arg0, Object arg1 )
+			public int compare( DesignElementHandle arg0,
+					DesignElementHandle arg1 )
 			{
-				DesignElementHandle h1 = (DesignElementHandle) arg0;
-				DesignElementHandle h2 = (DesignElementHandle) arg1;
+				DesignElementHandle h1 = arg0;
+				DesignElementHandle h2 = arg1;
 
 				String s1 = h1.getDisplayLabel( );
 				String s2 = h2.getDisplayLabel( );
@@ -1639,7 +1640,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Copies all properties to the target element. The following properties
 	 * will not be copied.
 	 * <ul>
-	 * <li><code>DesignElement.NAME_PROP</code> <li><code>
+	 * <li><code>DesignElement.NAME_PROP</code>
+	 * <li><code>
 	 * DesignElement.EXTENDS_PROP</code>
 	 * </ul>
 	 * 
@@ -1727,10 +1729,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 					PropertyHandle propHandle = targetHandle
 							.getPropertyHandle( propName );
 
-					Iterator strcutIter = ( (List) value ).iterator( );
+					Iterator<Structure> strcutIter = ( (List<Structure>) value )
+							.iterator( );
 					while ( strcutIter.hasNext( ) )
 					{
-						Structure struct = (Structure) strcutIter.next( );
+						Structure struct = strcutIter.next( );
 						propHandle.addItem( struct.copy( ) );
 					}
 				}
@@ -2204,13 +2207,13 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public List getPropertyBindings( )
 	{
-		List nameList = new ArrayList( );
-		List resultList = new ArrayList( );
+		List<String> nameList = new ArrayList<String>( );
+		List<PropertyBinding> resultList = new ArrayList<PropertyBinding>( );
 
 		DesignElement element = getElement( );
 		while ( element != null && element.getRoot( ) != null )
 		{
-			List propBindings = element.getRoot( )
+			List<PropertyBinding> propBindings = element.getRoot( )
 					.getPropertyBindings( element );
 			resultList.addAll( filterPropertyBindingName( propBindings,
 					nameList ) );
@@ -2238,16 +2241,17 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @return the property binding list.
 	 */
 
-	private List filterPropertyBindingName( List propertyBindings, List nameList )
+	private List<PropertyBinding> filterPropertyBindingName(
+			List<PropertyBinding> propertyBindings, List<String> nameList )
 	{
 		if ( propertyBindings == null )
 			return Collections.EMPTY_LIST;
 
-		List resultList = new ArrayList( );
-		Iterator iterator = propertyBindings.iterator( );
+		List<PropertyBinding> resultList = new ArrayList<PropertyBinding>( );
+		Iterator<PropertyBinding> iterator = propertyBindings.iterator( );
 		while ( iterator.hasNext( ) )
 		{
-			PropertyBinding propBinding = (PropertyBinding) iterator.next( );
+			PropertyBinding propBinding = iterator.next( );
 			String name = propBinding.getName( );
 			if ( !nameList.contains( name ) )
 			{
@@ -2481,7 +2485,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throws SemanticException
 	{
 		if ( content == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		add( propName, content );
 		return checkPostPasteErrors( content.getElement( ) );
 	}
@@ -2502,7 +2506,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throws SemanticException
 	{
 		if ( content == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		add( propName, content.getHandle( getModule( ) ) );
 
 		return checkPostPasteErrors( (DesignElement) content );
@@ -2527,11 +2531,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throws SemanticException
 	{
 		if ( content == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		add( propName, content, newPos );
 
-		return Collections.EMPTY_LIST;
-		// return checkPostPasteErrors( content.getElement( ) );
+		return checkPostPasteErrors( content.getElement( ) );
 	}
 
 	/**
@@ -2553,7 +2556,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throws SemanticException
 	{
 		if ( content == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		add( propName, content.getHandle( getModule( ) ), newPos );
 
 		return checkPostPasteErrors( (DesignElement) content );
@@ -2969,10 +2972,50 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Gets the factory element handle for this element. The factory element
 	 * handle is to retrieve some factory property value and factory styles.
 	 * 
-	 * @return
+	 * @return the factory element handle.
 	 */
 	public FactoryElementHandle getFactoryElementHandle( )
 	{
 		return new FactoryElementHandle( this );
+	}
+
+	/**
+	 * Returns a handle to work with an expression property. Returns null if the
+	 * given property is not defined or cannot be set with expression value.
+	 * 
+	 * @param propName
+	 *            name of the property.
+	 * @return a corresponding ExpressionHandle to with with the expression
+	 *         property.
+	 * 
+	 * @see ExpressionHandle
+	 */
+
+	public ExpressionHandle getExpressionProperty( String propName )
+	{
+		PropertyDefn defn = (PropertyDefn) getPropertyDefn( propName );
+		if ( defn == null )
+			return null;
+
+		if ( defn.allowExpression( ) )
+			return new ExpressionHandle( this, (ElementPropertyDefn) defn );
+
+		return null;
+	}
+
+	/**
+	 * Sets the value of a property to an expression.
+	 * 
+	 * @param propName
+	 *            the property name
+	 * @param expression
+	 *            the value to set
+	 * @throws SemanticException
+	 */
+
+	public void setExpressionProperty( String propName, Expression expression )
+			throws SemanticException
+	{
+		setProperty( propName, expression );
 	}
 }

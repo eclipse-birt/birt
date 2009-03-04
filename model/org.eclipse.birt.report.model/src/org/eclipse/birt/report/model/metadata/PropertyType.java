@@ -229,7 +229,7 @@ public abstract class PropertyType implements IPropertyType
 	 *             if the value is not valid
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn, String value )
+	public Object validateXml( Module module, PropertyDefn defn, Object value )
 			throws PropertyValueException
 	{
 		return validateValue( module, defn, value );

@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.activity.LayoutRecordTask;
 import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.IVersionInfo;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -179,6 +180,11 @@ public class ModelUtil
 		if ( value == null )
 			return null;
 
+		if ( value instanceof Expression )
+		{
+			return defn.getStringValue( module, value );
+		}
+		
 		if ( value instanceof ReferenceValue )
 			return ReferenceValueUtil.needTheNamespacePrefix(
 					(ReferenceValue) value, module );
@@ -550,18 +556,24 @@ public class ModelUtil
 	 * @return the cloned list of simple property values
 	 */
 
-	private static Object clonePropertyList( List value )
+	private static List clonePropertyList( List value )
 	{
 		if ( value == null )
 			return null;
 
-		ArrayList returnList = new ArrayList( );
+		List returnList = new ArrayList( );
 		for ( int i = 0; i < value.size( ); i++ )
 		{
 			Object item = value.get( i );
 			if ( item instanceof ElementRefValue )
 			{
 				returnList.add( ( (ElementRefValue) item ).copy( ) );
+			}
+			else if ( item instanceof Expression )
+			{
+				returnList.add( new Expression( ( (Expression) item )
+						.getExpression( ), ( (Expression) item )
+						.getUserDefinedType( ) ) );
 			}
 			else
 			{
@@ -1755,4 +1767,56 @@ public class ModelUtil
 		}
 
 	}
+
+	/**
+	 * @param element
+	 * @param propName
+	 * @return
+	 */
+
+	public static String getExpression( DesignElement element, String propName,
+			Module root )
+	{
+		Object value = element.getLocalProperty( root, propName );
+		if ( !( value instanceof Expression ) )
+			return null;
+
+		return ( (Expression) value ).getStringExpression( );
+	}
+
+	/**
+	 * Determines two given values are equal or not.
+	 * 
+	 * @param value1
+	 *            value1
+	 * @param value2
+	 *            value2
+	 * @return <code>true</code> if two values are equal. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public static boolean isEquals( Object value1, Object value2 )
+	{
+		// may be same string or both null.
+
+		if ( value1 == value2 )
+			return true;
+
+		if ( value1 != null && value2 == null )
+			return false;
+
+		if ( value1 == null && value2 != null )
+			return false;
+
+		assert value1 != null && value2 != null;
+
+		if ( value1.getClass( ) != value2.getClass( ) )
+			return false;
+
+		if ( !value1.equals( value2 ) )
+			return false;
+
+		return true;
+	}
+
 }

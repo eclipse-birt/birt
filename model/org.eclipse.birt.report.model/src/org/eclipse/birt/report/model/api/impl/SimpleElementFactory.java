@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
@@ -36,6 +37,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IDataBinding;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSet;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSource;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
+import org.eclipse.birt.report.model.api.simpleapi.IExpression;
 import org.eclipse.birt.report.model.api.simpleapi.IFilterCondition;
 import org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement;
 import org.eclipse.birt.report.model.api.simpleapi.IHideRule;
@@ -51,6 +53,7 @@ import org.eclipse.birt.report.model.simpleapi.DataBindingImpl;
 import org.eclipse.birt.report.model.simpleapi.DataSet;
 import org.eclipse.birt.report.model.simpleapi.DataSource;
 import org.eclipse.birt.report.model.simpleapi.ElementUtil;
+import org.eclipse.birt.report.model.simpleapi.ExpressionImpl;
 import org.eclipse.birt.report.model.simpleapi.FilterConditionElement;
 import org.eclipse.birt.report.model.simpleapi.FilterConditionImpl;
 import org.eclipse.birt.report.model.simpleapi.HideRuleImpl;
@@ -72,7 +75,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.script.IScriptElementFactory#getElement(org.eclipse.birt.report.model.api.DesignElementHandle)
+	 * @see
+	 * org.eclipse.birt.report.model.api.script.IScriptElementFactory#getElement
+	 * (org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
 
 	public IReportItem wrapExtensionElement( ExtendedItemHandle handle, int type )
@@ -105,7 +110,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createHideRule(org.eclipse.birt.report.model.api.core.IStructure)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createHideRule(org.eclipse.birt.report.model.api.core.IStructure)
 	 */
 
 	public IHideRule createHideRule( HideRule rule )
@@ -117,7 +123,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createHideRule(org.eclipse.birt.report.model.api.HideRuleHandle)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createHideRule(org.eclipse.birt.report.model.api.HideRuleHandle)
 	 */
 
 	public IHideRule createHideRule( HideRuleHandle handle )
@@ -141,7 +148,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createFilterCondition(org.eclipse.birt.report.model.api.elements.structures.FilterCondition)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createFilterCondition
+	 * (org.eclipse.birt.report.model.api.elements.structures.FilterCondition)
 	 */
 
 	public IFilterCondition createFilterCondition( FilterCondition condition )
@@ -152,7 +161,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createFilterCondition(org.eclipse.birt.report.model.api.FilterConditionHandle)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createFilterCondition
+	 * (org.eclipse.birt.report.model.api.FilterConditionHandle)
 	 */
 
 	public IFilterCondition createFilterCondition( FilterConditionHandle handle )
@@ -176,7 +187,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createDataBinding(org.eclipse.birt.report.model.api.ComputedColumnHandle)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createDataBinding(org.eclipse.birt.report.model.api.ComputedColumnHandle)
 	 */
 
 	public IDataBinding createDataBinding( ComputedColumnHandle columnHandle )
@@ -187,7 +199,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createDataBinding(org.eclipse.birt.report.model.api.elements.structures.ComputedColumn)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createDataBinding
+	 * (org.eclipse.birt.report.model.api.elements.structures.ComputedColumn)
 	 */
 
 	public IDataBinding createDataBinding( ComputedColumn column )
@@ -209,7 +223,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createSortCondition(org.eclipse.birt.report.model.api.elements.structures.SortKey)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createSortCondition
+	 * (org.eclipse.birt.report.model.api.elements.structures.SortKey)
 	 */
 
 	public ISortCondition createSortCondition( SortKey sort )
@@ -220,7 +236,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createSortCondition(org.eclipse.birt.report.model.api.SortKeyHandle)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createSortCondition(org.eclipse.birt.report.model.api.SortKeyHandle)
 	 */
 
 	public ISortCondition createSortCondition( SortKeyHandle sortHandle )
@@ -231,8 +248,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createAction(org.eclipse.birt.report.model.api.ActionHandle,
-	 *      org.eclipse.birt.report.model.api.ReportItemHandle)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createAction(org.eclipse.birt.report.model.api.ActionHandle,
+	 * org.eclipse.birt.report.model.api.ReportItemHandle)
 	 */
 
 	public IAction createAction( ActionHandle action, ReportItemHandle handle )
@@ -243,7 +261,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#getElement(org.eclipse.birt.report.model.api.DesignElementHandle)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#getElement
+	 * (org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
 
 	public IDesignElement getElement( DesignElementHandle handle )
@@ -254,7 +274,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createDataSet(org.eclipse.birt.report.model.api.DataSetHandle)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createDataSet(org.eclipse.birt.report.model.api.DataSetHandle)
 	 */
 
 	public IDataSet createDataSet( DataSetHandle handle )
@@ -265,7 +286,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createResultSetColumn(org.eclipse.birt.report.model.api.ResultSetColumnHandle)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createResultSetColumn
+	 * (org.eclipse.birt.report.model.api.ResultSetColumnHandle)
 	 */
 
 	public IResultSetColumn createResultSetColumn(
@@ -277,7 +300,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createResultSetColumn()
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createResultSetColumn()
 	 */
 
 	public IResultSetColumn createResultSetColumn( )
@@ -288,7 +312,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createDataSource(org.eclipse.birt.report.model.api.DataSourceHandle)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createDataSource(org.eclipse.birt.report.model.api.DataSourceHandle)
 	 */
 
 	public IDataSource createDataSource( DataSourceHandle handle )
@@ -299,7 +324,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createHighlightRule()
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createHighlightRule()
 	 */
 
 	public IHighlightRule createHighlightRule( )
@@ -310,7 +336,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createHighlightRule(org.eclipse.birt.report.model.api.elements.structures.HighlightRule)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createHighlightRule
+	 * (org.eclipse.birt.report.model.api.elements.structures.HighlightRule)
 	 */
 
 	public IHighlightRule createHighlightRule( HighlightRule highlightRule )
@@ -321,7 +349,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createHighlightRule(org.eclipse.birt.report.model.api.HighlightRuleHandle)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createHighlightRule
+	 * (org.eclipse.birt.report.model.api.HighlightRuleHandle)
 	 */
 
 	public IHighlightRule createHighlightRule( HighlightRuleHandle handle )
@@ -332,7 +362,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createStyle(org.eclipse.birt.report.model.api.StyleHandle)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createStyle
+	 * (org.eclipse.birt.report.model.api.StyleHandle)
 	 */
 	public IStyle createStyle( StyleHandle style )
 	{
@@ -342,7 +374,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createFilterConditionElement(org.eclipse.birt.report.model.api.FilterConditionElementHandle)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createFilterConditionElement
+	 * (org.eclipse.birt.report.model.api.FilterConditionElementHandle)
 	 */
 	public IFilterConditionElement createFilterConditionElement(
 			FilterConditionElementHandle handle )
@@ -353,11 +387,24 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createSortElement(org.eclipse.birt.report.model.api.SortElementHandle)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createSortElement(org.eclipse.birt.report.model.api.SortElementHandle)
 	 */
 	public ISortElement createSortElement( SortElementHandle handle )
 	{
 		return new SortElement( handle );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createExpression()
+	 */
+
+	public IExpression createExpression( )
+	{
+		return new ExpressionImpl( new Expression( null, null ) );
 	}
 
 }

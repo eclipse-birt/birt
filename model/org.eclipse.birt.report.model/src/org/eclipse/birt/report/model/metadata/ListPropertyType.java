@@ -79,25 +79,28 @@ public class ListPropertyType extends PropertyType
 		{
 			return null;
 		}
-
-		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
-				defn.getSubTypeCode( ) );
-		assert type != null;
 		if ( value instanceof List )
 		{
 			List<Object> items = (List<Object>) value;
 			List<Object> validatedItems = new ArrayList<Object>( );
+
 			for ( int i = 0; i < items.size( ); i++ )
 			{
 				Object item = items.get( i );
-				validatedItems.add( type.validateValue( module, defn, item ) );
+
+				Object toValidate = defn.doValidateValueWithExpression( module,
+						defn.getSubType( ), item );
+
+				validatedItems.add( toValidate );
 			}
 
 			return validatedItems;
 		}
 
 		List<Object> listValue = new ArrayList<Object>( );
-		Object validatedValue = type.validateValue( module, defn, value );
+
+		Object validatedValue = defn.doValidateValueWithExpression( module,
+				defn.getSubType( ), value );
 		listValue.add( validatedValue );
 		return listValue;
 	}
@@ -155,5 +158,4 @@ public class ListPropertyType extends PropertyType
 			return 0;
 		return ( (ArrayList<Object>) value ).size( );
 	}
-
 }

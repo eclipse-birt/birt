@@ -67,7 +67,7 @@ public class LiteralStringPropertyType extends PropertyType
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyValidator#validateXml(java.lang.String)
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn, String value )
+	public Object validateXml( Module module, PropertyDefn defn, Object value )
 			throws PropertyValueException
 	{
 		return value;

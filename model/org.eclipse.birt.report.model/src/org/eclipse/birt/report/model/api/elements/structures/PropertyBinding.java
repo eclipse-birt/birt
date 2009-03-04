@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.PropertyBindingHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
@@ -79,7 +80,7 @@ public class PropertyBinding extends Structure
 	 * Value expression of this property binding.
 	 */
 
-	protected String value = null;
+	protected Expression value = null;
 
 	/**
 	 * The encryption id for the encrypted property value.
@@ -111,11 +112,17 @@ public class PropertyBinding extends Structure
 			return id;
 		else if ( VALUE_MEMBER.equalsIgnoreCase( propName ) )
 		{
-			if ( encryptionID != null )
+			if ( encryptionID == null )
+				return value;
+
+			if ( value != null )
 			{
-				return EncryptionUtil.decrypt( (PropertyDefn) getDefn( )
-						.getMember( VALUE_MEMBER ), encryptionID, value );
+				Object decoded = EncryptionUtil.decrypt(
+						(PropertyDefn) getDefn( ).getMember( VALUE_MEMBER ),
+						encryptionID, value.getExpression( ) );
+				return new Expression( decoded, value.getType( ) );
 			}
+
 			return value;
 		}
 		else
@@ -140,7 +147,7 @@ public class PropertyBinding extends Structure
 		else if ( ID_MEMBER.equalsIgnoreCase( propName ) )
 			id = (BigDecimal) value;
 		else if ( VALUE_MEMBER.equalsIgnoreCase( propName ) )
-			this.value = (String) value;
+			this.value = convertObjectToExpression( value );
 		else
 			assert false;
 
@@ -224,7 +231,8 @@ public class PropertyBinding extends Structure
 
 	public String getValue( )
 	{
-		return (String) getIntrinsicProperty( VALUE_MEMBER );
+		Expression tmpValue = (Expression) getIntrinsicProperty( VALUE_MEMBER );
+		return tmpValue == null ? null : tmpValue.getStringExpression( );
 	}
 
 	/**
@@ -236,7 +244,11 @@ public class PropertyBinding extends Structure
 
 	public void setValue( String expression )
 	{
-		value = expression;
+		String tmpType = value == null ? null : value.getUserDefinedType( );
+		if ( !StringUtil.isBlank( expression ) || tmpType != null )
+			value = new Expression( expression, tmpType );
+		else
+			value = null;
 	}
 
 	/*
@@ -291,9 +303,13 @@ public class PropertyBinding extends Structure
 		this.encryptionID = encryptionID;
 	}
 
-/**
-*
-*/
+	/**
+	 * Returns the encryption id.
+	 * 
+	 * @return the encryption id.
+	 * 
+	 */
+
 	public String getEncryption( )
 	{
 		return this.encryptionID;

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.PropertyStructure;
 
@@ -75,12 +76,12 @@ public abstract class StyleRule extends PropertyStructure
 	 * Expression for the second operand.
 	 */
 
-	protected String value2 = null;
+	protected Expression value2 = null;
 
 	/**
 	 * the test expression for this highlight rule.
 	 */
-	protected String testExpression = null;
+	protected Expression testExpression = null;
 
 	/**
 	 * 
@@ -112,15 +113,17 @@ public abstract class StyleRule extends PropertyStructure
 	{
 		operator = op;
 		value1 = new ArrayList( );
-		value1.add( v1 );
-		value2 = v2;
-		testExpression = testExpr;
+		value1.add( convertObjectToExpression( v1 ) );
+		value2 = convertObjectToExpression( v2 );
+		testExpression = convertObjectToExpression( testExpr );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.PropertyStructure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.PropertyStructure#getIntrinsicProperty
+	 * (java.lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -138,11 +141,12 @@ public abstract class StyleRule extends PropertyStructure
 
 		return super.getIntrinsicProperty( propName );
 	} /*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.core.PropertyStructure#setIntrinsicProperty(java.lang.String,
-		 *      java.lang.Object)
-		 */
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.PropertyStructure#setIntrinsicProperty
+	 * (java.lang.String, java.lang.Object)
+	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
@@ -158,18 +162,18 @@ public abstract class StyleRule extends PropertyStructure
 
 			if ( value instanceof List )
 			{
-				value1 = (List) value;
+				value1 = convertListToExpressionList( (List<String>) value );
 			}
 			else
 			{
 				value1 = new ArrayList( );
-				value1.add( value );
+				value1.add( convertObjectToExpression( value ) );
 			}
 		}
 		else if ( VALUE2_MEMBER.equals( propName ) )
-			value2 = (String) value;
+			value2 = convertObjectToExpression( value );
 		else if ( TEST_EXPR_MEMBER.equals( propName ) )
-			testExpression = (String) value;
+			testExpression = convertObjectToExpression( value );
 		else if ( IS_DESIGN_TIME_MEMBER.equals( propName ) )
 			isDesignTime = (Boolean) value;
 		else
@@ -246,7 +250,7 @@ public abstract class StyleRule extends PropertyStructure
 		List valueList = getValue1List( );
 		if ( valueList == null || valueList.isEmpty( ) )
 			return null;
-		return (String) valueList.get( 0 );
+		return ( (Expression) valueList.get( 0 ) ).getStringExpression( );
 	}
 
 	/**
@@ -337,7 +341,8 @@ public abstract class StyleRule extends PropertyStructure
 	 */
 	public String getTestExpression( )
 	{
-		return testExpression;
+		return testExpression == null ? null : testExpression
+				.getStringExpression( );
 	}
 
 	/*

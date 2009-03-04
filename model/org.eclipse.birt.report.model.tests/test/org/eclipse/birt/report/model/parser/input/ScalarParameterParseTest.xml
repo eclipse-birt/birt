@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19">
 	<data-sources>
         <oda-data-source name="DataSource"/>
     </data-sources>
@@ -85,6 +85,10 @@
         	<structure name="format">
                 <property name="locale"> test  </property>
             </structure>
+            <simple-property-list name="defaultValue">
+            	<value type="constant">value1</value>
+            	<value type="javascript">value2</value>
+            </simple-property-list>            
         </scalar-parameter>
     </parameters>
     <page-setup>

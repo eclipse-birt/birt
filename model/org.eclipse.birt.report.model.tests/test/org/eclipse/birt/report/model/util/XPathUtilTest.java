@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.util;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -299,7 +300,7 @@ public class XPathUtilTest extends BaseTestCase
 				.getInstance(
 						designHandle,
 						"/report/body/extended-item[@id=\"26\"]/property[@name=\"filter\"]/filter-condition-element/simple-property-list[@name=\"value1\"]/value[1]" ); //$NON-NLS-1$
-		assertTrue( retValue instanceof String );
+		assertTrue( retValue instanceof Expression );
 		assertEquals( "value1 expression", retValue.toString( ) ); //$NON-NLS-1$
 	}
 }

@@ -18,6 +18,8 @@ import java.util.List;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.ListingHandle;
@@ -72,7 +74,9 @@ import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
+import org.eclipse.birt.report.model.util.CompatiblePropertyChangeTables;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
@@ -224,6 +228,11 @@ public class PropertyCommand extends AbstractPropertyCommand
 						SemanticError.DESIGN_EXCEPTION_CANNOT_SPECIFY_PAGE_SIZE );
 			}
 		}
+
+		// handle the case that changes a property to an expression, or
+		// expression to a property/expression.
+
+		value = validateCompatibleObject( prop, value );
 
 		value = validateValue( prop, value );
 
@@ -972,5 +981,112 @@ public class PropertyCommand extends AbstractPropertyCommand
 			throw new SemanticError( element, new String[]{element.getName( ),
 					refValue.getName( )},
 					SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF );
+	}
+
+	/**
+	 * Sets the expression type for the property compatibility if the property
+	 * has changed from the string/Integer/DimensionValue... to allowExpression
+	 * = true.
+	 * 
+	 * @return the value
+	 */
+
+	private Object validateCompatibleObject( ElementPropertyDefn propDefn,
+			Object value )
+	{
+
+		if ( !( value instanceof Expression )
+				|| ( (Expression) value ).getUserDefinedType( ) != null )
+			return value;
+
+		String defaultType = CompatiblePropertyChangeTables.getDefaultExprType(
+				element.getDefn( ).getName( ), propDefn.getName( ),
+				Integer.MIN_VALUE );
+
+		if ( defaultType == null )
+			return value;
+
+		Object retValue = value;
+
+		// for example: integer -> integer/expression, string ->
+		// string/expression.
+
+		switch ( propDefn.getTypeCode( ) )
+		{
+			case IPropertyType.EXPRESSION_TYPE :
+
+				// expression -> string/expression
+
+				if ( defaultType != null )
+					retValue = new Expression( value, ExpressionType.JAVASCRIPT );
+				break;
+
+			case IPropertyType.STRING_TYPE :
+			case IPropertyType.LITERAL_STRING_TYPE :
+
+				// string/dimension -> string/dimension/expression
+
+				retValue = doValidateCompatibleObject( propDefn, propDefn
+						.getType( ), value );
+
+				break;
+			case IPropertyType.LIST_TYPE :
+
+				// no validation here, only fill type.
+
+				if ( value instanceof List )
+				{
+					PropertyType tmpSubType = propDefn.getSubType( );
+
+					List tmpList = (List) value;
+					retValue = new ArrayList<Expression>( );
+					for ( int i = 0; i < tmpList.size( ); i++ )
+					{
+						( (List) retValue ).add( doValidateCompatibleObject(
+								propDefn, tmpSubType, tmpList.get( i ) ) );
+					}
+				}
+				else
+				{
+					PropertyType tmpSubType = propDefn.getSubType( );
+
+					Expression tmpExpr = doValidateCompatibleObject( propDefn,
+							tmpSubType, value );
+
+					retValue = new ArrayList<Expression>( );
+					( (List) retValue ).add( tmpExpr );
+				}
+				break;
+			default :
+				break;
+
+		}
+		return retValue;
+	}
+
+	/**
+	 * @param propDefn
+	 * @param subType
+	 * @param value
+	 * @return
+	 */
+
+	private Expression doValidateCompatibleObject( PropertyDefn propDefn,
+			PropertyType subType, Object value )
+	{
+
+		String validatedValue = null;
+		try
+		{
+			validatedValue = (String) subType.validateValue( module, propDefn,
+					value );
+		}
+		catch ( PropertyValueException e )
+		{
+			// ignore this exception. must be ROM error.
+		}
+
+		return new Expression( validatedValue, ExpressionType.CONSTANT );
+
 	}
 }

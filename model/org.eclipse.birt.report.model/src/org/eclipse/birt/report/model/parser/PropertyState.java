@@ -212,10 +212,11 @@ class PropertyState extends AbstractPropertyState
 	}
 
 	/**
+	 * 
 	 * @param value
 	 */
 
-	protected void doEnd( String value )
+	protected void doEnd( Object value )
 	{
 		if ( struct != null )
 		{
@@ -261,7 +262,7 @@ class PropertyState extends AbstractPropertyState
 				}
 				else
 				{
-					( (StyledElement) element ).setStyleName( value );
+					( (StyledElement) element ).setStyleName( (String) value );
 				}
 
 				// add the element to help do backward compatibilities
@@ -274,10 +275,7 @@ class PropertyState extends AbstractPropertyState
 
 			}
 			else
-			{
-				( (StyledElement) element ).setStyleName( value );
-			}
-
+				( (StyledElement) element ).setStyleName( (String) value );
 		}
 
 		else
@@ -586,15 +584,6 @@ class PropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( handler.versionNumber < VersionUtil.VERSION_3_2_4
-				&& ( element instanceof ScalarParameter )
-				&& DEFAULT_VALUE_PROP == nameValue )
-		{
-			CompatiblePropertyTypeState state = new CompatiblePropertyTypeState(
-					handler, element );
-			state.setName( IScalarParameterModel.DEFAULT_VALUE_PROP );
-			return state;
-		}
 		if ( handler.versionNumber <= VersionUtil.VERSION_3_2_0
 				&& struct instanceof DataSetParameter
 				&& "isNullable".equals( name ) ) //$NON-NLS-1$
@@ -661,6 +650,17 @@ class PropertyState extends AbstractPropertyState
 						.equalsIgnoreCase( name ) )
 		{
 			CompatibleNewHandlerOnEachEventState state = new CompatibleNewHandlerOnEachEventState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
+
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_19
+				&& element instanceof ScalarParameter
+				&& IScalarParameterModel.DEFAULT_VALUE_PROP
+						.equalsIgnoreCase( name ) )
+		{
+			CompatiblePropToExprState state = new CompatiblePropToExprState(
 					handler, element );
 			state.setName( name );
 			return state;

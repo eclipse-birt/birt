@@ -96,11 +96,14 @@ public class ChoicePropertyType extends PropertyType
 	 *             if this value is not found in the predefined choice list.
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn, String value )
+	public Object validateXml( Module module, PropertyDefn defn, Object value )
 			throws PropertyValueException
 	{
-		value = StringUtil.trimString( value );
-		if ( value == null )
+		assert value == null || value instanceof String;
+		String tmpValue = (String) value;
+		
+		tmpValue = StringUtil.trimString( tmpValue );
+		if ( tmpValue == null )
 		{
 			return null;
 		}
@@ -113,27 +116,27 @@ public class ChoicePropertyType extends PropertyType
 
 		// Internal name of a choice.
 
-		IChoice choice = allowedChoices.findChoice( value );
+		IChoice choice = allowedChoices.findChoice( tmpValue );
 		if ( choice != null )
 		{
 			return choice.getName( );
 		}
 
 		IChoiceSet propChoices = defn.getChoices( );
-		if ( propChoices.contains( value ) )
+		if ( propChoices.contains( tmpValue ) )
 		{
 			// The is in the whole choice set, but not in the allowed list.
 
-			logger.log( Level.SEVERE, "Not allowed choice " + value ); //$NON-NLS-1$
+			logger.log( Level.SEVERE, "Not allowed choice " + tmpValue ); //$NON-NLS-1$
 
-			throw new PropertyValueException( value,
+			throw new PropertyValueException( tmpValue,
 					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED,
 					getTypeCode( ) );
 		}
 
-		logger.log( Level.SEVERE, "Not found choice: " + value ); //$NON-NLS-1$
+		logger.log( Level.SEVERE, "Not found choice: " + tmpValue ); //$NON-NLS-1$
 
-		throw new PropertyValueException( value,
+		throw new PropertyValueException( tmpValue,
 				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND,
 				getTypeCode( ) );
 	}

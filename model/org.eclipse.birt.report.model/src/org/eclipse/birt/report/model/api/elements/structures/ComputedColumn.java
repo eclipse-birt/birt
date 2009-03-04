@@ -26,7 +26,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertyStructure;
 
 /**
- * Represents one computed column. A computed column is a ¡°virtual¡± column
+ * Represents one computed column. A computed column is a ï¿½ï¿½virtualï¿½ï¿½ column
  * produced as an expression of other columns within the data set.
  * <p>
  * This is a managed object, meaning that all changes should be made though the
@@ -206,7 +206,7 @@ public class ComputedColumn extends PropertyStructure
 
 	public String getExpression( )
 	{
-		return (String) getProperty( null, EXPRESSION_MEMBER );
+		return getStringProperty( EXPRESSION_MEMBER );
 	}
 
 	/**

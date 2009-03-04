@@ -937,4 +937,21 @@ public class ParserCompatibilityTest extends BaseTestCase
 		save();
 		assertTrue(compareFile("CompatiblePropertyBindingTest_golden.xml")); //$NON-NLS-1$
 	}
+	
+	/**
+	 * Test backward compatibility. Uses ScalarParameter.defaultValue as
+	 * examples.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testPropertyToExpression( ) throws Exception
+	{
+		openDesign( "CompatiblePropToExprTest.xml" );//$NON-NLS-1$
+
+		save( );
+
+		saveOutputFile( "CompatiblePropToExprTest_golden.xml" ); //$NON-NLS-1$
+
+	}
 }

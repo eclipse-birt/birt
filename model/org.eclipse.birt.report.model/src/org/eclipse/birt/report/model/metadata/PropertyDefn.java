@@ -17,6 +17,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
@@ -213,6 +215,12 @@ public abstract class PropertyDefn
 	 */
 
 	protected String returnType;
+
+	/**
+	 * 
+	 */
+
+	private boolean allowExpression;
 
 	/**
 	 * Constructs a Property Definition.
@@ -778,9 +786,7 @@ public abstract class PropertyDefn
 				return retValue;
 		}
 
-		// Property type validation
-
-		retValue = getType( ).validateValue( module, this, value );
+		retValue = doValidateValueWithExpression( module, type, value );
 
 		// Per-property validations using a specific validator.
 
@@ -788,6 +794,59 @@ public abstract class PropertyDefn
 			MetaDataDictionary.getInstance( )
 					.getValueValidator( valueValidator ).validate( module,
 							this, retValue );
+
+		return retValue;
+	}
+
+	/**
+	 * Checks whether the value is Expression and validate the value
+	 * accordingly. If the value is an expression and its type is "constant",
+	 * extract the raw value and do the validation.
+	 * 
+	 * @param module
+	 *            the root
+	 * @param tmpType
+	 *            the property type to validate
+	 * @param value
+	 *            the value to validate
+	 * @return the validated value
+	 * @throws PropertyValueException
+	 */
+
+	protected Object doValidateValueWithExpression( Module module,
+			PropertyType tmpType, Object value ) throws PropertyValueException
+	{
+		// if the type is not expression and allowExpression = true, check the
+		// value.
+
+		Object toValidate = value;
+
+		if ( allowExpression && getTypeCode( ) != IPropertyType.EXPRESSION_TYPE
+				&& value instanceof Expression )
+		{
+			Expression tmpValue = (Expression) value;
+			if ( tmpValue.getUserDefinedType( ) != ExpressionType.CONSTANT )
+				tmpType = MetaDataDictionary.getInstance( ).getPropertyType(
+						IPropertyType.EXPRESSION_TYPE );
+			else
+				toValidate = tmpValue.getExpression( );
+		}
+
+		Object retValue = tmpType.validateValue( module, this, toValidate );
+
+		// for example, if the type is integer and the type is constant, need to
+		// update the input expression.
+
+		if ( allowExpression && getTypeCode( ) != IPropertyType.EXPRESSION_TYPE
+				&& value instanceof Expression )
+		{
+			Expression tmpValue = (Expression) value;
+			if ( retValue == null && tmpValue.getUserDefinedType( ) == null )
+				retValue = null;
+			else if ( !( retValue instanceof Expression ) )
+				retValue = new Expression( retValue, tmpValue
+						.getUserDefinedType( ) );
+		}
 
 		return retValue;
 	}
@@ -807,7 +866,7 @@ public abstract class PropertyDefn
 	 *             if the value is not valid
 	 */
 
-	public Object validateXml( Module module, String value )
+	public Object validateXml( Module module, Object value )
 			throws PropertyValueException
 	{
 		Object retValue = null;
@@ -824,7 +883,7 @@ public abstract class PropertyDefn
 
 		// Property type validation
 
-		retValue = getType( ).validateXml( module, this, value );
+		retValue = doValidateXMLWithExpression( module, type, value );
 
 		// Per-property validations using a specific validator.
 
@@ -832,6 +891,59 @@ public abstract class PropertyDefn
 			MetaDataDictionary.getInstance( )
 					.getValueValidator( valueValidator ).validate( module,
 							this, retValue );
+
+		return retValue;
+	}
+
+	/**
+	 * Checks whether the value is Expression and validate the value
+	 * accordingly. If the value is an expression and its type is "constant",
+	 * extract the raw value and do the validation.
+	 * 
+	 * @param module
+	 *            the root
+	 * @param tmpType
+	 *            the property type to validate
+	 * @param value
+	 *            the value to validate
+	 * @return the validated value
+	 * @throws PropertyValueException
+	 */
+
+	protected Object doValidateXMLWithExpression( Module module,
+			PropertyType tmpType, Object value ) throws PropertyValueException
+	{
+		// if the type is not expression and allowExpression = true, check the
+		// value.
+
+		Object toValidate = value;
+
+		if ( allowExpression && getTypeCode( ) != IPropertyType.EXPRESSION_TYPE
+				&& value instanceof Expression )
+		{
+			Expression tmpValue = (Expression) value;
+			if ( tmpValue.getUserDefinedType( ) != ExpressionType.CONSTANT )
+				tmpType = MetaDataDictionary.getInstance( ).getPropertyType(
+						IPropertyType.EXPRESSION_TYPE );
+			else
+				toValidate = tmpValue.getExpression( );
+		}
+
+		Object retValue = tmpType.validateXml( module, this, toValidate );
+
+		// for example, if the type is integer and the type is constant, need to
+		// update the input expression.
+
+		if ( allowExpression && getTypeCode( ) != IPropertyType.EXPRESSION_TYPE
+				&& value instanceof Expression )
+		{
+			Expression tmpValue = (Expression) value;
+			if ( retValue == null && tmpValue.getUserDefinedType( ) == null )
+				retValue = null;
+			else if ( !( retValue instanceof Expression ) )
+				retValue = new Expression( retValue, tmpValue
+						.getUserDefinedType( ) );
+		}
 
 		return retValue;
 	}
@@ -948,9 +1060,8 @@ public abstract class PropertyDefn
 			return null;
 
 		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null
-				? getType( ).toXml( module, this, value )
-				: retValue;
+		return retValue == null ? getConvertPropertyType( value ).toXml(
+				module, this, value ) : retValue;
 	}
 
 	/**
@@ -965,7 +1076,7 @@ public abstract class PropertyDefn
 
 	public String getStringValue( Module module, Object value )
 	{
-		return getType( ).toString( module, this, value );
+		return getConvertPropertyType( value ).toString( module, this, value );
 	}
 
 	/**
@@ -982,7 +1093,7 @@ public abstract class PropertyDefn
 
 	public double getFloatValue( Module module, Object value )
 	{
-		return getType( ).toDouble( module, value );
+		return getConvertPropertyType( value ).toDouble( module, value );
 	}
 
 	/**
@@ -999,7 +1110,7 @@ public abstract class PropertyDefn
 
 	public int getIntValue( Module module, Object value )
 	{
-		return getType( ).toInteger( module, value );
+		return getConvertPropertyType( value ).toInteger( module, value );
 	}
 
 	/**
@@ -1016,7 +1127,7 @@ public abstract class PropertyDefn
 
 	public BigDecimal getNumberValue( Module module, Object value )
 	{
-		return getType( ).toNumber( module, value );
+		return getConvertPropertyType( value ).toNumber( module, value );
 	}
 
 	/**
@@ -1033,7 +1144,7 @@ public abstract class PropertyDefn
 
 	public boolean getBooleanValue( Module module, Object value )
 	{
-		return getType( ).toBoolean( module, value );
+		return getConvertPropertyType( value ).toBoolean( module, value );
 	}
 
 	/**
@@ -1054,10 +1165,39 @@ public abstract class PropertyDefn
 		String retValue = validateExtendedChoicesByName( value );
 
 		if ( retValue == null )
-			return getType( ).toDisplayString( module, this, value );
+			return getConvertPropertyType( value ).toDisplayString( module,
+					this, value );
 
 		return getChoices( ).findChoice( value.toString( ) ).getDisplayName( );
 
+	}
+
+	/**
+	 * @param value
+	 * @return
+	 */
+
+	private PropertyType getConvertPropertyType( Object value )
+	{
+		PropertyType tmpType = getType( );
+
+		if ( value instanceof Expression )
+		{
+			if ( !ExpressionType.CONSTANT
+					.equalsIgnoreCase( ( (Expression) value )
+							.getUserDefinedType( ) ) )
+			{
+				tmpType = MetaDataDictionary.getInstance( ).getPropertyType(
+						IPropertyType.EXPRESSION_TYPE );
+			}
+			else
+			{
+				assert getTypeCode( ) != IPropertyType.EXPRESSION_TYPE;
+			}
+
+		}
+
+		return tmpType;
 	}
 
 	/**
@@ -1693,5 +1833,29 @@ public abstract class PropertyDefn
 
 		int typeCode = type.getTypeCode( );
 		return typeCode == IPropertyType.LIST_TYPE;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#allowExpression
+	 * ()
+	 */
+
+	public boolean allowExpression( )
+	{
+		return allowExpression
+				|| getTypeCode( ) == IPropertyType.EXPRESSION_TYPE;
+	}
+
+	/**
+	 * @param allowExpression
+	 *            the allowExpression to set
+	 */
+
+	void setAllowExpression( boolean allowExpression )
+	{
+		this.allowExpression = allowExpression;
 	}
 }

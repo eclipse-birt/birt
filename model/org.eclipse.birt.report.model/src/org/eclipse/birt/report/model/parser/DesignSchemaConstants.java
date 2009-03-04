@@ -220,6 +220,7 @@ public interface DesignSchemaConstants
 	static final String TOC_TAG = "toc"; //$NON-NLS-1$ 
 	static final String TRANSLATION_TAG = "translation"; //$NON-NLS-1$
 	static final String TRANSLATIONS_TAG = "translations"; //$NON-NLS-1$
+	static final String TYPE_TAG = "type"; //$NON-NLS-1$
 	static final String VALUE_ACCESS_CONTROL_TAG = "value-access-control"; //$NON-NLS-1$
 	static final String VALUE_TAG = "value"; //$NON-NLS-1$
 	static final String VARIABLE_ELEMENT_TAG = "variable-element"; //$NON-NLS-1$

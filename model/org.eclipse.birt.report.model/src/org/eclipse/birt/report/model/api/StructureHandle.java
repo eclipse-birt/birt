@@ -12,12 +12,14 @@
 package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
@@ -25,6 +27,9 @@ import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -329,5 +334,70 @@ public class StructureHandle extends ValueHandle
 		if ( memberHandle != null )
 			memberHandle.setValue( Boolean.valueOf( isDesignTime ) );
 
+	}
+
+	/**
+	 * Returns the compatibility string for expression lists.
+	 * 
+	 * @param memberName
+	 * @param valueList
+	 * 
+	 * @return the compatible value
+	 */
+
+	protected String getCompatibleValue1( String memberName,
+			List<Expression> valueList )
+	{
+		if ( valueList == null || valueList.isEmpty( ) )
+			return null;
+
+		PropertyType tmpType = MetaDataDictionary.getInstance( )
+				.getPropertyType( IPropertyType.EXPRESSION_TYPE );
+		PropertyDefn tmpPropDefn = (PropertyDefn) getDefn( ).getMember(
+				memberName );
+
+		return tmpType.toString( getModule( ), tmpPropDefn, valueList.get( 0 ) );
+	}
+
+	/**
+	 * Sets the value of the member as an expression.
+	 * 
+	 * @param memberName
+	 *            name of the member to set.
+	 * @param value
+	 *            the expression to set
+	 * @throws SemanticException
+	 *             if the member name is not defined on the structure or the
+	 *             value is not valid for the member.
+	 */
+
+	public void setExprssionProperty( String memberName, Expression value )
+			throws SemanticException
+	{
+		setProperty( memberName, value );
+	}
+
+	/**
+	 * Gets the value of the member as an expression.
+	 * 
+	 * @param memberName
+	 *            name of the member to set.
+	 * @return the expression
+	 * @throws SemanticException
+	 *             if the member name is not defined on the structure or the
+	 *             value is not valid for the member.
+	 */
+
+	public ExpressionHandle getExprssionProperty( String memberName )
+	{
+		PropertyDefn defn = (PropertyDefn) getDefn( ).getMember( memberName );
+		if ( defn == null )
+			return null;
+
+		if ( defn.allowExpression( ) )
+			return new ExpressionHandle( getElementHandle( ),
+					new CachedMemberRef( getReference( ), memberName ) );
+
+		return null;
 	}
 }

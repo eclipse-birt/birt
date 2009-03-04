@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api.elements.structures;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
@@ -65,7 +66,7 @@ public class SortKey extends Structure
 	 * Value of the "key" member.
 	 */
 
-	private String key = null;
+	private Expression key = null;
 
 	/**
 	 * Value of the "direction" member.
@@ -84,7 +85,7 @@ public class SortKey extends Structure
 
 	public SortKey( String key, String direction )
 	{
-		this.key = key;
+		this.key = convertObjectToExpression( key );
 		this.direction = direction;
 	}
 
@@ -135,7 +136,7 @@ public class SortKey extends Structure
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
 		if ( KEY_MEMBER.equals( propName ) )
-			key = (String) value;
+			key = convertObjectToExpression( value );
 		else if ( DIRECTION_MEMBER.equals( propName ) )
 			direction = (String) value;
 		else
@@ -150,7 +151,7 @@ public class SortKey extends Structure
 
 	public String getKey( )
 	{
-		return (String) getProperty( null, KEY_MEMBER );
+		return getStringProperty( KEY_MEMBER );
 	}
 
 	/**

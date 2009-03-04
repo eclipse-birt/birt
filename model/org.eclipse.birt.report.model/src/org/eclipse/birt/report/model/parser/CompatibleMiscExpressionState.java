@@ -105,9 +105,9 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#doEnd(java.lang.String)
 	 */
 
-	protected void doEnd( String value )
+	protected void doEnd( Object value )
 	{
-		doEnd( value, false );
+		doEnd( (String) value, false );
 	}
 
 	/**
@@ -122,14 +122,14 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 	 * 
 	 */
 
-	protected void doEnd( String value, boolean isParamBindingValue )
+	protected void doEnd( Object value, boolean isParamBindingValue )
 	{
-		String newValue = value;
+		String newValue = (String) value;
 
-		if ( StringUtil.trimString( value ) != null )
+		if ( StringUtil.trimString( (String) value ) != null )
 		{
 			newValue = ExpressionUtil.updateParentQueryReferenceExpression(
-					value, isParamBindingValue );
+					(String) value, isParamBindingValue );
 		}
 		super.doEnd( newValue );
 	}

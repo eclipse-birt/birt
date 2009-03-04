@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17">
+    <parameters>
+        <scalar-parameter name="Param 1">
+            <simple-property-list name="defaultValue">
+            	<value>value1</value>
+            	<value>value2</value>
+            	<value>value3</value>
+            </simple-property-list>
+        </scalar-parameter>
+	    <scalar-parameter name="Param 2">
+           <property name="defaultValue">"default value"</property>
+        </scalar-parameter>
+    </parameters>
+</report>

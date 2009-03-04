@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.model.api.elements.structures;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * This class represents one rule. Each rule has the following properties:
@@ -32,33 +34,33 @@ import org.eclipse.birt.report.model.core.Structure;
 
 public class Rule extends Structure
 {
+
 	/**
 	 * Name of this structure. Matches the definition in the meta-data
 	 * dictionary.
 	 */
 
 	public static final String RULE_STRUCTURE = "Rule"; //$NON-NLS-1$
-	
+
 	/**
-	 * Name of the member which defines the static value. 
+	 * Name of the member which defines the static value.
 	 */
 	public static final String RULE_EXPRE_MEMBER = "ruleExpre"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the member which gives the display value for the static value.
 	 */
 	public static final String DISPLAY_EXPRE_MEMBER = "displayExpre"; //$NON-NLS-1$
-	
+
 	/**
 	 * Static value.
 	 */
-	protected String ruleExpre = null;
-	
+	protected Expression ruleExpre = null;
+
 	/**
 	 * Display value.
 	 */
-	protected String displayExpre = null;
-	
+	protected Expression displayExpre = null;
 
 	/*
 	 * (non-Javadoc)
@@ -74,8 +76,9 @@ public class Rule extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{
@@ -84,30 +87,36 @@ public class Rule extends Structure
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 	protected Object getIntrinsicProperty( String propName )
 	{
-		if ( RULE_EXPRE_MEMBER.equals( propName ))
+		if ( RULE_EXPRE_MEMBER.equals( propName ) )
 			return this.ruleExpre;
-		if ( DISPLAY_EXPRE_MEMBER.equals( propName ))
+		if ( DISPLAY_EXPRE_MEMBER.equals( propName ) )
 			return this.displayExpre;
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String, java.lang.Object)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
-		if ( RULE_EXPRE_MEMBER.equals( propName ))
+		if ( RULE_EXPRE_MEMBER.equals( propName ) )
 		{
-			ruleExpre = (String) value;
+			ruleExpre = convertObjectToExpression( value );
 		}
-		else if ( DISPLAY_EXPRE_MEMBER.equals( propName ))
+		else if ( DISPLAY_EXPRE_MEMBER.equals( propName ) )
 		{
-			displayExpre = (String) value;
-		}		
+			displayExpre = convertObjectToExpression( value );
+		}
 	}
 }

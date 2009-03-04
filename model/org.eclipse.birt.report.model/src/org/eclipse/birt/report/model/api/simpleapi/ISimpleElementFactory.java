@@ -292,4 +292,12 @@ public interface ISimpleElementFactory
 	 * @return ISortElement
 	 */
 	public ISortElement createSortElement( SortElementHandle handle );
+
+	/**
+	 * Creates <code>IExpression</code> instance.
+	 * 
+	 * @return IExpression
+	 */
+	
+	public IExpression createExpression( );
 }
