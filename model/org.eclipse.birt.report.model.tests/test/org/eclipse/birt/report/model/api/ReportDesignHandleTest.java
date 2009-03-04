@@ -1016,9 +1016,13 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		designHandle
 				.setFileName( "bundleresource://22868/samplereports/Reporting Feature Examples/Combination Chart/CustomerOrdersFinal.rptdesign" ); //$NON-NLS-1$
+		URL tmpURL = designHandle.getSystemId( );
+
+		assertEquals( "bundleresource", tmpURL.getProtocol( ) ); //$NON-NLS-1$
+		assertTrue( tmpURL.getHost( ).endsWith( "22868" ) ); //$NON-NLS-1$
 		assertEquals(
-				"bundleresource://22868/samplereports/Reporting Feature Examples/Combination Chart/", designHandle //$NON-NLS-1$
-						.getSystemId( ).toString( ) );
+				"/samplereports/Reporting Feature Examples/Combination Chart/", //$NON-NLS-1$
+				tmpURL.getPath( ) );
 	}
 
 	/**
