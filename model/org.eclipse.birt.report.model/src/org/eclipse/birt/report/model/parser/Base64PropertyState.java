@@ -49,8 +49,8 @@ public class Base64PropertyState extends CompatiblePropertyState
 	 * @param charSet
 	 */
 
-	Base64PropertyState( ModuleParserHandler theHandler,
-			DesignElement element, String charSet )
+	Base64PropertyState( ModuleParserHandler theHandler, DesignElement element,
+			String charSet )
 	{
 		super( theHandler, element );
 		assert charSet != null;
@@ -67,9 +67,8 @@ public class Base64PropertyState extends CompatiblePropertyState
 	 * @param charSet
 	 */
 
-	Base64PropertyState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, IStructure struct,
-			String charSet )
+	Base64PropertyState( ModuleParserHandler theHandler, DesignElement element,
+			PropertyDefn propDefn, IStructure struct, String charSet )
 	{
 		super( theHandler, element, propDefn, struct );
 		assert charSet != null;
@@ -113,6 +112,9 @@ public class Base64PropertyState extends CompatiblePropertyState
 		try
 		{
 			data = base.decode( encodedValue.getBytes( charSet ) );
+			if ( data == null )
+				return null;
+			
 			return new String( data, charSet );
 		}
 		catch ( UnsupportedEncodingException e )
@@ -120,6 +122,5 @@ public class Base64PropertyState extends CompatiblePropertyState
 			assert false;
 			return null;
 		}
-
 	}
 }

@@ -34,8 +34,8 @@ import org.eclipse.birt.report.model.metadata.StructRefValue;
  * use the image name to identify an embedded image.</dd>
  * 
  * <dt><strong>Type </strong></dt>
- * <dd>an embedded image has a choice and required type: bmp, gif, png or
- * x-png.</dd>
+ * <dd>an embedded image has a choice and required type: bmp, gif, png or x-png.
+ * </dd>
  * 
  * <dt><strong>Data </strong></dt>
  * <dd>value of the image data in Base64 encoding.</dd>
@@ -81,10 +81,12 @@ public class EmbeddedImageHandle extends StructureHandle
 
 	public void setData( byte[] data )
 	{
+		String toSet = null;
+
 		try
 		{
-			setPropertySilently( EmbeddedImage.DATA_MEMBER, new String( data,
-					EmbeddedImage.CHARSET ) );
+			if ( data != null )
+				toSet = new String( data, EmbeddedImage.CHARSET );
 		}
 		catch ( UnsupportedEncodingException e )
 		{
@@ -92,6 +94,9 @@ public class EmbeddedImageHandle extends StructureHandle
 
 			assert false;
 		}
+
+		setPropertySilently( EmbeddedImage.DATA_MEMBER, toSet );
+
 	}
 
 	/**
@@ -191,9 +196,9 @@ public class EmbeddedImageHandle extends StructureHandle
 	 * Checks whether <code>EmbeddedImage</code> has reference to library
 	 * embedded image.
 	 * 
-	 * @return if <code>EmbeddedImage</code> has reference to library image
-	 *         and the reference is resolved return <code>true</code> else
-	 *         return <code>false</code>
+	 * @return if <code>EmbeddedImage</code> has reference to library image and
+	 *         the reference is resolved return <code>true</code> else return
+	 *         <code>false</code>
 	 */
 	public boolean isLibReference( )
 	{

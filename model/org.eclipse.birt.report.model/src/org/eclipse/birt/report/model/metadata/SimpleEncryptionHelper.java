@@ -48,7 +48,9 @@ public class SimpleEncryptionHelper implements IEncryptionHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IEncryptionHelper#encrypt(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IEncryptionHelper#encrypt
+	 * (java.lang.String)
 	 */
 
 	public String encrypt( String string )
@@ -56,6 +58,8 @@ public class SimpleEncryptionHelper implements IEncryptionHelper
 		try
 		{
 			byte[] data = codec.encode( string.getBytes( CHARSET ) );
+			if ( data == null )
+				return null;
 			return new String( data, CHARSET );
 		}
 		catch ( UnsupportedEncodingException e )
@@ -69,7 +73,9 @@ public class SimpleEncryptionHelper implements IEncryptionHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IEncryptionHelper#decrypt(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IEncryptionHelper#decrypt
+	 * (java.lang.String)
 	 */
 
 	public String decrypt( String string )
@@ -77,6 +83,9 @@ public class SimpleEncryptionHelper implements IEncryptionHelper
 		try
 		{
 			byte[] data = codec.decode( string.getBytes( CHARSET ) );
+			if ( data == null )
+				return null;
+
 			return new String( data, CHARSET );
 		}
 		catch ( UnsupportedEncodingException e )

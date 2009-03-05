@@ -526,6 +526,12 @@ public class ModelUtil
 		if ( value == null || propDefn == null )
 			return null;
 
+		if ( propDefn.allowExpression( ) && value instanceof Expression )
+		{
+			return new Expression( ( (Expression) value ).getExpression( ),
+					( (Expression) value ).getUserDefinedType( ) );
+		}
+
 		switch ( propDefn.getTypeCode( ) )
 		{
 			case IPropertyType.STRUCT_TYPE :
@@ -1773,22 +1779,6 @@ public class ModelUtil
 			setupStructureContext( child );
 		}
 
-	}
-
-	/**
-	 * @param element
-	 * @param propName
-	 * @return
-	 */
-
-	public static String getExpression( DesignElement element, String propName,
-			Module root )
-	{
-		Object value = element.getLocalProperty( root, propName );
-		if ( !( value instanceof Expression ) )
-			return null;
-
-		return ( (Expression) value ).getStringExpression( );
 	}
 
 	/**

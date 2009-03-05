@@ -1442,9 +1442,12 @@ public abstract class ModuleWriter extends ElementVisitor
 					{
 						byte[] data = base
 								.encode( image.getData( getModule( ) ) );
-						String value = new String( data, EmbeddedImage.CHARSET );
+						String value = null;
+						if ( data != null )
+							value = new String( data, EmbeddedImage.CHARSET );
 
-						if ( value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
+						if ( value != null
+								&& value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
 							writeEntry( DesignSchemaConstants.PROPERTY_TAG,
 									EmbeddedImage.DATA_MEMBER, null, value,
 									false );
@@ -3533,9 +3536,12 @@ public abstract class ModuleWriter extends ElementVisitor
 			if ( designerState.getContentAsBlob( ) != null )
 			{
 				byte[] data = base.encode( designerState.getContentAsBlob( ) );
-				String value = new String( data, OdaDesignerState.CHARSET );
+				String value = null;
+				if ( data != null )
+					value = new String( data, OdaDesignerState.CHARSET );
 
-				if ( value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
+				if ( value != null
+						&& value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
 					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
 							OdaDesignerState.CONTENT_AS_BLOB_MEMBER, null,
 							value, false );

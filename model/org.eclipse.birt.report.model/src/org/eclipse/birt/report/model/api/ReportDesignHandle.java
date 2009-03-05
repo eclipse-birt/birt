@@ -604,14 +604,19 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public void setThumbnail( byte[] data ) throws SemanticException
 	{
+		String toSet = null;
+
 		try
 		{
-			setStringProperty( THUMBNAIL_PROP, new String( data, CHARSET ) );
+			if ( data != null )
+				toSet = new String( data, CHARSET );
 		}
 		catch ( UnsupportedEncodingException e )
 		{
 			assert false;
 		}
+
+		setStringProperty( THUMBNAIL_PROP, toSet );
 	}
 
 	/**

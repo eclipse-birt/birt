@@ -15,6 +15,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
@@ -23,7 +24,6 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
-import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.SecurityUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -116,7 +116,7 @@ public class ImageState extends ReportItemState
 		int type = 0;
 		Module module = handler.getModule( );
 
-		String uri = ModelUtil.getExpression( image, IImageItemModel.URI_PROP,
+		String uri = getLocalStringExpression( image, IImageItemModel.URI_PROP,
 				module );
 		if ( !StringUtil.isEmpty( uri ) )
 		{
@@ -150,9 +150,9 @@ public class ImageState extends ReportItemState
 			type++;
 		}
 
-		String typeExpr = ModelUtil.getExpression( image,
+		String typeExpr = getLocalStringExpression( image,
 				IImageItemModel.TYPE_EXPR_PROP, module );
-		String valueExpr = ModelUtil.getExpression( image,
+		String valueExpr = getLocalStringExpression( image,
 				IImageItemModel.VALUE_EXPR_PROP, module );
 
 		if ( !StringUtil.isEmpty( typeExpr ) || !StringUtil.isEmpty( valueExpr ) )
@@ -275,5 +275,21 @@ public class ImageState extends ReportItemState
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @param element
+	 * @param propName
+	 * @return
+	 */
+
+	private static String getLocalStringExpression( DesignElement element,
+			String propName, Module root )
+	{
+		Object value = element.getLocalProperty( root, propName );
+		if ( !( value instanceof Expression ) )
+			return null;
+
+		return ( (Expression) value ).getStringExpression( );
 	}
 }

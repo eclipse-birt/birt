@@ -152,9 +152,11 @@ public class DesignWriter extends ModuleWriter
 			if ( thumbnail != null )
 			{
 				byte[] data = base.encode( design.getThumbnail( ) );
-				String value = new String( data, OdaDesignerState.CHARSET );
+				String value = null;
+				if ( data != null )
+					value = new String( data, OdaDesignerState.CHARSET );
 
-				if ( value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
+				if ( value != null && value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
 					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
 							IReportDesignModel.THUMBNAIL_PROP, null, value,
 							false );
