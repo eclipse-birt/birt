@@ -173,11 +173,13 @@ public class ScalarParameterParseTest extends BaseTestCase
 		handle2.setListlimit( 300 );
 
 		ScalarParameterHandle handle3 = (ScalarParameterHandle) params.get( 2 );
-		List<String> valueList = new ArrayList<String>( );
-		valueList.add( "default_value_1" ); //$NON-NLS-1$		
+		List<Expression> valueList = new ArrayList<Expression>( );
+		valueList.add( new Expression(
+				"default_value_1", ExpressionType.CONSTANT ) ); //$NON-NLS-1$		
 		valueList.add( null );
-		valueList.add( "default_value_2" ); //$NON-NLS-1$
-		valueList.add( "" ); //$NON-NLS-1$
+		valueList.add( new Expression(
+				"default_value_2", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
+		valueList.add( new Expression( "", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
 		handle3.setDefaultValueList( valueList );
 		save( );
 		assertTrue( compareFile( "ScalarParameterParseTest_golden.xml" ) ); //$NON-NLS-1$

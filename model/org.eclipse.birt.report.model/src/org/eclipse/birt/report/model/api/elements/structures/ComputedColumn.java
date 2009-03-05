@@ -206,7 +206,7 @@ public class ComputedColumn extends PropertyStructure
 
 	public String getExpression( )
 	{
-		return getStringProperty( EXPRESSION_MEMBER );
+		return getStringProperty( null, EXPRESSION_MEMBER );
 	}
 
 	/**
@@ -224,8 +224,9 @@ public class ComputedColumn extends PropertyStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )

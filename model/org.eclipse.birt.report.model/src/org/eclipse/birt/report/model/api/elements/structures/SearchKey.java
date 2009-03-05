@@ -117,7 +117,7 @@ public class SearchKey extends Structure
 
 	public String getExpression( )
 	{
-		return (String) getProperty( null, EXPRESSION_MEMBER );
+		return getStringProperty( null, EXPRESSION_MEMBER );
 	}
 
 	/*

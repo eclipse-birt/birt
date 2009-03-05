@@ -182,7 +182,6 @@ import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
-import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -995,10 +994,12 @@ public abstract class ModuleWriter extends ElementVisitor
 				.conditionalStartElement( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG );
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, propName );
 
+		int typeCode = prop.getSubTypeCode( );
 		for ( int i = 0; i < values.size( ); i++ )
 		{
-			int typeCode = prop.getSubTypeCode( );
-			Object toValidate = values.get( i );
+
+			Object tmpItem = values.get( i );
+			Object toValidate = tmpItem;
 
 			if ( prop.allowExpression( )
 					&& typeCode != IPropertyType.EXPRESSION_TYPE )
@@ -1020,10 +1021,9 @@ public abstract class ModuleWriter extends ElementVisitor
 
 			String exprType = null;
 
-			if ( type.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
+			if ( prop.allowExpression( ) && ( tmpItem instanceof Expression ) )
 			{
-				exprType = ( (Expression) values.get( i ) )
-						.getUserDefinedType( );
+				exprType = ( (Expression) tmpItem ).getUserDefinedType( );
 			}
 
 			writer.startElement( DesignSchemaConstants.VALUE_TAG );
@@ -1063,14 +1063,32 @@ public abstract class ModuleWriter extends ElementVisitor
 				.conditionalStartElement( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG );
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, propName );
 
+		int typeCode = prop.getSubTypeCode( );
+
 		for ( int i = 0; i < values.size( ); i++ )
 		{
 			PropertyType type = prop.getSubType( );
-			String xmlValue = type.toXml( getModule( ), prop, values.get( i ) );
+			Object tmpItem = values.get( i );
+			Object toValidate = tmpItem;
+
+			if ( prop.allowExpression( )
+					&& typeCode != IPropertyType.EXPRESSION_TYPE )
+			{
+				if ( toValidate instanceof Expression )
+				{
+					Expression tmpValue = (Expression) toValidate;
+					if ( tmpValue.getUserDefinedType( ) != ExpressionType.CONSTANT )
+						typeCode = IPropertyType.EXPRESSION_TYPE;
+					else
+						toValidate = tmpValue.getExpression( );
+				}
+			}
+
+			String xmlValue = type.toXml( getModule( ), prop, toValidate );
 
 			String exprType = null;
 
-			if ( type.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
+			if ( prop.allowExpression( ) && ( tmpItem instanceof Expression ) )
 			{
 				exprType = ( (Expression) values.get( i ) )
 						.getUserDefinedType( );

@@ -579,20 +579,6 @@ public abstract class Structure implements IStructure
 	/**
 	 * Get the string value.
 	 * 
-	 * @param memberName
-	 *            name of the member to get
-	 * @return String value of the member, or <code>null</code> if the member is
-	 *         not set or is not found.
-	 */
-
-	protected String getStringProperty( String memberName )
-	{
-		return getStringProperty( null, memberName );
-	}
-
-	/**
-	 * Get the string value.
-	 * 
 	 * @param module
 	 *            the root design/library
 	 * @param memberName

@@ -74,7 +74,9 @@ public class AggregationArgument extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -91,8 +93,9 @@ public class AggregationArgument extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -136,7 +139,7 @@ public class AggregationArgument extends Structure
 
 	public String getValue( )
 	{
-		return (String) getProperty( null, VALUE_MEMBER );
+		return getStringProperty( null, VALUE_MEMBER );
 	}
 
 	/**
@@ -154,8 +157,9 @@ public class AggregationArgument extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{
@@ -165,8 +169,10 @@ public class AggregationArgument extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
+	 * .report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 	public List validate( Module module, DesignElement element )
 	{

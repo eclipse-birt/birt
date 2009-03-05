@@ -39,7 +39,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * <dt><strong>Expression </strong></dt>
  * <dd>associated an expression with a named input parameter.</dd>
  * </dl>
- *  
+ * 
  */
 
 public class ParamBinding extends Structure
@@ -90,7 +90,9 @@ public class ParamBinding extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -107,8 +109,9 @@ public class ParamBinding extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -155,7 +158,7 @@ public class ParamBinding extends Structure
 
 	public String getExpression( )
 	{
-		return getStringProperty( EXPRESSION_MEMBER );
+		return getStringProperty( null, EXPRESSION_MEMBER );
 	}
 
 	/**
@@ -173,8 +176,10 @@ public class ParamBinding extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
+	 * .report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
 	public List validate( Module module, DesignElement element )
@@ -183,9 +188,8 @@ public class ParamBinding extends Structure
 
 		if ( StringUtil.isBlank( getParamName( ) ) )
 		{
-			list.add( new PropertyValueException( element,
-					getDefn( ).getMember( PARAM_NAME_MEMBER ),
-					getParamName( ),
+			list.add( new PropertyValueException( element, getDefn( )
+					.getMember( PARAM_NAME_MEMBER ), getParamName( ),
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 		return list;
@@ -194,8 +198,9 @@ public class ParamBinding extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{

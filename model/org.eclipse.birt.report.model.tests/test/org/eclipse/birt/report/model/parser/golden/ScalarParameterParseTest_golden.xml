@@ -69,10 +69,10 @@
             <expression name="valueExpr">row["test"]</expression>
             <expression name="labelExpr">test column</expression>
             <simple-property-list name="defaultValue">
-            	<value>default_value_1</value>            	
-            	<value/>
-            	<value>default_value_2</value>
-            	<value></value>
+                <value type="constant">default_value_1</value>
+                <value/>
+                <value type="constant">default_value_2</value>
+                <value type="constant"></value>
             </simple-property-list>
             <structure name="format"/>
         </scalar-parameter>

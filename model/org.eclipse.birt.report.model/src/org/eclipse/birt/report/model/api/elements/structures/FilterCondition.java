@@ -212,7 +212,7 @@ public class FilterCondition extends Structure
 
 	public String getExpr( )
 	{
-		return expr == null ? null : expr.getStringExpression( );
+		return getStringProperty( null, EXPR_MEMBER );
 	}
 
 	/**
@@ -364,7 +364,7 @@ public class FilterCondition extends Structure
 
 	public String getValue2( )
 	{
-		return value2 == null ? null : value2.getStringExpression( );
+		return getStringProperty( null, VALUE2_MEMBER );
 	}
 
 	/**

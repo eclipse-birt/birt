@@ -173,7 +173,9 @@ public class JoinCondition extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -198,8 +200,9 @@ public class JoinCondition extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -333,7 +336,7 @@ public class JoinCondition extends Structure
 
 	public String getLeftExpression( )
 	{
-		return (String) getProperty( null, LEFT_EXPRESSION_MEMBER );
+		return getStringProperty( null, LEFT_EXPRESSION_MEMBER );
 	}
 
 	/**
@@ -356,14 +359,15 @@ public class JoinCondition extends Structure
 
 	public String getRightExpression( )
 	{
-		return (String) getProperty( null, RIGHT_EXPRESSION_MEMBER );
+		return getStringProperty( null, RIGHT_EXPRESSION_MEMBER );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
@@ -374,12 +378,12 @@ public class JoinCondition extends Structure
 	/**
 	 * Validates this structure. The following are the rules:
 	 * <ul>
-	 * <li> The join type is required.
-	 * <li> The operator is required.
-	 * <li> The left data set is required.
-	 * <li> The right data set is required.
-	 * <li> The left expression is required.
-	 * <li> The right expression is required.
+	 * <li>The join type is required.
+	 * <li>The operator is required.
+	 * <li>The left data set is required.
+	 * <li>The right data set is required.
+	 * <li>The left expression is required.
+	 * <li>The right expression is required.
 	 * </ul>
 	 * 
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,

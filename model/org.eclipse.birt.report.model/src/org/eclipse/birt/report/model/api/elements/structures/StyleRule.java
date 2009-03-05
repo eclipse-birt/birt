@@ -307,7 +307,7 @@ public abstract class StyleRule extends PropertyStructure
 
 	public String getValue2( )
 	{
-		return (String) getProperty( null, VALUE2_MEMBER );
+		return getStringProperty( null, VALUE2_MEMBER );
 	}
 
 	/**
