@@ -321,7 +321,7 @@ public class ParameterDialog extends BaseDialog
 
 	private String formatCategroy, formatPattern;
 
-	private String defaultValue;
+	private List<String> defaultValueList;
 
 	private Composite valueArea, sorttingArea;
 
@@ -448,10 +448,11 @@ public class ParameterDialog extends BaseDialog
 			{
 				// choice.setValue( convertToStandardFormat( choice.getValue( )
 				// ) );
+				String oldVal = choice.getValue( );
 				choice.setValue( choice.getValue( ) );
 				if ( isDefault )
 				{
-					changeDefaultValue( choice.getValue( ) );
+					changeDefaultValue( oldVal, choice.getValue( ) );
 				}
 				return true;
 			}
@@ -491,7 +492,7 @@ public class ParameterDialog extends BaseDialog
 			{
 				if ( isDefaultChoice( (SelectionChoice) elements[i] ) )
 				{
-					changeDefaultValue( null );
+					removeDefaultValue( ( (SelectionChoice) elements[i] ).getValue( ) );
 				}
 				choiceList.remove( elements[i] );
 			}
@@ -502,7 +503,11 @@ public class ParameterDialog extends BaseDialog
 		{
 			// TODO Auto-generated method stub
 			choiceList.clear( );
-			changeDefaultValue( null );
+			if ( defaultValueList != null && defaultValueList.size( ) > 0 )
+			{
+				defaultValueList.clear( );
+				valueTable.refresh( );
+			}
 			return true;
 		}
 	};
@@ -816,6 +821,25 @@ public class ParameterDialog extends BaseDialog
 
 		allowMultiChoice = new Button( choiceArea, SWT.CHECK );
 		allowMultiChoice.setText( CHECK_ALLOW_MULTI );
+		allowMultiChoice.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				// keep one value of default value list when switch from allow
+				// to disallow
+				if ( !allowMultiChoice.getSelection( ) )
+				{
+					if ( defaultValueList != null
+							&& defaultValueList.size( ) > 0 )
+					{
+						String value = defaultValueList.get( 0 );
+						defaultValueList.clear( );
+						defaultValueList.add( value );
+						valueTable.refresh( );
+					}
+				}
+			}
+		} );
 		gd = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		staticRadio.setLayoutData( gd );
 
@@ -873,7 +897,8 @@ public class ParameterDialog extends BaseDialog
 		{
 			dynamicRadio.setSelection( true );
 		}
-		defaultValue = inputParameter.getDefaultValue( );
+
+		defaultValueList = inputParameter.getDefaultValueList( );
 
 		if ( PARAM_CONTROL_LIST.endsWith( getSelectedControlType( ) )
 				&& allowMultiValueVisible )
@@ -930,6 +955,8 @@ public class ParameterDialog extends BaseDialog
 		{
 			listLimit.setEnabled( false );
 		}
+
+		String defaultValue = getFirstDefaultValue( );
 
 		if ( isStatic( ) )
 		{
@@ -1022,6 +1049,20 @@ public class ParameterDialog extends BaseDialog
 			initSorttingArea( );
 		}
 		updateMessageLine( );
+	}
+
+	private String getFirstDefaultValue( )
+	{
+		if ( defaultValueList != null && defaultValueList.size( ) > 0 )
+			return defaultValueList.get( 0 );
+		return null;
+	}
+
+	private void setFirstDefaultValue( String value )
+	{
+		if ( defaultValueList == null )
+			defaultValueList = new ArrayList<String>( );
+		defaultValueList.add( 0, value );
 	}
 
 	private void initSorttingArea( )
@@ -1396,11 +1437,11 @@ public class ParameterDialog extends BaseDialog
 		// -- Begin --
 		try
 		{
-			validateValue( defaultValue );
+			validateValueList( defaultValueList );
 		}
 		catch ( BirtException e1 )
 		{
-			defaultValue = null;
+			defaultValueList = null;
 		}
 		// -- End --
 
@@ -1593,13 +1634,13 @@ public class ParameterDialog extends BaseDialog
 				switch ( defaultValueChooser.getSelectionIndex( ) )
 				{
 					case 0 :
-						defaultValue = null;
+						defaultValueList = null;
 						break;
 					case 1 :
-						defaultValue = Boolean.toString( true );
+						setFirstDefaultValue( "true" );
 						break;
 					case 2 :
-						defaultValue = Boolean.toString( false );
+						setFirstDefaultValue( "false" );
 						break;
 				}
 				updateMessageLine( );
@@ -1713,6 +1754,7 @@ public class ParameterDialog extends BaseDialog
 
 				if ( dialog.open( ) == OK )
 				{
+					// remove unexist default values
 					String[] importValues = (String[]) dialog.getResult( );
 					choiceList.clear( );
 					for ( int i = 0; i < importValues.length; i++ )
@@ -1726,19 +1768,17 @@ public class ParameterDialog extends BaseDialog
 							choice.setLabel( (String) labelMap.get( importValues[i] ) );
 						}
 						choiceList.add( choice );
-						if ( defaultValue != null
-								&& defaultValue.equals( UIUtil.convertToModelString( importValues[i],
-										false ) ) )
+					}
+					if ( defaultValueList != null )
+					{
+						List<String> importList = Arrays.asList( importValues );
+						for ( String defValue : defaultValueList.toArray( new String[]{}) )
 						{
-							defaultValueRemoved = false;
+							if(!importList.contains( defValue ))
+								defaultValueList.remove( defValue );
 						}
 					}
 					refreshValueTable( );
-
-					if ( defaultValue != null && defaultValueRemoved )
-					{
-						changeDefaultValue( null );
-					}
 				}
 			}
 		} );
@@ -1750,11 +1790,13 @@ public class ParameterDialog extends BaseDialog
 				SelectionChoice choice = (SelectionChoice) ( (IStructuredSelection) valueTable.getSelection( ) ).getFirstElement( );
 				if ( isDefaultChoice( choice ) )
 				{
-					changeDefaultValue( null );
+					// changeDefaultValue( null );
+					removeDefaultValue( choice.getValue( ) );
 				}
 				else
 				{
-					changeDefaultValue( choice.getValue( ) );
+					// changeDefaultValue( choice.getValue( ) );
+					addDefaultValue( choice.getValue( ) );
 				}
 				refreshValueTable( );
 				changeDefault.getParent( ).layout( );
@@ -1774,6 +1816,43 @@ public class ParameterDialog extends BaseDialog
 		createPromptLine( tableAreaComposite );
 		updateTableButtons( );
 		createSortingArea( valueArea );
+	}
+
+	private void addDefaultValue( String value )
+	{
+		if ( defaultValueList == null )
+		{
+			defaultValueList = new ArrayList<String>( );
+		}
+		else
+		{
+			if ( !allowMultiChoice.getSelection( ) )
+				defaultValueList.clear( );
+		}
+		defaultValueList.add( value );
+		updateMessageLine( );
+		updateFormatField( );
+	}
+
+	private void removeDefaultValue( String value )
+	{
+		if ( defaultValueList != null )
+		{
+			defaultValueList.remove( value );
+			updateMessageLine( );
+			updateFormatField( );
+		}
+	}
+
+	private void changeDefaultValue( String oldVal, String newVal )
+	{
+		if ( defaultValueList != null )
+		{
+			defaultValueList.remove( oldVal );
+			defaultValueList.add( newVal );
+			updateMessageLine( );
+			updateFormatField( );
+		}
 	}
 
 	private void switchToText( )
@@ -2094,7 +2173,7 @@ public class ParameterDialog extends BaseDialog
 				// if ( value.equals( CHOICE_NULL_VALUE )
 				// || value.equals( CHOICE_BLANK_VALUE ) )
 				// return;
-				changeDefaultValue( UIUtil.convertToModelString( value, false ) );
+				setFirstDefaultValue( UIUtil.convertToModelString( value, false ) );
 				if ( isStatic( ) )
 				{
 					refreshValueTable( );
@@ -2147,12 +2226,23 @@ public class ParameterDialog extends BaseDialog
 			return tempdefaultValue;
 	}
 
+	private void validateValueList( List<String> values ) throws BirtException
+	{
+		if ( values != null )
+		{
+			for ( String value : values )
+			{
+				validateValue( value );
+			}
+		}
+	}
+
 	protected void okPressed( )
 	{
 		// Validate the date first -- begin -- bug 164765
 		try
 		{
-			validateValue( defaultValue );
+			validateValueList( defaultValueList );
 		}
 		catch ( BirtException e1 )
 		{
@@ -2197,7 +2287,7 @@ public class ParameterDialog extends BaseDialog
 			// Save control type
 			inputParameter.setControlType( newControlType );
 
-			inputParameter.setDefaultValue( defaultValue );
+			inputParameter.setDefaultValueList( defaultValueList );
 
 			// Set data type
 			inputParameter.setDataType( DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) )
@@ -2261,12 +2351,14 @@ public class ParameterDialog extends BaseDialog
 			inputParameter.setCategory( formatCategroy );
 			inputParameter.setPattern( formatPattern );
 
-			if ( isStatic( )
-					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) )
-					&& !containValue( null, defaultValue, COLUMN_VALUE ) )
-			{
-				defaultValue = null;
-			}
+			// if ( isStatic( )
+			// && ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) ||
+			// DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals(
+			// getSelectedControlType( ) ) )
+			// && !containValue( null, defaultValue, COLUMN_VALUE ) )
+			// {
+			// defaultValue = null;
+			// }
 
 			// Save options
 			if ( dirtyProperties.containsKey( CHECKBOX_HIDDEN ) )
@@ -2803,6 +2895,9 @@ public class ParameterDialog extends BaseDialog
 		String previewString;
 		String type = getSelectedDataType( );
 		IChoiceSet choiceSet = getFormatChoiceSet( type );
+
+		String defaultValue = getFirstDefaultValue( );
+
 		if ( choiceSet == null )
 		{ // Boolean type;
 			displayFormat = DEUtil.getMetaDataDictionary( )
@@ -2994,7 +3089,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		FormatBuilder formatBuilder = new FormatBuilder( formatType );
 		formatBuilder.setInputFormat( formatCategroy, formatPattern );
-		formatBuilder.setPreviewText( defaultValue );
+		formatBuilder.setPreviewText( getFirstDefaultValue( ) );
 		if ( formatBuilder.open( ) == OK )
 		{
 			formatCategroy = ( (String[]) formatBuilder.getResult( ) )[0];
@@ -3042,16 +3137,18 @@ public class ParameterDialog extends BaseDialog
 
 	private boolean isDefaultChoice( SelectionChoice choice )
 	{
-
 		String choiceValue = choice.getValue( );
 		// String defaultValue = convertToStandardFormat( this.defaultValue );
-		if ( canBeNull( ) && choiceValue == null && defaultValue == null )
+		if ( canBeNull( )
+				&& choiceValue == null
+				&& defaultValueList != null
+				&& defaultValueList.contains( null ) )
 		{
 			return true;
 		}
 		return choiceValue != null
-				&& defaultValue != null
-				&& isEqual( choiceValue, defaultValue );
+				&& defaultValueList != null
+				&& defaultValueList.contains( choiceValue );
 	}
 
 	private boolean isStatic( )
@@ -3165,13 +3262,6 @@ public class ParameterDialog extends BaseDialog
 			return ERROR_MSG_DUPLICATED_LABELKEY;
 		}
 		return null;
-	}
-
-	private void changeDefaultValue( String value )
-	{
-		defaultValue = value;
-		updateMessageLine( );
-		updateFormatField( );
 	}
 
 	private void setExpression( Combo chooser, String key )
