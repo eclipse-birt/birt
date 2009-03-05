@@ -2,7 +2,7 @@
 plugin@org.eclipse.birt.data=v20090305,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
 plugin@org.eclipse.birt.data.aggregation=v20090305,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.aggregation
 plugin@org.eclipse.birt.report.data.adapter=v20090305,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.adapter
-plugin@org.eclipse.birt.report.data.oda.jdbc=v20090305,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc
+plugin@org.eclipse.birt.report.data.oda.jdbc=v20090306,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc
 plugin@org.eclipse.birt.report.data.oda.jdbc.ui=v20090305,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.ui
 plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile=v20090305,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.dbprofile
 plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui=v20090305,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui
@@ -16,4 +16,3 @@ plugin@org.eclipse.birt.core.script.function=v20090305,:pserver:anonymous@dev.ec
 !**************** data test  *******************
 plugin@org.eclipse.birt.data.tests=v20090305,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
 plugin@org.eclipse.birt.report.data.oda.jdbc.tests=v20090305,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.tests
-
