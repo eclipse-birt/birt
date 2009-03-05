@@ -43,6 +43,8 @@ import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartImpl;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
@@ -312,6 +314,15 @@ public final class ChartReportItemImpl extends ReportItem implements
 				cm.getLegend( )
 						.setFormatSpecifier( FormatSpecifierImpl.copyInstance( sdBase.getFormatSpecifier( ) ) );
 			}
+		}
+
+		// Create a default emptymessage if there is no.
+		// Thus old report will behave just like before.
+		if ( cm.getEmptyMessage( ) == null )
+		{
+			Label la = LabelImpl.create( );
+			la.setVisible( false );
+			cm.setEmptyMessage( la );
 		}
 	}
 	/**
