@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
+import org.eclipse.birt.chart.model.component.Label;
+
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>URL Value</b></em>'. <!-- end-user-doc -->
  *
@@ -29,6 +31,7 @@ package org.eclipse.birt.chart.model.attribute;
  *   <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getValueParameterName <em>Value Parameter Name</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getSeriesParameterName <em>Series Parameter Name</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getTooltip <em>Tooltip</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getLabel <em>Label</em>}</li>
  * </ul>
  * </p>
  *
@@ -178,7 +181,10 @@ public interface URLValue extends ActionValue
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The element defines a tooltip string to be displayed when mouse is over.
+	 * 
+	 * 								The element defines a tooltip string to
+	 * 								be displayed when mouse is over.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Tooltip</em>' attribute.
 	 * @see #setTooltip(String)
@@ -198,5 +204,32 @@ public interface URLValue extends ActionValue
 	 * @generated
 	 */
 	void setTooltip( String value );
+
+	/**
+	 * Returns the value of the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Label</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Label</em>' containment reference.
+	 * @see #setLabel(Label)
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getURLValue_Label()
+	 * @model containment="true" required="true"
+	 *        extendedMetaData="kind='element' name='Label'"
+	 * @generated
+	 */
+	Label getLabel( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.URLValue#getLabel <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Label</em>' containment reference.
+	 * @see #getLabel()
+	 * @generated
+	 */
+	void setLabel( Label value );
 
 } // URLValue

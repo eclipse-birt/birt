@@ -73,6 +73,7 @@ import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -2498,32 +2499,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				// LegendEntryRenderingHints lerh = (LegendEntryRenderingHints)
 				// source.getSource( );
 				LegendItemHints lerh = (LegendItemHints) source.getSource( );
-				// BUILD A URI
-				final URLValue uv = (URLValue) tg.getAction( ).getValue( );
-				String sBaseURL = uv.getBaseUrl( );
-				if ( sBaseURL == null )
-				{
-					sBaseURL = ""; //$NON-NLS-1$
-				}
-				final StringBuffer sb = new StringBuffer( sBaseURL );
-				char c = '?';
-				if ( sBaseURL.indexOf( c ) != -1 )
-				{
-					c = '&';
-				}
-				if ( uv.getSeriesParameterName( ) != null
-						&& uv.getSeriesParameterName( ).length( ) > 0 )
-				{
-					sb.append( c );
-					c = '&';
-					sb.append( URLValueImpl.encode( uv.getSeriesParameterName( ) ) );
-					sb.append( '=' );
-					// sb.append( URLValueImpl.encode( lerh.getLabel( )
-					// .getCaption( )
-					// .getValue( ) ) );
-					sb.append( URLValueImpl.encode( lerh.getItemText( ) ) );
-				}
-				uv.setBaseUrl( sb.toString( ) );
+				
+				// BUILD URI
+				assembleURLs( tg, lerh );
 			}
 		}
 		else if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
@@ -2545,62 +2523,197 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 			else if ( tg.getAction( ).getType( ) == ActionType.URL_REDIRECT_LITERAL )
 			{
-				// BUILD A URI
-				final URLValue uv = (URLValue) tg.getAction( ).getValue( );
-				String sBaseURL = uv.getBaseUrl( );
-				if ( sBaseURL == null )
-				{
-					sBaseURL = ""; //$NON-NLS-1$
-				}
-				final StringBuffer sb = new StringBuffer( sBaseURL );
-				char c = '?';
-				if ( sBaseURL.indexOf( c ) != -1 )
-				{
-					c = '&';
-				}
-				if ( uv.getBaseParameterName( ) != null
-						&& uv.getBaseParameterName( ).length( ) > 0 )
-				{
-					sb.append( c );
-					c = '&';
-					sb.append( URLValueImpl.encode( uv.getBaseParameterName( ) ) );
-					sb.append( '=' );
-					String urlValue = dph.getBaseDisplayValue( );
-					if ( dph.getBaseValue( ) instanceof Calendar )
-					{
-						// Bugzilla#215442 fix a parse issue to date
-						urlValue = formatDateString( dph.getBaseValue( ) );
-					}
-					sb.append( URLValueImpl.encode( urlValue ) );
-				}
-
-				if ( uv.getValueParameterName( ) != null
-						&& uv.getValueParameterName( ).length( ) > 0 )
-				{
-					sb.append( c );
-					c = '&';
-					sb.append( URLValueImpl.encode( uv.getValueParameterName( ) ) );
-					sb.append( '=' );
-					String urlValue = dph.getOrthogonalDisplayValue( );
-					if ( dph.getOrthogonalValue( ) instanceof Calendar )
-					{
-						// Bugzilla#215442 fix a parse issue to date
-						urlValue = formatDateString( dph.getOrthogonalValue( ) );
-					}
-					sb.append( URLValueImpl.encode( urlValue ) );
-				}
-				if ( uv.getSeriesParameterName( ) != null
-						&& uv.getSeriesParameterName( ).length( ) > 0 )
-				{
-					sb.append( c );
-					c = '&';
-					sb.append( URLValueImpl.encode( uv.getSeriesParameterName( ) ) );
-					sb.append( '=' );
-					sb.append( URLValueImpl.encode( dph.getSeriesDisplayValue( ) ) );
-				}
-				uv.setBaseUrl( sb.toString( ) );
+				// BUILD URI
+				assembleURLs( tg, dph );
 			}
 		}
+	}
+
+	/**
+	 * @param tg
+	 * @param valueHints
+	 */
+	private<T> void assembleURLs( Trigger tg, T valueHints )
+	{
+		if ( tg.getAction( ).getValue( ) instanceof MultiURLValues )
+		{
+			MultiURLValues muv = (MultiURLValues) tg.getAction( )
+					.getValue( );
+			if ( muv.getURLValues( ).size( ) == 0 )
+			{
+				return;
+			}
+			if ( muv.getURLValues( ).size( ) == 1 )
+			{
+				buildURI( valueHints, muv.getURLValues( ).get( 0 ) );
+			}
+			else
+			{
+				for ( URLValue uv : muv.getURLValues( ) )
+				{
+					buildMultiURL( valueHints, uv );
+				}
+			}
+		}
+		else if ( tg.getAction( ).getValue( ) instanceof URLValue )
+		{
+			final URLValue uv = (URLValue) tg.getAction( ).getValue( );
+			buildURI( valueHints, uv );
+		}
+	}
+
+	/**
+	 * @param valueHints
+	 * @param uv
+	 */
+	private<T> void buildURI( T valueHints, final URLValue uv )
+	{
+		String sBaseURL = uv.getBaseUrl( );
+		if ( sBaseURL == null )
+		{
+			sBaseURL = ""; //$NON-NLS-1$
+		}
+		final StringBuffer sb = new StringBuffer( sBaseURL );
+		char c = '?';
+		if ( sBaseURL.indexOf( c ) != -1 )
+		{
+			c = '&';
+		}
+		DataPointHints dph = null;
+		
+		if ( valueHints instanceof DataPointHints )
+		{
+			dph = (DataPointHints)valueHints;
+			
+			// It means current is building urls for series data.
+
+			if ( uv.getBaseParameterName( ) != null
+					&& uv.getBaseParameterName( ).length( ) > 0 )
+			{
+				sb.append( c );
+				c = '&';
+				sb.append( URLValueImpl.encode( uv.getBaseParameterName( ) ) );
+				sb.append( '=' );
+				String urlValue = dph.getBaseDisplayValue( );
+				if ( dph.getBaseValue( ) instanceof Calendar )
+				{
+					// Bugzilla#215442 fix a parse issue to date
+					urlValue = formatDateString( dph.getBaseValue( ) );
+				}
+				sb.append( URLValueImpl.encode( urlValue ) );
+			}
+
+			if ( uv.getValueParameterName( ) != null
+					&& uv.getValueParameterName( ).length( ) > 0 )
+			{
+				sb.append( c );
+				c = '&';
+				sb.append( URLValueImpl.encode( uv.getValueParameterName( ) ) );
+				sb.append( '=' );
+				String urlValue = dph.getOrthogonalDisplayValue( );
+				if ( dph.getOrthogonalValue( ) instanceof Calendar )
+				{
+					// Bugzilla#215442 fix a parse issue to date
+					urlValue = formatDateString( dph.getOrthogonalValue( ) );
+				}
+				sb.append( URLValueImpl.encode( urlValue ) );
+			}
+		}
+		if ( uv.getSeriesParameterName( ) != null
+				&& uv.getSeriesParameterName( ).length( ) > 0 )
+		{
+			sb.append( c );
+			c = '&';
+			sb.append( URLValueImpl.encode( uv.getSeriesParameterName( ) ) );
+			sb.append( '=' );
+			if ( valueHints instanceof DataPointHints  )
+			{
+				sb.append( URLValueImpl.encode( dph.getSeriesDisplayValue( ) ) );
+			}
+			else
+			{
+				sb.append( URLValueImpl.encode( ((LegendItemHints)valueHints).getItemText( ) ) );
+			}
+		}
+		uv.setBaseUrl( sb.toString( ) );
+	}
+	
+	/**
+	 * @param valueHints
+	 * @param uv
+	 */
+	private<T> void buildMultiURL( T valueHints, final URLValue uv )
+	{
+		String sBaseURL = uv.getBaseUrl( );
+		if ( sBaseURL == null )
+		{
+			sBaseURL = ""; //$NON-NLS-1$
+		}
+		final StringBuffer sb = new StringBuffer( "\"" ); //$NON-NLS-1$
+		sb.append( sBaseURL );
+		char c = '?';
+		if ( sBaseURL.indexOf( c ) != -1 )
+		{
+			c = '&';
+		}
+		boolean hasCategory = false;
+		boolean hasValueData = false;
+		boolean hasSeriesName = false;
+
+		if ( valueHints instanceof DataPointHints )
+		{
+			// It means current is building urls for series data.
+			
+			if ( uv.getBaseParameterName( ) != null
+					&& uv.getBaseParameterName( ).length( ) > 0 )
+			{
+				sb.append( c );
+				c = '&';
+				sb.append( URLValueImpl.encode( uv.getBaseParameterName( ) ) );
+				sb.append( '=' );
+				sb.append( "\"+" ); //$NON-NLS-1$
+				sb.append( ScriptHandler.BASE_VALUE );
+				hasCategory = true;
+			}
+
+			if ( uv.getValueParameterName( ) != null
+					&& uv.getValueParameterName( ).length( ) > 0 )
+			{
+				if ( hasCategory )
+				{
+					sb.append( "+\"" ); //$NON-NLS-1$
+				}
+				sb.append( c );
+				c = '&';
+				sb.append( URLValueImpl.encode( uv.getValueParameterName( ) ) );
+				sb.append( '=' );
+				sb.append( "\"+" ); //$NON-NLS-1$
+				sb.append( ScriptHandler.ORTHOGONAL_VALUE );
+				hasValueData = true;
+			}
+		}
+
+		if ( uv.getSeriesParameterName( ) != null
+				&& uv.getSeriesParameterName( ).length( ) > 0 )
+		{
+			if ( hasCategory || hasValueData )
+			{
+				sb.append( "+\"" ); //$NON-NLS-1$
+			}
+			sb.append( c );
+			c = '&';
+			sb.append( URLValueImpl.encode( uv.getSeriesParameterName( ) ) );
+			sb.append( '=' );
+			sb.append( "\"+" ); //$NON-NLS-1$
+			sb.append( ScriptHandler.SERIES_VALUE );
+			hasSeriesName = true;
+		}
+		
+		if ( !( hasCategory || hasValueData || hasSeriesName ) )
+		{
+			sb.append( "\"" ); //$NON-NLS-1$
+		}
+		uv.setBaseUrl( sb.toString( ) );
 	}
 	
 	/**

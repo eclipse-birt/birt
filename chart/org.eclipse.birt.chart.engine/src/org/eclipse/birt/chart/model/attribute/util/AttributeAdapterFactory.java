@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute.util;
 
+import java.util.Map;
 import org.eclipse.birt.chart.model.attribute.*;
 
 import org.eclipse.birt.chart.model.attribute.ActionValue;
@@ -182,6 +183,13 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 		}
 
 		@Override
+		public Adapter caseEStringToStringMapEntry(
+				Map.Entry<String, String> object )
+		{
+			return createEStringToStringMapEntryAdapter( );
+		}
+
+		@Override
 		public Adapter caseExtendedProperty( ExtendedProperty object )
 		{
 			return createExtendedPropertyAdapter( );
@@ -278,6 +286,12 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 		public Adapter caseMultipleFill( MultipleFill object )
 		{
 			return createMultipleFillAdapter( );
+		}
+
+		@Override
+		public Adapter caseMultiURLValues( MultiURLValues object )
+		{
+			return createMultiURLValuesAdapter( );
 		}
 
 		@Override
@@ -547,6 +561,21 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>EString To String Map Entry</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see java.util.Map.Entry
+	 * @generated
+	 */
+	public Adapter createEStringToStringMapEntryAdapter( )
+	{
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty <em>Extended Property</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that
 	 * we can easily ignore cases; it's useful to ignore a case when inheritance
@@ -770,6 +799,21 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createMultipleFillAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.attribute.MultiURLValues <em>Multi URL Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.attribute.MultiURLValues
+	 * @generated
+	 */
+	public Adapter createMultiURLValuesAdapter( )
 	{
 		return null;
 	}

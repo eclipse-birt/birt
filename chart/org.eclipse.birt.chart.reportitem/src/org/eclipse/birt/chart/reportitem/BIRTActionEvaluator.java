@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.factory.ActionEvaluatorAdapter;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
@@ -48,76 +49,24 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 	{
 		if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
 		{
-			URLValue uv = (URLValue) action.getValue( );
-
-			String sa = uv.getBaseUrl( );
-
-			try
+			List<String> expList = new ArrayList<String>( );
+			
+			if ( action.getValue( ) instanceof URLValue )
 			{
-				ActionHandle handle = ModuleUtil.deserializeAction( sa );
-
-				List expList = new ArrayList( );
-				String exp;
-
-				if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
+				URLValue uv = (URLValue) action.getValue( );
+				getURLValueExpressions( expList, uv );
+			}
+			else if ( action.getValue() instanceof MultiURLValues )
+			{
+				for ( URLValue uv : ((MultiURLValues)action.getValue()).getURLValues( ) )
 				{
-					exp = handle.getURI( );
-
-					if ( !expList.contains( exp ) )
-					{
-						expList.add( exp );
-					}
-				}
-				else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-				{
-					exp = handle.getTargetBookmark( );
-
-					if ( !expList.contains( exp ) )
-					{
-						expList.add( exp );
-					}
-				}
-				else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( handle.getLinkType( ) ) )
-				{
-					exp = handle.getTargetBookmark( );
-
-					if ( exp != null && !expList.contains( exp ) )
-					{
-						expList.add( exp );
-					}
-
-					for ( Iterator itr = handle.getSearch( ).iterator( ); itr.hasNext( ); )
-					{
-						SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
-						exp = skh.getExpression( );
-
-						if ( !expList.contains( exp ) )
-						{
-							expList.add( exp );
-						}
-					}
-
-					for ( Iterator itr = handle.getParamBindings( ).iterator( ); itr.hasNext( ); )
-					{
-						ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
-						exp = pbh.getExpression( );
-
-						if ( !expList.contains( exp ) )
-						{
-							expList.add( exp );
-						}
-					}
-
-				}
-
-				if ( expList.size( ) > 0 )
-				{
-					return (String[]) expList.toArray( new String[expList.size( )] );
+					getURLValueExpressions( expList, uv );	
 				}
 			}
-			catch ( DesignFileException e )
+			
+			if ( expList.size( ) > 0 )
 			{
-				logger.log( e );
+				return (String[]) expList.toArray( new String[expList.size( )] );
 			}
 		}
 		else if ( ActionType.SHOW_TOOLTIP_LITERAL.equals( action.getType( ) ) )
@@ -137,5 +86,77 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 		}
 
 		return null;
+	}
+
+	/**
+	 * @param expList
+	 * @param uv
+	 */
+	private void getURLValueExpressions( List<String> expList, URLValue uv )
+	{
+		String sa = uv.getBaseUrl( );
+
+		try
+		{
+			ActionHandle handle = ModuleUtil.deserializeAction( sa );
+
+			
+			String exp;
+
+			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
+			{
+				exp = handle.getURI( );
+
+				if ( !expList.contains( exp ) )
+				{
+					expList.add( exp );
+				}
+			}
+			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
+			{
+				exp = handle.getTargetBookmark( );
+
+				if ( !expList.contains( exp ) )
+				{
+					expList.add( exp );
+				}
+			}
+			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( handle.getLinkType( ) ) )
+			{
+				exp = handle.getTargetBookmark( );
+
+				if ( exp != null && !expList.contains( exp ) )
+				{
+					expList.add( exp );
+				}
+
+				for ( Iterator itr = handle.getSearch( ).iterator( ); itr.hasNext( ); )
+				{
+					SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
+					exp = skh.getExpression( );
+
+					if ( !expList.contains( exp ) )
+					{
+						expList.add( exp );
+					}
+				}
+
+				for ( Iterator itr = handle.getParamBindings( ).iterator( ); itr.hasNext( ); )
+				{
+					ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
+					exp = pbh.getExpression( );
+
+					if ( !expList.contains( exp ) )
+					{
+						expList.add( exp );
+					}
+				}
+
+			}
+		}
+		catch ( DesignFileException e )
+		{
+			logger.log( e );
+		}
 	}
 }

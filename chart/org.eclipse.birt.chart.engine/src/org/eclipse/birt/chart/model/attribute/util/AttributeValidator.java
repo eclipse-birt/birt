@@ -87,6 +87,7 @@ import org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
@@ -218,6 +219,10 @@ public class AttributeValidator extends EObjectValidator
 				return validateEmbeddedImage( (EmbeddedImage) value,
 						diagnostics,
 						context );
+			case AttributePackage.ESTRING_TO_STRING_MAP_ENTRY :
+				return validateEStringToStringMapEntry( (Map.Entry<?, ?>) value,
+						diagnostics,
+						context );
 			case AttributePackage.EXTENDED_PROPERTY :
 				return validateExtendedProperty( (ExtendedProperty) value,
 						diagnostics,
@@ -268,6 +273,10 @@ public class AttributeValidator extends EObjectValidator
 				return validateMarker( (Marker) value, diagnostics, context );
 			case AttributePackage.MULTIPLE_FILL :
 				return validateMultipleFill( (MultipleFill) value,
+						diagnostics,
+						context );
+			case AttributePackage.MULTI_URL_VALUES :
+				return validateMultiURLValues( (MultiURLValues) value,
 						diagnostics,
 						context );
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER :
@@ -382,6 +391,10 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.MARKER_TYPE :
 				return validateMarkerType( (MarkerType) value,
+						diagnostics,
+						context );
+			case AttributePackage.MENU_STYLES_KEY_TYPE :
+				return validateMenuStylesKeyType( (MenuStylesKeyType) value,
 						diagnostics,
 						context );
 			case AttributePackage.ORIENTATION :
@@ -514,6 +527,10 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.MARKER_TYPE_OBJECT :
 				return validateMarkerTypeObject( (MarkerType) value,
+						diagnostics,
+						context );
+			case AttributePackage.MENU_STYLES_KEY_TYPE_OBJECT :
+				return validateMenuStylesKeyTypeObject( (MenuStylesKeyType) value,
 						diagnostics,
 						context );
 			case AttributePackage.ORIENTATION_OBJECT :
@@ -733,6 +750,20 @@ public class AttributeValidator extends EObjectValidator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateEStringToStringMapEntry(
+			Map.Entry<?, ?> eStringToStringMapEntry,
+			DiagnosticChain diagnostics, Map<Object, Object> context )
+	{
+		return validate_EveryDefaultConstraint( (EObject) eStringToStringMapEntry,
+				diagnostics,
+				context );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -914,6 +945,19 @@ public class AttributeValidator extends EObjectValidator
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( multipleFill,
+				diagnostics,
+				context );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateMultiURLValues( MultiURLValues multiURLValues,
+			DiagnosticChain diagnostics, Map<Object, Object> context )
+	{
+		return validate_EveryDefaultConstraint( multiURLValues,
 				diagnostics,
 				context );
 	}
@@ -1281,6 +1325,18 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateMarkerType( MarkerType markerType,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateMenuStylesKeyType(
+			MenuStylesKeyType menuStylesKeyType, DiagnosticChain diagnostics,
+			Map<Object, Object> context )
 	{
 		return true;
 	}
@@ -1686,6 +1742,18 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateMarkerTypeObject( MarkerType markerTypeObject,
+			DiagnosticChain diagnostics, Map<Object, Object> context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateMenuStylesKeyTypeObject(
+			MenuStylesKeyType menuStylesKeyTypeObject,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;

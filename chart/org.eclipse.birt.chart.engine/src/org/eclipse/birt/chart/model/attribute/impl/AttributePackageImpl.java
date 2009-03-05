@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import java.util.Map;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.AccessibilityValue;
 import org.eclipse.birt.chart.model.attribute.ActionType;
@@ -62,6 +63,8 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
+import org.eclipse.birt.chart.model.attribute.MenuStylesKeyType;
+import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Orientation;
@@ -195,6 +198,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	private EClass embeddedImageEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass eStringToStringMapEntryEClass = null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -293,6 +303,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass multipleFillEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass multiURLValuesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -496,6 +513,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EEnum markerTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum menuStylesKeyTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -710,6 +734,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EDataType markerTypeObjectEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType menuStylesKeyTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1318,6 +1349,38 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getEStringToStringMapEntry( )
+	{
+		return eStringToStringMapEntryEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getEStringToStringMapEntry_Key( )
+	{
+		return (EAttribute) eStringToStringMapEntryEClass.getEStructuralFeatures( )
+				.get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getEStringToStringMapEntry_Value( )
+	{
+		return (EAttribute) eStringToStringMapEntryEClass.getEStructuralFeatures( )
+				.get( 1 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1919,6 +1982,49 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMultiURLValues( )
+	{
+		return multiURLValuesEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMultiURLValues_URLValues( )
+	{
+		return (EReference) multiURLValuesEClass.getEStructuralFeatures( )
+				.get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMultiURLValues_Tooltip( )
+	{
+		return (EAttribute) multiURLValuesEClass.getEStructuralFeatures( )
+				.get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMultiURLValues_PropertiesMap( )
+	{
+		return (EReference) multiURLValuesEClass.getEStructuralFeatures( )
+				.get( 2 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -2323,6 +2429,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getURLValue_Label( )
+	{
+		return (EReference) urlValueEClass.getEStructuralFeatures( ).get( 6 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -2494,6 +2610,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	public EEnum getMarkerType( )
 	{
 		return markerTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getMenuStylesKeyType( )
+	{
+		return menuStylesKeyTypeEEnum;
 	}
 
 	/**
@@ -2834,6 +2960,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getMenuStylesKeyTypeObject( )
+	{
+		return menuStylesKeyTypeObjectEDataType;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -3074,6 +3210,12 @@ public class AttributePackageImpl extends EPackageImpl implements
 		embeddedImageEClass = createEClass( EMBEDDED_IMAGE );
 		createEAttribute( embeddedImageEClass, EMBEDDED_IMAGE__DATA );
 
+		eStringToStringMapEntryEClass = createEClass( ESTRING_TO_STRING_MAP_ENTRY );
+		createEAttribute( eStringToStringMapEntryEClass,
+				ESTRING_TO_STRING_MAP_ENTRY__KEY );
+		createEAttribute( eStringToStringMapEntryEClass,
+				ESTRING_TO_STRING_MAP_ENTRY__VALUE );
+
 		extendedPropertyEClass = createEClass( EXTENDED_PROPERTY );
 		createEAttribute( extendedPropertyEClass, EXTENDED_PROPERTY__NAME );
 		createEAttribute( extendedPropertyEClass, EXTENDED_PROPERTY__VALUE );
@@ -3161,6 +3303,12 @@ public class AttributePackageImpl extends EPackageImpl implements
 		multipleFillEClass = createEClass( MULTIPLE_FILL );
 		createEReference( multipleFillEClass, MULTIPLE_FILL__FILLS );
 
+		multiURLValuesEClass = createEClass( MULTI_URL_VALUES );
+		createEReference( multiURLValuesEClass, MULTI_URL_VALUES__URL_VALUES );
+		createEAttribute( multiURLValuesEClass, MULTI_URL_VALUES__TOOLTIP );
+		createEReference( multiURLValuesEClass,
+				MULTI_URL_VALUES__PROPERTIES_MAP );
+
 		numberFormatSpecifierEClass = createEClass( NUMBER_FORMAT_SPECIFIER );
 		createEAttribute( numberFormatSpecifierEClass,
 				NUMBER_FORMAT_SPECIFIER__PREFIX );
@@ -3221,6 +3369,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( urlValueEClass, URL_VALUE__VALUE_PARAMETER_NAME );
 		createEAttribute( urlValueEClass, URL_VALUE__SERIES_PARAMETER_NAME );
 		createEAttribute( urlValueEClass, URL_VALUE__TOOLTIP );
+		createEReference( urlValueEClass, URL_VALUE__LABEL );
 
 		// Create enums
 		actionTypeEEnum = createEEnum( ACTION_TYPE );
@@ -3244,6 +3393,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		lineDecoratorEEnum = createEEnum( LINE_DECORATOR );
 		lineStyleEEnum = createEEnum( LINE_STYLE );
 		markerTypeEEnum = createEEnum( MARKER_TYPE );
+		menuStylesKeyTypeEEnum = createEEnum( MENU_STYLES_KEY_TYPE );
 		orientationEEnum = createEEnum( ORIENTATION );
 		positionEEnum = createEEnum( POSITION );
 		riserTypeEEnum = createEEnum( RISER_TYPE );
@@ -3281,6 +3431,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		lineDecoratorObjectEDataType = createEDataType( LINE_DECORATOR_OBJECT );
 		lineStyleObjectEDataType = createEDataType( LINE_STYLE_OBJECT );
 		markerTypeObjectEDataType = createEDataType( MARKER_TYPE_OBJECT );
+		menuStylesKeyTypeObjectEDataType = createEDataType( MENU_STYLES_KEY_TYPE_OBJECT );
 		orientationObjectEDataType = createEDataType( ORIENTATION_OBJECT );
 		percentageEDataType = createEDataType( PERCENTAGE );
 		percentageObjectEDataType = createEDataType( PERCENTAGE_OBJECT );
@@ -3327,6 +3478,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		// Obtain other dependent packages
 		XMLTypePackage theXMLTypePackage = (XMLTypePackage) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
 		DataPackage theDataPackage = (DataPackage) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
+		ComponentPackage theComponentPackage = (ComponentPackage) EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI );
 
 		// Create type parameters
 
@@ -3349,6 +3501,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 				.add( this.getFormatSpecifier( ) );
 		location3DEClass.getESuperTypes( ).add( this.getLocation( ) );
 		multipleFillEClass.getESuperTypes( ).add( this.getFill( ) );
+		multiURLValuesEClass.getESuperTypes( ).add( this.getActionValue( ) );
 		numberFormatSpecifierEClass.getESuperTypes( )
 				.add( this.getFormatSpecifier( ) );
 		scriptValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
@@ -3495,6 +3648,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEAttribute( getEmbeddedImage_Data( ),
 				theXMLTypePackage.getString( ),
 				"data", null, 1, 1, EmbeddedImage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( eStringToStringMapEntryEClass,
+				Map.Entry.class,
+				"EStringToStringMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getEStringToStringMapEntry_Key( ),
+				theXMLTypePackage.getString( ),
+				"key", null, 1, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getEStringToStringMapEntry_Value( ),
+				theXMLTypePackage.getString( ),
+				"value", null, 1, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( extendedPropertyEClass,
 				ExtendedProperty.class,
@@ -3705,6 +3868,21 @@ public class AttributePackageImpl extends EPackageImpl implements
 				null,
 				"fills", null, 0, -1, MultipleFill.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
+		initEClass( multiURLValuesEClass,
+				MultiURLValues.class,
+				"MultiURLValues", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEReference( getMultiURLValues_URLValues( ),
+				this.getURLValue( ),
+				null,
+				"uRLValues", null, 0, -1, MultiURLValues.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getMultiURLValues_Tooltip( ),
+				theXMLTypePackage.getString( ),
+				"tooltip", null, 1, 1, MultiURLValues.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getMultiURLValues_PropertiesMap( ),
+				this.getEStringToStringMapEntry( ),
+				null,
+				"propertiesMap", null, 0, -1, MultiURLValues.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
 		initEClass( numberFormatSpecifierEClass,
 				NumberFormatSpecifier.class,
 				"NumberFormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
@@ -3855,6 +4033,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEAttribute( getURLValue_Tooltip( ),
 				theXMLTypePackage.getString( ),
 				"tooltip", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getURLValue_Label( ),
+				theComponentPackage.getLabel( ),
+				null,
+				"label", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		// Initialize enums and add enum literals
 		initEEnum( actionTypeEEnum, ActionType.class, "ActionType" ); //$NON-NLS-1$
@@ -4041,6 +4223,15 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( markerTypeEEnum, MarkerType.STAR_LITERAL );
 		addEEnumLiteral( markerTypeEEnum, MarkerType.COLUMN_LITERAL );
 		addEEnumLiteral( markerTypeEEnum, MarkerType.CROSS_LITERAL );
+
+		initEEnum( menuStylesKeyTypeEEnum,
+				MenuStylesKeyType.class,
+				"MenuStylesKeyType" ); //$NON-NLS-1$
+		addEEnumLiteral( menuStylesKeyTypeEEnum, MenuStylesKeyType.MENU );
+		addEEnumLiteral( menuStylesKeyTypeEEnum, MenuStylesKeyType.MENU_ITEM );
+		addEEnumLiteral( menuStylesKeyTypeEEnum,
+				MenuStylesKeyType.ON_MOUSE_OVER );
+		addEEnumLiteral( menuStylesKeyTypeEEnum, MenuStylesKeyType.ON_MOUSE_OUT );
 
 		initEEnum( orientationEEnum, Orientation.class, "Orientation" ); //$NON-NLS-1$
 		addEEnumLiteral( orientationEEnum, Orientation.HORIZONTAL_LITERAL );
@@ -4245,6 +4436,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEDataType( markerTypeObjectEDataType,
 				MarkerType.class,
 				"MarkerTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEDataType( menuStylesKeyTypeObjectEDataType,
+				MenuStylesKeyType.class,
+				"MenuStylesKeyTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( orientationObjectEDataType,
 				Orientation.class,
 				"OrientationObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
@@ -4573,6 +4767,20 @@ public class AttributePackageImpl extends EPackageImpl implements
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Data" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( eStringToStringMapEntryEClass, source, new String[]{
+				"name", "EStringToStringMapEntry", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getEStringToStringMapEntry_Key( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Key" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getEStringToStringMapEntry_Value( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Value" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( extendedPropertyEClass, source, new String[]{
 				"name", "ExtendedProperty", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
@@ -4907,6 +5115,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 				"name", "MarkerType:Object", //$NON-NLS-1$ //$NON-NLS-2$
 				"baseType", "MarkerType" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( menuStylesKeyTypeEEnum, source, new String[]{
+				"name", "MenuStylesKeyType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( menuStylesKeyTypeObjectEDataType, source, new String[]{
+				"name", "MenuStylesKeyType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "MenuStylesKeyType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( multipleFillEClass, source, new String[]{
 				"name", "MultipleFill", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
@@ -4915,6 +5130,24 @@ public class AttributePackageImpl extends EPackageImpl implements
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Fills" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( multiURLValuesEClass, source, new String[]{
+				"name", "MultiURLValues", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getMultiURLValues_URLValues( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "URLValues" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getMultiURLValues_Tooltip( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Tooltip" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getMultiURLValues_PropertiesMap( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "PropertiesMap" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( numberFormatSpecifierEClass, source, new String[]{
 				"name", "NumberFormatSpecifier", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
@@ -5204,6 +5437,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( getURLValue_Tooltip( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Tooltip" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getURLValue_Label( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Label" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( verticalAlignmentEEnum, source, new String[]{
 				"name", "VerticalAlignment" //$NON-NLS-1$ //$NON-NLS-2$

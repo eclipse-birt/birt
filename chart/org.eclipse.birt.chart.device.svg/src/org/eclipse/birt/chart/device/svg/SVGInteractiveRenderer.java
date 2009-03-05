@@ -37,9 +37,12 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AccessibilityValue;
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
+import org.eclipse.birt.chart.model.attribute.MenuStylesKeyType;
+import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
@@ -50,6 +53,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -591,43 +595,47 @@ public class SVGInteractiveRenderer
 							}
 							break;
 						case ActionType.URL_REDIRECT :
-							URLValue urlValue = ( (URLValue) tg.getAction( )
-									.getValue( ) );
-							// See if this is an internal anchor link
-							if ( urlValue.getBaseUrl( ).startsWith( "#" ) ) { //$NON-NLS-1$
-								elm.setAttribute( scriptEvent,
-										wrapJS( bDblClick,
-												"top.document.location.hash='" //$NON-NLS-1$
-														+ urlValue.getBaseUrl( )
-														+ "';" ) ); //$NON-NLS-1$
-							}
-							// check if this is a javascript call
-							else if ( urlValue.getBaseUrl( )
-									.startsWith( "javascript:" ) ) //$NON-NLS-1$
+							ActionValue av = tg.getAction( ).getValue( );
+							if ( av instanceof URLValue )
 							{
-								elm.setAttribute( scriptEvent,
-										wrapJS( bDblClick,
-												urlValue.getBaseUrl( ) ) );
+								URLValue urlValue = (URLValue) av;
+								// See if this is an internal anchor link
+								setURLValueAttributes( urlValue,
+										elm,
+										src,
+										scriptEvent,
+										bDblClick );
 							}
-							else
+							else if ( av instanceof MultiURLValues )
 							{
-								String target = urlValue.getTarget( );
-								if ( target == null )
-									target = "null"; //$NON-NLS-1$
-								// To resolve security issue in IE7, call parent
-								// method to redirect
-								String jsRedirect = "redirect('"//$NON-NLS-1$ 
-										+ target + "','"//$NON-NLS-1$ 
-										+ urlValue.getBaseUrl( ) + "');";//$NON-NLS-1$ 
-								elm.setAttribute( scriptEvent,
-										wrapJS( bDblClick, "try { parent."//$NON-NLS-1$
-												+ jsRedirect + " } catch(e) { "//$NON-NLS-1$
-												+ jsRedirect + " }" ) );//$NON-NLS-1$
-
+								MultiURLValues muv = (MultiURLValues) av;
+								int size = muv.getURLValues( ).size( );
+								if ( size == 0 )
+								{
+									setTooltipForURLRedirect( elm, src, muv.getTooltip( ) );
+									break;
+								}
+								if ( size == 1 )
+								{
+									setURLValueAttributes( muv.getURLValues( ).get( 0 ),
+											elm,
+											src,
+											scriptEvent,
+											bDblClick );
+									
+									setTooltipForURLRedirect( elm, src, muv.getTooltip( ) );
+								}
+								else
+								{
+									setMultiURLValuesAttributes( muv,
+											elm,
+											src,
+											scriptEvent,
+											bDblClick );
+								}
+								
+								setTooltipForURLRedirect( elm, src, muv.getTooltip( ) );
 							}
-							
-							setTooltipForURLRedirect( elm, src, urlValue );
-							
 							break;
 
 						case ActionType.TOGGLE_VISIBILITY :
@@ -699,6 +707,133 @@ public class SVGInteractiveRenderer
 	}
 
 	/**
+	 * Set SVG attributes for multiple URL values.
+	 * 
+	 * @param muv
+	 * @param elm
+	 * @param src
+	 * @param scriptEvent
+	 * @param bDblClick
+	 */
+	private void setMultiURLValuesAttributes( MultiURLValues muv, Element elm,
+			StructureSource src, String scriptEvent, boolean bDblClick )
+	{
+		// Add categoryData, valueData,
+		// valueSeriesName in callback
+		// Create scripts;
+		StringBuilder sb = new StringBuilder();
+		sb.append( "\n"); //$NON-NLS-1$
+		sb.append( "    var hyperlinks = new Array(" + muv.getURLValues( ).size( ) + ");\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append( "    var linkEntry;\n"); //$NON-NLS-1$
+		sb.append( "    var count = 0;\n"); //$NON-NLS-1$
+		for ( URLValue uv : muv.getURLValues( ) )
+		{
+			sb.append( "\n" ); //$NON-NLS-1$
+			String url = uv.getBaseUrl( );
+			String text = uv.getLabel( ).getCaption( ).getValue( );
+			
+			sb.append( "    linkEntry = new Array(3);\n"); //$NON-NLS-1$
+			sb.append( "    linkEntry[0] = \"" + text + "\";\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append( "    linkEntry[1] = " + url + ";\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append( "    linkEntry[2] = '" + uv.getTarget( ) + "';\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append( "    hyperlinks[count++] = linkEntry;\n"); //$NON-NLS-1$
+		}
+		sb.append( "\n" ); //$NON-NLS-1$
+		
+		EMap<String, String> stylesMap = muv.getPropertiesMap( );
+		String menuStyle = stylesMap.get( MenuStylesKeyType.MENU.getName( ) ); 
+		String textStyle = stylesMap.get( MenuStylesKeyType.MENU_ITEM.getName( ) );
+		String onmouseoverStyle = stylesMap.get( MenuStylesKeyType.ON_MOUSE_OVER.getName( ) );
+		String onmouseoutStyle =  stylesMap.get( MenuStylesKeyType.ON_MOUSE_OUT.getName( ) );
+		sb.append( " 	var menuStyles = new Array(4); \n"); //$NON-NLS-1$
+		sb.append( "	menuStyles[0] = \"" + menuStyle  + "\";\n") //$NON-NLS-1$ //$NON-NLS-2$
+		  .append( "	menuStyles[1] = \"" +  textStyle + "\";\n") //$NON-NLS-1$ //$NON-NLS-2$
+		  .append( "	menuStyles[2] = \"" +  onmouseoverStyle + "\";\n") //$NON-NLS-1$ //$NON-NLS-2$
+		  .append( "	menuStyles[3] = \"" +  onmouseoutStyle + "\";\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append( "\n"); //$NON-NLS-1$
+		sb.append( "    HM.show( evt, source, categoryData, valueData, valueSeriesName, hyperlinks, menuStyles ); "); //$NON-NLS-1$
+		
+		String script = sb.toString( );
+		
+		StringBuffer callbackFunction = new StringBuffer( "callback" );//$NON-NLS-1$
+		callbackFunction.append( Math.abs( script.hashCode( ) ) );
+		callbackFunction.append( "(evt," ); //$NON-NLS-1$
+		callbackFunction.append( src.getSource( )
+				.hashCode( ) );
+
+		if ( StructureType.SERIES_DATA_POINT.equals( src.getType( ) ) )
+		{
+			final DataPointHints dph = (DataPointHints) src.getSource( );
+			ScriptUtil.script( callbackFunction,
+					dph );
+		}
+		callbackFunction.append( ");" ); //$NON-NLS-1$
+
+		// Write JS callback function in element.
+		elm.setAttribute( scriptEvent,
+				wrapJS( bDblClick,
+						callbackFunction.toString( ) ) );
+
+		// Write the definition of JS callback
+		// function into 'script' element.
+		if ( !( scripts.contains( script ) ) )
+		{
+			svg_g2d.addScript( "function callback" + Math.abs( script.hashCode( ) ) + "(evt,source,categoryData,valueData,valueSeriesName)" + "{" + script + "}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			scripts.add( script );
+		}
+	}
+
+	/**
+	 * Set SVG attributes for URL value.
+	 * 
+	 * @param urlValue
+	 * @param elm
+	 * @param src
+	 * @param scriptEvent
+	 * @param bDblClick
+	 */
+	private void setURLValueAttributes( URLValue urlValue, Element elm,
+			StructureSource src, String scriptEvent, boolean bDblClick )
+	{
+		String url = ""; //$NON-NLS-1$
+		if ( urlValue.getBaseUrl( ).startsWith( "#" ) ) { //$NON-NLS-1$
+			url = "top.document.location.hash='" //$NON-NLS-1$
+			+ urlValue.getBaseUrl( )
+			+ "';";//$NON-NLS-1$
+		}
+		// check if this is a javascript call
+		else if ( urlValue.getBaseUrl( )
+				.startsWith( "javascript:" ) ) //$NON-NLS-1$
+		{
+			url = urlValue.getBaseUrl( );
+		}
+		else
+		{
+			String target = urlValue.getTarget( );
+			if ( target == null )
+				target = "null"; //$NON-NLS-1$
+			// To resolve security issue in IE7, call
+			// parent
+			// method to redirect
+			String jsRedirect = "redirect('"//$NON-NLS-1$ 
+					+ target
+					+ "','"//$NON-NLS-1$ 
+					+ urlValue.getBaseUrl( )
+					+ "');";//$NON-NLS-1$
+			url = "try { parent."//$NON-NLS-1$
+				+ jsRedirect
+				+ " } catch(e) { "//$NON-NLS-1$
+				+ jsRedirect
+				+ " }" ; //$NON-NLS-1$
+		}
+		
+		elm.setAttribute( scriptEvent,
+				wrapJS( bDblClick, url ));
+		
+		setTooltipForURLRedirect( elm, src, urlValue );
+	}
+
+	/**
 	 * Set tooltip for URLRedirect action event.
 	 * 
 	 * @param elm
@@ -709,8 +844,21 @@ public class SVGInteractiveRenderer
 	private void setTooltipForURLRedirect( Element elm, StructureSource src,
 			URLValue urlValue )
 	{
-		String tooltipText;
-		tooltipText = urlValue.getTooltip( );
+		setTooltipForURLRedirect( elm, src, urlValue.getTooltip( ) );
+				
+	}
+
+	/**
+	 * Set tooltip for URLRedirect action event.
+	 * 
+	 * @param elm
+	 * @param src
+	 * @param urlValue
+	 * @since 2.5
+	 */
+	private void setTooltipForURLRedirect( Element elm, StructureSource src,
+			String tooltipText )
+	{
 		// make sure the tooltip text is not empty
 		if ( ( tooltipText != null )
 				&& ( tooltipText.trim( ).length( ) > 0 ) )
@@ -733,7 +881,7 @@ public class SVGInteractiveRenderer
 
 		}
 	}
-
+	
 	/**
 	 * Locates a design-time series corresponding to a given cloned run-time
 	 * series.

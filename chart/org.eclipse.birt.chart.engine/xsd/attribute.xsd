@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelAttribute" xmlns="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns:component="http://www.birt.eclipse.org/ChartModelComponent" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:type="http://www.birt.eclipse.org/ChartModelType" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelAttribute" xmlns="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns:component="http://www.birt.eclipse.org/ChartModelComponent" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:type="http://www.birt.eclipse.org/ChartModelType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelComponent" schemaLocation="component.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelData" schemaLocation="data.xsd"/>
@@ -558,8 +558,13 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 					</xsd:element>
 					<xsd:element name="Tooltip" type="xsd:string">
 						<xsd:annotation>
-							<xsd:documentation>The element defines a tooltip string to be displayed when mouse is over.</xsd:documentation>
-						</xsd:annotation></xsd:element>
+							<xsd:documentation>
+								The element defines a tooltip string to
+								be displayed when mouse is over.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Label" type="component:Label"></xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -1572,7 +1577,6 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 		</xsd:restriction>
 	</xsd:simpleType>
 
-
 	<xsd:complexType name="Cursor">
         <xsd:annotation>
         	<xsd:documentation>The type represents cursor being displayed in chart.When mouse is moving over the hotspot area, 
@@ -1592,4 +1596,50 @@ mouse cursor will become the specified cursor.</xsd:documentation>
         		</xsd:annotation></xsd:element>
         </xsd:sequence>
 	</xsd:complexType>
+
+	<xsd:complexType name="EStringToStringMapEntry" ecore:instanceClass="java.util.Map$Entry">
+		<xsd:sequence>
+			<xsd:element name="Key" type="xsd:string">
+
+			</xsd:element>
+			<xsd:element name="Value" type="xsd:string"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+    <xsd:complexType name="MultiURLValues">
+        <xsd:annotation>
+        	<xsd:documentation>The type is defined to store multiple hyperlink values for 'url_redirection' action, it enables multiple options for an 'url-redirection' action.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="ActionValue">
+                <xsd:sequence>
+                    <xsd:element name="URLValues" type="URLValue"
+                        maxOccurs="unbounded" minOccurs="0">
+                        <xsd:annotation>
+                        	<xsd:documentation></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Tooltip" type="xsd:string"></xsd:element>
+
+                    <xsd:element name="PropertiesMap"
+                        type="EStringToStringMapEntry" maxOccurs="unbounded"
+                        minOccurs="0">
+                        <xsd:annotation>
+                        	<xsd:documentation>The map is used to store styles properties for hyperlink menu.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:simpleType name="MenuStylesKeyType">
+    	<xsd:restriction base="xsd:string">
+    		<xsd:enumeration value="Menu"></xsd:enumeration>
+    		<xsd:enumeration value="MenuItem"></xsd:enumeration>
+    		<xsd:enumeration value="OnMouseOver"></xsd:enumeration>
+    		<xsd:enumeration value="OnMouseOut"></xsd:enumeration>
+    	</xsd:restriction>
+    </xsd:simpleType>
 </xsd:schema>

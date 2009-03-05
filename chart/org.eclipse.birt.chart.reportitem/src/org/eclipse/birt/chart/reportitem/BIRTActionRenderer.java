@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
@@ -204,87 +205,18 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	{
 		if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
 		{
-			URLValue uv = (URLValue) action.getValue( );
-
-			String sa = uv.getBaseUrl( );
-			String target = null;
-
-			try
+			if ( action.getValue( ) instanceof URLValue )
 			{
-				final ActionHandle handle = ModuleUtil.deserializeAction( sa );
-				setTooltip( uv, handle );
-				target = handle.getTargetWindow( );
-
-				// use engine api to convert actionHandle to a final url value.
-				if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
+				URLValue uv = (URLValue) action.getValue( );
+				generateURLValue( source, uv );
+			}
+			else if ( action.getValue( ) instanceof MultiURLValues )
+			{
+				for ( URLValue uv : ((MultiURLValues)action.getValue( )).getURLValues( ) )
 				{
-					final DataPointHints dph = (DataPointHints) source.getSource( );
-
-					sa = handler.getURL( new ChartHyperlinkActionBase( handle ) {
-
-						public Object evaluate( String expr )
-						{
-							return dph.getUserValue( expr );
-						}
-					},
-							context );
-				}
-				else if ( StructureType.LEGEND_ENTRY.equals( source.getType( ) ) )
-				{
-					final LegendItemHints lih = (LegendItemHints) source.getSource( );
-					sa = handler.getURL( new ChartHyperlinkActionBase( handle ) {
-
-						public Object evaluate( String expr )
-						{
-							if ( expr != null )
-							{
-								// Replace special expression in Legend item
-								// before evaluation.
-								// Note that according to #259469, string are
-								// not with quotation sign.
-								if ( expr.indexOf( LEGEND_ITEM_TEXT ) >= 0 )
-								{
-									String legendItemText = wrapQuotation( lih.getItemText( ) );
-									expr = Pattern.compile( LEGEND_ITEM_TEXT,
-											Pattern.LITERAL )
-											.matcher( expr )
-											.replaceAll( legendItemText );
-								}
-								if ( expr.indexOf( LEGEND_ITEM_VALUE ) >= 0 )
-								{
-									String legendItemValue = wrapQuotation( lih.getValueText( ) );
-									expr = Pattern.compile( LEGEND_ITEM_VALUE,
-											Pattern.LITERAL )
-											.matcher( expr )
-											.replaceAll( legendItemValue );
-								}
-							}
-							return evaluator.evaluate( expr );
-						}
-
-					},
-							context );
-				}
-				else
-				{
-					sa = handler.getURL( new ChartHyperlinkActionBase( handle ) {
-
-						public Object evaluate( String expr )
-						{
-							return evaluator.evaluate( expr );
-						}
-					},
-							context );
+					generateURLValue( source, uv );
 				}
 			}
-			catch ( Exception e )
-			{
-				sa = ""; //$NON-NLS-1$
-				logger.log( e );
-			}
-
-			uv.setBaseUrl( sa );
-			uv.setTarget( target );
 		}
 		else if ( ActionType.SHOW_TOOLTIP_LITERAL.equals( action.getType( ) ) )
 		{
@@ -326,6 +258,93 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			}
 			sv.setScript( evaluatResult );
 		}
+	}
+
+	/**
+	 * @param source
+	 * @param uv
+	 */
+	private void generateURLValue( StructureSource source, URLValue uv )
+	{
+		String sa = uv.getBaseUrl( );
+		String target = null;
+
+		try
+		{
+			final ActionHandle handle = ModuleUtil.deserializeAction( sa );
+			setTooltip( uv, handle );
+			target = handle.getTargetWindow( );
+
+			// use engine api to convert actionHandle to a final url value.
+			if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
+			{
+				final DataPointHints dph = (DataPointHints) source.getSource( );
+
+				sa = handler.getURL( new ChartHyperlinkActionBase( handle ) {
+
+					public Object evaluate( String expr )
+					{
+						return dph.getUserValue( expr );
+					}
+				},
+						context );
+			}
+			else if ( StructureType.LEGEND_ENTRY.equals( source.getType( ) ) )
+			{
+				final LegendItemHints lih = (LegendItemHints) source.getSource( );
+				sa = handler.getURL( new ChartHyperlinkActionBase( handle ) {
+
+					public Object evaluate( String expr )
+					{
+						if ( expr != null )
+						{
+							// Replace special expression in Legend item
+							// before evaluation.
+							// Note that according to #259469, string are
+							// not with quotation sign.
+							if ( expr.indexOf( LEGEND_ITEM_TEXT ) >= 0 )
+							{
+								String legendItemText = wrapQuotation( lih.getItemText( ) );
+								expr = Pattern.compile( LEGEND_ITEM_TEXT,
+										Pattern.LITERAL )
+										.matcher( expr )
+										.replaceAll( legendItemText );
+							}
+							if ( expr.indexOf( LEGEND_ITEM_VALUE ) >= 0 )
+							{
+								String legendItemValue = wrapQuotation( lih.getValueText( ) );
+								expr = Pattern.compile( LEGEND_ITEM_VALUE,
+										Pattern.LITERAL )
+										.matcher( expr )
+										.replaceAll( legendItemValue );
+							}
+						}
+						return evaluator.evaluate( expr );
+					}
+
+				},
+						context );
+			}
+			else
+			{
+				sa = handler.getURL( new ChartHyperlinkActionBase( handle ) {
+
+					public Object evaluate( String expr )
+					{
+						return evaluator.evaluate( expr );
+					}
+				},
+						context );
+			}
+		}
+		catch ( Exception e )
+		{
+			sa = ""; //$NON-NLS-1$
+			logger.log( e );
+		}
+
+		uv.setBaseUrl( sa );
+		uv.setTarget( target );
 	}
 
 	/**

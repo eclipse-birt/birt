@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import java.util.Map;
 import org.eclipse.birt.chart.model.attribute.*;
 
 import org.eclipse.birt.chart.model.attribute.ActionType;
@@ -171,6 +172,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createDateFormatSpecifier( );
 			case AttributePackage.EMBEDDED_IMAGE :
 				return createEmbeddedImage( );
+			case AttributePackage.ESTRING_TO_STRING_MAP_ENTRY :
+				return (EObject) createEStringToStringMapEntry( );
 			case AttributePackage.EXTENDED_PROPERTY :
 				return createExtendedProperty( );
 			case AttributePackage.FILL :
@@ -203,6 +206,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createMarker( );
 			case AttributePackage.MULTIPLE_FILL :
 				return createMultipleFill( );
+			case AttributePackage.MULTI_URL_VALUES :
+				return createMultiURLValues( );
 			case AttributePackage.NUMBER_FORMAT_SPECIFIER :
 				return createNumberFormatSpecifier( );
 			case AttributePackage.PALETTE :
@@ -289,6 +294,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createLineStyleFromString( eDataType, initialValue );
 			case AttributePackage.MARKER_TYPE :
 				return createMarkerTypeFromString( eDataType, initialValue );
+			case AttributePackage.MENU_STYLES_KEY_TYPE :
+				return createMenuStylesKeyTypeFromString( eDataType,
+						initialValue );
 			case AttributePackage.ORIENTATION :
 				return createOrientationFromString( eDataType, initialValue );
 			case AttributePackage.POSITION :
@@ -375,6 +383,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createLineStyleObjectFromString( eDataType, initialValue );
 			case AttributePackage.MARKER_TYPE_OBJECT :
 				return createMarkerTypeObjectFromString( eDataType,
+						initialValue );
+			case AttributePackage.MENU_STYLES_KEY_TYPE_OBJECT :
+				return createMenuStylesKeyTypeObjectFromString( eDataType,
 						initialValue );
 			case AttributePackage.ORIENTATION_OBJECT :
 				return createOrientationObjectFromString( eDataType,
@@ -481,6 +492,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return convertLineStyleToString( eDataType, instanceValue );
 			case AttributePackage.MARKER_TYPE :
 				return convertMarkerTypeToString( eDataType, instanceValue );
+			case AttributePackage.MENU_STYLES_KEY_TYPE :
+				return convertMenuStylesKeyTypeToString( eDataType,
+						instanceValue );
 			case AttributePackage.ORIENTATION :
 				return convertOrientationToString( eDataType, instanceValue );
 			case AttributePackage.POSITION :
@@ -567,6 +581,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return convertLineStyleObjectToString( eDataType, instanceValue );
 			case AttributePackage.MARKER_TYPE_OBJECT :
 				return convertMarkerTypeObjectToString( eDataType,
+						instanceValue );
+			case AttributePackage.MENU_STYLES_KEY_TYPE_OBJECT :
+				return convertMenuStylesKeyTypeObjectToString( eDataType,
 						instanceValue );
 			case AttributePackage.ORIENTATION_OBJECT :
 				return convertOrientationObjectToString( eDataType,
@@ -742,6 +759,17 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Map.Entry<String, String> createEStringToStringMapEntry( )
+	{
+		EStringToStringMapEntryImpl eStringToStringMapEntry = new EStringToStringMapEntryImpl( );
+		return eStringToStringMapEntry;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -903,6 +931,17 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	{
 		MultipleFillImpl multipleFill = new MultipleFillImpl( );
 		return multipleFill;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MultiURLValues createMultiURLValues( )
+	{
+		MultiURLValuesImpl multiURLValues = new MultiURLValuesImpl( );
+		return multiURLValues;
 	}
 
 	/**
@@ -1547,6 +1586,31 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	 * @generated
 	 */
 	public String convertMarkerTypeToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return instanceValue == null ? null : instanceValue.toString( );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MenuStylesKeyType createMenuStylesKeyTypeFromString(
+			EDataType eDataType, String initialValue )
+	{
+		MenuStylesKeyType result = MenuStylesKeyType.get( initialValue );
+		if ( result == null )
+			throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertMenuStylesKeyTypeToString( EDataType eDataType,
 			Object instanceValue )
 	{
 		return instanceValue == null ? null : instanceValue.toString( );
@@ -2362,6 +2426,30 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			Object instanceValue )
 	{
 		return convertMarkerTypeToString( AttributePackage.Literals.MARKER_TYPE,
+				instanceValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MenuStylesKeyType createMenuStylesKeyTypeObjectFromString(
+			EDataType eDataType, String initialValue )
+	{
+		return createMenuStylesKeyTypeFromString( AttributePackage.Literals.MENU_STYLES_KEY_TYPE,
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertMenuStylesKeyTypeObjectToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return convertMenuStylesKeyTypeToString( AttributePackage.Literals.MENU_STYLES_KEY_TYPE,
 				instanceValue );
 	}
 

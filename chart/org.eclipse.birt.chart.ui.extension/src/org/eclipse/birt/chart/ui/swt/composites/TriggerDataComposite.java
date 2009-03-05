@@ -20,19 +20,24 @@ import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.CursorType;
+import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
+import org.eclipse.birt.chart.model.attribute.impl.MultiURLValuesImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl;
 import org.eclipse.birt.chart.model.attribute.impl.URLValueImpl;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.ActionImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
@@ -83,6 +88,8 @@ public class TriggerDataComposite extends Composite
 	private Group grpValue = null;
 
 	private Composite cmpURL = null;
+	
+	private MultipleHyperlinksComposite multiHyperlinksComposite = null;
 
 	// private Text txtBaseURL = null;
 
@@ -477,6 +484,23 @@ public class TriggerDataComposite extends Composite
 		}
 
 		// Composite for url value
+		createURLComposite( glURL, glParameter );
+		
+		multiHyperlinksComposite = new MultipleHyperlinksComposite( grpValue,
+				SWT.NONE,
+				wizardContext,
+				triggerMatrix,
+				optionalStyle );
+		
+		populateLists( );
+	}
+
+	/**
+	 * @param glURL
+	 * @param glParameter
+	 */
+	private void createURLComposite( GridLayout glURL, GridLayout glParameter )
+	{
 		cmpURL = new Composite( grpValue, SWT.NONE );
 		cmpURL.setLayout( glURL );
 
@@ -615,8 +639,6 @@ public class TriggerDataComposite extends Composite
 		txtSeriesParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterSeries" ) ); //$NON-NLS-1$
 		txtSeriesParm.setEnabled( bEnableURLParameters
 				&& ( ( optionalStyle & DISABLE_VALUE_SERIES_NAME ) != DISABLE_VALUE_SERIES_NAME ) );
-
-		populateLists( );
 	}
 
 	private void populateLists( )
@@ -814,21 +836,47 @@ public class TriggerDataComposite extends Composite
 		switch ( getTriggerIndex( ) )
 		{
 			case INDEX_1_URL_REDIRECT :
-				this.slValues.topControl = cmpURL;
-				URLValue urlValue = (URLValue) trigger.getAction( ).getValue( );
-				sBaseURL = urlValue.getBaseUrl( );
-				// txtBaseURL.setText( sBaseURL );
-				// txtTarget.setText( ( urlValue.getTarget( ).length( ) > 0 )
-				// ? urlValue.getTarget( ) : "" ); //$NON-NLS-1$
-				txtBaseParm.setText( ( urlValue.getBaseParameterName( )
-						.length( ) > 0 ) ? urlValue.getBaseParameterName( )
-						: "" ); //$NON-NLS-1$
-				txtValueParm.setText( ( urlValue.getValueParameterName( )
-						.length( ) > 0 ) ? urlValue.getValueParameterName( )
-						: "" ); //$NON-NLS-1$
-				txtSeriesParm.setText( ( urlValue.getSeriesParameterName( )
-						.length( ) > 0 ) ? urlValue.getSeriesParameterName( )
-						: "" ); //$NON-NLS-1$
+				ActionValue value = trigger.getAction( ).getValue( );
+				if ( value instanceof MultiURLValues )
+				{
+					this.slValues.topControl = multiHyperlinksComposite;
+					MultiURLValues urlValues = (MultiURLValues) trigger.getAction( ).getValue( );
+					multiHyperlinksComposite.populateUIValues( urlValues );
+				}
+				else if ( value instanceof URLValue )
+				{
+					ChartAdapter.beginIgnoreNotifications( );
+					
+					MultiURLValues muv = MultiURLValuesImpl.create( );
+					URLValue uv = (URLValue) value ;
+					org.eclipse.birt.chart.model.component.Label l = LabelImpl.create( );
+					l.setCaption( TextImpl.create( uv.getBaseUrl( ) ) );
+					uv.setLabel( l );
+					muv.getURLValues( ).add( uv );
+					muv.setTooltip( uv.getTooltip( ) );
+					muv.eAdapters( ).addAll( value.eAdapters( ) );
+					trigger.getAction( ).setValue( muv );
+					multiHyperlinksComposite.populateUIValues( muv );
+					
+					ChartAdapter.endIgnoreNotifications( );
+				}
+				else {
+					this.slValues.topControl = cmpURL;
+					URLValue urlValue = (URLValue) trigger.getAction( ).getValue( );
+					sBaseURL = urlValue.getBaseUrl( );
+					// txtBaseURL.setText( sBaseURL );
+					// txtTarget.setText( ( urlValue.getTarget( ).length( ) > 0 )
+					// ? urlValue.getTarget( ) : "" ); //$NON-NLS-1$
+					txtBaseParm.setText( ( urlValue.getBaseParameterName( )
+							.length( ) > 0 ) ? urlValue.getBaseParameterName( )
+							: "" ); //$NON-NLS-1$
+					txtValueParm.setText( ( urlValue.getValueParameterName( )
+							.length( ) > 0 ) ? urlValue.getValueParameterName( )
+							: "" ); //$NON-NLS-1$
+					txtSeriesParm.setText( ( urlValue.getSeriesParameterName( )
+							.length( ) > 0 ) ? urlValue.getSeriesParameterName( )
+							: "" ); //$NON-NLS-1$	
+				}
 				break;
 			case INDEX_2_TOOLTIP :
 				this.slValues.topControl = cmpTooltip;
@@ -886,11 +934,24 @@ public class TriggerDataComposite extends Composite
 		switch ( getTriggerIndex( ) )
 		{
 			case INDEX_1_URL_REDIRECT :
-				value = URLValueImpl.create( sBaseURL, null,// txtTarget.getText(
+				Trigger trigger = (Trigger) triggersMap.get( cmbTriggerType.getText( ) );
+				if ( trigger == null || trigger.getAction( ).getValue( ) instanceof MultiURLValues )
+				{
+					value = multiHyperlinksComposite.getURLValues( );
+					if ( trigger != null && value.eAdapters( ).size( ) == 0 )
+					{
+						// It is new action value, should add listeners.
+						value.eAdapters( ).addAll( trigger.getAction( ).eAdapters( ) );
+					}
+				}
+				else
+				{
+					value = URLValueImpl.create( sBaseURL, null,// txtTarget.getText(
 						// ),
 						txtBaseParm.getText( ),
 						txtValueParm.getText( ),
 						txtSeriesParm.getText( ) );
+				}
 				break;
 			case INDEX_2_TOOLTIP :
 				// value = TooltipValueImpl.create( iscDelay.getSelection( ), ""
@@ -935,7 +996,16 @@ public class TriggerDataComposite extends Composite
 		switch ( getTriggerIndex( ) )
 		{
 			case INDEX_1_URL_REDIRECT :
-				this.slValues.topControl = cmpURL;
+				Trigger trigger = (Trigger) triggersMap.get( cmbTriggerType.getText( ) );
+				if ( trigger == null || trigger.getAction( ) == null )
+				{
+					multiHyperlinksComposite.populateUIValues( MultiURLValuesImpl.create( ) );
+					this.slValues.topControl = multiHyperlinksComposite;
+				}
+				else
+				{
+					this.slValues.topControl = cmpURL;
+				}
 				break;
 			case INDEX_2_TOOLTIP :
 				this.slValues.topControl = cmpTooltip;

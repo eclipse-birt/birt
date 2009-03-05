@@ -50,14 +50,17 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.CursorType;
+import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.data.Action;
+import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
@@ -213,64 +216,130 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			switch ( ac.getType( ).getValue( ) )
 			{
 				case ActionType.URL_REDIRECT :
-					URLValue uv = (URLValue) ac.getValue( );
-					
-					// Add tooltip.
-					String tooltip = uv.getTooltip( );
-					if ( tooltip != null && tooltip.trim( ).length( ) >  0)
+					if ( ac.getValue( ) instanceof MultiURLValues )
 					{
-						tag.addAttribute( HTMLAttribute.TITLE, eval2HTML( tooltip ) );
-					}
-					
-					if ( condition == TriggerCondition.ONCLICK_LITERAL )
-					{
-						// only click event uses href to redirect
-						tag.addAttribute( HTMLAttribute.HREF,
-								eval2HTML( uv.getBaseUrl( ) ) );
-						// #258627: "target" can't be a empty String. You
-						// shouldn't output target when it's empty.
-						if ( uv.getTarget( ) != null )
+						int size = ((MultiURLValues)ac.getValue( )).getURLValues( ).size( );
+						if ( size == 0 )
 						{
-							tag.addAttribute( HTMLAttribute.TARGET,
-									eval2HTML( uv.getTarget( ) ) );
+							setTooltipAttribute( tag, ((MultiURLValues)ac.getValue( )).getTooltip( ) );
+							return false;
+						}
+						else if ( size == 1) {
+							URLValue uv = ((MultiURLValues)ac.getValue( )).getURLValues( ).get( 0 );
+							setURLValueAttributes( tag, condition, htmlAttr, uv );
+							setTooltipAttribute( tag, ((MultiURLValues)ac.getValue( )).getTooltip( ) );
+							return true;
+						}
+						else
+						{
+							setTooltipAttribute( tag, ((MultiURLValues)ac.getValue( )).getTooltip( ) );
+							setAttributesWithScript( sa,
+									tag,
+									condition,
+									htmlAttr );
+							return true;
 						}
 					}
 					else
 					{
-						tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
-						String value = getJsURLRedirect( uv );
-						if ( htmlAttr.equals( HTMLAttribute.ONFOCUS ) )
-						{
-							value = "this.blur();" + value;//$NON-NLS-1$
-						}
-						tag.addAttribute( htmlAttr, value );
+						URLValue uv = (URLValue) ac.getValue( );
+						setURLValueAttributes( tag, condition, htmlAttr, uv );
+						return true;
 					}
-					return true;
+					
 				case ActionType.SHOW_TOOLTIP :
 					// for onmouseover only.
 					return false;
 				case ActionType.INVOKE_SCRIPT :
-					tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
-					final DataPointHints dph;
-					if ( StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
-							.getType( ) ) )
-					{
-						dph = (DataPointHints) sa.getSource( ).getSource( );
-					}
-					else
-					{
-						dph = null;
-					}
-					StringBuffer callbackFunction = new StringBuffer( getJSMethodName( condition, sa ));
-					callbackFunction.append("(event");//$NON-NLS-1$
-					ScriptUtil.script( callbackFunction, dph );
-					callbackFunction.append( ");" ); //$NON-NLS-1$
-					tag.addAttribute( htmlAttr,
-							eval2JS( callbackFunction.toString(), true ) );
+					setAttributesWithScript( sa,
+							tag,
+							condition,
+							htmlAttr );
 					return true;
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * @param tag
+	 * @param tooltip
+	 */
+	private void setTooltipAttribute( HTMLTag tag, String tooltip )
+	{
+		if ( tooltip != null && tooltip.trim( ).length( ) > 0 )
+		{
+			tag.addAttribute( HTMLAttribute.TITLE,
+					eval2HTML( tooltip ) );
+		}
+	}
+
+	/**
+	 * @param sa
+	 * @param tag
+	 * @param condition
+	 * @param htmlAttr
+	 */
+	private void setAttributesWithScript( ShapedAction sa, HTMLTag tag,
+			TriggerCondition condition, HTMLAttribute htmlAttr )
+	{
+		tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
+		final DataPointHints dph;
+		if ( StructureType.SERIES_DATA_POINT.equals( sa.getSource( )
+				.getType( ) ) )
+		{
+			dph = (DataPointHints) sa.getSource( ).getSource( );
+		}
+		else
+		{
+			dph = null;
+		}
+		StringBuffer callbackFunction = new StringBuffer( getJSMethodName( condition,
+				sa ) );
+		callbackFunction.append( "(event" );//$NON-NLS-1$
+		ScriptUtil.script( callbackFunction, dph );
+		callbackFunction.append( ");" ); //$NON-NLS-1$
+		tag.addAttribute( htmlAttr,
+				eval2JS( callbackFunction.toString( ), true ) );
+	}
+
+	/**
+	 * @param tag
+	 * @param condition
+	 * @param htmlAttr
+	 * @param uv
+	 */
+	private void setURLValueAttributes( HTMLTag tag,
+			TriggerCondition condition, HTMLAttribute htmlAttr, URLValue uv )
+	{
+		// Add tooltip.
+		String tooltip = uv.getTooltip( );
+		setTooltipAttribute( tag, tooltip );
+
+		if ( condition == TriggerCondition.ONCLICK_LITERAL )
+		{
+			// only click event uses href to redirect
+			tag.addAttribute( HTMLAttribute.HREF,
+					eval2HTML( uv.getBaseUrl( ) ) );
+			// #258627: "target" can't be a empty String. You
+			// shouldn't output target when it's empty.
+			if ( uv.getTarget( ) != null )
+			{
+				tag.addAttribute( HTMLAttribute.TARGET,
+						eval2HTML( uv.getTarget( ) ) );
+			}
+		}
+		else
+		{
+			tag.addAttribute( HTMLAttribute.HREF,
+					NO_OP_JAVASCRIPT );
+			String value = getJsURLRedirect( uv );
+			if ( htmlAttr.equals( HTMLAttribute.ONFOCUS ) )
+			{
+				value = "this.blur();" + value;//$NON-NLS-1$
+			}
+			tag.addAttribute( htmlAttr, value );
+		}
 	}
 
 	protected boolean processOnFocus( ShapedAction sa, HTMLTag tag )
@@ -836,9 +905,38 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			{
 				sb.append( wrapJSMethod( functionName, generateJSContent( ac ) ) );
 			}
+			else if ( ac.getType( ).getValue( ) == ActionType.URL_REDIRECT ) 
+			{
+				// Only generate a menu in JS function for multiple URL values.
+				if( ac.getValue( ) instanceof MultiURLValues 
+						&& ((MultiURLValues)ac.getValue( )).getURLValues( ).size( ) > 1 )
+				{
+					sb.append( wrapJSMethod( functionName, generateJSContent( ac ) ) );
+				}
+			}
 		}
 	}
 
+	private String generateUniqueJSKey( Action ac )
+	{
+		if ( ac == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		
+		if ( ! (ac.getValue( ) instanceof MultiURLValues ) )
+		{
+			return generateJSContent( ac );
+		}
+		MultiURLValues values = (MultiURLValues) ac.getValue( );
+		if( values.getURLValues( ).size( ) <= 1 ) {
+			return generateJSContent( ac );
+		}
+		
+		// Generate a unique JS key for multiple URL values.
+		return new MultiURLValuesScriptGenerator( values ).getJSKey( );
+	}
+	
 	private String generateJSContent( Action ac )
 	{
 		if ( ac != null )
@@ -850,8 +948,29 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			}
 			if ( ac.getType( ).getValue( ) == ActionType.URL_REDIRECT )
 			{
-				URLValue uv = (URLValue) ac.getValue( );
-				return getJsURLRedirect( uv );
+				ActionValue value = ac.getValue( );
+				if ( value instanceof URLValue )
+				{
+					URLValue uv = (URLValue) ac.getValue( );
+					return getJsURLRedirect( uv );
+				}
+				else if ( value instanceof MultiURLValues )
+				{
+					int size = ((MultiURLValues)value).getURLValues( ).size( );
+					if ( size == 0 )
+					{
+						return ""; //$NON-NLS-1$
+					}
+					else if ( size == 1 )
+					{
+						return getJsURLRedirect( ((MultiURLValues)value).getURLValues( ).get( 0 ) );	
+					}
+					else
+					{
+						// Return multiple menu javascript.
+						return new MultiURLValuesScriptGenerator((MultiURLValues)value ).getJSContent( );
+					}
+				}
 			}
 		}
 		return ""; //$NON-NLS-1$
@@ -860,7 +979,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	private String wrapJSMethod( String functionName, String functionContent )
 	{
 		return "<Script>" //$NON-NLS-1$
-				+ "function " + functionName + "(evt,categoryData, valueData, seriesValueName){" //$NON-NLS-1$ //$NON-NLS-2$
+				+ "function " + functionName + "(evt," + ScriptHandler.BASE_VALUE + ", " + ScriptHandler.ORTHOGONAL_VALUE + ", " + ScriptHandler.SERIES_VALUE + "){" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$  //$NON-NLS-4$  //$NON-NLS-5$
 				+ eval2JS( functionContent, true ) + "}</Script>"; //$NON-NLS-1$
 	}
 	
@@ -870,7 +989,6 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		// Always use hashcode of script content to generate function name in
 		// case that the functions of two charts may have the same name
 		return "userCallBack" //$NON-NLS-1$
-				+ Math.abs( generateJSContent( sa.getActionForCondition( tc ) ).hashCode( ) );
+				+ Math.abs( generateUniqueJSKey( sa.getActionForCondition( tc ) ).hashCode( ) );
 	}
-
 }

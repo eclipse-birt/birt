@@ -1159,7 +1159,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	public void flush( )
 	{
 		// Use a temporary buffer to ensure the original string immutable
-		StringBuffer buffer = new StringBuffer( EventHandlers.CONTENT.toString( ) );
+		StringBuffer buffer = new StringBuffer( EventHandlers.CONTENT );
 		codeScript.appendChild( dom.createCDATASection( buffer.append( scriptBuffer )
 				.toString( ) ) );
 		buffer = new StringBuffer( EventHandlers.STYLES.toString( ) );

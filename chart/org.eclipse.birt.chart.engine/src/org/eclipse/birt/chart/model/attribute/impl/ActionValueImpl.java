@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.attribute.AccessibilityValue;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
+import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
@@ -100,6 +101,10 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue
 		else if ( src instanceof URLValue )
 		{
 			return URLValueImpl.copyInstance( (URLValue) src );
+		}
+		else if ( src instanceof MultiURLValues )
+		{
+			return MultiURLValuesImpl.copyInstance( (MultiURLValues) src );
 		}
 		else
 		{

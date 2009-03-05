@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.attribute.util;
 
 import java.util.List;
 
+import java.util.Map;
 import org.eclipse.birt.chart.model.attribute.*;
 
 import org.eclipse.birt.chart.model.attribute.ActionValue;
@@ -234,6 +235,15 @@ public class AttributeSwitch<T>
 					result = defaultCase( theEObject );
 				return result;
 			}
+			case AttributePackage.ESTRING_TO_STRING_MAP_ENTRY :
+			{
+				@SuppressWarnings("unchecked")
+				Map.Entry<String, String> eStringToStringMapEntry = (Map.Entry<String, String>) theEObject;
+				T result = caseEStringToStringMapEntry( eStringToStringMapEntry );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
 			case AttributePackage.EXTENDED_PROPERTY :
 			{
 				ExtendedProperty extendedProperty = (ExtendedProperty) theEObject;
@@ -372,6 +382,16 @@ public class AttributeSwitch<T>
 				T result = caseMultipleFill( multipleFill );
 				if ( result == null )
 					result = caseFill( multipleFill );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
+			case AttributePackage.MULTI_URL_VALUES :
+			{
+				MultiURLValues multiURLValues = (MultiURLValues) theEObject;
+				T result = caseMultiURLValues( multiURLValues );
+				if ( result == null )
+					result = caseActionValue( multiURLValues );
 				if ( result == null )
 					result = defaultCase( theEObject );
 				return result;
@@ -666,6 +686,22 @@ public class AttributeSwitch<T>
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>EString To String Map Entry</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>EString To String Map Entry</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEStringToStringMapEntry( Map.Entry<String, String> object )
+	{
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Extended Property</em>'.
 	 * <!-- begin-user-doc --> This implementation returns null; returning a
 	 * non-null result will terminate the switch. <!-- end-user-doc -->
@@ -894,6 +930,22 @@ public class AttributeSwitch<T>
 	 * @generated
 	 */
 	public T caseMultipleFill( MultipleFill object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Multi URL Values</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Multi URL Values</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMultiURLValues( MultiURLValues object )
 	{
 		return null;
 	}

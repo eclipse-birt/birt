@@ -265,6 +265,15 @@ public interface AttributeFactory extends EFactory
 	MultipleFill createMultipleFill( );
 
 	/**
+	 * Returns a new object of class '<em>Multi URL Values</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Multi URL Values</em>'.
+	 * @generated
+	 */
+	MultiURLValues createMultiURLValues( );
+
+	/**
 	 * Returns a new object of class '<em>Number Format Specifier</em>'. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
 	 * 
