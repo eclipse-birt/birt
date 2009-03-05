@@ -6,4 +6,5 @@ dataType.DateTime=“ú
 dataType.Integer=®”
 dataType.Double=“ñd
 dataType.Number=”Ô† 
+dataType.Boolean=Boolean
 dataType.DoubleArray=“ñd []

@@ -6,4 +6,5 @@ dataType.DateTime=日期时间
 dataType.Integer=整数
 dataType.Double=双线
 dataType.Number=数值 
+dataType.Boolean=Boolean
 dataType.DoubleArray=双线[]
