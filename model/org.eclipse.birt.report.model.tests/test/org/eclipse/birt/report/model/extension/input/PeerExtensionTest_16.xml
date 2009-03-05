@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19">
+    <page-setup>
+        <graphic-master-page name="My Page">
+        </graphic-master-page>
+    </page-setup>
+    <body>
+    	<extended-item extensionName="TestingAction" name="action1">
+        	<property name="variables">
+		        <variable-element>
+		        	<property name="variableName">variable1</property>
+		            <property name="value">expression for variable</property>
+		        </variable-element>
+		    </property>
+		    <property name="test1" type="javascript">1+1in</property>
+		    <property name="test2" type="constant">50</property>
+	    </extended-item>
+    </body>
+</report>

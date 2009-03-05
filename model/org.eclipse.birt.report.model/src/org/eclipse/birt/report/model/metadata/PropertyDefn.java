@@ -55,6 +55,13 @@ public abstract class PropertyDefn
 {
 
 	/**
+	 * Cache this instance to avoid method calls.
+	 */
+
+	private final static PropertyType expressionType = MetaDataDictionary
+			.getInstance( ).getPropertyType( IPropertyType.EXPRESSION_TYPE );
+
+	/**
 	 * Supported sub-types for list property type.
 	 */
 
@@ -841,8 +848,7 @@ public abstract class PropertyDefn
 		{
 			Expression tmpValue = (Expression) value;
 			if ( tmpValue.getUserDefinedType( ) != ExpressionType.CONSTANT )
-				tmpType = MetaDataDictionary.getInstance( ).getPropertyType(
-						IPropertyType.EXPRESSION_TYPE );
+				tmpType = expressionType;
 			else
 				toValidate = tmpValue.getExpression( );
 		}
@@ -938,8 +944,7 @@ public abstract class PropertyDefn
 		{
 			Expression tmpValue = (Expression) value;
 			if ( tmpValue.getUserDefinedType( ) != ExpressionType.CONSTANT )
-				tmpType = MetaDataDictionary.getInstance( ).getPropertyType(
-						IPropertyType.EXPRESSION_TYPE );
+				tmpType = expressionType;
 			else
 				toValidate = tmpValue.getExpression( );
 		}
@@ -1074,9 +1079,13 @@ public abstract class PropertyDefn
 		if ( value == null )
 			return null;
 
-		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null ? getConvertPropertyType( value ).toXml(
-				module, this, value ) : retValue;
+		Object[] tmps = getConvertedTypeAndValue( value );
+
+		String retValue = validateExtendedChoicesByName( tmps[1] );
+		if ( retValue != null )
+			return retValue;
+
+		return ( (PropertyType) tmps[0] ).toXml( module, this, tmps[1] );
 	}
 
 	/**
@@ -1091,7 +1100,10 @@ public abstract class PropertyDefn
 
 	public String getStringValue( Module module, Object value )
 	{
-		return getConvertPropertyType( value ).toString( module, this, value );
+		Object[] tmps = getConvertedTypeAndValue( value );
+
+		return ( (PropertyType) tmps[0] ).toString( module, this, tmps[1] );
+
 	}
 
 	/**
@@ -1108,7 +1120,9 @@ public abstract class PropertyDefn
 
 	public double getFloatValue( Module module, Object value )
 	{
-		return getConvertPropertyType( value ).toDouble( module, value );
+		Object[] tmps = getConvertedTypeAndValue( value );
+
+		return ( (PropertyType) tmps[0] ).toDouble( module, tmps[1] );
 	}
 
 	/**
@@ -1125,7 +1139,9 @@ public abstract class PropertyDefn
 
 	public int getIntValue( Module module, Object value )
 	{
-		return getConvertPropertyType( value ).toInteger( module, value );
+		Object[] tmps = getConvertedTypeAndValue( value );
+
+		return ( (PropertyType) tmps[0] ).toInteger( module, tmps[1] );
 	}
 
 	/**
@@ -1142,7 +1158,9 @@ public abstract class PropertyDefn
 
 	public BigDecimal getNumberValue( Module module, Object value )
 	{
-		return getConvertPropertyType( value ).toNumber( module, value );
+		Object[] tmps = getConvertedTypeAndValue( value );
+
+		return ( (PropertyType) tmps[0] ).toNumber( module, tmps[1] );
 	}
 
 	/**
@@ -1159,7 +1177,9 @@ public abstract class PropertyDefn
 
 	public boolean getBooleanValue( Module module, Object value )
 	{
-		return getConvertPropertyType( value ).toBoolean( module, value );
+		Object[] tmps = getConvertedTypeAndValue( value );
+
+		return ( (PropertyType) tmps[0] ).toBoolean( module, tmps[1] );
 	}
 
 	/**
@@ -1177,42 +1197,14 @@ public abstract class PropertyDefn
 		if ( value == null )
 			return null;
 
-		String retValue = validateExtendedChoicesByName( value );
+		Object[] tmps = getConvertedTypeAndValue( value );
 
+		String retValue = validateExtendedChoicesByName( tmps[1] );
 		if ( retValue == null )
-			return getConvertPropertyType( value ).toDisplayString( module,
-					this, value );
+			return ( (PropertyType) tmps[0] ).toDisplayString( module, this,
+					tmps[1] );
 
-		return getChoices( ).findChoice( value.toString( ) ).getDisplayName( );
-
-	}
-
-	/**
-	 * @param value
-	 * @return
-	 */
-
-	private PropertyType getConvertPropertyType( Object value )
-	{
-		PropertyType tmpType = getType( );
-
-		if ( value instanceof Expression )
-		{
-			if ( !ExpressionType.CONSTANT
-					.equalsIgnoreCase( ( (Expression) value )
-							.getUserDefinedType( ) ) )
-			{
-				tmpType = MetaDataDictionary.getInstance( ).getPropertyType(
-						IPropertyType.EXPRESSION_TYPE );
-			}
-			else
-			{
-				assert getTypeCode( ) != IPropertyType.EXPRESSION_TYPE;
-			}
-
-		}
-
-		return tmpType;
+		return getChoices( ).findChoice( tmps[1].toString( ) ).getDisplayName( );
 	}
 
 	/**
@@ -1885,6 +1877,9 @@ public abstract class PropertyDefn
 	}
 
 	/**
+	 * Sets the flag to indicate whether the property can be set with the
+	 * expression value.
+	 * 
 	 * @param allowExpression
 	 *            the allowExpression to set
 	 */
@@ -1892,5 +1887,39 @@ public abstract class PropertyDefn
 	void setAllowExpression( boolean allowExpression )
 	{
 		this.allowExpression = allowExpression;
+	}
+
+	/**
+	 * Returns the correct type and the value for validation or the conversion.
+	 * 
+	 * @param value
+	 *            the value to validate or convert
+	 * @return a 2-item array. The first item is the property type and 2nd is
+	 *         the value
+	 */
+
+	private Object[] getConvertedTypeAndValue( Object value )
+	{
+		Object[] retValue = new Object[2];
+		retValue[0] = type;
+		retValue[1] = value;
+
+		if ( value instanceof Expression )
+		{
+			if ( !ExpressionType.CONSTANT
+					.equalsIgnoreCase( ( (Expression) value )
+							.getUserDefinedType( ) ) )
+			{
+				retValue[0] = expressionType;
+			}
+			else
+			{
+				assert getTypeCode( ) != IPropertyType.EXPRESSION_TYPE;
+				retValue[1] = ( (Expression) value ).getExpression( );
+			}
+
+		}
+
+		return retValue;
 	}
 }

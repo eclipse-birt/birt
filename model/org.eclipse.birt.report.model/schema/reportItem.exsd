@@ -12,6 +12,9 @@
 
    <element name="extension">
       <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
          <documentation>
             (no description available)
          </documentation>
@@ -217,7 +220,7 @@ structure, elementRef and element
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="subType" use="default" value="">
+         <attribute name="subType">
             <annotation>
                <documentation>
                   When the &quot;type&quot; is &quot;list&quot;, the &quot;subType&quot; is required and must be defined as one of the restriction choices. By default it is &quot;string&quot;.
@@ -281,6 +284,13 @@ Designer UI
             <annotation>
                <documentation>
                   Indicates whether the XML property should be treated as the extension model. Only works if the property type is XML. The default value is true.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="allowExpression" type="boolean">
+            <annotation>
+               <documentation>
+                  true indicates the property can be set as the expression. Each expression contains the value and the type. Otherwise false. The default value is false.
                </documentation>
             </annotation>
          </attribute>
@@ -652,7 +662,6 @@ The classes/interfaces to be extend/implement are:&lt;br&gt;
 - IMessages ( optional, implement this class to support externalized strings )&lt;br&gt;
       </documentation>
    </annotation>
-
 
    <annotation>
       <appinfo>

@@ -20,6 +20,9 @@ import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -45,6 +48,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
 import org.eclipse.birt.report.model.api.extension.UndefinedPropertyInfo;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -117,6 +121,12 @@ public class PeerExtensionTest extends BaseTestCase
 	private static final String FILE_NAME_14 = "PeerExtensionTest_14.xml"; //$NON-NLS-1$	
 
 	private static final String FILE_NAME_15 = "PeerExtensionTest_15.xml"; //$NON-NLS-1$
+
+	/**
+	 * Test cases for the allowExpression in extension elements.
+	 */
+
+	private static final String FILE_NAME_16 = "PeerExtensionTest_16.xml"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -356,7 +366,7 @@ public class PeerExtensionTest extends BaseTestCase
 		// .getStringProperty( IStyleModel.FONT_STYLE_PROP ) );
 
 		// test the label in the contained extended-item header slot
-		
+
 		LabelHandle label = (LabelHandle) designHandle
 				.findElement( "testLabel" ); //$NON-NLS-1$
 		assertEquals( IColorConstants.BLACK, label
@@ -1014,8 +1024,9 @@ public class PeerExtensionTest extends BaseTestCase
 	 * 
 	 * <ul>
 	 * <li>No local value, uses container values. tests getFactoryProperty(),
-	 * getProperty() and ReportItem.getProperty(). <li>Has local value. tests
-	 * getFactoryProperty(), getProperty() and ReportItem.getProperty().
+	 * getProperty() and ReportItem.getProperty().
+	 * <li>Has local value. tests getFactoryProperty(), getProperty() and
+	 * ReportItem.getProperty().
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -1186,6 +1197,40 @@ public class PeerExtensionTest extends BaseTestCase
 		Structure action = (Structure) copiedHandle.getElement( ).getProperty(
 				design, "action" ); //$NON-NLS-1$
 		assertNotNull( action.getContext( ) );
+	}
+
+	/**
+	 * Tests the case that we set up the structure context for the extended
+	 * structure type property when clone the extended element.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testAllowExpressionProperties( ) throws Exception
+	{
+		openDesign( FILE_NAME_16 );
+		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle
+				.findElement( "action1" ); //$NON-NLS-1$
+		ExpressionHandle exprHandle = itemHandle
+				.getExpressionProperty( "test1" ); //$NON-NLS-1$
+		assertEquals( "1+1in", exprHandle.getStringExpression( ) ); //$NON-NLS-1$
+		assertEquals( ExpressionType.JAVASCRIPT, exprHandle.getType( ) );
+
+		exprHandle = itemHandle.getExpressionProperty( "test2" ); //$NON-NLS-1$
+		assertEquals( "50", exprHandle.getStringExpression( ) ); //$NON-NLS-1$
+		assertEquals( ExpressionType.CONSTANT, exprHandle.getType( ) );
+
+		exprHandle = itemHandle.getExpressionProperty( "test1" ); //$NON-NLS-1$
+		exprHandle.setExpression( new DimensionValue( 11,
+				DesignChoiceConstants.UNITS_EM ) );
+		exprHandle.setType( ExpressionType.CONSTANT );
+
+		itemHandle.setProperty( "test2", new Expression( "30+20",  //$NON-NLS-1$//$NON-NLS-2$
+				ExpressionType.JAVASCRIPT ) );
+
+		save( );
+		assertTrue( compareFile( "PeerExtensionTest_golden_16.xml" ) );  //$NON-NLS-1$
+
 	}
 
 	private static class MyListener implements Listener

@@ -159,6 +159,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 		private static final String USE_OWN_SEARCH = "useOwnSearch"; //$NON-NLS-1$
 
 		private static final String CONTEXT_ATTRIB = "context"; //$NON-NLS-1$
+		private static final String ALLOW_EXPRESSION_ATTRIB = "allowExpression"; //$NON-NLS-1$
 
 		/**
 		 * List of the property types that are allowed for the extensions.
@@ -498,6 +499,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 
 			boolean hasOwnModel = getBooleanAttrib( propTag, HAS_OWN_MODEL,
 					true );
+			boolean allowExpression = getBooleanAttrib( propTag,
+					ALLOW_EXPRESSION_ATTRIB, false );
 
 			extPropDefn.setName( name );
 			extPropDefn.setDisplayNameID( displayNameID );
@@ -507,6 +510,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 			extPropDefn.setStyleProperty( false );
 			extPropDefn.setDefaultDisplayName( defaultDisplayName );
 			extPropDefn.setHasOwnModel( hasOwnModel );
+			extPropDefn.setAllowExpression( allowExpression );
 
 			if ( !StringUtil.isBlank( canInherit ) )
 				extPropDefn.setCanInherit( Boolean.valueOf( canInherit )

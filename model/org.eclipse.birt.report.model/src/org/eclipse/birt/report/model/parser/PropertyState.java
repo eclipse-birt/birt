@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -66,6 +67,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
+import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -125,9 +128,15 @@ class PropertyState extends AbstractPropertyState
 			.toLowerCase( ).hashCode( );
 
 	/**
-	 * Property defn.
+	 * The property definition.
 	 */
 	protected PropertyDefn propDefn = null;
+
+	/**
+	 * The type for the expression.
+	 */
+
+	private String exprType = null;
 
 	/*
 	 * (non-Javadoc)
@@ -192,6 +201,11 @@ class PropertyState extends AbstractPropertyState
 	{
 		super.parseAttrs( attrs );
 
+		// in special case, the expression can be written in the property tag.
+		// While, normally, this won't happen.
+
+		exprType = attrs.getValue( DesignSchemaConstants.TYPE_TAG );
+
 		if ( handler.markLineNumber
 				&& IModuleModel.THEME_PROP.equalsIgnoreCase( name ) )
 		{
@@ -209,7 +223,15 @@ class PropertyState extends AbstractPropertyState
 	public void end( ) throws SAXException
 	{
 		String value = text.toString( );
-		doEnd( value );
+
+		Object toSet = value;
+		if ( propDefn == null )
+			propDefn = element.getPropertyDefn( name );
+		if ( propDefn != null && propDefn.allowExpression( )
+				&& exprType != null )
+			toSet = new Expression( value, exprType );
+
+		doEnd( toSet );
 	}
 
 	/**
