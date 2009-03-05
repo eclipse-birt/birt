@@ -8,12 +8,12 @@ Bundle-ClassPath: oda-jdbc.jar,
 Bundle-Activator: org.eclipse.birt.report.data.oda.plugin.OdaJdbcPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.datatools.connectivity.oda;bundle-version="[3.1.0,4.0.0)",
+Require-Bundle: org.eclipse.datatools.connectivity.oda;bundle-version="[3.2.0,4.0.0)",
  com.ibm.icu;bundle-version="[3.4.4,5.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)",
  org.junit;bundle-version="[3.8.1,4.0.0)";resolution:=optional,
  org.apache.derby.core;bundle-version="[10.1.2,11.0.0)";resolution:=optional,
- org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.0.4,4.0.0)";resolution:=optional,
+ org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.0.7,4.0.0)";resolution:=optional,
  org.apache.xerces;bundle-version="[2.9.0,3.0.0)",
  org.eclipse.birt.core;bundle-version="[2.3.0,3.0.0)"
 Bundle-ActivationPolicy: lazy

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -37,6 +37,7 @@ import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.SortSpec;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfileProperty;
 
 /**
@@ -561,6 +562,15 @@ public class CallStatement implements IAdvancedQuery
 		return this.executeQuery( )!= null;
 	}
 
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#cancel()
+     */
+    public void cancel() throws OdaException, UnsupportedOperationException
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setInt(java.lang.String, int)
 	 */
@@ -1047,6 +1057,25 @@ public class CallStatement implements IAdvancedQuery
 		{
 			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
 		}	
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setObject(java.lang.String, java.lang.Object)
+     */
+    public void setObject( String parameterName, Object value )
+            throws OdaException
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setObject(int, java.lang.Object)
+     */
+    public void setObject( int parameterId, Object value ) throws OdaException
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
     }
 
     /*
@@ -1606,7 +1635,25 @@ public class CallStatement implements IAdvancedQuery
 		}
 	}
 	
-	private int findParameterPositionByAppContext( String name )
+	/* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getObject(int)
+     */
+    public Object getObject( int parameterId ) throws OdaException
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getObject(java.lang.String)
+     */
+    public Object getObject( String parameterName ) throws OdaException
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
+    private int findParameterPositionByAppContext( String name )
 			throws OdaException
 	{
 		if ( this.parameterDefn != null )
@@ -1936,6 +1983,41 @@ public class CallStatement implements IAdvancedQuery
 				e );
 		throw e;
 	}
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setSpecification(org.eclipse.datatools.connectivity.oda.spec.QuerySpecification)
+     */
+    @SuppressWarnings("restriction")
+    public void setSpecification( QuerySpecification querySpec )
+            throws OdaException, UnsupportedOperationException
+    {
+        /* not supported */
+        UnsupportedOperationException e = new UnsupportedOperationException( "setSpecification is not supported." );
+        logger.logp( java.util.logging.Level.FINE,
+                CallStatement.class.getName( ),
+                "setSpecification", //$NON-NLS-1$
+                "setSpecification is not supported.", //$NON-NLS-1$
+                e );
+        throw e;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#getSpecification()
+     */
+    @SuppressWarnings("restriction")
+    public QuerySpecification getSpecification()
+    {
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#getEffectiveQueryText()
+     */
+    public String getEffectiveQueryText()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getSortSpec(java.lang.String)

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -91,8 +91,8 @@ public class ResultSet implements IResultSet
 	{
 		logger.logp( java.util.logging.Level.FINE,
 				ResultSet.class.getName( ),
-				"getMetaData",
-				"ResultSet.getMetaData( )" );
+				"getMetaData", //$NON-NLS-1$
+				"ResultSet.getMetaData( )" ); //$NON-NLS-1$
 		assertNotNull( rs );
 
 		try
@@ -117,8 +117,8 @@ public class ResultSet implements IResultSet
 	{
 		logger.logp( java.util.logging.Level.FINE,
 				ResultSet.class.getName( ),
-				"close",
-				"ResultSet.close()" );		
+				"close", //$NON-NLS-1$
+				"ResultSet.close()" );		 //$NON-NLS-1$
 		assertNotNull( rs );
 		try
 		{
@@ -142,8 +142,8 @@ public class ResultSet implements IResultSet
 	{
 		logger.logp( java.util.logging.Level.FINE,
 				ResultSet.class.getName( ),
-				"setMaxRows",
-				"ResultSet.setMaxRows( " + max + " )" );
+				"setMaxRows", //$NON-NLS-1$
+				"ResultSet.setMaxRows( " + max + " )" ); //$NON-NLS-1$ //$NON-NLS-2$
 		if ( max > 0 )
 			maxRows = max;
 		else
@@ -162,8 +162,8 @@ public class ResultSet implements IResultSet
 	{
 		logger.logp( java.util.logging.Level.FINE,
 				ResultSet.class.getName( ),
-				"next",
-				"ResultSet.next( )" );
+				"next", //$NON-NLS-1$
+				"ResultSet.next( )" ); //$NON-NLS-1$
 
 		assertNotNull( rs );
 
@@ -191,8 +191,8 @@ public class ResultSet implements IResultSet
 	{
 		logger.logp( java.util.logging.Level.FINE,
 				ResultSet.class.getName( ),
-				"getRow",
-				"ResultSet.getRow( )" );
+				"getRow", //$NON-NLS-1$
+				"ResultSet.getRow( )" ); //$NON-NLS-1$
 		assertNotNull( rs );
 		return this.currentRow;
 	}
@@ -257,9 +257,9 @@ public class ResultSet implements IResultSet
 			{
 				if ( rs.getMetaData( ).getColumnType( index ) == Types.BIT )
 				{
-					if ( rs.getString( index ).equals( "t" ) )
+					if ( rs.getString( index ).equals( "t" ) ) //$NON-NLS-1$
 						return 1;
-					else if ( rs.getString( index ).equals( "f" ) )
+					else if ( rs.getString( index ).equals( "f" ) ) //$NON-NLS-1$
 						return 0;
 				}
 
@@ -657,8 +657,26 @@ public class ResultSet implements IResultSet
 					e );
 		}
 	}
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IResultSet#getObject(java.lang.String)
+     */
+    public Object getObject( String columnName ) throws OdaException
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 	
-	/*
+	/* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IResultSet#getObject(int)
+     */
+    public Object getObject( int index ) throws OdaException
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
+    /*
 	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#wasNull()
 	 */
@@ -666,8 +684,8 @@ public class ResultSet implements IResultSet
 	{
 		logger.logp( java.util.logging.Level.FINE,
 				ResultSet.class.getName( ),
-				"getMetaData",
-				"ResultSet.wasNull( )" );
+				"getMetaData", //$NON-NLS-1$
+				"ResultSet.wasNull( )" ); //$NON-NLS-1$
 		assertNotNull( rs );
 
 		try
@@ -690,8 +708,8 @@ public class ResultSet implements IResultSet
 	{
 		logger.logp( java.util.logging.Level.FINE,
 				ResultSet.class.getName( ),
-				"findColumn",
-				"ResultSet.findColumn( \"" + columnName + "\" )" );
+				"findColumn", //$NON-NLS-1$
+				"ResultSet.findColumn( \"" + columnName + "\" )" ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertNotNull( rs );
 		try
 		{

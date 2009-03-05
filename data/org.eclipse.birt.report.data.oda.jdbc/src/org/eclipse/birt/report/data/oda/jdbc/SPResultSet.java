@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -282,6 +282,22 @@ public class SPResultSet implements IResultSet
     public boolean getBoolean( String columnName ) throws OdaException
     {
         return false;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IResultSet#getObject(int)
+     */
+    public Object getObject( int index ) throws OdaException
+    {
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IResultSet#getObject(java.lang.String)
+     */
+    public Object getObject( String columnName ) throws OdaException
+    {
+        return null;
     }
 
 }

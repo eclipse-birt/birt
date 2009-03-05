@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -33,6 +33,7 @@ import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.SortSpec;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfileProperty;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -473,7 +474,16 @@ public class Statement implements IQuery
 		}
 	}
 
-	/*
+	/* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#cancel()
+     */
+    public void cancel() throws OdaException, UnsupportedOperationException
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
+    /*
 	 * @see org.eclipse.datatools.connectivity.IQuery#setInt(java.lang.String, int)
 	 */
 	public void setInt( String parameterName, int value ) throws OdaException
@@ -694,7 +704,7 @@ public class Statement implements IQuery
 		
 	}
 
-	/*
+    /*
 	 * @see org.eclipse.datatools.connectivity.IQuery#setTime(java.lang.String,
 	 *      java.sql.Time)
 	 */
@@ -769,6 +779,27 @@ public class Statement implements IQuery
 			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
 		}
 	}
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setObject(java.lang.String, java.lang.Object)
+     */
+    public void setObject( String parameterName, Object value )
+            throws OdaException
+    {
+        /* not supported */
+        UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+        addLog ( "setObject", e ); //$NON-NLS-1$
+        throw e;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setObject(int, java.lang.Object)
+     */
+    public void setObject( int parameterId, Object value ) throws OdaException
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(java.lang.String)
@@ -870,7 +901,38 @@ public class Statement implements IQuery
 		throw e;	
 	}
 
-	public void clearInParameters() throws OdaException
+	/* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setSpecification(org.eclipse.datatools.connectivity.oda.spec.QuerySpecification)
+     */
+    @SuppressWarnings("restriction")
+    public void setSpecification( QuerySpecification querySpec )
+            throws OdaException, UnsupportedOperationException
+    {
+        /* not supported */
+        UnsupportedOperationException e = new UnsupportedOperationException( "setSpecification is not supported." );
+        addLog ( "setSpecification", e );
+        throw e;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#getSpecification()
+     */
+    @SuppressWarnings("restriction")
+    public QuerySpecification getSpecification()
+    {
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#getEffectiveQueryText()
+     */
+    public String getEffectiveQueryText()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void clearInParameters() throws OdaException
 	{
 		assertNotNull( preStat );
 		try
