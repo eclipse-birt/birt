@@ -882,6 +882,79 @@
    		<Argument name="endDate">
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    	</Function>
-   </Category></extension>
-
+   </Category>
+    <Category
+   	factoryclass="org.eclipse.birt.core.script.function.bre.BirtDurationFunctionFactory"
+   	name="BirtDuration">
+   	<Function
+          desc="Obtains the value of the YEARS field as an integer value,* or 0 if not present.&#xa;The lexicalDuration is the duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )"
+          name="year">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="lexicalDuration">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   	</Function>
+   	   	<Function
+              desc="Obtains the value of the MONTHS field as an integer value,* or 0 if not present.&#xa;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S ) "
+              name="month">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="lexicalDuration">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   	</Function>
+   	   	<Function
+              desc="Obtains the value of the DAYS field as an integer value,* or 0 if not present.&#xa;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )"
+              name="day">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="lexicalDuration">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   	</Function>
+   	<Function
+          desc="Obtains the value of the HOURS field as an integer value,* or 0 if not present.&#xa;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )"
+          name="hour">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="lexicalDuration">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   	</Function>
+   	<Function
+          desc="Obtains the value of the MINUTES field as an integer value,* or 0 if not present.&#xa;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )"
+          name="minute">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="lexicalDuration">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   	</Function>
+   	   	<Function
+              desc="Obtains the value of the SECONDS field as integer value,* or 0 if not present.&#xa;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )"
+              name="second">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="lexicalDuration">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   	</Function>
+   	   	<Function
+              desc="Returns the length of the duration in milli-seconds.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              name="timeInMills">
+   		<DataType value="%dataType.Number"></DataType>
+   		<Argument name="lexicalDuration">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   	   	<Argument name="startDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   	</Function>
+   	   	<Function
+              desc="Checks if this lexicalDuration1 is strictly longer than another lexicalDuration2.&#xa;For example, &quot;P1D&quot;(one day) &gt; &quot;PT12H&quot;(12 hours) and &quot;P2Y&quot; (two years) &gt; &quot;P23M&quot; (23 months)"
+              name="isLongerThan">
+   		<DataType value="%dataType.Boolean"></DataType>
+   		<Argument name="lexicalDuration1">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<Argument name="lexicalDuration2">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   	</Function>
+   	   	<Function
+              desc="Checks if lexicalDuration1 is strictly shorter than another lexicalDuration2.&#xa;For example,&quot;PT12H&quot;(12 hours) &lt; &quot;P1D&quot;(one day). "
+              name="isShorterThan">
+   		<DataType value="%dataType.Boolean"></DataType>
+   		<Argument name="lexicalDuration1">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<Argument name="lexicalDuration2">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   	</Function>
+   </Category>
+  </extension>
 </plugin>
