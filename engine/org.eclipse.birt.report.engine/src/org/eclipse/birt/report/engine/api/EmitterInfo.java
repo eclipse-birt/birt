@@ -29,7 +29,8 @@ public class EmitterInfo
 	private IConfigurationElement emitter;
 	private String fileExtension;
 	private Boolean isHidden;
-	
+	private String supportedImageFormats;
+
 	/**
 	 * whether emitter need to output the display:none or process it in layout
 	 * engine.
@@ -40,7 +41,7 @@ public class EmitterInfo
 
 	public EmitterInfo( String format, String id, String pagination,
 			String mimeType, String icon, String namespace, String fileExt,
-			Boolean outputDisplayNone, Boolean isHidden,
+			Boolean outputDisplayNone, Boolean isHidden, String supportedImageFormats,
 			IConfigurationElement emitter )
 	{
 		this.format = format;
@@ -53,6 +54,7 @@ public class EmitterInfo
 		this.fileExtension = fileExt;
 		this.outputDisplayNone = outputDisplayNone;
 		this.isHidden = isHidden;
+		this.supportedImageFormats = supportedImageFormats;
 	}
 
 	/**
@@ -145,5 +147,15 @@ public class EmitterInfo
 	public Boolean isHidden( )
 	{
 		return isHidden;
+	}
+	
+	/**
+	 * get the image formats the emitter supports
+	 * 
+	 * @return the supported image formats.
+	 */
+	public String getSupportedImageFormats() 
+	{
+		return supportedImageFormats;
 	}
 }

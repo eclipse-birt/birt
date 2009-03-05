@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class ObjectContent extends ImageContent
 {
 	/*
-	  Attributes discribled in W3C recommendation.
+	  Attributes described in W3C recommendation.
  	  declare     (declare)      #IMPLIED  -- declare but don't instantiate flag --
 	  classid     %URI;          #IMPLIED  -- identifies an implementation --
 	  codebase    %URI;          #IMPLIED  -- base URI for classid, data, archive--
@@ -24,7 +24,7 @@ public class ObjectContent extends ImageContent
 	  tabindex    NUMBER         #IMPLIED  -- position in tabbing order --
 	 */
 
-	private HashMap<String, Param> params = new HashMap<String, Param>( );
+	private HashMap<String, String> params = new HashMap<String, String>( );
 
 	ObjectContent( ReportContent report )
 	{
@@ -33,74 +33,20 @@ public class ObjectContent extends ImageContent
 
 	public void addParam( String name, String value )
 	{
-		addParam( null, name, value, null, null );
-	}
-
-	public void addParam( String id, String name, String value,
-			String valueType, String type )
-	{
 		if ( null != name )
 		{
-			Param p = new Param( name, value );
-			p.setId( id );
-			p.setValueType( valueType );
-			p.setType( type );
-			params.put( name, p );
+			params.put( name, value );
 		}
+	}
+	
+	public HashMap<String, String> getParamters( )
+	{
+		return params;
 	}
 
 	public String getParamValueByName( String name )
 	{
-		Param p = params.get( name );
-		if ( p == null )
-		{
-			return null;
-		}
-		else
-		{
-			return p.getValue( );
-		}
-	}
-
-	public String getParamValueTypeByName( String name )
-	{
-		Param p = params.get( name );
-		if ( p == null )
-		{
-			return null;
-		}
-		else
-		{
-			return p.getValueType( );
-		}
-
-	}
-
-	public String getParamIdByName( String name )
-	{
-		Param p = params.get( name );
-		if ( p == null )
-		{
-			return null;
-		}
-		else
-		{
-			return p.getId( );
-		}
-
-	}
-
-	public String getParamTypeByName( String name )
-	{
-		Param p = params.get( name );
-		if ( p == null )
-		{
-			return null;
-		}
-		else
-		{
-			return p.getType( );
-		}
+		return params.get( name );
 	}
 
 	public void readContent( DataInputStream in, ClassLoader loader )
@@ -115,86 +61,4 @@ public class ObjectContent extends ImageContent
 		throw new IOException(
 				"Unsupported operation: Object content can not be serialized" );
 	}
-}
-
-class Param
-{
-
-	/**
-	 * unique id
-	 */
-	String id;
-	/**
-	 * property name
-	 */
-	String name;
-	/**
-	 * property value
-	 */
-	String value;
-	/**
-	 * How to interpret value (DATA|REF|OBJECT) DATA
-	 */
-	String valueType;
-	/**
-	 * content type for value when valuetype = ref
-	 */
-	String type;
-
-	Param( String name, String value )
-	{
-		setName( name );
-		setValue( value );
-	}
-
-	public String getId( )
-	{
-		return id;
-	}
-
-	public void setId( String id )
-	{
-		this.id = id;
-	}
-
-	public String getName( )
-	{
-		return name;
-	}
-
-	public void setName( String name )
-	{
-		this.name = name;
-	}
-
-	public String getValue( )
-	{
-		return value;
-	}
-
-	public void setValue( String value )
-	{
-		this.value = value;
-	}
-
-	public String getValueType( )
-	{
-		return valueType;
-	}
-
-	public void setValueType( String valueType )
-	{
-		this.valueType = valueType;
-	}
-
-	public String getType( )
-	{
-		return type;
-	}
-
-	public void setType( String type )
-	{
-		this.type = type;
-	}
-
 }

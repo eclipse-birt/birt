@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -30,7 +29,10 @@ import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.ObjectContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
+import org.eclipse.birt.report.engine.layout.pdf.emitter.BlockTextLayout;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
@@ -38,6 +40,7 @@ import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
+import com.ibm.icu.util.ULocale;
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Image;
 
@@ -53,16 +56,6 @@ public class ImageAreaLayout implements ILayout
 	private IImageContent content;
 	private LayoutContext context;
 	private int objectType = TYPE_IMAGE_OBJECT;
-	private boolean withFlashVars = false;
-
-	private static final HashMap<Integer, ArrayList<String>> unsupportedFormats = new HashMap<Integer, ArrayList<String>>( );
-	static
-	{
-		ArrayList<String> flashUnsupportedFormatList = new ArrayList<String>( );
-		flashUnsupportedFormatList.add( "postscript" );
-		flashUnsupportedFormatList.add( "ppt" );
-		unsupportedFormats.put( TYPE_FLASH_OBJECT, flashUnsupportedFormatList );
-	};
 
 	public ImageAreaLayout( ContainerArea parent, LayoutContext context,
 			IImageContent content )
@@ -105,17 +98,48 @@ public class ImageAreaLayout implements ILayout
 		else
 		{
 			// display the alt text.
-			IReportContent report = content.getReportContent( );
-			if ( report == null )
+			ITextContent altTextContent = createAltText( (IImageContent) content );
+			if ( null == altTextContent )
 			{
 				return;
 			}
-			ITextContent altTextContent = report
-					.createTextContent( imageContent );
-			altTextContent.setText( imageContent.getAltText( ) );
 			layout = new BlockTextArea( parent, context, altTextContent );
 			( (BlockTextArea) layout ).initialize( );
 		}
+	}
+	
+	private ITextContent createAltText( IImageContent imageContent )
+	{
+		IReportContent report = imageContent.getReportContent( );
+		if ( report == null )
+		{
+			return null;
+		}
+		ITextContent altTextContent = report
+				.createTextContent( imageContent );
+		String alt = imageContent.getAltText( );
+		if ( null == alt )
+		{
+			ULocale locale = ULocale.forLocale( context.getLocale( ) );
+			if ( locale == null )
+			{
+				locale = ULocale.getDefault( );
+			}
+			EngineResourceHandle resourceHandle = new EngineResourceHandle(
+					locale );
+			if ( objectType == TYPE_FLASH_OBJECT )
+			{
+				alt = resourceHandle
+						.getMessage( MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT );
+			}
+			else
+			{
+				alt = resourceHandle
+						.getMessage( MessageConstants.REPORT_ITEM_NOT_SUPPORTED_PROMPT );
+			}
+		}
+		altTextContent.setText( alt );
+		return altTextContent;
 	}
 
 	protected void checkObjectType( )
@@ -128,10 +152,6 @@ public class ImageAreaLayout implements ILayout
 		{
 			objectType = TYPE_FLASH_OBJECT;
 			ObjectContent flash = (ObjectContent) image;
-			if ( null != flash.getParamValueByName( "flashvars" ) )
-			{
-				withFlashVars = true;
-			}
 		}
 		else
 		{
@@ -145,20 +165,25 @@ public class ImageAreaLayout implements ILayout
 	 */
 	private boolean isOutputSupported( int type )
 	{
-		if ( withFlashVars )
+		String supportedImageFormats = context.getSupportedImageFormats( );
+		
+		if ( type == TYPE_IMAGE_OBJECT )
 		{
-			return false;
+			if ( -1 != supportedImageFormats.indexOf( "PNG" )
+					|| -1 != supportedImageFormats.indexOf( "GIF" )
+					|| -1 != supportedImageFormats.indexOf( "BMP" )
+					|| -1 != supportedImageFormats.indexOf( "JPG" ) )
+				return true;
 		}
-		ArrayList<String> formats = unsupportedFormats.get( type );
-		if ( formats != null
-				&& formats.contains( context.getFormat( ).toLowerCase( ) ) )
+		
+		else if ( type == TYPE_FLASH_OBJECT )
 		{
-			return false;
+			if ( -1 != supportedImageFormats.indexOf( "SWF" ))
+			{
+				return true;				
+			}
 		}
-		else
-		{
-			return true;
-		}
+		return false;		
 	}
 }
 

@@ -16,6 +16,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -23,7 +24,9 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.impl.ObjectContent;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorder.Border;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorder.BorderSegment;
@@ -43,6 +46,7 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
+import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
@@ -808,7 +812,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 		int imageX = currentX + getX( image );
 		int imageY = currentY + getY( image );
-
+		
 		InputStream in = null;
 		int height = getHeight( image );
 		int width = getWidth( image );
@@ -822,22 +826,40 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			if ( data != null )
 			{
 				in = new ByteArrayInputStream( data );
-				if ( SvgFile.isSvg( mimeType, uri, extension ) )
-					data = SvgFile.transSvgToArray( in );
-				pageGraphic.drawImage( uri, data, extension, imageX, imageY,
-						height, width, helpText );
+
+				if ( FlashFile.isFlash( null, uri, extension ) )
+				{
+					pageGraphic.drawImage( uri, extension, imageX, imageY,
+							height, width, helpText, image.getParameters( ) );
+				}
+				else
+				{
+					if ( SvgFile.isSvg( mimeType, uri, extension ) )
+					{
+						data = SvgFile.transSvgToArray( in );
+					}
+					pageGraphic.drawImage( uri, data, extension, imageX,
+							imageY, height, width, helpText, null );
+				}
 			}
 			else if ( uri != null )
 			{
-				if ( SvgFile.isSvg( uri ) )
+
+				if ( FlashFile.isFlash( null, null, extension ) )
+				{
+					pageGraphic.drawImage( uri, extension, imageX, imageY,
+							height, width, helpText, image.getParameters( ) );
+				}
+				else if ( SvgFile.isSvg( uri ) )
 				{
 					pageGraphic.drawImage( uri, SvgFile.transSvgToArray( uri ),
-							extension, imageX, imageY, height, width, helpText );
+							extension, imageX, imageY, height, width, helpText,
+							null );
 				}
 				else
 				{
 					pageGraphic.drawImage( uri, extension, imageX, imageY,
-							height, width, helpText );
+							height, width, helpText, null );
 				}
 			}
 			if ( in == null )

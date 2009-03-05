@@ -1198,14 +1198,19 @@ public abstract class EngineTask implements IEngineTask
 	
 	protected IContentEmitter createContentEmitter( ) throws EngineException
 	{
-
 		ExtensionManager extManager = ExtensionManager.getInstance( );
 		pagination = extManager.getPagination( emitterID );
-		Boolean outputDisplayNone = extManager.getOutputDisplayNone( emitterID );
 		if ( !renderOptions.hasOption( IRenderOption.OUTPUT_DISPLAY_NONE ) )
 		{
+			Boolean outputDisplayNone = extManager.getOutputDisplayNone( emitterID );
 			renderOptions.setOption( IRenderOption.OUTPUT_DISPLAY_NONE,
 					outputDisplayNone );
+		}
+		if ( !renderOptions.hasOption( IRenderOption.SUPPORTED_IMAGE_FORMATS ) )
+		{
+			String supportedImageFormats = extManager.getSupportedImageFormats( emitterID );
+			renderOptions.setOption( IRenderOption.SUPPORTED_IMAGE_FORMATS,
+					supportedImageFormats );
 		}
 		IContentEmitter emitter = null;
 		try
@@ -1548,9 +1553,12 @@ public abstract class EngineTask implements IEngineTask
 						htmlContext.getBaseURL( ) );
 				mergeOption( renderOptions, HTMLRenderOption.IMAGE_DIRECTROY,
 						htmlContext.getImageDirectory( ) );
-				mergeOption( renderOptions,
-						HTMLRenderOption.SUPPORTED_IMAGE_FORMATS, htmlContext
-								.getSupportedImageFormats( ) );
+				if ( FORMAT_HTML.equals( format ) )
+				{
+					mergeOption(renderOptions,
+							HTMLRenderOption.SUPPORTED_IMAGE_FORMATS,
+							htmlContext.getSupportedImageFormats());
+				}
 			}
 		}
 

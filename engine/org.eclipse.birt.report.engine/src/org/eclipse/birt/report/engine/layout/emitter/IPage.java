@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.emitter;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.Map;
 
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
@@ -53,11 +54,11 @@ public interface IPage
 			TextStyle textStyle );
 
 	void drawImage( String imageId, byte[] imageData, String extension,
-			int imageX, int imageY, int height, int width, String helpText )
+			int imageX, int imageY, int height, int width, String helpText, Map params )
 			throws Exception;
 
 	void drawImage( String uri, String extension, int imageX, int imageY,
-			int height, int width, String helpText ) throws Exception;
+			int height, int width, String helpText, Map params ) throws Exception;
 
 	/**
 	 * Draws a line from the start position to the end position with the given

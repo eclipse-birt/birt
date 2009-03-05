@@ -781,16 +781,12 @@ public class HTML2Content
 			String flashVars = ele.getAttribute( "flashvars" );
 			if ( flashVars != null && !"".equals( flashVars ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
-				flash.addParam( "flashvars", flashVars ); //$NON-NLS-1$
+				flash.addParam( "FlashVars", flashVars ); //$NON-NLS-1$
 			}
 			String alt = ele.getAttribute( "alt" );
 			if ( alt != null && !"".equals( alt ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			{
 				flash.setAltText( alt ); //$NON-NLS-1$
-			}
-			else if ( flashVars != null && !"".equals( flashVars ) )
-			{
-				flash.setAltText( "Flash Object report items with FlashVars are not supported in this report format." );
 			}
 		}
 	}

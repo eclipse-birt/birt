@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
+import java.util.HashMap;
+
 import org.eclipse.birt.report.engine.nLayout.area.IAreaVisitor;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 
@@ -26,6 +28,8 @@ public class ImageArea extends AbstractArea implements IImageArea
 	protected String helpText;
 	
 	protected String mimetype;
+	
+	protected HashMap<String, String> params;
 
 	public ImageArea( )
 	{
@@ -97,6 +101,16 @@ public class ImageArea extends AbstractArea implements IImageArea
 	public void setMIMEType(String mimetype)
 	{
 		this.mimetype = mimetype;
+	}
+	
+	public HashMap<String, String> getParameters( )
+	{
+		return params;
+	}
+	
+	public void setParameters( HashMap<String, String> params )
+	{
+		this.params = params;
 	}
 
 }

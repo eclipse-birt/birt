@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.emitter.pdf;
 import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -388,7 +389,7 @@ public class PDFPage extends AbstractPage
 
 	protected void drawImage( String imageId, byte[] imageData,
 			String extension, float imageX, float imageY, float height,
-			float width, String helpText ) throws Exception
+			float width, String helpText, Map params ) throws Exception
 	{
 		if ( FlashFile.isFlash( null, null, extension ) )
 		{
@@ -402,7 +403,7 @@ public class PDFPage extends AbstractPage
 	}
 
 	protected void drawImage( String uri, String extension, float imageX,
-			float imageY, float height, float width, String helpText )
+			float imageY, float height, float width, String helpText, Map params )
 			throws Exception
 	{
 		if ( FlashFile.isFlash( null, uri, extension ) )

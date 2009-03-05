@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.nLayout.area;
 
+import java.util.HashMap;
+
 public interface IImageArea extends IArea
 {
 
@@ -23,5 +25,7 @@ public interface IImageArea extends IArea
 	String getExtension( );
 
 	String getMIMEType( );
+	
+	HashMap<String, String> getParameters( );
 
 }

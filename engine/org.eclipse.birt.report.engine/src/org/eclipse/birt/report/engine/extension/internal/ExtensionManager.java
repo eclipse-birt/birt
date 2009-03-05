@@ -132,6 +132,11 @@ public class ExtensionManager
 	public static final Boolean DEFAULT_OUTPUT_DISPLAY_NONE = new Boolean( false );
 	
 	/**
+	 * emitter default supported image formats.
+	 */
+	public static final String DEFAULT_SUPPORTED_IMAGE_FORMATS = "PNG;GIF;JPG;BMP";
+	
+	/**
 	 * Dummy constructor
 	 */
 	ExtensionManager()
@@ -579,6 +584,7 @@ public class ExtensionManager
 				String mimeType = configs[j].getAttribute("mimeType");	//$NON-NLS-1$
 				String id = configs[j].getAttribute("id"); //$NON-NLS-1$
 				String pagination = configs[j].getAttribute("pagination");
+				String supportedImageFormats = configs[j].getAttribute("supportedImageFormats");
 				if ( pagination == null )
 				{
 					pagination = PAGE_BREAK_PAGINATION;
@@ -592,7 +598,7 @@ public class ExtensionManager
 						.getAttribute( "isHidden" ) );
 				EmitterInfo emitterInfo = new EmitterInfo( format, id,
 						pagination, mimeType, icon, namespace, fileExtension,
-						outDisplayNone, isHidden, configs[j] );
+						outDisplayNone, isHidden, supportedImageFormats, configs[j] );
 				emitterExtensions.add(emitterInfo);
 				assert( format != null );
 				formats.put( format, emitterInfo );
@@ -769,6 +775,29 @@ public class ExtensionManager
 			}
 		}
 		return DEFAULT_OUTPUT_DISPLAY_NONE;
+	}
+	
+	public String getSupportedImageFormats( String emitterId )
+	{
+		if ( emitterId != null )
+		{
+			for ( EmitterInfo emitterInfo : emitterExtensions )
+			{
+				if ( emitterId.equals( emitterInfo.getID( ) ) )
+				{
+					String supportedImageFormats = emitterInfo.getSupportedImageFormats( );
+					if ( null != supportedImageFormats )
+					{
+						return supportedImageFormats;
+					}
+					else
+					{
+						return DEFAULT_SUPPORTED_IMAGE_FORMATS;
+					}
+				}
+			}
+		}
+		return DEFAULT_SUPPORTED_IMAGE_FORMATS;
 	}
 
 	public DataExtractionFormatInfo[] getDataExtractionExtensionInfo( )

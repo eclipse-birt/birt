@@ -45,6 +45,8 @@ public class LayoutContext
 	
 	protected boolean autoPageBreak = true;
 	
+	protected String supportedImageFormats = "PNG;GIF;JPG;BMP;";
+	
 	protected boolean finished = false;
 	
 	public boolean isFinished( )
@@ -348,5 +350,15 @@ public class LayoutContext
 			}
 		}
 		return null;
+	}
+	
+	public String getSupportedImageFormats( )
+	{
+		return supportedImageFormats;
+	}
+
+	public void setSupportedImageFormats( String supportedImageFormats )
+	{
+		this.supportedImageFormats = supportedImageFormats;
 	}
 }

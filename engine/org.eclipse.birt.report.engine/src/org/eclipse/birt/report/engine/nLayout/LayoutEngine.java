@@ -214,6 +214,12 @@ public class LayoutEngine extends LayoutEmitterAdapter
 				int screenDpi = ( (Integer) dpi ).intValue( );
 				context.setDpi( screenDpi );
 			}
+			
+			Object supportedImageFormats = options.get( IRenderOption.SUPPORTED_IMAGE_FORMATS );
+			if ( supportedImageFormats != null && supportedImageFormats instanceof String )
+			{
+				context.setSupportedImageFormats( (String)supportedImageFormats );
+			}
 
 			// Object rtlFlag = options.get( IRenderOption.RTL_FLAG );
 			// if (rtlFlag != null && rtlFlag instanceof Boolean)
