@@ -2428,6 +2428,10 @@ Element.ScalarParameter.sortDirection=Dirección de orden
 Element.ScalarParameter.sortBy=Ordenar por
 Element.ScalarParameter.autoSuggestThreshold=Sugerir umbral automáticamente
 Element.ScalarParameter.sortByColumn=Ordenar por columna
+Element.ScalarParameter.getDefaultValueList=Get default value list
+Element.ScalarParameter.getDefaultValueList.toolTip=Returns the default value list of the parameter
+Element.ScalarParameter.getSelectionValueList=Get selection value list
+Element.ScalarParameter.getSelectionValueList.toolTip=Returns the selection value list if the parameter control type is 'list' or 'combo'
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Iniciar expandido

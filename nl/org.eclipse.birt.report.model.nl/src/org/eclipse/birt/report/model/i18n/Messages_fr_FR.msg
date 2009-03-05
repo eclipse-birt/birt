@@ -2428,6 +2428,10 @@ Element.ScalarParameter.sortDirection=Direction du tri
 Element.ScalarParameter.sortBy=Trier par
 Element.ScalarParameter.autoSuggestThreshold=Seuil de suggestion automatique
 Element.ScalarParameter.sortByColumn=Trier par colonne
+Element.ScalarParameter.getDefaultValueList=Get default value list
+Element.ScalarParameter.getDefaultValueList.toolTip=Returns the default value list of the parameter
+Element.ScalarParameter.getSelectionValueList=Get selection value list
+Element.ScalarParameter.getSelectionValueList.toolTip=Returns the selection value list if the parameter control type is 'list' or 'combo'
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Lancement développé

@@ -2428,6 +2428,10 @@ Element.ScalarParameter.sortDirection=정렬 방향
 Element.ScalarParameter.sortBy=정렬 기준
 Element.ScalarParameter.autoSuggestThreshold=자동 제안 임계값
 Element.ScalarParameter.sortByColumn=열을 기준으로 정렬
+Element.ScalarParameter.getDefaultValueList=Get default value list
+Element.ScalarParameter.getDefaultValueList.toolTip=Returns the default value list of the parameter
+Element.ScalarParameter.getSelectionValueList=Get selection value list
+Element.ScalarParameter.getSelectionValueList.toolTip=Returns the selection value list if the parameter control type is 'list' or 'combo'
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=시작 확장됨

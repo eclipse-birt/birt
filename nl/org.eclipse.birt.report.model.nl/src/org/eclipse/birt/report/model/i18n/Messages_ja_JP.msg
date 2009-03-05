@@ -2428,6 +2428,10 @@ Element.ScalarParameter.sortDirection=ソート方向
 Element.ScalarParameter.sortBy=方向
 Element.ScalarParameter.autoSuggestThreshold=入力補完のしきい値
 Element.ScalarParameter.sortByColumn=列を基準に並べ替える
+Element.ScalarParameter.getDefaultValueList=Get default value list
+Element.ScalarParameter.getDefaultValueList.toolTip=Returns the default value list of the parameter
+Element.ScalarParameter.getSelectionValueList=Get selection value list
+Element.ScalarParameter.getSelectionValueList.toolTip=Returns the selection value list if the parameter control type is 'list' or 'combo'
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=開始時に展開

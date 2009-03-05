@@ -2428,6 +2428,10 @@ Element.ScalarParameter.sortDirection=排序方向
 Element.ScalarParameter.sortBy=排序依据
 Element.ScalarParameter.autoSuggestThreshold=自动建议阈值
 Element.ScalarParameter.sortByColumn=按列排序
+Element.ScalarParameter.getDefaultValueList=Get default value list
+Element.ScalarParameter.getDefaultValueList.toolTip=Returns the default value list of the parameter
+Element.ScalarParameter.getSelectionValueList=Get selection value list
+Element.ScalarParameter.getSelectionValueList.toolTip=Returns the selection value list if the parameter control type is 'list' or 'combo'
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=开始展开
