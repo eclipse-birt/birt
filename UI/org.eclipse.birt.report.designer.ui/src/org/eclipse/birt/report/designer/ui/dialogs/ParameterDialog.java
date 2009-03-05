@@ -518,6 +518,8 @@ public class ParameterDialog extends BaseDialog
 
 	private Composite displayArea;
 
+	private boolean isInitialized;
+
 	/**
 	 * Create a new parameter dialog with given title under the active shell
 	 * 
@@ -945,6 +947,8 @@ public class ParameterDialog extends BaseDialog
 
 		Point size = displayArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		displayArea.setSize( size );
+
+		isInitialized = true;
 
 		return true;
 	}
@@ -1607,12 +1611,15 @@ public class ParameterDialog extends BaseDialog
 			allowMultiChoice.setVisible( false );
 		}
 
-		defaultValueList.clear( );
+		// if change type, clear old default values
+		if ( isInitialized && defaultValueList != null )
+			defaultValueList.clear( );
 	}
 
 	private void switchParamterType( )
 	{
-		defaultValueList.clear( );
+		if ( isInitialized && defaultValueList != null )
+			defaultValueList.clear( );
 		clearArea( valueArea );
 		lastControlType = null;
 		if ( isStatic( ) )
