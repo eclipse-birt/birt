@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.util;
 
 import java.math.BigDecimal;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -41,7 +42,12 @@ public class EncryptionUtil
 		String encryption = element.getEncryptionID( propDefn );
 		if ( encryption == null )
 			return value;
-		return EncryptionUtil.decrypt( propDefn, encryption, value );
+		String str = null;
+		if ( value instanceof String )
+			str = (String) value;
+		else if ( value instanceof Expression )
+			str = ( (Expression) value ).getStringExpression( );
+		return EncryptionUtil.decrypt( propDefn, encryption, str );
 	}
 
 	/**
@@ -60,10 +66,14 @@ public class EncryptionUtil
 	public static Object decrypt( PropertyDefn propDefn, String encryptionID,
 			Object value )
 	{
-		if ( !( value instanceof String )
+		if ( !( value instanceof String || value instanceof Expression )
 				|| ( !propDefn.isEncryptable( ) && !isPropertyBindingValueMember( propDefn ) ) )
 			return value;
-		String str = (String) value;
+		String str = null;
+		if ( value instanceof String )
+			str = (String) value;
+		else
+			str = ( (Expression) value ).getStringExpression( );
 		IEncryptionHelper helper = MetaDataDictionary.getInstance( )
 				.getEncryptionHelper( encryptionID );
 		return helper == null ? value : helper.decrypt( str );
@@ -91,10 +101,14 @@ public class EncryptionUtil
 	public static Object encrypt( PropertyDefn propDefn, String encryptionID,
 			Object value )
 	{
-		if ( !( value instanceof String )
+		if ( !( value instanceof String || value instanceof Expression )
 				|| ( !propDefn.isEncryptable( ) && !isPropertyBindingValueMember( propDefn ) ) )
 			return value;
-		String str = (String) value;
+		String str = null;
+		if ( value instanceof String )
+			str = (String) value;
+		else
+			str = ( (Expression) value ).getStringExpression( );
 		IEncryptionHelper helper = MetaDataDictionary.getInstance( )
 				.getEncryptionHelper( encryptionID );
 		return helper == null ? value : helper.encrypt( str );
@@ -156,22 +170,6 @@ public class EncryptionUtil
 			return encryptionID;
 		}
 		return null;
-
-		// if ( encryptionID != null )
-		// {
-		// MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		// if ( dd.getEncryptionHelper( encryptionID ) != null )
-		// {
-		// propBinding.setEncryption( encryptionID );
-		// value = encrypt( memberDefn, encryptionID, value );
-		// propBinding.setProperty( memberDefn, value );
-		// return true;
-		// }
-		// }
-		// return false;
-		// }
-		//
-		// return false;
 	}
 
 	public static void setEncryptionBindingValue( Module module,
@@ -190,7 +188,15 @@ public class EncryptionUtil
 				propBinding.setEncryption( encryptionID );
 				Object encryptedValue = encrypt( memberDefn, encryptionID,
 						value );
-				propBinding.setProperty( memberDefn, encryptedValue );
+				if ( value instanceof String )
+					propBinding.setProperty( memberDefn, encryptedValue );
+				else
+				{
+					Expression exprValue = (Expression) value;
+					Expression encryptedExprValue = new Expression(
+							encryptedValue, exprValue.getType( ) );
+					propBinding.setProperty( memberDefn, encryptedExprValue );
+				}
 				return;
 			}
 		}

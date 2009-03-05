@@ -1179,7 +1179,8 @@ public abstract class ModuleWriter extends ElementVisitor
 								PropertyBinding.VALUE_MEMBER ) )
 				{
 					PropertyBinding propBinding = (PropertyBinding) struct;
-					String value = propBinding.getValue( );
+					Expression value = (Expression) propBinding.getProperty(
+							getModule( ), PropertyBinding.VALUE_MEMBER );
 					if ( value == null )
 						break;
 					String encryptionID = propBinding.getEncryption( );
@@ -1197,7 +1198,7 @@ public abstract class ModuleWriter extends ElementVisitor
 						writeEntry(
 								DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG,
 								PropertyBinding.VALUE_MEMBER, encryptionID,
-								xml, false );
+								value.getType( ), xml, false );
 					}
 
 				}
