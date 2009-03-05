@@ -329,40 +329,6 @@ public class UIUtil implements IBirtWizardConstants
 	}
 
 	/**
-	 * Create "BIRT_OVERWRITE_DOCUMENT" configuration group
-	 * 
-	 * @param parent
-	 */
-	public Button createOverwriteGroup( Composite parent )
-	{
-		// checkbox for "BIRT_OVERWRITE_DOCUMENT" setting
-		Button btOverwrite = new Button( parent, SWT.CHECK );
-
-		// set default value
-		boolean defaultValue = DataUtil.getBoolean( WebArtifactUtil
-				.getContextParamValue( properties,
-						BIRT_OVERWRITE_DOCUMENT_SETTING ) );
-
-		btOverwrite.setSelection( defaultValue );
-		btOverwrite
-				.setText( BirtWTPMessages.BIRTConfiguration_overwrite_message );
-		btOverwrite.setLayoutData( new GridData( GridData.END ) );
-		btOverwrite.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				WebArtifactUtil.setContextParamValue( properties,
-						BIRT_OVERWRITE_DOCUMENT_SETTING, 
-								BLANK_STRING
-										+ ( (Button) e.getSource( ) )
-												.getSelection( ) );
-			}
-		} );
-
-		return btOverwrite;
-	}
-
-	/**
 	 * Create "BIRT_VIEWER_MAX_ROWS" configuration group
 	 * 
 	 * @param parent

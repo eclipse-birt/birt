@@ -53,7 +53,6 @@ import org.osgi.framework.Bundle;
  * <li>BIRT_VIEWER_SCRIPTLIB_DIR</li>
  * <li>BIRT_VIEWER_LOG_DIR</li>
  * <li>WORKING_FOLDER_ACCESS_ONLY</li>
- * <li>BIRT_OVERWRITE_DOCUMENT</li>
  * <li>BIRT_VIEWER_MAX_ROWS</li>
  * <li>BIRT_VIEWER_MAX_CUBE_ROWLEVELS</li>
  * <li>BIRT_VIEWER_MAX_CUBE_COLUMNLEVELS</li>
@@ -112,11 +111,6 @@ public class BirtWebProjectWizardConfigurationPage
 	 * Value for "BIRT_VIEWER_LOG_LEVEL" setting
 	 */
 	protected Button btLogLevel;
-
-	/**
-	 * Value for "BIRT_OVERWRITE_DOCUMENT" setting
-	 */
-	protected Button btOverwrite;
 
 	/**
 	 * Value for "BIRT_VIEWER_MAX_ROWS" setting
@@ -216,9 +210,6 @@ public class BirtWebProjectWizardConfigurationPage
 		// create ifaccess only setting group
 		this.btAccessOnly = uit.createAccessOnlyGroup( others );
 
-		// create overwrite setting group
-		this.btOverwrite = uit.createOverwriteGroup( others );
-
 		// create log level setting group
 		this.cbLogLevel = uit.createLogLevelGroup( others );
 
@@ -290,9 +281,6 @@ public class BirtWebProjectWizardConfigurationPage
 				BIRT_SCRIPTLIB_FOLDER_SETTING, txtScriptlibFolder.getText( ) );
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_LOG_FOLDER_SETTING, txtLogFolder.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_OVERWRITE_DOCUMENT_SETTING, BLANK_STRING
-						+ btOverwrite.getSelection( ) );
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_MAX_ROWS_SETTING, DataUtil.getNumberSetting( txtMaxRows
 						.getText( ) ) );

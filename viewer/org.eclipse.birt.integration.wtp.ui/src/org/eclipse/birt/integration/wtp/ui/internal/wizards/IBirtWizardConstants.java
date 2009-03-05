@@ -45,7 +45,6 @@ public interface IBirtWizardConstants
 	public final static String BIRT_IMAGE_FOLDER_SETTING = "BIRT_VIEWER_IMAGE_DIR"; //$NON-NLS-1$
 	public final static String BIRT_SCRIPTLIB_FOLDER_SETTING = "BIRT_VIEWER_SCRIPTLIB_DIR"; //$NON-NLS-1$
 	public final static String BIRT_LOG_FOLDER_SETTING = "BIRT_VIEWER_LOG_DIR"; //$NON-NLS-1$
-	public final static String BIRT_OVERWRITE_DOCUMENT_SETTING = "BIRT_OVERWRITE_DOCUMENT"; //$NON-NLS-1$
 	public final static String BIRT_MAX_ROWS_SETTING = "BIRT_VIEWER_MAX_ROWS"; //$NON-NLS-1$
 	public final static String BIRT_MAX_ROWLEVELS_SETTING = "BIRT_VIEWER_MAX_CUBE_ROWLEVELS"; //$NON-NLS-1$
 	public final static String BIRT_MAX_COLUMNLEVELS_SETTING = "BIRT_VIEWER_MAX_CUBE_COLUMNLEVELS"; //$NON-NLS-1$

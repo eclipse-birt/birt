@@ -87,11 +87,6 @@ public class BirtConfigurationDialog extends Dialog
 	protected Button btLogLevel;
 
 	/**
-	 * Value for "BIRT_OVERWRITE_DOCUMENT" setting
-	 */
-	protected Button btOverwrite;
-
-	/**
 	 * Value for "BIRT_VIEWER_MAX_ROWS" setting
 	 */
 	protected Text txtMaxRows;
@@ -220,9 +215,6 @@ public class BirtConfigurationDialog extends Dialog
 		// create ifaccess only setting group
 		this.btAccessOnly = uit.createAccessOnlyGroup( others );
 
-		// create overwrite setting group
-		this.btOverwrite = uit.createOverwriteGroup( others );
-
 		// create log level setting group
 		this.cbLogLevel = uit.createLogLevelGroup( others );
 
@@ -272,9 +264,6 @@ public class BirtConfigurationDialog extends Dialog
 				BIRT_SCRIPTLIB_FOLDER_SETTING, txtScriptlibFolder.getText( ) );
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_LOG_FOLDER_SETTING, txtLogFolder.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_OVERWRITE_DOCUMENT_SETTING, BLANK_STRING
-						+ btOverwrite.getSelection( ) );
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_MAX_ROWS_SETTING, DataUtil.getNumberSetting( txtMaxRows
 						.getText( ) ) );
