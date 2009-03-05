@@ -17,23 +17,23 @@ invalid.function.name=Nom de fonction non valide :
 invalid.number.of.argument=Nombre d'arguments non valide pour la fonction :
 invalid.type.of.argument=Type d'argument non valide pour la fonction :
 
-error.arguement.cannot.empty=The function argument can not be empty.
-error.incorrect.number.function.fixedArgument=Incorrect number of the argument(s). The number of the argument(s) should be <{0}> but was <{1}>. 
-error.incorrect.number.function.variableArgument=Incorrect number of the argument(s). The number of the argument(s) should not be more than <{0}> but was <{1}>. 
-error.argument.number.outofValidRange=Incorrect number of the argument(s). The number of the argument(s) should not be less than <{0}> or more than <{1}>, but it was <{2}>.
-error.incorrect.type.function.argument=The type of the argument is incorrect.
+error.arguement.cannot.empty=L'argument pour la fonction ne peut pas être vierge.
+error.incorrect.number.function.fixedArgument=Nombre d'argument(s) incorrect. Le nombre d'argument(s) était de <{1}> alors qu'il aurait dû être de <{0}>. 
+error.incorrect.number.function.variableArgument=Nombre d'argument(s) incorrect. Le nombre d'argument(s) était de <{1}> alors qu'il aurait dû être inférieur à <{0}>. 
+error.argument.number.outofValidRange=Nombre d'argument(s) incorrect. Le nombre d'argument(s) était de <{2}> alors qu'il aurait dû être supérieur à <{0}> ou inférieur à <{1}>.
+error.incorrect.type.function.argument=Type d'argument incorrect.
 
-error.BirtMath.ceiling.significance.notApplied=The given significance "{0}" cannot be applied to the number "{1}".
-error.BirtMath.mod.invalid.divisor=The divisor cannot be 0.
+error.BirtMath.ceiling.significance.notApplied=La signification spécifiée "{0}" ne peut pas être appliquée au nombre "{1}".
+error.BirtMath.mod.invalid.divisor=Le diviseur ne peut pas être 0.
 
-error.BirtComp.match.invalid.pattern=The pattern value can not be null!
-error.BirtComp.like.invalid.pattern=The pattern value can not be null!
+error.BirtComp.match.invalid.pattern=La valeur de correspondance ne peut pas être nulle.
+error.BirtComp.like.invalid.pattern=La valeur de correspondance ne peut pas être nulle.
 
-error.BirtDateTime.cannotBeNull.DateValue=Date value can not be null!
+error.BirtDateTime.cannotBeNull.DateValue=La valeur de date ne peut pas être nulle.
 
-error.BirtStr.left.invalidArgument=The value "{0}" of the argument n is invalid for the script function.
-error.BirtStr.right.invalidArgument=The value "{0}" of the argument n is invalid for the script function.
-error.BirtStr.indexOf.invalidArgument=The value "{0}" of the argument start is invalid for the script function.
-error.BirtStr.search.invalidArgument=The value "{0}" of the argument start is invalid for the script function.
+error.BirtStr.left.invalidArgument=La valeur "{0}" de l'argument n est incorrecte pour la fonction de script.
+error.BirtStr.right.invalidArgument=La valeur "{0}" de l'argument n est incorrecte pour la fonction de script.
+error.BirtStr.indexOf.invalidArgument=La valeur "{0}" du début de l'argument est incorrecte pour la fonction de script.
+error.BirtStr.search.invalidArgument=La valeur "{0}" du début de l'argument est incorrecte pour la fonction de script.
 error.BirtDuration.literal.invalidArgument=The value "{0}" of the argument is invalid for the script function.
 

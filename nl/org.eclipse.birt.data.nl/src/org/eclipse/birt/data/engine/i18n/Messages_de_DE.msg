@@ -110,7 +110,7 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=Wert für berechnete Spalte "
 data.engine.ScriptResult.WrongSystemComputedColumn=Wert aus Sortierungs-, Gruppen- oder Filterausdruck konnte nicht berechnet werden.
 data.engine.ComputedColumnCycle=Berechnete Spalte "{0}" hat einen Abhängigkeitszyklus.
 
-data.engine.SortOnAggregation=Ungültige Sortierung vorhanden, deren Sortierschlüssel auf Aggregat "{0}" verweist.
+data.engine.SortOnAggregation=Ungültige Sortierung vorhanden, deren Sortierschlüssel auf Aggregat '{0}' verweist.
 
 data.engine.BadFilterExpr=Der Filterausdruck "{0}" ist ungültig.
 data.engine.BadFilterDefn=Die Filterdefinition mit dem Ausdruck "{0}" ist ungültig.
@@ -186,7 +186,7 @@ data.engine.NoExpressionProcessorAvailable=Kein Ausdruck-Prozessor verfügbar.
 data.engine.InconvertibleDatatype=The original dataType of value {0} is {1} which can not be converted to the assigned dataType {2}.
 data.engine.ConvertToDataTypeError={0} kann nicht in {1} umgewandelt werden.
 data.engine.NoRowUpdate=Die Datenzeile kann momentan nicht aktualisiert werden.
-data.engine.BadDataType=Data type is not supported{0}.
+data.engine.BadDataType=Datentyp wird nicht unterstützt: {0}.
 data.engine.BadDataExpression=Der Datenausdruck darf nicht null sein.
 data.engine.aggregation.InvalidBindingExpression=Nicht akzeptabler Ausdruck für Aggregatsbindung "{0}".
 data.engine.InvalidExpression=Ungültiger Ausdruck "{0}".
@@ -211,7 +211,7 @@ data.engine.failToCreateTempDir=Temporäres Verzeichnis in "{0}" konnte nicht ers
 data.engine.reportItem.SubQuery.Unsupported=Gemeinsames Berichtobjekt kann nicht für Teilabfrage verwendet werden.
 data.engine.emptyResultSet=Das Ergebnis ist leer.
 data.engine.errorHappenWhenRetrieveResultSet=Fehler beim Abrufen von Ergebnis "{0}". Möglicherweise ist das angegebene Ergebnis nicht vorhanden.
-data.engine.invalidAggregationBindingForPLSReport=The aggregation binding "{0}" is invalid when page level security is enabled.
+data.engine.invalidAggregationBindingForPLSReport=Aggregatsbindung '{0}' ist bei aktivierter Seitenebenensicherheit ungültig.
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.
@@ -383,8 +383,8 @@ data.olap.NonexistentLevel=Nicht vorhandene Ebene:
 data.olap.NonexistentKeyOrAttr=Nicht vorhandener Schlüssel oder Attribut:
 data.olap.UnsupportedFunction=Nicht unterstützte Funktion:
 data.olap.UnspecifiedBindingName=Bindungsname nicht angegeben.
-data.olap.NotNestAggregationBinding=Not cube nest aggregation binding: {0}
-data.olap.InvalidNestAggregationExpression=The expression of a cube nest aggregation is invalid.
+data.olap.NotNestAggregationBinding=Aggregatsbindung nicht mit Quader verschachteln: {0}
+data.olap.InvalidNestAggregationExpression=Der Ausdruck eines Quader-Verschachtelungsaggregats ist ungültig.
 data.olap.sort.exprError=Dimensionsebenensatz, auf den verwiesen wird, darf nur eine Ebene enthalten.
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!

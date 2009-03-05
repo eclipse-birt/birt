@@ -17,23 +17,23 @@ invalid.function.name=関数名が無効です。
 invalid.number.of.argument=関数に対して引数の数が無効です。
 invalid.type.of.argument=関数に対して引数の型が無効です。
 
-error.arguement.cannot.empty=The function argument can not be empty.
-error.incorrect.number.function.fixedArgument=Incorrect number of the argument(s). The number of the argument(s) should be <{0}> but was <{1}>. 
-error.incorrect.number.function.variableArgument=Incorrect number of the argument(s). The number of the argument(s) should not be more than <{0}> but was <{1}>. 
-error.argument.number.outofValidRange=Incorrect number of the argument(s). The number of the argument(s) should not be less than <{0}> or more than <{1}>, but it was <{2}>.
-error.incorrect.type.function.argument=The type of the argument is incorrect.
+error.arguement.cannot.empty=関数の引数を空白にすることはできません。
+error.incorrect.number.function.fixedArgument=引数の数が正しくありません。引数の数は <{0}> を指定することが必要ですが、<{1}> が指定されました。 
+error.incorrect.number.function.variableArgument=引数の数が正しくありません。引数の数は <{0}> 以上を指定することが必要ですが、<{1}> が指定されました。 
+error.argument.number.outofValidRange=引数の数が正しくありません。引数の数は <{0}> 以下または、<{1}> 以上を指定することが必要ですが、<{2}> が指定されました。
+error.incorrect.type.function.argument=引数の型が正しくありません。
 
-error.BirtMath.ceiling.significance.notApplied=The given significance "{0}" cannot be applied to the number "{1}".
-error.BirtMath.mod.invalid.divisor=The divisor cannot be 0.
+error.BirtMath.ceiling.significance.notApplied=指定した重要度 "{0}" を数 "{1}" に適用できません。
+error.BirtMath.mod.invalid.divisor=除数は 0 にすることができません。
 
-error.BirtComp.match.invalid.pattern=The pattern value can not be null!
-error.BirtComp.like.invalid.pattern=The pattern value can not be null!
+error.BirtComp.match.invalid.pattern=パターンの値は null にすることができません。
+error.BirtComp.like.invalid.pattern=パターンの値は null にすることができません。
 
-error.BirtDateTime.cannotBeNull.DateValue=Date value can not be null!
+error.BirtDateTime.cannotBeNull.DateValue=日付の値は null にすることができません。
 
-error.BirtStr.left.invalidArgument=The value "{0}" of the argument n is invalid for the script function.
-error.BirtStr.right.invalidArgument=The value "{0}" of the argument n is invalid for the script function.
-error.BirtStr.indexOf.invalidArgument=The value "{0}" of the argument start is invalid for the script function.
-error.BirtStr.search.invalidArgument=The value "{0}" of the argument start is invalid for the script function.
+error.BirtStr.left.invalidArgument=引数 n の値 "{0}" は、スクリプト関数に対して無効です。
+error.BirtStr.right.invalidArgument=引数 n の値 "{0}" は、スクリプト関数に対して無効です。
+error.BirtStr.indexOf.invalidArgument=開始引数の値 "{0}" は、スクリプト関数に対して無効です。
+error.BirtStr.search.invalidArgument=開始引数の値 "{0}" は、スクリプト関数に対して無効です。
 error.BirtDuration.literal.invalidArgument=The value "{0}" of the argument is invalid for the script function.
 

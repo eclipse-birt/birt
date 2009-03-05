@@ -35,7 +35,7 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Title=Warnung
 ###########################################################
 #Cube Builder Dialog properties
 CubeBuilder.Title=Kreuztabellen-Cube Builder
-DatasePage.EmptyName.ErrorMessage=The name of Cube is required.
+DatasePage.EmptyName.ErrorMessage=Der Name des Quaders ist erforderlich.
 DatasetPage.Title=Datensatz
 GroupDialog.Button.DateGroup=Datumsgruppe
 GroupDialog.Button.RegularGroup=Reguläre Gruppe

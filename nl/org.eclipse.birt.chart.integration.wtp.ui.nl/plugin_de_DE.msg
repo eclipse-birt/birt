@@ -1,4 +1,4 @@
-birt.web.category.name=&Business Intelligence and Reporting Tools
+birt.web.category.name=&Business Intelligence & Reporting Tools
 birt.web.project.name=Webprojekt mit Diagramm-Runtime
 birt.web.project.description=Ein Webprojekt mit der BIRT-Diagrammkomponente erstellen
 birt.web.actionsets.description=Aktionen für BIRT-Diagramm-Webprojekt
@@ -14,7 +14,7 @@ JSP_Tag_context_type_Extension_Element.name=Neuer BIRT-Diagramm-JSP-Tag
 
 BirtResourcesDefinition= Ressourcendefinition für Diagramm-Webanwendung
 
-birt.action.importruntime.name=Import &Chart runtime component...
+birt.action.importruntime.name=&Diagramm-Runtime-Komponente importieren...
 
 ##################Do not externalize the version number
 runtime.version=2.5.0

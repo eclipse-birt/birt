@@ -1,4 +1,4 @@
-birt.web.category.name=&Business Intelligence and Reporting Tools
+birt.web.category.name=Outils de reporting et de &Business Intelligence
 birt.web.project.name=Projet Web avec exécution BIRT 
 birt.web.project.description=Créer un projet Web contenant le composant d'exécution BIRT
 birt.web.actionsets.description=Actions pour le projet Web BIRT
@@ -14,4 +14,4 @@ JSP_Tag_context_type_Extension_Element.name=Nouvelle balise JSP BIRT
 
 BirtResourcesDefinition= Définition des ressources d'application Web BIRT
 
-birt.action.importruntime.name=Import &BIRT runtime component...
+birt.action.importruntime.name=Importer le composant d'exécution &BIRT...

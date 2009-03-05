@@ -646,14 +646,14 @@ Choices.bidiDirection.ltr=왼쪽에서 오른쪽
 
 #78. backgroundSize
 Choices.backgroundSize.auto=자동
-Choices.backgroundSize.contain=Contain
-Choices.backgroundSize.cover=Cover
+Choices.backgroundSize.contain=포함
+Choices.backgroundSize.cover=덮어쓰기
 
 #79 scopeType
 Choices.scopeType.row=행
 Choices.scopeType.col=열
-Choices.scopeType.rowgroup=Row group
-Choices.scopeType.colgroup=Column group
+Choices.scopeType.rowgroup=행 그룹
+Choices.scopeType.colgroup=열 그룹
 
 ###########################################################
 # Classes
@@ -2468,8 +2468,8 @@ Element.Style.background.image=배경 이미지
 Element.Style.background.positionX=가로 위치
 Element.Style.background.positionY=세로 위치
 Element.Style.background.repeat=배경 반복
-Element.Style.background.size.width=Background size width
-Element.Style.background.size.height=Background size height
+Element.Style.background.size.width=배경 크기 너비
+Element.Style.background.size.height=배경 크기 높이
 Element.Style.border=테두리
 Element.Style.border.bottom.color=테두리 아래쪽 색
 Element.Style.border.bottom.style=테두리 아래쪽 스타일
@@ -2788,9 +2788,9 @@ Element.Cell.slot.content=내용
 Element.Cell.width=너비
 Element.Cell.eventHandlerClass=이벤트 처리기 클래스
 Element.Cell.newHandlerOnEachEvent=각 이벤트 시 새 처리기
-Element.Cell.scope=Scope
+Element.Cell.scope=범위
 Element.Cell.bookmark=책갈피
-Element.Cell.headers=Headers
+Element.Cell.headers=머리글
 Element.Cell.onPrepare=준비 중
 Element.Cell.onPrepare.toolTip=TBD
 Element.Cell.onPrepare.this=셀
@@ -3499,7 +3499,7 @@ Error.NameException.NAME_FORBIDDEN={0}은(는) 이름을 가질 수 없습니다.
 Error.NameException.DUPLICATE=이름 "{0}"이(가) 기존 이름과 중복됩니다. 다른 이름을 선택하십시오.
 Error.NameException.HAS_REFERENCES={0}에 파생된 요소가 있어 이름을 지울 수 없습니다.
 Error.NameException.INVALID_NAME=이름 "{0}"이(가) 잘못되었습니다. 다음과 같은 문자를 포함하면 안 됩니다. ".", "/", "\", "!", ";", ","
-Error.NameException.INVALID_STYLE_NAME=The style name "{0}" is invalid to CSS2 specifications.
+Error.NameException.INVALID_STYLE_NAME=스타일 이름 "{0}"은(는) CSS2 사양에 알맞지 않습니다.
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=속성 "{0}"은(는) 요소 "{1}"에 알맞지 않습니다.

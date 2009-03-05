@@ -14,6 +14,6 @@ preference.preview.server=Serveur de prévisualisation
 ###############################################################################
 # Actions
 ###############################################################################
-Menu.Report=Repor&t
-Action.RunReport=&Run Report
-Action.ViewDocument=&View Document
+Menu.Report=Eta&t
+Action.RunReport=&Exécuter l'état
+Action.ViewDocument=&Afficher le document

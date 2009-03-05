@@ -186,7 +186,7 @@ data.engine.NoExpressionProcessorAvailable=Aucun ExpressionProcessor disponible.
 data.engine.InconvertibleDatatype=The original dataType of value {0} is {1} which can not be converted to the assigned dataType {2}.
 data.engine.ConvertToDataTypeError={0} ne peut pas être converti en {1}.
 data.engine.NoRowUpdate=Impossible de mettre à jour la ligne de données pour le moment.
-data.engine.BadDataType=Data type is not supported{0}.
+data.engine.BadDataType=Le type de données n'est pas pris en charge{0}.
 data.engine.BadDataExpression=L'expression de données ne doit pas être nulle.
 data.engine.aggregation.InvalidBindingExpression=Expression non autorisée pour la liaison d'agrégation "{0}".
 data.engine.InvalidExpression=Expression "{0}" non valide.
@@ -211,7 +211,7 @@ data.engine.failToCreateTempDir=Echec de la création du répertoire temporaire da
 data.engine.reportItem.SubQuery.Unsupported=Le partage d'un élément d'état ne peut pas être utilisé pour une sous-requête.
 data.engine.emptyResultSet=Le jeu de résultats est vide.
 data.engine.errorHappenWhenRetrieveResultSet=Une erreur s'est produite lorsque vous avez consulté le jeu de résultats :"{0}". Il se peut que le jeu de résultats spécifié n'existe pas.
-data.engine.invalidAggregationBindingForPLSReport=The aggregation binding "{0}" is invalid when page level security is enabled.
+data.engine.invalidAggregationBindingForPLSReport=La liaison d'agrégation "{0}" est incorrecte lorsque la sécurité de niveau de page est activée.
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.
@@ -383,8 +383,8 @@ data.olap.NonexistentLevel=Niveau non existant :
 data.olap.NonexistentKeyOrAttr=Clé ou attribut non existant :
 data.olap.UnsupportedFunction=Fonction non prise en charge :
 data.olap.UnspecifiedBindingName=Le nom de liaison n'est pas spécifié.
-data.olap.NotNestAggregationBinding=Not cube nest aggregation binding: {0}
-data.olap.InvalidNestAggregationExpression=The expression of a cube nest aggregation is invalid.
+data.olap.NotNestAggregationBinding=Aucune liaison d'agrégation imbriquée du cube : {0}
+data.olap.InvalidNestAggregationExpression=L'expression d'agrégation imbriquée du cube est incorrecte.
 data.olap.sort.exprError=Le jeu de niveaux de dimension référencés ne doit contenir qu'un seul niveau.
 
 data.cache.UnsupportedIncrementalCacheMode=Le mode \"{0}\" de cache incrémentiel n''est pas encore pris en charge !

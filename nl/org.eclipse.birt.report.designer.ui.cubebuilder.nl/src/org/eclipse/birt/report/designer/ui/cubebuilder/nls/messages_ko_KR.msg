@@ -35,7 +35,7 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Title=경고
 ###########################################################
 #Cube Builder Dialog properties
 CubeBuilder.Title=크로스 탭 큐브 빌더
-DatasePage.EmptyName.ErrorMessage=The name of Cube is required.
+DatasePage.EmptyName.ErrorMessage=큐브의 이름이 필요합니다.
 DatasetPage.Title=데이터 집합
 GroupDialog.Button.DateGroup=날짜 그룹
 GroupDialog.Button.RegularGroup=일반 그룹

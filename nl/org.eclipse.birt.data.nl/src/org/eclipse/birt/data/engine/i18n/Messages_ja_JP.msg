@@ -186,7 +186,7 @@ data.engine.NoExpressionProcessorAvailable=ExpressionProcessor がありません。
 data.engine.InconvertibleDatatype=The original dataType of value {0} is {1} which can not be converted to the assigned dataType {2}.
 data.engine.ConvertToDataTypeError={0} を {1} に変換できません。
 data.engine.NoRowUpdate=現時点はデータ行を更新できません。
-data.engine.BadDataType=Data type is not supported{0}.
+data.engine.BadDataType=このデータ型は使用できません {0}。
 data.engine.BadDataExpression=データ式は null にすることができません。
 data.engine.aggregation.InvalidBindingExpression=集計バインド "{0}" の式が無効です。
 data.engine.InvalidExpression=式 "{0}" が無効です。
@@ -211,7 +211,7 @@ data.engine.failToCreateTempDir="{0}" に一時ディレクトリを作成できません。
 data.engine.reportItem.SubQuery.Unsupported=サブクエリにはレポート項目を共有できません。
 data.engine.emptyResultSet=結果セットは空です。
 data.engine.errorHappenWhenRetrieveResultSet=結果セット "{0}" の表示中にエラーが発生しました。指定した結果セットが存在しない可能性があります。
-data.engine.invalidAggregationBindingForPLSReport=The aggregation binding "{0}" is invalid when page level security is enabled.
+data.engine.invalidAggregationBindingForPLSReport=ページレベルセキュリティが有効な場合、集計バインド "{0}" は無効です。
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名は空白または null にできません。
@@ -383,8 +383,8 @@ data.olap.NonexistentLevel=存在しないレベル :
 data.olap.NonexistentKeyOrAttr=存在しないキーまたは属性 :
 data.olap.UnsupportedFunction=サポートされていない関数 :
 data.olap.UnspecifiedBindingName=バインド名が指定されていません。
-data.olap.NotNestAggregationBinding=Not cube nest aggregation binding: {0}
-data.olap.InvalidNestAggregationExpression=The expression of a cube nest aggregation is invalid.
+data.olap.NotNestAggregationBinding=キューブネストされた集計のバインドではありません : {0}
+data.olap.InvalidNestAggregationExpression=キューブネストされた集計の式が無効です。
 data.olap.sort.exprError=参照するディメンジョンレベルにつき 1 つのレベルしか含めることができません。
 
 data.cache.UnsupportedIncrementalCacheMode=増分キャッシュの \"{0}\" モードはまだサポートされていません。

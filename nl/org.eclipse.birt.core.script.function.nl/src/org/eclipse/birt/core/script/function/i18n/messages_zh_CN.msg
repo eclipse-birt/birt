@@ -17,23 +17,23 @@ invalid.function.name=无效的函数名称:
 invalid.number.of.argument=无效的函数参数数:
 invalid.type.of.argument=无效的函数参数类型:
 
-error.arguement.cannot.empty=The function argument can not be empty.
-error.incorrect.number.function.fixedArgument=Incorrect number of the argument(s). The number of the argument(s) should be <{0}> but was <{1}>. 
-error.incorrect.number.function.variableArgument=Incorrect number of the argument(s). The number of the argument(s) should not be more than <{0}> but was <{1}>. 
-error.argument.number.outofValidRange=Incorrect number of the argument(s). The number of the argument(s) should not be less than <{0}> or more than <{1}>, but it was <{2}>.
-error.incorrect.type.function.argument=The type of the argument is incorrect.
+error.arguement.cannot.empty=函数参数不能为空。
+error.incorrect.number.function.fixedArgument=参数数量不正确。参数的数量应该是 <{0}>，但却是 <{1}>。 
+error.incorrect.number.function.variableArgument=参数数量不正确。参数的数量不应该超过 <{0}>，但却是 <{1}>。 
+error.argument.number.outofValidRange=参数数量不正确。参数的数量不应该小于 <{0}> 或超过 <{1}>，但它却是 <{2}>。
+error.incorrect.type.function.argument=参数类型不正确。
 
-error.BirtMath.ceiling.significance.notApplied=The given significance "{0}" cannot be applied to the number "{1}".
-error.BirtMath.mod.invalid.divisor=The divisor cannot be 0.
+error.BirtMath.ceiling.significance.notApplied=给定的有效值“{0}”无法应用到数值“{1}”。
+error.BirtMath.mod.invalid.divisor=除数不能为 0。
 
-error.BirtComp.match.invalid.pattern=The pattern value can not be null!
-error.BirtComp.like.invalid.pattern=The pattern value can not be null!
+error.BirtComp.match.invalid.pattern=模式值不能为空!
+error.BirtComp.like.invalid.pattern=模式值不能为空!
 
-error.BirtDateTime.cannotBeNull.DateValue=Date value can not be null!
+error.BirtDateTime.cannotBeNull.DateValue=日期值不能为空!
 
-error.BirtStr.left.invalidArgument=The value "{0}" of the argument n is invalid for the script function.
-error.BirtStr.right.invalidArgument=The value "{0}" of the argument n is invalid for the script function.
-error.BirtStr.indexOf.invalidArgument=The value "{0}" of the argument start is invalid for the script function.
-error.BirtStr.search.invalidArgument=The value "{0}" of the argument start is invalid for the script function.
+error.BirtStr.left.invalidArgument=参数 n 的值“{0}”对于脚本函数无效。
+error.BirtStr.right.invalidArgument=参数 n 的值“{0}”对于脚本函数无效。
+error.BirtStr.indexOf.invalidArgument=参数开始的值“{0}”对于脚本函数无效。
+error.BirtStr.search.invalidArgument=参数开始的值“{0}”对于脚本函数无效。
 error.BirtDuration.literal.invalidArgument=The value "{0}" of the argument is invalid for the script function.
 

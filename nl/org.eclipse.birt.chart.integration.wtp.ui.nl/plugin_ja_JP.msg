@@ -1,4 +1,4 @@
-birt.web.category.name=&Business Intelligence and Reporting Tools
+birt.web.category.name=ビジネスインテリジェンスとレポート作成ツール(&B)
 birt.web.project.name=グラフランタイム付き Web プロジェクト
 birt.web.project.description=BIRT グラフコンポーネントを含む Web プロジェクトを作成します。
 birt.web.actionsets.description=BIRT グラフ作成 Web プロジェクトでの操作
@@ -14,7 +14,7 @@ JSP_Tag_context_type_Extension_Element.name=新規 BIRT グラフ作成 JSP タグ
 
 BirtResourcesDefinition= グラフ作成用の Web アプリケーションリソースの定義
 
-birt.action.importruntime.name=Import &Chart runtime component...
+birt.action.importruntime.name=グラフ作成用のランタイムコンポーネントのインポート(&C)...
 
 ##################Do not externalize the version number
 runtime.version=2.5.0

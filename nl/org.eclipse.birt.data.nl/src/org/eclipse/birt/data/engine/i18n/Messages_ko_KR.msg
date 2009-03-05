@@ -186,7 +186,7 @@ data.engine.NoExpressionProcessorAvailable=사용 가능한 ExpressionProcessor가 없�
 data.engine.InconvertibleDatatype=The original dataType of value {0} is {1} which can not be converted to the assigned dataType {2}.
 data.engine.ConvertToDataTypeError={0}은(는) {1}(으)로 변환할 수 없습니다.
 data.engine.NoRowUpdate=지금은 데이터 행을 업데이트할 수 없습니다.
-data.engine.BadDataType=Data type is not supported{0}.
+data.engine.BadDataType=데이터 형식이 지원되지 않습니다{0}.
 data.engine.BadDataExpression=데이터 식은 널(null)이 아니어야 합니다.
 data.engine.aggregation.InvalidBindingExpression=집계 바인딩 "{0}"에 대한 식이 지원되지 않습니다.
 data.engine.InvalidExpression=식 "{0}"이(가) 잘못되었습니다.
@@ -211,7 +211,7 @@ data.engine.failToCreateTempDir="{0}"에 임시 디렉터리를 만들지 못했습니다.
 data.engine.reportItem.SubQuery.Unsupported=보고서 항목 공유는 하위 쿼리에 사용할 수 없습니다.
 data.engine.emptyResultSet=결과 집합이 비어 있습니다.
 data.engine.errorHappenWhenRetrieveResultSet=결과 집합 "{0}"을(를) 확인하는 중에 오류가 발생했습니다. 지정된 결과 집합이 존재하지 않을 수 있습니다.
-data.engine.invalidAggregationBindingForPLSReport=The aggregation binding "{0}" is invalid when page level security is enabled.
+data.engine.invalidAggregationBindingForPLSReport=페이지 수준 보안을 사용하는 경우 집계 바인딩 "{0}"을(를) 사용할 수 없습니다.
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.
@@ -383,8 +383,8 @@ data.olap.NonexistentLevel=존재하지 않는 수준:
 data.olap.NonexistentKeyOrAttr=존재하지 않는 키 또는 특성:
 data.olap.UnsupportedFunction=지원되지 않는 함수:
 data.olap.UnspecifiedBindingName=바인딩 이름이 지정되지 않았습니다.
-data.olap.NotNestAggregationBinding=Not cube nest aggregation binding: {0}
-data.olap.InvalidNestAggregationExpression=The expression of a cube nest aggregation is invalid.
+data.olap.NotNestAggregationBinding=큐브 중첩 집계 바인딩이 아닙니다: {0}
+data.olap.InvalidNestAggregationExpression=큐브 중첩 집계의 식이 잘못되었습니다.
 data.olap.sort.exprError=참조되는 차원 수준 집합에는 1개의 수준만 포함되어야 합니다!
 
 data.cache.UnsupportedIncrementalCacheMode=증가 캐시의 \"{0}\" 모드는 아직 지원되지 않습니다.

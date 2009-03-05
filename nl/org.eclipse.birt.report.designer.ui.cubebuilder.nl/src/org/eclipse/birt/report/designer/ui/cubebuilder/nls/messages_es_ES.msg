@@ -35,7 +35,7 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Title=Advertencia
 ###########################################################
 #Cube Builder Dialog properties
 CubeBuilder.Title=Compilador de cubos de tabla de referencias cruzadas
-DatasePage.EmptyName.ErrorMessage=The name of Cube is required.
+DatasePage.EmptyName.ErrorMessage=Se requiere el nombre de cubo.
 DatasetPage.Title=Conjunto de datos
 GroupDialog.Button.DateGroup=Grupo de fecha
 GroupDialog.Button.RegularGroup=Grupo regular

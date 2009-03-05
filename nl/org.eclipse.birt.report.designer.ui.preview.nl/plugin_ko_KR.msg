@@ -14,6 +14,6 @@ preference.preview.server=서버 미리 보기
 ###############################################################################
 # Actions
 ###############################################################################
-Menu.Report=Repor&t
-Action.RunReport=&Run Report
-Action.ViewDocument=&View Document
+Menu.Report=보고서(&T)
+Action.RunReport=보고서 실행(&R)
+Action.ViewDocument=문서 보기(&V)

@@ -186,7 +186,7 @@ data.engine.NoExpressionProcessorAvailable=No hay ningún ExpressionProcessor dis
 data.engine.InconvertibleDatatype=The original dataType of value {0} is {1} which can not be converted to the assigned dataType {2}.
 data.engine.ConvertToDataTypeError={0} no puede convertirse en {1}.
 data.engine.NoRowUpdate=La fila de datos no se puede actualizar en este momento.
-data.engine.BadDataType=Data type is not supported{0}.
+data.engine.BadDataType=No se admite el tipo de datos{0}.
 data.engine.BadDataExpression=La expresión de datos no debe ser nula.
 data.engine.aggregation.InvalidBindingExpression=Expresión no aceptada para el enlace de agregación "{0}".
 data.engine.InvalidExpression=Expresión no válida"{0}".
@@ -211,7 +211,7 @@ data.engine.failToCreateTempDir=Error al crear el directorio temporal en "{0}";
 data.engine.reportItem.SubQuery.Unsupported=Los elementos de informe para compartir no se pueden usar para una subconsulta.
 data.engine.emptyResultSet=El conjunto de resultados está vacío.
 data.engine.errorHappenWhenRetrieveResultSet=Se ha producido un error durante el acceso al conjunto de resultados "{0}". Es posible que el conjunto de resultados no exista.
-data.engine.invalidAggregationBindingForPLSReport=The aggregation binding "{0}" is invalid when page level security is enabled.
+data.engine.invalidAggregationBindingForPLSReport=El enlace de agregación "{0}" no es válido cuando la seguridad a nivel de página está activada.
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=El nombre de columna no puede ser nulo ni estar vacío.
@@ -383,8 +383,8 @@ data.olap.NonexistentLevel=Nivel inexistente:
 data.olap.NonexistentKeyOrAttr=Clave o atributo inexistente:
 data.olap.UnsupportedFunction=Función no admitida:
 data.olap.UnspecifiedBindingName=Nombre de enlace no especificado.
-data.olap.NotNestAggregationBinding=Not cube nest aggregation binding: {0}
-data.olap.InvalidNestAggregationExpression=The expression of a cube nest aggregation is invalid.
+data.olap.NotNestAggregationBinding=Sin enlace de agregación de nido de cubo: {0}
+data.olap.InvalidNestAggregationExpression=La expresión de una agregación de nido de cubo no es válida.
 data.olap.sort.exprError=El nivel de la dimensión a la que se hace referencia establecido sólo debería contener un nivel.
 
 data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.

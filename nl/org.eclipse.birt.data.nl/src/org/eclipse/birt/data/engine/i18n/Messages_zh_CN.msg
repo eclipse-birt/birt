@@ -110,7 +110,7 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=Î´ÄÜÎªÒÑ¼ÆËãµÄÁĞ¡°{0}¡±¼ÆËãÖ
 data.engine.ScriptResult.WrongSystemComputedColumn=Î´ÄÜ¸ù¾İÅÅĞò¡¢×é»òÉ¸Ñ¡±í´ïÊ½¼ÆËãÖµ¡£
 data.engine.ComputedColumnCycle=¼ÆËãÁĞ¡°{0}¡±¾ßÓĞÏà¹ØĞÔÑ­»·¡£
 
-data.engine.SortOnAggregation=´æÔÚÅÅĞò¹Ø¼ü×ÖÒıÓÃÁË¾ÛºÏ¡°{0}¡±µÄÎŞĞ§ÅÅĞò
+data.engine.SortOnAggregation=´æÔÚÅÅĞò¹Ø¼ü×ÖÒıÓÃÁË¾ÛºÏ¡°{0}¡±µÄÎŞĞ§ÅÅĞò¡£
 
 data.engine.BadFilterExpr=É¸Ñ¡±í´ïÊ½ "{0}" ÎŞĞ§¡£
 data.engine.BadFilterDefn=Ê¹ÓÃ±í´ïÊ½¡°{0}¡±µÄÉ¸Ñ¡¶¨ÒåÎŞĞ§¡£
@@ -186,7 +186,7 @@ data.engine.NoExpressionProcessorAvailable=Ã»ÓĞ¿ÉÓÃµÄ ExpressionProcessor¡£
 data.engine.InconvertibleDatatype=The original dataType of value {0} is {1} which can not be converted to the assigned dataType {2}.
 data.engine.ConvertToDataTypeError={0} ÎŞ·¨×ª»»Îª {1}¡£
 data.engine.NoRowUpdate=´ËÊ±ÎŞ·¨¸üĞÂÊı¾İĞĞ¡£
-data.engine.BadDataType=Data type is not supported{0}.
+data.engine.BadDataType=Êı¾İÀàĞÍ²»ÊÜÖ§³Ö {0}¡£
 data.engine.BadDataExpression=Êı¾İ±í´ïÊ½²»ÄÜÎª¿Õ¡£
 data.engine.aggregation.InvalidBindingExpression=¾ÛºÏ°ó¶¨¡°{0}¡±µÄ²»¿É½ÓÊÜµÄ±í´ïÊ½¡£
 data.engine.InvalidExpression=ÎŞĞ§±í´ïÊ½¡°{0}¡±¡£
@@ -211,7 +211,7 @@ data.engine.failToCreateTempDir=ÎŞ·¨ÔÚ¡°{0}¡±ÖĞ´´½¨ÁÙÊ±Ä¿Â¼£»
 data.engine.reportItem.SubQuery.Unsupported=±¨±íÏî¹²Ïí²»ÄÜÓÃÓÚ×Ó²éÑ¯¡£
 data.engine.emptyResultSet=½á¹û¼¯Îª¿Õ¡£
 data.engine.errorHappenWhenRetrieveResultSet=·ÃÎÊ½á¹û¼¯¡°{0}¡±Ê±³ö´í¡£Ö¸¶¨µÄ½á¹û¼¯¿ÉÄÜ²»´æÔÚ¡£
-data.engine.invalidAggregationBindingForPLSReport=The aggregation binding "{0}" is invalid when page level security is enabled.
+data.engine.invalidAggregationBindingForPLSReport=ÆôÓÃÒ³Ãæ¼¶±ğ°²È«Ê±£¬¾ÛºÏ°ó¶¨¡°{0}¡±ÎŞĞ§¡£
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=ÁĞÃû³Æ²»ÄÜÎª¿Õ»ò null¡£
@@ -383,8 +383,8 @@ data.olap.NonexistentLevel=²»´æÔÚµÄ¼¶±ğ:
 data.olap.NonexistentKeyOrAttr=²»´æÔÚµÄ¹Ø¼ü×Ö»òÊôĞÔ:
 data.olap.UnsupportedFunction=²»Ö§³ÖµÄº¯Êı:
 data.olap.UnspecifiedBindingName=Î´Ö¸¶¨°ó¶¨Ãû³Æ¡£
-data.olap.NotNestAggregationBinding=Not cube nest aggregation binding: {0}
-data.olap.InvalidNestAggregationExpression=The expression of a cube nest aggregation is invalid.
+data.olap.NotNestAggregationBinding=Î´¶àÎ¬Êı¾İ¼¯Ç¶Ì×µÄ¾ÛºÏ°ó¶¨: {0}
+data.olap.InvalidNestAggregationExpression=¶àÎ¬Êı¾İ¼¯Ç¶Ì×¾ÛºÏµÄ±í´ïÊ½ÎŞĞ§¡£
 data.olap.sort.exprError=ÉèÖÃµÄÒıÓÃÎ¬¼¶±ğÖ»Ó¦°üº¬Ò»¸ö¼¶±ğ!
 
 data.cache.UnsupportedIncrementalCacheMode=ÉĞÎ´Ö§³ÖÔöÁ¿»º´æµÄ¡°{0}¡±Ä£Ê½!

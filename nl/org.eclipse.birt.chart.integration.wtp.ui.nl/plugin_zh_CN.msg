@@ -1,4 +1,4 @@
-birt.web.category.name=&Business Intelligence and Reporting Tools
+birt.web.category.name=业务智能和报告工具(&B)
 birt.web.project.name=具有图表运行时的 Web 项目
 birt.web.project.description=创建包含 BIRT 图表组件的 Web 项目
 birt.web.actionsets.description=对 BIRT 图表 Web 项目的操作
@@ -14,7 +14,7 @@ JSP_Tag_context_type_Extension_Element.name=新建 BIRT 图表 JSP 标记
 
 BirtResourcesDefinition= Web 应用程序资源定义图表
 
-birt.action.importruntime.name=Import &Chart runtime component...
+birt.action.importruntime.name=导入图表运行时组件(&C)...
 
 ##################Do not externalize the version number
 runtime.version=2.5.0

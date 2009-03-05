@@ -645,15 +645,15 @@ Choices.bidiDirection.rtl=Von rechts nach links
 Choices.bidiDirection.ltr=Von links nach rechts
 
 #78. backgroundSize
-Choices.backgroundSize.auto=Autom.
-Choices.backgroundSize.contain=Contain
-Choices.backgroundSize.cover=Cover
+Choices.backgroundSize.auto=Automatisch
+Choices.backgroundSize.contain=Enthalten
+Choices.backgroundSize.cover=Abdecken
 
 #79 scopeType
 Choices.scopeType.row=Zeile
 Choices.scopeType.col=Spalte
-Choices.scopeType.rowgroup=Row group
-Choices.scopeType.colgroup=Column group
+Choices.scopeType.rowgroup=Zeilengruppe
+Choices.scopeType.colgroup=Spaltengruppe
 
 ###########################################################
 # Classes
@@ -2468,8 +2468,8 @@ Element.Style.background.image=Hindergrundbild
 Element.Style.background.positionX=Horizontale Position
 Element.Style.background.positionY=Vertikale Position
 Element.Style.background.repeat=Hintergrundwiederholung
-Element.Style.background.size.width=Background size width
-Element.Style.background.size.height=Background size height
+Element.Style.background.size.width=Hintergrundbreite
+Element.Style.background.size.height=Hintergrundhöhe
 Element.Style.border=Rahmen
 Element.Style.border.bottom.color=Farbe für unteren Rahmen
 Element.Style.border.bottom.style=Stil für unteren Rahmen
@@ -2788,9 +2788,9 @@ Element.Cell.slot.content=Inhalt
 Element.Cell.width=Breite
 Element.Cell.eventHandlerClass=Ereignis-Handler-Klasse
 Element.Cell.newHandlerOnEachEvent=Neuer Handler für jedes Ereignis
-Element.Cell.scope=Scope
+Element.Cell.scope=Umfang
 Element.Cell.bookmark=Lesezeichen
-Element.Cell.headers=Headers
+Element.Cell.headers=Kopfzeilen
 Element.Cell.onPrepare=Beim Vorbereiten
 Element.Cell.onPrepare.toolTip=TBD
 Element.Cell.onPrepare.this=Zelle
@@ -3499,7 +3499,7 @@ Error.NameException.NAME_FORBIDDEN={0} darf keinen Namen aufweisen.
 Error.NameException.DUPLICATE=Der Name "{0}" ist bereits vorhanden. Bitte wählen Sie einen anderen Namen aus.
 Error.NameException.HAS_REFERENCES={0} verfügt über ein abgeleitetes Element, der Name kann nicht gelöscht werden.
 Error.NameException.INVALID_NAME=Der Name "{0}" ist unzulässig, da er eines der folgenden Zeichen enthält: ".", "/", "\", "!", ";", ",".
-Error.NameException.INVALID_STYLE_NAME=The style name "{0}" is invalid to CSS2 specifications.
+Error.NameException.INVALID_STYLE_NAME=Stilname '{0}' ist nach CSS2-Spezifikationen ungültig.
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=Die Eigenschaft "{0}" für Element "{1}" ist ungültig.

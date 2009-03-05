@@ -646,14 +646,14 @@ Choices.bidiDirection.ltr=从左到右
 
 #78. backgroundSize
 Choices.backgroundSize.auto=自动
-Choices.backgroundSize.contain=Contain
-Choices.backgroundSize.cover=Cover
+Choices.backgroundSize.contain=包含
+Choices.backgroundSize.cover=包括
 
 #79 scopeType
 Choices.scopeType.row=行
 Choices.scopeType.col=列
-Choices.scopeType.rowgroup=Row group
-Choices.scopeType.colgroup=Column group
+Choices.scopeType.rowgroup=行组
+Choices.scopeType.colgroup=列组
 
 ###########################################################
 # Classes
@@ -2468,8 +2468,8 @@ Element.Style.background.image=背景图像
 Element.Style.background.positionX=水平位置
 Element.Style.background.positionY=垂直位置
 Element.Style.background.repeat=背景重复
-Element.Style.background.size.width=Background size width
-Element.Style.background.size.height=Background size height
+Element.Style.background.size.width=背景大小宽度
+Element.Style.background.size.height=背景大小高度
 Element.Style.border=边框
 Element.Style.border.bottom.color=下边框颜色
 Element.Style.border.bottom.style=下边框样式
@@ -2788,9 +2788,9 @@ Element.Cell.slot.content=内容
 Element.Cell.width=宽度
 Element.Cell.eventHandlerClass=事件处理程序类
 Element.Cell.newHandlerOnEachEvent=在每个事件上新建处理程序
-Element.Cell.scope=Scope
+Element.Cell.scope=范围
 Element.Cell.bookmark=书签
-Element.Cell.headers=Headers
+Element.Cell.headers=页眉
 Element.Cell.onPrepare=准备时
 Element.Cell.onPrepare.toolTip=TBD
 Element.Cell.onPrepare.this=单元格
@@ -3499,7 +3499,7 @@ Error.NameException.NAME_FORBIDDEN={0} 不允许具有名称。
 Error.NameException.DUPLICATE=名称 "{0}" 与现有名称重复。请选择一个不同的名称。
 Error.NameException.HAS_REFERENCES={0} 具有衍生元素，因此无法清除该名称。
 Error.NameException.INVALID_NAME=名称“{0}”无效，因为它包含字符 "."、"/"、"\"、"!"、";" 和 ","。
-Error.NameException.INVALID_STYLE_NAME=The style name "{0}" is invalid to CSS2 specifications.
+Error.NameException.INVALID_STYLE_NAME=样式名称“{0}”对于 CSS2 规格无效。
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=属性 "{0}" 对元素 "{1}" 无效。

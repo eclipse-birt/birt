@@ -646,14 +646,14 @@ Choices.bidiDirection.ltr=左から右へ
 
 #78. backgroundSize
 Choices.backgroundSize.auto=自動
-Choices.backgroundSize.contain=Contain
-Choices.backgroundSize.cover=Cover
+Choices.backgroundSize.contain=含める
+Choices.backgroundSize.cover=補う
 
 #79 scopeType
 Choices.scopeType.row=行
-Choices.scopeType.col=Column
-Choices.scopeType.rowgroup=Row group
-Choices.scopeType.colgroup=Column group
+Choices.scopeType.col=列
+Choices.scopeType.rowgroup=行グループ
+Choices.scopeType.colgroup=列グループ
 
 ###########################################################
 # Classes
@@ -2468,8 +2468,8 @@ Element.Style.background.image=背景イメージ
 Element.Style.background.positionX=左右の位置
 Element.Style.background.positionY=上下の位置
 Element.Style.background.repeat=背景を繰り返す
-Element.Style.background.size.width=Background size width
-Element.Style.background.size.height=Background size height
+Element.Style.background.size.width=背景の幅
+Element.Style.background.size.height=背景の高さ
 Element.Style.border=罫線
 Element.Style.border.bottom.color=一番下の罫線の色
 Element.Style.border.bottom.style=一番下の罫線の線種
@@ -2788,9 +2788,9 @@ Element.Cell.slot.content=コンテンツ
 Element.Cell.width=幅
 Element.Cell.eventHandlerClass=イベントハンドラのクラス
 Element.Cell.newHandlerOnEachEvent=各イベントの新しいハンドラ
-Element.Cell.scope=Scope
+Element.Cell.scope=スコープ
 Element.Cell.bookmark=ブックマーク
-Element.Cell.headers=Headers
+Element.Cell.headers=ヘッダ
 Element.Cell.onPrepare=準備時
 Element.Cell.onPrepare.toolTip=TBD
 Element.Cell.onPrepare.this=セル
@@ -3499,7 +3499,7 @@ Error.NameException.NAME_FORBIDDEN={0} には名前を指定できません。
 Error.NameException.DUPLICATE=この名前 "{0}" は、すでに使用されています。別の名前を付けてください。
 Error.NameException.HAS_REFERENCES={0} には、派生した要素があります。名前をクリアできません。
 Error.NameException.INVALID_NAME="{0}" は無効な名前です。名前には "." (ピリオド)、"/" (スラッシュ)、"\" (円マーク)、"!" (感嘆符)、";" (セミコロン)、"," (コンマ) を使用できません。
-Error.NameException.INVALID_STYLE_NAME=The style name "{0}" is invalid to CSS2 specifications.
+Error.NameException.INVALID_STYLE_NAME=スタイル名 "{0}" は CSS2 の指定に対して無効です。
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=プロパティ "{0}" は、要素 "{1}" では使用できません。

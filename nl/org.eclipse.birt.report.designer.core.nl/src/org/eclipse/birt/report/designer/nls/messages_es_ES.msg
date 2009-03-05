@@ -48,7 +48,7 @@ AddCSSAction.Text=Añadir archivo CSS...
 ###########################################################
 #AddResourceAction properties
 
-AddResourceAction.Text=Add &Resource...
+AddResourceAction.Text=Añadir &recurso...
 AddResourceAction.Dialog.Tilte=Seleccionar un recurso
 AddResourceAction.Error.Message=El archivo ya existe.
 AddResourceAction.Error.FileNotFound=No se ha encontrado el archivo ''{0}''.
@@ -76,7 +76,7 @@ NewLibraryDialog.label.NewLibrary=Nuevo nombre de librería
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=Error
 PublishCSSAction.wizard.message=No es posible publicar el archivo CCS en el directorio donde se encuentra, seleccione otro directorio para la publicación.
-PublishCSSAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
+PublishCSSAction.wizard.msgDirErr=El directorio de destino no existe y no se puede crear. 
 PublishCSSAction.wizard.message.SourceFileNotExist=El archivo fuente no existe.
 PublishCSSAction.wizard.notvalidfolder=La carpeta del archivo CSS definida como preferencia no es válida.
 
@@ -86,11 +86,11 @@ PublishCSSAction.wizard.notvalidfolder=La carpeta del archivo CSS definida como 
 DeleteLibraryAction.Text=&Eliminar
 CopyLibraryAction.Text=&Copiar
 PasteLibraryAction.Text=&Pegar
-MoveLibraryAction.Text=Mo&ve...
+MoveLibraryAction.Text=&Mover...
 RenameLibraryAction.Text=Ca&mbiar nombre
-NewFolderAction.Text=&Folder
-NewLibraryAction.Text=&Library
-NewResource.MenuGroup.Text=&New
+NewFolderAction.Text=&Carpeta
+NewLibraryAction.Text=&Librería
+NewResource.MenuGroup.Text=&Nuevo
 RenameResourceAction.nameExists=Ya existe un archivo o carpeta con este nombre
 RenameResourceAction.inputDialogTitle=Cambiar nombre del recurso
 RenameResourceAction.inputDialogMessage=Nuevo nombre:
@@ -105,7 +105,7 @@ PasteResourceAction.Dialog.Message=El recurso ya existe. ¿Desea sobrescribirlo?
 MoveResourceAction.Dialog.Title=Mover recurso
 MoveResourceAction.Dialog.Message=El recurso ya existe. ¿Desea sustituirlo?
 ResourceAction.ConvertToFile.URLIsNull=La URL es nula, no se puede convertir a un archivo.
-ResourceAction.FileRemoveFailure=File(s) remove failure.
+ResourceAction.FileRemoveFailure=Error al eliminar archivos.
 LibraryNotExist.Dialog.Title=Abrir librería
 LibraryNotExist.Dialog.Message=La librería no existe, ¿desea actualizar el explorador de recursos? 
 ###########################################################
@@ -363,7 +363,7 @@ CascadingParametersDialog.Choice.SelectValue=<Seleccionar valor...>
 CascadingParametersDialog.Button.Add=&Añadir
 CascadingParametersDialog.Button.Edit=Ed&itar
 CascadingParametersDialog.Button.Delete=Elimi&nar
-CascadingParametersDialog.Title.AddCascadingParameter=Add Cascading Parameter
+CascadingParametersDialog.Title.AddCascadingParameter=Añadir parámetro en cascada
 CascadingParametersDialog.Title.EditCascadingParameter=Editar parámetro en cascada
 CascadingParametersDialog.items.None=<Ninguno>
 
@@ -441,8 +441,8 @@ dataBinding.message.haveNoName=El elemento que ha seleccionado no tiene nombre. 
 dataBinding.title.haveNoName=¿No tiene nombre?
 dataBinding.button.OK=&Aceptar
 
-parameterBinding.title=Data Set Parameter Binding...
-ParameterBindingDialog.title=Data Set Parameter Binding
+parameterBinding.title=Enlace de parámetros del conjunto de datos...
+ParameterBindingDialog.title=Enlace de parámetros del conjunto de datos
 
 dataBinding.title.generateOutputParam=¿Generar enlaces?
 dataBinding.msg.generateOutputParam=El conjunto de datos tiene uno o más parámetros de salida.\n\n ¿Desea generar enlaces para ellos?
@@ -490,10 +490,10 @@ dataset.editor.settings.dataFetchSetting.errorNumberFormat=Introduzca un número 
 dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Introduzca un número entero positivo como Número de conjunto del resultado
 dataset.editor.settings.dataFetchSetting=Ajustes de recuperación de datos
 dataset.editor.settings.resultsetselection.resultSetSelection=Selección de conjunto de resultados
-dataset.editor.settings.resultsetselection.enableResultSetSelection=&Enable Result Set Selection
-dataset.editor.settings.resultsetselection.selectResultSetByName=Select &Result Set By Name:
-dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result &Set By Number:
-dataset.editor.settings.dataFetchSetting.fetchAll=Fetch &all rows from data source.
+dataset.editor.settings.resultsetselection.enableResultSetSelection=&Activar selección de conjunto de resultados
+dataset.editor.settings.resultsetselection.selectResultSetByName=Seleccionar conjunto de &resultados por nombre:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=&Seleccionar conjunto de resultados por número:
+dataset.editor.settings.dataFetchSetting.fetchAll=Recuperar &todas las filas de la fuente de datos.
 dataset.editor.settings.cachePreference.errorNumberFormat=Introduzca un número mayor que cero para el tamaño de la fila de caché.
 dataset.editor.settings.cachePreference=Preferencia de caché
 dataset.editor.computedColumns=Columnas procesadas
@@ -545,7 +545,7 @@ dataset.editor.title.value2=Valor 2
 dataset.editor.inputDialog.displayName=Nom&bre en pantalla
 dataset.editor.inputDialog.displayNameKey=&Clave de nombre en pantalla
 dataset.editor.inputDialog.name=&Nombre
-dataset.editor.inputDialog.nativeName=N&ative Name
+dataset.editor.inputDialog.nativeName=&Nombre nativo:
 dataset.editor.inputDialog.type=&Tipo
 dataset.editor.inputDialog.alias=&Alias
 dataset.editor.inputDialog.columnName=&Nombre de columna
@@ -599,7 +599,7 @@ JointDataSetPage.page.detail=Seleccione un conjunto de datos y una columna de ca
 JointDataSetPage.button.innerJoin=Combinación &interna
 JointDataSetPage.button.leftJoin=Combinación externa &izquierda
 JointDataSetPage.button.rightJoin=Combinación externa &derecha
-JointDataSetPage.button.fullJoin=Full &Outer Join
+JointDataSetPage.button.fullJoin=&Combinación externa completa
 JointDataSetPage.joinType=Tipos de combinación
 JointDataSetPage.error.nodataset.title=No se ha encontrado ningún conjunto de datos.
 JointDataSetPage.error.nodataset.right=No se ha encontrado el conjunto de datos derecho.
@@ -644,7 +644,7 @@ DataSetNodeProvider.menu.text=&Editar
 
 DataSetParametersPage.description=Definir parámetros de entrada:
 DataSetParametersPage.Filter.Tooltip=Pasar parámetros hasta o desde el conjunto de datos.
-DataSetParameterBindingInputDialog.Title=Edit data set parameter binding
+DataSetParameterBindingInputDialog.Title=Editar enlace de parámetros del conjunto de datos
 DataSetParametersPage.ErrorTitle.InvalidInput=Entrada no válida.
 DataSetParameterBindingInputDialog.Label.Name=Nombre del parámetro:
 DataSetParametersPage.ErrorMessage.CanootBeNull=El valor no puede ser nulo.
@@ -843,7 +843,7 @@ designer.preview.preference.timezone.description=&Zona horaria:
 designer.preview.preference.resultset.sqldatasetpage.group.title=Página de consulta
 designer.preview.preference.resultset.previewpage.group.title=Página de vista previa
 designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=Ajuste de límites de fila de vista previa
-designer.preview.preference.resultset.NoLimitOfDispalyRow=&No limits of the number of rows to display.
+designer.preview.preference.resultset.NoLimitOfDispalyRow=&No hay límite de número de filas que mostrar.
 designer.preview.preference.resultset.maxNoOfSchema.description=Número máximo de e&squemas que mostrar:
 designer.preview.preference.resultset.maxNoOfTable.description=Número máximo de &tablas de cada esquema que mostrar:
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Introduzca un número entre 0 y {0} para el número máximo de esquemas.
@@ -1597,7 +1597,7 @@ FormatDateTimeAttributePage.Trans.SetDateTimeFormat = Establezca un formato de f
 
 FormatDateTimePage.label.custom.settings.label=Formatos de ejemplo (haga clic en uno para copiarlo y, a continuación, modifíquelo):
 FormatDateTimePage.label.custom.settings=Ajustes personalizados
-FormatDateTimePage.label.format.code=Format &code:
+FormatDateTimePage.label.format.code=Códi&go de formato:
 FormatDateTimePage.label.format.page=&Formato como:
 FormatDateTimePage.label.general.preview.group=Vista previa con formato
 
@@ -1607,7 +1607,7 @@ FormatDateTimePage.label.general.preview.group=Vista previa con formato
 FormatDateTimePage.label.guide.format=dd/MM/aaaa hh:mm:ss a
 FormatDateTimePage.label.guide.text=Introducir como: dd/MM/yyyy hh:mm:ss AM/PM
 
-FormatDateTimePage.label.preview.dateTime=DateTime to &preview: 
+FormatDateTimePage.label.preview.dateTime=Fecha/hora para &vista previa: 
 FormatDateTimePage.label.preview.group=Vista previa
 FormatDateTimePage.label.preview.label=Vista previa con formato:
 FormatDateTimePage.label.table.column.format.name=Formato de ejemplo
@@ -1635,22 +1635,22 @@ FormatNumberPage.label.custom.preview.group=Vista previa
 FormatNumberPage.label.custom.preview.label=Vista previa con formato:
 FormatNumberPage.label.custom.settings.lable=Formatos de ejemplo (haga clic en uno para copiarlo y, a continuación, modifíquelo):
 FormatNumberPage.label.custom.settings=Ajustes personalizados
-FormatNumberPage.label.decimal.places=&Decimal places: 
+FormatNumberPage.label.decimal.places=Nú&mero de decimales: 
 FormatNumberPage.label.fixed.settings=Ajustes fijos
-FormatNumberPage.label.format.code=Format &code:
+FormatNumberPage.label.format.code=Códi&go de formato:
 FormatNumberPage.label.format.number.page=&Formato como:
 FormatNumberPage.label.general.preview.group=Vista previa con formato
-FormatNumberPage.label.negative.numbers=&Negative numbers: 
+FormatNumberPage.label.negative.numbers=&Números negativos: 
 FormatNumberPage.label.percent.settings=Ajustes de porcentaje
-FormatNumberPage.label.preview.number=Number to &preview: 
+FormatNumberPage.label.preview.number=Número para vis&ta previa: 
 FormatNumberPage.label.scientific.settings=Ajustes científicos
-FormatNumberPage.label.symbol.position=S&ymbol position: 
-FormatNumberPage.label.symbol=&Symbol: 
+FormatNumberPage.label.symbol.position=Pos&ición del símbolo: 
+FormatNumberPage.label.symbol=Sím&bolo: 
 FormatNumberPage.label.table.column.format.code=Formato de ejemplo
 FormatNumberPage.label.table.column.format.result=Resultado de formato de ejemplo
-FormatNumberPage.label.use1000sSeparator=Use &1000s separator
+FormatNumberPage.label.use1000sSeparator=&Usar separador de millares
 FormatNumberPage.label.useLeadingZero=Usar cero inicial
-FormatNumberPage.label.useSymbolSpace=Use sy&mbol space
+FormatNumberPage.label.useSymbolSpace=Usar símbolo de &espacio
 FormatNumberPage.preview.invalidFormatCode=Código de formato no válido
 FormatNumberPage.preview.invalidNumber=Número no válido para vista previa
 FormatNumberPage.symblePos.after=Después
@@ -1678,10 +1678,10 @@ FormatStringPage.default.preview.text=Mi string
 FormatStringPage.label.custom.preview.label=Vista previa con formato:
 FormatStringPage.label.custom.settings.label=Formatos de ejemplo (haga clic en uno para copiarlo y, a continuación, modifíquelo):
 FormatStringPage.label.customSettings=Ajustes personalizados
-FormatStringPage.label.format.code=Format &code:
+FormatStringPage.label.format.code=Códi&go de formato:
 FormatStringPage.label.formatStringAs=&Formato como:
 FormatStringPage.label.preview.group=Vista previa
-FormatStringPage.label.preview.string=String to &preview: 
+FormatStringPage.label.preview.string=Strin&g para vista previa: 
 FormatStringPage.label.previewWithFormat=Vista previa con formato
 FormatStringPage.label.table.collumn.exampleFormatCode=Formato de ejemplo
 FormatStringPage.label.table.collumn.exampleFormatResult=Resultado de formato de ejemplo
@@ -1913,7 +1913,7 @@ HyperlinkBuilder.ParameterRequired=Requerido
 HyperlinkBuilder.Column.DataType=Tipo de datos
 HyperlinkBuilder.Column.Values=Valores
 HyperlinkBuilder.DialogTitle=Opciones de hiperlink
-HyperlinkBuilder.ErrorMessage.InvalidReport=Cannot resolve the target report design, the predefined parameter info will not be available.
+HyperlinkBuilder.ErrorMessage.InvalidReport=No es posible resolver el diseño del informe de destino, la información del parámetro predefinido no estará disponible.
 HyperlinkBuilder.ErrorMessage.ReportReqired=Debe especificarse el archivo de informe.
 HyperlinkBuilder.DrillThroughTargetBookmark=Marcador de &destino
 HyperlinkBuilder.DrillThroughLinkExpression=&Expresión de link:
@@ -1938,7 +1938,7 @@ HyperlinkBuilder.Radio.Bookmark=Marcad&or interno
 HyperlinkBuilder.DrillThroughPdf=PDF
 HyperlinkBuilder.Radio.DrillThrough=&Aumentar
 HyperlinkBuilder.ReportDesignButton=Diseño de info&rme:
-HyperlinkBuilder.ReportDocumentButton=Report Do&cument:
+HyperlinkBuilder.ReportDocumentButton=Docu&mento de informe:
 HyperlinkBuilder.Radio.None=S&in Link
 HyperlinkBuilder.Radio.Uri=&URI
 HyperlinkBuilder.BrowseForFile=Buscar archivo
@@ -2190,12 +2190,12 @@ JSEditor.cmb.NewEventFunction=Función del nuevo evento...
 JSEditor.Label.Script=Script: 
 JSEditor.Button.Validate=Validar script
 JSEditor.Button.Reset=Restablecer script
-JSEditor.Button.Help=Show description
+JSEditor.Button.Help=Mostrar descripción
 JSEditor.Display.DefaultText=//Editor de script JS\n
 JSEditor.Display.NoExpression=Este elemento no tiene métodos.
 JSEditor.Input.trial=prueba
 JSEditor.Text.NoText=No text
-JSEditor.Text.NoDescription=This method doesn't have description.
+JSEditor.Text.NoDescription=Este método no tiene descripción.
 JSEditor.Validate.Title=Validación
 JSEditor.Validate.NoError=No se ha encontrado ningún error de sintaxis en el script actual.
 JSEditor.Folding.Group=Plegar
@@ -2586,13 +2586,13 @@ NewReportWizard.title.ReportWizard=Asistente de informes
 NewReportWizard.title.Template=TemplateChoicePage
 NewReportWizard.title.WizardPage=WizardPage
 NewReportWizard.widowTitle.new=Nuevo
-NewReportWizard.wizard.msgDirErr=The target directory does not exist, but cannot be created.
+NewReportWizard.wizard.msgDirErr=El directorio de destino no existe y no se puede crear.
 
 
 ###########################################################
 #NewResourceFileDialog properties
 
-NewResourceFileDialog.label.NewFile=&New File Name:
+NewResourceFileDialog.label.NewFile=&Nuevo nombre de archivo:
 NewResourceFileDialog.ErrorMessage=El nombre de archivo debe terminar en .properties
 NewResourceFileDialog.ErrorMessageInvalid=El nombre de archivo no es válido.
 
@@ -2947,7 +2947,7 @@ PublishTemplateAction.wizard.page.title=Publicar plantilla
 PublishTemplateAction.wizard.title=Publicar plantilla
 PublishTemplateAction.wizard.errorTitle=Error
 PublishTemplateAction.wizard.message=Unable to publish the template to the directory where it exists, please choose another directory to publish.
-PublishTemplateAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
+PublishTemplateAction.wizard.msgDirErr=El directorio de destino no existe y no se puede crear. 
 PublishTemplateAction.wizard.notvalidfolder=La carpeta de plantillas definida como preferencia no es válida.
 PublishTemplateAction.wizard.page.nameInfo=Es necesario un nombre en pantalla
 PublishTemplateAction.wizard.message.SourceFileNotExist=El archivo fuente no existe.
@@ -2959,7 +2959,7 @@ PublishTemplateAction.wizard.message.PreviewImageNotValid=El archivo de vista pr
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=Error
 PublishLibraryAction.wizard.message=Unable to publish the library to the directory where it exists, please choose another directory to publish.
-PublishLibraryAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
+PublishLibraryAction.wizard.msgDirErr=El directorio de destino no existe y no se puede crear. 
 PublishLibraryAction.wizard.message.SourceFileNotExist=El archivo fuente no existe.
 PublishLibraryAction.wizard.notvalidfolder=La carpeta de librerías definida como preferencia no es válida.
 
@@ -2983,7 +2983,7 @@ ExportToLibraryAction.wizard.page.foldererror=La carpeta especificada no existe
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Place Li&brary in Resource Folder...
+PublishLibraryToResourceFolderAction.Action.Text=Coloca&r la librería en la carpeta de recursos...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -3080,7 +3080,7 @@ report.designer.ui.preferences.library.export.overwrite.always=Sie&mpre
 report.designer.ui.preferences.library.export.overwrite.never=&Nunca
 report.designer.ui.preferences.library.export.overwrite.prompt=&Solicitar
 report.designer.ui.preferences.library.export.title=Sobrescribir elemento existente al exportar el elemento de diseño a la librería.
-report.designer.ui.preferences.template.openDialogTitle=Folder Selection
+report.designer.ui.preferences.template.openDialogTitle=Selección de carpeta
 report.designer.ui.preferences.template.select=Sel&eccionar...
 report.designer.ui.preferences.template.templatedir=plantillas
 report.designer.ui.preferences.template.templatefolder=&Carpeta de plantillas
@@ -3822,7 +3822,7 @@ WizardCustomTemplatePage.label.FromProjectTitle=Selección de archivo de informe
 #WizardNewReportCreationPage properties
 
 WizardNewReportCreationPage.Errors.nameExists=El nombre ya existe.
-WizardNewReportCreationPage.Errors.nameEmpty=Names cannot be empty.
+WizardNewReportCreationPage.Errors.nameEmpty=El nombre no puede estar vacío.
 WizardNewReportCreationPage.label.browse=Examinar...
 WizardNewReportCreationPage.label.directory=Directorio:
 WizardNewReportCreationPage.label.file.location=Ubicación de archivo
@@ -3941,7 +3941,7 @@ ReportPageGenerator.List.Resources.JsFile=Archivos de JavaScript:
 #ClassFinder
 ClassFinder.TaskStart=Buscando clase de controlador...
 ClassFinder.DialogTitle=Selección de clase
-ClassFinder.DialogMessage=&Choose a handler class:
+ClassFinder.DialogMessage=&Seleccionar una clase de controlador:
 ClassFinder.ErrorMessage=No se ha encontrado ninguna clase
 
 ###########################################################
@@ -3965,9 +3965,9 @@ EventHandlerPage.Browse=&Examinar...
 IDEFileReportProvider.ReadOnlyEncounter.Title=Se ha encontrado un archivo de sólo lectura
 IDEFileReportProvider.ReadOnlyEncounter.Message=El archivo ''{0}'' es de sólo lectura, asegúrese primero de que se puede escribir en él.
 IDEResourcePageHelper.Dialog.Prompt=Seleccionar un directorio: 
-IDEResourcePageHelper.Dialog.Text=&Choose a location relative to the workspace:
+IDEResourcePageHelper.Dialog.Text=Seleccionar una u&bicación relativa al área de trabajo:
 IDEResourcePageHelper.Dialog.Title=Selección de un directorio 
-IDEResourcePageHelper.File.Button=&File System...
+IDEResourcePageHelper.File.Button=&Sistema de archivos...
 IDEResourcePageHelper.Varible.Button=&Variables... 
 IDEResourcePageHelper.WorkSpace.Button=Á&rea de trabajo...
 
@@ -4464,10 +4464,10 @@ UIUtil.previewconfirm.message=El informe contiene errores, ¿desea continuar para
 
 ###########################################################
 #FileReportProvider
-FileReportProvider.CopyConfigFile.DeleteFailure=Delete file failure: {0}
+FileReportProvider.CopyConfigFile.DeleteFailure=Error al eliminar archivo: {0}
 
 ###########################################################
 #ShowPropertiesViewMenu
-ShowPropertiesViewMenu.ActionName=Prop&erties
-ShowPropertiesViewMenu.ErrorMessage=Fail to open Properties View
+ShowPropertiesViewMenu.ActionName=Prop&iedades
+ShowPropertiesViewMenu.ErrorMessage=Error al abrir la vista de propiedades
 ShowPropertiesViewMenu.ErrorTitle=Error

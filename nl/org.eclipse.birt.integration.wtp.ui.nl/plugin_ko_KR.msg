@@ -1,4 +1,4 @@
-birt.web.category.name=&Business Intelligence and Reporting Tools
+birt.web.category.name=Business Intelligence 및 보고 도구(&B)
 birt.web.project.name=BIRT 런타임이 포함된 웹 프로젝트 
 birt.web.project.description=BIRT 런타임 구성 요소를 포함한 웹 프로젝트 생성
 birt.web.actionsets.description=BIRT 웹 프로젝트 작업
@@ -14,4 +14,4 @@ JSP_Tag_context_type_Extension_Element.name=새 BIRT JSP 태그
 
 BirtResourcesDefinition= BIRT 웹 응용 프로그램 리소스 정의
 
-birt.action.importruntime.name=Import &BIRT runtime component...
+birt.action.importruntime.name=BIRT 런타임 구성 요소 가져오기(&B)...

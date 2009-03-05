@@ -48,7 +48,7 @@ AddCSSAction.Text=CSS ƒtƒ@ƒCƒ‹‚Ì’Ç‰Á...
 ###########################################################
 #AddResourceAction properties
 
-AddResourceAction.Text=Add &Resource...
+AddResourceAction.Text=ƒŠƒ\[ƒX‚Ì’Ç‰Á(&R)...
 AddResourceAction.Dialog.Tilte=ƒŠƒ\[ƒX‚Ì‘I‘ğ
 AddResourceAction.Error.Message=ƒtƒ@ƒCƒ‹‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B
 AddResourceAction.Error.FileNotFound=ƒtƒ@ƒCƒ‹ ''{0}'' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
@@ -76,7 +76,7 @@ NewLibraryDialog.label.NewLibrary=V‹Kƒ‰ƒCƒuƒ‰ƒŠ–¼
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=ƒGƒ‰[
 PublishCSSAction.wizard.message=CSS ƒtƒ@ƒCƒ‹‚ª‚·‚Å‚É‘¶İ‚·‚éƒfƒBƒŒƒNƒgƒŠ‚É‚ÍACSS ƒtƒ@ƒCƒ‹‚ğŒöŠJ‚Å‚«‚Ü‚¹‚ñBŒöŠJ‚·‚é‚É‚ÍA•Ê‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
-PublishCSSAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
+PublishCSSAction.wizard.msgDirErr=ƒ^[ƒQƒbƒgƒfƒBƒŒƒNƒgƒŠ‚Í‘¶İ‚µ‚Ä‚¢‚Ü‚¹‚ñ‚ªAV‚½‚Éì¬‚·‚é‚±‚Æ‚à‚Å‚«‚Ü‚¹‚ñB 
 PublishCSSAction.wizard.message.SourceFileNotExist=ƒ\[ƒXƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 PublishCSSAction.wizard.notvalidfolder=İ’è‚É–³Œø‚ÈƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ª’è‹`‚³‚ê‚Ä‚¢‚Ü‚·B
 
@@ -86,11 +86,11 @@ PublishCSSAction.wizard.notvalidfolder=İ’è‚É–³Œø‚ÈƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ª’è‹`‚³‚ê‚Ä‚
 DeleteLibraryAction.Text=íœ(&D)
 CopyLibraryAction.Text=ƒRƒs[(&C)
 PasteLibraryAction.Text=“\‚è•t‚¯(&P)
-MoveLibraryAction.Text=Mo&ve...
+MoveLibraryAction.Text=ˆÚ“®(&V)...
 RenameLibraryAction.Text=–¼‘O‚Ì•ÏX(&M)
-NewFolderAction.Text=&Folder
-NewLibraryAction.Text=&Library
-NewResource.MenuGroup.Text=&New
+NewFolderAction.Text=ƒtƒHƒ‹ƒ_(&F)
+NewLibraryAction.Text=ƒ‰ƒCƒuƒ‰ƒŠ(&L)
+NewResource.MenuGroup.Text=V‹K(&N)
 RenameResourceAction.nameExists=“¯‚¶–¼‘O‚Ìƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒtƒHƒ‹ƒ_‚ª‚ ‚è‚Ü‚·B
 RenameResourceAction.inputDialogTitle=ƒŠƒ\[ƒX–¼‚Ì•ÏX
 RenameResourceAction.inputDialogMessage=V‚µ‚¢–¼‘O :
@@ -105,7 +105,7 @@ PasteResourceAction.Dialog.Message=ƒŠƒ\[ƒX‚Í‚·‚Å‚É‘¶İ‚µ‚Ä‚¢‚Ü‚·Bã‘‚«‚µ‚Ü‚·‚
 MoveResourceAction.Dialog.Title=ƒŠƒ\[ƒX‚ÌˆÚ“®
 MoveResourceAction.Dialog.Message=ƒŠƒ\[ƒX‚Í‚·‚Å‚É‘¶İ‚µ‚Ä‚¢‚Ü‚·B’u‚«Š·‚¦‚Ü‚·‚© ?
 ResourceAction.ConvertToFile.URLIsNull=URL ‚ª NULL ‚È‚Ì‚ÅAƒtƒ@ƒCƒ‹‚É•ÏŠ·‚Å‚«‚Ü‚¹‚ñB
-ResourceAction.FileRemoveFailure=File(s) remove failure.
+ResourceAction.FileRemoveFailure=ƒtƒ@ƒCƒ‹‚ğíœ‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B
 LibraryNotExist.Dialog.Title=ƒ‰ƒCƒuƒ‰ƒŠ‚ğŠJ‚­
 LibraryNotExist.Dialog.Message=ƒ‰ƒCƒuƒ‰ƒŠ‚ª‘¶İ‚µ‚Ü‚¹‚ñBƒŠƒ\[ƒXƒGƒNƒXƒvƒ[ƒ‰‚ğƒŠƒtƒŒƒbƒVƒ…‚µ‚Ü‚·‚© ? 
 ###########################################################
@@ -363,7 +363,7 @@ CascadingParametersDialog.Choice.SelectValue=<’l‚Ì‘I‘ğ...>
 CascadingParametersDialog.Button.Add=’Ç‰Á(&A)
 CascadingParametersDialog.Button.Edit=•ÒW(&D)
 CascadingParametersDialog.Button.Delete=íœ(&T)
-CascadingParametersDialog.Title.AddCascadingParameter=Add Cascading Parameter
+CascadingParametersDialog.Title.AddCascadingParameter=ƒJƒXƒP[ƒhƒpƒ‰ƒ[ƒ^‚Ì’Ç‰Á
 CascadingParametersDialog.Title.EditCascadingParameter=ƒJƒXƒP[ƒhƒpƒ‰ƒƒ^‚Ì•ÒW
 CascadingParametersDialog.items.None=<‚È‚µ>
 
@@ -441,8 +441,8 @@ dataBinding.message.haveNoName=‘I‘ğ‚µ‚æ‚¤‚Æ‚µ‚½ƒAƒCƒeƒ€‚É‚Í–¼‘O‚ª•t‚¢‚Ä‚¢‚Ü‚¹‚ñ
 dataBinding.title.haveNoName=–¼‘O‚ª•t‚¢‚Ä‚¢‚Ü‚¹‚ñ
 dataBinding.button.OK=OK(&O)
 
-parameterBinding.title=Data Set Parameter Binding...
-ParameterBindingDialog.title=Data Set Parameter Binding
+parameterBinding.title=ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ÌƒoƒCƒ“ƒh...
+ParameterBindingDialog.title=ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ÌƒoƒCƒ“ƒh
 
 dataBinding.title.generateOutputParam=ƒoƒCƒ“ƒh‚Ì¶¬
 dataBinding.msg.generateOutputParam=ƒf[ƒ^ƒZƒbƒg‚É1‚Â‚Ü‚½‚Í•¡”‚Ìo—Íƒpƒ‰ƒƒ^‚ª‚ ‚è‚Ü‚·B\n\n‚±‚ê‚ç‚Ìƒpƒ‰ƒƒ^—p‚ÉƒoƒCƒ“ƒh‚ğ¶¬‚µ‚Ü‚·‚©?
@@ -490,10 +490,10 @@ dataset.editor.settings.dataFetchSetting.errorNumberFormat=ƒtƒFƒbƒ`‚·‚éÅ‘ås”‚
 dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=[Œ‹‰ÊƒZƒbƒg”Ô†] ‚É‚Í³‚Ì®”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
 dataset.editor.settings.dataFetchSetting=ƒf[ƒ^ƒtƒFƒbƒ`‚Ìİ’è
 dataset.editor.settings.resultsetselection.resultSetSelection=Œ‹‰ÊƒZƒbƒg‚Ì‘I‘ğ
-dataset.editor.settings.resultsetselection.enableResultSetSelection=&Enable Result Set Selection
-dataset.editor.settings.resultsetselection.selectResultSetByName=Select &Result Set By Name:
-dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result &Set By Number:
-dataset.editor.settings.dataFetchSetting.fetchAll=Fetch &all rows from data source.
+dataset.editor.settings.resultsetselection.enableResultSetSelection=Œ‹‰ÊƒZƒbƒg‚Ì‘I‘ğ‚ğ—LŒø‚É‚·‚é(&E)
+dataset.editor.settings.resultsetselection.selectResultSetByName=Œ‹‰ÊƒZƒbƒg‚ğ–¼‘O‚Å‘I‘ğ(&R) :
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=Œ‹‰ÊƒZƒbƒg‚ğ”Ô†‚Å‘I‘ğ(&S) :
+dataset.editor.settings.dataFetchSetting.fetchAll=ƒf[ƒ^ƒ\[ƒX‚Ì‚·‚×‚Ä‚Ì—ñ‚ğƒtƒFƒbƒ`(&A)
 dataset.editor.settings.cachePreference.errorNumberFormat=ƒLƒƒƒbƒVƒ…‚ÌsƒTƒCƒY‚É‚ÍA0 ‚æ‚è‚à‘å‚«‚¢”’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
 dataset.editor.settings.cachePreference=ƒLƒƒƒbƒVƒ…‚Ìİ’è
 dataset.editor.computedColumns=ŒvZ—ñ
@@ -545,7 +545,7 @@ dataset.editor.title.value2=’l 2
 dataset.editor.inputDialog.displayName=•\¦–¼(&D)
 dataset.editor.inputDialog.displayNameKey=•\¦–¼ƒL[(&K)
 dataset.editor.inputDialog.name=–¼‘O(&N)
-dataset.editor.inputDialog.nativeName=N&ative Name
+dataset.editor.inputDialog.nativeName=ƒlƒCƒeƒBƒu‚Ì–¼‘O(&A)
 dataset.editor.inputDialog.type=Œ^(&T)
 dataset.editor.inputDialog.alias=ƒGƒCƒŠƒAƒX(&A)
 dataset.editor.inputDialog.columnName=—ñ–¼(&C)
@@ -599,7 +599,7 @@ JointDataSetPage.page.detail=ƒWƒ‡ƒCƒ“‚ğ’è‹`‚·‚é‚É‚ÍA¶‰E‚ÌƒtƒB[ƒ‹ƒh‚©‚çƒf[ƒ^ƒ
 JointDataSetPage.button.innerJoin=ƒCƒ“ƒi[ƒWƒ‡ƒCƒ“(&I)
 JointDataSetPage.button.leftJoin=¶ƒAƒEƒ^[ƒWƒ‡ƒCƒ“(&L)
 JointDataSetPage.button.rightJoin=‰EƒAƒEƒ^[ƒWƒ‡ƒCƒ“(&R)
-JointDataSetPage.button.fullJoin=Full &Outer Join
+JointDataSetPage.button.fullJoin=¶‰EƒAƒEƒ^[ƒWƒ‡ƒCƒ“(&O)
 JointDataSetPage.joinType=ƒWƒ‡ƒCƒ“‚ÌŒ^
 JointDataSetPage.error.nodataset.title=ƒf[ƒ^ƒZƒbƒg‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 JointDataSetPage.error.nodataset.right=‰E‘¤‚Ìƒf[ƒ^ƒZƒbƒg‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
@@ -644,7 +644,7 @@ DataSetNodeProvider.menu.text=•ÒW(&E)
 
 DataSetParametersPage.description=“ü—Íƒpƒ‰ƒƒ^‚Ì’è‹` :
 DataSetParametersPage.Filter.Tooltip=ƒf[ƒ^ƒZƒbƒg‚Ö‚Ìƒpƒ‰ƒƒ^‚ÌƒpƒX‚Ææ“¾
-DataSetParameterBindingInputDialog.Title=Edit data set parameter binding
+DataSetParameterBindingInputDialog.Title=ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ÌƒoƒCƒ“ƒh‚Ì•ÒW
 DataSetParametersPage.ErrorTitle.InvalidInput=“ü—ÍƒGƒ‰[B
 DataSetParameterBindingInputDialog.Label.Name=ƒpƒ‰ƒƒ^–¼ :
 DataSetParametersPage.ErrorMessage.CanootBeNull=’l‚Í null ‚É‚Å‚«‚Ü‚¹‚ñB
@@ -843,7 +843,7 @@ designer.preview.preference.timezone.description=ƒ^ƒCƒ€ƒ][ƒ“(&T) :
 designer.preview.preference.resultset.sqldatasetpage.group.title=ƒNƒGƒŠƒy[ƒW
 designer.preview.preference.resultset.previewpage.group.title=ƒvƒŒƒrƒ…[ƒy[ƒW
 designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=s§ŒÀİ’è‚ÌƒvƒŒƒrƒ…[
-designer.preview.preference.resultset.NoLimitOfDispalyRow=&No limits of the number of rows to display.
+designer.preview.preference.resultset.NoLimitOfDispalyRow=•\¦‚Å‚«‚és”§ŒÀ‚Í‚ ‚è‚Ü‚¹‚ñ(&N)B
 designer.preview.preference.resultset.maxNoOfSchema.description=•\¦‚·‚éƒXƒL[ƒ}‚ÌÅ‘å”(&S) :
 designer.preview.preference.resultset.maxNoOfTable.description=ŠeƒXƒL[ƒ}‚É•\¦‚·‚éƒe[ƒuƒ‹‚ÌÅ‘å”(&T) :
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Å‘åƒXƒL[ƒ}”‚É‚ÍA0 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
@@ -1597,7 +1597,7 @@ FormatDateTimeAttributePage.Trans.SetDateTimeFormat = “ú•t/ŠÔ‚ÌŒ`®‚ğİ’è‚µ‚Ü‚
 
 FormatDateTimePage.label.custom.settings.label=ƒTƒ“ƒvƒ‹‚Ì‘® (Ÿ‚Ì‚¢‚¸‚ê‚©‚ğƒRƒs[‚µ‚Ä•ÏX) :
 FormatDateTimePage.label.custom.settings=ƒJƒXƒ^ƒ€İ’è
-FormatDateTimePage.label.format.code=Format &code:
+FormatDateTimePage.label.format.code=‘®ƒR[ƒh(&C) :
 FormatDateTimePage.label.format.page=‘®İ’è(&F) :
 FormatDateTimePage.label.general.preview.group=‘®•t‚«ƒvƒŒƒrƒ…[
 
@@ -1607,7 +1607,7 @@ FormatDateTimePage.label.general.preview.group=‘®•t‚«ƒvƒŒƒrƒ…[
 FormatDateTimePage.label.guide.format=yyyy/mm/dd hh:mm:ss a
 FormatDateTimePage.label.guide.text=yyyy/MM/dd hh:mm:ss ‚ÌŒ`®‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
 
-FormatDateTimePage.label.preview.dateTime=DateTime to &preview: 
+FormatDateTimePage.label.preview.dateTime=ƒvƒŒƒrƒ…[‚·‚é“ú(&P) : 
 FormatDateTimePage.label.preview.group=ƒvƒŒƒrƒ…[
 FormatDateTimePage.label.preview.label=‘®•t‚«ƒvƒŒƒrƒ…[ :
 FormatDateTimePage.label.table.column.format.name=ƒTƒ“ƒvƒ‹‚Ì‘®
@@ -1635,22 +1635,22 @@ FormatNumberPage.label.custom.preview.group=ƒvƒŒƒrƒ…[
 FormatNumberPage.label.custom.preview.label=‘®•t‚«ƒvƒŒƒrƒ…[ :
 FormatNumberPage.label.custom.settings.lable=ƒTƒ“ƒvƒ‹‚Ì‘® (Ÿ‚Ì‚¢‚¸‚ê‚©‚ğƒRƒs[‚µ‚Ä•ÏX) :
 FormatNumberPage.label.custom.settings=ƒJƒXƒ^ƒ€İ’è
-FormatNumberPage.label.decimal.places=&Decimal places: 
+FormatNumberPage.label.decimal.places=¬”“_ˆÈ‰º‚ÌŒ…”(&D) : 
 FormatNumberPage.label.fixed.settings=ŒÅ’èİ’è
-FormatNumberPage.label.format.code=Format &code:
+FormatNumberPage.label.format.code=‘®ƒR[ƒh(&C) :
 FormatNumberPage.label.format.number.page=‘®İ’è(&F) :
 FormatNumberPage.label.general.preview.group=‘®•t‚«ƒvƒŒƒrƒ…[
-FormatNumberPage.label.negative.numbers=&Negative numbers: 
+FormatNumberPage.label.negative.numbers=•‰‚Ì”’l(&N) : 
 FormatNumberPage.label.percent.settings=ƒp[ƒZƒ“ƒg‚Ìİ’è
-FormatNumberPage.label.preview.number=Number to &preview: 
+FormatNumberPage.label.preview.number=ƒvƒŒƒrƒ…[[‚·‚é”’l(&P) : 
 FormatNumberPage.label.scientific.settings=w”‚Ìİ’è
-FormatNumberPage.label.symbol.position=S&ymbol position: 
-FormatNumberPage.label.symbol=&Symbol: 
+FormatNumberPage.label.symbol.position=‹L†‚ÌˆÊ’u(&Y) : 
+FormatNumberPage.label.symbol=‹L†(&S) : 
 FormatNumberPage.label.table.column.format.code=ƒTƒ“ƒvƒ‹‚Ì‘®
 FormatNumberPage.label.table.column.format.result=ƒTƒ“ƒvƒ‹‚Ì‘®‚ÌŒ‹‰Ê
-FormatNumberPage.label.use1000sSeparator=Use &1000s separator
+FormatNumberPage.label.use1000sSeparator=Œ…‹æØ‚è‚ğg—p‚·‚é(&1)
 FormatNumberPage.label.useLeadingZero=æ“ª‚É 0 ‚ğ•t‚¯‚é
-FormatNumberPage.label.useSymbolSpace=Use sy&mbol space
+FormatNumberPage.label.useSymbolSpace=ƒVƒ“ƒ{ƒ‹ƒXƒy[ƒX‚ğg—p‚·‚é(&M)
 FormatNumberPage.preview.invalidFormatCode=‘®ƒR[ƒh‚ª–³Œø‚Å‚·B
 FormatNumberPage.preview.invalidNumber=ƒvƒŒƒrƒ…[‚·‚é”’l‚ª–³Œø‚Å‚·B
 FormatNumberPage.symblePos.after=Œã‚ë
@@ -1678,10 +1678,10 @@ FormatStringPage.default.preview.text=ƒTƒ“ƒvƒ‹•¶š—ñ
 FormatStringPage.label.custom.preview.label=‘®•t‚«ƒvƒŒƒrƒ…[ :
 FormatStringPage.label.custom.settings.label=ƒTƒ“ƒvƒ‹‚Ì‘® (Ÿ‚Ì‚¢‚¸‚ê‚©‚ğƒRƒs[‚µ‚Ä•ÏX) :
 FormatStringPage.label.customSettings=ƒJƒXƒ^ƒ€İ’è
-FormatStringPage.label.format.code=Format &code:
+FormatStringPage.label.format.code=‘®ƒR[ƒh(&C) :
 FormatStringPage.label.formatStringAs=‘®İ’è(&F) :
 FormatStringPage.label.preview.group=ƒvƒŒƒrƒ…[
-FormatStringPage.label.preview.string=String to &preview: 
+FormatStringPage.label.preview.string=ƒvƒŒƒrƒ…[‚·‚é•¶š—ñ(&P) : 
 FormatStringPage.label.previewWithFormat=‘®•t‚«ƒvƒŒƒrƒ…[
 FormatStringPage.label.table.collumn.exampleFormatCode=ƒTƒ“ƒvƒ‹‚Ì‘®
 FormatStringPage.label.table.collumn.exampleFormatResult=ƒTƒ“ƒvƒ‹‚Ì‘®‚ÌŒ‹‰Ê
@@ -1913,7 +1913,7 @@ HyperlinkBuilder.ParameterRequired=•K{
 HyperlinkBuilder.Column.DataType=ƒf[ƒ^Œ^
 HyperlinkBuilder.Column.Values=’l
 HyperlinkBuilder.DialogTitle=ƒnƒCƒp[ƒŠƒ“ƒN‚ÌƒIƒvƒVƒ‡ƒ“
-HyperlinkBuilder.ErrorMessage.InvalidReport=Cannot resolve the target report design, the predefined parameter info will not be available.
+HyperlinkBuilder.ErrorMessage.InvalidReport=ƒ^[ƒQƒbƒgƒŒƒ|[ƒgƒfƒUƒCƒ“‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB’è‹`Ï‚İƒpƒ‰ƒ[ƒ^î•ñ‚ªg—p‚Å‚«‚Ü‚¹‚ñB
 HyperlinkBuilder.ErrorMessage.ReportReqired=ƒŒƒ|[ƒgƒtƒ@ƒCƒ‹‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 HyperlinkBuilder.DrillThroughTargetBookmark=ƒ^[ƒQƒbƒg‚ÌƒuƒbƒNƒ}[ƒN(&T)
 HyperlinkBuilder.DrillThroughLinkExpression=ƒŠƒ“ƒN®(&E) :
@@ -1938,7 +1938,7 @@ HyperlinkBuilder.Radio.Bookmark=“à•”ƒuƒbƒNƒ}[ƒN(&K)
 HyperlinkBuilder.DrillThroughPdf=PDF
 HyperlinkBuilder.Radio.DrillThrough=Ú×•\¦(&D)
 HyperlinkBuilder.ReportDesignButton=ƒŒƒ|[ƒgƒfƒUƒCƒ“(&R) :
-HyperlinkBuilder.ReportDocumentButton=Report Do&cument:
+HyperlinkBuilder.ReportDocumentButton=ƒŒƒ|[ƒg•¶‘(&C) :
 HyperlinkBuilder.Radio.None=ƒŠƒ“ƒN‚È‚µ(&O)
 HyperlinkBuilder.Radio.Uri=URI(&U)
 HyperlinkBuilder.BrowseForFile=ƒtƒ@ƒCƒ‹‚ÌQÆ
@@ -2190,12 +2190,12 @@ JSEditor.cmb.NewEventFunction=ƒCƒxƒ“ƒgŠÖ”‚ÌV‹Kì¬...
 JSEditor.Label.Script=ƒXƒNƒŠƒvƒg : 
 JSEditor.Button.Validate=ƒXƒNƒŠƒvƒg‚ÌŒŸØ
 JSEditor.Button.Reset=ƒXƒNƒŠƒvƒg‚ÌƒŠƒZƒbƒg
-JSEditor.Button.Help=Show description
+JSEditor.Button.Help=à–¾‚ğ•\¦
 JSEditor.Display.DefaultText=//JS ƒXƒNƒŠƒvƒgƒGƒfƒBƒ^ \n
 JSEditor.Display.NoExpression=‚±‚Ì—v‘f‚É‚Íƒƒ\ƒbƒh‚ª‚ ‚è‚Ü‚¹‚ñB
 JSEditor.Input.trial=—p
 JSEditor.Text.NoText=No text
-JSEditor.Text.NoDescription=This method doesn't have description.
+JSEditor.Text.NoDescription=‚±‚Ìƒƒ\ƒbƒh‚É‚Íà–¾‚ª‚ ‚è‚Ü‚¹‚ñB
 JSEditor.Validate.Title=ŒŸØ
 JSEditor.Validate.NoError=‚±‚ÌƒXƒNƒŠƒvƒg‚É\•¶ƒGƒ‰[‚Í‚ ‚è‚Ü‚¹‚ñ‚Å‚µ‚½B
 JSEditor.Folding.Group=Ü‚è‚½‚½‚İ
@@ -2586,13 +2586,13 @@ NewReportWizard.title.ReportWizard=ƒŒƒ|[ƒgƒEƒBƒU[ƒh
 NewReportWizard.title.Template=TemplateChoicePage
 NewReportWizard.title.WizardPage=WizardPage
 NewReportWizard.widowTitle.new=V‹Kì¬
-NewReportWizard.wizard.msgDirErr=The target directory does not exist, but cannot be created.
+NewReportWizard.wizard.msgDirErr=ƒ^[ƒQƒbƒgƒfƒBƒŒƒNƒgƒŠ‚Í‘¶İ‚µ‚Ä‚¢‚Ü‚¹‚ñ‚ªAV‚½‚Éì¬‚·‚é‚±‚Æ‚à‚Å‚«‚Ü‚¹‚ñB
 
 
 ###########################################################
 #NewResourceFileDialog properties
 
-NewResourceFileDialog.label.NewFile=&New File Name:
+NewResourceFileDialog.label.NewFile=V‹Kƒtƒ@ƒCƒ‹–¼(&N) :
 NewResourceFileDialog.ErrorMessage=ƒtƒ@ƒCƒ‹–¼‚ÌŠg’£q‚Í .properties ‚É‚µ‚Ä‚­‚¾‚³‚¢B
 NewResourceFileDialog.ErrorMessageInvalid=ƒtƒ@ƒCƒ‹–¼‚ª–³Œø‚Å‚·B
 
@@ -2947,7 +2947,7 @@ PublishTemplateAction.wizard.page.title=ƒeƒ“ƒvƒŒ[ƒg‚ÌŒöŠJ
 PublishTemplateAction.wizard.title=ƒeƒ“ƒvƒŒ[ƒg‚ÌŒöŠJ
 PublishTemplateAction.wizard.errorTitle=ƒGƒ‰[
 PublishTemplateAction.wizard.message=Unable to publish the template to the directory where it exists, please choose another directory to publish.
-PublishTemplateAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
+PublishTemplateAction.wizard.msgDirErr=ƒ^[ƒQƒbƒgƒfƒBƒŒƒNƒgƒŠ‚Í‘¶İ‚µ‚Ä‚¢‚Ü‚¹‚ñ‚ªAV‚½‚Éì¬‚·‚é‚±‚Æ‚à‚Å‚«‚Ü‚¹‚ñB 
 PublishTemplateAction.wizard.notvalidfolder=İ’è‚É–³Œø‚Èƒeƒ“ƒvƒŒ[ƒgƒtƒHƒ‹ƒ_‚ª’è‹`‚³‚ê‚Ä‚¢‚Ü‚·B
 PublishTemplateAction.wizard.page.nameInfo=•\¦–¼‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 PublishTemplateAction.wizard.message.SourceFileNotExist=ƒ\[ƒXƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB
@@ -2959,7 +2959,7 @@ PublishTemplateAction.wizard.message.PreviewImageNotValid=ƒvƒŒƒrƒ…[—p‚ÌƒCƒ[ƒW
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=ƒGƒ‰[
 PublishLibraryAction.wizard.message=Unable to publish the library to the directory where it exists, please choose another directory to publish.
-PublishLibraryAction.wizard.msgDirErr=The target directory does not exist, but cannot be created. 
+PublishLibraryAction.wizard.msgDirErr=ƒ^[ƒQƒbƒgƒfƒBƒŒƒNƒgƒŠ‚Í‘¶İ‚µ‚Ä‚¢‚Ü‚¹‚ñ‚ªAV‚½‚Éì¬‚·‚é‚±‚Æ‚à‚Å‚«‚Ü‚¹‚ñB 
 PublishLibraryAction.wizard.message.SourceFileNotExist=ƒ\[ƒXƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 PublishLibraryAction.wizard.notvalidfolder=’è‹`‚³‚ê‚Ä‚¢‚éƒ‰ƒCƒuƒ‰ƒŠƒtƒHƒ‹ƒ_‚Í–³Œø‚Å‚·B
 
@@ -2983,7 +2983,7 @@ ExportToLibraryAction.wizard.page.foldererror=w’è‚³‚ê‚½ƒtƒHƒ‹ƒ_‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Place Li&brary in Resource Folder...
+PublishLibraryToResourceFolderAction.Action.Text=ƒ‰ƒCƒuƒ‰ƒŠ‚ğƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚É•Û‘¶(&B)...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -3080,7 +3080,7 @@ report.designer.ui.preferences.library.export.overwrite.always=ã‘‚«‚·‚é(&W)
 report.designer.ui.preferences.library.export.overwrite.never=ã‘‚«‚µ‚È‚¢(&N)
 report.designer.ui.preferences.library.export.overwrite.prompt=Šm”FƒƒbƒZ[ƒW‚ğ•\¦‚·‚é(&P)
 report.designer.ui.preferences.library.export.title=ƒfƒUƒCƒ“—v‘f‚ğƒ‰ƒCƒuƒ‰ƒŠ‚ÉƒGƒNƒXƒ|[ƒg‚·‚é‚Æ‚«‚ÉAŠù‘¶‚Ì—v‘f‚ğã‘‚«‚µ‚Ü‚·‚© ?
-report.designer.ui.preferences.template.openDialogTitle=Folder Selection
+report.designer.ui.preferences.template.openDialogTitle=ƒtƒHƒ‹ƒ_‚Ì‘I‘ğ
 report.designer.ui.preferences.template.select=‘I‘ğ(&S)...
 report.designer.ui.preferences.template.templatedir=ƒeƒ“ƒvƒŒ[ƒg
 report.designer.ui.preferences.template.templatefolder=ƒeƒ“ƒvƒŒ[ƒgƒtƒHƒ‹ƒ_(&T)
@@ -3822,7 +3822,7 @@ WizardCustomTemplatePage.label.FromProjectTitle=ƒŒƒ|[ƒgƒtƒ@ƒCƒ‹‚Ì‘I‘ğ
 #WizardNewReportCreationPage properties
 
 WizardNewReportCreationPage.Errors.nameExists=‚±‚Ì–¼‘O‚Í‚·‚Å‚Ég‚í‚ê‚Ä‚¢‚Ü‚·B
-WizardNewReportCreationPage.Errors.nameEmpty=Names cannot be empty.
+WizardNewReportCreationPage.Errors.nameEmpty=–¼‘O‚ğ‹ó”’‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB
 WizardNewReportCreationPage.label.browse=QÆ...
 WizardNewReportCreationPage.label.directory=ƒfƒBƒŒƒNƒgƒŠ :
 WizardNewReportCreationPage.label.file.location=ƒtƒ@ƒCƒ‹‚ÌêŠ
@@ -3941,7 +3941,7 @@ ReportPageGenerator.List.Resources.JsFile=JavaScriptƒtƒ@ƒCƒ‹ :
 #ClassFinder
 ClassFinder.TaskStart=ƒnƒ“ƒhƒ‰ƒNƒ‰ƒX‚ğŒŸõ’†...
 ClassFinder.DialogTitle=ƒNƒ‰ƒX‚Ì‘I‘ğ
-ClassFinder.DialogMessage=&Choose a handler class:
+ClassFinder.DialogMessage=ƒnƒ“ƒhƒ‰ƒNƒ‰ƒX‚Ì‘I‘ğ(&C) :
 ClassFinder.ErrorMessage=ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 
 ###########################################################
@@ -3965,9 +3965,9 @@ EventHandlerPage.Browse=QÆ(&B)...
 IDEFileReportProvider.ReadOnlyEncounter.Title=“Ç‚İæ‚èê—pƒtƒ@ƒCƒ‹
 IDEFileReportProvider.ReadOnlyEncounter.Message=ƒtƒ@ƒCƒ‹ ''{0}'' ‚Í“Ç‚İæ‚èê—p‚Å‚·Bæ‚ÉA‚±‚Ìƒtƒ@ƒCƒ‹‚ğ‘‚«‚İ‰Â”\‚É‚µ‚Ä‚­‚¾‚³‚¢B
 IDEResourcePageHelper.Dialog.Prompt=ƒfƒBƒŒƒNƒgƒŠ‚Ì‘I‘ğ : 
-IDEResourcePageHelper.Dialog.Text=&Choose a location relative to the workspace:
+IDEResourcePageHelper.Dialog.Text=ƒ[ƒNƒXƒy[ƒX‚Ö‚Ì‘Š‘Î“I‚ÈˆÊ’u‚Ì‘I‘ğ(&C) :
 IDEResourcePageHelper.Dialog.Title=ƒfƒBƒŒƒNƒgƒŠ‚Ì‘I‘ğ 
-IDEResourcePageHelper.File.Button=&File System...
+IDEResourcePageHelper.File.Button=ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€(&F)...
 IDEResourcePageHelper.Varible.Button=•Ï”(&B)... 
 IDEResourcePageHelper.WorkSpace.Button=ƒ[ƒNƒXƒy[ƒX(&W)...
 
@@ -4464,10 +4464,10 @@ UIUtil.previewconfirm.message=ƒŒƒ|[ƒg‚ÉƒGƒ‰[‚ª‚ ‚è‚Ü‚·BƒvƒŒƒrƒ…[‚ğ‘±s‚µ‚Ü‚·
 
 ###########################################################
 #FileReportProvider
-FileReportProvider.CopyConfigFile.DeleteFailure=Delete file failure: {0}
+FileReportProvider.CopyConfigFile.DeleteFailure=ƒtƒ@ƒCƒ‹‚ğíœ‚Å‚«‚Ü‚¹‚ñ : {0}
 
 ###########################################################
 #ShowPropertiesViewMenu
-ShowPropertiesViewMenu.ActionName=Prop&erties
-ShowPropertiesViewMenu.ErrorMessage=Fail to open Properties View
+ShowPropertiesViewMenu.ActionName=ƒvƒƒpƒeƒB(&E)
+ShowPropertiesViewMenu.ErrorMessage=ƒvƒƒpƒeƒBƒrƒ…[‚ğŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½
 ShowPropertiesViewMenu.ErrorTitle=ƒGƒ‰[

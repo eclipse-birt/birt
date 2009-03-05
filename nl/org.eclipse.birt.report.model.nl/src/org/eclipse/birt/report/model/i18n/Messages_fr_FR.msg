@@ -646,14 +646,14 @@ Choices.bidiDirection.ltr=Gauche à droite
 
 #78. backgroundSize
 Choices.backgroundSize.auto=Auto
-Choices.backgroundSize.contain=Contain
-Choices.backgroundSize.cover=Cover
+Choices.backgroundSize.contain=Contenir
+Choices.backgroundSize.cover=Couvrir
 
 #79 scopeType
 Choices.scopeType.row=Ligne
 Choices.scopeType.col=Colonne
-Choices.scopeType.rowgroup=Row group
-Choices.scopeType.colgroup=Column group
+Choices.scopeType.rowgroup=Groupe de lignes
+Choices.scopeType.colgroup=Groupe de colonnes
 
 ###########################################################
 # Classes
@@ -2468,8 +2468,8 @@ Element.Style.background.image=Image d'arrière-plan
 Element.Style.background.positionX=Position horizontale
 Element.Style.background.positionY=Position verticale
 Element.Style.background.repeat=Répétition de l'arrière-plan
-Element.Style.background.size.width=Background size width
-Element.Style.background.size.height=Background size height
+Element.Style.background.size.width=Largeur de l'arrière-plan
+Element.Style.background.size.height=Hauteur de l'arrière-plan
 Element.Style.border=Bordure
 Element.Style.border.bottom.color=Couleur de bordure inférieure
 Element.Style.border.bottom.style=Style de bordure inférieure
@@ -2788,9 +2788,9 @@ Element.Cell.slot.content=Contenu
 Element.Cell.width=Largeur
 Element.Cell.eventHandlerClass=Classe de gestionnaire d'événements
 Element.Cell.newHandlerOnEachEvent=Nouveau gestionnaire pour chaque événement
-Element.Cell.scope=Scope
+Element.Cell.scope=Etendue
 Element.Cell.bookmark=Signet
-Element.Cell.headers=Headers
+Element.Cell.headers=En-têtes
 Element.Cell.onPrepare=A la préparation
 Element.Cell.onPrepare.toolTip=A définir
 Element.Cell.onPrepare.this=Cellule
@@ -3499,7 +3499,7 @@ Error.NameException.NAME_FORBIDDEN=Le {0} n''est pas autorisé à porter un nom.
 Error.NameException.DUPLICATE=Le nom "{0}" est le doublon d''un nom existant. Choisissez un autre nom.
 Error.NameException.HAS_REFERENCES={0} comporte un élément dérivé, le nom ne peut pas être effacé.
 Error.NameException.INVALID_NAME=Le nom "{0}" n''est pas valide car il contient le caractère ".", "/", "\", "!", ";", "," .
-Error.NameException.INVALID_STYLE_NAME=The style name "{0}" is invalid to CSS2 specifications.
+Error.NameException.INVALID_STYLE_NAME=Le nom de style "{0}" est incorrect d'après les spécifications CSS2.
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=La propriété "{0}" est incorrecte pour l''élément "{1}".

@@ -17,23 +17,23 @@ invalid.function.name=잘못된 함수 이름:
 invalid.number.of.argument=함수에 대한 잘못된 인수 개수:
 invalid.type.of.argument=함수에 대한 잘못된 인수 형식:
 
-error.arguement.cannot.empty=The function argument can not be empty.
-error.incorrect.number.function.fixedArgument=Incorrect number of the argument(s). The number of the argument(s) should be <{0}> but was <{1}>. 
-error.incorrect.number.function.variableArgument=Incorrect number of the argument(s). The number of the argument(s) should not be more than <{0}> but was <{1}>. 
-error.argument.number.outofValidRange=Incorrect number of the argument(s). The number of the argument(s) should not be less than <{0}> or more than <{1}>, but it was <{2}>.
-error.incorrect.type.function.argument=The type of the argument is incorrect.
+error.arguement.cannot.empty=함수 인수를 입력해야 합니다.
+error.incorrect.number.function.fixedArgument=잘못된 인수 개수입니다. 인수 개수는 <{1}>이(가) 아닌 <{0}>이(가) 되어야 합니다. 
+error.incorrect.number.function.variableArgument=잘못된 인수 개수입니다. 인수 개수는 <{1}>이(가) 아닌 <{0}> 이하가 되어야 합니다. 
+error.argument.number.outofValidRange=잘못된 인수 개수입니다. 인수 개수는 <{2}>이(가) 아닌 <{0}> 이상 또는 <{1}> 이하가 되어야 합니다.
+error.incorrect.type.function.argument=잘못된 인수 형식입니다.
 
-error.BirtMath.ceiling.significance.notApplied=The given significance "{0}" cannot be applied to the number "{1}".
-error.BirtMath.mod.invalid.divisor=The divisor cannot be 0.
+error.BirtMath.ceiling.significance.notApplied=지정된 유의 수준 "{0}"을(를) 숫자 "{1}"에 적용할 수 없습니다.
+error.BirtMath.mod.invalid.divisor=제수는 0일 수 없습니다.
 
-error.BirtComp.match.invalid.pattern=The pattern value can not be null!
-error.BirtComp.like.invalid.pattern=The pattern value can not be null!
+error.BirtComp.match.invalid.pattern=패턴 값은 널(null)일 수 없습니다!
+error.BirtComp.like.invalid.pattern=패턴 값은 널(null)일 수 없습니다!
 
-error.BirtDateTime.cannotBeNull.DateValue=Date value can not be null!
+error.BirtDateTime.cannotBeNull.DateValue=날짜 값은 널(null)일 수 없습니다!
 
-error.BirtStr.left.invalidArgument=The value "{0}" of the argument n is invalid for the script function.
-error.BirtStr.right.invalidArgument=The value "{0}" of the argument n is invalid for the script function.
-error.BirtStr.indexOf.invalidArgument=The value "{0}" of the argument start is invalid for the script function.
-error.BirtStr.search.invalidArgument=The value "{0}" of the argument start is invalid for the script function.
+error.BirtStr.left.invalidArgument=인수 n의 값 "{0}"은(는) 스크립트 함수에 알맞지 않습니다.
+error.BirtStr.right.invalidArgument=인수 n의 값 "{0}"은(는) 스크립트 함수에 알맞지 않습니다.
+error.BirtStr.indexOf.invalidArgument=인수 시작 값 "{0}"은(는) 스크립트 함수에 알맞지 않습니다.
+error.BirtStr.search.invalidArgument=인수 시작 값 "{0}"은(는) 스크립트 함수에 알맞지 않습니다.
 error.BirtDuration.literal.invalidArgument=The value "{0}" of the argument is invalid for the script function.
 

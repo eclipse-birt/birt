@@ -14,6 +14,6 @@ preference.preview.server=プレビュー用のサーバ
 ###############################################################################
 # Actions
 ###############################################################################
-Menu.Report=Repor&t
-Action.RunReport=&Run Report
-Action.ViewDocument=&View Document
+Menu.Report=レポート(&T)
+Action.RunReport=レポートの実行（&R)
+Action.ViewDocument=文書の表示(&V)
