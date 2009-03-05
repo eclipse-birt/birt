@@ -54,7 +54,7 @@ feature@org.eclipse.birt.dtp.nl=v200902201427,:pserver:anonymous@dev.eclipse.org
 feature@org.apache.commons.codec=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.commons.codec.feature 
 
 feature@com.lowagie.itext=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/com.lowagie.itext.feature
-plugin@com.lowagie.itext=v20080228,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
+plugin@com.lowagie.itext=v20090305,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
 
 feature@org.apache.derby.core=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.derby.core.feature
 plugin@org.apache.derby.core=v20080317,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
