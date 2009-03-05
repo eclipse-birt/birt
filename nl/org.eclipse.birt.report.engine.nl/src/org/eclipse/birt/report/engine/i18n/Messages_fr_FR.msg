@@ -107,5 +107,7 @@ Error.FailedToInitializeEmitter = Echec de l'initialisation de l'émetteur.
 PDFCreator = Moteur d'états BIRT {0} utilisant iText ({1}).
 
 ###########################################################
-Error.FlashObjectNotSupported = "Les éléments d'état d'objet Flash ne sont pas pris en charge par ce format."
+Error.FlashObjectNotSupported = "Flash object report items are not supported in this report format."
+Error.ReportItemNotSupported = "Current report item is not supported in this report format."
+
 
