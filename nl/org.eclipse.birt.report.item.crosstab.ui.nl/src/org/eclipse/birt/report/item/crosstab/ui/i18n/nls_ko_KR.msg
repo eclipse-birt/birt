@@ -122,8 +122,8 @@ CrosstabPageGenerator.TabItem.map=맵
 CrosstabPageGenerator.TabItem.Sorting=정렬
 
 CrosstabGeneralPage.ForEmptyCell=빈 셀의 경우 표시(&S):
-LayoutMeasuresSection.DisplayName=방향:
-CrosstabGeneralPage.HideMeasureHeader=측정값 머리글 숨기기
+LayoutMeasuresSection.DisplayName=O&rientation:
+CrosstabGeneralPage.HideMeasureHeader=&Hide Measure Header
 
 ###########################################################
 #CrosstabEventHandlerPage properties
@@ -133,7 +133,7 @@ CrosstabEventHandlerPage.dialog.Browse=찾아보기(&B)...
 #SortingHandleProvider properties
 SortingHandleProvider.Label.SortOn=정렬 방법:
 Element.ReportItem.dataSet=데이터 집합:
-Element.ReportElement.Cube=데이터(&D):
+Element.ReportElement.Cube=Da&ta:
 BindingPage.None=없음
 
 FilterHandleProvider.Label.Filterby=필터링 기준:
@@ -171,7 +171,7 @@ FilterConditionBuilder.button.add.tooltip=값 목록에 값 추가
 CrosstabFilterConditionBuilder.DialogMessage.New=필터를 적용할 그룹 수준을 선택한 다음 필터 조건을 설정합니다.
 CrosstabFilterConditionBuilder.DialogMessage.Edit=필터를 적용할 그룹 수준을 선택한 다음 필터 조건을 설정합니다.
 CrosstabFilterConditionBuilder.label.value=값
-CrosstabFilterConditionBuilder.Label.Target=대상: 
+CrosstabFilterConditionBuilder.Label.Target=Target:
 CrosstabFilterConditionBuilder.Button.GroupLevel=그룹 수준(&G)
 CrosstabFilterConditionBuilder.Button.Measure=측정값(&M)
 

@@ -122,8 +122,8 @@ CrosstabPageGenerator.TabItem.map=マップ
 CrosstabPageGenerator.TabItem.Sorting=ソート
 
 CrosstabGeneralPage.ForEmptyCell=空のセルに次を表示(&S) :
-LayoutMeasuresSection.DisplayName=向き :
-CrosstabGeneralPage.HideMeasureHeader=メジャーのヘッダを隠す
+LayoutMeasuresSection.DisplayName=O&rientation:
+CrosstabGeneralPage.HideMeasureHeader=&Hide Measure Header
 
 ###########################################################
 #CrosstabEventHandlerPage properties
@@ -133,7 +133,7 @@ CrosstabEventHandlerPage.dialog.Browse=参照(&B)...
 #SortingHandleProvider properties
 SortingHandleProvider.Label.SortOn=ソート :
 Element.ReportItem.dataSet=データセット :
-Element.ReportElement.Cube=データ(&D) :
+Element.ReportElement.Cube=Da&ta:
 BindingPage.None=なし
 
 FilterHandleProvider.Label.Filterby=フィルタの条件 :
@@ -171,7 +171,7 @@ FilterConditionBuilder.button.add.tooltip=値リストに値を追加します。
 CrosstabFilterConditionBuilder.DialogMessage.New=フィルタを適用するグループレベルを選択してから、フィルタの条件を設定してください。
 CrosstabFilterConditionBuilder.DialogMessage.Edit=フィルタを適用するグループレベルを選択してから、フィルタの条件を設定してください。
 CrosstabFilterConditionBuilder.label.value=値
-CrosstabFilterConditionBuilder.Label.Target=ターゲット : 
+CrosstabFilterConditionBuilder.Label.Target=Target:
 CrosstabFilterConditionBuilder.Button.GroupLevel=グループレベル(&G)
 CrosstabFilterConditionBuilder.Button.Measure=メジャー(&M)
 
