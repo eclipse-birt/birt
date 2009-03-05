@@ -127,7 +127,7 @@ public class AggregateEditorComposite extends Composite implements
 			ChartWizardContext context, boolean enabled, Query query )
 	{
 		super( parent, SWT.NONE );
-		setAggregation( query );
+		setAggregation( query, sd );
 		fChartContext = context;
 		fEnabled = enabled;
 		placeComponents( );
@@ -151,12 +151,20 @@ public class AggregateEditorComposite extends Composite implements
 		}
 	}
 	
-	public void setAggregation( Query query )
+	public void setAggregation( Query query, SeriesDefinition sd )
 	{
 		this.query = query;
+		this.fSeriesDefi = sd;
 		if ( query.getGrouping( ) == null )
 		{
-			fGrouping = SeriesGroupingImpl.create( );
+			if ( sd.getGrouping( ) != null )
+			{
+				fGrouping = (SeriesGrouping) EcoreUtil.copy( sd.getGrouping( ) );
+			}
+			else
+			{
+				fGrouping = SeriesGroupingImpl.create( );
+			}
 		}
 		else
 		{
@@ -245,9 +253,9 @@ public class AggregateEditorComposite extends Composite implements
 		shell.setSize( iShellWidth, iShellHeight );
 		shell.setLocation( iXLoc, iYLoc );
 
-		if ( fSeriesDefi == null )
+		if ( query != null )
 		{
-			setAggregation( query );
+			setAggregation( query, fSeriesDefi );
 		}
 		else
 		{
@@ -711,7 +719,7 @@ public class AggregateEditorComposite extends Composite implements
 			}
 			else if ( source == fBtnOK )
 			{
-				if ( fSeriesDefi == null )
+				if ( query != null )
 				{
 					query.setGrouping( fGrouping );
 					query.getGrouping( ).eAdapters( ).addAll( query.eAdapters( ) );

@@ -556,7 +556,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					.addDataDefinitionText( getInputControl( ), this );
 			if ( fAggEditorComposite != null )
 			{
-				fAggEditorComposite.setAggregation( query );
+				fAggEditorComposite.setAggregation( query, seriesdefinition );
 			}
 		}
 		setColor( );

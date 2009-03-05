@@ -33,7 +33,6 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -676,24 +675,23 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		}
 
 		// Check if aggregation is just set on value series.
-		if ( cm instanceof ChartWithAxes )
+		try
 		{
-			EList<Axis> axisList = ( (ChartWithAxes) cm ).getAxes( )
-					.get( 0 )
-					.getAssociatedAxes( );
-			for ( Axis a : axisList )
+			if ( cm instanceof ChartWithAxes )
 			{
-				for ( SeriesDefinition orthSD : a.getSeriesDefinitions( ) )
+				EList<Axis> axisList = ( (ChartWithAxes) cm ).getAxes( )
+						.get( 0 )
+						.getAssociatedAxes( );
+				for ( Axis a : axisList )
 				{
-					SeriesGrouping grouping = orthSD.getGrouping( );
-					if ( grouping != null && grouping.isEnabled( ) )
+					for ( SeriesDefinition orthSD : a.getSeriesDefinitions( ) )
 					{
 						for ( Query query : orthSD.getDesignTimeSeries( )
 								.getDataDefinition( ) )
 						{
-							if ( query.getGrouping( ) != null
-									&& !ChartUtil.isEmpty( query.getGrouping( )
-											.getAggregateExpression( ) ) )
+							if ( ChartUtil.getAggregateFuncExpr( orthSD,
+									baseSD,
+									query ) != null )
 							{
 								return true;
 							}
@@ -701,28 +699,28 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 					}
 				}
 			}
-		}
-		else if ( cm instanceof ChartWithoutAxes )
-		{
-			for ( SeriesDefinition orthSD : ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
-					.get( 0 )
-					.getSeriesDefinitions( ) )
+			else if ( cm instanceof ChartWithoutAxes )
 			{
-				SeriesGrouping grouping = orthSD.getGrouping( );
-				if ( grouping != null && grouping.isEnabled( ) )
+				for ( SeriesDefinition orthSD : ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+						.get( 0 )
+						.getSeriesDefinitions( ) )
 				{
 					for ( Query query : orthSD.getDesignTimeSeries( )
 							.getDataDefinition( ) )
 					{
-						if ( query.getGrouping( ) != null
-								&& !ChartUtil.isEmpty( query.getGrouping( )
-										.getAggregateExpression( ) ) )
+						if ( ChartUtil.getAggregateFuncExpr( orthSD,
+								baseSD,
+								query ) != null )
 						{
 							return true;
 						}
 					}
 				}
 			}
+		}
+		catch ( ChartException e )
+		{
+			logger.log( e );
 		}
 
 		return false;
