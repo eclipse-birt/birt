@@ -50,6 +50,8 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -321,7 +323,7 @@ public class ParameterDialog extends BaseDialog
 
 	private String formatCategroy, formatPattern;
 
-	private List<String> defaultValueList;
+	private List<Expression> defaultValueList;
 
 	private Composite valueArea, sorttingArea;
 
@@ -832,9 +834,9 @@ public class ParameterDialog extends BaseDialog
 					if ( defaultValueList != null
 							&& defaultValueList.size( ) > 0 )
 					{
-						String value = defaultValueList.get( 0 );
+						Expression expression = getFirstDefaultValue( );
 						defaultValueList.clear( );
-						defaultValueList.add( value );
+						defaultValueList.add( expression );
 						valueTable.refresh( );
 					}
 				}
@@ -956,7 +958,9 @@ public class ParameterDialog extends BaseDialog
 			listLimit.setEnabled( false );
 		}
 
-		String defaultValue = getFirstDefaultValue( );
+		Expression expression = getFirstDefaultValue( );
+		String defaultValue = expression == null ? null
+				: expression.getStringExpression( );
 
 		if ( isStatic( ) )
 		{
@@ -1051,7 +1055,7 @@ public class ParameterDialog extends BaseDialog
 		updateMessageLine( );
 	}
 
-	private String getFirstDefaultValue( )
+	private Expression getFirstDefaultValue( )
 	{
 		if ( defaultValueList != null && defaultValueList.size( ) > 0 )
 			return defaultValueList.get( 0 );
@@ -1061,8 +1065,12 @@ public class ParameterDialog extends BaseDialog
 	private void setFirstDefaultValue( String value )
 	{
 		if ( defaultValueList == null )
-			defaultValueList = new ArrayList<String>( );
-		defaultValueList.add( 0, value );
+			defaultValueList = new ArrayList<Expression>( );
+		Expression expression = null;
+		if ( value != null )
+			expression = new Expression( value, ExpressionType.CONSTANT );
+		if ( !defaultValueList.contains( expression ) )
+			defaultValueList.add( 0, expression );
 	}
 
 	private void initSorttingArea( )
@@ -1599,10 +1607,12 @@ public class ParameterDialog extends BaseDialog
 			allowMultiChoice.setVisible( false );
 		}
 
+		defaultValueList.clear( );
 	}
 
 	private void switchParamterType( )
 	{
+		defaultValueList.clear( );
 		clearArea( valueArea );
 		lastControlType = null;
 		if ( isStatic( ) )
@@ -1772,10 +1782,11 @@ public class ParameterDialog extends BaseDialog
 					if ( defaultValueList != null )
 					{
 						List<String> importList = Arrays.asList( importValues );
-						for ( String defValue : defaultValueList.toArray( new String[]{}) )
+						for ( Expression expression : defaultValueList.toArray( new Expression[]{} ) )
 						{
-							if(!importList.contains( defValue ))
-								defaultValueList.remove( defValue );
+							if ( !importList.contains( expression == null ? null
+									: expression.getStringExpression( ) ) )
+								defaultValueList.remove( expression );
 						}
 					}
 					refreshValueTable( );
@@ -1822,14 +1833,18 @@ public class ParameterDialog extends BaseDialog
 	{
 		if ( defaultValueList == null )
 		{
-			defaultValueList = new ArrayList<String>( );
+			defaultValueList = new ArrayList<Expression>( );
 		}
 		else
 		{
 			if ( !allowMultiChoice.getSelection( ) )
 				defaultValueList.clear( );
 		}
-		defaultValueList.add( value );
+		Expression expression = null;
+		if ( value != null )
+			expression = new Expression( value, ExpressionType.CONSTANT );
+		if ( !defaultValueList.contains( expression ) )
+			defaultValueList.add( expression );
 		updateMessageLine( );
 		updateFormatField( );
 	}
@@ -1838,7 +1853,10 @@ public class ParameterDialog extends BaseDialog
 	{
 		if ( defaultValueList != null )
 		{
-			defaultValueList.remove( value );
+			Expression expression = null;
+			if ( value != null )
+				expression = new Expression( value, ExpressionType.CONSTANT );
+			defaultValueList.remove( expression );
 			updateMessageLine( );
 			updateFormatField( );
 		}
@@ -1848,8 +1866,16 @@ public class ParameterDialog extends BaseDialog
 	{
 		if ( defaultValueList != null )
 		{
-			defaultValueList.remove( oldVal );
-			defaultValueList.add( newVal );
+			Expression expression = null;
+			if ( oldVal != null )
+				expression = new Expression( oldVal, ExpressionType.CONSTANT );
+			defaultValueList.remove( expression );
+
+			expression = null;
+			if ( oldVal != null )
+				expression = new Expression( newVal, ExpressionType.CONSTANT );
+			if ( !defaultValueList.contains( expression ) )
+				defaultValueList.add( expression );
 			updateMessageLine( );
 			updateFormatField( );
 		}
@@ -2173,6 +2199,7 @@ public class ParameterDialog extends BaseDialog
 				// if ( value.equals( CHOICE_NULL_VALUE )
 				// || value.equals( CHOICE_BLANK_VALUE ) )
 				// return;
+				defaultValueList.clear( );
 				setFirstDefaultValue( UIUtil.convertToModelString( value, false ) );
 				if ( isStatic( ) )
 				{
@@ -2226,13 +2253,17 @@ public class ParameterDialog extends BaseDialog
 			return tempdefaultValue;
 	}
 
-	private void validateValueList( List<String> values ) throws BirtException
+	private void validateValueList( List<Expression> values )
+			throws BirtException
 	{
 		if ( values != null )
 		{
-			for ( String value : values )
+			for ( Expression value : values )
 			{
-				validateValue( value );
+				if ( value == null )
+					validateValue( null );
+				else
+					validateValue( value.getStringExpression( ) );
 			}
 		}
 	}
@@ -2896,7 +2927,9 @@ public class ParameterDialog extends BaseDialog
 		String type = getSelectedDataType( );
 		IChoiceSet choiceSet = getFormatChoiceSet( type );
 
-		String defaultValue = getFirstDefaultValue( );
+		Expression expression = getFirstDefaultValue( );
+		String defaultValue = expression == null ? null
+				: expression.getStringExpression( );
 
 		if ( choiceSet == null )
 		{ // Boolean type;
@@ -3089,7 +3122,9 @@ public class ParameterDialog extends BaseDialog
 		}
 		FormatBuilder formatBuilder = new FormatBuilder( formatType );
 		formatBuilder.setInputFormat( formatCategroy, formatPattern );
-		formatBuilder.setPreviewText( getFirstDefaultValue( ) );
+		String previewText = getFirstDefaultValue( ).getStringExpression( );
+		if ( previewText != null )
+			formatBuilder.setPreviewText( previewText );
 		if ( formatBuilder.open( ) == OK )
 		{
 			formatCategroy = ( (String[]) formatBuilder.getResult( ) )[0];
@@ -3148,7 +3183,8 @@ public class ParameterDialog extends BaseDialog
 		}
 		return choiceValue != null
 				&& defaultValueList != null
-				&& defaultValueList.contains( choiceValue );
+				&& defaultValueList.contains( new Expression( choiceValue,
+						ExpressionType.CONSTANT ) );
 	}
 
 	private boolean isStatic( )
