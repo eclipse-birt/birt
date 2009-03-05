@@ -157,6 +157,10 @@ public class ScalarParameterParseTest extends BaseTestCase
 
 		handle1.setAutoSuggestThreshold( 600 );
 
+		// set new getDefaultValueList and getSelectionValueList
+		handle1.setDefaultValueListMethod( "new getDefaultValueList" ); //$NON-NLS-1$\
+		handle1.setSelectionValueListMethod( "new getSelectionValueList" ); //$NON-NLS-1$
+
 		ScalarParameterHandle handle2 = (ScalarParameterHandle) params.get( 1 );
 		assertEquals( "dynamic", handle2.getValueType( ) ); //$NON-NLS-1$
 		assertEquals( "ds1", handle2.getDataSetName( ) ); //$NON-NLS-1$
@@ -170,9 +174,10 @@ public class ScalarParameterParseTest extends BaseTestCase
 
 		ScalarParameterHandle handle3 = (ScalarParameterHandle) params.get( 2 );
 		List<String> valueList = new ArrayList<String>( );
-		valueList.add( "default_value_1" ); //$NON-NLS-1$
+		valueList.add( "default_value_1" ); //$NON-NLS-1$		
+		valueList.add( null );
 		valueList.add( "default_value_2" ); //$NON-NLS-1$
-		valueList.add( "default_value_3" ); //$NON-NLS-1$
+		valueList.add( "" ); //$NON-NLS-1$
 		handle3.setDefaultValueList( valueList );
 		save( );
 		assertTrue( compareFile( "ScalarParameterParseTest_golden.xml" ) ); //$NON-NLS-1$
@@ -206,8 +211,8 @@ public class ScalarParameterParseTest extends BaseTestCase
 		List<Expression> valueList = handle.getDefaultValueList( );
 		assertEquals( valueList.get( 0 ).getExpression( ), handle
 				.getDefaultValue( ) );
-		assertEquals( "value2", valueList.get( 1 ).getExpression( ) ); //$NON-NLS-1$
-		assertEquals( "value3", valueList.get( 2 ).getExpression( ) ); //$NON-NLS-1$
+		assertNull( valueList.get( 1 ) );
+		assertEquals( " ", valueList.get( 2 ).getExpression( ) ); //$NON-NLS-1$
 
 		assertTrue( handle.isRequired( ) );
 		assertFalse( handle.distinct( ) );

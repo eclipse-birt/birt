@@ -185,4 +185,17 @@ public interface IScalarParameterModel
 	 * query result sorts if the parameter is dynamic.
 	 */
 	public static final String SORT_BY_COLUMN_PROP = "sortByColumn"; //$NON-NLS-1$
+
+	/**
+	 * Name of the method that implements to return the default value list of
+	 * the parameter.
+	 */
+	String GET_DEFAULT_VALUE_LIST_PROP = "getDefaultValueList"; //$NON-NLS-1$
+
+	/**
+	 * Name of the method that implements to return the selection value list of
+	 * the parameter. This is meaningful for 'list' or 'combo' control type
+	 * parameter.
+	 */
+	String GET_SELECTION_VALUE_LIST_PROP = "getSelectionValueList"; //$NON-NLS-1$
 }

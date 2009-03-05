@@ -610,7 +610,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * Escapes characters in the CDATA. Two characters are needed to convert:
 	 * 
 	 * <ul>
-	 * <li>& to &amp; <li>]]> to ]]&gt;
+	 * <li>& to &amp;
+	 * <li>]]> to ]]&gt;
 	 * </ul>
 	 * 
 	 * @param value
@@ -1024,15 +1025,15 @@ public abstract class ModuleWriter extends ElementVisitor
 				exprType = ( (Expression) values.get( i ) )
 						.getUserDefinedType( );
 			}
-			if ( xmlValue != null )
-			{
-				writer.startElement( DesignSchemaConstants.VALUE_TAG );
-				if ( exprType != null )
-					writer.attribute( DesignSchemaConstants.TYPE_TAG, exprType );
 
+			writer.startElement( DesignSchemaConstants.VALUE_TAG );
+			if ( exprType != null )
+				writer.attribute( DesignSchemaConstants.TYPE_TAG, exprType );
+
+			if ( xmlValue != null )
 				writer.text( xmlValue );
-				writer.endElement( );
-			}
+			writer.endElement( );
+
 		}
 
 		writer.endElement( );
@@ -2382,6 +2383,10 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IScalarParameterModel.SORT_BY_COLUMN_PROP );
 		property( obj, IScalarParameterModel.SORT_DIRECTION_PROP );
 		property( obj, IScalarParameterModel.AUTO_SUGGEST_THRESHOLD_PROP );
+
+		// write two method
+		property( obj, IScalarParameterModel.GET_DEFAULT_VALUE_LIST_PROP );
+		property( obj, IScalarParameterModel.GET_SELECTION_VALUE_LIST_PROP );
 
 		writeStructure( obj, IScalarParameterModel.FORMAT_PROP );
 		writeStructureList( obj, IScalarParameterModel.SELECTION_LIST_PROP );

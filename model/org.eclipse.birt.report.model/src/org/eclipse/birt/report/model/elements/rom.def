@@ -1945,6 +1945,8 @@
     <Property displayNameID="Element.ScalarParameter.autoSuggestThreshold" name="autoSuggestThreshold" since="2.3" type="integer">
     	<Default>1</Default>
     </Property>
+    <Method context="factory" displayNameID="Element.ScalarParameter.getDefaultValueList" name="getDefaultValueList" returnType="list" since="2.5" toolTipID="Element.ScalarParameter.getDefaultValueList.toolTip"/>
+    <Method context="factory" displayNameID="Element.ScalarParameter.getSelectionValueList" name="getSelectionValueList" returnType="list" since="2.5" toolTipID="Element.ScalarParameter.getSelectionValueList.toolTip"/>
     <PropertyVisibility name="autoSuggestThreshold" visibility="hide"/>    
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.ParameterGroup" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ParameterGroup" name="ParameterGroup" nameSpace="parameter" since="1.0" xmlName="parameter-group">

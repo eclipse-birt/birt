@@ -24,7 +24,9 @@
             <property name="sortBy">label</property>
             <expression name="sortByColumn">city</expression>
             <property name="sortDirection">asc</property>    
-            <property name="autoSuggestThreshold">600</property>                      
+            <property name="autoSuggestThreshold">600</property>
+            <method name="getDefaultValueList"><![CDATA[new getDefaultValueList]]></method>
+            <method name="getSelectionValueList"><![CDATA[new getSelectionValueList]]></method>                      
             <structure name="format">
                 <property name="category">Custom</property>
                 <property name="pattern">$***,***.**</property>
@@ -67,9 +69,10 @@
             <expression name="valueExpr">row["test"]</expression>
             <expression name="labelExpr">test column</expression>
             <simple-property-list name="defaultValue">
-            	<value>default_value_1</value>
+            	<value>default_value_1</value>            	
+            	<value/>
             	<value>default_value_2</value>
-            	<value>default_value_3</value>
+            	<value></value>
             </simple-property-list>
             <structure name="format"/>
         </scalar-parameter>

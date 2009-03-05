@@ -27,10 +27,12 @@
             <property name="sortByColumn">country</property>           
             <expression name="valueExpr">value column</expression>
             <expression name="labelExpr">label column</expression>
+            <method name="getDefaultValueList"><![CDATA[script of getDefaultValueList]]></method>
+            <method name="getSelectionValueList"><![CDATA[script of getSelectionValueList]]></method>
             <simple-property-list name="defaultValue">
             	<value>value1</value>
-            	<value>value2</value>
-            	<value>value3</value>
+            	<value/>
+            	<value> </value>
             </simple-property-list>
             <property name="autoSuggestThreshold">500</property>
             <structure name="format">

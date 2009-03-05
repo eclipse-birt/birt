@@ -1370,4 +1370,53 @@ public class ScalarParameterHandle extends ParameterHandle
 		return getStringProperty( SORT_BY_COLUMN_PROP );
 	}
 
+	/**
+	 * Gets the method content of <code>getDefaultValueList</code>.
+	 * 
+	 * @return the method content of <code>getDefaultValueList</code>
+	 */
+	public String getDefaultValueListMethod( )
+	{
+		return getStringProperty( GET_DEFAULT_VALUE_LIST_PROP );
+	}
+
+	/**
+	 * Sets the method content of <code>getDefaultValueList</code>.
+	 * 
+	 * @param getDefaultValueListMethod
+	 *            the method content of <code>getDefaultValueList</code> to set
+	 * @throws SemanticException
+	 */
+	public void setDefaultValueListMethod( String getDefaultValueListMethod )
+			throws SemanticException
+	{
+		setStringProperty( GET_DEFAULT_VALUE_LIST_PROP,
+				getDefaultValueListMethod );
+	}
+
+	/**
+	 * Gets the method content of <code>getSelectionValueList</code>.
+	 * 
+	 * @return the method content of <code>getSelectionValueList</code>
+	 */
+	public String getSelectionValueListMethod( )
+	{
+		return getStringProperty( GET_SELECTION_VALUE_LIST_PROP );
+	}
+
+	/**
+	 * Sets the method content of <code>getSelectionValueList</code>.
+	 * 
+	 * @param getSelectionValueListMethod
+	 *            the method content of <code>getSelectionValueList</code> to
+	 *            set
+	 * @throws SemanticException
+	 */
+	public void setSelectionValueListMethod( String getSelectionValueListMethod )
+			throws SemanticException
+	{
+		setStringProperty( GET_SELECTION_VALUE_LIST_PROP,
+				getSelectionValueListMethod );
+	}
+
 }
