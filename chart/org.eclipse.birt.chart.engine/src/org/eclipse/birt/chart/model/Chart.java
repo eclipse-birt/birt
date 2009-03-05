@@ -551,7 +551,7 @@ public interface Chart extends EObject
 	 * @return the value of the '<em>Empty Message</em>' containment reference.
 	 * @see #setEmptyMessage(Label)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChart_EmptyMessage()
-	 * @model containment="true" required="true"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='EmptyMessage'"
 	 * @generated
 	 */

@@ -157,8 +157,7 @@
         <details key="name" value="Interactivity"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="emptyMessage" lowerBound="1"
-        eType="ecore:EClass org.eclipse.birt.chart.model.component.ecore#//Label"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="emptyMessage" eType="ecore:EClass org.eclipse.birt.chart.model.component.ecore#//Label"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Provides the message text to be displayed in the place&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;of plot area when the chart contains no data. By default,&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;it's visible is faulse, which indicates if the chart contains&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;no data, the whole chart will be hide.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>

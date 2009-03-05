@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelValidator.java,v 1.1 2008/11/24 03:38:28 ywang1 Exp $
+ * $Id: ModelValidator.java,v 1.2 2008/12/18 05:15:44 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.util;
@@ -123,7 +123,7 @@ public class ModelValidator extends EObjectValidator
 						diagnostics,
 						context );
 			case ModelPackage.COVERAGE_TYPE :
-				return validateCoverageType( ( (Double) value ).doubleValue( ),
+				return validateCoverageType( (Double) value,
 						diagnostics,
 						context );
 			case ModelPackage.COVERAGE_TYPE_OBJECT :
@@ -221,8 +221,8 @@ public class ModelValidator extends EObjectValidator
 		boolean result = coverageType >= COVERAGE_TYPE__MIN__VALUE;
 		if ( !result && diagnostics != null )
 			reportMinViolation( ModelPackage.Literals.COVERAGE_TYPE,
-					new Double( coverageType ),
-					new Double( COVERAGE_TYPE__MIN__VALUE ),
+					coverageType,
+					COVERAGE_TYPE__MIN__VALUE,
 					true,
 					diagnostics,
 					context );
@@ -249,8 +249,8 @@ public class ModelValidator extends EObjectValidator
 		boolean result = coverageType <= COVERAGE_TYPE__MAX__VALUE;
 		if ( !result && diagnostics != null )
 			reportMaxViolation( ModelPackage.Literals.COVERAGE_TYPE,
-					new Double( coverageType ),
-					new Double( COVERAGE_TYPE__MAX__VALUE ),
+					coverageType,
+					COVERAGE_TYPE__MAX__VALUE,
 					true,
 					diagnostics,
 					context );
@@ -265,11 +265,11 @@ public class ModelValidator extends EObjectValidator
 	public boolean validateCoverageTypeObject( Double coverageTypeObject,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		boolean result = validateCoverageType_Min( coverageTypeObject.doubleValue( ),
+		boolean result = validateCoverageType_Min( coverageTypeObject,
 				diagnostics,
 				context );
 		if ( result || diagnostics != null )
-			result &= validateCoverageType_Max( coverageTypeObject.doubleValue( ),
+			result &= validateCoverageType_Max( coverageTypeObject,
 					diagnostics,
 					context );
 		return result;

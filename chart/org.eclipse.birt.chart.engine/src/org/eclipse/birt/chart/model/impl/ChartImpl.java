@@ -990,10 +990,6 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 */
 	public Label getEmptyMessage( )
 	{
-		if ( emptyMessage == null )
-		{
-			setEmptyMessage( newEmptyMessage( ) );
-		}
 		return emptyMessage;
 	}
 
@@ -1112,9 +1108,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 			case ModelPackage.CHART__UNITS :
 				return getUnits( );
 			case ModelPackage.CHART__SERIES_THICKNESS :
-				return new Double( getSeriesThickness( ) );
+				return getSeriesThickness( );
 			case ModelPackage.CHART__GRID_COLUMN_COUNT :
-				return new Integer( getGridColumnCount( ) );
+				return getGridColumnCount( );
 			case ModelPackage.CHART__EXTENDED_PROPERTIES :
 				return getExtendedProperties( );
 			case ModelPackage.CHART__SAMPLE_DATA :
@@ -1164,10 +1160,10 @@ public class ChartImpl extends EObjectImpl implements Chart
 				setUnits( (String) newValue );
 				return;
 			case ModelPackage.CHART__SERIES_THICKNESS :
-				setSeriesThickness( ( (Double) newValue ).doubleValue( ) );
+				setSeriesThickness( (Double) newValue );
 				return;
 			case ModelPackage.CHART__GRID_COLUMN_COUNT :
-				setGridColumnCount( ( (Integer) newValue ).intValue( ) );
+				setGridColumnCount( (Integer) newValue );
 				return;
 			case ModelPackage.CHART__EXTENDED_PROPERTIES :
 				getExtendedProperties( ).clear( );
@@ -1506,7 +1502,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 			chart.clearSections( IConstants.RUN_TIME );
 
 			String baseDataSetRepresentation = sd.getBaseSampleData( )
-					.get( 0 ).getDataSetRepresentation( );
+					.get( 0 )
+					.getDataSetRepresentation( );
 			if ( chart instanceof ChartWithAxes )
 			{
 				baseDataSetRepresentation = ChartUtil.getNewSampleData( ( (Axis) ( getBaseSeriesDefinitionForProcessing( ).eContainer( ) ) ).getType( ),
@@ -1635,8 +1632,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 					.getSeriesDefinitions( )
 					.get( 0 );
 		}
-		return ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
-				.get( 0 );
+		return ( (ChartWithoutAxes) chart ).getSeriesDefinitions( ).get( 0 );
 	}
 
 	private SeriesDefinition getAncillaryBaseSeriesDefinitionForProcessing( )
@@ -1674,7 +1670,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 				axisBase = ( (ChartWithAxes) chart ).getAxes( ).get( iC );
 				for ( int iAC = 0; iAC < axisBase.getAssociatedAxes( ).size( ); iAC++ )
 				{
-					oSD = axisBase.getAssociatedAxes( ).get( iAC ).getSeriesDefinitions( )
+					oSD = axisBase.getAssociatedAxes( )
+							.get( iAC )
+							.getSeriesDefinitions( )
 							.toArray( );
 					for ( int iA = 0; iA < oSD.length; iA++ )
 					{
@@ -1689,7 +1687,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 				.size( ); iC++ )
 		{
 			oSD = ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
-					.get( iC ).getSeriesDefinitions( ).toArray( );
+					.get( iC )
+					.getSeriesDefinitions( )
+					.toArray( );
 			for ( int iA = 0; iA < oSD.length; iA++ )
 			{
 				vTmp.add( oSD[iA] );
