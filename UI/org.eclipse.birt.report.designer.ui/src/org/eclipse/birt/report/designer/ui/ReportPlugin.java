@@ -942,10 +942,11 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setDefaultTemplatePreference( )
 	{
-		String defaultDir = UIUtil.getHomeDirectory( );
+		String defaultRootDir = UIUtil.getFragmentDirectory( );
+		File templateFolder = new File(defaultRootDir, "/custom-templates/"); //$NON-NLS-1$
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
-				.setDefault( TEMPLATE_PREFERENCE, defaultDir );
+				.setDefault( TEMPLATE_PREFERENCE, templateFolder.getAbsolutePath( ) );
 	}
 
 	/**
@@ -1301,7 +1302,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String getResourceFolder( IProject project, ModuleHandle module )
 	{
-		return getResourceFolder( project, module == null ? ""
+		return getResourceFolder( project, module == null ? "" //$NON-NLS-1$
 				: module.getResourceFolder( ) );
 	}
 
