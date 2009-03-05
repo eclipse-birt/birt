@@ -28,7 +28,7 @@ BIRTConfigurationDialog_title=配置 BIRT 部署设置
 BIRTConfiguration_group_paths=部署文件夹设置
 BIRTConfiguration_group_others=其它设置
 
-BIRTConfiguration_resource_folder_button_text=浏览(&B)...
+BIRTConfiguration_resource_folder_button_text=Browse&...
 BIRTConfiguration_working_folder_button_text=B&rowse...
 BIRTConfiguration_document_folder_button_text=Br&owse...
 BIRTConfiguration_image_folder_button_text=Bro&wse...
@@ -51,7 +51,7 @@ BIRTConfiguration_image_label=图像文件夹(&I):
 BIRTConfiguration_image_dialog_title=浏览图像文件夹
 BIRTConfiguration_image_dialog_message=请选择默认图像文件夹:
 
-BIRTConfiguration_scriptlib_label=ScriptLib &Folder:
+BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
 BIRTConfiguration_scriptlib_dialog_title=浏览脚本库文件夹
 BIRTConfiguration_scriptlib_dialog_message=请选择默认脚本库文件夹:
 

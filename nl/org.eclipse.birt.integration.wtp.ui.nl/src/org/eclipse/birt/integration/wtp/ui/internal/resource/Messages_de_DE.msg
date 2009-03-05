@@ -28,7 +28,7 @@ BIRTConfigurationDialog_title=Einstellungen für BIRT-Bereitstellung konfiguriere
 BIRTConfiguration_group_paths=Einstellungen für Bereitstellungsordner
 BIRTConfiguration_group_others=Andere Einstellungen
 
-BIRTConfiguration_resource_folder_button_text=&Durchsuchen...
+BIRTConfiguration_resource_folder_button_text=Browse&...
 BIRTConfiguration_working_folder_button_text=B&rowse...
 BIRTConfiguration_document_folder_button_text=Br&owse...
 BIRTConfiguration_image_folder_button_text=Bro&wse...
@@ -51,7 +51,7 @@ BIRTConfiguration_image_label=B&ildordner:
 BIRTConfiguration_image_dialog_title=Nach Bildordner suchen
 BIRTConfiguration_image_dialog_message=Wählen Sie den Standard-Bildordner:
 
-BIRTConfiguration_scriptlib_label=ScriptLib &Folder:
+BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
 BIRTConfiguration_scriptlib_dialog_title=Nach ScriptLib-Ordner suchen
 BIRTConfiguration_scriptlib_dialog_message=Wählen Sie den Standard-ScriptLib-Ordner:
 

@@ -28,7 +28,7 @@ BIRTConfigurationDialog_title=BIRT 배포 설정 구성
 BIRTConfiguration_group_paths=배포 폴더 설정
 BIRTConfiguration_group_others=기타 설정
 
-BIRTConfiguration_resource_folder_button_text=찾아보기(&B)...
+BIRTConfiguration_resource_folder_button_text=Browse&...
 BIRTConfiguration_working_folder_button_text=B&rowse...
 BIRTConfiguration_document_folder_button_text=Br&owse...
 BIRTConfiguration_image_folder_button_text=Bro&wse...
@@ -51,7 +51,7 @@ BIRTConfiguration_image_label=이미지 폴더(&I):
 BIRTConfiguration_image_dialog_title=이미지 폴더 찾아보기
 BIRTConfiguration_image_dialog_message=기본 이미지 폴더를 선택하십시오.
 
-BIRTConfiguration_scriptlib_label=ScriptLib &Folder:
+BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
 BIRTConfiguration_scriptlib_dialog_title=ScriptLib 폴더 찾아보기
 BIRTConfiguration_scriptlib_dialog_message=기본 scriptlib 폴더를 선택하십시오.
 

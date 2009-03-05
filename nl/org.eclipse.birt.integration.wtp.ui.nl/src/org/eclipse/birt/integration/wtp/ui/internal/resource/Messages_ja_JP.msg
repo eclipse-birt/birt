@@ -28,7 +28,7 @@ BIRTConfigurationDialog_title=BIRT の配布設定
 BIRTConfiguration_group_paths=配布フォルダの設定
 BIRTConfiguration_group_others=その他の設定
 
-BIRTConfiguration_resource_folder_button_text=参照(&B)...
+BIRTConfiguration_resource_folder_button_text=Browse&...
 BIRTConfiguration_working_folder_button_text=B&rowse...
 BIRTConfiguration_document_folder_button_text=Br&owse...
 BIRTConfiguration_image_folder_button_text=Bro&wse...
@@ -51,7 +51,7 @@ BIRTConfiguration_image_label=イメージフォルダ(&I) :
 BIRTConfiguration_image_dialog_title=イメージフォルダの参照
 BIRTConfiguration_image_dialog_message=デフォルトのイメージフォルダを選択してください :
 
-BIRTConfiguration_scriptlib_label=ScriptLib &Folder:
+BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
 BIRTConfiguration_scriptlib_dialog_title=ScriptLib フォルダの参照
 BIRTConfiguration_scriptlib_dialog_message=デフォルトの ScriptLib フォルダを選択してください :
 

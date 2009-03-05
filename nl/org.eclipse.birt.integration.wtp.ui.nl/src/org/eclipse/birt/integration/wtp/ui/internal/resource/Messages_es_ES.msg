@@ -28,7 +28,7 @@ BIRTConfigurationDialog_title=Configurar ajustes de implantación de BIRT
 BIRTConfiguration_group_paths=Ajustes de carpeta de implantación
 BIRTConfiguration_group_others=Otros ajustes
 
-BIRTConfiguration_resource_folder_button_text=&Examinar...
+BIRTConfiguration_resource_folder_button_text=Browse&...
 BIRTConfiguration_working_folder_button_text=B&rowse...
 BIRTConfiguration_document_folder_button_text=Br&owse...
 BIRTConfiguration_image_folder_button_text=Bro&wse...
@@ -51,7 +51,7 @@ BIRTConfiguration_image_label=Carpeta de &imágenes:
 BIRTConfiguration_image_dialog_title=Buscar carpeta de imágenes
 BIRTConfiguration_image_dialog_message=Seleccione la carpeta de imágenes predeterminada:
 
-BIRTConfiguration_scriptlib_label=ScriptLib &Folder:
+BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
 BIRTConfiguration_scriptlib_dialog_title=Buscar carpeta de librería de scripts
 BIRTConfiguration_scriptlib_dialog_message=Seleccione la carpeta de librería de scripts predeterminada:
 

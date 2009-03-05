@@ -28,7 +28,7 @@ BIRTConfigurationDialog_title=Configurer les paramètres de déploiement BIRT
 BIRTConfiguration_group_paths=Paramètres du dossier de déploiement
 BIRTConfiguration_group_others=Autres paramètres
 
-BIRTConfiguration_resource_folder_button_text=& Parcourir...
+BIRTConfiguration_resource_folder_button_text=Browse&...
 BIRTConfiguration_working_folder_button_text=B&rowse...
 BIRTConfiguration_document_folder_button_text=Br&owse...
 BIRTConfiguration_image_folder_button_text=Bro&wse...
@@ -51,7 +51,7 @@ BIRTConfiguration_image_label=&Dossier d'images :
 BIRTConfiguration_image_dialog_title=Parcourir le dossier d'images
 BIRTConfiguration_image_dialog_message=Sélectionnez le dossier d'images par défaut :
 
-BIRTConfiguration_scriptlib_label=ScriptLib &Folder:
+BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
 BIRTConfiguration_scriptlib_dialog_title=Parcourir le dossier ScriptLib
 BIRTConfiguration_scriptlib_dialog_message=Sélectionnez le dossier ScriptLib par défaut :
 
