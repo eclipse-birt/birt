@@ -500,7 +500,7 @@
 		
 		<!-- backup un-signed and packed version -->
 		<exec executable="zip" dir="${tmpsite}">
-			<arg line="-q ${buildDirectory}/birt-all-${package.version}.bak.zip -r eclipse" />
+			<arg line="-q ${buildDirectory}/birt-all-${package.version}.bak.zip -r eclipse ${eclipse.build.configs}/../../extras/pack.properties" />
 		</exec>		
 		
 		<!-- Sign packed features and plugins. 
