@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.model.data.impl.DataFactoryImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
@@ -477,8 +478,9 @@ public class TaskSelectData extends SimpleTask implements
 			// Only data definition query (not group query) will be validated
 			if ( ( notification.getNotifier( ) instanceof Query && ( (Query) notification.getNotifier( ) ).eContainer( ) instanceof Series ) )
 			{
-				errorMsgs.addAll( checkDataType( (Query) notification.getNotifier( ),
-						(Series) ( (Query) notification.getNotifier( ) ).eContainer( ) ) );
+				Query query = (Query) notification.getNotifier( );
+				errorMsgs.addAll( checkDataType( query,
+						(Series) query.eContainer( ) ) );
 				
 				// add default category grouping for data set binding
 				if ( !( ( (ChartWizardContext) getContext( ) ).getChartType( ) instanceof GanttChart )
@@ -505,14 +507,17 @@ public class TaskSelectData extends SimpleTask implements
 							}
 							// if it's date time type, set the 'first'
 							// aggregation.
-							if ( axisWithCurrentQuery.getType( ) == AxisType.DATE_TIME_LITERAL )
+							if ( axisWithCurrentQuery.getType( ) == AxisType.DATE_TIME_LITERAL
+									|| getDataServiceProvider( ).getDataType( query.getDefinition( ) ) == DataType.DATE_TIME_LITERAL )
 							{
-								SeriesDefinition valueSdWithCurrQuery = (SeriesDefinition) ( (Query) notification.getNotifier( ) ).eContainer( )
-										.eContainer( );
-								valueSdWithCurrQuery.getGrouping( )
-										.setEnabled( true );
-								valueSdWithCurrQuery.getGrouping( )
-										.setAggregateExpression( "First" ); //$NON-NLS-1$
+								if ( query.getGrouping( ) == null )
+								{
+									query.setGrouping( DataFactoryImpl.init( )
+											.createSeriesGrouping( ) );
+								}
+								SeriesGrouping group = query.getGrouping( );
+								group.setEnabled( true );
+								group.setAggregateExpression( "First" ); //$NON-NLS-1$
 							}
 						}
 					}
