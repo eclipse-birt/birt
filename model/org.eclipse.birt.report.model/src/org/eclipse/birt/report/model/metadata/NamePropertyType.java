@@ -85,8 +85,7 @@ public class NamePropertyType extends TextualPropertyType
 		}
 		if ( value instanceof String )
 		{
-			String stringValue = trimString( (String) value, defn
-					.getTrimOption( ) );
+			String stringValue = StringUtil.trimString( (String) value );
 			if ( stringValue == null )
 			{
 				if ( defn.isStructureMember( ) )
@@ -124,10 +123,10 @@ public class NamePropertyType extends TextualPropertyType
 	{
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
-
+		
 		if ( tmpValue == null )
 			return null;
-		return trimString( tmpValue, defn.getTrimOption( ) );
+		return StringUtil.trimString( tmpValue );
 	}
 
 	/**

@@ -338,8 +338,7 @@ public abstract class PropertyDefn
 
 		// Perform type-specific initialization.
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		int tmpTypeCode = type.getTypeCode( );
-		switch ( tmpTypeCode )
+		switch ( getTypeCode( ) )
 		{
 			case IPropertyType.CHOICE_TYPE :
 
@@ -525,7 +524,7 @@ public abstract class PropertyDefn
 			getTriggerDefnSet( ).add( triggerDefn );
 		}
 
-		if ( tmpTypeCode != IPropertyType.LIST_TYPE && subType != null )
+		if ( getTypeCode( ) != IPropertyType.LIST_TYPE && subType != null )
 		{
 			// only when the type is list, the subtype is set
 
@@ -533,9 +532,9 @@ public abstract class PropertyDefn
 					MetaDataException.DESIGN_EXCEPTION_SUB_TYPE_FORBIDDEN );
 		}
 
-		if ( tmpTypeCode != IPropertyType.STRUCT_TYPE
-				&& tmpTypeCode != IPropertyType.ELEMENT_TYPE
-				&& tmpTypeCode != IPropertyType.CONTENT_ELEMENT_TYPE
+		if ( getTypeCode( ) != IPropertyType.STRUCT_TYPE
+				&& getTypeCode( ) != IPropertyType.ELEMENT_TYPE
+				&& getTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE
 				&& isList == true )
 		{
 			// only support list of structures.
@@ -574,8 +573,8 @@ public abstract class PropertyDefn
 
 		// default unit check
 
-		if ( tmpTypeCode == IPropertyType.DIMENSION_TYPE
-				|| ( tmpTypeCode == IPropertyType.LIST_TYPE && subType
+		if ( getTypeCode( ) == IPropertyType.DIMENSION_TYPE
+				|| ( getTypeCode( ) == IPropertyType.LIST_TYPE && subType
 						.getTypeCode( ) == IPropertyType.DIMENSION_TYPE ) )
 		{
 			String defaultUnit = getDefaultUnit( );
@@ -594,31 +593,13 @@ public abstract class PropertyDefn
 			}
 		}
 
-		// if the trim option value of the property in rom is not defined, the
-		// default value will be set according to the property type.
-		if ( trimOption == TextualPropertyType.NO_VALUE )
+		if ( getTypeCode( ) == IPropertyType.XML_TYPE
+				&& getTrimOption( ) == XMLPropertyType.NO_VALUE )
 		{
-			if ( tmpTypeCode == IPropertyType.XML_TYPE
-					|| tmpTypeCode == IPropertyType.STRING_TYPE
-					|| tmpTypeCode == IPropertyType.HTML_TYPE
-					|| tmpTypeCode == IPropertyType.RESOURCE_KEY_TYPE
-					|| tmpTypeCode == IPropertyType.URI_TYPE
-					|| tmpTypeCode == IPropertyType.MEMBER_KEY_TYPE
-					|| tmpTypeCode == IPropertyType.NAME_TYPE )
-			{
-				setTrimOption( TextualPropertyType.TRIM_SPACE_VALUE
-						| TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE );
-			}
-			else if ( tmpTypeCode == IPropertyType.EXPRESSION_TYPE
-					|| tmpTypeCode == IPropertyType.SCRIPT_TYPE )
-			{
-				setTrimOption( TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE );
-			}
-			else if ( tmpTypeCode == IPropertyType.LITERAL_STRING_TYPE )
-			{
-				setTrimOption( TextualPropertyType.NO_TRIM_VALUE );
-			}
+			setTrimOption( XMLPropertyType.TRIM_SPACE_VALUE
+					| XMLPropertyType.TRIM_EMPTY_TO_NULL_VALUE );
 		}
+
 	}
 
 	/**

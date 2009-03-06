@@ -81,29 +81,25 @@ public class ExpressionPropertyType extends TextualPropertyType
 		if ( value == null )
 			return null;
 
-		int trimOption = defn.getTrimOption( );
 		if ( value instanceof Expression )
 		{
 			String expr = ( (Expression) value ).getStringExpression( );
 			String tmpType = ( (Expression) value ).getUserDefinedType( );
 
-			String trimExpr = trimString( expr, trimOption );
-
-			if ( trimExpr == null )
+			if ( StringUtil.isEmpty( expr ) )
 			{
 				if ( tmpType == null )
 					return null;
 
-				return new Expression( trimExpr, tmpType );
+				return new Expression( null, tmpType );
 			}
-
 			return value;
 		}
 
 		if ( value instanceof String )
 		{
-			String expr = trimString( (String) value, trimOption );
-			if ( expr == null )
+			String expr = (String) value;
+			if ( StringUtil.isEmpty( expr ) )
 				return null;
 
 			return new Expression( expr, null );
