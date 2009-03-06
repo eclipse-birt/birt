@@ -24,6 +24,8 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
+import org.eclipse.birt.report.designer.ui.views.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -86,7 +88,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		IFastConsumerProcessor
 {
 
-	private static final String VIEW_MODE = "ViewMode";//$NON-NLS-1$
 	private boolean isFormStyle;
 	private static final String COLUMN_TITLE_PROPERTY = Messages.getString( "ReportPropertySheetPage.Column.Title.Property" ); //$NON-NLS-1$
 	private static final String COLUMN_TITLE_VALUE = Messages.getString( "ReportPropertySheetPage.Column.Title.Value" ); //$NON-NLS-1$
@@ -104,6 +105,9 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 	private IMemento propertySheetMemento;
 	private IMemento viewerMemento;
 	protected String propertyViewerID = "Report_Property_Sheet_Page_Viewer_ID"; //$NON-NLS-1$
+
+	private static final String SORTING_PREFERENCE_KEY = "AdvancePropertyDescriptor.preference.sorting.type"; //$NON-NLS-1$
+	private int sortingType;
 
 	public AdvancePropertyDescriptor( boolean formStyle )
 	{
@@ -126,7 +130,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		container.setLayout( layout );
 		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		ToolBar sortBar = new ToolBar( container, SWT.NONE );
+		ToolBar sortBar = new ToolBar( container, SWT.FLAT );
 		GridData gd = new GridData( );
 		gd.grabExcessHorizontalSpace = true;
 		gd.horizontalAlignment = SWT.END;
@@ -136,8 +140,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		SortsortItemListener listener = new SortsortItemListener( );
 		sortItems[0].setToolTipText( provider.getToolTipText( AdvancePropertyDescriptorProvider.MODE_GROUPED ) );
 		sortItems[0].setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_GROUP_SORT ) );
-		sortItems[0].setSelection( true );
-		sortItem = sortItems[0];
 
 		sortItems[0].addSelectionListener( listener );
 		sortItems[0].setData( Integer.valueOf( AdvancePropertyDescriptorProvider.MODE_GROUPED ) );
@@ -154,6 +156,8 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		sortItems[2].addSelectionListener( listener );
 		sortItems[2].setData( Integer.valueOf( AdvancePropertyDescriptorProvider.MODE_LOCAL_ONLY ) );
 
+		initSortingType( );
+
 		viewer = new CustomTreeViewer( container, SWT.FULL_SELECTION );
 
 		tableTree = viewer.getTree( );
@@ -162,6 +166,16 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		tableTree.setHeaderVisible( true );
 		tableTree.setLinesVisible( true );
 
+		provider.selectViewMode( sortingType );
+		for ( int i = 0; i < sortItems.length; i++ )
+		{
+			if ( ( (Integer) sortItems[i].getData( ) ).intValue( ) == sortingType )
+			{
+				sortItems[i].setSelection( true );
+				sortItem = sortItems[i];
+				break;
+			}
+		}
 		viewer.setContentProvider( provider.getContentProvier( ) );
 
 		TreeViewerColumn tvc1 = new TreeViewerColumn( viewer, SWT.NONE );
@@ -185,12 +199,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 
 		// create the editor listener
 		createEditorListener( );
-
-		if ( isFormStyle )
-		{
-			FormWidgetFactory.getInstance( ).paintFormStyle( parent );
-			FormWidgetFactory.getInstance( ).adapt( parent );
-		}
 
 		MementoBuilder builder = new MementoBuilder( );
 		if ( ( propertySheetMemento = builder.getRootMemento( )
@@ -744,19 +752,8 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 			Memento memento = (Memento) viewerMemento.getChild( provider.getElementType( ) );
 			if ( memento != null )
 			{
-				MementoElement element = memento.getMementoElement( )
-						.getChild( VIEW_MODE );
-				if ( element == null )
-				{
-					element = new MementoElement( VIEW_MODE,
-							(Integer) sortItem.getData( ),
-							MementoElement.Type_Element );
-					memento.getMementoElement( ).addChild( element );
-				}
-				else
-				{
-					element.setValue( sortItem.getData( ) );
-				}
+				sortingType = ( (Integer) sortItem.getData( ) ).intValue( );
+				saveSortingType( );
 
 				Object obj = ( (Memento) memento ).getMementoElement( )
 						.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
@@ -839,57 +836,39 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 										MementoElement.Type_Element );
 								elementMemento.getMementoElement( )
 										.setValue( new Integer( 0 ) );
-								MementoElement element = new MementoElement( VIEW_MODE,
-										(Integer) sortItem.getData( ),
-										MementoElement.Type_Element );
-								elementMemento.getMementoElement( )
-										.addChild( element );
 							}
 						}
 						else if ( memento instanceof Memento )
 						{
 							// expandToDefaultLevel( );
 
-							MementoElement viewModeElement = ( (Memento) memento ).getMementoElement( )
-									.getChild( VIEW_MODE );
-							if ( viewModeElement != null )
+							if ( sortingType != provider.getViewMode( ) )
 							{
-								int selectIndex = ( (Integer) viewModeElement.getValue( ) ).intValue( );
+								provider.selectViewMode( sortingType );
 
-								if ( selectIndex != provider.getViewMode( ) )
-								{
-									for ( int i = 0; i < sortItems.length; i++ )
-										sortItems[i].setSelection( false );
-									sortItems[selectIndex].setSelection( true );
-
-									provider.selectViewMode( selectIndex );
-									provider.setInput( input );
-
-									if ( treeListener != null )
-										viewer.getTree( )
-												.removeTreeListener( treeListener );
-									viewer.getTree( ).removeAll( );
-								}
-								viewer.refresh( );
-								expandToDefaultLevel( );
 								if ( treeListener != null )
 									viewer.getTree( )
-											.addTreeListener( treeListener );
-
-								if ( selectIndex == AdvancePropertyDescriptorProvider.MODE_GROUPED )
-									expandTreeFromMemento( (Memento) memento );
-
-								Object obj = ( (Memento) memento ).getMementoElement( )
-										.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
-								if ( obj != null )
-								{
-									restoreSelectedMemento( viewer.getTree( )
-											.getItem( 0 ),
-											(MementoElement[]) obj );
-								}
+											.removeTreeListener( treeListener );
+								viewer.getTree( ).removeAll( );
 							}
+							viewer.refresh( );
+							expandToDefaultLevel( );
+							if ( treeListener != null )
+								viewer.getTree( )
+										.addTreeListener( treeListener );
 
+							if ( sortingType == AdvancePropertyDescriptorProvider.MODE_GROUPED )
+								expandTreeFromMemento( (Memento) memento );
+
+							Object obj = ( (Memento) memento ).getMementoElement( )
+									.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
+							if ( obj != null )
+							{
+								restoreSelectedMemento( viewer.getTree( )
+										.getItem( 0 ), (MementoElement[]) obj );
+							}
 						}
+
 					}
 					execMemento = false;
 				}
@@ -897,6 +876,25 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 
 		}
 
+	}
+
+	private void initSortingType( )
+	{
+		PreferenceFactory.getInstance( )
+				.getPreferences( ReportPlugin.getDefault( ) )
+				.setDefault( SORTING_PREFERENCE_KEY,
+						AdvancePropertyDescriptorProvider.MODE_GROUPED );
+
+		sortingType = PreferenceFactory.getInstance( )
+				.getPreferences( ReportPlugin.getDefault( ) )
+				.getInt( SORTING_PREFERENCE_KEY );
+	}
+
+	private void saveSortingType( )
+	{
+		PreferenceFactory.getInstance( )
+				.getPreferences( ReportPlugin.getDefault( ) )
+				.setValue( SORTING_PREFERENCE_KEY, sortingType );
 	}
 
 	public void save( Object obj ) throws SemanticException
@@ -959,37 +957,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 	{
 		if ( !viewer.getTree( ).isDisposed( ) )
 		{
-			// viewer.refresh( true );
-			if ( getControl( ).isFocusControl( ) )
-			{
-				IMemento memento = viewerMemento.getChild( provider.getElementType( ) );
-				if ( memento == null )
-				{
-					expandToDefaultLevel( );
-					if ( viewer.getTree( ).getItemCount( ) > 0 )
-					{
-						Memento elementMemento = (Memento) viewerMemento.createChild( provider.getElementType( ),
-								MementoElement.Type_Element );
-						elementMemento.getMementoElement( )
-								.setValue( new Integer( 0 ) );
-						MementoElement element = new MementoElement( VIEW_MODE,
-								(Integer) sortItem.getData( ),
-								MementoElement.Type_Element );
-						elementMemento.getMementoElement( ).addChild( element );
-					}
-
-				}
-				if ( memento != null && memento instanceof Memento )
-				{
-					expandToDefaultLevel( );
-					expandTreeFromMemento( (Memento) memento );
-				}
-				changed = false;
-			}
-			else
-			{
-				changed = true;
-			}
+			execMemento( );
 		}
 		else
 		{
