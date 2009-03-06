@@ -1264,7 +1264,7 @@ Element.Style.background.repeat=반복(&R):
 Element.Style.background=배경:
 Element.Style.border.bottom.color=아래(&M):
 Element.Style.border.bottom.style=아래(&B):
-Element.Style.border.bottom.width=아래:
+Element.Style.border.bottom.width=Bottom&:
 Element.Style.border.fillColor=테두리 채우기 색:
 Element.Style.border.hmiddle.color=테두리 가로 중간 색:
 Element.Style.border.hmiddle.style=테두리 가로 중간 스타일:
@@ -3227,7 +3227,7 @@ ResourceEditDialog.text.Value=값(&V)
 
 ###########################################################
 #ResourceKeyDescriptor properties
-
+ResourceKeyDescriptor.text.Browse=찾아보기(&B)...
 ResourceKeyDescriptor.text.Reset=재설정(&R)
 ResourceKeyDescriptor.title.SelectKey=키 선택
 ResourceKeyDescriptor.button.reset.tooltip=키를 재설정합니다.
@@ -3297,7 +3297,6 @@ DirectoryDialog.Question=질문
 
 SchematicContextMenuProvider.ActionText.editData=값/식 편집(&V)... 
 SchematicContextMenuProvider.ActionText.editLabel=편집(&E)
-SchematicContextMenuProvider.Menu.Apply=스타일 적용(&P)
 SchematicContextMenuProvider.Menu.EditGroup=그룹 편집(&G)
 SchematicContextMenuProvider.Menu.Insert=삽입(&I)
 SchematicContextMenuProvider.Menu.insertElement=삽입(&I)
@@ -3305,14 +3304,16 @@ SchematicContextMenuProvider.Menu.insertRow=행(&R)
 SchematicContextMenuProvider.Menu.List=목록
 SchematicContextMenuProvider.Menu.Show=표시
 SchematicContextMenuProvider.Menu.Style=스타일(&Y)
+SchematicContextMenuProvider.Menu.Style.Apply=스타일 적용(&P)
 SchematicContextMenuProvider.Menu.Theme=테마(&M)
-SchematicContextMenuProvider.menutitle.applystylerule=스타일 적용
-SchematicContextMenuProvider.menutitle.applythemerule=테마 적용
-SchematicContextMenuProvider.menutitle.editgroup=그룹 편집
-SchematicContextMenuProvider.menutitle.insert=삽입
-SchematicContextMenuProvider.menutitle.list=목록
-SchematicContextMenuProvider.menutitle.show=표시
-SchematicContextMenuProvider.menutitle.style=스타일
+SchematicContextMenuProvider.Menu.Theme.Apply=A&pply Theme
+#SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
+#SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
+#SchematicContextMenuProvider.menutitle.editgroup=Edit Group
+#SchematicContextMenuProvider.menutitle.insert=Insert
+#SchematicContextMenuProvider.menutitle.list=List
+#SchematicContextMenuProvider.menutitle.show=Show
+#SchematicContextMenuProvider.menutitle.style=Style
 SchematicContextMenuProvider.Menu.EditStyle=스타일 편집(&T)
 SchematicContextMenuProvider.Menu.DeleteStyle=스타일 제거(&S)
 SchematicContextMenuProvider.Menu.DeleteGroup=그룹 삭제(&L)

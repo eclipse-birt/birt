@@ -1264,7 +1264,7 @@ Element.Style.background.repeat=繰り返し(&R) :
 Element.Style.background=背景 :
 Element.Style.border.bottom.color=下(&M) :
 Element.Style.border.bottom.style=下(&B) :
-Element.Style.border.bottom.width=下 :
+Element.Style.border.bottom.width=Bottom&:
 Element.Style.border.fillColor=罫線の塗りつぶしの色 :
 Element.Style.border.hmiddle.color=中央横の罫線の色 :
 Element.Style.border.hmiddle.style=中央横の罫線の線種 :
@@ -3227,7 +3227,7 @@ ResourceEditDialog.text.Value=値(&V)
 
 ###########################################################
 #ResourceKeyDescriptor properties
-
+ResourceKeyDescriptor.text.Browse=参照(&B)...
 ResourceKeyDescriptor.text.Reset=リセット(&R)
 ResourceKeyDescriptor.title.SelectKey=キーの選択
 ResourceKeyDescriptor.button.reset.tooltip=キーのリセット
@@ -3297,7 +3297,6 @@ DirectoryDialog.Question=質問
 
 SchematicContextMenuProvider.ActionText.editData=値/式の編集(&V)... 
 SchematicContextMenuProvider.ActionText.editLabel=編集(&E)
-SchematicContextMenuProvider.Menu.Apply=スタイルの適用(&P)
 SchematicContextMenuProvider.Menu.EditGroup=変数の編集(&G)
 SchematicContextMenuProvider.Menu.Insert=挿入(&I)
 SchematicContextMenuProvider.Menu.insertElement=挿入(&I)
@@ -3305,14 +3304,16 @@ SchematicContextMenuProvider.Menu.insertRow=行(&R)
 SchematicContextMenuProvider.Menu.List=リスト
 SchematicContextMenuProvider.Menu.Show=表示
 SchematicContextMenuProvider.Menu.Style=スタイル(&Y)
+SchematicContextMenuProvider.Menu.Style.Apply=スタイルの適用(&P)
 SchematicContextMenuProvider.Menu.Theme=テーマ(&M)
-SchematicContextMenuProvider.menutitle.applystylerule=スタイルの適用
-SchematicContextMenuProvider.menutitle.applythemerule=テーマの適用
-SchematicContextMenuProvider.menutitle.editgroup=グループの編集
-SchematicContextMenuProvider.menutitle.insert=挿入
-SchematicContextMenuProvider.menutitle.list=リスト
-SchematicContextMenuProvider.menutitle.show=表示
-SchematicContextMenuProvider.menutitle.style=スタイル
+SchematicContextMenuProvider.Menu.Theme.Apply=A&pply Theme
+#SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
+#SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
+#SchematicContextMenuProvider.menutitle.editgroup=Edit Group
+#SchematicContextMenuProvider.menutitle.insert=Insert
+#SchematicContextMenuProvider.menutitle.list=List
+#SchematicContextMenuProvider.menutitle.show=Show
+#SchematicContextMenuProvider.menutitle.style=Style
 SchematicContextMenuProvider.Menu.EditStyle=スタイルの編集(&T)
 SchematicContextMenuProvider.Menu.DeleteStyle=スタイルの削除(&S)
 SchematicContextMenuProvider.Menu.DeleteGroup=グループの削除(&L)

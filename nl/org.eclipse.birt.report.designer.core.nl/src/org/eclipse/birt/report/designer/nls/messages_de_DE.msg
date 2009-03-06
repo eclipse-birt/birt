@@ -1264,7 +1264,7 @@ Element.Style.background.repeat=&Wiederholen:
 Element.Style.background=Hintergrund:
 Element.Style.border.bottom.color=&Unten:
 Element.Style.border.bottom.style=&Unten:
-Element.Style.border.bottom.width=Unten:
+Element.Style.border.bottom.width=Bottom&:
 Element.Style.border.fillColor=Rahmenfüllfarbe:
 Element.Style.border.hmiddle.color=Farbe für horizontalen mittleren Rahmen:
 Element.Style.border.hmiddle.style=Stil für horizontalen mittleren Rahmen:
@@ -3227,7 +3227,7 @@ ResourceEditDialog.text.Value=&Wert
 
 ###########################################################
 #ResourceKeyDescriptor properties
-
+ResourceKeyDescriptor.text.Browse=&Durchsuchen...
 ResourceKeyDescriptor.text.Reset=&Zurücksetzen
 ResourceKeyDescriptor.title.SelectKey=Schlüssel auswählen
 ResourceKeyDescriptor.button.reset.tooltip=Schlüssel zurücksetzen
@@ -3297,7 +3297,6 @@ DirectoryDialog.Question=Frage
 
 SchematicContextMenuProvider.ActionText.editData=&Wert/Ausdruck bearbeiten... 
 SchematicContextMenuProvider.ActionText.editLabel=&Bearbeiten
-SchematicContextMenuProvider.Menu.Apply=&Stil anwenden...
 SchematicContextMenuProvider.Menu.EditGroup=&Gruppe bearbeiten
 SchematicContextMenuProvider.Menu.Insert=E&infügen
 SchematicContextMenuProvider.Menu.insertElement=&Einfügen
@@ -3305,14 +3304,16 @@ SchematicContextMenuProvider.Menu.insertRow=&Zeile
 SchematicContextMenuProvider.Menu.List=Liste
 SchematicContextMenuProvider.Menu.Show=Anzeigen
 SchematicContextMenuProvider.Menu.Style=S&til
+SchematicContextMenuProvider.Menu.Style.Apply=Stil an&wenden
 SchematicContextMenuProvider.Menu.Theme=The&ma
-SchematicContextMenuProvider.menutitle.applystylerule=Stil anwenden
-SchematicContextMenuProvider.menutitle.applythemerule=Thema verwenden
-SchematicContextMenuProvider.menutitle.editgroup=Gruppe bearbeiten
-SchematicContextMenuProvider.menutitle.insert=Einfügen
-SchematicContextMenuProvider.menutitle.list=Liste
-SchematicContextMenuProvider.menutitle.show=Anzeigen
-SchematicContextMenuProvider.menutitle.style=Stil
+SchematicContextMenuProvider.Menu.Theme.Apply=A&pply Theme
+#SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
+#SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
+#SchematicContextMenuProvider.menutitle.editgroup=Edit Group
+#SchematicContextMenuProvider.menutitle.insert=Insert
+#SchematicContextMenuProvider.menutitle.list=List
+#SchematicContextMenuProvider.menutitle.show=Show
+#SchematicContextMenuProvider.menutitle.style=Style
 SchematicContextMenuProvider.Menu.EditStyle=S&til bearbeiten
 SchematicContextMenuProvider.Menu.DeleteStyle=&Stil entfernen
 SchematicContextMenuProvider.Menu.DeleteGroup=Gruppe &löschen

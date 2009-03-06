@@ -1264,7 +1264,7 @@ Element.Style.background.repeat=重复(&R):
 Element.Style.background=背景:
 Element.Style.border.bottom.color=下(&M):
 Element.Style.border.bottom.style=下(&B):
-Element.Style.border.bottom.width=下:
+Element.Style.border.bottom.width=Bottom&:
 Element.Style.border.fillColor=边框填充色:
 Element.Style.border.hmiddle.color=边框水平中间色:
 Element.Style.border.hmiddle.style=边框水平中间样式:
@@ -3227,7 +3227,7 @@ ResourceEditDialog.text.Value=值(&V)
 
 ###########################################################
 #ResourceKeyDescriptor properties
-
+ResourceKeyDescriptor.text.Browse=浏览(&B)...
 ResourceKeyDescriptor.text.Reset=重置(&R)
 ResourceKeyDescriptor.title.SelectKey=选择关键字
 ResourceKeyDescriptor.button.reset.tooltip=重置按键
@@ -3297,7 +3297,6 @@ DirectoryDialog.Question=问题
 
 SchematicContextMenuProvider.ActionText.editData=编辑值/表达式(&V)... 
 SchematicContextMenuProvider.ActionText.editLabel=编辑(&E)
-SchematicContextMenuProvider.Menu.Apply=应用样式(&P)
 SchematicContextMenuProvider.Menu.EditGroup=编辑组(&G)
 SchematicContextMenuProvider.Menu.Insert=插入(&I)
 SchematicContextMenuProvider.Menu.insertElement=插入(&I)
@@ -3305,14 +3304,16 @@ SchematicContextMenuProvider.Menu.insertRow=行(&R)
 SchematicContextMenuProvider.Menu.List=列表
 SchematicContextMenuProvider.Menu.Show=显示
 SchematicContextMenuProvider.Menu.Style=样式(&Y)
+SchematicContextMenuProvider.Menu.Style.Apply=应用样式(&P)
 SchematicContextMenuProvider.Menu.Theme=主题(&M)
-SchematicContextMenuProvider.menutitle.applystylerule=应用样式
-SchematicContextMenuProvider.menutitle.applythemerule=应用主题
-SchematicContextMenuProvider.menutitle.editgroup=编辑组
-SchematicContextMenuProvider.menutitle.insert=插入
-SchematicContextMenuProvider.menutitle.list=列表
-SchematicContextMenuProvider.menutitle.show=显示
-SchematicContextMenuProvider.menutitle.style=样式
+SchematicContextMenuProvider.Menu.Theme.Apply=A&pply Theme
+#SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
+#SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
+#SchematicContextMenuProvider.menutitle.editgroup=Edit Group
+#SchematicContextMenuProvider.menutitle.insert=Insert
+#SchematicContextMenuProvider.menutitle.list=List
+#SchematicContextMenuProvider.menutitle.show=Show
+#SchematicContextMenuProvider.menutitle.style=Style
 SchematicContextMenuProvider.Menu.EditStyle=编辑样式(&T)
 SchematicContextMenuProvider.Menu.DeleteStyle=删除样式(&S)
 SchematicContextMenuProvider.Menu.DeleteGroup=删除组(&L)
