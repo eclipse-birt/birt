@@ -68,8 +68,8 @@ public class RootArea extends BlockContainerArea
 		IPageContent pageContent = (IPageContent) content;
 		if ( context.isAutoPageBreak( ) )
 		{
+			context.setPageNumber( context.getPageNumber() + 1 );
 			pageContent = createPageContent( pageContent );
-			context.setPageNumber( context.getPageNumber( ) + 1 );
 		}
 		createNewPage( pageContent );
 		maxAvaWidth = page.getBody( ).getWidth( );

@@ -41,7 +41,7 @@ public class LayoutContext
 	
 	protected long totalPage = 0;
 	protected long pageCount = 0;
-	protected long pageNumber = 1;
+	protected long pageNumber = 0;
 	
 	protected boolean autoPageBreak = true;
 	

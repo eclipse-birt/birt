@@ -148,7 +148,6 @@ public class AreaFactory
 			case IContent.CELL_CONTENT :
 				return new CellArea( parent, context, content );
 			case IContent.CONTAINER_CONTENT :
-			case IContent.LIST_CONTENT :
 				if ( PropertyUtil.isInlineElement( content ) )
 				{
 					return new InlineContainerArea( parent, context, content );
@@ -156,6 +155,15 @@ public class AreaFactory
 				else
 				{
 					return new BlockContainerArea( parent, context, content );
+				}
+			case IContent.LIST_CONTENT :
+				if ( PropertyUtil.isInlineElement( content ) )
+				{
+					return new ListArea( parent, context, content );
+				}
+				else
+				{
+					return new ListArea( parent, context, content );
 				}
 			case IContent.DATA_CONTENT :
 			case IContent.LABEL_CONTENT :
@@ -165,7 +173,7 @@ public class AreaFactory
 			case IContent.FOREIGN_CONTENT :
 				if ( PropertyUtil.isInlineElement( content ) )
 				{
-					return new BlockContainerArea( parent, context, content );
+					return new InlineContainerArea( parent, context, content );
 				}
 				else
 				{

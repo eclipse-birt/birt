@@ -52,6 +52,7 @@ import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 import org.eclipse.birt.report.engine.nLayout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.AreaFactory;
+import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextAreaLayout;
@@ -312,6 +313,17 @@ public class LayoutEngine extends LayoutEmitterAdapter
 	{
 		_endContainer( container );
 	}
+	
+	protected void _endCell(ICellContent cell) throws BirtException
+	{
+		while(!(current instanceof CellArea))
+		{
+			current.close( );
+			current = current.getParent( );
+		}
+		current.close( );
+		current = current.getParent( );
+	}
 
 	protected void _endContainer( IContent container ) throws BirtException
 	{
@@ -370,7 +382,10 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		}
 
 		ILayout layout = af.createLayout( current, context, content );
-		layout.layout( );
+		if ( layout != null )
+		{
+			layout.layout( );
+		}
 	}
 
 	public void endContent( IContent content ) throws BirtException
@@ -464,7 +479,7 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void endCell( ICellContent cell ) throws BirtException
 	{
-		endContainer( cell );
+		_endCell(cell);
 	}
 	
 	protected void visitContent( IContent content, IContentEmitter emitter )

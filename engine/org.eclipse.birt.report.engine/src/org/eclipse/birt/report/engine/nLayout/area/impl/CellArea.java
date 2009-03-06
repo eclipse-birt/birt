@@ -162,7 +162,8 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		}
 		localProperties = new LocalProperties( );
 		int maw = parent.getMaxAvaWidth( );
-		CSSValue padding = style.getProperty( IStyle.STYLE_PADDING_TOP );
+		IStyle cs = content.getStyle( );
+		CSSValue padding = cs.getProperty( IStyle.STYLE_PADDING_TOP );
 		if ( padding == null )
 		{
 			localProperties.setPaddingTop( DEFAULT_PADDING );
@@ -172,7 +173,6 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 			localProperties.setPaddingTop( PropertyUtil.getDimensionValue(
 					padding, width ) );
 		}
-		IStyle cs = content.getStyle( );
 		padding = cs.getProperty( IStyle.STYLE_PADDING_BOTTOM );
 		if ( padding == null )
 		{

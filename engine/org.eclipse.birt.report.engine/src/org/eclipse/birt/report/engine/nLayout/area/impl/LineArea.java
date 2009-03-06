@@ -458,7 +458,7 @@ public class LineArea extends InlineStackingArea
 				ContainerArea child  = (ContainerArea) iter.next( );
 				h = Math.max( h, child.getAllocatedHeight( ) );
 			}
-			result.setHeight( h );
+			setHeight( h );
 		}
 		if(result!=null)
 		{
