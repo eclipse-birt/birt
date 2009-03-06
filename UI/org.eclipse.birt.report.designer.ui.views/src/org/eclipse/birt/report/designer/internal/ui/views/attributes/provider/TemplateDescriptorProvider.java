@@ -30,7 +30,7 @@ public class TemplateDescriptorProvider extends AbstractDescriptorProvider imple
 
 	public String getBrowseText( )
 	{
-		return "..."; //$NON-NLS-1$
+		return Messages.getString( "ResourceKeyDescriptor.text.Browse" ); //$NON-NLS-1$
 	}
 
 	public String getResetText( )
