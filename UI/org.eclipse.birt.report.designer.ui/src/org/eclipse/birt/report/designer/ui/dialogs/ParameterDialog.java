@@ -2206,7 +2206,8 @@ public class ParameterDialog extends BaseDialog
 				// if ( value.equals( CHOICE_NULL_VALUE )
 				// || value.equals( CHOICE_BLANK_VALUE ) )
 				// return;
-				defaultValueList.clear( );
+				if ( defaultValueList != null )
+					defaultValueList.clear( );
 				setFirstDefaultValue( UIUtil.convertToModelString( value, false ) );
 				if ( isStatic( ) )
 				{
