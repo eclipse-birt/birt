@@ -24,14 +24,12 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 
 	NamePropertyType type = new NamePropertyType( );
 
-	PropertyDefnFake propDefn = new PropertyDefnFake( );
+	PropertyDefn propDefn = new PropertyDefnFake( );
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.TextualPropertyTypeTestCase#setUp
-	 * ()
+	 * @see org.eclipse.birt.report.model.metadata.TextualPropertyTypeTestCase#setUp()
 	 */
 
 	protected void setUp( ) throws Exception
@@ -44,9 +42,7 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
-	 * ()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode()
 	 */
 	public void testGetTypeCode( )
 	{
@@ -56,8 +52,7 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
 	public void testGetName( )
 	{
@@ -67,15 +62,10 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
-	 * ()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue()
 	 */
 	public void testValidateValue( ) throws PropertyValueException
 	{
-		int value = TextualPropertyType.TRIM_SPACE_VALUE
-				| TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE;
-		propDefn.setTrimOption( value );
 		assertEquals( null, type.validateValue( design, propDefn, null ) );
 		assertEquals( null, type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$
 		assertEquals( "abc", type.validateValue( design, propDefn, "abc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -86,12 +76,11 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 
 		try
 		{
-			PropertyDefn namePropDefn = (PropertyDefn) MetaDataDictionary
-					.getInstance( ).getElement(
-							ReportDesignConstants.DATA_SET_ELEMENT )
+			propDefn = (PropertyDefn) MetaDataDictionary.getInstance( )
+					.getElement( ReportDesignConstants.DATA_SET_ELEMENT )
 					.getProperty( DesignElement.NAME_PROP );
 			assertEquals(
-					"ab.9c", type.validateValue( design, namePropDefn, "ab.9c" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+					"ab.9c", type.validateValue( design, propDefn, "ab.9c" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			fail( );
 		}
 		catch ( PropertyValueException e )
@@ -137,8 +126,7 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
-	 * testValidateInputString()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateInputString()
 	 */
 	public void testValidateInputString( ) throws PropertyValueException
 	{
@@ -148,9 +136,7 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
-	 * ()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml()
 	 */
 	public void testValidateXml( ) throws PropertyValueException
 	{
@@ -160,9 +146,7 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
-	 * ()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble()
 	 */
 	public void testToDouble( )
 	{
@@ -172,9 +156,7 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger
-	 * ()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger()
 	 */
 	public void testToInteger( )
 	{
@@ -184,8 +166,7 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
 	public void testToXml( )
 	{
@@ -195,9 +176,7 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
-	 * ()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString()
 	 */
 	public void testToString( )
 	{
@@ -207,8 +186,7 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
-	 * testToDisplayString()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDisplayString()
 	 */
 	public void testToDisplayString( )
 	{
@@ -218,9 +196,7 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
-	 * ()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber()
 	 */
 	public void testToNumber( )
 	{
@@ -231,9 +207,7 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean
-	 * ()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean()
 	 */
 	public void testToBoolean( )
 	{
