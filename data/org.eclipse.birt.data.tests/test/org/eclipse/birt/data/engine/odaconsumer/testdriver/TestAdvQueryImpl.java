@@ -28,6 +28,7 @@ import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.SortSpec;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
 /**
  * A tester ODA driver to test the behavior of odaconsumer, calling
@@ -725,4 +726,54 @@ public class TestAdvQueryImpl implements IAdvancedQuery
         // use whatever value was obtained, which could be null
         return false;	
     }
+
+	public Object getObject( String parameterName ) throws OdaException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object getObject( int parameterId ) throws OdaException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void cancel( ) throws OdaException, UnsupportedOperationException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getEffectiveQueryText( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public QuerySpecification getSpecification( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setObject( String parameterName, Object value )
+			throws OdaException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setObject( int parameterId, Object value ) throws OdaException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setSpecification( QuerySpecification querySpec )
+			throws OdaException, UnsupportedOperationException
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

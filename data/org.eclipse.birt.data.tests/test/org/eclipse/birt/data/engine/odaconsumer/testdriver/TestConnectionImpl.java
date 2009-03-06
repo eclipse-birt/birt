@@ -21,6 +21,8 @@ import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
 import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * A tester ODA driver to test the behavior of odaconsumer, calling
  * on an ODA driver's IConnection implementation. 
@@ -126,5 +128,11 @@ public class TestConnectionImpl implements IConnection
     {
         return m_currentTestCase;
     }
+
+	public void setLocale( ULocale locale ) throws OdaException
+	{
+		// TODO Auto-generated method stub
+		
+	}
     
 }

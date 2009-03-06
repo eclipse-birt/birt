@@ -236,4 +236,16 @@ class TestResultSetImpl implements IResultSet
 		if ( index < 1 || index > m_resultSetMetaData.getColumnCount() )
 			throw new OdaException( "Invalid column index : " + index ); //$NON-NLS-1$
 	}
+
+	public Object getObject( int index ) throws OdaException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object getObject( String columnName ) throws OdaException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
