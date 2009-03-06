@@ -1611,15 +1611,25 @@ public class ParameterDialog extends BaseDialog
 			allowMultiChoice.setVisible( false );
 		}
 
-		// if change type, clear old default values
+		// if change control type, keep first default value
 		if ( isInitialized && defaultValueList != null )
-			defaultValueList.clear( );
+		{
+			Expression expression = getFirstDefaultValue( );
+			if ( expression != null )
+			{
+				defaultValueList.clear( );
+				defaultValueList.add( expression );
+				String type = getSelectedControlType( );
+				if ( isStatic( )
+						&& ( PARAM_CONTROL_COMBO.equals( type )
+								|| PARAM_CONTROL_LIST.equals( type ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( type ) ) )
+					valueTable.refresh( );
+			}
+		}
 	}
 
 	private void switchParamterType( )
 	{
-		if ( isInitialized && defaultValueList != null )
-			defaultValueList.clear( );
 		clearArea( valueArea );
 		lastControlType = null;
 		if ( isStatic( ) )
