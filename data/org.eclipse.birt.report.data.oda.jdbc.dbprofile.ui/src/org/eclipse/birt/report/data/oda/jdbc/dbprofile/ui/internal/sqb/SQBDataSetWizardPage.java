@@ -101,6 +101,10 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         
         ISQLBuilderEditorInput sqbInput = createSQBInput( parent, connProfile );
 		setControl( createSQBControl( parent, sqbInput ) );
+		
+		SQLQueryUtility.setSystemHelp( getControl( ),
+				IHelpConstants.CONEXT_ID_DATASET_SQLWIZARDPAGE );
+
 	}
 
 	private ISQLBuilderEditorInput createSQBInput( Composite parent, IConnectionProfile connProfile )

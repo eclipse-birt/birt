@@ -45,6 +45,8 @@ import org.eclipse.datatools.modelbase.sql.query.ValueExpressionVariable;
 import org.eclipse.datatools.modelbase.sql.query.helper.DataTypeHelper;
 import org.eclipse.datatools.modelbase.sql.query.helper.StatementHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * An internal utility class to process the metadata of a SQL query statement.
@@ -105,6 +107,19 @@ public class SQLQueryUtility
     }
 
     /**
+     * Set system help context
+     * 
+     * @param control
+     * @param contextId
+     */
+	public static void setSystemHelp( Control control, String contextId )
+	{
+		PlatformUI.getWorkbench( )
+				.getHelpSystem( )
+				.setHelp( control, contextId );
+	}
+	
+   /**
      * Updates specified design with raw SQL query text ready for prepare by a JDBC driver; 
      * any extra stuff in QueryStatement are stripped, such as comments are preserved in designer state
      * @param dataSetDesign
