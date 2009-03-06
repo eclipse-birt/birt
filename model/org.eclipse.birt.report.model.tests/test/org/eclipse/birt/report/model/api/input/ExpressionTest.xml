@@ -3,8 +3,8 @@
     <parameters>
         <scalar-parameter name="Param1">
             <simple-property-list name="defaultValue">
-            	<value>value1</value>
-            	<value>value2</value>
+            	<value type="constant">value1</value>
+            	<value type="constant">value2</value>
             	<value type="javascript">value3</value>
             </simple-property-list>
             <expression name="valueExpr">the value1</expression>

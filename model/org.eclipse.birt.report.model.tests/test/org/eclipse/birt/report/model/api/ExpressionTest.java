@@ -90,8 +90,8 @@ public class ExpressionTest extends BaseTestCase
 		exprHandle.setExpression( "123" ); //$NON-NLS-1$
 		exprHandle.setType( ExpressionType.CONSTANT );
 
-		Expression expr = (Expression) tmpItem
-				.getProperty( IReportItemModel.BOOKMARK_PROP );
+		Expression expr = (Expression) tmpItem.getElement( ).getProperty(
+				design, IReportItemModel.BOOKMARK_PROP );
 		assertTrue( equals( expr, "123", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
 
 		// ReportItem.onRender

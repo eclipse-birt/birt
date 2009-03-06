@@ -838,38 +838,12 @@ public abstract class PropertyDefn
 	protected Object doValidateValueWithExpression( Module module,
 			PropertyType tmpType, Object value ) throws PropertyValueException
 	{
-		// if the type is not expression and allowExpression = true, check the
-		// value.
+		Object[] tmpValues = getCompatibleTypeAndValue( tmpType, value );
 
-		Object toValidate = value;
+		Object retValue = ( (PropertyType) tmpValues[0] ).validateValue(
+				module, this, tmpValues[1] );
 
-		if ( allowExpression && getTypeCode( ) != IPropertyType.EXPRESSION_TYPE
-				&& value instanceof Expression )
-		{
-			Expression tmpValue = (Expression) value;
-			if ( tmpValue.getUserDefinedType( ) != ExpressionType.CONSTANT )
-				tmpType = expressionType;
-			else
-				toValidate = tmpValue.getExpression( );
-		}
-
-		Object retValue = tmpType.validateValue( module, this, toValidate );
-
-		// for example, if the type is integer and the type is constant, need to
-		// update the input expression.
-
-		if ( allowExpression && getTypeCode( ) != IPropertyType.EXPRESSION_TYPE
-				&& value instanceof Expression )
-		{
-			Expression tmpValue = (Expression) value;
-			if ( retValue == null && tmpValue.getUserDefinedType( ) == null )
-				retValue = null;
-			else if ( !( retValue instanceof Expression ) )
-				retValue = new Expression( retValue, tmpValue
-						.getUserDefinedType( ) );
-		}
-
-		return retValue;
+		return pushBackExpressionValues( value, retValue );
 	}
 
 	/**
@@ -904,7 +878,7 @@ public abstract class PropertyDefn
 
 		// Property type validation
 
-		retValue = doValidateXMLWithExpression( module, type, value );
+		retValue = doValidateXMLWithExpression( module, value );
 
 		// Per-property validations using a specific validator.
 
@@ -931,41 +905,15 @@ public abstract class PropertyDefn
 	 * @throws PropertyValueException
 	 */
 
-	protected Object doValidateXMLWithExpression( Module module,
-			PropertyType tmpType, Object value ) throws PropertyValueException
+	private Object doValidateXMLWithExpression( Module module, Object value )
+			throws PropertyValueException
 	{
-		// if the type is not expression and allowExpression = true, check the
-		// value.
+		Object[] tmpValues = getCompatibleTypeAndValue( type, value );
 
-		Object toValidate = value;
+		Object retValue = ( (PropertyType) tmpValues[0] ).validateXml( module,
+				this, tmpValues[1] );
 
-		if ( allowExpression && getTypeCode( ) != IPropertyType.EXPRESSION_TYPE
-				&& value instanceof Expression )
-		{
-			Expression tmpValue = (Expression) value;
-			if ( tmpValue.getUserDefinedType( ) != ExpressionType.CONSTANT )
-				tmpType = expressionType;
-			else
-				toValidate = tmpValue.getExpression( );
-		}
-
-		Object retValue = tmpType.validateXml( module, this, toValidate );
-
-		// for example, if the type is integer and the type is constant, need to
-		// update the input expression.
-
-		if ( allowExpression && getTypeCode( ) != IPropertyType.EXPRESSION_TYPE
-				&& value instanceof Expression )
-		{
-			Expression tmpValue = (Expression) value;
-			if ( retValue == null && tmpValue.getUserDefinedType( ) == null )
-				retValue = null;
-			else if ( !( retValue instanceof Expression ) )
-				retValue = new Expression( retValue, tmpValue
-						.getUserDefinedType( ) );
-		}
-
-		return retValue;
+		return pushBackExpressionValues( value, retValue );
 	}
 
 	/**
@@ -1079,7 +1027,7 @@ public abstract class PropertyDefn
 		if ( value == null )
 			return null;
 
-		Object[] tmps = getConvertedTypeAndValue( value );
+		Object[] tmps = getCompatibleTypeAndValue( type, value );
 
 		String retValue = validateExtendedChoicesByName( tmps[1] );
 		if ( retValue != null )
@@ -1100,7 +1048,7 @@ public abstract class PropertyDefn
 
 	public String getStringValue( Module module, Object value )
 	{
-		Object[] tmps = getConvertedTypeAndValue( value );
+		Object[] tmps = getCompatibleTypeAndValue( type, value );
 
 		return ( (PropertyType) tmps[0] ).toString( module, this, tmps[1] );
 
@@ -1120,7 +1068,7 @@ public abstract class PropertyDefn
 
 	public double getFloatValue( Module module, Object value )
 	{
-		Object[] tmps = getConvertedTypeAndValue( value );
+		Object[] tmps = getCompatibleTypeAndValue( type, value );
 
 		return ( (PropertyType) tmps[0] ).toDouble( module, tmps[1] );
 	}
@@ -1139,7 +1087,7 @@ public abstract class PropertyDefn
 
 	public int getIntValue( Module module, Object value )
 	{
-		Object[] tmps = getConvertedTypeAndValue( value );
+		Object[] tmps = getCompatibleTypeAndValue( type, value );
 
 		return ( (PropertyType) tmps[0] ).toInteger( module, tmps[1] );
 	}
@@ -1158,7 +1106,7 @@ public abstract class PropertyDefn
 
 	public BigDecimal getNumberValue( Module module, Object value )
 	{
-		Object[] tmps = getConvertedTypeAndValue( value );
+		Object[] tmps = getCompatibleTypeAndValue( type, value );
 
 		return ( (PropertyType) tmps[0] ).toNumber( module, tmps[1] );
 	}
@@ -1177,7 +1125,7 @@ public abstract class PropertyDefn
 
 	public boolean getBooleanValue( Module module, Object value )
 	{
-		Object[] tmps = getConvertedTypeAndValue( value );
+		Object[] tmps = getCompatibleTypeAndValue( type, value );
 
 		return ( (PropertyType) tmps[0] ).toBoolean( module, tmps[1] );
 	}
@@ -1197,7 +1145,7 @@ public abstract class PropertyDefn
 		if ( value == null )
 			return null;
 
-		Object[] tmps = getConvertedTypeAndValue( value );
+		Object[] tmps = getCompatibleTypeAndValue( type, value );
 
 		String retValue = validateExtendedChoicesByName( tmps[1] );
 		if ( retValue == null )
@@ -1892,19 +1840,29 @@ public abstract class PropertyDefn
 	/**
 	 * Returns the correct type and the value for validation or the conversion.
 	 * 
+	 * @param tmpType
+	 *            the property type. For the list property type, should be
+	 *            subType.
 	 * @param value
 	 *            the value to validate or convert
 	 * @return a 2-item array. The first item is the property type and 2nd is
 	 *         the value
 	 */
 
-	private Object[] getConvertedTypeAndValue( Object value )
+	public Object[] getCompatibleTypeAndValue( PropertyType tmpType,
+			Object value )
 	{
 		Object[] retValue = new Object[2];
-		retValue[0] = type;
+
+		retValue[0] = tmpType;
 		retValue[1] = value;
 
-		if ( value instanceof Expression )
+		// if the type is not expression and allowExpression = true, check the
+		// value.
+
+		if ( allowExpression
+				&& ( (PropertyType) retValue[0] ).getTypeCode( ) != IPropertyType.EXPRESSION_TYPE
+				&& value instanceof Expression )
 		{
 			if ( !ExpressionType.CONSTANT
 					.equalsIgnoreCase( ( (Expression) value )
@@ -1914,10 +1872,36 @@ public abstract class PropertyDefn
 			}
 			else
 			{
-				assert getTypeCode( ) != IPropertyType.EXPRESSION_TYPE;
 				retValue[1] = ( (Expression) value ).getExpression( );
 			}
 
+		}
+		return retValue;
+	}
+
+	/**
+	 * @param value
+	 * @param validated
+	 * @return
+	 */
+
+	private Object pushBackExpressionValues( Object value, Object validated )
+	{
+		// for example, if the type is integer and the type is constant, need to
+		// update the input expression.
+
+		Object retValue = validated;
+
+		if ( allowExpression
+				&& type.getTypeCode( ) != IPropertyType.EXPRESSION_TYPE
+				&& value instanceof Expression )
+		{
+			Expression tmpValue = (Expression) value;
+			if ( validated == null && tmpValue.getUserDefinedType( ) == null )
+				retValue = null;
+			else if ( !( validated instanceof Expression ) )
+				retValue = new Expression( validated, tmpValue
+						.getUserDefinedType( ) );
 		}
 
 		return retValue;
