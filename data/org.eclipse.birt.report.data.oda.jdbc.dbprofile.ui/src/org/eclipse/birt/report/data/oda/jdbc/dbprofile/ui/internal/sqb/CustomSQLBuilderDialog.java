@@ -47,9 +47,7 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
         setParentShell( parent.getShell() );
         Control dialogArea = super.createDialogArea( parent );
         getSQLBuilder().addContentChangeListener( this );
-		SQLQueryUtility.setSystemHelp( dialogArea,
-				IHelpConstants.CONEXT_ID_DATASET_DIALOG_SQLBUILDER );
-       return dialogArea;
+        return dialogArea;
     }
     
     /*

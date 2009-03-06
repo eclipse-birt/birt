@@ -17,9 +17,6 @@ public interface IHelpConstants
 	public static final String PREFIX = "org.eclipse.birt.cshelp" + "."; //$NON-NLS-1$
 
 	public static final String CONEXT_ID_DATASET_SQLWIZARDPAGE = PREFIX
-			+ "Wizard_SQL_Datasset_ID";//$NON-NLS-1$
-
-	public static final String CONEXT_ID_DATASET_DIALOG_SQLBUILDER = PREFIX
-			+ "Dialog_SQL_Builder";//$NON-NLS-1$	
+			+ "Wizard_SQLQUERY_Datasset_ID";//$NON-NLS-1$
 
 }
