@@ -139,9 +139,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 	private static final String DELETE_GROUP_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.DeleteGroup" ); //$NON-NLS-1$
 
-	private static final String APPLY_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Apply" ); //$NON-NLS-1$
-
 	private static final String STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Style" ); //$NON-NLS-1$
+
+	private static final String APPLY_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Style.Apply" ); //$NON-NLS-1$
+
+	private static final String THEME_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Theme" ); //$NON-NLS-1$
+
+	private static final String APPLY_THEME_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Theme.Apply" ); //$NON-NLS-1$
 
 	private static final String INSERT_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Insert" ); //$NON-NLS-1$
 
@@ -847,15 +851,15 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	private void createThemeMenu( Object selectedObject,
 			IMenuManager menuManager, String group_name )
 	{
-		MenuManager menu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.Menu.Theme" ) );//$NON-NLS-1$
+		MenuManager menu = new MenuManager( THEME_MENU_ITEM_TEXT );
 		if ( selectedObject instanceof LibraryHandle )
 		{
 			SlotHandle obj = ( (LibraryHandle) selectedObject ).getThemes( );
 			menu.add( new InsertAction( obj,
-					Messages.getString( "ThemesNodeProvider.action.New" ) ) );
+					Messages.getString( "ThemesNodeProvider.action.New" ) ) ); //$NON-NLS-1$
 		}
 
-		MenuManager subMenu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.menutitle.applythemerule" ) );//$NON-NLS-1$
+		MenuManager subMenu = new MenuManager( APPLY_THEME_MENU_ITEM_TEXT );
 		subMenu.add( NoneAction.getInstance( ) );
 		subMenu.addMenuListener( new IMenuListener( ) {
 
