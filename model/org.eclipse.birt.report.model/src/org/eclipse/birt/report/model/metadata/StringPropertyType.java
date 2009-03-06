@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.StylePropertyUtil;
@@ -26,7 +25,7 @@ import org.eclipse.birt.report.model.util.StylePropertyUtil;
  * 
  */
 
-public class StringPropertyType extends PropertyType
+public class StringPropertyType extends TextualPropertyType
 {
 
 	/**
@@ -59,25 +58,22 @@ public class StringPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		String stringValue = value.toString( );
-
-		// Model treats "" is as same as null.
-
-		if ( StringUtil.isEmpty( stringValue ) )
-			return null;
+		String stringValue = trimString( value.toString( ), defn
+				.getTrimOption( ) );
 
 		if ( IStyleModel.FONT_FAMILY_PROP.equals( defn.getName( ) ) )
 		{
 			return StylePropertyUtil.handleFontFamily( defn, stringValue );
 		}
 
-		return stringValue.trim( );
+		return stringValue;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -88,7 +84,8 @@ public class StringPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
 	public String getName( )
@@ -107,17 +104,6 @@ public class StringPropertyType extends PropertyType
 		// rules are locale-dependent.
 
 		return 0;
-	}
-
-	/**
-	 * Converts the string property value to a string.
-	 * 
-	 * @return <code>value</code> as a string.
-	 */
-
-	public String toString( Module module, PropertyDefn defn, Object value )
-	{
-		return (String) value;
 	}
 
 	/**

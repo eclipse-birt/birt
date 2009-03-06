@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Module;
 
 /**
@@ -69,33 +68,6 @@ public class ScriptPropertyType extends TextualPropertyType
 	public String toString( Module module, PropertyDefn defn, Object value )
 	{
 		return (String) value;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.TextualPropertyType#validateValue
-	 * (org.eclipse.birt.report.model.core.Module,
-	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
-	 */
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
-	{
-		if ( value == null )
-			return null;
-		if ( value instanceof String )
-		{
-			if ( ( (String) value ).length( ) > 0 )
-			{
-				return value;
-			}
-			return null;
-
-		}
-		throw new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-				getTypeCode( ) );
 	}
 
 }

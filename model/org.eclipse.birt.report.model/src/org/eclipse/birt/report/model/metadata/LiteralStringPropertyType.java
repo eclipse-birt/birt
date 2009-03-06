@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Module;
 
 /**
@@ -23,7 +22,7 @@ import org.eclipse.birt.report.model.core.Module;
  * 
  */
 
-public class LiteralStringPropertyType extends PropertyType
+public class LiteralStringPropertyType extends TextualPropertyType
 {
 
 	/**
@@ -41,42 +40,11 @@ public class LiteralStringPropertyType extends PropertyType
 		super( DISPLAY_NAME_KEY );
 	}
 
-	/**
-	 * Validates a string property value. The value can be any object. If the
-	 * value is an integer, float, BigDecimal or other BIRT-supported property
-	 * value, it is converted to a string using the rules for the current
-	 * locale. Others are converted using the toString( ) method.
-	 * 
-	 * @return a <code>String</code> object or null or empty string
-	 */
-
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
-	{
-		if ( value == null )
-			return null;
-
-		String stringValue = value.toString( );
-
-		return stringValue;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyValidator#validateXml(java.lang.String)
-	 */
-
-	public Object validateXml( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
-	{
-		return value;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -87,7 +55,8 @@ public class LiteralStringPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
 	public String getName( )
@@ -106,17 +75,6 @@ public class LiteralStringPropertyType extends PropertyType
 		// rules are locale-dependent.
 
 		return 0;
-	}
-
-	/**
-	 * Converts the string property value to a string.
-	 * 
-	 * @return <code>value</code> as a string.
-	 */
-
-	public String toString( Module module, PropertyDefn defn, Object value )
-	{
-		return (String) value;
 	}
 
 	/**
