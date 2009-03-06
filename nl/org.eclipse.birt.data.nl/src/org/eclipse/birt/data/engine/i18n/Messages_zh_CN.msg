@@ -208,7 +208,7 @@ data.engine.failToCreateTempDir=无法在“{0}”中创建临时目录；
 data.engine.reportItem.SubQuery.Unsupported=报表项共享不能用于子查询。
 data.engine.emptyResultSet=结果集为空。
 data.engine.errorHappenWhenRetrieveResultSet=访问结果集“{0}”时出错。指定的结果集可能不存在。
-data.engine.invalidAggregationBindingForPLSReport=The aggregation binding "{0}" is invalid when page level security is enabled.
+data.engine.invalidAggregationBindingForPLSReport=启用页面级别安全时，聚合绑定“{0}”无效。
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名称不能为空或 null。
