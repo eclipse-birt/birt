@@ -97,6 +97,7 @@ public class MemberRecord extends SimpleRecord
 		memberRef = ref;
 		newValue = value;
 		assert module != null;
+		this.module = module;
 		structure = memberRef.getStructure( module, element );
 		oldValue = memberRef.getLocalValue( module, element );
 

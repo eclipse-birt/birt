@@ -10,7 +10,7 @@
         <structure>
             <property name="name">pswd</property>
             <property name="id">30</property>
-            <encrypted-property name="value" encryptionID="oneEncryptionHelper" type="javascript">_ab_setNewPassword</encrypted-property>
+            <encrypted-property name="value" encryptionID="oneEncryptionHelper">_ab_setNewPassword</encrypted-property>
         </structure>
         <structure>
             <property name="name">bookmark</property>
@@ -25,7 +25,7 @@
         <structure>
             <property name="name">pswd</property>
             <property name="id">31</property>
-            <encrypted-property name="value" encryptionID="oneEncryptionHelper" type="javascript">_ab_createPassword</encrypted-property>
+            <encrypted-property name="value" encryptionID="oneEncryptionHelper">_ab_createPassword</encrypted-property>
         </structure>
     </list-property>
     <page-setup>

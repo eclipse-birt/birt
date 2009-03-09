@@ -120,7 +120,7 @@ public class PropertyBinding extends Structure
 				Object decoded = EncryptionUtil.decrypt(
 						(PropertyDefn) getDefn( ).getMember( VALUE_MEMBER ),
 						encryptionID, value.getExpression( ) );
-				return new Expression( decoded, value.getType( ) );
+				return new Expression( decoded, value.getUserDefinedType( ) );
 			}
 
 			return value;

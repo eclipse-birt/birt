@@ -143,6 +143,16 @@ public class EncryptionUtil
 						.equals( memberDefn.getName( ) ) ) )
 		{
 			PropertyBinding propBinding = (PropertyBinding) structure;
+
+			// if the encryption is set for property binding, we need not search
+			// the target element and find the encryption id, just use it(case:
+			// property binding exists and then we try to change the value and
+			// call setMember)
+			String encryptionID = propBinding.getEncryption( );
+			if ( encryptionID != null )
+				return encryptionID;
+
+			// if encryption is not set, then do the searching
 			BigDecimal idDecimal = propBinding.getID( );
 			long id = idDecimal == null ? -1 : idDecimal.longValue( );
 			DesignElement targetElement = module.getElementByID( id );
@@ -150,7 +160,7 @@ public class EncryptionUtil
 			// if element is found, then check the bound property is encrypted
 			// or not, if yes, do encryption for this binding value, otherwise
 			// do nothing
-			String encryptionID = null;
+
 			if ( targetElement != null )
 			{
 				String propName = propBinding.getName( );
@@ -168,6 +178,11 @@ public class EncryptionUtil
 			}
 
 			return encryptionID;
+		}
+		if ( structure instanceof PropertyBinding )
+		{
+			PropertyBinding propBinding = (PropertyBinding) structure;
+			return propBinding.getEncryption( );
 		}
 		return null;
 	}
@@ -194,7 +209,7 @@ public class EncryptionUtil
 				{
 					Expression exprValue = (Expression) value;
 					Expression encryptedExprValue = new Expression(
-							encryptedValue, exprValue.getType( ) );
+							encryptedValue, exprValue.getUserDefinedType( ) );
 					propBinding.setProperty( memberDefn, encryptedExprValue );
 				}
 				return;

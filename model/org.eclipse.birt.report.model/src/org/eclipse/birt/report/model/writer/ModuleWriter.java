@@ -1179,7 +1179,7 @@ public abstract class ModuleWriter extends ElementVisitor
 						writeEntry(
 								DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG,
 								PropertyBinding.VALUE_MEMBER, encryptionID,
-								value.getType( ), xml, false );
+								value.getUserDefinedType( ), xml, false );
 					}
 
 				}
