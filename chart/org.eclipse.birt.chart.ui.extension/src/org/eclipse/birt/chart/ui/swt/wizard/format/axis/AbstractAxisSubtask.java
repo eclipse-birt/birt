@@ -38,6 +38,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -334,16 +335,30 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
 		{
 			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "AbstractAxisSubtask.Label.LabelSpan" ) ); //$NON-NLS-1$
-			lneLabelSpan = new LocalizedNumberEditorComposite( cmpBasic,
+
+			Composite cmpEditor = new Composite( cmpBasic, SWT.NONE );
+			{
+				GridData gd = new GridData( );
+				gd.widthHint = 250;
+				cmpEditor.setLayoutData( gd );
+				GridLayout layout = new GridLayout( 2, false );
+				layout.marginHeight = 0;
+				layout.marginWidth = 0;
+				cmpEditor.setLayout( layout );
+			}
+
+			lneLabelSpan = new LocalizedNumberEditorComposite( cmpEditor,
 					SWT.BORDER );
+			new TextNumberEditorAssistField( lneLabelSpan.getTextControl( ),
+					null );
 			{
 				lneLabelSpan.setValue( getAxisForProcessing( ).getLabelSpan( ) );
 				lneLabelSpan.addModifyListener( this );
-				GridData gd = new GridData( );
-				gd.widthHint = 250;
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				lneLabelSpan.setLayoutData( gd );
 				lneLabelSpan.setEnabled( getAxisForProcessing( ).isSetLabelSpan( ) );
 			}
+			new Label( cmpEditor, SWT.NONE ).setText( Messages.getString("AbstractAxisSubtask.Label.Pixels") ); //$NON-NLS-1$
 
 			btnFixLabelSpan = new Button( cmpBasic, SWT.CHECK );
 			{
