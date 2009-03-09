@@ -258,7 +258,7 @@
 		<mkdir dir="${updateJarWorkingDir}/site" />
 		
 		<exec executable="unzip" dir="${buildDirectory}">
-			<arg line="-o -q birt-all-${package.version}.zip -d ${updateJarWorkingDir}" />
+			<arg line="-o -q birt-all-${package.version}.sign.zip -d ${updateJarWorkingDir}" />
 		</exec>
 		<!--
 		<copy todir="${updateJarWorkingDir}/eclipse/plugins">
@@ -532,6 +532,7 @@
                             file2="${buildDirectory}/birt-all-${package.version}.sign.zip"/>
            </condition>
            <antcall target="DownloadSignedPackAgain"/>
+           <delete dir="${tmpsite}" failonerror="false" />
            <unzip src="${buildDirectory}/birt-all-${package.version}.sign.zip" dest="${tmpsite}"/>
         </target>
 
