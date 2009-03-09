@@ -206,7 +206,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					// Save the data when applying
 					applyData[0] = EcoreUtil.copy( context.getModel( ) );
 					applyData[1] = context.getOutputFormat( );
-					applyData[1] = context.isInheritColumnsOnly( );
+					applyData[2] = context.isInheritColumnsOnly( );
 
 					commandStack.commit( );
 					commandStack.startTrans( TRANS_NAME );
