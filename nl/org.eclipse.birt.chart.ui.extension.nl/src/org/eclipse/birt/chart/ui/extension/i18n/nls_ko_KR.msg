@@ -676,6 +676,7 @@ PropertyEditorDialog.Lbl.Value=값
 PropertyEditorDialog.Lbl.Add=추가(&A)
 PropertyEditorDialog.Lbl.Remove=제거(&R)
 HeadStyleAttributeComposite.Lbl.HeadStyle=헤드 스타일:
+HyperlinkEditorDialog.ErrorMessage.NullText=Text cannot be null\!
 HyperlinkEditorDialog.Text.MenuLabel=Text:
 HyperlinkEditorDialog.Title.HyperlinkEditor=Hyperlink Editor
 
@@ -800,6 +801,7 @@ AxisXSheetImpl.Label.AxisData=축 데이터
 AbstractAxisSubtask.Label.Stagger=Sta&gger
 AbstractAxisSubtask.Label.Interactivity=축 대화형 작업
 AbstractAxisSubtask.Label.LabelSpan=레이블 범위:
+AbstractAxisSubtask.Label.Points=(Points)
 AbstractAxisSubtask.Label.ReverseCategory=역방향 범주(&C)
 AxisTextSheet.Label.Interval=간격(&E):
 AxisMarkersSheet.Title.MarkerLine=표지 선
@@ -1011,8 +1013,13 @@ ssPreferencesContentAssistFilter= 팝업이 열려 있는 동안 입력하는 경우:
 ssPreferencesContentAssistFilterCumulative= 누적 입력으로 팝업 내용 필터링(&L)
 ssPreferencesContentAssistFilterCharacter= 입력된 마지막 문자에 따라 팝업 필터링(&T)
 ssPreferencesContentAssistFilterNone= 필터링하지 않음(&N)
+ssPreferencesRequiredFieldIndicator = Showing Required Fields:
+ssPreferencesShowRequiredFieldLabelIndicator = Show required field indicator in field's label
+ssPreferencesShowRequiredFieldDecorator = Decorate required fields
+
 ssDecoratorContentAssist= 이 필드에 사용 가능한 내용 지원을 보려면 {0}을(를) 누르십시오.
 ssDecorationMenuItem=잘못된 문자 제거
+
 
 ### Multiple Hyperlinks ###
 MenuStyleDialog.Column.Properties=Properties
@@ -1024,7 +1031,7 @@ MenuStyleDialog.Style.OnMouseOut=On Mouse Out
 MenuStylesDialog.Btn.Add=추가(&A)
 MenuStylesDialog.Btn.Add=추가(&A)
 MenuStylesDialog.Btn.Remove=&Remvoe
-MenuStylesDialog.Btn.Remove=&Remove
+MenuStylesDialog.Btn.Remove=&Remvoe
 MenuStylesDialog.Label.Style=스타일:
 MenuStylesDialog.Label.Style=스타일:
 MenuStylesDialog.title=Hyerlink Menu Properties

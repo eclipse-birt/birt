@@ -676,6 +676,7 @@ PropertyEditorDialog.Lbl.Value=Valeur
 PropertyEditorDialog.Lbl.Add=&Ajouter
 PropertyEditorDialog.Lbl.Remove=&Supprimer
 HeadStyleAttributeComposite.Lbl.HeadStyle=Style de pointe :
+HyperlinkEditorDialog.ErrorMessage.NullText=Text cannot be null\!
 HyperlinkEditorDialog.Text.MenuLabel=Text:
 HyperlinkEditorDialog.Title.HyperlinkEditor=Hyperlink Editor
 
@@ -800,6 +801,7 @@ AxisXSheetImpl.Label.AxisData=Données de l'axe
 AbstractAxisSubtask.Label.Stagger=Sta&gger
 AbstractAxisSubtask.Label.Interactivity=Interactivité de l'axe
 AbstractAxisSubtask.Label.LabelSpan=Plage de l'étiquette :
+AbstractAxisSubtask.Label.Points=(Points)
 AbstractAxisSubtask.Label.ReverseCategory=Inverser les &catégories
 AxisTextSheet.Label.Interval=Int&ervalle :
 AxisMarkersSheet.Title.MarkerLine=Ligne de repères
@@ -1011,8 +1013,13 @@ ssPreferencesContentAssistFilter= Lorsque vous saisissez des informations alors 
 ssPreferencesContentAssistFilterCumulative= Fi&ltrage du contenu de la fenêtre avec une saisie cumulée
 ssPreferencesContentAssistFilterCharacter= Fil&trage de la fenêtre en fonction du dernier caractère saisi
 ssPreferencesContentAssistFilterNone= &Pas de filtrage
+ssPreferencesRequiredFieldIndicator = Showing Required Fields:
+ssPreferencesShowRequiredFieldLabelIndicator = Show required field indicator in field's label
+ssPreferencesShowRequiredFieldDecorator = Decorate required fields
+
 ssDecoratorContentAssist= Un assistant de contenu est disponible sur ce champ, appuyez sur {0}
 ssDecorationMenuItem=Supprimer les caractères incorrects
+
 
 ### Multiple Hyperlinks ###
 MenuStyleDialog.Column.Properties=Properties
@@ -1024,7 +1031,7 @@ MenuStyleDialog.Style.OnMouseOut=On Mouse Out
 MenuStylesDialog.Btn.Add=&Ajouter
 MenuStylesDialog.Btn.Add=&Ajouter
 MenuStylesDialog.Btn.Remove=&Remvoe
-MenuStylesDialog.Btn.Remove=&Remove
+MenuStylesDialog.Btn.Remove=&Remvoe
 MenuStylesDialog.Label.Style=Style :
 MenuStylesDialog.Label.Style=Style :
 MenuStylesDialog.title=Hyerlink Menu Properties

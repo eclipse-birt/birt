@@ -676,6 +676,7 @@ PropertyEditorDialog.Lbl.Value=値
 PropertyEditorDialog.Lbl.Add=追加(&A)
 PropertyEditorDialog.Lbl.Remove=削除(&R)
 HeadStyleAttributeComposite.Lbl.HeadStyle=針の先端 :
+HyperlinkEditorDialog.ErrorMessage.NullText=Text cannot be null\!
 HyperlinkEditorDialog.Text.MenuLabel=Text:
 HyperlinkEditorDialog.Title.HyperlinkEditor=Hyperlink Editor
 
@@ -800,6 +801,7 @@ AxisXSheetImpl.Label.AxisData=軸データ
 AbstractAxisSubtask.Label.Stagger=Sta&gger
 AbstractAxisSubtask.Label.Interactivity=軸の相互作用
 AbstractAxisSubtask.Label.LabelSpan=ラベルの幅 :
+AbstractAxisSubtask.Label.Points=(Points)
 AbstractAxisSubtask.Label.ReverseCategory=カテゴリを逆順にする(&C)
 AxisTextSheet.Label.Interval=間隔 (&E):
 AxisMarkersSheet.Title.MarkerLine=マーカの線
@@ -1011,8 +1013,13 @@ ssPreferencesContentAssistFilter= ポップアップが開いたまま入力したとき :
 ssPreferencesContentAssistFilterCumulative= 累積入力でポップアップコンテンツをフィルタする(&L)
 ssPreferencesContentAssistFilterCharacter= 最後に入力した文字でポップアップをフィルタする(&T)
 ssPreferencesContentAssistFilterNone= フィルタなし(&N)
+ssPreferencesRequiredFieldIndicator = Showing Required Fields:
+ssPreferencesShowRequiredFieldLabelIndicator = Show required field indicator in field's label
+ssPreferencesShowRequiredFieldDecorator = Decorate required fields
+
 ssDecoratorContentAssist= このフィールドで利用できるコンテンツのアシストについては、{0} を押します。
 ssDecorationMenuItem=無効な文字を削除する
+
 
 ### Multiple Hyperlinks ###
 MenuStyleDialog.Column.Properties=Properties
@@ -1024,7 +1031,7 @@ MenuStyleDialog.Style.OnMouseOut=On Mouse Out
 MenuStylesDialog.Btn.Add=追加(&A)
 MenuStylesDialog.Btn.Add=追加(&A)
 MenuStylesDialog.Btn.Remove=&Remvoe
-MenuStylesDialog.Btn.Remove=&Remove
+MenuStylesDialog.Btn.Remove=&Remvoe
 MenuStylesDialog.Label.Style=スタイル :
 MenuStylesDialog.Label.Style=スタイル :
 MenuStylesDialog.title=Hyerlink Menu Properties

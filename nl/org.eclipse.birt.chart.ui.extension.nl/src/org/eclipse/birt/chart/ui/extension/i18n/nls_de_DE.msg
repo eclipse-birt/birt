@@ -676,6 +676,7 @@ PropertyEditorDialog.Lbl.Value=Wert
 PropertyEditorDialog.Lbl.Add=&Hinzufügen
 PropertyEditorDialog.Lbl.Remove=&Entfernen
 HeadStyleAttributeComposite.Lbl.HeadStyle=Kopfzeilenstil:
+HyperlinkEditorDialog.ErrorMessage.NullText=Text cannot be null\!
 HyperlinkEditorDialog.Text.MenuLabel=Text:
 HyperlinkEditorDialog.Title.HyperlinkEditor=Hyperlink Editor
 
@@ -800,6 +801,7 @@ AxisXSheetImpl.Label.AxisData=Daten für Achse
 AbstractAxisSubtask.Label.Stagger=Sta&gger
 AbstractAxisSubtask.Label.Interactivity=Achseninteraktivität
 AbstractAxisSubtask.Label.LabelSpan=Beschriftungsbereich:
+AbstractAxisSubtask.Label.Points=(Points)
 AbstractAxisSubtask.Label.ReverseCategory=&Kategorien umkehren
 AxisTextSheet.Label.Interval=Int&ervall:
 AxisMarkersSheet.Title.MarkerLine=Markierungslinie
@@ -1011,8 +1013,13 @@ ssPreferencesContentAssistFilter= Bei Eingabe bei aktivem Popup:
 ssPreferencesContentAssistFilterCumulative= Popup-Inhalt mit kumulativer Eingabe fi&ltern
 ssPreferencesContentAssistFilterCharacter= Popup nach letztem eingegebenem Zeichen fil&tern
 ssPreferencesContentAssistFilterNone= &Nicht filtern
+ssPreferencesRequiredFieldIndicator = Showing Required Fields:
+ssPreferencesShowRequiredFieldLabelIndicator = Show required field indicator in field's label
+ssPreferencesShowRequiredFieldDecorator = Decorate required fields
+
 ssDecoratorContentAssist= Hilfe zum Inhalt zu diesem Feld verfügbar, bitte {0} drücken
 ssDecorationMenuItem=Ungültige Zeichen entfernen
+
 
 ### Multiple Hyperlinks ###
 MenuStyleDialog.Column.Properties=Properties
@@ -1024,7 +1031,7 @@ MenuStyleDialog.Style.OnMouseOut=On Mouse Out
 MenuStylesDialog.Btn.Add=&Hinzufügen
 MenuStylesDialog.Btn.Add=&Hinzufügen
 MenuStylesDialog.Btn.Remove=&Remvoe
-MenuStylesDialog.Btn.Remove=&Remove
+MenuStylesDialog.Btn.Remove=&Remvoe
 MenuStylesDialog.Label.Style=Stil:
 MenuStylesDialog.Label.Style=Stil:
 MenuStylesDialog.title=Hyerlink Menu Properties

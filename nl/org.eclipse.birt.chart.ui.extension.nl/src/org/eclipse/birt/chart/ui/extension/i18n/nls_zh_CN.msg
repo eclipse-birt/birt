@@ -676,6 +676,7 @@ PropertyEditorDialog.Lbl.Value=值
 PropertyEditorDialog.Lbl.Add=添加(&A)
 PropertyEditorDialog.Lbl.Remove=删除(&R)
 HeadStyleAttributeComposite.Lbl.HeadStyle=针头样式:
+HyperlinkEditorDialog.ErrorMessage.NullText=Text cannot be null\!
 HyperlinkEditorDialog.Text.MenuLabel=Text:
 HyperlinkEditorDialog.Title.HyperlinkEditor=Hyperlink Editor
 
@@ -800,6 +801,7 @@ AxisXSheetImpl.Label.AxisData=轴数据
 AbstractAxisSubtask.Label.Stagger=Sta&gger
 AbstractAxisSubtask.Label.Interactivity=轴交互
 AbstractAxisSubtask.Label.LabelSpan=标签跨度:
+AbstractAxisSubtask.Label.Points=(Points)
 AbstractAxisSubtask.Label.ReverseCategory=反转类别(&C)
 AxisTextSheet.Label.Interval=间隔(&E):
 AxisMarkersSheet.Title.MarkerLine=标记线条
@@ -1011,8 +1013,13 @@ ssPreferencesContentAssistFilter= 弹出窗口打开时键入内容:
 ssPreferencesContentAssistFilterCumulative= 使用累积键入方式筛选弹出窗口内容(&L)
 ssPreferencesContentAssistFilterCharacter= 根据最后键入的字符筛选弹出窗口(&T)
 ssPreferencesContentAssistFilterNone= 无筛选(&N)
+ssPreferencesRequiredFieldIndicator = Showing Required Fields:
+ssPreferencesShowRequiredFieldLabelIndicator = Show required field indicator in field's label
+ssPreferencesShowRequiredFieldDecorator = Decorate required fields
+
 ssDecoratorContentAssist= 可用于此字段的内容辅助，按 {0}
 ssDecorationMenuItem=删除非法字符
+
 
 ### Multiple Hyperlinks ###
 MenuStyleDialog.Column.Properties=Properties
@@ -1024,7 +1031,7 @@ MenuStyleDialog.Style.OnMouseOut=On Mouse Out
 MenuStylesDialog.Btn.Add=添加(&A)
 MenuStylesDialog.Btn.Add=添加(&A)
 MenuStylesDialog.Btn.Remove=&Remvoe
-MenuStylesDialog.Btn.Remove=&Remove
+MenuStylesDialog.Btn.Remove=&Remvoe
 MenuStylesDialog.Label.Style=样式:
 MenuStylesDialog.Label.Style=样式:
 MenuStylesDialog.title=Hyerlink Menu Properties

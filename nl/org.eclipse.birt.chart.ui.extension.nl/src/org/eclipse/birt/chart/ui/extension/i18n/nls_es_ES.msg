@@ -676,6 +676,7 @@ PropertyEditorDialog.Lbl.Value=Valor
 PropertyEditorDialog.Lbl.Add=&Añadir
 PropertyEditorDialog.Lbl.Remove=&Quitar
 HeadStyleAttributeComposite.Lbl.HeadStyle=Estilo de encabezado
+HyperlinkEditorDialog.ErrorMessage.NullText=Text cannot be null\!
 HyperlinkEditorDialog.Text.MenuLabel=Text:
 HyperlinkEditorDialog.Title.HyperlinkEditor=Hyperlink Editor
 
@@ -800,6 +801,7 @@ AxisXSheetImpl.Label.AxisData=Datos del eje
 AbstractAxisSubtask.Label.Stagger=Sta&gger
 AbstractAxisSubtask.Label.Interactivity=Interactividad de eje
 AbstractAxisSubtask.Label.LabelSpan=Extensión de etiqueta:
+AbstractAxisSubtask.Label.Points=(Points)
 AbstractAxisSubtask.Label.ReverseCategory=Invertir &categorías
 AxisTextSheet.Label.Interval=Int&ervalo:
 AxisMarkersSheet.Title.MarkerLine=Línea de marcador
@@ -1011,8 +1013,13 @@ ssPreferencesContentAssistFilter= Al escribir mientras el elemento emergente est
 ssPreferencesContentAssistFilterCumulative= &Filtrar contenido emergente con escritura acumulativa
 ssPreferencesContentAssistFilterCharacter= Filtrar elemento emer&gente según el último carácter escrito
 ssPreferencesContentAssistFilterNone= &No filtrar
+ssPreferencesRequiredFieldIndicator = Showing Required Fields:
+ssPreferencesShowRequiredFieldLabelIndicator = Show required field indicator in field's label
+ssPreferencesShowRequiredFieldDecorator = Decorate required fields
+
 ssDecoratorContentAssist= Este campo dispone de ayuda de contenido, pulse {0}
 ssDecorationMenuItem=Eliminar caracteres no válidos
+
 
 ### Multiple Hyperlinks ###
 MenuStyleDialog.Column.Properties=Properties
@@ -1024,7 +1031,7 @@ MenuStyleDialog.Style.OnMouseOut=On Mouse Out
 MenuStylesDialog.Btn.Add=&Añadir
 MenuStylesDialog.Btn.Add=&Añadir
 MenuStylesDialog.Btn.Remove=&Remvoe
-MenuStylesDialog.Btn.Remove=&Remove
+MenuStylesDialog.Btn.Remove=&Remvoe
 MenuStylesDialog.Label.Style=Estilo:
 MenuStylesDialog.Label.Style=Estilo:
 MenuStylesDialog.title=Hyerlink Menu Properties
