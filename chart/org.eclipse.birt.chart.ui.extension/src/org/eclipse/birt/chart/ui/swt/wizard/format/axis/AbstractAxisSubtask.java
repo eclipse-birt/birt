@@ -358,7 +358,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 				lneLabelSpan.setLayoutData( gd );
 				lneLabelSpan.setEnabled( getAxisForProcessing( ).isSetLabelSpan( ) );
 			}
-			new Label( cmpEditor, SWT.NONE ).setText( Messages.getString("AbstractAxisSubtask.Label.Pixels") ); //$NON-NLS-1$
+			new Label( cmpEditor, SWT.NONE ).setText( Messages.getString( "AbstractAxisSubtask.Label.Points" ) ); //$NON-NLS-1$
 
 			btnFixLabelSpan = new Button( cmpBasic, SWT.CHECK );
 			{

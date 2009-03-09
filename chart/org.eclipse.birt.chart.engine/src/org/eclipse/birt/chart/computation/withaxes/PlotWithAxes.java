@@ -1017,7 +1017,8 @@ public abstract class PlotWithAxes extends Methods
 		// handle fixed label thickness #177744
 		if ( axPV.getModelAxis( ).isSetLabelSpan( ) )
 		{
-			double dFixedLabelThickness = axPV.getModelAxis( ).getLabelSpan( );
+			double dFixedLabelThickness = axPV.getModelAxis( ).getLabelSpan( )
+					* dPointToPixel;
 
 			// if the fixed label thickness is to greate, it will not take
 			// affect.
@@ -1950,7 +1951,8 @@ public abstract class PlotWithAxes extends Methods
 		// handle fixed label thickness #177744
 		if ( axPH.getModelAxis( ).isSetLabelSpan( ) )
 		{
-			double dFixedLabelThickness = axPH.getModelAxis( ).getLabelSpan( );
+			double dFixedLabelThickness = axPH.getModelAxis( ).getLabelSpan( )
+					* dPointToPixel;
 
 			// if the fixed label thickness is to greate, it will not take
 			// affect.

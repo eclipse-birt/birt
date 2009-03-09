@@ -1295,7 +1295,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				if ( oaxOverlay.getModelAxis( ).isSetLabelSpan( ) )
 				{
 					double dFixedLabelThickness = oaxOverlay.getModelAxis( )
-							.getLabelSpan( );
+							.getLabelSpan( )
+							* dPointToPixel;
 
 					// if the fixed label thickness is to greate, it will not
 					// take affect.
@@ -1481,7 +1482,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				if ( oaxOverlay.getModelAxis( ).isSetLabelSpan( ) )
 				{
 					double dFixedLabelThickness = oaxOverlay.getModelAxis( )
-							.getLabelSpan( );
+							.getLabelSpan( )
+							* dPointToPixel;
 
 					// if the fixed label thickness is to greate, it will not
 					// take affect.
