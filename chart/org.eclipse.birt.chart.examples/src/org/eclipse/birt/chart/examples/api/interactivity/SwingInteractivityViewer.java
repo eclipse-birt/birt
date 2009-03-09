@@ -431,9 +431,10 @@ public final class SwingInteractivityViewer extends JPanel implements
 			jcbModels.addItem( "Show Tooltip" );//$NON-NLS-1$
 			jcbModels.addItem( "Toggle Visibility" );//$NON-NLS-1$
 			jcbModels.addItem( "URL Redirect" );//$NON-NLS-1$
+			jcbModels.addItem( "Multiple URLs Redirect" );//$NON-NLS-1$
 			jcbModels.addItem( "Call Back" );//$NON-NLS-1$
 			jcbModels.addItem( "Right Mouse Click" );//$NON-NLS-1$
-
+			jcbModels.addItem( "Mouse Cursor" );//$NON-NLS-1$
 			jcbModels.setSelectedIndex( 0 );
 			jp.add( jcbModels );
 
@@ -518,10 +519,16 @@ public final class SwingInteractivityViewer extends JPanel implements
 					cm = InteractivityCharts.createURChart( );
 					break;
 				case 4 :
-					cm = InteractivityCharts.createCBChart( );
+					cm = InteractivityCharts.createMultiURChart( );
 					break;
 				case 5 :
+					cm = InteractivityCharts.createCBChart( );
+					break;
+				case 6 :
 					cm = InteractivityCharts.createRCChart( );
+					break;
+				case 7 :
+					cm = InteractivityCharts.createBarChartWithCursorExample( );
 					break;
 			}
 

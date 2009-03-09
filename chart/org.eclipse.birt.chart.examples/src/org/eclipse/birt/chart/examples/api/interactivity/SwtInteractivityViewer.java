@@ -91,8 +91,10 @@ public final class SwtInteractivityViewer extends Composite implements
 		cbType.add( "Show Tooltip" );//$NON-NLS-1$
 		cbType.add( "Toggle Visibility" );//$NON-NLS-1$
 		cbType.add( "URL Redirect" );//$NON-NLS-1$
+		cbType.add( "Multiple URLs Redirect" );//$NON-NLS-1$
 		cbType.add( "Call Back" );//$NON-NLS-1$
 		cbType.add( "Right Mouse Click" );//$NON-NLS-1$
+		cbType.add( "Mouse Cursor");//$NON-NLS-1$
 		cbType.select( 0 );
 
 		btn = new Button( cBottom, SWT.NONE );
@@ -201,10 +203,16 @@ public final class SwtInteractivityViewer extends Composite implements
 					cm = InteractivityCharts.createURChart( );
 					break;
 				case 4 :
-					cm = InteractivityCharts.createCBChart( );
+					cm = InteractivityCharts.createMultiURChart( );
 					break;
 				case 5 :
+					cm = InteractivityCharts.createCBChart( );
+					break;
+				case 6 :
 					cm = InteractivityCharts.createRCChart( );
+					break;
+				case 7 :
+					cm = InteractivityCharts.createBarChartWithCursorExample( );
 					break;
 			}
 			bNeedsGeneration = true;

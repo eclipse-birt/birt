@@ -47,4 +47,7 @@ public class PreferenceConstants
 	public static final String PREF_CONTENTASSISTFILTER_CUMULATIVE = "cumulative filter"; //$NON-NLS-1$
 	public static final String PREF_CONTENTASSISTFILTER_CHAR = "character filter"; //$NON-NLS-1$
 	public static final String PREF_CONTENTASSISTFILTER_NONE = "none"; //$NON-NLS-1$
+	
+	public static final String PREF_SHOWREQUIREDFIELDDECORATION = "prefShowRequiredFieldDecoration";
+	public static final String PREF_SHOWREQUIREDFIELDLABELINDICATOR = "prefShowRequiredFieldLabelIndicator";
 }

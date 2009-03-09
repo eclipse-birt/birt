@@ -250,7 +250,7 @@ public abstract class AssistField
 		return errorDecoration;
 
 	}
-
+	
 	/**
 	 * Returns warning decoration.
 	 * 

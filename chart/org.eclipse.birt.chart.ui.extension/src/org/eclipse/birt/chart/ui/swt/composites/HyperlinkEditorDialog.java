@@ -18,6 +18,9 @@ import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl;
 import org.eclipse.birt.chart.model.component.impl.ComponentFactoryImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.fieldassist.AssistField;
+import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
+import org.eclipse.birt.chart.ui.swt.fieldassist.TextAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
@@ -114,7 +117,7 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 		}
 		String v = fURLValue.getLabel( ).getCaption( ).getValue( );
 		fTxtHyperlinkLabel.setText( v == null ? "" : v );//$NON-NLS-1$
-
+		
 		fsBaseURL = fURLValue.getBaseUrl( );
 
 		fTxtBaseParm.setText( fURLValue.getBaseParameterName( ) == null ? ""//$NON-NLS-1$
@@ -144,6 +147,36 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 		GridData gdTXTTarget = new GridData( GridData.FILL_HORIZONTAL );
 		fTxtHyperlinkLabel.setLayoutData( gdTXTTarget );
 
+		AssistField af = new TextAssistField( fTxtHyperlinkLabel, null ) {
+			/* (non-Javadoc)
+			 * @see org.eclipse.birt.chart.ui.swt.fieldassist.TextAssistField#isValid()
+			 */
+			public boolean isValid()
+			{
+				String text = fTxtHyperlinkLabel.getText( );
+				if ( text == null || "".equals( text ) ){//$NON-NLS-1$
+					return false;
+				}
+				
+				return true;
+			}
+			
+			/* (non-Javadoc)
+			 * @see org.eclipse.birt.chart.ui.swt.fieldassist.AssistField#isRequiredField()
+			 */
+			public boolean isRequiredField( )
+			{
+				return true;
+			}
+			
+			public String getErrorMessage()
+			{
+				return Messages.getString("HyperlinkEditorDialog.ErrorMessage.NullText"); //$NON-NLS-1$
+			}
+			
+		};
+		FieldAssistHelper.getInstance( ).addRequiredFieldIndicator( af, lblTarget );
+		
 		Label lblBaseURL = new Label( parent, SWT.NONE );
 		GridData gdLBLBaseURL = new GridData( );
 		gdLBLBaseURL.horizontalIndent = 2;
@@ -341,7 +374,7 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 	{
 		if ( !isValidLabel( ) )
 		{
-			// TODO ...
+			fTxtHyperlinkLabel.setFocus( );
 			return;
 		}
 		fURLValue.getLabel( )

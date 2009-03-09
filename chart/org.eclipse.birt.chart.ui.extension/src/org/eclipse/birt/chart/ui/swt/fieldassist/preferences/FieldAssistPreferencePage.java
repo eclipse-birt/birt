@@ -14,9 +14,12 @@ package org.eclipse.birt.chart.ui.swt.fieldassist.preferences;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistMessages;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -95,6 +98,20 @@ public class FieldAssistPreferencePage extends FieldEditorPreferencePage impleme
 		editor.setValidRange( 0, 10 );
 		addField( editor );
 
+		// 
+		Label label = new Label(getFieldEditorParent(), SWT.WRAP);
+		label
+				.setText(FieldAssistMessages.ssPreferencesRequiredFieldIndicator);
+		addField(new BooleanFieldEditor(
+				PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR,
+				FieldAssistMessages.ssPreferencesShowRequiredFieldLabelIndicator,
+				getFieldEditorParent()));
+
+		addField(new BooleanFieldEditor(
+				PreferenceConstants.PREF_SHOWREQUIREDFIELDDECORATION,
+				FieldAssistMessages.ssPreferencesShowRequiredFieldDecorator,
+				getFieldEditorParent()));
+		
 		Dialog.applyDialogFont( getFieldEditorParent( ) );
 	}
 

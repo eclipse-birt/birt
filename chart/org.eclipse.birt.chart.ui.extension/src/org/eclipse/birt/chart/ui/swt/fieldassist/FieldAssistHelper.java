@@ -31,6 +31,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
@@ -330,8 +331,9 @@ public final class FieldAssistHelper
 				else
 				{
 					showContentAssistDecoration( assistField, false );
+					boolean showRequiredFieldDecoration = getPreferenceStore( ).getBoolean( PreferenceConstants.PREF_SHOWREQUIREDFIELDDECORATION );
 					showRequiredFieldDecoration( assistField,
-							assistField.isRequiredField( ) );
+							showRequiredFieldDecoration );
 				}
 			}
 		}
@@ -518,5 +520,22 @@ public final class FieldAssistHelper
 				: 0;
 		gl.horizontalSpacing = 0;
 		gl.verticalSpacing = 0;
+	}
+	
+	/**
+	 * Add a required field indicator to related label component.
+	 * 
+	 * @param assistField
+	 * @param label
+	 */
+	public void addRequiredFieldIndicator( AssistField assistField, Label label )
+	{
+		boolean showRequiredFieldLabelIndicator = getPreferenceStore().getBoolean( PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR );
+		if (showRequiredFieldLabelIndicator && assistField.isRequiredField()) {
+			String text = label.getText();
+			// This concatenation could be done by a field assist helper.
+			text = text.concat("*"); //$NON-NLS-1$
+			label.setText(text);
+		}
 	}
 }

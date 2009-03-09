@@ -14,11 +14,14 @@ package org.eclipse.birt.chart.device.swing;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -31,8 +34,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.DefaultButtonModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.device.ICallBackNotifier;
@@ -43,9 +49,11 @@ import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
+import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
@@ -87,6 +95,8 @@ public final class SwingEventHandler
 	private StructureSource srcToggleDataPoint;
 
 	private StructureSource srcToggleVisibility;
+	
+	private JPopupMenu popupMenu; 
 	
 	/**
 	 * The constructor.
@@ -191,12 +201,31 @@ public final class SwingEventHandler
 		switch ( ac.getType( ).getValue( ) )
 		{
 			case ActionType.URL_REDIRECT :
-				final URLValue uv = (URLValue) ac.getValue( );
-				logger.log( ILogger.INFORMATION,
-						Messages.getString( "SwingEventHandler.info.redirect.url", lcl ) //$NON-NLS-1$
-								+
-								uv.getBaseUrl( ) );
-				DeviceUtil.openURL( uv.getBaseUrl( ) );
+				ActionValue av = ac.getValue();
+				if ( av instanceof URLValue )
+				{
+					final URLValue uv = (URLValue) ac.getValue( );
+					openURL( uv );
+				}
+				else if ( av instanceof MultiURLValues )
+				{
+					MultiURLValues muv = (MultiURLValues) av;
+					int size = muv.getURLValues( ).size( );
+					if ( size == 0 )
+					{
+						break;
+					}
+					else if ( size == 1 )
+					{
+						openURL( muv.getURLValues( ).get(0) );
+					}
+					else
+					{
+						// Create a popup menu and show it for multiple hyperlinks.
+						openMultiULRs( muv, p );
+					}
+				}
+				
 				break;
 
 			case ActionType.SHOW_TOOLTIP :
@@ -264,6 +293,76 @@ public final class SwingEventHandler
 		
 	}
 // if the event was fired without new action disable the previous action
+
+	/**
+	 * URLItemModel
+	 */
+	static class URLMenuItemModel extends DefaultButtonModel {
+		
+		private URLValue fUrlValue;
+		
+		void setURLValue( URLValue uv )
+		{
+			fUrlValue = uv;
+		}
+		
+		URLValue getURLValue( )
+		{
+			return fUrlValue;
+		}
+	}
+	
+	/**
+	 * @param muv
+	 * @param point
+	 */
+	private void openMultiULRs( MultiURLValues muv, Point point )
+	{
+		if ( popupMenu != null && popupMenu.isValid( ) )
+		{
+			// Remove previous menu object.
+			popupMenu.setVisible( false );
+			((JComponent) iun.peerInstance( )).remove( popupMenu );
+		}
+		
+		popupMenu = new JPopupMenu(  );
+		
+		// Create popup menu items.
+		for ( URLValue uv : muv.getURLValues( ) )
+		{
+			JMenuItem menuItem = new JMenuItem(  );
+			popupMenu.add( menuItem );
+			menuItem.setText( uv.getLabel( ).getCaption( ).getValue( ) );
+			URLMenuItemModel uim = new URLMenuItemModel( );
+			uim.setURLValue( uv );
+			menuItem.setModel( uim );
+			menuItem.addActionListener( new ActionListener( ) {
+
+				public void actionPerformed( ActionEvent e )
+				{
+					URLValue urlValue = ( (URLMenuItemModel) ( (JMenuItem) e.getSource( ) ).getModel( ) ).getURLValue( );
+					openURL( urlValue );
+				}
+			} );
+
+		}
+		
+		// Show menu.
+		popupMenu.show( (JComponent) iun.peerInstance( ), point.x, point.y );
+	}
+	
+	
+	/**
+	 * @param uv
+	 */
+	private void openURL( final URLValue uv )
+	{
+		logger.log( ILogger.INFORMATION,
+				Messages.getString( "SwingEventHandler.info.redirect.url", lcl ) //$NON-NLS-1$
+						+
+						uv.getBaseUrl( ) );
+		DeviceUtil.openURL( uv.getBaseUrl( ) );
+	}
 	
 	private void disableActions( Set<ActionType> actions  )
 	{

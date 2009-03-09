@@ -32,9 +32,11 @@ import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
+import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
@@ -51,12 +53,16 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.MouseTrackListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 
 import com.ibm.icu.util.ULocale;
 
@@ -94,6 +100,9 @@ class SwtEventHandler
 
 	private StructureSource srcToggleVisibility;
 
+	/** The menu field is used to display multiple hyperlinks. */
+	private Menu popupMenu;
+	
 	/**
 	 * The constructor.
 	 * @param Interactive Renderer
@@ -192,11 +201,29 @@ class SwtEventHandler
 				switch ( ac.getType( ).getValue( ) )
 				{
 					case ActionType.URL_REDIRECT :
-						final URLValue uv = (URLValue) ac.getValue( );
-						logger.log( ILogger.INFORMATION,
-								Messages.getString( "SwtEventHandler.info.redirect.url", lcl ) //$NON-NLS-1$
-										+ uv.getBaseUrl( ) );
-						SwtUtil.openURL( uv.getBaseUrl( ) );
+						ActionValue av = ac.getValue();
+						if ( av instanceof URLValue )
+						{
+							final URLValue uv = (URLValue) ac.getValue( );
+							openURL( uv );
+						}
+						else if ( av instanceof MultiURLValues )
+						{
+							MultiURLValues muv = (MultiURLValues) av;
+							int size = muv.getURLValues( ).size( );
+							if ( size == 0 )
+							{
+								break;
+							}
+							else if ( size == 1 )
+							{
+								openURL( muv.getURLValues( ).get(0) );
+							}
+							else
+							{
+								openMultiURLs( muv, p );
+							}
+						}
 						break LOOP;
 
 					case ActionType.SHOW_TOOLTIP :
@@ -271,6 +298,55 @@ class SwtEventHandler
 
 
 
+	}
+
+	/**
+	 * @param muv
+	 * @param point
+	 */
+	private void openMultiURLs( MultiURLValues muv, Point point )
+	{
+		Composite comp = ( (Composite) iun.peerInstance( ) );
+		if (popupMenu != null && !popupMenu.isDisposed( ) )
+		{
+			// Remove previous menu object.
+			popupMenu.dispose( );
+		}
+		
+		// Create a popup menu and show it for multiple hyperlinks.		
+		popupMenu = new Menu( comp.getShell( ), SWT.POP_UP );
+		comp.setMenu( popupMenu );
+		
+		// Create popup menu items.
+		for ( URLValue uv : muv.getURLValues( ) )
+		{
+			MenuItem menuItem = new MenuItem( popupMenu, SWT.PUSH );
+			menuItem.setText( uv.getLabel( ).getCaption( ).getValue( ) );
+			menuItem.setData( uv );
+			menuItem.addSelectionListener( new SelectionAdapter() {
+
+				public void widgetSelected(
+						SelectionEvent e )
+				{
+					URLValue urlValue = (URLValue) ((MenuItem)e.getSource( ) ).getData( );
+					openURL( urlValue );
+					popupMenu.dispose( );
+				}} );
+		}
+		
+		// Show menu.
+		comp.getMenu( ).setVisible( true );
+	}
+
+	/**
+	 * @param uv
+	 */
+	private void openURL( final URLValue uv )
+	{
+		logger.log( ILogger.INFORMATION,
+				Messages.getString( "SwtEventHandler.info.redirect.url", lcl ) //$NON-NLS-1$
+						+ uv.getBaseUrl( ) );
+		SwtUtil.openURL( uv.getBaseUrl( ) );
 	}
 
 
