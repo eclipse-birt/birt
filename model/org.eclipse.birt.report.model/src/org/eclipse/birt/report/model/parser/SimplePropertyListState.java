@@ -304,6 +304,8 @@ public class SimplePropertyListState extends AbstractPropertyState
 
 		private String exprType;
 
+		private boolean isNull = false;
+
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -324,13 +326,25 @@ public class SimplePropertyListState extends AbstractPropertyState
 						handler.versionNumber );
 			}
 
-			Object value = text.toString( );
+			String value = text.toString( );
 			if ( propDefn.allowExpression( ) )
 			{
-				value = new Expression( text.toString( ), exprType );
+				if ( isNull )
+				{
+					if ( exprType == null )
+						values.add( null );
+					else
+						values.add( new Expression( null, exprType ) );
+				}
+				else
+					values.add( new Expression( value, exprType ) );
+
+			}
+			else
+			{
+				values.add( value );
 			}
 
-			values.add( value );
 		}
 
 		/*
@@ -344,8 +358,10 @@ public class SimplePropertyListState extends AbstractPropertyState
 		public void parseAttrs( Attributes attrs ) throws XMLParserException
 		{
 			super.parseAttrs( attrs );
-
 			exprType = attrs.getValue( DesignSchemaConstants.TYPE_TAG );
+			isNull = Boolean.parseBoolean( attrs
+					.getValue( DesignSchemaConstants.IS_NULL_ATTRIB ) );
+
 		}
 	}
 }

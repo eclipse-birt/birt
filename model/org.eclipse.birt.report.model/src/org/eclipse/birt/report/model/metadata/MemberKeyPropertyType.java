@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 
 /**
@@ -41,7 +40,8 @@ public class MemberKeyPropertyType extends TextualPropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -52,7 +52,8 @@ public class MemberKeyPropertyType extends TextualPropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
 	public String getName( )
@@ -63,9 +64,10 @@ public class MemberKeyPropertyType extends TextualPropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
+	 * .eclipse.birt.report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
 	public Object validateValue( Module module, PropertyDefn defn, Object value )
@@ -82,7 +84,8 @@ public class MemberKeyPropertyType extends TextualPropertyType
 		}
 		if ( value instanceof String )
 		{
-			String stringValue = StringUtil.trimString( (String) value );
+			String stringValue = trimString( (String) value, defn
+					.getTrimOption( ) );
 			if ( stringValue == null )
 			{
 				if ( defn.isStructureMember( ) )
@@ -103,9 +106,10 @@ public class MemberKeyPropertyType extends TextualPropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateXml(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#validateXml(org.eclipse
+	 * .birt.report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.String)
 	 */
 
 	public Object validateXml( Module module, PropertyDefn defn, Object value )
@@ -113,9 +117,9 @@ public class MemberKeyPropertyType extends TextualPropertyType
 	{
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
-		
+
 		if ( tmpValue == null )
 			return null;
-		return StringUtil.trimString( tmpValue );
+		return trimString( tmpValue, defn.getTrimOption( ) );
 	}
 }

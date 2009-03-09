@@ -995,6 +995,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		for ( int i = 0; i < values.size( ); i++ )
 		{
 			Object tmpItem = values.get( i );
+
 			Object[] tmpValues = prop.getCompatibleTypeAndValue( prop
 					.getSubType( ), tmpItem );
 
@@ -1012,6 +1013,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 			if ( xmlValue != null )
 				writer.text( xmlValue );
+			else
+				writer.attribute( DesignSchemaConstants.IS_NULL_ATTRIB, true );
 			writer.endElement( );
 
 		}
@@ -1057,15 +1060,15 @@ public abstract class ModuleWriter extends ElementVisitor
 				exprType = ( (Expression) values.get( i ) )
 						.getUserDefinedType( );
 
-			if ( xmlValue != null )
-			{
-				writer.startElement( DesignSchemaConstants.VALUE_TAG );
-				if ( exprType != null )
-					writer.attribute( DesignSchemaConstants.TYPE_TAG, exprType );
+			writer.startElement( DesignSchemaConstants.VALUE_TAG );
+			if ( exprType != null )
+				writer.attribute( DesignSchemaConstants.TYPE_TAG, exprType );
 
+			if ( xmlValue != null )
 				writer.text( xmlValue );
-				writer.endElement( );
-			}
+			else
+				writer.attribute( DesignSchemaConstants.IS_NULL_ATTRIB, true );
+			writer.endElement( );
 		}
 
 		writer.endElement( );

@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 
 /**
@@ -81,25 +80,29 @@ public class ExpressionPropertyType extends TextualPropertyType
 		if ( value == null )
 			return null;
 
+		int trimOption = defn.getTrimOption( );
 		if ( value instanceof Expression )
 		{
 			String expr = ( (Expression) value ).getStringExpression( );
 			String tmpType = ( (Expression) value ).getUserDefinedType( );
 
-			if ( StringUtil.isEmpty( expr ) )
+			String trimExpr = trimString( expr, trimOption );
+
+			if ( trimExpr == null )
 			{
 				if ( tmpType == null )
 					return null;
 
-				return new Expression( null, tmpType );
+				return new Expression( trimExpr, tmpType );
 			}
+
 			return value;
 		}
 
 		if ( value instanceof String )
 		{
-			String expr = (String) value;
-			if ( StringUtil.isEmpty( expr ) )
+			String expr = trimString( (String) value, trimOption );
+			if ( expr == null )
 				return null;
 
 			return new Expression( expr, null );
