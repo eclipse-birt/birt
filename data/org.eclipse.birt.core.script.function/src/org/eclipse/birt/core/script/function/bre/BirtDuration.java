@@ -115,7 +115,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 							args[0].toString( )
 						} ) );
 			}
-			return Integer.valueOf( duration.getMinutes( ) );
+			return Integer.valueOf( duration.getMonths( ) );
 		}
 	}
 	
@@ -289,9 +289,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 			catch ( DatatypeConfigurationException e )
 			{
 				throw new IllegalArgumentException( Messages.getFormattedString( "error.BirtDuration.literal.invalidArgument",
-						new Object[]{
-							args[0].toString( )
-						} ) );
+						args ) );
 			}
 			return Boolean.valueOf( duration1.isLongerThan( duration2 ) );
 		}
@@ -318,9 +316,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 			catch ( DatatypeConfigurationException e )
 			{
 				throw new IllegalArgumentException( Messages.getFormattedString( "error.BirtDuration.literal.invalidArgument",
-						new Object[]{
-							args[0].toString( )
-						} ) );
+						args ) );
 			}
 			return Boolean.valueOf( duration1.isShorterThan( duration2 ) );
 		}
