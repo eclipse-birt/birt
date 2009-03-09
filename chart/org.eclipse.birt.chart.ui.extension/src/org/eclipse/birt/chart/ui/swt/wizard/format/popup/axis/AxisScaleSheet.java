@@ -110,8 +110,8 @@ public class AxisScaleSheet extends AbstractScaleSheet
 				spnStepNumber.setEnabled( false );
 				lblMax.setEnabled( false );
 				txtScaleMax.setEnabled( false );
-				lblMin.setEnabled( false );
-				txtScaleMin.setEnabled( false );
+				// lblMin.setEnabled( false );
+				// txtScaleMin.setEnabled( false );
 			}
 		}
 	}

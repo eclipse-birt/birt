@@ -2012,17 +2012,24 @@ public final class AutoScale extends Methods implements Cloneable
 						bIsPercent );
 			}
 			
-			// modify min and max to include zero point
-			if ( dMinValue * dMaxValue > 0 )
+
+			// // modify min and max to include zero point
+			// if ( dMinValue * dMaxValue > 0 )
+			// {
+			// if ( dMinValue > 0)
+			// {
+			// dMinValue = 0d;
+			// }
+			// else
+			// {
+			// dMaxValue = 0d;
+			// }
+			// }
+
+			// if minimum value is set , then take it
+			if ( oMinimum != null && oMinimum instanceof NumberDataElement )
 			{
-				if ( dMinValue > 0)
-				{
-					dMinValue = 0d;
-				}
-				else
-				{
-					dMaxValue = 0d;
-				}
+				dMinValue = ( (NumberDataElement) oMinimum ).getValue( );
 			}
 
 			// provide max value to compute a nice step size
