@@ -1291,6 +1291,30 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					laAxisTitle.getCaption( ).setValue( sPreviousValue );
 				}
 
+				// handle fixed label thickness #177744
+				if ( oaxOverlay.getModelAxis( ).isSetLabelSpan( ) )
+				{
+					double dFixedLabelThickness = oaxOverlay.getModelAxis( )
+							.getLabelSpan( );
+
+					// if the fixed label thickness is to greate, it will not
+					// take affect.
+					double dWTotal = dBlockLength;
+					if ( dFixedLabelThickness < dWTotal - 2 * getTickSize( ) )
+					{
+						if ( dAxisLabelsThickness + dAxisTitleThickness > dFixedLabelThickness )
+						{
+							oaxOverlay.setShowLabels( false );
+						}
+						if ( dAxisTitleThickness > dFixedLabelThickness )
+						{
+							laAxisTitle.setVisible( false );
+							dAxisTitleThickness = 0;
+						}
+						dAxisLabelsThickness = dFixedLabelThickness;
+					}
+				}
+
 				// COMPUTE VALUES FOR x1, x, x2
 				// x = HORIZONTAL LOCATION OF Y-AXIS ALONG PLOT
 				// x1 = LEFT EDGE OF Y-AXIS BAND (DUE TO AXIS LABELS, TICKS,
@@ -1451,6 +1475,30 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							lbLimit );
 
 					laAxisTitle.getCaption( ).setValue( sPreviousValue );
+				}
+
+				// handle fixed label thickness #177744
+				if ( oaxOverlay.getModelAxis( ).isSetLabelSpan( ) )
+				{
+					double dFixedLabelThickness = oaxOverlay.getModelAxis( )
+							.getLabelSpan( );
+
+					// if the fixed label thickness is to greate, it will not
+					// take affect.
+					double dWTotal = dBlockLength;
+					if ( dFixedLabelThickness < dWTotal - 2 * getTickSize( ) )
+					{
+						if ( dAxisLabelsThickness + dAxisTitleThickness > dFixedLabelThickness )
+						{
+							oaxOverlay.setShowLabels( false );
+						}
+						if ( dAxisTitleThickness > dFixedLabelThickness )
+						{
+							laAxisTitle.setVisible( false );
+							dAxisTitleThickness = 0;
+						}
+						dAxisLabelsThickness = dFixedLabelThickness;
+					}
 				}
 
 				// COMPUTE VALUES FOR y1, y, y2
