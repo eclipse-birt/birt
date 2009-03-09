@@ -131,7 +131,7 @@ public class ReportRunnableTest extends EngineCase
 		// render report by page
 		task.render( );
 		outputString = out.toString( );
-		assertTrue(outputString.indexOf( "before onPrepare" )>0);
+		assertTrue(outputString.indexOf( "after onPrepare" )>0);
 		task.close( );
 		reportDoc.close( );
 	}

@@ -169,14 +169,6 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		ReportRunnable newRunnable = runnable;
 		try
 		{
-			if ( originalRunnable != null && runnable != originalRunnable )
-			{
-				ReportDesignHandle design = originalRunnable.getReport( );
-				out = archive.createRandomAccessStream( ORIGINAL_DESIGN_STREAM );
-				// design.serialize( out );
-				DocumentUtil.serialize( design, out );
-				out.close( );
-			}
 			ReportDesignHandle design = runnable.getReport( );
 			out = archive.createRandomAccessStream( DESIGN_STREAM );
 			// design.serialize( out );
