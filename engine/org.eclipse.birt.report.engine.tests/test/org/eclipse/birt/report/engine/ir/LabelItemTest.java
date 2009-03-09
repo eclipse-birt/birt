@@ -38,12 +38,14 @@ public class LabelItemTest extends ReportItemTestCase
 
 		//Set
 		label.setAction( action );
-		label.setText( "TestKey", "TestText" );
+		Expression<String> key = newConstant( "TestKey" );
+		Expression<String> text = newConstant( "TestText" );
+		label.setText( key, text );
 
 		//Get
 		assertEquals( label.getAction( ), action );
-		assertEquals( label.getText( ), "TestText" );
-		assertEquals( label.getTextKey( ), "TestKey" );
+		assertEquals( label.getText( ), text );
+		assertEquals( label.getTextKey( ), key );
 	}
 
 }

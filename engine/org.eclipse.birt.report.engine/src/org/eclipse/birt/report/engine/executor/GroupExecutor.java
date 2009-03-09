@@ -144,7 +144,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			// 1 --> first group (0)
 			int groupLevel = groupDesign.getGroupLevel( ) + 1;
 			int startGroup = rset.getStartingGroupLevel( );
-			hiddenDetail = groupDesign.getHideDetail( );
+			hiddenDetail = evaluate( groupDesign.getHideDetail( ) );
 			if ( startGroup <= groupLevel )
 			{
 				// this is the first record
@@ -210,7 +210,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			GroupDesign groupDesign = (GroupDesign) design;
 			if ( groupDesign != null )
 			{
-				String pageBreakBefore = groupDesign.getPageBreakBefore( );
+				String pageBreakBefore = evaluate( groupDesign.getPageBreakBefore( ) );
 				int groupLevel = groupDesign.getGroupLevel( );
 				if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS
 						.equals( pageBreakBefore ) )
@@ -244,7 +244,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		GroupDesign groupDesign = (GroupDesign) design;
 		if ( groupDesign != null )
 		{
-			String pageBreakInside = groupDesign.getPageBreakInside( );
+			String pageBreakInside = evaluate( groupDesign.getPageBreakInside( ) );
 			if ( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID
 					.equals( pageBreakInside ) )
 			{
@@ -260,7 +260,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		GroupDesign groupDesign = (GroupDesign) design;
 		if ( groupDesign != null )
 		{
-			String pageBreakAfter = groupDesign.getPageBreakAfter( );
+			String pageBreakAfter = evaluate( groupDesign.getPageBreakAfter( ) );
 			if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS
 					.equals( pageBreakAfter ) )
 			{
@@ -299,7 +299,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			GroupDesign groupDesign = (GroupDesign) design;
 			if ( groupDesign != null )
 			{
-				String pageBreakAfter = groupDesign.getPageBreakAfter( );
+				String pageBreakAfter = evaluate( groupDesign.getPageBreakAfter( ) );
 				int groupLevel = groupDesign.getGroupLevel( );
 				if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST
 						.equals( pageBreakAfter ) )

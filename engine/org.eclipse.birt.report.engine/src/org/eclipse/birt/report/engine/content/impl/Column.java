@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 
 /**
@@ -112,14 +113,15 @@ public class Column implements IColumn
 			
 		if ( generateBy instanceof ColumnDesign )
 		{
-			return ( (ColumnDesign) generateBy ).isColumnHeader( );
+			return getConstantValue( ( (ColumnDesign) generateBy )
+					.isColumnHeader( ) );
 		}
 		return false;
 	}
 	
 	public void setColumnHeaderState( boolean isColumnHeader )
 	{
-		this.isColumnHeader = Boolean.valueOf( isColumnHeader );
+		this.isColumnHeader = isColumnHeader;
 	}
 	
 	/*
@@ -135,7 +137,7 @@ public class Column implements IColumn
 		}
 		if ( generateBy instanceof ColumnDesign )
 		{
-			return ( (ColumnDesign) generateBy ).getWidth( );
+			return getConstantValue( ( (ColumnDesign) generateBy ).getWidth( ) );
 		}
 		return null;
 	}
@@ -259,10 +261,10 @@ public class Column implements IColumn
 				inlineStyle.write( out );
 			}
 		}
-		if ( isColumnHeader != null )
+		if ( isColumnHeader != null && isColumnHeader )
 		{
 			IOUtil.writeInt( out, FIELD_ISCOLUMNHEADER );
-			IOUtil.writeBool( out, isColumnHeader.booleanValue( ) );
+			IOUtil.writeBool( out, isColumnHeader );
 		}
 		if ( isRepeated )
 		{
@@ -369,5 +371,19 @@ public class Column implements IColumn
 	public IStyle getComputedStyle( )
 	{
 		return getStyle( );
+	}
+
+	protected <T> T getConstantValue( Expression<T> value )
+	{
+		if ( value == null )
+		{
+			return null;
+		}
+		if ( value.isExpression( ) )
+		{
+			throw new IllegalStateException(
+					"Should not get value from expression." );
+		}
+		return (T) value.getDesignValue( );
 	}
 }

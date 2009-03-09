@@ -119,7 +119,8 @@ public interface IHyperlinkAction
 			String target, String format );
 	
 	public void setDrillThrough( String bookmark, boolean isBookmark,
-			String reportName, Map parameterBindings, Map searchCriteria,
+			String reportName, Map<String, Object> parameterBindings,
+			Map searchCriteria,
 			String target, String format, String targetFileType );
 	
 	public IDrillThroughAction getDrillThrough( );

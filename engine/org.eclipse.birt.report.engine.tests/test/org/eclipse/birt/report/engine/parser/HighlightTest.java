@@ -33,7 +33,7 @@ public class HighlightTest extends AbstractDesignTestCase
 		HighlightRuleDesign rule = highlight.getRule( 0 );
 		assertTrue( rule != null );
 		assertEquals( rule.getOperator( ), "lt" );
-		assertEquals( rule.getValue1( ), "row[\"COLUMN_29\"]" );
+		assertEquals( rule.getValue1( ).getDesignValue( ), "row[\"COLUMN_29\"]" );
 		assertEquals( rule.getValue2( ), null );
 		assertEquals( rule.getStyle( ).getColor( ), "red" );
 
@@ -45,8 +45,8 @@ public class HighlightTest extends AbstractDesignTestCase
 
 		rule = highlight.getRule( 2 );
 		assertEquals( rule.getOperator( ), "between" );
-		assertEquals( rule.getValue1( ), "row[\"COLUMN_29\"]" );
-		assertEquals( rule.getValue2( ), "row[\"COLUMN_31\"]" );
+		assertEquals( rule.getValue1( ).getDesignValue( ), "row[\"COLUMN_29\"]" );
+		assertEquals( rule.getValue2( ).getDesignValue( ), "row[\"COLUMN_31\"]" );
 		assertEquals( rule.getStyle( ).getColor( ), "blue" );
 	}
 

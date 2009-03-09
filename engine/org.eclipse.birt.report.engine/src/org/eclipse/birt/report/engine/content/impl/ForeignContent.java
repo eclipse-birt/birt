@@ -143,7 +143,8 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		{
 			if ( generateBy instanceof ExtendedItemDesign )
 			{
-				return ( (ExtendedItemDesign) generateBy ).getAltText( );
+				return getConstantValue( ( (ExtendedItemDesign) generateBy )
+						.getAltText( ) );
 			}
 		}
 		return altText;
@@ -155,7 +156,8 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		{
 			if ( generateBy instanceof ExtendedItemDesign )
 			{
-				return ( (ExtendedItemDesign) generateBy ).getAltTextKey( );
+				return getConstantValue( ( (ExtendedItemDesign) generateBy )
+						.getAltTextKey( ) );
 			}
 		}
 		return altTextKey;

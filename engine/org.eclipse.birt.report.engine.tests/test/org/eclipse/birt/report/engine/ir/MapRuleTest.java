@@ -32,11 +32,13 @@ public class MapRuleTest extends RuleTestCase
 	public void testAccessor( )
 	{
 		//Set
-		( (MapRuleDesign) rule ).setDisplayText( "Key", "Test" );
+		Expression<String> key = newConstant( "Key" );
+		Expression<String> text = newConstant( "Test" );
+		( (MapRuleDesign) rule ).setDisplayText( key, text );
 
 		//Get
-		assertEquals( ( (MapRuleDesign) rule ).getDisplayKey( ), "Key" );
-		assertEquals( ( (MapRuleDesign) rule ).getDisplayText( ), "Test" );
+		assertEquals( ( (MapRuleDesign) rule ).getDisplayKey( ), key );
+		assertEquals( ( (MapRuleDesign) rule ).getDisplayText( ), text );
 	}
 
 }

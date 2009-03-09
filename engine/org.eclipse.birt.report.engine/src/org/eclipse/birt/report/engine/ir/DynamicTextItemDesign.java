@@ -21,39 +21,39 @@ public class DynamicTextItemDesign extends ReportItemDesign
 	 * content type must be one of:
 	 * html, plain, rtf or auto.
 	 */
-	protected String contentType;
+	protected Expression<String> contentType;
 	/**
 	 * content 
 	 */
-	protected String content;
+	protected Expression<String> content;
 	
 	
 	
 	/**
 	 * @return Returns the content.
 	 */
-	public String getContent( )
+	public Expression<String> getContent( )
 	{
 		return content;
 	}
 	/**
 	 * @param content The content to set.
 	 */
-	public void setContent( String content )
+	public void setContent( Expression<String> content )
 	{
 		this.content = content;
 	}
 	/**
 	 * @return Returns the contentType.
 	 */
-	public String getContentType( )
+	public Expression<String> getContentType( )
 	{
 		return contentType;
 	}
 	/**
 	 * @param contentType The contentType to set.
 	 */
-	public void setContentType( String contentType )
+	public void setContentType( Expression<String> contentType )
 	{
 		this.contentType = contentType;
 	}

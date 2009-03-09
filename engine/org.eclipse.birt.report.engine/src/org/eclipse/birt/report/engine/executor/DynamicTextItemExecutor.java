@@ -80,30 +80,22 @@ public class DynamicTextItemExecutor extends QueryItemExecutor
 		processAction( textDesign, textContent );
 
 		// strValue = getMapVal( strValue, multiLineItem );
-		String contentType = textDesign.getContentType( );
+		String contentType = evaluate( textDesign.getContentType( ) );
 		if ( contentType == null )
 		{
 			contentType = TextItemDesign.AUTO_TEXT;
 		}
 		
-		try
-		{
-			Object content = context.evaluate( textDesign.getContent( ) );
+		Object content = evaluate( textDesign.getContent( ) );
 
-			String rawType = ForeignContent.getTextRawType( contentType,
-					content );
-			if ( IForeignContent.TEXT_TYPE.equals( rawType ) )
-			{
-				rawType = IForeignContent.VALUE_TYPE;
-			}
-
-			textContent.setRawType( rawType );
-			textContent.setRawValue( content );
-		}
-		catch ( BirtException ex )
+		String rawType = ForeignContent.getTextRawType( contentType, content );
+		if ( IForeignContent.TEXT_TYPE.equals( rawType ) )
 		{
-			context.addException( ex );
+			rawType = IForeignContent.VALUE_TYPE;
 		}
+
+		textContent.setRawType( rawType );
+		textContent.setRawValue( content );
 
 		if ( context.isInFactory( ) )
 		{

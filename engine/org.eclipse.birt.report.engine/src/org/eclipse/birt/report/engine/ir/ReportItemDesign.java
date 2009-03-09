@@ -24,28 +24,28 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * x position
 	 */
-	protected DimensionType x;
+	protected Expression<DimensionType> x;
 	/**
 	 * y position
 	 */
-	protected DimensionType y;
+	protected Expression<DimensionType> y;
 	/**
 	 * width
 	 */
-	protected DimensionType width;
+	protected Expression<DimensionType> width;
 	/**
 	 * height
 	 */
-	protected DimensionType height;
+	protected Expression<DimensionType> height;
 
 	/**
 	 * book-mark associated with this element.
 	 */
-	protected String bookmark;
+	protected Expression<String> bookmark;
 	/**
 	 * TOC expression
 	 */
-	protected String toc;
+	protected Expression<Object> toc;
 	
 	/**
 	 * scripted called while on created
@@ -89,7 +89,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * @return Returns the height.
 	 */
-	public DimensionType getHeight( )
+	public Expression<DimensionType> getHeight( )
 	{
 		return height;
 	}
@@ -98,7 +98,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * @param height
 	 *            The height to set.
 	 */
-	public void setHeight( DimensionType height )
+	public void setHeight( Expression<DimensionType> height )
 	{
 		this.height = height;
 	}
@@ -106,7 +106,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * @return Returns the width.
 	 */
-	public DimensionType getWidth( )
+	public Expression<DimensionType> getWidth( )
 	{
 		return width;
 	}
@@ -115,7 +115,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * @param width
 	 *            The width to set.
 	 */
-	public void setWidth( DimensionType width )
+	public void setWidth( Expression<DimensionType> width )
 	{
 		this.width = width;
 	}
@@ -123,7 +123,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * @return Returns the x.
 	 */
-	public DimensionType getX( )
+	public Expression<DimensionType> getX( )
 	{
 		return x;
 	}
@@ -132,7 +132,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * @param x
 	 *            The x to set.
 	 */
-	public void setX( DimensionType x )
+	public void setX( Expression<DimensionType> x )
 	{
 		this.x = x;
 	}
@@ -140,7 +140,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * @return Returns the y.
 	 */
-	public DimensionType getY( )
+	public Expression<DimensionType> getY( )
 	{
 		return y;
 	}
@@ -149,7 +149,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * @param y
 	 *            The y to set.
 	 */
-	public void setY( DimensionType y )
+	public void setY( Expression<DimensionType> y )
 	{
 		this.y = y;
 	}
@@ -162,26 +162,26 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	abstract public Object accept( IReportItemVisitor visitor , Object value);
 
 	
-	public String getTOC()
+	public Expression<Object> getTOC( )
 	{
 		return toc;
 	}
 	
-	public void setTOC( String expr )
+	public void setTOC( Expression<Object> expr )
 	{
 		this.toc = expr;
 	}
 	/**
 	 * @return Returns the boo-kmark.
 	 */
-	public String getBookmark( )
+	public Expression<String> getBookmark( )
 	{
 		return bookmark;
 	}
 	/**
 	 * @param bookmark The book-mark to set.
 	 */
-	public void setBookmark( String bookmark )
+	public void setBookmark( Expression<String> bookmark )
 	{
 		this.bookmark = bookmark;
 	}

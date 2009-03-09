@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 
 /**
  * <code>DataItemExecutor</code> is a concrete subclass of
@@ -61,8 +62,9 @@ public class TextItemExecutor extends QueryItemExecutor
 	public IContent execute( )
 	{
 		TextItemDesign textDesign = (TextItemDesign) getDesign( );
-		String contentType = ForeignContent.getTextRawType( textDesign
-				.getTextType( ), textDesign.getText( ) );
+		String textType = evaluate( textDesign.getTextType( ) );
+		String text = evaluate( textDesign.getText( ) );
+		String contentType = ForeignContent.getTextRawType( textType, text );
 
 		if ( IForeignContent.HTML_TYPE.equals( contentType ) )
 		{
@@ -103,7 +105,10 @@ public class TextItemExecutor extends QueryItemExecutor
 		processStyle( textDesign, textContent );
 		processVisibility( textDesign, textContent );
 
-		HashMap exprs = textDesign.getExpressions( );
+		String text = evaluate( textDesign.getText( ) );
+		String textType = evaluate( textDesign.getTextType( ) );
+		
+		HashMap exprs = TextItemDesign.extractExpression( text, textType );
 		if ( exprs != null && !exprs.isEmpty( ) )
 		{
 			HashMap results = new HashMap( );
@@ -160,8 +165,8 @@ public class TextItemExecutor extends QueryItemExecutor
 		// accessQuery( design, emitter );
 
 		initializeContent( textDesign, textContent );
-		textContent.setLabelText( textDesign.getText( ) );
-		textContent.setLabelKey( textDesign.getTextKey( ) );
+		textContent.setLabelText( evaluate( textDesign.getText( ) ) );
+		textContent.setLabelKey( evaluate( textDesign.getTextKey( ) ) );
 
 		processAction( textDesign, textContent );
 		processBookmark( textDesign, textContent );

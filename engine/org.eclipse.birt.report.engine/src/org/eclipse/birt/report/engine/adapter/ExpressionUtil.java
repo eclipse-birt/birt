@@ -26,6 +26,8 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.ir.Expression;
+import org.eclipse.birt.report.engine.ir.Expression.JSExpression;
 
 /**
  * This class help to manipulate expressions.
@@ -66,7 +68,25 @@ public final class ExpressionUtil
 			Object key = exprs.get( i );
 
 			result.addColumnBindings( l );
-			if ( key instanceof String )
+			if ( key instanceof Expression )
+			{
+				if ( ( (Expression) key ).isExpression( ) )
+				{
+					JSExpression expression = (JSExpression) key;
+					String expr = key == null ? null : expression
+							.getDesignValue( );
+					String newExpr = prepareTotalExpression( expr, l,
+							groupName, isCube );
+					result.addColumnBindings( l );
+					result.addNewExpression( Expression.newExpression( newExpr,
+							expression.getType( ) ) );
+				}
+				else
+				{
+					result.addNewExpression( key );
+				}
+			}
+			else if ( key instanceof String )
 			{
 				String expr = key == null ? null : key.toString( );
 				String newExpr = prepareTotalExpression( expr, l, groupName, isCube );
@@ -496,21 +516,24 @@ public final class ExpressionUtil
 	}
 	
 	public IConditionalExpression createConditionalExpression(
-			String testExpression, String operator, String value1, String value2 )
-	{
-		ConditionalExpression expression = new ConditionalExpression( testExpression,
-				DataAdapterUtil.adaptModelFilterOperator( operator ),
-				value1,
-				value2 );
-		return ExpressionUtil.transformConditionalExpression( expression );
-	}
-	
-	public IConditionalExpression createConditionExpression(
-			String testExpression, String operator, List valueList )
+			Expression<String> testExpression, String operator,
+			Expression<String> value1, Expression<String> value2 )
 	{
 		ConditionalExpression expression = new ConditionalExpression(
-				testExpression, DataAdapterUtil
-						.adaptModelFilterOperator( operator ), valueList );
+				(String) testExpression.getDesignValue( ), DataAdapterUtil
+						.adaptModelFilterOperator( operator ), (String) value1
+						.getDesignValue( ), (String) value2.getDesignValue( ) );
+		return ExpressionUtil.transformConditionalExpression( expression );
+	}
+
+	public IConditionalExpression createConditionExpression(
+			Expression<String> testExpression, String operator,
+			Expression<? extends List> valueList )
+	{
+		ConditionalExpression expression = new ConditionalExpression(
+				(String) testExpression.getDesignValue( ), DataAdapterUtil
+						.adaptModelFilterOperator( operator ),
+				(String) valueList.getDesignValue( ) );
 		return ExpressionUtil.transformConditionalExpression( expression );
 	}
 }

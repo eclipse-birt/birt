@@ -31,13 +31,18 @@ public class DataDesignTest extends AbstractDesignTestCase
 
 	public void testDataBasic( )
 	{
-		assertEquals( 3, data.getHeight( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 3, data.getWidth( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 2, data.getX( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 3, data.getY( ).getMeasure( ), Double.MIN_VALUE );
+		assertEquals( 3, data.getHeight( ).getValue( ).getMeasure( ),
+				Double.MIN_VALUE );
+		assertEquals( 3, data.getWidth( ).getValue( ).getMeasure( ),
+				Double.MIN_VALUE );
+		assertEquals( 2, data.getX( ).getValue( ).getMeasure( ),
+				Double.MIN_VALUE );
+		assertEquals( 3, data.getY( ).getValue( ).getMeasure( ),
+				Double.MIN_VALUE );
 		assertEquals( "myData", data.getName( ) );
-		assertEquals( "data help", data.getHelpText( ) );
-		assertEquals( "http://www.msn.com", data.getAction( ).getHyperlink( ) );
+		assertEquals( "data help", data.getHelpText( ).getValue( ) );
+		assertEquals( "http://www.msn.com", data.getAction( ).getHyperlink( )
+				.getDesignValue( ) );
 	}
 
 //	public void testDataStyle( )

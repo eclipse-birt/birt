@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -39,6 +39,7 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -49,6 +50,7 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCEntry;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * Abstract class, Represents a report item executor. Report item executor
@@ -290,55 +292,38 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 * 
 	 * @param item
 	 *            the ReportItemContent object
+	 * @throws BirtException 
 	 */
 	protected void processBookmark( ReportItemDesign item, IContent itemContent )
 	{
-		String bookmarkExpr = item.getBookmark( );
-		if ( bookmarkExpr != null )
+		Object tmp = evaluate( item.getBookmark( ) );
+		if ( tmp != null && !tmp.equals( "" ) )
 		{
-			try
+			String bookmark = tmp.toString( );
+			itemContent.setBookmark( bookmark );
+			// we need also set the bookmark to the result set
+			if ( rset != null )
 			{
-				Object tmp = evaluate( bookmarkExpr );
-				if ( tmp != null && !tmp.equals( "" ) )
+				IBaseQueryResults resultSet = rset.getQueryResults( );
+				if ( resultSet != null )
 				{
-					String bookmark = tmp.toString( );
-					itemContent.setBookmark( bookmark );
-					// we need also set the bookmark to the result set
-					if ( rset != null )
+					IDataQueryDefinition query = item.getQuery( );
+					if ( query instanceof IQueryDefinition )
 					{
-						IBaseQueryResults resultSet = rset.getQueryResults( );
-						if ( resultSet != null )
-						{
-							IDataQueryDefinition query = item.getQuery( );
-							if ( query instanceof IQueryDefinition )
-							{
-								resultSet.setName( bookmark );
-							}
-						}
+						resultSet.setName( bookmark );
 					}
 				}
 			}
-			catch ( BirtException ex )
-			{
-				context.addException( ex );
-			}
 		}
-		String toc = item.getTOC( );
-		if ( toc != null )
+		Expression<Object> tocValue = item.getTOC( );
+		if ( tocValue != null )
 		{
-			try
+			Object toc = evaluate( tocValue );
+			if ( toc == null )
 			{
-				Object tmp = evaluate( toc );
-				if ( tmp == null )
-				{
-					tmp = "";
-				}
-				itemContent.setTOC( tmp );
+				toc = "";
 			}
-			catch ( BirtException ex )
-			{
-				context.addException( ex );
-			}
+			itemContent.setTOC( toc );
 		}
 	}
 
@@ -359,76 +344,45 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		if ( action != null )
 		{
 
+			String targetWindow = evaluate( action.getTargetWindow( ) );
+			String tooltip = evaluate( action.getTooltip( ) );
 			switch ( action.getActionType( ) )
 			{
 				case ActionDesign.ACTION_HYPERLINK :
 					assert action.getHyperlink( ) != null;
-					try
+					String hyperlink = evaluate( action.getHyperlink( ) );
+					if ( hyperlink != null )
 					{
-						Object value = evaluate( action.getHyperlink( ) );
-						if ( value != null )
-						{
-							IHyperlinkAction obj = report.createActionContent( );
-							obj.setHyperlink( value.toString( ), action
-									.getTargetWindow( ) );
-							obj.setTooltip( action.getTooltip( ) );
-							itemContent.setHyperlinkAction( obj );
-						}
-					}
-					catch ( BirtException ex )
-					{
-						context.addException( ex );
+						IHyperlinkAction obj = report.createActionContent( );
+						obj.setHyperlink( hyperlink, targetWindow );
+						obj.setTooltip( tooltip );
+						itemContent.setHyperlinkAction( obj );
 					}
 					break;
 				case ActionDesign.ACTION_BOOKMARK :
 					assert action.getBookmark( ) != null;
-					try
+					String bookmark = evaluate( action.getBookmark( ) );
+					if ( bookmark != null && !bookmark.equals( "" ) )
 					{
-						Object value = evaluate( action.getBookmark( ) );
-						if ( value != null && !value.equals( "" ) )
-						{
-							IHyperlinkAction obj = report.createActionContent( );
-							obj.setBookmark( value.toString( ) );
-							obj.setTooltip( action.getTooltip( ) );
-							itemContent.setHyperlinkAction( obj );
-						}
-					}
-					catch ( BirtException ex )
-					{
-						context.addException( ex );
+						IHyperlinkAction obj = report.createActionContent( );
+						obj.setBookmark( bookmark );
+						obj.setTooltip( tooltip );
+						itemContent.setHyperlinkAction( obj );
 					}
 					break;
 				case ActionDesign.ACTION_DRILLTHROUGH :
 					assert action.getDrillThrough( ) != null;
 					DrillThroughActionDesign drill = action.getDrillThrough( );
-					String bookmark = null;
-					String bookmarkExpr = drill.getBookmark( );
-					if ( bookmarkExpr != null )
-					{
-						try
-						{
-							Object value = evaluate( drill.getBookmark( ) );
-							if ( value != null )
-							{
-								bookmark = value.toString( );
-							}
-						}
-						catch ( BirtException ex )
-						{
-							context.addException( ex );
-						}
-					}
-					boolean isBookmark = drill.isBookmark( );
-					Map paramsVal = new HashMap( );
-					Map params = drill.getParameters( );
+					bookmark = evaluate( drill.getBookmark( ) );
+					boolean isBookmark = !DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC.equals( evaluate( drill.getBookmarkType( ) ) );
+					Map<String, Object> paramsVal = new HashMap<String, Object>( );
+					Map<String, Expression<Object>> params = drill.getParameters( );
 					if ( params != null )
 					{
-						Iterator paramsDesignIte = params.entrySet( )
-								.iterator( );
-						while ( paramsDesignIte.hasNext( ) )
+						Set<Map.Entry<String, Expression<Object>>> entries = params
+								.entrySet( );
+						for ( Map.Entry<String, Expression<Object>> entry : entries )
 						{
-							Map.Entry entry = (Map.Entry) paramsDesignIte
-									.next( );
 							Object valueObj = entry.getValue( );
 							if ( valueObj != null )
 							{
@@ -446,30 +400,25 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 						}
 					}
 
-					String reportName = drill.getReportName( );
-					/* we do not set absoluted path here. we now changed this in render time
-					ReportDesignHandle design = context.getDesign( );
-					if ( design != null )
-					{
-						URL reportURL = design.findResource( reportName,
-								IResourceLocator.LIBRARY );
-						if ( reportURL != null )
-						{
-							String reportFile = reportURL.getFile( );
-							if ( reportFile != null )
-							{
-								reportName = reportFile;
-							}
-						}
-					}
-					*/
-					String format = drill.getFormat( );
+					String reportName = evaluate( drill.getReportName( ) );
+					/*
+					 * we do not set absoluted path here. we now changed this in
+					 * render time ReportDesignHandle design =
+					 * context.getDesign( ); if ( design != null ) { URL
+					 * reportURL = design.findResource( reportName,
+					 * IResourceLocator.LIBRARY ); if ( reportURL != null ) {
+					 * String reportFile = reportURL.getFile( ); if ( reportFile
+					 * != null ) { reportName = reportFile; } } }
+					 */
+					String format = evaluate( drill.getFormat( ) );
 					// XXX Do not support Search criteria
 					IHyperlinkAction obj = report.createActionContent( );
+					String targetFileType = evaluate( action
+							.getTargetFileType( ) );
 					obj.setDrillThrough( bookmark, isBookmark, reportName,
-							paramsVal, null, action.getTargetWindow( ), format,
-							action.getTargetFileType( ) );
-					obj.setTooltip( action.getTooltip( ) );
+							paramsVal, null, targetWindow, format,
+							targetFileType );
+					obj.setTooltip( tooltip );
 					itemContent.setHyperlinkAction( obj );
 					break;
 				default :
@@ -496,9 +445,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			for ( int i = 0; i < visibility.count( ); i++ )
 			{
 				VisibilityRuleDesign rule = visibility.getRule( i );
-				String expr = rule.getExpression( );
-				if ( expr != null )
-				{
+				Expression<Boolean> expr = rule.getExpression( );
 					try
 					{
 						Object result = evaluate( expr );
@@ -522,7 +469,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					{
 						context.addException( ex );
 					}
-				}
 			}
 			if ( buffer.length( ) != 0 )
 			{
@@ -544,31 +490,28 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			for ( int i = 0; i < visibility.count( ); i++ )
 			{
 				VisibilityRuleDesign rule = visibility.getRule( i );
-				String expr = rule.getExpression( );
-				if ( expr != null )
+				Expression<Boolean> expr = rule.getExpression( );
+				try
 				{
-					try
+					Object result = evaluate( expr );
+					if ( result == null || !( result instanceof Boolean ) )
 					{
-						Object result = evaluate( expr );
-						if ( result == null || !( result instanceof Boolean ) )
-						{
-							throw new EngineException(
-									MessageConstants.EXPRESSION_EVALUATION_ERROR, //$NON-NLS-1$
-									rule.getExpression( ) );
-						}
-						boolean isHidden = ( (Boolean) result ).booleanValue( );
-						// The report element appears by default and if the
-						// result is not hidden, then ignore it.
-						if ( isHidden )
-						{
-							buffer.append( rule.getFormat( ) );
-							buffer.append( "," ); //$NON-NLS-1$
-						}
+						throw new EngineException(
+								MessageConstants.EXPRESSION_EVALUATION_ERROR, //$NON-NLS-1$
+								rule.getExpression( ) );
 					}
-					catch ( BirtException ex )
+					boolean isHidden = ( (Boolean) result ).booleanValue( );
+					// The report element appears by default and if the
+					// result is not hidden, then ignore it.
+					if ( isHidden )
 					{
-						context.addException( ex );
+						buffer.append( rule.getFormat( ) );
+						buffer.append( "," ); //$NON-NLS-1$
 					}
+				}
+				catch ( BirtException ex )
+				{
+					context.addException( ex );
 				}
 			}
 			if ( buffer.length( ) != 0 )
@@ -851,5 +794,22 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	protected Logger getLogger( )
 	{
 		return context.getLogger( );
+	}
+
+	protected <T> T evaluate(Expression<T> value)
+	{
+		if ( value != null )
+		{
+			try
+			{
+
+				return value.evaluate( context );
+			}
+			catch ( BirtException e )
+			{
+				context.addException( e );
+			}
+		}
+		return null;
 	}
 }

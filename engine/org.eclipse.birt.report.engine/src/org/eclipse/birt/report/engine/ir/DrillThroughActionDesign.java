@@ -18,19 +18,19 @@ import java.util.Map;
  */
 public class DrillThroughActionDesign
 {
-	protected String reportName;
-	protected String bookmark;
-	protected boolean isBookmark;
-	protected String format;
+	protected Expression<String> reportName;
+	protected Expression<String> bookmark;
+	protected Expression<String> bookmarkType;
+	protected Expression<String> format;
 
-	protected Map parameters;
+	protected Map<String, Expression<Object>> parameters;
 	protected Map search;
 
 
 	/**
 	 * @return Returns the bookmark.
 	 */
-	public String getBookmark( )
+	public Expression<String> getBookmark( )
 	{
 		return bookmark;
 	}
@@ -39,7 +39,7 @@ public class DrillThroughActionDesign
 	 * @param bookmark
 	 *            The bookmark to set.
 	 */
-	public void setBookmark( String bookmark )
+	public void setBookmark( Expression<String> bookmark )
 	{
 		this.bookmark = bookmark;
 	}
@@ -47,7 +47,7 @@ public class DrillThroughActionDesign
 	/**
 	 * @return Returns the reportName.
 	 */
-	public String getReportName( )
+	public Expression<String> getReportName( )
 	{
 		return reportName;
 	}
@@ -56,7 +56,7 @@ public class DrillThroughActionDesign
 	 * @param reportName
 	 *            The reportName to set.
 	 */
-	public void setReportName( String reportName )
+	public void setReportName( Expression<String> reportName )
 	{
 		this.reportName = reportName;
 	}
@@ -64,7 +64,7 @@ public class DrillThroughActionDesign
 	/**
 	 * @return Returns the parameters.
 	 */
-	public Map getParameters( )
+	public Map<String, Expression<Object>> getParameters( )
 	{
 		return parameters;
 	}
@@ -73,7 +73,7 @@ public class DrillThroughActionDesign
 	 * @param parameters
 	 *            The parameters to set.
 	 */
-	public void setParameters( Map parameters )
+	public void setParameters( Map<String, Expression<Object>> parameters )
 	{
 		this.parameters = parameters;
 	}
@@ -96,24 +96,23 @@ public class DrillThroughActionDesign
 	}
 
 	
-	public String getFormat( )
+	public Expression<String> getFormat( )
 	{
 		return format;
 	}
-
 	
-	public void setFormat( String format )
+	public void setFormat( Expression<String> format )
 	{
 		this.format = format;
 	}
 
-	public void setBookmarkType( boolean isBookmark )
+	public void setBookmarkType( Expression<String> bookmarkType )
 	{
-		this.isBookmark = isBookmark;
+		this.bookmarkType = bookmarkType;
 	}
 
-	public boolean isBookmark( )
+	public Expression<String> getBookmarkType( )
 	{
-		return isBookmark;
+		return bookmarkType;
 	}
 }

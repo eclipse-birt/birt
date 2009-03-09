@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.ir;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.birt.core.template.TemplateParser;
 import org.eclipse.birt.core.template.TextTemplate;
@@ -33,17 +34,17 @@ public class TextItemDesign extends ReportItemDesign
 	/**
 	 * text type, supports "html", "auto", "rtf", and "plain"
 	 */
-	protected String textType;
+	protected Expression<String> textType;
 
 	/**
 	 * the text key
 	 */
-	protected String textKey;
+	protected Expression<String> textKey;
 
 	/**
 	 * text content
 	 */
-	protected String text;
+	protected Expression<String> text;
 
 	protected HashMap<String, String> exprs = null;
 
@@ -57,16 +58,25 @@ public class TextItemDesign extends ReportItemDesign
 		{
 			return exprs;
 		}
+		if ( text.isExpression( ) || textType.isExpression( ) )
+		{
+			return null;
+		}
+		exprs = extractExpression( text.getValue( ), textType.getValue( ) );
+		return exprs;
+	}
 
+	public static HashMap<String, String> extractExpression( String textContent, String textType )
+	{
+		HashMap<String, String> expressions = new HashMap<String, String>( );
 		if ( HTML_TEXT.equals( textType )
 				|| ( AUTO_TEXT.equals( textType ) && startsWithIgnoreCase(
-						text, "<html>" ) ) )
+						textContent, "<html>" ) ) )
 		{
-			exprs = new HashMap<String, String>( );
 			TextTemplate template = null;
 			try
 			{
-				template = new TemplateParser( ).parse( text );
+				template = new TemplateParser( ).parse( textContent );
 			}
 			catch ( Throwable ignored )
 			{
@@ -84,12 +94,12 @@ public class TextItemDesign extends ReportItemDesign
 					if ( obj instanceof TextTemplate.ValueNode )
 					{
 						ValueNode valueNode = (TextTemplate.ValueNode) obj;
-						addExpression( valueNode.getValue( ) );
-						addExpression( valueNode.getFormatExpression( ) );
+						addExpression( expressions, valueNode.getValue( ) );
+						addExpression( expressions, valueNode.getFormatExpression( ) );
 					}
 					else if ( obj instanceof TextTemplate.ImageNode )
 					{
-						addExpression( ( (TextTemplate.ImageNode) obj )
+						addExpression( expressions, ( (TextTemplate.ImageNode) obj )
 								.getExpr( ) );
 					}
 
@@ -97,18 +107,18 @@ public class TextItemDesign extends ReportItemDesign
 				}
 			}
 		}
-		return exprs;
+		return expressions;
 	}
 
-	private void addExpression( String expression )
+	private static void addExpression( Map<String, String> expressions, String expression )
 	{
 		if ( expression != null && !expression.trim( ).equals( "" ) )
 		{
-			exprs.put( expression, expression );
+			expressions.put( expression, expression );
 		}
 	}
 
-	public boolean startsWithIgnoreCase( String original, String pattern )
+	public static boolean startsWithIgnoreCase( String original, String pattern )
 	{
 		int length = pattern.length( );
 		if ( original == null || original.length( ) < length )
@@ -124,7 +134,7 @@ public class TextItemDesign extends ReportItemDesign
 	 * @param text
 	 *            the actual text
 	 */
-	public void setText( String textKey, String text )
+	public void setText( Expression<String> textKey, Expression<String> text )
 	{
 		this.textKey = textKey;
 		this.text = text;
@@ -133,7 +143,7 @@ public class TextItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the resourceKey.
 	 */
-	public String getTextKey( )
+	public Expression<String> getTextKey( )
 	{
 		return textKey;
 	}
@@ -141,7 +151,7 @@ public class TextItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the content.
 	 */
-	public String getText( )
+	public Expression<String> getText( )
 	{
 		return text;
 	}
@@ -159,7 +169,7 @@ public class TextItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the encoding.
 	 */
-	public String getTextType( )
+	public Expression<String> getTextType( )
 	{
 		return textType;
 	}
@@ -168,7 +178,7 @@ public class TextItemDesign extends ReportItemDesign
 	 * @param encoding
 	 *            The encoding to set.
 	 */
-	public void setTextType( String textType )
+	public void setTextType( Expression<String> textType )
 	{
 		this.textType = textType;
 	}

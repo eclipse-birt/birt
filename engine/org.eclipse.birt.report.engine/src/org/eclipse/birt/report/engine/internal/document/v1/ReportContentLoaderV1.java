@@ -536,8 +536,10 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 					if ( content instanceof ILabelContent )
 					{
 						ILabelContent labelContent = (ILabelContent) content;
-						labelContent.setLabelKey( design.getPromptTextKey( ) );
-						labelContent.setLabelText( design.getPromptText( ) );
+						labelContent.setLabelKey( design.getPromptTextKey( )
+								.getValue( ) );
+						labelContent.setLabelText( design.getPromptText( )
+								.getValue( ) );
 					}
 				}
 			}

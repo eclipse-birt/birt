@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.api.IReportEngineFactory;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
+import org.eclipse.birt.report.engine.ir.Expression;
 
 abstract public class EngineCase extends TestCase
 {
@@ -371,4 +372,9 @@ abstract public class EngineCase extends TestCase
 		return count;
 	}
 
+
+	protected <T> Expression<T> newConstant(T value)
+	{
+		return Expression.newConstant( value );
+	}
 }

@@ -49,11 +49,112 @@ public class IOUtil
 {
 
 	public static final int INT_LENGTH = 4;
-	
+
 	public static final int RA_STREAM_BUFFER_LENGTH = 8192;
-	
+
 	public static final int MAX_NUMBER_OF_STREAM_BUFFER = 128;
-	
+
+	public final static <T> T read( DataInputStream inputStream, Class<T> clazz )
+			throws IOException
+	{
+		Object result = null;
+		if ( clazz == short.class || clazz == Short.class )
+		{
+			result = readShort( inputStream );
+		}
+		else if ( clazz == boolean.class || clazz == Boolean.class )
+		{
+			result = readBool(inputStream);
+		}
+		else if ( clazz == byte[].class )
+		{
+			result = readBytes(inputStream);
+		}
+		else if ( clazz == double.class || clazz == Double.class )
+		{
+			result = readDouble(inputStream);
+		}
+		else if ( clazz == float.class || clazz == Float.class )
+		{
+			result = readFloat(inputStream);
+		}
+		else if ( clazz == int.class || clazz == Integer.class )
+		{
+			result = readInt(inputStream);
+		}
+		else if ( List.class.isAssignableFrom( clazz ) )
+		{
+			result = readList(inputStream);
+		}
+		else if ( clazz == long.class || clazz == Short.class )
+		{
+			result = readLong(inputStream);
+		}
+		else if ( Map.class.isAssignableFrom( clazz ) )
+		{
+			result = readMap(inputStream);
+		}
+		else if ( clazz == String.class )
+		{
+			result = readString(inputStream);
+		}
+		else
+		{
+			result = readObject(inputStream);
+		}
+		return (T)result;
+	}
+
+	public final static <T> void write( DataOutputStream out, T object,
+			Class<T> clazz ) throws IOException
+	{
+		// debug( object.toString( ) );
+		if ( clazz == short.class || clazz == Short.class )
+		{
+			writeShort( out, (Short)object );
+		}
+		else if ( clazz == boolean.class || clazz == Boolean.class )
+		{
+			writeBool( out, (Boolean)object );
+		}
+		else if ( clazz == byte[].class )
+		{
+			writeBytes( out, (byte[])object );
+		}
+		else if ( clazz == double.class || clazz == Double.class )
+		{
+			writeDouble( out, (Double)object );
+		}
+		else if ( clazz == float.class || clazz == Float.class )
+		{
+			writeFloat( out, (Float)object );
+		}
+		else if ( clazz == int.class || clazz == Integer.class )
+		{
+			writeInt( out, (Integer)object );
+		}
+		else if ( List.class.isAssignableFrom( clazz ) )
+		{
+			writeList( out, (List)object );
+		}
+		else if ( clazz == long.class || clazz == Long.class )
+		{
+			writeLong( out, (Long)object );
+		}
+		else if ( Map.class.isAssignableFrom( clazz ) )
+		{
+			writeMap( out, (Map)object );
+		}
+		else if ( clazz == String.class )
+		{
+			writeString( out, (String)object );
+		}
+		else
+		{
+			writeObject( out, object );
+		}
+	}
+
 	/**
 	 * Read an int value from an input stream
 	 * 
@@ -67,7 +168,7 @@ public class IOUtil
 		int ch1 = inputStream.read( );
 		int ch2 = inputStream.read( );
 
-		return (short)( ( ch1 << 8 ) + ch2 );
+		return (short) ( ( ch1 << 8 ) + ch2 );
 	}
 
 	/**
@@ -83,7 +184,7 @@ public class IOUtil
 		outputStream.write( ( value >>> 8 ) & 0xFF );
 		outputStream.write( ( value >>> 0 ) & 0xFF );
 	}
-	
+
 	/**
 	 * Read an int value from an input stream
 	 * 
@@ -117,7 +218,7 @@ public class IOUtil
 		outputStream.write( ( value >>> 8 ) & 0xFF );
 		outputStream.write( ( value >>> 0 ) & 0xFF );
 	}
-	
+
 	/**
 	 * Assemble four bytes to an int value, make sure that the passed bytes
 	 * length is 4.
@@ -128,15 +229,15 @@ public class IOUtil
 	public final static int getInt( byte[] bytes )
 	{
 		assert bytes.length == 4;
-		
+
 		int ch1 = bytes[0] & 0xFF;
 		int ch2 = bytes[1] & 0xFF;
 		int ch3 = bytes[2] & 0xFF;
 		int ch4 = bytes[3] & 0xFF;
-		
+
 		return ( ( ch1 << 24 ) + ( ch2 << 16 ) + ( ch3 << 8 ) + ( ch4 << 0 ) );
 	}
-	
+
 	/**
 	 * Assemble four bytes to an int value, make sure that the passed bytes
 	 * length is larger than 4.
@@ -189,7 +290,6 @@ public class IOUtil
 		b[6] = (byte) ( ( v >>> 8 ) & 0xFF );
 		b[7] = (byte) ( ( v >>> 0 ) & 0xFF );
 	}
-	
 
 	/**
 	 * Read a bool value from an input stream
@@ -294,13 +394,13 @@ public class IOUtil
 	{
 		outputStream.writeLong( value );
 	}
-	
+
 	/**
 	 * Write a byte array to an output stream only with its raw content.
 	 * 
 	 * @param dos
-	 * @param bytes,
-	 *            it can not be null
+	 * @param bytes
+	 *            , it can not be null
 	 * @throws IOException
 	 */
 	public final static void writeRawBytes( DataOutputStream dos, byte[] bytes )
@@ -309,9 +409,9 @@ public class IOUtil
 		assert bytes != null;
 		dos.write( bytes );
 	}
-	
-	//------------for object read/write-------------------
-	
+
+	// ------------for object read/write-------------------
+
 	private static Map type2IndexMap;
 
 	private static final int TYPE_NULL = 0;
@@ -328,7 +428,7 @@ public class IOUtil
 	private static final int TYPE_LIST = 11;
 	private static final int TYPE_MAP = 12;
 	private static final int TYPE_SERIALIZABLE = 13;
-	
+
 	private static final int TYPE_JSObject = 14;
 	private static final int TYPE_LONG_STRING = 15;
 	private static final int TYPE_DATE = 16;
@@ -348,11 +448,13 @@ public class IOUtil
 		type2IndexMap.put( byte[].class, new Integer( TYPE_BYTES ) );
 		type2IndexMap.put( List.class, new Integer( TYPE_LIST ) );
 		type2IndexMap.put( Map.class, new Integer( TYPE_MAP ) );
-		type2IndexMap.put( Serializable.class, new Integer( TYPE_SERIALIZABLE ) );
+		type2IndexMap
+				.put( Serializable.class, new Integer( TYPE_SERIALIZABLE ) );
 		type2IndexMap.put( null, new Integer( TYPE_NULL ) );
 		type2IndexMap.put( java.sql.Date.class, new Integer( TYPE_DATE ) );
-		
-		type2IndexMap.put( IdScriptableObject.class, new Integer( TYPE_JSObject ) );
+
+		type2IndexMap.put( IdScriptableObject.class,
+				new Integer( TYPE_JSObject ) );
 	}
 
 	/**
@@ -365,10 +467,10 @@ public class IOUtil
 	{
 		if ( obValue == null )
 			return TYPE_NULL;
-		
+
 		if ( obValue instanceof String )
 		{
-			if ( isLongString( (String)obValue )  )
+			if ( isLongString( (String) obValue ) )
 			{
 				return TYPE_LONG_STRING;
 			}
@@ -377,7 +479,7 @@ public class IOUtil
 				return TYPE_STRING;
 			}
 		}
-		
+
 		Integer indexOb = (Integer) type2IndexMap.get( obValue.getClass( ) );
 		if ( indexOb == null )
 		{
@@ -397,15 +499,15 @@ public class IOUtil
 			{
 				return TYPE_TIME_STAMP;
 			}
-			if( Time.class.isAssignableFrom( obValue.getClass( ) ) )
+			if ( Time.class.isAssignableFrom( obValue.getClass( ) ) )
 			{
 				return TYPE_TIME;
 			}
-			if( java.sql.Date.class.isAssignableFrom( obValue.getClass( ) ) )
+			if ( java.sql.Date.class.isAssignableFrom( obValue.getClass( ) ) )
 			{
 				return TYPE_DATE;
 			}
-			if( Date.class.isAssignableFrom( obValue.getClass( ) ) )
+			if ( Date.class.isAssignableFrom( obValue.getClass( ) ) )
 			{
 				return TYPE_DATE_TIME;
 			}
@@ -430,7 +532,7 @@ public class IOUtil
 	public final static Object readObject( DataInputStream dis )
 			throws IOException
 	{
-		return readObject(dis, null);
+		return readObject( dis, null );
 	}
 
 	/**
@@ -442,8 +544,8 @@ public class IOUtil
 	 * @return
 	 * @throws IOException
 	 */
-	public final static Object readObject( DataInputStream dis, ClassLoader classLoader )
-			throws IOException
+	public final static Object readObject( DataInputStream dis,
+			ClassLoader classLoader ) throws IOException
 	{
 		// read data type from its index value
 		int typeIndex = readInt( dis );
@@ -485,7 +587,7 @@ public class IOUtil
 				break;
 			case TYPE_LONG_STRING :
 				obValue = readUTF( dis );
-				break;				
+				break;
 			case TYPE_BYTES :
 				int len = readInt( dis );
 				byte[] bytes = new byte[len];
@@ -557,7 +659,7 @@ public class IOUtil
 					+ obValue.getClass( ).toString( )
 					+ " is not supported to be serialized" );
 		}
-		
+
 		writeInt( dos, typeIndex );
 
 		// write real data
@@ -584,7 +686,7 @@ public class IOUtil
 				dos.writeLong( ( (Time) obValue ).getTime( ) );
 				break;
 			case TYPE_DATE :
-				dos.writeLong( ( ( java.sql.Date ) obValue ).getTime( ) );
+				dos.writeLong( ( (java.sql.Date) obValue ).getTime( ) );
 				break;
 			case TYPE_TIME_STAMP :
 				dos.writeLong( ( (Timestamp) obValue ).getTime( ) );
@@ -635,12 +737,13 @@ public class IOUtil
 				}
 				break;
 			case TYPE_JSObject :
-				if (obValue instanceof IdScriptableObject)
+				if ( obValue instanceof IdScriptableObject )
 				{
 					IdScriptableObject jsObject = ( (IdScriptableObject) obValue );
 					if ( jsObject.getClassName( ).equals( "Date" ) )
 					{
-						Date date = (Date) JavascriptEvalUtil.convertJavascriptValue( obValue );
+						Date date = (Date) JavascriptEvalUtil
+								.convertJavascriptValue( obValue );
 						writeObject( dos, date );
 					}
 					else
@@ -649,9 +752,10 @@ public class IOUtil
 						writeObject( dos, null );
 					}
 				}
-				else if (obValue instanceof NativeJavaObject)
+				else if ( obValue instanceof NativeJavaObject )
 				{
-					obValue= JavascriptEvalUtil.convertJavascriptValue( obValue );
+					obValue = JavascriptEvalUtil
+							.convertJavascriptValue( obValue );
 					writeObject( dos, obValue );
 				}
 				else
@@ -913,7 +1017,7 @@ public class IOUtil
 		{
 			writeInt( dos, TYPE_MAP );
 		}
-		
+
 		// write map size
 		int size = map.size( );
 		writeInt( dos, size );
@@ -931,9 +1035,9 @@ public class IOUtil
 			writeObject( dos, value );
 		}
 	}
-	
+
 	/**
-	 * private utility method to check whether it is a long string 
+	 * private utility method to check whether it is a long string
 	 * 
 	 * @param str
 	 * @return true if it is a long string
@@ -941,7 +1045,7 @@ public class IOUtil
 	private static boolean isLongString( String str )
 	{
 		int strlen = str.length( );
-		
+
 		if ( strlen > 65535 )
 		{
 			return true;
@@ -950,7 +1054,7 @@ public class IOUtil
 		{
 			return false;
 		}
-		
+
 		int utflen = getBytesSize( str );
 
 		if ( utflen > 65535 )
@@ -969,7 +1073,8 @@ public class IOUtil
 	 * @param str
 	 * @throws UTFDataFormatException
 	 */
-	private static void writeUTF(  DataOutputStream dos, String str ) throws IOException
+	private static void writeUTF( DataOutputStream dos, String str )
+			throws IOException
 	{
 		int strlen = str.length( );
 		int c = 0;
@@ -1005,30 +1110,30 @@ public class IOUtil
 			}
 		}
 	}
-	
+
 	/**
-	 * private utility method to read a UTF String 
+	 * private utility method to read a UTF String
 	 * 
 	 * @param str
 	 * @throws UTFDataFormatException
 	 */
-	private static String readUTF(  DataInputStream dis ) throws IOException
+	private static String readUTF( DataInputStream dis ) throws IOException
 	{
 		int length = dis.readInt( );
 		byte[] ret = new byte[length];
 		dis.read( ret, 0, length );
 		return convertBytes2String( ret );
 	}
-	
+
 	/**
-	 * private utility method to the size of a string in bytes 
+	 * private utility method to the size of a string in bytes
 	 * 
 	 * @param str
 	 * @throws UTFDataFormatException
 	 */
 	private static int getBytesSize( String str )
 	{
-		int c,utflen = 0;
+		int c, utflen = 0;
 		for ( int i = 0; i < str.length( ); i++ )
 		{
 			c = str.charAt( i );
@@ -1047,9 +1152,9 @@ public class IOUtil
 		}
 		return utflen;
 	}
-	
+
 	/**
-	 * private utility method helping to convert byte[] to a String 
+	 * private utility method helping to convert byte[] to a String
 	 * 
 	 * @param str
 	 * @throws UTFDataFormatException
@@ -1081,43 +1186,46 @@ public class IOUtil
 					// 110x xxxx 10xx xxxx
 					count += 2;
 					if ( count > utflen )
-						throw new UTFDataFormatException( "Malformed input: partial character at end" );
+						throw new UTFDataFormatException(
+								"Malformed input: partial character at end" );
 					char2 = (int) bytearr[count - 1];
 					if ( ( char2 & 0xC0 ) != 0x80 )
-						throw new UTFDataFormatException( "Malformed input around byte "
-								+ count );
+						throw new UTFDataFormatException(
+								"Malformed input around byte " + count );
 					chararr[chararr_count++] = (char) ( ( ( c & 0x1F ) << 6 ) | ( char2 & 0x3F ) );
 					break;
 				case 14 :
 					// 1110 xxxx 10xx xxxx 10xx xxxx
 					count += 3;
 					if ( count > utflen )
-						throw new UTFDataFormatException( "Malformed input: partial character at end" );
+						throw new UTFDataFormatException(
+								"Malformed input: partial character at end" );
 					char2 = (int) bytearr[count - 2];
 					char3 = (int) bytearr[count - 1];
 					if ( ( ( char2 & 0xC0 ) != 0x80 )
 							|| ( ( char3 & 0xC0 ) != 0x80 ) )
-						throw new UTFDataFormatException( "Malformed input around byte "
-								+ ( count - 1 ) );
+						throw new UTFDataFormatException(
+								"Malformed input around byte " + ( count - 1 ) );
 					chararr[chararr_count++] = (char) ( ( ( c & 0x0F ) << 12 )
 							| ( ( char2 & 0x3F ) << 6 ) | ( ( char3 & 0x3F ) << 0 ) );
 					break;
 				default :
 					// 10xx xxxx, 1111 xxxx
-					throw new UTFDataFormatException( "Malformed input around byte "
-							+ count );
+					throw new UTFDataFormatException(
+							"Malformed input around byte " + count );
 			}
 		}
 		return chararr_count;
 	}
-	
+
 	/**
 	 * private utility method to convert a byte[] to String
 	 * 
 	 * @param bytearre
 	 * @throws UTFDataFormatException
 	 */
-	private static String convertBytes2String( byte[] bytearr ) throws UTFDataFormatException
+	private static String convertBytes2String( byte[] bytearr )
+			throws UTFDataFormatException
 	{
 		int utflen = bytearr.length;
 		char[] chararr = new char[utflen];
@@ -1133,7 +1241,8 @@ public class IOUtil
 			count++;
 			chararr[chararr_count++] = (char) c;
 		}
-		chararr_count = generateCharArray( chararr, bytearr, count, chararr_count );
+		chararr_count = generateCharArray( chararr, bytearr, count,
+				chararr_count );
 
 		// The number of chars produced may be less than utflen
 		return new String( chararr, 0, chararr_count );

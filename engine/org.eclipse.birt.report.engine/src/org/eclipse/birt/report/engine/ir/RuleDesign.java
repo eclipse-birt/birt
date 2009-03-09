@@ -19,23 +19,23 @@ import java.util.List;
  */
 public abstract class RuleDesign
 {
-	protected String testExpression = null;
+	protected Expression<String> testExpression = null;
 
-	protected String value1;
-	protected String value2;
+	protected Expression<String> value1;
+	protected Expression<String> value2;
 	protected String operator;
-	Object expr;
+	protected Object expr;
 	protected boolean valueIsList = false;
-	protected List value1List;
+	protected Expression<? extends List> value1List;
 
-	public void setExpression( String operator, List value )
+	public void setExpression( String operator, Expression<? extends List> value )
 	{
 		this.operator = operator;
 		this.value1List = value;
 		this.valueIsList = true;
 	}
 
-	public List getValue1List( )
+	public Expression<? extends List> getValue1List( )
 	{
 		return this.value1List;
 	}
@@ -50,7 +50,8 @@ public abstract class RuleDesign
 		this.valueIsList = valueIsList;
 	}
 
-	public void setExpression( String operator, String value1, String value2 )
+	public void setExpression( String operator, Expression<String> value1,
+			Expression<String> value2 )
 	{
 		this.operator = operator;
 		this.value1 = value1;
@@ -79,7 +80,7 @@ public abstract class RuleDesign
 	/**
 	 * @return Returns the value1.
 	 */
-	public String getValue1( )
+	public Expression<String> getValue1( )
 	{
 		return value1;
 	}
@@ -87,7 +88,7 @@ public abstract class RuleDesign
 	/**
 	 * @return Returns the value2.
 	 */
-	public String getValue2( )
+	public Expression<String> getValue2( )
 	{
 		return value2;
 	}
@@ -95,13 +96,13 @@ public abstract class RuleDesign
 	/**
 	 * @return Returns the testExpression.
 	 */
-	public String getTestExpression() {
+	public Expression<String> getTestExpression() {
 		return testExpression;
 	}
 	/**
 	 * @param testExpression The testExpression to set.
 	 */
-	public void setTestExpression(String testExpression) {
+	public void setTestExpression(Expression<String> testExpression) {
 		this.testExpression = testExpression;
 	}
 }

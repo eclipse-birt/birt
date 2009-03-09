@@ -132,8 +132,8 @@ abstract public class GroupExecutor extends ContainerExecutor
 			ReportItemDesign header = group.getHeader( );
 			ReportItemDesign footer = group.getFooter( );
 			ReportItemDesign detail = null;
-			boolean hiddenDetail = group.getHideDetail( );
-			if ( !hiddenDetail )
+			Boolean hiddenDetail = evaluate( group.getHideDetail( ) );
+			if ( hiddenDetail == null || !hiddenDetail )
 			{
 				int groupCount = listing.getGroupCount( );
 				if ( groupId >= groupCount )

@@ -11,13 +11,13 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import junit.framework.TestCase;
+import org.eclipse.birt.report.engine.EngineCase;
 
 /**
  * Test RowType.
  * 
  */
-public class RowTypeTest extends TestCase
+public class RowTypeTest extends EngineCase
 {
 
 	/**
@@ -67,8 +67,9 @@ public class RowTypeTest extends TestCase
 	public void testGetSet()
 	{
 		RowDesign row = new RowDesign( );
-		DimensionType height = new DimensionType(1.0, DimensionType.UNITS_CM);
-		String bookmark = "";
+		Expression<DimensionType> height = newConstant( new DimensionType( 1.0,
+				DimensionType.UNITS_CM ) );
+		Expression<String> bookmark = newConstant( "" );
 
 		//set
 		row.setHeight(height);

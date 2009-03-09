@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.internal.executor.doc.Fragment;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 
@@ -611,4 +612,19 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		}
 	}
 
+	protected <T> T evaluate(Expression<T> value )
+	{
+		if ( value != null )
+		{
+			try
+			{
+				return value.evaluate( context );
+			}
+			catch ( BirtException e )
+			{
+				context.addException( e );
+			}
+		}
+		return null;
+	}
 }

@@ -14,21 +14,21 @@ package org.eclipse.birt.report.engine.ir;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.eclipse.birt.report.engine.EngineCase;
 
 /**
  * Test case
  * 
  * 
  */
-public class DrillThroughActionDesignTest extends TestCase
+public class DrillThroughActionDesignTest extends EngineCase
 {
 
 	public void testDrillThrough( )
 	{
 		DrillThroughActionDesign drillThrough = new DrillThroughActionDesign( );
-		String reportName = "reportName";//$NON-NLS-1$
-		String bookmark = "";
+		Expression<String> reportName = newConstant( "reportName" );
+		Expression<String> bookmark = newConstant( "" );
 		Map params = new HashMap( );
 		//Adds
 		drillThrough.setReportName( reportName );

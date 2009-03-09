@@ -38,13 +38,14 @@ public class CellTest extends StyledElementTestCase
 		cell.setColSpan( 1 );
 		cell.setColumn( 2 );
 		cell.setRowSpan( 3 );
-		cell.setDrop( "Drop" );
+		Expression<String> drop = newConstant( "Drop" );
+		cell.setDrop( drop );
 
 		//Get
 		assertEquals( cell.getColSpan( ), 1 );
 		assertEquals( cell.getColumn( ), 2 );
 		assertEquals( cell.getRowSpan( ), 3 );
-		assertEquals( cell.getDrop( ), "Drop" );
+		assertEquals( cell.getDrop( ), drop );
 
 	}
 

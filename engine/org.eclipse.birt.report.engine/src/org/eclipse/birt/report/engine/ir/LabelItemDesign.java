@@ -21,21 +21,21 @@ public class LabelItemDesign extends ReportItemDesign
 	/**
 	 * text content.
 	 */
-	protected String text;
+	protected Expression<String> text;
 
 	/**
 	 * text resource key
 	 */
-	protected String textKey;
+	protected Expression<String> textKey;
 
 	/**
 	 * help text
 	 */
-	protected String helpText;
+	protected Expression<String> helpText;
 	/**
 	 * help text resource key
 	 */
-	protected String helpTextKey;
+	protected Expression<String> helpTextKey;
 
 	
 	public LabelItemDesign( )
@@ -52,7 +52,7 @@ public class LabelItemDesign extends ReportItemDesign
 	 * 
 	 * @return Returns the text.
 	 */
-	public String getText( )
+	public Expression<String> getText( )
 	{
 		return text;
 	}
@@ -63,7 +63,7 @@ public class LabelItemDesign extends ReportItemDesign
 	 * @param text
 	 *            The text to set.
 	 */
-	public void setText( String textKey, String text )
+	public void setText( Expression<String> textKey, Expression<String> text )
 	{
 		this.textKey = textKey;
 		this.text = text;
@@ -72,7 +72,7 @@ public class LabelItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the id.
 	 */
-	public String getTextKey( )
+	public Expression<String> getTextKey( )
 	{
 		return textKey;
 	}
@@ -85,7 +85,7 @@ public class LabelItemDesign extends ReportItemDesign
 	 * @param text
 	 *            text content
 	 */
-	public void setHelpText( String key, String text )
+	public void setHelpText( Expression<String> key, Expression<String> text )
 	{
 		this.helpTextKey = key;
 		this.helpText = text;
@@ -95,7 +95,7 @@ public class LabelItemDesign extends ReportItemDesign
 	 * get the help text property.
 	 * @return help text
 	 */
-	public String getHelpText()
+	public Expression<String> getHelpText()
 	{
 		return this.helpText;
 	}
@@ -104,7 +104,7 @@ public class LabelItemDesign extends ReportItemDesign
 	 * get the help text resource key property.
 	 * @return resource key of the help text
 	 */
-	public String getHelpTextKey()
+	public Expression<String> getHelpTextKey()
 	{
 		return this.helpTextKey;
 	}

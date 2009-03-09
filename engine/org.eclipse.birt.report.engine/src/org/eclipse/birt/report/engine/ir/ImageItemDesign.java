@@ -63,20 +63,20 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * Text associated with this image, used for default locale.
 	 */
-	protected String altText;
+	protected Expression<String> altText;
 	/**
 	 * Text Resource Key used for altText localization.
 	 */
-	protected String altTextKey;
+	protected Expression<String> altTextKey;
 	
 	/**
 	 * help text
 	 */
-	protected String helpText;
+	protected Expression<String> helpText;
 	/**
 	 * help text resource key
 	 */
-	protected String helpTextKey;
+	protected Expression<String> helpTextKey;
 	
 	protected boolean fitToContainer;
 
@@ -188,7 +188,7 @@ public class ImageItemDesign extends ReportItemDesign
 	 * @param altText
 	 *            The altText to set.
 	 */
-	public void setAltText( String altTextKey, String altText )
+	public void setAltText( Expression<String> altTextKey, Expression<String> altText )
 	{
 		this.altTextKey = altTextKey;
 		this.altText = altText;
@@ -197,7 +197,7 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the altTextKey.
 	 */
-	public String getAltTextKey( )
+	public Expression<String> getAltTextKey( )
 	{
 		return altTextKey;
 	}
@@ -205,7 +205,7 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the altText.
 	 */
-	public String getAltText( )
+	public Expression<String> getAltText( )
 	{
 		return altText;
 	}
@@ -217,7 +217,7 @@ public class ImageItemDesign extends ReportItemDesign
 	 * @param text
 	 *            text content
 	 */
-	public void setHelpText( String key, String text )
+	public void setHelpText( Expression<String> key, Expression<String> text )
 	{
 		this.helpTextKey = key;
 		this.helpText = text;
@@ -227,7 +227,7 @@ public class ImageItemDesign extends ReportItemDesign
 	 * get the help text property.
 	 * @return help text
 	 */
-	public String getHelpText()
+	public Expression<String> getHelpText()
 	{
 		return this.helpText;
 	}
@@ -236,7 +236,7 @@ public class ImageItemDesign extends ReportItemDesign
 	 * get the help text resource key property.
 	 * @return resource key of the help text
 	 */
-	public String getHelpTextKey()
+	public Expression<String> getHelpTextKey()
 	{
 		return this.helpTextKey;
 	}

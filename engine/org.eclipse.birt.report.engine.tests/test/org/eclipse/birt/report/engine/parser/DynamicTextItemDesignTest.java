@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.parser;
 
 import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 
 /**
  * 
@@ -30,12 +31,18 @@ public class DynamicTextItemDesignTest extends AbstractDesignTestCase
 
 	public void testMultiBasic( )
 	{
-		assertEquals( 1, dynamicText.getX( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 2, dynamicText.getY( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 3, dynamicText.getWidth( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 4, dynamicText.getHeight( ).getMeasure( ), Double.MIN_VALUE );
+		assertEquals( 1, dynamicText.getX( ).getValue( ).getMeasure( ),
+				Double.MIN_VALUE );
+		assertEquals( 2, dynamicText.getY( ).getValue( ).getMeasure( ),
+				Double.MIN_VALUE );
+		assertEquals( 3, dynamicText.getWidth( ).getValue( ).getMeasure( ),
+				Double.MIN_VALUE );
+		assertEquals( 4, dynamicText.getHeight( ).getValue( ).getMeasure( ),
+				Double.MIN_VALUE );
 		assertEquals( "dynamic_text", dynamicText.getName( ) );
-		assertEquals( "row[\"COLUMN_4\"]", dynamicText.getContent( ) );
-		assertEquals( "dset.contentType", dynamicText.getContentType( ) );
+		assertEquals( Expression.newExpression( "row[\"COLUMN_4\"]" ),
+				dynamicText.getContent( ) );
+		assertEquals( Expression.newExpression( "dset.contentType" ),
+				dynamicText.getContentType( ) );
 	}
 }

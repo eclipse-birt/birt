@@ -67,13 +67,13 @@ public class TemplateExecutor extends StyledItemExecutor
 		style.setProperty( IStyle.STYLE_VERTICAL_ALIGN, IStyle.MIDDLE_VALUE );
 
 		initializeContent( templateDesign, textContent );
-		String promptText = templateDesign.getPromptText( );
+		String promptText = evaluate( templateDesign.getPromptText( ) );
 		if ( promptText == null || promptText.trim( ).length( ) == 0 )
 		{
 			promptText = "<br/>";
 		}
 		textContent.setRawValue( promptText );
-		textContent.setRawKey( templateDesign.getPromptTextKey( ) );
+		textContent.setRawKey( evaluate( templateDesign.getPromptTextKey( ) ) );
 
 		processVisibility( templateDesign, textContent );
 		

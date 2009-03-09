@@ -41,7 +41,7 @@ public class TableItemDesignTest extends AbstractDesignTestCase
 	public void testTable( )
 	{
 		TableItemDesign table = (TableItemDesign) report.getContent( 0 );
-		assertEquals( "Table Caption", table.getCaption( ) );
+		assertEquals( "Table Caption", table.getCaption( ).getDesignValue( ) );
 		// test columns
 		assertEquals( 6, table.getColumnCount( ) );
 		ColumnDesign column = table.getColumn( 0 );
@@ -51,7 +51,8 @@ public class TableItemDesignTest extends AbstractDesignTestCase
 		TableBandDesign header = (TableBandDesign)table.getHeader();
 		assertEquals( 1, header.getRowCount( ) );
 		RowDesign row = header.getRow( 0 );
-		assertEquals( row.getBookmark( ), "row[\"COLUMN_32\"]" );
+		assertEquals( row.getBookmark( ).getDesignValue( ),
+				"row[\"COLUMN_32\"]" );
 		assertEquals( 1, row.getCellCount( ) );
 		CellDesign cell = row.getCell( 0 );
 		assertEquals( 6, cell.getColSpan( ) );
@@ -66,9 +67,9 @@ public class TableItemDesignTest extends AbstractDesignTestCase
 		row = header.getRow(0);
 		assertEquals(6, row.getCellCount());
 		cell = row.getCell(0);
-		assertEquals("all", cell.getDrop());
+		assertEquals( "all", cell.getDrop( ).getDesignValue( ) );
 		cell = row.getCell(1);
-		assertEquals("detail", cell.getDrop());
+		assertEquals( "detail", cell.getDrop( ).getDesignValue( ) );
 		
 		TableBandDesign footer = (TableBandDesign) group.getFooter( );
 		assertEquals(1, footer.getRowCount());

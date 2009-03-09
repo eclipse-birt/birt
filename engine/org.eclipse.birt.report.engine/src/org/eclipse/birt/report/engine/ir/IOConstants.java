@@ -174,5 +174,7 @@ public interface IOConstants
 	static final long ENGINE_IR_VERSION_3 = 3L;
 	// Version 4: change the way of writing and reading the style.
 	static final long ENGINE_IR_VERSION_4 = 4L;
-	static final long ENGINE_IR_VERSION_CURRENT = ENGINE_IR_VERSION_4;
+	// Version 5: support attribute as expression/constant.
+	static final long ENGINE_IR_VERSION_5 = 5L;
+	static final long ENGINE_IR_VERSION_CURRENT = ENGINE_IR_VERSION_5;
 }

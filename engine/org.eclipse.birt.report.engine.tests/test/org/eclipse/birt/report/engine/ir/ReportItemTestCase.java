@@ -33,11 +33,11 @@ abstract public class ReportItemTestCase extends StyledElementTestCase
 	public void testBaseItem( )
 	{
 		ReportItemDesign e = (ReportItemDesign) element;
-		DimensionType h = new DimensionType( 1, DimensionType.UNITS_CM );
-		DimensionType w = new DimensionType( 1, DimensionType.UNITS_CM );
-		DimensionType x = new DimensionType( 1, DimensionType.UNITS_CM );
-		DimensionType y = new DimensionType( 1, DimensionType.UNITS_CM );
-		String bookmark = "";
+		Expression<DimensionType> h = createDimension( );
+		Expression<DimensionType> w = createDimension( );
+		Expression<DimensionType> x = createDimension( );
+		Expression<DimensionType> y = createDimension( );
+		Expression<String> bookmark = newConstant( "" );
 
 		//Set
 		e.setHeight( h );
@@ -52,6 +52,11 @@ abstract public class ReportItemTestCase extends StyledElementTestCase
 		assertEquals( e.getX( ), x );
 		assertEquals( e.getY( ), y );
 		assertEquals( e.getBookmark(), bookmark);
+	}
+
+	private Expression<DimensionType> createDimension( )
+	{
+		return newConstant( new DimensionType( 1, DimensionType.UNITS_CM ) );
 	}
 
 }

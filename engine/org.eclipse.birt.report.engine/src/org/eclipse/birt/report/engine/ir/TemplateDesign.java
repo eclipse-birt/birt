@@ -13,26 +13,26 @@ package org.eclipse.birt.report.engine.ir;
 
 public class TemplateDesign extends ReportItemDesign
 {
-	String promptText;
-	String promptTextKey;
+	Expression<String> promptText;
+	Expression<String> promptTextKey;
 	String allowedType;
 
-	public void setPromptText( String text )
+	public void setPromptText( Expression<String> text )
 	{
 		promptText = text;
 	}
 
-	public String getPromptText( )
+	public Expression<String> getPromptText( )
 	{
 		return promptText;
 	}
 	
-	public String getPromptTextKey()
+	public Expression<String> getPromptTextKey()
 	{
 		return promptTextKey;
 	}
 	
-	public void setPromptTextKey(String key)
+	public void setPromptTextKey(Expression<String> key)
 	{
 		promptTextKey = key;
 	}

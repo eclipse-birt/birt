@@ -181,6 +181,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 *            the design element used to create the data obj.
 	 * @param dataObj
 	 *            Data object.
+	 * @throws BirtException 
 	 */
 	protected void processMappingValue( StyledElementDesign item,
 			IDataContent dataObj )
@@ -247,8 +248,8 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 					if ( ( value != null ) && ( value instanceof Boolean ) &&
 							( ( (Boolean) value ).booleanValue( ) ) )
 					{
-						dataObj.setLabelText( rule.getDisplayText( ) );
-						dataObj.setLabelKey( rule.getDisplayKey( ) );
+						dataObj.setLabelText( evaluate( rule.getDisplayText( ) ) );
+						dataObj.setLabelKey( evaluate( rule.getDisplayKey( ) ) );
 					}
 				}
 			}

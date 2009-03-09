@@ -26,6 +26,8 @@ public class TextContent extends AbstractContent implements ITextContent
 {
 
 	protected String text;
+	protected String textKey;
+	protected String textType;
 	
 	TextContent(ITextContent textContent)
 	{
@@ -71,27 +73,37 @@ public class TextContent extends AbstractContent implements ITextContent
 
 	public void setTextKey( String key )
 	{
-		if ( generateBy instanceof TextItemDesign )
-			( (TextItemDesign) generateBy ).setText( key, text );
+		this.textKey = key;
 	}
 
 	public String getTextKey( )
 	{
+		if ( textKey != null )
+		{
+			return textKey;
+		}
 		if ( generateBy instanceof TextItemDesign )
-			return ( (TextItemDesign) generateBy ).getTextKey( );
+		{
+			return getConstantValue( ( (TextItemDesign) generateBy ).getTextKey( ) );
+		}
 		return null;
 	}
 
 	public void setTextType( String type )
 	{
-		if ( generateBy instanceof TextItemDesign )
-			( (TextItemDesign) generateBy ).setTextType( type );
+		this.textType = type;
 	}
 
 	public String getTextType( )
 	{
+		if ( textType != null )
+		{
+			return textType;
+		}
 		if ( generateBy instanceof TextItemDesign )
-			return ( (TextItemDesign) generateBy ).getTextType( );
+		{
+			return getConstantValue( ( (TextItemDesign) generateBy ).getTextType( ) );
+		}
 		return null;
 	}
 	

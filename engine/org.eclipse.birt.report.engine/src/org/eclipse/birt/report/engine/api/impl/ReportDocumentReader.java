@@ -29,7 +29,6 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.script.ParameterAttribute;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import java.util.List;
+
 /**
  * 
  */
@@ -20,18 +22,18 @@ public class MapRuleDesign extends RuleDesign
 	/**
 	 * display text key
 	 */
-	protected String displayKey;
+	protected Expression<String> displayKey;
 	/**
 	 * display text
 	 */
-	protected String displayText;
+	protected Expression<String> displayText;
 	
 
 	/**
 	 * @param displayKey
 	 *            The displayKey to set.
 	 */
-	public void setDisplayText( String displayKey, String displayText )
+	public void setDisplayText( Expression<String> displayKey, Expression<String> displayText )
 	{
 		this.displayKey = displayKey;
 		this.displayText = displayText;
@@ -40,7 +42,7 @@ public class MapRuleDesign extends RuleDesign
 	/**
 	 * @return Returns the displayText.
 	 */
-	public String getDisplayText( )
+	public Expression<String> getDisplayText( )
 	{
 		return displayText;
 	}
@@ -48,7 +50,7 @@ public class MapRuleDesign extends RuleDesign
 	/**
 	 * @return Returns the displayKey.
 	 */
-	public String getDisplayKey( )
+	public Expression<String> getDisplayKey( )
 	{
 		return displayKey;
 	}

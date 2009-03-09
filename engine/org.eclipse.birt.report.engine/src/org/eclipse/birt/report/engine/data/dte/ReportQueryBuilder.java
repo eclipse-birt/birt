@@ -26,6 +26,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -72,6 +73,7 @@ import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
 import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
@@ -92,6 +94,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
+import org.eclipse.birt.report.engine.ir.Expression.JSExpression;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -1031,8 +1034,8 @@ public class ReportQueryBuilder
 			}
 			try
 			{
-				String newContent = transformExpression( dynamicText
-						.getContent( ), query );
+				Expression<String> newContent = transformExpression(
+						dynamicText.getContent( ), query );
 				dynamicText.setContent( newContent );
 				transformExpressions( dynamicText, query );
 				return getResultQuery( query, value );
@@ -2047,6 +2050,32 @@ public class ReportQueryBuilder
 		 *            expression to be transfered. return the transfered
 		 *            expression
 		 */
+		protected <T> Expression<T> transformExpression(
+				Expression<T> expr,
+				IDataQueryDefinition query ) throws BirtException
+		{
+			if ( expr == null )
+			{
+				return null;
+			}
+			if ( !expr.isExpression( ) )
+			{
+				return expr;
+			}
+			JSExpression<T> jsExpression = (JSExpression<T>) expr;
+			String expression = jsExpression.getDesignValue( );
+			jsExpression.setExpression( transformExpression( expression, query ) );
+			return expr;
+		}
+
+		/**
+		 * Transfer the old expression to column dataBinding and bind it to the
+		 * Query. And create a news expression to replace the old expression.
+		 * 
+		 * @param expr
+		 *            expression to be transfered. return the transfered
+		 *            expression
+		 */
 		protected String transformExpression( String expr,
 				IDataQueryDefinition query ) throws BirtException
 		{
@@ -2102,14 +2131,7 @@ public class ReportQueryBuilder
 				for ( int i = 0; i < highlights.getRuleCount( ); i++ )
 				{
 					RuleDesign rule = highlights.getRule( i );
-					if ( rule != null )
-					{
-						expressions.add( expressionUtil
-								.createConditionalExpression( rule
-										.getTestExpression( ), rule
-										.getOperator( ), rule.getValue1( ),
-										rule.getValue2( ) ) );
-					}
+					addRuleExpression( expressions, rule );
 				}
 			}
 			ITotalExprBindings totalExpressionBindings = null;
@@ -2128,7 +2150,8 @@ public class ReportQueryBuilder
 				for ( int i = 0; i < visibilities.count( ); i++ )
 				{
 					visibilities.getRule( i ).setExpression(
-							(String) newExpressions.get( expressionIndex++ ) );
+							(Expression<Boolean>) newExpressions
+									.get( expressionIndex++ ) );
 				}
 			}
 			if ( highlights != null )
@@ -2148,8 +2171,11 @@ public class ReportQueryBuilder
 			int expressionIndex = 0;
 
 			List newExpressions = totalExpressionBindings.getNewExpression( );
-			item.setTOC( (String) newExpressions.get( expressionIndex++ ) );
-			item.setBookmark( (String) newExpressions.get( expressionIndex++ ) );
+			item
+					.setTOC( (Expression<Object>) newExpressions
+							.get( expressionIndex++ ) );
+			item.setBookmark( (Expression<String>) newExpressions
+					.get( expressionIndex++ ) );
 
 			String onCreateScriptText = (String) newExpressions
 					.get( expressionIndex++ );
@@ -2198,7 +2224,8 @@ public class ReportQueryBuilder
 				for ( int i = 0; i < visibilities.count( ); i++ )
 				{
 					visibilities.getRule( i ).setExpression(
-							(String) newExpressions.get( expressionIndex++ ) );
+							(Expression<Boolean>) newExpressions
+									.get( expressionIndex++ ) );
 				}
 			}
 
@@ -2222,7 +2249,7 @@ public class ReportQueryBuilder
 				switch ( action.getActionType( ) )
 				{
 					case ActionDesign.ACTION_BOOKMARK :
-						action.setBookmark( (String) newExpressions
+						action.setBookmark( (Expression<String>) newExpressions
 								.get( expressionIndex++ ) );
 						break;
 					case ActionDesign.ACTION_DRILLTHROUGH :
@@ -2230,8 +2257,9 @@ public class ReportQueryBuilder
 								.getDrillThrough( );
 						if ( drillThrough != null )
 						{
-							drillThrough.setBookmark( (String) newExpressions
-									.get( expressionIndex++ ) );
+							drillThrough
+									.setBookmark( (Expression<String>) newExpressions
+											.get( expressionIndex++ ) );
 							if ( drillThrough.getParameters( ) != null )
 							{
 								Iterator ite = drillThrough.getParameters( )
@@ -2239,14 +2267,15 @@ public class ReportQueryBuilder
 								while ( ite.hasNext( ) )
 								{
 									Map.Entry entry = (Map.Entry) ite.next( );
-									entry.setValue( (String) newExpressions
+									entry
+											.setValue( (Expression<Object>) newExpressions
 											.get( expressionIndex++ ) );
 								}
 							}
 						}
 						break;
 					case ActionDesign.ACTION_HYPERLINK :
-						action.setHyperlink( (String) newExpressions
+						action.setHyperlink( (Expression<String>) newExpressions
 								.get( expressionIndex++ ) );
 						break;
 					default :
@@ -2293,25 +2322,7 @@ public class ReportQueryBuilder
 				for ( int i = 0; i < highlights.getRuleCount( ); i++ )
 				{
 					RuleDesign rule = highlights.getRule( i );
-					if ( rule != null )
-					{
-						if ( rule.ifValueIsList( ) )
-						{
-							expressions.add( expressionUtil
-									.createConditionExpression( rule
-											.getTestExpression( ), rule
-											.getOperator( ), rule
-											.getValue1List( ) ) );
-						}
-						else
-						{
-							expressions.add( expressionUtil
-									.createConditionalExpression( rule
-											.getTestExpression( ), rule
-											.getOperator( ), rule.getValue1( ),
-											rule.getValue2( ) ) );
-						}
-					}
+					addRuleExpression( expressions, rule );
 				}
 			}
 
@@ -2321,25 +2332,7 @@ public class ReportQueryBuilder
 				for ( int i = 0; i < maps.getRuleCount( ); i++ )
 				{
 					RuleDesign rule = maps.getRule( i );
-					if ( rule != null )
-					{
-						if ( rule.ifValueIsList( ) )
-						{
-							expressions.add( expressionUtil
-									.createConditionExpression( rule
-											.getTestExpression( ), rule
-											.getOperator( ), rule
-											.getValue1List( ) ) );
-						}
-						else
-						{
-							expressions.add( expressionUtil
-									.createConditionalExpression( rule
-											.getTestExpression( ), rule
-											.getOperator( ), rule.getValue1( ),
-											rule.getValue2( ) ) );
-						}
-					}
+					addRuleExpression( expressions, rule );
 				}
 			}
 
@@ -2411,6 +2404,35 @@ public class ReportQueryBuilder
 				context.addException( item.getHandle( ), ex );
 			}
 			return totalExpressionBindings;
+		}
+
+		private void addRuleExpression( List expressions, RuleDesign rule )
+		{
+			if ( rule != null )
+			{
+				IConditionalExpression highlightExpression = null;
+				if ( rule.ifValueIsList( ) )
+				{
+					Expression<String> testExpression = rule
+							.getTestExpression( );
+					Expression<? extends List> value1List = rule
+							.getValue1List( );
+					highlightExpression = expressionUtil
+							.createConditionExpression( testExpression, rule
+									.getOperator( ), value1List );
+				}
+				else
+				{
+					Expression<String> testExpression = rule
+							.getTestExpression( );
+					Expression<String> value1 = rule.getValue1( );
+					Expression<String> value2 = rule.getValue2( );
+					highlightExpression = expressionUtil
+							.createConditionalExpression( testExpression, rule
+									.getOperator( ), value1, value2 );
+				}
+				expressions.add( highlightExpression );
+			}
 		}
 
 		protected void addNewColumnBindings( IDataQueryDefinition query,

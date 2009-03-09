@@ -55,7 +55,8 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		super.initializeContent( design, content );
 		if(isPageBreakIntervalValid((ListingDesign)design))
 		{
-			pageBreakInterval = ((ListingDesign)design).getPageBreakInterval( );
+			pageBreakInterval = evaluate( ( (ListingDesign) design )
+					.getPageBreakInterval( ) );
 			context.addPageBreakListener( this );
 		}
 	}
@@ -69,7 +70,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		}
 		for(int i=0; i<design.getGroupCount( ); i++)
 		{
-			if(design.getGroup( i ).getHideDetail( ))
+			if ( evaluate( design.getGroup( i ).getHideDetail( ) ) )
 			{
 				return false;
 			}

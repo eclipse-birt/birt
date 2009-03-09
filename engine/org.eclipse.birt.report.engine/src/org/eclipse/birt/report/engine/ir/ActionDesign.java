@@ -36,15 +36,15 @@ public class ActionDesign
 	 */
 	protected int actionType;
 	
-	protected String tooltip;
+	protected Expression<String> tooltip;
 	/**
 	 * hyper link
 	 */
-	protected String hyperlink;
+	protected Expression<String> hyperlink;
 	/**
 	 * bookmark.
 	 */
-	protected String bookmark;
+	protected Expression<String> bookmark;
 
 	/**
 	 * drill through
@@ -54,17 +54,17 @@ public class ActionDesign
 	/**
 	 * The name of a frame where a document is to be opened.
 	 */
-	protected String target = null;
+	protected Expression<String> target = null;
 	
 	/**
 	 * The type of the target file.
 	 */
-	protected String targetFileType = null;
+	protected Expression<String> targetFileType = null;
 
 	/**
 	 * @return Returns the bookmark.
 	 */
-	public String getBookmark( )
+	public Expression<String> getBookmark( )
 	{
 		assert this.actionType == ACTION_BOOKMARK;
 		return bookmark;
@@ -74,7 +74,7 @@ public class ActionDesign
 	 * @param bookmark
 	 *            The bookmark to set.
 	 */
-	public void setBookmark( String bookmark )
+	public void setBookmark( Expression<String> bookmark )
 	{
 		this.actionType = ActionDesign.ACTION_BOOKMARK;
 		this.bookmark = bookmark;
@@ -83,7 +83,7 @@ public class ActionDesign
 	/**
 	 * @return Returns the hyperlink.
 	 */
-	public String getHyperlink( )
+	public Expression<String> getHyperlink( )
 	{
 		assert this.actionType == ACTION_HYPERLINK;
 		return hyperlink;
@@ -93,7 +93,7 @@ public class ActionDesign
 	 * @param hyperlink
 	 *            The hyperlink to set.
 	 */
-	public void setHyperlink( String hyperlink )
+	public void setHyperlink( Expression<String> hyperlink )
 	{
 		this.hyperlink = hyperlink;
 		this.actionType = ActionDesign.ACTION_HYPERLINK;
@@ -129,7 +129,7 @@ public class ActionDesign
 	/**
 	 * @return the target window.
 	 */
-	public String getTargetWindow( )
+	public Expression<String> getTargetWindow( )
 	{
 		return target;
 	}
@@ -138,7 +138,7 @@ public class ActionDesign
 	 * @param target
 	 *            The name of a frame where a document is to be opened.
 	 */
-	public void setTargetWindow( String target )
+	public void setTargetWindow( Expression<String> target )
 	{
 		this.target = target;
 	}
@@ -150,7 +150,7 @@ public class ActionDesign
 	 * @param targetFileType
 	 *            the type of the target report file.
 	 */
-	public void setTargetFileType( String targetFileType )
+	public void setTargetFileType( Expression<String> targetFileType )
 	{
 		this.targetFileType = targetFileType;
 	}
@@ -158,17 +158,17 @@ public class ActionDesign
 	/**
 	 * @return the type of the target report file.
 	 */
-	public String getTargetFileType( )
+	public Expression<String> getTargetFileType( )
 	{
 		return targetFileType;
 	}
 	
-	public void setTooltip(String tooltip)
+	public void setTooltip(Expression<String> tooltip)
 	{
 		this.tooltip = tooltip;
 	}
 	
-	public String getTooltip()
+	public Expression<String> getTooltip()
 	{
 		return tooltip;
 	}

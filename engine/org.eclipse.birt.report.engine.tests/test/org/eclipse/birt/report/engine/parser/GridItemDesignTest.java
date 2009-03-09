@@ -49,7 +49,8 @@ public class GridItemDesignTest extends AbstractDesignTestCase
 
 		// test the width of the first column
 		ColumnDesign column = grid.getColumn( 0 );
-		assertEquals( 10.0, column.getWidth( ).getMeasure( ), Double.MIN_VALUE );
+		assertEquals( 10.0, column.getWidth( ).getValue( ).getMeasure( ),
+				Double.MIN_VALUE );
 
 		// test the count of cell in the first row
 		RowDesign row = grid.getRow( 0 );
@@ -76,7 +77,8 @@ public class GridItemDesignTest extends AbstractDesignTestCase
 		assertEquals( 4, grid.getColumnCount( ) );
 		assertEquals( 2, grid.getRowCount( ) );
 		ColumnDesign column = grid.getColumn( 0 );
-		assertEquals( 10.0, column.getWidth( ).getMeasure( ), Double.MIN_VALUE );
+		assertEquals( 10.0, column.getWidth( ).getValue( ).getMeasure( ),
+				Double.MIN_VALUE );
 
 		//
 		RowDesign row = grid.getRow( 0 );

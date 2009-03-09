@@ -90,8 +90,8 @@ public class GroupContent extends AbstractContent implements IGroupContent
 		if (generateBy instanceof GroupDesign)
 		{
 			GroupDesign design = (GroupDesign)generateBy;
-			return design.isHeaderRepeat( );
-			
+			Boolean isRepeatHeader = getConstantValue( design.isHeaderRepeat( ) );
+			return isRepeatHeader == null ? false : isRepeatHeader;
 		}
 		return false;
 	}

@@ -65,7 +65,8 @@ public class LabelContent extends TextContent implements ILabelContent
 		{
 			if ( generateBy instanceof LabelItemDesign )
 			{
-				return ( (LabelItemDesign) generateBy ).getHelpText( );
+				return getConstantValue( ( (LabelItemDesign) generateBy )
+						.getHelpText( ) );
 			}
 		}
 		return helpText;
@@ -82,7 +83,8 @@ public class LabelContent extends TextContent implements ILabelContent
 		{
 			if ( generateBy instanceof LabelItemDesign )
 			{
-				return ( (LabelItemDesign) generateBy ).getHelpTextKey( );
+				return getConstantValue( ( (LabelItemDesign) generateBy )
+						.getHelpTextKey( ) );
 			}
 		}
 		return helpTextKey;
@@ -99,7 +101,8 @@ public class LabelContent extends TextContent implements ILabelContent
 		{
 			if ( generateBy instanceof LabelItemDesign )
 			{
-				return ( (LabelItemDesign) generateBy ).getText( );
+				return getConstantValue( ( (LabelItemDesign) generateBy )
+						.getText( ) );
 			}
 		}
 		return labelText;
@@ -116,7 +119,8 @@ public class LabelContent extends TextContent implements ILabelContent
 		{
 			if ( generateBy instanceof LabelItemDesign )
 			{
-				return ( (LabelItemDesign) generateBy ).getTextKey( );
+				return getConstantValue( ( (LabelItemDesign) generateBy )
+						.getTextKey( ) );
 			}
 		}
 		return labelTextKey;

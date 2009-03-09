@@ -40,10 +40,14 @@ public class ListDesignTest extends AbstractDesignTestCase
 //		assertEquals( list.getOnStart( ), "onStart" );
 
 		//width,height, x, y
-		assertEquals( 2, list.getHeight( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 2, list.getWidth( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 2, list.getX( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 2, list.getY( ).getMeasure( ), Double.MIN_VALUE );
+		assertEquals( 2, list.getHeight( ).getValue( ).getMeasure( ),
+				Double.MIN_VALUE );
+		assertEquals( 2, list.getWidth( ).getValue( ).getMeasure( ),
+				Double.MIN_VALUE );
+		assertEquals( 2, list.getX( ).getValue( ).getMeasure( ),
+				Double.MIN_VALUE );
+		assertEquals( 2, list.getY( ).getValue( ).getMeasure( ),
+				Double.MIN_VALUE );
 		assertEquals( "myList", list.getName( ) );
 		
 		//header content

@@ -29,11 +29,11 @@ public class DataItemDesign extends ReportItemDesign
 	/**
 	 * help text
 	 */
-	protected String helpText;
+	protected Expression<String> helpText;
 	/**
 	 * help text resource key
 	 */
-	protected String helpTextKey;
+	protected Expression<String> helpTextKey;
 	
 	protected boolean suppressDuplicate = false; 
 	
@@ -75,7 +75,7 @@ public class DataItemDesign extends ReportItemDesign
 	 * @param text
 	 *            text content
 	 */
-	public void setHelpText( String key, String text )
+	public void setHelpText( Expression<String> key, Expression<String> text )
 	{
 		this.helpTextKey = key;
 		this.helpText = text;
@@ -86,7 +86,7 @@ public class DataItemDesign extends ReportItemDesign
 	 * 
 	 * @return help text
 	 */
-	public String getHelpText( )
+	public Expression<String> getHelpText( )
 	{
 		return this.helpText;
 	}
@@ -96,7 +96,7 @@ public class DataItemDesign extends ReportItemDesign
 	 * 
 	 * @return resource key of the help text
 	 */
-	public String getHelpTextKey( )
+	public Expression<String> getHelpTextKey( )
 	{
 		return this.helpTextKey;
 	}

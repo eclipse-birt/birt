@@ -18,6 +18,8 @@ import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.core.util.IOUtil;
@@ -862,43 +864,43 @@ public class EngineIRWriter implements IOConstants
 	{
 		writeStyledElement( out, design );
 
-		DimensionType x = design.getX( );
+		Expression<DimensionType> x = design.getX( );
 		if ( x != null )
 		{
 			IOUtil.writeShort( out, FIELD_X );
-			writeDimension( out, x );
+			write( out, x );
 		}
 
-		DimensionType y = design.getY( );
+		Expression<DimensionType> y = design.getY( );
 		if ( y != null )
 		{
 			IOUtil.writeShort( out, FIELD_Y );
-			writeDimension( out, y );
+			write( out, y );
 		}
-		DimensionType height = design.getHeight( );
+		Expression<DimensionType> height = design.getHeight( );
 		if ( height != null )
 		{
 			IOUtil.writeShort( out, FIELD_HEIGHT );
-			writeDimension( out, height );
+			write( out, height );
 		}
-		DimensionType width = design.getWidth( );
+		Expression<DimensionType> width = design.getWidth( );
 		if ( width != null )
 		{
 			IOUtil.writeShort( out, FIELD_WIDTH );
-			writeDimension( out, width );
+			write( out, width );
 		}
 
-		String bookmark = design.getBookmark( );
+		Expression<String> bookmark = design.getBookmark( );
 		if ( bookmark != null )
 		{
 			IOUtil.writeShort( out, FIELD_BOOKMARK );
-			IOUtil.writeString( out, bookmark );
+			write( out, bookmark );
 		}
-		String toc = design.getTOC( );
+		Expression<Object> toc = design.getTOC( );
 		if ( toc != null )
 		{
 			IOUtil.writeShort( out, FIELD_TOC );
-			IOUtil.writeString( out, toc );
+			write( out, toc );
 		}
 
 		ScriptExpression onCreateScriptExpr = design.getOnCreate( );
@@ -1047,18 +1049,25 @@ public class EngineIRWriter implements IOConstants
 	{
 		writeReportItem( out, listing );
 
-		boolean repeatHeader = listing.isRepeatHeader( );
-		int pageBreakInterval = listing.getPageBreakInterval( );
-		if ( repeatHeader )
+		Expression<Boolean> repeatHeader = listing.isRepeatHeader( );
+		Expression<Integer> pageBreakInterval = listing.getPageBreakInterval( );
+		if ( needSave( repeatHeader ) )
 		{
 			IOUtil.writeShort( out, FIELD_REPEAT_HEADER );
-			IOUtil.writeBool( out, repeatHeader );
+			write( out, repeatHeader );
 		}
-		if ( pageBreakInterval != -1 )
+		if ( pageBreakInterval != null )
 		{
 			IOUtil.writeShort( out, FIELD_PAGE_BREAK_INTERVAL );
-			IOUtil.writeInt( out, pageBreakInterval );
+			write( out, pageBreakInterval );
 		}
+	}
+
+	public boolean needSave( Expression<Boolean> boolExpression )
+	{
+		return boolExpression != null
+				&& ( boolExpression.isExpression( ) || boolExpression
+						.getValue( ) );
 	}
 
 	protected void writeGroup( DataOutputStream out, GroupDesign group )
@@ -1066,11 +1075,11 @@ public class EngineIRWriter implements IOConstants
 	{
 		writeReportItem( out, group );
 		int groupLevel = group.getGroupLevel( );
-		String pageBreakBefore = group.getPageBreakBefore( );
-		String pageBreakAfter = group.getPageBreakAfter( );
-		String pageBreakInside = group.getPageBreakInside( );
-		boolean hideDetail = group.getHideDetail( );
-		boolean headerRepeat = group.isHeaderRepeat( );
+		Expression<String> pageBreakBefore = group.getPageBreakBefore( );
+		Expression<String> pageBreakAfter = group.getPageBreakAfter( );
+		Expression<String> pageBreakInside = group.getPageBreakInside( );
+		Expression<Boolean> hideDetail = group.getHideDetail( );
+		Expression<Boolean> headerRepeat = group.isHeaderRepeat( );
 
 		if ( groupLevel != -1 )
 		{
@@ -1080,28 +1089,28 @@ public class EngineIRWriter implements IOConstants
 		if ( pageBreakBefore != null )
 		{
 			IOUtil.writeShort( out, FIELD_PAGE_BREAK_BEFORE );
-			IOUtil.writeString( out, pageBreakBefore );
+			write( out, pageBreakBefore );
 		}
 		if ( pageBreakAfter != null )
 		{
 			IOUtil.writeShort( out, FIELD_PAGE_BREAK_AFTER );
-			IOUtil.writeString( out, pageBreakAfter );
+			write( out, pageBreakAfter );
 		}
 		if ( pageBreakInside != null )
 		{
 			IOUtil.writeShort( out, FIELD_PAGE_BREAK_INSIDE );
-			IOUtil.writeString( out, pageBreakInside );
+			write( out, pageBreakInside );
 		}
 
-		if ( headerRepeat )
+		if ( needSave( headerRepeat ) )
 		{
 			IOUtil.writeShort( out, FIELD_HEADER_REPEAT );
-			IOUtil.writeBool( out, headerRepeat );
+			write( out, headerRepeat );
 		}
-		if ( hideDetail )
+		if ( needSave( hideDetail ) )
 		{
 			IOUtil.writeShort( out, FIELD_HIDE_DETAIL );
-			IOUtil.writeBool( out, hideDetail );
+			write( out, hideDetail );
 		}
 
 	}
@@ -1143,21 +1152,21 @@ public class EngineIRWriter implements IOConstants
 		writeListing( out, table );
 
 		//write table caption
-		String captionKey = table.getCaptionKey( );
-		String caption = table.getCaption( );
+		Expression<String> captionKey = table.getCaptionKey( );
+		Expression<String> caption = table.getCaption( );
 		if ( caption != null || captionKey != null )
 		{
 			IOUtil.writeShort( out, FIELD_CAPTION );
-			IOUtil.writeString( out, captionKey );
-			IOUtil.writeString( out, caption );
+			write( out, captionKey );
+			write( out, caption );
 		}
 		
 		//write talbe summary
-		String summary = table.getSummary( );
+		Expression<String> summary = table.getSummary( );
 		if( summary != null )
 		{
 			IOUtil.writeShort( out, FIELD_SUMMARY );
-			IOUtil.writeString( out, summary );
+			write( out, summary );
 		}
 		
 		// write columns
@@ -1194,21 +1203,21 @@ public class EngineIRWriter implements IOConstants
 		writeReportItem( out, grid );
 		 
 		//write caption
-		String captionKey = grid.getCaptionKey( );
-		String caption = grid.getCaption( );
+		Expression<String> captionKey = grid.getCaptionKey( );
+		Expression<String> caption = grid.getCaption( );
 		if ( caption != null || captionKey != null )
 		{
 			IOUtil.writeShort( out, FIELD_CAPTION );
-			IOUtil.writeString( out, captionKey );
-			IOUtil.writeString( out, caption );
+			write( out, captionKey );
+			write( out, caption );
 		}
 		
 		//write grid summary
-		String summary = grid.getSummary( );
+		Expression<String> summary = grid.getSummary( );
 		if( summary != null )
 		{
 			IOUtil.writeShort( out,FIELD_SUMMARY );
-			IOUtil.writeString( out, summary );
+			write( out, summary );
 		}
 		
 		// write columns
@@ -1231,17 +1240,17 @@ public class EngineIRWriter implements IOConstants
 			throws IOException
 	{
 		writeStyledElement( out, column );
-		boolean isColumnHeader = column.isColumnHeader( );
-		if ( isColumnHeader )
+		Expression<Boolean> isColumnHeader = column.isColumnHeader( );
+		if ( needSave( isColumnHeader ) )
 		{
 			IOUtil.writeShort( out, FIELD_IS_COLUMN_HEADER );
-			IOUtil.writeBool( out, isColumnHeader );
+			write( out, isColumnHeader );
 		}
-		DimensionType width = column.getWidth( );
+		Expression<DimensionType> width = column.getWidth( );
 		if ( width != null )
 		{
 			IOUtil.writeShort( out, FIELD_WIDTH );
-			writeDimension( out, width );
+			write( out, width );
 		}
 		boolean suppressDuplicate = column.getSuppressDuplicate( );
 		if ( suppressDuplicate )
@@ -1297,11 +1306,11 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeShort( out, FIELD_ROW_SPAN );
 			IOUtil.writeInt( out, rowSpan );
 		}
-		String drop = cell.getDrop( );
+		Expression<String> drop = cell.getDrop( );
 		if ( drop != null )
 		{
 			IOUtil.writeShort( out, FIELD_DROP );
-			IOUtil.writeString( out, drop );
+			write( out, drop );
 		}
 		boolean displayGroupIcon = cell.getDisplayGroupIcon( );
 		if (displayGroupIcon)
@@ -1347,6 +1356,12 @@ public class EngineIRWriter implements IOConstants
 		}
 	}
 
+	protected boolean needSaveIfNot( Expression<Integer> intExpression, int except )
+	{
+		return intExpression != null
+				&& ( intExpression.isExpression( ) || intExpression.getValue( ) != except );
+	}
+
 	protected void writeFreeForm( DataOutputStream out,
 			FreeFormItemDesign freeForm ) throws IOException
 	{
@@ -1357,25 +1372,55 @@ public class EngineIRWriter implements IOConstants
 			throws IOException
 	{
 		writeReportItem( out, label );
-		String text = label.getText( );
-		String textKey = label.getTextKey( );
-		String helpText = label.getHelpText( );
-		String helpTextKey = label.getHelpTextKey( );
+		Expression<String> text = label.getText( );
+		Expression<String> textKey = label.getTextKey( );
+		Expression<String> helpText = label.getHelpText( );
+		Expression<String> helpTextKey = label.getHelpTextKey( );
 
 		if ( text != null || textKey != null )
 		{
 			IOUtil.writeShort( out, FIELD_TEXT );
-			IOUtil.writeString( out, textKey );
-			IOUtil.writeString( out, text );
+			write( out, textKey );
+			write( out, text );
 		}
 		if ( helpText != null || helpTextKey != null )
 		{
 			IOUtil.writeShort( out, FIELD_HELP_TEXT );
-			IOUtil.writeString( out, helpTextKey );
-			IOUtil.writeString( out, helpText );
+			write( out, helpTextKey );
+			write( out, helpText );
 		}
 	}
 
+	protected <T> void write( DataOutputStream out, Expression<T> value )
+			throws IOException
+	{
+		if ( value == null )
+		{
+			IOUtil.writeBool( out, true );
+			return;
+		}
+		IOUtil.writeBool( out, false );
+		boolean expression = value.isExpression( );
+		IOUtil.writeBool( out, expression );
+		Object designValue = value.getDesignValue( );
+		if ( value.isExpression( ) )
+		{
+			IOUtil.write( out, (String) designValue, String.class );
+		}
+		else
+		{
+			if ( value.getType( ) == DimensionType.class )
+			{
+				DimensionType dimension = (DimensionType) value.getValue( );
+				writeDimension( out, dimension );
+			}
+			else
+			{
+				IOUtil.write( out, (T) designValue, value.getType( ) );
+			}
+		}
+	}
+	
 	protected void writeData( DataOutputStream out, DataItemDesign data )
 			throws IOException
 	{
@@ -1383,8 +1428,8 @@ public class EngineIRWriter implements IOConstants
 
 		//String value = data.getValue( );
 		String bindingColumn = data.getBindingColumn( );
-		String helpText = data.getHelpText( );
-		String helpTextKey = data.getHelpTextKey( );
+		Expression<String> helpText = data.getHelpText( );
+		Expression<String> helpTextKey = data.getHelpTextKey( );
 		boolean suppressDuplicate = data.getSuppressDuplicate( );
 		if ( bindingColumn != null )
 		{
@@ -1394,8 +1439,8 @@ public class EngineIRWriter implements IOConstants
 		if ( helpText != null || helpTextKey != null )
 		{
 			IOUtil.writeShort( out, FIELD_HELP_TEXT );
-			IOUtil.writeString( out, helpTextKey );
-			IOUtil.writeString( out, helpText );
+			write( out, helpTextKey );
+			write( out, helpText );
 		}
 		if ( suppressDuplicate )
 		{
@@ -1408,19 +1453,19 @@ public class EngineIRWriter implements IOConstants
 			throws IOException
 	{
 		writeReportItem( out, design );
-		String textType = design.getTextType( );
-		String textKey = design.getTextKey( );
-		String text = design.getText( );
+		Expression<String> textType = design.getTextType( );
+		Expression<String> textKey = design.getTextKey( );
+		Expression<String> text = design.getText( );
 		if ( textType != null )
 		{
 			IOUtil.writeShort( out, FIELD_TEXT_TYPE );
-			IOUtil.writeString( out, textType );
+			write( out, textType );
 		}
 		if ( text != null || textKey != null )
 		{
 			IOUtil.writeShort( out, FIELD_TEXT );
-			IOUtil.writeString( out, textKey );
-			IOUtil.writeString( out, text );
+			write( out, textKey );
+			write( out, text );
 		}
 	}
 
@@ -1428,17 +1473,17 @@ public class EngineIRWriter implements IOConstants
 			DynamicTextItemDesign design ) throws IOException
 	{
 		writeReportItem( out, design );
-		String contentType = design.getContentType( );
-		String content = design.getContent( );
+		Expression<String> contentType = design.getContentType( );
+		Expression<String> content = design.getContent( );
 		if ( contentType != null )
 		{
 			IOUtil.writeShort( out, FIELD_CONTENT_TYPE );
-			IOUtil.writeString( out, contentType );
+			write( out, contentType );
 		}
 		if ( content != null )
 		{
 			IOUtil.writeShort( out, FIELD_CONTENT );
-			IOUtil.writeString( out, content );
+			write( out, content );
 		}
 	}
 
@@ -1478,22 +1523,22 @@ public class EngineIRWriter implements IOConstants
 				break;
 		}
 
-		String altText = image.getAltText( );
-		String altTextKey = image.getAltTextKey( );
-		String helpText = image.getHelpText( );
-		String helpTextKey = image.getHelpTextKey( );
+		Expression<String> altText = image.getAltText( );
+		Expression<String> altTextKey = image.getAltTextKey( );
+		Expression<String> helpText = image.getHelpText( );
+		Expression<String> helpTextKey = image.getHelpTextKey( );
 
 		if ( altText != null || altTextKey != null )
 		{
 			IOUtil.writeShort( out, FIELD_ALT_TEXT );
-			IOUtil.writeString( out, altTextKey );
-			IOUtil.writeString( out, altText );
+			write( out, altTextKey );
+			write( out, altText );
 		}
 		if ( helpText != null || helpText != null )
 		{
 			IOUtil.writeShort( out, FIELD_HELP_TEXT );
-			IOUtil.writeString( out, helpTextKey );
-			IOUtil.writeString( out, helpText );
+			write( out, helpTextKey );
+			write( out, helpText );
 		}
 	}
 
@@ -1501,13 +1546,13 @@ public class EngineIRWriter implements IOConstants
 			ExtendedItemDesign extended ) throws IOException
 	{
 		writeReportItem( out, extended );
-		String altText = extended.getAltText( );
-		String altTextKey = extended.getAltTextKey( );
+		Expression<String> altText = extended.getAltText( );
+		Expression<String> altTextKey = extended.getAltTextKey( );
 		if ( altText != null || altTextKey != null )
 		{
 			IOUtil.writeShort( out, FIELD_ALT_TEXT );
-			IOUtil.writeString( out, altTextKey );
-			IOUtil.writeString( out, altText );
+			write( out, altTextKey );
+			write( out, altText );
 		}
 
 	}
@@ -1546,13 +1591,13 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeString( out, allowedType );
 		}
 
-		String promptText = design.getPromptText( );
-		String promptTextKey = design.getPromptTextKey( );
+		Expression<String> promptText = design.getPromptText( );
+		Expression<String> promptTextKey = design.getPromptTextKey( );
 		if ( promptText != null || promptTextKey != null )
 		{
 			IOUtil.writeShort( out, FIELD_PROMPT_TEXT );
-			IOUtil.writeString( out, promptTextKey );
-			IOUtil.writeString( out, promptText );
+			write( out, promptTextKey );
+			write( out, promptText );
 		}
 	}
 
@@ -1575,7 +1620,7 @@ public class EngineIRWriter implements IOConstants
 		{
 			VisibilityRuleDesign rule = visibility.getRule( i );
 			IOUtil.writeString( out, rule.getFormat( ) );
-			IOUtil.writeString( out, rule.getExpression( ) );
+			write( out, rule.getExpression( ) );
 		}
 	}
 
@@ -1587,20 +1632,27 @@ public class EngineIRWriter implements IOConstants
 		for ( int i = 0; i < ruleCount; i++ )
 		{
 			MapRuleDesign rule = map.getRule( i );
-			IOUtil.writeString( out, rule.getTestExpression( ) );
+			write( out, rule.getTestExpression( ) );
 			IOUtil.writeString( out, rule.getOperator( ) );
-			if ( rule.ifValueIsList( ) )
-			{
-				IOUtil.writeObject( out, rule.getValue1List( ) );
-				IOUtil.writeObject( out, null );
-			}
-			else
-			{
-				IOUtil.writeObject( out, rule.getValue1( ) );
-				IOUtil.writeObject( out, rule.getValue2( ) );
-			}
-			IOUtil.writeString( out, rule.getDisplayText( ) );
-			IOUtil.writeString( out, rule.getDisplayKey( ) );
+			writeRule( out, rule );
+			write( out, rule.getDisplayText( ) );
+			write( out, rule.getDisplayKey( ) );
+		}
+	}
+
+	private void writeRule( DataOutputStream out, RuleDesign rule )
+			throws IOException
+	{
+		boolean isValueList = rule.ifValueIsList( );
+		IOUtil.writeBool( out, isValueList );
+		if ( isValueList )
+		{
+			write( out, rule.getValue1List( ) );
+		}
+		else
+		{
+			write( out, rule.getValue1( ) );
+			write( out, rule.getValue2( ) );
 		}
 	}
 
@@ -1612,18 +1664,9 @@ public class EngineIRWriter implements IOConstants
 		for ( int i = 0; i < ruleCount; i++ )
 		{
 			HighlightRuleDesign rule = highlight.getRule( i );
-			IOUtil.writeString( out, rule.getTestExpression( ) );
+			write( out, rule.getTestExpression( ) );
 			IOUtil.writeString( out, rule.getOperator( ) );
-			if ( rule.ifValueIsList( ) )
-			{
-				IOUtil.writeObject( out, rule.getValue1List( ) );
-				IOUtil.writeObject( out, null );
-			}
-			else
-			{
-				IOUtil.writeObject( out, rule.getValue1( ) );
-				IOUtil.writeObject( out, rule.getValue2( ) );
-			}
+			writeRule( out, rule );
 			rule.getStyle( ).write( out );
 		}
 	}
@@ -1636,8 +1679,8 @@ public class EngineIRWriter implements IOConstants
 		switch ( actionType )
 		{
 			case ActionDesign.ACTION_BOOKMARK :
-				String bookmark = action.getBookmark( );
-				IOUtil.writeString( out, bookmark );
+				Expression<String> bookmark = action.getBookmark( );
+				write( out, bookmark );
 				break;
 			case ActionDesign.ACTION_DRILLTHROUGH :
 				DrillThroughActionDesign drillThrough = action
@@ -1645,31 +1688,38 @@ public class EngineIRWriter implements IOConstants
 				writeDrillThrough( out, drillThrough );
 				break;
 			case ActionDesign.ACTION_HYPERLINK :
-				String hyperlink = action.getHyperlink( );
-				IOUtil.writeString( out, hyperlink );
+				Expression<String> hyperlink = action.getHyperlink( );
+				write( out, hyperlink );
 				break;
 		}
-		String targetWindow = action.getTargetWindow( );
-		IOUtil.writeString( out, targetWindow );
-		String tooltip = action.getTooltip( );
-		IOUtil.writeString( out, tooltip );
+		Expression<String> targetWindow = action.getTargetWindow( );
+		write( out, targetWindow );
+		Expression<String> tooltip = action.getTooltip( );
+		write( out, tooltip );
 	}
 
 	protected void writeDrillThrough( DataOutputStream out,
 			DrillThroughActionDesign drillThrough ) throws IOException
 	{
-		String reportName = drillThrough.getReportName( );
-		Map parameters = drillThrough.getParameters( );
+		Expression<String> reportName = drillThrough.getReportName( );
+		Map<String, Expression<Object>> parameters = drillThrough
+				.getParameters( );
 		Map search = drillThrough.getSearch( );
-		String format = drillThrough.getFormat( );
-		boolean isBookmark = drillThrough.isBookmark( );
-		String bookmark = drillThrough.getBookmark( );
+		Expression<String> format = drillThrough.getFormat( );
+		Expression<String> bookmarkType = drillThrough.getBookmarkType( );
+		Expression<String> bookmark = drillThrough.getBookmark( );
 
-		IOUtil.writeString( out, reportName );
-		IOUtil.writeMap( out, parameters );
+		write( out, reportName );
+		Set<Entry<String, Expression<Object>>> entrySet = parameters.entrySet( );
+		IOUtil.writeInt( out, entrySet.size( ) );
+		for ( Entry<String, Expression<Object>> entry : entrySet )
+		{
+			IOUtil.writeString( out, entry.getKey( ) );
+			write( out, entry.getValue( ) );
+		}
 		IOUtil.writeMap( out, search );
-		IOUtil.writeString( out, format );
-		IOUtil.writeBool( out, isBookmark );
-		IOUtil.writeString( out, bookmark );
+		write( out, format );
+		write( out, bookmarkType );
+		write( out, bookmark );
 	}
 }

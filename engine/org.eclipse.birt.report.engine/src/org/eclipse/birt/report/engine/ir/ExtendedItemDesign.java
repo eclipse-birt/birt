@@ -25,12 +25,12 @@ public class ExtendedItemDesign extends ReportItemDesign
 	/**
 	 * Text associated with this extendedItem, used for default locale.
 	 */
-	protected String altText;
+	protected Expression<String> altText;
 	
 	/**
 	 * Text Resource Key used for altText localization.
 	 */
-	protected String altTextKey;
+	protected Expression<String> altTextKey;
 	
 	/**
 	 * children of this extended item.
@@ -49,7 +49,7 @@ public class ExtendedItemDesign extends ReportItemDesign
 	 * @param altText
 	 *            The altText to set.
 	 */
-	public void setAltText( String altTextKey, String altText )
+	public void setAltText( Expression<String> altTextKey, Expression<String> altText )
 	{
 		this.altTextKey = altTextKey;
 		this.altText = altText;
@@ -58,7 +58,7 @@ public class ExtendedItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the altTextKey.
 	 */
-	public String getAltTextKey( )
+	public Expression<String> getAltTextKey( )
 	{
 		return altTextKey;
 	}
@@ -66,7 +66,7 @@ public class ExtendedItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the altText.
 	 */
-	public String getAltText( )
+	public Expression<String> getAltText( )
 	{
 		return altText;
 	}

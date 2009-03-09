@@ -28,17 +28,17 @@ public class GridItemDesign extends ReportItemDesign
 	/**
 	 * grid caption
 	 */
-	protected String caption;
+	protected Expression<String> caption;
 	
 	/*
 	 * grid caption resource key
 	 */
-	protected String captionKey;
+	protected Expression<String> captionKey;
 	
 	/*
 	 * grid summary
 	 */
-	protected String summary;
+	protected Expression<String> summary;
 	
 	/**
 	 * column defines. the item type is Column.
@@ -139,7 +139,7 @@ public class GridItemDesign extends ReportItemDesign
 	 * @param caption
 	 *            caption
 	 */
-	public void setCaption(String captionKey,String caption)
+	public void setCaption(Expression<String> captionKey,Expression<String> caption)
 	{
 		this.captionKey = captionKey;
 		this.caption = caption;
@@ -149,7 +149,7 @@ public class GridItemDesign extends ReportItemDesign
 	/**
 	 * @returns Return grid caption
 	 */
-	public String getCaption()
+	public Expression<String> getCaption()
 	{
 		return caption;
 	}
@@ -157,7 +157,7 @@ public class GridItemDesign extends ReportItemDesign
 	/**
 	 * @returns Return grid captionKey
 	 */
-	public String getCaptionKey()
+	public Expression<String> getCaptionKey()
 	{
 		return captionKey;
 	}
@@ -168,7 +168,7 @@ public class GridItemDesign extends ReportItemDesign
 	 * @param summary
 	 * 	          summary
 	 */
-	public void setSummary(String summary)
+	public void setSummary(Expression<String> summary)
 	{
 		this.summary = summary;
 	}
@@ -178,7 +178,7 @@ public class GridItemDesign extends ReportItemDesign
 	 * 
 	 * @returns Return grid summary
 	 */
-	public String getSummary()
+	public Expression<String> getSummary()
 	{
 		return summary;
 	}

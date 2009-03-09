@@ -14,6 +14,7 @@ import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 
 public class ListContent extends ContainerContent implements IListContent
 {
@@ -47,7 +48,9 @@ public class ListContent extends ContainerContent implements IListContent
 	{
 		if ( generateBy instanceof ListItemDesign )
 		{
-			if ( ( (ListItemDesign) generateBy ).isRepeatHeader( ) == headerRepeat )
+			Expression<Boolean> repeatHeader = ( (ListItemDesign) generateBy ).isRepeatHeader( );
+			if ( !repeatHeader.isExpression( )
+					&& repeatHeader.getValue( ) == headerRepeat )
 			{
 				this.headerRepeat = null;
 				return;
@@ -64,7 +67,8 @@ public class ListContent extends ContainerContent implements IListContent
 		}
 		if ( generateBy instanceof ListItemDesign )
 		{
-			return ( (ListItemDesign) generateBy ).isRepeatHeader( );
+			return getConstantValue( ( (ListItemDesign) generateBy )
+					.isRepeatHeader( ) );
 		}
 
 		return false;

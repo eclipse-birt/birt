@@ -13,9 +13,9 @@ package org.eclipse.birt.report.engine.parser;
 
 import java.io.OutputStream;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -33,6 +33,7 @@ import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
 import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
@@ -146,12 +147,12 @@ public class ReportDesignWriter
 			{
 				case ActionDesign.ACTION_BOOKMARK :
 					pushTag( "bookmark-link" ); //$NON-NLS-1$
-					text( action.getBookmark( ) );
+					writeExpression( action.getBookmark( ) );
 					popTag( );
 					break;
 				case ActionDesign.ACTION_HYPERLINK :
 					pushTag( "hyperlink" ); //$NON-NLS-1$
-					text( action.getHyperlink( ) );
+					writeExpression( action.getHyperlink( ) );
 					popTag( );
 					break;
 				case ActionDesign.ACTION_DRILLTHROUGH :
@@ -160,7 +161,7 @@ public class ReportDesignWriter
 							.getDrillThrough( );
 					attribute( "report-name", drillThrough.getReportName( ) );
 					attribute( "bookmark", drillThrough.getBookmark( ) );
-					attribute( "bookmark-type", drillThrough.isBookmark( ) );
+					attribute( "bookmark-type", drillThrough.getBookmarkType( ) );
 					attribute( "paramters", drillThrough.getParameters( ) );
 					attribute( "search", drillThrough.getSearch( ) );
 					attribute( "format", drillThrough.getFormat( ) );
@@ -182,7 +183,7 @@ public class ReportDesignWriter
 				VisibilityRuleDesign rule = visibility.getRule( i );
 				pushTag( "rule" );
 				attribute( "format", rule.getExpression( ) );
-				text( rule.getExpression( ) );
+				writeExpression( rule.getExpression( ) );
 				popTag( );
 			}
 			popTag( );
@@ -202,23 +203,42 @@ public class ReportDesignWriter
 				attribute( "operator", rule.getOperator( ) );
 				if ( rule.ifValueIsList( ) )
 				{
-					List valueList = rule.getValue1List( );
-					for ( int index = 0; index < valueList.size( ); index++ )
-					{
-						attribute( "value" + index, valueList
-								.get( index ) );
-					}
+					Expression<? extends List> valueList = rule.getValue1List( );
+					writeList( valueList );
 				}
 				else
 				{
 					attribute( "value1", rule.getValue1( ) );
 					attribute( "value2", rule.getValue2( ) );
 				}
-				text( rule.getDisplayText( ) );
+				writeExpression( rule.getDisplayText( ) );
 				popTag( );
 			}
 			popTag( );
 
+		}
+
+		private void writeList( Expression<? extends List> valueList )
+		{
+			pushTag("list");
+			if ( !valueList.isExpression( ) )
+			{
+				attribute( "isExpression", false );
+				List list = valueList.getValue( );
+				if ( list != null )
+				{
+					for ( int index = 0; index < list.size( ); index++ )
+					{
+						attribute( "value" + index, list.get( index ) );
+					}
+				}
+			}
+			else
+			{
+				attribute( "isExpression", true );
+				attribute( "value", valueList.getDesignValue( ) );
+			}
+			popTag( );
 		}
 
 		void writeHighlight( HighlightDesign highlight )
@@ -234,12 +254,8 @@ public class ReportDesignWriter
 				attribute( "operator", rule.getOperator( ) );
 				if ( rule.ifValueIsList( ) )
 				{
-					List valueList = rule.getValue1List( );
-					for ( int index = 0; index < valueList.size( ); index++ )
-					{
-						attribute( "value" + index, valueList
-								.get( index ) );
-					}
+					Expression<? extends List> valueList = rule.getValue1List( );
+					writeList( valueList );
 				}
 				else
 				{
@@ -434,7 +450,7 @@ public class ReportDesignWriter
 
 			attribute( "type", text.getTextType( ) );
 			attribute( "text-key", text.getTextKey( ) );
-			text( text.getText( ) );
+			writeExpression( text.getText( ) );
 			popTag( );
 			return value;
 		}
@@ -445,7 +461,7 @@ public class ReportDesignWriter
 			pushTag( "dynamic-text" ); //$NON-NLS-1$
 			writeReportItem( dynamicText );
 			attribute( "content-type", dynamicText.getContentType( ) );
-			text( dynamicText.getContent( ) );
+			writeExpression( dynamicText.getContent( ) );
 
 			popTag( );
 			return value;
@@ -481,7 +497,7 @@ public class ReportDesignWriter
 			attribute( "help-text", label.getHelpText( ) );
 			attribute( "help-text-key", label.getHelpTextKey( ) );
 			attribute( "text-key", label.getTextKey( ) );
-			text( label.getText( ) );
+			writeExpression( label.getText( ) );
 			popTag( );
 			return value;
 		}
@@ -701,6 +717,25 @@ public class ReportDesignWriter
 			element.appendChild( textNode );
 		}
 
+		protected void writeExpression( Expression<?> text )
+		{
+			if ( text == null )
+			{
+				return;
+			}
+			// if ( !text.isExpression( )
+			// && ( text == null || "".equals( text.getValue( ).toString( )
+			// .trim( ) ) ) )
+			// {
+			// return;
+			// }
+			pushTag( "Expression" );
+			attribute( "isExpression", text.isExpression( ) );
+			text( text.getDesignValue( ).toString( ) );
+			popTag( );
+			
+		}
+		
 		protected void popTag( )
 		{
 			element = (Element) elements.pop( );

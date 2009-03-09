@@ -95,7 +95,8 @@ public class DataContent extends TextContent implements IDataContent
 		{
 			if ( generateBy instanceof DataItemDesign )
 			{
-				return ( (DataItemDesign) generateBy ).getHelpText( );
+				return getConstantValue( ( (DataItemDesign) generateBy )
+						.getHelpText( ) );
 			}
 		}
 		return helpText;
@@ -107,7 +108,8 @@ public class DataContent extends TextContent implements IDataContent
 		{
 			if ( generateBy instanceof DataItemDesign )
 			{
-				return ( (DataItemDesign) generateBy ).getHelpTextKey( );
+				return getConstantValue( ( (DataItemDesign) generateBy )
+						.getHelpTextKey( ) );
 			}
 		}
 		return helpKey;

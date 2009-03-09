@@ -19,20 +19,20 @@ package org.eclipse.birt.report.engine.ir;
 public class VisibilityRuleDesign
 {
 	/** expression */
-	protected String expression;
+	protected Expression<Boolean> expression;
 	/** format */
 	protected String format;
 	/**
 	 * @return Returns the expression.
 	 */
-	public String getExpression( )
+	public Expression<Boolean> getExpression( )
 	{
 		return expression;
 	}
 	/**
 	 * @param expression The expression to set.
 	 */
-	public void setExpression( String expression )
+	public void setExpression( Expression<Boolean> expression )
 	{
 		this.expression = expression;
 	}

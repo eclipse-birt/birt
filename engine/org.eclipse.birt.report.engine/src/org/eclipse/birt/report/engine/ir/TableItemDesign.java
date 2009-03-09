@@ -23,16 +23,16 @@ public class TableItemDesign extends ListingDesign
 	/**
 	 * table caption
 	 */
-	protected String captionKey;
+	protected Expression<String> captionKey;
 	/**
 	 * table caption resource key
 	 */
-	protected String caption;
+	protected Expression<String> caption;
 	
 	/**
 	 * table summary
 	 */
-	protected String summary;
+	protected Expression<String> summary;
 	
 
 	/**
@@ -102,7 +102,7 @@ public class TableItemDesign extends ListingDesign
 	 * @param caption
 	 *            caption
 	 */
-	public void setCaption( String captionKey, String caption )
+	public void setCaption( Expression<String> captionKey, Expression<String> caption )
 	{
 		this.captionKey = captionKey;
 		this.caption = caption;
@@ -111,7 +111,7 @@ public class TableItemDesign extends ListingDesign
 	/**
 	 * @return Returns the caption.
 	 */
-	public String getCaption( )
+	public Expression<String> getCaption( )
 	{
 		return caption;
 	}
@@ -119,7 +119,7 @@ public class TableItemDesign extends ListingDesign
 	/**
 	 * @return Returns the captionKey.
 	 */
-	public String getCaptionKey( )
+	public Expression<String> getCaptionKey( )
 	{
 		return captionKey;
 	}
@@ -130,7 +130,7 @@ public class TableItemDesign extends ListingDesign
 	 * @param summary
 	 * 	          summary
 	 */
-	public void setSummary(String summary)
+	public void setSummary(Expression<String> summary)
 	{
 		this.summary = summary;
 	}
@@ -140,7 +140,7 @@ public class TableItemDesign extends ListingDesign
 	 * 
 	 * @return Return table summary
 	 */
-	public String getSummary()
+	public Expression<String> getSummary()
 	{
 		return summary;
 	}

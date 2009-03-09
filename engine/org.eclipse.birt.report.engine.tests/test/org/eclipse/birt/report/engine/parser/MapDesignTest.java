@@ -32,24 +32,24 @@ public class MapDesignTest extends AbstractDesignTestCase
 		MapRuleDesign rule = map.getRule( 0 );
 		assertTrue( rule != null );
 		assertEquals( rule.getOperator( ), "lt" );
-		assertEquals( rule.getValue1( ), "row[\"COLUMN_12\"]" );
+		assertEquals( rule.getValue1( ).getDesignValue( ), "row[\"COLUMN_12\"]" );
 		assertEquals( rule.getValue2( ), null );
-		assertEquals( rule.getDisplayKey( ), "negative" );
-		assertEquals( rule.getDisplayText( ), "NEGATIVE" );
+		assertEquals( rule.getDisplayKey( ).getDesignValue( ), "negative" );
+		assertEquals( rule.getDisplayText( ).getDesignValue( ), "NEGATIVE" );
 
 		rule = map.getRule( 1 );
 		assertEquals( rule.getOperator( ), "is-true" );
 		assertEquals( rule.getValue1( ), null );
 		assertEquals( rule.getValue2( ), null );
-		assertEquals( rule.getDisplayKey( ), "true" );
-		assertEquals( rule.getDisplayText( ), "TRUE" );
+		assertEquals( rule.getDisplayKey( ).getDesignValue( ), "true" );
+		assertEquals( rule.getDisplayText( ).getDesignValue( ), "TRUE" );
 
 		rule = map.getRule( 2 );
 		assertEquals( rule.getOperator( ), "between" );
-		assertEquals( rule.getValue1( ), "row[\"COLUMN_12\"]" );
-		assertEquals( rule.getValue2( ), "row[\"COLUMN_14\"]" );
-		assertEquals( rule.getDisplayKey( ), "valid" );
-		assertEquals( rule.getDisplayText( ), "VALID" );
+		assertEquals( rule.getValue1( ).getDesignValue( ), "row[\"COLUMN_12\"]" );
+		assertEquals( rule.getValue2( ).getDesignValue( ), "row[\"COLUMN_14\"]" );
+		assertEquals( rule.getDisplayKey( ).getDesignValue( ), "valid" );
+		assertEquals( rule.getDisplayText( ).getDesignValue( ), "VALID" );
 	}
 
 }

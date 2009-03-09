@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.w3c.dom.css.CSSValue;
@@ -209,7 +210,8 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		if ( generateBy instanceof ReportItemDesign )
 		{
-			return ( (ReportItemDesign) generateBy ).getHeight( );
+			return getConstantValue( ( (ReportItemDesign) generateBy )
+					.getHeight( ) );
 		}
 		return null;
 	}
@@ -225,7 +227,7 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		if ( generateBy instanceof ReportItemDesign )
 		{
-			return ( (ReportItemDesign) generateBy ).getWidth( );
+			return getConstantValue( ( (ReportItemDesign) generateBy ).getWidth( ) );
 		}
 		return null;
 
@@ -242,7 +244,7 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		if ( generateBy instanceof ReportItemDesign )
 		{
-			return ( (ReportItemDesign) generateBy ).getX( );
+			return getConstantValue( ( (ReportItemDesign) generateBy ).getX( ) );
 		}
 		return null;
 	}
@@ -258,7 +260,7 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		if ( generateBy instanceof ReportItemDesign )
 		{
-			return ( (ReportItemDesign) generateBy ).getY( );
+			return getConstantValue( ( (ReportItemDesign) generateBy ).getY( ) );
 		}
 		return null;
 	}
@@ -839,5 +841,19 @@ abstract public class AbstractContent extends AbstractElement
 	public void setACL( String acl )
 	{
 		this.acl = acl;
+	}
+
+	protected <T> T getConstantValue(Expression<T> value)
+	{
+		if ( value == null )
+		{
+			return null;
+		}
+		if ( value.isExpression( ) )
+		{
+			throw new IllegalStateException(
+					"Should not get value from expression." );
+		}
+		return (T) value.getDesignValue( );
 	}
 }

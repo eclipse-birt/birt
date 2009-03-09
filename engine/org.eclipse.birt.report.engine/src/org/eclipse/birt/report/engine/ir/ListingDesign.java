@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.ir;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 abstract public class ListingDesign extends ReportItemDesign
 {
 
-	protected boolean repeatHeader;
+	protected Expression<Boolean> repeatHeader;
 	
 	/**
 	 * header of the listing design.
@@ -38,7 +39,7 @@ abstract public class ListingDesign extends ReportItemDesign
 	 * the page break interval. it will create a softpage break
 	 * for each page break interval rows.
 	 */
-	protected int pageBreakInterval = -1;
+	protected Expression<Integer> pageBreakInterval;
 	/**
 	 * groups. which corresponds to the group in query. which is created at
 	 * begin & end of each group.
@@ -48,7 +49,7 @@ abstract public class ListingDesign extends ReportItemDesign
 	/**
 	 * @return Returns the repeatHeader.
 	 */
-	public boolean isRepeatHeader( )
+	public Expression<Boolean> isRepeatHeader( )
 	{
 		return repeatHeader;
 	}
@@ -57,7 +58,7 @@ abstract public class ListingDesign extends ReportItemDesign
 	 * @param repeatHeader
 	 *            The repeatHeader to set.
 	 */
-	public void setRepeatHeader( boolean repeatHeader )
+	public void setRepeatHeader( Expression<Boolean> repeatHeader )
 	{
 		this.repeatHeader = repeatHeader;
 	}
@@ -128,12 +129,12 @@ abstract public class ListingDesign extends ReportItemDesign
 		this.groups.add( group );
 	}
 	
-	public void setPageBreakInterval(int interval)
+	public void setPageBreakInterval(Expression<Integer> interval)
 	{
 		this.pageBreakInterval = interval;
 	}
 	
-	public int getPageBreakInterval()
+	public Expression<Integer> getPageBreakInterval()
 	{
 		return pageBreakInterval;
 	}

@@ -11,15 +11,16 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import junit.framework.TestCase;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.birt.report.engine.EngineCase;
 
 /**
  * Base class of rule tests
  * 
  */
-abstract public class RuleTestCase extends TestCase
+abstract public class RuleTestCase extends EngineCase
 {
 
 	protected RuleDesign rule;
@@ -53,15 +54,18 @@ abstract public class RuleTestCase extends TestCase
 				EngineIRConstants.MAP_OPERATOR_NULL,
 				EngineIRConstants.MAP_OPERATOR_TRUE};
 
+		Expression<String> exp1 = newConstant( "exp1" );
+		Expression<String> exp2 = newConstant( "exp2" );
 		for ( int i = 0; i < operator.length; i++ )
 		{
 			//Set
-			rule.setExpression( operator[i], "exp1", "exp2" );
+			rule.setExpression( operator[i], exp1,
+					exp2 );
 
 			//Get
 			assertEquals( rule.getOperator( ), operator[i] );
-			assertEquals( rule.getValue1( ), "exp1" );
-			assertEquals( rule.getValue2( ), "exp2" );
+			assertEquals( rule.getValue1( ), exp1 );
+			assertEquals( rule.getValue2( ), exp2 );
 		}
 		
 		// special operators
@@ -73,14 +77,11 @@ abstract public class RuleTestCase extends TestCase
 		values.add("exp3");
 		values.add("exp4");
 		
-		rule.setExpression(operator1, values);
-		List vs = rule.getValue1List();
+		rule.setExpression( operator1, newConstant( values ) );
+		Expression<? extends List> vs = rule.getValue1List();
 		
 		assertEquals(rule.getOperator(), operator1);
-		assertEquals(values.size(), vs.size());
-		assertEquals(values.get(0), vs.get(0));
-		assertEquals(values.get(1), vs.get(1));
-		assertEquals(values.get(2), vs.get(2));
-		assertEquals(values.get(3), vs.get(3));
+		assertFalse( vs.isExpression( ) );
+		assertEquals(values, vs.getValue( ));
 	}
 }

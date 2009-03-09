@@ -56,11 +56,13 @@ public class ImageItemTest extends ReportItemTestCase
 		ImageItemDesign image = new ImageItemDesign( );
 
 		//Set
-		image.setAltText( "TestKey", "AltText" );
+		Expression<String> key = newConstant( "TestKey" );
+		Expression<String> text = newConstant( "AltText" );
+		image.setAltText( key, text );
 
 		//Get
-		assertEquals( image.getAltText( ), "AltText" );
-		assertEquals( image.getAltTextKey( ), "TestKey" );
+		assertEquals( image.getAltText( ), text );
+		assertEquals( image.getAltTextKey( ), key );
 
 	}
 

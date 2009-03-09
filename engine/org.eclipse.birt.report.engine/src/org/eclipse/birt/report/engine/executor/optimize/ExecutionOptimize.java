@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.w3c.dom.css.CSSValue;
 
 public class ExecutionOptimize
@@ -393,9 +394,11 @@ public class ExecutionOptimize
 			if ( detail != null )
 			{
 				PolicyNode parent = parentNode;
-				visitReportItem( detail, Boolean.TRUE );
+				visitReportItem( detail, true );
 				parentNode = currentNode;
-				if ( listing.getPageBreakInterval( ) > 0 )
+				Expression<Integer> pageBreakInterval = listing.getPageBreakInterval( );
+				if ( !pageBreakInterval.isExpression( )
+						&& pageBreakInterval.getValue( ) > 0 )
 				{
 					currentNode.breakAfter = true;
 				}
@@ -511,9 +514,9 @@ public class ExecutionOptimize
 			PolicyNode parent = parentNode;
 			visitReportItem( cell, value );
 			parentNode = currentNode;
-			String drop = cell.getDrop( );
+			Expression<String> drop = cell.getDrop( );
 			if ( cell.getRowSpan( ) != 1 || cell.getColSpan( ) != 1
-					|| ( drop != null && !"none".equals( drop ) ) )
+					|| needProcessDrop( drop ))
 			{
 				currentNode.execute = true;
 			}
@@ -525,6 +528,13 @@ public class ExecutionOptimize
 			}
 			parentNode = parent;
 			return value;
+		}
+
+		private boolean needProcessDrop( Expression<String> drop )
+		{
+			return drop != null
+					&& ( drop.isExpression( ) || !"none".equals( drop
+							.getDesignValue( ) ) );
 		}
 
 		public Object visitImageItem( ImageItemDesign image, Object value )

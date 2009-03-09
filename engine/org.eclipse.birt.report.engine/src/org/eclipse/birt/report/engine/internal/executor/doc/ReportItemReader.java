@@ -49,6 +49,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 
@@ -612,8 +613,16 @@ public class ReportItemReader implements IReportItemExecutor
 			if ( label.getGenerateBy( ) instanceof TemplateDesign )
 			{
 				TemplateDesign design = (TemplateDesign) label.getGenerateBy( );
-				label.setLabelKey( design.getPromptTextKey( ) );
-				label.setLabelText( design.getPromptText( ) );
+				Expression<String> promptTextKey = design.getPromptTextKey( );
+				if ( !promptTextKey.isExpression( ) )
+				{
+					label.setLabelKey( promptTextKey.getValue( ) );
+				}
+				Expression<String> promptText = design.getPromptText( );
+				if ( !promptTextKey.isExpression( ) )
+				{
+					label.setLabelText( promptText.getValue( ) );
+				}
 			}
 			return value;
 		}

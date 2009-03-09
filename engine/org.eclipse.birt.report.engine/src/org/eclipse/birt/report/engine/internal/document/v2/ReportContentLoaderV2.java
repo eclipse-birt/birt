@@ -66,6 +66,7 @@ import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.PageSection;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
@@ -908,8 +909,10 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			if ( label.getGenerateBy( ) instanceof TemplateDesign )
 			{
 				TemplateDesign design = (TemplateDesign) label.getGenerateBy( );
-				label.setLabelKey( design.getPromptTextKey( ) );
-				label.setLabelText( design.getPromptText( ) );
+				String promptKey = getConstantValue( design.getPromptTextKey( ) );
+				String promptText = getConstantValue( design.getPromptText( ) );
+				label.setLabelKey( promptKey );
+				label.setLabelText( promptText );
 			}
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startLabel( label );
@@ -1166,5 +1169,11 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			return docExt.getIndex( );
 		}
 		return -1;
+	}
+
+	private String getConstantValue( Expression<String> value )
+	{
+		assert !value.isExpression( ); 
+		return value.getValue( );
 	}
 }

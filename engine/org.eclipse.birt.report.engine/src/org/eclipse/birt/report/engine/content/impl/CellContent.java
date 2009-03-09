@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.css.dom.CellComputedStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.Expression;
 
 /**
  * 
@@ -88,6 +89,8 @@ public class CellContent extends AbstractContent implements ICellContent
 
 	private String scope;
 
+	private String drop;
+	
 	public int getContentType( )
 	{
 		return CELL_CONTENT;
@@ -178,8 +181,7 @@ public class CellContent extends AbstractContent implements ICellContent
 
 	public void setDrop( String drop )
 	{
-		if ( generateBy instanceof CellDesign )
-			( (CellDesign) generateBy ).setDrop( drop );
+		this.drop = drop;
 	}
 
 	public Object accept( IContentVisitor visitor, Object value )
@@ -258,6 +260,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	static final protected short FIELD_ANTIDIAGONAL_NUMBER = 108;
 	static final protected short FIELD_ANTIDIAGONAL_STYLE = 109;
 	static final protected short FIELD_ANTIDIAGONAL_WIDTH = 110;
+	static final protected short FIELD_DROP = 111;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -312,6 +315,11 @@ public class CellContent extends AbstractContent implements ICellContent
 			IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_WIDTH );
 			antidiagonalWidth.writeObject( out );
 		}
+		if ( drop != null )
+		{
+			IOUtil.writeShort( out, FIELD_DROP );
+			IOUtil.writeString( out, drop );
+		}
 		
 	}
 
@@ -354,6 +362,9 @@ public class CellContent extends AbstractContent implements ICellContent
 			case FIELD_ANTIDIAGONAL_WIDTH :
 				antidiagonalWidth = new DimensionType( );
 				antidiagonalWidth.readObject( in );
+				break;
+			case FIELD_DROP :
+				drop = IOUtil.readString( in );
 				break;
 			default :
 				super.readField( version, filedId, in, loader );
@@ -547,6 +558,15 @@ public class CellContent extends AbstractContent implements ICellContent
 	public void setScope( String scope )
 	{
 		this.scope = scope;
+	}
+	
+	public String getDrop( )
+	{
+		if ( drop != null )
+		{
+			return drop;
+		}
+		return null;
 	}
 
 }

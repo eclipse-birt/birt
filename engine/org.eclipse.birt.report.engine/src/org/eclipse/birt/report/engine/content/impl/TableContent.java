@@ -28,6 +28,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 
 /**
  * 
@@ -63,7 +64,10 @@ public class TableContent extends AbstractContent implements ITableContent
 	{
 		if (generateBy instanceof TableItemDesign)
 		{
-			if ( ( (TableItemDesign) generateBy ).isRepeatHeader( ) == headerRepeat )
+			Expression<Boolean> repeatHeader = ( (TableItemDesign) generateBy )
+					.isRepeatHeader( );
+			if ( !repeatHeader.isExpression( )
+					&& repeatHeader.getValue( ) == headerRepeat )
 			{
 				this.headerRepeat = null;
 				return;
@@ -80,7 +84,8 @@ public class TableContent extends AbstractContent implements ITableContent
 		}
 		if ( generateBy instanceof TableItemDesign )
 		{
-			return ( (TableItemDesign) generateBy ).isRepeatHeader( );
+			return getConstantValue( ( (TableItemDesign) generateBy )
+					.isRepeatHeader( ) );
 		}
 
 		return false;
@@ -112,11 +117,11 @@ public class TableContent extends AbstractContent implements ITableContent
 		{
 			if ( generateBy instanceof TableItemDesign )
 			{
-				return ( (TableItemDesign) generateBy ).getCaption( );
+				return getConstantValue( ( (TableItemDesign) generateBy ).getCaption( ) );
 			}
 			else if( generateBy instanceof GridItemDesign )
 			{
-				return( (GridItemDesign) generateBy ).getCaption( );
+				return getConstantValue( ( (GridItemDesign) generateBy ).getCaption( ) );
 			}
 		}
 		return caption;
@@ -142,11 +147,11 @@ public class TableContent extends AbstractContent implements ITableContent
 		{
 			if ( generateBy instanceof TableItemDesign )
 			{
-				return ( (TableItemDesign) generateBy ).getCaptionKey( );
+				return getConstantValue( ( (TableItemDesign) generateBy ).getCaptionKey( ) );
 			}
 			else if ( generateBy instanceof GridItemDesign )
 			{
-				return ( (GridItemDesign) generateBy ).getCaptionKey( );
+				return getConstantValue( ( (GridItemDesign) generateBy ).getCaptionKey( ) );
 			}
 		}
 		return captionKey;
@@ -307,11 +312,13 @@ public class TableContent extends AbstractContent implements ITableContent
 		{
 			if ( generateBy instanceof TableItemDesign )
 			{
-				return ( (TableItemDesign) generateBy ).getSummary( );
+				return getConstantValue( ( (TableItemDesign) generateBy )
+						.getSummary( ) );
 			}
 			else if ( generateBy instanceof GridItemDesign )
 			{
-				return ( (GridItemDesign) generateBy ).getSummary( );
+				return getConstantValue( ( (GridItemDesign) generateBy )
+						.getSummary( ) );
 			}
 		}
 		return summary;

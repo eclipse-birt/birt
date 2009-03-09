@@ -22,12 +22,12 @@ public class ColumnDesign extends StyledElementDesign
 	/**
 	 * width of this column
 	 */
-	protected DimensionType width;
+	protected Expression<DimensionType> width;
 
 	/**
 	 * suppressDuplicate
 	 */
-	protected boolean suppressDuplicate = false; 
+	protected boolean suppressDuplicate = false;
 	
 	/**
 	 * Visibility property.
@@ -42,14 +42,14 @@ public class ColumnDesign extends StyledElementDesign
 	/**
 	 * If this column is a column header.
 	 */
-	protected boolean isColumnHeader = false;
-	
+	protected Expression<Boolean> isColumnHeader = Expression.newConstant( Boolean.FALSE );;
+
 	/*
 	 * Set the column header state.
 	 * @param isColumnHeader
 	 *            this column is a column header or not.
 	 */
-	public void setColumnHeaderState( boolean isColumnHeader )
+	public void setColumnHeaderState( Expression<Boolean> isColumnHeader )
 	{
 		this.isColumnHeader = isColumnHeader;
 	}
@@ -57,7 +57,7 @@ public class ColumnDesign extends StyledElementDesign
 	/*
 	 * Return this column is a column header or not.
 	 */
-	public boolean isColumnHeader( )
+	public Expression<Boolean> isColumnHeader( )
 	{
 		return isColumnHeader;
 	}
@@ -65,7 +65,7 @@ public class ColumnDesign extends StyledElementDesign
 	/**
 	 * @return Returns the width.
 	 */
-	public DimensionType getWidth( )
+	public Expression<DimensionType> getWidth( )
 	{
 		return width;
 	}
@@ -74,7 +74,7 @@ public class ColumnDesign extends StyledElementDesign
 	 * @param width
 	 *            The width to set.
 	 */
-	public void setWidth( DimensionType width )
+	public void setWidth( Expression<DimensionType> width )
 	{
 		this.width = width;
 	}
@@ -83,7 +83,7 @@ public class ColumnDesign extends StyledElementDesign
 	 * @param suppress
 	 *            The suppressDuplicate to set.
 	 */
-	public void setSuppressDuplicate(boolean suppress)
+	public void setSuppressDuplicate( boolean suppress )
 	{
 		suppressDuplicate = suppress;
 	}

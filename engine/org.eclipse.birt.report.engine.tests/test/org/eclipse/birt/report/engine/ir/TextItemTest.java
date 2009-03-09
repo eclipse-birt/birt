@@ -34,11 +34,13 @@ public class TextItemTest extends ReportItemTestCase
 	{
 		TextItemDesign text = new TextItemDesign( );
 		//Set
-		text.setText( "TestKey", "TestText" );
+		Expression<String> testKey = newConstant( "TestKey" );
+		Expression<String> testText = newConstant( "TestText" );
+		text.setText( testKey, testText );
 
 		//Get
-		assertEquals( text.getText( ), "TestText" );
-		assertEquals( text.getTextKey( ), "TestKey" );
+		assertEquals( text.getText( ), testText );
+		assertEquals( text.getTextKey( ), testKey );
 	}
 
 }

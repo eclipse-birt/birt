@@ -88,7 +88,8 @@ public class ImageContent extends AbstractContent implements IImageContent
 		{
 			if ( generateBy instanceof ImageItemDesign )
 			{
-				return ( (ImageItemDesign) generateBy ).getAltText( );
+				return getConstantValue( ( (ImageItemDesign) generateBy )
+						.getAltText( ) );
 			}
 		}
 		return altText;
@@ -100,7 +101,8 @@ public class ImageContent extends AbstractContent implements IImageContent
 		{
 			if ( generateBy instanceof ImageItemDesign )
 			{
-				return ( (ImageItemDesign) generateBy ).getAltTextKey( );
+				return getConstantValue( ( (ImageItemDesign) generateBy )
+						.getAltTextKey( ) );
 			}
 		}
 		return altTextKey;
@@ -117,7 +119,8 @@ public class ImageContent extends AbstractContent implements IImageContent
 		{
 			if ( generateBy instanceof ImageItemDesign )
 			{
-				return ( (ImageItemDesign) generateBy ).getHelpText( );
+				return getConstantValue( ( (ImageItemDesign) generateBy )
+						.getHelpText( ) );
 			}
 		}
 		return helpText;
@@ -129,7 +132,8 @@ public class ImageContent extends AbstractContent implements IImageContent
 		{
 			if ( generateBy instanceof ImageItemDesign )
 			{
-				return ( (ImageItemDesign) generateBy ).getHelpTextKey( );
+				return getConstantValue( ( (ImageItemDesign) generateBy )
+						.getHelpTextKey( ) );
 			}
 		}
 		return helpTextKey;

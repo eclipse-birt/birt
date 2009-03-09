@@ -72,6 +72,7 @@ import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.script.internal.OnRenderScriptVisitor;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -670,7 +671,12 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 			if ( text == null )
 			{
-				text = localize( foreignContent, design.getTextKey( ), design.getText( ) );
+				Expression<String> textKeyValue = design.getTextKey( );
+				String textKey = textKeyValue == null ? null : textKeyValue
+						.getValue( );
+				Expression<String> textValue = design.getText( );
+				String textContent = textValue.getValue( );
+				text = localize( foreignContent, textKey, textContent );
 			}
 			try
 			{

@@ -7,7 +7,9 @@
 <simple-master-page bottom-margin="1in" floating-footer="false" height="11in" id="2" left-margin="1.25in" name="Simple MasterPage" orientation="auto" right-margin="1.25in" show-footer-on-last="true" show-header-on-first="true" top-margin="1in" type="us-letter" width="8.5in">
 <header/>
 <footer>
-<text id="3" type="html">&lt;value-of&gt;new Date()&lt;/value-of&gt;</text>
+<text id="3" type="html">
+<Expression isExpression="false">&lt;value-of&gt;new Date()&lt;/value-of&gt;</Expression>
+</text>
 </footer>
 </simple-master-page>
 </page-setup>
@@ -27,31 +29,49 @@
 <band>
 <row id="7" start-of-group="false">
 <cell id="8">
-<label id="9">OFFICECODE</label>
+<label id="9">
+<Expression isExpression="false">OFFICECODE</Expression>
+</label>
 </cell>
 <cell column="1" id="10">
-<label id="11">CITY</label>
+<label id="11">
+<Expression isExpression="false">CITY</Expression>
+</label>
 </cell>
 <cell column="2" id="12">
-<label id="13">PHONE</label>
+<label id="13">
+<Expression isExpression="false">PHONE</Expression>
+</label>
 </cell>
 <cell column="3" id="14">
-<label id="15">ADDRESSLINE1</label>
+<label id="15">
+<Expression isExpression="false">ADDRESSLINE1</Expression>
+</label>
 </cell>
 <cell column="4" id="16">
-<label id="17">ADDRESSLINE2</label>
+<label id="17">
+<Expression isExpression="false">ADDRESSLINE2</Expression>
+</label>
 </cell>
 <cell column="5" id="18">
-<label id="19">STATE</label>
+<label id="19">
+<Expression isExpression="false">STATE</Expression>
+</label>
 </cell>
 <cell column="6" id="20">
-<label id="21">COUNTRY</label>
+<label id="21">
+<Expression isExpression="false">COUNTRY</Expression>
+</label>
 </cell>
 <cell column="7" id="22">
-<label id="23">POSTALCODE</label>
+<label id="23">
+<Expression isExpression="false">POSTALCODE</Expression>
+</label>
 </cell>
 <cell column="8" id="24">
-<label id="25">TERRITORY</label>
+<label id="25">
+<Expression isExpression="false">TERRITORY</Expression>
+</label>
 </cell>
 </row>
 </band>
@@ -130,15 +150,27 @@
 </row>
 </band>
 </table>
-<label id="64">Action</label>
-<label id="65">Visibility</label>
-<text id="88" type="auto">AUTO TEXT</text>
-<text id="89" type="html">HTML TEXT</text>
-<text id="90" type="plain">PLAIN TEXT</text>
-<label id="91">label with key</label>
+<label id="64">
+<Expression isExpression="false">Action</Expression>
+</label>
+<label id="65">
+<Expression isExpression="false">Visibility</Expression>
+</label>
+<text id="88" type="auto">
+<Expression isExpression="false">AUTO TEXT</Expression>
+</text>
+<text id="89" type="html">
+<Expression isExpression="false">HTML TEXT</Expression>
+</text>
+<text id="90" type="plain">
+<Expression isExpression="false">PLAIN TEXT</Expression>
+</text>
+<label id="91">
+<Expression isExpression="false">label with key</Expression>
+</label>
 <image id="92" image-uri="&quot;http://www.google.com&quot;">
 <action target-window="_self">
-<drill-though bookmark="row[&quot;CUSTOMERNUMBER&quot;]" bookmark-type="true" format="pdf" report-name="1grouping.rptdesign"/>
+<drill-though bookmark="row[&quot;CUSTOMERNUMBER&quot;]" format="pdf" report-name="1grouping.rptdesign"/>
 </action>
 </image>
 <grid id="94" width="100%">
@@ -165,7 +197,9 @@
 </grid>
 <data expressions="A:&quot;Expression&quot;" id="110" properties="A:&quot;Expression&quot;" supress-duplicate="false">
 <map>
-<rule expression="&quot;TEST&quot;" operator="eq" value1="&quot;DD&quot;">"orginal value"</rule>
+<rule expression="&quot;TEST&quot;" operator="eq" value1="&quot;DD&quot;">
+<Expression isExpression="false">"orginal value"</Expression>
+</rule>
 </map>
 <map>
 <rule expression="1" operator="between" value1="A" value2="B">color: rgb(0, 0, 0); background-color: rgb(0, 0, 0)</rule>
