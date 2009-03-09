@@ -78,6 +78,8 @@ public interface IWordWriter
 			HyperlinkInfo hyper, IStyle style, InlineFlag inlineFlag,
 			String altText, String uri );
 
+	void drawDiagonalLine( DiagonalLineInfo diagonalLineInfo );
+
 	void startHeader( boolean showHeaderOnFirst, int headerHeight,
 			int headerWidth ) throws IOException;
 

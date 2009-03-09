@@ -409,6 +409,36 @@ public abstract class AbstractEmitterImpl
 		wordWriter.startTableCell( cellWidth, style, info );
 		context.addWidth( getCellWidth( cellWidth, style ) );
 		writeTableToc( );
+		if ( cell.getDiagonalNumber( ) != 0
+				|| cell.getAntidiagonalNumber( ) != 0 )
+		{
+			drawDiagonalLine( cell, WordUtil.twipToPt( cellWidth ) );
+		}
+	}
+
+	private void drawDiagonalLine( ICellContent cell, double cellWidth )
+	{
+		DiagonalLineInfo diagonalLineInfo = new DiagonalLineInfo( );
+		diagonalLineInfo.setDiagonalLine( cell.getDiagonalNumber( ), cell.getDiagonalStyle( ),
+				cell.getDiagonalWidth( ) );
+		diagonalLineInfo.setAntidiagonalLine( cell.getAntidiagonalNumber( ),
+				cell.getAntidiagonalStyle( ), cell.getAntidiagonalWidth( ) );
+		int cellHeight = WordUtil.convertTo( getCellHeight( cell ), 0 ) / 20;
+		diagonalLineInfo.setCoordinateSize( cellWidth, cellHeight );
+		String lineColor = WordUtil.parseColor( cell.getComputedStyle( )
+				.getColor( ) );
+		diagonalLineInfo.setColor( lineColor );
+		wordWriter.drawDiagonalLine( diagonalLineInfo );
+	}
+
+	protected DimensionType getCellHeight( ICellContent cell )
+	{
+		IElement parent = cell.getParent( );
+		while ( !( parent instanceof IRowContent ) )
+		{
+			parent = parent.getParent( );
+		}
+		return ( (IRowContent) parent ).getHeight( );
 	}
 
 	public void startTable( ITableContent table )

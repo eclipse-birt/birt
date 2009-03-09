@@ -19,10 +19,12 @@ import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
+import org.eclipse.birt.report.engine.emitter.wpml.DiagonalLineInfo;
 import org.eclipse.birt.report.engine.emitter.wpml.HyperlinkInfo;
 import org.eclipse.birt.report.engine.emitter.wpml.SpanInfo;
 import org.eclipse.birt.report.engine.emitter.wpml.WordUtil;
 import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.TextFlag;
+import org.eclipse.birt.report.engine.emitter.wpml.DiagonalLineInfo.Line;
 import org.w3c.dom.css.CSSValue;
 
 public abstract class AbstractWordXmlWriter
@@ -41,6 +43,8 @@ public abstract class AbstractWordXmlWriter
 	protected int imageId = 75;
 
 	protected int bookmarkId = 0;
+
+	private int lineId = 0;
 
 	// Holds the global layout orientation.
 	protected boolean rtl = false;
@@ -728,10 +732,15 @@ public abstract class AbstractWordXmlWriter
 	public void insertHiddenParagraph( )
 	{
 		writer.openTag( "w:p" );
+		writeHiddenProperty( );
+		writer.closeTag( "w:p" );
+	}
+
+	private void writeHiddenProperty( )
+	{
 		writer.openTag( "w:rPr" );
 		writeAttrTag( "w:vanish", "on" );
 		writer.closeTag( "w:rPr" );
-		writer.closeTag( "w:p" );
 	}
 
 	public void endParagraph( )
@@ -974,9 +983,7 @@ public abstract class AbstractWordXmlWriter
 
 	private void writeTextColor( IStyle style )
 	{
-		String val;
-		// Text Color
-		val = WordUtil.parseColor( style.getColor( ) );
+		String val = WordUtil.parseColor( style.getColor( ) );
 		if ( val != null )
 		{
 			writeAttrTag( "w:color", val );
@@ -985,7 +992,6 @@ public abstract class AbstractWordXmlWriter
 
 	private void writeTextUnderline( IStyle style )
 	{
-		// Font style
 		String val = WordUtil.removeQuote( style.getTextUnderline( ) );
 		if ( !"none".equalsIgnoreCase( val ) )
 		{
@@ -995,9 +1001,7 @@ public abstract class AbstractWordXmlWriter
 
 	private void writeTextLineThrough( IStyle style )
 	{
-		String val;
-
-		val = WordUtil.removeQuote( style.getTextLineThrough( ) );
+		String val = WordUtil.removeQuote( style.getTextLineThrough( ) );
 		if ( !"none".equalsIgnoreCase( val ) )
 		{
 			writeAttrTag( "w:strike", "on" );
@@ -1029,5 +1033,61 @@ public abstract class AbstractWordXmlWriter
 		writer.closeTag( "w:tc" );
 		writer.closeTag( "w:tr" );
 		writer.closeTag( "w:tbl" );
+	}
+
+	public void drawDiagonalLine( DiagonalLineInfo diagonalLineInfo )
+	{
+		if ( diagonalLineInfo.getDiagonalNumber( ) <= 0
+				&& diagonalLineInfo.getAntiDiagonalNumber( ) <= 0 )
+			return;
+		writer.openTag( "w:p" );
+		writeHiddenProperty( );
+		writer.openTag( "w:r" );
+		writer.openTag( "w:pict" );
+		double diagonalLineWidth = diagonalLineInfo.getDiagonalLineWidth( );
+		String diagonalLineStyle = diagonalLineInfo.getDiagonalStyle( );
+		double antidiagonalLineWidth = diagonalLineInfo
+				.getAntiDiagonalLineWidth( );
+		String antidiagonalLineStyle = diagonalLineInfo.getAntiDiagonalStyle( );
+		String lineColor = diagonalLineInfo.getColor( );
+		for ( Line line : diagonalLineInfo
+				.getDiagonalLine( ) )
+		{
+			drawLine( diagonalLineWidth, diagonalLineStyle, lineColor,
+					line );
+		}
+		for ( Line antiLine : diagonalLineInfo
+				.getAntidiagonalLine( ) )
+		{
+			drawLine( antidiagonalLineWidth, antidiagonalLineStyle,
+					lineColor, antiLine );
+		}
+		writer.closeTag( "w:pict" );
+		writer.closeTag( "w:r" );
+		writer.closeTag( "w:p" );
+	}
+
+	private void drawLine( double width, String style, String color,
+			Line line )
+	{
+		writer.openTag( "v:line" );
+		writer.attribute( "id", "Line" + getLineId( ) );
+		writer.attribute( "style",
+				"position:absolute;left:0;text-align:left;z-index:1" );
+		writer.attribute( "from", line.getXCoordinateFrom( ) + "pt,"
+				+ line.getYCoordinateFrom( ) + "pt" );
+		writer.attribute( "to", line.getXCoordinateTo( ) + "pt,"
+				+ line.getYCoordinateTo( ) + "pt" );
+		writer.attribute( "strokeweight", width + "pt" );
+		writer.attribute( "strokecolor", "#" + color );
+		writer.openTag( "v:stroke" );
+		writer.attribute( "dashstyle", WordUtil.parseLineStyle( style ) );
+		writer.closeTag( "v:stroke" );
+		writer.closeTag( "v:line" );
+	}
+
+	private int getLineId( )
+	{
+		return lineId++;
 	}
 }

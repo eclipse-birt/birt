@@ -21,6 +21,14 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 public class WordUtil
 {
 
+	private static final String LINESTYLE_SOLID = "solid";
+
+	private static final String LINESTYLE_DASH = "dash";
+
+	private static final String LINESTYLE_DOT = "dot";
+
+	private static final String LINESTYLE_SINGLE = "single";
+
 	private static Logger logger = Logger.getLogger( WordUtil.class.getName( ) );
 
 	private static HashSet<Character> splitChar = new HashSet<Character>( );
@@ -213,7 +221,7 @@ public class WordUtil
 	{
 		if ( CSSConstants.CSS_SOLID_VALUE.equalsIgnoreCase( style ) )
 		{
-			return "single";
+			return LINESTYLE_SINGLE;
 		}
 		return style;
 	}
@@ -225,15 +233,15 @@ public class WordUtil
 	{
 		if ( CSSConstants.CSS_DOTTED_VALUE.equalsIgnoreCase( style ) )
 		{
-			return "dot";
+			return LINESTYLE_DOT;
 		}
 		if ( CSSConstants.CSS_DASHED_VALUE.equalsIgnoreCase( style ) )
 		{
-			return "dash";
+			return LINESTYLE_DASH;
 		}
 		if ( CSSConstants.CSS_SOLID_VALUE.equalsIgnoreCase( style ) )
 		{
-			return "single";
+			return LINESTYLE_SINGLE;
 		}
 		return style;
 	}
@@ -263,5 +271,22 @@ public class WordUtil
 	{
 		int w = Math.round( size );
 		return ( 8 * w ) / 750;
+	}
+
+	public static String parseLineStyle( String style )
+	{
+		if ( CSSConstants.CSS_DOTTED_VALUE.equalsIgnoreCase( style ) )
+		{
+			return LINESTYLE_DOT;
+		}
+		if ( CSSConstants.CSS_DASHED_VALUE.equalsIgnoreCase( style ) )
+		{
+			return LINESTYLE_DASH;
+		}
+		if ( CSSConstants.CSS_DOUBLE_VALUE.equalsIgnoreCase( style ) )
+		{
+			return LINESTYLE_SOLID;
+		}
+		return style;
 	}
 }
