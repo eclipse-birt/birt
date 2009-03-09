@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -273,7 +274,7 @@ public class APICompatibleTest extends BaseTestCase
 
 	/**
 	 * Backward TOC expression. Change toc expression to toc structure. since
-	 * 3.2.10
+	 * 3.2.10. Another backward is to change the expression new syntax.
 	 * 
 	 * @throws Exception
 	 */
@@ -291,6 +292,11 @@ public class APICompatibleTest extends BaseTestCase
 
 		labelHandle.setTocExpression( "toc2" ); //$NON-NLS-1$
 		assertEquals( "toc2", labelHandle.getTocExpression( ) ); //$NON-NLS-1$
+
+		// should have no class cast exception
+		
+		TOC tmpTOC = (TOC) labelHandle.getProperty( LabelHandle.TOC_PROP );
+		assertEquals( "toc2", tmpTOC.toString( ) );  //$NON-NLS-1$
 	}
 
 	/**
@@ -394,14 +400,14 @@ public class APICompatibleTest extends BaseTestCase
 		propHandle.addItem( "resource1" ); //$NON-NLS-1$
 		propHandle.addItem( "resource2" ); //$NON-NLS-1$
 
-		// the value is a list with two items. 
-		
+		// the value is a list with two items.
+
 		assertEquals( "resource1; resource2", designHandle.getIncludeResource( ) ); //$NON-NLS-1$
 
 		designHandle.setIncludeResource( "new_resource" ); //$NON-NLS-1$
 
 		// the value is a list with a single item.
-		
+
 		assertEquals( "new_resource", designHandle.getIncludeResource( ) ); //$NON-NLS-1$
 
 	}

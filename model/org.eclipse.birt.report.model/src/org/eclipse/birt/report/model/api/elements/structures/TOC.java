@@ -45,7 +45,7 @@ public class TOC extends PropertyStructure
 	 */
 
 	public final static String TOC_STYLE = "TOCStyle"; //$NON-NLS-1$
-	
+
 	public static final String BORDER_TOP_STYLE_MEMBER = Style.BORDER_TOP_STYLE_PROP;
 	public static final String BORDER_TOP_WIDTH_MEMBER = Style.BORDER_TOP_WIDTH_PROP;
 	public static final String BORDER_TOP_COLOR_MEMBER = Style.BORDER_TOP_COLOR_PROP;
@@ -82,12 +82,13 @@ public class TOC extends PropertyStructure
 	 */
 
 	private ElementRefValue style = null;
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 
 	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
@@ -99,7 +100,9 @@ public class TOC extends PropertyStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt.report.model.api.SimpleValueHandle)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
+	 * .report.model.api.SimpleValueHandle)
 	 */
 
 	public StructureHandle getHandle( SimpleValueHandle valueHandle )
@@ -119,15 +122,22 @@ public class TOC extends PropertyStructure
 		return TOC_STRUCT;
 	}
 
-	public String toString( )
-	{
-		return (String) getProperty( null, TOC_EXPRESSION );
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.elements.structures.StyleRule#getIntrinsicProperty(java.lang.String)
+	 * @see java.lang.Object#toString()
+	 */
+
+	public String toString( )
+	{
+		return getStringProperty( null, TOC_EXPRESSION );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.api.elements.structures.StyleRule#
+	 * getIntrinsicProperty(java.lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -137,12 +147,12 @@ public class TOC extends PropertyStructure
 
 		return super.getIntrinsicProperty( propName );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.elements.structures.StyleRule#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @seeorg.eclipse.birt.report.model.api.elements.structures.StyleRule#
+	 * setIntrinsicProperty(java.lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
