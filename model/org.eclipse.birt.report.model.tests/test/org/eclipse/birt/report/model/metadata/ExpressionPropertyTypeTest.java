@@ -22,7 +22,7 @@ public class ExpressionPropertyTypeTest extends TextualPropertyTypeTestCase
 
 	ExpressionPropertyType type = new ExpressionPropertyType( );
 
-	PropertyDefn propDefn = new PropertyDefnFake( );
+	PropertyDefnFake propDefn = new PropertyDefnFake( );
 
 	/*
 	 * (non-Javadoc)
@@ -56,6 +56,7 @@ public class ExpressionPropertyTypeTest extends TextualPropertyTypeTestCase
 	 */
 	public void testValidateValue( ) throws PropertyValueException
 	{
+		propDefn.setTrimOption( TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE );
 		assertEquals( null, type.validateValue( design, propDefn, null ) );
 		assertNull( type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$ 
 		assertEquals(

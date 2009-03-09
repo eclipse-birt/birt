@@ -70,7 +70,7 @@
             <expression name="labelExpr">test column</expression>
             <simple-property-list name="defaultValue">
                 <value type="constant">default_value_1</value>
-                <value/>
+                <value isNull="true"/>
                 <value type="constant">default_value_2</value>
                 <value type="constant"></value>
             </simple-property-list>

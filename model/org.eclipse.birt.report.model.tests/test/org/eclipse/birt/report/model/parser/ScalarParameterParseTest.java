@@ -213,9 +213,12 @@ public class ScalarParameterParseTest extends BaseTestCase
 		List<Expression> valueList = handle.getDefaultValueList( );
 		assertEquals( valueList.get( 0 ).getExpression( ), handle
 				.getDefaultValue( ) );
-		assertNull( valueList.get( 1 ) );
-		assertEquals( " ", valueList.get( 2 ).getExpression( ) ); //$NON-NLS-1$
-
+		assertEquals( "", valueList.get( 1 ).getExpression( ) );//$NON-NLS-1$
+		assertEquals( "", valueList.get( 2 ).getExpression( ) );//$NON-NLS-1$
+		assertNull( valueList.get( 3 ).getExpression( ) );
+		assertNull( valueList.get( 4 ).getExpression( ) );
+		assertNull( valueList.get( 5 ) );
+		assertEquals( " ", valueList.get( 6 ).getExpression( ) ); //$NON-NLS-1$
 		assertTrue( handle.isRequired( ) );
 		assertFalse( handle.distinct( ) );
 
