@@ -445,7 +445,10 @@ public class ExcelXmlWriter implements IExcelWriter
 
 		writer.openTag( "Style" );
 		writer.attribute( "ss:ID", id );
-		writer.attribute( "ss:Name", style.getName( ) );
+		if ( style.getName( ) == StyleEntry.ENTRYNAME_HYPERLINK )
+		{
+			writer.attribute( "ss:Parent", "HyperlinkId" );
+		}
 
 		if ( id >= StyleEngine.RESERVE_STYLE_ID )
 		{
@@ -566,7 +569,7 @@ public class ExcelXmlWriter implements IExcelWriter
 	private void declareStyles( Map<StyleEntry, Integer> style2id )
 	{
 		writer.openTag( "Styles" );
-
+		declareHyperlinkStyle( );
 		Set<Entry<StyleEntry, Integer>> entrySet = style2id.entrySet( );
 		for ( Map.Entry<StyleEntry, Integer> entry : entrySet )
 		{
@@ -576,6 +579,15 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "Styles" );
 	}
 
+
+	private void declareHyperlinkStyle( )
+	{
+		writer.openTag( "Style" );
+		writer.attribute( "ss:ID", "HyperlinkId" );
+		writer.attribute( "ss:Name", "Hyperlink" );
+		writeFont( null, null, null, null, null, "Single", "#0000FF" );
+		writer.closeTag( "Style" );
+	}
 
 	private void defineNames( Entry<String, BookmarkDef> bookmarkEntry )
 	{
