@@ -34,7 +34,7 @@
 	</context-param>
 	
 	<!--
-		Generated document files directory. Defaults to ${birt home}/documents
+		Temporary document files directory. Defaults to ${birt home}/documents
 	-->
 	<context-param>
 		<param-name>BIRT_VIEWER_DOCUMENT_FOLDER</param-name>
@@ -51,7 +51,7 @@
 	</context-param>
 
 	<!--
-		Output image/chart directory. Defaults to ${birt home}/report/images
+		Temporary image/chart directory. Defaults to ${birt home}/report/images
 	-->
 	<context-param>
 		<param-name>BIRT_VIEWER_IMAGE_DIR</param-name>

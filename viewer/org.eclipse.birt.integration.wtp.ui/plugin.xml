@@ -209,12 +209,12 @@
 			<context-param 
 				name="BIRT_VIEWER_DOCUMENT_FOLDER"
 				value="documents"
-				description="Generated document files directory. Defaults to ${Context Root}/documents"/>		
+				description="Temporary document files directory. Defaults to ${Context Root}/documents"/>		
 						
 			<context-param 
 				name="BIRT_VIEWER_IMAGE_DIR"
 				value="report/images"
-				description="Output images/charts directory. Defaults to ${Context Root}/report/images"/>
+				description="Temporary images/charts directory. Defaults to ${Context Root}/report/images"/>
 
 			<context-param 
 				name="BIRT_VIEWER_SCRIPTLIB_DIR"
