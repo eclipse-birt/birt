@@ -43,13 +43,13 @@ BIRTConfiguration_working_label=Wor&king Folder:
 BIRTConfiguration_working_dialog_title=浏览工作文件夹
 BIRTConfiguration_working_dialog_message=请选择默认工作文件夹:
 
-BIRTConfiguration_document_label=文档文件夹(&D):
-BIRTConfiguration_document_dialog_title=浏览文档文件夹
-BIRTConfiguration_document_dialog_message=请选择默认文档文件夹:
+BIRTConfiguration_document_label=Temporary &documents Folder:
+BIRTConfiguration_document_dialog_title=Browse For Temporary Documents Folder
+BIRTConfiguration_document_dialog_message=Please select the default temporary documents folder:
 
-BIRTConfiguration_image_label=图像文件夹(&I):
-BIRTConfiguration_image_dialog_title=浏览图像文件夹
-BIRTConfiguration_image_dialog_message=请选择默认图像文件夹:
+BIRTConfiguration_image_label=Temporary &images Folder:
+BIRTConfiguration_image_dialog_title=Browse For Temporary Images Folder
+BIRTConfiguration_image_dialog_message=Please select the default temporary images folder:
 
 BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
 BIRTConfiguration_scriptlib_dialog_title=浏览脚本库文件夹

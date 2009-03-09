@@ -43,13 +43,13 @@ BIRTConfiguration_working_label=Wor&king Folder:
 BIRTConfiguration_working_dialog_title=작업 폴더 찾아보기
 BIRTConfiguration_working_dialog_message=기본 작업 폴더를 선택하십시오.
 
-BIRTConfiguration_document_label=문서 폴더(&D):
-BIRTConfiguration_document_dialog_title=문서 폴더 찾아보기
-BIRTConfiguration_document_dialog_message=기본 문서 폴더를 선택하십시오.
+BIRTConfiguration_document_label=Temporary &documents Folder:
+BIRTConfiguration_document_dialog_title=Browse For Temporary Documents Folder
+BIRTConfiguration_document_dialog_message=Please select the default temporary documents folder:
 
-BIRTConfiguration_image_label=이미지 폴더(&I):
-BIRTConfiguration_image_dialog_title=이미지 폴더 찾아보기
-BIRTConfiguration_image_dialog_message=기본 이미지 폴더를 선택하십시오.
+BIRTConfiguration_image_label=Temporary &images Folder:
+BIRTConfiguration_image_dialog_title=Browse For Temporary Images Folder
+BIRTConfiguration_image_dialog_message=Please select the default temporary images folder:
 
 BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
 BIRTConfiguration_scriptlib_dialog_title=ScriptLib 폴더 찾아보기

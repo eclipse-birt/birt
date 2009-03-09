@@ -43,13 +43,13 @@ BIRTConfiguration_working_label=Wor&king Folder:
 BIRTConfiguration_working_dialog_title=作業フォルダを参照
 BIRTConfiguration_working_dialog_message=デフォルトの作業フォルダを選択してください :
 
-BIRTConfiguration_document_label=文書フォルダ(&D) :
-BIRTConfiguration_document_dialog_title=文書フォルダの参照
-BIRTConfiguration_document_dialog_message=デフォルトの文書フォルダを選択してください :
+BIRTConfiguration_document_label=Temporary &documents Folder:
+BIRTConfiguration_document_dialog_title=Browse For Temporary Documents Folder
+BIRTConfiguration_document_dialog_message=Please select the default temporary documents folder:
 
-BIRTConfiguration_image_label=イメージフォルダ(&I) :
-BIRTConfiguration_image_dialog_title=イメージフォルダの参照
-BIRTConfiguration_image_dialog_message=デフォルトのイメージフォルダを選択してください :
+BIRTConfiguration_image_label=Temporary &images Folder:
+BIRTConfiguration_image_dialog_title=Browse For Temporary Images Folder
+BIRTConfiguration_image_dialog_message=Please select the default temporary images folder:
 
 BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
 BIRTConfiguration_scriptlib_dialog_title=ScriptLib フォルダの参照

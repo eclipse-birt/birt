@@ -43,13 +43,13 @@ BIRTConfiguration_working_label=Wor&king Folder:
 BIRTConfiguration_working_dialog_title=Buscar carpeta de trabajo
 BIRTConfiguration_working_dialog_message=Seleccione la carpeta de trabajo predeterminada:
 
-BIRTConfiguration_document_label=Carpeta de &documentos:
-BIRTConfiguration_document_dialog_title=Buscar carpeta de documentos
-BIRTConfiguration_document_dialog_message=Seleccione la carpeta de documentos predeterminada:
+BIRTConfiguration_document_label=Temporary &documents Folder:
+BIRTConfiguration_document_dialog_title=Browse For Temporary Documents Folder
+BIRTConfiguration_document_dialog_message=Please select the default temporary documents folder:
 
-BIRTConfiguration_image_label=Carpeta de &imágenes:
-BIRTConfiguration_image_dialog_title=Buscar carpeta de imágenes
-BIRTConfiguration_image_dialog_message=Seleccione la carpeta de imágenes predeterminada:
+BIRTConfiguration_image_label=Temporary &images Folder:
+BIRTConfiguration_image_dialog_title=Browse For Temporary Images Folder
+BIRTConfiguration_image_dialog_message=Please select the default temporary images folder:
 
 BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
 BIRTConfiguration_scriptlib_dialog_title=Buscar carpeta de librería de scripts

@@ -43,13 +43,13 @@ BIRTConfiguration_working_label=Wor&king Folder:
 BIRTConfiguration_working_dialog_title=Parcourir le dossier de travail
 BIRTConfiguration_working_dialog_message=Sélectionnez le dossier de travail par défaut :
 
-BIRTConfiguration_document_label=&Dossier de documents :
-BIRTConfiguration_document_dialog_title=Parcourir le dossier de documents
-BIRTConfiguration_document_dialog_message=Sélectionnez le dossier de documents par défaut :
+BIRTConfiguration_document_label=Temporary &documents Folder:
+BIRTConfiguration_document_dialog_title=Browse For Temporary Documents Folder
+BIRTConfiguration_document_dialog_message=Please select the default temporary documents folder:
 
-BIRTConfiguration_image_label=&Dossier d'images :
-BIRTConfiguration_image_dialog_title=Parcourir le dossier d'images
-BIRTConfiguration_image_dialog_message=Sélectionnez le dossier d'images par défaut :
+BIRTConfiguration_image_label=Temporary &images Folder:
+BIRTConfiguration_image_dialog_title=Browse For Temporary Images Folder
+BIRTConfiguration_image_dialog_message=Please select the default temporary images folder:
 
 BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
 BIRTConfiguration_scriptlib_dialog_title=Parcourir le dossier ScriptLib
