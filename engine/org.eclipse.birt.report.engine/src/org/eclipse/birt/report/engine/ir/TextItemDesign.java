@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.core.template.TemplateParser;
 import org.eclipse.birt.core.template.TextTemplate;
 import org.eclipse.birt.core.template.TextTemplate.ValueNode;
+import org.eclipse.birt.report.model.api.TextItemHandle;
 
 /**
  * Text element captures a long string with internal formatting.
@@ -59,6 +60,10 @@ public class TextItemDesign extends ReportItemDesign
 			return exprs;
 		}
 		if ( text.isExpression( ) || textType.isExpression( ) )
+		{
+			return null;
+		}
+		if ( !hasExpression( ) )
 		{
 			return null;
 		}
@@ -181,5 +186,15 @@ public class TextItemDesign extends ReportItemDesign
 	public void setTextType( Expression<String> textType )
 	{
 		this.textType = textType;
+	}
+
+	public boolean hasExpression( )
+	{
+		if ( handle instanceof TextItemHandle )
+		{
+			TextItemHandle textItem = (TextItemHandle) handle;
+			textItem.hasExpression( );
+		}
+		return false;
 	}
 }

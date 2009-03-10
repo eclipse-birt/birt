@@ -13,7 +13,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -22,7 +22,6 @@ import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
-import org.eclipse.birt.report.engine.ir.Expression;
 
 /**
  * <code>DataItemExecutor</code> is a concrete subclass of
@@ -107,15 +106,21 @@ public class TextItemExecutor extends QueryItemExecutor
 
 		String text = evaluate( textDesign.getText( ) );
 		String textType = evaluate( textDesign.getTextType( ) );
+
 		
-		HashMap exprs = TextItemDesign.extractExpression( text, textType );
+		HashMap<String, String> exprs = null;
+		if ( textDesign.hasExpression( ) )
+		{
+			exprs = TextItemDesign.extractExpression( text, textType );
+		}
 		if ( exprs != null && !exprs.isEmpty( ) )
 		{
-			HashMap results = new HashMap( );
-			Iterator iter = exprs.entrySet( ).iterator( );
+			HashMap<String, Object> results = new HashMap<String, Object>( );
+			Iterator<Entry<String, String>> iter = exprs.entrySet( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
-				Map.Entry entry = (Map.Entry) iter.next( );
+				Entry<String, String> entry = (Entry<String, String>) iter
+						.next( );
 				String expr = (String) entry.getValue( );
 				try
 				{
