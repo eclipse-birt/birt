@@ -16,5 +16,16 @@
             <property name="style">NewStyle1</property>
         </label>
         <label name="NewLabel1" id="19" extends="new_library.NewLabel1"/>
+        <extended-item extensionName="TestingBox" name="test-box-1">
+        	<property name="header">
+        		<label/>
+        	</property>
+        	<property name="usage">good-usage</property>
+        </extended-item>
+        <extended-item extensionName="TestingBox" name="test-box-2">
+        	<property name="header">
+        		<label/>
+        	</property>
+        </extended-item>
     </body>
 </report>

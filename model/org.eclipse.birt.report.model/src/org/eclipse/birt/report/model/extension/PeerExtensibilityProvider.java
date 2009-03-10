@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
@@ -291,10 +292,9 @@ public abstract class PeerExtensibilityProvider
 						element, defn, (ElementRefValue) value );
 		}
 
-		return defn.isEncryptable( )
-				? EncryptionUtil.decrypt( element, defn,
-						extensionPropValues.get( propName ) )
-				: extensionPropValues.get( propName );
+		return defn.isEncryptable( ) ? EncryptionUtil.decrypt( element, defn,
+				extensionPropValues.get( propName ) ) : extensionPropValues
+				.get( propName );
 	}
 
 	/**
@@ -381,10 +381,9 @@ public abstract class PeerExtensibilityProvider
 						element, defn, (ElementRefValue) value );
 		}
 
-		return defn.isEncryptable( )
-				? EncryptionUtil.decrypt( element, defn,
-						extensionPropValues.get( propName ) )
-				: extensionPropValues.get( propName );
+		return defn.isEncryptable( ) ? EncryptionUtil.decrypt( element, defn,
+				extensionPropValues.get( propName ) ) : extensionPropValues
+				.get( propName );
 	}
 
 	/**
@@ -777,9 +776,21 @@ public abstract class PeerExtensibilityProvider
 
 	public boolean hasLocalPropertyValues( )
 	{
-		if ( !extensionPropValues.isEmpty( )
-				|| hasLocalPropertyValuesOnOwnModel( ) )
+		if ( hasLocalPropertyValuesOnOwnModel( ) )
 			return true;
+		else if ( !extensionPropValues.isEmpty( ) )
+		{
+			Set<String> propNames = extensionPropValues.keySet( );
+			// ignore the element type property values, for it is layout
+			// related changes
+			for ( String propName : propNames )
+			{
+				PropertyDefn defn = (PropertyDefn) getPropertyDefn( propName );
+				assert defn != null;
+				if ( defn.getTypeCode( ) != IPropertyType.ELEMENT_TYPE )
+					return true;
+			}
+		}
 
 		return false;
 	}

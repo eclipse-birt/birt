@@ -3738,6 +3738,16 @@ public class DesignElementTest extends BaseTestCase
 		DesignElementHandle label2 = designHandle.findElement( "NewLabel1" ); //$NON-NLS-1$
 		assertFalse( label2.hasLocalProperties( ) );
 
+		// test this extended-item hasLocalValue return TRUE for it has other
+		// local non-layout property set except layout property 'header'
+		DesignElementHandle extendedItem = designHandle
+				.findElement( "test-box-1" ); //$NON-NLS-1$
+		assertTrue( extendedItem.hasLocalProperties( ) );
+
+		// this extended-item hasLocalValue return FALSE for it has no other
+		// local value set except the layout property 'header'
+		extendedItem = designHandle.findElement( "test-box-2" ); //$NON-NLS-1$
+		assertFalse( extendedItem.hasLocalProperties( ) );
 	}
 
 	/**
