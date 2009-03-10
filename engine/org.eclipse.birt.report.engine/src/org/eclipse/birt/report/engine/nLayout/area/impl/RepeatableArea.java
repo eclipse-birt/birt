@@ -25,8 +25,10 @@ public abstract class RepeatableArea extends BlockContainerArea
 {
 
 	protected List repeatList = null;
-	
+
 	protected int repeatHeight = 0;
+
+	protected boolean isFirst = true;
 
 	public RepeatableArea( ContainerArea parent, LayoutContext context,
 			IContent content )
@@ -44,7 +46,7 @@ public abstract class RepeatableArea extends BlockContainerArea
 		{
 			if ( !isInHeaderBand( ) )
 			{
-				if(getRepeatedHeight( )<getMaxAvaHeight())
+				if ( getRepeatedHeight( ) < getMaxAvaHeight( ) )
 				{
 					for ( int i = 0; i < repeatList.size( ); i++ )
 					{
@@ -53,14 +55,21 @@ public abstract class RepeatableArea extends BlockContainerArea
 						children.add( i, cloneRow );
 						cloneRow.setParent( this );
 						update( cloneRow );
+						cloneRow.setAllocatedY( currentBP );
 					}
 				}
+				else
+				{
+					// remove repeat list.
+					repeatList = null;
+				}
 			}
+			isFirst = false;
 
 		}
 		super.updateChildrenPosition( );
 	}
-	
+
 	public int getMaxAvaHeight( )
 	{
 		return super.getMaxAvaHeight( ) - getRepeatedHeight( );
@@ -68,20 +77,22 @@ public abstract class RepeatableArea extends BlockContainerArea
 
 	protected int getRepeatedHeight( )
 	{
-		if ( repeatList != null )
+		if ( repeatList != null && repeatHeight == 0 )
 		{
-			AbstractArea area = (AbstractArea) repeatList.get( repeatList
-					.size( )-1 );
-			return area.getY( ) + area.getAllocatedHeight( );
+			for ( int i = 0; i < repeatList.size( ); i++ )
+			{
+				AbstractArea area = (AbstractArea) repeatList.get( i );
+				repeatHeight += area.getAllocatedHeight( );
+			}
 		}
-		return 0;
+		return repeatHeight;
 	}
-	
-	protected boolean isValidResult(List result)
+
+	protected boolean isValidResult( List result )
 	{
-		if(repeatList!=null )
+		if ( repeatList != null && !isFirst )
 		{
-			return result.size( )>repeatList.size( );
+			return result.size( ) > repeatList.size( );
 		}
 		return super.isValidResult( result );
 	}
