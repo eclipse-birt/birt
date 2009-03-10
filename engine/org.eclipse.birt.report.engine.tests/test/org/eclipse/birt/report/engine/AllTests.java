@@ -68,8 +68,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTaskTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.ParameterPromptTextTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.ReportDocumentTest.class );
-		// suite.addTestSuite(
-		// org.eclipse.birt.report.engine.api.iv.IVTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.api.iv.IVTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.script.RowDataTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.script.element.ElementTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.script.instance.InstanceTest.class );
