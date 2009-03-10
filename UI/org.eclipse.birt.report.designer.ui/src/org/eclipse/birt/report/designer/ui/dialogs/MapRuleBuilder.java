@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.MapRuleHandle;
@@ -1017,7 +1018,11 @@ public class MapRuleBuilder extends BaseDialog
 		{
 			if ( columnIndex == 0 )
 			{
-				return (String) element;
+				if ( element instanceof Expression )
+				{
+					return ( (Expression) element ).getStringExpression( );
+				}
+				return element.toString( );
 			}
 			return ""; //$NON-NLS-1$
 		}
