@@ -22,20 +22,6 @@ public class StyleBuilder
 {
 	public static final String C_PATTERN = "(rgb\\()(\\d+)\\,(\\s?\\d+)\\,(\\s?\\d+)\\)";
 
-	public static int[] UNHERITABLE = new int[]{
-			StyleConstant.BORDER_BOTTOM_COLOR_PROP,
-			StyleConstant.BORDER_BOTTOM_STYLE_PROP,
-			StyleConstant.BORDER_BOTTOM_STYLE_PROP,
-			StyleConstant.BORDER_TOP_COLOR_PROP,
-			StyleConstant.BORDER_TOP_STYLE_PROP,
-			StyleConstant.BORDER_TOP_STYLE_PROP,
-			StyleConstant.BORDER_LEFT_COLOR_PROP,
-			StyleConstant.BORDER_LEFT_STYLE_PROP,
-			StyleConstant.BORDER_LEFT_STYLE_PROP,
-			StyleConstant.BORDER_RIGHT_COLOR_PROP,
-			StyleConstant.BORDER_RIGHT_STYLE_PROP,
-			StyleConstant.BORDER_RIGHT_STYLE_PROP};
-
 	public static final Pattern colorp = Pattern.compile( C_PATTERN,
 			Pattern.CASE_INSENSITIVE );
 
@@ -316,14 +302,9 @@ public class StyleBuilder
 
 	public static boolean isHeritable( int id )
 	{
-		for ( int i = 0; i < UNHERITABLE.length; i++ )
-		{
-			if ( id == UNHERITABLE[i] )
-			{
-				return false;
-			}
-		}
-
+		if ( id >= StyleConstant.BORDER_BOTTOM_COLOR_PROP
+				&& id <= StyleConstant.BORDER_RIGHT_WIDTH_PROP )
+			return false;
 		return true;
 	}
 
