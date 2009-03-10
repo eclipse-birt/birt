@@ -519,10 +519,18 @@ public final class ExpressionUtil
 			Expression<String> testExpression, String operator,
 			Expression<String> value1, Expression<String> value2 )
 	{
+		String tempV1 = null, tempV2 = null;
+		if ( value1 != null )
+		{
+			tempV1 = (String) value1.getDesignValue( );
+		}
+		if ( value2 != null )
+		{
+			tempV2 = (String) value2.getDesignValue( );
+		}
 		ConditionalExpression expression = new ConditionalExpression(
 				(String) testExpression.getDesignValue( ), DataAdapterUtil
-						.adaptModelFilterOperator( operator ), (String) value1
-						.getDesignValue( ), (String) value2.getDesignValue( ) );
+						.adaptModelFilterOperator( operator ), tempV1, tempV2 );
 		return ExpressionUtil.transformConditionalExpression( expression );
 	}
 
