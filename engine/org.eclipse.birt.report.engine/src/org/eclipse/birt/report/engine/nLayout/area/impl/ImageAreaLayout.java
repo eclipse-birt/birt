@@ -246,18 +246,17 @@ class ConcreteImageLayout implements ILayout
 	 * @throws BadElementException
 	 */
 	protected Dimension getIntrinsicDimension( IImageContent content,
-			Image image ) throws BadElementException, MalformedURLException,
-			IOException
+			Image image )
 	{
 		if ( image != null )
 		{
 			// The DPI resolution of the image.
 			// the preference of the DPI setting is:
 			// 1. the resolution restored in content.
-			// 2. the resolution in image file, if the image is set to "auto"
-			// dpi from designer.
-			// 3. use the DPI in render options.
-			// 4. the default DPI (96).
+			// 2. the resolution in image file.
+			// 3. the DPI in report designHandle.
+			// 4. use the DPI in render options.
+			// 5. the default DPI (96).
 			int contentResolution = content.getResolution( );
 			if ( contentResolution != 0 )
 			{
@@ -266,7 +265,6 @@ class ConcreteImageLayout implements ILayout
 			}
 			else
 			{
-				// the image is set to auto dpi from designer.
 				resolutionX = image.getDpiX( );
 				resolutionY = image.getDpiY( );
 				if ( 0 == resolutionX || 0 == resolutionY )
