@@ -8,6 +8,7 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -267,7 +268,7 @@ public class GetParameterDefinitionTask extends EngineTask
 
 	public Object getDefaultValue( String name )
 	{
-		ReportDesignHandle report =  executionContext.getDesign( );
+		ReportDesignHandle report = executionContext.getDesign( );
 		ScalarParameterHandle parameter = (ScalarParameterHandle) report
 				.findParameter( name );
 		if ( parameter == null )
@@ -277,16 +278,68 @@ public class GetParameterDefinitionTask extends EngineTask
 
 		usingParameterValues( );
 
-		// using the current setting to evaluate the parameter values.
-		String expr = parameter.getDefaultValue( );
+		return evaluateDefaultValue( parameter );
+	}
+
+	Collection evaluateSelectionValue( ScalarParameterHandle parameter )
+	{
 		String dataType = parameter.getDataType( );
-		if ( expr == null
-				|| ( expr.length( ) == 0 && !DesignChoiceConstants.PARAM_TYPE_STRING
-						.equals( dataType ) ) )
+		boolean fixedOrder = parameter.isFixedOrder( );
+		boolean sortByLabel = "label".equalsIgnoreCase( parameter.getSortBy( ) );
+		boolean sortDirectionValue = "asc".equalsIgnoreCase( parameter
+				.getSortDirection( ) );
+
+		String selectionMethod = parameter.getSelectionValueListMethod( );
+		if ( selectionMethod != null )
 		{
-			return null;
+			try
+			{
+				Object result = executionContext.evaluate( selectionMethod );
+				if ( result == null )
+					return null;
+
+				ArrayList choices = new ArrayList( );
+				if ( result instanceof Collection )
+				{
+					Iterator iter = ( (Collection) result ).iterator( );
+					while ( iter.hasNext( ) )
+					{
+						Object value = convertToType( iter.next( ), dataType );
+						choices.add( new SelectionChoice( null, value ) );
+					}
+				}
+				else if ( result.getClass( ).isArray( ) )
+				{
+					// the result is an array
+					int count = Array.getLength( result );
+					for ( int index = 0; index < count; index++ )
+					{
+						Object origValue = Array.get( result, index );
+						Object value = convertToType( origValue, dataType );
+						choices.add( new SelectionChoice( null, value ) );
+					}
+				}
+				else
+				{
+					// the result is a simple object
+					Object value = convertToType( result, dataType );
+					choices.add( new SelectionChoice( null, value ) );
+					choices.add( result );
+					return choices;
+				}
+				if ( !fixedOrder )
+					Collections.sort( choices, new SelectionChoiceComparator(
+							sortByLabel, parameter.getPattern( ),
+							sortDirectionValue, ULocale.forLocale( locale ) ) );
+				return choices;
+			}
+			catch ( BirtException e )
+			{
+				log.log( Level.FINE, e.getLocalizedMessage( ), e );
+				executionContext.addException( e );
+			}
 		}
-		return convertToType( expr, dataType );
+		return null;
 	}
 
 	/*
@@ -359,7 +412,11 @@ public class GetParameterDefinitionTask extends EngineTask
 			else
 			{
 				// parameter not in group
-				if ( parameter.getDataSetName( ) != null )
+				if ( parameter.getSelectionValueListMethod( ) != null )
+				{
+					return evaluateSelectionValue( parameter );
+				}
+				else if ( parameter.getDataSetName( ) != null )
 				{
 					// parameter has dataSet
 					return getChoicesFromParameterQuery( parameter );
@@ -370,6 +427,10 @@ public class GetParameterDefinitionTask extends EngineTask
 		else if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC
 				.equals( selectionType ) )
 		{
+			if ( parameter.getSelectionValueListMethod( ) != null )
+			{
+				return evaluateSelectionValue( parameter );
+			}
 			Iterator iter = parameter.choiceIterator( );
 			ArrayList choices = new ArrayList( );
 			while ( iter.hasNext( ) )

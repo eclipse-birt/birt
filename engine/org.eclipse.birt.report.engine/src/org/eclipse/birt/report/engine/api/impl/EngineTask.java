@@ -12,7 +12,9 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -50,6 +52,7 @@ import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.PDFRenderOption;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
+import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTask.SelectionChoice;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
@@ -75,6 +78,8 @@ import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.engine.util.SecurityUtil;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -516,7 +521,7 @@ public abstract class EngineTask implements IEngineTask
 		}
 		return null;
 	}
-
+/*
 	protected Object convertToType( List<String> values, String type, String paramType )
 	{
 		if ( values == null )
@@ -549,7 +554,7 @@ public abstract class EngineTask implements IEngineTask
 		}
 		return null;
 	}
-
+*/
 	public static Object convertParameterType( Object value, String type )
 			throws BirtException
 	{
@@ -970,6 +975,122 @@ public abstract class EngineTask implements IEngineTask
 			inputValues.put( name, new ParameterAttribute( null, displayText ) );
 		}
 	}
+	
+	
+	protected Object evaluateDefaultValue( ScalarParameterHandle parameter )
+	{
+		String valueExpr = parameter.getDefaultValueListMethod( );
+		if ( valueExpr != null )
+		{
+			try
+			{
+				Object result = executionContext.evaluate( valueExpr );
+				if ( result == null )
+					return null;
+				if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
+						.equals( parameter.getParamType( ) ) )
+				{
+					ArrayList results = new ArrayList( );
+					String dataType = parameter.getDataType( );
+					if ( result instanceof Collection )
+					{
+						Iterator itr = ( (Collection) result ).iterator( );
+						while ( itr.hasNext( ) )
+						{
+							results
+									.add( convertToType( itr.next( ), dataType ) );
+						}
+					}
+					else if ( result.getClass( ).isArray( ) )
+					{
+						int count = Array.getLength( result );
+						for ( int index = 0; index < count; index++ )
+						{
+							Object origValue = Array.get( result, index );
+							Object value = convertToType( origValue, dataType );
+							results.add( new SelectionChoice( null, value ) );
+						}
+					}
+					else
+					{
+						results.add( convertToType( result, dataType ) );
+					}
+					return results;
+				}
+				else
+				{
+					return convertToType( result, parameter.getDataType( ) );
+				}
+			}
+			catch ( BirtException e )
+			{
+				executionContext.addException( e );
+				log.log( Level.FINE, e.getLocalizedMessage( ), e );
+			}
+			return null;
+		}
+		List<Expression> values = parameter.getDefaultValueList( );
+		if ( values == null || values.size( ) == 0 )
+		{
+			return null;
+		}
+		if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
+				.equals( parameter.getParamType( ) ) )
+		{
+			ArrayList results = new ArrayList( );
+			for ( Expression expr : values )
+			{
+				Object value = null;
+				if ( expr == null )
+					continue;
+				if ( ExpressionType.JAVASCRIPT.equals( expr.getType( ) ) )
+				{
+					String exprText = (String) expr.getExpression( );
+					try
+					{
+						value = executionContext.evaluate( exprText );
+					}
+					catch ( BirtException e )
+					{
+						executionContext.addException( e );
+						log.log( Level.FINE, e.getLocalizedMessage( ), e );
+						continue;
+					}
+				}
+				else
+				{
+					value = expr.getExpression( );
+				}
+				results.add( convertToType( value, parameter.getDataType( ) ) );
+			}
+			return results.toArray( );
+		}
+		else
+		{
+			Expression expr = values.get( 0 );
+			if ( expr == null )
+				return null;
+			Object value = null;
+			if ( ExpressionType.JAVASCRIPT.equals( expr.getType( ) ) )
+			{
+				String exprText = (String) expr.getExpression( );
+				try
+				{
+					value = executionContext.evaluate( exprText );
+				}
+				catch ( BirtException e )
+				{
+					executionContext.addException( e );
+					log.log( Level.FINE, e.getLocalizedMessage( ), e );
+				}
+			}
+			else
+			{
+				value = expr.getExpression( );
+			}
+			return convertToType( value, parameter.getDataType( ) );
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -1174,8 +1295,7 @@ public abstract class EngineTask implements IEngineTask
 				String name = param.getName( );
 				if ( !inputValues.containsKey( name ) )
 				{
-					Object value = convertToType( param.getDefaultValueList( ),
-							param.getDataType( ), param.getParamType( ) );
+					Object value = evaluateDefaultValue( param );
 					executionContext.setParameterValue( name, value );
 					runValues.put( name, value );
 				}
