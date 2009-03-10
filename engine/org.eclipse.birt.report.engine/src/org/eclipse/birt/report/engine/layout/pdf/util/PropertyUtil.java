@@ -368,6 +368,16 @@ public class PropertyUtil
 		}
 		return DimensionType.parserUnit( value, DimensionType.UNITS_PX );
 	}
+	
+	public static int getIntValue( CSSValue value )
+	{
+		if ( value != null && ( value instanceof FloatValue ) )
+		{
+			FloatValue fv = (FloatValue) value;
+			return (int) fv.getFloatValue( );
+		}
+		return 0;
+	}
 
     public static float getPercentageValue(CSSValue value)
     {

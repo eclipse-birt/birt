@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -110,6 +111,12 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				height = currentBP;
 			}
 		}
+		update();
+		finished = true;
+	}
+	
+	protected void update() throws BirtException
+	{
 		if ( parent != null )
 		{
 			if ( !isInInlineStacking && context.isAutoPageBreak( ) )
@@ -123,7 +130,6 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 			}
 			parent.update( this );
 		}
-		finished = true;
 	}
 
 	public void initialize( ) throws BirtException
@@ -354,7 +360,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				contentHeight -= ah;
 				int childSplitHeight = cheight - contentHeight;
 				SplitResult splitResult = current.split( childSplitHeight,
-						force&&result.isEmpty( ) );
+						force&& !isValidResult(result) );
 				if ( splitResult.status == SplitResult.SPLIT_SUCCEED_WITH_PART )
 				{
 					ContainerArea splitChildArea = splitResult.getResult( );
@@ -376,11 +382,12 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				}
 				else if ( splitResult.status == SplitResult.SPLIT_SUCCEED_WITH_NULL )
 				{
-					if ( previous != null )
+					if ( isValidResult(result))
 					{
-						if ( force&&result.isEmpty( ) )
+						if ( force )
 						{
-							return SplitResult.SUCCEED_WITH_NULL;
+							status = SplitResult.SPLIT_SUCCEED_WITH_PART;
+							break;
 						}
 						else
 						{
@@ -400,6 +407,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 					{
 						if ( force )
 						{
+							//error status
 							status = SplitResult.SPLIT_SUCCEED_WITH_PART;
 							break;
 						}
@@ -518,6 +526,11 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 			parent.autoPageBreak( );
 			// updateChildrenPosition( );
 		}
+	}
+	
+	protected boolean isValidResult(List result)
+	{
+		return result.size( )>0;
 	}
 
 	protected void updateChildrenPosition( ) throws BirtException

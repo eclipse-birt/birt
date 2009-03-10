@@ -53,6 +53,15 @@ public abstract class RepeatableArea extends BlockContainerArea
 		}
 		super.updateChildrenPosition( );
 	}
+	
+	protected boolean isValidResult(List result)
+	{
+		if(repeatList!=null )
+		{
+			return result.size( )>repeatList.size( );
+		}
+		return super.isValidResult( result );
+	}
 
 	protected abstract boolean isInHeaderBand( );
 
