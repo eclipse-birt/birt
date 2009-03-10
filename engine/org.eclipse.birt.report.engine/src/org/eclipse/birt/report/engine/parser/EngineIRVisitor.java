@@ -507,9 +507,9 @@ public class EngineIRVisitor extends DesignVisitor
 			ListBandDesign header = createListBand( headerSlot );
 			header.setBandType( ListBandDesign.BAND_HEADER );
 			listItem.setHeader( header );
-			Expression<Boolean> headerValue = createConstant( handle.repeatHeader( ) );
-			listItem.setRepeatHeader( headerValue );
 		}
+		Expression<Boolean> headerValue = createConstant( handle.repeatHeader( ) );
+		listItem.setRepeatHeader( headerValue );
 
 		// Multiple groups
 		SlotHandle groupsSlot = handle.getGroups( );
