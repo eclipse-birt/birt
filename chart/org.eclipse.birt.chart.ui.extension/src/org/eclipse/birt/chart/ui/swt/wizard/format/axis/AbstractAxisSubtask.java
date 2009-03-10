@@ -38,6 +38,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -296,7 +297,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 				false );
 		{
 			GridData gdFDCFont = new GridData( );
-			gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
+			// gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
 			gdFDCFont.widthHint = 250;
 			fdcFont.setLayoutData( gdFDCFont );
 			fdcFont.addListener( this );
@@ -336,14 +337,25 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		{
 			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "AbstractAxisSubtask.Label.LabelSpan" ) ); //$NON-NLS-1$
 
-			Composite cmpEditor = new Composite( cmpBasic, SWT.NONE );
+			Composite cmpEditorWithUnit = new Composite( cmpBasic, SWT.NONE );
 			{
 				GridData gd = new GridData( );
 				gd.widthHint = 250;
+				cmpEditorWithUnit.setLayoutData( gd );
+				GridLayout layout = new GridLayout( 2, false );
+				layout.marginTop = 0;
+				layout.marginBottom = 0;
+				cmpEditorWithUnit.setLayout( layout );
+			}
+
+			Composite cmpEditor = new Composite( cmpEditorWithUnit, SWT.NONE );
+			{
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				cmpEditor.setLayoutData( gd );
 				GridLayout layout = new GridLayout( 2, false );
-				layout.marginHeight = 0;
-				layout.marginWidth = 0;
+				FieldAssistHelper.getInstance( ).initDecorationMargin( layout );
+				layout.marginTop = 0;
+				layout.marginBottom = 0;
 				cmpEditor.setLayout( layout );
 			}
 
@@ -358,7 +370,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 				lneLabelSpan.setLayoutData( gd );
 				lneLabelSpan.setEnabled( getAxisForProcessing( ).isSetLabelSpan( ) );
 			}
-			new Label( cmpEditor, SWT.NONE ).setText( Messages.getString( "AbstractAxisSubtask.Label.Points" ) ); //$NON-NLS-1$
+			new Label( cmpEditorWithUnit, SWT.NONE ).setText( Messages.getString( "AbstractAxisSubtask.Label.Points" ) ); //$NON-NLS-1$
 
 			btnFixLabelSpan = new Button( cmpBasic, SWT.CHECK );
 			{
