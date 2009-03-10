@@ -18,7 +18,6 @@ import java.util.List;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -170,7 +169,7 @@ public class SubTotalProvider extends TotalProvider implements
 					expectedView = "";
 				}
 				int index = Arrays.asList( viewNames ).indexOf( expectedView );
-				if(index <= 0)
+				if(index < 0)
 				{
 					index = 0;
 					info.setExpectedView( viewNames[index] );
@@ -183,9 +182,9 @@ public class SubTotalProvider extends TotalProvider implements
 					position = "";
 				}
 				int posIndex = Arrays.asList( positionValues ).indexOf( position );
-				if(posIndex <= 0)
+				if(posIndex < 0)
 				{
-					info.setExpectedView( positionValues[0] );
+					info.setPosition( positionValues[0] );
 				}
 				return positionItems[posIndex];
 			default :
