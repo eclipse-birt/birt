@@ -58,7 +58,6 @@ public class StructureDiskArray extends BaseDiskArray
 		}
 		for ( int i = 0; i < objects.length; i++ )
 		{
-			assert objects[i] != null;
 			fieldWriters[i].write( randomAccessFile, objects[i] );
 		}
 	}

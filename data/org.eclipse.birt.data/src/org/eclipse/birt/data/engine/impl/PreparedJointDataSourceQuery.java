@@ -650,7 +650,10 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 					matcher,
 					joinType, dataEngine.getSession( ),
 					dataSetDesign.getRowFetchLimit( ) );
-
+			
+			DataSetCacheManager dscm = dataEngine.getSession( ).getDataSetCacheManager( );
+			dscm.setDataSourceAndDataSet( 
+					null, dataSetDesign, null, dscm.getCurrentAppContext( ) );
 			if ( doesSaveToCache( ) == false )
 				return new CachedResultSet( (BaseQuery) this.odiQuery,
 						resultClass,
