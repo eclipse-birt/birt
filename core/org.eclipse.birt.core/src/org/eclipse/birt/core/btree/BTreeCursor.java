@@ -49,11 +49,7 @@ public class BTreeCursor<K, V>
 	 */
 	public void reset( ) throws IOException
 	{
-		if ( entry != null )
-		{
-			btree.unlockEntry( entry );
-			entry = null;
-		}
+		entry = btree.getFirstEntry( );
 	}
 
 	/**
@@ -83,7 +79,7 @@ public class BTreeCursor<K, V>
 		}
 		return false;
 	}
-
+	
 	private LeafEntry<K, V> getPrevEntry( LeafEntry<K, V> entry )
 			throws IOException
 	{
@@ -112,6 +108,8 @@ public class BTreeCursor<K, V>
 	private LeafEntry<K, V> getNextEntry( LeafEntry<K, V> entry )
 			throws IOException
 	{
+		if ( entry == null )
+			return null;
 		LeafEntry<K, V> nextEntry = entry.getNext( );
 		if ( nextEntry != null )
 		{
@@ -152,6 +150,8 @@ public class BTreeCursor<K, V>
 
 	public boolean next( ) throws IOException
 	{
+		if( entry == null )
+			return false;
 		LeafEntry<K, V> tgtEntry = getNextEntry( entry );
 		if ( tgtEntry != null )
 		{

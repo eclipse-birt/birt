@@ -144,6 +144,25 @@ public class BTree<K, V> implements BTreeConstants
 		}
 	}
 
+	LeafEntry<K, V> getFirstEntry( ) throws IOException
+	{
+		int nodeId = rootNodeId;
+		while ( nodeId != -1 )
+		{
+			BTreeNode<K, V> node = loadBTreeNode( nodeId );
+			if ( node.getNodeType( ) == NODE_LEAF )
+			{
+				return ( (LeafNode<K, V>) node ).getFirstEntry( );
+			}
+			else
+			{
+				nodeId = ( (IndexNode<K, V>) node ).getFirstChild( );
+			}
+			node.unlock( );
+		}
+		return null;
+	}
+	
 	LeafEntry<K, V> findEntry( K k ) throws IOException
 	{
 		if ( rootNodeId != -1 )
