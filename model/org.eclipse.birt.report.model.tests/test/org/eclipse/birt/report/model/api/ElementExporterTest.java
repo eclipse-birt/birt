@@ -1010,6 +1010,32 @@ public class ElementExporterTest extends BaseTestCase
 	}
 
 	/**
+	 * Tests export style element to specified theme.
+	 * 
+	 * @throws Exception
+	 */
+	public void testExportStyleToTheme( ) throws Exception
+	{
+		openDesign( "ExportStyleToThemeTest.xml" ); //$NON-NLS-1$
+		openLibrary( "ExportStyleToThemeTestLibrary.xml" ); //$NON-NLS-1$
+
+		ThemeHandle theme = libraryHandle.findTheme( "theme1" ); //$NON-NLS-1$
+
+		// tests export style to theme which has the same style name.
+		StyleHandle style = designHandle.findStyle( "style1" ); //$NON-NLS-1$
+		assertFalse( ElementExportUtil.canExport( style, theme, false ) );
+		assertTrue( ElementExportUtil.canExport( style, theme, true ) );
+
+		style = designHandle.findStyle( "report" ); //$NON-NLS-1$
+		ElementExportUtil.exportStyle( style, theme, true );
+
+		save( libraryHandle );
+
+		assertTrue( compareFile( "ExportStyleToThemeTest_golden.xml" ) ); //$NON-NLS-1$
+
+	}
+
+	/**
 	 * Tests export expression values.
 	 * 
 	 * @throws Exception

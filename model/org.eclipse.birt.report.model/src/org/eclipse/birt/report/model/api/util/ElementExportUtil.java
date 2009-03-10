@@ -17,8 +17,10 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
@@ -186,6 +188,29 @@ public class ElementExportUtil
 		ElementExporter.checkElementToExport( elementToExport, true );
 		ElementExporter exporter = new ElementExporter( targetLibraryHandle );
 		exporter.exportElement( elementToExport, canOverride );
+	}
+
+	/**
+	 * Exports the given style into selected theme.
+	 * 
+	 * @param styleToExport
+	 *            the style to be exported.
+	 * @param themeHandle
+	 *            the theme handle.
+	 * @param canOverride
+	 *            indicates whether the element with the same name in target
+	 *            library will be overriden.
+	 * @throws SemanticException
+	 */
+	public static void exportStyle( StyleHandle styleToExport,
+			ThemeHandle themeHandle, boolean canOverride )
+			throws SemanticException
+	{
+		ElementExporter.checkElementToExport( styleToExport, true );
+		ElementExporter exporter = new ElementExporter(
+				(LibraryHandle) themeHandle.getRoot( ) );
+
+		exporter.exportStyle( styleToExport, themeHandle, canOverride );
 	}
 
 	/**
@@ -551,6 +576,33 @@ public class ElementExportUtil
 		}
 
 		return false;
+	}
+
+	/**
+	 * Checks whether the given element can be exported into the selected theme.
+	 * 
+	 * @param styleHandle
+	 *            handle of the style.
+	 * @param themeHandle
+	 *            the theme handle.
+	 * @param canOverride
+	 *            indicates whether the element with the same name in target
+	 *            library will be overridden.
+	 * @return <code>true</code> if the style can be exported successfully.
+	 *         Otherwise <code>false</code>.
+	 */
+	public static boolean canExport( StyleHandle styleHandle,
+			ThemeHandle themeHandle, boolean canOverride )
+	{
+		if ( themeHandle == null )
+			return false;
+		if ( !canExport( styleHandle ) )
+			return false;
+
+		if ( canOverride )
+			return true;
+
+		return themeHandle.findStyle( styleHandle.getName( ) ) == null;
 	}
 
 	/**
