@@ -26,9 +26,9 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
-import org.eclipse.birt.report.engine.ir.Expression;
 
 /**
  * 
@@ -84,8 +84,9 @@ public class TableContent extends AbstractContent implements ITableContent
 		}
 		if ( generateBy instanceof TableItemDesign )
 		{
-			return getConstantValue( ( (TableItemDesign) generateBy )
+			Boolean constantValue = getConstantValue( ( (TableItemDesign) generateBy )
 					.isRepeatHeader( ) );
+			return constantValue == null ? false : constantValue;
 		}
 
 		return false;

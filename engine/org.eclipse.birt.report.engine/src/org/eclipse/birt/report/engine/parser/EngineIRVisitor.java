@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -110,7 +111,6 @@ import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -1259,7 +1259,7 @@ public class EngineIRVisitor extends DesignVisitor
 		for ( int i = styles.size( ) - 1; i >= 0; i-- )
 		{
 			StyleHandle styleHandle = styles.get( i );
-			StyleDeclaration style = createPrivateStyle( styleHandle );
+			StyleDeclaration style = createPrivateStyle( design, styleHandle );
 			String name = validateName( styleHandle.getName( ) );
 			if ( !report.getStyles( ).containsKey( name ) )
 				report.addStyle( name, style );
@@ -1270,7 +1270,7 @@ public class EngineIRVisitor extends DesignVisitor
 		StyleHandle privateStyle = handle.getPrivateStyle( );
 		if ( privateStyle != null )
 		{
-			StyleDeclaration style = createPrivateStyle( privateStyle );
+			StyleDeclaration style = createPrivateStyle( design, privateStyle );
 			if ( style != null && !style.isEmpty( ) )
 			{
 				String name = assignStyleName( style );
@@ -1284,7 +1284,7 @@ public class EngineIRVisitor extends DesignVisitor
 		{
 			design.setStyleClass( buffer.toString( ) );
 		}
-		design.setStyle( createPrivateStyle( handle ) );
+		createStyle( handle, design );
 	}
 
 	private String validateName( String styleName )
@@ -1983,7 +1983,8 @@ public class EngineIRVisitor extends DesignVisitor
 	 * @return rule design, null if exist any error.
 	 */
 	protected HighlightRuleDesign createHighlightRule(
-			HighlightRuleHandle ruleHandle, String defaultStr )
+			StyledElementDesign design, HighlightRuleHandle ruleHandle,
+			String defaultStr )
 	{
 		boolean isListStyle = ModuleUtil.isListStyleRuleValue( ruleHandle );
 		HighlightRuleDesign rule = new HighlightRuleDesign( );
@@ -2021,7 +2022,7 @@ public class EngineIRVisitor extends DesignVisitor
 		// copy those properties into a style design.
 		StyleDeclaration style = new StyleDeclaration( cssEngine );
 
-		setupStyle( ruleHandle, style );
+		setupStyle( design, ruleHandle, style );
 
 		// this rule is empty, so we can drop it safely.
 		if ( style.isEmpty( ) )
@@ -2072,8 +2073,8 @@ public class EngineIRVisitor extends DesignVisitor
 			{
 				HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iter
 						.next( );
-				HighlightRuleDesign rule = createHighlightRule( ruleHandle,
-						defaultStr );
+				HighlightRuleDesign rule = createHighlightRule( item,
+						ruleHandle, defaultStr );
 				if ( rule != null )
 				{
 					highlight.addRule( rule );
@@ -2208,58 +2209,7 @@ public class EngineIRVisitor extends DesignVisitor
 		return styleName;
 	}
 
-	protected String getElementProperty( ReportElementHandle handle, String name )
-	{
-		return getElementProperty( handle, name, false );
-	}
-
-	protected String getElementProperty( ReportElementHandle handle,
-			String name, boolean isColorProperty )
-	{
-		if ( handle instanceof StyleHandle )
-		{
-			StyleHandle styleHandle = (StyleHandle) handle;
-			return getElementPropertyByStyleHandle( styleHandle, name,
-					isColorProperty );
-		}
-		else
-		{
-			FactoryPropertyHandle prop = handle.getFactoryPropertyHandle( name );
-			if ( prop != null && prop.isSet( ) )
-			{
-				if ( isColorProperty )
-				{
-					return prop.getColorValue( );
-				}
-
-				return prop.getStringValue( );
-			}
-			return null;
-		}
-	}
-
-	protected String getElementColorProperty( ReportElementHandle handle,
-			String name )
-	{
-		if ( handle instanceof StyleHandle )
-		{
-			StyleHandle styleHandle = (StyleHandle) handle;
-			return getElementColorPropertyByStyleHandle( styleHandle, name );
-		}
-		else
-		{
-			FactoryPropertyHandle prop = handle.getFactoryPropertyHandle( name );
-			if ( prop != null && prop.isSet( ) )
-			{
-				return prop.getColorValue( );
-			}
-			return null;
-		}
-	}
-
-	protected String getElementPropertyByStyleHandle( StyleHandle handle,
-			String name,
-			boolean isColorProperty )
+	protected String getStyleProperty( StyleHandle handle, String name )
 	{
 		PropertyHandle prop = handle.getPropertyHandle( name );
 		if ( prop != null && prop.isSet( ) )
@@ -2269,10 +2219,36 @@ public class EngineIRVisitor extends DesignVisitor
 		return null;
 	}
 
-	protected String getElementColorPropertyByStyleHandle( StyleHandle handle,
+	protected String getElementProperty( ReportElementHandle handle, String name )
+	{
+		return getElementProperty( handle, name, false );
+	}
+
+	protected String getElementProperty( ReportElementHandle handle,
+			String name, boolean isColorProperty )
+	{
+		FactoryPropertyHandle prop = handle.getFactoryPropertyHandle( name );
+		if ( prop != null && prop.isSet( ) )
+		{
+			if ( isColorProperty )
+			{
+				return prop.getColorValue( );
+			}
+
+			return prop.getStringValue( );
+		}
+		return null;
+	}
+
+	protected String getElementColorProperty( ReportElementHandle handle,
 			String name )
 	{
-		return getElementPropertyByStyleHandle( handle, name, false );
+		FactoryPropertyHandle prop = handle.getFactoryPropertyHandle( name );
+		if ( prop != null && prop.isSet( ) )
+		{
+			return prop.getColorValue( );
+		}
+		return null;
 	}
 
 	protected String decodePageBreak( String pageBreak )
@@ -2322,7 +2298,8 @@ public class EngineIRVisitor extends DesignVisitor
 	{
 		StyleDeclaration style = new StyleDeclaration( cssEngine );
 
-		String pageBreakAfter = getElementProperty(handle, StyleHandle.PAGE_BREAK_AFTER_PROP);
+		String pageBreakAfter = getElementProperty( handle,
+				StyleHandle.PAGE_BREAK_AFTER_PROP );
 		style.setPageBreakAfter( decodePageBreak(pageBreakAfter) );
 		String pageBreakBefore = getElementProperty( handle,
 				StyleHandle.PAGE_BREAK_BEFORE_PROP );
@@ -2332,160 +2309,65 @@ public class EngineIRVisitor extends DesignVisitor
 
 	}
 
-	protected StyleDeclaration createPrivateStyle( ReportElementHandle handle )
+	protected StyleDeclaration createPrivateStyle( StyledElementDesign design,
+			StyleHandle handle )
 	{
 		// Background
 		StyleDeclaration style = new StyleDeclaration( cssEngine );
-
-		style.setBackgroundColor( getElementProperty( handle,
-				Style.BACKGROUND_COLOR_PROP, true ) );
-		style.setBackgroundImage( getElementProperty( handle,
-				Style.BACKGROUND_IMAGE_PROP ) );
-		style.setBackgroundPositionX( getElementProperty( handle,
-				Style.BACKGROUND_POSITION_X_PROP ) );
-		style.setBackgroundPositionY( getElementProperty( handle,
-				Style.BACKGROUND_POSITION_Y_PROP ) );
-		style.setBackgroundRepeat( getElementProperty( handle,
-				Style.BACKGROUND_REPEAT_PROP ) );
-
-		// Text related
-		style
-				.setTextAlign( getElementProperty( handle,
-						Style.TEXT_ALIGN_PROP ) );
-		style
-				.setTextIndent( getElementProperty( handle,
-						Style.TEXT_INDENT_PROP ) );
-
-			style.setTextUnderline( getElementProperty( handle,
-					Style.TEXT_UNDERLINE_PROP ) );
-
-			style.setTextLineThrough( getElementProperty( handle,
-					Style.TEXT_LINE_THROUGH_PROP ) );
-			style.setTextOverline( getElementProperty( handle,
-					Style.TEXT_OVERLINE_PROP ) );
-		
-		style.setLetterSpacing( getElementProperty( handle,
-				Style.LETTER_SPACING_PROP ) );
-		style
-				.setLineHeight( getElementProperty( handle,
-						Style.LINE_HEIGHT_PROP ) );
-		style.setOrphans( getElementProperty( handle, Style.ORPHANS_PROP ) );
-		style.setTextTransform( getElementProperty( handle,
-				Style.TEXT_TRANSFORM_PROP ) );
-		style.setVerticalAlign( getElementProperty( handle,
-				Style.VERTICAL_ALIGN_PROP ) );
-		style
-				.setWhiteSpace( getElementProperty( handle,
-						Style.WHITE_SPACE_PROP ) );
-		style.setWidows( getElementProperty( handle, Style.WIDOWS_PROP ) );
-		style.setWordSpacing( getElementProperty( handle,
-				Style.WORD_SPACING_PROP ) );
-
-		// Section properties
-		style.setDisplay( getElementProperty( handle, Style.DISPLAY_PROP ) );
-		style
-				.setMasterPage( getElementProperty( handle,
-						Style.MASTER_PAGE_PROP ) );
-		String pageBreakAfter = getElementProperty(handle, StyleHandle.PAGE_BREAK_AFTER_PROP);
-		style.setPageBreakAfter( decodePageBreak(pageBreakAfter) );
-		String pageBreakBefore = getElementProperty( handle,
-				StyleHandle.PAGE_BREAK_BEFORE_PROP );
-		style.setPageBreakBefore( decodePageBreak(pageBreakBefore) );
-		 
-		style.setPageBreakInside( getElementProperty( handle,
-				Style.PAGE_BREAK_INSIDE_PROP ) );
-
-		// Font related
-		style
-				.setFontFamily( getElementProperty( handle,
-						Style.FONT_FAMILY_PROP ) );
-		style.setColor( getElementProperty( handle, Style.COLOR_PROP, true ) );
-		style.setFontSize( getElementProperty( handle, Style.FONT_SIZE_PROP ) );
-		style
-				.setFontStyle( getElementProperty( handle,
-						Style.FONT_STYLE_PROP ) );
-		style
-				.setFontWeight( getElementProperty( handle,
-						Style.FONT_WEIGHT_PROP ) );
-		style.setFontVariant( getElementProperty( handle,
-				Style.FONT_VARIANT_PROP ) );
-
-		// Border
-		style.setBorderBottomColor( getElementProperty( handle,
-				Style.BORDER_BOTTOM_COLOR_PROP, true ) );
-		style.setBorderBottomStyle( getElementProperty( handle,
-				Style.BORDER_BOTTOM_STYLE_PROP ) );
-		style.setBorderBottomWidth( getElementProperty( handle,
-				Style.BORDER_BOTTOM_WIDTH_PROP ) );
-		style.setBorderLeftColor( getElementProperty( handle,
-				Style.BORDER_LEFT_COLOR_PROP, true ) );
-		style.setBorderLeftStyle( getElementProperty( handle,
-				Style.BORDER_LEFT_STYLE_PROP ) );
-		style.setBorderLeftWidth( getElementProperty( handle,
-				Style.BORDER_LEFT_WIDTH_PROP ) );
-		style.setBorderRightColor( getElementProperty( handle,
-				Style.BORDER_RIGHT_COLOR_PROP, true ) );
-		style.setBorderRightStyle( getElementProperty( handle,
-				Style.BORDER_RIGHT_STYLE_PROP ) );
-		style.setBorderRightWidth( getElementProperty( handle,
-				Style.BORDER_RIGHT_WIDTH_PROP ) );
-		style.setBorderTopColor( getElementProperty( handle,
-				Style.BORDER_TOP_COLOR_PROP, true ) );
-		style.setBorderTopStyle( getElementProperty( handle,
-				Style.BORDER_TOP_STYLE_PROP ) );
-		style.setBorderTopWidth( getElementProperty( handle,
-				Style.BORDER_TOP_WIDTH_PROP ) );
-
-		// Margin
-		style
-				.setMarginTop( getElementProperty( handle,
-						Style.MARGIN_TOP_PROP ) );
-		style
-				.setMarginLeft( getElementProperty( handle,
-						Style.MARGIN_LEFT_PROP ) );
-		style.setMarginBottom( getElementProperty( handle,
-				Style.MARGIN_BOTTOM_PROP ) );
-		style.setMarginRight( getElementProperty( handle,
-				Style.MARGIN_RIGHT_PROP ) );
-
-		// Padding
-		style
-				.setPaddingTop( getElementProperty( handle,
-						Style.PADDING_TOP_PROP ) );
-		style.setPaddingLeft( getElementProperty( handle,
-				Style.PADDING_LEFT_PROP ) );
-		style.setPaddingBottom( getElementProperty( handle,
-				Style.PADDING_BOTTOM_PROP ) );
-		style.setPaddingRight( getElementProperty( handle,
-				Style.PADDING_RIGHT_PROP ) );
-
-		// Data Formatting
-		style.setNumberAlign( getElementProperty( handle,
-				Style.NUMBER_ALIGN_PROP ) );
-		style.setDateFormat( getElementProperty( handle,
-						Style.DATE_FORMAT_PROP ) );
-		style.setDateTimeFormat( getElementProperty( handle,
-				Style.DATE_TIME_FORMAT_PROP ) );
-		style.setTimeFormat( getElementProperty( handle,
-						Style.TIME_FORMAT_PROP ) );
-		style.setNumberFormat( getElementProperty( handle,
-				Style.NUMBER_FORMAT_PROP ) );
-		style.setStringFormat( getElementProperty( handle,
-				Style.STRING_FORMAT_PROP ) );
-
-		// bidi_hcg: Bidi related
-		style.setDirection( getElementProperty( handle,
-				Style.TEXT_DIRECTION_PROP ) );
-
-		// Others
-		style
-				.setCanShrink( getElementProperty( handle,
-						Style.CAN_SHRINK_PROP ) );
-		style.setShowIfBlank( getElementProperty( handle,
-				Style.SHOW_IF_BLANK_PROP ) );
-
+		Set<String> propertyNames = StyleUtil.styleName2Index.keySet( );
+		for ( String propertyName : propertyNames )
+		{
+			createPrivateStyle( handle, design, style, propertyName );
+		}
 		return style;
 
+	}
+
+	private void createPrivateStyle( StyleHandle handle,
+			StyledElementDesign design, StyleDeclaration style,
+			String propertyName )
+	{
+		String styleProperty = getStyleProperty( handle, propertyName );
+		populateStyle( design, style, propertyName, styleProperty );
+	}
+
+	protected void createStyle( ReportElementHandle handle,
+			StyledElementDesign design )
+	{
+		// Background
+		StyleDeclaration style = new StyleDeclaration( cssEngine );
+		Set<String> styles = StyleUtil.styleName2Index.keySet( );
+		for ( String propertyName : styles )
+		{
+			populateElementProperty( handle, design, style, propertyName );
+		}
+		design.setStyle( style );
+	}
+
+	private void populateElementProperty( ReportElementHandle handle,
+			StyledElementDesign design, StyleDeclaration style,
+			String propertyName )
+	{
+		boolean isColorProperty = StyleUtil.colorProperties
+				.contains( propertyName );
+		String elementProperty = getElementProperty( handle, propertyName,
+				isColorProperty );
+		populateStyle( design, style, propertyName, elementProperty );
+	}
+
+	private void populateStyle( StyledElementDesign design, IStyle style,
+			String propertyName, String elementProperty )
+	{
+		int propertyIndex = StyleUtil.styleName2Index.get( propertyName );
+		// if ( elementProperty.isExpression( ) )
+		// {
+		// design.setExpressionStyle( propertyIndex, createExpression(
+		// elementProperty );
+		// }
+		// else
+		// {
+		style.setCssText( propertyIndex, elementProperty );
+		// }
 	}
 
 	String getMemberProperty( StructureHandle handle, String name )
@@ -2498,135 +2380,21 @@ public class EngineIRVisitor extends DesignVisitor
 		return null;
 	}
 
-	IStyle setupStyle( StructureHandle highlight, IStyle style )
+	void setupStyle( StyledElementDesign design, StructureHandle highlight,
+			IStyle style )
 	{
-		// Background
-		style.setBackgroundColor( getMemberProperty( highlight,
-				HighlightRule.BACKGROUND_COLOR_MEMBER ) );
-		// style.setBackgroundPositionX(getMemberProperty(highlight,
-		// HighlightRule.BACKGROUND_POSITION_X_MEMBER));
-		// style.setBackgroundPositionY(getMemberProperty(highlight,
-		// HighlightRule.BACKGROUND_POSITION_Y_MEMBER));
-		// style.setBackgroundRepeat(getMemberProperty(highlight,
-		// HighlightRule.BACKGROUND_REPEAT_MEMBER));
+		Set<String> propertyNames = StyleUtil.ruleStyleName2Index.keySet( );
+		for ( String propertyName : propertyNames )
+		{
+			populateHighlightStyle( design, highlight, style, propertyName );
+		}
+	}
 
-		// Text related
-		style.setTextAlign( getMemberProperty( highlight,
-				HighlightRule.TEXT_ALIGN_MEMBER ) );
-		style.setTextIndent( getMemberProperty( highlight,
-				HighlightRule.TEXT_INDENT_MEMBER ) );
-		style.setTextUnderline( getMemberProperty( highlight,
-				Style.TEXT_UNDERLINE_PROP ) );
-		style.setTextLineThrough( getMemberProperty( highlight,
-				Style.TEXT_LINE_THROUGH_PROP ) );
-		style.setTextOverline( getMemberProperty( highlight,
-				Style.TEXT_OVERLINE_PROP ) );
-		// style.setLetterSpacing(getMemberProperty(highlight,
-		// HighlightRule.LETTER_SPACING_MEMBER));
-		// style.setLineHeight(getMemberProperty(highlight,
-		// HighlightRule.LINE_HEIGHT_MEMBER));
-		// style.setOrphans(getMemberProperty(highlight,
-		// HighlightRule.ORPHANS_MEMBER));
-		style.setTextTransform( getMemberProperty( highlight,
-				HighlightRule.TEXT_TRANSFORM_MEMBER ) );
-		// style.setVerticalAlign(getMemberProperty(highlight,
-		// HighlightRule.VERTICAL_ALIGN_MEMBER));
-		// style.setWhiteSpace(getMemberProperty(highlight,
-		// HighlightRule.WHITE_SPACE_MEMBER));
-		// style.setWidows(getMemberProperty(highlight,
-		// HighlightRule.WIDOWS_MEMBER));
-		// style.setWordSpacing(getMemberProperty(highlight,
-		// HighlightRule.WORD_SPACING_MEMBER));
-
-		// Section properties
-		// style.setDisplay(getMemberProperty(highlight,
-		// HighlightRule.DISPLAY_MEMBER));
-		// style.setMasterPage(getMemberProperty(highlight,
-		// HighlightRule.MASTER_PAGE_MEMBER));
-		// style.setPageBreakAfter(getMemberProperty(highlight,
-		// HighlightRule.PAGE_BREAK_AFTER_MEMBER));
-		// style.setPageBreakBefore(getMemberProperty(highlight,
-		// HighlightRule.PAGE_BREAK_BEFORE_MEMBER));
-		// style.setPageBreakInside(getMemberProperty(highlight,
-		// HighlightRule.PAGE_BREAK_INSIDE_MEMBER));
-
-		// Font related
-		style.setFontFamily( getMemberProperty( highlight,
-				HighlightRule.FONT_FAMILY_MEMBER ) );
-		style.setColor( getMemberProperty( highlight,
-				HighlightRule.COLOR_MEMBER ) );
-		style.setFontSize( getMemberProperty( highlight,
-				HighlightRule.FONT_SIZE_MEMBER ) );
-		style.setFontStyle( getMemberProperty( highlight,
-				HighlightRule.FONT_STYLE_MEMBER ) );
-		style.setFontWeight( getMemberProperty( highlight,
-				HighlightRule.FONT_WEIGHT_MEMBER ) );
-		style.setFontVariant( getMemberProperty( highlight,
-				HighlightRule.FONT_VARIANT_MEMBER ) );
-
-		// Border
-		style.setBorderBottomColor( getMemberProperty( highlight,
-				HighlightRule.BORDER_BOTTOM_COLOR_MEMBER ) );
-		style.setBorderBottomStyle( getMemberProperty( highlight,
-				HighlightRule.BORDER_BOTTOM_STYLE_MEMBER ) );
-		style.setBorderBottomWidth( getMemberProperty( highlight,
-				HighlightRule.BORDER_BOTTOM_WIDTH_MEMBER ) );
-		style.setBorderLeftColor( getMemberProperty( highlight,
-				HighlightRule.BORDER_LEFT_COLOR_MEMBER ) );
-		style.setBorderLeftStyle( getMemberProperty( highlight,
-				HighlightRule.BORDER_LEFT_STYLE_MEMBER ) );
-		style.setBorderLeftWidth( getMemberProperty( highlight,
-				HighlightRule.BORDER_LEFT_WIDTH_MEMBER ) );
-		style.setBorderRightColor( getMemberProperty( highlight,
-				HighlightRule.BORDER_RIGHT_COLOR_MEMBER ) );
-		style.setBorderRightStyle( getMemberProperty( highlight,
-				HighlightRule.BORDER_RIGHT_STYLE_MEMBER ) );
-		style.setBorderRightWidth( getMemberProperty( highlight,
-				HighlightRule.BORDER_RIGHT_WIDTH_MEMBER ) );
-		style.setBorderTopColor( getMemberProperty( highlight,
-				HighlightRule.BORDER_TOP_COLOR_MEMBER ) );
-		style.setBorderTopStyle( getMemberProperty( highlight,
-				HighlightRule.BORDER_TOP_STYLE_MEMBER ) );
-		style.setBorderTopWidth( getMemberProperty( highlight,
-				HighlightRule.BORDER_TOP_WIDTH_MEMBER ) );
-
-		// Margin
-		// style.setMarginTop(getMemberProperty(highlight,
-		// HighlightRule.MARGIN_TOP_MEMBER));
-		// style.setMarginLeft(getMemberProperty(highlight,
-		// HighlightRule.MARGIN_LEFT_MEMBER));
-		// style.setMarginBottom(getMemberProperty(highlight,
-		// HighlightRule.MARGIN_BOTTOM_MEMBER));
-		// style.setMarginRight(getMemberProperty(highlight,
-		// HighlightRule.MARGIN_RIGHT_MEMBER));
-
-		// Padding
-		// style.setPaddingTop(getMemberProperty(highlight,
-		// HighlightRule.PADDING_TOP_MEMBER));
-		// style.setPaddingLeft(getMemberProperty(highlight,
-		// HighlightRule.PADDING_LEFT_MEMBER));
-		// style.setPaddingBottom(getMemberProperty(highlight,
-		// HighlightRule.PADDING_BOTTOM_MEMBER));
-		// style.setPaddingRight(getMemberProperty(highlight,
-		// HighlightRule.PADDING_RIGHT_MEMBER));
-
-		// Data Formatting
-		style.setNumberAlign( getMemberProperty( highlight,
-				HighlightRule.NUMBER_ALIGN_MEMBER ) );
-		style.setDateFormat( getMemberProperty( highlight,
-				HighlightRule.DATE_TIME_FORMAT_MEMBER ) );
-		style.setNumberFormat( getMemberProperty( highlight,
-				HighlightRule.NUMBER_FORMAT_MEMBER ) );
-		style.setStringFormat( getMemberProperty( highlight,
-				HighlightRule.STRING_FORMAT_MEMBER ) );
-
-		// Others
-		// style.setCanShrink(getMemberProperty(highlight,
-		// HighlightRule.CAN_SHRINK_MEMBER));
-		// style.setShowIfBlank(getMemberProperty(highlight,
-		// HighlightRule.SHOW_IF_BLANK_MEMBER));
-
-		return style;
+	private void populateHighlightStyle( StyledElementDesign design,
+			StructureHandle highlight, IStyle style, String propertyName )
+	{
+		String property = getMemberProperty( highlight, propertyName );
+		populateStyle( design, style, propertyName, property );
 	}
 
 	

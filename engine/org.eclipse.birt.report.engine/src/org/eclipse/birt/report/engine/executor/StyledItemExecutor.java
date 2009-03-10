@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
@@ -19,6 +23,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.HighlightDesign;
 import org.eclipse.birt.report.engine.ir.HighlightRuleDesign;
 import org.eclipse.birt.report.engine.ir.MapDesign;
@@ -63,13 +68,42 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	protected void processStyle( ReportItemDesign design, IContent content )
 	{
 		HighlightDesign highlight = design.getHighlight( );
+		StyleDeclaration inlineStyle = null;
 		if ( highlight != null )
 		{
-			StyleDeclaration inlineStyle = createHighlightStyle( design
+			inlineStyle = createHighlightStyle( design
 					.getHighlight( ) );
-			if ( inlineStyle != null )
+		}
+		Map<Integer, Expression<String>> expressionStyles = design
+				.getExpressionStyles( );
+		if ( expressionStyles != null )
+		{
+			if ( inlineStyle == null )
 			{
-				content.setInlineStyle( inlineStyle );
+				inlineStyle = (StyleDeclaration) report
+						.createStyle( );
+			}
+			populateExpressionStyles( inlineStyle, expressionStyles );
+		}
+		if ( inlineStyle != null )
+		{
+			content.setInlineStyle( inlineStyle );
+		}
+	}
+
+	private void populateExpressionStyles( StyleDeclaration style,
+			Map<Integer, Expression<String>> expressionStyles )
+	{
+		Set<Entry<Integer, Expression<String>>> entrySet = expressionStyles
+				.entrySet( );
+		for ( Entry<Integer, Expression<String>> entry : entrySet )
+		{
+			Expression<String> expression = entry.getValue( );
+			int propertyIndex = entry.getKey( );
+			if ( expression != null )
+			{
+				String value = evaluate( expression );
+				style.setCssText( propertyIndex, value );
 			}
 		}
 	}

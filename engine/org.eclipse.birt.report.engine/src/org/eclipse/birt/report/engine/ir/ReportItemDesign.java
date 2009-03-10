@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -85,6 +88,15 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * if the item use cached result or not.
 	 */
 	protected boolean useCachedResult = false;
+
+	/**
+	 * Expression styles.
+	 */
+	protected Map<Integer, Expression<String>> expressionStyles;
+
+	public ReportItemDesign( )
+	{
+	}
 	
 	/**
 	 * @return Returns the height.
@@ -314,5 +326,19 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	public boolean useCachedResult( )
 	{
 		return useCachedResult;
+	}
+
+	public void setExpressionStyle( int propertyIndex, Expression<String> value )
+	{
+		if ( expressionStyles == null )
+		{
+			expressionStyles = new HashMap<Integer, Expression<String>>( );
+		}
+		expressionStyles.put( propertyIndex, value );
+	}
+
+	public Map<Integer, Expression<String>> getExpressionStyles( )
+	{
+		return expressionStyles;
 	}
 }
