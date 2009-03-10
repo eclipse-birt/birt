@@ -19,11 +19,14 @@ import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
 
 public abstract class RepeatableArea extends BlockContainerArea
 {
 
 	protected List repeatList = null;
+	
+	protected int repeatHeight = 0;
 
 	public RepeatableArea( ContainerArea parent, LayoutContext context,
 			IContent content )
@@ -41,17 +44,37 @@ public abstract class RepeatableArea extends BlockContainerArea
 		{
 			if ( !isInHeaderBand( ) )
 			{
-				for ( int i = 0; i < repeatList.size( ); i++ )
+				if(getRepeatedHeight( )<getMaxAvaHeight())
 				{
-					ContainerArea row = (ContainerArea) repeatList.get( i );
-					ContainerArea cloneRow = row.deepClone( );
-					children.add( i, cloneRow );
-					update( cloneRow );
+					for ( int i = 0; i < repeatList.size( ); i++ )
+					{
+						ContainerArea row = (ContainerArea) repeatList.get( i );
+						ContainerArea cloneRow = row.deepClone( );
+						children.add( i, cloneRow );
+						cloneRow.setParent( this );
+						update( cloneRow );
+					}
 				}
 			}
 
 		}
 		super.updateChildrenPosition( );
+	}
+	
+	public int getMaxAvaHeight( )
+	{
+		return super.getMaxAvaHeight( ) - getRepeatedHeight( );
+	}
+
+	protected int getRepeatedHeight( )
+	{
+		if ( repeatList != null )
+		{
+			AbstractArea area = (AbstractArea) repeatList.get( repeatList
+					.size( )-1 );
+			return area.getY( ) + area.getAllocatedHeight( );
+		}
+		return 0;
 	}
 	
 	protected boolean isValidResult(List result)

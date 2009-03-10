@@ -38,8 +38,6 @@ public abstract class ContainerArea extends AbstractArea
 
 	protected BoxStyle boxStyle = BoxStyle.DEFAULT;
 
-	protected transient int maxAvaHeight = 0;
-
 	protected transient int maxAvaWidth = 0;
 
 	protected transient int currentBP = 0;
@@ -124,7 +122,14 @@ public abstract class ContainerArea extends AbstractArea
 
 	public int getMaxAvaHeight( )
 	{
-		return maxAvaHeight;
+		if ( parent != null )
+		{
+			return getContentHeight( parent.getMaxAvaHeight( ) );
+		}
+		else
+		{
+			return context.getMaxBP( );
+		}
 	}
 
 	public int getCurrentBP( )

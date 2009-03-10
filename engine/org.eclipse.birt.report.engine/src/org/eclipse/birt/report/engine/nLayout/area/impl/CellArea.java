@@ -218,11 +218,6 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		{
 			setNeedClip( true );
 		}
-		// FIXME
-		else if ( currentBP > maxAvaHeight )
-		{
-			setNeedClip( true );
-		}
 	}
 
 

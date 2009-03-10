@@ -463,12 +463,37 @@ class ConcreteImageLayout implements ILayout
 
 		// First, the width of root is set to its parent's max available width.
 		root.setAllocatedWidth( parent.getCurrentMaxContentWidth( ) );
-
+		root.setMaxAvaWidth( root.getContentWidth( ) );
 		Dimension contentDimension = getSpecifiedDimension( image, root
 				.getContentWidth( ), true );
 		ImageArea imageArea = createImageArea( image );
-		imageArea.setWidth( contentDimension.getWidth( ) );
-		imageArea.setHeight( contentDimension.getHeight( ) );
+		// implement fitToContainer
+		int actualHeight = contentDimension.getHeight( );
+		int actualWidth = contentDimension.getWidth( );
+		if ( fitToContainer )
+		{
+			int maxHeight = root.getMaxAvaHeight( );
+			int maxWidth = root.getMaxAvaWidth( );
+			int cHeight = contentDimension.getHeight( );
+			int cWidth = contentDimension.getWidth( );
+			if ( cHeight > maxHeight || cWidth > maxWidth )
+			{
+				float rh = ( (float) maxHeight ) / cHeight;
+				float rw = ( (float) maxWidth ) / cWidth;
+				if ( rh > rw )
+				{
+					actualHeight = (int) ( rw * maxHeight );
+					actualWidth = maxWidth;
+				}
+				else
+				{
+					actualHeight = maxHeight;
+					actualWidth = (int) ( rh * maxWidth );
+				}
+			}
+		}
+		imageArea.setWidth( actualWidth );
+		imageArea.setHeight( actualHeight );
 
 		root.addChild( imageArea );
 		imageArea.setPosition( root.getContentX( ), root.getContentY( ) );
@@ -477,6 +502,7 @@ class ConcreteImageLayout implements ILayout
 		root.setContentWidth( imageArea.getWidth( ) );
 		root.setContentHeight( imageArea.getHeight( ) );
 		processChartLegend( image, imageArea );
+		root.finished = true;
 	}
 
 	protected ImageArea createImageArea( IImageContent content )

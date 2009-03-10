@@ -39,6 +39,12 @@ public class RootArea extends BlockContainerArea
 		super( area );
 	}
 	
+	public int getMaxAvaHeight( )
+	{
+		return context.getMaxBP( );
+	}
+
+	
 	public void autoPageBreak( ) throws BirtException
 	{
 		int height = context.getMaxBP( );

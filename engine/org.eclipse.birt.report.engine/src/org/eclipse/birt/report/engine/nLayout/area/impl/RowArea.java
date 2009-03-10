@@ -31,8 +31,7 @@ public class RowArea extends ContainerArea
 			IContent content )
 	{
 		super( parent, context, content );
-		table = getTable( );
-		cells = new CellArea[table.getColumnCount( )];
+		cells = new CellArea[getTable().getColumnCount( )];
 	}
 
 	RowArea( int colCount )
@@ -50,6 +49,7 @@ public class RowArea extends ContainerArea
 	
 	public int getColumnCount( )
 	{
+		TableArea table = getTableArea();
 		if ( table != null )
 		{
 			return table.getColumnCount( );
@@ -117,10 +117,19 @@ public class RowArea extends ContainerArea
 		return result;
 	}
 
+	protected TableArea getTableArea()
+	{
+		if(table==null)
+		{
+			table = getTable();
+		}
+		return table;
+	}
+	
 
 	public void close( ) throws BirtException
 	{
-		table.addRow( this );
+		getTableArea().addRow( this );
 		if ( !isInInlineStacking && context.isAutoPageBreak( ) )
 		{
 			int aHeight = getAllocatedHeight( );
@@ -167,7 +176,7 @@ public class RowArea extends ContainerArea
 		{
 			columnID += colSpan - 1;
 		}
-		cArea.setPosition( table.getXPos( columnID ), 0 );
+		cArea.setPosition( getTableArea().getXPos( columnID ), 0 );
 	}
 	
 	public  void add(AbstractArea area)
@@ -181,7 +190,7 @@ public class RowArea extends ContainerArea
 		{
 			columnID += colSpan - 1;
 		}
-		cArea.setPosition( table.getXPos( columnID ), 0 );
+		cArea.setPosition( getTableArea().getXPos( columnID ), 0 );
 	}
 	
 	public void addChild( IArea area )
@@ -327,7 +336,7 @@ public class RowArea extends ContainerArea
 	
 	public boolean isPageBreakInsideAvoid()
 	{
-		if( table.isGridDesign( ))
+		if( getTableArea().isGridDesign( ))
 		{
 			return super.isPageBreakInsideAvoid( );
 		}
