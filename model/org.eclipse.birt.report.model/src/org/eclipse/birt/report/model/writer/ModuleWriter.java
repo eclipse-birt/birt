@@ -1740,6 +1740,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, ITextDataItemModel.VALUE_EXPR_PROP );
 		property( obj, ITextDataItemModel.CONTENT_TYPE_PROP );
+		property( obj, ITextDataItemModel.HAS_EXPRESSION_PROP );
 
 		writer.endElement( );
 	}
@@ -1883,6 +1884,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ITextItemModel.CONTENT_TYPE_PROP );
 		resourceKeyCDATA( obj, ITextItemModel.CONTENT_RESOURCE_KEY_PROP,
 				ITextItemModel.CONTENT_PROP );
+		property( obj, ITextItemModel.HAS_EXPRESSION_PROP );
 
 		writer.endElement( );
 	}

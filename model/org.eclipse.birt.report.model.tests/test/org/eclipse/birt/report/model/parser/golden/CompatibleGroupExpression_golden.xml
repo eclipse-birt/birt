@@ -155,6 +155,7 @@
                         <cell id="260">
                             <text id="265">
                                 <text-property name="content"><![CDATA[<value-of>row["CUSTOMERNUMBER"]</value-of>]]></text-property>
+                                <property name="hasExpression">true</property>
                             </text>
                         </cell>
                     </row>

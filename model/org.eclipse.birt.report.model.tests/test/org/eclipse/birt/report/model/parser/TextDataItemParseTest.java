@@ -55,7 +55,6 @@ public class TextDataItemParseTest extends BaseTestCase
 {
 
 	String fileName = "TextDataItemParseTest.xml"; //$NON-NLS-1$	
-	String outFileName = "TextDataItemParseTest_out.xml"; //$NON-NLS-1$
 	String goldenFileName = "TextDataItemParseTest_golden.xml"; //$NON-NLS-1$
 	String checkFileName = "TextDataItemParseTest_1.xml"; //$NON-NLS-1$
 
@@ -82,6 +81,7 @@ public class TextDataItemParseTest extends BaseTestCase
 		assertEquals( "value expr", dataHandle.getValueExpr( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_AUTO,
 				dataHandle.getContentType( ) );
+		assertTrue( dataHandle.hasExpression( ) );
 	}
 
 	/**
@@ -101,6 +101,7 @@ public class TextDataItemParseTest extends BaseTestCase
 		dataHandle.setValueExpr( "new value expr" ); //$NON-NLS-1$
 		dataHandle
 				.setContentType( DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF );
+		dataHandle.setHasExpression( false );
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );

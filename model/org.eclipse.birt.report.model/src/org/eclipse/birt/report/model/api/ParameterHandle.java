@@ -127,7 +127,7 @@ public abstract class ParameterHandle extends ReportElementHandle
 
 	public void setHidden( boolean hidden ) throws SemanticException
 	{
-		setProperty( IParameterModel.HIDDEN_PROP, Boolean.valueOf( hidden ) );
+		setBooleanProperty( IParameterModel.HIDDEN_PROP, hidden );
 	}
 
 	/**
@@ -149,7 +149,7 @@ public abstract class ParameterHandle extends ReportElementHandle
 	 * @throws SemanticException
 	 *             if the property is locked
 	 */
-	
+
 	public void setValidate( String validation ) throws SemanticException
 	{
 		setProperty( IParameterModel.VALIDATE_PROP, validation );

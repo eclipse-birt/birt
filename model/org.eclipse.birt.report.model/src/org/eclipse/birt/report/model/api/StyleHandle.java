@@ -395,7 +395,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setCanShrink( boolean value ) throws SemanticException
 	{
-		setProperty( IStyleModel.CAN_SHRINK_PROP, Boolean.valueOf( value ) );
+		setBooleanProperty( IStyleModel.CAN_SHRINK_PROP, value );
 	}
 
 	/**
@@ -1103,7 +1103,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	public void setShowIfBlank( boolean value ) throws SemanticException
 	{
-		setProperty( IStyleModel.SHOW_IF_BLANK_PROP, Boolean.valueOf( value ) );
+		setBooleanProperty( IStyleModel.SHOW_IF_BLANK_PROP, value );
 	}
 
 	/**

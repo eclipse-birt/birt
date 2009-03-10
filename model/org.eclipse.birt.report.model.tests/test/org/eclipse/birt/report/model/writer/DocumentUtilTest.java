@@ -104,7 +104,7 @@ public class DocumentUtilTest extends BaseTestCase
 		openDesign( DESIGN_WITH_ELEMENT_EXTENDS );
 		assertNotNull( designHandle );
 
-		serializeNonLineBreakDocument( );
+		serializeDocument( );
 		assertTrue( compareFile( "DocumentUtilTest_golden.xml" ) ); //$NON-NLS-1$ 
 	}
 

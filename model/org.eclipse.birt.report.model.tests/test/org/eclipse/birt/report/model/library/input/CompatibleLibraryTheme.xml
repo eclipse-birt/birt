@@ -8,8 +8,6 @@
 	</styles>
 	<property name="theme">theme1</property>
 	<components>
-		<text name="text1">
-		</text>
 		<label name="label1">
 			<property name="style">myStyle1</property>
 		</label>

@@ -1097,7 +1097,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public void setEnableACL( boolean enableACL ) throws SemanticException
 	{
-		setProperty( ENABLE_ACL_PROP, Boolean.valueOf( enableACL ) );
+		setBooleanProperty( ENABLE_ACL_PROP, enableACL );
 	}
 
 	/**
@@ -1157,7 +1157,7 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public void setCascadeACL( boolean cascadeACL ) throws SemanticException
 	{
-		setProperty( CASCADE_ACL_PROP, Boolean.valueOf( cascadeACL ) );
+		setBooleanProperty( CASCADE_ACL_PROP, cascadeACL );
 	}
 
 	/**

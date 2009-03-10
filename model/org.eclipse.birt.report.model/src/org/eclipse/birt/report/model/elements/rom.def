@@ -2589,6 +2589,9 @@
     <Property detailType="textContentType" displayNameID="Element.Text.contentType" name="contentType" runtimeSettable="false" since="1.0" type="choice">
       <Default>auto</Default>
     </Property>
+    <Property displayNameID="Element.Text.hasExpression" name="hasExpression" since="2.5" type="boolean">
+      <Default>false</Default>
+    </Property>
     <Method context="startup" displayNameID="Element.Text.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Text.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Text.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.ITextItem"/>
       <Argument name="reportContext" tagID="Element.Text.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
@@ -3229,6 +3232,9 @@
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.TextData" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TextDataItem" name="TextData" since="1.0" selector="text-data" xmlName="text-data">
     <Property displayNameID="Element.TextData.valueExpr" name="valueExpr" returnType="string" since="1.0" type="expression" valueRequired="true"/>
     <Property detailType="textDataContentType" displayNameID="Element.TextData.contentType" name="contentType" since="1.0" type="choice"/>
+    <Property displayNameID="Element.TextData.hasExpression" name="hasExpression" since="2.5" type="boolean">
+    	<Default>false</Default>
+    </Property>
 	<Method context="startup" displayNameID="Element.TextData.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.TextData.onPrepare.toolTip">
       <Argument name="this" tagID="Element.TextData.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IDynamicText"/>
       <Argument name="reportContext" tagID="Element.TextData.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>

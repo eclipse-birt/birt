@@ -76,6 +76,7 @@ public class TextItemParseTest extends BaseTestCase
 
 		text.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
 		text.setContent( "new content hello <> <html></html>" ); //$NON-NLS-1$
+		text.setHasExpression( false );
 
 		text = (TextItemHandle) designHandle.findElement( "text2" ); //$NON-NLS-1$
 		text.setContent( "    text & < > ' \" static    ]]>" ); //$NON-NLS-1$
@@ -106,6 +107,7 @@ public class TextItemParseTest extends BaseTestCase
 
 		String contentType = text.getContentType( );
 		assertEquals( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML, contentType );
+		assertTrue( text.hasExpression( ) );
 
 		assertEquals( "text & < > ' \" static", //$NON-NLS-1$
 				text.getContent( ) );

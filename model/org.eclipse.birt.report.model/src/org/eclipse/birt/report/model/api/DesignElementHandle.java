@@ -586,6 +586,22 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
+	 * Sets the boolean value to the property.
+	 * 
+	 * @param propName
+	 *            the name of the property to set
+	 * @param value
+	 *            the boolean value to set
+	 * @throws SemanticException
+	 *             if the property is not defined or value is invalid
+	 */
+	public void setBooleanProperty( String propName, boolean value )
+			throws SemanticException
+	{
+		setProperty( propName, Boolean.valueOf( value ) );
+	}
+
+	/**
 	 * Clears the value of a property. Clearing a property removes any value set
 	 * for the property on this element. After this, the element will now
 	 * inherit the property from its parent element, style, or from the default
@@ -2043,8 +2059,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public void setNewHandlerOnEachEvent( boolean newHandler )
 			throws SemanticException
 	{
-		setProperty( NEW_HANDLER_ON_EACH_EVENT_PROP, Boolean
-				.valueOf( newHandler ) );
+		setBooleanProperty( NEW_HANDLER_ON_EACH_EVENT_PROP, newHandler );
 	}
 
 	/**

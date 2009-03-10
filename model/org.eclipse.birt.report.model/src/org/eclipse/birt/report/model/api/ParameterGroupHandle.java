@@ -133,8 +133,7 @@ public class ParameterGroupHandle extends ReportElementHandle
 
 	public void setStartExpanded( boolean value ) throws SemanticException
 	{
-		setProperty( IParameterGroupModel.START_EXPANDED_PROP, Boolean
-				.valueOf( value ) );
+		setBooleanProperty( IParameterGroupModel.START_EXPANDED_PROP, value );
 	}
 
 	/**
@@ -143,7 +142,7 @@ public class ParameterGroupHandle extends ReportElementHandle
 	 * @return the display prompt.
 	 * 
 	 */
-	
+
 	public String getPromptText( )
 	{
 		return getStringProperty( PROMPT_TEXT_PROP );
@@ -155,7 +154,7 @@ public class ParameterGroupHandle extends ReportElementHandle
 	 * @return the prompt text key.
 	 * 
 	 */
-	
+
 	public String getPromptTextKey( )
 	{
 		return getStringProperty( PROMPT_TEXT_ID_PROP );
@@ -170,7 +169,7 @@ public class ParameterGroupHandle extends ReportElementHandle
 	 * @throws SemanticException
 	 * 
 	 */
-	
+
 	public void setPromptText( String promptValue ) throws SemanticException
 	{
 		setStringProperty( PROMPT_TEXT_PROP, promptValue );
@@ -185,7 +184,7 @@ public class ParameterGroupHandle extends ReportElementHandle
 	 * @throws SemanticException
 	 * 
 	 */
-	
+
 	public void setPromptTextKey( String promptIDValue )
 			throws SemanticException
 	{

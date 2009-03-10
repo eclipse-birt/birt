@@ -534,7 +534,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public void setRepeatHeader( boolean value ) throws SemanticException
 	{
-		setProperty( REPEAT_HEADER_PROP, Boolean.valueOf( value ) );
+		setBooleanProperty( REPEAT_HEADER_PROP, value );
 	}
 
 	/**
@@ -636,7 +636,7 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public void setHideDetail( boolean value ) throws SemanticException
 	{
-		setProperty( HIDE_DETAIL_PROP, Boolean.valueOf( value ) );
+		setBooleanProperty( HIDE_DETAIL_PROP, value );
 	}
 
 	/**
@@ -856,7 +856,6 @@ public abstract class GroupHandle extends ReportElementHandle
 	{
 		setStringProperty( IGroupElementModel.BOOKMARK_PROP, value );
 	}
-	
 
 	/**
 	 * Returns the ACL expression associated with the report element instance.
@@ -914,7 +913,6 @@ public abstract class GroupHandle extends ReportElementHandle
 
 	public void setCascadeACL( boolean cascadeACL ) throws SemanticException
 	{
-		setProperty( IGroupElementModel.CASCADE_ACL_PROP, Boolean
-				.valueOf( cascadeACL ) );
+		setBooleanProperty( IGroupElementModel.CASCADE_ACL_PROP, cascadeACL );
 	}
 }

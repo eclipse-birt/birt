@@ -229,7 +229,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	public void setConcealValue( boolean concealValue )
 			throws SemanticException
 	{
-		setProperty( CONCEAL_VALUE_PROP, Boolean.valueOf( concealValue ) );
+		setBooleanProperty( CONCEAL_VALUE_PROP, concealValue );
 	}
 
 	/**
@@ -261,7 +261,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setAllowNull( boolean allowNull ) throws SemanticException
 	{
-		setProperty( ALLOW_NULL_PROP, Boolean.valueOf( allowNull ) );
+		setBooleanProperty( ALLOW_NULL_PROP, allowNull );
 	}
 
 	/**
@@ -298,7 +298,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setAllowBlank( boolean allowBlank ) throws SemanticException
 	{
-		setProperty( ALLOW_BLANK_PROP, Boolean.valueOf( allowBlank ) );
+		setBooleanProperty( ALLOW_BLANK_PROP, allowBlank );
 	}
 
 	/**
@@ -557,7 +557,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setMustMatch( boolean mustMatch ) throws SemanticException
 	{
-		setProperty( MUCH_MATCH_PROP, Boolean.valueOf( mustMatch ) );
+		setBooleanProperty( MUCH_MATCH_PROP,  mustMatch  );
 	}
 
 	/**
@@ -586,7 +586,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setFixedOrder( boolean fixedOrder ) throws SemanticException
 	{
-		setProperty( FIXED_ORDER_PROP, Boolean.valueOf( fixedOrder ) );
+		setBooleanProperty( FIXED_ORDER_PROP, fixedOrder );
 	}
 
 	/**
@@ -1075,7 +1075,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setIsRequired( boolean isRequired ) throws SemanticException
 	{
-		setProperty( IS_REQUIRED_PROP, Boolean.valueOf( isRequired ) );
+		setBooleanProperty( IS_REQUIRED_PROP, isRequired );
 	}
 
 	/**
@@ -1106,7 +1106,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setDistinct( boolean distinct ) throws SemanticException
 	{
-		setProperty( DISTINCT_PROP, Boolean.valueOf( distinct ) );
+		setBooleanProperty( DISTINCT_PROP, distinct );
 	}
 
 	/**

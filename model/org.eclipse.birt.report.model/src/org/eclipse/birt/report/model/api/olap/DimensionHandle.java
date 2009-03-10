@@ -68,7 +68,7 @@ public abstract class DimensionHandle extends ReportElementHandle
 
 	public void setTimeType( boolean isTimeType ) throws SemanticException
 	{
-		setProperty( IS_TIME_TYPE_PROP, Boolean.valueOf( isTimeType ) );
+		setBooleanProperty( IS_TIME_TYPE_PROP, isTimeType );
 	}
 
 	/**

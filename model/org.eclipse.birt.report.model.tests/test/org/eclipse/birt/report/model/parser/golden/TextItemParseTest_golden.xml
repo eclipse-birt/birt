@@ -10,6 +10,7 @@
         <text name="text1" id="3">
             <property name="contentType">html</property>
             <text-property name="content" key="static"><![CDATA[new content hello <> <html></html>]]></text-property>
+            <property name="hasExpression">false</property>
         </text>
         <text name="text2" id="4">
             <text-property name="content"><![CDATA[    text &amp; < > ' " static    ]]&gt;]]></text-property>

@@ -13,8 +13,11 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.TextDataItem;
+import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /**
  * This class parses the Multi Line Data (multi-line data item) tag.
@@ -69,7 +72,9 @@ public class TextDataItemState extends ReportItemState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -87,6 +92,29 @@ public class TextDataItemState extends ReportItemState
 	public DesignElement getElement( )
 	{
 		return element;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.ReportItemState#end()
+	 */
+	public void end( ) throws SAXException
+	{
+		super.end( );
+
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_19 )
+		{
+			// for old design file, if hasExpression is not set and content is
+			// set, the default value is TURE
+			Object hasExpression = element.getLocalProperty( handler.module,
+					ITextDataItemModel.HAS_EXPRESSION_PROP );
+			Object content = element.getLocalProperty( handler.module,
+					ITextDataItemModel.VALUE_EXPR_PROP );
+			if ( hasExpression == null && content != null )
+				element.setProperty( ITextDataItemModel.HAS_EXPRESSION_PROP,
+						Boolean.TRUE );
+		}
 	}
 
 }

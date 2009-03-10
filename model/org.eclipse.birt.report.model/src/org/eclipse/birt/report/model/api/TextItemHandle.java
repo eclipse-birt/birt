@@ -64,7 +64,8 @@ public class TextItemHandle extends ReportItemHandle implements ITextItemModel
 
 	public String getDisplayContent( )
 	{
-		return super.getExternalizedValue( ITextItemModel.CONTENT_RESOURCE_KEY_PROP,
+		return super.getExternalizedValue(
+				ITextItemModel.CONTENT_RESOURCE_KEY_PROP,
 				ITextItemModel.CONTENT_PROP );
 	}
 
@@ -151,6 +152,34 @@ public class TextItemHandle extends ReportItemHandle implements ITextItemModel
 
 	public void setContentKey( String resourceKey ) throws SemanticException
 	{
-		setStringProperty( ITextItemModel.CONTENT_RESOURCE_KEY_PROP, resourceKey );
+		setStringProperty( ITextItemModel.CONTENT_RESOURCE_KEY_PROP,
+				resourceKey );
+	}
+
+	/**
+	 * Determines whether there is expression need to be evaluated in the text
+	 * content of this text item handle. By default, the return value is
+	 * <code>FALSE</code>.
+	 * 
+	 * @return true if there is expression in the text content, otherwise false
+	 */
+	public boolean hasExpression( )
+	{
+		return getBooleanProperty( HAS_EXPRESSION_PROP );
+	}
+
+	/**
+	 * Sets the status whether there is expression need to be evaluated in the
+	 * text content of this text item handle.
+	 * 
+	 * @param hasExpression
+	 *            true if there is expression in the text content, otherwise
+	 *            false
+	 * @throws SemanticException
+	 */
+	public void setHasExpression( boolean hasExpression )
+			throws SemanticException
+	{
+		setBooleanProperty( HAS_EXPRESSION_PROP, hasExpression );
 	}
 }

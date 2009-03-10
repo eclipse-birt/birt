@@ -30,6 +30,7 @@
             <property name="contentType">html</property>
             <text-property name="content"><![CDATA[<value-of>row["ADDRESSLINE1"]</value-of>, <value-of>row["ADDRESSLINE2"]</value-of>,
 <value-of>row["STATE"]</value-of>, <value-of>row["POSTALCODE"]</value-of>, <value-of>row["COUNTRY"]</value-of>]]></text-property>
+			<property name="hasExpression">true</property>
         </text>
         <text name="myText2" id="5">
             <list-property name="boundDataColumns">
@@ -44,6 +45,7 @@
             </list-property>
             <text-property name="content"><![CDATA[Ext: <value-of>row["EXTENSION"]</value-of><BR>
 E-mail: <value-of>row["EMAIL"]</value-of>]]></text-property>
+			<property name="hasExpression">true</property>
         </text>
     </body>
 </report>

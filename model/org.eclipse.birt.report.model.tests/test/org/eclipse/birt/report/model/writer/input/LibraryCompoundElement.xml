@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <property name="theme">theme1</property>
     <data-sources>
         <script-data-source name="dataSource1" id="5">
@@ -117,7 +117,9 @@
 		<table name="libTable2" id="26">
             <group id="27">
 				<property name="keyExpr">[keyExpr]</property>
-				<property name="toc">[toc]</property>
+				<structure name="toc">
+            		<expression name="expressionValue">[toc]</expression>
+           		</structure>
 			</group>
 		</table>
 		<table name="libTable3" id="28">

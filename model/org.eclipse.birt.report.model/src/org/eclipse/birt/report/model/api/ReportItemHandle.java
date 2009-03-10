@@ -1360,8 +1360,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setCascadeACL( boolean cascadeACL ) throws SemanticException
 	{
-		setProperty( IReportItemModel.CASCADE_ACL_PROP, Boolean
-				.valueOf( cascadeACL ) );
+		setBooleanProperty( IReportItemModel.CASCADE_ACL_PROP, cascadeACL );
 	}
 
 	/**

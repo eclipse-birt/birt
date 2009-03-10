@@ -1081,7 +1081,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public void setNeedsCache( boolean needsCache ) throws SemanticException
 	{
-		setProperty( NEEDS_CACHE_PROP, Boolean.valueOf( needsCache ) );
+		setBooleanProperty( NEEDS_CACHE_PROP, needsCache );
 	}
 
 	/**

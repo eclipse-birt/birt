@@ -2,8 +2,6 @@
 <!-- Written by Eclipse BIRT 2.0 -->
 <library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="1">
 	<components>
-		<text name="text1">
-		</text>
 		<label name="label1">
 			<property name="style">myStyle1</property>
 		</label>

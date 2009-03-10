@@ -11,10 +11,9 @@
         </theme>
     </themes>
     <components>
-        <text name="text1" id="4"/>
-        <label name="label1" id="5">
+        <label name="label1" id="4">
             <property name="style">myStyle1</property>
         </label>
-        <label name="label2" id="6"/>
+        <label name="label2" id="5"/>
     </components>
 </library>

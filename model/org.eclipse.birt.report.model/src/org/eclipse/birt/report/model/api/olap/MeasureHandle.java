@@ -115,7 +115,7 @@ public abstract class MeasureHandle extends ReportElementHandle
 
 	public void setCalculated( boolean isCalculated ) throws SemanticException
 	{
-		setProperty( IS_CALCULATED_PROP, Boolean.valueOf( isCalculated ) );
+		setBooleanProperty( IS_CALCULATED_PROP, isCalculated );
 	}
 
 	/**

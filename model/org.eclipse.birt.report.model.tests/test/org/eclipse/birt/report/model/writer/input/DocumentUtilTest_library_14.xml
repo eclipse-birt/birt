@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <library xmlns="http://www.eclipse.org/birt/2005/design"
-	version="3.2.18">
+	version="3.2.19">
 	<simple-property-list name="includeResource">
 		<value>library2</value>
 		<value>library3</value>

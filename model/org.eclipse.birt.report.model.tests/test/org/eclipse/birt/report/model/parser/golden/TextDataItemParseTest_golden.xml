@@ -26,6 +26,7 @@
         <text-data name="Text Data" id="5">
             <expression name="valueExpr">new value expr</expression>
             <property name="contentType">rtf</property>
+            <property name="hasExpression">false</property>
         </text-data>
     </body>
 </report>

@@ -13,7 +13,6 @@
             <property name="style">new_style</property>
             <property name="fontWeight">bolder</property>
             <property name="color">blue</property>
-            <property name="pageBreakInterval">50</property>
             <text-property name="caption">New Design Table</text-property>
             <column id="24"/>
             <column id="25">
@@ -52,13 +51,12 @@
                 <row id="17">
                     <cell id="18">
                         <table name="libInnerTable" id="19">
-                        	<property name="pageBreakInterval">50</property>
                             <header>
                                 <row id="20">
                                     <cell id="21">
                                         <property name="color">lime</property>
                                         <text name="libInnerText" id="22">
-                                            <text-property name="content"><![CDATA[Inner Text]]></text-property>
+                                            <text-property name="content"><![CDATA[Inner Text]]></text-property>                                            
                                         </text>
                                     </cell>
                                 </row>

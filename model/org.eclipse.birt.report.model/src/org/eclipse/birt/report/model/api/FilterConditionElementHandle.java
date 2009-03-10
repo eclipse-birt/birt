@@ -335,6 +335,6 @@ public class FilterConditionElementHandle extends ContentElementHandle
 	 */
 	public void setOptional( boolean isOptional ) throws SemanticException
 	{
-		setProperty( IS_OPTIONAL_PROP, Boolean.valueOf( isOptional ) );
+		setBooleanProperty( IS_OPTIONAL_PROP, isOptional );
 	}
 }

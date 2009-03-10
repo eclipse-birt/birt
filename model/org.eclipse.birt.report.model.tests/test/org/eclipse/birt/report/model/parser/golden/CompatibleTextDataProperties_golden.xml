@@ -26,6 +26,7 @@
         <text-data name="Multi Line Data" id="5">
             <expression name="valueExpr">value expr</expression>
             <property name="contentType">content type expr</property>
+            <property name="hasExpression">true</property>
         </text-data>
         <text-data name="Text Data" id="6">
             <property name="contentType">plain</property>

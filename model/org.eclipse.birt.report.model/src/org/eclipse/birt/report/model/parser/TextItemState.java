@@ -80,7 +80,9 @@ public class TextItemState extends ReportItemState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -110,18 +112,33 @@ public class TextItemState extends ReportItemState
 	{
 		super.end( );
 
-		if ( handler.versionNumber >= VersionUtil.VERSION_3_2_1 )
-			return;
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_1 )
+		{
 
-		String content = (String) element.getLocalProperty(
-				handler.getModule( ), ITextItemModel.CONTENT_PROP );
-		if ( StringUtil.isBlank( content ) )
-			return;
+			String content = (String) element.getLocalProperty( handler
+					.getModule( ), ITextItemModel.CONTENT_PROP );
+			if ( !StringUtil.isBlank( content ) )
+			{
+				List jsExprs = BoundDataColumnUtil.getExpressions( content,
+						element, handler.getModule( ) );
+				updateExpressions( content, BoundDataColumnUtil
+						.handleJavaExpression( jsExprs, element, handler
+								.getModule( ), handler.tempValue ) );
+			}
+		}
 
-		List jsExprs = BoundDataColumnUtil.getExpressions( content, element,
-				handler.getModule( ) );
-		updateExpressions( content, BoundDataColumnUtil.handleJavaExpression(
-				jsExprs, element, handler.getModule( ), handler.tempValue ) );
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_19 )
+		{
+			// for old design file, if hasExpression is not set and content is
+			// set, the default value is TURE
+			Object hasExpression = element.getLocalProperty( handler.module,
+					ITextItemModel.HAS_EXPRESSION_PROP );
+			Object content = element.getLocalProperty( handler.module,
+					ITextItemModel.CONTENT_PROP );
+			if ( hasExpression == null && content != null )
+				element.setProperty( ITextItemModel.HAS_EXPRESSION_PROP,
+						Boolean.TRUE );
+		}
 	}
 
 	/**

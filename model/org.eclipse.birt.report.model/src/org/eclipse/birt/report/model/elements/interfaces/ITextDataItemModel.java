@@ -42,4 +42,10 @@ public interface ITextDataItemModel
 
 	public static final String CONTENT_TYPE_PROP = "contentType"; //$NON-NLS-1$
 
+	/**
+	 * Name of the property that indicates whether there is expression in the
+	 * text value. By default, the value is FALSE.
+	 */
+	String HAS_EXPRESSION_PROP = "hasExpression"; //$NON-NLS-1$
+
 }

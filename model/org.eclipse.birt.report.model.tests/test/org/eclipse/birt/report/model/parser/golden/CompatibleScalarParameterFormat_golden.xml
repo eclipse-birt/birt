@@ -14,18 +14,4 @@
             </structure>
         </scalar-parameter>
     </parameters>
-    <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2">
-        	<property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
-        </simple-master-page>
-    </page-setup>
 </report>

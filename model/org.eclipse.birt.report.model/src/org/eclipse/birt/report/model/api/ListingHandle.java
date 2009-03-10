@@ -112,8 +112,8 @@ public abstract class ListingHandle extends ReportItemHandle
 	 * element in the iterator is the corresponding <code>StructureHandle</code>
 	 * that deal with a <code>SortKey</code> in the list.
 	 * 
-	 * @return the iterator for <code>SortKey</code> structure list defined on
-	 *         a table or list.
+	 * @return the iterator for <code>SortKey</code> structure list defined on a
+	 *         table or list.
 	 */
 
 	public Iterator sortsIterator( )
@@ -189,7 +189,7 @@ public abstract class ListingHandle extends ReportItemHandle
 
 	public void setRepeatHeader( boolean value ) throws SemanticException
 	{
-		setProperty( REPEAT_HEADER_PROP, Boolean.valueOf( value ) );
+		setBooleanProperty( REPEAT_HEADER_PROP, value );
 	}
 
 	/**
@@ -215,6 +215,6 @@ public abstract class ListingHandle extends ReportItemHandle
 	public void setSortByGroups( boolean isSortByGroups )
 			throws SemanticException
 	{
-		setProperty( SORT_BY_GROUPS_PROP, Boolean.valueOf( isSortByGroups ) );
+		setBooleanProperty( SORT_BY_GROUPS_PROP, isSortByGroups );
 	}
 }

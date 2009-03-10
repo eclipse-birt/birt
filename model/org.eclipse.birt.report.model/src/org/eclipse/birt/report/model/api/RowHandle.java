@@ -226,6 +226,6 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 
 	public void setSuppressDuplicates( boolean value ) throws SemanticException
 	{
-		setProperty( SUPPRESS_DUPLICATES_PROP, Boolean.valueOf( value ) );
+		setBooleanProperty( SUPPRESS_DUPLICATES_PROP, value );
 	}
 }

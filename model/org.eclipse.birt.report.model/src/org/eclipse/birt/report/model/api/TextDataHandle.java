@@ -119,10 +119,10 @@ public class TextDataHandle extends ReportItemHandle
 	 * (default)
 	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_PLAIN</code>:
 	 * Plain text;
-	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_HTML</code>:
-	 * HTML format;
-	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF</code>:
-	 * Rich Text format;
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_HTML</code>: HTML
+	 * format;
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF</code>: Rich
+	 * Text format;
 	 * </ul>
 	 * 
 	 * @return the text type
@@ -142,21 +142,48 @@ public class TextDataHandle extends ReportItemHandle
 	 * (default)
 	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_PLAIN</code>:
 	 * Plain text;
-	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_HTML</code>:
-	 * HTML format;
-	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF</code>:
-	 * Rich Text format;
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_HTML</code>: HTML
+	 * format;
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF</code>: Rich
+	 * Text format;
 	 * </ul>
 	 * 
 	 * @param contentType
 	 *            the new text type
 	 * @throws SemanticException
-	 *             if the property is locked or the <code>contentType</code>
-	 *             is not one of the above.
+	 *             if the property is locked or the <code>contentType</code> is
+	 *             not one of the above.
 	 */
 
 	public void setContentType( String contentType ) throws SemanticException
 	{
 		setProperty( ITextDataItemModel.CONTENT_TYPE_PROP, contentType );
+	}
+
+	/**
+	 * Determines whether there is expression need to be evaluated in the text
+	 * content of this text data handle. By default, the return value is
+	 * <code>FALSE</code>.
+	 * 
+	 * @return true if there is expression in the text content, otherwise false
+	 */
+	public boolean hasExpression( )
+	{
+		return getBooleanProperty( HAS_EXPRESSION_PROP );
+	}
+
+	/**
+	 * Sets the status whether there is expression need to be evaluated in the
+	 * text content of this text data handle.
+	 * 
+	 * @param hasExpression
+	 *            true if there is expression in the text content, otherwise
+	 *            false
+	 * @throws SemanticException
+	 */
+	public void setHasExpression( boolean hasExpression )
+			throws SemanticException
+	{
+		setBooleanProperty( HAS_EXPRESSION_PROP, hasExpression );
 	}
 }
