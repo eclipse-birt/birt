@@ -180,7 +180,6 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void startTable( ITableContent table )
 	{
-		new ExcelFormulaEngine().startTable( table );
 		ContainerSizeInfo sizeInfo = engine.getCurrentContainer( ).getSizeInfo( );
 		int width = sizeInfo.getWidth( );
 		TableInfo info = LayoutUtil.createTable( table, width );
