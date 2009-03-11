@@ -771,7 +771,8 @@ public abstract class ContainerArea extends AbstractArea
 		if ( style != null && !style.isEmpty( ) )
 		{
 			boxStyle = new BoxStyle( );
-			Color color = PropertyUtil.getColor( style
+			IStyle cs = content.getComputedStyle( );
+			Color color = PropertyUtil.getColor( cs
 					.getProperty( IStyle.STYLE_BACKGROUND_COLOR ) );
 
 			if ( color != null )
@@ -779,31 +780,31 @@ public abstract class ContainerArea extends AbstractArea
 				boxStyle.setBackgroundColor( color );
 			}
 
-			String url = style.getBackgroundImage( );
+			String url = cs.getBackgroundImage( );
 			if ( url != null )
 			{
 				boxStyle
 						.setBackgroundImage( new BackgroundImageInfo(
 								url,
-								style
+								cs
 										.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
 								getDimensionValue(
-										style
+										cs
 												.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
 										width ),
 								getDimensionValue(
-										style
+										cs
 												.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
 										width ) ) );
 
 			}
 			if ( !isInInlineStacking )
 			{
-				pageBreakAfter = style
+				pageBreakAfter = cs
 						.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
-				pageBreakInside = style
+				pageBreakInside = cs
 						.getProperty( IStyle.STYLE_PAGE_BREAK_INSIDE );
-				pageBreakBefore = style
+				pageBreakBefore = cs
 						.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
 			}
 
