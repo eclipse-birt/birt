@@ -340,22 +340,24 @@ public class URIUtilTest extends BaseTestCase
 		//						"..\\lib\\lib1.rptlibrary" ) ); //$NON-NLS-1$
 
 		// test valid device
-		assertEquals( "C:" + File.separator + "birt" + File.separator //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( ( "C:" + File.separator + "birt" + File.separator //$NON-NLS-1$ //$NON-NLS-2$
 				+ "sampleReports" + File.separator + "lib" //$NON-NLS-1$ //$NON-NLS-2$
-				+ File.separator + "lib1.rptlibrary", URIUtil //$NON-NLS-1$
-				.resolveAbsolutePath(
+				+ File.separator + "lib1.rptlibrary" ).toLowerCase( ), //$NON-NLS-1$
+				( URIUtil.resolveAbsolutePath(
 						"C://birt//sampleReports//reportdesigns//", //$NON-NLS-1$
-						"..\\lib\\lib1.rptlibrary" ) ); //$NON-NLS-1$
+						"..\\lib\\lib1.rptlibrary" ) ).toLowerCase( ) ); //$NON-NLS-1$
 
-		String filePath = "reportdesigns" + File.separator //$NON-NLS-1$ 
-				+ "lib" + File.separator + "lib1.rptlibrary"; //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals( new File( filePath ).getAbsolutePath( ), URIUtil
-				.resolveAbsolutePath( ".\\reportdesigns", //$NON-NLS-1$
-						".\\lib\\lib1.rptlibrary" ) ); //$NON-NLS-1$
+		String filePath = "reportdesigns" + File.separator + "lib" //$NON-NLS-1$ //$NON-NLS-2$
+				+ File.separator + "lib1.rptlibrary"; //$NON-NLS-1$
+		assertEquals(
+				( new File( filePath ).getAbsolutePath( ) ).toLowerCase( ),
+				( URIUtil.resolveAbsolutePath( ".\\reportdesigns", //$NON-NLS-1$
+						".\\lib\\lib1.rptlibrary" ) ).toLowerCase( ) ); //$NON-NLS-1$
 
-		assertEquals( "C:" + File.separator + "new_report_3.rptdocument" //$NON-NLS-1$//$NON-NLS-2$
-		, URIUtil.resolveAbsolutePath( "./reportdesigns", //$NON-NLS-1$
-				"C:" + File.separator + "new_report_3.rptdocument" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( ( "C:" + File.separator + "new_report_3.rptdocument" ) //$NON-NLS-1$ //$NON-NLS-2$
+				.toLowerCase( ), ( URIUtil.resolveAbsolutePath(
+				"./reportdesigns", "C:" + File.separator //$NON-NLS-1$//$NON-NLS-2$
+						+ "new_report_3.rptdocument" ) ).toLowerCase( ) ); //$NON-NLS-1$
 
 	}
 }
