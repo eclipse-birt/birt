@@ -106,11 +106,6 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 				aHeight = getAllocatedHeight( );
 			}
 		}
-		if ( height > parent.getSpecifiedHeight( ) )
-		{
-			height = parent.getSpecifiedHeight( );
-			setNeedClip( true );
-		}
 		parent.update( this );
 		finished = true;
 	}

@@ -694,6 +694,7 @@ public class TableLayout
 		if ( height < 0 )
 			return;
 		row.setHeight( height );
+		boolean isFixedLayout = row.context.isFixedLayout( );
 		for ( int i = startCol; i <= endCol; i++ )
 		{
 			CellArea cell = row.getCell( i );
@@ -705,13 +706,18 @@ public class TableLayout
 					{
 						CellArea refCell = ( (DummyCell) cell ).getCell( );
 						int delta = ( (DummyCell) cell ).getDelta( );
-						refCell.setHeight( delta	+ height );
+						refCell.setHeight( delta + height );
 						verticalAlign( refCell );
 					}
 					else
 					{
+						int cellHeight = cell.getHeight( );
 						cell.setHeight( height );
 						verticalAlign( cell );
+						if ( isFixedLayout && cellHeight > height )
+						{
+							cell.setNeedClip( true );
+						}
 					}
 				}
 				i = i + cell.getColSpan( ) - 1;
