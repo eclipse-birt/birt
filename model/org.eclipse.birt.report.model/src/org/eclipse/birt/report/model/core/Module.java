@@ -3009,4 +3009,17 @@ public abstract class Module extends DesignElement
 			lib.nameHelper.cacheValues( );
 		}
 	}
+
+	/**
+	 * Gets all the design elements that resides in the id-map. All the element
+	 * in the returned list resides in the design tree and has unique id.
+	 * 
+	 * @return
+	 */
+	public List<DesignElement> getAllElements( )
+	{
+		List<DesignElement> elements = new ArrayList<DesignElement>( );
+		elements.addAll( idMap.values( ) );
+		return elements;
+	}
 }

@@ -33,7 +33,9 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -52,6 +54,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.parser.ActionStructureState;
@@ -271,7 +274,8 @@ public class ModuleUtil
 		}
 		catch ( SAXException e )
 		{
-			List errors = handler.getErrorHandler( ).getErrors( );
+			List<XMLParserException> errors = handler.getErrorHandler( )
+					.getErrors( );
 
 			// Syntax error is found
 
@@ -643,7 +647,7 @@ public class ModuleUtil
 
 				return ModelUtil.checkVersion( handler.version );
 			}
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		}
 
 	}
@@ -1198,5 +1202,54 @@ public class ModuleUtil
 				fileLocation.toExternalForm( ), IAccessControl.ARBITARY_LEVEL ) == null
 				? false
 				: true;
+	}
+
+	/**
+	 * Gets all the elements that is kind of the specified type. All the type
+	 * should be the constants in {{@link ReportDesignConstants}.
+	 * 
+	 * @param moduleHandle
+	 *            the module handle that the elements reside in
+	 * @param elementType
+	 *            the type of the elements to retrieve
+	 * @return the list of the elements that is kind of the specified type
+	 */
+	public static List<DesignElementHandle> getElementsByType(
+			ModuleHandle moduleHandle, String elementType )
+	{
+		if ( moduleHandle == null || StringUtil.isBlank( elementType ) )
+			return Collections.emptyList( );
+		IElementDefn elementDefn = MetaDataDictionary.getInstance( )
+				.getElement( elementType );
+		return getElementsByType( moduleHandle, elementDefn );
+	}
+
+	/**
+	 * Gets all the elements that is kind of the specified type.
+	 * 
+	 * @param moduleHandle
+	 *            the module handle that the elements reside in
+	 * @param elementType
+	 *            the type of the elements to retrieve
+	 * @return the list of the elements that is kind of the specified type
+	 */
+	private static List<DesignElementHandle> getElementsByType(
+			ModuleHandle moduleHandle, IElementDefn elementType )
+	{
+		if ( moduleHandle == null || elementType == null )
+			return Collections.emptyList( );
+		List<DesignElementHandle> retList = new ArrayList<DesignElementHandle>( );
+		Module module = moduleHandle.getModule( );
+		List<DesignElement> elements = module.getAllElements( );
+		if ( elements != null )
+		{
+			for ( DesignElement element : elements )
+			{
+				if ( element != null
+						&& element.getDefn( ).isKindOf( elementType ) )
+					retList.add( element.getHandle( module ) );
+			}
+		}
+		return retList;
 	}
 }

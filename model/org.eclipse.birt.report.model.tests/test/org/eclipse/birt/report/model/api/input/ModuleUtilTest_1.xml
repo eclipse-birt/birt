@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <contents>
+                <label>
+                    <property name="x">1mm</property>
+                </label>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <components>
+        <text name="base"/>
+    </components>
+    <body>
+        <free-form>
+            <property name="comments">Sample Section</property>
+            <text-property name="displayName">The Section</text-property>
+            <report-items>
+                <table />
+            </report-items>
+        </free-form>
+        <table name="My table">			
+            <column/>
+            <column/>
+            <column/>
+            <header>
+                <row>
+                    <cell>
+                        <label/>
+                    </cell>
+                    <cell/>
+                </row>
+            </header>
+            <group>
+                <header>
+                    <row/>
+                    <row/>
+                </header>
+                <footer>
+                    <row/>
+                </footer>
+            </group>
+            <detail>
+                <row>					
+                    <cell/>
+                </row>
+            </detail>
+            <footer>
+                <row>
+                    <cell/>
+                </row>
+            </footer>
+        </table>
+        <list name="My List">
+            <group>
+                <header>
+                    <data/>
+                </header>
+                <footer>
+                    <data/>
+                </footer>
+            </group>
+        </list>
+    </body>
+</report>
