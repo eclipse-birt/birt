@@ -83,28 +83,7 @@ public class URIUtil
 
 	private static boolean isFileProtocol( String filePath )
 	{
-		try
-		{
-			URL fileUrl = new URL( filePath );
-			if ( FILE_SCHEMA.equalsIgnoreCase( fileUrl.getProtocol( ) ) )
-				return true;
-
-			return false;
-		}
-		catch ( MalformedURLException e )
-		{
-			// ignore the error since this string is not in URL format
-		}
-		File file = new File( filePath );
-		String scheme = SecurityUtil.getFiletoURISchemaPart( file );
-		if ( scheme == null )
-			return false;
-
-		if ( scheme.equalsIgnoreCase( FILE_SCHEMA ) )
-		{
-			return true;
-		}
-		return false;
+		return URIUtilImpl.getLocalPath( filePath ) != null;
 	}
 
 	/**

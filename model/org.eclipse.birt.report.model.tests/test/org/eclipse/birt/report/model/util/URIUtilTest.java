@@ -284,6 +284,21 @@ public class URIUtilTest extends BaseTestCase
 				URIUtil.resolveAbsolutePath( "bundleentry://385", //$NON-NLS-1$
 						"fragments/new_library.rptlibrary" ) ); //$NON-NLS-1$
 
+		assertEquals( "http://server/path/../sub", //$NON-NLS-1$
+				URIUtil.resolveAbsolutePath( "http://server/path", //$NON-NLS-1$
+						"../sub" ) ); //$NON-NLS-1$
+
+		assertEquals( "http://sub", //$NON-NLS-1$
+				URIUtil.resolveAbsolutePath( "http://server/path", //$NON-NLS-1$
+						"http://sub" ) ); //$NON-NLS-1$
+
+		assertEquals( "jndi://abc/../sub", //$NON-NLS-1$
+				URIUtil.resolveAbsolutePath( "jndi://abc", //$NON-NLS-1$
+						"../sub" ) ); //$NON-NLS-1$
+
+		assertEquals( "jndi://sub", URIUtil.resolveAbsolutePath( "jndi://abc", //$NON-NLS-1$  //$NON-NLS-2$
+				"jndi://sub" ) ); //$NON-NLS-1$
+
 	}
 
 	/**
