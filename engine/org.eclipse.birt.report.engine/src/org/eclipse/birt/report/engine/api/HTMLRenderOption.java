@@ -437,7 +437,7 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	}
 
 	/**
-	 * Sets the flag indicationg that if the HTML should be indented.
+	 * Sets the flag indicating that if the HTML should be indented.
 	 * 
 	 * @param wrapTemplateTable
 	 *            the flag
@@ -459,6 +459,31 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 			return ( (Boolean) value ).booleanValue( );
 		}
 		return true;
+	}
+	
+	/**
+	 * Sets the flag indicating that the cell's bookmark should be output or
+	 * not.
+	 * 
+	 * @param flag
+	 */
+	public void setEnableCellBookmark( boolean flag )
+	{
+		options.put( ENABLE_CELL_BOOKMARK, new Boolean( flag ) );
+	}
+
+	/**
+	 * @return the flag value of enable the cell's bookmark. The default value
+	 *         is false.
+	 */
+	public boolean getEnableCellBookmark( )
+	{
+		Object value = options.get( ENABLE_CELL_BOOKMARK );
+		if ( value instanceof Boolean )
+		{
+			return ( (Boolean) value ).booleanValue( );
+		}
+		return false;
 	}
 
 }

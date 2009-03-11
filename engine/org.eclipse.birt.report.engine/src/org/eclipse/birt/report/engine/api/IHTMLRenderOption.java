@@ -327,4 +327,9 @@ public interface IHTMLRenderOption extends IRenderOption
 	 * whether or not the HTML is indented. The default value is true.
 	 */
 	public static final String HTML_INDENT = "HTMLIndent";
+	
+	/**
+	 * whether or not the cell's bookmark should be output. The default value is false.
+	 */
+	public static final String ENABLE_CELL_BOOKMARK = "enableCellBookmark";
 }

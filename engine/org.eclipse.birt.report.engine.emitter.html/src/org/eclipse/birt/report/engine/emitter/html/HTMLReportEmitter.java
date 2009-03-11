@@ -297,6 +297,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	private String layoutPreference;
 	private boolean enableAgentStyleEngine;
 	private boolean outputMasterPageMargins;
+	private boolean enableCellBookmark;
+	
 	/**
 	 * Following names will be name spaced by htmlIDNamespace: a.CSS style name.
 	 * b.id (bookmark). c.script name, which is created by BIRT.
@@ -397,6 +399,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 			}
 			writer.setIndent( htmlOption.getHTMLIndent( ) );
+			enableCellBookmark = htmlOption.getEnableCellBookmark( );
 		}
 	}
 	
@@ -1781,8 +1784,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead );
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 		htmlEmitter.handleCellAlign( cell );
-
-		if ( !startedGroups.isEmpty( ) )
+		
+		if ( enableCellBookmark && null != cell.getBookmark( ) )
+		{
+			HTMLEmitterUtil.setBookmark( writer,
+					null,
+					htmlIDNamespace,
+					cell.getBookmark( ) );
+		}
+		else if ( !startedGroups.isEmpty( ) )
 		{
 			IGroupContent group = (IGroupContent) startedGroups.firstElement( );
 			String bookmark = group.getBookmark( );
@@ -1791,13 +1801,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				bookmark = idGenerator.generateUniqueID( );
 				group.setBookmark( bookmark );
 			}
-			HTMLEmitterUtil.setBookmark(  writer, null, htmlIDNamespace, bookmark );
+			HTMLEmitterUtil.setBookmark( writer,
+					null,
+					htmlIDNamespace,
+					bookmark );
 			startedGroups.remove( group );
-			
+		}
+
+		if ( !startedGroups.isEmpty( ) )
+		{
 			Iterator iter = startedGroups.iterator( );
-			while (iter.hasNext( ))
+			while ( iter.hasNext( ) )
 			{
-				group = (IGroupContent) iter.next( );
+				IGroupContent group = (IGroupContent) iter.next( );
 				outputBookmark( group );
 			}
 			startedGroups.clear( );
