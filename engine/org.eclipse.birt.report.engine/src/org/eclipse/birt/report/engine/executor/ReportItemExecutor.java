@@ -802,7 +802,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		{
 			try
 			{
-
 				return value.evaluate( context );
 			}
 			catch ( BirtException e )

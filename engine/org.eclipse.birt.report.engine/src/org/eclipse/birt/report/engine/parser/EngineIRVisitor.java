@@ -575,7 +575,7 @@ public class EngineIRVisitor extends DesignVisitor
 		String contentType = handle.getContentType( );
 		dynamicTextItem
 				.setContent( createExpression( validateExpression( valueExpr ) ) );
-		dynamicTextItem.setContentType( createExpression( contentType ) );
+		dynamicTextItem.setContentType( createConstant( contentType ) );
 		setupHighlight( dynamicTextItem, valueExpr );
 		setMap( dynamicTextItem, valueExpr );
 		
