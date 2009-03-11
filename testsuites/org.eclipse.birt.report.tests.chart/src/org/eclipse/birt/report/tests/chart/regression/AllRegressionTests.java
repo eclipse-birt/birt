@@ -35,7 +35,7 @@ public class AllRegressionTests
 		//To Do: chart script
 //		suite.addTestSuite( Regression_121383.class );
 		
-		suite.addTestSuite( Regression_121954.class );
+//		suite.addTestSuite( Regression_121954.class );
 		suite.addTestSuite( Regression_122396.class );
 		suite.addTestSuite( Regression_122807.class );
 		suite.addTestSuite( Regression_123202.class );
@@ -44,7 +44,7 @@ public class AllRegressionTests
 		suite.addTestSuite( Regression_143105.class );
 		suite.addTestSuite( Regression_76910.class );
 		suite.addTestSuite( Regression_76963.class );
-		suite.addTestSuite( Regression_78433.class );
+//		suite.addTestSuite( Regression_78433.class );
 		suite.addTestSuite( Regression_94138.class );
 		suite.addTestSuite( Regression_98257.class );
 		
@@ -69,12 +69,12 @@ public class AllRegressionTests
 		suite.addTestSuite( Regression_135814.class );
 		suite.addTestSuite( Regression_136841.class );
 		suite.addTestSuite( Regression_137166.class );
-		suite.addTestSuite( Regression_140620.class );
+//		suite.addTestSuite( Regression_140620.class );
 		suite.addTestSuite( Regression_142685.class );
 		suite.addTestSuite( Regression_142689.class );
-		suite.addTestSuite( Regression_144511.class );
-		suite.addTestSuite( Regression_76914.class );
-		suite.addTestSuite( Regression_78746.class );
+//		suite.addTestSuite( Regression_144511.class );
+//		suite.addTestSuite( Regression_76914.class );
+//		suite.addTestSuite( Regression_78746.class );
 		
 		suite.addTestSuite( Regression_148393.class );
 		suite.addTestSuite( Regression_152127.class );
