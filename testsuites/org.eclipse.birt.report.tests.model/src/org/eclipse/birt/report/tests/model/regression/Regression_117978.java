@@ -93,7 +93,7 @@ public class Regression_117978 extends BaseTestCase
 
 		UserPropertyDefn prop = (UserPropertyDefn) userProperties.get( 0 );
 		assertEquals( "Assignee", prop.getName( ) ); //$NON-NLS-1$
-		assertEquals( "Anonymous", prop.getDefault( ) ); //$NON-NLS-1$
+		assertEquals( "Anonymous", prop.getDefault( ).toString() ); //$NON-NLS-1$
 		
 		assertEquals( "testValue", labelHandle.getStringProperty( "Assignee" ));  //$NON-NLS-1$//$NON-NLS-2$
 	}
