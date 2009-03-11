@@ -282,6 +282,7 @@ public class RowArea extends ContainerArea
 		}
 		else
 		{
+			updateRow();
 			return SplitResult.SUCCEED_WITH_NULL;
 		}
 	}
