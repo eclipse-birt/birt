@@ -348,8 +348,11 @@ public class RowArea extends ContainerArea
 
 	public SplitResult splitLines( int lineCount ) throws BirtException
 	{
+		if ( isPageBreakBeforeAvoid( ) )
+		{
+			return SplitResult.BEFORE_AVOID_WITH_NULL;
+		}
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
-
 
 }
