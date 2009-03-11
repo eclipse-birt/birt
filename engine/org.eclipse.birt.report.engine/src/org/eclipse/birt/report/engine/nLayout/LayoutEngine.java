@@ -58,6 +58,8 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextAreaLayout;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 public class LayoutEngine extends LayoutEmitterAdapter
 		implements
@@ -107,6 +109,15 @@ public class LayoutEngine extends LayoutEmitterAdapter
 	public void initialize( IEmitterServices service ) throws BirtException
 	{
 		emitter.initialize( service );
+		ReportDesignHandle designHandle = (ReportDesignHandle) service
+				.getReportRunnable( ).getDesignHandle( );
+		if ( designHandle != null )
+		{
+			String reportLayoutPreference = designHandle.getLayoutPreference( );
+			context
+					.setFixedLayout( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
+							.equals( reportLayoutPreference ) );
+		}
 	}
 	
 	protected void setupLayoutOptions( IRenderOption renderOptions )

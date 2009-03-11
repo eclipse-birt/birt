@@ -49,12 +49,12 @@ public class LayoutContext
 	
 	protected boolean finished = false;
 	
+	protected boolean isFixedLayout = false;
+
 	public boolean isFinished( )
 	{
 		return finished;
 	}
-
-
 	
 	public void setFinished( boolean finished )
 	{
@@ -360,5 +360,15 @@ public class LayoutContext
 	public void setSupportedImageFormats( String supportedImageFormats )
 	{
 		this.supportedImageFormats = supportedImageFormats;
+	}
+
+	public boolean isFixedLayout( )
+	{
+		return isFixedLayout;
+	}
+
+	public void setFixedLayout( boolean isFixedLayout )
+	{
+		this.isFixedLayout = isFixedLayout;
 	}
 }

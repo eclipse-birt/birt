@@ -607,39 +607,44 @@ public class TableLayout
 		RowArea lastRow = (RowArea) rows.getCurrent( );
 
 		int height = rowArea.getSpecifiedHeight( );
-		for ( int i = startCol; i <= endCol; i++ )
+		if ( !rowArea.context.isFixedLayout( ) )
 		{
-			CellArea upperCell = null;
-			if ( lastRow != null )
+			for ( int i = startCol; i <= endCol; i++ )
 			{
-				upperCell = lastRow.getCell( i );
-			}
-			// upperCell has row span, or is a drop cell.
-			if ( upperCell != null && ( upperCell.getRowSpan( ) > 1 ) )
-			{
-				DummyCell dummyCell = createDummyCell( upperCell );
-				rowArea.setCell( dummyCell );
+				CellArea upperCell = null;
+				if ( lastRow != null )
+				{
+					upperCell = lastRow.getCell( i );
+				}
+				// upperCell has row span, or is a drop cell.
+				if ( upperCell != null && ( upperCell.getRowSpan( ) > 1 ) )
+				{
+					DummyCell dummyCell = createDummyCell( upperCell );
+					rowArea.setCell( dummyCell );
 
-				int delta = dummyCell.getDelta( );
-				if ( dummyCell.getRowSpan( ) == 1 )
-				{
-					height = Math.max( height, dummyCell.getCell( ).getHeight( ) - delta );
+					int delta = dummyCell.getDelta( );
+					if ( dummyCell.getRowSpan( ) == 1 )
+					{
+						height = Math.max( height, dummyCell.getCell( )
+								.getHeight( )
+								- delta );
+					}
+					i = i + upperCell.getColSpan( ) - 1;
 				}
-				i = i + upperCell.getColSpan( ) - 1;
-			}
-			// upperCell has NO row span, and is NOT a drop cell.
-			// or upperCell is null. In this case, we need not care about
-			// the upperCell.
-			else
-			{
-				CellArea cell = rowArea.getCell( i );
-				
-				if (  cell != null && cell.getRowSpan( ) == 1 )
+				// upperCell has NO row span, and is NOT a drop cell.
+				// or upperCell is null. In this case, we need not care about
+				// the upperCell.
+				else
 				{
-					height = Math.max( height, cell.getHeight( ) );
-					i = i + cell.getColSpan( ) - 1;
+					CellArea cell = rowArea.getCell( i );
+
+					if ( cell != null && cell.getRowSpan( ) == 1 )
+					{
+						height = Math.max( height, cell.getHeight( ) );
+						i = i + cell.getColSpan( ) - 1;
+					}
+
 				}
-				
 			}
 		}
 		updateRowHeight( rowArea, height );
