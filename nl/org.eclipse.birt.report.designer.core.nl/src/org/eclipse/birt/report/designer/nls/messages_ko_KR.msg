@@ -2658,6 +2658,34 @@ NoneAction.text=없음
 OutputColumnDefnPage.description=반입 스크립트가 생성하는 출력 열 정의 입력: 
 OutputColumnDefnPage.OutputColumns.Tooltip=데이터 행 내 열 보기 및 정의 
 OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 존재합니다!
+OutputColumnPage.error.createNewColumn=Some error happened during a new column being added.
+OutputColumnPage.error.invalidSelection=No valid table item is selected.
+
+###########################################################
+#ColumnDefPage properties
+
+ColumnDefPage.description=Script data set output column definition page
+ColumnDefPage.title=Output columns 
+
+###########################################################
+#ResultSetColumnPage properties
+
+ResultSetColumnPage.button.add=추가(&A)...
+ResultSetColumnPage.button.edit=편집(&E)...
+ResultSetColumnPage.button.delete=삭제(&D)
+ResultSetColumnPage.button.up=위로(&U)
+ResultSetColumnPage.button.down=아래로(&W)
+
+ResultSetColumnPage.inputDialog.newColumn.title=New Script Data Set Column
+ResultSetColumnPage.inputDialog.editColumn.title=Edit Script Data Set Column
+ResultSetColumnPage.inputDialog.label.columnName=&Column Name: 
+ResultSetColumnPage.inputDialog.label.dataType=Data &Type: 
+ResultSetColumnPage.inputDialog.label.alias=Column &Alias: 
+ResultSetColumnPage.inputDialog.label.displayName=&Display Name: 
+ResultSetColumnPage.inputDialog.warning.emptyColumnName=The column name is required to input.
+ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=The column name and its alias should not be the same.
+ResultSetColumnPage.inputDialog.error.duplicatedColumnName=The column name "{0}" has already been in use.
+ResultSetColumnPage.inputDialog.error.duplicatedAlias=The column alias "{0}" has already been in use.
 
 ###########################################################
 #OutputColumnPage properties

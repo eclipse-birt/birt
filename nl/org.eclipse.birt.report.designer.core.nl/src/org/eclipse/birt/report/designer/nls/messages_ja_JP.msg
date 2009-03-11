@@ -2658,6 +2658,34 @@ NoneAction.text=なし
 OutputColumnDefnPage.description=フェッチスクリプトによって作成される出力列の定義を入力 : 
 OutputColumnDefnPage.OutputColumns.Tooltip=データ行内の列の表示と定義 
 OutputColumnPage.OutputColumns.DuplicatedName=この名前はすでに存在します。
+OutputColumnPage.error.createNewColumn=Some error happened during a new column being added.
+OutputColumnPage.error.invalidSelection=No valid table item is selected.
+
+###########################################################
+#ColumnDefPage properties
+
+ColumnDefPage.description=Script data set output column definition page
+ColumnDefPage.title=Output columns 
+
+###########################################################
+#ResultSetColumnPage properties
+
+ResultSetColumnPage.button.add=追加(&A)...
+ResultSetColumnPage.button.edit=編集(&E)...
+ResultSetColumnPage.button.delete=削除(&D)
+ResultSetColumnPage.button.up=上へ(&U)
+ResultSetColumnPage.button.down=下へ(&W)
+
+ResultSetColumnPage.inputDialog.newColumn.title=New Script Data Set Column
+ResultSetColumnPage.inputDialog.editColumn.title=Edit Script Data Set Column
+ResultSetColumnPage.inputDialog.label.columnName=&Column Name: 
+ResultSetColumnPage.inputDialog.label.dataType=Data &Type: 
+ResultSetColumnPage.inputDialog.label.alias=Column &Alias: 
+ResultSetColumnPage.inputDialog.label.displayName=&Display Name: 
+ResultSetColumnPage.inputDialog.warning.emptyColumnName=The column name is required to input.
+ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=The column name and its alias should not be the same.
+ResultSetColumnPage.inputDialog.error.duplicatedColumnName=The column name "{0}" has already been in use.
+ResultSetColumnPage.inputDialog.error.duplicatedAlias=The column alias "{0}" has already been in use.
 
 ###########################################################
 #OutputColumnPage properties

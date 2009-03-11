@@ -2658,6 +2658,34 @@ NoneAction.text=Aucun
 OutputColumnDefnPage.description=Entrer la définition des colonnes de sortie produites par le script de récupération : 
 OutputColumnDefnPage.OutputColumns.Tooltip=Afficher et définir les colonnes au sein d'une ligne de données 
 OutputColumnPage.OutputColumns.DuplicatedName=Ce nom a déjà existé.
+OutputColumnPage.error.createNewColumn=Some error happened during a new column being added.
+OutputColumnPage.error.invalidSelection=No valid table item is selected.
+
+###########################################################
+#ColumnDefPage properties
+
+ColumnDefPage.description=Script data set output column definition page
+ColumnDefPage.title=Output columns 
+
+###########################################################
+#ResultSetColumnPage properties
+
+ResultSetColumnPage.button.add=&Ajouter...
+ResultSetColumnPage.button.edit=Modifi&er...
+ResultSetColumnPage.button.delete=&Supprimer
+ResultSetColumnPage.button.up=&Vers le haut
+ResultSetColumnPage.button.down=&Vers le bas
+
+ResultSetColumnPage.inputDialog.newColumn.title=New Script Data Set Column
+ResultSetColumnPage.inputDialog.editColumn.title=Edit Script Data Set Column
+ResultSetColumnPage.inputDialog.label.columnName=&Column Name: 
+ResultSetColumnPage.inputDialog.label.dataType=Data &Type: 
+ResultSetColumnPage.inputDialog.label.alias=Column &Alias: 
+ResultSetColumnPage.inputDialog.label.displayName=&Display Name: 
+ResultSetColumnPage.inputDialog.warning.emptyColumnName=The column name is required to input.
+ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=The column name and its alias should not be the same.
+ResultSetColumnPage.inputDialog.error.duplicatedColumnName=The column name "{0}" has already been in use.
+ResultSetColumnPage.inputDialog.error.duplicatedAlias=The column alias "{0}" has already been in use.
 
 ###########################################################
 #OutputColumnPage properties
