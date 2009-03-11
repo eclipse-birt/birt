@@ -147,7 +147,7 @@ public class NumberDataElementImpl extends DataElementImpl implements
 		switch ( featureID )
 		{
 			case DataPackage.NUMBER_DATA_ELEMENT__VALUE :
-				return new Double( getValue( ) );
+				return getValue( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -163,7 +163,7 @@ public class NumberDataElementImpl extends DataElementImpl implements
 		switch ( featureID )
 		{
 			case DataPackage.NUMBER_DATA_ELEMENT__VALUE :
-				setValue( ( (Double) newValue ).doubleValue( ) );
+				setValue( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );

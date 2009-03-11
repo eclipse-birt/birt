@@ -193,7 +193,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 			case DataPackage.ORTHOGONAL_SAMPLE_DATA__DATA_SET_REPRESENTATION :
 				return getDataSetRepresentation( );
 			case DataPackage.ORTHOGONAL_SAMPLE_DATA__SERIES_DEFINITION_INDEX :
-				return new Integer( getSeriesDefinitionIndex( ) );
+				return getSeriesDefinitionIndex( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -212,7 +212,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 				setDataSetRepresentation( (String) newValue );
 				return;
 			case DataPackage.ORTHOGONAL_SAMPLE_DATA__SERIES_DEFINITION_INDEX :
-				setSeriesDefinitionIndex( ( (Integer) newValue ).intValue( ) );
+				setSeriesDefinitionIndex( (Integer) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );

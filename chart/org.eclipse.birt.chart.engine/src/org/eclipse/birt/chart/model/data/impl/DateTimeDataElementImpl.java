@@ -150,7 +150,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 		switch ( featureID )
 		{
 			case DataPackage.DATE_TIME_DATA_ELEMENT__VALUE :
-				return new Long( getValue( ) );
+				return getValue( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -166,7 +166,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 		switch ( featureID )
 		{
 			case DataPackage.DATE_TIME_DATA_ELEMENT__VALUE :
-				setValue( ( (Long) newValue ).longValue( ) );
+				setValue( (Long) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );

@@ -589,13 +589,13 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 		switch ( featureID )
 		{
 			case DataPackage.SERIES_GROUPING__ENABLED :
-				return isEnabled( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isEnabled( );
 			case DataPackage.SERIES_GROUPING__GROUPING_UNIT :
 				return getGroupingUnit( );
 			case DataPackage.SERIES_GROUPING__GROUPING_ORIGIN :
 				return getGroupingOrigin( );
 			case DataPackage.SERIES_GROUPING__GROUPING_INTERVAL :
-				return new Double( getGroupingInterval( ) );
+				return getGroupingInterval( );
 			case DataPackage.SERIES_GROUPING__GROUP_TYPE :
 				return getGroupType( );
 			case DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION :
@@ -618,7 +618,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 		switch ( featureID )
 		{
 			case DataPackage.SERIES_GROUPING__ENABLED :
-				setEnabled( ( (Boolean) newValue ).booleanValue( ) );
+				setEnabled( (Boolean) newValue );
 				return;
 			case DataPackage.SERIES_GROUPING__GROUPING_UNIT :
 				setGroupingUnit( (GroupingUnitType) newValue );
@@ -627,7 +627,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 				setGroupingOrigin( (DataElement) newValue );
 				return;
 			case DataPackage.SERIES_GROUPING__GROUPING_INTERVAL :
-				setGroupingInterval( ( (Double) newValue ).doubleValue( ) );
+				setGroupingInterval( (Double) newValue );
 				return;
 			case DataPackage.SERIES_GROUPING__GROUP_TYPE :
 				setGroupType( (DataType) newValue );

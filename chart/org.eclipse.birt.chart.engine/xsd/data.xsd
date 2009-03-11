@@ -270,7 +270,10 @@
 	</xsd:complexType>
 	<xsd:complexType name="SeriesDefinition">
 		<xsd:annotation>
-			<xsd:documentation xml:lang="en">This type represents design-time definition for a series.</xsd:documentation>
+			<xsd:documentation xml:lang="en">
+				This type represents design-time definition for a
+				series.
+			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element name="Query" type="Query" />
@@ -306,8 +309,13 @@
 						to Base Series.
 					</xsd:documentation>
 				</xsd:annotation>
-			</xsd:element>			<xsd:element name="SortKey" type="Query" />
+			</xsd:element>
+			<xsd:element name="SortKey" type="Query" />
 		</xsd:sequence>
+		<xsd:attribute name="ZOrder" type="xsd:int" default="0">
+			<xsd:annotation>
+				<xsd:documentation>Specifies Z order among multiple series renderers. Default value is 0. The series renderer with higher z order value will overlay the one with lower value.</xsd:documentation>
+			</xsd:annotation></xsd:attribute>
 	</xsd:complexType>
 	<xsd:complexType name="Query">
 		<xsd:annotation>

@@ -682,6 +682,17 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSeriesDefinition_ZOrder( )
+	{
+		return (EAttribute) seriesDefinitionEClass.getEStructuralFeatures( )
+				.get( 8 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -919,6 +930,7 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		createEReference( seriesDefinitionEClass, SERIES_DEFINITION__GROUPING );
 		createEAttribute( seriesDefinitionEClass, SERIES_DEFINITION__SORTING );
 		createEReference( seriesDefinitionEClass, SERIES_DEFINITION__SORT_KEY );
+		createEAttribute( seriesDefinitionEClass, SERIES_DEFINITION__ZORDER );
 
 		seriesGroupingEClass = createEClass( SERIES_GROUPING );
 		createEAttribute( seriesGroupingEClass, SERIES_GROUPING__ENABLED );
@@ -1145,6 +1157,9 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 				this.getQuery( ),
 				null,
 				"sortKey", null, 1, 1, SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getSeriesDefinition_ZOrder( ),
+				theXMLTypePackage.getInt( ),
+				"zOrder", "0", 0, 1, SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( seriesGroupingEClass,
 				SeriesGrouping.class,
@@ -1399,6 +1414,10 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		addAnnotation( getSeriesDefinition_SortKey( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "SortKey" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getSeriesDefinition_ZOrder( ), source, new String[]{
+				"kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ZOrder" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( seriesGroupingEClass, source, new String[]{
 				"name", "SeriesGrouping", //$NON-NLS-1$ //$NON-NLS-2$

@@ -53,6 +53,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getGrouping <em>Grouping</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSorting <em>Sorting</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSortKey <em>Sort Key</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getZOrder <em>ZOrder</em>}</li>
  * </ul>
  * </p>
  *
@@ -152,6 +153,35 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * @ordered
 	 */
 	protected Query sortKey;
+
+	/**
+	 * The default value of the '{@link #getZOrder() <em>ZOrder</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getZOrder()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int ZORDER_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getZOrder() <em>ZOrder</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getZOrder()
+	 * @generated
+	 * @ordered
+	 */
+	protected int zOrder = ZORDER_EDEFAULT;
+
+	/**
+	 * This is true if the ZOrder attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean zOrderESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -596,6 +626,66 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getZOrder( )
+	{
+		return zOrder;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setZOrder( int newZOrder )
+	{
+		int oldZOrder = zOrder;
+		zOrder = newZOrder;
+		boolean oldZOrderESet = zOrderESet;
+		zOrderESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					DataPackage.SERIES_DEFINITION__ZORDER,
+					oldZOrder,
+					zOrder,
+					!oldZOrderESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetZOrder( )
+	{
+		int oldZOrder = zOrder;
+		boolean oldZOrderESet = zOrderESet;
+		zOrder = ZORDER_EDEFAULT;
+		zOrderESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					DataPackage.SERIES_DEFINITION__ZORDER,
+					oldZOrder,
+					ZORDER_EDEFAULT,
+					oldZOrderESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetZOrder( )
+	{
+		return zOrderESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
@@ -648,6 +738,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 				return getSorting( );
 			case DataPackage.SERIES_DEFINITION__SORT_KEY :
 				return getSortKey( );
+			case DataPackage.SERIES_DEFINITION__ZORDER :
+				return getZOrder( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -689,6 +781,9 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 			case DataPackage.SERIES_DEFINITION__SORT_KEY :
 				setSortKey( (Query) newValue );
 				return;
+			case DataPackage.SERIES_DEFINITION__ZORDER :
+				setZOrder( (Integer) newValue );
+				return;
 		}
 		super.eSet( featureID, newValue );
 	}
@@ -727,6 +822,9 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 			case DataPackage.SERIES_DEFINITION__SORT_KEY :
 				setSortKey( (Query) null );
 				return;
+			case DataPackage.SERIES_DEFINITION__ZORDER :
+				unsetZOrder( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -758,6 +856,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 				return isSetSorting( );
 			case DataPackage.SERIES_DEFINITION__SORT_KEY :
 				return sortKey != null;
+			case DataPackage.SERIES_DEFINITION__ZORDER :
+				return isSetZOrder( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -776,6 +876,11 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 		result.append( " (sorting: " ); //$NON-NLS-1$
 		if ( sortingESet )
 			result.append( sorting );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", zOrder: " ); //$NON-NLS-1$
+		if ( zOrderESet )
+			result.append( zOrder );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
@@ -901,6 +1006,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 		dest.sorting = src.getSorting( );
 		dest.sortingESet = src.isSetSorting( );
+		dest.zOrder = src.getZOrder( );
+		dest.zOrderESet = src.isSetSorting( );
 
 		return dest;
 	}

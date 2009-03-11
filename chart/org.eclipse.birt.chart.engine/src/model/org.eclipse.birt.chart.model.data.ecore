@@ -299,7 +299,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SeriesDefinition">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type represents design-time definition for a series."/>
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;This type represents design-time definition for a&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="SeriesDefinition"/>
@@ -371,6 +371,16 @@
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="SortKey"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="zOrder" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+        defaultValueLiteral="0" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Specifies Z order among multiple series renderers. Default value is 0. The series renderer with higher z order value will overlay the one with lower value."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="ZOrder"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

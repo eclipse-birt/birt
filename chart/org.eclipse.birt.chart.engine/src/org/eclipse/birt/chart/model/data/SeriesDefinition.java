@@ -25,7 +25,10 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * This type represents design-time definition for a series.
+ * 
+ * 				This type represents design-time definition for a
+ * 				series.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -39,6 +42,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getGrouping <em>Grouping</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortKey <em>Sort Key</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getZOrder <em>ZOrder</em>}</li>
  * </ul>
  * </p>
  *
@@ -258,6 +262,60 @@ public interface SeriesDefinition extends EObject
 	 * @generated
 	 */
 	void setSortKey( Query value );
+
+	/**
+	 * Returns the value of the '<em><b>ZOrder</b></em>' attribute.
+	 * The default value is <code>"0"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies Z order among multiple series renderers. Default value is 0. The series renderer with higher z order value will overlay the one with lower value.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>ZOrder</em>' attribute.
+	 * @see #isSetZOrder()
+	 * @see #unsetZOrder()
+	 * @see #setZOrder(int)
+	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesDefinition_ZOrder()
+	 * @model default="0" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+	 *        extendedMetaData="kind='attribute' name='ZOrder'"
+	 * @generated
+	 */
+	int getZOrder( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getZOrder <em>ZOrder</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>ZOrder</em>' attribute.
+	 * @see #isSetZOrder()
+	 * @see #unsetZOrder()
+	 * @see #getZOrder()
+	 * @generated
+	 */
+	void setZOrder( int value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getZOrder <em>ZOrder</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetZOrder()
+	 * @see #getZOrder()
+	 * @see #setZOrder(int)
+	 * @generated
+	 */
+	void unsetZOrder( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getZOrder <em>ZOrder</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>ZOrder</em>' attribute is set.
+	 * @see #unsetZOrder()
+	 * @see #getZOrder()
+	 * @see #setZOrder(int)
+	 * @generated
+	 */
+	boolean isSetZOrder( );
 
 	/**
 	 * 

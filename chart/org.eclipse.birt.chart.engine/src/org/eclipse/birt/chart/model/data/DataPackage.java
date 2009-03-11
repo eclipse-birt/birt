@@ -618,12 +618,21 @@ public interface DataPackage extends EPackage
 	int SERIES_DEFINITION__SORT_KEY = 7;
 
 	/**
+	 * The feature id for the '<em><b>ZOrder</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERIES_DEFINITION__ZORDER = 8;
+
+	/**
 	 * The number of structural features of the '<em>Series Definition</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERIES_DEFINITION_FEATURE_COUNT = 8;
+	int SERIES_DEFINITION_FEATURE_COUNT = 9;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl <em>Series Grouping</em>}' class.
@@ -1215,6 +1224,17 @@ public interface DataPackage extends EPackage
 	EReference getSeriesDefinition_SortKey( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getZOrder <em>ZOrder</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>ZOrder</em>'.
+	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getZOrder()
+	 * @see #getSeriesDefinition()
+	 * @generated
+	 */
+	EAttribute getSeriesDefinition_ZOrder( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.SeriesGrouping <em>Series Grouping</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Series Grouping</em>'.
@@ -1749,6 +1769,14 @@ public interface DataPackage extends EPackage
 		 * @generated
 		 */
 		EReference SERIES_DEFINITION__SORT_KEY = eINSTANCE.getSeriesDefinition_SortKey( );
+
+		/**
+		 * The meta object literal for the '<em><b>ZOrder</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES_DEFINITION__ZORDER = eINSTANCE.getSeriesDefinition_ZOrder( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl <em>Series Grouping</em>}' class.
