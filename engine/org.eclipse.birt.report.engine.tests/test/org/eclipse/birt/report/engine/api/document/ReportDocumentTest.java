@@ -256,7 +256,6 @@ public class ReportDocumentTest extends EngineCase
 			else
 			{
 				// it contains the table and the single list
-				assertTrue( pageContent.indexOf( "reportlet_table" ) != -1 );
 				int indexOf = pageContent.indexOf( "reportlet_group" );
 				int lastIndexOf = pageContent.lastIndexOf( "reportlet_group" );
 				assertTrue( indexOf != -1 && lastIndexOf != -1
