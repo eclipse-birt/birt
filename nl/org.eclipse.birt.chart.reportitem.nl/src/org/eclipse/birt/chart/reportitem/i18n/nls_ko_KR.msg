@@ -55,7 +55,7 @@ ChartImpl.error.DimensionUnitNotSupported=차원 단위({0})가 Chart Simple API에서 
 # Display names for report model extension 
 ################################################
 
-Element.Chart=차트(&C)
+Element.Chart=차트
 Element.Chart.xmlRepresentation=XML 모델
 Element.Chart.outputFormat=출력 형식
 Element.Chart.action=작업

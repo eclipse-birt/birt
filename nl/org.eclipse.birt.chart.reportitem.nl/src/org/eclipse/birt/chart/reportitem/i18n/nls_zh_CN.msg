@@ -55,7 +55,7 @@ ChartImpl.error.DimensionUnitNotSupported=Chart Simple API 不支持维单位 ({0})
 # Display names for report model extension 
 ################################################
 
-Element.Chart=图表(&C)
+Element.Chart=图表
 Element.Chart.xmlRepresentation=XML 模型
 Element.Chart.outputFormat=输出格式
 Element.Chart.action=操作
