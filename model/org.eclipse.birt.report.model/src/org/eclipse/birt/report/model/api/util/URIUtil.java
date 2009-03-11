@@ -12,7 +12,10 @@
 package org.eclipse.birt.report.model.api.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.eclipse.birt.report.model.util.SecurityUtil;
@@ -68,7 +71,9 @@ public class URIUtil
 	 * Checks whether <code>filePath</code> is a valid file on the disk.
 	 * <code>filePath</code> can follow these scheme.
 	 * <ul>
-	 * <li>./../hello/ <li>C:\\hello\..\ <li>/C:/../hello/.
+	 * <li>./../hello/
+	 * <li>C:\\hello\..\
+	 * <li>/C:/../hello/.
 	 * </ul>
 	 * 
 	 * @param filePath
@@ -422,7 +427,15 @@ public class URIUtil
 		File baseFile = new File( baseDir );
 		File resourceFile = new File( baseFile, relativeDir );
 
-		return resourceFile.getPath( );
+		try
+		{
+			return resourceFile.getCanonicalPath( );
+		}
+		catch ( IOException e )
+		{
+			return resourceFile.getPath( );
+
+		}
 	}
 
 	/**
@@ -451,6 +464,17 @@ public class URIUtil
 	{
 		if ( base == null || relativePath == null )
 			return relativePath;
+
+		try
+		{
+			URI uri = new URI( relativePath );
+			if ( uri.isAbsolute( ) )
+				return relativePath;
+		}
+		catch ( URISyntaxException e )
+		{
+			// do not handle this exception.
+		}
 
 		boolean appendDirectorySeparator = false;
 		if ( base.length( ) > 0 && relativePath.length( ) > 0 )

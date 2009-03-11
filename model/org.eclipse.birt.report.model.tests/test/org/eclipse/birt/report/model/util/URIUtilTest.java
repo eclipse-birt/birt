@@ -294,14 +294,13 @@ public class URIUtilTest extends BaseTestCase
 	private void resolveAbsolutePathOnUnix( )
 	{
 		assertEquals( File.separator + "birt" + File.separator //$NON-NLS-1$ 
-				+ "sampleReports" + File.separator + "reportdesigns" //$NON-NLS-1$ //$NON-NLS-2$
-				+ File.separator + ".." + File.separator + "lib" //$NON-NLS-1$ //$NON-NLS-2$
+				+ "sampleReports" + File.separator + "lib" //$NON-NLS-1$ //$NON-NLS-2$
 				+ File.separator + "lib1.rptlibrary", URIUtil //$NON-NLS-1$
 				.resolveAbsolutePath( "/birt//sampleReports//reportdesigns//", //$NON-NLS-1$
 						"../lib/lib1.rptlibrary" ) ); //$NON-NLS-1$
 
 		assertEquals( "." + File.separator + "reportdesigns" + File.separator //$NON-NLS-1$ //$NON-NLS-2$
-				+ "." + File.separator + "lib" + File.separator //$NON-NLS-1$//$NON-NLS-2$
+				+ "lib" + File.separator //$NON-NLS-1$
 				+ "lib1.rptlibrary", URIUtil.resolveAbsolutePath( //$NON-NLS-1$
 				"./reportdesigns", //$NON-NLS-1$
 				"./lib/lib1.rptlibrary" ) ); //$NON-NLS-1$
@@ -323,11 +322,18 @@ public class URIUtilTest extends BaseTestCase
 						"E://birt//sampleReports//reportdesigns//", //$NON-NLS-1$
 						"..\\lib\\lib1.rptlibrary" ) ); //$NON-NLS-1$
 
-		assertEquals( "." + File.separator + "reportdesigns" + File.separator //$NON-NLS-1$ //$NON-NLS-2$
-				+ "." + File.separator + "lib" + File.separator //$NON-NLS-1$//$NON-NLS-2$
-				+ "lib1.rptlibrary", URIUtil.resolveAbsolutePath( //$NON-NLS-1$
-				".\\reportdesigns", //$NON-NLS-1$
-				".\\lib\\lib1.rptlibrary" ) ); //$NON-NLS-1$
+		assertEquals( "C:" + File.separator + "birt" + File.separator //$NON-NLS-1$ //$NON-NLS-2$
+				+ "sampleReports" + File.separator + "lib" //$NON-NLS-1$ //$NON-NLS-2$
+				+ File.separator + "lib1.rptlibrary", URIUtil //$NON-NLS-1$
+				.resolveAbsolutePath(
+						"C://birt//sampleReports//reportdesigns//", //$NON-NLS-1$
+						"..\\lib\\lib1.rptlibrary" ) ); //$NON-NLS-1$
+
+		String filePath = "reportdesigns" + File.separator //$NON-NLS-1$ 
+				+ "lib" + File.separator + "lib1.rptlibrary"; //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( new File( filePath ).getAbsolutePath( ), URIUtil
+				.resolveAbsolutePath( ".\\reportdesigns", //$NON-NLS-1$
+						".\\lib\\lib1.rptlibrary" ) ); //$NON-NLS-1$
 
 		assertEquals( "C:" + File.separator + "new_report_3.rptdocument" //$NON-NLS-1$//$NON-NLS-2$
 		, URIUtil.resolveAbsolutePath( "./reportdesigns", //$NON-NLS-1$
