@@ -1320,16 +1320,17 @@ public abstract class EngineTask implements IEngineTask
 	{
 		ExtensionManager extManager = ExtensionManager.getInstance( );
 		pagination = extManager.getPagination( emitterID );
-		if ( !renderOptions.hasOption( IRenderOption.OUTPUT_DISPLAY_NONE ) )
+		IRenderOption executionRenderOptions = executionContext.getRenderOption( );
+		if ( !executionRenderOptions.hasOption( IRenderOption.OUTPUT_DISPLAY_NONE ) )
 		{
 			Boolean outputDisplayNone = extManager.getOutputDisplayNone( emitterID );
-			renderOptions.setOption( IRenderOption.OUTPUT_DISPLAY_NONE,
+			executionRenderOptions.setOption( IRenderOption.OUTPUT_DISPLAY_NONE,
 					outputDisplayNone );
 		}
-		if ( !renderOptions.hasOption( IRenderOption.SUPPORTED_IMAGE_FORMATS ) )
+		if ( !executionRenderOptions.hasOption( IRenderOption.SUPPORTED_IMAGE_FORMATS ) )
 		{
 			String supportedImageFormats = extManager.getSupportedImageFormats( emitterID );
-			renderOptions.setOption( IRenderOption.SUPPORTED_IMAGE_FORMATS,
+			executionRenderOptions.setOption( IRenderOption.SUPPORTED_IMAGE_FORMATS,
 					supportedImageFormats );
 		}
 		IContentEmitter emitter = null;

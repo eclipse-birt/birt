@@ -13,6 +13,6 @@
               id="org.eclipse.birt.report.engine.emitter.pdf"
               icon="resource/preview_pdf.gif"
               mimeType="application/pdf"
-              supportedImageFormats="PNG;GIF;JPG;BMP"/>
+              supportedImageFormats="PNG;GIF;JPG;BMP" />
   </extension>  
 </plugin>

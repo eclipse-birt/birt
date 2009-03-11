@@ -89,6 +89,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="supportedImageFormats" type="string">
+            <annotation>
+               <documentation>
+                  The supported image formats
+               </documentation>
+            </annotation>
+         </attribute>
          <attribute name="pagination">
             <annotation>
                <documentation>
