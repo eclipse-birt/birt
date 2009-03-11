@@ -42,7 +42,7 @@ public class DynamicTextItemDesignTest extends AbstractDesignTestCase
 		assertEquals( "dynamic_text", dynamicText.getName( ) );
 		assertEquals( Expression.newExpression( "row[\"COLUMN_4\"]" ),
 				dynamicText.getContent( ) );
-		assertEquals( Expression.newExpression( "dset.contentType" ),
+		assertEquals( Expression.newConstant( "dset.contentType" ),
 				dynamicText.getContentType( ) );
 	}
 }

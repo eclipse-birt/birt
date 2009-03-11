@@ -7,7 +7,6 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -84,12 +83,6 @@ public class NamedExpressionTest extends TestCase
 	public void testNamedExpression( ) throws Exception
 	{
 		Report report = getReport( NAMED_EXPRESSION_DESIGN );
-		IDocArchiveWriter arch = new FileArchiveWriter( NAMED_EXPRESSION_FILENAME );
-		IDataEngine dataEngine = getDataEngine( report, arch,
-				NAMED_EXPRESSION_DESIGN, MODE_GENERATION );
-//		IDataEngine dataEngine = getDataEngine( report, "NamedExpression",
-//				NAMED_EXPRESSION_DESIGN, MODE_GENERATION );
-				
 		assert report.getContentCount() == 5;
 		Map namedExpr = report.getContent( 0 ).getNamedExpressions( );
 		assertEquals( 1, namedExpr.size() );
@@ -195,10 +188,6 @@ public class NamedExpressionTest extends TestCase
 			namedExpr = row.getNamedExpressions();
 			assertEquals( 1, namedExpr.size( ) );
 		}
-		
-		dataEngine.shutdown( );
-		arch.finish( );
-		
 	}
 	
 	private void assertRow( RowDesign row, int expected )

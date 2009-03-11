@@ -129,7 +129,14 @@ public class ApplicationClassLoader extends ClassLoader
 			}
 		}
 		URL[] jarUrls = (URL[]) urls.toArray( new URL[]{} );
-		designClassLoader = new URLClassLoader( jarUrls, engine
-				.getEngineClassLoader( ) );
+		if ( engine != null )
+		{
+			designClassLoader = new URLClassLoader( jarUrls, engine
+					.getEngineClassLoader( ) );
+		}
+		else
+		{
+			designClassLoader = new URLClassLoader( jarUrls );
+		}
 	}
 }
