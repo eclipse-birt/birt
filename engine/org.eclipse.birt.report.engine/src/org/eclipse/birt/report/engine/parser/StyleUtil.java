@@ -89,9 +89,9 @@ public class StyleUtil
 				StyleConstants.STYLE_CAN_SHRINK );
 		styleName2Index.put( Style.COLOR_PROP, StyleConstants.STYLE_COLOR );
 		styleName2Index.put( Style.DATE_TIME_FORMAT_PROP,
-				StyleConstants.STYLE_SQL_DATE_FORMAT );
-		styleName2Index.put( Style.DATE_FORMAT_PROP,
 				StyleConstants.STYLE_DATE_FORMAT );
+		styleName2Index.put( Style.DATE_FORMAT_PROP,
+				StyleConstants.STYLE_SQL_DATE_FORMAT );
 		styleName2Index.put( Style.TIME_FORMAT_PROP,
 				StyleConstants.STYLE_SQL_TIME_FORMAT );
 		styleName2Index.put( Style.FONT_FAMILY_PROP,
