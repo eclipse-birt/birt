@@ -34,6 +34,16 @@ public class FieldAssistPreferenceInitializer extends
 	{
 		IPreferenceStore store = ChartUIExtensionPlugin.getDefault( )
 				.getPreferenceStore( );
+		setDefaultPreferences( store );
+	}
+	
+	/**
+	 * Sets default preferences to store.
+	 * 
+	 * @param store
+	 */
+	public static void setDefaultPreferences( IPreferenceStore store )
+	{
 		store.setDefault( PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION,
 				PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION_LEFT );
 		store.setDefault( PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION,

@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.fieldassist;
 
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
+import org.eclipse.birt.chart.ui.swt.fieldassist.preferences.FieldAssistPreferenceInitializer;
 import org.eclipse.birt.chart.ui.swt.fieldassist.preferences.PreferenceConstants;
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.bindings.keys.ParseException;
@@ -24,6 +25,7 @@ import org.eclipse.jface.fieldassist.IContentProposal;
 import org.eclipse.jface.fieldassist.IContentProposalProvider;
 import org.eclipse.jface.fieldassist.IControlContentAdapter;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.PreferenceStore;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -77,6 +79,13 @@ public final class FieldAssistHelper
 	{
 		if ( soPreferenceStore == null )
 		{
+			if ( ChartUIExtensionPlugin.getDefault( ) == null )
+			{
+				soPreferenceStore = new PreferenceStore();
+				FieldAssistPreferenceInitializer.setDefaultPreferences( soPreferenceStore );
+				return;
+			}
+			
 			soPreferenceStore = ChartUIExtensionPlugin.getDefault( )
 					.getPreferenceStore( );
 		}
