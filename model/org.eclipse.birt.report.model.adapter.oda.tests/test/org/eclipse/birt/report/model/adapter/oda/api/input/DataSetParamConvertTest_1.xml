@@ -6,10 +6,7 @@
     </data-sources>
     <data-sets>
         <oda-data-set name="myDataSet1" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
-            <property name="dataSource">myDataSource1</property>
-			<text-property name="displayName">My Data Set One</text-property>			
-            <property name="queryTimeOut">30000</property>				
-			<property name="queryText">select * from table</property>					
+            <property name="dataSource">myDataSource1</property>				
             <list-property name="parameters">
                 <structure>
                     <property name="name">name</property>

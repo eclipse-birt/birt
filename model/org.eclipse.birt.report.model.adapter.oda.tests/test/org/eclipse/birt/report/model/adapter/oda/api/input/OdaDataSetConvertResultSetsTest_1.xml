@@ -29,7 +29,6 @@
                     <value>10000</value>
                 </ex-property>
             </list-property>					
-            <property name="queryText">select * from user</property>
             <property name="type">extended</property>
             <property name="resultSetName">userid</property>	
 <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -95,7 +94,6 @@
         </oda-data-set>
         <oda-data-set name="myDataSet2" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
 			<property name="dataSource">myDataSource1</property>
-			<property name="queryText">select * from user</property>
         </oda-data-set>
     </data-sets>
 </report>

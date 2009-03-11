@@ -106,9 +106,7 @@
                   </design:properties>
                 </design:privateProperties>
               </design:dataSourceDesign>
-              <design:query>
-                <design:queryText>select * from user</design:queryText>
-              </design:query>
+              <design:query/>
               <design:publicProperties>
                 <design:properties>
                   <design:nameValue>
@@ -213,9 +211,7 @@
                   </design:properties>
                 </design:privateProperties>
               </design:dataSourceDesign>
-              <design:query>
-                <design:queryText>select * from user</design:queryText>
-              </design:query>
+              <design:query/>
               <design:publicProperties>
                 <design:properties>
                   <design:nameValue>
@@ -323,9 +319,7 @@
                   </design:properties>
                 </design:privateProperties>
               </design:dataSourceDesign>
-              <design:query>
-                <design:queryText>select * from user</design:queryText>
-              </design:query>
+              <design:query/>
               <design:publicProperties>
                 <design:properties>
                   <design:nameValue>

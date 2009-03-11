@@ -21,7 +21,7 @@
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet1" id="3">
             <text-property name="displayName">My Data Set One</text-property>
             <property name="dataSource">myDataSource1</property>
-            <property name="queryText">select * from user</property>
+            <xml-property name="queryText"><![CDATA[select * from user]]></xml-property>
             <property name="resultSetName">userid</property>
             <structure name="designerState">
                 <property name="version">2.0</property>

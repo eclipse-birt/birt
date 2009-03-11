@@ -13,7 +13,7 @@
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="testDataSet" id="3">
             <property name="dataSource">testSource</property>
-            <property name="queryText">new query text</property>
+            <xml-property name="queryText"><![CDATA[new query text]]></xml-property>            
         </oda-data-set>
     </data-sets>
 </report>

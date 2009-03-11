@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <data-sources>
         <oda-data-source name="myDataSource1" extensionID="org.eclipse.birt.report.data.oda.jdbc" id="2">
 			<text-property name="displayName">My Data Source One</text-property>
@@ -57,7 +57,6 @@
 					<property name="paramName">Param 3</property>					
 				</structure>
 			</list-property>			
-            <property name="queryText">select * from user</property>
             <property name="type">extended</property>
             <property name="resultSetName">userid</property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -138,9 +137,7 @@
                   </design:properties>
                 </design:privateProperties>
               </design:dataSourceDesign>
-              <design:query>
-                <design:queryText>select * from user</design:queryText>
-              </design:query>
+              <design:query/>
               <design:publicProperties>
                 <design:properties>
                   <design:nameValue>
@@ -230,9 +227,7 @@
                   </design:properties>
                 </design:privateProperties>
               </design:dataSourceDesign>
-              <design:query>
-                <design:queryText>select * from user</design:queryText>
-              </design:query>
+              <design:query/>
               <design:publicProperties>
                 <design:properties>
                   <design:nameValue>
@@ -323,9 +318,7 @@
                   </design:properties>
                 </design:privateProperties>
               </design:dataSourceDesign>
-              <design:query>
-                <design:queryText>select * from user</design:queryText>
-              </design:query>
+              <design:query/>
               <design:publicProperties>
                 <design:properties>
                   <design:nameValue>
@@ -349,7 +342,6 @@
         </oda-data-set>
         <oda-data-set name="myDataSet2" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
 			<property name="dataSource">myDataSource1</property>
-			<property name="queryText">select * from user</property>
         </oda-data-set>
     </data-sets>
     <parameters>
@@ -367,7 +359,9 @@
             <property name="promptText">param1 prompt text</property>
             <expression name="valueExpr">value column</expression>
             <expression name="labelExpr">label column</expression>
-            <expression name="defaultValue">State</expression>
+			<simple-property-list name="defaultValue">
+            	<value>State</value>
+            </simple-property-list>            
             <list-property name="selectionList">
                 <structure>
                     <property name="value">option 1</property>
@@ -407,7 +401,9 @@
             <expression name="valueExpr">row["test"]</expression>
             <expression name="labelExpr">test column</expression>
             <property name="listLimit">100</property>
-            <property name="defaultValue">"default value param 3"</property>
+			<simple-property-list name="defaultValue">
+            	<value>"default value param 3"</value>
+            </simple-property-list>            
             <property name="allowNull">true</property>
         </scalar-parameter>
     </parameters>	

@@ -508,13 +508,23 @@ class ResultSetsAdapter
 
 			Integer tmpNativeDataType = column.getNativeDataType( );
 			String nativeName = column.getNativeName( );
-			if ( ( StringUtil.isBlank( nativeName ) || nativeName
-					.equalsIgnoreCase( paramName ) )
-					&& position.equals( column.getPosition( ) )
-					&& ( tmpNativeDataType == null || nativeDataType
-							.equals( tmpNativeDataType ) ) )
+			
+			// nativeName/name, position and nativeDataType should match.
+
+			// case 1: if the native name is not blank, just use it.
+
+			if ( !StringUtil.isBlank( nativeName )
+					&& nativeName.equals( paramName ) )
 				return column;
 
+			// case 2: if the native name is blank, match native data type and
+			// position
+
+			if ( StringUtil.isBlank( nativeName )
+					&& position.equals( column.getPosition( ))
+					&& ( tmpNativeDataType == null || tmpNativeDataType
+							.equals( nativeDataType ) ) )
+				return column;
 		}
 		return null;
 

@@ -9,7 +9,6 @@
             <property name="dataType">decimal</property>
             <text-property name="promptText">param1 prompt text</text-property>
             <property name="concealValue">true</property>
-            <property name="isRequired">false</property>
             <property name="controlType">check-box</property>
             <property name="dataSetName">myDataSet2</property>
             <expression name="valueExpr">value column</expression>
@@ -38,7 +37,6 @@
             <property name="dataType">string</property>
             <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
             <property name="listLimit">100</property>
-            <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">myDataSet2</property>
             <expression name="valueExpr">row["test"]</expression>
@@ -50,7 +48,6 @@
             <property name="dataType">string</property>
             <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
             <property name="listLimit">100</property>
-            <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">myDataSet2</property>
             <expression name="valueExpr">row["test"]</expression>
@@ -115,7 +112,6 @@
                     <property name="isOutput">true</property>
                 </structure>
             </list-property>       
-            <property name="queryText">select * from user</property>
             <property name="resultSetName">userid</property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -210,7 +206,6 @@
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet2" id="4">
             <property name="dataSource">myDataSource1</property>
-            <property name="queryText">select * from user</property>
         </oda-data-set>
     </data-sets>
 </report>

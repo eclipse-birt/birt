@@ -15,11 +15,9 @@
                     <property name="nativeDataType">2004</property>
                 </structure>
             </list-property>
-            <property name="queryText">select * from user</property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet2" id="4">
             <property name="dataSource">myDataSource1</property>
-            <property name="queryText">select * from user</property>
         </oda-data-set>
     </data-sets>
 </report>

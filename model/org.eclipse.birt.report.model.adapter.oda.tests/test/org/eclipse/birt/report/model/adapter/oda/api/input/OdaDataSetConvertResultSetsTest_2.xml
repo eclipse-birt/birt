@@ -8,7 +8,6 @@
         <oda-data-set name="myDataSet1" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
             <property name="dataSource">myDataSource1</property>
 			<text-property name="displayName">My Data Set One</text-property>								
-            <property name="queryText">select * from user</property>
             <property name="type">extended</property>         	
             <list-property name="resultSet">
                 <structure>
@@ -21,7 +20,6 @@
         </oda-data-set>
         <oda-data-set name="myDataSet2" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
 			<property name="dataSource">myDataSource1</property>
-			<property name="queryText">select * from user</property>
         </oda-data-set>
     </data-sets>
 </report>
