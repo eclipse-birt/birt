@@ -193,8 +193,8 @@ public class TextItemDesign extends ReportItemDesign
 		if ( handle instanceof TextItemHandle )
 		{
 			TextItemHandle textItem = (TextItemHandle) handle;
-			textItem.hasExpression( );
+			return textItem.hasExpression( );
 		}
-		return false;
+		return true;
 	}
 }
