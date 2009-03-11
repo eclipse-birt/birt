@@ -1915,8 +1915,7 @@ public class EngineIRVisitor extends DesignVisitor
 			action.setHyperlink( createExpression( validateExpression( handle
 					.getURI( ) ) ) );
 			action
-					.setTargetWindow( createExpression( handle
-							.getTargetWindow( ) ) );
+					.setTargetWindow( createConstant( handle.getTargetWindow( ) ) );
 		}
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
 				.equals( linkType ) )
@@ -1928,9 +1927,9 @@ public class EngineIRVisitor extends DesignVisitor
 				.equals( linkType ) )
 		{
 			action
-					.setTargetWindow( createExpression( handle
+					.setTargetWindow( createConstant( handle
 							.getTargetWindow( ) ) );
-			action.setTargetFileType( createExpression( handle
+			action.setTargetFileType( createConstant( handle
 					.getTargetFileType( ) ) );
 			DrillThroughActionDesign drillThrough = new DrillThroughActionDesign( );
 			action.setDrillThrough( drillThrough );
@@ -1941,7 +1940,7 @@ public class EngineIRVisitor extends DesignVisitor
 			drillThrough
 					.setBookmark( createExpression( validateExpression( handle
 					.getTargetBookmark( ) ) ) );
-			drillThrough.setBookmarkType( createExpression( handle
+			drillThrough.setBookmarkType( createConstant( handle
 					.getTargetBookmarkType( ) ) );
 			Map params = new HashMap( );
 			Iterator paramIte = handle.paramBindingsIterator( );

@@ -617,12 +617,12 @@ public class EngineIRReaderImpl implements IOConstants
 				design.setWidth( readDimensionExpression( in ) );
 				break;
 			case FIELD_BOOKMARK :
-				Expression<String> bookmark = readStringConstant( in );
+				Expression<String> bookmark = readStringExpression( in );
 				design.setBookmark( bookmark );
 				break;
 			case FIELD_TOC :
 
-				Expression<Object> toc = readObjectConstant( in );
+				Expression<Object> toc = readObjectExpression( in );
 				design.setTOC( toc );
 				break;
 			case FIELD_ON_CREATE :
@@ -1235,6 +1235,12 @@ public class EngineIRReaderImpl implements IOConstants
 		return Expression.newConstant( value );
 	}
 	
+	protected Expression<Object> readObjectExpression( DataInputStream in )
+			throws IOException
+	{
+		return readExpression( in, Object.class );
+	}
+
 	protected <T> Expression<T> readExpression( DataInputStream in, Class<T> clazz )
 			throws IOException
 	{
@@ -1639,7 +1645,7 @@ public class EngineIRReaderImpl implements IOConstants
 			// We remove isBookmark of ActionDesign from version 1.
 			IOUtil.readBool( in );
 		}
-		Expression<String> targetWindow = readStringExpression( in );
+		Expression<String> targetWindow = readStringConstant( in );
 		action.setTargetWindow( targetWindow );
 		return action;
 	}
