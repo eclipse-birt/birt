@@ -117,6 +117,8 @@ public class TableArea extends RepeatableArea
 		}
 		return false;
 	}
+	
+	
 
 	protected void buildProperties( IContent content, LayoutContext context )
 	{
@@ -124,7 +126,8 @@ public class TableArea extends RepeatableArea
 		if ( style != null && !style.isEmpty( ) )
 		{
 			boxStyle = new BoxStyle( );
-			Color color = PropertyUtil.getColor( style
+			IStyle cs = content.getComputedStyle( );
+			Color color = PropertyUtil.getColor( cs
 					.getProperty( IStyle.STYLE_BACKGROUND_COLOR ) );
 
 			if ( color != null )
@@ -137,15 +140,15 @@ public class TableArea extends RepeatableArea
 			{
 				boxStyle
 						.setBackgroundImage( new BackgroundImageInfo(
-								url,
-								style
+								getImageUrl( url ),
+								cs
 										.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
 								getDimensionValue(
-										style
+										cs
 												.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
 										width ),
 								getDimensionValue(
-										style
+										cs
 												.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
 										width ) ) );
 
@@ -153,19 +156,19 @@ public class TableArea extends RepeatableArea
 			localProperties = new LocalProperties( );
 			int maw = parent.getMaxAvaWidth( );
 
-			localProperties.setMarginBottom( getDimensionValue( style
+			localProperties.setMarginBottom( getDimensionValue( cs
 					.getProperty( IStyle.STYLE_MARGIN_BOTTOM ), maw ) );
-			localProperties.setMarginLeft( getDimensionValue( style
+			localProperties.setMarginLeft( getDimensionValue( cs
 					.getProperty( IStyle.STYLE_MARGIN_LEFT ), maw ) );
-			localProperties.setMarginTop( getDimensionValue( style
+			localProperties.setMarginTop( getDimensionValue( cs
 					.getProperty( IStyle.STYLE_MARGIN_TOP ), maw ) );
-			localProperties.setMarginRight( getDimensionValue( style
+			localProperties.setMarginRight( getDimensionValue( cs
 					.getProperty( IStyle.STYLE_MARGIN_RIGHT ), maw ) );
 			if ( !isInInlineStacking )
 			{
-				pageBreakAfter =  style	.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER ) ;
-				pageBreakInside =  style.getProperty( IStyle.STYLE_PAGE_BREAK_INSIDE ) ;
-				pageBreakBefore =style.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE ) ;
+				pageBreakAfter =  cs	.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER ) ;
+				pageBreakInside =  cs.getProperty( IStyle.STYLE_PAGE_BREAK_INSIDE ) ;
+				pageBreakBefore = cs.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE ) ;
 			}
 		}
 		else

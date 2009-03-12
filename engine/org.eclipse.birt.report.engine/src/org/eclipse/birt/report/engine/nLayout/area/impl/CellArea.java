@@ -148,10 +148,10 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		{
 			boxStyle.setBackgroundColor( color );
 		}
-		String url = style.getBackgroundImage( );
-		if ( url != null  && !"none".equals( url ))
+		String url = content.getStyle().getBackgroundImage( );
+		if ( url != null )
 		{
-			boxStyle.setBackgroundImage( new BackgroundImageInfo( url, style
+			boxStyle.setBackgroundImage( new BackgroundImageInfo( getImageUrl( url ), style
 					.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
 					getDimensionValue( style
 							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),

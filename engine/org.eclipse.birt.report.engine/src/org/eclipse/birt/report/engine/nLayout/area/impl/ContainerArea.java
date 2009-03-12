@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -27,6 +28,8 @@ import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.css.CSSValue;
 
 public abstract class ContainerArea extends AbstractArea
@@ -750,7 +753,7 @@ public abstract class ContainerArea extends AbstractArea
 		CSSValue url = style.getProperty( IStyle.STYLE_BACKGROUND_IMAGE );
 		if ( !IStyle.NONE_VALUE.equals( style.getProperty( IStyle.STYLE_BACKGROUND_IMAGE ) ))
 		{
-			boxStyle.setBackgroundImage( new BackgroundImageInfo( url.getCssText( ), style
+			boxStyle.setBackgroundImage( new BackgroundImageInfo( getImageUrl( url.getCssText( )), style
 					.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
 					getDimensionValue( style
 							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
@@ -780,12 +783,12 @@ public abstract class ContainerArea extends AbstractArea
 				boxStyle.setBackgroundColor( color );
 			}
 
-			String url = cs.getBackgroundImage( );
+			String url = style.getBackgroundImage( );
 			if ( url != null )
 			{
 				boxStyle
 						.setBackgroundImage( new BackgroundImageInfo(
-								url,
+								getImageUrl( url ),
 								cs
 										.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
 								getDimensionValue(
@@ -850,6 +853,22 @@ public abstract class ContainerArea extends AbstractArea
 			return ( IStyle.AVOID_VALUE == pageBreakInside );
 		}
 		return false;
+	}
+	
+	protected String getImageUrl( String imageUri )
+	{
+		String imageUrl = imageUri;
+		ReportDesignHandle reportDesign = context.getReport( ).getDesign( ).getReportDesign( );
+		if ( reportDesign != null )
+		{
+			URL url = reportDesign.findResource( imageUri,
+					IResourceLocator.IMAGE );
+			if ( url != null )
+			{
+				imageUrl = url.toExternalForm( );
+			}
+		}
+		return imageUrl;
 	}
 	
 	public boolean isPageBreakAfterAvoid()

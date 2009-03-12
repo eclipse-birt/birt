@@ -321,13 +321,14 @@ public class LineArea extends InlineStackingArea
 
 	protected void close( boolean isLastLine ) throws BirtException
 	{
+		if(children.size( )==0)
+		{
+			return;
+		}
 		int lineHeight = ( (BlockContainerArea) parent ).getLineHeight( );
 		height = Math.max( height, lineHeight );
 		width = maxAvaWidth;
-		if ( children.size( ) > 0 )
-		{
-			align( isLastLine, context );
-		}
+		align( isLastLine, context );
 		if(isLastLine)
 		{
 			if ( !isInInlineStacking && context.isAutoPageBreak( ) )
