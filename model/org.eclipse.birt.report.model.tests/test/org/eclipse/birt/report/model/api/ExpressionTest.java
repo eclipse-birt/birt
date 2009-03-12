@@ -187,4 +187,59 @@ public class ExpressionTest extends BaseTestCase
 				"new expression", ExpressionType.JAVASCRIPT ) ); //$NON-NLS-1$
 		assertEquals( "new expression", sortHandle.getKey( ) ); //$NON-NLS-1$
 	}
+
+	/**
+	 * Tests ExpressionListHandle class. getListValue/setListValue().
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testExpressionListHandle( ) throws Exception
+	{
+		// use the same file in API compatibility
+
+		openDesign( "CompatibleValue1Test.xml" ); //$NON-NLS-1$
+
+		// test style rule handle
+
+		StyleHandle tmpStyle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
+		Iterator iter1 = tmpStyle.highlightRulesIterator( );
+		HighlightRuleHandle tmpHighlight = (HighlightRuleHandle) iter1.next( );
+
+		ExpressionListHandle tmpHandle = tmpHighlight.getValue1ExpressionList( );
+		List<Expression> tmpValues = tmpHandle.getListValue( );
+		equals( tmpValues.get( 0 ), "hi_value1", ExpressionType.JAVASCRIPT ); //$NON-NLS-1$
+		equals( tmpValues.get( 1 ), "hi_value2", ExpressionType.JAVASCRIPT ); //$NON-NLS-1$
+
+		List<Expression> newValues = new ArrayList<Expression>( );
+
+		newValues.add( new Expression( "new a", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
+		newValues.add( new Expression( "new b", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
+		newValues.add( new Expression( "new c", ExpressionType.CONSTANT ) );//$NON-NLS-1$
+		tmpHandle.setListValue( newValues );
+
+		tmpValues = tmpHandle.getListValue( );
+		equals( tmpValues.get( 0 ), "new a", ExpressionType.CONSTANT ); //$NON-NLS-1$
+		equals( tmpValues.get( 1 ), "new b", ExpressionType.CONSTANT ); //$NON-NLS-1$
+		equals( tmpValues.get( 2 ), "new c", ExpressionType.CONSTANT ); //$NON-NLS-1$
+
+		// test filter properties
+
+		DesignElementHandle testTable = designHandle.findElement( "testTable" ); //$NON-NLS-1$
+		List valueList = testTable.getListProperty( "filter" ); //$NON-NLS-1$
+		FilterConditionElementHandle filter = (FilterConditionElementHandle) valueList
+				.get( 0 );
+
+		tmpHandle = filter.getValue1ExpressionList( );
+		tmpValues = tmpHandle.getListValue( );
+		equals( tmpValues.get( 0 ), "filter_value1", ExpressionType.JAVASCRIPT ); //$NON-NLS-1$
+		equals( tmpValues.get( 1 ), "filter_value2", ExpressionType.JAVASCRIPT ); //$NON-NLS-1$
+
+		tmpHandle.setListValue( newValues );
+
+		tmpValues = tmpHandle.getListValue( );
+		equals( tmpValues.get( 0 ), "new a", ExpressionType.CONSTANT ); //$NON-NLS-1$
+		equals( tmpValues.get( 1 ), "new b", ExpressionType.CONSTANT ); //$NON-NLS-1$
+		equals( tmpValues.get( 2 ), "new c", ExpressionType.CONSTANT ); //$NON-NLS-1$
+	}
 }

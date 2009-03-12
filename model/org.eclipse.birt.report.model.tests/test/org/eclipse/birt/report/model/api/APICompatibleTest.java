@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -294,9 +295,9 @@ public class APICompatibleTest extends BaseTestCase
 		assertEquals( "toc2", labelHandle.getTocExpression( ) ); //$NON-NLS-1$
 
 		// should have no class cast exception
-		
+
 		TOC tmpTOC = (TOC) labelHandle.getProperty( LabelHandle.TOC_PROP );
-		assertEquals( "toc2", tmpTOC.toString( ) );  //$NON-NLS-1$
+		assertEquals( "toc2", tmpTOC.toString( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -410,5 +411,43 @@ public class APICompatibleTest extends BaseTestCase
 
 		assertEquals( "new_resource", designHandle.getIncludeResource( ) ); //$NON-NLS-1$
 
+	}
+
+	/**
+	 * Test API backward compatibility for StyleRule.value1,
+	 * FilterCondition.valu1 and FilterConditionElement.value1.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testValue1List( ) throws Exception
+	{
+		// use the same file in ExpressionTest
+
+		openDesign( "CompatibleValue1Test.xml" ); //$NON-NLS-1$
+
+		StyleHandle tmpStyle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
+		Iterator iter1 = tmpStyle.highlightRulesIterator( );
+		HighlightRuleHandle tmpHighlight = (HighlightRuleHandle) iter1.next( );
+
+		List<String> tmpValues = (List<String>) tmpHighlight.getValue1List( );
+		assertEquals( "[hi_value1, hi_value2]", tmpValues.toString( ) ); //$NON-NLS-1$
+
+		iter1 = tmpStyle.mapRulesIterator( );
+		MapRuleHandle tmpMap = (MapRuleHandle) iter1.next( );
+
+		tmpValues = (List<String>) tmpMap.getValue1List( ); //$NON-NLS-1$
+		assertEquals( "[map_value1, map_value2]", tmpValues.toString( ) ); //$NON-NLS-1$
+
+		DesignElementHandle testTable = designHandle.findElement( "testTable" ); //$NON-NLS-1$
+		assertNotNull( testTable );
+
+		// test filter properties
+
+		List valueList = testTable.getListProperty( "filter" ); //$NON-NLS-1$
+		FilterConditionElementHandle filter = (FilterConditionElementHandle) valueList
+				.get( 0 );
+		tmpValues = (List<String>) filter.getValue1List( );
+		assertEquals( "[filter_value1, filter_value2]", tmpValues.toString( ) ); //$NON-NLS-1$
 	}
 }

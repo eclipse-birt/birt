@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.PropertyStructure;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Base class for highlight and map rules in the style. Choices for the operand
@@ -250,7 +251,7 @@ public abstract class StyleRule extends PropertyStructure
 		List valueList = getValue1List( );
 		if ( valueList == null || valueList.isEmpty( ) )
 			return null;
-		return ( (Expression) valueList.get( 0 ) ).getStringExpression( );
+		return (String) valueList.get( 0 );
 	}
 
 	/**
@@ -259,10 +260,31 @@ public abstract class StyleRule extends PropertyStructure
 	 * more than one expression.
 	 * 
 	 * @return the value1 expression list.
+	 * 
+	 * @deprecated {@link #getValue1ExpressionList()}
 	 */
 	public List getValue1List( )
 	{
-		List valueList = (List) getProperty( null, VALUE1_MEMBER );
+		List<Expression> valueList = (List<Expression>) getProperty( null,
+				VALUE1_MEMBER );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return Collections.EMPTY_LIST;
+		return Collections.unmodifiableList( ModelUtil
+				.getExpressionCompatibleList( valueList ) );
+	}
+
+	/**
+	 * Gets the value1 expression list. For most map operator, there is only one
+	 * expression in the returned list. However, map operator 'in' may contain
+	 * more than one expression.
+	 * 
+	 * @return the value1 expression list. Each item is <code>Expression</code>
+	 *         object.
+	 */
+	public List getValue1ExpressionList( )
+	{
+		List<Expression> valueList = (List<Expression>) getProperty( null,
+				VALUE1_MEMBER );
 		if ( valueList == null || valueList.isEmpty( ) )
 			return Collections.EMPTY_LIST;
 		return Collections.unmodifiableList( valueList );

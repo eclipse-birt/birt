@@ -18,9 +18,12 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.util.OperatorUtil;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
+import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents the handle of style rule. This abstract class provides the common
@@ -145,7 +148,11 @@ public abstract class StyleRuleHandle extends StructureHandle
 
 	public String getValue1( )
 	{
-		return getCompatibleValue1( StyleRule.VALUE1_MEMBER, getValue1List( ) );
+		List valueList = getValue1List( );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return null;
+
+		return (String) valueList.get( 0 );
 	}
 
 	/**
@@ -154,14 +161,34 @@ public abstract class StyleRuleHandle extends StructureHandle
 	 * more than one expression.
 	 * 
 	 * @return the value1 expression list.
+	 * 
+	 * @deprecated {@link #getValue1ExpressionList()}
 	 */
 
 	public List getValue1List( )
 	{
-		List valueList = (List) getProperty( StyleRule.VALUE1_MEMBER );
+		List<Expression> valueList = (List<Expression>) getProperty( StyleRule.VALUE1_MEMBER );
 		if ( valueList == null || valueList.isEmpty( ) )
 			return Collections.EMPTY_LIST;
-		return Collections.unmodifiableList( valueList );
+		return Collections.unmodifiableList( ModelUtil
+				.getExpressionCompatibleList( valueList ) );
+	}
+
+	/**
+	 * Gets the value1 expression list. For most map operator, there is only one
+	 * expression in the returned list. However, map operator 'in' may contain
+	 * more than one expression.
+	 * 
+	 * @return the value1 expression list handle
+	 */
+
+	public ExpressionListHandle getValue1ExpressionList( )
+	{
+		MemberRef tmpRef = new CachedMemberRef( structRef,
+				(StructPropertyDefn) getDefn( ).getMember(
+						StyleRule.VALUE1_MEMBER ) );
+
+		return new ExpressionListHandle( elementHandle, tmpRef );
 	}
 
 	/**

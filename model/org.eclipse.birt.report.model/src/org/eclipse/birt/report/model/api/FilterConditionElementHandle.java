@@ -16,16 +16,14 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.OperatorUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * 
@@ -191,11 +189,25 @@ public class FilterConditionElementHandle extends ContentElementHandle
 		if ( valueList == null || valueList.isEmpty( ) )
 			return null;
 
-		PropertyType tmpType = MetaDataDictionary.getInstance( )
-				.getPropertyType( IPropertyType.EXPRESSION_TYPE );
-		PropertyDefn tmpPropDefn = (PropertyDefn) getPropertyDefn( VALUE1_PROP );
+		return (String) valueList.get( 0 );
+	}
 
-		return tmpType.toString( getModule( ), tmpPropDefn, valueList.get( 0 ) );
+	/**
+	 * Gets the value1 expression list of this filter condition. For most filter
+	 * operator, there is only one expression in the returned list. However,
+	 * filter operator 'in' may contain more than one expression.
+	 * 
+	 * @return the value1 expression list of this filter condition.
+	 * 
+	 * @deprecated {@link #getValue1ExpressionList()}
+	 */
+	public List getValue1List( )
+	{
+		List<Expression> valueList = (List<Expression>) getProperty( VALUE1_PROP );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return Collections.EMPTY_LIST;
+		return Collections.unmodifiableList( ModelUtil
+				.getExpressionCompatibleList( valueList ) );
 	}
 
 	/**
@@ -205,12 +217,11 @@ public class FilterConditionElementHandle extends ContentElementHandle
 	 * 
 	 * @return the value1 expression list of this filter condition.
 	 */
-	public List getValue1List( )
+
+	public ExpressionListHandle getValue1ExpressionList( )
 	{
-		List valueList = (List) getProperty( VALUE1_PROP );
-		if ( valueList == null || valueList.isEmpty( ) )
-			return Collections.EMPTY_LIST;
-		return Collections.unmodifiableList( valueList );
+		return new ExpressionListHandle( this,
+				(ElementPropertyDefn) getPropertyDefn( VALUE1_PROP ) );
 	}
 
 	/**

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19">
+	<styles>
+		<style name="My-Style">
+			<list-property name="highlightRules">
+				<structure>
+					<simple-property-list name="value1">
+						<value type="javascript">hi_value1</value>
+						<value type="javascript">hi_value2</value>
+					</simple-property-list>
+				</structure>
+			</list-property>
+			<list-property name="mapRules">
+				<structure>
+					<simple-property-list name="value1">
+						<value type="javascript">map_value1</value>
+						<value type="javascript">map_value2</value>
+					</simple-property-list>
+				</structure>
+			</list-property>
+		</style>
+	</styles>
+	<body>
+		<extended-item extensionName="TestingTable" name="testTable">
+			<property name="filter">
+				<filter-condition-element>
+					<simple-property-list name="value1">
+						<value type="javascript">filter_value1</value>
+						<value type="javascript">filter_value2</value>
+					</simple-property-list>
+				</filter-condition-element>
+			</property>
+		</extended-item>
+	</body>
+</report>

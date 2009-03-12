@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents one filter in the filter list of List, Table or their Groups.
@@ -152,7 +153,9 @@ public class FilterCondition extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -177,8 +180,9 @@ public class FilterCondition extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -306,8 +310,7 @@ public class FilterCondition extends Structure
 		if ( valueList == null || valueList.isEmpty( ) )
 			return null;
 
-		Expression tmpExpr = (Expression) valueList.get( 0 );
-		return tmpExpr.getStringExpression( );
+		return (String) valueList.get( 0 );
 	}
 
 	/**
@@ -316,10 +319,33 @@ public class FilterCondition extends Structure
 	 * filter operator 'in' may contain more than one expression.
 	 * 
 	 * @return the value1 expression list of this filter condition.
+	 * 
+	 * @deprecated {@link #getValue1ExpressionList()}
 	 */
+
 	public List getValue1List( )
 	{
-		List valueList = (List) getProperty( null, VALUE1_MEMBER );
+		List<Expression> valueList = (List<Expression>) getProperty( null,
+				VALUE1_MEMBER );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return Collections.EMPTY_LIST;
+		return Collections.unmodifiableList( ModelUtil
+				.getExpressionCompatibleList( valueList ) );
+	}
+
+	/**
+	 * Gets the value1 expression list of this filter condition. For most filter
+	 * operator, there is only one expression in the returned list. However,
+	 * filter operator 'in' may contain more than one expression.
+	 * 
+	 * @return the value1 expression list of this filter condition. Each item is
+	 *         <code>Expression</code> object.
+	 */
+
+	public List getValue1ExpressionList( )
+	{
+		List<Expression> valueList = (List<Expression>) getProperty( null,
+				VALUE1_MEMBER );
 		if ( valueList == null || valueList.isEmpty( ) )
 			return Collections.EMPTY_LIST;
 		return Collections.unmodifiableList( valueList );
@@ -406,8 +432,9 @@ public class FilterCondition extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{

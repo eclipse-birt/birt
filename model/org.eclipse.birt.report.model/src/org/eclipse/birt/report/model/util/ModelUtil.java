@@ -1833,4 +1833,32 @@ public class ModelUtil
 				&& ( (ExtensionPropertyDefn) propDefn ).hasOwnModel( );
 	}
 
+	/**
+	 * Constructs the expression list for the given list.
+	 * 
+	 * @param values
+	 *            the list
+	 * @return the expression list
+	 */
+
+	public static List getExpressionCompatibleList( List<Expression> values )
+	{
+		if ( values == null )
+			return null;
+
+		List newList = new ArrayList( );
+		if ( !values.isEmpty( ) )
+		{
+			for ( int i = 0; i < values.size( ); i++ )
+			{
+				Expression tmpValue = values.get( i );
+				if ( tmpValue != null )
+					newList.add( tmpValue.getExpression( ) );
+				else
+					newList.add( null );
+			}
+		}
+
+		return newList;
+	}
 }
