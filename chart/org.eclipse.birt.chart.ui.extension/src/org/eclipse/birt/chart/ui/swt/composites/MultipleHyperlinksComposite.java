@@ -243,7 +243,6 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 		}
 
 		fListHyperlinks.setSelection( fListHyperlinks.getItemCount( ) - 1 );
-		updateButtonStatus( );
 	}
 
 	private void doEdit( )
@@ -289,29 +288,35 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 		fMultiURLValues.getURLValues( ).remove( value );
 
 		fListHyperlinks.remove( index );
-
-		updateButtonStatus( );
 	}
 
 
 	private void doDown( )
 	{
 		int index = fListHyperlinks.getSelectionIndex( );
-		fMultiURLValues.getURLValues( ).add( index + 1, fMultiURLValues.getURLValues( ).remove( index ) );
+		if ( index < ( fListHyperlinks.getItemCount( ) - 1 ) )
+		{
+			fMultiURLValues.getURLValues( ).add( index + 1, fMultiURLValues.getURLValues( ).remove( index ) );
 		
-		String item = fListHyperlinks.getItem( index );
-		fListHyperlinks.remove( index );
-		fListHyperlinks.add( item, index + 1);
+			String item = fListHyperlinks.getItem( index );
+			fListHyperlinks.remove( index );
+			fListHyperlinks.add( item, index + 1);
+			fListHyperlinks.setSelection( index + 1 );
+		}
 	}
 
 	private void doUp( )
 	{
 		int index = fListHyperlinks.getSelectionIndex( );
-		fMultiURLValues.getURLValues( ).add( index -1, fMultiURLValues.getURLValues( ).remove( index ) );
+		if ( index > 0 )
+		{
+			fMultiURLValues.getURLValues( ).add( index -1, fMultiURLValues.getURLValues( ).remove( index ) );
 		
-		String item = fListHyperlinks.getItem( index );
-		fListHyperlinks.remove( index );
-		fListHyperlinks.add( item, index - 1);
+			String item = fListHyperlinks.getItem( index );
+			fListHyperlinks.remove( index );
+			fListHyperlinks.add( item, index - 1);
+			fListHyperlinks.setSelection( index - 1 );
+		}
 	}
 	
 	private void editProperties( )
@@ -363,9 +368,7 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 		{
 			editProperties( );
 		}
-		else if ( source == fListHyperlinks )
-		{
-			updateButtonStatus( );
-		}
+
+		updateButtonStatus( );
 	}
 }
