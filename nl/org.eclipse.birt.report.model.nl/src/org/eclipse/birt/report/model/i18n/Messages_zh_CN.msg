@@ -253,7 +253,7 @@ Choices.pageBreakAfter.alwaysExcludingLast=始终排除最后一个
 #27.actionLinkType
 Choices.actionLinkType.none=无操作链接类型
 Choices.actionLinkType.hyperlink=超级链接
-Choices.actionLinkType.drill-through=追溯
+Choices.actionLinkType.drill-through=钻取
 Choices.actionLinkType.bookmark-link=书签链接
   
 # actionFormatType
@@ -261,7 +261,7 @@ Choices.actionFormatType.html=html
 Choices.actionFormatType.pdf=pdf
   
 #28.drillThroughLinkType
-Choices.drillThroughType.none=无追溯类型
+Choices.drillThroughType.none=无钻取类型
 Choices.drillThroughType.bookmark-link=书签链接
 Choices.drillThroughType.search=搜索
  
