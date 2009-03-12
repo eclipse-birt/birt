@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,10 +14,14 @@ package org.eclipse.birt.chart.factory;
 import java.util.LinkedHashMap;
 
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.component.Series;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * Maintains state information containing the original chart model and runtime
@@ -28,7 +32,7 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 public final class GeneratedChartState
 {
 
-	private final LinkedHashMap _lhmRenderers;
+	private final LinkedHashMap<Series, LegendItemRenderingHints> _lhmRenderers;
 
 	private final Object _oComputations;
 
@@ -55,7 +59,8 @@ public final class GeneratedChartState
 	 *            A computation helper used to build the chart offscreen
 	 */
 	GeneratedChartState( IDisplayServer ids, Chart cm,
-			LinkedHashMap lhmRenderers, RunTimeContext rtc, Object oComputations )
+			LinkedHashMap<Series, LegendItemRenderingHints> lhmRenderers,
+			RunTimeContext rtc, Object oComputations )
 	{
 		_lhmRenderers = lhmRenderers;
 		_oComputations = oComputations;
@@ -81,7 +86,7 @@ public final class GeneratedChartState
 	 * 
 	 * @return A sorted lookup list of all series renderers.
 	 */
-	public final LinkedHashMap getRenderers( )
+	public final LinkedHashMap<Series, LegendItemRenderingHints> getRenderers( )
 	{
 		return _lhmRenderers;
 	}

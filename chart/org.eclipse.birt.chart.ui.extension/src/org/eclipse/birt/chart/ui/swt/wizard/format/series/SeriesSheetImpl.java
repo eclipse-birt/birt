@@ -22,18 +22,17 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.BarSeries;
-import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
+import org.eclipse.birt.chart.ui.swt.type.PieChart;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
@@ -60,6 +59,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.TreeItem;
 
 /**
@@ -79,7 +79,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 	private ITaskPopupSheet popup = null;
 
-	private static final int COLUMN_DETAIL = 6;
+	private static final int COLUMN_DETAIL = 7;
 	private static final int HORIZONTAL_SPACING = 5;
 
 	private Composite cmpList = null;
@@ -180,6 +180,15 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblType.setFont( JFaceResources.getBannerFont( ) );
 			lblType.setText( Messages.getString( "SeriesSheetImpl.Label.Type" ) ); //$NON-NLS-1$
 		}
+		
+		Label lblZOrder = new Label( cmpList, SWT.WRAP );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalAlignment = SWT.CENTER;
+			lblZOrder.setLayoutData( gd );
+			lblZOrder.setFont( JFaceResources.getBannerFont( ) );
+			lblZOrder.setText( Messages.getString( "SeriesSheetImpl.Label.ZOrder" ) ); //$NON-NLS-1$
+		}
 
 		Label lblVisible = new Label( cmpList, SWT.WRAP );
 		{
@@ -208,14 +217,15 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblTranslucent.setText( Messages.getString( "SeriesSheetImpl.Label.Translucent" ) ); //$NON-NLS-1$
 		}
 
-		List<SeriesDefinition> seriesDefns = ChartUIUtil.getBaseSeriesDefinitions( getChart( ) );
 		int treeIndex = 0;
 
-		if ( getValueSeriesDefinition( )[0].getSeries( ).get( 0 ) instanceof PieSeries )
+		if ( getContext( ).getChartType( ) instanceof PieChart )
 		{
+			// Pie chart needs Category Series.
+			List<SeriesDefinition> seriesDefns = ChartUIUtil.getBaseSeriesDefinitions( getChart( ) );
 			for ( int i = 0; i < seriesDefns.size( ); i++ )
 			{
-				new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
+				new SeriesOptionChoser( seriesDefns.get( i ),
 						Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ 
 						i,
 						treeIndex++,
@@ -231,7 +241,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		for ( int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ); i++ )
 		{
 			canStack = true;
-			seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
+			List<SeriesDefinition> seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
 					i );
 			for ( int j = 0; j < seriesDefns.size( ); j++ )
 			{
@@ -245,7 +255,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			}
 			for ( int j = 0; j < seriesDefns.size( ); j++ )
 			{
-				new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( j ) ),
+				new SeriesOptionChoser( seriesDefns.get( j ),
 						( allSeriesDefns.size( ) == 1 ? text
 								: ( text + " - " + ( seriesIndex + 1 ) ) ), seriesIndex++, treeIndex++, canStack, i ).placeComponents( cmpList ); //$NON-NLS-1$
 			}
@@ -286,13 +296,15 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		SeriesDefinition sd = null;
 		if ( getChart( ) instanceof ChartWithAxes )
 		{
-			sd = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) getChart( ) ).getAxes( )
-					.get( 0 ) ).getSeriesDefinitions( ).get( getIndex( ) ) );
+			sd = ( (ChartWithAxes) getChart( ) ).getAxes( )
+					.get( 0 )
+					.getSeriesDefinitions( )
+					.get( getIndex( ) );
 		}
 		else if ( getChart( ) instanceof ChartWithoutAxes )
 		{
-			sd = ( (SeriesDefinition) ( (ChartWithoutAxes) getChart( ) ).getSeriesDefinitions( )
-					.get( getIndex( ) ) );
+			sd = ( (ChartWithoutAxes) getChart( ) ).getSeriesDefinitions( )
+					.get( getIndex( ) );
 		}
 		return sd;
 	}
@@ -306,8 +318,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		}
 		else if ( getChart( ) instanceof ChartWithoutAxes )
 		{
-			sds = (SeriesDefinition[]) ( ( (SeriesDefinition) ( (ChartWithoutAxes) getChart( ) ).getSeriesDefinitions( )
-					.get( 0 ) ).getSeriesDefinitions( ).toArray( new SeriesDefinition[]{} ) );
+			sds = ( (ChartWithoutAxes) getChart( ) ).getSeriesDefinitions( )
+					.get( 0 )
+					.getSeriesDefinitions( )
+					.toArray( new SeriesDefinition[]{} );
 		}
 		return sds;
 	}
@@ -321,6 +335,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		private Link linkSeries;
 		private ExternalizedTextEditorComposite txtTitle;
 		private Combo cmbTypes;
+		private Spinner spnZOrder;
 		private Button btnVisible;
 		private Button btnStack;
 		private Button btnTranslucent;
@@ -401,6 +416,24 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 			if ( !series.getClass( ).isAssignableFrom( SeriesImpl.class ) )
 			{
+				spnZOrder = new Spinner(parent, SWT.BORDER);
+				{
+					GridData gd = new GridData( );
+					gd.horizontalAlignment = SWT.CENTER;
+					spnZOrder.setLayoutData( gd );
+					spnZOrder.setMinimum( 0 );
+					spnZOrder.setMaximum( 10 );
+					if ( getChart( ) instanceof ChartWithAxes )
+					{
+						spnZOrder.setSelection( seriesDefn.getZOrder( ) );
+						spnZOrder.addSelectionListener( this );
+					}
+					else
+					{
+						spnZOrder.setEnabled( false );
+					}
+				}
+				
 				btnVisible = new Button( parent, SWT.CHECK );
 				{
 					GridData gd = new GridData( );
@@ -447,7 +480,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				// Occupy a blank area
 				Label dummy = new Label( parent, SWT.CHECK );
 				GridData gd = new GridData( );
-				gd.horizontalSpan = 3;
+				gd.horizontalSpan = 4;
 				dummy.setLayoutData( gd );
 			}
 
@@ -494,6 +527,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			else if ( e.getSource( ).equals( linkSeries ) )
 			{
 				switchTo( treeIndex );
+			}
+			else if ( e.getSource( ).equals( spnZOrder ) )
+			{
+				seriesDefn.setZOrder( spnZOrder.getSelection( ) );
 			}
 		}
 

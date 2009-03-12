@@ -1682,11 +1682,11 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * Note: Manually written
 	 * 
 	 * @param bRecursive
-	 * @return
+	 * @return block children
 	 */
-	public final Enumeration children( boolean bRecursive )
+	public final Enumeration<Block> children( boolean bRecursive )
 	{
-		Vector v = new Vector( );
+		Vector<Block> v = new Vector<Block>( );
 		collectChildren( v, bRecursive );
 		return v.elements( );
 	}
@@ -1698,9 +1698,9 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @param v
 	 * @param bRecursive
 	 */
-	private final void collectChildren( Vector v, boolean bRecursive )
+	private final void collectChildren( Vector<Block> v, boolean bRecursive )
 	{
-		EList el = getChildren( );
+		EList<Block> el = getChildren( );
 		for ( int iC = 0; iC < el.size( ); iC++ )
 		{
 			v.add( el.get( iC ) );
@@ -1721,7 +1721,6 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return
 	 */
 	public boolean isPlot( )
 	{
@@ -1732,7 +1731,6 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return
 	 */
 	public boolean isLegend( )
 	{
@@ -1743,7 +1741,6 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return
 	 */
 	public boolean isText( )
 	{
@@ -1754,7 +1751,6 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return
 	 */
 	public boolean isCustom( )
 	{
@@ -1765,7 +1761,6 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return
 	 */
 	public boolean isTitle( )
 	{
@@ -1799,7 +1794,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return
+	 * @return block instance
 	 */
 	public static Block create( )
 	{
@@ -1922,7 +1917,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * ECoreUtil.copy().
 	 * 
 	 * @param src
-	 * @return
+	 * @return 
 	 */
 	public static Block copyInstance( Block src )
 	{

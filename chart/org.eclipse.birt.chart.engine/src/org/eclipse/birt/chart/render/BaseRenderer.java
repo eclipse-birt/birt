@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.render;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -142,8 +144,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	
 	/** The key is to reference the size information of stacked cone or triangle series. */
 	protected final static String STACKED_SERIES_SIZE_KEY = "stacked_series_size_key"; //$NON-NLS-1$
-	
-	protected static final String TIMER = "T"; //$NON-NLS-1$
 
 	protected ISeriesRenderingHints srh;
 
@@ -213,10 +213,26 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 */
 	protected transient RunTimeContext rtc = null;
 	
-	/** The mananger assures correct paint z-order of series for 2D case. */
+	/** The manager assures correct paint z-order of series for 2D case. */
 	protected DeferredCacheManager fDeferredCacheManager;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
+	
+	static Comparator<BaseRenderer> zOrderComparator = new Comparator<BaseRenderer>( ) {
+
+		public int compare( BaseRenderer o1, BaseRenderer o2 )
+		{
+			if ( o1 != null
+					&& o1.getSeriesDefinition( ) != null
+					&& o2 != null
+					&& o2.getSeriesDefinition( ) != null )
+			{
+				return o1.getSeriesDefinition( ).getZOrder( )
+						- o2.getSeriesDefinition( ).getZOrder( );
+			}
+			return 0;
+		}
+	};
 
 	/**
 	 * The internal constructor that must be defined as public
@@ -359,7 +375,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * chart rendering
 	 * 
 	 * @param iIndex
-	 * @return
+	 * @return renderer
 	 */
 	public final BaseRenderer getRenderer( int iIndex )
 	{
@@ -380,16 +396,15 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * 
 	 * @param bo
 	 */
-	public void render( Map htRenderers, Bounds bo ) throws ChartException
+	public void render( Map<Series, LegendItemRenderingHints> htRenderers,
+			Bounds bo ) throws ChartException
 	{
 		final boolean bFirstInSequence = ( iSeriesIndex == 0 );
 		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
 		boolean bStarted = bFirstInSequence;
 
-		long lTimer = System.currentTimeMillis( );
-
 		Block bl = cm.getBlock( );
-		final Enumeration e = bl.children( true );
+		final Enumeration<Block> e = bl.children( true );
 		final BlockGenerationEvent bge = new BlockGenerationEvent( this );
 		final IDeviceRenderer idr = getDevice( );
 		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
@@ -416,7 +431,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		// RENDER ALL BLOCKS EXCEPT FOR THE LEGEND IN THIS ITERATIVE LOOP
 		while ( e.hasMoreElements( ) )
 		{
-			bl = (Block) e.nextElement( );
+			bl = e.nextElement( );
 			bge.updateBlock( bl );
 
 			if ( bl instanceof Plot )
@@ -510,17 +525,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 		}
 
-		lTimer = System.currentTimeMillis( ) - lTimer;
-		if ( htRenderers.containsKey( TIMER ) )
-		{
-			final Long l = (Long) htRenderers.get( TIMER );
-			htRenderers.put( TIMER, Long.valueOf( l.longValue( ) + lTimer ) );
-		}
-		else
-		{
-			htRenderers.put( TIMER, Long.valueOf( lTimer ) );
-		}
-
 		if ( bLastInSequence )
 		{
 			try
@@ -534,13 +538,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						ChartException.RENDERING,
 						ex );
 			}
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.elapsed.render.time", //$NON-NLS-1$
-							new Object[]{
-								Long.valueOf( lTimer )
-							},
-							rtc.getULocale( ) ) );
-			htRenderers.remove( TIMER );
+
 		}
 	}
 	
@@ -569,11 +567,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	
 	private void renderAllLegendItems( final IPrimitiveRenderer ipr,
 			final Legend lg, final LegendLayoutHints lilh,
-			final Map htRenderers,
-			final Bounds bo,
-			final double dBaseX,
-			final double dBaseY
-	) throws ChartException
+			final Map<Series, LegendItemRenderingHints> htRenderers,
+			final Bounds bo, final double dBaseX, final double dBaseY )
+			throws ChartException
 	{
 		final ClientArea ca = lg.getClientArea( );
 		final double dScale = getDeviceScale( );
@@ -664,7 +660,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				la.getCaption( ).setValue( lih.getItemText( ) );
 				Series se = lih.getSeries( );
-				LegendItemRenderingHints lirh = (LegendItemRenderingHints) htRenderers.get( se );
+				LegendItemRenderingHints lirh = htRenderers.get( se );
 				EList<Fill> elPaletteEntries = lih.getSeriesDefinition( )
 						.getSeriesPalette( )
 						.getEntries( );
@@ -759,7 +755,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * 
 	 * @throws ChartException
 	 */
-	public void renderLegend( IPrimitiveRenderer ipr, Legend lg, Map htRenderers )
+	public void renderLegend( IPrimitiveRenderer ipr, Legend lg,
+			Map<Series, LegendItemRenderingHints> htRenderers )
 			throws ChartException
 	{
 		if ( !lg.isVisible( ) ) // CHECK VISIBILITY
@@ -1900,7 +1897,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param rtc
 	 * @param oComputations
 	 * 
-	 * @return
+	 * @return renderers
 	 * @throws ChartException
 	 */
 	public static final BaseRenderer[] instances( Chart cm, RunTimeContext rtc,
@@ -1919,11 +1916,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Axis axPrimaryBase = axa[0];
 			Series se;
 			AxesRenderer ar = null;
-			List al = new ArrayList( ), alRunTimeSeries;
-			EList elBase, elOrthogonal;
+			List<AxesRenderer> al = new ArrayList<AxesRenderer>( );
+			List<Series> alRunTimeSeries;
+			EList<SeriesDefinition> elBase, elOrthogonal;
 			SeriesDefinition sd = null;
-
-			int iSI = 0; // SERIES INDEX COUNTER
 
 			elBase = axPrimaryBase.getSeriesDefinitions( );
 			if ( elBase.isEmpty( ) ) // NO SERIES DEFINITIONS
@@ -1935,7 +1931,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				// ONLY 1 SERIES DEFINITION MAY BE
 				// ASSOCIATED
 				// WITH THE BASE AXIS
-				final SeriesDefinition sdBase = (SeriesDefinition) elBase.get( 0 );
+				final SeriesDefinition sdBase = elBase.get( 0 );
 
 				alRunTimeSeries = sdBase.getRunTimeSeries( );
 				if ( alRunTimeSeries.isEmpty( ) )
@@ -1945,13 +1941,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				// ONLY 1 SERIES MAY BE
 				// ASSOCIATED WITH THE
 				// BASE SERIES DEFINITION
-				se = (Series) alRunTimeSeries.get( 0 );
+				se = alRunTimeSeries.get( 0 );
 				ar = ( se.getClass( ) == SeriesImpl.class ) ? new EmptyWithAxes( )
 						: (AxesRenderer) ps.getRenderer( se.getClass( ) );
 				// INITIALIZE THE RENDERER
 				ar.set( cm, oComputations, se, axPrimaryBase, sdBase );
 				ar.set( rtc );
-				ar.iSeriesIndex = iSI++;
 				al.add( ar );
 
 				final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase,
@@ -1961,11 +1956,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					elOrthogonal = axaOrthogonal[i].getSeriesDefinitions( );
 					for ( int j = 0; j < elOrthogonal.size( ); j++ )
 					{
-						sd = (SeriesDefinition) elOrthogonal.get( j );
+						sd = elOrthogonal.get( j );
 						alRunTimeSeries = sd.getRunTimeSeries( );
 						for ( int k = 0; k < alRunTimeSeries.size( ); k++ )
 						{
-							se = (Series) alRunTimeSeries.get( k );
+							se = alRunTimeSeries.get( k );
 							ar = ( se.getClass( ) == SeriesImpl.class ) ? new EmptyWithAxes( )
 									: (AxesRenderer) ps.getRenderer( se.getClass( ) );
 							// INITIALIZE THE RENDERER
@@ -1974,18 +1969,20 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									se,
 									axaOrthogonal[i],
 									bPaletteByCategory ? sdBase : sd );
-							ar.iSeriesIndex = iSI++;
 							al.add( ar );
 						}
 					}
 				}
+				
+				Collections.sort( al, zOrderComparator );
 
 				// CONVERT INTO AN ARRAY AS REQUESTED
-				brna = new BaseRenderer[iSI];
-				for ( int i = 0; i < iSI; i++ )
+				brna = new BaseRenderer[al.size( )];
+				for ( int i = 0; i < brna.length; i++ )
 				{
-					ar = (AxesRenderer) al.get( i );
-					ar.iSeriesCount = iSI;
+					ar = al.get( i );
+					ar.iSeriesIndex = i;
+					ar.iSeriesCount = brna.length;
 					brna[i] = ar;
 				}
 			}
@@ -1993,10 +1990,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		else if ( cm instanceof ChartWithoutAxes )
 		{
 			final ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
-			EList elBase = cwoa.getSeriesDefinitions( );
-			EList elOrthogonal;
+			EList<SeriesDefinition> elBase = cwoa.getSeriesDefinitions( );
+			EList<SeriesDefinition> elOrthogonal;
 			SeriesDefinition sd, sdBase;
-			List alRuntimeSeries;
+			List<Series> alRuntimeSeries;
 
 			final Series[] sea = cwoa.getRunTimeSeries( );
 
@@ -2007,7 +2004,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 			for ( int i = 0; i < elBase.size( ); i++ )
 			{
-				sdBase = (SeriesDefinition) elBase.get( i );
+				sdBase = elBase.get( i );
 				alRuntimeSeries = sdBase.getRunTimeSeries( );
 
 				if ( isDataEmpty( rtc ) )
@@ -2036,7 +2033,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							},
 							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
-				se = (Series) alRuntimeSeries.get( 0 );
+				se = alRuntimeSeries.get( 0 );
 				brna[iSI] = ( se.getClass( ) == SeriesImpl.class ) ? new EmptyWithoutAxes( )
 						: ps.getRenderer( se.getClass( ) );
 				// INITIALIZE THE RENDERER
@@ -2044,14 +2041,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				brna[iSI].set( rtc );
 				brna[iSI].iSeriesIndex = iSI++;
 
-				elOrthogonal = ( (SeriesDefinition) elBase.get( i ) ).getSeriesDefinitions( );
+				elOrthogonal = elBase.get( i ).getSeriesDefinitions( );
 				for ( int j = 0; j < elOrthogonal.size( ); j++ )
 				{
-					sd = (SeriesDefinition) elOrthogonal.get( j );
+					sd = elOrthogonal.get( j );
 					alRuntimeSeries = sd.getRunTimeSeries( );
 					for ( int k = 0; k < alRuntimeSeries.size( ); k++ )
 					{
-						se = (Series) alRuntimeSeries.get( k );
+						se = alRuntimeSeries.get( k );
 						brna[iSI] = ( se.getClass( ) == SeriesImpl.class ) ? new EmptyWithoutAxes( )
 								: ps.getRenderer( se.getClass( ) );
 						// INITIALIZE THE RENDERER
@@ -2143,7 +2140,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		if ( cd.getValue( ) == ChartDimension.TWO_DIMENSIONAL )
 		{
 			// RENDER THE POLYGON
-			pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+			pre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 					PolygonRenderEvent.class );
 			pre.setPoints( loaFront );
 			pre.setBackground( f );
@@ -2264,11 +2261,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 		}
 
-		ArrayList alModel = new ArrayList( nSides + 1 );
+		ArrayList<PrimitiveRenderEvent> alModel = new ArrayList<PrimitiveRenderEvent>( nSides + 1 );
 		Fill fP;
 		for ( int i = 0; i <= nSides; i++ )
 		{
-			pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+			pre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 					PolygonRenderEvent.class );
 			pre.setOutline( lia );
 			pre.setPoints( loaa[i] );
@@ -2364,9 +2361,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @throws ChartException
 	 */
 	protected final void render3DPlane( IPrimitiveRenderer ipr, Object oSource,
-			List loaFace, Fill f, LineAttributes lia ) throws ChartException
+			List<Location3D[]> loaFace, Fill f, LineAttributes lia )
+			throws ChartException
 	{
-		Polygon3DRenderEvent pre = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+		Polygon3DRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 				Polygon3DRenderEvent.class );
 		pre.setDoubleSided( false );
 
@@ -2375,7 +2373,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		for ( int i = 0; i < nSides; i++ )
 		{
 			pre.setOutline( lia );
-			pre.setPoints3D( (Location3D[]) loaFace.get( i ) );
+			pre.setPoints3D( loaFace.get( i ) );
 			pre.setBackground( f );
 			dc.addPlane( pre, PrimitiveRenderEvent.FILL
 					| PrimitiveRenderEvent.DRAW );
@@ -2395,7 +2393,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 *            <li>IConstants.AVERAGE
 	 *            </ul>
 	 * 
-	 * @return
 	 */
 	public static final double getY( Location[] loa, int iProperty )
 	{
@@ -2441,7 +2438,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 *            <li>IConstants.AVERAGE
 	 *            </ul>
 	 * 
-	 * @return
+	 * @return x value
 	 */
 	public static final double getX( Location[] loa, int iProperty )
 	{
@@ -2836,7 +2833,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			throws ChartException
 	{
 		final IDeviceRenderer idr = getDevice( );
-		TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) idr ).getEventObject( oSource,
+		TextRenderEvent tre = ( (EventObjectCache) idr ).getEventObject( oSource,
 				TextRenderEvent.class );
 		if ( iTextRenderType != TextRenderEvent.RENDER_TEXT_IN_BLOCK )
 		{
@@ -2908,7 +2905,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		List<double[]> al = new ArrayList<double[]>( );
 		for ( int i = 0; i < ll.size( ); i++ )
 		{
-			double[] obj = (double[]) ll.get( i );
+			double[] obj = ll.get( i );
 
 			if ( obj == null || Double.isNaN( obj[0] ) || Double.isNaN( obj[1] ) )
 			{
@@ -2929,7 +2926,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 */
 	protected Location[] filterNull( Location[] ll )
 	{
-		ArrayList al = new ArrayList( );
+		ArrayList<Location> al = new ArrayList<Location>( );
 		for ( int i = 0; i < ll.length; i++ )
 		{
 			if ( Double.isNaN( ll[i].getX( ) ) || Double.isNaN( ll[i].getY( ) ) )
@@ -2942,9 +2939,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		if ( ll instanceof Location3D[] )
 		{
-			return (Location3D[]) al.toArray( new Location3D[al.size( )] );
+			return al.toArray( new Location3D[al.size( )] );
 		}
-		return (Location[]) al.toArray( new Location[al.size( )] );
+		return al.toArray( new Location[al.size( )] );
 	}
 
 	/**
@@ -2962,7 +2959,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	/**
 	 * Returns if the right-left mode is enabled.
 	 * 
-	 * @return
 	 */
 	public boolean isRightToLeft( )
 	{
@@ -2987,7 +2983,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * Switch Anchor value due to right-left setting.
 	 * 
 	 * @param anchor
-	 * @return
 	 */
 	public Anchor switchAnchor( Anchor anchor )
 	{
@@ -3022,7 +3017,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * Switch Position value due to right-left setting.
 	 * 
 	 * @param po
-	 * @return
 	 */
 	public Position switchPosition( Position po )
 	{
@@ -3044,7 +3038,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * Switch TextAlignment value due to right-left setting.
 	 * 
 	 * @param ta
-	 * @return
 	 */
 	public TextAlignment switchTextAlignment( TextAlignment ta )
 	{
@@ -3065,7 +3058,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	/**
 	 * Returns if interactivity is enabled on the model.
 	 * 
-	 * @return
 	 */
 	public boolean isInteractivityEnabled( )
 	{
@@ -3143,12 +3135,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @return
 	 */
 	protected final InteractionEvent createEvent( StructureSource iSource,
-			List elTriggers, IPrimitiveRenderer ipr )
+			List<Trigger> elTriggers, IPrimitiveRenderer ipr )
 	{
 		final InteractionEvent iev = new InteractionEvent( iSource );
 		for ( int t = 0; t < elTriggers.size( ); t++ )
 		{
-			Trigger tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+			Trigger tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 			processTrigger( tg, iSource );
 			iev.addTrigger( tg );
 		}

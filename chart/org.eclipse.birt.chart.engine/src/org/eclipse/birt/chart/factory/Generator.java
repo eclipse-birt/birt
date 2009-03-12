@@ -163,46 +163,31 @@ public final class Generator implements IGenerator
 	}
 
 	private void prepareComponent( Chart model, Stack<StyledComponent> token,
-			Object component,
+			EObject component,
 			IStyleProcessor externalProcessor )
 	{
 		// check and apply styles
-		if ( component instanceof EObject )
+		StyledComponent currentToken = getStyledComponent( component );
+
+		boolean pushed = false;
+
+		if ( currentToken != null )
 		{
-			StyledComponent currentToken = getStyledComponent( (EObject) component );
-
-			boolean pushed = false;
-
-			if ( currentToken != null )
-			{
-				token.push( currentToken );
-				pushed = true;
-			}
-
-			applyStyles( model,
-					(StyledComponent) token.peek( ),
-					(EObject) component,
-					externalProcessor );
-
-			// prepare children
-			for ( Iterator itr = ( (EObject) component ).eContents( )
-					.iterator( ); itr.hasNext( ); )
-			{
-				prepareComponent( model, token, itr.next( ), externalProcessor );
-			}
-
-			if ( pushed && !token.empty( ) )
-			{
-				token.pop( );
-			}
-
+			token.push( currentToken );
+			pushed = true;
 		}
-		else if ( component instanceof EList )
+
+		applyStyles( model, token.peek( ), component, externalProcessor );
+
+		// prepare children
+		for ( Iterator<EObject> itr = component.eContents( ).iterator( ); itr.hasNext( ); )
 		{
-			for ( Iterator litr = ( (EList) component ).iterator( ); litr.hasNext( ); )
-			{
-				prepareComponent( model, token, litr.next( ), externalProcessor );
-			}
+			prepareComponent( model, token, itr.next( ), externalProcessor );
+		}
+
+		if ( pushed && !token.empty( ) )
+		{
+			token.pop( );
 		}
 	}
 
@@ -483,7 +468,7 @@ public final class Generator implements IGenerator
 	 * 
 	 * @since 2.0
 	 */
-	public List getRowExpressions( Chart cm ) throws ChartException
+	public List<String> getRowExpressions( Chart cm ) throws ChartException
 	{
 		return getRowExpressions( cm, null );
 	}
@@ -503,7 +488,7 @@ public final class Generator implements IGenerator
 	 * 
 	 * @since 2.3
 	 */
-	public List getRowExpressions( Chart cm, IActionEvaluator iae,
+	public List<String> getRowExpressions( Chart cm, IActionEvaluator iae,
 			boolean needChangeValueExpr ) throws ChartException
 	{
 		if ( cm instanceof ChartWithAxes )
@@ -536,7 +521,7 @@ public final class Generator implements IGenerator
 	 * 
 	 * @since 2.0
 	 */
-	public List getRowExpressions( Chart cm, IActionEvaluator iae )
+	public List<String> getRowExpressions( Chart cm, IActionEvaluator iae )
 			throws ChartException
 	{
 		if ( cm instanceof ChartWithAxes )
@@ -1047,7 +1032,7 @@ public final class Generator implements IGenerator
 		}
 
 		// OBTAIN THE RENDERERS
-		final LinkedHashMap lhmRenderers = new LinkedHashMap( );
+		final LinkedHashMap<Series, LegendItemRenderingHints> lhmRenderers = new LinkedHashMap<Series, LegendItemRenderingHints>( );
 		BaseRenderer[] brna = null;
 		try
 		{
@@ -1130,8 +1115,8 @@ public final class Generator implements IGenerator
 				cmRunTime,
 				oComputations );
 
-		final Collection co = lhmRenderers.values( );
-		final LegendItemRenderingHints[] lirha = (LegendItemRenderingHints[]) co.toArray( new LegendItemRenderingHints[co.size( )] );
+		final Collection<LegendItemRenderingHints> co = lhmRenderers.values( );
+		final LegendItemRenderingHints[] lirha = co.toArray( new LegendItemRenderingHints[co.size( )] );
 		final int iSize = lhmRenderers.size( );
 		BaseRenderer br;
 
@@ -1326,12 +1311,12 @@ public final class Generator implements IGenerator
 			}
 		}
 
-		final LinkedHashMap lhm = gcs.getRenderers( );
+		final LinkedHashMap<Series, LegendItemRenderingHints> lhm = gcs.getRenderers( );
 		final int iSize = lhm.size( );
 
 		BaseRenderer br;
-		final Collection co = lhm.values( );
-		final LegendItemRenderingHints[] lirha = (LegendItemRenderingHints[]) co.toArray( new LegendItemRenderingHints[co.size( )] );
+		final Collection<LegendItemRenderingHints> co = lhm.values( );
+		final LegendItemRenderingHints[] lirha = co.toArray( new LegendItemRenderingHints[co.size( )] );
 
 		// Fixed bugzilla bug 193234.
 		// Use DeferredCacheManager instead of single DeferredCache to get
@@ -1524,12 +1509,12 @@ public final class Generator implements IGenerator
 		SimpleStyle style = null;
 	}
 
-	private static List getRowExpressions( ChartWithoutAxes cwoa,
+	private static List<String> getRowExpressions( ChartWithoutAxes cwoa,
 			IActionEvaluator iae, boolean needChangeValueExpr )
 			throws ChartException
 	{
-		final ArrayList alExpressions = new ArrayList( 4 );
-		EList elSD = cwoa.getSeriesDefinitions( );
+		final List<String> alExpressions = new ArrayList<String>( 4 );
+		EList<SeriesDefinition> elSD = cwoa.getSeriesDefinitions( );
 		if ( elSD.size( ) != 1 )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
@@ -1539,7 +1524,7 @@ public final class Generator implements IGenerator
 		}
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
-		SeriesDefinition categorySD = (SeriesDefinition) elSD.get( 0 );
+		SeriesDefinition categorySD = elSD.get( 0 );
 		final Query qBaseSeriesDefinition = categorySD.getQuery( );
 		String sExpression = qBaseSeriesDefinition.getDefinition( );
 		if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
@@ -1551,7 +1536,7 @@ public final class Generator implements IGenerator
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES EXPRESSION
 		final Series seBase = categorySD.getDesignTimeSeries( );
-		EList elBaseSeries = seBase.getDataDefinition( );
+		EList<Query> elBaseSeries = seBase.getDataDefinition( );
 		if ( elBaseSeries.size( ) != 1 )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
@@ -1563,7 +1548,7 @@ public final class Generator implements IGenerator
 					null );
 		}
 
-		final Query qBaseSeries = (Query) elBaseSeries.get( 0 );
+		final Query qBaseSeries = elBaseSeries.get( 0 );
 		sExpression = qBaseSeries.getDefinition( );
 		if ( sExpression != null
 				&& sExpression.trim( ).length( ) > 0
@@ -1582,14 +1567,14 @@ public final class Generator implements IGenerator
 		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES
 		Query qOrthogonalSeriesDefinition, qOrthogonalSeries;
 		Series seOrthogonal;
-		EList elOrthogonalSeries;
+		EList<Query> elOrthogonalSeries;
 		elSD = categorySD.getSeriesDefinitions( ); // ALL ORTHOGONAL SERIES
 		// DEFINITIONS
 		int iCount = 0;
 		boolean bAnyQueries;
 		for ( int k = 0; k < elSD.size( ); k++ )
 		{
-			SeriesDefinition sd = (SeriesDefinition) elSD.get( k );
+			SeriesDefinition sd = elSD.get( k );
 			qOrthogonalSeriesDefinition = sd.getQuery( );
 			if ( qOrthogonalSeriesDefinition == null )
 			{
@@ -1636,7 +1621,7 @@ public final class Generator implements IGenerator
 			bAnyQueries = false;
 			for ( int i = 0; i < elOrthogonalSeries.size( ); i++ )
 			{
-				qOrthogonalSeries = (Query) elOrthogonalSeries.get( i );
+				qOrthogonalSeries = elOrthogonalSeries.get( i );
 				if ( qOrthogonalSeries == null ) // NPE PROTECTION
 				{
 					continue;
@@ -1691,13 +1676,13 @@ public final class Generator implements IGenerator
 		return alExpressions;
 	}
 
-	private static List getRowExpressions( ChartWithAxes cwa,
+	private static List<String> getRowExpressions( ChartWithAxes cwa,
 			IActionEvaluator iae, boolean needChangeValueExpr )
 			throws ChartException
 	{
-		final ArrayList alExpressions = new ArrayList( 4 );
+		final List<String> alExpressions = new ArrayList<String>( 4 );
 		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
-		EList elSD = axPrimaryBase.getSeriesDefinitions( );
+		EList<SeriesDefinition> elSD = axPrimaryBase.getSeriesDefinitions( );
 		if ( elSD.size( ) != 1 )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
@@ -1707,7 +1692,7 @@ public final class Generator implements IGenerator
 		}
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
-		SeriesDefinition categorySD = (SeriesDefinition) elSD.get( 0 );
+		SeriesDefinition categorySD = elSD.get( 0 );
 		final Query qBaseSeriesDefinition = categorySD.getQuery( );
 		String sExpression = qBaseSeriesDefinition.getDefinition( );
 		if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
@@ -1719,7 +1704,7 @@ public final class Generator implements IGenerator
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES EXPRESSION
 		final Series seBase = categorySD.getDesignTimeSeries( );
-		EList elBaseSeries = seBase.getDataDefinition( );
+		EList<Query> elBaseSeries = seBase.getDataDefinition( );
 		if ( elBaseSeries.size( ) != 1 )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
@@ -1731,7 +1716,7 @@ public final class Generator implements IGenerator
 					Messages.getResourceBundle( ) );
 		}
 
-		final Query qBaseSeries = (Query) elBaseSeries.get( 0 );
+		final Query qBaseSeries = elBaseSeries.get( 0 );
 		sExpression = qBaseSeries.getDefinition( );
 		if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
 		{
@@ -1748,7 +1733,7 @@ public final class Generator implements IGenerator
 		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES
 		Query qOrthogonalSeriesDefinition, qOrthogonalSeries;
 		Series seOrthogonal;
-		EList elOrthogonalSeries;
+		EList<Query> elOrthogonalSeries;
 		final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase, true );
 		int iCount = 0;
 		boolean bAnyQueries;
@@ -1757,7 +1742,7 @@ public final class Generator implements IGenerator
 			elSD = axaOrthogonal[j].getSeriesDefinitions( );
 			for ( int k = 0; k < elSD.size( ); k++ )
 			{
-				SeriesDefinition sd = (SeriesDefinition) elSD.get( k );
+				SeriesDefinition sd = elSD.get( k );
 				qOrthogonalSeriesDefinition = sd.getQuery( );
 				if ( qOrthogonalSeriesDefinition == null )
 				{
@@ -1805,7 +1790,7 @@ public final class Generator implements IGenerator
 				bAnyQueries = false;
 				for ( int i = 0; i < elOrthogonalSeries.size( ); i++ )
 				{
-					qOrthogonalSeries = (Query) elOrthogonalSeries.get( i );
+					qOrthogonalSeries = elOrthogonalSeries.get( i );
 					if ( qOrthogonalSeries == null ) // NPE PROTECTION
 					{
 						continue;

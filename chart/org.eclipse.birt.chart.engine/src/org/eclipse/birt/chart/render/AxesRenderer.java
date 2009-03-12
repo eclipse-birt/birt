@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.computation.ValueFormatter;
@@ -154,13 +155,14 @@ public abstract class AxesRenderer extends BaseRenderer
 	 * axes
 	 * 
 	 * @param bo
+	 * @override
 	 */
-	public final void render( Map htRenderers, Bounds bo )
+	public final void render(
+			Map<Series, LegendItemRenderingHints> htRenderers, Bounds bo )
 			throws ChartException
 	{
 		final boolean bFirstInSequence = ( iSeriesIndex == 0 );
 		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
-		long lTimer = System.currentTimeMillis( );
 		final Chart cm = getModel( );
 		final IDeviceRenderer idr = getDevice( );
 		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
@@ -168,13 +170,9 @@ public abstract class AxesRenderer extends BaseRenderer
 		if ( bFirstInSequence ) // SEQUENCE OF MULTIPLE SERIES RENDERERS
 		// (POSSIBLY PARTICIPATING IN A COMBINATION CHART)
 		{
-			// SETUP A TIMER
-			lTimer = System.currentTimeMillis( );
-			htRenderers.put( TIMER, Long.valueOf( lTimer ) );
-
 			// RENDER THE CHART BY WALKING THROUGH THE RECURSIVE BLOCK STRUCTURE
 			Block bl = cm.getBlock( );
-			final Enumeration e = bl.children( true );
+			final Enumeration<Block> e = bl.children( true );
 			final BlockGenerationEvent bge = new BlockGenerationEvent( bl );
 
 			// ALWAYS RENDER THE OUTERMOST BLOCK FIRST
@@ -195,7 +193,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 			while ( e.hasMoreElements( ) )
 			{
-				bl = (Block) e.nextElement( );
+				bl = e.nextElement( );
 
 				bge.updateBlock( bl );
 				if ( bl instanceof Plot )
@@ -289,13 +287,13 @@ public abstract class AxesRenderer extends BaseRenderer
 		else if ( bLastInSequence )
 		{
 			Block bl = cm.getBlock( );
-			final Enumeration e = bl.children( true );
+			final Enumeration<Block> e = bl.children( true );
 			final BlockGenerationEvent bge = new BlockGenerationEvent( this );
 
 			boolean bStarted = false;
 			while ( e.hasMoreElements( ) )
 			{
-				bl = (Block) e.nextElement( );
+				bl = e.nextElement( );
 				if ( !bStarted && !bl.isPlot( ) )
 				{
 					continue; // IGNORE ALL BLOCKS UNTIL PLOT IS ENCOUNTERED
@@ -406,16 +404,6 @@ public abstract class AxesRenderer extends BaseRenderer
 					p );
 		}
 
-		lTimer = System.currentTimeMillis( ) - lTimer;
-		if ( htRenderers.containsKey( TIMER ) )
-		{
-			final Long l = (Long) htRenderers.get( TIMER );
-			htRenderers.put( TIMER, Long.valueOf( l.longValue( ) + lTimer ) );
-		}
-		else
-		{
-			htRenderers.put( TIMER, Long.valueOf( lTimer ) );
-		}
 		if ( bLastInSequence )
 		{
 			Object obj = getComputations( );
@@ -425,13 +413,6 @@ public abstract class AxesRenderer extends BaseRenderer
 				final PlotWith2DAxes pw2da = (PlotWith2DAxes) getComputations( );
 				pw2da.getStackedSeriesLookup( ).resetSubUnits( );
 			}
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.elapsed.render.time", //$NON-NLS-1$
-							new Object[]{
-								Long.valueOf( lTimer )
-							},
-							getRunTimeContext( ).getULocale( ) ) );
-			htRenderers.remove( TIMER );
 		}
 	}
 
@@ -442,8 +423,8 @@ public abstract class AxesRenderer extends BaseRenderer
 			return IConstants.EQUAL;
 		if ( de1 == null || de2 == null )
 			return IConstants.SOME_NULL;
-		final Class c1 = de1.getClass( );
-		final Class c2 = de2.getClass( );
+		final Class<? extends DataElement> c1 = de1.getClass( );
+		final Class<? extends DataElement> c2 = de2.getClass( );
 		if ( c1.equals( c2 ) )
 		{
 			if ( de1 instanceof NumberDataElement )
@@ -548,13 +529,10 @@ public abstract class AxesRenderer extends BaseRenderer
 			sa[i] = ca;
 		}
 
-		Arrays.sort( sa, new Comparator( ) {
+		Arrays.sort( sa, new Comparator<double[]>( ) {
 
-			public int compare( Object o1, Object o2 )
+			public int compare( double[] l1, double[] l2 )
 			{
-				double[] l1 = (double[]) o1;
-				double[] l2 = (double[]) o2;
-
 				if ( sortFirstArray )
 				{
 					if ( l1[0] == l2[0] )
@@ -897,7 +875,6 @@ public abstract class AxesRenderer extends BaseRenderer
 			Bounds boPlotClientArea ) throws ChartException
 	{
 		Axis ax;
-		EList el;
 		int iRangeCount, iAxisCount = oaxa.length;
 		MarkerRange mr;
 		RectangleRenderEvent rre;
@@ -929,12 +906,12 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 
 			asc = oaxa[i].getScale( );
-			el = ax.getMarkerRanges( );
+			EList<MarkerRange> el = ax.getMarkerRanges( );
 			iRangeCount = el.size( );
 
 			for ( int j = 0; j < iRangeCount; j++ )
 			{
-				mr = (MarkerRange) el.get( j );
+				mr = el.get( j );
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_MARKER_RANGE,
 						ax,
@@ -1012,7 +989,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					continue; // TRY NEXT MARKER RANGE
 				}
 
-				rre = (RectangleRenderEvent) ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerRange( mr ),
+				rre = ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerRange( mr ),
 						RectangleRenderEvent.class );
 				if ( iOrientation == Orientation.HORIZONTAL )
 				{
@@ -1156,7 +1133,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					boText.set( 0, 0, bb.getWidth( ), bb.getHeight( ) );
 
 					// NOW THAT WE COMPUTED THE BOUNDS, RENDER THE ACTUAL TEXT
-					tre = (TextRenderEvent) ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerRange( mr ),
+					tre = ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerRange( mr ),
 							TextRenderEvent.class );
 					tre.setBlockBounds( bo );
 					tre.setBlockAlignment( anchorToAlignment( anc ) );
@@ -1168,17 +1145,17 @@ public abstract class AxesRenderer extends BaseRenderer
 				if ( isInteractivityEnabled( ) )
 				{
 					Trigger tg;
-					EList elTriggers = mr.getTriggers( );
+					EList<Trigger> elTriggers = mr.getTriggers( );
 
 					if ( !elTriggers.isEmpty( ) )
 					{
-						final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerRange( mr ),
+						final InteractionEvent iev = ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerRange( mr ),
 								InteractionEvent.class );
 						iev.setCursor( mr.getCursor( ) );
 						
 						for ( int t = 0; t < elTriggers.size( ); t++ )
 						{
-							tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+							tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 							processTrigger( tg,
 									StructureSource.createMarkerRange( mr ) );
 							iev.addTrigger( tg );
@@ -1220,7 +1197,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			return;
 		}
 		Bounds bo = pwa.getPlotBounds( );
-		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+		final RectangleRenderEvent rre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 				RectangleRenderEvent.class );
 
 		if ( !isDimension3D( ) )
@@ -1322,7 +1299,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						- dSeriesThickness );
 				loa[3] = LocationImpl.create( daX[0] + dSeriesThickness, daY[0]
 						- dSeriesThickness );
-				final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+				final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 						PolygonRenderEvent.class );
 				pre.setPoints( loa );
 				pre.setBackground( cwa.getWallFill( ) );
@@ -1358,7 +1335,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						- dSeriesThickness );
 				loa[3] = LocationImpl.create( daX[0] + dSeriesThickness, daY[0]
 						- dSeriesThickness );
-				final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+				final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 						PolygonRenderEvent.class );
 				pre.setPoints( loa );
 				pre.setBackground( cwa.getFloorFill( ) );
@@ -1371,7 +1348,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		{
 			Location3D[] loa = null;
 
-			final Polygon3DRenderEvent pre = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+			final Polygon3DRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 					Polygon3DRenderEvent.class );
 			pre.setDoubleSided( true );
 
@@ -1496,7 +1473,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 			if ( isDimension3D( ) )
 			{
-				Line3DRenderEvent lre3d = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+				Line3DRenderEvent lre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 						Line3DRenderEvent.class );
 				lre3d.setLineAttributes( lia );
 
@@ -1722,7 +1699,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								continue;
 							}
 
-							lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+							lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 									LineRenderEvent.class );
 							lre.setLineAttributes( lia );
 							lre.setStart( LocationImpl.create( x
@@ -1757,7 +1734,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							continue;
 						}
 
-						lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+						lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 								LineRenderEvent.class );
 						lre.setLineAttributes( lia );
 						lre.setStart( LocationImpl.create( x
@@ -1794,7 +1771,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								continue;
 							}
 
-							lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+							lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 									LineRenderEvent.class );
 							lre.setLineAttributes( lia );
 							lre.setStart( LocationImpl.create( dX1, y
@@ -1828,7 +1805,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							continue;
 						}
 
-						lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+						lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 								LineRenderEvent.class );
 						lre.setLineAttributes( lia );
 						lre.setStart( LocationImpl.create( dX1, y
@@ -1858,7 +1835,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			AutoScale sc = oaxa[i].getScale( );
 			if ( isDimension3D( ) )
 			{
-				Line3DRenderEvent lre3d = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+				Line3DRenderEvent lre3d = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 						Line3DRenderEvent.class );
 				lre3d.setLineAttributes( lia );
 
@@ -2004,7 +1981,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						// continue;
 
 						x = da.getCoordinate( j );
-						lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+						lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 								LineRenderEvent.class );
 						lre.setLineAttributes( lia );
 						lre.setStart( LocationImpl.create( x, dY1
@@ -2028,7 +2005,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						x += pwa.getSeriesThickness( );
 					}
-					lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+					lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 							LineRenderEvent.class );
 					lre.setLineAttributes( lia );
 					lre.setStart( LocationImpl.create( x, dY1 ) );
@@ -2052,7 +2029,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						// continue;
 
 						y = ( da.getCoordinate( j ) - pwa.getSeriesThickness( ) );
-						lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+						lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 								LineRenderEvent.class );
 						lre.setLineAttributes( lia );
 						lre.setStart( LocationImpl.create( dX1, y ) );
@@ -2075,7 +2052,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						y -= pwa.getSeriesThickness( );
 					}
-					lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
+					lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 							LineRenderEvent.class );
 					lre.setLineAttributes( lia );
 					lre.setStart( LocationImpl.create( dX1, y ) );
@@ -2387,7 +2364,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			// prepare hotspot only
 			if ( lo instanceof Location3D )
 			{
-				final Oval3DRenderEvent ore = (Oval3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+				final Oval3DRenderEvent ore = ( (EventObjectCache) ipr ).getEventObject( oSource,
 						Oval3DRenderEvent.class );
 				Location3D lo3d = (Location3D) lo;
 				ore.setLocation3D( new Location3D[]{
@@ -2408,7 +2385,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 			else
 			{
-				final OvalRenderEvent ore = (OvalRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+				final OvalRenderEvent ore = ( (EventObjectCache) ipr ).getEventObject( oSource,
 						OvalRenderEvent.class );
 				ore.setBounds( BoundsImpl.create( lo.getX( ) - iSize, lo.getY( )
 						- iSize, iSize * 2, iSize * 2 ) );
@@ -2439,20 +2416,20 @@ public abstract class AxesRenderer extends BaseRenderer
 									panningOffset.getX( ),
 									panningOffset.getY( ) ) != null ) ) )
 			{
-				final EList elTriggers = se.getTriggers( );
+				final EList<Trigger> elTriggers = se.getTriggers( );
 				if ( !elTriggers.isEmpty( ) )
 				{
 					final StructureSource iSource = ( oParent instanceof Legend )
 							? ( StructureSource.createSeries( se ) )
 							: ( WrappedStructureSource.createSeriesDataPoint( se,
 									dph ) );
-					final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( iSource,
+					final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( iSource,
 							InteractionEvent.class );
 					iev.setCursor( se.getCursor( ) );
 					Trigger tg;
 					for ( int t = 0; t < elTriggers.size( ); t++ )
 					{
-						tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+						tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 						this.processTrigger( tg, iSource );
 						iev.addTrigger( tg );
 					}
@@ -2484,7 +2461,6 @@ public abstract class AxesRenderer extends BaseRenderer
 			Bounds boPlotClientArea ) throws ChartException
 	{
 		Axis ax;
-		EList el;
 		int iLineCount, iAxisCount = oaxa.length;
 		MarkerLine ml;
 		LineRenderEvent lre;
@@ -2516,12 +2492,12 @@ public abstract class AxesRenderer extends BaseRenderer
 						? Orientation.VERTICAL : Orientation.HORIZONTAL;
 			}
 			asc = oaxa[i].getScale( );
-			el = ax.getMarkerLines( );
+			EList<MarkerLine> el = ax.getMarkerLines( );
 			iLineCount = el.size( );
 
 			for ( int j = 0; j < iLineCount; j++ )
 			{
-				ml = (MarkerLine) el.get( j );
+				ml = el.get( j );
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_MARKER_LINE,
 						ax,
@@ -2596,7 +2572,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					continue; // TRY NEXT MARKER RANGE
 				}
 
-				lre = (LineRenderEvent) ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerLine( ml ),
+				lre = ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerLine( ml ),
 						LineRenderEvent.class );
 				if ( iOrientation == Orientation.HORIZONTAL )
 				{
@@ -2825,7 +2801,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 
 					// NOW THAT WE COMPUTED THE BOUNDS, RENDER THE ACTUAL TEXT
-					tre = (TextRenderEvent) ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerLine( ml ),
+					tre = ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerLine( ml ),
 							TextRenderEvent.class );
 					tre.setBlockBounds( boText );
 					tre.setBlockAlignment( null );
@@ -2837,17 +2813,17 @@ public abstract class AxesRenderer extends BaseRenderer
 				if ( isInteractivityEnabled( ) )
 				{
 					Trigger tg;
-					EList elTriggers = ml.getTriggers( );
+					EList<Trigger> elTriggers = ml.getTriggers( );
 
 					if ( !elTriggers.isEmpty( ) )
 					{
-						final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerLine( ml ),
+						final InteractionEvent iev = ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerLine( ml ),
 								InteractionEvent.class );
 						iev.setCursor( ml.getCursor( ) );
 						
 						for ( int t = 0; t < elTriggers.size( ); t++ )
 						{
-							tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+							tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 							processTrigger( tg,
 									StructureSource.createMarkerLine( ml ) );
 							iev.addTrigger( tg );
@@ -2882,7 +2858,7 @@ public abstract class AxesRenderer extends BaseRenderer
 											+ IConstants.LINE_EXPAND_SIZE );
 						}
 
-						final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerLine( ml ),
+						final PolygonRenderEvent pre = ( (EventObjectCache) idr ).getEventObject( StructureSource.createMarkerLine( ml ),
 								PolygonRenderEvent.class );
 						pre.setPoints( loaHotspot );
 						iev.setHotSpot( pre );
@@ -2975,7 +2951,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				for ( int i = idx - 1; i >= 0; i-- )
 				{
 					count++;
-					if ( ( (Series) sd.getRunTimeSeries( ).get( i ) ).isVisible( ) )
+					if ( sd.getRunTimeSeries( ).get( i ).isVisible( ) )
 					{
 						return currentIndex - count;
 					}
@@ -2991,14 +2967,14 @@ public abstract class AxesRenderer extends BaseRenderer
 			{
 				for ( int i = iDefintionIndex - 1; i >= 0; i-- )
 				{
-					sd = (SeriesDefinition) cax.getSeriesDefinitions( ).get( i );
+					sd = cax.getSeriesDefinitions( ).get( i );
 
 					int runtimeSeriesCount = sd.getRunTimeSeries( ).size( );
 
 					for ( int j = runtimeSeriesCount - 1; j >= 0; j-- )
 					{
 						count++;
-						if ( ( (Series) sd.getRunTimeSeries( ).get( j ) ).isVisible( ) )
+						if ( sd.getRunTimeSeries( ).get( j ).isVisible( ) )
 						{
 							return currentIndex - count;
 						}
@@ -3155,7 +3131,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		{
 			return allAxes.getPrimaryOrthogonal( );
 		}
-		EList axesList = ( (Axis) getAxis( ).eContainer( ) ).getAssociatedAxes( );
+		EList<Axis> axesList = ( (Axis) getAxis( ).eContainer( ) ).getAssociatedAxes( );
 		int index = axesList.indexOf( getAxis( ) );
 		if ( index == 0 )
 		{
@@ -3565,19 +3541,19 @@ public abstract class AxesRenderer extends BaseRenderer
 	protected void addInteractivity(IPrimitiveRenderer ipr, DataPointHints dph, PrimitiveRenderEvent event) throws ChartException
 	{
 		// interactivity
-		final EList elTriggers = se.getTriggers( );
+		final EList<Trigger> elTriggers = se.getTriggers( );
 		if ( !elTriggers.isEmpty( ) )
 		{
 			final StructureSource iSource =  WrappedStructureSource.createSeriesDataPoint( se,
 					dph) ;
-			final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( iSource,
+			final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( iSource,
 					InteractionEvent.class );
 			iev.setCursor( se.getCursor( ) );
 			
 			Trigger tg;
 			for ( int t = 0; t < elTriggers.size( ); t++ )
 			{
-				tg = TriggerImpl.copyInstance( (Trigger) elTriggers.get( t ) );
+				tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
 				this.processTrigger( tg, iSource );
 				iev.addTrigger( tg );
 			}

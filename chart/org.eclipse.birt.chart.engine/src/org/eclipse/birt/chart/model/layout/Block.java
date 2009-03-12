@@ -747,9 +747,8 @@ public interface Block extends EObject
 
 	/**
 	 * @param bRecursive
-	 * @return
 	 */
-	Enumeration children( boolean bRecursive );
+	Enumeration<Block> children( boolean bRecursive );
 
 	/**
 	 * Computes and returns the size of the title block based on the text
