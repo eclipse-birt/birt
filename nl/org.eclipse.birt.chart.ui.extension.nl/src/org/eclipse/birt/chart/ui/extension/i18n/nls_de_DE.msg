@@ -856,6 +856,7 @@ ChartSheetImpl.Label.InteractivityEnable=&Enable Chart Interactivity
 ChartSheetImpl.Label.Text=Te&xt:
 ChartLegendSheetImpl.Label.LegendBehaviorType=&Verhalten:
 SeriesSheetImpl.Label.Type=Typ
+SeriesSheetImpl.Label.ZOrder=Z Order
 LegendTextSheet.Label.Ellipsis=&Ellipsis:
 LegendTextSheet.Label.Font=&Schriftart:
 LegendTextSheet.Label.Separator=Trennzeichen
