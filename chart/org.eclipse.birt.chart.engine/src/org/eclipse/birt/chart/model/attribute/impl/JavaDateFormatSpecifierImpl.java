@@ -223,23 +223,19 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static JavaDateFormatSpecifier copyInstance(
-			JavaDateFormatSpecifier src )
+	public JavaDateFormatSpecifier copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		JavaDateFormatSpecifierImpl dest = new JavaDateFormatSpecifierImpl( );
-
-		dest.pattern = src.getPattern( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( JavaDateFormatSpecifier src )
+	{
+		super.set( src );
+
+		pattern = src.getPattern( );
 	}
 
 } // JavaDateFormatSpecifierImpl

@@ -690,32 +690,28 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static FractionNumberFormatSpecifier copyInstance(
-			FractionNumberFormatSpecifier src )
+	public FractionNumberFormatSpecifier copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		FractionNumberFormatSpecifierImpl dest = new FractionNumberFormatSpecifierImpl( );
-
-		dest.precise = src.isPrecise( );
-		dest.preciseESet = src.isSetPrecise( );
-		dest.fractionDigits = src.getFractionDigits( );
-		dest.fractionDigitsESet = src.isSetFractionDigits( );
-		dest.numerator = src.getNumerator( );
-		dest.numeratorESet = src.isSetNumerator( );
-		dest.prefix = src.getPrefix( );
-		dest.suffix = src.getSuffix( );
-		dest.delimiter = src.getDelimiter( );
-		dest.delimiterESet = src.isSetDelimiter( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( FractionNumberFormatSpecifier src )
+	{
+		super.set( src );
+
+		precise = src.isPrecise( );
+		preciseESet = src.isSetPrecise( );
+		fractionDigits = src.getFractionDigits( );
+		fractionDigitsESet = src.isSetFractionDigits( );
+		numerator = src.getNumerator( );
+		numeratorESet = src.isSetNumerator( );
+		prefix = src.getPrefix( );
+		suffix = src.getSuffix( );
+		delimiter = src.getDelimiter( );
+		delimiterESet = src.isSetDelimiter( );
 	}
 
 } // FractionNumberFormatSpecifierImpl

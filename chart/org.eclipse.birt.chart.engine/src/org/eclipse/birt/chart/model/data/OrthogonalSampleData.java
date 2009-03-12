@@ -114,4 +114,10 @@ public interface OrthogonalSampleData extends EObject
 	 */
 	boolean isSetSeriesDefinitionIndex( );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	OrthogonalSampleData copyInstance( );
+
 } // OrthogonalSampleData

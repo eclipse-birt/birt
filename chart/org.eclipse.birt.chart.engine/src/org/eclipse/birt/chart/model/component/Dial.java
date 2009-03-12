@@ -14,9 +14,7 @@ package org.eclipse.birt.chart.model.component;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -466,5 +464,11 @@ public interface Dial extends EObject
 	 * @generated
 	 */
 	void setFormatSpecifier( FormatSpecifier value );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Dial copyInstance( );
 
 } // Dial

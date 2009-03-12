@@ -51,8 +51,6 @@ import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
@@ -60,7 +58,6 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.impl.ChartImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
@@ -418,13 +415,13 @@ public final class Generator implements IGenerator
 			{
 				if ( newStyle.getFont( ) != null )
 				{
-					currentStyle.setFont( FontDefinitionImpl.copyInstance( newStyle.getFont( ) ) );
+					currentStyle.setFont( newStyle.getFont( ).copyInstance( ) );
 				}
 			}
 			else if ( newStyle.getFont( ) != null )
 			{
 				FontDefinition fd = currentStyle.getFont( );
-				FontDefinition newFd = FontDefinitionImpl.copyInstance( newStyle.getFont( ) );
+				FontDefinition newFd = newStyle.getFont( ).copyInstance( );
 
 				ChartUtil.mergeFont( fd, newFd );
 			}
@@ -432,7 +429,7 @@ public final class Generator implements IGenerator
 			if ( currentStyle.getColor( ) == null
 					&& newStyle.getColor( ) != null )
 			{
-				currentStyle.setColor( ColorDefinitionImpl.copyInstance( newStyle.getColor( ) ) );
+				currentStyle.setColor( newStyle.getColor( ).copyInstance( ) );
 			}
 		}
 
@@ -680,7 +677,7 @@ public final class Generator implements IGenerator
 		rtc.setScriptClassLoader( iscl );
 
 		// Update the context with a locale if it is undefined.
-		final Chart cmRunTime = ChartImpl.copyInstance( model );
+		final Chart cmRunTime = model.copyInstance( );
 		rtc.setULocale( locale != null ? locale : ULocale.getDefault( ) );
 
 		ChartScriptContext csc = new ChartScriptContext( );
@@ -911,7 +908,7 @@ public final class Generator implements IGenerator
 		{
 			// re-init chart script context.
 			ChartScriptContext csc = new ChartScriptContext( );
-			Chart cmRunTime = ChartImpl.copyInstance( cmDesignTime );
+			Chart cmRunTime = cmDesignTime.copyInstance( );
 			csc.setChartInstance( cmRunTime );
 			csc.setExternalContext( externalContext );
 			csc.setULocale( rtc.getULocale( ) );
@@ -924,7 +921,7 @@ public final class Generator implements IGenerator
 		{
 			// reset logger.
 			( (ChartScriptContext) icsc ).setLogger( logger );
-			Chart cmRuntime = ChartImpl.copyInstance( cmDesignTime );
+			Chart cmRuntime = cmDesignTime.copyInstance( );
 			// Chart cmRuntime = (Chart) EcoreUtil.copy( cmDesignTime );
 			// Set runtime bounds to runtime chart model
 			cmRuntime.getBlock( ).setBounds( bo );

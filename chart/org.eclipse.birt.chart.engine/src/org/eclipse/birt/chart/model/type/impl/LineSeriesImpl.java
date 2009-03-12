@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.model.type.impl;
 
 import java.util.Collection;
-import java.util.Map;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
@@ -25,24 +24,12 @@ import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
-import org.eclipse.birt.chart.model.attribute.impl.DataPointImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
-import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
-import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
-import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
-import org.eclipse.birt.chart.model.data.Trigger;
-import org.eclipse.birt.chart.model.data.impl.DataSetImpl;
-import org.eclipse.birt.chart.model.data.impl.QueryImpl;
-import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
-import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
@@ -51,7 +38,6 @@ import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -967,133 +953,50 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 		return Messages.getString( "LineSeriesImpl.displayName" ); //$NON-NLS-1$
 	}
 
-	private static LineSeries copyInstanceThis( LineSeries src )
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	public LineSeries copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		LineSeriesImpl dest = new LineSeriesImpl( );
+		dest.set( this );
+		return dest;
+	}
 
-		if ( src.getLabel( ) != null )
-		{
-			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
-		}
-
-		if ( src.getDataDefinition( ) != null )
-		{
-			EList<Query> list = dest.getDataDefinition( );
-			for ( Query element : src.getDataDefinition( ) )
-			{
-				list.add( QueryImpl.copyInstance( element ) );
-			}
-		}
-
-		if ( src.getDataPoint( ) != null )
-		{
-			dest.setDataPoint( DataPointImpl.copyInstance( src.getDataPoint( ) ) );
-		}
-
-		if ( src.getDataSets( ) != null )
-		{
-			EMap<String, DataSet> map = dest.getDataSets( );
-			for ( Map.Entry<String, DataSet> entry : src.getDataSets( )
-					.entrySet( ) )
-			{
-				map.put( entry.getKey( ),
-						DataSetImpl.copyInstance( entry.getValue( ) ) );
-			}
-		}
-
-		if ( src.getTriggers( ) != null )
-		{
-			EList<Trigger> list = dest.getTriggers( );
-			for ( Trigger element : src.getTriggers( ) )
-			{
-				list.add( TriggerImpl.copyInstance( element ) );
-			}
-		}
-
-		if ( src.getCurveFitting( ) != null )
-		{
-			dest.setCurveFitting( CurveFittingImpl.copyInstance( src.getCurveFitting( ) ) );
-		}
-
-		if ( src.getCursor( ) != null )
-		{
-			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
-		}
+	protected void set( LineSeries src )
+	{
+		super.set( src );
 
 		if ( src.getMarkers( ) != null )
 		{
-			EList<Marker> list = dest.getMarkers( );
+			EList<Marker> list = getMarkers( );
 			for ( Marker element : src.getMarkers( ) )
 			{
-				list.add( MarkerImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getMarker( ) != null )
 		{
-			dest.setMarker( MarkerImpl.copyInstance( src.getMarker( ) ) );
+			setMarker( src.getMarker( ).copyInstance( ) );
 		}
 
 		if ( src.getLineAttributes( ) != null )
 		{
-			dest.setLineAttributes( LineAttributesImpl.copyInstance( src.getLineAttributes( ) ) );
+			setLineAttributes( src.getLineAttributes( ).copyInstance( ) );
 		}
 
 		if ( src.getShadowColor( ) != null )
 		{
-			dest.setShadowColor( ColorDefinitionImpl.copyInstance( src.getShadowColor( ) ) );
+			setShadowColor( src.getShadowColor( ).copyInstance( ) );
 		}
 
-		dest.visible = src.isVisible( );
-		dest.visibleESet = src.isSetVisible( );
-		dest.seriesIdentifier = src.getSeriesIdentifier( );
-		dest.labelPosition = src.getLabelPosition( );
-		dest.labelPositionESet = src.isSetLabelPosition( );
-		dest.stacked = src.isStacked( );
-		dest.stackedESet = src.isSetStacked( );
-		dest.translucent = src.isTranslucent( );
-		dest.translucentESet = src.isSetTranslucent( );
-		dest.paletteLineColor = src.isPaletteLineColor( );
-		dest.paletteLineColorESet = src.isSetPaletteLineColor( );
-		dest.curve = src.isCurve( );
-		dest.curveESet = src.isSetCurve( );
-		dest.connectMissingValue = src.isConnectMissingValue( );
-		dest.connectMissingValueESet = src.isSetConnectMissingValue( );
-
-		return dest;
-	}
-
-	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
-	 */
-	public static LineSeries copyInstance( LineSeries src )
-	{
-		if ( src == null )
-		{
-			return null;
-		}
-
-		if ( src instanceof ScatterSeries )
-		{
-			return ScatterSeriesImpl.copyInstance( (ScatterSeries) src );
-		}
-		else if ( src instanceof AreaSeries )
-		{
-			return AreaSeriesImpl.copyInstance( (AreaSeries) src );
-		}
-		else
-		{
-			return copyInstanceThis( src );
-		}
+		paletteLineColor = src.isPaletteLineColor( );
+		paletteLineColorESet = src.isSetPaletteLineColor( );
+		curve = src.isCurve( );
+		curveESet = src.isSetCurve( );
+		connectMissingValue = src.isConnectMissingValue( );
+		connectMissingValueESet = src.isSetConnectMissingValue( );
 	}
 
 } // LineSeriesImpl

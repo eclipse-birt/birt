@@ -401,25 +401,22 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static DateFormatSpecifier copyInstance( DateFormatSpecifier src )
+	public DateFormatSpecifier copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		DateFormatSpecifierImpl dest = new DateFormatSpecifierImpl( );
-
-		dest.type = src.getType( );
-		dest.typeESet = src.isSetType( );
-		dest.detail = src.getDetail( );
-		dest.detailESet = src.isSetDetail( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( DateFormatSpecifier src )
+	{
+		super.set( src );
+
+		type = src.getType( );
+		typeESet = src.isSetType( );
+		detail = src.getDetail( );
+		detailESet = src.isSetDetail( );
 	}
 
 } // DateFormatSpecifierImpl

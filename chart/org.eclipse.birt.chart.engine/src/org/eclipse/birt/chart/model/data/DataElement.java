@@ -29,4 +29,11 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface DataElement extends EObject
 {
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	DataElement copyInstance( );
+
 } // DataElement

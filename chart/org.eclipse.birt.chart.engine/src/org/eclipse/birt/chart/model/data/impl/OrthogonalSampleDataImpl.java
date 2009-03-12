@@ -282,24 +282,19 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static OrthogonalSampleData copyInstance( OrthogonalSampleData src )
+	public OrthogonalSampleData copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		OrthogonalSampleDataImpl dest = new OrthogonalSampleDataImpl( );
-
-		dest.dataSetRepresentation = src.getDataSetRepresentation( );
-		dest.seriesDefinitionIndex = src.getSeriesDefinitionIndex( );
-		dest.seriesDefinitionIndexESet = src.isSetSeriesDefinitionIndex( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( OrthogonalSampleData src )
+	{
+		dataSetRepresentation = src.getDataSetRepresentation( );
+		seriesDefinitionIndex = src.getSeriesDefinitionIndex( );
+		seriesDefinitionIndexESet = src.isSetSeriesDefinitionIndex( );
 	}
 
 } //OrthogonalSampleDataImpl

@@ -8,7 +8,6 @@
 package org.eclipse.birt.chart.model.type;
 
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
-
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.emf.common.util.EList;
 
@@ -82,5 +81,11 @@ public interface DifferenceSeries extends AreaSeries
 	 * @generated
 	 */
 	void setNegativeLineAttributes( LineAttributes value );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	DifferenceSeries copyInstance( );
 
 } // DifferenceSeries

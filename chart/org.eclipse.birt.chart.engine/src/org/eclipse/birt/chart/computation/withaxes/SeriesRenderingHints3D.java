@@ -19,10 +19,8 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints3D;
 
@@ -343,7 +341,7 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	public final Label getLabelAttributes( Series se )
 			throws IllegalArgumentException
 	{
-		return LabelImpl.copyInstance( se.getLabel( ) );
+		return se.getLabel( ).copyInstance( );
 	}
 
 	/**
@@ -353,7 +351,7 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	 */
 	public final Bounds getClientAreaBounds( boolean bReduceByInsets )
 	{
-		final Bounds boClientArea = BoundsImpl.copyInstance( pwa.getPlotBounds( ) );
+		final Bounds boClientArea = pwa.getPlotBounds( ).copyInstance( );
 		if ( bReduceByInsets )
 		{
 			boClientArea.adjust( pwa.getPlotInsets( ) );

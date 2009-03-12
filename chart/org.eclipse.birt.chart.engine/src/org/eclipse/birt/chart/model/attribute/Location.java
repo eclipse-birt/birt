@@ -160,4 +160,10 @@ public interface Location extends EObject
 	 */
 	void scale( double dScale );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Location copyInstance( );
+
 } // Location

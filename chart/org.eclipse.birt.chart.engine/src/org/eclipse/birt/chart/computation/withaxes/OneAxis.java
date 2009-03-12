@@ -21,7 +21,6 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -317,8 +316,8 @@ public final class OneAxis
 
 	void set( Label _laAxisLabels, Label _laAxisTitle )
 	{
-		la = LabelImpl.copyInstance( _laAxisLabels );
-		laTitle = LabelImpl.copyInstance( _laAxisTitle );
+		la = _laAxisLabels.copyInstance( );
+		laTitle = _laAxisTitle.copyInstance( );
 	}
 
 	void set( LineAttributes _la )

@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.Location;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Path;
@@ -113,7 +112,7 @@ public final class RegionAction
 	{
 		_oSource = oSource;
 
-		bo = BoundsImpl.copyInstance( bo );
+		bo = bo.copyInstance( );
 		bo.translate( dTranslateX, dTranslateY );
 		bo.scale( dScale );
 
@@ -150,7 +149,7 @@ public final class RegionAction
 	{
 		_oSource = oSource;
 
-		boEllipse = BoundsImpl.copyInstance( boEllipse );
+		boEllipse = boEllipse.copyInstance( );
 		boEllipse.translate( dTranslateX, dTranslateY );
 		boEllipse.scale( dScale );
 

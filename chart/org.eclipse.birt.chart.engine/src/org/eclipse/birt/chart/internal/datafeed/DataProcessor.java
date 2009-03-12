@@ -35,7 +35,6 @@ import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
@@ -516,7 +515,7 @@ public class DataProcessor
 		final SortOption baseSorting = sdBase.isSetSorting( )
 				? sdBase.getSorting( ) : null;
 		final Series seBaseDesignSeries = sdBase.getDesignTimeSeries( );
-		final Series seBaseRuntimeSeries = SeriesImpl.copyInstance( seBaseDesignSeries );
+		final Series seBaseRuntimeSeries = seBaseDesignSeries.copyInstance( );
 		sdBase.getSeries( ).add( seBaseRuntimeSeries );
 
 		int iOrthogonalSeriesDefinitionCount = 0;
@@ -569,7 +568,7 @@ public class DataProcessor
 			{
 				sdOrthogonal = (SeriesDefinition) elSD.get( j );
 				seOrthogonalDesignSeries = sdOrthogonal.getDesignTimeSeries( );
-				seOrthogonalRuntimeSeries = SeriesImpl.copyInstance( seOrthogonalDesignSeries );
+				seOrthogonalRuntimeSeries = seOrthogonalDesignSeries.copyInstance( );
 
 				// Retrieve trigger expressions.
 				String[] triggerExprs = getSeriesTriggerExpressions( seOrthogonalDesignSeries,
@@ -632,7 +631,7 @@ public class DataProcessor
 						.getOrthogonalAggregationExpression( sdOrthogonal );
 				for ( int k = 0; k < iGroupCount; k++ )
 				{
-					seOrthogonalRuntimeSeries = SeriesImpl.copyInstance( seOrthogonalDesignSeries );
+					seOrthogonalRuntimeSeries = seOrthogonalDesignSeries.copyInstance( );
 
 					Object[] odata = populateSeriesDataSet( seOrthogonalRuntimeSeries,
 							rsw.getSubset( k,
@@ -725,7 +724,7 @@ public class DataProcessor
 		final SortOption baseSorting = sdBase.isSetSorting( )
 				? sdBase.getSorting( ) : null;
 		final Series seBaseDesignSeries = sdBase.getDesignTimeSeries( );
-		final Series seBaseRuntimeSeries = SeriesImpl.copyInstance( seBaseDesignSeries );
+		final Series seBaseRuntimeSeries = seBaseDesignSeries.copyInstance( );
 		sdBase.getSeries( ).add( seBaseRuntimeSeries );
 
 		final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase, true );
@@ -791,7 +790,7 @@ public class DataProcessor
 				{
 					sdOrthogonal = elSD.get( j );
 					seOrthogonalDesignSeries = sdOrthogonal.getDesignTimeSeries( );
-					seOrthogonalRuntimeSeries = SeriesImpl.copyInstance( seOrthogonalDesignSeries );
+					seOrthogonalRuntimeSeries = seOrthogonalDesignSeries.copyInstance( );
 
 					// Retrieve trigger expressions.
 					String[] triggerExprs = getSeriesTriggerExpressions( seOrthogonalDesignSeries,
@@ -858,7 +857,7 @@ public class DataProcessor
 							.getOrthogonalAggregationExpression( sdOrthogonal );
 					for ( int k = 0; k < iGroupCount; k++ )
 					{
-						seOrthogonalRuntimeSeries = SeriesImpl.copyInstance( seOrthogonalDesignSeries );
+						seOrthogonalRuntimeSeries = seOrthogonalDesignSeries.copyInstance( );
 
 						Object[] odata = populateSeriesDataSet( seOrthogonalRuntimeSeries,
 								rsw.getSubset( k,

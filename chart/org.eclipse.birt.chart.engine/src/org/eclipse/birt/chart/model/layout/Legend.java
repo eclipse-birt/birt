@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Text;
-
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
@@ -989,4 +988,11 @@ public interface Legend extends Block
 	 * @param cm
 	 */
 	void updateLayout( Chart cm );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Legend copyInstance( );
+
 } // Legend

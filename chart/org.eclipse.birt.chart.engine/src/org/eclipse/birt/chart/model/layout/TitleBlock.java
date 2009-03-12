@@ -28,4 +28,11 @@ package org.eclipse.birt.chart.model.layout;
  */
 public interface TitleBlock extends LabelBlock
 {
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	TitleBlock copyInstance( );
+
 } // TitleBlock

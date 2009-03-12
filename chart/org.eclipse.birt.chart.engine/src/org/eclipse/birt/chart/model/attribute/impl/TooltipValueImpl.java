@@ -301,24 +301,22 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static TooltipValue copyInstance( TooltipValue src )
+	public TooltipValue copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		TooltipValueImpl dest = new TooltipValueImpl( );
-
-		dest.text = src.getText( );
-		dest.delay = src.getDelay( );
-		dest.delayESet = src.isSetDelay( );
-
+		dest.set( this );
 		return dest;
+	}
+
+
+	protected void set( TooltipValue src )
+	{
+		super.set( src );
+
+		text = src.getText( );
+		delay = src.getDelay( );
+		delayESet = src.isSetDelay( );
 	}
 
 } // TooltipValueImpl

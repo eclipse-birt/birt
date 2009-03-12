@@ -457,30 +457,25 @@ public class DataPointComponentImpl extends EObjectImpl implements
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static DataPointComponent copyInstance( DataPointComponent src )
+	public DataPointComponent copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		DataPointComponentImpl dest = new DataPointComponentImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( DataPointComponent src )
+	{
 		if ( src.getFormatSpecifier( ) != null )
 		{
-			dest.setFormatSpecifier( FormatSpecifierImpl.copyInstance( src.getFormatSpecifier( ) ) );
+			setFormatSpecifier( src.getFormatSpecifier( ).copyInstance( ) );
 		}
 
-		dest.type = src.getType( );
-		dest.typeESet = src.isSetType( );
-		dest.orthogonalType = src.getOrthogonalType( );
-		dest.orthogonalTypeESet = src.isSetOrthogonalType( );
-
-		return dest;
+		type = src.getType( );
+		typeESet = src.isSetType( );
+		orthogonalType = src.getOrthogonalType( );
+		orthogonalTypeESet = src.isSetOrthogonalType( );
 	}
 
 } // DataPointComponentImpl

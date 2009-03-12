@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.FillImpl;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -115,7 +114,7 @@ public class FillUtil
 	{
 		if ( fill instanceof ColorDefinition )
 		{
-			ColorDefinition new_fill = ColorDefinitionImpl.copyInstance( (ColorDefinition) fill );
+			ColorDefinition new_fill = ( (ColorDefinition) fill ).copyInstance( );
 			new_fill.eAdapters( ).addAll( fill.eAdapters( ) );
 			applyBrightness( new_fill, brightness );
 			return new_fill;
@@ -241,11 +240,11 @@ public class FillUtil
 				color.getBlue( ) );
 		if ( currentLuminance < 200 )
 		{
-			ColorDefinition newStartColor = ColorDefinitionImpl.copyInstance( color );
+			ColorDefinition newStartColor = color.copyInstance( );
 			newStartColor.eAdapters( ).addAll( color.eAdapters( ) );
 			gradient.setStartColor( newStartColor );
 
-			ColorDefinition newColor = ColorDefinitionImpl.copyInstance( color );
+			ColorDefinition newColor = color.copyInstance( );
 			newColor.eAdapters( ).addAll( color.eAdapters( ) );
 
 			int lumDiff = 240 - currentLuminance;
@@ -256,11 +255,11 @@ public class FillUtil
 		}
 		else
 		{
-			ColorDefinition newEndColor = ColorDefinitionImpl.copyInstance( color );
+			ColorDefinition newEndColor = color.copyInstance( );
 			newEndColor.eAdapters( ).addAll( color.eAdapters( ) );
 			gradient.setEndColor( newEndColor );
 
-			ColorDefinition newColor = ColorDefinitionImpl.copyInstance( color );
+			ColorDefinition newColor = color.copyInstance( );
 			newColor.eAdapters( ).addAll( color.eAdapters( ) );
 
 			int lumDiff = -100;
@@ -296,7 +295,7 @@ public class FillUtil
 	 */
 	public static Fill copyOf( Fill src )
 	{
-		return FillImpl.copyInstance( src );
+		return src.copyInstance( );
 	}
 
 	/**

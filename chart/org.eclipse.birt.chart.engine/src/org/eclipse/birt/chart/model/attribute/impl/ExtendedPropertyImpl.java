@@ -240,23 +240,18 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static ExtendedProperty copyInstance( ExtendedProperty src )
+	public ExtendedProperty copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		ExtendedPropertyImpl dest = new ExtendedPropertyImpl( );
-
-		dest.name = src.getName( );
-		dest.value = src.getValue( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( ExtendedProperty src )
+	{
+		name = src.getName( );
+		value = src.getValue( );
 	}
 
 } // ExtendedPropertyImpl

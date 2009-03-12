@@ -453,7 +453,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
 			size = colorLib.size( );
 		}
 
-		final EList el = getEntries( );
+		final EList<Fill> el = getEntries( );
 		el.clear( );
 
 		if ( step == 0 || Math.abs( step ) >= size )
@@ -474,42 +474,36 @@ public class PaletteImpl extends EObjectImpl implements Palette
 
 		for ( int i = step; i < size; i++ )
 		{
-			el.add( ColorDefinitionImpl.copyInstance( (ColorDefinition) colorLib.get( i ) ) );
+			el.add( ( (ColorDefinition) colorLib.get( i ) ).copyInstance( ) );
 		}
 		for ( int i = 0; i < step; i++ )
 		{
-			el.add( ColorDefinitionImpl.copyInstance( (ColorDefinition) colorLib.get( i ) ) );
+			el.add( ( (ColorDefinition) colorLib.get( i ) ).copyInstance( ) );
 		}
 	}
 
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Palette copyInstance( Palette src )
+	public Palette copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		PaletteImpl dest = new PaletteImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set(Palette src )
+	{
 		if ( src.getEntries( ) != null )
 		{
-			EList<Fill> list = dest.getEntries( );
+			EList<Fill> list = getEntries( );
 			for ( Fill element : src.getEntries( ) )
 			{
-				list.add( FillImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
-		dest.name = src.getName( );
-
-		return dest;
+		name = src.getName( );
 	}
 
 } // PaletteImpl

@@ -459,33 +459,28 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static CurveFitting copyInstance( CurveFitting src )
+	public CurveFitting copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		CurveFittingImpl dest = new CurveFittingImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( CurveFitting src )
+	{
 		if ( src.getLineAttributes( ) != null )
 		{
-			dest.setLineAttributes( LineAttributesImpl.copyInstance( src.getLineAttributes( ) ) );
+			setLineAttributes( src.getLineAttributes( ).copyInstance( ) );
 		}
 
 		if ( src.getLabel( ) != null )
 		{
-			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
+			setLabel( src.getLabel( ).copyInstance( ) );
 		}
 
-		dest.labelAnchor = src.getLabelAnchor( );
-		dest.labelAnchorESet = src.isSetLabelAnchor( );
-
-		return dest;
+		labelAnchor = src.getLabelAnchor( );
+		labelAnchorESet = src.isSetLabelAnchor( );
 	}
 
 } // CurveFittingImpl

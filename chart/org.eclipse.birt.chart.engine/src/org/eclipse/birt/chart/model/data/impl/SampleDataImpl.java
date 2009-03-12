@@ -255,47 +255,40 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static SampleData copyInstance( SampleData src )
+	public SampleData copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		SampleDataImpl dest = new SampleDataImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( SampleData src )
+	{
 		if ( src.getBaseSampleData( ) != null )
 		{
-			EList<BaseSampleData> list = dest.getBaseSampleData( );
+			EList<BaseSampleData> list = getBaseSampleData( );
 			for ( BaseSampleData element : src.getBaseSampleData( ) )
 			{
-				list.add( BaseSampleDataImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getOrthogonalSampleData( ) != null )
 		{
-			EList<OrthogonalSampleData> list = dest.getOrthogonalSampleData( );
+			EList<OrthogonalSampleData> list = getOrthogonalSampleData( );
 			for ( OrthogonalSampleData element : src.getOrthogonalSampleData( ) )
 			{
-				list.add( OrthogonalSampleDataImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getAncillarySampleData( ) != null )
 		{
-			EList<BaseSampleData> list = dest.getAncillarySampleData( );
+			EList<BaseSampleData> list = getAncillarySampleData( );
 			for ( BaseSampleData element : src.getAncillarySampleData( ) )
 			{
-				list.add( BaseSampleDataImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
-		return dest;
 	}
 
 } //SampleDataImpl

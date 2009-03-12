@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.util.FillUtil;
 
 /**
@@ -70,7 +69,7 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 
 		if ( _lia != null )
 		{
-			ore.setOutline( LineAttributesImpl.copyInstance( _lia ) );
+			ore.setOutline( _lia.copyInstance( ) );
 		}
 
 		if ( _ifBackground != null )

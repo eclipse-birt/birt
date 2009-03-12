@@ -74,22 +74,18 @@ public class TextDataSetImpl extends DataSetImpl implements TextDataSet
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static TextDataSet copyInstance( TextDataSet src )
+	public TextDataSet copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		TextDataSetImpl dest = new TextDataSetImpl( );
-
-		dest.values = src.getValues( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( TextDataSet src )
+	{
+		super.set( src );
+
 	}
 
 } //TextDataSetImpl

@@ -17,11 +17,8 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
-import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
-import org.eclipse.birt.chart.model.attribute.Text;// bidi_acgc added
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
@@ -288,7 +285,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 		final TextRenderEvent tre = new TextRenderEvent( source );
 		if ( _boBlock != null )
 		{
-			tre.setBlockBounds( BoundsImpl.copyInstance( _boBlock ) );
+			tre.setBlockBounds( _boBlock.copyInstance( ) );
 		}
 		tre.setAction( _iAction );
 		tre.setTextPosition( _iTextPosition );
@@ -298,11 +295,11 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 		}
 		if ( _lo != null )
 		{
-			tre.setLocation( LocationImpl.copyInstance( _lo ) );
+			tre.setLocation( _lo.copyInstance( ) );
 		}
 		if ( _taBlock != null )
 		{
-			tre.setBlockAlignment( TextAlignmentImpl.copyInstance( _taBlock ) );
+			tre.setBlockAlignment( _taBlock.copyInstance( ) );
 		}
 		return tre;
 	}

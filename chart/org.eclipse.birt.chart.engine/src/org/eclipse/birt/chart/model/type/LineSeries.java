@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.component.Series;
-
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -303,5 +302,11 @@ public interface LineSeries extends Series
 	 * @generated
 	 */
 	boolean isSetConnectMissingValue( );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	LineSeries copyInstance( );
 
 } // LineSeries

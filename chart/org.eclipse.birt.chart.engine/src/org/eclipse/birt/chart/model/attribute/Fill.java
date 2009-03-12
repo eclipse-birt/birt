@@ -86,4 +86,10 @@ public interface Fill extends EObject
 	 */
 	boolean isSetType( );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Fill copyInstance( );
+
 } // Fill

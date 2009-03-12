@@ -31,19 +31,13 @@ import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.Stretch;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
-import org.eclipse.birt.chart.model.attribute.impl.FillImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.data.Trigger;
-import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.layout.Block;
-import org.eclipse.birt.chart.model.layout.LabelBlock;
 import org.eclipse.birt.chart.model.layout.LayoutFactory;
 import org.eclipse.birt.chart.model.layout.LayoutPackage;
-import org.eclipse.birt.chart.model.layout.Legend;
-import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -1682,7 +1676,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * Note: Manually written
 	 * 
 	 * @param bRecursive
-	 * @return block children
+	 * @return
 	 */
 	public final Enumeration<Block> children( boolean bRecursive )
 	{
@@ -1721,6 +1715,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * 
 	 * Note: Manually written
 	 * 
+	 * @return
 	 */
 	public boolean isPlot( )
 	{
@@ -1731,6 +1726,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * 
 	 * Note: Manually written
 	 * 
+	 * @return
 	 */
 	public boolean isLegend( )
 	{
@@ -1741,6 +1737,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * 
 	 * Note: Manually written
 	 * 
+	 * @return
 	 */
 	public boolean isText( )
 	{
@@ -1751,6 +1748,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * 
 	 * Note: Manually written
 	 * 
+	 * @return
 	 */
 	public boolean isCustom( )
 	{
@@ -1761,6 +1759,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * 
 	 * Note: Manually written
 	 * 
+	 * @return
 	 */
 	public boolean isTitle( )
 	{
@@ -1794,7 +1793,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return block instance
+	 * @return
 	 */
 	public static Block create( )
 	{
@@ -1833,115 +1832,83 @@ public class BlockImpl extends EObjectImpl implements Block
 		setVisible( true );
 	}
 
-	private static Block copyInstanceThis( Block src )
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	public Block copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		BlockImpl dest = new BlockImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( Block src )
+	{
 		if ( src.getChildren( ) != null )
 		{
-			EList<Block> list = dest.getChildren( );
+			EList<Block> list = getChildren( );
 			for ( Block element : src.getChildren( ) )
 			{
-				list.add( BlockImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getBounds( ) != null )
 		{
-			dest.setBounds( BoundsImpl.copyInstance( src.getBounds( ) ) );
+			setBounds( src.getBounds( ).copyInstance( ) );
 		}
 
 		if ( src.getInsets( ) != null )
 		{
-			dest.setInsets( InsetsImpl.copyInstance( src.getInsets( ) ) );
+			setInsets( src.getInsets( ).copyInstance( ) );
 		}
 
 		if ( src.getMinSize( ) != null )
 		{
-			dest.setMinSize( SizeImpl.copyInstance( src.getMinSize( ) ) );
+			setMinSize( src.getMinSize( ).copyInstance( ) );
 		}
 
 		if ( src.getOutline( ) != null )
 		{
-			dest.setOutline( LineAttributesImpl.copyInstance( src.getOutline( ) ) );
+			setOutline( src.getOutline( ).copyInstance( ) );
 		}
 
 		if ( src.getBackground( ) != null )
 		{
-			dest.setBackground( FillImpl.copyInstance( src.getBackground( ) ) );
+			setBackground( src.getBackground( ).copyInstance( ) );
 		}
 
 		if ( src.getTriggers( ) != null )
 		{
-			EList<Trigger> list = dest.getTriggers( );
+			EList<Trigger> list = getTriggers( );
 			for ( Trigger element : src.getTriggers( ) )
 			{
-				list.add( TriggerImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getCursor( ) != null )
 		{
-			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
+			setCursor( src.getCursor( ).copyInstance( ) );
 		}
 
-		dest.anchor = src.getAnchor( );
-		dest.anchorESet = src.isSetAnchor( );
-		dest.stretch = src.getStretch( );
-		dest.stretchESet = src.isSetStretch( );
-		dest.row = src.getRow( );
-		dest.rowESet = src.isSetRow( );
-		dest.column = src.getColumn( );
-		dest.columnESet = src.isSetColumn( );
-		dest.rowspan = src.getRowspan( );
-		dest.rowspanESet = src.isSetRowspan( );
-		dest.columnspan = src.getColumnspan( );
-		dest.columnspanESet = src.isSetColumnspan( );
-		dest.visible = src.isVisible( );
-		dest.visibleESet = src.isSetVisible( );
-		dest.widthHint = src.getWidthHint( );
-		dest.widthHintESet = src.isSetWidthHint( );
-		dest.heightHint = src.getHeightHint( );
-		dest.heightHintESet = src.isSetHeightHint( );
-
-		return dest;
-	}
-
-	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return 
-	 */
-	public static Block copyInstance( Block src )
-	{
-		if ( src == null )
-		{
-			return null;
-		}
-
-		if ( src instanceof LabelBlock )
-		{
-			return LabelBlockImpl.copyInstance( (LabelBlock) src );
-		}
-		else if ( src instanceof Legend )
-		{
-			return LegendImpl.copyInstance( (Legend) src );
-		}
-		else if ( src instanceof Plot )
-		{
-			return PlotImpl.copyInstance( (Plot) src );
-		}
-		else
-		{
-			return copyInstanceThis( src );
-		}
+		anchor = src.getAnchor( );
+		anchorESet = src.isSetAnchor( );
+		stretch = src.getStretch( );
+		stretchESet = src.isSetStretch( );
+		row = src.getRow( );
+		rowESet = src.isSetRow( );
+		column = src.getColumn( );
+		columnESet = src.isSetColumn( );
+		rowspan = src.getRowspan( );
+		rowspanESet = src.isSetRowspan( );
+		columnspan = src.getColumnspan( );
+		columnspanESet = src.isSetColumnspan( );
+		visible = src.isVisible( );
+		visibleESet = src.isSetVisible( );
+		widthHint = src.getWidthHint( );
+		widthHintESet = src.isSetWidthHint( );
+		heightHint = src.getHeightHint( );
+		heightHintESet = src.isSetHeightHint( );
 	}
 
 } // BlockImpl

@@ -356,28 +356,23 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Needle copyInstance( Needle src )
+	public Needle copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		NeedleImpl dest = new NeedleImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( Needle src )
+	{
 		if ( src.getLineAttributes( ) != null )
 		{
-			dest.setLineAttributes( LineAttributesImpl.copyInstance( src.getLineAttributes( ) ) );
+			setLineAttributes( src.getLineAttributes( ).copyInstance( ) );
 		}
 
-		dest.decorator = src.getDecorator( );
-		dest.decoratorESet = src.isSetDecorator( );
-
-		return dest;
+		decorator = src.getDecorator( );
+		decoratorESet = src.isSetDecorator( );
 	}
 
 } // NeedleImpl

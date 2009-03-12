@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: MultiURLValuesImpl.java,v 1.1 2009/03/05 12:25:19 heli Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -10,8 +10,8 @@ package org.eclipse.birt.chart.model.attribute.impl;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.MenuStylesKeyType;
 import org.eclipse.birt.chart.model.attribute.MultiURLValues;
@@ -322,7 +322,7 @@ public class MultiURLValuesImpl extends ActionValueImpl implements
 	 */
 	public static MultiURLValues create( )
 	{
-		MultiURLValues muv = AttributeFactoryImpl.eINSTANCE.createMultiURLValues( );
+		MultiURLValues muv = AttributeFactory.eINSTANCE.createMultiURLValues( );
 		muv.getPropertiesMap( ).putAll( DEFAULT_PROPERTIES_MAP );
 		return muv;
 	}
@@ -330,31 +330,37 @@ public class MultiURLValuesImpl extends ActionValueImpl implements
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static MultiURLValues copyInstance( MultiURLValues src )
+	public MultiURLValues copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		MultiURLValuesImpl dest = new MultiURLValuesImpl( );
-
-		for ( URLValue uv : src.getURLValues( ) )
-		{
-			dest.getURLValues( ).add( URLValueImpl.copyInstance( uv ) );
-		}
-		for ( Entry<String, String> e : src.getPropertiesMap( ) )
-		{
-			dest.getPropertiesMap( ).put( e.getKey( ), e.getValue( ) );
-		}
-
-		dest.tooltip = src.getTooltip( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( MultiURLValues src )
+	{
+		super.set( src );
+
+		if ( src.getURLValues( ) != null )
+		{
+			EList<URLValue> list = getURLValues( );
+			for ( URLValue element : src.getURLValues( ) )
+			{
+				list.add( element.copyInstance( ) );
+			}
+		}
+		if ( src.getPropertiesMap( ) != null )
+		{
+			EMap<String, String> map = getPropertiesMap( );
+			for ( Map.Entry<String, String> entry : src.getPropertiesMap( )
+					.entrySet( ) )
+			{
+				map.put( entry.getKey( ), entry.getValue( ) );
+			}
+		}
+
+		tooltip = src.getTooltip( );
 	}
 
 } //MultiURLValuesImpl

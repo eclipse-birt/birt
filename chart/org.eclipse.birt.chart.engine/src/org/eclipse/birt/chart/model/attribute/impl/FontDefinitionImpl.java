@@ -1041,41 +1041,36 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static FontDefinition copyInstance( FontDefinition src )
+	public FontDefinition copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		FontDefinitionImpl dest = new FontDefinitionImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( FontDefinition src )
+	{
 		if ( src.getAlignment( ) != null )
 		{
-			dest.setAlignment( TextAlignmentImpl.copyInstance( src.getAlignment( ) ) );
+			setAlignment( src.getAlignment( ).copyInstance( ) );
 		}
 
-		dest.name = src.getName( );
-		dest.size = src.getSize( );
-		dest.sizeESet = src.isSetSize( );
-		dest.bold = src.isBold( );
-		dest.boldESet = src.isSetBold( );
-		dest.italic = src.isItalic( );
-		dest.italicESet = src.isSetItalic( );
-		dest.strikethrough = src.isStrikethrough( );
-		dest.strikethroughESet = src.isSetStrikethrough( );
-		dest.underline = src.isUnderline( );
-		dest.underlineESet = src.isSetUnderline( );
-		dest.wordWrap = src.isWordWrap( );
-		dest.wordWrapESet = src.isSetWordWrap( );
-		dest.rotation = src.getRotation( );
-		dest.rotationESet = src.isSetRotation( );
-
-		return dest;
+		name = src.getName( );
+		size = src.getSize( );
+		sizeESet = src.isSetSize( );
+		bold = src.isBold( );
+		boldESet = src.isSetBold( );
+		italic = src.isItalic( );
+		italicESet = src.isSetItalic( );
+		strikethrough = src.isStrikethrough( );
+		strikethroughESet = src.isSetStrikethrough( );
+		underline = src.isUnderline( );
+		underlineESet = src.isSetUnderline( );
+		wordWrap = src.isWordWrap( );
+		wordWrapESet = src.isSetWordWrap( );
+		rotation = src.getRotation( );
+		rotationESet = src.isSetRotation( );
 	}
 
 	/*

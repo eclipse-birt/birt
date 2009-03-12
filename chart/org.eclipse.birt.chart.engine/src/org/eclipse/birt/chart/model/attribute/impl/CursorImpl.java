@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CursorImpl.java,v 1.2 2009/01/05 09:13:36 heli Exp $
+ * $Id: CursorImpl.java,v 1.3 2009/02/26 02:27:50 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -296,32 +296,26 @@ public class CursorImpl extends EObjectImpl implements Cursor
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Cursor copyInstance( Cursor src )
+	public Cursor copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		CursorImpl dest = new CursorImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( Cursor src )
+	{
 		if ( src.getImage( ) != null )
 		{
-			EList<Image> list = dest.getImage( );
+			EList<Image> list = getImage( );
 			for ( Image element : src.getImage( ) )
 			{
-				list.add( ImageImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
-		dest.type = src.getType( );
-		dest.typeESet = src.isSetType( );
-
-		return dest;
+		type = src.getType( );
+		typeESet = src.isSetType( );
 	}
 
 } //CursorImpl

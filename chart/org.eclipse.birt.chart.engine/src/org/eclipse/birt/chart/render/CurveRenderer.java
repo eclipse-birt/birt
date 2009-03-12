@@ -32,8 +32,6 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
@@ -192,15 +190,15 @@ public final class CurveRenderer
 
 		if ( paletteEntry instanceof ColorDefinition && usePaletteLineColor )
 		{
-			lia = LineAttributesImpl.copyInstance( lia );
-			lia.setColor( ColorDefinitionImpl.copyInstance( (ColorDefinition) paletteEntry ) );
+			lia = lia.copyInstance( );
+			lia.setColor( ( (ColorDefinition) paletteEntry ).copyInstance( ) );
 		}
 
 		if ( bFillArea && paletteEntry instanceof ColorDefinition )
 		{
 			// TODO support gradient and image.
 
-			fillColor = ColorDefinitionImpl.copyInstance( (ColorDefinition) paletteEntry );
+			fillColor = ( (ColorDefinition) paletteEntry ).copyInstance( );
 			tapeColor = fillColor.brighter( );
 			sideColor = fillColor.darker( );
 		}

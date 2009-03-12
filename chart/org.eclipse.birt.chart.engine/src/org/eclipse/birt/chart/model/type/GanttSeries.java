@@ -11,7 +11,6 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.Position;
-
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 
@@ -490,5 +489,11 @@ public interface GanttSeries extends Series
 	 * @generated
 	 */
 	boolean isSetPaletteLineColor( );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	GanttSeries copyInstance( );
 
 } // GanttSeries

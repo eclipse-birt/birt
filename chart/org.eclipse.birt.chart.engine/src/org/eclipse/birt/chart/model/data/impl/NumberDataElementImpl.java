@@ -238,23 +238,20 @@ public class NumberDataElementImpl extends DataElementImpl implements
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static NumberDataElement copyInstance( NumberDataElement src )
+	public NumberDataElement copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		NumberDataElementImpl dest = new NumberDataElementImpl( );
-
-		dest.value = src.getValue( );
-		dest.valueESet = src.isSetValue( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( NumberDataElement src )
+	{
+		super.set( src );
+
+		value = src.getValue( );
+		valueESet = src.isSetValue( );
 	}
 
 } //NumberDataElementImpl

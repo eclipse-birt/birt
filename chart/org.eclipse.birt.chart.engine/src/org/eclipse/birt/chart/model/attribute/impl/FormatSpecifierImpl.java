@@ -12,12 +12,7 @@
 package org.eclipse.birt.chart.model.attribute.impl;
 
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
-import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
-import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
-import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
-import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
-import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -51,57 +46,19 @@ public class FormatSpecifierImpl extends EObjectImpl implements FormatSpecifier
 		return AttributePackage.Literals.FORMAT_SPECIFIER;
 	}
 
-	private static FormatSpecifier copyInstanceThis( FormatSpecifier src )
-	{
-		if ( src == null )
-		{
-			return null;
-		}
-
-		FormatSpecifierImpl dest = new FormatSpecifierImpl( );
-
-		return dest;
-	}
-
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static FormatSpecifier copyInstance( FormatSpecifier src )
+	public FormatSpecifier copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
+		FormatSpecifierImpl dest = new FormatSpecifierImpl( );
+		dest.set( this );
+		return dest;
+	}
 
-		if ( src instanceof DateFormatSpecifier )
-		{
-			return DateFormatSpecifierImpl.copyInstance( (DateFormatSpecifier) src );
-		}
-		else if ( src instanceof FractionNumberFormatSpecifier )
-		{
-			return FractionNumberFormatSpecifierImpl.copyInstance( (FractionNumberFormatSpecifier) src );
-		}
-		else if ( src instanceof JavaDateFormatSpecifier )
-		{
-			return JavaDateFormatSpecifierImpl.copyInstance( (JavaDateFormatSpecifier) src );
-		}
-		else if ( src instanceof JavaNumberFormatSpecifier )
-		{
-			return JavaNumberFormatSpecifierImpl.copyInstance( (JavaNumberFormatSpecifier) src );
-		}
-		else if ( src instanceof NumberFormatSpecifier )
-		{
-			return NumberFormatSpecifierImpl.copyInstance( (NumberFormatSpecifier) src );
-		}
-		else
-		{
-			return copyInstanceThis( src );
-		}
-
+	protected void set( FormatSpecifier src )
+	{
 	}
 
 } // FormatSpecifierImpl

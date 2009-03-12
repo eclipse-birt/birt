@@ -385,33 +385,27 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static DataPoint copyInstance( DataPoint src )
+	public DataPoint copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		DataPointImpl dest = new DataPointImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( DataPoint src )
+	{
 		if ( src.getComponents( ) != null )
 		{
-			EList<DataPointComponent> list = dest.getComponents( );
+			EList<DataPointComponent> list = getComponents( );
 			for ( DataPointComponent element : src.getComponents( ) )
 			{
-				list.add( DataPointComponentImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
-		dest.prefix = src.getPrefix( );
-		dest.suffix = src.getSuffix( );
-		dest.separator = src.getSeparator( );
-
-		return dest;
+		prefix = src.getPrefix( );
+		suffix = src.getSuffix( );
+		separator = src.getSeparator( );
 	}
 
 } // DataPointImpl

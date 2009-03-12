@@ -172,32 +172,26 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static MultipleFill copyInstance( MultipleFill src )
+	public MultipleFill copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		MultipleFillImpl dest = new MultipleFillImpl( );
+		dest.set( this );
+		return dest;
+	}
+
+	protected void set( MultipleFill src )
+	{
+		super.set( src );
 
 		if ( src.getFills( ) != null )
 		{
-			EList<Fill> list = dest.getFills( );
+			EList<Fill> list = getFills( );
 			for ( Fill element : src.getFills( ) )
 			{
-				list.add( FillImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
-		dest.type = src.getType( );
-		dest.typeESet = src.isSetType( );
-
-		return dest;
 	}
 
 } // MultipleFillImpl

@@ -11,16 +11,8 @@
 
 package org.eclipse.birt.chart.model.data.impl;
 
-import org.eclipse.birt.chart.model.data.BubbleDataSet;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.DataSet;
-import org.eclipse.birt.chart.model.data.DateTimeDataSet;
-import org.eclipse.birt.chart.model.data.DifferenceDataSet;
-import org.eclipse.birt.chart.model.data.GanttDataSet;
-import org.eclipse.birt.chart.model.data.NullDataSet;
-import org.eclipse.birt.chart.model.data.NumberDataSet;
-import org.eclipse.birt.chart.model.data.StockDataSet;
-import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -170,70 +162,20 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 		return super.eIsSet( featureID );
 	}
 
-	private static DataSet copyInstanceThis( DataSet src )
-	{
-		if ( src == null )
-		{
-			return null;
-		}
-
-		DataSetImpl dest = new DataSetImpl( );
-
-		dest.values = src.getValues( );
-
-		return dest;
-	}
-
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static DataSet copyInstance( DataSet src )
+	public DataSet copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
+		DataSetImpl dest = new DataSetImpl( );
+		dest.set( this );
+		return dest;
+	}
 
-		if ( src instanceof NullDataSet )
-		{
-			return NullDataSetImpl.copyInstance( (NullDataSet) src );
-		}
-		else if ( src instanceof DifferenceDataSet )
-		{
-			return DifferenceDataSetImpl.copyInstance( (DifferenceDataSet) src );
-		}
-		else if ( src instanceof StockDataSet )
-		{
-			return StockDataSetImpl.copyInstance( (StockDataSet) src );
-		}
-		else if ( src instanceof GanttDataSet )
-		{
-			return GanttDataSetImpl.copyInstance( (GanttDataSet) src );
-		}
-		else if ( src instanceof BubbleDataSet )
-		{
-			return BubbleDataSetImpl.copyInstance( (BubbleDataSet) src );
-		}
-		else if ( src instanceof TextDataSet )
-		{
-			return TextDataSetImpl.copyInstance( (TextDataSet) src );
-		}
-		else if ( src instanceof DateTimeDataSet )
-		{
-			return DateTimeDataSetImpl.copyInstance( (DateTimeDataSet) src );
-		}
-		else if ( src instanceof NumberDataSet )
-		{
-			return NumberDataSetImpl.copyInstance( (NumberDataSet) src );
-		}
-		else
-		{
-			return copyInstanceThis( src );
-		}
+	protected void set( DataSet src )
+	{
+		values = src.getValues( );
 	}
 
 	/**

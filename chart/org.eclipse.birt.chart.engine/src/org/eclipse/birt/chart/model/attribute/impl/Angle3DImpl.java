@@ -42,11 +42,15 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 */
 	public static Angle3D create( double x, double y, double z )
 	{
-		final Angle3D angle = AttributeFactory.eINSTANCE.createAngle3D( );
-		angle.setXAngle( x );
-		angle.setYAngle( y );
-		angle.setZAngle( z );
-		angle.setType( AngleType.NONE_LITERAL );
+		final Angle3DImpl angle = new Angle3DImpl( );
+		angle.xAngle = x;
+		angle.xAngleESet = true;
+		angle.yAngle = y;
+		angle.yAngleESet = true;
+		angle.zAngle = z;
+		angle.zAngleESet = true;
+		angle.type = AngleType.NONE_LITERAL;
+		angle.typeESet = true;
 		return angle;
 	}
 
@@ -607,29 +611,24 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Angle3D copyInstance( Angle3D src )
+	public Angle3D copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		Angle3DImpl dest = new Angle3DImpl( );
-
-		dest.xAngle = src.getXAngle( );
-		dest.xAngleESet = src.isSetXAngle( );
-		dest.yAngle = src.getYAngle( );
-		dest.yAngleESet = src.isSetYAngle( );
-		dest.zAngle = src.getZAngle( );
-		dest.zAngleESet = src.isSetZAngle( );
-		dest.type = src.getType( );
-		dest.typeESet = src.isSetType( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( Angle3D src )
+	{
+		xAngle = src.getXAngle( );
+		xAngleESet = src.isSetXAngle( );
+		yAngle = src.getYAngle( );
+		yAngleESet = src.isSetYAngle( );
+		zAngle = src.getZAngle( );
+		zAngleESet = src.isSetZAngle( );
+		type = src.getType( );
+		typeESet = src.isSetType( );
 	}
 
 } // Angle3DImpl

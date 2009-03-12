@@ -16,8 +16,6 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.util.FillUtil;
 
@@ -111,12 +109,12 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 		final RectangleRenderEvent rre = new RectangleRenderEvent( source );
 		if ( _bo != null )
 		{
-			rre.setBounds( BoundsImpl.copyInstance( _bo ) );
+			rre.setBounds( _bo.copyInstance( ) );
 		}
 
 		if ( _lia != null )
 		{
-			rre.setOutline( LineAttributesImpl.copyInstance( _lia ) );
+			rre.setOutline( _lia.copyInstance( ) );
 		}
 
 		if ( _ifBackground != null )

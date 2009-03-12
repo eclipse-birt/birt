@@ -62,22 +62,18 @@ public class BubbleDataSetImpl extends DataSetImpl implements BubbleDataSet
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static BubbleDataSet copyInstance( BubbleDataSet src )
+	public BubbleDataSet copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		BubbleDataSetImpl dest = new BubbleDataSetImpl( );
-
-		dest.values = src.getValues( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( BubbleDataSet src )
+	{
+		super.set( src );
+
 	}
 
 	/**

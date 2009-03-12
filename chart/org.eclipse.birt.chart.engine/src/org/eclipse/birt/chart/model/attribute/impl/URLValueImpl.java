@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -920,30 +919,29 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static URLValue copyInstance( URLValue src )
+	public URLValue copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		URLValueImpl dest = new URLValueImpl( );
+		dest.set( this );
+		return dest;
+	}
 
-		dest.baseUrl = src.getBaseUrl( );
-		dest.target = src.getTarget( );
-		dest.baseParameterName = src.getBaseParameterName( );
-		dest.valueParameterName = src.getValueParameterName( );
-		dest.seriesParameterName = src.getSeriesParameterName( );
-		dest.tooltip = src.getTooltip( );
+	protected void set( URLValue src )
+	{
+		super.set( src );
+
 		if ( src.getLabel( ) != null )
 		{
-			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
+			setLabel( src.getLabel( ).copyInstance( ) );
 		}
-		return dest;
+
+		baseUrl = src.getBaseUrl( );
+		target = src.getTarget( );
+		baseParameterName = src.getBaseParameterName( );
+		valueParameterName = src.getValueParameterName( );
+		seriesParameterName = src.getSeriesParameterName( );
+		tooltip = src.getTooltip( );
 	}
 
 } // URLValueImpl

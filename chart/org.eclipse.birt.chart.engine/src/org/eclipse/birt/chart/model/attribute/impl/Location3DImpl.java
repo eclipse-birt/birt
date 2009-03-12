@@ -48,27 +48,20 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Location3D copyInstance( Location3D src )
+	public Location3D copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		Location3DImpl dest = new Location3DImpl( );
-
-		dest.x = src.getX( );
-		dest.xESet = src.isSetX( );
-		dest.y = src.getY( );
-		dest.yESet = src.isSetY( );
-		dest.z = src.getZ( );
-		dest.zESet = src.isSetZ( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( Location3D src )
+	{
+		super.set( src );
+
+		z = src.getZ( );
+		zESet = src.isSetZ( );
 	}
 
 	/**

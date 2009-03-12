@@ -44,7 +44,6 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.NullDataSet;
@@ -905,7 +904,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			boPlotBackground.delta( dSeriesThickness, -dSeriesThickness, 0, 0 );
 		}
 
-		boPlotWithMargin = BoundsImpl.copyInstance( boPlotBackground );
+		boPlotWithMargin = boPlotBackground.copyInstance( );
 		if ( iMarginPercent > 0 )
 		{
 			// TODO do we need to add margin support for datetime scale?
@@ -1453,7 +1452,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					Label laAxisTitleV = aax.getPrimaryOrthogonal( ).getTitle( );
 					if ( laAxisTitleV.isVisible( ) )
 					{
-						laAxisTitleV = LabelImpl.copyInstance( laAxisTitleV );
+						laAxisTitleV = laAxisTitleV.copyInstance( );
 						laAxisTitleV.getCaption( )
 								.setValue( rtc.externalizedMessage( laAxisTitleV.getCaption( )
 										.getValue( ) ) );

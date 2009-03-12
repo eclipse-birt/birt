@@ -398,32 +398,27 @@ public class TextImpl extends EObjectImpl implements Text
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Text copyInstance( Text src )
+	public Text copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		TextImpl dest = new TextImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( Text src )
+	{
 		if ( src.getFont( ) != null )
 		{
-			dest.setFont( FontDefinitionImpl.copyInstance( src.getFont( ) ) );
+			setFont( src.getFont( ).copyInstance( ) );
 		}
 
 		if ( src.getColor( ) != null )
 		{
-			dest.setColor( ColorDefinitionImpl.copyInstance( src.getColor( ) ) );
+			setColor( src.getColor( ).copyInstance( ) );
 		}
 
-		dest.value = src.getValue( );
-
-		return dest;
+		value = src.getValue( );
 	}
 
 } // TextImpl

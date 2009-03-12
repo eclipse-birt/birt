@@ -564,32 +564,27 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static LineAttributes copyInstance( LineAttributes src )
+	public LineAttributes copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		LineAttributesImpl dest = new LineAttributesImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( LineAttributes src )
+	{
 		if ( src.getColor( ) != null )
 		{
-			dest.setColor( ColorDefinitionImpl.copyInstance( src.getColor( ) ) );
+			setColor( src.getColor( ).copyInstance( ) );
 		}
 
-		dest.style = src.getStyle( );
-		dest.styleESet = src.isSetStyle( );
-		dest.thickness = src.getThickness( );
-		dest.thicknessESet = src.isSetThickness( );
-		dest.visible = src.isVisible( );
-		dest.visibleESet = src.isSetVisible( );
-
-		return dest;
+		style = src.getStyle( );
+		styleESet = src.isSetStyle( );
+		thickness = src.getThickness( );
+		thicknessESet = src.isSetThickness( );
+		visible = src.isVisible( );
+		visibleESet = src.isSetVisible( );
 	}
 
 } // LineAttributesImpl

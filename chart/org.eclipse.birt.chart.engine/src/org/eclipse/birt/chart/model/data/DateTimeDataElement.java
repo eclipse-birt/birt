@@ -109,4 +109,11 @@ public interface DateTimeDataElement extends DataElement
 	 * @return
 	 */
 	CDateTime getValueAsCDateTime( );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	DateTimeDataElement copyInstance( );
+
 } // DateTimeDataElement

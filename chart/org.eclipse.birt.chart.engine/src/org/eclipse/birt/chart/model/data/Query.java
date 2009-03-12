@@ -105,4 +105,10 @@ public interface Query extends EObject
 	 */
 	boolean isDefined( );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Query copyInstance( );
+
 } // Query

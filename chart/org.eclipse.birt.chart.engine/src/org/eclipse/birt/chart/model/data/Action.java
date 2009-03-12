@@ -120,4 +120,10 @@ public interface Action extends EObject
 	 */
 	void setValue( ActionValue value );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Action copyInstance( );
+
 } // Action

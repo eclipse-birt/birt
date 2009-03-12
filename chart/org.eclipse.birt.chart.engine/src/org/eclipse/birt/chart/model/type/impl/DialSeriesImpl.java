@@ -11,32 +11,18 @@
 
 package org.eclipse.birt.chart.model.type.impl;
 
-import java.util.Map;
-
 import org.eclipse.birt.chart.engine.i18n.Messages;
-import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
-import org.eclipse.birt.chart.model.attribute.impl.DataPointImpl;
 import org.eclipse.birt.chart.model.component.Dial;
 import org.eclipse.birt.chart.model.component.Needle;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.model.component.impl.DialImpl;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.NeedleImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
-import org.eclipse.birt.chart.model.data.DataSet;
-import org.eclipse.birt.chart.model.data.Query;
-import org.eclipse.birt.chart.model.data.Trigger;
-import org.eclipse.birt.chart.model.data.impl.DataSetImpl;
-import org.eclipse.birt.chart.model.data.impl.QueryImpl;
-import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -358,89 +344,28 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static DialSeries copyInstance( DialSeries src )
+	public DialSeries copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		DialSeriesImpl dest = new DialSeriesImpl( );
+		dest.set( this );
+		return dest;
+	}
 
-		if ( src.getLabel( ) != null )
-		{
-			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
-		}
-
-		if ( src.getDataDefinition( ) != null )
-		{
-			EList<Query> list = dest.getDataDefinition( );
-			for ( Query element : src.getDataDefinition( ) )
-			{
-				list.add( QueryImpl.copyInstance( element ) );
-			}
-		}
-
-		if ( src.getDataPoint( ) != null )
-		{
-			dest.setDataPoint( DataPointImpl.copyInstance( src.getDataPoint( ) ) );
-		}
-
-		if ( src.getDataSets( ) != null )
-		{
-			EMap<String, DataSet> map = dest.getDataSets( );
-			for ( Map.Entry<String, DataSet> entry : src.getDataSets( )
-					.entrySet( ) )
-			{
-				map.put( entry.getKey( ),
-						DataSetImpl.copyInstance( entry.getValue( ) ) );
-			}
-		}
-
-		if ( src.getTriggers( ) != null )
-		{
-			EList<Trigger> list = dest.getTriggers( );
-			for ( Trigger element : src.getTriggers( ) )
-			{
-				list.add( TriggerImpl.copyInstance( element ) );
-			}
-		}
-
-		if ( src.getCurveFitting( ) != null )
-		{
-			dest.setCurveFitting( CurveFittingImpl.copyInstance( src.getCurveFitting( ) ) );
-		}
-
-		if ( src.getCursor( ) != null )
-		{
-			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
-		}
+	protected void set( DialSeries src )
+	{
+		super.set( src );
 
 		if ( src.getDial( ) != null )
 		{
-			dest.setDial( DialImpl.copyInstance( src.getDial( ) ) );
+			setDial( src.getDial( ).copyInstance( ) );
 		}
 
 		if ( src.getNeedle( ) != null )
 		{
-			dest.setNeedle( NeedleImpl.copyInstance( src.getNeedle( ) ) );
+			setNeedle( src.getNeedle( ).copyInstance( ) );
 		}
 
-		dest.visible = src.isVisible( );
-		dest.visibleESet = src.isSetVisible( );
-		dest.seriesIdentifier = src.getSeriesIdentifier( );
-		dest.labelPosition = src.getLabelPosition( );
-		dest.labelPositionESet = src.isSetLabelPosition( );
-		dest.stacked = src.isStacked( );
-		dest.stackedESet = src.isSetStacked( );
-		dest.translucent = src.isTranslucent( );
-		dest.translucentESet = src.isSetTranslucent( );
-
-		return dest;
 	}
 
 } // DialSeriesImpl

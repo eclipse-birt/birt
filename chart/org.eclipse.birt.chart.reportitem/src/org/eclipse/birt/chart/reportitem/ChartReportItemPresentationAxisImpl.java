@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -53,7 +52,7 @@ public final class ChartReportItemPresentationAxisImpl extends
 		// we must copy the bounds to avoid that setting it on one object
 		// unsets it on its precedent container
 
-		Bounds bounds = BoundsImpl.copyInstance( originalBounds );
+		Bounds bounds = originalBounds.copyInstance( );
 		if ( cm instanceof ChartWithAxes )
 		{
 			// Set the dynamic size with zero, which will be replaced by the

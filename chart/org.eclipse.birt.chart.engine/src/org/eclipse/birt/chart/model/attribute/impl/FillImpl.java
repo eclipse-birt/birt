@@ -12,11 +12,7 @@
 package org.eclipse.birt.chart.model.attribute.impl;
 
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
-import org.eclipse.birt.chart.model.attribute.Gradient;
-import org.eclipse.birt.chart.model.attribute.Image;
-import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -225,55 +221,21 @@ public class FillImpl extends EObjectImpl implements Fill
 		return result.toString( );
 	}
 
-	private static Fill copyInstanceThis( Fill src )
-	{
-		if ( src == null )
-		{
-			return null;
-		}
-
-		FillImpl dest = new FillImpl( );
-
-		dest.type = src.getType( );
-		dest.typeESet = src.isSetType( );
-
-		return dest;
-	}
-
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Fill copyInstance( Fill src )
+	public Fill copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
+		FillImpl dest = new FillImpl( );
+		dest.set( this );
+		return dest;
+	}
 
-		if ( src instanceof ColorDefinition )
-		{
-			return ColorDefinitionImpl.copyInstance( (ColorDefinition) src );
-		}
-		else if ( src instanceof Gradient )
-		{
-			return GradientImpl.copyInstance( (Gradient) src );
-		}
-		else if ( src instanceof Image )
-		{
-			return ImageImpl.copyInstance( (Image) src );
-		}
-		else if ( src instanceof MultipleFill )
-		{
-			return MultipleFillImpl.copyInstance( (MultipleFill) src );
-		}
-		else
-		{
-			return copyInstanceThis( src );
-		}
+	protected void set( Fill src )
+	{
+		type = src.getType( );
+		typeESet = src.isSetType( );
 	}
 
 } // FillImpl

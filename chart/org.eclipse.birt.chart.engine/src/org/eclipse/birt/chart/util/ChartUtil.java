@@ -46,7 +46,6 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
@@ -362,16 +361,16 @@ public class ChartUtil
 		{
 			if ( fill instanceof MultipleFill )
 			{
-				fill = ColorDefinitionImpl.copyInstance( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
-						.get( 0 ) );
+				fill = ( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
+						.get( 0 ) ).copyInstance( );
 			}
 		}
 		else
 		{
 			if ( fill instanceof MultipleFill )
 			{
-				fill = ColorDefinitionImpl.copyInstance( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
-						.get( 1 ) );
+				fill = ( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
+						.get( 1 ) ).copyInstance( );
 			}
 			else if ( fNegative != null )
 			{

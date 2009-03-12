@@ -195,25 +195,20 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static EmbeddedImage copyInstance( EmbeddedImage src )
+	public EmbeddedImage copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		EmbeddedImageImpl dest = new EmbeddedImageImpl( );
-
-		dest.type = src.getType( );
-		dest.typeESet = src.isSetType( );
-		dest.uRL = src.getURL( );
-		dest.data = src.getData( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( EmbeddedImage src )
+	{
+		super.set( src );
+
+		uRL = src.getURL( );
+		data = src.getData( );
 	}
 
 } // EmbeddedImageImpl

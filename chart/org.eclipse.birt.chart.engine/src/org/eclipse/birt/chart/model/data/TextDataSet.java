@@ -28,4 +28,11 @@ package org.eclipse.birt.chart.model.data;
  */
 public interface TextDataSet extends DataSet
 {
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	TextDataSet copyInstance( );
+
 } // TextDataSet

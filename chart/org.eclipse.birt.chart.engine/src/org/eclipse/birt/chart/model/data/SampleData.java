@@ -91,4 +91,10 @@ public interface SampleData extends EObject
 	 */
 	EList<BaseSampleData> getAncillarySampleData( );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	SampleData copyInstance( );
+
 } // SampleData

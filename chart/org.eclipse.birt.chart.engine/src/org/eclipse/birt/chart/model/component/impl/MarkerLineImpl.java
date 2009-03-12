@@ -21,8 +21,6 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
-import org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
@@ -31,8 +29,6 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.Trigger;
-import org.eclipse.birt.chart.model.data.impl.DataElementImpl;
-import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -788,7 +784,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 		ax.getMarkerLines( ).add( ml );
 		if ( ax.getFormatSpecifier( ) != null )
 		{
-			ml.setFormatSpecifier( FormatSpecifierImpl.copyInstance( ax.getFormatSpecifier( ) ) );
+			ml.setFormatSpecifier( ax.getFormatSpecifier( ).copyInstance( ) );
 		}
 		return ml;
 	}
@@ -796,57 +792,51 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static MarkerLine copyInstance( MarkerLine src )
+	public MarkerLine copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		MarkerLineImpl dest = new MarkerLineImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( MarkerLine src )
+	{
 		if ( src.getLineAttributes( ) != null )
 		{
-			dest.setLineAttributes( LineAttributesImpl.copyInstance( src.getLineAttributes( ) ) );
+			setLineAttributes( src.getLineAttributes( ).copyInstance( ) );
 		}
 
 		if ( src.getValue( ) != null )
 		{
-			dest.setValue( DataElementImpl.copyInstance( src.getValue( ) ) );
+			setValue( src.getValue( ).copyInstance( ) );
 		}
 
 		if ( src.getLabel( ) != null )
 		{
-			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
+			setLabel( src.getLabel( ).copyInstance( ) );
 		}
 
 		if ( src.getFormatSpecifier( ) != null )
 		{
-			dest.setFormatSpecifier( FormatSpecifierImpl.copyInstance( src.getFormatSpecifier( ) ) );
+			setFormatSpecifier( src.getFormatSpecifier( ).copyInstance( ) );
 		}
 
 		if ( src.getTriggers( ) != null )
 		{
-			EList<Trigger> list = dest.getTriggers( );
+			EList<Trigger> list = getTriggers( );
 			for ( Trigger element : src.getTriggers( ) )
 			{
-				list.add( TriggerImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getCursor( ) != null )
 		{
-			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
+			setCursor( src.getCursor( ).copyInstance( ) );
 		}
 
-		dest.labelAnchor = src.getLabelAnchor( );
-		dest.labelAnchorESet = src.isSetLabelAnchor( );
-
-		return dest;
+		labelAnchor = src.getLabelAnchor( );
+		labelAnchorESet = src.isSetLabelAnchor( );
 	}
 
 } // MarkerLineImpl

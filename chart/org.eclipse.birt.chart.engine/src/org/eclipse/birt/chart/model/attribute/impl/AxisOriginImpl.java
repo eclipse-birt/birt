@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.data.DataElement;
-import org.eclipse.birt.chart.model.data.impl.DataElementImpl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -347,28 +346,23 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static AxisOrigin copyInstance( AxisOrigin src )
+	public AxisOrigin copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		AxisOriginImpl dest = new AxisOriginImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( AxisOrigin src )
+	{
 		if ( src.getValue( ) != null )
 		{
-			dest.value = DataElementImpl.copyInstance( src.getValue( ) );
+			setValue( src.getValue( ).copyInstance( ) );
 		}
 
-		dest.type = src.getType( );
-		dest.typeESet = src.isSetType( );
-
-		return dest;
+		type = src.getType( );
+		typeESet = src.isSetType( );
 	}
 
 } // AxisOriginImpl

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Location3D.java,v 1.1 2006/12/28 03:49:25 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -117,5 +117,11 @@ public interface Location3D extends Location
 	 * Used to link a Location3D to a Vector for live update of the coordinates.
 	 */
 	public void linkToVector( Vector vector );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Location3D copyInstance( );
 
 } // Location3D

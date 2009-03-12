@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.event;
 import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
-import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 
 /**
  * A rendering event type for rendering 3D Image object.
@@ -67,7 +66,7 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 
 		if ( img != null )
 		{
-			ire.setImage( ImageImpl.copyInstance( img ) );
+			ire.setImage( img.copyInstance( ) );
 		}
 
 		ire.setPosition( pos );

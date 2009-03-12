@@ -188,7 +188,8 @@ public final class WrappedInstruction implements IRenderInstruction
 				{
 					if ( i == 0 )
 					{
-						bo = BoundsImpl.copyInstance( ( (PrimitiveRenderEvent) alEvents.get( i ) ).getBounds( ) );
+						bo = ( (PrimitiveRenderEvent) alEvents.get( i ) ).getBounds( )
+								.copyInstance( );
 					}
 					else
 					{

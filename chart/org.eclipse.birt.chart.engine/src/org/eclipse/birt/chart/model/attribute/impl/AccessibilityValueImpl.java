@@ -247,23 +247,20 @@ public class AccessibilityValueImpl extends ActionValueImpl implements
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static AccessibilityValue copyInstance( AccessibilityValue src )
+	public AccessibilityValue copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		AccessibilityValueImpl dest = new AccessibilityValueImpl( );
-
-		dest.text = src.getText( );
-		dest.accessibility = src.getAccessibility( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( AccessibilityValue src )
+	{
+		super.set( src );
+
+		text = src.getText( );
+		accessibility = src.getAccessibility( );
 	}
 
 } //AccessibilityValueImpl

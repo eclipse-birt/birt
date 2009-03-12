@@ -15,18 +15,11 @@ import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
-import org.eclipse.birt.chart.model.attribute.impl.FillImpl;
-import org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.DialRegion;
-import org.eclipse.birt.chart.model.data.Trigger;
-import org.eclipse.birt.chart.model.data.impl.DataElementImpl;
-import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -359,71 +352,22 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static DialRegion copyInstance( DialRegion src )
+	public DialRegion copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		DialRegionImpl dest = new DialRegionImpl( );
-
-		if ( src.getOutline( ) != null )
-		{
-			dest.setOutline( LineAttributesImpl.copyInstance( src.getOutline( ) ) );
-		}
-
-		if ( src.getFill( ) != null )
-		{
-			dest.setFill( FillImpl.copyInstance( src.getFill( ) ) );
-		}
-
-		if ( src.getStartValue( ) != null )
-		{
-			dest.setStartValue( DataElementImpl.copyInstance( src.getStartValue( ) ) );
-		}
-
-		if ( src.getEndValue( ) != null )
-		{
-			dest.setEndValue( DataElementImpl.copyInstance( src.getEndValue( ) ) );
-		}
-
-		if ( src.getLabel( ) != null )
-		{
-			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
-		}
-
-		if ( src.getFormatSpecifier( ) != null )
-		{
-			dest.setFormatSpecifier( FormatSpecifierImpl.copyInstance( src.getFormatSpecifier( ) ) );
-		}
-
-		if ( src.getTriggers( ) != null )
-		{
-			EList<Trigger> list = dest.getTriggers( );
-			for ( Trigger element : src.getTriggers( ) )
-			{
-				list.add( TriggerImpl.copyInstance( element ) );
-			}
-		}
-
-		if ( src.getCursor( ) != null )
-		{
-			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
-		}
-
-		dest.labelAnchor = src.getLabelAnchor( );
-		dest.labelAnchorESet = src.isSetLabelAnchor( );
-		dest.innerRadius = src.getInnerRadius( );
-		dest.innerRadiusESet = src.isSetInnerRadius( );
-		dest.outerRadius = src.getOuterRadius( );
-		dest.outerRadiusESet = src.isSetOuterRadius( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( DialRegion src )
+	{
+		super.set( src );
+
+		innerRadius = src.getInnerRadius( );
+		innerRadiusESet = src.isSetInnerRadius( );
+		outerRadius = src.getOuterRadius( );
+		outerRadiusESet = src.isSetOuterRadius( );
 	}
 
 } // DialRegionImpl

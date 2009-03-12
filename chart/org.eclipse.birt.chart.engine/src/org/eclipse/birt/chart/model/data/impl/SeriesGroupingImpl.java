@@ -768,46 +768,44 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static SeriesGrouping copyInstance( SeriesGrouping src )
+	public SeriesGrouping copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		SeriesGroupingImpl dest = new SeriesGroupingImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( SeriesGrouping src )
+	{
 		if ( src.getGroupingOrigin( ) != null )
 		{
-			dest.setGroupingOrigin( DataElementImpl.copyInstance( src.getGroupingOrigin( ) ) );
+			setGroupingOrigin( src.getGroupingOrigin( ).copyInstance( ) );
 		}
 
-		dest.enabled = src.isEnabled( );
-		dest.enabledESet = src.isSetEnabled( );
-		dest.groupingUnit = src.getGroupingUnit( );
-		dest.groupingUnitESet = src.isSetGroupingUnit( );
-		dest.groupingInterval = src.getGroupingInterval( );
-		dest.groupingIntervalESet = src.isSetGroupingInterval( );
-		dest.groupType = src.getGroupType( );
-		dest.groupTypeESet = src.isSetGroupType( );
-		dest.aggregateExpression = src.getAggregateExpression( );
+		enabled = src.isEnabled( );
+		enabledESet = src.isSetEnabled( );
+		groupingUnit = src.getGroupingUnit( );
+		groupingUnitESet = src.isSetGroupingUnit( );
+		groupingInterval = src.getGroupingInterval( );
+		groupingIntervalESet = src.isSetGroupingInterval( );
+		groupType = src.getGroupType( );
+		groupTypeESet = src.isSetGroupType( );
+		aggregateExpression = src.getAggregateExpression( );
+
 		if ( src.getAggregateParameters( ) != null )
 		{
 			EList<String> list = new BasicEList<String>( src.getAggregateParameters( )
 					.size( ) );
+
 			for ( String element : src.getAggregateParameters( ) )
 			{
 				list.add( element );
 			}
 
-			dest.aggregateParameters = list;
+			aggregateParameters = list;
 		}
 
-		return dest;
 	}
 
 } //SeriesGroupingImpl

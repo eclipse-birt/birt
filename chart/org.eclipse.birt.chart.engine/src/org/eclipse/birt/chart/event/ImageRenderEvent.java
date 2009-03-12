@@ -16,8 +16,6 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 
 /**
  * A rendering event type for rendering Image object.
@@ -154,12 +152,12 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 
 		if ( loc != null )
 		{
-			ire.setLocation( LocationImpl.copyInstance( loc ) );
+			ire.setLocation( loc.copyInstance( ) );
 		}
 
 		if ( img != null )
 		{
-			ire.setImage( ImageImpl.copyInstance( img ) );
+			ire.setImage( img.copyInstance( ) );
 		}
 
 		ire.setPosition( pos );

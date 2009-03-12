@@ -74,22 +74,18 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static DateTimeDataSet copyInstance( DateTimeDataSet src )
+	public DateTimeDataSet copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		DateTimeDataSetImpl dest = new DateTimeDataSetImpl( );
-
-		dest.values = src.getValues( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( DateTimeDataSet src )
+	{
+		super.set( src );
+
 	}
 
 } //DateTimeDataSetImpl

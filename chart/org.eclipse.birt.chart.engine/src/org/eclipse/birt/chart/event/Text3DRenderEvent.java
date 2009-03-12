@@ -14,8 +14,6 @@ package org.eclipse.birt.chart.event;
 import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
-import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 
 /**
  * A rendering event type for rendering 3D text object.
@@ -80,7 +78,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		tre.setTextPosition( _iTextPosition );
 		if ( _la != null )
 		{
-			tre.setLabel( LabelImpl.copyInstance( _la ) );
+			tre.setLabel( _la.copyInstance( ) );
 		}
 		if ( object3D != null )
 		{
@@ -88,7 +86,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		}
 		if ( _taBlock != null )
 		{
-			tre.setBlockAlignment( TextAlignmentImpl.copyInstance( _taBlock ) );
+			tre.setBlockAlignment( _taBlock.copyInstance( ) );
 		}
 		return tre;
 	}
@@ -114,9 +112,9 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		Location[] points = object3D.getPoints2D( xOffset, yOffset );
 		setLocation( points[0] );
 
-		if ( _iAction == Text3DRenderEvent.RENDER_TEXT_IN_BLOCK )
+		if ( _iAction == TextRenderEvent.RENDER_TEXT_IN_BLOCK )
 		{
-			_iAction = Text3DRenderEvent.RENDER_TEXT_AT_LOCATION;
+			_iAction = TextRenderEvent.RENDER_TEXT_AT_LOCATION;
 		}
 	}
 

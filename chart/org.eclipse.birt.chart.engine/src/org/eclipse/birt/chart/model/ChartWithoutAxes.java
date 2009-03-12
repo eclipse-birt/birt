@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.chart.model;
 
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -261,4 +261,11 @@ public interface ChartWithoutAxes extends Chart
 	 * @return
 	 */
 	Series[] getRunTimeSeries( );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	ChartWithoutAxes copyInstance( );
+
 } // ChartWithoutAxes

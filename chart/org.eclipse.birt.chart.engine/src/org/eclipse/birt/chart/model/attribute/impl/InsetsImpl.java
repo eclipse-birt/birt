@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.emf.common.notify.Notification;
@@ -549,11 +548,15 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	public static final Insets create( double dTop, double dLeft,
 			double dBottom, double dRight )
 	{
-		final Insets ins = AttributeFactory.eINSTANCE.createInsets( );
-		ins.setTop( dTop );
-		ins.setLeft( dLeft );
-		ins.setBottom( dBottom );
-		ins.setRight( dRight );
+		final InsetsImpl ins = new InsetsImpl( );
+		ins.top = dTop;
+		ins.topESet = true;
+		ins.left = dLeft;
+		ins.leftESet = true;
+		ins.bottom = dBottom;
+		ins.bottomESet = true;
+		ins.right = dRight;
+		ins.rightESet = true;
 		return ins;
 	}
 
@@ -564,11 +567,10 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	 */
 	public final Insets scaledInstance( double dScale )
 	{
-		final Insets ins = copyInstance( this );
-		ins.setTop( ins.getTop( ) * dScale );
-		ins.setLeft( ins.getLeft( ) * dScale );
-		ins.setBottom( ins.getBottom( ) * dScale );
-		ins.setRight( ins.getRight( ) * dScale );
+		final Insets ins = create( getTop( ) * dScale,
+				getLeft( ) * dScale,
+				getBottom( ) * dScale,
+				getRight( ) * dScale );
 		return ins;
 	}
 
@@ -616,31 +618,25 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Insets copyInstance( Insets src )
+	public Insets copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		InsetsImpl dest = new InsetsImpl( );
-
-		dest.top = src.getTop( );
-		dest.topESet = src.isSetTop( );
-		dest.left = src.getLeft( );
-		dest.leftESet = src.isSetLeft( );
-		dest.bottom = src.getBottom( );
-		dest.bottomESet = src.isSetBottom( );
-		dest.right = src.getRight( );
-		dest.rightESet = src.isSetRight( );
-
+		dest.set( this );
 		return dest;
 	}
 
+	protected void set( Insets src )
+	{
+		top = src.getTop( );
+		topESet = src.isSetTop( );
+		left = src.getLeft( );
+		leftESet = src.isSetLeft( );
+		bottom = src.getBottom( );
+		bottomESet = src.isSetBottom( );
+		right = src.getRight( );
+		rightESet = src.isSetRight( );
+	}
 
 	/*
 	 * (non-Javadoc)

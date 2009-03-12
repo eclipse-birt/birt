@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.model.component;
 
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -121,5 +120,11 @@ public interface Needle extends EObject
 	 * @generated
 	 */
 	boolean isSetDecorator( );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Needle copyInstance( );
 
 } // Needle

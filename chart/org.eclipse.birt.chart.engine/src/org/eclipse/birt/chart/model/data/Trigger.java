@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.model.data;
 
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.TriggerFlow;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -179,5 +178,11 @@ public interface Trigger extends EObject
 	 * @generated
 	 */
 	boolean isSetTriggerFlow( );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Trigger copyInstance( );
 
 } // Trigger

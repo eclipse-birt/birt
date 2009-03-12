@@ -73,22 +73,18 @@ public class DifferenceDataSetImpl extends DataSetImpl implements
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static DifferenceDataSet copyInstance( DifferenceDataSet src )
+	public DifferenceDataSet copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		DifferenceDataSetImpl dest = new DifferenceDataSetImpl( );
-
-		dest.values = src.getValues( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( DifferenceDataSet src )
+	{
+		super.set( src );
+
 	}
 
 } // DifferenceDataSetImpl

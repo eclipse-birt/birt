@@ -369,7 +369,7 @@ public class SizeImpl extends EObjectImpl implements Size
 	 */
 	public final Size scaleInstance( double dScale )
 	{
-		final Size sz = copyInstance( this );
+		final Size sz = copyInstance( );
 		sz.scale( dScale );
 		return sz;
 	}
@@ -377,25 +377,20 @@ public class SizeImpl extends EObjectImpl implements Size
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Size copyInstance( Size src )
+	public Size copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		SizeImpl dest = new SizeImpl( );
-
-		dest.height = src.getHeight( );
-		dest.heightESet = src.isSetHeight( );
-		dest.width = src.getWidth( );
-		dest.widthESet = src.isSetWidth( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( Size src )
+	{
+		height = src.getHeight( );
+		heightESet = src.isSetHeight( );
+		width = src.getWidth( );
+		widthESet = src.isSetWidth( );
 	}
 
 } // SizeImpl

@@ -251,4 +251,10 @@ public interface Grid extends EObject
 	 */
 	boolean isSetTickCount( );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Grid copyInstance( );
+
 } // Grid

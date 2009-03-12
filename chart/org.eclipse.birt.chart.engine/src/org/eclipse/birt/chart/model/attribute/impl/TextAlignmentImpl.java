@@ -349,25 +349,20 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static TextAlignment copyInstance( TextAlignment src )
+	public TextAlignment copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		TextAlignmentImpl dest = new TextAlignmentImpl( );
-
-		dest.horizontalAlignment = src.getHorizontalAlignment( );
-		dest.horizontalAlignmentESet = src.isSetHorizontalAlignment( );
-		dest.verticalAlignment = src.getVerticalAlignment( );
-		dest.verticalAlignmentESet = src.isSetVerticalAlignment( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( TextAlignment src )
+	{
+		horizontalAlignment = src.getHorizontalAlignment( );
+		horizontalAlignmentESet = src.isSetHorizontalAlignment( );
+		verticalAlignment = src.getVerticalAlignment( );
+		verticalAlignmentESet = src.isSetVerticalAlignment( );
 	}
 
 	/*

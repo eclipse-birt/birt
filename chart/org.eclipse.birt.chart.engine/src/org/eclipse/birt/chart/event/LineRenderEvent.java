@@ -17,8 +17,6 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 
 /**
  * A rendering event type for rendering Line object.
@@ -114,17 +112,17 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 		LineRenderEvent lre = new LineRenderEvent( source );
 		if ( lia != null )
 		{
-			lre.setLineAttributes( LineAttributesImpl.copyInstance( lia ) );
+			lre.setLineAttributes( lia.copyInstance( ) );
 		}
 
 		if ( loStart != null )
 		{
-			lre.setStart( LocationImpl.copyInstance( loStart ) );
+			lre.setStart( loStart.copyInstance( ) );
 		}
 
 		if ( loEnd != null )
 		{
-			lre.setEnd( LocationImpl.copyInstance( loEnd ) );
+			lre.setEnd( loEnd.copyInstance( ) );
 		}
 		return lre;
 	}

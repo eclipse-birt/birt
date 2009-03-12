@@ -87,4 +87,11 @@ public interface JavaDateFormatSpecifier extends FormatSpecifier
 	 * @since 2.1
 	 */
 	String format( Calendar c, ULocale lcl );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	JavaDateFormatSpecifier copyInstance( );
+
 } // JavaDateFormatSpecifier

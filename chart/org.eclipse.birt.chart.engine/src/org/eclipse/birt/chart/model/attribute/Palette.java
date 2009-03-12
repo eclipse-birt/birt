@@ -133,4 +133,10 @@ public interface Palette extends EObject
 	 */
 	void shift( int iStep, int iSize );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Palette copyInstance( );
+
 } // Palette

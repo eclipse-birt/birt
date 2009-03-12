@@ -14,8 +14,6 @@ package org.eclipse.birt.chart.event;
 import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
-import org.eclipse.birt.chart.util.FillUtil;
 
 /**
  * A rendering event type for rendering 3D Arc object.
@@ -69,12 +67,12 @@ public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent
 
 		if ( outline != null )
 		{
-			are.setOutline( LineAttributesImpl.copyInstance( outline ) );
+			are.setOutline( outline.copyInstance( ) );
 		}
 
 		if ( ifBackground != null )
 		{
-			are.setBackground( FillUtil.copyOf( ifBackground ) );
+			are.setBackground( ifBackground.copyInstance( ) );
 		}
 
 		are.setStyle( iStyle );

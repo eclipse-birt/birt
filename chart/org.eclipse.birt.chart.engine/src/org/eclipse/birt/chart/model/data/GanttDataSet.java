@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GanttDataSet.java,v 1.1 2006/12/28 03:49:38 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.data;
@@ -25,4 +25,11 @@ package org.eclipse.birt.chart.model.data;
  */
 public interface GanttDataSet extends DataSet
 {
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	GanttDataSet copyInstance( );
+
 } // GanttDataSet

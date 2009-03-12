@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.model.data.impl;
 
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
-import org.eclipse.birt.chart.model.attribute.impl.ActionValueImpl;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
@@ -346,28 +345,23 @@ public class ActionImpl extends EObjectImpl implements Action
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Action copyInstance( Action src )
+	public Action copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		ActionImpl dest = new ActionImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( Action src )
+	{
 		if ( src.getValue( ) != null )
 		{
-			dest.setValue( ActionValueImpl.copyInstance( src.getValue( ) ) );
+			setValue( src.getValue( ).copyInstance( ) );
 		}
 
-		dest.type = src.getType( );
-		dest.typeESet = src.isSetType( );
-
-		return dest;
+		type = src.getType( );
+		typeESet = src.isSetType( );
 	}
 
 } //ActionImpl

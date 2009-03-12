@@ -586,4 +586,10 @@ public interface Scale extends EObject
 	 */
 	boolean isSetFactor( );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Scale copyInstance( );
+
 } // Scale

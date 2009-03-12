@@ -576,7 +576,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 */
 	public final Bounds adjustedInstance( Insets ins )
 	{
-		Bounds bo = copyInstance( this );
+		Bounds bo = copyInstance( );
 		bo.adjust( ins );
 		return bo;
 	}
@@ -642,7 +642,7 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 */
 	public final Bounds scaledInstance( double dScale )
 	{
-		final Bounds bo = copyInstance( this );
+		final Bounds bo = copyInstance( );
 		bo.scale( dScale );
 		return bo;
 	}
@@ -772,30 +772,24 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Bounds copyInstance( Bounds src )
+	public Bounds copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		BoundsImpl dest = new BoundsImpl( );
-
-		dest.left = src.getLeft( );
-		dest.leftESet = src.isSetLeft( );
-		dest.top = src.getTop( );
-		dest.topESet = src.isSetTop( );
-		dest.width = src.getWidth( );
-		dest.widthESet = src.isSetWidth( );
-		dest.height = src.getHeight( );
-		dest.heightESet = src.isSetHeight( );
-
+		dest.set( this );
 		return dest;
 	}
 
+	protected void set( Bounds src )
+	{
+		left = src.getLeft( );
+		leftESet = src.isSetLeft( );
+		top = src.getTop( );
+		topESet = src.isSetTop( );
+		width = src.getWidth( );
+		widthESet = src.isSetWidth( );
+		height = src.getHeight( );
+		heightESet = src.isSetHeight( );
+	}
 
 } // BoundsImpl

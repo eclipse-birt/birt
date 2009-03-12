@@ -389,4 +389,11 @@ public interface ChartWithAxes extends Chart
 	 * NOTE: Manually written
 	 */
 	void setTransposed( boolean bTransposed );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	ChartWithAxes copyInstance( );
+
 } // ChartWithAxes

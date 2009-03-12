@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.model.component;
 
-import java.math.BigInteger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -278,5 +277,11 @@ public interface Label extends EObject
 	 * @generated
 	 */
 	boolean isSetEllipsis( );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Label copyInstance( );
 
 } // Label

@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.FillImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
@@ -835,50 +834,45 @@ public class LabelImpl extends EObjectImpl implements Label
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Label copyInstance( Label src )
+	public Label copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		LabelImpl dest = new LabelImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( Label src )
+	{
 		if ( src.getCaption( ) != null )
 		{
-			dest.setCaption( TextImpl.copyInstance( src.getCaption( ) ) );
+			setCaption( src.getCaption( ).copyInstance( ) );
 		}
 
 		if ( src.getBackground( ) != null )
 		{
-			dest.setBackground( FillImpl.copyInstance( src.getBackground( ) ) );
+			setBackground( src.getBackground( ).copyInstance( ) );
 		}
 
 		if ( src.getOutline( ) != null )
 		{
-			dest.setOutline( LineAttributesImpl.copyInstance( src.getOutline( ) ) );
+			setOutline( src.getOutline( ).copyInstance( ) );
 		}
 
 		if ( src.getShadowColor( ) != null )
 		{
-			dest.setShadowColor( ColorDefinitionImpl.copyInstance( src.getShadowColor( ) ) );
+			setShadowColor( src.getShadowColor( ).copyInstance( ) );
 		}
 
 		if ( src.getInsets( ) != null )
 		{
-			dest.setInsets( InsetsImpl.copyInstance( src.getInsets( ) ) );
+			setInsets( src.getInsets( ).copyInstance( ) );
 		}
 
-		dest.visible = src.isVisible( );
-		dest.visibleESet = src.isSetVisible( );
-		dest.ellipsis = src.getEllipsis( );
-		dest.ellipsisESet = src.isSetEllipsis( );
-
-		return dest;
+		visible = src.isVisible( );
+		visibleESet = src.isSetVisible( );
+		ellipsis = src.getEllipsis( );
+		ellipsisESet = src.isSetEllipsis( );
 	}
 
 	/**
@@ -907,15 +901,15 @@ public class LabelImpl extends EObjectImpl implements Label
 		{
 			lb.background = FillUtil.copyOf( src.getBackground( ) );
 		}
-		lb.caption = TextImpl.copyInstance( src.getCaption( ) );
-		lb.insets = InsetsImpl.copyInstance( src.getInsets( ) );
+		lb.caption = src.getCaption( ).copyInstance( );
+		lb.insets = src.getInsets( ).copyInstance( );
 		if ( src.getOutline( ) != null && src.getOutline( ).isVisible( ) )
 		{
-			lb.outline = LineAttributesImpl.copyInstance( src.getOutline( ) );
+			lb.outline = src.getOutline( ).copyInstance( );
 		}
 		if ( ChartUtil.isShadowDefined( src ) )
 		{
-			lb.shadowColor = ColorDefinitionImpl.copyInstance( src.getShadowColor( ) );
+			lb.shadowColor = src.getShadowColor( ).copyInstance( );
 		}
 		return lb;
 	}

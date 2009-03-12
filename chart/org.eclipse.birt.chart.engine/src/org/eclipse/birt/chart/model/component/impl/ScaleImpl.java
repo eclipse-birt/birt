@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.data.DataElement;
-import org.eclipse.birt.chart.model.data.impl.DataElementImpl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -1245,49 +1244,44 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Scale copyInstance( Scale src )
+	public Scale copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		ScaleImpl dest = new ScaleImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( Scale src )
+	{
 		if ( src.getMin( ) != null )
 		{
-			dest.setMin( DataElementImpl.copyInstance( src.getMin( ) ) );
+			setMin( src.getMin( ).copyInstance( ) );
 		}
 
 		if ( src.getMax( ) != null )
 		{
-			dest.setMax( DataElementImpl.copyInstance( src.getMax( ) ) );
+			setMax( src.getMax( ).copyInstance( ) );
 		}
 
-		dest.step = src.getStep( );
-		dest.stepESet = src.isSetStep( );
-		dest.unit = src.getUnit( );
-		dest.unitESet = src.isSetUnit( );
-		dest.minorGridsPerUnit = src.getMinorGridsPerUnit( );
-		dest.minorGridsPerUnitESet = src.isSetMinorGridsPerUnit( );
-		dest.stepNumber = src.getStepNumber( );
-		dest.stepNumberESet = src.isSetStepNumber( );
-		dest.showOutside = src.isShowOutside( );
-		dest.showOutsideESet = src.isSetShowOutside( );
-		dest.tickBetweenCategories = src.isTickBetweenCategories( );
-		dest.tickBetweenCategoriesESet = src.isSetTickBetweenCategories( );
-		dest.autoExpand = src.isAutoExpand( );
-		dest.autoExpandESet = src.isSetAutoExpand( );
-		dest.majorGridsStepNumber = src.getMajorGridsStepNumber( );
-		dest.majorGridsStepNumberESet = src.isSetMajorGridsStepNumber( );
-		dest.factor = src.getFactor( );
-		dest.factorESet = src.isSetFactor( );
-
-		return dest;
+		step = src.getStep( );
+		stepESet = src.isSetStep( );
+		unit = src.getUnit( );
+		unitESet = src.isSetUnit( );
+		minorGridsPerUnit = src.getMinorGridsPerUnit( );
+		minorGridsPerUnitESet = src.isSetMinorGridsPerUnit( );
+		stepNumber = src.getStepNumber( );
+		stepNumberESet = src.isSetStepNumber( );
+		showOutside = src.isShowOutside( );
+		showOutsideESet = src.isSetShowOutside( );
+		tickBetweenCategories = src.isTickBetweenCategories( );
+		tickBetweenCategoriesESet = src.isSetTickBetweenCategories( );
+		autoExpand = src.isAutoExpand( );
+		autoExpandESet = src.isSetAutoExpand( );
+		majorGridsStepNumber = src.getMajorGridsStepNumber( );
+		majorGridsStepNumberESet = src.isSetMajorGridsStepNumber( );
+		factor = src.getFactor( );
+		factorESet = src.isSetFactor( );
 	}
 
 } // ScaleImpl

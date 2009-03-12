@@ -22,8 +22,6 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
-import org.eclipse.birt.chart.model.attribute.impl.FillImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.FillUtil;
 
@@ -161,7 +159,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 		dBrightness = value;
 		if ( _ifBackground != null )
 		{
-			Fill fill = FillImpl.copyInstance( _ifBackground );
+			Fill fill = _ifBackground.copyInstance( );
 		
 			applyBrightnessToFill( fill, dBrightness );
 			runtimeBackground = fill;
@@ -243,7 +241,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 
 		if ( _lia != null )
 		{
-			pre.setOutline( LineAttributesImpl.copyInstance( _lia ) );
+			pre.setOutline( _lia.copyInstance( ) );
 		}
 
 		if ( _ifBackground != null )

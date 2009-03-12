@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.emf.common.notify.Notification;
@@ -186,7 +187,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 	 */
 	public static final ScriptValue create( String script )
 	{
-		ScriptValue sv = AttributeFactoryImpl.eINSTANCE.createScriptValue( );
+		ScriptValue sv = AttributeFactory.eINSTANCE.createScriptValue( );
 		sv.setScript( script );
 		return sv;
 	}
@@ -194,22 +195,19 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static ScriptValue copyInstance( ScriptValue src )
+	public ScriptValue copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		ScriptValueImpl dest = new ScriptValueImpl( );
-
-		dest.script = src.getScript( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( ScriptValue src )
+	{
+		super.set( src );
+
+		script = src.getScript( );
 	}
 
 } // ScriptValueImpl

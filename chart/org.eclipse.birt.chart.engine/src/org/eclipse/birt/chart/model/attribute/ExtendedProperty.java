@@ -90,4 +90,10 @@ public interface ExtendedProperty extends EObject
 	 */
 	void setValue( String value );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	ExtendedProperty copyInstance( );
+
 } // ExtendedProperty

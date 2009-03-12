@@ -584,45 +584,41 @@ public class StyleImpl extends EObjectImpl implements Style
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Style copyInstance( Style src )
+	public Style copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		StyleImpl dest = new StyleImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( Style src )
+	{
 		if ( src.getFont( ) != null )
 		{
-			dest.setFont( FontDefinitionImpl.copyInstance( src.getFont( ) ) );
+			setFont( src.getFont( ).copyInstance( ) );
 		}
 
 		if ( src.getColor( ) != null )
 		{
-			dest.setColor( ColorDefinitionImpl.copyInstance( src.getColor( ) ) );
+			setColor( src.getColor( ).copyInstance( ) );
 		}
 
 		if ( src.getBackgroundColor( ) != null )
 		{
-			dest.setBackgroundColor( ColorDefinitionImpl.copyInstance( src.getBackgroundColor( ) ) );
+			setBackgroundColor( src.getBackgroundColor( ).copyInstance( ) );
 		}
 
 		if ( src.getBackgroundImage( ) != null )
 		{
-			dest.setBackgroundImage( ImageImpl.copyInstance( src.getBackgroundImage( ) ) );
+			setBackgroundImage( src.getBackgroundImage( ).copyInstance( ) );
 		}
 
 		if ( src.getPadding( ) != null )
 		{
-			dest.setPadding( InsetsImpl.copyInstance( src.getPadding( ) ) );
+			setPadding( src.getPadding( ).copyInstance( ) );
 		}
 
-		return dest;
 	}
 
 } // StyleImpl

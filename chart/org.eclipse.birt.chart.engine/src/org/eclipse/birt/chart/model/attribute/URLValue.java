@@ -232,4 +232,10 @@ public interface URLValue extends ActionValue
 	 */
 	void setLabel( Label value );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	URLValue copyInstance( );
+
 } // URLValue

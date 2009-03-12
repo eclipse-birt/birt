@@ -28,4 +28,11 @@ package org.eclipse.birt.chart.model.data;
  */
 public interface NumberDataSet extends DataSet
 {
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	NumberDataSet copyInstance( );
+
 } // NumberDataSet

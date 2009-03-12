@@ -249,4 +249,10 @@ public interface Gradient extends Fill
 	 */
 	boolean isSetTransparency( );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Gradient copyInstance( );
+
 } // Gradient

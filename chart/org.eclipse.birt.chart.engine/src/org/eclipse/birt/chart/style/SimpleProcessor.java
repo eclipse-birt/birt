@@ -21,8 +21,6 @@ import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
-import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 
 /**
@@ -97,23 +95,25 @@ public final class SimpleProcessor implements IStyleProcessor
 
 					if ( ss.getFont( ) != null )
 					{
-						rt.setFont( FontDefinitionImpl.copyInstance( ss.getFont( ) ) );
+						rt.setFont( ss.getFont( ).copyInstance( ) );
 					}
 					if ( ss.getColor( ) != null )
 					{
-						rt.setColor( ColorDefinitionImpl.copyInstance( ss.getColor( ) ) );
+						rt.setColor( ss.getColor( ).copyInstance( ) );
 					}
 					if ( ss.getBackgroundColor( ) != null )
 					{
-						rt.setBackgroundColor( ColorDefinitionImpl.copyInstance( ss.getBackgroundColor( ) ) );
+						rt.setBackgroundColor( ss.getBackgroundColor( )
+								.copyInstance( ) );
 					}
 					if ( ss.getBackgroundImage( ) != null )
 					{
-						rt.setBackgroundImage( ImageImpl.copyInstance( ss.getBackgroundImage( ) ) );
+						rt.setBackgroundImage( ss.getBackgroundImage( )
+								.copyInstance( ) );
 					}
 					if ( ss.getPadding( ) != null )
 					{
-						rt.setPadding( InsetsImpl.copyInstance( ss.getPadding( ) ) );
+						rt.setPadding( ss.getPadding( ).copyInstance( ) );
 					}
 
 					return rt;

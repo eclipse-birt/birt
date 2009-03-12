@@ -643,39 +643,34 @@ public class GradientImpl extends FillImpl implements Gradient
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Gradient copyInstance( Gradient src )
+	public Gradient copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		GradientImpl dest = new GradientImpl( );
+		dest.set( this );
+		return dest;
+	}
+
+	protected void set( Gradient src )
+	{
+		super.set( src );
 
 		if ( src.getStartColor( ) != null )
 		{
-			dest.setStartColor( ColorDefinitionImpl.copyInstance( src.getStartColor( ) ) );
+			setStartColor( src.getStartColor( ).copyInstance( ) );
 		}
 
 		if ( src.getEndColor( ) != null )
 		{
-			dest.setEndColor( ColorDefinitionImpl.copyInstance( src.getEndColor( ) ) );
+			setEndColor( src.getEndColor( ).copyInstance( ) );
 		}
 
-		dest.type = src.getType( );
-		dest.typeESet = src.isSetType( );
-		dest.direction = src.getDirection( );
-		dest.directionESet = src.isSetDirection( );
-		dest.cyclic = src.isCyclic( );
-		dest.cyclicESet = src.isSetCyclic( );
-		dest.transparency = src.getTransparency( );
-		dest.transparencyESet = src.isSetTransparency( );
-
-		return dest;
+		direction = src.getDirection( );
+		directionESet = src.isSetDirection( );
+		cyclic = src.isCyclic( );
+		cyclicESet = src.isSetCyclic( );
+		transparency = src.getTransparency( );
+		transparencyESet = src.isSetTransparency( );
 	}
 
 } // GradientImpl

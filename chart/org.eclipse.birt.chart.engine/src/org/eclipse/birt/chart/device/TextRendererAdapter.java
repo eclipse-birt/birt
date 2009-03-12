@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
@@ -76,7 +75,7 @@ public class TextRendererAdapter implements ITextRenderer
 			final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 			final double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
 			final double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
-			Location newLo = LocationImpl.copyInstance( lo );
+			Location newLo = lo.copyInstance( );
 			if ( ( iLabelPosition & POSITION_MOVE_ABOVE ) == POSITION_MOVE_ABOVE )
 			{
 				newLo.setY( lo.getY( )

@@ -764,7 +764,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 */
 	public final ColorDefinition translucent( )
 	{
-		final ColorDefinition cd = copyInstance( this );
+		final ColorDefinition cd = copyInstance( );
 		cd.setTransparency( 127 );
 		return cd;
 	}
@@ -776,7 +776,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 */
 	public final ColorDefinition transparent( )
 	{
-		final ColorDefinition cd = copyInstance( this );
+		final ColorDefinition cd = copyInstance( );
 		cd.setTransparency( 0 );
 		return cd;
 	}
@@ -788,7 +788,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 */
 	public final ColorDefinition opaque( )
 	{
-		final ColorDefinition cd = copyInstance( this );
+		final ColorDefinition cd = copyInstance( );
 		cd.setTransparency( 255 );
 		return cd;
 	}
@@ -808,32 +808,26 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static ColorDefinition copyInstance( ColorDefinition src )
+	public ColorDefinition copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		ColorDefinitionImpl dest = new ColorDefinitionImpl( );
-
-		dest.type = src.getType( );
-		dest.typeESet = src.isSetType( );
-		dest.transparency = src.getTransparency( );
-		dest.transparencyESet = src.isSetTransparency( );
-		dest.red = src.getRed( );
-		dest.redESet = src.isSetRed( );
-		dest.green = src.getGreen( );
-		dest.greenESet = src.isSetGreen( );
-		dest.blue = src.getBlue( );
-		dest.blueESet = src.isSetBlue( );
-
+		dest.set( this );
 		return dest;
 	}
 
+	protected void set( ColorDefinition src )
+	{
+		super.set( src );
+
+		transparency = src.getTransparency( );
+		transparencyESet = src.isSetTransparency( );
+		red = src.getRed( );
+		redESet = src.isSetRed( );
+		green = src.getGreen( );
+		greenESet = src.isSetGreen( );
+		blue = src.getBlue( );
+		blueESet = src.isSetBlue( );
+	}
 
 } // ColorDefinitionImpl

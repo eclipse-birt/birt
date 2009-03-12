@@ -88,13 +88,10 @@ import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.attribute.impl.SeriesValueImpl;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
-import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.attribute.impl.URLValueImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
@@ -217,7 +214,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	protected DeferredCacheManager fDeferredCacheManager;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
-	
+
 	static Comparator<BaseRenderer> zOrderComparator = new Comparator<BaseRenderer>( ) {
 
 		public int compare( BaseRenderer o1, BaseRenderer o2 )
@@ -573,14 +570,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	{
 		final ClientArea ca = lg.getClientArea( );
 		final double dScale = getDeviceScale( );
-		LineAttributes lia = LineAttributesImpl.copyInstance( ca.getOutline( ) );
+		LineAttributes lia = ca.getOutline( ).copyInstance( );
 		lia.setVisible( true ); // SEPARATOR LINES MUST BE VISIBLE
 		LineAttributes liSep = lg.getSeparator( ) == null ? lia
 				: lg.getSeparator( );
 
 		// INITIALIZATION OF VARS USED IN FOLLOWING LOOPS
 		Label la = LabelImpl.create( );
-		la.setCaption( TextImpl.copyInstance( lg.getText( ) ) );
+		la.setCaption( lg.getText( ).copyInstance( ) );
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
 		final ITextMetrics itm = xs.getTextMetrics( la );
 		final double dItemHeight = itm.getFullHeight( );
@@ -668,7 +665,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				Label valueLa = null;
 				if ( !bPaletteByCategory && lg.isShowValue( ) )
 				{
-					valueLa = LabelImpl.copyInstance( se.getLabel( ) );
+					valueLa = se.getLabel( ).copyInstance( );
 					valueLa.getCaption( )
 							.setValue( EllipsisHelper.ellipsisString( lih.getValueText( ),
 									lih.getValidValueLen( ) ) );
@@ -983,7 +980,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		rre.setBackground( ca.getBackground( ) );
 		ipr.fillRectangle( rre );
 		ipr.drawRectangle( rre );
-		lia = LineAttributesImpl.copyInstance( lia );
+		lia = lia.copyInstance( );
 		lia.setVisible( true ); // SEPARATOR LINES MUST BE VISIBLE
 
 		final boolean bPaletteByCategory = ( cm.getLegend( )
@@ -1206,12 +1203,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				&& valueLa != null
 				&& valueLa.getCaption( ) != null )
 		{
-			valueLa.getCaption( )
-					.setFont( FontDefinitionImpl.copyInstance( la.getCaption( )
-							.getFont( ) ) );
-			valueLa.getCaption( )
-					.setColor( ColorDefinitionImpl.copyInstance( la.getCaption( )
-							.getColor( ) ) );
+			valueLa.getCaption( ).setFont( la.getCaption( )
+					.getFont( )
+					.copyInstance( ) );
+			valueLa.getCaption( ).setColor( la.getCaption( )
+					.getColor( )
+					.copyInstance( ) );
 		}
 		
 		LegendEntryRenderingHints lerh = new LegendEntryRenderingHints( la,
@@ -1331,7 +1328,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			final double dValueWidth = dColumnWidth - 2 * dLeftInset;
 
-			Label tmpLa = LabelImpl.copyInstance( valueLa );
+			Label tmpLa = valueLa.copyInstance( );
 
 			TextAlignment ta = TextAlignmentImpl.create( );
 			ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
@@ -1451,7 +1448,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
-					tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+					tg = elTriggers.get( t ).copyInstance( );
 					processTrigger( tg,
 							WrappedStructureSource.createLegendEntry( lg, lih ) );
 					iev.addTrigger( tg );
@@ -1501,7 +1498,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			final TextRenderEvent tre = ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 					TextRenderEvent.class );
-			Label tmpLa = LabelImpl.copyInstance( la );
+			Label tmpLa = la.copyInstance( );
 			TextAlignment ta = TextAlignmentImpl.create( );
 			ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
 			ta.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
@@ -1733,7 +1730,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
-					tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+					tg = elTriggers.get( t ).copyInstance( );
 					processTrigger( tg, StructureSource.createChartBlock( b ) );
 					iev.addTrigger( tg );
 				}
@@ -1840,7 +1837,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
-					tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+					tg = elTriggers.get( t ).copyInstance( );
 					processTrigger( tg, StructureSource.createTitle( b ) );
 					iev.addTrigger( tg );
 				}
@@ -1973,7 +1970,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						}
 					}
 				}
-				
+
 				Collections.sort( al, zOrderComparator );
 
 				// CONVERT INTO AN ARRAY AS REQUESTED
@@ -2753,7 +2750,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Coordinates co = pwoa.getCellCoordinates( seriesIndex - 1 );
 			Size sz = pwoa.getCellSize( );
 
-			bo = BoundsImpl.copyInstance( pwoa.getBounds( ) );
+			bo = pwoa.getBounds( ).copyInstance( );
 			bo.setLeft( bo.getLeft( ) + co.getColumn( ) * sz.getWidth( ) );
 			bo.setTop( bo.getTop( ) + co.getRow( ) * sz.getHeight( ) );
 			bo.setWidth( sz.getWidth( ) );
@@ -2764,7 +2761,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			PlotWithAxes pwa = (PlotWithAxes) obj;
 
-			bo = BoundsImpl.copyInstance( pwa.getPlotBounds( ) );
+			bo = pwa.getPlotBounds( ).copyInstance( );
 			bo = bo.adjustedInstance( pwa.getPlotInsets( ) );
 		}
 
@@ -2787,14 +2784,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			PlotWithoutAxes pwoa = (PlotWithoutAxes) obj;
 
-			bo = BoundsImpl.copyInstance( pwoa.getBounds( ) );
+			bo = pwoa.getBounds( ).copyInstance( );
 			bo = bo.adjustedInstance( pwoa.getCellInsets( ) );
 		}
 		else if ( obj instanceof PlotWithAxes )
 		{
 			PlotWithAxes pwa = (PlotWithAxes) obj;
 
-			bo = BoundsImpl.copyInstance( pwa.getPlotBounds( ) );
+			bo = pwa.getPlotBounds( ).copyInstance( );
 			bo = bo.adjustedInstance( pwa.getPlotInsets( ) );
 		}
 
@@ -3140,7 +3137,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final InteractionEvent iev = new InteractionEvent( iSource );
 		for ( int t = 0; t < elTriggers.size( ); t++ )
 		{
-			Trigger tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+			Trigger tg = elTriggers.get( t ).copyInstance( );
 			processTrigger( tg, iSource );
 			iev.addTrigger( tg );
 		}
@@ -3214,7 +3211,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 	protected Label getExternalizedCopy( Label la )
 	{
-		Label laCopy = LabelImpl.copyInstance( getModel( ).getEmptyMessage( ) );
+		Label laCopy = getModel( ).getEmptyMessage( ).copyInstance( );
 		Text caption = laCopy.getCaption( );
 		caption.setValue( getRunTimeContext( ).externalizedMessage( caption.getValue( ) ) );
 		return laCopy;

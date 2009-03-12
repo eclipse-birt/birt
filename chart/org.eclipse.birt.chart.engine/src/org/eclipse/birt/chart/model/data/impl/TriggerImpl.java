@@ -461,7 +461,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 
 		if ( src.getAction( ) != null )
 		{
-			dest.setAction( ActionImpl.copyInstance( src.getAction( ) ) );
+			dest.setAction( src.getAction( ).copyInstance( ) );
 		}
 
 		dest.condition = src.getCondition( );
@@ -470,6 +470,30 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 		dest.triggerFlowESet = src.isSetTriggerFlow( );
 
 		return dest;
+	}
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	public Trigger copyInstance( )
+	{
+		TriggerImpl dest = new TriggerImpl( );
+		dest.set( this );
+		return dest;
+	}
+
+	protected void set( Trigger src )
+	{
+		if ( src.getAction( ) != null )
+		{
+			setAction( src.getAction( ).copyInstance( ) );
+		}
+
+		condition = src.getCondition( );
+		conditionESet = src.isSetCondition( );
+		triggerFlow = src.getTriggerFlow( );
+		triggerFlowESet = src.isSetTriggerFlow( );
 	}
 
 } // TriggerImpl

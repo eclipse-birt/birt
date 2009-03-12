@@ -809,4 +809,10 @@ public interface Block extends EObject
 	 */
 	void remove( Block bl );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Block copyInstance( );
+
 } // Block

@@ -86,14 +86,12 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.TextDataElement;
 import org.eclipse.birt.chart.model.data.Trigger;
-import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
@@ -658,7 +656,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			if ( curve.getLabel( ).isSetVisible( )
 					&& curve.getLabel( ).isVisible( ) )
 			{
-				Label lb = LabelImpl.copyInstance( curve.getLabel( ) );
+				Label lb = curve.getLabel( ).copyInstance( );
 
 				// handle external resource string
 				final String sPreviousValue = lb.getCaption( ).getValue( );
@@ -1051,7 +1049,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				idr.fillRectangle( rre );
 				idr.drawRectangle( rre );
 
-				la = LabelImpl.copyInstance( mr.getLabel( ) );
+				la = mr.getLabel( ).copyInstance( );
 				if ( la.isVisible( ) )
 				{
 					if ( la.getCaption( ).getValue( ) != null
@@ -1155,7 +1153,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						
 						for ( int t = 0; t < elTriggers.size( ); t++ )
 						{
-							tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+							tg = elTriggers.get( t ).copyInstance( );
 							processTrigger( tg,
 									StructureSource.createMarkerRange( mr ) );
 							iev.addTrigger( tg );
@@ -2429,7 +2427,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					Trigger tg;
 					for ( int t = 0; t < elTriggers.size( ); t++ )
 					{
-						tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+						tg = elTriggers.get( t ).copyInstance( );
 						this.processTrigger( tg, iSource );
 						iev.addTrigger( tg );
 					}
@@ -2519,7 +2517,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 
 				// UPDATE THE LABEL CONTENT ASSOCIATED WITH THE MARKER LINE
-				la = LabelImpl.copyInstance( ml.getLabel( ) );
+				la = ml.getLabel( ).copyInstance( );
 
 				if ( la.getCaption( ).getValue( ) != null
 						&& !IConstants.UNDEFINED_STRING.equals( la.getCaption( )
@@ -2823,7 +2821,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						
 						for ( int t = 0; t < elTriggers.size( ); t++ )
 						{
-							tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+							tg = elTriggers.get( t ).copyInstance( );
 							processTrigger( tg,
 									StructureSource.createMarkerLine( ml ) );
 							iev.addTrigger( tg );
@@ -3186,7 +3184,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	{
 		final AutoScale scaleOrth = getInternalOrthogonalAxis( ).getScale( );	
 		final Bounds clipArea = srh.getClientAreaBounds( true );
-		final Bounds boClientArea = BoundsImpl.copyInstance( clipArea );
+		final Bounds boClientArea = clipArea.copyInstance( );
 		// Adjust the position in 2d+
 		if ( bShowAsTape )
 		{
@@ -3553,7 +3551,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			Trigger tg;
 			for ( int t = 0; t < elTriggers.size( ); t++ )
 			{
-				tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+				tg = elTriggers.get( t ).copyInstance( );
 				this.processTrigger( tg, iSource );
 				iev.addTrigger( tg );
 			}

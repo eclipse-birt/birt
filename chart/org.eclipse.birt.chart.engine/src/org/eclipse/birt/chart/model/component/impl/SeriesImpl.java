@@ -23,7 +23,6 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
 import org.eclipse.birt.chart.model.attribute.impl.DataPointImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
@@ -34,21 +33,6 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.Trigger;
-import org.eclipse.birt.chart.model.data.impl.DataSetImpl;
-import org.eclipse.birt.chart.model.data.impl.QueryImpl;
-import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
-import org.eclipse.birt.chart.model.type.BarSeries;
-import org.eclipse.birt.chart.model.type.DialSeries;
-import org.eclipse.birt.chart.model.type.GanttSeries;
-import org.eclipse.birt.chart.model.type.LineSeries;
-import org.eclipse.birt.chart.model.type.PieSeries;
-import org.eclipse.birt.chart.model.type.StockSeries;
-import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
-import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
-import org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl;
-import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
-import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
-import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -1250,119 +1234,74 @@ public class SeriesImpl extends EObjectImpl implements Series
 		return false;
 	}
 
-	private static Series copyInstanceThis( Series src )
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	public Series copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		SeriesImpl dest = new SeriesImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( Series src )
+	{
 		if ( src.getLabel( ) != null )
 		{
-			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
+			setLabel( src.getLabel( ).copyInstance( ) );
 		}
 
 		if ( src.getDataDefinition( ) != null )
 		{
-			EList<Query> list = dest.getDataDefinition( );
+			EList<Query> list = getDataDefinition( );
 			for ( Query element : src.getDataDefinition( ) )
 			{
-				list.add( QueryImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getDataPoint( ) != null )
 		{
-			dest.setDataPoint( DataPointImpl.copyInstance( src.getDataPoint( ) ) );
+			setDataPoint( src.getDataPoint( ).copyInstance( ) );
 		}
 
 		if ( src.getDataSets( ) != null )
 		{
-			EMap<String, DataSet> map = dest.getDataSets( );
+			EMap<String, DataSet> map = getDataSets( );
 			for ( Map.Entry<String, DataSet> entry : src.getDataSets( )
 					.entrySet( ) )
 			{
-				map.put( entry.getKey( ),
-						DataSetImpl.copyInstance( entry.getValue( ) ) );
+				map.put( entry.getKey( ), entry.getValue( ).copyInstance( ) );
 			}
 		}
 
 		if ( src.getTriggers( ) != null )
 		{
-			EList<Trigger> list = dest.getTriggers( );
+			EList<Trigger> list = getTriggers( );
 			for ( Trigger element : src.getTriggers( ) )
 			{
-				list.add( TriggerImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getCurveFitting( ) != null )
 		{
-			dest.setCurveFitting( CurveFittingImpl.copyInstance( src.getCurveFitting( ) ) );
+			setCurveFitting( src.getCurveFitting( ).copyInstance( ) );
 		}
 
 		if ( src.getCursor( ) != null )
 		{
-			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
+			setCursor( src.getCursor( ).copyInstance( ) );
 		}
 
-		dest.visible = src.isVisible( );
-		dest.visibleESet = src.isSetVisible( );
-		dest.seriesIdentifier = src.getSeriesIdentifier( );
-		dest.labelPosition = src.getLabelPosition( );
-		dest.labelPositionESet = src.isSetLabelPosition( );
-		dest.stacked = src.isStacked( );
-		dest.stackedESet = src.isSetStacked( );
-		dest.translucent = src.isTranslucent( );
-		dest.translucentESet = src.isSetTranslucent( );
-
-		return dest;
-	}
-
-	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
-	 */
-	public static Series copyInstance( Series src )
-	{
-		if ( src == null )
-		{
-			return null;
-		}
-
-		if ( src instanceof PieSeries )
-		{
-			return PieSeriesImpl.copyInstance( (PieSeries) src );
-		}
-		else if ( src instanceof StockSeries )
-		{
-			return StockSeriesImpl.copyInstance( (StockSeries) src );
-		}
-		else if ( src instanceof DialSeries )
-		{
-			return DialSeriesImpl.copyInstance( (DialSeries) src );
-		}
-		else if ( src instanceof LineSeries )
-		{
-			return LineSeriesImpl.copyInstance( (LineSeries) src );
-		}
-		else if ( src instanceof GanttSeries )
-		{
-			return GanttSeriesImpl.copyInstance( (GanttSeries) src );
-		}
-		else if ( src instanceof BarSeries )
-		{
-			return BarSeriesImpl.copyInstance( (BarSeries) src );
-		}
-		else
-		{
-			return copyInstanceThis( src );
-		}
+		visible = src.isVisible( );
+		visibleESet = src.isSetVisible( );
+		seriesIdentifier = src.getSeriesIdentifier( );
+		labelPosition = src.getLabelPosition( );
+		labelPositionESet = src.isSetLabelPosition( );
+		stacked = src.isStacked( );
+		stackedESet = src.isSetStacked( );
+		translucent = src.isTranslucent( );
+		translucentESet = src.isSetTranslucent( );
 	}
 
 } // SeriesImpl

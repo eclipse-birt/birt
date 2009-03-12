@@ -41,7 +41,6 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
-import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
@@ -100,7 +99,7 @@ public final class LegendBuilder implements IConstants
 
 			this.la = LabelImpl.create( );
 			la.setEllipsis( lg.isSetEllipsis( ) ? lg.getEllipsis( ) : 1 );
-			la.setCaption( TextImpl.copyInstance( lg.getText( ) ) );
+			la.setCaption( lg.getText( ).copyInstance( ) );
 
 			la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
 			ITextMetrics itm = xs.getTextMetrics( la );
@@ -272,7 +271,7 @@ public final class LegendBuilder implements IConstants
 		{
 			return new LabelItem( original.xs,
 					original.rtc,
-					LabelImpl.copyInstance( original.la ),
+					original.la.copyInstance( ),
 					original.maxWrappingSize );
 		}
 
@@ -485,7 +484,7 @@ public final class LegendBuilder implements IConstants
 
 		if ( laTitle != null && laTitle.isSetVisible( ) && laTitle.isVisible( ) )
 		{
-			laTitle = LabelImpl.copyInstance( laTitle );
+			laTitle = laTitle.copyInstance( );
 			String sTitle = laTitle.getCaption( ).getValue( );
 			laTitle.getCaption( )
 					.setValue( lgData.rtc.externalizedMessage( sTitle ) );
@@ -1233,7 +1232,7 @@ public final class LegendBuilder implements IConstants
 					laiValue.dispose( );
 				}
 				Series series = lih.getSeriesDefinition( ).getSeries( ).get( 0 );
-				Label laValue = LabelImpl.copyInstance( series.getLabel( ) );
+				Label laValue = series.getLabel( ).copyInstance( );
 				laValue.setEllipsis( 1 );
 				this.laiValue = new LabelItem( lgData.xs,
 						lgData.rtc,

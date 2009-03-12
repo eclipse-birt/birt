@@ -331,25 +331,20 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Interactivity copyInstance( Interactivity src )
+	public Interactivity copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		InteractivityImpl dest = new InteractivityImpl( );
-
-		dest.enable = src.isEnable( );
-		dest.enableESet = src.isSetEnable( );
-		dest.legendBehavior = src.getLegendBehavior( );
-		dest.legendBehaviorESet = src.isSetLegendBehavior( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( Interactivity src )
+	{
+		enable = src.isEnable( );
+		enableESet = src.isSetEnable( );
+		legendBehavior = src.getLegendBehavior( );
+		legendBehaviorESet = src.isSetLegendBehavior( );
 	}
 
 } // InteractivityImpl

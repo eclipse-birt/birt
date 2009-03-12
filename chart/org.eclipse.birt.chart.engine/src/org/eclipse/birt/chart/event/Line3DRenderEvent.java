@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.computation.Vector;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 
 /**
  * A rendering event type for rendering 3D Line object.
@@ -101,7 +100,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 		Line3DRenderEvent lre = new Line3DRenderEvent( source );
 		if ( lia != null )
 		{
-			lre.setLineAttributes( LineAttributesImpl.copyInstance( lia ) );
+			lre.setLineAttributes( lia.copyInstance( ) );
 		}
 		if ( object3D != null )
 		{

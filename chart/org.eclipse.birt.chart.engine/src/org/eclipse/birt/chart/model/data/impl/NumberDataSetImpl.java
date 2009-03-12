@@ -74,22 +74,18 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static NumberDataSet copyInstance( NumberDataSet src )
+	public NumberDataSet copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		NumberDataSetImpl dest = new NumberDataSetImpl( );
-
-		dest.values = src.getValues( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( NumberDataSet src )
+	{
+		super.set( src );
+
 	}
 
 } //NumberDataSetImpl

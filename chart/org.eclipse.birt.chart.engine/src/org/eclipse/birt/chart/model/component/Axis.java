@@ -1246,4 +1246,11 @@ public interface Axis extends EObject
 	 * @return All runtime series associated with a particular axis
 	 */
 	Series[] getRuntimeSeries( );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Axis copyInstance( );
+
 } // Axis

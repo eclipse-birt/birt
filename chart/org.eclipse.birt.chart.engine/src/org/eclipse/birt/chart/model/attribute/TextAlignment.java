@@ -143,4 +143,10 @@ public interface TextAlignment extends EObject
 	 */
 	boolean isSetVerticalAlignment( );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	TextAlignment copyInstance( );
+
 } // TextAlignment

@@ -18,7 +18,6 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.util.FillUtil;
 
@@ -465,7 +464,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 		ArcRenderEvent are = new ArcRenderEvent( source );
 		if ( outline != null )
 		{
-			are.setOutline( LineAttributesImpl.copyInstance( outline ) );
+			are.setOutline( outline.copyInstance( ) );
 		}
 
 		if ( ifBackground != null )
@@ -475,7 +474,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 
 		if ( loTopLeft != null )
 		{
-			are.setTopLeft( LocationImpl.copyInstance( loTopLeft ) );
+			are.setTopLeft( loTopLeft.copyInstance( ) );
 		}
 
 		are.setStyle( iStyle );

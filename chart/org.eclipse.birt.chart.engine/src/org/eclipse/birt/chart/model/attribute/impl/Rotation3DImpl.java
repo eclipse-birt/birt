@@ -198,29 +198,24 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Rotation3D copyInstance( Rotation3D src )
+	public Rotation3D copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		Rotation3DImpl dest = new Rotation3DImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set(Rotation3D src )
+	{
 		if ( src.getAngles( ) != null )
 		{
-			EList<Angle3D> list = dest.getAngles( );
+			EList<Angle3D> list = getAngles( );
 			for ( Angle3D element : src.getAngles( ) )
 			{
-				list.add( Angle3DImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
-		return dest;
 	}
 
 } // Rotation3DImpl

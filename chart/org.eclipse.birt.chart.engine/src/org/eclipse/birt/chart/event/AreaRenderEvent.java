@@ -22,8 +22,6 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.util.FillUtil;
 
 /**
@@ -106,7 +104,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 	 */
 	public final PrimitiveRenderEvent getElement( int i )
 	{
-		return (PrimitiveRenderEvent) alLinesAndArcs.get( i );
+		return alLinesAndArcs.get( i );
 	}
 
 	/**
@@ -147,7 +145,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 				bo = pre.getBounds( );
 				if ( i == 0 )
 				{
-					boFull = BoundsImpl.copyInstance( bo );
+					boFull = bo.copyInstance( );
 				}
 				else
 				{
@@ -224,7 +222,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 
 		if ( lia != null )
 		{
-			are.setOutline( LineAttributesImpl.copyInstance( lia ) );
+			are.setOutline( lia.copyInstance( ) );
 		}
 
 		for ( Iterator<PrimitiveRenderEvent> itr = alLinesAndArcs.iterator( ); itr.hasNext( ); )

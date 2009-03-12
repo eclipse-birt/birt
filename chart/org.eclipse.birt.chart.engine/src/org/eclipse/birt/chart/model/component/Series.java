@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.chart.model.component;
 
-import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.data.DataSet;
@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -558,5 +557,11 @@ public interface Series extends EObject
 	 *         each series.
 	 */
 	boolean isSingleCache( );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Series copyInstance( );
 
 } // Series

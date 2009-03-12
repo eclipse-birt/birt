@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.layout.Block;
-import org.eclipse.birt.chart.model.layout.impl.BlockImpl;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -213,38 +212,32 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static ChartPreferences copyInstance( ChartPreferences src )
+	public ChartPreferences copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		ChartPreferencesImpl dest = new ChartPreferencesImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( ChartPreferences src )
+	{
 		if ( src.getLabels( ) != null )
 		{
-			EList<Label> list = dest.getLabels( );
+			EList<Label> list = getLabels( );
 			for ( Label element : src.getLabels( ) )
 			{
-				list.add( LabelImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getBlocks( ) != null )
 		{
-			EList<Block> list = dest.getBlocks( );
+			EList<Block> list = getBlocks( );
 			for ( Block element : src.getBlocks( ) )
 			{
-				list.add( BlockImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
-		return dest;
 	}
 
 } // ChartPreferencesImpl

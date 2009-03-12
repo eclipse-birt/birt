@@ -58,4 +58,10 @@ public interface EmbeddedImage extends Image
 	 */
 	void setData( String value );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	EmbeddedImage copyInstance( );
+
 } // EmbeddedImage

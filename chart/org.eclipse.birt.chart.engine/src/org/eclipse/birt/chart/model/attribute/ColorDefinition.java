@@ -313,4 +313,11 @@ public interface ColorDefinition extends Fill
 	 * @return A copy of the existing color but with alpha=0
 	 */
 	public ColorDefinition transparent( );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	ColorDefinition copyInstance( );
+
 } // ColorDefinition

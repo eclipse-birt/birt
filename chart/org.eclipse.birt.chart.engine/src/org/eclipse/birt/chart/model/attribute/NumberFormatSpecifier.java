@@ -219,4 +219,11 @@ public interface NumberFormatSpecifier extends FormatSpecifier
 	 * @since 2.1
 	 */
 	String format( double dValue, ULocale lo );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	NumberFormatSpecifier copyInstance( );
+
 } // NumberFormatSpecifier

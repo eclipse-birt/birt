@@ -73,22 +73,18 @@ public class NullDataSetImpl extends DataSetImpl implements NullDataSet
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static NullDataSet copyInstance( NullDataSet src )
+	public NullDataSet copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		NullDataSetImpl dest = new NullDataSetImpl( );
-
-		dest.values = src.getValues( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( NullDataSet src )
+	{
+		super.set( src );
+
 	}
 
 } // NullDataSetImpl

@@ -194,22 +194,19 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static CallBackValue copyInstance( CallBackValue src )
+	public CallBackValue copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		CallBackValueImpl dest = new CallBackValueImpl( );
-
-		dest.identifier = src.getIdentifier( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( CallBackValue src )
+	{
+		super.set( src );
+
+		identifier = src.getIdentifier( );
 	}
 
 } // CallBackValueImpl

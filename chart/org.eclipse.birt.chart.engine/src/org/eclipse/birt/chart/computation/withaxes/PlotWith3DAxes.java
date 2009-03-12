@@ -42,7 +42,6 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
@@ -50,7 +49,6 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
@@ -133,15 +131,15 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 		// approximate estimation of axes label space
 		// TODO better estimation
-		la = LabelImpl.copyInstance( aax.getPrimaryBase( ).getLabel( ) );
+		la = aax.getPrimaryBase( ).getLabel( ).copyInstance( );
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
 		h = computeHeight( ids, la );
 
-		la = LabelImpl.copyInstance( aax.getAncillaryBase( ).getLabel( ) );
+		la = aax.getAncillaryBase( ).getLabel( ).copyInstance( );
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
 		h = Math.max( h, computeHeight( ids, la ) );
 
-		la = LabelImpl.copyInstance( aax.getPrimaryOrthogonal( ).getLabel( ) );
+		la = aax.getPrimaryOrthogonal( ).getLabel( ).copyInstance( );
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
 		w = computeWidth( ids, la );
 
@@ -440,7 +438,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 		bo = bo.scaledInstance( dPointToPixel ); // CONVERSION
 
 		boPlot = bo;
-		boPlotBackground = BoundsImpl.copyInstance( bo );
+		boPlotBackground = bo.copyInstance( );
 
 		// MUST BE 3-D DIMENSION ONLY HERE.
 		iDimension = getDimension( cwa.getDimension( ) );
@@ -1691,7 +1689,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 		AxisTickCoordinates da = oax.getScale( ).getTickCordinates( );
 		final int length = bTextAxis  ? da.size( ) - 1 : da.size( );
 		int iLabelLocation = oax.getLabelPosition( );
-		Label la = LabelImpl.copyInstance( oax.getLabel( ) );
+		Label la = oax.getLabel( ).copyInstance( );
 		AxisLabelTextProvider textProvider = AxisLabelTextProvider.create( oax );
 
 		Rectangle rect = null;
@@ -1728,7 +1726,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 		boolean bTextAxis = ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT	|| sc.isCategoryScale( );
 		AxisTickCoordinates da = oax.getScale( ).getTickCordinates( );
 		final int length = bTextAxis  ? da.size( ) - 1 : da.size( );
-		Label la = LabelImpl.copyInstance( oax.getLabel( ) );
+		Label la = oax.getLabel( ).copyInstance( );
 		
 		AxisLabelTextProvider textProvider = AxisLabelTextProvider.create( oax );
 

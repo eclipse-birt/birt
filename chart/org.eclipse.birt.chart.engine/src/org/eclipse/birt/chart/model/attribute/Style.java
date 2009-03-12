@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Style.java,v 1.1 2006/12/28 03:49:25 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -165,5 +165,11 @@ public interface Style extends EObject
 	 * @generated
 	 */
 	void setPadding( Insets value );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Style copyInstance( );
 
 } // Style

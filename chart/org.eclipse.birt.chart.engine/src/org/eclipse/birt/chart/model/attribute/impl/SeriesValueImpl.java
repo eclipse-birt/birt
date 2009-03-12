@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.emf.common.notify.Notification;
@@ -186,7 +187,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 	 */
 	public static final SeriesValue create( String name )
 	{
-		SeriesValue sv = AttributeFactoryImpl.eINSTANCE.createSeriesValue( );
+		SeriesValue sv = AttributeFactory.eINSTANCE.createSeriesValue( );
 		sv.setName( name );
 		return sv;
 	}
@@ -194,22 +195,19 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static SeriesValue copyInstance( SeriesValue src )
+	public SeriesValue copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		SeriesValueImpl dest = new SeriesValueImpl( );
-
-		dest.name = src.getName( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( SeriesValue src )
+	{
+		super.set( src );
+
+		name = src.getName( );
 	}
 
 } // SeriesValueImpl

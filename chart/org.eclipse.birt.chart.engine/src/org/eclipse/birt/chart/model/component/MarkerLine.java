@@ -18,7 +18,6 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -250,5 +249,11 @@ public interface MarkerLine extends EObject
 	 * @generated
 	 */
 	void setCursor( Cursor value );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	MarkerLine copyInstance( );
 
 } // MarkerLine

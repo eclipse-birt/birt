@@ -62,14 +62,11 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
-import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
-import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
@@ -177,7 +174,7 @@ public final class AxesRenderHelper
 		iLabelLocation = ax.getLabelPosition( );
 		iOrientation = ax.getOrientation( );
 		xs = renderer.getDevice( ).getDisplayServer( );
-		la = LabelImpl.copyInstance( ax.getLabel( ) );
+		la = ax.getLabel( ).copyInstance( );
 
 		daEndPoints = sc.getEndPoints( );
 		da = sc.getTickCordinates( );
@@ -1267,11 +1264,11 @@ public final class AxesRenderHelper
 								cachedTriggers = new ArrayList<Trigger>( );
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
-									tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+									tg = elTriggers.get( t ).copyInstance( );
 									processTrigger( tg,
 											StructureSource.createAxis( axModel ) );
 									cachedTriggers.add( tg );
-									iev.addTrigger( TriggerImpl.copyInstance( tg ) );
+									iev.addTrigger( tg.copyInstance( ) );
 								}
 
 								iev.setHotSpot( pre3d );
@@ -1315,11 +1312,11 @@ public final class AxesRenderHelper
 									cachedTriggers = new ArrayList<Trigger>( );
 									for ( int t = 0; t < elTriggers.size( ); t++ )
 									{
-										tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+										tg = elTriggers.get( t ).copyInstance( );
 										processTrigger( tg,
 												StructureSource.createAxis( axModel ) );
 										cachedTriggers.add( tg );
-										iev.addTrigger( TriggerImpl.copyInstance( tg ) );
+										iev.addTrigger( tg.copyInstance( ) );
 									}
 
 								}
@@ -1327,7 +1324,8 @@ public final class AxesRenderHelper
 								{
 									for ( int t = 0; t < cachedTriggers.size( ); t++ )
 									{
-										iev.addTrigger( TriggerImpl.copyInstance( cachedTriggers.get( t ) ) );
+										iev.addTrigger( cachedTriggers.get( t )
+												.copyInstance( ) );
 									}
 								}
 
@@ -1375,7 +1373,7 @@ public final class AxesRenderHelper
 								{
 									for ( int t = 0; t < elTriggers.size( ); t++ )
 									{
-										tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+										tg = elTriggers.get( t ).copyInstance( );
 										processTrigger( tg,
 												StructureSource.createAxis( axModel ) );
 										iev.addTrigger( tg );
@@ -1447,7 +1445,7 @@ public final class AxesRenderHelper
 							
 							for ( int t = 0; t < elTriggers.size( ); t++ )
 							{
-								tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+								tg = elTriggers.get( t ).copyInstance( );
 								processTrigger( tg,
 										StructureSource.createAxis( axModel ) );
 								iev.addTrigger( tg );
@@ -1482,7 +1480,7 @@ public final class AxesRenderHelper
 					dZ,
 					dStaggeredLabelOffset );
 
-			la = LabelImpl.copyInstance( ax.getTitle( ) ); // TEMPORARILY USE
+			la = ax.getTitle( ).copyInstance( ); // TEMPORARILY USE
 			// FOR AXIS TITLE
 			if ( la.isVisible( ) && bRenderAxisTitle )
 			{
@@ -1730,9 +1728,10 @@ public final class AxesRenderHelper
 
 							tre.setBlockBounds( bo );
 							tre.setLabel( la );
-							TextAlignment ta = TextAlignmentImpl.copyInstance( la.getCaption( )
+							TextAlignment ta = la.getCaption( )
 									.getFont( )
-									.getAlignment( ) );
+									.getAlignment( )
+									.copyInstance( );
 							if ( ax.getModelAxis( ).getAssociatedAxes( ).size( ) != 0 )
 							{
 								tre.setBlockAlignment( ChartUtil.transposeAlignment( ta ) );
@@ -1769,7 +1768,7 @@ public final class AxesRenderHelper
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_TITLE,
 						la );
 			}
-			la = LabelImpl.copyInstance( ax.getLabel( ) );
+			la = ax.getLabel( ).copyInstance( );
 
 			if ( iv != null
 					&& iv.getType( ) == IConstants.MAX
@@ -1869,7 +1868,7 @@ public final class AxesRenderHelper
 								
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
-									tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+									tg = elTriggers.get( t ).copyInstance( );
 									processTrigger( tg,
 											StructureSource.createAxis( axModel ) );
 									iev.addTrigger( tg );
@@ -1932,7 +1931,7 @@ public final class AxesRenderHelper
 								
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
-									tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+									tg = elTriggers.get( t ).copyInstance( );
 									processTrigger( tg,
 											StructureSource.createAxis( axModel ) );
 									iev.addTrigger( tg );
@@ -1997,7 +1996,7 @@ public final class AxesRenderHelper
 							
 							for ( int t = 0; t < elTriggers.size( ); t++ )
 							{
-								tg = TriggerImpl.copyInstance( elTriggers.get( t ) );
+								tg = elTriggers.get( t ).copyInstance( );
 								processTrigger( tg,
 										StructureSource.createAxis( axModel ) );
 								iev.addTrigger( tg );
@@ -2032,7 +2031,7 @@ public final class AxesRenderHelper
 					dStaggeredLabelOffset );
 
 			// RENDER THE AXIS TITLE
-			la = LabelImpl.copyInstance( ax.getTitle( ) ); // TEMPORARILY USE
+			la = ax.getTitle( ).copyInstance( ); // TEMPORARILY USE
 			// FOR AXIS TITLE
 			if ( la.isVisible( ) && bRenderAxisTitle )
 			{
@@ -2205,9 +2204,10 @@ public final class AxesRenderHelper
 
 							tre.setBlockBounds( bo );
 							tre.setLabel( la );
-							TextAlignment ta = TextAlignmentImpl.copyInstance( la.getCaption( )
+							TextAlignment ta = la.getCaption( )
 									.getFont( )
-									.getAlignment( ) );
+									.getAlignment( )
+									.copyInstance( );
 
 							if ( ax.getModelAxis( ).getAssociatedAxes( ).size( ) != 0 )
 							{
@@ -2241,7 +2241,7 @@ public final class AxesRenderHelper
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_TITLE,
 						la );
 			}
-			la = LabelImpl.copyInstance( ax.getLabel( ) ); // RESTORE BACK TO
+			la = ax.getLabel( ).copyInstance( ); // RESTORE BACK TO
 			// AXIS LABEL
 
 			if ( iv != null

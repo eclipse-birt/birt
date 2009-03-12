@@ -30,8 +30,6 @@ import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.CursorImpl;
-import org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -45,8 +43,6 @@ import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
-import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
-import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -2846,153 +2842,142 @@ public class AxisImpl extends EObjectImpl implements Axis
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Axis copyInstance( Axis src )
+	public Axis copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		AxisImpl dest = new AxisImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( Axis src )
+	{
 		if ( src.getTitle( ) != null )
 		{
-			dest.setTitle( LabelImpl.copyInstance( src.getTitle( ) ) );
+			setTitle( src.getTitle( ).copyInstance( ) );
 		}
 
 		if ( src.getSubTitle( ) != null )
 		{
-			dest.setSubTitle( LabelImpl.copyInstance( src.getSubTitle( ) ) );
+			setSubTitle( src.getSubTitle( ).copyInstance( ) );
 		}
 
 		if ( src.getAssociatedAxes( ) != null )
 		{
-			EList<Axis> list = dest.getAssociatedAxes( );
+			EList<Axis> list = getAssociatedAxes( );
 			for ( Axis element : src.getAssociatedAxes( ) )
 			{
-				list.add( AxisImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getAncillaryAxes( ) != null )
 		{
-			EList<Axis> list = dest.getAncillaryAxes( );
+			EList<Axis> list = getAncillaryAxes( );
 			for ( Axis element : src.getAncillaryAxes( ) )
 			{
-				list.add( AxisImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getSeriesDefinitions( ) != null )
 		{
-			EList<SeriesDefinition> list = dest.getSeriesDefinitions( );
+			EList<SeriesDefinition> list = getSeriesDefinitions( );
 			for ( SeriesDefinition element : src.getSeriesDefinitions( ) )
 			{
-				list.add( SeriesDefinitionImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getLineAttributes( ) != null )
 		{
-			dest.setLineAttributes( LineAttributesImpl.copyInstance( src.getLineAttributes( ) ) );
+			setLineAttributes( src.getLineAttributes( ).copyInstance( ) );
 		}
 
 		if ( src.getLabel( ) != null )
 		{
-			dest.setLabel( LabelImpl.copyInstance( src.getLabel( ) ) );
+			setLabel( src.getLabel( ).copyInstance( ) );
 		}
 
 		if ( src.getFormatSpecifier( ) != null )
 		{
-			dest.setFormatSpecifier( FormatSpecifierImpl.copyInstance( src.getFormatSpecifier( ) ) );
+			setFormatSpecifier( src.getFormatSpecifier( ).copyInstance( ) );
 		}
 
 		if ( src.getMarkerLines( ) != null )
 		{
-			EList<MarkerLine> list = dest.getMarkerLines( );
+			EList<MarkerLine> list = getMarkerLines( );
 			for ( MarkerLine element : src.getMarkerLines( ) )
 			{
-				list.add( MarkerLineImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getMarkerRanges( ) != null )
 		{
-			EList<MarkerRange> list = dest.getMarkerRanges( );
+			EList<MarkerRange> list = getMarkerRanges( );
 			for ( MarkerRange element : src.getMarkerRanges( ) )
 			{
-				list.add( MarkerRangeImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getTriggers( ) != null )
 		{
-			EList<Trigger> list = dest.getTriggers( );
+			EList<Trigger> list = getTriggers( );
 			for ( Trigger element : src.getTriggers( ) )
 			{
-				list.add( TriggerImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getMajorGrid( ) != null )
 		{
-			dest.setMajorGrid( GridImpl.copyInstance( src.getMajorGrid( ) ) );
+			setMajorGrid( src.getMajorGrid( ).copyInstance( ) );
 		}
 
 		if ( src.getMinorGrid( ) != null )
 		{
-			dest.setMinorGrid( GridImpl.copyInstance( src.getMinorGrid( ) ) );
+			setMinorGrid( src.getMinorGrid( ).copyInstance( ) );
 		}
 
 		if ( src.getScale( ) != null )
 		{
-			dest.setScale( ScaleImpl.copyInstance( src.getScale( ) ) );
+			setScale( src.getScale( ).copyInstance( ) );
 		}
 
 		if ( src.getOrigin( ) != null )
 		{
-			dest.setOrigin( AxisOriginImpl.copyInstance( src.getOrigin( ) ) );
+			setOrigin( src.getOrigin( ).copyInstance( ) );
 		}
 
 		if ( src.getCursor( ) != null )
 		{
-			dest.setCursor( CursorImpl.copyInstance( src.getCursor( ) ) );
+			setCursor( src.getCursor( ).copyInstance( ) );
 		}
 
-		dest.type = src.getType( );
-		dest.typeESet = src.isSetType( );
-		dest.titlePosition = src.getTitlePosition( );
-		dest.titlePositionESet = src.isSetTitlePosition( );
-		dest.gapWidth = src.getGapWidth( );
-		dest.gapWidthESet = src.isSetGapWidth( );
-		dest.orientation = src.getOrientation( );
-		dest.orientationESet = src.isSetOrientation( );
-		dest.labelPosition = src.getLabelPosition( );
-		dest.labelPositionESet = src.isSetLabelPosition( );
-		dest.staggered = src.isStaggered( );
-		dest.staggeredESet = src.isSetStaggered( );
-		dest.interval = src.getInterval( );
-		dest.intervalESet = src.isSetInterval( );
-		dest.primaryAxis = src.isPrimaryAxis( );
-		dest.primaryAxisESet = src.isSetPrimaryAxis( );
-		dest.categoryAxis = src.isCategoryAxis( );
-		dest.categoryAxisESet = src.isSetCategoryAxis( );
-		dest.percent = src.isPercent( );
-		dest.percentESet = src.isSetPercent( );
-		dest.labelWithinAxes = src.isLabelWithinAxes( );
-		dest.labelWithinAxesESet = src.isSetLabelWithinAxes( );
-		dest.aligned = src.isAligned( );
-		dest.alignedESet = src.isSetAligned( );
-		dest.sideBySide = src.isSideBySide( );
-		dest.sideBySideESet = src.isSetSideBySide( );
-		dest.labelSpan = src.getLabelSpan( );
-		dest.labelSpanESet = src.isSetLabelSpan( );
-
-		return dest;
+		type = src.getType( );
+		typeESet = src.isSetType( );
+		titlePosition = src.getTitlePosition( );
+		titlePositionESet = src.isSetTitlePosition( );
+		gapWidth = src.getGapWidth( );
+		gapWidthESet = src.isSetGapWidth( );
+		orientation = src.getOrientation( );
+		orientationESet = src.isSetOrientation( );
+		labelPosition = src.getLabelPosition( );
+		labelPositionESet = src.isSetLabelPosition( );
+		staggered = src.isStaggered( );
+		staggeredESet = src.isSetStaggered( );
+		interval = src.getInterval( );
+		intervalESet = src.isSetInterval( );
+		primaryAxis = src.isPrimaryAxis( );
+		primaryAxisESet = src.isSetPrimaryAxis( );
+		categoryAxis = src.isCategoryAxis( );
+		categoryAxisESet = src.isSetCategoryAxis( );
+		percent = src.isPercent( );
+		percentESet = src.isSetPercent( );
+		labelWithinAxes = src.isLabelWithinAxes( );
+		labelWithinAxesESet = src.isSetLabelWithinAxes( );
+		aligned = src.isAligned( );
+		alignedESet = src.isSetAligned( );
+		sideBySide = src.isSideBySide( );
+		sideBySideESet = src.isSetSideBySide( );
+		labelSpan = src.getLabelSpan( );
+		labelSpanESet = src.isSetLabelSpan( );
 	}
 
 } // AxisImpl

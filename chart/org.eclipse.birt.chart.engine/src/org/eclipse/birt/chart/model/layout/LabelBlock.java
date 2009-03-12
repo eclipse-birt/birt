@@ -62,4 +62,10 @@ public interface LabelBlock extends Block
 	 */
 	void setLabel( Label value );
 
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	LabelBlock copyInstance( );
+
 } // LabelBlock

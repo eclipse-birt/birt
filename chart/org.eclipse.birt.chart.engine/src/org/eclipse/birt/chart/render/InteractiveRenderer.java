@@ -31,11 +31,8 @@ import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.emf.common.util.EList;
 
 public class InteractiveRenderer
@@ -315,20 +312,20 @@ public class InteractiveRenderer
 	private void saveColor( ColorDefinition cd )
 	{
 		if ( !savedColors.containsKey( cd ) )
-			savedColors.put( cd, ColorDefinitionImpl.copyInstance( cd ) );
+			savedColors.put( cd, cd.copyInstance( ) );
 
 	}
 
 	private void saveLine( LineAttributes line )
 	{
 		if ( !savedLines.containsKey( line ) )
-			savedLines.put( line, LineAttributesImpl.copyInstance( line ) );
+			savedLines.put( line, line.copyInstance( ) );
 	}
 
 	private void saveLabel( Label label )
 	{
 		if ( !savedLabels.containsKey( label ) )
-			savedLabels.put( label, LabelImpl.copyInstance( label ) );
+			savedLabels.put( label, label.copyInstance( ) );
 	}
 
 	protected void restoreEvent( )

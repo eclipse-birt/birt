@@ -13,8 +13,6 @@ package org.eclipse.birt.chart.model.data.impl;
 
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DataPackage;
-import org.eclipse.birt.chart.model.data.DateTimeDataElement;
-import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -47,45 +45,19 @@ public class DataElementImpl extends EObjectImpl implements DataElement
 		return DataPackage.Literals.DATA_ELEMENT;
 	}
 
-	private static DataElement copyInstanceThis( DataElement src )
-	{
-		if ( src == null )
-		{
-			return null;
-		}
-
-		DataElementImpl dest = new DataElementImpl( );
-
-		return dest;
-	}
-
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static DataElement copyInstance( DataElement src )
+	public DataElement copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
+		DataElementImpl dest = new DataElementImpl( );
+		dest.set( this );
+		return dest;
+	}
 
-		if ( src instanceof DateTimeDataElement )
-		{
-			return DateTimeDataElementImpl.copyInstance( (DateTimeDataElement) src );
-		}
-		else if ( src instanceof NumberDataElement )
-		{
-			return NumberDataElementImpl.copyInstance( (NumberDataElement) src );
-		}
-		else
-		{
-			return copyInstanceThis( src );
-		}
-
+	protected void set( DataElement src )
+	{
 	}
 
 } //DataElementImpl

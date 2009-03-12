@@ -41,12 +41,10 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.impl.FormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.impl.ChartImpl;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
@@ -311,8 +309,8 @@ public final class ChartReportItemImpl extends ReportItem implements
 			if ( cm.getLegend( ).getFormatSpecifier( ) == null
 					&& sdBase.getFormatSpecifier( ) != null )
 			{
-				cm.getLegend( )
-						.setFormatSpecifier( FormatSpecifierImpl.copyInstance( sdBase.getFormatSpecifier( ) ) );
+				cm.getLegend( ).setFormatSpecifier( sdBase.getFormatSpecifier( )
+						.copyInstance( ) );
 			}
 		}
 
@@ -810,7 +808,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 		// Do not copy model for axis chart since it uses reference
 		if ( !ChartXTabUtil.isAxisChart( handle ) )
 		{
-			crii.cm = cm == null ? null : ChartImpl.copyInstance( cm );
+			crii.cm = cm == null ? null : cm.copyInstance( );
 		}
 		return crii;
 	}

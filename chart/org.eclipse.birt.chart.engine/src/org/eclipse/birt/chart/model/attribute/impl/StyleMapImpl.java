@@ -350,28 +350,23 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static StyleMap copyInstance( StyleMap src )
+	public StyleMap copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		StyleMapImpl dest = new StyleMapImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( StyleMap src )
+	{
 		if ( src.getStyle( ) != null )
 		{
-			dest.setStyle( StyleImpl.copyInstance( src.getStyle( ) ) );
+			setStyle( src.getStyle( ).copyInstance( ) );
 		}
 
-		dest.componentName = src.getComponentName( );
-		dest.componentNameESet = src.isSetComponentName( );
-
-		return dest;
+		componentName = src.getComponentName( );
+		componentNameESet = src.isSetComponentName( );
 	}
 
 } // StyleMapImpl

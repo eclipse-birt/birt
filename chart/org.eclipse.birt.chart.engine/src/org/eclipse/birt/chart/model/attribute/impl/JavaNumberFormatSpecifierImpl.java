@@ -322,25 +322,21 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static JavaNumberFormatSpecifier copyInstance(
-			JavaNumberFormatSpecifier src )
+	public JavaNumberFormatSpecifier copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		JavaNumberFormatSpecifierImpl dest = new JavaNumberFormatSpecifierImpl( );
-
-		dest.pattern = src.getPattern( );
-		dest.multiplier = src.getMultiplier( );
-		dest.multiplierESet = src.isSetMultiplier( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( JavaNumberFormatSpecifier src )
+	{
+		super.set( src );
+
+		pattern = src.getPattern( );
+		multiplier = src.getMultiplier( );
+		multiplierESet = src.isSetMultiplier( );
 	}
 
 } // JavaNumberFormatSpecifierImpl

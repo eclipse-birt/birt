@@ -153,7 +153,7 @@ public class FontCanvas extends Canvas implements
 
 			String fontName = ChartUIUtil.getFontName( fdCurrent );
 			Text tx = TextImpl.create( fontName );
-			FontDefinition fd = FontDefinitionImpl.copyInstance( fdCurrent );
+			FontDefinition fd = fdCurrent.copyInstance( );
 			fd.setName( fontName );
 			if ( !fd.isSetSize( ) )
 			{
@@ -184,7 +184,7 @@ public class FontCanvas extends Canvas implements
 						cBack.getBlue( ) );
 				if ( cdCurrent != null && bUseColor )
 				{
-					cdFore = ColorDefinitionImpl.copyInstance( cdCurrent );
+					cdFore = cdCurrent.copyInstance( );
 				}
 				else
 				{

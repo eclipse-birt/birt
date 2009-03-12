@@ -15,10 +15,6 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
-import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 
 /**
  * A default implementaitn for IStyle.
@@ -77,23 +73,23 @@ public final class SimpleStyle implements IStyle
 		{
 			if ( src.getFont( ) != null )
 			{
-				setFont( FontDefinitionImpl.copyInstance( src.getFont( ) ) );
+				setFont( src.getFont( ).copyInstance( ) );
 			}
 			if ( src.getColor( ) != null )
 			{
-				setColor( ColorDefinitionImpl.copyInstance( src.getColor( ) ) );
+				setColor( src.getColor( ).copyInstance( ) );
 			}
 			if ( src.getBackgroundColor( ) != null )
 			{
-				setBackgroundColor( ColorDefinitionImpl.copyInstance( src.getBackgroundColor( ) ) );
+				setBackgroundColor( src.getBackgroundColor( ).copyInstance( ) );
 			}
 			if ( src.getBackgroundImage( ) != null )
 			{
-				setBackgroundImage( ImageImpl.copyInstance( src.getBackgroundImage( ) ) );
+				setBackgroundImage( src.getBackgroundImage( ).copyInstance( ) );
 			}
 			if ( src.getPadding( ) != null )
 			{
-				setPadding( InsetsImpl.copyInstance( src.getPadding( ) ) );
+				setPadding( src.getPadding( ).copyInstance( ) );
 			}
 		}
 	}
@@ -109,23 +105,23 @@ public final class SimpleStyle implements IStyle
 
 		if ( font != null )
 		{
-			ss.setFont( FontDefinitionImpl.copyInstance( font ) );
+			ss.setFont( font.copyInstance( ) );
 		}
 		if ( color != null )
 		{
-			ss.setColor( ColorDefinitionImpl.copyInstance( color ) );
+			ss.setColor( color.copyInstance( ) );
 		}
 		if ( backcolor != null )
 		{
-			ss.setBackgroundColor( ColorDefinitionImpl.copyInstance( backcolor ) );
+			ss.setBackgroundColor( backcolor.copyInstance( ) );
 		}
 		if ( backimage != null )
 		{
-			ss.setBackgroundImage( ImageImpl.copyInstance( backimage ) );
+			ss.setBackgroundImage( backimage.copyInstance( ) );
 		}
 		if ( padding != null )
 		{
-			ss.setPadding( InsetsImpl.copyInstance( padding ) );
+			ss.setPadding( padding.copyInstance( ) );
 		}
 
 		return ss;

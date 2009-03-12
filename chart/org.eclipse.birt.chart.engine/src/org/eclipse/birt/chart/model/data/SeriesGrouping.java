@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.model.data;
 
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
@@ -322,5 +321,11 @@ public interface SeriesGrouping extends EObject
 	 * @generated
 	 */
 	EList<String> getAggregateParameters( );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	SeriesGrouping copyInstance( );
 
 } // SeriesGrouping

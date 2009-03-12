@@ -298,24 +298,19 @@ public class RuleImpl extends EObjectImpl implements Rule
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
 	 */
-	public static Rule copyInstance( Rule src )
+	public Rule copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		RuleImpl dest = new RuleImpl( );
-
-		dest.type = src.getType( );
-		dest.typeESet = src.isSetType( );
-		dest.value = src.getValue( );
-
+		dest.set( this );
 		return dest;
+	}
+
+	protected void set( Rule src )
+	{
+		type = src.getType( );
+		typeESet = src.isSetType( );
+		value = src.getValue( );
 	}
 
 } //RuleImpl

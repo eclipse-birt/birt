@@ -613,4 +613,11 @@ public interface Chart extends EObject
 	 * Builds runtime series instances for each design-time series based on the sample data contained in the model
 	 */
 	void createSampleRuntimeSeries( );
+
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	Chart copyInstance( );
+
 } // Chart

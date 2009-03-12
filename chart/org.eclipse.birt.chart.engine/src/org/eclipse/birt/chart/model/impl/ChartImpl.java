@@ -32,20 +32,15 @@ import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
-import org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
-import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
-import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.impl.SampleDataImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
@@ -1493,7 +1488,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 		try
 		{
 			// Process Base SeriesDefinitions
-			Series seriesBaseRuntime = SeriesImpl.copyInstance( getBaseSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) );
+			Series seriesBaseRuntime = getBaseSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
+					.copyInstance( );
 
 			// Clear existing values from the dataset
 			seriesBaseRuntime.setDataSet( null );
@@ -1560,7 +1556,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 				// Create runtime series for SeriesDefinition index
 				sdTmp = (SeriesDefinition) vOSD.get( iSDIndex );
-				seriesOrthogonalRuntime = SeriesImpl.copyInstance( sdTmp.getDesignTimeSeries( ) );
+				seriesOrthogonalRuntime = sdTmp.getDesignTimeSeries( )
+						.copyInstance( );
 
 				// Clear existing values from the dataset
 				seriesOrthogonalRuntime.setDataSet( null );
@@ -1597,7 +1594,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 				if ( sdZ != null && sd.getAncillarySampleData( ).size( ) > 0 )
 				{
-					Series seriesZRuntime = SeriesImpl.copyInstance( sdZ.getDesignTimeSeries( ) );
+					Series seriesZRuntime = sdZ.getDesignTimeSeries( )
+							.copyInstance( );
 
 					seriesZRuntime.setDataSet( null );
 
@@ -1698,100 +1696,72 @@ public class ChartImpl extends EObjectImpl implements Chart
 		return vTmp;
 	}
 
-	private static Chart copyInstanceThis( Chart src )
+	/**
+	 * A convenient method to get an instance copy. This is much faster than the
+	 * ECoreUtil.copy().
+	 */
+	public Chart copyInstance( )
 	{
-		if ( src == null )
-		{
-			return null;
-		}
-
 		ChartImpl dest = new ChartImpl( );
+		dest.set( this );
+		return dest;
+	}
 
+	protected void set( Chart src )
+	{
 		if ( src.getDescription( ) != null )
 		{
-			dest.setDescription( TextImpl.copyInstance( src.getDescription( ) ) );
+			setDescription( src.getDescription( ).copyInstance( ) );
 		}
 
 		if ( src.getBlock( ) != null )
 		{
-			dest.setBlock( BlockImpl.copyInstance( src.getBlock( ) ) );
+			setBlock( src.getBlock( ).copyInstance( ) );
 		}
 
 		if ( src.getExtendedProperties( ) != null )
 		{
-			EList<ExtendedProperty> list = dest.getExtendedProperties( );
+			EList<ExtendedProperty> list = getExtendedProperties( );
 			for ( ExtendedProperty element : src.getExtendedProperties( ) )
 			{
-				list.add( ExtendedPropertyImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getSampleData( ) != null )
 		{
-			dest.setSampleData( SampleDataImpl.copyInstance( src.getSampleData( ) ) );
+			setSampleData( src.getSampleData( ).copyInstance( ) );
 		}
 
 		if ( src.getStyles( ) != null )
 		{
-			EList<StyleMap> list = dest.getStyles( );
+			EList<StyleMap> list = getStyles( );
 			for ( StyleMap element : src.getStyles( ) )
 			{
-				list.add( StyleMapImpl.copyInstance( element ) );
+				list.add( element.copyInstance( ) );
 			}
 		}
-
 		if ( src.getInteractivity( ) != null )
 		{
-			dest.setInteractivity( InteractivityImpl.copyInstance( src.getInteractivity( ) ) );
+			setInteractivity( src.getInteractivity( ).copyInstance( ) );
 		}
 
 		if ( src.getEmptyMessage( ) != null )
 		{
-			dest.setEmptyMessage( LabelImpl.copyInstance( src.getEmptyMessage( ) ) );
+			setEmptyMessage( src.getEmptyMessage( ).copyInstance( ) );
 		}
 
-		dest.version = src.getVersion( );
-		dest.versionESet = src.isSetVersion( );
-		dest.type = src.getType( );
-		dest.subType = src.getSubType( );
-		dest.dimension = src.getDimension( );
-		dest.dimensionESet = src.isSetDimension( );
-		dest.script = src.getScript( );
-		dest.units = src.getUnits( );
-		dest.seriesThickness = src.getSeriesThickness( );
-		dest.seriesThicknessESet = src.isSetSeriesThickness( );
-		dest.gridColumnCount = src.getGridColumnCount( );
-		dest.gridColumnCountESet = src.isSetGridColumnCount( );
-
-		return dest;
-	}
-
-	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
-	 * 
-	 * @param src
-	 * @return
-	 */
-	public static Chart copyInstance( Chart src )
-	{
-		if ( src == null )
-		{
-			return null;
-		}
-
-		if ( src instanceof ChartWithoutAxes )
-		{
-			return ChartWithoutAxesImpl.copyInstance( (ChartWithoutAxes) src );
-		}
-		else if ( src instanceof ChartWithAxes )
-		{
-			return ChartWithAxesImpl.copyInstance( (ChartWithAxes) src );
-		}
-		else
-		{
-			return copyInstanceThis( src );
-		}
+		version = src.getVersion( );
+		versionESet = src.isSetVersion( );
+		type = src.getType( );
+		subType = src.getSubType( );
+		dimension = src.getDimension( );
+		dimensionESet = src.isSetDimension( );
+		script = src.getScript( );
+		units = src.getUnits( );
+		seriesThickness = src.getSeriesThickness( );
+		seriesThicknessESet = src.isSetSeriesThickness( );
+		gridColumnCount = src.getGridColumnCount( );
+		gridColumnCountESet = src.isSetGridColumnCount( );
 	}
 
 } // ChartImpl

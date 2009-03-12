@@ -218,11 +218,11 @@ public final class MarkerRenderer
 			paletteEntry = ColorDefinitionImpl.create( 0, 0, 0, 15 );
 		}
 		final ColorDefinition cd = (ColorDefinition) paletteEntry;
-		final LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.copyInstance( cd ),
+		final LineAttributes lia = LineAttributesImpl.create( cd.copyInstance( ),
 				LineStyle.SOLID_LITERAL,
 				la.getThickness( ) );
 
-		final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+		final LineRenderEvent lre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 				LineRenderEvent.class );
 		final Line3DRenderEvent lre3d = bRendering3D ? (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				Line3DRenderEvent.class )
