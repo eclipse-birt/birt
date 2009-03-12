@@ -730,6 +730,10 @@ public class SVGInteractiveRenderer
 		{
 			sb.append( "\n" ); //$NON-NLS-1$
 			String url = uv.getBaseUrl( );
+			if ( !( url.startsWith( "\"" ) && url.endsWith( "\"" ) ) )//$NON-NLS-1$ //$NON-NLS-2$
+			{
+				url = "\"" + url + "\"";//$NON-NLS-1$ //$NON-NLS-2$
+			}
 			String text = uv.getLabel( ).getCaption( ).getValue( );
 			
 			sb.append( "    linkEntry = new Array(3);\n"); //$NON-NLS-1$
