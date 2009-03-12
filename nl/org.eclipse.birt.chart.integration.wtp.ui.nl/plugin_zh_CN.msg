@@ -1,4 +1,4 @@
-birt.web.category.name=业务智能和报告工具(&B)
+birt.web.category.name=商业智能及报表工具(&B)
 birt.web.project.name=具有图表运行时的 Web 项目
 birt.web.project.description=创建包含 BIRT 图表组件的 Web 项目
 birt.web.actionsets.description=对 BIRT 图表 Web 项目的操作

@@ -15,7 +15,7 @@
 ###############################################################################
 LibPerspective=Lib Design
 LibraryEditor=库编辑器
-WizardCategoryName=业务智能和报告工具
+WizardCategoryName=商业智能及报表工具
 LibraryWizard=库
 LibraryWizardDescription=此向导创建新库。
 LibraryProjectWizard=库项目

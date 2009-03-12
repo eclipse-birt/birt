@@ -1,4 +1,4 @@
-cheatsheet.category=业务智能和报告工具
+cheatsheet.category=商业智能及报表工具
 cheatsheet.simplelisting=简易列表报表
 cheatsheet.groupedlisting=分组列表报表
 cheatsheet.dualcolumnlisting=双列列表报表
