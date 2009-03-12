@@ -23,7 +23,7 @@ ReportDocumentEditor=报表文档编辑器
 LibraryEditor=库编辑器
 TemplateEditor=模板编辑器
 
-WizardCategoryName=业务智能和报告工具
+WizardCategoryName=商业智能及报表工具
 ReportWizard=报表
 ReportWizardDescription=此向导使用预定义模板创建新的 BIRT 报表。
 TemplateWizard=模板

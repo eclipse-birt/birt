@@ -21,7 +21,7 @@ ReportDocumentEditor=报表文档编辑器
 ###############################################################################
 # Wizard Info
 ###############################################################################
-WizardCategoryName=业务智能和报告工具
+WizardCategoryName=商业智能及报表工具
 ReportWizard=报表
 ReportWizardDescription=此向导使用预定义模板创建新报表。
 TemplateWizard=模板
