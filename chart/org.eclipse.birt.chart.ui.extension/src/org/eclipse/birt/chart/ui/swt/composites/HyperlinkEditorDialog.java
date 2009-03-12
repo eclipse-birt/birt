@@ -75,7 +75,7 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 			int optionalStyle )
 	{
 		super( shell );
-
+		this.setShellStyle( SWT.DIALOG_TRIM | SWT.RESIZE  );
 		fURLValue = urlValue;
 		fContext = context;
 		fTriggerMatrix = triggerMatrix;
@@ -145,6 +145,7 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 
 		fTxtHyperlinkLabel = new Text( parent, SWT.BORDER );
 		GridData gdTXTTarget = new GridData( GridData.FILL_HORIZONTAL );
+		gdTXTTarget.widthHint = 80;
 		fTxtHyperlinkLabel.setLayoutData( gdTXTTarget );
 
 		AssistField af = new TextAssistField( fTxtHyperlinkLabel, null ) {
@@ -154,7 +155,7 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 			public boolean isValid()
 			{
 				String text = fTxtHyperlinkLabel.getText( );
-				if ( text == null || "".equals( text ) ){//$NON-NLS-1$
+				if ( text == null || "".equals( text.trim( ) ) ){//$NON-NLS-1$
 					return false;
 				}
 				

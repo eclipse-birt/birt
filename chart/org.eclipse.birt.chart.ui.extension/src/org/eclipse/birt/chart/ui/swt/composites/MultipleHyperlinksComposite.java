@@ -82,6 +82,7 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 
 		placeComponents( );
 		initListeners( );
+		updateButtonStatus( );
 	}
 
 	public void populateUIValues( MultiURLValues urlValues )
@@ -133,11 +134,12 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 		gl.numColumns = 3;
 		group.setLayout( gl );
 
-		fListHyperlinks = new List( group, SWT.V_SCROLL
+		fListHyperlinks = new List( group, SWT.V_SCROLL | SWT.H_SCROLL
 				| SWT.SINGLE
 				| SWT.BORDER );
 		gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 80;
+		gd.widthHint = 100;
 		gd.horizontalSpan = 3;
 		fListHyperlinks.setLayoutData( gd );
 
@@ -218,7 +220,7 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 		fBtnDelete.setEnabled( enabled );
 		fBtnUp.setEnabled( enabled && index > 0 );
 		fBtnDown.setEnabled( enabled && index < ( fListHyperlinks.getItemCount( ) - 1) );
-		fBtnProperties.setEnabled( fMultiURLValues.getURLValues( ).size( ) > 1 );
+		fBtnProperties.setEnabled( fMultiURLValues != null && fMultiURLValues.getURLValues( ).size( ) > 1 );
 	}
 
 	private void doAdd( )

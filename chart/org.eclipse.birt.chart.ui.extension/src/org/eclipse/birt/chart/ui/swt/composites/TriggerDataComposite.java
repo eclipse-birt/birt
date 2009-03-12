@@ -836,10 +836,10 @@ public class TriggerDataComposite extends Composite
 		switch ( getTriggerIndex( ) )
 		{
 			case INDEX_1_URL_REDIRECT :
+				this.slValues.topControl = multiHyperlinksComposite;
 				ActionValue value = trigger.getAction( ).getValue( );
 				if ( value instanceof MultiURLValues )
 				{
-					this.slValues.topControl = multiHyperlinksComposite;
 					MultiURLValues urlValues = (MultiURLValues) trigger.getAction( ).getValue( );
 					multiHyperlinksComposite.populateUIValues( urlValues );
 				}
@@ -997,15 +997,15 @@ public class TriggerDataComposite extends Composite
 		{
 			case INDEX_1_URL_REDIRECT :
 				Trigger trigger = (Trigger) triggersMap.get( cmbTriggerType.getText( ) );
-				if ( trigger == null || trigger.getAction( ) == null )
+				if ( trigger == null || !( trigger.getAction( ).getValue( ) instanceof MultiURLValues ) )
 				{
 					multiHyperlinksComposite.populateUIValues( MultiURLValuesImpl.create( ) );
-					this.slValues.topControl = multiHyperlinksComposite;
 				}
 				else
 				{
-					this.slValues.topControl = cmpURL;
+					multiHyperlinksComposite.populateUIValues( (MultiURLValues) trigger.getAction( ).getValue( ) );
 				}
+				this.slValues.topControl = multiHyperlinksComposite;
 				break;
 			case INDEX_2_TOOLTIP :
 				this.slValues.topControl = cmpTooltip;
