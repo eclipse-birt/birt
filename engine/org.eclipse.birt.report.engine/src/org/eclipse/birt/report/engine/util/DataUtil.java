@@ -11,7 +11,7 @@ public class DataUtil
 			throws BirtException
 	{
 		T value = null;
-		if ( type.isAssignableFrom( tempValue.getClass( ) ) )
+		if ( tempValue == null || type.isAssignableFrom( tempValue.getClass( ) ) )
 		{
 			value = (T) tempValue;
 		}
