@@ -126,6 +126,15 @@
                   value="org.eclipse.birt.report.designer.ui.editors.reportlibrary">
             </objectState>
          </and>
+             <and>
+                <objectClass
+                      name="org.eclipse.core.resources.IFile">
+                </objectClass>
+                <objectState
+                      name="extension"
+                      value="rptdocument">
+                </objectState>
+             </and>
 	 	   </or>
 		 </visibility>		
 	   </viewerContribution>
