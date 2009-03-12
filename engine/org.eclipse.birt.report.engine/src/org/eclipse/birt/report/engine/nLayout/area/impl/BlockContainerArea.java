@@ -177,6 +177,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 			}
 			maxAvaWidth = getContentWidth( );
 		}
+		textAlign = content.getComputedStyle( ).getProperty( IStyle.STYLE_TEXT_ALIGN );
 		this.bookmark = content.getBookmark( );
 		this.action = content.getHyperlinkAction( );
 		parent.add( this );

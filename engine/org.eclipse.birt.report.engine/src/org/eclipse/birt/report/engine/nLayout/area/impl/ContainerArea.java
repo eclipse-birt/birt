@@ -762,7 +762,7 @@ public abstract class ContainerArea extends AbstractArea
 							maw ) ) );
 		}
 		
-		textAlign = style.getProperty( IStyle.STYLE_TEXT_ALIGN );
+
 		action = content.getHyperlinkAction( );
 		bookmark = content.getBookmark( );
 	}

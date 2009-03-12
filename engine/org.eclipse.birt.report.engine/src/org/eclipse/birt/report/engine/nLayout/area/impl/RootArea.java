@@ -105,14 +105,15 @@ public class RootArea extends BlockContainerArea
 	protected IPageContent createPageContent( IPageContent pageContent,
 			long pageNumber, long totalPageNumber )
 	{
-		return (IPageContent) cloneContent( pageContent, pageNumber,
+		return (IPageContent) cloneContent( (IContent)pageContent.getParent( ), pageContent, pageNumber,
 				totalPageNumber );
 	}
 
-	protected IContent cloneContent( IContent content, long pageNumber,
+	protected IContent cloneContent( IContent parent, IContent content, long pageNumber,
 			long totalPageNumber )
 	{
 		IContent newContent = content.cloneContent( false );
+		newContent.setParent( parent );
 		if ( newContent.getContentType( ) == IContent.AUTOTEXT_CONTENT )
 		{
 			IAutoTextContent autoText = (IAutoTextContent) newContent;
@@ -129,7 +130,7 @@ public class RootArea extends BlockContainerArea
 		while ( iter.hasNext( ) )
 		{
 			IContent child = (IContent) iter.next( );
-			IContent newChild = cloneContent( child, pageNumber,
+			IContent newChild = cloneContent( newContent, child, pageNumber,
 					totalPageNumber );
 			newChild.setParent( newContent );
 			newContent.getChildren( ).add( newChild );

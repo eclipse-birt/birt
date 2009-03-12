@@ -36,6 +36,11 @@ public class DOMReportItemExecutor extends ReportItemExecutorBase
 	{
 		this.content = content;
 	}
+	
+	public IContent getContent()
+	{
+		return this.content;
+	}
 
 	public void close( )
 	{
