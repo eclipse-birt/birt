@@ -11,13 +11,15 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 
 /**
  * Test case for StringPropertyType.
  * 
  */
-public class StringPropertyTypeTest extends PropertyTypeTestCase
+public class StringPropertyTypeTest extends TextualPropertyTypeTestCase
 {
 
 	StringPropertyType type = new StringPropertyType( );
@@ -149,6 +151,9 @@ public class StringPropertyTypeTest extends PropertyTypeTestCase
 	{
 		assertEquals(
 				"any-input", type.toString( design, propDefn, "any-input" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		Expression expression = new Expression(
+				"test1", ExpressionType.JAVASCRIPT ); //$NON-NLS-1$ 
+		assertEquals( "test1", type.toString( design, propDefn, expression ) ); //$NON-NLS-1$
 	}
 
 	/*

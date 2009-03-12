@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Module;
 
@@ -85,6 +86,10 @@ public abstract class TextualPropertyType extends PropertyType
 
 	public String toString( Module module, PropertyDefn defn, Object value )
 	{
+		if ( value instanceof Expression )
+		{
+			return ( (Expression) value ).toString( );
+		}
 		return (String) value;
 	}
 
