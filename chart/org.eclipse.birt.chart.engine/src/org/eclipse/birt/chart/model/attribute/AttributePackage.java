@@ -1416,12 +1416,21 @@ public interface AttributePackage extends EPackage
 	int MARKER__ICON_PALETTE = 4;
 
 	/**
+	 * The feature id for the '<em><b>Outline</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER__OUTLINE = 5;
+
+	/**
 	 * The number of structural features of the '<em>Marker</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER_FEATURE_COUNT = 5;
+	int MARKER_FEATURE_COUNT = 6;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -3617,6 +3626,17 @@ public interface AttributePackage extends EPackage
 	EReference getMarker_IconPalette( );
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.attribute.Marker#getOutline <em>Outline</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Outline</em>'.
+	 * @see org.eclipse.birt.chart.model.attribute.Marker#getOutline()
+	 * @see #getMarker()
+	 * @generated
+	 */
+	EReference getMarker_Outline( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.MultipleFill <em>Multiple Fill</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5801,6 +5821,14 @@ public interface AttributePackage extends EPackage
 		 * @generated
 		 */
 		EReference MARKER__ICON_PALETTE = eINSTANCE.getMarker_IconPalette( );
+
+		/**
+		 * The meta object literal for the '<em><b>Outline</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MARKER__OUTLINE = eINSTANCE.getMarker_Outline( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.attribute.impl.MultipleFillImpl <em>Multiple Fill</em>}' class.

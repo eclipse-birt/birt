@@ -538,9 +538,7 @@ public class AttributeValidator extends EObjectValidator
 						diagnostics,
 						context );
 			case AttributePackage.PERCENTAGE :
-				return validatePercentage( ( (Double) value ).doubleValue( ),
-						diagnostics,
-						context );
+				return validatePercentage( (Double) value, diagnostics, context );
 			case AttributePackage.PERCENTAGE_OBJECT :
 				return validatePercentageObject( (Double) value,
 						diagnostics,
@@ -550,9 +548,7 @@ public class AttributeValidator extends EObjectValidator
 						diagnostics,
 						context );
 			case AttributePackage.RGB_VALUE :
-				return validateRGBValue( ( (Integer) value ).intValue( ),
-						diagnostics,
-						context );
+				return validateRGBValue( (Integer) value, diagnostics, context );
 			case AttributePackage.RGB_VALUE_OBJECT :
 				return validateRGBValueObject( (Integer) value,
 						diagnostics,
@@ -1803,8 +1799,8 @@ public class AttributeValidator extends EObjectValidator
 		boolean result = percentage >= PERCENTAGE__MIN__VALUE;
 		if ( !result && diagnostics != null )
 			reportMinViolation( AttributePackage.Literals.PERCENTAGE,
-					new Double( percentage ),
-					new Double( PERCENTAGE__MIN__VALUE ),
+					percentage,
+					PERCENTAGE__MIN__VALUE,
 					true,
 					diagnostics,
 					context );
@@ -1830,8 +1826,8 @@ public class AttributeValidator extends EObjectValidator
 		boolean result = percentage <= PERCENTAGE__MAX__VALUE;
 		if ( !result && diagnostics != null )
 			reportMaxViolation( AttributePackage.Literals.PERCENTAGE,
-					new Double( percentage ),
-					new Double( PERCENTAGE__MAX__VALUE ),
+					percentage,
+					PERCENTAGE__MAX__VALUE,
 					true,
 					diagnostics,
 					context );
@@ -1845,11 +1841,11 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validatePercentageObject( Double percentageObject,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		boolean result = validatePercentage_Min( percentageObject.doubleValue( ),
+		boolean result = validatePercentage_Min( percentageObject,
 				diagnostics,
 				context );
 		if ( result || diagnostics != null )
-			result &= validatePercentage_Max( percentageObject.doubleValue( ),
+			result &= validatePercentage_Max( percentageObject,
 					diagnostics,
 					context );
 		return result;
@@ -1897,8 +1893,8 @@ public class AttributeValidator extends EObjectValidator
 		boolean result = rgbValue >= RGB_VALUE__MIN__VALUE;
 		if ( !result && diagnostics != null )
 			reportMinViolation( AttributePackage.Literals.RGB_VALUE,
-					new Integer( rgbValue ),
-					new Integer( RGB_VALUE__MIN__VALUE ),
+					rgbValue,
+					RGB_VALUE__MIN__VALUE,
 					true,
 					diagnostics,
 					context );
@@ -1924,8 +1920,8 @@ public class AttributeValidator extends EObjectValidator
 		boolean result = rgbValue <= RGB_VALUE__MAX__VALUE;
 		if ( !result && diagnostics != null )
 			reportMaxViolation( AttributePackage.Literals.RGB_VALUE,
-					new Integer( rgbValue ),
-					new Integer( RGB_VALUE__MAX__VALUE ),
+					rgbValue,
+					RGB_VALUE__MAX__VALUE,
 					true,
 					diagnostics,
 					context );
@@ -1939,11 +1935,11 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateRGBValueObject( Integer rgbValueObject,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		boolean result = validateRGBValue_Min( rgbValueObject.intValue( ),
+		boolean result = validateRGBValue_Min( rgbValueObject,
 				diagnostics,
 				context );
 		if ( result || diagnostics != null )
-			result &= validateRGBValue_Max( rgbValueObject.intValue( ),
+			result &= validateRGBValue_Max( rgbValueObject,
 					diagnostics,
 					context );
 		return result;

@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getFill <em>Fill</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getIconPalette <em>Icon Palette</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getOutline <em>Outline</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,7 +49,7 @@ public interface Marker extends EObject
 	 * <!-- begin-user-doc --> Gets the type of marker. <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					Specifies the type of marker.
+	 * 						Specifies the type of marker.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Type</em>' attribute.
@@ -255,5 +256,31 @@ public interface Marker extends EObject
 	 *             maintain compatibility with old models.
 	 */
 	void setIconPalette( Palette value );
+
+	/**
+	 * Returns the value of the '<em><b>Outline</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The element is used for outline of marker.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Outline</em>' containment reference.
+	 * @see #setOutline(LineAttributes)
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMarker_Outline()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='Outline'"
+	 * @generated
+	 */
+	LineAttributes getOutline( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getOutline <em>Outline</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Outline</em>' containment reference.
+	 * @see #getOutline()
+	 * @generated
+	 */
+	void setOutline( LineAttributes value );
 
 } // Marker

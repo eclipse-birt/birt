@@ -1965,6 +1965,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getMarker_Outline( )
+	{
+		return (EReference) markerEClass.getEStructuralFeatures( ).get( 5 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getMultipleFill( )
 	{
 		return multipleFillEClass;
@@ -3299,6 +3309,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( markerEClass, MARKER__VISIBLE );
 		createEReference( markerEClass, MARKER__FILL );
 		createEReference( markerEClass, MARKER__ICON_PALETTE );
+		createEReference( markerEClass, MARKER__OUTLINE );
 
 		multipleFillEClass = createEClass( MULTIPLE_FILL );
 		createEReference( multipleFillEClass, MULTIPLE_FILL__FILLS );
@@ -3859,6 +3870,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 				this.getPalette( ),
 				null,
 				"iconPalette", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getMarker_Outline( ),
+				this.getLineAttributes( ),
+				null,
+				"outline", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( multipleFillEClass,
 				MultipleFill.class,
@@ -5107,6 +5122,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( getMarker_IconPalette( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "IconPalette" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getMarker_Outline( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Outline" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( markerTypeEEnum, source, new String[]{
 				"name", "MarkerType" //$NON-NLS-1$ //$NON-NLS-2$

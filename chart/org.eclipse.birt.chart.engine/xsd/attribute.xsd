@@ -1364,37 +1364,51 @@ Specifies the fixed length of the denominator when in imprecise mode.</xsd:docum
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Type" type="MarkerType" default="Crosshair">
+			<xsd:element name="Type" type="MarkerType"
+				default="Crosshair">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the type of marker.
+						Specifies the type of marker.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Size" type="xsd:int">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the size of the marker in the chart (as a percentage).
+						Specifies the size of the marker in the chart
+						(as a percentage).
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Visible" type="xsd:boolean">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies whether the marker is to be rendered.
+						Specifies whether the marker is to be rendered.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Fill" type="Fill" minOccurs="0">
 				<xsd:annotation>
-					<xsd:documentation>Specifies the fill for the marker.</xsd:documentation>
+					<xsd:documentation>
+						Specifies the fill for the marker.
+					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="IconPalette" type="Palette" minOccurs="0">
+			<xsd:element name="IconPalette" type="Palette"
+				minOccurs="0">
 				<xsd:annotation>
-					<xsd:documentation>Deprecated. Use Fill property instead.  This is kept just to maintain compatibility with old models.</xsd:documentation>
+					<xsd:documentation>
+						Deprecated. Use Fill property instead. This is
+						kept just to maintain compatibility with old
+						models.
+					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+
+			<xsd:element name="Outline" type="LineAttributes" maxOccurs="1" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The element is used for outline of marker.</xsd:documentation>
+				</xsd:annotation></xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="DataPoint">

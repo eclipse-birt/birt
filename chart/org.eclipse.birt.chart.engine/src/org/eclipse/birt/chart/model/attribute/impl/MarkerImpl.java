@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.attribute.impl;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Palette;
@@ -35,6 +36,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#isVisible <em>Visible</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getFill <em>Fill</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getIconPalette <em>Icon Palette</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getOutline <em>Outline</em>}</li>
  * </ul>
  * </p>
  *
@@ -143,6 +145,16 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * @ordered
 	 */
 	protected Palette iconPalette;
+
+	/**
+	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOutline()
+	 * @generated
+	 * @ordered
+	 */
+	protected LineAttributes outline;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -471,6 +483,75 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public LineAttributes getOutline( )
+	{
+		return outline;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetOutline( LineAttributes newOutline,
+			NotificationChain msgs )
+	{
+		LineAttributes oldOutline = outline;
+		outline = newOutline;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					AttributePackage.MARKER__OUTLINE,
+					oldOutline,
+					newOutline );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOutline( LineAttributes newOutline )
+	{
+		if ( newOutline != outline )
+		{
+			NotificationChain msgs = null;
+			if ( outline != null )
+				msgs = ( (InternalEObject) outline ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE
+								- AttributePackage.MARKER__OUTLINE,
+						null,
+						msgs );
+			if ( newOutline != null )
+				msgs = ( (InternalEObject) newOutline ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE
+								- AttributePackage.MARKER__OUTLINE,
+						null,
+						msgs );
+			msgs = basicSetOutline( newOutline, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					AttributePackage.MARKER__OUTLINE,
+					newOutline,
+					newOutline ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
@@ -481,6 +562,8 @@ public class MarkerImpl extends EObjectImpl implements Marker
 				return basicSetFill( null, msgs );
 			case AttributePackage.MARKER__ICON_PALETTE :
 				return basicSetIconPalette( null, msgs );
+			case AttributePackage.MARKER__OUTLINE :
+				return basicSetOutline( null, msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
@@ -498,13 +581,15 @@ public class MarkerImpl extends EObjectImpl implements Marker
 			case AttributePackage.MARKER__TYPE :
 				return getType( );
 			case AttributePackage.MARKER__SIZE :
-				return new Integer( getSize( ) );
+				return getSize( );
 			case AttributePackage.MARKER__VISIBLE :
-				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isVisible( );
 			case AttributePackage.MARKER__FILL :
 				return getFill( );
 			case AttributePackage.MARKER__ICON_PALETTE :
 				return getIconPalette( );
+			case AttributePackage.MARKER__OUTLINE :
+				return getOutline( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -523,16 +608,19 @@ public class MarkerImpl extends EObjectImpl implements Marker
 				setType( (MarkerType) newValue );
 				return;
 			case AttributePackage.MARKER__SIZE :
-				setSize( ( (Integer) newValue ).intValue( ) );
+				setSize( (Integer) newValue );
 				return;
 			case AttributePackage.MARKER__VISIBLE :
-				setVisible( ( (Boolean) newValue ).booleanValue( ) );
+				setVisible( (Boolean) newValue );
 				return;
 			case AttributePackage.MARKER__FILL :
 				setFill( (Fill) newValue );
 				return;
 			case AttributePackage.MARKER__ICON_PALETTE :
 				setIconPalette( (Palette) newValue );
+				return;
+			case AttributePackage.MARKER__OUTLINE :
+				setOutline( (LineAttributes) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -563,6 +651,9 @@ public class MarkerImpl extends EObjectImpl implements Marker
 			case AttributePackage.MARKER__ICON_PALETTE :
 				setIconPalette( (Palette) null );
 				return;
+			case AttributePackage.MARKER__OUTLINE :
+				setOutline( (LineAttributes) null );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -587,6 +678,8 @@ public class MarkerImpl extends EObjectImpl implements Marker
 				return fill != null;
 			case AttributePackage.MARKER__ICON_PALETTE :
 				return iconPalette != null;
+			case AttributePackage.MARKER__OUTLINE :
+				return outline != null;
 		}
 		return super.eIsSet( featureID );
 	}
