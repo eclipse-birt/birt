@@ -127,18 +127,7 @@ public class TextItemState extends ReportItemState
 			}
 		}
 
-		if ( handler.versionNumber < VersionUtil.VERSION_3_2_19 )
-		{
-			// for old design file, if hasExpression is not set and content is
-			// set, the default value is TURE
-			Object hasExpression = element.getLocalProperty( handler.module,
-					ITextItemModel.HAS_EXPRESSION_PROP );
-			Object content = element.getLocalProperty( handler.module,
-					ITextItemModel.CONTENT_PROP );
-			if ( hasExpression == null && content != null )
-				element.setProperty( ITextItemModel.HAS_EXPRESSION_PROP,
-						Boolean.TRUE );
-		}
+
 	}
 
 	/**
