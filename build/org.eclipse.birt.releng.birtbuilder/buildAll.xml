@@ -173,8 +173,6 @@
 
 		<echo message="Packaging finished"/>
 		
-		<!-- verify compile result -->
-		<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
 
 	</target>
 
@@ -469,7 +467,10 @@
 		<exec executable="zip" dir="${wtptmpsite}/new">
 			<arg line="-q ${postingDirectory}/birt-wtp-integration-sdk-${package.version}.zip -r eclipse" />
 		</exec>
-				
+		
+		<!-- verify compile result -->
+		<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
+
 	</target>
 	
 	<target name="buildBirtThirdPartyFeature">
