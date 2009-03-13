@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.script.instance;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +49,7 @@ import org.eclipse.birt.report.engine.script.internal.instance.ImageInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.LabelInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.ListInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.RowInstance;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.engine.script.internal.instance.StyleInstance;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
@@ -217,7 +220,7 @@ public class InstanceTest extends TestCase {
 		Map expressionMap = new HashMap();
 		expressionMap.put(EXPRESSION, EXPRESSION_VALUE);
 		//IRowData rowData = new FakeRowData(expressionMap);
-		ICellInstance cell = new CellInstance(cellContent,  null, false);
+		ICellInstance cell = new CellInstance( cellContent, null, null, false );
 
 		cell.setColSpan(COL_SPAN);
 		assertEquals(COL_SPAN, cell.getColSpan());
@@ -232,7 +235,8 @@ public class InstanceTest extends TestCase {
 		DataItemHandle dataHandle = factory.newDataItem("DataItem");
 		dataItemDesign.setHandle(dataHandle);
 		dataItemContent.setGenerateBy(dataItemDesign);
-		IDataItemInstance dataItem = new DataItemInstance(dataItemContent, null);
+		IDataItemInstance dataItem = new DataItemInstance( dataItemContent,
+				null, null );
 
 		doTestReportElementInstance(dataItem);
 	}
@@ -294,7 +298,7 @@ public class InstanceTest extends TestCase {
 				.createForeignContent();
 		foreignContent.setRawType(IForeignContent.TEXT_TYPE);
 		IDynamicTextInstance textInstance = new DynamicTextInstance(
-				foreignContent, null);
+				foreignContent, null, null );
 
 		textInstance.setText(DYNAMIC_TEXT);
 		assertEquals(DYNAMIC_TEXT, textInstance.getText());
@@ -303,7 +307,7 @@ public class InstanceTest extends TestCase {
 	public void testGridInstance() throws ScriptException {
 		TableContent content = (TableContent) reportContent
 				.createTableContent();
-		new GridInstance(content, null);
+		new GridInstance( content, null, null );
 
 		// No methods to test....
 	}
@@ -311,7 +315,8 @@ public class InstanceTest extends TestCase {
 	public void testImageInstance() throws ScriptException {
 		ImageContent imageContent = (ImageContent) reportContent
 				.createImageContent();
-		IImageInstance imageInstance = new ImageInstance(imageContent, null);
+		IImageInstance imageInstance = new ImageInstance( imageContent, null,
+				null );
 
 		imageInstance.setAltText(ALT_TEXT);
 		assertEquals(ALT_TEXT, imageInstance.getAltText());
@@ -341,7 +346,8 @@ public class InstanceTest extends TestCase {
 	public void testLabelInstance() throws ScriptException {
 		LabelContent labelContent = (LabelContent) reportContent
 				.createLabelContent();
-		ILabelInstance labelInstance = new LabelInstance(labelContent, null);
+		ILabelInstance labelInstance = new LabelInstance( labelContent, null,
+				null );
 
 		labelInstance.setText(LABEL_TEXT);
 		assertEquals(LABEL_TEXT, labelInstance.getText());
@@ -350,7 +356,7 @@ public class InstanceTest extends TestCase {
 	public void testListInstance() throws ScriptException {
 		ListContent listContent = (ListContent) reportContent
 				.createListContent();
-		new ListInstance(listContent, null);
+		new ListInstance( listContent, null, null );
 
 		// no methods to test...
 	}
@@ -359,7 +365,7 @@ public class InstanceTest extends TestCase {
 		RowContent rowContent = (RowContent) reportContent.createRowContent();
 		Map expressionMap = new HashMap();
 		expressionMap.put(EXPRESSION, EXPRESSION_VALUE);
-		IRowInstance rowInstance = new RowInstance(rowContent, null);
+		IRowInstance rowInstance = new RowInstance( rowContent, null, null );
 
 		rowInstance.setBookmark(BOOKMARK);
 		assertEquals(BOOKMARK, rowInstance.getBookmarkValue());
@@ -372,7 +378,7 @@ public class InstanceTest extends TestCase {
 
 	public void testScriptStyle() throws ScriptException {
 		IStyle style = reportContent.createStyle();
-		IScriptStyle styleInstance = new StyleInstance(style);
+		IScriptStyle styleInstance = new StyleInstance( style, null );
 
 		styleInstance
 				.setBackgroundAttachment(DesignChoiceConstants.BACKGROUND_ATTACHMENT_SCROLL);
@@ -573,6 +579,48 @@ public class InstanceTest extends TestCase {
 
 		styleInstance.setWordSpacing(WORD_SPACING);
 		assertEquals(WORD_SPACING, styleInstance.getWordSpacing());
+	}
+
+	public void testPageBreak( ) throws Throwable
+	{
+		IStyle style = reportContent.createStyle( );
+		StyleInstance styleInstance = new StyleInstance( style,
+				RunningState.CREATE );
+		styleInstance.setPageBreakAfter( "always" );
+		styleInstance.setPageBreakBefore( "always" );
+		styleInstance.setPageBreakInside( "always" );
+
+		styleInstance = new StyleInstance( style, RunningState.RENDER );
+		testMethod( styleInstance, "setPageBreakAfter" );
+		testMethod( styleInstance, "setPageBreakBefore" );
+		testMethod( styleInstance, "setPageBreakInside" );
+
+		styleInstance = new StyleInstance( style, RunningState.PAGEBREAK );
+		testMethod( styleInstance, "setPageBreakAfter" );
+		testMethod( styleInstance, "setPageBreakBefore" );
+		testMethod( styleInstance, "setPageBreakInside" );
+	}
+
+	private void testMethod( StyleInstance styleInstance, String methodName )
+			throws Throwable
+	{
+		try
+		{
+			Method method = StyleInstance.class.getMethod( methodName,
+					String.class );
+			method.invoke( styleInstance, "always" );
+			fail( );
+		}
+		catch ( InvocationTargetException expected )
+		{
+			Throwable targetException = expected.getTargetException( );
+			if ( targetException instanceof IllegalStateException )
+			{
+				assertTrue( true );
+				return;
+			}
+			throw targetException;
+		}
 	}
 
 	private abstract class FakeBaseData {
