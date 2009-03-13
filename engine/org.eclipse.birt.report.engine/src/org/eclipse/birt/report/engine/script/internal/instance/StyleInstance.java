@@ -940,12 +940,12 @@ public class StyleInstance implements IScriptStyle
 	{
 		if ( runningState == RunningState.RENDER )
 		{
-			throw new IllegalStateException(
+			throw new UnsupportedOperationException(
 					"Page break can't be set at render time." );
 		}
 		if ( runningState == RunningState.PAGEBREAK )
 		{
-			throw new IllegalStateException(
+			throw new UnsupportedOperationException(
 					"Page break can't be set on page break." );
 		}
 	}

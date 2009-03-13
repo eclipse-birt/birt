@@ -614,7 +614,7 @@ public class InstanceTest extends TestCase {
 		catch ( InvocationTargetException expected )
 		{
 			Throwable targetException = expected.getTargetException( );
-			if ( targetException instanceof IllegalStateException )
+			if ( targetException instanceof UnsupportedOperationException )
 			{
 				assertTrue( true );
 				return;
