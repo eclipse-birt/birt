@@ -49,6 +49,14 @@ public class BackgroundImageInfo
 		this.yOffset = yOffset;
 	}
 	
+	public BackgroundImageInfo(BackgroundImageInfo bgi)
+	{
+		this.url = bgi.url;
+		this.repeatedMode = bgi.repeatedMode;
+		this.xOffset = bgi.xOffset;
+		this.yOffset = bgi.yOffset;
+	}
+	
 	public BackgroundImageInfo(String url,  CSSValue mode, int xOffset,  int yOffset)
 	{
 		this(url, repeatMap.get( mode), xOffset, yOffset);

@@ -23,6 +23,7 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 
 
 public class DummyCell extends CellArea
@@ -42,6 +43,11 @@ public class DummyCell extends CellArea
 	public DummyCell(CellArea cell)
 	{
 		this.cell = cell;
+	}
+	
+	public BoxStyle getBoxStyle()
+	{
+		return cell.getBoxStyle( );
 	}
 	
 	public IContent getContent()

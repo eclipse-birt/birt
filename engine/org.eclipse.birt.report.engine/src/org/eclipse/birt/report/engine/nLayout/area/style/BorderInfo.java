@@ -94,6 +94,13 @@ public class BorderInfo
 		this.width = width;
 	}
 	
+	public BorderInfo(BorderInfo border)
+	{
+		this.color = border.color;
+		this.style = border.style;
+		this.width = border.width;
+	}
+	
 	public BorderInfo(CSSValue color, CSSValue style, CSSValue width)
 	{
 		this(PropertyUtil.getColor( color ), styleMap.get( style ), PropertyUtil.getDimensionValue( width ));

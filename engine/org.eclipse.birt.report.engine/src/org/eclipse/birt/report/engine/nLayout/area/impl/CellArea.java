@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
+import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -234,6 +235,13 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 	public boolean isPageBreakInsideAvoid( )
 	{
 		return false;
+	}
+	
+	public CellArea deepClone( )
+	{
+		CellArea cell = (CellArea) super.deepClone( );
+		cell.setBoxStyle( new BoxStyle( cell.getBoxStyle( ) ) );
+		return cell;
 	}
 
 

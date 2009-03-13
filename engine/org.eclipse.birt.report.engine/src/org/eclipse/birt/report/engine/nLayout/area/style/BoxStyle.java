@@ -36,7 +36,37 @@ public class BoxStyle
 	{
 		return backgroundColor;
 	}
+	
+	public BoxStyle()
+	{
+		
+	}
 
+	public BoxStyle( BoxStyle bs )
+	{
+		this.backgroundColor = bs.backgroundColor;
+		if ( bs.topBorder != null )
+		{
+			this.topBorder = new BorderInfo( bs.topBorder );
+		}
+		if ( bs.leftBorder != null )
+		{
+			this.leftBorder = new BorderInfo( bs.leftBorder );
+		}
+		if ( bs.rightBorder != null )
+		{
+			this.rightBorder = new BorderInfo( bs.rightBorder );
+		}
+		if ( bs.bottomBorder != null )
+		{
+			this.bottomBorder = new BorderInfo( bs.bottomBorder );
+		}
+		if ( bs.backgroundImage != null )
+		{
+			this.backgroundImage = new BackgroundImageInfo( bs.backgroundImage );
+		}
+	}
+	
 	public BackgroundImageInfo getBackgroundImage( )
 	{
 		return backgroundImage;
