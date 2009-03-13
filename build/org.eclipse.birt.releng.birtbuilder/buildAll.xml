@@ -55,14 +55,16 @@
 				<antcall target="CreateUpdateSite"/>
 				<antcall target="iPortalSetup"/>			
 			</sequential>
-			<sequential>               
+			<sequential>
+				<!--
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
-				<antcall target="generateJavaDoc"/>        
+				<antcall target="generateJavaDoc"/>   
+				-->     
 			</sequential>
 		</parallel>
 
-		<antcall target="runBirtTest"/>
+		<!-- <antcall target="runBirtTest"/> -->
 		<!--
         <antcall target="runBirtPerformance"/>
 		-->
@@ -127,21 +129,22 @@
 		
 		<!-- copy runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp_${org.eclipse.birt.integration.wtp}/runtime -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createWebViewerExample">
-			<property name="OutputDir" value="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/runtime" />
+			<property name="OutputDir" value="${buildDirectory}/plugins/org.eclipse.birt.integration.wtp.ui/runtime" />
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
 			
 		<!-- copy chart runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createChartViewer">
-			<property name="runtime.tmp" value="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime" />
+			<property name="runtime.tmp" value="${buildDirectory}/plugins/org.eclipse.birt.chart.integration.wtp.ui/runtime" />
 		</ant>
 		<!-- fix bugzilla bug 225500 -->
 
-		<property name="temp.dir" value="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime"/>
+		<property name="temp.dir" value="${buildDirectory}/plugins/org.eclipse.birt.chart.integration.wtp.ui/runtime"/>
 		<mkdir dir="${temp.dir}/chart-viewer-sample"/>
 		<exec executable="unzip" dir="${temp.dir}/">
-                        <arg line="-q chart-viewer-sample.war -d ${temp.dir}/chart-viewer-sample" />
-                </exec>
+            <arg line="-q chart-viewer-sample.war -d ${temp.dir}/chart-viewer-sample" />
+        </exec>
+		
 		<delete file="${temp.dir}/chart-viewer-sample.war" failonerror="false"/>
 		<delete file="${temp.dir}/chart-viewer-sample/WEB-INF/web.xml" failonerror="false"/>
 		<!--
@@ -149,10 +152,10 @@
                         <arg line="-q ${temp.dir}/chart.zip -r *.* WEB-INF/ META-INF/" />
                 </exec>
 		-->
-                <exec executable="/bin/sh" dir="${temp.dir}/chart-viewer-sample">
-                    <arg value="-c"/>
-                    <arg value="zip -r -q ${temp.dir}/chart.zip *" />
-                </exec>
+        <exec executable="/bin/sh" dir="${temp.dir}/chart-viewer-sample">
+            <arg value="-c"/>
+            <arg value="zip -r -q ${temp.dir}/chart.zip *" />
+        </exec>
 
 		<delete dir="${temp.dir}/chart-viewer-sample" failonerror="false"/>
 
@@ -523,10 +526,11 @@
 			<arg line="-o -q birt-third-party-${package.version}.zip -d ${tmpsite}" />
 		</exec>
 		<!-- BIRT wtp -->
+		<!--
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-wtp-${package.version}.zip -d ${tmpsite}" />
 		</exec>
-		
+		-->
 		<!-- backup un-signed and packed version -->
 		<exec executable="zip" dir="${tmpsite}">
 			<arg line="-q ${buildDirectory}/birt-all-${package.version}.bak.zip -r eclipse ${eclipse.build.configs}/../../extras/pack.properties" />

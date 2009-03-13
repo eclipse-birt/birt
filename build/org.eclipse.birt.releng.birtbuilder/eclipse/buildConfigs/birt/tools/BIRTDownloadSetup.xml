@@ -239,7 +239,7 @@
 		
 		<antcall target="createBirtSDK"/>
 
-	        <antcall target="createWTPIntegration"/>
+	    <!--<antcall target="createWTPIntegration"/>-->
 		
 		<antcall target="createBirtSourceBuild"/>
 
