@@ -289,6 +289,8 @@
 		
 		<antcall target="generateCategory"/>
 		<!-- TODO: generate p2 composite update site -->
+                <antcall target="GenP2CompositeUpdateSite"/>
+                
 		<!-- TODO: push to local update site -->
 		<antcall target = "pushUpdateSiteLocal"/>
 		
@@ -321,6 +323,31 @@
 		</java>
 		-->
 	</target>
+
+        <target name="GenP2CompositeUpdateSite" unless="createUpdateSite">
+            <property name="compsite.site" value="${postingDirectory}/../../../UpdateSite/${updateSite}" />
+            <property name="repo" value="${compsite.site}/${buildId}" />
+            <property name="p2.repo.name" value="BIRT TEST" />
+            <mkdir dir="${repo}" />
+            
+            <!--generator features and plugins metadata -->
+            <p2.generator source="${updateJarWorkingDir}/eclipse" compress="true" append="true" flavor="tooling"
+                          metadataRepository="file:${repo}"
+                          artifactRepository="file:${repo}"
+                          metadataRepositoryName="${p2.repo.name}"
+                          artifactRepositoryName="${p2.repo.name}"
+                          publishArtifacts="true" p2OS="linux" mode="incremental"
+                          site="file:${updateJarWorkingDir}/site/site.xml"/>
+            
+            <!--try create composite repository-->
+            <p2.composite.artifact.repository.create location="file://${compsite.site}" name="${p2.repo.name}" compressed="true" failOnExists="false" />
+            <p2.composite.metadata.repository.create location="file://${compsite.site}" name="${p2.repo.name}" compressed="true" failOnExists="false" />
+
+            <!--add childRepo to composite repo-->
+            <p2.composite.artifact.repository.add location="file://${compsite.site}" child="${buildId}" />
+            <p2.composite.metadata.repository.add location="file://${compsite.site}" child="${buildId}" />
+
+        </target>
 	
 	<target name="generateCategory">
 
@@ -341,7 +368,7 @@
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.integration.wtp}" token="@FEATURE.CHART.WTP@"/>	
 	</target>
 	
-	<target name="pushUpdateSiteLocal">
+	<target name="pushUpdateSiteLocal" if="createUpdateSite">
 
 		<!-- push update site to output directory -->
 		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite/plugins"/>
