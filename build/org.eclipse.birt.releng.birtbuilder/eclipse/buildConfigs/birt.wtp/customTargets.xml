@@ -1,7 +1,7 @@
 <project name="Build specific targets and properties" default="noDefault" >
 
 	<property name="package.version" value="2_2_0"/>
-	<property name="archiveName" value="birt-wtp-integration-sdk-{package.version}.zip"/>
+	<property name="archiveName" value="birt-wtp-integration-sdk-${package.version}.zip"/>
 	<property name="archiveFullPath" value="${buildDirectory}/${buildLabel}/${archiveName}" />
 
 	<!-- ===================================================================== -->

@@ -585,9 +585,11 @@
 			<arg line="-q ${buildDirectory}/birt-all-${package.version}.zip -r eclipse" />
 		</exec>
 		
-		<exec executable="unzip" dir="${buildDirectory}/">
-			<arg line="-o -q birt-all-${package.version}.zip -d ${buildDirectory}/${buildId}" />
-		</exec>
+		<copy todir="${buildDirectory}/${buildId}" >
+			<fileset dir="${tmpsite}/new">
+				<include name="eclipse/**"/>
+			</fileset>
+		</copy>
 		
 	</target>
 
