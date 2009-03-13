@@ -456,7 +456,7 @@
 			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${wtptmpsite}" />
 		</exec>
 		
-		<unpackUpdateJars site="${wtptmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
+		<unpackUpdateJars site="${wtptmpsite}/eclipse" output="${wtptmpsite}/new/eclipse"/>
 		
 		<exec executable="zip" dir="${wtptmpsite}/new">
 			<arg line="-q ${postingDirectory}/birt-wtp-integration-sdk-${package.version}.zip -r eclipse" />
