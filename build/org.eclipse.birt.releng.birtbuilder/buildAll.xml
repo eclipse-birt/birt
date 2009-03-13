@@ -261,7 +261,8 @@
            tofile="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}-${build.date}.zip"/>
 	</target>
 	
-	<target name="CreateUpdateSite" if="createUpdateSite">
+	<target name="CreateUpdateSite" if="updateSite">
+		
 		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
 		<mkdir dir="${updateJarWorkingDir}" />
 		<mkdir dir="${updateJarWorkingDir}/site" />
@@ -272,50 +273,21 @@
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${updateJarWorkingDir}" />
 		</exec>
-		
-		<!--
-		<copy todir="${updateJarWorkingDir}/eclipse/plugins">
-			<fileset dir="${buildDirectory}/plugins">
-				<include name="org.apache.batik.*.jar"/>
-				<include name="org.apache.xerces_*.jar"/>
-				<include name="org.apache.xml.resolver_*.jar"/>
-				<include name="org.apache.xml.serializer_*.jar"/>
-				<include name="javax.xml_*.jar"/>
-				<include name="org.w3c.*.jar"/>
-			</fileset>
-		</copy>
-		-->
 
 		<delete includeemptydirs="true">
 			<fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.thirdparty*/**" />
 			<fileset dir="${updateJarWorkingDir}/eclipse/plugins" includes="*.thirdparty*/**" />
 		</delete>
 		
-		<!-- repack plugin org.eclipse.birt.integration.wtp.ui to include birt.zip in runtime sub-folder -->
-		<!--
-		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
-		<delete file="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}.jar"/>
-		<jar destfile="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}.jar" 
-			basedir="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}"
-			manifest="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/META-INF/MANIFEST.MF" />
-		-->
-		<!-- repack plugin org.eclipse.birt.chart.integration.wtp.ui to include chart.war in runtime sub-folder -->
-		<!--
-		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
-		<delete file="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}.jar"/>
-		<jar destfile="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}.jar" 
-			basedir="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}"
-			manifest="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/META-INF/MANIFEST.MF" />
-	    -->
-		
 		<!-- repack update jar -->
 		<replace file="${eclipse.build.configs}/../../extras/pack200" token="@pack200@" value="${jvm15_home}/bin/pack200"/>
 		<chmod file="${eclipse.build.configs}/../../extras/pack200" perm="755"/>
+
 		<exec executable="dos2unix" dir="${eclipse.build.configs}/../../extras">
 			<arg line=" pack200" />
 		</exec>
 		
-		<!-- TODO: generate p2 metadata -->
+		<antcall target="generateCategory"/>
 		<!-- TODO: generate p2 composite update site -->
 		<!-- TODO: push to local update site -->
 		<antcall target = "pushUpdateSiteLocal"/>
@@ -350,23 +322,27 @@
 		-->
 	</target>
 	
-	<target name="pushUpdateSiteLocal">
-		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
+	<target name="generateCategory">
 
-		<!-- generate site.xml -->
-		<property file="${buildDirectory}/finalFeaturesVersions.properties"/>
-		<copy file="${eclipse.build.configs}/../../extras/site.xml" tofile="${updateJarWorkingDir}/site/site.xml"/>
-		<!-- replace the feature version in site.xml -->
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${com.lowagie.itext}" token="@FEATURE.ITEXT@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.commons.codec}" token="@FEATURE.CODEC@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.mozilla.rhino}" token="@FEATURE.MOZILLA@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.w3c.sac}" token="@FEATURE.W3C@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt}" token="@FEATURE.BIRT@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.sdk}" token="@FEATURE.BIRT.SDK@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.doc}" token="@FEATURE.BIRT.DOC@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp.sdk}" token="@FEATURE.BIRT.WTP.SDK@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp}" token="@FEATURE.BIRT.WTP@"/>
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.integration.wtp}" token="@FEATURE.CHART.WTP@"/>	
+		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
+	    <!-- generate site.xml -->
+	    <property file="${buildDirectory}/finalFeaturesVersions.properties"/>
+	    <copy file="${eclipse.build.configs}/../../extras/site.xml" tofile="${updateJarWorkingDir}/site/site.xml"/>
+	    <!-- replace the feature version in site.xml -->
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${com.lowagie.itext}" token="@FEATURE.ITEXT@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.commons.codec}" token="@FEATURE.CODEC@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.mozilla.rhino}" token="@FEATURE.MOZILLA@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.w3c.sac}" token="@FEATURE.W3C@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt}" token="@FEATURE.BIRT@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.sdk}" token="@FEATURE.BIRT.SDK@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.doc}" token="@FEATURE.BIRT.DOC@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp.sdk}" token="@FEATURE.BIRT.WTP.SDK@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp}" token="@FEATURE.BIRT.WTP@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.integration.wtp}" token="@FEATURE.CHART.WTP@"/>	
+	</target>
+	
+	<target name="pushUpdateSiteLocal">
+
 		<!-- push update site to output directory -->
 		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite/plugins"/>
 		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite/features"/>
@@ -375,13 +351,29 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
+		
 		<copy todir="${postingDirectory}/${buildId}/UpdateSite/features">
 			<fileset dir="${updateJarWorkingDir}/eclipse/features">
 				<include name="**"/>
 			</fileset>
 		</copy>
-		<copy tofile="${postingDirectory}/${buildId}/UpdateSite/site.xml" file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
-
+		
+		<copy tofile="${postingDirectory}/${buildId}/UpdateSite/site.xml" 
+			file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
+		
+		<!-- generate p2 meta-data -->
+		<!--
+		<p2.generator updatesite="file:${postingDirectory}/${buildId}/UpdateSite" 
+		          site="file:${postingDirectory}/${buildId}/UpdateSite/site.xml"
+		          compress="true" 
+                  append="true" flavor="tooling" 
+                  metadataRepository="file:${postingDirectory}/${buildId}/UpdateSite" 
+                  artifactRepository="${postingDirectory}/${buildId}/UpdateSite" 
+                  metadataRepositoryName="BIRT test" 
+                  artifactRepositoryName="BIRT test" 
+                  publishArtifacts="true" p2OS="linux" mode="incremental" /> 
+		-->
+		
 		<!-- clean last content -->
 		<delete failonerror="false">
 			<fileset dir="${postingDirectory}/../../../UpdateSite/${package.version}">
@@ -594,7 +586,7 @@
 		
 	</target>
 
-	<target name="signWTPJars" if="createUpdateSite">
+	<target name="signWTPJars" if="sign">
 		
 		<antcall target="SignJars">
 			<param name="source.dir" value="${buildDirectory}/${buildId}"/>
@@ -609,7 +601,7 @@
 		
 	</target>
 	
-	<target name="signBIRTJars" if="createUpdateSite">
+	<target name="signBIRTJars" if="sign">
 		
 		<antcall target="SignJars">
 			<param name="source.dir" value="${buildDirectory}"/>
