@@ -69,7 +69,7 @@ public final class QueryUIHelper
 	{
 		final ArrayList<SeriesQueries> alSeriesQueries = new ArrayList<SeriesQueries>( 4 );
 		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
-		EList elSD = axPrimaryBase.getSeriesDefinitions( );
+		EList<SeriesDefinition> elSD = axPrimaryBase.getSeriesDefinitions( );
 		if ( elSD.size( ) != 1 )
 		{
 			return alSeriesQueries.toArray( new SeriesQueries[alSeriesQueries.size( )] );
@@ -77,12 +77,11 @@ public final class QueryUIHelper
 
 		// DON'T CARE ABOUT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES
 		// DEFINITION
-		SeriesDefinition sd = (SeriesDefinition) elSD.get( 0 ); // ONLY ONE MUST
-		// EXIST
+		SeriesDefinition sd = elSD.get( 0 ); // ONLY ONE MUST EXIST
 
 		// PROJECT THE QUERY ASSOCIATED WITH THE BASE SERIES EXPRESSION
 		final Series seBase = sd.getDesignTimeSeries( );
-		EList elBaseSeries = seBase.getDataDefinition( );
+		EList<Query> elBaseSeries = seBase.getDataDefinition( );
 		int[] bDataIndex = getValidationIndex( seBase );
 		Query[] qua = new Query[bDataIndex.length];
 		SeriesQueries sqd = new SeriesQueries( X_SERIES, qua );
@@ -90,19 +89,18 @@ public final class QueryUIHelper
 		{
 			if ( i < elBaseSeries.size( ) )
 			{
-				qua[i] = (Query) elBaseSeries.get( bDataIndex[i] );
+				qua[i] = elBaseSeries.get( bDataIndex[i] );
 			}
 			else
 			{
 				qua[i] = QueryImpl.create( "" ); //$NON-NLS-1$
+				elBaseSeries.add( qua[i] );
 			}
 		}
 		alSeriesQueries.add( sqd );
 
 		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES'
 		// QUERIES
-		Series seOrthogonal;
-		EList elOrthogonalSeries;
 		final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase, true );
 		for ( int j = 0; j < axaOrthogonal.length; j++ )
 		{
@@ -113,9 +111,9 @@ public final class QueryUIHelper
 			// QUERIES
 			for ( int k = 0; k < elSD.size( ); k++ )
 			{
-				sd = (SeriesDefinition) elSD.get( k );
-				seOrthogonal = sd.getDesignTimeSeries( );
-				elOrthogonalSeries = seOrthogonal.getDataDefinition( );
+				sd = elSD.get( k );
+				Series seOrthogonal = sd.getDesignTimeSeries( );
+				EList<Query> elOrthogonalSeries = seOrthogonal.getDataDefinition( );
 				int[] oDataIndex = getValidationIndex( seOrthogonal );
 				qua = new Query[oDataIndex.length];
 				sqd = new SeriesQueries( Y_SERIES, qua );
@@ -123,11 +121,12 @@ public final class QueryUIHelper
 				{
 					if ( oDataIndex[i] < elOrthogonalSeries.size( ) )
 					{
-						qua[i] = (Query) elOrthogonalSeries.get( oDataIndex[i] );
+						qua[i] = elOrthogonalSeries.get( oDataIndex[i] );
 					}
 					else
 					{
 						qua[i] = QueryImpl.create( "" ); //$NON-NLS-1$
+						elOrthogonalSeries.add( qua[i] );
 					}					
 				}
 				alSeriesQueries.add( sqd );
@@ -143,7 +142,7 @@ public final class QueryUIHelper
 	final SeriesQueries[] getSeriesQueryDefinitions( ChartWithoutAxes cwoa )
 	{
 		final ArrayList<SeriesQueries> alSeriesQueries = new ArrayList<SeriesQueries>( 4 );
-		EList elSD = cwoa.getSeriesDefinitions( );
+		EList<SeriesDefinition> elSD = cwoa.getSeriesDefinitions( );
 		if ( elSD.size( ) != 1 )
 		{
 			return alSeriesQueries.toArray( new SeriesQueries[alSeriesQueries.size( )] );
@@ -151,11 +150,11 @@ public final class QueryUIHelper
 
 		// DON'T CARE ABOUT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES
 		// DEFINITION
-		SeriesDefinition sd = (SeriesDefinition) elSD.get( 0 );
+		SeriesDefinition sd = elSD.get( 0 );
 
 		// PROJECT THE QUERY ASSOCIATED WITH THE BASE SERIES EXPRESSION
 		final Series seBase = sd.getDesignTimeSeries( );
-		EList elBaseSeries = seBase.getDataDefinition( );
+		EList<Query> elBaseSeries = seBase.getDataDefinition( );
 		int[] bDataIndex = getValidationIndex( seBase );
 		Query[] qua = new Query[bDataIndex.length];
 		SeriesQueries sqd = new SeriesQueries( BASE_SERIES, qua );
@@ -163,24 +162,23 @@ public final class QueryUIHelper
 		{
 			if ( i < elBaseSeries.size( ) )
 			{
-				qua[i] = (Query) elBaseSeries.get( bDataIndex[i] );
+				qua[i] = elBaseSeries.get( bDataIndex[i] );
 			}
 			else
 			{
 				qua[i] = QueryImpl.create( "" ); //$NON-NLS-1$
+				elBaseSeries.add( qua[i] );
 			}
 		}
 		alSeriesQueries.add( sqd );
 
 		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES
-		Series seOrthogonal;
-		EList elOrthogonalSeries;
 		elSD = sd.getSeriesDefinitions( ); // ALL ORTHOGONAL SERIES DEFINITIONS
 		for ( int k = 0; k < elSD.size( ); k++ )
 		{
-			sd = (SeriesDefinition) elSD.get( k );
-			seOrthogonal = sd.getDesignTimeSeries( );
-			elOrthogonalSeries = seOrthogonal.getDataDefinition( );
+			sd = elSD.get( k );
+			Series seOrthogonal = sd.getDesignTimeSeries( );
+			EList<Query> elOrthogonalSeries = seOrthogonal.getDataDefinition( );
 			int[] oDataIndex = getValidationIndex( seOrthogonal );
 			qua = new Query[oDataIndex.length];
 			sqd = new SeriesQueries( ORTHOGONAL_SERIES, qua );
@@ -188,11 +186,12 @@ public final class QueryUIHelper
 			{
 				if ( oDataIndex[i] < elOrthogonalSeries.size( ) )
 				{
-					qua[i] = (Query) elOrthogonalSeries.get( oDataIndex[i] );
+					qua[i] = elOrthogonalSeries.get( oDataIndex[i] );
 				}
 				else
 				{
 					qua[i] = QueryImpl.create( "" ); //$NON-NLS-1$
+					elOrthogonalSeries.add( qua[i] );
 				}	
 			}
 			alSeriesQueries.add( sqd );
@@ -289,7 +288,7 @@ public final class QueryUIHelper
 		{
 			return getQueryDefinitionsMap( (ChartWithoutAxes) cm );
 		}
-		return Collections.EMPTY_MAP;
+		return Collections.emptyMap( );
 	}
 
 	/**
