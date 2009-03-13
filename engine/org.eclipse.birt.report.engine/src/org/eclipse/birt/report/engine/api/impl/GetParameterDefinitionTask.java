@@ -324,7 +324,6 @@ public class GetParameterDefinitionTask extends EngineTask
 					// the result is a simple object
 					Object value = convertToType( result, dataType );
 					choices.add( new SelectionChoice( null, value ) );
-					choices.add( result );
 					return choices;
 				}
 				if ( !fixedOrder )

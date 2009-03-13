@@ -1007,15 +1007,14 @@ public abstract class EngineTask implements IEngineTask
 						for ( int index = 0; index < count; index++ )
 						{
 							Object origValue = Array.get( result, index );
-							Object value = convertToType( origValue, dataType );
-							results.add( new SelectionChoice( null, value ) );
+							results.add( convertToType( origValue, dataType ) );
 						}
 					}
 					else
 					{
-						results.add( convertToType( result, dataType ) );
+						return convertToType( result, dataType );
 					}
-					return results;
+					return results.toArray( );
 				}
 				else
 				{
