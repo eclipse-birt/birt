@@ -258,7 +258,7 @@
                     tofile="${postingDirectory}/${buildId}/NLpack1-birt-runtime-${package.version}-${build.date}.zip"/>
 	</target>
 
-	<target name="renameBirtWtpPackage">
+	<target name="renameBirtWtpPackage" unless="skip.rename.package">
 		<move file="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip"
            tofile="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}-${build.date}.zip"/>
 	</target>
