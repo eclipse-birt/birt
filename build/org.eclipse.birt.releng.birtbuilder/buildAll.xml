@@ -36,26 +36,28 @@
     <property name="sign.dir" value="" />
 
 	<target name="main" depends="init">
+		
 		<antcall target="buildBirtThirdPartyFeature"/>
 		<antcall target="buildBirtFeature"/>
-		<!--<antcall target="buildBirtWtpFeature"/>-->
 		<antcall target="fetchBirtWtpFeature"/>
 		<antcall target="fetchRCP"/>
 		<antcall target="buildBirtRCPFeature"/>
 		<antcall target="buildBirtTestFeature"/>
 		<antcall target="unpackUpdateJarsForPackaging"/>
-		<antcall target="integrateBirtFeatures"/>
 		<antcall target="buildBirtWebViewer"/>
+		<antcall target="BuildChartViewer"/>
+		<antcall target="CreateDistribute"/>
+		
 		<parallel failonany="true">
-			<sequential>
-				<antcall target="BuildChartViewer"/>
-				<antcall target="CreateDistribute"/>
-				<antcall target="buildBirtNLFeature"/>
+			<sequential>	
 				<antcall target="buildBirtWtpFeature"/>
-				<antcall target="CreateUpdateSite"/>
-				<antcall target="iPortalSetup"/>			
+				<antcall target="renameBirtWtpPackage"/>
+				<antcall target="CreateUpdateSite"/>							
 			</sequential>
 			<sequential>
+				<antcall target="buildBirtNLFeature"/>
+				<antcall target="renameBirtPackage"/>
+				<antcall target="iPortalSetup"/>
 				<!--
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
@@ -103,13 +105,16 @@
 	</target>
 	
 	<target name="buildBirtFeature">
-
-                <ant antfile="build.xml" dir="${basedir}">
-                        <property name="component" value="${eclipse.build.configs}/birt" />
-                </ant>
+		<echo message="BIRT sdk feature build started"/>
+		
+		<ant antfile="build.xml" dir="${basedir}">
+			<property name="component" value="${eclipse.build.configs}/birt" />
+        </ant>
+		<echo message="BIRT sdk feature build finished"/>
 	</target>
 
 	<target name="CreateDistribute">
+		<echo message="Packaging started"/>
 		<mkdir dir="${postingDirectory}/${buildId}"/>
 		
 		<!-- generate genReport.sh/.bat for birt-runtime-package -->
@@ -166,6 +171,8 @@
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
 
+		<echo message="Packaging finished"/>
+		
 		<!-- verify compile result -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
 
@@ -193,24 +200,22 @@
                 
         <!--copy all packages to upload area-->
 		<echo message="start copying to download area..."/>
-	        <echo message="from dir: ${postingDirectory}/${buildId}"/>
-                <copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
-	              <fileset dir="${postingDirectory}/${buildId}" >
-                               <include name="*.zip"/>
-                               <include name="*.txt"/>
-                               <include name="*.gz"/>
-                      </fileset>
-	              <fileset dir="${buildDirectory}" >
-                               <include name="directory.txt"/>
-		      </fileset>
-                      <fileset file="monitor.properties"/>
-	       </copy>
-
-	       <antcall target="renamePackage"/>
-               <antcall target="sendNotification"/>
+	    <echo message="from dir: ${postingDirectory}/${buildId}"/>
+        <copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
+	        <fileset dir="${postingDirectory}/${buildId}" >
+                <include name="*.zip"/>
+                <include name="*.txt"/>
+                <include name="*.gz"/>
+            </fileset>
+	        <fileset dir="${buildDirectory}" >
+                <include name="directory.txt"/>
+		    </fileset>
+            <fileset file="monitor.properties"/>
+	    </copy>    
+        <antcall target="sendNotification"/>
 	</target>
 	
-	<target name="renamePackage" unless="skip.rename.package">
+	<target name="renameBirtPackage" unless="skip.rename.package">
 		<move file="${postingDirectory}/${buildId}/birt-charts-${package.version}.zip"
                     tofile="${postingDirectory}/${buildId}/birt-charts-${package.version}-${build.date}.zip"/>
 		<move file="${postingDirectory}/${buildId}/birt-database-${package.version}.zip"
@@ -233,8 +238,6 @@
                     tofile="${postingDirectory}/${buildId}/birt-source-${package.version}-${build.date}.zip"/>
 		<move file="${postingDirectory}/${buildId}/birt-tests-suite-${package.version}.zip"
                     tofile="${postingDirectory}/${buildId}/birt-tests-suite-${package.version}-${build.date}.zip"/>
-		<move file="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}-${build.date}.zip"/>
 		<move file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-charts-${package.version}.zip"
                     tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-charts-${package.version}-${build.date}.zip"/>
 		<move file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}.zip"
@@ -255,6 +258,11 @@
                     tofile="${postingDirectory}/${buildId}/NLpack1-birt-runtime-${package.version}-${build.date}.zip"/>
 	</target>
 
+	<target name="renameBirtWtpPackage">
+		<move file="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip"
+           tofile="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}-${build.date}.zip"/>
+	</target>
+	
 	<target name="CreateUpdateSite" if="createUpdateSite">
 		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
 		<mkdir dir="${updateJarWorkingDir}" />
@@ -263,6 +271,10 @@
 		<exec executable="unzip" dir="${buildDirectory}">
 			<arg line="-o -q birt-all-${package.version}.sign.zip -d ${updateJarWorkingDir}" />
 		</exec>
+		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
+			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${updateJarWorkingDir}" />
+		</exec>
+		
 		<!--
 		<copy todir="${updateJarWorkingDir}/eclipse/plugins">
 			<fileset dir="${buildDirectory}/plugins">
@@ -282,19 +294,22 @@
 		</delete>
 		
 		<!-- repack plugin org.eclipse.birt.integration.wtp.ui to include birt.zip in runtime sub-folder -->
+		<!--
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		<delete file="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}.jar"/>
 		<jar destfile="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}.jar" 
 			basedir="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}"
 			manifest="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/META-INF/MANIFEST.MF" />
-		
+		-->
 		<!-- repack plugin org.eclipse.birt.chart.integration.wtp.ui to include chart.war in runtime sub-folder -->
+		<!--
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		<delete file="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}.jar"/>
 		<jar destfile="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}.jar" 
 			basedir="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}"
 			manifest="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/META-INF/MANIFEST.MF" />
-	
+	    -->
+		
 		<!-- repack update jar -->
 		<replace file="${eclipse.build.configs}/../../extras/pack200" token="@pack200@" value="${jvm15_home}/bin/pack200"/>
 		<chmod file="${eclipse.build.configs}/../../extras/pack200" perm="755"/>
@@ -412,9 +427,15 @@
 	</target>
 	
 	<target name="buildBirtTestFeature">
+		
+		<echo message="BIRT test feature build started"/>
+		
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.tests" />
 		</ant>
+		
+		<echo message="BIRT test feature build finished"/>
+		
 	</target>
 	
 	<target name="buildBirtWtpFeature">
@@ -435,57 +456,77 @@
 		</ant>
 		
 		<antcall target="signWTPJars"/>
+		<!-- unpack BIRT wtp integration feature -->
 		
-		<move file="${buildDirectory}/birt-wtp-integration-sdk-{package.version}.zip"	
-			tofile="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-{package.version}.zip"/>
-			
+		<mkdir dir="${buildDirectory}/wtptmpsite"/>
+		<property name="wtptmpsite" value="${buildDirectory}/wtptmpsite"/>
+		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
+			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${wtptmpsite}" />
+		</exec>
+		
+		<unpackUpdateJars site="${wtptmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
+		
+		<exec executable="zip" dir="${wtptmpsite}/new">
+			<arg line="-q ${postingDirectory}/birt-wtp-integration-sdk-${package.version}.zip -r eclipse" />
+		</exec>
+				
 	</target>
 	
 	<target name="buildBirtThirdPartyFeature">
+		<echo message="Third party feature building started"/>
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.third.party" />
 		</ant>
+		<echo message="Third party feature building finished"/>
 	</target>
 	<!-- - - - - - - - - - - - - - - - - - 
           target: buildBirtRCPFeature                      
          - - - - - - - - - - - - - - - - - -->
     <target name="buildBirtRCPFeature">
-		<!--	
-		<ant antfile="build.xml" dir="${basedir}">
-			<property name="component" value="${eclipse.build.configs}/birt.rcp" />
-		</ant>           
-		-->
+
+    	<echo message="Export BIRT RCP product started"/>
+    	
     	<ant antfile="productBuild.xml" dir="${eclipse.pdebuild.scripts}/productBuild">
     		<property name="builder" value="${eclipse.build.configs}/birt.rcp"/>
     		<property name="product" value="${buildDirectory}/plugins/org.eclipse.birt.report.designer.ui.rcp/BIRT.product" />
     	</ant>
+    	
+    	<echo message="Export BIRT RCP product finished"/>
     </target>
 
 	<target name="fetchBirtWtpFeature">
+		<echo message="Fetch birt wtp integration feature started"/>
+		
         <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
             <property name="builder" value="${eclipse.build.configs}/birt.wtp" />
         </ant>
         <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
             <property name="builder" value="${eclipse.build.configs}/birt.wtp" />
         </ant>
+		<echo message="Fetch birt wtp integration feature finished"/>
 	</target>
 	
 	<target name="fetchRCP">
+		<echo message="Fetch birt rcp plugin started"/>
+		
         <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
             <property name="builder" value="${eclipse.build.configs}/birt.designer.rcp" />
         </ant>
         <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
             <property name="builder" value="${eclipse.build.configs}/birt.designer.rcp" />
         </ant>
+		<echo message="Fetch birt rcp plugin finished"/>
 	</target>
 	
 	<target name="BuildChartViewer">
+		<echo message="Fetch birt chart viewer started"/>
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
 			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
 		</ant>
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
 			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
 		</ant>
+		<echo message="Fetch birt chart viewer finished"/>
 	</target>
 
 	<target name="buildBirtNLFeature">
@@ -525,12 +566,7 @@
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-third-party-${package.version}.zip -d ${tmpsite}" />
 		</exec>
-		<!-- BIRT wtp -->
-		<!--
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-wtp-${package.version}.zip -d ${tmpsite}" />
-		</exec>
-		-->
+		
 		<!-- backup un-signed and packed version -->
 		<exec executable="zip" dir="${tmpsite}">
 			<arg line="-q ${buildDirectory}/birt-all-${package.version}.bak.zip -r eclipse ${eclipse.build.configs}/../../extras/pack.properties" />
@@ -548,19 +584,25 @@
 		<exec executable="zip" dir="${tmpsite}/new">
 			<arg line="-q ${buildDirectory}/birt-all-${package.version}.zip -r eclipse" />
 		</exec>
+		
+		<exec executable="unzip" dir="${buildDirectory}/">
+			<arg line="-o -q birt-all-${package.version}.zip -d ${buildDirectory}/${buildId}" />
+		</exec>
+		
 	</target>
 
 	<target name="signWTPJars" if="createUpdateSite">
 		
 		<antcall target="SignJars">
 			<param name="source.dir" value="${buildDirectory}/${buildId}"/>
-			<param name="source.name" value="birt-wtp-integration-sdk-{package.version}.zip"/>
-			<param name="target.dir" value="${buildDirectory}"/>
-			<param name="target.name" value="birt-wtp-integration-sdk-{package.version}.sign.zip"/>
+			<param name="source.name" value="birt-wtp-integration-sdk-${package.version}.zip"/>
+			<param name="target.dir" value="${buildDirectory}/${buildId}"/>
+			<param name="target.name" value="birt-wtp-integration-sdk-${package.version}.sign.zip"/>
 		</antcall>
 		
-		<move file="${buildDirectory}/birt-wtp-integration-sdk-{package.version}.sign.zip"
-		tofile="${buildDirectory}/birt-wtp-integration-sdk-{package.version}.zip" overwrite="true"/>
+		<move file="${buildDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.sign.zip"
+		      tofile="${buildDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip" 
+		      overwrite="true"/>
 		
 	</target>
 	
@@ -592,7 +634,7 @@
         <tstamp prefix="timestamp">
             <format property="sign" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
         </tstamp>
-     	<echo message="[${timestamp.sign}] Upload ended. Wait for 30 for jarsigning..."/>
+     	<echo message="[${timestamp.sign}] Upload ended. Wait for 30 mins for jarsigning..."/>
 
         <sshexec host="${hostname.sign}" username="${username.sign}" password="${password.sign}" trust="true"
              command="cd ${sign.dir};cp ${home.dir}/${source.name} ./;sign  ${source.name} nomail;"/>
@@ -607,9 +649,9 @@
            file="${username.sign}:${password.sign}@${hostname.sign}:${sign.dir}/${source.name}"/>
 
     	<tstamp prefix="timestamp">
-            <format property="download" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+            <format property="download.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
         </tstamp>
-     	<echo message="[${timestamp.download}] Download signed jars ended. Compare signed jars with unsigned."/>
+     	<echo message="[${timestamp.download.end}] Download signed jars ended. Compare signed jars with unsigned."/>
     	
         <condition property="CompareSignPack" value="true">
             <filesmatch file1="${source.dir}/${source.name}"
@@ -649,17 +691,12 @@
     	<tstamp prefix="timestamp">
             <format property="download.again.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
         </tstamp>
-        <echo message="[${timestamp.download.end}]  Download signed package ended"/>
+        <echo message="[${timestamp.download.again.end}] Download signed package ended"/>
  
     </target>
 
-	<target name="integrateBirtFeatures" >
+	<target name="integrateBirtFeatures" />
 
-		<exec executable="unzip" dir="${buildDirectory}/">
-			<arg line="-o -q birt-all-${package.version}.zip -d ${buildDirectory}/${buildId}" />
-		</exec>
-
-	</target>
 
 	<target name="package">
 		<ant antfile="package.xml" dir="${eclipse.pdebuild.scripts}">
@@ -669,8 +706,9 @@
 	</target>
 	
     <target name="buildBirtWebViewer">
-            <ant antfile="${eclipse.build.configs}/../helper.xml" target="BuildWebViewer" >
-            </ant>
+    	<echo message="Build BIRT web viewer started"/>
+        <ant antfile="${eclipse.build.configs}/../helper.xml" target="BuildWebViewer" />
+    	<echo message="Build BIRT web viewer finished"/>
     </target>
 
 	<target name="generateJavaCrossReference" unless="skip.gen.JavaCrossRef">
