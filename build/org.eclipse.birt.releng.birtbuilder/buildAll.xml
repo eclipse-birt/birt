@@ -449,7 +449,9 @@
 		<!-- unpack BIRT wtp integration feature -->
 		
 		<mkdir dir="${buildDirectory}/wtptmpsite"/>
+		<mkdir dir="${buildDirectory}/wtptmpsite/new"/>
 		<property name="wtptmpsite" value="${buildDirectory}/wtptmpsite"/>
+		
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${wtptmpsite}" />
 		</exec>
