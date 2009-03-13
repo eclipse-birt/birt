@@ -3140,7 +3140,8 @@ public class ParameterDialog extends BaseDialog
 		}
 		FormatBuilder formatBuilder = new FormatBuilder( formatType );
 		formatBuilder.setInputFormat( formatCategroy, formatPattern );
-		String previewText = getFirstDefaultValue( ).getStringExpression( );
+		String previewText = getFirstDefaultValue( ) == null ? null
+				: getFirstDefaultValue( ).getStringExpression( );
 		if ( previewText != null )
 			formatBuilder.setPreviewText( previewText );
 		if ( formatBuilder.open( ) == OK )
