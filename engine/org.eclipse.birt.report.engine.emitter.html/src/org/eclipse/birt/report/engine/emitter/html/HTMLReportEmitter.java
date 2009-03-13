@@ -297,7 +297,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	private String layoutPreference;
 	private boolean enableAgentStyleEngine;
 	private boolean outputMasterPageMargins;
-	private boolean enableCellBookmark;
+	private boolean enableCellIID;
 	
 	/**
 	 * Following names will be name spaced by htmlIDNamespace: a.CSS style name.
@@ -399,7 +399,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 			}
 			writer.setIndent( htmlOption.getHTMLIndent( ) );
-			enableCellBookmark = htmlOption.getEnableCellBookmark( );
+			enableCellIID = htmlOption.getEnableCellIID( );
 		}
 	}
 	
@@ -1784,15 +1784,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead );
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 		htmlEmitter.handleCellAlign( cell );
-		
-		if ( enableCellBookmark && null != cell.getBookmark( ) )
-		{
-			HTMLEmitterUtil.setBookmark( writer,
-					null,
-					htmlIDNamespace,
-					cell.getBookmark( ) );
-		}
-		else if ( !startedGroups.isEmpty( ) )
+
+		if ( !startedGroups.isEmpty( ) )
 		{
 			IGroupContent group = (IGroupContent) startedGroups.firstElement( );
 			String bookmark = group.getBookmark( );
@@ -1801,19 +1794,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				bookmark = idGenerator.generateUniqueID( );
 				group.setBookmark( bookmark );
 			}
-			HTMLEmitterUtil.setBookmark( writer,
-					null,
-					htmlIDNamespace,
-					bookmark );
+			HTMLEmitterUtil.setBookmark(  writer, null, htmlIDNamespace, bookmark );
 			startedGroups.remove( group );
-		}
-
-		if ( !startedGroups.isEmpty( ) )
-		{
+			
 			Iterator iter = startedGroups.iterator( );
-			while ( iter.hasNext( ) )
+			while (iter.hasNext( ))
 			{
-				IGroupContent group = (IGroupContent) iter.next( );
+				group = (IGroupContent) iter.next( );
 				outputBookmark( group );
 			}
 			startedGroups.clear( );
@@ -1823,7 +1810,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		if ( enableMetadata )
 		{
-			metadataEmitter.startCell( cell );
+			metadataEmitter.startCell( cell, enableCellIID );
 		}
 	}
 	

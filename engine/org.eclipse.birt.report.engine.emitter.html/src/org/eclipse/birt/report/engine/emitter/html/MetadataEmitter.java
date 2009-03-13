@@ -259,8 +259,21 @@ public class MetadataEmitter
 	 * 
 	 * @param cell
 	 */
-	public void startCell( ICellContent cell )
+	public void startCell( ICellContent cell, boolean enableCellIID )
 	{
+		if ( enableCellIID )
+		{
+			if ( cell != null )
+			{
+				// Instance ID
+				InstanceID iid = cell.getInstanceID( );
+				if ( iid != null )
+				{
+					writer.attribute( attrIID, iid.toString( ) );
+				}
+			}
+		}
+		
 		boolean needColumnFilter = needColumnFilter(cell);
 		boolean needGroupIcon = needGroupIcon(cell);
 		if ( needColumnFilter || needGroupIcon )

@@ -329,7 +329,8 @@ public interface IHTMLRenderOption extends IRenderOption
 	public static final String HTML_INDENT = "HTMLIndent";
 	
 	/**
-	 * whether or not the cell's bookmark should be output. The default value is false.
+	 * Whether or not the cell's IID should be output when htmlEnableMetadata is
+	 * true. The default value is false.
 	 */
-	public static final String ENABLE_CELL_BOOKMARK = "enableCellBookmark";
+	public static final String ENABLE_CELL_IID = "enableCellIID";
 }

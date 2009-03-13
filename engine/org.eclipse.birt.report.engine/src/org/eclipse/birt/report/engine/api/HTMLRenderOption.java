@@ -462,23 +462,23 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	}
 	
 	/**
-	 * Sets the flag indicating that the cell's bookmark should be output or
-	 * not.
+	 * Sets the flag indicating that the cell's iid should be output or
+	 * not when htmlEnableMetadata is true.
 	 * 
 	 * @param flag
 	 */
-	public void setEnableCellBookmark( boolean flag )
+	public void setEnableCellIID( boolean flag )
 	{
-		options.put( ENABLE_CELL_BOOKMARK, new Boolean( flag ) );
+		options.put( ENABLE_CELL_IID, new Boolean( flag ) );
 	}
 
 	/**
-	 * @return the flag value of enable the cell's bookmark. The default value
+	 * @return The flag value of enable the cell's iid. The default value
 	 *         is false.
 	 */
-	public boolean getEnableCellBookmark( )
+	public boolean getEnableCellIID( )
 	{
-		Object value = options.get( ENABLE_CELL_BOOKMARK );
+		Object value = options.get( ENABLE_CELL_IID );
 		if ( value instanceof Boolean )
 		{
 			return ( (Boolean) value ).booleanValue( );
