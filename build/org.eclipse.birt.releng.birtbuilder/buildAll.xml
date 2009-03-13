@@ -38,7 +38,8 @@
 	<target name="main" depends="init">
 		<antcall target="buildBirtThirdPartyFeature"/>
 		<antcall target="buildBirtFeature"/>
-		<antcall target="buildBirtWtpFeature"/>
+		<!--<antcall target="buildBirtWtpFeature"/>-->
+		<antcall target="fetchBirtWtpFeature"/>
 		<antcall target="fetchRCP"/>
 		<antcall target="buildBirtRCPFeature"/>
 		<antcall target="buildBirtTestFeature"/>
@@ -50,15 +51,14 @@
 				<antcall target="BuildChartViewer"/>
 				<antcall target="CreateDistribute"/>
 				<antcall target="buildBirtNLFeature"/>
+				<antcall target="buildBirtWtpFeature"/>
 				<antcall target="CreateUpdateSite"/>
 				<antcall target="iPortalSetup"/>			
 			</sequential>
-			<sequential>
-                                
+			<sequential>               
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
-				<antcall target="generateJavaDoc"/>
-                                
+				<antcall target="generateJavaDoc"/>        
 			</sequential>
 		</parallel>
 
@@ -415,10 +415,29 @@
 	</target>
 	
 	<target name="buildBirtWtpFeature">
-		<ant antfile="build.xml" dir="${basedir}">
-			<property name="component" value="${eclipse.build.configs}/birt.wtp" />
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="generate">
+			<property name="builder" value="${eclipse.build.configs}/birt.wtp" />
 		</ant>
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="process">
+			<property name="builder" value="${eclipse.build.configs}/birt.wtp" />
+		</ant>		
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="assemble">
+			<property name="builder" value="${eclipse.build.configs}/birt.wtp" />
+		</ant>		
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="package">
+			<property name="builder" value="${eclipse.build.configs}/birt.wtp" />
+		</ant>
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="postBuild">
+			<property name="builder" value="${eclipse.build.configs}/birt.wtp" />
+		</ant>
+		
+		<antcall target="signWTPJars"/>
+		
+		<move file="${buildDirectory}/birt-wtp-integration-sdk-{package.version}.zip"	
+			tofile="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-{package.version}.zip"/>
+			
 	</target>
+	
 	<target name="buildBirtThirdPartyFeature">
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.third.party" />
@@ -439,14 +458,24 @@
     	</ant>
     </target>
 
-	<target name="fetchRCP">
-                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
-                        <property name="builder" value="${eclipse.build.configs}/birt.designer.rcp" />
-                </ant>
-                <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
-                        <property name="builder" value="${eclipse.build.configs}/birt.designer.rcp" />
-                </ant>
+	<target name="fetchBirtWtpFeature">
+        <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
+            <property name="builder" value="${eclipse.build.configs}/birt.wtp" />
+        </ant>
+        <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
+            <property name="builder" value="${eclipse.build.configs}/birt.wtp" />
+        </ant>
 	</target>
+	
+	<target name="fetchRCP">
+        <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
+            <property name="builder" value="${eclipse.build.configs}/birt.designer.rcp" />
+        </ant>
+        <ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
+            <property name="builder" value="${eclipse.build.configs}/birt.designer.rcp" />
+        </ant>
+	</target>
+	
 	<target name="BuildChartViewer">
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
 			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
@@ -517,6 +546,20 @@
 		</exec>
 	</target>
 
+	<target name="signWTPJars" if="createUpdateSite">
+		
+		<antcall target="SignJars">
+			<param name="source.dir" value="${buildDirectory}/${buildId}"/>
+			<param name="source.name" value="birt-wtp-integration-sdk-{package.version}.zip"/>
+			<param name="target.dir" value="${buildDirectory}"/>
+			<param name="target.name" value="birt-wtp-integration-sdk-{package.version}.sign.zip"/>
+		</antcall>
+		
+		<move file="${buildDirectory}/birt-wtp-integration-sdk-{package.version}.sign.zip"
+		tofile="${buildDirectory}/birt-wtp-integration-sdk-{package.version}.zip" overwrite="true"/>
+		
+	</target>
+	
 	<target name="signBIRTJars" if="createUpdateSite">
 		
 		<antcall target="SignJars">
