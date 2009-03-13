@@ -15,7 +15,6 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.script.internal.instance.StyleInstance;
 import org.eclipse.birt.report.item.crosstab.core.script.ICrosstabInstance;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
@@ -203,7 +202,9 @@ public class CrosstabInstanceImpl implements ICrosstabInstance
 
 	public void setWidth( String width )
 	{
-		String unit = content.getReportContent( ).getDesign( ).getReportDesign( )
+		String unit = content.getReportContent( )
+				.getDesign( )
+				.getReportDesign( )
 				.getDefaultUnits( );
 		content.setWidth( DimensionType.parserUnit( width, unit ) );
 	}
