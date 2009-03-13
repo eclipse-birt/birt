@@ -23,9 +23,10 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 public class TableInstance extends ReportItemInstance implements ITableInstance
 {
 
-	public TableInstance( ITableContent table, ExecutionContext context )
+	public TableInstance( ITableContent table, ExecutionContext context,
+			RunningState runningState )
 	{
-		super( table, context );
+		super( table, context, runningState );
 	}
 
 	/* (non-Javadoc)
@@ -106,6 +107,6 @@ public class TableInstance extends ReportItemInstance implements ITableInstance
 			throw new RuntimeException( "Invalid column index : " + index );
 		}
 		IColumn column = ( (ITableContent) content ).getColumn( index );
-		return new ColumnInstance( column );
+		return new ColumnInstance( column, runningState );
 	}
 }

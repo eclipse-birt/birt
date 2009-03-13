@@ -21,9 +21,10 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 public class GridInstance extends ReportItemInstance implements IGridInstance
 {
 
-	public GridInstance( ITableContent grid, ExecutionContext context )
+	public GridInstance( ITableContent grid, ExecutionContext context,
+			RunningState runningState )
 	{
-		super( grid, context );
+		super( grid, context, runningState );
 	}
 	
 	/* (non-Javadoc)

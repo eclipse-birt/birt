@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.IDynamicText;
-import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDynamicTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IDynamicTextInstance;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -21,6 +20,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.DynamicText;
 import org.eclipse.birt.report.engine.script.internal.instance.DynamicTextInstance;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 
 public class DynamicTextScriptExecutor extends ScriptExecutor
@@ -55,7 +55,7 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		try
 		{
 			IDynamicTextInstance text = createDynamicTextInstance( content,
-					context );
+					context, RunningState.CREATE );
 			if ( handleJS( text, textItemDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
@@ -82,7 +82,7 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		try
 		{
 			IDynamicTextInstance text = createDynamicTextInstance( content,
-					context );
+					context, RunningState.RENDER );
 			if ( handleJS( text, textItemDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
@@ -109,7 +109,7 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		try
 		{
 			IDynamicTextInstance text = createDynamicTextInstance( content,
-					context );
+					context, RunningState.PAGEBREAK );
 			if ( handleJS( text, textItemDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;
@@ -125,9 +125,10 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 	}
 
 	private static IDynamicTextInstance createDynamicTextInstance(
-			IContent content, ExecutionContext context )
+			IContent content, ExecutionContext context,
+			RunningState runningState )
 	{
-		return new DynamicTextInstance( content, context );
+		return new DynamicTextInstance( content, context, runningState );
 	}
 
 	private static IDynamicTextEventHandler getEventHandler(

@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.AutoText;
 import org.eclipse.birt.report.engine.script.internal.instance.AutoTextInstance;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
 
 
@@ -55,7 +56,8 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 			{
 				return;
 			}
-			IAutoTextInstance autoText = new AutoTextInstance( content, context );
+			IAutoTextInstance autoText = new AutoTextInstance( content,
+					context, RunningState.CREATE );
 			if ( handleJS( autoText, autoTextItemDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
@@ -87,7 +89,8 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 		try
 		{
 			// fromGrid doesn't matter here since row data is null
-			IAutoTextInstance autoText = new AutoTextInstance( content, context );
+			IAutoTextInstance autoText = new AutoTextInstance( content,
+					context, RunningState.RENDER );
 			if ( handleJS( autoText, autoTextDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
@@ -117,7 +120,8 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 				return;
 			}
 			// fromGrid doesn't matter here since row data is null
-			IAutoTextInstance autoText = new AutoTextInstance( content, context );
+			IAutoTextInstance autoText = new AutoTextInstance( content,
+					context, RunningState.PAGEBREAK );
 			if ( handleJS( autoText, autoTextDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;

@@ -13,13 +13,13 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.IListGroup;
-import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IListGroupEventHandler;
 import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.ListGroup;
 import org.eclipse.birt.report.engine.script.internal.instance.ReportElementInstance;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 
 public class ListGroupScriptExecutor extends ScriptExecutor
@@ -52,7 +52,7 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 		try
 		{
 			ReportElementInstance list = new ReportElementInstance( content,
-					context );
+					context, RunningState.CREATE );
 			if ( handleJS( list, listGroupDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
@@ -79,7 +79,7 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 		try
 		{
 			ReportElementInstance list = new ReportElementInstance( content,
-					context );
+					context, RunningState.RENDER );
 			if ( handleJS( list, listGroupDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
@@ -106,7 +106,7 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 		try
 		{
 			ReportElementInstance list = new ReportElementInstance( content,
-					context );
+					context, RunningState.PAGEBREAK );
 			if ( handleJS( list, listGroupDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;

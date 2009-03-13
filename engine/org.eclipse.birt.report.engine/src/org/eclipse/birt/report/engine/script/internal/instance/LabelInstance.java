@@ -24,9 +24,10 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 public class LabelInstance extends ReportItemInstance implements ILabelInstance
 {
 
-	public LabelInstance( ILabelContent label, ExecutionContext context  )
+	public LabelInstance( ILabelContent label, ExecutionContext context,
+			RunningState runningState )
 	{
-		super( label, context );
+		super( label, context, runningState );
 	}
 
 	/* (non-Javadoc)

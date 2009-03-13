@@ -29,9 +29,10 @@ public class CellInstance extends ReportElementInstance
 	//private boolean fromGrid;
 
 	public CellInstance( ICellContent cell, ExecutionContext context,
+			RunningState runningState,
 			boolean fromGrid )
 	{
-		super( cell, context );
+		super( cell, context, runningState );
 		this.cell = cell;
 		//comment off the variable fromGrid to fix a warning of bug 161814.
 		//this.fromGrid = fromGrid;

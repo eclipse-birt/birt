@@ -21,9 +21,10 @@ public class AutoTextInstance extends ReportElementInstance implements IAutoText
 
 	IAutoTextContent autoText;
 	
-	public AutoTextInstance( IAutoTextContent autoText, ExecutionContext context )
+	public AutoTextInstance( IAutoTextContent autoText,
+			ExecutionContext context, RunningState runningState )
 	{
-		super( autoText, context );
+		super( autoText, context, runningState );
 		this.autoText = autoText;
 	}	
 }

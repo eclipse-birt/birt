@@ -20,15 +20,17 @@ public class ColumnInstance implements IColumnInstance
 {
 
 	private IColumn column;
+	private RunningState runningState;
 
-	public ColumnInstance( IColumn column )
+	public ColumnInstance( IColumn column, RunningState runningState )
 	{
 		this.column = column;
+		this.runningState = runningState;
 	}
 
 	public IScriptStyle getStyle( )
 	{
-		return new StyleInstance( column.getStyle( ) );
+		return new StyleInstance( column.getStyle( ), runningState );
 	}
 
 	public String getWidth( )

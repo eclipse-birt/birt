@@ -13,13 +13,13 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.ITable;
-import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITableEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ITableInstance;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Table;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.engine.script.internal.instance.TableInstance;
 import org.eclipse.birt.report.model.api.TableHandle;
 
@@ -51,7 +51,8 @@ public class TableScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			ITableInstance table = new TableInstance( content, context );
+			ITableInstance table = new TableInstance( content, context,
+					RunningState.CREATE );
 			if ( handleJS( table, tableDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
@@ -75,7 +76,8 @@ public class TableScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			ITableInstance table = new TableInstance( content, context );
+			ITableInstance table = new TableInstance( content, context,
+					RunningState.RENDER );
 			if ( handleJS( table, tableDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
@@ -99,7 +101,8 @@ public class TableScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			ITableInstance table = new TableInstance( content, context );
+			ITableInstance table = new TableInstance( content, context,
+					RunningState.PAGEBREAK );
 			if ( handleJS( table, tableDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;

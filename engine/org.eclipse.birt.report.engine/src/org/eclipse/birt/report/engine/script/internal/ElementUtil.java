@@ -17,7 +17,6 @@ import org.eclipse.birt.report.engine.api.script.instance.IReportElementInstance
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IForeignContent;
@@ -51,6 +50,7 @@ import org.eclipse.birt.report.engine.script.internal.instance.LabelInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.ListInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.ReportElementInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.RowInstance;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.engine.script.internal.instance.TableInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.TextItemInstance;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -81,7 +81,12 @@ import org.eclipse.birt.report.model.api.simpleapi.ITextItem;
 public class ElementUtil
 {
 
-	static IContentVisitor instanceBuilder = new ContentVisitorAdapter( ) {
+	static InstanceBuilder instanceBuilder = new InstanceBuilder( );
+
+	public static class InstanceBuilder extends ContentVisitorAdapter
+	{
+		
+		private RunningState runningState;
 
 		public Object visit( IContent content, Object value )
 				throws BirtException
@@ -92,19 +97,19 @@ public class ElementUtil
 		public Object visitContent( IContent content, Object value )
 		{
 			ExecutionContext context = (ExecutionContext) value;
-			return new ReportElementInstance( content, context );
+			return new ReportElementInstance( content, context, runningState );
 		}
 
 		public Object visitCell( ICellContent cell, Object value )
 		{
 			ExecutionContext context = (ExecutionContext) value;
-			return new CellInstance( cell, context, false );
+			return new CellInstance( cell, context, runningState, false );
 		}
 
 		public Object visitData( IDataContent data, Object value )
 		{
 			ExecutionContext context = (ExecutionContext) value;
-			return new DataItemInstance( data, context );
+			return new DataItemInstance( data, context, runningState );
 		}
 
 		public Object visitForeign( IForeignContent foreign, Object value )
@@ -114,33 +119,33 @@ public class ElementUtil
 					|| IForeignContent.TEXT_TYPE.equals( foreign.getRawType( ) )
 					|| IForeignContent.TEMPLATE_TYPE.equals( foreign
 							.getRawType( ) ) )
-				return new TextItemInstance( foreign, context );
+				return new TextItemInstance( foreign, context, runningState );
 			return null;
 		}
 
 		public Object visitImage( IImageContent image, Object value )
 		{
 			ExecutionContext context = (ExecutionContext) value;
-			return new ImageInstance( image, context );
+			return new ImageInstance( image, context, runningState );
 		}
 
 		public Object visitLabel( ILabelContent label, Object value )
 		{
 			ExecutionContext context = (ExecutionContext) value;
-			return new LabelInstance( label, context );
+			return new LabelInstance( label, context, runningState );
 
 		}
 
 		public Object visitList( IListContent list, Object value )
 		{
 			ExecutionContext context = (ExecutionContext) value;
-			return new ListInstance( list, context );
+			return new ListInstance( list, context, runningState );
 		}
 
 		public Object visitRow( IRowContent row, Object value )
 		{
 			ExecutionContext context = (ExecutionContext) value;
-			return new RowInstance( row, context );
+			return new RowInstance( row, context, runningState );
 		}
 
 		public Object visitTable( ITableContent table, Object value )
@@ -148,27 +153,34 @@ public class ElementUtil
 			ExecutionContext context = (ExecutionContext) value;
 			Object genBy = table.getGenerateBy( );
 			if ( genBy instanceof TableItemDesign )
-				return new TableInstance( table, context );
+				return new TableInstance( table, context, runningState );
 			else if ( genBy instanceof GridItemDesign )
-				return new GridInstance( table, context );
+				return new GridInstance( table, context, runningState );
 			return null;
 		}
 
 		public Object visitText( ITextContent text, Object value )
 		{
 			ExecutionContext context = (ExecutionContext) value;
-			return new TextItemInstance( text, context );
+			return new TextItemInstance( text, context, runningState );
+		}
+
+		public void setRunningState( RunningState runningState )
+		{
+			this.runningState = runningState;
 		}
 	};
 
 	public static IReportElementInstance getInstance( IElement element,
-			ExecutionContext context ) throws BirtException
+			ExecutionContext context, RunningState runningState )
+			throws BirtException
 	{
 		if ( element == null )
 			return null;
 
 		if ( element instanceof IContent )
 		{
+			instanceBuilder.setRunningState( runningState );
 			return (IReportElementInstance) instanceBuilder.visit(
 					(IContent) element, context );
 		}

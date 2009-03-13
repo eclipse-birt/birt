@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.IGrid;
-import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IGridEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IGridInstance;
 import org.eclipse.birt.report.engine.content.ITableContent;
@@ -21,6 +20,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Grid;
 import org.eclipse.birt.report.engine.script.internal.instance.GridInstance;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.model.api.GridHandle;
 
 public class GridScriptExecutor extends ScriptExecutor
@@ -51,7 +51,8 @@ public class GridScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			IGridInstance grid = new GridInstance( content, context );
+			IGridInstance grid = new GridInstance( content, context,
+					RunningState.CREATE );
 			if ( handleJS( grid, gridDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			IGridEventHandler eh = getEventHandler( gridDesign, context );
@@ -75,7 +76,8 @@ public class GridScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			IGridInstance grid = new GridInstance( content, context );
+			IGridInstance grid = new GridInstance( content, context,
+					RunningState.RENDER );
 			if ( handleJS( grid, gridDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			IGridEventHandler eh = getEventHandler( gridDesign, context );
@@ -99,7 +101,8 @@ public class GridScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			IGridInstance grid = new GridInstance( content, context );
+			IGridInstance grid = new GridInstance( content, context,
+					RunningState.PAGEBREAK );
 			if ( handleJS( grid, gridDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;

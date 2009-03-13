@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.ITextItem;
-import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITextItemEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -24,6 +23,7 @@ import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.TextItem;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.engine.script.internal.instance.TextItemInstance;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 
@@ -59,10 +59,10 @@ public class TextItemScriptExecutor extends ScriptExecutor
 			ITextItemInstance textItem = null;
 			if ( content instanceof TextContent )
 				textItem = new TextItemInstance( ( ITextContent ) content,
-						context );
+						context, RunningState.CREATE );
 			else if ( content instanceof ForeignContent )
 				textItem = new TextItemInstance( ( IForeignContent ) content,
-						context );
+						context, RunningState.CREATE );
 
 			if ( handleJS( textItem, textItemDesign.getOnCreate( ), context )
 					.didRun( ) )
@@ -92,10 +92,10 @@ public class TextItemScriptExecutor extends ScriptExecutor
 			ITextItemInstance textItem = null;
 			if ( content instanceof TextContent )
 				textItem = new TextItemInstance( ( ITextContent ) content,
-						context );
+						context, RunningState.RENDER );
 			else if ( content instanceof ForeignContent )
 				textItem = new TextItemInstance( ( IForeignContent ) content,
-						context );
+						context, RunningState.RENDER );
 			if ( handleJS( textItem, textItemDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
@@ -124,10 +124,10 @@ public class TextItemScriptExecutor extends ScriptExecutor
 			ITextItemInstance textItem = null;
 			if ( content instanceof TextContent )
 				textItem = new TextItemInstance( ( ITextContent ) content,
-						context );
+						context, RunningState.PAGEBREAK );
 			else if ( content instanceof ForeignContent )
 				textItem = new TextItemInstance( ( IForeignContent ) content,
-						context );
+						context, RunningState.PAGEBREAK );
 			if ( handleJS( textItem, textItemDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;

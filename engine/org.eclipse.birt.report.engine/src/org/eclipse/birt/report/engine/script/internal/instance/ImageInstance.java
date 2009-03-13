@@ -24,9 +24,10 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 public class ImageInstance extends ReportItemInstance implements IImageInstance
 {
 
-	public ImageInstance( IImageContent image, ExecutionContext context )
+	public ImageInstance( IImageContent image, ExecutionContext context,
+			RunningState runningState )
 	{
-		super( image, context );
+		super( image, context, runningState );
 	}
 
 	/*

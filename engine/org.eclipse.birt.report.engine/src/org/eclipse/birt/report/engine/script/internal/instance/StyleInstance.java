@@ -24,10 +24,12 @@ public class StyleInstance implements IScriptStyle
 {
 
 	private IStyle style;
+	private RunningState runningState;
 
-	public StyleInstance( IStyle style )
+	public StyleInstance( IStyle style, RunningState runningState )
 	{
 		this.style = style;
+		this.runningState = runningState;
 	}
 
 	public String getVisibleFormat( )
@@ -649,6 +651,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setPageBreakBefore( String pageBreak )
 	{
+		checkRunningState( );
 		style.setPageBreakBefore( pageBreak );
 	}
 
@@ -665,6 +668,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setPageBreakAfter( String pageBreak )
 	{
+		checkRunningState( );
 		style.setPageBreakAfter( pageBreak );
 	}
 
@@ -681,6 +685,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setPageBreakInside( String pageBreak )
 	{
+		checkRunningState( );
 		style.setPageBreakInside( pageBreak );
 	}
 
@@ -929,6 +934,20 @@ public class StyleInstance implements IScriptStyle
 	public void setDirection( String dir )
 	{
 		style.setDirection( dir );
+	}
+
+	private void checkRunningState( )
+	{
+		if ( runningState == RunningState.RENDER )
+		{
+			throw new IllegalStateException(
+					"Page break can't be set at render time." );
+		}
+		if ( runningState == RunningState.PAGEBREAK )
+		{
+			throw new IllegalStateException(
+					"Page break can't be set on page break." );
+		}
 	}
 
 }

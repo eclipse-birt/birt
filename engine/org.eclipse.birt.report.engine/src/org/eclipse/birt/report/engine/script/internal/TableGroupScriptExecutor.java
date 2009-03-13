@@ -13,13 +13,13 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.ITableGroup;
-import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITableGroupEventHandler;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.TableGroup;
 import org.eclipse.birt.report.engine.script.internal.instance.ReportElementInstance;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 
 public class TableGroupScriptExecutor extends ScriptExecutor
@@ -52,7 +52,7 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 		try
 		{
 			ReportElementInstance table = new ReportElementInstance( content,
-					context );
+					context, RunningState.CREATE );
 			if ( handleJS( table, tableGroupDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
@@ -79,7 +79,7 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 		try
 		{
 			ReportElementInstance table = new ReportElementInstance( content,
-					context );
+					context, RunningState.RENDER );
 			if ( handleJS( table, tableGroupDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
@@ -106,7 +106,7 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 		try
 		{
 			ReportElementInstance table = new ReportElementInstance( content,
-					context );
+					context, RunningState.PAGEBREAK );
 			if ( handleJS( table, tableGroupDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;

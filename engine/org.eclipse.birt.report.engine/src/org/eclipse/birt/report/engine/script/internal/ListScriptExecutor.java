@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.IList;
-import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IListEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IListInstance;
 import org.eclipse.birt.report.engine.content.IListContent;
@@ -21,6 +20,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.List;
 import org.eclipse.birt.report.engine.script.internal.instance.ListInstance;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.model.api.ListHandle;
 
 public class ListScriptExecutor extends ScriptExecutor
@@ -51,7 +51,8 @@ public class ListScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			IListInstance list = new ListInstance( content, context );
+			IListInstance list = new ListInstance( content, context,
+					RunningState.CREATE );
 			if ( handleJS( list, listDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			IListEventHandler eh = getEventHandler( listDesign, context );
@@ -74,7 +75,8 @@ public class ListScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			IListInstance list = new ListInstance( content, context );
+			IListInstance list = new ListInstance( content, context,
+					RunningState.RENDER );
 			if ( handleJS( list, listDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			IListEventHandler eh = getEventHandler( listDesign, context );
@@ -97,7 +99,8 @@ public class ListScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			IListInstance list = new ListInstance( content, context );
+			IListInstance list = new ListInstance( content, context,
+					RunningState.PAGEBREAK );
 			if ( handleJS( list, listDesign.getOnPageBreak( ), context ).didRun( ) )
 				return;
 			IListEventHandler eh = getEventHandler( listDesign, context );

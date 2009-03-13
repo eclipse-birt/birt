@@ -24,9 +24,10 @@ public class RowInstance extends ReportElementInstance implements IRowInstance
 
 	private IRowContent row;
 
-	public RowInstance( IRowContent row, ExecutionContext context )
+	public RowInstance( IRowContent row, ExecutionContext context,
+			RunningState runningState )
 	{
-		super( row, context );
+		super( row, context, runningState );
 		this.row = row;
 	}
 

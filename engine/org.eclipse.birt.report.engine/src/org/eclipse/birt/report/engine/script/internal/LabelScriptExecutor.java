@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.ILabel;
-import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ILabelEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ILabelInstance;
 import org.eclipse.birt.report.engine.content.ILabelContent;
@@ -21,6 +20,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Label;
 import org.eclipse.birt.report.engine.script.internal.instance.LabelInstance;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.model.api.LabelHandle;
 
 public class LabelScriptExecutor extends ScriptExecutor
@@ -51,7 +51,8 @@ public class LabelScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			ILabelInstance label = new LabelInstance( content, context );
+			ILabelInstance label = new LabelInstance( content, context,
+					RunningState.CREATE );
 			if ( handleJS( label, labelDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
@@ -76,7 +77,8 @@ public class LabelScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			ILabelInstance label = new LabelInstance( content, context );
+			ILabelInstance label = new LabelInstance( content, context,
+					RunningState.RENDER );
 			if ( handleJS( label, labelDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
@@ -101,7 +103,8 @@ public class LabelScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			ILabelInstance label = new LabelInstance( content, context );
+			ILabelInstance label = new LabelInstance( content, context,
+					RunningState.PAGEBREAK );
 			if ( handleJS( label, labelDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;

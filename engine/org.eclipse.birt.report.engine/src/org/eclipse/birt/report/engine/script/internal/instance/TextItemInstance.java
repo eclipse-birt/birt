@@ -23,15 +23,17 @@ public class TextItemInstance extends ForeignTextInstance implements
 		ITextItemInstance
 {
 
-	public TextItemInstance( ITextContent content, ExecutionContext context )
+	public TextItemInstance( ITextContent content, ExecutionContext context,
+			RunningState runningState )
 	{
-		super( context );
+		super( context, runningState );
 		setContent( content );
 	}
 
-	public TextItemInstance( IForeignContent content, ExecutionContext context )
+	public TextItemInstance( IForeignContent content, ExecutionContext context,
+			RunningState runningState )
 	{
-		super( content, context );
+		super( content, context, runningState );
 	}
 
 	/*

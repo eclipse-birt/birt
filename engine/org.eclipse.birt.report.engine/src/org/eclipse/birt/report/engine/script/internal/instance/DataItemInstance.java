@@ -25,9 +25,10 @@ public class DataItemInstance extends ReportItemInstance implements
 		IDataItemInstance
 {
 
-	public DataItemInstance( IDataContent data, ExecutionContext context )
+	public DataItemInstance( IDataContent data, ExecutionContext context,
+			RunningState runningState )
 	{
-		super( data, context );
+		super( data, context, runningState );
 	}
 
 	/*

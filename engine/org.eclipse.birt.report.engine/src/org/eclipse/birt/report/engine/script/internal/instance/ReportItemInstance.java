@@ -23,9 +23,10 @@ public class ReportItemInstance extends ReportElementInstance implements
 		IReportItemInstance
 {
 
-	public ReportItemInstance( IContent content, ExecutionContext context )
+	public ReportItemInstance( IContent content, ExecutionContext context,
+			RunningState runningState )
 	{
-		super( content, context );
+		super( content, context, runningState );
 	}
 
 	protected void setContent( IContent content )
@@ -33,9 +34,10 @@ public class ReportItemInstance extends ReportElementInstance implements
 		this.content = content;
 	}
 
-	protected ReportItemInstance( ExecutionContext context )
+	protected ReportItemInstance( ExecutionContext context,
+			RunningState runningState )
 	{
-		super( context );
+		super( context, runningState );
 	}
 
 	/*

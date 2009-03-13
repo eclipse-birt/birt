@@ -40,16 +40,21 @@ public class ReportElementInstance implements IReportElementInstance
 
 	private RowData rowData;
 
-	public ReportElementInstance( IContent content,
-			ExecutionContext context )
+	protected RunningState runningState;
+
+	public ReportElementInstance( IContent content, ExecutionContext context,
+			RunningState runningState )
 	{
 		this.content = content;
 		this.context = context;
+		this.runningState = runningState;
 	}
 
-	protected ReportElementInstance( ExecutionContext context )
+	protected ReportElementInstance( ExecutionContext context,
+			RunningState runningState )
 	{
 		this.context = context;
+		this.runningState = runningState;
 	}
 
 	/*
@@ -59,7 +64,7 @@ public class ReportElementInstance implements IReportElementInstance
 	 */
 	public IScriptStyle getStyle( )
 	{
-		return new StyleInstance( content.getStyle( ) );
+		return new StyleInstance( content.getStyle( ), runningState );
 	}
 
 	public Object getNamedExpressionValue( String name )
@@ -131,7 +136,8 @@ public class ReportElementInstance implements IReportElementInstance
 	{
 		try
 		{
-			return ElementUtil.getInstance( content.getParent( ), context );
+			return ElementUtil.getInstance( content.getParent( ), context,
+					runningState );
 		}
 		catch ( BirtException e )
 		{

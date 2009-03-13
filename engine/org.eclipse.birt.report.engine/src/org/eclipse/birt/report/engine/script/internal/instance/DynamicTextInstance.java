@@ -25,9 +25,10 @@ public class DynamicTextInstance extends ReportItemInstance
 	protected IForeignContent fc = null;
 	protected IDataContent dc = null;
 
-	public DynamicTextInstance( IContent content, ExecutionContext context )
+	public DynamicTextInstance( IContent content, ExecutionContext context,
+			RunningState runningState )
 	{
-		super( content, context );
+		super( content, context, runningState );
 		if ( content instanceof IForeignContent )
 		{
 			fc = (IForeignContent) content;

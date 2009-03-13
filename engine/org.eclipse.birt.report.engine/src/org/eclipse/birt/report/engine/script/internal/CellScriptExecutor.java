@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.ICell;
-import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ICellEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -21,6 +20,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Cell;
 import org.eclipse.birt.report.engine.script.internal.instance.CellInstance;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.model.api.CellHandle;
 
 public class CellScriptExecutor extends ScriptExecutor
@@ -57,7 +57,7 @@ public class CellScriptExecutor extends ScriptExecutor
 				return;
 			}
 			ICellInstance cell = new CellInstance( content, context,
-					fromGrid );
+					RunningState.CREATE, fromGrid );
 			if ( handleJS( cell, cellDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			ICellEventHandler eh = getEventHandler( cellDesign, context );
@@ -88,6 +88,7 @@ public class CellScriptExecutor extends ScriptExecutor
 		{
 			// fromGrid doesn't matter here since row data is null
 			ICellInstance cell = new CellInstance( content, context,
+					RunningState.RENDER,
 					false );
 			if ( handleJS( cell, cellDesign.getOnRender( ), context ).didRun( ) )
 				return;
@@ -118,6 +119,7 @@ public class CellScriptExecutor extends ScriptExecutor
 		{
 			// fromGrid doesn't matter here since row data is null
 			ICellInstance cell = new CellInstance( content, context,
+					RunningState.RENDER,
 					false );
 			if ( handleJS( cell, cellDesign.getOnPageBreak( ), context ).didRun( ) )
 				return;

@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.IDataItem;
-import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataItemEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance;
 import org.eclipse.birt.report.engine.content.IDataContent;
@@ -21,6 +20,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.DataItem;
 import org.eclipse.birt.report.engine.script.internal.instance.DataItemInstance;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 
 public class DataItemScriptExecutor extends ScriptExecutor
@@ -53,7 +53,8 @@ public class DataItemScriptExecutor extends ScriptExecutor
 
 		try
 		{
-			IDataItemInstance dataItem = new DataItemInstance( content, context );
+			IDataItemInstance dataItem = new DataItemInstance( content,
+					context, RunningState.CREATE );
 			if ( handleJS( dataItem, dataItemDesign.getOnCreate( ), context )
 					.didRun( ) )
 				return;
@@ -78,7 +79,8 @@ public class DataItemScriptExecutor extends ScriptExecutor
 
 		try
 		{
-			IDataItemInstance dataItem = new DataItemInstance( content, context );
+			IDataItemInstance dataItem = new DataItemInstance( content,
+					context, RunningState.RENDER );
 			if ( handleJS( dataItem, dataItemDesign.getOnRender( ), context )
 					.didRun( ) )
 				return;
@@ -102,7 +104,8 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			IDataItemInstance dataItem = new DataItemInstance( content, context );
+			IDataItemInstance dataItem = new DataItemInstance( content,
+					context, RunningState.PAGEBREAK );
 			if ( handleJS( dataItem, dataItemDesign.getOnPageBreak( ), context )
 					.didRun( ) )
 				return;

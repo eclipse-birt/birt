@@ -17,14 +17,17 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 public abstract class ForeignTextInstance extends ReportItemInstance implements
 		IAbstractTextInstance
 {
-	public ForeignTextInstance( IForeignContent content, ExecutionContext context )
+
+	public ForeignTextInstance( IForeignContent content,
+			ExecutionContext context, RunningState runningState )
 	{
-		super( content, context );
+		super( content, context, runningState );
 	}
 
-	protected ForeignTextInstance( ExecutionContext context )
+	protected ForeignTextInstance( ExecutionContext context,
+			RunningState runningState )
 	{
-		super( context );
+		super( context, runningState );
 	}
 
 	/*

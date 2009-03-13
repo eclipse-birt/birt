@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.IRow;
-import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IRowEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IRowInstance;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -21,6 +20,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Row;
 import org.eclipse.birt.report.engine.script.internal.instance.RowInstance;
+import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.model.api.RowHandle;
 
 public class RowScriptExecutor extends ScriptExecutor
@@ -51,7 +51,8 @@ public class RowScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			IRowInstance row = new RowInstance( content, context );
+			IRowInstance row = new RowInstance( content, context,
+					RunningState.CREATE );
 			if ( handleJS( row, rowDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			IRowEventHandler eh = getEventHandler( rowDesign, context );
@@ -74,7 +75,8 @@ public class RowScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			IRowInstance row = new RowInstance( content, context );
+			IRowInstance row = new RowInstance( content, context,
+					RunningState.RENDER );
 			if ( handleJS( row, rowDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			IRowEventHandler eh = getEventHandler( rowDesign, context );
@@ -97,7 +99,8 @@ public class RowScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			IRowInstance row = new RowInstance( content, context );
+			IRowInstance row = new RowInstance( content, context,
+					RunningState.PAGEBREAK );
 			if ( handleJS( row, rowDesign.getOnPageBreak( ), context ).didRun( ) )
 				return;
 			IRowEventHandler eh = getEventHandler( rowDesign, context );
