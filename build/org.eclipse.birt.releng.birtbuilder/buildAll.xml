@@ -28,12 +28,12 @@
 	<!--default location for build output, parent to ${buildId}-->
 	<property name="postingDirectory" value="${buildDirectory}" />
 
-        <!--remote sign machine login infomation-->
-        <property name="username.sign" value="" />
-        <property name="password.sign" value="" />
-        <property name="hostname.sign" value="" />
-        <property name="home.dir" value="" />
-        <property name="sign.dir" value="" />
+    <!--remote sign machine login infomation-->
+    <property name="username.sign" value="" />
+    <property name="password.sign" value="" />
+    <property name="hostname.sign" value="" />
+    <property name="home.dir" value="" />
+    <property name="sign.dir" value="" />
 
 	<target name="main" depends="init">
 		<antcall target="buildBirtThirdPartyFeature"/>
@@ -507,7 +507,7 @@
 		Download signed features and plugins back to replace ${tmpsite}/eclipse.
 		Back signed features and plugins as update site jars 
 		-->
-		<antcall target="SignJars"/>
+		<antcall target="signBIRTJars"/>
 
 		<!-- unpack features and plugins -->		
 		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
@@ -517,31 +517,94 @@
 		</exec>
 	</target>
 
-        <target name="SignJars" if="createUpdateSite">
-           <echo message="upload birt-all-${package.version}.bak.zip and sign it..."/>
-           <scp todir="${username.sign}:${password.sign}@${hostname.sign}:${home.dir}" trust="true">
-             <fileset dir="${buildDirectory}" includes="birt-all-${package.version}.bak.zip"/>
-           </scp>
-           <sshexec host="${hostname.sign}" username="${username.sign}" password="${password.sign}" trust="true"
-                    command="cd ${sign.dir};cp ${home.dir}/birt-all-${package.version}.bak.zip ./;sign birt-all-${package.version}.bak.zip nomail;"/>
-           <sleep minutes="30"/>
-           <scp localtofile="${buildDirectory}/birt-all-${package.version}.sign.zip" trust="true"
-                file="${username.sign}:${password.sign}@${hostname.sign}:${sign.dir}/birt-all-${package.version}.bak.zip"/>
-           <condition property="CompareSignPack" value="true">
-                <filesmatch file1="${buildDirectory}/birt-all-${package.version}.bak.zip"
-                            file2="${buildDirectory}/birt-all-${package.version}.sign.zip"/>
-           </condition>
-           <antcall target="DownloadSignedPackAgain"/>
-           <delete dir="${tmpsite}" failonerror="false" />
-           <unzip src="${buildDirectory}/birt-all-${package.version}.sign.zip" dest="${tmpsite}"/>
-        </target>
+	<target name="signBIRTJars" if="createUpdateSite">
+		
+		<antcall target="SignJars">
+			<param name="source.dir" value="${buildDirectory}"/>
+			<param name="source.name" value="birt-all-${package.version}.bak.zip"/>
+			<param name="target.dir" value="${buildDirectory}"/>
+			<param name="target.name" value="birt-all-${package.version}.sign.zip"/>
+		</antcall>
+		
+        <delete dir="${tmpsite}" failonerror="false" />
+        <unzip src="${buildDirectory}/birt-all-${package.version}.sign.zip" dest="${tmpsite}"/>
+ 
+	</target>
+	
+    <target name="SignJars">
+    	
+        <tstamp prefix="timestamp">
+            <format property="upload" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+        </tstamp>
+     	<echo message="[${timestamp.upload}] Upload ${source.name} to build.eclipse.org started"/>
 
-        <target name="DownloadSignedPackAgain" if="CompareSignPack">
-           <sleep minutes="10"/>
-           <echo message="download signed package again..."/>
-           <scp localtofile="${buildDirectory}/birt-all-${package.version}.sign.zip" trust="true"
-                file="${username.sign}:${password.sign}@${hostname.sign}:${sign.dir}/birt-all-${package.version}.bak.zip"/>
-        </target>
+    	<scp todir="${username.sign}:${password.sign}@${hostname.sign}:${home.dir}" trust="true">
+            <fileset dir="${source.dir}" includes="${source.name}"/>
+        </scp>
+
+        <tstamp prefix="timestamp">
+            <format property="sign" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+        </tstamp>
+     	<echo message="[${timestamp.sign}] Upload ended. Wait for 30 for jarsigning..."/>
+
+        <sshexec host="${hostname.sign}" username="${username.sign}" password="${password.sign}" trust="true"
+             command="cd ${sign.dir};cp ${home.dir}/${source.name} ./;sign  ${source.name} nomail;"/>
+        <sleep minutes="30"/>
+
+    	<tstamp prefix="timestamp">
+            <format property="download" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+        </tstamp>
+     	<echo message="[${timestamp.download}] Download signed jars started"/>
+    	
+        <scp localtofile="${target.dir}/${target.name}" trust="true"
+           file="${username.sign}:${password.sign}@${hostname.sign}:${sign.dir}/${source.name}"/>
+
+    	<tstamp prefix="timestamp">
+            <format property="download" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+        </tstamp>
+     	<echo message="[${timestamp.download}] Download signed jars ended. Compare signed jars with unsigned."/>
+    	
+        <condition property="CompareSignPack" value="true">
+            <filesmatch file1="${source.dir}/${source.name}"
+                        file2="${target.dir}/${target.name}"/>
+        </condition>
+    	
+    	<antcall target="DownloadSignedPackAgain">
+    		<param name="source.name" value="${source.name}"/>
+    		<param name="target.name" value="${target.name}"/>
+    	    <param name="target.dir" value="${target.dir}"/>
+    	</antcall>
+
+    	<tstamp prefix="timestamp">
+            <format property="package" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+        </tstamp>
+     	<echo message="[${timestamp.package}] Packaging starts"/>
+
+    </target>
+
+    <target name="DownloadSignedPackAgain" if="CompareSignPack">
+    	
+    	<tstamp prefix="timestamp">
+            <format property="download.again" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+        </tstamp>
+     	<echo message="[${timestamp.download.again}] Compare fails. Wait 10 mins to download again..."/>
+
+        <sleep minutes="10"/>
+    	
+    	<tstamp prefix="timestamp">
+            <format property="download.again.start" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+        </tstamp>
+        <echo message="[${timestamp.download.again}]  Download signed package started"/>
+    	
+        <scp localtofile="${target.dir}/${target.name}" trust="true"
+             file="${username.sign}:${password.sign}@${hostname.sign}:${sign.dir}/${source.name}"/>
+    	
+    	<tstamp prefix="timestamp">
+            <format property="download.again.end" pattern="yyyy-MM-dd HH:mm:ss" locale="en" />
+        </tstamp>
+        <echo message="[${timestamp.download.end}]  Download signed package ended"/>
+ 
+    </target>
 
 	<target name="integrateBirtFeatures" >
 
