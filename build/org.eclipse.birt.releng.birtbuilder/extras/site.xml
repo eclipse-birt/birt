@@ -30,7 +30,7 @@
         <feature url="features/org.eclipse.birt.chart.integration.wtp_@FEATURE.CHART.WTP@.jar" id="org.eclipse.birt.chart.integration.wtp" version="@FEATURE.CHART.WTP@">
                 <category name="BIRT" />
         </feature>
-        <feature url="features/oorg.eclipse.birt.integration.wtp_@FEATURE.BIRT.WTP@.jar" id="org.eclipse.birt.integration.wtp" version="@FEATURE.BIRT.WTP@">
+        <feature url="features/org.eclipse.birt.integration.wtp_@FEATURE.BIRT.WTP@.jar" id="org.eclipse.birt.integration.wtp" version="@FEATURE.BIRT.WTP@">
                 <category name="BIRT" />
         </feature>
         <category-def label="BIRT - BIRT Team Provider" name="BIRT">
