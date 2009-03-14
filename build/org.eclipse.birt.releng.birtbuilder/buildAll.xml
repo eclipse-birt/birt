@@ -486,7 +486,7 @@
 		<unpackUpdateJars site="${wtptmpsite}/eclipse" output="${wtptmpsite}/new/eclipse"/>
 		
 		<exec executable="zip" dir="${wtptmpsite}/new">
-			<arg line="-q ${postingDirectory}/birt-wtp-integration-sdk-${package.version}.zip -r eclipse" />
+			<arg line="-q ${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip -r eclipse" />
 		</exec>
 		
 		<!-- verify compile result -->
