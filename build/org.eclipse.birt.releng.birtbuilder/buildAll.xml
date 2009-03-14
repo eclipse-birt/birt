@@ -73,21 +73,27 @@
 	</target>
 
 	<target name="init">
+		
 		<ant antfile="build.xml" target="init" />
+		
 		<property file="${buildDirectory}/label.properties" />
 		
 		<condition property="fetchTag" value="HEAD">
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>
+		
 		<condition property="forceContextQualifier" value="${buildId}">
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>
+		
 		<condition property="generateFeatureVersionSuffix" value="false">
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>
+		
 		<condition property="createUpdateSite" value="true">
 			<equals arg1="${buildType}" arg2="I" />
 		</condition>
+		
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
 		<property name="javacSource" value="1.5" />
