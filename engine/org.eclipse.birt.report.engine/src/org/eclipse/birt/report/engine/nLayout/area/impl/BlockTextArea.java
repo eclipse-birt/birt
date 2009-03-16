@@ -13,12 +13,10 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
-import org.w3c.dom.css.CSSValue;
-
-
 
 public class BlockTextArea extends BlockContainerArea implements ILayout
 {
@@ -36,8 +34,9 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 	public void layout( ) throws BirtException
 	{
 		initialize();
-		LineArea line = new TextLineArea(this, context);
+		TextLineArea line = new TextLineArea(this, context);
 		line.initialize( );
+		line.setTextIndent( (ITextContent)content );
 		TextAreaLayout text = new TextAreaLayout( line, context, content);
 		text.initialize( );
 		text.layout( );

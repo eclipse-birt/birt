@@ -12,6 +12,8 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea.SplitResult;
 
@@ -77,6 +79,19 @@ public class TextLineArea extends LineArea
 	public boolean isPageBreakInsideAvoid()
 	{
 		return true;
+	}
+	
+	public void setTextIndent( ITextContent content )
+	{
+		if( children.isEmpty( ) )
+		{
+			if ( content != null )
+			{
+				IStyle contentStyle = content.getComputedStyle( );
+				currentIP =  getDimensionValue( contentStyle
+						.getProperty( StyleConstants.STYLE_TEXT_INDENT ), maxAvaWidth ) ;
+			}
+		}
 	}
 
 }

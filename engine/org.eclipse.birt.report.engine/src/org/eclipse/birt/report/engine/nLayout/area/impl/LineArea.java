@@ -113,6 +113,8 @@ public class LineArea extends InlineStackingArea
 
 	private int adjustWordSpacing( int wordSpacing, ContainerArea area )
 	{
+		if ( wordSpacing == 0 )
+			return 0;
 		Iterator iter = area.getChildren( );
 		int delta = 0;
 		while ( iter.hasNext( ) )
@@ -125,9 +127,10 @@ public class LineArea extends InlineStackingArea
 				int blankNumber = text.split( " " ).length - 1;
 				if ( blankNumber > 0 )
 				{
-					TextStyle style = textArea.getStyle( );
+					TextStyle style = new TextStyle( textArea.getStyle( ) );
 					int original = style.getWordSpacing( );
 					style.setWordSpacing( original + wordSpacing );
+					textArea.setStyle( style );
 					int spacing = wordSpacing * blankNumber;
 					child.setWidth( child.getWidth( ) + spacing );
 					child.setPosition( child.getX( ) + delta, child.getY( ) );
