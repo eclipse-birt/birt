@@ -50,10 +50,24 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 		return new BlockTextArea(this);
 	}
 	
+	public boolean isPageBreakInsideAvoid( )
+	{
+		if ( context.isFixedLayout( ) && specifiedHeight > 0 )
+		{
+			return true;
+		}
+		return super.isPageBreakInsideAvoid( );
+	}
+
 	protected void update( ) throws BirtException
 	{
 		if ( parent != null )
 		{
+			if ( context.isFixedLayout( ) && height > specifiedHeight )
+			{
+				setHeight( specifiedHeight );
+				setNeedClip( true );
+			}
 			if ( !isInInlineStacking && context.isAutoPageBreak( ) )
 			{
 				int aHeight = getAllocatedHeight( );
@@ -92,7 +106,4 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 			parent.update( this );
 		}
 	}
-	
-	
-	
 }
