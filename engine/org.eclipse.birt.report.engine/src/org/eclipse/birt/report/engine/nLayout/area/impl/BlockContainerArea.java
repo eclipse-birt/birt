@@ -119,15 +119,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 	{
 		if ( parent != null )
 		{
-			if ( !isInInlineStacking && context.isAutoPageBreak( ) )
-			{
-				int aHeight = getAllocatedHeight( );
-				while ( aHeight + parent.getAbsoluteBP( ) >= context.getMaxBP( ) )
-				{
-					parent.autoPageBreak( );
-					aHeight = getAllocatedHeight( );
-				}
-			}
+			checkPageBreak();
 			parent.update( this );
 		}
 	}

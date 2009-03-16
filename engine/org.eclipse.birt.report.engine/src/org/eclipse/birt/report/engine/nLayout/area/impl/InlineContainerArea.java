@@ -69,15 +69,7 @@ public class InlineContainerArea extends InlineStackingArea
 		}
 		if ( isLastLine )
 		{
-			if ( !isInInlineStacking && context.isAutoPageBreak( ) )
-			{
-				int aHeight = getAllocatedHeight( );
-				while ( aHeight + parent.getAbsoluteBP( ) >= context.getMaxBP( ) )
-				{
-					parent.autoPageBreak( );
-					aHeight = getAllocatedHeight( );
-				}
-			}
+			checkPageBreak();
 			parent.update( this );
 		}
 		else

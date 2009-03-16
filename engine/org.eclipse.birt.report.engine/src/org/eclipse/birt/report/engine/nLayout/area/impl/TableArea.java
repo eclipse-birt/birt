@@ -67,7 +67,7 @@ public class TableArea extends RepeatableArea
 	{
 		if ( layout != null )
 		{
-			layout.addRow( row );
+			layout.addRow( row, context.isFixedLayout( ) );
 		}
 	}
 	
@@ -263,6 +263,11 @@ public class TableArea extends RepeatableArea
 		if ( result.getResult( ) != null )
 		{
 			TableArea tableResult = (TableArea) result.getResult( );
+			int h = tableResult.layout.resolveAll( );
+			if ( h > 0 )
+			{
+				tableResult.setHeight( tableResult.getHeight( ) + h );
+			}
 			tableResult.resolveBottomBorder( );
 			resolveTopBorder( );
 		}
@@ -355,6 +360,25 @@ public class TableArea extends RepeatableArea
 	{
 		
 	}
+	
+	protected void addRows(ContainerArea container, TableLayout layout)
+	{
+		if(container instanceof RowArea)
+		{
+			layout.addRow( (RowArea)container, context.isFixedLayout( ) );
+		}
+		else
+		{
+			java.util.Iterator<IArea> iter = container.getChildren( );
+			while(iter.hasNext( ))
+			{
+				ContainerArea child = (ContainerArea)iter.next( );
+				addRows(child, layout);
+			}
+		}
+	}
+	
+	
 
 	public void close( ) throws BirtException
 	{
@@ -376,15 +400,7 @@ public class TableArea extends RepeatableArea
 		setHeight( currentBP + getOffsetY( ) + borderHeight );
 		if ( parent != null )
 		{
-			if ( !isInInlineStacking && context.isAutoPageBreak( ) )
-			{
-				int aHeight = getAllocatedHeight( );
-				while ( aHeight + parent.getAbsoluteBP( ) >= context.getMaxBP( ) )
-				{
-					parent.autoPageBreak( );
-					aHeight = getAllocatedHeight( );
-				}
-			}
+			checkPageBreak();
 			parent.update( this );
 		}
 		finished = true;

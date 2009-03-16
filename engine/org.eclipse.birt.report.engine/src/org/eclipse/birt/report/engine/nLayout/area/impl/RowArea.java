@@ -130,15 +130,7 @@ public class RowArea extends ContainerArea
 	public void close( ) throws BirtException
 	{
 		getTableArea().addRow( this );
-		if ( !isInInlineStacking && context.isAutoPageBreak( ) )
-		{
-			int aHeight = getAllocatedHeight( );
-			while ( aHeight + parent.getAbsoluteBP( ) >= context.getMaxBP( ) )
-			{
-				parent.autoPageBreak( );
-				aHeight = getAllocatedHeight( );
-			}
-		}
+		checkPageBreak();
 		parent.update( this );
 		finished = true;
 	}

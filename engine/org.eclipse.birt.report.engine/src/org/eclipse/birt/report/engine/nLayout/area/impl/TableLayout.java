@@ -109,6 +109,12 @@ public class TableLayout
 		}
 		rows.resetCursor( );
 	}
+	
+	public void clear()
+	{
+		rows.clear( );
+		rows.resetCursor( );
+	}
 
 	protected IStyle getLeftCellContentStyle( RowArea lastRow, RowArea currentRow, int columnID )
 	{
@@ -478,48 +484,41 @@ public class TableLayout
 		}
 
 		int dValue = height - originalRowHeight;
-		if(dValue>0)
+		for ( int i = startCol; i <= endCol; i++ )
 		{
-			for ( int i = startCol; i <= endCol; i++ )
+			CellArea cell = row.getCell( i );
+			if ( cell == null )
 			{
-				CellArea cell = row.getCell( i );
-				if ( cell == null )
+				// this should NOT happen.
+				continue;
+			}
+			if ( cell instanceof DummyCell )
+			{
+				int delta = ( (DummyCell) cell ).getDelta( );
+				if ( cell.getRowSpan( ) == 1 )
+				// this dummyCell and it reference cell height have already been
+				// updated.
 				{
-					// this should NOT happen.
-					continue;
-				}
-				if ( cell instanceof DummyCell )
-				{
-					int delta = ( (DummyCell) cell ).getDelta( );
-					if ( cell.getRowSpan( ) == 1 )
-					// this dummyCell and it reference cell height have already been
-					// updated.
-					{
-							CellArea refCell = ( (DummyCell) cell ).getCell( );
-							refCell.setHeight( delta + height );
-							verticalAlign( refCell );
-					}
-					else
-					{
 						CellArea refCell = ( (DummyCell) cell ).getCell( );
-						if ( delta < height )
-						{
-							refCell.setHeight( refCell.getHeight( ) - delta
-									+ height );
-						}
+						refCell.setHeight( delta + height );
 						verticalAlign( refCell );
-					}
 				}
 				else
 				{
-					if ( dValue != 0 )
-					{
-						cell.setHeight( height );
-						verticalAlign( cell );
-					}
+					CellArea refCell = ( (DummyCell) cell ).getCell( );
+					refCell.setHeight( delta + height );
+					verticalAlign( refCell );
 				}
-				i = i + cell.getColSpan( ) - 1;
 			}
+			else
+			{
+				if ( dValue != 0 )
+				{
+					cell.setHeight( height );
+					verticalAlign( cell );
+				}
+			}
+			i = i + cell.getColSpan( ) - 1;
 		}
 		row.setHeight( height );
 		return dValue;
@@ -588,9 +587,9 @@ public class TableLayout
 	/**
 	 * Adds the updated row wrapper to rows.
 	 */
-	public void addRow( RowArea rowArea )
+	public void addRow( RowArea rowArea, boolean isFixedLayout )
 	{
-		updateRow( rowArea );
+		updateRow( rowArea, isFixedLayout );
 		rows.add( rowArea );
 	}
 
@@ -602,12 +601,12 @@ public class TableLayout
 	 * @param rowArea
 	 *            current rowArea.
 	 */
-	private void updateRow( RowArea rowArea )
+	private void updateRow( RowArea rowArea, boolean isFixedLayout )
 	{
 		RowArea lastRow = (RowArea) rows.getCurrent( );
 
 		int height = rowArea.getSpecifiedHeight( );
-		if ( !rowArea.context.isFixedLayout( ) )
+		if ( !isFixedLayout )
 		{
 			for ( int i = startCol; i <= endCol; i++ )
 			{
@@ -647,7 +646,7 @@ public class TableLayout
 				}
 			}
 		}
-		updateRowHeight( rowArea, height );
+		updateRowHeight( rowArea, height, isFixedLayout );
 	}
 
 	/**
@@ -689,12 +688,11 @@ public class TableLayout
 	 * @param rowArea
 	 * @param height
 	 */
-	private void updateRowHeight( RowArea row, int height )
+	private void updateRowHeight( RowArea row, int height, boolean isFixedLayout)
 	{
 		if ( height < 0 )
 			return;
 		row.setHeight( height );
-		boolean isFixedLayout = row.context.isFixedLayout( );
 		for ( int i = startCol; i <= endCol; i++ )
 		{
 			CellArea cell = row.getCell( i );

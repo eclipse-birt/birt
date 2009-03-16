@@ -30,11 +30,12 @@ import org.eclipse.birt.report.engine.api.impl.RunAndRenderTask;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.PageContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.layout.area.IArea;
-import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
-import org.eclipse.birt.report.engine.layout.area.impl.InlineContainerArea;
-import org.eclipse.birt.report.engine.layout.area.impl.LineArea;
-import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.InlineContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.LineArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
+
 
 public abstract class  PDFLayoutTest extends EngineCase
 {

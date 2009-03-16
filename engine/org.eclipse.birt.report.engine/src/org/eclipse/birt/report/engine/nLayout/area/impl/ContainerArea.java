@@ -642,6 +642,19 @@ public abstract class ContainerArea extends AbstractArea
 	public abstract void update( AbstractArea area ) throws BirtException;
 	
 	public abstract void add(AbstractArea area);
+	
+	protected void checkPageBreak() throws BirtException
+	{
+		if ( !isInInlineStacking && context.isAutoPageBreak( ) )
+		{
+			int aHeight = getAllocatedHeight( );
+			while ( aHeight + parent.getAbsoluteBP( ) > context.getMaxBP( ) )
+			{
+				parent.autoPageBreak( );
+				aHeight = getAllocatedHeight( );
+			}
+		}
+	}
 
 	public int getOffsetX( )
 	{

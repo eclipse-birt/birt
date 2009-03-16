@@ -18,10 +18,11 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
-import org.eclipse.birt.report.engine.layout.area.IArea;
-import org.eclipse.birt.report.engine.layout.area.IImageArea;
-import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
-import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
+import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
+
 
 public class PDFImageLMTest extends PDFLayoutTest
 {
@@ -89,8 +90,7 @@ public class PDFImageLMTest extends PDFLayoutTest
 	private void checkChartLengend( ContainerArea map, int x, int y, int width,
 			int height, String hyperlink, String bookmark, String targetWindow )
 	{
-		IContent mapContent = (IContent) map.getContent( );
-		IHyperlinkAction link = mapContent.getHyperlinkAction( );
+		IHyperlinkAction link = map.getAction( );
 		assertEquals( x, map.getX( ) );
 		assertEquals( y, map.getY( ) );
 		assertEquals( width, map.getWidth( ) );

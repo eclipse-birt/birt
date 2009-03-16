@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -32,7 +31,6 @@ import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
-import org.eclipse.birt.report.engine.layout.pdf.emitter.BlockTextLayout;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
@@ -436,7 +434,7 @@ class ConcreteImageLayout implements ILayout
 			if ( !parent.isInInlineStacking && context.isAutoPageBreak( ) )
 			{
 				int aHeight = root.getAllocatedHeight( );
-				if ( aHeight + parent.getAbsoluteBP( ) >= context.getMaxBP( ) )
+				if ( aHeight + parent.getAbsoluteBP( ) > context.getMaxBP( ) )
 				{
 					parent.autoPageBreak( );
 				}
@@ -468,14 +466,16 @@ class ConcreteImageLayout implements ILayout
 		// implement fitToContainer
 		int actualHeight = contentDimension.getHeight( );
 		int actualWidth = contentDimension.getWidth( );
-		if ( fitToContainer )
+		int maxHeight = root.getMaxAvaHeight( );
+		int maxWidth = root.getMaxAvaWidth( );
+		int cHeight = contentDimension.getHeight( );
+		int cWidth = contentDimension.getWidth( );
+
+		if ( cHeight > maxHeight || cWidth > maxWidth )
 		{
-			int maxHeight = root.getMaxAvaHeight( );
-			int maxWidth = root.getMaxAvaWidth( );
-			int cHeight = contentDimension.getHeight( );
-			int cWidth = contentDimension.getWidth( );
-			if ( cHeight > maxHeight || cWidth > maxWidth )
+			if ( fitToContainer )
 			{
+
 				float rh = ( (float) maxHeight ) / cHeight;
 				float rw = ( (float) maxWidth ) / cWidth;
 				if ( rh > rw )
@@ -489,16 +489,26 @@ class ConcreteImageLayout implements ILayout
 					actualWidth = (int) ( rh * maxWidth );
 				}
 			}
+			else
+			{
+				root.setNeedClip( true );
+				root.setAllocatedHeight( Math.min( maxHeight, cHeight ));
+				root.setAllocatedWidth( Math.min( maxWidth, cWidth ));
+			}
+			imageArea.setWidth( actualWidth );
+			imageArea.setHeight( actualHeight );
 		}
-		imageArea.setWidth( actualWidth );
-		imageArea.setHeight( actualHeight );
-
+		else
+		{
+			imageArea.setWidth( actualWidth );
+			imageArea.setHeight( actualHeight );
+			root.setContentWidth( imageArea.getWidth( ) );
+			root.setContentHeight( imageArea.getHeight( ) );
+		}
 		root.addChild( imageArea );
 		imageArea.setPosition( root.getContentX( ), root.getContentY( ) );
 
 		// Adjust the dimension of root.
-		root.setContentWidth( imageArea.getWidth( ) );
-		root.setContentHeight( imageArea.getHeight( ) );
 		processChartLegend( image, imageArea );
 		root.finished = true;
 	}

@@ -331,15 +331,7 @@ public class LineArea extends InlineStackingArea
 		align( isLastLine, context );
 		if(isLastLine)
 		{
-			if ( !isInInlineStacking && context.isAutoPageBreak( ) )
-			{
-				int aHeight = getAllocatedHeight( );
-				while ( aHeight + parent.getAbsoluteBP( ) >= context.getMaxBP( ) )
-				{
-					parent.autoPageBreak( );
-					aHeight = getAllocatedHeight( );
-				}
-			}
+			checkPageBreak();
 			parent.add( this );
 			parent.update( this );
 		}

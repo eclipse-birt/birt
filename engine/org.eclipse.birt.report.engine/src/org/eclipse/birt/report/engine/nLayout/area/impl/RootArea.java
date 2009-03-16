@@ -79,6 +79,7 @@ public class RootArea extends BlockContainerArea
 		}
 		createNewPage( pageContent );
 		maxAvaWidth = page.getBody( ).getWidth( );
+		//this.height = page.getBody( ).getHeight( );
 		width = maxAvaWidth;
 	}
 	

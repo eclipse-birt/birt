@@ -16,9 +16,10 @@ import java.util.List;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.layout.area.IContainerArea;
-import org.eclipse.birt.report.engine.layout.area.impl.LineArea;
-import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
+import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.LineArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
+
 
 public class PDFLineAreaLMTest extends PDFLayoutTest
 {
@@ -62,7 +63,10 @@ public class PDFLineAreaLMTest extends PDFLayoutTest
 		Iterator logicContainers = pageArea.getBody( ).getChildren( );
 		IContainerArea blockContains = (IContainerArea) logicContainers
 					.next( );
-		Iterator lineAreas = blockContains.getChildren( );
+		logicContainers = blockContains.getChildren( );
+		IContainerArea blockContains1 = (IContainerArea) logicContainers
+					.next( );
+		Iterator lineAreas = blockContains1.getChildren( );
 		lineAreas.next( );
 		LineArea emptyLine = (LineArea)lineAreas.next( );
 		assertTrue( "Second line is not an empty line.", isEmpty( emptyLine ) );

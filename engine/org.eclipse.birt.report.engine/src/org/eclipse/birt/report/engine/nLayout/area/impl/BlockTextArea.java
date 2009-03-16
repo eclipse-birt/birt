@@ -59,7 +59,7 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 			{
 				int aHeight = getAllocatedHeight( );
 				int size = children.size( );
-				if ( ( aHeight + parent.getAbsoluteBP( ) >= context.getMaxBP( ) )
+				if ( ( aHeight + parent.getAbsoluteBP( ) > context.getMaxBP( ) )
 						&& ( size > 1 ) )
 				{
 					IStyle style = content.getComputedStyle( );
