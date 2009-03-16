@@ -108,6 +108,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	private Cursor cellLeftCursor, cellRightCursor;
 
+	public static final String NATURE_ID = "org.eclipse.birt.report.designer.ui.reportprojectnature"; //$NON-NLS-1$
+	
 	// The entry delimiter
 	public static final String PREFERENCE_DELIMITER = ";"; //$NON-NLS-1$
 	public static final String SPACE = " "; //$NON-NLS-1$

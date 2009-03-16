@@ -185,12 +185,12 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements
 		String[] natures = null;
 		if ( isJavaProject )
 			natures = new String[]{
-					"org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
+					ReportPlugin.NATURE_ID,
 					JavaCore.NATURE_ID
 			};
 		else
 			natures = new String[]{
-				"org.eclipse.birt.report.designer.ui.reportprojectnature" //$NON-NLS-1$
+				ReportPlugin.NATURE_ID
 			};
 
 		description.setNatureIds( natures );

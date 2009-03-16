@@ -249,6 +249,46 @@
                     value="rptlibrary"/>
            </and>
         </visibility>
+     </viewerContribution>
+     <viewerContribution
+           id="org.eclipse.birt.report.designer.ui.ide.Report"
+           targetID="org.eclipse.ui.views.ResourceNavigator">
+        <menu
+              id="org.eclipse.birt.report.designer.ui.ide.Report"
+              label="%Menu.Report"
+              path="additions">
+           <groupMarker
+                 name="report">
+           </groupMarker>
+        </menu>
+        <visibility>
+           <objectClass
+                 name="org.eclipse.core.resources.IProject">
+           </objectClass>
+        </visibility>
+     </viewerContribution>
+     <viewerContribution
+           id="org.eclipse.birt.report.designer.ui.ide.report.AddReportNature"
+           targetID="org.eclipse.ui.views.ResourceNavigator">
+        <action
+              class="org.eclipse.birt.report.designer.ui.ide.navigator.SetupReportProjectAction"
+              id="org.eclipse.birt.report.designer.ui.ide.navigator.AddReportNature"
+              label="%Action.AddReportNature"
+              menubarPath="org.eclipse.birt.report.designer.ui.ide.Report/report">
+        </action>
+        <visibility>
+           <and>
+              <objectClass
+                    name="org.eclipse.core.resources.IProject">
+              </objectClass>
+              <not>
+                 <objectState
+                       name="projectNature"
+                       value="org.eclipse.birt.report.designer.ui.reportprojectnature">
+                 </objectState>
+              </not>
+           </and>
+        </visibility>
      </viewerContribution> 	 
 	</extension>
  <extension

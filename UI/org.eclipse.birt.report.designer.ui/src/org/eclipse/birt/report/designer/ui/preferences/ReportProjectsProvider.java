@@ -77,7 +77,7 @@ public class ReportProjectsProvider extends LabelProvider implements
 			{
 				try
 				{
-					if ( projects[i].getNature( "org.eclipse.birt.report.designer.ui.reportprojectnature" ) != null ) //$NON-NLS-1$
+					if ( projects[i].getNature( ReportPlugin.NATURE_ID ) != null ) //$NON-NLS-1$
 						projectList.add( projects[i] );
 				}
 				catch ( CoreException e )
