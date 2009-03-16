@@ -28,7 +28,7 @@ public abstract class RepeatableArea extends BlockContainerArea
 
 	protected int repeatHeight = 0;
 
-	protected boolean isFirst = true;
+	protected boolean inHeaderBand = false;
 
 	public RepeatableArea( ContainerArea parent, LayoutContext context,
 			IContent content )
@@ -39,12 +39,17 @@ public abstract class RepeatableArea extends BlockContainerArea
 			repeatList = new ArrayList( );
 		}
 	}
+	
+	public void setInHeaderBand(boolean inHeaderBand)
+	{
+		this.inHeaderBand = inHeaderBand;
+	}
 
 	protected void updateChildrenPosition( ) throws BirtException
 	{
 		if ( repeatList != null && repeatList.size( ) > 0 )
 		{
-			if ( !isInHeaderBand( ) )
+			if ( !inHeaderBand )
 			{
 				if ( getRepeatedHeight( ) < getMaxAvaHeight( ) )
 				{
@@ -64,8 +69,6 @@ public abstract class RepeatableArea extends BlockContainerArea
 					repeatList = null;
 				}
 			}
-			isFirst = false;
-
 		}
 		super.updateChildrenPosition( );
 	}
@@ -77,27 +80,37 @@ public abstract class RepeatableArea extends BlockContainerArea
 
 	protected int getRepeatedHeight( )
 	{
-		if ( repeatList != null && repeatHeight == 0 )
+		if ( inHeaderBand )
 		{
-			for ( int i = 0; i < repeatList.size( ); i++ )
+			return 0;
+		}
+		if ( repeatHeight != 0 )
+		{
+			return repeatHeight;
+		}
+		else
+		{
+			if(repeatList!=null)
 			{
-				AbstractArea area = (AbstractArea) repeatList.get( i );
-				repeatHeight += area.getAllocatedHeight( );
+				for ( int i = 0; i < repeatList.size( ); i++ )
+				{
+					AbstractArea area = (AbstractArea) repeatList.get( i );
+					repeatHeight += area.getAllocatedHeight( );
+				}
+				return repeatHeight;
 			}
 		}
-		return repeatHeight;
+		return 0;
 	}
 
 	protected boolean isValidResult( List result )
 	{
-		if ( repeatList != null && !isFirst )
+		if ( repeatList != null && !inHeaderBand )
 		{
 			return result.size( ) > repeatList.size( );
 		}
 		return super.isValidResult( result );
 	}
-
-	protected abstract boolean isInHeaderBand( );
 
 	protected abstract boolean needRepeat( );
 

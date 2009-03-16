@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -54,6 +55,7 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.RepeatableArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextAreaLayout;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
@@ -406,7 +408,15 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void startListBand( IListBandContent listBand ) throws BirtException
 	{
-
+		int bandType = listBand.getBandType( );
+		if ( bandType == IBandContent.BAND_HEADER
+				|| bandType == IBandContent.BAND_GROUP_HEADER )
+		{
+			if ( current instanceof RepeatableArea )
+			{
+				( (RepeatableArea) current ).setInHeaderBand( true );
+			}
+		}
 	}
 
 	public void startListGroup( IListGroupContent listGroup )
@@ -417,7 +427,15 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void endListBand( IListBandContent listBand ) throws BirtException
 	{
-
+		int bandType = listBand.getBandType( );
+		if ( bandType == IBandContent.BAND_HEADER
+				|| bandType == IBandContent.BAND_GROUP_HEADER )
+		{
+			if ( current instanceof RepeatableArea )
+			{
+				( (RepeatableArea) current ).setInHeaderBand( false );
+			}
+		}
 	}
 
 	public void startPage( IPageContent page ) throws BirtException
@@ -464,7 +482,15 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void startTableBand( ITableBandContent band ) throws BirtException
 	{
-		//startTableContainer( band );
+		int bandType = band.getBandType( );
+		if ( bandType == IBandContent.BAND_HEADER
+				|| bandType == IBandContent.BAND_GROUP_HEADER )
+		{
+			if ( current instanceof RepeatableArea )
+			{
+				( (RepeatableArea) current ).setInHeaderBand( true );
+			}
+		}
 	}
 
 	public void startTableGroup( ITableGroupContent group )
@@ -475,7 +501,15 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void endTableBand( ITableBandContent band ) throws BirtException
 	{
-		//endTableContainer( band );
+		int bandType = band.getBandType( );
+		if ( bandType == IBandContent.BAND_HEADER
+				|| bandType == IBandContent.BAND_GROUP_HEADER )
+		{
+			if ( current instanceof RepeatableArea )
+			{
+				( (RepeatableArea) current ).setInHeaderBand( false );
+			}
+		}
 	}
 
 	public void endTableGroup( ITableGroupContent group ) throws BirtException
