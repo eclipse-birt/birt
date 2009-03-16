@@ -51,12 +51,10 @@
 		<parallel failonany="true">
 			<sequential>	
 				<antcall target="buildBirtWtpFeature"/>
-				<antcall target="renameBirtWtpPackage"/>
 				<antcall target="CreateUpdateSite"/>							
 			</sequential>
 			<sequential>
-				<antcall target="buildBirtNLFeature"/>
-				<antcall target="renameBirtPackage"/>
+				<antcall target="buildBirtNLFeature"/>			
 				<antcall target="iPortalSetup"/>
 				<!--
 				<antcall target="generateJavaCrossReference"/>
@@ -201,7 +199,7 @@
 			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
-                
+		
         <!--copy all packages to upload area-->
 		<echo message="start copying to download area..."/>
 	    <echo message="from dir: ${postingDirectory}/${buildId}"/>
@@ -215,8 +213,12 @@
                 <include name="directory.txt"/>
 		    </fileset>
             <fileset file="monitor.properties"/>
-	    </copy>    
-        <antcall target="sendNotification"/>
+	    </copy>
+		
+		<antcall target="renameBirtPackage"/>
+        
+		<antcall target="sendNotification"/> 
+		
 	</target>
 	
 	<target name="renameBirtPackage" unless="skip.rename.package">
@@ -498,6 +500,16 @@
 		<!-- verify compile result -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
 
+        <!--copy all packages to upload area-->
+		<echo message="start copying birt-wtp-integration-sdk-*.zip to download area..."/>
+        <copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
+	        <fileset dir="${postingDirectory}/${buildId}" >
+                <include name="birt-wtp-integration-sdk-2_5_0-20090316.zip"/>
+            </fileset>
+	    </copy>
+		
+		<antcall target="renameBirtWtpPackage"/>
+		
 	</target>
 	
 	<target name="buildBirtThirdPartyFeature">
