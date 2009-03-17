@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 
 /**
@@ -104,14 +105,22 @@ public class TextItemExecutor extends QueryItemExecutor
 		processStyle( textDesign, textContent );
 		processVisibility( textDesign, textContent );
 
-		String text = evaluate( textDesign.getText( ) );
+		Expression<String> textExpression = textDesign.getText( );
+		String text = evaluate( textExpression );
 		String textType = evaluate( textDesign.getTextType( ) );
 
 		
 		HashMap<String, String> exprs = null;
 		if ( textDesign.hasExpression( ) )
 		{
-			exprs = TextItemDesign.extractExpression( text, textType );
+			if ( textExpression.isExpression( ) )
+			{
+				exprs = TextItemDesign.extractExpression( text, textType );
+			}
+			else
+			{
+				exprs = textDesign.getExpressions( );
+			}
 		}
 		if ( exprs != null && !exprs.isEmpty( ) )
 		{
