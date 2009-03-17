@@ -180,6 +180,7 @@ public class PageArea extends BlockContainerArea
 		}
 		context.setMaxHeight( root.getHeight( ) );
 		context.setMaxWidth( root.getWidth( ) );
+		context.setMaxBP( root.getHeight( ) );
 		layoutHeader( );
 		layoutFooter( );
 		updateBodySize( );
