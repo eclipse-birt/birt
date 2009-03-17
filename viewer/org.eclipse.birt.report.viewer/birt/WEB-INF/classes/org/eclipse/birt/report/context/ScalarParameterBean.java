@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.context;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -65,9 +66,14 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	 * Current parameter default value.
 	 */
 	private String defaultValue = null;
+	
+	/**
+	 * Default values, if multiple.
+	 */
+	private List<String> defaultValues = null;
 
 	/**
-	 * Diaplay text of current default value.
+	 * Display text of current default value.
 	 */
 	private String defaultDisplayText = null;
 
@@ -331,6 +337,23 @@ public class ScalarParameterBean extends ParameterAttributeBean
 		this.defaultValue = defaultValue;
 	}
 
+	/**
+	 * @return the defaultValue
+	 */
+	public List<String> getDefaultValues( )
+	{
+		return defaultValues;
+	}
+
+	/**
+	 * @param defaultValue
+	 *            the defaultValue to set
+	 */
+	public void setDefaultValues( List<String> defaultValues )
+	{
+		this.defaultValues = Collections.unmodifiableList( defaultValues );
+	}
+	
 	/**
 	 * @return the defaultDisplayText
 	 */

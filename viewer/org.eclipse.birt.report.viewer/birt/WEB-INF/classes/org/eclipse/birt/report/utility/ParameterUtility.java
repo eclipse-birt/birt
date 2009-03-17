@@ -12,7 +12,6 @@ package org.eclipse.birt.report.utility;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -48,6 +47,15 @@ public class ParameterUtility
 		boolean nullValueFound = false;
 		List<ParameterSelectionChoice> processedList = parameterBean.getSelectionList();
 		ParameterDefinition paramDef = parameterBean.getParameter( );
+		
+		List<String> defaultValues = null;
+		if ( parameterBean.getDefaultValues( ) != null )
+		{
+			// make a copy, so the values can be removed one by one
+			// after processing
+			defaultValues = new ArrayList<String>( parameterBean.getDefaultValues( ) );
+		}
+		
 		parameterBean.setValueInList( false );
 		if ( selectionList != null )
 		{
@@ -133,8 +141,17 @@ public class ParameterUtility
 						}
 					}
 	
-					// If parameter default value is in the selection list
-					if ( DataUtil.equals( displayValue, parameterBean.getDefaultValue( ) ) )
+					// Find out whether parameter default value is in the selection list
+					
+					// if is multivalue and the default value is an array
+					if ( paramDef.isMultiValue( ) && defaultValues != null )
+					{
+						if ( DataUtil.contain( (List<?>)defaultValues, displayValue, true ) )
+						{
+							parameterBean.setDefaultValueInList( true );							
+						}
+					}
+					else if ( DataUtil.equals( displayValue, parameterBean.getDefaultValue( ) ) )
 					{
 						parameterBean.setDefaultValueInList( true );
 					}

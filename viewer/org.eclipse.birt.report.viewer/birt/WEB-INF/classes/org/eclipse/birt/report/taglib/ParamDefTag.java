@@ -338,9 +338,14 @@ public class ParamDefTag extends BodyTagSupport
 					.getParameterDefaultValue( viewer.getReportDesignHandle( ),
 							param.getName( ), options );
 			if ( this.paramDef.isMultiValue( ) )
-				param.setValue( new Object[]{defaultValue} );
-			else
-				param.setValue( defaultValue );
+			{
+				if ( !(defaultValue instanceof Object[]) )
+				{
+					defaultValue = new Object[]{defaultValue};
+				}
+			}
+			
+			param.setValue( defaultValue );
 		}
 
 		// handle value string

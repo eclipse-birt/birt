@@ -171,8 +171,23 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		Object defaultValue = defaultValues.get( parameter.getName( ) );
 		if ( defaultValue != null )
 		{
-			parameterBean.setDefaultValue( DataUtil
-					.getDisplayValue( defaultValue, attrBean.getTimeZone( )  ) );
+			if ( defaultValue instanceof Object[] )
+			{
+				Object[] paramDefaultValues = (Object[])defaultValue;
+				List<String> convertedDefaultValues = new ArrayList<String>(paramDefaultValues.length); 
+				for ( int i = 0; i < paramDefaultValues.length; i++ )
+				{
+					Object value = paramDefaultValues[i];
+					convertedDefaultValues.add( DataUtil
+							.getDisplayValue( value, attrBean.getTimeZone( )  ) );
+				}
+				parameterBean.setDefaultValues( convertedDefaultValues );
+			}
+			else
+			{
+				parameterBean.setDefaultValue( DataUtil
+						.getDisplayValue( defaultValue, attrBean.getTimeZone( )  ) );
+			}
 			parameterBean.setDefaultDisplayText( DataUtil
 					.getDisplayValue( null, parameter.getPattern( ),
 							defaultValue, locale, attrBean.getTimeZone( ) ) );

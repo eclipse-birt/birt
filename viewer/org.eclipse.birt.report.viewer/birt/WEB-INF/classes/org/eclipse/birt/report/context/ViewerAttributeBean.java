@@ -790,18 +790,18 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * 
 	 * @return Map
 	 */
-	protected Map getParsedParameters( IViewerReportDesignHandle design,
-			Collection parameterList, HttpServletRequest request,
+	protected Map<String,Object> getParsedParameters( IViewerReportDesignHandle design,
+			Collection<ParameterDefinition> parameterList, HttpServletRequest request,
 			InputOptions options ) throws ReportServiceException
 	{
-		Map params = new HashMap( );
+		Map<String,Object> params = new HashMap<String,Object>( );
 		if ( parameterList == null || this.parametersAsString == null )
 			return params;
 
-		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
+		for ( Iterator<ParameterDefinition> iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
 			// get parameter definition object
-			ParameterDefinition parameter = (ParameterDefinition) iter.next( );
+			ParameterDefinition parameter = iter.next( );
 			if ( parameter == null )
 				continue;
 
@@ -894,15 +894,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				{
 					// FIXME: if multi-value only contains null value, regard it
 					// as NULL object
-					if ( paramValueObj == null )
-						params.put( paramName, null );
-					else
-						params.put( paramName, new Object[]{paramValueObj} );
+					if ( paramValueObj != null && !(paramValueObj instanceof Object[]) )
+					{
+						paramValueObj = new Object[]{paramValueObj};
+					}
 				}
-				else
-				{
-					params.put( paramName, paramValueObj );
-				}
+				params.put( paramName, paramValueObj );
 			}
 		}
 		return params;

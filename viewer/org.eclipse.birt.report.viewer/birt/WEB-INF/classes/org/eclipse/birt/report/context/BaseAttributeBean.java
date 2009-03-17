@@ -404,29 +404,6 @@ abstract public class BaseAttributeBean
 		return rtl;
 	}
 
-	protected Map getParsedParameters( IViewerReportDesignHandle design,
-			Collection parameterList, HttpServletRequest request,
-			InputOptions options ) throws ReportServiceException
-	{
-		Map params = new HashMap( );
-		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
-		{
-			ParameterDefinition parameterObj = (ParameterDefinition) iter
-					.next( );
-
-			String paramName = parameterObj.getName( );
-
-			Object paramValueObj = this.getParamValueObject( request,
-					parameterObj );
-			if ( paramValueObj == null )
-				paramValueObj = getReportService( ).getParameterDefaultValue(
-						design, parameterObj.getName( ), options );
-
-			params.put( paramName, paramValueObj );
-		}
-		return params;
-	}
-
 	protected Object getParamValueObject( HttpServletRequest request,
 			ParameterDefinition parameterObj ) throws ReportServiceException
 	{
