@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
+import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.IAreaVisitor;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
@@ -216,6 +217,19 @@ public class TextArea extends AbstractArea implements ITextArea
 					* EmitterUtil.getItalicHorizontalCoefficient( ) );
 		}
 		return width;
+	}
+
+	public int getTextWidth( String text )
+	{
+		FontInfo fontInfo = style.getFontInfo( );
+		if ( null != fontInfo )
+		{
+			return (int) ( style.getFontInfo( ).getWordWidth( text ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	public TextArea cloneArea( )

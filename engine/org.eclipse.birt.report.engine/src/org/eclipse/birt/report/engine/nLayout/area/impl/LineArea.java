@@ -91,7 +91,18 @@ public class LineArea extends InlineStackingArea
 					// ) )
 					if ( isRightAligned )
 					{
-						area.setPosition( spacing + area.getX( ), area.getY( ) );
+						if ( parent.content.isDirectionRTL( ) )
+						{
+							area.setPosition( spacing + area.getX( ), area
+									.getY( ) );
+						}
+						else
+						{
+							area
+									.setPosition( spacing + area.getX( )
+											+ ignoreRightMostWhiteSpace( ),
+											area.getY( ) );
+						}
 					}
 					else if ( IStyle.CENTER_VALUE.equals( align ) )
 					{
@@ -100,7 +111,6 @@ public class LineArea extends InlineStackingArea
 					}
 				}
 			}
-
 		}
 		else if ( IStyle.JUSTIFY_VALUE.equals( align ) && !lastLine )
 		{
@@ -109,6 +119,42 @@ public class LineArea extends InlineStackingArea
 		if ( context.getBidiProcessing( ) )
 			reorderVisually( );
 		verticalAlign( );
+	}
+	
+	private int ignoreRightMostWhiteSpace( )
+	{
+		AbstractArea area = this;
+		while ( area instanceof ContainerArea )
+		{
+			ArrayList children = ( (ContainerArea) area ).children;
+			if ( children != null && children.size( ) > 0 )
+			{
+				area = (AbstractArea) children.get( children.size( ) - 1 );
+			}
+			else
+			{
+				return 0;
+			}
+			if ( area instanceof TextArea )
+			{
+				String text = ( (TextArea) area ).getText( );
+				if ( null != text )
+				{
+					char[] charArray = text.toCharArray( );
+					int len = charArray.length;
+					while ( len > 0 && ( charArray[len - 1] <= ' ' ) )
+					{
+						len--;
+					}
+					if ( len != charArray.length )
+					{
+						return ( (TextArea) area ).getTextWidth( text
+								.substring( len ) );
+					}
+				}
+			}
+		}
+		return 0;
 	}
 
 	private int adjustWordSpacing( int wordSpacing, ContainerArea area )
