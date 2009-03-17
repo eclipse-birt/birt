@@ -144,6 +144,10 @@ class ExprDataReader1 implements IExprDataReader
 	 */
 	public int getRowIndex( )
 	{
+		if( this.rowCount == -1 )
+		{
+			return this.currRowIndex;
+		}
 		if ( this.currRowIndex >= this.rowCount )
 			return this.rowCount;
 		
@@ -155,7 +159,7 @@ class ExprDataReader1 implements IExprDataReader
 	 */
 	public void moveTo( int index ) throws DataException
 	{
-		if ( index < 0 || index >= this.rowCount )
+		if ( this.rowCount!= -1 &&( index < 0 || index >= this.rowCount ) )
 			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
 					new Integer( index ) );
 		else if ( index < currRowIndex )
@@ -171,11 +175,15 @@ class ExprDataReader1 implements IExprDataReader
 	 */
 	public boolean next( ) throws DataException
 	{
-		if( this.currRowIndex < this.rowCount - 1)
+		if( this.currRowIndex < this.rowCount - 1 || this.rowCount ==-1 ) 
 		{
 			this.currRowIndex++;
 			if( this.dataSetData!= null )
-				this.dataSetData.next( );
+			{
+				IResultObject obj = this.dataSetData.next( );
+				if( obj== null )
+					return false;
+			}
 			return true;
 		}
 		else

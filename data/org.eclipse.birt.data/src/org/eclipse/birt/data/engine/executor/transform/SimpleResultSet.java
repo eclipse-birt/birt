@@ -14,15 +14,26 @@
 
 package org.eclipse.birt.data.engine.executor.transform;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Set;
+
+import org.eclipse.birt.core.archive.RAOutputStream;
+import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceQuery;
+import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.cache.OdiAdapter;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
+import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.executor.cache.RowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.SmartCacheRequest;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -42,8 +53,13 @@ public class SimpleResultSet implements IResultIterator
 	private StopSign stopSign;
 	private IResultObject currResultObj;
 	private IEventHandler handler;
-	private int rowCount;
-
+	private int initialRowCount, rowCount;
+	private StreamWrapper streamsWrapper;
+	private OutputStream dataSetStream;
+	private DataOutputStream dataSetLenStream;
+	private long offset = 4;
+	private long rowCountOffset = 0;
+	
 	/**
 	 * 
 	 * @param dataSourceQuery
@@ -53,8 +69,8 @@ public class SimpleResultSet implements IResultIterator
 	 * @throws DataException
 	 */
 	public SimpleResultSet( DataSourceQuery dataSourceQuery,
-			ResultSet resultSet, IResultClass resultClass, IEventHandler handler, StopSign stopSign )
-			throws DataException
+			ResultSet resultSet, IResultClass resultClass,
+			IEventHandler handler, StopSign stopSign ) throws DataException
 	{
 		this.rowResultSet = new RowResultSet( new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
 				dataSourceQuery.getFetchEvents( ),
@@ -62,7 +78,8 @@ public class SimpleResultSet implements IResultIterator
 				resultClass,
 				false ) );
 		this.currResultObj = this.rowResultSet.next( stopSign );
-		this.rowCount = (this.currResultObj!= null)?-1:0; 
+		this.initialRowCount = ( this.currResultObj != null ) ? -1 : 0;
+		this.rowCount = ( this.currResultObj != null ) ? 1 : 0;
 		this.resultSet = resultSet;
 		this.stopSign = stopSign;
 		this.handler = handler;
@@ -79,6 +96,42 @@ public class SimpleResultSet implements IResultIterator
 			this.resultSet.close( );
 			this.resultSet = null;
 		}
+		if ( this.dataSetStream != null )
+		{
+			try
+			{
+
+				if ( dataSetStream instanceof RAOutputStream )
+				{
+					( (RAOutputStream) dataSetStream ).seek( rowCountOffset );
+					IOUtil.writeInt( dataSetStream, rowCount );
+				}
+				OutputStream exprValueStream = this.streamsWrapper.getStreamManager( )
+						.getOutStream( DataEngineContext.EXPR_VALUE_STREAM,
+								StreamManager.ROOT_STREAM,
+								StreamManager.SELF_SCOPE );
+				if ( exprValueStream instanceof RAOutputStream )
+				{
+					( (RAOutputStream) exprValueStream ).seek( 0 );
+					IOUtil.writeInt( exprValueStream, rowCount );
+				}
+
+				dataSetStream.close( );
+			}
+			catch ( IOException e )
+			{
+			}
+		}
+		if ( this.dataSetLenStream != null )
+		{
+			try
+			{
+				dataSetLenStream.close( );
+			}
+			catch ( IOException e )
+			{
+			}
+		}
 	}
 
 	public void finalize()
@@ -93,6 +146,7 @@ public class SimpleResultSet implements IResultIterator
 			e.printStackTrace();
 		}
 	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#doSave(org.eclipse.birt.data.engine.impl.document.StreamWrapper, boolean)
@@ -100,8 +154,39 @@ public class SimpleResultSet implements IResultIterator
 	public void doSave( StreamWrapper streamsWrapper, boolean isSubQuery )
 			throws DataException
 	{
-		// TODO Auto-generated method stub
+		this.streamsWrapper = streamsWrapper;
 
+		if ( streamsWrapper.getStreamForGroupInfo( ) != null )
+		{
+			try
+			{
+				IOUtil.writeInt( streamsWrapper.getStreamForGroupInfo( ), 0 );
+			}
+			catch ( IOException e )
+			{
+			}
+		}
+
+		if ( streamsWrapper.getStreamForResultClass( ) != null )
+		{
+			( (ResultClass) getResultClass( ) ).doSave( streamsWrapper.getStreamForResultClass( ),
+					this.handler.getAllColumnBindings( ) );
+		}
+		try
+		{
+			streamsWrapper.getStreamForResultClass( ).close( );
+			dataSetStream = this.streamsWrapper.getStreamManager( )
+					.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
+							StreamManager.ROOT_STREAM,
+							StreamManager.SELF_SCOPE );
+			dataSetLenStream = streamsWrapper.getStreamForDataSetRowLens( );
+			if ( dataSetStream instanceof RAOutputStream )
+				rowCountOffset = ( (RAOutputStream) dataSetStream ).getOffset( );
+			IOUtil.writeInt( dataSetStream, this.initialRowCount );
+		}
+		catch ( IOException e )
+		{
+		}
 	}
 
 	/*
@@ -212,7 +297,7 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public int getRowCount( ) throws DataException
 	{
-		return this.rowCount;
+		return this.initialRowCount;
 	}
 
 	/*
@@ -243,7 +328,31 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public boolean next( ) throws DataException
 	{
+		if ( this.streamsWrapper != null && currResultObj != null )
+		{
+			try
+			{
+				if ( dataSetStream != null )
+				{
+					int colCount = this.currResultObj.getResultClass( )
+							.getFieldCount( );
+					Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( handler.getAllColumnBindings( ) );
+					IOUtil.writeLong( dataSetLenStream, offset );
+
+					offset += ResultSetUtil.writeResultObject( new DataOutputStream( dataSetStream ),
+							currResultObj,
+							colCount,
+							resultSetNameSet );
+				}
+			}
+			catch ( IOException e )
+			{
+			}
+		}
 		this.currResultObj = this.rowResultSet.next( stopSign );
+
+		if ( this.currResultObj != null )
+			rowCount++;
 		return this.currResultObj != null;
 	}
 

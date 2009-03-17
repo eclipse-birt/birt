@@ -47,6 +47,11 @@ public class StreamWrapper
 		this.streamForParentIndex = streamForParentIndex;
 		this.manager = manager;
 	}
+	
+	public StreamManager getStreamManager( )
+	{
+		return this.manager;
+	}
 
 	/**
 	 * @return
