@@ -22,3 +22,5 @@ ScriptLaunchShortcut.label=Bericht
 DebugReportLaunchShortcut.description=Bericht debuggen
 EnableBreakpoint.label=Haltepunkt aktivieren
 ToggleBreakpoint.label=Haltepunkt ein/aus
+Action.DebugReport=Debug Report
+Menu.Report=Bericht

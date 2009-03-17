@@ -22,3 +22,5 @@ ScriptLaunchShortcut.label=报表
 DebugReportLaunchShortcut.description=调试报表
 EnableBreakpoint.label=启用断点
 ToggleBreakpoint.label=切换断点
+Action.DebugReport=Debug Report
+Menu.Report=报表
