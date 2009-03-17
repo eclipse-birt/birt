@@ -78,12 +78,12 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 					IStyle style = content.getComputedStyle( );
 					// Minimum number of lines of a paragraph that must appear
 					// at the top of a page.
-					int widow = PropertyUtil.getIntValue( style
-							.getProperty( IStyle.STYLE_WIDOWS ) );
+					int widow = Math.min( size, PropertyUtil.getIntValue( style
+							.getProperty( IStyle.STYLE_WIDOWS ) ));
 					// Minimum number of lines of a paragraph that must appear
 					// at the bottom of a page.
-					int orphan = PropertyUtil.getIntValue( style
-							.getProperty( IStyle.STYLE_ORPHANS ) );
+					int orphan = Math.min( size, PropertyUtil.getIntValue( style
+							.getProperty( IStyle.STYLE_ORPHANS ) ));
 					for ( int i = 0; i < size; i++ )
 					{
 						TextLineArea line = (TextLineArea) children.get( i );
