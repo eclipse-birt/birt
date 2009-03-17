@@ -541,7 +541,7 @@ public final class ExpressionUtil
 		ConditionalExpression expression = new ConditionalExpression(
 				(String) testExpression.getDesignValue( ), DataAdapterUtil
 						.adaptModelFilterOperator( operator ),
-				(String) valueList.getDesignValue( ) );
+				(List) valueList.getDesignValue( ) );
 		return ExpressionUtil.transformConditionalExpression( expression );
 	}
 }
