@@ -504,7 +504,7 @@
 		<echo message="start copying birt-wtp-integration-sdk-*.zip to download area..."/>
         <copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
 	        <fileset dir="${postingDirectory}/${buildId}" >
-                <include name="birt-wtp-integration-sdk-2_5_0-20090316.zip"/>
+                <include name="birt-wtp-integration-sdk-${package.version}.zip"/>
             </fileset>
 	    </copy>
 		
