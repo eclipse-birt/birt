@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.File;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -68,7 +69,8 @@ public class ReportEngineTest extends EngineCase
 			
 			ReportEngine engine = new ReportEngine( new EngineConfig());
 			IReportRunnable runnable = engine.openReportDesign( REPORT_DESIGN );
-			assertTrue( runnable.getReportName( ).equals( goldenReportName ) );
+			assertEquals( goldenReportName, URLDecoder.decode( runnable
+					.getReportName( ), "utf-8" ) );
 			engine.shutdown( );
 		}
 		catch( Exception ex )

@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
@@ -65,13 +64,13 @@ public class PDFImageLMTest extends PDFLayoutTest
 		ContainerArea blockContainer = (ContainerArea) logicContainers.next( );
 		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
 		{
-			checkChart( 162590, 40173, 39800, 11251, "#bookmark", null, "",
+			checkChart( 162302, 40057, 39729, 11219, "#bookmark", null, null,
 					blockContainer );
 			logicContainers.next( );
-			checkChart( 162590, 40173, 39800, 11251,
+			checkChart( 162302, 40057, 39729, 11219,
 					"run\\?__report=.*120358.rptdesign&__overwrite=true", null,
 					"_self", (ContainerArea) logicContainers.next( ) );
-			checkChart( 162590, 40173, 39800, 11251, "120358.rptdesign", null,
+			checkChart( 162302, 40057, 39729, 11219, "120358.rptdesign", null,
 					"_self", (ContainerArea) logicContainers.next( ) );
 		}
 	}

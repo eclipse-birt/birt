@@ -13,6 +13,8 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -557,16 +559,30 @@ class ConcreteImageLayout implements ILayout
 
 	private void createImageMap( String imageMapObject, IImageArea imageArea )
 	{
-		Pattern pattern = Pattern
-				.compile( "<AREA[^<>]*coords=\"([\\d,]*)\" href=\"([^<>\"]*)\" target=\"([^<>\"]*)\"/>" );
-		Matcher matcher = pattern.matcher( imageMapObject );
-		while ( matcher.find( ) )
+		if ( imageMapObject == null )
 		{
+			return;
+		}
+		String[] maps = imageMapObject.split( "/>" );
+		Pattern pattern = Pattern.compile( " ([^=]*)=\"([^\"]*)\"" );
+		for ( String map : maps )
+		{
+			map = map.trim( );
+			if ( map.length( ) == 0 )
+			{
+				continue;
+			}
+			Map<String, String> attributes = new TreeMap<String, String>( );
+			Matcher matcher = pattern.matcher( map );
+			while ( matcher.find( ) )
+			{
+				attributes.put( matcher.group( 1 ), matcher.group( 2 ) );
+			}
 			try
 			{
-				int[] area = getArea( matcher.group( 1 ) );
-				String url = matcher.group( 2 );
-				String targetWindow = matcher.group( 3 );
+				int[] area = getArea( attributes.get( "coords" ) );
+				String url = attributes.get( "href" );
+				String targetWindow = attributes.get( "target" );
 				createImageMap( area, imageArea, url, targetWindow );
 			}
 			catch ( NumberFormatException e )
