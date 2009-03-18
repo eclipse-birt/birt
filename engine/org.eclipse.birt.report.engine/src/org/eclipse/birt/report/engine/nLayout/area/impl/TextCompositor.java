@@ -33,7 +33,6 @@ import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 public class TextCompositor
 {
 
-
 	private FontInfo fontInfo;
 	private int runLevel;
 
@@ -55,8 +54,16 @@ public class TextCompositor
 	 * be handled, hasNextArea() will return false when hasLineBreak is true.
 	 */
 	private boolean hasLineBreak = false;
-
+	
 	private boolean isNewLine = true;
+	
+	//three possible line break collapse status
+	private int LINE_BREAK_COLLAPSE_FREE = 0;
+	private int LINE_BREAK_COLLAPSE_STANDING_BY = 1;
+	private int LINE_BREAK_COLLAPSE_OCCUPY = 2;
+	
+	private int lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
+
 	private ITextContent textContent;
 	private FontMappingManager fontManager;
 	private LayoutContext context;
@@ -101,7 +108,12 @@ public class TextCompositor
 		}
 		TextArea textArea = getNextTextArea( maxLineWidth );
 		offset += textArea.getTextLength( );
-		return textArea;
+		if( lineBreakCollapse == LINE_BREAK_COLLAPSE_OCCUPY )
+		{
+			lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
+			return null;
+		}
+		return textArea;	
 	}
 
 	private TextArea getNextTextArea( int maxLineWidth )
@@ -140,7 +152,15 @@ public class TextCompositor
 						.getFontInfo( ), true );
 				textArea.setTextLength( chunk.getLength( ) );
 				hasLineBreak = true;
+				if( lineBreakCollapse == LINE_BREAK_COLLAPSE_STANDING_BY )
+				{
+					lineBreakCollapse = LINE_BREAK_COLLAPSE_OCCUPY;
+				}
 				return textArea;
+			}
+			if( lineBreakCollapse == LINE_BREAK_COLLAPSE_STANDING_BY )
+			{
+				lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
 			}
 			fontInfo = chunk.getFontInfo( );
 			runLevel = chunk.getRunLevel( );
@@ -244,6 +264,7 @@ public class TextCompositor
 					// them.
 					textArea.setLineBreak( true );
 					hasLineBreak = true;
+					lineBreakCollapse = LINE_BREAK_COLLAPSE_STANDING_BY;
 				}
 			}
 		}
@@ -258,8 +279,7 @@ public class TextCompositor
 				else
 				{
 					// If width of a word is larger than the max line width, add
-					// it
-					// into the line directly.
+					// it into the line directly.
 					addWord( textArea, textLength, wordWidth );
 				}
 			}
@@ -270,6 +290,7 @@ public class TextCompositor
 			}
 			textArea.setLineBreak( true );
 			hasLineBreak = true;
+			lineBreakCollapse = LINE_BREAK_COLLAPSE_STANDING_BY;
 		}
 	}
 

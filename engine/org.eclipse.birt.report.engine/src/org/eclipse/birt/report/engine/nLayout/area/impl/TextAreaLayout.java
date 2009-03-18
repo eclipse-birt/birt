@@ -158,12 +158,15 @@ public class TextAreaLayout implements ILayout
 		{
 			TextArea area = comp.getNextArea( getFreeSpace( ) );
 			//for a textArea which just has a line break. We should not add TextArea into the line.
-			addTextArea( area );
-			comp.setNewLineStatus( false );
-			if ( area.isLineBreak( ) )
+			if( area != null )
 			{
-				newLine();
-				comp.setNewLineStatus( true );
+				addTextArea( area );
+				comp.setNewLineStatus( false );
+				if ( area.isLineBreak( ) )
+				{
+					newLine();
+					comp.setNewLineStatus( true );
+				}
 			}
 		}
 	}
