@@ -1784,6 +1784,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead );
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 		htmlEmitter.handleCellAlign( cell );
+		if ( enableCellIID && enableMetadata )
+		{
+			metadataEmitter.outputCellIID( cell );
+		}
 
 		if ( !startedGroups.isEmpty( ) )
 		{
@@ -1810,7 +1814,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		if ( enableMetadata )
 		{
-			metadataEmitter.startCell( cell, enableCellIID );
+			metadataEmitter.startCell( cell );
 		}
 	}
 	

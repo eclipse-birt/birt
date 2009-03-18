@@ -252,6 +252,23 @@ public class MetadataEmitter
 			state.isStartOfDetail = false;
 		}
 	}
+	
+	/**
+	 * output the cell's iid
+	 * @param cell
+	 */
+	public void outputCellIID( ICellContent cell )
+	{
+		if ( cell != null )
+		{
+			// Instance ID
+			InstanceID iid = cell.getInstanceID( );
+			if ( iid != null )
+			{
+				writer.attribute( attrIID, iid.toString( ) );
+			}
+		}
+	}
 
 	/**
 	 * Starts a cell. Output a wrap table if group icon or column filter need to
@@ -259,21 +276,8 @@ public class MetadataEmitter
 	 * 
 	 * @param cell
 	 */
-	public void startCell( ICellContent cell, boolean enableCellIID )
+	public void startCell( ICellContent cell )
 	{
-		if ( enableCellIID )
-		{
-			if ( cell != null )
-			{
-				// Instance ID
-				InstanceID iid = cell.getInstanceID( );
-				if ( iid != null )
-				{
-					writer.attribute( attrIID, iid.toString( ) );
-				}
-			}
-		}
-		
 		boolean needColumnFilter = needColumnFilter(cell);
 		boolean needGroupIcon = needGroupIcon(cell);
 		if ( needColumnFilter || needGroupIcon )
