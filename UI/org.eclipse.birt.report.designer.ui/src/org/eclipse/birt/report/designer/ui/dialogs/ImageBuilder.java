@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,11 +27,14 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.BirtImageLoader;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
+import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
@@ -42,6 +46,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.window.Window;
@@ -124,7 +129,7 @@ public class ImageBuilder extends BaseDialog
 	private ImageHandle inputImage;
 
 	private Button embedded, uri, dynamic, resource, inputButton, importButton,
-			expressionButton;
+			expressionButton, refreshButton;
 
 	private Composite inputArea;
 
@@ -307,7 +312,7 @@ public class ImageBuilder extends BaseDialog
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.heightHint = 80;
 		inputArea.setLayoutData( gd );
-		inputArea.setLayout( new GridLayout( 3, false ) );
+		inputArea.setLayout( new GridLayout( 4, false ) );
 	}
 
 	private void createPreviewArea( Composite composite )
@@ -362,7 +367,7 @@ public class ImageBuilder extends BaseDialog
 		// Indication Label
 		Label uriEditorLabel = new Label( inputArea, SWT.NONE );
 		GridData labelGd = new GridData( GridData.FILL_HORIZONTAL );
-		labelGd.horizontalSpan = 3;
+		labelGd.horizontalSpan = 4;
 		uriEditorLabel.setLayoutData( labelGd );
 		uriEditorLabel.setText( uriEditorLabelMap.get( Integer.valueOf( type ) ) );
 
@@ -422,7 +427,11 @@ public class ImageBuilder extends BaseDialog
 	{
 		String imageName = IReportGraphicConstants.ICON_OPEN_FILE;
 		Image image = ReportPlatformUIImages.getImage( imageName );
-
+		setButtonImage( button, image );
+	}
+	
+	private void setButtonImage(Button button,  Image image)
+	{
 		GridData gd = new GridData( );
 		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
 		{
@@ -436,9 +445,61 @@ public class ImageBuilder extends BaseDialog
 		{
 			button.getImage( ).setBackground( button.getBackground( ) );
 		}
-
 	}
 
+	private void buildRefreshButton()
+	{
+		refreshButton = new Button( inputArea, SWT.PUSH );
+		
+		String imageName = IReportGraphicConstants.ICON_REFRESH;
+		Image image = ReportPlatformUIImages.getImage( imageName );
+		
+		setButtonImage(refreshButton, image);
+		
+		refreshButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent event )
+			{
+				refreshImage();
+			}
+		} );
+		
+		refreshButton.setToolTipText( Messages.getString("ImageBuilder.Reload.Tooltip") );  //$NON-NLS-1$
+	}
+	
+	private void refreshImage()
+	{
+		String str = DEUtil.removeQuote( uriEditor.getText( ) );
+		try
+		{
+			if ( selectedType == URI_TYPE )
+			{
+				ImageManager.getInstance( )
+						.reloadURIImage( inputImage.getModuleHandle( ), str );
+			}
+			else
+			{
+				ImageManager.getInstance( )
+						.rloadImage( inputImage.getModuleHandle( ), str );
+			}
+		}
+		catch ( IOException e )
+		{
+			//do nothing
+		}
+		clearPreview( );
+		preview( str );
+		
+
+		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+				.getResourceSynchronizerService( );
+
+		if ( synchronizer != null )
+		{
+			synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
+					str, IReportResourceChangeEvent.ImageResourceChange ) );
+		}
+	}
 	private void buildInputAreaButton( int type )
 	{
 
@@ -454,6 +515,7 @@ public class ImageBuilder extends BaseDialog
 					openExpression( );
 				}
 			} );
+			buildRefreshButton( );
 			new Label( inputArea, SWT.NONE );
 		}
 		else if ( type == FILE_TYPE )
@@ -488,6 +550,7 @@ public class ImageBuilder extends BaseDialog
 					}
 				}
 			} );
+			buildRefreshButton( );
 		}
 		else if ( type == EMBEDDED_TYPE )
 		{
@@ -556,6 +619,7 @@ public class ImageBuilder extends BaseDialog
 			} );
 
 			new Label( inputArea, SWT.NONE );
+			new Label( inputArea, SWT.NONE );
 		}
 		else if ( type == BLOB_TYPE )
 		{
@@ -570,6 +634,7 @@ public class ImageBuilder extends BaseDialog
 					openBidingDialog( );
 				}
 			} );
+			new Label( inputArea, SWT.NONE );
 			new Label( inputArea, SWT.NONE );
 		}
 	}

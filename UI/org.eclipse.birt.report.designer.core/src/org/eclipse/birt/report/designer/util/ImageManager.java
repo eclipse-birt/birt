@@ -283,6 +283,22 @@ public class ImageManager
 		}
 		return loadImage( url );
 	}
+	
+	/**Reload the image, refresh the cache.
+	 * @param designHandle
+	 * @param uri
+	 * @return
+	 * @throws IOException
+	 */
+	public Image rloadImage(ModuleHandle designHandle, String uri)throws IOException
+	{
+		URL url = generateURL( designHandle, uri );
+		if ( url == null )
+		{
+			throw new FileNotFoundException( uri );
+		}
+		return loadImage( url, true );
+	}
 
 	public Image loadImage( String uri ) throws IOException
 	{
@@ -291,11 +307,30 @@ public class ImageManager
 
 	public Image loadImage( URL url ) throws IOException
 	{
+		return loadImage( url, false );
+	}
+	
+	/**
+	 * @param url
+	 * @param reload
+	 * @return
+	 * @throws IOException
+	 */
+	public Image loadImage( URL url, boolean reload ) throws IOException
+	{
 		String key = url.toString( );
-		Image image = getImageRegistry( ).get( key );
-		if ( image != null )
+		Image image = null;
+		if (!reload)
 		{
-			return image;
+			image = getImageRegistry( ).get( key );
+			if ( image != null )
+			{
+				return image;
+			}
+		}
+		else
+		{
+			removeCachedImage( key );
 		}
 		InputStream in = null;
 
@@ -335,6 +370,10 @@ public class ImageManager
 		catch ( IOException e )
 		{
 			throw e;
+		}
+		catch (Exception ee)
+		{
+			//do nothing
 		}
 		finally
 		{
@@ -395,15 +434,47 @@ public class ImageManager
 		return reportDesignHandle.hashCode( ) + EMBEDDED_SUFFIX + name;
 	}
 
-	/**
-	 * Get image from URI
-	 * 
+	/**Reload the URI image, refresh the cache.
 	 * @param moduleHandel
 	 * @param uri
 	 * @return
 	 */
-	// bugzilla 245641
-	public Image getURIImage( ModuleHandle moduleHandel, String uri )
+	public Image reloadURIImage(ModuleHandle moduleHandel, String uri)
+	{
+		URL url = createURIURL( uri );
+		if ( url == null )
+		{
+			return null;
+		}
+		
+		String key = url.toString( );
+		
+		
+		Image image = null;
+		try
+		{
+			image = loadImage( url, true );
+		}
+		catch ( IOException e )
+		{
+			//do nothing
+		}
+		
+		if ( image == null )
+		{
+			if ( !invalidUrlList.contains( url.toString( ) ) )
+			{
+				invalidUrlList.add( url.toString( ) );
+			}
+		}
+		else
+		{
+			invalidUrlList.remove( url.toString( ) );
+		}
+		return image;
+	}
+	
+	private URL createURIURL(String uri)
 	{
 		URL url = null;
 		try
@@ -429,6 +500,20 @@ public class ImageManager
 				}
 			}
 		}
+		
+		return url;
+	}
+	/**
+	 * Get image from URI
+	 * 
+	 * @param moduleHandel
+	 * @param uri
+	 * @return
+	 */
+	// bugzilla 245641
+	public Image getURIImage( ModuleHandle moduleHandel, String uri )
+	{
+		URL url = createURIURL( uri );
 		Image image = null;
 		try
 		{

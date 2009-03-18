@@ -216,7 +216,8 @@ public class ImageEditPart extends ReportElementEditPart implements IResourceEdi
 	public void refreshResource( )
 	{
 		String imageSource = ((ImageHandle)getImageAdapter( ).getHandle( )).getSource( );
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( imageSource ) )
+		if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( imageSource ) 
+				|| DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( imageSource ))
 		{
 			refreshFigure( );
 		}

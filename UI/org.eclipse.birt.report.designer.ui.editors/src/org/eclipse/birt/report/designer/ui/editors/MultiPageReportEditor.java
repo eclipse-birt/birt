@@ -303,7 +303,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		if ( synchronizer != null )
 		{
-			synchronizer.addListener(IReportResourceChangeEvent.LibraySaveChange, this );
+			synchronizer.addListener(IReportResourceChangeEvent.LibraySaveChange|IReportResourceChangeEvent.ImageResourceChange, this );
 		}
 		
 		PlatformUI.getWorkbench().addWindowListener(windowListener);
@@ -1507,23 +1507,26 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void resourceChanged( IReportResourceChangeEvent event )
 	{
-		if (!(event.getType( ) == IReportResourceChangeEvent.LibraySaveChange))
+		if ((event.getType( ) == IReportResourceChangeEvent.LibraySaveChange))
 		{
-			return;
+			if (event.getSource( ).equals( getModel() ))
+			{
+				return;
+			}
+			LibrarySaveChangeEvent libEvent = (LibrarySaveChangeEvent)event;
+			
+			if (getModel( ).getFileName( ).equals( libEvent.getFileName( ) ))
+			{
+				needReset = true;
+			}
+			else if (ModuleUtil.isInclude( getModel( ), libEvent.getFileName(  )))
+			{
+				needReload = true;
+			}
 		}
-		if (event.getSource( ).equals( getModel() ))
+		else if ((event.getType( ) == IReportResourceChangeEvent.ImageResourceChange))
 		{
-			return;
-		}
-		LibrarySaveChangeEvent libEvent = (LibrarySaveChangeEvent)event;
-		
-		if (getModel( ).getFileName( ).equals( libEvent.getFileName( ) ))
-		{
-			needReset = true;
-		}
-		else if (ModuleUtil.isInclude( getModel( ), libEvent.getFileName(  )))
-		{
-			needReload = true;
+			refreshGraphicalEditor();
 		}
 		
 	}

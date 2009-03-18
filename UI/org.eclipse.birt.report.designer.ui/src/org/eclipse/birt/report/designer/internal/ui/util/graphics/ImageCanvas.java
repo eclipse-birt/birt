@@ -533,10 +533,10 @@ public class ImageCanvas extends Canvas
 		{
 			sourceImage.dispose( );
 			sourceImage = null;
-			GC clearGC = new GC( this );
-			paint( clearGC );
-			clearGC.dispose( );
 		}
+		GC clearGC = new GC( this );
+		paint( clearGC );
+		clearGC.dispose( );
 	}
 
 	/**
