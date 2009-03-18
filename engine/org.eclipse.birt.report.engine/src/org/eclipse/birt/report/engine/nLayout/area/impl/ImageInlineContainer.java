@@ -36,6 +36,8 @@ public class ImageInlineContainer extends InlineContainerArea
 			hasStyle = false;
 			boxStyle = BoxStyle.DEFAULT;
 			localProperties = LocalProperties.DEFAULT;
+			action = content.getHyperlinkAction( );
+			bookmark = content.getBookmark( );
 		}
 		else
 		{

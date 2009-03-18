@@ -38,6 +38,8 @@ public class ImageBlockContainer extends BlockContainerArea
 			hasStyle = false;
 			boxStyle = BoxStyle.DEFAULT;
 			localProperties = LocalProperties.DEFAULT;
+			action = content.getHyperlinkAction( );
+			bookmark = content.getBookmark( );
 		}
 		else
 		{

@@ -508,7 +508,7 @@ public class PageArea extends BlockContainerArea
 			int maxWidth = context.getMaxWidth( );
 			int maxHeight = context.getMaxHeight( );
 			int prefWidth = context.getPreferenceWidth( ); //0
-			int prefHeight = currentBP;
+			int prefHeight = page.getBody( ).getHeight( );
 			Iterator iter = page.getBody( ).getChildren( );
 			while ( iter.hasNext( ) )
 			{
