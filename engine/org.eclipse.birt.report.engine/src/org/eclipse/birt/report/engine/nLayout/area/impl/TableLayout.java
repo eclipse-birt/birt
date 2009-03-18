@@ -606,7 +606,7 @@ public class TableLayout
 		RowArea lastRow = (RowArea) rows.getCurrent( );
 
 		int height = rowArea.getSpecifiedHeight( );
-		if ( !isFixedLayout )
+		if ( !isFixedLayout || height==0)
 		{
 			for ( int i = startCol; i <= endCol; i++ )
 			{
