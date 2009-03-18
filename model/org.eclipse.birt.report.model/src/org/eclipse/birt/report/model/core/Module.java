@@ -28,9 +28,9 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.activity.ReadOnlyActivityStack;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
-import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
@@ -259,7 +259,7 @@ public abstract class Module extends DesignElement
 	/**
 	 * The absolute path for the design file in URL format. It can be a file
 	 * directory or a network path such as HTTP, FTP, etc. It is
-	 * <code>null</code> if the file cannot be found. 
+	 * <code>null</code> if the file cannot be found.
 	 */
 
 	private URL location = null;
@@ -336,10 +336,11 @@ public abstract class Module extends DesignElement
 	protected INameHelper nameHelper = null;
 
 	/**
-	 * Caches the bundle. The key is file name, the value is map which has the
-	 * key local and value PropertyResourceBundle.
+	 * Caches the bundles. The key is file name, the value is the list of
+	 * <code>CachedBundles</code>>.
 	 */
-	private Map bundles = null;
+
+	private CachedBundles cachedBundles = null;
 
 	private boolean isCached = false;
 
@@ -1508,10 +1509,13 @@ public abstract class Module extends DesignElement
 	 * <code>fileName</code> exists. This method takes the following search
 	 * steps:
 	 * <ul>
-	 * <li>Search file taking <code>fileName</code> as absolute file name; <li>
+	 * <li>Search file taking <code>fileName</code> as absolute file name;
+	 * <li>
 	 * Search file taking <code>fileName</code> as relative file name and basing
-	 * "base" property of module; <li>Search file with the file locator (<code>
-	 * IResourceLocator</code>) in session.
+	 * "base" property of module;
+	 * <li>Search file with the file locator (<code>
+	 * IResourceLocator</code>) in
+	 * session.
 	 * </ul>
 	 * 
 	 * @param fileName
@@ -1519,8 +1523,10 @@ public abstract class Module extends DesignElement
 	 * @param fileType
 	 *            file type. The value should be one of:
 	 *            <ul>
-	 *            <li><code>IResourceLocator.IMAGE</code> <li><code>
-	 *            IResourceLocator.LIBRARY</code> <li><code>
+	 *            <li><code>IResourceLocator.IMAGE</code>
+	 *            <li><code>
+	 *            IResourceLocator.LIBRARY</code>
+	 *            <li><code>
 	 *            IResourceLocator.MESSAGEFILE</code>
 	 *            </ul>
 	 *            Any invalid value will be treated as
@@ -1533,6 +1539,7 @@ public abstract class Module extends DesignElement
 	{
 		URL url = getSession( ).getResourceLocator( ).findResource(
 				(ModuleHandle) getHandle( this ), fileName, fileType );
+		
 		return url;
 	}
 
@@ -1552,7 +1559,8 @@ public abstract class Module extends DesignElement
 	 */
 
 	public Library loadLibrary( String libraryFileName, String namespace,
-			Map<String, Library> reloadLibs ) throws DesignFileException
+			Map<String, Library> reloadLibs, URL url )
+			throws DesignFileException
 	{
 		Module outermostModule = findOutermostModule( );
 
@@ -1571,7 +1579,6 @@ public abstract class Module extends DesignElement
 			return library.contextClone( this );
 		}
 
-		URL url = findResource( libraryFileName, IResourceLocator.LIBRARY );
 		if ( url == null )
 		{
 			DesignParserException ex = new DesignParserException(
@@ -1653,7 +1660,7 @@ public abstract class Module extends DesignElement
 	 */
 
 	public void loadLibrarySilently( IncludedLibrary includeLibrary,
-			Library foundLib, Map<String, Library> reloadLibs )
+			Library foundLib, Map<String, Library> reloadLibs, URL url )
 	{
 		if ( foundLib != null
 				&& reloadLibs.get( includeLibrary.getNamespace( ) ) != null )
@@ -1668,7 +1675,7 @@ public abstract class Module extends DesignElement
 		try
 		{
 			library = loadLibrary( includeLibrary.getFileName( ),
-					includeLibrary.getNamespace( ), reloadLibs );
+					includeLibrary.getNamespace( ), reloadLibs, url );
 			library.setReadOnly( );
 		}
 		catch ( DesignFileException e )
@@ -2669,8 +2676,8 @@ public abstract class Module extends DesignElement
 	 * 
 	 * <ul>
 	 * <li>If the element name is required and duplicate name is found in name
-	 * space, rename the element with a new unique name. <li>If the element name
-	 * is not required, clear the name.
+	 * space, rename the element with a new unique name.
+	 * <li>If the element name is not required, clear the name.
 	 * </ul>
 	 * 
 	 * @param element
@@ -2687,8 +2694,8 @@ public abstract class Module extends DesignElement
 	 * 
 	 * <ul>
 	 * <li>If the element name is required and duplicated name is found rename
-	 * the element with a new unique name. <li>If the element name is not
-	 * required, clear the name.
+	 * the element with a new unique name.
+	 * <li>If the element name is not required, clear the name.
 	 * </ul>
 	 * 
 	 * @param container
@@ -2898,59 +2905,6 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
-	 * Caches the propertyResourceBundle list.
-	 * 
-	 * @param baseName
-	 *            the file name
-	 * @param bundleList
-	 *            the propertyResouceBundle list
-	 */
-	public void cachePropertyResourceBundles( String baseName, List bundleList )
-	{
-		if ( getOptions( ) == null
-				|| ( getOptions( ) != null && getOptions( ).useSemanticCheck( ) ) )
-		{
-			return;
-		}
-
-		if ( bundles == null )
-			bundles = new HashMap( );
-
-		List cachbundles = (List) bundles.get( fileName );
-		if ( cachbundles == null )
-		{
-
-			bundles.put( fileName, bundleList );
-
-		}
-
-	}
-
-	/**
-	 * Gets the cached PropertyResourceBundle list according to the file name
-	 * and locale.
-	 * 
-	 * @param baseName
-	 *            the file name
-	 * @return PropertyResourceBundle list
-	 */
-	public List getCachePropertyResourceBundles( String baseName )
-	{
-
-		if ( getOptions( ) == null
-				|| ( getOptions( ) != null && getOptions( ).useSemanticCheck( ) ) )
-		{
-			return null;
-		}
-
-		if ( bundles == null )
-			return null;
-
-		return (List) bundles.get( fileName );
-
-	}
-
-	/**
 	 * Determines whether the module has cached values.
 	 * 
 	 * @return <code>true</code> if values have been cached. Otherwise
@@ -2988,5 +2942,28 @@ public abstract class Module extends DesignElement
 			lib.getNameHelper( ).getElements( Module.STYLE_NAME_SPACE,
 					IAccessControl.ARBITARY_LEVEL );
 		}
+	}
+
+	/**
+	 * Caches the propertyResourceBundle list.
+	 * 
+	 * @param baseName
+	 *            the file name
+	 * @param bundleList
+	 *            the propertyResouceBundle list
+	 */
+
+	public CachedBundles getResourceBundle( )
+	{
+		if ( getOptions( ) == null
+				|| ( getOptions( ) != null && getOptions( ).useSemanticCheck( ) ) )
+		{
+			return null;
+		}
+
+		if ( cachedBundles == null )
+			cachedBundles = new CachedBundles( );
+
+		return cachedBundles;
 	}
 }

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -138,7 +137,7 @@ public class IncludedLibrariesStructureListState
 			foundLib = reloadLibs.get( namespace );
 
 			handler.module.loadLibrarySilently( includeLibrary, foundLib,
-					reloadLibs );
+					reloadLibs, url );
 		}
 	}
 

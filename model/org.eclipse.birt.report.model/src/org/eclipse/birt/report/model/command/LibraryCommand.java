@@ -122,7 +122,7 @@ public class LibraryCommand extends AbstractElementCommand
 
 		if ( foundLib == null )
 			foundLib = module.loadLibrary( libraryFileName, namespace,
-					new HashMap<String, Library>( ) );
+					new HashMap<String, Library>( ), fileURL );
 		else
 			foundLib = foundLib.contextClone( module );
 
@@ -649,7 +649,7 @@ public class LibraryCommand extends AbstractElementCommand
 				|| reloadLibs.get( library.getNamespace( ) ) == null )
 		{
 			library = module.loadLibrary( includedLibPath, namespace,
-					reloadLibs );
+					reloadLibs, fileURL );
 			LibraryUtil.insertReloadLibs( reloadLibs, library );
 		}
 		else

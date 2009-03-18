@@ -11,18 +11,11 @@
 
 package org.eclipse.birt.report.model.core;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.PropertyResourceBundle;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -101,17 +94,27 @@ public class BundleHelper
 
 	public Collection getMessageKeys( ULocale locale )
 	{
+		CachedBundles moduleBundle = module.getResourceBundle( );
+
+		// create a dummy resource bundle to keep codes same
+
+		if ( moduleBundle == null )
+			moduleBundle = new CachedBundles( );
+
 		Set keys = new LinkedHashSet( );
-		Iterator bundleIter = gatherMessageBundles( locale ).iterator( );
-		while ( bundleIter.hasNext( ) )
+		List bundleNames = getMessageFilenames( locale );
+		for ( int i = 0; i < bundleNames.size( ); i++ )
 		{
-			PropertyResourceBundle bundle = (PropertyResourceBundle) bundleIter
-					.next( );
-			Enumeration enumeration = bundle.getKeys( );
-			while ( enumeration.hasMoreElements( ) )
+			String tmpName = (String) bundleNames.get( i );
+			if ( !moduleBundle.isCached( tmpName ) )
 			{
-				keys.add( enumeration.nextElement( ) );
+				// load and search again
+
+				moduleBundle.addCachedBundle( tmpName, findBundle( tmpName ) );
 			}
+
+			keys.addAll( moduleBundle.getMessageKeys( tmpName ) );
+
 		}
 		return keys;
 	}
@@ -135,111 +138,32 @@ public class BundleHelper
 
 	public String getMessage( String resourceKey, ULocale locale )
 	{
-		Iterator bundleIter = gatherMessageBundles( locale ).iterator( );
-		while ( bundleIter.hasNext( ) )
+		CachedBundles moduleBundle = module.getResourceBundle( );
+
+		// create a dummy resource bundle to keep codes same
+
+		if ( moduleBundle == null )
+			moduleBundle = new CachedBundles( );
+
+		List bundleNames = getMessageFilenames( locale );
+		for ( int i = 0; i < bundleNames.size( ); i++ )
 		{
-			String translation = (String) ( (PropertyResourceBundle) bundleIter
-					.next( ) ).handleGetObject( resourceKey );
+			String tmpName = (String) bundleNames.get( i );
+			if ( !moduleBundle.isCached( tmpName ) )
+			{
+				// load and search again
+
+				moduleBundle.addCachedBundle( tmpName, findBundle( tmpName ) );
+			}
+
+			String translation = moduleBundle.getMessage( tmpName, resourceKey );
 			if ( translation != null )
 				return translation;
 		}
+
 		return null;
 	}
 
-	/**
-	 * Return a message resource bundle list for the given locale. A message key
-	 * should be look into the files in the sequence order from the first to the
-	 * last. Content of the list is
-	 * <code>java.util.PropertyResourceBundle</code>
-	 * <p>
-	 * If the given locale is <code>null</code>, locale of the current thread
-	 * will be used.
-	 * 
-	 * @param locale
-	 *            locale to use when locating the bundles.
-	 * 
-	 * @return a message file list for the given locale.
-	 */
-
-	private List gatherMessageBundles( ULocale locale )
-	{
-		List bundleHierarchy = module
-				.getCachePropertyResourceBundles( baseName );
-
-		if ( bundleHierarchy != null )
-			return bundleHierarchy;
-
-		bundleHierarchy = new ArrayList( );
-
-		List bundleNames = getMessageFilenames( locale );
-
-		URL cachedURL = null;
-		String cachedBundleName = null;
-
-		PropertyResourceBundle bundle = null;
-		for ( int i = 0; i < bundleNames.size( ); i++ )
-		{
-			boolean isIntegrated = false;
-			String bundleName = (String) bundleNames.get( i );
-			if ( cachedURL != null && cachedBundleName != null )
-			{
-				String url = cachedURL.toString( );
-				int index = url.lastIndexOf( cachedBundleName );
-
-				// cannot assume index must be greater than -1 since the user
-				// can write out their own IResourceLocator. In that case, the
-				// url may not contain the cachedBundleName.
-
-				if ( index > -1 )
-				{
-					int beginIndex = index + cachedBundleName.length( );
-					if ( beginIndex <= url.length( ) )
-					{
-						// set the flag
-
-						isIntegrated = true;
-
-						url = url.substring( 0, index ) + bundleName
-								+ url.substring( beginIndex );
-						try
-						{
-							bundle = populateBundle( new URL( url ) );
-						}
-						catch ( MalformedURLException e )
-						{
-							// do nothing
-						}
-					}
-				}
-			}
-
-			if ( !isIntegrated )
-			{
-				URL ret = findBundle( bundleName );
-				bundle = populateBundle( ret );
-
-				// to check whether the bundle is successfully load. Not to
-				// use ret to check since IResourceLocator.findResource may
-				// return valid URL even the URL cannot be opened.
-
-				if ( bundle != null )
-				{
-					cachedBundleName = bundleName;
-					cachedURL = ret;
-				}
-			}
-
-			if ( bundle != null )
-			{
-				bundleHierarchy.add( bundle );
-
-			}
-		}
-
-		module.cachePropertyResourceBundles( baseName, bundleHierarchy );
-
-		return bundleHierarchy;
-	}
 
 	/**
 	 * Return a message resource name list for the given locale. A message key
@@ -327,57 +251,7 @@ public class BundleHelper
 	private URL findBundle( String fileName )
 	{
 		assert fileName != null;
-		return module.getSession( ).getResourceLocator( ).findResource(
-				module.getModuleHandle( ), fileName, 0 );
-	}
-
-	/**
-	 * Populates a <code>ResourceBundle</code> for a input file.
-	 * 
-	 * @param file
-	 *            a file binds to a message file.
-	 * @return A <code>ResourceBundle</code> for a input file, return
-	 *         <code>null</code> if the file doesn't exist or any exception
-	 *         occurred during I/O reading.
-	 */
-
-	private PropertyResourceBundle populateBundle( URL bundleURL )
-	{
-		InputStream is = null;
-		try
-		{
-			if ( bundleURL == null )
-				return null;
-			is = bundleURL.openStream( );
-			PropertyResourceBundle bundle = new PropertyResourceBundle( is );
-			is.close( );
-			is = null;
-			return bundle;
-		}
-		catch ( FileNotFoundException e )
-		{
-			// just ignore
-		}
-		catch ( IOException e )
-		{
-			// just ignore.
-		}
-		finally
-		{
-			if ( is != null )
-			{
-				try
-				{
-					is.close( );
-				}
-				catch ( IOException e1 )
-				{
-					is = null;
-					// ignore.
-				}
-			}
-		}
-
-		return null;
+		
+		return module.findResource( fileName, 0 );
 	}
 }
