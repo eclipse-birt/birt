@@ -1991,6 +1991,7 @@ ImageBuilder.Description.ResourceFile=Lien vers l'image dans les ressources part
 ImageBuilder.Description.Embedded=Incorporer l'i&mage dans l'état
 ImageBuilder.Description.Dynamic=Extraire l'image du jeu de données (bases de données)
 ImageBuilder.Button.Browser.Tooltip=Parcourir le fichier image
+ImageBuilder.Reload.Tooltip=Reload Image
 
 ###########################################################
 #ImageEditPart properties

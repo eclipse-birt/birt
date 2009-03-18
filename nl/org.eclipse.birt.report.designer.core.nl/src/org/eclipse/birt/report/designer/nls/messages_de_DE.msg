@@ -1991,6 +1991,7 @@ ImageBuilder.Description.ResourceFile=Verknüpfen mit Bild in gemeinsamen Ressour
 ImageBuilder.Description.Embedded=Bild in Bericht ei&nbetten
 ImageBuilder.Description.Dynamic=Bild aus Datensatz (Datenbanken) abrufen
 ImageBuilder.Button.Browser.Tooltip=Bilddatei durchsuchen
+ImageBuilder.Reload.Tooltip=Reload Image
 
 ###########################################################
 #ImageEditPart properties

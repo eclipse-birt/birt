@@ -1991,6 +1991,7 @@ ImageBuilder.Description.ResourceFile=공유된 리소스의 이미지에 링크
 ImageBuilder.Description.Embedded=이미지를 보고서에 포함((&M)
 ImageBuilder.Description.Dynamic=데이터 집합(데이터베이스)에서 이미지 검색
 ImageBuilder.Button.Browser.Tooltip=이미지 파일 찾아보기
+ImageBuilder.Reload.Tooltip=Reload Image
 
 ###########################################################
 #ImageEditPart properties

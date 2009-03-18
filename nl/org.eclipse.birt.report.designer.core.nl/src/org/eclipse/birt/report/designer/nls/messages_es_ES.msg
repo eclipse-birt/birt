@@ -1991,6 +1991,7 @@ ImageBuilder.Description.ResourceFile=Link a imagen en recursos compartidos
 ImageBuilder.Description.Embedded=Incrustar i&magen en el informe
 ImageBuilder.Description.Dynamic=Recuperar imagen desde conjunto de datos (bases de datos)
 ImageBuilder.Button.Browser.Tooltip=Examinar archivo de imagen
+ImageBuilder.Reload.Tooltip=Reload Image
 
 ###########################################################
 #ImageEditPart properties

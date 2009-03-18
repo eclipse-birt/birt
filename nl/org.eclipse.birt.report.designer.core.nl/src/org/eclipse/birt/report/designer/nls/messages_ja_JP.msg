@@ -1991,6 +1991,7 @@ ImageBuilder.Description.ResourceFile=共有リソース内のイメージへのリンク
 ImageBuilder.Description.Embedded=レポートへのイメージの埋め込み(&M)
 ImageBuilder.Description.Dynamic=データセット (データベース) からのイメージの取得
 ImageBuilder.Button.Browser.Tooltip=イメージファイルの参照
+ImageBuilder.Reload.Tooltip=Reload Image
 
 ###########################################################
 #ImageEditPart properties

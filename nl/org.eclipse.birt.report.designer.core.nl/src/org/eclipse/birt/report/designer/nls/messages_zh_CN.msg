@@ -1991,6 +1991,7 @@ ImageBuilder.Description.ResourceFile=链接到共享资源中的图像
 ImageBuilder.Description.Embedded=将图像嵌入到报表(&M)
 ImageBuilder.Description.Dynamic=从数据集(数据库)中检索图像
 ImageBuilder.Button.Browser.Tooltip=浏览图像文件
+ImageBuilder.Reload.Tooltip=Reload Image
 
 ###########################################################
 #ImageEditPart properties
