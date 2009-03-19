@@ -54,10 +54,9 @@ public class DeleteCommand extends Command
 	private Object model = null;
 
 	private ArrayList embeddedImageList = new ArrayList( );
-	
+
 	private boolean isClear = true;
 
-	
 	/**
 	 * @return
 	 */
@@ -66,7 +65,6 @@ public class DeleteCommand extends Command
 		return isClear;
 	}
 
-	
 	/**
 	 * @param isClear
 	 */
@@ -212,14 +210,15 @@ public class DeleteCommand extends Command
 			}
 			else
 			{
-				if (isClear( ))
+				if ( isClear( ) )
 				{
 					handle.dropAndClear( );
-				}else
+				}
+				else
 				{
 					handle.drop( );
 				}
-				
+
 			}
 		}
 	}
@@ -315,15 +314,31 @@ public class DeleteCommand extends Command
 			{
 				return false;
 			}
+
 			// If the container can drop, the children will be skipped
 			for ( int i = 0; i < array.length; i++ )
 			{
 				if ( DNDUtil.checkContainerExists( array[i], array ) )
 					continue;
-				if ( canDrop( array[i] ) )
-					return true;
+				//267156 Can't delete all master pages
+				if ( array[i] instanceof MasterPageHandle )
+				{
+					int masterPageCount = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.getMasterPages( )
+							.getCount( );
+					for ( int j = 0; j < array.length; j++ )
+					{
+						if ( array[j] instanceof MasterPageHandle )
+							masterPageCount--;
+					}
+					if(masterPageCount==0)
+						return false;
+				}
+				if ( !canDrop( array[i] ) )
+					return false;
 			}
-			return false;
+			return true;
 		}
 		source = DNDUtil.unwrapToModel( source );
 		if ( source instanceof SlotHandle )
