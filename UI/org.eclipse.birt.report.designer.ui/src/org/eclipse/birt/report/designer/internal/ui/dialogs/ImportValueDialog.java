@@ -266,6 +266,7 @@ public class ImportValueDialog extends BaseDialog
 
 		addAll = new Button( buttonBar, SWT.PUSH );
 		addAll.setText( ">>" ); //$NON-NLS-1$
+		addAll.setToolTipText( Messages.getString( "ImportValueDialog.Button.AddAll.ToolTip" ) ); //$NON-NLS-1$
 		addAll.setLayoutData( new GridData( GridData.FILL_VERTICAL
 				| GridData.VERTICAL_ALIGN_END
 				| GridData.FILL_HORIZONTAL ) );
@@ -281,6 +282,7 @@ public class ImportValueDialog extends BaseDialog
 
 		add = new Button( buttonBar, SWT.PUSH );
 		add.setText( ">" ); //$NON-NLS-1$
+		add.setToolTipText( Messages.getString( "ImportValueDialog.Button.Add.ToolTip" ) ); //$NON-NLS-1$
 		add.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		add.addSelectionListener( new SelectionAdapter( ) {
 
@@ -293,6 +295,7 @@ public class ImportValueDialog extends BaseDialog
 
 		remove = new Button( buttonBar, SWT.PUSH );
 		remove.setText( "<" ); //$NON-NLS-1$
+		remove.setToolTipText( Messages.getString( "ImportValueDialog.Button.Remove.ToolTip" ) ); //$NON-NLS-1$
 		remove.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		remove.addSelectionListener( new SelectionAdapter( ) {
 
@@ -305,6 +308,7 @@ public class ImportValueDialog extends BaseDialog
 
 		removeAll = new Button( buttonBar, SWT.PUSH );
 		removeAll.setText( "<<" ); //$NON-NLS-1$
+		removeAll.setToolTipText( Messages.getString( "ImportValueDialog.Button.RemoveAll.ToolTip" ) ); //$NON-NLS-1$
 		removeAll.setLayoutData( new GridData( GridData.FILL_VERTICAL
 				| GridData.VERTICAL_ALIGN_BEGINNING
 				| GridData.FILL_HORIZONTAL ) );
