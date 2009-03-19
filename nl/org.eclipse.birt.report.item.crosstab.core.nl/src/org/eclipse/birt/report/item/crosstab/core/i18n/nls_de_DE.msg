@@ -6,10 +6,12 @@ Element.CrosstabAggregationCell=Aggregationszelle der Kreuztabelle
 Element.AggregationOnRow=Aggregation in Zeile
 Element.AggregationOnColumn=Aggregation in Spalte
 Element.AggregationHeaderLocation=Position der Aggregat-Kopfzeile
+Element.GrandTotalLocation=Grand total location
 Element.MeasureView=Maßeinheitsansicht
 Element.ComputedMeasureView=Ansicht 'Berechnete Maßeinheit'
 Element.PageBreakBefore=Seitenumbruch vor
 Element.PageBreakAfter=Seitenumbruch nach
+Element.PageBreakInside=Page break inside
 Element.PageBreakInterval=Intervall für Seitenumbruch
 Element.SortDirection=Sortierreihenfolge
 Element.SortType=Sortiertyp
@@ -36,6 +38,8 @@ Element.SpanOverOnColumn=Spalte überspannen
 Element.SpanOverOnRow=Zeile überspannen
 Element.Direction.Horizontal=Horizontal
 Element.Direction.Vertical=Vertikal
+Element.choice.before=Before
+Element.choice.after=After
 
 Method.onPrepare=Beim Vorbereiten
 Method.onCreate=Beim Erstellen
@@ -61,7 +65,8 @@ CrosstabQueryHelper.error.invalid.dimension.column=Der Spaltenbereich der Kreuzt
 CrosstabQueryHelper.error.invalid.level.column=Der Spaltenbereich der Kreuztabelle enthält keine Definition der Ebene, oder die spezifische Ebene '{0}' ist nicht im zugehörigen Quader enthalten.
 
 BaseCrosstabExecutor.error.process.visibility=Beim Verarbeiten der Sichtbarkeit ist ein Fehler aufgetreten.
-BaseCrosstabExecutor.error.process.bookmark=Beim Verarbeiten des Lesezeichens ist ein Fehler aufgetreten.
+BaseCrosstabExecutor.error.process.bookmark=Error happened when processing bookmark.
+BaseCrosstabExecutor.error.process.bookmark=Error happened when processing headers.
 BaseCrosstabExecutor.error.process.row.height=Beim Verarbeiten der Zeilenhöhe ist ein Fehler aufgetreten.
 
 CrosstabCellExecutor.error.restor.data.position=Beim Wiederherstellen der Datenposition ist ein Fehler aufgetreten.
