@@ -36,6 +36,7 @@ public class MasterPageGeneralPage extends GeneralPage
 	private UnitSection heightSection;
 	private ComboPropertyDescriptorProvider typeProvider;
 	private UnitSection widthSection;
+	private ComboSection orientationSection;
 
 	protected void buildContent( )
 	{
@@ -89,7 +90,7 @@ public class MasterPageGeneralPage extends GeneralPage
 
 		ComboPropertyDescriptorProvider orientationProvider = new ComboPropertyDescriptorProvider( MasterPageHandle.ORIENTATION_PROP,
 				ReportDesignConstants.MASTER_PAGE_ELEMENT );
-		ComboSection orientationSection = new ComboSection( orientationProvider.getDisplayName( ),
+		orientationSection = new ComboSection( orientationProvider.getDisplayName( ),
 				container,
 				true );
 		orientationSection.setProvider( orientationProvider );
@@ -195,11 +196,17 @@ public class MasterPageGeneralPage extends GeneralPage
 			{
 				widthSection.getUnitComboControl( ).setReadOnly( false );
 				heightSection.getUnitComboControl( ).setReadOnly( false );
+				orientationSection.getComboControl( )
+						.getControl( )
+						.setEnabled( false );
 			}
 			else
 			{
 				widthSection.getUnitComboControl( ).setReadOnly( true );
 				heightSection.getUnitComboControl( ).setReadOnly( true );
+				orientationSection.getComboControl( )
+						.getControl( )
+						.setEnabled( true );
 			}
 		}
 	}
