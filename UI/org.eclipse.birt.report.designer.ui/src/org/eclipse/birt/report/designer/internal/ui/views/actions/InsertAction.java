@@ -129,13 +129,15 @@ public class InsertAction extends AbstractElementAction
 	public boolean isEnabled( )
 	{
 		/*
-		 * Check the case that a table refer other element and whether can insert a group.
+		 * Check the case that a table refer other element and whether can
+		 * insert a group.
 		 */
 		if ( getSelection( ) instanceof SlotHandle
 				&& ( (SlotHandle) getSelection( ) ).getSlotID( ) == IListingElementModel.GROUP_SLOT
-				&& ( (SlotHandle) getSelection( ) ).getElementHandle( ) instanceof ListingHandle)
+				&& ( (SlotHandle) getSelection( ) ).getElementHandle( ) instanceof ListingHandle )
 		{
-			return ( (SlotHandle) getSelection( ) ).canContain( ReportDesignConstants.TABLE_GROUP_ELEMENT );
+			return ( (SlotHandle) getSelection( ) ).canContain( ReportDesignConstants.LIST_GROUP_ELEMENT )
+					|| ( (SlotHandle) getSelection( ) ).canContain( ReportDesignConstants.TABLE_GROUP_ELEMENT );
 		}
 		return super.isEnabled( );
 	}
@@ -171,7 +173,8 @@ public class InsertAction extends AbstractElementAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#doAction()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#doAction()
 	 */
 	protected boolean doAction( ) throws Exception
 	{
