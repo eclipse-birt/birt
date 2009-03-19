@@ -477,10 +477,17 @@ public class Statement implements IQuery
 	/* (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.IQuery#cancel()
      */
-    public void cancel() throws OdaException, UnsupportedOperationException
+    public void cancel() throws OdaException
     {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException();
+       	try
+		{
+			if( this.preStat!= null )
+				this.preStat.cancel( );
+		}
+		catch ( SQLException e )
+		{
+			throw new OdaException( e );
+		}
     }
 
     /*

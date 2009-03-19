@@ -270,6 +270,7 @@ public class ResourceConstants
     public final static String CANNOT_GET_MORE_RESULTS = "odaconsumer.CannotGetMoreResults";
 	public final static String CANNOT_FIND_OUT_PARAMETER = "odaconsumer.CannotFindOutParameter";
 	public final static String CANNOT_CLOSE_STATEMENT = "odaconsumer.CannotCloseStatement";
+	public final static String CANNOT_CANCEL_STATEMENT = "odaconsumer.CannotCancelStatement";
 	public final static String CANNOT_GET_COLUMN_COUNT = "odaconsumer.CannotGetColumnCount";
 	public final static String CANNOT_GET_COLUMN_NAME = "odaconsumer.CannotGetColumnName";
 	public final static String CANNOT_GET_COLUMN_LABEL = "odaconsumer.CannotGetColumnLabel";

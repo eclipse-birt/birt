@@ -886,6 +886,31 @@ public class PreparedStatement
 	}
 	
 	/**
+	 * Cancel the statement execution.
+	 * 
+	 * @throws DataException
+	 */
+	public void cancel( ) throws DataException
+	{
+		try
+		{
+			m_statement.cancel( );
+		}
+		catch( OdaException ex )
+		{
+			sm_logger.logp( Level.SEVERE, sm_className, "cancel", 
+							"Cannot cancel statement.", ex ); //$NON-NLS-1$
+			
+			throw new DataException( ResourceConstants.CANNOT_CANCEL_STATEMENT, ex );
+		}
+		catch( UnsupportedOperationException ex )
+		{
+			sm_logger.logp( Level.WARNING, sm_className, "cancel", 
+							"Cannot cancel statement.", ex ); //$NON-NLS-1$
+		}
+	}
+	
+	/**
 	 * Closes this <code>Statement</code>.
 	 * @throws DataException	if data source error occurs.
 	 */

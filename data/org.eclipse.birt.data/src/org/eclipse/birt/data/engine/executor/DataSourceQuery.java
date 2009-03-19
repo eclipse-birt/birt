@@ -26,16 +26,13 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.ThreadSecurity;
 import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil.Strategy;
-import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
-import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.StopSign;
-import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
@@ -46,7 +43,6 @@ import org.eclipse.birt.data.engine.odi.IParameterMetaData;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
-import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 
@@ -675,156 +671,17 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			}
 		}
 		
-		OdaQueryExecutor queryExecutor = new OdaQueryExecutor( odaStatement );
-		Thread executionThread = ThreadSecurity.createThread( queryExecutor );
+    	StopSign threadQuiter = new StopSign();
+		OdaQueryCanceller canceller = new OdaQueryCanceller( odaStatement, stopSign, threadQuiter );
+		Thread executionThread = ThreadSecurity.createThread( canceller );
 		executionThread.start( );
-
-		boolean success = false;
-		while ( !stopSign.isStopped( ) )
-		{
-			if ( queryExecutor.collectException( )!= null )
-				throw queryExecutor.collectException( );
-			
-			if ( !executionThread.isAlive( ) )
-			{
-				success = true;
-				break;
-				
-			}
-			
-			try
-			{
-				executionThread.join( 100 );
-			}
-			catch ( InterruptedException e )
-			{
-				e.printStackTrace( );
-				break;
-			}
-		}
-
-    	if( !success )
-    	{
-    		//Indicate the query executor thread should close the statement after the query execution.
-    		queryExecutor.setCloseStatementAfterExecution( );
-    		//Return the dummy result iterator implementation.
-    		return new IResultIterator(){
-
-				public void close( ) throws DataException
-				{
-					// TODO Auto-generated method stub
-					
-				}
-
-				
-				public void doSave( StreamWrapper streamsWrapper,
-						boolean isSubQuery ) throws DataException
-				{
-					// TODO Auto-generated method stub
-					
-				}
-
-				
-				public void first( int groupingLevel ) throws DataException
-				{
-					// TODO Auto-generated method stub
-					
-				}
-
-				
-				public Object getAggrValue( String aggrName )
-						throws DataException
-				{
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				
-				public int getCurrentGroupIndex( int groupLevel )
-						throws DataException
-				{
-					// TODO Auto-generated method stub
-					return 0;
-				}
-
-				
-				public IResultObject getCurrentResult( ) throws DataException
-				{
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				
-				public int getCurrentResultIndex( ) throws DataException
-				{
-					// TODO Auto-generated method stub
-					return 0;
-				}
-
-				
-				public int getEndingGroupLevel( ) throws DataException
-				{
-					// TODO Auto-generated method stub
-					return 0;
-				}
-
-				
-				public IExecutorHelper getExecutorHelper( )
-				{
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				
-				public int[] getGroupStartAndEndIndex( int groupLevel )
-						throws DataException
-				{
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				
-				public IResultClass getResultClass( ) throws DataException
-				{
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				
-				public ResultSetCache getResultSetCache( )
-				{
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				
-				public int getRowCount( ) throws DataException
-				{
-					// TODO Auto-generated method stub
-					return 0;
-				}
-
-				
-				public int getStartingGroupLevel( ) throws DataException
-				{
-					// TODO Auto-generated method stub
-					return 0;
-				}
-
-				
-				public void last( int groupingLevel ) throws DataException
-				{
-					// TODO Auto-generated method stub
-					
-				}
-
-				
-				public boolean next( ) throws DataException
-				{
-					// TODO Auto-generated method stub
-					return false;
-				}};
-    	}
+		
+		odaStatement.execute( );
+		
+		threadQuiter.stop( );
+		
+		if( canceller.collectException( )!= null )
+			throw canceller.collectException( );
 		
 		ResultSet rs = null;
 		
@@ -911,15 +768,18 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		return ri;
     }
     
-    private class OdaQueryExecutor implements Runnable
+    private class OdaQueryCanceller implements Runnable
     {
     	private PreparedStatement statement;
+    	private StopSign stopSign;
+    	private StopSign threadQuiter;
     	private DataException exception;
-    	private boolean closeStatementAfterExecution = false;
     	
-    	OdaQueryExecutor( PreparedStatement statement )
+    	OdaQueryCanceller( PreparedStatement statement, StopSign stopSign, StopSign threadQuiter )
     	{
     		this.statement = statement;
+    		this.stopSign = stopSign;
+    		this.threadQuiter = threadQuiter;
     	}
     	
 		
@@ -927,19 +787,19 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		{
 			try
 			{
-				this.statement.execute( );
-				if( this.closeStatementAfterExecution )
-					this.statement.close( );
+				while( !threadQuiter.isStopped( ))
+				{
+					if( stopSign.isStopped( ))
+					{
+						this.statement.cancel( );
+						threadQuiter.stop( );
+					}
+				}
 			}
 			catch ( Exception e )
 			{
 				this.exception = new DataException ( e.getLocalizedMessage( ));
 			}
-		}
-
-		public void setCloseStatementAfterExecution( )
-		{
-			this.closeStatementAfterExecution = true;
 		}
 		
 		/**
