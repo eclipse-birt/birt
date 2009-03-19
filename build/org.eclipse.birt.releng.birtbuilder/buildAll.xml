@@ -275,6 +275,9 @@
 		<mkdir dir="${updateJarWorkingDir}" />
 		<mkdir dir="${updateJarWorkingDir}/site" />
 		
+                <exec executable="unzip" dir="${buildDirectory}">
+                        <arg line="-o -q birt-all-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
+                </exec>
 		<exec executable="unzip" dir="${buildDirectory}">
 			<arg line="-o -q birt-all-${package.version}.sign.zip -d ${updateJarWorkingDir}" />
 		</exec>
@@ -608,10 +611,11 @@
 		</exec>
 		
 		<!-- backup un-signed and packed version -->
-		<exec executable="zip" dir="${tmpsite}">
-			<arg line="-q ${buildDirectory}/birt-all-${package.version}.bak.zip -r eclipse ${eclipse.build.configs}/../../extras/pack.properties" />
-		</exec>		
-		
+		<zip destfile="${buildDirectory}/birt-all-${package.version}.bak.zip">
+                   <fileset dir="${tmpsite}" includes="eclipse/**"/>
+                   <fileset dir="${eclipse.build.configs}/../../extras" includes="pack.properties"/>
+                </zip>
+
 		<!-- Sign packed features and plugins. 
 		Download signed features and plugins back to replace ${tmpsite}/eclipse.
 		Back signed features and plugins as update site jars 
