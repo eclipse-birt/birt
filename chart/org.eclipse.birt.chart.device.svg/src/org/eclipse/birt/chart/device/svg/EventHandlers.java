@@ -731,7 +731,7 @@ public final class EventHandlers
     	.append("    HM.redirect = function(url, urlTarget) {		\n") //$NON-NLS-1$
     	.append("    	HM.remove();		\n") //$NON-NLS-1$
     	.append("    	if ( url.indexOf(\"#\", 0) == 0 ) {		\n") //$NON-NLS-1$
-    	.append("    		top.document.location.hash = \"'\" + url + \"'\";		\n") //$NON-NLS-1$
+    	.append("    		top.document.location.hash = url;		\n") //$NON-NLS-1$
     	.append("    		return;		\n") //$NON-NLS-1$
     	.append("    	}		\n") //$NON-NLS-1$
     	.append("    	if ( url.indexOf(\"javascript:\", 0) == 0 ) {		\n") //$NON-NLS-1$
