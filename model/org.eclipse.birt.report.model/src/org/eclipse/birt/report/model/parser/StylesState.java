@@ -4,6 +4,7 @@ package org.eclipse.birt.report.model.parser;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.model.command.NameCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -25,7 +26,13 @@ public class StylesState extends SlotState
 	// ( c >= 58 && c <= 64 )
 	// ( c >= 91 && c <= 96 )
 	// ( c >= 123 && c <= 199 ) )
-	private static final String STYLE_NAME_PATTERN = "[\\x00-\\x1D]|[\\x1F-\\x2F]|[\\x3A-\\x40]|[\\x5B-\\x60]|[\\x7B-\\xC7]"; //$NON-NLS-1$
+	private static final String STYLE_NAME_FORBIDDEN_PATTERN = "[\\x00-\\x1D]|[\\x1F-\\x2F]|[\\x3A-\\x40]|[\\x5B-\\x60]|[\\x7B-\\xC7]"; //$NON-NLS-1$
+	private static final String STYLE_NAME_START = "([a-z]|[^\0-\177]|((\\[0-9a-f]{1,6}[ \n\r\t\f]?)|\\[ -~\200-\4177777]))"; //$NON-NLS-1$
+	public static final Pattern styleNameStartPattern = Pattern.compile(
+			STYLE_NAME_START, Pattern.CASE_INSENSITIVE );
+
+	private static final String MIDDLE_LINE = "-"; //$NON-NLS-1$
+	private static final String REPLACE_LETTER = "s"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -182,7 +189,18 @@ public class StylesState extends SlotState
 		if ( !NameCommand.styleNamePattern.matcher( styleName ).matches( ) )
 		{
 			String newName = styleName;
-			newName = newName.replaceAll( STYLE_NAME_PATTERN, "-" ); //$NON-NLS-1$
+			newName = newName.replaceAll( STYLE_NAME_FORBIDDEN_PATTERN,
+					MIDDLE_LINE );
+
+			// if the new name is not start with letters, it is illegal too
+			String firstChar = newName.substring( 0, 1 );
+			if ( !styleNameStartPattern.matcher( firstChar ).matches( ) )
+			{
+				if ( newName.length( ) <= 1 )
+					newName = REPLACE_LETTER;
+				else
+					newName = REPLACE_LETTER + newName.substring( 1 );
+			}
 
 			// TODO: ensure the new name is valid for the css2 spec; the
 			// worst way is setting the name to NULL and then calling

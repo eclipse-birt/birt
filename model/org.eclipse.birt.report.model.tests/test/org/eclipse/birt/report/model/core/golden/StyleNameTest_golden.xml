@@ -5,5 +5,8 @@
         <style name="my-style" id="3"/>
         <style name="Test-style" id="4"/>
         <style name="test-Style1" id="5"/>
+        <style name="s2style" id="6"/>
+        <style name="s2-style" id="7"/>
+        <style name="sstyle" id="8"/>
     </styles>
 </report>

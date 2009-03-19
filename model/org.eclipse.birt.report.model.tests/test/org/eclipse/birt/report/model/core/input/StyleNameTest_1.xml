@@ -6,5 +6,8 @@
         <style name="my-style"/>
         <style name="Test-style"/>
         <style name="test-Style"/>
+        <style name="12style"/>
+        <style name="12 style"/>
+        <style name="-style"/>
     </styles>
 </report>
