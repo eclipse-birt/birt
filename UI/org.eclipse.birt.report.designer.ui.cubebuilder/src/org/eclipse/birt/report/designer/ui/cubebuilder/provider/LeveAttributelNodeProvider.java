@@ -11,40 +11,25 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshAction;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.actions.ShowPropertyAction;
-import org.eclipse.birt.report.designer.ui.cubebuilder.action.EditCubeLevelAction;
-import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
-import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
-import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Deals with dataset node
  * 
  */
-public class TabularLevelNodeProvider extends DefaultNodeProvider
+public class LeveAttributelNodeProvider extends DefaultNodeProvider
 {
 
 	/**
@@ -61,13 +46,6 @@ public class TabularLevelNodeProvider extends DefaultNodeProvider
 	{
 		super.createContextMenu( sourceViewer, object, menu );
 
-		if ( ( (LevelHandle) object ).canEdit( ) )
-		{
-			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-					new EditCubeLevelAction( object,
-							Messages.getString( "CubeLevelNodeProvider.menu.text" ) ) ); //$NON-NLS-1$
-		}
-
 		menu.insertBefore( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$
 				new ShowPropertyAction( object ) );
 
@@ -83,49 +61,14 @@ public class TabularLevelNodeProvider extends DefaultNodeProvider
 	 */
 	public String getNodeDisplayName( Object model )
 	{
-		LevelHandle handle = (LevelHandle) model;
+		LevelAttributeHandle handle = (LevelAttributeHandle) model;
 		return handle.getName( );
-	}
-
-	/**
-	 * Gets the children element of the given model using visitor.
-	 * 
-	 * @param object
-	 *            the handle
-	 */
-	public Object[] getChildren( Object object )
-	{
-		LevelHandle level = ( (LevelHandle) object );
-		List list = new ArrayList( );
-		Iterator attrIter = level.attributesIterator( );
-		while ( attrIter.hasNext( ) )
-		{
-			LevelAttributeHandle handle = (LevelAttributeHandle) attrIter.next( );
-			list.add( handle );
-		}
-		return list.toArray( );
 	}
 
 	public Object getParent( Object model )
 	{
-		HierarchyHandle hierarchy = (HierarchyHandle) ( (LevelHandle) model ).getContainer( );
-		if ( hierarchy == null )
-			return null;
-		return hierarchy.getContainer( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
-	 * #hasChildren(java.lang.Object)
-	 */
-	public boolean hasChildren( Object object )
-	{
-		LevelHandle level = ( (LevelHandle) object );
-		Iterator attrIter = level.attributesIterator( );
-		return attrIter.hasNext( );
+		LevelAttributeHandle handle = (LevelAttributeHandle) model;
+		return handle.getElementHandle( );
 	}
 
 	/*
@@ -134,20 +77,6 @@ public class TabularLevelNodeProvider extends DefaultNodeProvider
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
-	protected boolean performEdit( ReportElementHandle handle )
-	{
-		TabularLevelHandle level = (TabularLevelHandle) handle;
-		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), (TabularCubeHandle) level.getContainer( )
-				.getContainer( )
-				.getContainer( ) );
-
-		dialog.showPage( CubeBuilder.GROUPPAGE );
-
-		return dialog.open( ) == Dialog.OK;
-	}
-
 	public Image getNodeIcon( Object model )
 	{
 		if ( model instanceof DesignElementHandle
@@ -155,6 +84,6 @@ public class TabularLevelNodeProvider extends DefaultNodeProvider
 		{
 			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 		}
-		return UIHelper.getImage( BuilderConstancts.IMAGE_LEVEL );
+		return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_LEVEL_ATTRI );
 	}
 }

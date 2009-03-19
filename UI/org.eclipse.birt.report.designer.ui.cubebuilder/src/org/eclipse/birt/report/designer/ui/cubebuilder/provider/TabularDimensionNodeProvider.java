@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshAction;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -74,7 +77,8 @@ public class TabularDimensionNodeProvider extends DefaultNodeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getNodeDisplayName(java.lang.Object)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
+	 * getNodeDisplayName(java.lang.Object)
 	 */
 	public String getNodeDisplayName( Object model )
 	{
@@ -92,17 +96,20 @@ public class TabularDimensionNodeProvider extends DefaultNodeProvider
 	{
 		HierarchyHandle hierarchy = (HierarchyHandle) ( (DimensionHandle) object ).getContent( DimensionHandle.HIERARCHIES_PROP,
 				0 );
-		if ( hierarchy.getLevelCount( ) > 0 )
-			return new Object[]{
-				hierarchy.getLevel( 0 )
-			};
-		return new Object[0];
+		List list = new ArrayList( );
+		for ( int i = 0; i < hierarchy.getLevelCount( ); i++ )
+		{
+			list.add( hierarchy.getLevel( i ) );
+		}
+		return list.toArray( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#hasChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
+	 * #hasChildren(java.lang.Object)
 	 */
 	public boolean hasChildren( Object object )
 	{
@@ -121,14 +128,16 @@ public class TabularDimensionNodeProvider extends DefaultNodeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getNodeDisplayName(java.lang.Object)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
+	 * getNodeDisplayName(java.lang.Object)
 	 */
 	protected boolean performEdit( ReportElementHandle handle )
 	{
 		DimensionHandle dimensionHandle = (DimensionHandle) handle;
 		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ), (TabularCubeHandle) dimensionHandle.getContainer( ) );
+				.getActiveShell( ),
+				(TabularCubeHandle) dimensionHandle.getContainer( ) );
 
 		dialog.showPage( CubeBuilder.GROUPPAGE );
 
