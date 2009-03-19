@@ -1,0 +1,620 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.data.ui.dataset;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
+import org.eclipse.birt.report.designer.data.ui.util.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.FilterConditionHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.TableColumn;
+
+/**
+ * Presents dataset filters page of data set creation wizard
+ * 
+ * 
+ */
+
+public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
+		implements
+			ITableLabelProvider
+{
+
+	private transient PropertyHandleTableViewer viewer = null;
+	private transient DataSetViewData[] columns = null;
+	private transient String[] columnExpressions = null;
+	private transient PropertyHandle filters = null;
+	
+	private static String[] cellLabels = new String[]{
+			Messages.getString( "dataset.editor.title.expression" ),//$NON-NLS-1$
+			Messages.getString( "dataset.editor.title.operator" ),//$NON-NLS-1$
+			Messages.getString( "dataset.editor.title.value1" ),//$NON-NLS-1$
+			Messages.getString( "dataset.editor.title.value2" )//$NON-NLS-1$
+	};
+	private static String[] cellProperties = new String[]{
+			FilterCondition.EXPR_MEMBER,
+			FilterCondition.OPERATOR_MEMBER,
+			FilterCondition.VALUE1_MEMBER,
+			FilterCondition.VALUE2_MEMBER
+	};
+	private static String[] operators;
+	private static String[] operatorDisplayNames;
+	static
+	{
+		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet( FilterCondition.FILTER_COND_STRUCT,
+				FilterCondition.OPERATOR_MEMBER );
+		IChoice[] chs = chset.getChoices( );
+		operators = new String[chs.length];
+		operatorDisplayNames = new String[chs.length];
+
+		for ( int i = 0; i < chs.length; i++ )
+		{
+			operators[i] = chs[i].getName( );
+			operatorDisplayNames[i] = chs[i].getDisplayName( );
+		}
+	}
+
+	/**
+	 * Constructor.
+	 */
+	public DataSetFiltersPage( )
+	{
+		super( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#createPageControl(org.eclipse.swt.widgets.Composite)
+	 */
+	public Control createContents( Composite parent )
+	{
+		initColumnNames( );
+		viewer = new PropertyHandleTableViewer( parent, true, true, true );
+		TableColumn column = new TableColumn( viewer.getViewer( ).getTable( ),
+				SWT.LEFT );
+		column.setText( cellLabels[0] ); 
+		column.setWidth( 150 );
+		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
+		column.setText( cellLabels[1] ); 
+		column.setWidth( 100 );
+		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
+		column.setText( cellLabels[2] ); 
+		column.setWidth( 100 );
+		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
+		column.setText( cellLabels[3] ); 
+		column.setWidth( 100 );
+
+		initializeFilters( );
+
+		viewer.getViewer( )
+				.setContentProvider( new IStructuredContentProvider( ) {
+
+					public Object[] getElements( Object inputElement )
+					{
+						ArrayList filterList = new ArrayList( 10 );
+						Iterator iter = filters.iterator( );
+						if ( iter != null )
+						{
+							while ( iter.hasNext( ) )
+							{
+								filterList.add( iter.next( ) );
+							}
+						}
+
+						return filterList.toArray( );
+					}
+
+					public void dispose( )
+					{
+
+					}
+
+					public void inputChanged( Viewer viewer, Object oldInput,
+							Object newInput )
+					{
+
+					}
+				} );
+		viewer.getViewer( ).setLabelProvider( this );
+		viewer.getViewer( ).setInput( filters );
+		addListeners( );
+		setToolTips( );
+
+		return viewer.getControl( );
+	}
+
+	private void addListeners( )
+	{
+    	viewer.getNewButton( ).addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				doNew( );
+			}
+		} );
+
+		viewer.getEditButton( ).addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				doEdit( );
+			}
+		} );
+
+		viewer.getViewer( ).getTable( ).addMouseListener( new MouseAdapter( ) {
+
+			public void mouseDoubleClick( MouseEvent e )
+			{
+				doEdit( );
+			}
+		} );
+		
+		viewer.getViewer( ).getTable( ).addKeyListener( new KeyListener( ) {
+
+			public void keyPressed( KeyEvent e )
+			{
+			}
+
+			public void keyReleased( KeyEvent e )
+			{
+				if ( e.keyCode == SWT.DEL )
+				{
+					setPageProperties( );
+				}
+			}
+
+		} );
+
+		viewer.getRemoveButton( )
+				.addSelectionListener( new SelectionListener( ) {
+
+					public void widgetSelected( SelectionEvent e )
+					{
+						setPageProperties( );
+					}
+
+					public void widgetDefaultSelected( SelectionEvent e )
+					{
+					}
+
+				} );
+
+		viewer.getRemoveMenuItem( )
+				.addSelectionListener( new SelectionListener( ) {
+
+					public void widgetSelected( SelectionEvent e )
+					{
+						setPageProperties( );
+					}
+
+					public void widgetDefaultSelected( SelectionEvent e )
+					{
+					}
+
+				} );
+
+		viewer.getRemoveAllMenuItem( )
+				.addSelectionListener( new SelectionListener( ) {
+
+					public void widgetSelected( SelectionEvent e )
+					{
+						setPageProperties( );
+					}
+
+					public void widgetDefaultSelected( SelectionEvent e )
+					{
+						widgetSelected( e );
+					}
+				} );
+
+		viewer.getViewer( )
+				.addSelectionChangedListener( new ViewerSelectionListener( ) );
+	}
+	
+	private void doNew( )
+	{
+		doEdit( new FilterCondition( ) );
+	}
+
+	private void doEdit( )
+	{
+		int index = viewer.getViewer( ).getTable( ).getSelectionIndex( );
+		if ( index == -1 )
+			return;
+
+		FilterConditionHandle handle = (FilterConditionHandle) viewer.getViewer( )
+				.getTable( )
+				.getItem( index )
+				.getData( );
+
+		doEdit( handle );
+	}
+
+	private void doEdit( Object structureOrHandle )
+	{
+		FilterConditionBuilder dlg = new FilterConditionBuilder( structureOrHandle  );
+		dlg.setTitle( this.getTitle( structureOrHandle ) );
+		dlg.setDataSetColumns( this.columnExpressions );
+		dlg.setExpressionProvider((DesignElementHandle) getContainer( ).getModel( ) );
+		dlg.setBindingParams( ((DataSetHandle) getContainer( ).getModel( ) ).paramBindingsIterator( ));
+		if ( dlg.open( ) == Window.OK )
+		{
+			update( structureOrHandle );
+		}
+	}
+
+	private String getTitle( Object structureOrHandle )
+	{
+		if ( structureOrHandle instanceof FilterCondition )
+			return Messages.getString( "FilterConditionBuilder.DialogTitle.New" ); //$NON-NLS-1$
+		else 
+			return Messages.getString( "FilterConditionBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
+	}
+	
+	private void update( Object structureOrHandle )
+	{
+		if ( structureOrHandle instanceof FilterCondition )
+		{
+			try
+			{
+				filters.addItem( (FilterCondition) structureOrHandle );
+				viewer.getViewer( ).refresh( );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+		}
+		else
+		{
+			viewer.getViewer( ).update( structureOrHandle, null );
+		}
+	}
+	
+	private FilterCondition getStructure( Object structureOrHandle )
+	{
+		FilterCondition structure = null;
+		if ( structureOrHandle instanceof FilterCondition )
+		{
+			structure = (FilterCondition) structureOrHandle;
+		}
+		else
+		{
+			structure = (FilterCondition) ( (FilterConditionHandle) structureOrHandle ).getStructure( );
+		}
+
+		return structure;
+	}
+	
+	private String getOperatorName( String displayName )
+	{
+		for ( int i = 0; i < operatorDisplayNames.length; i++ )
+		{
+			if ( operatorDisplayNames[i].equals( displayName ) )
+			{
+				return operators[i];
+			}
+		}
+
+		// should never get here
+		return operators[0];
+	}
+	
+	private String getOperatorDisplayName( String name )
+	{
+		for ( int i = 0; i < operators.length; i++ )
+		{
+			if ( operators[i].equals( name ) )
+			{
+				return operatorDisplayNames[i];
+			}
+		}
+
+		// should never get here
+		return operatorDisplayNames[0];
+	}
+	
+	private void setToolTips( )
+	{
+		viewer.getNewButton( )
+				.setToolTipText( Messages.getString( "DataSetFiltersPage.toolTipText.New" ) );//$NON-NLS-1$
+		viewer.getEditButton( )
+				.setToolTipText( Messages.getString( "DataSetFiltersPage.toolTipText.Edit" ) );//$NON-NLS-1$
+		viewer.getDownButton( )
+				.setToolTipText( Messages.getString( "DataSetFiltersPage.toolTipText.Down" ) );//$NON-NLS-1$
+		viewer.getUpButton( )
+				.setToolTipText( Messages.getString( "DataSetFiltersPage.toolTipText.Up" ) );//$NON-NLS-1$
+		viewer.getRemoveButton( )
+				.setToolTipText( Messages.getString( "DataSetFiltersPage.toolTipText.Remove" ) );//$NON-NLS-1$
+	}
+
+	private void initColumnNames( )
+	{
+		columns = ( (DataSetEditor) this.getContainer( ) ).getCurrentItemModel( true,
+				true );
+		if ( columns != null )
+		{
+			columnExpressions = new String[columns.length];
+			for ( int n = 0; n < columns.length; n++ )
+			{
+				columnExpressions[n] = columns[n].getName( );
+			}
+		}
+	}
+	
+	private boolean isColumnName( String name )
+	{
+		for ( int n = 0; n < columnExpressions.length; n++ )
+		{
+			if ( columnExpressions[n].equals( name ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean isComputedColumn( String name )
+	{
+		if ( name == null )
+			return false;
+		for ( int i = 0; i < this.columns.length; i++ )
+		{
+			if( name.equals( this.columns[i].getName( ) ) || name.equals( this.columns[i].getAlias( ) ))
+			{
+				return this.columns[i].isComputedColumn( );
+			}
+		}
+		
+		return false;
+	}
+	
+	private String getQualifiedExpression( String expression )
+	{
+		return ExpressionUtil.createJSRowExpression( expression ); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	private void initializeFilters( )
+	{
+		filters = ( (DataSetHandle) getContainer( ).getModel( ) ).getPropertyHandle( DataSetHandle.FILTER_PROP );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#pageActivated()
+	 */
+	public void pageActivated( )
+	{
+		getContainer( ).setMessage( Messages.getString( "dataset.editor.filters" ), IMessageProvider.NONE ); //$NON-NLS-1$
+		initColumnNames( );
+		// The proeprties of the various controls on the page
+		// will be set depending on the filters
+		setPageProperties( );
+		viewer.getViewer( ).getTable( ).select( 0 );
+	}
+
+	/**
+	 * Depending on the value of the Filters the properties of various controls
+	 * on this page are set
+	 */
+	private void setPageProperties( )
+	{
+		boolean filterConditionExists = false;
+
+		filterConditionExists = ( filters != null
+				&& filters.getListValue( ) != null && filters.getListValue( )
+				.size( ) > 0 );
+		viewer.getEditButton( ).setEnabled( filterConditionExists );
+		viewer.getDownButton( ).setVisible( false );
+		viewer.getUpButton( ).setVisible( false );
+		viewer.getRemoveButton( ).setEnabled( filterConditionExists );
+		viewer.getRemoveMenuItem( ).setEnabled( filterConditionExists );
+		viewer.getRemoveAllMenuItem( ).setEnabled( filterConditionExists );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.Object,
+	 *      int)
+	 */
+	public Image getColumnImage( Object element, int columnIndex )
+	{
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object,
+	 *      int)
+	 */
+	public String getColumnText( Object element, int columnIndex )
+	{
+		String value = null;
+		FilterCondition filterCondition = getStructure( element );
+
+		try
+		{
+			switch ( columnIndex )
+			{
+				case 0 :
+				{
+					value = filterCondition.getExpr( );
+					break;
+				}
+				case 1 :
+				{
+					value = getOperatorDisplayName( filterCondition.getOperator( ) ); 
+					break;
+				}
+				case 2 :
+				{
+					value = getValue1String( filterCondition );
+					break;
+				}
+				case 3 :
+				{
+					value = filterCondition.getValue2( );
+					break;
+				}
+			}
+		}
+		catch ( Exception ex )
+		{
+			ExceptionHandler.handle( ex );
+		}
+		if ( value == null )
+		{
+			value = ""; //$NON-NLS-1$
+		}
+
+		return value;
+	}
+
+	/**
+	 * get the the filter 
+	 * @param filterCondition
+	 * @return
+	 */
+	private String getValue1String( FilterCondition filterCondition )
+	{
+		if ( DesignChoiceConstants.FILTER_OPERATOR_IN.equals( filterCondition.getOperator( ) )
+				|| DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals( filterCondition.getOperator( ) ) )
+		{
+			List value1List = filterCondition.getValue1List( );
+			StringBuffer buf = new StringBuffer( );
+			for ( Iterator i = value1List.iterator( ); i.hasNext( ); )
+			{
+				String value = (String) i.next( );
+				buf.append( value + "; " ); //$NON-NLS-1$
+			}
+			if ( buf.length( ) > 1 )
+			{
+				buf.delete( buf.length( ) - 2, buf.length( ) );
+			}
+			return buf.toString( );
+		}
+		else
+		{
+			return filterCondition.getValue1( );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
+	 */
+	public void addListener( ILabelProviderListener listener )
+	{
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
+	 */
+	public void dispose( )
+	{
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object,
+	 *      java.lang.String)
+	 */
+	public boolean isLabelProperty( Object element, String property )
+	{
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
+	 */
+	public void removeListener( ILabelProviderListener listener )
+	{
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractDescriptionPropertyPage#getPageDescription()
+	 */
+	public String getPageDescription( )
+	{
+		return Messages.getString( "DataSetFiltersPage.description" ); //$NON-NLS-1$
+	}
+
+	private class ViewerSelectionListener implements ISelectionChangedListener
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+		 */
+		public void selectionChanged( SelectionChangedEvent event )
+		{
+			// TODO Auto-generated method stub
+			setPageProperties( );
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#getToolTip()
+	 */
+	public String getToolTip( )
+	{
+		return Messages.getString( "DataSetFiltersPage.Filter.Tooltip" ); //$NON-NLS-1$
+	}
+}

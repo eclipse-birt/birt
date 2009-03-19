@@ -1,0 +1,292 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.data.ui.actions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetEditor;
+import org.eclipse.birt.report.designer.data.ui.dataset.DefaultDataSetWizard;
+import org.eclipse.birt.report.designer.data.ui.datasource.DefaultDataSourceWizard;
+import org.eclipse.birt.report.designer.data.ui.util.Utility;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
+import org.eclipse.gef.ui.actions.UpdateAction;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.PlatformUI;
+
+/**
+ * 
+ * TODO To change the template for this generated type comment go to Window -
+ * Preferences - Java - Code Style - Code Templates
+ */
+public class NewDataSetAction extends Action implements UpdateAction
+{
+
+	public static final String ID = "org.eclipse.birt.report.designer.ui.actions.NewDataSetAction"; //$NON-NLS-1$
+	private DataSetHandle dataSetHandle;
+
+	/**
+	 * Constructor
+	 */
+	public NewDataSetAction( )
+	{
+		super( );
+		setId( ID );
+	}
+
+	/**
+	 * @param text
+	 */
+	public NewDataSetAction( String text )
+	{
+		super( text );
+		setId( ID );
+	}
+
+	/**
+	 * @param text
+	 * @param style
+	 */
+	public NewDataSetAction( String text, int style )
+	{
+		super( text, style );
+		setId( ID );
+	}
+
+	/**
+	 * @param text
+	 * @param image
+	 */
+	public NewDataSetAction( String text, ImageDescriptor image )
+	{
+		super( text, image );
+		setId( ID );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.ui.actions.UpdateAction#update()
+	 */
+	public void update( )
+	{
+		setEnabled( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) != null );
+	}
+
+	/*
+	 * (non-Javadoc) Method declared on IAction.
+	 */
+	public boolean isEnabled( )
+	{
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+		if ( moduleHandle == null )
+		{
+			return false;
+		}
+		return super.isEnabled( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.action.Action#run()
+	 */
+	public void run( )
+	{
+
+		if ( !isEnabled( ) )
+		{
+			MessageDialog.openError( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ),
+					Messages.getString( "dataset.error.title.noReportDesign" ), Messages.getString( "dataset.error.msg.noReportDesign" ) );//$NON-NLS-1$ //$NON-NLS-2$
+			return;
+		}
+
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "New data set action >> Run ..." ); //$NON-NLS-1$
+		}
+		// Fix Bugzilla Bug 116583
+		// Start a persistent.
+		SessionHandleAdapter.getInstance( )
+				.getCommandStack( )
+				.startPersistentTrans( Messages.getString( "dataset.new" ) ); //$NON-NLS-1$
+
+		// Check if data Sources are available
+		if ( HandleAdapterFactory.getInstance( )
+				.getReportDesignHandleAdapter( )
+				.getModuleHandle( )
+				.getVisibleDataSources( )
+				.isEmpty( ) )
+		{
+			boolean createNewDataSource = MessageDialog.openQuestion( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ),
+					Messages.getString( "dataset.error.title.noDataSources" ), Messages.getString( "dataset.error.noDataSources" ) );//$NON-NLS-1$ //$NON-NLS-2$
+
+			if ( createNewDataSource )
+			{
+				DefaultDataSourceWizard wizard = new DefaultDataSourceWizard( );
+				String wizardTitle = Messages.getString( "datasource.new" );//$NON-NLS-1$
+				wizard.setWindowTitle( wizardTitle );
+				WizardDialog dialog = new WizardDialog( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ),
+						wizard );
+				if ( dialog.open( ) == WizardDialog.CANCEL )
+				{
+					notifyResult( false );
+					SessionHandleAdapter.getInstance( )
+							.getCommandStack( )
+							.rollback( );
+					return;
+				}
+				else
+				{
+					createNewDataSet( );
+				}
+			}
+			else
+			{
+				notifyResult( false );
+				SessionHandleAdapter.getInstance( )
+						.getCommandStack( )
+						.rollback( );
+			}
+		}
+		else
+		{
+			createNewDataSet( );
+		}
+	}
+
+	private void createNewDataSet( )
+	{
+		// Get the list of data sets before inserting a new Data Set
+		List existingDataSets = getDataSets( );
+
+		DefaultDataSetWizard wizard = new DefaultDataSetWizard( );
+		wizard.setWindowTitle( Messages.getString( "dataset.new" ) );//$NON-NLS-1$
+		WizardDialog dialog = new WizardDialog( PlatformUI.getWorkbench( )
+				.getDisplay( )
+				.getActiveShell( ), wizard );
+
+		if ( dialog.open( ) == WizardDialog.OK )
+		{
+			// Get the list of data sets after inserting a new Data Set
+			List newDataSets = getDataSets( );
+			if ( editDataSet( existingDataSets, newDataSets ) )
+			{
+				notifyResult( true );
+			}
+			else
+			{
+				notifyResult( false );
+			}
+			ReportRequest request = new ReportRequest( ReportRequest.CREATE_ELEMENT );
+			List selectionObjects = new ArrayList( );
+			selectionObjects.add( dataSetHandle );
+			request.setSelectionObject( selectionObjects );
+			SessionHandleAdapter.getInstance( )
+					.getMediator( )
+					.notifyRequest( request );
+			SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
+		}
+		else
+		{
+			notifyResult( false );
+			SessionHandleAdapter.getInstance( ).getCommandStack( ).rollback( );
+		}
+	}
+
+	private List getDataSets( )
+	{
+
+		List dataSets = HandleAdapterFactory.getInstance( )
+				.getReportDesignHandleAdapter( )
+				.getModuleHandle( )
+				.getVisibleDataSets( );
+
+		return dataSets;
+
+	}
+
+	private boolean editDataSet( List existingDataSets, List newDataSets )
+	{
+		if ( existingDataSets == null || newDataSets == null )
+		{
+			return false;
+		}
+
+		if ( newDataSets.size( ) <= existingDataSets.size( ) )
+		{
+			return false;
+		}
+
+		dataSetHandle = findNewDataSet( existingDataSets, newDataSets );
+
+		if ( dataSetHandle == null )
+			return false;
+		// The last element was the One added
+		// DataSetHandle dataSetHandle = (DataSetHandle) newDataSets.get(
+		// newDataSets.size( ) - 1 );
+		// Edit the added DataSet if it is not a script data set.
+		if ( dataSetHandle instanceof ScriptDataSetHandle )
+		{
+			return false;
+		}
+		DataSetEditor dialog = new DataSetEditor( PlatformUI.getWorkbench( )
+				.getDisplay( )
+				.getActiveShell( ), dataSetHandle, true );
+		return ( dialog.open( ) == Window.OK );
+	}
+
+	private DataSetHandle findNewDataSet( List existingDataSets,
+			List newDataSets )
+	{
+		for ( int i = 0; i < newDataSets.size( ); i++ )
+		{
+			if ( !existingDataSets.contains( newDataSets.get( i ) ) )
+			{
+				return (DataSetHandle) newDataSets.get( i );
+			}
+		}
+		return null;
+	}
+
+	private DataSourceHandle findNewDataSource( List existingDataSources,
+			List newDataSources )
+	{
+		for ( int i = 0; i < newDataSources.size( ); i++ )
+		{
+			if ( !existingDataSources.contains( newDataSources.get( i ) ) )
+			{
+				return (DataSourceHandle) newDataSources.get( i );
+			}
+		}
+		return null;
+	}
+}
