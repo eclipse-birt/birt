@@ -120,6 +120,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 							.getLevel( currentLevelIndex );
 				}
 
+				handleGroupPageBreakInside( );
 				handleGroupPageBreakBefore( );
 
 				collectExecutable( );
@@ -145,6 +146,20 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 	{
 		return GroupUtil.isLeafGroup( rowCursor.getDimensionCursor( ),
 				currentGroupIndex );
+	}
+
+	private void handleGroupPageBreakInside( )
+	{
+		if ( currentLevel != null )
+		{
+			String pageBreakInside = currentLevel.getPageBreakInside( );
+			if ( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID.equals( pageBreakInside ) )
+			{
+				getContent( ).getStyle( )
+						.setProperty( IStyle.STYLE_PAGE_BREAK_INSIDE,
+								IStyle.AVOID_VALUE );
+			}
+		}
 	}
 
 	private void handleGroupPageBreakBefore( ) throws OLAPException

@@ -56,6 +56,11 @@ public interface ILevelViewConstants
 	String PAGE_BREAK_AFTER_PROP = "pageBreakAfter"; //$NON-NLS-1$
 	
 	/**
+	 * Name of the property that defines the page break insdie status.
+	 */
+	String PAGE_BREAK_INSIDE_PROP = "pageBreakInside"; //$NON-NLS-1$
+
+	/**
 	 * Name of the property that defines the page break interval.
 	 */
 	String PAGE_BREAK_INTERVAL_PROP = "pageBreakInterval"; //$NON-NLS-1$

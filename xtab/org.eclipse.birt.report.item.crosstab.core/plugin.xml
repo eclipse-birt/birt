@@ -376,10 +376,12 @@
                name="aggregationHeaderLocation"
                type="choice">
             <choice
+                  displayNameID="Element.choice.before"
                   name="before"
                   value="before">
             </choice>
             <choice
+                  displayNameID="Element.choice.after"
                   name="after"
                   value="after">
             </choice>
@@ -418,6 +420,15 @@
                isEncryptable="false"
                name="pageBreakInterval"
                type="integer">
+         </property>
+         <property
+               canInherit="false"
+               defaultValue="auto"
+               detailType="pageBreakInside"
+               displayNameID="Element.PageBreakInside"
+               isEncryptable="false"
+               name="pageBreakInside"
+               type="choice">
          </property>
       </reportItem>
       <reportItem

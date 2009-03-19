@@ -162,6 +162,17 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 	}
 
 	/**
+	 * Gets page break inside property value of this level.
+	 * 
+	 * @return page break inside property value of this level
+	 */
+
+	public String getPageBreakInside( )
+	{
+		return handle.getStringProperty( PAGE_BREAK_INSIDE_PROP );
+	}
+
+	/**
 	 * Gets page break interval property value of this level.
 	 * 
 	 * @return page break interval property value of this level
@@ -194,6 +205,19 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 	public void setPageBreakAfter( String value ) throws SemanticException
 	{
 		handle.setStringProperty( PAGE_BREAK_AFTER_PROP, value );
+	}
+
+	/**
+	 * Sets page break inside property value of this level.
+	 * 
+	 * @param value
+	 *            the page break inside option to set
+	 * @throws SemanticException
+	 * 
+	 */
+	public void setPageBreakInside( String value ) throws SemanticException
+	{
+		handle.setStringProperty( PAGE_BREAK_INSIDE_PROP, value );
 	}
 
 	/**
