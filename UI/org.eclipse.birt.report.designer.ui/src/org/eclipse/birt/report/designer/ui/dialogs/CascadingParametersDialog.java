@@ -1946,7 +1946,8 @@ public class CascadingParametersDialog extends BaseDialog
 				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
 				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
 				|| DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-				|| DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) )
+				|| DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) 
+				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY.equals( formatCategroy ) )
 		{
 			return true;
 		}
