@@ -22,6 +22,7 @@ import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -169,6 +170,36 @@ public abstract class BaseCrosstabExecutor implements
 					Messages.getString( "BaseCrosstabExecutor.error.process.visibility" ), //$NON-NLS-1$
 					e );
 		}
+	}
+
+	protected void processScopeAndHeaders( CrosstabCellHandle handle )
+	{
+		if ( !( content instanceof ICellContent ) )
+		{
+			return;
+		}
+
+		ICellContent cellContent = (ICellContent) content;
+
+		try
+		{
+			ContentUtil.processScope( context,
+					cellContent,
+					handle,
+					getCubeResultSet( ) );
+
+			ContentUtil.processHeaders( context,
+					cellContent,
+					handle,
+					getCubeResultSet( ) );
+		}
+		catch ( BirtException e )
+		{
+			logger.log( Level.SEVERE,
+					Messages.getString( "BaseCrosstabExecutor.error.process.headers" ), //$NON-NLS-1$
+					e );
+		}
+
 	}
 
 	protected void processBookmark( AbstractCrosstabItemHandle handle )

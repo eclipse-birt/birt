@@ -98,6 +98,7 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 		processStyle( cellHandle );
 		processVisibility( cellHandle );
 		processBookmark( cellHandle );
+		processScopeAndHeaders( cellHandle );
 		processAction( cellHandle );
 
 		currentChild = 0;

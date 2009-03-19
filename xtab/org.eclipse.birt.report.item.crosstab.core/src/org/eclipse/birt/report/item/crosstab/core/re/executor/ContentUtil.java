@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
+import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -26,6 +27,7 @@ import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
@@ -37,6 +39,7 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.TOCHandle;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 
 /**
  * ContentUtil
@@ -234,6 +237,48 @@ class ContentUtil
 		}
 
 		return null;
+	}
+
+	static void processScope( IExecutorContext context, ICellContent content,
+			CrosstabCellHandle handle, IBaseResultSet evaluator )
+			throws BirtException
+	{
+		if ( handle == null
+				|| evaluator == null
+				|| handle.getModelHandle( ) == null )
+		{
+			return;
+		}
+
+		String scope = handle.getModelHandle( )
+				.getStringProperty( ICellModel.SCOPE_PROP );
+		if ( scope != null )
+		{
+			content.setScope( scope );
+		}
+	}
+
+	static void processHeaders( IExecutorContext context, ICellContent content,
+			CrosstabCellHandle handle, IBaseResultSet evaluator )
+			throws BirtException
+	{
+		if ( handle == null
+				|| evaluator == null
+				|| handle.getModelHandle( ) == null )
+		{
+			return;
+		}
+
+		String headers = handle.getModelHandle( )
+				.getStringProperty( ICellModel.HEADERS_PROP );
+		if ( headers != null )
+		{
+			Object tmp = evaluator.evaluate( validExpression( headers ) );
+			if ( tmp != null && !tmp.equals( "" ) ) //$NON-NLS-1$
+			{
+				content.setHeaders( tmp.toString( ) );
+			}
+		}
 	}
 
 	static void processBookmark( IExecutorContext context, IContent content,
