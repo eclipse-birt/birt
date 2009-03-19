@@ -80,6 +80,10 @@ public class NewLibraryWizard extends Wizard implements
 	// private WizardChoicePage choicePage;
 	// private WizardCustomTemplatePage customTemplatePage;
 
+	public NewLibraryWizard( )
+	{
+		setWindowTitle( NEW );
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -132,7 +136,6 @@ public class NewLibraryWizard extends Wizard implements
 		// }
 		// OK
 		this.selection = selection;
-		setWindowTitle( NEW );
 	}
 
 	/*
