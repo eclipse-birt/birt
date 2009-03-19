@@ -149,13 +149,24 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 		fTxtHyperlinkLabel.setLayoutData( gdTXTTarget );
 
 		AssistField af = new TextAssistField( fTxtHyperlinkLabel, null ) {
+			
+			private boolean fIsDuplicate = false;
+			
 			/* (non-Javadoc)
 			 * @see org.eclipse.birt.chart.ui.swt.fieldassist.TextAssistField#isValid()
 			 */
 			public boolean isValid()
 			{
+				fIsDuplicate = false;
 				String text = fTxtHyperlinkLabel.getText( );
 				if ( text == null || "".equals( text.trim( ) ) ){//$NON-NLS-1$
+					return false;
+				}
+				
+				if ( fExistingLabels != null
+						&& fExistingLabels.contains( fTxtHyperlinkLabel.getText( ) ) )
+				{
+					fIsDuplicate = true;
 					return false;
 				}
 				
@@ -172,6 +183,10 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 			
 			public String getErrorMessage()
 			{
+				if ( fIsDuplicate )
+				{
+					return Messages.getString("HyperlinkEditorDialog.ErrorMessage.ExistingText"); //$NON-NLS-1$
+				}
 				return Messages.getString("HyperlinkEditorDialog.ErrorMessage.NullText"); //$NON-NLS-1$
 			}
 			

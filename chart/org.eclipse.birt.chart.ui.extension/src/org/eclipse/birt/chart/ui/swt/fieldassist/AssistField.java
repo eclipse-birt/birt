@@ -247,6 +247,11 @@ public abstract class AssistField
 						getErrorMessage( ) );
 			}
 		}
+		
+		if ( getErrorMessage( ) != null )
+		{
+			errorDecoration.setDescription( getErrorMessage( ) );
+		}
 		return errorDecoration;
 
 	}
