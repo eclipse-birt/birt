@@ -392,7 +392,8 @@ public class TriggerDataComposite extends Composite
 			lblScript.setLayoutData( gdLBLScript );
 			lblScript.setText( Messages.getString( "TriggerDataComposite.Lbl.Script" ) ); //$NON-NLS-1$
 		}
-		txtScript = new Text( cmpScript, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL );
+		txtScript = new Text( cmpScript, SWT.MULTI
+				| SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL );
 		{
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			gd.verticalSpan = 2;
@@ -770,7 +771,7 @@ public class TriggerDataComposite extends Composite
 	{
 		Label label = new Label( parent, SWT.WRAP );
 		{
-			GridData gd = new GridData( );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.widthHint = 200;
 			gd.horizontalSpan = horizontalSpan;
 			label.setLayoutData( gd );

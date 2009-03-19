@@ -38,7 +38,6 @@ import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
-import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -343,23 +342,12 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 				gd.widthHint = 250;
 				cmpEditorWithUnit.setLayoutData( gd );
 				GridLayout layout = new GridLayout( 2, false );
-				layout.marginTop = 0;
-				layout.marginBottom = 0;
+				layout.marginWidth = 0;
+				layout.marginHeight = 0;
 				cmpEditorWithUnit.setLayout( layout );
 			}
 
-			Composite cmpEditor = new Composite( cmpEditorWithUnit, SWT.NONE );
-			{
-				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				cmpEditor.setLayoutData( gd );
-				GridLayout layout = new GridLayout( 2, false );
-				FieldAssistHelper.getInstance( ).initDecorationMargin( layout );
-				layout.marginTop = 0;
-				layout.marginBottom = 0;
-				cmpEditor.setLayout( layout );
-			}
-
-			lneLabelSpan = new LocalizedNumberEditorComposite( cmpEditor,
+			lneLabelSpan = new LocalizedNumberEditorComposite( cmpEditorWithUnit,
 					SWT.BORDER );
 			new TextNumberEditorAssistField( lneLabelSpan.getTextControl( ),
 					null );
