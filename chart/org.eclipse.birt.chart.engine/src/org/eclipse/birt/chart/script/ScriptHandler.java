@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.LegendEntryRenderingHints;
+import org.eclipse.birt.chart.computation.PlotComputation;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -675,6 +676,16 @@ public final class ScriptHandler extends ScriptableObject
 			javahandler.afterGeneration( (GeneratedChartState) tmpArgs[0],
 					(IChartScriptContext) tmpArgs[1] );
 		}
+		else if ( ScriptHandler.BEFORE_COMPUTATIONS.equals( name ) )
+		{
+			javahandler.beforeComputations( (Chart) tmpArgs[0],
+					(PlotComputation) tmpArgs[1] );
+		}
+		else if ( ScriptHandler.AFTER_COMPUTATIONS.equals( name ) )
+		{
+			javahandler.afterComputations( (Chart) tmpArgs[0],
+					(PlotComputation) tmpArgs[1] );
+		}
 		else if ( ScriptHandler.BEFORE_RENDERING.equals( name ) )
 		{
 			javahandler.beforeRendering( (GeneratedChartState) tmpArgs[0],
@@ -825,9 +836,8 @@ public final class ScriptHandler extends ScriptableObject
 		}
 		else
 		{
-			assert false;
+			// Use reflect to call other methods
 			Method mtd = JAVA_FUNTION_MAP.get( name );
-
 			try
 			{
 				return SecurityUtil.invokeMethod( mtd, javahandler, oaArgs );
