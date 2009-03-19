@@ -149,4 +149,16 @@ public class ExpressionHandle extends ComplexValueHandle
 		return ( (PropertyDefn) getDefn( ) ).getStringValue( getModule( ),
 				getValue( ) );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.ComplexValueHandle#getValue()
+	 */
+
+	public Object getValue( )
+	{
+		return getRawValue( );
+	}
+
 }

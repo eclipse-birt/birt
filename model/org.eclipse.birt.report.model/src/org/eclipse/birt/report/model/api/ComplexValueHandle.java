@@ -16,8 +16,10 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Abstract class for working with properties that have internal structure, such
@@ -115,15 +117,30 @@ public abstract class ComplexValueHandle extends ValueHandle
 
 	public Object getValue( )
 	{
+		Object value = getRawValue( );
+
+		return ModelUtil.wrapPropertyValue( getModule( ),
+				(PropertyDefn) getDefn( ), value );
+	}
+
+	/**
+	 * Returns the value stored in the memory. The return value won't be
+	 * wrapped.
+	 * 
+	 * @return the value
+	 */
+
+	protected final Object getRawValue( )
+	{
+		Module tmpModule = getModule( );
 		Object value = null;
 		if ( memberRef == null )
 		{
-			value = getElement( ).getProperty( getModule( ), propDefn );
-
+			value = getElement( ).getProperty( tmpModule, propDefn );
 		}
 		else
 		{
-			value = memberRef.getValue( getModule( ), getElement( ) );
+			value = memberRef.getValue( tmpModule, getElement( ) );
 		}
 
 		return value;
@@ -223,8 +240,8 @@ public abstract class ComplexValueHandle extends ValueHandle
 	 * otherwise it is considered unset.</li>
 	 * </ul>
 	 * 
-	 * @return <code>true</code> if the value is set, <code>false</code> if
-	 *         it is not set
+	 * @return <code>true</code> if the value is set, <code>false</code> if it
+	 *         is not set
 	 */
 
 	public boolean isSet( )
