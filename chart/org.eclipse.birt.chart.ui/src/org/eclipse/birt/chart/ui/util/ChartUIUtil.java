@@ -73,7 +73,6 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -178,7 +177,7 @@ public class ChartUIUtil
 			seriesDefn.getDesignTimeSeries( ).getDataDefinition( ).add( query );
 			return query;
 		}
-		return (Query) seriesDefn.getDesignTimeSeries( )
+		return seriesDefn.getDesignTimeSeries( )
 				.getDataDefinition( )
 				.get( queryIndex );
 	}
@@ -216,8 +215,9 @@ public class ChartUIUtil
 	{
 		if ( chart instanceof ChartWithAxes )
 		{
-			EList<Axis> axisList = ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( );
+			EList<Axis> axisList = ( (ChartWithAxes) chart ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( );
 			return axisList.size( );
 		}
 		else if ( chart instanceof ChartWithoutAxes )
@@ -237,19 +237,21 @@ public class ChartUIUtil
 	 *            series definition.
 	 * @return specified axis definitions or all series definitions
 	 */
-	public static EList<SeriesDefinition> getOrthogonalSeriesDefinitions( Chart chart,
-			int axisIndex )
+	public static EList<SeriesDefinition> getOrthogonalSeriesDefinitions(
+			Chart chart, int axisIndex )
 	{
 		if ( chart instanceof ChartWithAxes )
 		{
-			EList<Axis> axisList = ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( );
+			EList<Axis> axisList = ( (ChartWithAxes) chart ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( );
 			return axisList.get( axisIndex ).getSeriesDefinitions( );
 		}
 		else if ( chart instanceof ChartWithoutAxes )
 		{
-			return ( (SeriesDefinition) ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
-					.get( 0 ) ).getSeriesDefinitions( );
+			return ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
+					.get( 0 )
+					.getSeriesDefinitions( );
 		}
 		return null;
 	}
@@ -329,19 +331,19 @@ public class ChartUIUtil
 
 	public static Axis getAxisXForProcessing( ChartWithAxes chartWithAxis )
 	{
-		return (Axis) chartWithAxis.getAxes( ).get( 0 );
+		return chartWithAxis.getAxes( ).get( 0 );
 	}
 
 	public static Axis getAxisYForProcessing( ChartWithAxes chartWithAxis,
 			int axisIndex )
 	{
-		return (Axis) getAxisXForProcessing( chartWithAxis ).getAssociatedAxes( )
+		return getAxisXForProcessing( chartWithAxis ).getAssociatedAxes( )
 				.get( axisIndex );
 	}
 
 	public static Axis getAxisZForProcessing( ChartWithAxes chartWithAxis )
 	{
-		return (Axis) getAxisXForProcessing( chartWithAxis ).getAncillaryAxes( )
+		return getAxisXForProcessing( chartWithAxis ).getAncillaryAxes( )
 				.get( 0 );
 	}
 
@@ -450,7 +452,7 @@ public class ChartUIUtil
 				EList<SeriesDefinition> elSD = axa[i].getSeriesDefinitions( );
 				for ( int j = 0; j < elSD.size( ); j++ )
 				{
-					SeriesDefinition sd = (SeriesDefinition) elSD.get( j );
+					SeriesDefinition sd = elSD.get( j );
 					Query qy = sd.getQuery( );
 					if ( qy == null )
 					{
@@ -508,7 +510,7 @@ public class ChartUIUtil
 			EList<SeriesDefinition> elSD = sdBase.getSeriesDefinitions( );
 			for ( int j = 0; j < elSD.size( ); j++ )
 			{
-				SeriesDefinition sd = (SeriesDefinition) elSD.get( j );
+				SeriesDefinition sd = elSD.get( j );
 				Query qy = sd.getQuery( );
 				if ( qy == null )
 				{
@@ -535,7 +537,7 @@ public class ChartUIUtil
 				for ( int j = 0; j < seRuntimes.size( ); j++ )
 				{
 					Series seRuntimeOrthogonal = ChartUtil.eCopy( seDesignOrthogonal );
-					seRuntimeOrthogonal.setDataSet( ( (Series) seRuntimes.get( j ) ).getDataSet( ) );
+					seRuntimeOrthogonal.setDataSet( seRuntimes.get( j ).getDataSet( ) );
 					if ( iOrthogonalSeriesDefinitionCount < 1 )
 					{
 						seRuntimeOrthogonal.setSeriesIdentifier( seDesignOrthogonal.getSeriesIdentifier( ) );
@@ -568,7 +570,7 @@ public class ChartUIUtil
 	{
 		boolean isSharingQuery = dataProvider.checkState( IDataServiceProvider.SHARE_QUERY )
 				|| dataProvider.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS );
-		final List expressions = Generator.instance( )
+		final List<String> expressions = Generator.instance( )
 				.getRowExpressions( chart, iae, !isSharingQuery );
 
 		IDataRowExpressionEvaluator evaluator = dataProvider.prepareRowExpressionEvaluator( chart,
@@ -685,13 +687,13 @@ public class ChartUIUtil
 	public static void setAllGroupingQueryExceptFirst( Chart chart,
 			String queryDefinition )
 	{
-		List sds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( chart );
+		List<SeriesDefinition> sds = getAllOrthogonalSeriesDefinitions( chart );
 		for ( int i = 0; i < sds.size( ); i++ )
 		{
 			if ( i != 0 )
 			{
 				// Except for the first, which is changed manually.
-				SeriesDefinition sd = (SeriesDefinition) sds.get( i );
+				SeriesDefinition sd = sds.get( i );
 				if ( sd.getQuery( ) != null )
 				{
 					sd.getQuery( ).setDefinition( queryDefinition );
@@ -719,7 +721,9 @@ public class ChartUIUtil
 		// --------------------------Begin
 
 		// Create a clone of the existing Y Axis
-		Axis yAxis = (Axis) ( (Axis) chartModel.getAxes( ).get( 0 ) ).getAssociatedAxes( )
+		Axis yAxis = chartModel.getAxes( )
+				.get( 0 )
+				.getAssociatedAxes( )
 				.get( 0 );
 		Axis overlayAxis = (Axis) EcoreUtil.copy( yAxis );
 		// Now update overlay axis to set the properties that are
@@ -740,7 +744,7 @@ public class ChartUIUtil
 		// Retain the first series of the axis. Remove others
 		if ( overlayAxis.getSeriesDefinitions( ).size( ) > 1 )
 		{
-			EList list = overlayAxis.getSeriesDefinitions( );
+			EList<SeriesDefinition> list = overlayAxis.getSeriesDefinitions( );
 			for ( int i = list.size( ) - 1; i > 0; i-- )
 			{
 				list.remove( i );
@@ -749,12 +753,12 @@ public class ChartUIUtil
 
 		// Update overlay series definition(retain the group query,
 		// clean the data query)
-		SeriesDefinition sdOverlay = (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+		SeriesDefinition sdOverlay = overlayAxis.getSeriesDefinitions( )
 				.get( 0 );
-		EList dds = sdOverlay.getDesignTimeSeries( ).getDataDefinition( );
+		EList<Query> dds = sdOverlay.getDesignTimeSeries( ).getDataDefinition( );
 		for ( int i = 0; i < dds.size( ); i++ )
 		{
-			( (Query) dds.get( i ) ).setDefinition( "" ); //$NON-NLS-1$
+			dds.get( i ).setDefinition( "" ); //$NON-NLS-1$
 		}
 
 		// Update the sample values for the new overlay series
@@ -762,7 +766,7 @@ public class ChartUIUtil
 		// Create a new OrthogonalSampleData instance from the existing
 		// one
 		int currentSize = sd.getOrthogonalSampleData( ).size( );
-		OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( (EObject) chartModel.getSampleData( )
+		OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( chartModel.getSampleData( )
 				.getOrthogonalSampleData( )
 				.get( 0 ) );
 		sdOrthogonal.setDataSetRepresentation( ChartUtil.getNewSampleData( overlayAxis.getType( ),
@@ -770,8 +774,7 @@ public class ChartUIUtil
 		sdOrthogonal.setSeriesDefinitionIndex( currentSize );
 		sdOrthogonal.eAdapters( ).addAll( sd.eAdapters( ) );
 		sd.getOrthogonalSampleData( ).add( sdOrthogonal );
-		( (Axis) chartModel.getAxes( ).get( 0 ) ).getAssociatedAxes( )
-				.add( overlayAxis );
+		chartModel.getAxes( ).get( 0 ).getAssociatedAxes( ).add( overlayAxis );
 		// ------------------End
 		ChartAdapter.endIgnoreNotifications( );
 
@@ -916,10 +919,11 @@ public class ChartUIUtil
 	 */
 	public static void reorderOrthogonalSampleDataIndex( Chart chartModel )
 	{
-		EList list = chartModel.getSampleData( ).getOrthogonalSampleData( );
+		EList<OrthogonalSampleData> list = chartModel.getSampleData( )
+				.getOrthogonalSampleData( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			( (OrthogonalSampleData) list.get( i ) ).setSeriesDefinitionIndex( i );
+			list.get( i ).setSeriesDefinitionIndex( i );
 		}
 	}
 
@@ -1326,7 +1330,7 @@ public class ChartUIUtil
 		return items.toArray( new String[items.size( )] );
 	}
 
-	private static void addArrayToList( Object[] array, List list )
+	private static void addArrayToList( String[] array, List<String> list )
 	{
 		for ( int i = 0; i < array.length; i++ )
 		{
@@ -1349,10 +1353,8 @@ public class ChartUIUtil
 		}
 
 		// Cache label position of first BarSeries in all series.
-		EList seriesList = seriesDefinition.getSeries( );
-		for ( Iterator iter = seriesList.iterator( ); iter.hasNext( ); )
+		for ( Series series : seriesDefinition.getSeries( ) )
 		{
-			Series series = (Series) iter.next( );
 			if ( series instanceof BarSeries )
 			{
 				String stackedCase = ChartUIConstants.NON_STACKED_TYPE;
@@ -1465,7 +1467,6 @@ public class ChartUIUtil
 	}
 
 	/**
-	 * @return
 	 * @since 2.3
 	 */
 	public static int getImageButtonDefaultHeightByPlatform( )
@@ -1508,10 +1509,8 @@ public class ChartUIUtil
 		// TED#12813 If inheritance is used, "inherit columns and groups" mode
 		// will disable grouping and aggregation
 		final int state = wizardContext.getDataServiceProvider( ).getState( );
-		return ( state & IDataServiceProvider.HAS_DATA_SET ) == IDataServiceProvider.HAS_DATA_SET
-				|| ( state & IDataServiceProvider.HAS_CUBE ) == IDataServiceProvider.HAS_CUBE
-				|| ( state & IDataServiceProvider.SHARE_QUERY ) != IDataServiceProvider.SHARE_QUERY
-				&& ( state & IDataServiceProvider.INHERIT_COLUMNS_ONLY ) == IDataServiceProvider.INHERIT_COLUMNS_ONLY;
+		return ( state & IDataServiceProvider.SHARE_QUERY ) != IDataServiceProvider.SHARE_QUERY
+				&& ( state & IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) != IDataServiceProvider.INHERIT_COLUMNS_GROUPS;
 	}
 
 	private static String checkGroupTypeOnCategory( ChartWizardContext context,
@@ -1550,7 +1549,7 @@ public class ChartUIUtil
 			ChartWizardContext context, Chart chart )
 	{
 		String isConsistent = ""; //$NON-NLS-1$
-		SeriesDefinition seriesdefinition = (SeriesDefinition) ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
+		SeriesDefinition seriesdefinition = ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
 				0 )
 				.get( 0 );
 		if ( seriesdefinition.getQuery( ) != null )
@@ -1590,7 +1589,7 @@ public class ChartUIUtil
 		String cGroupWarning = checkGroupTypeOnCategory( context, chart );
 		if ( cGroupWarning.length( ) != 0 )
 		{
-			cGroupWarning = MessageFormat.format( Messages.getString( "TaskSelectData.Warning.CategoryGroupTypeCheck" ), //$NON-NLS-1$
+			cGroupWarning = Messages.getString( "TaskSelectData.Warning.CategoryGroupTypeCheck", //$NON-NLS-1$
 					new String[]{
 						cGroupWarning
 					} );
@@ -1598,7 +1597,7 @@ public class ChartUIUtil
 		String yGroupWarning = checkGroupTypeOnYGrouping( context, chart );
 		if ( yGroupWarning.length( ) != 0 )
 		{
-			yGroupWarning = MessageFormat.format( Messages.getString( "TaskSelectData.Warning.YGroupTypeCheck" ), //$NON-NLS-1$
+			yGroupWarning = Messages.getString( "TaskSelectData.Warning.YGroupTypeCheck", //$NON-NLS-1$
 					new String[]{
 						yGroupWarning
 					} );
@@ -1844,7 +1843,6 @@ public class ChartUIUtil
 	 * returns true if the series has a numeric aggregation function
 	 * 
 	 * @param series
-	 * @return
 	 */
 	public static boolean isNumericAggregate( Series series )
 	{

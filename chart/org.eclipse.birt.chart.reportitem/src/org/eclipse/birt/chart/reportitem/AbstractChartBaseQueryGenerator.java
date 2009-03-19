@@ -121,7 +121,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param columns
 	 * @throws ChartException
 	 */
-	public abstract IDataQueryDefinition createBaseQuery( List columns )
+	public abstract IDataQueryDefinition createBaseQuery( List<String> columns )
 			throws ChartException;
 
 	/**
@@ -692,9 +692,10 @@ public abstract class AbstractChartBaseQueryGenerator
 				groupIntervalRange = 0;
 			}
 
-			String baseExpr = ( (Query) baseSD.getDesignTimeSeries( )
+			String baseExpr = baseSD.getDesignTimeSeries( )
 					.getDataDefinition( )
-					.get( 0 ) ).getDefinition( );
+					.get( 0 )
+					.getDefinition( );
 
 			String name = generateUniqueBindingName( baseExpr );
 
@@ -814,9 +815,10 @@ public abstract class AbstractChartBaseQueryGenerator
 		}
 		else
 		{
-			sortExpr = ( (Query) sd.getDesignTimeSeries( )
+			sortExpr = sd.getDesignTimeSeries( )
 					.getDataDefinition( )
-					.get( 0 ) ).getDefinition( );
+					.get( 0 )
+					.getDefinition( );
 		}
 		if ( "".equals( sortExpr ) ) //$NON-NLS-1$
 		{

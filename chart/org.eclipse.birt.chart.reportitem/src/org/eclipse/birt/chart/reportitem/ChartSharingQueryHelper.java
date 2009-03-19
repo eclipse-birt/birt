@@ -22,9 +22,9 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 
 /**
  * The class is used to create query from referred report item handle, it
@@ -92,13 +92,13 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 		if ( ChartReportItemUtil.isChartInheritGroups( fReportItemHandle ) )
 		{
 			// Copy aggregations from table container to chart
-			TableHandle table = null;
+			ListingHandle table = null;
 			DesignElementHandle container = fReportItemHandle.getContainer( );
 			while ( container != null )
 			{
-				if ( container instanceof TableHandle )
+				if ( container instanceof ListingHandle )
 				{
-					table = (TableHandle) container;
+					table = (ListingHandle) container;
 					break;
 				}
 				container = container.getContainer( );
@@ -127,19 +127,19 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 	private List<GroupHandle> getGroups( )
 	{
 		List<GroupHandle> groupList = new ArrayList<GroupHandle>( );
-		TableHandle table = null;
-		if ( fReportItemHandle instanceof TableHandle )
+		ListingHandle table = null;
+		if ( fReportItemHandle instanceof ListingHandle )
 		{
-			table = (TableHandle) fReportItemHandle;
+			table = (ListingHandle) fReportItemHandle;
 		}
 		else if ( ChartReportItemUtil.isChartInheritGroups( fReportItemHandle ) )
 		{
 			DesignElementHandle container = fReportItemHandle.getContainer( );
 			while ( container != null )
 			{
-				if ( container instanceof TableHandle )
+				if ( container instanceof ListingHandle )
 				{
-					table = (TableHandle) container;
+					table = (ListingHandle) container;
 					break;
 				}
 				container = container.getContainer( );
@@ -168,10 +168,10 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 			BaseQueryDefinition query )
 	{
 		super.addSortAndFilter( handle, query );
-		if ( handle instanceof TableHandle )
+		if ( handle instanceof ListingHandle )
 		{
 			query.getSorts( )
-					.addAll( createSorts( ( (TableHandle) handle ).sortsIterator( ) ) );
+					.addAll( createSorts( ( (ListingHandle) handle ).sortsIterator( ) ) );
 		}
 	}
 }

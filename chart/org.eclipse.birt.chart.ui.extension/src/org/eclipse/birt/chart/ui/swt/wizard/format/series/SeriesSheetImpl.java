@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
+import org.eclipse.birt.chart.ui.swt.type.BubbleChart;
 import org.eclipse.birt.chart.ui.swt.type.PieChart;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
@@ -423,8 +424,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					spnZOrder.setLayoutData( gd );
 					spnZOrder.setMinimum( 0 );
 					spnZOrder.setMaximum( 10 );
-					if ( getChart( ) instanceof ChartWithAxes )
+					if ( getChart( ) instanceof ChartWithAxes
+							&& !( getContext( ).getChartType( ) instanceof BubbleChart ) )
 					{
+						// Bubble chart has special z order
 						spnZOrder.setSelection( seriesDefn.getZOrder( ) );
 						spnZOrder.addSelectionListener( this );
 					}

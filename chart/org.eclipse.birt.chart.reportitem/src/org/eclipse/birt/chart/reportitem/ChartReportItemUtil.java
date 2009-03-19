@@ -51,12 +51,13 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ListGroupHandle;
+import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
@@ -1048,7 +1049,6 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 * Check if chart is child of multi-views handle.
 	 * 
 	 * @param handle
-	 * @return
 	 * @since 2.3
 	 */
 	public static boolean isChildOfMultiViewsHandle( DesignElementHandle handle )
@@ -1126,13 +1126,10 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		if ( itemHandle instanceof ListingHandle )
 		{
 			List<GroupHandle> groupList = new ArrayList<GroupHandle>( );
-			if ( itemHandle instanceof TableHandle )
+			SlotHandle groups = ( (ListingHandle) itemHandle ).getGroups( );
+			for ( Iterator<GroupHandle> iter = groups.iterator( ); iter.hasNext( ); )
 			{
-				SlotHandle groups = ( (TableHandle) itemHandle ).getGroups( );
-				for ( Iterator iter = groups.iterator( ); iter.hasNext( ); )
-				{
-					groupList.add( (GroupHandle) iter.next( ) );
-				}
+				groupList.add( iter.next( ) );
 			}
 			
 			if ( groupList.size( ) == 0 )
@@ -1203,7 +1200,6 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 * Returns report item reference of specified item handle.
 	 * 
 	 * @param itemHandle
-	 * @return
 	 * @since 2.3
 	 */
 	public static ReportItemHandle getReportItemReference(
@@ -1248,7 +1244,6 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 * Check if specified report item handle is related to chart.
 	 * 
 	 * @param handle
-	 * @return
 	 * @since 2.3
 	 */
 	public static boolean isChartReportItemHandle( ReportItemHandle handle )
@@ -1451,8 +1446,9 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 */
 	public static boolean isChartInheritGroups( ReportItemHandle handle )
 	{
-		return handle.getContainer( ) instanceof CellHandle
-				&& handle.getDataSet( ) == null
+		return handle.getDataSet( ) == null
+				&& ( handle.getContainer( ) instanceof CellHandle
+						|| handle.getContainer( ) instanceof ListHandle || handle.getContainer( ) instanceof ListGroupHandle )
 				&& !handle.getBooleanProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS );
 	}
 }

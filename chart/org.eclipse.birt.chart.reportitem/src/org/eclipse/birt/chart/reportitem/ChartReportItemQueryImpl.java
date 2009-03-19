@@ -24,9 +24,9 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 
@@ -133,9 +133,9 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				DesignElementHandle container = handle.getContainer( );
 				while ( container != null )
 				{
-					if ( container instanceof TableHandle )
+					if ( container instanceof ListingHandle )
 					{
-						itemHandle = (TableHandle) container;
+						itemHandle = (ListingHandle) container;
 						return new ChartSharingQueryHelper( handle, cm ).createQuery( parent );
 					}
 					container = container.getContainer( );
