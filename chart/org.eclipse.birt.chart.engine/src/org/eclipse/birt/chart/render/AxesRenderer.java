@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.Object3D;
+import org.eclipse.birt.chart.computation.PlotComputation;
 import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.computation.withaxes.AllAxes;
 import org.eclipse.birt.chart.computation.withaxes.AutoScale;
@@ -953,7 +954,7 @@ public abstract class AxesRenderer extends BaseRenderer
 									? boPlotClientArea.getLeft( )
 									: boPlotClientArea.getTop( )
 											+ boPlotClientArea.getHeight( ) )
-							: PlotWith2DAxes.getLocation( asc, deStart );
+							: Methods.getLocation( asc, deStart );
 				}
 				catch ( Exception ex )
 				{
@@ -974,7 +975,7 @@ public abstract class AxesRenderer extends BaseRenderer
 									? boPlotClientArea.getLeft( )
 											+ boPlotClientArea.getWidth( )
 									: boPlotClientArea.getTop( ) )
-							: PlotWith2DAxes.getLocation( asc, deEnd );
+							: Methods.getLocation( asc, deEnd );
 				}
 				catch ( Exception ex )
 				{
@@ -2557,7 +2558,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				// COMPUTE THE LOCATION
 				try
 				{
-					dCoordinate = PlotWith2DAxes.getLocation( asc, deValue );
+					dCoordinate = Methods.getLocation( asc, deValue );
 				}
 				catch ( Exception ex )
 				{
@@ -2899,7 +2900,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	 *      org.eclipse.birt.chart.model.component.Axis,
 	 *      org.eclipse.birt.chart.model.data.SeriesDefinition)
 	 */
-	public void set( Chart _cm, Object _o, Series _se, Axis _ax,
+	public void set( Chart _cm, PlotComputation _o, Series _se, Axis _ax,
 			SeriesDefinition _sd )
 	{
 		super.set( _cm, _o, _se, _sd );
@@ -3086,7 +3087,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	{
 		if ( isDimension3D( ) )
 		{
-			// delegate to 3d compuations.
+			// delegate to 3d computations.
 			return ( (PlotWith3DAxes) oComputations ).get3DEngine( );
 		}
 
@@ -3100,7 +3101,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	{
 		if ( isDimension3D( ) )
 		{
-			// delegate to 3d compuations.
+			// delegate to 3d computations.
 			return ( (PlotWith3DAxes) oComputations ).getPanningOffset( );
 		}
 

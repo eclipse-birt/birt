@@ -71,19 +71,11 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 		}
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final DataPointHints[] getDataPoints( )
 	{
 		return dpha;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final Double[] asDoubleValues( ) throws ChartException
 	{
 		final int iCount = dpha.length;
@@ -118,10 +110,6 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 		return doa;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final double[] asPrimitiveDoubleValues( ) throws ChartException
 	{
 		final int iCount = dpha.length;
@@ -191,10 +179,10 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 	 */
 	public Bounds getClientAreaBounds( boolean bReduceByInsets )
 	{
-		final Bounds boClientArea = pwoa.getBounds( ).copyInstance( );
+		final Bounds boClientArea = pwoa.getPlotBounds( ).copyInstance( );
 		if ( bReduceByInsets )
 		{
-			boClientArea.adjust( pwoa.getCellInsets( ) );
+			boClientArea.adjust( pwoa.getPlotInsets( ) );
 		}
 		return boClientArea;
 	}

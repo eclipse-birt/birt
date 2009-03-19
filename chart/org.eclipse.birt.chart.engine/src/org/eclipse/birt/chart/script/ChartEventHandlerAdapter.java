@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.script;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.LegendEntryRenderingHints;
+import org.eclipse.birt.chart.computation.PlotComputation;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.model.Chart;
@@ -28,7 +29,6 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.render.ISeriesRenderer;
-import org.eclipse.birt.chart.script.IChartScriptContext;
 
 /**
  * An adapter (empty implementation of IChartEventHandler) makes the
@@ -149,12 +149,7 @@ public class ChartEventHandlerAdapter implements IChartEventHandler
 	{
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawLegendEntry(org.eclipse.birt.chart.model.component.Label,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
-	 */
+	@SuppressWarnings("deprecation")
 	public void beforeDrawLegendEntry( Label label, IChartScriptContext icsc )
 	{
 	}
@@ -282,12 +277,7 @@ public class ChartEventHandlerAdapter implements IChartEventHandler
 	{
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawLegendEntry(org.eclipse.birt.chart.model.component.Label,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
-	 */
+	@SuppressWarnings("deprecation")
 	public void afterDrawLegendEntry( Label label, IChartScriptContext icsc )
 	{
 	}
@@ -395,6 +385,14 @@ public class ChartEventHandlerAdapter implements IChartEventHandler
 	 */
 	public void afterDrawAxisTitle( Axis axis, Label label,
 			IChartScriptContext icsc )
+	{
+	}
+
+	public void afterComputations( Chart cm, PlotComputation oComputations )
+	{
+	}
+
+	public void beforeComputations( Chart cm, PlotComputation oComputations )
 	{
 	}
 

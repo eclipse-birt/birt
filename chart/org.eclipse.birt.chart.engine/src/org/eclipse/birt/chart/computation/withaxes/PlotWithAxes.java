@@ -21,18 +21,16 @@ import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.Methods;
+import org.eclipse.birt.chart.computation.PlotComputation;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
-import org.eclipse.birt.chart.log.ILogger;
-import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Orientation;
@@ -42,12 +40,10 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.AxesRenderer;
 import org.eclipse.birt.chart.render.IAxesDecorator;
-import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
 
@@ -56,10 +52,8 @@ import com.ibm.icu.util.Calendar;
 /**
  * PlotWithAxes
  */
-public abstract class PlotWithAxes extends Methods
+public abstract class PlotWithAxes extends PlotComputation implements IConstants
 {
-
-	static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation.withaxes" ); //$NON-NLS-1$
 
 	protected static final double AXIS_TITLE_PERCENT = 0.3;
 
@@ -78,48 +72,22 @@ public abstract class PlotWithAxes extends Methods
 	protected AllAxes aax = null;
 
 	/**
-	 * A final internal reference to the model used in rendering computations
-	 */
-	protected ChartWithAxes cwa;
-
-	/**
-	 * An internal XServer implementation capable of obtaining text metrics,
-	 * etc.
-	 */
-	protected IDisplayServer ids;
-
-	/**
-	 * The runtime context associated with chart generation
-	 */
-	protected RunTimeContext rtc;
-
-	/**
-	 * A computed plot area based on the block dimensions and the axis
-	 * attributes and label values (within axes)
-	 */
-	protected Bounds boPlotBackground = BoundsImpl.create( 0, 0, 100, 100 );
-
-	/**
 	 * Bounds of the whole plot client area (include axes), insets have been
 	 * calculated.
 	 */
 	protected Bounds boPlot = BoundsImpl.create( 0, 0, 100, 100 );
 
-	/**
-	 * Insets maintained as pixels equivalent of the points value specified in
-	 * the model used here for fast computations
-	 */
-	protected Insets insCA = null;
-
-	/**
-	 * Ratio for converting a point to a pixel
-	 */
-	protected transient double dPointToPixel = 0;
 
 	/**
 	 * Instance of the Helper class for align zero point of multiple axes
 	 */
 	protected AlignZeroHelper azHelper = null;
+	
+	public PlotWithAxes( IDisplayServer ids, RunTimeContext rtc,
+			ChartWithAxes cwa )
+	{
+		super( ids, rtc, cwa );
+	}
 
 	/**
 	 * Look up table for label limit.
@@ -137,7 +105,7 @@ public abstract class PlotWithAxes extends Methods
 	 * Look up table for label limit.
 	 * 
 	 * @param la
-	 * @return
+	 * @return LabelLimiter
 	 */
 	public LabelLimiter getLabellLimiter( Label la )
 	{
@@ -269,59 +237,25 @@ public abstract class PlotWithAxes extends Methods
 		return iv;
 	}
 
-	/**
-	 * @return
-	 */
 	public final int getDimension( )
 	{
 		return iDimension;
 	}
 
-	/**
-	 * @return
-	 */
 	public final double getSeriesThickness( )
 	{
 		return dSeriesThickness;
 	}
 
-	/**
-	 * @return
-	 */
 	public final double getHorizontalSpacingInPixels( )
 	{
 		return dXAxisPlotSpacing;
 	}
 
-	/**
-	 * @return
-	 */
 	public final double getVerticalSpacingInPixels( )
 	{
 		return dYAxisPlotSpacing;
 	}
-
-	/**
-	 * This method computes the entire chart within the given bounds. If the
-	 * dataset has changed but none of the axis attributes have changed, simply
-	 * re-compute without 'rebuilding axes'.
-	 * 
-	 * @param bo
-	 * 
-	 */
-	public abstract void compute( Bounds bo ) throws ChartException,
-			IllegalArgumentException;
-
-	/**
-	 * @param sdOrthogonal
-	 * @param seOrthogonal
-	 * @return
-	 * @throws ChartException
-	 * @throws IllegalArgumentException
-	 */
-	public abstract ISeriesRenderingHints getSeriesRenderingHints(
-			SeriesDefinition sdOrthogonal, Series seOrthogonal )
-			throws ChartException, IllegalArgumentException;
 
 	/**
 	 * @throws IllegalArgumentException
@@ -329,48 +263,14 @@ public abstract class PlotWithAxes extends Methods
 	 */
 	abstract void buildAxes( ) throws IllegalArgumentException, ChartException;
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final AllAxes getAxes( )
 	{
 		return aax;
 	}
 
-	/**
-	 * @return
-	 */
-	public final RunTimeContext getRunTimeContext( )
-	{
-		return rtc;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
 	public final IDisplayServer getDisplayServer( )
 	{
 		return ids;
-	}
-
-	/**
-	 * 
-	 * @return The plot bounds in pixels
-	 */
-	public final Bounds getPlotBounds( )
-	{
-		return boPlotBackground;
-	}
-
-	/**
-	 * 
-	 * @return The plot insets in pixels
-	 */
-	public final Insets getPlotInsets( )
-	{
-		return insCA;
 	}
 
 	/**
@@ -380,9 +280,9 @@ public abstract class PlotWithAxes extends Methods
 	 */
 	protected final OneAxis findOrthogonalAxis( Series se )
 	{
-		Axis[] axaBase = ( (ChartWithAxesImpl) cwa ).getBaseAxes( );
+		Axis[] axaBase = ( (ChartWithAxesImpl) getModel( ) ).getBaseAxes( );
 		Axis axPrimaryBase = axaBase[0];
-		final Axis[] axaOrthogonal = ( (ChartWithAxesImpl) cwa ).getOrthogonalAxes( axPrimaryBase,
+		final Axis[] axaOrthogonal = ( (ChartWithAxesImpl) getModel( ) ).getOrthogonalAxes( axPrimaryBase,
 				true );
 		Series[] sea;
 
@@ -724,7 +624,7 @@ public abstract class PlotWithAxes extends Methods
 		}
 
 		// Reverse the series categories if needed.
-		dsi.reverse( cwa.isReverseCategory( ) );
+		dsi.reverse( getModel( ).isReverseCategory( ) );
 		return dsi;
 	}
 
@@ -737,7 +637,7 @@ public abstract class PlotWithAxes extends Methods
 	 */
 	protected final int getOrientation( int iBaseOrOrthogonal )
 	{
-		if ( !cwa.isTransposed( ) )
+		if ( !getModel( ).isTransposed( ) )
 		{
 			return ( iBaseOrOrthogonal == IConstants.BASE || iBaseOrOrthogonal == IConstants.ANCILLARY_BASE ) ? IConstants.HORIZONTAL
 					: IConstants.VERTICAL;
@@ -753,7 +653,7 @@ public abstract class PlotWithAxes extends Methods
 	 * Returns a transpose of the original angle
 	 * 
 	 * @param dOriginalAngle
-	 * @return
+	 * @return angle
 	 * @throws IllegalArgumentException
 	 */
 	public final double getTransposedAngle( double dOriginalAngle )
@@ -780,13 +680,13 @@ public abstract class PlotWithAxes extends Methods
 	 * 
 	 * @param iBaseOrOrthogonal
 	 * @param iOriginalPosition
-	 * @return
+	 * @return position state
 	 * @throws IllegalArgumentException
 	 */
 	public final int transposeLabelPosition( int iBaseOrOrthogonal,
 			int iOriginalPosition ) throws IllegalArgumentException
 	{
-		if ( !cwa.isTransposed( ) )
+		if ( !getModel( ).isTransposed( ) )
 		{
 			return iOriginalPosition;
 		}
@@ -840,7 +740,7 @@ public abstract class PlotWithAxes extends Methods
 	protected final int transposeTickStyle( int iBaseOrOrthogonal,
 			int iOriginalStyle ) throws IllegalArgumentException
 	{
-		if ( !cwa.isTransposed( )
+		if ( !getModel( ).isTransposed( )
 				|| iOriginalStyle == IConstants.TICK_ACROSS
 				|| iOriginalStyle == IConstants.TICK_NONE )
 		{
@@ -965,7 +865,7 @@ public abstract class PlotWithAxes extends Methods
 		double[] dDecorationThickness = {
 				0, 0
 		};
-		Series[] sea = cwa.getSeries( IConstants.ORTHOGONAL );
+		Series[] sea = getModel( ).getSeries( IConstants.ORTHOGONAL );
 		Map<Series, LegendItemRenderingHints> seriesRenderingHints = rtc.getSeriesRenderers( );
 		for ( int i = 0; i < sea.length; i++ )
 		{
@@ -1900,7 +1800,7 @@ public abstract class PlotWithAxes extends Methods
 		double[] dDecorationThickness = {
 				0, 0
 		};
-		Series[] sea = cwa.getSeries( IConstants.ORTHOGONAL );
+		Series[] sea = getModel( ).getSeries( IConstants.ORTHOGONAL );
 		Map<Series, LegendItemRenderingHints> seriesRenderingHints = rtc.getSeriesRenderers( );
 		for ( int i = 0; i < sea.length; i++ )
 		{
@@ -2609,6 +2509,43 @@ public abstract class PlotWithAxes extends Methods
 		azHelper = null;
 		azHelper = AlignZeroHelper.getInstance( this );
 	}
+	
+	public ChartWithAxes getModel( )
+	{
+		return (ChartWithAxes) cm;
+	}
+	
+	static final Double asDouble( Object o )
+	{
+		return Methods.asDouble( o );
+	}
+	
+	static final CDateTime asDateTime( Object o )
+	{
+		return Methods.asDateTime( o );
+	}
+	
+	static final int asInteger( Object o )
+	{
+		return ( (Number) o ).intValue( );
+	}
+
+	static final int getLabelPosition( Position lp )
+	{
+		return Methods.getLabelPosition( lp );
+	}
+	
+	static final double getLocation( AutoScale sc, double dValue )
+			throws IllegalArgumentException
+	{
+		return Methods.getLocation( sc, dValue );
+	}
+	
+	static final double getLocation( AutoScale sc, Object oValue )
+			throws ChartException, IllegalArgumentException
+	{
+		return Methods.getLocation( sc, oValue );
+	}
 
 	protected static class AlignZeroHelper
 	{
@@ -2623,7 +2560,7 @@ public abstract class PlotWithAxes extends Methods
 		public static AlignZeroHelper getInstance( PlotWithAxes pwa )
 		{
 			Map<Axis, double[]> minMaxLookup = new HashMap<Axis, double[]>( 2 );
-			Axis[] axList = pwa.cwa.getOrthogonalAxes( pwa.cwa.getPrimaryBaseAxes( )[0],
+			Axis[] axList = pwa.getModel( ).getOrthogonalAxes( pwa.getModel( ).getPrimaryBaseAxes( )[0],
 					true );
 
 			boolean bAnyPositive = false;

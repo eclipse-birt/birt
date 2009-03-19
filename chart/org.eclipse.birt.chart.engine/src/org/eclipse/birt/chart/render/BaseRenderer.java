@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.computation.LegendItemHints;
 import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.LegendLayoutHints;
 import org.eclipse.birt.chart.computation.Methods;
+import org.eclipse.birt.chart.computation.PlotComputation;
 import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.computation.withoutaxes.Coordinates;
 import org.eclipse.birt.chart.computation.withoutaxes.PlotWithoutAxes;
@@ -152,7 +153,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 	protected Chart cm;
 
-	protected Object oComputations;
+	protected PlotComputation oComputations;
 
 	protected Series se;
 
@@ -242,7 +243,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * Sets the context infomation for current renderer.
+	 * Sets the context information for current renderer.
 	 * 
 	 * @param _cm
 	 * @param _o
@@ -250,7 +251,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param _ax
 	 * @param _sd
 	 */
-	public void set( Chart _cm, Object _oComputation, Series _se,
+	public void set( Chart _cm, PlotComputation _oComputation, Series _se,
 			SeriesDefinition _sd )
 	{
 		cm = _cm;
@@ -292,7 +293,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * Setes all associated renderers used for current chart rendering.
+	 * Sets all associated renderers used for current chart rendering.
 	 */
 	public final void set( BaseRenderer[] _brna )
 	{
@@ -1592,13 +1593,13 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		ipr.fillRectangle( rre );
 		ipr.drawRectangle( rre );
 
-		Object oComputations = getComputations( );
+		PlotComputation oComputations = getComputations( );
 		if ( oComputations instanceof PlotWithoutAxes )
 		{
 			final PlotWithoutAxes pwoa = (PlotWithoutAxes) oComputations;
 			final ClientArea ca = p.getClientArea( );
 
-			Bounds bo = pwoa.getBounds( );
+			Bounds bo = pwoa.getPlotBounds( );
 
 			// render client area shadow
 			if ( ca.getShadowColor( ) != null )
@@ -1860,7 +1861,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @return
 	 */
 	private static final BaseRenderer[] createEmptyInstance( Chart cm,
-			RunTimeContext rtc, Object oComputations )
+			RunTimeContext rtc, PlotComputation oComputations )
 	{
 		final BaseRenderer[] brna = new BaseRenderer[1];
 		final AxesRenderer ar = new EmptyWithAxes( );
@@ -1898,7 +1899,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @throws ChartException
 	 */
 	public static final BaseRenderer[] instances( Chart cm, RunTimeContext rtc,
-			Object oComputations ) throws ChartException
+			PlotComputation oComputations ) throws ChartException
 	{
 		final PluginSettings ps = PluginSettings.instance( );
 		BaseRenderer[] brna = null;
@@ -2086,7 +2087,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	/**
 	 * @return Returns computation object associated with current renderer.
 	 */
-	public final Object getComputations( )
+	public final PlotComputation getComputations( )
 	{
 		return oComputations;
 	}
@@ -2740,7 +2741,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 */
 	protected final Bounds getCellBounds( int seriesIndex )
 	{
-		Object obj = getComputations( );
+		PlotComputation obj = getComputations( );
 
 		Bounds bo = null;
 
@@ -2750,12 +2751,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Coordinates co = pwoa.getCellCoordinates( seriesIndex - 1 );
 			Size sz = pwoa.getCellSize( );
 
-			bo = pwoa.getBounds( ).copyInstance( );
+			bo = pwoa.getPlotBounds( ).copyInstance( );
 			bo.setLeft( bo.getLeft( ) + co.getColumn( ) * sz.getWidth( ) );
 			bo.setTop( bo.getTop( ) + co.getRow( ) * sz.getHeight( ) );
 			bo.setWidth( sz.getWidth( ) );
 			bo.setHeight( sz.getHeight( ) );
-			bo = bo.adjustedInstance( pwoa.getCellInsets( ) );
+			bo = bo.adjustedInstance( pwoa.getPlotInsets( ) );
 		}
 		else if ( obj instanceof PlotWithAxes )
 		{
@@ -2776,25 +2777,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 */
 	protected final Bounds getPlotBounds( )
 	{
-		Object obj = getComputations( );
-
-		Bounds bo = null;
-
-		if ( obj instanceof PlotWithoutAxes )
-		{
-			PlotWithoutAxes pwoa = (PlotWithoutAxes) obj;
-
-			bo = pwoa.getBounds( ).copyInstance( );
-			bo = bo.adjustedInstance( pwoa.getCellInsets( ) );
-		}
-		else if ( obj instanceof PlotWithAxes )
-		{
-			PlotWithAxes pwa = (PlotWithAxes) obj;
-
-			bo = pwa.getPlotBounds( ).copyInstance( );
-			bo = bo.adjustedInstance( pwa.getPlotInsets( ) );
-		}
-
+		PlotComputation oComputation = getComputations( );
+		Bounds bo = oComputation.getPlotBounds( ).copyInstance( );
+		bo = bo.adjustedInstance( oComputation.getPlotInsets( ) );
 		return bo;
 	}
 

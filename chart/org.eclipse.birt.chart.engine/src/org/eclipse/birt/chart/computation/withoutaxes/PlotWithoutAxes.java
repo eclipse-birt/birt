@@ -16,13 +16,13 @@ import java.util.List;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
+import org.eclipse.birt.chart.computation.PlotComputation;
 import org.eclipse.birt.chart.computation.UserDataSetHints;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
-import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -30,7 +30,6 @@ import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
-import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.component.Series;
@@ -48,24 +47,12 @@ import org.eclipse.emf.common.util.EList;
  * 
  * WARNING: This is an internal class and subject to change
  */
-public final class PlotWithoutAxes
+public final class PlotWithoutAxes extends PlotComputation
 {
-
-	private final ChartWithoutAxes cwoa;
-
-	private final RunTimeContext rtc;
-
-	private transient double dPointToPixel = 0;
 
 	private transient Size szCell = null;
 
 	private transient int iRows = 0, iColumns = 0, iSeries = 0;
-
-	private transient Bounds boPlot = null;
-
-	private transient Insets insCA = null;
-
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation.withoutaxes" ); //$NON-NLS-1$
 
 	/**
 	 * The constructor.
@@ -77,38 +64,33 @@ public final class PlotWithoutAxes
 	public PlotWithoutAxes( IDisplayServer xs, ChartWithoutAxes cwoa,
 			RunTimeContext rtc )
 	{
-		this.cwoa = cwoa;
-		this.rtc = rtc;
-		dPointToPixel = xs.getDpiResolution( ) / 72d;
+		super( xs, rtc, cwoa );
 	}
 
-	/**
-	 * @param bo
-	 */
 	public final void compute( Bounds bo )
 	{
 		// bo.adjustDueToInsets(cwoa.getPlot().getInsets()); // INSETS DEFINED
 		// IN POINTS: ALREADY COMPENSATED IN GENERATOR!
-		boPlot = bo.scaledInstance( dPointToPixel ); // CONVERSION TO PIXELS
+		boPlotBackground = bo.scaledInstance( dPointToPixel ); // CONVERSION TO PIXELS
 		// final Series[] sea = cwoa.getRunTimeSeries();
 
-		EList el = cwoa.getSeriesDefinitions( );
-		ArrayList al = new ArrayList( );
-		( (ChartWithoutAxesImpl) cwoa ).recursivelyGetSeries( el, al, 0, 0 );
-		final Series[] sea = (Series[]) al.toArray( new Series[al.size( )] );
+		EList<SeriesDefinition> el = getModel( ).getSeriesDefinitions( );
+		ArrayList<Series> al = new ArrayList<Series>( );
+		( (ChartWithoutAxesImpl) getModel( ) ).recursivelyGetSeries( el, al, 0, 0 );
+		final Series[] sea = al.toArray( new Series[al.size( )] );
 
 		iSeries = sea.length;
-		iColumns = cwoa.getGridColumnCount( );
+		iColumns = getModel( ).getGridColumnCount( );
 		if ( iColumns == 0 )
 		{
-			iColumns = getAutoColumCount( boPlot, iSeries );
+			iColumns = getAutoColumCount( boPlotBackground, iSeries );
 		}
 
 		iRows = ( iSeries - 1 ) / iColumns + 1;
 
-		if ( cwoa instanceof DialChart )
+		if ( getModel( ) instanceof DialChart )
 		{
-			DialChart dcw = (DialChart) cwoa;
+			DialChart dcw = (DialChart) getModel( );
 			if ( dcw.isDialSuperimposition( ) )
 			{
 				iColumns = 1;
@@ -116,9 +98,9 @@ public final class PlotWithoutAxes
 			}
 		}
 
-		szCell = SizeImpl.create( boPlot.getWidth( ) / iColumns,
-				boPlot.getHeight( ) / iRows );
-		insCA = cwoa.getPlot( )
+		szCell = SizeImpl.create( boPlotBackground.getWidth( ) / iColumns,
+				boPlotBackground.getHeight( ) / iRows );
+		insCA = getModel( ).getPlot( )
 				.getClientArea( )
 				.getInsets( )
 				.scaledInstance( dPointToPixel );
@@ -136,77 +118,34 @@ public final class PlotWithoutAxes
 		return colums;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final Size getCellSize( )
 	{
 		return szCell;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public final Insets getCellInsets( )
-	{
-		return insCA;
-	}
-
-	/**
-	 * 
-	 * @param iCell
-	 * @return
-	 */
 	public final Coordinates getCellCoordinates( int iCell )
 	{
 		return new Coordinates( iCell % iColumns, iCell / iColumns );
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final int getColumnCount( )
 	{
 		return iColumns;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final int getRowCount( )
 	{
 		return iRows;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public final Bounds getBounds( )
-	{
-		return boPlot;
-	}
-
-	/**
-	 * @return
-	 */
 	public final ChartWithoutAxes getModel( )
 	{
-		return cwoa;
+		return (ChartWithoutAxes) cm;
 	}
 
-	/**
-	 * 
-	 * @param seOrthogonal
-	 * @return
-	 */
 	public final SeriesRenderingHints getSeriesRenderingHints(
-			Series seOrthogonal ) throws ChartException,
-			IllegalArgumentException
+			SeriesDefinition sdOrthogonal, Series seOrthogonal )
+			throws ChartException, IllegalArgumentException
 	{
 		if ( seOrthogonal == null
 				|| seOrthogonal.getClass( ) == SeriesImpl.class )
@@ -215,7 +154,7 @@ public final class PlotWithoutAxes
 			return null;
 		}
 
-		final EList elCategories = cwoa.getSeriesDefinitions( );
+		final EList<SeriesDefinition> elCategories = getModel( ).getSeriesDefinitions( );
 		if ( elCategories.size( ) != 1 )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
@@ -223,8 +162,8 @@ public final class PlotWithoutAxes
 					"exception.cwoa.single.series.definition", //$NON-NLS-1$
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
-		final SeriesDefinition sd = (SeriesDefinition) elCategories.get( 0 );
-		final List al = sd.getRunTimeSeries( );
+		final SeriesDefinition sd = elCategories.get( 0 );
+		final List<Series> al = sd.getRunTimeSeries( );
 		if ( al.size( ) != 1 )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
@@ -232,7 +171,7 @@ public final class PlotWithoutAxes
 					"exception.cwoa.single.runtime.series", //$NON-NLS-1$
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
-		final Series seBase = (Series) al.get( 0 );
+		final Series seBase = al.get( 0 );
 		final DataSetIterator dsiBaseValues = new DataSetIterator( seBase.getDataSet( ) );
 		final DataSetIterator dsiOrthogonalValues = new DataSetIterator( seOrthogonal.getDataSet( ) );
 		DataPointHints[] dpha = null;
@@ -261,13 +200,13 @@ public final class PlotWithoutAxes
 
 			// OPTIMIZED PRE-FETCH FORMAT SPECIFIERS FOR ALL DATA POINTS
 			final DataPoint dp = seOrthogonal.getDataPoint( );
-			final EList el = dp.getComponents( );
+			final EList<DataPointComponent> el = dp.getComponents( );
 			DataPointComponent dpc;
 			DataPointComponentType dpct;
 			FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null, fsPercentile = null;
 			for ( int i = 0; i < el.size( ); i++ )
 			{
-				dpc = (DataPointComponent) el.get( i );
+				dpc = el.get( i );
 				dpct = dpc.getType( );
 				if ( DataPointComponentType.BASE_VALUE_LITERAL.equals( dpct ) )
 				{
@@ -366,11 +305,4 @@ public final class PlotWithoutAxes
 				dsiOrthogonalValues );
 	}
 
-	/**
-	 * @return
-	 */
-	final RunTimeContext getRunTimeContext( )
-	{
-		return rtc;
-	}
 }

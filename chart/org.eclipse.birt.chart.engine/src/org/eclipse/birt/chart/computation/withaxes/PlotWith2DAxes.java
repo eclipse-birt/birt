@@ -94,11 +94,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			RunTimeContext _rtc ) throws IllegalArgumentException,
 			ChartException
 	{
-		cwa = _cwa;
-		ids = _ids;
-		rtc = _rtc;
+		super( _ids, _rtc, _cwa );
 		ssl = new StackedSeriesLookup( _rtc );
-		dPointToPixel = ids.getDpiResolution( ) / 72d;
 		buildAxes( ); // CREATED ONCE
 		initAlignZeroHelper( );
 	}
@@ -109,6 +106,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 	 */
 	final void buildAxes( ) throws IllegalArgumentException, ChartException
 	{
+		ChartWithAxes cwa = getModel( );
 		final Axis[] axa = cwa.getPrimaryBaseAxes( );
 		// NOTE: FOR REL 1 AXIS RENDERS, WE SUPPORT A SINGLE PRIMARY BASE AXIS
 		// ONLY
@@ -294,6 +292,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			}
 		}
 
+		ChartWithAxes cwa = getModel( );
 		final Series[] sea = ax.getRuntimeSeries( );
 		final int iSeriesCount = sea.length;
 		Series se;
@@ -679,7 +678,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 	public final void compute( Bounds bo ) throws ChartException,
 			IllegalArgumentException
 	{
-
+		ChartWithAxes cwa = getModel( );
 		bo = bo.scaledInstance( dPointToPixel ); // CONVERSION
 		dSeriesThickness = ( ids.getDpiResolution( ) / 72d )
 				* cwa.getSeriesThickness( );
@@ -859,7 +858,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 
 		// UPDATE THE SIZES OF THE OVERLAY AXES
 		updateOverlayAxes( aax );
-		// #9026, pass the bounds which takes the overlay axes into acounts
+		// #9026, pass the bounds which takes the overlay axes into accounts
 		growBaseAxis( aax, BoundsImpl.create( dX, dY, dW, dH ) );
 
 		// UPDATE FOR OVERLAYS
@@ -1138,9 +1137,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			double dAxisEnd, double dBlockStart, double dBlockLength )
 			throws ChartException, IllegalArgumentException
 	{
-		final Axis[] axa = ( (ChartWithAxesImpl) cwa ).getPrimaryBaseAxes( );
+		final Axis[] axa = ( (ChartWithAxesImpl) getModel( ) ).getPrimaryBaseAxes( );
 		final Axis axPrimaryBase = axa[0];
-		final Axis[] axaOrthogonal = ( (ChartWithAxesImpl) cwa ).getOrthogonalAxes( axPrimaryBase,
+		final Axis[] axaOrthogonal = ( (ChartWithAxesImpl) getModel( ) ).getOrthogonalAxes( axPrimaryBase,
 				false );
 
 		IntersectionValue iv;
@@ -1153,8 +1152,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		Label laAxisTitle;
 		Scale scModel;
 
-		Series[] sea = cwa.getSeries( IConstants.ORTHOGONAL );
-		Map<?, ?> seriesRenderingHints = rtc.getSeriesRenderers( );
+		Series[] sea = getModel( ).getSeries( IConstants.ORTHOGONAL );
+		Map<Series, LegendItemRenderingHints> seriesRenderingHints = rtc.getSeriesRenderers( );
 
 		// ITERATE THROUGH EACH OVERLAY ORTHOGONAL AXIS
 		for ( int i = 0; i < iOverlayCount; i++ )
@@ -1232,7 +1231,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 
 			for ( int t = 0; t < sea.length; t++ )
 			{
-				LegendItemRenderingHints lirh = (LegendItemRenderingHints) seriesRenderingHints.get( sea[t] );
+				LegendItemRenderingHints lirh = seriesRenderingHints.get( sea[t] );
 
 				if ( lirh != null
 						&& lirh.getRenderer( ) instanceof AxesRenderer )
@@ -1631,10 +1630,10 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			IllegalArgumentException
 	{
 		int iDirection = ( aax.getOrientation( ) == HORIZONTAL ) ? 1 : -1;
-		final Axis[] axa = cwa.getPrimaryBaseAxes( );
+		final Axis[] axa = getModel( ).getPrimaryBaseAxes( );
 		final Axis axPrimaryBase = axa[0]; // NOTE: FOR REL 1 AXIS RENDERS, WE
 		// SUPPORT A SINGLE PRIMARY BASE AXIS ONLY
-		final Axis[] axaOverlayOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase,
+		final Axis[] axaOverlayOrthogonal = getModel( ).getOrthogonalAxes( axPrimaryBase,
 				false );
 
 		OneAxis axOverlay, axPrimary = aax.getPrimaryOrthogonal( );
@@ -2091,9 +2090,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		// If one of the dimension is zero, to replace it with axis label height
 		if ( bo.getWidth( ) * bo.getHeight( ) == 0 )
 		{
-			final Axis[] axa = cwa.getPrimaryBaseAxes( );
+			final Axis[] axa = getModel( ).getPrimaryBaseAxes( );
 			final Axis axPrimaryBase = axa[0];
-			final Axis axPrimaryOrthogonal = cwa.getPrimaryOrthogonalAxis( axPrimaryBase );
+			final Axis axPrimaryOrthogonal = getModel( ).getPrimaryOrthogonalAxis( axPrimaryBase );
 			int iAxisType = getAxisType( axPrimaryOrthogonal );
 			DataSetIterator dsi = new DataSetIterator( getMinMax( axPrimaryOrthogonal,
 					iAxisType ),
@@ -2136,7 +2135,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			double dBase = bo.getHeight( ) < 0 ? Math.abs( bo.getHeight( ) )
 					: Math.abs( bo.getWidth( ) );
 			// Get the data count
-			Series baseSeries = cwa.getSeries( IConstants.BASE )[0];
+			Series baseSeries = getModel( ).getSeries( IConstants.BASE )[0];
 			Object[] values = (Object[]) baseSeries.getDataSet( ).getValues( );
 			int iDPCount = values.length;
 			// Compute the total width by multiplying the data point count

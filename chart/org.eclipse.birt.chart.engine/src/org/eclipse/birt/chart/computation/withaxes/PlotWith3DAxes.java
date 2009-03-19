@@ -94,13 +94,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 			RunTimeContext _rtc ) throws IllegalArgumentException,
 			ChartException
 	{
-		cwa = _cwa;
-		ids = _ids;
-		rtc = _rtc;
-		dPointToPixel = ids.getDpiResolution( ) / 72d;
+		super( _ids, _rtc, _cwa );
 		SPACE_THRESHOLD = 5 * dPointToPixel;
 
-		if ( cwa.isTransposed( ) )
+		if ( _cwa.isTransposed( ) )
 		{
 			// Not support transposed for 3D chart.
 			throw new ChartException( ChartEnginePlugin.ID,
@@ -133,15 +130,15 @@ public class PlotWith3DAxes extends PlotWithAxes
 		// TODO better estimation
 		la = aax.getPrimaryBase( ).getLabel( ).copyInstance( );
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
-		h = computeHeight( ids, la );
+		h = Methods.computeHeight( ids, la );
 
 		la = aax.getAncillaryBase( ).getLabel( ).copyInstance( );
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
-		h = Math.max( h, computeHeight( ids, la ) );
+		h = Math.max( h, Methods.computeHeight( ids, la ) );
 
 		la = aax.getPrimaryOrthogonal( ).getLabel( ).copyInstance( );
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
-		w = computeWidth( ids, la );
+		w = Methods.computeWidth( ids, la );
 
 		// consider axes lable space.
 		bo.adjust( InsetsImpl.create( 0, 0, h, w ) );
@@ -178,7 +175,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 			double width = bo.getWidth( );
 			double height = bo.getHeight( );
 
-			engine = new Engine3D( cwa.getRotation( ),
+			engine = new Engine3D( getModel( ).getRotation( ),
 					lightDirection,
 					width,
 					height,
@@ -199,7 +196,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 		double xlen = xdz * dPointToPixel;
 		double ylen = ( xdz + 1 ) * dPointToPixel / 2d;
 
-		List vertexList = new ArrayList( );
+		List<Location3D> vertexList = new ArrayList<Location3D>( );
 
 		Location3D bbl = Location3DImpl.create( -xlen / 2, -ylen / 2, -zlen / 2 );
 		Location3D bbr = Location3DImpl.create( xlen / 2, -ylen / 2, -zlen / 2 );
@@ -228,9 +225,9 @@ public class PlotWith3DAxes extends PlotWithAxes
 		Location p2d;
 		double x, y;
 
-		for ( Iterator itr = vertexList.iterator( ); itr.hasNext( ); )
+		for ( Iterator<Location3D> itr = vertexList.iterator( ); itr.hasNext( ); )
 		{
-			Location3D p3d = (Location3D) itr.next( );
+			Location3D p3d = itr.next( );
 
 			event.setLocation3D( Location3DImpl.create( p3d.getX( ),
 					p3d.getY( ),
@@ -314,9 +311,9 @@ public class PlotWith3DAxes extends PlotWithAxes
 			boolean forceBreak = false;
 
 			// check all 8 points.
-			for ( Iterator itr = vertexList.iterator( ); itr.hasNext( ); )
+			for ( Iterator<Location3D> itr = vertexList.iterator( ); itr.hasNext( ); )
 			{
-				Location3D p3d = (Location3D) itr.next( );
+				Location3D p3d = itr.next( );
 
 				event.setLocation3D( Location3DImpl.create( p3d.getX( ) * scale,
 						p3d.getY( ) * scale,
@@ -441,12 +438,12 @@ public class PlotWith3DAxes extends PlotWithAxes
 		boPlotBackground = bo.copyInstance( );
 
 		// MUST BE 3-D DIMENSION ONLY HERE.
-		iDimension = getDimension( cwa.getDimension( ) );
+		iDimension = getDimension( cm.getDimension( ) );
 		assert iDimension == IConstants.THREE_D;
 
-		dXAxisPlotSpacing = cwa.getPlot( ).getHorizontalSpacing( )
+		dXAxisPlotSpacing = cm.getPlot( ).getHorizontalSpacing( )
 				* dPointToPixel; // CONVERSION
-		dYAxisPlotSpacing = cwa.getPlot( ).getVerticalSpacing( )
+		dYAxisPlotSpacing = cm.getPlot( ).getVerticalSpacing( )
 				* dPointToPixel; // CONVERSION
 		dZAxisPlotSpacing = dXAxisPlotSpacing;
 
@@ -464,10 +461,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 	private class PWA3DComputeContext
 	{
-		final Axis[] axa = cwa.getPrimaryBaseAxes( );
+		final Axis[] axa = getModel( ).getPrimaryBaseAxes( );
 		final Axis axPrimaryBase = axa[0];
-		final Axis axPrimaryOrthogonal = cwa.getPrimaryOrthogonalAxis( axPrimaryBase );
-		final Axis axAncillaryBase = cwa.getAncillaryBaseAxis( axPrimaryBase );
+		final Axis axPrimaryOrthogonal = getModel( ).getPrimaryOrthogonalAxis( axPrimaryBase );
+		final Axis axAncillaryBase = getModel( ).getAncillaryBaseAxis( axPrimaryBase );
 		int iPrimaryAxisType = getAxisType( axPrimaryBase );
 		int iAncillaryAxisType = getAxisType( axAncillaryBase );
 		int iOrthogonalAxisType = getAxisType( axPrimaryOrthogonal );
@@ -678,13 +675,14 @@ public class PlotWith3DAxes extends PlotWithAxes
 		{
 			try
 			{
-				dYAxisTitleThickness = computeBox( ids,
+				dYAxisTitleThickness = Methods.computeBox( ids,
 						iYTitleLocation,
 						laYAxisTitle,
 						0,
 						0,
-						ChartUtil.computeHeightOfOrthogonalAxisTitle( cwa,
-								getDisplayServer( ) ) ).getWidth( );
+						ChartUtil.computeHeightOfOrthogonalAxisTitle( getModel( ),
+								getDisplayServer( ) ) )
+						.getWidth( );
 			}
 			catch ( IllegalArgumentException uiex )
 			{
@@ -709,12 +707,12 @@ public class PlotWith3DAxes extends PlotWithAxes
 		{
 			try
 			{
-				dXAxisTitleThickness = computeBox( ids,
+				dXAxisTitleThickness = Methods.computeBox( ids,
 						iXTitleLocation,
 						laXAxisTitle,
 						0,
 						0,
-						ChartUtil.computeHeightOfOrthogonalAxisTitle( cwa,
+						ChartUtil.computeHeightOfOrthogonalAxisTitle( getModel( ),
 								getDisplayServer( ) ) ).getHeight( );
 			}
 			catch ( IllegalArgumentException uiex )
@@ -877,20 +875,20 @@ public class PlotWith3DAxes extends PlotWithAxes
 			else if ( ( iType & TEXT ) == TEXT )
 			{
 				// use orthogonal sereis identifier instead.
-				List data = new ArrayList( );
+				List<String> data = new ArrayList<String>( );
 
 				for ( int i = 0; i < osea.length; i++ )
 				{
 					data.add( String.valueOf( osea[i].getSeriesIdentifier( ) ) );
 				}
 
-				return new DataSetIterator( (String[]) data.toArray( new String[data.size( )] ) );
+				return new DataSetIterator( data.toArray( new String[data.size( )] ) );
 			}
 		}
 
 		// Assume always use the first ancillary axis.
 		DataSetIterator dsi = getTypedDataSet( sea[0], iType );
-		List data = new ArrayList( );
+		List<Object> data = new ArrayList<Object>( );
 
 		for ( int i = 0; i < osea.length; i++ )
 		{
@@ -1142,7 +1140,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 		final OneAxis oaxBase = aax.getPrimaryBase( );
-		final SeriesDefinition sdBase = (SeriesDefinition) oaxBase.getModelAxis( )
+		final SeriesDefinition sdBase = oaxBase.getModelAxis( )
 				.getSeriesDefinitions( )
 				.get( 0 );
 
@@ -1249,20 +1247,21 @@ public class PlotWith3DAxes extends PlotWithAxes
 					.getSeriesDefinitions( )
 					.size( ) > 0 )
 			{
-				fsSDAncillary = ( (SeriesDefinition) oaxAncillaryBase.getModelAxis( )
+				fsSDAncillary = oaxAncillaryBase.getModelAxis( )
 						.getSeriesDefinitions( )
-						.get( 0 ) ).getFormatSpecifier( );
+						.get( 0 )
+						.getFormatSpecifier( );
 			}
 
 			// OPTIMIZED PRE-FETCH FORMAT SPECIFIERS FOR ALL DATA POINTS
 			final DataPoint dp = seOrthogonal.getDataPoint( );
-			final EList el = dp.getComponents( );
+			final EList<DataPointComponent> el = dp.getComponents( );
 			DataPointComponent dpc;
 			DataPointComponentType dpct;
 			FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null, fsPercentile = null;
 			for ( int i = 0; i < el.size( ); i++ )
 			{
-				dpc = (DataPointComponent) el.get( i );
+				dpc = el.get( i );
 				dpct = dpc.getType( );
 				if ( dpct == DataPointComponentType.BASE_VALUE_LITERAL )
 				{
@@ -1510,7 +1509,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 	 */
 	void buildAxes( ) throws IllegalArgumentException, ChartException
 	{
-		final Axis[] axa = cwa.getPrimaryBaseAxes( );
+		final Axis[] axa = getModel( ).getPrimaryBaseAxes( );
 		final Axis axPrimaryBase = axa[0]; // NOTE: FOR REL 1 AXIS RENDERS, WE
 		// SUPPORT A SINGLE PRIMARY BASE AXIS
 		// ONLY
@@ -1520,14 +1519,14 @@ public class PlotWith3DAxes extends PlotWithAxes
 		}
 		validateAxis( axPrimaryBase );
 
-		final Axis axPrimaryOrthogonal = cwa.getPrimaryOrthogonalAxis( axPrimaryBase );
+		final Axis axPrimaryOrthogonal = getModel( ).getPrimaryOrthogonalAxis( axPrimaryBase );
 		if ( !axPrimaryOrthogonal.isSetOrientation( ) )
 		{
 			axPrimaryOrthogonal.setOrientation( Orientation.VERTICAL_LITERAL );
 		}
 		validateAxis( axPrimaryOrthogonal );
 
-		final Axis axAncillaryBase = cwa.getAncillaryBaseAxis( axPrimaryBase );
+		final Axis axAncillaryBase = getModel( ).getAncillaryBaseAxis( axPrimaryBase );
 		// if ( !axAncillaryBase.isSetOrientation( ) )
 		{
 			axAncillaryBase.setOrientation( Orientation.HORIZONTAL_LITERAL );
@@ -1545,7 +1544,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 		aax = new AllAxes( null );
 		insCA = aax.getInsets( );
 
-		aax.swapAxes( cwa.isTransposed( ) );
+		aax.swapAxes( getModel( ).isTransposed( ) );
 
 		// SETUP THE PRIMARY BASE-AXIS PROPERTIES AND ITS SCALE
 		final OneAxis oaxPrimaryBase = new OneAxis( axPrimaryBase,

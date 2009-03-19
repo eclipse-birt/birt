@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.script;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.LegendEntryRenderingHints;
+import org.eclipse.birt.chart.computation.PlotComputation;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -88,7 +89,29 @@ public interface IChartEventHandler
 			IChartScriptContext icsc );
 
 	/**
-	 * Called befoer the chart is rendered.
+	 * Called before computations of chart model.
+	 * 
+	 * @param cm
+	 *            Chart
+	 * @param oComputations
+	 *            PlotComputation
+	 * @since 2.5
+	 */
+	public void beforeComputations( Chart cm, PlotComputation oComputations );
+
+	/**
+	 * Called after computations of chart model.
+	 * 
+	 * @param cm
+	 *            Chart
+	 * @param oComputations
+	 *            PlotComputation
+	 * @since 2.5
+	 */
+	public void afterComputations( Chart cm, PlotComputation oComputations );
+
+	/**
+	 * Called before the chart is rendered.
 	 * 
 	 * @param gcs
 	 *            GeneratedChartState

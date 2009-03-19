@@ -13,12 +13,10 @@ package org.eclipse.birt.chart.factory;
 
 import java.util.LinkedHashMap;
 
-import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
+import org.eclipse.birt.chart.computation.PlotComputation;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.component.Series;
 import org.mozilla.javascript.Scriptable;
@@ -34,13 +32,11 @@ public final class GeneratedChartState
 
 	private final LinkedHashMap<Series, LegendItemRenderingHints> _lhmRenderers;
 
-	private final Object _oComputations;
+	private final PlotComputation _oComputations;
 
 	private final IDisplayServer _ids;
 
 	private final Chart _cm;
-
-	private final int _iType;
 
 	private final RunTimeContext _rtc;
 
@@ -60,25 +56,13 @@ public final class GeneratedChartState
 	 */
 	GeneratedChartState( IDisplayServer ids, Chart cm,
 			LinkedHashMap<Series, LegendItemRenderingHints> lhmRenderers,
-			RunTimeContext rtc, Object oComputations )
+			RunTimeContext rtc, PlotComputation oComputations )
 	{
 		_lhmRenderers = lhmRenderers;
 		_oComputations = oComputations;
 		_ids = ids;
 		_cm = cm;
 		_rtc = rtc;
-		if ( cm instanceof ChartWithAxes )
-		{
-			_iType = Generator.WITH_AXES;
-		}
-		else if ( cm instanceof ChartWithoutAxes )
-		{
-			_iType = Generator.WITHOUT_AXES;
-		}
-		else
-		{
-			_iType = IConstants.UNDEFINED;
-		}
 	}
 
 	/**
@@ -96,7 +80,7 @@ public final class GeneratedChartState
 	 * 
 	 * @return An internal class capable of computing the chart content.
 	 */
-	public final Object getComputations( )
+	public final PlotComputation getComputations( )
 	{
 		return _oComputations;
 	}
@@ -135,13 +119,4 @@ public final class GeneratedChartState
 		return _rtc;
 	}
 
-	/**
-	 * Returns the type of the chart that was built.
-	 * 
-	 * @return The type of the chart that was built.
-	 */
-	public final int getType( )
-	{
-		return _iType;
-	}
 }

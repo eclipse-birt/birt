@@ -93,13 +93,9 @@ public final class ScriptHandler extends ScriptableObject
 	 * @deprecated This is kept for backward compatibility only.
 	 */
 	public static final String AFTER_LAYOUT = "afterLayout"; //$NON-NLS-1$
-	/**
-	 * @deprecated This is kept for backward compatibility only.
-	 */
+
 	public static final String BEFORE_COMPUTATIONS = "beforeComputations"; //$NON-NLS-1$
-	/**
-	 * @deprecated This is kept for backward compatibility only.
-	 */
+
 	public static final String AFTER_COMPUTATIONS = "afterComputations"; //$NON-NLS-1$
 	/**
 	 * @deprecated This is kept for backward compatibility only.

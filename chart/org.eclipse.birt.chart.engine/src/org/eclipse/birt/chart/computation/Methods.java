@@ -48,7 +48,7 @@ public class Methods implements IConstants
 	 * Converts given object to a DateTime object.
 	 * 
 	 * @param o
-	 * @return
+	 * @return CDateTime
 	 */
 	public static final CDateTime asDateTime( Object o )
 	{
@@ -75,7 +75,7 @@ public class Methods implements IConstants
 	 * Converts the given object to a Double object.
 	 * 
 	 * @param o
-	 * @return
+	 * @return Double
 	 */
 	public static final Double asDouble( Object o )
 	{
@@ -98,7 +98,7 @@ public class Methods implements IConstants
 	 * Converts the given object to an Integer object.
 	 * 
 	 * @param o
-	 * @return
+	 * @return int
 	 */
 	public static final int asInteger( Object o )
 	{
@@ -106,13 +106,13 @@ public class Methods implements IConstants
 	}
 
 	/**
-	 * 
+	 * Returns location
 	 * @param sc
 	 * @param dValue
 	 * 
-	 * @return
+	 * @return location
 	 */
-	public static final double getLocation( AutoScale sc, IntersectionValue iv )
+	static final double getLocation( AutoScale sc, IntersectionValue iv )
 	{
 		AxisTickCoordinates da = sc.getTickCordinates( );
 		if ( iv.getType( ) == IConstants.MIN )
@@ -205,7 +205,7 @@ public class Methods implements IConstants
 	/**
 	 * @param sc
 	 * @param oValue
-	 * @return
+	 * @return location coordinate
 	 * @throws ChartException
 	 * @throws IllegalArgumentException
 	 */
@@ -240,6 +240,10 @@ public class Methods implements IConstants
 			return getDateLocation( sc,
 					( (DateTimeDataElement) oValue ).getValueAsCDateTime( ) );
 		}
+		else if ( oValue instanceof IntersectionValue )
+		{
+			return getLocation( sc, (IntersectionValue) oValue );
+		}
 		/*
 		 * DefaultLoggerImpl.instance().log(ILogger.WARNING, "Unexpected data
 		 * type {0}[value={1}] specified" + oValue.getClass().getName() + oValue );
@@ -250,7 +254,7 @@ public class Methods implements IConstants
 	/**
 	 * @param sc
 	 * @param dValue
-	 * @return
+	 * @return location coordinate
 	 */
 	public static final double getNormalizedLocation( AutoScale sc,
 			double dValue )
@@ -261,7 +265,7 @@ public class Methods implements IConstants
 	/**
 	 * @param sc
 	 * @param oValue
-	 * @return
+	 * @return location coordinate
 	 * @throws ChartException
 	 * @throws IllegalArgumentException
 	 */
@@ -276,7 +280,7 @@ public class Methods implements IConstants
 	 * @param sc
 	 * @param dValue
 	 * 
-	 * @return
+	 * @return location coordinate
 	 */
 	public static final double getLocation( AutoScale sc, double dValue )
 			throws IllegalArgumentException
@@ -370,7 +374,7 @@ public class Methods implements IConstants
 	 * @param fm
 	 * @param sText
 	 * @param dAngleInDegrees
-	 * @return
+	 * @return width
 	 */
 	public static final double computeWidth( IDisplayServer xs, Label la )
 	{
@@ -399,7 +403,7 @@ public class Methods implements IConstants
 	 * @param fm
 	 * @param sText
 	 * @param iAngleInDegrees
-	 * @return
+	 * @return height
 	 */
 	public static final double computeHeight( IDisplayServer xs, Label la )
 	{
@@ -451,7 +455,7 @@ public class Methods implements IConstants
 	 * @param dY
 	 * @param fontHeight
 	 *            , see also: computeFontHeight
-	 * @return
+	 * @return RotatedRectangle
 	 * @throws IllegalArgumentException
 	 */
 	public static final RotatedRectangle computePolygon( IDisplayServer xs,
@@ -779,7 +783,7 @@ public class Methods implements IConstants
 	 * @param bbox
 	 * @param la
 	 * @param fullHeight
-	 * @return
+	 * @return Location
 	 * @throws IllegalArgumentException
 	 */
 	public static final Location computeRotatedTopPoint( IDisplayServer xs,
@@ -859,7 +863,7 @@ public class Methods implements IConstants
 	 * @param la
 	 * @param dX
 	 * @param dY
-	 * @return
+	 * @return BoundingBox
 	 * @throws IllegalArgumentException
 	 */
 	public static final BoundingBox computeBox( IDisplayServer xs,
@@ -877,7 +881,7 @@ public class Methods implements IConstants
 	 * @param dWrapping
 	 * @param fontHeight
 	 *            , pre-computed font height
-	 * @return
+	 * @return BoundingBox
 	 * @throws ChartException
 	 */
 	public static final BoundingBox computeLabelSize( IDisplayServer xs,
@@ -910,7 +914,7 @@ public class Methods implements IConstants
 	 * @param dY
 	 * @param dWrapping
 	 *            the max size for wrapping by pixels
-	 * @return
+	 * @return BoundingBox
 	 * @throws IllegalArgumentException
 	 */
 	public static final BoundingBox computeBox( IDisplayServer xs,
@@ -1179,7 +1183,7 @@ public class Methods implements IConstants
 	 * Converts to internal (non public-model) data structures
 	 * 
 	 * @param lp
-	 * @return
+	 * @return position state
 	 */
 	public static final int getLabelPosition( Position lp )
 	{
@@ -1271,7 +1275,7 @@ public class Methods implements IConstants
 	 * 
 	 * @param xs
 	 * @param la
-	 * @return
+	 * @return font height
 	 */
 	public static double computeFontHeight( IDisplayServer xs, Label la )
 	{

@@ -19,11 +19,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Stack;
 
-import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
+import org.eclipse.birt.chart.computation.PlotComputation;
 import org.eclipse.birt.chart.computation.withaxes.PlotWith2DAxes;
 import org.eclipse.birt.chart.computation.withaxes.PlotWith3DAxes;
-import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.computation.withoutaxes.PlotWithoutAxes;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -90,21 +89,6 @@ import com.ibm.icu.util.ULocale;
  */
 public final class Generator implements IGenerator
 {
-
-	/**
-	 * Internally used.
-	 */
-	private static final int UNDEFINED = IConstants.UNDEFINED;
-
-	/**
-	 * Internally used.
-	 */
-	static final int WITH_AXES = 1;
-
-	/**
-	 * Internally used to maintain type information.
-	 */
-	static final int WITHOUT_AXES = 2;
 
 	/**
 	 * An internal style processor.
@@ -692,7 +676,7 @@ public final class Generator implements IGenerator
 
 		sh.setScriptClassLoader( iscl );
 		sh.setScriptContext( csc );
-		// initialize scripthandler.
+		// initialize script handler.
 		if ( externalContext != null
 				&& externalContext.getScriptable( ) != null )
 		{
@@ -982,11 +966,9 @@ public final class Generator implements IGenerator
 		// flatten the default styles.
 		prepareStyles( cmRunTime, externalProcessor );
 
-		int iChartType = UNDEFINED;
-		Object oComputations = null;
+		PlotComputation oComputations = null;
 		if ( cmRunTime instanceof ChartWithAxes )
 		{
-			iChartType = WITH_AXES;
 			try
 			{
 				if ( cmRunTime.getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL )
@@ -1011,7 +993,6 @@ public final class Generator implements IGenerator
 		}
 		else if ( cmRunTime instanceof ChartWithoutAxes )
 		{
-			iChartType = WITHOUT_AXES;
 			oComputations = new PlotWithoutAxes( ids,
 					(ChartWithoutAxes) cmRunTime,
 					rtc );
@@ -1078,34 +1059,16 @@ public final class Generator implements IGenerator
 				ScriptHandler.BEFORE_COMPUTATIONS,
 				cmRunTime,
 				oComputations );
-		long lTimer = System.currentTimeMillis( );
-		if ( iChartType == WITH_AXES )
+
+		try
 		{
-			PlotWithAxes pwa = (PlotWithAxes) oComputations;
-			try
-			{
-				pwa.compute( boPlot );
-			}
-			catch ( Exception ex )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						ex );
-			}
+			oComputations.compute( boPlot );
 		}
-		else if ( iChartType == WITHOUT_AXES )
+		catch ( Exception ex )
 		{
-			PlotWithoutAxes pwoa = (PlotWithoutAxes) oComputations;
-			try
-			{
-				pwoa.compute( boPlot );
-			}
-			catch ( Exception ex )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						ex );
-			}
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					ex );
 		}
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.AFTER_COMPUTATIONS,
@@ -1125,15 +1088,9 @@ public final class Generator implements IGenerator
 			br.set( rtc );
 			try
 			{
-				if ( br.getComputations( ) instanceof PlotWithoutAxes )
-				{
-					br.set( ( (PlotWithoutAxes) br.getComputations( ) ).getSeriesRenderingHints( br.getSeries( ) ) );
-				}
-				else
-				{
-					br.set( ( (PlotWithAxes) br.getComputations( ) ).getSeriesRenderingHints( br.getSeriesDefinition( ),
-							br.getSeries( ) ) );
-				}
+				br.set( br.getComputations( )
+						.getSeriesRenderingHints( br.getSeriesDefinition( ),
+								br.getSeries( ) ) );
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.START_COMPUTE_SERIES,
 						br.getSeries( ) );
@@ -1151,12 +1108,6 @@ public final class Generator implements IGenerator
 						ex );
 			}
 		}
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "info.compute.elapsed.time.without.axes", //$NON-NLS-1$
-						new Object[]{
-							Long.valueOf( System.currentTimeMillis( ) - lTimer )
-						},
-						rtc.getULocale( ) ) );
 
 		final GeneratedChartState gcs = new GeneratedChartState( ids,
 				cmRunTime,
@@ -1200,54 +1151,21 @@ public final class Generator implements IGenerator
 				gcs.getComputations( ) );
 
 		// COMPUTE THE PLOT AREA
-		long lTimer = System.currentTimeMillis( );
-		int iChartType = gcs.getType( );
 		Bounds boPlot = cm.getPlot( ).getBounds( );
 		Insets insPlot = cm.getPlot( ).getInsets( );
 		boPlot = boPlot.adjustedInstance( insPlot );
 
-		if ( iChartType == WITH_AXES )
+		try
 		{
-			PlotWithAxes pwa = (PlotWithAxes) gcs.getComputations( );
-			try
-			{
-				pwa.compute( boPlot );
-			}
-			catch ( RuntimeException ex )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						ex );
-			}
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.compute.elapsed.time.with.axes", //$NON-NLS-1$
-							new Object[]{
-								Long.valueOf( System.currentTimeMillis( )
-										- lTimer )
-							},
-							gcs.getRunTimeContext( ).getULocale( ) ) );
+			gcs.getComputations( ).compute( boPlot );
 		}
-		else if ( iChartType == WITHOUT_AXES )
+		catch ( RuntimeException ex )
 		{
-			PlotWithoutAxes pwoa = (PlotWithoutAxes) gcs.getComputations( );
-			try
-			{
-				pwoa.compute( boPlot );
-			}
-			catch ( RuntimeException ex )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						ex );
-			}
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.compute.elapsed.time.without.axes", //$NON-NLS-1$
-							new Object[]{
-								Long.valueOf( System.currentTimeMillis( )
-										- lTimer )
-							},
-							gcs.getRunTimeContext( ).getULocale( ) ) );
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					ex );
 		}
+			
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.AFTER_COMPUTATIONS,
 				cm,
@@ -1285,27 +1203,12 @@ public final class Generator implements IGenerator
 		lg.updateLayout( cm ); // RE-ORGANIZE BLOCKS IF REQUIRED
 		if ( lg.getPosition( ) == Position.INSIDE_LITERAL )
 		{
-			int iType = gcs.getType( );
-			if ( iType == WITH_AXES )
-			{
-				Bounds bo = ( (PlotWithAxes) gcs.getComputations( ) ).getPlotBounds( );
-				updateLegendInside( bo,
-						lg,
-						idr.getDisplayServer( ),
-						cm,
-						gcs.getRunTimeContext( ) );
-
-			}
-			else if ( iType == WITHOUT_AXES )
-			{
-				Bounds bo = ( (PlotWithoutAxes) gcs.getComputations( ) ).getBounds( );
-				updateLegendInside( bo,
-						lg,
-						idr.getDisplayServer( ),
-						cm,
-						gcs.getRunTimeContext( ) );
-
-			}
+			Bounds bo = gcs.getComputations( ).getPlotBounds( );
+			updateLegendInside( bo,
+					lg,
+					idr.getDisplayServer( ),
+					cm,
+					gcs.getRunTimeContext( ) );
 		}
 
 		final LinkedHashMap<Series, LegendItemRenderingHints> lhm = gcs.getRenderers( );
