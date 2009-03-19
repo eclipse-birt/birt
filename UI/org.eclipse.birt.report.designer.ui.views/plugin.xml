@@ -497,7 +497,7 @@
 </extension>
 <extension
       point="org.eclipse.birt.report.designer.ui.elementAdapters"><adaptable
-         class="org.eclipse.birt.report.designer.data.ui.util.ReportDataHandle"
+         class="org.eclipse.birt.report.designer.core.model.views.data.ReportDataHandle"
          >
       <adapter
             class="org.eclipse.birt.report.designer.internal.ui.views.data.providers.ReportDataNodeProvider"
@@ -594,7 +594,8 @@
             priority="2"
             type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
       </adapter>
-   </adaptable><adaptable
+   </adaptable>
+   <adaptable
          class="org.eclipse.birt.report.model.api.SlotHandle">
          <adapter
             class="org.eclipse.birt.report.designer.internal.ui.views.data.providers.DataSourcesNodeProvider"

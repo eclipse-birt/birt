@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.data;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
-import org.eclipse.birt.report.designer.data.ui.util.ReportDataHandle;
+import org.eclipse.birt.report.designer.core.model.views.data.ReportDataHandle;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.IReportPageBookViewPage;

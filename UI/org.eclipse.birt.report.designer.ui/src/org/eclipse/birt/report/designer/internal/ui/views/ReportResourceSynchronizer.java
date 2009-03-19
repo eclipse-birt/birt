@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeListener;
@@ -27,6 +29,7 @@ import org.eclipse.jface.util.SafeRunnable;
  */
 public class ReportResourceSynchronizer implements IReportResourceSynchronizer
 {
+	private static final Logger log = Logger.getLogger( ReportResourceSynchronizer.class.getName( ) );
 
 	//protected ListenerList listeners = new ListenerList( );
 	private int[] eventTypes = new int[]
@@ -97,7 +100,7 @@ public class ReportResourceSynchronizer implements IReportResourceSynchronizer
 
 	protected void notifyListeners( final IReportResourceChangeEvent event )
 	{
-		System.out.println(event);
+		log.log( Level.FINE, event.toString( ) );
 		
 		//Object[] list = listeners.getListeners( );
 		List<IReportResourceChangeListener> list = listeners.get( event.getType( ) );

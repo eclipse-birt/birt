@@ -404,8 +404,8 @@ class ElementAdapterSet extends TreeSet
 				if ( this.overwriteList.contains( adapter.getId( ) ) )
 				{
 					iterator.remove( );
-					ElementAdapterManager.logger.log( Level.INFO,
-							adapter.getId( ) + " is filtered." ); //$NON-NLS-1$
+					ElementAdapterManager.logger.log( Level.FINE,
+							"<" + adapter.getId( ) + "> is overwritten." ); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
 			this.isReset = true;

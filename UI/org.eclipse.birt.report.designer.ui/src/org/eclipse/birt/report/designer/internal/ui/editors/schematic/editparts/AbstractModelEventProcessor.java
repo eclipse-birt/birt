@@ -17,14 +17,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventFilter;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 
 /**
- * 
+ * AbstractModelEventProcessor
  */
-
-public abstract class AbstractModelEventProcessor
+public abstract class AbstractModelEventProcessor implements IModelEventProcessor
 {
 	private List infoList = new ArrayList( );
 	private IModelEventFactory factory;

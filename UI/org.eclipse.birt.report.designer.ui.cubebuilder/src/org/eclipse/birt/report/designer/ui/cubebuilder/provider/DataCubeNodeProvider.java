@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
 import java.util.ArrayList;
 
-import org.eclipse.birt.report.designer.data.ui.util.ReportDataHandle;
+import org.eclipse.birt.report.designer.core.model.views.data.ReportDataHandle;
 import org.eclipse.birt.report.designer.internal.ui.views.data.providers.ReportDataNodeProvider;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 
