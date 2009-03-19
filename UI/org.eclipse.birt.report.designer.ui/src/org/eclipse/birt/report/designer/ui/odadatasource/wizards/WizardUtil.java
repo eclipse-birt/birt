@@ -11,15 +11,13 @@
 
 package org.eclipse.birt.report.designer.ui.odadatasource.wizards;
 
-import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.actions.EditDataSetAction;
-import org.eclipse.birt.report.designer.ui.actions.EditDataSourceAction;
-import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
-import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
-import org.eclipse.birt.report.designer.ui.actions.NewJointDataSetAction;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.ui.IWorkbenchActionConstants;
 
+/**
+ * WizardUtil
+ * 
+ * @deprecated this class is no longer used and will be removed in near future.
+ */
 public class WizardUtil
 {
 
@@ -36,8 +34,6 @@ public class WizardUtil
 	 */
 	public static void createNewDataSourceMenus( IMenuManager menu )
 	{
-		NewDataSourceAction action = new NewDataSourceAction( Messages.getString( "datasource.new" ) ); //$NON-NLS-1$
-		menu.add( action );
 	}
 
 	/**
@@ -48,10 +44,6 @@ public class WizardUtil
 	public static void createEditDataSourceMenu( IMenuManager menu,
 			Object selectedObject )
 	{
-		EditDataSourceAction dataSourceAction = new EditDataSourceAction( selectedObject );
-		dataSourceAction.setText( Messages.getString( "datasource.action.edit" ) );//$NON-NLS-1$
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-				dataSourceAction );
 	}
 
 	/**
@@ -66,11 +58,6 @@ public class WizardUtil
 	 */
 	public static void createNewDataSetMenu( IMenuManager menu )
 	{
-		NewDataSetAction action = new NewDataSetAction( Messages.getString( "dataset.action.new" ) );//$NON-NLS-1$
-		menu.add( action );
-
-		NewJointDataSetAction joinaction = new NewJointDataSetAction( Messages.getString( "dataset.action.join.new" ) );//$NON-NLS-1$
-		menu.add( joinaction );
 	}
 
 	/**
@@ -80,8 +67,5 @@ public class WizardUtil
 	public static void createEditDataSetMenu( IMenuManager menu,
 			Object selectedObject )
 	{
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-				new EditDataSetAction( selectedObject,
-						Messages.getString( "DataSetNodeProvider.menu.text" ) ) ); //$NON-NLS-1$
 	}
 }

@@ -17,15 +17,10 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAboveAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowBelowAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
-import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
-import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
-import org.eclipse.birt.report.designer.ui.actions.NewJointDataSetAction;
-import org.eclipse.birt.report.designer.ui.actions.NewParameterAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.ui.actions.ActionFactory;
 
@@ -62,27 +57,16 @@ public class GlobalActionFactory
 			GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID,
 	};
 
-	public final static String[] GLOBAL_PARAMETER_ACTIONS =
-	{
-		NewParameterAction.INSERT_SCALAR_PARAMETER,
-		NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP,
-		NewParameterAction.INSERT_PARAMETER_GROUP,		
-	};
-	
 	public final static String[] GLOBAL_ELEMENT_ACTIONS = {
 		InsertRowAboveAction.ID,
 		InsertRowBelowAction.ID,
 	};
 
-	public final static String[] GLOBAL_DATA_ACTIONS = {
-			NewDataSourceAction.ID, NewDataSetAction.ID,NewJointDataSetAction.ID
-	};
-
 	public static IAction createSelectionAction( String id,
 			ISelectionProvider provider )
 	{
-		Assert.isNotNull( id );
-		Assert.isNotNull( provider );
+		assert id != null;
+		assert provider != null;
 		if ( COPY.equals( id ) )
 		{
 			return new GlobalCopyAction( provider );
@@ -98,17 +82,6 @@ public class GlobalActionFactory
 		else if ( DELETE.equals( id ) )
 		{
 			return new GlobalDeleteAction( provider );
-		}
-		else if ( NewDataSourceAction.ID.equals( id ) )
-		{
-			return new NewDataSourceAction( );
-		}
-		else if ( NewDataSetAction.ID.equals( id ) )
-		{
-			return new NewDataSetAction( );
-		}else if ( NewJointDataSetAction.ID.equals( id ) )
-		{
-			return new NewJointDataSetAction( );
 		}
 		String elementType = null;
 		if ( GeneralInsertMenuAction.INSERT_TEXT_ID.equals( id ) )
@@ -151,27 +124,6 @@ public class GlobalActionFactory
 		{
 			return new GlobalInsertRowAction( provider, id, InsertAction.BELOW );
 		}
-		else if (NewParameterAction.INSERT_SCALAR_PARAMETER.equals( id ))
-		{
-		//	elementType = ReportDesignConstants.SCALAR_PARAMETER_ELEMENT;
-			return new NewParameterAction(id,
-					ReportDesignConstants.SCALAR_PARAMETER_ELEMENT	
-			);
-		}
-		else if (NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP.equals( id ))
-		{
-		//	elementType = ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT;
-			return new NewParameterAction(id,
-					ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT	
-			);
-		}
-		else if (NewParameterAction.INSERT_PARAMETER_GROUP.equals( id ))
-		{
-			//elementType = ReportDesignConstants.PARAMETER_GROUP_ELEMENT;
-			return new NewParameterAction(id,
-					ReportDesignConstants.PARAMETER_GROUP_ELEMENT	
-			);
-		}
 		else
 		{
 			if ( DEUtil.getMetaDataDictionary( ).getExtension( id ) != null )
@@ -193,8 +145,8 @@ public class GlobalActionFactory
 
 	public static IAction createStackAction( String id, CommandStack stack )
 	{
-		Assert.isNotNull( id );
-		Assert.isNotNull( stack );
+		assert id != null;
+		assert stack != null;
 		GlobalStackActionEntry entry = (GlobalStackActionEntry) stackActionEntrys.get( stack );
 		if ( entry == null )
 		{

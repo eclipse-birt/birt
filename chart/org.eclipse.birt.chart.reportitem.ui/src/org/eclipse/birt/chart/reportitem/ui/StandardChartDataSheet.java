@@ -46,16 +46,15 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
-import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
-import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.NewCubeAction;
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
@@ -101,7 +100,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Data sheet implementation for Standard Chart
@@ -442,10 +440,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	int invokeNewDataSet( )
 	{
-		IAction action = new NewDataSetAction( );
-		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( action,
-				ChartHelpContextIds.DIALOG_NEW_DATA_SET );
-		action.run( );
+		DataService.getInstance( ).createDataSet( );
+		
 		// Due to the limitation of the action execution, always return ok
 		return Window.OK;
 	}

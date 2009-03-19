@@ -43,10 +43,6 @@ import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
-import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
-import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
-import org.eclipse.birt.report.designer.ui.actions.NewJointDataSetAction;
-import org.eclipse.birt.report.designer.ui.actions.NewParameterAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.actions.ToggleMarginVisibilityAction;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
@@ -161,30 +157,6 @@ public class DesignerActionBarContributor extends
 					Messages.getString( "DesignerActionBarContributor.element.group" ) ), //$NON-NLS-1$,
 	};
 
-	private static final RegisterAction[] dataActions = new RegisterAction[]{
-		new RegisterAction( NewDataSourceAction.ID,
-				Messages.getString( "designerActionBarContributor.menu.data-newdatasource" ) ),//$NON-NLS-1$
-
-	};
-
-	private static final RegisterAction[] dataSetActions = new RegisterAction[]{
-			new RegisterAction( NewDataSetAction.ID,
-					Messages.getString( "designerActionBarContributor.menu.data-newdataset" ) ),//$NON-NLS-1$
-			new RegisterAction( NewJointDataSetAction.ID,
-					Messages.getString( "designerActionBarContributor.menu.data-newJointDataset" ) ),//$NON-NLS-1$		
-
-	};
-
-	private static final RegisterAction[] parameterActions = new RegisterAction[]{
-			new RegisterAction( NewParameterAction.INSERT_SCALAR_PARAMETER,
-					Messages.getString( "ParametersNodeProvider.menu.text.parameter" ) ),//$NON-NLS-1$
-			new RegisterAction( NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP,
-					Messages.getString( "ParametersNodeProvider.menu.text.cascadingParameter" ) ),//$NON-NLS-1$
-			new RegisterAction( NewParameterAction.INSERT_PARAMETER_GROUP,
-					Messages.getString( "ParametersNodeProvider.menu.text.group" ) ),//$NON-NLS-1$
-
-	};
-
 	/**
 	 * The name of the insert menu
 	 */
@@ -244,15 +216,11 @@ public class DesignerActionBarContributor extends
 
 		registerActions( getInsertElementActions( ) );
 		registerActions( elementActions );
-		registerActions( dataActions );
-		registerActions( dataSetActions );
 
 		addRetargetAction( new RetargetAction( ImportLibraryAction.ID,
 				ImportLibraryAction.ACTION_TEXT ) );
 		addRetargetAction( new RetargetAction( InsertAggregationAction.ID,
 				InsertAggregationAction.TEXT ) );
-		registerActions( parameterActions );
-
 	}
 
 	/**
@@ -397,17 +365,8 @@ public class DesignerActionBarContributor extends
 
 		// Data Menu
 		MenuManager dataMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data" ), M_DATA ); //$NON-NLS-1$
-		dataMenu.add( getAction( dataActions[0].id ) );
 
-		MenuManager dataSetMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewDataSetParent" ) ); //$NON-NLS-1$
-		contributeActionsToMenu( dataSetMenu, dataSetActions );
-		dataMenu.add( dataSetMenu );
-
-		MenuManager parameterMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewParameter" ) ); //$NON-NLS-1$
-		//$NON-NLS-1$
-		contributeActionsToMenu( parameterMenu, parameterActions );
-		dataMenu.add( parameterMenu );
-
+		// the data actions are now registered through eclipse menu extensions
 		IMenuService menuService = (IMenuService) PlatformUI.getWorkbench( )
 				.getService( IMenuService.class );
 		menuService.populateContributionManager( dataMenu, "menu:birtData" ); //$NON-NLS-1$

@@ -30,6 +30,7 @@ import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
+import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportValueDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectionChoiceDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.DefaultParameterDialogControlTypeHelper;
@@ -44,7 +45,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
-import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -260,11 +260,11 @@ public class ParameterDialog extends BaseDialog
 
 	public static final String HELPER_KEY_STARTPOINT = "autoSuggestStartPoint";//$NON-NLS-1$
 
-	public static final String CONTROLTYPE_INPUTVALUE = "controltypeinput";
+	public static final String CONTROLTYPE_INPUTVALUE = "controltypeinput";//$NON-NLS-1$
 
-	public static final String STARTPOINT_INPUTVALUE = "startpointinput";
+	public static final String STARTPOINT_INPUTVALUE = "startpointinput";//$NON-NLS-1$
 
-	public static final String STARTPOINT_VALUE = "startpoint";
+	public static final String STARTPOINT_VALUE = "startpoint";//$NON-NLS-1$
 
 	private boolean allowMultiValueVisible = true;
 
@@ -503,7 +503,6 @@ public class ParameterDialog extends BaseDialog
 
 		public boolean removeItemAll( )
 		{
-			// TODO Auto-generated method stub
 			choiceList.clear( );
 			if ( defaultValueList != null && defaultValueList.size( ) > 0 )
 			{
@@ -1522,7 +1521,6 @@ public class ParameterDialog extends BaseDialog
 		}
 		catch ( BirtException e )
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
 		return change;
@@ -1664,10 +1662,10 @@ public class ParameterDialog extends BaseDialog
 						defaultValueList = null;
 						break;
 					case 1 :
-						setFirstDefaultValue( "true" );
+						setFirstDefaultValue( "true" );//$NON-NLS-1$
 						break;
 					case 2 :
-						setFirstDefaultValue( "false" );
+						setFirstDefaultValue( "false" );//$NON-NLS-1$
 						break;
 				}
 				updateMessageLine( );
@@ -1769,7 +1767,6 @@ public class ParameterDialog extends BaseDialog
 
 					public String validateString( String value )
 					{
-						// TODO Auto-generated method stub
 						String errorMessage = isValidValue( value );
 						if ( errorMessage != null )
 						{
@@ -1945,7 +1942,8 @@ public class ParameterDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				new NewDataSetAction( ).run( );
+				DataService.getInstance( ).createDataSet( );
+				
 				refreshDataSets( );
 			}
 
@@ -1959,7 +1957,6 @@ public class ParameterDialog extends BaseDialog
 
 			public void modifyText( ModifyEvent e )
 			{
-				// TODO Auto-generated method stub
 				updateMessageLine( );
 			}
 		} );
@@ -2148,7 +2145,6 @@ public class ParameterDialog extends BaseDialog
 
 			public void verifyText( VerifyEvent e )
 			{
-				// TODO Auto-generated method stub
 				String selection = e.text;
 				if ( defaultValueChooser.indexOf( selection ) == -1 )
 				{

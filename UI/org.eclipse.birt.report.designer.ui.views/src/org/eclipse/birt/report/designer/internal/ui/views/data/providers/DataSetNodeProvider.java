@@ -13,32 +13,22 @@ package org.eclipse.birt.report.designer.internal.ui.views.data.providers;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
-import org.eclipse.birt.report.designer.data.ui.dataset.DataSetEditor;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.DataSourceSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshAction;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.ShowPropertyAction;
-import org.eclipse.birt.report.designer.ui.odadatasource.wizards.WizardUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Deals with dataset node
@@ -60,11 +50,6 @@ public class DataSetNodeProvider extends DefaultNodeProvider
 			IMenuManager menu )
 	{
 		super.createContextMenu( sourceViewer, object, menu );
-
-		if ( ( (DataSetHandle) object ).canEdit( ) )
-		{
-			WizardUtil.createEditDataSetMenu( menu, object );
-		}
 
 		menu.insertBefore( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$
 				new ShowPropertyAction( object ) );
@@ -156,43 +141,4 @@ public class DataSetNodeProvider extends DefaultNodeProvider
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getNodeDisplayName(java.lang.Object)
-	 */
-	protected boolean performEdit( ReportElementHandle handle )
-	{
-		DataSetHandle dsHandle = (DataSetHandle) handle;
-		if ( !( dsHandle instanceof JointDataSetHandle )
-				&& dsHandle.getDataSource( ) == null )
-		{
-			try
-			{
-				List dataSourceList = DEUtil.getDataSources( );
-				String[] names = new String[dataSourceList.size( )];
-				for ( int i = 0; i < names.length; i++ )
-				{
-					names[i] = ( (DataSourceHandle) dataSourceList.get( i ) ).getName( );
-				}
-				DataSourceSelectionDialog dataSorucedialog = new DataSourceSelectionDialog( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ),
-						Messages.getString( "dataSourceSelectionPage.title" ), //$NON-NLS-1$
-						names );
-				if ( dataSorucedialog.open( ) == Dialog.CANCEL )
-					return false;
-				dsHandle.setDataSource( dataSorucedialog.getResult( )
-						.toString( ) );
-			}
-			catch ( SemanticException e )
-			{
-			}
-		}
-		DataSetEditor dialog = new DataSetEditor( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), (DataSetHandle) handle, false );
-
-		return dialog.open( ) == Dialog.OK;
-	}
 }

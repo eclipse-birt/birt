@@ -681,5 +681,15 @@
             value="64,64,64">
       </colorDefinition>
    </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:birtData">
+         <dynamic
+               class="org.eclipse.birt.report.designer.internal.ui.ParameterActionsContributionItem"
+               id="ParameterActions">
+         </dynamic>
+      </menuContribution>
+   </extension>
    
 </plugin>

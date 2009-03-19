@@ -89,10 +89,6 @@ import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertExpressionMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertGroupMenuAction;
-import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
-import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
-import org.eclipse.birt.report.designer.ui.actions.NewJointDataSetAction;
-import org.eclipse.birt.report.designer.ui.actions.NewParameterAction;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
@@ -425,36 +421,9 @@ abstract public class ReportEditorWithPalette extends
 		getSelectionActions( ).add( action.getId( ) );
 		addEditPartAction( (SelectionAction) action );
 
-		action = new NewParameterAction( NewParameterAction.INSERT_SCALAR_PARAMETER,
-				ReportDesignConstants.SCALAR_PARAMETER_ELEMENT );
-		getActionRegistry( ).registerAction( action );
-		getSelectionActions( ).add( action.getId( ) );
-
-		action = new NewParameterAction( NewParameterAction.INSERT_PARAMETER_GROUP,
-				ReportDesignConstants.PARAMETER_GROUP_ELEMENT );
-		getActionRegistry( ).registerAction( action );
-		getSelectionActions( ).add( action.getId( ) );
-
-		action = new NewParameterAction( NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP,
-				ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT );
-		getActionRegistry( ).registerAction( action );
-		getSelectionActions( ).add( action.getId( ) );
-
 		action = new InsertExpressionMenuAction( this );
 		getSelectionActions( ).add( action.getId( ) );
 		addEditPartAction( (SelectionAction) action );
-
-		action = new NewDataSourceAction( );
-		getActionRegistry( ).registerAction( action );
-		getSelectionActions( ).add( action.getId( ) );
-
-		action = new NewDataSetAction( );
-		getActionRegistry( ).registerAction( action );
-		getSelectionActions( ).add( action.getId( ) );
-
-		action = new NewJointDataSetAction( );
-		getActionRegistry( ).registerAction( action );
-		getSelectionActions( ).add( action.getId( ) );
 
 		// add key f2 action, sent direct edit request
 		action = new DirectEditAction( (IWorkbenchPart) this );

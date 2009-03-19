@@ -11,19 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.data.providers;
 
-import org.eclipse.birt.report.designer.data.ui.datasource.DataSourceEditor;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.ui.actions.ShowPropertyAction;
-import org.eclipse.birt.report.designer.ui.odadatasource.wizards.WizardUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Deals with the data source node
@@ -43,10 +36,7 @@ public class DataSourceNodeProvider extends DefaultNodeProvider
 			IMenuManager menu )
 	{
 		super.createContextMenu( sourceViewer, object, menu );
-		if(((DataSourceHandle)object).canEdit())
-		{
-			WizardUtil.createEditDataSourceMenu( menu, object );
-		}
+
 		menu.insertBefore( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$
 				new ShowPropertyAction( object ) );
 	}
@@ -72,22 +62,4 @@ public class DataSourceNodeProvider extends DefaultNodeProvider
 		return DEUtil.getDisplayLabel( model, false );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#performEdit(org.eclipse.birt.model.api.ReportElementHandle)
-	 */
-	protected boolean performEdit( ReportElementHandle handle )
-	{
-		if ( handle instanceof OdaDataSourceHandle && handle.canEdit( ) )
-		{
-			DataSourceEditor dialog = new DataSourceEditor( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ),
-					(DataSourceHandle) handle );
-			return dialog.open( ) == Dialog.OK;
-		}
-		return false;
-	}
-    
 }

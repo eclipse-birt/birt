@@ -12,9 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.data.providers;
 
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.jface.action.IMenuManager;
@@ -38,7 +36,6 @@ public class DataSourcesNodeProvider extends DefaultNodeProvider
 	public void createContextMenu( TreeViewer sourceViewer, Object object,
 			IMenuManager menu )
 	{
-		menu.add( new NewDataSourceAction( Messages.getString( "datasource.action.new" ) ) ); //$NON-NLS-1$
 		super.createContextMenu( sourceViewer, object, menu );
 	}
 

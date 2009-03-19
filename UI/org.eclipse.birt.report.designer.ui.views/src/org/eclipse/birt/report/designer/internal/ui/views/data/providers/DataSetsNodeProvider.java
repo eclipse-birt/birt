@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.data.providers;
 
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.odadatasource.wizards.WizardUtil;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -37,7 +36,6 @@ public class DataSetsNodeProvider extends DefaultNodeProvider
 	public void createContextMenu( TreeViewer sourceViewer, Object object,
 			IMenuManager menu )
 	{
-		WizardUtil.createNewDataSetMenu( menu );
 		super.createContextMenu( sourceViewer, object, menu );
 
 	}

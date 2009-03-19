@@ -570,20 +570,6 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 							getRoot( ).getCommandStack( ) ) );
 		}
 
-		for ( int i = 0; i < GlobalActionFactory.GLOBAL_DATA_ACTIONS.length; i++ )
-		{
-			String id = GlobalActionFactory.GLOBAL_DATA_ACTIONS[i];
-			getSite( ).getActionBars( ).setGlobalActionHandler( id,
-					GlobalActionFactory.createSelectionAction( id, this ) );
-		}
-
-		for ( int i = 0; i < GlobalActionFactory.GLOBAL_PARAMETER_ACTIONS.length; i++ )
-		{
-			String id = GlobalActionFactory.GLOBAL_PARAMETER_ACTIONS[i];
-			getSite( ).getActionBars( ).setGlobalActionHandler( id,
-					GlobalActionFactory.createSelectionAction( id, this ) );
-		}
-
 		getSite( ).getActionBars( ).updateActionBars( );
 	}
 

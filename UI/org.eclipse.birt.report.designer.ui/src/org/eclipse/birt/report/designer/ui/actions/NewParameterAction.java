@@ -44,6 +44,13 @@ public class NewParameterAction extends Action implements UpdateAction
 		this.type = type;
 	}
 
+	public NewParameterAction( String ID, String type, String text )
+	{
+		this(ID, type);
+
+		setText( text );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
