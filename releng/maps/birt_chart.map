@@ -1,15 +1,15 @@
 !*************** BIRT CHART ***********
 plugin@org.eclipse.birt.chart.device.extension=v20090312,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.extension
 plugin@org.eclipse.birt.chart.device.pdf=v20090115,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.pdf
-plugin@org.eclipse.birt.chart.device.svg=v20090312,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.svg
+plugin@org.eclipse.birt.chart.device.svg=v20090319,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.svg
 plugin@org.eclipse.birt.chart.device.swt=v20090312,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.swt
-plugin@org.eclipse.birt.chart.engine=v20090312,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.engine
-plugin@org.eclipse.birt.chart.engine.extension=v20090312,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.engine.extension
+plugin@org.eclipse.birt.chart.engine=v20090319,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.engine
+plugin@org.eclipse.birt.chart.engine.extension=v20090319,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.engine.extension
 plugin@org.eclipse.birt.chart.examples=v20090311,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.examples
 plugin@org.eclipse.birt.chart.integration.wtp.ui=v20090226,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.integration.wtp.ui
-plugin@org.eclipse.birt.chart.reportitem=v20090312,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.reportitem
-plugin@org.eclipse.birt.chart.reportitem.ui=v20090313,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.reportitem.ui
-plugin@org.eclipse.birt.chart.ui=v20090305,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.ui
-plugin@org.eclipse.birt.chart.ui.extension=v20090312,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.ui.extension
+plugin@org.eclipse.birt.chart.reportitem=v20090319,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.reportitem
+plugin@org.eclipse.birt.chart.reportitem.ui=v20090319,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.reportitem.ui
+plugin@org.eclipse.birt.chart.ui=v20090319,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.ui
+plugin@org.eclipse.birt.chart.ui.extension=v20090319,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.ui.extension
 plugin@org.eclipse.birt.chart.viewer=v20090220,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.viewer
 plugin@org.eclipse.birt.core.ui=v20090305,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.ui
