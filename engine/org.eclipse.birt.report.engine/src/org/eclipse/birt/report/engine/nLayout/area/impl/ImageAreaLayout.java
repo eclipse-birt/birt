@@ -469,39 +469,43 @@ class ConcreteImageLayout implements ILayout
 				.getContentWidth( ), true );
 		ImageArea imageArea = createImageArea( image );
 		// implement fitToContainer
-		int actualHeight = contentDimension.getHeight( );
-		int actualWidth = contentDimension.getWidth( );
 		int maxHeight = root.getMaxAvaHeight( );
 		int maxWidth = root.getMaxAvaWidth( );
 		int cHeight = contentDimension.getHeight( );
 		int cWidth = contentDimension.getWidth( );
 
+		int actualHeight = cHeight;
+		int actualWidth = cWidth;
+		
 		if ( cHeight > maxHeight || cWidth > maxWidth )
 		{
 			if ( fitToContainer )
 			{
-
 				float rh = ( (float) maxHeight ) / cHeight;
 				float rw = ( (float) maxWidth ) / cWidth;
 				if ( rh > rw )
 				{
-					actualHeight = (int) ( rw * maxHeight );
+					actualHeight = (int) ( (float) cHeight * maxWidth / cWidth );
 					actualWidth = maxWidth;
 				}
 				else
 				{
 					actualHeight = maxHeight;
-					actualWidth = (int) ( rh * maxWidth );
+					actualWidth = (int) ( (float) cWidth * maxHeight / cHeight );
 				}
+				imageArea.setWidth( actualWidth );
+				imageArea.setHeight( actualHeight );
+				root.setContentWidth( imageArea.getWidth( ) );
+				root.setContentHeight( imageArea.getHeight( ) );
 			}
 			else
 			{
+				imageArea.setWidth( actualWidth );
+				imageArea.setHeight( actualHeight );
 				root.setNeedClip( true );
 				root.setAllocatedHeight( Math.min( maxHeight, cHeight ));
 				root.setAllocatedWidth( Math.min( maxWidth, cWidth ));
 			}
-			imageArea.setWidth( actualWidth );
-			imageArea.setHeight( actualHeight );
 		}
 		else
 		{
