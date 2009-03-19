@@ -176,7 +176,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 		}
 		else
 		{
-			uri = "";
+			uri = ""; //$NON-NLS-1$
 		}
 
 		super.okPressed( );
@@ -353,7 +353,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 		} );
 
 		Label theme = new Label( nameComposite, SWT.NULL );
-		theme.setText( "Theme:" ); //$NON-NLS-1$
+		theme.setText( Messages.getString( "UseCssInReportDialog.Dialog.Label.Theme.Text" ) ); //$NON-NLS-1$
 		themeCombo = new Combo( nameComposite, SWT.READ_ONLY );
 		themeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		themeCombo.addSelectionListener( new SelectionAdapter( ) {
@@ -367,7 +367,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 
 		new Label( nameComposite, SWT.NONE );
 		viewTimeBtn = new Button( nameComposite, SWT.CHECK );
-		viewTimeBtn.setText( Messages.getString( "UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text" ) );
+		viewTimeBtn.setText( Messages.getString( "UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text" ) ); //$NON-NLS-1$
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		viewTimeBtn.setLayoutData( gd );
@@ -382,17 +382,17 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 
 		new Label( nameComposite, SWT.NONE );
 		Label viewTimeLb = new Label( nameComposite, SWT.NONE );
-		viewTimeLb.setText( Messages.getString( "UseCssInReportDialog.Dialog.Label.viewTimeLb" ) );
+		viewTimeLb.setText( Messages.getString( "UseCssInReportDialog.Dialog.Label.viewTimeLb" ) ); //$NON-NLS-1$
 		viewTimeLb.setLayoutData( gd );
 		Label uri = new Label( nameComposite, SWT.NONE );
-		uri.setText( Messages.getString( "UseCssInReportDialog.Dialog.Text.uri" ) );
+		uri.setText( Messages.getString( "UseCssInReportDialog.Dialog.Text.uri" ) ); //$NON-NLS-1$
 		uri.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 		uriText = new Text( nameComposite, SWT.BORDER );
 		uriText.setLayoutData( gd );
 
 		new Label( nameComposite, SWT.NONE );
 		Label example = new Label( nameComposite, SWT.NONE );
-		example.setText( Messages.getString( "UseCssInReportDialog.Dialog.Label.example" ) );
+		example.setText( Messages.getString( "UseCssInReportDialog.Dialog.Label.example" ) ); //$NON-NLS-1$
 		example.setLayoutData( gd );
 
 	}
