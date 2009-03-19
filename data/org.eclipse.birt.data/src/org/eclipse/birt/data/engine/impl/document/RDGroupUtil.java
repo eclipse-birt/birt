@@ -166,7 +166,7 @@ public final class RDGroupUtil
 	private void checkHasCurrentRow( ) throws DataException
 	{
 		checkStarted( );
-		if ( cacheProvider.getCurrentIndex( ) >= cacheProvider.getCount( ) )
+		if ( cacheProvider.getCurrentIndex( ) >= cacheProvider.getCount( )&& cacheProvider.getCount( )!= -1 )
 			throw new DataException( ResourceConstants.NO_CURRENT_ROW );
 	}
 

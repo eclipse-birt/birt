@@ -88,7 +88,7 @@ public class DataSetResultSet implements IDataSetPopulator
 	 */
 	public IResultObject next( ) throws DataException
 	{
-		if ( this.rowIndex < this.rowCount - 1 )
+		if ( this.rowIndex < this.rowCount - 1 || this.rowCount == -1 )
 		{
 			try
 			{
@@ -126,7 +126,7 @@ public class DataSetResultSet implements IDataSetPopulator
 		if( this.rowIndex == index )
 			return;
 		
-		if ( this.rowIndex < this.rowCount )
+		if ( this.rowIndex < this.rowCount || this.rowCount == -1 )
 		{
 			if( this.dataSetRowLensStream!= null )
 			{

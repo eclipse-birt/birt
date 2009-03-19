@@ -871,7 +871,8 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		// Initialize CachedResultSet using the ODA result set
 		if ( session.getDataSetCacheManager( ).doesSaveToCache( ) == false )
 		{
-	    	if ( session.getEngineContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION
+			if ( ( ( session.getEngineContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION || session.getEngineContext( )
+					.getMode( ) == DataEngineContext.MODE_GENERATION ) )
 					&& this.getQueryDefinition( ) instanceof IQueryDefinition )
 			{
 				IQueryDefinition queryDefn = (IQueryDefinition) this.getQueryDefinition( );
