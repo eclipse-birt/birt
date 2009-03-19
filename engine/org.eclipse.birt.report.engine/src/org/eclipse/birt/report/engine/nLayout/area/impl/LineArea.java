@@ -85,31 +85,24 @@ public class LineArea extends InlineStackingArea
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea area = (AbstractArea) iter.next( );
-				if ( spacing > 0 )
+
+				if ( isRightAligned )
 				{
-					// if ( CSSConstants.CSS_RIGHT_VALUE.equalsIgnoreCase( align
-					// ) )
-					if ( isRightAligned )
+					if ( parent.content.isDirectionRTL( ) )
 					{
-						if ( parent.content.isDirectionRTL( ) )
-						{
-							area.setPosition( spacing + area.getX( ), area
-									.getY( ) );
-						}
-						else
-						{
-							area
-									.setPosition( spacing + area.getX( )
-											+ ignoreRightMostWhiteSpace( ),
-											area.getY( ) );
-						}
+						area.setPosition( spacing + area.getX( ), area.getY( ) );
 					}
-					else if ( IStyle.CENTER_VALUE.equals( align ) )
+					else
 					{
-						area.setPosition( spacing / 2 + area.getX( ), area
-								.getY( ) );
+						area.setPosition( spacing + area.getX( )
+								+ ignoreRightMostWhiteSpace( ), area.getY( ) );
 					}
 				}
+				else if ( IStyle.CENTER_VALUE.equals( align ) )
+				{
+					area.setPosition( spacing / 2 + area.getX( ), area.getY( ) );
+				}
+
 			}
 		}
 		else if ( IStyle.JUSTIFY_VALUE.equals( align ) && !lastLine )
