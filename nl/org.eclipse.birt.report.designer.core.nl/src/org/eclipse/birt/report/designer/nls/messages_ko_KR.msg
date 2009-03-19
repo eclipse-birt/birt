@@ -218,8 +218,8 @@ BgImageFieldEditor.displayname.Browse=찾아보기(&W)...
 ###########################################################
 #BindingPage properties
 
-BindingPage.Dataset.Label=데이터 집합:
-BindingPage.ReportItem.Label=보고서 항목:
+BindingPage.Dataset.Label=Da&ta Set:
+BindingPage.ReportItem.Label=Report &Item:
 BindingPage.ReportItem.NoName=이름 없음
 BindingPage.Label.Binding=바인딩
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding 저장
@@ -1118,16 +1118,16 @@ Element.ListingGroup.pageBreakBefore=앞에 페이지 나누기:
 Element.ListingGroup.sort=정렬:
 Element.ListingGroup.sortDirection=정렬 방향:
 Element.ListingGroup.toc=목차:
-Element.MasterPage.bottomMargin=아래쪽 여백:
+Element.MasterPage.bottomMargin=&Bottom margin:
 Element.MasterPage.columns=열:
 Element.MasterPage.columnSpacing=열 간격:
 Element.MasterPage.height=높이(&E):
-Element.MasterPage.leftMargin=왼쪽 여백:
+Element.MasterPage.leftMargin=&Left margin:
 Element.MasterPage.margin=여백:
 Element.MasterPage.orientation=방향(&R): 
-Element.MasterPage.rightMargin=오른쪽 여백:
+Element.MasterPage.rightMargin=&Right margin:
 Element.MasterPage.slot.contents=내용:
-Element.MasterPage.topMargin=위쪽 여백:
+Element.MasterPage.topMargin=&Top margin:
 Element.MasterPage.type=형식(&Y): 
 Element.MasterPage.width=너비(&W):
 Element.Module.author=만든 이(&U):
@@ -1585,6 +1585,7 @@ FontSizeBuilder.displayname.Auto=자동
 ###########################################################
 #FormatBuilder properties
 
+FormatAdapter.DisplayName.None=자동
 FormatBuilder.Title=형식 빌더
 
 ###########################################################
@@ -1599,6 +1600,7 @@ FormatDateTimePage.label.custom.settings.label=예 형식(하나를 눌러 아래 복사한 �
 FormatDateTimePage.label.custom.settings=사용자 지정 설정
 FormatDateTimePage.label.format.code=형식 코드(&C):
 FormatDateTimePage.label.format.page=다음으로 형식 지정(&F):
+FormatDateTimePage.label.format.locale=&Locale:
 FormatDateTimePage.label.general.preview.group=형식 미리 보기
 
 ###########################################################
@@ -1639,6 +1641,7 @@ FormatNumberPage.label.decimal.places=소수 자릿수(&D):
 FormatNumberPage.label.fixed.settings=고정 설정
 FormatNumberPage.label.format.code=형식 코드(&C):
 FormatNumberPage.label.format.number.page=다음으로 형식 지정(&F):
+FormatNumberPage.label.format.number.locale=&Locale:
 FormatNumberPage.label.general.preview.group=형식 미리 보기
 FormatNumberPage.label.negative.numbers=음수(&N): 
 FormatNumberPage.label.percent.settings=백분율 설정
@@ -1680,6 +1683,7 @@ FormatStringPage.label.custom.settings.label=예 형식(하나를 눌러 아래 복사한 다�
 FormatStringPage.label.customSettings=사용자 지정 설정
 FormatStringPage.label.format.code=형식 코드(&C):
 FormatStringPage.label.formatStringAs=다음으로 형식 지정(&F):
+FormatStringPage.label.locale=&Locale:
 FormatStringPage.label.preview.group=미리 보기
 FormatStringPage.label.preview.string=미리 볼 문자열(&P): 
 FormatStringPage.label.previewWithFormat=형식 미리 보기
@@ -1953,6 +1957,7 @@ HyperlinkBuilder.TargetReportFormat=대상 보고서 형식 지정(&F):
 HyperLinkPage.Label.LnikTo=연결 대상(&L):
 HyperLinkPage.Label.None=없음
 HyperLinkPage.Menu.Save=하이퍼링크 변경
+HyperLinkPage.Button.Text=Edi&t...
 HyperLinkPage.toolTipText.Button=하이퍼링크 옵션 열기
 
 ###########################################################
@@ -2042,7 +2047,10 @@ ImportValueDialog.Label.SelectColumn=열 선택(&C):
 ImportValueDialog.Label.SelectDataSet=데이터 집합 선택(&D):
 ImportValueDialog.Label.SelectValue=추가할 값 선택 또는 입력(&S)
 ImportValueDialog.Title=값 가져오기
-
+ImportValueDialog.Button.Add.ToolTip=추가
+ImportValueDialog.Button.AddAll.ToolTip=Add All
+ImportValueDialog.Button.Remove.ToolTip=제거
+ImportValueDialog.Button.RemoveAll.ToolTip=모두 제거
 ###########################################################
 #IncludeDetailAction properties
 
@@ -3405,6 +3413,7 @@ UseCssInReportDialog.Error.Already.Include={0}은(는) 이미 포함되어 있습니다.
 UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=볼 때 CSS 파일 포함(HTML 형식에만 적용)(&I)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=볼 때 사용할 CSS 파일의 위치:
 UseCssInReportDialog.Dialog.Label.example=예 - http://mydomain/test.css, myfolder/test/css
+UseCssInReportDialog.Dialog.Label.Theme.Text=&Theme:
 UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=보고서 라이브러리에 있는 CSS 파일 사용
@@ -3976,7 +3985,7 @@ ClassFinder.ErrorMessage=클래스를 찾을 수 없음
 
 ###########################################################
 #ListingSectionPage
-ListingSectionPage.RepeatHeader=머리글 반복
+ListingSectionPage.RepeatHeader=&Repeat Header
 
 ###########################################################
 #ResourceEditDialog
@@ -4250,9 +4259,8 @@ BIRTGotoMarker.Error.Message=보고서 요소가 없습니다.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=속성은 사용할 수 없습니다.
-TabbedPropertyTitle.Button.Default.Text=기본값 
+TabbedPropertyTitle.Button.Default.Text=Defa&ult
 TabbedPropertyTitle.Button.Default.TooltipText=현재 페이지의 스타일 속성을 기본 설정으로 복원합니다.
-
 
 ###########################################################
 #Sample Reports View properties
@@ -4391,6 +4399,7 @@ FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM dd, y
 FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
 FormatDateTimePattern.pattern.datetiem_format_type_secontds=ss
 FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS
+FormatDescriptorProvider.DisplayName.None=자동
 
 ReportExamples.ContributeSamples.description=Bugzilla 항목을 다음으로 제출해 주십시오. {0}BIRT로 버그 제출{1}.\n제출하실 때 보고서 디자인 파일과 보고서 출력 스크린 샷을 첨부해 주십시오.\n\n 참고: 스크린샷은 다음과 같아야 합니다.\n  1..png 이미지 형식;\n  2. 800*600 해상도;\n  3. 250 KB 이하.
 ReportExamples.ContributeSamples.title=기여 예제

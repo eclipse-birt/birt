@@ -218,8 +218,8 @@ BgImageFieldEditor.displayname.Browse=Par&courir...
 ###########################################################
 #BindingPage properties
 
-BindingPage.Dataset.Label=Jeu de données :
-BindingPage.ReportItem.Label=Elément d'état :
+BindingPage.Dataset.Label=Da&ta Set:
+BindingPage.ReportItem.Label=Report &Item:
 BindingPage.ReportItem.NoName=Pas de nom
 BindingPage.Label.Binding=Liaison
 BindingPage.MessageDlg.SaveParamBinding=Enregistrer ParamBinding
@@ -1118,16 +1118,16 @@ Element.ListingGroup.pageBreakBefore=Saut de page avant :
 Element.ListingGroup.sort=Trier :
 Element.ListingGroup.sortDirection=Direction du tri :
 Element.ListingGroup.toc=Table des matières :
-Element.MasterPage.bottomMargin=Marge inférieure :
+Element.MasterPage.bottomMargin=&Bottom margin:
 Element.MasterPage.columns=Colonnes :
 Element.MasterPage.columnSpacing=Espacement de colonne :
 Element.MasterPage.height=Haut&eur :
-Element.MasterPage.leftMargin=Marge de gauche :
+Element.MasterPage.leftMargin=&Left margin:
 Element.MasterPage.margin=Marge :
 Element.MasterPage.orientation=O&rientation : 
-Element.MasterPage.rightMargin=Marge de droite :
+Element.MasterPage.rightMargin=&Right margin:
 Element.MasterPage.slot.contents=Contenu :
-Element.MasterPage.topMargin=Marge supérieure :
+Element.MasterPage.topMargin=&Top margin:
 Element.MasterPage.type=T&ype : 
 Element.MasterPage.width=&Largeur :
 Element.Module.author=A&uteur :
@@ -1585,6 +1585,7 @@ FontSizeBuilder.displayname.Auto=Auto
 ###########################################################
 #FormatBuilder properties
 
+FormatAdapter.DisplayName.None=Auto
 FormatBuilder.Title=Générateur de format
 
 ###########################################################
@@ -1599,6 +1600,7 @@ FormatDateTimePage.label.custom.settings.label=Exemples de formats (cliquez sur 
 FormatDateTimePage.label.custom.settings=Paramètres personnalisés
 FormatDateTimePage.label.format.code=&Code de format :
 FormatDateTimePage.label.format.page=&Format :
+FormatDateTimePage.label.format.locale=&Locale:
 FormatDateTimePage.label.general.preview.group=Aperçu au format
 
 ###########################################################
@@ -1639,6 +1641,7 @@ FormatNumberPage.label.decimal.places=Emplacement des &décimales :
 FormatNumberPage.label.fixed.settings=Paramètres fixés
 FormatNumberPage.label.format.code=&Code de format :
 FormatNumberPage.label.format.number.page=&Format :
+FormatNumberPage.label.format.number.locale=&Locale:
 FormatNumberPage.label.general.preview.group=Aperçu au format
 FormatNumberPage.label.negative.numbers=&Nombres négatifs : 
 FormatNumberPage.label.percent.settings=Paramètres de pourcentage
@@ -1680,6 +1683,7 @@ FormatStringPage.label.custom.settings.label=Exemples de formats (cliquez sur l'
 FormatStringPage.label.customSettings=Paramètres personnalisés
 FormatStringPage.label.format.code=&Code de format :
 FormatStringPage.label.formatStringAs=&Format :
+FormatStringPage.label.locale=&Locale:
 FormatStringPage.label.preview.group=Aperçu
 FormatStringPage.label.preview.string=A&perçu de la chaîne : 
 FormatStringPage.label.previewWithFormat=Aperçu au format
@@ -1953,6 +1957,7 @@ HyperlinkBuilder.TargetReportFormat=&Formatage de l'état cible dans :
 HyperLinkPage.Label.LnikTo=&Lien vers :
 HyperLinkPage.Label.None=Aucun
 HyperLinkPage.Menu.Save=Modifier le lien hypertexte
+HyperLinkPage.Button.Text=Edi&t...
 HyperLinkPage.toolTipText.Button=Ouvrir les options de lien hypertexte
 
 ###########################################################
@@ -2042,7 +2047,10 @@ ImportValueDialog.Label.SelectColumn=Sélectionner une &colonne :
 ImportValueDialog.Label.SelectDataSet=Sélectionner un jeu de &données :
 ImportValueDialog.Label.SelectValue=&Sélectionner ou entrer la valeur à ajouter
 ImportValueDialog.Title=Importer valeurs
-
+ImportValueDialog.Button.Add.ToolTip=Ajouter
+ImportValueDialog.Button.AddAll.ToolTip=Add All
+ImportValueDialog.Button.Remove.ToolTip=Supprimer
+ImportValueDialog.Button.RemoveAll.ToolTip=Supprimer tout
 ###########################################################
 #IncludeDetailAction properties
 
@@ -3405,6 +3413,7 @@ UseCssInReportDialog.Error.Already.Include={0} avait déjà été inclus
 UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Inclure fichier CSS à l'heure d'affichage (appliquer uniquement au format HTML)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=Afficher fuseau horaire du fichier CSS :
 UseCssInReportDialog.Dialog.Label.example=http://mondomaine/test.css, mondossier/test/css, par exemple.
+UseCssInReportDialog.Dialog.Label.Theme.Text=&Theme:
 UseCssInReportDialog.Dialog.Text.uri=&URI :
 
 UseCssInThemeDialog.TitleArea.Title=Utiliser le fichier CSS dans la bibliothèque d'états
@@ -3976,7 +3985,7 @@ ClassFinder.ErrorMessage=Aucune classe trouvée
 
 ###########################################################
 #ListingSectionPage
-ListingSectionPage.RepeatHeader=Répéter l'en-tête
+ListingSectionPage.RepeatHeader=&Repeat Header
 
 ###########################################################
 #ResourceEditDialog
@@ -4250,9 +4259,8 @@ BIRTGotoMarker.Error.Message=L'élément d'état n'existe pas.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=Les propriétés ne sont pas disponibles.
-TabbedPropertyTitle.Button.Default.Text=Par défaut 
+TabbedPropertyTitle.Button.Default.Text=Defa&ult
 TabbedPropertyTitle.Button.Default.TooltipText=Restaurer les paramètres par défaut des propriétés de style de la page en cours
-
 
 ###########################################################
 #Sample Reports View properties
@@ -4391,6 +4399,7 @@ FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM dd, y
 FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
 FormatDateTimePattern.pattern.datetiem_format_type_secontds=ss
 FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS
+FormatDescriptorProvider.DisplayName.None=Auto
 
 ReportExamples.ContributeSamples.description=Veuillez soumettre une entrée bugzilla {0}Soumettre un bug à BIRT{1}.\nJoignez le fichier du modèle d''état et une capture d''écran de la sortie d''état.\n\n Remarque : La capture d''écran doit être :\n  1. Au format *.png ;\n  2. A une résolution de 800*600 ;\n  3. A une taille inférieure ou égale à 250 Ko.
 ReportExamples.ContributeSamples.title=Exemples de contribution

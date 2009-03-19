@@ -218,8 +218,8 @@ BgImageFieldEditor.displayname.Browse=ä¯ÀÀ(&W)...
 ###########################################################
 #BindingPage properties
 
-BindingPage.Dataset.Label=Êı¾İ¼¯:
-BindingPage.ReportItem.Label=±¨±íÏî:
+BindingPage.Dataset.Label=Da&ta Set:
+BindingPage.ReportItem.Label=Report &Item:
 BindingPage.ReportItem.NoName=ÎŞÃû³Æ
 BindingPage.Label.Binding=°ó¶¨
 BindingPage.MessageDlg.SaveParamBinding=±£´æ ParamBinding
@@ -1118,16 +1118,16 @@ Element.ListingGroup.pageBreakBefore=¶ÔÏóÇ°ÃæµÄ·ÖÒ³·û:
 Element.ListingGroup.sort=ÅÅĞò:
 Element.ListingGroup.sortDirection=ÅÅĞò·½Ïò:
 Element.ListingGroup.toc=Ä¿Â¼:
-Element.MasterPage.bottomMargin=ÏÂ±ß¾à:
+Element.MasterPage.bottomMargin=&Bottom margin:
 Element.MasterPage.columns=ÁĞ:
 Element.MasterPage.columnSpacing=ÁĞ¼ä¾à:
 Element.MasterPage.height=¸ß¶È(&E):
-Element.MasterPage.leftMargin=×ó±ß¾à:
+Element.MasterPage.leftMargin=&Left margin:
 Element.MasterPage.margin=±ß¾à:
 Element.MasterPage.orientation=·½Ïò(&R): 
-Element.MasterPage.rightMargin=ÓÒ±ß¾à:
+Element.MasterPage.rightMargin=&Right margin:
 Element.MasterPage.slot.contents=ÄÚÈİ:
-Element.MasterPage.topMargin=ÉÏ±ß¾à:
+Element.MasterPage.topMargin=&Top margin:
 Element.MasterPage.type=ÀàĞÍ(&Y): 
 Element.MasterPage.width=¿í¶È(&W):
 Element.Module.author=×÷Õß(&U):
@@ -1585,6 +1585,7 @@ FontSizeBuilder.displayname.Auto=×Ô¶¯
 ###########################################################
 #FormatBuilder properties
 
+FormatAdapter.DisplayName.None=×Ô¶¯
 FormatBuilder.Title=¸ñÊ½Éú³ÉÆ÷
 
 ###########################################################
@@ -1599,6 +1600,7 @@ FormatDateTimePage.label.custom.settings.label=¸ñÊ½Ê¾Àı£¨µ¥»÷ÏÂÃæÒª¸´ÖÆµÄÒ»Ïî£¬È
 FormatDateTimePage.label.custom.settings=×Ô¶¨ÒåÉèÖÃ
 FormatDateTimePage.label.format.code=¸ñÊ½´úÂë(&C):
 FormatDateTimePage.label.format.page=¸ñÊ½Îª(&F):
+FormatDateTimePage.label.format.locale=&Locale:
 FormatDateTimePage.label.general.preview.group=´ø¸ñÊ½Ô¤ÀÀ
 
 ###########################################################
@@ -1639,6 +1641,7 @@ FormatNumberPage.label.decimal.places=Ğ¡ÊıÎ»(&D):
 FormatNumberPage.label.fixed.settings=¹Ì¶¨ÉèÖÃ
 FormatNumberPage.label.format.code=¸ñÊ½´úÂë(&C):
 FormatNumberPage.label.format.number.page=¸ñÊ½Îª(&F):
+FormatNumberPage.label.format.number.locale=&Locale:
 FormatNumberPage.label.general.preview.group=´ø¸ñÊ½Ô¤ÀÀ
 FormatNumberPage.label.negative.numbers=¸ºÊı(&N): 
 FormatNumberPage.label.percent.settings=°Ù·Ö±ÈÉèÖÃ
@@ -1680,6 +1683,7 @@ FormatStringPage.label.custom.settings.label=¸ñÊ½Ê¾Àı£¨µ¥»÷ÏÂÃæÒª¸´ÖÆµÄÒ»Ïî£¬È»º
 FormatStringPage.label.customSettings=×Ô¶¨ÒåÉèÖÃ
 FormatStringPage.label.format.code=¸ñÊ½´úÂë(&C):
 FormatStringPage.label.formatStringAs=¸ñÊ½Îª(&F):
+FormatStringPage.label.locale=&Locale:
 FormatStringPage.label.preview.group=Ô¤ÀÀ
 FormatStringPage.label.preview.string=ÒªÔ¤ÀÀµÄ×Ö·û´®(&P): 
 FormatStringPage.label.previewWithFormat=´ø¸ñÊ½Ô¤ÀÀ
@@ -1953,6 +1957,7 @@ HyperlinkBuilder.TargetReportFormat=¸ñÊ½»¯ÒÔÏÂÎ»ÖÃµÄÄ¿±ê±¨±í(&F):
 HyperLinkPage.Label.LnikTo=Á´½ÓÖÁ(&L):
 HyperLinkPage.Label.None=ÎŞ
 HyperLinkPage.Menu.Save=¸ü¸Ä³¬¼¶Á´½Ó
+HyperLinkPage.Button.Text=Edi&t...
 HyperLinkPage.toolTipText.Button=´ò¿ª³¬¼¶Á´½ÓÑ¡Ïî
 
 ###########################################################
@@ -2042,7 +2047,10 @@ ImportValueDialog.Label.SelectColumn=Ñ¡ÔñÁĞ(&C):
 ImportValueDialog.Label.SelectDataSet=Ñ¡ÔñÊı¾İ¼¯(&D):
 ImportValueDialog.Label.SelectValue=Ñ¡Ôñ»òÊäÈëÒªÌí¼ÓµÄÖµ(&S)
 ImportValueDialog.Title=µ¼ÈëÖµ
-
+ImportValueDialog.Button.Add.ToolTip=Ìí¼Ó
+ImportValueDialog.Button.AddAll.ToolTip=Add All
+ImportValueDialog.Button.Remove.ToolTip=É¾³ı
+ImportValueDialog.Button.RemoveAll.ToolTip=È«²¿É¾³ı
 ###########################################################
 #IncludeDetailAction properties
 
@@ -3405,6 +3413,7 @@ UseCssInReportDialog.Error.Already.Include=ÒÑ°üÀ¨ {0}
 UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=²é¿´Ê±°üÀ¨ CSS ÎÄ¼ş(½öÊÊÓÃÓÚ HTML ¸ñÊ½)(&I)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=CSS ÎÄ¼şµÄ²é¿´Ê±¼äÎ»ÖÃ:
 UseCssInReportDialog.Dialog.Label.example=e.g. http://mydomain/test.css, myfolder/test/css
+UseCssInReportDialog.Dialog.Label.Theme.Text=&Theme:
 UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=ÔÚ±¨±í¿âÖĞÊ¹ÓÃ CSS ÎÄ¼ş
@@ -3976,7 +3985,7 @@ ClassFinder.ErrorMessage=Î´ÕÒµ½Àà
 
 ###########################################################
 #ListingSectionPage
-ListingSectionPage.RepeatHeader=ÖØ¸´Ò³Ã¼
+ListingSectionPage.RepeatHeader=&Repeat Header
 
 ###########################################################
 #ResourceEditDialog
@@ -4250,9 +4259,8 @@ BIRTGotoMarker.Error.Message=±¨±íÔªËØ²»´æÔÚ¡£
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=ÊôĞÔ²»¿ÉÓÃ¡£
-TabbedPropertyTitle.Button.Default.Text=Ä¬ÈÏ 
+TabbedPropertyTitle.Button.Default.Text=Defa&ult
 TabbedPropertyTitle.Button.Default.TooltipText=½«µ±Ç°Ò³µÄÑùÊ½ÊôĞÔ»¹Ô­µ½Ä¬ÈÏÉèÖÃ
-
 
 ###########################################################
 #Sample Reports View properties
@@ -4391,6 +4399,7 @@ FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM dd, y
 FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
 FormatDateTimePattern.pattern.datetiem_format_type_secontds=ss
 FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS
+FormatDescriptorProvider.DisplayName.None=×Ô¶¯
 
 ReportExamples.ContributeSamples.description=ÇëÔÚ{0}½«´íÎóÌá½»µ½ BIRT{1}Ìá½» bugzilla ÌõÄ¿¡£\n¸½¼Ó±¨±íÉè¼ÆÎÄ¼şºÍ±¨±íÊä³öµÄÆÁÄ»¿ìÕÕ¡£\n\n ×¢Òâ: ÆÁÄ»¿ìÕÕÓ¦¸ÃÎª:\n  1. *.png Í¼Ïñ¸ñÊ½£»\n  2. ·Ö±æÂÊ 800*600£»\n  3. ²»´óÓÚ 250 KB¡£
 ReportExamples.ContributeSamples.title=Ìá¹©Ê¾Àı

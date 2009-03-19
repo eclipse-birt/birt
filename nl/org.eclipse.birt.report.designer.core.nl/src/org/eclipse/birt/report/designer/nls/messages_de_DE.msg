@@ -218,8 +218,8 @@ BgImageFieldEditor.displayname.Browse=&Durchsuchen...
 ###########################################################
 #BindingPage properties
 
-BindingPage.Dataset.Label=Datensatz:
-BindingPage.ReportItem.Label=Berichtobjekt:
+BindingPage.Dataset.Label=Da&ta Set:
+BindingPage.ReportItem.Label=Report &Item:
 BindingPage.ReportItem.NoName=Kein Name
 BindingPage.Label.Binding=Bindung
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding speichern
@@ -1118,16 +1118,16 @@ Element.ListingGroup.pageBreakBefore=Seitenumbruch vor:
 Element.ListingGroup.sort=Sortieren:
 Element.ListingGroup.sortDirection=Sortierreihenfolge:
 Element.ListingGroup.toc=Inhaltsverzeichnis:
-Element.MasterPage.bottomMargin=Unterer Rand:
+Element.MasterPage.bottomMargin=&Bottom margin:
 Element.MasterPage.columns=Spalten:
 Element.MasterPage.columnSpacing=Spaltenabstand:
 Element.MasterPage.height=Höh&e:
-Element.MasterPage.leftMargin=Linker Rand:
+Element.MasterPage.leftMargin=&Left margin:
 Element.MasterPage.margin=Rand:
 Element.MasterPage.orientation=Aus&richtung: 
-Element.MasterPage.rightMargin=Rechter Rand:
+Element.MasterPage.rightMargin=&Right margin:
 Element.MasterPage.slot.contents=Inhalt:
-Element.MasterPage.topMargin=Oberer Rand:
+Element.MasterPage.topMargin=&Top margin:
 Element.MasterPage.type=T&yp: 
 Element.MasterPage.width=&Breite:
 Element.Module.author=&Verfasser:
@@ -1585,6 +1585,7 @@ FontSizeBuilder.displayname.Auto=Automatisch
 ###########################################################
 #FormatBuilder properties
 
+FormatAdapter.DisplayName.None=Automatisch
 FormatBuilder.Title=Formaterstellung
 
 ###########################################################
@@ -1599,6 +1600,7 @@ FormatDateTimePage.label.custom.settings.label=Beispielformate (Klicken Sie auf 
 FormatDateTimePage.label.custom.settings=Benutzerdefinierte Einstellungen
 FormatDateTimePage.label.format.code=Format&code:
 FormatDateTimePage.label.format.page=&Formatieren als:
+FormatDateTimePage.label.format.locale=&Locale:
 FormatDateTimePage.label.general.preview.group=Vorschau mit Format
 
 ###########################################################
@@ -1639,6 +1641,7 @@ FormatNumberPage.label.decimal.places=&Dezimalstellen:
 FormatNumberPage.label.fixed.settings=Feste Einstellungen
 FormatNumberPage.label.format.code=Format&code:
 FormatNumberPage.label.format.number.page=&Formatieren als:
+FormatNumberPage.label.format.number.locale=&Locale:
 FormatNumberPage.label.general.preview.group=Vorschau mit Format
 FormatNumberPage.label.negative.numbers=&Negative Zahlen: 
 FormatNumberPage.label.percent.settings=Prozenteinstellungen
@@ -1680,6 +1683,7 @@ FormatStringPage.label.custom.settings.label=Beispielformate (Klicken Sie auf ei
 FormatStringPage.label.customSettings=Benutzerdefinierte Einstellungen
 FormatStringPage.label.format.code=Format&code:
 FormatStringPage.label.formatStringAs=&Formatieren als:
+FormatStringPage.label.locale=&Locale:
 FormatStringPage.label.preview.group=Vorschau
 FormatStringPage.label.preview.string=Zeichenfolge für &Vorschau: 
 FormatStringPage.label.previewWithFormat=Vorschau mit Format
@@ -1953,6 +1957,7 @@ HyperlinkBuilder.TargetReportFormat=Zielbericht &formatieren in:
 HyperLinkPage.Label.LnikTo=&Verknüpfen mit:
 HyperLinkPage.Label.None=Kein
 HyperLinkPage.Menu.Save=Hyperlink ändern
+HyperLinkPage.Button.Text=Edi&t...
 HyperLinkPage.toolTipText.Button=Optionen für Öffnen des Hyperlink
 
 ###########################################################
@@ -2042,7 +2047,10 @@ ImportValueDialog.Label.SelectColumn=&Spalte auswählen:
 ImportValueDialog.Label.SelectDataSet=&Datensatz auswählen:
 ImportValueDialog.Label.SelectValue=&Hinzuzufügenden Wert auswählen oder eingeben
 ImportValueDialog.Title=Werte importieren
-
+ImportValueDialog.Button.Add.ToolTip=Hinzufügen
+ImportValueDialog.Button.AddAll.ToolTip=Add All
+ImportValueDialog.Button.Remove.ToolTip=Entfernen
+ImportValueDialog.Button.RemoveAll.ToolTip=Alles entfernen
 ###########################################################
 #IncludeDetailAction properties
 
@@ -3405,6 +3413,7 @@ UseCssInReportDialog.Error.Already.Include={0} wurde bereits aufgenommen
 UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=CSS-Datei während der Anzeige &einschließen (nur für HTML-Format übernehmen)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=Speicherort der CSS-Datei während der Anzeige:
 UseCssInReportDialog.Dialog.Label.example=Beispiel: http://mydomain/test.css, myfolder/test/css
+UseCssInReportDialog.Dialog.Label.Theme.Text=&Theme:
 UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=CSS-Datei in Berichtbibliothek verwenden
@@ -3976,7 +3985,7 @@ ClassFinder.ErrorMessage=Es wurde keine Klasse gefunden.
 
 ###########################################################
 #ListingSectionPage
-ListingSectionPage.RepeatHeader=Kopfzeile wiederholen
+ListingSectionPage.RepeatHeader=&Repeat Header
 
 ###########################################################
 #ResourceEditDialog
@@ -4250,9 +4259,8 @@ BIRTGotoMarker.Error.Message=Das Berichtelement ist nicht vorhanden.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=Eigenschaften sind nicht verfügbar.
-TabbedPropertyTitle.Button.Default.Text=Standard 
+TabbedPropertyTitle.Button.Default.Text=Defa&ult
 TabbedPropertyTitle.Button.Default.TooltipText=Standardstileigenschaften der aktuellen Seite wiederherstellen
-
 
 ###########################################################
 #Sample Reports View properties
@@ -4391,6 +4399,7 @@ FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM tt, j
 FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
 FormatDateTimePattern.pattern.datetiem_format_type_secontds=ss
 FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS
+FormatDescriptorProvider.DisplayName.None=Automatisch
 
 ReportExamples.ContributeSamples.description=Reichen Sie einen Bugzilla-Eintrag unter {0} ein. Melden Sie einen Bug an BIRT{1}.\nHängen Sie die Berichtdesigndatei und den Screenshot über die Berichtausgabe an.\n\nHinweis: Der Screenshot sollte folgende Spezifikationen erfüllen:\n1. *.png-Bildformat;\n2. Auflösung 800*600;\n3. Max. Größe 250 KB.
 ReportExamples.ContributeSamples.title=Beispiele beitragen

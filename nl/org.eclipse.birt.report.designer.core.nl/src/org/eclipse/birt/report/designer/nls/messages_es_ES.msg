@@ -218,8 +218,8 @@ BgImageFieldEditor.displayname.Browse=E&xaminar...
 ###########################################################
 #BindingPage properties
 
-BindingPage.Dataset.Label=Conjunto de datos:
-BindingPage.ReportItem.Label=Elemento de informe:
+BindingPage.Dataset.Label=Da&ta Set:
+BindingPage.ReportItem.Label=Report &Item:
 BindingPage.ReportItem.NoName=Sin nombre
 BindingPage.Label.Binding=Enlace
 BindingPage.MessageDlg.SaveParamBinding=Guardar ParamBinding
@@ -1118,16 +1118,16 @@ Element.ListingGroup.pageBreakBefore=Salto de página antes:
 Element.ListingGroup.sort=Ordenar:
 Element.ListingGroup.sortDirection=Dirección de orden:
 Element.ListingGroup.toc=Tabla de contenido:
-Element.MasterPage.bottomMargin=Margen inferior:
+Element.MasterPage.bottomMargin=&Bottom margin:
 Element.MasterPage.columns=Columnas:
 Element.MasterPage.columnSpacing=Separación de columnas:
 Element.MasterPage.height=Alt&ura:
-Element.MasterPage.leftMargin=Margen izquierdo:
+Element.MasterPage.leftMargin=&Left margin:
 Element.MasterPage.margin=Margen:
 Element.MasterPage.orientation=O&rientación: 
-Element.MasterPage.rightMargin=Margen derecho:
+Element.MasterPage.rightMargin=&Right margin:
 Element.MasterPage.slot.contents=Contenido:
-Element.MasterPage.topMargin=Margen superior:
+Element.MasterPage.topMargin=&Top margin:
 Element.MasterPage.type=T&ipo: 
 Element.MasterPage.width=&Ancho:
 Element.Module.author=&Autor:
@@ -1585,6 +1585,7 @@ FontSizeBuilder.displayname.Auto=Automático
 ###########################################################
 #FormatBuilder properties
 
+FormatAdapter.DisplayName.None=Automático
 FormatBuilder.Title=Compilador de formatos
 
 ###########################################################
@@ -1599,6 +1600,7 @@ FormatDateTimePage.label.custom.settings.label=Formatos de ejemplo (haga clic en
 FormatDateTimePage.label.custom.settings=Ajustes personalizados
 FormatDateTimePage.label.format.code=Códi&go de formato:
 FormatDateTimePage.label.format.page=&Formato como:
+FormatDateTimePage.label.format.locale=&Locale:
 FormatDateTimePage.label.general.preview.group=Vista previa con formato
 
 ###########################################################
@@ -1639,6 +1641,7 @@ FormatNumberPage.label.decimal.places=Nú&mero de decimales:
 FormatNumberPage.label.fixed.settings=Ajustes fijos
 FormatNumberPage.label.format.code=Códi&go de formato:
 FormatNumberPage.label.format.number.page=&Formato como:
+FormatNumberPage.label.format.number.locale=&Locale:
 FormatNumberPage.label.general.preview.group=Vista previa con formato
 FormatNumberPage.label.negative.numbers=&Números negativos: 
 FormatNumberPage.label.percent.settings=Ajustes de porcentaje
@@ -1680,6 +1683,7 @@ FormatStringPage.label.custom.settings.label=Formatos de ejemplo (haga clic en u
 FormatStringPage.label.customSettings=Ajustes personalizados
 FormatStringPage.label.format.code=Códi&go de formato:
 FormatStringPage.label.formatStringAs=&Formato como:
+FormatStringPage.label.locale=&Locale:
 FormatStringPage.label.preview.group=Vista previa
 FormatStringPage.label.preview.string=Strin&g para vista previa: 
 FormatStringPage.label.previewWithFormat=Vista previa con formato
@@ -1953,6 +1957,7 @@ HyperlinkBuilder.TargetReportFormat=Dar for&mato a informe de destino en:
 HyperLinkPage.Label.LnikTo=&Link a:
 HyperLinkPage.Label.None=Ninguno
 HyperLinkPage.Menu.Save=Cambiar hiperlink
+HyperLinkPage.Button.Text=Edi&t...
 HyperLinkPage.toolTipText.Button=Abrir opciones de hiperlink
 
 ###########################################################
@@ -2042,7 +2047,10 @@ ImportValueDialog.Label.SelectColumn=Seleccionar &columna:
 ImportValueDialog.Label.SelectDataSet=Seleccionar conjunto &de datos:
 ImportValueDialog.Label.SelectValue=Se&leccionar o introducir el valor que se debe agregar
 ImportValueDialog.Title=Importar valores
-
+ImportValueDialog.Button.Add.ToolTip=Añadir
+ImportValueDialog.Button.AddAll.ToolTip=Add All
+ImportValueDialog.Button.Remove.ToolTip=Quitar
+ImportValueDialog.Button.RemoveAll.ToolTip=Quitar todos
 ###########################################################
 #IncludeDetailAction properties
 
@@ -3405,6 +3413,7 @@ UseCssInReportDialog.Error.Already.Include={0} ya se ha incluido
 UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Incluir el archivo CSS en el momento de la visualización (sólo en formato HTML)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=Visualizar la ubicación temporal del archivo CSS:
 UseCssInReportDialog.Dialog.Label.example=por ejemplo, http://mydomain/test.css, myfolder/test/css
+UseCssInReportDialog.Dialog.Label.Theme.Text=&Theme:
 UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=Utilizar el archivo CSS en la librería de informes
@@ -3976,7 +3985,7 @@ ClassFinder.ErrorMessage=No se ha encontrado ninguna clase
 
 ###########################################################
 #ListingSectionPage
-ListingSectionPage.RepeatHeader=Repetir encabezado
+ListingSectionPage.RepeatHeader=&Repeat Header
 
 ###########################################################
 #ResourceEditDialog
@@ -4250,9 +4259,8 @@ BIRTGotoMarker.Error.Message=El elemento de informe no existe.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=Las propiedades no están disponibles
-TabbedPropertyTitle.Button.Default.Text=Predeterminado 
+TabbedPropertyTitle.Button.Default.Text=Defa&ult
 TabbedPropertyTitle.Button.Default.TooltipText=Restaurar las propiedades de estilo de la página actual a los parámetros predeterminados
-
 
 ###########################################################
 #Sample Reports View properties
@@ -4391,6 +4399,7 @@ FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM dd, a
 FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
 FormatDateTimePattern.pattern.datetiem_format_type_secontds=seg
 FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS
+FormatDescriptorProvider.DisplayName.None=Automático
 
 ReportExamples.ContributeSamples.description=Envíe una entrada de Bugzilla a {0}Envíe un error a BIRT{1}.\nAdjunte el archivo de diseño de informe y la captura de pantalla de la salida de informe.\n\n Nota: La captura de pantalla debe tener estas características:\n  1. Formato de imagen *.png;\n  2. Resolución de 800*600;\n  3. Tamaño inferior a 250 KB.
 ReportExamples.ContributeSamples.title=Muestras de aportación

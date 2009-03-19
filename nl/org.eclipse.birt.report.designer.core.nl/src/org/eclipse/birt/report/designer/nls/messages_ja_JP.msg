@@ -218,8 +218,8 @@ BgImageFieldEditor.displayname.Browse=QÆ(&W)...
 ###########################################################
 #BindingPage properties
 
-BindingPage.Dataset.Label=ƒf[ƒ^ƒZƒbƒg :
-BindingPage.ReportItem.Label=ƒŒƒ|[ƒg€–Ú :
+BindingPage.Dataset.Label=Da&ta Set:
+BindingPage.ReportItem.Label=Report &Item:
 BindingPage.ReportItem.NoName=–¼Ì–¢w’è
 BindingPage.Label.Binding=ƒoƒCƒ“ƒh
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding ‚Ì•Û‘¶
@@ -1118,16 +1118,16 @@ Element.ListingGroup.pageBreakBefore=Ÿ‚Ì‘O‚Å‰üƒy[ƒW :
 Element.ListingGroup.sort=ƒ\[ƒg :
 Element.ListingGroup.sortDirection=ƒ\[ƒg•ûŒü :
 Element.ListingGroup.toc=–ÚŸ :
-Element.MasterPage.bottomMargin=‰º—]”’ :
+Element.MasterPage.bottomMargin=&Bottom margin:
 Element.MasterPage.columns=—ñ :
 Element.MasterPage.columnSpacing=—ñ‚ÌŠÔŠu :
 Element.MasterPage.height=‚‚³ (&E):
-Element.MasterPage.leftMargin=¶—]”’ :
+Element.MasterPage.leftMargin=&Left margin:
 Element.MasterPage.margin=—]”’ :
 Element.MasterPage.orientation=Œü‚«(&R) : 
-Element.MasterPage.rightMargin=‰E—]”’ :
+Element.MasterPage.rightMargin=&Right margin:
 Element.MasterPage.slot.contents=ƒRƒ“ƒeƒ“ƒc :
-Element.MasterPage.topMargin=ã—]”’ :
+Element.MasterPage.topMargin=&Top margin:
 Element.MasterPage.type=Œ^(&Y) : 
 Element.MasterPage.width=• (&W):
 Element.Module.author=ì¬Ò(&U) :
@@ -1585,6 +1585,7 @@ FontSizeBuilder.displayname.Auto=©“®
 ###########################################################
 #FormatBuilder properties
 
+FormatAdapter.DisplayName.None=©“®
 FormatBuilder.Title=‘®ƒrƒ‹ƒ_
 
 ###########################################################
@@ -1599,6 +1600,7 @@ FormatDateTimePage.label.custom.settings.label=ƒTƒ“ƒvƒ‹‚Ì‘® (Ÿ‚Ì‚¢‚¸‚ê‚©‚ğƒRƒ
 FormatDateTimePage.label.custom.settings=ƒJƒXƒ^ƒ€İ’è
 FormatDateTimePage.label.format.code=‘®ƒR[ƒh(&C) :
 FormatDateTimePage.label.format.page=‘®İ’è(&F) :
+FormatDateTimePage.label.format.locale=&Locale:
 FormatDateTimePage.label.general.preview.group=‘®•t‚«ƒvƒŒƒrƒ…[
 
 ###########################################################
@@ -1639,6 +1641,7 @@ FormatNumberPage.label.decimal.places=¬”“_ˆÈ‰º‚ÌŒ…”(&D) :
 FormatNumberPage.label.fixed.settings=ŒÅ’èİ’è
 FormatNumberPage.label.format.code=‘®ƒR[ƒh(&C) :
 FormatNumberPage.label.format.number.page=‘®İ’è(&F) :
+FormatNumberPage.label.format.number.locale=&Locale:
 FormatNumberPage.label.general.preview.group=‘®•t‚«ƒvƒŒƒrƒ…[
 FormatNumberPage.label.negative.numbers=•‰‚Ì”’l(&N) : 
 FormatNumberPage.label.percent.settings=ƒp[ƒZƒ“ƒg‚Ìİ’è
@@ -1680,6 +1683,7 @@ FormatStringPage.label.custom.settings.label=ƒTƒ“ƒvƒ‹‚Ì‘® (Ÿ‚Ì‚¢‚¸‚ê‚©‚ğƒRƒs
 FormatStringPage.label.customSettings=ƒJƒXƒ^ƒ€İ’è
 FormatStringPage.label.format.code=‘®ƒR[ƒh(&C) :
 FormatStringPage.label.formatStringAs=‘®İ’è(&F) :
+FormatStringPage.label.locale=&Locale:
 FormatStringPage.label.preview.group=ƒvƒŒƒrƒ…[
 FormatStringPage.label.preview.string=ƒvƒŒƒrƒ…[‚·‚é•¶š—ñ(&P) : 
 FormatStringPage.label.previewWithFormat=‘®•t‚«ƒvƒŒƒrƒ…[
@@ -1953,6 +1957,7 @@ HyperlinkBuilder.TargetReportFormat=ƒ^[ƒQƒbƒgƒŒƒ|[ƒg‚ÌŒ`®İ’è(&F) :
 HyperLinkPage.Label.LnikTo=ƒŠƒ“ƒNæ(&L) :
 HyperLinkPage.Label.None=‚È‚µ
 HyperLinkPage.Menu.Save=ƒnƒCƒp[ƒŠƒ“ƒN‚Ì•ÏX
+HyperLinkPage.Button.Text=Edi&t...
 HyperLinkPage.toolTipText.Button=ƒnƒCƒp[ƒŠƒ“ƒN‚ÌƒIƒvƒVƒ‡ƒ“‚ğŠJ‚­@
 
 ###########################################################
@@ -2042,7 +2047,10 @@ ImportValueDialog.Label.SelectColumn=—ñ‚ğ‘I‘ğ(&C) :
 ImportValueDialog.Label.SelectDataSet=ƒf[ƒ^ƒZƒbƒg‚ğ‘I‘ğ(&D) :
 ImportValueDialog.Label.SelectValue=’Ç‰Á‚·‚é’l‚ğ‘I‘ğE“ü—Í(&S)
 ImportValueDialog.Title=’l‚ÌƒCƒ“ƒ|[ƒg
-
+ImportValueDialog.Button.Add.ToolTip=’Ç‰Á
+ImportValueDialog.Button.AddAll.ToolTip=Add All
+ImportValueDialog.Button.Remove.ToolTip=íœ
+ImportValueDialog.Button.RemoveAll.ToolTip=‚·‚×‚Äíœ
 ###########################################################
 #IncludeDetailAction properties
 
@@ -3405,6 +3413,7 @@ UseCssInReportDialog.Error.Already.Include={0} ‚Í‚·‚Å‚É’Ç‰Á‚³‚ê‚Ä‚¢‚Ü‚·B
 UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=•\¦‚É CSS ƒtƒ@ƒCƒ‹‚ğƒCƒ“ƒNƒ‹[ƒh‚·‚é (HTML Œ`®‚Ì‚İ)(&I)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=•\¦‚Ég—p‚·‚é CSS ƒtƒ@ƒCƒ‹‚ÌêŠ :
 UseCssInReportDialog.Dialog.Label.example=—á : http://mydomain/test.cssAmyfolder/test/css
+UseCssInReportDialog.Dialog.Label.Theme.Text=&Theme:
 UseCssInReportDialog.Dialog.Text.uri=URI(&U) :
 
 UseCssInThemeDialog.TitleArea.Title=ƒŒƒ|[ƒgƒ‰ƒCƒuƒ‰ƒŠ‚Å CSS ƒtƒ@ƒCƒ‹‚ğg—p
@@ -3976,7 +3985,7 @@ ClassFinder.ErrorMessage=ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 
 ###########################################################
 #ListingSectionPage
-ListingSectionPage.RepeatHeader=ƒwƒbƒ_‚ÌŒJ‚è•Ô‚µ
+ListingSectionPage.RepeatHeader=&Repeat Header
 
 ###########################################################
 #ResourceEditDialog
@@ -4250,9 +4259,8 @@ BIRTGotoMarker.Error.Message=ƒŒƒ|[ƒg—v‘f‚Í‘¶İ‚µ‚Ü‚¹‚ñB
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=ƒvƒƒpƒeƒB‚ª‚ ‚è‚Ü‚¹‚ñB
-TabbedPropertyTitle.Button.Default.Text=ƒfƒtƒHƒ‹ƒg 
+TabbedPropertyTitle.Button.Default.Text=Defa&ult
 TabbedPropertyTitle.Button.Default.TooltipText=Œ»İ‚Ìƒy[ƒW‚ÌƒXƒ^ƒCƒ‹ƒvƒƒpƒeƒB‚ğƒfƒtƒHƒ‹ƒg‚Ìİ’è‚É–ß‚·
-
 
 ###########################################################
 #Sample Reports View properties
@@ -4391,6 +4399,7 @@ FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=yy MMMM dd
 FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
 FormatDateTimePattern.pattern.datetiem_format_type_secontds=ss
 FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS
+FormatDescriptorProvider.DisplayName.None=©“®
 
 ReportExamples.ContributeSamples.description=Bugzilla ‚ÌƒGƒ“ƒgƒŠ‚ÍA{0}ƒoƒO‚ğ BIRT ‚É‘—‚é{1}‚É‘—M‚µ‚Ä‚­‚¾‚³‚¢B\n“¯‚ÉAƒŒƒ|[ƒgƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÆAƒŒƒ|[ƒgo—Í‚ÌƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒg‚à“Y•t‚µ‚Ä‚­‚¾‚³‚¢B\n\n’ : ƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒg‚ÍAˆÈ‰º‚ÌğŒ‚ğ–‚½‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚·B\n  1. ƒtƒ@ƒCƒ‹Œ`®: *.png\n  2. ‰ğ‘œ“x : 800 x 600\n  3. ƒTƒCƒY : 250 KB ˆÈ“à
 ReportExamples.ContributeSamples.title=ƒTƒ“ƒvƒ‹‚Ì’ñ‹Ÿ
