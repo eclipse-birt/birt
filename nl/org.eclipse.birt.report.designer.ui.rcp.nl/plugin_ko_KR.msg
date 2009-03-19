@@ -14,8 +14,8 @@
 ###############################################################################
 Build=@BUILD@
 About=Business Intelligence and Reporting Tools
-ApplicationName=BIRT RCP Designer
-ReportPerspective=BIRT RCP Designer
+ApplicationName=BIRT Report Designer
+ReportPerspective=BIRT Report Designer
 CHEAT_SHEETS=치트 시트
 CHEAT_SHEETS_MENU=치트 시트(&C)...
 ReportEditor=보고서 편집기

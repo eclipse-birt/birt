@@ -14,8 +14,8 @@
 ###############################################################################
 Build=@BUILD@
 About=Business Intelligence and Reporting Tools
-ApplicationName=BIRT RCP Designer
-ReportPerspective=BIRT RCP Designer
+ApplicationName=BIRT Report Designer
+ReportPerspective=BIRT Report Designer
 CHEAT_SHEETS=Feuilles de fraude
 CHEAT_SHEETS_MENU=&Feuilles de fraude...
 ReportEditor=Editeur d'état
