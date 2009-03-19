@@ -2,7 +2,7 @@
 # Workbench Actions
 # ==============================================================================
 
-Workbench_title = BIRT RCP Designer
+Workbench_title = BIRT Report Designer
 
 # --- File Menu ---
 Workbench_file = нд╪Ч(&F)
