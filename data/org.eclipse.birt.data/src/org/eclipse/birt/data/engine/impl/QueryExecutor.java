@@ -471,18 +471,19 @@ public abstract class QueryExecutor implements IQueryExecutor
 				String expr = getGroupKeyExpression( src );
 				
 				String groupName = populateGroupName( i, expr );
+				int dataType = getColumnDataType( cx, expr );
 				
 				IQuery.GroupSpec dest = QueryExecutorUtil.groupDefnToSpec( cx,
 						src,
 						expr,
 						groupName,
 						-1,
+						dataType,
 						this.baseQueryDefn.getQueryExecutionHints( ) == null
 								? true
 								: this.baseQueryDefn.getQueryExecutionHints( )
 										.doSortBeforeGrouping( ) );
 				
-				int dataType = getColumnDataType( cx, expr );
 				groupSpecs[i] = dest;
 				this.temporaryComputedColumns.add( getComputedColumnInstance( cx,
 						groupSpecs[i].getInterval( ),
@@ -576,7 +577,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		{
 			return new ComputedColumn( groupName,
 					expr,
-					QueryExecutorUtil.getTempComputedColumnType( interval ) );
+					dataType );
 		}
 	}
 
@@ -839,8 +840,10 @@ public abstract class QueryExecutor implements IQueryExecutor
 			List queryFilters, List temporaryComputedColumns ) throws DataException
 	{
 		List result = new ArrayList( );
-		prepareFilter( cx, dataSetFilters, temporaryComputedColumns, result );
-		prepareFilter( cx, queryFilters, temporaryComputedColumns, result );
+		List allFilter = new ArrayList();
+		allFilter.addAll( dataSetFilters );
+		allFilter.addAll( queryFilters );
+		prepareFilter( cx, allFilter, temporaryComputedColumns, result );
 		return result;
 	}
 
