@@ -153,7 +153,7 @@ NewCubeAction.DataCube=多维数据集
 
 ###########################################################
 #CubePageGenerator properties
-PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=主数据集:
+PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=&Primary Data Set:
 CubePageGenerator.List.General=常规
 
 ############################################################

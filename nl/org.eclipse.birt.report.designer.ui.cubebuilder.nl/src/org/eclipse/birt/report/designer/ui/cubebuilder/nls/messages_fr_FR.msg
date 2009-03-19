@@ -153,7 +153,7 @@ NewCubeAction.DataCube=Cube de données
 
 ###########################################################
 #CubePageGenerator properties
-PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=Jeu de données principal :
+PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=&Primary Data Set:
 CubePageGenerator.List.General=Général
 
 ############################################################
