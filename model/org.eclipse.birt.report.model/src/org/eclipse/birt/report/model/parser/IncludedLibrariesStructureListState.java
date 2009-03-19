@@ -137,7 +137,7 @@ public class IncludedLibrariesStructureListState
 			foundLib = reloadLibs.get( namespace );
 
 			handler.module.loadLibrarySilently( includeLibrary, foundLib,
-					reloadLibs );
+					reloadLibs, url );
 		}
 	}
 

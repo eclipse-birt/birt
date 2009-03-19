@@ -22,14 +22,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.PropertyResourceBundle;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.activity.ReadOnlyActivityStack;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
-import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -340,10 +338,11 @@ public abstract class Module extends DesignElement
 	protected INameHelper nameHelper = null;
 
 	/**
-	 * Caches the bundle. The key is file name, the value is the list of
-	 * <code>PropertyResourceBundle</code>>.
+	 * Caches the bundles. The key is file name, the value is the list of
+	 * <code>CachedBundles</code>>.
 	 */
-	private Map<String, List<PropertyResourceBundle>> bundles = null;
+
+	private CachedBundles cachedBundles = null;
 
 	private boolean isCached = false;
 
@@ -1554,13 +1553,16 @@ public abstract class Module extends DesignElement
 	 * @param namespace
 	 *            library namespace
 	 * @param reloadLibs
+	 * @param url
+	 *            the found library URL
 	 * @return the loaded library
 	 * @throws DesignFileException
 	 *             if the library file has fatal error.
 	 */
 
 	public Library loadLibrary( String libraryFileName, String namespace,
-			Map<String, Library> reloadLibs ) throws DesignFileException
+			Map<String, Library> reloadLibs, URL url )
+			throws DesignFileException
 	{
 		Module outermostModule = findOutermostModule( );
 
@@ -1579,7 +1581,6 @@ public abstract class Module extends DesignElement
 			return library.contextClone( this );
 		}
 
-		URL url = findResource( libraryFileName, IResourceLocator.LIBRARY );
 		if ( url == null )
 		{
 			DesignParserException ex = new DesignParserException(
@@ -1657,11 +1658,13 @@ public abstract class Module extends DesignElement
 	 *            the matched library
 	 * @param reloadLibs
 	 *            the map contains reload libraries
+	 * @param url
+	 *            the found library URL
 	 * @see #loadLibrary(String, String)
 	 */
 
 	public void loadLibrarySilently( IncludedLibrary includeLibrary,
-			Library foundLib, Map<String, Library> reloadLibs )
+			Library foundLib, Map<String, Library> reloadLibs, URL url )
 	{
 		if ( foundLib != null
 				&& reloadLibs.get( includeLibrary.getNamespace( ) ) != null )
@@ -1676,7 +1679,7 @@ public abstract class Module extends DesignElement
 		try
 		{
 			library = loadLibrary( includeLibrary.getFileName( ),
-					includeLibrary.getNamespace( ), reloadLibs );
+					includeLibrary.getNamespace( ), reloadLibs, url );
 			library.setReadOnly( );
 		}
 		catch ( DesignFileException e )
@@ -2918,61 +2921,6 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
-	 * Caches the propertyResourceBundle list.
-	 * 
-	 * @param baseName
-	 *            the file name
-	 * @param bundleList
-	 *            the propertyResouceBundle list
-	 */
-	public void cachePropertyResourceBundles( String baseName,
-			List<PropertyResourceBundle> bundleList )
-	{
-		if ( getOptions( ) == null
-				|| ( getOptions( ) != null && getOptions( ).useSemanticCheck( ) ) )
-		{
-			return;
-		}
-
-		if ( bundles == null )
-			bundles = new HashMap<String, List<PropertyResourceBundle>>( );
-
-		List<PropertyResourceBundle> cachbundles = bundles.get( fileName );
-		if ( cachbundles == null )
-		{
-
-			bundles.put( fileName, bundleList );
-
-		}
-
-	}
-
-	/**
-	 * Gets the cached PropertyResourceBundle list according to the file name
-	 * and locale.
-	 * 
-	 * @param baseName
-	 *            the file name
-	 * @return PropertyResourceBundle list
-	 */
-	public List<PropertyResourceBundle> getCachePropertyResourceBundles(
-			String baseName )
-	{
-
-		if ( getOptions( ) == null
-				|| ( getOptions( ) != null && getOptions( ).useSemanticCheck( ) ) )
-		{
-			return null;
-		}
-
-		if ( bundles == null )
-			return null;
-
-		return bundles.get( fileName );
-
-	}
-
-	/**
 	 * Determines whether the module has cached values.
 	 * 
 	 * @return <code>true</code> if values have been cached. Otherwise
@@ -3021,5 +2969,28 @@ public abstract class Module extends DesignElement
 		List<DesignElement> elements = new ArrayList<DesignElement>( );
 		elements.addAll( idMap.values( ) );
 		return elements;
+	}
+
+	/**
+	 * Caches the propertyResourceBundle list.
+	 * 
+	 * @param baseName
+	 *            the file name
+	 * @param bundleList
+	 *            the propertyResouceBundle list
+	 */
+
+	public CachedBundles getResourceBundle( )
+	{
+		if ( getOptions( ) == null
+				|| ( getOptions( ) != null && getOptions( ).useSemanticCheck( ) ) )
+		{
+			return null;
+		}
+
+		if ( cachedBundles == null )
+			cachedBundles = new CachedBundles( );
+
+		return cachedBundles;
 	}
 }
