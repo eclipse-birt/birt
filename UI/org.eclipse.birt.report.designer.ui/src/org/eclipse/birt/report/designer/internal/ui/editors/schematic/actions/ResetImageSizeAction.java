@@ -15,11 +15,8 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
-import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemAction;
-import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -30,7 +27,7 @@ public class ResetImageSizeAction extends ContextSelectionAction
 {
 
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ResetImageSizeAction"; //$NON-NLS-1$
-	public static final String LABEL = Messages.getString( Messages.getString("ResetImageSizeAction.label") ); //$NON-NLS-1$
+	public static final String LABEL = Messages.getString( "ResetImageSizeAction.label" ); //$NON-NLS-1$
 
 	/**
 	 * @param part
