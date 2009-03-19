@@ -419,6 +419,7 @@ class ConcreteImageLayout implements ILayout
 				else
 				{
 					parent.add( root );
+					root.finished = true;
 					parent.update( root );
 					return;
 				}
@@ -426,6 +427,7 @@ class ConcreteImageLayout implements ILayout
 			else
 			{
 				parent.add( root );
+				root.finished = true;
 				parent.update( root );
 				return;
 			}
@@ -441,6 +443,7 @@ class ConcreteImageLayout implements ILayout
 					parent.autoPageBreak( );
 				}
 			}
+			root.finished = true;
 			parent.update( root );
 		}
 	}
@@ -512,7 +515,7 @@ class ConcreteImageLayout implements ILayout
 
 		// Adjust the dimension of root.
 		processChartLegend( image, imageArea );
-		root.finished = true;
+		root.finished = false;
 	}
 
 	protected ImageArea createImageArea( IImageContent content )
