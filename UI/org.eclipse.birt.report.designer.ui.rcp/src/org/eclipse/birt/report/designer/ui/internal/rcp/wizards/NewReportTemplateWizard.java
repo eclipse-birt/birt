@@ -304,13 +304,14 @@ public class NewReportTemplateWizard extends Wizard implements
 				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
 						ReportPlugin.getDefault( ).getCommentPreference( ) );
 			}
-
+			setReportSettings( handle );
 			handle.saveAs( file.getAbsolutePath( ) );
 			handle.close( );
 
 		}
 		catch ( Exception e )
 		{
+			ExceptionHandler.handle( e );
 		}
 
 		monitor.worked( 1 );
@@ -330,25 +331,10 @@ public class NewReportTemplateWizard extends Wizard implements
 					{
 						throw new IllegalArgumentException( );
 					}
-
 					// open the editor on the file
-					IEditorPart editorPart = page.openEditor( new ReportEditorInput( file ),
+					page.openEditor( new ReportEditorInput( file ),
 							IReportEditorContants.TEMPLATE_EDITOR_ID,
 							true );
-					ModuleHandle model = SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( );
-					if ( ReportPlugin.getDefault( )
-							.getEnableCommentPreference( ) )
-					{
-						model.setStringProperty( ModuleHandle.COMMENTS_PROP,
-								ReportPlugin.getDefault( )
-										.getCommentPreference( ) );
-					}
-
-					setReportSettings( model );
-					model.save( );
-					editorPart.doSave( null );
-
 				}
 				catch ( Exception e )
 				{

@@ -256,13 +256,14 @@ public class NewTemplateWizard extends NewReportWizard
 				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
 						ReportPlugin.getDefault( ).getCommentPreference( ) );
 			}
-
+			setReportSettings( handle );
 			handle.saveAs( file.getLocation( ).toOSString( ) );
 			handle.close( );
 
 		}
 		catch ( Exception e )
 		{
+			ExceptionHandler.handle( e );
 		}
 
 		// to refresh this project, or file does not exist will be told, though
@@ -281,13 +282,7 @@ public class NewTemplateWizard extends NewReportWizard
 				IWorkbenchPage page = window.getActivePage( );
 				try
 				{
-					IEditorPart editorPart = IDE.openEditor( page, file, true );
-					ModuleHandle handle = SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( );
-					setReportSettings( handle );
-					BasicNewProjectResourceWizard.updatePerspective( getConfigElement( ) );
-					handle.save( );
-					editorPart.doSave( null );
+					IDE.openEditor( page, file, true );
 				}
 				catch ( Exception e )
 				{

@@ -55,8 +55,7 @@ public class WizardReportSettingPage extends WizardPage
 	// private static final String IMAGE_ERROR =
 	// "PublishTemplateAction.wizard.page.imageError";
 
-	
-//	private static final String PAGE_DESC = Messages.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
+	//	private static final String PAGE_DESC = Messages.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
 	private static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.actions.PublishTemplateWizard"; //$NON-NLS-1$
 
 	private static final String STR_EMPTY = ""; //$NON-NLS-1$
@@ -88,14 +87,17 @@ public class WizardReportSettingPage extends WizardPage
 	private static final String[] IMAGE_FILEFILTERS = new String[]{
 		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg" //$NON-NLS-1$
 	};
-	
+
 	private String orientation = null; // bidi_hcg
-	
-	public void setContainerFullPath(IPath path)
+	protected String displayName;
+	protected String description;
+	protected String previewImageFile;
+
+	public void setContainerFullPath( IPath path )
 	{
 		this.containerFullPath = path;
 	}
-	
+
 	public WizardReportSettingPage( ReportDesignHandle handle )
 	{
 		super( "" ); //$NON-NLS-1$
@@ -103,15 +105,18 @@ public class WizardReportSettingPage extends WizardPage
 		pageDesc = null;
 	}
 
-	public void setPageDesc(String pageDesc)
+	public void setPageDesc( String pageDesc )
 	{
 		this.pageDesc = pageDesc;
-		setMessage(pageDesc);
+		setMessage( pageDesc );
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	public void createControl( Composite parent )
 	{
@@ -132,8 +137,9 @@ public class WizardReportSettingPage extends WizardPage
 			{
 				checkStatus( );
 				// Show the most serious error
-				applyToStatusLine( findMostSevere( ) );	
+				applyToStatusLine( findMostSevere( ) );
 				getWizard( ).getContainer( ).updateButtons( );
+				displayName = nameText.getText( );
 			}
 		} );
 
@@ -148,13 +154,15 @@ public class WizardReportSettingPage extends WizardPage
 			{
 				checkStatus( );
 				// Show the most serious error
-				applyToStatusLine( findMostSevere( ) );	
+				applyToStatusLine( findMostSevere( ) );
 				getWizard( ).getContainer( ).updateButtons( );
+				description = descText.getText( );
 			}
 		} );
 
 		new Label( container, SWT.NONE ).setText( LABEL_IMAGE );
-		previewImageText = createText( container, 1, 1, SWT.BORDER | SWT.READ_ONLY);
+		previewImageText = createText( container, 1, 1, SWT.BORDER
+				| SWT.READ_ONLY );
 		if ( module != null && module.getIconFile( ) != null )
 			previewImageText.setText( module.getIconFile( ) );
 		previewImageText.addModifyListener( new ModifyListener( ) {
@@ -163,7 +171,7 @@ public class WizardReportSettingPage extends WizardPage
 			{
 				checkStatus( );
 				// Show the most serious error
-				applyToStatusLine( findMostSevere( ) );	
+				applyToStatusLine( findMostSevere( ) );
 				getWizard( ).getContainer( ).updateButtons( );
 				validate( );
 			}
@@ -183,6 +191,7 @@ public class WizardReportSettingPage extends WizardPage
 				{
 					fileName = dlg.getPath( );
 					previewImageText.setText( fileName );
+					previewImageFile = fileName;
 				}
 
 			}
@@ -192,7 +201,7 @@ public class WizardReportSettingPage extends WizardPage
 
 			}
 		} );
-		
+
 		nameText.forceFocus( );
 		setControl( container );
 
@@ -202,20 +211,17 @@ public class WizardReportSettingPage extends WizardPage
 
 	public String getDisplayName( )
 	{
-		return nameText.getText( ) == null ? STR_EMPTY : nameText.getText( )
-				.trim( );
+		return displayName == null ? STR_EMPTY : displayName.trim( );
 	}
 
 	public String getDescription( )
 	{
-		return descText.getText( ) == null ? STR_EMPTY : descText.getText( )
-				.trim( );
+		return description == null ? STR_EMPTY : description.trim( );
 	}
 
 	public String getPreviewImagePath( )
 	{
-		return previewImageText.getText( ) == null ? STR_EMPTY
-				: previewImageText.getText( ).trim( );
+		return previewImageFile == null ? STR_EMPTY : previewImageFile.trim( );
 	}
 
 	private Text createText( Composite container, int column, int row )
@@ -271,9 +277,10 @@ public class WizardReportSettingPage extends WizardPage
 		else
 		// If preview image file is not empty, then need to check whether it
 		// exist or it's an iamge.
-		if ( !isTextEmpty( previewImageText ) && (module != null && module.getIconFile( ) == null) )
+		if ( !isTextEmpty( previewImageText )
+				&& ( module != null && module.getIconFile( ) == null ) )
 		{
-			if(imageFileName.equals( Messages.getString( "ThumbnailBuilder.Image.DefaultName" ) )) //$NON-NLS-1$
+			if ( imageFileName.equals( Messages.getString( "ThumbnailBuilder.Image.DefaultName" ) ) ) //$NON-NLS-1$
 			{
 				status = new Status( IStatus.ERROR,
 						PLUGIN_ID,
@@ -282,8 +289,7 @@ public class WizardReportSettingPage extends WizardPage
 						null );
 				previewImageStatus = status;
 			}
-			else
-			if ( ( !new File( imageFileName ).exists( ) )
+			else if ( ( !new File( imageFileName ).exists( ) )
 					&& ( !new File( ReportPlugin.getDefault( )
 							.getResourceFolder( ), imageFileName ).exists( ) )
 					&& ( !new File( UIUtil.getFragmentDirectory( ),
@@ -376,9 +382,9 @@ public class WizardReportSettingPage extends WizardPage
 	 */
 	public boolean canFinish( )
 	{
-		checkStatus();
-		if (( nameStatus != null && nameStatus.getSeverity( ) == IStatus.ERROR)
-				||(previewImageStatus != null && previewImageStatus.getSeverity( ) == IStatus.ERROR ))
+		checkStatus( );
+		if ( ( nameStatus != null && nameStatus.getSeverity( ) == IStatus.ERROR )
+				|| ( previewImageStatus != null && previewImageStatus.getSeverity( ) == IStatus.ERROR ) )
 		{
 			return false;
 		}
@@ -406,10 +412,10 @@ public class WizardReportSettingPage extends WizardPage
 		if ( visible )
 		{
 			nameText.forceFocus( );
-		//	getControl( ).setFocus( );
+			// getControl( ).setFocus( );
 		}
 	}
-	
+
 	/**
 	 * @return the orientation
 	 */
@@ -419,7 +425,8 @@ public class WizardReportSettingPage extends WizardPage
 	}
 
 	/**
-	 * @param orientation the orientation to set
+	 * @param orientation
+	 *            the orientation to set
 	 */
 	public void setOrientation( String orientation )
 	{
