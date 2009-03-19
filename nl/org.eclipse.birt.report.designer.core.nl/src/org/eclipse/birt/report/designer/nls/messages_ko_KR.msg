@@ -1191,7 +1191,7 @@ Element.ReportDesign.displayName=표시 이름(&Y):
 Element.ReportDesign.eventHandlerClass=이벤트 처리기 클래스(&C): 
 Element.ReportDesign.iconFile=섬네일(&N): 
 Element.ReportDesign.refreshRate=새로 고침 빈도:
-Element.ReportDesign.bidiLayoutOrientation=&Report Orientation:
+Element.ReportDesign.bidiLayoutOrientation=보고서 방향(&R):
 Element.ReportElement.comments=설명(&C):
 Element.ReportElement.Cube=데이터(&D):
 Element.ReportElement.customXml=사용자 지정 XML:
@@ -1264,7 +1264,7 @@ Element.Style.background.repeat=반복(&R):
 Element.Style.background=배경:
 Element.Style.border.bottom.color=아래(&M):
 Element.Style.border.bottom.style=아래(&B):
-Element.Style.border.bottom.width=Bottom&:
+Element.Style.border.bottom.width=아래쪽&:
 Element.Style.border.fillColor=테두리 채우기 색:
 Element.Style.border.hmiddle.color=테두리 가로 중간 색:
 Element.Style.border.hmiddle.style=테두리 가로 중간 스타일:
@@ -1703,7 +1703,7 @@ FormPage.Button.Add=추가(&A)
 FormPage.Button.AddWithDialog=추가(&A)...
 FormPage.Button.AddWithDialog.JAR=추가(&A)... 
 FormPage.Button.AddWithDialog.JS=추가(&D)... 
-FormPage.Button.Add.AggregateOn=Add A&ggregation
+FormPage.Button.Add.AggregateOn=집계 추가(&G)
 FormPage.Button.AddWithDialog.AggregateOn=집계 추가(&G)...
 FormPage.Button.Delete=제거(&R)
 FormPage.Button.Delete.Alt1=제거(&V) 
@@ -2432,7 +2432,7 @@ FilterConditionBuilder.label.value=값
 FilterConditionBuilder.multipleValue.label=값(&V)
 FilterConditionBuilder.multipleValue.button.add=추가(&A)
 FilterConditionBuilder.multipleValue.button.remove=제거(&R)
-FilterConditionBuilder.multipleValue.button.removeAll=Re&move All
+FilterConditionBuilder.multipleValue.button.removeAll=모두 제거(&M)
 FilterConditionBuilder.multipleValue.button.edit=편집(&D)...
 
 ###########################################################
@@ -2667,14 +2667,14 @@ NoneAction.text=없음
 OutputColumnDefnPage.description=반입 스크립트가 생성하는 출력 열 정의 입력: 
 OutputColumnDefnPage.OutputColumns.Tooltip=데이터 행 내 열 보기 및 정의 
 OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 존재합니다!
-OutputColumnPage.error.createNewColumn=Some error happened during a new column being added.
-OutputColumnPage.error.invalidSelection=No valid table item is selected.
+OutputColumnPage.error.createNewColumn=새 열이 추가되는 동안 오류가 발생했습니다.
+OutputColumnPage.error.invalidSelection=잘못된 테이블 항목이 선택되었습니다.
 
 ###########################################################
 #ColumnDefPage properties
 
-ColumnDefPage.description=Script data set output column definition page
-ColumnDefPage.title=Output columns 
+ColumnDefPage.description=스크립트 데이터 집합의 출력 열 정의 페이지
+ColumnDefPage.title=출력 열 
 
 ###########################################################
 #ResultSetColumnPage properties
@@ -2685,16 +2685,16 @@ ResultSetColumnPage.button.delete=삭제(&D)
 ResultSetColumnPage.button.up=위로(&U)
 ResultSetColumnPage.button.down=아래로(&W)
 
-ResultSetColumnPage.inputDialog.newColumn.title=New Script Data Set Column
-ResultSetColumnPage.inputDialog.editColumn.title=Edit Script Data Set Column
-ResultSetColumnPage.inputDialog.label.columnName=&Column Name: 
-ResultSetColumnPage.inputDialog.label.dataType=Data &Type: 
-ResultSetColumnPage.inputDialog.label.alias=Column &Alias: 
-ResultSetColumnPage.inputDialog.label.displayName=&Display Name: 
-ResultSetColumnPage.inputDialog.warning.emptyColumnName=The column name is required to input.
-ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=The column name and its alias should not be the same.
-ResultSetColumnPage.inputDialog.error.duplicatedColumnName=The column name "{0}" has already been in use.
-ResultSetColumnPage.inputDialog.error.duplicatedAlias=The column alias "{0}" has already been in use.
+ResultSetColumnPage.inputDialog.newColumn.title=새 스크립트 데이터 집합 열
+ResultSetColumnPage.inputDialog.editColumn.title=스크립트 데이터 집합 열 편집
+ResultSetColumnPage.inputDialog.label.columnName=열 이름(&C): 
+ResultSetColumnPage.inputDialog.label.dataType=데이터 형식(&T): 
+ResultSetColumnPage.inputDialog.label.alias=열 별칭(&A): 
+ResultSetColumnPage.inputDialog.label.displayName=표시 이름(&D): 
+ResultSetColumnPage.inputDialog.warning.emptyColumnName=열 이름을 입력해야 합니다.
+ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=열 이름 및 별칭이 같을 수 없습니다.
+ResultSetColumnPage.inputDialog.error.duplicatedColumnName=열 이름 "{0}"이(가) 이미 사용되고 있습니다.
+ResultSetColumnPage.inputDialog.error.duplicatedAlias=열 별칭 "{0}"이(가) 이미 사용되고 있습니다.
 
 ###########################################################
 #OutputColumnPage properties
@@ -3236,9 +3236,9 @@ TemplateReportItemPageGenerator.List.TextKey=텍스트 키:
 ReportPropertySheetPage.Column.Title.Property=속성
 ReportPropertySheetPage.Column.Title.Value=값
 ReportPropertySheetPage.Root.Default.Title=정보
-ReportPropertySheetPage.Tooltip.Alphabetic=Sort by alphabetic
-ReportPropertySheetPage.Tooltip.Group=Sort by group
-ReportPropertySheetPage.Tooltip.Local=Show local properties
+ReportPropertySheetPage.Tooltip.Alphabetic=알파벳순으로 정렬
+ReportPropertySheetPage.Tooltip.Group=그룹별로 정렬
+ReportPropertySheetPage.Tooltip.Local=로컬 속성 표시
 ReportPropertySheetPage.Value.Inherited=상속됨
 
 ###########################################################
@@ -3343,7 +3343,7 @@ SchematicContextMenuProvider.Menu.Show=표시
 SchematicContextMenuProvider.Menu.Style=스타일(&Y)
 SchematicContextMenuProvider.Menu.Style.Apply=스타일 적용(&P)
 SchematicContextMenuProvider.Menu.Theme=테마(&M)
-SchematicContextMenuProvider.Menu.Theme.Apply=A&pply Theme
+SchematicContextMenuProvider.Menu.Theme.Apply=테마 적용(&P)
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -4486,9 +4486,9 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=내보낸 이미지에서 참조
 NewStyleHandler.transaction.label=새 스타일...
 
 AdvancePropertyDescriptorProvider.DisplayName=고급
-AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=Sort by alphabetic
-AdvancePropertyDescriptorProvider.Tooltip.Group=Sort by group
-AdvancePropertyDescriptorProvider.Tooltip.Local=Show local properties
+AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=알파벳순으로 정렬
+AdvancePropertyDescriptorProvider.Tooltip.Group=그룹별로 정렬
+AdvancePropertyDescriptorProvider.Tooltip.Local=로컬 속성 표시
 PropertyEditorFactory.Boolean.True=true
 PropertyEditorFactory.Boolean.False=false
 PropertyEditorFactory.Value.Auto=자동

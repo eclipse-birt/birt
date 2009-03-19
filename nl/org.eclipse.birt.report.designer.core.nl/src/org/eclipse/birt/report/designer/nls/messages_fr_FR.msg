@@ -1191,7 +1191,7 @@ Element.ReportDesign.displayName=Nom d'afficha&ge :
 Element.ReportDesign.eventHandlerClass=&Classe de gestionnaire d'événements : 
 Element.ReportDesign.iconFile=Mi&niature : 
 Element.ReportDesign.refreshRate=Fréquence d'actualisation :
-Element.ReportDesign.bidiLayoutOrientation=&Report Orientation:
+Element.ReportDesign.bidiLayoutOrientation=O&rientation de l'état :
 Element.ReportElement.comments=&Commentaires :
 Element.ReportElement.Cube=&Données :
 Element.ReportElement.customXml=XML personnalisé :
@@ -1264,7 +1264,7 @@ Element.Style.background.repeat=&Répéter :
 Element.Style.background=Arrière-plan :
 Element.Style.border.bottom.color=Ba&s :
 Element.Style.border.bottom.style=&Bas :
-Element.Style.border.bottom.width=Bottom&:
+Element.Style.border.bottom.width=&Bas :
 Element.Style.border.fillColor=Couleur de remplissage de bordure :
 Element.Style.border.hmiddle.color=Couleur de milieu de bordure à l'horizontale :
 Element.Style.border.hmiddle.style=Style de milieu de bordure à l'horizontale :
@@ -1703,7 +1703,7 @@ FormPage.Button.Add=&Ajouter
 FormPage.Button.AddWithDialog=&Ajouter...
 FormPage.Button.AddWithDialog.JAR=&Ajouter... 
 FormPage.Button.AddWithDialog.JS=&Ajouter... 
-FormPage.Button.Add.AggregateOn=Add A&ggregation
+FormPage.Button.Add.AggregateOn=Ajouter l'a&grégation
 FormPage.Button.AddWithDialog.AggregateOn=Ajouter l'a&grégation...
 FormPage.Button.Delete=&Supprimer
 FormPage.Button.Delete.Alt1=Suppri&mer 
@@ -2376,7 +2376,7 @@ MapRuleBuilder.DialogTitle.New=Nouvelle règle de mappage
 MapRuleBuilder.DialogTitle.Edit=Modifier la règle de mappage
 MapRuleBuilder.Button.ResourceKey=Clé de &ressource :
 MapRuleBuilder.Button.Reset=&Réinitialiser
-MapRuleBuilder.Button.Browse=& Parcourir...
+MapRuleBuilder.Button.Browse=&Parcourir...
 MapRuleBuilder.Button.Browse.Tooltip=Parcourir et sélectionner une clé
 
 MapRuleBuilderDialog.text.Between=est compris entre
@@ -2432,8 +2432,8 @@ FilterConditionBuilder.label.value=Valeur
 FilterConditionBuilder.multipleValue.label=&Valeur
 FilterConditionBuilder.multipleValue.button.add=&Ajouter
 FilterConditionBuilder.multipleValue.button.remove=Supp&rimer
-FilterConditionBuilder.multipleValue.button.removeAll=Re&move All
-FilterConditionBuilder.multipleValue.button.edit=&Modifier...
+FilterConditionBuilder.multipleValue.button.removeAll=Tout suppri&mer
+FilterConditionBuilder.multipleValue.button.edit=Mo&difier...
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -2667,14 +2667,14 @@ NoneAction.text=Aucun
 OutputColumnDefnPage.description=Entrer la définition des colonnes de sortie produites par le script de récupération : 
 OutputColumnDefnPage.OutputColumns.Tooltip=Afficher et définir les colonnes au sein d'une ligne de données 
 OutputColumnPage.OutputColumns.DuplicatedName=Ce nom a déjà existé.
-OutputColumnPage.error.createNewColumn=Some error happened during a new column being added.
-OutputColumnPage.error.invalidSelection=No valid table item is selected.
+OutputColumnPage.error.createNewColumn=Une erreur s'est produite lors de l'ajout d'une nouvelle colonne.
+OutputColumnPage.error.invalidSelection=Aucun élément de table valide sélectionné.
 
 ###########################################################
 #ColumnDefPage properties
 
-ColumnDefPage.description=Script data set output column definition page
-ColumnDefPage.title=Output columns 
+ColumnDefPage.description=Page de définition de la colonne de sortie du jeu de données de script
+ColumnDefPage.title=Colonnes de sortie 
 
 ###########################################################
 #ResultSetColumnPage properties
@@ -2685,16 +2685,16 @@ ResultSetColumnPage.button.delete=&Supprimer
 ResultSetColumnPage.button.up=&Vers le haut
 ResultSetColumnPage.button.down=&Vers le bas
 
-ResultSetColumnPage.inputDialog.newColumn.title=New Script Data Set Column
-ResultSetColumnPage.inputDialog.editColumn.title=Edit Script Data Set Column
-ResultSetColumnPage.inputDialog.label.columnName=&Column Name: 
-ResultSetColumnPage.inputDialog.label.dataType=Data &Type: 
-ResultSetColumnPage.inputDialog.label.alias=Column &Alias: 
-ResultSetColumnPage.inputDialog.label.displayName=&Display Name: 
-ResultSetColumnPage.inputDialog.warning.emptyColumnName=The column name is required to input.
-ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=The column name and its alias should not be the same.
-ResultSetColumnPage.inputDialog.error.duplicatedColumnName=The column name "{0}" has already been in use.
-ResultSetColumnPage.inputDialog.error.duplicatedAlias=The column alias "{0}" has already been in use.
+ResultSetColumnPage.inputDialog.newColumn.title=Nouvelle colonne de jeu de données de script
+ResultSetColumnPage.inputDialog.editColumn.title=Modifier la colonne de jeu de données de script
+ResultSetColumnPage.inputDialog.label.columnName=Nom de &colonne : 
+ResultSetColumnPage.inputDialog.label.dataType=&Type de données : 
+ResultSetColumnPage.inputDialog.label.alias=&Alias de colonne : 
+ResultSetColumnPage.inputDialog.label.displayName=Nom &d'affichage : 
+ResultSetColumnPage.inputDialog.warning.emptyColumnName=Le nom de la colonne est requis.
+ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=Le nom de colonne et son alias doivent être différents.
+ResultSetColumnPage.inputDialog.error.duplicatedColumnName=Le nom de colonne "{0}" a déjà été utilisé.
+ResultSetColumnPage.inputDialog.error.duplicatedAlias=Le nom d'alias "{0}" a déjà été utilisé.
 
 ###########################################################
 #OutputColumnPage properties
@@ -3236,9 +3236,9 @@ TemplateReportItemPageGenerator.List.TextKey=Clé de texte :
 ReportPropertySheetPage.Column.Title.Property=Propriété
 ReportPropertySheetPage.Column.Title.Value=Valeur
 ReportPropertySheetPage.Root.Default.Title=Infos
-ReportPropertySheetPage.Tooltip.Alphabetic=Sort by alphabetic
-ReportPropertySheetPage.Tooltip.Group=Sort by group
-ReportPropertySheetPage.Tooltip.Local=Show local properties
+ReportPropertySheetPage.Tooltip.Alphabetic=Trier par ordre alphabétique
+ReportPropertySheetPage.Tooltip.Group=Trier par groupe
+ReportPropertySheetPage.Tooltip.Local=Afficher les propriétés locales
 ReportPropertySheetPage.Value.Inherited=Hérité
 
 ###########################################################
@@ -3343,7 +3343,7 @@ SchematicContextMenuProvider.Menu.Show=Afficher
 SchematicContextMenuProvider.Menu.Style=St&yle
 SchematicContextMenuProvider.Menu.Style.Apply=A&ppliquer un style
 SchematicContextMenuProvider.Menu.Theme=Thè&me
-SchematicContextMenuProvider.Menu.Theme.Apply=A&pply Theme
+SchematicContextMenuProvider.Menu.Theme.Apply=A&ppliquer le thème
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -4486,9 +4486,9 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=L'image incorporée réf
 NewStyleHandler.transaction.label=Nouveau style...
 
 AdvancePropertyDescriptorProvider.DisplayName=Avancé
-AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=Sort by alphabetic
-AdvancePropertyDescriptorProvider.Tooltip.Group=Sort by group
-AdvancePropertyDescriptorProvider.Tooltip.Local=Show local properties
+AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=Trier par ordre alphabétique
+AdvancePropertyDescriptorProvider.Tooltip.Group=Trier par groupe
+AdvancePropertyDescriptorProvider.Tooltip.Local=Afficher les propriétés locales
 PropertyEditorFactory.Boolean.True=true
 PropertyEditorFactory.Boolean.False=false
 PropertyEditorFactory.Value.Auto=Auto

@@ -28,30 +28,30 @@ BIRTConfigurationDialog_title=Configurar ajustes de implantación de BIRT
 BIRTConfiguration_group_paths=Ajustes de carpeta de implantación
 BIRTConfiguration_group_others=Otros ajustes
 
-BIRTConfiguration_resource_folder_button_text=Browse&...
-BIRTConfiguration_working_folder_button_text=B&rowse...
-BIRTConfiguration_document_folder_button_text=Br&owse...
-BIRTConfiguration_image_folder_button_text=Bro&wse...
-BIRTConfiguration_scriptlib_folder_button_text=Brow&se...
-BIRTConfiguration_log_folder_button_text=Brows&e...
+BIRTConfiguration_resource_folder_button_text=Examinar&...
+BIRTConfiguration_working_folder_button_text=Examina&r...
+BIRTConfiguration_document_folder_button_text=E&xaminar...
+BIRTConfiguration_image_folder_button_text=E&xaminar...
+BIRTConfiguration_scriptlib_folder_button_text=E&xaminar...
+BIRTConfiguration_log_folder_button_text=E&xaminar...
 
-BIRTConfiguration_resource_label=Reso&urce Folder:
+BIRTConfiguration_resource_label=Carpeta de rec&ursos:
 BIRTConfiguration_resource_dialog_title=Buscar carpeta de recursos
 BIRTConfiguration_resource_dialog_message=Seleccione la carpeta de recursos predeterminada:
 
-BIRTConfiguration_working_label=Wor&king Folder:
+BIRTConfiguration_working_label=Carpe&ta de trabajo:
 BIRTConfiguration_working_dialog_title=Buscar carpeta de trabajo
 BIRTConfiguration_working_dialog_message=Seleccione la carpeta de trabajo predeterminada:
 
-BIRTConfiguration_document_label=Temporary &documents Folder:
-BIRTConfiguration_document_dialog_title=Browse For Temporary Documents Folder
-BIRTConfiguration_document_dialog_message=Please select the default temporary documents folder:
+BIRTConfiguration_document_label=Carpeta de &documentos temporales:
+BIRTConfiguration_document_dialog_title=Buscar la carpeta de documentos temporales
+BIRTConfiguration_document_dialog_message=Seleccione la carpeta de documentos temporales predeterminada:
 
-BIRTConfiguration_image_label=Temporary &images Folder:
-BIRTConfiguration_image_dialog_title=Browse For Temporary Images Folder
-BIRTConfiguration_image_dialog_message=Please select the default temporary images folder:
+BIRTConfiguration_image_label=Carpeta de &imágenes temporales:
+BIRTConfiguration_image_dialog_title=Buscar la carpeta de imágenes temporales
+BIRTConfiguration_image_dialog_message=Seleccione la carpeta de imágenes temporales predeterminada:
 
-BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
+BIRTConfiguration_scriptlib_label=Carpeta de librería de scripts&:
 BIRTConfiguration_scriptlib_dialog_title=Buscar carpeta de librería de scripts
 BIRTConfiguration_scriptlib_dialog_message=Seleccione la carpeta de librería de scripts predeterminada:
 
@@ -59,15 +59,15 @@ BIRTConfiguration_log_label=Carpeta de &registro:
 BIRTConfiguration_log_dialog_title=Buscar carpeta de registro
 BIRTConfiguration_log_dialog_message=Seleccione la carpeta de registro predeterminada:
 
-BIRTConfiguration_report_access_message=Onl&y access the report and document under working folder
+BIRTConfiguration_report_access_message=Acceder sól&o al informe y documento de la carpeta de trabajo
 BIRTConfiguration_overwrite_message=Sobrescribir siempre el &archivo de documento generado
 
 BIRTConfiguration_maxrows_label=Número máximo de filas del conjunto de da&tos:
 BIRTConfiguration_maxrowlevels_label=Niveles de fila de recuperación del cubo &máximos:
-BIRTConfiguration_maxcolumnlevels_label=Ma&x cube fetching column levels:
-BIRTConfiguration_cubememsize_label=Max memory si&ze for creating cube:
+BIRTConfiguration_maxcolumnlevels_label=Niveles de columna de recuperación del cubo &máximos:
+BIRTConfiguration_cubememsize_label=Tamaño de memoria má&ximo para crear el cubo:
 
-BIRTConfiguration_loglevel_label=Select Log Le&vel:
+BIRTConfiguration_loglevel_label=&Seleccionar nivel de registro:
 BIRTConfiguration_loglevel_all=TODOS
 BIRTConfiguration_loglevel_severe=GRAVE
 BIRTConfiguration_loglevel_warning=ADVERTENCIA

@@ -1191,7 +1191,7 @@ Element.ReportDesign.displayName=&Anzeigename:
 Element.ReportDesign.eventHandlerClass=Ereignis-Handler-&Klasse: 
 Element.ReportDesign.iconFile=Mini&atur: 
 Element.ReportDesign.refreshRate=Aktualisierungsrate:
-Element.ReportDesign.bidiLayoutOrientation=&Report Orientation:
+Element.ReportDesign.bidiLayoutOrientation=Be&richtseitenausrichtung:
 Element.ReportElement.comments=&Kommentare:
 Element.ReportElement.Cube=&Daten:
 Element.ReportElement.customXml=Benutzerdefinierte XML:
@@ -1264,7 +1264,7 @@ Element.Style.background.repeat=&Wiederholen:
 Element.Style.background=Hintergrund:
 Element.Style.border.bottom.color=&Unten:
 Element.Style.border.bottom.style=&Unten:
-Element.Style.border.bottom.width=Bottom&:
+Element.Style.border.bottom.width=Unten&:
 Element.Style.border.fillColor=Rahmenfüllfarbe:
 Element.Style.border.hmiddle.color=Farbe für horizontalen mittleren Rahmen:
 Element.Style.border.hmiddle.style=Stil für horizontalen mittleren Rahmen:
@@ -1703,7 +1703,7 @@ FormPage.Button.Add=&Hinzufügen
 FormPage.Button.AddWithDialog=&Hinzufügen...
 FormPage.Button.AddWithDialog.JAR=&Hinzufügen... 
 FormPage.Button.AddWithDialog.JS=&Hinzufügen... 
-FormPage.Button.Add.AggregateOn=Add A&ggregation
+FormPage.Button.Add.AggregateOn=A&ggregat hinzufügen
 FormPage.Button.AddWithDialog.AggregateOn=A&ggregat hinzufügen...
 FormPage.Button.Delete=&Entfernen
 FormPage.Button.Delete.Alt1=Entf&ernen 
@@ -2431,8 +2431,8 @@ FilterConditionBuilder.button.add.tooltip=Wert zur Werteliste hinzufügen
 FilterConditionBuilder.label.value=Wert
 FilterConditionBuilder.multipleValue.label=&Wert
 FilterConditionBuilder.multipleValue.button.add=&Hinzufügen
-FilterConditionBuilder.multipleValue.button.remove=&Entfernen
-FilterConditionBuilder.multipleValue.button.removeAll=Re&move All
+FilterConditionBuilder.multipleValue.button.remove=Entfe&rnen
+FilterConditionBuilder.multipleValue.button.removeAll=Alle ent&fernen
 FilterConditionBuilder.multipleValue.button.edit=&Bearbeiten...
 
 ###########################################################
@@ -2667,14 +2667,14 @@ NoneAction.text=Keine
 OutputColumnDefnPage.description=Definition für Ausgabespalten eingeben, die vom Abrufskript erstellt werden: 
 OutputColumnDefnPage.OutputColumns.Tooltip=Spalten innerhalb einer Datenzeile anzeigen und definieren 
 OutputColumnPage.OutputColumns.DuplicatedName=Der Name existierte bereits!
-OutputColumnPage.error.createNewColumn=Some error happened during a new column being added.
-OutputColumnPage.error.invalidSelection=No valid table item is selected.
+OutputColumnPage.error.createNewColumn=Beim Hinzufügen einer neuen Spalte ist ein Fehler aufgetreten.
+OutputColumnPage.error.invalidSelection=Es ist kein gültiges Tabellenelement ausgewählt.
 
 ###########################################################
 #ColumnDefPage properties
 
-ColumnDefPage.description=Script data set output column definition page
-ColumnDefPage.title=Output columns 
+ColumnDefPage.description=Definitionsseite für Ausgabespalten von Skript-Datensatz
+ColumnDefPage.title=Ausgabespalten 
 
 ###########################################################
 #ResultSetColumnPage properties
@@ -2685,16 +2685,16 @@ ResultSetColumnPage.button.delete=&Löschen
 ResultSetColumnPage.button.up=&Nach oben
 ResultSetColumnPage.button.down=Nach &unten
 
-ResultSetColumnPage.inputDialog.newColumn.title=New Script Data Set Column
-ResultSetColumnPage.inputDialog.editColumn.title=Edit Script Data Set Column
-ResultSetColumnPage.inputDialog.label.columnName=&Column Name: 
-ResultSetColumnPage.inputDialog.label.dataType=Data &Type: 
-ResultSetColumnPage.inputDialog.label.alias=Column &Alias: 
-ResultSetColumnPage.inputDialog.label.displayName=&Display Name: 
-ResultSetColumnPage.inputDialog.warning.emptyColumnName=The column name is required to input.
-ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=The column name and its alias should not be the same.
-ResultSetColumnPage.inputDialog.error.duplicatedColumnName=The column name "{0}" has already been in use.
-ResultSetColumnPage.inputDialog.error.duplicatedAlias=The column alias "{0}" has already been in use.
+ResultSetColumnPage.inputDialog.newColumn.title=Neue Skript-Datensatzspalte
+ResultSetColumnPage.inputDialog.editColumn.title=Skript-Datensatzspalte bearbeiten
+ResultSetColumnPage.inputDialog.label.columnName=&Spaltenname: 
+ResultSetColumnPage.inputDialog.label.dataType=Daten&typ: 
+ResultSetColumnPage.inputDialog.label.alias=Spalten&alias: 
+ResultSetColumnPage.inputDialog.label.displayName=&Anzeigename: 
+ResultSetColumnPage.inputDialog.warning.emptyColumnName=Eingabe des Spaltennamens erforderlich.
+ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=Spaltenname und Spaltenalias dürfen nicht identisch sein.
+ResultSetColumnPage.inputDialog.error.duplicatedColumnName=Spaltenname '{0}' wurde bereits verwendet.
+ResultSetColumnPage.inputDialog.error.duplicatedAlias=Spaltenalias '{0}' wurde bereits verwendet.
 
 ###########################################################
 #OutputColumnPage properties
@@ -3236,9 +3236,9 @@ TemplateReportItemPageGenerator.List.TextKey=Textschlüssel:
 ReportPropertySheetPage.Column.Title.Property=Eigenschaft
 ReportPropertySheetPage.Column.Title.Value=Wert
 ReportPropertySheetPage.Root.Default.Title=Info
-ReportPropertySheetPage.Tooltip.Alphabetic=Sort by alphabetic
-ReportPropertySheetPage.Tooltip.Group=Sort by group
-ReportPropertySheetPage.Tooltip.Local=Show local properties
+ReportPropertySheetPage.Tooltip.Alphabetic=Alphabetisch sortieren
+ReportPropertySheetPage.Tooltip.Group=Nach Gruppe sortieren
+ReportPropertySheetPage.Tooltip.Local=Lokale Eigenschaften anzeigen
 ReportPropertySheetPage.Value.Inherited=Übernommen
 
 ###########################################################
@@ -3343,7 +3343,7 @@ SchematicContextMenuProvider.Menu.Show=Anzeigen
 SchematicContextMenuProvider.Menu.Style=S&til
 SchematicContextMenuProvider.Menu.Style.Apply=Stil an&wenden
 SchematicContextMenuProvider.Menu.Theme=The&ma
-SchematicContextMenuProvider.Menu.Theme.Apply=A&pply Theme
+SchematicContextMenuProvider.Menu.Theme.Apply=Thema ver&wenden
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -4486,9 +4486,9 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=Das eingebettete Bild,
 NewStyleHandler.transaction.label=Neuer Stil...
 
 AdvancePropertyDescriptorProvider.DisplayName=Erweitert
-AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=Sort by alphabetic
-AdvancePropertyDescriptorProvider.Tooltip.Group=Sort by group
-AdvancePropertyDescriptorProvider.Tooltip.Local=Show local properties
+AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=Alphabetisch sortieren
+AdvancePropertyDescriptorProvider.Tooltip.Group=Nach Gruppe sortieren
+AdvancePropertyDescriptorProvider.Tooltip.Local=Lokale Eigenschaften anzeigen
 PropertyEditorFactory.Boolean.True=true
 PropertyEditorFactory.Boolean.False=false
 PropertyEditorFactory.Value.Auto=Automatisch

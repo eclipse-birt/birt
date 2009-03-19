@@ -107,7 +107,7 @@ Error.FailedToInitializeEmitter = 初始化发射器失败。
 PDFCreator = 使用 iText {1} 的 BIRT 报表引擎 {0}。
 
 ###########################################################
-Error.FlashObjectNotSupported = "Flash object report items are not supported in this report format."
-Error.ReportItemNotSupported = "Current report item is not supported in this report format."
+Error.FlashObjectNotSupported = "不支持 Flash 对象报表项使用此报表格式。"
+Error.ReportItemNotSupported = "不支持当前报表项使用此报表格式。"
 
 

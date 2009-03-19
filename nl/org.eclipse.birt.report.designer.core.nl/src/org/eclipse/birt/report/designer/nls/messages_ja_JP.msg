@@ -1191,7 +1191,7 @@ Element.ReportDesign.displayName=表示名(&Y) :
 Element.ReportDesign.eventHandlerClass=イベントハンドラのクラス(&C) : 
 Element.ReportDesign.iconFile=サムネイル(&N) : 
 Element.ReportDesign.refreshRate=更新頻度 :
-Element.ReportDesign.bidiLayoutOrientation=&Report Orientation:
+Element.ReportDesign.bidiLayoutOrientation=レポートの向き(&R) :
 Element.ReportElement.comments=コメント(&C) :
 Element.ReportElement.Cube=データ(&D) :
 Element.ReportElement.customXml=カスタム XML :
@@ -1264,7 +1264,7 @@ Element.Style.background.repeat=繰り返し(&R) :
 Element.Style.background=背景 :
 Element.Style.border.bottom.color=下(&M) :
 Element.Style.border.bottom.style=下(&B) :
-Element.Style.border.bottom.width=Bottom&:
+Element.Style.border.bottom.width=下(&:) :
 Element.Style.border.fillColor=罫線の塗りつぶしの色 :
 Element.Style.border.hmiddle.color=中央横の罫線の色 :
 Element.Style.border.hmiddle.style=中央横の罫線の線種 :
@@ -1703,7 +1703,7 @@ FormPage.Button.Add=追加(&A)
 FormPage.Button.AddWithDialog=追加(&A)...
 FormPage.Button.AddWithDialog.JAR=追加(&A)... 
 FormPage.Button.AddWithDialog.JS=追加(&D)... 
-FormPage.Button.Add.AggregateOn=Add A&ggregation
+FormPage.Button.Add.AggregateOn=集計の追加(&G)
 FormPage.Button.AddWithDialog.AggregateOn=集計の追加(&G)...
 FormPage.Button.Delete=削除(&R)
 FormPage.Button.Delete.Alt1=削除(&V) 
@@ -2432,7 +2432,7 @@ FilterConditionBuilder.label.value=値
 FilterConditionBuilder.multipleValue.label=値(&V)
 FilterConditionBuilder.multipleValue.button.add=追加(&A)
 FilterConditionBuilder.multipleValue.button.remove=削除(&R)
-FilterConditionBuilder.multipleValue.button.removeAll=Re&move All
+FilterConditionBuilder.multipleValue.button.removeAll=すべて削除(&M)
 FilterConditionBuilder.multipleValue.button.edit=編集(&D)...
 
 ###########################################################
@@ -2667,14 +2667,14 @@ NoneAction.text=なし
 OutputColumnDefnPage.description=フェッチスクリプトによって作成される出力列の定義を入力 : 
 OutputColumnDefnPage.OutputColumns.Tooltip=データ行内の列の表示と定義 
 OutputColumnPage.OutputColumns.DuplicatedName=この名前はすでに存在します。
-OutputColumnPage.error.createNewColumn=Some error happened during a new column being added.
-OutputColumnPage.error.invalidSelection=No valid table item is selected.
+OutputColumnPage.error.createNewColumn=新しい列の追加中にエラーが発生しました。
+OutputColumnPage.error.invalidSelection=有効なテーブル項目が選択されていません。
 
 ###########################################################
 #ColumnDefPage properties
 
-ColumnDefPage.description=Script data set output column definition page
-ColumnDefPage.title=Output columns 
+ColumnDefPage.description=スクリプトデータセットの出力列定義ページ
+ColumnDefPage.title=出力列 
 
 ###########################################################
 #ResultSetColumnPage properties
@@ -2685,16 +2685,16 @@ ResultSetColumnPage.button.delete=削除(&D)
 ResultSetColumnPage.button.up=上へ(&U)
 ResultSetColumnPage.button.down=下へ(&W)
 
-ResultSetColumnPage.inputDialog.newColumn.title=New Script Data Set Column
-ResultSetColumnPage.inputDialog.editColumn.title=Edit Script Data Set Column
-ResultSetColumnPage.inputDialog.label.columnName=&Column Name: 
-ResultSetColumnPage.inputDialog.label.dataType=Data &Type: 
-ResultSetColumnPage.inputDialog.label.alias=Column &Alias: 
-ResultSetColumnPage.inputDialog.label.displayName=&Display Name: 
-ResultSetColumnPage.inputDialog.warning.emptyColumnName=The column name is required to input.
-ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=The column name and its alias should not be the same.
-ResultSetColumnPage.inputDialog.error.duplicatedColumnName=The column name "{0}" has already been in use.
-ResultSetColumnPage.inputDialog.error.duplicatedAlias=The column alias "{0}" has already been in use.
+ResultSetColumnPage.inputDialog.newColumn.title=新規スクリプトデータセット列
+ResultSetColumnPage.inputDialog.editColumn.title=スクリプトデータセット列の編集
+ResultSetColumnPage.inputDialog.label.columnName=列名(&C) : 
+ResultSetColumnPage.inputDialog.label.dataType=データ型(&T) : 
+ResultSetColumnPage.inputDialog.label.alias=列エイリアス(&A) : 
+ResultSetColumnPage.inputDialog.label.displayName=表示名(&D) : 
+ResultSetColumnPage.inputDialog.warning.emptyColumnName=入力するには列名が必要です。
+ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=列名とそのエイリアスを同一にすることはできません。
+ResultSetColumnPage.inputDialog.error.duplicatedColumnName=列名 "{0}" は既に使用されています。
+ResultSetColumnPage.inputDialog.error.duplicatedAlias=列エイリアス "{0}" は既に使用されています。
 
 ###########################################################
 #OutputColumnPage properties
@@ -3236,9 +3236,9 @@ TemplateReportItemPageGenerator.List.TextKey=テキストキー :
 ReportPropertySheetPage.Column.Title.Property=プロパティ
 ReportPropertySheetPage.Column.Title.Value=値
 ReportPropertySheetPage.Root.Default.Title=情報
-ReportPropertySheetPage.Tooltip.Alphabetic=Sort by alphabetic
-ReportPropertySheetPage.Tooltip.Group=Sort by group
-ReportPropertySheetPage.Tooltip.Local=Show local properties
+ReportPropertySheetPage.Tooltip.Alphabetic=文字順にソート
+ReportPropertySheetPage.Tooltip.Group=グループを基準にソート
+ReportPropertySheetPage.Tooltip.Local=ローカルプロパティを表示
 ReportPropertySheetPage.Value.Inherited=継承済み
 
 ###########################################################
@@ -3343,7 +3343,7 @@ SchematicContextMenuProvider.Menu.Show=表示
 SchematicContextMenuProvider.Menu.Style=スタイル(&Y)
 SchematicContextMenuProvider.Menu.Style.Apply=スタイルの適用(&P)
 SchematicContextMenuProvider.Menu.Theme=テーマ(&M)
-SchematicContextMenuProvider.Menu.Theme.Apply=A&pply Theme
+SchematicContextMenuProvider.Menu.Theme.Apply=テーマの適用(&P)
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -4486,9 +4486,9 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=エクスポートされたイメ
 NewStyleHandler.transaction.label=スタイルの新規作成...
 
 AdvancePropertyDescriptorProvider.DisplayName=詳細設定
-AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=Sort by alphabetic
-AdvancePropertyDescriptorProvider.Tooltip.Group=Sort by group
-AdvancePropertyDescriptorProvider.Tooltip.Local=Show local properties
+AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=文字順にソート
+AdvancePropertyDescriptorProvider.Tooltip.Group=グループを基準にソート
+AdvancePropertyDescriptorProvider.Tooltip.Local=ローカルプロパティを表示
 PropertyEditorFactory.Boolean.True=true
 PropertyEditorFactory.Boolean.False=false
 PropertyEditorFactory.Value.Auto=自動

@@ -122,8 +122,8 @@ CrosstabPageGenerator.TabItem.map=Asignar
 CrosstabPageGenerator.TabItem.Sorting=Ordenar
 
 CrosstabGeneralPage.ForEmptyCell=En las celdas vacías, &mostrar:
-LayoutMeasuresSection.DisplayName=O&rientation:
-CrosstabGeneralPage.HideMeasureHeader=&Hide Measure Header
+LayoutMeasuresSection.DisplayName=O&rientación:
+CrosstabGeneralPage.HideMeasureHeader=&Ocultar encabezado de medidas
 
 ###########################################################
 #CrosstabEventHandlerPage properties
@@ -133,7 +133,7 @@ CrosstabEventHandlerPage.dialog.Browse=&Examinar...
 #SortingHandleProvider properties
 SortingHandleProvider.Label.SortOn=Ordenar según:
 Element.ReportItem.dataSet=Conjunto de datos:
-Element.ReportElement.Cube=Da&ta:
+Element.ReportElement.Cube=Da&tos:
 BindingPage.None=Ninguno
 
 FilterHandleProvider.Label.Filterby=Filtrar por:
@@ -171,7 +171,7 @@ FilterConditionBuilder.button.add.tooltip=Añadir el valor a la lista de valores
 CrosstabFilterConditionBuilder.DialogMessage.New=Seleccione el nivel de grupo al que aplicar el filtro y, a continuación, establezca la condición de filtro.
 CrosstabFilterConditionBuilder.DialogMessage.Edit=Seleccione el nivel de grupo al que aplicar el filtro y, a continuación, establezca la condición de filtro.
 CrosstabFilterConditionBuilder.label.value=Valor
-CrosstabFilterConditionBuilder.Label.Target=Target:
+CrosstabFilterConditionBuilder.Label.Target=Destino:
 CrosstabFilterConditionBuilder.Button.GroupLevel=&Nivel de grupo
 CrosstabFilterConditionBuilder.Button.Measure=&Medida
 

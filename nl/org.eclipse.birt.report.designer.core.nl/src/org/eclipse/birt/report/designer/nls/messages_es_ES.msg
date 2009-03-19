@@ -1191,7 +1191,7 @@ Element.ReportDesign.displayName=N&ombre en pantalla:
 Element.ReportDesign.eventHandlerClass=&Clase de controlador de evento: 
 Element.ReportDesign.iconFile=Miniatura: 
 Element.ReportDesign.refreshRate=Intervalo de actualización:
-Element.ReportDesign.bidiLayoutOrientation=&Report Orientation:
+Element.ReportDesign.bidiLayoutOrientation=&Orientación del informe:
 Element.ReportElement.comments=&Comentarios:
 Element.ReportElement.Cube=&Datos:
 Element.ReportElement.customXml=XML personalizado:
@@ -1264,7 +1264,7 @@ Element.Style.background.repeat=&Repetir:
 Element.Style.background=Fondo:
 Element.Style.border.bottom.color=&Abajo:
 Element.Style.border.bottom.style=&Inferior:
-Element.Style.border.bottom.width=Bottom&:
+Element.Style.border.bottom.width=Inferior&:
 Element.Style.border.fillColor=Color de relleno de borde:
 Element.Style.border.hmiddle.color=Color medio horizontal de borde:
 Element.Style.border.hmiddle.style=Estilo medio horizontal de borde:
@@ -1703,7 +1703,7 @@ FormPage.Button.Add=&Añadir
 FormPage.Button.AddWithDialog=&Añadir...
 FormPage.Button.AddWithDialog.JAR=&Añadir... 
 FormPage.Button.AddWithDialog.JS=Añad&ir... 
-FormPage.Button.Add.AggregateOn=Add A&ggregation
+FormPage.Button.Add.AggregateOn=Añadir a&gregación
 FormPage.Button.AddWithDialog.AggregateOn=Añadir a&gregación...
 FormPage.Button.Delete=&Quitar
 FormPage.Button.Delete.Alt1=Qui&tar 
@@ -2432,7 +2432,7 @@ FilterConditionBuilder.label.value=Valor
 FilterConditionBuilder.multipleValue.label=&Valor
 FilterConditionBuilder.multipleValue.button.add=&Añadir
 FilterConditionBuilder.multipleValue.button.remove=Quita&r
-FilterConditionBuilder.multipleValue.button.removeAll=Re&move All
+FilterConditionBuilder.multipleValue.button.removeAll=Qui&tar todos
 FilterConditionBuilder.multipleValue.button.edit=E&ditar...
 
 ###########################################################
@@ -2667,14 +2667,14 @@ NoneAction.text=Ninguno
 OutputColumnDefnPage.description=Introducir la definición de las columas de salida que produce el script de recuperación: 
 OutputColumnDefnPage.OutputColumns.Tooltip=Ver y definir las columnas en una fila de datos 
 OutputColumnPage.OutputColumns.DuplicatedName=El nombre ya existe.
-OutputColumnPage.error.createNewColumn=Some error happened during a new column being added.
-OutputColumnPage.error.invalidSelection=No valid table item is selected.
+OutputColumnPage.error.createNewColumn=Se ha producido un error al añadir una nueva columna.
+OutputColumnPage.error.invalidSelection=No se ha seleccionado ningún elemento de tabla válido.
 
 ###########################################################
 #ColumnDefPage properties
 
-ColumnDefPage.description=Script data set output column definition page
-ColumnDefPage.title=Output columns 
+ColumnDefPage.description=Página de definición de la columna de salida del conjunto de datos de script
+ColumnDefPage.title=Columnas de salida 
 
 ###########################################################
 #ResultSetColumnPage properties
@@ -2685,16 +2685,16 @@ ResultSetColumnPage.button.delete=&Eliminar
 ResultSetColumnPage.button.up=A&rriba
 ResultSetColumnPage.button.down=A&bajo
 
-ResultSetColumnPage.inputDialog.newColumn.title=New Script Data Set Column
-ResultSetColumnPage.inputDialog.editColumn.title=Edit Script Data Set Column
-ResultSetColumnPage.inputDialog.label.columnName=&Column Name: 
-ResultSetColumnPage.inputDialog.label.dataType=Data &Type: 
-ResultSetColumnPage.inputDialog.label.alias=Column &Alias: 
-ResultSetColumnPage.inputDialog.label.displayName=&Display Name: 
-ResultSetColumnPage.inputDialog.warning.emptyColumnName=The column name is required to input.
-ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=The column name and its alias should not be the same.
-ResultSetColumnPage.inputDialog.error.duplicatedColumnName=The column name "{0}" has already been in use.
-ResultSetColumnPage.inputDialog.error.duplicatedAlias=The column alias "{0}" has already been in use.
+ResultSetColumnPage.inputDialog.newColumn.title=Nueva columna de conjuntos de datos de script
+ResultSetColumnPage.inputDialog.editColumn.title=Editar columna de conjuntos de datos de script
+ResultSetColumnPage.inputDialog.label.columnName=Nombre de &columna: 
+ResultSetColumnPage.inputDialog.label.dataType=&Tipo de datos: 
+ResultSetColumnPage.inputDialog.label.alias=&Alias de columna: 
+ResultSetColumnPage.inputDialog.label.displayName=N&ombre en pantalla: 
+ResultSetColumnPage.inputDialog.warning.emptyColumnName=Debe introducir el nombre de columna.
+ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=El nombre de columna y el alias no deben coincidir.
+ResultSetColumnPage.inputDialog.error.duplicatedColumnName=El nombre de columna "{0}" ya se ha utilizado.
+ResultSetColumnPage.inputDialog.error.duplicatedAlias=El alias de columna "{0}" ya se ha utilizado.
 
 ###########################################################
 #OutputColumnPage properties
@@ -3236,9 +3236,9 @@ TemplateReportItemPageGenerator.List.TextKey=Clave de texto:
 ReportPropertySheetPage.Column.Title.Property=Propiedad
 ReportPropertySheetPage.Column.Title.Value=Valor
 ReportPropertySheetPage.Root.Default.Title=Información
-ReportPropertySheetPage.Tooltip.Alphabetic=Sort by alphabetic
-ReportPropertySheetPage.Tooltip.Group=Sort by group
-ReportPropertySheetPage.Tooltip.Local=Show local properties
+ReportPropertySheetPage.Tooltip.Alphabetic=Ordenar alfabéticamente
+ReportPropertySheetPage.Tooltip.Group=Ordenar por grupo
+ReportPropertySheetPage.Tooltip.Local=Mostrar propiedades locales
 ReportPropertySheetPage.Value.Inherited=Heredado
 
 ###########################################################
@@ -3343,7 +3343,7 @@ SchematicContextMenuProvider.Menu.Show=Mostrar
 SchematicContextMenuProvider.Menu.Style=Es&tilo
 SchematicContextMenuProvider.Menu.Style.Apply=A&plicar estilo
 SchematicContextMenuProvider.Menu.Theme=Te&ma
-SchematicContextMenuProvider.Menu.Theme.Apply=A&pply Theme
+SchematicContextMenuProvider.Menu.Theme.Apply=A&plicar tema
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -4486,9 +4486,9 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=La imagen incrustada a
 NewStyleHandler.transaction.label=Nuevo estilo...
 
 AdvancePropertyDescriptorProvider.DisplayName=Avanzar
-AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=Sort by alphabetic
-AdvancePropertyDescriptorProvider.Tooltip.Group=Sort by group
-AdvancePropertyDescriptorProvider.Tooltip.Local=Show local properties
+AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=Ordenar alfabéticamente
+AdvancePropertyDescriptorProvider.Tooltip.Group=Ordenar por grupo
+AdvancePropertyDescriptorProvider.Tooltip.Local=Mostrar propiedades locales
 PropertyEditorFactory.Boolean.True=true
 PropertyEditorFactory.Boolean.False=false
 PropertyEditorFactory.Value.Auto=Automático

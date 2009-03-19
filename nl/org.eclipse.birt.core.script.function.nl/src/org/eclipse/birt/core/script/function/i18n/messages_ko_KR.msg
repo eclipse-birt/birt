@@ -35,5 +35,5 @@ error.BirtStr.left.invalidArgument=인수 n의 값 "{0}"은(는) 스크립트 함수에 알맞�
 error.BirtStr.right.invalidArgument=인수 n의 값 "{0}"은(는) 스크립트 함수에 알맞지 않습니다.
 error.BirtStr.indexOf.invalidArgument=인수 시작 값 "{0}"은(는) 스크립트 함수에 알맞지 않습니다.
 error.BirtStr.search.invalidArgument=인수 시작 값 "{0}"은(는) 스크립트 함수에 알맞지 않습니다.
-error.BirtDuration.literal.invalidArgument=The value "{0}" of the argument is invalid for the script function.
+error.BirtDuration.literal.invalidArgument=인수 값 "{0}"은(는) 스크립트 함수에 알맞지 않습니다.
 

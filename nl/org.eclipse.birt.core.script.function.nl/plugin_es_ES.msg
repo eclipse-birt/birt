@@ -6,5 +6,5 @@ dataType.DateTime=Fecha/Hora
 dataType.Integer=Entero
 dataType.Double=Doble
 dataType.Number=Número 
-dataType.Boolean=Boolean
+dataType.Boolean=Booleano
 dataType.DoubleArray=Doble[]

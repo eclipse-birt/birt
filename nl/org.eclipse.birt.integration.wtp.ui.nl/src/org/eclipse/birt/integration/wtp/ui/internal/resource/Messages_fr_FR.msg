@@ -28,30 +28,30 @@ BIRTConfigurationDialog_title=Configurer les paramètres de déploiement BIRT
 BIRTConfiguration_group_paths=Paramètres du dossier de déploiement
 BIRTConfiguration_group_others=Autres paramètres
 
-BIRTConfiguration_resource_folder_button_text=Browse&...
-BIRTConfiguration_working_folder_button_text=B&rowse...
-BIRTConfiguration_document_folder_button_text=Br&owse...
-BIRTConfiguration_image_folder_button_text=Bro&wse...
-BIRTConfiguration_scriptlib_folder_button_text=Brow&se...
-BIRTConfiguration_log_folder_button_text=Brows&e...
+BIRTConfiguration_resource_folder_button_text=&Parcourir...
+BIRTConfiguration_working_folder_button_text=Pa&rcourir...
+BIRTConfiguration_document_folder_button_text=Parc&ourir...
+BIRTConfiguration_image_folder_button_text=Par&courir...
+BIRTConfiguration_scriptlib_folder_button_text=&Parcourir...
+BIRTConfiguration_log_folder_button_text=Parco&urir...
 
-BIRTConfiguration_resource_label=Reso&urce Folder:
+BIRTConfiguration_resource_label=Dossier de resso&urces :
 BIRTConfiguration_resource_dialog_title=Parcourir le dossier de ressources
 BIRTConfiguration_resource_dialog_message=Sélectionnez le dossier de ressources par défaut :
 
-BIRTConfiguration_working_label=Wor&king Folder:
+BIRTConfiguration_working_label=Dossier de tra&vail :
 BIRTConfiguration_working_dialog_title=Parcourir le dossier de travail
 BIRTConfiguration_working_dialog_message=Sélectionnez le dossier de travail par défaut :
 
-BIRTConfiguration_document_label=Temporary &documents Folder:
-BIRTConfiguration_document_dialog_title=Browse For Temporary Documents Folder
-BIRTConfiguration_document_dialog_message=Please select the default temporary documents folder:
+BIRTConfiguration_document_label=Dossier de &documents temporaires :
+BIRTConfiguration_document_dialog_title=Parcourir le dossier de documents temporaires
+BIRTConfiguration_document_dialog_message=Sélectionnez le dossier de documents temporaires par défaut :
 
-BIRTConfiguration_image_label=Temporary &images Folder:
-BIRTConfiguration_image_dialog_title=Browse For Temporary Images Folder
-BIRTConfiguration_image_dialog_message=Please select the default temporary images folder:
+BIRTConfiguration_image_label=Dossier d'&images temporaires :
+BIRTConfiguration_image_dialog_title=Parcourir le dossier d'images temporaires
+BIRTConfiguration_image_dialog_message=Sélectionnez le dossier d'images temporaires par défaut :
 
-BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
+BIRTConfiguration_scriptlib_label=Dossier &ScriptLib :
 BIRTConfiguration_scriptlib_dialog_title=Parcourir le dossier ScriptLib
 BIRTConfiguration_scriptlib_dialog_message=Sélectionnez le dossier ScriptLib par défaut :
 
@@ -59,15 +59,15 @@ BIRTConfiguration_log_label=Dossier du journa&l :
 BIRTConfiguration_log_dialog_title=Parcourir le dossier du journal
 BIRTConfiguration_log_dialog_message=Sélectionnez le dossier du journal par défaut :
 
-BIRTConfiguration_report_access_message=Onl&y access the report and document under working folder
+BIRTConfiguration_report_access_message=Accéder u&niquement aux états et documents du dossier de travail
 BIRTConfiguration_overwrite_message=Toujours écr&aser le document généré
 
 BIRTConfiguration_maxrows_label=Nombre maximal de lignes de jeux de &données :
 BIRTConfiguration_maxrowlevels_label=Lignes &max de récupération de cube :
-BIRTConfiguration_maxcolumnlevels_label=Ma&x cube fetching column levels:
-BIRTConfiguration_cubememsize_label=Max memory si&ze for creating cube:
+BIRTConfiguration_maxcolumnlevels_label=Colonnes ma&x de récupération de cube :
+BIRTConfiguration_cubememsize_label=Taille maximale de la mémoire ré&servée à la création de cube :
 
-BIRTConfiguration_loglevel_label=Select Log Le&vel:
+BIRTConfiguration_loglevel_label=Sélectionnez le ni&veau de journalisation :
 BIRTConfiguration_loglevel_all=TOUT
 BIRTConfiguration_loglevel_severe=SEVERE
 BIRTConfiguration_loglevel_warning=AVERTISSEMENT

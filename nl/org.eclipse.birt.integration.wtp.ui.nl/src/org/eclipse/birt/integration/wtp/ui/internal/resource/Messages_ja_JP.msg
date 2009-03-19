@@ -28,30 +28,30 @@ BIRTConfigurationDialog_title=BIRT の配布設定
 BIRTConfiguration_group_paths=配布フォルダの設定
 BIRTConfiguration_group_others=その他の設定
 
-BIRTConfiguration_resource_folder_button_text=Browse&...
-BIRTConfiguration_working_folder_button_text=B&rowse...
-BIRTConfiguration_document_folder_button_text=Br&owse...
-BIRTConfiguration_image_folder_button_text=Bro&wse...
-BIRTConfiguration_scriptlib_folder_button_text=Brow&se...
-BIRTConfiguration_log_folder_button_text=Brows&e...
+BIRTConfiguration_resource_folder_button_text=参照(&.)...
+BIRTConfiguration_working_folder_button_text=参照(&R)...
+BIRTConfiguration_document_folder_button_text=参照(&O)...
+BIRTConfiguration_image_folder_button_text=参照(&W)...
+BIRTConfiguration_scriptlib_folder_button_text=参照(&S)...
+BIRTConfiguration_log_folder_button_text=参照(&E)...
 
-BIRTConfiguration_resource_label=Reso&urce Folder:
+BIRTConfiguration_resource_label=リソースフォルダ(&U) :
 BIRTConfiguration_resource_dialog_title=リソースフォルダの参照
 BIRTConfiguration_resource_dialog_message=デフォルトのリソースフォルダを選択してください :
 
-BIRTConfiguration_working_label=Wor&king Folder:
+BIRTConfiguration_working_label=作業フォルダ(&K) :
 BIRTConfiguration_working_dialog_title=作業フォルダを参照
 BIRTConfiguration_working_dialog_message=デフォルトの作業フォルダを選択してください :
 
-BIRTConfiguration_document_label=Temporary &documents Folder:
-BIRTConfiguration_document_dialog_title=Browse For Temporary Documents Folder
-BIRTConfiguration_document_dialog_message=Please select the default temporary documents folder:
+BIRTConfiguration_document_label=一時文書フォルダ(&D) :
+BIRTConfiguration_document_dialog_title=一時文書フォルダの参照
+BIRTConfiguration_document_dialog_message=デフォルトの一時文書フォルダを選択してください :
 
-BIRTConfiguration_image_label=Temporary &images Folder:
-BIRTConfiguration_image_dialog_title=Browse For Temporary Images Folder
-BIRTConfiguration_image_dialog_message=Please select the default temporary images folder:
+BIRTConfiguration_image_label=一時イメージフォルダ(&I) :
+BIRTConfiguration_image_dialog_title=一時イメージフォルダの参照
+BIRTConfiguration_image_dialog_message=デフォルトの一時イメージフォルダを選択してください :
 
-BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
+BIRTConfiguration_scriptlib_label=ScriptLib フォルダ(&:) :
 BIRTConfiguration_scriptlib_dialog_title=ScriptLib フォルダの参照
 BIRTConfiguration_scriptlib_dialog_message=デフォルトの ScriptLib フォルダを選択してください :
 
@@ -59,15 +59,15 @@ BIRTConfiguration_log_label=ログフォルダ(&L) :
 BIRTConfiguration_log_dialog_title=ログフォルダの参照
 BIRTConfiguration_log_dialog_message=デフォルトのログフォルダを選択してください :
 
-BIRTConfiguration_report_access_message=Onl&y access the report and document under working folder
+BIRTConfiguration_report_access_message=作業フォルダ内のレポートと文書だけにアクセスする(&Y)
 BIRTConfiguration_overwrite_message=生成した文書ファイルを常に上書きする(&A)
 
 BIRTConfiguration_maxrows_label=データセットの最大行数(&T) :
 BIRTConfiguration_maxrowlevels_label=キューブがフェッチできる最大行レベル(&M) :
-BIRTConfiguration_maxcolumnlevels_label=Ma&x cube fetching column levels:
-BIRTConfiguration_cubememsize_label=Max memory si&ze for creating cube:
+BIRTConfiguration_maxcolumnlevels_label=キューブがフェッチできる最大列レベル(&X) :
+BIRTConfiguration_cubememsize_label=作成できるキューブの最大メモリサイズ(&Z) :
 
-BIRTConfiguration_loglevel_label=Select Log Le&vel:
+BIRTConfiguration_loglevel_label=ログレベルの選択(&V) :
 BIRTConfiguration_loglevel_all=ALL
 BIRTConfiguration_loglevel_severe=SEVERE
 BIRTConfiguration_loglevel_warning=WARNING

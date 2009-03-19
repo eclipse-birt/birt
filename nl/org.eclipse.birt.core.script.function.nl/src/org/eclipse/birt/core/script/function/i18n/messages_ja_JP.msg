@@ -35,5 +35,5 @@ error.BirtStr.left.invalidArgument=ˆø” n ‚Ì’l "{0}" ‚ÍAƒXƒNƒŠƒvƒgŠÖ”‚É‘Î‚µ‚Ä–
 error.BirtStr.right.invalidArgument=ˆø” n ‚Ì’l "{0}" ‚ÍAƒXƒNƒŠƒvƒgŠÖ”‚É‘Î‚µ‚Ä–³Œø‚Å‚·B
 error.BirtStr.indexOf.invalidArgument=ŠJnˆø”‚Ì’l "{0}" ‚ÍAƒXƒNƒŠƒvƒgŠÖ”‚É‘Î‚µ‚Ä–³Œø‚Å‚·B
 error.BirtStr.search.invalidArgument=ŠJnˆø”‚Ì’l "{0}" ‚ÍAƒXƒNƒŠƒvƒgŠÖ”‚É‘Î‚µ‚Ä–³Œø‚Å‚·B
-error.BirtDuration.literal.invalidArgument=The value "{0}" of the argument is invalid for the script function.
+error.BirtDuration.literal.invalidArgument=ƒXƒNƒŠƒvƒgŠÖ”‚É–³Œø‚Èˆø”‚Ì’l "{0}" ‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚·B
 

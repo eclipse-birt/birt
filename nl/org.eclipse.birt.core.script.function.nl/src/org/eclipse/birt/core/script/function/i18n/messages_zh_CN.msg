@@ -35,5 +35,5 @@ error.BirtStr.left.invalidArgument=参数 n 的值“{0}”对于脚本函数无效。
 error.BirtStr.right.invalidArgument=参数 n 的值“{0}”对于脚本函数无效。
 error.BirtStr.indexOf.invalidArgument=参数开始的值“{0}”对于脚本函数无效。
 error.BirtStr.search.invalidArgument=参数开始的值“{0}”对于脚本函数无效。
-error.BirtDuration.literal.invalidArgument=The value "{0}" of the argument is invalid for the script function.
+error.BirtDuration.literal.invalidArgument=参数的值“{0}”对于脚本函数无效。
 

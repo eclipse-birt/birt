@@ -28,30 +28,30 @@ BIRTConfigurationDialog_title=配置 BIRT 部署设置
 BIRTConfiguration_group_paths=部署文件夹设置
 BIRTConfiguration_group_others=其它设置
 
-BIRTConfiguration_resource_folder_button_text=Browse&...
-BIRTConfiguration_working_folder_button_text=B&rowse...
-BIRTConfiguration_document_folder_button_text=Br&owse...
-BIRTConfiguration_image_folder_button_text=Bro&wse...
-BIRTConfiguration_scriptlib_folder_button_text=Brow&se...
-BIRTConfiguration_log_folder_button_text=Brows&e...
+BIRTConfiguration_resource_folder_button_text=浏览(&.)...
+BIRTConfiguration_working_folder_button_text=浏览(&R)...
+BIRTConfiguration_document_folder_button_text=浏览(&O)...
+BIRTConfiguration_image_folder_button_text=浏览(&W)...
+BIRTConfiguration_scriptlib_folder_button_text=浏览(&S)...
+BIRTConfiguration_log_folder_button_text=浏览(&E)...
 
-BIRTConfiguration_resource_label=Reso&urce Folder:
+BIRTConfiguration_resource_label=资源文件夹(&U):
 BIRTConfiguration_resource_dialog_title=浏览资源文件夹
 BIRTConfiguration_resource_dialog_message=请选择默认资源文件夹:
 
-BIRTConfiguration_working_label=Wor&king Folder:
+BIRTConfiguration_working_label=工作文件夹(&K):
 BIRTConfiguration_working_dialog_title=浏览工作文件夹
 BIRTConfiguration_working_dialog_message=请选择默认工作文件夹:
 
-BIRTConfiguration_document_label=Temporary &documents Folder:
-BIRTConfiguration_document_dialog_title=Browse For Temporary Documents Folder
-BIRTConfiguration_document_dialog_message=Please select the default temporary documents folder:
+BIRTConfiguration_document_label=临时文档文件夹(&D):
+BIRTConfiguration_document_dialog_title=浏览临时文档文件夹
+BIRTConfiguration_document_dialog_message=请选择默认的临时文档文件夹:
 
-BIRTConfiguration_image_label=Temporary &images Folder:
-BIRTConfiguration_image_dialog_title=Browse For Temporary Images Folder
-BIRTConfiguration_image_dialog_message=Please select the default temporary images folder:
+BIRTConfiguration_image_label=临时图像文件夹(&I):
+BIRTConfiguration_image_dialog_title=浏览临时图像文件夹
+BIRTConfiguration_image_dialog_message=请选择默认的临时图像文件夹:
 
-BIRTConfiguration_scriptlib_label=ScriptLib Folder&:
+BIRTConfiguration_scriptlib_label=脚本库文件夹(&:):
 BIRTConfiguration_scriptlib_dialog_title=浏览脚本库文件夹
 BIRTConfiguration_scriptlib_dialog_message=请选择默认脚本库文件夹:
 
@@ -59,15 +59,15 @@ BIRTConfiguration_log_label=日志文件夹(&L):
 BIRTConfiguration_log_dialog_title=浏览日志文件夹
 BIRTConfiguration_log_dialog_message=请选择默认日志文件夹:
 
-BIRTConfiguration_report_access_message=Onl&y access the report and document under working folder
+BIRTConfiguration_report_access_message=仅访问工作文件夹下的报表和文档(&Y)
 BIRTConfiguration_overwrite_message=始终覆盖生成的文档文件(&A)
 
 BIRTConfiguration_maxrows_label=数据集最大行数(&T):
 BIRTConfiguration_maxrowlevels_label=最大多维数据集取数行级别数(&M):
-BIRTConfiguration_maxcolumnlevels_label=Ma&x cube fetching column levels:
-BIRTConfiguration_cubememsize_label=Max memory si&ze for creating cube:
+BIRTConfiguration_maxcolumnlevels_label=最大多维数据集取数列级别数(&X):
+BIRTConfiguration_cubememsize_label=用于创建多维数据集的最大内存大小(&Z):
 
-BIRTConfiguration_loglevel_label=Select Log Le&vel:
+BIRTConfiguration_loglevel_label=选择日志级别(&V):
 BIRTConfiguration_loglevel_all=全部
 BIRTConfiguration_loglevel_severe=严重
 BIRTConfiguration_loglevel_warning=警告

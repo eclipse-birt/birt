@@ -35,5 +35,5 @@ error.BirtStr.left.invalidArgument=El valor "{0}" del n de argumento no es válid
 error.BirtStr.right.invalidArgument=El valor "{0}" del n de argumento no es válido por la función de script.
 error.BirtStr.indexOf.invalidArgument=El valor "{0}" del inicio de argumento no es válido por la función de script.
 error.BirtStr.search.invalidArgument=El valor "{0}" del inicio de argumento no es válido por la función de script.
-error.BirtDuration.literal.invalidArgument=The value "{0}" of the argument is invalid for the script function.
+error.BirtDuration.literal.invalidArgument=El valor "{0}" del argumento no es válido por la función de script.
 

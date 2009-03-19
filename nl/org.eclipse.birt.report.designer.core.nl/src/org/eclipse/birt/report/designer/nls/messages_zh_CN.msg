@@ -1191,7 +1191,7 @@ Element.ReportDesign.displayName=显示名称(&Y):
 Element.ReportDesign.eventHandlerClass=事件处理程序类(&C): 
 Element.ReportDesign.iconFile=缩略图(&N): 
 Element.ReportDesign.refreshRate=刷新率:
-Element.ReportDesign.bidiLayoutOrientation=&Report Orientation:
+Element.ReportDesign.bidiLayoutOrientation=报表方向(&R):
 Element.ReportElement.comments=备注(&C):
 Element.ReportElement.Cube=数据(&D):
 Element.ReportElement.customXml=自定义 XML:
@@ -1264,7 +1264,7 @@ Element.Style.background.repeat=重复(&R):
 Element.Style.background=背景:
 Element.Style.border.bottom.color=下(&M):
 Element.Style.border.bottom.style=下(&B):
-Element.Style.border.bottom.width=Bottom&:
+Element.Style.border.bottom.width=底部(&:):
 Element.Style.border.fillColor=边框填充色:
 Element.Style.border.hmiddle.color=边框水平中间色:
 Element.Style.border.hmiddle.style=边框水平中间样式:
@@ -1703,7 +1703,7 @@ FormPage.Button.Add=添加(&A)
 FormPage.Button.AddWithDialog=添加(&A)...
 FormPage.Button.AddWithDialog.JAR=添加(&A)... 
 FormPage.Button.AddWithDialog.JS=添加(&D)... 
-FormPage.Button.Add.AggregateOn=Add A&ggregation
+FormPage.Button.Add.AggregateOn=添加聚合(&G)
 FormPage.Button.AddWithDialog.AggregateOn=添加聚合(&G)...
 FormPage.Button.Delete=删除(&R)
 FormPage.Button.Delete.Alt1=删除(&V) 
@@ -2432,7 +2432,7 @@ FilterConditionBuilder.label.value=值
 FilterConditionBuilder.multipleValue.label=值(&V)
 FilterConditionBuilder.multipleValue.button.add=添加(&A)
 FilterConditionBuilder.multipleValue.button.remove=删除(&R)
-FilterConditionBuilder.multipleValue.button.removeAll=Re&move All
+FilterConditionBuilder.multipleValue.button.removeAll=全部删除(&M)
 FilterConditionBuilder.multipleValue.button.edit=编辑(&D)...
 
 ###########################################################
@@ -2667,14 +2667,14 @@ NoneAction.text=无
 OutputColumnDefnPage.description=输入取数脚本生成的输出列的定义: 
 OutputColumnDefnPage.OutputColumns.Tooltip=查看并定义数据行中的列 
 OutputColumnPage.OutputColumns.DuplicatedName=该名称已存在!
-OutputColumnPage.error.createNewColumn=Some error happened during a new column being added.
-OutputColumnPage.error.invalidSelection=No valid table item is selected.
+OutputColumnPage.error.createNewColumn=添加新列过程中发生某些错误。
+OutputColumnPage.error.invalidSelection=没有选择有效的表格项。
 
 ###########################################################
 #ColumnDefPage properties
 
-ColumnDefPage.description=Script data set output column definition page
-ColumnDefPage.title=Output columns 
+ColumnDefPage.description=脚本数据集输出列定义页
+ColumnDefPage.title=输出列 
 
 ###########################################################
 #ResultSetColumnPage properties
@@ -2685,16 +2685,16 @@ ResultSetColumnPage.button.delete=删除(&D)
 ResultSetColumnPage.button.up=上移(&U)
 ResultSetColumnPage.button.down=下移(&W)
 
-ResultSetColumnPage.inputDialog.newColumn.title=New Script Data Set Column
-ResultSetColumnPage.inputDialog.editColumn.title=Edit Script Data Set Column
-ResultSetColumnPage.inputDialog.label.columnName=&Column Name: 
-ResultSetColumnPage.inputDialog.label.dataType=Data &Type: 
-ResultSetColumnPage.inputDialog.label.alias=Column &Alias: 
-ResultSetColumnPage.inputDialog.label.displayName=&Display Name: 
-ResultSetColumnPage.inputDialog.warning.emptyColumnName=The column name is required to input.
-ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=The column name and its alias should not be the same.
-ResultSetColumnPage.inputDialog.error.duplicatedColumnName=The column name "{0}" has already been in use.
-ResultSetColumnPage.inputDialog.error.duplicatedAlias=The column alias "{0}" has already been in use.
+ResultSetColumnPage.inputDialog.newColumn.title=新建脚本数据集列
+ResultSetColumnPage.inputDialog.editColumn.title=编辑脚本数据集列
+ResultSetColumnPage.inputDialog.label.columnName=列名称(&C): 
+ResultSetColumnPage.inputDialog.label.dataType=数据类型(&T): 
+ResultSetColumnPage.inputDialog.label.alias=列别名(&A): 
+ResultSetColumnPage.inputDialog.label.displayName=显示名称(&D): 
+ResultSetColumnPage.inputDialog.warning.emptyColumnName=要求输入列名称。
+ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=列名称和其别名应不同。
+ResultSetColumnPage.inputDialog.error.duplicatedColumnName=列名称“{0}”已经在使用。
+ResultSetColumnPage.inputDialog.error.duplicatedAlias=列别名“{0}”已经在使用。
 
 ###########################################################
 #OutputColumnPage properties
@@ -3236,9 +3236,9 @@ TemplateReportItemPageGenerator.List.TextKey=文本关键字:
 ReportPropertySheetPage.Column.Title.Property=属性
 ReportPropertySheetPage.Column.Title.Value=值
 ReportPropertySheetPage.Root.Default.Title=信息
-ReportPropertySheetPage.Tooltip.Alphabetic=Sort by alphabetic
-ReportPropertySheetPage.Tooltip.Group=Sort by group
-ReportPropertySheetPage.Tooltip.Local=Show local properties
+ReportPropertySheetPage.Tooltip.Alphabetic=按字母排序
+ReportPropertySheetPage.Tooltip.Group=按组排序
+ReportPropertySheetPage.Tooltip.Local=显示本地属性
 ReportPropertySheetPage.Value.Inherited=已继承
 
 ###########################################################
@@ -3343,7 +3343,7 @@ SchematicContextMenuProvider.Menu.Show=显示
 SchematicContextMenuProvider.Menu.Style=样式(&Y)
 SchematicContextMenuProvider.Menu.Style.Apply=应用样式(&P)
 SchematicContextMenuProvider.Menu.Theme=主题(&M)
-SchematicContextMenuProvider.Menu.Theme.Apply=A&pply Theme
+SchematicContextMenuProvider.Menu.Theme.Apply=应用主题(&P)
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
 #SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
@@ -4486,9 +4486,9 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=由导出的图像引用的嵌入
 NewStyleHandler.transaction.label=新建样式...
 
 AdvancePropertyDescriptorProvider.DisplayName=促进
-AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=Sort by alphabetic
-AdvancePropertyDescriptorProvider.Tooltip.Group=Sort by group
-AdvancePropertyDescriptorProvider.Tooltip.Local=Show local properties
+AdvancePropertyDescriptorProvider.Tooltip.Alphabetic=按字母排序
+AdvancePropertyDescriptorProvider.Tooltip.Group=按组排序
+AdvancePropertyDescriptorProvider.Tooltip.Local=显示本地属性
 PropertyEditorFactory.Boolean.True=true
 PropertyEditorFactory.Boolean.False=false
 PropertyEditorFactory.Value.Auto=自动

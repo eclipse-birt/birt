@@ -122,8 +122,8 @@ CrosstabPageGenerator.TabItem.map=映射
 CrosstabPageGenerator.TabItem.Sorting=排序
 
 CrosstabGeneralPage.ForEmptyCell=对于空单元格，显示(&S):
-LayoutMeasuresSection.DisplayName=O&rientation:
-CrosstabGeneralPage.HideMeasureHeader=&Hide Measure Header
+LayoutMeasuresSection.DisplayName=方向(&R):
+CrosstabGeneralPage.HideMeasureHeader=隐藏度量头(&H)
 
 ###########################################################
 #CrosstabEventHandlerPage properties
@@ -133,7 +133,7 @@ CrosstabEventHandlerPage.dialog.Browse=浏览(&B)...
 #SortingHandleProvider properties
 SortingHandleProvider.Label.SortOn=排序依据:
 Element.ReportItem.dataSet=数据集:
-Element.ReportElement.Cube=Da&ta:
+Element.ReportElement.Cube=数据(&T):
 BindingPage.None=无
 
 FilterHandleProvider.Label.Filterby=筛选依据:
@@ -171,7 +171,7 @@ FilterConditionBuilder.button.add.tooltip=将值添加到值列表
 CrosstabFilterConditionBuilder.DialogMessage.New=选择要应用筛选的组级别，然后设置筛选条件。
 CrosstabFilterConditionBuilder.DialogMessage.Edit=选择要应用筛选的组级别，然后设置筛选条件。
 CrosstabFilterConditionBuilder.label.value=值
-CrosstabFilterConditionBuilder.Label.Target=Target:
+CrosstabFilterConditionBuilder.Label.Target=目标:
 CrosstabFilterConditionBuilder.Button.GroupLevel=组级别(&G)
 CrosstabFilterConditionBuilder.Button.Measure=度量(&M)
 
