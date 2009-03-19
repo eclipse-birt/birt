@@ -58,7 +58,7 @@ public final class QueryExecutorUtil
 	 * @throws DataException
 	 */
 	static IQuery.GroupSpec groupDefnToSpec( Context cx, IGroupDefinition src,
-			String expr, String columnName, int index,
+			String expr, String columnName, int index, int dataType,
 			boolean doSortBeforeGrouping ) throws DataException
 	{
 		ColumnInfo groupKeyInfo = new ColumnInfo( index, columnName );
@@ -73,7 +73,7 @@ public final class QueryExecutorUtil
 		dest.setIntervalStart( src.getIntervalStart( ) );
 		dest.setSortDirection( doSortBeforeGrouping ? src.getSortDirection( )
 				: IQuery.NO_SORT_BEFORE_GROUPING );
-
+		dest.setDataType( dataType );
 		dest.setFilters( src.getFilters( ) );
 		if ( src.getSorts( ).size( ) != 0 )
 		{
