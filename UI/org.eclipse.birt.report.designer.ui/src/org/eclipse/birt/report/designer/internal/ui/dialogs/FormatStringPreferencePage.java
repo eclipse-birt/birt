@@ -24,6 +24,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * A preference page for formatting string.
  */
@@ -50,7 +52,8 @@ public class FormatStringPreferencePage extends BaseStylePreferencePage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#adjustGridLayout()
+	 * @see
+	 * org.eclipse.jface.preference.FieldEditorPreferencePage#adjustGridLayout()
 	 */
 	protected void adjustGridLayout( )
 	{
@@ -76,7 +79,9 @@ public class FormatStringPreferencePage extends BaseStylePreferencePage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.BaseStylePreferencePage#createFieldEditors()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseStylePreferencePage
+	 * #createFieldEditors()
 	 */
 	protected void createFieldEditors( )
 	{
@@ -85,7 +90,8 @@ public class FormatStringPreferencePage extends BaseStylePreferencePage
 		formatPage = new FormatStringPage( parent, SWT.NULL );
 		( (Composite) formatPage ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		initiateFormatPage( );
-		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),IHelpContextIds.STYLE_BUILDER_FORMATSTRING_ID ); 
+		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),
+				IHelpContextIds.STYLE_BUILDER_FORMATSTRING_ID );
 
 	}
 
@@ -93,15 +99,18 @@ public class FormatStringPreferencePage extends BaseStylePreferencePage
 	{
 		String category = ( (StylePreferenceStore) getPreferenceStore( ) ).getStringFormatCategory( );
 		String pattern = ( (StylePreferenceStore) getPreferenceStore( ) ).getStringFormat( );
+		ULocale locale = ( (StylePreferenceStore) getPreferenceStore( ) ).getStringFormatLocale( );
 
-		formatPage.setInput( category, pattern );
+		formatPage.setInput( category, pattern, locale );
 		return;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.BaseStylePreferencePage#performOk()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseStylePreferencePage
+	 * #performOk()
 	 */
 	public boolean performOk( )
 	{
@@ -136,6 +145,7 @@ public class FormatStringPreferencePage extends BaseStylePreferencePage
 		{
 			( (StylePreferenceStore) getPreferenceStore( ) ).setStringFormatCategory( formatPage.getCategory( ) );
 			( (StylePreferenceStore) getPreferenceStore( ) ).setStringFormat( formatPage.getPattern( ) );
+			( (StylePreferenceStore) getPreferenceStore( ) ).setStringFormatLocale( formatPage.getLocale( ) );
 			return true;
 		}
 		catch ( SemanticException e )

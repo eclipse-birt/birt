@@ -25,6 +25,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * The builder used to generate a format string
  * <dt><b>Styles: </b></dt>
@@ -52,6 +54,7 @@ public class FormatBuilder extends BaseDialog
 	private IFormatPage page;
 	private String formatCategory = null;
 	private String formatPattern = null;
+	private ULocale formatLocale = null;
 	private String previewText = null;
 
 	private int type;
@@ -115,16 +118,18 @@ public class FormatBuilder extends BaseDialog
 	/*
 	 * Set format categrory and patten
 	 */
-	public void setInputFormat( String formatCategroy, String formatPattern )
+	public void setInputFormat( String formatCategroy, String formatPattern,
+			ULocale formatLocale )
 	{
 		Assert.isLegal( !StringUtil.isBlank( formatCategroy ) );
 		this.formatCategory = formatCategroy;
 		this.formatPattern = formatPattern;
+		this.formatLocale = formatLocale;
 	}
 
 	protected boolean initDialog( )
 	{
-		page.setInput( formatCategory, formatPattern );
+		page.setInput( formatCategory, formatPattern, formatLocale );
 		page.setPreviewText( previewText );
 		return true;
 	}
@@ -134,8 +139,8 @@ public class FormatBuilder extends BaseDialog
 		if ( page.isFormatModified( ) )
 		{
 
-			setResult( new String[]{
-					page.getCategory( ), page.getPattern( )
+			setResult( new Object[]{
+					page.getCategory( ), page.getPattern( ), page.getLocale( )
 			} );
 			super.okPressed( );
 		}

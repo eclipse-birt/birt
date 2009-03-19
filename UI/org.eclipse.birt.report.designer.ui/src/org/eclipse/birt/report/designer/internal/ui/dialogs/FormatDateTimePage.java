@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -59,6 +62,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 {
 
 	private static final String LABEL_FORMAT_DATE_TIME_PAGE = Messages.getString( "FormatDateTimePage.label.format.page" ); //$NON-NLS-1$
+	private static final String LABEL_FORMAT_DATE_TIME_LOCALE = Messages.getString( "FormatDateTimePage.label.format.locale" );//$NON-NLS-1$
 	private static final String LABEL_GENERAL_PREVIEW_GROUP = Messages.getString( "FormatDateTimePage.label.general.preview.group" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTINGS = Messages.getString( "FormatDateTimePage.label.custom.settings" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTINGS_LABEL = Messages.getString( "FormatDateTimePage.label.custom.settings.label" ); //$NON-NLS-1$
@@ -78,20 +82,20 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 	private String pattern = null;
 	private String category = null;
+	private String locale = null;
 	private String oldCategory = null;
 	private String oldPattern = null;
+	private String oldLocale = null;
 
 	private HashMap categoryPageMaps;
-
-	private static String[][] choiceArray = null;
-	private static String[] formatTypes = null;
 
 	private static final int FORMAT_CODE_INDEX = 2;
 	private static final int DEFAULT_CATEGORY_CONTAINER_WIDTH = 220;
 
 	private int pageAlignment;
 
-	private Combo typeChoicer;
+	private Combo typeChoicer, localeChoicer;
+
 	private Composite infoComp;
 	private Composite formatCodeComp;
 
@@ -169,7 +173,6 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 	protected void createContents( int pageAlignment2 )
 	{
-		initFormatTypes( );
 
 		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
 		{
@@ -182,11 +185,6 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 	}
 
-	private void initFormatTypes( )
-	{
-		choiceArray = formatAdapter.getFormatTypeChoiceSet( );
-		formatTypes = formatAdapter.getFormatTypes( );
-	}
 
 	protected void createContentsVirtically( )
 	{
@@ -204,13 +202,29 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			public void widgetSelected( SelectionEvent e )
 			{
 				reLayoutSubPages( );
-
+				updateTextByLocale( );
 				updatePreview( );
 				notifyFormatChange( );
 			}
 		} );
-		typeChoicer.setItems( formatTypes );
+		typeChoicer.setItems( formatAdapter.getFormatTypes( null ) );
 		typeChoicer.select( 0 );
+
+		new Label( topContainer, SWT.NONE ).setText( LABEL_FORMAT_DATE_TIME_LOCALE );
+		localeChoicer = new Combo( topContainer, SWT.READ_ONLY );
+		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateTextByLocale( );
+				updatePreview( );
+				notifyFormatChange( );
+			}
+		} );
+		localeChoicer.setItems( formatAdapter.getLocaleDisplayNames( ) );
+		if ( localeChoicer.getItemCount( ) > 0 )
+			localeChoicer.select( 0 );
 
 		infoComp = new Composite( this, SWT.NONE );
 		infoComp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -241,13 +255,29 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			public void widgetSelected( SelectionEvent e )
 			{
 				reLayoutSubPages( );
-
+				updateTextByLocale( );
 				updatePreview( );
 				notifyFormatChange( );
 			}
 
 		} );
-		typeChoicer.setItems( formatTypes );
+		typeChoicer.setItems( formatAdapter.getFormatTypes( null ) );
+
+		new Label( container, SWT.NONE ).setText( LABEL_FORMAT_DATE_TIME_LOCALE );
+		localeChoicer = new Combo( container, SWT.READ_ONLY );
+		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateTextByLocale( );
+				updatePreview( );
+				notifyFormatChange( );
+			}
+		} );
+		localeChoicer.setItems( formatAdapter.getLocaleDisplayNames( ) );
+		if ( localeChoicer.getItemCount( ) > 0 )
+			localeChoicer.select( 0 );
 
 		// create the right part setting pane
 		infoComp = new Composite( this, SWT.NONE );
@@ -304,43 +334,6 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		getHorizonCustomFormatCodePage( parent );
 	}
 
-	/**
-	 * Gets the index of given category.
-	 */
-
-	private int getIndexOfCategory( String category )
-	{
-		if ( choiceArray != null && choiceArray.length > 0 )
-		{
-			for ( int i = 0; i < choiceArray.length; i++ )
-			{
-				if ( choiceArray[i][1].equals( category ) )
-				{
-					return i;
-				}
-			}
-		}
-		return 0;
-	}
-
-	/**
-	 * Gets the corresponding category for given display name.
-	 */
-
-	private String getCategory4UIDisplayName( String displayName )
-	{
-		if ( choiceArray != null && choiceArray.length > 0 )
-		{
-			for ( int i = 0; i < choiceArray.length; i++ )
-			{
-				if ( formatTypes[i].equals( displayName ) )
-				{
-					return choiceArray[i][1];
-				}
-			}
-		}
-		return displayName;
-	}
 
 	/**
 	 * Gets the corresponding internal display name given the category.
@@ -349,14 +342,10 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	 * @return
 	 */
 
-	private String getDisplayName4Category( String category )
-	{
-		return ChoiceSetFactory.getStructDisplayName( DateTimeFormatValue.FORMAT_VALUE_STRUCT,
-				DateTimeFormatValue.CATEGORY_MEMBER,
-				category );
-	}
 
-	private void fireFormatChanged( String newCategory, String newPattern )
+
+	private void fireFormatChanged( String newCategory, String newPattern,
+			String newLocale )
 	{
 		if ( listeners.isEmpty( ) )
 		{
@@ -365,7 +354,8 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		FormatChangeEvent event = new FormatChangeEvent( this,
 				StyleHandle.DATE_TIME_FORMAT_PROP,
 				newCategory,
-				newPattern );
+				newPattern,
+				newLocale );
 		for ( Iterator iter = listeners.iterator( ); iter.hasNext( ); )
 		{
 			Object listener = iter.next( );
@@ -380,7 +370,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	{
 		if ( hasLoaded )
 		{
-			fireFormatChanged( getCategory( ), getPattern( ) );
+			fireFormatChanged( getCategory( ), getPattern( ), this.locale );
 		}
 	}
 
@@ -442,20 +432,27 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	 *            The pattern of the format string.
 	 */
 
-	public void setInput( String categoryStr, String patternStr )
+	public void setInput( String categoryStr, String patternStr, ULocale locale )
 	{
 		hasLoaded = false;
-
-		initiatePageLayout( categoryStr, patternStr );
+		String localeStr = formatAdapter.getLocaleDisplayName( locale );
+		initiatePageLayout( categoryStr, patternStr, localeStr );
 		reLayoutSubPages( );
+		updateTextByLocale( );
 		updatePreview( );
 
 		// set initail.
 		oldCategory = categoryStr;
 		oldPattern = patternStr;
+		oldLocale = localeStr;
 
 		hasLoaded = true;
 		return;
+	}
+
+	public void setInput( String categoryStr, String patternStr )
+	{
+		setInput( categoryStr, patternStr, null );
 	}
 
 	/*
@@ -479,6 +476,11 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	public String getPattern( )
 	{
 		return pattern;
+	}
+
+	public ULocale getLocale( )
+	{
+		return formatAdapter.getLocaleByDisplayName( locale );
 	}
 
 	/**
@@ -525,6 +527,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	{
 		String c = getCategory( );
 		String p = getPattern( );
+		String l = this.locale;
 		if ( oldCategory == null )
 		{
 			if ( c != null )
@@ -544,6 +547,17 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			}
 		}
 		else if ( !oldPattern.equals( p ) )
+		{
+			return true;
+		}
+		if ( oldLocale == null )
+		{
+			if ( l != null )
+			{
+				return true;
+			}
+		}
+		else if ( !oldLocale.equals( l ) )
 		{
 			return true;
 		}
@@ -616,6 +630,11 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		this.category = category;
 	}
 
+	private void setLocale( String locale )
+	{
+		this.locale = locale; //$NON-NLS-1$
+	}
+
 	/**
 	 * Marks the dirty marker of the page.
 	 * 
@@ -645,8 +664,12 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	{
 		markDirty( hasLoaded );
 
-		String category = getCategory4UIDisplayName( typeChoicer.getText( ) );
+		String category = formatAdapter.getCategory4UIDisplayName( typeChoicer.getText( ) );
 		setCategory( category );
+
+		ULocale locale = formatAdapter.getLocaleByDisplayName( this.locale );
+		if ( locale == null )
+			locale = ULocale.getDefault( );
 
 		boolean invalidPreviewText = false;
 		Date sampleDateTime = defaultDate;
@@ -656,7 +679,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			try
 			{
 				sampleDateTime = new DateFormatter( ENTER_DATE_TIME_GUIDE_FORMAT,
-						ULocale.getDefault( ) ).parse( getPreviewText( ) );
+						locale ).parse( getPreviewText( ) );
 			}
 			catch ( Exception e )
 			{
@@ -678,7 +701,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			{
 				try
 				{
-					fmtStr = new DateFormatter( pattern, ULocale.getDefault( ) ).format( sampleDateTime );
+					fmtStr = new DateFormatter( pattern, locale ).format( sampleDateTime );
 				}
 				catch ( Exception e )
 				{
@@ -703,13 +726,21 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 				pattern = formatAdapter.getUnformattedCategoryName( );
 				setPattern( null );
 			}
-			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
+			String fmtStr = new DateFormatter( pattern, locale ).format( sampleDateTime );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 		}
 	}
 
-	private void initiatePageLayout( String categoryStr, String patternStr )
+	private void initiatePageLayout( String categoryStr, String patternStr,
+			String localeStr )
 	{
+		if ( locale != null )
+		{
+			localeChoicer.setText( localeStr );
+		}
+		else
+			localeChoicer.select( 0 );
+
 		if ( categoryStr == null )
 		{
 			typeChoicer.select( 0 );
@@ -720,7 +751,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			{
 				formatCode.setText( patternStr == null ? "" : patternStr ); //$NON-NLS-1$
 			}
-			typeChoicer.select( getIndexOfCategory( categoryStr ) );
+			typeChoicer.select( formatAdapter.getIndexOfCategory( categoryStr ) );
 		}
 	}
 
@@ -730,7 +761,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 	private void reLayoutSubPages( )
 	{
-		String category = getCategory4UIDisplayName( typeChoicer.getText( ) );
+		String category = formatAdapter.getCategory4UIDisplayName( typeChoicer.getText( ) );
 
 		Control control = (Control) getPagebyCategory( category );
 
@@ -1054,25 +1085,56 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		tableColumnFormatCode.setWidth( 120 );
 		tableColumnFormatCode.setResizable( true );
 
-		String[] simpleFormatTypes = formatAdapter.getSimpleDateTimeFormatTypes( );
-		for ( int i = 0; i < simpleFormatTypes.length; i++ )
+		String[][] items = getTableItems( null );
+		for ( int i = 0; i < items.length; i++ )
 		{
-			new TableItem( table, SWT.NONE ).setText( new String[]{
-					getDisplayName4Category( simpleFormatTypes[i] ),
-					new DateFormatter( FormatDateTimePattern.getPatternForCategory( simpleFormatTypes[i] ) ).format( defaultDate ),
-					new DateFormatter( FormatDateTimePattern.getPatternForCategory( simpleFormatTypes[i] ) ).getFormatCode( )
-			} );
-		}
-		String[] customPatternCategorys = FormatDateTimePattern.getCustormPatternCategorys( );
-		for ( int i = 0; i < customPatternCategorys.length; i++ )
-		{
-			new TableItem( table, SWT.NONE ).setText( new String[]{
-					FormatDateTimePattern.getDisplayName4CustomCategory( customPatternCategorys[i] ),
-					new DateFormatter( FormatDateTimePattern.getCustormFormatPattern( customPatternCategorys[i] ) ).format( defaultDate ),
-					FormatDateTimePattern.getCustormFormatPattern( customPatternCategorys[i] )
-			} );
+			new TableItem( table, SWT.NONE ).setText( items[i] );
 		}
 
+	}
+
+	private void updateTextByLocale( )
+	{
+		ULocale oldLocale = formatAdapter.getLocaleByDisplayName( this.locale );
+		Date sampleDateTime = defaultDate;
+		try
+		{
+			if ( getPreviewText( ) != null )
+				sampleDateTime = new DateFormatter( ENTER_DATE_TIME_GUIDE_FORMAT,
+						oldLocale ).parse( getPreviewText( ) );
+		}
+		catch ( ParseException e )
+		{
+			// do nothing.
+		}
+
+		setLocale( localeChoicer.getText( ) );
+
+		ULocale locale = formatAdapter.getLocaleByDisplayName( this.locale );
+		if ( locale == null )
+			locale = ULocale.getDefault( );
+
+		int index = typeChoicer.getSelectionIndex( );
+		typeChoicer.setItems( formatAdapter.getFormatTypes( locale ) );
+		if ( index >= 0 && index < typeChoicer.getItemCount( ) )
+			typeChoicer.select( index );
+
+		String[][] items = getTableItems( locale );
+		for ( int i = 0; i < items.length; i++ )
+		{
+			table.getItem( i ).setText( items[i] );
+		}
+
+		if ( table.getSelectionCount( ) == 1 )
+		{
+			formatCode.setText( table.getSelection( )[0].getText( FORMAT_CODE_INDEX ) );
+		}
+
+		String sampleDateTimeString = new DateFormatter( ENTER_DATE_TIME_GUIDE_FORMAT,
+				locale ).format( sampleDateTime );
+		previewTextBox.setText( sampleDateTimeString );
+
+		setPreviewText( sampleDateTimeString );
 	}
 
 	private GridLayout createGridLayout4Page( )
@@ -1108,10 +1170,86 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	private void setControlsEnabeld( boolean b )
 	{
 		typeChoicer.setEnabled( b );
-
+		localeChoicer.setEnabled( b );
 		formatCode.setEnabled( b );
 		previewTextBox.setEnabled( b );
 		table.setEnabled( b );
 		return;
+	}
+
+
+	private String getDisplayName4Category( String category )
+	{
+		return ChoiceSetFactory.getStructDisplayName( DateTimeFormatValue.FORMAT_VALUE_STRUCT,
+				DateTimeFormatValue.CATEGORY_MEMBER,
+				category );
+	}
+
+	public String[][] getTableItems( ULocale locale )
+	{
+		List itemList = new ArrayList( );
+		String[][] items = new String[][]{
+				new String[]{
+						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ),
+								locale ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ),
+								locale ).getFormatCode( )
+				},
+				new String[]{
+						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ),
+								locale ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ),
+								locale ).getFormatCode( )
+				},
+				new String[]{
+						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ),
+								locale ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ),
+								locale ).getFormatCode( )
+				},
+				new String[]{
+						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ),
+								locale ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ),
+								locale ).getFormatCode( )
+				},
+				new String[]{
+						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ),
+								locale ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ),
+								locale ).getFormatCode( )
+				},
+				new String[]{
+						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ),
+								locale ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ),
+								locale ).getFormatCode( )
+				},
+				new String[]{
+						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ),
+								locale ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ),
+								locale ).getFormatCode( )
+				}
+		};
+		itemList.addAll( Arrays.asList( items ) );
+		String[] customPatterns = FormatDateTimePattern.getCustormPatternCategorys( );
+		for ( int i = 0; i < customPatterns.length; i++ )
+		{
+			itemList.add( new String[]{
+					FormatDateTimePattern.getDisplayName4CustomCategory( customPatterns[i] ),
+					new DateFormatter( FormatDateTimePattern.getCustormFormatPattern( customPatterns[i] ),
+							locale ).format( defaultDate ),
+					FormatDateTimePattern.getCustormFormatPattern( customPatterns[i] )
+			} );
+		}
+		return (String[][]) itemList.toArray( new String[0][3] );
 	}
 }

@@ -37,6 +37,8 @@ public class FormatChangeEvent extends EventObject
 	 */
 	private String pattern;
 
+	private String locale;
+
 	/**
 	 * Creates a new format change event.
 	 * 
@@ -50,13 +52,19 @@ public class FormatChangeEvent extends EventObject
 	 *            the new pattern of the format
 	 */
 	public FormatChangeEvent( Object source, String name, String newCategory,
-			String newPattern )
+			String newPattern, String newLocale )
 	{
 		super( source );
 		Assert.isNotNull( name );
 		this.formatName = name;
 		this.category = newCategory;
 		this.pattern = newPattern;
+		this.locale = newLocale;
+	}
+
+	public String getLocale( )
+	{
+		return locale;
 	}
 
 	/**

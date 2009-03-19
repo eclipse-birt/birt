@@ -56,6 +56,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 	private static final String PREVIEW_TEXT_INVALID_FORMAT_CODE = Messages.getString( "FormatStringPage.previewText.invalidFormatCode" ); //$NON-NLS-1$
 
 	private static final String LABEL_FORMAT_STRING_PAGE = Messages.getString( "FormatStringPage.label.formatStringAs" ); //$NON-NLS-1$
+	private static final String LABEL_FORMAT_STRING_LOCALE = Messages.getString( "FormatStringPage.label.locale" ); //$NON-NLS-1$
 	private static final String LABEL_GENERAL_PREVIEW_GROUP = Messages.getString( "FormatStringPage.label.previewWithFormat" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTINGS_GROUP = Messages.getString( "FormatStringPage.label.customSettings" ); //$NON-NLS-1$
 	private static final String LABEL_FORMAT_CODE = Messages.getString( "FormatStringPage.label.format.code" ); //$NON-NLS-1$
@@ -70,7 +71,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 	private static final String SAMPLE_TEXT_ZIP_C0DE4 = Messages.getString( "FormatStringPage.SimpleTextZipCode4" ); //$NON-NLS-1$
 	private static final String SAMPLE_TEXT_PHONE_NUMBER = Messages.getString( "FormatStringPage.PhoneNumber" ); //$NON-NLS-1$
 	private static final String SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER = Messages.getString( "FormatStringPage.SocialSecurityNumber" ); //$NON-NLS-1$
-	private static final String SAMPLE_TEXT_PRESERVE_SPACE = Messages.getString( "FormatStringPage.Preview.PreserveWhiteSpaces"); //$NON-NLS-1$ //$NON-NLS-1$
+	private static final String SAMPLE_TEXT_PRESERVE_SPACE = Messages.getString( "FormatStringPage.Preview.PreserveWhiteSpaces" ); //$NON-NLS-1$ //$NON-NLS-1$
 
 	private static final String DEFAULT_PREVIEW_TEXT = Messages.getString( "FormatStringPage.default.preview.text" ); //$NON-NLS-1$
 
@@ -78,8 +79,10 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 
 	private String pattern = null;
 	private String category = null;
+	private String locale = null;
 	private String oldCategory = null;
 	private String oldPattern = null;
+	private String oldLocale = null;
 
 	private HashMap categoryPageMaps;
 
@@ -87,6 +90,8 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 	private static final int DEFAULT_CATEGORY_CONTAINER_WIDTH = 220;
 
 	private CCombo typeChoicer;
+	private CCombo localeChoicer;
+
 	private Composite infoComp;
 	private Composite formatCodeComp;
 
@@ -192,12 +197,35 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 			public void widgetSelected( SelectionEvent e )
 			{
 				reLayoutSubPages( );
+				updateTextByLocale( );
 				updatePreview( );
 				notifyFormatChange( );
 			}
 
 		} );
 		typeChoicer.setItems( provider.getFormatTypes( ) );
+
+		FormWidgetFactory.getInstance( ).createLabel( topContainer,
+				isFormStyle( ) ).setText( LABEL_FORMAT_STRING_LOCALE );
+		if ( !isFormStyle( ) )
+			localeChoicer = new CCombo( topContainer, SWT.READ_ONLY
+					| SWT.BORDER );
+		else
+			localeChoicer = FormWidgetFactory.getInstance( )
+					.createCCombo( topContainer, true );
+		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateTextByLocale( );
+				updatePreview( );
+				notifyFormatChange( );
+			}
+		} );
+		localeChoicer.setItems( provider.getLocaleDisplayNames( ) );
+		if ( localeChoicer.getItemCount( ) > 0 )
+			localeChoicer.select( 0 );
 
 		infoComp = new Composite( content, SWT.NONE );
 		infoComp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -234,12 +262,34 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 			public void widgetSelected( SelectionEvent e )
 			{
 				reLayoutSubPages( );
-
+				updateTextByLocale( );
 				updatePreview( );
 				notifyFormatChange( );
 			}
 		} );
 		typeChoicer.setItems( provider.getFormatTypes( ) );
+
+		FormWidgetFactory.getInstance( )
+				.createLabel( container, isFormStyle( ) )
+				.setText( LABEL_FORMAT_STRING_LOCALE );
+		if ( !isFormStyle( ) )
+			localeChoicer = new CCombo( container, SWT.READ_ONLY | SWT.BORDER );
+		else
+			localeChoicer = FormWidgetFactory.getInstance( )
+					.createCCombo( container, true );
+		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateTextByLocale( );
+				updatePreview( );
+				notifyFormatChange( );
+			}
+		} );
+		localeChoicer.setItems( provider.getLocaleDisplayNames( ) );
+		if ( localeChoicer.getItemCount( ) > 0 )
+			localeChoicer.select( 0 );
 
 		// create the right part setting pane
 		infoComp = new Composite( content, SWT.NONE );
@@ -323,8 +373,62 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 	{
 		if ( hasLoaded )
 		{
-			provider.fireFormatChanged( getCategory( ), getPattern( ) );
+			provider.fireFormatChanged( getCategory( ),
+					getPattern( ),
+					this.locale );
 		}
+	}
+
+	private void updateTextByLocale( )
+	{
+		setLocale( localeChoicer.getText( ) );
+
+		ULocale locale = getLocaleByDisplayName( this.locale );
+		if ( locale == null )
+			locale = ULocale.getDefault( );
+
+		table.getItem( 0 )
+				.setText( new String[]{
+						provider.getDisplayName4Category( provider.STRING_FORMAT_TYPE_UPPERCASE ),
+						new StringFormatter( FormatStringPattern.getPatternForCategory( provider.STRING_FORMAT_TYPE_UPPERCASE,
+								locale ),
+								locale ).format( DEFAULT_PREVIEW_TEXT )
+				} );
+		table.getItem( 1 )
+				.setText( new String[]{
+						provider.getDisplayName4Category( provider.STRING_FORMAT_TYPE_LOWERCASE ),
+						new StringFormatter( FormatStringPattern.getPatternForCategory( provider.STRING_FORMAT_TYPE_LOWERCASE,
+								locale ),
+								locale ).format( DEFAULT_PREVIEW_TEXT )
+				} );
+		table.getItem( 2 )
+				.setText( new String[]{
+						provider.getDisplayName4Category( provider.STRING_FORMAT_TYPE_ZIP_CODE_4 ),
+						new StringFormatter( FormatStringPattern.getPatternForCategory( provider.STRING_FORMAT_TYPE_ZIP_CODE_4,
+								locale ),
+								locale ).format( SAMPLE_TEXT_ZIP_C0DE4 )
+				} );
+		table.getItem( 3 )
+				.setText( new String[]{
+						provider.getDisplayName4Category( provider.STRING_FORMAT_TYPE_PHONE_NUMBER ),
+						new StringFormatter( FormatStringPattern.getPatternForCategory( provider.STRING_FORMAT_TYPE_PHONE_NUMBER,
+								locale ),
+								locale ).format( SAMPLE_TEXT_PHONE_NUMBER )
+				} );
+		table.getItem( 4 )
+				.setText( new String[]{
+						provider.getDisplayName4Category( provider.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER ),
+						new StringFormatter( FormatStringPattern.getPatternForCategory( provider.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER,
+								locale ),
+								locale ).format( SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER )
+				} );
+		table.getItem( 5 )
+				.setText( new String[]{
+						provider.getDisplayName4Category( provider.STRING_FORMAT_TYPE_PRESERVE_SPACE ),
+						new StringFormatter( FormatStringPattern.getPatternForCategory( provider.STRING_FORMAT_TYPE_PRESERVE_SPACE,
+								locale ),
+								locale ).format( SAMPLE_TEXT_PRESERVE_SPACE )
+				} );
 	}
 
 	/**
@@ -374,6 +478,11 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 		return;
 	}
 
+	public void setInput( String categoryStr, String patternStr )
+	{
+		setInput( categoryStr, patternStr, null );
+	}
+
 	/**
 	 * Sets input of the page.
 	 * 
@@ -383,18 +492,22 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 	 *            The pattern of the format string.
 	 */
 
-	public void setInput( String categoryStr, String patternStr )
+	public void setInput( String categoryStr, String patternStr, ULocale locale )
 	{
 		hasLoaded = false;
 
-		initiatePageLayout( categoryStr, patternStr );
+		String localeStr = provider.getLocaleDisplayName( locale );
+
+		initiatePageLayout( categoryStr, patternStr, localeStr );
 		reLayoutSubPages( );
+		updateTextByLocale( );
 		updatePreview( );
 
 		// set initial.
 		oldCategory = categoryStr;
 		oldPattern = patternStr;
-
+		oldLocale = localeStr;
+		
 		hasLoaded = true;
 		return;
 	}
@@ -425,6 +538,19 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 	public String getPattern( )
 	{
 		return pattern;
+	}
+
+	public ULocale getLocale( )
+	{
+		return getLocaleByDisplayName( locale );
+	}
+
+	private ULocale getLocaleByDisplayName( String name )
+	{
+		if ( provider != null )
+			return provider.getLocaleByDisplayName( name );
+		else
+			return null;
 	}
 
 	/**
@@ -471,6 +597,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 	{
 		String c = getCategory( );
 		String p = getPattern( );
+		String l = this.locale;
 		if ( oldCategory == null )
 		{
 			if ( c != null )
@@ -490,6 +617,17 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 			}
 		}
 		else if ( !oldPattern.equals( p ) )
+		{
+			return true;
+		}
+		if ( oldLocale == null )
+		{
+			if ( l != null )
+			{
+				return true;
+			}
+		}
+		else if ( !oldLocale.equals( l ) )
 		{
 			return true;
 		}
@@ -536,6 +674,11 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 	private void setCategory( String category )
 	{
 		this.category = category;
+	}
+
+	private void setLocale( String locale )
+	{
+		this.locale = locale; //$NON-NLS-1$
 	}
 
 	/**
@@ -592,6 +735,10 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 	{
 		markDirty( hasLoaded );
 
+		ULocale locale = getLocaleByDisplayName( this.locale );
+		if ( locale == null )
+			locale = ULocale.getDefault( );
+
 		String gText;
 		if ( getPreviewText( ) == null )
 		{
@@ -608,49 +755,49 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 		if ( provider.STRING_FORMAT_TYPE_UNFORMATTED.equals( category ) )
 		{
 			String pattern = null;
-			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+			String fmtStr = new StringFormatter( pattern, locale ).format( gText );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( null );
 		}
 		else if ( provider.STRING_FORMAT_TYPE_UPPERCASE.equals( category ) )
 		{
 			String pattern = FormatStringPattern.getPatternForCategory( category );
-			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+			String fmtStr = new StringFormatter( pattern, locale ).format( gText );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( provider.STRING_FORMAT_TYPE_LOWERCASE.equals( category ) )
 		{
 			String pattern = FormatStringPattern.getPatternForCategory( category );
-			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+			String fmtStr = new StringFormatter( pattern, locale ).format( gText );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( provider.STRING_FORMAT_TYPE_ZIP_CODE.equals( category ) )
 		{
 			String pattern = FormatStringPattern.getPatternForCategory( category );
-			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_ZIP_CODE );
+			String fmtStr = new StringFormatter( pattern, locale ).format( SAMPLE_TEXT_ZIP_CODE );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( provider.STRING_FORMAT_TYPE_ZIP_CODE_4.equals( category ) )
 		{
 			String pattern = FormatStringPattern.getPatternForCategory( category );
-			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_ZIP_C0DE4 );
+			String fmtStr = new StringFormatter( pattern, locale ).format( SAMPLE_TEXT_ZIP_C0DE4 );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( provider.STRING_FORMAT_TYPE_PHONE_NUMBER.equals( category ) )
 		{
 			String pattern = FormatStringPattern.getPatternForCategory( category );
-			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_PHONE_NUMBER );
+			String fmtStr = new StringFormatter( pattern, locale ).format( SAMPLE_TEXT_PHONE_NUMBER );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( provider.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER.equals( category ) )
 		{
 			String pattern = FormatStringPattern.getPatternForCategory( category );
-			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER );
+			String fmtStr = new StringFormatter( pattern, locale ).format( SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
@@ -660,11 +807,11 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 			String fmtStr;
 			if ( provider.isBlank( previewTextBox.getText( ) ) )
 			{
-				fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+				fmtStr = new StringFormatter( pattern, locale ).format( gText );
 			}
 			else
 			{
-				fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( previewTextBox.getText( ) );
+				fmtStr = new StringFormatter( pattern, locale ).format( previewTextBox.getText( ) );
 			}
 
 			cPreviewLabel.setText( validatedFmtStr( fmtStr ) );
@@ -674,8 +821,16 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 		return;
 	}
 
-	private void initiatePageLayout( String categoryStr, String patternStr )
+	private void initiatePageLayout( String categoryStr, String patternStr,
+			String localeStr )
 	{
+		if ( localeStr != null )
+		{
+			localeChoicer.setText( localeStr );
+		}
+		else
+			localeChoicer.select( 0 );
+
 		if ( categoryStr == null )
 		{
 			typeChoicer.select( 0 );
@@ -1003,6 +1158,8 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				ULocale locale = getLocaleByDisplayName( FormatStringDescriptor.this.locale );
+
 				String displayName = ( (TableItem) e.item ).getText( FORMAT_TYPE_INDEX );
 				String category = null;
 				if ( displayName.equals( FormatStringDescriptorProvider.PRESERVE_WHITE_SPACES ) )
@@ -1011,7 +1168,8 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 					category = ChoiceSetFactory.getStructPropValue( provider.FORMAT_VALUE_STRUCT,
 							provider.CATEGORY_MEMBER,
 							displayName );
-				String pattern = FormatStringPattern.getPatternForCategory( category );
+				String pattern = FormatStringPattern.getPatternForCategory( category,
+						locale );
 				formatCode.setText( pattern );
 
 				updatePreview( );
@@ -1093,7 +1251,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 	private void setControlsEnabeld( boolean b )
 	{
 		typeChoicer.setEnabled( b );
-
+		localeChoicer.setEnabled( b );
 		formatCode.setEnabled( b );
 		previewTextBox.setEnabled( b );
 		table.setEnabled( b );
@@ -1121,7 +1279,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 		}
 		else
 		{
-			setInput( format[0], format[1] );
+			setInput( format[0], format[1], getLocaleByDisplayName( format[2] ) );
 		}
 
 	}

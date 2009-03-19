@@ -52,6 +52,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
+import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -60,11 +61,13 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -260,11 +263,11 @@ public class ParameterDialog extends BaseDialog
 
 	public static final String HELPER_KEY_STARTPOINT = "autoSuggestStartPoint";//$NON-NLS-1$
 
-	public static final String CONTROLTYPE_INPUTVALUE = "controltypeinput";//$NON-NLS-1$
+	public static final String CONTROLTYPE_INPUTVALUE = "controltypeinput";
 
-	public static final String STARTPOINT_INPUTVALUE = "startpointinput";//$NON-NLS-1$
+	public static final String STARTPOINT_INPUTVALUE = "startpointinput";
 
-	public static final String STARTPOINT_VALUE = "startpoint";//$NON-NLS-1$
+	public static final String STARTPOINT_VALUE = "startpoint";
 
 	private boolean allowMultiValueVisible = true;
 
@@ -315,13 +318,17 @@ public class ParameterDialog extends BaseDialog
 	private Button valueColumnExprButton;
 
 	// Label
-	private Label previewLabel, sortKeyLabel, sortDirectionLabel;
+	private Label sortKeyLabel, sortDirectionLabel;
+
+	private CLabel previewLabel;
 
 	private TableViewer valueTable;
 
 	private String lastDataType, lastControlType;
 
 	private String formatCategroy, formatPattern;
+
+	private ULocale formatLocale;
 
 	private List<Expression> defaultValueList;
 
@@ -687,7 +694,7 @@ public class ParameterDialog extends BaseDialog
 		previewArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		previewArea.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
 		previewArea.setText( LABEL_PREVIEW );
-		previewLabel = new Label( previewArea, SWT.NONE );
+		previewLabel = new CLabel( previewArea, SWT.NONE );
 		previewLabel.setAlignment( SWT.CENTER );
 		previewLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
@@ -1194,6 +1201,15 @@ public class ParameterDialog extends BaseDialog
 					formatCategroy = DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED;
 				}
 				formatPattern = inputParameter.getPattern( );
+
+				Object formatValue = inputParameter.getProperty( IScalarParameterModel.FORMAT_PROP );
+				if ( formatValue instanceof FormatValue )
+				{
+					PropertyHandle propHandle = inputParameter.getPropertyHandle( IScalarParameterModel.FORMAT_PROP );
+					FormatValue formatValueToSet = (FormatValue) formatValue;
+					FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+					formatLocale = formatHandle.getLocale( );
+				}
 			}
 		}
 		updateFormatField( );
@@ -2396,6 +2412,15 @@ public class ParameterDialog extends BaseDialog
 			inputParameter.setCategory( formatCategroy );
 			inputParameter.setPattern( formatPattern );
 
+			Object value = inputParameter.getProperty( IScalarParameterModel.FORMAT_PROP );
+			if ( value instanceof FormatValue )
+			{
+				PropertyHandle propHandle = inputParameter.getPropertyHandle( IScalarParameterModel.FORMAT_PROP );
+				FormatValue formatValueToSet = (FormatValue) value;
+				FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+				formatHandle.setLocale( formatLocale );
+			}
+
 			// if ( isStatic( )
 			// && ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) ||
 			// DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals(
@@ -2936,6 +2961,10 @@ public class ParameterDialog extends BaseDialog
 
 	private void updateFormatField( )
 	{
+		ULocale locale = formatLocale;
+		if ( locale == null )
+			locale = ULocale.getDefault( );
+
 		String displayFormat;
 		String previewString;
 		String type = getSelectedDataType( );
@@ -2971,27 +3000,27 @@ public class ParameterDialog extends BaseDialog
 				previewString = new DateFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
 						: ( formatCategroy.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATETIME_UNFORMATTED
 								: formatCategroy ),
-						ULocale.getDefault( ) ).format( new Date( ) );
+						locale ).format( new Date( ) );
 			}
 			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATE ) )
 			{
 				previewString = new DateFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
 						: ( formatCategroy.equals( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATE_UNFORMATTED
 								: formatCategroy ),
-						ULocale.getDefault( ) ).format( new Date( ) );
+						locale ).format( new Date( ) );
 			}
 			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_TIME ) )
 			{
 				previewString = new DateFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
 						: ( formatCategroy.equals( "Unformatted" ) ? DateFormatter.TIME_UNFORMATTED //$NON-NLS-1$
 								: formatCategroy ),
-						ULocale.getDefault( ) ).format( new Date( ) );
+						locale ).format( new Date( ) );
 			}
 			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 			{
 				previewString = new StringFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
 						: formatCategroy,
-						ULocale.getDefault( ) ).format( defaultValue == null ? Messages.getString( "FormatStringPage.default.preview.text" ) //$NON-NLS-1$
+						locale ).format( defaultValue == null ? Messages.getString( "FormatStringPage.default.preview.text" ) //$NON-NLS-1$
 						: defaultValue );
 			}
 			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER )
@@ -3013,13 +3042,13 @@ public class ParameterDialog extends BaseDialog
 				}
 				previewString = new NumberFormatter( ( ParameterUtil.isCustomCategory( formatCategroy ) || ( isNumberFormat( formatCategroy ) ) ) ? formatPattern
 						: formatCategroy,
-						ULocale.getDefault( ) ).format( doulbeValue );
+						locale ).format( doulbeValue );
 			}
 			else
 			{
 				previewString = new NumberFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
 						: formatCategroy,
-						ULocale.getDefault( ) ).format( DEFAULT_PREVIEW_NUMBER );
+						locale ).format( DEFAULT_PREVIEW_NUMBER );
 			}
 		}
 		// }
@@ -3135,15 +3164,19 @@ public class ParameterDialog extends BaseDialog
 			formatType = FormatBuilder.NUMBER;
 		}
 		FormatBuilder formatBuilder = new FormatBuilder( formatType );
-		formatBuilder.setInputFormat( formatCategroy, formatPattern );
-		String previewText = getFirstDefaultValue( ) == null ? null
-				: getFirstDefaultValue( ).getStringExpression( );
+		formatBuilder.setInputFormat( formatCategroy,
+				formatPattern,
+				formatLocale );
+		String previewText = null;
+		if ( getFirstDefaultValue( ) != null )
+			previewText = getFirstDefaultValue( ).getStringExpression( );
 		if ( previewText != null )
 			formatBuilder.setPreviewText( previewText );
 		if ( formatBuilder.open( ) == OK )
 		{
-			formatCategroy = ( (String[]) formatBuilder.getResult( ) )[0];
-			formatPattern = ( (String[]) formatBuilder.getResult( ) )[1];
+			formatCategroy = (String) ( (Object[]) formatBuilder.getResult( ) )[0];
+			formatPattern = (String) ( (Object[]) formatBuilder.getResult( ) )[1];
+			formatLocale = (ULocale) ( (Object[]) formatBuilder.getResult( ) )[2];
 			updateFormatField( );
 			if ( refresh )
 			{

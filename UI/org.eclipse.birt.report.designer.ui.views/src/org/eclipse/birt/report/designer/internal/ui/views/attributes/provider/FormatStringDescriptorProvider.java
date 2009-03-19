@@ -13,16 +13,21 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.FormatValueHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
-public class FormatStringDescriptorProvider extends AbstractDescriptorProvider
+import com.ibm.icu.util.ULocale;
+
+public class FormatStringDescriptorProvider extends FormatDescriptorProvider
 {
 
 	public static final String PRESERVE_WHITE_SPACES = Messages.getString( "FormatStringPage.Label.PreserveWhiteSpaces" ); //$NON-NLS-1$
@@ -50,29 +55,63 @@ public class FormatStringDescriptorProvider extends AbstractDescriptorProvider
 		String basePattern = ( (DesignElementHandle) (DesignElementHandle) DEUtil.getInputFirstElement( input ) ).getPrivateStyle( )
 				.getStringFormat( );
 
+		String baseLocale = NONE;
+		DesignElementHandle element = ( (DesignElementHandle) DEUtil.getInputFirstElement( input ) );
+		if ( element.getPrivateStyle( ) != null )
+		{
+			StyleHandle style = element.getPrivateStyle( );
+			Object formatValue = style.getProperty( IStyleModel.STRING_FORMAT_PROP );
+			if ( formatValue instanceof FormatValue )
+			{
+				PropertyHandle propHandle = style.getPropertyHandle( IStyleModel.STRING_FORMAT_PROP );
+				FormatValue formatValueToSet = (FormatValue) formatValue;
+				FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+				ULocale uLocale = formatHandle.getLocale( );
+				if ( uLocale != null )
+					baseLocale = uLocale.getDisplayName( );
+			}
+		}
+
 		for ( Iterator iter = DEUtil.getInputElements( input ).iterator( ); iter.hasNext( ); )
 		{
 			DesignElementHandle handle = (DesignElementHandle) iter.next( );
 			String category = handle.getPrivateStyle( )
 					.getStringFormatCategory( );
 			String pattern = handle.getPrivateStyle( ).getStringFormat( );
+			String locale = NONE;
+
+			if ( handle.getPrivateStyle( ) != null )
+			{
+				StyleHandle style = handle.getPrivateStyle( );
+				Object formatValue = style.getProperty( IStyleModel.STRING_FORMAT_PROP );
+				if ( formatValue instanceof FormatValue )
+				{
+					PropertyHandle propHandle = style.getPropertyHandle( IStyleModel.STRING_FORMAT_PROP );
+					FormatValue formatValueToSet = (FormatValue) formatValue;
+					FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+					ULocale uLocale = formatHandle.getLocale( );
+					if ( uLocale != null )
+						locale = uLocale.getDisplayName( );
+				}
+			}
 
 			if ( ( ( baseCategory == null && category == null ) || ( baseCategory != null && baseCategory.equals( category ) ) )
-					&& ( ( basePattern == null && pattern == null ) || ( basePattern != null && basePattern.equals( pattern ) ) ) )
+					&& ( ( basePattern == null && pattern == null ) || ( basePattern != null && basePattern.equals( pattern ) ) )
+					&& ( ( baseLocale == null && locale == null ) || ( baseLocale != null && baseLocale.equals( locale ) ) ) )
 			{
 				continue;
 			}
 			return null;
 		}
 		return new String[]{
-				baseCategory, basePattern
+				baseCategory, basePattern, baseLocale
 		};
 	}
 
 	public void save( Object value ) throws SemanticException
 	{
 		String[] values = (String[]) value;
-		if ( values.length != 2 )
+		if ( values.length != 3 )
 			return;
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getCommandStack( );
@@ -92,6 +131,20 @@ public class FormatStringDescriptorProvider extends AbstractDescriptorProvider
 					element.getPrivateStyle( )
 							.setStringFormatCategory( values[0] );
 					element.getPrivateStyle( ).setStringFormat( values[1] );
+				}
+
+				if ( element.getPrivateStyle( ) != null )
+				{
+					StyleHandle style = element.getPrivateStyle( );
+					Object formatValue = style.getProperty( IStyleModel.STRING_FORMAT_PROP );
+					if ( formatValue instanceof FormatValue )
+					{
+						PropertyHandle propHandle = style.getPropertyHandle( IStyleModel.STRING_FORMAT_PROP );
+						FormatValue formatValueToSet = (FormatValue) formatValue;
+						FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+						if ( values[2] != null )
+							formatHandle.setLocale( getLocaleByDisplayName( values[2] ) );
+					}
 				}
 			}
 			catch ( SemanticException e )
@@ -206,7 +259,8 @@ public class FormatStringDescriptorProvider extends AbstractDescriptorProvider
 				category );
 	}
 
-	public void fireFormatChanged( String newCategory, String newPattern )
+	public void fireFormatChanged( String newCategory, String newPattern,
+			String newLocale )
 	{
 		if ( listeners.isEmpty( ) )
 		{
@@ -215,7 +269,8 @@ public class FormatStringDescriptorProvider extends AbstractDescriptorProvider
 		FormatChangeEvent event = new FormatChangeEvent( this,
 				StyleHandle.STRING_FORMAT_PROP,
 				newCategory,
-				newPattern );
+				newPattern,
+				newLocale );
 		for ( Iterator iter = listeners.iterator( ); iter.hasNext( ); )
 		{
 			Object listener = iter.next( );

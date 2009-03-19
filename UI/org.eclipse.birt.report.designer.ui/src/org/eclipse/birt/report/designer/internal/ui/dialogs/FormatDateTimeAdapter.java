@@ -24,7 +24,9 @@ import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 
-public class FormatDateTimeAdapter
+import com.ibm.icu.util.ULocale;
+
+public class FormatDateTimeAdapter extends FormatAdapter
 {
 
 	private static final String[] DATETIME_FORMAT_TYPES = {
@@ -150,18 +152,69 @@ public class FormatDateTimeAdapter
 		return choiceArray;
 	}
 
-	public String[] getFormatTypes( )
+	
+	private String[][] choiceArray = null;
+
+	public String[][] initChoiceArray( )
 	{
-		String[] formatTypes;
-		String[][] choiceArray = getFormatTypeChoiceSet( );
-		if ( choiceArray != null && choiceArray.length > 0 )
+		if ( choiceArray == null )
+		{
+			IChoiceSet set = ChoiceSetFactory.getStructChoiceSet( DateTimeFormatValue.FORMAT_VALUE_STRUCT,
+					DateTimeFormatValue.CATEGORY_MEMBER );
+			IChoice[] choices = set.getChoices( );
+			if ( choices.length > 0 )
+			{
+				choiceArray = new String[choices.length][2];
+				for ( int i = 0, j = 0; i < choices.length; i++ )
+				{
+					{
+						choiceArray[j][0] = choices[i].getDisplayName( );
+						choiceArray[j][1] = choices[i].getName( );
+						j++;
+					}
+				}
+			}
+			else
+			{
+				choiceArray = new String[0][0];
+			}
+		}
+		return choiceArray;
+	}
+
+	public String getCategory4UIDisplayName( String displayName )
+	{
+		if ( initChoiceArray( ) != null )
+		{
+			for ( int i = 0; i < choiceArray.length; i++ )
+			{
+				if ( formatTypes[i].equals( displayName ) )
+				{
+					return choiceArray[i][1];
+				}
+			}
+		}
+		return displayName;
+	}
+
+	/**
+	 * Gets the format types for display names.
+	 */
+
+	private String[] formatTypes = null;
+
+	public String[] getFormatTypes( ULocale locale )
+	{
+		if ( initChoiceArray( ) != null )
 		{
 			formatTypes = new String[choiceArray.length];
+
 			for ( int i = 0; i < choiceArray.length; i++ )
 			{
 				String fmtStr = ""; //$NON-NLS-1$
 				String category = choiceArray[i][1];
-				if ( category.equals( UNFORMATTED_DISPLAYNAME ) || category.equals( CUSTOM ) )
+				if ( category.equals( CUSTOM )
+						|| category.equals( UNFORMATTED_DISPLAYNAME ) )
 				{
 					fmtStr = choiceArray[i][0];
 				}
@@ -169,10 +222,12 @@ public class FormatDateTimeAdapter
 				{
 					// uses UI specified display names.
 					String pattern = FormatDateTimePattern.getPatternForCategory( category );
-					fmtStr = new DateFormatter( pattern ).format( defaultDate );
+					// FIXME There maybe waste a lot of time.
+					fmtStr = new DateFormatter( pattern, locale ).format( defaultDate );
 				}
 				formatTypes[i] = fmtStr;
 			}
+
 		}
 		else
 		{
@@ -180,7 +235,26 @@ public class FormatDateTimeAdapter
 		}
 		return formatTypes;
 	}
-	
+
+	/**
+	 * Gets the index of given category.
+	 */
+
+	public int getIndexOfCategory( String category )
+	{
+		if ( initChoiceArray( ) != null )
+		{
+			for ( int i = 0; i < choiceArray.length; i++ )
+			{
+				if ( choiceArray[i][1].equals( category ) )
+				{
+					return i;
+				}
+			}
+		}
+		return 0;
+	}
+
 	public String getUnformattedCategoryDisplayName()
 	{
 		return UNFORMATTED_DISPLAYNAME;
@@ -194,4 +268,5 @@ public class FormatDateTimeAdapter
 	{
 		return UNFORMATTED_NAME;
 	}
+
 }

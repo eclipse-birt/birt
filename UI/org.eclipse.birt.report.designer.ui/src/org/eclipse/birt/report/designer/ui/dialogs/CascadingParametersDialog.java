@@ -40,7 +40,9 @@ import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -48,10 +50,12 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.util.Assert;
@@ -249,7 +253,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private Button singleDataSet, multiDataSet;
 
-	private Label previewLable;
+	private CLabel previewLable;
 
 	private Table table;
 	private TableViewer valueTable;
@@ -271,6 +275,8 @@ public class CascadingParametersDialog extends BaseDialog
 	private String formatPattern;
 
 	private String formatCategroy;
+
+	private ULocale formatLocale;
 
 	private Button isRequired;
 
@@ -371,13 +377,13 @@ public class CascadingParametersDialog extends BaseDialog
 
 		sc.setContent( mainContent );
 		sc.setExpandHorizontal( true );
-//		sc.setExpandVertical( true );
+		// sc.setExpandVertical( true );
 		sc.setMinWidth( 600 );
-//		sc.setMinHeight( 570 );
+		// sc.setMinHeight( 570 );
 
 		Point size = mainContent.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		mainContent.setSize( size );
-		
+
 		return sc;
 	}
 
@@ -1013,7 +1019,7 @@ public class CascadingParametersDialog extends BaseDialog
 		preview.setText( LABEL_PREVIEW_WITH_FORMAT );
 		preview.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		preview.setLayout( new GridLayout( ) );
-		previewLable = new Label( preview, SWT.CENTER
+		previewLable = new CLabel( preview, SWT.CENTER
 				| SWT.HORIZONTAL
 				| SWT.VIRTUAL );
 		previewLable.setText( "" ); //$NON-NLS-1$
@@ -1168,7 +1174,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 		Point size = mainContent.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		mainContent.setSize( size );
-		
+
 		return true;
 	}
 
@@ -1772,6 +1778,15 @@ public class CascadingParametersDialog extends BaseDialog
 					formatCategroy = DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED;
 				}
 				formatPattern = selectedParameter.getPattern( );
+
+				Object formatValue = selectedParameter.getProperty( IScalarParameterModel.FORMAT_PROP );
+				if ( formatValue instanceof FormatValue )
+				{
+					PropertyHandle propHandle = selectedParameter.getPropertyHandle( IScalarParameterModel.FORMAT_PROP );
+					FormatValue formatValueToSet = (FormatValue) formatValue;
+					FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+					formatLocale = formatHandle.getLocale( );
+				}
 			}
 		}
 		updateFormatField( );
@@ -1901,12 +1916,15 @@ public class CascadingParametersDialog extends BaseDialog
 			formatType = FormatBuilder.NUMBER;
 		}
 		FormatBuilder formatBuilder = new FormatBuilder( formatType );
-		formatBuilder.setInputFormat( formatCategroy, formatPattern );
+		formatBuilder.setInputFormat( formatCategroy,
+				formatPattern,
+				formatLocale );
 		// formatBuilder.setPreviewText( defaultValue );
 		if ( formatBuilder.open( ) == OK )
 		{
-			formatCategroy = ( (String[]) formatBuilder.getResult( ) )[0];
-			formatPattern = ( (String[]) formatBuilder.getResult( ) )[1];
+			formatCategroy = (String) ( (Object[]) formatBuilder.getResult( ) )[0];
+			formatPattern = (String) ( (Object[]) formatBuilder.getResult( ) )[1];
+			formatLocale = (ULocale) ( (Object[]) formatBuilder.getResult( ) )[2];
 			updateFormatField( );
 		}
 	}
@@ -1936,7 +1954,10 @@ public class CascadingParametersDialog extends BaseDialog
 
 		if ( selectedParameter != null )
 		{
-			doPreview( isCustom( ) ? formatPattern : formatCategroy );
+			ULocale locale = formatLocale;
+			if ( locale == null )
+				locale = ULocale.getDefault( );
+			doPreview( isCustom( ) ? formatPattern : formatCategroy, locale );
 		}
 	}
 
@@ -1954,41 +1975,41 @@ public class CascadingParametersDialog extends BaseDialog
 		return false;
 	}
 
-	private void doPreview( String pattern )
+	private void doPreview( String pattern, ULocale locale )
 	{
 		String type = getSelectedDataType( );
 
 		String formatStr = ""; //$NON-NLS-1$
 		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 		{
-			formatStr = new StringFormatter( pattern, ULocale.getDefault( ) ).format( DEFAULT_PREVIEW_STRING );
+			formatStr = new StringFormatter( pattern, locale ).format( DEFAULT_PREVIEW_STRING );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 		{
 			pattern = pattern.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATETIME_UNFORMATTED
 					: pattern;
-			formatStr = new DateFormatter( pattern ).format( new Date( ) );
+			formatStr = new DateFormatter( pattern, locale ).format( new Date( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
 		{
 			pattern = pattern.equals( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATE_UNFORMATTED
 					: pattern;
-			formatStr = new DateFormatter( pattern ).format( new Date( ) );
+			formatStr = new DateFormatter( pattern, locale ).format( new Date( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
 		{
 			pattern = pattern.equals( "Unformatted" ) ? DateFormatter.TIME_UNFORMATTED //$NON-NLS-1$
 					: pattern;
-			formatStr = new DateFormatter( pattern ).format( new Date( ) );
+			formatStr = new DateFormatter( pattern, locale ).format( new Date( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
 				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
 		{
-			formatStr = new NumberFormatter( pattern ).format( DEFAULT_PREVIEW_NUMBER );
+			formatStr = new NumberFormatter( pattern, locale ).format( DEFAULT_PREVIEW_NUMBER );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
 		{
-			formatStr = new NumberFormatter( pattern ).format( DEFAULT_PREVIEW_INTEGER_NUMBER );
+			formatStr = new NumberFormatter( pattern, locale ).format( DEFAULT_PREVIEW_INTEGER_NUMBER );
 		}
 		previewLable.setText( UIUtil.convertToGUIString( formatStr ) );
 	}
@@ -2178,6 +2199,16 @@ public class CascadingParametersDialog extends BaseDialog
 
 			selectedParameter.setCategory( formatCategroy );
 			selectedParameter.setPattern( formatPattern );
+
+			Object value = selectedParameter.getProperty( IScalarParameterModel.FORMAT_PROP );
+			if ( value instanceof FormatValue )
+			{
+				PropertyHandle propHandle = selectedParameter.getPropertyHandle( IScalarParameterModel.FORMAT_PROP );
+				FormatValue formatValueToSet = (FormatValue) value;
+				FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+				formatHandle.setLocale( formatLocale );
+			}
+
 			refreshValueTable( );
 		};
 	}

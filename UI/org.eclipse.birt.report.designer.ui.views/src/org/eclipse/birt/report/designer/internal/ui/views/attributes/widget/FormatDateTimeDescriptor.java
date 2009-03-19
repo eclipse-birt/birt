@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -59,6 +60,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 {
 
 	private static final String LABEL_FORMAT_DATE_TIME_PAGE = Messages.getString( "FormatDateTimePage.label.format.page" ); //$NON-NLS-1$
+	private static final String LABEL_FORMAT_DATE_TIME_LOCALE = Messages.getString( "FormatDateTimePage.label.format.locale" ); //$NON-NLS-1$
 	private static final String LABEL_GENERAL_PREVIEW_GROUP = Messages.getString( "FormatDateTimePage.label.general.preview.group" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTINGS = Messages.getString( "FormatDateTimePage.label.custom.settings" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTINGS_LABEL = Messages.getString( "FormatDateTimePage.label.custom.settings.label" ); //$NON-NLS-1$
@@ -78,8 +80,10 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 
 	private String pattern = null;
 	private String category = null;
+	private String locale = null;
 	private String oldCategory = null;
 	private String oldPattern = null;
+	private String oldLocale = null;
 
 	private HashMap categoryPageMaps;
 
@@ -88,7 +92,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 
 	private int pageAlignment;
 
-	private CCombo typeChoicer;
+	private CCombo typeChoicer, localeChoicer;
 	private Composite infoComp;
 	private Composite formatCodeComp;
 
@@ -164,7 +168,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		content = new Composite( parent, SWT.NONE );
 
 		provider.initChoiceArray( );
-		provider.getFormatTypes( );
+		provider.getFormatTypes( null );
 
 		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
 		{
@@ -204,13 +208,35 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 			public void widgetSelected( SelectionEvent e )
 			{
 				reLayoutSubPages( );
-
+				updateTextByLocale( );
 				updatePreview( );
 				notifyFormatChange( );
 			}
 		} );
-		typeChoicer.setItems( provider.getFormatTypes( ) );
+		typeChoicer.setItems( provider.getFormatTypes( null ) );
 		typeChoicer.select( 0 );
+
+		FormWidgetFactory.getInstance( ).createLabel( topContainer,
+				isFormStyle( ) ).setText( LABEL_FORMAT_DATE_TIME_LOCALE );
+		if ( !isFormStyle( ) )
+			localeChoicer = new CCombo( topContainer, SWT.READ_ONLY
+					| SWT.BORDER );
+		else
+			localeChoicer = FormWidgetFactory.getInstance( )
+					.createCCombo( topContainer, true );
+		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateTextByLocale( );
+				updatePreview( );
+				notifyFormatChange( );
+			}
+		} );
+		localeChoicer.setItems( provider.getLocaleDisplayNames( ) );
+		if ( localeChoicer.getItemCount( ) > 0 )
+			localeChoicer.select( 0 );
 
 		infoComp = new Composite( content, SWT.NONE );
 		infoComp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -253,7 +279,29 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 			}
 
 		} );
-		typeChoicer.setItems( provider.getFormatTypes( ) );
+		typeChoicer.setItems( provider.getFormatTypes( null ) );
+
+		FormWidgetFactory.getInstance( )
+				.createLabel( container, isFormStyle( ) )
+				.setText( LABEL_FORMAT_DATE_TIME_LOCALE );
+		if ( !isFormStyle( ) )
+			localeChoicer = new CCombo( container, SWT.READ_ONLY | SWT.BORDER );
+		else
+			localeChoicer = FormWidgetFactory.getInstance( )
+					.createCCombo( container, true );
+		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateTextByLocale( );
+				updatePreview( );
+				notifyFormatChange( );
+			}
+		} );
+		localeChoicer.setItems( provider.getLocaleDisplayNames( ) );
+		if ( localeChoicer.getItemCount( ) > 0 )
+			localeChoicer.select( 0 );
 
 		// create the right part setting pane
 		infoComp = new Composite( content, SWT.NONE );
@@ -328,7 +376,9 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 	{
 		if ( hasLoaded )
 		{
-			provider.fireFormatChanged( getCategory( ), getPattern( ) );
+			provider.fireFormatChanged( getCategory( ),
+					getPattern( ),
+					this.locale );
 		}
 	}
 
@@ -368,11 +418,24 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 			setInput( result[0] );
 		else if ( result.length == 2 )
 			setInput( result[0], result[1] );
+		else if ( result.length == 3 )
+			setInput( result[0],
+					result[1],
+					getLocaleByDisplayName( result[2] ) );
 	}
+
 
 	public void save( Object obj ) throws SemanticException
 	{
 		provider.save( obj );
+	}
+
+	private ULocale getLocaleByDisplayName( String name )
+	{
+		if ( provider != null )
+			return provider.getLocaleByDisplayName( name );
+		else
+			return null;
 	}
 
 	public void setInput( String formatString )
@@ -410,20 +473,29 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 	 *            The pattern of the format string.
 	 */
 
-	public void setInput( String categoryStr, String patternStr )
+	public void setInput( String categoryStr, String patternStr, ULocale locale )
 	{
 		hasLoaded = false;
 
-		initiatePageLayout( categoryStr, patternStr );
+		String localeStr = provider.getLocaleDisplayName( locale );
+
+		initiatePageLayout( categoryStr, patternStr, localeStr );
 		reLayoutSubPages( );
+		updateTextByLocale( );
 		updatePreview( );
 
 		// set initail.
 		oldCategory = categoryStr;
 		oldPattern = patternStr;
+		oldLocale = localeStr;
 
 		hasLoaded = true;
 		return;
+	}
+
+	public void setInput( String categoryStr, String patternStr )
+	{
+		setInput( categoryStr, patternStr, null );
 	}
 
 	/*
@@ -447,6 +519,14 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 	public String getPattern( )
 	{
 		return pattern;
+	}
+
+	public ULocale getLocale( )
+	{
+		if ( provider != null )
+			return getLocaleByDisplayName( this.locale );
+		else
+			return null;
 	}
 
 	/**
@@ -493,6 +573,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 	{
 		String c = getCategory( );
 		String p = getPattern( );
+		String l = this.locale;
 		if ( oldCategory == null )
 		{
 			if ( c != null )
@@ -512,6 +593,17 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 			}
 		}
 		else if ( !oldPattern.equals( p ) )
+		{
+			return true;
+		}
+		if ( oldLocale == null )
+		{
+			if ( l != null )
+			{
+				return true;
+			}
+		}
+		else if ( !oldLocale.equals( l ) )
 		{
 			return true;
 		}
@@ -584,6 +676,11 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		this.category = category;
 	}
 
+	private void setLocale( String locale )
+	{
+		this.locale = locale; //$NON-NLS-1$
+	}
+
 	/**
 	 * Marks the dirty marker of the page.
 	 * 
@@ -616,6 +713,10 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		String category = provider.getCategory4UIDisplayName( typeChoicer.getText( ) );
 		setCategory( category );
 
+		ULocale locale = getLocaleByDisplayName( this.locale );
+		if ( locale == null )
+			locale = ULocale.getDefault( );
+
 		boolean invalidPreviewText = false;
 		Date sampleDateTime = defaultDate;
 		if ( getPreviewText( ) != null
@@ -624,7 +725,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 			try
 			{
 				sampleDateTime = new DateFormatter( ENTER_DATE_TIME_GUIDE_FORMAT,
-						ULocale.getDefault( ) ).parse( getPreviewText( ) );
+						locale ).parse( getPreviewText( ) );
 			}
 			catch ( Exception e )
 			{
@@ -646,7 +747,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 			{
 				try
 				{
-					fmtStr = new DateFormatter( pattern, ULocale.getDefault( ) ).format( sampleDateTime );
+					fmtStr = new DateFormatter( pattern, locale ).format( sampleDateTime );
 				}
 				catch ( Exception e )
 				{
@@ -664,7 +765,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 			{
 				pattern = FormatDateTimePattern.getPatternForCategory( category );
 			}
-			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
+			String fmtStr = new DateFormatter( pattern, locale ).format( sampleDateTime );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 
@@ -673,8 +774,16 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		return;
 	}
 
-	private void initiatePageLayout( String categoryStr, String patternStr )
+	private void initiatePageLayout( String categoryStr, String patternStr,
+			String localeStr )
 	{
+		if ( locale != null )
+		{
+			localeChoicer.setText( localeStr );
+		}
+		else
+			localeChoicer.select( 0 );
+
 		if ( categoryStr == null )
 		{
 			typeChoicer.select( 0 );
@@ -1058,11 +1167,55 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		tableColumnFormatCode.setWidth( 150 );
 		tableColumnFormatCode.setResizable( true );
 
-		String[][] items = provider.getTableItems( );
+		String[][] items = provider.getTableItems( null );
 		for ( int i = 0; i < items.length; i++ )
 		{
 			new TableItem( table, SWT.NONE ).setText( items[i] );
 		}
+	}
+
+	private void updateTextByLocale( )
+	{
+		ULocale oldLocale = getLocaleByDisplayName( this.locale );
+		Date sampleDateTime = defaultDate;
+		try
+		{
+			if ( getPreviewText( ) != null )
+				sampleDateTime = new DateFormatter( ENTER_DATE_TIME_GUIDE_FORMAT,
+						oldLocale ).parse( getPreviewText( ) );
+		}
+		catch ( ParseException e )
+		{
+			// do nothing.
+		}
+
+		setLocale( localeChoicer.getText( ) );
+
+		ULocale locale = getLocaleByDisplayName( this.locale );
+		if ( locale == null )
+			locale = ULocale.getDefault( );
+
+		int index = typeChoicer.getSelectionIndex( );
+		typeChoicer.setItems( provider.getFormatTypes( locale ) );
+		if ( index >= 0 && index < typeChoicer.getItemCount( ) )
+			typeChoicer.select( index );
+
+		String[][] items = provider.getTableItems( locale );
+		for ( int i = 0; i < items.length; i++ )
+		{
+			table.getItem( i ).setText( items[i] );
+		}
+
+		if ( table.getSelectionCount( ) == 1 )
+		{
+			formatCode.setText( table.getSelection( )[0].getText( FORMAT_CODE_INDEX ) );
+		}
+
+		String sampleDateTimeString = new DateFormatter( ENTER_DATE_TIME_GUIDE_FORMAT,
+				locale ).format( sampleDateTime );
+		previewTextBox.setText( sampleDateTimeString );
+
+		setPreviewText( sampleDateTimeString );
 	}
 
 	private GridLayout createGridLayout4Page( )
@@ -1098,6 +1251,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 	private void setControlsEnabeld( boolean b )
 	{
 		typeChoicer.setEnabled( b );
+		localeChoicer.setEnabled( b );
 		formatCode.setEnabled( b );
 		previewTextBox.setEnabled( b );
 		table.setEnabled( b );

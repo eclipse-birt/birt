@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.nls;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -27,6 +29,23 @@ public class Messages
 
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
 			.getBundle( BUNDLE_NAME );
+
+	public static class ResourceBundleFactory
+	{
+
+		private static HashMap Cache = new HashMap( );
+
+		public static synchronized ResourceBundle getBundle( Locale locale )
+		{
+			ResourceBundle bundle = (ResourceBundle) Cache.get( locale );
+			if ( bundle == null )
+			{
+				bundle = ResourceBundle.getBundle( BUNDLE_NAME, locale );
+				Cache.put( locale, bundle );
+			}
+			return bundle;
+		}
+	}
 
 	/**
 	 * constructor
@@ -66,6 +85,22 @@ public class Messages
 		}
 	}
 	
+	public static String getString( String key, Locale locale )
+	{
+
+		try
+		{
+			String result = ResourceBundleFactory.getBundle( locale )
+					.getString( key );
+			return result;
+		}
+		catch ( Exception e )
+		{
+			assert false;
+			return key;
+		}
+	}
+
 	/**
 	 * Gets formatted translation for current local
 	 * 

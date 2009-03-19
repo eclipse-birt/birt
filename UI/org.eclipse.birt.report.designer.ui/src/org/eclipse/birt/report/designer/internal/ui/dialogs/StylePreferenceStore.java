@@ -12,11 +12,16 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
+import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Provides get/set of model for field editors
@@ -42,7 +47,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#addPropertyChangeListener(org.eclipse.jface.util.IPropertyChangeListener)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#addPropertyChangeListener
+	 * (org.eclipse.jface.util.IPropertyChangeListener)
 	 */
 	public void addPropertyChangeListener( IPropertyChangeListener listener )
 	{
@@ -52,7 +59,8 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#contains(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#contains(java.lang.String)
 	 */
 	public boolean contains( String name )
 	{
@@ -63,8 +71,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#firePropertyChangeEvent(java.lang.String,
-	 *      java.lang.Object, java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#firePropertyChangeEvent
+	 * (java.lang.String, java.lang.Object, java.lang.Object)
 	 */
 	public void firePropertyChangeEvent( String name, Object oldValue,
 			Object newValue )
@@ -76,7 +85,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#getBoolean(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#getBoolean(java.lang.String
+	 * )
 	 */
 	public boolean getBoolean( String name )
 	{
@@ -86,7 +97,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultBoolean(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#getDefaultBoolean(java.
+	 * lang.String)
 	 */
 	public boolean getDefaultBoolean( String name )
 	{
@@ -97,7 +110,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultDouble(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#getDefaultDouble(java.lang
+	 * .String)
 	 */
 	public double getDefaultDouble( String name )
 	{
@@ -108,7 +123,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultFloat(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#getDefaultFloat(java.lang
+	 * .String)
 	 */
 	public float getDefaultFloat( String name )
 	{
@@ -119,7 +136,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultInt(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#getDefaultInt(java.lang
+	 * .String)
 	 */
 	public int getDefaultInt( String name )
 	{
@@ -130,7 +149,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultLong(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#getDefaultLong(java.lang
+	 * .String)
 	 */
 	public long getDefaultLong( String name )
 	{
@@ -141,7 +162,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultString(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#getDefaultString(java.lang
+	 * .String)
 	 */
 	public String getDefaultString( String name )
 	{
@@ -152,7 +175,8 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#getDouble(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#getDouble(java.lang.String)
 	 */
 	public double getDouble( String name )
 	{
@@ -163,11 +187,25 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#getFloat(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#getFloat(java.lang.String)
 	 */
 	public float getFloat( String name )
 	{
 		return (float) ( (StyleHandle) model ).getFloatProperty( name );
+	}
+
+	private ULocale getFormatLocale( String property )
+	{
+		Object formatValue = ( (StyleHandle) model ).getProperty( property );
+		if ( formatValue instanceof FormatValue )
+		{
+			PropertyHandle propHandle = ( (StyleHandle) model ).getPropertyHandle( property );
+			FormatValue formatValueToSet = (FormatValue) formatValue;
+			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+			return formatHandle.getLocale( );
+		}
+		return null;
 	}
 
 	/**
@@ -176,6 +214,11 @@ public class StylePreferenceStore implements IPreferenceStore
 	public String getStringFormat( )
 	{
 		return ( (StyleHandle) model ).getStringFormat( );
+	}
+
+	public ULocale getStringFormatLocale( )
+	{
+		return getFormatLocale( IStyleModel.STRING_FORMAT_PROP );
 	}
 
 	/**
@@ -192,6 +235,11 @@ public class StylePreferenceStore implements IPreferenceStore
 	public String getDateTimeFormat( )
 	{
 		return ( (StyleHandle) model ).getDateTimeFormat( );
+	}
+
+	public ULocale getDateTimeFormatLocale( )
+	{
+		return getFormatLocale( IStyleModel.DATE_TIME_FORMAT_PROP );
 	}
 
 	/**
@@ -218,12 +266,37 @@ public class StylePreferenceStore implements IPreferenceStore
 		return ( (StyleHandle) model ).getNumberFormatCategory( );
 	}
 
+	public ULocale getNumberFormatLocale( )
+	{
+		return getFormatLocale( IStyleModel.NUMBER_FORMAT_PROP );
+	}
+
+	public void setFormatLocale( ULocale locale, String property )
+			throws SemanticException
+	{
+		Object formatValue = ( (StyleHandle) model ).getProperty( property );
+		if ( formatValue instanceof FormatValue )
+		{
+			PropertyHandle propHandle = ( (StyleHandle) model ).getPropertyHandle( property );
+			FormatValue formatValueToSet = (FormatValue) formatValue;
+			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+			if ( locale != null )
+				formatHandle.setLocale( locale );
+		}
+	}
+
 	/**
 	 * Sets string format pattern.
 	 */
 	public void setStringFormat( String format ) throws SemanticException
 	{
 		( (StyleHandle) model ).setStringFormat( format );
+	}
+
+	public void setStringFormatLocale( ULocale locale )
+			throws SemanticException
+	{
+		setFormatLocale( locale, IStyleModel.STRING_FORMAT_PROP );
 	}
 
 	/**
@@ -243,6 +316,12 @@ public class StylePreferenceStore implements IPreferenceStore
 		( (StyleHandle) model ).setDateTimeFormat( format );
 	}
 
+	public void setDateTimeFormatLocale( ULocale locale )
+			throws SemanticException
+	{
+		setFormatLocale( locale, IStyleModel.DATE_TIME_FORMAT_PROP );
+	}
+
 	/**
 	 * Sets date time format category.
 	 */
@@ -260,6 +339,12 @@ public class StylePreferenceStore implements IPreferenceStore
 		( (StyleHandle) model ).setNumberFormat( format );
 	}
 
+	public void setNumberFormatLocale( ULocale locale )
+			throws SemanticException
+	{
+		setFormatLocale( locale, IStyleModel.NUMBER_FORMAT_PROP );
+	}
+
 	/**
 	 * Sets number format category.
 	 */
@@ -272,7 +357,8 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#getInt(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#getInt(java.lang.String)
 	 */
 	public int getInt( String name )
 	{
@@ -282,7 +368,8 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#getLong(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#getLong(java.lang.String)
 	 */
 	public long getLong( String name )
 	{
@@ -293,7 +380,8 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#getString(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#getString(java.lang.String)
 	 */
 	public String getString( String name )
 	{
@@ -308,7 +396,8 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#isDefault(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#isDefault(java.lang.String)
 	 */
 	public boolean isDefault( String name )
 	{
@@ -330,8 +419,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#putValue(java.lang.String,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#putValue(java.lang.String,
+	 * java.lang.String)
 	 */
 	public void putValue( String name, String value )
 	{
@@ -342,7 +432,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#removePropertyChangeListener(org.eclipse.jface.util.IPropertyChangeListener)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#removePropertyChangeListener
+	 * (org.eclipse.jface.util.IPropertyChangeListener)
 	 */
 	public void removePropertyChangeListener( IPropertyChangeListener listener )
 	{
@@ -353,8 +445,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String,
-	 *      double)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String
+	 * , double)
 	 */
 	public void setDefault( String name, double value )
 	{
@@ -365,8 +458,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String,
-	 *      float)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String
+	 * , float)
 	 */
 	public void setDefault( String name, float value )
 	{
@@ -377,8 +471,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String,
-	 *      int)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String
+	 * , int)
 	 */
 	public void setDefault( String name, int value )
 	{
@@ -389,8 +484,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String,
-	 *      long)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String
+	 * , long)
 	 */
 	public void setDefault( String name, long value )
 	{
@@ -401,8 +497,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String
+	 * , java.lang.String)
 	 */
 	public void setDefault( String name, String defaultObject )
 	{
@@ -413,8 +510,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String,
-	 *      boolean)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#setDefault(java.lang.String
+	 * , boolean)
 	 */
 	public void setDefault( String name, boolean value )
 	{
@@ -425,7 +523,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#setToDefault(java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#setToDefault(java.lang.
+	 * String)
 	 */
 	public void setToDefault( String name )
 	{
@@ -436,8 +536,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
-	 *      double)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
+	 * double)
 	 */
 	public void setValue( String name, double value )
 	{
@@ -455,8 +556,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
-	 *      float)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
+	 * float)
 	 */
 	public void setValue( String name, float value )
 	{
@@ -474,8 +576,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
-	 *      int)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
+	 * int)
 	 */
 	public void setValue( String name, int value )
 	{
@@ -493,8 +596,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
-	 *      long)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
+	 * long)
 	 */
 	public void setValue( String name, long value )
 	{
@@ -505,8 +609,9 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
+	 * java.lang.String)
 	 */
 	public void setValue( String name, String value )
 	{
@@ -525,15 +630,15 @@ public class StylePreferenceStore implements IPreferenceStore
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
-	 *      boolean)
+	 * @see
+	 * org.eclipse.jface.preference.IPreferenceStore#setValue(java.lang.String,
+	 * boolean)
 	 */
 	public void setValue( String name, boolean value )
 	{
 		try
 		{
-			( (StyleHandle) model )
-					.setProperty( name, Boolean.valueOf( value ) );
+			( (StyleHandle) model ).setProperty( name, Boolean.valueOf( value ) );
 		}
 		catch ( SemanticException e )
 		{

@@ -58,6 +58,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 	private static final String PREVIEW_TEXT_INVALID_FORMAT_CODE = Messages.getString( "FormatStringPage.previewText.invalidFormatCode" ); //$NON-NLS-1$
 
 	private static final String LABEL_FORMAT_STRING_PAGE = Messages.getString( "FormatStringPage.label.formatStringAs" ); //$NON-NLS-1$
+	private static final String LABEL_FORMAT_STRING_LOCALE = Messages.getString( "FormatStringPage.label.locale" ); //$NON-NLS-1$
 	private static final String LABEL_GENERAL_PREVIEW_GROUP = Messages.getString( "FormatStringPage.label.previewWithFormat" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTINGS_GROUP = Messages.getString( "FormatStringPage.label.customSettings" ); //$NON-NLS-1$
 	private static final String LABEL_FORMAT_CODE = Messages.getString( "FormatStringPage.label.format.code" ); //$NON-NLS-1$
@@ -79,8 +80,10 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 	private String pattern = null;
 	private String category = null;
+	private String locale = null;
 	private String oldCategory = null;
 	private String oldPattern = null;
+	private String oldLocale = null;
 
 	private HashMap categoryPageMaps;
 
@@ -96,7 +99,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 	private static final String SAMPLE_TEXT_PRESERVE_SPACE = Messages.getString( "FormatStringPage.Preview.PreserveWhiteSpaces"); //$NON-NLS-1$
 
-	private Combo typeChoicer;
+	private Combo typeChoicer, localeChoicer;
 	private Composite infoComp;
 	private Composite formatCodeComp;
 
@@ -125,6 +128,8 @@ public class FormatStringPage extends Composite implements IFormatPage
 	private int pageAlignment;
 
 	private Table table;
+
+	private FormatAdapter formatAdapter;
 
 	/**
 	 * Constructs a new instance of format string page, default aligns the page
@@ -157,7 +162,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 	{
 		super( parent, style );
 		this.pageAlignment = pageAlignment;
-
+		formatAdapter = new FormatAdapter( );
 		createContents( pageAlignment );
 	}
 
@@ -197,12 +202,30 @@ public class FormatStringPage extends Composite implements IFormatPage
 			public void widgetSelected( SelectionEvent e )
 			{
 				reLayoutSubPages( );
+				updateTextByLocale( );
 				updatePreview( );
 				notifyFormatChange( );
 			}
 
 		} );
 		typeChoicer.setItems( getFormatTypes( ) );
+
+		new Label( topContainer, SWT.NONE ).setText( LABEL_FORMAT_STRING_LOCALE );
+		localeChoicer = new Combo( topContainer, SWT.READ_ONLY );
+
+		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateTextByLocale( );
+				updatePreview( );
+				notifyFormatChange( );
+			}
+		} );
+		localeChoicer.setItems( formatAdapter.getLocaleDisplayNames( ) );
+		if ( localeChoicer.getItemCount( ) > 0 )
+			localeChoicer.select( 0 );
 
 		infoComp = new Composite( this, SWT.NONE );
 		infoComp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -233,12 +256,29 @@ public class FormatStringPage extends Composite implements IFormatPage
 			public void widgetSelected( SelectionEvent e )
 			{
 				reLayoutSubPages( );
-
+				updateTextByLocale( );
 				updatePreview( );
 				notifyFormatChange( );
 			}
 		} );
 		typeChoicer.setItems( getFormatTypes( ) );
+
+		new Label( container, SWT.NONE ).setText( LABEL_FORMAT_STRING_LOCALE );
+		localeChoicer = new Combo( container, SWT.READ_ONLY );
+
+		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateTextByLocale( );
+				updatePreview( );
+				notifyFormatChange( );
+			}
+		} );
+		localeChoicer.setItems( formatAdapter.getLocaleDisplayNames( ) );
+		if ( localeChoicer.getItemCount( ) > 0 )
+			localeChoicer.select( 0 );
 
 		// create the right part setting pane
 		infoComp = new Composite( this, SWT.NONE );
@@ -413,7 +453,8 @@ public class FormatStringPage extends Composite implements IFormatPage
 				category );
 	}
 
-	private void fireFormatChanged( String newCategory, String newPattern )
+	private void fireFormatChanged( String newCategory, String newPattern,
+			String newLocale )
 	{
 		if ( listeners.isEmpty( ) )
 		{
@@ -422,7 +463,8 @@ public class FormatStringPage extends Composite implements IFormatPage
 		FormatChangeEvent event = new FormatChangeEvent( this,
 				StyleHandle.STRING_FORMAT_PROP,
 				newCategory,
-				newPattern );
+				newPattern,
+				newLocale );
 		for ( Iterator iter = listeners.iterator( ); iter.hasNext( ); )
 		{
 			Object listener = iter.next( );
@@ -437,8 +479,60 @@ public class FormatStringPage extends Composite implements IFormatPage
 	{
 		if ( hasLoaded )
 		{
-			fireFormatChanged( getCategory( ), getPattern( ) );
+			fireFormatChanged( getCategory( ), getPattern( ), this.locale );
 		}
+	}
+
+	private void updateTextByLocale( )
+	{
+		setLocale( localeChoicer.getText( ) );
+
+		ULocale locale = getLocaleByDisplayName( this.locale );
+		if ( locale == null )
+			locale = ULocale.getDefault( );
+
+		table.getItem( 0 )
+				.setText( new String[]{
+						getDisplayName4Category( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE ),
+						new StringFormatter( FormatStringPattern.getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE,
+								locale ),
+								locale ).format( DEFAULT_PREVIEW_TEXT )
+				} );
+		table.getItem( 1 )
+				.setText( new String[]{
+						getDisplayName4Category( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE ),
+						new StringFormatter( FormatStringPattern.getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE,
+								locale ),
+								locale ).format( DEFAULT_PREVIEW_TEXT )
+				} );
+		table.getItem( 2 )
+				.setText( new String[]{
+						getDisplayName4Category( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4 ),
+						new StringFormatter( FormatStringPattern.getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4,
+								locale ),
+								locale ).format( SAMPLE_TEXT_ZIP_C0DE4 )
+				} );
+		table.getItem( 3 )
+				.setText( new String[]{
+						getDisplayName4Category( DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER ),
+						new StringFormatter( FormatStringPattern.getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER,
+								locale ),
+								locale ).format( SAMPLE_TEXT_PHONE_NUMBER )
+				} );
+		table.getItem( 4 )
+				.setText( new String[]{
+						getDisplayName4Category( DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER ),
+						new StringFormatter( FormatStringPattern.getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER,
+								locale ),
+								locale ).format( SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER )
+				} );
+		table.getItem( 5 )
+				.setText( new String[]{
+						getDisplayName4Category( STRING_FORMAT_TYPE_PRESERVE_SPACE ),
+						new StringFormatter( FormatStringPattern.getPatternForCategory( STRING_FORMAT_TYPE_PRESERVE_SPACE,
+								locale ),
+								locale ).format( SAMPLE_TEXT_PRESERVE_SPACE )
+				} );
 	}
 
 	/**
@@ -502,15 +596,24 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 	public void setInput( String categoryStr, String patternStr )
 	{
+		setInput( categoryStr, patternStr, null );
+	}
+
+	public void setInput( String categoryStr, String patternStr, ULocale locale )
+	{
 		hasLoaded = false;
 
-		initiatePageLayout( categoryStr, patternStr );
+		String localeStr = formatAdapter.getLocaleDisplayName( locale );
+
+		initiatePageLayout( categoryStr, patternStr, localeStr );
 		reLayoutSubPages( );
+		updateTextByLocale( );
 		updatePreview( );
 
 		// set initial.
 		oldCategory = categoryStr;
 		oldPattern = patternStr;
+		oldLocale = localeStr;
 
 		hasLoaded = true;
 		return;
@@ -542,6 +645,16 @@ public class FormatStringPage extends Composite implements IFormatPage
 	public String getPattern( )
 	{
 		return pattern;
+	}
+
+
+
+	private ULocale getLocaleByDisplayName( String name )
+	{
+		if ( formatAdapter != null )
+			return formatAdapter.getLocaleByDisplayName( name );
+		else
+			return null;
 	}
 
 	/**
@@ -588,6 +701,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 	{
 		String c = getCategory( );
 		String p = getPattern( );
+		String l = this.locale;
 		if ( oldCategory == null )
 		{
 			if ( c != null )
@@ -607,6 +721,17 @@ public class FormatStringPage extends Composite implements IFormatPage
 			}
 		}
 		else if ( !oldPattern.equals( p ) )
+		{
+			return true;
+		}
+		if ( oldLocale == null )
+		{
+			if ( l != null )
+			{
+				return true;
+			}
+		}
+		else if ( !oldLocale.equals( l ) )
 		{
 			return true;
 		}
@@ -667,6 +792,11 @@ public class FormatStringPage extends Composite implements IFormatPage
 		this.pattern = pattern;
 	}
 
+	private void setLocale( String locale )
+	{
+		this.locale = locale; //$NON-NLS-1$
+	}
+
 	private void setDefaultPreviewText( String defText )
 	{
 		if ( defText == null || StringUtil.isBlank( defText ) )
@@ -709,6 +839,10 @@ public class FormatStringPage extends Composite implements IFormatPage
 	{
 		markDirty( hasLoaded );
 
+		ULocale locale = getLocaleByDisplayName( this.locale );
+		if ( locale == null )
+			locale = ULocale.getDefault( );
+
 		String gText;
 		if ( getPreviewText( ) == null )
 		{
@@ -725,42 +859,42 @@ public class FormatStringPage extends Composite implements IFormatPage
 		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED.equals( category ) )
 		{
 			String pattern = null;
-			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+			String fmtStr = new StringFormatter( pattern, locale ).format( gText );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( null );
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE.equals( category ) )
 		{
 			String pattern = FormatStringPattern.getPatternForCategory( category );
-			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+			String fmtStr = new StringFormatter( pattern, locale ).format( gText );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE.equals( category ) )
 		{
 			String pattern = FormatStringPattern.getPatternForCategory( category );
-			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+			String fmtStr = new StringFormatter( pattern, locale ).format( gText );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE.equals( category ) )
 		{
 			String pattern = FormatStringPattern.getPatternForCategory( category );
-			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_ZIP_CODE );
+			String fmtStr = new StringFormatter( pattern, locale ).format( SAMPLE_TEXT_ZIP_CODE );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4.equals( category ) )
 		{
 			String pattern = FormatStringPattern.getPatternForCategory( category );
-			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_ZIP_C0DE4 );
+			String fmtStr = new StringFormatter( pattern, locale ).format( SAMPLE_TEXT_ZIP_C0DE4 );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER.equals( category ) )
 		{
 			String pattern = FormatStringPattern.getPatternForCategory( category );
-			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_PHONE_NUMBER );
+			String fmtStr = new StringFormatter( pattern, locale ).format( SAMPLE_TEXT_PHONE_NUMBER );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
@@ -768,7 +902,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 		{
 			String pattern = FormatStringPattern.getPatternForCategory( category );
 //			gText = SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER;
-			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER );
+			String fmtStr = new StringFormatter( pattern, locale ).format( SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
@@ -778,11 +912,11 @@ public class FormatStringPage extends Composite implements IFormatPage
 			String fmtStr;
 			if ( StringUtil.isBlank( previewTextBox.getText( ) ) )
 			{
-				fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+				fmtStr = new StringFormatter( pattern, locale ).format( gText );
 			}
 			else
 			{
-				fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( previewTextBox.getText( ) );
+				fmtStr = new StringFormatter( pattern, locale ).format( previewTextBox.getText( ) );
 			}
 
 			cPreviewLabel.setText( validatedFmtStr( fmtStr ) );
@@ -792,8 +926,16 @@ public class FormatStringPage extends Composite implements IFormatPage
 		return;
 	}
 
-	private void initiatePageLayout( String categoryStr, String patternStr )
+	private void initiatePageLayout( String categoryStr, String patternStr,
+			String localeStr )
 	{
+		if ( localeStr != null )
+		{
+			localeChoicer.setText( localeStr );
+		}
+		else
+			localeChoicer.select( 0 );
+
 		if ( categoryStr == null )
 		{
 			typeChoicer.select( 0 );
@@ -1082,6 +1224,8 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				ULocale locale = getLocaleByDisplayName( FormatStringPage.this.locale );
+
 				String displayName = ( (TableItem) e.item ).getText( FORMAT_TYPE_INDEX );
 				if ( displayName.equals( PRESERVE_WHITE_SPACES ) )
 					category = STRING_FORMAT_TYPE_PRESERVE_SPACE;
@@ -1089,7 +1233,8 @@ public class FormatStringPage extends Composite implements IFormatPage
 					category = ChoiceSetFactory.getStructPropValue( StringFormatValue.FORMAT_VALUE_STRUCT,
 							StringFormatValue.CATEGORY_MEMBER,
 							displayName );
-				String pattern = FormatStringPattern.getPatternForCategory( category );
+				String pattern = FormatStringPattern.getPatternForCategory( category,
+						locale );
 				formatCode.setText( pattern );
 
 				updatePreview( );
@@ -1171,9 +1316,15 @@ public class FormatStringPage extends Composite implements IFormatPage
 	private void setControlsEnabeld( boolean b )
 	{
 		typeChoicer.setEnabled( b );
-
+		localeChoicer.setEnabled( b );
 		formatCode.setEnabled( b );
 		previewTextBox.setEnabled( b );
 		table.setEnabled( b );
 	}
+
+	public ULocale getLocale( )
+	{
+		return getLocaleByDisplayName( locale );
+	}
+
 }

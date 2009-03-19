@@ -26,18 +26,19 @@ import org.eclipse.swt.widgets.Composite;
 
 public class FormatStringAttributePage extends AttributePage
 {
+
 	private FormatStringDescriptorProvider provider;
 	private FormatStringSection formatSection;
 
-	public void buildUI( Composite parent  )
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
 		container.setLayout( new GridLayout( 1, false ) );
 
 		provider = new FormatStringDescriptorProvider( );
 		formatSection = new FormatStringSection( container,
-						IFormatPage.PAGE_ALIGN_VIRTICAL,
-						true );
+				IFormatPage.PAGE_ALIGN_VIRTICAL,
+				true );
 		formatSection.setProvider( provider );
 		addSection( PageSectionId.FORMATSTRING_FORMAT, formatSection );
 
@@ -53,7 +54,9 @@ public class FormatStringAttributePage extends AttributePage
 					try
 					{
 						provider.save( new String[]{
-								event.getCategory( ), event.getPattern( )
+								event.getCategory( ),
+								event.getPattern( ),
+								event.getLocale( )
 						} );
 					}
 					catch ( Exception e )
@@ -61,7 +64,8 @@ public class FormatStringAttributePage extends AttributePage
 						ExceptionHandler.handle( e );
 					}
 					if ( event.getCategory( ) != null
-							|| event.getPattern( ) != null )
+							|| event.getPattern( ) != null
+							|| event.getLocale( ) != null )
 					{
 						refresh( );
 					}
@@ -70,5 +74,4 @@ public class FormatStringAttributePage extends AttributePage
 		} );
 	}
 
-	
 }

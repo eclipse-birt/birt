@@ -13,9 +13,12 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.FormatValueHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -26,7 +29,7 @@ import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.Currency;
 import com.ibm.icu.util.ULocale;
 
-public class FormatNumberDescriptorProvider extends AbstractDescriptorProvider
+public class FormatNumberDescriptorProvider extends FormatDescriptorProvider
 {
 
 	public String getDisplayName( )
@@ -38,7 +41,7 @@ public class FormatNumberDescriptorProvider extends AbstractDescriptorProvider
 	public void save( Object value ) throws SemanticException
 	{
 		String[] result = (String[]) value;
-		if ( result.length == 2 )
+		if ( result.length == 3 )
 		{
 			CommandStack stack = SessionHandleAdapter.getInstance( )
 					.getCommandStack( );
@@ -59,6 +62,20 @@ public class FormatNumberDescriptorProvider extends AbstractDescriptorProvider
 						element.getPrivateStyle( )
 								.setNumberFormatCategory( result[0] );
 						element.getPrivateStyle( ).setNumberFormat( result[1] );
+					}
+
+					if ( element.getPrivateStyle( ) != null )
+					{
+						StyleHandle style = element.getPrivateStyle( );
+						Object formatValue = style.getProperty( IStyleModel.NUMBER_FORMAT_PROP );
+						if ( formatValue instanceof FormatValue )
+						{
+							PropertyHandle propHandle = style.getPropertyHandle( IStyleModel.NUMBER_FORMAT_PROP );
+							FormatValue formatValueToSet = (FormatValue) formatValue;
+							FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+							if ( result[2] != null )
+								formatHandle.setLocale( getLocaleByDisplayName( result[2] ) );
+						}
 					}
 				}
 				catch ( SemanticException e )
@@ -217,7 +234,8 @@ public class FormatNumberDescriptorProvider extends AbstractDescriptorProvider
 		return pattern;
 	}
 
-	public void fireFormatChanged( String newCategory, String newPattern )
+	public void fireFormatChanged( String newCategory, String newPattern,
+			String locale )
 	{
 		if ( listeners.isEmpty( ) )
 		{
@@ -226,7 +244,8 @@ public class FormatNumberDescriptorProvider extends AbstractDescriptorProvider
 		FormatChangeEvent event = new FormatChangeEvent( this,
 				StyleHandle.NUMBER_FORMAT_PROP,
 				newCategory,
-				newPattern );
+				newPattern,
+				locale );
 		for ( Iterator iter = listeners.iterator( ); iter.hasNext( ); )
 		{
 			Object listener = iter.next( );
@@ -337,23 +356,56 @@ public class FormatNumberDescriptorProvider extends AbstractDescriptorProvider
 		String basePattern = ( (DesignElementHandle) DEUtil.getInputFirstElement( input ) ).getPrivateStyle( )
 				.getNumberFormat( );
 
+		String baseLocale = NONE;
+		DesignElementHandle element = ( (DesignElementHandle) DEUtil.getInputFirstElement( input ) );
+		if ( element.getPrivateStyle( ) != null )
+		{
+			StyleHandle style = element.getPrivateStyle( );
+			Object formatValue = style.getProperty( IStyleModel.NUMBER_FORMAT_PROP );
+			if ( formatValue instanceof FormatValue )
+			{
+				PropertyHandle propHandle = style.getPropertyHandle( IStyleModel.NUMBER_FORMAT_PROP );
+				FormatValue formatValueToSet = (FormatValue) formatValue;
+				FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+				ULocale uLocale = formatHandle.getLocale( );
+				if ( uLocale != null )
+					baseLocale = uLocale.getDisplayName( );
+			}
+		}
+
 		for ( Iterator iter = DEUtil.getInputElements( input ).iterator( ); iter.hasNext( ); )
 		{
 			DesignElementHandle handle = (DesignElementHandle) iter.next( );
 			String category = handle.getPrivateStyle( )
 					.getNumberFormatCategory( );
 			String pattern = handle.getPrivateStyle( ).getNumberFormat( );
+			String locale = NONE;
+
+			if ( handle.getPrivateStyle( ) != null )
+			{
+				StyleHandle style = handle.getPrivateStyle( );
+				Object formatValue = style.getProperty( IStyleModel.NUMBER_FORMAT_PROP );
+				if ( formatValue instanceof FormatValue )
+				{
+					PropertyHandle propHandle = style.getPropertyHandle( IStyleModel.NUMBER_FORMAT_PROP );
+					FormatValue formatValueToSet = (FormatValue) formatValue;
+					FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+					ULocale uLocale = formatHandle.getLocale( );
+					if ( uLocale != null )
+						locale = uLocale.getDisplayName( );
+				}
+			}
 
 			if ( ( ( baseCategory == null && category == null ) || ( baseCategory != null && baseCategory.equals( category ) ) )
-					&& ( ( basePattern == null && pattern == null ) || ( basePattern != null && basePattern.equals( pattern ) ) ) )
+					&& ( ( basePattern == null && pattern == null ) || ( basePattern != null && basePattern.equals( pattern ) ) )
+					&& ( ( baseLocale == null && locale == null ) || ( baseLocale != null && baseLocale.equals( locale ) ) ) )
 			{
 				continue;
 			}
 			return null;
 		}
 		return new String[]{
-				baseCategory, basePattern
+				baseCategory, basePattern, baseLocale
 		};
 	}
-
 }

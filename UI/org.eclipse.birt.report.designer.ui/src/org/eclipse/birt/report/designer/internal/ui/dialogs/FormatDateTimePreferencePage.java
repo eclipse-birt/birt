@@ -25,6 +25,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * A preference page for formatting DateTime.
  */
@@ -94,8 +96,8 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 	{
 		String category = ( (StylePreferenceStore) getPreferenceStore( ) ).getDateTimeFormatCategory( );
 		String pattern = ( (StylePreferenceStore) getPreferenceStore( ) ).getDateTimeFormat( );
-
-		formatPage.setInput( category, pattern );
+		ULocale locale = ( (StylePreferenceStore) getPreferenceStore( ) ).getDateTimeFormatLocale( );
+		formatPage.setInput( category, pattern, locale );
 		return;
 	}
 
@@ -136,6 +138,7 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 		{
 			( (StylePreferenceStore) getPreferenceStore( ) ).setDateTimeFormatCategory( formatPage.getCategory( ) );
 			( (StylePreferenceStore) getPreferenceStore( ) ).setDateTimeFormat( formatPage.getPattern( ) );
+			( (StylePreferenceStore) getPreferenceStore( ) ).setDateTimeFormatLocale( formatPage.getLocale( ) );
 			return true;
 		}
 		catch ( SemanticException e )

@@ -18,15 +18,20 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FormatDateTimePattern;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.FormatValueHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
-public class FormatDataTimeDescriptorProvider extends AbstractDescriptorProvider
+import com.ibm.icu.util.ULocale;
+
+public class FormatDataTimeDescriptorProvider extends FormatDescriptorProvider
 {
 
 	public String getDisplayName( )
@@ -46,29 +51,67 @@ public class FormatDataTimeDescriptorProvider extends AbstractDescriptorProvider
 		String basePattern = ( (DesignElementHandle) (DesignElementHandle) DEUtil.getInputFirstElement( input ) ).getPrivateStyle( )
 				.getDateTimeFormat( );
 
+		String baseLocale = NONE;
+		DesignElementHandle element = ( (DesignElementHandle) DEUtil.getInputFirstElement( input ) );
+		if ( element.getPrivateStyle( ) != null )
+		{
+			StyleHandle style = element.getPrivateStyle( );
+			Object formatValue = style
+					.getProperty( IStyleModel.DATE_TIME_FORMAT_PROP );
+			if ( formatValue instanceof FormatValue )
+			{
+				PropertyHandle propHandle = style
+						.getPropertyHandle( IStyleModel.DATE_TIME_FORMAT_PROP );
+				FormatValue formatValueToSet = (FormatValue) formatValue;
+				FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+				ULocale uLocale = formatHandle.getLocale( );
+				if ( uLocale != null )
+					baseLocale = uLocale.getDisplayName( );
+			}
+		}
+
 		for ( Iterator iter = DEUtil.getInputElements( input ).iterator( ); iter.hasNext( ); )
 		{
 			DesignElementHandle handle = (DesignElementHandle) iter.next( );
 			String category = handle.getPrivateStyle( )
 					.getDateTimeFormatCategory( );
 			String pattern = handle.getPrivateStyle( ).getDateTimeFormat( );
+			String locale = NONE;
+
+			if ( handle.getPrivateStyle( ) != null )
+			{
+				StyleHandle style = handle.getPrivateStyle( );
+				Object formatValue = style
+						.getProperty( IStyleModel.DATE_TIME_FORMAT_PROP );
+				if ( formatValue instanceof FormatValue )
+				{
+					PropertyHandle propHandle = style
+							.getPropertyHandle( IStyleModel.DATE_TIME_FORMAT_PROP );
+					FormatValue formatValueToSet = (FormatValue) formatValue;
+					FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+					ULocale uLocale = formatHandle.getLocale( );
+					if ( uLocale != null )
+						locale = uLocale.getDisplayName( );
+				}
+			}
 
 			if ( ( ( baseCategory == null && category == null ) || ( baseCategory != null && baseCategory.equals( category ) ) )
-					&& ( ( basePattern == null && pattern == null ) || ( basePattern != null && basePattern.equals( pattern ) ) ) )
+					&& ( ( basePattern == null && pattern == null ) || ( basePattern != null && basePattern.equals( pattern ) ) )
+					&& ( ( baseLocale == null && locale == null ) || ( baseLocale != null && baseLocale.equals( locale ) ) ) )
 			{
 				continue;
 			}
 			return null;
 		}
 		return new String[]{
-				baseCategory, basePattern
+				baseCategory, basePattern, baseLocale
 		};
 	}
 
 	public void save( Object value ) throws SemanticException
 	{
 		String[] result = (String[]) value;
-		if ( result.length == 2 )
+		if ( result.length == 3 )
 		{
 			CommandStack stack = SessionHandleAdapter.getInstance( )
 					.getCommandStack( );
@@ -91,6 +134,20 @@ public class FormatDataTimeDescriptorProvider extends AbstractDescriptorProvider
 								.setDateTimeFormatCategory( result[0] );
 						element.getPrivateStyle( )
 								.setDateTimeFormat( result[1] );
+					}
+
+					if ( element.getPrivateStyle( ) != null )
+					{
+						StyleHandle style = element.getPrivateStyle( );
+						Object formatValue = style.getProperty( IStyleModel.DATE_TIME_FORMAT_PROP );
+						if ( formatValue instanceof FormatValue )
+						{
+							PropertyHandle propHandle = style.getPropertyHandle( IStyleModel.DATE_TIME_FORMAT_PROP );
+							FormatValue formatValueToSet = (FormatValue) formatValue;
+							FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+							if ( result[2] != null )
+								formatHandle.setLocale( getLocaleByDisplayName( result[2] ) );
+						}
 					}
 				}
 				catch ( SemanticException e )
@@ -128,44 +185,58 @@ public class FormatDataTimeDescriptorProvider extends AbstractDescriptorProvider
 				category );
 	}
 
-	public String[][] getTableItems( )
+	public String[][] getTableItems( ULocale locale )
 	{
 		List itemList = new ArrayList( );
 		String[][] items = new String[][]{
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ) ).format( defaultDate ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ) ).getFormatCode( )
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ),
+								locale ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ),
+								locale ).getFormatCode( )
 				},
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ) ).format( defaultDate ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ) ).getFormatCode( )
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ),
+								locale ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ),
+								locale ).getFormatCode( )
 				},
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ) ).format( defaultDate ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ) ).getFormatCode( )
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ),
+								locale ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ),
+								locale ).getFormatCode( )
 				},
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ) ).format( defaultDate ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ) ).getFormatCode( )
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ),
+								locale ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ),
+								locale ).getFormatCode( )
 				},
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ) ).format( defaultDate ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ) ).getFormatCode( )
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ),
+								locale ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ),
+								locale ).getFormatCode( )
 				},
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ) ).format( defaultDate ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ) ).getFormatCode( )
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ),
+								locale ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ),
+								locale ).getFormatCode( )
 				},
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ) ).format( defaultDate ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ) ).getFormatCode( )
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ),
+								locale ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ),
+								locale ).getFormatCode( )
 				}
 		};
 		itemList.addAll( Arrays.asList( items ) );
@@ -174,7 +245,8 @@ public class FormatDataTimeDescriptorProvider extends AbstractDescriptorProvider
 		{
 			itemList.add( new String[]{
 					FormatDateTimePattern.getDisplayName4CustomCategory( customPatterns[i] ),
-					new DateFormatter( FormatDateTimePattern.getCustormFormatPattern( customPatterns[i] ) ).format( defaultDate ),
+					new DateFormatter( FormatDateTimePattern.getCustormFormatPattern( customPatterns[i] ),
+							locale ).format( defaultDate ),
 					FormatDateTimePattern.getCustormFormatPattern( customPatterns[i] )
 			} );
 		}
@@ -231,11 +303,12 @@ public class FormatDataTimeDescriptorProvider extends AbstractDescriptorProvider
 
 	private String[] formatTypes = null;
 
-	public String[] getFormatTypes( )
+	public String[] getFormatTypes( ULocale locale )
 	{
 		if ( initChoiceArray( ) != null )
 		{
 			formatTypes = new String[choiceArray.length];
+
 			for ( int i = 0; i < choiceArray.length; i++ )
 			{
 				String fmtStr = ""; //$NON-NLS-1$
@@ -249,10 +322,12 @@ public class FormatDataTimeDescriptorProvider extends AbstractDescriptorProvider
 				{
 					// uses UI specified display names.
 					String pattern = FormatDateTimePattern.getPatternForCategory( category );
-					fmtStr = new DateFormatter( pattern ).format( defaultDate );
+					// FIXME There maybe waste a lot of time.
+					fmtStr = new DateFormatter( pattern, locale ).format( defaultDate );
 				}
 				formatTypes[i] = fmtStr;
 			}
+
 		}
 		else
 		{
@@ -282,7 +357,8 @@ public class FormatDataTimeDescriptorProvider extends AbstractDescriptorProvider
 
 	private java.util.List listeners = new ArrayList( );
 
-	public void fireFormatChanged( String newCategory, String newPattern )
+	public void fireFormatChanged( String newCategory, String newPattern,
+			String locale )
 	{
 		if ( listeners.isEmpty( ) )
 		{
@@ -291,7 +367,8 @@ public class FormatDataTimeDescriptorProvider extends AbstractDescriptorProvider
 		FormatChangeEvent event = new FormatChangeEvent( this,
 				StyleHandle.DATE_TIME_FORMAT_PROP,
 				newCategory,
-				newPattern );
+				newPattern,
+				locale );
 		for ( Iterator iter = listeners.iterator( ); iter.hasNext( ); )
 		{
 			Object listener = iter.next( );

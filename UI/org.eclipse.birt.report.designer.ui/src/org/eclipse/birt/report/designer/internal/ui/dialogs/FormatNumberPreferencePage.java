@@ -24,6 +24,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Creates a preference page for number format.
  *  
@@ -96,8 +98,9 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage
 	{
 		String category = ( (StylePreferenceStore) getPreferenceStore( ) ).getNumberFormatCategory( );
 		String pattern = ( (StylePreferenceStore) getPreferenceStore( ) ).getNumberFormat( );
+		ULocale locale = ( (StylePreferenceStore) getPreferenceStore( ) ).getNumberFormatLocale( );
 
-		formatPage.setInput( category, pattern );
+		formatPage.setInput( category, pattern, locale );
 		return;
 	}
 
@@ -138,6 +141,7 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage
 		{
 			( (StylePreferenceStore) getPreferenceStore( ) ).setNumberFormatCategory( formatPage.getCategory( ) );
 			( (StylePreferenceStore) getPreferenceStore( ) ).setNumberFormat( formatPage.getPattern( ) );
+			( (StylePreferenceStore) getPreferenceStore( ) ).setNumberFormatLocale( formatPage.getLocale( ) );
 			return true;
 		}
 		catch ( SemanticException e )

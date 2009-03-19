@@ -49,7 +49,9 @@ public class FormatDateTimeAttributePage extends AttributePage
 					try
 					{
 						provider.save( new String[]{
-								event.getCategory( ), event.getPattern( )
+								event.getCategory( ),
+								event.getPattern( ),
+								event.getLocale( )
 						} );
 					}
 					catch ( Exception e )

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +34,7 @@ import org.eclipse.birt.report.designer.util.FormatScientificNumPattern;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -56,7 +56,9 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.Currency;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Format number page for formatting numbers.
@@ -70,6 +72,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	private static final String PREVIEW_TEXT_INVALID_FORMAT_CODE = Messages.getString( "FormatNumberPage.preview.invalidFormatCode" ); //$NON-NLS-1$
 
 	private static final String LABEL_FORMAT_NUMBER_PAGE = Messages.getString( "FormatNumberPage.label.format.number.page" ); //$NON-NLS-1$
+	private static final String LABEL_FORMAT_NUMBER_LOCALE = Messages.getString( "FormatNumberPage.label.format.number.locale" ); //$NON-NLS-1$
 	private static final String LABEL_CURRENCY_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.currency.settings" ); //$NON-NLS-1$
 	private static final String LABEL_CURRENCY_SYMBOL = Messages.getString( "FormatNumberPage.label.symbol" ); //$NON-NLS-1$
 	private static final String LABEL_FIXED_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.fixed.settings" ); //$NON-NLS-1$
@@ -92,10 +95,14 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_RESULT = Messages.getString( "FormatNumberPage.label.table.column.format.result" ); //$NON-NLS-1$
 	private static final String LABEL_GENERAL_PREVIEW_GROUP = Messages.getString( "FormatNumberPage.label.general.preview.group" ); //$NON-NLS-1$
 
+	private static final String DEFAULT_PATTERN = "#,##0.00"; //$NON-NLS-1$
+
 	private String pattern = null;
 	private String category = null;
+	private String locale = null;
 	private String oldCategory = null;
 	private String oldPattern = null;
+	private String oldLocale = null;
 
 	private HashMap categoryPageMaps;
 	private HashMap categoryPatternMaps;
@@ -131,6 +138,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	}
 
 	private CCombo typeChoicer;
+	private CCombo localeChoicer;
 
 	private Composite infoComp;
 	private Composite formatCodeComp;
@@ -148,7 +156,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	private Text previewTextBox;
 	private Text formatCodeBox;
 
-	private Label gPreviewLabel, cPreviewLabel, fPreviewLabel, pPreviewLabel,
+	private CLabel gPreviewLabel, cPreviewLabel, fPreviewLabel, pPreviewLabel,
 			sPreviewLabel, cusPreviewLabel;
 
 	private CCombo cPlacesChoice, cSymbolChoice, cSymPosChoice, fPlacesChoice,
@@ -267,6 +275,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		Composite topContainer = new Composite( content, SWT.NONE );
 		topContainer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		topContainer.setLayout( new GridLayout( 2, false ) );
+
 		FormWidgetFactory.getInstance( ).createLabel( topContainer,
 				isFormStyle( ) ).setText( LABEL_FORMAT_NUMBER_PAGE );
 		if ( !isFormStyle( ) )
@@ -280,12 +289,34 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			public void widgetSelected( SelectionEvent e )
 			{
 				reLayoutSubPages( );
-
+				updateTextByLocale( );
 				updatePreview( );
 				notifyFormatChange( );
 			}
 		} );
 		typeChoicer.setItems( provider.getFormatTypes( ) );
+
+		FormWidgetFactory.getInstance( ).createLabel( topContainer,
+				isFormStyle( ) ).setText( LABEL_FORMAT_NUMBER_LOCALE );
+		if ( !isFormStyle( ) )
+			localeChoicer = new CCombo( topContainer, SWT.READ_ONLY
+					| SWT.BORDER );
+		else
+			localeChoicer = FormWidgetFactory.getInstance( )
+					.createCCombo( topContainer, true );
+		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateTextByLocale( );
+				updatePreview( );
+				notifyFormatChange( );
+			}
+		} );
+		localeChoicer.setItems( provider.getLocaleDisplayNames( ) );
+		if ( localeChoicer.getItemCount( ) > 0 )
+			localeChoicer.select( 0 );
 
 		infoComp = new Composite( content, SWT.NONE );
 		infoComp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -297,6 +328,143 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 
 		setInput( null, null );
 		setPreviewText( DEFAULT_PREVIEW_TEXT );
+	}
+
+	private void updateTextByLocale( )
+	{
+		setLocale( localeChoicer.getText( ) );
+
+		ULocale locale = getLocaleByDisplayName( this.locale );
+		if ( locale == null )
+			locale = ULocale.getDefault( );
+
+		String category = provider.getCategory4DisplayName( typeChoicer.getText( ) );
+		String priviewText = "";
+
+		if ( category.equals( provider.NUMBER_FORMAT_TYPE_CURRENCY ) )
+		{
+			priviewText = new NumberFormatter( DEFAULT_PATTERN, locale ).format( DEFAULT_PREVIEW_NUMBER );
+			FormatCurrencyNumPattern pattern = (FormatCurrencyNumPattern) categoryPatternMaps.get( category );
+			String places = cPlacesChoice.getText( );
+			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
+					: 0 );
+			pattern.setUseSep( cUseSep.getSelection( ) );
+			pattern.setUseSpace( cUseSpace.getSelection( ) );
+			pattern.setSymbol( cSymbolChoice.getText( ) );
+			pattern.setSymPos( cSymPosChoice.getText( ) );
+			pattern.setUseBracket( cNegNumChoice.getSelectionIndex( ) == 1 );
+		}
+		else if ( category.equals( provider.NUMBER_FORMAT_TYPE_FIXED ) )
+		{
+			priviewText = new NumberFormatter( DEFAULT_PATTERN, locale ).format( DEFAULT_PREVIEW_NUMBER );
+			FormatFixedNumPattern pattern = (FormatFixedNumPattern) categoryPatternMaps.get( category );
+			String places = fPlacesChoice.getText( );
+			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
+					: 0 );
+			pattern.setUseSep( fUseSep.getSelection( ) );
+			// pattern.setUseZero( fUseZero.getSelection( ) );
+			pattern.setUseBracket( fNegNumChoice.getSelectionIndex( ) == 1 );
+		}
+		else if ( category.equals( provider.NUMBER_FORMAT_TYPE_PERCENT ) )
+		{
+			priviewText = new NumberFormatter( DEFAULT_PATTERN, locale ).format( DEFAULT_PREVIEW_NUMBER );
+			FormatPercentNumPattern pattern = (FormatPercentNumPattern) categoryPatternMaps.get( category );
+			String places = pPlacesChoice.getText( );
+			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
+					: 0 );
+			pattern.setUseSep( pUseSep.getSelection( ) );
+			// pattern.setUseZero( pUseZero.getSelection( ) );
+			pattern.setSymPos( pSymPosChoice.getText( ) );
+			pattern.setUseBracket( pNegNumChoice.getSelectionIndex( ) == 1 );
+		}
+		else if ( category.equals( provider.NUMBER_FORMAT_TYPE_SCIENTIFIC ) )
+		{
+			priviewText = new NumberFormatter( null, locale ).format( DEFAULT_PREVIEW_NUMBER );
+			FormatScientificNumPattern pattern = (FormatScientificNumPattern) categoryPatternMaps.get( category );
+			String places = sPlacesChoice.getText( );
+			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
+					: 0 );
+		}
+		else if ( category.equals( provider.NUMBER_FORMAT_TYPE_CUSTOM ) )
+		{
+			priviewText = new NumberFormatter( null, locale ).format( DEFAULT_PREVIEW_NUMBER );
+			FormatCustomNumPattern pattern = (FormatCustomNumPattern) categoryPatternMaps.get( category );
+			pattern.setPattern( formatCodeBox.getText( ).length( ) == 0 ? null
+					: formatCodeBox.getText( ) );
+		}
+
+		setPreviewText( priviewText );
+
+		if ( fNegNumChoice != null && fNegNumChoice.getItemCount( ) > 0 )
+		{
+			int index = fNegNumChoice.getSelectionIndex( );
+			fNegNumChoice.removeAll( );
+			fNegNumChoice.add( "-" + priviewText + "" ); //$NON-NLS-1$ //$NON-NLS-2$
+			fNegNumChoice.add( "(" + priviewText + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+			if ( index > -1 && index < 2 )
+				fNegNumChoice.select( index );
+			else
+				fNegNumChoice.select( 0 );
+			GridData gd = (GridData) fNegNumChoice.getLayoutData( );
+			gd.heightHint = fNegNumChoice.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y + 2;
+			fNegNumChoice.setLayoutData( gd );
+		}
+
+		if ( cNegNumChoice != null && cNegNumChoice.getItemCount( ) > 0 )
+		{
+			int index = cNegNumChoice.getSelectionIndex( );
+			cNegNumChoice.removeAll( );
+			cNegNumChoice.add( "-" + priviewText + "" ); //$NON-NLS-1$ //$NON-NLS-2$
+			cNegNumChoice.add( "(" + priviewText + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+			if ( index > -1 && index < 2 )
+				cNegNumChoice.select( index );
+			else
+				cNegNumChoice.select( 0 );
+			GridData gd = (GridData) fNegNumChoice.getLayoutData( );
+			gd.heightHint = fNegNumChoice.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y + 2;
+			cNegNumChoice.setLayoutData( gd );
+		}
+
+		if ( pNegNumChoice != null && pNegNumChoice.getItemCount( ) > 0 )
+		{
+			int index = pNegNumChoice.getSelectionIndex( );
+			pNegNumChoice.removeAll( );
+			pNegNumChoice.add( "-" + priviewText + "" ); //$NON-NLS-1$ //$NON-NLS-2$
+			pNegNumChoice.add( "(" + priviewText + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+			if ( index > -1 && index < 2 )
+				pNegNumChoice.select( index );
+			else
+				pNegNumChoice.select( 0 );
+			GridData gd = (GridData) fNegNumChoice.getLayoutData( );
+			gd.heightHint = fNegNumChoice.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y + 2;
+			pNegNumChoice.setLayoutData( gd );
+		}
+
+		if ( tableItems[0] != null )
+			tableItems[0].setText( new String[]{
+					provider.getDisplayName4Category( provider.NUMBER_FORMAT_TYPE_CURRENCY ),
+					new NumberFormatter( provider.getPatternForCategory( provider.NUMBER_FORMAT_TYPE_CURRENCY ),
+							locale ).format( DEFAULT_PREVIEW_NUMBER )
+			} );
+		if ( tableItems[1] != null )
+			tableItems[1].setText( new String[]{
+					provider.getDisplayName4Category( provider.NUMBER_FORMAT_TYPE_FIXED ),
+					new NumberFormatter( provider.getPatternForCategory( provider.NUMBER_FORMAT_TYPE_FIXED ),
+							locale ).format( DEFAULT_PREVIEW_NUMBER )
+			} );
+		if ( tableItems[2] != null )
+			tableItems[2].setText( new String[]{
+					provider.getDisplayName4Category( provider.NUMBER_FORMAT_TYPE_PERCENT ),
+					new NumberFormatter( provider.getPatternForCategory( provider.NUMBER_FORMAT_TYPE_PERCENT ),
+							locale ).format( DEFAULT_PREVIEW_NUMBER )
+			} );
+		if ( tableItems[3] != null )
+			tableItems[3].setText( new String[]{
+					provider.getDisplayName4Category( provider.NUMBER_FORMAT_TYPE_SCIENTIFIC ),
+					new NumberFormatter( provider.getPatternForCategory( provider.NUMBER_FORMAT_TYPE_SCIENTIFIC ),
+							locale ).format( DEFAULT_PREVIEW_NUMBER )
+			} );
+
 	}
 
 	protected void createContentsHorizontally( )
@@ -323,12 +491,34 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			public void widgetSelected( SelectionEvent e )
 			{
 				reLayoutSubPages( );
-
+				updateTextByLocale( );
 				updatePreview( );
 				notifyFormatChange( );
 			}
 		} );
 		typeChoicer.setItems( provider.getFormatTypes( ) );
+
+		FormWidgetFactory.getInstance( )
+				.createLabel( container, isFormStyle( ) )
+				.setText( LABEL_FORMAT_NUMBER_LOCALE );
+		if ( !isFormStyle( ) )
+			localeChoicer = new CCombo( container, SWT.READ_ONLY | SWT.BORDER );
+		else
+			localeChoicer = FormWidgetFactory.getInstance( )
+					.createCCombo( container, true );
+		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateTextByLocale( );
+				updatePreview( );
+				notifyFormatChange( );
+			}
+		} );
+		localeChoicer.setItems( provider.getLocaleDisplayNames( ) );
+		if ( localeChoicer.getItemCount( ) > 0 )
+			localeChoicer.select( 0 );
 
 		// create the right part setting pane
 		infoComp = new Composite( content, SWT.NONE );
@@ -433,7 +623,9 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	{
 		if ( hasLoaded )
 		{
-			provider.fireFormatChanged( getCategory( ), getPattern( ) );
+			provider.fireFormatChanged( getCategory( ),
+					getPattern( ),
+					this.locale );
 		}
 	}
 
@@ -472,7 +664,17 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		else if ( result.length == 1 )
 			setInput( result[0] );
 		else if ( result.length == 2 )
-			setInput( result[0], result[1] );
+			setInput( result[0], result[1], null );
+		else if ( result.length == 3 )
+			setInput( result[0], result[1], getLocaleByDisplayName( result[2] ) );
+	}
+
+	private ULocale getLocaleByDisplayName( String name )
+	{
+		if ( provider != null )
+			return provider.getLocaleByDisplayName( name );
+		else
+			return null;
 	}
 
 	public void setInput( String formatString )
@@ -497,7 +699,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		String category = fmtStr.substring( 0, pos );
 		String patternStr = fmtStr.substring( pos + 1 );
 
-		setInput( category, patternStr );
+		setInput( category, patternStr, null );
 		return;
 	}
 
@@ -510,23 +712,33 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	 *            The pattern of the format string.
 	 */
 
-	public void setInput( String categoryStr, String patternStr )
+	public void setInput( String categoryStr, String patternStr, ULocale locale )
 	{
 		hasLoaded = false;
 
-		initiatePageLayout( categoryStr, patternStr );
+		String localeStr = provider.getLocaleDisplayName( locale );
+
+		initiatePageLayout( categoryStr, patternStr, localeStr );
 
 		// re layout sub page.
 		reLayoutSubPages( );
+
+		updateTextByLocale( );
 
 		updatePreview( );
 
 		// set initial.
 		oldCategory = categoryStr;
 		oldPattern = patternStr;
+		oldLocale = localeStr;
 
 		hasLoaded = true;
 		return;
+	}
+
+	public void setInput( String categoryStr, String patternStr )
+	{
+		setInput( categoryStr, patternStr, null );
 	}
 
 	/*
@@ -567,6 +779,11 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		return pattern;
 	}
 
+	public ULocale getLocale( )
+	{
+		return getLocaleByDisplayName( locale );
+	}
+
 	/**
 	 * Returns the formatString from the page.
 	 */
@@ -602,6 +819,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	{
 		String c = getCategory( );
 		String p = getPattern( );
+		String l = this.locale;
 		if ( oldCategory == null )
 		{
 			if ( c != null )
@@ -621,6 +839,17 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			}
 		}
 		else if ( !oldPattern.equals( p ) )
+		{
+			return true;
+		}
+		if ( oldLocale == null )
+		{
+			if ( l != null )
+			{
+				return true;
+			}
+		}
+		else if ( !oldLocale.equals( l ) )
 		{
 			return true;
 		}
@@ -665,6 +894,11 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		this.category = category; //$NON-NLS-1$
 	}
 
+	private void setLocale( String locale )
+	{
+		this.locale = locale; //$NON-NLS-1$
+	}
+
 	private void setDefaultPreviewText( String defText )
 	{
 		if ( defText == null
@@ -682,9 +916,13 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 
 	private boolean isValidNumber( String text )
 	{
+		ULocale locale = getLocaleByDisplayName( localeChoicer.getText( ) );
+		if ( locale == null )
+			locale = ULocale.forLocale( Locale.getDefault( ) );
+
 		try
 		{
-			NumberFormat.getNumberInstance( Locale.getDefault( ) ).parse( text );
+			NumberFormat.getNumberInstance( locale ).parse( text );
 			return true;
 		}
 		catch ( ParseException e )
@@ -724,6 +962,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		}
 
 		String category = provider.getCategory4DisplayName( typeChoicer.getText( ) );
+
 		if ( provider.NUMBER_FORMAT_TYPE_UNFORMATTED.equals( category ) )
 		{
 			setCategory( provider.NUMBER_FORMAT_TYPE_UNFORMATTED );
@@ -736,7 +975,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			setCategory( fmtPattern.getCategory( ) );
 			setPattern( fmtPattern.getPattern( ) );
 		}
-		doPreview( getCategory( ), getPattern( ) );
+		doPreview( getCategory( ), getPattern( ), this.locale );
 	}
 
 	/**
@@ -745,22 +984,45 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	 * @param patternStr
 	 */
 
-	private void doPreview( String category, String patternStr )
+	private void doPreview( String category, String patternStr,
+			String localeName )
 	{
+		ULocale locale = getLocaleByDisplayName( localeName );
+		if ( locale == null )
+			locale = ULocale.getDefault( );
+
 		String fmtStr;
 
-		double num;
-		if ( getPreviewText( ) == null )
-		{
-			num = DEFAULT_PREVIEW_NUMBER;
-		}
-		else
+		double num = DEFAULT_PREVIEW_NUMBER;
+		if ( getPreviewText( ) != null )
 		{
 			try
 			{
-				num = NumberFormat.getNumberInstance( Locale.getDefault( ) )
-						.parse( getPreviewText( ) )
-						.doubleValue( );
+				if ( category.equals( provider.NUMBER_FORMAT_TYPE_CURRENCY ) )
+				{
+					num = new NumberFormatter( DEFAULT_PATTERN, locale ).parse( getPreviewText( ) )
+							.doubleValue( );
+				}
+				else if ( category.equals( provider.NUMBER_FORMAT_TYPE_FIXED ) )
+				{
+					num = new NumberFormatter( DEFAULT_PATTERN, locale ).parse( getPreviewText( ) )
+							.doubleValue( );
+				}
+				else if ( category.equals( provider.NUMBER_FORMAT_TYPE_PERCENT ) )
+				{
+					num = new NumberFormatter( DEFAULT_PATTERN, locale ).parse( getPreviewText( ) )
+							.doubleValue( );
+				}
+				else if ( category.equals( provider.NUMBER_FORMAT_TYPE_SCIENTIFIC ) )
+				{
+					num = new NumberFormatter( null, locale ).parse( getPreviewText( ) )
+							.doubleValue( );
+				}
+				else if ( category.equals( provider.NUMBER_FORMAT_TYPE_CUSTOM ) )
+				{
+					num = new NumberFormatter( null, locale ).parse( getPreviewText( ) )
+							.doubleValue( );
+				}
 			}
 			catch ( ParseException e )
 			{
@@ -772,43 +1034,43 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		if ( category == null )
 		{
 			fmtStr = getPreviewText( );
-			fmtStr = new NumberFormatter( patternStr ).format( num );
+			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			gPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( provider.NUMBER_FORMAT_TYPE_UNFORMATTED ) )
 		{
-			fmtStr = new NumberFormatter( patternStr ).format( num );
+			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			gPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( provider.NUMBER_FORMAT_TYPE_GENERAL_NUMBER ) )
 		{
-			fmtStr = new NumberFormatter( patternStr ).format( num );
+			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			gPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( provider.NUMBER_FORMAT_TYPE_CURRENCY ) )
 		{
-			fmtStr = new NumberFormatter( patternStr ).format( num );
+			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			cPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( provider.NUMBER_FORMAT_TYPE_FIXED ) )
 		{
-			fmtStr = new NumberFormatter( patternStr ).format( num );
+			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			fPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( provider.NUMBER_FORMAT_TYPE_PERCENT ) )
 		{
-			fmtStr = new NumberFormatter( patternStr ).format( num );
+			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			pPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( provider.NUMBER_FORMAT_TYPE_SCIENTIFIC ) )
 		{
-			fmtStr = new NumberFormatter( patternStr ).format( num );
+			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			sPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
@@ -817,7 +1079,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			if ( provider.isBlank( previewTextBox.getText( ) )
 					|| isValidNumber( previewTextBox.getText( ) ) )
 			{
-				fmtStr = new NumberFormatter( patternStr ).format( num );
+				fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			}
 			else
 			{
@@ -856,8 +1118,16 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		return page;
 	}
 
-	private void initiatePageLayout( String categoryStr, String patternStr )
+	private void initiatePageLayout( String categoryStr, String patternStr,
+			String localeStr )
 	{
+		if ( localeStr != null )
+		{
+			localeChoicer.setText( localeStr );
+		}
+		else
+			localeChoicer.select( 0 );
+
 		if ( categoryStr == null )
 		{
 			typeChoicer.select( 0 );
@@ -1377,12 +1647,10 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		label.setText( LABEL_NEGATIVE_NUMBERS );
 
 		if ( !isFormStyle( ) )
-			cNegNumChoice = new List( setting, SWT.SINGLE
-					| SWT.BORDER
-					| SWT.V_SCROLL );
+			cNegNumChoice = new List( setting, SWT.SINGLE | SWT.BORDER );
 		else
 			cNegNumChoice = FormWidgetFactory.getInstance( )
-					.createList( setting, SWT.SINGLE | SWT.V_SCROLL );
+					.createList( setting, SWT.SINGLE );
 		cNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT + "" ); //$NON-NLS-1$ //$NON-NLS-2$
 		cNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		data = new GridData( GridData.FILL_BOTH );
@@ -1667,13 +1935,13 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		label.setText( LABEL_COSTOM_PREVIEW_LABEL );
 		label.setLayoutData( new GridData( ) );
 
-		cusPreviewLabel = FormWidgetFactory.getInstance( ).createLabel( group,
+		cusPreviewLabel = FormWidgetFactory.getInstance( ).createCLabel( group,
 				SWT.CENTER | SWT.HORIZONTAL | SWT.VIRTUAL,
 				isFormStyle( ) );
 		cusPreviewLabel.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 	}
 
-	private Label createGeneralPreviewPart4Page( Composite parent )
+	private CLabel createGeneralPreviewPart4Page( Composite parent )
 	{
 		Group group;
 		if ( !isFormStyle( ) )
@@ -1691,15 +1959,19 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			data = new GridData( GridData.FILL_HORIZONTAL );
 		}
 		group.setLayoutData( data );
-		group.setLayout( new GridLayout( 1, false ) );
+		GridLayout layout = new GridLayout( 1, false );
+		layout.marginHeight = layout.marginWidth = 2;
+		group.setLayout( layout );
 
-		Label previewText = FormWidgetFactory.getInstance( )
-				.createLabel( group,
+		CLabel previewText = FormWidgetFactory.getInstance( )
+				.createCLabel( group,
 						SWT.CENTER | SWT.HORIZONTAL | SWT.VERTICAL,
 						isFormStyle( ) );
 		previewText.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		return previewText;
 	}
+
+	private TableItem[] tableItems = new TableItem[4];
 
 	/**
 	 * Creates the table in custom page.
@@ -1732,19 +2004,23 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		tableColumnDisplay.setWidth( 120 );
 		tableColumnDisplay.setResizable( true );
 
-		new TableItem( table, SWT.NONE ).setText( new String[]{
+		tableItems[0] = new TableItem( table, SWT.NONE );
+		tableItems[0].setText( new String[]{
 				provider.getDisplayName4Category( provider.NUMBER_FORMAT_TYPE_CURRENCY ),
 				new NumberFormatter( provider.getPatternForCategory( provider.NUMBER_FORMAT_TYPE_CURRENCY ) ).format( DEFAULT_PREVIEW_NUMBER )
 		} );
-		new TableItem( table, SWT.NONE ).setText( new String[]{
+		tableItems[1] = new TableItem( table, SWT.NONE );
+		tableItems[1].setText( new String[]{
 				provider.getDisplayName4Category( provider.NUMBER_FORMAT_TYPE_FIXED ),
 				new NumberFormatter( provider.getPatternForCategory( provider.NUMBER_FORMAT_TYPE_FIXED ) ).format( DEFAULT_PREVIEW_NUMBER )
 		} );
-		new TableItem( table, SWT.NONE ).setText( new String[]{
+		tableItems[2] = new TableItem( table, SWT.NONE );
+		tableItems[2].setText( new String[]{
 				provider.getDisplayName4Category( provider.NUMBER_FORMAT_TYPE_PERCENT ),
 				new NumberFormatter( provider.getPatternForCategory( provider.NUMBER_FORMAT_TYPE_PERCENT ) ).format( DEFAULT_PREVIEW_NUMBER )
 		} );
-		new TableItem( table, SWT.NONE ).setText( new String[]{
+		tableItems[3] = new TableItem( table, SWT.NONE );
+		tableItems[3].setText( new String[]{
 				provider.getDisplayName4Category( provider.NUMBER_FORMAT_TYPE_SCIENTIFIC ),
 				new NumberFormatter( provider.getPatternForCategory( provider.NUMBER_FORMAT_TYPE_SCIENTIFIC ) ).format( DEFAULT_PREVIEW_NUMBER )
 		} );
@@ -1798,6 +2074,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	private void setControlsEnabled( boolean b )
 	{
 		typeChoicer.setEnabled( b );
+		localeChoicer.setEnabled( b );
 
 		cPlacesChoice.setEnabled( b );
 		cUseSep.setEnabled( b );

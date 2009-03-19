@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * IFormatPage for format number, string, dateTime
  */
@@ -44,7 +46,7 @@ public interface IFormatPage
 	 * @param pattern
 	 *            The format pattern.
 	 */
-	public void setInput( String category, String pattern );
+	public void setInput( String category, String pattern, ULocale formatLocale );
 
 	/**
 	 * Sets input for the page.
@@ -67,6 +69,8 @@ public interface IFormatPage
 	 * @return The format pattern.
 	 */
 	public String getPattern( );
+
+	public ULocale getLocale( );
 
 	/**
 	 * Returns the format string from the page.

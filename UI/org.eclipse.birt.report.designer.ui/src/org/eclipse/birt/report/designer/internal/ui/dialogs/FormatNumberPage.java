@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -73,6 +74,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private static final String PREVIEW_TEXT_INVALID_FORMAT_CODE = Messages.getString( "FormatNumberPage.preview.invalidFormatCode" ); //$NON-NLS-1$
 
 	private static final String LABEL_FORMAT_NUMBER_PAGE = Messages.getString( "FormatNumberPage.label.format.number.page" ); //$NON-NLS-1$
+	private static final String LABEL_FORMAT_NUMBER_LOCALE = Messages.getString( "FormatNumberPage.label.format.number.locale" ); //$NON-NLS-1$
 	private static final String LABEL_CURRENCY_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.currency.settings" ); //$NON-NLS-1$
 	private static final String LABEL_CURRENCY_SYMBOL = Messages.getString( "FormatNumberPage.label.symbol" ); //$NON-NLS-1$
 	private static final String LABEL_FIXED_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.fixed.settings" ); //$NON-NLS-1$
@@ -97,8 +99,10 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 	private String pattern = null;
 	private String category = null;
+	private String locale = null;
 	private String oldCategory = null;
 	private String oldPattern = null;
+	private String oldLocale = null;
 
 	private HashMap categoryPageMaps;
 	private HashMap categoryPatternMaps;
@@ -136,7 +140,9 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		symbols = (String[]) list.toArray( new String[0] );
 	}
 
-	private Combo typeChoicer;
+	private static final String DEFAULT_PATTERN = "#,##0.00"; //$NON-NLS-1$
+
+	private Combo typeChoicer, localeChoicer;
 
 	private Composite infoComp;
 	private Composite formatCodeComp;
@@ -154,7 +160,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private Text previewTextBox;
 	private Text formatCodeBox;
 
-	private Label gPreviewLabel, cPreviewLabel, fPreviewLabel, pPreviewLabel,
+	private CLabel gPreviewLabel, cPreviewLabel, fPreviewLabel, pPreviewLabel,
 			sPreviewLabel, cusPreviewLabel;
 
 	private Combo cPlacesChoice, cSymbolChoice, cSymPosChoice, fPlacesChoice,
@@ -207,6 +213,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		{
 		}
 	};
+	private FormatAdapter formatAdapter;
+	private TableItem[] tableItems = new TableItem[4];
 
 	/**
 	 * Constructs a page for formatting numbers, default aligns the page
@@ -237,7 +245,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	{
 		super( parent, style );
 		this.pageAlignment = pageAlignment;
-
+		formatAdapter = new FormatAdapter( );
 		createContents( pageAlignment );
 	}
 
@@ -276,12 +284,28 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			public void widgetSelected( SelectionEvent e )
 			{
 				reLayoutSubPages( );
-
+				updateTextByLocale( );
 				updatePreview( );
 				notifyFormatChange( );
 			}
 		} );
 		typeChoicer.setItems( getFormatTypes( ) );
+
+		new Label( topContainer, SWT.NONE ).setText( LABEL_FORMAT_NUMBER_LOCALE );
+		localeChoicer = new Combo( topContainer, SWT.READ_ONLY );
+		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateTextByLocale( );
+				updatePreview( );
+				notifyFormatChange( );
+			}
+		} );
+		localeChoicer.setItems( formatAdapter.getLocaleDisplayNames( ) );
+		if ( localeChoicer.getItemCount( ) > 0 )
+			localeChoicer.select( 0 );
 
 		infoComp = new Composite( this, SWT.NONE );
 		infoComp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -314,12 +338,28 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			public void widgetSelected( SelectionEvent e )
 			{
 				reLayoutSubPages( );
-
+				updateTextByLocale( );
 				updatePreview( );
 				notifyFormatChange( );
 			}
 		} );
 		typeChoicer.setItems( getFormatTypes( ) );
+
+		new Label( container, SWT.NONE ).setText( LABEL_FORMAT_NUMBER_LOCALE );
+		localeChoicer = new Combo( container, SWT.READ_ONLY );
+		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateTextByLocale( );
+				updatePreview( );
+				notifyFormatChange( );
+			}
+		} );
+		localeChoicer.setItems( formatAdapter.getLocaleDisplayNames( ) );
+		if ( localeChoicer.getItemCount( ) > 0 )
+			localeChoicer.select( 0 );
 
 		// create the right part setting pane
 		infoComp = new Composite( this, SWT.NONE );
@@ -343,6 +383,143 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 		setInput( null, null );
 		setPreviewText( DEFAULT_PREVIEW_TEXT );
+	}
+
+	private void updateTextByLocale( )
+	{
+		setLocale( localeChoicer.getText( ) );
+
+		ULocale locale = getLocaleByDisplayName( this.locale );
+		if ( locale == null )
+			locale = ULocale.getDefault( );
+
+		String category = getCategory4DisplayName( typeChoicer.getText( ) );
+		String priviewText = "";
+
+		if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY ) )
+		{
+			priviewText = new NumberFormatter( DEFAULT_PATTERN, locale ).format( DEFAULT_PREVIEW_NUMBER );
+			FormatCurrencyNumPattern pattern = (FormatCurrencyNumPattern) categoryPatternMaps.get( category );
+			String places = cPlacesChoice.getText( );
+			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
+					: 0 );
+			pattern.setUseSep( cUseSep.getSelection( ) );
+			pattern.setUseSpace( cUseSpace.getSelection( ) );
+			pattern.setSymbol( cSymbolChoice.getText( ) );
+			pattern.setSymPos( cSymPosChoice.getText( ) );
+			pattern.setUseBracket( cNegNumChoice.getSelectionIndex( ) == 1 );
+		}
+		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED ) )
+		{
+			priviewText = new NumberFormatter( DEFAULT_PATTERN, locale ).format( DEFAULT_PREVIEW_NUMBER );
+			FormatFixedNumPattern pattern = (FormatFixedNumPattern) categoryPatternMaps.get( category );
+			String places = fPlacesChoice.getText( );
+			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
+					: 0 );
+			pattern.setUseSep( fUseSep.getSelection( ) );
+			// pattern.setUseZero( fUseZero.getSelection( ) );
+			pattern.setUseBracket( fNegNumChoice.getSelectionIndex( ) == 1 );
+		}
+		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT ) )
+		{
+			priviewText = new NumberFormatter( DEFAULT_PATTERN, locale ).format( DEFAULT_PREVIEW_NUMBER );
+			FormatPercentNumPattern pattern = (FormatPercentNumPattern) categoryPatternMaps.get( category );
+			String places = pPlacesChoice.getText( );
+			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
+					: 0 );
+			pattern.setUseSep( pUseSep.getSelection( ) );
+			// pattern.setUseZero( pUseZero.getSelection( ) );
+			pattern.setSymPos( pSymPosChoice.getText( ) );
+			pattern.setUseBracket( pNegNumChoice.getSelectionIndex( ) == 1 );
+		}
+		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ) )
+		{
+			priviewText = new NumberFormatter( null, locale ).format( DEFAULT_PREVIEW_NUMBER );
+			FormatScientificNumPattern pattern = (FormatScientificNumPattern) categoryPatternMaps.get( category );
+			String places = sPlacesChoice.getText( );
+			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
+					: 0 );
+		}
+		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ) )
+		{
+			priviewText = new NumberFormatter( null, locale ).format( DEFAULT_PREVIEW_NUMBER );
+			FormatCustomNumPattern pattern = (FormatCustomNumPattern) categoryPatternMaps.get( category );
+			pattern.setPattern( formatCodeBox.getText( ).length( ) == 0 ? null
+					: formatCodeBox.getText( ) );
+		}
+
+		setPreviewText( priviewText );
+
+		if ( fNegNumChoice != null && fNegNumChoice.getItemCount( ) > 0 )
+		{
+			int index = fNegNumChoice.getSelectionIndex( );
+			fNegNumChoice.removeAll( );
+			fNegNumChoice.add( "-" + priviewText + "" ); //$NON-NLS-1$ //$NON-NLS-2$
+			fNegNumChoice.add( "(" + priviewText + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+			if ( index > -1 && index < 2 )
+				fNegNumChoice.select( index );
+			else
+				fNegNumChoice.select( 0 );
+			GridData gd = (GridData) fNegNumChoice.getLayoutData( );
+			gd.heightHint = fNegNumChoice.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y + 2;
+			fNegNumChoice.setLayoutData( gd );
+		}
+
+		if ( cNegNumChoice != null && cNegNumChoice.getItemCount( ) > 0 )
+		{
+			int index = cNegNumChoice.getSelectionIndex( );
+			cNegNumChoice.removeAll( );
+			cNegNumChoice.add( "-" + priviewText + "" ); //$NON-NLS-1$ //$NON-NLS-2$
+			cNegNumChoice.add( "(" + priviewText + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+			if ( index > -1 && index < 2 )
+				cNegNumChoice.select( index );
+			else
+				cNegNumChoice.select( 0 );
+			GridData gd = (GridData) fNegNumChoice.getLayoutData( );
+			gd.heightHint = fNegNumChoice.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y + 2;
+			cNegNumChoice.setLayoutData( gd );
+		}
+
+		if ( pNegNumChoice != null && pNegNumChoice.getItemCount( ) > 0 )
+		{
+			int index = pNegNumChoice.getSelectionIndex( );
+			pNegNumChoice.removeAll( );
+			pNegNumChoice.add( "-" + priviewText + "" ); //$NON-NLS-1$ //$NON-NLS-2$
+			pNegNumChoice.add( "(" + priviewText + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+			if ( index > -1 && index < 2 )
+				pNegNumChoice.select( index );
+			else
+				pNegNumChoice.select( 0 );
+			GridData gd = (GridData) fNegNumChoice.getLayoutData( );
+			gd.heightHint = fNegNumChoice.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y + 2;
+			pNegNumChoice.setLayoutData( gd );
+		}
+
+		if ( tableItems[0] != null )
+			tableItems[0].setText( new String[]{
+					getDisplayName4Category( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY ),
+					new NumberFormatter( getPatternForCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY ),
+							locale ).format( DEFAULT_PREVIEW_NUMBER )
+			} );
+		if ( tableItems[1] != null )
+			tableItems[1].setText( new String[]{
+					getDisplayName4Category( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED ),
+					new NumberFormatter( getPatternForCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED ),
+							locale ).format( DEFAULT_PREVIEW_NUMBER )
+			} );
+		if ( tableItems[2] != null )
+			tableItems[2].setText( new String[]{
+					getDisplayName4Category( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT ),
+					new NumberFormatter( getPatternForCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT ),
+							locale ).format( DEFAULT_PREVIEW_NUMBER )
+			} );
+		if ( tableItems[3] != null )
+			tableItems[3].setText( new String[]{
+					getDisplayName4Category( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ),
+					new NumberFormatter( getPatternForCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ),
+							locale ).format( DEFAULT_PREVIEW_NUMBER )
+			} );
+
 	}
 
 	/**
@@ -580,7 +757,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		return page;
 	}
 
-	private void fireFormatChanged( String newCategory, String newPattern )
+	private void fireFormatChanged( String newCategory, String newPattern,
+			String newLocale )
 	{
 		if ( listeners.isEmpty( ) )
 		{
@@ -589,7 +767,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		FormatChangeEvent event = new FormatChangeEvent( this,
 				StyleHandle.NUMBER_FORMAT_PROP,
 				newCategory,
-				newPattern );
+				newPattern,
+				newLocale );
 		for ( Iterator iter = listeners.iterator( ); iter.hasNext( ); )
 		{
 			Object listener = iter.next( );
@@ -604,7 +783,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	{
 		if ( hasLoaded )
 		{
-			fireFormatChanged( getCategory( ), getPattern( ) );
+			fireFormatChanged( getCategory( ), getPattern( ), this.locale );
 		}
 	}
 
@@ -657,6 +836,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		return;
 	}
 
+	
+
 	/**
 	 * Sets input of the page.
 	 * 
@@ -668,18 +849,28 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 	public void setInput( String categoryStr, String patternStr )
 	{
+		setInput( categoryStr, patternStr, null );
+	}
+
+	public void setInput( String categoryStr, String patternStr, ULocale locale )
+	{
 		hasLoaded = false;
 
-		initiatePageLayout( categoryStr, patternStr );
+		String localeStr = formatAdapter.getLocaleDisplayName( locale );
+
+		initiatePageLayout( categoryStr, patternStr, localeStr );
 
 		// re layout sub page.
 		reLayoutSubPages( );
+
+		updateTextByLocale( );
 
 		updatePreview( );
 
 		// set initial.
 		oldCategory = categoryStr;
 		oldPattern = patternStr;
+		oldLocale = localeStr;
 
 		hasLoaded = true;
 		return;
@@ -757,6 +948,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	{
 		String c = getCategory( );
 		String p = getPattern( );
+		String l = this.locale;
 		if ( oldCategory == null )
 		{
 			if ( c != null )
@@ -776,6 +968,17 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			}
 		}
 		else if ( !oldPattern.equals( p ) )
+		{
+			return true;
+		}
+		if ( oldLocale == null )
+		{
+			if ( l != null )
+			{
+				return true;
+			}
+		}
+		else if ( !oldLocale.equals( l ) )
 		{
 			return true;
 		}
@@ -820,6 +1023,11 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		this.category = category; //$NON-NLS-1$
 	}
 
+	private void setLocale( String locale )
+	{
+		this.locale = locale; //$NON-NLS-1$
+	}
+
 	private void setDefaultPreviewText( String defText )
 	{
 		if ( defText == null
@@ -837,15 +1045,27 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 	private boolean isValidNumber( String text )
 	{
+		ULocale locale = getLocaleByDisplayName( localeChoicer.getText( ) );
+		if ( locale == null )
+			locale = ULocale.forLocale( Locale.getDefault( ) );
+
 		try
 		{
-			NumberFormat.getNumberInstance( Locale.getDefault( ) ).parse( text );
+			NumberFormat.getNumberInstance( locale ).parse( text );
 			return true;
 		}
 		catch ( ParseException e )
 		{
 		}
 		return false;
+	}
+
+	private ULocale getLocaleByDisplayName( String name )
+	{
+		if ( formatAdapter != null )
+			return formatAdapter.getLocaleByDisplayName( name );
+		else
+			return null;
 	}
 
 	private void markDirty( boolean dirty )
@@ -891,7 +1111,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			setCategory( fmtPattern.getCategory( ) );
 			setPattern( fmtPattern.getPattern( ) );
 		}
-		doPreview( getCategory( ), getPattern( ) );
+		doPreview( getCategory( ), getPattern( ), this.locale );
 	}
 
 	/**
@@ -900,71 +1120,93 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 * @param patternStr
 	 */
 
-	private void doPreview( String category, String patternStr )
+	private void doPreview( String category, String patternStr,
+			String localeName )
 	{
+		ULocale locale = getLocaleByDisplayName( localeName );
+		if ( locale == null )
+			locale = ULocale.getDefault( );
+
 		String fmtStr;
 
-		double num;
-		if ( getPreviewText( ) == null )
-		{
-			num = DEFAULT_PREVIEW_NUMBER;
-		}
-		else
+		double num = DEFAULT_PREVIEW_NUMBER;
+		if ( getPreviewText( ) != null )
 		{
 			try
 			{
-				num = NumberFormat.getNumberInstance( Locale.getDefault( ) )
-						.parse( getPreviewText( ) )
-						.doubleValue( );
+				if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY ) )
+				{
+					num = new NumberFormatter( DEFAULT_PATTERN, locale ).parse( getPreviewText( ) )
+							.doubleValue( );
+				}
+				else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED ) )
+				{
+					num = new NumberFormatter( DEFAULT_PATTERN, locale ).parse( getPreviewText( ) )
+							.doubleValue( );
+				}
+				else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT ) )
+				{
+					num = new NumberFormatter( DEFAULT_PATTERN, locale ).parse( getPreviewText( ) )
+							.doubleValue( );
+				}
+				else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ) )
+				{
+					num = new NumberFormatter( null, locale ).parse( getPreviewText( ) )
+							.doubleValue( );
+				}
+				else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ) )
+				{
+					num = new NumberFormatter( null, locale ).parse( getPreviewText( ) )
+							.doubleValue( );
+				}
 			}
 			catch ( ParseException e )
 			{
 				ExceptionHandler.handle( e );
 				num = DEFAULT_PREVIEW_NUMBER;
 			}
-
 		}
 
 		if ( category == null )
 		{
 			fmtStr = getPreviewText( );
-			fmtStr = new NumberFormatter( patternStr ).format( num );
+			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			gPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED ) )
 		{
-			fmtStr = new NumberFormatter( patternStr ).format( num );
+			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			gPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER ) )
 		{
-			fmtStr = new NumberFormatter( patternStr ).format( num );
+			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			gPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY ) )
 		{
-			fmtStr = new NumberFormatter( patternStr ).format( num );
+			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			cPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED ) )
 		{
-			fmtStr = new NumberFormatter( patternStr ).format( num );
+			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			fPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT ) )
 		{
-			fmtStr = new NumberFormatter( patternStr ).format( num );
+			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			pPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ) )
 		{
-			fmtStr = new NumberFormatter( patternStr ).format( num );
+			fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			sPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
@@ -973,7 +1215,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			if ( StringUtil.isBlank( previewTextBox.getText( ) )
 					|| isValidNumber( previewTextBox.getText( ) ) )
 			{
-				fmtStr = new NumberFormatter( patternStr ).format( num );
+				fmtStr = new NumberFormatter( patternStr, locale ).format( num );
 			}
 			else
 			{
@@ -984,8 +1226,16 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		}
 	}
 
-	private void initiatePageLayout( String categoryStr, String patternStr )
+	private void initiatePageLayout( String categoryStr, String patternStr,
+			String localeStr )
 	{
+		if ( localeStr != null )
+		{
+			localeChoicer.setText( localeStr );
+		}
+		else
+			localeChoicer.select( 0 );
+
 		if ( categoryStr == null )
 		{
 			typeChoicer.select( 0 );
@@ -1452,9 +1702,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
 		label.setText( LABEL_NEGATIVE_NUMBERS );
 
-		cNegNumChoice = new List( setting, SWT.SINGLE
-				| SWT.BORDER
-				| SWT.V_SCROLL );
+		cNegNumChoice = new List( setting, SWT.SINGLE | SWT.BORDER );
 		cNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT ); //$NON-NLS-1$
 		cNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		data = new GridData( GridData.FILL_BOTH );
@@ -1506,9 +1754,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		label = new Label( setting, SWT.NONE );
 		label.setText( LABEL_NEGATIVE_NUMBERS );
 		label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
-		fNegNumChoice = new List( setting, SWT.SINGLE
-				| SWT.BORDER
-				| SWT.V_SCROLL );
+		fNegNumChoice = new List( setting, SWT.SINGLE | SWT.BORDER );
 		fNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT ); //$NON-NLS-1$
 		fNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		gData = new GridData( GridData.FILL_BOTH );
@@ -1568,9 +1814,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		Label label = new Label( setting, SWT.NONE );
 		label.setText( LABEL_NEGATIVE_NUMBERS );
 		label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
-		pNegNumChoice = new List( setting, SWT.SINGLE
-				| SWT.BORDER
-				| SWT.V_SCROLL );
+		pNegNumChoice = new List( setting, SWT.SINGLE | SWT.BORDER );
 		pNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT ); //$NON-NLS-1$
 		pNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		pNegNumChoice.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -1657,13 +1901,13 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		label.setText( LABEL_COSTOM_PREVIEW_LABEL );
 		label.setLayoutData( new GridData( ) );
 
-		cusPreviewLabel = new Label( group, SWT.CENTER
+		cusPreviewLabel = new CLabel( group, SWT.CENTER
 				| SWT.HORIZONTAL
 				| SWT.VIRTUAL );
 		cusPreviewLabel.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 	}
 
-	private Label createGeneralPreviewPart4Page( Composite parent )
+	private CLabel createGeneralPreviewPart4Page( Composite parent )
 	{
 		Group group = new Group( parent, SWT.NONE );
 		group.setText( LABEL_GENERAL_PREVIEW_GROUP );
@@ -1677,9 +1921,11 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			data = new GridData( GridData.FILL_HORIZONTAL );
 		}
 		group.setLayoutData( data );
-		group.setLayout( new GridLayout( 1, false ) );
+		GridLayout layout = new GridLayout( 1, false );
+		layout.marginHeight = layout.marginWidth = 2;
+		group.setLayout( layout );
 
-		Label previewText = new Label( group, SWT.CENTER
+		CLabel previewText = new CLabel( group, SWT.CENTER
 				| SWT.HORIZONTAL
 				| SWT.VERTICAL );
 		previewText.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -1713,19 +1959,23 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		tableColumnDisplay.setWidth( 120 );
 		tableColumnDisplay.setResizable( true );
 
-		new TableItem( table, SWT.NONE ).setText( new String[]{
+		tableItems[0] = new TableItem( table, SWT.NONE );
+		tableItems[0].setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY ),
 				new NumberFormatter( getPatternForCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY ) ).format( DEFAULT_PREVIEW_NUMBER )
 		} );
-		new TableItem( table, SWT.NONE ).setText( new String[]{
+		tableItems[1] = new TableItem( table, SWT.NONE );
+		tableItems[1].setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED ),
 				new NumberFormatter( getPatternForCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED ) ).format( DEFAULT_PREVIEW_NUMBER )
 		} );
-		new TableItem( table, SWT.NONE ).setText( new String[]{
+		tableItems[2] = new TableItem( table, SWT.NONE );
+		tableItems[2].setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT ),
 				new NumberFormatter( getPatternForCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT ) ).format( DEFAULT_PREVIEW_NUMBER )
 		} );
-		new TableItem( table, SWT.NONE ).setText( new String[]{
+		tableItems[3] = new TableItem( table, SWT.NONE );
+		tableItems[3].setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ),
 				new NumberFormatter( getPatternForCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ) ).format( DEFAULT_PREVIEW_NUMBER )
 		} );
@@ -1783,7 +2033,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private void setControlsEnabled( boolean b )
 	{
 		typeChoicer.setEnabled( b );
-
+		localeChoicer.setEnabled( b );
 		cPlacesChoice.setEnabled( b );
 		cUseSep.setEnabled( b );
 		cUseSpace.setEnabled( b );
@@ -1814,5 +2064,10 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		formatCodeBox.setEnabled( b );
 		previewTextBox.setEnabled( b );
 		table.setEnabled( b );
+	}
+
+	public ULocale getLocale( )
+	{
+		return getLocaleByDisplayName( locale );
 	}
 }
