@@ -120,6 +120,34 @@ public class CubeQueryUtil
 		}
 	}
 
+	
+	/**
+	 * Get all aggregation binding from <code>bindings</code> 
+	 * @param bindings: input bindings
+	 * @return aggregation bindings 
+	 * @throws AdapterException
+	 */
+	public static IBinding[] getAggregationBindings( IBinding[] bindings ) throws AdapterException
+	{
+		assert bindings != null;
+		List<IBinding> result = new ArrayList<IBinding>( );
+		for ( IBinding b : bindings )
+		{
+			try
+			{
+				if ( b.getAggrFunction( ) != null )
+				{
+					result.add( b );
+				}
+			}
+			catch ( DataException e )
+			{
+				throw new AdapterException( e.getLocalizedMessage( ), e );
+			}
+		}
+		return result.toArray( new IBinding[0] );
+	}
+	
 	/**
 	 * Populate axis levels to the <code>result</code> for the aggregate on
 	 * levels only if they are on the specified level.

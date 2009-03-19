@@ -37,7 +37,7 @@ public class DirectedGraphTest extends TestCase
 		}
 		catch ( CycleFoundException e )
 		{
-			assert false;
+			fail("Should not goes here");
 		}
 		
 		///////////////////////////////////////////
@@ -77,7 +77,7 @@ public class DirectedGraphTest extends TestCase
 		}
 		catch ( CycleFoundException e )
 		{
-			assert false;
+			fail("Should not goes here");
 		}
 	
 		///////////////////////////////////////////
@@ -121,7 +121,7 @@ public class DirectedGraphTest extends TestCase
 		}
 		catch ( CycleFoundException e )
 		{
-			assert false;
+			fail("Should not goes here");
 		}
 		
 		///////////////////////////////////////////
@@ -166,6 +166,146 @@ public class DirectedGraphTest extends TestCase
 		}
 		assert foundNode != null && foundNode.getValue( ).equals( "d" );
 	}
+	
+	public void testFlattenNodesByDependency( ) throws Exception
+	{
+		///////////////////////////////////////////
+		DirectedGraph graph
+			= new DirectedGraph(toSet(new DirectedGraphEdge[]{
+					createEdge("a", "b"),
+					createEdge("a", "c"),
+			}));
+		try
+		{
+			GraphNode[] nodes = graph.flattenNodesByDependency( );
+			assert( nodes.length == 3);
+			validateFlattened( nodes, graph );
+		}
+		catch ( CycleFoundException e )
+		{
+			fail( "Shoule not goes here");
+		}
+		
+		///////////////////////////////////////////
+		graph
+			= new DirectedGraph(toSet(new DirectedGraphEdge[]{
+					createEdge("a", "b"),
+					createEdge("a", "c"),
+					createEdge("a", "a"),
+			}));
+		try
+		{
+			GraphNode[] nodes = graph.flattenNodesByDependency( );
+			fail( "Should not goes here");
+		}
+		catch ( CycleFoundException e )
+		{
+		}
+	
+		
+		///////////////////////////////////////////
+		graph
+			= new DirectedGraph(toSet(new DirectedGraphEdge[]{
+					createEdge("a", "b"),
+					createEdge("a", "c"),
+					createEdge("a", "d"),
+					createEdge("b", "d"),
+					createEdge("b", "e"),
+					createEdge("b", "f"),
+					createEdge("d", "e"),
+					createEdge("d", "f"),
+			}));
+		try
+		{
+			GraphNode[] nodes = graph.flattenNodesByDependency( );
+			assertTrue( nodes.length == 6 );
+			validateFlattened( nodes, graph );
+			
+		}
+		catch ( CycleFoundException e )
+		{
+			fail( "Should not goes here");
+		}
+	
+		///////////////////////////////////////////
+		graph
+			= new DirectedGraph(toSet(new DirectedGraphEdge[]{
+					createEdge("a", "b"),
+					createEdge("a", "c"),
+					createEdge("a", "d"),
+					createEdge("b", "d"),
+					createEdge("b", "e"),
+					createEdge("b", "f"),
+					createEdge("d", "e"),
+					createEdge("d", "f"),
+					createEdge("d", "a"),
+			}));
+		try
+		{
+			GraphNode[] nodes = graph.flattenNodesByDependency( );
+			fail("Should not goes here");
+		}
+		catch ( CycleFoundException e )
+		{
+		}
+		
+		///////////////////////////////////////////
+		graph
+			= new DirectedGraph(toSet(new DirectedGraphEdge[]{
+					createEdge("a", "b"),
+					createEdge("a", "c"),
+					createEdge("a", "d"),
+					createEdge("e", "a"),
+					createEdge("e", "b"),
+					createEdge("c", "d"),
+			}));
+		try
+		{
+			GraphNode[] nodes = graph.flattenNodesByDependency( );
+			validateFlattened( nodes, graph );
+		}
+		catch ( CycleFoundException e )
+		{
+		}
+		
+		///////////////////////////////////////////
+		graph
+			= new DirectedGraph(toSet(new DirectedGraphEdge[]{
+					createEdge("a", "b"),
+					createEdge("a", "c"),
+					createEdge("a", "d"),
+					createEdge("e", "a"),
+					createEdge("e", "b"),
+					createEdge("c", "d"),
+					createEdge("c", "e"),
+			}));
+		try
+		{
+			GraphNode[] nodes = graph.flattenNodesByDependency( );
+			fail( "Should not goes here");
+		}
+		catch ( CycleFoundException e )
+		{
+		}
+		
+		///////////////////////////////////////////
+		graph
+			= new DirectedGraph(toSet(new DirectedGraphEdge[]{
+					createEdge("a", "b"),
+					createEdge("a", "c"),
+					createEdge("b", "c"),
+					createEdge("c", "d"),
+					createEdge("d", "b"),
+			}));
+		try
+		{
+			GraphNode[] nodes = graph.flattenNodesByDependency( );
+			fail( "Should not goes here");
+		}
+		catch ( CycleFoundException e )
+		{
+		}
+	}
 
 	private DirectedGraphEdge createEdge(String from, String to)
 	{
@@ -176,5 +316,20 @@ public class DirectedGraphTest extends TestCase
 	private Set<DirectedGraphEdge> toSet(DirectedGraphEdge[] src)
 	{
 		return new HashSet<DirectedGraphEdge>(Arrays.asList( src ));
+	}
+	
+	private void validateFlattened( GraphNode[] nodes, DirectedGraph graph ) throws Exception
+	{
+		for ( int i=0; i<nodes.length; i++)
+		{
+			for ( int j=i+1; j<nodes.length; j++)
+			{
+				if ( graph.isDependOn( nodes[i], nodes[j] ))
+				{
+					throw new Exception(nodes[i].getValue( ) + "depends on " + nodes[j].getValue( )
+							+ ", But its index( " + i + ") is before that dependency index(" + j + ")");
+				}
+			}
+		}
 	}
 }

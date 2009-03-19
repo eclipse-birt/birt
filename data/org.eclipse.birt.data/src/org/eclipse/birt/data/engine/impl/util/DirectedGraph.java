@@ -10,9 +10,10 @@
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.impl.util;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,13 +23,116 @@ import java.util.Set;
 public class DirectedGraph
 {
 
-	Set<DirectedGraphEdge> edges;
+	private Set<DirectedGraphEdge> edges;
+	
+	private Map<GraphNode, Set<DirectedGraphEdge>> groupedEdgesByFromNode;
 
 	public DirectedGraph( Set<DirectedGraphEdge> edges )
 	{
+		assert edges != null;
 		this.edges = edges;
 	}
+	
+	
+	/**
+	 * If node2 is reachable from node1 along edges, we say nodes1 depends on node2.
+	 * If node1 depends on node2 and node2 depends on node1, throw <code>CycleFoundException</code>
+	 * If node1 depends on node2 and node1 does not depend on nodes2, then node2 locates before node1
+	 * @return the flattened graph nodes in terms of dependency
+	 * @throws CycleFoundException
+	 */
+	public GraphNode[] flattenNodesByDependency( ) throws CycleFoundException
+	{
+		List<GraphNode> result = new ArrayList<GraphNode>( );
+		
+		//In fact, it's a copy set of <code>result</code>, used to speed up search 
+		Set<GraphNode> flatteneds = new HashSet<GraphNode>( );
+		
+		// grouped edges by from node
+		Map<GraphNode, Set<DirectedGraphEdge>> groupedEdgesByFromNode = groupEdgesByFromNode( );
+		
+		
+		for ( GraphNode fromNode : groupedEdgesByFromNode.keySet( ) )
+		{
+			if ( !flatteneds.contains( fromNode ))
+			{
+				addToFlattened( fromNode, result, 
+						new HashSet<GraphNode>( ), //used to check cycle 
+						flatteneds );
+			}
+		}
+		return result.toArray( new GraphNode[0] );
+	}
+	
 
+	/**
+	 * 
+	 * @param node1
+	 * @param node2
+	 * @return true if node1 depends on node2, i.e. node2 is reachable from node1 along edges; otherwise return false
+	 */
+	public boolean isDependOn( GraphNode node1, GraphNode node2 )
+	{
+		assert node1 != null && node2 != null;
+		
+		// grouped edges by from node
+		Map<GraphNode, Set<DirectedGraphEdge>> groupedEdgesByFromNode = groupEdgesByFromNode( );
+		
+		Set<DirectedGraphEdge> nextEdges = groupedEdgesByFromNode.get( node1 );
+		
+		if ( nextEdges == null )
+		{
+			return false;
+		}
+		
+		for ( DirectedGraphEdge edge : nextEdges )
+		{
+			if ( node2.equals( edge.getTo( ) ))
+			{
+				return true;
+			}
+			if ( isDependOn( edge.getTo( ), node2 ))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private void addToFlattened( GraphNode node, List<GraphNode> result, Set<GraphNode> transitions, Set<GraphNode> flatteneds ) throws CycleFoundException
+	{
+		transitions.add( node );
+		Set<DirectedGraphEdge> nextEdges = groupedEdgesByFromNode.get( node );
+		if ( nextEdges != null )
+		{
+			
+			////first flatten the dependencies
+			for ( DirectedGraphEdge edge : nextEdges )
+			{
+				GraphNode nextNode = edge.getTo( );
+				
+				if ( transitions.contains( nextNode ))
+				{
+					throw new CycleFoundException( node );
+				}
+				
+				if ( !flatteneds.contains( nextNode ))
+				{
+					transitions.add( nextNode );
+					
+					addToFlattened( nextNode, result, transitions, flatteneds);
+					
+					transitions.remove( nextNode );
+				}
+
+			}
+		}
+		result.add( node );
+		flatteneds.add( node );
+	}
+
+	
 	/**
 	 * validate graph has no cycle
 	 * 
@@ -37,12 +141,6 @@ public class DirectedGraph
 	 */
 	public void validateCycle( ) throws CycleFoundException
 	{
-
-		if ( edges == null )
-		{
-			return;
-		}
-
 		// grouped edges by from node
 		Map<GraphNode, Set<DirectedGraphEdge>> groupedEdgesByFromNode = groupEdgesByFromNode( );
 
@@ -127,18 +225,21 @@ public class DirectedGraph
 	 */
 	private Map<GraphNode, Set<DirectedGraphEdge>> groupEdgesByFromNode( )
 	{
-		Map<GraphNode, Set<DirectedGraphEdge>> groups = new HashMap<GraphNode, Set<DirectedGraphEdge>>( );
-		for ( DirectedGraphEdge edge : edges )
+		if ( groupedEdgesByFromNode == null )
 		{
-			Set<DirectedGraphEdge> group = groups.get( edge.getFrom( ) );
-			if ( group == null ) // this from node is first encountered
+			groupedEdgesByFromNode = new HashMap<GraphNode, Set<DirectedGraphEdge>>( );
+			for ( DirectedGraphEdge edge : edges )
 			{
-				group = new HashSet<DirectedGraphEdge>( );
-				groups.put( edge.getFrom( ), group );
+				Set<DirectedGraphEdge> group = groupedEdgesByFromNode.get( edge.getFrom( ) );
+				if ( group == null ) // this from node is first encountered
+				{
+					group = new HashSet<DirectedGraphEdge>( );
+					groupedEdgesByFromNode.put( edge.getFrom( ), group );
+				}
+				group.add( edge );
 			}
-			group.add( edge );
 		}
-		return groups;
+		return groupedEdgesByFromNode;
 	}
 
 	/**

@@ -52,10 +52,6 @@ public class CubeOperationFactory implements ICubeOperationFactory
 	 * 
 	 * @param operation:
 	 *            the original cube operation used added
-	 * @param scope
-	 * @param startRsId:
-	 *            the start ResultSet id used by calculatedMembers introduced
-	 *            from this new created IPreparedCubeOperation
 	 * @return
 	 * @throws DataException
 	 */
