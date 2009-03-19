@@ -270,6 +270,7 @@ odaconsumer.CannotGetNamedResultSet=Impossible d''obtenir le jeu de résultats no
 odaconsumer.CannotGetMoreResults=Impossible d''obtenir plus de jeux de résultats à partir de l'instruction.
 odaconsumer.CannotFindOutParameter=Le paramètre de sortie est introuvable : {0}.
 odaconsumer.CannotCloseStatement=Impossible de terminer l'instruction.
+odaconsumer.CannotCancelStatement=Cannot cancel the statement.
 odaconsumer.CannotGetColumnCount=Impossible d''obtenir le nombre de colonnes.
 odaconsumer.CannotGetColumnName=Impossible d''obtenir le nom de colonne : {0}.
 odaconsumer.CannotGetColumnLabel=Impossible d''obtenir l'étiquette de colonne : {0}.

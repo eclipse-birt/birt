@@ -270,6 +270,7 @@ odaconsumer.CannotGetNamedResultSet=명명된 결과 집합을 가져올 수 없습니다: {0}.
 odaconsumer.CannotGetMoreResults=문에서 결과 집합을 더 이상 가져올 수 없습니다.
 odaconsumer.CannotFindOutParameter=출력 매개 변수를 찾을 수 없습니다: {0}.
 odaconsumer.CannotCloseStatement=문을 닫을 수 없습니다.
+odaconsumer.CannotCancelStatement=Cannot cancel the statement.
 odaconsumer.CannotGetColumnCount=열 수를 가져올 수 없습니다.
 odaconsumer.CannotGetColumnName=열의 이름을 가져올 수 없습니다: {0}.
 odaconsumer.CannotGetColumnLabel=열의 레이블을 가져올 수 없습니다: {0}.

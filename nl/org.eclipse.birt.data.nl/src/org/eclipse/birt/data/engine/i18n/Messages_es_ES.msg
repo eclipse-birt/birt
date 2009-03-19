@@ -270,6 +270,7 @@ odaconsumer.CannotGetNamedResultSet=No se puede obtener el grupo de resultados c
 odaconsumer.CannotGetMoreResults=No se pueden obtener más conjuntos de resultados de la sentencia.
 odaconsumer.CannotFindOutParameter=No se puede encontrar el parámetro de salida: {0}.
 odaconsumer.CannotCloseStatement=No se puede cerrar la sentencia.
+odaconsumer.CannotCancelStatement=Cannot cancel the statement.
 odaconsumer.CannotGetColumnCount=No se puede obtener el recuento de columnas.
 odaconsumer.CannotGetColumnName=No se puede obtener el nombre de la columna: {0}.
 odaconsumer.CannotGetColumnLabel=No se puede obtener la etiqueta de la columna: {0}.

@@ -270,6 +270,7 @@ odaconsumer.CannotGetNamedResultSet=名前付き結果セット {0} を取得できません。
 odaconsumer.CannotGetMoreResults=文からこれ以上の結果セットを取得できません。
 odaconsumer.CannotFindOutParameter=出力パラメタ {0} が見つかりません。
 odaconsumer.CannotCloseStatement=文を閉じることができません。
+odaconsumer.CannotCancelStatement=Cannot cancel the statement.
 odaconsumer.CannotGetColumnCount=列の数を取得できません。
 odaconsumer.CannotGetColumnName=列 {0} の名前を取得できません。
 odaconsumer.CannotGetColumnLabel=列 {0} のラベルを取得できません。
