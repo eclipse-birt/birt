@@ -676,6 +676,7 @@ PropertyEditorDialog.Lbl.Value=Valeur
 PropertyEditorDialog.Lbl.Add=&Ajouter
 PropertyEditorDialog.Lbl.Remove=&Supprimer
 HeadStyleAttributeComposite.Lbl.HeadStyle=Style de pointe :
+HyperlinkEditorDialog.ErrorMessage.ExistingText=The text is existing, please modify to a different one.
 HyperlinkEditorDialog.ErrorMessage.NullText=Text cannot be null\!
 HyperlinkEditorDialog.Text.MenuLabel=Text:
 HyperlinkEditorDialog.Title.HyperlinkEditor=Hyperlink Editor

@@ -676,6 +676,7 @@ PropertyEditorDialog.Lbl.Value=值
 PropertyEditorDialog.Lbl.Add=添加(&A)
 PropertyEditorDialog.Lbl.Remove=删除(&R)
 HeadStyleAttributeComposite.Lbl.HeadStyle=针头样式:
+HyperlinkEditorDialog.ErrorMessage.ExistingText=The text is existing, please modify to a different one.
 HyperlinkEditorDialog.ErrorMessage.NullText=Text cannot be null\!
 HyperlinkEditorDialog.Text.MenuLabel=Text:
 HyperlinkEditorDialog.Title.HyperlinkEditor=Hyperlink Editor

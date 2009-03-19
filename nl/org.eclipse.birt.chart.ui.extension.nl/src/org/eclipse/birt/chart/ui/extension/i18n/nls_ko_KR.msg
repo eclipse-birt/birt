@@ -676,6 +676,7 @@ PropertyEditorDialog.Lbl.Value=값
 PropertyEditorDialog.Lbl.Add=추가(&A)
 PropertyEditorDialog.Lbl.Remove=제거(&R)
 HeadStyleAttributeComposite.Lbl.HeadStyle=헤드 스타일:
+HyperlinkEditorDialog.ErrorMessage.ExistingText=The text is existing, please modify to a different one.
 HyperlinkEditorDialog.ErrorMessage.NullText=Text cannot be null\!
 HyperlinkEditorDialog.Text.MenuLabel=Text:
 HyperlinkEditorDialog.Title.HyperlinkEditor=Hyperlink Editor
