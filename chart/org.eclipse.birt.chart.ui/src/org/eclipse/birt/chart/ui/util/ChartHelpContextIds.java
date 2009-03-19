@@ -176,7 +176,6 @@ public class ChartHelpContextIds
 			+ "Preferences_BIRTChart_ID"; //$NON-NLS-1$
 	
 	/*----------VIEW----------*/
-	public static final String VIEW_CHART_EXAMPLE = PREFIX
-			+ "Chart_Example_ID"; //$NON-NLS-1$
+	public static final String VIEW_CHART_EXAMPLE = PREFIX + "ChartExamples_ID"; //$NON-NLS-1$
 
 }
