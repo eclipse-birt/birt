@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -1048,9 +1049,8 @@ public abstract class DesignElement
 		}
 
 		// Get the value of a non-intrinsic property.
-		return isEncryptable ? EncryptionUtil.decrypt( this, prop,
-				propValues.get( prop.getName( ) ) ) : propValues.get( prop
-				.getName( ) );
+		return isEncryptable ? EncryptionUtil.decrypt( this, prop, propValues
+				.get( prop.getName( ) ) ) : propValues.get( prop.getName( ) );
 	}
 
 	/**
@@ -1745,7 +1745,18 @@ public abstract class DesignElement
 
 	public boolean hasLocalPropertyValues( )
 	{
-		return !propValues.isEmpty( );
+		if ( propValues.isEmpty( ) )
+			return false;
+
+		Iterator<String> iter = propValues.keySet( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			String propName = iter.next( );
+			ElementPropertyDefn propDefn = getPropertyDefn( propName );
+			if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_TYPE )
+				return true;
+		}
+		return false;
 	}
 
 	/**
@@ -2680,11 +2691,12 @@ public abstract class DesignElement
 	 * Returns the display label of this element. To get the display label of an
 	 * element, the following step should be done:
 	 * <ul>
-	 * <li>The localized display name of this element if set</li> <li>The
-	 * display property value of this element if set</li> <li>The name of
-	 * element if set</li> <li>The localized display name of this kind of
-	 * element, which is defined in metadata, if set</li> <li>The name of this
-	 * kind of element, which is also defined in metadata</li>
+	 * <li>The localized display name of this element if set</li>
+	 * <li>The display property value of this element if set</li>
+	 * <li>The name of element if set</li>
+	 * <li>The localized display name of this kind of element, which is defined
+	 * in metadata, if set</li>
+	 * <li>The name of this kind of element, which is also defined in metadata</li>
 	 * </ul>
 	 * <p>
 	 * User can also decide at which detail level the display label should be

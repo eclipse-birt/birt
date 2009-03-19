@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.DataSource;
@@ -168,7 +169,7 @@ public class GroupElementHandleTest extends BaseTestCase
 		DesignElementHandle handle3 = new FakeElementHandle( design,
 				new MockupDesignElement( elemDefn3 ) );
 
-		ArrayList elements = new ArrayList( );
+		ArrayList<DesignElementHandle> elements = new ArrayList<DesignElementHandle>( );
 		elements.add( handle1 );
 		elements.add( handle2 );
 		elements.add( handle3 );
@@ -208,7 +209,7 @@ public class GroupElementHandleTest extends BaseTestCase
 		handle3 = new FakeElementHandle( design, new MockupDesignElement(
 				elemDefn3 ) );
 
-		elements = new ArrayList( );
+		elements = new ArrayList<DesignElementHandle>( );
 		elements.add( handle1 );
 		elements.add( handle2 );
 		elements.add( handle3 );
@@ -242,7 +243,7 @@ public class GroupElementHandleTest extends BaseTestCase
 		handle3 = new FakeElementHandle( design, new MockupDesignElement(
 				elemDefn3 ) );
 
-		elements = new ArrayList( );
+		elements = new ArrayList<DesignElementHandle>( );
 		elements.add( handle1 );
 		elements.add( handle2 );
 		elements.add( handle3 );
@@ -280,7 +281,7 @@ public class GroupElementHandleTest extends BaseTestCase
 		handle1 = new FakeElementHandle( design, element1 );
 		handle2 = new FakeElementHandle( design, element2 );
 
-		elements = new ArrayList( );
+		elements = new ArrayList<DesignElementHandle>( );
 		elements.add( handle1 );
 		elements.add( handle2 );
 
@@ -305,7 +306,7 @@ public class GroupElementHandleTest extends BaseTestCase
 		handle2 = new FakeElementHandle( design, new MockupDesignElement(
 				elemDefn2 ) );
 
-		elements = new ArrayList( );
+		elements = new ArrayList<DesignElementHandle>( );
 		elements.add( handle1 );
 		elements.add( handle2 );
 
@@ -658,10 +659,11 @@ public class GroupElementHandleTest extends BaseTestCase
 	/**
 	 * Tests 'hasLocalPropertiesForExtendedElements' method.
 	 * <ul>
-	 * <li>Label has 'name' properties, can't enable restore.</li> <li>Get label
-	 * without any property inside grid element.</li> <li>Modify one property of
-	 * label and 'restore' button should be enabled.</li> <li>Modify one
-	 * property of label in grid and 'restore' button should be enabled.</li>
+	 * <li>Label has 'name' properties, can't enable restore.</li>
+	 * <li>Get label without any property inside grid element.</li>
+	 * <li>Modify one property of label and 'restore' button should be enabled.</li>
+	 * <li>Modify one property of label in grid and 'restore' button should be
+	 * enabled.</li>
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -676,7 +678,7 @@ public class GroupElementHandleTest extends BaseTestCase
 
 		LabelHandle labelHandle = (LabelHandle) designHandle.findElement( "aa" );//$NON-NLS-1$
 
-		List elements = new ArrayList( );
+		List<DesignElementHandle> elements = new ArrayList<DesignElementHandle>( );
 		elements.add( labelHandle );
 		GroupElementHandle groupElementHandle = new SimpleGroupElementHandle(
 				designHandle, elements );
@@ -699,6 +701,14 @@ public class GroupElementHandleTest extends BaseTestCase
 
 		labelHandle.setStringProperty( "text", "liblabeltext" );//$NON-NLS-1$//$NON-NLS-2$
 		assertTrue( groupElementHandle.hasLocalPropertiesForExtendedElements( ) );
+
+		// tests cube element which extends cube from library.
+		CubeHandle cube = designHandle.findCube( "Data Cube" ); //$NON-NLS-1$
+		elements.clear( );
+		elements.add( cube );
+		groupElementHandle = new SimpleGroupElementHandle( designHandle,
+				elements );
+		assertFalse( groupElementHandle.hasLocalPropertiesForExtendedElements( ) );
 
 	}
 
