@@ -58,6 +58,8 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
@@ -1133,6 +1135,9 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	private Combo dynamicDataTypeCombo;
 	private Combo displayKeyCombo;
 	private TableViewer defaultValueViewer;
+	private Table defaultValueTable;
+	private TableColumn[] defaultValueColumns;
+	private TableColumn[] staticColumns;
 
 	protected Composite createStaticArea( Composite parent )
 	{
@@ -1224,15 +1229,30 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				15, 150, 150
 		};
 
+		staticColumns = new TableColumn[3];
 		for ( int i = 0; i < columns.length; i++ )
 		{
-			TableColumn column = new TableColumn( staticTable, SWT.LEFT );
-			column.setResizable( columns[i] != null );
+			staticColumns[i] = new TableColumn( staticTable, SWT.LEFT );
+			staticColumns[i].setResizable( columns[i] != null );
 			if ( columns[i] != null )
 			{
-				column.setText( columns[i] );
+				staticColumns[i].setText( columns[i] );
 			}
-			column.setWidth( widths[i] );
+			staticColumns[i].setWidth( widths[i] );
+			staticColumns[i].addControlListener( new ControlListener( ) {
+
+				public void controlMoved( ControlEvent e )
+				{
+				}
+
+				public void controlResized( ControlEvent e )
+				{
+					defaultValueColumns[0].setWidth( staticColumns[0].getWidth( ) );
+					defaultValueColumns[1].setWidth( staticColumns[1].getWidth( ) );
+					defaultValueColumns[2].setWidth( staticColumns[2].getWidth( ) );
+				}
+
+			} );
 		}
 
 		staticViewer.setColumnProperties( new String[]{
@@ -1252,7 +1272,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		staticViewer.setLabelProvider( staticLabelProvider );
 		staticViewer.setCellModifier( staticCellModifier );
 
-		final Table defaultValueTable = new Table( contents, SWT.SINGLE
+		defaultValueTable = new Table( contents, SWT.SINGLE
 				| SWT.FULL_SELECTION
 				| SWT.BORDER
 				| SWT.VERTICAL
@@ -1265,11 +1285,14 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 		defaultValueViewer = new TableViewer( defaultValueTable );
 
+		defaultValueColumns = new TableColumn[3];
 		for ( int i = 0; i < columns.length; i++ )
 		{
-			TableColumn column = new TableColumn( defaultValueTable, SWT.LEFT );
-			column.setResizable( columns[i] != null );
-			column.setWidth( widths[i] );
+			defaultValueColumns[i] = new TableColumn( defaultValueTable,
+					SWT.LEFT );
+			defaultValueColumns[i].setResizable( columns[i] != null );
+			defaultValueColumns[i].setWidth( widths[i] );
+
 		}
 
 		defaultValueViewer.setColumnProperties( new String[]{
