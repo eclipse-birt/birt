@@ -565,24 +565,26 @@ public class DataTypeUtilTest extends TestCase
 		resultDates[1] = calendar.getTime( );
 		calendar.set(1997,6,16);
 		resultDates[2] = calendar.getTime( );
-		calendar.set(1997,6,16,19,20,0);
+		
+		calendar.setTimeZone( TimeZone.getTimeZone( "GMT+00:00" ));
+		calendar.set(1997,6,16,17,20,0);
 		resultDates[3] = calendar.getTime( );
-		calendar.set(1997,6,16,19,20,30);
+		calendar.set(1997,6,16,18,20,30);
 		resultDates[4] = calendar.getTime( );
-		calendar.set(1997,6,16,19,20,30);
+		calendar.set(1997,6,16,18,20,30);
 		calendar.set( Calendar.MILLISECOND, 45 );
 		resultDates[5] = calendar.getTime( );
-		calendar.set(1997,6,16,19,20,0);
+		calendar.set(1997,6,16,18,20,0);
 		calendar.set( Calendar.MILLISECOND, 0 );
 		resultDates[6] = calendar.getTime( );
-		calendar.set(1997,6,16,19,20,30);
+		calendar.set(1997,6,16,18,20,30);
 		resultDates[7] = calendar.getTime( );
-		calendar.set(1997,6,16,19,20,30);
+		calendar.set(1997,6,16,18,20,30);
 		calendar.set( Calendar.MILLISECOND, 45 );
 		resultDates[8] = calendar.getTime( );
 		resultDates[9] = calendar.getTime( );
 		//"1997-07-16T19:20:30.45-01:00"
-		calendar.set(1997,6,16,19,20,30);
+		calendar.set(1997,6,16,20,20,30);
 		calendar.set( Calendar.MILLISECOND, 45 );
 		resultDates[10] = calendar.getTime( );
 		
