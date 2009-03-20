@@ -29,6 +29,10 @@ public abstract class SheetData
 
 	Span span;
 
+	int rowIndex;
+
+	private double rowHeight;
+
 	private static final String HYPERLINK_COLOR = "#0000FF";
 	private static final String HYPERLINK_UNDERLINE = "1";
 
@@ -83,8 +87,6 @@ public abstract class SheetData
 	{
 		this.linkedBookmark = linkedBookmark;
 	}
-
-	int rowIndex;
 
 	public int getRowIndex( )
 	{
@@ -237,5 +239,15 @@ public abstract class SheetData
 	public void setBookmark( BookmarkDef bookmark )
 	{
 		this.bookmark = bookmark;
+	}
+
+	public void setRowHeight( double rowHeight )
+	{
+		this.rowHeight = rowHeight;
+	}
+
+	public double getRowHeight( )
+	{
+		return this.rowHeight;
 	}
 }

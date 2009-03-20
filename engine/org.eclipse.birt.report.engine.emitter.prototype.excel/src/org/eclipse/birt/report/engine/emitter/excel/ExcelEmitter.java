@@ -205,7 +205,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void endRow( IRowContent row )
 	{
-		engine.endRow( );
+		engine.endRow( row.getHeight( ) );
 	}
 
 	public void startCell( ICellContent cell )

@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
@@ -35,6 +37,8 @@ public class DataCache
 	 */
 	private List<BookmarkDef> bookmarks = new ArrayList<BookmarkDef>();
 	private int maxRowIndex = 0;
+
+	private Map<Integer, Double> rowIndex2Height = new HashMap<Integer, Double>( );
 
 	public DataCache( int width, int height )
 	{
@@ -123,6 +127,12 @@ public class DataCache
 		return 0;
 	}
 
+	public void setRowHeight( int rowIndex, double height )
+	{
+		if ( !rowIndex2Height.containsKey( rowIndex ) )
+			rowIndex2Height.put( rowIndex, height );
+	}
+
 	/**
 	 * @param index
 	 * @return
@@ -175,6 +185,10 @@ public class DataCache
 					if ( dataRowIndex == rowIndex )
 					{
 						rowDatas[i] = data;
+						if ( !rowIndex2Height.isEmpty( )
+								&& rowIndex2Height.containsKey( rowIndex ) )
+						rowDatas[i].setRowHeight( rowIndex2Height
+								.get( rowIndex ) );
 						columnIndexes[i] = j + 1;
 						break;
 					}

@@ -43,6 +43,7 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.util.FlashFile;
 
@@ -266,13 +267,13 @@ public class ExcelLayoutEngine
 		addContainer( container );
 	}
 
-	public void endRow( )
+	public void endRow( DimensionType rowHeight )
 	{
-		synchronize( );
+		synchronize( rowHeight );
 		endContainer( );
 	}
 
-	private void synchronize( )
+	private void synchronize( DimensionType height )
 	{
 		XlsContainer rowContainer = getCurrentContainer( );
 		ContainerSizeInfo rowSizeInfo = rowContainer.getSizeInfo( );
@@ -290,11 +291,20 @@ public class ExcelLayoutEngine
 			rowIndexes[currentColumnIndex - startColumnIndex] = rowIndex;
 			maxRowIndex = maxRowIndex > rowIndex ? maxRowIndex : rowIndex;
 		}
-		if ( maxRowIndex == rowContainer.getRowIndex( ) )
+		int startRowIndex = rowContainer.getRowIndex( );
+		if ( maxRowIndex == startRowIndex )
 		{
 			maxRowIndex++;
 		}
 		rowContainer.setRowIndex( maxRowIndex );
+		double rowHeight = height != null ? ExcelUtil.covertDimensionType(
+				height, 0 ) : 0;
+		double resize = rowHeight / ( maxRowIndex - startRowIndex );
+		for ( int i = startRowIndex + 1; i <= maxRowIndex; i++ )
+		{
+			cache.setRowHeight( i, resize );
+		}
+
 		for ( int currentColumnIndex = startColumnIndex; currentColumnIndex < endColumnIndex; currentColumnIndex++ )
 		{
 			int rowspan = maxRowIndex - rowIndexes[currentColumnIndex - startColumnIndex];
@@ -828,6 +838,11 @@ public class ExcelLayoutEngine
 					double height = imagedata.getHeight( );
 					if ( height > rowHeight )
 						rowHeight = height;
+				}
+				else
+				{
+					double height = d.getRowHeight( );
+					rowHeight = height > rowHeight ? height : rowHeight;
 				}
 			}
 
