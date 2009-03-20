@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,6 +46,7 @@ import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
@@ -224,26 +226,116 @@ final class PreparedQuery
 	 * @throws DataException 
 	 */
 	private void addParentBindings( Map parentBindings ) throws DataException {
+		Map<String, Boolean> aggrInfo = parseAggregations( parentBindings );
 		Iterator it = parentBindings.keySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			Object o = it.next( );
-			IBaseExpression expr = ((IBinding)parentBindings.get( o )).getExpression( );
-			if ( expr instanceof IScriptExpression )
+			String name = (String)it.next( );
+			
+			if ( !aggrInfo.get( name ))
 			{
-				if (!ExpressionUtil.hasAggregation( ( (IScriptExpression) expr ).getText( ) ))
+				//not an aggregation
+				IBinding b = (IBinding)parentBindings.get( name );
+				
+				if ( baseQueryDefn.getBindings( ).get( name ) == null )
 				{
-					if ( baseQueryDefn.getBindings( )
-							.get( o ) == null )
-					{	
-						IBinding binding = new Binding( o.toString( ) );
-						binding.setDataType( expr.getDataType( ) );
-						binding.setExpression( copyScriptExpr( expr ) );
-						baseQueryDefn.addBinding( binding );
-					}
+					IBinding binding = new Binding( name );
+					binding.setDataType( b.getDataType( ) );
+					binding.setExpression( copyScriptExpr( b.getExpression( ) ) );
+					baseQueryDefn.addBinding( binding );
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Each binding is parsed to see if it's an aggregation.
+	 * The parsed result saved in a Map<String, Boolean> map
+	 * @param input
+	 * @return 
+	 * @throws DataException
+	 */
+	private Map<String, Boolean> parseAggregations( Map<String, IBinding> input ) throws DataException
+	{
+		Map<String, Boolean> result = new HashMap<String, Boolean>( );
+		for ( Entry<String, IBinding> entry : input.entrySet( ) )
+		{
+			IBinding binding = entry.getValue( );
+			
+			//transition bindings during parsing, used to check if cycle exists
+			Set<String> transitions = new HashSet<String>( );
+			transitions.add( binding.getBindingName( ) );
+			
+			parseAggregation( binding, input, result, transitions );
+		}
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param binding: the binding to be parsed
+	 * @param allBindings: all bindings
+	 * @param checked: already parsed result
+	 * @param transitions: names of transitions bindings during parsing, used to check if cycle exists
+	 * @return true if <code>binding</code> is an aggregation; false otherwise
+	 * @throws DataException
+	 */
+	private boolean parseAggregation( IBinding binding, Map<String, IBinding> allBindings, 
+			Map<String, Boolean> checked, Set<String> transitions ) throws DataException
+	{
+		String name = binding.getBindingName( );
+		if ( checked.containsKey( name))
+		{
+			//already checked
+			return checked.get( name );
+		}
+		IBaseExpression expr = binding.getExpression( );
+		
+		//check if it's an old style aggregation
+		if ( expr instanceof IScriptExpression )
+		{
+			if ( ExpressionUtil.hasAggregation( ( (IScriptExpression) expr ).getText( ) ))
+			{
+				checked.put( name, true );
+				return true;
+			}
+		}
+		
+		//check if itself is an aggregation
+		if ( binding.getAggrFunction( ) != null )
+		{
+			checked.put( name, true );
+			return true;
+		}
+		
+		
+		//check if it refers to some aggregation bindings
+		List<String> referencedBindings = 
+			ExpressionCompilerUtil.extractColumnExpression( 
+					binding.getExpression( ), ExpressionUtil.ROW_INDICATOR );
+		for ( String reference : referencedBindings )
+		{
+			if ( transitions.contains( reference ))
+			{
+				throw new DataException( ResourceConstants.COLUMN_BINDING_CYCLE, reference);
+			}
+			IBinding b = allBindings.get( reference );
+			if ( b != null )
+			{
+				Set<String> newTransitions = new HashSet<String>( transitions );
+				newTransitions.add( reference );
+				boolean isAggr = parseAggregation( b, allBindings, checked, newTransitions );
+				if ( isAggr )
+				{
+					checked.put( name, true );
+					return true;
+				}
+			}
+		}
+		
+		//not an aggregation
+		checked.put( name, false );
+		return false;
 	}
 
 	/**
