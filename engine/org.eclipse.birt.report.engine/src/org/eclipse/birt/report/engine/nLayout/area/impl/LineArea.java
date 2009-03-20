@@ -347,10 +347,17 @@ public class LineArea extends InlineStackingArea
 
 	public void update( AbstractArea area ) throws BirtException
 	{
+		int aWidth = area.getAllocatedWidth( );
+		if(aWidth + currentIP > maxAvaWidth )
+		{
+			removeChild( area );
+			endLine( );
+			children.add( area );
+		}
 		area.setAllocatedPosition( currentIP, currentBP );
-		currentIP += area.getAllocatedWidth( );
+		currentIP += aWidth;
 
-		if ( currentIP > width )
+		if ( currentIP > maxAvaWidth )
 		{
 			setWidth( currentIP );
 		}
@@ -360,10 +367,10 @@ public class LineArea extends InlineStackingArea
 			this.height = height;
 		}
 	}
-
+	
 	protected void close( boolean isLastLine ) throws BirtException
 	{
-		if(children.size( )==0)
+		if ( children.size( ) == 0 )
 		{
 			return;
 		}
@@ -371,9 +378,9 @@ public class LineArea extends InlineStackingArea
 		height = Math.max( height, lineHeight );
 		width = maxAvaWidth;
 		align( isLastLine, context );
-		if(isLastLine)
+		if ( isLastLine )
 		{
-			checkPageBreak();
+			checkPageBreak( );
 			parent.add( this );
 			parent.update( this );
 		}
@@ -388,17 +395,17 @@ public class LineArea extends InlineStackingArea
 					aHeight = getAllocatedHeight( );
 				}
 			}
-			LineArea area = cloneArea();
+			LineArea area = cloneArea( );
 			area.children = children;
 			area.setParent( parent );
 			children = new ArrayList( );
 			parent.add( area );
 			parent.update( area );
-			//setPosition(parent.currentIP + parent.getOffsetX( ), parent.getOffsetY() + parent.currentBP);
+			// setPosition(parent.currentIP + parent.getOffsetX( ),
+			// parent.getOffsetY() + parent.currentBP);
 			height = 0;
 			this.baseLine = 0;
 		}
-		
 	}
 
 	public void close( ) throws BirtException
