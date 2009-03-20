@@ -534,7 +534,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 	 */
 	public DataSet getDataSet( )
 	{
-		return (DataSet) getDataSets( ).get( null );
+		return getDataSets( ).get( null );
 	}
 
 	/*
@@ -554,7 +554,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 	 */
 	public DataSet getDataSet( String userkey )
 	{
-		return (DataSet) getDataSets( ).get( userkey );
+		return getDataSets( ).get( userkey );
 	}
 
 	/*
@@ -1271,7 +1271,10 @@ public class SeriesImpl extends EObjectImpl implements Series
 			for ( Map.Entry<String, DataSet> entry : src.getDataSets( )
 					.entrySet( ) )
 			{
-				map.put( entry.getKey( ), entry.getValue( ).copyInstance( ) );
+				DataSet entryValue = entry.getValue( ) != null ? entry.getValue( )
+						.copyInstance( )
+						: null;
+				map.put( entry.getKey( ), entryValue );
 			}
 		}
 
