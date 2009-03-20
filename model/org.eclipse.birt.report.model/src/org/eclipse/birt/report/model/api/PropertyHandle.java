@@ -107,11 +107,14 @@ public class PropertyHandle extends SimpleValueHandle
 		return propDefn;
 	}
 
-	// Implementation of abstract method defined in base class.
-
-	public Object getValue( )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#getRawValue()
+	 */
+	protected Object getRawValue( )
 	{
-		return elementHandle.getProperty( propDefn.getName( ) );
+		return elementHandle.getElement( ).getProperty( getModule( ), propDefn );
 	}
 
 	/**
@@ -568,7 +571,9 @@ public class PropertyHandle extends SimpleValueHandle
 			}
 			else if ( value instanceof ArrayList )
 			{
-				return (ArrayList) value;
+				ArrayList retValue = new ArrayList( );
+				retValue.addAll( (ArrayList) value );
+				return retValue;
 			}
 		}
 		return super.getListValue( );

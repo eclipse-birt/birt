@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Abstract base class that represents a handle for the value to either a
@@ -66,6 +67,15 @@ public abstract class SimpleValueHandle extends ValueHandle
 	public abstract IPropertyDefn getDefn( );
 
 	/**
+	 * Gets the value stored in the memory directly. The returned value won't be
+	 * done any conversion.
+	 * 
+	 * @return the value stored in the memory
+	 */
+
+	protected abstract Object getRawValue( );
+
+	/**
 	 * Gets the value of the property as a generic object. Use the specialized
 	 * methods to get the value as a particular type.
 	 * 
@@ -76,7 +86,12 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 * @see #getNumberValue()
 	 */
 
-	public abstract Object getValue( );
+	public final Object getValue( )
+	{
+		Object rawValue = getRawValue( );
+		return ModelUtil.wrapPropertyValue( getModule( ),
+				(PropertyDefn) getDefn( ), rawValue );
+	}
 
 	/**
 	 * Gets the value as an integer.
@@ -140,7 +155,11 @@ public abstract class SimpleValueHandle extends ValueHandle
 	{
 		Object value = getValue( );
 		if ( value instanceof ArrayList )
-			return (ArrayList) value;
+		{
+			ArrayList retValue = new ArrayList( );
+			retValue.addAll( (ArrayList) value );
+			return retValue;
+		}
 		return null;
 	}
 
@@ -232,7 +251,10 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 */
 	public int indexOf( Object o )
 	{
-		List values = getListValue( );
+		Object rawValue = getRawValue( );
+		if ( !( rawValue instanceof List ) )
+			return -1;
+		List values = (List) rawValue;
 		if ( values == null || values.isEmpty( ) )
 			return -1;
 		if ( getTypeCode( ) == IPropertyType.STRUCT_TYPE )

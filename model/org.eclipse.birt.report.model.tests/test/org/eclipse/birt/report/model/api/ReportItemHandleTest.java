@@ -669,9 +669,8 @@ public class ReportItemHandleTest extends BaseTestCase
 		tmpComputedColumn.setExpression( "new column1 expr" ); //$NON-NLS-1$
 		textHandle.addColumnBinding( tmpComputedColumn, false );
 
-		List list = textHandle
-				.getListProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-		assertEquals( 1, list.size( ) );
+		assertEquals( 1, textHandle.getListProperty(
+				IReportItemModel.BOUND_DATA_COLUMNS_PROP ).size( ) );
 
 		tmpComputedColumn = new ComputedColumn( );
 		tmpComputedColumn.setName( "new column1" ); //$NON-NLS-1$
@@ -719,17 +718,20 @@ public class ReportItemHandleTest extends BaseTestCase
 
 		textHandle.addColumnBinding( tmpComputedColumn, false );
 
-		assertEquals( 1, list.size( ) );
+		assertEquals( 1, textHandle.getListProperty(
+				IReportItemModel.BOUND_DATA_COLUMNS_PROP ).size( ) );
 
 		// with the same expression, different name
 
 		tmpComputedColumn.setName( "new column2" ); //$NON-NLS-1$
 
 		textHandle.addColumnBinding( tmpComputedColumn, false );
-		assertEquals( 1, list.size( ) );
+		assertEquals( 1, textHandle.getListProperty(
+				IReportItemModel.BOUND_DATA_COLUMNS_PROP ).size( ) );
 
 		textHandle.addColumnBinding( tmpComputedColumn, true );
-		assertEquals( 2, list.size( ) );
+		assertEquals( 2, textHandle.getListProperty(
+				IReportItemModel.BOUND_DATA_COLUMNS_PROP ).size( ) );
 
 		Iterator iter1 = textHandle.columnBindingsIterator( );
 		ComputedColumnHandle columnHandle1 = (ComputedColumnHandle) iter1

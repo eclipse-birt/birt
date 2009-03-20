@@ -234,7 +234,9 @@ public class JoinConditionHandle extends StructureHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.StructureHandle#getProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.StructureHandle#getProperty(java.lang
+	 * .String)
 	 */
 
 	public Object getProperty( String memberName )
@@ -249,7 +251,9 @@ public class JoinConditionHandle extends StructureHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.StructureHandle#getStringProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.StructureHandle#getStringProperty(java
+	 * .lang.String)
 	 */
 
 	protected String getStringProperty( String memberName )
@@ -277,8 +281,8 @@ public class JoinConditionHandle extends StructureHandle
 		if ( StringUtil.isBlank( dataSetName ) )
 			return dataSetName;
 
-		List dataSetRefs = elementHandle
-				.getListProperty( IJointDataSetModel.DATA_SETS_PROP );
+		List dataSetRefs = elementHandle.getElement( ).getListProperty(
+				getModule( ), IJointDataSetModel.DATA_SETS_PROP );
 		if ( dataSetRefs == null || dataSetRefs.isEmpty( ) )
 			return dataSetName;
 

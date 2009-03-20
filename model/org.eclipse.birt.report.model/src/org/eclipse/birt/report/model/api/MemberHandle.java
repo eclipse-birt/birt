@@ -19,9 +19,7 @@ import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * A handle to a member of a property structure. A structure list occurs in an
@@ -98,21 +96,19 @@ public class MemberHandle extends SimpleValueHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#getValue()
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#getRawValue()
 	 */
-	public Object getValue( )
+	protected Object getRawValue( )
 	{
-		Object value = memberRef.getValue( getModule( ), getElement( ) );
-
-		return ModelUtil.wrapPropertyValue( getModule( ), (PropertyDefn) getDefn( ),
-				value );
-
+		return memberRef.getValue( getModule( ), getElement( ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java.lang
+	 * .Object)
 	 */
 	public void setValue( Object value ) throws SemanticException
 	{
@@ -148,7 +144,9 @@ public class MemberHandle extends SimpleValueHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#addItem(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.api.SimpleValueHandle#addItem(java.lang
+	 * .Object)
 	 */
 	public void addItem( Object item ) throws SemanticException
 	{

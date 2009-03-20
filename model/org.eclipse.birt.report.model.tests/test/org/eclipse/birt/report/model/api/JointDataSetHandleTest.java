@@ -87,13 +87,13 @@ public class JointDataSetHandleTest extends BaseTestCase
 	/**
 	 * Tests the methods <code>columnHintsIterator</code>,
 	 * <code>computedColumnsIterator</code>, <code>filtersIterator</code>,
-	 * <code>getCachedMetaDataHandle</code>,
-	 * <code>paramBindingsIterator</code><code>parametersIterator</code>,
-	 * <code>resultSetIterator</code>, <code>getCachedRowCount</code>,
-	 * <code>getAfterClose</code>, <code>getAfterOpen</code>,
-	 * <code>getBeforeClose</code>, <code>getBeforeOpen</code>,
-	 * <code>getDataSource</code>, <code>getDataSourceName</code>,
-	 * <code>getOnFetch</code>, <code>getOnFetch</code> are uncallable.
+	 * <code>getCachedMetaDataHandle</code>, <code>paramBindingsIterator</code>
+	 * <code>parametersIterator</code>, <code>resultSetIterator</code>,
+	 * <code>getCachedRowCount</code>, <code>getAfterClose</code>,
+	 * <code>getAfterOpen</code>, <code>getBeforeClose</code>,
+	 * <code>getBeforeOpen</code>, <code>getDataSource</code>,
+	 * <code>getDataSourceName</code>, <code>getOnFetch</code>,
+	 * <code>getOnFetch</code> are uncallable.
 	 * 
 	 */
 
@@ -124,7 +124,8 @@ public class JointDataSetHandleTest extends BaseTestCase
 
 	public void testDataSetNames( )
 	{
-		List dataSets = dataSet.getListProperty( JointDataSet.DATA_SETS_PROP );
+		List dataSets = dataSet.getElement( ).getListProperty( design,
+				JointDataSet.DATA_SETS_PROP );
 		assertEquals( 2, dataSets.size( ) );
 		assertSame( design.findDataSet( "DataSet1" ), //$NON-NLS-1$
 				( (ElementRefValue) dataSets.get( 0 ) ).getElement( ) );
@@ -155,7 +156,8 @@ public class JointDataSetHandleTest extends BaseTestCase
 	public void testAddDataSet( ) throws SemanticException
 	{
 		dataSet.addDataSet( "DataSet3" ); //$NON-NLS-1$
-		List dataSets = dataSet.getListProperty( JointDataSet.DATA_SETS_PROP );
+		List dataSets = dataSet.getElement( ).getListProperty( design,
+				JointDataSet.DATA_SETS_PROP );
 		assertEquals( 3, dataSets.size( ) );
 		assertSame( design.findDataSet( "DataSet1" ), //$NON-NLS-1$
 				( (ElementRefValue) dataSets.get( 0 ) ).getElement( ) );

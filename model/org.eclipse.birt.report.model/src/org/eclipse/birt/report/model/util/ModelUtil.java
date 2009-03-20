@@ -191,7 +191,7 @@ public class ModelUtil
 					(ReferenceValue) value, module );
 
 		if ( value instanceof List && defn != null
-				&& defn.getSubTypeCode( ) == IPropertyType.LIST_TYPE )
+				&& defn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
 			List valueList = (List) value;
 			List<String> names = new ArrayList<String>( );
@@ -223,6 +223,15 @@ public class ModelUtil
 				}
 				return handles;
 			}
+		}
+
+		// to avoid the address reference and change the value directly not by
+		// the Model command, we wrap the list value
+		if ( value instanceof List )
+		{
+			List retValue = new ArrayList( );
+			retValue.addAll( (List) value );
+			return retValue;
 		}
 
 		return value;

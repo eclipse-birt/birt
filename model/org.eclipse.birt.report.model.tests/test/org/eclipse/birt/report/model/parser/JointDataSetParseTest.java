@@ -106,7 +106,8 @@ public class JointDataSetParseTest extends BaseTestCase
 		assertEquals( 0, dataSet.getRowFetchLimit( ) );
 		assertFalse( dataSet.needsCache( ) );
 
-		List dataSets = dataSet.getListProperty( JointDataSet.DATA_SETS_PROP );
+		List dataSets = dataSet.getElement( ).getListProperty( design,
+				JointDataSet.DATA_SETS_PROP );
 		assertEquals( 2, dataSets.size( ) );
 		DataSetHandle ds1 = designHandle.findDataSet( "DataSet1" );//$NON-NLS-1$
 		assertSame( ds1.getElement( ), ( (ElementRefValue) dataSets.get( 0 ) )

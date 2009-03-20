@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * A specialized handle for use when creating the Factory data structures. This
@@ -26,14 +27,13 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * property resolution rules:
  * <p>
  * <ul>
- * <li>A property value is either a style property or a non-style property.
- * </li>
+ * <li>A property value is either a style property or a non-style property.</li>
  * <li>A non-style property is set if this element, or any of its ancestor
  * elements, provide a value. It is also considered set if the system provides a
  * default value.</li>
- * <li>A property value is considered set only if it is set in the private
- * style of this element or an ancestor element; it is not considered set if it
- * is inherited from a shared style.</li>
+ * <li>A property value is considered set only if it is set in the private style
+ * of this element or an ancestor element; it is not considered set if it is
+ * inherited from a shared style.</li>
  * </ul>
  * <p>
  * The various "get" methods also have special meanings: they convert property
@@ -85,7 +85,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 
 	public Object getValue( )
 	{
-		return value;
+		return ModelUtil.wrapPropertyValue( getModule( ), propDefn, value );
 	}
 
 	/**
@@ -105,8 +105,8 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 	 * it is defined on this element or any of its parents, or in the element's
 	 * private style. It is considered unset if it is set on a shared style.
 	 * 
-	 * @return <code>true</code> if the value is set, <code>false</code> if
-	 *         it is not set
+	 * @return <code>true</code> if the value is set, <code>false</code> if it
+	 *         is not set
 	 */
 
 	public boolean isSet( )

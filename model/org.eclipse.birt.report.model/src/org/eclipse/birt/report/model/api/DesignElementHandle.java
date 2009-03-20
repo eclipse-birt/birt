@@ -461,7 +461,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *            the name of the property to get
 	 * @return the value as an <code>ArrayList</code>, or null if the property
 	 *         is not set or the value is not a list
-	 * @deprecated
+	 * @deprecated replaced by {@link #getListProperty(String)}
 	 */
 
 	public List getListProperty( Module module, String propName )

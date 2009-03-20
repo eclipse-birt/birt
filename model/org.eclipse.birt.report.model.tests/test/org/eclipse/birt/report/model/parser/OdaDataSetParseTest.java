@@ -438,7 +438,8 @@ public class OdaDataSetParseTest extends BaseTestCase
 		parameter.setProperty( dataTypeDefn,
 				DesignChoiceConstants.PARAM_TYPE_DECIMAL );
 		parameter.setIsOutput( true );
-		parameters.add( parameter );
+		dataSet.getPropertyHandle( OdaDataSet.PARAMETERS_PROP ).addItem(
+				parameter );
 
 		// Change "param-binding" on DataSet
 
