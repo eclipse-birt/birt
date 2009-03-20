@@ -193,7 +193,7 @@ public class JavaUtilLoggerImpl implements ILogger
 		return Level.SEVERE;
 	}
 
-	public static void initFileHandler( String sLogFolder )
+	public static void initFileHandler( String sLogFolder, final Level level )
 			throws SecurityException, IOException
 	{
 		if ( sLogFolder.length( ) > 0
@@ -212,12 +212,14 @@ public class JavaUtilLoggerImpl implements ILogger
 
 				public FileHandler run( ) throws Exception
 				{
+					Level logLevel = level != null ? level : Level.FINEST;
+
 					FileHandler fileHandler = new FileHandler( sDir
 							+ File.separator
 							+ sName
 							+ ".log", true ); //$NON-NLS-1$
 					fileHandler.setFormatter( new SimpleFormatter( ) );
-					fileHandler.setLevel( Level.FINEST );
+					fileHandler.setLevel( logLevel );
 					return fileHandler;
 				}
 

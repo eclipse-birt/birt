@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.chart.util;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.datafeed.IDataPointDefinition;
@@ -25,6 +27,7 @@ import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.internal.log.JavaUtilLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.component.Series;
@@ -59,6 +62,12 @@ public final class PluginSettings
 {
 
 	private static final String PLUGIN = "org.eclipse.birt.chart.engine"; //$NON-NLS-1$
+
+	public static final String PROP_STANDALONE = "STANDALONE"; //$NON-NLS-1$
+
+	public static final String PROP_LOGGING_LEVEL = "LOGGING_LEVEL"; //$NON-NLS-1$
+
+	public static final String PROP_LOGGING_DIR = "LOGGING_DIR"; //$NON-NLS-1$
 
 	/**
 	 * All available series types for which extensions are defined. Note that
@@ -330,8 +339,14 @@ public final class PluginSettings
 		if ( ps == null )
 		{
 			ps = new PluginSettings( );
-			ps.bStandalone = config != null
-					&& config.getProperty( "STANDALONE" ) != null; //$NON-NLS-1$
+
+			if ( config != null )
+			{
+				ps.bStandalone = config.getProperty( PROP_STANDALONE ) != null;
+				String loggingDir = (String) config.getProperty( PROP_LOGGING_DIR );
+				Level loggingLevel = (Level) config.getProperty( PROP_LOGGING_LEVEL );
+				initFileLogger( loggingDir, loggingLevel );
+			}
 
 			if ( !ps.bStandalone )
 			{
@@ -346,6 +361,33 @@ public final class PluginSettings
 			}
 		}
 		return ps;
+	}
+
+	private static void initFileLogger( String loggingDir, Level loggingLevel )
+	{
+		if ( loggingLevel != null && loggingLevel == Level.OFF )
+		{
+			return;
+		}
+
+		// initialize the file logger
+		try
+		{
+			String dir = loggingDir != null ? loggingDir
+					: ChartEnginePlugin.getInstance( )
+							.getStateLocation( )
+							.toOSString( );
+			JavaUtilLoggerImpl.initFileHandler( dir, loggingLevel );
+		}
+		catch ( SecurityException e )
+		{
+			logger.log( e );
+		}
+		catch ( IOException e )
+		{
+			logger.log( e );
+		}
+
 	}
 
 	/**
