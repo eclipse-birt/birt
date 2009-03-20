@@ -46,7 +46,6 @@ public class EngineExecutionHints implements IEngineExecutionHints
 	 */
 	void populateCachedDataSets( DataEngineImpl dataEngine, IDataQueryDefinition[] queryDefns ) throws DataException
 	{
-		this.cachedDataSetNames.clear( );
 		if( queryDefns!= null )
 		{
 			List temp = new ArrayList();
