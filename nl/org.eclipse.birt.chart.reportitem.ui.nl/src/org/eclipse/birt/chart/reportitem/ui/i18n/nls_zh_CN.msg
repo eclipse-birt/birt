@@ -3,7 +3,7 @@ ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=选择数据绑定:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=数据 - 选择数据集
 
 ChartPageGenerator.List.General=常规
-ChartPageGenerator.List.AltText=Alt 文本
+ChartPageGenerator.List.AltText=替代文本
 
 ChartDataBindingPage.Lbl.Parameter=参数
 ChartDataBindingPage.Lbl.DataType=数据类型

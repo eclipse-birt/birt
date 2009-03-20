@@ -2006,7 +2006,7 @@ ImageEditPart.trans.editImage=更改图像
 ###########################################################
 #ImagePageGenerator properties
 
-ImagePageGenerator.List.AltText=Alt 文本
+ImagePageGenerator.List.AltText=替代文本
 ImagePageGenerator.List.Bookmark=书签
 ImagePageGenerator.List.Borders=边框
 ImagePageGenerator.List.General=常规
