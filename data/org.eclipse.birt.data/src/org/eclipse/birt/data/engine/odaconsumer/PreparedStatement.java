@@ -1,6 +1,6 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -890,24 +890,29 @@ public class PreparedStatement
 	 * 
 	 * @throws DataException
 	 */
-	public void cancel( ) throws DataException
+	public void cancel() throws DataException
 	{
-		try
+        final String methodName = "cancel"; //$NON-NLS-1$
+        sm_logger.entering( sm_className, methodName );
+
+        try
 		{
 			m_statement.cancel( );
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, "cancel", 
-							"Cannot cancel statement.", ex ); //$NON-NLS-1$
-			
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot cancel statement.", ex ); //$NON-NLS-1$			
 			throw new DataException( ResourceConstants.CANNOT_CANCEL_STATEMENT, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.WARNING, sm_className, "cancel", 
-							"Cannot cancel statement.", ex ); //$NON-NLS-1$
+            sm_logger.logp( Level.WARNING, sm_className, methodName,
+                            "Cannot cancel statement.", ex ); //$NON-NLS-1$    
+            throw new DataException( ResourceConstants.CANNOT_CANCEL_STATEMENT, ex );
 		}
+
+        sm_logger.exiting( sm_className, methodName );
 	}
 	
 	/**
