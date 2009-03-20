@@ -444,15 +444,10 @@ public class URIUtil
 		if ( base == null || relativePath == null )
 			return relativePath;
 
-		try
+		URI uri = URIUtilImpl.resolveAbsolutePath( relativePath );
+		if ( uri != null && uri.isAbsolute( ) )
 		{
-			URI uri = new URI( relativePath );
-			if ( uri.isAbsolute( ) )
-				return relativePath;
-		}
-		catch ( URISyntaxException e )
-		{
-			// do not handle this exception.
+			return relativePath;
 		}
 
 		boolean appendDirectorySeparator = false;
@@ -467,10 +462,22 @@ public class URIUtil
 				appendDirectorySeparator = true;
 		}
 
+		String path = null;
 		if ( appendDirectorySeparator )
-			return base + '/' + relativePath;
+		{
+			path = base + '/' + relativePath;
+		}
+		else
+		{
+			path = base + relativePath;
+		}
 
-		return base + relativePath;
+		uri = URIUtilImpl.resolveAbsolutePath( path );
+		if ( uri != null )
+		{
+			return uri.normalize( ).toString( );
+		}
+		return path;
 	}
 
 	/**

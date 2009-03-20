@@ -590,4 +590,25 @@ public class URIUtilImpl
 
 		return null;
 	}
+
+	/**
+	 * Resolves the absolute path according to the input path string.
+	 * 
+	 * @param path
+	 *            the path.
+	 * @return the <code>URI</code> if the path can be resolved as URI type,
+	 *         otherwise return null.
+	 */
+	public static URI resolveAbsolutePath( String path )
+	{
+		try
+		{
+			URI uri = new URI( path );
+			return uri;
+		}
+		catch ( URISyntaxException e )
+		{
+			return null;
+		}
+	}
 }
