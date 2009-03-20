@@ -1609,11 +1609,6 @@ public class TaskSelectType extends SimpleTask implements
 						}
 					}
 
-					if ( isValidatedAxis( dataType, axis.getType( ) ) )
-					{
-						break;
-					}
-
 					AxisType[] axisTypes = provider.getCompatibleAxisType( series );
 					for ( int i = 0; i < axisTypes.length; i++ )
 					{

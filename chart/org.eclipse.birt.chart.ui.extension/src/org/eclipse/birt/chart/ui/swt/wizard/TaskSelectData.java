@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.DataFactoryImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.swt.ChartPreviewPainterBase;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
@@ -564,7 +565,7 @@ public class TaskSelectData extends SimpleTask implements
 			{
 				doPreview( errorMsgs );
 			}
-			else if ( ChartPreviewPainter.isLivePreviewActive( ) )
+			else if ( ChartPreviewPainterBase.isLivePreviewActive( ) )
 			{
 				ChartAdapter.beginIgnoreNotifications( );
 				ChartUIUtil.syncRuntimeSeries( getChartModel( ) );
@@ -646,11 +647,6 @@ public class TaskSelectData extends SimpleTask implements
 					{
 						// Only check aggregation is count in Y axis
 						dataType = DataType.NUMERIC_LITERAL;
-					}
-
-					if ( isValidatedAxis( dataType, axis.getType( ) ) )
-					{
-						break;
 					}
 
 					AxisType[] axisTypes = provider.getCompatibleAxisType( series );
