@@ -75,6 +75,12 @@ public class URIUtilImpl
 	private static final String URL_SIGNATURE = "://"; //$NON-NLS-1$
 
 	/**
+	 * The default separator for uri schema. jndi URL can use this schema.
+	 */
+
+	private static final String URI_SIGNATURE = ":/"; //$NON-NLS-1$
+
+	/**
 	 * Returns the URL object of the given string. If the input value is in URL
 	 * format, return it. Otherwise, create the corresponding file object then
 	 * return the url of the file object.
@@ -334,7 +340,11 @@ public class URIUtilImpl
 			return null;
 
 		URL url = null;
-		int sigPos = filePath.indexOf( URL_SIGNATURE );
+
+		// jndi is a special case, even the string like jndi:/tests/..., in
+		// Tomcat, this string can be constructed with a valid URL
+
+		int sigPos = filePath.indexOf( URI_SIGNATURE );
 		if ( sigPos != -1 )
 		{
 			// if the URL can be created, don't need encoding

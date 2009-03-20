@@ -1666,7 +1666,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		if ( !StringUtil.isBlank( newName ) )
 		{
-			URL systemId = URIUtil.getDirectory( newName );
+			URL systemId = URIUtilImpl.getDirectory( newName );
 			if ( systemId != null )
 				getModule( ).setSystemId( systemId );
 

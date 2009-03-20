@@ -37,7 +37,6 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
@@ -55,6 +54,7 @@ import org.eclipse.birt.report.model.parser.DesignReader;
 import org.eclipse.birt.report.model.parser.GenericModuleReader;
 import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.URIUtilImpl;
 
 import com.ibm.icu.util.ULocale;
 
@@ -639,7 +639,7 @@ public class DesignSession
 		design.setFileName( fileName );
 		if ( !StringUtil.isBlank( fileName ) )
 		{
-			URL systemId = URIUtil.getDirectory( fileName );
+			URL systemId = URIUtilImpl.getDirectory( fileName );
 
 			if ( systemId != null )
 				design.setSystemId( systemId );

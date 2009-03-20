@@ -16,9 +16,9 @@ import java.net.URL;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
-import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.util.URIUtilImpl;
 
 /**
  * Reads a XML file for design and library.
@@ -78,7 +78,7 @@ public class GenericModuleReader extends ModuleReader
 			InputStream inputStream, ModuleOption options )
 			throws DesignFileException
 	{
-		URL systemId = URIUtil.getDirectory( fileName );
+		URL systemId = URIUtilImpl.getDirectory( fileName );
 		GenericModuleParserHandler handler = new GenericModuleParserHandler(
 				session, systemId, fileName, options );
 		return readModule( handler, inputStream );
@@ -132,7 +132,7 @@ public class GenericModuleReader extends ModuleReader
 	public Module read( DesignSession session, String fileName,
 			ModuleOption options ) throws DesignFileException
 	{
-		URL systemId = URIUtil.getDirectory( fileName );
+		URL systemId = URIUtilImpl.getDirectory( fileName );
 		GenericModuleParserHandler handler = new GenericModuleParserHandler(
 				session, systemId, fileName, options );
 		return readModule( handler );

@@ -15,12 +15,12 @@ import java.net.URL;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ModuleOption;
-import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.URIUtilImpl;
 
 /**
  * Top-level handler for the XML library file. Recognizes the top-level tags in
@@ -52,7 +52,7 @@ public class LibraryParserHandler extends ModuleParserHandler
 
 		module = new Library( theSession, host );
 
-		URL url = URIUtil.getDirectory( fileName );
+		URL url = URIUtilImpl.getDirectory( fileName );
 		module.setSystemId( url );
 		module.setFileName( fileName.toExternalForm( ) );
 		module.setOptions( options );
@@ -90,7 +90,7 @@ public class LibraryParserHandler extends ModuleParserHandler
 
 		module = new Library( theSession, host );
 
-		URL url = URIUtil.getDirectory( fileName );
+		URL url = URIUtilImpl.getDirectory( fileName );
 		module.setSystemId( url );
 		module.setFileName( fileName );
 		module.setOptions( options );
@@ -124,7 +124,7 @@ public class LibraryParserHandler extends ModuleParserHandler
 		super( theSession, fileName );
 		module = new Library( theSession, null );
 
-		URL systemId = URIUtil.getDirectory( fileName );
+		URL systemId = URIUtilImpl.getDirectory( fileName );
 		module.setSystemId( systemId );
 		module.setFileName( fileName );
 		module.setOptions( options );

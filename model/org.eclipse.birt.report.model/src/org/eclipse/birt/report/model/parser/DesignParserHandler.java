@@ -14,11 +14,11 @@ package org.eclipse.birt.report.model.parser;
 import java.net.URL;
 
 import org.eclipse.birt.report.model.api.ModuleOption;
-import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.URIUtilImpl;
 
 /**
  * Top-level handler for the XML design file. Recognizes the top-level tags in
@@ -48,7 +48,7 @@ public class DesignParserHandler extends ModuleParserHandler
 		super( theSession, fileName );
 		module = new ReportDesign( session );
 
-		URL systemId = URIUtil.getDirectory( fileName );
+		URL systemId = URIUtilImpl.getDirectory( fileName );
 		module.setSystemId( systemId );
 		module.setFileName( fileName );
 		module.setOptions( options );
@@ -80,7 +80,7 @@ public class DesignParserHandler extends ModuleParserHandler
 		super( theSession, systemId.toExternalForm( ) );
 		module = new ReportDesign( session );
 
-		URL url = URIUtil.getDirectory( systemId.toExternalForm( ) );
+		URL url = URIUtilImpl.getDirectory( systemId.toExternalForm( ) );
 		module.setSystemId( url );
 		module.setOptions( options );
 

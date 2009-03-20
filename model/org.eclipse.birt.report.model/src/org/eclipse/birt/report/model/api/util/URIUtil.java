@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.eclipse.birt.report.model.util.SecurityUtil;
@@ -157,6 +156,8 @@ public class URIUtil
 	 * @param filePath
 	 *            the file name
 	 * @return a valid URL
+	 * 
+	 * @deprecated not supported
 	 */
 
 	public static URL getDirectory( String filePath )
@@ -172,6 +173,8 @@ public class URIUtil
 	 * @param url
 	 *            the url of the file.
 	 * @return a valid URL
+	 * 
+	 * @deprecated not supported
 	 */
 
 	public static URL getDirectory( URL url )
