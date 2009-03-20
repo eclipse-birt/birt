@@ -1798,7 +1798,7 @@ public class SwingRendererImpl extends DeviceAdapter
 			{
 				bs = new BasicStroke( lia.getThickness( ),
 						BasicStroke.CAP_SQUARE,
-						BasicStroke.JOIN_MITER );
+						BasicStroke.JOIN_ROUND );
 			}
 			if ( bs != null )
 			{
