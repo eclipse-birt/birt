@@ -497,6 +497,10 @@ public class XMLWriter
 			{
 				printLine( );
 			}
+			else if( c =='\r')
+			{
+				out.print("&#13;"); //$NON-NLS-1$
+			}
 			else
 				out.print( c );
 		}

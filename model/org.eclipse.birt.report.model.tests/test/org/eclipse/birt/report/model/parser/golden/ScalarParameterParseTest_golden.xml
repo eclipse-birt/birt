@@ -18,7 +18,8 @@
             <property name="mustMatch">false</property>
             <property name="fixedOrder">false</property>
             <simple-property-list name="defaultValue">
-            	<value>new default value</value>
+            	<value>new default value.&#13;
+            	this the next line of the value.</value>
             </simple-property-list>
             <property name="distinct">false</property>
             <property name="sortBy">label</property>

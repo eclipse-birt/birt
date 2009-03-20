@@ -91,8 +91,8 @@ public class ScalarParameterParseTest extends BaseTestCase
 		handle1.setConcealValue( true );
 		assertTrue( handle1.isConcealValue( ) );
 
-		handle1.setDefaultValue( "new default value" ); //$NON-NLS-1$
-		assertEquals( "new default value", handle1.getDefaultValue( ) ); //$NON-NLS-1$
+		handle1.setDefaultValue( "new default value.\r\nthis the next line of the value." ); //$NON-NLS-1$
+		assertEquals( "new default value.\r\nthis the next line of the value.", handle1.getDefaultValue( ) ); //$NON-NLS-1$
 
 		handle1.setIsRequired( false );
 		assertFalse( handle1.isRequired( ) );
