@@ -18,7 +18,6 @@ import java.util.Date;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
-import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
@@ -27,7 +26,7 @@ import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.mozilla.javascript.Scriptable;
 
-public class SingleQueryResultSet implements IQueryResultSet
+public class SingleQueryResultSet extends QueryResultSet
 {
 
 	private IQueryResultSet rset;
@@ -40,7 +39,7 @@ public class SingleQueryResultSet implements IQueryResultSet
 
 	public void close( )
 	{
-		//do nothing in close( )
+		// do nothing in close( )
 	}
 
 	public DataSetID getID( )
@@ -79,12 +78,12 @@ public class SingleQueryResultSet implements IQueryResultSet
 	{
 		return rset.isEmpty( );
 	}
-	
+
 	public boolean isFirst( ) throws BirtException
 	{
 		return rset.isFirst( );
 	}
-	
+
 	public boolean isBeforeFirst( ) throws BirtException
 	{
 		return rset.isBeforeFirst( );
@@ -183,6 +182,13 @@ public class SingleQueryResultSet implements IQueryResultSet
 	public boolean skipTo( long rowIndex ) throws BirtException
 	{
 		return false;
+	}
+
+	public String getQueryResultsID( )
+	{
+		if ( rset instanceof QueryResultSet )
+			return ( (QueryResultSet) rset ).getQueryResultsID( );
+		return null;
 	}
 
 	private class SingleRowIterator implements IResultIterator

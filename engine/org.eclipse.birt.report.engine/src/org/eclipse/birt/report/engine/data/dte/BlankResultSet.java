@@ -25,12 +25,12 @@ import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 
 
-public class BlankResultSet implements IQueryResultSet
+public class BlankResultSet extends QueryResultSet
 {
 
 	boolean hasNext = true;
 	IQueryResultSet rset;
-	public BlankResultSet(IQueryResultSet rset)
+	public BlankResultSet( IQueryResultSet rset)
 	{
 		this.rset = rset;
 	}
@@ -180,5 +180,12 @@ public class BlankResultSet implements IQueryResultSet
 	public boolean isBeforeFirst( )
 	{
 		return false;
+	}
+	
+	public String getQueryResultsID( )
+	{
+		if ( rset instanceof QueryResultSet )
+			return ( (QueryResultSet) rset ).getQueryResultsID( );
+		return null;
 	}
 }

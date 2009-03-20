@@ -78,6 +78,12 @@ public class QueryResultSet implements IQueryResultSet
 	 */
 	protected static Logger logger = Logger.getLogger( QueryResultSet.class
 			.getName( ) );
+	
+	// constructor for subclass only
+	protected QueryResultSet( )
+	{
+		
+	}
 
 	// Top level query results
 	public QueryResultSet( IDataEngine dataEngine, ExecutionContext context,
