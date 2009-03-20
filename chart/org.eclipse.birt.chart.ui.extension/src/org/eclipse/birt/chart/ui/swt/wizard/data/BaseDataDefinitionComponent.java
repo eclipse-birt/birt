@@ -207,6 +207,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			createAggregationItem( cmpTop );
 		}
 		
+		boolean isSharingChart = context.getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_CHART_QUERY );
 		
 		final Object[] predefinedQuery = context.getPredefinedQuery( queryType );
 		
@@ -216,8 +217,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		boolean needComboField = predefinedQuery != null
 				&& ( ( state & IDataServiceProvider.SHARE_QUERY ) == IDataServiceProvider.SHARE_QUERY
 						|| ( state & IDataServiceProvider.HAS_CUBE ) == IDataServiceProvider.HAS_CUBE || ( state & IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) == IDataServiceProvider.INHERIT_COLUMNS_GROUPS );
-
-		boolean hasContentAssist = ( predefinedQuery != null && predefinedQuery.length > 0 );
+		needComboField &= !isSharingChart;
+		boolean hasContentAssist = ( !isSharingChart && predefinedQuery != null && predefinedQuery.length > 0 );
 		if ( needComboField )
 		{
 			// Create a composite to decorate combo field for the content assist function.
@@ -418,8 +419,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			// optional expression, so here doesn't disable the text field if it
 			// is SHARE_CROSSTAB_QUERY.
 			if ( txtDefinition != null
-					&& !context.getDataServiceProvider( )
-							.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
+					&& ( !context.getDataServiceProvider( )
+							.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) || isSharingChart ) )
 			{
 				txtDefinition.setEnabled( false );
 			}

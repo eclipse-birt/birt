@@ -986,6 +986,12 @@ public class ChartUtil
 		}
 		else
 		{
+			if ( orthQuery != null && orthQuery.getGrouping( ) != null )
+			{
+				return orthQuery.getGrouping( )
+						.getAggregateParameters( )
+						.toArray( new String[0] );
+			}
 			return orthSD.getGrouping( )
 					.getAggregateParameters( )
 					.toArray( new String[0] );
@@ -1724,5 +1730,26 @@ public class ChartUtil
 	public static <K, V> Map<K, V> newHashMap( )
 	{
 		return new HashMap<K, V>( );
+	}
+
+	/**
+	 * Revise the version of chart model to current value and do attributes migration 
+	 * from specified chat model to current.
+	 * 
+	 * @param chartModel
+     * @since 2.5
+	 */
+	public static void reviseVersion( Chart chartModel )
+	{
+		if ( chartModel.getVersion( ).equals( Chart.VERSION ) )
+		{
+			return;
+		}
+		
+		chartModel.setVersion( Chart.VERSION );
+		
+		// Do some migratoin tasks for the version revision.
+		// ...
+		return;
 	}
 }

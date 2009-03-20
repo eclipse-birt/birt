@@ -56,6 +56,7 @@ public interface IDataServiceProvider
 	
 	public static final int INHERIT_COLUMNS_GROUPS = 1 << 10;
 
+	public static final int SHARE_CHART_QUERY = 1 << 11;
 	/**
 	 * Returns all available style names.
 	 */

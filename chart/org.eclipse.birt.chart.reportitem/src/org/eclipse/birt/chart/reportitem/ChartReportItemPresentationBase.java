@@ -529,12 +529,14 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				return new BIRTQueryResultSetEvaluator( (IQueryResultSet) set );
 			}
 
+			boolean isSharingChart = handle.getDataBindingReference( ) != null
+					&& ChartReportItemUtil.isChartHandle( handle.getDataBindingReference( ) );
 			// Here, we must use chart model to check if grouping is defined. we
 			// can't use grouping definitions in IQueryResultSet to check it,
 			// because maybe chart inherits data set from container and the data
 			// set contains grouping, but chart doesn't define grouping.
 			if ( ChartReportItemUtil.isGroupingDefined( cm )
-					|| ChartReportItemUtil.hasAggregation( cm ) )
+					|| ChartReportItemUtil.hasAggregation( cm ) || isSharingChart )
 			{
 				return new BIRTGroupedQueryResultSetEvaluator( (IQueryResultSet) set,
 						ChartReportItemUtil.isSetSummaryAggregation( cm ),
@@ -747,6 +749,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 					|| ChartReportItemUtil.isChartInheritGroups( handle ) )
 			{
 				isSharingQuery = true;
+				// Here we will set isSharingQuery to false if it is sharing
+				// chart case to ensure that chart generates correct expressions
+				// to do evaluating in chart generator phase.
+				isSharingQuery &= !ChartReportItemUtil.isChartHandle( handle.getDataBindingReference( ) );
 			}
 			rtc.setSharingQuery( isSharingQuery );
 

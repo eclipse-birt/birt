@@ -1158,6 +1158,11 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	public static boolean isOldChartUsingInternalGroup(
 			ReportItemHandle chartHandle, Chart cm )
 	{
+		if ( compareVersion( cm.getVersion( ), "2.5.1" ) >= 0 ) //$NON-NLS-1$
+		{
+			return false;
+		}
+		
 		String reportVer = chartHandle.getModuleHandle( ).getVersion( );
 		if ( reportVer == null || compareVersion( reportVer, "3.2.16" ) < 0 ) //$NON-NLS-1$
 		{

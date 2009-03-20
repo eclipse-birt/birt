@@ -38,6 +38,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.HyperlinkBuilder;
@@ -311,6 +312,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			ChartReportItemImpl crii, Chart cmOld, Chart cmNew,
 			String outputFormat, boolean bInheritColumnsOnly )
 	{
+		// Revise chart version to current.
+		ChartUtil.reviseVersion( cmNew );
+		
 		try
 		{
 			// update the output format property information.

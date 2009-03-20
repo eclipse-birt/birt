@@ -1394,6 +1394,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 */
 	protected void initialize( )
 	{
+		setVersion( VERSION );
 		// 1. CREATE AND INITIALIZE BLOCKS
 		block = BlockImpl.create( ); // OUTERMOST BLOCK
 		// block.setBackground( ColorDefinitionImpl.TRANSPARENT( ) );

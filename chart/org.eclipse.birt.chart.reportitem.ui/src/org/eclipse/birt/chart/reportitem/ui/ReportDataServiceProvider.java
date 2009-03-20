@@ -1219,9 +1219,20 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 								cm )
 						|| isInheritColumnsGroups( ) )
 				{
-					evaluator = fShareBindingQueryHelper.createShareBindingEvaluator( cm,
+					if ( isSharingChart( false ) )
+					{
+						evaluator = createBaseEvaluator( (ExtendedItemHandle) itemHandle.getDataBindingReference( ),
+								ChartReportItemUtil.getChartFromHandle( (ExtendedItemHandle) itemHandle.getDataBindingReference( ) ),
+								columnExpression,
+								session,
+								engineTask );
+					}
+					else
+					{
+						evaluator = fShareBindingQueryHelper.createShareBindingEvaluator( cm,
 							session,
 							engineTask );
+					}
 				}
 				else
 				{
@@ -2833,11 +2844,16 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		if ( isSharedBinding( ) )
 		{
 			states |= SHARE_QUERY;
+			if ( isSharingChart( false ) )
+			{
+				states |= SHARE_CHART_QUERY;
+			}
+			
 			if ( ChartXTabUtil.getBindingCube( itemHandle ) != null )
 			{
 				states |= SHARE_CROSSTAB_QUERY;
 			}
-			else
+			else if ( !isSharingChart( false ) )
 			{
 				states |= SHARE_TABLE_QUERY;
 			}
@@ -2954,4 +2970,28 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return count;
 	}
 
+	/**
+	 * Check if current item handle is table shared binding reference. Check if
+	 * current is sharing query with other chart.
+	 * 
+	 * @param isRecursive
+	 *            <code>true</code> means it will be recursive to find out the
+	 *            shared chart case, else just check if the direct reference is
+	 *            a chart item.
+	 * @return
+	 */
+	boolean isSharingChart( boolean isRecursive )
+	{
+		boolean isShare = isSharedBinding( );
+		if ( isRecursive )
+		{
+			return isShare
+					&& ChartReportItemUtil.isChartReportItemHandle( ChartReportItemUtil.getReportItemReference( itemHandle ) );
+		}
+		else
+		{
+			return isShare
+					&& ChartReportItemUtil.isChartReportItemHandle( itemHandle.getDataBindingReference( ) );
+		}
+	}
 }
