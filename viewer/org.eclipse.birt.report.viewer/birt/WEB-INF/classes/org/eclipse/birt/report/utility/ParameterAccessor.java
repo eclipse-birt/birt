@@ -2777,7 +2777,15 @@ public class ParameterAccessor
 						}
 						else
 						{
-							realPath = urlRoot + "/" + orginalPath; //$NON-NLS-1$
+							if ( urlRoot.endsWith( "/" ) //$NON-NLS-1$
+									|| orginalPath.startsWith( "/" ) ) //$NON-NLS-1$
+							{
+								realPath = urlRoot + orginalPath;
+							}
+							else
+							{
+								realPath = urlRoot + "/" + orginalPath; //$NON-NLS-1$
+							}
 						}
 					}
 				}

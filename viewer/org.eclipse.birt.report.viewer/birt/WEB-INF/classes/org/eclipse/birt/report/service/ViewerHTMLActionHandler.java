@@ -24,14 +24,13 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.HTMLActionHandler;
-import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IDataAction;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
@@ -64,7 +63,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * Time zone
 	 */
 	protected TimeZone timeZone = null;
-	
+
 	/**
 	 * Page number of the action requester.
 	 */
@@ -117,7 +116,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * BIRT viewing session id
 	 */
 	protected String viewingSessionId = null;
-	
+
 	/**
 	 * Constructor.
 	 */
@@ -140,9 +139,9 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 */
 
 	public ViewerHTMLActionHandler( IReportDocument document, long page,
-			Locale locale, TimeZone timeZone, boolean isEmbeddable, boolean isRtl,
-			boolean isMasterPageContent, String format, Boolean svg,
-			String isDesigner )
+			Locale locale, TimeZone timeZone, boolean isEmbeddable,
+			boolean isRtl, boolean isMasterPageContent, String format,
+			Boolean svg, String isDesigner )
 	{
 		this.document = document;
 		this.page = page;
@@ -168,9 +167,9 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * @param isDesigner
 	 */
 
-	public ViewerHTMLActionHandler( Locale locale, TimeZone timeZone, boolean isRtl,
-			boolean isMasterPageContent, String format, Boolean svg,
-			String isDesigner )
+	public ViewerHTMLActionHandler( Locale locale, TimeZone timeZone,
+			boolean isRtl, boolean isMasterPageContent, String format,
+			Boolean svg, String isDesigner )
 	{
 		this.locale = locale;
 		this.timeZone = timeZone;
@@ -214,7 +213,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				return buildDataAction( (IDataAction) actionDefn, context );
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -360,10 +359,10 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 		if ( timeZone != null )
 		{
-			link.append( ParameterAccessor.getQueryParameterString(
-					ParameterAccessor.PARAM_TIMEZONE, timeZone.getID( ) ) );
+			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_TIMEZONE,
+					timeZone.getID( ) ) );
 		}
-		
+
 		if ( isRtl )
 		{
 			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_RTL,
@@ -439,16 +438,17 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			return null;
 
 		boolean encodePaths = false;
-		String actionString = action.getActionString();
+		String actionString = action.getActionString( );
 		Map params = UrlUtility.extractUriParameters( actionString );
 		String anchor = UrlUtility.getAnchor( actionString );
-		
-		String encodedPathsString = (String)params.get( ParameterAccessor.PARAM_ENCODED_PATHS );
-		encodePaths = ( encodedPathsString != null && Boolean.valueOf( encodedPathsString ).booleanValue() );
-		
+
+		String encodedPathsString = (String) params.get( ParameterAccessor.PARAM_ENCODED_PATHS );
+		encodePaths = ( encodedPathsString != null && Boolean.valueOf( encodedPathsString )
+				.booleanValue( ) );
+
 		// Get Base URL
 		String baseURL = getBaseUrl( context );
-		
+
 		// replace the servlet pattern using extract
 		baseURL = createBaseURLWithExtractPattern( baseURL );
 
@@ -469,7 +469,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			if ( encodePaths )
 			{
 				reportName = ParameterAccessor.encodeBase64( reportName );
-			}			
+			}
 			params.put( ParameterAccessor.PARAM_REPORT, reportName );
 		}
 
@@ -485,12 +485,12 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		{
 			params.put( ParameterAccessor.PARAM_TIMEZONE, timeZone.getID( ) );
 		}
-		
+
 		if ( isRtl )
 		{
 			params.put( ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) );
 		}
-		
+
 		// append resource folder setting
 		if ( resourceFolder != null )
 		{
@@ -498,13 +498,14 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			{
 				resourceFolder = ParameterAccessor.encodeBase64( resourceFolder );
 			}
-			
+
 			params.put( ParameterAccessor.PARAM_RESOURCE_FOLDER, resourceFolder );
 		}
-		
+
 		if ( viewingSessionId != null )
 		{
-			params.put( ParameterAccessor.PARAM_VIEWING_SESSION_ID, viewingSessionId );
+			params.put( ParameterAccessor.PARAM_VIEWING_SESSION_ID,
+					viewingSessionId );
 		}
 
 		return UrlUtility.buildUrl( baseURL, params, anchor );
@@ -512,14 +513,16 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 	/**
 	 * Returns the base URL from the report context.
-	 * @param context report context
+	 * 
+	 * @param context
+	 *            report context
 	 * @return base URL
 	 */
 	private String getBaseUrl( IReportContext context )
 	{
 		String baseURL = context.getRenderOption( ).getBaseURL( );
-		String servletPath = (String) context.getRenderOption( ).getOption(
-				IBirtConstants.SERVLET_PATH );
+		String servletPath = (String) context.getRenderOption( )
+				.getOption( IBirtConstants.SERVLET_PATH );
 
 		if ( servletPath == null )
 		{
@@ -612,7 +615,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 							{
 								// TODO: here need the get the format from the
 								// parameter.
-								String value = DataUtil.getDisplayValue( values[i], timeZone );
+								String value = DataUtil.getDisplayValue( values[i],
+										timeZone );
 
 								if ( value != null )
 								{
@@ -652,13 +656,13 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_LOCALE,
 						locale.toString( ) ) );
 			}
-			
+
 			if ( timeZone != null )
 			{
-				link.append( ParameterAccessor.getQueryParameterString(
-						ParameterAccessor.PARAM_TIMEZONE, timeZone.getID( ) ) );
+				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_TIMEZONE,
+						timeZone.getID( ) ) );
 			}
-			
+
 			if ( isRtl )
 			{
 				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_RTL,
@@ -721,7 +725,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 						{
 							InputOptions options = new InputOptions( );
 							options.setOption( InputOptions.OPT_LOCALE, locale );
-							options.setOption( InputOptions.OPT_TIMEZONE, timeZone );
+							options.setOption( InputOptions.OPT_TIMEZONE,
+									timeZone );
 							bookmark = BirtReportServiceFactory.getReportService( )
 									.findTocByName( reportName,
 											bookmark,
@@ -732,7 +737,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 						{
 							link.append( "#" ); //$NON-NLS-1$
 							link.append( URLEncoder.encode( bookmark,
-								ParameterAccessor.UTF_8_ENCODE ) );
+									ParameterAccessor.UTF_8_ENCODE ) );
 						}
 					}
 					else
@@ -772,36 +777,66 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		assert context != null;
 		assert action != null;
 		String reportName = action.getReportName( );
-		IReportRunnable runnable = context.getReportRunnable( );
 
-		// if WORKING_FOLDER_ACCESS_ONLY is false, return absolute path.
-		// else, return relative path.
-		if ( runnable != null && !ParameterAccessor.isWorkingFolderAccessOnly( ) )
+		if ( reportName != null )
 		{
-			ModuleHandle moduleHandle = runnable.getDesignHandle( )
-					.getModuleHandle( );
-			URL url = moduleHandle.findResource( reportName, -1 );
-			if ( url != null )
+			if ( reportName.startsWith( "/" ) ) //$NON-NLS-1$
 			{
-				if ( "file".equals( url.getProtocol( ) ) ) //$NON-NLS-1$
+				// check if it's a valid logical path that always relative
+				// to working folder or an absolute file path
+				if ( reportName.indexOf( ':' ) == -1
+						&& !new File( reportName ).exists( ) )
 				{
-					File reportFile;
-					try
-					{
-						reportFile = new File( url.toURI( ) );
-						reportName = reportFile.getPath();
-					}
-					catch ( URISyntaxException e )
-					{
-					}
+					// this is a logical path
+					return reportName;
+				}
+			}
+
+			IReportRunnable runnable = context.getReportRunnable( );
+
+			if ( runnable != null )
+			{
+				ModuleHandle moduleHandle = runnable.getDesignHandle( )
+						.getModuleHandle( );
+
+				// if WORKING_FOLDER_ACCESS_ONLY is false, return absolute path.
+				// else, return the relative path based on working folder.
+
+				if ( ParameterAccessor.isWorkingFolderAccessOnly( ) )
+				{
+					String fullPath = URIUtil.resolveAbsolutePath( moduleHandle.getSystemId( )
+							.toExternalForm( ),
+							reportName );
+
+					reportName = URIUtil.getRelativePath( ParameterAccessor.workingFolder,
+							fullPath );
 				}
 				else
 				{
-					reportName = url.toExternalForm( );
+					URL url = moduleHandle.findResource( reportName, -1 );
+					if ( url != null )
+					{
+						if ( "file".equals( url.getProtocol( ) ) ) //$NON-NLS-1$
+						{
+
+							try
+							{
+								reportName = new File( url.toURI( ) ).getPath( );
+							}
+							catch ( URISyntaxException e )
+							{
+								// ignore
+							}
+						}
+						else
+						{
+							reportName = url.toExternalForm( );
+						}
+					}
 				}
 			}
 		}
- 		return reportName;
+		return reportName;
 	}
 
 	/**
@@ -865,8 +900,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		// append instance id
 		if ( action.getInstanceID( ) != null )
 		{
-			params.put( ParameterAccessor.PARAM_INSTANCEID, action.getInstanceID( )
-					.toUniqueString( ) );
+			params.put( ParameterAccessor.PARAM_INSTANCEID,
+					action.getInstanceID( ).toUniqueString( ) );
 		}
 
 		// append bookmark
@@ -893,9 +928,9 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		this.pageOverflow = pageOverflow;
 	}
 
-	
 	/**
 	 * Returns the viewing session ID.
+	 * 
 	 * @return the viewing session ID
 	 */
 	public String getViewingSessionId( )
@@ -903,10 +938,11 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		return viewingSessionId;
 	}
 
-	
 	/**
 	 * Sets the viewing session ID.
-	 * @param viewingSessionId the viewing session id
+	 * 
+	 * @param viewingSessionId
+	 *            the viewing session id
 	 */
 	public void setViewingSessionId( String viewingSessionId )
 	{
