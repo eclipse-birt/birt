@@ -668,6 +668,11 @@ public class TaskSelectData extends SimpleTask implements
 					}
 					if ( needValidate )
 					{
+						if ( dataType == null )
+						{
+							dataType = ChartUIUtil.convertAxisTypeToDataType( axis.getType( ) );
+						}
+
 						for ( int i = 0; i < axisTypes.length; i++ )
 						{
 							if ( isValidatedAxis( dataType, axisTypes[i] ) )

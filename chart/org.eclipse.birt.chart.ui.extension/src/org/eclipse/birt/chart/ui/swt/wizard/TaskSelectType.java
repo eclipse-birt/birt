@@ -1609,6 +1609,11 @@ public class TaskSelectType extends SimpleTask implements
 						}
 					}
 
+					if ( dataType == null )
+					{
+						dataType = ChartUIUtil.convertAxisTypeToDataType( axis.getType( ) );
+					}
+
 					AxisType[] axisTypes = provider.getCompatibleAxisType( series );
 					for ( int i = 0; i < axisTypes.length; i++ )
 					{
