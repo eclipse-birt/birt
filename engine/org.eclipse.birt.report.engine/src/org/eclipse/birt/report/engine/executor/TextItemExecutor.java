@@ -108,10 +108,9 @@ public class TextItemExecutor extends QueryItemExecutor
 		Expression<String> textExpression = textDesign.getText( );
 		String text = evaluate( textExpression );
 		String textType = evaluate( textDesign.getTextType( ) );
-
 		
 		HashMap<String, String> exprs = null;
-		if ( textDesign.hasExpression( ) )
+		if ( textDesign.hasExpression( ) && textExpression != null )
 		{
 			if ( textExpression.isExpression( ) )
 			{
