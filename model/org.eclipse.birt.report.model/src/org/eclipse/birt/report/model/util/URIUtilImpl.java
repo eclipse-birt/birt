@@ -358,7 +358,15 @@ public class URIUtilImpl
 				return getDiskFileDirectory( filePath, true );
 			}
 
-			return getDirectoryByURL( url );
+			String tmpProtocol = url.getProtocol( );
+
+			// to avoid case like C:/abc/test/...
+			
+			if ( url != null && tmpProtocol != null
+					&& tmpProtocol.length( ) > 1 )
+				return getDirectoryByURL( url );
+
+			return getDiskFileDirectory( filePath, true );
 		}
 
 		String lowerFilePath = filePath.toLowerCase( );
