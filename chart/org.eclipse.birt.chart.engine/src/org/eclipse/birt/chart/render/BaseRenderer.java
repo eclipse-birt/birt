@@ -2794,7 +2794,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			throws ChartException
 	{
 		// Bugzilla#216718 data point labels should be inside area including axes
-		Methods.limitDataPointLabelLocation( getModel( ), xs, laDataPoint, getDeviceScale( ), lo );
+		Methods.limitDataPointLabelLocation( getModel( ),
+				xs,
+				laDataPoint,
+				getDeviceScale( ),
+				lo,
+				lp );
 		renderLabel( oSource, iTextRenderType, laDataPoint, lp, lo, bo, dc );
 	}
 

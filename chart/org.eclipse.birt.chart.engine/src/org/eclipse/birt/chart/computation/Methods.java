@@ -1224,10 +1224,12 @@ public class Methods implements IConstants
 	 * @since 2.3
 	 */
 	public static void limitDataPointLabelLocation( Chart cm,
-			IDisplayServer xs, Label laDataPoint, double dScale, Location lo )
+			IDisplayServer xs, Label laDataPoint, double dScale, Location lo,
+			Position lp )
 			throws ChartException
 	{
-		if ( lo == null || cm instanceof ChartWithoutAxes )
+		if ( lo == null
+				|| cm instanceof ChartWithoutAxes )
 		{
 			return;
 		}
@@ -1243,27 +1245,148 @@ public class Methods implements IConstants
 
 		Bounds boCa = p.getBounds( ).scaledInstance( dScale );
 
-		if ( !cwa.isTransposed( ) )
+		double rotation = laDataPoint.getCaption( ).getFont( ).getRotation( );
+		int state = 0;
+		// use 1 to 8 to indicate the state, starts from the bottom
+		// center,counter-clockwise
+		switch ( lp.getValue( ) )
 		{
-			double dYmin = boCa.getTop( ) + bb.getHeight( );
-			double dY = lo.getY( );
-
-			if ( dY < dYmin )
-			{
-				lo.setY( dYmin );
-			}
+			case Position.ABOVE :
+				if ( rotation > 0 && rotation < 90 )
+				{
+					state = 8;
+				}
+				else if ( rotation < 0 && rotation > -90 )
+				{
+					state = 2;
+				}
+				else
+				{
+					state = 1;
+				}
+				break;
+			case Position.RIGHT :
+				if ( rotation > 0 && rotation < 90 )
+				{
+					state = 8;
+				}
+				else if ( rotation < 0 && rotation > -90 )
+				{
+					state = 6;
+				}
+				else
+				{
+					state = 7;
+				}
+				break;
+			case Position.BELOW :
+				if ( rotation > 0 && rotation < 90 )
+				{
+					state = 4;
+				}
+				else if ( rotation < 0 && rotation > -90 )
+				{
+					state = 6;
+				}
+				else
+				{
+					state = 5;
+				}
+				break;
+			case Position.LEFT :
+				if ( rotation > 0 && rotation < 90 )
+				{
+					state = 4;
+				}
+				else if ( rotation < 0 && rotation > -90 )
+				{
+					state = 2;
+				}
+				else
+				{
+					state = 3;
+				}
+				break;
 		}
-		else
+		double dYmin, dYmax, dXmin, dXmax;
+		switch ( state )
 		{
-			double dCaRight = boCa.getLeft( ) + boCa.getWidth( );
-			double dXmax = dCaRight - bb.getWidth( );
-			double dX = lo.getX( );
-
-			if ( dX > dXmax )
-			{
-				lo.setX( dXmax );
-			}
+			case 1 :
+				dYmin = boCa.getTop( ) + bb.getHeight( );
+				dYmax = boCa.getTop( ) + boCa.getHeight( );
+				dXmin = boCa.getLeft( ) + bb.getWidth( ) / 2;
+				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( ) / 2;
+				break;
+			case 2 :
+				dYmin = boCa.getTop( ) + bb.getHeight( );
+				dYmax = boCa.getTop( ) + boCa.getHeight( );
+				dXmin = boCa.getLeft( ) + bb.getWidth( );
+				dXmax = boCa.getLeft( ) + boCa.getWidth( );
+				break;
+			case 3 :
+				dYmin = boCa.getTop( ) + bb.getHeight( ) / 2;
+				dYmax = boCa.getTop( )
+						+ boCa.getHeight( ) - bb.getHeight( ) / 2;
+				dXmin = boCa.getLeft( ) + bb.getWidth( );
+				dXmax = boCa.getLeft( ) + boCa.getWidth( );
+				break;
+			case 4 :
+				dYmin = boCa.getTop( );
+				dYmax = boCa.getTop( ) + boCa.getHeight( ) - bb.getHeight( );
+				dXmin = boCa.getLeft( ) + bb.getWidth( );
+				dXmax = boCa.getLeft( ) + boCa.getWidth( );
+				break;
+			case 5 :
+				dYmin = boCa.getTop( );
+				dYmax = boCa.getTop( ) + boCa.getHeight( ) - bb.getHeight( );
+				dXmin = boCa.getLeft( ) + bb.getWidth( ) / 2;
+				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( ) / 2;
+				break;
+			case 6 :
+				dYmin = boCa.getTop( );
+				dYmax = boCa.getTop( ) + boCa.getHeight( ) - bb.getHeight( );
+				dXmin = boCa.getLeft( );
+				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( );
+				break;
+			case 7 :
+				dYmin = boCa.getTop( ) + bb.getHeight( ) / 2;
+				dYmax = boCa.getTop( )
+						+ boCa.getHeight( ) - bb.getHeight( ) / 2;
+				dXmin = boCa.getLeft( );
+				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( );
+				break;
+			case 8 :
+				dYmin = boCa.getTop( ) + bb.getHeight( );
+				dYmax = boCa.getTop( ) + boCa.getHeight( );
+				dXmin = boCa.getLeft( );
+				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( );
+				break;
+			default :
+				dYmin = lo.getY( );
+				dYmax = lo.getY( );
+				dXmin = lo.getX( );
+				dXmax = lo.getX( );
+				break;
 		}
+		
+		if ( lo.getY( ) < dYmin )
+		{
+			lo.setY( dYmin );
+		}
+		if ( lo.getY( ) > dYmax )
+		{
+			lo.setY( dYmax );
+		}
+		if ( lo.getX( ) < dXmin )
+		{
+			lo.setX( dXmin );
+		}
+		if ( lo.getX( ) > dXmax )
+		{
+			lo.setX( dXmax );
+		}
+		
+
 	}
 
 	/**
