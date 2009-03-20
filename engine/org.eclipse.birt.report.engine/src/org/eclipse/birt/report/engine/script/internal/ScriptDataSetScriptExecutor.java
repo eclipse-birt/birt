@@ -21,6 +21,8 @@ import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSetEv
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.internal.instance.DataSetInstance;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 
 public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 		implements IScriptDataSetEventHandler
@@ -74,7 +76,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 		{
 			if ( !this.useOpenEventHandler )
 			{
-				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+				JSScriptStatus status = handleJS( getScriptScope( dataSet ),
 						dataSet.getName( ),
 						OPEN,
 						( (ScriptDataSetHandle) dataSetHandle ).getOpen( ) );
@@ -88,14 +90,14 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 			addException( context, e );
 		}
 	}
-
+	
 	public void handleClose( IDataSetInstanceHandle dataSet )
 	{
 		try
 		{
 			if ( !this.useCloseEventHandler )
 			{
-				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+				JSScriptStatus status = handleJS( getScriptScope( dataSet ),
 						dataSet.getName( ),
 						CLOSE,
 						( (ScriptDataSetHandle) dataSetHandle ).getClose( ) );
@@ -116,7 +118,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 		{
 			if ( !useFetchEventHandler )
 			{
-				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+				JSScriptStatus status = handleJS( getScriptScope( dataSet ),
 						dataSet.getName( ),
 						FETCH,
 						( (ScriptDataSetHandle) dataSetHandle ).getFetch( ) );
@@ -148,7 +150,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 		{
 			if ( !this.useDescribeEventHandler )
 			{
-				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+				JSScriptStatus status = handleJS( getScriptScope( dataSet ),
 						dataSet.getName( ),
 						DESCRIBE,
 						( (ScriptDataSetHandle) dataSetHandle ).getDescribe( ) );
@@ -170,6 +172,16 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 			addException( context, e );
 		}
 		return false;
+	}
+	
+	private Scriptable getScriptScope( IDataSetInstanceHandle dataSet )
+	{
+		Scriptable shared = this.context.getSharedScope( );
+		Scriptable scope = (Scriptable) Context.javaToJS( new DataSetInstance( dataSet ),
+				shared);
+		scope.setParentScope( shared );
+		scope.setPrototype( dataSet.getScriptScope( ) );
+		return scope;
 	}
 
 }
