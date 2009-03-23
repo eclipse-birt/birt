@@ -1338,7 +1338,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		if ( synchronizer != null )
 		{
-			synchronizer.removeListener(IReportResourceChangeEvent.LibraySaveChange, this );
+			synchronizer.removeListener(IReportResourceChangeEvent.LibraySaveChange|IReportResourceChangeEvent.ImageResourceChange, this );
 		}
 		
 		PlatformUI.getWorkbench().removeWindowListener( windowListener);
