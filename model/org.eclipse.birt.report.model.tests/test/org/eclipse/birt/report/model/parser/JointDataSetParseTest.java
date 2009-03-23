@@ -106,6 +106,7 @@ public class JointDataSetParseTest extends BaseTestCase
 		assertEquals( 0, dataSet.getRowFetchLimit( ) );
 		assertFalse( dataSet.needsCache( ) );
 
+		// get the sub data sets by element level
 		List dataSets = dataSet.getElement( ).getListProperty( design,
 				JointDataSet.DATA_SETS_PROP );
 		assertEquals( 2, dataSets.size( ) );
@@ -114,12 +115,18 @@ public class JointDataSetParseTest extends BaseTestCase
 				.getElement( ) );
 		assertEquals( 30, ds1.getRowFetchLimit( ) );
 		assertTrue( ds1.needsCache( ) );
-
 		DataSetHandle ds2 = designHandle.findDataSet( "DataSet2" );//$NON-NLS-1$
 		assertEquals( 0, ds2.getRowFetchLimit( ) );
 		assertSame( ds2.getElement( ), ( (ElementRefValue) dataSets.get( 1 ) )
 				.getElement( ) );
 
+		// get the sub data sets by handle API
+		Iterator dataSetIter = dataSet.dataSetsIterator( );
+		assertEquals( ds1, dataSetIter.next( ) );
+		assertEquals( ds2, dataSetIter.next( ) );
+		assertFalse( dataSetIter.hasNext( ) );
+
+		// test joinCondition iterator
 		Iterator joinConditionsIterator = dataSet.joinConditionsIterator( );
 		assertTrue( joinConditionsIterator.hasNext( ) );
 		JoinConditionHandle joinConditionHandle = (JoinConditionHandle) joinConditionsIterator

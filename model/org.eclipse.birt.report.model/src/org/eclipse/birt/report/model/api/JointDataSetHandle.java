@@ -66,19 +66,21 @@ public class JointDataSetHandle extends DataSetHandle
 	}
 
 	/**
-	 * Gets data sets in this joint data set.
+	 * Gets data sets in this joint data set. Each item in the list is instance
+	 * of <code>DataSetHandle</code>.
 	 * 
 	 * @return a list of data sets in this joint data set.
 	 */
 
 	public Iterator dataSetsIterator( )
 	{
-		List dataSetRefs = (List) getProperty( DATA_SETS_PROP );
-		if (dataSetRefs == null)
+		List dataSetRefs = (List) getElement( ).getProperty( getModule( ),
+				DATA_SETS_PROP );
+		if ( dataSetRefs == null )
 			return Collections.EMPTY_LIST.iterator( );
-	
+
 		List rtnList = new ArrayList( );
-		
+
 		for ( int i = 0; i < dataSetRefs.size( ); i++ )
 		{
 			ElementRefValue dataSetRef = (ElementRefValue) dataSetRefs.get( i );
@@ -148,7 +150,8 @@ public class JointDataSetHandle extends DataSetHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DataSetHandle#paramBindingsIterator()
+	 * @see
+	 * org.eclipse.birt.report.model.api.DataSetHandle#paramBindingsIterator()
 	 */
 	public Iterator paramBindingsIterator( )
 	{
@@ -158,8 +161,9 @@ public class JointDataSetHandle extends DataSetHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#setProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#setProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	public void setProperty( String propName, Object value )
