@@ -55,38 +55,40 @@ public class TextAreaLayout implements ILayout
 			IContent content )
 	{
 		parentLM = (InlineStackingArea) parent;
-
 		ITextContent textContent = (ITextContent) content;
 		String text = textContent.getText( );
-		if ( text != null && text.length( ) != 0 )
+		if ( text != null )
 		{
-			transform( textContent );
-			this.textContent = textContent;
-			comp = new TextCompositor( textContent, context.getFontManager( ),
-					context );
-			// checks whether the current line is empty or not.
-			ContainerArea ancestor = parentLM;
-			do
-			{
-				if ( null == ancestor )
-				{
-					// should never reach here.
-					comp.setNewLineStatus( true );
-					return;
-				}
-				if ( !ancestor.isEmpty( ) )
-				{
-					comp.setNewLineStatus( false );
-					return;
-				}
-				if ( ancestor instanceof LineArea )
-				{
-					comp.setNewLineStatus( ancestor.isEmpty( ) );
-					return;
-				}
-				ancestor = ancestor.getParent( );
-			} while ( true );
+			if ( text.length( ) == 0 )
+				textContent.setText( " " );
+			else
+				transform( textContent );
 		}
+		this.textContent = textContent;
+		comp = new TextCompositor( textContent, context.getFontManager( ),
+				context );
+		// checks whether the current line is empty or not.
+		ContainerArea ancestor = parentLM;
+		do
+		{
+			if ( null == ancestor )
+			{
+				// should never reach here.
+				comp.setNewLineStatus( true );
+				return;
+			}
+			if ( !ancestor.isEmpty( ) )
+			{
+				comp.setNewLineStatus( false );
+				return;
+			}
+			if ( ancestor instanceof LineArea )
+			{
+				comp.setNewLineStatus( ancestor.isEmpty( ) );
+				return;
+			}
+			ancestor = ancestor.getParent( );
+		} while ( true );
 	}
 	
 	public 	static TextStyle buildTextStyle( IContent content, FontInfo fontInfo )
