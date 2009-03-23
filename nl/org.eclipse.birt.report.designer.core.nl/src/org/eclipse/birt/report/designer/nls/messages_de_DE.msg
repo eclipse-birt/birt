@@ -441,7 +441,7 @@ dataBinding.message.haveNoName=Das ausgewählte Element hat keinen Namen.\n\nSie 
 dataBinding.title.haveNoName=Kein Name?
 dataBinding.button.OK=&OK
 
-parameterBinding.title=Parameterbindung des Datensatzes...
+parameterBinding.title=Data Set Parameter &Binding...
 ParameterBindingDialog.title=Parameterbindung des Datensatzes
 
 dataBinding.title.generateOutputParam=Bindungen generieren?
@@ -4222,7 +4222,7 @@ ThumbnailBuilder.FileDialog.Title=Bilddatei auswählen
 ThumbnailBuilder.FileDialog.FileNameError.Title=Fehler
 ThumbnailBuilder.FileDialog.FileNameError.Message=Die ausgewählte Datei ist keine Bilddatei.
 ThumbnailBuilder.Button.GenerateFromReport=Aus Bericht ge&nerieren
-ThumbnailBuilder.Button.BrowseFromFileSystem=Dateisystem durch&suchen
+ThumbnailBuilder.Button.BrowseFromFileSystem=Bro&wse from file system
 ThumbnailBuilder.Button.ImportFromResource=Aus gemeinsamen Ressourcen &importieren
 ThumbnailBuilder.Image.DefaultName=Miniaturbild
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=Warnung
@@ -4311,8 +4311,8 @@ CubePageGenerator.List.AdvancedProperty=Erweitert
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=Bibliothek
-LibraryLayoutEditorFormPage.warning.message=Um Elemente aus der Bibliothek anzuzeigen, klicken Sie in der Gliederungsansicht auf ein Berichtobjekt.\n\nFügen Sie der Bibliothek visuelle Elemente hinzu, indem Sie Berichtobjekte von der Palette in die Bibliothek ziehen oder das Menü 'Einfügen' verwenden. 
-LibraryLayoutEditorFormPage.warning.prompt=Diese Nachricht nicht wieder anzeigen 
+LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu.
+LibraryLayoutEditorFormPage.warning.prompt=&Don't show this message again
 
 ###########################################################
 #PageGenerator Item properties

@@ -441,7 +441,7 @@ dataBinding.message.haveNoName=El elemento que ha seleccionado no tiene nombre. 
 dataBinding.title.haveNoName=¿No tiene nombre?
 dataBinding.button.OK=&Aceptar
 
-parameterBinding.title=Enlace de parámetros del conjunto de datos...
+parameterBinding.title=Data Set Parameter &Binding...
 ParameterBindingDialog.title=Enlace de parámetros del conjunto de datos
 
 dataBinding.title.generateOutputParam=¿Generar enlaces?
@@ -4222,7 +4222,7 @@ ThumbnailBuilder.FileDialog.Title=Seleccionar archivo de imagen
 ThumbnailBuilder.FileDialog.FileNameError.Title=Error
 ThumbnailBuilder.FileDialog.FileNameError.Message=El archivo seleccionado no es una imagen.
 ThumbnailBuilder.Button.GenerateFromReport=Ge&nerar desde el informe
-ThumbnailBuilder.Button.BrowseFromFileSystem=&Examinar en el sistema de archivos
+ThumbnailBuilder.Button.BrowseFromFileSystem=Bro&wse from file system
 ThumbnailBuilder.Button.ImportFromResource=&Importar desde los recursos compartidos
 ThumbnailBuilder.Image.DefaultName=Imagen en miniatura
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=Advertencia
@@ -4311,8 +4311,8 @@ CubePageGenerator.List.AdvancedProperty=Avanzado
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=Librería
-LibraryLayoutEditorFormPage.warning.message=Para ver los elementos de la librería, haga clic en un elemento de informe de la vista de contorno.\n\nPara añadir elementos visuales a la librería, arrastre y coloque elementos de informe desde la paleta o utilice el menú de inserción 
-LibraryLayoutEditorFormPage.warning.prompt=No volver a mostrar este mensaje 
+LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu.
+LibraryLayoutEditorFormPage.warning.prompt=&Don't show this message again
 
 ###########################################################
 #PageGenerator Item properties

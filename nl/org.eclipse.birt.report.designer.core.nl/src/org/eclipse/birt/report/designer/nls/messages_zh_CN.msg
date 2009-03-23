@@ -441,7 +441,7 @@ dataBinding.message.haveNoName=ÄúÑ¡ÔñµÄÏîÄ¿Ã»ÓĞÃû³Æ¡£\n\nÇë·µ»Ø²¢ÎªÏîÄ¿Ö¸¶¨Ãû³Æ£
 dataBinding.title.haveNoName=Ã»ÓĞÃû³Æ?
 dataBinding.button.OK=È·¶¨(&O)
 
-parameterBinding.title=Êı¾İ¼¯²ÎÊı°ó¶¨...
+parameterBinding.title=Data Set Parameter &Binding...
 ParameterBindingDialog.title=Êı¾İ¼¯²ÎÊı°ó¶¨
 
 dataBinding.title.generateOutputParam=Éú³É°ó¶¨?
@@ -4222,7 +4222,7 @@ ThumbnailBuilder.FileDialog.Title=Ñ¡ÔñÍ¼ÏñÎÄ¼ş
 ThumbnailBuilder.FileDialog.FileNameError.Title=´íÎó
 ThumbnailBuilder.FileDialog.FileNameError.Message=ÄúÑ¡ÔñµÄÎÄ¼ş²»ÊÇÍ¼Ïñ¡£
 ThumbnailBuilder.Button.GenerateFromReport=´Ó±¨±íÉú³É(&N)
-ThumbnailBuilder.Button.BrowseFromFileSystem=´ÓÎÄ¼şÏµÍ³ä¯ÀÀ(&B)
+ThumbnailBuilder.Button.BrowseFromFileSystem=Bro&wse from file system
 ThumbnailBuilder.Button.ImportFromResource=´Ó¹²Ïí×ÊÔ´µ¼Èë(&I)
 ThumbnailBuilder.Image.DefaultName=ËõÂÔÍ¼
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=¾¯¸æ
@@ -4311,8 +4311,8 @@ CubePageGenerator.List.AdvancedProperty=¸ß¼¶
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=¿â
-LibraryLayoutEditorFormPage.warning.message=Òª²é¿´¿âµÄÔªËØ£¬Çëµ¥»÷´ó¸ÙÊÓÍ¼ÖĞµÄ±¨±íÏî¡£\n\nÒªÏò¿âÖĞÌí¼Ó¿ÉÊÓÔªËØ£¬Çë½«±¨±íÏî´ÓÑ¡Ïî°åÍÏ·Åµ½ÆäÖĞ£¬»òÊ¹ÓÃ²åÈë²Ëµ¥ 
-LibraryLayoutEditorFormPage.warning.prompt=²»ÔÙÏÔÊ¾´ËÏûÏ¢ 
+LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu.
+LibraryLayoutEditorFormPage.warning.prompt=&Don't show this message again
 
 ###########################################################
 #PageGenerator Item properties

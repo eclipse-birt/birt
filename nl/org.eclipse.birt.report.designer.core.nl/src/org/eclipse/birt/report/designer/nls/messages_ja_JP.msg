@@ -441,7 +441,7 @@ dataBinding.message.haveNoName=‘I‘ğ‚µ‚æ‚¤‚Æ‚µ‚½ƒAƒCƒeƒ€‚É‚Í–¼‘O‚ª•t‚¢‚Ä‚¢‚Ü‚¹‚ñ
 dataBinding.title.haveNoName=–¼‘O‚ª•t‚¢‚Ä‚¢‚Ü‚¹‚ñ
 dataBinding.button.OK=OK(&O)
 
-parameterBinding.title=ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ÌƒoƒCƒ“ƒh...
+parameterBinding.title=Data Set Parameter &Binding...
 ParameterBindingDialog.title=ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ÌƒoƒCƒ“ƒh
 
 dataBinding.title.generateOutputParam=ƒoƒCƒ“ƒh‚Ì¶¬
@@ -4222,7 +4222,7 @@ ThumbnailBuilder.FileDialog.Title=ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚Ì‘I‘ğ
 ThumbnailBuilder.FileDialog.FileNameError.Title=ƒGƒ‰[
 ThumbnailBuilder.FileDialog.FileNameError.Message=‘I‘ğ‚µ‚½ƒtƒ@ƒCƒ‹‚ÍAƒCƒ[ƒW‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
 ThumbnailBuilder.Button.GenerateFromReport=ƒŒƒ|[ƒg‚©‚ç¶¬(&N)
-ThumbnailBuilder.Button.BrowseFromFileSystem=ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÌQÆ(&B)
+ThumbnailBuilder.Button.BrowseFromFileSystem=Bro&wse from file system
 ThumbnailBuilder.Button.ImportFromResource=‹¤—LƒŠƒ\[ƒX‚©‚çƒCƒ“ƒ|[ƒg(&I)
 ThumbnailBuilder.Image.DefaultName=ƒTƒ€ƒlƒCƒ‹‚ÌƒCƒ[ƒW
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=Œx
@@ -4311,8 +4311,8 @@ CubePageGenerator.List.AdvancedProperty=Ú×İ’è
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=ƒ‰ƒCƒuƒ‰ƒŠ
-LibraryLayoutEditorFormPage.warning.message=ƒ‰ƒCƒuƒ‰ƒŠ‚Ì—v‘f‚ğ•\¦‚·‚é‚É‚ÍAƒAƒEƒgƒ‰ƒCƒ“ƒrƒ…[‚ÅƒŒƒ|[ƒg€–Ú‚ğƒNƒŠƒbƒN‚µ‚Ü‚·B\n\nƒ‰ƒCƒuƒ‰ƒŠ‚ÉƒrƒWƒ…ƒAƒ‹—v‘f‚ğ’Ç‰Á‚·‚é‚É‚ÍAƒpƒŒƒbƒg‚©‚çƒŒƒ|[ƒg€–Ú‚ğƒ‰ƒCƒuƒ‰ƒŠ‚Éƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚·‚é‚©A[‘}“ü] ƒƒjƒ…[‚ğg—p‚µ‚Ü‚·B 
-LibraryLayoutEditorFormPage.warning.prompt=¡ŒãA‚±‚ÌƒƒbƒZ[ƒW‚ğ•\¦‚µ‚È‚¢ 
+LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu.
+LibraryLayoutEditorFormPage.warning.prompt=&Don't show this message again
 
 ###########################################################
 #PageGenerator Item properties

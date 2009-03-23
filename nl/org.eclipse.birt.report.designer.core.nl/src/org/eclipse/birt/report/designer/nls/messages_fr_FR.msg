@@ -441,7 +441,7 @@ dataBinding.message.haveNoName=L'élément que vous avez sélectionné n'a pas de no
 dataBinding.title.haveNoName=Elément sans nom ?
 dataBinding.button.OK=&OK
 
-parameterBinding.title=Liaison de paramètre du jeu de données...
+parameterBinding.title=Data Set Parameter &Binding...
 ParameterBindingDialog.title=Liaison de paramètre du jeu de données
 
 dataBinding.title.generateOutputParam=Générer des liaisons ?
@@ -4222,7 +4222,7 @@ ThumbnailBuilder.FileDialog.Title=Sélectionner un fichier image
 ThumbnailBuilder.FileDialog.FileNameError.Title=Erreur
 ThumbnailBuilder.FileDialog.FileNameError.Message=Le fichier sélectionné n'est pas une image.
 ThumbnailBuilder.Button.GenerateFromReport=Gé&nérer à partir de l'état
-ThumbnailBuilder.Button.BrowseFromFileSystem=&Parcourir depuis le système de fichiers
+ThumbnailBuilder.Button.BrowseFromFileSystem=Bro&wse from file system
 ThumbnailBuilder.Button.ImportFromResource=&Importer depuis des ressources partagées
 ThumbnailBuilder.Image.DefaultName=Image miniature
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=Avertissement
@@ -4311,8 +4311,8 @@ CubePageGenerator.List.AdvancedProperty=Avancé
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=Bibliothèque
-LibraryLayoutEditorFormPage.warning.message=Pour afficher les éléments de la bibliothèque, cliquez sur un élément d'état dans la vue de contour.\n\nPour ajouter des éléments visuels à la bibliothèque, glissez-déplacez les éléments d'état depuis la palette ou utilisez le menu d'insertion. 
-LibraryLayoutEditorFormPage.warning.prompt=Ne plus afficher ce message 
+LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu.
+LibraryLayoutEditorFormPage.warning.prompt=&Don't show this message again
 
 ###########################################################
 #PageGenerator Item properties

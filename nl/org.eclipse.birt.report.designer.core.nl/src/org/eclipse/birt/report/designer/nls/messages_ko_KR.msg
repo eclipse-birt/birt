@@ -441,7 +441,7 @@ dataBinding.message.haveNoName=선택한 항목에 이름이 없습니다.\n\n항목을 선택하려
 dataBinding.title.haveNoName=이름이 없습니까?
 dataBinding.button.OK=확인(&O)
 
-parameterBinding.title=데이터 집합 매개 변수 바인딩...
+parameterBinding.title=Data Set Parameter &Binding...
 ParameterBindingDialog.title=데이터 집합 매개 변수 바인딩
 
 dataBinding.title.generateOutputParam=바인딩 생성
@@ -4222,7 +4222,7 @@ ThumbnailBuilder.FileDialog.Title=이미지 파일 선택
 ThumbnailBuilder.FileDialog.FileNameError.Title=오류
 ThumbnailBuilder.FileDialog.FileNameError.Message=선택한 파일이 이미지가 아닙니다.
 ThumbnailBuilder.Button.GenerateFromReport=보고서에서 생성(&N)
-ThumbnailBuilder.Button.BrowseFromFileSystem=파일 시스템에서 찾아보기(&B)
+ThumbnailBuilder.Button.BrowseFromFileSystem=Bro&wse from file system
 ThumbnailBuilder.Button.ImportFromResource=공유 리소스에서 가져오기(&I)
 ThumbnailBuilder.Image.DefaultName=축소판 이미지
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=경고
@@ -4311,8 +4311,8 @@ CubePageGenerator.List.AdvancedProperty=고급
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=라이브러리
-LibraryLayoutEditorFormPage.warning.message=라이브러리의 요소를 보려면 윤곽선 보기에서 보고서 항목을 클릭하십시오.\n\n라이브러리에 시각적 요소를 추가하려면 색상표에서 보고서 항목을 끌어서 놓거나 삽입 메뉴를 사용하십시오. 
-LibraryLayoutEditorFormPage.warning.prompt=이 메시지를 다시 표시 안 함 
+LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu.
+LibraryLayoutEditorFormPage.warning.prompt=&Don't show this message again
 
 ###########################################################
 #PageGenerator Item properties
