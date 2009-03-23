@@ -27,6 +27,7 @@ ChartPreferencePage.Label.EnableLivePreview=&Live-Vorschau im Chart Builder akti
 
 ChartReportItemUIImpl.log.ReceivedNotification=Auftrag zur Entfernung einer erweiterten Diagrammabbildung erhalten.
 ChartReportItemViewProvider.BarChart.Text.Title=Balkendiagrammtitel:
+ChartReportItemViewProvider.ChartViewName=Diagramm
 
 ChartExpressionProvider.Category.ChartVariables=Variablen
 ChartExpressionProvider.ChartVariables.DataPoints=Diagramm-Datenpunkt

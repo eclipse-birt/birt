@@ -27,6 +27,7 @@ ChartPreferencePage.Label.EnableLivePreview=グラフビルダでライブプレビューを有効
 
 ChartReportItemUIImpl.log.ReceivedNotification=拡張された図表を破棄する通知を受け取りました。
 ChartReportItemViewProvider.BarChart.Text.Title=棒グラフのタイトル
+ChartReportItemViewProvider.ChartViewName=グラフ
 
 ChartExpressionProvider.Category.ChartVariables=変数
 ChartExpressionProvider.ChartVariables.DataPoints=グラフのデータポイント

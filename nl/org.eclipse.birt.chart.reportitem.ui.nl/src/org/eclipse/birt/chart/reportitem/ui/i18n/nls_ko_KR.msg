@@ -27,6 +27,7 @@ ChartPreferencePage.Label.EnableLivePreview=차트 빌더에서 실시간 미리 보기 사용(
 
 ChartReportItemUIImpl.log.ReceivedNotification=확장 차트 그림을 삭제하기 위한 통지가 수신되었습니다.
 ChartReportItemViewProvider.BarChart.Text.Title=막대 차트 제목
+ChartReportItemViewProvider.ChartViewName=차트
 
 ChartExpressionProvider.Category.ChartVariables=변수
 ChartExpressionProvider.ChartVariables.DataPoints=차트 데이터 요소

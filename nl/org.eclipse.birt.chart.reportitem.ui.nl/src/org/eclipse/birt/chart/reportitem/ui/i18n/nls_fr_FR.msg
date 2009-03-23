@@ -27,6 +27,7 @@ ChartPreferencePage.Label.EnableLivePreview=Activer l'aperçu direct dans le géné
 
 ChartReportItemUIImpl.log.ReceivedNotification=Réception d'une notification de rejet des données du graphique étendu.
 ChartReportItemViewProvider.BarChart.Text.Title=Titre du graphique à barres
+ChartReportItemViewProvider.ChartViewName=Graphique
 
 ChartExpressionProvider.Category.ChartVariables=Variables
 ChartExpressionProvider.ChartVariables.DataPoints=Point de données du graphique

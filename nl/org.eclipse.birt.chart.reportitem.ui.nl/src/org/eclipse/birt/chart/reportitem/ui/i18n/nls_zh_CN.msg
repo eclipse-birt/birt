@@ -27,6 +27,7 @@ ChartPreferencePage.Label.EnableLivePreview=在图表生成器中启用实时预览(&E)
 
 ChartReportItemUIImpl.log.ReceivedNotification=收到关于清除扩展图表的通知。
 ChartReportItemViewProvider.BarChart.Text.Title=条形图标题
+ChartReportItemViewProvider.ChartViewName=图表
 
 ChartExpressionProvider.Category.ChartVariables=变量
 ChartExpressionProvider.ChartVariables.DataPoints=图表数据点
