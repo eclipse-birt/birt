@@ -109,7 +109,7 @@ public class ChartReportItemViewProvider extends ReportItemViewAdapter
 	 */
 	public String getViewName( )
 	{
-		return "Chart"; //$NON-NLS-1$
+		return Messages.getString("ChartReportItemViewProvider.ChartViewName"); //$NON-NLS-1$
 	}
 
 }
