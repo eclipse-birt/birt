@@ -735,7 +735,7 @@ public final class EventHandlers
     	.append("    		return;		\n") //$NON-NLS-1$
     	.append("    	}		\n") //$NON-NLS-1$
     	.append("    	if ( url.indexOf(\"javascript:\", 0) == 0 ) {		\n") //$NON-NLS-1$
-    	.append("    		url;		\n") //$NON-NLS-1$
+    	.append("    		eval( url.substring( 11, url.length -1 ) );		\n") //$NON-NLS-1$
     	.append("    		return;		\n") //$NON-NLS-1$
     	.append("    	}		\n") //$NON-NLS-1$
     	.append("    	var target = 'null';		\n") //$NON-NLS-1$
