@@ -27,7 +27,6 @@ import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -255,19 +254,6 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 			gd.widthHint = 200;
 			stParameters.setLayoutData( gd );
 			stParameters.setText( Messages.getString( "TriggerDataComposite.Label.OptionalURLParameters" ) ); //$NON-NLS-1$
-			StyleRange[] sr = {
-					new StyleRange( 0,
-							4,
-							parent.getForeground( ),
-							parent.getBackground( ),
-							SWT.ITALIC ),
-					new StyleRange( 4,
-							stParameters.getText( ).length( ) - 4,
-							parent.getForeground( ),
-							parent.getBackground( ),
-							SWT.NORMAL )
-			};
-			stParameters.setStyleRanges( sr );
 			stParameters.setBackground( parent.getBackground( ) );
 		}
 
