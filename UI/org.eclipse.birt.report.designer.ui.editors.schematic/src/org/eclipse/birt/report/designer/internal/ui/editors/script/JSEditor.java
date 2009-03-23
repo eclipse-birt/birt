@@ -185,6 +185,7 @@ public class JSEditor extends EditorPart implements IColleague
 
 	private Object editObject;
 
+	private boolean isSaveScript = false;
 	/**
 	 * Palette page
 	 */
@@ -335,6 +336,13 @@ public class JSEditor extends EditorPart implements IColleague
 	public void doSave( IProgressMonitor monitor )
 	{
 		saveModel( );
+	}
+	
+	public void doSave( IProgressMonitor monitor, boolean chnageText )
+	{
+		isSaveScript = !chnageText;
+		saveModel( );
+		isSaveScript = false;
 	}
 
 	public boolean isDirty( )
@@ -1434,7 +1442,7 @@ public class JSEditor extends EditorPart implements IColleague
 	 */
 	private void saveModel( )
 	{
-		if ( isCodeModified( ) && editObject instanceof DesignElementHandle )
+		if ( isCodeModified( ) && editObject instanceof DesignElementHandle && !isSaveScript)
 		{
 			saveEditorContentsDE( (DesignElementHandle) editObject );
 		}

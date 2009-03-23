@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.editors.pages;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.logging.Level;
@@ -137,6 +135,8 @@ public class ReportScriptFormPage extends ReportFormPage
 			reloadEditorInput( );
 			doSave( null );
 		}
+		
+		jsEditor.setFocus( );
 		previouPage = prePage;
 		// if ( prePage != null && jsEditor != null )
 		// {
@@ -250,7 +250,14 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public void doSave( IProgressMonitor monitor )
 	{
-		jsEditor.doSave( monitor );
+		if (jsEditor instanceof JSEditor)
+		{
+			((JSEditor)jsEditor).doSave( monitor, false );
+		}
+		else
+		{
+			jsEditor.doSave( monitor );
+		}
 		IReportProvider provider = getProvider( );
 		if ( provider != null )
 		{
