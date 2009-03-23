@@ -795,7 +795,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		groupGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		Label nameLabel = new Label( groupGroup, SWT.NONE );
-		nameLabel.setText( Messages.getString( "LevelDialog.Label.Name" ) ); //$NON-NLS-1$
+		nameLabel.setText( Messages.getString( "LevelPropertyDialog.Name" ) ); //$NON-NLS-1$
 		nameText = new Text( groupGroup, SWT.BORDER );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 3;
