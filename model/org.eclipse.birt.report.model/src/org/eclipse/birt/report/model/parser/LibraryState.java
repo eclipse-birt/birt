@@ -66,19 +66,8 @@ public class LibraryState extends ModuleState
 
 		// do the compatibility work for the library without the theme
 
-		Theme theme = null;
-
-		ContainerSlot themes = module.getSlot( ILibraryModel.THEMES_SLOT );
-		for ( int i = 0; i < themes.getCount( ); i++ )
-		{
-			Theme tmpTheme = (Theme) themes.getContent( i );
-			if ( ModelMessages.getMessage( IThemeModel.DEFAULT_THEME_NAME )
-					.equalsIgnoreCase( tmpTheme.getName( ) ) )
-			{
-				theme = tmpTheme;
-				break;
-			}
-		}
+		Theme theme = ( (Library) module ).findNativeTheme( ModelMessages
+				.getMessage( IThemeModel.DEFAULT_THEME_NAME ) );
 
 		if ( theme == null )
 		{

@@ -691,6 +691,9 @@ public class DesignSession
 	{
 		Library library = openLibrary( templateName );
 		library.setFileName( null );
+
+		// handle default theme
+		handleDefaultTheme( library );
 		return library;
 	}
 
@@ -791,20 +794,43 @@ public class DesignSession
 		library.setID( library.getNextID( ) );
 		library.addElementID( library );
 
-		Theme theme = new Theme( ModelMessages
-				.getMessage( IThemeModel.DEFAULT_THEME_NAME ) );
-		library.setProperty( IModuleModel.THEME_PROP, new ElementRefValue(
-				null, theme ) );
-		ModelUtil.insertCompatibleThemeToLibrary( library, theme );
-
-		// set initial id.
-
-		theme.setID( library.getNextID( ) );
-		library.addElementID( theme );
+		handleDefaultTheme( library );
 
 		library.setValid( true );
 		libraries.add( library );
 		return library;
+	}
+
+	/**
+	 * Handles some cases for default theme. If no value is set for 'theme'
+	 * property in library and there is no theme in the theme slot named as
+	 * 'defaulttheme', this method will create a default theme, insert it into
+	 * library theme slot and then set the theme property reference to it.
+	 * 
+	 * @param library
+	 */
+	private void handleDefaultTheme( Library library )
+	{
+		String themeName = library.getThemeName( );
+		if ( themeName == null )
+		{
+			String defaultThemeName = ModelMessages
+					.getMessage( IThemeModel.DEFAULT_THEME_NAME );
+
+			Theme theme = library.findNativeTheme( defaultThemeName );
+			if ( theme != null )
+				return;
+
+			theme = new Theme( defaultThemeName );
+			library.setProperty( IModuleModel.THEME_PROP, new ElementRefValue(
+					null, theme ) );
+			ModelUtil.insertCompatibleThemeToLibrary( library, theme );
+
+			// set initial id.
+
+			theme.setID( library.getNextID( ) );
+			library.addElementID( theme );
+		}
 	}
 
 	/**

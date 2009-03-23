@@ -209,7 +209,7 @@ public class DesignSessionTest extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 
-	public void testCreateLibraryFromTemplate( ) throws DesignFileException
+	public void testCreateLibraryFromTemplate( ) throws Exception
 	{
 		DesignSession session = new DesignSession( null );
 		URL url = getResource( "input/CreateLibraryFromTemplateTest.xml" ); //$NON-NLS-1$
@@ -226,6 +226,12 @@ public class DesignSessionTest extends BaseTestCase
 				"aqua", label.getProperty( library.getRoot( ), IStyleModel.BACKGROUND_COLOR_PROP ) ); //$NON-NLS-1$
 
 		assertEquals( null, library.getFileName( ) );
+		
+		// this library template has no theme, then create
+		url = getResource( "input/CreateLibraryFromTemplateTest_1.xml" ); //$NON-NLS-1$
+		library = session.createLibraryFromTemplate( url.toString( ) );
+		save( library.getModuleHandle( ) );
+		assertTrue( compareFile( "DesignSessionTest_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 
