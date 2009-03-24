@@ -1769,7 +1769,7 @@ GridProvider.action.text=行の挿入(&S)
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=グループの詳細
-GroupDialog.Label.Bookmark=ブックマーク :
+GroupDialog.Label.Bookmark=ブックマーク(&B) :
 GroupDialog.Dialog.TOCGroup=目次
 GroupDialog.Dialog.TOC=項目の式(&T) :
 GroupDialog.Dialog.TOCStyle=スタイル(&Y) :
@@ -1782,23 +1782,24 @@ GroupDialog.Label.GroupOn=グループ化(&G) :
 GroupDialog.Label.HeaderFooter=ヘッダとフッタ
 GroupDialog.Label.IncludeFooter=グループフッタを含める(&F)
 GroupDialog.Label.IncludeHeader=グループヘッダを含める(&H)
-GroupDialog.Label.Interval=間隔(&I) :
-GroupDialog.PageBreakBefore=次の前で改ページ :
-GroupDialog.PageBreakAfter=次の後で改ページ :
-GroupDialog.PageBreakInside=途中で改ページ :
-GroupDialog.Label.IntervalBase=丸めた数値を間隔の基準値として使用する(&U) :
-GroupDialog.Label.Name=名前(&N) :
-GroupDialog.Label.Range=範囲(&R) :
+GroupDialog.Label.Interval=Inter&val:
+GroupDialog.PageBreakBefore=Bef&ore:
+GroupDialog.PageBreakAfter=A&fter:
+GroupDialog.PageBreakInside=途中で改ページ(&I) :
+GroupDialog.Label.IntervalBase=Use fi&xed base value for interval:
+GroupDialog.Label.Name=Na&me:
+GroupDialog.Label.Range=Rang&e:
 GroupDialog.Tab.Binding=データのバインド
 GroupDialog.Tab.Filter=フィルタ
 GroupDialog.Tab.Sorting=ソート
-GroupDialog.RepeatHeader=ヘッダの繰り返し
+GroupDialog.RepeatHeader=Re&peat Header
 GroupDialog.Title.Edit=グループの編集
 GroupDialog.Title.New=グループの新規作成
 GroupDialog.PageBreak=ページ区切り
-GroupDialog.buttion.HideDetail=詳細の非表示(&D)
+GroupDialog.buttion.HideDetail=&Hide Detail
 GroupDialog.toolTipText.openExprButton=式ビルダを開く
-
+GroupDialog.Button.Ascending=A&scending
+GroupDialog.Button.Descending=Des&cending
 ###########################################################
 #GroupHandleProvider properties
 

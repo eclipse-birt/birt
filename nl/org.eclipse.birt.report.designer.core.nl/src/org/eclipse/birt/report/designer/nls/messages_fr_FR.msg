@@ -1769,7 +1769,7 @@ GridProvider.action.text=In&sérer une ligne
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=Détails du groupe
-GroupDialog.Label.Bookmark=Signet :
+GroupDialog.Label.Bookmark=&Signet :
 GroupDialog.Dialog.TOCGroup=Table des matières
 GroupDialog.Dialog.TOC=Express&ion d'élément :
 GroupDialog.Dialog.TOCStyle=St&yle :
@@ -1782,23 +1782,24 @@ GroupDialog.Label.GroupOn=Re&grouper :
 GroupDialog.Label.HeaderFooter=En-tête et pied de page
 GroupDialog.Label.IncludeFooter=&Inclure un pied de page de groupe
 GroupDialog.Label.IncludeHeader=&Inclure un en-tête de groupe
-GroupDialog.Label.Interval=&Intervalle :
-GroupDialog.PageBreakBefore=Avant :
-GroupDialog.PageBreakAfter=Après :
-GroupDialog.PageBreakInside=A l'intérieur :
-GroupDialog.Label.IntervalBase=&Utiliser une valeur de base fixe pour l'intervalle :
-GroupDialog.Label.Name=&Nom :
-GroupDialog.Label.Range=&Plage :
+GroupDialog.Label.Interval=Inter&val:
+GroupDialog.PageBreakBefore=Bef&ore:
+GroupDialog.PageBreakAfter=A&fter:
+GroupDialog.PageBreakInside=&A l'intérieur :
+GroupDialog.Label.IntervalBase=Use fi&xed base value for interval:
+GroupDialog.Label.Name=Na&me:
+GroupDialog.Label.Range=Rang&e:
 GroupDialog.Tab.Binding=Liaisons de données
 GroupDialog.Tab.Filter=Filtres
 GroupDialog.Tab.Sorting=Tri en cours
-GroupDialog.RepeatHeader=Répéter l'en-tête
+GroupDialog.RepeatHeader=Re&peat Header
 GroupDialog.Title.Edit=Modifier le groupe
 GroupDialog.Title.New=Nouveau groupe
 GroupDialog.PageBreak=Saut de page
-GroupDialog.buttion.HideDetail=Masquer des &détails
+GroupDialog.buttion.HideDetail=&Hide Detail
 GroupDialog.toolTipText.openExprButton=Ouvrir le Générateur d'expression
-
+GroupDialog.Button.Ascending=A&scending
+GroupDialog.Button.Descending=Des&cending
 ###########################################################
 #GroupHandleProvider properties
 

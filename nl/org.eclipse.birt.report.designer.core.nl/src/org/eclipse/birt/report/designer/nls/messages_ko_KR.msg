@@ -1769,7 +1769,7 @@ GridProvider.action.text=행 삽입(&S)
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=그룹 상세 정보
-GroupDialog.Label.Bookmark=책갈피:
+GroupDialog.Label.Bookmark=책갈피(&B):
 GroupDialog.Dialog.TOCGroup=목차
 GroupDialog.Dialog.TOC=항목 식(&T):
 GroupDialog.Dialog.TOCStyle=스타일(&Y)
@@ -1782,23 +1782,24 @@ GroupDialog.Label.GroupOn=그룹화 대상(&G):
 GroupDialog.Label.HeaderFooter=머리글 및 바닥글
 GroupDialog.Label.IncludeFooter=그룹 바닥글 포함(&F)
 GroupDialog.Label.IncludeHeader=그룹 머리글 포함(&H)
-GroupDialog.Label.Interval=간격(&I):
-GroupDialog.PageBreakBefore=다음 이전:
-GroupDialog.PageBreakAfter=다음 이후:
-GroupDialog.PageBreakInside=안쪽:
-GroupDialog.Label.IntervalBase=간격에 고정된 기본 값 사용(&U):
-GroupDialog.Label.Name=이름(&N):
-GroupDialog.Label.Range=범위(&R):
+GroupDialog.Label.Interval=Inter&val:
+GroupDialog.PageBreakBefore=Bef&ore:
+GroupDialog.PageBreakAfter=A&fter:
+GroupDialog.PageBreakInside=안쪽(&I):
+GroupDialog.Label.IntervalBase=Use fi&xed base value for interval:
+GroupDialog.Label.Name=Na&me:
+GroupDialog.Label.Range=Rang&e:
 GroupDialog.Tab.Binding=데이터 바인딩
 GroupDialog.Tab.Filter=필터
 GroupDialog.Tab.Sorting=정렬
-GroupDialog.RepeatHeader=머리글 반복
+GroupDialog.RepeatHeader=Re&peat Header
 GroupDialog.Title.Edit=그룹 편집
 GroupDialog.Title.New=새 그룹
 GroupDialog.PageBreak=페이지 나누기
-GroupDialog.buttion.HideDetail=상세 정보 숨기기(&D)
+GroupDialog.buttion.HideDetail=&Hide Detail
 GroupDialog.toolTipText.openExprButton=식 빌더 열기
-
+GroupDialog.Button.Ascending=A&scending
+GroupDialog.Button.Descending=Des&cending
 ###########################################################
 #GroupHandleProvider properties
 

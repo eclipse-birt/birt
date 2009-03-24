@@ -1769,7 +1769,7 @@ GridProvider.action.text=插入行(&S)
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=组详细资料
-GroupDialog.Label.Bookmark=书签:
+GroupDialog.Label.Bookmark=书签(&B):
 GroupDialog.Dialog.TOCGroup=目录
 GroupDialog.Dialog.TOC=项目表达式(&T)
 GroupDialog.Dialog.TOCStyle=样式(&Y):
@@ -1782,23 +1782,24 @@ GroupDialog.Label.GroupOn=分组依据(&G):
 GroupDialog.Label.HeaderFooter=页眉和页脚
 GroupDialog.Label.IncludeFooter=包含组页脚(&F)
 GroupDialog.Label.IncludeHeader=包含组页眉(&H)
-GroupDialog.Label.Interval=间隔(&I):
-GroupDialog.PageBreakBefore=之前:
-GroupDialog.PageBreakAfter=之后:
-GroupDialog.PageBreakInside=内部:
-GroupDialog.Label.IntervalBase=对间隔使用固定基值(&U):
-GroupDialog.Label.Name=名称(&N):
-GroupDialog.Label.Range=区域(&R):
+GroupDialog.Label.Interval=Inter&val:
+GroupDialog.PageBreakBefore=Bef&ore:
+GroupDialog.PageBreakAfter=A&fter:
+GroupDialog.PageBreakInside=内部(&I):
+GroupDialog.Label.IntervalBase=Use fi&xed base value for interval:
+GroupDialog.Label.Name=Na&me:
+GroupDialog.Label.Range=Rang&e:
 GroupDialog.Tab.Binding=数据绑定
 GroupDialog.Tab.Filter=筛选器
 GroupDialog.Tab.Sorting=排序
-GroupDialog.RepeatHeader=重复页眉
+GroupDialog.RepeatHeader=Re&peat Header
 GroupDialog.Title.Edit=编辑组
 GroupDialog.Title.New=新建组
 GroupDialog.PageBreak=分页符
-GroupDialog.buttion.HideDetail=隐藏详细信息(&D)
+GroupDialog.buttion.HideDetail=&Hide Detail
 GroupDialog.toolTipText.openExprButton=打开表达式生成器
-
+GroupDialog.Button.Ascending=A&scending
+GroupDialog.Button.Descending=Des&cending
 ###########################################################
 #GroupHandleProvider properties
 
