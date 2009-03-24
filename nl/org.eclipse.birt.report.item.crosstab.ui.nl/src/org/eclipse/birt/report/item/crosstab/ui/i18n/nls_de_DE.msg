@@ -73,7 +73,7 @@ ShowSummaryFieldDialog.ViewStatus=Aktuelle Ansicht beibehalten
 
 DeleteBindingDialog.Title=Nicht verwendete Bindungen entfernen?
 DeleteBindingDialog.Message=Dieser Vorgang führt zu nicht verwendeten Datenbindungen.\n\nMöchten Sie nicht verwendete Bindungen entfernen?
-DeleteBindingDialog.ToggleMessage=Diese Nachricht nicht wieder anzeigen
+DeleteBindingDialog.ToggleMessage=&Don't show this message again
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=Spaltenbereich
@@ -284,7 +284,7 @@ DataColumnXTabDropAdapter.DataCube=Datenquader
 
 CubeBuilder.warning.title=Kreuztabelle
 CubeBuilder.warning.message=Ein Datenquader wurde erfolgreich erstellt.\nUm die Erstellung einer Kreuztabelle abzuschließen, ziehen Sie die Felder vom erstellten Datenquader in den Kreuztabellen-Container.
-CubeBuilder.warning.prompt=Diese Nachricht nicht mehr anzeigen
+CubeBuilder.warning.prompt=&Don't show this message again
 
 ###########################################################
 #Crosstab drag tracker

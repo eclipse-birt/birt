@@ -73,7 +73,7 @@ ShowSummaryFieldDialog.ViewStatus=Conserver la Vue actuelle
 
 DeleteBindingDialog.Title=Supprimer les liaisons inutilisées ?
 DeleteBindingDialog.Message=Cette action donnera des liaisons de données inutilisées.\n\nVoulez-vous supprimer les liaisons inutilisées ?
-DeleteBindingDialog.ToggleMessage=Ne plus afficher ce message
+DeleteBindingDialog.ToggleMessage=&Don't show this message again
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=Zone de colonne
@@ -284,7 +284,7 @@ DataColumnXTabDropAdapter.DataCube=Cube de données
 
 CubeBuilder.warning.title=Tableau croisé
 CubeBuilder.warning.message=La création d'un cube de données a réussi.\nPour finaliser la création d'un tableau croisé, faites glisser les champs du cube de données créé vers le conteneur du tableau croisé.
-CubeBuilder.warning.prompt=Ne plus afficher ce message
+CubeBuilder.warning.prompt=&Don't show this message again
 
 ###########################################################
 #Crosstab drag tracker

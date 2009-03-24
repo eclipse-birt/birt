@@ -73,7 +73,7 @@ ShowSummaryFieldDialog.ViewStatus=現在のビューの保存
 
 DeleteBindingDialog.Title=未使用のバインドの削除
 DeleteBindingDialog.Message=この操作により、未使用のデータバインドが削除されます。\n\n未使用のバインドを削除しますか ?
-DeleteBindingDialog.ToggleMessage=今後、このメッセージを表示しない
+DeleteBindingDialog.ToggleMessage=&Don't show this message again
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=列領域
@@ -284,7 +284,7 @@ DataColumnXTabDropAdapter.DataCube=データキューブ
 
 CubeBuilder.warning.title=クロスタブ
 CubeBuilder.warning.message=データキューブが正しく作成されました。\nこのデータキューブのフィールドをクロスタブのコンテナにドラッグして、クロスタブの作成を完了してください。
-CubeBuilder.warning.prompt=今後、このメッセージを表示しない
+CubeBuilder.warning.prompt=&Don't show this message again
 
 ###########################################################
 #Crosstab drag tracker

@@ -73,7 +73,7 @@ ShowSummaryFieldDialog.ViewStatus=保留当前视图
 
 DeleteBindingDialog.Title=删除未使用的绑定?
 DeleteBindingDialog.Message=此操作将产生未使用的数据绑定。\n\n是否要删除未使用的绑定?
-DeleteBindingDialog.ToggleMessage=不再显示此消息
+DeleteBindingDialog.ToggleMessage=&Don't show this message again
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=列区域
@@ -284,7 +284,7 @@ DataColumnXTabDropAdapter.DataCube=多维数据集
 
 CubeBuilder.warning.title=交叉表
 CubeBuilder.warning.message=已成功地创建多维数据集。\n要完成交叉表创建，请将字段从创建的多维数据集拖动到交叉表容器。
-CubeBuilder.warning.prompt=不再显示此消息
+CubeBuilder.warning.prompt=&Don't show this message again
 
 ###########################################################
 #Crosstab drag tracker

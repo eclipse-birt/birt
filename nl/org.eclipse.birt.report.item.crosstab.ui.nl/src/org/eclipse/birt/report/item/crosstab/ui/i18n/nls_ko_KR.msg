@@ -73,7 +73,7 @@ ShowSummaryFieldDialog.ViewStatus=현재 보기 유지
 
 DeleteBindingDialog.Title=사용하지 않는 바인딩을 제거하시겠습니까?
 DeleteBindingDialog.Message=이 작업을 수행하면 사용하지 않는 데이터 바인딩이 발생합니다.\n\n사용하지 않는 바인딩을 제거하시겠습니까?
-DeleteBindingDialog.ToggleMessage=이 메시지를 다시 표시 안 함
+DeleteBindingDialog.ToggleMessage=&Don't show this message again
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=열 영역
@@ -284,7 +284,7 @@ DataColumnXTabDropAdapter.DataCube=데이터 큐브
 
 CubeBuilder.warning.title=크로스 탭
 CubeBuilder.warning.message=데이터 큐브가 생성되었습니다.\n크로스 탭 생성을 종료하려면 생성된 데이터 큐브의 필드를 크로스 탭 컨테이너로 끌어 놓습니다.
-CubeBuilder.warning.prompt=이 메시지를 다시 표시 안 함
+CubeBuilder.warning.prompt=&Don't show this message again
 
 ###########################################################
 #Crosstab drag tracker

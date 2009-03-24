@@ -73,7 +73,7 @@ ShowSummaryFieldDialog.ViewStatus=Mantener vista actual
 
 DeleteBindingDialog.Title=¿Eliminar los enlaces no utilizados?
 DeleteBindingDialog.Message=Esta acción producirá enlaces de datos no utilizados.\n\n¿Desea eliminar los enlaces no utilizados?
-DeleteBindingDialog.ToggleMessage=No volver a mostrar este mensaje
+DeleteBindingDialog.ToggleMessage=&Don't show this message again
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=Área de columna
@@ -284,7 +284,7 @@ DataColumnXTabDropAdapter.DataCube=Cubo de datos
 
 CubeBuilder.warning.title=Tabla de referencias cruzadas
 CubeBuilder.warning.message=Se ha creado un cubo de datos correctamente.\nPara terminar de crear una tabla de referencias cruzadas, arrastre los campos desde el cubo de datos que ha creado hasta el contenedor de tablas de referencias cruzadas.
-CubeBuilder.warning.prompt=No volver a mostrar este mensaje
+CubeBuilder.warning.prompt=&Don't show this message again
 
 ###########################################################
 #Crosstab drag tracker
