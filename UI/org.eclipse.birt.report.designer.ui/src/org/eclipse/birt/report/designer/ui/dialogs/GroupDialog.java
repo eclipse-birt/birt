@@ -691,9 +691,11 @@ public class GroupDialog extends BaseDialog
 		sortingGroupComposite.setLayout( new GridLayout( ) );
 
 		ascending = new Button( sortingGroupComposite, SWT.RADIO );
-		ascending.setText( sortByAscending.getDisplayName( ) );
+		// ascending.setText( sortByAscending.getDisplayName( ) );
+		ascending.setText( Messages.getString( "GroupDialog.Button.Ascending" ) );
 		descending = new Button( sortingGroupComposite, SWT.RADIO );
-		descending.setText( sortByDescending.getDisplayName( ) );
+		// descending.setText( sortByDescending.getDisplayName( ) );
+		descending.setText( Messages.getString( "GroupDialog.Button.Descending" ) );
 
 		Group pagebreakGroup = new Group( composite, SWT.NONE );
 
