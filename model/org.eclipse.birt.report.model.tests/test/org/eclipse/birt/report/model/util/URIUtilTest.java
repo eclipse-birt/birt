@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.api.util.URIUtil;
  * 
  * <p>
  * 
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -322,11 +321,13 @@ public class URIUtilTest extends BaseTestCase
 				.resolveAbsolutePath( "/birt//sampleReports//reportdesigns//", //$NON-NLS-1$
 						"../lib/lib1.rptlibrary" ) ); //$NON-NLS-1$
 
-		assertEquals( "." + File.separator + "reportdesigns" + File.separator //$NON-NLS-1$ //$NON-NLS-2$
-				+ "lib" + File.separator //$NON-NLS-1$
-				+ "lib1.rptlibrary", URIUtil.resolveAbsolutePath( //$NON-NLS-1$
+		String tmpAbsolutePath = URIUtil.resolveAbsolutePath( //$NON-NLS-1$
 				"./reportdesigns", //$NON-NLS-1$
-				"./lib/lib1.rptlibrary" ) ); //$NON-NLS-1$
+				"./lib/lib1.rptlibrary" ); //$NON-NLS-1$
+		String tmpPath = File.separator + "reportdesigns" + File.separator //$NON-NLS-1$ //$NON-NLS-2$
+				+ "lib" + File.separator //$NON-NLS-1$
+				+ "lib1.rptlibrary"; //$NON-NLS-1$
+		assertTrue( tmpAbsolutePath.endsWith( tmpPath ) );
 
 	}
 

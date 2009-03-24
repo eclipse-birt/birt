@@ -1019,7 +1019,6 @@ public class ReportDesignHandleTest extends BaseTestCase
 		URL tmpURL = designHandle.getSystemId( );
 
 		assertEquals( "bundleresource", tmpURL.getProtocol( ) ); //$NON-NLS-1$
-		assertTrue( tmpURL.getHost( ).endsWith( "22868" ) ); //$NON-NLS-1$
 		assertEquals(
 				"/samplereports/Reporting Feature Examples/Combination Chart/", //$NON-NLS-1$
 				tmpURL.getPath( ) );
