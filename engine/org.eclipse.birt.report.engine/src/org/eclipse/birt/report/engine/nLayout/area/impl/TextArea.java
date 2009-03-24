@@ -45,6 +45,11 @@ public class TextArea extends AbstractArea implements ITextArea
 	 * checks if line break happens
 	 */
 	protected boolean lineBreak;
+	
+	/**
+	 * flag to show if the line is blank
+	 */
+	protected boolean blankLine = false;
 
 	/**
 	 * the max width of the TextArea( in 1/1000 points )
@@ -76,6 +81,12 @@ public class TextArea extends AbstractArea implements ITextArea
 		this.style = style;
 		this.height = (int) ( style.getFontInfo( ).getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
 	}
+	
+	public TextArea( TextStyle style )
+	{
+		this.style = style;
+		this.height = (int) ( style.getFontInfo( ).getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
+	}
 
 	public void setRunLevel( int runLevel )
 	{
@@ -104,7 +115,7 @@ public class TextArea extends AbstractArea implements ITextArea
 
 	private String calculateText( )
 	{
-		if ( textLength == 0 )
+		if( blankLine )
 		{
 			return "";
 		}

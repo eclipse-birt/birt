@@ -113,7 +113,7 @@ public class TextCompositor
 			lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
 			return null;
 		}
-		return textArea;	
+		return textArea;
 	}
 
 	private TextArea getNextTextArea( int maxLineWidth )
@@ -186,11 +186,12 @@ public class TextCompositor
 			textStyle = TextAreaLayout.buildTextStyle( textContent,
 					fontInfo );
 		}
-		TextArea area = new TextArea( textContent.getText( ), textStyle );
+		TextArea area = new TextArea( /*textContent.getText( ),*/ textStyle );
 		area.setOffset( offset );
 		if ( blankLine )
 		{
 			area.lineBreak = true;
+			area.blankLine = true;
 		}
 		else
 		{
