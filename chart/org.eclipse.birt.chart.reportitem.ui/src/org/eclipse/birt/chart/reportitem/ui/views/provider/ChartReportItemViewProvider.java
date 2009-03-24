@@ -94,7 +94,8 @@ public class ChartReportItemViewProvider extends ReportItemViewAdapter
 		String name = ReportPlugin.getDefault( )
 				.getCustomName( ChartReportItemConstants.CHART_EXTENSION_NAME );
 		ExtendedItemHandle itemHandle = host.getElementFactory( )
-				.newExtendedItem( name, getViewName( ) );
+				.newExtendedItem( name,
+						ChartReportItemConstants.CHART_EXTENSION_NAME );
 
 		itemHandle.getReportItem( )
 				.setProperty( ChartReportItemUtil.PROPERTY_CHART, cm );
