@@ -840,10 +840,14 @@ public abstract class QueryExecutor implements IQueryExecutor
 			List queryFilters, List temporaryComputedColumns ) throws DataException
 	{
 		List result = new ArrayList( );
-		List allFilter = new ArrayList();
+		/*List allFilter = new ArrayList();
 		allFilter.addAll( dataSetFilters );
 		allFilter.addAll( queryFilters );
 		prepareFilter( cx, allFilter, temporaryComputedColumns, result );
+		*/
+		
+		prepareFilter( cx, dataSetFilters,temporaryComputedColumns, result );
+		prepareFilter( cx, queryFilters,temporaryComputedColumns, result );
 		return result;
 	}
 
@@ -878,16 +882,17 @@ public abstract class QueryExecutor implements IQueryExecutor
 
 					if ( name == null && index < 0 )
 					{
+						int currentIndex = result.size( );
 						// If failed to treate filter key as a column reference
 						// expression
 						// then treat it as a computed column expression
 						temporaryComputedColumns.add( new ComputedColumn( "_{$TEMP_FILTER_"
-								+ i + "$}_",
+								+ currentIndex + "$}_",
 								exprText,
 								DataType.ANY_TYPE ) );
 						it.remove( );
 						result.add( new FilterDefinition( new ConditionalExpression( new ScriptExpression( String.valueOf( "dataSetRow[\"_{$TEMP_FILTER_"
-								+ i + "$}_\"]" ) ),
+								+ currentIndex + "$}_\"]" ) ),
 								ce.getOperator( ),
 								ce.getOperand1( ),
 								ce.getOperand2( ) ) ) );
