@@ -64,7 +64,7 @@ public class ChartImageManager
 	 */
 	public static String imageFolder = null;
 
-	private static List sessionIds = new ArrayList( );
+	private static List<String> sessionIds = new ArrayList<String>( );
 
 	private static int imageIndex = 0;
 
@@ -321,7 +321,7 @@ public class ChartImageManager
 	{
 		for ( int i = 0, n = sessionIds.size( ); i < n; i++ )
 		{
-			String sessionId = (String) sessionIds.get( i );
+			String sessionId = sessionIds.get( i );
 			clearSessionFiles( sessionId );
 		}
 		sessionIds.clear( );

@@ -28,7 +28,6 @@ import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.viewer.internal.util.ChartImageManager;
 import org.eclipse.birt.chart.viewer.internal.util.ChartWebHelper;
 import org.eclipse.birt.chart.viewer.internal.util.ImageHTMLEmitter;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * 
@@ -142,6 +141,10 @@ public class ChartRendererTag extends TagSupport
 		emitter.width = (int) this.width;
 		emitter.id = id;
 		emitter.src = src;
+		emitter.alt = chartModel != null ? chartModel.getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.getValue( ) : id;
 		emitter.imageMap = imageMap;
 		return emitter;
 	}

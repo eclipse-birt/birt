@@ -37,11 +37,11 @@ public class ChartWebHelper
 {
 
 	/**
-	 * Parses a xml file to chart model instance
+	 * Parses a XML file to chart model instance
 	 * 
 	 * @param strPath
-	 *            chart xml file path
-	 * @return
+	 *            chart XML file path
+	 * @return chart model
 	 * @throws ChartException
 	 */
 	public static Chart parseChart( String strPath ) throws ChartException
@@ -75,7 +75,7 @@ public class ChartWebHelper
 	 * 
 	 * @param type
 	 *            output type
-	 * @return
+	 * @return supported or not
 	 */
 	public static boolean checkOutputType( String type )
 	{
@@ -90,25 +90,25 @@ public class ChartWebHelper
 	}
 
 	/**
-	 * Checks if current chart has runtime datasets.
+	 * Checks if current chart has runtime data sets.
 	 * 
 	 * @param cm
 	 *            chart model
-	 * @return
+	 * @return has runtime data or not
 	 */
 	public static boolean isChartInRuntime( Chart cm )
 	{
 		if ( cm instanceof ChartWithAxes )
 		{
-			Axis bAxis = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
-			EList oAxes = bAxis.getAssociatedAxes( );
+			Axis bAxis = ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
+			EList<Axis> oAxes = bAxis.getAssociatedAxes( );
 			for ( int i = 0; i < oAxes.size( ); i++ )
 			{
-				Axis oAxis = (Axis) oAxes.get( i );
-				EList oSeries = oAxis.getSeriesDefinitions( );
+				Axis oAxis = oAxes.get( i );
+				EList<SeriesDefinition> oSeries = oAxis.getSeriesDefinitions( );
 				for ( int j = 0; j < oSeries.size( ); j++ )
 				{
-					SeriesDefinition sd = (SeriesDefinition) oSeries.get( j );
+					SeriesDefinition sd = oSeries.get( j );
 					if ( sd.getRunTimeSeries( ).size( ) > 0 )
 					{
 						return true;
@@ -118,12 +118,12 @@ public class ChartWebHelper
 		}
 		else if ( cm instanceof ChartWithoutAxes )
 		{
-			SeriesDefinition bsd = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+			SeriesDefinition bsd = ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
 					.get( 0 );
-			EList osds = bsd.getSeriesDefinitions( );
+			EList<SeriesDefinition> osds = bsd.getSeriesDefinitions( );
 			for ( int i = 0; i < osds.size( ); i++ )
 			{
-				SeriesDefinition osd = (SeriesDefinition) osds.get( i );
+				SeriesDefinition osd = osds.get( i );
 				if ( osd.getRunTimeSeries( ).size( ) > 0 )
 				{
 					return true;
