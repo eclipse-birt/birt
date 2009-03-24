@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartFilte
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.CustomPreviewTable;
+import org.eclipse.birt.chart.ui.swt.ColumnNamesTableDragListener;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DefaultChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
@@ -51,6 +52,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -80,7 +82,12 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -90,6 +97,12 @@ import org.eclipse.swt.dnd.DragSource;
 import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DragSourceListener;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -100,6 +113,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
@@ -112,6 +128,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		Listener
 {
 
+	private static final String KEY_PREVIEW_DATA = "Preview Data"; //$NON-NLS-1$
 	final private ExtendedItemHandle itemHandle;
 	final private ReportDataServiceProvider dataProvider;
 
@@ -126,6 +143,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private Composite cmpStack = null;
 	private Composite cmpCubeTree = null;
 	private Composite cmpDataPreview = null;
+	private Composite cmpColumnsList = null;
 
 	private CustomPreviewTable tablePreview = null;
 	private TreeViewer cubeTreeViewer = null;
@@ -146,6 +164,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private final int iSupportedDataItems;
 
 	private List<Integer> selectDataTypes = new ArrayList<Integer>( );
+	private Button btnShowDataPreviewA;
+	private Button btnShowDataPreviewB;
+	private TableViewer tableViewerColumns;
 
 	public StandardChartDataSheet( ExtendedItemHandle itemHandle,
 			ReportDataServiceProvider dataProvider, int iSupportedDataItems )
@@ -253,7 +274,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		cmpCubeTree = ChartUIUtil.createCompositeWrapper( cmpStack );
 		cmpDataPreview = ChartUIUtil.createCompositeWrapper( cmpStack );
-
+		
+		createColumnsViewerArea( cmpStack );
+		
 		Label label = new Label( cmpCubeTree, SWT.NONE );
 		{
 			label.setText( Messages.getString( "StandardChartDataSheet.Label.CubeTree" ) ); //$NON-NLS-1$
@@ -360,7 +383,11 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				description.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
 			}
 		}
-
+		
+		btnShowDataPreviewA = new Button( cmpDataPreview, SWT.CHECK );
+		btnShowDataPreviewA.setText( Messages.getString("StandardChartDataSheet.Label.ShowDataPreview") ); //$NON-NLS-1$
+		btnShowDataPreviewA.addListener( SWT.Selection, this );
+		
 		tablePreview = new CustomPreviewTable( cmpDataPreview, SWT.SINGLE
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
@@ -379,6 +406,239 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return cmpStack;
 	}
 
+	private void createColumnsViewerArea( Composite parent )
+	{
+		cmpColumnsList = ChartUIUtil.createCompositeWrapper(  parent );
+		
+		Label label = new Label( cmpColumnsList, SWT.NONE );
+		{
+			label.setText( Messages.getString( "StandardChartDataSheet.Label.DataPreview" ) ); //$NON-NLS-1$
+			label.setFont( JFaceResources.getBannerFont( ) );
+		}
+
+		if ( !dataProvider.isInXTabMeasureCell( )
+				&& !dataProvider.isInMultiView( ) )
+		{
+			// No description if dnd is disabled
+			Label description = new Label( cmpColumnsList, SWT.WRAP );
+			{
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				description.setLayoutData( gd );
+				description.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
+			}
+		}
+		
+		btnShowDataPreviewB = new Button( cmpColumnsList, SWT.CHECK );
+		btnShowDataPreviewB.setText( Messages.getString("StandardChartDataSheet.Label.ShowLabelPreview") ); //$NON-NLS-1$
+		btnShowDataPreviewB.addListener( SWT.Selection, this );
+		
+		// Add a list to display all columns.
+		final Table table = new Table( cmpColumnsList, SWT.SINGLE
+				| SWT.BORDER
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL
+				| SWT.FULL_SELECTION);
+		GridData gd = new GridData( GridData.FILL_BOTH );
+		table.setLayoutData( gd );
+		table.setLinesVisible( true );
+		tableViewerColumns = new TableViewer( table );
+		tableViewerColumns.setUseHashlookup( true );
+		new TableColumn( table, SWT.CENTER );
+		
+		table.addMouseMoveListener( new MouseMoveListener() {
+
+			public void mouseMove( MouseEvent e )
+			{
+				String tooltip = null;
+				TableItem item = ((Table)e.widget).getItem( new Point( e.x, e.y ) );
+				if ( item != null )
+				{
+					List<Object[]> data = (List<Object[]> ) tableViewerColumns.getData( KEY_PREVIEW_DATA );
+					StringBuilder sb = new StringBuilder();
+					
+					int index = ((Table)e.widget).indexOf( item );
+					int i = 0;
+					for ( ; i < data.size( ); i++ )
+					{
+						if ( sb.length( ) > 45 )
+						{
+							break;
+						}
+						if ( data.get( i )[index] != null )
+						{
+							if ( i != 0 )
+								sb.append( "; " ); //$NON-NLS-1$
+							sb.append( String.valueOf( data.get( i )[index] ) );
+						}
+					}
+					if ( i < data.size( ) ) {
+						sb.append(";..."); //$NON-NLS-1$
+					}
+					
+					tooltip = sb.toString( );
+				}
+				table.setToolTipText( tooltip );
+				
+			}} );
+		
+		table.addMouseListener( new MouseAdapter() {
+			public void mouseDown( MouseEvent e )
+			{
+				if ( e.button == 3 )
+				{
+					TableItem item = ((Table)e.widget).getItem( new Point( e.x, e.y ) );
+					if ( item == null )
+					{
+						tableViewerColumns.getTable( ).select( -1 );
+					}
+					// Bind context menu to each header button
+					boolean isSharingChart = dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY );
+					if ( item != null && !isSharingChart) 
+					{
+						if ( table.getMenu( ) != null )
+						{
+							table.getMenu( ).dispose( );
+						}
+						table.setMenu( createMenuManager( item.getData( ) ).createContextMenu( table ) );
+					}
+					else
+					{
+						table.setMenu( null );
+					}
+
+					if ( table.getMenu( ) != null && !isSharingChart )
+					{
+						table.getMenu( ).setVisible( true );
+					}
+					
+				}
+			}
+		} ) ;
+		
+		table.addListener( SWT.Resize, new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				Table table = (Table) event.widget;
+				int totalWidth = table.getClientArea( ).width;
+				table.getColumn( 0 ).setWidth( totalWidth );
+			}
+		} );
+		
+		// Set drag/drop.
+		DragSource ds = new DragSource( table, DND.DROP_COPY | DND.DROP_MOVE);
+		ds.setTransfer( new Transfer[]{
+			SimpleTextTransfer.getInstance( )
+		} );
+		ColumnNamesTableDragListener dragSourceAdapter = new ColumnNamesTableDragListener( table );
+		ds.addDragListener( dragSourceAdapter );
+		
+		tableViewerColumns.setContentProvider( new IStructuredContentProvider() {
+			  /**
+			   * Gets the food items for the list
+			   * 
+			   * @param arg0
+			   *            the data model
+			   * @return Object[]
+			   */
+			  public Object[] getElements(Object arg0) {
+				if ( arg0 == null )
+					return null;
+			    return (ColumnBindingInfo[])arg0;
+			  }
+
+			  /**
+			   * Disposes any created resources
+			   */
+			  public void dispose() {
+			    // Do nothing
+			  }
+
+			  /**
+			   * Called when the input changes
+			   * 
+			   * @param arg0
+			   *            the viewer
+			   * @param arg1
+			   *            the old input
+			   * @param arg2
+			   *            the new input
+			   */
+			  public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
+			    // Do nothing
+			  }
+			} );
+		tableViewerColumns.setLabelProvider( new ILabelProvider() {
+
+			  /**
+			   * images
+			   * 
+			   * @param arg0
+			   *            the element
+			   * @return Image
+			   */
+			  public Image getImage(Object arg0) {
+				  String imageName = ((ColumnBindingInfo) arg0).getImageName( );
+				  if ( imageName == null )
+					  return null;
+				  return UIHelper.getImage( imageName );
+			  }
+
+			  /**
+			   * Gets the text for an element
+			   * 
+			   * @param arg0
+			   *            the element
+			   * @return String
+			   */
+			  public String getText(Object arg0) {
+			    return ((ColumnBindingInfo) arg0).getName();
+			  }
+
+			  /**
+			   * Adds a listener
+			   * 
+			   * @param arg0
+			   *            the listener
+			   */
+			  public void addListener(ILabelProviderListener arg0) {
+			    // Throw it away
+			  }
+
+			  /**
+			   * Disposes any resources
+			   */
+			  public void dispose() {
+			    // Nothing to dispose
+			  }
+
+			  /**
+			   * Returns whether changing the specified property for the specified element
+			   * affect the label
+			   * 
+			   * @param arg0
+			   *            the element
+			   * @param arg1
+			   *            the property
+			   * @return boolean
+			   */
+			  public boolean isLabelProperty(Object arg0, String arg1) {
+			    return false;
+			  }
+
+			  /**
+			   * Removes a listener
+			   * 
+			   * @param arg0
+			   *            the listener
+			   */
+			  public void removeListener(ILabelProviderListener arg0) {
+			    // Ignore
+			  }
+			} );
+		
+	}
+
 	private void updateDragDataSource( )
 	{
 		if ( isCubeMode( ) )
@@ -386,14 +646,152 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			stackLayout.topControl = cmpCubeTree;
 			cubeTreeViewer.setInput( getCube( ) );
 		}
+		else if ( getContext().isShowingDataPreview( )  )
+		{
+			boolean showDataPreview = true;
+			try
+			{
+				// If it is initial state and the columns are equal and greater
+				// than 6, do not use data preveiw, just use columns list view.
+				if ( !getContext().isSetShowingDataPreview( ) && getDataServiceProvider( ).getPreviewHeadersInfo( ).length >= 6 )
+				{
+					showDataPreview = false;
+				}
+					
+			}
+			catch ( NullPointerException e )
+			{
+				// Do not do anything.
+			}
+			catch ( ChartException e )
+			{
+				WizardBase.showException( e.getMessage( ) );
+			}
+			
+			if ( showDataPreview ) {
+				stackLayout.topControl = cmpDataPreview;
+				refreshTablePreview( );
+			}
+			else
+			{
+				stackLayout.topControl = cmpColumnsList;
+				refreshColumnsListView( );
+				getContext().setShowingDataPreview( false );
+			}
+			
+		}
 		else
 		{
-			stackLayout.topControl = cmpDataPreview;
-			refreshTablePreview( );
+			stackLayout.topControl = cmpColumnsList;
+			refreshColumnsListView( );
 		}
+		
+		btnShowDataPreviewA.setSelection( getContext().isShowingDataPreview( ) );
+		btnShowDataPreviewB.setSelection( getContext().isShowingDataPreview( ) );
+		
 		cmpStack.layout( );
+		
 	}
 
+	/**
+	 * 
+	 */
+	private void refreshColumnsListView( )
+	{
+		if ( dataProvider.getDataSetFromHandle( ) == null )
+		{
+			return;
+		}
+		
+		if ( isCubeMode( ) )
+		{
+			return;
+		}
+		
+		// 1. Create a runnable.
+		Runnable runnable = new Runnable( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
+			 */
+			public void run( )
+			{
+				ColumnBindingInfo[] headers = null;
+				List<?> dataList = null;
+				try
+				{
+					// Get header and data in other thread.
+					headers = getDataServiceProvider( ).getPreviewHeadersInfo( );
+					dataList = getPreviewData( );
+					getDataServiceProvider( ).setPredefinedExpressions( headers );
+
+					final ColumnBindingInfo[] headerInfo = headers;
+					final List<?> data = dataList;
+					// Execute UI operation in UI thread.
+					Display.getDefault( ).syncExec( new Runnable( ) {
+
+						public void run( )
+						{
+							updateColumnsTableViewer( headerInfo, data );
+						}
+
+					} );
+				}
+				catch ( Exception e )
+				{
+					final ColumnBindingInfo[] headerInfo = headers;
+					final List<?> data = dataList;
+
+					// Catch any exception.
+					final String msg = e.getMessage( );
+					Display.getDefault( ).syncExec( new Runnable( ) {
+
+						/*
+						 * (non-Javadoc)
+						 * 
+						 * @see java.lang.Runnable#run()
+						 */
+						public void run( )
+						{
+
+							updateColumnsTableViewer( headerInfo, data );
+							WizardBase.showException( msg );
+						}
+					} );
+				}
+			}
+		};
+
+		// 2. Run it.
+		new Thread( runnable ).start( );
+	}
+
+	/**
+	 * @param headerInfo
+	 * @param data
+	 */
+	private void updateColumnsTableViewer(
+			final ColumnBindingInfo[] headerInfo,
+			final List<?> data )
+	{
+		// Set input.
+		tableViewerColumns.setInput( headerInfo );
+		tableViewerColumns.setData( KEY_PREVIEW_DATA, data );
+		
+		// Make the selected column visible and active.
+		int index = tablePreview.getCurrentColumnIndex( );
+		if ( index >= 0 )
+		{
+			tableViewerColumns.getTable( ).setFocus( );
+			tableViewerColumns.getTable( ).select( index );
+			tableViewerColumns.getTable( ).showSelection( );
+		}
+		
+		updateColumnsTableViewerColor( );
+	}
+	
 	public Composite createDataSelector( Composite parent )
 	{
 		Composite cmpDataSet = ChartUIUtil.createCompositeWrapper( parent );
@@ -904,7 +1302,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					}
 					updatePredefinedQueries( );
 				}
-
+				else if ( event.widget == btnShowDataPreviewA || event.widget == btnShowDataPreviewB )
+				{
+					Button w =  (Button) event.widget;
+					getContext().setShowingDataPreview( w.getSelection( ) );
+					updateDragDataSource( );
+				}
 			}
 			catch ( ChartException e1 )
 			{
@@ -1137,7 +1540,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	 * @param dataList
 	 */
 	private void updateTablePreview( final ColumnBindingInfo[] headers,
-			final List dataList )
+			final List<?> dataList )
 	{
 		fireEvent( tablePreview, EVENT_QUERY );
 
@@ -1161,7 +1564,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			// Add data value
 			if ( dataList != null )
 			{
-				for ( Iterator iterator = dataList.iterator( ); iterator.hasNext( ); )
+				for ( Iterator<?> iterator = dataList.iterator( ); iterator.hasNext( ); )
 				{
 					String[] dataRow = (String[]) iterator.next( );
 					for ( int i = 0; i < dataRow.length; i++ )
@@ -1172,6 +1575,13 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			}
 		}
 		tablePreview.layout( );
+		
+		// Make the selected column visible and active.
+		int index = tableViewerColumns.getTable( ).getSelectionIndex( );
+		if ( index >= 0 )
+		{
+			tablePreview.moveTo( index );
+		}
 	}
 
 	private synchronized List<?> getPreviewData( ) throws ChartException
@@ -1218,7 +1628,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				catch ( Exception e )
 				{
 					final ColumnBindingInfo[] headerInfo = headers;
-					final List data = dataList;
+					final List<?> data = dataList;
 
 					// Catch any exception.
 					final String msg = e.getMessage( );
@@ -1255,11 +1665,37 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			return;
 		}
 		// Reset column color
-		for ( int i = 0; i < tablePreview.getColumnNumber( ); i++ )
+		if ( getContext( ).isShowingDataPreview( ) )
 		{
-			tablePreview.setColumnColor( i,
-					ColorPalette.getInstance( )
-							.getColor( ExpressionUtil.createJSRowExpression( tablePreview.getColumnHeading( i ) ) ) );
+			for ( int i = 0; i < tablePreview.getColumnNumber( ); i++ )
+			{
+				tablePreview.setColumnColor( i,
+						ColorPalette.getInstance( )
+								.getColor( ExpressionUtil.createJSRowExpression( tablePreview.getColumnHeading( i ) ) ) );
+			}
+		}
+		else
+		{
+			updateColumnsTableViewerColor( );
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private void updateColumnsTableViewerColor( )
+	{
+		for ( TableItem item : tableViewerColumns.getTable( ).getItems( ) )
+		{
+			ColumnBindingInfo cbi = (ColumnBindingInfo) item.getData( );
+			Color c = ColorPalette.getInstance( )
+					.getColor( ExpressionUtil.createJSRowExpression( cbi.getName( ) ) );
+			if ( c == null )
+			{
+				c = Display.getDefault( )
+						.getSystemColor( SWT.COLOR_LIST_BACKGROUND );
+			}
+			item.setBackground( c );
 		}
 	}
 
@@ -1278,7 +1714,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 
 		// Convert to actual expression.
-		Object obj = tablePreview.getCurrentColumnHeadObject( );
+		Object obj = getCurrentColumnHeadObject( );
 		if ( obj instanceof ColumnBindingInfo )
 		{
 			ColumnBindingInfo cbi = (ColumnBindingInfo) obj;
@@ -1357,7 +1793,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			boolean isGroupOrAggr = false;
 			// Convert to actual expression.
-			Object obj = tablePreview.getCurrentColumnHeadObject( );
+			Object obj = getCurrentColumnHeadObject( );
 			if ( obj instanceof ColumnBindingInfo )
 			{
 				ColumnBindingInfo cbi = (ColumnBindingInfo) obj;
@@ -1464,7 +1900,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			boolean enabled = true;
 			if ( dataProvider.checkState( IDataServiceProvider.SHARE_QUERY ) )
 			{
-				Object obj = tablePreview.getCurrentColumnHeadObject( );
+				Object obj = getCurrentColumnHeadObject( );
 				if ( obj instanceof ColumnBindingInfo
 						&& ( (ColumnBindingInfo) obj ).getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN )
 				{
@@ -1484,6 +1920,18 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 	}
 
+	Object getCurrentColumnHeadObject()
+	{
+		if ( getContext( ).isShowingDataPreview( ) )
+		{
+			return tablePreview.getCurrentColumnHeadObject( );
+		}
+		int index = tableViewerColumns.getTable( ).getSelectionIndex( );
+		if ( index < 0 )
+			return null;
+		return tableViewerColumns.getTable( ).getItem( index ).getData( );
+	}
+	
 	static class HeaderShowAction extends Action
 	{
 
@@ -1512,7 +1960,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		actions.add( getGroupSeriesMenu( getChartModel( ), expr ) );
 		return actions;
 	}
-
+	
 	private MenuManager createMenuManager( final Object data )
 	{
 		MenuManager menuManager = new MenuManager( );
@@ -1521,7 +1969,19 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 			public void menuAboutToShow( IMenuManager manager )
 			{
-				if ( data instanceof Integer )
+				if ( data instanceof ColumnBindingInfo )
+				{
+					// Menu for columns table.
+					addMenu( manager,
+							new HeaderShowAction( ((ColumnBindingInfo)data).getName( ) ) );
+					String expr = ExpressionUtil.createJSRowExpression( ((ColumnBindingInfo)data).getName( ) );
+					List<Object> actions = getActionsForTableHead( expr );
+					for ( Object act : actions )
+					{
+						addMenu( manager, act );
+					}
+				}
+				else if ( data instanceof Integer )
 				{
 					// Menu for table
 					addMenu( manager,

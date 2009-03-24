@@ -311,9 +311,23 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 		}
 
+		// Sort columns.
+		List<ColumnBindingInfo> columnsSet = new ArrayList<ColumnBindingInfo>();
+		for ( int i = columnHeaders.length - 1; i >=0; i-- )
+			columnsSet.add( columnHeaders[i] );
+		Collections.sort( columnsSet,  new ColumnNameComprator() );
+		columnHeaders = columnsSet.toArray( new ColumnBindingInfo[]{} );
 		return columnHeaders;
 	}
 
+	static class ColumnNameComprator implements Comparator<ColumnBindingInfo> {
+		private com.ibm.icu.text.Collator collator = com.ibm.icu.text.Collator.getInstance( );
+		public int compare( ColumnBindingInfo src, ColumnBindingInfo target )
+		{
+			return collator.compare( src.getName( ), target.getName( ) );
+		}
+	}
+	
 	private String[] getPreviewHeader( boolean isExpression )
 			throws ChartException
 	{

@@ -1187,6 +1187,36 @@ public class CustomPreviewTable extends Composite implements
 			}
 		}
 
+		public void moveTo(int index )
+		{
+			int offset = 0;
+			for ( int i = 0; i <= index; i++ )
+			{
+				offset += columnWidths.get( i ).intValue( ) ;
+			}
+			if ( offset > this.getVisibleTableWidth( ) )
+			{
+			offset -= this.getVisibleTableWidth( );
+			iHiddenWidth = offset;
+			// APPLY PIXEL SHIFT TO RELOCATE BUTTONS
+			if ( btnHeaders.size( ) > 0 )
+			{
+				// MOVE ALL BUTTONS TO THE LEFT...AS MUCH AS THE
+				// SCROLLING VALUE
+				Button btn = btnHeaders.get( 0 );
+				( (FormData) btn.getLayoutData( ) ).left = new FormAttachment( 0,
+						-offset );
+			}
+			}
+			
+			getHorizontalBar( ).setSelection( offset );
+			cmpHeaders.layout( );
+			
+			selectColumn( index );
+			iLastProcessedHorizontalScrollPosition = getHorizontalBar( ).getSelection( );
+			redraw( );
+		}
+		
 		public void widgetSelected( SelectionEvent e )
 		{
 			if ( e.getSource( ) instanceof ScrollBar )
@@ -1376,4 +1406,13 @@ public class CustomPreviewTable extends Composite implements
 		widget.notifyListeners( SWT.Selection, newEvent );
 	}
 
+	/**
+	 * Move the selected column to specified index.
+	 * 
+	 * @param index
+	 */
+	public void moveTo( int index )
+	{
+		cnvCells.moveTo( index );
+	}
 }

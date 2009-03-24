@@ -51,6 +51,8 @@ public class ChartWizardContext implements IWizardContext
 	private Map<String, Object[]> mQueries;
 	private IResourceFinder resourceFinder = null;
 	private IExternalizer externalizer = null;
+	
+	private Boolean isShowingDataPreview = null;
 
 	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
 			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
@@ -355,5 +357,24 @@ public class ChartWizardContext implements IWizardContext
 	public boolean isInheritColumnsOnly( )
 	{
 		return isInheritColumnsOnly;
+	}
+	
+	public boolean isShowingDataPreview( )
+	{
+		if ( isShowingDataPreview == null )
+		{
+			return true;
+		}
+		return isShowingDataPreview.booleanValue( );
+	}
+	
+	public void setShowingDataPreview( boolean isShowingDataPreview )
+	{
+		this.isShowingDataPreview = Boolean.valueOf( isShowingDataPreview );
+	}
+	
+	public boolean isSetShowingDataPreview( )
+	{
+		return this.isShowingDataPreview != null;
 	}
 }
