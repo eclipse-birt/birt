@@ -66,15 +66,6 @@ public class TextLineArea extends LineArea
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
 	
-	public void update( AbstractArea area ) throws BirtException
-	{
-		super.update( area );
-		if ( currentIP + area.getAllocatedWidth( ) >getContentWidth( ))
-		{
-			setNeedClip( true );
-		}
-		
-	}
 
 	public boolean isPageBreakInsideAvoid()
 	{

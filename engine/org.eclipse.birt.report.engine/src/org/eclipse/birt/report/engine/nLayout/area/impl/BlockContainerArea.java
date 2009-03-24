@@ -61,6 +61,10 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 		int aHeight = area.getAllocatedHeight( );
 		currentBP += aHeight;
 		height += aHeight;
+		if ( currentIP + area.getAllocatedWidth( ) > maxAvaWidth )
+		{
+			setNeedClip( true );
+		}
 	}
 
 	public void close( ) throws BirtException
