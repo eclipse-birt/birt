@@ -527,6 +527,13 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			else if ( ( iType & LINEAR ) == LINEAR )
 			{
+				// 269641 the minimum tick number may be 3 in this case.
+				if ( asDouble( oMinimum ).doubleValue( )
+						* asDouble( oMaximum ).doubleValue( ) < 0
+						&& this.getTickCordinates( ).size( ) <= 3 )
+				{
+					return false;
+				}
 				double dStep = asDouble( oStep ).doubleValue( );
 
 				if ( bIntegralZoom )
