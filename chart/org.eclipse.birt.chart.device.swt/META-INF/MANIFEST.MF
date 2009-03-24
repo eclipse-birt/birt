@@ -13,3 +13,4 @@ Bundle-Vendor: Eclipse.org
 Export-Package: org.eclipse.birt.chart.device.swt,
  org.eclipse.birt.chart.device.swt.util
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Import-Package: com.ibm.icu.util;version="[3.4.4,5.0.0)"
