@@ -66,6 +66,8 @@ public class ReportEngineHelper
 	 */
 	private ExtensionManager extensionMgr;
 
+	private EmitterInfo[] emitterInfos;
+
 	/**
 	 * constructor
 	 * 
@@ -320,14 +322,48 @@ public class ReportEngineHelper
 		return (String[]) extensionMgr.getSupportedFormat( ).toArray(
 				new String[0] );
 	}
-	
+
 	/**
-	 * return all emitter info through BIRT engine emitter extension
+	 * return all emitter info through BIRT engine emitter extension. If there
+	 * are several emitters for a same format, then the default emitter
+	 * specified by EngineConfig is used, if no default emitter is specified in
+	 * EngineConfig, then the first emitter is used.
+	 * 
 	 * @return all emitter info through BIRT engine emitter extension
 	 */
 	public EmitterInfo[] getEmitterInfo()
 	{
-		return extensionMgr.getEmitterInfo( );
+		if ( emitterInfos == null )
+		{
+			EngineConfig config = engine.getConfig( );
+			Map<String, EmitterInfo> emitters = new HashMap<String, EmitterInfo>( );
+			EmitterInfo[] tempEmitterInfo = extensionMgr.getEmitterInfo( );
+			for ( EmitterInfo emitterInfo : tempEmitterInfo )
+			{
+				String format = emitterInfo.getFormat( );
+				String id = emitterInfo.getID( );
+				if ( !emitters.containsKey( format )
+						|| id.equals( config.getDefaultEmitter( format ) ) )
+				{
+					emitters.put( format, emitterInfo );
+				}
+			}
+			emitterInfos = new EmitterInfo[emitters.size( )];
+			emitters.values( ).toArray( emitterInfos );
+			for ( EmitterInfo emitterInfo : emitterInfos )
+			{
+				String format = emitterInfo.getFormat( );
+				String id = emitterInfo.getID( );
+				String defaultEmitter = config.getDefaultEmitter( format );
+				if ( defaultEmitter != null && !defaultEmitter.equals( id ) )
+				{
+					logger.log( Level.WARNING, "Emitter " + defaultEmitter
+							+ " doens't exist! Emitter " + id + " is used for "
+							+ format + "." );
+				}
+			}
+		}
+		return emitterInfos;
 	}
 
 	/**
