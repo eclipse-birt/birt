@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
@@ -127,16 +128,13 @@ public class ReportRunner
 	 */
 	public int execute( )
 	{
-		if ( args.length == 0 )
-		{
-			printUsage( );
-			return 0;
-		}
 		try
 		{
 			// Process command line arguments
-			parseOptions( );
+			if( parseHelpOptions( ) > 0 )
+				return 0;
 			
+			parseNormalOptions( );
 			// startup the platform
 			if ( engine == null )
 			{
@@ -347,61 +345,117 @@ public class ReportRunner
 	 * print out the command line usage.
 	 * 
 	 */
-	protected void printUsage( )
+	protected void printGeneralUsage( )
 	{
-		System.out.println( "org.eclipse.birt.report.engine.impl.ReportRunner" ); //$NON-NLS-1$
+		System.out.println( "Help for ReportRunner" ); //$NON-NLS-1$
 		System.out.println( "" ); //$NON-NLS-1$
 
 		System.out
-				.println( "--mode/-m [ run | render | runrender] the default is runrender" );
-		System.out.println( " for runrender mode:" );
-		System.out.println( "\t we should add it in the end<design file>" ); //$NON-NLS-1$
-		System.out.println( "\t --format/-f [ HTML | PDF ]" ); //$NON-NLS-1$
-		System.out.println( "\t --output/-o <target file>" ); //$NON-NLS-1$
-		System.out.println( "\t --htmlType/-t < HTML | ReportletNoCSS >" ); //$NON-NLS-1$
-		System.out.println( "\t --locale /-l<locale>" ); //$NON-NLS-1$
-		System.out.println( "\t --parameter/-p <\"parameterName=parameterValue\">" ); //$NON-NLS-1$
-		System.out.println( "\t --config/-c <\"configName=configValue\">" );
-		System.out.println( "\t --renderOption/-r <\"optionName=optionValue\">" );
-		System.out.println( "\t --file/-F <file>" ); //$NON-NLS-1$
-		System.out.println( "\t --encoding/-e <target encoding>" ); //$NON-NLS-1$
-
-		System.out.println( "\nLocale: default is english\n" ); //$NON-NLS-1$
+				.println( "--mode/-m [run|render|runrender] [options] [rptdesign|rptdocument]\n\tThe default mode is runrender." );
+		System.out.println( "To see options for run mode, use:" );
+		System.out.println( "\t--help/-h run" );
+		System.out.println( "To see options for render mode, use:" );
+		System.out.println( "\t--help/-h render" );
+		System.out.println( "To see options for runrender mode, use:" );
+		System.out.println( "\t--help/-h runrender" );
+		System.out.println( "Print current message, use --help/-h" );
+	}
+	
+	protected void printRunUsage( )
+	{
+		System.out.println( "ReportRunner's run mode:" );
+		System.out.println( "--mode/-m run [options] <rptdesign file>" );
+		System.out.println( "where options could be:" ); //$NON-NLS-1$
+		System.out.println( "\t--output/-o <target file>" ); //$NON-NLS-1$
+		//System.out.println( "\t--locale/-l <locale>    default is english" ); //$NON-NLS-1$
+		System.out.println( "\t--parameter/-p <\"parameterName=parameterValue\">" ); //$NON-NLS-1$
+		System.out.println( "\t--config/-c <\"configName=configValue\">" );
+		System.out.println( "\t--file/-F <file>\n" ); //$NON-NLS-1$
 		System.out
-				.println( "\nparameters/configs/renderOptions in command line will overide those in file" ); //$NON-NLS-1$
+				.println( "1. parameters/configs in command line will overide those in file" ); //$NON-NLS-1$
 		System.out
-				.println( "\nparameter/config/renderOption name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
-
-		System.out.println( "For RUN mode:" );
-		System.out.println( "\t we should add it in the end<design file>" ); //$NON-NLS-1$
-		System.out.println( "\t --output/-o <target file>" ); //$NON-NLS-1$
-		System.out.println( "\t --locale /-l<locale>" ); //$NON-NLS-1$
-		System.out.println( "\t --parameter/-p <parameterName=parameterValue>" ); //$NON-NLS-1$
-		System.out.println( "\t --config/-c <\"configName=configValue\">" );
-		System.out.println( "\t --renderOption/-r <\"optionName=optionValue\">" );
-		System.out.println( "\t --file/-F <file>" ); //$NON-NLS-1$
-
-		System.out.println( "\nLocale: default is english\n" ); //$NON-NLS-1$
+				.println( "2. parameter/config name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
+		System.out.println( "use \"--help/-h configNames\" for a list of configurables" );
+		System.out.println( "use \"--help/-h file\" for options in <file>" );
+	}
+	
+	protected void printRenderUsage( )
+	{
+		System.out.println( "ReportRunner's RENDER mode:" );
+		System.out.println( "--mode/-m render [options] <rptdocument file>" );
+		System.out.println( "where options could be:" ); //$NON-NLS-1$
+		System.out.println( "\t--format/-f [HTML|PDF]" ); //$NON-NLS-1$
+		System.out.println( "\t--output/-o <target file>" ); //$NON-NLS-1$
+		System.out.println( "\t--page/-n <pageNumber>" );
+		System.out.println( "\t--locale/-l <locale>     default is english" ); //$NON-NLS-1$
+		System.out.println( "\t--config/-c <\"configName=configValue\">" );
+		System.out.println( "\t--renderOption/-r <\"optionName=optionValue\">" );
+		System.out.println( "\t--file/-F <file>\n" ); //$NON-NLS-1$
+		
 		System.out
-				.println( "\nparameters/configs/renderOptions in command line will overide those in file" ); //$NON-NLS-1$
+				.println( "1. configs/renderOptions in command line will overide those in file" ); //$NON-NLS-1$
 		System.out
-				.println( "\nparameter/config/renderOption name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
-
-		System.out.println( "For RENDER mode:" );
-		System.out.println( "\t we should add it in the end<design file>" ); //$NON-NLS-1$
-		System.out.println( "\t --output/-o <target file>" ); //$NON-NLS-1$
-		System.out.println( "\\t --page/-n <pageNumber>" );
-		System.out.println( "\t --config/-c <\"configName=configValue\">" );
-		System.out.println( "\t --renderOption/-r <\"optionName=optionValue\">" );
-		System.out.println( "\t --file/-F <file>" ); //$NON-NLS-1$
-		System.out.println( "\t --locale /-l<locale>" ); //$NON-NLS-1$
-
-		System.out.println( "\nLocale: default is english\n" ); //$NON-NLS-1$
+				.println( "2. config/renderOption name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
+		System.out.println( "use \"--help/-h configNames\" for a list of configurables" );
+		System.out.println( "use \"--help/-h renderOptions\" for a list of render options" );
+		System.out.println( "use \"--help/-h file\" for options in <file>" );
+	}
+	
+	protected void printRunRenderUsage( )
+	{
+		System.out.println( "ReportRunner's RUNRENDER mode:" );
+		System.out.println( "--mode/-m runrender [options] <rptdesign file>" );
+		System.out.println( "where options could be:" ); //$NON-NLS-1$
+		System.out.println( "\t--format/-f [HTML|PDF]" ); //$NON-NLS-1$
+		System.out.println( "\t--output/-o <target file>" ); //$NON-NLS-1$
+		System.out.println( "\t--htmlType/-t < HTML | ReportletNoCSS >" ); //$NON-NLS-1$
+		System.out.println( "\t--encoding/-e <target encoding>" ); //$NON-NLS-1$
+		System.out.println( "\t--locale/-l <locale>    default is english" ); //$NON-NLS-1$
+		System.out.println( "\t--parameter/-p <\"parameterName=parameterValue\">" ); //$NON-NLS-1$
+		System.out.println( "\t--config/-c <\"configName=configValue\">" );
+		System.out.println( "\t--renderOption/-r <\"optionName=optionValue\">" );
+		System.out.println( "\t--file/-F <file>\n" ); //$NON-NLS-1$
+		
 		System.out
-				.println( "\nconfigs/renderOptions in command line will overide those in file" ); //$NON-NLS-1$
+				.println( "1. parameters/configs/renderOptions in command line will overide those in file" ); //$NON-NLS-1$
 		System.out
-				.println( "\nconfig/renderOption name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
+				.println( "2. parameter/config/renderOption name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
+		System.out.println( "use \"--help/-h configNames\" for a list of configurables" );
+		System.out.println( "use \"--help/-h renderOptions\" for a list of render options" );
+		System.out.println( "use \"--help/-h file\" for options in <file>" );
 
+	}
+	
+	protected void printConfigUsage( )
+	{
+		System.out.println( "Configurables include:" );
+		System.out.println( "\tresourceDir    the directory where resources reside" );
+		System.out.println( "\ttempDir        the directory to place temporary file" );
+		System.out.println( "\tlogDir         the directory where logs are generated" );
+		System.out.println( "\tlogLevel       log level, see java.util.Level" );
+		System.out.println( "\tlogFile        the log file" );
+		System.out.println( "\tscriptPath     the directory where to find scripts" );
+	}
+	
+	protected void printRenderOptionUsage( )
+	{
+		System.out.println( "RenderOptions include:" );
+		System.out.println( "\tformat      the output format, html or pdf" );
+		System.out.println( "\thtmlType    html type" );
+		System.out.println( "\toutput      the output file" );
+		System.out.println( "\tlocale      the locale used to render the report" );
+		System.out.println( "\tencoding    encoding" );
+		System.out.println( "\tpage        the page number to be rendered" );
+	}
+	
+	protected void printFileUsage( )
+	{
+		System.out
+				.println( "When specified with --file/-F <file>, "
+						+ "the <file> can be used to hold some default options.\n"
+						+ "The command line options overwrite those in <file>.\n"
+						+ "The options include what config/renderOption/parameter can have.\n"
+						+ "Use \"-h configNames\", \"-h renderOptions\" for detailed options" );
 	}
 
 	/**
@@ -592,6 +646,73 @@ public class ReportRunner
 			encoding = results.getOptionValue( 'e' );
 		}
 	}
+	
+	/**
+	 * 
+	 * @return 1 if this command is for help information; 0 if it's normal
+	 */
+	protected int parseHelpOptions( )
+	{
+		if( args.length == 0 )
+		{
+			printGeneralUsage( );
+			return 1;
+		}
+		
+		try
+		{
+			Options option = new Options( );
+			option.addOption( "h", "help", true, "" );
+			
+			CommandLine results = new BasicParser( ).parse( option, args, true );
+			if( results.hasOption( 'h' ) )
+			{
+				String name = results.getOptionValue( 'h' );
+				if( name == null || name.length( ) == 0 )
+				{
+					printGeneralUsage( );
+				}
+				else if( name.equalsIgnoreCase( "run" ) )
+				{
+					printRunUsage( );
+				}
+				else if( name.equalsIgnoreCase( "render" ) )
+				{
+					printRenderUsage( );
+				}
+				else if( name.equalsIgnoreCase( "runrender" ) )
+				{
+					printRunRenderUsage( );
+				}
+				else if( name.equalsIgnoreCase( "configNames" ) )
+				{
+					printConfigUsage( );
+				}
+				else if( name.equalsIgnoreCase( "renderOptions" ) )
+				{
+					printRenderOptionUsage( );
+				}
+				else if( name.equalsIgnoreCase( "file" ) )
+				{
+					printFileUsage( );
+				}
+				else
+				{
+					printGeneralUsage( );
+				}
+				return 1;
+			}
+		}
+		catch( ParseException ex )
+		{
+			// this parse exception is probably caused by no argument to -h
+			// so dont add it to log
+			//logger.log( Level.SEVERE, ex.getMessage( ), ex );
+			printGeneralUsage( );
+			return 1;
+		}
+		return 0;
+	}
 
 	/**
 	 * parse the arguments.
@@ -602,7 +723,7 @@ public class ReportRunner
 	 * @param args -
 	 *            arguments
 	 */
-	protected void parseOptions( )
+	protected void parseNormalOptions( )
 	{
 
 		source = args[args.length - 1];
@@ -660,7 +781,7 @@ public class ReportRunner
 		catch ( Exception ex )
 		{
 			logger.log( Level.SEVERE, ex.getMessage( ), ex );
-			printUsage( );
+			printGeneralUsage( );
 		}
 	}
 
