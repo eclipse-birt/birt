@@ -1413,7 +1413,7 @@ public class JSEditor extends EditorPart implements IColleague
 	 * @param desHdl
 	 * @return true if updated else false.
 	 */
-	private boolean saveEditorContentsDE( DesignElementHandle desHdl )
+	private boolean saveEditorContentsDE( DesignElementHandle desHdl, boolean isSaveScript )
 	{
 		if ( desHdl != null && getEditorText( ) != null )
 		{
@@ -1424,7 +1424,10 @@ public class JSEditor extends EditorPart implements IColleague
 					String name = cmbItemLastSelected.getName( );
 
 					desHdl.setStringProperty( name, getEditorText( ) );
-					setEditorText( desHdl.getStringProperty( name ) );
+					if(!isSaveScript)
+					{
+						setEditorText( desHdl.getStringProperty( name ) );
+					}
 				}
 				selectionMap.put( getModel( ), cmbExprListViewer.getSelection( ) );
 			}
@@ -1442,9 +1445,9 @@ public class JSEditor extends EditorPart implements IColleague
 	 */
 	private void saveModel( )
 	{
-		if ( isCodeModified( ) && editObject instanceof DesignElementHandle && !isSaveScript)
+		if ( isCodeModified( ) && editObject instanceof DesignElementHandle )
 		{
-			saveEditorContentsDE( (DesignElementHandle) editObject );
+			saveEditorContentsDE( (DesignElementHandle) editObject, isSaveScript );
 		}
 
 		setIsModified( false );
