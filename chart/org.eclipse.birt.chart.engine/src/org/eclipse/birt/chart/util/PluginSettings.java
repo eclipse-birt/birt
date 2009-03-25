@@ -340,12 +340,14 @@ public final class PluginSettings
 		{
 			ps = new PluginSettings( );
 
+			String loggingDir = null;
+			Level loggingLevel = null;
+
 			if ( config != null )
 			{
 				ps.bStandalone = config.getProperty( PROP_STANDALONE ) != null;
-				String loggingDir = (String) config.getProperty( PROP_LOGGING_DIR );
-				Level loggingLevel = (Level) config.getProperty( PROP_LOGGING_LEVEL );
-				initFileLogger( loggingDir, loggingLevel );
+				loggingDir = (String) config.getProperty( PROP_LOGGING_DIR );
+				loggingLevel = (Level) config.getProperty( PROP_LOGGING_LEVEL );
 			}
 
 			if ( !ps.bStandalone )
@@ -359,11 +361,13 @@ public final class PluginSettings
 					logger.log( e );
 				}
 			}
+
+			ps.initFileLogger( loggingDir, loggingLevel );
 		}
 		return ps;
 	}
 
-	private static void initFileLogger( String loggingDir, Level loggingLevel )
+	private void initFileLogger( String loggingDir, Level loggingLevel )
 	{
 		if ( loggingLevel != null && loggingLevel == Level.OFF )
 		{
@@ -373,11 +377,22 @@ public final class PluginSettings
 		// initialize the file logger
 		try
 		{
-			String dir = loggingDir != null ? loggingDir
-					: ChartEnginePlugin.getInstance( )
-							.getStateLocation( )
-							.toOSString( );
-			JavaUtilLoggerImpl.initFileHandler( dir, loggingLevel );
+			String dir = null;	
+			if (loggingDir != null)
+			{
+				dir = loggingDir;
+			}
+			else if ( inEclipseEnv( ) )
+			{
+				dir = ChartEnginePlugin.getInstance( )
+				.getStateLocation( )
+				.toOSString( );
+			}
+			
+			if ( dir != null )
+			{
+				JavaUtilLoggerImpl.initFileHandler( dir, loggingLevel );
+			}
 		}
 		catch ( SecurityException e )
 		{
@@ -1296,7 +1311,7 @@ public final class PluginSettings
 		}
 		return ( Platform.getExtensionRegistry( ) != null );
 	}
-
+	
 	/**
 	 * Registers an aggregate function implementation, the class should
 	 * implement the IAggregateFunction interface. The displayName will be the
