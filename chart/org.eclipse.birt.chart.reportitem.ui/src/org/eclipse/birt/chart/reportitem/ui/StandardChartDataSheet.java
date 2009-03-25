@@ -733,7 +733,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					// Get header and data in other thread.
 					headers = getDataServiceProvider( ).getPreviewHeadersInfo( );
 					dataList = getPreviewData( );
-					getDataServiceProvider( ).setPredefinedExpressions( headers );
 
 					final ColumnBindingInfo[] headerInfo = headers;
 					final List<?> data = dataList;
@@ -1620,7 +1619,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					// Get header and data in other thread.
 					headers = getDataServiceProvider( ).getPreviewHeadersInfo( );
 					dataList = getPreviewData( );
-					getDataServiceProvider( ).setPredefinedExpressions( headers );
 
 					final ColumnBindingInfo[] headerInfo = headers;
 					final List<?> data = dataList;
@@ -2457,12 +2455,21 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			CubeHandle cube = getCube( );
 			if ( cube == null )
 			{
-				getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
-						null );
-				getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
-						null );
-				getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
-						null );
+				try
+				{
+					ColumnBindingInfo[] headers = dataProvider.getPreviewHeadersInfo( );
+					getDataServiceProvider( ).setPredefinedExpressions( headers );
+				}
+				catch ( ChartException e )
+				{
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+							null );
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
+							null );
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
+							null );
+				}
+				
 			}
 			else
 			{

@@ -213,10 +213,12 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		
 		// If current is the sharing query case and predefined queries are not null,
 		// the input field should be a combo component.
+		IDataServiceProvider provider = context.getDataServiceProvider( );
 		final int state = context.getDataServiceProvider( ).getState( );
 		boolean needComboField = predefinedQuery != null
-				&& ( ( state & IDataServiceProvider.SHARE_QUERY ) == IDataServiceProvider.SHARE_QUERY
-						|| ( state & IDataServiceProvider.HAS_CUBE ) == IDataServiceProvider.HAS_CUBE || ( state & IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) == IDataServiceProvider.INHERIT_COLUMNS_GROUPS );
+				&& ( provider.checkState( IDataServiceProvider.SHARE_QUERY )
+						|| provider.checkState( IDataServiceProvider.HAS_CUBE )
+						|| provider.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) );
 		needComboField &= !isSharingChart;
 		boolean hasContentAssist = ( !isSharingChart && predefinedQuery != null && predefinedQuery.length > 0 );
 		if ( needComboField )
@@ -407,7 +409,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		setColor( );
 
 		// In shared binding, only support predefined query
-		IDataServiceProvider provider = context.getDataServiceProvider( );
 		boolean isCubeNoMultiDimensions = ( provider.checkState( IDataServiceProvider.HAS_CUBE ) || provider.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
 				&& !provider.checkState( IDataServiceProvider.MULTI_CUBE_DIMENSIONS );
 		if ( context.getDataServiceProvider( )

@@ -274,6 +274,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			throws ChartException
 	{
 		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getColumnDataBindings( itemHandle );
+		if ( iterator == null )
+		{
+			return new ColumnBindingInfo[]{};
+		}
+		
 		List<ComputedColumnHandle> columnList = new ArrayList<ComputedColumnHandle>( );
 		boolean bInheritColumnsOnly = isInheritColumnsOnly( );
 		while ( iterator.hasNext( ) )
