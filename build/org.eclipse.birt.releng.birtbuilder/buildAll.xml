@@ -305,44 +305,29 @@
 		<!-- TODO: push to local update site -->
 		<antcall target = "pushUpdateSiteLocal"/>
 		
-		<!--
-		<java jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar"
-				fork="true"
-				timeout="10800000"
-				jvm="${jvm15_home}/bin/java"
-				failonerror="true"
-				maxmemory="512m"
-				dir="${buildDirectory}">
-			<jvmarg value="-Dorg.eclipse.update.jarprocessor.pack200=${eclipse.build.configs}/../../extras"/>
-			<arg line="-application org.eclipse.update.core.siteOptimizer"/>
-			<arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -repack updateJars/eclipse"/>
-		</java>
-		-->
-		
-		<!-- create Pack200 update jars -->
-		<!--
-		<java jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar"
-				fork="true"
-				timeout="10800000"
-				jvm="${jvm15_home}/bin/java"
-				failonerror="true"
-				maxmemory="512m"
-				dir="${buildDirectory}">
-			<jvmarg value="-Dorg.eclipse.update.jarprocessor.pack200=${eclipse.build.configs}/../../extras"/>
-			<arg line="-application org.eclipse.update.core.siteOptimizer"/>
-			<arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack updateJars/eclipse"/>
-		</java>
-		-->
 	</target>
 
-        <target name="GenP2CompositeUpdateSite" unless="createUpdateSite">
+        <target name="GenP2CompositeUpdateSite">
             <property name="compsite.site" value="${postingDirectory}/../../../UpdateSite/${updateSite}" />
             <property name="repo" value="${compsite.site}/${buildId}" />
             <property name="p2.repo.name" value="BIRT TEST" />
             <mkdir dir="${repo}" />
             
+            <!-- generate pack200 -->
+            <java jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar"
+                  fork="true"
+                  timeout="10800000"
+                  jvm="${jvm15_home}/bin/java"
+                  failonerror="true"
+                  maxmemory="512m"
+                  dir="${updateJarWorkingDir}">
+                  <jvmarg value="-Dorg.eclipse.update.jarprocessor.pack200=${eclipse.build.configs}/../../extras"/>
+                  <arg line="-application org.eclipse.update.core.siteOptimizer -verbose"/>
+                  <arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack eclipse"/>
+            </java>
+
             <!--generator features and plugins metadata -->
-            <p2.generator source="${updateJarWorkingDir}/eclipse" compress="true" append="true" flavor="tooling"
+            <p2.generator source="${updateJarWorkingDir}/site" compress="true" append="true" flavor="tooling"
                           metadataRepository="file:${repo}"
                           artifactRepository="file:${repo}"
                           metadataRepositoryName="${p2.repo.name}"
@@ -399,29 +384,18 @@
 		<copy tofile="${postingDirectory}/${buildId}/UpdateSite/site.xml" 
 			file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
 		
-		<!-- generate p2 meta-data -->
-		<!--
-		<p2.generator updatesite="file:${postingDirectory}/${buildId}/UpdateSite" 
-		          site="file:${postingDirectory}/${buildId}/UpdateSite/site.xml"
-		          compress="true" 
-                  append="true" flavor="tooling" 
-                  metadataRepository="file:${postingDirectory}/${buildId}/UpdateSite" 
-                  artifactRepository="${postingDirectory}/${buildId}/UpdateSite" 
-                  metadataRepositoryName="BIRT test" 
-                  artifactRepositoryName="BIRT test" 
-                  publishArtifacts="true" p2OS="linux" mode="incremental" /> 
-		-->
 		
 		<!-- clean last content -->
-		<delete failonerror="false">
+		<!--delete failonerror="false">
 			<fileset dir="${postingDirectory}/../../../UpdateSite/${package.version}">
 				<include name="plugins/**"/>
 				<include name="features/**"/>
 				<include name="site.xml"/>
 			</fileset>
-		</delete>
+		</delete-->
+
 		<!-- copy to internal update site -->
-		<copy todir="${postingDirectory}/../../../UpdateSite/${package.version}/plugins" overwrite="true">
+		<!--copy todir="${postingDirectory}/../../../UpdateSite/${package.version}/plugins" overwrite="true">
 			<fileset dir="${updateJarWorkingDir}/eclipse/plugins">
 				<include name="**"/>
 			</fileset>
@@ -431,7 +405,7 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
-		<copy tofile="${postingDirectory}/../../../UpdateSite/${package.version}/site.xml" file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
+		<copy tofile="${postingDirectory}/../../../UpdateSite/${package.version}/site.xml" file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/-->
 	</target>
 	
 	<target name="runBirtTest" unless="skip.unit.test">
