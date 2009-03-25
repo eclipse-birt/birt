@@ -29,11 +29,19 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 {
 
 	static int DEFAULT_PADDING = 1500;
-
+	static LocalProperties CELL_DEFAULT = new LocalProperties( );
 	protected int rowSpan = 1;
 	protected int colSpan = 1;
 	protected int columnID = 0;
 	protected int rowID = 0;
+	
+	static
+	{
+		CELL_DEFAULT.setPaddingTop( DEFAULT_PADDING );
+		CELL_DEFAULT.setPaddingRight( DEFAULT_PADDING );
+		CELL_DEFAULT.setPaddingBottom( DEFAULT_PADDING );
+		CELL_DEFAULT.setPaddingLeft( DEFAULT_PADDING );
+	};
 
 	public CellArea( ContainerArea parent, LayoutContext context,
 			IContent content )
@@ -44,6 +52,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 	public CellArea( )
 	{
 		super( );
+		localProperties = CELL_DEFAULT;
 	}
 
 	public CellArea( CellArea cell )

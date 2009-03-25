@@ -222,8 +222,8 @@ public class TableArea extends RepeatableArea
 		ILayout layout = new BlockTextArea( captionCell, context, captionLabel );
 		layout.layout( );
 		int h = ((BlockContainerArea)layout).getAllocatedHeight();
-		captionCell.setHeight( h );
-		captionRow.setHeight( h );
+		captionCell.setContentHeight( h );
+		captionRow.setHeight( captionCell.getAllocatedHeight( ) );
 		add( captionRow );
 		repeatList.add( captionRow );
 		update(captionRow);

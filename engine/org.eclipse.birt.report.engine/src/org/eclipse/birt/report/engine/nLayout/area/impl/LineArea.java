@@ -371,7 +371,7 @@ public class LineArea extends InlineStackingArea
 		}
 		int lineHeight = ( (BlockContainerArea) parent ).getLineHeight( );
 		height = Math.max( height, lineHeight );
-		width = currentIP;
+		width = Math.max( currentIP, maxAvaWidth );
 		align( isLastLine, context );
 		if ( isLastLine )
 		{
