@@ -20,6 +20,7 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
+import org.eclipse.birt.chart.device.image.MultiURLValuesScriptGenerator;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.svg.i18n.Messages;
 import org.eclipse.birt.chart.device.util.CSSHelper;
@@ -609,7 +610,8 @@ public class SVGInteractiveRenderer
 							else if ( av instanceof MultiURLValues )
 							{
 								MultiURLValues muv = (MultiURLValues) av;
-								int size = muv.getURLValues( ).size( );
+								List<URLValue> validURLValues = MultiURLValuesScriptGenerator.getValidURLValues( muv );
+								int size = validURLValues.size( );
 								if ( size == 0 )
 								{
 									setTooltipForURLRedirect( elm, src, muv.getTooltip( ) );
@@ -617,7 +619,7 @@ public class SVGInteractiveRenderer
 								}
 								if ( size == 1 )
 								{
-									setURLValueAttributes( muv.getURLValues( ).get( 0 ),
+									setURLValueAttributes( validURLValues.get( 0 ),
 											elm,
 											src,
 											scriptEvent,
@@ -721,16 +723,17 @@ public class SVGInteractiveRenderer
 		// Add categoryData, valueData,
 		// valueSeriesName in callback
 		// Create scripts;
+		List<URLValue> validURLValues = MultiURLValuesScriptGenerator.getValidURLValues( muv );
 		StringBuilder sb = new StringBuilder();
 		sb.append( "\n"); //$NON-NLS-1$
-		sb.append( "    var hyperlinks = new Array(" + muv.getURLValues( ).size( ) + ");\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append( "    var hyperlinks = new Array(" + validURLValues.size( ) + ");\n"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append( "    var linkEntry;\n"); //$NON-NLS-1$
 		sb.append( "    var count = 0;\n"); //$NON-NLS-1$
-		for ( URLValue uv : muv.getURLValues( ) )
+		for ( URLValue uv :  validURLValues )
 		{
 			sb.append( "\n" ); //$NON-NLS-1$
 			String url = uv.getBaseUrl( );
-			if ( !( url.startsWith( "\"" ) && url.endsWith( "\"" ) ) )//$NON-NLS-1$ //$NON-NLS-2$
+			if ( !( url.startsWith( "\"" ) || url.endsWith( "\"" ) ) )//$NON-NLS-1$ //$NON-NLS-2$
 			{
 				url = "\"" + url + "\"";//$NON-NLS-1$ //$NON-NLS-2$
 			}

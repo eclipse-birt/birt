@@ -218,16 +218,17 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				case ActionType.URL_REDIRECT :
 					if ( ac.getValue( ) instanceof MultiURLValues )
 					{
-						int size = ((MultiURLValues)ac.getValue( )).getURLValues( ).size( );
+						List<URLValue> validURLValues = MultiURLValuesScriptGenerator.getValidURLValues( (MultiURLValues)ac.getValue( ) );
+						int size = validURLValues.size( );
 						if ( size == 0 )
 						{
 							setTooltipAttribute( tag, ((MultiURLValues)ac.getValue( )).getTooltip( ) );
 							return false;
 						}
 						else if ( size == 1) {
-							URLValue uv = ((MultiURLValues)ac.getValue( )).getURLValues( ).get( 0 );
+							URLValue uv = validURLValues.get( 0 );
 							setURLValueAttributes( tag, condition, htmlAttr, uv );
-							setTooltipAttribute( tag, ((MultiURLValues)ac.getValue( )).getTooltip( ) );
+							setTooltipAttribute( tag, uv.getTooltip( ) );
 							return true;
 						}
 						else
@@ -934,7 +935,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		}
 		
 		// Generate a unique JS key for multiple URL values.
-		return new MultiURLValuesScriptGenerator( values ).getJSKey( );
+		return new MultiURLValuesScriptGenerator( values ).getJSKey( ) + this.hashCode( );
 	}
 	
 	private String generateJSContent( Action ac )
@@ -956,14 +957,14 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				}
 				else if ( value instanceof MultiURLValues )
 				{
-					int size = ((MultiURLValues)value).getURLValues( ).size( );
-					if ( size == 0 )
+					List<URLValue> validURLValues = MultiURLValuesScriptGenerator.getValidURLValues( (MultiURLValues) value );
+					if ( validURLValues.size( ) == 0 )
 					{
 						return ""; //$NON-NLS-1$
 					}
-					else if ( size == 1 )
+					else if ( validURLValues.size( ) == 1 )
 					{
-						return getJsURLRedirect( ((MultiURLValues)value).getURLValues( ).get( 0 ) );	
+						return getJsURLRedirect( validURLValues.get( 0 ) );
 					}
 					else
 					{

@@ -2644,7 +2644,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			sBaseURL = ""; //$NON-NLS-1$
 		}
-		final StringBuffer sb = new StringBuffer( "\"" ); //$NON-NLS-1$
+		final StringBuffer sb = new StringBuffer( "" ); //$NON-NLS-1$
 		sb.append( sBaseURL );
 		char c = '?';
 		if ( sBaseURL.indexOf( c ) != -1 )
@@ -2704,9 +2704,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			hasSeriesName = true;
 		}
 		
-		if ( !( hasCategory || hasValueData || hasSeriesName ) )
+		if ( hasCategory || hasValueData || hasSeriesName  )
 		{
-			sb.append( "\"" ); //$NON-NLS-1$
+			sb.insert( 0, "\"" ); //$NON-NLS-1$
 		}
 		uv.setBaseUrl( sb.toString( ) );
 	}
