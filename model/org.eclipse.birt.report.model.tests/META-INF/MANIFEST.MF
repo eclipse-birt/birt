@@ -11,5 +11,7 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,3.0.0)",
  org.junit;bundle-version="[3.8.1,4.0.0)";resolution:=optional;visibility:=reexport
 Bundle-ClassPath: modeltests.jar
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Import-Package: com.ibm.icu.text;version="[3.4.4,5.0.0)",
+ com.ibm.icu.util;version="[3.4.4,5.0.0)"
 
 
