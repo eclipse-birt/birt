@@ -660,7 +660,7 @@ public abstract class Structure implements IStructure
 	 *             value is not valid for the member.
 	 */
 
-	public void setExprssionProperty( String memberName, Expression value )
+	public void setExpressionProperty( String memberName, Expression value )
 	{
 		setProperty( memberName, value );
 	}
@@ -676,7 +676,7 @@ public abstract class Structure implements IStructure
 	 *             value is not valid for the member.
 	 */
 
-	public Expression getExprssionProperty( String memberName )
+	public Expression getExpressionProperty( String memberName )
 	{
 		return (Expression) getProperty( null, memberName );
 	}
