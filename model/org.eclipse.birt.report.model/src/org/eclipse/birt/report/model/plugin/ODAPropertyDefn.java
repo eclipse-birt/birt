@@ -29,7 +29,7 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.PropertyChoice;
 public class ODAPropertyDefn extends SystemPropertyDefn
 {
 
-	private Property property = null;
+	protected Property property = null;
 
 	ODAPropertyDefn( Property property )
 	{

@@ -12,12 +12,15 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -48,6 +51,13 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 public final class PeerExtensionElementDefn extends ExtensionElementDefn
 {
+
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger
+			.getLogger( PeerExtensionElementDefn.class.getName( ) );
 
 	/**
 	 * The element factory of the extended element.
@@ -341,12 +351,18 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 		}
 		catch ( InstantiationException e )
 		{
+			logger.log( Level.WARNING, e.getMessage( ) );
+			MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$				
 		}
 		catch ( IllegalAccessException e )
 		{
+			logger.log( Level.WARNING, e.getMessage( ) );
+			MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
 		}
 		catch ( ClassNotFoundException e )
 		{
+			logger.log( Level.WARNING, e.getMessage( ) );
+			MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
 		}
 
 		if ( retDefn == null )
@@ -382,6 +398,9 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 		for ( int i = 0; i < fields.length; ++i )
 		{
 			Field field = fields[i];
+			if ( ( field.getModifiers( ) & Modifier.STATIC ) != 0 )
+				continue;
+
 			try
 			{
 				Object property = field.get( defn );
@@ -391,18 +410,27 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 			}
 			catch ( IllegalArgumentException e )
 			{
+				logger.log( Level.WARNING, e.getMessage( ) );
+				MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
+
 				continue;
 			}
 			catch ( IllegalAccessException e )
 			{
+				logger.log( Level.WARNING, e.getMessage( ) );
+				MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
 				continue;
 			}
 			catch ( SecurityException e )
 			{
+				logger.log( Level.WARNING, e.getMessage( ) );
+				MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
 				continue;
 			}
 			catch ( NoSuchFieldException e )
 			{
+				logger.log( Level.WARNING, e.getMessage( ) );
+				MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
 				continue;
 			}
 		}

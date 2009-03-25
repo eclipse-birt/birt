@@ -27,25 +27,25 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn
 	 * extesion-defined model. Otherwise <code>false</code>.
 	 */
 
-	private boolean hasOwnModel;
+	protected boolean hasOwnModel;
 
-	private IMessages messages = null;
+	protected IMessages messages = null;
 
-	private String groupName = null;
+	protected String groupName = null;
 
 	/**
 	 * The default display name, which is used when the localized string is not
 	 * found with I18N feature.
 	 */
 
-	private String defaultDisplayName = null;
+	protected String defaultDisplayName = null;
 
 	/**
 	 * The default display name for property group, which is used when the
 	 * localized string is not found with I18N feature.
 	 */
 
-	private String groupDefauleDisplayName = null;
+	protected String groupDefauleDisplayName = null;
 
 	/**
 	 * Sets the group name of this property definition.
@@ -78,7 +78,8 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn
 	 * resource key and <code> IMessages </code> . Otherwise, return <code> null
 	 * </code> .
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#getGroupName()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn#getGroupName()
 	 */
 
 	public String getGroupName( )
@@ -172,8 +173,8 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn
 	}
 
 	/**
-	 * Returns <code>true</code> indicating if the xml property value
-	 * represents the extesion-defined model.
+	 * Returns <code>true</code> indicating if the xml property value represents
+	 * the extesion-defined model.
 	 * 
 	 * @return <code>true</code> if the xml property value represents the
 	 *         extesion-defined model.
@@ -209,8 +210,8 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn
 		// triggerDefn.setValidator( ExtensionValidator.getInstance( ) );
 		//
 		// tmpTriggerSet.add( triggerDefn );
-		//			}
-		//		}
+		// }
+		// }
 
 		super.buildTriggerDefnSet( );
 	}

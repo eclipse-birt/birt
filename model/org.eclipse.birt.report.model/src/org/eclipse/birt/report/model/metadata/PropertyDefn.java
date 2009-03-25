@@ -58,7 +58,7 @@ public abstract class PropertyDefn
 	 * Cache this instance to avoid method calls.
 	 */
 
-	private final static PropertyType expressionType = MetaDataDictionary
+	protected final static PropertyType expressionType = MetaDataDictionary
 			.getInstance( ).getPropertyType( IPropertyType.EXPRESSION_TYPE );
 
 	/**
@@ -190,19 +190,19 @@ public abstract class PropertyDefn
 	 * The collection of semantic validatin triggers.
 	 */
 
-	private SemanticTriggerDefnSet triggers = null;
+	protected SemanticTriggerDefnSet triggers = null;
 
 	/**
 	 * Whether the value of this property is required.
 	 */
 
-	private boolean valueRequired = false;
+	protected boolean valueRequired = false;
 
 	/**
 	 * Whether the value of this property should be protected.
 	 */
 
-	private boolean isEncryptable = false;
+	protected boolean isEncryptable = false;
 
 	/**
 	 * The BIRT release when this property was introduced.
@@ -230,10 +230,10 @@ public abstract class PropertyDefn
 	protected String returnType;
 
 	/**
-	 * 
+	 * The value can be presented as <code>Expression</code>.
 	 */
 
-	private boolean allowExpression;
+	protected boolean allowExpression;
 
 	/**
 	 * Constructs a Property Definition.
