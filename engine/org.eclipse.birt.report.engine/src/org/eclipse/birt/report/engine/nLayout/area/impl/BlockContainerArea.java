@@ -121,6 +121,12 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 	
 	protected void update() throws BirtException
 	{
+		if ( context.isFixedLayout( ) && height > specifiedHeight
+				&& specifiedHeight > 0 )
+		{
+			setHeight( specifiedHeight );
+			setNeedClip( true );
+		}
 		if ( parent != null )
 		{
 			checkPageBreak();
