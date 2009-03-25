@@ -2699,7 +2699,10 @@ public class ParameterDialog extends BaseDialog
 		if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) )
 				|| DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST.equals( getSelectedControlType( ) ) )
 		{
-			doNotEcho.setEnabled( true );
+			if ( !DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST.equals( getSelectedControlType( ) ) )
+				doNotEcho.setEnabled( true );
+			else
+				doNotEcho.setEnabled( false );
 			distinct.setEnabled( false );
 		}
 		else
