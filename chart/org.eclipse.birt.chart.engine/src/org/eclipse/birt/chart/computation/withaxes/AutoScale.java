@@ -1643,8 +1643,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @throws ChartException
 	 */
 	final protected void checkTickLabelsVisibility( IDisplayServer xs,
-			Label la, int iLabelLocation, int iOrientation )
-			throws ChartException
+			Label la, int iLabelLocation ) throws ChartException
 	{
 		hmComputedLabelText = new HashMap<Integer, String>( );
 
@@ -1694,13 +1693,9 @@ public final class AutoScale extends Methods implements Cloneable
 		double dStep = Math.abs( atcTickCoordinates.getStep( ) * dZoomFactor );
 		int indexStep = dStep > 1 ? 1 : (int) ( 1d / dStep );
 
-		double dUnitSize = getUnitSize( );
-		int iCount = atcTickCoordinates.size( );
-
-		for ( int i = start_id; i < iCount; i += indexStep )
+		for ( int i = start_id; i < atcTickCoordinates.size( ) - 1; i += indexStep )
 		{
 			Object oValue = null;
-			double blankSize = dUnitSize * ( iCount - i );
 
 			if ( dsi.hasNext( ) )
 			{
@@ -1744,18 +1739,6 @@ public final class AutoScale extends Methods implements Cloneable
 					tester.setFPara( rrPrev[arrayIndex], x, y );
 					bVis = eHelper.checkLabelEllipsis( sText, null );
 					rrCurr = tester.getCurrentRR( );
-				}
-
-				if ( bVis )
-				{
-					if ( iOrientation == HORIZONTAL )
-					{
-						bVis = rrCurr.getBounds( ).getWidth( ) / 2 < blankSize;
-					}
-					else
-					{
-						bVis = rrCurr.getBounds( ).getHeight( ) / 2 < blankSize;
-					}
 				}
 
 				if ( bVis )
@@ -2825,7 +2808,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 
 			setTickCordinates( atc );
-			checkTickLabelsVisibility( xs, la, iLabelLocation, iOrientation );
+			checkTickLabelsVisibility( xs, la, iLabelLocation );
 			return stepNum + 1;
 		}
 
@@ -2914,7 +2897,9 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 		}
 
-		checkTickLabelsVisibility( xs, la, iLabelLocation, iOrientation );
+		// baTickLabelVisible = checkTickLabelsVisibility( xs, la,
+		// iLabelLocation );
+		checkTickLabelsVisibility( xs, la, iLabelLocation );
 
 		return nTicks;
 	}
