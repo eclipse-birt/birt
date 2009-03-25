@@ -3920,7 +3920,7 @@ WizardTemplateChoicePage.title.SimpleListing=简易列表
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=从右到左
 WizardTemplateChoicePage.label.ltrBiDiOrientation=从左到右
-WizardTemplateChoicePage.label.chooseBiDiDirection=报表方向:
+WizardTemplateChoicePage.label.chooseBiDiDirection=报表方向(&R):
 WizardTemplateChoicePage.RootDisplayName=标准
 #bidi_hcg end
 ###########################################################

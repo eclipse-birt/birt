@@ -3920,7 +3920,7 @@ WizardTemplateChoicePage.title.SimpleListing=간단한 목록
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=오른쪽에서 왼쪽
 WizardTemplateChoicePage.label.ltrBiDiOrientation=왼쪽에서 오른쪽
-WizardTemplateChoicePage.label.chooseBiDiDirection=보고서 방향:
+WizardTemplateChoicePage.label.chooseBiDiDirection=보고서 방향(&R):
 WizardTemplateChoicePage.RootDisplayName=표준
 #bidi_hcg end
 ###########################################################

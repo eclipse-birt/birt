@@ -3920,7 +3920,7 @@ WizardTemplateChoicePage.title.SimpleListing=Listado simple
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=De derecha a izquierda
 WizardTemplateChoicePage.label.ltrBiDiOrientation=De izquierda a derecha
-WizardTemplateChoicePage.label.chooseBiDiDirection=Orientación del informe:
+WizardTemplateChoicePage.label.chooseBiDiDirection=&Orientación del informe:
 WizardTemplateChoicePage.RootDisplayName=Estándar
 #bidi_hcg end
 ###########################################################

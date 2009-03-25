@@ -3920,7 +3920,7 @@ WizardTemplateChoicePage.title.SimpleListing=簡易リスト
 #bidi_hcg start
 WizardTemplateChoicePage.label.rtlBiDiOrientation=右から左へ
 WizardTemplateChoicePage.label.ltrBiDiOrientation=左から右へ
-WizardTemplateChoicePage.label.chooseBiDiDirection=レポートの向き :
+WizardTemplateChoicePage.label.chooseBiDiDirection=レポートの向き(&R) :
 WizardTemplateChoicePage.RootDisplayName=標準
 #bidi_hcg end
 ###########################################################
