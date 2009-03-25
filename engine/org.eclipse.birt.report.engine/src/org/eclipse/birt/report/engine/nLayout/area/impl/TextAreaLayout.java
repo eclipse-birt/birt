@@ -57,13 +57,11 @@ public class TextAreaLayout implements ILayout
 		parentLM = (InlineStackingArea) parent;
 		ITextContent textContent = (ITextContent) content;
 		String text = textContent.getText( );
-		if ( text != null )
-		{
-			if ( text.length( ) == 0 )
-				textContent.setText( " " );
-			else
-				transform( textContent );
-		}
+		if ( text != null && text.length( ) != 0 )
+			transform( textContent );
+		else
+			textContent.setText( " " );
+		
 		this.textContent = textContent;
 		comp = new TextCompositor( textContent, context.getFontManager( ),
 				context );
