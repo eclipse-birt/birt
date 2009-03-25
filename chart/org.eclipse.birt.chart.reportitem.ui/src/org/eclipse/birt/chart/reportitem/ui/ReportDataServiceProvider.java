@@ -331,14 +331,22 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	private String[] getPreviewHeader( boolean isExpression )
 			throws ChartException
 	{
-		String[] exps = getPreviewHeader( );
-		if ( isExpression )
+		ColumnBindingInfo[] cbis = getPreviewHeadersInfo( );
+		String[] exps = new String[cbis.length];
+		int i = 0;
+		for ( ColumnBindingInfo cbi : cbis )
 		{
-			for ( int i = 0; i < exps.length; i++ )
+			if ( isExpression )
 			{
-				exps[i] = ExpressionUtil.createJSRowExpression( exps[i] );
+				exps[i] = ExpressionUtil.createJSRowExpression( cbi.getName(  ) );
 			}
+			else
+			{
+				exps[i] = cbi.getName( );
+			}
+			i++;
 		}
+		
 		return exps;
 	}
 

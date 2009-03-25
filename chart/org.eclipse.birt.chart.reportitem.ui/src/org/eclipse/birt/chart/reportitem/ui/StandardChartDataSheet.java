@@ -429,7 +429,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 		
 		btnShowDataPreviewB = new Button( cmpColumnsList, SWT.CHECK );
-		btnShowDataPreviewB.setText( Messages.getString("StandardChartDataSheet.Label.ShowLabelPreview") ); //$NON-NLS-1$
+		btnShowDataPreviewB.setText( Messages.getString("StandardChartDataSheet.Label.ShowDataPreview") ); //$NON-NLS-1$
 		btnShowDataPreviewB.addListener( SWT.Selection, this );
 		
 		// Add a list to display all columns.
@@ -645,52 +645,60 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			stackLayout.topControl = cmpCubeTree;
 			cubeTreeViewer.setInput( getCube( ) );
+			cmpStack.layout( );
+			return;
 		}
-		else if ( getContext().isShowingDataPreview( )  )
+		
+		try
 		{
-			boolean showDataPreview = true;
-			try
+			// If it is initial state and the columns are equal and greater
+			// than 6, do not use data preveiw, just use columns list view.
+			if ( !getContext( ).isSetShowingDataPreview( )
+					&& getDataServiceProvider( ).getPreviewHeadersInfo( ).length >= 6 )
 			{
-				// If it is initial state and the columns are equal and greater
-				// than 6, do not use data preveiw, just use columns list view.
-				if ( !getContext().isSetShowingDataPreview( ) && getDataServiceProvider( ).getPreviewHeadersInfo( ).length >= 6 )
-				{
-					showDataPreview = false;
-				}
-					
-			}
-			catch ( NullPointerException e )
-			{
-				// Do not do anything.
-			}
-			catch ( ChartException e )
-			{
-				WizardBase.showException( e.getMessage( ) );
-			}
-			
-			if ( showDataPreview ) {
-				stackLayout.topControl = cmpDataPreview;
-				refreshTablePreview( );
-			}
-			else
-			{
-				stackLayout.topControl = cmpColumnsList;
-				refreshColumnsListView( );
 				getContext().setShowingDataPreview( false );
 			}
 			
 		}
-		else
+		catch ( NullPointerException e )
 		{
-			stackLayout.topControl = cmpColumnsList;
-			refreshColumnsListView( );
+			// Do not do anything.
 		}
-		
+		catch ( ChartException e )
+		{
+			WizardBase.showException( e.getMessage( ) );
+		}
+
 		btnShowDataPreviewA.setSelection( getContext().isShowingDataPreview( ) );
 		btnShowDataPreviewB.setSelection( getContext().isShowingDataPreview( ) );
 		
-		cmpStack.layout( );
+		if ( getContext().isShowingDataPreview( )  )
+		{
+			stackLayout.topControl = cmpDataPreview;
+		}
+		else
+		{
+			stackLayout.topControl = cmpColumnsList;
+		}
 		
+		refreshDataPreviewPane( );
+		
+		cmpStack.layout( );
+	}
+
+	/**
+	 * 
+	 */
+	private void refreshDataPreviewPane( )
+	{
+		if ( getContext().isShowingDataPreview( ) )
+		{
+			refreshTablePreview( );
+		}
+		else
+		{
+			refreshColumnsListView( );
+		}
 	}
 
 	/**
@@ -1081,7 +1089,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 				if ( invokeEditFilter( ) == Window.OK )
 				{
-					refreshTablePreview( );
+					refreshDataPreviewPane( );
 					// Update preview via event
 					fireEvent( btnFilters, EVENT_PREVIEW );
 				}
@@ -1090,7 +1098,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 				if ( invokeEditParameter( ) == Window.OK )
 				{
-					refreshTablePreview( );
+					refreshDataPreviewPane( );
 					// Update preview via event
 					fireEvent( btnParameters, EVENT_PREVIEW );
 				}
@@ -1099,7 +1107,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 				if ( invokeDataBinding( ) == Window.OK )
 				{
-					refreshTablePreview( );
+					refreshDataPreviewPane( );
 					// Update preview via event
 					fireEvent( btnBinding, EVENT_PREVIEW );
 				}
@@ -1168,7 +1176,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 					// Fire event to update outside UI
 					fireEvent( btnBinding, EVENT_QUERY );
-					refreshTablePreview( );
+					refreshDataPreviewPane( );
 				}
 				else if ( event.widget == cmbDataItems )
 				{
