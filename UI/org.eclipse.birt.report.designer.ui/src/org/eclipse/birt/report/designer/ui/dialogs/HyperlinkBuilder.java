@@ -700,8 +700,8 @@ public class HyperlinkBuilder extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				selectRadio( targetGroup, reportDesignButton );
 				initTargetReport( locationEditor.getText( ) );
+				selectRadio( targetGroup, reportDesignButton );
 				initParamterBindings( );
 				deSelectAnchor( );
 				updateButtons( );
@@ -1464,11 +1464,11 @@ public class HyperlinkBuilder extends BaseDialog
 			else
 			{
 				reportDesignButton.setSelection( true );
+				selectRadio( targetGroup, reportDesignButton );
 				if ( inputHandle.getReportName( ) != null )
 				{
 					locationEditor.setText( inputHandle.getReportName( ) );
 				}
-				selectRadio( targetGroup, reportDesignButton );
 			}
 			// edit mode, initail pre-setting
 			if ( inputHandle.getReportName( ) != null )
@@ -1610,35 +1610,45 @@ public class HyperlinkBuilder extends BaseDialog
 						}
 					}
 
-					if ( newFilename.equals( inputHandle.getReportName( ) ) )
-					{
-						for ( Iterator iter = inputHandle.paramBindingsIterator( ); iter.hasNext( ); )
-						{
-							ParamBindingHandle handle = (ParamBindingHandle) iter.next( );
-							bindingList.add( (ParamBinding) handle.getStructure( ) );
-						}
-					}
+//					if ( newFilename.equals( inputHandle.getReportName( ) ) )
+//					{
+//						for ( Iterator iter = inputHandle.paramBindingsIterator( ); iter.hasNext( ); )
+//						{
+//							ParamBindingHandle handle = (ParamBindingHandle) iter.next( );
+//							bindingList.add( (ParamBinding) handle.getStructure( ) );
+//						}
+//					}
 				}
 			}
+			
 			if ( errorMessage != null )
 			{
 				messageLine.setText( errorMessage );
 				messageLine.setImage( ERROR_ICON );
-				paramBindingTable.getTable( ).setEnabled( false );
+//				paramBindingTable.getTable( ).setEnabled( false );
 			}
 			else
 			{
 				messageLine.setText( "" ); //$NON-NLS-1$
 				messageLine.setImage( null );
-				paramBindingTable.getTable( ).setEnabled( true );
+//				paramBindingTable.getTable( ).setEnabled( true );
 			}
-
-			paramBindingTable.refresh( );
 			// paramBindingTable.getTable( )
 			// .setEnabled( !parameterList.isEmpty( ) );
 
 			updateButtons( );
 		}
+		
+		bindingList.clear( );
+		for ( Iterator iter = inputHandle.paramBindingsIterator( ); iter.hasNext( ); )
+		{
+			ParamBindingHandle handle = (ParamBindingHandle) iter.next( );
+			bindingList.add( (ParamBinding) handle.getStructure( ) );
+		}
+
+//		parammeter table is always enabled
+		paramBindingTable.getTable( ).setEnabled( true );
+		paramBindingTable.refresh( );
 	}
 
 	private void initBookmarkList( Object handle )
@@ -1800,7 +1810,7 @@ public class HyperlinkBuilder extends BaseDialog
 					String errorMessage = Messages.getString( "HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName" ); //$NON-NLS-1$
 					messageLine.setText( errorMessage );
 					messageLine.setImage( ERROR_ICON );
-					updateButtons( );
+					getOkButton( ).setEnabled( false );
 					return;
 				}
 			}
