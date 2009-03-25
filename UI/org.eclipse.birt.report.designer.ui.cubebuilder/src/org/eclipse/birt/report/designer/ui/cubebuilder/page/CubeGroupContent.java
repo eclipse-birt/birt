@@ -12,8 +12,14 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import java.util.Iterator;
+import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
@@ -162,7 +168,6 @@ public class CubeGroupContent extends Composite implements Listener
 		this.setLayout( layout );
 		createContent( );
 	}
-
 
 	public void dispose( )
 	{
@@ -575,7 +580,7 @@ public class CubeGroupContent extends Composite implements Listener
 
 									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
 
-									measure.setDataType( dataField.getDataType( ) );
+									initMeasure( dataField, measure );
 									( (MeasureHandle) element ).getContainer( )
 											.add( IMeasureGroupModel.MEASURES_PROP,
 													measure );
@@ -662,7 +667,7 @@ public class CubeGroupContent extends Composite implements Listener
 									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 											.newTabularMeasure( dataField.getColumnName( ) );
 									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-									measure.setDataType( dataField.getDataType( ) );
+									initMeasure( dataField, measure );
 									( (MeasureHandle) element ).getContainer( )
 											.add( IMeasureGroupModel.MEASURES_PROP,
 													measure );
@@ -725,7 +730,7 @@ public class CubeGroupContent extends Composite implements Listener
 									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 											.newTabularMeasure( dataField.getColumnName( ) );
 									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-									measure.setDataType( dataField.getDataType( ) );
+									initMeasure( dataField, measure );
 									measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 											measure );
 									if ( !isValidName )
@@ -2012,7 +2017,7 @@ public class CubeGroupContent extends Composite implements Listener
 									&& dataset == primary )
 								measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
 
-							measure.setDataType( dataField.getDataType( ) );
+							initMeasure( dataField, measure );
 							measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 									measure );
 							if ( !isValidName
@@ -2053,7 +2058,7 @@ public class CubeGroupContent extends Composite implements Listener
 									&& primary != null
 									&& dataset == primary )
 								measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-							measure.setDataType( dataField.getDataType( ) );
+							initMeasure( dataField, measure );
 							( (MeasureHandle) obj ).getContainer( )
 									.add( IMeasureGroupModel.MEASURES_PROP,
 											measure );
@@ -2086,8 +2091,50 @@ public class CubeGroupContent extends Composite implements Listener
 		}
 	}
 
-	private InputDialog createRenameDialog(
-			ReportElementHandle handle,
+	private void initMeasure( ResultSetColumnHandle dataField,
+			TabularMeasureHandle measure ) throws SemanticException
+	{
+		String dataType = dataField.getDataType( );
+		measure.setDataType( dataType );
+		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType ) )
+			return;
+
+		IAggrFunction countFunction = getCountFunction( );
+		if ( countFunction != null )
+			measure.setFunction( countFunction.getName( ) );
+
+	}
+
+	private IAggrFunction getCountFunction( )
+	{
+		IAggrFunction countFunction = null;
+
+		try
+		{
+			String countFunctionName = DataAdapterUtil.adaptModelAggregationType( DesignChoiceConstants.AGGREGATION_FUNCTION_COUNT );
+			List aggrInfoList = DataUtil.getAggregationManager( )
+					.getAggregations( AggregationManager.AGGR_MEASURE );
+			for ( int i = 0; i < aggrInfoList.size( ); i++ )
+			{
+				IAggrFunction function = (IAggrFunction) aggrInfoList.get( i );
+				if ( function.getDisplayName( ).equals( countFunctionName ) )
+				{
+					countFunction = function;
+					break;
+				}
+
+			}
+		}
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		return countFunction;
+	}
+
+	private InputDialog createRenameDialog( ReportElementHandle handle,
 			String title, String message )
 	{
 		InputDialog inputDialog = new InputDialog( getShell( ),
@@ -2095,6 +2142,7 @@ public class CubeGroupContent extends Composite implements Listener
 				message,
 				handle.getName( ),
 				null ) {
+
 			public int open( )
 			{
 				getText( ).addModifyListener( new ModifyListener( ) {
@@ -2105,7 +2153,7 @@ public class CubeGroupContent extends Composite implements Listener
 						if ( getText( ).getText( ).trim( ).length( ) == 0 )
 						{
 							getButton( IDialogConstants.OK_ID ).setEnabled( false );
-							 setErrorMessage( Messages.getString( "RenameInputDialog.Message.BlankName" ) ); //$NON-NLS-1$
+							setErrorMessage( Messages.getString( "RenameInputDialog.Message.BlankName" ) ); //$NON-NLS-1$
 						}
 						else if ( !UIUtil.validateDimensionName( getText( ).getText( ) ) )
 						{
@@ -2271,7 +2319,7 @@ public class CubeGroupContent extends Composite implements Listener
 				}
 				InputDialog inputDialog = createRenameDialog( (ReportElementHandle) obj,
 						title,
-						message);
+						message );
 				if ( inputDialog.open( ) == Window.OK )
 				{
 					try
