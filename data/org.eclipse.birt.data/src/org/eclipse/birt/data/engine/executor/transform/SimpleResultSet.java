@@ -100,6 +100,7 @@ public class SimpleResultSet implements IResultIterator
 		{
 			try
 			{
+
 				if ( dataSetStream instanceof RAOutputStream )
 				{
 					( (RAOutputStream) dataSetStream ).seek( rowCountOffset );
@@ -117,9 +118,11 @@ public class SimpleResultSet implements IResultIterator
 
 				dataSetStream.close( );
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
+				
 			}
+			dataSetStream = null;
 		}
 		if ( this.dataSetLenStream != null )
 		{
@@ -127,9 +130,10 @@ public class SimpleResultSet implements IResultIterator
 			{
 				dataSetLenStream.close( );
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
 			}
+			dataSetLenStream = null;
 		}
 	}
 
