@@ -252,6 +252,17 @@ public class ImageHandleTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.IMAGE_REF_TYPE_URL, image
 				.getSource( ) );
 
+		Expression expr = new Expression( "C:\\image.jsp", null );
+		image.setFile( expr );		
+		assertEquals( DesignChoiceConstants.IMAGE_REF_TYPE_FILE, image
+				.getSource( ) );
+		assertEquals( "C:\\image.jsp", image.getURI( ) ); //$NON-NLS-1$
+		
+		image.setURL( expr );		
+		assertEquals( DesignChoiceConstants.IMAGE_REF_TYPE_URL, image
+				.getSource( ) );
+		assertEquals( "C:\\image.jsp", image.getURI( ) ); //$NON-NLS-1$
+
 	}
 
 	/**

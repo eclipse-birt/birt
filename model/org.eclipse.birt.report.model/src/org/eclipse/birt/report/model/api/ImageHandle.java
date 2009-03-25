@@ -499,7 +499,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	 * @throws SemanticException
 	 */
 
-	private void setURIProperty( String prop, String source )
+	private void setURIProperty( Object prop, String source )
 			throws SemanticException
 	{
 		ActivityStack as = module.getActivityStack( );
@@ -739,6 +739,40 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 			throws SemanticException
 	{
 		setProperty( FIT_TO_CONTAINER_PROP, new Boolean( fitToContainer ) );
+	}
+
+	/**
+	 * Sets the image uri property by an expression. The source type is
+	 * <code>IMAGE_REF_TYPE_URL</code>, and will automatically set in this
+	 * method.
+	 * 
+	 * @param expr
+	 *            the expression to be set.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setURL( Expression expr ) throws SemanticException
+	{
+		setURIProperty( expr, DesignChoiceConstants.IMAGE_REF_TYPE_URL );
+	}
+
+
+
+	/**
+	 * Sets the image uri property by an expression. The source type is
+	 * <code>IMAGE_REF_TYPE_FILE</code>, and will automatically set in this
+	 * method.
+	 * 
+	 * @param expr
+	 *            the expression to be set.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setFile( Expression expr ) throws SemanticException
+	{
+		setURIProperty( expr, DesignChoiceConstants.IMAGE_REF_TYPE_FILE );
 	}
 
 }
