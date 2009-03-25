@@ -118,9 +118,11 @@ public class SimpleResultSet implements IResultIterator
 
 				dataSetStream.close( );
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
+				
 			}
+			dataSetStream = null;
 		}
 		if ( this.dataSetLenStream != null )
 		{
@@ -128,9 +130,10 @@ public class SimpleResultSet implements IResultIterator
 			{
 				dataSetLenStream.close( );
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
 			}
+			dataSetLenStream = null;
 		}
 	}
 
