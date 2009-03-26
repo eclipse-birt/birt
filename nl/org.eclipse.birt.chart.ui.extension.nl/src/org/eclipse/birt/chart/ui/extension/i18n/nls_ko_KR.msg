@@ -575,7 +575,7 @@ TriggerDataComposite.Label.VisiblityDescription=적용 가능할 때 해당 데이터 요소�
 TriggerDataComposite.Label.Description=유형, URI, 내부 책갈피 및 드릴스루에 따라 URL을 편집합니다.
 TriggerDataComposite.Label.DPVisibilityDescription=적용 가능할 때 해당 데이터 요소 레이블의 표시 유형을 전환합니다.
 TriggerDataComposite.Label.OptionalURLParameters=각각의 데이터 요소에 대해 다음 값을 표시하는 옵션 URL 매개 변수의 이름을 지정합니다.
-TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=도구 설명 텍스트가 설정 해제되지 않는 경우 해당 계열의 데이터 레이블이 사용됩니다.
+TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=If the tooltip text is left unset, it will use the data label of the corresponding series instead.
 TriggerDataComposite.Tooltip.InvokeURLBuilder=URL 빌더 호출
 TriggerDataComposite.Tooltip.Advanced=옵션 URL 매개 변수 표시
 TriggerDataComposite.Label.None=없음
@@ -630,7 +630,7 @@ PaletteEditorComposite.Lbl.Up=위로
 PaletteEditorComposite.Lbl.Down=아래로
 
 LabelAttributesComposite.Lbl.Label=레이블
-LabelAttributesComposite.Lbl.Font=글꼴(&F):
+LabelAttributesComposite.Lbl.Font=Font:
 LabelAttributesComposite.Lbl.Shadow=그림자(&S):
 LabelBlockAttributeSheetImpl.Title.SheetTitle=레이아웃 > 레이블 블록 - 레이블 블록 영역 형식 지정
 
@@ -791,7 +791,7 @@ AxisYSheetImpl.Label.TitleFormat=축 제목
 AxisYSheetImpl.Label.TitleFormat&=제목(&T)
 AxisYSheetImpl.Label.Gridlines=축 눈금선
 AxisYSheetImpl.Label.Gridlines&=눈금선(&D)
-AbstractAxisSubtask.Button.Fixed=고정(&F)
+AbstractAxisSubtask.Button.Fixed=Fi&xed
 AbstractAxisSubtask.Lbl.IsCategoryAxis=범주 축(&X)
 AbstractAxisSubtask.Label.Visible2=표시(&I)
 AbstractScaleSheet.Label.StepNumber=단계 번호(&N):
@@ -885,6 +885,7 @@ BaseDataDefinitionComponent.Text.EditFormat=형식 편집
 BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=1차원 식을 선택하면 범주 계열과 Y 옵션을 동시에 설정할 수 없습니다.
 BaseGroupSortingDialog.Label.SortOn=정렬 방법(&O):
 
+MarkerEditorComposite.Button.Outline=윤곽선(&O)
 MarkerIconDialog.Button.EmbeddedImage=포함된 이미지
 MarkerIconDialog.Title.MarkerIconSelector=표지 아이콘 선택기(Marker Icon Selector)
 MarkerIconDialog.Label.Description.EmbeddedImage=마커 아이콘으로 포함된 이미지를 선택합니다.

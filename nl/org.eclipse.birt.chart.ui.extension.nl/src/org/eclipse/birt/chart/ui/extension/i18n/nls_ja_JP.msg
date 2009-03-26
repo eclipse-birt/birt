@@ -575,7 +575,7 @@ TriggerDataComposite.Label.VisiblityDescription=対応するデータ要素の表示と非表示
 TriggerDataComposite.Label.Description=URL をその種類に応じて編集します (URI、内部ブックマーク、ドリルスルーリンクなど)。
 TriggerDataComposite.Label.DPVisibilityDescription=対応するデータ要素のラベルの表示と非表示を切り替えます (該当する場合)。
 TriggerDataComposite.Label.OptionalURLParameters=各データポイントの次の値を表わすオプションの URL パラメタを指定してください。
-TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=ツールチップのテキストを指定しない場合は、代りに対応する系列のデータラベルを使用してください。
+TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=If the tooltip text is left unset, it will use the data label of the corresponding series instead.
 TriggerDataComposite.Tooltip.InvokeURLBuilder=URL ビルダの起動
 TriggerDataComposite.Tooltip.Advanced=オプションの URL パラメタの表示
 TriggerDataComposite.Label.None=なし
@@ -630,7 +630,7 @@ PaletteEditorComposite.Lbl.Up=上へ
 PaletteEditorComposite.Lbl.Down=下へ
 
 LabelAttributesComposite.Lbl.Label=ラベル
-LabelAttributesComposite.Lbl.Font=フォント名 (&F):
+LabelAttributesComposite.Lbl.Font=Font:
 LabelAttributesComposite.Lbl.Shadow=影(&S) :
 LabelBlockAttributeSheetImpl.Title.SheetTitle=レイアウト > ラベルブロック - ラベルブロック領域の書式設定
 
@@ -791,7 +791,7 @@ AxisYSheetImpl.Label.TitleFormat=軸タイトル
 AxisYSheetImpl.Label.TitleFormat&=タイトル(&T)
 AxisYSheetImpl.Label.Gridlines=軸グリッド
 AxisYSheetImpl.Label.Gridlines&=グリッド(&D)
-AbstractAxisSubtask.Button.Fixed=固定(&F)
+AbstractAxisSubtask.Button.Fixed=Fi&xed
 AbstractAxisSubtask.Lbl.IsCategoryAxis=カテゴリ軸(&X)
 AbstractAxisSubtask.Label.Visible2=可視(&I)
 AbstractScaleSheet.Label.StepNumber=ステップ番号(&N) :
@@ -885,6 +885,7 @@ BaseDataDefinitionComponent.Text.EditFormat=書式の編集
 BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=1 つのディメンジョンの式を選択して、カテゴリ系列と Y 軸のオプション値を同時に設定することはできません。
 BaseGroupSortingDialog.Label.SortOn=ソート(&O) :
 
+MarkerEditorComposite.Button.Outline=外枠(&O)
 MarkerIconDialog.Button.EmbeddedImage=埋め込まれたイメージ
 MarkerIconDialog.Title.MarkerIconSelector=マーカのアイコンセレクタ
 MarkerIconDialog.Label.Description.EmbeddedImage=マーカーのアイコンに指定する埋め込まれたイメージを選択してください。

@@ -575,7 +575,7 @@ TriggerDataComposite.Label.VisiblityDescription=Bascule la visibilité de l'éléme
 TriggerDataComposite.Label.Description=Modifiez l'URL en fonction de son type, y compris les paramètres suivants : URI, Signet Interne et Extraire.
 TriggerDataComposite.Label.DPVisibilityDescription=Bascule la visibilité de l'étiquette de l'élément de données correspondant, le cas échéant.
 TriggerDataComposite.Label.OptionalURLParameters=Nommez les paramètres URL optionnels qui représentent, pour chaque point de données, les valeurs suivantes :
-TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=Si le texte infobulle reste annulé, il utilisera l'étiquette de données de la série correspondante à la place.
+TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=If the tooltip text is left unset, it will use the data label of the corresponding series instead.
 TriggerDataComposite.Tooltip.InvokeURLBuilder=Invoquer le générateur d'URL
 TriggerDataComposite.Tooltip.Advanced=Afficher les paramètres URL optionnels
 TriggerDataComposite.Label.None=Aucun
@@ -630,7 +630,7 @@ PaletteEditorComposite.Lbl.Up=Vers le haut
 PaletteEditorComposite.Lbl.Down=Vers le bas
 
 LabelAttributesComposite.Lbl.Label=Etiquette
-LabelAttributesComposite.Lbl.Font=&Police :
+LabelAttributesComposite.Lbl.Font=Font:
 LabelAttributesComposite.Lbl.Shadow=&Ombre :
 LabelBlockAttributeSheetImpl.Title.SheetTitle=Mise en page > Bloc de l'étiquette - Formater la zone de bloc de l'étiquette
 
@@ -791,7 +791,7 @@ AxisYSheetImpl.Label.TitleFormat=Titre de l'axe
 AxisYSheetImpl.Label.TitleFormat&=&Titre
 AxisYSheetImpl.Label.Gridlines=Quadrillage de l'axe
 AxisYSheetImpl.Label.Gridlines&=Qua&drillage
-AbstractAxisSubtask.Button.Fixed=&Fixe
+AbstractAxisSubtask.Button.Fixed=Fi&xed
 AbstractAxisSubtask.Lbl.IsCategoryAxis=A&xe de catégorie
 AbstractAxisSubtask.Label.Visible2=V&isible
 AbstractScaleSheet.Label.StepNumber=&Numéro de l'escalier :
@@ -885,6 +885,7 @@ BaseDataDefinitionComponent.Text.EditFormat=Modifier le format
 BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=Impossible de sélectionner des expressions d'une dimension permettant de définir des séries de catégories et des séries verticales facultatives en une seule fois.
 BaseGroupSortingDialog.Label.SortOn=Trier sel&on :
 
+MarkerEditorComposite.Button.Outline=&Contour
 MarkerIconDialog.Button.EmbeddedImage=Image incorporée
 MarkerIconDialog.Title.MarkerIconSelector=Dispositif de sélection d'icône de repère
 MarkerIconDialog.Label.Description.EmbeddedImage=Sélectionner l'image incorporée comme icône de repère.

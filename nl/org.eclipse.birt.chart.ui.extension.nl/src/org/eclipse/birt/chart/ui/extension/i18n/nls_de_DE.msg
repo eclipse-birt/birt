@@ -575,7 +575,7 @@ TriggerDataComposite.Label.VisiblityDescription=Die Sichtbarkeit des entsprechen
 TriggerDataComposite.Label.Description=Bearbeiten Sie die URL gemäß ihres Typs (einschließlich URI, internem Lesezeichen und Detailabfrage).
 TriggerDataComposite.Label.DPVisibilityDescription=Die Sichtbarkeit der Beschriftung des Datenelements wird gegebenenfalls ein- bzw. ausgeschaltet.
 TriggerDataComposite.Label.OptionalURLParameters=Legen Sie optionale URL-Parameter fest, die für jeden Datenpunkt die folgenden entsprechenden Werte repräsentieren:
-TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=Wenn kein QuickInfo-Text angegeben ist, wird stattdessen die Datenbeschriftung der entsprechenden Datenreihe angezeigt.
+TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=If the tooltip text is left unset, it will use the data label of the corresponding series instead.
 TriggerDataComposite.Tooltip.InvokeURLBuilder=URL-Erstellung aufrufen
 TriggerDataComposite.Tooltip.Advanced=Optionale URL-Parameter anzeigen
 TriggerDataComposite.Label.None=Ohne
@@ -630,7 +630,7 @@ PaletteEditorComposite.Lbl.Up=Aufwärts
 PaletteEditorComposite.Lbl.Down=Abwärts
 
 LabelAttributesComposite.Lbl.Label=Beschriftung
-LabelAttributesComposite.Lbl.Font=&Schriftart:
+LabelAttributesComposite.Lbl.Font=Font:
 LabelAttributesComposite.Lbl.Shadow=&Schatten:
 LabelBlockAttributeSheetImpl.Title.SheetTitle=Layout > Beschriftungsblock - Bereich für Beschriftungsblock formatieren
 
@@ -791,7 +791,7 @@ AxisYSheetImpl.Label.TitleFormat=Achsentitel
 AxisYSheetImpl.Label.TitleFormat&=&Titel
 AxisYSheetImpl.Label.Gridlines=Achsen-Rasterlinien
 AxisYSheetImpl.Label.Gridlines&=Ra&sterlinien
-AbstractAxisSubtask.Button.Fixed=&Fest
+AbstractAxisSubtask.Button.Fixed=Fi&xed
 AbstractAxisSubtask.Lbl.IsCategoryAxis=Ist Kategoriena&chse
 AbstractAxisSubtask.Label.Visible2=S&ichtbar
 AbstractScaleSheet.Label.StepNumber=Schritt&nummer:
@@ -885,6 +885,7 @@ BaseDataDefinitionComponent.Text.EditFormat=Format bearbeiten
 BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=Ausdrücke einer Dimension zum Festlegen von Kategorie-Datenreihe und Y-Option können nicht gleichzeitig ausgewählt werden.
 BaseGroupSortingDialog.Label.SortOn=Sortieren &nach:
 
+MarkerEditorComposite.Button.Outline=&Umriss
 MarkerIconDialog.Button.EmbeddedImage=Eingebettetes Bild
 MarkerIconDialog.Title.MarkerIconSelector=Auswahl für Markierungssymbol
 MarkerIconDialog.Label.Description.EmbeddedImage=Wählen Sie ein eingebettetes Bild als Markierungssymbol.

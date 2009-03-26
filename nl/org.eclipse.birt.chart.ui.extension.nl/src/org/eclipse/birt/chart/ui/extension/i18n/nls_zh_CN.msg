@@ -575,7 +575,7 @@ TriggerDataComposite.Label.VisiblityDescription=适当时切换相应数据元素的可见性。
 TriggerDataComposite.Label.Description=根据类型编辑 URL，包括 URI、内部书签和钻取。
 TriggerDataComposite.Label.DPVisibilityDescription=适当时切换相应数据元素标签的可见性。
 TriggerDataComposite.Label.OptionalURLParameters=为每个数据点指定表示其下列值的可选 URL 参数:
-TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=如果工具提示文本未设置，它将使用相应系列的数据标签。
+TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=If the tooltip text is left unset, it will use the data label of the corresponding series instead.
 TriggerDataComposite.Tooltip.InvokeURLBuilder=调用 URL 生成器
 TriggerDataComposite.Tooltip.Advanced=显示可选 URL 参数
 TriggerDataComposite.Label.None=无
@@ -630,7 +630,7 @@ PaletteEditorComposite.Lbl.Up=上移
 PaletteEditorComposite.Lbl.Down=下移
 
 LabelAttributesComposite.Lbl.Label=标签
-LabelAttributesComposite.Lbl.Font=字体(&F):
+LabelAttributesComposite.Lbl.Font=Font:
 LabelAttributesComposite.Lbl.Shadow=阴影(&S):
 LabelBlockAttributeSheetImpl.Title.SheetTitle=布局 > 标签块 - 格式化标签块区域
 
@@ -791,7 +791,7 @@ AxisYSheetImpl.Label.TitleFormat=轴标题
 AxisYSheetImpl.Label.TitleFormat&=标题(&T)
 AxisYSheetImpl.Label.Gridlines=轴网格线
 AxisYSheetImpl.Label.Gridlines&=网格线(&D)
-AbstractAxisSubtask.Button.Fixed=固定(&F)
+AbstractAxisSubtask.Button.Fixed=Fi&xed
 AbstractAxisSubtask.Lbl.IsCategoryAxis=为类别轴(&X)
 AbstractAxisSubtask.Label.Visible2=可见(&I)
 AbstractScaleSheet.Label.StepNumber=步数(&N):
@@ -885,6 +885,7 @@ BaseDataDefinitionComponent.Text.EditFormat=编辑格式
 BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=不能选择同时在类别系列和 Y 选项上设置的一个维的表达式。
 BaseGroupSortingDialog.Label.SortOn=排序依据(&O):
 
+MarkerEditorComposite.Button.Outline=边框(&O)
 MarkerIconDialog.Button.EmbeddedImage=嵌入图像
 MarkerIconDialog.Title.MarkerIconSelector=标记图标选择器
 MarkerIconDialog.Label.Description.EmbeddedImage=选择嵌入图像作为标记图标。

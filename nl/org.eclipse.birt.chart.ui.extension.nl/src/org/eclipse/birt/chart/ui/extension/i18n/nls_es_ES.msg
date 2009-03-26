@@ -575,7 +575,7 @@ TriggerDataComposite.Label.VisiblityDescription=Alterna la visibilidad del eleme
 TriggerDataComposite.Label.Description=Editar la URL según su tipo, incluyendo URI, marcador interno y aumento.
 TriggerDataComposite.Label.DPVisibilityDescription=Alterna la visibilidad de la etiqueta del elemento de datos correspondiente cuando es necesario.
 TriggerDataComposite.Label.OptionalURLParameters=Nombrar parámetros de URL opcionales que representen, para cada punto de datos, sus siguientes valores:
-TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=Si el texto de información sobre herramientas no está especificado, se utilizará en su lugar la etiqueta de datos de la serie correspondiente
+TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=If the tooltip text is left unset, it will use the data label of the corresponding series instead.
 TriggerDataComposite.Tooltip.InvokeURLBuilder=Llamar al compilador de URL
 TriggerDataComposite.Tooltip.Advanced=Mostrar parámetros de URL opcionales
 TriggerDataComposite.Label.None=Ninguno
@@ -630,7 +630,7 @@ PaletteEditorComposite.Lbl.Up=Arriba
 PaletteEditorComposite.Lbl.Down=Abajo
 
 LabelAttributesComposite.Lbl.Label=Etiqueta
-LabelAttributesComposite.Lbl.Font=&Fuente:
+LabelAttributesComposite.Lbl.Font=Font:
 LabelAttributesComposite.Lbl.Shadow=&Sombra:
 LabelBlockAttributeSheetImpl.Title.SheetTitle=Diseño > Bloque de etiqueta - Formato del área del bloque de etiqueta
 
@@ -791,7 +791,7 @@ AxisYSheetImpl.Label.TitleFormat=Título de eje
 AxisYSheetImpl.Label.TitleFormat&=&Título
 AxisYSheetImpl.Label.Gridlines=Líneas de cuadrícula de eje
 AxisYSheetImpl.Label.Gridlines&=Líneas &de cuadrícula
-AbstractAxisSubtask.Button.Fixed=&Fijo
+AbstractAxisSubtask.Button.Fixed=Fi&xed
 AbstractAxisSubtask.Lbl.IsCategoryAxis=Es el eje de la &categoría
 AbstractAxisSubtask.Label.Visible2=V&isible
 AbstractScaleSheet.Label.StepNumber=&Número de paso:
@@ -885,6 +885,7 @@ BaseDataDefinitionComponent.Text.EditFormat=Editar formato
 BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=No se pueden seleccionar expresiones de una dimensión para establecer en serie de categoría e Y opcional al mismo tiempo.
 BaseGroupSortingDialog.Label.SortOn=&Ordenar según:
 
+MarkerEditorComposite.Button.Outline=C&ontorno
 MarkerIconDialog.Button.EmbeddedImage=Imagen incrustada
 MarkerIconDialog.Title.MarkerIconSelector=Selector de icono de marcador
 MarkerIconDialog.Label.Description.EmbeddedImage=Seleccionar imagen incrustada como icono de marcador.
