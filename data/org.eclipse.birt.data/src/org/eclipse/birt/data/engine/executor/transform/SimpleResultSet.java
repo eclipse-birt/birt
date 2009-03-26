@@ -116,6 +116,7 @@ public class SimpleResultSet implements IResultIterator
 					IOUtil.writeInt( exprValueStream, rowCount );
 				}
 
+				exprValueStream.close( );
 				dataSetStream.close( );
 			}
 			catch ( Exception e )
