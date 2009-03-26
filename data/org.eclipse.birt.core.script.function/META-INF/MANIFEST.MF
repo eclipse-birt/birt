@@ -13,4 +13,5 @@ Bundle-Localization: plugin
 Bundle-ClassPath: .
 Import-Package: com.ibm.icu.text;version="[3.4.4,5.0.0)",
  com.ibm.icu.util;version="[3.4.4,5.0.0)"
+Bundle-Vendor: Eclipse.org
 
