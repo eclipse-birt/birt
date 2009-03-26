@@ -62,6 +62,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ArgumentInfoList;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
@@ -1351,19 +1352,26 @@ public class ReportItemExtensionTest extends BaseTestCase
 		ExtendedItemHandle itemHandle = insertExtendedItem(
 				"matrix1", TESTING_MATRIX_NAME ); //$NON-NLS-1$
 
-		ExtendedItem element = (ExtendedItem) itemHandle.getElement( );
+		PropertyHandle prop = itemHandle
+				.getPropertyHandle( ReportItem.BOOKMARK_PROP );
+		assertFalse( prop.isVisible( ) );
 
-		assertFalse( element.getExtDefn( ).isPropertyVisible(
-				ReportItem.BOOKMARK_PROP ) );
-		assertFalse( element.getExtDefn( ).isPropertyVisible( "test3" ) ); //$NON-NLS-1$
-		assertTrue( element.getExtDefn( ).isPropertyReadOnly(
-				ReportItem.DATA_SET_PROP ) );
+		prop = itemHandle.getPropertyHandle( "test3" );//$NON-NLS-1$
+		assertFalse( prop.isVisible( ) );
+
+		prop = itemHandle.getPropertyHandle( ReportItem.DATA_SET_PROP );
+		assertTrue( prop.isVisible( ) );
 
 		itemHandle = insertExtendedItem( "testTable1", TESTING_TABLE_NAME ); //$NON-NLS-1$
 		assertNotNull( itemHandle
 				.getPropertyDefn( IExtendedItemModel.EXTENSION_NAME_PROP ) );
-		assertFalse( element.getExtDefn( ).isPropertyVisible(
-				IExtendedItemModel.EXTENSION_NAME_PROP ) );
+
+		prop = itemHandle
+				.getPropertyHandle( IExtendedItemModel.EXTENSION_NAME_PROP );
+		assertFalse( prop.isVisible( ) );
+
+		prop = itemHandle.getPropertyHandle( IReportItemModel.CUBE_PROP );
+		assertTrue( prop.isVisible( ) );
 
 	}
 

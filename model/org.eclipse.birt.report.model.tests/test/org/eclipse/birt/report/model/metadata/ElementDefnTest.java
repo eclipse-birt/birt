@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 import com.ibm.icu.util.ULocale;
@@ -63,7 +64,7 @@ public class ElementDefnTest extends AbstractMetaTest
 		MetadataTestUtil.setNameSpaceID( def, 4 );
 
 		assertEquals( false, def.isAbstract( ) );
-		assertEquals( true, def.allowsUserProperties( ) );		
+		assertEquals( true, def.allowsUserProperties( ) );
 		assertEquals( "Report Design", def.getDisplayName( ) ); //$NON-NLS-1$
 		assertEquals( "Element.ReportDesign", def.getDisplayNameKey( ) ); //$NON-NLS-1$
 		assertEquals( "ReportElement", def.getExtends( ) ); //$NON-NLS-1$
@@ -304,10 +305,10 @@ public class ElementDefnTest extends AbstractMetaTest
 
 		List list = freeFormDefn.getExpressions( );
 		assertEquals( 2, list.size( ) );
-	
-		assertEquals( ReportItem.BOOKMARK_PROP,
-				( (PropertyDefn) list.get( 0 ) ).getName( ) );
-	
+
+		assertEquals( ReportItem.BOOKMARK_PROP, ( (PropertyDefn) list.get( 0 ) )
+				.getName( ) );
+
 		assertEquals( 0, freeFormDefn.getLocalExpressions( ).size( ) );
 	}
 
@@ -476,7 +477,7 @@ public class ElementDefnTest extends AbstractMetaTest
 
 		IMethodInfo method2 = element.getProperty( "method2" ).getMethodInfo( ); //$NON-NLS-1$
 		assertNotNull( method2 );
-		
+
 	}
 
 	/**
@@ -504,8 +505,8 @@ public class ElementDefnTest extends AbstractMetaTest
 	/**
 	 * Test the isVisible attribute of an extended dataset.
 	 * <code>ExtendedDataSet.PRIVATE_DRIVER_DESIGN_STATE_PROP</code> and
-	 * <code>ExtendedDataSet.PRIVATE_DRIVER_PROPERTIES_PROP</code> are
-	 * invisible to users.
+	 * <code>ExtendedDataSet.PRIVATE_DRIVER_PROPERTIES_PROP</code> are invisible
+	 * to users.
 	 */
 
 	public void testPropertyVisiblity( )
@@ -534,5 +535,16 @@ public class ElementDefnTest extends AbstractMetaTest
 			else
 				assertTrue( dataSetDefn.isPropertyVisible( prop.getName( ) ) );
 		}
+
+		IElementDefn reportItemDefn = MetaDataDictionary.getInstance( )
+				.getElement( ReportDesignConstants.REPORT_ITEM );
+
+		assertFalse( reportItemDefn
+				.isPropertyVisible( IReportItemModel.CUBE_PROP ) );
+
+		IElementDefn dataDefn = MetaDataDictionary.getInstance( ).getElement(
+				ReportDesignConstants.DATA_ITEM );
+		assertFalse( dataDefn.isPropertyVisible( IReportItemModel.CUBE_PROP ) );
+
 	}
 }

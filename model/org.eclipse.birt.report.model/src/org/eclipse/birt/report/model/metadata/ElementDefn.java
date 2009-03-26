@@ -19,6 +19,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -234,11 +236,19 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
 public class ElementDefn extends ObjectDefn implements IElementDefn
 {
 
+	private static Logger logger = Logger.getLogger( ElementDefn.class
+			.getName( ) );
+
 	/**
 	 * The property is hidden in the property sheet.
 	 */
 
 	protected final static String HIDDEN_IN_PROPERTY_SHEET = "hide"; //$NON-NLS-1$
+
+	/**
+	 * The property will be unhidden in the property sheet.
+	 */
+	protected final static String UNHIDDEN_IN_PROPERTY_SHEET = "unhide"; //$NON-NLS-1$
 
 	/**
 	 * The property is shown in the property sheet but readonly.
@@ -335,6 +345,13 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 */
 
 	protected Map<String, String> propVisibilites = null;
+
+	/**
+	 * Cached property visibility. It contains local defined and parents'
+	 * defined property visibility. The key is property name, the value is the
+	 * visibility of the property.
+	 */
+	protected Map<String, String> cachedPropVisibilites = null;
 
 	/**
 	 * The name of the XML element used when serializing this ROM element.
@@ -640,6 +657,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		buildProperties( );
 
+		buildPropertiesVisibility( );
+
 		// check if the javaClass and xml name is valid for concrete element
 		// type
 
@@ -649,8 +668,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			checkXmlName( );
 		}
 
-		checkPropertyVisibilities( );
-
 		buildContainerProperties( );
 
 		buildSlots( );
@@ -658,33 +675,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		buildTriggerDefnSet( );
 
 		isBuilt = true;
-	}
-
-	/**
-	 * Checks the validation of the defined property visibilities. If the
-	 * property with the name is not defined, then the visibility is illegal.
-	 * 
-	 * @throws MetaDataException
-	 *             if the property definition is not found
-	 */
-
-	private void checkPropertyVisibilities( ) throws MetaDataException
-	{
-		if ( this.propVisibilites == null )
-			return;
-
-		Iterator<String> propNames = this.propVisibilites.keySet( ).iterator( );
-		while ( propNames.hasNext( ) )
-		{
-			String propName = propNames.next( );
-
-			// Visibility should defined for an existing element property.
-
-			if ( getProperty( propName ) == null )
-				throw new MetaDataException(
-						new String[]{name, propName},
-						MetaDataException.DESIGN_EXCEPTION_VISIBILITY_PROPERTY_NOT_FOUND );
-		}
 	}
 
 	/*
@@ -1161,6 +1151,54 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	}
 
 	/**
+	 * Builds cached property visibility.
+	 */
+	protected void buildPropertiesVisibility( )
+	{
+
+		if ( parent != null && parent.cachedPropVisibilites != null )
+		{
+			if ( cachedPropVisibilites == null )
+				cachedPropVisibilites = new HashMap<String, String>( );
+			cachedPropVisibilites.putAll( parent.cachedPropVisibilites );
+		}
+
+		if ( propVisibilites != null )
+		{
+			if ( cachedPropVisibilites == null )
+				cachedPropVisibilites = new HashMap<String, String>( );
+			Iterator<String> propNames = propVisibilites.keySet( ).iterator( );
+
+			while ( propNames.hasNext( ) )
+			{
+				String propName = propNames.next( );
+
+				// Visibility should defined for an existing element property.
+
+				if ( cachedProperties.get( propName ) == null )
+				{
+					String message = new MetaDataException(
+							new String[]{name, propName},
+							MetaDataException.DESIGN_EXCEPTION_VISIBILITY_PROPERTY_NOT_FOUND )
+							.getMessage( );
+
+					logger.log( Level.WARNING, message );
+					MetaLogManager.log( message );
+
+					continue;
+				}
+
+				String visibility = propVisibilites.get( propName );
+
+				cachedPropVisibilites.put( propName, visibility );
+
+			}
+			propVisibilites = null;
+
+		}
+	}
+
+	/**
 	 * Builds the meta-data for each slotID in this container element.
 	 * 
 	 * @throws MetaDataException
@@ -1306,8 +1344,9 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * the following defined in {@link MetaDataConstants}:
 	 * <ul>
 	 * <li>{@link MetaDataConstants#NO_NAME}-- The element cannot have a name.
-	 * (Probably not used.)</li> <li>{@link MetaDataConstants#OPTIONAL_NAME}--
-	 * The element can optionally have a name, but a name is not required.</li>
+	 * (Probably not used.)</li>
+	 * <li>{@link MetaDataConstants#OPTIONAL_NAME}-- The element can optionally
+	 * have a name, but a name is not required.</li>
 	 * <li>{@link MetaDataConstants#REQUIRED_NAME}-- The element must have a
 	 * name.</li>
 	 * </ul>
@@ -1650,7 +1689,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	public boolean isPropertyReadOnly( String propName )
 	{
-		IPropertyDefn propDefn = getProperty( propName );
+		IPropertyDefn propDefn = cachedProperties.get( propName );
 		if ( propDefn == null )
 			return true;
 
@@ -1671,7 +1710,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	public boolean isPropertyVisible( String propName )
 	{
-		IPropertyDefn propDefn = getProperty( propName );
+		IPropertyDefn propDefn = cachedProperties.get( propName );
 		if ( propDefn == null )
 			return false;
 
@@ -1698,19 +1737,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	private String getPropertyVisibility( String propName )
 	{
-		ElementDefn elementDefn = this;
-		while ( elementDefn != null )
-		{
-			if ( elementDefn.propVisibilites != null )
-			{
-				String visibility = elementDefn.propVisibilites.get( propName );
-				if ( visibility != null )
-					return visibility;
-			}
-			elementDefn = elementDefn.parent;
-		}
+		if ( cachedPropVisibilites == null )
+			return null;
 
-		return null;
+		return cachedPropVisibilites.get( propName );
 	}
 
 	/**

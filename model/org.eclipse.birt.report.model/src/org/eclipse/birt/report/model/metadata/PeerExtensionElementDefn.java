@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 /**
@@ -179,6 +180,14 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 				addPropertyVisibility(
 						IExtendedItemModel.EXTENSION_VERSION_PROP,
 						HIDDEN_IN_PROPERTY_SHEET );
+			}
+
+			// for extended item, the cube property is visible.
+			if ( getProperty( IReportItemModel.CUBE_PROP ) != null )
+			{
+
+				addPropertyVisibility( IReportItemModel.CUBE_PROP,
+						UNHIDDEN_IN_PROPERTY_SHEET );
 			}
 		}
 

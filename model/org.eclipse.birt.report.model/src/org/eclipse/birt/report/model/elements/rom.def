@@ -2331,7 +2331,8 @@
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>    
 	<PropertyVisibility name="multiViews" visibility="hide"/>
     <PropertyVisibility name="cascadeACL" visibility="hide"/>
-    <PropertyVisibility name="ACLExpression" visibility="hide"/> 	       
+    <PropertyVisibility name="ACLExpression" visibility="hide"/>
+    <PropertyVisibility name="cube" visibility="hide"/> 	       
   </Element>
   <Element canExtend="true" displayNameID="Element.AutoText" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.AutoText"  name="AutoText" since="2.1" xmlName="auto-text">
     <Property detailType="autoTextType"  displayNameID="Element.AutoText.type" name="type" since="2.1" type="choice" />

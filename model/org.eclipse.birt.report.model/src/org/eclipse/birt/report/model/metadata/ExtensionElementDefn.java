@@ -20,12 +20,12 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
  * This class only used for those extension definition from third-party, not the
  * Model-defined standard elements.
  * 
- * <h3>Property Visibility</h3>
- * All extension element definition support property visibility, which defines
- * to something like read-only, or hide. This is used to help UI display the
- * property value or the entire property. When extension element defines the
- * visibility for a Model-defined property, the property definition will be
- * copied and overridden in this extension element definition.
+ * <h3>Property Visibility</h3> All extension element definition support
+ * property visibility, which defines to something like read-only, or hide. This
+ * is used to help UI display the property value or the entire property. When
+ * extension element defines the visibility for a Model-defined property, the
+ * property definition will be copied and overridden in this extension element
+ * definition.
  */
 
 public abstract class ExtensionElementDefn extends ElementDefn
@@ -55,8 +55,10 @@ public abstract class ExtensionElementDefn extends ElementDefn
 
 		buildProperties( );
 
+		buildPropertiesVisibility( );
+
 		buildContainerProperties( );
-		
+
 		// set the xml-name to that of ExtendedItem
 		ElementDefn defn = (ElementDefn) MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.EXTENDED_ITEM );
@@ -64,10 +66,10 @@ public abstract class ExtensionElementDefn extends ElementDefn
 
 		// build slot
 		buildSlots( );
-		
+
 		// build validation trigger
 		buildTriggerDefnSet( );
-		
+
 		// if name is not defined, the set the name options
 		if ( getProperty( IDesignElementModel.NAME_PROP ) == null )
 		{
@@ -78,8 +80,6 @@ public abstract class ExtensionElementDefn extends ElementDefn
 
 		isBuilt = true;
 	}
-
-	
 
 	/**
 	 * Checks whether the property has the mask defined by the peer extension

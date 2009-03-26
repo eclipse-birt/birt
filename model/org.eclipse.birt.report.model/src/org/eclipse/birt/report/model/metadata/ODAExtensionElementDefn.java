@@ -81,14 +81,16 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 		// we don't repeat the work for any style properties copied below.
 
 		buildProperties( );
+		
+		buildPrivateDriverProperties( );
 
+		buildPropertiesVisibility( );
+		
 		buildContainerProperties( );
 
 		// set the xml-name
 
 		buildXmlName( );
-
-		buildPrivateDriverProperties( );
 
 		// build validation trigger
 		buildTriggerDefnSet( );
