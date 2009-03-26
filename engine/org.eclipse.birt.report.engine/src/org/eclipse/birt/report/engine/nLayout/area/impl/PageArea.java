@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.LayoutEmitterAdapter;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
@@ -41,11 +42,9 @@ public class PageArea extends BlockContainerArea
 
 	protected ContainerArea root;
 	protected ContainerArea body;
-	protected ContainerArea header;
-	protected ContainerArea footer;
+	protected RegionArea header;
+	protected RegionArea footer;
 	
-
-
 	protected transient IPageContent pageContent;
 	
 	protected transient LayoutEmitterAdapter emitter;
@@ -133,12 +132,12 @@ public class PageArea extends BlockContainerArea
 		this.body = null;
 	}
 	
-	public void setHeader( ContainerArea header )
+	public void setHeader( RegionArea header )
 	{
 		this.header = header;
 	}
 
-	public void setFooter( ContainerArea footer )
+	public void setFooter( RegionArea footer )
 	{
 		this.footer = footer;
 	}
@@ -236,6 +235,13 @@ public class PageArea extends BlockContainerArea
 	protected void layoutHeader( )
 	{
 		IContent headerContent = pageContent.getPageHeader( );
+		DimensionType h = pageContent.getHeaderHeight( );
+		if ( h == null )
+		{
+			h = new DimensionType( 0.5f, DimensionType.UNITS_IN );
+		}
+		headerContent.setHeight( h );
+		header.content = headerContent;
 		boolean autoPageBreak = context.isAutoPageBreak( );
 		context.setAutoPageBreak( false );
 		RegionLayoutEngine rle = new RegionLayoutEngine( header,  context );
@@ -359,7 +365,7 @@ public class PageArea extends BlockContainerArea
 		int headerWidth = pageRoot.getWidth( );
 		headerHeight = Math.max( 0, headerHeight );
 		headerHeight = Math.min( pageRoot.getHeight( ), headerHeight );
-		ContainerArea header = new BlockContainerArea(  );
+		RegionArea header = new RegionArea(  );
 		header.setHeight( headerHeight );
 		header.setWidth( headerWidth );
 		header.context = context;
@@ -378,7 +384,7 @@ public class PageArea extends BlockContainerArea
 		footerHeight = Math.max( 0, footerHeight );
 		footerHeight = Math.min( pageRoot.getHeight( ) - headerHeight,
 				footerHeight );
-		ContainerArea footer = new BlockContainerArea( );
+		RegionArea footer = new RegionArea( );
 		footer.setHeight( footerHeight );
 		footer.setWidth( footerWidth );
 		footer.context = context;

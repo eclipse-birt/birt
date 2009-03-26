@@ -17,7 +17,6 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 
 public class RegionLayoutEngine extends LayoutEngine implements IContentEmitter
 {
-
 	public RegionLayoutEngine( ContainerArea container, LayoutContext context )
 	{
 		super(context);
@@ -28,15 +27,9 @@ public class RegionLayoutEngine extends LayoutEngine implements IContentEmitter
 	public void layout( IContent content )
 			throws BirtException
 	{
-		//current.initialize( );
+		current.initialize( );
 		visitChildren( content, this );
-		//current.close( );
-		int height = current.getHeight( );
-		int bp = current.getCurrentBP( );
-		if ( height < bp )
-		{
-			current.setHeight( bp );
-		}
+		current.close( );
 	}
 
 }
