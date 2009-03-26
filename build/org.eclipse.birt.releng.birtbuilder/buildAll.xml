@@ -323,11 +323,11 @@
                   dir="${updateJarWorkingDir}">
                   <jvmarg value="-Dorg.eclipse.update.jarprocessor.pack200=${eclipse.build.configs}/../../extras"/>
                   <arg line="-application org.eclipse.update.core.siteOptimizer -verbose"/>
-                  <arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack eclipse"/>
+                  <arg line="-jarProcessor -outputDir ${repo} -processAll -pack eclipse"/>
             </java>
 
             <!--generator features and plugins metadata -->
-            <p2.generator source="${updateJarWorkingDir}/site" compress="true" append="true" flavor="tooling"
+            <p2.generator source="${repo}" compress="true" append="true" flavor="tooling"
                           metadataRepository="file:${repo}"
                           artifactRepository="file:${repo}"
                           metadataRepositoryName="${p2.repo.name}"
