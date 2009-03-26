@@ -1073,8 +1073,9 @@ public class CubeGroupContent extends Composite implements Listener
 		} );
 
 		addButton.setText( ">" ); //$NON-NLS-1$
+		addButton.setToolTipText( Messages.getString( "GroupsPage.ArrowButton.Add.Tooltip" ) );//$NON-NLS-1$
 		removeButton.setText( "<" ); //$NON-NLS-1$
-
+		removeButton.setToolTipText( Messages.getString( "GroupsPage.ArrowButton.Remove.Tooltip" ) );//$NON-NLS-1$
 		GridData gd = new GridData( );
 		gd.grabExcessVerticalSpace = true;
 		gd.widthHint = Math.max( 25, addButton.computeSize( SWT.DEFAULT,
