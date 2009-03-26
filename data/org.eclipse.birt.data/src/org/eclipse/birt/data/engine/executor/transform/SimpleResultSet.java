@@ -116,6 +116,7 @@ public class SimpleResultSet implements IResultIterator
 					IOUtil.writeInt( exprValueStream, rowCount );
 				}
 
+				exprValueStream.close( );
 				dataSetStream.close( );
 			}
 			catch ( Exception e )
@@ -137,19 +138,6 @@ public class SimpleResultSet implements IResultIterator
 		}
 	}
 
-	public void finalize()
-	{
-		try
-		{
-			this.close();
-		}
-		catch ( DataException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#doSave(org.eclipse.birt.data.engine.impl.document.StreamWrapper, boolean)
