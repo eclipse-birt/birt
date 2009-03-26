@@ -12,11 +12,12 @@
 package org.eclipse.birt.report.designer.internal.ui.views.data.providers;
 
 import java.util.Map;
+
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.CascadingParametersDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterGroupDialog;
@@ -91,13 +92,14 @@ public class ParametersNodeProvider extends DefaultNodeProvider
 	protected DesignElementHandle createElement( String type ) throws Exception
 	{
 		DesignElementHandle handle = super.createElement( type );
-		BaseDialog dialog = null;
+		BaseTitleAreaDialog dialog = null;
 		if ( ReportDesignConstants.PARAMETER_GROUP_ELEMENT.equals( type ) )
 		{
 			dialog = new ParameterGroupDialog( Display.getCurrent( )
 					.getActiveShell( ),
 					Messages.getString( "ParametersNodeProvider.dialogue.title.group" ) ); //$NON-NLS-1$
 			( (ParameterGroupDialog) dialog ).setInput( handle );
+			
 		}
 		else if ( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT.equals( type ) )
 		{
@@ -115,6 +117,7 @@ public class ParametersNodeProvider extends DefaultNodeProvider
 		{
 			return null;
 		}
+
 		return (DesignElementHandle) dialog.getResult( );
 	}
 

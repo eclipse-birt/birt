@@ -31,6 +31,7 @@ import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportValueDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectionChoiceDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.DefaultParameterDialogControlTypeHelper;
@@ -114,7 +115,7 @@ import com.ibm.icu.util.ULocale;
  * The dialog used to create or edit a parameter
  */
 
-public class ParameterDialog extends BaseDialog
+public class ParameterDialog extends BaseTitleAreaDialog
 {
 
 	private static final String CHOICE_NO_DEFAULT = Messages.getString( "ParameterDialog.Choice.NoDefault" ); //$NON-NLS-1$
@@ -295,7 +296,7 @@ public class ParameterDialog extends BaseDialog
 	private Label promptMessageLine;
 
 	// Error message line
-	private CLabel errorMessageLine;
+//	private CLabel errorMessageLine;
 
 	// Check boxes
 	private Button isRequired, doNotEcho, isHidden, distinct;
@@ -547,13 +548,14 @@ public class ParameterDialog extends BaseDialog
 	 */
 	public ParameterDialog( Shell parentShell, String title )
 	{
-		super( parentShell, title );
+		super(parentShell);
+		this.title = title;
 	}
 
 	public ParameterDialog( Shell parentShell, String title,
 			boolean allowMultiValueVisible )
 	{
-		super( parentShell, title );
+		this( parentShell, title );
 		this.allowMultiValueVisible = allowMultiValueVisible;
 	}
 
@@ -862,10 +864,10 @@ public class ParameterDialog extends BaseDialog
 		valueArea.setLayoutData( gd );
 
 		createLabel( valuesDefineSection, null );
-		errorMessageLine = new CLabel( valuesDefineSection, SWT.NONE );
-		GridData msgLineGridData = new GridData( GridData.FILL_HORIZONTAL );
-		msgLineGridData.horizontalSpan = 2;
-		errorMessageLine.setLayoutData( msgLineGridData );
+//		errorMessageLine = new CLabel( valuesDefineSection, SWT.NONE );
+//		GridData msgLineGridData = new GridData( GridData.FILL_HORIZONTAL );
+//		msgLineGridData.horizontalSpan = 2;
+//		errorMessageLine.setLayoutData( msgLineGridData );
 	}
 
 	/**
@@ -2673,15 +2675,11 @@ public class ParameterDialog extends BaseDialog
 		changeDefault.setEnabled( isEnable );
 	}
 
-	private void updateButtons( )
+	protected void updateButtons( )
 	{
 		boolean canFinish = !StringUtil.isBlank( nameEditor.getText( ) );
 		if ( canFinish )
 		{
-			if ( errorMessageLine != null && !errorMessageLine.isDisposed( ) )
-			{
-				canFinish = ( errorMessageLine.getImage( ) == null );
-			}
 			if ( columnChooser != null
 					&& !columnChooser.isDisposed( )
 					&& !isStatic( ) )
@@ -2690,6 +2688,7 @@ public class ParameterDialog extends BaseDialog
 			}
 		}
 		getOkButton( ).setEnabled( canFinish );
+		super.updateButtons( );
 	}
 
 	private void updateCheckBoxArea( )
@@ -2755,13 +2754,15 @@ public class ParameterDialog extends BaseDialog
 		}
 		if ( errorMessage != null )
 		{
-			errorMessageLine.setText( errorMessage );
-			errorMessageLine.setImage( ERROR_ICON );
+//			errorMessageLine.setText( errorMessage );
+//			errorMessageLine.setImage( ERROR_ICON );
+			setErrorMessage( errorMessage );
 		}
 		else
 		{
-			errorMessageLine.setText( "" ); //$NON-NLS-1$
-			errorMessageLine.setImage( null );
+//			errorMessageLine.setText( "" ); //$NON-NLS-1$
+//			errorMessageLine.setImage( null );
+			setErrorMessage( null );
 		}
 		if ( promptMessageLine != null && !promptMessageLine.isDisposed( ) )
 		{

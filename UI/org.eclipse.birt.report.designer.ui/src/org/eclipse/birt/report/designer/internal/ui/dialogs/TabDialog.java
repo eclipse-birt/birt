@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -29,13 +28,13 @@ import org.eclipse.swt.widgets.TabItem;
  * Dialog used to display tabs
  */
 
-public class TabDialog extends BaseDialog
+public class TabDialog extends BaseTitleAreaDialog
 {
 
 	/**
 	 * The list of tab pages
 	 */
-	private ArrayList tabList = new ArrayList( );
+	private ArrayList<TabPage> tabList = new ArrayList<TabPage>( );
 
 	/**
 	 * The input object
@@ -49,7 +48,8 @@ public class TabDialog extends BaseDialog
 	 */
 	public TabDialog( Shell parentShell, String title )
 	{
-		super( parentShell, title );
+		super( parentShell );
+		this.title = title;
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class TabDialog extends BaseDialog
 	 * 
 	 * @param tabPage
 	 *            the new tab page to add
-	 *  
+	 * 
 	 */
 	public void addTabPage( TabPage tabPage )
 	{
@@ -74,7 +74,7 @@ public class TabDialog extends BaseDialog
 	 * <code>addTab</code>.
 	 */
 	public void addTabPages( )
-	{//Do nothing
+	{// Do nothing
 	}
 
 	/**
@@ -95,9 +95,9 @@ public class TabDialog extends BaseDialog
 	 */
 	protected boolean initDialog( )
 	{
-		for ( Iterator iterator = tabList.iterator( ); iterator.hasNext( ); )
+		for ( Iterator<TabPage> iterator = tabList.iterator( ); iterator.hasNext( ); )
 		{
-			TabPage page = (TabPage) iterator.next( );
+			TabPage page = iterator.next( );
 			page.setInput( input );
 		}
 
@@ -108,8 +108,8 @@ public class TabDialog extends BaseDialog
 	 * Creates and returns the contents of the upper part of this dialog (above
 	 * the button bar).
 	 * <p>
-	 * The <code>TabDialog</code> overrides this framework method to create
-	 * and return a new <code>Composite</code> with an empty tab folder.
+	 * The <code>TabDialog</code> overrides this framework method to create and
+	 * return a new <code>Composite</code> with an empty tab folder.
 	 * </p>
 	 * 
 	 * @param parent
@@ -121,10 +121,10 @@ public class TabDialog extends BaseDialog
 		Composite composite = (Composite) super.createDialogArea( parent );
 		TabFolder tabFolder = new TabFolder( composite, SWT.TOP );
 		tabFolder.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		addTabPages( ); //add pages
-		for ( Iterator iterator = tabList.iterator( ); iterator.hasNext( ); )
+		addTabPages( ); // add pages
+		for ( Iterator<TabPage> iterator = tabList.iterator( ); iterator.hasNext( ); )
 		{
-			TabPage page = (TabPage) iterator.next( );
+			TabPage page = iterator.next( );
 			TabItem tabItem = new TabItem( tabFolder, SWT.NONE );
 			tabItem.setControl( page.createControl( tabFolder ) );
 			tabItem.setText( page.getName( ) );
@@ -156,9 +156,9 @@ public class TabDialog extends BaseDialog
 	 */
 	public void updateButtons( )
 	{
-		for ( Iterator iterator = tabList.iterator( ); iterator.hasNext( ); )
+		for ( Iterator<TabPage> iterator = tabList.iterator( ); iterator.hasNext( ); )
 		{
-			TabPage page = (TabPage) iterator.next( );
+			TabPage page = iterator.next( );
 			if ( !page.isPageComplete( ) )
 			{
 				getOkButton( ).setEnabled( false );
@@ -171,9 +171,9 @@ public class TabDialog extends BaseDialog
 	protected void saveAll( ) throws SemanticException
 	{
 		setResult( input );
-		for ( Iterator iterator = tabList.iterator( ); iterator.hasNext( ); )
+		for ( Iterator<TabPage> iterator = tabList.iterator( ); iterator.hasNext( ); )
 		{
-			TabPage page = (TabPage) iterator.next( );
+			TabPage page = iterator.next( );
 			page.saveTo( getResult( ) );
 		}
 	}
