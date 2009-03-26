@@ -193,7 +193,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 
 		// This control needs to be repainted by gc
 		currentMarkerEditor = new MarkerEditorComposite( cnvMarkers,
-				createMarker( ) );
+				(Marker)getMarkers().get( 0 ) );
 		{
 			currentMarkerEditor.setBounds( 0,
 					0,

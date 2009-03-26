@@ -746,6 +746,11 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 		mk.visible = src.isVisible( );
 		mk.visibleESet = src.isSetVisible( );
+		
+		if ( src.getOutline( ) != null )
+		{
+			mk.setOutline( src.getOutline( ).copyInstance( ) );
+		}
 
 		return mk;
 	}
