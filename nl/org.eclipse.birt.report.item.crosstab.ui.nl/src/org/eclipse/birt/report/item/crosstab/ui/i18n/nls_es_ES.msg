@@ -160,10 +160,10 @@ FilterConditionBuilder.text.AND=Y
 FilterConditionBuilder.text.Condition=&Condición de filtro:
 FilterConditionBuilder.text.GroupLevel=Nivel de &grupo:
 FilterConditionBuilder.list.item1=Valor
-FilterConditionBuilder.button.edit=Editar...
-FilterConditionBuilder.button.delete=Quitar
-FilterConditionBuilder.button.deleteall=Quitar todos
-FilterConditionBuilder.button.add=Añadir
+FilterConditionBuilder.button.edit=&Edit...
+FilterConditionBuilder.button.delete=Re&move
+FilterConditionBuilder.button.deleteall=Rem&ove All
+FilterConditionBuilder.button.add=&Add
 FilterConditionBuilder.button.edit.tooltip=Editar la selección en lista de valores
 FilterConditionBuilder.button.delete.tooltip=Eliminar el valor seleccionado de la lista
 FilterConditionBuilder.button.deleteall.tooltip=Eliminar todos los valores de la lista
@@ -193,8 +193,8 @@ Blank.text.measure=Suprimir los campos de datos para resumirlos aquí
 ###########################################################
 #CrosstabGrandTotalDialog
 CrosstabGrandTotalDialog.Title=Total general
-CrosstabGrandTotalDialog.Text.DataField=Campo de datos:
-CrosstabGrandTotalDialog.Text.Function=Función:
+CrosstabGrandTotalDialog.Text.DataField=&Data Field:
+CrosstabGrandTotalDialog.Text.Function=&Function:
 
 
 ###########################################################
@@ -213,17 +213,17 @@ CrosstabSubToatalProvider.Column.Function=Función
 ###########################################################
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=Salto de página
-CrosstabPageBreakDialog.Text.GroupLevel=Nivel de grupo:
-CrosstabPageBreakDialog.Text.PageBreakBefore=Antes:
-CrosstabPageBreakDialog.Text.PageBreakAfter=Después de:
-CrosstabPageBreakDialog.Text.PageBreakInterval=Intervalo de salto de página:
+CrosstabPageBreakDialog.Text.GroupLevel=&Group Level:
+CrosstabPageBreakDialog.Text.PageBreakBefore=&Before:
+CrosstabPageBreakDialog.Text.PageBreakAfter=&After:
+CrosstabPageBreakDialog.Text.PageBreakInterval=&Page Break Interval:
 
 ###########################################################
 #SubTotalDialog
 SubTotalDialog.Title=Subtotal
-SubTotalDialog.Text.AggregateOn=Agregar en:
-SubTotalDialog.Text.Function=Función:
-SubTotalDialog.Text.DataField=Campo de datos:
+SubTotalDialog.Text.AggregateOn=&Aggregate On:
+SubTotalDialog.Text.Function=&Function:
+SubTotalDialog.Text.DataField=&Data Field:
 
 FormPage.Menu.ModifyProperty=Modificar
 

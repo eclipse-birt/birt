@@ -160,10 +160,10 @@ FilterConditionBuilder.text.AND= ～
 FilterConditionBuilder.text.Condition=フィルタの条件(&C) :
 FilterConditionBuilder.text.GroupLevel=グループレベル(&L) :
 FilterConditionBuilder.list.item1=値
-FilterConditionBuilder.button.edit=編集...
-FilterConditionBuilder.button.delete=削除
-FilterConditionBuilder.button.deleteall=すべて削除
-FilterConditionBuilder.button.add=追加
+FilterConditionBuilder.button.edit=&Edit...
+FilterConditionBuilder.button.delete=Re&move
+FilterConditionBuilder.button.deleteall=Rem&ove All
+FilterConditionBuilder.button.add=&Add
 FilterConditionBuilder.button.edit.tooltip=値リストで選択した値を編集します。
 FilterConditionBuilder.button.delete.tooltip=リストから選択した値を削除します。
 FilterConditionBuilder.button.deleteall.tooltip=リストからすべての値を削除します。
@@ -193,8 +193,8 @@ Blank.text.measure=サマリを定義するためにデータフィールドをここにドロップ
 ###########################################################
 #CrosstabGrandTotalDialog
 CrosstabGrandTotalDialog.Title=総計
-CrosstabGrandTotalDialog.Text.DataField=データフィールド :
-CrosstabGrandTotalDialog.Text.Function=関数 :
+CrosstabGrandTotalDialog.Text.DataField=&Data Field:
+CrosstabGrandTotalDialog.Text.Function=&Function:
 
 
 ###########################################################
@@ -213,17 +213,17 @@ CrosstabSubToatalProvider.Column.Function=関数
 ###########################################################
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=ページ区切り
-CrosstabPageBreakDialog.Text.GroupLevel=グループレベル :
-CrosstabPageBreakDialog.Text.PageBreakBefore=次の前で改ページ :
-CrosstabPageBreakDialog.Text.PageBreakAfter=次の後で改ページ :
-CrosstabPageBreakDialog.Text.PageBreakInterval=改ページの間隔 :
+CrosstabPageBreakDialog.Text.GroupLevel=&Group Level:
+CrosstabPageBreakDialog.Text.PageBreakBefore=&Before:
+CrosstabPageBreakDialog.Text.PageBreakAfter=&After:
+CrosstabPageBreakDialog.Text.PageBreakInterval=&Page Break Interval:
 
 ###########################################################
 #SubTotalDialog
 SubTotalDialog.Title=小計
-SubTotalDialog.Text.AggregateOn=総計条件 :
-SubTotalDialog.Text.Function=関数 :
-SubTotalDialog.Text.DataField=データフィールド :
+SubTotalDialog.Text.AggregateOn=&Aggregate On:
+SubTotalDialog.Text.Function=&Function:
+SubTotalDialog.Text.DataField=&Data Field:
 
 FormPage.Menu.ModifyProperty=変更
 

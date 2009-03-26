@@ -160,10 +160,10 @@ FilterConditionBuilder.text.AND=与
 FilterConditionBuilder.text.Condition=筛选条件(&C):
 FilterConditionBuilder.text.GroupLevel=组级别(&L):
 FilterConditionBuilder.list.item1=值
-FilterConditionBuilder.button.edit=编辑...
-FilterConditionBuilder.button.delete=删除
-FilterConditionBuilder.button.deleteall=全部删除
-FilterConditionBuilder.button.add=添加
+FilterConditionBuilder.button.edit=&Edit...
+FilterConditionBuilder.button.delete=Re&move
+FilterConditionBuilder.button.deleteall=Rem&ove All
+FilterConditionBuilder.button.add=&Add
 FilterConditionBuilder.button.edit.tooltip=编辑值列表中的选定值
 FilterConditionBuilder.button.delete.tooltip=从列表中删除选定值
 FilterConditionBuilder.button.deleteall.tooltip=从列表中删除所有值
@@ -193,8 +193,8 @@ Blank.text.measure=将要汇总的数据字段放置到此处
 ###########################################################
 #CrosstabGrandTotalDialog
 CrosstabGrandTotalDialog.Title=总计
-CrosstabGrandTotalDialog.Text.DataField=数据字段:
-CrosstabGrandTotalDialog.Text.Function=函数:
+CrosstabGrandTotalDialog.Text.DataField=&Data Field:
+CrosstabGrandTotalDialog.Text.Function=&Function:
 
 
 ###########################################################
@@ -213,17 +213,17 @@ CrosstabSubToatalProvider.Column.Function=函数
 ###########################################################
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=分页符
-CrosstabPageBreakDialog.Text.GroupLevel=组级别:
-CrosstabPageBreakDialog.Text.PageBreakBefore=之前:
-CrosstabPageBreakDialog.Text.PageBreakAfter=之后:
-CrosstabPageBreakDialog.Text.PageBreakInterval=分页符间隔:
+CrosstabPageBreakDialog.Text.GroupLevel=&Group Level:
+CrosstabPageBreakDialog.Text.PageBreakBefore=&Before:
+CrosstabPageBreakDialog.Text.PageBreakAfter=&After:
+CrosstabPageBreakDialog.Text.PageBreakInterval=&Page Break Interval:
 
 ###########################################################
 #SubTotalDialog
 SubTotalDialog.Title=小计
-SubTotalDialog.Text.AggregateOn=聚合条件:
-SubTotalDialog.Text.Function=函数:
-SubTotalDialog.Text.DataField=数据字段:
+SubTotalDialog.Text.AggregateOn=&Aggregate On:
+SubTotalDialog.Text.Function=&Function:
+SubTotalDialog.Text.DataField=&Data Field:
 
 FormPage.Menu.ModifyProperty=修改
 

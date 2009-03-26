@@ -160,10 +160,10 @@ FilterConditionBuilder.text.AND=UND
 FilterConditionBuilder.text.Condition=Filter&bedingung:
 FilterConditionBuilder.text.GroupLevel=Gruppen&ebene:
 FilterConditionBuilder.list.item1=Wert
-FilterConditionBuilder.button.edit=Bearbeiten...
-FilterConditionBuilder.button.delete=Entfernen
-FilterConditionBuilder.button.deleteall=Alles entfernen
-FilterConditionBuilder.button.add=Hinzufügen
+FilterConditionBuilder.button.edit=&Edit...
+FilterConditionBuilder.button.delete=Re&move
+FilterConditionBuilder.button.deleteall=Rem&ove All
+FilterConditionBuilder.button.add=&Add
 FilterConditionBuilder.button.edit.tooltip=Ausgewählten Wert in Werteliste bearbeiten
 FilterConditionBuilder.button.delete.tooltip=Ausgewählten Wert aus Liste löschen
 FilterConditionBuilder.button.deleteall.tooltip=Alle Werte aus Liste löschen
@@ -193,8 +193,8 @@ Blank.text.measure=Datenfeld/er verwerfen, um sie hier zusammenzufassen
 ###########################################################
 #CrosstabGrandTotalDialog
 CrosstabGrandTotalDialog.Title=Gesamtsumme
-CrosstabGrandTotalDialog.Text.DataField=Datenfeld:
-CrosstabGrandTotalDialog.Text.Function=Funktion:
+CrosstabGrandTotalDialog.Text.DataField=&Data Field:
+CrosstabGrandTotalDialog.Text.Function=&Function:
 
 
 ###########################################################
@@ -213,17 +213,17 @@ CrosstabSubToatalProvider.Column.Function=Funktion
 ###########################################################
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=Seitenumbruch
-CrosstabPageBreakDialog.Text.GroupLevel=Gruppenebene:
-CrosstabPageBreakDialog.Text.PageBreakBefore=Vorher:
-CrosstabPageBreakDialog.Text.PageBreakAfter=Nachher:
-CrosstabPageBreakDialog.Text.PageBreakInterval=Intervall für Seitenumbruch:
+CrosstabPageBreakDialog.Text.GroupLevel=&Group Level:
+CrosstabPageBreakDialog.Text.PageBreakBefore=&Before:
+CrosstabPageBreakDialog.Text.PageBreakAfter=&After:
+CrosstabPageBreakDialog.Text.PageBreakInterval=&Page Break Interval:
 
 ###########################################################
 #SubTotalDialog
 SubTotalDialog.Title=Zwischensumme
-SubTotalDialog.Text.AggregateOn=Aggregat in:
-SubTotalDialog.Text.Function=Funktion:
-SubTotalDialog.Text.DataField=Datenfeld:
+SubTotalDialog.Text.AggregateOn=&Aggregate On:
+SubTotalDialog.Text.Function=&Function:
+SubTotalDialog.Text.DataField=&Data Field:
 
 FormPage.Menu.ModifyProperty=Bearbeiten
 

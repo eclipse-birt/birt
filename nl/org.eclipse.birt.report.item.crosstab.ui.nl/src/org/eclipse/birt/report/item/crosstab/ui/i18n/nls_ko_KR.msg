@@ -160,10 +160,10 @@ FilterConditionBuilder.text.AND=및
 FilterConditionBuilder.text.Condition=필터 조건(&C):
 FilterConditionBuilder.text.GroupLevel=그룹 수준(&L):
 FilterConditionBuilder.list.item1=값
-FilterConditionBuilder.button.edit=편집...
-FilterConditionBuilder.button.delete=제거
-FilterConditionBuilder.button.deleteall=모두 제거
-FilterConditionBuilder.button.add=추가
+FilterConditionBuilder.button.edit=&Edit...
+FilterConditionBuilder.button.delete=Re&move
+FilterConditionBuilder.button.deleteall=Rem&ove All
+FilterConditionBuilder.button.add=&Add
 FilterConditionBuilder.button.edit.tooltip=값 목록에서 선택한 값 편집
 FilterConditionBuilder.button.delete.tooltip=목록에서 선택한 값 삭제
 FilterConditionBuilder.button.deleteall.tooltip=목록에서 모든 값 삭제
@@ -193,8 +193,8 @@ Blank.text.measure=요약하려면 데이터 필드를 여기에 내려 놓으십시오.
 ###########################################################
 #CrosstabGrandTotalDialog
 CrosstabGrandTotalDialog.Title=총합계
-CrosstabGrandTotalDialog.Text.DataField=데이터 필드:
-CrosstabGrandTotalDialog.Text.Function=함수:
+CrosstabGrandTotalDialog.Text.DataField=&Data Field:
+CrosstabGrandTotalDialog.Text.Function=&Function:
 
 
 ###########################################################
@@ -213,17 +213,17 @@ CrosstabSubToatalProvider.Column.Function=함수
 ###########################################################
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=페이지 나누기
-CrosstabPageBreakDialog.Text.GroupLevel=그룹 수준:
-CrosstabPageBreakDialog.Text.PageBreakBefore=다음 이전:
-CrosstabPageBreakDialog.Text.PageBreakAfter=다음 이후:
-CrosstabPageBreakDialog.Text.PageBreakInterval=페이지 나누기 간격:
+CrosstabPageBreakDialog.Text.GroupLevel=&Group Level:
+CrosstabPageBreakDialog.Text.PageBreakBefore=&Before:
+CrosstabPageBreakDialog.Text.PageBreakAfter=&After:
+CrosstabPageBreakDialog.Text.PageBreakInterval=&Page Break Interval:
 
 ###########################################################
 #SubTotalDialog
 SubTotalDialog.Title=부분합
-SubTotalDialog.Text.AggregateOn=집계 대상:
-SubTotalDialog.Text.Function=함수:
-SubTotalDialog.Text.DataField=데이터 필드:
+SubTotalDialog.Text.AggregateOn=&Aggregate On:
+SubTotalDialog.Text.Function=&Function:
+SubTotalDialog.Text.DataField=&Data Field:
 
 FormPage.Menu.ModifyProperty=수정
 
