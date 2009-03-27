@@ -8,6 +8,7 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
+
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
@@ -18,6 +19,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -27,6 +29,7 @@ import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.RegionLayoutEngine;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -56,18 +59,17 @@ public class PageArea extends BlockContainerArea
 	private transient int rootLeft;
 	private transient int rootTop;
 
-	public PageArea( LayoutContext context,
-			IContent content,
+	public PageArea( LayoutContext context, IContent content,
 			LayoutEmitterAdapter emitter )
 	{
 		super( null, context, content );
 		this.emitter = emitter;
-		pageContent = (IPageContent)content;
+		pageContent = (IPageContent) content;
 	}
 
-	public PageArea(PageArea area)
+	public PageArea( PageArea area )
 	{
-		super(area);
+		super( area );
 	}
 
 	public IContainerArea getHeader( )
@@ -102,7 +104,7 @@ public class PageArea extends BlockContainerArea
 	{
 		return body;
 	}
-	
+
 	public IContainerArea getRoot( )
 	{
 		return root;
@@ -116,22 +118,22 @@ public class PageArea extends BlockContainerArea
 
 	public void setBody( ContainerArea body )
 	{
-		if(this.body!=null)
+		if ( this.body != null )
 		{
-			body.setPosition( this.body.getX( ), this.body.getY() );
+			body.setPosition( this.body.getX( ), this.body.getY( ) );
 			root.children.remove( this.body );
 		}
 		root.children.add( body );
 		body.setParent( root );
 		this.body = body;
 	}
-	
-	public void removeBody()
+
+	public void removeBody( )
 	{
 		root.children.remove( body );
 		this.body = null;
 	}
-	
+
 	public void setHeader( RegionArea header )
 	{
 		this.header = header;
@@ -151,15 +153,68 @@ public class PageArea extends BlockContainerArea
 	{
 		this.enlargePageSize = enlargePageSize;
 	}
-	
+
 	public PageArea cloneArea( )
 	{
-		return new PageArea(this);
+		return new PageArea( this );
 	}
-	
+
+	// support page border on root area
+	protected BoxStyle buildRootStyle( )
+	{
+		IStyle style = pageContent.getStyle( );
+		if ( ( style != null ) && !style.isEmpty( ) )
+		{
+			BoxStyle boxStyle = new BoxStyle( );
+			IStyle cs = pageContent.getComputedStyle( );
+			int borderWidth = getDimensionValue( cs
+					.getProperty( IStyle.STYLE_BORDER_LEFT_WIDTH ), width );
+			if ( borderWidth > 0 )
+			{
+				boxStyle.setLeftBorder( new BorderInfo( cs
+						.getProperty( IStyle.STYLE_BORDER_LEFT_COLOR ), cs
+						.getProperty( IStyle.STYLE_BORDER_LEFT_STYLE ),
+						borderWidth ) );
+
+			}
+
+			borderWidth = getDimensionValue( cs
+					.getProperty( IStyle.STYLE_BORDER_RIGHT_WIDTH ), width );
+			if ( borderWidth > 0 )
+			{
+				boxStyle.setRightBorder( new BorderInfo( cs
+						.getProperty( IStyle.STYLE_BORDER_RIGHT_COLOR ), cs
+						.getProperty( IStyle.STYLE_BORDER_RIGHT_STYLE ),
+						borderWidth ) );
+
+			}
+			borderWidth = getDimensionValue( cs
+					.getProperty( IStyle.STYLE_BORDER_TOP_WIDTH ), width );
+			if ( borderWidth > 0 )
+			{
+				boxStyle.setTopBorder( new BorderInfo( cs
+						.getProperty( IStyle.STYLE_BORDER_TOP_COLOR ), cs
+						.getProperty( IStyle.STYLE_BORDER_TOP_STYLE ),
+						borderWidth ) );
+
+			}
+
+			borderWidth = getDimensionValue( cs
+					.getProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH ), width );
+			if ( borderWidth > 0 )
+			{
+				boxStyle.setBottomBorder( new BorderInfo( cs
+						.getProperty( IStyle.STYLE_BORDER_BOTTOM_COLOR ), cs
+						.getProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE ),
+						borderWidth ) );
+			}
+			return boxStyle;
+		}
+		return boxStyle.DEFAULT;
+	}
+
 	public void initialize( ) throws BirtException
 	{
-		
 		createRoot( );
 		Color backgroundColor = PropertyUtil.getColor( pageContent.getStyle( )
 				.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
@@ -185,17 +240,16 @@ public class PageArea extends BlockContainerArea
 		updateBodySize( );
 		context.setMaxHeight( body.getHeight( ) );
 		context.setMaxWidth( body.getWidth( ) );
-		context.setMaxBP( body.getHeight( ));
+		context.setMaxBP( body.getHeight( ) );
 		maxAvaWidth = context.getMaxWidth( );
 	}
 
-	
 	/**
 	 * support body auto resize, remove invalid header and footer
 	 * 
 	 * @param page
 	 */
-	protected void updateBodySize(  )
+	protected void updateBodySize( )
 	{
 		if ( header != null && header.getHeight( ) >= root.getHeight( ) )
 		{
@@ -216,18 +270,21 @@ public class PageArea extends BlockContainerArea
 			removeHeader( );
 		}
 
-		body.setHeight( root.getHeight( )
+		body.setHeight( root.getContentHeight( )
 				- ( header == null ? 0 : header.getHeight( ) )
 				- ( footer == null ? 0 : footer.getHeight( ) ) );
 		body.setPosition( body.getX( ), ( header == null ? 0 : header
-				.getHeight( ) ) );
+				.getHeight( ) )
+				+ root.getBoxStyle( ).getTopBorderWidth( ) );
 		if ( footer != null )
 		{
 			footer.setPosition( footer.getX( ), ( header == null ? 0 : header
 					.getHeight( ) )
+					+ root.getBoxStyle( ).getTopBorderWidth( )
 					+ ( body == null ? 0 : body.getHeight( ) ) );
 		}
 	}
+
 	/**
 	 * layout page header area
 	 * 
@@ -244,8 +301,8 @@ public class PageArea extends BlockContainerArea
 		header.content = headerContent;
 		boolean autoPageBreak = context.isAutoPageBreak( );
 		context.setAutoPageBreak( false );
-		RegionLayoutEngine rle = new RegionLayoutEngine( header,  context );
-		
+		RegionLayoutEngine rle = new RegionLayoutEngine( header, context );
+
 		try
 		{
 			rle.layout( headerContent );
@@ -262,7 +319,7 @@ public class PageArea extends BlockContainerArea
 	 * layout page footer area
 	 * 
 	 */
-	protected void layoutFooter(  )
+	protected void layoutFooter( )
 	{
 		IContent footerContent = pageContent.getPageFooter( );
 		DimensionType h = pageContent.getFooterHeight( );
@@ -286,9 +343,7 @@ public class PageArea extends BlockContainerArea
 		context.setAutoPageBreak( autoPageBreak );
 	}
 
-	
-
-	public void floatingFooter(PageArea page )
+	public void floatingFooter( PageArea page )
 	{
 		ContainerArea footer = (ContainerArea) page.getFooter( );
 		IContainerArea body = page.getBody( );
@@ -300,19 +355,24 @@ public class PageArea extends BlockContainerArea
 					+ ( body == null ? 0 : body.getHeight( ) ) );
 		}
 	}
-	
-	
+
 	protected void createRoot( )
 	{
 		int overFlowType = context.getPageOverflow( );
 
 		if ( overFlowType == IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES )
 		{
-			//page.setExtendToMultiplePages( true );
+			// page.setExtendToMultiplePages( true );
 		}
 
-		pageContentWidth = getDimensionValue( pageContent, pageContent.getPageWidth( ) );
-		pageContentHeight = getDimensionValue( pageContent, pageContent.getPageHeight( ) );
+		pageContentWidth = getDimensionValue( pageContent, pageContent
+				.getPageWidth( ) )
+				- boxStyle.getLeftBorderWidth( )
+				- boxStyle.getRightBorderWidth( );
+		pageContentHeight = getDimensionValue( pageContent, pageContent
+				.getPageHeight( ) )
+				- boxStyle.getTopBorderWidth( )
+				- boxStyle.getBottomBorderWidth( );
 
 		// validate page width
 		if ( pageContentWidth <= 0 )
@@ -333,19 +393,25 @@ public class PageArea extends BlockContainerArea
 		 * set position and dimension for root
 		 */
 		ContainerArea pageRoot = new BlockContainerArea( );
-
-		rootLeft = getDimensionValue( pageContent, pageContent.getMarginLeft( ),
+		BoxStyle boxStyle = buildRootStyle( );
+		if ( boxStyle != BoxStyle.DEFAULT )
+		{
+			pageRoot.hasStyle = true;
+		}
+		pageRoot.setBoxStyle( boxStyle );
+		rootLeft = getDimensionValue( pageContent,
+				pageContent.getMarginLeft( ), pageContentWidth );
+		rootTop = getDimensionValue( pageContent, pageContent.getMarginTop( ),
 				pageContentWidth );
-		rootTop = getDimensionValue(pageContent,  pageContent.getMarginTop( ), pageContentWidth );
 		rootLeft = Math.max( 0, rootLeft );
 		rootLeft = Math.min( pageContentWidth, rootLeft );
 		rootTop = Math.max( 0, rootTop );
 		rootTop = Math.min( pageContentHeight, rootTop );
 		pageRoot.setPosition( rootLeft, rootTop );
-		int rootRight = getDimensionValue( pageContent, pageContent.getMarginRight( ),
-				pageContentWidth );
-		int rootBottom = getDimensionValue( pageContent, pageContent.getMarginBottom( ),
-				pageContentWidth );
+		int rootRight = getDimensionValue( pageContent, pageContent
+				.getMarginRight( ), pageContentWidth );
+		int rootBottom = getDimensionValue( pageContent, pageContent
+				.getMarginBottom( ), pageContentWidth );
 		rootRight = Math.max( 0, rootRight );
 		rootBottom = Math.max( 0, rootBottom );
 		if ( rootLeft + rootRight > pageContentWidth )
@@ -356,7 +422,7 @@ public class PageArea extends BlockContainerArea
 		{
 			rootBottom = 0;
 		}
-		
+
 		rootWidth = pageContentWidth - rootLeft - rootRight;
 		rootHeight = pageContentHeight - rootTop - rootBottom;
 		pageRoot.setWidth( rootWidth );
@@ -367,27 +433,30 @@ public class PageArea extends BlockContainerArea
 		/**
 		 * set position and dimension for header
 		 */
-		int headerHeight = getDimensionValue( pageContent, pageContent.getHeaderHeight( ),
-				pageRoot.getHeight( ) );
-		int headerWidth = pageRoot.getWidth( );
+		int headerHeight = getDimensionValue( pageContent, pageContent
+				.getHeaderHeight( ), pageRoot.getHeight( ) );
+		int headerWidth = pageRoot.getWidth( ) - boxStyle.getLeftBorderWidth( )
+				- boxStyle.getRightBorderWidth( );
 		headerHeight = Math.max( 0, headerHeight );
 		headerHeight = Math.min( pageRoot.getHeight( ), headerHeight );
-		RegionArea header = new RegionArea(  );
+		RegionArea header = new RegionArea( );
 		header.setHeight( headerHeight );
 		header.setWidth( headerWidth );
 		header.context = context;
 		header.needClip = true;
-		header.setPosition( 0, 0 );
+		header.setPosition( boxStyle.getLeftBorderWidth( ), boxStyle
+				.getTopBorderWidth( ) );
 		pageRoot.addChild( header );
 		setHeader( header );
-		header.setParent(pageRoot);
+		header.setParent( pageRoot );
 
 		/**
 		 * set position and dimension for footer
 		 */
-		int footerHeight = getDimensionValue( pageContent, pageContent.getFooterHeight( ),
-				pageRoot.getHeight( ) );
-		int footerWidth = pageRoot.getWidth( );
+		int footerHeight = getDimensionValue( pageContent, pageContent
+				.getFooterHeight( ), pageRoot.getHeight( ) );
+		int footerWidth = pageRoot.getWidth( ) - boxStyle.getLeftBorderWidth( )
+				- boxStyle.getRightBorderWidth( );
 		footerHeight = Math.max( 0, footerHeight );
 		footerHeight = Math.min( pageRoot.getHeight( ) - headerHeight,
 				footerHeight );
@@ -396,27 +465,34 @@ public class PageArea extends BlockContainerArea
 		footer.setWidth( footerWidth );
 		footer.context = context;
 		footer.needClip = true;
-		footer.setPosition( 0, pageRoot.getHeight( ) - footerHeight );
+		footer.setPosition( boxStyle.getLeftBorderWidth( ), pageRoot
+				.getHeight( )
+				- boxStyle.getBottomBorderWidth( ) - footerHeight );
 		pageRoot.addChild( footer );
 		setFooter( footer );
-		footer.setParent(pageRoot);
+		footer.setParent( pageRoot );
 
 		/**
 		 * set position and dimension for body
 		 */
 		ContainerArea body = new BlockContainerArea( );
-		int bodyLeft = getDimensionValue(pageContent,  pageContent.getLeftWidth( ), pageRoot
-				.getWidth( ) );
+		int bodyLeft = getDimensionValue( pageContent, pageContent
+				.getLeftWidth( ), pageRoot.getWidth( ) );
 		bodyLeft = Math.max( 0, bodyLeft );
 		bodyLeft = Math.min( pageRoot.getWidth( ), bodyLeft );
-		body.setPosition( bodyLeft, headerHeight );
-		int bodyRight = getDimensionValue(pageContent,  pageContent.getRightWidth( ),
-				pageRoot.getWidth( ) );
+		body.setPosition( boxStyle.getLeftBorderWidth( ) + bodyLeft,
+				headerHeight + boxStyle.getRightBorderWidth( ) );
+		int bodyRight = getDimensionValue( pageContent, pageContent
+				.getRightWidth( ), pageRoot.getWidth( ) );
 		bodyRight = Math.max( 0, bodyRight );
 		bodyRight = Math.min( pageRoot.getWidth( ) - bodyLeft, bodyRight );
 
-		body.setWidth( pageRoot.getWidth( ) - bodyLeft - bodyRight );
-		body.setHeight( pageRoot.getHeight( ) - headerHeight - footerHeight );
+		body.setWidth( pageRoot.getWidth( ) - bodyLeft - bodyRight
+				- boxStyle.getLeftBorderWidth( )
+				- boxStyle.getRightBorderWidth( ) );
+		body.setHeight( pageRoot.getHeight( ) - headerHeight - footerHeight
+				- boxStyle.getTopBorderWidth( )
+				- boxStyle.getBottomBorderWidth( ) );
 		setBody( body );
 		if ( overFlowType == IPDFRenderOption.CLIP_CONTENT
 				|| overFlowType == IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES )
@@ -440,7 +516,7 @@ public class PageArea extends BlockContainerArea
 			if ( 1f == scale )
 			{
 				pageContent.setExtension( IContent.LAYOUT_EXTENSION, this );
-				outputPage(pageContent);
+				outputPage( pageContent );
 				return;
 			}
 			this.setScale( scale );
@@ -452,10 +528,10 @@ public class PageArea extends BlockContainerArea
 		}
 
 		pageContent.setExtension( IContent.LAYOUT_EXTENSION, this );
-		outputPage(pageContent);
+		outputPage( pageContent );
 		finished = true;
 	}
-	
+
 	public boolean isPageEmpty( )
 	{
 		if ( body.getChildrenCount( ) > 0 )
@@ -464,13 +540,13 @@ public class PageArea extends BlockContainerArea
 		}
 		return true;
 	}
-	
+
 	public void outputPage( IPageContent page ) throws BirtException
 	{
 		emitter.outputPage( page );
-		//context.pageNumber++;
+		// context.pageNumber++;
 	}
-	
+
 	private float calculatePageScale( PageArea page )
 	{
 		float scale = 1.0f;
@@ -484,7 +560,8 @@ public class PageArea extends BlockContainerArea
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea area = (AbstractArea) iter.next( );
-				prefWidth = Math.max( prefWidth, area.getAllocatedX( ) +area.getAllocatedWidth() );
+				prefWidth = Math.max( prefWidth, area.getAllocatedX( )
+						+ area.getAllocatedWidth( ) );
 			}
 
 			if ( prefHeight > maxHeight )
@@ -513,20 +590,21 @@ public class PageArea extends BlockContainerArea
 		pageRoot.setHeight( (int) ( rootHeight / scale ) );
 		pageRoot.setWidth( (int) ( rootWidth / scale ) );
 	}
-	
+
 	protected void updatePageDimension( PageArea page )
 	{
 		if ( page != null && page.getRoot( ).getChildrenCount( ) > 0 )
 		{
 			int maxWidth = context.getMaxWidth( );
 			int maxHeight = context.getMaxHeight( );
-			int prefWidth = context.getPreferenceWidth( ); //0
+			int prefWidth = context.getPreferenceWidth( ); // 0
 			int prefHeight = page.getBody( ).getHeight( );
 			Iterator iter = page.getBody( ).getChildren( );
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea area = (AbstractArea) iter.next( );
-				prefWidth = Math.max( prefWidth, area.getAllocatedX( ) + area.getAllocatedWidth() );
+				prefWidth = Math.max( prefWidth, area.getAllocatedX( )
+						+ area.getAllocatedWidth( ) );
 			}
 
 			if ( prefHeight > maxHeight )
@@ -548,7 +626,7 @@ public class PageArea extends BlockContainerArea
 				page.setWidth( pageContentWidth + deltaWidth );
 			}
 		}
-		
+
 	}
-	
+
 }
