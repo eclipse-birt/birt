@@ -112,7 +112,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		{
 			GridData gd = new GridData( );
 			lblValue.setLayoutData( gd );
-			lblValue.setText( Messages.getString( "SeriesTrendlineSheet.Label.Label" ) + ":" ); //$NON-NLS-1$ //$NON-NLS-2$
+			lblValue.setText( Messages.getString( "SeriesTrendlineSheet.Label.Label&" ) ); //$NON-NLS-1$ 
 		}
 
 		List keys = null;
