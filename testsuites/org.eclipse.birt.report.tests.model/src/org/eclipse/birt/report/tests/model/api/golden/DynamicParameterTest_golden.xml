@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051014-0742></property>
     <property name="units">in</property>
     <parameters>
@@ -14,7 +14,9 @@
             <expression name="valueExpr">row["ORDERDATE"]</expression>
             <property name="mustMatch">false</property>
             <property name="fixedOrder">true</property>
-            <property name="defaultValue">10/15/2005</property>
+            <simple-property-list name="defaultValue">
+                <value>10/15/2005</value>
+            </simple-property-list>
             <structure name="format">
                 <property name="category">Long Date</property>
                 <property name="pattern">Long Date</property>
@@ -60,17 +62,21 @@
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dataset1" id="5">
             <property name="dataSource">dataSource</property>
-            <property name="queryText">select *
-from CLASSICMODELS.ORDERS</property>
+            <xml-property name="queryText"><![CDATA[select *
+from CLASSICMODELS.ORDERS]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dataset2" id="6">
             <property name="dataSource">Data Source</property>
-            <property name="queryText">select *
-from CLASSICMODELS.PAYMENTS</property>
+            <xml-property name="queryText"><![CDATA[select *
+from CLASSICMODELS.PAYMENTS]]></xml-property>
         </oda-data-set>
     </data-sets>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="7">
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
             <page-footer>
                 <text id="8">
                     <property name="contentType">html</property>

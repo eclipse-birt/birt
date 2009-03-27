@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2008 &lt;&lt;Your Company Name here>></property>
     <property name="iconFile">/templates/blank_report.gif</property>
@@ -8,7 +8,6 @@
             <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
             <property name="odaURL">jdbc:classicmodels:sampledb</property>
             <property name="odaUser">ClassicModels</property>
-            <property name="OdaConnProfileName"></property>
         </oda-data-source>
     </data-sources>
     <data-sets>
@@ -166,8 +165,8 @@
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <property name="queryText">select *
-from OFFICES</property>
+            <xml-property name="queryText"><![CDATA[select *
+from OFFICES]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>1.0</Version>
@@ -442,7 +441,12 @@ from OFFICES</property>
         </style>
     </styles>
     <page-setup>
-        <simple-master-page name="Simple MasterPage" id="2"/>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
+        </simple-master-page>
     </page-setup>
     <body>
         <label name="location" id="6">

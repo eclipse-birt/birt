@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.1" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <property name="units">in</property>
     <list-property name="libraries">
         <structure>
-            <property name="fileName">D:\workspace_eclipse\org.eclipse.birt.report.tests.model/bin/org\eclipse\birt\report\tests\model\api/input/LibraryCreatLib.xml</property>
+            <property name="fileName">LibraryCreatLib.xml</property>
             <property name="namespace">LibB</property>
         </structure>
         <structure>
-            <property name="fileName">../input/LibA.xml</property>
+            <property name="fileName">LibA.xml</property>
             <property name="namespace">LibA</property>
         </structure>
     </list-property>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
             <page-footer>
                 <text id="3">
                     <property name="contentType">html</property>

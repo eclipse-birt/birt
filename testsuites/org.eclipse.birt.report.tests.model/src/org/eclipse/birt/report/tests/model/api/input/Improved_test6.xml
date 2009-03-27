@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 1.0 -->
-<report xmlns=" http://www.eclipse.org/birt/2005/design" version="2">
-    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20050908-0739></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090327 Build &lt;2.5.0.v20090327-1033></property>
     <property name="units">in</property>
     <page-setup>
-        <simple-master-page name="Simple MasterPage">
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
             <page-footer>
-                <text>
+                <text id="3">
                     <property name="contentType">html</property>
                     <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
                 </text>

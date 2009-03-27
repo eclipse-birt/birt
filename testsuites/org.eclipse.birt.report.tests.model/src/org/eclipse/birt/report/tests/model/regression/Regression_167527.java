@@ -36,8 +36,8 @@ public class Regression_167527 extends BaseTestCase
 		openDesign( REPORT );
 
 		// find the styles
-		StyleHandle style2 = designHandle.findStyle( "My Style2" ); //$NON-NLS-1$
-		StyleHandle style3 = designHandle.findStyle( "My Style3" ); //$NON-NLS-1$
+		StyleHandle style2 = designHandle.findStyle( "My-Style2" ); //$NON-NLS-1$
+		StyleHandle style3 = designHandle.findStyle( "My-Style3" ); //$NON-NLS-1$
 
 		assertNotNull( style2 );
 		assertNotNull( style3 );

@@ -74,16 +74,16 @@ public class EmbeddedImageHandleTest extends BaseTestCase
 			                                   .findImage("group confirmation logo.jpg").getHandle(propHandle);
 			EmbeddedImageHandle image2handle = (EmbeddedImageHandle) designHandle
 			                                   .findImage("circles.png").getHandle(propHandle);
-		
+
 			image1handle.drop();
-			
 			List value = propHandle.getListValue( );
 			assertEquals( 1, value.size( ) );
 			assertEquals( image2handle.getStructure( ), value.get( 0 ) );
 			assertNull( image1handle.getStructure( ) );
-
+			
 			image2handle.drop();
-			assertEquals( 0, value.size( ) );
+			List value1 =  propHandle.getListValue();
+			assertEquals( 0, value1.size( ) );
 			assertNull( image2handle.getStructure( ) );
 		}
 

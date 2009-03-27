@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090327 Build &lt;2.5.0.v20090327-1033></property>
     <property name="refreshRate">30</property>
     <styles>
-        <style name="My Style1">
-            <property name="numberAlign">right</property>            
+        <style name="My-Style1" id="2">
+            <property name="color">blue</property>
+            <property name="numberAlign">right</property>
             <property name="textAlign">right</property>
             <property name="showIfBlank">true</property>
             <property name="canShrink">true</property>
-            <property name="color">blue</property>            
-            <expression name="highlightTestExpr">[this]</expression>
             <list-property name="highlightRules">
                 <structure>
                     <property name="operator">eq</property>
                     <property name="borderRightStyle">solid</property>
                     <property name="borderRightColor">black</property>
-                    <property name="fontFamily">Arial</property>
+                    <property name="fontFamily">"Arial"</property>
                     <property name="fontWeight">bold</property>
                     <property name="fontVariant">normal</property>
                     <property name="color">blue</property>
@@ -23,7 +22,7 @@
                     <property name="textOverline">overline</property>
                     <property name="textLineThrough">line-through</property>
                     <property name="textAlign">right</property>
-                    <property name="textTransform">lowercase</property>                    
+                    <property name="textTransform">lowercase</property>
                     <structure name="dateTimeFormat">
                         <property name="category">Short Date</property>
                         <property name="pattern">yyyy/mm/dd</property>
@@ -35,48 +34,37 @@
                     <structure name="stringFormat">
                         <property name="category">&lt;</property>
                         <property name="pattern">string-format</property>
-                    </structure>                                          
-                    <expression name="value1">"10"</expression>
+                    </structure>
+                    <expression name="testExpr">[this]</expression>
+                    <simple-property-list name="value1">
+                        <value>"10"</value>
+                    </simple-property-list>
                     <expression name="value2">"20"</expression>
                 </structure>
             </list-property>
         </style>
-        <style name="My Style2">
+        <style name="My-Style2" id="3">
             <property name="fontWeight">bolder</property>
             <list-property name="highlightRules">
-                <structure>                         
-                    <expression name="value1">"10"</expression>
-                    <property name="style">My Style1</property>
+                <structure>
                     <property name="color">red</property>
+                    <simple-property-list name="value1">
+                        <value>"10"</value>
+                    </simple-property-list>
+                    <property name="style">My Style1</property>
                 </structure>
-            </list-property>            
+            </list-property>
         </style>
-        <style name="My Style3">
-            <property name="fontWeight">lighter</property>     
- 			<list-property name="highlightRules">
-                <structure>                         
+        <style name="My-Style3" id="4">
+            <property name="fontWeight">lighter</property>
+            <list-property name="highlightRules">
+                <structure>
                     <property name="color">yellow</property>
                 </structure>
-            </list-property>                        
-        </style>        
+            </list-property>
+        </style>
     </styles>
     <page-setup>
-        <graphic-master-page name="My Page">
-            <property name="columnSpacing">0.25mm</property>
-        </graphic-master-page>
+        <simple-master-page name="NewSimpleMasterPage" id="5"/>
     </page-setup>
-    <body>
-		<table name="myTable">
-			<detail>
-				<row>
-					<cell/>
-					<cell/>
-				</row>
-				<row>
-					<cell/>
-					<cell/>
-				</row>										
-			</detail>
-		</table>
-    </body>
 </report>
