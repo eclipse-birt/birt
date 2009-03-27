@@ -13,6 +13,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
+import org.eclipse.draw2d.Border;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -26,7 +27,7 @@ import org.eclipse.swt.graphics.Image;
  * client's responsibility to dispose the given image. There is no "free"
  * resource management in GEF.
  */
-public class ImageFigure extends ReportElementFigure
+public class ImageFigure extends ReportElementFigure implements IOutsideBorder
 {
 
 	private Image img;
@@ -235,5 +236,13 @@ public class ImageFigure extends ReportElementFigure
 		super.setSize( w, h );
 		size.width = w;
 		size.height = h;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IOutsideBorder#getOutsideBorder()
+	 */
+	public Border getOutsideBorder( )
+	{
+		return getBorder( );
 	}
 }

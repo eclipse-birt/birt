@@ -17,14 +17,19 @@ import org.eclipse.birt.report.designer.core.commands.PasteCommand;
 import org.eclipse.birt.report.designer.core.commands.SetConstraintCommand;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IOutsideBorder;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.draw2d.Border;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PrecisionRectangle;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Transposer;
 import org.eclipse.gef.EditPart;
@@ -305,9 +310,23 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 	protected Object getConstraintFor( ChangeBoundsRequest request,
 			GraphicalEditPart child )
 	{
-		Rectangle rect = child.getFigure( ).getBounds( );
+		IFigure figure = child.getFigure( );
+		Rectangle rect = new PrecisionRectangle(figure.getBounds());
+		figure.translateToAbsolute(rect);
 		rect = request.getTransformedRectangle( rect );
+		
+		figure.translateToRelative(rect);
 		rect.translate( getLayoutOrigin( ).getNegated( ) );
+		if (figure instanceof IOutsideBorder)
+		{
+			Border border = ((IOutsideBorder)figure).getOutsideBorder( );
+			if (border !=  null)
+			{
+				Insets insets = border.getInsets( figure );
+				rect.shrink( insets.right, insets.bottom );
+			}
+		}
+
 		return getConstraintFor( rect );
 	}
 
