@@ -223,15 +223,26 @@
                </groupMarker>
             </menu>
             <visibility>
-               <and>
-                  <objectClass
-                        name="org.eclipse.core.resources.IFile">
-                  </objectClass>
-                  <objectState
-                        name="extension"
-                        value="rptdesign">
-                  </objectState>
-               </and>
+               <or>
+                  <and>
+                     <objectClass
+                           name="org.eclipse.core.resources.IFile">
+                     </objectClass>
+                     <objectState
+                           name="contentTypeId"
+                           value="org.eclipse.birt.report.designer.ui.editors.reportdesign">
+                     </objectState>
+                  </and>
+                  <and>
+                     <objectClass
+                           name="org.eclipse.core.resources.IFile">
+                     </objectClass>
+                     <objectState
+                           name="contentTypeId"
+                           value="org.eclipse.birt.report.designer.ui.editors.reporttemplate">
+                     </objectState>
+                  </and>
+               </or>
             </visibility>
          </viewerContribution>
          <viewerContribution
@@ -246,15 +257,26 @@
                   menubarPath="org.eclipse.birt.report.designer.ui.ide.Report/report">
             </action>
             <visibility>
-               <and>
-                  <objectClass
-                        name="org.eclipse.core.resources.IFile">
-                  </objectClass>
-                  <objectState
-                        name="extension"
-                        value="rptdesign">
-                  </objectState>
-               </and>
+               <or>
+                  <and>
+                     <objectClass
+                           name="org.eclipse.core.resources.IFile">
+                     </objectClass>
+                     <objectState
+                           name="contentTypeId"
+                           value="org.eclipse.birt.report.designer.ui.editors.reportdesign">
+                     </objectState>
+                  </and>
+                  <and>
+                     <objectClass
+                           name="org.eclipse.core.resources.IFile">
+                     </objectClass>
+                     <objectState
+                           name="contentTypeId"
+                           value="org.eclipse.birt.report.designer.ui.editors.reporttemplate">
+                     </objectState>
+                  </and>
+               </or>
             </visibility>
          </viewerContribution>
     </extension>   
