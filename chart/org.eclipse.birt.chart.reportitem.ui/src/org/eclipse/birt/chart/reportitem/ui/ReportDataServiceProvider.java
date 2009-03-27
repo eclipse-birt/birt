@@ -326,10 +326,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	}
 
 	static class ColumnNameComprator implements Comparator<ColumnBindingInfo> {
-		private com.ibm.icu.text.Collator collator = com.ibm.icu.text.Collator.getInstance( );
+
+		// use JDK String's compare method to map the same sorting logic as
+		// column binding dialog(270079)
+		// private com.ibm.icu.text.Collator collator =
+		// com.ibm.icu.text.Collator.getInstance( );
 		public int compare( ColumnBindingInfo src, ColumnBindingInfo target )
 		{
-			return collator.compare( src.getName( ), target.getName( ) );
+			return src.getName( ).compareTo( target.getName( ) );
 		}
 	}
 	

@@ -41,8 +41,8 @@ import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartCubeF
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartFilterProviderDelegate;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
-import org.eclipse.birt.chart.ui.swt.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.ColumnNamesTableDragListener;
+import org.eclipse.birt.chart.ui.swt.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DefaultChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
@@ -1511,6 +1511,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			// Clear old dataset and preview data
 			tablePreview.clearContents( );
+			tableViewerColumns.setInput( null );
 
 			// Try to get report data set
 			if ( datasetName == null )
