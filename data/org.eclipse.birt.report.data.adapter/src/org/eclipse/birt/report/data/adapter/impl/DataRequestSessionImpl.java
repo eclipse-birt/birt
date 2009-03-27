@@ -994,13 +994,33 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 			
 			createLeafLevel( levels, levelInHier, leafLevelKeyColumn );
-		
-			iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ), hierhandle.getName( ),
-					new DataSetIterator( this,
-							queryMap.get( hierhandle ),
-							metaMap.get( hierhandle ),
-							appContext ),
-					levelInHier, stopSign ) );
+			Object rowLimit = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
+			if ( rowLimit != null
+					&& !cubeHandle.getDataSet( ).getName( ).equals( hierhandle.getDataSet( ).getName( ) ) )
+			{
+				appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
+				iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
+						hierhandle.getName( ),
+						new DataSetIterator( this,
+								queryMap.get( hierhandle ),
+								metaMap.get( hierhandle ),
+								appContext ),
+						levelInHier,
+						stopSign ) );
+				appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, rowLimit );
+			}
+			else
+			{
+				iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
+						hierhandle.getName( ),
+						new DataSetIterator( this,
+								queryMap.get( hierhandle ),
+								metaMap.get( hierhandle ),
+								appContext ),
+						levelInHier,
+						stopSign ) );
+			}
+			
 		}
 		return cubeMaterializer.createDimension( dim.getName( ),
 				(IHierarchy) iHiers.get( 0 ) ) ;
