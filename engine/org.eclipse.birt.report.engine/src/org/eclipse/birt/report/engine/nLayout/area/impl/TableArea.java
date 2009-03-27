@@ -269,7 +269,7 @@ public class TableArea extends RepeatableArea
 				tableResult.setHeight( tableResult.getHeight( ) + h );
 			}
 			tableResult.resolveBottomBorder( );
-			resolveTopBorder( );
+			relayoutChildren( );
 		}
 
 		return result;
@@ -356,24 +356,43 @@ public class TableArea extends RepeatableArea
 	}
 
 	
-	public void resolveTopBorder()
+	public void relayoutChildren() throws BirtException
 	{
-		
+		layout.clear( );
+		addRows( this, layout);
 	}
 	
-	protected void addRows(ContainerArea container, TableLayout layout)
+	protected void addRows(ContainerArea container, TableLayout layout) throws BirtException
 	{
 		if(container instanceof RowArea)
 		{
-			layout.addRow( (RowArea)container, context.isFixedLayout( ) );
+			RowArea row = (RowArea)container;
+			if ( row.needResolveBorder )
+			{
+				int size = row.getChildrenCount( );
+				for ( int i = 0; i < size; i++ )
+				{
+					CellArea cell = (CellArea) row.getChild( i );
+					int ch = cell.getContentHeight( );
+					cell.boxStyle.clearBorder( );
+					layout.resolveBorderConflict( cell, true );
+					cell.setContentHeight( ch );
+				}
+				row.needResolveBorder = false;
+			}
+			if ( row.finished )
+			{
+				layout.addRow( (RowArea) container, context.isFixedLayout( ) );
+			}
 		}
 		else
 		{
-			java.util.Iterator<IArea> iter = container.getChildren( );
-			while(iter.hasNext( ))
+			int size = container.getChildrenCount( );
+			for ( int i = 0; i < size; i++ )
 			{
-				ContainerArea child = (ContainerArea)iter.next( );
-				addRows(child, layout);
+				ContainerArea child = (ContainerArea) container.getChild( i );
+				addRows( child, layout );
+				child.updateChildrenPosition( );
 			}
 		}
 	}

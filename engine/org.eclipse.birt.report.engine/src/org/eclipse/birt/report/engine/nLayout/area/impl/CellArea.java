@@ -209,7 +209,9 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 
 	public CellArea cloneArea( )
 	{
-		return new CellArea( this );
+		CellArea cell = new CellArea(this);
+		cell.setBoxStyle( new BoxStyle( cell.getBoxStyle( ) ) );
+		return cell;
 	}
 
 	public void update( AbstractArea area )

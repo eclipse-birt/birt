@@ -835,6 +835,8 @@ public abstract class ContainerArea extends AbstractArea
 		action = content.getHyperlinkAction( );
 	}
 
+	public abstract void updateChildrenPosition( ) throws BirtException;
+	
 	protected TableArea getTable( )
 	{
 		ContainerArea p = parent;

@@ -29,7 +29,7 @@ public abstract class RepeatableArea extends BlockContainerArea
 	protected int repeatHeight = 0;
 
 	protected boolean inHeaderBand = false;
-
+	
 	public RepeatableArea( ContainerArea parent, LayoutContext context,
 			IContent content )
 	{
@@ -44,8 +44,8 @@ public abstract class RepeatableArea extends BlockContainerArea
 	{
 		this.inHeaderBand = inHeaderBand;
 	}
-
-	protected void updateChildrenPosition( ) throws BirtException
+	
+	protected void addRepeatedItem() throws BirtException
 	{
 		if ( repeatList != null && repeatList.size( ) > 0 )
 		{
@@ -57,6 +57,10 @@ public abstract class RepeatableArea extends BlockContainerArea
 					{
 						ContainerArea row = (ContainerArea) repeatList.get( i );
 						ContainerArea cloneRow = row.deepClone( );
+						if(i==0 && cloneRow instanceof RowArea)
+						{
+							((RowArea)cloneRow).needResolveBorder = true;
+						}
 						children.add( i, cloneRow );
 						cloneRow.setParent( this );
 						update( cloneRow );
@@ -70,7 +74,6 @@ public abstract class RepeatableArea extends BlockContainerArea
 				}
 			}
 		}
-		super.updateChildrenPosition( );
 	}
 
 	public int getMaxAvaHeight( )

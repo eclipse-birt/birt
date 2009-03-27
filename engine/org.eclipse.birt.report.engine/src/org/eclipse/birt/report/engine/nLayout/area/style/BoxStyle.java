@@ -67,6 +67,14 @@ public class BoxStyle
 		}
 	}
 	
+	public void clearBorder()
+	{
+		topBorder = null;
+		leftBorder = null;
+		rightBorder = null;
+		bottomBorder = null;
+	}
+	
 	public BackgroundImageInfo getBackgroundImage( )
 	{
 		return backgroundImage;

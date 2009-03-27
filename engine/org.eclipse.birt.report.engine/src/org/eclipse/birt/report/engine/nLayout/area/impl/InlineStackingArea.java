@@ -66,6 +66,37 @@ public abstract class InlineStackingArea extends ContainerArea
 		return baseLine;
 	}
 	
+	public void updateChildrenPosition( ) throws BirtException
+	{
+		currentIP = 0;
+		if ( children.size( ) > 0 )
+		{
+			Iterator iter = children.iterator( );
+			int x = getOffsetX( );
+			int w = 0;
+			while ( iter.hasNext( ) )
+			{
+				ContainerArea area = (ContainerArea) iter.next( );
+				// if(iter.hasNext( ))
+				{
+					area.setAllocatedPosition( x, area.getY( ) );
+					int aw = area.getAllocatedWidth( );
+					x += aw;
+					w += aw;
+					if ( area.finished )
+					{
+						currentIP += aw;
+					}
+				}
+			}
+			setContentWidth( w );
+		}
+		else
+		{
+			setContentWidth( 0 );
+		}
+	}
+	
 	protected void verticalAlign( )
 	{
 		Iterator iter = getChildren( );

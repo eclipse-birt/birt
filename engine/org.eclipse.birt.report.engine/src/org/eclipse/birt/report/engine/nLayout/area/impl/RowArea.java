@@ -26,6 +26,8 @@ public class RowArea extends ContainerArea
 	protected transient TableArea table;
 
 	protected int rowID;
+	
+	protected boolean needResolveBorder = false;
 
 	public RowArea( ContainerArea parent, LayoutContext context,
 			IContent content )
@@ -206,6 +208,7 @@ public class RowArea extends ContainerArea
 			else
 			{
 				_splitSpanCell( height , force);
+				needResolveBorder = true;
 				return SplitResult.SUCCEED_WITH_NULL;
 			}
 		}
@@ -269,12 +272,15 @@ public class RowArea extends ContainerArea
 		if ( result != null )
 		{
 			result.updateRow( this );
+			result.needResolveBorder = true;
 			updateRow();
+			needResolveBorder = true;
 			return new SplitResult( result, SplitResult.SPLIT_SUCCEED_WITH_PART );
 		}
 		else
 		{
 			updateRow();
+			needResolveBorder = true;
 			return SplitResult.SUCCEED_WITH_NULL;
 		}
 	}
@@ -346,6 +352,11 @@ public class RowArea extends ContainerArea
 			return SplitResult.BEFORE_AVOID_WITH_NULL;
 		}
 		return SplitResult.SUCCEED_WITH_NULL;
+	}
+	
+	public void updateChildrenPosition( ) throws BirtException
+	{
+		
 	}
 
 }

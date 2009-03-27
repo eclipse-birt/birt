@@ -257,6 +257,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 								newContainer.setParent( newContainer );
 							}
 						}
+						addRepeatedItem();
 						updateChildrenPosition( );
 						return new SplitResult(newContainer, SplitResult.SPLIT_SUCCEED_WITH_PART);
 					}
@@ -292,6 +293,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 					}
 				}
 				newContainer.addChild( splitChildArea );
+				addRepeatedItem();
 				updateChildrenPosition( );
 				return new SplitResult(newContainer, SplitResult.SPLIT_SUCCEED_WITH_PART);
 			}
@@ -517,9 +519,15 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 
 		if ( newContainer != null )
 		{
+			addRepeatedItem();
 			updateChildrenPosition( );
 		}
 		return new SplitResult( newContainer, status );
+	}
+	
+	protected void addRepeatedItem() throws BirtException
+	{
+		
 	}
 
 	public void autoPageBreak( ) throws BirtException
@@ -536,7 +544,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 		return result.size( )>0;
 	}
 
-	protected void updateChildrenPosition( ) throws BirtException
+	public void updateChildrenPosition( ) throws BirtException
 	{
 		currentBP = 0;
 		if ( children.size( ) > 0 )
@@ -565,7 +573,5 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 		{
 			setContentHeight(0);
 		}
-
 	}
-
 }
