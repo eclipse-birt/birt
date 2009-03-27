@@ -69,7 +69,7 @@ public class ParameterValidationUtil
 	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd"; //$NON-NLS-1$
 	public static final String DEFAULT_TIME_FORMAT = "HH:mm:ss"; //$NON-NLS-1$
 
-	public static final String DISPLAY_DATE_FORMAT = "Long Date"; //$NON-NLS-1$
+	public static final String DISPLAY_DATE_FORMAT = "Medium Date"; //$NON-NLS-1$
 	public static final String DISPLAY_TIME_FORMAT = "Medium Time"; //$NON-NLS-1$
 
 	private static final int DATETIME_FORMAT_TYPE = 0;
