@@ -1557,7 +1557,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			return;
 		}
 
-		if ( headers == null )
+		if ( headers == null || headers.length == 0 )
 		{
 			tablePreview.setEnabled( false );
 			tablePreview.createDummyTable( );

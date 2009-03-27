@@ -294,7 +294,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		if ( columnList.size( ) == 0 )
 		{
-			return null;
+			return new ColumnBindingInfo[]{};
 		}
 
 		ColumnBindingInfo[] columnHeaders = null;
