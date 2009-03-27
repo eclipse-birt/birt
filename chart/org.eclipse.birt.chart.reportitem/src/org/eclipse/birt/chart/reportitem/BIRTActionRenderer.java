@@ -50,10 +50,10 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 public class BIRTActionRenderer extends ActionRendererAdapter
 {
 
-	private IHTMLActionHandler handler;
-	private DesignElementHandle eih;
-	private IReportContext context;
-	private IDataRowExpressionEvaluator evaluator;
+	protected IHTMLActionHandler handler;
+	protected DesignElementHandle eih;
+	protected IReportContext context;
+	protected IDataRowExpressionEvaluator evaluator;
 
 	/**
 	 * This map is used to cache evaluated script for reducing evaluation
@@ -260,6 +260,21 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		}
 	}
 
+	protected ActionHandle getActionHandleInstance( String sa )
+	{
+		ActionHandle handle = null;
+		try
+		{
+			handle = ModuleUtil.deserializeAction( sa );
+		}
+		catch ( Exception e )
+		{
+			sa = ""; //$NON-NLS-1$
+			logger.log( e );
+		}
+		return handle;
+	}
+
 	/**
 	 * @param source
 	 * @param uv
@@ -269,9 +284,10 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		String sa = uv.getBaseUrl( );
 		String target = null;
 
-		try
+		final ActionHandle handle = getActionHandleInstance( sa );
+
+		if ( handle != null )
 		{
-			final ActionHandle handle = ModuleUtil.deserializeAction( sa );
 			setTooltip( uv, handle );
 			target = handle.getTargetWindow( );
 
@@ -286,8 +302,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 					{
 						return dph.getUserValue( expr );
 					}
-				},
-						context );
+				}, context );
 			}
 			else if ( StructureType.LEGEND_ENTRY.equals( source.getType( ) ) )
 			{
@@ -333,14 +348,12 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 					{
 						return evaluator.evaluate( expr );
 					}
-				},
-						context );
+				}, context );
 			}
 		}
-		catch ( Exception e )
+		else
 		{
 			sa = ""; //$NON-NLS-1$
-			logger.log( e );
 		}
 
 		uv.setBaseUrl( sa );
