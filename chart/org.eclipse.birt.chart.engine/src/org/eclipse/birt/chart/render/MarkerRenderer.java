@@ -81,8 +81,6 @@ public final class MarkerRenderer
 	private Location3D lo3d;
 
 	private PrimitiveRenderEvent preCopy;
-	
-	private final boolean hasOutline;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine.extension/render" ); //$NON-NLS-1$
 
@@ -107,17 +105,19 @@ public final class MarkerRenderer
 			boolean _bTransposed )
 	{
 		this.iRender = _render;
-		la = _la;
+		la = _la.copyInstance( );
 		dc = _dc;
 		bDeferred = _bDeferred;
 		oSource = _oSource;
 		m = _m;
 		bTransposed = _bTransposed;
-		hasOutline = ( _m.getOutline( ) == null || _m.getOutline( ).isVisible( ) );
-		if ( hasOutline )
+		
+		// Update visible state according to the outline value.
+		if ( _m.getOutline( ) != null )
 		{
-			la.setVisible( true );
+			la.setVisible( _m.getOutline( ).isVisible( ) );
 		}
+		
 		iSize = _markerSize == null ? _m.getSize( ) : _markerSize.intValue( );
 		paletteEntry = ChartUtil.convertFill( _paletteEntry,
 				iSize,
@@ -348,10 +348,7 @@ public final class MarkerRenderer
 					Polygon3DRenderEvent.class );
 			pre.setPoints3D( loa );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 			pre.setDoubleSided( true );
 
 			preCopy = pre;
@@ -386,10 +383,7 @@ public final class MarkerRenderer
 					PolygonRenderEvent.class );
 			pre.setPoints( loa );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 			preCopy = pre;
 
 			if ( bDeferred )
@@ -424,10 +418,7 @@ public final class MarkerRenderer
 			pre.setPoints3D( loa );
 			pre.setDoubleSided( true );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 			preCopy = pre.copy( );
 
 			dc.addPlane( pre, PrimitiveRenderEvent.FILL
@@ -449,10 +440,7 @@ public final class MarkerRenderer
 					PolygonRenderEvent.class );
 			pre.setPoints( loa );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 
 			preCopy = pre.copy( );
 			if ( bDeferred )
@@ -475,10 +463,7 @@ public final class MarkerRenderer
 			final Oval3DRenderEvent ore = (Oval3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 					Oval3DRenderEvent.class );
 			ore.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				ore.setOutline( la );
-			}
+			ore.setOutline( la );
 			ore.setLocation3D( new Location3D[]{
 					Location3DImpl.create( lo3d.getX( ) - iSize, lo3d.getY( )
 							+ iSize, lo3d.getZ( ) ),
@@ -501,10 +486,7 @@ public final class MarkerRenderer
 			ore.setBackground( paletteEntry );
 			ore.setBounds( BoundsImpl.create( lo.getX( ) - iSize, lo.getY( )
 					- iSize, iSize * 2, iSize * 2 ) );
-			if ( hasOutline )
-			{
-				ore.setOutline( la );
-			}
+			ore.setOutline( la );
 			preCopy = ore.copy( );
 
 			if ( bDeferred )
@@ -583,10 +565,7 @@ public final class MarkerRenderer
 					PolygonRenderEvent.class );
 			pre.setPoints( loa );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 			preCopy = pre.copy( );
 
 			if ( bDeferred )
@@ -619,10 +598,7 @@ public final class MarkerRenderer
 					Polygon3DRenderEvent.class );
 			pre.setPoints3D( loa );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 			pre.setDoubleSided( true );
 			preCopy = pre.copy( );
 
@@ -657,10 +633,7 @@ public final class MarkerRenderer
 					PolygonRenderEvent.class );
 			pre.setPoints( loa );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 			preCopy = pre.copy( );
 
 			if ( bDeferred )
@@ -701,10 +674,7 @@ public final class MarkerRenderer
 			pre.setPoints3D( loa );
 			pre.setDoubleSided( true );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 			preCopy = pre.copy( );
 
 			dc.addPlane( pre, PrimitiveRenderEvent.FILL
@@ -722,10 +692,7 @@ public final class MarkerRenderer
 					PolygonRenderEvent.class );
 			pre.setPoints( loa );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 			preCopy = pre.copy( );
 
 			if ( bDeferred )
@@ -787,10 +754,7 @@ public final class MarkerRenderer
 			pre1.setPoints3D( loa1 );
 			pre1.setDoubleSided( true );
 			pre1.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre1.setOutline( la );
-			}
+			pre1.setOutline( la );
 
 			final Location3D[] loa2 = new Location3D[4];
 			loa2[0] = Location3DImpl.create( lo3d.getX( ) + 1,
@@ -875,10 +839,7 @@ public final class MarkerRenderer
 					PolygonRenderEvent.class );
 			pre1.setPoints( loa1 );
 			pre1.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre1.setOutline( la );
-			}
+			pre1.setOutline( la );
 
 			final Location[] loa2 = new Location[4];
 			loa2[0] = LocationImpl.create( lo.getX( ) + 1, lo.getY( ) );
@@ -989,10 +950,7 @@ public final class MarkerRenderer
 			preCopy = pre3d.copy( );
 
 			pre3d.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre3d.setOutline( la );
-			}
+			pre3d.setOutline( la );
 			dc.addPlane( pre3d, PrimitiveRenderEvent.FILL
 					| PrimitiveRenderEvent.DRAW );
 		}
@@ -1023,10 +981,7 @@ public final class MarkerRenderer
 					+ iSize );
 			pre.setPoints( loa );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 			preCopy = pre.copy( );
 
 			if ( bDeferred )
@@ -1049,10 +1004,7 @@ public final class MarkerRenderer
 			final Oval3DRenderEvent ore = (Oval3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 					Oval3DRenderEvent.class );
 			ore.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				ore.setOutline( la );
-			}
+			ore.setOutline( la );
 			ore.setLocation3D( new Location3D[]{
 					Location3DImpl.create( lo3d.getX( ) - iSize, lo3d.getY( )
 							+ iSize
@@ -1080,10 +1032,7 @@ public final class MarkerRenderer
 			ore.setBounds( BoundsImpl.create( lo.getX( ) - iSize, lo.getY( )
 					- iSize
 					/ 2, iSize * 2, iSize ) );
-			if ( hasOutline )
-			{
-				ore.setOutline( la );
-			}
+			ore.setOutline( la );
 			preCopy = ore.copy( );
 
 			if ( bDeferred )
@@ -1108,10 +1057,7 @@ public final class MarkerRenderer
 			final Arc3DRenderEvent are3d = (Arc3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 					Arc3DRenderEvent.class );
 			are3d.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				are3d.setOutline( la );
-			}
+			are3d.setOutline( la );
 			are3d.setStartAngle( -90.0 );
 			are3d.setAngleExtent( 180.0 );
 			are3d.setTopLeft3D( Location3DImpl.create( lo3d.getX( )
@@ -1145,10 +1091,7 @@ public final class MarkerRenderer
 						2 * iSize ) );
 			}
 			are.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				are.setOutline( la );
-			}
+			are.setOutline( la );
 
 			preCopy = are.copy( );
 			if ( bDeferred )
@@ -1191,10 +1134,7 @@ public final class MarkerRenderer
 			pre.setPoints3D( loa );
 			pre.setDoubleSided( true );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 
 			preCopy = pre.copy( );
 			dc.addPlane( pre, PrimitiveRenderEvent.FILL
@@ -1218,10 +1158,7 @@ public final class MarkerRenderer
 					PolygonRenderEvent.class );
 			pre.setPoints( loa );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 
 			preCopy = pre.copy( );
 			if ( bDeferred )
@@ -1257,10 +1194,7 @@ public final class MarkerRenderer
 			pre.setPoints3D( loa );
 			pre.setDoubleSided( true );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 
 			preCopy = pre.copy( );
 			dc.addPlane( pre, PrimitiveRenderEvent.FILL
@@ -1282,10 +1216,7 @@ public final class MarkerRenderer
 					PolygonRenderEvent.class );
 			pre.setPoints( loa );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 
 			preCopy = pre.copy( );
 			if ( bDeferred )
@@ -1409,10 +1340,7 @@ public final class MarkerRenderer
 			area3d.add( lre8 );
 			area3d.add( lre9 );
 			area3d.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				area3d.setOutline( la );
-			}
+			area3d.setOutline( la );
 
 			preCopy = area3d.copy( );
 			dc.addPlane( area3d, PrimitiveRenderEvent.FILL
@@ -1492,10 +1420,7 @@ public final class MarkerRenderer
 			area.add( lre8 );
 			area.add( lre9 );
 			area.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				area.setOutline( la );
-			}
+			area.setOutline( la );
 			preCopy = area.copy( );
 
 			if ( bDeferred )
@@ -1531,10 +1456,7 @@ public final class MarkerRenderer
 			pre.setPoints3D( loa );
 			pre.setDoubleSided( true );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 
 			preCopy = pre.copy( );
 			dc.addPlane( pre, PrimitiveRenderEvent.FILL
@@ -1556,10 +1478,7 @@ public final class MarkerRenderer
 					PolygonRenderEvent.class );
 			pre.setPoints( loa );
 			pre.setBackground( paletteEntry );
-			if ( hasOutline )
-			{
-				pre.setOutline( la );
-			}
+			pre.setOutline( la );
 
 			preCopy = pre.copy( );
 			if ( bDeferred )

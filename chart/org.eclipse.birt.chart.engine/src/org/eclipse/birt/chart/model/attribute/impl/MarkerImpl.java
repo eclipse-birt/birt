@@ -720,6 +720,9 @@ public class MarkerImpl extends EObjectImpl implements Marker
 		marker.setType( markerType );
 		marker.setSize( size );
 		marker.setVisible( true );
+		marker.setOutline( AttributeFactory.eINSTANCE.createLineAttributes( ) );
+		marker.getOutline( ).setVisible( true );
+		
 		return marker;
 	}
 

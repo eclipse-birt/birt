@@ -774,6 +774,10 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 			marker.setSize( 4 );
 			marker.setType( MarkerType.BOX_LITERAL );
 			marker.setVisible( true );
+			LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes( );
+			la.setVisible( true );
+			marker.setOutline( la );
+			
 			getMarkers( ).add( marker );
 		}
 		else
@@ -930,6 +934,9 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 		m.setType( MarkerType.BOX_LITERAL );
 		m.setSize( 4 );
 		m.setVisible( true );
+		LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes( );
+		la.setVisible( true );
+		m.setOutline( la );
 		getMarkers( ).add( m );
 	}
 

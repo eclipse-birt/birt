@@ -315,6 +315,10 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 		m.setType( MarkerType.BOX_LITERAL );
 		m.setSize( 4 );
 		m.setVisible( false );
+		LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes( );
+		la.setVisible( true );
+		m.setOutline( la );
+		
 		getNegativeMarkers( ).add( m );
 	}
 

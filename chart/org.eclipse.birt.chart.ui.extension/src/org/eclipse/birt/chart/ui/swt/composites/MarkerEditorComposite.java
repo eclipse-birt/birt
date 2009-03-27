@@ -21,17 +21,20 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
+import org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
+import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.render.MarkerRenderer;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -510,7 +513,28 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				btnOutline.addListener( SWT.FocusOut, this );
 				btnOutline.addListener( SWT.KeyDown, this );
 				btnOutline.addListener( SWT.Traverse, this );
-				btnOutline.setSelection(  getMarker( ).getOutline( ) == null || getMarker( ).getOutline( ).isVisible( ) );
+				
+				LineAttributes la =  getMarker().getOutline( );
+				if ( la == null )
+				{
+					ChartAdapter.beginIgnoreNotifications( );
+					la = AttributeFactoryImpl.eINSTANCE.createLineAttributes( );
+					la.eAdapters( ).addAll( getMarker().eAdapters( ) );
+					EObject o = getMarker();
+					while( !( o instanceof LineSeries ) )
+					{
+						o = o.eContainer( );
+						if ( o == null )
+							 break;
+					}
+					if ( o instanceof LineSeries ) {
+						la.setVisible( ((LineSeries)o).getLineAttributes( ).isVisible( ) );
+					}
+					ChartAdapter.endIgnoreNotifications( );
+				}
+				
+				getMarker().setOutline( la );
+				btnOutline.setSelection( la.isVisible( ) );
 				updateOutlineBtn();
 			}
 			
@@ -533,20 +557,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			else if ( e.widget == btnOutline )
 			{
 				// Initialize default outline visible state to true.
-				
 				LineAttributes la =  getMarker().getOutline( );
-				if (la == null )
-				{
-					ChartAdapter.beginIgnoreNotifications( );
-					la = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
-							LineStyle.SOLID_LITERAL,
-							1 );
-					getMarker().setOutline( la );
-					la.eAdapters( ).addAll( getMarker().eAdapters( ) );
-					la.setVisible( true );
-					ChartAdapter.endIgnoreNotifications( );
-				}
-				
 				la.setVisible( btnOutline.getSelection( ) );
 				cnvMarker.redraw( );
 			}
