@@ -265,6 +265,13 @@ public class PageArea extends BlockContainerArea
 	protected void layoutFooter(  )
 	{
 		IContent footerContent = pageContent.getPageFooter( );
+		DimensionType h = pageContent.getFooterHeight( );
+		if ( h == null )
+		{
+			h = new DimensionType( 0.5f, DimensionType.UNITS_IN );
+		}
+		footerContent.setHeight( h );
+		footer.content = footerContent;
 		boolean autoPageBreak = context.isAutoPageBreak( );
 		context.setAutoPageBreak( false );
 		RegionLayoutEngine rle = new RegionLayoutEngine( footer, context );

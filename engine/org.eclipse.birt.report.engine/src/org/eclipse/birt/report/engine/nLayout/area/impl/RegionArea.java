@@ -32,11 +32,6 @@ public class RegionArea extends BlockContainerArea implements IContainerArea
 	
 	public void initialize( ) throws BirtException
 	{
-		if ( content == null )
-		{
-			this.maxAvaWidth = width;
-			return;
-		}
 		calculateSpecifiedWidth( content );
 		calculateSpecifiedHeight( content );
 	}
