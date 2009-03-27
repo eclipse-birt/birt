@@ -29,6 +29,7 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 	__LABEL_HIDE_TRACE: 'hideTraceLabel',
 	
 	_showTraceLabel : null,
+	_hideTraceLabel : null,
 	
 	/**
 	 * Event handler closures.
@@ -88,11 +89,24 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 		// click event on input control
 		this._showTraceLabel = $( this.__LABEL_SHOW_TRACE );
 		this._showTraceLabel.tabIndex = 0;
+		this._hideTraceLabel = $( this.__LABEL_HIDE_TRACE );
+		this._hideTraceLabel.tabIndex = 0;
 		
 		this.__neh_click_input_closure = this.__neh_click_input.bindAsEventListener( this );
+		this.__neh_key_input_closure = this.__neh_key_input.bindAsEventListener( this );
 		Event.observe( this._showTraceLabel, 'click', this.__neh_click_input_closure, false );				
-		Event.observe( $( this.__LABEL_HIDE_TRACE ), 'click', this.__neh_click_input_closure, false );
+		Event.observe( this._showTraceLabel, 'keyup', this.__neh_key_input_closure, false );				
+		Event.observe( $( this._hideTraceLabel ), 'click', this.__neh_click_input_closure, false );
+		Event.observe( this._hideTraceLabel, 'keyup', this.__neh_key_input_closure, false );				
 	},	
+
+	__neh_key_input: function( event )
+	{
+		if ( event.keyCode == 13 || event.keyCode == 32 )
+		{
+			this.__neh_click_input();
+		}
+	},
 	
 	/**
 	*	Handle clicking on input control.
@@ -106,12 +120,16 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 			$( this.__TRACE_CONTAINER ).style.display = "block";
 			$( this.__LABEL_SHOW_TRACE ).style.display = "none";
 			$( this.__LABEL_HIDE_TRACE ).style.display = "block";
+			var that = this;
+			window.setTimeout( function() { that._hideTraceLabel.focus(); }, 0 );
 		}
 		else
 		{
 			$( this.__TRACE_CONTAINER ).style.display = "none";
 			$( this.__LABEL_SHOW_TRACE ).style.display = "block";
 			$( this.__LABEL_HIDE_TRACE ).style.display = "none";			
+			var that = this;
+			window.setTimeout( function() { that._showTraceLabel.focus(); }, 0 );
 		}
 		
 		this.__isShow = !this.__isShow;
