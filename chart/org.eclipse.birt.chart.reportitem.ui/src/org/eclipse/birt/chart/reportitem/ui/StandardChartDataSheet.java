@@ -152,6 +152,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private Button btnParameters = null;
 	private Button btnBinding = null;
 	private String currentData = null;
+	private String previousData = null;
 
 	public static final int SELECT_NONE = 1;
 	public static final int SELECT_NEXT = 2;
@@ -641,6 +642,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	private void updateDragDataSource( )
 	{
+		
 		if ( isCubeMode( ) )
 		{
 			stackLayout.topControl = cmpCubeTree;
@@ -649,14 +651,23 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			return;
 		}
 		
+		// Clear data preview setting if current data item was changed.
+		String pValue = ( previousData == null ) ? "" : previousData; //$NON-NLS-1$
+		String cValue = ( currentData == null ) ? "" : currentData; //$NON-NLS-1$
+		if ( !pValue.equals( cValue ) )
+		{
+			getContext( ).setShowingDataPreview( null );
+		}
+		previousData = currentData;
+		
 		try
 		{
 			// If it is initial state and the columns are equal and greater
-			// than 6, do not use data preveiw, just use columns list view.
+			// than 6, do not use data preview, just use columns list view.
 			if ( !getContext( ).isSetShowingDataPreview( )
 					&& getDataServiceProvider( ).getPreviewHeadersInfo( ).length >= 6 )
 			{
-				getContext().setShowingDataPreview( false );
+				getContext().setShowingDataPreview( Boolean.FALSE );
 			}
 			
 		}
@@ -1312,7 +1323,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				else if ( event.widget == btnShowDataPreviewA || event.widget == btnShowDataPreviewB )
 				{
 					Button w =  (Button) event.widget;
-					getContext().setShowingDataPreview( w.getSelection( ) );
+					getContext().setShowingDataPreview( Boolean.valueOf( w.getSelection( ) ) );
 					updateDragDataSource( );
 				}
 			}

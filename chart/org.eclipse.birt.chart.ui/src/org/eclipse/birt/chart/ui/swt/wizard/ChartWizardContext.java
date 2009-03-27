@@ -368,9 +368,9 @@ public class ChartWizardContext implements IWizardContext
 		return isShowingDataPreview.booleanValue( );
 	}
 	
-	public void setShowingDataPreview( boolean isShowingDataPreview )
+	public void setShowingDataPreview( Boolean isShowingDataPreview )
 	{
-		this.isShowingDataPreview = Boolean.valueOf( isShowingDataPreview );
+		this.isShowingDataPreview = isShowingDataPreview;
 	}
 	
 	public boolean isSetShowingDataPreview( )
