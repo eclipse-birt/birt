@@ -205,6 +205,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 			localProperties.setPaddingRight( PropertyUtil.getDimensionValue(
 					padding, width ) );
 		}
+		textAlign = content.getComputedStyle( ).getProperty( IStyle.STYLE_TEXT_ALIGN );
 	}
 
 	public CellArea cloneArea( )
