@@ -87,6 +87,10 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 
 	public void populateUIValues( MultiURLValues urlValues )
 	{
+		// Clear old items.
+		fListHyperlinks.removeAll( );
+		fURLValuesMap.clear( );
+		
 		setURLValues( urlValues );
 		if ( fMultiURLValues == null )
 		{

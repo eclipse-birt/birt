@@ -381,7 +381,7 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 		}
 		fURLValue.getLabel( )
 				.getCaption( )
-				.setValue( fTxtHyperlinkLabel.getText( ) );
+				.setValue( fTxtHyperlinkLabel.getText( ).trim( ) );
 		fURLValue.setBaseUrl( fsBaseURL );
 		fURLValue.setBaseParameterName( fTxtBaseParm.getText( ) );
 		fURLValue.setSeriesParameterName( fTxtSeriesParm.getText( ) );
@@ -396,7 +396,7 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 	 */
 	private boolean isValidLabel( )
 	{
-		if ( "".equals( fTxtHyperlinkLabel.getText( ) ) )//$NON-NLS-1$
+		if ( "".equals( fTxtHyperlinkLabel.getText( ).trim( ) ) )//$NON-NLS-1$
 		{
 			return false;
 		}
@@ -405,7 +405,7 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 			return true;
 		}
 
-		if ( fExistingLabels.contains( fTxtHyperlinkLabel.getText( ) ) )
+		if ( fExistingLabels.contains( fTxtHyperlinkLabel.getText( ).trim( ) ) )
 		{
 			return false;
 		}
