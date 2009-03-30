@@ -17,6 +17,7 @@
             <simple-property-list name="defaultValue">
                 <value>new default value for report param 1</value>
             </simple-property-list>
+            <property name="autoSuggestThreshold">111</property>
             <list-property name="selectionList">
                 <structure>
                     <property name="value">new choice value 1</property>
@@ -34,6 +35,7 @@
             <expression name="valueExpr">row["test"]</expression>
             <expression name="labelExpr">test column</expression>
             <property name="mustMatch">true</property>
+            <property name="autoSuggestThreshold">1</property>
         </scalar-parameter>
         <scalar-parameter name="Param 3" id="7">
             <property name="valueType">dynamic</property>
@@ -47,6 +49,7 @@
             <simple-property-list name="defaultValue">
                 <value>"default value param 3"</value>
             </simple-property-list>
+			<property name="autoSuggestThreshold">1</property>            
         </scalar-parameter>
     </parameters>
     <data-sources>
@@ -140,6 +143,7 @@
           </design:dynamicValueChoices>
           <design:uiHints>
             <design:promptStyle>RadioButton</design:promptStyle>
+            <design:autoSuggestThreshold>111</design:autoSuggestThreshold>
           </design:uiHints>
         </design:elementAttributes>
       </design:inputAttributes>

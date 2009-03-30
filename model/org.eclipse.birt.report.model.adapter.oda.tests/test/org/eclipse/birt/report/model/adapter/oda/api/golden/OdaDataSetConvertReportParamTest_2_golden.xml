@@ -42,6 +42,7 @@
             <expression name="valueExpr">row["test"]</expression>
             <expression name="labelExpr">test column</expression>
             <property name="mustMatch">true</property>
+            <property name="autoSuggestThreshold">1</property>            
         </scalar-parameter>
         <scalar-parameter name="Param 3" id="7">
             <property name="valueType">dynamic</property>
@@ -55,6 +56,7 @@
             <simple-property-list name="defaultValue">
                 <value>"default value param 3"</value>
             </simple-property-list>
+            <property name="autoSuggestThreshold">1</property>            
         </scalar-parameter>
     </parameters>
     <data-sources>

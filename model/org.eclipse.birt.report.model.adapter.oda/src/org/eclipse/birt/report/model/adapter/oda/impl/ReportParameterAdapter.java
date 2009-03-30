@@ -743,6 +743,9 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 				reportParam.setControlType( style == null
 						? null
 						: newROMControlType( style.getValue( ) ) );
+
+			reportParam.setAutoSuggestThreshold( uiHints
+					.getAutoSuggestThreshold( ) );
 		}
 	}
 
@@ -1047,6 +1050,14 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		InputElementUIHints uiHints = designFactory.createInputElementUIHints( );
 		uiHints.setPromptStyle( newPromptStyle( paramHandle.getControlType( ),
 				paramHandle.isMustMatch( ) ) );
+		
+		// not set the ROM default value on ODA objects.
+		
+		PropertyHandle tmpPropHandle = paramHandle
+				.getPropertyHandle( ScalarParameterHandle.AUTO_SUGGEST_THRESHOLD_PROP );
+		if ( tmpPropHandle.isSet( ) )
+			uiHints.setAutoSuggestThreshold( paramHandle
+					.getAutoSuggestThreshold( ) );
 		inputAttrs.setUiHints( uiHints );
 
 		if ( paramHandle.getContainer( ) instanceof ParameterGroupHandle )

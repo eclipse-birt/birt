@@ -121,6 +121,7 @@
           </design:dynamicValueChoices>
           <design:uiHints>
             <design:promptStyle>CheckBox</design:promptStyle>
+            <design:autoSuggestThreshold>112</design:autoSuggestThreshold>
           </design:uiHints>
         </design:elementAttributes>
       </design:inputAttributes>

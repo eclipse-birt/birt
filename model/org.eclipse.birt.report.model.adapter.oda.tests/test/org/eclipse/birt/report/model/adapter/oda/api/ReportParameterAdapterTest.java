@@ -302,6 +302,7 @@ public class ReportParameterAdapterTest extends BaseTestCase
 				.createInputElementUIHints( );
 		elementUIHints.setPromptStyle( InputPromptControlStyle
 				.get( InputPromptControlStyle.RADIO_BUTTON ) );
+		elementUIHints.setAutoSuggestThreshold( 111 );
 		elementAttrs.setUiHints( elementUIHints );
 
 	}

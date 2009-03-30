@@ -17,6 +17,7 @@
             <simple-property-list name="defaultValue">
                 <value>new default value for report param 1</value>
             </simple-property-list>
+            <property name="autoSuggestThreshold">111</property>
             <list-property name="selectionList">
                 <structure>
                     <property name="value">new choice value 1</property>

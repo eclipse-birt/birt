@@ -71,6 +71,7 @@
             <text-property name="helpText" key="help">scalar para help</text-property>
             <method name="validate">the validation test</method>
             <property name="dataType">decimal</property>
+            <property name="autoSuggestThreshold">112</property>
 	        <property name="valueType">static</property>
 			<property name="concealValue">true</property>
             <property name="isRequired">true</property>
