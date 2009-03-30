@@ -1881,6 +1881,10 @@
     <Property subType="elementRef" detailType="DataSet" displayNameID="Element.JointDataSet.dataSets" name="dataSets" runtimeSettable="true" since="2.1" type="list"/>
     <Property detailType="JoinCondition" displayNameID="Element.JointDataSet.joinConditions" isList="true" name="joinConditions" runtimeSettable="true" since="2.1" type="structure"/>
   </Element>
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.DerivedDataSet" extends="DataSet" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.DerivedDataSet" name="DerivedDataSet" since="2.5" xmlName="derived-data-set">
+    <Property subType="elementRef" detailType="DataSet" displayNameID="Element.DerivedDataSet.inputDataSets" name="inputDataSets" runtimeSettable="true" since="2.5" type="list"/>
+    <Property displayNameID="Element.DerivedDataSet.queryText" name="queryText" since="2.5" type="xml"/>
+  </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Parameter" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="Parameter" nameSpace="parameter" since="1.0">
     <Property displayNameID="Element.Parameter.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Parameter.helpTextID" name="helpTextID" type="resourceKey"/>

@@ -72,6 +72,7 @@ public class AllParserTests
 		test.addTestSuite( BidiParseTest.class );
 		test.addTestSuite( VariableElementParseTest.class );
 		test.addTestSuite( DataGroupParseTest.class );
+		test.addTestSuite( DerivedDataSetParseTest.class );
 
 		// add all test classes here
 

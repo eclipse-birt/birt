@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
+import org.eclipse.birt.report.model.elements.DerivedDataSet;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FreeForm;
@@ -846,7 +847,6 @@ public class DesignVisitor
 		visitMeasureGroup( obj );
 	}
 
-	
 	/**
 	 * Visits the cube element.
 	 * 
@@ -917,6 +917,17 @@ public class DesignVisitor
 	protected void visitMeasureGroup( MeasureGroupHandle obj )
 	{
 		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visits the derived data set element.
+	 * 
+	 * @param obj
+	 *            the derived data set element to traverse
+	 */
+	protected void visitDerivedDataSet( DerivedDataSetHandle obj )
+	{
+		visitDataSet( obj );
 	}
 
 	/**
@@ -1439,7 +1450,7 @@ public class DesignVisitor
 		{
 			DesignVisitor.this.visitTabularMeasureGroup( obj.handle( module ) );
 		}
-		
+
 		/**
 		 * Visits the cube element.
 		 * 
@@ -1509,6 +1520,17 @@ public class DesignVisitor
 		public void visitOdaMeasureGroup( OdaMeasureGroup obj )
 		{
 			DesignVisitor.this.visitOdaMeasureGroup( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the derived data set.
+		 * 
+		 * @param obj
+		 *            the derived dta set
+		 */
+		public void visitDerivedDataSet( DerivedDataSet obj )
+		{
+			DesignVisitor.this.visitDerivedDataSet( obj.handle( module ) );
 		}
 	}
 }

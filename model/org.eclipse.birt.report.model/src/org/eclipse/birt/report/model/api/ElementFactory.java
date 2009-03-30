@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataGroup;
 import org.eclipse.birt.report.model.elements.DataItem;
+import org.eclipse.birt.report.model.elements.DerivedDataSet;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FilterConditionElement;
 import org.eclipse.birt.report.model.elements.FreeForm;
@@ -887,6 +888,22 @@ public class ElementFactory
 		element.setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
 				extensionID );
 
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates a new derived data set. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the required derived data set name.
+	 * @return a handle to derived data set
+	 */
+
+	public DerivedDataSetHandle newDerivedDataSet( String name )
+	{
+		DerivedDataSet element = new DerivedDataSet( name );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 

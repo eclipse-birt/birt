@@ -75,6 +75,7 @@ public interface DesignSchemaConstants
 	static final String DATA_TAG = "data"; //$NON-NLS-1$ 
 	static final String DEFAULT_VALUE_TAG = "default-value"; //$NON-NLS-1$
 	static final String DEFAULT_TAG = "default"; //$NON-NLS-1$
+	String DERIVED_DATA_SET_TAG ="derived-data-set"; //$NON-NLS-1$
 	static final String DETAIL_TAG = "detail"; //$NON-NLS-1$
 	static final String DIMENSION_TAG = "dimension"; //$NON-NLS-1$
 	static final String ENCRYPTION_ID_ATTRIB = "encryptionID"; //$NON-NLS-1$

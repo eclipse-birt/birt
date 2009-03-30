@@ -945,4 +945,15 @@ public class ElementVisitor
 	{
 
 	}
+
+	/**
+	 * Visits the derived data set element.
+	 * 
+	 * @param obj
+	 *            the derived data set element to traverse
+	 */
+	public void visitDerivedDataSet( DerivedDataSet obj )
+	{
+		visitDataSet( obj );
+	}
 }

@@ -108,6 +108,8 @@ interface ParserSchemaConstants
 			.hashCode( );
 	int SCRIPT_DATA_SET_TAG = DesignSchemaConstants.SCRIPT_DATA_SET_TAG
 			.toLowerCase( ).hashCode( );
+	int DERIVED_DATA_SET_TAG = DesignSchemaConstants.DERIVED_DATA_SET_TAG
+			.toLowerCase( ).hashCode( );
 	int EXTENDED_DATA_SET_TAG = "extended-data-set".toLowerCase( ).hashCode( );
 
 	int SCRIPT_DATA_SOURCE_TAG = DesignSchemaConstants.SCRIPT_DATA_SOURCE_TAG

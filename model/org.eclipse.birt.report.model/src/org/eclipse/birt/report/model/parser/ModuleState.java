@@ -246,6 +246,8 @@ public abstract class ModuleState extends DesignParseState
 				return new TemplateDataSetState( handler );
 			if ( ParserSchemaConstants.JOINT_DATA_SET_TAG == tagValue )
 				return new JointDataSetState( handler );
+			if ( ParserSchemaConstants.DERIVED_DATA_SET_TAG == tagValue )
+				return new DerivedDataSetState( handler );
 			return super.startElement( tagName );
 		}
 	}

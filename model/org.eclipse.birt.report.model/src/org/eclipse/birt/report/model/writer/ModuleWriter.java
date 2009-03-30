@@ -61,6 +61,7 @@ import org.eclipse.birt.report.model.elements.DataGroup;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
+import org.eclipse.birt.report.model.elements.DerivedDataSet;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FilterConditionElement;
@@ -112,6 +113,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSourceModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDerivedDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -3493,6 +3495,24 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeSimplePropertyList( obj, IJointDataSetModel.DATA_SETS_PROP );
 
 		writeStructureList( obj, IJointDataSetModel.JOIN_CONDITONS_PROP );
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitDerivedDataSet
+	 * (org.eclipse.birt.report.model.elements.DerivedDataSet)
+	 */
+	public void visitDerivedDataSet( DerivedDataSet obj )
+	{
+		writer.startElement( DesignSchemaConstants.DERIVED_DATA_SET_TAG );
+		super.visitDerivedDataSet( obj );
+
+		writeSimplePropertyList( obj, IDerivedDataSetModel.INPUT_DATA_SETS_PROP );
+		propertyCDATA( obj, IDerivedDataSetModel.QUERY_TEXT_PROP );
+
 		writer.endElement( );
 	}
 
