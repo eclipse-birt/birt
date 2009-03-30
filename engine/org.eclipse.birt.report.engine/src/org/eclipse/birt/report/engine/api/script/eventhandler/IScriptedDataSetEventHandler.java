@@ -11,8 +11,9 @@
 
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
-import org.eclipse.birt.report.engine.api.script.IUpdatableDataSetRow;
 import org.eclipse.birt.report.engine.api.script.IScriptedDataSetMetaData;
+import org.eclipse.birt.report.engine.api.script.IUpdatableDataSetRow;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
 
 /**
@@ -23,7 +24,7 @@ public interface IScriptedDataSetEventHandler extends IDataSetEventHandler
 	/**
 	 * Handle the open event
 	 */
-	void open( IDataSetInstance dataSet );
+	void open( IDataSetInstance dataSet ) throws ScriptException;
 
 	/**
 	 * Handle the fetch event. Implementation should call methods on the row
@@ -33,12 +34,13 @@ public interface IScriptedDataSetEventHandler extends IDataSetEventHandler
 	 *         call to fetch has returned the last data row, and no more data is
 	 *         available.
 	 */
-	boolean fetch( IDataSetInstance dataSet, IUpdatableDataSetRow row );
+	boolean fetch( IDataSetInstance dataSet, IUpdatableDataSetRow row )
+			throws ScriptException;
 
 	/**
 	 * Handle the close event
 	 */
-	void close( IDataSetInstance dataSet );
+	void close( IDataSetInstance dataSet ) throws ScriptException;
 
 	/**
 	 * Method for Script Data Set to return dynamically generated data set
@@ -49,6 +51,6 @@ public interface IScriptedDataSetEventHandler extends IDataSetEventHandler
 	 * static metadata defined in the data set design , it should return false.
 	 */
 	boolean describe( IDataSetInstance dataSet,
-			IScriptedDataSetMetaData metaData );
+			IScriptedDataSetMetaData metaData ) throws ScriptException;
 
 }

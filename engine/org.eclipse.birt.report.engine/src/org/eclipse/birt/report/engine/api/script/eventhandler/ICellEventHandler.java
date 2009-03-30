@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.ICell;
 import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
 
@@ -24,21 +25,25 @@ public interface ICellEventHandler
 	/**
 	 * Handle the onPrepare event
 	 */
-	void onPrepare( ICell cell, IReportContext reportContext );
+	void onPrepare( ICell cell, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( ICellInstance cellInstance, IReportContext reportContext );
+	void onCreate( ICellInstance cellInstance, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onRender event
 	 */
-	void onRender( ICellInstance cellInstance, IReportContext reportContext );
+	void onRender( ICellInstance cellInstance, IReportContext reportContext )
+			throws ScriptException;
 	
 	/**
 	 * Handle the onPageBreak event
 	 */
-	void onPageBreak( ICellInstance cellInstance, IReportContext reportContext );
+	void onPageBreak( ICellInstance cellInstance, IReportContext reportContext )
+			throws ScriptException;
 
 }

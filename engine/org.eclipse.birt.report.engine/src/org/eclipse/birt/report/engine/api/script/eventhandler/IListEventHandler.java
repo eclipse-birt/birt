@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IList;
 import org.eclipse.birt.report.engine.api.script.instance.IListInstance;
 
@@ -24,21 +25,25 @@ public interface IListEventHandler
 	/**
 	 * Handle the onPrepare event
 	 */
-	void onPrepare( IList listHandle, IReportContext reportContext );
+	void onPrepare( IList listHandle, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( IListInstance list, IReportContext reportContext );
+	void onCreate( IListInstance list, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onRender event
 	 */
-	void onRender( IListInstance list, IReportContext reportContext );
+	void onRender( IListInstance list, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onPageBreak event
 	 */
-	void onPageBreak( IListInstance list, IReportContext reportContext );
+	void onPageBreak( IListInstance list, IReportContext reportContext )
+			throws ScriptException;
 
 }

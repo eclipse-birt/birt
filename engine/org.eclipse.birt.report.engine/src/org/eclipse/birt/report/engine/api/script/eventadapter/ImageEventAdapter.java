@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.api.script.eventadapter;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IImage;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IImageEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IImageInstance;
@@ -22,21 +23,25 @@ public class ImageEventAdapter implements IImageEventHandler
 {
 
 	public void onPrepare( IImage imageHandle, IReportContext reportContext )
+			throws ScriptException
 	{
 
 	}
 
 	public void onCreate( IImageInstance image, IReportContext reportContext )
+			throws ScriptException
 	{
 
 	}
 
 	public void onRender( IImageInstance image, IReportContext reportContext )
+			throws ScriptException
 	{
 
 	}
 
 	public void onPageBreak( IImageInstance image, IReportContext reportContext )
+			throws ScriptException
 	{
 
 	}

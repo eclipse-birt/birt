@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.api.script.eventadapter;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IGrid;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IGridEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IGridInstance;
@@ -22,21 +23,25 @@ public class GridEventAdapter implements IGridEventHandler
 {
 
 	public void onPrepare( IGrid grid, IReportContext reportContext )
+			throws ScriptException
 	{
 
 	}
 
 	public void onCreate( IGridInstance grid, IReportContext reportContext )
+			throws ScriptException
 	{
 
 	}
 
 	public void onRender( IGridInstance grid, IReportContext reportContext )
+			throws ScriptException
 	{
 
 	}
 
 	public void onPageBreak( IGridInstance grid, IReportContext reportContext )
+			throws ScriptException
 	{
 		
 	}

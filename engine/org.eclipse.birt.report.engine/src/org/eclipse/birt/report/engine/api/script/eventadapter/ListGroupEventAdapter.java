@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.api.script.eventadapter;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IListGroup;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IListGroupEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IReportElementInstance;
@@ -19,21 +20,25 @@ public class ListGroupEventAdapter implements IListGroupEventHandler
 {
 
 	public void onPrepare( IListGroup listGroup, IReportContext context )
+			throws ScriptException
 	{
 
 	}
 	
-	public void onCreate( IReportElementInstance listGroup, IReportContext context )
+	public void onCreate( IReportElementInstance listGroup,
+			IReportContext context ) throws ScriptException
 	{
 		
 	}
 	
-	public void onRender( IReportElementInstance listGroup, IReportContext context )
+	public void onRender( IReportElementInstance listGroup,
+			IReportContext context ) throws ScriptException
 	{
 		
 	}
 	
-	public void onPageBreak( IReportElementInstance listGroup, IReportContext context )
+	public void onPageBreak( IReportElementInstance listGroup,
+			IReportContext context ) throws ScriptException
 	{
 
 	}

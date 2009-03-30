@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.ILabel;
 import org.eclipse.birt.report.engine.api.script.instance.ILabelInstance;
 
@@ -24,20 +25,24 @@ public interface ILabelEventHandler
 	/**
 	 * Handle the onPrepare event
 	 */
-	void onPrepare( ILabel labelHandle, IReportContext reportContext );
+	void onPrepare( ILabel labelHandle, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( ILabelInstance label, IReportContext reportContext );
+	void onCreate( ILabelInstance label, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onRender event
 	 */
-	void onRender( ILabelInstance label, IReportContext reportContext );
+	void onRender( ILabelInstance label, IReportContext reportContext )
+			throws ScriptException;
 	
 	/**
 	 * Handle the onPageBreak event
 	 */
-	void onPageBreak( ILabelInstance label, IReportContext reportContext );
+	void onPageBreak( ILabelInstance label, IReportContext reportContext )
+			throws ScriptException;
 }

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IGrid;
 import org.eclipse.birt.report.engine.api.script.instance.IGridInstance;
 
@@ -23,21 +24,25 @@ public interface IGridEventHandler
 	/**
 	 * Handle the onPrepare event
 	 */
-	void onPrepare( IGrid grid, IReportContext reportContext );
+	void onPrepare( IGrid grid, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( IGridInstance grid, IReportContext reportContext );
+	void onCreate( IGridInstance grid, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onRender event
 	 */
-	void onRender( IGridInstance grid, IReportContext reportContext );
+	void onRender( IGridInstance grid, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onPageBreak event
 	 */
-	void onPageBreak( IGridInstance grid, IReportContext reportContext );
+	void onPageBreak( IGridInstance grid, IReportContext reportContext )
+			throws ScriptException;
 
 }

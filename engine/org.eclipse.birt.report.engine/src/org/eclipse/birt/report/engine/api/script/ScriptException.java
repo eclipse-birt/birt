@@ -10,15 +10,37 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.script;
 
+import org.eclipse.birt.core.exception.BirtException;
+
 /** Exception thrown in scripting.
 */
-public class ScriptException extends Exception
+public class ScriptException extends BirtException
 {
 
+	private String message;
 	private static final long serialVersionUID = -8895956245804505077L;
 	
 	public ScriptException (String message) {
-		super(message);
+		super( message );
+		this.message = message;
+	}
+
+	@Override
+	public String getLocalizedMessage( )
+	{
+		return message;
+	}
+
+	@Override
+	protected String getLocalizedMessage( String errorCode )
+	{
+		return message;
+	}
+
+	@Override
+	public String getMessage( )
+	{
+		return message;
 	}
 
 }

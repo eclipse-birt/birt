@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.ITable;
 import org.eclipse.birt.report.engine.api.script.instance.ITableInstance;
 
@@ -24,21 +25,25 @@ public interface ITableEventHandler
 	/**
 	 * Handle the onPrepare event
 	 */
-	void onPrepare( ITable tableHandle, IReportContext reportContext );
+	void onPrepare( ITable tableHandle, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( ITableInstance table, IReportContext reportContext );
+	void onCreate( ITableInstance table, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onRender event
 	 */
-	void onRender( ITableInstance table, IReportContext reportContext );
+	void onRender( ITableInstance table, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onPageBreak event
 	 */
-	void onPageBreak( ITableInstance table, IReportContext reportContext );
+	void onPageBreak( ITableInstance table, IReportContext reportContext )
+			throws ScriptException;
 
 }

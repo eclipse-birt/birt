@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api.script.eventhandler;
 
 import org.eclipse.birt.report.engine.api.script.IDataSetRow;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
 
 /**
@@ -24,27 +25,30 @@ public interface IDataSetEventHandler
 	/**
 	 * Handle the beforeOpen event
 	 */
-	void beforeOpen( IDataSetInstance dataSet, IReportContext reportContext );
+	void beforeOpen( IDataSetInstance dataSet, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the afterOpen event
 	 */
-	void afterOpen( IDataSetInstance dataSet, IReportContext reportContext );
+	void afterOpen( IDataSetInstance dataSet, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onFetch event
 	 */
 	void onFetch( IDataSetInstance dataSet, IDataSetRow row,
-			IReportContext reportContext );
+			IReportContext reportContext ) throws ScriptException;
 
 	/**
 	 * Handle the beforeClose event
 	 */
-	void beforeClose( IDataSetInstance dataSet, IReportContext reportContext );
+	void beforeClose( IDataSetInstance dataSet, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the afterClose event
 	 */
-	void afterClose( IReportContext reportContext );
+	void afterClose( IReportContext reportContext ) throws ScriptException;
 
 }

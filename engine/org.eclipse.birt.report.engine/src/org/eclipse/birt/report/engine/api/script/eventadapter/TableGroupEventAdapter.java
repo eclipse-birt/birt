@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.api.script.eventadapter;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.ITableGroup;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITableGroupEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IReportElementInstance;
@@ -19,21 +20,25 @@ public class TableGroupEventAdapter implements ITableGroupEventHandler
 {
 
 	public void onPrepare( ITableGroup tableGroup, IReportContext context )
+			throws ScriptException
 	{
 		
 	}
 	
-	public void onCreate( IReportElementInstance tableGroup, IReportContext context )
+	public void onCreate( IReportElementInstance tableGroup,
+			IReportContext context ) throws ScriptException
 	{
 		
 	}
 	
-	public void onRender( IReportElementInstance tableGroup, IReportContext context )
+	public void onRender( IReportElementInstance tableGroup,
+			IReportContext context ) throws ScriptException
 	{
 		
 	}
 
-	public void onPageBreak( IReportElementInstance tableGroup, IReportContext context )
+	public void onPageBreak( IReportElementInstance tableGroup,
+			IReportContext context ) throws ScriptException
 	{
 		
 	}

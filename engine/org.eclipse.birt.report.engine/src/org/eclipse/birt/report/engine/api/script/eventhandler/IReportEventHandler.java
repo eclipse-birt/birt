@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 
 /**
@@ -22,25 +23,26 @@ public interface IReportEventHandler
 	/**
 	 * Handle the initialize event
 	 */
-	void initialize( IReportContext reportContext );
+	void initialize( IReportContext reportContext ) throws ScriptException;
 
 	/**
 	 * Handle the beforeFactory event
 	 */
-	void beforeFactory( IReportDesign report, IReportContext reportContext );
+	void beforeFactory( IReportDesign report, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the afterFactory event
 	 */
-	void afterFactory( IReportContext reportContext );
+	void afterFactory( IReportContext reportContext ) throws ScriptException;
 
 	/**
 	 * Handle the beforeRender event
 	 */
-	void beforeRender( IReportContext reportContext );
+	void beforeRender( IReportContext reportContext ) throws ScriptException;
 
 	/**
 	 * Handle the afterRender event
 	 */
-	void afterRender( IReportContext reportContext );
+	void afterRender( IReportContext reportContext ) throws ScriptException;
 }

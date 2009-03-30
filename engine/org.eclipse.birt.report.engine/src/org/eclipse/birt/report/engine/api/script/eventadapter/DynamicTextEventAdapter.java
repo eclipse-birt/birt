@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.api.script.eventadapter;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IDynamicText;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDynamicTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IDynamicTextInstance;
@@ -22,24 +23,25 @@ public class DynamicTextEventAdapter implements IDynamicTextEventHandler
 {
 
 	public void onPrepare( IDynamicText textData, IReportContext reportContext )
+			throws ScriptException
 	{
 
 	}
 
 	public void onCreate( IDynamicTextInstance text,
-			IReportContext reportContext )
+			IReportContext reportContext ) throws ScriptException
 	{
 
 	}
 
 	public void onRender( IDynamicTextInstance text,
-			IReportContext reportContext )
+			IReportContext reportContext ) throws ScriptException
 	{
 
 	}
 
 	public void onPageBreak( IDynamicTextInstance text,
-			IReportContext reportContext )
+			IReportContext reportContext ) throws ScriptException
 	{
 
 	}

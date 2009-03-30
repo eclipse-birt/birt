@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.ITextItem;
 import org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance;
 
@@ -24,21 +25,25 @@ public interface ITextItemEventHandler
 	/**
 	 * Handle the onPrepare event
 	 */
-	void onPrepare( ITextItem textItemHandle, IReportContext reportContext );
+	void onPrepare( ITextItem textItemHandle, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( ITextItemInstance text, IReportContext reportContext );
+	void onCreate( ITextItemInstance text, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onRender event
 	 */
-	void onRender( ITextItemInstance text, IReportContext reportContext );
+	void onRender( ITextItemInstance text, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the onPageBreak event
 	 */
-	void onPageBreak( ITextItemInstance text, IReportContext reportContext );	
+	void onPageBreak( ITextItemInstance text, IReportContext reportContext )
+			throws ScriptException;
 
 }

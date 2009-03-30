@@ -12,6 +12,7 @@ package org.eclipse.birt.report.engine.api.script.eventadapter;
 
 import org.eclipse.birt.report.engine.api.script.IDataSetRow;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataSetEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
 
@@ -22,30 +23,31 @@ public class DataSetEventAdapter implements IDataSetEventHandler
 {
 
 	public void beforeOpen( IDataSetInstance dataSet,
-			IReportContext reportContext )
+			IReportContext reportContext ) throws ScriptException
 	{
 
 	}
 
 	public void afterOpen( IDataSetInstance dataSet,
-			IReportContext reportContext )
+			IReportContext reportContext ) throws ScriptException
 	{
 
 	}
 
 	public void onFetch( IDataSetInstance dataSet, IDataSetRow row,
-			IReportContext reportContext )
+			IReportContext reportContext ) throws ScriptException
 	{
 
 	}
 
 	public void beforeClose( IDataSetInstance dataSet,
-			IReportContext reportContext )
+			IReportContext reportContext ) throws ScriptException
 	{
 
 	}
 
 	public void afterClose( IReportContext reportContext )
+			throws ScriptException
 	{
 
 	}

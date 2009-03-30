@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.api.script.eventadapter;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IReportEventHandler;
 
@@ -21,27 +22,31 @@ public class ReportEventAdapter implements IReportEventHandler
 {
 
 	public void initialize( IReportContext reportContext )
+			throws ScriptException
 	{
 
 	}
 
 	public void beforeFactory( IReportDesign report,
-			IReportContext reportContext )
+			IReportContext reportContext ) throws ScriptException
 	{
 
 	}
 
 	public void afterFactory( IReportContext reportContext )
+			throws ScriptException
 	{
 
 	}
 
 	public void beforeRender( IReportContext reportContext )
+			throws ScriptException
 	{
 
 	}
 
 	public void afterRender( IReportContext reportContext )
+			throws ScriptException
 	{
 
 	}

@@ -123,6 +123,18 @@ public class BirtException extends Exception
 	public static final int CANCEL = 0x08;
 
 	/**
+	 * @param mesage
+	 *            error message
+	 */
+	public BirtException( String message )
+	{
+		super( message );
+		this.sResourceKey = null;
+		this.rb = null;
+		this.oaMessageArguments = null;
+	}
+
+	/**
 	 * @deprecated Constructs a new Birt exception with no cause object.
 	 * 
 	 * @param errorCode

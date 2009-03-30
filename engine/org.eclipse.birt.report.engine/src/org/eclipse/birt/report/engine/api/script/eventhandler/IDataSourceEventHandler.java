@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance;
 
 /**
@@ -24,22 +25,23 @@ public interface IDataSourceEventHandler
 	 * Handle the beforeOpen event
 	 */
 	void beforeOpen( IDataSourceInstance dataSource,
-			IReportContext reportContext );
+			IReportContext reportContext ) throws ScriptException;
 
 	/**
 	 * Handle the afterOpen event
 	 */
-	void afterOpen( IDataSourceInstance dataSource, IReportContext reportContext );
+	void afterOpen( IDataSourceInstance dataSource, IReportContext reportContext )
+			throws ScriptException;
 
 	/**
 	 * Handle the beforeClose event
 	 */
 	void beforeClose( IDataSourceInstance dataSource,
-			IReportContext reportContext );
+			IReportContext reportContext ) throws ScriptException;
 
 	/**
 	 * Handle the afterClose event
 	 */
-	void afterClose( IReportContext reportContext );
+	void afterClose( IReportContext reportContext ) throws ScriptException;
 
 }

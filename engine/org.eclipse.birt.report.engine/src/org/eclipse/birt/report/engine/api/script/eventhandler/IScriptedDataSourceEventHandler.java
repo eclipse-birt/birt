@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.script.eventhandler;
 
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance;
 
 /**
@@ -21,11 +22,11 @@ public interface IScriptedDataSourceEventHandler extends IDataSourceEventHandler
 	/**
 	 * Handle the open event
 	 */
-	void open( IDataSourceInstance dataSource );
+	void open( IDataSourceInstance dataSource ) throws ScriptException;
 
 	/**
 	 * Handle the close event
 	 */
-	void close( IDataSourceInstance dataSource );
+	void close( IDataSourceInstance dataSource ) throws ScriptException;
 
 }

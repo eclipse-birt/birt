@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.api.script.eventadapter;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataSourceEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance;
 
@@ -21,24 +22,25 @@ public class DataSourceEventAdapter implements IDataSourceEventHandler
 {
 
 	public void beforeOpen( IDataSourceInstance dataSource,
-			IReportContext reportContext )
+			IReportContext reportContext ) throws ScriptException
 	{
 
 	}
 
 	public void afterOpen( IDataSourceInstance dataSource,
-			IReportContext reportContext )
+			IReportContext reportContext ) throws ScriptException
 	{
 
 	}
 
 	public void beforeClose( IDataSourceInstance dataSource,
-			IReportContext reportContext )
+			IReportContext reportContext ) throws ScriptException
 	{
 
 	}
 
 	public void afterClose( IReportContext reportContext )
+			throws ScriptException
 	{
 
 	}
