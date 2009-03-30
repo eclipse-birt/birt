@@ -25,6 +25,8 @@ import org.eclipse.swt.accessibility.AccessibleAdapter;
 import org.eclipse.swt.accessibility.AccessibleControlAdapter;
 import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -150,6 +152,13 @@ public class FontDefinitionComposite extends Composite
 				openFontDialog( );
 			}
 
+		} );
+		cnvSelection.addFocusListener( new FocusAdapter( ) {
+
+			public void focusGained( FocusEvent e )
+			{
+				cnvSelection.traverse( SWT.TRAVERSE_TAB_NEXT );
+			}
 		} );
 
 		btnFont = new Button( cmpContent, SWT.NONE );

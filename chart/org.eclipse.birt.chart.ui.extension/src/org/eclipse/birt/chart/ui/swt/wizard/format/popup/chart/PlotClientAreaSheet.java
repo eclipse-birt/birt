@@ -169,12 +169,6 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 
 		new Label( leftComp, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.HeightHint" ) ); //$NON-NLS-1$
 
-		btnHeight = new Button( leftComp, SWT.CHECK );
-		btnHeight.setText( Messages.getString("PlotClientAreaSheet.Btn.Auto") ); //$NON-NLS-1$
-		gd = new GridData( );
-		btnHeight.setLayoutData( gd );
-		btnHeight.addSelectionListener( this );
-
 		txtHeight = new LocalizedNumberEditorComposite( leftComp, SWT.BORDER );
 		new TextNumberEditorAssistField( txtHeight.getTextControl( ), null );
 		{
@@ -183,13 +177,13 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 			txtHeight.addModifyListener( this );
 		}
 
-		new Label( leftComp, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.WidthHint" ) ); //$NON-NLS-1$
-
-		btnWidth = new Button( leftComp, SWT.CHECK );
-		btnWidth.setText( Messages.getString( "PlotClientAreaSheet.Btn.Auto2" ) ); //$NON-NLS-1$
+		btnHeight = new Button( leftComp, SWT.CHECK );
+		btnHeight.setText( Messages.getString("PlotClientAreaSheet.Btn.Auto") ); //$NON-NLS-1$
 		gd = new GridData( );
-		btnWidth.setLayoutData( gd );
-		btnWidth.addSelectionListener( this );
+		btnHeight.setLayoutData( gd );
+		btnHeight.addSelectionListener( this );
+
+		new Label( leftComp, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.WidthHint" ) ); //$NON-NLS-1$
 
 		txtWidth = new LocalizedNumberEditorComposite( leftComp, SWT.BORDER );
 		new TextNumberEditorAssistField( txtWidth.getTextControl( ), null );
@@ -197,6 +191,12 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 			txtWidth.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			txtWidth.addModifyListener( this );
 		}
+
+		btnWidth = new Button( leftComp, SWT.CHECK );
+		btnWidth.setText( Messages.getString( "PlotClientAreaSheet.Btn.Auto2" ) ); //$NON-NLS-1$
+		gd = new GridData( );
+		btnWidth.setLayoutData( gd );
+		btnWidth.addSelectionListener( this );
 
 		updateHeightWidthHint( );
 
