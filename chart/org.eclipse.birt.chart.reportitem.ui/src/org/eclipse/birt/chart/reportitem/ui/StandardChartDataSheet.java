@@ -455,28 +455,33 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				if ( item != null )
 				{
 					List<Object[]> data = (List<Object[]> ) tableViewerColumns.getData( KEY_PREVIEW_DATA );
-					StringBuilder sb = new StringBuilder();
-					
-					int index = ((Table)e.widget).indexOf( item );
-					int i = 0;
-					for ( ; i < data.size( ); i++ )
+					if ( data != null )
 					{
-						if ( sb.length( ) > 45 )
+						StringBuilder sb = new StringBuilder( );
+
+						int index = ( (Table) e.widget ).indexOf( item );
+						int i = 0;
+						for ( ; i < data.size( ); i++ )
 						{
-							break;
+							if ( sb.length( ) > 45 )
+							{
+								break;
+							}
+							if ( data.get( i )[index] != null )
+							{
+								if ( i != 0 )
+									sb.append( "; " ); //$NON-NLS-1$
+								sb.append( String.valueOf( data.get( i )[index] ) );
+							}
 						}
-						if ( data.get( i )[index] != null )
+						if ( i < data.size( ) )
 						{
-							if ( i != 0 )
-								sb.append( "; " ); //$NON-NLS-1$
-							sb.append( String.valueOf( data.get( i )[index] ) );
+							sb.append( ";..." ); //$NON-NLS-1$
 						}
-					}
-					if ( i < data.size( ) ) {
-						sb.append(";..."); //$NON-NLS-1$
+
+						tooltip = sb.toString( );
 					}
 					
-					tooltip = sb.toString( );
 				}
 				table.setToolTipText( tooltip );
 				
