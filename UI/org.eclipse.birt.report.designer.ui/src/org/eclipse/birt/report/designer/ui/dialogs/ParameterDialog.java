@@ -296,7 +296,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	private Label promptMessageLine;
 
 	// Error message line
-//	private CLabel errorMessageLine;
+	// private CLabel errorMessageLine;
 
 	// Check boxes
 	private Button isRequired, doNotEcho, isHidden, distinct;
@@ -548,7 +548,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	 */
 	public ParameterDialog( Shell parentShell, String title )
 	{
-		super(parentShell);
+		super( parentShell );
 		this.title = title;
 	}
 
@@ -839,7 +839,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				// keep one value of default value list when switch from allow
 				// to disallow
-				if ( isStatic() && !allowMultiChoice.getSelection( ) )
+				if ( isStatic( ) && !allowMultiChoice.getSelection( ) )
 				{
 					if ( defaultValueList != null
 							&& defaultValueList.size( ) > 0 )
@@ -864,10 +864,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		valueArea.setLayoutData( gd );
 
 		createLabel( valuesDefineSection, null );
-//		errorMessageLine = new CLabel( valuesDefineSection, SWT.NONE );
-//		GridData msgLineGridData = new GridData( GridData.FILL_HORIZONTAL );
-//		msgLineGridData.horizontalSpan = 2;
-//		errorMessageLine.setLayoutData( msgLineGridData );
+		// errorMessageLine = new CLabel( valuesDefineSection, SWT.NONE );
+		// GridData msgLineGridData = new GridData( GridData.FILL_HORIZONTAL );
+		// msgLineGridData.horizontalSpan = 2;
+		// errorMessageLine.setLayoutData( msgLineGridData );
 	}
 
 	/**
@@ -1630,18 +1630,22 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 
 		// if change control type, keep first default value
+		// if control type is text, do not save null default value
 		if ( isInitialized && defaultValueList != null )
 		{
 			Expression expression = getFirstDefaultValue( );
-			if ( expression != null )
+			defaultValueList.clear( );
+			String type = getSelectedControlType( );
+			if ( isStatic( )
+					&& ( PARAM_CONTROL_COMBO.equals( type )
+							|| PARAM_CONTROL_LIST.equals( type ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( type ) ) )
 			{
-				defaultValueList.clear( );
 				defaultValueList.add( expression );
-				String type = getSelectedControlType( );
-				if ( isStatic( )
-						&& ( PARAM_CONTROL_COMBO.equals( type )
-								|| PARAM_CONTROL_LIST.equals( type ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( type ) ) )
-					valueTable.refresh( );
+				valueTable.refresh( );
+			}
+			else if ( expression != null )
+			{
+				defaultValueList.add( expression );
 			}
 		}
 	}
@@ -1871,8 +1875,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 		else
 		{
-			//support multiple values when control type is list 
-			//and allow mulit choice is selected 
+			// support multiple values when control type is list
+			// and allow mulit choice is selected
 			if ( !PARAM_CONTROL_LIST.equals( getSelectedControlType( ) )
 					|| !allowMultiChoice.getSelection( ) )
 				defaultValueList.clear( );
@@ -1966,7 +1970,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				DataService.getInstance( ).createDataSet( );
-				
+
 				refreshDataSets( );
 			}
 
@@ -2763,14 +2767,14 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 		if ( errorMessage != null )
 		{
-//			errorMessageLine.setText( errorMessage );
-//			errorMessageLine.setImage( ERROR_ICON );
+			// errorMessageLine.setText( errorMessage );
+			// errorMessageLine.setImage( ERROR_ICON );
 			setErrorMessage( errorMessage );
 		}
 		else
 		{
-//			errorMessageLine.setText( "" ); //$NON-NLS-1$
-//			errorMessageLine.setImage( null );
+			//			errorMessageLine.setText( "" ); //$NON-NLS-1$
+			// errorMessageLine.setImage( null );
 			setErrorMessage( null );
 		}
 		if ( promptMessageLine != null && !promptMessageLine.isDisposed( ) )
