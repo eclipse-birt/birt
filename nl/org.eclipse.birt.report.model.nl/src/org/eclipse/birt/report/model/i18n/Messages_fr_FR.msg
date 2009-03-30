@@ -2242,6 +2242,7 @@ Element.AbstractMultiViews=Vues multiples abstraites
 Element.MultiViews=Vues multiples
 Element.VariableElement=Variable
 Element.DataGroup=Groupe de données
+Element.DerivedDataSet=Derived Data Set
 
 ###########################################################
 # Element property names
@@ -2545,7 +2546,7 @@ Element.Style.wordSpacing=Espacement des mots
 Element.ReportItem.bookmark=Signet
 Element.ReportItem.toc=Sommaire
 Element.ReportItem.dataSet=Jeu de données
-Element.ReportItem.cube=Cube de données
+Element.ReportItem.cube=Data cube
 Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=Hauteur
@@ -3182,6 +3183,10 @@ Element.DataGroup.intervalRange=Plage d'intervalles
 Element.DataGroup.sortDirection=Direction du tri
 Element.DataGroup.sortType=Type de tri
 
+#63. DerivedDataSet ( prefix Element.DerivedDataSet )
+Element.DerivedDataSet.inputDataSets=Input Data Sets
+Element.DerivedDataSet.queryText=Query Text
+
 ###########################################################
 # Predefined style
 Style.Report=Etat
@@ -3440,6 +3445,7 @@ New.OdaHierarchy=Nouvelle hiérarchie ODA
 New.OdaLevel=Nouveau niveau ODA
 New.OdaMeasure=Nouvelle mesure ODA
 New.OdaMeasureGroup=Nouveau groupe de mesures ODA
+New.DerivedDataSet=NewDerivedDataSet
 
 ###########################################################
 #Default theme name.

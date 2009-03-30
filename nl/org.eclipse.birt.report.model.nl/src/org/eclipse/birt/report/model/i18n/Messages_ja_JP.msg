@@ -2242,6 +2242,7 @@ Element.AbstractMultiViews=抽象マルチビュー
 Element.MultiViews=マルチビュー
 Element.VariableElement=変数
 Element.DataGroup=データグループ
+Element.DerivedDataSet=Derived Data Set
 
 ###########################################################
 # Element property names
@@ -2545,7 +2546,7 @@ Element.Style.wordSpacing=単語間の間隔
 Element.ReportItem.bookmark=ブックマーク
 Element.ReportItem.toc=目次
 Element.ReportItem.dataSet=データセット
-Element.ReportItem.cube=データキューブ
+Element.ReportItem.cube=Data cube
 Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=高さ
@@ -3182,6 +3183,10 @@ Element.DataGroup.intervalRange=間隔の範囲
 Element.DataGroup.sortDirection=ソートの方向
 Element.DataGroup.sortType=ソート基準
 
+#63. DerivedDataSet ( prefix Element.DerivedDataSet )
+Element.DerivedDataSet.inputDataSets=Input Data Sets
+Element.DerivedDataSet.queryText=Query Text
+
 ###########################################################
 # Predefined style
 Style.Report=レポート
@@ -3440,6 +3445,7 @@ New.OdaHierarchy=新規ODAディメンジョン
 New.OdaLevel=新規ODAレベル
 New.OdaMeasure=新規ODAメジャー
 New.OdaMeasureGroup=新規ODAメジャーグループ
+New.DerivedDataSet=NewDerivedDataSet
 
 ###########################################################
 #Default theme name.

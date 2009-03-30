@@ -2242,6 +2242,7 @@ Element.AbstractMultiViews=抽象化多个视图
 Element.MultiViews=多个视图
 Element.VariableElement=变量
 Element.DataGroup=数据组
+Element.DerivedDataSet=Derived Data Set
 
 ###########################################################
 # Element property names
@@ -2545,7 +2546,7 @@ Element.Style.wordSpacing=字间距
 Element.ReportItem.bookmark=书签
 Element.ReportItem.toc=目录
 Element.ReportItem.dataSet=数据集
-Element.ReportItem.cube=多维数据集
+Element.ReportItem.cube=Data cube
 Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=高度
@@ -3182,6 +3183,10 @@ Element.DataGroup.intervalRange=间隔范围
 Element.DataGroup.sortDirection=排序方向
 Element.DataGroup.sortType=排序类型
 
+#63. DerivedDataSet ( prefix Element.DerivedDataSet )
+Element.DerivedDataSet.inputDataSets=Input Data Sets
+Element.DerivedDataSet.queryText=Query Text
+
 ###########################################################
 # Predefined style
 Style.Report=报表
@@ -3440,6 +3445,7 @@ New.OdaHierarchy=新建 ODA 层次结构
 New.OdaLevel=新建 ODA 级别
 New.OdaMeasure=新建 ODA 度量
 New.OdaMeasureGroup=新建 ODA 度量组
+New.DerivedDataSet=NewDerivedDataSet
 
 ###########################################################
 #Default theme name.

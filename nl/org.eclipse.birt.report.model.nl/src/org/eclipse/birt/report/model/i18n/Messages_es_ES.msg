@@ -2242,6 +2242,7 @@ Element.AbstractMultiViews=Múltiples vistas abstractas
 Element.MultiViews=Vistas múltiples
 Element.VariableElement=Variable
 Element.DataGroup=Grupo de datos
+Element.DerivedDataSet=Derived Data Set
 
 ###########################################################
 # Element property names
@@ -2545,7 +2546,7 @@ Element.Style.wordSpacing=Separación de palabras
 Element.ReportItem.bookmark=Marcador
 Element.ReportItem.toc=TDC
 Element.ReportItem.dataSet=Conjunto de datos
-Element.ReportItem.cube=Cubo de datos
+Element.ReportItem.cube=Data cube
 Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=Altura
@@ -3182,6 +3183,10 @@ Element.DataGroup.intervalRange=Rango del intervalo
 Element.DataGroup.sortDirection=Dirección de orden
 Element.DataGroup.sortType=Tipo de orden
 
+#63. DerivedDataSet ( prefix Element.DerivedDataSet )
+Element.DerivedDataSet.inputDataSets=Input Data Sets
+Element.DerivedDataSet.queryText=Query Text
+
 ###########################################################
 # Predefined style
 Style.Report=Informe
@@ -3440,6 +3445,7 @@ New.OdaHierarchy=NuevaJerarquíaOda
 New.OdaLevel=NuevoNivelOda
 New.OdaMeasure=NuevaMedidaOda
 New.OdaMeasureGroup=NuevoGrupodeMedidaOda
+New.DerivedDataSet=NewDerivedDataSet
 
 ###########################################################
 #Default theme name.

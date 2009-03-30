@@ -2242,6 +2242,7 @@ Element.AbstractMultiViews=요약 다중 보기
 Element.MultiViews=다중 보기
 Element.VariableElement=변수
 Element.DataGroup=데이터 그룹
+Element.DerivedDataSet=Derived Data Set
 
 ###########################################################
 # Element property names
@@ -2545,7 +2546,7 @@ Element.Style.wordSpacing=단어 간격
 Element.ReportItem.bookmark=책갈피
 Element.ReportItem.toc=목차
 Element.ReportItem.dataSet=데이터 집합
-Element.ReportItem.cube=데이터 큐브
+Element.ReportItem.cube=Data cube
 Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=높이
@@ -3182,6 +3183,10 @@ Element.DataGroup.intervalRange=간격 범위
 Element.DataGroup.sortDirection=정렬 방향
 Element.DataGroup.sortType=정렬 형식
 
+#63. DerivedDataSet ( prefix Element.DerivedDataSet )
+Element.DerivedDataSet.inputDataSets=Input Data Sets
+Element.DerivedDataSet.queryText=Query Text
+
 ###########################################################
 # Predefined style
 Style.Report=보고서
@@ -3440,6 +3445,7 @@ New.OdaHierarchy=NewOdaHierarchy
 New.OdaLevel=NewOdaLevel
 New.OdaMeasure=NewOdaMeasure
 New.OdaMeasureGroup=NewOdaMeasureGroup
+New.DerivedDataSet=NewDerivedDataSet
 
 ###########################################################
 #Default theme name.
