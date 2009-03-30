@@ -208,6 +208,12 @@ public class TitleBlockSheet extends AbstractPopupSheet
 		}
 	}
 
+	private boolean isAnchorVertical( Anchor anchor )
+	{
+		return anchor.getValue( ) == Anchor.EAST
+				|| anchor.getValue( ) == Anchor.WEST;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -218,7 +224,22 @@ public class TitleBlockSheet extends AbstractPopupSheet
 		Object oSource = e.getSource( );
 		if ( oSource.equals( cmbAnchor ) )
 		{
+			boolean bAnchorVerticalOld = isAnchorVertical( getBlockForProcessing( ).getAnchor( ) );
 			getBlockForProcessing( ).setAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbAnchor.getText( ) ) ) );
+			boolean bAnchorVerticalNew = isAnchorVertical( getBlockForProcessing( ).getAnchor( ) );
+			if ( bAnchorVerticalOld != bAnchorVerticalNew )
+			{
+				double rotationOld = getBlockForProcessing( ).getLabel( )
+						.getCaption( )
+						.getFont( )
+						.getRotation( );
+				double rotationNew = rotationOld >= 0 ? 90 - rotationOld : -90
+						- rotationOld;
+				getBlockForProcessing( ).getLabel( )
+						.getCaption( )
+						.getFont( )
+						.setRotation( rotationNew );
+			}
 		}
 		else if ( oSource.equals( cmbStretch ) )
 		{

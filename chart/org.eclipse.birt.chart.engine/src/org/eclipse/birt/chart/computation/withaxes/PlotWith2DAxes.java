@@ -713,11 +713,6 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		// update boPlot
 		boPlot = bo;
 
-		if ( bo.getWidth( ) <= 0 || bo.getHeight( ) <= 0 )
-		{
-			return;
-		}
-
 		// PLACE OVERLAYS FIRST TO REDUCE VIRTUAL PLOT BOUNDS
 		if ( aax.getOverlayCount( ) > 0 )
 		{

@@ -61,9 +61,19 @@ public final class LayoutManager
 		final double dPercent = 0.5;
 		bo = bo.scaledInstance( xs.getDpiResolution( ) / 72d );
 		bo.adjust( cm.getTitle( ).getInsets( ) );
-		LabelLimiter lbLimiter = new LabelLimiter( bo.getWidth( ),
-				bo.getHeight( ) * dPercent,
-				0 );
+		int iTitleAnchor = cm.getTitle( ).getAnchor( ).getValue( );
+		LabelLimiter lbLimiter = null;
+		if ( iTitleAnchor == Anchor.EAST || iTitleAnchor == Anchor.WEST )
+		{
+			lbLimiter = new LabelLimiter( bo.getWidth( ) * dPercent,
+					bo.getHeight( ),
+					0 );
+		}
+		else
+		{
+			lbLimiter = new LabelLimiter( bo.getWidth( ), bo.getHeight( )
+					* dPercent, 0 );
+		}
 		Map<Label, LabelLimiter> mapLimiter = rtc.getState( RunTimeContext.StateKey.LABEL_LIMITER_LOOKUP_KEY );
 		mapLimiter.put( cm.getTitle( ).getLabel( ), lbLimiter );
 	}
@@ -1148,9 +1158,9 @@ public final class LayoutManager
 		Plot pl = cm.getPlot( );
 		TitleBlock tb = cm.getTitle( );
 		// layout custom blocks.
-		for ( Iterator itr = bl.getChildren( ).iterator( ); itr.hasNext( ); )
+		for ( Iterator<Block> itr = bl.getChildren( ).iterator( ); itr.hasNext( ); )
 		{
-			Block cbl = (Block) itr.next( );
+			Block cbl = itr.next( );
 
 			if ( cbl != lg && cbl != pl && cbl != tb )
 			{
@@ -1159,25 +1169,25 @@ public final class LayoutManager
 		}
 
 		// layout custom legend blocks.
-		for ( Iterator itr = lg.getChildren( ).iterator( ); itr.hasNext( ); )
+		for ( Iterator<Block> itr = lg.getChildren( ).iterator( ); itr.hasNext( ); )
 		{
-			Block cbl = (Block) itr.next( );
+			Block cbl = itr.next( );
 
 			layoutBlock( xs, cm, lg.getBounds( ), lg.getInsets( ), cbl, rtc );
 		}
 
 		// layout custom title blocks.
-		for ( Iterator itr = tb.getChildren( ).iterator( ); itr.hasNext( ); )
+		for ( Iterator<Block> itr = tb.getChildren( ).iterator( ); itr.hasNext( ); )
 		{
-			Block cbl = (Block) itr.next( );
+			Block cbl = itr.next( );
 
 			layoutBlock( xs, cm, tb.getBounds( ), tb.getInsets( ), cbl, rtc );
 		}
 
 		// layout custom plot blocks.
-		for ( Iterator itr = pl.getChildren( ).iterator( ); itr.hasNext( ); )
+		for ( Iterator<Block> itr = pl.getChildren( ).iterator( ); itr.hasNext( ); )
 		{
-			Block cbl = (Block) itr.next( );
+			Block cbl = itr.next( );
 
 			layoutBlock( xs, cm, pl.getBounds( ), pl.getInsets( ), cbl, rtc );
 		}

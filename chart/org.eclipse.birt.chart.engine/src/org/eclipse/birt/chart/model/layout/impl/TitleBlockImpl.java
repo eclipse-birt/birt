@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.LayoutFactory;
@@ -101,9 +102,11 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 		Map<Label, LabelLimiter> mapLimiter = rtc.getState( RunTimeContext.StateKey.LABEL_LIMITER_LOOKUP_KEY );
 		LabelLimiter lbLimiter = mapLimiter.get( getLabel( ) );
 		lbLimiter.computeWrapping( xs, la );
-		LabelLimiter lbLimiterNew = lbLimiter.limitLabelSize( xs,
-				la,
-				EnumSet.of( LabelLimiter.Option.FIX_WIDTH ) );
+		int iTitileAnchor = getAnchor( ).getValue( );
+		EnumSet<LabelLimiter.Option> option = iTitileAnchor == Anchor.EAST
+				|| iTitileAnchor == Anchor.WEST ? EnumSet.of( LabelLimiter.Option.FIX_HEIGHT )
+				: EnumSet.of( LabelLimiter.Option.FIX_WIDTH );
+		LabelLimiter lbLimiterNew = lbLimiter.limitLabelSize( xs, la, option );
 		mapLimiter.put( getLabel( ), lbLimiterNew );
 		return lbLimiterNew.getBounding( null );
 		// Do not set the text back because of wrapping
