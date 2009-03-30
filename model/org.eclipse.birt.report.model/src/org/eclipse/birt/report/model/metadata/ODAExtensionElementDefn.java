@@ -81,11 +81,11 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 		// we don't repeat the work for any style properties copied below.
 
 		buildProperties( );
-		
+
 		buildPrivateDriverProperties( );
 
 		buildPropertiesVisibility( );
-		
+
 		buildContainerProperties( );
 
 		// set the xml-name
@@ -140,7 +140,7 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 		while ( propNames.hasNext( ) )
 		{
 			String propName = propNames.next( );
-			IElementPropertyDefn propDefn = getProperty( propName );
+			IElementPropertyDefn propDefn = cachedProperties.get( propName );
 
 			if ( propDefn.getValueType( ) != IPropertyDefn.ODA_PROPERTY )
 				continue;
@@ -153,7 +153,7 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 			if ( hidePrivateProps == null )
 				hidePrivateProps = new ArrayList<IElementPropertyDefn>( );
 
-			hidePrivateProps.add( getProperty( propName ) );
+			hidePrivateProps.add( cachedProperties.get( propName ) );
 			cachedProperties.remove( propName );
 			properties.remove( propName );
 		}

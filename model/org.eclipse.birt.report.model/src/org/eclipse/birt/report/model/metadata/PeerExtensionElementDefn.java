@@ -153,9 +153,9 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 			ElementDefn extendedItem = (ElementDefn) MetaDataDictionary
 					.getInstance( ).getElement(
 							ReportDesignConstants.EXTENDED_ITEM );
-			IElementPropertyDefn extensionName = extendedItem
-					.getProperty( IExtendedItemModel.EXTENSION_NAME_PROP );
-			if ( getProperty( IExtendedItemModel.EXTENSION_NAME_PROP ) == null )
+			IElementPropertyDefn extensionName = extendedItem.cachedProperties
+					.get( IExtendedItemModel.EXTENSION_NAME_PROP );
+			if ( cachedProperties.get( IExtendedItemModel.EXTENSION_NAME_PROP ) == null )
 			{
 				properties.put( IExtendedItemModel.EXTENSION_NAME_PROP,
 						extensionName );
@@ -167,9 +167,11 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 			}
 
 			// extensions must have 'extensionVersion' property
-			IElementPropertyDefn extensionVersion = extendedItem
-					.getProperty( IExtendedItemModel.EXTENSION_VERSION_PROP );
-			if ( getProperty( IExtendedItemModel.EXTENSION_VERSION_PROP ) == null )
+			IElementPropertyDefn extensionVersion = extendedItem.cachedProperties
+					.get( IExtendedItemModel.EXTENSION_VERSION_PROP );
+
+			if ( cachedProperties
+					.get( IExtendedItemModel.EXTENSION_VERSION_PROP ) == null )
 			{
 				properties.put( IExtendedItemModel.EXTENSION_VERSION_PROP,
 						extensionVersion );
@@ -183,7 +185,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 			}
 
 			// for extended item, the cube property is visible.
-			if ( getProperty( IReportItemModel.CUBE_PROP ) != null )
+			if ( cachedProperties.get( IReportItemModel.CUBE_PROP ) != null )
 			{
 
 				addPropertyVisibility( IReportItemModel.CUBE_PROP,

@@ -71,7 +71,7 @@ public abstract class ExtensionElementDefn extends ElementDefn
 		buildTriggerDefnSet( );
 
 		// if name is not defined, the set the name options
-		if ( getProperty( IDesignElementModel.NAME_PROP ) == null )
+		if ( cachedProperties.get( IDesignElementModel.NAME_PROP ) == null )
 		{
 			nameConfig.nameOption = MetaDataConstants.NO_NAME;
 			nameConfig.nameSpaceID = MetaDataConstants.NO_NAME_SPACE;

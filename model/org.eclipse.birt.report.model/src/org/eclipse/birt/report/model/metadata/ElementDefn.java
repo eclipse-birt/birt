@@ -1122,11 +1122,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 				// Ignore properties already defined.
 
-				if ( getProperty( propName ) != null )
+				if ( cachedProperties.get( propName ) != null )
 					continue;
 
-				SystemPropertyDefn prop = (SystemPropertyDefn) style
-						.getProperty( propName );
+				SystemPropertyDefn prop = (SystemPropertyDefn) style.cachedProperties
+						.get( propName );
 
 				// It is an implementation error if the style property list
 				// includes
@@ -1575,7 +1575,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	public IPropertyDefn findProperty( String propName )
 	{
-		return getProperty( propName );
+		return cachedProperties.get( propName );
 	}
 
 	/*
