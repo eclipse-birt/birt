@@ -264,7 +264,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		int iXLoc = pLoc.x;
 		int iYLoc = pLoc.y + btnDropDown.getParent( ).getSize( ).y;
 		int iShellWidth = MARKER_BLOCK_HEIGHT * MARKER_ROW_MAX_NUMBER + 15;
-		int iShellHeight = 150;
+		int iShellHeight = 175;
 
 		if ( ( getStyle( ) & SWT.RIGHT_TO_LEFT ) != 0 )
 		{

@@ -24,7 +24,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -123,13 +122,6 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		glGeneral.marginHeight = 4;
 		glGeneral.marginWidth = 4;
 
-		// Layout for the gap width composite
-		GridLayout glGapWidth = new GridLayout( );
-		glGapWidth.numColumns = 8;
-		glGapWidth.horizontalSpacing = 5;
-		glGapWidth.marginHeight = 2;
-		glGapWidth.marginWidth = 2;
-
 		// Layout for the Major Grid group
 		FillLayout flMajor = new FillLayout( );
 
@@ -168,20 +160,6 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		gdCMPGeneral.grabExcessVerticalSpace = false;
 		cmpGeneral.setLayoutData( gdCMPGeneral );
 		cmpGeneral.setLayout( glGeneral );
-		
-		// Axis Orientation
-		Label lblOrientation = new Label( cmpGeneral, SWT.NONE );
-		GridData gdLBLOrientation = new GridData( GridData.FILL );
-		gdLBLOrientation.grabExcessVerticalSpace = false;
-		lblOrientation.setLayoutData( gdLBLOrientation );
-		lblOrientation.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.Orientation" ) ); //$NON-NLS-1$
-
-		cmbOrientation = new Label( cmpGeneral, SWT.SINGLE );
-		GridData gdCMBOrientation = new GridData( GridData.FILL_HORIZONTAL );
-		gdCMBOrientation.horizontalSpan = 9;
-		cmbOrientation.setLayoutData( gdCMBOrientation );
-		cmbOrientation.setText( LiteralHelper.orientationSet.getDisplayNameByName( getAxisForProcessing( ).getOrientation( )
-				.getName( ) ) );
 
 		// Axis Line Color
 		Label lblColor = new Label( cmpGeneral, SWT.NONE );
