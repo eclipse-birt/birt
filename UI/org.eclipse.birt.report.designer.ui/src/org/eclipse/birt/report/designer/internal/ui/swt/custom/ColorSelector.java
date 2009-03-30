@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.swt.custom;
 
 import org.eclipse.core.commands.common.EventManager;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -247,12 +248,27 @@ public class ColorSelector extends EventManager
 	 */
 	public void open( )
 	{
-		Shell shell = new Shell( Display.getCurrent( ), SWT.SHELL_TRIM );
-		shell.setLocation( fButton.toDisplay( 0, 0 ).x
-				+ fButton.getBounds( ).width, fButton.toDisplay( 0, 0 ).y
-				- fButton.getBounds( ).height );
-		ColorDialog colorDialog = new ColorDialog( shell, SWT.APPLICATION_MODAL );
+		/*
+		 * Bugzilla #269139 - Issue about color editor dialog in Highlight
+		 * Editor dialog. (After the fixing of Bugizlla #223759, the change is
+		 * not applicable on Linux and causes #269139. The workaround
+		 * is to detect what type the OS is and only appply the change of
+		 * #223759 on Windows.)
+		 */
+		Shell shell = null;
+		Boolean isWin32 = Platform.getOS( ).equals( Platform.OS_WIN32 );
+		if ( isWin32 )
+		{
+			shell = new Shell( Display.getCurrent( ), SWT.SHELL_TRIM );
+			shell.setLocation( fButton.toDisplay( 0, 0 ).x
+					+ fButton.getBounds( ).width, fButton.toDisplay( 0, 0 ).y
+					- fButton.getBounds( ).height );
+		}
+		ColorDialog colorDialog = new ColorDialog( isWin32 ? shell
+				: fButton.getShell( ), SWT.APPLICATION_MODAL );
+
 		colorDialog.setRGB( fColorValue );
+		colorDialog.setText( "Color" ); //$NON-NLS-1$
 		RGB newColor = colorDialog.open( );
 		if ( newColor != null )
 		{
