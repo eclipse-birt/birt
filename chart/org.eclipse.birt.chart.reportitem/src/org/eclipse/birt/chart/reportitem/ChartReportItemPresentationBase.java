@@ -1021,20 +1021,16 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			IReportContext context )
 	{
 		IAdapterManager adapterManager = Platform.getAdapterManager( );
-		IActionRendererFactory arFactory = (IActionRendererFactory) adapterManager.loadAdapter( this.handle,
-				IActionRendererFactory.class.getName( ) );
-
-		if ( arFactory != null )
+		IChartReportItemFactory factory = (IChartReportItemFactory) adapterManager.loadAdapter( this.handle,
+				IChartReportItemFactory.class.getName( ) );
+		if ( factory != null )
 		{
-			return arFactory.createActionRenderer( eih,
+			return factory.createActionRenderer( eih,
 					handler,
 					evaluator,
 					context );
 		}
-		else
-		{
-			return new BIRTActionRenderer( eih, handler, evaluator, context );
-		}
+		return new BIRTActionRenderer( eih, handler, evaluator, context );
 	}
 
 	private void initializeRuntimeContext(

@@ -26,6 +26,8 @@ import org.eclipse.birt.report.engine.extension.IReportItemPresentationInfo;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.core.runtime.IAdapterManager;
+import org.eclipse.core.runtime.Platform;
 
 /**
  * Proxy class of presentation for Chart. It will delegate to proper
@@ -48,12 +50,14 @@ public class ChartReportItemPresentationProxy
 		}
 
 		this.info = info;
-		impl = createImpl( info.getModelObject( ) );
+		impl = createImpl( info );
 		impl.init( info );
 	}
 
-	private IReportItemPresentation createImpl( ExtendedItemHandle modelHandle )
+	protected IReportItemPresentation createImpl(
+			IReportItemPresentationInfo info )
 	{
+		ExtendedItemHandle modelHandle = info.getModelObject( );
 		if ( ChartXTabUtil.isInXTabMeasureCell( modelHandle ) )
 		{
 			// // If chart is in cross tab cell, use specific impl
@@ -65,6 +69,13 @@ public class ChartReportItemPresentationProxy
 			{
 				return new ChartReportItemPresentationAxisImpl( );
 			}
+		}
+		IAdapterManager adapterManager = Platform.getAdapterManager( );
+		IChartReportItemFactory factory = (IChartReportItemFactory) adapterManager.loadAdapter( modelHandle,
+				IChartReportItemFactory.class.getName( ) );
+		if ( factory != null )
+		{
+			return factory.createReportItemPresentation( info );
 		}
 		return new ChartReportItemPresentationImpl( );
 	}
