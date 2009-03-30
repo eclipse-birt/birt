@@ -128,12 +128,11 @@ public class ReportRunner
 	 */
 	public int execute( )
 	{
+		// Process command line arguments
+		if ( parseHelpOptions( ) > 0 )
+			return 0;
 		try
 		{
-			// Process command line arguments
-			if( parseHelpOptions( ) > 0 )
-				return 0;
-			
 			parseNormalOptions( );
 			// startup the platform
 			if ( engine == null )
