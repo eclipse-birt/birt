@@ -173,7 +173,7 @@ CrosstabFilterConditionBuilder.DialogMessage.Edit=W‰hlen Sie die Gruppenebene, a
 CrosstabFilterConditionBuilder.label.value=Wert
 CrosstabFilterConditionBuilder.Label.Target=Ziel:
 CrosstabFilterConditionBuilder.Button.GroupLevel=&Gruppenebene
-CrosstabFilterConditionBuilder.Button.Measure=&Maﬂeinheit
+CrosstabFilterConditionBuilder.Button.Measure=Meas&ure
 
 FilterbyTree.Bindings.Catogory.Measures=Maﬂeinheit
 FilterbyTree.Bindings.Catogory.Dimension=Dimension

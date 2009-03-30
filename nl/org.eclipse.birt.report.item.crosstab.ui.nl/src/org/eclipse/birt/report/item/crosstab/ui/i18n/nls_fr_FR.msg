@@ -173,7 +173,7 @@ CrosstabFilterConditionBuilder.DialogMessage.Edit=Sélectionnez le niveau de grou
 CrosstabFilterConditionBuilder.label.value=Valeur
 CrosstabFilterConditionBuilder.Label.Target=Cible :
 CrosstabFilterConditionBuilder.Button.GroupLevel=Niveau de &groupe
-CrosstabFilterConditionBuilder.Button.Measure=&Mesure
+CrosstabFilterConditionBuilder.Button.Measure=Meas&ure
 
 FilterbyTree.Bindings.Catogory.Measures=Mesure
 FilterbyTree.Bindings.Catogory.Dimension=Dimension
