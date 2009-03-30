@@ -470,9 +470,8 @@ public class ParameterValidationUtilTest extends BaseTestCase
 						dateValue, ULocale.ENGLISH ) );
 
 		// no format
-		assertEquals(
-				"January 1, 2000", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
-						DesignChoiceConstants.PARAM_TYPE_DATE, null, dateValue ) );
+		assertEquals( "Jan 1, 2000", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+				DesignChoiceConstants.PARAM_TYPE_DATE, null, dateValue ) );
 
 		// time type
 
