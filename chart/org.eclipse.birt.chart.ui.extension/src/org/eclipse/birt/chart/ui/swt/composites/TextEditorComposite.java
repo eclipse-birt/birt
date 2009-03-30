@@ -328,6 +328,13 @@ public class TextEditorComposite extends Composite implements
 				fireEvent( );
 			}
 		}
+		else if ( e.keyCode == SWT.ARROW_DOWN || e.keyCode == SWT.ARROW_UP )
+		{
+			Event event = new Event();
+			event.keyCode = e.keyCode;
+			event.stateMask = e.stateMask;
+			this.notifyListeners( SWT.KeyDown, event );
+		}
 	}
 
 	public void keyReleased( KeyEvent e )

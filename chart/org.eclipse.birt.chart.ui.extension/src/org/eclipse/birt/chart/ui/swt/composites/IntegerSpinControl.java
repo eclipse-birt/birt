@@ -307,25 +307,67 @@ public class IntegerSpinControl extends Composite
 	 */
 	public void handleEvent( Event event )
 	{
-		try
+		if ( event.type == TextEditorComposite.TEXT_MODIFIED )
 		{
-			int iValue = ( Integer.valueOf( txtValue.getText( ) ).intValue( ) );
-			if ( iValue >= iMinValue && iValue <= iMaxValue )
+			try
 			{
-				iCurrentValue = iValue;
-				fireValueChangedEvent( );
+				int iValue = ( Integer.valueOf( txtValue.getText( ) ).intValue( ) );
+				if ( iValue >= iMinValue && iValue <= iMaxValue )
+				{
+					iCurrentValue = iValue;
+					fireValueChangedEvent( );
+				}
+				else
+				{
+					// Rollback the invalid value
+					txtValue.setText( String.valueOf( iCurrentValue ) );
+				}
 			}
-			else
+			catch ( NumberFormatException e1 )
 			{
 				// Rollback the invalid value
 				txtValue.setText( String.valueOf( iCurrentValue ) );
 			}
 		}
-		catch ( NumberFormatException e1 )
+		else if ( event.type == SWT.KeyDown )
 		{
-			// Rollback the invalid value
+			int iValue = iCurrentValue;
+			if ( event.keyCode == SWT.ARROW_UP )
+			{
+
+				if ( event.stateMask == SWT.CTRL )
+				{
+					iValue = iValue + iIncrement * 10;
+				}
+				else
+				{
+					iValue = iValue + iIncrement;
+				}
+			}
+			else if ( event.keyCode == SWT.ARROW_DOWN )
+			{
+				if ( event.stateMask == SWT.CTRL )
+				{
+					iValue = iValue - iIncrement * 10;
+				}
+				else
+				{
+					iValue = iValue - iIncrement;
+				}
+			}
+			if ( iValue < iMinValue )
+			{
+				iValue = iMinValue;
+			}
+			else if ( iValue > iMaxValue )
+			{
+				iValue = iMaxValue;
+			}
+			iCurrentValue = iValue;
 			txtValue.setText( String.valueOf( iCurrentValue ) );
+			fireValueChangedEvent( );
 		}
+
 	}
 
 	public void setToolTipText( String string )

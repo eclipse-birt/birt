@@ -448,60 +448,53 @@ public class FontDefinitionDialog extends TrayDialog implements
 
 	private void createRotationPanel( )
 	{
-		Label lblRotation = new Label( cmpContent, SWT.NONE );
+		Composite cmpRotation = new Composite( cmpContent, SWT.NONE );
+		{
+			GridLayout layout = new GridLayout( 3, false );
+			layout.verticalSpacing = 5;
+			layout.horizontalSpacing = 5;
+			layout.marginHeight = 7;
+			layout.marginWidth = 7;
+			cmpRotation.setLayout( layout );
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.horizontalSpan = 3;
+			gd.heightHint = 150;
+			cmpRotation.setLayoutData( gd );
+		}
+
+		Label lblRotation = new Label( cmpRotation, SWT.NONE );
 		{
 			lblRotation.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
 			lblRotation.setText( Messages.getString( "FontDefinitionDialog.Lbl.Rotation" ) ); //$NON-NLS-1$
 		}
-
-		Composite cmpPanel = new Composite( cmpContent, SWT.NONE );
-		{
-			GridLayout layout = new GridLayout( 4, false );
-			layout.marginWidth = 0;
-			layout.marginHeight = 0;
-			cmpPanel.setLayout( layout );
-			GridData gd = new GridData( GridData.FILL_BOTH );
-			gd.horizontalSpan = 8;
-			cmpPanel.setLayoutData( gd );
-		}
-
-		GridLayout glRotation = new GridLayout( );
-		glRotation.verticalSpacing = 10;
-		glRotation.marginHeight = 0;
-		glRotation.marginWidth = 2;
-
-		Composite cmpRotation = new Composite( cmpPanel, SWT.NONE );
-		GridData gdGRPRotation = new GridData( GridData.FILL_VERTICAL );
-		gdGRPRotation.heightHint = 150;
-		cmpRotation.setLayoutData( gdGRPRotation );
-		cmpRotation.setLayout( glRotation );
 
 		ascRotation = new AngleSelectorComposite( cmpRotation,
 				SWT.BORDER,
 				ChartUIUtil.getFontRotation( fdCurrent ),
 				Display.getCurrent( ).getSystemColor( SWT.COLOR_WHITE ) );
 		GridData gdASCRotation = new GridData( GridData.FILL_BOTH );
+		gdASCRotation.horizontalSpan = 2;
 		ascRotation.setLayoutData( gdASCRotation );
 		ascRotation.setAngleChangeListener( this );
+
+		Label lblDegree = new Label( cmpRotation, SWT.NONE );
+		{
+			lblDegree.setLayoutData( new GridData( ) );
+			lblDegree.setText( Messages.getString( "FontDefinitionDialog.Label.Degree" ) ); //$NON-NLS-1$
+		}
 
 		iscRotation = new IntegerSpinControl( cmpRotation,
 				SWT.NONE,
 				ChartUIUtil.getFontRotation( fdCurrent ) );
 		GridData gdISCRotation = new GridData( GridData.FILL_HORIZONTAL );
+		gdISCRotation.horizontalSpan = 2;
 		iscRotation.setLayoutData( gdISCRotation );
 		iscRotation.setMinimum( -90 );
 		iscRotation.setMaximum( 90 );
 		iscRotation.setIncrement( 1 );
 		iscRotation.addListener( this );
-
-		Label lblDegrees = new Label( cmpPanel, SWT.NONE );
-		{
-			lblDegrees.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_END
-					| GridData.GRAB_VERTICAL ) );
-			lblDegrees.setText( Messages.getString( "FontDefinitionDialog.Label.Degrees" ) ); //$NON-NLS-1$
-		}
 		
-		Label lblPreview = new Label( cmpPanel, SWT.NONE );
+		Label lblPreview = new Label( cmpContent, SWT.NONE );
 		{
 			lblPreview.setText( Messages.getString( "FontDefinitionDialog.Lbl.Preview" ) ); //$NON-NLS-1$
 			lblPreview.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
@@ -510,8 +503,9 @@ public class FontDefinitionDialog extends TrayDialog implements
 		FillLayout flPreview = new FillLayout( );
 		flPreview.marginHeight = 2;
 		flPreview.marginWidth = 3;
-		Composite grpPreview = new Composite( cmpPanel, SWT.NONE );
+		Composite grpPreview = new Composite( cmpContent, SWT.NONE );
 		GridData gdGRPPreview = new GridData( GridData.FILL_BOTH );
+		gdGRPPreview.horizontalSpan = 4;
 		grpPreview.setLayoutData( gdGRPPreview );
 		grpPreview.setLayout( flPreview );
 
