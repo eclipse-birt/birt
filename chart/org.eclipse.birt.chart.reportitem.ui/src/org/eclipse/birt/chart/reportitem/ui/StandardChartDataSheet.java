@@ -450,6 +450,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 			public void mouseMove( MouseEvent e )
 			{
+				if ( !dataProvider.isLivePreviewEnabled( ) )
+				{
+					table.setToolTipText( null );
+					return;
+				}
+				
 				String tooltip = null;
 				TableItem item = ((Table)e.widget).getItem( new Point( e.x, e.y ) );
 				if ( item != null )
@@ -748,7 +754,11 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				{
 					// Get header and data in other thread.
 					headers = getDataServiceProvider( ).getPreviewHeadersInfo( );
-					dataList = getPreviewData( );
+					// Only when live preview is enabled, it retrieves data.
+					if ( dataProvider.isLivePreviewEnabled( ) )
+					{
+						dataList = getPreviewData( );
+					}
 
 					final ColumnBindingInfo[] headerInfo = headers;
 					final List<?> data = dataList;
