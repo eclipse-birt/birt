@@ -839,7 +839,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				// keep one value of default value list when switch from allow
 				// to disallow
-				if ( !allowMultiChoice.getSelection( ) )
+				if ( isStatic() && !allowMultiChoice.getSelection( ) )
 				{
 					if ( defaultValueList != null
 							&& defaultValueList.size( ) > 0 )
@@ -1083,6 +1083,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			expression = new Expression( value, ExpressionType.CONSTANT );
 		if ( !defaultValueList.contains( expression ) )
 			defaultValueList.add( 0, expression );
+		updateMessageLine( );
+		updateFormatField( );
 	}
 
 	private void initSorttingArea( )
@@ -1869,7 +1871,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 		else
 		{
-			if ( !allowMultiChoice.getSelection( ) )
+			//support multiple values when control type is list 
+			//and allow mulit choice is selected 
+			if ( !PARAM_CONTROL_LIST.equals( getSelectedControlType( ) )
+					|| !allowMultiChoice.getSelection( ) )
 				defaultValueList.clear( );
 		}
 		Expression expression = null;
@@ -2232,7 +2237,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				// return;
 				if ( defaultValueList != null )
 					defaultValueList.clear( );
-				setFirstDefaultValue( UIUtil.convertToModelString( value, false ) );
+				String modelValue = UIUtil.convertToModelString( value, false );
+				if ( modelValue != null )
+				{
+					setFirstDefaultValue( modelValue );
+				}
 				if ( isStatic( ) )
 				{
 					refreshValueTable( );
