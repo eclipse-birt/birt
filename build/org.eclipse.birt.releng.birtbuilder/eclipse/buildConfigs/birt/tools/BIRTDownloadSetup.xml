@@ -680,20 +680,6 @@
 		</exec>
 		<delete file="${OutputDir}/${birt.rcp.zip.name}.zip"/>
 
-		<!--
-		<delete failonerror="false">
-			<fileset dir="${OutputDir}/${birt.rcp.zip.name}/plugins">
-				<include name="javax.wsdl_1.5.1*/**"/>
-			</fileset>
-		</delete>
-		-->
-
-		<copy todir="${OutputDir}/${birt.rcp.zip.name}/plugins">
-			<fileset dir="${baseLocation}/plugins">
-                            <include name="javax.wsdl_1.4.0*.jar"/>
-			</fileset>
-		</copy>
-
 		<copy todir="${OutputDir}/${birt.rcp.zip.name}/features">
 			<fileset dir="${deposit}/eclipse/features">
 			        <include name="**/*" />
@@ -718,8 +704,8 @@
 		<!-- Copy rcp bundles for SDK package -->
 		<copy todir="${deposit}/eclipse/plugins">
 			<fileset dir="${OutputDir}/${birt.rcp.zip.name}/plugins">
-                                <include name="org.eclipse.birt.report.designer.ui.rcp*/**" />
-                                <include name="org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
+                <include name="org.eclipse.birt.report.designer.ui.rcp*/**" />
+                <include name="org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
 			</fileset>
 		</copy>
   
