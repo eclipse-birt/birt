@@ -264,7 +264,6 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		int iXLoc = pLoc.x;
 		int iYLoc = pLoc.y + btnDropDown.getParent( ).getSize( ).y;
 		int iShellWidth = MARKER_BLOCK_HEIGHT * MARKER_ROW_MAX_NUMBER + 15;
-		int iShellHeight = 175;
 
 		if ( ( getStyle( ) & SWT.RIGHT_TO_LEFT ) != 0 )
 		{
@@ -279,12 +278,13 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 		Shell shell = new Shell( this.getShell( ), SWT.NONE );
 		shell.setLayout( new FillLayout( ) );
-		shell.setSize( iShellWidth, iShellHeight );
+		// shell.setSize( iShellWidth, iShellHeight );
 		shell.setLocation( iXLoc, iYLoc );
 
 		cmpDropDown = new MarkerDropDownEditorComposite( shell, SWT.NONE );
 
 		shell.layout( );
+		shell.pack( );
 		shell.open( );
 	}
 
