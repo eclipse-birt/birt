@@ -1421,7 +1421,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 		{
 			double[] matrix = new double[6];
 			transforms.getMatrix( matrix );
-			elem.setAttribute( "transform", "matrix(" + matrix[0] + "," + matrix[1] + "," + matrix[2] + "," + matrix[3] + "," + matrix[4] + "," + matrix[5] + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+			elem.setAttribute( "transform", "matrix(" + toString( matrix[0] ) + "," + toString( matrix[1] ) + "," + toString( matrix[2] ) + "," + toString( matrix[3] ) + "," + toString( matrix[4] ) + "," + toString( matrix[5] ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 		}
 		return elem;
 	}
@@ -1510,7 +1510,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 		{
 			double[] matrix = new double[6];
 			transforms.getMatrix( matrix );
-			elem.setAttribute( "transform", "matrix(" + matrix[0] + "," + matrix[1] + "," + matrix[2] + "," + matrix[3] + "," + matrix[4] + "," + matrix[5] + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+			elem.setAttribute( "transform", "matrix(" + toString( matrix[0] ) + "," + toString( matrix[1] ) + "," + toString( matrix[2] ) + "," + toString( matrix[3] ) + "," + toString( matrix[4] ) + "," + toString( matrix[5] ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 		}
 
 		return elem;
@@ -1582,7 +1582,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 		double endX = x * Math.cos( startAngle + arcAngle );
 		double endY = y * Math.sin( startAngle + arcAngle );
 		int sweepFlag = ( arcAngle < 0 ) ? 0 : 1;
-		elem.setAttribute( "d", "M" + startX + "," + startY + " a" + width / 2 + "," + height / 2 + " " + Math.abs( arcAngle ) + " 0 " + sweepFlag + " " + endX + " " + endY ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
+		elem.setAttribute( "d", "M" + toString( startX ) + "," + toString( startY ) + " a" + toString( width / 2 ) + "," + toString( height / 2 ) + " " + toString( Math.abs( arcAngle ) ) + " 0 " + sweepFlag + " " + toString( endX ) + " " + toString( endY ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
 		return elem;
 	}
 
@@ -1633,7 +1633,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 		{
 			double[] matrix = new double[6];
 			transforms.getMatrix( matrix );
-			elem.setAttribute( "transform", "matrix(" + matrix[0] + "," + matrix[1] + "," + matrix[2] + "," + matrix[3] + "," + matrix[4] + "," + matrix[5] + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+			elem.setAttribute( "transform", "matrix(" + toString( matrix[0] ) + "," + toString( matrix[1] ) + "," + toString( matrix[2] ) + "," + toString( matrix[3] ) + "," + toString( matrix[4] ) + "," + toString( matrix[5] ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 		}
 		return elem;
 
