@@ -65,6 +65,8 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
@@ -328,7 +330,16 @@ public class DesignerActionBarContributor extends
 				ZoomManager.FIT_WIDTH
 		};
 		ZoomComboContributionItem zoomComboContributionItem = new ZoomComboContributionItem( getPage( ),
-				zoomStrings );
+				zoomStrings ) {
+
+			protected Control createControl( Composite parent )
+			{
+				Control control = super.createControl( parent );
+				control.setToolTipText( Messages.getString( "DesignerActionBarContributor.menu.zoomCombo.tooltip" ) );
+				return control;
+			}
+		};
+
 		if ( getPage( ) != null && getPage( ).getActivePart( ) != null )
 		{
 			zoomComboContributionItem.setZoomManager( (ZoomManager) getPage( ).getActivePart( )
