@@ -83,11 +83,11 @@ Choices.fontWeight.800=800
 Choices.fontWeight.900=900
 
 #2.textUnderline
-Choices.textUnderline.none=Kein Unterstrich
+Choices.textUnderline.none=No Underline
 Choices.textUnderline.underline=Unterstreichen
   
 #3.lineStyle
-Choices.lineStyle.none=Kein Linienstil
+Choices.lineStyle.none=No Line Style
 Choices.lineStyle.solid=Durchzogen
 Choices.lineStyle.dotted=Gepunktet
 Choices.lineStyle.dashed=Gestrichelt
@@ -144,7 +144,7 @@ Choices.pageOrientation.portrait=Hochformat
 Choices.pageOrientation.landscape=Querformat
    
 #12.interval
-Choices.interval.none=Kein Intervall
+Choices.interval.none=No Interval
 Choices.interval.prefix=Präfix
 Choices.interval.year=Jahr
 Choices.interval.quarter=Quartal
@@ -157,7 +157,7 @@ Choices.interval.second=Sekunde
 Choices.interval.interval=Intervall
 
 #interval type
-Choices.intervalType.none=Kein Intervall
+Choices.intervalType.none=No Interval
 Choices.intervalType.prefix=Präfix
 Choices.intervalType.interval=Intervall
 
@@ -236,7 +236,7 @@ Choices.lineSpacing.lines=Zeilen
 Choices.lineSpacing.exact=Exakt
   
 #24.lineType
-Choices.lineType.none=Keine Linienart
+Choices.lineType.none=No Line Type
 Choices.lineType.solid=Durchzogen
 Choices.lineType.dotted=Gepunktet
 Choices.lineType.dashed=Gestrichelt
@@ -255,7 +255,7 @@ Choices.pageBreakAfter.avoid=Vermeiden
 Choices.pageBreakAfter.alwaysExcludingLast=Letztes Objekt immer ignorieren
 
 #27.actionLinkType
-Choices.actionLinkType.none=Kein Typ für Aktionsverknüpfung
+Choices.actionLinkType.none=No Action Link Type
 Choices.actionLinkType.hyperlink=HyperLink
 Choices.actionLinkType.drill-through=Detaillieren
 Choices.actionLinkType.bookmark-link=Lesezeichen-Verknüpfung
@@ -265,7 +265,7 @@ Choices.actionFormatType.html=HTML
 Choices.actionFormatType.pdf=PDF
   
 #28.drillThroughLinkType
-Choices.drillThroughType.none=Kein Typ für Detailabfrage
+Choices.drillThroughType.none=No Drill-through Type
 Choices.drillThroughType.bookmark-link=Lesezeichen-Verknüpfung
 Choices.drillThroughType.search=Suchen
  
@@ -320,7 +320,7 @@ Choices.backgroundPositionY.bottom=Unten
 Choices.transform.capitalize=Groß schreiben
 Choices.transform.uppercase=Großschreibung
 Choices.transform.lowercase=Kleinschreibung
-Choices.transform.none=Keine Umwandlung
+Choices.transform.none=No Transformation
 
 #38.normal
 Choices.normal.normal=Normal
@@ -343,7 +343,7 @@ Choices.whiteSpace.nowrap=Kein Zeilenumbruch
 #41.display
 Choices.display.block=Block
 Choices.display.inline=Im Text
-Choices.display.none=Keine Anzeige
+Choices.display.none=No Display
 
 #43.pageBreakInside
 Choices.pageBreakInside.avoid=Vermeiden
@@ -353,11 +353,11 @@ Choices.pageBreakInside.auto=Automatisch
 Choices.margine.auto=Automatisch
 
 #45.textOverline
-Choices.textOverline.none=Keine Linie über Text
+Choices.textOverline.none=No Line Over Text
 Choices.textOverline.overline=Überstreichen
 
 #46.textLineThrough
-Choices.textLineThrough.none=Kein durchgestrichener Text
+Choices.textLineThrough.none=No Line Through Text
 Choices.textLineThrough.line-through=Durchstreichen
 
 #48.lineWidth
@@ -433,10 +433,10 @@ Choices.columnDataType.blob=BLOB
 #54. searchType
 Choices.searchType.any=Beliebig
 Choices.searchType.indexed=Indiziert
-Choices.searchType.none=Kein Suchtyp
+Choices.searchType.none=No Search Type
 
 #55. exportType
-Choices.exportType.none=Kein Exporttyp
+Choices.exportType.none=No Export Type
 Choices.exportType.if-realized=Wenn realisiert
 Choices.exportType.always=Immer
 
@@ -445,7 +445,7 @@ Choices.analysisType.auto=Automatisch
 Choices.analysisType.dimension=Dimension
 Choices.analysisType.measure=Maßeinheit
 Choices.analysisType.detail=Detail
-Choices.analysisType.none=Kein Analysetyp
+Choices.analysisType.none=No Analysis Type
 
 #57. scalarParamAlign
 Choices.scalarParamAlign.auto=Automatisch
@@ -534,18 +534,18 @@ Choices.templateElementType.textData=TextData
 Choices.templateElementType.dataSet=DataSet
 
 #61. sortType
-Choices.sortType.none=Kein Sortiertyp
-Choices.sortType.sortOnGroupkey=Nach Gruppenschlüssel sortieren
-Choices.sortType.complexSort=Komplexe Sortierung
+Choices.sortType.none=No Sort Type
+Choices.sortType.sortOnGroupkey=Sort on Group Key
+Choices.sortType.complexSort=Complex Sort
 
 #62. joinType
-Choices.joinType.inner=inner join
-Choices.joinType.leftOut=left out join
-Choices.joinType.rightOut=right out join
-Choices.joinType.fullOut=Full-Out-Knotenpunkt
+Choices.joinType.inner=Inner Join
+Choices.joinType.leftOut=Left Out Join
+Choices.joinType.rightOut=Right Out Join
+Choices.joinType.fullOut=Full Out Join
 
 #63. joinOperator
-Choices.joinOperator.equals=equals
+Choices.joinOperator.equals=Equals
 
 #64. actionTargetFileType
 Choices.actionTargetFileType.report-design=Berichtdesign
@@ -652,8 +652,8 @@ Choices.backgroundSize.cover=Abdecken
 #79 scopeType
 Choices.scopeType.row=Zeile
 Choices.scopeType.col=Spalte
-Choices.scopeType.rowgroup=Zeilengruppe
-Choices.scopeType.colgroup=Spaltengruppe
+Choices.scopeType.rowgroup=Row Group
+Choices.scopeType.colgroup=Column Group
 
 ###########################################################
 # Classes
@@ -2267,7 +2267,7 @@ Element.Module.base=Basis
 Element.Module.units=Einheiten
 Element.Module.theme=Design
 Element.Module.propertyBindings=Eigenschaftenbindungen
-Element.Module.scriptLibs=Skriptbibliotheken
+Element.Module.scriptLibs=Script libraries
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=Stile
@@ -3015,7 +3015,7 @@ Element.OdaDataSet.resultSetNumber=Ergebnisnummer
 #37 DesignElement ( Prefix Element.DesignElement )
 Element.DesignElement.customXml=Benutzerdefiniertes XML
 Element.DesignElement.propertyMasks=Eigenschaftsmasken
-Element.DesignElement.userProperties=Benutzereigenschaften
+Element.DesignElement.userProperties=User properties
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=Stile
@@ -3023,16 +3023,16 @@ Element.Theme.cssStyleSheets=CSS-Stilvorlagen
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=Name
-Element.TemplateParameterDefinition.allowedType=Zulässiger Typ
+Element.TemplateParameterDefinition.allowedType=Allowed type
 Element.TemplateParameterDefinition.description=Beschreibung
 Element.TemplateParameterDefinition.descriptionID=ID der Beschreibung
 Element.TemplateParameterDefinition.slot.default=Standard
 
 #40 TemplateElement ( Prefix Element.TemplateElement )
 Element.TemplateElement.name=Name
-Element.TemplateElement.refTemplateParameter=Parameter für Referenzvorlage
-Element.TemplateElement.displayName=Name anzeigen
-Element.TemplateElement.displayNameID=Namen-ID anzeigen
+Element.TemplateElement.refTemplateParameter=Reference template parameter
+Element.TemplateElement.displayName=Anzeigename
+Element.TemplateElement.displayNameID=Display name ID
 
 #41 JointDataset ( Prefix Element.JointDataset )
 Element.JointDataSet.resultSet=Ergebnis Satzspalten
@@ -3046,7 +3046,7 @@ Element.JointDataSet.parameters=Datensatzparameter
 Element.TemplateReportItem.visibility=Sichtbarkeit
 
 #44.AutoText ( prefix Element.AutoText )
-Element.AutoText.type = AutoText-Typ
+Element.AutoText.type = Type of autotext
 Element.AutoText.onPrepare=Beim Vorbereiten
 Element.AutoText.onPrepare.this=AutoText
 Element.AutoText.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
@@ -3065,35 +3065,35 @@ Element.AutoText.onPageBreak.this=AutoText-Instanz
 Element.AutoText.onPageBreak.reportContext=Berichtkontext
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.filter=Filterbedingungen
-Element.Cube.defaultMeasureGroup=Standard-Maßeinheitsgruppe
+Element.Cube.filter=Filter conditions
+Element.Cube.defaultMeasureGroup=Default measure group
 Element.Cube.accessControls=Zugriffssteuerungen
 
 #46. Dimension ( prefix Element.Dimension )
-Element.Dimension.isTimeType=Gleich Uhrzeitformat
-Element.Dimension.defaultHierarchy=Standardhierarchie
+Element.Dimension.isTimeType=Is time type
+Element.Dimension.defaultHierarchy=Default hierarchy
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.filter=Filterbedingungen
+Element.Hierarchy.filter=Filter conditions
 Element.Hierarchy.accessControls=Zugriffssteuerungen
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=Datentyp
-Element.Level.dateTimeLevelType=Ebenentyp für Datum/Uhrzeit
-Element.Level.dateTimeFormat=Datum-/Uhrzeitformat
+Element.Level.dateTimeLevelType=Date time level type
+Element.Level.dateTimeFormat=Date time format
 Element.Level.Interval=Intervall
 Element.Level.intervalBase=Intervallbasis
 Element.Level.interval=Intervall
 Element.Level.intervalRange=Intervallbereich
-Element.Level.levelType=Stufentyp
-Element.Level.staticValues=Statische Werte
+Element.Level.levelType=Level type
+Element.Level.staticValues=Static values
 Element.Level.valueAccessControls=Wertzugriffsteuerungen
 Element.Level.defaultValue=Standardwert
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Funktion
-Element.Measure.isCalculated=Wird berechnet
-Element.Measure.measureExpression=Ausdruck für Maßeinheit
+Element.Measure.isCalculated=Is calculated
+Element.Measure.measureExpression=Measure expression
 Element.Measure.dataType=Datentyp
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
@@ -3110,8 +3110,8 @@ Element.ValueAccessControl.values=Werte
 #52. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=Datensatz
 Element.TabularCube.dimensions=Dimensionen
-Element.TabularCube.measureGroups=Maßeinheitsgruppen
-Element.TabularCube.dimensionConditions=Dimensionsbedingungen
+Element.TabularCube.measureGroups=Measure groups
+Element.TabularCube.dimensionConditions=Dimension conditions
 
 #53. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=Hierarchien
@@ -3119,25 +3119,25 @@ Element.TabularDimension.hierarchies=Hierarchien
 #54. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=Datensatz
 Element.TabularHierarchy.levels=Ebenen
-Element.TabularHierarchy.primaryKeys=Primärschlüssel
+Element.TabularHierarchy.primaryKeys=Primary key
 
 #55. TabularLevel ( prefix Element.TabularLevel )
-Element.TabularLevel.columnName=Spaltenname
-Element.TabularLevel.displayColumnName=Spaltenname anzeigen
+Element.TabularLevel.columnName=Column name
+Element.TabularLevel.displayColumnName=Display column name
 Element.TabularLevel.attributes=Attribute
 
 #56. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=Dimensionen
-Element.OdaCube.measureGroups=Maßeinheitsgruppen
-Element.OdaCube.nativeName=Programmeigener Name
+Element.OdaCube.measureGroups=Measure groups
+Element.OdaCube.nativeName=Native name
 
 #57. OdaDimension ( prefix Element.OdaDimension )
 Element.OdaDimension.hierarchies=Hierarchien
-Element.OdaDimension.nativeName=Programmeigener Name
+Element.OdaDimension.nativeName=Native name
 
 #58. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=Ebenen
-Element.OdaHierarchy.nativeName=Programmeigener Name
+Element.OdaHierarchy.nativeName=Native name
 
 #59. OdaLevel ( prefix Element.OdaLevel )
 Element.OdaLevel.attributes=Attribute
@@ -3145,7 +3145,7 @@ Element.OdaLevel.attributes=Attribute
 #60. MemberValue ( prefix Element.MemberValue )
 Element.MemberValue.value=Wert
 Element.MemberValue.level=Ebene
-Element.MemberValue.memberValues=Mitgliedswerte
+Element.MemberValue.memberValues=Member values
 
 #61. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=Schlüssel
@@ -3157,9 +3157,9 @@ Element.FilterConditionElement.operator=Operator
 Element.FilterConditionElement.expr=Ausdruck
 Element.FilterConditionElement.value1=Wert1
 Element.FilterConditionElement.value2=Wert2
-Element.FilterConditionElement.filterTarget=Ziel filtern
+Element.FilterConditionElement.filterTarget=Filter target
 Element.FilterConditionElement.member=Mitglied 
-Element.FilterConditionElement.isOptional=Ist optional
+Element.FilterConditionElement.isOptional=Is optional
 
 #63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
@@ -3184,8 +3184,8 @@ Element.DataGroup.sortDirection=Sortierreihenfolge
 Element.DataGroup.sortType=Sortiertyp
 
 #63. DerivedDataSet ( prefix Element.DerivedDataSet )
-Element.DerivedDataSet.inputDataSets=Input Data Sets
-Element.DerivedDataSet.queryText=Query Text
+Element.DerivedDataSet.inputDataSets=Input data sets
+Element.DerivedDataSet.queryText=Abfrage
 
 ###########################################################
 # Predefined style

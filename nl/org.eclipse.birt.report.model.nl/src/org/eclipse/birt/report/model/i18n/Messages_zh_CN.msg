@@ -83,11 +83,11 @@ Choices.fontWeight.800=800
 Choices.fontWeight.900=900
 
 #2.textUnderline
-Choices.textUnderline.none=无下划线
+Choices.textUnderline.none=No Underline
 Choices.textUnderline.underline=下划线
   
 #3.lineStyle
-Choices.lineStyle.none=无线条样式
+Choices.lineStyle.none=No Line Style
 Choices.lineStyle.solid=实线
 Choices.lineStyle.dotted=点线
 Choices.lineStyle.dashed=虚线
@@ -144,7 +144,7 @@ Choices.pageOrientation.portrait=纵向
 Choices.pageOrientation.landscape=横向
    
 #12.interval
-Choices.interval.none=无间隔
+Choices.interval.none=No Interval
 Choices.interval.prefix=前缀
 Choices.interval.year=年
 Choices.interval.quarter=季
@@ -157,7 +157,7 @@ Choices.interval.second=秒
 Choices.interval.interval=间隔
 
 #interval type
-Choices.intervalType.none=无间隔
+Choices.intervalType.none=No Interval
 Choices.intervalType.prefix=前缀
 Choices.intervalType.interval=间隔
 
@@ -236,7 +236,7 @@ Choices.lineSpacing.lines=线条
 Choices.lineSpacing.exact=精确
   
 #24.lineType
-Choices.lineType.none=无线条类型
+Choices.lineType.none=No Line Type
 Choices.lineType.solid=实线
 Choices.lineType.dotted=点线
 Choices.lineType.dashed=虚线
@@ -255,7 +255,7 @@ Choices.pageBreakAfter.avoid=避免
 Choices.pageBreakAfter.alwaysExcludingLast=始终排除最后一个
 
 #27.actionLinkType
-Choices.actionLinkType.none=无操作链接类型
+Choices.actionLinkType.none=No Action Link Type
 Choices.actionLinkType.hyperlink=超级链接
 Choices.actionLinkType.drill-through=钻取
 Choices.actionLinkType.bookmark-link=书签链接
@@ -265,7 +265,7 @@ Choices.actionFormatType.html=html
 Choices.actionFormatType.pdf=pdf
   
 #28.drillThroughLinkType
-Choices.drillThroughType.none=无钻取类型
+Choices.drillThroughType.none=No Drill-through Type
 Choices.drillThroughType.bookmark-link=书签链接
 Choices.drillThroughType.search=搜索
  
@@ -320,7 +320,7 @@ Choices.backgroundPositionY.bottom=底部
 Choices.transform.capitalize=大写
 Choices.transform.uppercase=大写字母
 Choices.transform.lowercase=小写字母
-Choices.transform.none=无转换
+Choices.transform.none=No Transformation
 
 #38.normal
 Choices.normal.normal=正常
@@ -343,7 +343,7 @@ Choices.whiteSpace.nowrap=不换行
 #41.display
 Choices.display.block=块
 Choices.display.inline=嵌入式
-Choices.display.none=无显示
+Choices.display.none=No Display
 
 #43.pageBreakInside
 Choices.pageBreakInside.avoid=避免
@@ -353,11 +353,11 @@ Choices.pageBreakInside.auto=自动
 Choices.margine.auto=自动
 
 #45.textOverline
-Choices.textOverline.none=无位于文本上方的线条
+Choices.textOverline.none=No Line Over Text
 Choices.textOverline.overline=上划线
 
 #46.textLineThrough
-Choices.textLineThrough.none=无穿过文本的线条
+Choices.textLineThrough.none=No Line Through Text
 Choices.textLineThrough.line-through=删除线
 
 #48.lineWidth
@@ -433,10 +433,10 @@ Choices.columnDataType.blob=Blob
 #54. searchType
 Choices.searchType.any=任何
 Choices.searchType.indexed=编入索引
-Choices.searchType.none=无搜索类型
+Choices.searchType.none=No Search Type
 
 #55. exportType
-Choices.exportType.none=无导出类型
+Choices.exportType.none=No Export Type
 Choices.exportType.if-realized=如果实现
 Choices.exportType.always=始终
 
@@ -445,7 +445,7 @@ Choices.analysisType.auto=自动
 Choices.analysisType.dimension=维
 Choices.analysisType.measure=度量
 Choices.analysisType.detail=详细资料
-Choices.analysisType.none=无分析类型
+Choices.analysisType.none=No Analysis Type
 
 #57. scalarParamAlign
 Choices.scalarParamAlign.auto=自动
@@ -534,18 +534,18 @@ Choices.templateElementType.textData=文本数据
 Choices.templateElementType.dataSet=数据集
 
 #61. sortType
-Choices.sortType.none=无排序类型
-Choices.sortType.sortOnGroupkey=按组键排序
-Choices.sortType.complexSort=复杂排序
+Choices.sortType.none=No Sort Type
+Choices.sortType.sortOnGroupkey=Sort on Group Key
+Choices.sortType.complexSort=Complex Sort
 
 #62. joinType
-Choices.joinType.inner=内联接
-Choices.joinType.leftOut=左向外联接
-Choices.joinType.rightOut=右向外联接
-Choices.joinType.fullOut=完全外部联接
+Choices.joinType.inner=Inner Join
+Choices.joinType.leftOut=Left Out Join
+Choices.joinType.rightOut=Right Out Join
+Choices.joinType.fullOut=Full Out Join
 
 #63. joinOperator
-Choices.joinOperator.equals=等于
+Choices.joinOperator.equals=Equals
 
 #64. actionTargetFileType
 Choices.actionTargetFileType.report-design=报表设计
@@ -652,8 +652,8 @@ Choices.backgroundSize.cover=包括
 #79 scopeType
 Choices.scopeType.row=行
 Choices.scopeType.col=列
-Choices.scopeType.rowgroup=行组
-Choices.scopeType.colgroup=列组
+Choices.scopeType.rowgroup=Row Group
+Choices.scopeType.colgroup=Column Group
 
 ###########################################################
 # Classes
@@ -2267,7 +2267,7 @@ Element.Module.base=基本
 Element.Module.units=单位
 Element.Module.theme=主题
 Element.Module.propertyBindings=属性绑定
-Element.Module.scriptLibs=脚本库
+Element.Module.scriptLibs=Script libraries
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=样式
@@ -3015,7 +3015,7 @@ Element.OdaDataSet.resultSetNumber=结果集数值
 #37 DesignElement ( Prefix Element.DesignElement )
 Element.DesignElement.customXml=自定义 XML
 Element.DesignElement.propertyMasks=属性掩码
-Element.DesignElement.userProperties=用户属性
+Element.DesignElement.userProperties=User properties
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=样式
@@ -3023,16 +3023,16 @@ Element.Theme.cssStyleSheets=CSS 样式表
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=名称
-Element.TemplateParameterDefinition.allowedType=允许的类型
+Element.TemplateParameterDefinition.allowedType=Allowed type
 Element.TemplateParameterDefinition.description=说明
 Element.TemplateParameterDefinition.descriptionID=说明 ID
 Element.TemplateParameterDefinition.slot.default=默认
 
 #40 TemplateElement ( Prefix Element.TemplateElement )
 Element.TemplateElement.name=名称
-Element.TemplateElement.refTemplateParameter=参考模板参数
+Element.TemplateElement.refTemplateParameter=Reference template parameter
 Element.TemplateElement.displayName=显示名称
-Element.TemplateElement.displayNameID=显示名称 ID
+Element.TemplateElement.displayNameID=Display name ID
 
 #41 JointDataset ( Prefix Element.JointDataset )
 Element.JointDataSet.resultSet=结果集列
@@ -3046,7 +3046,7 @@ Element.JointDataSet.parameters=数据集参数
 Element.TemplateReportItem.visibility=可见性
 
 #44.AutoText ( prefix Element.AutoText )
-Element.AutoText.type = 自动图文集的类型
+Element.AutoText.type = Type of autotext
 Element.AutoText.onPrepare=准备时
 Element.AutoText.onPrepare.this=自动图文集
 Element.AutoText.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
@@ -3065,35 +3065,35 @@ Element.AutoText.onPageBreak.this=自动图文集实例
 Element.AutoText.onPageBreak.reportContext=报表上下文
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.filter=筛选条件
-Element.Cube.defaultMeasureGroup=默认度量组
+Element.Cube.filter=Filter conditions
+Element.Cube.defaultMeasureGroup=Default measure group
 Element.Cube.accessControls=访问控制
 
 #46. Dimension ( prefix Element.Dimension )
-Element.Dimension.isTimeType=是时间类型
-Element.Dimension.defaultHierarchy=默认层次结构
+Element.Dimension.isTimeType=Is time type
+Element.Dimension.defaultHierarchy=Default hierarchy
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.filter=筛选条件
+Element.Hierarchy.filter=Filter conditions
 Element.Hierarchy.accessControls=访问控制
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=数据类型
-Element.Level.dateTimeLevelType=日期时间级别类型
-Element.Level.dateTimeFormat=日期时间格式
+Element.Level.dateTimeLevelType=Date time level type
+Element.Level.dateTimeFormat=Date time format
 Element.Level.Interval=间隔
 Element.Level.intervalBase=间隔基数
 Element.Level.interval=间隔
 Element.Level.intervalRange=间隔范围
-Element.Level.levelType=级别类型
-Element.Level.staticValues=静态值
+Element.Level.levelType=Level type
+Element.Level.staticValues=Static values
 Element.Level.valueAccessControls=值访问控制
 Element.Level.defaultValue=默认值
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=函数
-Element.Measure.isCalculated=是计算的
-Element.Measure.measureExpression=度量表达式
+Element.Measure.isCalculated=Is calculated
+Element.Measure.measureExpression=Measure expression
 Element.Measure.dataType=数据类型
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
@@ -3110,8 +3110,8 @@ Element.ValueAccessControl.values=值
 #52. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=数据集
 Element.TabularCube.dimensions=维数
-Element.TabularCube.measureGroups=度量组
-Element.TabularCube.dimensionConditions=维条件
+Element.TabularCube.measureGroups=Measure groups
+Element.TabularCube.dimensionConditions=Dimension conditions
 
 #53. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=层次结构
@@ -3119,25 +3119,25 @@ Element.TabularDimension.hierarchies=层次结构
 #54. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=数据集
 Element.TabularHierarchy.levels=级别
-Element.TabularHierarchy.primaryKeys=主键
+Element.TabularHierarchy.primaryKeys=Primary key
 
 #55. TabularLevel ( prefix Element.TabularLevel )
-Element.TabularLevel.columnName=列名
-Element.TabularLevel.displayColumnName=显示列名称
+Element.TabularLevel.columnName=Column name
+Element.TabularLevel.displayColumnName=Display column name
 Element.TabularLevel.attributes=属性
 
 #56. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=维数
-Element.OdaCube.measureGroups=度量组
-Element.OdaCube.nativeName=本地名称
+Element.OdaCube.measureGroups=Measure groups
+Element.OdaCube.nativeName=Native name
 
 #57. OdaDimension ( prefix Element.OdaDimension )
 Element.OdaDimension.hierarchies=层次结构
-Element.OdaDimension.nativeName=本地名称
+Element.OdaDimension.nativeName=Native name
 
 #58. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=级别
-Element.OdaHierarchy.nativeName=本地名称
+Element.OdaHierarchy.nativeName=Native name
 
 #59. OdaLevel ( prefix Element.OdaLevel )
 Element.OdaLevel.attributes=属性
@@ -3145,7 +3145,7 @@ Element.OdaLevel.attributes=属性
 #60. MemberValue ( prefix Element.MemberValue )
 Element.MemberValue.value=值
 Element.MemberValue.level=级别
-Element.MemberValue.memberValues=成员值
+Element.MemberValue.memberValues=Member values
 
 #61. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=关键字
@@ -3157,9 +3157,9 @@ Element.FilterConditionElement.operator=运算符
 Element.FilterConditionElement.expr=表达式
 Element.FilterConditionElement.value1=值 1
 Element.FilterConditionElement.value2=值 2
-Element.FilterConditionElement.filterTarget=筛选目标
+Element.FilterConditionElement.filterTarget=Filter target
 Element.FilterConditionElement.member=成员 
-Element.FilterConditionElement.isOptional=可选
+Element.FilterConditionElement.isOptional=Is optional
 
 #63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
@@ -3184,8 +3184,8 @@ Element.DataGroup.sortDirection=排序方向
 Element.DataGroup.sortType=排序类型
 
 #63. DerivedDataSet ( prefix Element.DerivedDataSet )
-Element.DerivedDataSet.inputDataSets=Input Data Sets
-Element.DerivedDataSet.queryText=Query Text
+Element.DerivedDataSet.inputDataSets=Input data sets
+Element.DerivedDataSet.queryText=查询
 
 ###########################################################
 # Predefined style
