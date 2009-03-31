@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.plugin;
 
+import org.eclipse.birt.chart.internal.log.JavaUtilLoggerImpl;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
@@ -38,6 +39,7 @@ public class ChartEnginePlugin extends Plugin
 	{
 		super.start( context );
 		plugin = this;
+		JavaUtilLoggerImpl.setStateDir( getStateLocation( ).toOSString( ) );
 	}
 
 }

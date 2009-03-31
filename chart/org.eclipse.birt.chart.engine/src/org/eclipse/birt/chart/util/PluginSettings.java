@@ -382,17 +382,8 @@ public final class PluginSettings
 			{
 				dir = loggingDir;
 			}
-			else if ( inEclipseEnv( ) )
-			{
-				dir = ChartEnginePlugin.getInstance( )
-				.getStateLocation( )
-				.toOSString( );
-			}
 			
-			if ( dir != null )
-			{
-				JavaUtilLoggerImpl.initFileHandler( dir, loggingLevel );
-			}
+			JavaUtilLoggerImpl.initFileHandler( dir, loggingLevel );
 		}
 		catch ( SecurityException e )
 		{

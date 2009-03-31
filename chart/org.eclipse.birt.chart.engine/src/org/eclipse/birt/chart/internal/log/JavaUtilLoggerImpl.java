@@ -41,6 +41,13 @@ public class JavaUtilLoggerImpl implements ILogger
 
 	private static StreamHandler fileHandler = null;
 
+	private static String stateDir = null;
+
+	public static void setStateDir( String sStateDir )
+	{
+		stateDir = sStateDir;
+	}
+
 	/**
 	 * The constructor.
 	 * 
@@ -196,6 +203,18 @@ public class JavaUtilLoggerImpl implements ILogger
 	public static void initFileHandler( String sLogFolder, final Level level )
 			throws SecurityException, IOException
 	{
+		if ( sLogFolder == null )
+		{
+			if ( stateDir == null )
+			{
+				return;
+			}
+			else
+			{
+				sLogFolder = stateDir;
+			}
+		}
+
 		if ( sLogFolder.length( ) > 0
 				&& sLogFolder.lastIndexOf( File.separator ) == sLogFolder.length( ) - 1 )
 		{
