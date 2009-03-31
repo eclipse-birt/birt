@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -297,8 +298,8 @@ public class StyleHandleTest extends BaseTestCase
 
 		styleHandle
 				.setPageBreakAfter( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS );
-		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS, styleHandle
-				.getPageBreakAfter( ) );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS,
+				styleHandle.getPageBreakAfter( ) );
 
 		styleHandle
 				.setPageBreakBefore( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS );
@@ -307,8 +308,8 @@ public class StyleHandleTest extends BaseTestCase
 
 		styleHandle
 				.setPageBreakInside( DesignChoiceConstants.PAGE_BREAK_INSIDE_AUTO );
-		assertEquals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AUTO,
-				styleHandle.getPageBreakInside( ) );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AUTO, styleHandle
+				.getPageBreakInside( ) );
 
 		styleHandle.setCanShrink( false );
 		assertEquals( false, styleHandle.canShrink( ) );
@@ -721,5 +722,316 @@ public class StyleHandleTest extends BaseTestCase
 
 		assertEquals( DesignChoiceConstants.LINE_STYLE_DOUBLE, cell
 				.getProperty( IStyleModel.BORDER_LEFT_STYLE_PROP ) );
+	}
+
+	/**
+	 * Tests set background size property value.
+	 * 
+	 * @throws Exception
+	 */
+	public void testBackgroundSize( ) throws Exception
+	{
+		openDesign( "BackgroundSizeTest.xml" ); //$NON-NLS-1$
+
+		// original width value is 30% and height value is 60%
+
+		// if the input value is contain or cover, both the width and height of
+		// the background size are set as the input value.
+
+		StyleHandle styleHandle = designHandle.findStyle( "style1" ); //$NON-NLS-1$
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN );
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN );
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER );
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER );
+
+		// if both the original height value and input width value are neither
+		// cover nor contain, the width will be set as input value and the
+		// height will not be set.
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				"80%", "80%", "60%" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT, "80%", "30%", "80%" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO, "60%" ); //$NON-NLS-1$
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO, "30%", //$NON-NLS-1$ 
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO );
+
+		// both width and height value are cover
+
+		styleHandle = designHandle.findStyle( "style2" ); //$NON-NLS-1$
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN );
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN );
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				"80%", "80%", "80%" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT, "80%", "80%", "80%" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO );
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO );
+
+		// width is contain and height is 30%
+		styleHandle = designHandle.findStyle( "style3" ); //$NON-NLS-1$
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER );
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER );
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN, "30%" ); //$NON-NLS-1$ 
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN );
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				"60%", "60%", "30%" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT, "60%", "60%", "60%" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO, "30%" ); //$NON-NLS-1$
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO );
+
+		// width is contain and height is auto
+		styleHandle = designHandle.findStyle( "style4" ); //$NON-NLS-1$
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER );
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER );
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO );
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN );
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				"60%", "60%", DesignChoiceConstants.BACKGROUND_SIZE_AUTO ); //$NON-NLS-1$ //$NON-NLS-2$ 
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT, "60%", "60%", "60%" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO );
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO );
+
+		// both the width and height are auto
+		styleHandle = designHandle.findStyle( "style5" ); //$NON-NLS-1$
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER );
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER );
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				"30%", "30%", //$NON-NLS-1$ //$NON-NLS-2$ 
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO );
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT, "30%", //$NON-NLS-1$ 
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO, "30%" ); //$NON-NLS-1$ 
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO );
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO );
+
+		// width is contain and height is cover
+		styleHandle = designHandle.findStyle( "style6" ); //$NON-NLS-1$
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER );
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER );
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_COVER );
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN,
+				DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN );
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO );
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO,
+				DesignChoiceConstants.BACKGROUND_SIZE_AUTO );
+
+		comparedBackgroundSize( styleHandle, IStyleModel.BACKGROUND_SIZE_WIDTH,
+				"80%", "80%", "80%" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+		comparedBackgroundSize( styleHandle,
+				IStyleModel.BACKGROUND_SIZE_HEIGHT, "80%", "80%", "80%" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+	}
+
+	/**
+	 * @param styleHandle
+	 *            the style handle.
+	 * @param propName
+	 *            the property name.
+	 * @param value
+	 *            the input value
+	 * @param expectedWidth
+	 *            the expected width value
+	 * @param expectedHeight
+	 *            the expected height value
+	 * @throws Exception
+	 */
+	private void comparedBackgroundSize( StyleHandle styleHandle,
+			String propName, String value, String expectedWidth,
+			String expectedHeight ) throws Exception
+	{
+		DimensionHandle width = styleHandle.getBackgroundSizeWidth( );
+		DimensionHandle height = styleHandle.getBackgroundSizeHeight( );
+
+		String oldWidth = width.getStringValue( );
+		String oldHeight = height.getStringValue( );
+
+		if ( IStyleModel.BACKGROUND_SIZE_WIDTH.equals( propName ) )
+		{
+			width.setValue( value );
+		}
+		else
+		{
+			height.setValue( value );
+		}
+
+		assertEquals( expectedWidth, width.getStringValue( ) );
+		assertEquals( expectedHeight, height.getStringValue( ) );
+
+		ActivityStack stack = design.getActivityStack( );
+
+		if ( stack.canUndo( ) )
+
+		{
+			design.getActivityStack( ).undo( );
+
+			assertEquals( oldWidth, width.getStringValue( ) );
+			assertEquals( oldHeight, height.getStringValue( ) );
+		}
+		else
+		{
+			if ( "style3".equals( styleHandle.getName( ) ) //$NON-NLS-1$
+					&& IStyleModel.BACKGROUND_SIZE_WIDTH.equals( propName )
+					&& DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN
+							.equals( value ) )
+			{
+				assert true;
+
+			}
+			else if ( "style4".equals( styleHandle.getName( ) ) //$NON-NLS-1$
+					&& IStyleModel.BACKGROUND_SIZE_WIDTH.equals( propName )
+					&& DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN
+							.equals( value ) )
+				assert true;
+			else if ( "style4".equals( styleHandle.getName( ) ) //$NON-NLS-1$
+					&& IStyleModel.BACKGROUND_SIZE_HEIGHT.equals( propName )
+					&& DesignChoiceConstants.BACKGROUND_SIZE_AUTO
+							.equals( value ) )
+				assert true;
+			else if ( "style5".equals( styleHandle.getName( ) ) //$NON-NLS-1$
+					&& IStyleModel.BACKGROUND_SIZE_HEIGHT.equals( propName )
+					&& DesignChoiceConstants.BACKGROUND_SIZE_AUTO
+							.equals( value ) )
+				assert true;
+			else if ( "style5".equals( styleHandle.getName( ) ) //$NON-NLS-1$
+					&& IStyleModel.BACKGROUND_SIZE_WIDTH.equals( propName )
+					&& DesignChoiceConstants.BACKGROUND_SIZE_AUTO
+							.equals( value ) )
+				assert true;
+			else if ( "style6".equals( styleHandle.getName( ) ) //$NON-NLS-1$
+					&& IStyleModel.BACKGROUND_SIZE_HEIGHT.equals( propName )
+					&& DesignChoiceConstants.BACKGROUND_SIZE_COVER
+							.equals( value ) )
+				assert true;
+			else if ( "style6".equals( styleHandle.getName( ) ) //$NON-NLS-1$
+					&& IStyleModel.BACKGROUND_SIZE_WIDTH.equals( propName )
+					&& DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN
+							.equals( value ) )
+				assert true;
+
+			else
+				assert false;
+
+		}
 	}
 }

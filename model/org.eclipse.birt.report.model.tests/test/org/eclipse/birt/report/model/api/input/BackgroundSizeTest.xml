@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19">
+    <styles>
+        <style name="style1">
+            <property name="backgroundSizeWidth">30%</property>
+            <property name="backgroundSizeHeight">60%</property>
+        </style>
+        <style name="style2">
+            <property name="backgroundSizeWidth">cover</property>
+            <property name="backgroundSizeHeight">cover</property>
+        </style>
+        <style name="style3">
+            <property name="backgroundSizeWidth">contain</property>
+            <property name="backgroundSizeHeight">30%</property>
+        </style>
+        <style name="style4">
+            <property name="backgroundSizeWidth">contain</property>
+            <property name="backgroundSizeHeight">auto</property>
+        </style>
+        <style name="style5">
+            <property name="backgroundSizeWidth">auto</property>
+            <property name="backgroundSizeHeight">auto</property>
+        </style>
+        <style name="style6">
+            <property name="backgroundSizeWidth">contain</property>
+            <property name="backgroundSizeHeight">cover</property>
+        </style>
+    </styles>
+</report>

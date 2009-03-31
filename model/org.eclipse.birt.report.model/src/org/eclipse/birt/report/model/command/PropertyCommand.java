@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ContentElement;
@@ -55,6 +56,7 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -64,6 +66,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.OdaLevel;
@@ -432,6 +435,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 		if ( oldValue != null && value != null && oldValue.equals( value ) )
 			return;
 
+		String propName = prop.getName( );
 		if ( element instanceof ExtendedItem )
 		{
 
@@ -440,7 +444,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 			// if useOwnModel is true, set property to extended item and return
 			// directly.
 
-			if ( extendedItem.isExtensionModelProperty( prop.getName( ) ) )
+			if ( extendedItem.isExtensionModelProperty( propName ) )
 			{
 				IReportItem extElement = ( (ExtendedItem) element )
 						.getExtendedElement( );
@@ -448,15 +452,15 @@ public class PropertyCommand extends AbstractPropertyCommand
 				if ( extElement == null )
 					return;
 
-				extElement.checkProperty( prop.getName( ), value );
-				extElement.setProperty( prop.getName( ), value );
+				extElement.checkProperty( propName, value );
+				extElement.setProperty( propName, value );
 
 				return;
 			}
 		}
 
 		if ( element instanceof Level
-				&& prop.getName( ).equals( ILevelModel.DATE_TIME_LEVEL_TYPE )
+				&& propName.equals( ILevelModel.DATE_TIME_LEVEL_TYPE )
 				&& value != null )
 		{
 			ActivityStack stack = getActivityStack( );
@@ -538,8 +542,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		stack.execute( record );
 
-		if ( IReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase( prop
-				.getName( ) ) )
+		if ( IReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase( propName ) )
 		{
 			try
 			{
@@ -573,7 +576,76 @@ public class PropertyCommand extends AbstractPropertyCommand
 				throw e;
 			}
 		}
+		else if ( element instanceof Style || element instanceof StyledElement )
+		{
+
+			String tmpPropName = null;
+			if ( IStyleModel.BACKGROUND_SIZE_WIDTH.equals( propName ) )
+			{
+				tmpPropName = IStyleModel.BACKGROUND_SIZE_HEIGHT;
+
+			}
+			else if ( IStyleModel.BACKGROUND_SIZE_HEIGHT.equals( propName ) )
+			{
+				tmpPropName = IStyleModel.BACKGROUND_SIZE_WIDTH;
+
+			}
+			if ( tmpPropName != null )
+				handleBackgroundSize( stack, tmpPropName, value );
+
+		}
 		stack.commit( );
+	}
+
+	/**
+	 * Handles the back ground size.
+	 * 
+	 * @param stack
+	 *            the activity stack.
+	 * @param anotherPropName
+	 *            another property name.
+	 * @param value
+	 *            the property value.
+	 */
+	private void handleBackgroundSize( ActivityStack stack,
+			String anotherPropName, Object value )
+	{
+		ElementPropertyDefn anotherProp = element
+				.getPropertyDefn( anotherPropName );
+		assert anotherProp != null;
+
+		// if the input value is contain or cover, the property value will
+		// be set as the input value.
+		Object anotherPropLocalValue = element.getLocalProperty( module,
+				anotherProp );
+
+		if ( DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals( value )
+				|| DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals( value ) )
+		{
+			if ( !value.equals( anotherPropLocalValue ) )
+			{
+				PropertyRecord record = new PropertyRecord( element,
+						anotherProp, value );
+				stack.execute( record );
+			}
+		}
+		else
+		{
+			// if the original value of the property is contain or cover and the
+			// input value is neither contain nor cover, the property value will
+			// be set as the input value.
+
+			if ( DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN
+					.equals( anotherPropLocalValue )
+					|| DesignChoiceConstants.BACKGROUND_SIZE_COVER
+							.equals( anotherPropLocalValue ) )
+			{
+				PropertyRecord record = new PropertyRecord( element,
+						anotherProp, value );
+				stack.execute( record );
+			}
+
+		}
 	}
 
 	/**
