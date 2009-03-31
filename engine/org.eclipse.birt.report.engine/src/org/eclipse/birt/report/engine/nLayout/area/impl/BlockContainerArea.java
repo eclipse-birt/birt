@@ -257,7 +257,6 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 								newContainer.setParent( newContainer );
 							}
 						}
-						addRepeatedItem();
 						updateChildrenPosition( );
 						return new SplitResult(newContainer, SplitResult.SPLIT_SUCCEED_WITH_PART);
 					}
