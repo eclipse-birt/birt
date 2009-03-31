@@ -371,13 +371,13 @@ public class SVGRendererImpl extends SwingRendererImpl
 	{
 		Document svgDocument = createSvgDocument( );
 		svgDocument.getDocumentElement( ).setAttribute( "width", //$NON-NLS-1$
-				Double.toString( width ) );
+				SVGGraphics2D.toString( width ) );
 		svgDocument.getDocumentElement( ).setAttribute( "height", //$NON-NLS-1$
-				Double.toString( height ) );
+				SVGGraphics2D.toString( height ) );
 		svgDocument.getDocumentElement( ).setAttribute( "initialWidth", //$NON-NLS-1$
-				Double.toString( width ) );
+				SVGGraphics2D.toString( width ) );
 		svgDocument.getDocumentElement( ).setAttribute( "initialHeight", //$NON-NLS-1$
-				Double.toString( height ) );
+				SVGGraphics2D.toString( height ) );
 		return svgDocument;
 	}
 
