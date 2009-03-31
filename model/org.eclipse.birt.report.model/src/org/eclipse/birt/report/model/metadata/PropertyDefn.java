@@ -595,32 +595,45 @@ public abstract class PropertyDefn
 			}
 		}
 
-		// if the trim option value of the property in rom is not defined, the
+		buildTrimOption( tmpTypeCode );
+
+	}
+
+	/**
+	 * Build trim option according to the type code. If the trim option value of
+	 * the property is not defined in rom, the default value will be set
+	 * according to the property type.
+	 * 
+	 * @param typeCode
+	 *            the type code.
+	 */
+	protected void buildTrimOption( int typeCode )
+	{
+		// if the trim option value of the property is not defined in rom, the
 		// default value will be set according to the property type.
 		if ( trimOption == TextualPropertyType.NO_VALUE )
 		{
-			if ( tmpTypeCode == IPropertyType.XML_TYPE
-					|| tmpTypeCode == IPropertyType.STRING_TYPE
-					|| tmpTypeCode == IPropertyType.HTML_TYPE
-					|| tmpTypeCode == IPropertyType.RESOURCE_KEY_TYPE
-					|| tmpTypeCode == IPropertyType.URI_TYPE
-					|| tmpTypeCode == IPropertyType.MEMBER_KEY_TYPE
-					|| tmpTypeCode == IPropertyType.NAME_TYPE )
+			if ( typeCode == IPropertyType.XML_TYPE
+					|| typeCode == IPropertyType.STRING_TYPE
+					|| typeCode == IPropertyType.HTML_TYPE
+					|| typeCode == IPropertyType.RESOURCE_KEY_TYPE
+					|| typeCode == IPropertyType.URI_TYPE
+					|| typeCode == IPropertyType.MEMBER_KEY_TYPE
+					|| typeCode == IPropertyType.NAME_TYPE )
 			{
 				setTrimOption( TextualPropertyType.TRIM_SPACE_VALUE
 						| TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE );
 			}
-			else if ( tmpTypeCode == IPropertyType.EXPRESSION_TYPE
-					|| tmpTypeCode == IPropertyType.SCRIPT_TYPE )
+			else if ( typeCode == IPropertyType.EXPRESSION_TYPE
+					|| typeCode == IPropertyType.SCRIPT_TYPE )
 			{
 				setTrimOption( TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE );
 			}
-			else if ( tmpTypeCode == IPropertyType.LITERAL_STRING_TYPE )
+			else if ( typeCode == IPropertyType.LITERAL_STRING_TYPE )
 			{
 				setTrimOption( TextualPropertyType.NO_TRIM_VALUE );
 			}
 		}
-
 	}
 
 	/**

@@ -66,6 +66,8 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 		name = extProperty.getName( );
 		defaultValue = extProperty.getDefaultValue( );
 		this.messages = messages;
+		assert type != null;
+		buildTrimOption( type.getTypeCode( ) );
 	}
 
 	/*
@@ -288,7 +290,7 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	{
 		if ( details instanceof StructureDefn )
 			return (StructureDefn) details;
-		
+
 		return null;
 	}
 
