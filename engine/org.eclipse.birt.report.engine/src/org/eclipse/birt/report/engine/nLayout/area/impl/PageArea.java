@@ -266,7 +266,6 @@ public class PageArea extends BlockContainerArea
 				&& footer.getHeight( ) + header.getHeight( ) >= root
 						.getHeight( ) )
 		{
-			removeFooter( );
 			removeHeader( );
 		}
 
