@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IR
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportElementDragTracker;
+import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -39,6 +40,7 @@ import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -281,6 +283,10 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		{
 			getHandleLayer( ).remove( guideHandle );
 		}
+		else if (getParent( ) instanceof ReportElementEditPart)
+		{
+			((ReportElementEditPart)getParent( )).removeGuideFeedBack( );
+		}
 		guideHandle = null;
 	}
 
@@ -354,6 +360,8 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		} );
 
 		getFigure( ).setFocusTraversable( true );
+		
+		updateLayoutPreference( );
 	}
 
 	/*
@@ -954,5 +962,44 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	{
 		return handle.isDirectionRTL( ) ? DesignChoiceConstants.BIDI_DIRECTION_RTL
 				: DesignChoiceConstants.BIDI_DIRECTION_LTR;
+	}
+	
+
+	/**
+	 * 
+	 */
+	protected void updateLayoutPreference( )
+	{
+//		if (!(getModel() instanceof DesignElementHandle))
+//		{
+//			return;
+//		}
+//		ModuleHandle handle = ((DesignElementHandle)getModel()).getModuleHandle( );
+//		if (!(handle instanceof ReportDesignHandle))
+//		{
+//			return;
+//		}
+//		if (getContentPane( ).getLayoutManager( ) instanceof ReportFlowLayout)
+//		{
+//			((ReportFlowLayout)getContentPane( ).getLayoutManager( )).setLayoutPreference( ((ReportDesignHandle)handle).getLayoutPreference( ) );
+//		}
+	}
+	
+	/**
+	 * @return
+	 */
+	public boolean isFixLayout()
+	{
+		if (!(getModel() instanceof DesignElementHandle))
+		{
+			return false;
+		}
+		ModuleHandle handle = ((DesignElementHandle)getModel()).getModuleHandle( );
+		if (!(handle instanceof ReportDesignHandle))
+		{
+			return false;
+		}
+		
+		return DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(((ReportDesignHandle)handle).getLayoutPreference( ) );
 	}
 }
