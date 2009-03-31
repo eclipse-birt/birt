@@ -1396,16 +1396,16 @@ public class SVGGraphics2D extends ChartGraphics2D
 					pathStr += " Z"; //$NON-NLS-1$
 					break;
 				case PathIterator.SEG_LINETO :
-					pathStr += " L" + toString( points[0] ) + " " + toString( points[1] ); //$NON-NLS-1$ //$NON-NLS-2$
+					pathStr += " L" + toString( points, 2, ' ' ); //$NON-NLS-1$ 
 					break;
 				case PathIterator.SEG_QUADTO :
-					pathStr += " Q" + toString( points[0] ) + " " + toString( points[1] ) + " " + toString( points[2] ) + " " + toString( points[3] ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					pathStr += " Q" + toString( points, 4, ' ' ); //$NON-NLS-1$ 
 					break;
 				case PathIterator.SEG_CUBICTO :
-					pathStr += " C" + toString( points[0] ) + " " + toString( points[1] ) + " " + toString( points[2] ) + " " + toString( points[3] ) + " " + toString( points[4] ) + " " + toString( points[5] ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+					pathStr += " C" + toString( points, 6, ' ' ); //$NON-NLS-1$ 
 					break;
 				case PathIterator.SEG_MOVETO :
-					pathStr += " M" + toString( points[0] ) + " " + toString( points[1] ); //$NON-NLS-1$ //$NON-NLS-2$
+					pathStr += " M" + toString( points, 2, ' ' ); //$NON-NLS-1$ 
 					break;
 			}
 			pathIter.next( );
@@ -1422,7 +1422,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 		{
 			double[] matrix = new double[6];
 			transforms.getMatrix( matrix );
-			elem.setAttribute( "transform", "matrix(" + matrix[0] + "," + matrix[1] + "," + matrix[2] + "," + matrix[3] + "," + matrix[4] + "," + matrix[5] + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+			elem.setAttribute( "transform", "matrix(" + toString( matrix, ',' ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		return elem;
 	}
@@ -1511,7 +1511,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 		{
 			double[] matrix = new double[6];
 			transforms.getMatrix( matrix );
-			elem.setAttribute( "transform", "matrix(" + matrix[0] + "," + matrix[1] + "," + matrix[2] + "," + matrix[3] + "," + matrix[4] + "," + matrix[5] + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+			elem.setAttribute( "transform", "matrix(" + toString( matrix, ',' ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 		return elem;
@@ -1634,7 +1634,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 		{
 			double[] matrix = new double[6];
 			transforms.getMatrix( matrix );
-			elem.setAttribute( "transform", "matrix(" + matrix[0] + "," + matrix[1] + "," + matrix[2] + "," + matrix[3] + "," + matrix[4] + "," + matrix[5] + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+			elem.setAttribute( "transform", "matrix(" + toString( matrix, ',' ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		return elem;
 
@@ -1800,5 +1800,33 @@ public class SVGGraphics2D extends ChartGraphics2D
 			return "0"; //$NON-NLS-1$
 		}
 		return String.valueOf( v );
+	}
+	
+	static String toString( double[] v, char separator )
+	{
+		return toString( v, v.length, separator );
+	}
+	
+	static String toString( double[] v, int length, char separator )
+	{
+		if ( v.length == 0 )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		if ( v.length == 1 )
+		{
+			return toString( v[0] );
+		}
+		if ( length > v.length )
+		{
+			length = v.length;
+		}
+		StringBuffer buffer = new StringBuffer( toString( v[0] ) );
+		for ( int i = 1; i < length; i++ )
+		{
+			buffer.append( separator );
+			buffer.append( toString( v[i] ) );
+		}
+		return buffer.toString( );
 	}
 }
