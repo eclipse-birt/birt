@@ -229,7 +229,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 */
 	public void drawString( String arg0, float arg1, float arg2 )
 	{
-		drawString( arg0, Float.toString( arg1 ), Float.toString( arg2 ) );
+		drawString( arg0, toString( arg1 ), toString( arg2 ) );
 	}
 
 	/*
@@ -947,7 +947,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 		{
 			a = color.getAlpha( ) / 255.0;
 		}
-		return Double.toString( a );
+		return toString( a );
 	}
 
 	/*
@@ -1022,8 +1022,8 @@ public class SVGGraphics2D extends ChartGraphics2D
 
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
 		currentElement.setAttribute( "xlink:href", image.getUrl( ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "x", toString( arg1 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "y", toString( arg2 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "width", Integer.toString( arg0.getWidth( arg3 ) ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "height", Integer.toString( arg0.getHeight( arg3 ) ) ); //$NON-NLS-1$
 		if ( clip != null )
@@ -1046,10 +1046,10 @@ public class SVGGraphics2D extends ChartGraphics2D
 		SVGImage image = (SVGImage) arg0;
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
 		currentElement.setAttribute( "xlink:href", image.getUrl( ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "width", Double.toString( arg3 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "height", Double.toString( arg4 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "x", toString( arg1 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "y", toString( arg2 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "width", toString( arg3 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "height", toString( arg4 ) ); //$NON-NLS-1$
 		if ( clip != null )
 			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		appendChild( currentElement );
@@ -1069,8 +1069,8 @@ public class SVGGraphics2D extends ChartGraphics2D
 		SVGImage image = (SVGImage) arg0;
 		image.getUrl( );
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
-		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "x", toString( arg1 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "y", toString( arg2 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "width", Integer.toString( arg0.getWidth( arg4 ) ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "height", Integer.toString( arg0.getHeight( arg4 ) ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "fill", serializeToString( arg3 ) ); //$NON-NLS-1$
@@ -1093,10 +1093,10 @@ public class SVGGraphics2D extends ChartGraphics2D
 		SVGImage image = (SVGImage) arg0;
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
 		currentElement.setAttribute( "xlink:href", image.getUrl( ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "width", Double.toString( arg3 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "height", Double.toString( arg4 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "x", toString( arg1 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "y", toString( arg2 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "width", toString( arg3 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "height", toString( arg4 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "fill", serializeToString( arg5 ) ); //$NON-NLS-1$
 		if ( clip != null )
 			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -1117,10 +1117,10 @@ public class SVGGraphics2D extends ChartGraphics2D
 		SVGImage image = (SVGImage) arg0;
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
 		currentElement.setAttribute( "xlink:href", image.getUrl( ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "width", Double.toString( arg3 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "height", Double.toString( arg4 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "x", toString( arg1 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "y", toString( arg2 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "width", toString( arg3 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "height", toString( arg4 ) ); //$NON-NLS-1$
 		if ( clip != null )
 			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		appendChild( currentElement );
@@ -1141,10 +1141,10 @@ public class SVGGraphics2D extends ChartGraphics2D
 		SVGImage image = (SVGImage) arg0;
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
 		currentElement.setAttribute( "xlink:href", image.getUrl( ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "width", Double.toString( arg3 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "height", Double.toString( arg4 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "x", toString( arg1 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "y", toString( arg2 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "width", toString( arg3 ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "height", toString( arg4 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "fill", serializeToString( arg9 ) ); //$NON-NLS-1$
 		if ( clip != null )
 			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -1311,10 +1311,10 @@ public class SVGGraphics2D extends ChartGraphics2D
 			elem.setAttribute( "id", paint.getId( ) + "h" ); //$NON-NLS-1$ //$NON-NLS-2$
 		else
 			elem.setAttribute( "id", paint.getId( ) ); //$NON-NLS-1$
-		elem.setAttribute( "x1", Double.toString( paint.getPoint1( ).getX( ) ) ); //$NON-NLS-1$
-		elem.setAttribute( "y1", Double.toString( paint.getPoint1( ).getY( ) ) ); //$NON-NLS-1$
-		elem.setAttribute( "x2", Double.toString( paint.getPoint2( ).getX( ) ) ); //$NON-NLS-1$
-		elem.setAttribute( "y2", Double.toString( paint.getPoint2( ).getY( ) ) ); //$NON-NLS-1$
+		elem.setAttribute( "x1", toString( paint.getPoint1( ).getX( ) ) ); //$NON-NLS-1$
+		elem.setAttribute( "y1", toString( paint.getPoint1( ).getY( ) ) ); //$NON-NLS-1$
+		elem.setAttribute( "x2", toString( paint.getPoint2( ).getX( ) ) ); //$NON-NLS-1$
+		elem.setAttribute( "y2", toString( paint.getPoint2( ).getY( ) ) ); //$NON-NLS-1$
 		elem.setAttribute( "gradientUnits", "userSpaceOnUse" ); //$NON-NLS-1$ //$NON-NLS-2$
 		if ( paint.isCyclic( ) )
 			elem.setAttribute( "spreadMethod", "repeat" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1374,10 +1374,10 @@ public class SVGGraphics2D extends ChartGraphics2D
 			double arg3 )
 	{
 		Element elem = createElement( "line" ); //$NON-NLS-1$
-		elem.setAttribute( "x1", Double.toString( arg0 ) ); //$NON-NLS-1$
-		elem.setAttribute( "y1", Double.toString( arg1 ) ); //$NON-NLS-1$
-		elem.setAttribute( "x2", Double.toString( arg2 ) ); //$NON-NLS-1$
-		elem.setAttribute( "y2", Double.toString( arg3 ) ); //$NON-NLS-1$
+		elem.setAttribute( "x1", toString( arg0 ) ); //$NON-NLS-1$
+		elem.setAttribute( "y1", toString( arg1 ) ); //$NON-NLS-1$
+		elem.setAttribute( "x2", toString( arg2 ) ); //$NON-NLS-1$
+		elem.setAttribute( "y2", toString( arg3 ) ); //$NON-NLS-1$
 		return elem;
 	}
 
@@ -1395,16 +1395,16 @@ public class SVGGraphics2D extends ChartGraphics2D
 					pathStr += " Z"; //$NON-NLS-1$
 					break;
 				case PathIterator.SEG_LINETO :
-					pathStr += " L" + points[0] + " " + points[1]; //$NON-NLS-1$ //$NON-NLS-2$
+					pathStr += " L" + toString( points[0] ) + " " + toString( points[1] ); //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 				case PathIterator.SEG_QUADTO :
-					pathStr += " Q" + points[0] + " " + points[1] + " " + points[2] + " " + points[3]; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					pathStr += " Q" + toString( points[0] ) + " " + toString( points[1] ) + " " + toString( points[2] ) + " " + toString( points[3] ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					break;
 				case PathIterator.SEG_CUBICTO :
-					pathStr += " C" + points[0] + " " + points[1] + " " + points[2] + " " + points[3] + " " + points[4] + " " + points[5]; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+					pathStr += " C" + toString( points[0] ) + " " + toString( points[1] ) + " " + toString( points[2] ) + " " + toString( points[3] ) + " " + toString( points[4] ) + " " + toString( points[5] ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 					break;
 				case PathIterator.SEG_MOVETO :
-					pathStr += " M" + points[0] + " " + points[1]; //$NON-NLS-1$ //$NON-NLS-2$
+					pathStr += " M" + toString( points[0] ) + " " + toString( points[1] ); //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 			}
 			pathIter.next( );
@@ -1542,10 +1542,10 @@ public class SVGGraphics2D extends ChartGraphics2D
 			double arg3 )
 	{
 		Element elem = createElement( "rect" ); //$NON-NLS-1$
-		elem.setAttribute( "x", Double.toString( arg0 ) ); //$NON-NLS-1$
-		elem.setAttribute( "y", Double.toString( arg1 ) ); //$NON-NLS-1$
-		elem.setAttribute( "width", Double.toString( arg2 ) ); //$NON-NLS-1$
-		elem.setAttribute( "height", Double.toString( arg3 ) ); //$NON-NLS-1$
+		elem.setAttribute( "x", toString( arg0 ) ); //$NON-NLS-1$
+		elem.setAttribute( "y", toString( arg1 ) ); //$NON-NLS-1$
+		elem.setAttribute( "width", toString( arg2 ) ); //$NON-NLS-1$
+		elem.setAttribute( "height", toString( arg3 ) ); //$NON-NLS-1$
 		return elem;
 	}
 
@@ -1553,12 +1553,12 @@ public class SVGGraphics2D extends ChartGraphics2D
 			double arg3, double arg4, double arg5 )
 	{
 		Element elem = createElement( "rect" ); //$NON-NLS-1$
-		elem.setAttribute( "x", Double.toString( arg0 ) ); //$NON-NLS-1$
-		elem.setAttribute( "y", Double.toString( arg1 ) ); //$NON-NLS-1$
-		elem.setAttribute( "width", Double.toString( arg2 ) ); //$NON-NLS-1$
-		elem.setAttribute( "height", Double.toString( arg3 ) ); //$NON-NLS-1$
-		elem.setAttribute( "rx", Double.toString( arg2 ) ); //$NON-NLS-1$
-		elem.setAttribute( "ry", Double.toString( arg3 ) ); //$NON-NLS-1$
+		elem.setAttribute( "x", toString( arg0 ) ); //$NON-NLS-1$
+		elem.setAttribute( "y", toString( arg1 ) ); //$NON-NLS-1$
+		elem.setAttribute( "width", toString( arg2 ) ); //$NON-NLS-1$
+		elem.setAttribute( "height", toString( arg3 ) ); //$NON-NLS-1$
+		elem.setAttribute( "rx", toString( arg2 ) ); //$NON-NLS-1$
+		elem.setAttribute( "ry", toString( arg3 ) ); //$NON-NLS-1$
 		return elem;
 	}
 
@@ -1566,10 +1566,10 @@ public class SVGGraphics2D extends ChartGraphics2D
 			double arg3 )
 	{
 		Element elem = createElement( "ellipse" ); //$NON-NLS-1$
-		elem.setAttribute( "cx", Double.toString( arg0 ) ); //$NON-NLS-1$
-		elem.setAttribute( "cy", Double.toString( arg1 ) ); //$NON-NLS-1$
-		elem.setAttribute( "rx", Double.toString( arg2 ) ); //$NON-NLS-1$
-		elem.setAttribute( "ry", Double.toString( arg3 ) ); //$NON-NLS-1$
+		elem.setAttribute( "cx", toString( arg0 ) ); //$NON-NLS-1$
+		elem.setAttribute( "cy", toString( arg1 ) ); //$NON-NLS-1$
+		elem.setAttribute( "rx", toString( arg2 ) ); //$NON-NLS-1$
+		elem.setAttribute( "ry", toString( arg3 ) ); //$NON-NLS-1$
 		return elem;
 	}
 
@@ -1783,4 +1783,21 @@ public class SVGGraphics2D extends ChartGraphics2D
 		this.scriptable = scriptable;
 	}
 
+	static String toString( double v )
+	{
+		if ( Double.isNaN( v ) )
+		{
+			return "0"; //$NON-NLS-1$
+		}
+		return String.valueOf( v );
+	}
+
+	static String toString( float v )
+	{
+		if ( Float.isNaN( v ) )
+		{
+			return "0"; //$NON-NLS-1$
+		}
+		return String.valueOf( v );
+	}
 }
