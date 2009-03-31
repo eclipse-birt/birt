@@ -543,6 +543,15 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 	{
 		return result.size( )>0;
 	}
+	
+	public boolean isPageBreakInsideAvoid( )
+	{
+		if ( context.isFixedLayout( ) && specifiedHeight > 0 )
+		{
+			return true;
+		}
+		return super.isPageBreakInsideAvoid( );
+	}
 
 	public void updateChildrenPosition( ) throws BirtException
 	{
