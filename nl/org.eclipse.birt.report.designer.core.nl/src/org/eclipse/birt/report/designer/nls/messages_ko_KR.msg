@@ -905,7 +905,7 @@ designerActionBarContributor.menu.data-newJointDataset=새 조인 데이터 집합(&J)
 DesignerActionBarContributor.menu.element.insert=삽입(&I)
 DesignerActionBarContributor.menu.element.group=그룹(&G) 
 DesignerActionBarContributor.menu.element.style=스타일(&Y)
-
+DesignerActionBarContributor.menu.zoomCombo.tooltip=Zoom Level
 ###########################################################
 #DesignerOutlinePage properties
 

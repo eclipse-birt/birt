@@ -905,7 +905,7 @@ designerActionBarContributor.menu.data-newJointDataset=Nuevo &conjunto de datos 
 DesignerActionBarContributor.menu.element.insert=&Insertar
 DesignerActionBarContributor.menu.element.group=&Grupo 
 DesignerActionBarContributor.menu.element.style=Es&tilo
-
+DesignerActionBarContributor.menu.zoomCombo.tooltip=Zoom Level
 ###########################################################
 #DesignerOutlinePage properties
 

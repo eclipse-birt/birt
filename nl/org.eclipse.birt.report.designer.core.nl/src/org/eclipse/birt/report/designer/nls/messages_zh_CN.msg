@@ -905,7 +905,7 @@ designerActionBarContributor.menu.data-newJointDataset=新建联接数据集(&J)
 DesignerActionBarContributor.menu.element.insert=插入(&I)
 DesignerActionBarContributor.menu.element.group=分组(&G) 
 DesignerActionBarContributor.menu.element.style=样式(&Y)
-
+DesignerActionBarContributor.menu.zoomCombo.tooltip=Zoom Level
 ###########################################################
 #DesignerOutlinePage properties
 
