@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -160,6 +161,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			final Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
 			final Chart cmClone = ( cm == null ) ? null
 					: (Chart) EcoreUtil.copy( cm );
+			
 			// This array is for storing the latest chart data before pressing
 			// apply button
 			final Object[] applyData = new Object[3];
@@ -238,6 +240,17 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			context.setExtendedItem( extendedHandle );
 			context.setProcessor( new ChartReportStyleProcessor( extendedHandle,
 					false ) );
+			
+			// #269935
+			// If it is sharing chart case, copy expressions settings from
+			// referred chart model into current.
+			ChartAdapter.beginIgnoreNotifications( );
+			if ( dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
+			{
+				ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( (ExtendedItemHandle) extendedHandle.getDataBindingReference( ) ),
+						context.getModel( ) );
+			}
+			ChartAdapter.endIgnoreNotifications( );
 			
 			isChartWizardOpen = true;
 			

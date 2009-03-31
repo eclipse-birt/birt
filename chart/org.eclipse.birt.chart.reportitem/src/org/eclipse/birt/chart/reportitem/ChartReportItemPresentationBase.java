@@ -188,7 +188,17 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		}
 		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
 		handle = eih;
-
+		
+		// #269935
+		// If it is sharing chart case, copy expressions settings from referred
+		// chart model into current.
+		if ( cm != null && handle.getDataBindingReference( ) != null
+				&& ChartReportItemUtil.isChartHandle( handle.getDataBindingReference( ) ) )
+		{
+			ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( (ExtendedItemHandle) handle.getDataBindingReference( ) ),
+					cm );
+		}
+		
 		setChartModelObject( item );
 	}
 

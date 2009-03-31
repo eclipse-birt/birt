@@ -31,8 +31,10 @@ import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -1455,5 +1457,157 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				&& ( handle.getContainer( ) instanceof CellHandle
 						|| handle.getContainer( ) instanceof ListHandle || handle.getContainer( ) instanceof ListGroupHandle )
 				&& !handle.getBooleanProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS );
+	}
+	
+	/**
+	 * Copy series definition from one chart model to another.
+	 */
+	public static void copyChartSeriesDefinition( Chart srcCM, Chart targetCM )
+	{
+
+		// Copy category series definitions.
+		EList<SeriesDefinition> srcRsds = ChartUtil.getBaseSeriesDefinitions( srcCM );
+		EList<SeriesDefinition> tagRsds = ChartUtil.getBaseSeriesDefinitions( targetCM );
+		for ( int i = 0; i < srcRsds.size( ); i++ )
+		{
+			SeriesDefinition sd = srcRsds.get( i );
+			SeriesDefinition tagSD = null;
+			if ( i >= tagRsds.size( ) )
+			{
+				tagSD = SeriesDefinitionImpl.create( );
+				// Add to target chart model.
+				if ( targetCM instanceof ChartWithAxes )
+				{
+					( (ChartWithAxes) targetCM ).getAxes( )
+							.get( 0 )
+							.getSeriesDefinitions( )
+							.add( tagSD );
+				}
+				else if ( targetCM instanceof ChartWithoutAxes )
+				{
+					( (ChartWithoutAxes) targetCM ).getSeriesDefinitions( )
+							.add( tagSD );
+				}
+			}
+			else
+			{
+				tagSD = tagRsds.get( i );
+			}
+
+			copySDQueryAttributes( sd, tagSD );
+		}
+
+		// Copy Y series definitions.
+		if ( targetCM instanceof ChartWithAxes )
+		{
+			EList<Axis> tagAxisList = ( (ChartWithAxes) targetCM ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( );
+
+			if ( srcCM instanceof ChartWithAxes )
+			{
+				EList<Axis> srcAxisList = ( (ChartWithAxes) srcCM ).getAxes( )
+						.get( 0 )
+						.getAssociatedAxes( );
+				int minsize = srcAxisList.size( ) > tagAxisList.size( ) ? tagAxisList.size( )
+						: srcAxisList.size( );
+				for ( int i = 0; i < minsize; i++ )
+				{
+					srcRsds = srcAxisList.get( i ).getSeriesDefinitions( );
+					tagRsds = tagAxisList.get( i ).getSeriesDefinitions( );
+
+					copySDListQueryAttributes( srcRsds, tagRsds );
+				}
+			}
+			else
+			{
+				srcRsds = ( (ChartWithoutAxes) srcCM ).getSeriesDefinitions( )
+						.get( 0 )
+						.getSeriesDefinitions( );
+				tagRsds = tagAxisList.get( 0 ).getSeriesDefinitions( );
+
+				copySDListQueryAttributes( srcRsds, tagRsds );
+			}
+		}
+		else
+		{
+			tagRsds = ( (ChartWithAxes) targetCM ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( )
+					.get( 0 )
+					.getSeriesDefinitions( );
+			if ( srcCM instanceof ChartWithAxes )
+			{
+				srcRsds = ( (ChartWithAxes) srcCM ).getAxes( )
+						.get( 0 )
+						.getAssociatedAxes( )
+						.get( 0 )
+						.getSeriesDefinitions( );
+			}
+			else
+			{
+				srcRsds = ( (ChartWithoutAxes) srcCM ).getSeriesDefinitions( )
+						.get( 0 )
+						.getSeriesDefinitions( );
+			}
+
+			copySDListQueryAttributes( srcRsds, tagRsds );
+		}
+	}
+
+	/**
+	 * @param srcRsds
+	 * @param tagRsds
+	 */
+	private static void copySDListQueryAttributes( EList<SeriesDefinition> srcRsds,
+			EList<SeriesDefinition> tagRsds )
+	{
+		int minSDsize= srcRsds.size( ) > tagRsds.size( ) ? tagRsds.size( ) : srcRsds.size( );
+		for ( int j = 0; j < minSDsize; j++ )
+		{
+			SeriesDefinition sd = srcRsds.get( j );
+			SeriesDefinition tagSD = tagRsds.get(j);
+			copySDQueryAttributes( sd, tagSD );
+		}
+	}
+
+	/**
+	 * @param sd
+	 * @param tagSD
+	 */
+	private static void copySDQueryAttributes( SeriesDefinition sd,
+			SeriesDefinition tagSD )
+	{
+		if ( sd.getQuery( ) != null )
+		{
+			tagSD.setQuery( sd.getQuery( ).copyInstance( ) );
+		}
+		else
+		{
+			tagSD.setQuery( null );
+		}
+		if ( sd.getGrouping( ) != null )
+		{
+			tagSD.setGrouping( sd.getGrouping( ).copyInstance( ) );
+		}
+		else 
+		{
+			tagSD.setGrouping( null );
+		}
+		tagSD.setSorting( sd.getSorting( ) );
+		if ( sd.getSortKey( ) != null )
+		{
+			tagSD.setSortKey( sd.getSortKey( ).copyInstance( ) );
+		}
+		else
+		{
+			tagSD.setSortKey( null );
+		}
+		
+		tagSD.getSeries( ).clear( );
+		for ( Series s : sd.getSeries( ) )
+		{
+			tagSD.getSeries( ).add( s.copyInstance( ) );
+		}
 	}
 }
