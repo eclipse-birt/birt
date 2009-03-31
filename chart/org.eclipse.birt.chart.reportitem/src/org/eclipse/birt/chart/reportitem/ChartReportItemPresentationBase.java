@@ -89,9 +89,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 	protected String sExtension = null;
 
-	private String sSupportedFormats = null;
-
-	private String outputFormat = null;
+	protected String outputChartFormat = ""; //$NON-NLS-1$
 
 	private int outputType = -1;
 
@@ -130,42 +128,31 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	/**
 	 * check if the format is supported by the browser and device renderer.
 	 */
-	private boolean isOutputRendererSupported( String format )
+	protected boolean isOutputRendererSupported( String format )
 	{
-		if ( format != null )
+		if ( format != null
+				&& supportedImageFormats != null
+				&& ( supportedImageFormats.indexOf( format ) != -1 ) )
 		{
-			if ( sSupportedFormats != null
-					&& ( sSupportedFormats.indexOf( format ) != -1 ) )
-			{
-				return registeredDevices.contains( format );
-			}
+			return registeredDevices.contains( format );
 		}
 		return false;
 	}
 
-	private String getFirstSupportedFormat( String formats )
+	protected String getFirstSupportedFormat( )
 	{
-		if ( formats != null && formats.length( ) > 0 )
+		if ( supportedImageFormats != null
+				&& supportedImageFormats.trim( ).length( ) > 0 )
 		{
-			int idx = formats.indexOf( ';' );
-			if ( idx == -1 )
+			String[] array = supportedImageFormats.split( ";" ); //$NON-NLS-1$
+			if ( array.length > 0 )
 			{
-				if ( isOutputRendererSupported( formats ) )
+				for ( int i = 0; i < array.length; i++ )
 				{
-					return formats;
-				}
-			}
-			else
-			{
-				String ext = formats.substring( 0, idx );
-
-				if ( isOutputRendererSupported( ext ) )
-				{
-					return ext;
-				}
-				else
-				{
-					return getFirstSupportedFormat( formats.substring( idx + 1 ) );
+					if ( isOutputRendererSupported( array[i] ) )
+					{
+						return array[i];
+					}
 				}
 			}
 		}
@@ -207,7 +194,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		Object of = handle.getProperty( ChartReportItemConstants.PROPERTY_OUTPUT );
 		if ( of instanceof String )
 		{
-			outputFormat = (String) of;
+			outputChartFormat = (String) of;
 		}
 
 		of = item.getProperty( ChartReportItemConstants.PROPERTY_SCALE );
@@ -273,14 +260,14 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	 */
 	public void setOutputFormat( String sOutputFormat )
 	{
+		super.setOutputFormat( sOutputFormat );
 		if ( sOutputFormat.equalsIgnoreCase( "HTML" ) ) //$NON-NLS-1$
 		{
-			if ( isOutputRendererSupported( outputFormat ) )
+			if ( isOutputRendererSupported( outputChartFormat ) )
 			{
-				sExtension = outputFormat;
+				sExtension = outputChartFormat;
 			}
-			else if ( outputFormat != null
-					&& outputFormat.toUpperCase( ).equals( "GIF" ) && //$NON-NLS-1$ 
+			else if ( outputChartFormat.equalsIgnoreCase( "GIF" ) && //$NON-NLS-1$ 
 					isOutputRendererSupported( "PNG" ) ) //$NON-NLS-1$
 			{
 				// render old GIF charts as PNG
@@ -293,52 +280,20 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			}
 			else
 			{
-				sExtension = getFirstSupportedFormat( sSupportedFormats );
-			}
-		}
-		else if ( sOutputFormat.equalsIgnoreCase( "PDF" ) ) //$NON-NLS-1$
-		{
-			if ( outputFormat != null
-					&& outputFormat.toUpperCase( ).equals( "SVG" ) ) //$NON-NLS-1$
-			{
-				// Since engine doesn't support embedding SVG, always embed PNG
-				sExtension = "PNG"; //$NON-NLS-1$
-			}
-			else if ( isOutputRendererSupported( outputFormat ) )
-			{
-				sExtension = outputFormat;
-			}
-			else if ( isOutputRendererSupported( "PNG" ) ) //$NON-NLS-1$
-			{
-				// PNG is the preferred output for PDF
-				sExtension = "PNG"; //$NON-NLS-1$
-			}
-			else
-			{
-				sExtension = getFirstSupportedFormat( sSupportedFormats );
+				sExtension = getFirstSupportedFormat( );
 			}
 		}
 		else
 		{
-			if ( isOutputRendererSupported( outputFormat ) )
+			if ( isOutputRendererSupported( outputChartFormat ) )
 			{
-				sExtension = outputFormat;
+				sExtension = outputChartFormat;
 			}
 			else
 			{
-				sExtension = getFirstSupportedFormat( sSupportedFormats );
+				sExtension = getFirstSupportedFormat( );
 			}
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setSupportedImageFormats(java.lang.String)
-	 */
-	public void setSupportedImageFormats( String sSupportedFormats )
-	{
-		this.sSupportedFormats = sSupportedFormats;
 	}
 
 	/*
@@ -1046,7 +1001,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	private void initializeRuntimeContext(
 			IDataRowExpressionEvaluator rowAdapter )
 	{
-
 		rtc.setActionRenderer( createActionRenderer( this.handle,
 				this.ah,
 				rowAdapter,
