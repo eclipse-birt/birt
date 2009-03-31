@@ -1287,7 +1287,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			defineDataSourceDataSet( (JointDataSetHandle) handle );
 		}
 
-		if ( ( (DataEngineImpl) dataEngine ).getDataSetDesign( handle.getName( ) ) == null )
+		if ( ( (DataEngineImpl) dataEngine ).getDataSetDesign( handle.getQualifiedName( ) ) == null )
 		{
 			BaseDataSetDesign baseDS = this.modelAdaptor.adaptDataSet( handle );
 			dataEngine.defineDataSet( baseDS );
