@@ -548,29 +548,8 @@ public class ExcelLayoutEngine
 
 	private Data createDateData( Object txt, StyleEntry entry, String timeFormat )
 	{
-		timeFormat = ExcelUtil.parse( timeFormat, locale );
-		if ( timeFormat.equals( "" ) )
-		{
-			if ( txt instanceof java.sql.Date )
-			{
-				timeFormat = DateTimeUtil
-						.formatDateTime( "MMM d, yyyy", locale );
-			}
-			else if ( txt instanceof java.sql.Time )
-			{
-				timeFormat = DateTimeUtil.formatDateTime( "H:mm:ss AM/PM",
-						locale );
-			}
-			else
-			{
-				timeFormat = DateTimeUtil.formatDateTime(
-						"MMM d, yyyy H:mm AM/PM", locale );
-			}
-		}
-		else
-		{
-			timeFormat = DateTimeUtil.formatDateTime( timeFormat, locale );
-		}
+		timeFormat = ExcelUtil.parse( txt, timeFormat, locale );
+		timeFormat = DateTimeUtil.formatDateTime( timeFormat, locale );
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, timeFormat );
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Integer
 				.toString( SheetData.DATE ) );

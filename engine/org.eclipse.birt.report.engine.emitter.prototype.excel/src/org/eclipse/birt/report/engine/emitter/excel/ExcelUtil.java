@@ -742,11 +742,24 @@ public class ExcelUtil
 		}
 	}
 	
-	public static String parse( String dateTime, ULocale locale )
+	public static String parse( Object txt, String dateTime, ULocale locale )
 	{
 		if ( dateTime == null )
 		{
-			return "";
+			DateFormatter format = new DateFormatter( locale );
+			if ( txt instanceof java.sql.Date )
+			{
+				format.applyPattern( DateFormatter.DATE_UNFORMATTED );
+			}
+			else if ( txt instanceof java.sql.Time )
+			{
+				format.applyPattern( DateFormatter.TIME_UNFORMATTED );
+			}
+			else
+			{
+				format.applyPattern( DateFormatter.DATETIME_UNFORMATTED );
+			}
+			dateTime = format.getLocalizedFormatCode( );
 		}
 		if ( dateTime.indexOf( "Date" ) != -1
 				|| dateTime.indexOf( "Time" ) != -1 )

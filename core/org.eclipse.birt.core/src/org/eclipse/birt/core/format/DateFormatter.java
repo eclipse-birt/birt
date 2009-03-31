@@ -527,7 +527,7 @@ public class DateFormatter
 				DATE_UNFORMATTED.equals( formatPattern ) ||
 				TIME_UNFORMATTED.equals( formatPattern ) )
 		{
-			return "";
+			return ( (SimpleDateFormat) dateFormat ).toPattern( );
 		}
 			
 		SimpleDateFormat dateFormat = getFormatter();
@@ -543,7 +543,7 @@ public class DateFormatter
 				DATE_UNFORMATTED.equals( formatPattern ) ||
 				TIME_UNFORMATTED.equals( formatPattern ) )
 		{
-			return "";
+			return ( (SimpleDateFormat) dateFormat ).toLocalizedPattern( );
 		}
 			
 		SimpleDateFormat dateFormat = getFormatter();
