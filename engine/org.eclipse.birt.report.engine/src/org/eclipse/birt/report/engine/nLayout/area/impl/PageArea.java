@@ -519,10 +519,12 @@ public class PageArea extends BlockContainerArea
 				return;
 			}
 			this.setScale( scale );
+			getBody( ).setNeedClip( false );
 			updatePageDimension( scale, this );
 		}
 		else if ( overFlowType == IPDFRenderOption.ENLARGE_PAGE_SIZE )
 		{
+			getBody( ).setNeedClip( false );
 			updatePageDimension( this );
 		}
 

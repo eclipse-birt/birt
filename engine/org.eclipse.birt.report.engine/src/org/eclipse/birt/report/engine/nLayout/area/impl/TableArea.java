@@ -86,7 +86,7 @@ public class TableArea extends RepeatableArea
 		if ( table != null && table.isHeaderRepeat( ) )
 		{
 			IContent header = (IContent) table.getHeader( );
-			if ( header != null && header.getChildren( ).size( ) > 0 )
+			if ( header != null  )
 			{
 				return true;
 			}
@@ -225,6 +225,10 @@ public class TableArea extends RepeatableArea
 		captionCell.setContentHeight( h );
 		captionRow.setHeight( captionCell.getAllocatedHeight( ) );
 		add( captionRow );
+		if(repeatList==null)
+		{
+			repeatList = new ArrayList();
+		}
 		repeatList.add( captionRow );
 		update(captionRow);
 	}

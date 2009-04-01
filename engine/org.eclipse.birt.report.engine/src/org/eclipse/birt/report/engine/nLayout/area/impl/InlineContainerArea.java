@@ -117,6 +117,7 @@ public class InlineContainerArea extends InlineStackingArea
 		currentIP = getContentX( );
 		bookmark = content.getBookmark( );
 		action = content.getHyperlinkAction( );
+		vAlign = style.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
 		parent.add( this );
 	}
 
