@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
@@ -1424,7 +1425,8 @@ public class DataProcessor
 	 * @param lhmLookup
 	 * @param rowSet
 	 */
-	public void formatBaseSeriesData( Chart cm, GroupingLookupHelper lhmLookup, List rowSet )
+	public void formatBaseSeriesData( Chart cm, GroupingLookupHelper lhmLookup,
+			List rowSet ) throws ChartException
 	{
 		SeriesDefinition sdBase = null;
 
@@ -1455,7 +1457,14 @@ public class DataProcessor
 		final int iBaseColumnIndex = lhmLookup.findIndexOfBaseSeries( q.getDefinition( ) );
 
 		final DataType dtGrouping = sg.getGroupType( );
-		if ( dtGrouping == DataType.DATE_TIME_LITERAL )
+		String aggr = sdBase.getGrouping( ).getAggregateExpression( );
+		IAggregateFunction aFunc = PluginSettings.instance( )
+				.getAggregateFunction( aggr );
+
+		boolean bIsSumAggr = aFunc != null
+				&& aFunc.getType( ) == IAggregateFunction.SUMMARY_AGGR;
+
+		if ( dtGrouping == DataType.DATE_TIME_LITERAL && bIsSumAggr )
 		{
 			int cunit = GroupingUtil.groupingUnit2CDateUnit( sg.getGroupingUnit( ) );
 			CDateTime baseReference = null;
