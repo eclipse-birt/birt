@@ -173,7 +173,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		else
 		{
 			localProperties.setPaddingTop( PropertyUtil.getDimensionValue(
-					padding, width ) );
+					style.getProperty( IStyle.STYLE_PADDING_TOP ), width ) );
 		}
 		padding = cs.getProperty( IStyle.STYLE_PADDING_BOTTOM );
 		if ( padding == null )
@@ -183,7 +183,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		else
 		{
 			localProperties.setPaddingBottom( PropertyUtil.getDimensionValue(
-					padding, width ) );
+					style.getProperty( IStyle.STYLE_PADDING_BOTTOM ), width ) );
 		}
 		padding = cs.getProperty( IStyle.STYLE_PADDING_LEFT );
 		if ( padding == null )
@@ -193,7 +193,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		else
 		{
 			localProperties.setPaddingLeft( PropertyUtil.getDimensionValue(
-					padding, width ) );
+					style.getProperty( IStyle.STYLE_PADDING_LEFT ), width ) );
 		}
 		padding = cs.getProperty( IStyle.STYLE_PADDING_RIGHT);
 		if ( padding == null )
@@ -203,7 +203,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		else
 		{
 			localProperties.setPaddingRight( PropertyUtil.getDimensionValue(
-					padding, width ) );
+					style.getProperty( IStyle.STYLE_PADDING_RIGHT), width ) );
 		}
 		textAlign = content.getComputedStyle( ).getProperty( IStyle.STYLE_TEXT_ALIGN );
 	}
