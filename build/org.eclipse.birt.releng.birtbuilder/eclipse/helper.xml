@@ -1332,7 +1332,7 @@ Have a nice day!
         
         <target name="NoDiskSpace">
             <property file="${eclipse.build.configs}/../../config.properties" />
-            <mail mailport="${mail.port}" subject="No enough disk space for build on {local.hostname}" tolist="${build.engineer},${QA.leaders}">
+            <mail mailport="${mail.port}" subject="No enough disk space for build on ${local.hostname}" tolist="${build.engineer},${QA.leaders}">
                   <from address="${mail.from}"/>
                   <replyto address="${replyto.address}"/>
                   <message>
@@ -1348,7 +1348,7 @@ Hi All,
 
         <target name="DiskSpaceWarning">
             <property file="${eclipse.build.configs}/../../config.properties" />
-            <mail mailport="${mail.port}" subject="Disk space warning on {local.hostname}" tolist="${build.engineer}">
+            <mail mailport="${mail.port}" subject="Disk space warning on ${local.hostname}" tolist="${build.engineer}">
                   <from address="${mail.from}"/>
                   <replyto address="${replyto.address}"/>
                   <message>
