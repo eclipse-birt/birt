@@ -84,6 +84,7 @@ public class ChartEngine
 	 * from/to an XML stream
 	 * 
 	 * @return A Serializer instance
+	 * @deprecated
 	 */
 	public Serializer getSerializer( )
 	{
