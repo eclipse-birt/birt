@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.ir;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -21,7 +20,7 @@ import java.util.List;
 abstract public class ListingDesign extends ReportItemDesign
 {
 
-	protected Expression<Boolean> repeatHeader;
+	protected Expression<Boolean> repeatHeader = Expression.newConstant( false );
 	
 	/**
 	 * header of the listing design.

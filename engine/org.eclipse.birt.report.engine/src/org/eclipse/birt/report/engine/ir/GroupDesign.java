@@ -43,12 +43,12 @@ public abstract class GroupDesign extends ReportItemDesign
 	/**
 	 * group hideDetail
 	 */
-	protected Expression<Boolean> hideDetail;
+	protected Expression<Boolean> hideDetail = Expression.newConstant( false );
 	
 	/**
 	 * does the header need to be repeated in each page.
 	 */
-	protected Expression<Boolean> headerRepeat;
+	protected Expression<Boolean> headerRepeat = Expression.newConstant( false );
 
 	/**
 	 * group header

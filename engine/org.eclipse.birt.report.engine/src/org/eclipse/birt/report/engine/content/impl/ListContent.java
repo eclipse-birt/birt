@@ -13,8 +13,8 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.Expression;
+import org.eclipse.birt.report.engine.ir.ListItemDesign;
 
 public class ListContent extends ContainerContent implements IListContent
 {
@@ -67,8 +67,8 @@ public class ListContent extends ContainerContent implements IListContent
 		}
 		if ( generateBy instanceof ListItemDesign )
 		{
-			return getConstantValue( ( (ListItemDesign) generateBy )
-					.isRepeatHeader( ) );
+			return getBooleanValue( ( (ListItemDesign) generateBy )
+					.isRepeatHeader( ), false );
 		}
 
 		return false;

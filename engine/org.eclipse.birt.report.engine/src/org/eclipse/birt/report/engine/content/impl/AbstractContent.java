@@ -843,6 +843,16 @@ abstract public class AbstractContent extends AbstractElement
 		this.acl = acl;
 	}
 
+	protected boolean getBooleanValue( Expression<Boolean> boolExpression,
+			boolean defaultValue )
+	{
+		if ( boolExpression == null )
+		{
+			return defaultValue;
+		}
+		return getConstantValue( boolExpression );
+	}
+
 	protected <T> T getConstantValue(Expression<T> value)
 	{
 		if ( value == null )

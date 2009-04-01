@@ -42,7 +42,8 @@ public class ColumnDesign extends StyledElementDesign
 	/**
 	 * If this column is a column header.
 	 */
-	protected Expression<Boolean> isColumnHeader = Expression.newConstant( Boolean.FALSE );;
+	protected Expression<Boolean> isColumnHeader = Expression
+			.newConstant( false );;
 
 	/*
 	 * Set the column header state.
