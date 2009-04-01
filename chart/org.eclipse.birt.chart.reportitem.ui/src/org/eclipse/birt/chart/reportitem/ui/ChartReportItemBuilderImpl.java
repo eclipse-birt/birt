@@ -247,7 +247,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			ChartAdapter.beginIgnoreNotifications( );
 			if ( dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
 			{
-				ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( (ExtendedItemHandle) extendedHandle.getDataBindingReference( ) ),
+				ExtendedItemHandle refHandle = (ExtendedItemHandle) ChartReportItemUtil.getChartReferenceItemHandle( extendedHandle );
+				ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
 						context.getModel( ) );
 			}
 			ChartAdapter.endIgnoreNotifications( );

@@ -1460,11 +1460,40 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	}
 	
 	/**
+	 * Returns report item handle that is a chart handle and is referred by other chart recursively.
+	 * 
+	 * @param handle
+	 * @return
+	 * @since 2.5
+	 */
+	public static ReportItemHandle getChartReferenceItemHandle( ReportItemHandle handle )
+	{
+		ReportItemHandle refHandle = handle.getDataBindingReference( ) ;
+		if ( refHandle == null )
+		{
+			return null;
+		}
+		
+		if ( isChartHandle( refHandle) && refHandle.getDataBindingReference( ) != null )
+		{
+			return getChartReferenceItemHandle( refHandle );
+		}
+		else
+		{
+			return refHandle;
+		}
+	}
+	
+	/**
 	 * Copy series definition from one chart model to another.
+	 *
+	 * @param srcCM
+	 * @param targetCM
+	 * @since 2.5
 	 */
 	public static void copyChartSeriesDefinition( Chart srcCM, Chart targetCM )
 	{
-
+		boolean isSameType = srcCM.getType( ).equals( targetCM.getType( ) );
 		// Copy category series definitions.
 		EList<SeriesDefinition> srcRsds = ChartUtil.getBaseSeriesDefinitions( srcCM );
 		EList<SeriesDefinition> tagRsds = ChartUtil.getBaseSeriesDefinitions( targetCM );
@@ -1509,14 +1538,47 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				EList<Axis> srcAxisList = ( (ChartWithAxes) srcCM ).getAxes( )
 						.get( 0 )
 						.getAssociatedAxes( );
-				int minsize = srcAxisList.size( ) > tagAxisList.size( ) ? tagAxisList.size( )
-						: srcAxisList.size( );
-				for ( int i = 0; i < minsize; i++ )
+				
+				if ( tagAxisList.size( ) > srcAxisList.size( ) )
 				{
-					srcRsds = srcAxisList.get( i ).getSeriesDefinitions( );
-					tagRsds = tagAxisList.get( i ).getSeriesDefinitions( );
+					for ( int i = ( tagAxisList.size( ) - 1 ); i >= srcAxisList.size(); i-- )
+					{
+						tagAxisList.remove( i );
+					}
+				}
+				
+				if ( isSameType )
+				{
+					// If source chart type is equal with target chart type,
+					// copy additional axes from source into target.
+					
+					for ( int i = 0; i < srcAxisList.size( ); i++ )
+					{
+						if ( i >= tagAxisList.size( ) )
+						{
+							// src size > target size, copy pending axis from
+							// source to target.
+							tagAxisList.add( srcAxisList.get( i )
+									.copyInstance( ) );
+						}
 
-					copySDListQueryAttributes( srcRsds, tagRsds );
+						srcRsds = srcAxisList.get( i ).getSeriesDefinitions( );
+						tagRsds = tagAxisList.get( i ).getSeriesDefinitions( );
+
+						copySDListQueryAttributes( srcRsds, tagRsds, isSameType );
+					}
+				}
+				else
+				{
+					int minsize = srcAxisList.size( ) > tagAxisList.size( ) ? tagAxisList.size( )
+							: srcAxisList.size( );
+					for ( int i = 0; i < minsize; i++ )
+					{
+						srcRsds = srcAxisList.get( i ).getSeriesDefinitions( );
+						tagRsds = tagAxisList.get( i ).getSeriesDefinitions( );
+
+						copySDListQueryAttributes( srcRsds, tagRsds, isSameType );
+					}
 				}
 			}
 			else
@@ -1524,16 +1586,21 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				srcRsds = ( (ChartWithoutAxes) srcCM ).getSeriesDefinitions( )
 						.get( 0 )
 						.getSeriesDefinitions( );
+				if ( tagAxisList.size( ) > 1 )
+				{
+					for ( int i = 1; i< tagAxisList.size( ); i++ )
+					{
+						tagAxisList.remove( i );
+					}
+				}
 				tagRsds = tagAxisList.get( 0 ).getSeriesDefinitions( );
 
-				copySDListQueryAttributes( srcRsds, tagRsds );
+				copySDListQueryAttributes( srcRsds, tagRsds, isSameType );
 			}
 		}
 		else
 		{
-			tagRsds = ( (ChartWithAxes) targetCM ).getAxes( )
-					.get( 0 )
-					.getAssociatedAxes( )
+			tagRsds = ( (ChartWithoutAxes) targetCM ).getSeriesDefinitions( )
 					.get( 0 )
 					.getSeriesDefinitions( );
 			if ( srcCM instanceof ChartWithAxes )
@@ -1551,7 +1618,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 						.getSeriesDefinitions( );
 			}
 
-			copySDListQueryAttributes( srcRsds, tagRsds );
+			copySDListQueryAttributes( srcRsds, tagRsds, isSameType );
 		}
 	}
 
@@ -1560,14 +1627,42 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 * @param tagRsds
 	 */
 	private static void copySDListQueryAttributes( EList<SeriesDefinition> srcRsds,
-			EList<SeriesDefinition> tagRsds )
+			EList<SeriesDefinition> tagRsds, boolean sameChartType )
 	{
-		int minSDsize= srcRsds.size( ) > tagRsds.size( ) ? tagRsds.size( ) : srcRsds.size( );
-		for ( int j = 0; j < minSDsize; j++ )
+		if ( tagRsds.size( ) > srcRsds.size( ) )
 		{
-			SeriesDefinition sd = srcRsds.get( j );
-			SeriesDefinition tagSD = tagRsds.get(j);
-			copySDQueryAttributes( sd, tagSD );
+			for ( int i = (tagRsds.size( ) -1 ); i >= srcRsds.size( ); i-- )
+			{
+				tagRsds.remove( i );
+			}
+		}
+		
+		if ( sameChartType )
+		{
+			for (int i =0; i < srcRsds.size( ); i++ )
+			{
+				if ( i >= tagRsds.size( ) )
+				{
+					// Copy 
+					tagRsds.add( srcRsds.get( i ).copyInstance( ) );
+				}
+				
+				SeriesDefinition sd = srcRsds.get( i );
+				SeriesDefinition tagSD = tagRsds.get( i );
+				copySDQueryAttributes( sd, tagSD );
+			}
+		}
+		else
+		{
+			int minSDsize = srcRsds.size( ) > tagRsds.size( ) ? tagRsds.size( )
+					: srcRsds.size( );
+			for ( int i= 0; i < minSDsize; i++ )
+			{
+				SeriesDefinition sd = srcRsds.get( i );
+				SeriesDefinition tagSD = tagRsds.get( i );
+				copySDQueryAttributes( sd, tagSD );
+
+			}
 		}
 	}
 
@@ -1578,7 +1673,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	private static void copySDQueryAttributes( SeriesDefinition sd,
 			SeriesDefinition tagSD )
 	{
-		if ( sd.getQuery( ) != null )
+		if ( sd.getQuery( ) != null  )
 		{
 			tagSD.setQuery( sd.getQuery( ).copyInstance( ) );
 		}
@@ -1594,7 +1689,11 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		{
 			tagSD.setGrouping( null );
 		}
-		tagSD.setSorting( sd.getSorting( ) );
+		if ( sd.isSetSorting( ) )
+		{
+			tagSD.setSorting( sd.getSorting( ) );
+		}
+		
 		if ( sd.getSortKey( ) != null )
 		{
 			tagSD.setSortKey( sd.getSortKey( ).copyInstance( ) );
@@ -1603,11 +1702,42 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		{
 			tagSD.setSortKey( null );
 		}
-		
-		tagSD.getSeries( ).clear( );
-		for ( Series s : sd.getSeries( ) )
+		if ( sd.isSetZOrder( ) )
 		{
-			tagSD.getSeries( ).add( s.copyInstance( ) );
+			tagSD.setZOrder( sd.getZOrder( ) );
+		}
+		int tagSize = tagSD.getSeries( ).size( );
+		int srcSize = sd.getSeries( ).size( );
+		if ( tagSize > srcSize )
+		{
+			for ( int i = ( tagSize - 1 ); i >= srcSize; i-- )
+				tagSD.getSeries( ).remove( i );
+		}
+		
+		// Copy data definitions.
+		int i = 0;
+		for ( ; i < srcSize; i++  )
+		{
+			if ( i >= tagSize)
+			{
+				// New a series and copy data definitions.
+				Series tagSeries = tagSD.getSeries( ).get( 0 ).copyInstance( );
+				tagSD.getSeries( ).add(  tagSeries  );
+				
+				Series srcSeries = sd.getSeries( ).get( i );
+				tagSeries.getDataDefinition( ).clear( );
+				for ( Query q : srcSeries.getDataDefinition( ) )
+					tagSeries.getDataDefinition().add( q.copyInstance( ) );
+			}
+			else
+			{
+				// Copy data definitions.
+				Series tagSeries = tagSD.getSeries().get( i );
+				Series srcSeries = sd.getSeries( ).get( i );
+				tagSeries.getDataDefinition( ).clear( );
+				for ( Query q : srcSeries.getDataDefinition( ) )
+					tagSeries.getDataDefinition().add( q.copyInstance( ) );
+			}
 		}
 	}
 }

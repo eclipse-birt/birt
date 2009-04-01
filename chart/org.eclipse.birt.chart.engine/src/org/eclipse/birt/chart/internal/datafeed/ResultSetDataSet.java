@@ -175,7 +175,7 @@ public final class ResultSetDataSet implements IResultSetDataSet
 			return listDataType;
 		}
 
-		if ( iaColumnIndexes.length == 1 )
+		if ( iaColumnIndexes.length >= 1 )
 		{
 			return rsw.getColumnDataType( iaColumnIndexes[0] );
 		}

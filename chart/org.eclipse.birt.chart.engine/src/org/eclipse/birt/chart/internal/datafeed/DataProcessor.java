@@ -636,7 +636,11 @@ public class DataProcessor
 
 					Object[] odata = populateSeriesDataSet( seOrthogonalRuntimeSeries,
 							rsw.getSubset( k,
-									seOrthogonalDesignSeries.getDataDefinition( ),
+									rsw.getLookupHelper( )
+									.getValueSeriesExprBuilder( )
+									.buildExpr( seOrthogonalDesignSeries.getDataDefinition( ),
+											sdOrthogonal,
+											sdBase ),
 									aggExp ),
 							rsw.getSubset( k, triggerExprs, aggExp ) );
 
