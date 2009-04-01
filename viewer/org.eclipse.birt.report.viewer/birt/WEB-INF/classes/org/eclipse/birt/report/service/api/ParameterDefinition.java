@@ -113,6 +113,11 @@ public class ParameterDefinition
 		this.isMultiValue = isMultiValue;
 		this.group = group;
 		this.selectionList = selectionList;
+		
+		if ( group != null && group.cascade( ) )
+		{
+			this.isMultiValue = false;
+		}		
 	}
 
 	/**
