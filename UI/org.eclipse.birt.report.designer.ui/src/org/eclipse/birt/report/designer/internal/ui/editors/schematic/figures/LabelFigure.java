@@ -45,7 +45,7 @@ public class LabelFigure extends ReportElementFigure
 
 	private String display;
 
-	private Dimension recommendSize;
+	private Dimension recommendSize = new Dimension();
 
 	/**
 	 * Creates a new LabelFigure with a default MarginBorder size 3 and a
@@ -54,6 +54,14 @@ public class LabelFigure extends ReportElementFigure
 	public LabelFigure( )
 	{
 		this( 1 );
+	}
+	
+	/**
+	 * @return
+	 */
+	public String getDisplay( )
+	{
+		return display;
 	}
 
 	/**
@@ -127,7 +135,7 @@ public class LabelFigure extends ReportElementFigure
 	 * 
 	 * @see org.eclipse.draw2d.IFigure#getPreferredSize(int, int)
 	 */
-	public Dimension getPreferredSize( int wHint, int hHint )
+	private Dimension getPreferredSize( int wHint, int hHint, boolean isFix )
 	{
 		int rx = recommendSize != null ? recommendSize.width : 0;
 		int ry = recommendSize != null ? recommendSize.height : 0;
@@ -136,8 +144,18 @@ public class LabelFigure extends ReportElementFigure
 
 		Dimension dim = null;
 
+		if(isFix)
+		{
+			int tempHint = wHint;
+			int maxWidth = calcMaxSegment( );
+			if (wHint < maxWidth)
+			{
+				tempHint = maxWidth;
+			}
+			dim = super.getPreferredSize( tempHint <= 0 ? -1 : tempHint, hHint );
+		}
 		// only when display is block, use passed in wHint
-		if ( DesignChoiceConstants.DISPLAY_BLOCK.equals( display ) )
+		else if ( DesignChoiceConstants.DISPLAY_BLOCK.equals( display ) )
 		{
 			dim = super.getPreferredSize( rx == 0 ? wHint : rx, hHint );
 		}
@@ -149,13 +167,23 @@ public class LabelFigure extends ReportElementFigure
 		return new Dimension( Math.max( dim.width, rx ), Math.max( dim.height,
 				ry ) );
 	}
+	
+	public Dimension getPreferredSize( int wHint, int hHint )
+	{
+		return getPreferredSize( wHint, hHint, false );
+	}
 
+	
+	public Dimension getMinimumSize( int wHint, int hHint )
+	{
+		return getMinimumSize( wHint, hHint, false );
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.draw2d.Figure#getMinimumSize(int, int)
 	 */
-	public Dimension getMinimumSize( int wHint, int hHint )
+	private Dimension getMinimumSize( int wHint, int hHint, boolean isFix )
 	{
 		if ( DesignChoiceConstants.DISPLAY_NONE.equals( display ) )
 		{
@@ -179,9 +207,25 @@ public class LabelFigure extends ReportElementFigure
 
 			return dim;
 		}
-
+		Dimension dim;
 		// return the true minimum size with minimum width;
-		Dimension dim = super.getMinimumSize( rx == 0 ? -1 : rx, hHint );
+		if(isFix)
+		{
+			int tempHint = wHint;
+			int maxWidth = calcMaxSegment( );
+			if (wHint < maxWidth)
+			{
+				tempHint = maxWidth;
+			}
+			dim = super.getMinimumSize( tempHint <= 0 ? -1 : tempHint, hHint );
+			
+			return new Dimension( Math.max( dim.width, rx ), Math.max( dim.height,
+					ry ) );
+		}
+		else
+		{
+			dim = super.getMinimumSize( rx == 0 ? -1 : rx, hHint );
+		}
 
 		if ( dim.width < wHint )
 		{
@@ -249,7 +293,7 @@ public class LabelFigure extends ReportElementFigure
 		{
 			maxWidth = tempMaxWidth;
 		}
-		return maxWidth;
+		return maxWidth  + getInsets( ).getWidth( ) ;
 	}
 
 	static final BreakIterator LINE_BREAK = BreakIterator.getLineInstance( );
@@ -496,5 +540,78 @@ public class LabelFigure extends ReportElementFigure
 	public void setDirection( String direction )
 	{
 		label.setDirection( direction );
+	}
+	
+	@Override
+	public Dimension getFixPreferredSize( int w, int h )
+	{
+		int width = 0;
+		int height = 0;
+		if (recommendSize.width > 0)
+		{
+			width = recommendSize.width;
+		}
+		else
+		{
+			width = getPreferredSize( w, h, true ).width;
+		}	
+		
+		if (recommendSize.height > 0)
+		{
+			height = recommendSize.height;
+		}
+		else
+		{
+			height = getPreferredSize( w, h, true ).height;
+		}
+		
+		return new Dimension(width, height);
+	}
+	
+	@Override
+	public Dimension getFixMinimumSize( int w, int h )
+	{
+		int width = 0;
+		int height = 0;
+		if (recommendSize.width > 0)
+		{
+			width = recommendSize.width;
+		}
+		else
+		{
+			if (recommendSize.height > 0)
+			{
+				width = getMinimumSize( w, recommendSize.height, true ).width;
+			}
+			else
+			{
+				width = getMinimumSize( w, h, true ).width;
+			}
+		}	
+		
+		if (recommendSize.height > 0)
+		{
+			height = recommendSize.height;
+		}
+		else
+		{
+			if (recommendSize.width > 0)
+			{
+				height = getMinimumSize( width, h, true ).height;
+			}
+			else
+			{
+				height = getMinimumSize( w, h, true ).height;
+			}
+		}
+		
+		return new Dimension(width, height);
+	}
+	
+	@Override
+	public void setBounds( Rectangle rect )
+	{
+		// TODO Auto-generated method stub
+		super.setBounds( rect );
 	}
 }

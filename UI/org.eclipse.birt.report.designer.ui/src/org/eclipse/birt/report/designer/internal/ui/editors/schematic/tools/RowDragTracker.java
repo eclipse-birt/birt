@@ -19,8 +19,11 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.MetricUtility;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.IFigure;
@@ -57,7 +60,7 @@ public class RowDragTracker extends TableDragGuideTracker
 	protected void resize( )
 	{
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
-		int value = getLocation( ).y - getStartLocation( ).y;
+		int value = getMouseTrueValueY( );
 		part.getTableAdapter( ).transStar(RESIZE_COLUMN_TRANS_LABEL );
 		if (isresizeMultipleRow( ))
 		{
@@ -151,6 +154,32 @@ public class RowDragTracker extends TableDragGuideTracker
 		}
 	}
 	
+	private void resizeFixRow(int value, int start, int end)
+	{
+		TableEditPart part = (TableEditPart) getSourceEditPart( );
+		Object row = part.getRow( start );
+		
+		if (!(row instanceof RowHandle))	
+		{
+			return ;
+		}
+		
+		int rowHeight = TableUtil.caleVisualHeight( part, row );
+		
+		try
+		{
+			double height = converPixToDefaultUnit( rowHeight + getTrueValue( value ) );
+			DimensionValue dimensionValue = new DimensionValue( height,
+					getDefaultUnits( ) );
+			
+			((RowHandle)row).getHeight( ).setValue( dimensionValue );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+	
 	private boolean isresizeMultipleRow()
 	{
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
@@ -189,7 +218,7 @@ public class RowDragTracker extends TableDragGuideTracker
 		Insets insets = figure.getInsets( );
 
 		int value = getLocation( ).y - getStartLocation( ).y;
-		value = getTrueValue( value );
+		value = getTrueValueAbsolute( value );
 
 		Point p = getStartLocation( ).getCopy( );
 		figure.translateToAbsolute( p );
@@ -246,8 +275,7 @@ public class RowDragTracker extends TableDragGuideTracker
 	
 	private String getShowLabel(int pix)
 	{
-		TableEditPart part = (TableEditPart) getSourceEditPart( );
-		String unit = part.getTableAdapter( ).getHandle( ).getModuleHandle( ).getDefaultUnits( );
+		String unit = getDefaultUnits( );
 		
 		double doubleValue = MetricUtility.pixelToPixelInch( pix );
 		double showValue = DimensionUtil.convertTo( doubleValue,DesignChoiceConstants.UNITS_IN, unit ).getMeasure( );
@@ -265,11 +293,75 @@ public class RowDragTracker extends TableDragGuideTracker
 	{
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
 		boolean bool =  super.handleDragInProgress( );
-		int value = getTrueValue( getLocation( ).y - getStartLocation( ).y);
+		//int value = getTrueValue( getLocation( ).y - getStartLocation( ).y);
+		int value = getTrueValue( getMouseTrueValueY( ) );
 		
 		int adjustWidth = TableUtil.caleVisualHeight(  part, part.getRow( getStart( ) ) ) + value;
 		updateInfomation( getShowLabel( adjustWidth ) );
 		return bool;
+		
+	}
+	
+	@Override
+	protected void fitResize( )
+	{
+		TableEditPart part = (TableEditPart) getSourceEditPart( );
+		int value = getMouseTrueValueY( );
+		part.getTableAdapter( ).transStar(RESIZE_COLUMN_TRANS_LABEL );
+		int height = 0;
+		if (isresizeMultipleRow( ))
+		{
+			List list = filterEditPart( part.getViewer( ).getSelectedEditParts( ));
+
+			for (int i=0; i<list.size( ); i++)
+			{
+				int tempValue = value;
+				Object model =  ((EditPart)list.get( i )).getModel( );
+				RowHandleAdapter adapter = HandleAdapterFactory.getInstance( ).getRowHandleAdapter( model );
+				int start = adapter.getRowNumber( );
+				int end = start + 1;
+				
+				int ori = TableUtil.caleVisualHeight( part, model );
+				int adjustHeight = TableUtil.caleVisualHeight( part, part.getRow(  getStart( ) ) ) + value;
+				if (getStart( ) != start)
+				{
+					tempValue = adjustHeight - ori;
+				}
+				if (start == part.getRowCount( ))
+				{
+					end = start;
+					
+				}
+				height = height + getTrueValue( tempValue, start, end);
+				resizeFixRow( tempValue,start, end );
+				
+			}
+		}
+		else
+		{
+			height = height + getTrueValue( value, getStart( ), getEnd( ));
+			resizeFixRow( value, getStart( ), getEnd( ) );
+		}
+		Dimension tableSize = part.getFigure( ).getSize( ); 
+		try
+		{
+			ReportItemHandle handle = part.getTableAdapter( ).getReportItemHandle( );
+			//DimensionHandle dimension = handle.getWidth();
+			//dimension.s
+			//part.getTableAdapter( ).setSize( new Dimension(tableSize.width + width, -1) );
+			double tbWidth = converPixToDefaultUnit( tableSize.height + height );
+			
+			DimensionValue dimensionValue = new DimensionValue( tbWidth,
+					getDefaultUnits( ) );
+			handle.getHeight( ).setValue( dimensionValue );
+		}
+		catch ( SemanticException e )
+		{
+			part.getTableAdapter( ).rollBack( );
+			ExceptionHandler.handle( e );
+		}
+		
+		part.getTableAdapter( ).transEnd( );
 		
 	}
 }

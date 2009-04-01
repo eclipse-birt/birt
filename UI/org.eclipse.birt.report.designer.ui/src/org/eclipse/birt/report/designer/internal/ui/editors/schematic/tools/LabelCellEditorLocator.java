@@ -12,7 +12,9 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.jface.viewers.CellEditor;
@@ -26,6 +28,7 @@ import org.eclipse.swt.widgets.Text;
 final public class LabelCellEditorLocator implements CellEditorLocator
 {
 
+	private static Dimension MINSIZE = new Dimension(20,8);
 	private Figure figure;
 
 	private static int WIN_X_OFFSET = -4;
@@ -87,13 +90,25 @@ final public class LabelCellEditorLocator implements CellEditorLocator
 			wOffset = WIN_W_OFFSET;
 		}
 
-		// workaround for Bugzilla 255299
-		int width = rect.width + wOffset;
-		if (width < 2)
+		boolean isInline = DesignChoiceConstants.DISPLAY_INLINE.equals( ((LabelFigure) figure ).getDisplay( ) );
+		if (isInline)
 		{
-			width  = 2;
+			org.eclipse.swt.graphics.Rectangle trim = text.computeTrim(0, 0, 0, 0);
+			rect.translate(trim.x, trim.y);
+			rect.width += trim.width;
+			rect.height += trim.height;
 		}
-		text.setBounds( rect.x + xOffset, rect.y + yOffset, width, rect.height + hOffset );
+		int width = rect.width + wOffset;
+		if (width < MINSIZE.width)
+		{
+			width = MINSIZE.width;
+		}
+		int height = rect.height + hOffset;
+		if (height < MINSIZE.height)
+		{
+			height = MINSIZE.height;
+		}
+		text.setBounds( rect.x + xOffset, rect.y + yOffset, width, height);
 	}
 
 	/**

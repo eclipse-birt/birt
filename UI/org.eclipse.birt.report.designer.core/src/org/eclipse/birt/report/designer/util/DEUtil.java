@@ -3062,4 +3062,23 @@ public class DEUtil
 		else
 			return null;
 	}
+	
+	/**If the layout is fix.
+	 * @param model
+	 * @return
+	 */
+	public static boolean isFixLayout(Object model)
+	{
+		if (!(model instanceof DesignElementHandle))
+		{
+			return false;
+		}
+		ModuleHandle handle = ((DesignElementHandle)model).getModuleHandle( );
+		if (!(handle instanceof ReportDesignHandle))
+		{
+			return false;
+		}
+		
+		return DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(((ReportDesignHandle)handle).getLayoutPreference( ) );
+	}
 }

@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.TableFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableGuideHandle;
+import org.eclipse.birt.report.designer.internal.ui.layout.FixTableLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
@@ -48,6 +49,8 @@ import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.draw2d.Figure;
@@ -85,6 +88,7 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 
 	private static final int DEFAULT_HEIGHT = 23;
 	private static final int BIG_DEFAULT_HEIGHT = 85;
+	private static final int BIG_FIX_DEFAULT_HEIGHT = 45;
 	CrosstabHandleAdapter adapter;
 
 	private boolean isReload = false;
@@ -426,8 +430,14 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 				}
 			} );
 		}
-		return new ITableLayoutOwner.DimensionInfomation( handle.getMeasure( ),
-				handle.getUnits( ) );
+		double value =  handle.getMeasure( );
+		if (DesignChoiceConstants.UNITS_PERCENTAGE
+				.equals( handle.getUnits( )))
+		{
+			value = 0.0d;
+		}
+		return new ITableLayoutOwner.DimensionInfomation(value,
+				handle.getUnits( ), handle.isSet( ) );
 	}
 
 	/**
@@ -480,7 +490,16 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 						return DEFAULT_HEIGHT;
 					case VirtualCrosstabCellAdapter.ROW_TYPE :
 					case VirtualCrosstabCellAdapter.MEASURE_TYPE :
-						return BIG_DEFAULT_HEIGHT;
+					{
+						if (isFixLayout( ))
+						{
+							return BIG_FIX_DEFAULT_HEIGHT;
+						}
+						else
+						{
+							return BIG_DEFAULT_HEIGHT;
+						}
+					}
 					default :
 						return DEFAULT_HEIGHT;
 				}
@@ -527,6 +546,15 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 		}
 		if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
 		{
+			ModuleHandle moduleHandle = getCrosstabHandleAdapter( ).getDesignElementHandle( ).getModuleHandle( );
+			if (moduleHandle instanceof ReportDesignHandle)
+			{
+				if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
+						.equals( ((ReportDesignHandle)moduleHandle).getLayoutPreference( )))
+				{
+					return getDefaultWidth( number );
+				}
+			}
 			Dimension dim = getFigure( ).getParent( )
 					.getClientArea( )
 					.getSize( );
@@ -535,6 +563,10 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 
 		}
 		int px = (int) DEUtil.convertoToPixel( handle );
+		if (isFixLayout( ) && handle.isSet( ) && px <=0)
+		{
+			px = 1;
+		}
 		if ( px <= 0 )
 		{
 			return getDefaultWidth( number );
@@ -719,7 +751,7 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 			} );
 		}
 		return new ITableLayoutOwner.DimensionInfomation( handle.getMeasure( ),
-				handle.getUnits( ) );
+				handle.getUnits( ), handle.isSet( ) );
 	}
 
 	/*
@@ -748,9 +780,20 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 			} );
 		}
 		int px = (int) DEUtil.convertoToPixel( handle );
+		if (isFixLayout( ) && handle.isSet( ) && px <=0)
+		{
+			px = 1;
+		}
 		if ( px <= 0 )
 		{
-			px = DEFAULT_HEIGHT;
+			if (isFixLayout( ))
+			{
+				px = FixTableLayout.DEFAULT_ROW_HEIGHT;
+			}
+			else
+			{
+				px = DEFAULT_HEIGHT;
+			}
 		}
 		return px;
 	}
@@ -932,6 +975,15 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	public EditPolicy getResizePolice( EditPolicy parentPolice )
 	{
 		return new ReportElementNonResizablePolicy( );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getDefinedHeight()
+	 */
+	public String getDefinedHeight( )
+	{
+		//Crotab don't support the table height
+		return null;
 	}
 
 }

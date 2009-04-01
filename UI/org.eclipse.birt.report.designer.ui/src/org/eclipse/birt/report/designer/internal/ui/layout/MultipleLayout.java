@@ -68,7 +68,9 @@ public class MultipleLayout extends AbstractHintLayout
 			( (TableLayout) layoutManager ).markDirty( );
 			container.getBounds( ).width = wHint;
 			container.getBounds( ).height = hHint;
-			tablePane.validate( );
+			//child.invalidateTree( );
+			child.validate( );
+			
 			//dim = getPreferredSize( container, wHint, hHint ).expand( container.getInsets( ).getWidth( ), container.getInsets( ).getHeight( ) );;
 			needlayout = false;
 		}

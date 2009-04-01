@@ -15,24 +15,28 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SectionBorder;
+import org.eclipse.birt.report.designer.internal.ui.layout.IFixLayoutHelper;
 import org.eclipse.birt.report.designer.internal.ui.layout.ListLayout;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 
 /**
  * List item figure
  *  
  */
-public class ListFigure extends ReportElementFigure
+public class ListFigure extends ReportElementFigure implements IFixLayoutHelper
 {
 
 	private static final String BORDER_TEXT = Messages.getString( "ListFigure.BORDER_TEXT" ); //$NON-NLS-1$
 
 	/** the dirty flag */
 	private boolean dirty = true;
+	
+	private Dimension recommendSize = new Dimension();
 
 	public ListFigure( )
 	{
@@ -111,5 +115,55 @@ public class ListFigure extends ReportElementFigure
 	public boolean isDirty( )
 	{
 		return dirty;
+	}
+	
+	public void setRecommendSize( Dimension recommendSize )
+	{
+		this.recommendSize = recommendSize;
+	}
+	
+	@Override
+	public Dimension getFixPreferredSize( int w, int h )
+	{	
+		Dimension size;
+		if (recommendSize.width > 0)
+		{
+			size = getPreferredSize( recommendSize.width, h);
+		}
+		else
+		{
+			size = getPreferredSize( w, h);
+		}
+		
+		int width = size.width;
+		int height = size.height;
+		if (recommendSize.width > 0)
+		{
+			width = recommendSize.width;
+		}		
+		
+		return new Dimension(width, height);
+	}
+	
+	@Override
+	public Dimension getFixMinimumSize( int w, int h )
+	{
+		Dimension size;
+		if (recommendSize.width > 0)
+		{
+			size = getPreferredSize( recommendSize.width, h);
+		}
+		else
+		{
+			size = getPreferredSize( w, h);
+		}
+		int width = size.width;
+		int height = size.height;
+		if (recommendSize.width > 0)
+		{
+			width = recommendSize.width;
+		}		
+		
+		return new Dimension(width, height);
 	}
 }

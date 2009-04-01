@@ -1319,14 +1319,22 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 			return null;
 		}
 	}
-
+	
+	/**
+	 * @param number
+	 * @param value
+	 */
+	public void setRowHeight( int number, int value )
+	{
+		setRowHeight( number, value, DesignChoiceConstants.UNITS_PX );
+	}
 	/**
 	 * Gets the row height from the model.
 	 * 
 	 * @param number
 	 * @return
 	 */
-	public void setRowHeight( int number, int value )
+	public void setRowHeight( int number, double value, String units )
 	{
 		// because the crosstab has no the row and column so there must pass a
 		// cell
@@ -1338,7 +1346,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		try
 		{
 			DimensionValue dimensionValue = new DimensionValue( value,
-					DesignChoiceConstants.UNITS_PX );
+					units);
 			getCrosstabReportItemHandle( ).setRowHeight( handle, dimensionValue );
 		}
 		catch ( CrosstabException e )
@@ -1421,12 +1429,20 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 	}
 
 	/**
+	 * @param number
+	 * @param value
+	 */
+	public void setColumnWidth( int number, int value )
+	{
+		setColumnWidth(number, value, DesignChoiceConstants.UNITS_PX);
+	}
+	/**
 	 * Gets the column width from the model.
 	 * 
 	 * @param number
 	 * @return
 	 */
-	public void setColumnWidth( int number, int value )
+	public void setColumnWidth( int number, double value, String units )
 	{
 		// because the crosstab has no the row and column so there must pass a
 		// cell
@@ -1438,7 +1454,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		try
 		{
 			DimensionValue dimensionValue = new DimensionValue( value,
-					DesignChoiceConstants.UNITS_PX );
+					units);
 			getCrosstabReportItemHandle( ).setColumnWidth( handle,
 					dimensionValue );
 
@@ -1451,12 +1467,12 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 
 	}
 
-	public void setWidth( int value )
+	public void setWidth( double value, String units )
 	{
 		try
 		{
 			DimensionValue dimensionValue = new DimensionValue( value,
-					DesignChoiceConstants.UNITS_PX );
+					units);
 			DimensionHandle handle = getCrosstabReportItemHandle( ).getWidth( );
 			handle.setValue( dimensionValue );
 
@@ -1466,6 +1482,14 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		{
 			ExceptionHandler.handle( e );
 		}
+	}
+	
+	/**
+	 * @param value
+	 */
+	public void setWidth( int value )
+	{
+		setWidth(value, DesignChoiceConstants.UNITS_PX);
 	}
 
 	/**

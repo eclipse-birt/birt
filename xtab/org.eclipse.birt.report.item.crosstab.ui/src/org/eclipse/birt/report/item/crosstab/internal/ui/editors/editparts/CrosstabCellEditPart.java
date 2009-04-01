@@ -21,7 +21,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.CellFigure;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.CellDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -34,7 +33,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
@@ -404,5 +402,11 @@ public class CrosstabCellEditPart extends AbstractCellEditPart
 			return getCrosstabCellAdapter( ).getCrosstabCellHandle( ).getModelHandle( ) == object;
 		}
 		return super.isinterestSelection( object );
+	}
+	
+	@Override
+	public boolean isFixLayout( )
+	{
+		return ((CrosstabTableEditPart)getParent( )).isFixLayout( );
 	}
 }

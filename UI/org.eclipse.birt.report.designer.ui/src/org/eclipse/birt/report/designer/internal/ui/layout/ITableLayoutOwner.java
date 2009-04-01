@@ -17,7 +17,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPartViewer;
 
 /**
- * The class is the oweer of the table layout.
+ * The class is the owner of the table layout.
  */
 public interface ITableLayoutOwner
 {
@@ -73,6 +73,11 @@ public interface ITableLayoutOwner
 	 * @return
 	 */
 	String getDefinedWidth( );
+
+	/**Gets the define height,return null if the owner don't support the height;
+	 * @return
+	 */
+	String getDefinedHeight();
 	
 	/**Gets the ori column width
 	 * @param columNumber
@@ -99,20 +104,32 @@ public interface ITableLayoutOwner
 	{
 		private double measure;
 		private String units = ""; //$NON-NLS-1$
-		
+		private boolean isSet = false;
 		public DimensionInfomation(double measure, String units)
+		{
+			this(measure, units, false);
+		}
+		
+		public DimensionInfomation(double measure, String units, boolean isSet)
 		{
 			this.measure = measure;
 			this.units = units;
+			this.isSet = isSet;
 		}
 		
 		public String getUnits( )
 		{
 			return units;
 		}
+		
 		public double getMeasure( )
 		{
 			return measure;
+		}
+		
+		public boolean isSet()
+		{
+			return isSet;
 		}
 	}
 }

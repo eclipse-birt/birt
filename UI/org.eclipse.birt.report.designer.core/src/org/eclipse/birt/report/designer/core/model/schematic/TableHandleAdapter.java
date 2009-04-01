@@ -24,11 +24,13 @@ import org.eclipse.birt.report.designer.core.model.ITableAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -38,6 +40,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.draw2d.geometry.Dimension;
 
 /**
@@ -524,15 +528,33 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 				.getWidth( ),
 				tableHelper.getInsets( ).getHeight( ) );
 	}
-
-	/**
-	 * Adjust size of table layout.
-	 * 
-	 * @param size
-	 *            is all figure size
-	 * @throws SemanticException
-	 */
 	public void ajustSize( Dimension size ) throws SemanticException
+	{
+		if (isFixLayout( ))
+		{
+			ajustFixSize( size );
+		}
+		else
+		{
+			ajustAutoSize( size );
+		}
+	}
+	
+	private boolean isFixLayout()
+	{
+		if ( getHandle( ).getModuleHandle( ) instanceof ReportDesignHandle )
+		{
+			return DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( ( (ReportDesignHandle)getHandle( ).getModuleHandle( ) ).getLayoutPreference( ) );
+		}
+		return false;
+	}
+	
+	private String getDefaultUnits()
+	{
+		return getHandle( ).getModuleHandle( ).getDefaultUnits( );
+	}
+	
+	private void ajustFixSize( Dimension size ) throws SemanticException
 	{
 		if ( !( getModelAdaptHelper( ) instanceof ITableAdapterHelper ) )
 		{
@@ -540,6 +562,111 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		}
 
 		ITableAdapterHelper tableHelper = (ITableAdapterHelper) getModelAdaptHelper( );
+		
+		int width = size.width - tableHelper.getInsets( ).getWidth( );
+		int height = size.height - tableHelper.getInsets( ).getHeight( );
+		int columnCount = getColumnCount( );
+		int rowCount = getRowCount( );
+		Dimension parentSize = new Dimension();
+		for ( int i = 0; i < columnCount; i++ )
+		{
+			int temp = tableHelper.caleVisualWidth( i + 1 );
+			parentSize.width = parentSize.width + temp;
+		}
+		
+		for ( int i = 0; i < rowCount; i++ )
+		{
+			int temp = tableHelper.caleVisualHeight( i + 1 );
+			parentSize.height = parentSize.height + temp;
+		}
+
+		//Dimension parentSize = tableHelper.getClientAreaSize( );
+
+		
+		double[] columns = new double[columnCount];
+		double[] rows = new double[rowCount];
+		if ( width >= 0 )
+		{
+			int totalWidth = 0;
+			for ( int i = 0; i < columnCount; i++ )
+			{
+				double columnWidth = (double)tableHelper.caleVisualWidth( i + 1 );
+				columns[i] = columnWidth/parentSize.width * width;
+				if (Math.round( columns[i] ) < 1)
+				{
+					columns[i] = 1.0;
+				}
+				totalWidth = totalWidth + (int)Math.round( columns[i] );
+			}
+			columns[0] = columns[0] + width - totalWidth;
+			
+			for ( int i = 0; i < columnCount; i++ )
+			{
+				HandleAdapterFactory.getInstance( )
+					.getColumnHandleAdapter( getColumn( i+1 ) )
+						.setWidth( (int)Math.round( columns[i] ), getDefaultUnits( ) );
+			}
+		}
+		else if(size.width > 0)
+		{
+			for ( int i = 0; i < columnCount; i++ )
+			{
+				HandleAdapterFactory.getInstance( )
+				.getColumnHandleAdapter( getColumn( i+1 ) )
+					.setWidth( (int)Math.round( 1 ), getDefaultUnits( ) );
+			}
+		}
+
+		if ( height >= 0 )
+		{
+			int totalHeight = 0;
+			for ( int i = 0; i < rowCount; i++ )
+			{
+				double rowHeight = (double)tableHelper.caleVisualHeight( i + 1 );
+				rows[i] = rowHeight/parentSize.height * height;
+				if (Math.round( rows[i] ) < 1)
+				{
+					rows[i] = 1.0;
+				}
+				totalHeight = totalHeight + (int)Math.round( rows[i] );
+			}
+			rows[0] = rows[0] + height - totalHeight;
+			
+			for ( int i = 0; i < rowCount; i++ )
+			{
+				HandleAdapterFactory.getInstance( )
+					.getRowHandleAdapter( getRow( i+1 ) )
+						.setHeight( (int)Math.round( rows[i] ), getDefaultUnits( ) );
+			}
+		}
+		else if(size.height > 0)
+		{
+			for ( int i = 0; i < rowCount; i++ )
+			{
+				HandleAdapterFactory.getInstance( )
+				.getRowHandleAdapter( getRow( i+1 ) )
+					.setHeight( (int)Math.round( 1 ), getDefaultUnits( ) );
+			}
+		}		
+
+		setSize( new Dimension( width, height ) );
+	}
+	/**
+	 * Adjust size of table layout.
+	 * 
+	 * @param size
+	 *            is all figure size
+	 * @throws SemanticException
+	 */
+	private void ajustAutoSize( Dimension size ) throws SemanticException
+	{
+		if ( !( getModelAdaptHelper( ) instanceof ITableAdapterHelper ) )
+		{
+			return;
+		}
+
+		ITableAdapterHelper tableHelper = (ITableAdapterHelper) getModelAdaptHelper( );
+		
 		int width = size.width;
 		int height = size.height;
 
@@ -1735,5 +1862,38 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			return true;
 		}
 		return false;
+	}
+	
+	public void setSize( Dimension size ) throws SemanticException
+	{
+		DimensionValue dimensionValue;
+
+		if (isFixLayout( ))
+		{
+			if ( size.width >= 0 )
+			{
+				double width = MetricUtility.pixelToPixelInch( size.width );
+
+				dimensionValue = DimensionUtil.convertTo( width,
+						DesignChoiceConstants.UNITS_IN, getDefaultUnits( ) );
+
+				getReportItemHandle( ).getWidth( ).setValue( dimensionValue );
+			}
+
+			if ( size.height >= 0 )
+			{
+				double height = MetricUtility.pixelToPixelInch( size.height );
+
+				dimensionValue = DimensionUtil.convertTo( height,
+						DesignChoiceConstants.UNITS_IN, getDefaultUnits( ) );
+
+				getReportItemHandle( ).getHeight( ).setValue( dimensionValue );
+			}
+		}
+		else
+		{
+			super.setSize( size );
+		}
+		
 	}
 }

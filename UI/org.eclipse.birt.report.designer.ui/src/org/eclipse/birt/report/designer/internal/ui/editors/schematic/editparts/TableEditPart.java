@@ -39,6 +39,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Ta
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer.TableGridLayer;
+import org.eclipse.birt.report.designer.internal.ui.layout.FixTableLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -46,6 +47,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -591,8 +593,15 @@ public class TableEditPart extends AbstractTableEditPart implements
 	 */
 	public int getMinHeight( int rowNumber )
 	{
-		return Math.max( TableUtil.getMinHeight( this, rowNumber ),
-				getTableAdapter( ).getMinHeight( rowNumber ) );
+		if (isFixLayout( ))
+		{
+			return TableUtil.getMinHeight( this, rowNumber );
+		}
+		else
+		{
+			return Math.max( TableUtil.getMinHeight( this, rowNumber ),
+					getTableAdapter( ).getMinHeight( rowNumber ) );
+		}
 	}
 
 	/**
@@ -603,8 +612,15 @@ public class TableEditPart extends AbstractTableEditPart implements
 	 */
 	public int getMinWidth( int columnNumber )
 	{
-		return Math.max( TableUtil.getMinWidth( this, columnNumber ),
-				getTableAdapter( ).getMinWidth( columnNumber ) );
+		if (isFixLayout( ))
+		{
+			return TableUtil.getMinWidth( this, columnNumber );
+		}
+		else
+		{
+			return Math.max( TableUtil.getMinWidth( this, columnNumber ),
+					getTableAdapter( ).getMinWidth( columnNumber ) );
+		}	
 	}
 
 	/**
@@ -1447,7 +1463,7 @@ public class TableEditPart extends AbstractTableEditPart implements
 		// add to handle percentage case.
 		DimensionHandle handle = ( (ColumnHandle) adapt.getHandle( ) ).getWidth( );
 		return new ITableLayoutOwner.DimensionInfomation( handle.getMeasure( ),
-				handle.getUnits( ) );
+				handle.getUnits( ), ( (ColumnHandle) adapt.getHandle( ) ).getWidth( ).isSet( ) );
 	}
 
 	/*
@@ -1466,7 +1482,7 @@ public class TableEditPart extends AbstractTableEditPart implements
 		// return ( (RowHandle) adapt.getHandle( ) ).getHeight( );
 		DimensionHandle handle = ( (RowHandle) adapt.getHandle( ) ).getHeight( );
 		return new ITableLayoutOwner.DimensionInfomation( handle.getMeasure( ),
-				handle.getUnits( ) );
+				handle.getUnits( ), ( (RowHandle) adapt.getHandle( ) ).getHeight( ).isSet( ) );
 	}
 
 	/*
@@ -1525,7 +1541,24 @@ public class TableEditPart extends AbstractTableEditPart implements
 		Object obj = getRow( number );
 		RowHandleAdapter adapt = HandleAdapterFactory.getInstance( )
 				.getRowHandleAdapter( obj );
-		return adapt.getHeight( );
+		
+		
+		int value =  adapt.getHeight( );
+		if (isFixLayout( ) && obj instanceof RowHandle)
+		{
+			DimensionHandle handle = ((RowHandle)obj).getHeight( );
+
+			int px = (int) DEUtil.convertoToPixel( handle );
+			if (handle.isSet( ) && px<=0 )
+			{
+				value = 1;
+			}
+			else if ( px <= 0 )
+			{
+				value = FixTableLayout.DEFAULT_ROW_HEIGHT;
+			}
+		}
+		return value;
 	}
 
 	/*
@@ -1575,4 +1608,12 @@ public class TableEditPart extends AbstractTableEditPart implements
 		this.oriRowNumner = oriRowNumner;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getDefinedHeight()
+	 */
+	public String getDefinedHeight( )
+	{
+		//Table don't support the table height
+		return null;
+	}
 }

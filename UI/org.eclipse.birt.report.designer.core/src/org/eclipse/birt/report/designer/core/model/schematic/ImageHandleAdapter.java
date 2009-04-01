@@ -113,11 +113,23 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 	 */
 	public Dimension getSize( )
 	{
-		DimensionHandle handle = getImageHandle( ).getWidth( );
-		int px = (int) DEUtil.convertoToPixel( handle );
+		DimensionHandle widthHandle = getImageHandle( ).getWidth( );
+		int px = (int) DEUtil.convertoToPixel( widthHandle );
 
-		handle = getImageHandle( ).getHeight( );
-		int py = (int) DEUtil.convertoToPixel( handle );
+		DimensionHandle heightHandle = getImageHandle( ).getHeight( );
+		int py = (int) DEUtil.convertoToPixel( heightHandle );
+		
+		if (DEUtil.isFixLayout( getHandle( ) ))
+		{
+			if (px ==0 && widthHandle.isSet( ))
+			{
+				px = 1;
+			}
+			if (py == 0 && heightHandle.isSet( ))
+			{
+				py = 1;
+			}
+		}
 
 		if ( px != 0 && py != 0 )
 		{
@@ -133,11 +145,23 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 	 */
 	public Dimension getRawSize( )
 	{
-		DimensionHandle handle = getImageHandle( ).getWidth( );
-		int px = (int) DEUtil.convertoToPixel( handle );
+		DimensionHandle widthHandle = getImageHandle( ).getWidth( );
+		int px = (int) DEUtil.convertoToPixel( widthHandle );
 
-		handle = getImageHandle( ).getHeight( );
-		int py = (int) DEUtil.convertoToPixel( handle );
+		DimensionHandle heightHandle = getImageHandle( ).getHeight( );
+		int py = (int) DEUtil.convertoToPixel( heightHandle );
+		
+		if (DEUtil.isFixLayout( getHandle( ) ))
+		{
+			if (px ==0 && widthHandle.isSet( ))
+			{
+				px = 1;
+			}
+			if (py == 0 && heightHandle.isSet( ))
+			{
+				py = 1;
+			}
+		}
 
 		return new Dimension( Math.max( px, 0 ), Math.max( py, 0 ) );
 	}

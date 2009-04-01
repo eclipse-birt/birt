@@ -264,6 +264,7 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 		if (key == IModelEventProcessor.class) {
 			return new GraphicsViewModelEventProcessor(this) {
 				public void clear() {
+					super.clear( );
 					Object oldObj = HandleAdapterFactory.getInstance( )
 						.getLibraryHandleAdapter( ).getOldEditorModel( );
 					SetCurrentEditModelCommand c = new SetCurrentEditModelCommand( oldObj );
@@ -287,4 +288,9 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 		return super.getAdapter(key);
 	}
 
+	@Override
+	protected void updateLayoutPreference( )
+	{
+		//must do nothing now, because libraryHandle don't support the property
+	}
 }

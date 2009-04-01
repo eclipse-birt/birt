@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.util.ColorManager;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.gef.EditPart;
 import org.eclipse.swt.SWT;
@@ -316,5 +317,38 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 		}
 		
 		return ColorManager.getColor( color );
+	}
+	
+	@Override
+	protected void propertyChange( Map info )
+	{
+		if (info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP) != null)
+		{
+			updateChildrenLayoutPreference(this);
+			getFigure( ).invalidateTree( );
+			getFigure( ).revalidate( );
+		}
+		super.propertyChange( info );
+	}
+	
+	private void updateChildrenLayoutPreference(EditPart part)
+	{
+		if (part instanceof ReportElementEditPart)
+		{
+			((ReportElementEditPart)part).updateLayoutPreference( );
+		}
+		List children = part.getChildren( );
+		int size = children.size( );
+		for ( int i = 0; i < size; i++ )
+		{
+			Object chPart = children.get( i );
+			updateChildrenLayoutPreference( (EditPart)chPart);	
+		}
+	}
+	
+	@Override
+	public void activate( )
+	{
+		super.activate( );
 	}
 }

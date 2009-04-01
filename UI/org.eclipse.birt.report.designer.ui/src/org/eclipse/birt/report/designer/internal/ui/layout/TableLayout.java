@@ -19,11 +19,11 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.TableBorderHelper;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
+import org.eclipse.birt.report.designer.internal.ui.layout.TableLayoutData.ColumnData;
+import org.eclipse.birt.report.designer.internal.ui.layout.TableLayoutData.RowData;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.FixTableLayoutCalculator;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.IFigure;
@@ -49,21 +49,20 @@ public class TableLayout extends XYLayout
 
 	/** The layout constraints */
 	protected Map constraints = new HashMap( );
-	private WorkingData data = null;
+	WorkingData data = null;
 	private ITableLayoutOwner owner;
 
-	private boolean needlayout = true;
+	boolean needlayout = true;
 
-	private TableBorderHelper helper;
+	TableBorderHelper helper;
 
-	private Map<IFigure, FigureInfomation> figureInfo = new HashMap<IFigure, FigureInfomation>( );
+	Map<IFigure, FigureInfomation> figureInfo = new HashMap<IFigure, FigureInfomation>( );
 
 	private boolean isCalculating = false;
 	private boolean isNeedRelayout = true;
 
-	private static class FigureInfomation
+	static class FigureInfomation
 	{
-
 		public int rowNumber, columnNumber, rowSpan, columnSpan;
 	}
 
@@ -126,13 +125,7 @@ public class TableLayout extends XYLayout
 	 */
 	public void layout( IFigure container )
 	{
-		if ( data != null
-				&& data.columnWidths != null
-				&& data.columnWidths.length == getColumnCount( )
-				&& data.rowHeights != null
-				&& data.rowHeights.length == getRowCount( )
-				&& !needlayout
-				|| !owner.isActive( ) )
+		if ( !isDistroy( ) )
 		{
 			return;
 		}
@@ -217,7 +210,7 @@ public class TableLayout extends XYLayout
 		reselect( );
 	}
 
-	private void reselect( )
+	void reselect( )
 	{
 		final List list = new ArrayList( ( (StructuredSelection) getOwner( ).getViewer( )
 				.getSelection( ) ).toList( ) );
@@ -244,7 +237,7 @@ public class TableLayout extends XYLayout
 		}
 	}
 
-	private void layoutTable( IFigure container )
+	void layoutTable( IFigure container )
 	{
 		List children = container.getChildren( );
 		int size = children.size( );
@@ -604,23 +597,7 @@ public class TableLayout extends XYLayout
 		 */
 		size = data.columnWidths.length;
 
-		int containerWidth = getOwner( ).getFigure( )
-				.getParent( )
-				.getClientArea( )
-				.getSize( ).width;
-
-		containerWidth -= getFigureMargin( getOwner( ).getFigure( ) ).getWidth( );
-
-		String ww = getOwner( ).getDefinedWidth( );
-
-		containerWidth = getDefinedWidth( ww, containerWidth );
-
-		int padding = getOwner( ).getFigure( )
-				.getBorder( )
-				.getInsets( getOwner( ).getFigure( ) )
-				.getWidth( );
-
-		containerWidth -= padding;
+		int containerWidth = getLayoutWidth( );
 
 		containerWidth = Math.max( 0, containerWidth );
 
@@ -640,7 +617,7 @@ public class TableLayout extends XYLayout
 				calculator );
 	}
 
-	private Insets getFigureMargin( IFigure f )
+	Insets getFigureMargin( IFigure f )
 	{
 		if ( f instanceof IReportElementFigure )
 		{
@@ -1182,5 +1159,35 @@ public class TableLayout extends XYLayout
 	{
 		return calculateMinimumSize( container, wHint, hHint );
 	}
+	
+	protected boolean isDistroy()
+	{
+		return !(data != null && data.columnWidths != null
+			&& data.columnWidths.length == getColumnCount( )
+			&& data.rowHeights != null
+			&& data.rowHeights.length == getRowCount( ) && !needlayout
+			|| !owner.isActive( ));
+	}
+	
+	protected int getLayoutWidth()
+	{
+		int containerWidth = getOwner( ).getFigure( ).getParent( )
+		.getClientArea( ).getSize( ).width;
 
+		containerWidth -= getFigureMargin( getOwner( ).getFigure( ) )
+			.getWidth( );
+
+
+		String ww = getOwner( ).getDefinedWidth( );
+
+		containerWidth = getDefinedWidth( ww, containerWidth );
+
+
+		int padding = getOwner( ).getFigure( ).getBorder( ).getInsets(
+				getOwner( ).getFigure( ) ).getWidth( );
+
+		containerWidth -= padding;
+		
+		return containerWidth;
+	}
 }

@@ -11,13 +11,19 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer.TableBorderLayer;
+import org.eclipse.birt.report.designer.internal.ui.layout.FixTableLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.command.ViewsContentEvent;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.IFigure;
@@ -148,6 +154,37 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 				}
 			}
 		}
+		List old = new ArrayList(getChildren( ));
 		super.contentChange( info );
+		List newChildren = getChildren( );
+		for (int i=0; i<old.size( ); i++)
+		{
+			if (newChildren.contains( old.get( i ) ))
+			{
+				((AbstractCellEditPart)old.get( i )).updateExistPart( );
+			}
+		}
+	}
+	
+	@Override
+	protected void updateLayoutPreference( )
+	{
+		super.updateLayoutPreference( );
+		if (!(((DesignElementHandle)getModel()).getModuleHandle( ) instanceof ReportDesignHandle))
+		{
+			return ;
+		}
+		
+		ReportDesignHandle handle = (ReportDesignHandle)((DesignElementHandle)getModel()).getModuleHandle( );
+		String str = handle.getLayoutPreference( );
+		
+		if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT.equals( str ))
+		{
+			getContentPane( ).setLayoutManager( new TableLayout(this));
+		}
+		else if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( str ))
+		{
+			getContentPane( ).setLayoutManager(new FixTableLayout(this));
+		}	
 	}
 }

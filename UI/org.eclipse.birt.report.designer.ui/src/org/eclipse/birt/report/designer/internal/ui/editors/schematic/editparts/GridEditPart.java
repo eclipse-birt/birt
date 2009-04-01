@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import org.eclipse.birt.report.designer.core.model.schematic.GridHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.nls.Messages;
 
 /**
@@ -41,6 +43,16 @@ public class GridEditPart extends TableEditPart
 	public String getGuideLabel( )
 	{
 		return GUIDEHANDLE_TEXT;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getDefinedHeight()
+	 */
+	public String getDefinedHeight( )
+	{
+		GridHandleAdapter tadp = HandleAdapterFactory.getInstance( )
+		.getGridHandleAdapter( getModel( ) );
+		return tadp.getDefinedHeight( );
 	}
 
 }

@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.AbstractHintLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutManager;
@@ -35,6 +36,23 @@ public class ListLayout extends AbstractHintLayout
 	protected Map constraints = new HashMap( );
 
 	private static final int verticalSpan = 2;
+	
+	private String layoutPreference = DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT;
+
+	
+	/**Gets the layout preference
+	 * @return
+	 */
+	public String getLayoutPreference( )
+	{
+		return layoutPreference;
+	}
+
+	
+	public void setLayoutPreference( String layoutPreference )
+	{
+		this.layoutPreference = layoutPreference;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -50,6 +68,20 @@ public class ListLayout extends AbstractHintLayout
 
 		dim.width = Math.max( container.getMinimumSize( ).width, wHint ) -
 				container.getBorder( ).getInsets( container ).getWidth( );
+		
+		int dealWith = -1;
+		if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT.equals( layoutPreference ))
+		{
+			dealWith = dim.width;
+		}
+		else if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( layoutPreference ) && wHint > 0)
+		{
+			dealWith = wHint - container.getBorder( ).getInsets( container ).getWidth( );
+			if (dealWith < 0)
+			{
+				dealWith = -1;
+			}
+		}
 
 		List list = container.getChildren( );
 		int size = list.size( );
@@ -58,7 +90,7 @@ public class ListLayout extends AbstractHintLayout
 		for ( int i = 0; i < size; i++ )
 		{
 			IFigure figure = (IFigure) list.get( i );
-			Dimension prefSize = figure.getPreferredSize( dim.width, hHint );
+			Dimension prefSize = figure.getPreferredSize( dealWith, hHint );
 
 			height = height + prefSize.height;
 			width = Math.max( prefSize.width, width );

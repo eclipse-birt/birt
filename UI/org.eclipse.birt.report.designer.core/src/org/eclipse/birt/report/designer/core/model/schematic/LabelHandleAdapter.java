@@ -46,28 +46,39 @@ public class LabelHandleAdapter extends ReportItemtHandleAdapter
 	 */
 	public Dimension getSize( )
 	{
-		DimensionHandle handle = ( (ReportItemHandle) getHandle( ) ).getWidth( );
+		DimensionHandle widthHandle = ( (ReportItemHandle) getHandle( ) ).getWidth( );
 
 		int px = 0;
 		int py = 0;
 
 		// percentage unit is handled in layout, here always return 0;
 
-		if ( !DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
+		if ( !DesignChoiceConstants.UNITS_PERCENTAGE.equals( widthHandle.getUnits( ) ) )
 		{
-			px = (int) DEUtil.convertoToPixel( handle );
+			px = (int) DEUtil.convertoToPixel( widthHandle );
 		}
 
-		handle = ( (ReportItemHandle) getHandle( ) ).getHeight( );
+		DimensionHandle heightHandle = ( (ReportItemHandle) getHandle( ) ).getHeight( );
 
-		if ( !DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
+		if ( !DesignChoiceConstants.UNITS_PERCENTAGE.equals( heightHandle.getUnits( ) ) )
 		{
-			py = (int) DEUtil.convertoToPixel( handle );
+			py = (int) DEUtil.convertoToPixel( heightHandle );
 		}
 
 		px = Math.max( 0, px );
 		py = Math.max( 0, py );
 
+		if (DEUtil.isFixLayout( getHandle( ) ))
+		{
+			if (px ==0 && widthHandle.isSet( ))
+			{
+				px = 1;
+			}
+			if (py == 0 && heightHandle.isSet( ))
+			{
+				py = 1;
+			}
+		}
 		return new Dimension( px, py );
 	}
 }

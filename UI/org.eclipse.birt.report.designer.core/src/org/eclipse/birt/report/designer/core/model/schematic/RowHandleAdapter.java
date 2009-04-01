@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
@@ -264,11 +265,16 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	 * @param rowHeight
 	 * @throws SemanticException
 	 */
-	public void setHeight( int rowHeight ) throws SemanticException
+	public void setHeight( int rowHeight, String units) throws SemanticException
 	{
 		double value = MetricUtility.pixelToPixelInch( rowHeight );
-		DimensionValue dimensionValue = new DimensionValue( value,
-				DesignChoiceConstants.UNITS_IN );
+		DimensionValue dimensionValue = DimensionUtil.convertTo(  value,
+				DesignChoiceConstants.UNITS_IN, units );
 		getRowHandle( ).getHeight( ).setValue( dimensionValue );
+	}
+	
+	public void setHeight( int rowHeight ) throws SemanticException
+	{
+		setHeight( rowHeight, DesignChoiceConstants.UNITS_IN);
 	}
 }

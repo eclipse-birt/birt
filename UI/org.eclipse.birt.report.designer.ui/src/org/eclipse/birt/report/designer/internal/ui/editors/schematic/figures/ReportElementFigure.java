@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
+import org.eclipse.birt.report.designer.internal.ui.layout.IFixLayoutHelper;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PositionConstants;
@@ -25,7 +26,7 @@ import org.eclipse.swt.graphics.Image;
 /**
  * This is base figure for all report element figures.
  */
-public class ReportElementFigure extends Figure implements IReportElementFigure
+public class ReportElementFigure extends Figure implements IReportElementFigure, IFixLayoutHelper
 {
 
 	private static final Rectangle PRIVATE_RECT = new Rectangle( );
@@ -395,5 +396,21 @@ public class ReportElementFigure extends Figure implements IReportElementFigure
 	public void fireMoved( )
 	{
 		super.fireMoved( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.IFixLayoutHelper#getFixPreferredSize(int, int)
+	 */
+	public Dimension getFixPreferredSize( int w, int h )
+	{
+		return getPreferredSize( w, h );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.IFixLayoutHelper#getFixMinimumSize(int, int)
+	 */
+	public Dimension getFixMinimumSize( int w, int h )
+	{
+		return getMinimumSize( w, h );
 	}
 }

@@ -25,6 +25,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableGuideHandle;
+import org.eclipse.birt.report.designer.internal.ui.layout.ListLayout;
+import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -32,7 +34,10 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -41,6 +46,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 /**
  * List element edit part.
@@ -122,12 +128,17 @@ public class ListEditPart extends ReportElementEditPart
 	{
 		refreshBorder( getListHandleAdapt( ).getHandle( ),
 				(BaseBorder) getFigure( ).getBorder( ) );
-
+		( (ListFigure) getFigure( ) ).setRecommendSize( getListHandleAdapt( ).getSize( ) );
 		( (SectionBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( getListHandleAdapt( ).getPadding( getFigure( ).getInsets( ) ) );
 
 		refreshMargin( );
 
 		refreshBackground( (DesignElementHandle) getModel( ) );
+		
+		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
+				getFigure( ),
+				getConstraint( ) );
+		
 		markDirty( );
 	}
 
@@ -372,5 +383,34 @@ public class ListEditPart extends ReportElementEditPart
 	{
 		return new ReportElementNonResizablePolicy( );
 	}
+	
+	protected Object getConstraint( )
+	{
+		ReportItemHandle handle = (ReportItemHandle) getModel( );
+		ReportItemConstraint constraint = new ReportItemConstraint( );
 
+		//constraint.setDisplay( handle.getPrivateStyle( ).getDisplay( ) );
+		
+		DimensionHandle value = handle.getWidth( );
+		constraint.setMeasure( value.getMeasure( ) );
+		constraint.setUnits( value.getUnits( ) );
+		constraint.setFitTable( true );
+		return constraint;
+	}
+	
+	@Override
+	protected void updateLayoutPreference( )
+	{
+		super.updateLayoutPreference( );
+		
+		if (!(((DesignElementHandle)getModel()).getModuleHandle( ) instanceof ReportDesignHandle))
+		{
+			return ;
+		}
+		
+		ReportDesignHandle handle = (ReportDesignHandle)((DesignElementHandle)getModel()).getModuleHandle( );
+		String str = handle.getLayoutPreference( );
+		
+		((ListLayout)getContentPane( ).getLayoutManager( )).setLayoutPreference( str );
+	}
 }

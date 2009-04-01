@@ -26,7 +26,11 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Li
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListControlDisplayNameFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListIconFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.ListData;
+import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
@@ -246,5 +250,24 @@ public class ListBandEditPart extends ReportElementEditPart
 			}
 		}
 
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#updateLayoutPreference()
+	 */
+	protected void updateLayoutPreference( )
+	{
+		Object parentModel = getParent( ).getModel( );
+		if (!(parentModel instanceof DesignElementHandle))
+		{
+			return;
+		}
+		ModuleHandle handle = ((DesignElementHandle)parentModel).getModuleHandle( );
+		if (!(handle instanceof ReportDesignHandle))
+		{
+			return;
+		}
+		
+		((ReportFlowLayout)getContentPane( ).getLayoutManager( )).setLayoutPreference( ((ReportDesignHandle)handle).getLayoutPreference( ) );
 	}
 }

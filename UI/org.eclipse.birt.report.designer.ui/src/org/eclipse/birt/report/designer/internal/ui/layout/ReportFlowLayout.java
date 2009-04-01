@@ -72,11 +72,22 @@ public class ReportFlowLayout extends AbstractHintLayout
 	private WorkingData data = null;
 
 	private Hashtable constraints = new Hashtable( );
+	
+	private String layoutPreference = DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT;
+
+	
+	public String getLayoutPreference( )
+	{
+		return layoutPreference;
+	}
+
+	private IFlowLayoutStrategy layoutStrategy = null;
+	
 
 	/**
 	 * Holds the necessary information for layout calculations.
 	 */
-	static class WorkingData
+	public static class WorkingData
 	{
 
 		int rowHeight, rowWidth, rowCount, rowX, rowY, maxWidth, rowPos;
@@ -207,80 +218,10 @@ public class ReportFlowLayout extends AbstractHintLayout
 		Rectangle relativeArea = parent.getClientArea( ).getCopy( );
 		data.area = relativeArea;
 
-		Iterator iterator = parent.getChildren( ).iterator( );
-		int dx;
-
-		// Calculate the hints to be passed to children
-		int wHint = parent.getClientArea( ).width;
-		int hHint = -1;
-
 		initVariables( parent );
 		initRow( );
-		int i = 0;
-		int display = ReportItemConstraint.BLOCK;
-		int lastDisplay = ReportItemConstraint.BLOCK;
-
-		while ( iterator.hasNext( ) )
-		{
-			IFigure f = (IFigure) iterator.next( );
-
-			Insets fmargin = getFigureMargin( f );
-
-			// fix bugzilla 156157
-			// always pass hint here, let child process inline/block cases. this
-			// is to resovle percentage custom size
-			wHint = parent.getClientArea( ).width;
-
-			if ( wHint != -1 )
-			{
-				wHint = Math.max( 0, wHint - fmargin.getWidth( ) );
-			}
-
-			Dimension pref = getChildSize( f, wHint, hHint );
-
-			// Hack to allow in-line label wrap.
-			if ( f instanceof LabelFigure
-					&& ( pref.width + fmargin.getWidth( ) ) > parent.getClientArea( ).width )
-			{
-				pref = getChildSize( f,
-						Math.max( 0, parent.getClientArea( ).width
-								- fmargin.getWidth( ) ),
-						hHint );
-			}
-
-			Rectangle r = new Rectangle( 0,
-					0,
-					pref.width + fmargin.getWidth( ),
-					pref.height + fmargin.getHeight( ) );
-
-			display = getDisplay( f );
-
-			if ( data.rowCount > data.rowPos )
-			{
-				if ( ( data.rowWidth + r.width > data.maxWidth )
-						|| display == ReportItemConstraint.BLOCK
-						|| lastDisplay == ReportItemConstraint.BLOCK )
-					layoutRow( parent );
-			}
-			lastDisplay = display;
-
-			r.x = data.rowX;
-			r.y = data.rowY;
-			dx = r.width + getMinorSpacing( );
-			data.rowX += dx;
-			data.rowWidth += dx;
-			data.rowHeight = Math.max( data.rowHeight, r.height );
-			data.row[data.rowCount] = f;
-			data.margin[data.rowCount] = fmargin;
-			data.bounds[data.rowCount] = r;
-			data.rowCount++;
-			i++;
-		}
-		if ( data.rowCount > data.rowPos )
-		{
-			layoutRow( parent );
-		}
-		layoutVertical( parent );
+		
+		getLayoutStrategy( ).layout( parent, data );
 		data = null;
 	}
 
@@ -349,19 +290,29 @@ public class ReportFlowLayout extends AbstractHintLayout
 		int correctMinorAlignment = minorAlignment;
 
 		majorAdjustment = data.area.width - data.rowWidth + getMinorSpacing( );
-
-		switch ( correctMajorAlignment )
+		if (majorAdjustment < 0)
 		{
-			case ALIGN_LEFTTOP :
+			if (!parent.isMirrored( ))
+			{
 				majorAdjustment = 0;
-				break;
-			case ALIGN_CENTER :
-				majorAdjustment /= 2;
-				break;
-			case ALIGN_RIGHTBOTTOM :
-				break;
+			}			
+		}
+		else
+		{
+			switch ( correctMajorAlignment )
+			{
+				case ALIGN_LEFTTOP :
+					majorAdjustment = 0;
+					break;
+				case ALIGN_CENTER :
+					majorAdjustment /= 2;
+					break;
+				case ALIGN_RIGHTBOTTOM :
+					break;
+			}
 		}
 
+		
 		boolean needVerticalAlign = minorAlignment == ALIGN_CENTER
 				|| minorAlignment == ALIGN_RIGHTBOTTOM;
 
@@ -385,11 +336,57 @@ public class ReportFlowLayout extends AbstractHintLayout
 					case ALIGN_RIGHTBOTTOM :
 						break;
 				}
+				
+				if (minorAdjustment < 0)
+				{
+					minorAdjustment = 0;
+				}
 				data.bounds[j].y += minorAdjustment;
+				
 			}
 
 			data.bounds[j].x += majorAdjustment;
 
+			Rectangle parentArea = parent.getClientArea( ).getCopy( );
+//			Rectangle rect =  data.bounds[j].getCopy( );
+//			rect.translate( parentArea.x, parentArea.y );
+			if (data.rowY<parentArea.y + parentArea.height && data.rowY + data.rowHeight > parentArea.y + parentArea.height)
+			{
+				Rectangle rect = data.bounds[j].getCopy( );
+				rect.translate( parentArea.x, parentArea.y );
+				int distanceHeight = rect.y + rect.height - parentArea.y - parentArea.height;
+				if (distanceHeight > 0)
+				{
+					int topDistnceHeight =  rect.y - data.rowY - parentArea.y ;
+					if (topDistnceHeight > 0)
+					{
+						if (distanceHeight > topDistnceHeight)
+						{
+							data.bounds[j].y = data.bounds[j].y - topDistnceHeight;
+						}
+						else
+						{
+							if (correctMinorAlignment == ALIGN_CENTER)
+							{
+								data.bounds[j].y = data.bounds[j].y - minorAdjustment + (topDistnceHeight - distanceHeight)/2;
+							}
+							else
+							{
+								data.bounds[j].y = (data.bounds[j].y - minorAdjustment + topDistnceHeight - distanceHeight);
+							}
+						}
+					}
+				}
+				else
+				{
+					if (correctMinorAlignment == ALIGN_CENTER)
+					{
+						data.bounds[j].y = data.bounds[j].y - minorAdjustment +  (parentArea.height - data.rowY - data.bounds[j].height)/2;
+					}
+				}
+				
+			}
+			
 			if ( !needVerticalAlign )
 			{
 				setBoundsOfChild( parent, data.row[j], data.bounds[j].getCopy( )
@@ -539,11 +536,37 @@ public class ReportFlowLayout extends AbstractHintLayout
 	protected Dimension getChildSize( IFigure child, int wHint, int hHint )
 	{
 		ReportItemConstraint constraint = (ReportItemConstraint) getConstraint( child );
+		Dimension preferredDimension;
+		if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( layoutPreference ) && child instanceof IFixLayoutHelper)
+		{
+			preferredDimension = ((IFixLayoutHelper)child).getFixPreferredSize( wHint, hHint );
+			//process UNITS_PERCENTAGE
+			if ( constraint != null )
+			{
+				Dimension dimension = constraint.getSize( );
 
-		Dimension preferredDimension = child.getPreferredSize( wHint, hHint );
+				if ( dimension.width <= 0 )
+				{
+					if ( constraint.getMeasure( ) != 0
+							&& DesignChoiceConstants.UNITS_PERCENTAGE.equals( constraint.getUnits( ) ) )
+					{
+						preferredDimension.width = (int) constraint.getMeasure( )
+								* wHint
+								/ 100;
+					}
+					
+				}
+			}
+			constraint = null;
+		}
+		else
+		{
+			preferredDimension = child.getPreferredSize( wHint, hHint );
+		}
+		
 
 		// now support the persent value
-		if ( constraint != null )
+		if ( constraint != null && !constraint.isFitContiner( ))
 		{
 			if ( constraint.isNone( ) )
 			{
@@ -735,8 +758,24 @@ public class ReportFlowLayout extends AbstractHintLayout
 			{
 				wHint = Math.max( 0, wHint - fmargin.getWidth( ) );
 			}
-
-			childSize = child.getMinimumSize( wHint, hHint );
+			if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( layoutPreference ) && child instanceof IFixLayoutHelper)
+			{
+				int display = ReportItemConstraint.BLOCK;
+				display = getDisplay( child );
+				if (display == ReportItemConstraint.INLINE && child instanceof LabelFigure && 
+						(lastChild != null && getDisplay( lastChild ) == ReportItemConstraint.INLINE))
+				{
+					childSize = ((IFixLayoutHelper)child).getFixMinimumSize( wHint - width - getMinorSpacing( ) <=0 ? -1:wHint - width - getMinorSpacing( ),hHint );
+				}
+				else
+				{
+					childSize = ((IFixLayoutHelper)child).getFixMinimumSize( wHint, hHint );
+				}
+			}
+			else
+			{
+				childSize = child.getMinimumSize( wHint, hHint );
+			}
 
 			if ( i == 0 )
 			{
@@ -786,4 +825,190 @@ public class ReportFlowLayout extends AbstractHintLayout
 		return prefSize;
 	}
 
+	
+		
+	public void setLayoutPreference( String layoutPreference )
+	{
+		this.layoutPreference = layoutPreference;
+		layoutStrategy = null;
+	}
+
+	protected IFlowLayoutStrategy createFlowLayoutStrategy()
+	{
+		if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT.equals( layoutPreference ))
+		{
+			return new AutoLayoutStrategy();
+		}
+		else if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( layoutPreference ))
+		{
+			return new FixLayoutStrategy();
+		}
+		throw new RuntimeException("Don't support this flow layout style"); //$NON-NLS-1$
+	}
+	
+	public IFlowLayoutStrategy getLayoutStrategy( )
+	{
+		if (layoutStrategy == null)
+		{
+			layoutStrategy = createFlowLayoutStrategy( );
+		}
+		return layoutStrategy;
+	}
+	
+	public interface IFlowLayoutStrategy
+	{
+		void layout(IFigure figure, WorkingData data);
+	}
+	
+	private class AutoLayoutStrategy implements IFlowLayoutStrategy
+	{
+
+		public void layout( IFigure parent, WorkingData data )
+		{
+			Iterator iterator = parent.getChildren( ).iterator( );
+			int dx;
+			int i = 0;
+			int display = ReportItemConstraint.BLOCK;
+			int lastDisplay = ReportItemConstraint.BLOCK;
+
+			int wHint = parent.getClientArea( ).width;
+			int hHint = -1;
+			
+			while ( iterator.hasNext( ) )
+			{
+				IFigure f = (IFigure) iterator.next( );
+
+				Insets fmargin = getFigureMargin( f );
+
+				// fix bugzilla 156157
+				// always pass hint here, let child process inline/block cases. this
+				// is to resovle percentage custom size
+				wHint = parent.getClientArea( ).width;
+
+				if ( wHint != -1 )
+				{
+					wHint = Math.max( 0, wHint - fmargin.getWidth( ) );
+				}
+
+				Dimension pref = getChildSize( f, wHint, hHint );
+
+				// Hack to allow in-line label wrap.
+				if ( f instanceof LabelFigure
+						&& ( pref.width + fmargin.getWidth( ) ) > parent.getClientArea( ).width )
+				{
+					pref = getChildSize( f,
+							Math.max( 0, parent.getClientArea( ).width
+									- fmargin.getWidth( ) ),
+							hHint );
+				}
+
+				Rectangle r = new Rectangle( 0,
+						0,
+						pref.width + fmargin.getWidth( ),
+						pref.height + fmargin.getHeight( ) );
+
+				display = getDisplay( f );
+
+				if ( data.rowCount > data.rowPos )
+				{
+					if ( ( data.rowWidth + r.width > data.maxWidth )
+							|| display == ReportItemConstraint.BLOCK
+							|| lastDisplay == ReportItemConstraint.BLOCK )
+						layoutRow( parent );
+				}
+				lastDisplay = display;
+
+				r.x = data.rowX;
+				r.y = data.rowY;
+				dx = r.width + getMinorSpacing( );
+				data.rowX += dx;
+				data.rowWidth += dx;
+				data.rowHeight = Math.max( data.rowHeight, r.height );
+				data.row[data.rowCount] = f;
+				data.margin[data.rowCount] = fmargin;
+				data.bounds[data.rowCount] = r;
+				data.rowCount++;
+				i++;
+			}
+			if ( data.rowCount > data.rowPos )
+			{
+				layoutRow( parent );
+			}
+			layoutVertical( parent );
+		}
+	}
+	
+	private class FixLayoutStrategy implements IFlowLayoutStrategy
+	{
+		public void layout( IFigure parent, WorkingData data )
+		{
+			Iterator iterator = parent.getChildren( ).iterator( );
+			int dx;
+			int i = 0;
+
+			int display = ReportItemConstraint.BLOCK;
+			int lastDisplay = ReportItemConstraint.BLOCK;
+			int hHint = -1;
+			
+			while ( iterator.hasNext( ) )
+			{
+				int wHint = parent.getClientArea( ).width;
+				IFigure f = (IFigure) iterator.next( );
+
+				Insets fmargin = getFigureMargin( f );
+
+				if ( wHint != -1 )
+				{
+					wHint = Math.max( 0, wHint - fmargin.getWidth( ) );
+				}
+
+				Dimension pref = getChildSize( f, wHint, hHint );
+				display = getDisplay( f );
+				if (display == ReportItemConstraint.INLINE && f instanceof LabelFigure && lastDisplay == ReportItemConstraint.INLINE)
+				{
+					pref = getChildSize( f,  wHint - data.rowWidth  <=0 ? -1:wHint - data.rowWidth , hHint );
+					if (pref.width ==  wHint - data.rowWidth)
+					{
+						pref = getChildSize( f,  -1, hHint );
+					}
+				}
+				else if (display == ReportItemConstraint.INLINE)
+					
+				{
+					pref = getChildSize( f,  -1, hHint );
+				}
+				
+				Rectangle r = new Rectangle( 0,
+						0,
+						pref.width + fmargin.getWidth( ),
+						pref.height + fmargin.getHeight( ) );
+
+				if ( data.rowCount > data.rowPos )
+				{
+					if ( ( data.rowWidth + r.width > data.maxWidth ) 
+							|| display == ReportItemConstraint.BLOCK 
+								|| lastDisplay == ReportItemConstraint.BLOCK)
+						layoutRow( parent );
+				}
+				lastDisplay = display;
+				r.x = data.rowX;
+				r.y = data.rowY;
+				dx = r.width + getMinorSpacing( );
+				data.rowX += dx;
+				data.rowWidth += dx;
+				data.rowHeight = Math.max( data.rowHeight, r.height );
+				data.row[data.rowCount] = f;
+				data.margin[data.rowCount] = fmargin;
+				data.bounds[data.rowCount] = r;
+				data.rowCount++;
+				i++;
+			}
+			if ( data.rowCount > data.rowPos )
+			{
+				layoutRow( parent );
+			}
+			layoutVertical( parent );
+		}
+		
+	}
 }

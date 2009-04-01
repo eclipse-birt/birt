@@ -21,12 +21,15 @@ import java.util.ListIterator;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.draw2d.geometry.Dimension;
 
 /**
  * List element handle adapter
@@ -221,5 +224,28 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 	{
 		int index = children.indexOf( new ListBandProxy( getListHandle( ).getSlot( id ) ) );
 		return children.get( index );
+	}
+	
+	@Override
+	public Dimension getSize( )
+	{
+		DimensionHandle widthHandle = getListHandle( ).getWidth( );
+		int px = (int) DEUtil.convertoToPixel( widthHandle );
+
+		DimensionHandle heightHandle = getListHandle( ).getHeight( );
+		int py = (int) DEUtil.convertoToPixel( heightHandle );
+		
+		if (DEUtil.isFixLayout( getHandle( ) ))
+		{
+			if (px ==0 && widthHandle.isSet( ))
+			{
+				px = 1;
+			}
+			if (py == 0 && heightHandle.isSet( ))
+			{
+				py = 1;
+			}
+		}
+		return new Dimension( px, py );	
 	}
 }

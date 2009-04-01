@@ -37,6 +37,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
+import org.eclipse.swt.widgets.Display;
 
 
 /**
@@ -265,5 +266,23 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 		}
 			
 		return super.getAdapter( key );
+	}
+	
+	@Override
+	protected void updateLayoutPreference( )
+	{
+		super.updateLayoutPreference( );
+		getFigure( ).invalidate( );
+		((MultipleLayout)getFigure( ).getLayoutManager( )).markDirty( );
+		
+		Display.getCurrent( ).asyncExec( new Runnable()
+		{
+			public void run( )
+			{
+				getFigure( ).invalidateTree( );
+				getFigure( ).revalidate( );
+			}
+			
+		});
 	}
 }

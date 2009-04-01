@@ -35,8 +35,28 @@ public class ReportItemConstraint extends Rectangle
     
     private double measure = 0;
 	private String units = ""; //$NON-NLS-1$
+	
+	private boolean isFitTable = false;
 
 	
+	
+	/**
+	 * @return
+	 */
+	public boolean isFitContiner( )
+	{
+		return isFitTable;
+	}
+	
+	/**
+	 * @param isFitTable
+	 */
+	public void setFitTable( boolean isFitTable )
+	{
+		this.isFitTable = isFitTable;
+	}
+
+
 	/**
 	 * @return
 	 */

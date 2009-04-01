@@ -590,4 +590,25 @@ public class TableCellEditPart extends AbstractCellEditPart
 		}
 		super.deactivate( );
 	}
+	
+	@Override
+	protected void updateExistPart( )
+	{
+		IFigure layer = getLayer( LayerConstants.HANDLE_LAYER );
+		int size = handles.size( );
+		for ( int i = 0; i < size; i++ )
+		{
+			Figure handle = (Figure) handles.get( i );
+			layer.remove( handle );
+		}
+		
+		handles = getHandleList();
+		
+		size = handles.size( );
+		for ( int i = 0; i < size; i++ )
+		{
+			Figure handle = (Figure) handles.get( i );
+			layer.add( handle );
+		}
+	}
 }

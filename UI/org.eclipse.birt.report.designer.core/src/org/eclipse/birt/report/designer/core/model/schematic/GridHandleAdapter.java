@@ -16,9 +16,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience.
@@ -105,5 +109,40 @@ public class GridHandleAdapter extends TableHandleAdapter
 	{
 		return false;
 	}
+	
+	/**Returns the defined height in model in Pixel.
+	 * @return
+	 */
+	public String getDefinedHeight( )
+	{
+		DimensionHandle handle = ( (ReportItemHandle) getHandle( ) ).getHeight( );
 
+		if ( handle.getUnits( ) == null || handle.getUnits( ).length( ) == 0 )
+		{
+			return null;
+		}
+		else if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
+		{
+			return null;
+		}
+		else
+		{
+			int px = (int) DEUtil.convertoToPixel( handle );
+
+			if (DEUtil.isFixLayout( getHandle( ) ))
+			{
+				if (px ==0 && handle.isSet( ))
+				{
+					px = 1;
+				}	
+			}
+			
+			if ( px <= 0 )
+			{
+				return null;
+			}
+
+			return String.valueOf( px );
+		}
+	}
 }

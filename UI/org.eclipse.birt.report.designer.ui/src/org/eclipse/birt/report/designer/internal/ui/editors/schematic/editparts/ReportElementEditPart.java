@@ -36,6 +36,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.ColorManager;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -970,19 +971,19 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 */
 	protected void updateLayoutPreference( )
 	{
-//		if (!(getModel() instanceof DesignElementHandle))
-//		{
-//			return;
-//		}
-//		ModuleHandle handle = ((DesignElementHandle)getModel()).getModuleHandle( );
-//		if (!(handle instanceof ReportDesignHandle))
-//		{
-//			return;
-//		}
-//		if (getContentPane( ).getLayoutManager( ) instanceof ReportFlowLayout)
-//		{
-//			((ReportFlowLayout)getContentPane( ).getLayoutManager( )).setLayoutPreference( ((ReportDesignHandle)handle).getLayoutPreference( ) );
-//		}
+		if (!(getModel() instanceof DesignElementHandle))
+		{
+			return;
+		}
+		ModuleHandle handle = ((DesignElementHandle)getModel()).getModuleHandle( );
+		if (!(handle instanceof ReportDesignHandle))
+		{
+			return;
+		}
+		if (getContentPane( ).getLayoutManager( ) instanceof ReportFlowLayout)
+		{
+			((ReportFlowLayout)getContentPane( ).getLayoutManager( )).setLayoutPreference( ((ReportDesignHandle)handle).getLayoutPreference( ) );
+		}
 	}
 	
 	/**
@@ -990,16 +991,6 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 */
 	public boolean isFixLayout()
 	{
-		if (!(getModel() instanceof DesignElementHandle))
-		{
-			return false;
-		}
-		ModuleHandle handle = ((DesignElementHandle)getModel()).getModuleHandle( );
-		if (!(handle instanceof ReportDesignHandle))
-		{
-			return false;
-		}
-		
-		return DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(((ReportDesignHandle)handle).getLayoutPreference( ) );
+		return DEUtil.isFixLayout( getModel( ) );
 	}
 }

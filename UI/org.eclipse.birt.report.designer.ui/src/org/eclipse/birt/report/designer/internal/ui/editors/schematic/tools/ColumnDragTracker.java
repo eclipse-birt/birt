@@ -9,18 +9,26 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
+import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
+import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout.WorkingData;
+import org.eclipse.birt.report.designer.internal.ui.layout.TableLayoutData.ColumnData;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.MetricUtility;
+import org.eclipse.birt.report.model.api.ColumnHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.IFigure;
@@ -53,7 +61,7 @@ public class ColumnDragTracker extends TableDragGuideTracker
 	protected void resize( )
 	{
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
-		int value = getLocation( ).x - getStartLocation( ).x;
+		int value = getMouseTrueValueX( );
 		part.getTableAdapter( ).transStar(RESIZE_COLUMN_TRANS_LABEL );
 		if (isresizeMultipleColumn( ))
 		{
@@ -148,6 +156,40 @@ public class ColumnDragTracker extends TableDragGuideTracker
 			}
 		}
 	}
+	
+	private void resizeFixColumn(int value, int start, int end)
+	{
+		TableEditPart part = (TableEditPart) getSourceEditPart( );
+		value = getTrueValue( value, start, end );
+		//part.resizeColumn( start, end, value );	
+		
+		Object startColumn = part.getColumn( start );
+		if (!(startColumn instanceof ColumnHandle))	
+		{
+			return ;
+		}
+		
+		int startWidth = 0;
+		int endWidth = 0;
+
+		startWidth = TableUtil.caleVisualWidth( part, startColumn );
+
+		try
+		{
+			
+			double width = converPixToDefaultUnit( startWidth + value );
+			DimensionValue dimensionValue = new DimensionValue( width,
+					getDefaultUnits( ) );
+			
+			((ColumnHandle)startColumn).getWidth( ).setValue( dimensionValue );
+			// endAdapt.setWidth( endWidth - value );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+	
 	private boolean isresizeMultipleColumn()
 	{
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
@@ -172,7 +214,6 @@ public class ColumnDragTracker extends TableDragGuideTracker
 			}
 		}
 		
-		
 		return false;
 	}
 
@@ -183,7 +224,7 @@ public class ColumnDragTracker extends TableDragGuideTracker
 		Insets insets = figure.getInsets( );
 
 		int value = getLocation( ).x - getStartLocation( ).x;
-		value = getTrueValue( value );
+		value = getTrueValueAbsolute( value );
 
 		Point p = getStartLocation( ).getCopy( );
 		figure.translateToAbsolute( p );
@@ -201,16 +242,11 @@ public class ColumnDragTracker extends TableDragGuideTracker
 	protected Dimension getDragWidth( int start, int end)
 	{
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
+		Dimension retValue = new Dimension( part.getMinWidth( start )
+				- getColumnWidth( start ), Integer.MAX_VALUE );
 
-		//if ( start == end )
-		//{
-			return new Dimension( part.getMinWidth( start )
-					- getColumnWidth( start ), Integer.MAX_VALUE );
-		//}
-
-//		return new Dimension( part.getMinWidth( start )
-//				- getColumnWidth( start ), getColumnWidth( end )
-//				- part.getMinWidth( end ) );
+		//part.getFigure( ).translateToAbsolute( retValue );
+		return retValue;
 
 	}
 
@@ -269,8 +305,7 @@ public class ColumnDragTracker extends TableDragGuideTracker
 	
 	private String getShowLabel(int pix)
 	{
-		TableEditPart part = (TableEditPart) getSourceEditPart( );
-		String unit = part.getTableAdapter( ).getHandle( ).getModuleHandle( ).getDefaultUnits( );
+		String unit = getDefaultUnits( );
 		
 		double doubleValue = MetricUtility.pixelToPixelInch( pix );
 		double showValue = DimensionUtil.convertTo( doubleValue,DesignChoiceConstants.UNITS_IN, unit ).getMeasure( );
@@ -288,11 +323,115 @@ public class ColumnDragTracker extends TableDragGuideTracker
 	{
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
 		boolean bool =  super.handleDragInProgress( );
-		int value = getTrueValue( getLocation( ).x - getStartLocation( ).x);
+		//int value = getTrueValue( getLocation( ).x - getStartLocation( ).x);
+		int value = getTrueValue( getMouseTrueValueX( ) );
 		
 		int adjustWidth = TableUtil.caleVisualWidth( part, part.getColumn( getStart( ) ) ) + value;
 		updateInfomation( getShowLabel( adjustWidth ) );
 		return bool;
 		
+	}
+	
+	@Override
+	protected void fitResize( )
+	{
+		List exclusion = new ArrayList();
+		TableEditPart part = (TableEditPart) getSourceEditPart( );
+		
+		int value = getMouseTrueValueX( );
+		
+		part.getTableAdapter( ).transStar(RESIZE_COLUMN_TRANS_LABEL );
+		int width = 0;
+	
+		if (isresizeMultipleColumn( ))
+		{
+			List list = filterEditPart( part.getViewer( ).getSelectedEditParts( ));
+			
+			for (int i=0; i<list.size( ); i++)
+			{
+				int tempValue = value;
+				Object model =  ((EditPart)list.get( i )).getModel( );
+				ColumnHandleAdapter adapter = HandleAdapterFactory.getInstance( ).getColumnHandleAdapter( model );
+				int start = adapter.getColumnNumber( );
+				
+				exclusion.add( Integer.valueOf( start ) );
+				int end = start + 1;
+				
+				int ori = TableUtil.caleVisualWidth( part, model );
+				int adjustWidth = TableUtil.caleVisualWidth( part, part.getColumn( getStart( ) ) ) + value;
+				if (getStart( ) != start)
+				{
+					tempValue = adjustWidth - ori;
+				}
+				if (start == part.getColumnCount( ))
+				{
+					end = start;
+				}
+				
+				width = width + getTrueValue( tempValue, start, end);
+				
+				resizeFixColumn( tempValue,start, end );	
+			}
+		}
+		else
+		{
+			exclusion.add( Integer.valueOf( getStart( ) ) );
+			width = width + getTrueValue( value, getStart( ), getEnd( ));
+			resizeFixColumn( value, getStart( ), getEnd( ) );
+		}
+		
+		//Resize the table
+		Dimension tableSize = part.getFigure( ).getSize( ); 
+		try
+		{
+			ReportItemHandle handle = part.getTableAdapter( ).getReportItemHandle( );
+			//DimensionHandle dimension = handle.getWidth();
+			//dimension.s
+			//part.getTableAdapter( ).setSize( new Dimension(tableSize.width + width, -1) );
+			double tbWidth = converPixToDefaultUnit( tableSize.width + width );
+			setDimensionValue( handle, tbWidth );
+		}
+		catch ( SemanticException e )
+		{
+			part.getTableAdapter( ).rollBack( );
+			ExceptionHandler.handle( e );
+		}
+		adjustPercentageColumn( exclusion );
+		//check the % unit
+		
+		part.getTableAdapter( ).transEnd( );
+	}
+	
+	
+	
+	private void setDimensionValue(ReportItemHandle handle, double value) throws SemanticException
+	{
+		DimensionValue dimensionValue = new DimensionValue( value,
+				getDefaultUnits( ) );
+		handle.getWidth( ).setValue( dimensionValue );
+	}
+	
+	private void adjustPercentageColumn(List exclusion)
+	{
+		AbstractTableEditPart part = getAbstractTableEditPart();
+		WorkingData data = getTableWorkingData( );
+		ColumnData[] datas = data.columnWidths;
+		if (datas == null)
+		{
+			return;
+		}
+		for ( int i = 0; i < datas.length; i++ )
+		{
+			if (exclusion.contains( Integer.valueOf( datas[i].columnNumber ) ))
+			{
+				continue;
+			}
+			
+			ITableLayoutOwner.DimensionInfomation dim = part.getColumnWidth( datas[i].columnNumber );
+			if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( dim.getUnits( ) ))
+			{
+				resizeFixColumn(0,  datas[i].columnNumber, 1);
+			}
+		}
 	}
 }

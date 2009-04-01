@@ -79,4 +79,12 @@ public abstract class AbstractCellEditPart extends ReportElementEditPart impleme
 			
 		return super.getAdapter( key );
 	}
+	
+	/**
+	 * Update the edit part that nor recreate.
+	 */
+	protected void updateExistPart()
+	{
+		//do nothing now
+	}
 }

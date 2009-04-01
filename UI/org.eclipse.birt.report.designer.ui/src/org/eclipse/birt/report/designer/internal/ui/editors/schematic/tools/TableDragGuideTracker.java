@@ -15,13 +15,21 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
+import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.MetricUtility;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FigureCanvas;
@@ -29,7 +37,6 @@ import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -37,6 +44,8 @@ import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.swt.widgets.Display;
 
@@ -73,11 +82,6 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 		this.end = end;
 	}
 
-	protected boolean handleDragInProgress( )
-	{
-		return super.handleDragInProgress( );
-	}
-
 	protected boolean handleButtonUp( int button )
 	{
 		boolean bool =  super.handleButtonUp( button );
@@ -88,7 +92,6 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 	@Override
 	protected boolean handleButtonDown( int button )
 	{
-		
 		boolean bool =  super.handleButtonDown( button );
 		if (button == 1)
 		{
@@ -157,11 +160,28 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 
 	protected void performDrag( )
 	{
-		resize( );
+		if (isFitResize( ))
+		{
+			fitResize( );
+		}
+		else
+		{
+			resize( );
+		}
 		EditPart part = getSourceEditPart( );
 		part.getViewer( ).setSelection( part.getViewer( ).getSelection( ) );
 	}
 
+	protected boolean isFitResize()
+	{
+		EditPart part = getSourceEditPart( );
+		if (part instanceof ReportElementEditPart)
+		{
+			return ((ReportElementEditPart)part).isFixLayout( );
+		}
+		return false;
+	}
+	
 	private IFigure getMarqueeFeedbackFigure( )
 	{
 		if ( marqueeRectangleFigure == null )
@@ -325,8 +345,12 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 		this.end = end;
 	}
 
+	protected void fitResize()
+	{
+		resize( );
+	}
 	protected abstract void resize( );
-
+	
 	protected abstract Rectangle getMarqueeSelectionRectangle( );
 
 	protected abstract Dimension getDragWidth(int start, int end );
@@ -380,6 +404,23 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 	{
 		return getTrueValue( value, getStart( ), getEnd() );
 	}
+	
+	protected int getTrueValueAbsolute(int value)
+	{
+		Dimension dimension = getDragWidth(getStart( ), getEnd() );
+		
+		((GraphicalEditPart)getSourceEditPart( )).getFigure( ).translateToAbsolute( dimension );
+		if ( value < dimension.width )
+		{
+			value = dimension.width;
+		}
+		else if ( value > dimension.height )
+		{
+			value = dimension.height;
+		}
+		return value;
+	}
+	
 	protected int getTrueValue( int value, int start, int end )
 	{
 		Dimension dimension = getDragWidth(start, end );
@@ -416,5 +457,59 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 	{
 		IChoice choice = choiceSet.findChoice( unit );
 		return choice.getDisplayName( );
+	}
+	
+	protected TableLayout.WorkingData getTableWorkingData()
+	{
+		AbstractTableEditPart part= getAbstractTableEditPart( );
+		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
+		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager( )
+				.getConstraint( figure );
+		
+		return data;
+	}
+	
+	protected String getDefaultUnits()
+	{
+		Object model = getSourceEditPart( ).getModel( );
+		if (!(model instanceof DesignElementHandle))
+		{
+			return DesignChoiceConstants.UNITS_IN;
+		}
+		ModuleHandle handle = ((DesignElementHandle)model).getModuleHandle( );
+		return handle.getDefaultUnits( );
+	}
+	
+	protected double converPixToDefaultUnit(int pix)
+	{
+		double in = MetricUtility.pixelToPixelInch( pix );
+		return DimensionUtil.convertTo(in, DesignChoiceConstants.UNITS_IN, getDefaultUnits( )).getMeasure( );
+	}
+	
+	protected int getMouseTrueValueX()
+	{
+		int value = getLocation( ).x - getStartLocation( ).x;
+		
+		Dimension temp = new Dimension(value, 0);
+		getAbstractTableEditPart( ).getFigure( ).translateToRelative( temp );
+		value = temp.width;
+		
+		return value;
+	}
+	
+	protected int getMouseTrueValueY()
+	{
+		int value = getLocation( ).y - getStartLocation( ).y;
+		
+		Dimension temp = new Dimension(value, 0);
+		getAbstractTableEditPart( ).getFigure( ).translateToRelative( temp );
+		value = temp.width;
+		
+		return value;
+	}
+	
+	protected AbstractTableEditPart getAbstractTableEditPart()
+	{
+		return (AbstractTableEditPart)getSourceEditPart( );
 	}
 }
