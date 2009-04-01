@@ -313,7 +313,8 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 	{
 		List<ComputedColumnHandle> bindings = getBindingList( inputElement );
 		
-		return bindings.get( pos ).getElementHandle( ) == inputElement;
+		return pos < 0 ? false
+				: bindings.get( pos ).getElementHandle( ) == inputElement;
 	}
 	
 	private int getColumnBindingIndexFromTableSelection( )
