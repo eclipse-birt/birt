@@ -3479,6 +3479,9 @@ StringVariableSelectionDialog.Dialog.Label=変数の説明(&V) :
 StringVariableSelectionDialog.Dialog.Prompt=変数を選択してください (? は任意の 1 文字、* は任意の文字列を示します)(&C) : 
 StringVariableSelectionDialog.Dialog.Title=変数の選択 
 StyleBuilder.action.Apply=適用(&A)
+StyleBuilder.Edit.Info=Modify the desired style properties. All report elements that use this style are automatically updated to reflect the new format.
+StyleBuilder.New.Info=Create a new style by selectiong a property category on the left and specifying property values.
+StyleBuilder.Title=スタイル
 SytleBuilder.DialogTitle.New=スタイルの新規作成
 SytleBuilder.DialogTitle.Edit=スタイルの編集
 

@@ -3479,6 +3479,9 @@ StringVariableSelectionDialog.Dialog.Label=&Descripción de la variable:
 StringVariableSelectionDialog.Dialog.Prompt=&Seleccionar una variable (? = cualquier carácter, * = cualquier string): 
 StringVariableSelectionDialog.Dialog.Title=Seleccionar variable 
 StyleBuilder.action.Apply=&Aplicar
+StyleBuilder.Edit.Info=Modify the desired style properties. All report elements that use this style are automatically updated to reflect the new format.
+StyleBuilder.New.Info=Create a new style by selectiong a property category on the left and specifying property values.
+StyleBuilder.Title=Estilo
 SytleBuilder.DialogTitle.New=Nuevo estilo
 SytleBuilder.DialogTitle.Edit=Editar estilo
 

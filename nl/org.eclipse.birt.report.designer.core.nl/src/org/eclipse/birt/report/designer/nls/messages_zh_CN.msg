@@ -3479,6 +3479,9 @@ StringVariableSelectionDialog.Dialog.Label=变量描述(&V):
 StringVariableSelectionDialog.Dialog.Prompt=选择变量(? = 任意字符，* = 任意字符串)(&C): 
 StringVariableSelectionDialog.Dialog.Title=选择变量 
 StyleBuilder.action.Apply=应用(&A)
+StyleBuilder.Edit.Info=Modify the desired style properties. All report elements that use this style are automatically updated to reflect the new format.
+StyleBuilder.New.Info=Create a new style by selectiong a property category on the left and specifying property values.
+StyleBuilder.Title=样式
 SytleBuilder.DialogTitle.New=新建样式
 SytleBuilder.DialogTitle.Edit=编辑样式
 

@@ -3479,6 +3479,9 @@ StringVariableSelectionDialog.Dialog.Label=변수 설명(&V):
 StringVariableSelectionDialog.Dialog.Prompt=변수 선택(? = 모든 문자, * = 모든 문자열)(&C): 
 StringVariableSelectionDialog.Dialog.Title=변수 선택 
 StyleBuilder.action.Apply=적용(&A)
+StyleBuilder.Edit.Info=Modify the desired style properties. All report elements that use this style are automatically updated to reflect the new format.
+StyleBuilder.New.Info=Create a new style by selectiong a property category on the left and specifying property values.
+StyleBuilder.Title=스타일
 SytleBuilder.DialogTitle.New=새 스타일
 SytleBuilder.DialogTitle.Edit=스타일 편집
 
