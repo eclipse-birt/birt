@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -36,6 +35,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -65,11 +65,15 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 	private boolean initialized = false;
 
+	private Label cusLabel;
+
+	private Label preLabel;
+
 	/**
 	 * Default constructor.
 	 * 
-	 * @param model,
-	 *            the model of preference page.
+	 * @param model
+	 *            , the model of preference page.
 	 */
 	public GeneralPreferencePage( Object model )
 	{
@@ -96,7 +100,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 	 */
 	protected void createFieldEditors( )
 	{
-		super.createFieldEditors( );
+		// super.createFieldEditors( );
 
 		createStyleNameControl( );
 
@@ -131,6 +135,9 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		nameComp.setLayout( new GridLayout( 2, false ) );
 
 		preStyle = new Button( nameComp, SWT.RADIO );
+		preStyle.setText( " " );
+		int width = preStyle.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+
 		preStyle.setText( Messages.getString( "GeneralPreferencePage.label.predefinedStyle" ) ); //$NON-NLS-1$
 		preStyle.addSelectionListener( new SelectionListener( ) {
 
@@ -154,6 +161,16 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				checkPageValid( );
 			}
 		} );
+		data = new GridData( GridData.FILL_HORIZONTAL );
+		data.horizontalSpan = 2;
+		preStyle.setLayoutData( data );
+
+		preLabel = new Label( nameComp, SWT.NONE );
+		preLabel.setText( "Select Report Element:" );
+		data = new GridData( );
+		data.horizontalIndent = width;
+		preLabel.setLayoutData( data );
+
 		preName = new Combo( nameComp, SWT.NULL | SWT.READ_ONLY );
 		data = new GridData( GridData.FILL_HORIZONTAL );
 		preName.setLayoutData( data );
@@ -190,6 +207,15 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				checkPageValid( );
 			}
 		} );
+		data = new GridData( GridData.FILL_HORIZONTAL );
+		data.horizontalSpan = 2;
+		cusStyle.setLayoutData( data );
+
+		cusLabel = new Label( nameComp, SWT.NONE );
+		cusLabel.setText( "Name:" );
+		data = new GridData( );
+		data.horizontalIndent = width;
+		cusLabel.setLayoutData( data );
 
 		cusName = new Text( nameComp, SWT.SINGLE | SWT.BORDER );
 		data = new GridData( GridData.FILL_HORIZONTAL );
@@ -255,7 +281,9 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 	private void setPredefinedStyle( boolean b )
 	{
 		preName.setEnabled( b );
+		preLabel.setEnabled( b );
 		cusName.setEnabled( !b );
+		cusLabel.setEnabled( !b );
 	}
 
 	/*
@@ -351,7 +379,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 			if ( initialized && ( !isValid( ) ) )
 			{
 				String errorMessage = Messages.getString( "GeneralPreferencePage.label.nameEmpty" ); //$NON-NLS-1$
-				setMessage( errorMessage, PreferencePage.ERROR );
+				// setMessage( errorMessage, PreferencePage.ERROR );
 				setErrorMessage( errorMessage );
 			}
 		}
@@ -364,14 +392,14 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 						new String[]{
 							name
 						} );
-				setMessage( errorMessage, PreferencePage.ERROR );
+				// setMessage( errorMessage, PreferencePage.ERROR );
 				setErrorMessage( errorMessage );
 			}
 		}
 
 		if ( initialized && isValid( ) )
 		{
-			setMessage( null, PreferencePage.NONE );
+			// setMessage( null, PreferencePage.NONE );
 			setErrorMessage( null );
 		}
 
@@ -404,5 +432,12 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				cusName.setFocus( );
 			}
 		}
+	}
+
+	protected String[] getPreferenceNames( )
+	{
+		return new String[]{
+				StyleHandle.CAN_SHRINK_PROP, StyleHandle.SHOW_IF_BLANK_PROP,
+		};
 	}
 }

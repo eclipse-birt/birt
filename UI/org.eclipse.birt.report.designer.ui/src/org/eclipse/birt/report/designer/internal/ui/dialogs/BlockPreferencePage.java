@@ -107,7 +107,7 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 	 */
 	protected void createFieldEditors( )
 	{
-		super.createFieldEditors( );
+		// super.createFieldEditors( );
 
 		lineHeight = new ComboBoxMeasureFieldEditor( StyleHandle.LINE_HEIGHT_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.LINE_HEIGHT_PROP )
@@ -287,6 +287,22 @@ public class BlockPreferencePage extends BaseStylePreferencePage
 		}
 
 		return names;
+	}
+
+	protected String[] getPreferenceNames( )
+	{
+		return new String[]{
+				StyleHandle.LINE_HEIGHT_PROP,
+				StyleHandle.LETTER_SPACING_PROP,
+				StyleHandle.WORD_SPACING_PROP,
+				StyleHandle.VERTICAL_ALIGN_PROP,
+				StyleHandle.TEXT_ALIGN_PROP,
+				StyleHandle.TEXT_INDENT_PROP,
+				StyleHandle.TEXT_TRANSFORM_PROP,
+				StyleHandle.WHITE_SPACE_PROP,
+				StyleHandle.DISPLAY_PROP,
+				StyleHandle.TEXT_DIRECTION_PROP,
+		};
 	}
 
 }

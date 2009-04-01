@@ -482,15 +482,17 @@ public class ColorBuilder extends Composite
 		int[] rgbValues = ColorUtil.getRGBs( value );
 		if ( rgbValues == null )
 		{
-			setRGB( null );
+			setRGBFromColorValue( null );
 		}
 		else
 		{
-			setRGB( new RGB( rgbValues[0], rgbValues[1], rgbValues[2] ) );
+			setRGBFromColorValue( new RGB( rgbValues[0],
+					rgbValues[1],
+					rgbValues[2] ) );
 		}
 	}
 
-	public void setRGB( RGB rgb )
+	private void setRGBFromColorValue( RGB rgb )
 	{
 		oldRgb = rgb;
 		if ( combo.isDisposed( ) )
@@ -516,6 +518,29 @@ public class ColorBuilder extends Composite
 		{
 			combo.setText( newComboText );
 		}
+	}
+
+	public void setRGB( RGB rgb )
+	{
+		oldRgb = rgb;
+		if ( combo.isDisposed( ) )
+		{
+			return;
+		}
+
+		colorSelector.setColorValue( rgb );
+
+		predefinedColor = null;
+		String newComboText = null;
+		if ( rgb == null )
+		{
+			newComboText = NONE_CHOICE;
+		}
+		else
+		{
+			newComboText = formatRGB( rgb );
+		}
+		combo.setText( newComboText );
 	}
 
 	private String formatRGB( RGB rgb )

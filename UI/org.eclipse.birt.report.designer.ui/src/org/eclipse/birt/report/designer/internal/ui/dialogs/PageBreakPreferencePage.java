@@ -46,11 +46,13 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.BaseStylePreferencePage#createFieldEditors()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseStylePreferencePage
+	 * #createFieldEditors()
 	 */
 	protected void createFieldEditors( )
 	{
-		super.createFieldEditors( );
+		// super.createFieldEditors( );
 
 		GridData gdata;
 
@@ -95,18 +97,20 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 
 		addField( before );
 
-//		ComboBoxFieldEditor inside = new ComboBoxFieldEditor( StyleHandle.PAGE_BREAK_INSIDE_PROP,
-//				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PAGE_BREAK_INSIDE_PROP )
-//						.getDefn( )
-//						.getDisplayNameID( ) ),
-//				getChoiceArray( StyleHandle.PAGE_BREAK_INSIDE_PROP ),
-//				getFieldEditorParent( ) );
-//		gdata = new GridData( );
-//		gdata.widthHint = 120;
-//		inside.getComboBoxControl( getFieldEditorParent( ) )
-//				.setLayoutData( gdata );
-//
-//		addField( inside );
+		// ComboBoxFieldEditor inside = new ComboBoxFieldEditor(
+		// StyleHandle.PAGE_BREAK_INSIDE_PROP,
+		// Messages.getString( ( (StyleHandle) model ).getPropertyHandle(
+		// StyleHandle.PAGE_BREAK_INSIDE_PROP )
+		// .getDefn( )
+		// .getDisplayNameID( ) ),
+		// getChoiceArray( StyleHandle.PAGE_BREAK_INSIDE_PROP ),
+		// getFieldEditorParent( ) );
+		// gdata = new GridData( );
+		// gdata.widthHint = 120;
+		// inside.getComboBoxControl( getFieldEditorParent( ) )
+		// .setLayoutData( gdata );
+		//
+		// addField( inside );
 
 		ComboBoxFieldEditor after = new ComboBoxFieldEditor( StyleHandle.PAGE_BREAK_AFTER_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PAGE_BREAK_AFTER_PROP )
@@ -120,7 +124,8 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 				.setLayoutData( gdata );
 
 		addField( after );
-		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),IHelpContextIds.STYLE_BUILDER_PAGEBREAK_ID ); 
+		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),
+				IHelpContextIds.STYLE_BUILDER_PAGEBREAK_ID );
 
 	}
 
@@ -145,6 +150,16 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 		}
 
 		return new String[0][2];
+	}
+
+	protected String[] getPreferenceNames( )
+	{
+		return new String[]{
+				StyleHandle.WIDOWS_PROP,
+				StyleHandle.ORPHANS_PROP,
+				StyleHandle.PAGE_BREAK_BEFORE_PROP,
+				StyleHandle.PAGE_BREAK_AFTER_PROP,
+		};
 	}
 
 }

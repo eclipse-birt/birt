@@ -87,7 +87,7 @@ public class BackgroundPreferencePage extends BaseStylePreferencePage
 	protected void createFieldEditors( )
 	{
 
-		super.createFieldEditors( );
+		// super.createFieldEditors( );
 
 		color = new ColorFieldEditor( StyleHandle.BACKGROUND_COLOR_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BACKGROUND_COLOR_PROP )
@@ -181,6 +181,18 @@ public class BackgroundPreferencePage extends BaseStylePreferencePage
 			}
 		}
 		return names;
+	}
+
+	protected String[] getPreferenceNames( )
+	{
+		return new String[]{
+				StyleHandle.BACKGROUND_COLOR_PROP,
+				StyleHandle.BACKGROUND_IMAGE_PROP,
+				StyleHandle.BACKGROUND_REPEAT_PROP,
+				StyleHandle.BACKGROUND_ATTACHMENT_PROP,
+				StyleHandle.BACKGROUND_POSITION_X_PROP,
+				StyleHandle.BACKGROUND_POSITION_Y_PROP,
+		};
 	}
 
 }

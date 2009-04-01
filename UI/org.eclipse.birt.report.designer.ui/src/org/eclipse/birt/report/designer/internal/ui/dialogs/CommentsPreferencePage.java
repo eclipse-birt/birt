@@ -44,7 +44,9 @@ public class CommentsPreferencePage extends BaseStylePreferencePage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createContents(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createContents
+	 * (org.eclipse.swt.widgets.Composite)
 	 */
 	protected void createFieldEditors( )
 	{
@@ -67,6 +69,11 @@ public class CommentsPreferencePage extends BaseStylePreferencePage
 		super.adjustGridLayout( );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		comments.getTextControl( getFieldEditorParent( ) ).setLayoutData( gd );
+	}
+
+	protected String[] getPreferenceNames( )
+	{
+		return new String[0];
 	}
 
 }

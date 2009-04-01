@@ -154,4 +154,9 @@ public class FormatStringPreferencePage extends BaseStylePreferencePage
 			return false;
 		}
 	}
+
+	protected String[] getPreferenceNames( )
+	{
+		return new String[0];
+	}
 }

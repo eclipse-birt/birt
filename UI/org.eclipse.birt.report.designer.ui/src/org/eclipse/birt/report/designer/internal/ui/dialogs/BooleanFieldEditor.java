@@ -29,14 +29,14 @@ public class BooleanFieldEditor extends AbstractFieldEditor
 {
 
 	/**
-	 * Style constant (value <code>0</code>) indicating the default layout
-	 * where the field editor's check box appears to the left of the label.
+	 * Style constant (value <code>0</code>) indicating the default layout where
+	 * the field editor's check box appears to the left of the label.
 	 */
 	public static final int DEFAULT = 0;
 
 	/**
-	 * Style constant (value <code>1</code>) indicating a layout where the
-	 * field editor's label appears on the left with a check box on the right.
+	 * Style constant (value <code>1</code>) indicating a layout where the field
+	 * editor's label appears on the left with a check box on the right.
 	 */
 	public static final int SEPARATE_LABEL = 1;
 
@@ -44,11 +44,6 @@ public class BooleanFieldEditor extends AbstractFieldEditor
 	 * Style bits. Either <code>DEFAULT</code> or <code>SEPARATE_LABEL</code>.
 	 */
 	private int style;
-
-	/**
-	 * The previously selected, or "before", value.
-	 */
-	private boolean isSelected;
 
 	/**
 	 * The checkbox control, or <code>null</code> if none.
@@ -140,9 +135,9 @@ public class BooleanFieldEditor extends AbstractFieldEditor
 	{
 		if ( checkBox != null )
 		{
-			boolean value = getPreferenceStore( ).getBoolean( getPreferenceName( ) );
-			checkBox.setSelection( value );
-			isSelected = value;
+			String value = getPreferenceStore( ).getString( getPreferenceName( ) );
+			checkBox.setSelection( Boolean.valueOf( value ) );
+			setOldValue( value );
 		}
 		markDirty( false );
 	}
@@ -155,11 +150,21 @@ public class BooleanFieldEditor extends AbstractFieldEditor
 	{
 		if ( checkBox != null )
 		{
-			boolean value = getPreferenceStore( ).getDefaultBoolean( getPreferenceName( ) );
-			checkBox.setSelection( value );
-			isSelected = value;
+			String value = Boolean.valueOf( getPreferenceStore( ).getDefaultBoolean( getPreferenceName( ) ) )
+					.toString( );
+			checkBox.setSelection( Boolean.getBoolean( value ) );
+			setDefaultValue( value );
+			if ( this.getPreferenceStore( ) instanceof StylePreferenceStore )
+			{
+				StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore( );
+				if ( store.hasLocalValue( getPreferenceName( ) ) )
+					markDirty( true );
+				else
+					markDirty( false );
+			}
+			else
+				markDirty( true );
 		}
-		markDirty( false );
 	}
 
 	/*
@@ -170,21 +175,21 @@ public class BooleanFieldEditor extends AbstractFieldEditor
 		if ( isDirty( ) )
 		{
 			getPreferenceStore( ).setValue( getPreferenceName( ),
-					checkBox.getSelection( ) );
+					getPropValue( ) );
 		}
 	}
 
-	//	/**
-	//	 *
-	//	 */
-	//	protected boolean isDirty( )
-	//	{
-	//		if ( wasSelected != isSelected )
-	//		{
-	//			return true;
-	//		}
-	//		return false;
-	//	}
+	// /**
+	// *
+	// */
+	// protected boolean isDirty( )
+	// {
+	// if ( wasSelected != isSelected )
+	// {
+	// return true;
+	// }
+	// return false;
+	// }
 
 	/**
 	 * Returns this field editor's current value.
@@ -214,9 +219,10 @@ public class BooleanFieldEditor extends AbstractFieldEditor
 
 				public void widgetSelected( SelectionEvent e )
 				{
-					boolean value = checkBox.getSelection( );
-					valueChanged( isSelected, value );
-					isSelected = value;
+					Boolean value = Boolean.valueOf( checkBox.getSelection( ) );
+					valueChanged( Boolean.valueOf( getDisplayValue( ) ),
+							value.booleanValue( ) );
+					setPropValue( value.toString( ) );
 				}
 			} );
 			checkBox.addDisposeListener( new DisposeListener( ) {
@@ -297,7 +303,7 @@ public class BooleanFieldEditor extends AbstractFieldEditor
 	 */
 	public void setEnabled( boolean enabled, Composite parent )
 	{
-		//Only call super if there is a label already
+		// Only call super if there is a label already
 		if ( style == SEPARATE_LABEL )
 			super.setEnabled( enabled, parent );
 		getChangeControl( parent ).setEnabled( enabled );
@@ -306,7 +312,9 @@ public class BooleanFieldEditor extends AbstractFieldEditor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor#getValue()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor
+	 * #getValue()
 	 */
 	protected String getStringValue( )
 	{

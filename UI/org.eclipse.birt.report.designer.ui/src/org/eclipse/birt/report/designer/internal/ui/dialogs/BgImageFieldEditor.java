@@ -32,19 +32,20 @@ import org.eclipse.swt.widgets.Text;
 
 public class BgImageFieldEditor extends AbstractFieldEditor
 {
+
 	private static final String[] IMAGE_TYPES = new String[]{
-		".bmp", //$NON-NLS-1$
-		".jpg", //$NON-NLS-1$
-		".jpeg", //$NON-NLS-1$
-		".jpe", //$NON-NLS-1$
-		".jfif", //$NON-NLS-1$
-		".gif", //$NON-NLS-1$
-		".png", //$NON-NLS-1$
-		".tif", //$NON-NLS-1$
-		".tiff", //$NON-NLS-1$
-		".ico", //$NON-NLS-1$
-		".svg" //$NON-NLS-1$
-};
+			".bmp", //$NON-NLS-1$
+			".jpg", //$NON-NLS-1$
+			".jpeg", //$NON-NLS-1$
+			".jpe", //$NON-NLS-1$
+			".jfif", //$NON-NLS-1$
+			".gif", //$NON-NLS-1$
+			".png", //$NON-NLS-1$
+			".tif", //$NON-NLS-1$
+			".tiff", //$NON-NLS-1$
+			".ico", //$NON-NLS-1$
+			".svg" //$NON-NLS-1$
+	};
 	/**
 	 * the text widget.
 	 */
@@ -114,7 +115,17 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 		{
 			fText.setText( "" ); //$NON-NLS-1$
 		}
-		setOldValue( getStringValue( ) );
+		setDefaultValue( value );
+		if ( this.getPreferenceStore( ) instanceof StylePreferenceStore )
+		{
+			StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore( );
+			if ( store.hasLocalValue( getPreferenceName( ) ) )
+				markDirty( true );
+			else
+				markDirty( false );
+		}
+		else
+			markDirty( true );
 	}
 
 	/*
@@ -135,7 +146,9 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 		numColumns--;
 
 		( (GridData) getButtonControl( null ).getLayoutData( ) ).horizontalSpan = numColumns;
-		( (GridData) getButtonControl( null ).getLayoutData( ) ).widthHint = Math.max( getButtonControl( null ).computeSize( SWT.DEFAULT, SWT.DEFAULT ).x, 85 );
+		( (GridData) getButtonControl( null ).getLayoutData( ) ).widthHint = Math.max( getButtonControl( null ).computeSize( SWT.DEFAULT,
+				SWT.DEFAULT ).x,
+				85 );
 	}
 
 	/*
@@ -200,26 +213,25 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 				{
 					String ext[] = new String[]{
 						"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-					} ;
+					};
 					FileDialog fd = new FileDialog( parent.getShell( ),
 							SWT.OPEN );
-					fd.setFilterExtensions(ext );
+					fd.setFilterExtensions( ext );
 					// fd.setFilterNames( new String[]{
 					// "SWT image" + " (gif, jpeg, png, ico, bmp)" //$NON-NLS-1$
 					// //$NON-NLS-2$
 					// } );
 
-
-					
 					String file = fd.open( );
-					if ( file != null )					
-					{					
-					// should check extensions in Linux enviroment
-						if ( checkExtensions( IMAGE_TYPES,file ) == false )
+					if ( file != null )
+					{
+						// should check extensions in Linux enviroment
+						if ( checkExtensions( IMAGE_TYPES, file ) == false )
 						{
 							ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ), //$NON-NLS-1$
 									Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) ); //$NON-NLS-1$
-						}else
+						}
+						else
 						{
 							getTextControl( null ).setText( file );
 							valueChanged( VALUE );
@@ -245,12 +257,12 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 		}
 		return getPreferenceStore( ).getString( getPreferenceName( ) );
 	}
-	
-	private boolean checkExtensions(String fileExt[], String fileName )
-	{		
+
+	private boolean checkExtensions( String fileExt[], String fileName )
+	{
 		for ( int i = 0; i < fileExt.length; i++ )
 		{
-			String ext = fileExt[i].substring(fileExt[i].lastIndexOf('.') );
+			String ext = fileExt[i].substring( fileExt[i].lastIndexOf( '.' ) );
 			if ( fileName.toLowerCase( ).endsWith( ext.toLowerCase( ) ) )
 			{
 				return true;

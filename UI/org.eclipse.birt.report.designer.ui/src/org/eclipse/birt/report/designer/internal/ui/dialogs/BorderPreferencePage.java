@@ -111,7 +111,7 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 	 */
 	protected void createFieldEditors( )
 	{
-		super.createFieldEditors( );
+		// super.createFieldEditors( );
 
 		gpStyle = createGroupControl( getFieldEditorParent( ),
 				Messages.getString( "BorderPreferencePage.displayname.Style" ), 1, 2 ); //$NON-NLS-1$
@@ -300,5 +300,23 @@ public class BorderPreferencePage extends BaseStylePreferencePage
 		}
 
 		return new String[0][2];
+	}
+
+	protected String[] getPreferenceNames( )
+	{
+		return new String[]{
+				StyleHandle.BORDER_TOP_STYLE_PROP,
+				StyleHandle.BORDER_BOTTOM_STYLE_PROP,
+				StyleHandle.BORDER_LEFT_STYLE_PROP,
+				StyleHandle.BORDER_RIGHT_STYLE_PROP,
+				StyleHandle.BORDER_TOP_WIDTH_PROP,
+				StyleHandle.BORDER_BOTTOM_WIDTH_PROP,
+				StyleHandle.BORDER_LEFT_WIDTH_PROP,
+				StyleHandle.BORDER_RIGHT_WIDTH_PROP,
+				StyleHandle.BORDER_TOP_COLOR_PROP,
+				StyleHandle.BORDER_BOTTOM_COLOR_PROP,
+				StyleHandle.BORDER_LEFT_COLOR_PROP,
+				StyleHandle.BORDER_RIGHT_COLOR_PROP,
+		};
 	}
 }

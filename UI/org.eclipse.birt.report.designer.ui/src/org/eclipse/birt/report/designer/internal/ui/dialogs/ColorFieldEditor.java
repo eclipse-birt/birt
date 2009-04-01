@@ -16,7 +16,6 @@ import org.eclipse.birt.report.designer.ui.widget.ColorBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
-import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
@@ -100,9 +99,19 @@ public class ColorFieldEditor extends AbstractFieldEditor
 	{
 		if ( colorSelector == null )
 			return;
-		colorSelector.setRGB( PreferenceConverter.getDefaultColor( getPreferenceStore( ),
-				getPreferenceName( ) ) );
-		setOldValue( getStringValue( ) );
+		RGB rgb = DEUtil.getRGBValue( ColorUtil.parseColor( getPreferenceStore( ).getDefaultString( getPreferenceName( ) ) ) );
+		colorSelector.setRGB( rgb );
+		setDefaultValue( getStringValue( ) );
+		if ( this.getPreferenceStore( ) instanceof StylePreferenceStore )
+		{
+			StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore( );
+			if ( store.hasLocalValue( getPreferenceName( ) ) )
+				markDirty( true );
+			else
+				markDirty( false );
+		}
+		else
+			markDirty( true );
 	}
 
 	/**
@@ -158,7 +167,7 @@ public class ColorFieldEditor extends AbstractFieldEditor
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.jface.preference.FieldEditor#setEnabled(boolean,
-	 *      org.eclipse.swt.widgets.Composite)
+	 * org.eclipse.swt.widgets.Composite)
 	 */
 	public void setEnabled( boolean enabled, Composite parent )
 	{
@@ -169,7 +178,9 @@ public class ColorFieldEditor extends AbstractFieldEditor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor#getValue()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor
+	 * #getValue()
 	 */
 	protected String getStringValue( )
 	{

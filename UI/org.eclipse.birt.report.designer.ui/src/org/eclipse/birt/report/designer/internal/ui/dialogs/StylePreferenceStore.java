@@ -103,8 +103,12 @@ public class StylePreferenceStore implements IPreferenceStore
 	 */
 	public boolean getDefaultBoolean( String name )
 	{
-		// TODO Auto-generated method stub
-		return false;
+		Object obj = ( (StyleHandle) model ).getPropertyHandle( name )
+				.getDefn( )
+				.getDefault( );
+		if(obj!=null)
+			return Boolean.valueOf( obj.toString( ) );
+		else return false;
 	}
 
 	/*
@@ -168,7 +172,11 @@ public class StylePreferenceStore implements IPreferenceStore
 	 */
 	public String getDefaultString( String name )
 	{
-		// TODO Auto-generated method stub
+		Object obj = ( (StyleHandle) model ).getPropertyHandle( name )
+				.getDefn( )
+				.getDefault( );
+		if ( obj != null )
+			return obj.toString( );
 		return null;
 	}
 
@@ -663,5 +671,13 @@ public class StylePreferenceStore implements IPreferenceStore
 	public boolean hasError( )
 	{
 		return hasError;
+	}
+
+	public boolean hasLocalValue( String name )
+	{
+		PropertyHandle property = ( (StyleHandle) model ).getPropertyHandle( name );
+		if ( property != null )
+			return property.isLocal( );
+		return false;
 	}
 }

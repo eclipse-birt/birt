@@ -102,7 +102,7 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 	 */
 	protected void createFieldEditors( )
 	{
-		super.createFieldEditors( );
+		// super.createFieldEditors( );
 
 		getFieldEditorParent( ).setLayout( new GridLayout( ) );
 
@@ -259,5 +259,19 @@ public class BoxPreferencePage extends BaseStylePreferencePage
 		}
 
 		return new String[0][2];
+	}
+
+	protected String[] getPreferenceNames( )
+	{
+		return new String[]{
+				StyleHandle.PADDING_TOP_PROP,
+				StyleHandle.PADDING_BOTTOM_PROP,
+				StyleHandle.PADDING_LEFT_PROP,
+				StyleHandle.PADDING_RIGHT_PROP,
+				StyleHandle.MARGIN_TOP_PROP,
+				StyleHandle.MARGIN_BOTTOM_PROP,
+				StyleHandle.MARGIN_LEFT_PROP,
+				StyleHandle.MARGIN_RIGHT_PROP,
+		};
 	}
 }

@@ -383,6 +383,9 @@ public interface IReportGraphicConstants
 
 	public static final String ICON_DISABLE_EXPRESSION_BUILDERS = "Disable Expression Builder"; //$NON-NLS-1$
 
+	public static final String ICON_ENABLE_EXPRESSION_CONSTANT = "Enable Expression Constant"; //$NON-NLS-1$
+
+	public static final String ICON_DISABLE_EXPRESSION_CONSTANT = "Disable Expression Constant"; //$NON-NLS-1$
 	// Template preview image
 	public static final String ICON_TEMPLATE_NO_PREVIEW = "no_preview";//$NON-NLS-1$
 
@@ -459,4 +462,6 @@ public interface IReportGraphicConstants
 	public static final String ICON_GROUP_SORT = "GroupSort";
 
 	public static final String ICON_LOCAL_PROPERTIES = "LocalProperties";
+
+	public static final String ICON_STYLE_MODIFIED = "StyleModified";
 }

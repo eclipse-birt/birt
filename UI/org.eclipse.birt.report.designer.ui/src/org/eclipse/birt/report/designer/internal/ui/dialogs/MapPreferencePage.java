@@ -504,4 +504,9 @@ public class MapPreferencePage extends BaseStylePreferencePage
 			delete();
 		}
 	}
+
+	protected String[] getPreferenceNames( )
+	{
+		return new String[0];
+	}
 }

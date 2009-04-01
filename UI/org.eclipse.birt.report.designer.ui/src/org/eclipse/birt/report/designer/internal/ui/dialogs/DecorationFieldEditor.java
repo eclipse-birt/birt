@@ -47,19 +47,25 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 
 	private Button bUnderLine;
 
-	private boolean isSelected1;
+	private String propValue1;
+
+	private String displayValue1;
 
 	private boolean isDirty1;
 
 	private Button bOverLine;
 
-	private boolean isSelected2;
+	private String propValue2;
+
+	private String displayValue2;
 
 	private boolean isDirty2;
 
 	private Button bLineThrough;
 
-	private boolean isSelected3;
+	private String propValue3;
+
+	private String displayValue3;
 
 	private boolean isDirty3;
 
@@ -185,15 +191,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 
 				public void widgetSelected( SelectionEvent evt )
 				{
-					boolean isSelected = bUnderLine.getSelection( );
-					setPresentsDefaultValue( false );
-					if ( isSelected1 != isSelected )
-					{
-						fireValueChanged( VALUE, null, null );
-						fireStateChanged( VALUE, isSelected1, isSelected );
-						isSelected1 = isSelected;
-						isDirty1 = true;
-					}
+					underLineChanged( );
 				}
 			} );
 		}
@@ -217,15 +215,7 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 
 				public void widgetSelected( SelectionEvent evt )
 				{
-					boolean isSelected = bOverLine.getSelection( );
-					setPresentsDefaultValue( false );
-					if ( isSelected2 != isSelected )
-					{
-						fireValueChanged( VALUE, null, null );
-						fireStateChanged( VALUE, isSelected2, isSelected );
-						isSelected2 = isSelected;
-						isDirty2 = true;
-					}
+					overLineChanged( );
 				}
 			} );
 		}
@@ -249,19 +239,47 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 
 				public void widgetSelected( SelectionEvent evt )
 				{
-					boolean isSelected = bLineThrough.getSelection( );
-					setPresentsDefaultValue( false );
-					if ( isSelected3 != isSelected )
-					{
-						fireValueChanged( VALUE, null, null );
-						fireStateChanged( VALUE, isSelected3, isSelected );
-						isSelected3 = isSelected;
-						isDirty3 = true;
-					}
+					lineThroughChanged( );
 				}
 			} );
 		}
 		return bLineThrough;
+	}
+
+	protected void setPropValue1( String newValue )
+	{
+		this.propValue1 = newValue;
+		this.displayValue1 = newValue;
+	}
+
+	protected void setDefaultValue1( String newValue )
+	{
+		this.propValue1 = null;
+		this.displayValue1 = newValue;
+	}
+
+	protected void setPropValue2( String newValue )
+	{
+		this.propValue2 = newValue;
+		this.displayValue2 = newValue;
+	}
+
+	protected void setDefaultValue2( String newValue )
+	{
+		this.propValue2 = null;
+		this.displayValue2 = newValue;
+	}
+
+	protected void setPropValue3( String newValue )
+	{
+		this.propValue3 = newValue;
+		this.displayValue3 = newValue;
+	}
+
+	protected void setDefaultValue3( String newValue )
+	{
+		this.propValue3 = null;
+		this.displayValue3 = newValue;
 	}
 
 	/*
@@ -272,20 +290,20 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 		if ( bUnderLine != null )
 		{
 			String value = getPreferenceStore( ).getString( getUnderlinePropName( ) );
-			isSelected1 = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( value );
-			bUnderLine.setSelection( isSelected1 );
+			setPropValue1( value );
+			bUnderLine.setSelection( DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( displayValue1 ) );
 		}
 		if ( bOverLine != null )
 		{
 			String value = getPreferenceStore( ).getString( getOverLinePropName( ) );
-			isSelected2 = DesignChoiceConstants.TEXT_OVERLINE_OVERLINE.equals( value );
-			bOverLine.setSelection( isSelected2 );
+			setPropValue2( value );
+			bOverLine.setSelection( DesignChoiceConstants.TEXT_OVERLINE_OVERLINE.equals( displayValue2 ) );
 		}
 		if ( bLineThrough != null )
 		{
 			String value = getPreferenceStore( ).getString( getLineThroughPropName( ) );
-			isSelected3 = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( value );
-			bLineThrough.setSelection( isSelected3 );
+			setPropValue3( value );
+			bLineThrough.setSelection( DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( displayValue3 ) );
 		}
 	}
 
@@ -297,20 +315,59 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 		if ( bUnderLine != null )
 		{
 			String value = getPreferenceStore( ).getDefaultString( getUnderlinePropName( ) );
-			isSelected1 = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( value );
-			bUnderLine.setSelection( isSelected1 );
+			setDefaultValue1( value );
+			bUnderLine.setSelection( DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( displayValue1 ) );
+
+			if ( this.getPreferenceStore( ) instanceof StylePreferenceStore )
+			{
+				StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore( );
+				if ( store.hasLocalValue( getUnderlinePropName( ) ) )
+					isDirty1 = true;
+				else
+					isDirty1 = false;
+			}
+			else
+				isDirty1 = true;
+
+			fireValueChanged( VALUE, null, null );
 		}
 		if ( bOverLine != null )
 		{
 			String value = getPreferenceStore( ).getDefaultString( getOverLinePropName( ) );
-			isSelected2 = DesignChoiceConstants.TEXT_OVERLINE_OVERLINE.equals( value );
-			bOverLine.setSelection( isSelected2 );
+			setDefaultValue2( value );
+			bOverLine.setSelection( DesignChoiceConstants.TEXT_OVERLINE_OVERLINE.equals( displayValue2 ) );
+
+			if ( this.getPreferenceStore( ) instanceof StylePreferenceStore )
+			{
+				StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore( );
+				if ( store.hasLocalValue( getOverLinePropName( ) ) )
+					isDirty2 = true;
+				else
+					isDirty2 = false;
+			}
+			else
+				isDirty2 = true;
+
+			fireValueChanged( VALUE, null, null );
 		}
 		if ( bLineThrough != null )
 		{
 			String value = getPreferenceStore( ).getDefaultString( getLineThroughPropName( ) );
-			isSelected3 = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( value );
-			bLineThrough.setSelection( isSelected3 );
+			setDefaultValue3( value );
+			bLineThrough.setSelection( DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( displayValue3 ) );
+
+			if ( this.getPreferenceStore( ) instanceof StylePreferenceStore )
+			{
+				StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore( );
+				if ( store.hasLocalValue( getLineThroughPropName( ) ) )
+					isDirty3 = true;
+				else
+					isDirty3 = false;
+			}
+			else
+				isDirty3 = true;
+
+			fireValueChanged( VALUE, null, null );
 		}
 	}
 
@@ -321,18 +378,15 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 	{
 		if ( isDirty1 )
 		{
-			getPreferenceStore( ).setValue( underline_prop,
-					getUnderLinePropValue( ) );
+			getPreferenceStore( ).setValue( underline_prop, propValue1 );
 		}
 		if ( isDirty2 )
 		{
-			getPreferenceStore( ).setValue( overline_prop,
-					getOverLinePropValue( ) );
+			getPreferenceStore( ).setValue( overline_prop, propValue2 );
 		}
 		if ( isDirty3 )
 		{
-			getPreferenceStore( ).setValue( line_through_prop,
-					getLineThroughPropValue( ) );
+			getPreferenceStore( ).setValue( line_through_prop, propValue3 );
 		}
 	}
 
@@ -421,10 +475,132 @@ public class DecorationFieldEditor extends AbstractFieldEditor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor#getValue()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor
+	 * #getValue()
 	 */
 	protected String getStringValue( )
 	{
 		return null;
+	}
+
+	private void overLineChanged( )
+	{
+		boolean isSelected = bOverLine.getSelection( );
+		setPresentsDefaultValue( false );
+		boolean isSelected2 = DesignChoiceConstants.TEXT_OVERLINE_OVERLINE.equals( displayValue2 );
+		if ( isSelected2 != isSelected )
+		{
+			setPropValue2( getOverLinePropValue( ) );
+			isDirty2 = true;
+			fireValueChanged( VALUE, null, null );
+			fireStateChanged( VALUE, isSelected2, isSelected );
+		}
+	}
+
+	private void lineThroughChanged( )
+	{
+		boolean isSelected = bLineThrough.getSelection( );
+		setPresentsDefaultValue( false );
+		boolean isSelected3 = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( displayValue3 );
+		if ( isSelected3 != isSelected )
+		{
+			setPropValue3( getLineThroughPropValue( ) );
+			isDirty3 = true;
+			fireValueChanged( VALUE, null, null );
+			fireStateChanged( VALUE, isSelected3, isSelected );
+		}
+
+	}
+
+	private void underLineChanged( )
+	{
+		boolean isSelected = bUnderLine.getSelection( );
+		setPresentsDefaultValue( false );
+		boolean isSelected1 = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( displayValue1 );
+		if ( isSelected1 != isSelected )
+		{
+			setPropValue1( getUnderLinePropValue( ) );
+			isDirty1 = true;
+			fireValueChanged( VALUE, null, null );
+			fireStateChanged( VALUE, isSelected1, isSelected );
+		}
+	}
+
+	private boolean hasLocaleValue1( )
+	{
+		if ( propValue1 == null )
+			return false;
+		else
+		{
+			if ( isDirty1 )
+				return true;
+			else
+			{
+				if ( this.getPreferenceStore( ) instanceof StylePreferenceStore )
+				{
+					StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore( );
+					if ( store.hasLocalValue( getUnderlinePropName( ) ) )
+						return true;
+					else
+						return false;
+				}
+				else
+					return true;
+			}
+		}
+	}
+
+	private boolean hasLocaleValue2( )
+	{
+		if ( propValue2 == null )
+			return false;
+		else
+		{
+			if ( isDirty2 )
+				return true;
+			else
+			{
+				if ( this.getPreferenceStore( ) instanceof StylePreferenceStore )
+				{
+					StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore( );
+					if ( store.hasLocalValue( getOverLinePropName( ) ) )
+						return true;
+					else
+						return false;
+				}
+				else
+					return true;
+			}
+		}
+	}
+
+	private boolean hasLocaleValue3( )
+	{
+		if ( propValue3 == null )
+			return false;
+		else
+		{
+			if ( isDirty3 )
+				return true;
+			else
+			{
+				if ( this.getPreferenceStore( ) instanceof StylePreferenceStore )
+				{
+					StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore( );
+					if ( store.hasLocalValue( getLineThroughPropName( ) ) )
+						return true;
+					else
+						return false;
+				}
+				else
+					return true;
+			}
+		}
+	}
+
+	public boolean hasLocaleValue( )
+	{
+		return hasLocaleValue1( ) || hasLocaleValue2( ) || hasLocaleValue3( );
 	}
 }

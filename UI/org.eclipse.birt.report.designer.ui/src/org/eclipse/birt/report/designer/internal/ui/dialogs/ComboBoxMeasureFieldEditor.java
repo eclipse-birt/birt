@@ -65,6 +65,10 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 
 	private String[][] fMeasureNamesAndValues;
 
+	private ModifyListener comboModifyListener;
+
+	private ModifyListener textModifyListener;
+
 	/**
 	 * Constructs new instance width value choice and measure choice field
 	 * editor. Put the editor working in Combo Mode.
@@ -126,8 +130,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 	 * Checks whether given <code>String[][]</code> is of "type"
 	 * <code>String[][2]</code>.
 	 * 
-	 * @return <code>true</code> if it is OK, and <code>false</code>
-	 *         otherwise
+	 * @return <code>true</code> if it is OK, and <code>false</code> otherwise
 	 */
 	private boolean checkArray( String[][] table )
 	{
@@ -213,6 +216,35 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 	 */
 	protected void doLoadDefault( )
 	{
+		if ( fCombo != null )
+			fCombo.removeModifyListener( comboModifyListener );
+		else if ( fText != null )
+			fText.removeModifyListener( textModifyListener );
+		String value = getPreferenceStore( ).getDefaultString( getPreferenceName( ) );
+		measureValueSetting( value );
+		setDefaultValue( getStringValue( ) );
+
+		if ( this.getPreferenceStore( ) instanceof StylePreferenceStore )
+		{
+			StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore( );
+			if ( store.hasLocalValue( getPreferenceName( ) ) )
+				markDirty( true );
+			else
+				markDirty( false );
+		}
+		else
+			markDirty( true );
+
+		if ( fCombo != null )
+		{
+			handleComboModifyEvent( );
+			fCombo.addModifyListener( comboModifyListener );
+		}
+		else if ( fText != null )
+		{
+			handleTextModifyEvent( );
+			fText.addModifyListener( textModifyListener );
+		}
 	}
 
 	/*
@@ -225,9 +257,15 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 		// oldValue for storing the value got from preference store.
 		String value = getPreferenceStore( ).getString( getPreferenceName( ) );
 		// split the total value to insert it into the combos.
+		measureValueSetting( value );
+		setOldValue( getStringValue( ) );
+	}
+
+	private void measureValueSetting( String value )
+	{
 		String[] sptValue = DEUtil.splitString( value );
 
-		//		System.out.println( "sptValue: " + sptValue[0] + " --" + sptValue[1]
+		// System.out.println( "sptValue: " + sptValue[0] + " --" + sptValue[1]
 		// );
 		if ( hasChoice )
 		{// has combo box.
@@ -259,7 +297,6 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 				updateMeasureForValue( sptValue[1] );
 			}
 		}
-		setOldValue( getStringValue( ) );
 	}
 
 	/**
@@ -399,32 +436,17 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 		{
 			fText = new Text( parent, SWT.BORDER );
 			fText.setFont( parent.getFont( ) );
-			fText.addModifyListener( new ModifyListener( ) {
+
+			textModifyListener = new ModifyListener( ) {
 
 				public void modifyText( ModifyEvent e )
 				{
-					String text = fText.getText( );
-					if ( !DEUtil.isValidNumber( text ) )
-					{
-						fmeasure.deselectAll( );
-						fmeasure.setEnabled( false );
-					}
-					else if ( !fmeasure.isEnabled( ) )
-					{
-						String unit = getDefaultUnit( );
-						if ( !StringUtil.isBlank( unit ) )
-						{
-							unit = DEUtil.getMetaDataDictionary( )
-									.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS )
-									.findChoice( unit )
-									.getDisplayName( );
-						}
-						fmeasure.setText( unit == null ? "" : unit ); //$NON-NLS-1$
-						fmeasure.setEnabled( true );
-					}
+					handleTextModifyEvent( );
 					valueChanged( VALUE );
 				}
-			} );
+			};
+
+			fText.addModifyListener( textModifyListener );
 		}
 		return fText;
 	}
@@ -458,41 +480,16 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 					valueChanged( VALUE );
 				}
 			} );
-			fCombo.addModifyListener( new ModifyListener( ) {
+
+			comboModifyListener = new ModifyListener( ) {
 
 				public void modifyText( ModifyEvent e )
 				{
-					boolean cusType = !inComboNamesList( fCombo.getText( ) );
-
-					if ( cusType )
-					{
-						if ( !DEUtil.isValidNumber( fCombo.getText( ) ) )
-						{
-							fmeasure.deselectAll( );
-							fmeasure.setEnabled( false );
-						}
-						else if ( !( fmeasure.isEnabled( ) ) )
-						{
-							String unit = getDefaultUnit( );
-							if ( !StringUtil.isBlank( unit ) )
-							{
-								unit = DEUtil.getMetaDataDictionary( )
-										.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS )
-										.findChoice( unit )
-										.getDisplayName( );
-							}
-							fmeasure.setText( unit == null ? "" : unit ); //$NON-NLS-1$
-							fmeasure.setEnabled( true );
-						}
-					}
-					else
-					{
-						fmeasure.deselectAll( );
-						fmeasure.setEnabled( false );
-					}
+					handleComboModifyEvent( );
 					valueChanged( VALUE );
 				}
-			} );
+			};
+			fCombo.addModifyListener( comboModifyListener );
 		}
 		return fCombo;
 	}
@@ -516,7 +513,7 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 			if ( getTextControl( parent ) != null
 					&& getTextControl( parent ).getText( ) != null )
 			{
-				//				fmeasure.select( 0 );
+				// fmeasure.select( 0 );
 			}
 			fmeasure.setFont( parent.getFont( ) );
 			fmeasure.addSelectionListener( new SelectionAdapter( ) {
@@ -564,5 +561,60 @@ public class ComboBoxMeasureFieldEditor extends AbstractFieldEditor
 		}
 		// for illegal names, return null.
 		return name;
+	}
+
+	private void handleTextModifyEvent( )
+	{
+		String text = fText.getText( );
+		if ( !DEUtil.isValidNumber( text ) )
+		{
+			fmeasure.deselectAll( );
+			fmeasure.setEnabled( false );
+		}
+		else if ( !fmeasure.isEnabled( ) )
+		{
+			String unit = getDefaultUnit( );
+			if ( !StringUtil.isBlank( unit ) )
+			{
+				unit = DEUtil.getMetaDataDictionary( )
+						.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS )
+						.findChoice( unit )
+						.getDisplayName( );
+			}
+			fmeasure.setText( unit == null ? "" : unit ); //$NON-NLS-1$
+			fmeasure.setEnabled( true );
+		}
+	}
+
+	private void handleComboModifyEvent( )
+	{
+		boolean cusType = !inComboNamesList( fCombo.getText( ) );
+
+		if ( cusType )
+		{
+			if ( !DEUtil.isValidNumber( fCombo.getText( ) ) )
+			{
+				fmeasure.deselectAll( );
+				fmeasure.setEnabled( false );
+			}
+			else if ( !( fmeasure.isEnabled( ) ) )
+			{
+				String unit = getDefaultUnit( );
+				if ( !StringUtil.isBlank( unit ) )
+				{
+					unit = DEUtil.getMetaDataDictionary( )
+							.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS )
+							.findChoice( unit )
+							.getDisplayName( );
+				}
+				fmeasure.setText( unit == null ? "" : unit ); //$NON-NLS-1$
+				fmeasure.setEnabled( true );
+			}
+		}
+		else
+		{
+			fmeasure.deselectAll( );
+			fmeasure.setEnabled( false );
+		}
 	}
 }

@@ -148,4 +148,8 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 		}
 	}
 
+	protected String[] getPreferenceNames( )
+	{
+		return new String[0];
+	}
 }

@@ -65,8 +65,7 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor
 	 * Checks whether given <code>String[][]</code> is of "type"
 	 * <code>String[][2]</code>.
 	 * 
-	 * @return <code>true</code> if it is ok, and <code>false</code>
-	 *         otherwise
+	 * @return <code>true</code> if it is ok, and <code>false</code> otherwise
 	 */
 	private boolean checkArray( String[][] table )
 	{
@@ -125,7 +124,8 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor
 	 */
 	protected void doLoad( )
 	{
-		updateComboForValue( getPreferenceStore( ).getString( getPreferenceName( ) ) );
+		updateComboForValue( getPreferenceStore( ).getString( getPreferenceName( ) ),
+				true );
 	}
 
 	/*
@@ -133,7 +133,18 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor
 	 */
 	protected void doLoadDefault( )
 	{
-		updateComboForValue( getPreferenceStore( ).getDefaultString( getPreferenceName( ) ) );
+		updateComboForValue( getPreferenceStore( ).getDefaultString( getPreferenceName( ) ),
+				false );
+		if ( this.getPreferenceStore( ) instanceof StylePreferenceStore )
+		{
+			StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore( );
+			if ( store.hasLocalValue( getPreferenceName( ) ) )
+				markDirty( true );
+			else
+				markDirty( false );
+		}
+		else
+			markDirty( true );
 	}
 
 	/*
@@ -189,9 +200,16 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor
 	/**
 	 * Sets the name in the combo widget to match the specified value.
 	 */
-	protected void updateComboForValue( String value )
+	protected void updateComboForValue( String value, boolean setOldValue )
 	{
-		setOldValue( value );
+		if ( setOldValue )
+		{
+			setOldValue( value );
+		}
+		else
+		{
+			setDefaultValue( value );
+		}
 		for ( int i = 0; i < fEntryNamesAndValues.length; i++ )
 		{
 			if ( ( value == null && ( fEntryNamesAndValues[i][1] == null || fEntryNamesAndValues[i][1].length( ) == 0 ) )
@@ -209,13 +227,22 @@ public class ComboBoxFieldEditor extends AbstractFieldEditor
 		{
 			fCombo.setText( value );
 		}
-		setOldValue( getStringValue( ) );
+		if ( setOldValue )
+		{
+			setOldValue( getStringValue( ) );
+		}
+		else
+		{
+			setDefaultValue( getStringValue( ) );
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor#getValue()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor
+	 * #getValue()
 	 */
 	protected String getStringValue( )
 	{

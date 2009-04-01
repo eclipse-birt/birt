@@ -679,6 +679,12 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS,
 				ICONS_PATH + OTHERS_PATH + "exp-builder-fx-enabled.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_CONSTANT,
+				ICONS_PATH + OTHERS_PATH + "exp-constant-enabled.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_DISABLE_EXPRESSION_CONSTANT,
+				ICONS_PATH + OTHERS_PATH + "exp-constant-disabled.gif" ); //$NON-NLS-1$
+
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_AGGREGATION,
 				ICONS_PATH + OBJ16_PATH + "aggregation.gif" ); //$NON-NLS-1$
 
@@ -717,6 +723,10 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_STATUS_ERROR, ICONS_PATH
 				+ OBJ16_PATH
 				+ "error_obj.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_STYLE_MODIFIED, ICONS_PATH
+				+ OBJ16_PATH
+				+ "style_modified.gif" ); //$NON-NLS-1$
 	}
 
 	/**

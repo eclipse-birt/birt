@@ -83,7 +83,8 @@ public class FontPreferencePage extends BaseStylePreferencePage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#adjustGridLayout()
+	 * @see
+	 * org.eclipse.jface.preference.FieldEditorPreferencePage#adjustGridLayout()
 	 */
 	protected void adjustGridLayout( )
 	{
@@ -120,11 +121,13 @@ public class FontPreferencePage extends BaseStylePreferencePage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
+	 * @see
+	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors
+	 * ()
 	 */
 	protected void createFieldEditors( )
 	{
-		super.createFieldEditors( );
+		// super.createFieldEditors( );
 
 		name = new EditableComboFieldEditor( StyleHandle.FONT_FAMILY_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.FONT_FAMILY_PROP )
@@ -136,7 +139,8 @@ public class FontPreferencePage extends BaseStylePreferencePage
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor#setPropValue(java.lang.String)
+			 * @seeorg.eclipse.birt.report.designer.internal.ui.dialogs.
+			 * AbstractFieldEditor#setPropValue(java.lang.String)
 			 */
 			protected void setPropValue( String newValue )
 			{
@@ -157,11 +161,14 @@ public class FontPreferencePage extends BaseStylePreferencePage
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.EditableComboFieldEditor#updateComboForValue(java.lang.String)
+			 * @seeorg.eclipse.birt.report.designer.internal.ui.dialogs.
+			 * EditableComboFieldEditor#updateComboForValue(java.lang.String)
 			 */
-			protected void updateComboForValue( String value )
+			protected void updateComboForValue( String value,
+					boolean setOldValue )
 			{
-				super.updateComboForValue( DEUtil.removeQuote( value ) );
+				super.updateComboForValue( DEUtil.removeQuote( value ),
+						setOldValue );
 			}
 		};
 
@@ -239,7 +246,9 @@ public class FontPreferencePage extends BaseStylePreferencePage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createContents(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createContents
+	 * (org.eclipse.swt.widgets.Composite)
 	 */
 	protected Control createContents( Composite parent )
 	{
@@ -253,10 +262,13 @@ public class FontPreferencePage extends BaseStylePreferencePage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
+	 * @see
+	 * org.eclipse.jface.preference.FieldEditorPreferencePage#propertyChange
+	 * (org.eclipse.jface.util.PropertyChangeEvent)
 	 */
 	public void propertyChange( PropertyChangeEvent event )
 	{
+		super.propertyChange( event );
 		updatePreview( );
 	}
 
@@ -394,7 +406,7 @@ public class FontPreferencePage extends BaseStylePreferencePage
 				new AlphabeticallyComparator( ) );
 
 		String[] sf = DEUtil.getSystemFontNames( );
-		
+
 		String[] af = {
 				ChoiceSetFactory.CHOICE_AUTO, null
 		};
@@ -458,5 +470,19 @@ public class FontPreferencePage extends BaseStylePreferencePage
 			}
 		}
 		return names;
+	}
+
+	protected String[] getPreferenceNames( )
+	{
+		return new String[]{
+				StyleHandle.FONT_FAMILY_PROP,
+				StyleHandle.COLOR_PROP,
+				StyleHandle.FONT_SIZE_PROP,
+				StyleHandle.FONT_STYLE_PROP,
+				StyleHandle.FONT_WEIGHT_PROP,
+				StyleHandle.TEXT_UNDERLINE_PROP,
+				StyleHandle.TEXT_OVERLINE_PROP,
+				StyleHandle.TEXT_LINE_THROUGH_PROP,
+		};
 	}
 }

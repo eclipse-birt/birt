@@ -41,6 +41,8 @@ public class EditableComboFieldEditor extends AbstractFieldEditor
 	 */
 	protected String[][] fEntryNamesAndValues;
 
+	private ModifyListener modifyListener;
+
 	/**
 	 * Creates a editable combo field editor.
 	 * 
@@ -67,8 +69,7 @@ public class EditableComboFieldEditor extends AbstractFieldEditor
 	 * Checks whether given <code>String[][]</code> is of "type"
 	 * <code>String[][2]</code>.
 	 * 
-	 * @return <code>true</code> if it is ok, and <code>false</code>
-	 *         otherwise
+	 * @return <code>true</code> if it is ok, and <code>false</code> otherwise
 	 */
 	private boolean checkArray( String[][] table )
 	{
@@ -129,7 +130,8 @@ public class EditableComboFieldEditor extends AbstractFieldEditor
 	 */
 	protected void doLoad( )
 	{
-		updateComboForValue( getPreferenceStore( ).getString( getPreferenceName( ) ) );
+		updateComboForValue( getPreferenceStore( ).getString( getPreferenceName( ) ),
+				true );
 	}
 
 	/*
@@ -137,15 +139,33 @@ public class EditableComboFieldEditor extends AbstractFieldEditor
 	 */
 	protected void doLoadDefault( )
 	{
-		updateComboForValue( getPreferenceStore( ).getDefaultString( getPreferenceName( ) ) );
+		fCombo.removeModifyListener( modifyListener );
+		updateComboForValue( getPreferenceStore( ).getDefaultString( getPreferenceName( ) ),
+				false );
+
+		if ( this.getPreferenceStore( ) instanceof StylePreferenceStore )
+		{
+			StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore( );
+			if ( store.hasLocalValue( getPreferenceName( ) ) )
+				markDirty( true );
+			else
+				markDirty( false );
+		}
+		else
+			markDirty( true );
+
+		fCombo.addModifyListener( modifyListener );
 	}
 
 	/**
 	 * Sets the name in the combo widget to match the specified value.
 	 */
-	protected void updateComboForValue( String value )
+	protected void updateComboForValue( String value, boolean setOldValue )
 	{
-		setOldValue( value );
+		if ( setOldValue )
+			setOldValue( value );
+		else
+			setDefaultValue( value );
 		for ( int i = 0; i < fEntryNamesAndValues.length; i++ )
 		{
 			if ( ( fEntryNamesAndValues[i][1] != null && fEntryNamesAndValues[i][1].equals( value ) )
@@ -164,7 +184,10 @@ public class EditableComboFieldEditor extends AbstractFieldEditor
 		{
 			fCombo.setText( value );
 		}
-		setOldValue( getStringValue( ) );
+		if ( setOldValue )
+			setOldValue( getStringValue( ) );
+		else
+			setDefaultValue( getStringValue( ) );
 	}
 
 	/**
@@ -193,13 +216,14 @@ public class EditableComboFieldEditor extends AbstractFieldEditor
 
 			} );
 
-			fCombo.addModifyListener( new ModifyListener( ) {
+			modifyListener = new ModifyListener( ) {
 
 				public void modifyText( ModifyEvent e )
 				{
 					valueChanged( VALUE );
 				}
-			} );
+			};
+			fCombo.addModifyListener( modifyListener );
 		}
 		return fCombo;
 	}
@@ -223,7 +247,9 @@ public class EditableComboFieldEditor extends AbstractFieldEditor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor#getValue()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor
+	 * #getValue()
 	 */
 	protected String getStringValue( )
 	{
