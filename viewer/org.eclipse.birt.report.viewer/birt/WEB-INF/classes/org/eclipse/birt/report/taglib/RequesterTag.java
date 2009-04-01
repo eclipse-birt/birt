@@ -25,6 +25,7 @@ import javax.servlet.jsp.JspWriter;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
+import org.eclipse.birt.report.session.ViewingSessionUtil;
 import org.eclipse.birt.report.taglib.util.BirtTagUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
@@ -70,11 +71,13 @@ public class RequesterTag extends AbstractBaseTag
 	{
 		try
 		{
+			
 			// TODO: move this logic in AbstractBaseTag if possible
 			if ( __validate( ) )
 			{
 				if ( viewer.isCustom( ) )
-				{
+				{					
+					String viewingSessionId = ViewingSessionUtil.createSession( (HttpServletRequest) pageContext.getRequest( ) ).getId( );
 					JspWriter writer = pageContext.getOut( );
 
 					// create DIV object to contain requester page
@@ -87,7 +90,7 @@ public class RequesterTag extends AbstractBaseTag
 					writer
 							.write( "<FORM NAME=\"" + viewer.getName( ) + "\" METHOD=\"post\" " ); //$NON-NLS-1$ //$NON-NLS-2$
 					writer
-							.write( " action=\"" + viewer.createURI( null ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+							.write( " action=\"" + viewer.createURI( null, viewingSessionId ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 					if ( viewer.getTarget( ) != null )
 						writer
 								.write( " target=\"" + viewer.getTarget( ) + "\"" ); //$NON-NLS-1$//$NON-NLS-2$
@@ -264,7 +267,7 @@ public class RequesterTag extends AbstractBaseTag
 			iframe += " name=\"" + viewer.getName( ) + "\" ";//$NON-NLS-1$ //$NON-NLS-2$
 
 		// src, force "__cache" as false
-		String src = viewer.createURI( IBirtConstants.VIEWER_PARAMETER ) + "&" //$NON-NLS-1$
+		String src = viewer.createURI( IBirtConstants.VIEWER_PARAMETER, null ) + "&" //$NON-NLS-1$
 				+ ParameterAccessor.PARAM_NOCACHE_PARAMETER;
 		iframe += " src=\"" + src + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
 

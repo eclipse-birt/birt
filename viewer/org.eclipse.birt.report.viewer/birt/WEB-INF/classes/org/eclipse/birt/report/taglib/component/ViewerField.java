@@ -149,7 +149,7 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	 * @param iPattern
 	 * @return
 	 */
-	public String createURI( String iPattern )
+	public String createURI( String iPattern, String viewingSessionId )
 	{
 		String uri = iPattern;
 		if ( uri == null )
@@ -192,6 +192,11 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 		String uriSuffix = "";
 		
 		Map uriParams = new HashMap();
+		
+		if ( viewingSessionId != null )
+		{
+			uriParams.put( ParameterAccessor.PARAM_VIEWING_SESSION_ID, viewingSessionId );
+		}
 		
 		// append format setting
 		if ( format != null )

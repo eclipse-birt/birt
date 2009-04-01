@@ -36,7 +36,7 @@ public class ViewerTag extends AbstractViewerTag
 	public void __process( ) throws Exception
 	{
 		// URI for viewer
-		String uri = viewer.createURI( null );
+		String uri = viewer.createURI( null, null );
 		if ( viewer.isHostPage( ) )
 		{
 			__handleIFrame( uri, null );

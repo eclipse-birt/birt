@@ -241,12 +241,12 @@ public class ReportTag extends AbstractViewerTag
 	{
 		if ( viewer.isHostPage( ) )
 		{
-			__handleIFrame( viewer.createURI( IBirtConstants.VIEWER_PREVIEW ),
+			__handleIFrame( viewer.createURI( IBirtConstants.VIEWER_PREVIEW, null ),
 					null );
 		}
 		else
 		{
-			__handleIFrame( viewer.createURI( IBirtConstants.VIEWER_PREVIEW ),
+			__handleIFrame( viewer.createURI( IBirtConstants.VIEWER_PREVIEW, null ),
 					viewer.getId( ) );
 		}
 	}
