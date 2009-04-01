@@ -201,8 +201,11 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 
 		try
 		{
+			binding.setDataType( dbType );
 			if ( columnBinding.getAggregateOn( ) != null )
+			{
 				binding.addAggregateOn( columnBinding.getAggregateOn( ) );
+			}
 			if ( columnBinding.getAggregateFunction( ) != null )
 			{
 				binding.setAggrFunction( columnBinding.getAggregateFunction( ) );
