@@ -67,6 +67,14 @@ public class CursorModelTest extends BaseTestCase
 		creator.createCube(de );
 	}
 
+	protected void tearDown( ) throws Exception
+	{
+		if( de!= null )
+		{
+			de.shutdown( );
+			de = null;
+		}
+	}
 	/**
 	 * 
 	 * @throws OLAPException

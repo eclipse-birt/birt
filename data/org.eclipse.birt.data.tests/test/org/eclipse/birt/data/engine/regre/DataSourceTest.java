@@ -46,6 +46,11 @@ public class DataSourceTest extends APITestCase
 		myDataEngine = DataEngine.newDataEngine( context );
 	}
 	
+	protected void tearDown( ) throws Exception
+	{
+		myDataEngine.shutdown();
+		super.tearDown( );
+	}
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */

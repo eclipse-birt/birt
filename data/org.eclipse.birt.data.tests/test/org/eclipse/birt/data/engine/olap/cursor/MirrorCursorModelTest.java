@@ -60,6 +60,14 @@ public class MirrorCursorModelTest  extends BaseTestCase
 		creator.createCube1( de );
 	}
 	
+	protected void tearDown( ) throws Exception
+	{
+		if( de!= null )
+		{
+			de.shutdown( );
+			de = null;
+		}
+	}
 	/**
 	 * 
 	 * @throws OLAPException

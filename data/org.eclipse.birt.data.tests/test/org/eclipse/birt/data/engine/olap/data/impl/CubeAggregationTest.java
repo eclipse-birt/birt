@@ -67,7 +67,6 @@ import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 
 import testutil.BaseTestCase;
@@ -91,8 +90,9 @@ public class CubeAggregationTest extends BaseTestCase
 	private DimLevel dimLevel11 = new DimLevel("dimension1","level11");
 	private DimLevel dimLevel12 = new DimLevel("dimension1","level12");
 	
-	CubeMaterializer materializer;
-	ScriptContext cx = null;
+	private CubeMaterializer materializer;
+	private ScriptContext cx = null;
+	private DataEngineImpl engine = null; 
 	public CubeAggregationTest( )
 	{
 		pathName = System.getProperty( "java.io.tmpdir" );
@@ -109,7 +109,7 @@ public class CubeAggregationTest extends BaseTestCase
 				null,
 				null );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
+		engine = (DataEngineImpl)DataEngine.newDataEngine( context );
 		materializer = new CubeMaterializer( engine );
 		documentManager = materializer.getDocumentManager( );
 		createCube1( documentManager );
@@ -125,7 +125,7 @@ public class CubeAggregationTest extends BaseTestCase
 	{		
 		cx.exit( );
 		documentManager.close( );
-		
+		engine.shutdown( );
 		super.tearDown( );
 	}
 	

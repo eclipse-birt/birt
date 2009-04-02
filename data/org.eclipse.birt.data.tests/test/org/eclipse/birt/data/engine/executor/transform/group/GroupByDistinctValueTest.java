@@ -40,14 +40,6 @@ public class GroupByDistinctValueTest extends TestCase
 		super.setUp( );
 	}
 
-	/*
-	 * @see TestCase#tearDown()
-	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-
 	/**
 	 * Test GroupByDistinctValue#isInSameGroup
 	 * @throws DataException

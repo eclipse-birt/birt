@@ -24,7 +24,6 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.core.security.ThreadSecurity;
 import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil.Strategy;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
@@ -32,6 +31,7 @@ import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.ICancellable;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
@@ -671,17 +671,18 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			}
 		}
 		
-    	StopSign threadQuiter = new StopSign();
-		OdaQueryCanceller canceller = new OdaQueryCanceller( odaStatement, stopSign, threadQuiter );
-		Thread executionThread = ThreadSecurity.createThread( canceller );
-		executionThread.start( );
+    	ICancellable queryCanceller = new OdaQueryCanceller( odaStatement, stopSign );
+    	this.session.getCancelManager( ).register( queryCanceller );
 		
 		odaStatement.execute( );
+	
+		if ( queryCanceller.collectException( ) != null )
+		{
+			if ( !( queryCanceller.collectException( ).getCause( ) instanceof UnsupportedOperationException ) )
+				throw queryCanceller.collectException( );
+		}
 		
-		threadQuiter.stop( );
-		
-		if( canceller.collectException( )!= null )
-			throw canceller.collectException( );
+		this.session.getCancelManager( ).deregister( queryCanceller );
 		
 		ResultSet rs = null;
 		
@@ -768,40 +769,18 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		return ri;
     }
     
-    private class OdaQueryCanceller implements Runnable
+    private class OdaQueryCanceller implements ICancellable
     {
     	private PreparedStatement statement;
-    	private StopSign stopSign;
-    	private StopSign threadQuiter;
+    	private StopSign stop;
     	private DataException exception;
     	
-    	OdaQueryCanceller( PreparedStatement statement, StopSign stopSign, StopSign threadQuiter )
+    	OdaQueryCanceller( PreparedStatement statement, StopSign stop )
     	{
     		this.statement = statement;
-    		this.stopSign = stopSign;
-    		this.threadQuiter = threadQuiter;
+    		this.stop = stop;
     	}
     	
-		
-		public void run( )
-		{
-			try
-			{
-				while( !threadQuiter.isStopped( ))
-				{
-					if( stopSign.isStopped( ))
-					{
-						this.statement.cancel( );
-						threadQuiter.stop( );
-					}
-				}
-			}
-			catch ( Exception e )
-			{
-				this.exception = new DataException ( e.getLocalizedMessage( ));
-			}
-		}
-		
 		/**
 		 * Collect the exception throw during statement execution.
 		 * 
@@ -810,6 +789,30 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		public DataException collectException()
 		{
 			return this.exception;
+		}
+
+
+		/**
+		 * 
+		 */
+		public void cancel( )
+		{
+			try
+			{
+				this.statement.cancel( );
+			}
+			catch ( DataException e )
+			{
+				this.exception = e;
+			}
+		}
+
+		/**
+		 * 
+		 */
+		public boolean doCancel( )
+		{
+			return this.stop.isStopped( );
 		}
     }
     

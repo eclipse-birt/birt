@@ -520,6 +520,7 @@ public class CubeIVTest extends BaseTestCase
 		cursor = queryResults.getCubeCursor( );
 
 		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1" );
+		engine.shutdown( );
 	
 	}
 	
@@ -605,6 +606,7 @@ public class CubeIVTest extends BaseTestCase
 		cursor = queryResults.getCubeCursor( );
 
 		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1" );
+		engine.shutdown( );
 	
 	}
 	

@@ -77,6 +77,7 @@ public class DteLevelDataSetCacheTest extends BaseTestCase
 			assertTrue( ri2.next( ) );
 			assertEquals( ri1.getValue( "column1" ), ri2.getValue( "column2" ) );
 		}
+		dataEngine.shutdown( );
 		
 	}
 	
@@ -115,6 +116,7 @@ public class DteLevelDataSetCacheTest extends BaseTestCase
 			assertTrue( ri2.next( ) );
 			assertEquals( ((Integer)ri1.getValue( "column1" )).intValue( ) + 10, ((Integer)ri2.getValue( "column1" )).intValue( ) );
 		}
+		dataEngine.shutdown( );
 		
 	}
 	
@@ -155,6 +157,6 @@ public class DteLevelDataSetCacheTest extends BaseTestCase
 			assertTrue( ri2.next( ) );
 			assertEquals( ri1.getValue( "column1" ), ri2.getValue( "column1" ) );
 		}
-		
+		dataEngine.shutdown();
 	}
 }

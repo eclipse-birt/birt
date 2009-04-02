@@ -81,10 +81,12 @@ public class ColumnBindingTest extends APITestCase
 	}
 	
 	/**
+	 * @throws Exception 
 	 * 
 	 */
-	public void tearDown()
+	public void tearDown() throws Exception
 	{
+		super.tearDown();
 		TimeZone.setDefault( this.currentTimeZone  );
 	}
 	

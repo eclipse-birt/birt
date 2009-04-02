@@ -27,7 +27,6 @@ import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.expression.InvalidExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.GregorianCalendar;

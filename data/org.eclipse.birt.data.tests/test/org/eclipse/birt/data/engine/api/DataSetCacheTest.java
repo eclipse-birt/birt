@@ -71,7 +71,9 @@ public class DataSetCacheTest extends APITestCase
 	public void tearDown( ) throws Exception
 	{
 		getDataSetCacheManager( dataEngine ) .resetForTest( );
-		
+		dataEngine.shutdown( );
+		if( myDataEngine!= null )
+			myDataEngine.shutdown( );
 		super.tearDown( );
 	}
 	

@@ -86,6 +86,7 @@ public class DataSetCacheTest extends APITestCase
 	{
 		super.tearDown( );
 		myDataEngine.clearCache( this.dataSource, this.dataSet );
+		myDataEngine.shutdown( );
 	}
 
 	/*

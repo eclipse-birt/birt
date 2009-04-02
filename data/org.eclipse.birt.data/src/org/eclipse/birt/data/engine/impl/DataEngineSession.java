@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,6 +50,8 @@ public class DataEngineSession
 	private QueryResultIDUtil queryResultIDUtil;
 	
 	private NamingRelation namingRelation;
+	
+	private CancelManager cancelManager;
 	
 	private static ThreadLocal<ClassLoader> classLoaderHolder = new ThreadLocal<ClassLoader>();
 	
@@ -84,6 +87,9 @@ public class DataEngineSession
 				"DataEngine_" + engine.hashCode( ) + "_" + getCount( ) + File.separator;
 
 		this.dataSetCacheManager = new DataSetCacheManager( this );
+		this.cancelManager = new CancelManager( );
+		Timer timer = new Timer( );
+		timer.schedule( cancelManager, 1000, 1000 );
 		
 		classLoaderHolder.set( engine.getContext( ).getClassLoader( ) );
 		engine.addShutdownListener( new IShutdownListener(){
@@ -91,12 +97,18 @@ public class DataEngineSession
 			public void dataEngineShutdown( )
 			{
 				classLoaderHolder.set( null );
+				houseKeepCancelManager( );
 				
 			}} );
 		
 		engine.addShutdownListener( new ReportDocumentShutdownListener( this ) );
 		this.queryResultIDUtil = new QueryResultIDUtil();
 		logger.exiting( DataEngineSession.class.getName( ), "DataEngineSession" );
+	}
+	
+	public void finalize()
+	{
+		this.houseKeepCancelManager( );
 	}
 	
 	/**
@@ -208,6 +220,20 @@ public class DataEngineSession
 	public void setNamingRelation( NamingRelation namingRelation )
 	{
 		this.namingRelation = namingRelation;
+	}
+	
+	public CancelManager getCancelManager()
+	{
+		return this.cancelManager;
+	}
+	
+	private void houseKeepCancelManager( )
+	{
+		if( cancelManager!= null )
+		{
+			cancelManager.cancel( );
+			cancelManager = null;
+		}
 	}
 
 	/**

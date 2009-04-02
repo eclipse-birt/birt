@@ -81,6 +81,8 @@ public class CacheResultIterator implements IResultIterator
 		this.currRowIndex = -1;
 		this.lastRowIndex = this.currRowIndex - 1;
 		this.queryResults = queryResults;
+		this.startingGroupLevel = 0;
+		this.endingGroupLevel = queryResults.getPreparedQuery( ).getReportQueryDefn( ).getGroups( ).size( )+1;
 		try
 		{
 			createCacheInputStream( tempDir );

@@ -150,6 +150,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
+		engine.shutdown( );
 	}
 
 	/**
@@ -207,7 +208,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -283,6 +284,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				"rowGrandTotal",
 				null );
+		engine.shutdown( );
 	}
 	
 	/**
@@ -393,6 +395,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				new String[0]);
 		this.checkOutputFile( );
 		cursor.close( );
+		engine.shutdown( );
 	}
 
 	/**
@@ -506,6 +509,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				new String[0]);
 		this.checkOutputFile( );
 		cursor.close( );
+		engine.shutdown( );
 	}
 	
 	/**
@@ -625,6 +629,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				new String[0]);
 		this.checkOutputFile( );
 		cursor.close( );
+		engine.shutdown( );
 	}
 	
 	public void testValidateBinding( ) throws Exception
@@ -1061,6 +1066,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				"rowGrandTotal",
 				null );
+		
+		engine.shutdown( );
 	}
 
 	/**
@@ -1151,6 +1158,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				"rowGrandTotal",
 				null );
+		
+		engine.shutdown( );
 	}
 	
 
@@ -1243,6 +1252,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				"rowGrandTotal",
 				null );
+		
+		engine.shutdown( );
 	}
 	
 	/**
@@ -1312,6 +1323,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		catch ( Exception e )
 		{
 		}
+		engine.shutdown( );
 	}
 
 	/**
@@ -1374,6 +1386,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
+		
+		engine.shutdown( );
 
 	}
 
@@ -1441,6 +1455,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
+		
+		engine.shutdown( );
 
 	}
 
@@ -1508,6 +1524,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
+		
+		engine.shutdown( );
 
 	}
 
@@ -1570,6 +1588,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		{
 			fail( "Should not arrive here" );
 		}
+		
+		engine.shutdown( );
 	}
 
 	/**
@@ -1671,7 +1691,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	public void testAggrFilter1( ) throws Exception
@@ -1751,7 +1771,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -1812,7 +1832,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -1867,7 +1887,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -1927,7 +1947,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -1991,6 +2011,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
+		
+		engine.shutdown( );
 
 	}
 
@@ -2068,7 +2090,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -2147,7 +2169,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -2218,7 +2240,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -2286,7 +2308,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -2360,7 +2382,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	
@@ -2425,7 +2447,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
-
+		engine.shutdown( );
 	}
 	/**
 	 * Test grand total
@@ -2525,6 +2547,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				"columnGrandTotal",
 				"rowGrandTotal",
 				"grandTotal" );
+		
+		engine.shutdown( );
 
 	}
 
@@ -2629,6 +2653,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				"columnGrandTotal",
 				"rowGrandTotal",
 				"grandTotal" );
+		
+		engine.shutdown( );
 
 	}
 
@@ -2734,7 +2760,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	private DataEngineContext createPresentationContext( ) throws BirtException
@@ -2800,7 +2826,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -2869,7 +2895,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -2950,7 +2976,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -3010,7 +3036,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -3093,7 +3119,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -3211,6 +3237,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				"row_columnGrandTotal",
 				"row_rowGrandTotal",
 				"row_grandTotal" );
+		
+		engine.shutdown( );
 
 	}
 
@@ -3278,6 +3306,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure2" );
+		engine.shutdown( );
 	}
 
 	/**
@@ -3347,6 +3376,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure2" );
+		engine.shutdown( );
 	}
 
 	/**
@@ -3450,6 +3480,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				"columnGrandTotal",
 				"rowGrandTotal",
 				"grandTotal" );
+		
+		engine.shutdown( );
 
 	}
 
@@ -3514,6 +3546,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		{
 
 		}
+		engine.shutdown( );
 	}
 
 	/**
@@ -3586,6 +3619,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
+		engine.shutdown( );
 	}
 
 	/**
@@ -3651,7 +3685,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -3745,6 +3779,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1", null, null, null, true );
+		
+		engine.shutdown( );
 	}
 	/**
 	 * Filter1, filter out all level11 == CN.
@@ -3814,6 +3850,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
+		engine.shutdown( );
 
 	}
 
@@ -3889,6 +3926,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
+		
+		engine.shutdown( );
 
 	}
 
@@ -3961,7 +4000,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -4046,7 +4085,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -4152,6 +4191,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				"columnGrandTotal",
 				"rowGrandTotal",
 				"grandTotal" );
+		
+		engine.shutdown( );
 
 	}
 
@@ -4264,7 +4305,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -4328,7 +4369,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -4406,7 +4447,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -4496,7 +4537,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -4565,7 +4606,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				},
 				"edge2level1",
 				"measure1" );
-
+		engine.shutdown( );
 	}
 
 	/**
@@ -4688,6 +4729,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				"row_columnGrandTotal",
 				"row_rowGrandTotal",
 				"row_grandTotal" );
+		
+		engine.shutdown( );
 
 	}
 
@@ -4763,6 +4806,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure2" );
+		engine.shutdown( );
 	}
 
 	/**
@@ -4878,6 +4922,7 @@ public class CubeFeaturesTest extends BaseTestCase
 			
 		}
 		this.checkOutputFile( );
+		engine.shutdown( );
 	}
 	
 
@@ -4969,6 +5014,7 @@ public class CubeFeaturesTest extends BaseTestCase
 			}
 		}
 		this.checkOutputFile( );
+		engine.shutdown( );
 	}
 	
 	/**
@@ -5076,6 +5122,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		}
 		
 		this.checkOutputFile( );
+		engine.shutdown( );
 	}
 	
 	/**
@@ -5160,6 +5207,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		}
 		
 		this.checkOutputFile( );
+		engine.shutdown( );
 	}
 	
 	/**
@@ -5262,6 +5310,7 @@ public class CubeFeaturesTest extends BaseTestCase
 			}
 		}
 		this.checkOutputFile( );
+		engine.shutdown( );
 	}
 	
 	/**
@@ -5327,6 +5376,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				columnEdgeBindingNames,
 				rowEdgeBindingNames,
 				"measure1" );
+		engine.shutdown( );
 	}
 	
 	public void testSubQueryWithNestAggregation( ) throws BirtException, IOException, OLAPException
@@ -5405,6 +5455,7 @@ public class CubeFeaturesTest extends BaseTestCase
 			this.testPrint("\n All total values: ");
 			this.testPrint( subCubeCursor.getObject( "maxTotal" ).toString( ));
 			this.checkOutputFile( );
+			engine.shutdown( );
 		}
 		finally
 		{
@@ -5667,6 +5718,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				}
 			}
 			close( cubeCursor );
+			engine.shutdown( );
 		}
 		finally
 		{
@@ -5674,6 +5726,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				cx.exit( );
 		}
 		this.checkOutputFile( );
+
 	}
 
 	/**
@@ -5907,6 +5960,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				}
 			}
 			close( cubeCursor );
+			engine.shutdown( );
 		}
 		finally
 		{
@@ -6018,6 +6072,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				}
 			}
 			close( cubeCursor );
+			engine.shutdown( );
 		}
 		finally
 		{

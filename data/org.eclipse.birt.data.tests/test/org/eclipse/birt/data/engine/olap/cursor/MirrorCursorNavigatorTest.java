@@ -53,6 +53,15 @@ public class MirrorCursorNavigatorTest extends BaseTestCase
 		creator = new CubeUtility( );
 		creator.createCube( de );
 	}
+	
+	protected void tearDown( ) throws Exception
+	{
+		if( de!= null )
+		{
+			de.shutdown( );
+			de = null;
+		}
+	}
 
 	public void testNavigator( ) throws DataException, OLAPException
 	{
