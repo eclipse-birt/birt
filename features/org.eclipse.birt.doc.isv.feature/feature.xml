@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.birt.doc.isv"
-      label="Eclipse BIRT ISV Doc"
+      label="%featureName"
       version="2.5.0.qualifier"
-      provider-name="Eclipse.org"
+      provider-name="%providerName"
       plugin="org.eclipse.birt.doc.isv"
       image="eclipse_update_120.jpg">
 
@@ -20,7 +20,7 @@
    </license>
 
    <url>
-      <update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site/2.5"/>
+      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/2.5"/>
       <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/2.5"/>
    </url>
 

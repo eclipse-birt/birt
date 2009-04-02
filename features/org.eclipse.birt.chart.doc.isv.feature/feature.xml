@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.birt.chart.doc.isv"
-      label="Eclipse BIRT Chart ISV Doc"
+      label="%featureName"
       version="2.5.0.qualifier"
-      provider-name="Eclipse.org"
+      provider-name="%providerName"
       plugin="org.eclipse.birt.chart.doc.isv"
       image="eclipse_update_120.jpg">
 
