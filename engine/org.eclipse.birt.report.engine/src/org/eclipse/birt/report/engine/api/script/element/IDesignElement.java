@@ -64,8 +64,10 @@ public interface IDesignElement
 	 * 
 	 * @param name
 	 * @return user property
+	 * @deprecated
 	 */
 
+	@Deprecated
 	Object getUserProperty( String name );
 
 	/**
@@ -101,5 +103,15 @@ public interface IDesignElement
 	 * 
 	 * @return the report
 	 */
-	public IReportDesign getReport( );
+	IReportDesign getReport( );
+	
+	/**
+	 * Returns user property as an expression defined in this element.
+	 * 
+	 * @param name 
+	 *			the user property name
+	 * @return user property as an expression
+	 */
+
+	Object getUserPropertyExpression( String name );
 }

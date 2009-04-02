@@ -123,4 +123,10 @@ public class DesignElement implements IDesignElement
 				.getReport( ) );
 	}
 
+	@Override
+	public Object getUserPropertyExpression( String name )
+	{
+		return designElementImpl.getUserPropertyExpression( name );
+	}
+
 }

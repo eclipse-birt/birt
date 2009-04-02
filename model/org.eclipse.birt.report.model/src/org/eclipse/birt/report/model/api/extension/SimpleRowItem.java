@@ -616,4 +616,10 @@ public class SimpleRowItem implements IReportItem
 		return item.getReport( );
 	}
 
+	@Override
+	public Object getUserPropertyExpression( String name )
+	{
+		return item.getUserPropertyExpression( name );
+	}
+
 }

@@ -172,4 +172,10 @@ public class DesignElement implements IDesignElement
 		cmdStack.commit( );
 	}
 
+	@Override
+	public Object getUserPropertyExpression( String name )
+	{
+		return handle.getProperty( name );
+	}
+
 }

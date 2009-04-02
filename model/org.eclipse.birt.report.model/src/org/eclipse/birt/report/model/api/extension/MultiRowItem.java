@@ -750,4 +750,10 @@ public class MultiRowItem implements IMultiRowItem
 	{
 		return item;
 	}
+
+	@Override
+	public Object getUserPropertyExpression( String name )
+	{
+		return item.getUserPropertyExpression( name );
+	}
 }

@@ -434,4 +434,10 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 			return null;
 		}
 	}
+
+	@Override
+	public Object getUserPropertyExpression( String name )
+	{
+		return report.getUserPropertyExpression( name );		
+	}
 }
