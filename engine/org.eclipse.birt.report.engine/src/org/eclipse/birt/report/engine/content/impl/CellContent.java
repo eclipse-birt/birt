@@ -61,29 +61,9 @@ public class CellContent extends AbstractContent implements ICellContent
 	protected Boolean displayGroupIcon;
 	
 	/**
-	 * The number of the diagonal line.
+	 * The cell design, which generate this cell content.
 	 */
-	private int diagonalNumber = -1;
-	/**
-	 * The style of the diagonal line.
-	 */
-	private String diagonalStyle = null;
-	/**
-	 * The width of the diagonal line.
-	 */
-	private DimensionType diagonalWidth = null;
-	/**
-	 * The number of the antidiagonal line.
-	 */
-	private int antidiagonalNumber = -1;
-	/**
-	 * The style of the antidiagonal line.
-	 */
-	private String antidiagonalStyle = null;
-	/**
-	 * The width of the antidiagonal line.
-	 */
-	private DimensionType antidiagonalWidth = null;
+	CellDesign cellDesign = null;
 
 	private String headers;
 
@@ -115,12 +95,24 @@ public class CellContent extends AbstractContent implements ICellContent
 		this.column = cell.getColumn( );
 		this.displayGroupIcon = new Boolean(cell.getDisplayGroupIcon( ));
 		this.columnInstance = cell.getColumnInstance( );
-		this.diagonalNumber = cell.getDiagonalNumber( );
-		this.diagonalStyle = cell.getDiagonalStyle( );
-		this.diagonalWidth = cell.getDiagonalWidth( );
-		this.antidiagonalNumber = cell.getAntidiagonalNumber( );
-		this.antidiagonalStyle = cell.getAntidiagonalStyle( );
-		this.antidiagonalWidth = cell.getAntidiagonalWidth( );
+		if ( generateBy instanceof CellDesign )
+		{
+			cellDesign = (CellDesign) generateBy;
+		}
+	}
+	
+	/**
+	 * @param generateBy
+	 *            The generateBy to set.
+	 */
+	public void setGenerateBy( Object generateBy )
+	{
+		super.setGenerateBy( generateBy );
+
+		if ( generateBy instanceof CellDesign )
+		{
+			cellDesign = (CellDesign) generateBy;
+		}
 	}
 
 	/**
@@ -128,14 +120,11 @@ public class CellContent extends AbstractContent implements ICellContent
 	 */
 	public int getRowSpan( )
 	{
-		if ( rowSpan == -1 )
+		if ( rowSpan == -1 && cellDesign != null )
 		{
-			if ( generateBy instanceof CellDesign )
-			{
-				return ( (CellDesign) generateBy ).getRowSpan( );
-			}
+			rowSpan = cellDesign.getRowSpan( );
 		}
-		return this.rowSpan;
+		return rowSpan;
 	}
 
 	/**
@@ -144,12 +133,9 @@ public class CellContent extends AbstractContent implements ICellContent
 	 */
 	public int getColSpan( )
 	{
-		if ( colSpan == -1 )
+		if ( colSpan == -1 && cellDesign != null )
 		{
-			if ( generateBy instanceof CellDesign )
-			{
-				return ( (CellDesign) generateBy ).getColSpan( );
-			}
+			colSpan = cellDesign.getColSpan( );
 		}
 		return colSpan;
 	}
@@ -160,12 +146,9 @@ public class CellContent extends AbstractContent implements ICellContent
 	 */
 	public int getColumn( )
 	{
-		if ( column == -1 )
+		if ( column == -1  && cellDesign != null  )
 		{
-			if ( generateBy instanceof CellDesign )
-			{
-				return ( (CellDesign) generateBy ).getColumn( );
-			}
+			column = cellDesign.getColumn( );
 		}
 		return column;
 	}
@@ -254,12 +237,6 @@ public class CellContent extends AbstractContent implements ICellContent
 	static final protected short FIELD_COLUMN = 102;
 	static final protected short FIELD_START_OF_GROUP = 103;
 	static final protected short FIELD_DISPLAY_GROUP_ICON = 104;
-	static final protected short FIELD_DIAGONAL_NUMBER = 105;
-	static final protected short FIELD_DIAGONAL_STYLE = 106;
-	static final protected short FIELD_DIAGONAL_WIDTH = 107;
-	static final protected short FIELD_ANTIDIAGONAL_NUMBER = 108;
-	static final protected short FIELD_ANTIDIAGONAL_STYLE = 109;
-	static final protected short FIELD_ANTIDIAGONAL_WIDTH = 110;
 	static final protected short FIELD_DROP = 111;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
@@ -284,36 +261,6 @@ public class CellContent extends AbstractContent implements ICellContent
 		{
 			IOUtil.writeShort( out, FIELD_DISPLAY_GROUP_ICON );
 			IOUtil.writeBool( out, displayGroupIcon.booleanValue( ) );
-		}
-		if ( diagonalNumber != -1 )
-		{
-			IOUtil.writeShort( out, FIELD_DIAGONAL_NUMBER );
-			IOUtil.writeInt( out, diagonalNumber );
-		}
-		if ( diagonalStyle != null )
-		{
-			IOUtil.writeShort( out, FIELD_DIAGONAL_STYLE );
-			IOUtil.writeString( out, diagonalStyle );
-		}
-		if ( diagonalWidth != null )
-		{
-			IOUtil.writeShort( out, FIELD_DIAGONAL_WIDTH );
-			diagonalWidth.writeObject( out );
-		}
-		if ( antidiagonalNumber != -1 )
-		{
-			IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_NUMBER );
-			IOUtil.writeInt( out, antidiagonalNumber );
-		}
-		if ( antidiagonalStyle != null )
-		{
-			IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_STYLE );
-			IOUtil.writeString( out, antidiagonalStyle );
-		}
-		if ( antidiagonalWidth != null )
-		{
-			IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_WIDTH );
-			antidiagonalWidth.writeObject( out );
 		}
 		if ( drop != null )
 		{
@@ -343,26 +290,6 @@ public class CellContent extends AbstractContent implements ICellContent
 			case FIELD_DISPLAY_GROUP_ICON :
 				displayGroupIcon = Boolean.valueOf( IOUtil.readBool( in ) );
 				break;
-			case FIELD_DIAGONAL_NUMBER :
-				diagonalNumber = IOUtil.readInt( in );
-				break;
-			case FIELD_DIAGONAL_STYLE :
-				diagonalStyle = IOUtil.readString( in );
-				break;
-			case FIELD_DIAGONAL_WIDTH :
-				diagonalWidth = new DimensionType( );
-				diagonalWidth.readObject( in );
-				break;
-			case FIELD_ANTIDIAGONAL_NUMBER :
-				antidiagonalNumber = IOUtil.readInt( in );
-				break;
-			case FIELD_ANTIDIAGONAL_STYLE :
-				antidiagonalStyle = IOUtil.readString( in );
-				break;
-			case FIELD_ANTIDIAGONAL_WIDTH :
-				antidiagonalWidth = new DimensionType( );
-				antidiagonalWidth.readObject( in );
-				break;
 			case FIELD_DROP :
 				drop = IOUtil.readString( in );
 				break;
@@ -382,13 +309,6 @@ public class CellContent extends AbstractContent implements ICellContent
 		{
 			return true;
 		}
-		if ( diagonalNumber != -1
-				|| diagonalStyle != null || diagonalWidth != null
-				|| antidiagonalNumber != -1 || antidiagonalStyle != null
-				|| antidiagonalWidth != null )
-		{
-			return true;
-		}
 		return super.needSave( );
 	}
 
@@ -396,9 +316,9 @@ public class CellContent extends AbstractContent implements ICellContent
 	{
 		if ( displayGroupIcon == null )
 		{
-			if ( generateBy instanceof CellDesign )
+			if ( cellDesign != null )
 			{
-				return ( (CellDesign) generateBy ).getDisplayGroupIcon( );
+				return cellDesign.getDisplayGroupIcon( );
 			}
 			return false;
 		}
@@ -437,107 +357,68 @@ public class CellContent extends AbstractContent implements ICellContent
 	{
 		return new CellContent(this);
 	}
-
-	public void setDiagonalNumber( int diagonalNumber )
+	
+	public boolean hasDiagonalLine( )
 	{
-		this.diagonalNumber = diagonalNumber;
+		if ( cellDesign != null )
+		{
+			return cellDesign.hasDiagonalLine( );
+		}
+		return false;
 	}
 
 	public int getDiagonalNumber( )
 	{
-		if ( diagonalNumber == -1 )
+		if ( cellDesign != null )
 		{
-			if ( generateBy instanceof CellDesign )
-			{
-				return ( (CellDesign) generateBy ).getDiagonalNumber( );
-			}
+			return cellDesign.getDiagonalNumber( );
 		}
-		return diagonalNumber;
-	}
-
-	public void setDiagonalStyle( String diagonalStyle )
-	{
-		this.diagonalStyle = diagonalStyle;
+		return 0;
 	}
 
 	public String getDiagonalStyle( )
 	{
-		if ( diagonalStyle == null )
+		if ( cellDesign != null )
 		{
-			if ( generateBy instanceof CellDesign )
-			{
-				return ( (CellDesign) generateBy ).getDiagonalStyle( );
-			}
+			return cellDesign.getDiagonalStyle( );
 		}
-		return diagonalStyle;
-	}
-
-	public void setDiagonalWidth( DimensionType diagonalWidth )
-	{
-		this.diagonalWidth = diagonalWidth;
+		return null;
 	}
 
 	public DimensionType getDiagonalWidth( )
 	{
-		if ( diagonalWidth == null )
+		if ( cellDesign != null )
 		{
-			if ( generateBy instanceof CellDesign )
-			{
-				return ( (CellDesign) generateBy ).getDiagonalWidth( );
-			}
+			return cellDesign.getDiagonalWidth( );
 		}
-		return diagonalWidth;
-	}
-
-	public void setAntidiagonalNumber( int antidiagonalNumber )
-	{
-		this.antidiagonalNumber = antidiagonalNumber;
+		return null;
 	}
 
 	public int getAntidiagonalNumber( )
 	{
-		if ( antidiagonalNumber == -1 )
+		if ( cellDesign != null )
 		{
-			if ( generateBy instanceof CellDesign )
-			{
-				return ( (CellDesign) generateBy ).getAntidiagonalNumber( );
-			}
+			return cellDesign.getAntidiagonalNumber( );
 		}
-		return antidiagonalNumber;
-	}
-
-	public void setAntidiagonalStyle( String antidiagonalStyle )
-	{
-		this.antidiagonalStyle = antidiagonalStyle;
+		return 0;
 	}
 
 	public String getAntidiagonalStyle( )
 	{
-		if ( antidiagonalStyle == null )
+		if ( cellDesign != null )
 		{
-			if ( generateBy instanceof CellDesign )
-			{
-				return ( (CellDesign) generateBy ).getAntidiagonalStyle( );
-			}
+			return cellDesign.getAntidiagonalStyle( );
 		}
-		return antidiagonalStyle;
-	}
-
-	public void setAntidiagonalWidth( DimensionType antidiagonalWidth )
-	{
-		this.antidiagonalWidth = antidiagonalWidth;
+		return null;
 	}
 
 	public DimensionType getAntidiagonalWidth( )
 	{
-		if ( antidiagonalWidth == null )
+		if ( cellDesign != null )
 		{
-			if ( generateBy instanceof CellDesign )
-			{
-				return ( (CellDesign) generateBy ).getAntidiagonalWidth( );
-			}
+			return cellDesign.getAntidiagonalWidth( );
 		}
-		return antidiagonalWidth;
+		return null;
 	}
 
 	public String getHeaders( )

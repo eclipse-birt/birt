@@ -44,31 +44,6 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 	protected int column = -1;
 	
 	protected int row = -1;
-	
-	/**
-	 * The number of the diagonal line.
-	 */
-	private int diagonalNumber = -1;
-	/**
-	 * The style of the diagonal line.
-	 */
-	private String diagonalStyle = null;
-	/**
-	 * The width of the diagonal line.
-	 */
-	private DimensionType diagonalWidth = null;
-	/**
-	 * The number of the antidiagonal line.
-	 */
-	private int antidiagonalNumber = -1;
-	/**
-	 * The style of the antidiagonal line.
-	 */
-	private String antidiagonalStyle = null;
-	/**
-	 * The width of the antidiagonal line.
-	 */
-	private DimensionType antidiagonalWidth = null;
 
 	/**
 	 * constructor
@@ -181,87 +156,38 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 		}
 	}
 
-	public void setDiagonalNumber( int diagonalNumber )
+	public boolean hasDiagonalLine( )
 	{
-		this.diagonalNumber = diagonalNumber;
+		return cell.hasDiagonalLine( );
 	}
 
 	public int getDiagonalNumber( )
 	{
-		if ( diagonalNumber != -1 )
-		{
-			return diagonalNumber;
-		}
 		return cell.getDiagonalNumber( );
-	}
-
-	public void setDiagonalStyle( String diagonalStyle )
-	{
-		this.diagonalStyle = diagonalStyle;
 	}
 
 	public String getDiagonalStyle( )
 	{
-		if ( diagonalStyle != null )
-		{
-			return diagonalStyle;
-		}
 		return cell.getDiagonalStyle( );
-	}
-
-	public void setDiagonalWidth( DimensionType diagonalWidth )
-	{
-		this.diagonalWidth = diagonalWidth;
 	}
 
 	public DimensionType getDiagonalWidth( )
 	{
-		if ( diagonalWidth != null )
-		{
-			return diagonalWidth;
-		}
 		return cell.getDiagonalWidth( );
-	}
-
-	public void setAntidiagonalNumber( int antidiagonalNumber )
-	{
-		this.antidiagonalNumber = antidiagonalNumber;
 	}
 
 	public int getAntidiagonalNumber( )
 	{
-		if ( antidiagonalNumber != -1 )
-		{
-			return antidiagonalNumber;
-		}
 		return cell.getAntidiagonalNumber( );
-	}
-
-	public void setAntidiagonalStyle( String antidiagonalStyle )
-	{
-		this.antidiagonalStyle = antidiagonalStyle;
 	}
 
 	public String getAntidiagonalStyle( )
 	{
-		if ( antidiagonalStyle != null )
-		{
-			return antidiagonalStyle;
-		}
 		return cell.getAntidiagonalStyle( );
-	}
-
-	public void setAntidiagonalWidth( DimensionType antidiagonalWidth )
-	{
-		this.antidiagonalWidth = antidiagonalWidth;
 	}
 
 	public DimensionType getAntidiagonalWidth( )
 	{
-		if ( antidiagonalWidth != null )
-		{
-			return antidiagonalWidth;
-		}
 		return cell.getAntidiagonalWidth( );
 	}
 

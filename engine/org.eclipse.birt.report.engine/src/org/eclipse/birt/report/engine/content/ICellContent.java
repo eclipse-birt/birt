@@ -57,27 +57,17 @@ public interface ICellContent extends IContainerContent
 	
 	public boolean getDisplayGroupIcon( );
 	
-	public void setDiagonalNumber( int diagonalNumber );
+	public boolean hasDiagonalLine( );
 
 	public int getDiagonalNumber( );
 
-	public void setDiagonalStyle( String diagonalStyle );
-
 	public String getDiagonalStyle( );
-
-	public void setDiagonalWidth( DimensionType diagonalWidth );
 
 	public DimensionType getDiagonalWidth( );
 
-	public void setAntidiagonalNumber( int antidiagonalNumber );
-
 	public int getAntidiagonalNumber( );
 
-	public void setAntidiagonalStyle( String antidiagonalStyle );
-
 	public String getAntidiagonalStyle( );
-
-	public void setAntidiagonalWidth( DimensionType antidiagonalWidth );
 
 	public DimensionType getAntidiagonalWidth( );
 

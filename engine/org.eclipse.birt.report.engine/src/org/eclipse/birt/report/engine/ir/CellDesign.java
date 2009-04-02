@@ -48,9 +48,13 @@ public class CellDesign extends ReportItemDesign
 	 */
 	private boolean displayGroupIcon = false;
 	/**
+	 * Does the cell has diagonal line or antidiagonal line.
+	 */
+	private boolean hasDiagonalLine = false;
+	/**
 	 * The number of the diagonal line.
 	 */
-	private int diagonalNumber = -1;
+	private int diagonalNumber = 0;
 	/**
 	 * The style of the diagonal line.
 	 */
@@ -62,7 +66,7 @@ public class CellDesign extends ReportItemDesign
 	/**
 	 * The number of the antidiagonal line.
 	 */
-	private int antidiagonalNumber = -1;
+	private int antidiagonalNumber = 0;
 	/**
 	 * The style of the antidiagonal line.
 	 */
@@ -194,9 +198,22 @@ public class CellDesign extends ReportItemDesign
 		return displayGroupIcon;
 	}
 
+	public boolean hasDiagonalLine( )
+	{
+		return hasDiagonalLine;
+	}
+
 	public void setDiagonalNumber( int diagonalNumber )
 	{
 		this.diagonalNumber = diagonalNumber;
+		if ( this.diagonalNumber > 0  ||  this.antidiagonalNumber > 0)
+		{
+			hasDiagonalLine = true;
+		}
+		else 
+		{
+			hasDiagonalLine = false;
+		}
 	}
 
 	public int getDiagonalNumber( )
@@ -227,6 +244,14 @@ public class CellDesign extends ReportItemDesign
 	public void setAntidiagonalNumber( int antidiagonalNumber )
 	{
 		this.antidiagonalNumber = antidiagonalNumber;
+		if ( this.diagonalNumber > 0  ||  this.antidiagonalNumber > 0)
+		{
+			hasDiagonalLine = true;
+		}
+		else 
+		{
+			hasDiagonalLine = false;
+		}
 	}
 
 	public int getAntidiagonalNumber( )

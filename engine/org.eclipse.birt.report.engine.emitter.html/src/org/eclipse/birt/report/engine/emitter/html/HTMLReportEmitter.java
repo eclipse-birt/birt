@@ -1810,7 +1810,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			startedGroups.clear( );
 		}
 		
-		startDiagonalCell( cell );
+		if ( cell.hasDiagonalLine( ) )
+		{
+			startDiagonalCell( cell );
+		}
 		
 		if ( enableMetadata )
 		{
@@ -1820,12 +1823,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	
 	protected void startDiagonalCell( ICellContent cell )
 	{
-		if ( cell.getDiagonalNumber( ) <= 0
-				&& cell.getAntidiagonalNumber( ) <= 0 )
-		{
-			return;
-		}
-
 		String imgUri = diagonalCellImageMap.get( cell.getInstanceID( )
 				.getComponentID( ) );
 		if ( imgUri == null )
@@ -1929,7 +1926,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			metadataEmitter.endCell( cell );
 		}
 		
-		endDiagonalCell( cell );
+		if ( cell.hasDiagonalLine( ) )
+		{
+			endDiagonalCell( cell );
+		}
 		
 		if ( isCellInHead( cell )	)
 		{
@@ -1943,10 +1943,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	protected void endDiagonalCell( ICellContent cell )
 	{
-		if ( cell.getDiagonalNumber( ) > 0 || cell.getAntidiagonalNumber( ) > 0 )
-		{
-			writer.closeTag( HTMLTags.TAG_DIV );
-		}
+		writer.closeTag( HTMLTags.TAG_DIV );
 	}
 
 	/*

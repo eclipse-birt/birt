@@ -1358,14 +1358,24 @@ public class EngineIRVisitor extends DesignVisitor
 		cell.setOnPageBreak( handle.getOnPageBreak( ) );
 		*/
 		
-		cell.setDiagonalNumber( handle.getDiagonalNumber( ) );
-		cell.setDiagonalStyle( handle.getDiagonalStyle( ) );
-		cell.setDiagonalWidth( createDimension( handle.getDiagonalThickness( ),
-				false ) );
-		cell.setAntidiagonalNumber( handle.getAntidiagonalNumber( ) );
-		cell.setAntidiagonalStyle( handle.getAntidiagonalStyle( ) );
-		cell.setAntidiagonalWidth( createDimension( handle.getAntidiagonalThickness( ),
-				false ) );
+		int diagonalNumber = handle.getDiagonalNumber( );
+		if ( diagonalNumber > 0 )
+		{
+			// The default diagonalNumber value from Model is 0.
+			cell.setDiagonalNumber( diagonalNumber );
+			cell.setDiagonalStyle( handle.getDiagonalStyle( ) );
+			cell.setDiagonalWidth( createDimension( handle.getDiagonalThickness( ),
+					false ) );
+		}
+		int antidiagonalNumber = handle.getAntidiagonalNumber( );
+		if ( antidiagonalNumber > 0 )
+		{
+			// The default antidiagonalNumber value from Model is 0.
+			cell.setAntidiagonalNumber( antidiagonalNumber );
+			cell.setAntidiagonalStyle( handle.getAntidiagonalStyle( ) );
+			cell.setAntidiagonalWidth( createDimension( handle.getAntidiagonalThickness( ),
+					false ) );
+		}
 				
 		setCurrentElement( cell );
 	}
