@@ -123,7 +123,11 @@ public class DesignElement implements IDesignElement
 				.getReport( ) );
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IDesignElement#getUserPropertyExpression(java.lang.String)
+	 */
 	public Object getUserPropertyExpression( String name )
 	{
 		return designElementImpl.getUserPropertyExpression( name );

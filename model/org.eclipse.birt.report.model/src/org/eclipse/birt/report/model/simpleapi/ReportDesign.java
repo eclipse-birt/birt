@@ -435,7 +435,11 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 		}
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getUserPropertyExpression(java.lang.String)
+	 */
 	public Object getUserPropertyExpression( String name )
 	{
 		return report.getUserPropertyExpression( name );		

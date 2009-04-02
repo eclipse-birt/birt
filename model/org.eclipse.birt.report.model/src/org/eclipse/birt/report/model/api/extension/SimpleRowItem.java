@@ -616,7 +616,11 @@ public class SimpleRowItem implements IReportItem
 		return item.getReport( );
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getUserPropertyExpression(java.lang.String)
+	 */
 	public Object getUserPropertyExpression( String name )
 	{
 		return item.getUserPropertyExpression( name );
