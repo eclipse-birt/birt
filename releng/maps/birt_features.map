@@ -1,50 +1,50 @@
 !***************  FEATURE CONTRIBUTION  ******************************************************
-feature@org.eclipse.birt.sdk=v20081103,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.sdk.feature
+feature@org.eclipse.birt.sdk=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.sdk.feature
 plugin@org.eclipse.birt.sdk=v20081107,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
 
-feature@org.eclipse.birt=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.feature
+feature@org.eclipse.birt=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.feature
 plugin@org.eclipse.birt=v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
 
 !*************** DOC ***********
-feature@org.eclipse.birt.chart.cshelp=v20081105,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.cshelp.feature
-feature@org.eclipse.birt.chart.doc.isv=v20081105,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.doc.isv.feature
-feature@org.eclipse.birt.cshelp=v20081105,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.cshelp.feature
-feature@org.eclipse.birt.doc.isv=v20081105,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.isv.feature
-feature@org.eclipse.birt.doc=v20081105,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.feature
-feature@org.eclipse.birt.example=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.example.feature
+feature@org.eclipse.birt.chart.cshelp=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.cshelp.feature
+feature@org.eclipse.birt.chart.doc.isv=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.doc.isv.feature
+feature@org.eclipse.birt.cshelp=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.cshelp.feature
+feature@org.eclipse.birt.doc.isv=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.isv.feature
+feature@org.eclipse.birt.doc=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.feature
+feature@org.eclipse.birt.example=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.example.feature
 
 !*************** BIRT  ***********
-feature@org.eclipse.birt.chart.runtime=v20090207,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.runtime.feature
+feature@org.eclipse.birt.chart.runtime=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.runtime.feature
 plugin@org.eclipse.birt.chart.runtime=v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime
 
-feature@org.eclipse.birt.chart=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.feature
+feature@org.eclipse.birt.chart=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.feature
 plugin@org.eclipse.birt.chart=v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
-feature@org.eclipse.birt.report.designer=v20090319,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.feature
+feature@org.eclipse.birt.report.designer=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.feature
 plugin@org.eclipse.birt.report.designer=v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer
 
-feature@org.eclipse.birt.report.runtime=v20090207,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.runtime.feature
+feature@org.eclipse.birt.report.runtime=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.runtime.feature
 plugin@org.eclipse.birt.report.runtime=v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime
 
-feature@org.eclipse.birt.crosstab=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.crosstab.feature
-feature@org.eclipse.birt.report.designer.editor.xml.wtp=v20090212,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.editor.xml.wtp.feature
+feature@org.eclipse.birt.crosstab=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.crosstab.feature
+feature@org.eclipse.birt.report.designer.editor.xml.wtp=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.editor.xml.wtp.feature
 
-feature@org.eclipse.birt.report.designer.debug=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.debug.feature
+feature@org.eclipse.birt.report.designer.debug=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.debug.feature
 
-feature@org.eclipse.birt.testhelper=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.testhelper.feature
-feature@org.eclipse.birt.tests=v20081103,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.tests.feature
+feature@org.eclipse.birt.testhelper=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.testhelper.feature
+feature@org.eclipse.birt.tests=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.tests.feature
 plugin@org.eclipse.birt.tests=v20080313,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests
 
-feature@org.eclipse.birt.integration.wtp=v20081211,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.feature
-feature@org.eclipse.birt.chart.integration.wtp=v20081211,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.integration.wtp.feature
-feature@org.eclipse.birt.integration.wtp.sdk=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.sdk.feature
-feature@org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqlbuilder.feature=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqlbuilder.feature
-feature@org.eclipse.birt.report.data.oda.jdbc.dbprofile.feature=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.data.oda.jdbc.dbprofile.feature
+feature@org.eclipse.birt.integration.wtp=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.feature
+feature@org.eclipse.birt.chart.integration.wtp=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.integration.wtp.feature
+feature@org.eclipse.birt.integration.wtp.sdk=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.sdk.feature
+feature@org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqlbuilder.feature=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqlbuilder.feature
+feature@org.eclipse.birt.report.data.oda.jdbc.dbprofile.feature=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.data.oda.jdbc.dbprofile.feature
 
 !*************** Third Party Features  ***********
-feature@org.eclipse.birt.thirdparty=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.thirdparty.feature
+feature@org.eclipse.birt.thirdparty=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.thirdparty.feature
 plugin@org.eclipse.birt.thirdparty=v20070914,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty
-feature@org.eclipse.birt.nl=v20090227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.nl.feature
+feature@org.eclipse.birt.nl=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.nl.feature
 feature@org.eclipse.birt.dtp.nl=v200902201427,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.build/R1.6_Feature_Projects/org.eclipse.birt.dtp.nl.feature
 
 
