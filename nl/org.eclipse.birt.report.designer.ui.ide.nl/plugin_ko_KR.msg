@@ -45,5 +45,5 @@ OdaDesignerWizardDesc=새 ODA 디자이너 플러그인을 생성하십시오.
 ###############################################################################
 Action.Publish=새 보고서 마법사를 템플릿에 등록(&Z)...
 Action.PublishLibrary=리소스 폴더에 라이브러리 배치(&B)...
-Action.AddReportNature=Add Report Support
+Action.AddReportNature=보고서 추가 지원
 Menu.Report=보고서

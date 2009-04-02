@@ -45,5 +45,5 @@ OdaDesignerWizardDesc=Cree un nuevo complemento de diseñador ODA.
 ###############################################################################
 Action.Publish=Registrar plantilla con el as&istente de nuevos informes...
 Action.PublishLibrary=Coloca&r la librería en la carpeta de recursos...
-Action.AddReportNature=Add Report Support
+Action.AddReportNature=Añadir asistencia de informe
 Menu.Report=Informe

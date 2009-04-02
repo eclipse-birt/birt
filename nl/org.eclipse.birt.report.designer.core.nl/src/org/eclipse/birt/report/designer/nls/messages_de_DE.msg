@@ -218,8 +218,8 @@ BgImageFieldEditor.displayname.Browse=&Durchsuchen...
 ###########################################################
 #BindingPage properties
 
-BindingPage.Dataset.Label=Da&ta Set:
-BindingPage.ReportItem.Label=Report &Item:
+BindingPage.Dataset.Label=Da&tensatz:
+BindingPage.ReportItem.Label=Ber&ichtobjekt:
 BindingPage.ReportItem.NoName=Kein Name
 BindingPage.Label.Binding=Bindung
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding speichern
@@ -441,7 +441,7 @@ dataBinding.message.haveNoName=Das ausgewählte Element hat keinen Namen.\n\nSie 
 dataBinding.title.haveNoName=Kein Name?
 dataBinding.button.OK=&OK
 
-parameterBinding.title=Data Set Parameter &Binding...
+parameterBinding.title=Parameter&bindung des Datensatzes...
 ParameterBindingDialog.title=Parameterbindung des Datensatzes
 
 dataBinding.title.generateOutputParam=Bindungen generieren?
@@ -1118,16 +1118,16 @@ Element.ListingGroup.pageBreakBefore=Seitenumbruch vor:
 Element.ListingGroup.sort=Sortieren:
 Element.ListingGroup.sortDirection=Sortierreihenfolge:
 Element.ListingGroup.toc=Inhaltsverzeichnis:
-Element.MasterPage.bottomMargin=&Bottom margin:
+Element.MasterPage.bottomMargin=&Unterer Rand:
 Element.MasterPage.columns=Spalten:
 Element.MasterPage.columnSpacing=Spaltenabstand:
 Element.MasterPage.height=Höh&e:
-Element.MasterPage.leftMargin=&Left margin:
+Element.MasterPage.leftMargin=&Linker Rand:
 Element.MasterPage.margin=Rand:
 Element.MasterPage.orientation=Aus&richtung: 
-Element.MasterPage.rightMargin=&Right margin:
+Element.MasterPage.rightMargin=&Rechter Rand:
 Element.MasterPage.slot.contents=Inhalt:
-Element.MasterPage.topMargin=&Top margin:
+Element.MasterPage.topMargin=&Oberer Rand:
 Element.MasterPage.type=T&yp: 
 Element.MasterPage.width=&Breite:
 Element.Module.author=&Verfasser:
@@ -1600,7 +1600,7 @@ FormatDateTimePage.label.custom.settings.label=Beispielformate (Klicken Sie auf 
 FormatDateTimePage.label.custom.settings=Benutzerdefinierte Einstellungen
 FormatDateTimePage.label.format.code=Format&code:
 FormatDateTimePage.label.format.page=&Formatieren als:
-FormatDateTimePage.label.format.locale=&Locale:
+FormatDateTimePage.label.format.locale=&Gebietsschema:
 FormatDateTimePage.label.general.preview.group=Vorschau mit Format
 
 ###########################################################
@@ -1641,7 +1641,7 @@ FormatNumberPage.label.decimal.places=&Dezimalstellen:
 FormatNumberPage.label.fixed.settings=Feste Einstellungen
 FormatNumberPage.label.format.code=Format&code:
 FormatNumberPage.label.format.number.page=&Formatieren als:
-FormatNumberPage.label.format.number.locale=&Locale:
+FormatNumberPage.label.format.number.locale=&Gebietsschema:
 FormatNumberPage.label.general.preview.group=Vorschau mit Format
 FormatNumberPage.label.negative.numbers=&Negative Zahlen: 
 FormatNumberPage.label.percent.settings=Prozenteinstellungen
@@ -1683,7 +1683,7 @@ FormatStringPage.label.custom.settings.label=Beispielformate (Klicken Sie auf ei
 FormatStringPage.label.customSettings=Benutzerdefinierte Einstellungen
 FormatStringPage.label.format.code=Format&code:
 FormatStringPage.label.formatStringAs=&Formatieren als:
-FormatStringPage.label.locale=&Locale:
+FormatStringPage.label.locale=&Gebietsschema:
 FormatStringPage.label.preview.group=Vorschau
 FormatStringPage.label.preview.string=Zeichenfolge für &Vorschau: 
 FormatStringPage.label.previewWithFormat=Vorschau mit Format
@@ -1785,24 +1785,24 @@ GroupDialog.Label.GroupOn=&Gruppierung nach:
 GroupDialog.Label.HeaderFooter=Kopfzeile und Fußzeile
 GroupDialog.Label.IncludeFooter=&Gruppenfußzeile einschließen
 GroupDialog.Label.IncludeHeader=&Gruppenkopfzeile einschließen
-GroupDialog.Label.Interval=Inter&val:
-GroupDialog.PageBreakBefore=Bef&ore:
-GroupDialog.PageBreakAfter=A&fter:
+GroupDialog.Label.Interval=Inter&vall:
+GroupDialog.PageBreakBefore=V&or:
+GroupDialog.PageBreakAfter=Na&ch:
 GroupDialog.PageBreakInside=&Innen:
-GroupDialog.Label.IntervalBase=Use fi&xed base value for interval:
+GroupDialog.Label.IntervalBase=Fe&sten Basiswert für Intervall verwenden:
 GroupDialog.Label.Name=Na&me:
-GroupDialog.Label.Range=Rang&e:
+GroupDialog.Label.Range=Ber&eich:
 GroupDialog.Tab.Binding=Datenbindungen
 GroupDialog.Tab.Filter=Filter
 GroupDialog.Tab.Sorting=Sortierung
-GroupDialog.RepeatHeader=Re&peat Header
+GroupDialog.RepeatHeader=Kopfzeile wieder&holen
 GroupDialog.Title.Edit=Gruppe bearbeiten
 GroupDialog.Title.New=Neue Gruppe
 GroupDialog.PageBreak=Seitenumbruch
-GroupDialog.buttion.HideDetail=&Hide Detail
+GroupDialog.buttion.HideDetail=Details &ausblenden
 GroupDialog.toolTipText.openExprButton=Ausdruckserstellung öffnen
-GroupDialog.Button.Ascending=A&scending
-GroupDialog.Button.Descending=Des&cending
+GroupDialog.Button.Ascending=Auf&steigend
+GroupDialog.Button.Descending=Abs&teigend
 ###########################################################
 #GroupHandleProvider properties
 
@@ -1961,7 +1961,7 @@ HyperlinkBuilder.TargetReportFormat=Zielbericht &formatieren in:
 HyperLinkPage.Label.LnikTo=&Verknüpfen mit:
 HyperLinkPage.Label.None=Kein
 HyperLinkPage.Menu.Save=Hyperlink ändern
-HyperLinkPage.Button.Text=Edi&t...
+HyperLinkPage.Button.Text=Bearbei&ten...
 HyperLinkPage.toolTipText.Button=Optionen für Öffnen des Hyperlink
 
 ###########################################################
@@ -2000,7 +2000,7 @@ ImageBuilder.Description.ResourceFile=Verknüpfen mit Bild in gemeinsamen Ressour
 ImageBuilder.Description.Embedded=Bild in Bericht ei&nbetten
 ImageBuilder.Description.Dynamic=Bild aus Datensatz (Datenbanken) abrufen
 ImageBuilder.Button.Browser.Tooltip=Bilddatei durchsuchen
-ImageBuilder.Reload.Tooltip=Reload Image
+ImageBuilder.Reload.Tooltip=Bild neu laden
 
 ###########################################################
 #ImageEditPart properties
@@ -2052,9 +2052,9 @@ ImportValueDialog.Label.SelectDataSet=&Datensatz auswählen:
 ImportValueDialog.Label.SelectValue=&Hinzuzufügenden Wert auswählen oder eingeben
 ImportValueDialog.Title=Werte importieren
 ImportValueDialog.Button.Add.ToolTip=Hinzufügen
-ImportValueDialog.Button.AddAll.ToolTip=Add All
+ImportValueDialog.Button.AddAll.ToolTip=Alle hinzufügen
 ImportValueDialog.Button.Remove.ToolTip=Entfernen
-ImportValueDialog.Button.RemoveAll.ToolTip=Alles entfernen
+ImportValueDialog.Button.RemoveAll.ToolTip=Alle entfernen
 ###########################################################
 #IncludeDetailAction properties
 
@@ -2424,9 +2424,9 @@ FilterConditionBuilder.text.AND=UND
 FilterConditionBuilder.text.Condition=Filterbedingung eingeben:
 FilterConditionBuilder.Shell.Title=Filterbedingung
 FilterConditionBuilder.list.item1=Wert
-FilterConditionBuilder.button.edit=&Bearbeiten...
-FilterConditionBuilder.button.delete=Re&move
-FilterConditionBuilder.button.deleteall=Rem&ove All
+FilterConditionBuilder.button.edit=B&earbeiten...
+FilterConditionBuilder.button.delete=Ent&fernen
+FilterConditionBuilder.button.deleteall=Alle entf&ernen
 FilterConditionBuilder.button.add=&Hinzufügen
 FilterConditionBuilder.button.edit.tooltip=Ausgewählten Wert in Werteliste bearbeiten
 FilterConditionBuilder.button.delete.tooltip=Ausgewählten Wert aus Liste löschen
@@ -3417,7 +3417,7 @@ UseCssInReportDialog.Error.Already.Include={0} wurde bereits aufgenommen
 UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=CSS-Datei während der Anzeige &einschließen (nur für HTML-Format übernehmen)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=Speicherort der CSS-Datei während der Anzeige:
 UseCssInReportDialog.Dialog.Label.example=Beispiel: http://mydomain/test.css, myfolder/test/css
-UseCssInReportDialog.Dialog.Label.Theme.Text=&Theme:
+UseCssInReportDialog.Dialog.Label.Theme.Text=&Thema:
 UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=CSS-Datei in Berichtbibliothek verwenden
@@ -3992,7 +3992,7 @@ ClassFinder.ErrorMessage=Es wurde keine Klasse gefunden.
 
 ###########################################################
 #ListingSectionPage
-ListingSectionPage.RepeatHeader=&Repeat Header
+ListingSectionPage.RepeatHeader=Kopfzeile wiede&rholen
 
 ###########################################################
 #ResourceEditDialog
@@ -4229,7 +4229,7 @@ ThumbnailBuilder.FileDialog.Title=Bilddatei auswählen
 ThumbnailBuilder.FileDialog.FileNameError.Title=Fehler
 ThumbnailBuilder.FileDialog.FileNameError.Message=Die ausgewählte Datei ist keine Bilddatei.
 ThumbnailBuilder.Button.GenerateFromReport=Aus Bericht ge&nerieren
-ThumbnailBuilder.Button.BrowseFromFileSystem=Bro&wse from file system
+ThumbnailBuilder.Button.BrowseFromFileSystem=Dateisystem durch&suchen
 ThumbnailBuilder.Button.ImportFromResource=Aus gemeinsamen Ressourcen &importieren
 ThumbnailBuilder.Image.DefaultName=Miniaturbild
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=Warnung
@@ -4266,7 +4266,7 @@ BIRTGotoMarker.Error.Message=Das Berichtelement ist nicht vorhanden.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=Eigenschaften sind nicht verfügbar.
-TabbedPropertyTitle.Button.Default.Text=Defa&ult
+TabbedPropertyTitle.Button.Default.Text=Stan&dard
 TabbedPropertyTitle.Button.Default.TooltipText=Standardstileigenschaften der aktuellen Seite wiederherstellen
 
 ###########################################################
@@ -4318,8 +4318,8 @@ CubePageGenerator.List.AdvancedProperty=Erweitert
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=Bibliothek
-LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu.
-LibraryLayoutEditorFormPage.warning.prompt=&Don't show this message again
+LibraryLayoutEditorFormPage.warning.message=Klicken Sie in der Gliederungsansicht auf ein Berichtobjekt, um Elemente aus der Bibliothek anzuzeigen.\n\nSie können der Bibliothek visuelle Elemente hinzufügen, indem Sie Berichtobjekte von der Palette in die Bibliothek ziehen oder das Menü 'Einfügen' verwenden.
+LibraryLayoutEditorFormPage.warning.prompt=&Diese Meldung nicht wieder anzeigen
 
 ###########################################################
 #PageGenerator Item properties

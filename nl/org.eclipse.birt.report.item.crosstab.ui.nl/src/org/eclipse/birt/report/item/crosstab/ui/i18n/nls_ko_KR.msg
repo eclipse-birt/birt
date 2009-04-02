@@ -73,7 +73,7 @@ ShowSummaryFieldDialog.ViewStatus=현재 보기 유지
 
 DeleteBindingDialog.Title=사용하지 않는 바인딩을 제거하시겠습니까?
 DeleteBindingDialog.Message=이 작업을 수행하면 사용하지 않는 데이터 바인딩이 발생합니다.\n\n사용하지 않는 바인딩을 제거하시겠습니까?
-DeleteBindingDialog.ToggleMessage=&Don't show this message again
+DeleteBindingDialog.ToggleMessage=이 메시지를 다시 표시 안 함(&D)
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=열 영역
@@ -160,10 +160,10 @@ FilterConditionBuilder.text.AND=및
 FilterConditionBuilder.text.Condition=필터 조건(&C):
 FilterConditionBuilder.text.GroupLevel=그룹 수준(&L):
 FilterConditionBuilder.list.item1=값
-FilterConditionBuilder.button.edit=&Edit...
-FilterConditionBuilder.button.delete=Re&move
-FilterConditionBuilder.button.deleteall=Rem&ove All
-FilterConditionBuilder.button.add=&Add
+FilterConditionBuilder.button.edit=편집(&E)...
+FilterConditionBuilder.button.delete=제거(&M)
+FilterConditionBuilder.button.deleteall=모두 제거(&O)
+FilterConditionBuilder.button.add=추가(&A)
 FilterConditionBuilder.button.edit.tooltip=값 목록에서 선택한 값 편집
 FilterConditionBuilder.button.delete.tooltip=목록에서 선택한 값 삭제
 FilterConditionBuilder.button.deleteall.tooltip=목록에서 모든 값 삭제
@@ -193,8 +193,8 @@ Blank.text.measure=요약하려면 데이터 필드를 여기에 내려 놓으십시오.
 ###########################################################
 #CrosstabGrandTotalDialog
 CrosstabGrandTotalDialog.Title=총합계
-CrosstabGrandTotalDialog.Text.DataField=&Data Field:
-CrosstabGrandTotalDialog.Text.Function=&Function:
+CrosstabGrandTotalDialog.Text.DataField=데이터 필드(&D):
+CrosstabGrandTotalDialog.Text.Function=함수(&F):
 
 
 ###########################################################
@@ -213,17 +213,17 @@ CrosstabSubToatalProvider.Column.Function=함수
 ###########################################################
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=페이지 나누기
-CrosstabPageBreakDialog.Text.GroupLevel=&Group Level:
-CrosstabPageBreakDialog.Text.PageBreakBefore=&Before:
-CrosstabPageBreakDialog.Text.PageBreakAfter=&After:
-CrosstabPageBreakDialog.Text.PageBreakInterval=&Page Break Interval:
+CrosstabPageBreakDialog.Text.GroupLevel=그룹 수준(&G):
+CrosstabPageBreakDialog.Text.PageBreakBefore=다음 이전(&B):
+CrosstabPageBreakDialog.Text.PageBreakAfter=다음 이후(&A):
+CrosstabPageBreakDialog.Text.PageBreakInterval=페이지 나누기 간격(&P):
 
 ###########################################################
 #SubTotalDialog
 SubTotalDialog.Title=부분합
-SubTotalDialog.Text.AggregateOn=&Aggregate On:
-SubTotalDialog.Text.Function=&Function:
-SubTotalDialog.Text.DataField=&Data Field:
+SubTotalDialog.Text.AggregateOn=집계 대상(&A):
+SubTotalDialog.Text.Function=함수(&F):
+SubTotalDialog.Text.DataField=데이터 필드(&D):
 
 FormPage.Menu.ModifyProperty=수정
 
@@ -284,7 +284,7 @@ DataColumnXTabDropAdapter.DataCube=데이터 큐브
 
 CubeBuilder.warning.title=크로스 탭
 CubeBuilder.warning.message=데이터 큐브가 생성되었습니다.\n크로스 탭 생성을 종료하려면 생성된 데이터 큐브의 필드를 크로스 탭 컨테이너로 끌어 놓습니다.
-CubeBuilder.warning.prompt=&Don't show this message again
+CubeBuilder.warning.prompt=이 메시지를 다시 표시 안 함(&D)
 
 ###########################################################
 #Crosstab drag tracker

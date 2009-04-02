@@ -218,8 +218,8 @@ BgImageFieldEditor.displayname.Browse=E&xaminar...
 ###########################################################
 #BindingPage properties
 
-BindingPage.Dataset.Label=Da&ta Set:
-BindingPage.ReportItem.Label=Report &Item:
+BindingPage.Dataset.Label=Con&junto de datos:
+BindingPage.ReportItem.Label=Elemento de &informe:
 BindingPage.ReportItem.NoName=Sin nombre
 BindingPage.Label.Binding=Enlace
 BindingPage.MessageDlg.SaveParamBinding=Guardar ParamBinding
@@ -441,7 +441,7 @@ dataBinding.message.haveNoName=El elemento que ha seleccionado no tiene nombre. 
 dataBinding.title.haveNoName=¿No tiene nombre?
 dataBinding.button.OK=&Aceptar
 
-parameterBinding.title=Data Set Parameter &Binding...
+parameterBinding.title=&Enlace de parámetros del conjunto de datos...
 ParameterBindingDialog.title=Enlace de parámetros del conjunto de datos
 
 dataBinding.title.generateOutputParam=¿Generar enlaces?
@@ -1118,16 +1118,16 @@ Element.ListingGroup.pageBreakBefore=Salto de página antes:
 Element.ListingGroup.sort=Ordenar:
 Element.ListingGroup.sortDirection=Dirección de orden:
 Element.ListingGroup.toc=Tabla de contenido:
-Element.MasterPage.bottomMargin=&Bottom margin:
+Element.MasterPage.bottomMargin=Margen in&ferior:
 Element.MasterPage.columns=Columnas:
 Element.MasterPage.columnSpacing=Separación de columnas:
 Element.MasterPage.height=Alt&ura:
-Element.MasterPage.leftMargin=&Left margin:
+Element.MasterPage.leftMargin=Margen &izquierdo:
 Element.MasterPage.margin=Margen:
 Element.MasterPage.orientation=O&rientación: 
-Element.MasterPage.rightMargin=&Right margin:
+Element.MasterPage.rightMargin=Margen &derecho:
 Element.MasterPage.slot.contents=Contenido:
-Element.MasterPage.topMargin=&Top margin:
+Element.MasterPage.topMargin=Margen &superior:
 Element.MasterPage.type=T&ipo: 
 Element.MasterPage.width=&Ancho:
 Element.Module.author=&Autor:
@@ -1585,7 +1585,7 @@ FontSizeBuilder.displayname.Auto=Automático
 ###########################################################
 #FormatBuilder properties
 
-FormatAdapter.DisplayName.None=Automático
+FormatAdapter.DisplayName.None=Automática
 FormatBuilder.Title=Compilador de formatos
 
 ###########################################################
@@ -1600,7 +1600,7 @@ FormatDateTimePage.label.custom.settings.label=Formatos de ejemplo (haga clic en
 FormatDateTimePage.label.custom.settings=Ajustes personalizados
 FormatDateTimePage.label.format.code=Códi&go de formato:
 FormatDateTimePage.label.format.page=&Formato como:
-FormatDateTimePage.label.format.locale=&Locale:
+FormatDateTimePage.label.format.locale=&Configuración regional:
 FormatDateTimePage.label.general.preview.group=Vista previa con formato
 
 ###########################################################
@@ -1641,7 +1641,7 @@ FormatNumberPage.label.decimal.places=Nú&mero de decimales:
 FormatNumberPage.label.fixed.settings=Ajustes fijos
 FormatNumberPage.label.format.code=Códi&go de formato:
 FormatNumberPage.label.format.number.page=&Formato como:
-FormatNumberPage.label.format.number.locale=&Locale:
+FormatNumberPage.label.format.number.locale=&Configuración regional:
 FormatNumberPage.label.general.preview.group=Vista previa con formato
 FormatNumberPage.label.negative.numbers=&Números negativos: 
 FormatNumberPage.label.percent.settings=Ajustes de porcentaje
@@ -1683,7 +1683,7 @@ FormatStringPage.label.custom.settings.label=Formatos de ejemplo (haga clic en u
 FormatStringPage.label.customSettings=Ajustes personalizados
 FormatStringPage.label.format.code=Códi&go de formato:
 FormatStringPage.label.formatStringAs=&Formato como:
-FormatStringPage.label.locale=&Locale:
+FormatStringPage.label.locale=&Configuración regional:
 FormatStringPage.label.preview.group=Vista previa
 FormatStringPage.label.preview.string=Strin&g para vista previa: 
 FormatStringPage.label.previewWithFormat=Vista previa con formato
@@ -1785,24 +1785,24 @@ GroupDialog.Label.GroupOn=&Agrupar en:
 GroupDialog.Label.HeaderFooter=Encabezado y pie de página
 GroupDialog.Label.IncludeFooter=Incluir pie de &grupo
 GroupDialog.Label.IncludeHeader=Incluir &encabezado de grupo
-GroupDialog.Label.Interval=Inter&val:
-GroupDialog.PageBreakBefore=Bef&ore:
-GroupDialog.PageBreakAfter=A&fter:
+GroupDialog.Label.Interval=I&ntervalo:
+GroupDialog.PageBreakBefore=Ante&rior:
+GroupDialog.PageBreakAfter=P&osterior:
 GroupDialog.PageBreakInside=&Interior:
-GroupDialog.Label.IntervalBase=Use fi&xed base value for interval:
-GroupDialog.Label.Name=Na&me:
-GroupDialog.Label.Range=Rang&e:
+GroupDialog.Label.IntervalBase=Utilizar un valor de base fi&jo para el intervalo:
+GroupDialog.Label.Name=No&mbre:
+GroupDialog.Label.Range=Int&ervalo:
 GroupDialog.Tab.Binding=Enlaces de datos
 GroupDialog.Tab.Filter=Filtros
 GroupDialog.Tab.Sorting=Ordenar
-GroupDialog.RepeatHeader=Re&peat Header
+GroupDialog.RepeatHeader=Re&petir encabezado
 GroupDialog.Title.Edit=Editar grupo
 GroupDialog.Title.New=Nuevo grupo
 GroupDialog.PageBreak=Salto de página
-GroupDialog.buttion.HideDetail=&Hide Detail
+GroupDialog.buttion.HideDetail=&Ocultar detalle
 GroupDialog.toolTipText.openExprButton=Abrir el compilador de expresiones
-GroupDialog.Button.Ascending=A&scending
-GroupDialog.Button.Descending=Des&cending
+GroupDialog.Button.Ascending=A&scendente
+GroupDialog.Button.Descending=Des&cendente
 ###########################################################
 #GroupHandleProvider properties
 
@@ -1961,7 +1961,7 @@ HyperlinkBuilder.TargetReportFormat=Dar for&mato a informe de destino en:
 HyperLinkPage.Label.LnikTo=&Link a:
 HyperLinkPage.Label.None=Ninguno
 HyperLinkPage.Menu.Save=Cambiar hiperlink
-HyperLinkPage.Button.Text=Edi&t...
+HyperLinkPage.Button.Text=Edi&tar...
 HyperLinkPage.toolTipText.Button=Abrir opciones de hiperlink
 
 ###########################################################
@@ -2000,7 +2000,7 @@ ImageBuilder.Description.ResourceFile=Link a imagen en recursos compartidos
 ImageBuilder.Description.Embedded=Incrustar i&magen en el informe
 ImageBuilder.Description.Dynamic=Recuperar imagen desde conjunto de datos (bases de datos)
 ImageBuilder.Button.Browser.Tooltip=Examinar archivo de imagen
-ImageBuilder.Reload.Tooltip=Reload Image
+ImageBuilder.Reload.Tooltip=Volver a cargar la imagen
 
 ###########################################################
 #ImageEditPart properties
@@ -2052,7 +2052,7 @@ ImportValueDialog.Label.SelectDataSet=Seleccionar conjunto &de datos:
 ImportValueDialog.Label.SelectValue=Se&leccionar o introducir el valor que se debe agregar
 ImportValueDialog.Title=Importar valores
 ImportValueDialog.Button.Add.ToolTip=Añadir
-ImportValueDialog.Button.AddAll.ToolTip=Add All
+ImportValueDialog.Button.AddAll.ToolTip=Añadir todos
 ImportValueDialog.Button.Remove.ToolTip=Quitar
 ImportValueDialog.Button.RemoveAll.ToolTip=Quitar todos
 ###########################################################
@@ -2425,8 +2425,8 @@ FilterConditionBuilder.text.Condition=Introducir una condicion de filtro:
 FilterConditionBuilder.Shell.Title=Condición de filtro
 FilterConditionBuilder.list.item1=Valor
 FilterConditionBuilder.button.edit=&Editar...
-FilterConditionBuilder.button.delete=Re&move
-FilterConditionBuilder.button.deleteall=Rem&ove All
+FilterConditionBuilder.button.delete=Eli&minar
+FilterConditionBuilder.button.deleteall=Elimi&nar todos
 FilterConditionBuilder.button.add=&Añadir
 FilterConditionBuilder.button.edit.tooltip=Editar la selección en lista de valores
 FilterConditionBuilder.button.delete.tooltip=Eliminar el valor seleccionado de la lista
@@ -3417,7 +3417,7 @@ UseCssInReportDialog.Error.Already.Include={0} ya se ha incluido
 UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Incluir el archivo CSS en el momento de la visualización (sólo en formato HTML)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=Visualizar la ubicación temporal del archivo CSS:
 UseCssInReportDialog.Dialog.Label.example=por ejemplo, http://mydomain/test.css, myfolder/test/css
-UseCssInReportDialog.Dialog.Label.Theme.Text=&Theme:
+UseCssInReportDialog.Dialog.Label.Theme.Text=&Tema:
 UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=Utilizar el archivo CSS en la librería de informes
@@ -3992,7 +3992,7 @@ ClassFinder.ErrorMessage=No se ha encontrado ninguna clase
 
 ###########################################################
 #ListingSectionPage
-ListingSectionPage.RepeatHeader=&Repeat Header
+ListingSectionPage.RepeatHeader=&Repetir encabezado
 
 ###########################################################
 #ResourceEditDialog
@@ -4229,7 +4229,7 @@ ThumbnailBuilder.FileDialog.Title=Seleccionar archivo de imagen
 ThumbnailBuilder.FileDialog.FileNameError.Title=Error
 ThumbnailBuilder.FileDialog.FileNameError.Message=El archivo seleccionado no es una imagen.
 ThumbnailBuilder.Button.GenerateFromReport=Ge&nerar desde el informe
-ThumbnailBuilder.Button.BrowseFromFileSystem=Bro&wse from file system
+ThumbnailBuilder.Button.BrowseFromFileSystem=E&xplorar desde el sistema de archivos
 ThumbnailBuilder.Button.ImportFromResource=&Importar desde los recursos compartidos
 ThumbnailBuilder.Image.DefaultName=Imagen en miniatura
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=Advertencia
@@ -4266,7 +4266,7 @@ BIRTGotoMarker.Error.Message=El elemento de informe no existe.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=Las propiedades no están disponibles
-TabbedPropertyTitle.Button.Default.Text=Defa&ult
+TabbedPropertyTitle.Button.Default.Text=Pre&determinado
 TabbedPropertyTitle.Button.Default.TooltipText=Restaurar las propiedades de estilo de la página actual a los parámetros predeterminados
 
 ###########################################################
@@ -4318,8 +4318,8 @@ CubePageGenerator.List.AdvancedProperty=Avanzado
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=Librería
-LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu.
-LibraryLayoutEditorFormPage.warning.prompt=&Don't show this message again
+LibraryLayoutEditorFormPage.warning.message=Para ver los elementos de la librería, haga clic en un elemento de informe en la vista de contorno.\n\nPara añadir elementos visuales a la librería, arrastre y coloque elementos de informe desde la paleta o utilice el menú de inserción.
+LibraryLayoutEditorFormPage.warning.prompt=No &volver a mostrar este mensaje
 
 ###########################################################
 #PageGenerator Item properties
@@ -4406,7 +4406,7 @@ FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM dd, a
 FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
 FormatDateTimePattern.pattern.datetiem_format_type_secontds=seg
 FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS
-FormatDescriptorProvider.DisplayName.None=Automático
+FormatDescriptorProvider.DisplayName.None=Automática
 
 ReportExamples.ContributeSamples.description=Envíe una entrada de Bugzilla a {0}Envíe un error a BIRT{1}.\nAdjunte el archivo de diseño de informe y la captura de pantalla de la salida de informe.\n\n Nota: La captura de pantalla debe tener estas características:\n  1. Formato de imagen *.png;\n  2. Resolución de 800*600;\n  3. Tamaño inferior a 250 KB.
 ReportExamples.ContributeSamples.title=Muestras de aportación

@@ -6,12 +6,12 @@ Element.CrosstabAggregationCell=크로스 탭 집계 셀
 Element.AggregationOnRow=행에서 집계
 Element.AggregationOnColumn=열에서 집계
 Element.AggregationHeaderLocation=집계 머리글 위치
-Element.GrandTotalLocation=Grand total location
+Element.GrandTotalLocation=총합계 위치
 Element.MeasureView=측정 보기
 Element.ComputedMeasureView=계산된 측정값 보기
 Element.PageBreakBefore=단락 앞에서 페이지 나누기
 Element.PageBreakAfter=단락 뒤에서 페이지 나누기
-Element.PageBreakInside=Page break inside
+Element.PageBreakInside=사이에 페이지 나누기
 Element.PageBreakInterval=페이지 나누기 간격
 Element.SortDirection=정렬 방향
 Element.SortType=정렬 형식
@@ -38,8 +38,8 @@ Element.SpanOverOnColumn=열에서 길이 재기
 Element.SpanOverOnRow=행에서 길이 재기
 Element.Direction.Horizontal=가로
 Element.Direction.Vertical=세로
-Element.choice.before=Before
-Element.choice.after=After
+Element.choice.before=이전
+Element.choice.after=이후
 
 Method.onPrepare=준비 시
 Method.onCreate=생성 시
@@ -65,8 +65,8 @@ CrosstabQueryHelper.error.invalid.dimension.column=크로스 탭 열 영역에 널(null) 
 CrosstabQueryHelper.error.invalid.level.column=크로스 탭 열 영역에 널(null) 수준 정의가 있거나 관련 큐브에 특정 수준 "{0}"이(가) 없습니다.
 
 BaseCrosstabExecutor.error.process.visibility=표시 유형을 처리하는 중에 오류가 발생했습니다.
-BaseCrosstabExecutor.error.process.bookmark=Error happened when processing bookmark.
-BaseCrosstabExecutor.error.process.bookmark=Error happened when processing headers.
+BaseCrosstabExecutor.error.process.bookmark=머리글을 처리하는 동안 오류가 발생했습니다.
+BaseCrosstabExecutor.error.process.bookmark=머리글을 처리하는 동안 오류가 발생했습니다.
 BaseCrosstabExecutor.error.process.row.height=행 높이를 처리하는 중에 오류가 발생했습니다.
 
 CrosstabCellExecutor.error.restor.data.position=데이터 위치를 복원하는 중에 오류가 발생했습니다.

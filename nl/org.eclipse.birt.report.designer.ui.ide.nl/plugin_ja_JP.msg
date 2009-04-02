@@ -45,5 +45,5 @@ OdaDesignerWizardDesc=ODA デザイナの新しいプラグインを作成します。
 ###############################################################################
 Action.Publish=テンプレートをレポートの新規作成ウィザードに登録(&Z)...
 Action.PublishLibrary=ライブラリをリソースフォルダに保存(&B)...
-Action.AddReportNature=Add Report Support
+Action.AddReportNature=レポートサポートの追加
 Menu.Report=レポート

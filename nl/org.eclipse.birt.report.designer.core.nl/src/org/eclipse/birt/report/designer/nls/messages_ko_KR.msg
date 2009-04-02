@@ -218,8 +218,8 @@ BgImageFieldEditor.displayname.Browse=찾아보기(&W)...
 ###########################################################
 #BindingPage properties
 
-BindingPage.Dataset.Label=Da&ta Set:
-BindingPage.ReportItem.Label=Report &Item:
+BindingPage.Dataset.Label=데이터 집합(&T):
+BindingPage.ReportItem.Label=보고서 항목(&I):
 BindingPage.ReportItem.NoName=이름 없음
 BindingPage.Label.Binding=바인딩
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding 저장
@@ -441,7 +441,7 @@ dataBinding.message.haveNoName=선택한 항목에 이름이 없습니다.\n\n항목을 선택하려
 dataBinding.title.haveNoName=이름이 없습니까?
 dataBinding.button.OK=확인(&O)
 
-parameterBinding.title=Data Set Parameter &Binding...
+parameterBinding.title=데이터 집합 매개 변수 바인딩(&B)...
 ParameterBindingDialog.title=데이터 집합 매개 변수 바인딩
 
 dataBinding.title.generateOutputParam=바인딩 생성
@@ -1118,16 +1118,16 @@ Element.ListingGroup.pageBreakBefore=앞에 페이지 나누기:
 Element.ListingGroup.sort=정렬:
 Element.ListingGroup.sortDirection=정렬 방향:
 Element.ListingGroup.toc=목차:
-Element.MasterPage.bottomMargin=&Bottom margin:
+Element.MasterPage.bottomMargin=아래쪽 여백(&B):
 Element.MasterPage.columns=열:
 Element.MasterPage.columnSpacing=열 간격:
 Element.MasterPage.height=높이(&E):
-Element.MasterPage.leftMargin=&Left margin:
+Element.MasterPage.leftMargin=왼쪽 여백(&L):
 Element.MasterPage.margin=여백:
 Element.MasterPage.orientation=방향(&R): 
-Element.MasterPage.rightMargin=&Right margin:
+Element.MasterPage.rightMargin=오른쪽 여백(&R):
 Element.MasterPage.slot.contents=내용:
-Element.MasterPage.topMargin=&Top margin:
+Element.MasterPage.topMargin=위쪽 여백(&T):
 Element.MasterPage.type=형식(&Y): 
 Element.MasterPage.width=너비(&W):
 Element.Module.author=만든 이(&U):
@@ -1600,7 +1600,7 @@ FormatDateTimePage.label.custom.settings.label=예 형식(하나를 눌러 아래 복사한 �
 FormatDateTimePage.label.custom.settings=사용자 지정 설정
 FormatDateTimePage.label.format.code=형식 코드(&C):
 FormatDateTimePage.label.format.page=다음으로 형식 지정(&F):
-FormatDateTimePage.label.format.locale=&Locale:
+FormatDateTimePage.label.format.locale=로케일(&L):
 FormatDateTimePage.label.general.preview.group=형식 미리 보기
 
 ###########################################################
@@ -1641,7 +1641,7 @@ FormatNumberPage.label.decimal.places=소수 자릿수(&D):
 FormatNumberPage.label.fixed.settings=고정 설정
 FormatNumberPage.label.format.code=형식 코드(&C):
 FormatNumberPage.label.format.number.page=다음으로 형식 지정(&F):
-FormatNumberPage.label.format.number.locale=&Locale:
+FormatNumberPage.label.format.number.locale=로케일(&L):
 FormatNumberPage.label.general.preview.group=형식 미리 보기
 FormatNumberPage.label.negative.numbers=음수(&N): 
 FormatNumberPage.label.percent.settings=백분율 설정
@@ -1683,7 +1683,7 @@ FormatStringPage.label.custom.settings.label=예 형식(하나를 눌러 아래 복사한 다�
 FormatStringPage.label.customSettings=사용자 지정 설정
 FormatStringPage.label.format.code=형식 코드(&C):
 FormatStringPage.label.formatStringAs=다음으로 형식 지정(&F):
-FormatStringPage.label.locale=&Locale:
+FormatStringPage.label.locale=로케일(&L):
 FormatStringPage.label.preview.group=미리 보기
 FormatStringPage.label.preview.string=미리 볼 문자열(&P): 
 FormatStringPage.label.previewWithFormat=형식 미리 보기
@@ -1785,24 +1785,24 @@ GroupDialog.Label.GroupOn=그룹화 대상(&G):
 GroupDialog.Label.HeaderFooter=머리글 및 바닥글
 GroupDialog.Label.IncludeFooter=그룹 바닥글 포함(&F)
 GroupDialog.Label.IncludeHeader=그룹 머리글 포함(&H)
-GroupDialog.Label.Interval=Inter&val:
-GroupDialog.PageBreakBefore=Bef&ore:
-GroupDialog.PageBreakAfter=A&fter:
+GroupDialog.Label.Interval=간격(&V):
+GroupDialog.PageBreakBefore=다음 이전(&O):
+GroupDialog.PageBreakAfter=다음 이후(&F):
 GroupDialog.PageBreakInside=안쪽(&I):
-GroupDialog.Label.IntervalBase=Use fi&xed base value for interval:
-GroupDialog.Label.Name=Na&me:
-GroupDialog.Label.Range=Rang&e:
+GroupDialog.Label.IntervalBase=고정된 기본값을 간격으로 사용(&X):
+GroupDialog.Label.Name=이름(&M):
+GroupDialog.Label.Range=범위(&E):
 GroupDialog.Tab.Binding=데이터 바인딩
 GroupDialog.Tab.Filter=필터
 GroupDialog.Tab.Sorting=정렬
-GroupDialog.RepeatHeader=Re&peat Header
+GroupDialog.RepeatHeader=머리글 반복(&P)
 GroupDialog.Title.Edit=그룹 편집
 GroupDialog.Title.New=새 그룹
 GroupDialog.PageBreak=페이지 나누기
-GroupDialog.buttion.HideDetail=&Hide Detail
+GroupDialog.buttion.HideDetail=상세 정보 숨기기(&H)
 GroupDialog.toolTipText.openExprButton=식 빌더 열기
-GroupDialog.Button.Ascending=A&scending
-GroupDialog.Button.Descending=Des&cending
+GroupDialog.Button.Ascending=오름차순(&S)
+GroupDialog.Button.Descending=내림차순(&C)
 ###########################################################
 #GroupHandleProvider properties
 
@@ -1961,7 +1961,7 @@ HyperlinkBuilder.TargetReportFormat=대상 보고서 형식 지정(&F):
 HyperLinkPage.Label.LnikTo=연결 대상(&L):
 HyperLinkPage.Label.None=없음
 HyperLinkPage.Menu.Save=하이퍼링크 변경
-HyperLinkPage.Button.Text=Edi&t...
+HyperLinkPage.Button.Text=편집(&T)...
 HyperLinkPage.toolTipText.Button=하이퍼링크 옵션 열기
 
 ###########################################################
@@ -2000,7 +2000,7 @@ ImageBuilder.Description.ResourceFile=공유된 리소스의 이미지에 링크
 ImageBuilder.Description.Embedded=이미지를 보고서에 포함((&M)
 ImageBuilder.Description.Dynamic=데이터 집합(데이터베이스)에서 이미지 검색
 ImageBuilder.Button.Browser.Tooltip=이미지 파일 찾아보기
-ImageBuilder.Reload.Tooltip=Reload Image
+ImageBuilder.Reload.Tooltip=이미지 다시 로드
 
 ###########################################################
 #ImageEditPart properties
@@ -2052,7 +2052,7 @@ ImportValueDialog.Label.SelectDataSet=데이터 집합 선택(&D):
 ImportValueDialog.Label.SelectValue=추가할 값 선택 또는 입력(&S)
 ImportValueDialog.Title=값 가져오기
 ImportValueDialog.Button.Add.ToolTip=추가
-ImportValueDialog.Button.AddAll.ToolTip=Add All
+ImportValueDialog.Button.AddAll.ToolTip=모두 추가
 ImportValueDialog.Button.Remove.ToolTip=제거
 ImportValueDialog.Button.RemoveAll.ToolTip=모두 제거
 ###########################################################
@@ -2425,8 +2425,8 @@ FilterConditionBuilder.text.Condition=필터 조건 입력:
 FilterConditionBuilder.Shell.Title=필터 조건
 FilterConditionBuilder.list.item1=값
 FilterConditionBuilder.button.edit=편집(&E)...
-FilterConditionBuilder.button.delete=Re&move
-FilterConditionBuilder.button.deleteall=Rem&ove All
+FilterConditionBuilder.button.delete=제거(&M)
+FilterConditionBuilder.button.deleteall=모두 제거(&O)
 FilterConditionBuilder.button.add=추가(&A)
 FilterConditionBuilder.button.edit.tooltip=값 목록에서 선택한 값 편집
 FilterConditionBuilder.button.delete.tooltip=목록에서 선택한 값 삭제
@@ -3417,7 +3417,7 @@ UseCssInReportDialog.Error.Already.Include={0}은(는) 이미 포함되어 있습니다.
 UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=볼 때 CSS 파일 포함(HTML 형식에만 적용)(&I)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=볼 때 사용할 CSS 파일의 위치:
 UseCssInReportDialog.Dialog.Label.example=예 - http://mydomain/test.css, myfolder/test/css
-UseCssInReportDialog.Dialog.Label.Theme.Text=&Theme:
+UseCssInReportDialog.Dialog.Label.Theme.Text=테마(&T):
 UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=보고서 라이브러리에 있는 CSS 파일 사용
@@ -3992,7 +3992,7 @@ ClassFinder.ErrorMessage=클래스를 찾을 수 없음
 
 ###########################################################
 #ListingSectionPage
-ListingSectionPage.RepeatHeader=&Repeat Header
+ListingSectionPage.RepeatHeader=머리글 반복(&R)
 
 ###########################################################
 #ResourceEditDialog
@@ -4229,7 +4229,7 @@ ThumbnailBuilder.FileDialog.Title=이미지 파일 선택
 ThumbnailBuilder.FileDialog.FileNameError.Title=오류
 ThumbnailBuilder.FileDialog.FileNameError.Message=선택한 파일이 이미지가 아닙니다.
 ThumbnailBuilder.Button.GenerateFromReport=보고서에서 생성(&N)
-ThumbnailBuilder.Button.BrowseFromFileSystem=Bro&wse from file system
+ThumbnailBuilder.Button.BrowseFromFileSystem=파일 시스템에서 찾아보기(&W)
 ThumbnailBuilder.Button.ImportFromResource=공유 리소스에서 가져오기(&I)
 ThumbnailBuilder.Image.DefaultName=축소판 이미지
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=경고
@@ -4266,7 +4266,7 @@ BIRTGotoMarker.Error.Message=보고서 요소가 없습니다.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=속성은 사용할 수 없습니다.
-TabbedPropertyTitle.Button.Default.Text=Defa&ult
+TabbedPropertyTitle.Button.Default.Text=기본값(&U)
 TabbedPropertyTitle.Button.Default.TooltipText=현재 페이지의 스타일 속성을 기본 설정으로 복원합니다.
 
 ###########################################################
@@ -4318,8 +4318,8 @@ CubePageGenerator.List.AdvancedProperty=고급
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=라이브러리
-LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu.
-LibraryLayoutEditorFormPage.warning.prompt=&Don't show this message again
+LibraryLayoutEditorFormPage.warning.message=라이브러리의 요소를 보려면 윤곽선 보기에서 보고서 항목을 클릭하십시오.\n\n라이브러리에 시각적 요소를 추가하려면 색상표에서 보고서 항목을 끌어서 놓거나 삽입 메뉴를 사용하십시오.
+LibraryLayoutEditorFormPage.warning.prompt=이 메시지를 다시 표시 안 함(&D)
 
 ###########################################################
 #PageGenerator Item properties

@@ -22,5 +22,5 @@ ScriptLaunchShortcut.label=レポート
 DebugReportLaunchShortcut.description=レポートのデバッグ
 EnableBreakpoint.label=ブレークポイントの有効化
 ToggleBreakpoint.label=ブレークポイントの切り替え
-Action.DebugReport=Debug Report
+Action.DebugReport=デバッグレポート
 Menu.Report=レポート

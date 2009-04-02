@@ -22,5 +22,5 @@ ScriptLaunchShortcut.label=보고서
 DebugReportLaunchShortcut.description=보고서 디버그
 EnableBreakpoint.label=중단점 사용
 ToggleBreakpoint.label=중단점 전환
-Action.DebugReport=Debug Report
+Action.DebugReport=디버그 보고서
 Menu.Report=보고서

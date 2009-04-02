@@ -6,12 +6,12 @@ Element.CrosstabAggregationCell=Celda de agregación de tabla de referencias cruz
 Element.AggregationOnRow=Agregación en fila
 Element.AggregationOnColumn=Agregación en columna
 Element.AggregationHeaderLocation=Ubicación de encabezado de agregación
-Element.GrandTotalLocation=Grand total location
+Element.GrandTotalLocation=Ubicación del total general
 Element.MeasureView=Visualización de medidas
 Element.ComputedMeasureView=Visualización de medidas procesadas
 Element.PageBreakBefore=Salto de página antes
 Element.PageBreakAfter=Salto de página después
-Element.PageBreakInside=Page break inside
+Element.PageBreakInside=Salto de página interior
 Element.PageBreakInterval=Intervalo de salto de página
 Element.SortDirection=Dirección de orden
 Element.SortType=Tipo de orden
@@ -38,8 +38,8 @@ Element.SpanOverOnColumn=Extender en columna
 Element.SpanOverOnRow=Extender en fila
 Element.Direction.Horizontal=Horizontal
 Element.Direction.Vertical=Vertical
-Element.choice.before=Before
-Element.choice.after=After
+Element.choice.before=Antes
+Element.choice.after=Después
 
 Method.onPrepare=Al preparar
 Method.onCreate=Al crear
@@ -65,8 +65,8 @@ CrosstabQueryHelper.error.invalid.dimension.column=El área de columna de la tabl
 CrosstabQueryHelper.error.invalid.level.column=El área de columna de la tabla de referencias cruzadas contiene una definición de nivel nula o el nivel específico "{0}" no existe en el cubo asociado.
 
 BaseCrosstabExecutor.error.process.visibility=Se ha producido un error al procesar visibilidad.
-BaseCrosstabExecutor.error.process.bookmark=Error happened when processing bookmark.
-BaseCrosstabExecutor.error.process.bookmark=Error happened when processing headers.
+BaseCrosstabExecutor.error.process.bookmark=Se ha producido un error al procesar los encabezados.
+BaseCrosstabExecutor.error.process.bookmark=Se ha producido un error al procesar los encabezados.
 BaseCrosstabExecutor.error.process.row.height=Se ha producido un error al procesar la altura de fila.
 
 CrosstabCellExecutor.error.restor.data.position=Se ha producido un error al restaurar la posición de los datos.

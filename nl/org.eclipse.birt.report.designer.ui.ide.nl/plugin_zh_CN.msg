@@ -45,5 +45,5 @@ OdaDesignerWizardDesc=创建新的 ODA 设计器插件。
 ###############################################################################
 Action.Publish=使用新建报表向导来注册模板(&Z)...
 Action.PublishLibrary=将库置于资源文件夹(&B)...
-Action.AddReportNature=Add Report Support
+Action.AddReportNature=添加报表支持
 Menu.Report=报表

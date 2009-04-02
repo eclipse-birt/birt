@@ -45,5 +45,5 @@ OdaDesignerWizardDesc=Ein neues Plug-In-Projekt für ODA-Designer erstellen.
 ###############################################################################
 Action.Publish=Vorlage mit Ass&istent für neuen Bericht registrieren...
 Action.PublishLibrary=Bi&bliothek in Ressourcenordner aufnehmen...
-Action.AddReportNature=Add Report Support
+Action.AddReportNature=Berichtunterstützung hinzufügen
 Menu.Report=Bericht

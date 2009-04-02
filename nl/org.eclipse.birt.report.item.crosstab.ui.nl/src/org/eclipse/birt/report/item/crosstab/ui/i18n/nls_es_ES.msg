@@ -73,7 +73,7 @@ ShowSummaryFieldDialog.ViewStatus=Mantener vista actual
 
 DeleteBindingDialog.Title=¿Eliminar los enlaces no utilizados?
 DeleteBindingDialog.Message=Esta acción producirá enlaces de datos no utilizados.\n\n¿Desea eliminar los enlaces no utilizados?
-DeleteBindingDialog.ToggleMessage=&Don't show this message again
+DeleteBindingDialog.ToggleMessage=No &volver a mostrar este mensaje
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=Área de columna
@@ -160,10 +160,10 @@ FilterConditionBuilder.text.AND=Y
 FilterConditionBuilder.text.Condition=&Condición de filtro:
 FilterConditionBuilder.text.GroupLevel=Nivel de &grupo:
 FilterConditionBuilder.list.item1=Valor
-FilterConditionBuilder.button.edit=&Edit...
-FilterConditionBuilder.button.delete=Re&move
-FilterConditionBuilder.button.deleteall=Rem&ove All
-FilterConditionBuilder.button.add=&Add
+FilterConditionBuilder.button.edit=&Editar...
+FilterConditionBuilder.button.delete=Eli&minar
+FilterConditionBuilder.button.deleteall=Elimi&nar todos
+FilterConditionBuilder.button.add=&Añadir
 FilterConditionBuilder.button.edit.tooltip=Editar la selección en lista de valores
 FilterConditionBuilder.button.delete.tooltip=Eliminar el valor seleccionado de la lista
 FilterConditionBuilder.button.deleteall.tooltip=Eliminar todos los valores de la lista
@@ -193,8 +193,8 @@ Blank.text.measure=Suprimir los campos de datos para resumirlos aquí
 ###########################################################
 #CrosstabGrandTotalDialog
 CrosstabGrandTotalDialog.Title=Total general
-CrosstabGrandTotalDialog.Text.DataField=&Data Field:
-CrosstabGrandTotalDialog.Text.Function=&Function:
+CrosstabGrandTotalDialog.Text.DataField=&Campo de datos:
+CrosstabGrandTotalDialog.Text.Function=&Función:
 
 
 ###########################################################
@@ -213,17 +213,17 @@ CrosstabSubToatalProvider.Column.Function=Función
 ###########################################################
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=Salto de página
-CrosstabPageBreakDialog.Text.GroupLevel=&Group Level:
-CrosstabPageBreakDialog.Text.PageBreakBefore=&Before:
-CrosstabPageBreakDialog.Text.PageBreakAfter=&After:
-CrosstabPageBreakDialog.Text.PageBreakInterval=&Page Break Interval:
+CrosstabPageBreakDialog.Text.GroupLevel=&Nivel de grupo:
+CrosstabPageBreakDialog.Text.PageBreakBefore=&Antes:
+CrosstabPageBreakDialog.Text.PageBreakAfter=&Después:
+CrosstabPageBreakDialog.Text.PageBreakInterval=&Intervalo de salto de página:
 
 ###########################################################
 #SubTotalDialog
 SubTotalDialog.Title=Subtotal
-SubTotalDialog.Text.AggregateOn=&Aggregate On:
-SubTotalDialog.Text.Function=&Function:
-SubTotalDialog.Text.DataField=&Data Field:
+SubTotalDialog.Text.AggregateOn=&Agregar en:
+SubTotalDialog.Text.Function=&Función:
+SubTotalDialog.Text.DataField=&Campo de datos:
 
 FormPage.Menu.ModifyProperty=Modificar
 
@@ -284,7 +284,7 @@ DataColumnXTabDropAdapter.DataCube=Cubo de datos
 
 CubeBuilder.warning.title=Tabla de referencias cruzadas
 CubeBuilder.warning.message=Se ha creado un cubo de datos correctamente.\nPara terminar de crear una tabla de referencias cruzadas, arrastre los campos desde el cubo de datos que ha creado hasta el contenedor de tablas de referencias cruzadas.
-CubeBuilder.warning.prompt=&Don't show this message again
+CubeBuilder.warning.prompt=No &volver a mostrar este mensaje
 
 ###########################################################
 #Crosstab drag tracker

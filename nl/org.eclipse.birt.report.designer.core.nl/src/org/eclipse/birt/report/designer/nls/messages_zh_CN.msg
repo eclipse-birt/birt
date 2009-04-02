@@ -218,8 +218,8 @@ BgImageFieldEditor.displayname.Browse=ä¯ÀÀ(&W)...
 ###########################################################
 #BindingPage properties
 
-BindingPage.Dataset.Label=Da&ta Set:
-BindingPage.ReportItem.Label=Report &Item:
+BindingPage.Dataset.Label=Êı¾İ¼¯(&T):
+BindingPage.ReportItem.Label=±¨±íÏî(&I):
 BindingPage.ReportItem.NoName=ÎŞÃû³Æ
 BindingPage.Label.Binding=°ó¶¨
 BindingPage.MessageDlg.SaveParamBinding=±£´æ ParamBinding
@@ -441,7 +441,7 @@ dataBinding.message.haveNoName=ÄúÑ¡ÔñµÄÏîÄ¿Ã»ÓĞÃû³Æ¡£\n\nÇë·µ»Ø²¢ÎªÏîÄ¿Ö¸¶¨Ãû³Æ£
 dataBinding.title.haveNoName=Ã»ÓĞÃû³Æ?
 dataBinding.button.OK=È·¶¨(&O)
 
-parameterBinding.title=Data Set Parameter &Binding...
+parameterBinding.title=Êı¾İ¼¯²ÎÊı°ó¶¨(&B)...
 ParameterBindingDialog.title=Êı¾İ¼¯²ÎÊı°ó¶¨
 
 dataBinding.title.generateOutputParam=Éú³É°ó¶¨?
@@ -1118,16 +1118,16 @@ Element.ListingGroup.pageBreakBefore=¶ÔÏóÇ°ÃæµÄ·ÖÒ³·û:
 Element.ListingGroup.sort=ÅÅĞò:
 Element.ListingGroup.sortDirection=ÅÅĞò·½Ïò:
 Element.ListingGroup.toc=Ä¿Â¼:
-Element.MasterPage.bottomMargin=&Bottom margin:
+Element.MasterPage.bottomMargin=ÏÂ±ß¾à(&B):
 Element.MasterPage.columns=ÁĞ:
 Element.MasterPage.columnSpacing=ÁĞ¼ä¾à:
 Element.MasterPage.height=¸ß¶È(&E):
-Element.MasterPage.leftMargin=&Left margin:
+Element.MasterPage.leftMargin=×ó±ß¾à(&L):
 Element.MasterPage.margin=±ß¾à:
 Element.MasterPage.orientation=·½Ïò(&R): 
-Element.MasterPage.rightMargin=&Right margin:
+Element.MasterPage.rightMargin=ÓÒ±ß¾à(&R):
 Element.MasterPage.slot.contents=ÄÚÈİ:
-Element.MasterPage.topMargin=&Top margin:
+Element.MasterPage.topMargin=ÉÏ±ß¾à(&T):
 Element.MasterPage.type=ÀàĞÍ(&Y): 
 Element.MasterPage.width=¿í¶È(&W):
 Element.Module.author=×÷Õß(&U):
@@ -1600,7 +1600,7 @@ FormatDateTimePage.label.custom.settings.label=¸ñÊ½Ê¾Àı£¨µ¥»÷ÏÂÃæÒª¸´ÖÆµÄÒ»Ïî£¬È
 FormatDateTimePage.label.custom.settings=×Ô¶¨ÒåÉèÖÃ
 FormatDateTimePage.label.format.code=¸ñÊ½´úÂë(&C):
 FormatDateTimePage.label.format.page=¸ñÊ½Îª(&F):
-FormatDateTimePage.label.format.locale=&Locale:
+FormatDateTimePage.label.format.locale=ÇøÓòÉèÖÃ(&L):
 FormatDateTimePage.label.general.preview.group=´ø¸ñÊ½Ô¤ÀÀ
 
 ###########################################################
@@ -1641,7 +1641,7 @@ FormatNumberPage.label.decimal.places=Ğ¡ÊıÎ»(&D):
 FormatNumberPage.label.fixed.settings=¹Ì¶¨ÉèÖÃ
 FormatNumberPage.label.format.code=¸ñÊ½´úÂë(&C):
 FormatNumberPage.label.format.number.page=¸ñÊ½Îª(&F):
-FormatNumberPage.label.format.number.locale=&Locale:
+FormatNumberPage.label.format.number.locale=ÇøÓòÉèÖÃ(&L):
 FormatNumberPage.label.general.preview.group=´ø¸ñÊ½Ô¤ÀÀ
 FormatNumberPage.label.negative.numbers=¸ºÊı(&N): 
 FormatNumberPage.label.percent.settings=°Ù·Ö±ÈÉèÖÃ
@@ -1683,7 +1683,7 @@ FormatStringPage.label.custom.settings.label=¸ñÊ½Ê¾Àı£¨µ¥»÷ÏÂÃæÒª¸´ÖÆµÄÒ»Ïî£¬È»º
 FormatStringPage.label.customSettings=×Ô¶¨ÒåÉèÖÃ
 FormatStringPage.label.format.code=¸ñÊ½´úÂë(&C):
 FormatStringPage.label.formatStringAs=¸ñÊ½Îª(&F):
-FormatStringPage.label.locale=&Locale:
+FormatStringPage.label.locale=ÇøÓòÉèÖÃ(&L):
 FormatStringPage.label.preview.group=Ô¤ÀÀ
 FormatStringPage.label.preview.string=ÒªÔ¤ÀÀµÄ×Ö·û´®(&P): 
 FormatStringPage.label.previewWithFormat=´ø¸ñÊ½Ô¤ÀÀ
@@ -1785,24 +1785,24 @@ GroupDialog.Label.GroupOn=·Ö×éÒÀ¾İ(&G):
 GroupDialog.Label.HeaderFooter=Ò³Ã¼ºÍÒ³½Å
 GroupDialog.Label.IncludeFooter=°üº¬×éÒ³½Å(&F)
 GroupDialog.Label.IncludeHeader=°üº¬×éÒ³Ã¼(&H)
-GroupDialog.Label.Interval=Inter&val:
-GroupDialog.PageBreakBefore=Bef&ore:
-GroupDialog.PageBreakAfter=A&fter:
+GroupDialog.Label.Interval=¼ä¸ô(&V):
+GroupDialog.PageBreakBefore=Ö®Ç°(&O):
+GroupDialog.PageBreakAfter=Ö®ºó(&F):
 GroupDialog.PageBreakInside=ÄÚ²¿(&I):
-GroupDialog.Label.IntervalBase=Use fi&xed base value for interval:
-GroupDialog.Label.Name=Na&me:
-GroupDialog.Label.Range=Rang&e:
+GroupDialog.Label.IntervalBase=¶Ô¼ä¸ôÊ¹ÓÃ¹Ì¶¨»ùÖµ(&X):
+GroupDialog.Label.Name=Ãû³Æ(&M):
+GroupDialog.Label.Range=·¶Î§(&E):
 GroupDialog.Tab.Binding=Êı¾İ°ó¶¨
 GroupDialog.Tab.Filter=É¸Ñ¡Æ÷
 GroupDialog.Tab.Sorting=ÅÅĞò
-GroupDialog.RepeatHeader=Re&peat Header
+GroupDialog.RepeatHeader=ÖØ¸´±êÌâ(&P)
 GroupDialog.Title.Edit=±à¼­×é
 GroupDialog.Title.New=ĞÂ½¨×é
 GroupDialog.PageBreak=·ÖÒ³·û
-GroupDialog.buttion.HideDetail=&Hide Detail
+GroupDialog.buttion.HideDetail=Òş²ØÏêÏ¸ĞÅÏ¢(&H)
 GroupDialog.toolTipText.openExprButton=´ò¿ª±í´ïÊ½Éú³ÉÆ÷
-GroupDialog.Button.Ascending=A&scending
-GroupDialog.Button.Descending=Des&cending
+GroupDialog.Button.Ascending=ÉıĞò(&A)
+GroupDialog.Button.Descending=½µĞò(&C)
 ###########################################################
 #GroupHandleProvider properties
 
@@ -1961,7 +1961,7 @@ HyperlinkBuilder.TargetReportFormat=¸ñÊ½»¯ÒÔÏÂÎ»ÖÃµÄÄ¿±ê±¨±í(&F):
 HyperLinkPage.Label.LnikTo=Á´½ÓÖÁ(&L):
 HyperLinkPage.Label.None=ÎŞ
 HyperLinkPage.Menu.Save=¸ü¸Ä³¬¼¶Á´½Ó
-HyperLinkPage.Button.Text=Edi&t...
+HyperLinkPage.Button.Text=±à¼­(&T)...
 HyperLinkPage.toolTipText.Button=´ò¿ª³¬¼¶Á´½ÓÑ¡Ïî
 
 ###########################################################
@@ -2000,7 +2000,7 @@ ImageBuilder.Description.ResourceFile=Á´½Óµ½¹²Ïí×ÊÔ´ÖĞµÄÍ¼Ïñ
 ImageBuilder.Description.Embedded=½«Í¼ÏñÇ¶Èëµ½±¨±í(&M)
 ImageBuilder.Description.Dynamic=´ÓÊı¾İ¼¯(Êı¾İ¿â)ÖĞ¼ìË÷Í¼Ïñ
 ImageBuilder.Button.Browser.Tooltip=ä¯ÀÀÍ¼ÏñÎÄ¼ş
-ImageBuilder.Reload.Tooltip=Reload Image
+ImageBuilder.Reload.Tooltip=ÖØĞÂ¼ÓÔØÍ¼Ïñ
 
 ###########################################################
 #ImageEditPart properties
@@ -2052,7 +2052,7 @@ ImportValueDialog.Label.SelectDataSet=Ñ¡ÔñÊı¾İ¼¯(&D):
 ImportValueDialog.Label.SelectValue=Ñ¡Ôñ»òÊäÈëÒªÌí¼ÓµÄÖµ(&S)
 ImportValueDialog.Title=µ¼ÈëÖµ
 ImportValueDialog.Button.Add.ToolTip=Ìí¼Ó
-ImportValueDialog.Button.AddAll.ToolTip=Add All
+ImportValueDialog.Button.AddAll.ToolTip=È«²¿Ìí¼Ó
 ImportValueDialog.Button.Remove.ToolTip=É¾³ı
 ImportValueDialog.Button.RemoveAll.ToolTip=È«²¿É¾³ı
 ###########################################################
@@ -2425,8 +2425,8 @@ FilterConditionBuilder.text.Condition=ÊäÈëÉ¸Ñ¡Ìõ¼ş:
 FilterConditionBuilder.Shell.Title=É¸Ñ¡Ìõ¼ş
 FilterConditionBuilder.list.item1=Öµ
 FilterConditionBuilder.button.edit=±à¼­(&E)...
-FilterConditionBuilder.button.delete=Re&move
-FilterConditionBuilder.button.deleteall=Rem&ove All
+FilterConditionBuilder.button.delete=É¾³ı(&M)
+FilterConditionBuilder.button.deleteall=È«²¿É¾³ı(&O)
 FilterConditionBuilder.button.add=Ìí¼Ó(&A)
 FilterConditionBuilder.button.edit.tooltip=±à¼­ÖµÁĞ±íÖĞµÄÑ¡¶¨Öµ
 FilterConditionBuilder.button.delete.tooltip=´ÓÁĞ±íÖĞÉ¾³ıÑ¡¶¨Öµ
@@ -3417,7 +3417,7 @@ UseCssInReportDialog.Error.Already.Include=ÒÑ°üÀ¨ {0}
 UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=²é¿´Ê±°üÀ¨ CSS ÎÄ¼ş(½öÊÊÓÃÓÚ HTML ¸ñÊ½)(&I)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=CSS ÎÄ¼şµÄ²é¿´Ê±¼äÎ»ÖÃ:
 UseCssInReportDialog.Dialog.Label.example=e.g. http://mydomain/test.css, myfolder/test/css
-UseCssInReportDialog.Dialog.Label.Theme.Text=&Theme:
+UseCssInReportDialog.Dialog.Label.Theme.Text=Ö÷Ìâ(&T):
 UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=ÔÚ±¨±í¿âÖĞÊ¹ÓÃ CSS ÎÄ¼ş
@@ -3992,7 +3992,7 @@ ClassFinder.ErrorMessage=Î´ÕÒµ½Àà
 
 ###########################################################
 #ListingSectionPage
-ListingSectionPage.RepeatHeader=&Repeat Header
+ListingSectionPage.RepeatHeader=ÖØ¸´±êÌâ(&R)
 
 ###########################################################
 #ResourceEditDialog
@@ -4229,7 +4229,7 @@ ThumbnailBuilder.FileDialog.Title=Ñ¡ÔñÍ¼ÏñÎÄ¼ş
 ThumbnailBuilder.FileDialog.FileNameError.Title=´íÎó
 ThumbnailBuilder.FileDialog.FileNameError.Message=ÄúÑ¡ÔñµÄÎÄ¼ş²»ÊÇÍ¼Ïñ¡£
 ThumbnailBuilder.Button.GenerateFromReport=´Ó±¨±íÉú³É(&N)
-ThumbnailBuilder.Button.BrowseFromFileSystem=Bro&wse from file system
+ThumbnailBuilder.Button.BrowseFromFileSystem=´ÓÎÄ¼şÏµÍ³ä¯ÀÀ(&W)
 ThumbnailBuilder.Button.ImportFromResource=´Ó¹²Ïí×ÊÔ´µ¼Èë(&I)
 ThumbnailBuilder.Image.DefaultName=ËõÂÔÍ¼
 ThumbnailBuilder.PreviewImage.WarningDialog.Title=¾¯¸æ
@@ -4266,7 +4266,7 @@ BIRTGotoMarker.Error.Message=±¨±íÔªËØ²»´æÔÚ¡£
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=ÊôĞÔ²»¿ÉÓÃ¡£
-TabbedPropertyTitle.Button.Default.Text=Defa&ult
+TabbedPropertyTitle.Button.Default.Text=Ä¬ÈÏ(&U)
 TabbedPropertyTitle.Button.Default.TooltipText=½«µ±Ç°Ò³µÄÑùÊ½ÊôĞÔ»¹Ô­µ½Ä¬ÈÏÉèÖÃ
 
 ###########################################################
@@ -4318,8 +4318,8 @@ CubePageGenerator.List.AdvancedProperty=¸ß¼¶
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=¿â
-LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu.
-LibraryLayoutEditorFormPage.warning.prompt=&Don't show this message again
+LibraryLayoutEditorFormPage.warning.message=Òª²é¿´¿âµÄÔªËØ£¬Çëµ¥»÷´ó¸ÙÊÓÍ¼ÖĞµÄ±¨±íÏî¡£\n\nÒªÏò¿âÖĞÌí¼Ó¿ÉÊÓÔªËØ£¬Çë½«±¨±íÏî´ÓÑ¡Ïî°åÍÏ·Åµ½ÆäÖĞ£¬»òÊ¹ÓÃ²åÈë²Ëµ¥¡£
+LibraryLayoutEditorFormPage.warning.prompt=²»ÔÙÏÔÊ¾´ËÏûÏ¢(&D)
 
 ###########################################################
 #PageGenerator Item properties

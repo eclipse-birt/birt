@@ -73,7 +73,7 @@ ShowSummaryFieldDialog.ViewStatus=保留当前视图
 
 DeleteBindingDialog.Title=删除未使用的绑定?
 DeleteBindingDialog.Message=此操作将产生未使用的数据绑定。\n\n是否要删除未使用的绑定?
-DeleteBindingDialog.ToggleMessage=&Don't show this message again
+DeleteBindingDialog.ToggleMessage=不再显示此消息(&D)
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=列区域
@@ -160,10 +160,10 @@ FilterConditionBuilder.text.AND=与
 FilterConditionBuilder.text.Condition=筛选条件(&C):
 FilterConditionBuilder.text.GroupLevel=组级别(&L):
 FilterConditionBuilder.list.item1=值
-FilterConditionBuilder.button.edit=&Edit...
-FilterConditionBuilder.button.delete=Re&move
-FilterConditionBuilder.button.deleteall=Rem&ove All
-FilterConditionBuilder.button.add=&Add
+FilterConditionBuilder.button.edit=编辑(&E)...
+FilterConditionBuilder.button.delete=删除(&M)
+FilterConditionBuilder.button.deleteall=全部删除(&O)
+FilterConditionBuilder.button.add=添加(&A)
 FilterConditionBuilder.button.edit.tooltip=编辑值列表中的选定值
 FilterConditionBuilder.button.delete.tooltip=从列表中删除选定值
 FilterConditionBuilder.button.deleteall.tooltip=从列表中删除所有值
@@ -193,8 +193,8 @@ Blank.text.measure=将要汇总的数据字段放置到此处
 ###########################################################
 #CrosstabGrandTotalDialog
 CrosstabGrandTotalDialog.Title=总计
-CrosstabGrandTotalDialog.Text.DataField=&Data Field:
-CrosstabGrandTotalDialog.Text.Function=&Function:
+CrosstabGrandTotalDialog.Text.DataField=数据字段(&D):
+CrosstabGrandTotalDialog.Text.Function=函数(&F):
 
 
 ###########################################################
@@ -213,17 +213,17 @@ CrosstabSubToatalProvider.Column.Function=函数
 ###########################################################
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=分页符
-CrosstabPageBreakDialog.Text.GroupLevel=&Group Level:
-CrosstabPageBreakDialog.Text.PageBreakBefore=&Before:
-CrosstabPageBreakDialog.Text.PageBreakAfter=&After:
-CrosstabPageBreakDialog.Text.PageBreakInterval=&Page Break Interval:
+CrosstabPageBreakDialog.Text.GroupLevel=组级别(&G):
+CrosstabPageBreakDialog.Text.PageBreakBefore=之前(&B):
+CrosstabPageBreakDialog.Text.PageBreakAfter=之后(&A):
+CrosstabPageBreakDialog.Text.PageBreakInterval=分页符间隔(&P):
 
 ###########################################################
 #SubTotalDialog
 SubTotalDialog.Title=小计
-SubTotalDialog.Text.AggregateOn=&Aggregate On:
-SubTotalDialog.Text.Function=&Function:
-SubTotalDialog.Text.DataField=&Data Field:
+SubTotalDialog.Text.AggregateOn=聚合条件(&A):
+SubTotalDialog.Text.Function=函数(&F):
+SubTotalDialog.Text.DataField=数据字段(&D):
 
 FormPage.Menu.ModifyProperty=修改
 
@@ -284,7 +284,7 @@ DataColumnXTabDropAdapter.DataCube=多维数据集
 
 CubeBuilder.warning.title=交叉表
 CubeBuilder.warning.message=已成功地创建多维数据集。\n要完成交叉表创建，请将字段从创建的多维数据集拖动到交叉表容器。
-CubeBuilder.warning.prompt=&Don't show this message again
+CubeBuilder.warning.prompt=不再显示此消息(&D)
 
 ###########################################################
 #Crosstab drag tracker

@@ -6,12 +6,12 @@ Element.CrosstabAggregationCell=ƒNƒƒXƒ^ƒuWŒvƒZƒ‹
 Element.AggregationOnRow=s‚²‚Æ‚ÌWŒv
 Element.AggregationOnColumn=—ñ‚²‚Æ‚ÌWŒv
 Element.AggregationHeaderLocation=WŒvƒwƒbƒ_‚ÌˆÊ’u
-Element.GrandTotalLocation=Grand total location
+Element.GrandTotalLocation=‘Œv‚ÌêŠ
 Element.MeasureView=ƒƒWƒƒ[ƒrƒ…[
 Element.ComputedMeasureView=ƒƒWƒƒ[ƒrƒ…[
 Element.PageBreakBefore=Ÿ‚Ì‘O‚Å‰üƒy[ƒW
 Element.PageBreakAfter=Ÿ‚ÌŒã‚Å‰üƒy[ƒW
-Element.PageBreakInside=Page break inside
+Element.PageBreakInside=“r’†‚Å‰üƒy[ƒW
 Element.PageBreakInterval=‰üƒy[ƒW‚ÌŠÔŠu
 Element.SortDirection=ƒ\[ƒg•ûŒü
 Element.SortType=ƒ\[ƒgŠî€
@@ -38,8 +38,8 @@ Element.SpanOverOnColumn=—ñ‚ÉƒXƒpƒ“
 Element.SpanOverOnRow=s‚ÉƒXƒpƒ“
 Element.Direction.Horizontal=‰¡
 Element.Direction.Vertical=c
-Element.choice.before=Before
-Element.choice.after=After
+Element.choice.before=Ÿ‚Ì‘O‚Å‰üƒy[ƒW
+Element.choice.after=Ÿ‚ÌŒã‚Å‰üƒy[ƒW
 
 Method.onPrepare=€”õ
 Method.onCreate=ì¬
@@ -65,8 +65,8 @@ CrosstabQueryHelper.error.invalid.dimension.column=ƒNƒƒXƒ^ƒu‚Ì—ñ—Ìˆæ‚ÌƒfƒBƒƒ“ƒ
 CrosstabQueryHelper.error.invalid.level.column=ƒNƒƒXƒ^ƒu‚Ì—ñ—Ìˆæ‚ÌƒŒƒxƒ‹’è‹`‚ª NULL ‚É‚È‚Á‚Ä‚¢‚é‚©AŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒLƒ…[ƒu‚É“Á’è‚ÌƒŒƒxƒ‹ "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 
 BaseCrosstabExecutor.error.process.visibility=‰Â‹«‚Ìˆ—’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
-BaseCrosstabExecutor.error.process.bookmark=Error happened when processing bookmark.
-BaseCrosstabExecutor.error.process.bookmark=Error happened when processing headers.
+BaseCrosstabExecutor.error.process.bookmark=ƒwƒbƒ_‚Ìˆ—’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
+BaseCrosstabExecutor.error.process.bookmark=ƒwƒbƒ_‚Ìˆ—’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 BaseCrosstabExecutor.error.process.row.height=s‚Ì‚‚³‚Ìˆ—’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 
 CrosstabCellExecutor.error.restor.data.position=ƒf[ƒ^‚ÌˆÊ’u‚ğ•œŒ³’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B

@@ -22,5 +22,5 @@ ScriptLaunchShortcut.label=Etat
 DebugReportLaunchShortcut.description=Déboguer un état
 EnableBreakpoint.label=Activer point d'arrêt
 ToggleBreakpoint.label=Basculer point d'arrêt
-Action.DebugReport=Debug Report
-Menu.Report=Etat
+Action.DebugReport=Déboguer le rapport
+Menu.Report=Rapport

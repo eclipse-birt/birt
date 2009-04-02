@@ -6,12 +6,12 @@ Element.CrosstabAggregationCell=Cellule d'agrégation du tableau croisé
 Element.AggregationOnRow=Agrégation à la ligne
 Element.AggregationOnColumn=Agrégation sur la colonne
 Element.AggregationHeaderLocation=Emplacement de l'en-tête d'agrégation
-Element.GrandTotalLocation=Grand total location
+Element.GrandTotalLocation=Emplacement du total général
 Element.MeasureView=Affichage de mesure
 Element.ComputedMeasureView=Affichage mesure calculée
 Element.PageBreakBefore=Saut de page avant
 Element.PageBreakAfter=Saut de page après
-Element.PageBreakInside=Page break inside
+Element.PageBreakInside=Saut de page à l'intérieur
 Element.PageBreakInterval=Intervalle de saut de page
 Element.SortDirection=Direction du tri
 Element.SortType=Type de tri
@@ -38,8 +38,8 @@ Element.SpanOverOnColumn=Couvrir une colonne
 Element.SpanOverOnRow=Couvrir une ligne
 Element.Direction.Horizontal=Horizontal
 Element.Direction.Vertical=Vertical
-Element.choice.before=Before
-Element.choice.after=After
+Element.choice.before=Avant
+Element.choice.after=Après
 
 Method.onPrepare=A la préparation
 Method.onCreate=A la création
@@ -65,8 +65,8 @@ CrosstabQueryHelper.error.invalid.dimension.column=La zone de colonne du tableau
 CrosstabQueryHelper.error.invalid.level.column=La zone de colonne du tableau croisé contient une définition de niveau nulle ; ou alors le niveau spécifique "{0}" n''existe pas dans le cube qui lui est associé.
 
 BaseCrosstabExecutor.error.process.visibility=Une erreur s'est produite lors du traitement de la visibilité.
-BaseCrosstabExecutor.error.process.bookmark=Error happened when processing bookmark.
-BaseCrosstabExecutor.error.process.bookmark=Error happened when processing headers.
+BaseCrosstabExecutor.error.process.bookmark=Une erreur s'est produite lors du traitement des en-têtes.
+BaseCrosstabExecutor.error.process.bookmark=Une erreur s'est produite lors du traitement des en-têtes.
 BaseCrosstabExecutor.error.process.row.height=Une erreur s'est produite lors du traitement de la hauteur des lignes.
 
 CrosstabCellExecutor.error.restor.data.position=Une erreur s'est produite lors de la restauration de la position des données.

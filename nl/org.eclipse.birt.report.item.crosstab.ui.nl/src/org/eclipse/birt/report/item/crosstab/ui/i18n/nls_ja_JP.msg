@@ -73,7 +73,7 @@ ShowSummaryFieldDialog.ViewStatus=現在のビューの保存
 
 DeleteBindingDialog.Title=未使用のバインドの削除
 DeleteBindingDialog.Message=この操作により、未使用のデータバインドが削除されます。\n\n未使用のバインドを削除しますか ?
-DeleteBindingDialog.ToggleMessage=&Don't show this message again
+DeleteBindingDialog.ToggleMessage=今後、このメッセージを表示しない(&D)
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=列領域
@@ -160,10 +160,10 @@ FilterConditionBuilder.text.AND= ～
 FilterConditionBuilder.text.Condition=フィルタの条件(&C) :
 FilterConditionBuilder.text.GroupLevel=グループレベル(&L) :
 FilterConditionBuilder.list.item1=値
-FilterConditionBuilder.button.edit=&Edit...
-FilterConditionBuilder.button.delete=Re&move
-FilterConditionBuilder.button.deleteall=Rem&ove All
-FilterConditionBuilder.button.add=&Add
+FilterConditionBuilder.button.edit=編集(&E)...
+FilterConditionBuilder.button.delete=削除(&M)
+FilterConditionBuilder.button.deleteall=すべて削除(&O)
+FilterConditionBuilder.button.add=追加(&A)
 FilterConditionBuilder.button.edit.tooltip=値リストで選択した値を編集します。
 FilterConditionBuilder.button.delete.tooltip=リストから選択した値を削除します。
 FilterConditionBuilder.button.deleteall.tooltip=リストからすべての値を削除します。
@@ -193,8 +193,8 @@ Blank.text.measure=サマリを定義するためにデータフィールドをここにドロップ
 ###########################################################
 #CrosstabGrandTotalDialog
 CrosstabGrandTotalDialog.Title=総計
-CrosstabGrandTotalDialog.Text.DataField=&Data Field:
-CrosstabGrandTotalDialog.Text.Function=&Function:
+CrosstabGrandTotalDialog.Text.DataField=データフィールド(&D) :
+CrosstabGrandTotalDialog.Text.Function=関数(&F) :
 
 
 ###########################################################
@@ -213,17 +213,17 @@ CrosstabSubToatalProvider.Column.Function=関数
 ###########################################################
 #CrosstabPageBreakDialog
 CrosstabPageBreakDialog.Title=ページ区切り
-CrosstabPageBreakDialog.Text.GroupLevel=&Group Level:
-CrosstabPageBreakDialog.Text.PageBreakBefore=&Before:
-CrosstabPageBreakDialog.Text.PageBreakAfter=&After:
-CrosstabPageBreakDialog.Text.PageBreakInterval=&Page Break Interval:
+CrosstabPageBreakDialog.Text.GroupLevel=グループレベル(&G) :
+CrosstabPageBreakDialog.Text.PageBreakBefore=次の前で改ページ(&B) :
+CrosstabPageBreakDialog.Text.PageBreakAfter=次の後で改ページ(&A) :
+CrosstabPageBreakDialog.Text.PageBreakInterval=改ページの間隔(&P) :
 
 ###########################################################
 #SubTotalDialog
 SubTotalDialog.Title=小計
-SubTotalDialog.Text.AggregateOn=&Aggregate On:
-SubTotalDialog.Text.Function=&Function:
-SubTotalDialog.Text.DataField=&Data Field:
+SubTotalDialog.Text.AggregateOn=集計条件(&A) :
+SubTotalDialog.Text.Function=関数(&F) :
+SubTotalDialog.Text.DataField=データフィールド(&D) :
 
 FormPage.Menu.ModifyProperty=変更
 
@@ -284,7 +284,7 @@ DataColumnXTabDropAdapter.DataCube=データキューブ
 
 CubeBuilder.warning.title=クロスタブ
 CubeBuilder.warning.message=データキューブが正しく作成されました。\nこのデータキューブのフィールドをクロスタブのコンテナにドラッグして、クロスタブの作成を完了してください。
-CubeBuilder.warning.prompt=&Don't show this message again
+CubeBuilder.warning.prompt=今後、このメッセージを表示しない(&D)
 
 ###########################################################
 #Crosstab drag tracker

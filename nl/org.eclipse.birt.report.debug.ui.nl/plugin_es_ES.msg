@@ -22,5 +22,5 @@ ScriptLaunchShortcut.label=Informe
 DebugReportLaunchShortcut.description=Depurar un informe
 EnableBreakpoint.label=Activar punto de interrupción
 ToggleBreakpoint.label=Alternar punto de interrupción
-Action.DebugReport=Debug Report
+Action.DebugReport=Depurar informe
 Menu.Report=Informe
