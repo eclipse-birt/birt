@@ -121,6 +121,16 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		addField( blank );
 		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),
 				IHelpContextIds.STYLE_BUILDER_GERNERAL_ID );
+
+		Label note = new Label( getFieldEditorParent( ), SWT.NONE );
+		note.setText( Messages.getString("GeneralPreferencePage.Label.Note") ); //$NON-NLS-1$
+		note.setForeground( note.getDisplay( )
+				.getSystemColor( SWT.COLOR_WIDGET_DARK_SHADOW ) );
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		data.grabExcessVerticalSpace = true;
+		data.verticalAlignment = SWT.END;
+		data.horizontalSpan = 2;
+		note.setLayoutData( data );
 	}
 
 	/**
@@ -135,7 +145,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		nameComp.setLayout( new GridLayout( 2, false ) );
 
 		preStyle = new Button( nameComp, SWT.RADIO );
-		preStyle.setText( " " );
+		preStyle.setText( " " ); //$NON-NLS-1$
 		int width = preStyle.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 
 		preStyle.setText( Messages.getString( "GeneralPreferencePage.label.predefinedStyle" ) ); //$NON-NLS-1$
@@ -166,7 +176,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		preStyle.setLayoutData( data );
 
 		preLabel = new Label( nameComp, SWT.NONE );
-		preLabel.setText( "Select Report Element:" );
+		preLabel.setText( Messages.getString("GeneralPreferencePage.Label.PreDefinedStyle") ); //$NON-NLS-1$
 		data = new GridData( );
 		data.horizontalIndent = width;
 		preLabel.setLayoutData( data );
@@ -212,7 +222,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		cusStyle.setLayoutData( data );
 
 		cusLabel = new Label( nameComp, SWT.NONE );
-		cusLabel.setText( "Name:" );
+		cusLabel.setText( Messages.getString("GeneralPreferencePage.Label.CustomStyle") ); //$NON-NLS-1$
 		data = new GridData( );
 		data.horizontalIndent = width;
 		cusLabel.setLayoutData( data );
