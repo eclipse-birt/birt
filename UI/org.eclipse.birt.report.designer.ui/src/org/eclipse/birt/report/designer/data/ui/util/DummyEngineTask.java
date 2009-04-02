@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.RunAndRenderTask;
@@ -31,6 +32,7 @@ public class DummyEngineTask extends RunAndRenderTask
 	{
 		super( engine, runnable );
 		setEngineTaskParameters( this, moduleHandle );
+		this.taskType = IEngineTask.TASK_UNKNOWN;
 	}
 	
 	public void run() throws EngineException
@@ -65,5 +67,4 @@ public class DummyEngineTask extends RunAndRenderTask
 			}
 		}
 	}
-
 }
