@@ -12,6 +12,7 @@
 		<antcall target="org.eclipse.birt.report.engine.emitter.pdf.tests"/>
 		<antcall target="org.eclipse.birt.report.engine.emitter.html.tests"/>
 		<antcall target="org.eclipse.birt.report.engine.emitter.postscript.tests"/>
+                <antcall target="org.eclipse.birt.report.engine.emitter.prototype.excel.tests"/>
 		<antcall target="org.eclipse.birt.report.model.tests"/>
 		<antcall target="org.eclipse.birt.report.model.adapter.oda.tests"/>
 	        <antcall target="org.eclipse.birt.data.tests"/>
@@ -72,6 +73,17 @@
 			<property name="test-output" value="${test-output-dir}/org.eclipse.birt.report.engine.emitter.postscript.AllTests.xml"/>
 		</ant>
 	</target>
+        
+        <target name="org.eclipse.birt.report.engine.emitter.prototype.excel.tests" depends="init">
+                <echo message="Starting unit test for org.eclipse.birt.report.engine.emitter.prototype.excel.tests"/>
+                <ant dir="${working.dir}/org.eclipse.birt.report.engine.emitter.prototype.excel.tests_${org.eclipse.birt.report.engine.emitter.prototype.excel.tests}" antfile="test.xml">
+                        <property name="os" value="${os}"/>
+                        <property name="eclipse-home" value="${eclipse-home}"/>
+                        <property name="jvm" value="${jvm.15.home}"/>
+                        <property name="test-output" value="${test-output-dir}/org.eclipse.birt.report.engine.emitter.prototype.excel.AllTests.xml"/>
+                </ant>
+        </target>
+
 	<target name="org.eclipse.birt.report.engine.emitter.pdf.tests" depends="init">
 		<echo message="Starting unit test for org.eclipse.birt.report.engine.emitter.pdf.tests"/>
 		<ant dir="${working.dir}/org.eclipse.birt.report.engine.emitter.pdf.tests_${org.eclipse.birt.report.engine.emitter.pdf.tests}" antfile="test.xml">
