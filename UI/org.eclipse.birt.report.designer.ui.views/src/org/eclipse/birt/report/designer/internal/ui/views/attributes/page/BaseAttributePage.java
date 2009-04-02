@@ -156,6 +156,10 @@ public class BaseAttributePage extends TabPage
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		infoPane.setLayout( layout );
+
+		container.setTabList( new Control[]{
+				categoryList, sComposite
+		} );
 	}
 
 	private void computeSize( )
