@@ -1735,7 +1735,10 @@ GeneralInsertMenuAction.text.Text=文本(&T)
 GeneralPreferencePage.errorMsg.duplicate.styleName=重复的样式名称。
 GeneralPreferencePage.label.styleNameDuplicate=样式名称“{0}”已存在，请选择另一个名称
 GeneralPreferencePage.label.customStyle=自定义样式(&C)
-GeneralPreferencePage.label.predefinedStyle=预定义样式(&P)
+GeneralPreferencePage.Label.CustomStyle=名称:
+GeneralPreferencePage.Label.Note=NOTE: * Apply style properties to a specific type of report element.
+GeneralPreferencePage.Label.PreDefinedStyle=Select Report Element:
+GeneralPreferencePage.label.predefinedStyle=&Predefined Style *
 GeneralPreferencePage.label.nameEmpty=不允许空样式名称。 
 
 ###########################################################

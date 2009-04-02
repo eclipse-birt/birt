@@ -1735,7 +1735,10 @@ GeneralInsertMenuAction.text.Text=텍스트(&T)
 GeneralPreferencePage.errorMsg.duplicate.styleName=중복된 스타일 이름입니다.
 GeneralPreferencePage.label.styleNameDuplicate=스타일 이름 "{0}"은(는) 이미 있습니다. 다른 이름을 선택하십시오.
 GeneralPreferencePage.label.customStyle=사용자 지정 스타일(&C)
-GeneralPreferencePage.label.predefinedStyle=미리 정의된 스타일(&P)
+GeneralPreferencePage.Label.CustomStyle=이름:
+GeneralPreferencePage.Label.Note=NOTE: * Apply style properties to a specific type of report element.
+GeneralPreferencePage.Label.PreDefinedStyle=Select Report Element:
+GeneralPreferencePage.label.predefinedStyle=&Predefined Style *
 GeneralPreferencePage.label.nameEmpty=스타일 이름은 필수 입력 항목입니다. 
 
 ###########################################################

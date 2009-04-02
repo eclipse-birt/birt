@@ -1735,7 +1735,10 @@ GeneralInsertMenuAction.text.Text=&Texto
 GeneralPreferencePage.errorMsg.duplicate.styleName=Nombre de estilo duplicado.
 GeneralPreferencePage.label.styleNameDuplicate=El nombre de estilo "{0}" ya existe, elija un nombre diferente
 GeneralPreferencePage.label.customStyle=&Estilo personalizado
-GeneralPreferencePage.label.predefinedStyle=Estilo &predefinido
+GeneralPreferencePage.Label.CustomStyle=Nombre:
+GeneralPreferencePage.Label.Note=NOTE: * Apply style properties to a specific type of report element.
+GeneralPreferencePage.Label.PreDefinedStyle=Select Report Element:
+GeneralPreferencePage.label.predefinedStyle=&Predefined Style *
 GeneralPreferencePage.label.nameEmpty=No se permite que el nombre de estilo esté vacío. 
 
 ###########################################################

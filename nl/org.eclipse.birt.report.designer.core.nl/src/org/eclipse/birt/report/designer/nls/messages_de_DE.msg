@@ -1735,7 +1735,10 @@ GeneralInsertMenuAction.text.Text=T&ext
 GeneralPreferencePage.errorMsg.duplicate.styleName=Der Stilname ist bereits vorhanden.
 GeneralPreferencePage.label.styleNameDuplicate=Stilname "{0}" ist bereits vorhanden. Wählen Sie einen anderen Namen.
 GeneralPreferencePage.label.customStyle=&Benutzerdefinierter Stil
-GeneralPreferencePage.label.predefinedStyle=&Vordefinierter Stil
+GeneralPreferencePage.Label.CustomStyle=Name:
+GeneralPreferencePage.Label.Note=NOTE: * Apply style properties to a specific type of report element.
+GeneralPreferencePage.Label.PreDefinedStyle=Select Report Element:
+GeneralPreferencePage.label.predefinedStyle=&Predefined Style *
 GeneralPreferencePage.label.nameEmpty=Leerer Stilname ist nicht zulässig. 
 
 ###########################################################

@@ -1735,7 +1735,10 @@ GeneralInsertMenuAction.text.Text=&Texte
 GeneralPreferencePage.errorMsg.duplicate.styleName=Nom de style en double
 GeneralPreferencePage.label.styleNameDuplicate=Le nom de style "{0}" existe déjà, choisissez un autre nom.
 GeneralPreferencePage.label.customStyle=&Style personnalisé
-GeneralPreferencePage.label.predefinedStyle=Style &prédéfini
+GeneralPreferencePage.Label.CustomStyle=Nom :
+GeneralPreferencePage.Label.Note=NOTE: * Apply style properties to a specific type of report element.
+GeneralPreferencePage.Label.PreDefinedStyle=Select Report Element:
+GeneralPreferencePage.label.predefinedStyle=&Predefined Style *
 GeneralPreferencePage.label.nameEmpty=Nom de style vide non autorisé. 
 
 ###########################################################

@@ -1735,7 +1735,10 @@ GeneralInsertMenuAction.text.Text=テキスト(&T)
 GeneralPreferencePage.errorMsg.duplicate.styleName=スタイル名が重複しています。
 GeneralPreferencePage.label.styleNameDuplicate=スタイル名 "{0}" はすでに存在します。別の名前を付けてください。
 GeneralPreferencePage.label.customStyle=ユーザ設定のスタイル(&C)...
-GeneralPreferencePage.label.predefinedStyle=設定済みのスタイル(&P)...
+GeneralPreferencePage.Label.CustomStyle=名前 :
+GeneralPreferencePage.Label.Note=NOTE: * Apply style properties to a specific type of report element.
+GeneralPreferencePage.Label.PreDefinedStyle=Select Report Element:
+GeneralPreferencePage.label.predefinedStyle=&Predefined Style *
 GeneralPreferencePage.label.nameEmpty=スタイル名を空白にすることはできません。 
 
 ###########################################################
