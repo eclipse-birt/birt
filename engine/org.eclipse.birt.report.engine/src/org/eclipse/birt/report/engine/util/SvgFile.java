@@ -15,6 +15,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
@@ -24,6 +26,8 @@ import org.apache.batik.transcoder.image.JPEGTranscoder;
 
 public class SvgFile
 {
+	private static Logger logger = Logger.getLogger( SvgFile.class.getName( ) );
+	
 	static boolean isSvg = false;
 	
 	public static boolean isSvg(String uri)
@@ -76,6 +80,7 @@ public class SvgFile
 		}
 		catch ( TranscoderException e )
 		{
+			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
 		}
 		// flush the stream
 		ostream.flush( );
