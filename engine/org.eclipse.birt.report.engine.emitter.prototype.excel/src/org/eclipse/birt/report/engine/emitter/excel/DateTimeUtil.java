@@ -202,6 +202,10 @@ public class DateTimeUtil
 		{
 			code = locale2Code.get( new Locale( language ) );
 		}
+		if ( code == null )
+		{
+			return format;
+		}
 		return code + format;
 	}
 }
