@@ -66,7 +66,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	/**
 	 * Used to implement IAction in various cases
 	 */
-	private abstract class ChartHyperlinkActionBase implements IAction
+	protected abstract class ChartHyperlinkActionBase implements IAction
 	{
 
 		private ActionHandle handle;
@@ -80,13 +80,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 		public int getType( )
 		{
-			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-				return IAction.ACTION_HYPERLINK;
-			if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-				return IAction.ACTION_BOOKMARK;
-			if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( handle.getLinkType( ) ) )
-				return IAction.ACTION_DRILLTHROUGH;
-			return 0;
+			return BIRTActionRenderer.this.getType( handle );
 		}
 
 		public String getBookmark( )
@@ -96,11 +90,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 		public String getActionString( )
 		{
-			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-				return ChartUtil.stringValue( evaluate( handle.getURI( ) ) );
-			if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
-				return ChartUtil.stringValue( evaluate( handle.getTargetBookmark( ) ) );
-			return null;
+			return BIRTActionRenderer.this.getActionString( this, handle );
 		}
 
 		public String getReportName( )
@@ -110,36 +100,12 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 		public Map getParameterBindings( )
 		{
-			Map map = new HashMap( );
-			MemberHandle params = handle.getParamBindings( );
-			// Parameters may be null except for DrillThrough
-			if ( params != null )
-			{
-				for ( Iterator itr = params.iterator( ); itr.hasNext( ); )
-				{
-					ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
-					map.put( pbh.getParamName( ),
-							evaluate( pbh.getExpression( ) ) );
-				}
-			}
-			return map;
+			return BIRTActionRenderer.this.getParameterBindings( this, handle );
 		}
 
 		public Map getSearchCriteria( )
 		{
-			Map map = new HashMap( );
-			MemberHandle searches = handle.getSearch( );
-			// Searches may be null except for DrillThrough
-			if ( searches != null )
-			{
-				for ( Iterator itr = searches.iterator( ); itr.hasNext( ); )
-				{
-					SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
-					map.put( skh.getExpression( ),
-							evaluate( skh.getExpression( ) ) );
-				}
-			}
-			return map;
+			return BIRTActionRenderer.this.getSearchCriteria( this, handle );
 		}
 
 		public String getTargetWindow( )
@@ -154,7 +120,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 		public boolean isBookmark( )
 		{
-			return DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( handle.getTargetBookmarkType( ) );
+			return BIRTActionRenderer.this.isBookmark( handle );
 		}
 
 		public String getSystemId( )
@@ -191,6 +157,68 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		this.handler = handler;
 		this.evaluator = evaluator;
 		this.context = context;
+	}
+
+	protected Map<String, Object> getParameterBindings(
+			ChartHyperlinkActionBase chAction, ActionHandle handle )
+	{
+		Map<String, Object> map = new HashMap<String, Object>( );
+		MemberHandle params = handle.getParamBindings( );
+		// Parameters may be null except for DrillThrough
+		if ( params != null )
+		{
+			for ( Iterator<?> itr = params.iterator( ); itr.hasNext( ); )
+			{
+				ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
+				map.put( pbh.getParamName( ),
+						chAction.evaluate( pbh.getExpression( ) ) );
+			}
+		}
+		return map;
+	}
+
+	protected Map<String, Object> getSearchCriteria(
+			ChartHyperlinkActionBase chAction, ActionHandle handle )
+	{
+		Map<String, Object> map = new HashMap<String, Object>( );
+		MemberHandle searches = handle.getSearch( );
+		// Searches may be null except for DrillThrough
+		if ( searches != null )
+		{
+			for ( Iterator<?> itr = searches.iterator( ); itr.hasNext( ); )
+			{
+				SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
+				map.put( skh.getExpression( ),
+						chAction.evaluate( skh.getExpression( ) ) );
+			}
+		}
+		return map;
+	}
+
+	protected int getType( ActionHandle handle )
+	{
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
+			return IAction.ACTION_HYPERLINK;
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
+			return IAction.ACTION_BOOKMARK;
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( handle.getLinkType( ) ) )
+			return IAction.ACTION_DRILLTHROUGH;
+		return 0;
+	}
+
+	protected String getActionString( ChartHyperlinkActionBase chAction,
+			ActionHandle handle )
+	{
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
+			return ChartUtil.stringValue( chAction.evaluate( handle.getURI( ) ) );
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
+			return ChartUtil.stringValue( chAction.evaluate( handle.getTargetBookmark( ) ) );
+		return null;
+	}
+
+	protected boolean isBookmark( ActionHandle handle )
+	{
+		return DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( handle.getTargetBookmarkType( ) );
 	}
 
 	/*
