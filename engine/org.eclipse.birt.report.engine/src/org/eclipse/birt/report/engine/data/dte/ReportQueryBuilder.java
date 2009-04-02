@@ -1034,7 +1034,7 @@ public class ReportQueryBuilder
 			}
 			try
 			{
-				Expression<String> newContent = transformExpression(
+				Expression<Object> newContent = transformExpression(
 						dynamicText.getContent( ), query );
 				dynamicText.setContent( newContent );
 				transformExpressions( dynamicText, query );

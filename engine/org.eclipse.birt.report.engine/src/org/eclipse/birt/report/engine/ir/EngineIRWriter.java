@@ -1477,7 +1477,7 @@ public class EngineIRWriter implements IOConstants
 	{
 		writeReportItem( out, design );
 		Expression<String> contentType = design.getContentType( );
-		Expression<String> content = design.getContent( );
+		Expression<Object> content = design.getContent( );
 		if ( contentType != null )
 		{
 			IOUtil.writeShort( out, FIELD_CONTENT_TYPE );

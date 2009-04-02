@@ -25,21 +25,21 @@ public class DynamicTextItemDesign extends ReportItemDesign
 	/**
 	 * content 
 	 */
-	protected Expression<String> content;
+	protected Expression<Object> content;
 	
 	
 	
 	/**
 	 * @return Returns the content.
 	 */
-	public Expression<String> getContent( )
+	public Expression<Object> getContent( )
 	{
 		return content;
 	}
 	/**
 	 * @param content The content to set.
 	 */
-	public void setContent( Expression<String> content )
+	public void setContent( Expression<Object> content )
 	{
 		this.content = content;
 	}

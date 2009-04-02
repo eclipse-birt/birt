@@ -1365,7 +1365,7 @@ public class EngineIRReaderImpl implements IOConstants
 				design.setContentType( contentType );
 				break;
 			case FIELD_CONTENT :
-				Expression<String> content = readStringExpression( in );
+				Expression<Object> content = readObjectExpression( in );
 				design.setContent( content );
 				break;
 			default :
