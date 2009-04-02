@@ -221,8 +221,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 			lblRatio.setToolTipText( TOOLTIP_RATIO );
 		}
 		
-		sRatio = new Slider( cmpRight, SWT.HORIZONTAL
-				| SWT.NO_FOCUS  );
+		sRatio = new Slider( cmpRight, SWT.HORIZONTAL );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
@@ -247,8 +246,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 			lblRotation.setToolTipText( TOOLTIP_ROTATION );
 		}
 		
-		sRotation = new Slider( cmpRight, SWT.HORIZONTAL
-				| SWT.NO_FOCUS  );
+		sRotation = new Slider( cmpRight, SWT.HORIZONTAL );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
