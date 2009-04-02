@@ -328,9 +328,8 @@ public interface IHTMLRenderOption extends IRenderOption
 	 */
 	public static final String HTML_INDENT = "HTMLIndent";
 	
-	/**
-	 * Whether or not the cell's IID should be output when htmlEnableMetadata is
-	 * true. The default value is false.
+	/*
+	 * A filter for metadata.
 	 */
-	public static final String ENABLE_CELL_IID = "enableCellIID";
+	public static final String METADATA_FILTER = "metadataFilter";
 }

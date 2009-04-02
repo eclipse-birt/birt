@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IImage;
+import org.eclipse.birt.report.engine.api.IMetadataFilter;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.Action;
@@ -75,6 +76,7 @@ import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
@@ -86,6 +88,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -297,7 +300,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	private String layoutPreference;
 	private boolean enableAgentStyleEngine;
 	private boolean outputMasterPageMargins;
-	private boolean enableCellIID;
+	private IMetadataFilter metadataFilter = null;
 	
 	/**
 	 * Following names will be name spaced by htmlIDNamespace: a.CSS style name.
@@ -399,7 +402,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 			}
 			writer.setIndent( htmlOption.getHTMLIndent( ) );
-			enableCellIID = htmlOption.getEnableCellIID( );
+			metadataFilter = htmlOption.getMetadataFilter( );
 		}
 	}
 	
@@ -1784,9 +1787,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead );
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 		htmlEmitter.handleCellAlign( cell );
-		if ( enableCellIID && enableMetadata )
+		if ( enableMetadata )
 		{
-			metadataEmitter.outputCellIID( cell );
+			if ( metadataFilter != null )
+			{
+				if ( metadataFilter.needMetaData( getElementHandle( cell ) ) )
+				{
+					metadataEmitter.outputCellIID( cell );
+				}
+			}
 		}
 
 		if ( !startedGroups.isEmpty( ) )
@@ -3194,6 +3203,25 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 		}
 	}
+	
+	private ReportElementHandle getElementHandle( IContent content )
+	{
+		Object object = content.getGenerateBy( );
+		if ( object instanceof ReportItemDesign )
+		{
+			Object handle = ( (ReportItemDesign) object ).getHandle( );
+			if ( handle instanceof ReportElementHandle )
+			{
+				return (ReportElementHandle) handle;
+			}
+		}
+		else if ( object instanceof ReportElementHandle )
+		{
+			return (ReportElementHandle) object;
+		}
+		return null;
+	}
+
 }
 
 class IDGenerator

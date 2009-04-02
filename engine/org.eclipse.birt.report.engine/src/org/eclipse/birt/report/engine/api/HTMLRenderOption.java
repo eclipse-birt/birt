@@ -461,29 +461,25 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 		return true;
 	}
 	
-	/**
-	 * Sets the flag indicating that the cell's iid should be output or
-	 * not when htmlEnableMetadata is true.
-	 * 
-	 * @param flag
+	/*
+	 * set the metadata filter.
 	 */
-	public void setEnableCellIID( boolean flag )
+	public void setMetadataFilter( IMetadataFilter filter )
 	{
-		options.put( ENABLE_CELL_IID, new Boolean( flag ) );
+		setOption( METADATA_FILTER, filter );
 	}
-
-	/**
-	 * @return The flag value of enable the cell's iid. The default value
-	 *         is false.
+	
+	/*
+	 * get the metadata filter.
 	 */
-	public boolean getEnableCellIID( )
+	public IMetadataFilter getMetadataFilter( )
 	{
-		Object value = options.get( ENABLE_CELL_IID );
-		if ( value instanceof Boolean )
+		Object filter = getOption( METADATA_FILTER );
+		if ( filter instanceof IMetadataFilter )
 		{
-			return ( (Boolean) value ).booleanValue( );
+			return (IMetadataFilter) filter;
 		}
-		return false;
+		return null;
 	}
 
 }
