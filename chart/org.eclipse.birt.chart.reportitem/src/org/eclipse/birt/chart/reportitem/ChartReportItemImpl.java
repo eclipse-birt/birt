@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
@@ -65,6 +66,8 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItem;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.core.runtime.IAdapterManager;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
@@ -81,6 +84,8 @@ public final class ChartReportItemImpl extends ReportItem implements
 {
 
 	private Chart cm = null;
+
+	private final Serializer serializer;
 
 	private Object oDesignerRepresentation = null;
 
@@ -143,12 +148,36 @@ public final class ChartReportItemImpl extends ReportItem implements
 		}
 	};
 
+	public static <T> T getAdapter( Object adaptable, Class<T> adapterClass )
+	{
+		IAdapterManager adapterManager = Platform.getAdapterManager( );
+		return adapterClass.cast( adapterManager.loadAdapter( adaptable,
+				adapterClass.getName( ) ) );
+	}
+
+	private Serializer instanceSerializer( ExtendedItemHandle handle )
+	{
+
+		IChartReportItemFactory factory = getAdapter( handle,
+				IChartReportItemFactory.class );
+
+		if ( factory != null )
+		{
+			return factory.createSerializer( handle );
+		}
+		else
+		{
+			return SerializerImpl.instance( );
+		}
+	}
+
 	/**
 	 * The construcotor.
 	 */
 	public ChartReportItemImpl( ExtendedItemHandle handle )
 	{
 		this.handle = handle;
+		this.serializer = instanceSerializer( handle );
 	}
 
 	/**
@@ -255,7 +284,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 				// as chart model
 				try
 				{
-					return SerializerImpl.instance( ).asXml( cm, true );
+					return serializer.asXml( cm, true );
 				}
 				catch ( Exception e )
 				{
@@ -277,11 +306,11 @@ public final class ChartReportItemImpl extends ReportItem implements
 			throws ExtendedElementException
 	{
 		if ( propName != null
-				&& propName.equalsIgnoreCase( ChartReportItemUtil.PROPERTY_XMLPRESENTATION ) )
+				&& propName.equalsIgnoreCase( ChartReportItemConstants.PROPERTY_XMLPRESENTATION ) )
 		{
 			try
 			{
-				cm = SerializerImpl.instance( ).fromXml( data, true );
+				cm = serializer.fromXml( data, true );
 				doCompatibility( cm );
 
 				// This fix is only for SCR 95978, for the version 3.2.10 of
