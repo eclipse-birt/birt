@@ -142,6 +142,8 @@ public class DataExtractionTaskV0 extends EngineTask
 	 * list contains all the resultsets each entry is a
 	 */
 	protected ArrayList resultMetaList = new ArrayList( );
+
+	private boolean isCubeExportEnabled;
 	/**
 	 * the logger
 	 */
@@ -918,5 +920,23 @@ public class DataExtractionTaskV0 extends EngineTask
 	public void setDistinctValuesOnly( boolean distinct )
 	{
 		this.distinct = distinct;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IDataExtractionTask#setCubeExportEnabled(boolean)
+	 */
+	public void setCubeExportEnabled( boolean isCubeExportEnabled )
+	{
+		this.isCubeExportEnabled = isCubeExportEnabled;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IDataExtractionTask#isCubeExportEnabled()
+	 */
+	public boolean isCubeExportEnabled( )
+	{
+		return this.isCubeExportEnabled;
 	}
 }

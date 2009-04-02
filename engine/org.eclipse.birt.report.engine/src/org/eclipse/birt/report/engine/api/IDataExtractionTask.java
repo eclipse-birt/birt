@@ -30,6 +30,17 @@ public interface IDataExtractionTask extends IEngineTask
 	 */
 	// public void setItemID( ComponentID cid );
 	
+	/**
+	 * to set the indicator whether to enable the cube export functionality.
+	 */
+	public void setCubeExportEnabled( boolean isCubeExportEnabled );
+	
+	/**
+	 * to indicate whether the cube export functionality should be enabled or
+	 * not.
+	 */
+	public boolean isCubeExportEnabled( );
+	
 	/**	 
 	 * * @param iid
 	 * 	 

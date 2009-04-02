@@ -280,4 +280,14 @@ public class DataExtractionTask implements IDataExtractionTask
 	{
 		task.setDistinctValuesOnly( distinct );
 	}
+
+	public void setCubeExportEnabled( boolean isCubeExportEnabled )
+	{
+		task.setCubeExportEnabled( isCubeExportEnabled );
+	}
+	
+	public boolean isCubeExportEnabled( )
+	{
+		return task.isCubeExportEnabled( );
+	}
 }

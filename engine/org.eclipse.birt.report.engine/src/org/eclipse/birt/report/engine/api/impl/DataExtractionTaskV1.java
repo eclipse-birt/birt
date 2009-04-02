@@ -44,6 +44,7 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
+import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.api.DataID;
@@ -74,6 +75,7 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.mozilla.javascript.Scriptable;
 
@@ -173,6 +175,12 @@ public class DataExtractionTaskV1 extends EngineTask
 	 * list contains all the resultsets each entry is a
 	 */
 	protected ArrayList resultMetaList = new ArrayList( );
+	
+	private boolean isCubeExportEnabled;
+
+	private List cubeNameList = new ArrayList();
+
+	private String cubeName;
 	/**
 	 * the logger
 	 */
@@ -240,6 +248,14 @@ public class DataExtractionTaskV1 extends EngineTask
 				queryId2NameMapping.put( queryId, queryName );
 				queryId2QueryMapping.put( queryId, query );
 				query2QueryIdMapping.put( query, queryId );
+			}
+			else if ( baseQuery instanceof IBaseCubeQueryDefinition )
+			{
+				IBaseCubeQueryDefinition query = (IBaseCubeQueryDefinition) baseQuery;
+				ReportItemDesign item = (ReportItemDesign) query2itemMapping.get( query );
+				DesignElementHandle cube = item.getHandle( );
+				String name = cube.getStringProperty( ReportItemHandle.CUBE_PROP );
+				cubeNameList.add( name );
 			}
 		}
 
@@ -358,6 +374,17 @@ public class DataExtractionTaskV1 extends EngineTask
 					}
 				}
 			}
+			
+			// add cube names to the result set
+			if ( isCubeExportEnabled && !cubeNameList.isEmpty( ) )
+			{
+				for ( Iterator itr = cubeNameList.iterator( ); itr.hasNext( ); )
+				{
+					String name = (String) itr.next( );
+					resultMetaList.add( new ResultSetItem( name, null ) );
+				}
+			}
+			
 		}
 		catch ( IOException ioe )
 		{
@@ -553,13 +580,26 @@ public class DataExtractionTaskV1 extends EngineTask
 		try
 		{
 			prepareMetaData( );
-			if ( resultSetName != null )
+			if ( isCubeExportEnabled && cubeName != null )
 			{
-				results = extractByResultSetName( resultSetName );
+				if ( cubeNameList != null )
+				{
+					if ( cubeNameList.contains( cubeName ) )
+					{
+						results = new CubeExtractionResults( reportDocReader.getArchive( ) );
+					}
+				}
 			}
-			if ( instanceId != null )
+			else
 			{
-				results = extractByInstanceID( instanceId );
+				if ( resultSetName != null )
+				{
+					results = extractByResultSetName( resultSetName );
+				}
+				if ( instanceId != null )
+				{
+					results = extractByInstanceID( instanceId );
+				}
 			}
 			return results;
 		}
@@ -787,7 +827,7 @@ public class DataExtractionTaskV1 extends EngineTask
 	
 	// when cloning queries, map the cloned query to its old query id
 	private HashMap tmpQuery2QueryIdMapping = new HashMap( );
-	
+
 	private String getQueryId( IBaseQueryDefinition query )
 	{
 		String id = (String) tmpQuery2QueryIdMapping.get( query );
@@ -1540,6 +1580,16 @@ public class DataExtractionTaskV1 extends EngineTask
 					htmlContext );
 		}
 
+		if ( options instanceof CubeDataExtractionOption )
+		{
+			CubeDataExtractionOption cubeOption = (CubeDataExtractionOption) options;
+			this.cubeName = cubeOption.getCubeName( );
+			return options;
+		}
+		else
+		{
+			this.cubeName = null;
+		}
 		// setup the instance id which is comes from the task.setInstanceId
 		IDataExtractionOption extractOption = new DataExtractionOption(
 				allOptions );
@@ -1552,5 +1602,23 @@ public class DataExtractionTaskV1 extends EngineTask
 		}
 
 		return extractOption;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IDataExtractionTask#setCubeExportEnabled(boolean)
+	 */
+	public void setCubeExportEnabled( boolean isCubeExportEnabled )
+	{
+		this.isCubeExportEnabled = isCubeExportEnabled;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IDataExtractionTask#isCubeExportEnabled()
+	 */
+	public boolean isCubeExportEnabled( )
+	{
+		return this.isCubeExportEnabled;
 	}
 }
