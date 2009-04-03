@@ -156,6 +156,19 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 			hidePrivateProps.add( cachedProperties.get( propName ) );
 			cachedProperties.remove( propName );
 			properties.remove( propName );
+
+		}
+
+		// need to remove the hide private property from the visibility list,
+		// otherwise there will be some warning message.
+		if ( hidePrivateProps != null )
+		{
+			for ( int i = 0; i < hidePrivateProps.size( ); i++ )
+			{
+				String propName = hidePrivateProps.get( i ).getName( );
+				propVisibilites.remove( propName );
+			}
+
 		}
 	}
 
