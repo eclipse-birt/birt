@@ -62,10 +62,13 @@ public class CancelManager extends TimerTask
 	 */
 	public void run( )
 	{
-		for( ICancellable cancellable: cancellableList )
+		synchronized ( cancellableList )
 		{
-			if( cancellable.doCancel( ))
-				cancellable.cancel();
+			for ( ICancellable cancellable : cancellableList )
+			{
+				if ( cancellable.doCancel( ) )
+					cancellable.cancel( );
+			}
 		}
 	}
 }
