@@ -113,6 +113,10 @@
                name="inheritColumns"
                type="boolean">
          </property>
+         <propertyVisibility
+               name="inheritColumns"
+               visibility="hide">
+         </propertyVisibility>
       </reportItem>
    </extension>
    <extension
