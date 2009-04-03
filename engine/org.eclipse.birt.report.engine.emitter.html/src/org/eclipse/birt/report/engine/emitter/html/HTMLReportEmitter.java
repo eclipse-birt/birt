@@ -2850,7 +2850,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				{
 					buffer.append( ", " );
 				}
-				buffer.append( htmlIDNamespace + "." + string );
+				buffer.append( htmlIDNamespace + string );
 			}
 			result = buffer.toString( );
 		}
