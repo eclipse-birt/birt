@@ -23,8 +23,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.net.URLStreamHandler;
+import java.security.AccessControlContext;
+import java.security.AccessController;
 import java.security.CodeSigner;
 import java.security.CodeSource;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.LinkedList;
@@ -56,6 +60,7 @@ public class URLClassLoader extends java.net.URLClassLoader
 
 	private List<URL> urls = new LinkedList<URL>( );
 	private ArrayList<Loader> loaders;
+	private AccessControlContext acc;
 
 	public URLClassLoader( URL[] urls )
 	{
@@ -72,6 +77,7 @@ public class URLClassLoader extends java.net.URLClassLoader
 				loaders.add( loader );
 			}
 		}
+		acc = AccessController.getContext( );
 	}
 
 	private void initURLs( URL[] urls )
@@ -97,6 +103,7 @@ public class URLClassLoader extends java.net.URLClassLoader
 				loaders.add( loader );
 			}
 		}
+		acc = AccessController.getContext( );
 	}
 
 	public void close( )
@@ -137,6 +144,25 @@ public class URLClassLoader extends java.net.URLClassLoader
 	protected Class<?> findClass( final String name )
 			throws ClassNotFoundException
 	{
+		try
+		{
+			return (Class<?>) AccessController.doPrivileged(
+					new PrivilegedExceptionAction<Class<?>>( ) {
+
+						public Class<?> run( ) throws ClassNotFoundException
+						{
+							return findClass1( name );
+						}
+					}, acc );
+		}
+		catch ( java.security.PrivilegedActionException pae )
+		{
+			throw (ClassNotFoundException) pae.getException( );
+		}
+	}
+
+	protected Class<?> findClass1( String name ) throws ClassNotFoundException
+	{
 		if ( loaders == null )
 		{
 			throw new ClassNotFoundException( name );
@@ -161,6 +187,17 @@ public class URLClassLoader extends java.net.URLClassLoader
 
 	public URL findResource( final String name )
 	{
+		return AccessController.doPrivileged( new PrivilegedAction<URL>( ) {
+
+			public URL run( )
+			{
+				return findResource1( name );
+			}
+		}, acc );
+	}
+
+	protected URL findResource1( String name )
+	{
 		if ( loaders != null )
 		{
 			for ( Loader loader : loaders )
@@ -182,7 +219,18 @@ public class URLClassLoader extends java.net.URLClassLoader
 	}
 
 	public Enumeration<URL> findResources( final String name )
-			throws IOException
+	{
+		return AccessController.doPrivileged(
+				new PrivilegedAction<Enumeration<URL>>( ) {
+
+					public Enumeration<URL> run( )
+					{
+						return findResources1( name );
+					}
+				}, acc );
+	}
+
+	protected Enumeration<URL> findResources1( String name )
 	{
 		Vector<URL> urls = new Vector<URL>( );
 		if ( loaders != null )

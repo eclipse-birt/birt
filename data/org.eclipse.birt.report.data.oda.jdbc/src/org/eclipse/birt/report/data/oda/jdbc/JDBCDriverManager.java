@@ -16,6 +16,8 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.CodeSource;
+import java.security.PermissionCollection;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -912,7 +914,12 @@ public class JDBCDriverManager
 				refreshURLs();
 			}
 		}
-		
+
+		protected PermissionCollection getPermissions( CodeSource codesource )
+		{
+			return this.getClass( ).getProtectionDomain( ).getPermissions( );
+		}
+
 		/**
 		 * Refresh the URL list of DriverClassLoader
 		 * @return if the refreshURL is different than the former one then return true otherwise

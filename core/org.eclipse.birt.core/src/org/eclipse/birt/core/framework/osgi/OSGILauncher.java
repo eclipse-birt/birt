@@ -693,7 +693,8 @@ public class OSGILauncher
 	
 	protected void setupSecurityPolicy( ) throws FrameworkException
 	{
-		String eclipseSecurity = System.getProperty( PROP_ECLIPSE_SECURITY );
+		String eclipseSecurity = (String) properties
+				.get( PROP_ECLIPSE_SECURITY );
 		if ( eclipseSecurity != null )
 		{
 			// setup a policy that grants the launcher and path for the

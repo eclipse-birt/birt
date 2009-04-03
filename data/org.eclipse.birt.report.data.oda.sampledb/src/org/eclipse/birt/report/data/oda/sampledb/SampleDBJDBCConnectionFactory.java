@@ -15,6 +15,8 @@ package org.eclipse.birt.report.data.oda.sampledb;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.CodeSource;
+import java.security.PermissionCollection;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
@@ -247,7 +249,12 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 		{
 			return isGood;
 		}
-		
+
+		protected PermissionCollection getPermissions( CodeSource codesource )
+		{
+			return this.getClass( ).getProtectionDomain( ).getPermissions( );
+		}
+
 		/**
 		 * @see java.lang.ClassLoader#loadClass(java.lang.String, boolean)
 		 */
