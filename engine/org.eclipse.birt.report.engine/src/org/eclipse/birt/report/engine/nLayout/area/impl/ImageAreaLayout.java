@@ -107,7 +107,7 @@ public class ImageAreaLayout implements ILayout
 			( (BlockTextArea) layout ).initialize( );
 		}
 	}
-	
+
 	private ITextContent createAltText( IImageContent imageContent )
 	{
 		IReportContent report = imageContent.getReportContent( );
@@ -115,8 +115,7 @@ public class ImageAreaLayout implements ILayout
 		{
 			return null;
 		}
-		ITextContent altTextContent = report
-				.createTextContent( imageContent );
+		ITextContent altTextContent = report.createTextContent( imageContent );
 		String alt = imageContent.getAltText( );
 		if ( null == alt )
 		{
@@ -166,7 +165,6 @@ public class ImageAreaLayout implements ILayout
 	private boolean isOutputSupported( int type )
 	{
 		String supportedImageFormats = context.getSupportedImageFormats( );
-		
 		if ( type == TYPE_IMAGE_OBJECT )
 		{
 			if ( -1 != supportedImageFormats.indexOf( "PNG" )
@@ -175,15 +173,14 @@ public class ImageAreaLayout implements ILayout
 					|| -1 != supportedImageFormats.indexOf( "JPG" ) )
 				return true;
 		}
-		
 		else if ( type == TYPE_FLASH_OBJECT )
 		{
-			if ( -1 != supportedImageFormats.indexOf( "SWF" ))
+			if ( -1 != supportedImageFormats.indexOf( "SWF" ) )
 			{
-				return true;				
+				return true;
 			}
 		}
-		return false;		
+		return false;
 	}
 }
 
@@ -476,7 +473,7 @@ class ConcreteImageLayout implements ILayout
 
 		int actualHeight = cHeight;
 		int actualWidth = cWidth;
-		
+
 		if ( cHeight > maxHeight || cWidth > maxWidth )
 		{
 			if ( fitToContainer )
@@ -503,8 +500,8 @@ class ConcreteImageLayout implements ILayout
 				imageArea.setWidth( actualWidth );
 				imageArea.setHeight( actualHeight );
 				root.setNeedClip( true );
-				root.setAllocatedHeight( Math.min( maxHeight, cHeight ));
-				root.setAllocatedWidth( Math.min( maxWidth, cWidth ));
+				root.setAllocatedHeight( Math.min( maxHeight, cHeight ) );
+				root.setAllocatedWidth( Math.min( maxWidth, cWidth ) );
 			}
 		}
 		else
@@ -530,10 +527,14 @@ class ConcreteImageLayout implements ILayout
 			case IImageContent.IMAGE_FILE :
 			case IImageContent.IMAGE_URL :
 				area.setUrl( content.getURI( ) );
+				area.setExtension( content.getExtension( ) );
+				area.setMIMEType( content.getMIMEType( ) );
 				break;
 			case IImageContent.IMAGE_NAME :
 			case IImageContent.IMAGE_EXPRESSION :
 				area.setData( content.getData( ) );
+				area.setExtension( content.getExtension( ) );
+				area.setMIMEType( content.getMIMEType( ) );
 				break;
 		}
 		return area;
