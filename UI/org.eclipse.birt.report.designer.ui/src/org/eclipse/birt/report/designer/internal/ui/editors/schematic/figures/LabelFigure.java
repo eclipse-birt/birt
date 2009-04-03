@@ -135,7 +135,7 @@ public class LabelFigure extends ReportElementFigure
 	 * 
 	 * @see org.eclipse.draw2d.IFigure#getPreferredSize(int, int)
 	 */
-	private Dimension getPreferredSize( int wHint, int hHint, boolean isFix )
+	private Dimension getPreferredSize( int wHint, int hHint, boolean isFix, boolean forceWidth, boolean forceHeight )
 	{
 		int rx = recommendSize != null ? recommendSize.width : 0;
 		int ry = recommendSize != null ? recommendSize.height : 0;
@@ -148,7 +148,7 @@ public class LabelFigure extends ReportElementFigure
 		{
 			int tempHint = wHint;
 			int maxWidth = calcMaxSegment( );
-			if (wHint < maxWidth)
+			if (wHint < maxWidth && !forceWidth)
 			{
 				tempHint = maxWidth;
 			}
@@ -170,20 +170,20 @@ public class LabelFigure extends ReportElementFigure
 	
 	public Dimension getPreferredSize( int wHint, int hHint )
 	{
-		return getPreferredSize( wHint, hHint, false );
+		return getPreferredSize( wHint, hHint, false , false, false);
 	}
 
 	
 	public Dimension getMinimumSize( int wHint, int hHint )
 	{
-		return getMinimumSize( wHint, hHint, false );
+		return getMinimumSize( wHint, hHint, false, false, false );
 	}
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.draw2d.Figure#getMinimumSize(int, int)
 	 */
-	private Dimension getMinimumSize( int wHint, int hHint, boolean isFix )
+	private Dimension getMinimumSize( int wHint, int hHint,boolean isFix,  boolean forceWidth, boolean forceHeight )
 	{
 		if ( DesignChoiceConstants.DISPLAY_NONE.equals( display ) )
 		{
@@ -213,7 +213,7 @@ public class LabelFigure extends ReportElementFigure
 		{
 			int tempHint = wHint;
 			int maxWidth = calcMaxSegment( );
-			if (wHint < maxWidth)
+			if (wHint < maxWidth && !forceWidth)
 			{
 				tempHint = maxWidth;
 			}
@@ -553,7 +553,14 @@ public class LabelFigure extends ReportElementFigure
 		}
 		else
 		{
-			width = getPreferredSize( w, h, true ).width;
+			if (recommendSize.height > 0)
+			{
+				width = getPreferredSize( w, recommendSize.height, true, false, true).width;
+			}
+			else
+			{
+				width = getPreferredSize( w, h, true, false, false ).width;
+			}
 		}	
 		
 		if (recommendSize.height > 0)
@@ -562,7 +569,15 @@ public class LabelFigure extends ReportElementFigure
 		}
 		else
 		{
-			height = getPreferredSize( w, h, true ).height;
+			
+			if (recommendSize.width > 0)
+			{
+				height = getPreferredSize( width, h, true, true, false ).height;
+			}
+			else
+			{
+				height = getPreferredSize( w, h, true, false, false ).height;
+			}
 		}
 		
 		return new Dimension(width, height);
@@ -581,11 +596,11 @@ public class LabelFigure extends ReportElementFigure
 		{
 			if (recommendSize.height > 0)
 			{
-				width = getMinimumSize( w, recommendSize.height, true ).width;
+				width = getMinimumSize( w, recommendSize.height, true, false,  true).width;
 			}
 			else
 			{
-				width = getMinimumSize( w, h, true ).width;
+				width = getMinimumSize( w, h, true, false, false ).width;
 			}
 		}	
 		
@@ -597,11 +612,11 @@ public class LabelFigure extends ReportElementFigure
 		{
 			if (recommendSize.width > 0)
 			{
-				height = getMinimumSize( width, h, true ).height;
+				height = getMinimumSize( width, h, true, true, false ).height;
 			}
 			else
 			{
-				height = getMinimumSize( w, h, true ).height;
+				height = getMinimumSize( w, h, true, false, false ).height;
 			}
 		}
 		
