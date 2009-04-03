@@ -120,6 +120,8 @@ public class InlineContainerArea extends InlineStackingArea
 		bookmark = content.getBookmark( );
 		action = content.getHyperlinkAction( );
 		vAlign = style.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
+		currentIP = 0;
+		currentBP = 0;
 		parent.add( this );
 	}
 
