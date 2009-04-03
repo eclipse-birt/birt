@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
-import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -34,7 +33,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 	protected int colSpan = 1;
 	protected int columnID = 0;
 	protected int rowID = 0;
-	
+
 	static
 	{
 		CELL_DEFAULT.setPaddingTop( DEFAULT_PADDING );
@@ -107,7 +106,8 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 	public void close( ) throws BirtException
 	{
 		height = currentBP + getOffsetY( ) + localProperties.getPaddingBottom( );
-		checkPageBreak();
+		updateBackgroundImage( );
+		checkPageBreak( );
 		parent.update( this );
 		finished = true;
 	}
@@ -150,16 +150,17 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		{
 			boxStyle.setBackgroundColor( color );
 		}
-		String url = content.getStyle().getBackgroundImage( );
+		String url = content.getStyle( ).getBackgroundImage( );
 		if ( url != null )
 		{
-			boxStyle.setBackgroundImage( new BackgroundImageInfo( getImageUrl( url ), style
-					.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
+			boxStyle.setBackgroundImage( new BackgroundImageInfo(
+					getImageUrl( url ), style
+							.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
 					getDimensionValue( style
 							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
-							width ), getDimensionValue( style
+							100 ), getDimensionValue( style
 							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
-							width ) ) );
+							100 ) ) );
 
 		}
 		localProperties = new LocalProperties( );
@@ -195,7 +196,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 			localProperties.setPaddingLeft( PropertyUtil.getDimensionValue(
 					style.getProperty( IStyle.STYLE_PADDING_LEFT ), width ) );
 		}
-		padding = cs.getProperty( IStyle.STYLE_PADDING_RIGHT);
+		padding = cs.getProperty( IStyle.STYLE_PADDING_RIGHT );
 		if ( padding == null )
 		{
 			localProperties.setPaddingRight( DEFAULT_PADDING );
@@ -203,20 +204,20 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		else
 		{
 			localProperties.setPaddingRight( PropertyUtil.getDimensionValue(
-					style.getProperty( IStyle.STYLE_PADDING_RIGHT), width ) );
+					style.getProperty( IStyle.STYLE_PADDING_RIGHT ), width ) );
 		}
-		textAlign = content.getComputedStyle( ).getProperty( IStyle.STYLE_TEXT_ALIGN );
+		textAlign = content.getComputedStyle( ).getProperty(
+				IStyle.STYLE_TEXT_ALIGN );
 	}
 
 	public CellArea cloneArea( )
 	{
-		CellArea cell = new CellArea(this);
+		CellArea cell = new CellArea( this );
 		cell.setBoxStyle( new BoxStyle( cell.getBoxStyle( ) ) );
 		return cell;
 	}
 
-	public void update( AbstractArea area )
-			throws BirtException
+	public void update( AbstractArea area ) throws BirtException
 	{
 		super.update( area );
 		if ( currentIP + area.getAllocatedWidth( ) > getContentWidth( ) )
@@ -224,7 +225,6 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 			setNeedClip( true );
 		}
 	}
-
 
 	public boolean isPageBreakAfterAvoid( )
 	{
@@ -240,13 +240,12 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 	{
 		return false;
 	}
-	
+
 	public CellArea deepClone( )
 	{
 		CellArea cell = (CellArea) super.deepClone( );
 		cell.setBoxStyle( new BoxStyle( cell.getBoxStyle( ) ) );
 		return cell;
 	}
-
 
 }

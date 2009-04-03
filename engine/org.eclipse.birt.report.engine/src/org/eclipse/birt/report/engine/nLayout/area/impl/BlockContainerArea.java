@@ -103,6 +103,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				height = specifiedHeight;
 			}
 			this.height = height;
+			updateBackgroundImage( );
 		}
 		else
 		{
@@ -115,11 +116,11 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				height = currentBP;
 			}
 		}
-		update();
+		update( );
 		finished = true;
 	}
-	
-	protected void update() throws BirtException
+
+	protected void update( ) throws BirtException
 	{
 		if ( context.isFixedLayout( ) && height > specifiedHeight
 				&& specifiedHeight > 0 )
@@ -129,7 +130,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 		}
 		if ( parent != null )
 		{
-			checkPageBreak();
+			checkPageBreak( );
 			parent.update( this );
 		}
 	}
@@ -179,7 +180,8 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 			}
 			maxAvaWidth = getContentWidth( );
 		}
-		textAlign = content.getComputedStyle( ).getProperty( IStyle.STYLE_TEXT_ALIGN );
+		textAlign = content.getComputedStyle( ).getProperty(
+				IStyle.STYLE_TEXT_ALIGN );
 		this.bookmark = content.getBookmark( );
 		this.action = content.getHyperlinkAction( );
 		parent.add( this );
@@ -204,7 +206,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 	{
 		if ( isPageBreakInsideAvoid( ) )
 		{
-			if(isPageBreakBeforeAvoid())
+			if ( isPageBreakBeforeAvoid( ) )
 			{
 				return SplitResult.BEFORE_AVOID_WITH_NULL;
 			}
@@ -213,7 +215,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				return SplitResult.SUCCEED_WITH_NULL;
 			}
 		}
-		int contentHeight = getContentHeight();
+		int contentHeight = getContentHeight( );
 		LinkedList result = new LinkedList( );
 		int size = children.size( );
 		SplitResult childSplit = null;
@@ -243,14 +245,16 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 					else
 					{
 						status = SplitResult.SPLIT_SUCCEED_WITH_PART;
-						contentHeight = contentHeight - ah + child.getAllocatedHeight( );
-						BlockContainerArea newContainer = cloneArea();
+						contentHeight = contentHeight - ah
+								+ child.getAllocatedHeight( );
+						BlockContainerArea newContainer = cloneArea( );
 						newContainer.setContentHeight( contentHeight );
 						Iterator iter = children.iterator( );
-						while(iter.hasNext( ))
+						while ( iter.hasNext( ) )
 						{
-							ContainerArea childArea = (ContainerArea)iter.next( );
-							if(!result.contains( childArea ))
+							ContainerArea childArea = (ContainerArea) iter
+									.next( );
+							if ( !result.contains( childArea ) )
 							{
 								iter.remove( );
 								newContainer.addChild( childArea );
@@ -258,12 +262,13 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 							}
 						}
 						updateChildrenPosition( );
-						return new SplitResult(newContainer, SplitResult.SPLIT_SUCCEED_WITH_PART);
+						return new SplitResult( newContainer,
+								SplitResult.SPLIT_SUCCEED_WITH_PART );
 					}
 				}
 				else
 				{
-					if(isPageBreakBeforeAvoid( ))
+					if ( isPageBreakBeforeAvoid( ) )
 					{
 						return SplitResult.BEFORE_AVOID_WITH_NULL;
 					}
@@ -277,14 +282,15 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 			{
 				result.addFirst( child );
 				ContainerArea splitChildArea = childSplit.getResult( );
-				contentHeight = contentHeight - ah + splitChildArea.getAllocatedHeight( );
-				BlockContainerArea newContainer = cloneArea();
+				contentHeight = contentHeight - ah
+						+ splitChildArea.getAllocatedHeight( );
+				BlockContainerArea newContainer = cloneArea( );
 				newContainer.setContentHeight( contentHeight );
 				Iterator iter = children.iterator( );
-				while(iter.hasNext( ))
+				while ( iter.hasNext( ) )
 				{
-					ContainerArea childArea = (ContainerArea)iter.next( );
-					if(!result.contains( childArea ))
+					ContainerArea childArea = (ContainerArea) iter.next( );
+					if ( !result.contains( childArea ) )
 					{
 						iter.remove( );
 						newContainer.addChild( childArea );
@@ -292,14 +298,15 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 					}
 				}
 				newContainer.addChild( splitChildArea );
-				addRepeatedItem();
+				addRepeatedItem( );
 				updateChildrenPosition( );
-				return new SplitResult(newContainer, SplitResult.SPLIT_SUCCEED_WITH_PART);
+				return new SplitResult( newContainer,
+						SplitResult.SPLIT_SUCCEED_WITH_PART );
 			}
 		}
 		return SplitResult.BEFORE_AVOID_WITH_NULL;
 	}
-	
+
 	public SplitResult split( int height, boolean force ) throws BirtException
 	{
 		if ( force )
@@ -323,13 +330,12 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 		}
 	}
 
-
 	protected SplitResult _split( int height, boolean force )
 			throws BirtException
 	{
-		if(children.size()==0)
+		if ( children.size( ) == 0 )
 		{
-			if(isPageBreakBeforeAvoid( ) && !force)
+			if ( isPageBreakBeforeAvoid( ) && !force )
 			{
 				updateChildrenPosition( );
 				return SplitResult.BEFORE_AVOID_WITH_NULL;
@@ -364,7 +370,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				contentHeight -= ah;
 				int childSplitHeight = cheight - contentHeight;
 				SplitResult splitResult = current.split( childSplitHeight,
-						force&& !isValidResult(result) );
+						force && !isValidResult( result ) );
 				if ( splitResult.status == SplitResult.SPLIT_SUCCEED_WITH_PART )
 				{
 					ContainerArea splitChildArea = splitResult.getResult( );
@@ -375,9 +381,9 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				}
 				else if ( splitResult.status == SplitResult.SPLIT_BREFORE_AVOID_WITH_NULL )
 				{
-					if(force)
+					if ( force )
 					{
-						if(result.size( )>0)
+						if ( result.size( ) > 0 )
 						{
 							status = SplitResult.SPLIT_SUCCEED_WITH_PART;
 						}
@@ -386,7 +392,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				}
 				else if ( splitResult.status == SplitResult.SPLIT_SUCCEED_WITH_NULL )
 				{
-					if ( isValidResult(result))
+					if ( isValidResult( result ) )
 					{
 						if ( force )
 						{
@@ -411,7 +417,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 					{
 						if ( force )
 						{
-							//error status
+							// error status
 							status = SplitResult.SPLIT_SUCCEED_WITH_PART;
 							break;
 						}
@@ -430,14 +436,14 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				}
 			}
 		}
-		if( result.size( ) == children.size( ) )
+		if ( result.size( ) == children.size( ) )
 		{
 			status = SplitResult.SPLIT_SUCCEED_WITH_PART;
 		}
-		
+
 		if ( !force && status == SplitResult.SPLIT_BREFORE_AVOID_WITH_NULL )
 		{
-			if(result.size()==0)
+			if ( result.size( ) == 0 )
 			{
 				return SplitResult.BEFORE_AVOID_WITH_NULL;
 			}
@@ -495,7 +501,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 					}
 				}
 			}
-			if(result.size( )==0)
+			if ( result.size( ) == 0 )
 			{
 				return SplitResult.BEFORE_AVOID_WITH_NULL;
 			}
@@ -518,15 +524,15 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 
 		if ( newContainer != null )
 		{
-			addRepeatedItem();
+			addRepeatedItem( );
 			updateChildrenPosition( );
 		}
 		return new SplitResult( newContainer, status );
 	}
-	
-	protected void addRepeatedItem() throws BirtException
+
+	protected void addRepeatedItem( ) throws BirtException
 	{
-		
+
 	}
 
 	public void autoPageBreak( ) throws BirtException
@@ -537,12 +543,12 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 			// updateChildrenPosition( );
 		}
 	}
-	
-	protected boolean isValidResult(List result)
+
+	protected boolean isValidResult( List result )
 	{
-		return result.size( )>0;
+		return result.size( ) > 0;
 	}
-	
+
 	public boolean isPageBreakInsideAvoid( )
 	{
 		if ( context.isFixedLayout( ) && specifiedHeight > 0 )
@@ -579,7 +585,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 		}
 		else
 		{
-			setContentHeight(0);
+			setContentHeight( 0 );
 		}
 	}
 }

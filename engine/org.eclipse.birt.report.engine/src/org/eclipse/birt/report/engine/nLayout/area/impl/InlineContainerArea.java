@@ -8,6 +8,7 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
+
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.util.ArrayList;
@@ -63,13 +64,14 @@ public class InlineContainerArea extends InlineStackingArea
 			height = Math.max( height, child.getAllocatedHeight( ) );
 		}
 		setContentHeight( height );
+		updateBackgroundImage( );
 		if ( children.size( ) > 0 )
 		{
-			verticalAlign();
+			verticalAlign( );
 		}
 		if ( isLastLine )
 		{
-			checkPageBreak();
+			checkPageBreak( );
 			parent.update( this );
 		}
 		else
@@ -88,7 +90,9 @@ public class InlineContainerArea extends InlineStackingArea
 				}
 			}
 			parent.update( area );
-			setPosition(parent.currentIP + parent.getOffsetX( ), parent.getOffsetY() + parent.currentBP);
+			setPosition( parent.currentIP + parent.getOffsetX( ), parent
+					.getOffsetY( )
+					+ parent.currentBP );
 		}
 	}
 

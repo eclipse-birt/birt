@@ -34,7 +34,6 @@ import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 
-
 public class TableArea extends RepeatableArea
 {
 
@@ -44,13 +43,12 @@ public class TableArea extends RepeatableArea
 
 	protected int startCol;
 	protected int endCol;
-	
+
 	public TableArea( ContainerArea parent, LayoutContext context,
 			IContent content )
 	{
 		super( parent, context, content );
 	}
-
 
 	TableArea( TableArea table )
 	{
@@ -70,7 +68,7 @@ public class TableArea extends RepeatableArea
 			layout.addRow( row, context.isFixedLayout( ) );
 		}
 	}
-	
+
 	public int getColumnCount( )
 	{
 		if ( content != null )
@@ -79,14 +77,14 @@ public class TableArea extends RepeatableArea
 		}
 		return 0;
 	}
-	
+
 	protected boolean needRepeat( )
 	{
 		ITableContent table = (ITableContent) content;
 		if ( table != null && table.isHeaderRepeat( ) )
 		{
 			IContent header = (IContent) table.getHeader( );
-			if ( header != null  )
+			if ( header != null )
 			{
 				return true;
 			}
@@ -107,18 +105,16 @@ public class TableArea extends RepeatableArea
 		}
 		return 0;
 	}
-	
-	public boolean isGridDesign()
+
+	public boolean isGridDesign( )
 	{
-		if(content!=null)
+		if ( content != null )
 		{
 			Object gen = content.getGenerateBy( );
 			return gen instanceof GridItemDesign;
 		}
 		return false;
 	}
-	
-	
 
 	protected void buildProperties( IContent content, LayoutContext context )
 	{
@@ -141,16 +137,15 @@ public class TableArea extends RepeatableArea
 				boxStyle
 						.setBackgroundImage( new BackgroundImageInfo(
 								getImageUrl( url ),
-								cs
-										.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
+								cs.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
 								getDimensionValue(
 										cs
 												.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
-										width ),
+										100 ),
 								getDimensionValue(
 										cs
 												.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
-										width ) ) );
+										100 ) ) );
 
 			}
 			localProperties = new LocalProperties( );
@@ -166,9 +161,11 @@ public class TableArea extends RepeatableArea
 					.getProperty( IStyle.STYLE_MARGIN_RIGHT ), maw ) );
 			if ( !isInInlineStacking )
 			{
-				pageBreakAfter =  cs	.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER ) ;
-				pageBreakInside =  cs.getProperty( IStyle.STYLE_PAGE_BREAK_INSIDE ) ;
-				pageBreakBefore = cs.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE ) ;
+				pageBreakAfter = cs.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
+				pageBreakInside = cs
+						.getProperty( IStyle.STYLE_PAGE_BREAK_INSIDE );
+				pageBreakBefore = cs
+						.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
 			}
 		}
 		else
@@ -198,41 +195,41 @@ public class TableArea extends RepeatableArea
 
 		addCaption( ( (ITableContent) content ).getCaption( ) );
 	}
-	
+
 	protected void addCaption( String caption ) throws BirtException
 	{
 		if ( caption == null || "".equals( caption ) ) //$NON-NLS-1$
 		{
 			return;
 		}
-		ReportContent report = (ReportContent)content.getReportContent( );
-		ILabelContent captionLabel= report.createLabelContent( );
+		ReportContent report = (ReportContent) content.getReportContent( );
+		ILabelContent captionLabel = report.createLabelContent( );
 		captionLabel.setText( caption );
-		StyleDeclaration style = new StyleDeclaration(report.getCSSEngine( ));
+		StyleDeclaration style = new StyleDeclaration( report.getCSSEngine( ) );
 		style.setProperty( IStyle.STYLE_TEXT_ALIGN, IStyle.CENTER_VALUE );
 		captionLabel.setInlineStyle( style );
-		RowArea captionRow = new RowArea(getColumnCount( ));
+		RowArea captionRow = new RowArea( getColumnCount( ) );
 		captionRow.setParent( this );
 		captionRow.setWidth( width );
-		CellArea captionCell = new CellArea();
+		CellArea captionCell = new CellArea( );
 		captionCell.setColSpan( getColumnCount( ) );
 		captionCell.setWidth( width );
 		captionCell.setMaxAvaWidth( width );
 		captionRow.children.add( captionCell );
 		ILayout layout = new BlockTextArea( captionCell, context, captionLabel );
 		layout.layout( );
-		int h = ((BlockContainerArea)layout).getAllocatedHeight();
+		int h = ( (BlockContainerArea) layout ).getAllocatedHeight( );
 		captionCell.setContentHeight( h );
 		captionRow.setHeight( captionCell.getAllocatedHeight( ) );
 		add( captionRow );
-		if(repeatList==null)
+		if ( repeatList == null )
 		{
-			repeatList = new ArrayList();
+			repeatList = new ArrayList( );
 		}
 		repeatList.add( captionRow );
-		update(captionRow);
+		update( captionRow );
 	}
-	
+
 	protected boolean isInHeaderBand( )
 	{
 		if ( children.size( ) > 0 )
@@ -242,7 +239,7 @@ public class TableArea extends RepeatableArea
 			IContent childContent = child.getContent( );
 			if ( childContent != null )
 			{
-				if(childContent.getContentType( )==IContent.TABLE_GROUP_CONTENT)
+				if ( childContent.getContentType( ) == IContent.TABLE_GROUP_CONTENT )
 				{
 					return false;
 				}
@@ -250,7 +247,7 @@ public class TableArea extends RepeatableArea
 				if ( band instanceof IBandContent )
 				{
 					int type = ( (IBandContent) band ).getBandType( );
-					if ( type != IBandContent.BAND_HEADER)
+					if ( type != IBandContent.BAND_HEADER )
 					{
 						return false;
 					}
@@ -260,7 +257,6 @@ public class TableArea extends RepeatableArea
 		return true;
 	}
 
-	
 	public SplitResult split( int height, boolean force ) throws BirtException
 	{
 		SplitResult result = super.split( height, force );
@@ -278,35 +274,35 @@ public class TableArea extends RepeatableArea
 
 		return result;
 	}
-	
-	protected IArea getLastChild(ContainerArea container)
+
+	protected IArea getLastChild( ContainerArea container )
 	{
 		int count = container.getChildrenCount( );
-		if(count>0)
+		if ( count > 0 )
 		{
-			return (IArea)container.getChild( count -1 );
+			return (IArea) container.getChild( count - 1 );
 		}
 		return null;
 	}
-	
-	protected RowArea getLastRow()
+
+	protected RowArea getLastRow( )
 	{
-		IArea child = getLastChild(this);
+		IArea child = getLastChild( this );
 		while ( true )
 		{
-			if(child == null)
+			if ( child == null )
 			{
 				return null;
 			}
 			else
 			{
-				if(child instanceof RowArea)
+				if ( child instanceof RowArea )
 				{
-					return (RowArea)child;
+					return (RowArea) child;
 				}
-				else if(child instanceof ContainerArea)
+				else if ( child instanceof ContainerArea )
 				{
-					child = getLastChild((ContainerArea)child);
+					child = getLastChild( (ContainerArea) child );
 				}
 				else
 				{
@@ -315,8 +311,8 @@ public class TableArea extends RepeatableArea
 			}
 		}
 	}
-	
-	public void resolveBottomBorder()
+
+	public void resolveBottomBorder( )
 	{
 		RowArea lastRow = getLastRow( );
 		if ( lastRow != null )
@@ -359,18 +355,18 @@ public class TableArea extends RepeatableArea
 		}
 	}
 
-	
-	public void relayoutChildren() throws BirtException
+	public void relayoutChildren( ) throws BirtException
 	{
 		layout.clear( );
-		addRows( this, layout);
+		addRows( this, layout );
 	}
-	
-	protected void addRows(ContainerArea container, TableLayout layout) throws BirtException
+
+	protected void addRows( ContainerArea container, TableLayout layout )
+			throws BirtException
 	{
-		if(container instanceof RowArea)
+		if ( container instanceof RowArea )
 		{
-			RowArea row = (RowArea)container;
+			RowArea row = (RowArea) container;
 			if ( row.needResolveBorder )
 			{
 				int size = row.getChildrenCount( );
@@ -400,8 +396,6 @@ public class TableArea extends RepeatableArea
 			}
 		}
 	}
-	
-	
 
 	public void close( ) throws BirtException
 	{
@@ -421,9 +415,10 @@ public class TableArea extends RepeatableArea
 			layout.remove( this );
 		}
 		setHeight( currentBP + getOffsetY( ) + borderHeight );
+		updateBackgroundImage( );
 		if ( parent != null )
 		{
-			checkPageBreak();
+			checkPageBreak( );
 			parent.update( this );
 		}
 		finished = true;

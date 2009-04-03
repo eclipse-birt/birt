@@ -26,14 +26,14 @@ public class RowArea extends ContainerArea
 	protected transient TableArea table;
 
 	protected int rowID;
-	
+
 	protected boolean needResolveBorder = false;
 
 	public RowArea( ContainerArea parent, LayoutContext context,
 			IContent content )
 	{
 		super( parent, context, content );
-		cells = new CellArea[getTable().getColumnCount( )];
+		cells = new CellArea[getTable( ).getColumnCount( )];
 	}
 
 	RowArea( int colCount )
@@ -46,12 +46,12 @@ public class RowArea extends ContainerArea
 	{
 		super( row );
 		this.rowID = row.getRowID( );
-		this.cells = new CellArea[row.getColumnCount()];
+		this.cells = new CellArea[row.getColumnCount( )];
 	}
-	
+
 	public int getColumnCount( )
 	{
-		TableArea table = getTableArea();
+		TableArea table = getTableArea( );
 		if ( table != null )
 		{
 			return table.getColumnCount( );
@@ -103,7 +103,7 @@ public class RowArea extends ContainerArea
 	{
 		return new RowArea( this );
 	}
-	
+
 	public RowArea deepClone( )
 	{
 		RowArea result = (RowArea) cloneArea( );
@@ -111,28 +111,28 @@ public class RowArea extends ContainerArea
 		while ( iter.hasNext( ) )
 		{
 			CellArea child = (CellArea) iter.next( );
-			CellArea cloneChild =(CellArea) child.deepClone( );
-			result.children.add( cloneChild  );
+			CellArea cloneChild = (CellArea) child.deepClone( );
+			result.children.add( cloneChild );
 			cloneChild.setParent( result );
 			result.setCell( cloneChild );
 		}
 		return result;
 	}
 
-	protected TableArea getTableArea()
+	protected TableArea getTableArea( )
 	{
-		if(table==null)
+		if ( table == null )
 		{
-			table = getTable();
+			table = getTable( );
 		}
 		return table;
 	}
-	
 
 	public void close( ) throws BirtException
 	{
-		getTableArea().addRow( this );
-		checkPageBreak();
+		getTableArea( ).addRow( this );
+		updateBackgroundImage( );
+		checkPageBreak( );
 		parent.update( this );
 		finished = true;
 	}
@@ -141,7 +141,7 @@ public class RowArea extends ContainerArea
 	{
 		calculateSpecifiedHeight( content );
 		width = parent.getMaxAvaWidth( );
-		
+
 		buildLogicContainerProperties( content, context );
 		parent.add( this );
 	}
@@ -170,12 +170,12 @@ public class RowArea extends ContainerArea
 		{
 			columnID += colSpan - 1;
 		}
-		cArea.setPosition( getTableArea().getXPos( columnID ), 0 );
+		cArea.setPosition( getTableArea( ).getXPos( columnID ), 0 );
 	}
-	
-	public  void add(AbstractArea area)
+
+	public void add( AbstractArea area )
 	{
-		addChild(area);
+		addChild( area );
 		CellArea cArea = (CellArea) area;
 		int columnID = cArea.getColumnID( );
 		int colSpan = cArea.getColSpan( );
@@ -184,15 +184,15 @@ public class RowArea extends ContainerArea
 		{
 			columnID += colSpan - 1;
 		}
-		cArea.setPosition( getTableArea().getXPos( columnID ), 0 );
+		cArea.setPosition( getTableArea( ).getXPos( columnID ), 0 );
 	}
-	
+
 	public void addChild( IArea area )
 	{
 		children.add( area );
-		this.setCell( ( CellArea)area);
+		this.setCell( (CellArea) area );
 	}
-	
+
 	public SplitResult split( int height, boolean force ) throws BirtException
 	{
 		if ( force )
@@ -207,7 +207,7 @@ public class RowArea extends ContainerArea
 			}
 			else
 			{
-				_splitSpanCell( height , force);
+				_splitSpanCell( height, force );
 				needResolveBorder = true;
 				return SplitResult.SUCCEED_WITH_NULL;
 			}
@@ -217,8 +217,9 @@ public class RowArea extends ContainerArea
 			return _split( height, force );
 		}
 	}
-	
-	protected void _splitSpanCell(int height, boolean force) throws BirtException
+
+	protected void _splitSpanCell( int height, boolean force )
+			throws BirtException
 	{
 		if ( cells.length != children.size( ) )
 		{
@@ -228,12 +229,10 @@ public class RowArea extends ContainerArea
 				if ( cells[i] instanceof DummyCell )
 				{
 					SplitResult splitCell = cells[i].split( 0, force );
-					CellArea cell = (CellArea)splitCell.getResult( );
+					CellArea cell = (CellArea) splitCell.getResult( );
 					if ( cell != null )
 					{
-						cell
-								.setHeight( ( (DummyCell) cells[i] )
-										.getDelta( ) );
+						cell.setHeight( ( (DummyCell) cells[i] ).getDelta( ) );
 						CellArea org = ( (DummyCell) cells[i] ).getCell( );
 						RowArea row = (RowArea) org.getParent( );
 						row.replace( org, cell );
@@ -245,18 +244,17 @@ public class RowArea extends ContainerArea
 		}
 	}
 
-
 	protected SplitResult _split( int height, boolean force )
 			throws BirtException
 	{
 		RowArea result = null;
 		for ( int i = 0; i < cells.length; i++ )
 		{
-			if(cells[i]!=null)
+			if ( cells[i] != null )
 			{
 				SplitResult splitCell = cells[i].split( height, force );
 				CellArea cell = (CellArea) splitCell.getResult( );
-	
+
 				if ( cell != null )
 				{
 					if ( result == null )
@@ -273,32 +271,32 @@ public class RowArea extends ContainerArea
 		{
 			result.updateRow( this );
 			result.needResolveBorder = true;
-			updateRow();
+			updateRow( );
 			needResolveBorder = true;
 			return new SplitResult( result, SplitResult.SPLIT_SUCCEED_WITH_PART );
 		}
 		else
 		{
-			updateRow();
+			updateRow( );
 			needResolveBorder = true;
 			return SplitResult.SUCCEED_WITH_NULL;
 		}
 	}
-	
-	protected void updateRow()
+
+	protected void updateRow( )
 	{
 		int height = 0;
-		for(int i=0; i<children.size( ); i++)
+		for ( int i = 0; i < children.size( ); i++ )
 		{
 			CellArea cell = (CellArea) children.get( i );
 			height = Math.max( height, cell.getHeight( ) );
 		}
 		this.height = height;
-		for(int i=0; i<children.size( ); i++)
+		for ( int i = 0; i < children.size( ); i++ )
 		{
 			CellArea cell = (CellArea) children.get( i );
 			cell.setHeight( height );
-			setCell(cell);
+			setCell( cell );
 		}
 	}
 
@@ -317,7 +315,7 @@ public class RowArea extends ContainerArea
 			if ( cells[i] == null )
 			{
 				CellArea oCell = original.getCell( i );
-				if ( oCell!=null &&!( oCell instanceof DummyCell ) )
+				if ( oCell != null && !( oCell instanceof DummyCell ) )
 				{
 					CellArea nCell = oCell.cloneArea( );
 					nCell.setHeight( height );
@@ -332,10 +330,10 @@ public class RowArea extends ContainerArea
 			}
 		}
 	}
-	
-	public boolean isPageBreakInsideAvoid()
+
+	public boolean isPageBreakInsideAvoid( )
 	{
-		if( getTableArea().isGridDesign( ))
+		if ( getTableArea( ).isGridDesign( ) )
 		{
 			return super.isPageBreakInsideAvoid( );
 		}
@@ -353,10 +351,10 @@ public class RowArea extends ContainerArea
 		}
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
-	
+
 	public void updateChildrenPosition( ) throws BirtException
 	{
-		
+
 	}
 
 }

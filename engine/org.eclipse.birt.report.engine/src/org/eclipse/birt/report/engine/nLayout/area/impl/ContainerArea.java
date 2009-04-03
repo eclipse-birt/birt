@@ -15,11 +15,13 @@ import java.awt.Color;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
@@ -28,9 +30,12 @@ import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
+import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.css.CSSValue;
+
+import com.lowagie.text.Image;
 
 public abstract class ContainerArea extends AbstractArea
 		implements
@@ -68,20 +73,17 @@ public abstract class ContainerArea extends AbstractArea
 	protected transient IContent content;
 
 	protected transient LayoutContext context;
-	
+
 	protected transient boolean isInInlineStacking = false;
-	
+
 	protected transient boolean finished = true;
-	
+
 	protected CSSValue pageBreakAfter = null;
-	
+
 	protected CSSValue pageBreakBefore = null;
 
 	protected CSSValue pageBreakInside = null;
-	
 
-
-	
 	public ContainerArea( ContainerArea parent, LayoutContext context,
 			IContent content )
 	{
@@ -118,7 +120,7 @@ public abstract class ContainerArea extends AbstractArea
 	{
 		if ( parent != null )
 		{
-			return currentBP + getOffsetY() + parent.getAbsoluteBP( );
+			return currentBP + getOffsetY( ) + parent.getAbsoluteBP( );
 		}
 		return currentBP;
 	}
@@ -154,8 +156,8 @@ public abstract class ContainerArea extends AbstractArea
 	{
 		return this.currentIP;
 	}
-	
-	public void setMaxAvaWidth( int maxAvaWidth)
+
+	public void setMaxAvaWidth( int maxAvaWidth )
 	{
 		this.maxAvaWidth = maxAvaWidth;
 	}
@@ -218,12 +220,12 @@ public abstract class ContainerArea extends AbstractArea
 	public void addChild( IArea area )
 	{
 		children.add( area );
-		
+
 	}
-	
-	public IArea getChild(int index)
+
+	public IArea getChild( int index )
 	{
-		if(index>=0 && index<children.size( ))
+		if ( index >= 0 && index < children.size( ) )
 		{
 			return children.get( index );
 		}
@@ -279,7 +281,7 @@ public abstract class ContainerArea extends AbstractArea
 	{
 		this.boxStyle = boxStyle;
 	}
-	
+
 	public CSSValue getPageBreakAfter( )
 	{
 		return pageBreakAfter;
@@ -310,18 +312,72 @@ public abstract class ContainerArea extends AbstractArea
 		this.pageBreakInside = pageBreakInside;
 	}
 
-
 	public abstract void close( ) throws BirtException;
 
 	public abstract void initialize( ) throws BirtException;
-		
-	public abstract SplitResult splitLines( int lineCount ) throws BirtException;
-		
-	public abstract SplitResult split( int height, boolean force ) throws BirtException;
+
+	public abstract SplitResult splitLines( int lineCount )
+			throws BirtException;
+
+	public abstract SplitResult split( int height, boolean force )
+			throws BirtException;
 
 	public void relayout( )
 	{
 		// FIXME to implement
+	}
+
+	protected void updateBackgroundImage( )
+	{
+		BackgroundImageInfo bgi = boxStyle.getBackgroundImage( );
+		Image img = null;
+		if ( bgi != null )
+		{
+			if ( ( bgi.getXOffset( ) != 0 || bgi.getYOffset( ) != 0 ) )
+			{
+				String imageUrl = bgi.getUrl( );
+				try
+				{
+					img = Image.getInstance( new URL( bgi.getUrl( ) ) );
+				}
+				catch ( Exception e )
+				{
+					if ( SvgFile.isSvg( imageUrl ) )
+					{
+						try
+						{
+							img = Image.getInstance( SvgFile
+									.transSvgToArray( imageUrl ) );
+						}
+						catch ( Exception ex )
+						{
+							logger.log( Level.WARNING, ex.getMessage( ), ex );
+						}
+					}
+					else
+					{
+						logger.log( Level.WARNING, e.getMessage( ), e );
+					}
+				}
+				int resolutionX = img.getDpiX( );
+				int resolutionY = img.getDpiY( );
+				if ( 0 == resolutionX || 0 == resolutionY )
+				{
+					resolutionX = 96;
+					resolutionY = 96;
+				}
+				float imageWidth = img.plainWidth( ) / resolutionX * 72;
+				float imageHeight = img.plainHeight( ) / resolutionY * 72;
+				bgi
+						.setXOffset( bgi.getXOffset( )
+								* ( width - (int) ( imageWidth * PDFConstants.LAYOUT_TO_PDF_RATIO ) )
+								/ 100 );
+				bgi
+						.setYOffset( bgi.getYOffset( )
+								* ( height - (int) ( imageHeight * PDFConstants.LAYOUT_TO_PDF_RATIO ) )
+								/ 100 );
+			}
+		}
 	}
 
 	protected void calculateSpecifiedWidth( IContent content )
@@ -640,10 +696,10 @@ public abstract class ContainerArea extends AbstractArea
 	}
 
 	public abstract void update( AbstractArea area ) throws BirtException;
-	
-	public abstract void add(AbstractArea area);
-	
-	protected void checkPageBreak() throws BirtException
+
+	public abstract void add( AbstractArea area );
+
+	protected void checkPageBreak( ) throws BirtException
 	{
 		if ( !isInInlineStacking && context.isAutoPageBreak( ) )
 		{
@@ -764,17 +820,18 @@ public abstract class ContainerArea extends AbstractArea
 			boxStyle.setBackgroundColor( color );
 		}
 		CSSValue url = style.getProperty( IStyle.STYLE_BACKGROUND_IMAGE );
-		if ( !IStyle.NONE_VALUE.equals( style.getProperty( IStyle.STYLE_BACKGROUND_IMAGE ) ))
+		if ( !IStyle.NONE_VALUE.equals( style
+				.getProperty( IStyle.STYLE_BACKGROUND_IMAGE ) ) )
 		{
-			boxStyle.setBackgroundImage( new BackgroundImageInfo( getImageUrl( url.getCssText( )), style
-					.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
+			boxStyle.setBackgroundImage( new BackgroundImageInfo(
+					getImageUrl( url.getCssText( ) ), style
+							.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
 					getDimensionValue( style
 							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
-							maw ), getDimensionValue( style
+							100 ), getDimensionValue( style
 							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
-							maw ) ) );
+							100 ) ) );
 		}
-		
 
 		action = content.getHyperlinkAction( );
 		bookmark = content.getBookmark( );
@@ -802,22 +859,20 @@ public abstract class ContainerArea extends AbstractArea
 				boxStyle
 						.setBackgroundImage( new BackgroundImageInfo(
 								getImageUrl( url ),
-								cs
-										.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
+								cs.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
 								getDimensionValue(
 										cs
 												.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
-										width ),
+										100 ),
 								getDimensionValue(
 										cs
 												.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
-										width ) ) );
+										100 ) ) );
 
 			}
 			if ( !isInInlineStacking )
 			{
-				pageBreakAfter = cs
-						.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
+				pageBreakAfter = cs.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
 				pageBreakInside = cs
 						.getProperty( IStyle.STYLE_PAGE_BREAK_INSIDE );
 				pageBreakBefore = cs
@@ -836,7 +891,7 @@ public abstract class ContainerArea extends AbstractArea
 	}
 
 	public abstract void updateChildrenPosition( ) throws BirtException;
-	
+
 	protected TableArea getTable( )
 	{
 		ContainerArea p = parent;
@@ -846,7 +901,7 @@ public abstract class ContainerArea extends AbstractArea
 		}
 		return (TableArea) p;
 	}
-	
+
 	public ContainerArea deepClone( )
 	{
 		ContainerArea result = (ContainerArea) cloneArea( );
@@ -860,7 +915,7 @@ public abstract class ContainerArea extends AbstractArea
 		}
 		return result;
 	}
-	
+
 	public boolean isPageBreakInsideAvoid( )
 	{
 		if ( localProperties != null )
@@ -869,11 +924,12 @@ public abstract class ContainerArea extends AbstractArea
 		}
 		return false;
 	}
-	
+
 	protected String getImageUrl( String imageUri )
 	{
 		String imageUrl = imageUri;
-		ReportDesignHandle reportDesign = context.getReport( ).getDesign( ).getReportDesign( );
+		ReportDesignHandle reportDesign = context.getReport( ).getDesign( )
+				.getReportDesign( );
 		if ( reportDesign != null )
 		{
 			URL url = reportDesign.findResource( imageUri,
@@ -885,97 +941,99 @@ public abstract class ContainerArea extends AbstractArea
 		}
 		return imageUrl;
 	}
-	
-	public boolean isPageBreakAfterAvoid()
+
+	public boolean isPageBreakAfterAvoid( )
 	{
 		if ( localProperties != null )
 		{
-			if(IStyle.AVOID_VALUE == pageBreakAfter)
+			if ( IStyle.AVOID_VALUE == pageBreakAfter )
 			{
 				return true;
 			}
 		}
-		IArea lastChild = getLastChild();
-		if(lastChild!=null && lastChild instanceof ContainerArea)
+		IArea lastChild = getLastChild( );
+		if ( lastChild != null && lastChild instanceof ContainerArea )
 		{
-			ContainerArea lastContainer = (ContainerArea)lastChild;
-			if(!lastContainer.isInInlineStacking)
+			ContainerArea lastContainer = (ContainerArea) lastChild;
+			if ( !lastContainer.isInInlineStacking )
 			{
 				return lastContainer.isPageBreakAfterAvoid( );
 			}
 		}
 		return false;
 	}
-	
-	public boolean isPageBreakBeforeAvoid()
+
+	public boolean isPageBreakBeforeAvoid( )
 	{
 		if ( localProperties != null )
 		{
-			if(IStyle.AVOID_VALUE == pageBreakBefore)
+			if ( IStyle.AVOID_VALUE == pageBreakBefore )
 			{
 				return true;
 			}
 		}
-		IArea firstChild = getFirstChild();
-		if(firstChild!=null && firstChild instanceof ContainerArea)
+		IArea firstChild = getFirstChild( );
+		if ( firstChild != null && firstChild instanceof ContainerArea )
 		{
-			ContainerArea firstContainer = (ContainerArea)firstChild;
-			if(!firstContainer.isInInlineStacking)
+			ContainerArea firstContainer = (ContainerArea) firstChild;
+			if ( !firstContainer.isInInlineStacking )
 			{
 				return firstContainer.isPageBreakBeforeAvoid( );
 			}
 		}
 		return false;
 	}
-	
-	public IArea getLastChild()
+
+	public IArea getLastChild( )
 	{
 		int size = children.size( );
-		if(size>0)
+		if ( size > 0 )
 		{
-			return children.get( size-1 );
+			return children.get( size - 1 );
 		}
 		return null;
 	}
-	
-	public IArea getFirstChild()
+
+	public IArea getFirstChild( )
 	{
 		int size = children.size( );
-		if(size>0)
+		if ( size > 0 )
 		{
 			return children.get( 0 );
 		}
 		return null;
 	}
-	
-	
+
 	protected static class SplitResult
 	{
+
 		public final static int SPLIT_SUCCEED_WITH_PART = 0;
 		public final static int SPLIT_SUCCEED_WITH_NULL = 1;
 		public final static int SPLIT_BREFORE_AVOID_WITH_NULL = 2;
 
-		public static SplitResult BEFORE_AVOID_WITH_NULL = new SplitResult(null, SPLIT_BREFORE_AVOID_WITH_NULL);
-		public static SplitResult SUCCEED_WITH_NULL =  new SplitResult(null, SPLIT_SUCCEED_WITH_NULL);
-		
-		public SplitResult(ContainerArea result, int status)
+		public static SplitResult BEFORE_AVOID_WITH_NULL = new SplitResult(
+				null, SPLIT_BREFORE_AVOID_WITH_NULL );
+		public static SplitResult SUCCEED_WITH_NULL = new SplitResult( null,
+				SPLIT_SUCCEED_WITH_NULL );
+
+		public SplitResult( ContainerArea result, int status )
 		{
 			this.result = result;
 			this.status = status;
 		}
 		protected ContainerArea result = null;
 		protected int status;
-		
-		public ContainerArea getResult()
+
+		public ContainerArea getResult( )
 		{
 			return result;
 		}
-		
-		public boolean isEmpty()
+
+		public boolean isEmpty( )
 		{
-			return result==null;
+			return result == null;
 		}
-		
+
 	}
 
 }

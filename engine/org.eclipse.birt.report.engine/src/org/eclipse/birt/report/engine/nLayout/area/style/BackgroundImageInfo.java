@@ -16,16 +16,16 @@ import java.util.HashMap;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.w3c.dom.css.CSSValue;
 
-
 public class BackgroundImageInfo
 {
-	public final static  int NO_REPEAT = 0;
+
+	public final static int NO_REPEAT = 0;
 	public final static int REPEAT_X = 1;
 	public final static int REPEAT_Y = 2;
 	public final static int REPEAT = 3;
-	
-	public static HashMap<CSSValue, Integer> repeatMap = new HashMap<CSSValue, Integer>();
-	
+
+	public static HashMap<CSSValue, Integer> repeatMap = new HashMap<CSSValue, Integer>( );
+
 	static
 	{
 		repeatMap.put( IStyle.NO_REPEAT_VALUE, NO_REPEAT );
@@ -33,58 +33,66 @@ public class BackgroundImageInfo
 		repeatMap.put( IStyle.REPEAT_Y_VALUE, REPEAT_Y );
 		repeatMap.put( IStyle.REPEAT_VALUE, REPEAT );
 	}
-	
-	
+
 	protected int xOffset;
 	protected int yOffset;
 	protected int repeatedMode;
-	
+
 	protected String url;
-	
-	public BackgroundImageInfo(String url,  int repeatedMode, int xOffset,  int yOffset)
+
+	public BackgroundImageInfo( String url, int repeatedMode, int xOffset,
+			int yOffset )
 	{
 		this.url = url;
 		this.repeatedMode = repeatedMode;
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
 	}
-	
-	public BackgroundImageInfo(BackgroundImageInfo bgi)
+
+	public BackgroundImageInfo( BackgroundImageInfo bgi )
 	{
 		this.url = bgi.url;
 		this.repeatedMode = bgi.repeatedMode;
 		this.xOffset = bgi.xOffset;
 		this.yOffset = bgi.yOffset;
 	}
-	
-	public BackgroundImageInfo(String url,  CSSValue mode, int xOffset,  int yOffset)
+
+	public BackgroundImageInfo( String url, CSSValue mode, int xOffset,
+			int yOffset )
 	{
-		this(url, repeatMap.get( mode), xOffset, yOffset);
+		this( url, repeatMap.get( mode ), xOffset, yOffset );
 	}
-	
-	public BackgroundImageInfo(String url)
+
+	public BackgroundImageInfo( String url )
 	{
 		this( url, 0, 0, 0 );
 	}
-	
+
 	public int getXOffset( )
 	{
 		return xOffset;
 	}
 
-	
+	public void setYOffset( int y )
+	{
+		this.yOffset = y;
+	}
+
+	public void setXOffset( int x )
+	{
+		this.xOffset = x;
+	}
+
 	public int getYOffset( )
 	{
 		return yOffset;
 	}
 
-	
 	public int getRepeatedMode( )
 	{
 		return repeatedMode;
 	}
 
-	
 	public String getUrl( )
 	{
 		return url;
