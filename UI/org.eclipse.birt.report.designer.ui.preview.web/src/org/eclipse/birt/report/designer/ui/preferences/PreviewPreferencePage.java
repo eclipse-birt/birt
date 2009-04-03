@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -102,7 +103,7 @@ public class PreviewPreferencePage extends PreferencePage implements
 		// Initialize the locale mapping table
 		timeZoneTable_disKey = new TreeMap<String, String>( Collator.getInstance( ) );
 		String ids[] = TimeZone.getAvailableIDs( );
-		
+
 		if ( ids != null )
 		{
 			for ( int i = 0; i < ids.length; i++ )
@@ -112,12 +113,12 @@ public class PreviewPreferencePage extends PreferencePage implements
 				{
 					TimeZone timeZone = TimeZone.getTimeZone( id );
 					String timeZoneDisplayName = timeZone.getDisplayName( );
-					timeZoneTable_disKey.put( timeZoneDisplayName, id );				
+					timeZoneTable_disKey.put( timeZoneDisplayName, id );
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Creates preference page controls on demand.
 	 * 
@@ -169,6 +170,19 @@ public class PreviewPreferencePage extends PreferencePage implements
 		{
 			assert ULocale.getDefault( ) != null;
 			defaultLocale = ULocale.getDefault( ).getDisplayName( );
+		}
+		else if ( WebViewer.LocaleTable.values( ).contains( defaultLocale ) )
+		{
+			Iterator iter = WebViewer.LocaleTable.entrySet( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Entry entry = (Entry) iter.next( );
+				if ( defaultLocale.equals( entry.getValue( ) ) )
+				{
+					defaultLocale = (String) entry.getKey( );
+					break;
+				}
+			}
 		}
 		localeCombo.setText( defaultLocale );
 
@@ -548,13 +562,13 @@ public class PreviewPreferencePage extends PreferencePage implements
 		if ( timeZoneCombo != null )
 		{
 			String displayName = TimeZone.getDefault( ).getDisplayName( );
-			if(displayName == null)
+			if ( displayName == null )
 			{
 				displayName = "";
 			}
 			timeZoneCombo.setText( displayName );
 		}
-		
+
 		super.performDefaults( );
 	}
 
@@ -605,16 +619,22 @@ public class PreviewPreferencePage extends PreferencePage implements
 		if ( timeZoneCombo != null )
 		{
 			String timeZoneId = timeZoneTable_disKey.get( timeZoneCombo.getText( ) );
-			if(timeZoneId == null || timeZoneId.trim( ).length( ) <= 0)
+			if ( timeZoneId == null || timeZoneId.trim( ).length( ) <= 0 )
 			{
 				timeZoneId = TimeZone.getDefault( ).getID( );
 			}
 			pref.setValue( WebViewer.USER_TIME_ZONE, timeZoneId );
 		}
-		
+
 		if ( localeCombo != null )
 		{
-			pref.setValue( WebViewer.USER_LOCALE, localeCombo.getText( ) );
+			if ( WebViewer.LocaleTable.containsKey( localeCombo.getText( ) ) )
+			{
+				pref.setValue( WebViewer.USER_LOCALE,
+						WebViewer.LocaleTable.get( localeCombo.getText( ) ) );
+			}
+			else
+				pref.setValue( WebViewer.USER_LOCALE, localeCombo.getText( ) );
 		}
 
 		if ( bidiCombo != null )
@@ -660,9 +680,9 @@ public class PreviewPreferencePage extends PreferencePage implements
 		Label timeZoneDescription = new Label( parent, SWT.NULL );
 		timeZoneDescription.setText( Messages.getString( "designer.preview.preference.timezone.description" ) ); //$NON-NLS-1$
 
-		timeZoneCombo = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY);
+		timeZoneCombo = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
 		timeZoneCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		
+
 		assert timeZoneTable_disKey != null;
 		String[] timeZoneDisplayNames = new String[timeZoneTable_disKey.size( )];
 		timeZoneTable_disKey.keySet( ).toArray( timeZoneDisplayNames );
