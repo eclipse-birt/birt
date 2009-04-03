@@ -248,6 +248,16 @@ abstract public class AbstractStyle implements IStyle
 	{
 		return getCssText( STYLE_BACKGROUND_IMAGE );
 	}
+	
+	public String getBackgroundHeight( )
+	{
+		return getCssText( STYLE_BACKGROUND_HEIGHT );
+	}
+
+	public String getBackgroundWidth( )
+	{
+		return getCssText( STYLE_BACKGROUND_WIDTH );
+	}
 
 	public String getBackgroundRepeat( )
 	{

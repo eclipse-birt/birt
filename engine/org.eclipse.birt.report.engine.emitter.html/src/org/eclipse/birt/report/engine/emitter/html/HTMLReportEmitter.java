@@ -301,7 +301,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	private boolean enableAgentStyleEngine;
 	private boolean outputMasterPageMargins;
 	private IMetadataFilter metadataFilter = null;
-	
+
+	private boolean needOutputBackgroundSize = false;
+
 	/**
 	 * Following names will be name spaced by htmlIDNamespace: a.CSS style name.
 	 * b.id (bookmark). c.script name, which is created by BIRT.
@@ -1230,40 +1232,40 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		boolean fixedReport = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED
 				.equals( layoutPreference );
 		// out put the page tag
+		DimensionType width = getPageWidth( page );
+		DimensionType height = getPageHeight( page );
+		if ( page != null && outputMasterPageContent && width != null
+				&& height != null && fixedReport && !pageFooterFloatFlag )
+		{
+			startBackgroundContainer( page.getStyle( ), width, height );
+		}
+
 		StringBuffer styleBuffer = new StringBuffer( );
 		writer.openTag( HTMLTags.TAG_TABLE );
 		writer.attribute( "cellpadding", "0" );
 		styleBuffer.append( " border-collapse: collapse; empty-cells: show;" ); //$NON-NLS-1$
-		
 
 		if ( page != null && outputMasterPageContent )
 		{
-			htmlEmitter.buildPageStyle( page, styleBuffer );
+			htmlEmitter.buildPageStyle( page, styleBuffer,
+					needOutputBackgroundSize );
 			// build the width
-			if ( fixedReport )
+			if ( fixedReport && width != null )
 			{
-				DimensionType width = getPageWidth( page );
-				if ( width != null )
-				{
-					styleBuffer.append( " width:" );
-					styleBuffer.append( width.toString( ) );
-					styleBuffer.append( ";" );
-				}
+				styleBuffer.append( " width:" );
+				styleBuffer.append( width.toString( ) );
+				styleBuffer.append( ";" );
 			}
-			else
+			else if ( !fixedReport )
 			{
 				styleBuffer.append( " width:100%;" );
 			}
 
-			if ( !pageFooterFloatFlag )
+			if ( !pageFooterFloatFlag && height != null )
 			{
-				DimensionType height = getPageHeight( page );
-				if ( height != null )
-				{
-					styleBuffer.append( " height:" );
-					styleBuffer.append( height.toString( ) );
-					styleBuffer.append( ";" );
-				}
+				styleBuffer.append( " height:" );
+				styleBuffer.append( height.toString( ) );
+				styleBuffer.append( ";" );
 			}
 
 			if ( fixedReport )
@@ -1331,6 +1333,72 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writeBidiFlag( );
 	}
 
+	private void startBackgroundContainer( IStyle style,
+			DimensionType pageWidth, DimensionType pageHeight )
+	{
+		String backgroundHeight = parseBackgroundSize( style
+				.getBackgroundHeight( ), pageHeight );
+		String backgroundWidth = parseBackgroundSize( style
+				.getBackgroundWidth( ), pageWidth );
+		if ( backgroundHeight == null && backgroundWidth == null )
+		{
+			return;
+		}
+
+		String image = style.getBackgroundImage( );
+		if ( image == null || "none".equalsIgnoreCase( image ) ) //$NON-NLS-1$
+		{
+			return;
+		}
+		needOutputBackgroundSize = true;
+		String backgroundPositionX = style.getBackgroundPositionX( );
+		if ( backgroundPositionX == null )
+		{
+			backgroundPositionX = "0px";
+		}
+		String backgroundPositionY = style.getBackgroundPositionY( );
+		if ( backgroundPositionY == null )
+		{
+			backgroundPositionY = "0px";
+		}
+
+		writer.openTag( HTMLTags.TAG_DIV );
+		writer.attribute( HTMLTags.ATTR_STYLE, "width:" + pageWidth
+				+ ";height:" + pageHeight + ";" );
+		writer.openTag( HTMLTags.TAG_IMAGE );
+		writer.attributeAllowEmpty( HTMLTags.ATTR_ALT, "" );
+
+		image = handleStyleImage( image, true );
+		if ( image != null && image.length( ) > 0 )
+		{
+			writer.attribute( HTMLTags.ATTR_SRC, image );
+			writer.attribute( HTMLTags.ATTR_STYLE, "width:" + backgroundWidth
+					+ ";height:" + backgroundHeight
+					+ ";position:absolute;left:" + backgroundPositionX
+					+ ";top:" + backgroundPositionY + ";z-index:-1" );
+		}
+		writer.closeTag( HTMLTags.TAG_IMAGE );
+	}
+
+	private String parseBackgroundSize( String backgroundHeight,
+			DimensionType pageHeight )
+	{
+		int index = backgroundHeight.indexOf( "%" );
+		if ( index != -1 )
+		{
+			String percent = backgroundHeight.substring( 0, index );
+			int percentValue = Integer.valueOf( percent ).intValue( );
+			return pageHeight.getMeasure( ) * percentValue / 100
+					+ pageHeight.getUnits( );
+		}
+		return backgroundHeight;
+	}
+
+	private void endBackgroundContainer( )
+	{
+		writer.closeTag( HTMLTags.TAG_DIV );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1375,6 +1443,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		// close the page tag ( TABLE )
 		writer.closeTag( HTMLTags.TAG_TABLE );
+		if ( needOutputBackgroundSize )
+		{
+			endBackgroundContainer( );
+			needOutputBackgroundSize = false;
+		}
+
 	}
 
 	/*

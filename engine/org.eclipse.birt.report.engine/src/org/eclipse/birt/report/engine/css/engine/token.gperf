@@ -68,3 +68,5 @@ text-underline
 text-overline
 text-linethrough
 visible-format
+background-height
+background-width

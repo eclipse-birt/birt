@@ -140,6 +140,13 @@ public class AttributeBuilder
 		}
 	}
 
+	public static void buildBackgroundColor( StringBuffer styleBuffer,
+			IStyle style, HTMLReportEmitter emitter )
+	{
+		buildProperty( styleBuffer, HTMLTags.ATTR_BACKGROUND_COLOR, style
+				.getBackgroundColor( ) );
+	}
+
 	/**
 	 * Build the Box style string.
 	 * 

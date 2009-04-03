@@ -112,4 +112,8 @@ public interface IStyle
 	void write( DataOutputStream out ) throws IOException;
 
 	void read( DataInputStream in ) throws IOException;
+
+	public String getBackgroundHeight( );
+
+	public String getBackgroundWidth( );
 }

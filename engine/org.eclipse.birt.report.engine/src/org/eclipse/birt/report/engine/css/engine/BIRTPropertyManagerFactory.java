@@ -189,7 +189,11 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory
 		vms[StyleConstants.STYLE_DIRECTION] = new StringManager(
 				BIRTConstants.CSS_DIRECTION_PROPERTY, true,
 				CSSValueConstants.NULL_STRING_VALUE );
-
+		
+		vms[StyleConstants.STYLE_BACKGROUND_HEIGHT] = new StringManager(
+				CSSConstants.CSS_BACKGROUND_HEIGHT_PROPERTY, false, null );
+		vms[StyleConstants.STYLE_BACKGROUND_WIDTH] = new StringManager(
+				CSSConstants.CSS_BACKGROUND_WIDTH_PROPERTY, false, null );
 	}
 
 	public int getNumberOfProperties( )

@@ -75,6 +75,8 @@ public interface StyleConstants
 	final int STYLE_BORDER_TOP_WIDTH = 57;
 	final int STYLE_PAGE_BREAK_BEFORE = 58;
 	final int STYLE_PAGE_BREAK_INSIDE = 59;
+	final int STYLE_BACKGROUND_HEIGHT = 60;
+	final int STYLE_BACKGROUND_WIDTH = 61;
 
-	final int NUMBER_OF_STYLE = 60;
+	final int NUMBER_OF_STYLE = 62;
 }

@@ -39,6 +39,10 @@ public class StyleUtil
 				StyleConstants.STYLE_BACKGROUND_COLOR );
 		styleName2Index.put( Style.BACKGROUND_IMAGE_PROP,
 				StyleConstants.STYLE_BACKGROUND_IMAGE );
+		styleName2Index.put( Style.BACKGROUND_SIZE_HEIGHT,
+				StyleConstants.STYLE_BACKGROUND_HEIGHT );
+		styleName2Index.put( Style.BACKGROUND_SIZE_WIDTH,
+				StyleConstants.STYLE_BACKGROUND_WIDTH );
 		styleName2Index.put( Style.BACKGROUND_POSITION_X_PROP,
 				StyleConstants.STYLE_BACKGROUND_POSITION_X );
 		styleName2Index.put( Style.BACKGROUND_POSITION_Y_PROP,

@@ -103,11 +103,19 @@ public abstract class HTMLEmitter
 	/**
 	 * Build the style of the page
 	 */
-	public void buildPageStyle( IPageContent page, StringBuffer styleBuffer )
+	public void buildPageStyle( IPageContent page, StringBuffer styleBuffer,
+			boolean needOutputBackgroundSize )
 	{
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = page.getStyle( );
-		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
+		if ( !needOutputBackgroundSize )
+		{
+			AttributeBuilder
+					.buildBackground( styleBuffer, style, reportEmitter );
+		}
+		else
+			AttributeBuilder.buildBackgroundColor( styleBuffer, style,
+					reportEmitter );
 		AttributeBuilder.buildBorders( styleBuffer, style );
 	}
 
