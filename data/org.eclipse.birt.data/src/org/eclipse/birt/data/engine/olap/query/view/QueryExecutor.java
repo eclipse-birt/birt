@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -79,6 +80,11 @@ public class QueryExecutor
 				view.getMeasureNameManger( ).getCalculatedMembersFromQuery( ) );
 		if ( aggrDefns == null || aggrDefns.length == 0 )
 			return null;
+		String cubeName = executor.getCubeQueryDefinition( ).getName( );
+		if ( cubeName == null || cubeName.trim( ).length( ) == 0 )
+		{
+			throw new DataException( ResourceConstants.CUBE_QUERY_NO_CUBE_BINDING );
+		}
 		IDocumentManager documentManager = getDocumentManager( executor );
 		ICube cube = loadCube( documentManager, executor );
 		CubeQueryValidator.validateCubeQueryDefinition( executor.getCubeQueryDefinition( ),
