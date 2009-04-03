@@ -117,8 +117,6 @@ public class InlineContainerArea extends InlineStackingArea
 			buildProperties( content, context );
 		}
 		maxAvaWidth = parent.getCurrentMaxContentWidth( );
-		currentBP = getContentY( );
-		currentIP = getContentX( );
 		bookmark = content.getBookmark( );
 		action = content.getHyperlinkAction( );
 		vAlign = style.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
