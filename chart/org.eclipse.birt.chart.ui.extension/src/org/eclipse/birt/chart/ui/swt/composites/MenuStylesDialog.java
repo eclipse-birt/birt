@@ -31,6 +31,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -127,7 +128,7 @@ public class MenuStylesDialog extends TrayDialog implements Listener
 
 		Label label = new Label( c, SWT.NONE );
 
-		fTable = new Table( c, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL );
+		fTable = new Table( c, SWT.BORDER | SWT.V_SCROLL | SWT.FULL_SELECTION );
 		fTable.setLinesVisible( true );
 		fTable.setHeaderVisible( true );
 
@@ -203,6 +204,7 @@ public class MenuStylesDialog extends TrayDialog implements Listener
 
 		fTable.addListener( SWT.Resize, this );
 		fTable.addListener( SWT.Selection, this );
+		fTable.addListener( SWT.KeyDown, this );
 	}
 
 	private void updateProperties( MenuStylesKeyType menuStylesKeyType )
@@ -276,7 +278,20 @@ public class MenuStylesDialog extends TrayDialog implements Listener
 	private CellEditor[] getCellEditors( Table table )
 	{
 		CellEditor[] editors = new CellEditor[COLUMNS.length];
-		editors[0] = new TextCellEditor( table );
+		editors[0] = new TextCellEditor( table ) {
+
+			@Override
+			protected void keyReleaseOccured( KeyEvent keyEvent )
+			{
+				super.keyReleaseOccured( keyEvent );
+				if ( keyEvent.character == '\r' )
+				{
+					fTableViewer.editElement( fTableViewer.getElementAt( fTable.getSelectionIndex( ) ),
+						1 );
+				}
+
+			}
+		};
 		editors[1] = new TextCellEditor( table );
 		return editors;
 	}
@@ -442,6 +457,14 @@ public class MenuStylesDialog extends TrayDialog implements Listener
 			else if ( event.type == SWT.Selection )
 			{
 				updateButtonStatus( );
+			}
+			else if ( event.type == SWT.KeyDown )
+			{
+				if ( event.character == ' ' )
+				{
+					fTableViewer.editElement( fTableViewer.getElementAt( fTable.getSelectionIndex( ) ),
+							0 );
+				}
 			}
 		}
 	}
