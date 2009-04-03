@@ -387,6 +387,7 @@ data.olap.UnspecifiedBindingName=未指定绑定名称。
 data.olap.NotNestAggregationBinding=未多维数据集嵌套的聚合绑定: {0}
 data.olap.InvalidNestAggregationExpression=多维数据集嵌套聚合的表达式无效。
 data.olap.sort.exprError=设置的引用维级别只应包含一个级别!
+data.olap.query.noCubeBinding=Failed to execute the cube query because no cube binding is available!
 
 data.cache.UnsupportedIncrementalCacheMode=尚未支持增量缓存的“{0}”模式!
 # Configuration file parser error code

@@ -387,6 +387,7 @@ data.olap.UnspecifiedBindingName=Bindungsname nicht angegeben.
 data.olap.NotNestAggregationBinding=Aggregatsbindung nicht mit Quader verschachteln: {0}
 data.olap.InvalidNestAggregationExpression=Der Ausdruck eines Quader-Verschachtelungsaggregats ist ungültig.
 data.olap.sort.exprError=Dimensionsebenensatz, auf den verwiesen wird, darf nur eine Ebene enthalten.
+data.olap.query.noCubeBinding=Failed to execute the cube query because no cube binding is available!
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!
 # Configuration file parser error code

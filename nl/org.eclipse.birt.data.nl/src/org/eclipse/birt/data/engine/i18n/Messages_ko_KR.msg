@@ -387,6 +387,7 @@ data.olap.UnspecifiedBindingName=바인딩 이름이 지정되지 않았습니다.
 data.olap.NotNestAggregationBinding=큐브 중첩 집계 바인딩이 아닙니다: {0}
 data.olap.InvalidNestAggregationExpression=큐브 중첩 집계의 식이 잘못되었습니다.
 data.olap.sort.exprError=참조되는 차원 수준 집합에는 1개의 수준만 포함되어야 합니다!
+data.olap.query.noCubeBinding=Failed to execute the cube query because no cube binding is available!
 
 data.cache.UnsupportedIncrementalCacheMode=증가 캐시의 \"{0}\" 모드는 아직 지원되지 않습니다.
 # Configuration file parser error code

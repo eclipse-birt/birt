@@ -387,6 +387,7 @@ data.olap.UnspecifiedBindingName=Le nom de liaison n'est pas spécifié.
 data.olap.NotNestAggregationBinding=Aucune liaison d'agrégation imbriquée du cube : {0}
 data.olap.InvalidNestAggregationExpression=L'expression d'agrégation imbriquée du cube est incorrecte.
 data.olap.sort.exprError=Le jeu de niveaux de dimension référencés ne doit contenir qu'un seul niveau.
+data.olap.query.noCubeBinding=Failed to execute the cube query because no cube binding is available!
 
 data.cache.UnsupportedIncrementalCacheMode=Le mode \"{0}\" de cache incrémentiel n''est pas encore pris en charge !
 # Configuration file parser error code
