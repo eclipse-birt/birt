@@ -17,6 +17,7 @@ fragment@org.eclipse.birt.report.data.oda.sampledb.nl=HEAD,:pserver:anonymous@de
 fragment@org.eclipse.birt.report.data.oda.sampledb.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.data.oda.sampledb.ui.nl
 fragment@org.eclipse.birt.report.data.oda.xml.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.data.oda.xml.nl
 fragment@org.eclipse.birt.report.data.oda.xml.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.data.oda.xml.ui.nl
+fragment@org.eclipse.birt.report.debug.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.debug.core.nl
 fragment@org.eclipse.birt.report.debug.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.debug.ui.nl
 fragment@org.eclipse.birt.report.designer.core.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.designer.core.nl
 fragment@org.eclipse.birt.report.designer.ui.editors.schematic.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.designer.ui.editors.schematic.nl
