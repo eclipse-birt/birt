@@ -1,0 +1,25 @@
+#
+#************************************************************************
+# Copyright (c) 2008 Actuate Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#  Actuate Corporation - initial API and implementation
+#  
+#************************************************************************
+#
+sqbWizPage_cannotOpenConnectionMsg=Unable to establish a connection to build a SQL query.  Please check the data source connection properties.
+sqbWizPage_cannotOpenConnectionTitle=Connection Error
+sqbWizPage_dataSourceDesignError=Data Source Design Error
+sqbWizPage_dbErrorMsg=Database error message: 
+sqbWizPage_detectExternalSqlTextChangedMsg=The SQL query text has been changed externally in the data set design.  Do you want to replace the SQL Query Builder contents with these changes?
+sqbWizPage_detectSqlTextChangedTitle=SQL Query Text Changed
+sqbWizPage_inputFailOnOpenAskUserMessage=Do you wish to continue?
+sqbWizPage_invalidSqbStateMsg=Unable to restore the previous state of the SQL Query Builder.
+sqbWizPage_invalidSqbStateTitle=Invalid SQL Query Builder State
+sqbWizPage_noConnProfileMsg=The database connection profile is not found or invalid.  Unable to open the SQL Query Builder.
+sqbWizPage_connectingDB=Connecting to the database...
+sqbDesignState_invalidSqbStateVersion=Invalid version in the saved SQL Query Builder state.
