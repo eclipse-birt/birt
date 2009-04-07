@@ -3,6 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Business Intelligence and Reporting Tools
 Bundle-SymbolicName: org.eclipse.birt;singleton:=true
 Bundle-Version: 2.5.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
