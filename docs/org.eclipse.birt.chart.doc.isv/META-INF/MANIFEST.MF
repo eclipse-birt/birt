@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Chart ISV Documentation
 Bundle-SymbolicName: org.eclipse.birt.chart.doc.isv;singleton:=true
 Bundle-Version: 2.5.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.help;bundle-version="[3.2.0,4.0.0)"
 Eclipse-LazyStart: true
