@@ -604,6 +604,12 @@ public class TaskSelectType extends SimpleTask implements
 			btnType.getImage( ).setBackground( btnType.getBackground( ) );
 			btnType.setVisible( true );
 			cmpTypeButtons.layout( true );
+			
+			if ( getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART ) )
+			{
+				// Only support the first sub-type in xtab part case.
+				break;
+			}
 		}
 		cmpTypeButtons.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		cmpSubTypes.layout( true );
