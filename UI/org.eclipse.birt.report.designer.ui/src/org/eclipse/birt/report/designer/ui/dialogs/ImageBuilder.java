@@ -396,7 +396,7 @@ public class ImageBuilder extends BaseDialog
 
 			public void focusLost( FocusEvent e )
 			{
-				preview( DEUtil.removeQuote( uriEditor.getText( ) ) );
+				preview( DEUtil.removeQuote( uriEditor.getText( ).trim( ) ) );
 			}
 		} );
 
@@ -469,7 +469,12 @@ public class ImageBuilder extends BaseDialog
 	
 	private void refreshImage()
 	{
-		String str = DEUtil.removeQuote( uriEditor.getText( ) );
+		String str = DEUtil.removeQuote(uriEditor.getText( ).trim( ));
+		if (str == null || str.length( ) == 0)
+		{
+			return ;
+		}
+		
 		try
 		{
 			if ( selectedType == URI_TYPE )
