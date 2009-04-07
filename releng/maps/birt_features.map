@@ -3,7 +3,7 @@ feature@org.eclipse.birt.sdk=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsro
 plugin@org.eclipse.birt.sdk=v20081107,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
 
 feature@org.eclipse.birt=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.feature
-plugin@org.eclipse.birt=v20081010,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
+plugin@org.eclipse.birt=v20090407,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
 
 !*************** DOC ***********
 feature@org.eclipse.birt.chart.cshelp=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.cshelp.feature
