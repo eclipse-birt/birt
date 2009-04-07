@@ -480,7 +480,13 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 								sb.append( String.valueOf( data.get( i )[index] ) );
 							}
 						}
-						if ( i < data.size( ) )
+						
+						if ( i == 1 && sb.length( ) > 45 )
+						{
+							sb = new StringBuilder( sb.substring( 0, 45 ) );
+							sb.append( "..." );//$NON-NLS-1$
+						}
+						else if ( i < data.size( ) )
 						{
 							sb.append( ";..." ); //$NON-NLS-1$
 						}

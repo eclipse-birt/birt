@@ -233,10 +233,14 @@ public class MenuStylesDialog extends TrayDialog implements Listener
 	private List<String[]> deserializeProperties( String properties )
 	{
 		String[] attributes = properties.split( ";" ); //$NON-NLS-1$
-		fCurrentAttrList = new ArrayList<String[]>( attributes.length );
+		fCurrentAttrList = new ArrayList<String[]>( );
 		for ( String v : attributes )
 		{
 			int index = v.indexOf( ':' );
+			if ( index < 0 )
+			{
+				continue;
+			}
 			String[] element = new String[2];
 			element[0] = v.substring( 0, index );
 			element[1] = v.substring( index + 1 );

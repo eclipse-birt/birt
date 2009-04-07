@@ -218,6 +218,11 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 
 	private void updateButtonStatus( )
 	{
+		if ( fListHyperlinks.isDisposed( ) )
+		{
+			return;
+		}
+		
 		int index = fListHyperlinks.getSelectionIndex( );
 		boolean enabled = ( index >= 0 );
 		fBtnEdit.setEnabled( enabled );
@@ -374,7 +379,6 @@ public class MultipleHyperlinksComposite extends Composite implements Listener
 		{
 			editProperties( );
 		}
-
 		updateButtonStatus( );
 	}
 }
