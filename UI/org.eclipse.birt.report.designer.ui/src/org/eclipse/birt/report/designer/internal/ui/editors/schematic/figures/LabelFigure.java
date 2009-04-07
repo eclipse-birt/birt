@@ -162,6 +162,11 @@ public class LabelFigure extends ReportElementFigure
 		else
 		{
 			dim = super.getPreferredSize( rx == 0 ? -1 : rx, hHint );
+			//fix bug 271116.
+			if (rx == 0 && wHint > 0  && dim.width > wHint)
+			{
+				dim = super.getPreferredSize( wHint, hHint );
+			}
 		}
 
 		return new Dimension( Math.max( dim.width, rx ), Math.max( dim.height,
