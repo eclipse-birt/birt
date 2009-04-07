@@ -200,23 +200,34 @@ public class FormatSpecifierComposite extends Composite
 
 		createPlaceHolder( this, 2 );
 
-		btnUndefined = new Button( this, SWT.RADIO );
+		Composite radios = new Composite( this, SWT.NONE );
+		{
+			GridLayout gl = new GridLayout( );
+			gl.numColumns = 2;
+			gl.verticalSpacing = 0;
+			radios.setLayout( gl );
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.horizontalSpan = 2;
+			radios.setLayoutData( gd );
+		}
+
+		btnUndefined = new Button( radios, SWT.RADIO );
 		GridData gdBTNUndefined = new GridData( GridData.FILL_HORIZONTAL );
 		gdBTNUndefined.horizontalSpan = 2;
 		btnUndefined.setLayoutData( gdBTNUndefined );
 		btnUndefined.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Undefined" ) ); //$NON-NLS-1$
 		btnUndefined.addSelectionListener( this );
 
-		createPlaceHolder( this, 2 );
+		createPlaceHolder( radios, 2 );
 
-		btnStandard = new Button( this, SWT.RADIO );
+		btnStandard = new Button( radios, SWT.RADIO );
 		GridData gdBTNStandard = new GridData( GridData.FILL_HORIZONTAL );
 		gdBTNStandard.horizontalSpan = 2;
 		btnStandard.setLayoutData( gdBTNStandard );
 		btnStandard.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Standard" ) ); //$NON-NLS-1$
 		btnStandard.addSelectionListener( this );
 
-		cmpStandardDetails = new Composite( this, SWT.NONE );
+		cmpStandardDetails = new Composite( radios, SWT.NONE );
 		GridData gdCMPStandardDetails = new GridData( GridData.FILL_BOTH );
 		gdCMPStandardDetails.horizontalIndent = 16;
 		gdCMPStandardDetails.horizontalSpan = 2;
@@ -245,16 +256,16 @@ public class FormatSpecifierComposite extends Composite
 		}
 		cpWrapStandardNumber = new NumberStandardComposite( cmpStandardNumberDetails );
 
-		createPlaceHolder( this, 2 );
+		createPlaceHolder( radios, 2 );
 
-		btnAdvanced = new Button( this, SWT.RADIO );
+		btnAdvanced = new Button( radios, SWT.RADIO );
 		GridData gdBTNAdvanced = new GridData( GridData.FILL_HORIZONTAL );
 		gdBTNAdvanced.horizontalSpan = 2;
 		btnAdvanced.setLayoutData( gdBTNAdvanced );
 		btnAdvanced.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Advanced" ) ); //$NON-NLS-1$
 		btnAdvanced.addSelectionListener( this );
 
-		cmpAdvancedDetails = new Composite( this, SWT.NONE );
+		cmpAdvancedDetails = new Composite( radios, SWT.NONE );
 		GridData gdCMPAdvancedDetails = new GridData( GridData.FILL_BOTH );
 		gdCMPAdvancedDetails.horizontalIndent = 16;
 		gdCMPAdvancedDetails.horizontalSpan = 2;
@@ -283,9 +294,9 @@ public class FormatSpecifierComposite extends Composite
 		}
 		cpWrapAdvancedNumber = new NumberAdvancedComposite( cmpAdvancedNumberDetails );
 
-		createPlaceHolder( this, 2 );
+		createPlaceHolder( radios, 2 );
 
-		btnFraction = new Button( this, SWT.RADIO );
+		btnFraction = new Button( radios, SWT.RADIO );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalSpan = 2;
@@ -294,7 +305,7 @@ public class FormatSpecifierComposite extends Composite
 			btnFraction.addSelectionListener( this );
 		}
 
-		cmpFractionNumberDetails = new Composite( this, SWT.NONE );
+		cmpFractionNumberDetails = new Composite( radios, SWT.NONE );
 		{
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			gd.horizontalIndent = 16;
@@ -1260,16 +1271,35 @@ public class FormatSpecifierComposite extends Composite
 		{
 			GridLayout glNumberStandard = new GridLayout( );
 			glNumberStandard.verticalSpacing = 5;
-			glNumberStandard.numColumns = 4;
+			glNumberStandard.numColumns = 2;
 			glNumberStandard.marginHeight = 2;
 			glNumberStandard.marginWidth = 2;
 
 			this.setLayout( glNumberStandard );
 
-			lblDelimiter = new Label( this, SWT.NONE );
+			Composite leftComp = new Composite( this, SWT.NONE );
+			{
+				leftComp.setLayout( glNumberStandard );
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				leftComp.setLayoutData( gd );
+			}
+
+			Composite rightComp = new Composite( this, SWT.NONE );
+			{
+				GridLayout gl = new GridLayout( );
+				gl.verticalSpacing = 5;
+				gl.numColumns = 1;
+				gl.marginHeight = 2;
+				gl.marginWidth = 2;
+				rightComp.setLayout( gl );
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				leftComp.setLayoutData( gd );
+			}
+
+			lblDelimiter = new Label( leftComp, SWT.NONE );
 			lblDelimiter.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Delimiter" ) ); //$NON-NLS-1$
 
-			txtDelimiter = new Text( this, SWT.BORDER | SWT.SINGLE );
+			txtDelimiter = new Text( leftComp, SWT.BORDER | SWT.SINGLE );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.widthHint = 60;
@@ -1283,7 +1313,7 @@ public class FormatSpecifierComposite extends Composite
 				txtDelimiter.addListener( SWT.Modify, this );
 			}
 
-			btnApproximate = new Button( this, SWT.CHECK );
+			btnApproximate = new Button( rightComp, SWT.CHECK );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalSpan = 2;
@@ -1292,10 +1322,17 @@ public class FormatSpecifierComposite extends Composite
 				btnApproximate.addListener( SWT.Selection, this );
 			}
 
-			lblPrefix = new Label( this, SWT.NONE );
+			Composite radios = new Composite( rightComp, SWT.NONE );
+			{
+				radios.setLayout( glNumberStandard );
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				radios.setLayoutData( gd );
+			}
+
+			lblPrefix = new Label( leftComp, SWT.NONE );
 			lblPrefix.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Prefix" ) ); //$NON-NLS-1$
 
-			txtPrefix = new Text( this, SWT.BORDER | SWT.SINGLE );
+			txtPrefix = new Text( leftComp, SWT.BORDER | SWT.SINGLE );
 			{
 				GridData gdTXTPrefix = new GridData( GridData.FILL_HORIZONTAL );
 				gdTXTPrefix.widthHint = 60;
@@ -1309,13 +1346,13 @@ public class FormatSpecifierComposite extends Composite
 				txtPrefix.addListener( SWT.Modify, this );
 			}
 
-			btnUseNumerator = new Button( this, SWT.RADIO );
+			btnUseNumerator = new Button( radios, SWT.RADIO );
 			{
 				btnUseNumerator.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Numerator" ) ); //$NON-NLS-1$
 				btnUseNumerator.addListener( SWT.Selection, this );
 			}
 
-			spnNumerator = new Spinner( this, SWT.BORDER );
+			spnNumerator = new Spinner( radios, SWT.BORDER );
 			{
 				GridData gdTXTMultiplier = new GridData( GridData.FILL_HORIZONTAL );
 				gdTXTMultiplier.widthHint = 60;
@@ -1326,10 +1363,10 @@ public class FormatSpecifierComposite extends Composite
 				spnNumerator.addListener( SWT.Selection, this );
 			}
 
-			lblSuffix = new Label( this, SWT.NONE );
+			lblSuffix = new Label( leftComp, SWT.NONE );
 			lblSuffix.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Suffix" ) ); //$NON-NLS-1$
 
-			txtSuffix = new Text( this, SWT.BORDER | SWT.SINGLE );
+			txtSuffix = new Text( leftComp, SWT.BORDER | SWT.SINGLE );
 			{
 				GridData gdTXTSuffix = new GridData( GridData.FILL_HORIZONTAL );
 				gdTXTSuffix.widthHint = 60;
@@ -1343,13 +1380,13 @@ public class FormatSpecifierComposite extends Composite
 				txtSuffix.addListener( SWT.Modify, this );
 			}
 
-			btnUseDenorminator = new Button( this, SWT.RADIO );
+			btnUseDenorminator = new Button( radios, SWT.RADIO );
 			{
 				btnUseDenorminator.setText( Messages.getString( "FormatSpecifierComposite.Lbl.MaxRecursionTimes" ) ); //$NON-NLS-1$
 				btnUseDenorminator.addListener( SWT.Selection, this );
 			}
 
-			spnFractionDigits = new Spinner( this, SWT.BORDER );
+			spnFractionDigits = new Spinner( radios, SWT.BORDER );
 			{
 				spnFractionDigits.setMinimum( 1 );
 				spnFractionDigits.setMaximum( 8 );
