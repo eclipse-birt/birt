@@ -4,4 +4,4 @@ plugin@org.eclipse.birt.chart.doc.isv=v20090407,:pserver:anonymous@dev.eclipse.o
 plugin@org.eclipse.birt.cshelp=v20081113,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.cshelp
 plugin@org.eclipse.birt.doc=v20081105,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.doc
 plugin@org.eclipse.birt.doc.isv=v20090407,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.doc.isv
-plugin@org.eclipse.birt.example=v20081024,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.example
+plugin@org.eclipse.birt.example=v20090407,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.example
