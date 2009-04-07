@@ -38,7 +38,7 @@ public class CellDesign extends ReportItemDesign
 	/**
 	 * describe the drop.
 	 */
-	protected Expression<String> drop;
+	protected String drop;
 	/**
 	 * content in this cell
 	 */
@@ -166,7 +166,7 @@ public class CellDesign extends ReportItemDesign
 	/**
 	 * @return Returns the drop.
 	 */
-	public Expression<String> getDrop( )
+	public String getDrop( )
 	{
 		return drop;
 	}
@@ -175,7 +175,7 @@ public class CellDesign extends ReportItemDesign
 	 * @param drop
 	 *            The drop to set.
 	 */
-	public void setDrop( Expression<String> drop )
+	public void setDrop( String drop )
 	{
 		this.drop = drop;
 	}

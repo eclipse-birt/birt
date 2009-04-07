@@ -1306,11 +1306,11 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeShort( out, FIELD_ROW_SPAN );
 			IOUtil.writeInt( out, rowSpan );
 		}
-		Expression<String> drop = cell.getDrop( );
+		String drop = cell.getDrop( );
 		if ( drop != null )
 		{
 			IOUtil.writeShort( out, FIELD_DROP );
-			write( out, drop );
+			IOUtil.writeString( out, drop );
 		}
 		boolean displayGroupIcon = cell.getDisplayGroupIcon( );
 		if (displayGroupIcon)

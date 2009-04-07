@@ -29,7 +29,6 @@ import org.eclipse.birt.report.engine.css.dom.CellComputedStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.Expression;
 
 /**
  * 
@@ -440,14 +439,4 @@ public class CellContent extends AbstractContent implements ICellContent
 	{
 		this.scope = scope;
 	}
-	
-	public String getDrop( )
-	{
-		if ( drop != null )
-		{
-			return drop;
-		}
-		return null;
-	}
-
 }

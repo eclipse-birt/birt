@@ -1330,7 +1330,7 @@ public class EngineIRVisitor extends DesignVisitor
 		cell.setRowSpan( handle.getRowSpan( ) );
 		if ( isCellInGroupHeader( handle ) )
 		{
-			cell.setDrop( createConstant( handle.getDrop( ) ) );
+			cell.setDrop( handle.getDrop( ) );
 		}
 		
 		String onCreate = handle.getOnCreate( );

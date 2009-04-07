@@ -67,9 +67,9 @@ public class TableItemDesignTest extends AbstractDesignTestCase
 		row = header.getRow(0);
 		assertEquals(6, row.getCellCount());
 		cell = row.getCell(0);
-		assertEquals( "all", cell.getDrop( ).getDesignValue( ) );
+		assertEquals( "all", cell.getDrop( ) );
 		cell = row.getCell(1);
-		assertEquals( "detail", cell.getDrop( ).getDesignValue( ) );
+		assertEquals( "detail", cell.getDrop( ) );
 		
 		TableBandDesign footer = (TableBandDesign) group.getFooter( );
 		assertEquals(1, footer.getRowCount());

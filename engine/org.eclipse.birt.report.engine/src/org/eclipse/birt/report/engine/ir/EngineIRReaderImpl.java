@@ -1103,7 +1103,7 @@ public class EngineIRReaderImpl implements IOConstants
 				cell.setRowSpan( rowSpan );
 				break;
 			case FIELD_DROP :
-				Expression<String> drop = readStringConstant( in );
+				String drop = IOUtil.readString( in );
 				cell.setDrop( drop );
 				break;
 			case FIELD_DISPLAY_GROUP_ICON :

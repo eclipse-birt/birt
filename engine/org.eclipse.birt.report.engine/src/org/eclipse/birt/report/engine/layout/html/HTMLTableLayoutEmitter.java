@@ -658,7 +658,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 					CellDesign cellDesign = (CellDesign) cell.getGenerateBy( );
 					if ( cellDesign != null )
 					{
-						String dropType = cell.getDrop( );
+						String dropType = cellDesign.getDrop( );
 						if ( dropType != null && !"none".equals( dropType ) ) //$NON-NLS-1$
 						{
 							rowSpan = createDropID( getGroupLevel( ), dropType );

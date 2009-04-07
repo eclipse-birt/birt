@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
@@ -37,7 +38,6 @@ import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.w3c.dom.css.CSSValue;
 
 public class ExecutionOptimize
@@ -514,9 +514,8 @@ public class ExecutionOptimize
 			PolicyNode parent = parentNode;
 			visitReportItem( cell, value );
 			parentNode = currentNode;
-			Expression<String> drop = cell.getDrop( );
 			if ( cell.getRowSpan( ) != 1 || cell.getColSpan( ) != 1
-					|| needProcessDrop( drop ))
+					|| needProcessDrop( cell.getDrop( ) ))
 			{
 				currentNode.execute = true;
 			}
@@ -530,11 +529,9 @@ public class ExecutionOptimize
 			return value;
 		}
 
-		private boolean needProcessDrop( Expression<String> drop )
+		private boolean needProcessDrop( String drop )
 		{
-			return drop != null
-					&& ( drop.isExpression( ) || !"none".equals( drop
-							.getDesignValue( ) ) );
+			return drop != null && !"none".equals( drop );
 		}
 
 		public Object visitImageItem( ImageItemDesign image, Object value )

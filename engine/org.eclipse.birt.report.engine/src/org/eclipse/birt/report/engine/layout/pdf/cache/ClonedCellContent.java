@@ -422,9 +422,4 @@ public class ClonedCellContent implements ICellContent
 	{
 		cellContent.setScope( scope );
 	}
-
-	public String getDrop( )
-	{
-		return cellContent.getDrop( );
-	}
 }

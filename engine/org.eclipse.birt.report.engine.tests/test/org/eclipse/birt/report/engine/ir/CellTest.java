@@ -38,7 +38,7 @@ public class CellTest extends StyledElementTestCase
 		cell.setColSpan( 1 );
 		cell.setColumn( 2 );
 		cell.setRowSpan( 3 );
-		Expression<String> drop = newConstant( "Drop" );
+		String drop = "Drop";
 		cell.setDrop( drop );
 
 		//Get

@@ -78,6 +78,4 @@ public interface ICellContent extends IContainerContent
 	public String getScope( );
 
 	public void setScope( String scope );
-
-	public String getDrop( );
 }
