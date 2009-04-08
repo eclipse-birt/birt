@@ -190,6 +190,10 @@ public class SessionHandleAdapter
 		// !!!dont set handle here, handle is set only when editor is activated.
 		// setReportDesignHandle( handle );
 		postInit( handle, properties );
+		
+		// flush any init state change which cannot be undone.
+		handle.getCommandStack( ).flush( );
+		
 		return handle;
 	}
 
