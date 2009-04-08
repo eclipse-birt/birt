@@ -1499,32 +1499,34 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 	 */
 	public String getDefinedWidth( )
 	{
-		DimensionHandle handle = ( (ExtendedItemHandle) getAdapter( DesignElementHandle.class ) ).getWidth( );
-
-		if ( handle.getUnits( ) == null || handle.getUnits( ).length( ) == 0 )
-		{
-			// TODO The default value is 100.0% to fix the bug 124051, but it is
-			// a temp solution.
-			// default value is 100.0%
-			return DEFAULT_WIDTH;
-			// return null;
-		}
-		else if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
-		{
-			return handle.getMeasure( )
-					+ DesignChoiceConstants.UNITS_PERCENTAGE;
-		}
-		else
-		{
-			int px = (int) DEUtil.convertoToPixel( handle );
-
-			if ( px <= 0 )
-			{
-				return null;
-			}
-
-			return String.valueOf( px );
-		}
+//		DimensionHandle handle = ( (ExtendedItemHandle) getAdapter( DesignElementHandle.class ) ).getWidth( );
+//
+//		if ( handle.getUnits( ) == null || handle.getUnits( ).length( ) == 0 )
+//		{
+//			// TODO The default value is 100.0% to fix the bug 124051, but it is
+//			// a temp solution.
+//			// default value is 100.0%
+//			return DEFAULT_WIDTH;
+//			// return null;
+//		}
+//		else if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
+//		{
+//			return handle.getMeasure( )
+//					+ DesignChoiceConstants.UNITS_PERCENTAGE;
+//		}
+//		else
+//		{
+//			int px = (int) DEUtil.convertoToPixel( handle );
+//
+//			if ( px <= 0 )
+//			{
+//				return null;
+//			}
+//
+//			return String.valueOf( px );
+//		}
+		
+		return DEFAULT_WIDTH;
 	}
 
 	/**

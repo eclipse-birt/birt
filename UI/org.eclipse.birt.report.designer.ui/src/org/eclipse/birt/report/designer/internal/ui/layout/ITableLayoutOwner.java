@@ -73,6 +73,11 @@ public interface ITableLayoutOwner
 	 * @return
 	 */
 	String getDefinedWidth( );
+	
+	/**If the force set to t he model
+	 * @return
+	 */
+	boolean isForceWidth();
 
 	/**Gets the define height,return null if the owner don't support the height;
 	 * @return

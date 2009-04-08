@@ -1350,28 +1350,28 @@ public class InsertInLayoutUtil
 	 */
 	public static void setInitWidth( Object object )
 	{
-		int percentAll = 100;
-		try
-		{
-			if ( object instanceof TableHandle )
-			{
-				TableHandle table = (TableHandle) object;
-				table.setWidth( percentAll
-						+ DesignChoiceConstants.UNITS_PERCENTAGE );
-			}
-			else if ( object instanceof GridHandle )
-			{
-				GridHandle grid = (GridHandle) object;
-				grid.setWidth( percentAll
-						+ DesignChoiceConstants.UNITS_PERCENTAGE );
-			}
-			else
-				return;
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-		}
+//		int percentAll = 100;
+//		try
+//		{
+//			if ( object instanceof TableHandle )
+//			{
+//				TableHandle table = (TableHandle) object;
+//				table.setWidth( percentAll
+//						+ DesignChoiceConstants.UNITS_PERCENTAGE );
+//			}
+//			else if ( object instanceof GridHandle )
+//			{
+//				GridHandle grid = (GridHandle) object;
+//				grid.setWidth( percentAll
+//						+ DesignChoiceConstants.UNITS_PERCENTAGE );
+//			}
+//			else
+//				return;
+//		}
+//		catch ( SemanticException e )
+//		{
+//			ExceptionHandler.handle( e );
+//		}
 	}
 
 	protected static boolean isHandleValid( DesignElementHandle handle )

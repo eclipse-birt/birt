@@ -814,6 +814,15 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			return String.valueOf( px );
 		}
 	}
+	
+	/**If the width is force width
+	 * @return
+	 */
+	public boolean isForceWidth()
+	{
+		DimensionHandle handle = ( (ReportItemHandle) getHandle( ) ).getWidth( );
+		return handle.isSet( );
+	}
 
 	/**
 	 * Get the default width.
@@ -1404,7 +1413,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		}
 	}
 
-	static class RowUIInfomation
+	public static class RowUIInfomation
 	{
 
 		protected static final String GRID_ROW = NAME_NULL;

@@ -670,6 +670,14 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	{
 		return getCrosstabHandleAdapter( ).getDefinedWidth( );
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#isForceWidth()
+	 */
+	public boolean isForceWidth()
+	{
+		return false;
+	}
 
 	/*
 	 * (non-Javadoc)

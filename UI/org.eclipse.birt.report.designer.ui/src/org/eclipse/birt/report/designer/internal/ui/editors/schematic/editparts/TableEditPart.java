@@ -1616,4 +1616,14 @@ public class TableEditPart extends AbstractTableEditPart implements
 		//Table don't support the table height
 		return null;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#isForceWidth()
+	 */
+	public boolean isForceWidth()
+	{
+		TableHandleAdapter tadp = HandleAdapterFactory.getInstance( )
+			.getTableHandleAdapter( getModel( ) );
+		return tadp.isForceWidth( );
+	}
 }

@@ -585,6 +585,10 @@ public class FixTableLayout extends TableLayout
 			}
 		}
 
+		if ((!getOwner( ).isForceWidth( )) && forceCount == 0)
+		{
+			return;
+		}
 		if ( totalColumn >= containerWidth )
 		{
 			for ( int i = 0; i < size; i++ )
