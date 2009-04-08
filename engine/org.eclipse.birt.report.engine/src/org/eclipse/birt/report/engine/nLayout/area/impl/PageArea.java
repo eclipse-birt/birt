@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.logging.Level;
 
@@ -31,7 +32,10 @@ import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
+import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+
+import com.lowagie.text.Image;
 
 public class PageArea extends BlockContainerArea
 {
@@ -220,16 +224,17 @@ public class PageArea extends BlockContainerArea
 				.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
 		ReportDesignHandle designHandle = pageContent.getReportContent( )
 				.getDesign( ).getReportDesign( );
-		String imageUrl = EmitterUtil.getBackgroundImageUrl( pageContent
-				.getStyle( ), designHandle );
+		IStyle style = pageContent.getStyle( );
+		String imageUrl = EmitterUtil.getBackgroundImageUrl( style,
+				designHandle );
 		if ( backgroundColor != null || imageUrl != null )
 		{
 			boxStyle = new BoxStyle( );
 			boxStyle.setBackgroundColor( backgroundColor );
 			if ( imageUrl != null )
 			{
-				boxStyle
-						.setBackgroundImage( new BackgroundImageInfo( imageUrl ) );
+				boxStyle.setBackgroundImage( createBackgroundImage( imageUrl,
+						pageContent ) );
 			}
 		}
 		context.setMaxHeight( root.getHeight( ) );
@@ -242,6 +247,130 @@ public class PageArea extends BlockContainerArea
 		context.setMaxWidth( body.getWidth( ) );
 		context.setMaxBP( body.getHeight( ) );
 		maxAvaWidth = context.getMaxWidth( );
+	}
+	
+	protected BackgroundImageInfo createBackgroundImage( String url,
+			IContent content )
+	{
+		IStyle style = content.getStyle( );
+		String widthStr = style.getBackgroundWidth( );
+		String heightStr = style.getBackgroundHeight( );
+		Image img = null;
+		try
+		{
+			img = Image.getInstance( new URL( url ) );
+		}
+		catch ( Exception e )
+		{
+			if ( SvgFile.isSvg( url ) )
+			{
+				try
+				{
+					img = Image.getInstance( SvgFile.transSvgToArray( url ) );
+				}
+				catch ( Exception ex )
+				{
+					logger.log( Level.WARNING, ex.getMessage( ), ex );
+				}
+			}
+			else
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
+			}
+		}
+		int resolutionX = img.getDpiX( );
+		int resolutionY = img.getDpiY( );
+		if ( 0 == resolutionX || 0 == resolutionY )
+		{
+			resolutionX = 96;
+			resolutionY = 96;
+		}
+		float imageWidth = img.plainWidth( ) / resolutionX * 72;
+		float imageHeight = img.plainHeight( ) / resolutionY * 72;
+		int actualWidth = (int) imageWidth;
+		int actualHeight = (int) imageHeight;
+
+		if ( widthStr != null && widthStr.length( ) > 0 || heightStr != null
+				&& heightStr.length( ) > 0 )
+		{
+			if ( "contain".equals( widthStr ) || "contain".equals( heightStr ) )
+			{
+				float rh = imageHeight / height;
+				float rw = imageWidth / width;
+				if ( rh > rw )
+				{
+					actualHeight = height;
+					actualWidth = (int) ( imageWidth * height / imageHeight );
+				}
+				else
+				{
+					actualWidth = width;
+					actualHeight = (int) ( imageHeight * width / imageWidth );
+				}
+
+			}
+			else if ( "cover".equals( widthStr ) || "cover".equals( heightStr ) )
+			{
+				float rh = imageHeight / height;
+				float rw = imageWidth / width;
+				if ( rh > rw )
+				{
+					actualWidth = width;
+					actualHeight = (int) ( imageHeight * width / imageWidth );
+				}
+				else
+				{
+					actualHeight = height;
+					actualWidth = (int) ( imageWidth * height / imageHeight );
+				}
+			}
+			else
+			{
+				DimensionType widthDim = DimensionType.parserUnit( widthStr );
+				DimensionType heightDim = DimensionType.parserUnit( heightStr );
+				if ( widthDim != null )
+				{
+					actualWidth = PropertyUtil.getDimensionValue( content,
+							widthDim );
+					if ( heightDim == null )
+					{
+						actualHeight = (int) ( imageHeight * actualWidth / imageWidth );
+					}
+					else
+					{
+						actualHeight = PropertyUtil.getDimensionValue( content,
+								heightDim );
+					}
+				}
+				else if ( heightDim != null )
+				{
+					actualHeight = PropertyUtil.getDimensionValue( content,
+							heightDim );
+					if ( widthDim == null )
+					{
+						actualWidth = (int) ( imageWidth * actualHeight / imageHeight );
+					}
+					else
+					{
+						actualWidth = PropertyUtil.getDimensionValue( content,
+								widthDim );
+					}
+				}
+				else
+				{
+					actualHeight = (int) imageHeight;
+					actualWidth = (int) imageWidth;
+				}
+			}
+		}
+		IStyle cs = pageContent.getComputedStyle( );
+		return new BackgroundImageInfo( url, cs
+				.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
+				getDimensionValue( cs
+						.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
+						width - actualWidth ), getDimensionValue( cs
+						.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
+						height - actualHeight ), actualHeight, actualWidth );
 	}
 
 	/**

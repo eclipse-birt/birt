@@ -65,11 +65,11 @@ public class PPTPage extends AbstractPage
 	}
 
 	protected void drawBackgroundImage( float x, float y, float width,
-			float height, int repeat, String imageUrl, float absPosX,
-			float absPosY ) throws IOException
+			float height, float imageWidth, float imageHeight, int repeat,
+			String imageUrl, float absPosX, float absPosY ) throws IOException
 	{
-		writer.drawBackgroundImage( imageUrl, x, y, width, height, absPosX,
-				absPosY, repeat );
+		writer.drawBackgroundImage( imageUrl, x, y, width, height, imageWidth,
+				imageHeight, absPosX, absPosY, repeat );
 	}
 
 	protected void drawImage( String imageId, byte[] imageData,

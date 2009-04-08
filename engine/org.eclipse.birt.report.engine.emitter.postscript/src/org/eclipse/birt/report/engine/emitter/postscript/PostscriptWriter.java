@@ -439,8 +439,8 @@ public class PostscriptWriter
 	 * @throws Exception 
 	 */
 	public void drawBackgroundImage( String imageURI, float x, float y,
-			float width, float height, float positionX, float positionY,
-			int repeat ) throws IOException
+			float width, float height, float imageWidth, float imageHeight,
+			float positionX, float positionY, int repeat ) throws IOException
 	{
 		URL url = new URL( imageURI );
 		InputStream imageStream = null;
@@ -448,10 +448,17 @@ public class PostscriptWriter
 		{
 			imageStream = url.openStream( );
 			Image image = ImageIO.read( imageStream );
-
+			Position imageSize = null;
 			ImageIcon imageIcon = new ImageIcon( image );
-			Position imageSize = new Position( imageIcon.getIconWidth( ),
-					imageIcon.getIconHeight( ) );
+			if ( imageHeight == 0 || imageWidth == 0 )
+			{
+				imageSize = new Position( imageIcon.getIconWidth( ), imageIcon
+						.getIconHeight( ) );
+			}
+			else
+			{
+				imageSize = new Position( imageWidth, imageHeight );
+			}
 			Position areaPosition = new Position( x, y );
 			Position areaSize = new Position( width, height );
 			Position imagePosition = new Position( x + positionX, y + positionY );

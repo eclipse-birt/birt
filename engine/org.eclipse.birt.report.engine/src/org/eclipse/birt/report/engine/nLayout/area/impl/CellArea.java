@@ -160,7 +160,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
 							100 ), getDimensionValue( style
 							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
-							100 ) ) );
+							100 ), 0, 0 ) );
 
 		}
 		localProperties = new LocalProperties( );

@@ -177,7 +177,7 @@ public class DimensionType
 				log.log( Level.SEVERE, e.getMessage( ) );
 			}
 		}
-		return new DimensionType( 0, DimensionType.UNITS_CM );
+		return null;
 	}
 	
 	public static DimensionType parserUnit( String value, String defaultUnits )
@@ -200,7 +200,7 @@ public class DimensionType
 				log.log( Level.SEVERE, e.getMessage( ) );
 			}
 		}
-		return new DimensionType( 0, DimensionType.UNITS_CM );
+		return null;
 	}
 
 

@@ -145,7 +145,7 @@ public class TableArea extends RepeatableArea
 								getDimensionValue(
 										cs
 												.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
-										100 ) ) );
+										100 ), 0, 0 ) );
 
 			}
 			localProperties = new LocalProperties( );

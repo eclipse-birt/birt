@@ -650,15 +650,15 @@ public class PPTWriter
 	 *            whether the vertical position is a percentage value or not
 	 */
 	public void drawBackgroundImage( String imageURI, float x, float y,
-			float width, float height, float positionX, float positionY,
-			int repeat )
+			float width, float height, float iWidth, float iHeight,
+			float positionX, float positionY, int repeat )
 	{
 		if ( imageURI == null || imageURI.length( ) == 0 )
 		{
 			return;
 		}
-		float imageWidth = 0;
-		float imageHeight = 0;
+		float imageWidth = iWidth;
+		float imageHeight = iHeight;
 		byte[] imageData = null;
 		InputStream imageStream = null;
 		try
@@ -670,8 +670,11 @@ public class PPTWriter
 			imageStream = url.openStream( );
 			Image image = ImageIO.read( imageStream );
 			ImageIcon imageIcon = new ImageIcon( image );
-			imageWidth = imageIcon.getIconWidth( );
-			imageHeight = imageIcon.getIconHeight( );
+			if ( imageWidth == 0 || imageHeight == 0 )
+			{
+				imageWidth = imageIcon.getIconWidth( );
+				imageHeight = imageIcon.getIconHeight( );
+			}
 		}
 		catch ( IOException ioe )
 		{

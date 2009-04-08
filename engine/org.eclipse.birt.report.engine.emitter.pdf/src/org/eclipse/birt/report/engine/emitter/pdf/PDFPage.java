@@ -128,14 +128,15 @@ public class PDFPage extends AbstractPage
 	}
 
 	protected void drawBackgroundImage( float x, float y, float width,
-			float height, int repeat, String imageUrl, float absPosX,
-			float absPosY ) throws IOException
+			float height, float iWidth, float iHeight, int repeat,
+			String imageUrl, float absPosX, float absPosY ) throws IOException
 	{
 		y = transformY( y );
 		contentByte.saveState( );
-		Image img = null;
 		try
 		{
+			Image img = null;
+
 			try
 			{
 				img = Image.getInstance( new URL( imageUrl ) );
@@ -146,8 +147,8 @@ public class PDFPage extends AbstractPage
 				{
 					try
 					{
-						img = Image
-								.getInstance( SvgFile.transSvgToArray( imageUrl ) );
+						img = Image.getInstance( SvgFile
+								.transSvgToArray( imageUrl ) );
 					}
 					catch ( IOException ex )
 					{
@@ -159,15 +160,20 @@ public class PDFPage extends AbstractPage
 					throw e;
 				}
 			}
-			int resolutionX = img.getDpiX( );
-			int resolutionY = img.getDpiY( );
-			if ( 0 == resolutionX || 0 == resolutionY )
+			float imageWidth = iWidth;
+			float imageHeight = iHeight;
+			if ( imageHeight == 0 || imageWidth == 0 )
 			{
-				resolutionX = 96;
-				resolutionY = 96;
+				int resolutionX = img.getDpiX( );
+				int resolutionY = img.getDpiY( );
+				if ( 0 == resolutionX || 0 == resolutionY )
+				{
+					resolutionX = 96;
+					resolutionY = 96;
+				}
+				imageWidth = img.plainWidth( ) / resolutionX * 72;
+				imageHeight = img.plainHeight( ) / resolutionY * 72;
 			}
-			float imageWidth = img.plainWidth( ) / resolutionX * 72;
-			float imageHeight = img.plainHeight( ) / resolutionY * 72;
 
 			if ( BackgroundImageInfo.NO_REPEAT == repeat ) //$NON-NLS-1$
 			{

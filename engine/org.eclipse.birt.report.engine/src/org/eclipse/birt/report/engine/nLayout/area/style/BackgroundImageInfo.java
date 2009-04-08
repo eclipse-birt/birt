@@ -37,16 +37,21 @@ public class BackgroundImageInfo
 	protected int xOffset;
 	protected int yOffset;
 	protected int repeatedMode;
+	protected int height;
+	protected int width;
+
 
 	protected String url;
 
 	public BackgroundImageInfo( String url, int repeatedMode, int xOffset,
-			int yOffset )
+			int yOffset, int height, int width)
 	{
 		this.url = url;
 		this.repeatedMode = repeatedMode;
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
+		this.width = width;
+		this.height = height;
 	}
 
 	public BackgroundImageInfo( BackgroundImageInfo bgi )
@@ -55,17 +60,19 @@ public class BackgroundImageInfo
 		this.repeatedMode = bgi.repeatedMode;
 		this.xOffset = bgi.xOffset;
 		this.yOffset = bgi.yOffset;
+		this.width = bgi.width;
+		this.height = bgi.height;
 	}
 
 	public BackgroundImageInfo( String url, CSSValue mode, int xOffset,
-			int yOffset )
+			int yOffset, int height, int width)
 	{
-		this( url, repeatMap.get( mode ), xOffset, yOffset );
+		this( url, repeatMap.get( mode ), xOffset, yOffset, height, width );
 	}
 
-	public BackgroundImageInfo( String url )
+	public BackgroundImageInfo( String url, int height, int width )
 	{
-		this( url, 0, 0, 0 );
+		this( url, 0, 0, 0, height, width );
 	}
 
 	public int getXOffset( )
@@ -77,6 +84,7 @@ public class BackgroundImageInfo
 	{
 		this.yOffset = y;
 	}
+	
 
 	public void setXOffset( int x )
 	{
@@ -86,6 +94,30 @@ public class BackgroundImageInfo
 	public int getYOffset( )
 	{
 		return yOffset;
+	}
+
+	
+	public int getHeight( )
+	{
+		return height;
+	}
+
+	
+	public void setHeight( int height )
+	{
+		this.height = height;
+	}
+
+	
+	public int getWidth( )
+	{
+		return width;
+	}
+
+	
+	public void setWidth( int width )
+	{
+		this.width = width;
 	}
 
 	public int getRepeatedMode( )

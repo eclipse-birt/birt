@@ -830,7 +830,7 @@ public abstract class ContainerArea extends AbstractArea
 							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
 							100 ), getDimensionValue( style
 							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
-							100 ) ) );
+							100 ), 0, 0 ) );
 		}
 
 		action = content.getHyperlinkAction( );
@@ -867,7 +867,7 @@ public abstract class ContainerArea extends AbstractArea
 								getDimensionValue(
 										cs
 												.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
-										100 ) ) );
+										100 ) , 0, 0) );
 
 			}
 			if ( !isInInlineStacking )
