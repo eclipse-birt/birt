@@ -729,6 +729,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 	}
 
+	private String errorMsg = null;
+
 	/**
 	 * 
 	 */
@@ -774,6 +776,11 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						public void run( )
 						{
 							updateColumnsTableViewer( headerInfo, data );
+							if ( errorMsg != null
+									&& errorMsg.equals( WizardBase.getErrors( ) ) )
+							{
+								WizardBase.removeException( );
+							}
 						}
 
 					} );
@@ -784,7 +791,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					final List<?> data = dataList;
 
 					// Catch any exception.
-					final String msg = e.getMessage( );
+					errorMsg = e.getMessage( );
 					Display.getDefault( ).syncExec( new Runnable( ) {
 
 						/*
@@ -796,7 +803,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						{
 
 							updateColumnsTableViewer( headerInfo, data );
-							WizardBase.showException( msg );
+							WizardBase.showException( errorMsg );
 						}
 					} );
 				}
@@ -1512,6 +1519,11 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						public void run( )
 						{
 							updateTablePreview( headerInfo, data );
+							if ( errorMsg != null
+									&& errorMsg.equals( WizardBase.getErrors( ) ) )
+							{
+								WizardBase.removeException( );
+							}
 						}
 					} );
 				}
@@ -1521,7 +1533,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					final List<?> data = dataList;
 
 					// Catch any exception.
-					final String msg = e.getMessage( );
+					errorMsg = e.getMessage( );
 					Display.getDefault( ).syncExec( new Runnable( ) {
 
 						/*
@@ -1537,7 +1549,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							// even if there is no preview data.
 							updateTablePreview( headerInfo, data );
 
-							WizardBase.showException( msg );
+							WizardBase.showException( errorMsg );
 						}
 					} );
 				}
