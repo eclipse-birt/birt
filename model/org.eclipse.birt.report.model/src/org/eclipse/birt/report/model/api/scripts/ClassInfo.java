@@ -73,6 +73,13 @@ public class ClassInfo implements IClassInfo
 		for ( int i = 0; i < classMethods.length; i++ )
 		{
 			Method classMethod = classMethods[i];
+			
+			//filter deprecated methods, use 1.5 feature 
+			if ( classMethod.isAnnotationPresent( Deprecated.class ) )
+			{
+				continue;
+			}
+			
 			String methodName = classMethod.getName( );
 
 			IMethodInfo method = (IMethodInfo) methods.get( methodName );
