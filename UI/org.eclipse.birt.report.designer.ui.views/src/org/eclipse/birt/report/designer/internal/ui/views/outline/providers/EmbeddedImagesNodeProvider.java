@@ -40,10 +40,10 @@ public class EmbeddedImagesNodeProvider extends DefaultNodeProvider
 	// //$NON-NLS-1$
 	private static String[] EXTENSIONS = new String[]{
 			".bmp", ".jpg", //$NON-NLS-1$ //$NON-NLS-2$
-			".jpeg", ".jpe", ".jfif", ".gif", ".png", ".tif", ".tiff", ".svg"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+			".jpeg", ".jpe", ".jfif", ".gif", ".png", ".tif", ".tiff", ".ico", ".svg"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
 
 	private static String[] ALLEXTENSIONS = new String[]{
-		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.svg"}; //$NON-NLS-1$
+		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"}; //$NON-NLS-1$
 
 	public Object[] getChildren( Object model )
 	{
