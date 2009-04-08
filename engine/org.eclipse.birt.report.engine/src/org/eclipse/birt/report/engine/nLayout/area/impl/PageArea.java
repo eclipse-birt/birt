@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.LayoutEmitterAdapter;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
@@ -285,8 +286,8 @@ public class PageArea extends BlockContainerArea
 			resolutionX = 96;
 			resolutionY = 96;
 		}
-		float imageWidth = img.plainWidth( ) / resolutionX * 72;
-		float imageHeight = img.plainHeight( ) / resolutionY * 72;
+		float imageWidth = img.plainWidth( ) / resolutionX * 72 * PDFConstants.LAYOUT_TO_PDF_RATIO;
+		float imageHeight = img.plainHeight( ) / resolutionY * 72 * PDFConstants.LAYOUT_TO_PDF_RATIO;
 		int actualWidth = (int) imageWidth;
 		int actualHeight = (int) imageHeight;
 
@@ -358,7 +359,7 @@ public class PageArea extends BlockContainerArea
 				}
 				else
 				{
-					actualHeight = (int) imageHeight;
+					actualHeight = (int) imageHeight ;
 					actualWidth = (int) imageWidth;
 				}
 			}
