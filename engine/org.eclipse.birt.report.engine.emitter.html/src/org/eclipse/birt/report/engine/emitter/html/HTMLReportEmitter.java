@@ -1344,6 +1344,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			return;
 		}
+		else
+		{
+			if ( backgroundHeight == null )
+			{
+				backgroundHeight = "auto";
+			}
+			if ( backgroundWidth == null )
+			{
+				backgroundWidth = "auto";
+			}
+		}
 
 		String image = style.getBackgroundImage( );
 		if ( image == null || "none".equalsIgnoreCase( image ) ) //$NON-NLS-1$
@@ -1383,13 +1394,23 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	private String parseBackgroundSize( String backgroundHeight,
 			DimensionType pageHeight )
 	{
-		int index = backgroundHeight.indexOf( "%" );
-		if ( index != -1 )
+		if ( backgroundHeight == null )
+			return null;
+		backgroundHeight = backgroundHeight.trim( );
+		if ( backgroundHeight.endsWith( "%" ) )
 		{
-			String percent = backgroundHeight.substring( 0, index );
-			int percentValue = Integer.valueOf( percent ).intValue( );
-			return pageHeight.getMeasure( ) * percentValue / 100
-					+ pageHeight.getUnits( );
+			try
+			{
+				String percent = backgroundHeight.substring( 0,
+						backgroundHeight.length( ) - 1 );
+				int percentValue = Integer.valueOf( percent ).intValue( );
+				return pageHeight.getMeasure( ) * percentValue / 100
+						+ pageHeight.getUnits( );
+			}
+			catch ( NumberFormatException e )
+			{
+				return null;
+			}
 		}
 		return backgroundHeight;
 	}
