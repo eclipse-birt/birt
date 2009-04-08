@@ -174,7 +174,9 @@ public class EngineIRVisitor extends DesignVisitor
 	static final double DEFAULT_MASTERPAGE_TOP_MARGIN = 1; 
 	static final double DEFAULT_MASTERPAGE_LEFT_MARGIN = 1.25; 
 	static final double DEFAULT_MASTERPAGE_BOTTOM_MARGIN = 1; 
-	static final double DEFAULT_MASTERPAGE_RIGHT_MARGIN = 1.25; 
+	static final double DEFAULT_MASTERPAGE_RIGHT_MARGIN = 1.25;
+	static final double DEFAULT_MASTERPAGE_HEIGHT = 11;
+	static final double DEFAULT_MASTERPAGE_WIDTH = 8.5;
 	
 	/**
 	 * logger used to log the error.
@@ -306,7 +308,11 @@ public class EngineIRVisitor extends DesignVisitor
 			masterPage.setName( DEFAULT_MASTERPAGE_NAME );
 			masterPage.setPageType( DesignChoiceConstants.PAGE_SIZE_US_LETTER );		
 			masterPage.setOrientation( DesignChoiceConstants.PAGE_ORIENTATION_AUTO );
-						
+			DimensionType width = new DimensionType( DEFAULT_MASTERPAGE_WIDTH,
+					DimensionType.UNITS_IN );
+			DimensionType height = new DimensionType(
+					DEFAULT_MASTERPAGE_HEIGHT, DimensionType.UNITS_IN );
+			masterPage.setPageSize( width, height );
 			DimensionType top = new DimensionType( DEFAULT_MASTERPAGE_TOP_MARGIN, DimensionType.UNITS_IN );
 			DimensionType left = new DimensionType( DEFAULT_MASTERPAGE_LEFT_MARGIN, DimensionType.UNITS_IN );
 			DimensionType bottom = new DimensionType( DEFAULT_MASTERPAGE_BOTTOM_MARGIN, DimensionType.UNITS_IN );
