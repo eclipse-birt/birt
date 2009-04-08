@@ -376,21 +376,23 @@ public class TableLayout
 				if ( IStyle.BOTTOM_VALUE.equals( verticalAlign ) )
 				{
 					iter = cell.getChildren( );
+					int y = cell.getOffsetY( ) + offset;
 					while ( iter.hasNext( ) )
 					{
 						AbstractArea child = (AbstractArea) iter.next( );
-						child.setPosition( child.getX( ), child.getY( )
-								+ offset );
+						child.setAllocatedY( y );
+						y += child.getAllocatedHeight( );
 					}
 				}
 				else if ( IStyle.MIDDLE_VALUE.equals( verticalAlign ) )
 				{
 					iter = cell.getChildren( );
+					int y = cell.getOffsetY( ) + offset / 2;
 					while ( iter.hasNext( ) )
 					{
 						AbstractArea child = (AbstractArea) iter.next( );
-						child.setPosition( child.getX( ), child.getY( )
-								+ offset / 2 );
+						child.setAllocatedY( y );
+						y += child.getAllocatedHeight( );
 					}
 				}
 
@@ -419,12 +421,11 @@ public class TableLayout
 				{
 					if ( isRightAligned )
 					{
-						area.setPosition( spacing + area.getX( ), area.getY( ) );
+						area.setAllocatedX( spacing + cell.getOffsetX( ) );
 					}
 					else if ( IStyle.CENTER_VALUE.equals( align ) )
 					{
-						area.setPosition( spacing / 2 + area.getX( ), area
-								.getY( ) );
+						area.setAllocatedX( spacing / 2 + cell.getOffsetX( ) );
 					}
 				}
 			}

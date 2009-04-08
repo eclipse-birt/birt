@@ -171,6 +171,16 @@ public abstract class AbstractArea implements IArea
 		this.x = x;
 		this.y = y;
 	}
+	
+	public void setAllocatedY( int ay )
+	{
+		y = ay;
+	}
+	
+	public void setAllocatedX(int ax)
+	{
+		x = ax;
+	}
 
 	/**
 	 * set width of this area

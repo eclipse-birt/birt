@@ -417,6 +417,18 @@ public abstract class ContainerArea extends AbstractArea
 			y = ay;
 		}
 	}
+	
+	public void setAllocatedX( int ax )
+	{
+		if ( hasStyle )
+		{
+			x = ax + localProperties.getMarginLeft( );
+		}
+		else
+		{
+			x = ax;
+		}
+	}
 
 	/**
 	 * set allocated position
