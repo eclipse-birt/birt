@@ -9,7 +9,6 @@ import java.util.jar.JarFile;
 
 public class ExportManifestUtils
 {
-
 	static final String[] API_JAR_PATTERNS = new String[]{
 		"chartengineapi.jar",
 		"com.ibm.icu.*.jar",
@@ -33,6 +32,31 @@ public class ExportManifestUtils
 		"odadesignapi.jar",
 		"javax.servlet_.*.jar",
 		"javax.servlet.jsp_.*.jar"
+	};
+	
+	static final String[] API_JAR_VERSIONS = new String[]{
+		null, //"chartengineapi.jar",
+		"4.0.1",//"com.ibm.icu.*.jar",
+		null,//"org.apache.commons.codec_.*.jar", 
+		null,//"coreapi.jar", 
+		null,//"dataaggregationapi.jar",
+		null,//"dataadapterapi.jar",
+		null,//"dteapi.jar", 
+		null,//"engineapi.jar", 
+		null,//"flute.jar", 
+		null,//"js.jar",
+		null,//"modelapi.jar", 
+		null,//"crosstabcoreapi.jar",
+		null,//"dataextraction.jar",
+		null,//"org.eclipse.emf.common_.*.jar",
+		null,//"org.eclipse.emf.ecore.xmi_.*.jar", 
+		null,//"org.eclipse.emf.ecore_.*.jar",
+		null,//"org.w3c.css.sac_.*.jar", 
+		null,//"scriptapi.jar",
+		null,//"modelodaapi.jar",
+		null,//"odadesignapi.jar",
+		null,//"javax.servlet_.*.jar",
+		null,//"javax.servlet.jsp_.*.jar"
 	};
 
 	static public void main( String[] args ) throws IOException
@@ -64,12 +88,26 @@ public class ExportManifestUtils
 		}
 		return false;
 	}
+	
+	static String getVersion(File jarFile)
+	{
+		String name = jarFile.getName( );
+		for ( int i = 0; i < API_JAR_PATTERNS.length; i++ )
+		{
+			if ( name.matches( API_JAR_PATTERNS[i] ) )
+			{
+				return API_JAR_VERSIONS[i];
+			}
+		}
+		return null;
+	}
 
 	static void exportPackages( File jarFile ) throws IOException
 	{
 		System.out.println( "#" + jarFile.getName( ) );
 		JarFile jar = new JarFile( jarFile );
 		Entry root = new Entry( );
+		root.version = getVersion(jarFile);
 		Enumeration entries = jar.entries( );
 		while ( entries.hasMoreElements( ) )
 		{
@@ -86,6 +124,7 @@ public class ExportManifestUtils
 	{
 
 		String name;
+		String version;
 		boolean hasFiles;
 		ArrayList children = new ArrayList( );
 	}
@@ -94,7 +133,13 @@ public class ExportManifestUtils
 	{
 		if ( entry.hasFiles )
 		{
-			System.out.println( " " + prefix + "." + entry.name + "," );
+			if (entry.version != null){
+				System.out.println( " " + prefix + "." + entry.name + ";version=\""+entry.version+"\"," );
+			}
+			else
+			{
+				System.out.println( " " + prefix + "." + entry.name + "," );
+			}
 		}
 
 		if ( prefix != null && prefix.length( ) != 0 )
@@ -147,7 +192,9 @@ public class ExportManifestUtils
 		}
 		Entry entry = new Entry( );
 		entry.name = name;
+		entry.version = parent.version;
 		parent.children.add( entry );
+		
 		return entry;
 	}
 }
