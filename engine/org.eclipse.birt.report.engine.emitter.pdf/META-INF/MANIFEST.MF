@@ -17,4 +17,3 @@ Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.pdf.plugin.PDFEmitterPlugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Eclipse-ExtensibleAPI: true
-Import-Package: com.ibm.icu.util;version="[3.4.4,5.0.0)"

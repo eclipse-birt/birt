@@ -14,5 +14,3 @@ Bundle-Activator: org.eclipse.birt.report.engine.emitter.excel.plugin.Excelemitt
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.birt.report.engine.emitter.excel,
  org.eclipse.birt.report.engine.emitter.excel.layout
-Import-Package: com.ibm.icu.text;version="[3.4.4,5.0.0)",
- com.ibm.icu.util;version="[3.4.4,5.0.0)"
