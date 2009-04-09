@@ -21,7 +21,10 @@
               showInDesigner="true"
               showInMasterPage="false"/>
       <outline
-      		   icon="icons/pal/palette_icon.gif"/>         
+      		   icon="icons/pal/palette_icon.gif"/>
+        <description>
+           %preference.description
+        </description>         
     </extension>
 	
 	<extension
