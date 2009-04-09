@@ -1232,12 +1232,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		boolean fixedReport = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED
 				.equals( layoutPreference );
 		// out put the page tag
-		DimensionType width = getPageWidth( page );
-		DimensionType height = getPageHeight( page );
-		if ( page != null && outputMasterPageContent && width != null
-				&& height != null && fixedReport && !pageFooterFloatFlag )
+		DimensionType width = null;
+		DimensionType height = null;
+		if ( page != null && outputMasterPageContent )
 		{
-			startBackgroundContainer( page.getStyle( ), width, height );
+			width = getPageWidth( page );
+			height = getPageHeight( page );
+			if ( width != null && height != null && fixedReport
+					&& !pageFooterFloatFlag )
+				startBackgroundContainer( page.getStyle( ), width, height );
 		}
 
 		StringBuffer styleBuffer = new StringBuffer( );
