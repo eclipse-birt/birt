@@ -754,7 +754,7 @@ public final class LegendBuilder implements IConstants
 	private static abstract class ContentProvider
 	{
 
-		private ChartUtil.CacheDecimalFormat dfCache = new ChartUtil.CacheDecimalFormat( );
+		private ChartUtil.CacheDecimalFormat dfCache;
 		protected final LegendData lgData;
 		protected final boolean bNeedInvert;
 		protected FormatSpecifier fs = null;
@@ -765,6 +765,7 @@ public final class LegendBuilder implements IConstants
 			this.bNeedInvert = needInvert( lgData.bPaletteByCategory,
 					lgData.cm,
 					lgData.seda );
+			this.dfCache = new ChartUtil.CacheDecimalFormat( lgData.rtc.getULocale( ) );
 
 		}
 
@@ -1028,9 +1029,7 @@ public final class LegendBuilder implements IConstants
 			{
 				Series se = itSeries.next( );
 				String sItem = formatItemText( se.getSeriesIdentifier( ) );
-				String sValue = bShowValue ? getValueText( lgData.cm,
-						se,
-						lgData.rtc )
+				String sValue = bShowValue ? getValueText( se )
 						: null;
 				return LegendItemHints.newEntry( sItem,
 						sValue,
@@ -1051,6 +1050,51 @@ public final class LegendBuilder implements IConstants
 				}
 			}
 
+		}
+
+		/**
+		 * return the extra value text, if it exists and is visible
+		 * 
+		 * @param cm
+		 * @param se
+		 * @return Value Text
+		 * @throws ChartException
+		 */
+		private String getValueText( Series se ) throws ChartException
+		{
+			String strValueText = null;
+
+			if ( lgData.cm.getLegend( ).isShowValue( ) )
+			{
+				DataSetIterator dsiBase = createDataSetIterator( se, lgData.cm );
+
+				// Use first value for each series.
+				if ( dsiBase.hasNext( ) )
+				{
+					Object obj = dsiBase.next( );
+
+					// Skip invalid data
+					while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
+					{
+						obj = dsiBase.next( );
+					}
+
+					try
+					{
+						strValueText = ValueFormatter.format( obj,
+								null,
+								lgData.rtc.getULocale( ),
+								null );
+					}
+					catch ( ChartException ex )
+					{
+						strValueText = String.valueOf( obj );
+					}
+
+				}
+			}
+
+			return strValueText;
 		}
 
 		private String formatItemText( Object oText ) throws ChartException
@@ -1540,52 +1584,6 @@ public final class LegendBuilder implements IConstants
 	public final Size getSize( )
 	{
 		return sz;
-	}
-
-	/**
-	 * return the extra value text, if it exists and is visible
-	 * 
-	 * @param cm
-	 * @param se
-	 * @return Value Text
-	 * @throws ChartException
-	 */
-	private static String getValueText( Chart cm, Series se, RunTimeContext rtc )
-			throws ChartException
-	{
-		String strValueText = null;
-
-		if ( cm.getLegend( ).isShowValue( ) )
-		{
-			DataSetIterator dsiBase = createDataSetIterator( se, cm );
-
-			// Use first value for each series.
-			if ( dsiBase.hasNext( ) )
-			{
-				Object obj = dsiBase.next( );
-
-				// Skip invalid data
-				while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
-				{
-					obj = dsiBase.next( );
-				}
-
-				try
-				{
-					strValueText = ValueFormatter.format( obj,
-							null,
-							rtc.getULocale( ),
-							null );
-				}
-				catch ( ChartException ex )
-				{
-					strValueText = String.valueOf( obj );
-				}
-
-			}
-		}
-
-		return strValueText;
 	}
 
 	private static double[] getItemSize( LabelItem laiLegend,

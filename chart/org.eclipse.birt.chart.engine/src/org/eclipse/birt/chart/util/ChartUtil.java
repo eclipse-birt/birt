@@ -29,6 +29,8 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.internal.factory.DateFormatWrapperFactory;
+import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -58,6 +60,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.text.DecimalFormatSymbols;
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
@@ -1648,6 +1651,12 @@ public class ChartUtil
 	{
 
 		private Map<T, V> hm = new HashMap<T, V>( );
+		protected ULocale locale;
+
+		public Cache( ULocale lcl )
+		{
+			locale = lcl;
+		}
 
 		public V get( T key )
 		{
@@ -1666,14 +1675,39 @@ public class ChartUtil
 	public static class CacheDecimalFormat extends Cache<String, DecimalFormat>
 	{
 
+		public CacheDecimalFormat( ULocale lcl )
+		{
+			super( lcl );
+		}
+
 		@Override
 		protected DecimalFormat newValue( String pattern )
 		{
-			return new DecimalFormat( pattern );
+			return new DecimalFormat( pattern,
+					new DecimalFormatSymbols( locale ) );
 		}
 
 	};
 	
+	public static class CacheDateFormat
+			extends
+				ChartUtil.Cache<Integer, IDateFormatWrapper>
+	{
+
+		public CacheDateFormat( ULocale lcl )
+		{
+			super( lcl );
+		}
+
+		@Override
+		protected IDateFormatWrapper newValue( Integer iDateTimeUnit )
+		{
+			return DateFormatWrapperFactory.getPreferredDateFormat( iDateTimeUnit,
+					locale );
+		}
+
+	};
+
 	public static boolean containsYOptionalGrouping(Chart chart)
 	{
 		boolean YOG = false;

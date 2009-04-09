@@ -127,18 +127,9 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private boolean bAlignZero = false;
 
-	private ChartUtil.CacheDecimalFormat cacheNumFormat = new ChartUtil.CacheDecimalFormat( );
+	private ChartUtil.CacheDecimalFormat cacheNumFormat;
 
-	private ChartUtil.Cache<Integer, IDateFormatWrapper> cacheDateFormat = new ChartUtil.Cache<Integer, IDateFormatWrapper>( ) {
-
-		@Override
-		protected IDateFormatWrapper newValue( Integer iDateTimeUnit )
-		{
-			return DateFormatWrapperFactory.getPreferredDateFormat( iDateTimeUnit,
-					rtc.getULocale( ) );
-		}
-
-	};
+	private ChartUtil.CacheDateFormat cacheDateFormat;
 
 	/** Indicates the max boundary of axis ticks. */
 	private static final int TICKS_MAX = 1000;
@@ -240,9 +231,13 @@ public final class AutoScale extends Methods implements Cloneable
 	 * 
 	 * @param _iType
 	 */
-	AutoScale( int _iType )
+	AutoScale( int _iType, RunTimeContext _rtc )
 	{
 		iType = _iType;
+		rtc = _rtc;
+
+		cacheNumFormat = new ChartUtil.CacheDecimalFormat( rtc.getULocale( ) );
+		cacheDateFormat = new ChartUtil.CacheDateFormat( rtc.getULocale( ) );
 	}
 
 	/**
@@ -253,11 +248,16 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param _oMaximum
 	 * @param _oStep
 	 */
-	public AutoScale( int _iType, Object _oMinimum, Object _oMaximum )
+	public AutoScale( int _iType, Object _oMinimum, Object _oMaximum,
+			RunTimeContext _rtc )
 	{
 		iType = _iType;
 		oMinimum = _oMinimum;
 		oMaximum = _oMaximum;
+		rtc = _rtc;
+
+		cacheNumFormat = new ChartUtil.CacheDecimalFormat( rtc.getULocale( ) );
+		cacheDateFormat = new ChartUtil.CacheDateFormat( rtc.getULocale( ) );
 	}
 
 	final void setFixed( boolean _bMinimum, boolean _bMaximum, boolean _bStep )
@@ -294,7 +294,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	public final Object clone( )
 	{
-		final AutoScale sc = new AutoScale( iType, oMinimum, oMaximum );
+		final AutoScale sc = new AutoScale( iType, oMinimum, oMaximum, rtc );
 		sc.oStep = oStep;
 		sc.oStepNumber = this.oStepNumber;
 		sc.dStart = dStart;
@@ -311,7 +311,6 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.bMinimumFixed = bMinimumFixed;
 		sc.bStepFixed = bStepFixed;
 		sc.fs = fs;
-		sc.rtc = rtc;
 		sc.bIntegralZoom = bIntegralZoom;
 		sc.bCategoryScale = bCategoryScale;
 		sc.labelVisHelper = labelVisHelper;
@@ -2062,14 +2061,13 @@ public final class AutoScale extends Methods implements Cloneable
 					dStep = dPrecision;
 				}
 			}
-			sc = new AutoScale( iType, new Double( 0 ), new Double( 0 ) );
+			sc = new AutoScale( iType, new Double( 0 ), new Double( 0 ), rtc );
 			sc.setStep( new Double( dStep ) );
 			sc.bStepFixed = true;
 			sc.oStepNumber = oStepNumber;
 			sc.setData( dsi );
 			sc.setDirection( direction );
 			sc.fs = fs; // FORMAT SPECIFIER
-			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
@@ -2107,9 +2105,8 @@ public final class AutoScale extends Methods implements Cloneable
 		// the following code didn't change in factor enhancement:210913
 		if ( ( iType & TEXT ) == TEXT || ax.isCategoryScale( ) )
 		{
-			sc = new AutoScale( iType );
+			sc = new AutoScale( iType, rtc );
 			sc.fs = fs;
-			sc.rtc = rtc;
 			sc.bCategoryScale = true;
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
@@ -2194,13 +2191,12 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 
 			}
-			sc = new AutoScale( iType, new Double( 0 ), new Double( 0 ) );
+			sc = new AutoScale( iType, new Double( 0 ), new Double( 0 ), rtc );
 			sc.setStep( new Double( dStep ) );
 			sc.oStepNumber = oStepNumber;
 			sc.setData( dsi );
 			sc.setDirection( direction );
 			sc.fs = fs; // FORMAT SPECIFIER
-			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
@@ -2268,11 +2264,10 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 			}
 
-			sc = new AutoScale( iType, new Double( 0 ), new Double( 0 ) );
+			sc = new AutoScale( iType, new Double( 0 ), new Double( 0 ), rtc );
 			sc.setStep( new Double( 10 ) );
 			sc.oStepNumber = oStepNumber;
 			sc.fs = fs; // FORMAT SPECIFIER
-			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
@@ -2374,7 +2369,7 @@ public final class AutoScale extends Methods implements Cloneable
 			cdtMinAxis.clearBelow( iUnit );
 			cdtMaxAxis.clearBelow( iUnit );
 
-			sc = new AutoScale( DATE_TIME, cdtMinAxis, cdtMaxAxis );
+			sc = new AutoScale( DATE_TIME, cdtMinAxis, cdtMaxAxis, rtc );
 			sc.setStep( Integer.valueOf( 1 ) );
 			sc.oStepNumber = oStepNumber;
 			sc.oUnit = Integer.valueOf( iUnit );
@@ -2382,7 +2377,6 @@ public final class AutoScale extends Methods implements Cloneable
 					: getMinUnitId( fs, rtc );
 			sc.setDirection( direction );
 			sc.fs = fs; // FORMAT SPECIFIER
-			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
