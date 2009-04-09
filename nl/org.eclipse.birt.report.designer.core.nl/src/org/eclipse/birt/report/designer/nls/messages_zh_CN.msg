@@ -1166,10 +1166,10 @@ Element.Parameter.helpText=帮助文本:
 Element.Parameter.helpTextID=帮助文本关键字(&Y):
 Element.Parameter.hidden=隐藏:
 Element.ParameterGroup.helpText=帮助文本:
-Element.ParameterGroup.helpTextID=帮助文本关键字:
+Element.ParameterGroup.helpTextID=帮助文本关键字(&Y):
 Element.ParameterGroup.slot.parameters=参数:
 Element.ParameterGroup.startExpanded=开始展开:
-Element.ParameterGroup.promptTextID=提示文本关键字(&T):
+Element.ParameterGroup.promptTextID=提示文本关键字(&Y):
 Element.ReportDesign.afterCloseDoc.toolTip=仅在生成阶段关闭报表文档文件之后调用。
 Element.ReportDesign.layoutPreference=布局首选项(&L): 
 Element.ReportDesign.afterCloseDoc=关闭文档后:
@@ -3269,7 +3269,9 @@ ResourceEditDialog.text.Value=值(&V)
 ###########################################################
 #ResourceKeyDescriptor properties
 ResourceKeyDescriptor.text.Browse=浏览(&B)...
+ResourceKeyDescriptor.text.Browse.Alt=浏览(&W)...
 ResourceKeyDescriptor.text.Reset=重置(&R)
+ResourceKeyDescriptor.text.Reset.Alt=R&eset
 ResourceKeyDescriptor.title.SelectKey=选择关键字
 ResourceKeyDescriptor.button.reset.tooltip=重置按键
 ResourceKeyDescriptor.button.browse.tooltip=浏览和选择按键

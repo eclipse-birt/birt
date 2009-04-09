@@ -1166,10 +1166,10 @@ Element.Parameter.helpText=Hilfetext:
 Element.Parameter.helpTextID=Hilfetextsch&lüssel:
 Element.Parameter.hidden=Verborgen:
 Element.ParameterGroup.helpText=Hilfetext:
-Element.ParameterGroup.helpTextID=Hilfetextschlüssel:
+Element.ParameterGroup.helpTextID=Hilfetextsch&lüssel:
 Element.ParameterGroup.slot.parameters=Parameter:
 Element.ParameterGroup.startExpanded=Erweiterte starten:
-Element.ParameterGroup.promptTextID=Aufforderungs&textschlüssel:
+Element.ParameterGroup.promptTextID=Aufforderungstexts&chlüssel:
 Element.ReportDesign.afterCloseDoc.toolTip=Wird direkt nach dem Schließen des Berichtdokuments in der Erstellungsphase aufgerufen.
 Element.ReportDesign.layoutPreference=&Layoutvoreinstellungen: 
 Element.ReportDesign.afterCloseDoc=Nach dem Schließen des Dokuments:
@@ -3269,7 +3269,9 @@ ResourceEditDialog.text.Value=&Wert
 ###########################################################
 #ResourceKeyDescriptor properties
 ResourceKeyDescriptor.text.Browse=&Durchsuchen...
+ResourceKeyDescriptor.text.Browse.Alt=&Durchsuchen...
 ResourceKeyDescriptor.text.Reset=&Zurücksetzen
+ResourceKeyDescriptor.text.Reset.Alt=R&eset
 ResourceKeyDescriptor.title.SelectKey=Schlüssel auswählen
 ResourceKeyDescriptor.button.reset.tooltip=Schlüssel zurücksetzen
 ResourceKeyDescriptor.button.browse.tooltip=Durchsuchen und Schlüssel auswählen

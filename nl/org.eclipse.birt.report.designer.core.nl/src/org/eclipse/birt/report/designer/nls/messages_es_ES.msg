@@ -1166,7 +1166,7 @@ Element.Parameter.helpText=Texto de ayuda:
 Element.Parameter.helpTextID=Clave de texto de a&yuda:
 Element.Parameter.hidden=Oculto:
 Element.ParameterGroup.helpText=Texto de ayuda:
-Element.ParameterGroup.helpTextID=Clave de texto de ayuda:
+Element.ParameterGroup.helpTextID=Clave de texto de a&yuda:
 Element.ParameterGroup.slot.parameters=Parámetros:
 Element.ParameterGroup.startExpanded=Iniciar expandido:
 Element.ParameterGroup.promptTextID=Clave de texto de &solicitud:
@@ -3269,7 +3269,9 @@ ResourceEditDialog.text.Value=&Valor
 ###########################################################
 #ResourceKeyDescriptor properties
 ResourceKeyDescriptor.text.Browse=&Examinar...
+ResourceKeyDescriptor.text.Browse.Alt=E&xaminar...
 ResourceKeyDescriptor.text.Reset=&Restablecer
+ResourceKeyDescriptor.text.Reset.Alt=R&eset
 ResourceKeyDescriptor.title.SelectKey=Seleccionar clave
 ResourceKeyDescriptor.button.reset.tooltip=Reiniciar la clave
 ResourceKeyDescriptor.button.browse.tooltip=Examinar y seleccionar una clave

@@ -1166,10 +1166,10 @@ Element.Parameter.helpText=ヘルプテキスト :
 Element.Parameter.helpTextID=ヘルプテキストキー(&Y) :
 Element.Parameter.hidden=非表示 :
 Element.ParameterGroup.helpText=ヘルプテキスト :
-Element.ParameterGroup.helpTextID=ヘルプテキストキー :
+Element.ParameterGroup.helpTextID=ヘルプテキストキー(&Y) :
 Element.ParameterGroup.slot.parameters=パラメタ :
 Element.ParameterGroup.startExpanded=開始時に展開 :
-Element.ParameterGroup.promptTextID=プロンプトテキストキー (&T):
+Element.ParameterGroup.promptTextID=プロンプトテキストキー(&K) :
 Element.ReportDesign.afterCloseDoc.toolTip=生成フェーズでレポート文書ファイルを閉じた直後に呼び出されます。
 Element.ReportDesign.layoutPreference=レイアウトの設定(&L) : 
 Element.ReportDesign.afterCloseDoc=文書を閉じた後 :
@@ -3269,7 +3269,9 @@ ResourceEditDialog.text.Value=値(&V)
 ###########################################################
 #ResourceKeyDescriptor properties
 ResourceKeyDescriptor.text.Browse=参照(&B)...
+ResourceKeyDescriptor.text.Browse.Alt=参照(&W)...
 ResourceKeyDescriptor.text.Reset=リセット(&R)
+ResourceKeyDescriptor.text.Reset.Alt=R&eset
 ResourceKeyDescriptor.title.SelectKey=キーの選択
 ResourceKeyDescriptor.button.reset.tooltip=キーのリセット
 ResourceKeyDescriptor.button.browse.tooltip=参照してキーを選択

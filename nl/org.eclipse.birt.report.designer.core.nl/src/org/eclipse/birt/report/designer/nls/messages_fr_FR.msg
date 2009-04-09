@@ -1166,10 +1166,10 @@ Element.Parameter.helpText=Texte d'aide :
 Element.Parameter.helpTextID=C&lé du texte d'aide :
 Element.Parameter.hidden=Masqué :
 Element.ParameterGroup.helpText=Texte d'aide :
-Element.ParameterGroup.helpTextID=Clé du texte d'aide :
+Element.ParameterGroup.helpTextID=C&lé du texte d'aide :
 Element.ParameterGroup.slot.parameters=Paramètres :
 Element.ParameterGroup.startExpanded=Lancement développé :
-Element.ParameterGroup.promptTextID=Clé du &texte de l'invite :
+Element.ParameterGroup.promptTextID=&Clé du texte de l'invite :
 Element.ReportDesign.afterCloseDoc.toolTip=Commande appelée juste après la fermeture de l'état pendant le processus de génération.
 Element.ReportDesign.layoutPreference=&Préférence de mise en page : 
 Element.ReportDesign.afterCloseDoc=Après fermeture du document :
@@ -3269,7 +3269,9 @@ ResourceEditDialog.text.Value=&Valeur
 ###########################################################
 #ResourceKeyDescriptor properties
 ResourceKeyDescriptor.text.Browse=& Parcourir...
+ResourceKeyDescriptor.text.Browse.Alt=Par&courir...
 ResourceKeyDescriptor.text.Reset=&Réinitialiser
+ResourceKeyDescriptor.text.Reset.Alt=R&eset
 ResourceKeyDescriptor.title.SelectKey=Sélectionner la clé
 ResourceKeyDescriptor.button.reset.tooltip=Réinitialiser la clé
 ResourceKeyDescriptor.button.browse.tooltip=Parcourir et sélectionner une clé
