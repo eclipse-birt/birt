@@ -56,6 +56,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.ULocale;
 
 /**
  * A helper class for Legend computation.
@@ -1568,7 +1569,17 @@ public final class LegendBuilder implements IConstants
 					obj = dsiBase.next( );
 				}
 
-				strValueText = String.valueOf( obj );
+				try
+				{
+					strValueText = ValueFormatter.format( obj,
+							null,
+							ULocale.getDefault( ),
+							null );
+				}
+				catch ( ChartException ex )
+				{
+					strValueText = String.valueOf( obj );
+				}
 
 			}
 		}
