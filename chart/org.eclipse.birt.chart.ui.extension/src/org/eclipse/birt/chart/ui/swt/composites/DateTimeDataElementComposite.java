@@ -32,50 +32,65 @@ import com.ibm.icu.util.Calendar;
  * Composite for inputing DataTimeDataElement
  */
 
-public class DateTimeDataElementComposite extends Composite
-		implements
-			IDataElementComposite,
-			Listener
+public class DateTimeDataElementComposite extends Composite implements
+		IDataElementComposite,
+		Listener
 {
 
 	private Button btnCheck;
 	private DateTime pickerDate;
 	private DateTime pickerTime;
-	private Vector vListeners = null;
+	private Vector<Listener> vListeners = null;
+	private final boolean isNullAllowed;
 
-	public DateTimeDataElementComposite( Composite parent,
-			DateTimeDataElement data )
+	public DateTimeDataElementComposite( Composite parent, int style,
+			DateTimeDataElement data, boolean isNullAllowed )
 	{
 		super( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( 3, false );
+		this.isNullAllowed = isNullAllowed;
+
+		GridLayout layout = new GridLayout( isNullAllowed ? 3 : 2, false );
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		this.setLayout( layout );
 		this.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		btnCheck = new Button( this, SWT.CHECK );
-		btnCheck.addListener( SWT.Selection, this );
+		if ( isNullAllowed )
+		{
+			btnCheck = new Button( this, SWT.CHECK );
+			btnCheck.addListener( SWT.Selection, this );
+		}
 
-		pickerDate = new DateTime( this, SWT.DATE );
-		pickerTime = new DateTime( this, SWT.TIME );
+		pickerDate = new DateTime( this, SWT.DATE | style );
+		pickerTime = new DateTime( this, SWT.TIME | style);
 		pickerDate.addListener( SWT.Selection, this );
 		pickerTime.addListener( SWT.Selection, this );
+		pickerDate.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		pickerTime.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		vListeners = new Vector( );
+		vListeners = new Vector<Listener>( );
 
 		setDataElement( data );
 	}
 
 	public void setEnabled( boolean enabled )
 	{
-		btnCheck.setEnabled( enabled );
-		pickerDate.setEnabled( enabled && btnCheck.getSelection( ) );
-		pickerTime.setEnabled( enabled && btnCheck.getSelection( ) );
+		if ( isNullAllowed )
+		{
+			btnCheck.setEnabled( enabled );
+			pickerDate.setEnabled( enabled && btnCheck.getSelection( ) );
+			pickerTime.setEnabled( enabled && btnCheck.getSelection( ) );
+		}
+		else
+		{
+			pickerDate.setEnabled( enabled );
+			pickerTime.setEnabled( enabled );
+		}
 	}
 
 	public DataElement getDataElement( )
 	{
-		if ( !btnCheck.getSelection( ) )
+		if ( isNullAllowed && !btnCheck.getSelection( ) )
 		{
 			return null;
 		}
@@ -86,7 +101,7 @@ public class DateTimeDataElementComposite extends Composite
 				pickerTime.getHours( ),
 				pickerTime.getMinutes( ),
 				pickerTime.getSeconds( ) );
-		calendar.set( calendar.MILLISECOND, 0 );
+		calendar.set( Calendar.MILLISECOND, 0 );
 		return DateTimeDataElementImpl.create( calendar );
 	}
 
@@ -106,7 +121,7 @@ public class DateTimeDataElementComposite extends Composite
 			e.data = getDataElement( );
 			e.widget = this;
 			e.type = DATA_MODIFIED;
-			( (Listener) vListeners.get( i ) ).handleEvent( e );
+			vListeners.get( i ).handleEvent( e );
 		}
 	}
 
@@ -122,7 +137,10 @@ public class DateTimeDataElementComposite extends Composite
 			return;
 		}
 
-		btnCheck.setSelection( data != null );
+		if ( isNullAllowed )
+		{
+			btnCheck.setSelection( data != null );
+		}
 
 		Calendar calendar = null;
 		if ( data == null )

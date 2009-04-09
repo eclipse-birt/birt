@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.axis;
 
-import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -33,12 +31,14 @@ import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -71,18 +71,14 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
-import com.ibm.icu.text.NumberFormat;
-import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
-import com.ibm.icu.util.TimeZone;
 
 /**
  * Axis subtask
  * 
  */
-abstract class AbstractAxisSubtask extends SubtaskSheetImpl
-		implements
-			Listener,
+abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
+		Listener,
 		SelectionListener,
 		ModifyListener
 {
@@ -103,7 +99,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 	private Label lblValue;
 
-	private TextEditorComposite txtValue;
+	private IDataElementComposite txtValue;
 
 	private Button btnLabelVisible;
 
@@ -129,7 +125,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 	 *         <code>AngleType.Z</code>
 	 */
 	abstract protected int getAxisAngleType( );
-	
+
 	protected boolean isChart3D( Axis ax )
 	{
 		if ( getChart( ) instanceof ChartWithAxes )
@@ -141,7 +137,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 			return false;
 		}
 	}
-	
+
 	public void createControl( Composite parent )
 	{
 		cmpContent = new Composite( parent, SWT.NONE );
@@ -271,8 +267,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 					lblValue.setEnabled( bValueOrigin );
 				}
 
-				txtValue = new TextEditorComposite( cmpBasic, SWT.BORDER
-						| SWT.SINGLE );
+				txtValue = createDataElementComposite( cmpBasic );
 				{
 					GridData gd = new GridData( );
 					gd.widthHint = 245;
@@ -362,7 +357,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 			btnFixLabelSpan = new Button( cmpBasic, SWT.CHECK );
 			{
-				btnFixLabelSpan.setText( Messages.getString("AbstractAxisSubtask.Button.Fixed") ); //$NON-NLS-1$
+				btnFixLabelSpan.setText( Messages.getString( "AbstractAxisSubtask.Button.Fixed" ) ); //$NON-NLS-1$
 				btnFixLabelSpan.addSelectionListener( this );
 				btnFixLabelSpan.setSelection( getAxisForProcessing( ).isSetLabelSpan( ) );
 			}
@@ -385,8 +380,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 	private void setStateOfLabel( )
 	{
 		Axis ax = getAxisForProcessing( );
-		boolean isLabelEnabled = ax.getLabel( )
-				.isVisible( );
+		boolean isLabelEnabled = ax.getLabel( ).isVisible( );
 		fdcFont.setEnabled( isLabelEnabled );
 		cbStaggered.setEnabled( !isChart3D( ax ) && isLabelEnabled );
 		setToggleButtonEnabled( BUTTON_LABEL, isLabelEnabled );
@@ -498,7 +492,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 		}
 		cmbTypes.setItems( ns.getDisplayNames( ) );
-		
+
 		cmbTypes.setText( ns.getDisplayNameByName( getAxisForProcessing( ).getType( )
 				.getName( ) ) );
 
@@ -513,64 +507,21 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		}
 
 		if ( txtValue != null
-				&& !txtValue.isDisposed( )
 				&& getAxisForProcessing( ).getOrigin( )
 						.getType( )
 						.equals( IntersectionType.VALUE_LITERAL ) )
 		{
-			txtValue.setText( getValue( getAxisForProcessing( ).getOrigin( )
-					.getValue( ) ) );
-		}
-	}
-
-	private String getValue( DataElement de )
-	{
-		if ( de instanceof DateTimeDataElement )
-		{
-			Date dt = ( (DateTimeDataElement) de ).getValueAsCalendar( )
-					.getTime( );
-			SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
-			return sdf.format( dt );
-		}
-		else if ( de instanceof NumberDataElement )
-		{
-			return ChartUIUtil.getDefaultNumberFormatInstance( )
-					.format( ( (NumberDataElement) de ).getValue( ) );
-		}
-		return ""; //$NON-NLS-1$
-	}
-
-	private DataElement getTypedDataElement( String strDataElement )
-	{
-		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
-		NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
-		try
-		{
-			// First try Date
-			Date dateElement = sdf.parse( strDataElement );
-			Calendar cal = Calendar.getInstance( TimeZone.getDefault( ) );
-			cal.setTime( dateElement );
-			return DateTimeDataElementImpl.create( cal );
-		}
-		catch ( ParseException e )
-		{
-			// Next try double
-			try
-			{
-				Number numberElement = nf.parse( strDataElement );
-				return NumberDataElementImpl.create( numberElement.doubleValue( ) );
-			}
-			catch ( ParseException e1 )
-			{
-				return null;
-			}
+			txtValue.setDataElement( getAxisForProcessing( ).getOrigin( )
+					.getValue( ) );
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
 	 */
 	public void handleEvent( Event event )
 	{
@@ -582,7 +533,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		}
 		else if ( event.widget.equals( txtValue ) )
 		{
-			DataElement de = getTypedDataElement( txtValue.getText( ) );
+			DataElement de = txtValue.getDataElement( );
 			if ( de != null )
 			{
 				getAxisForProcessing( ).getOrigin( ).setValue( de );
@@ -679,6 +630,12 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 			}
 			getAxisForProcessing( ).getOrigin( )
 					.setType( IntersectionType.getByName( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) );
+			if ( getAxisForProcessing( ).getOrigin( ).getType( ).getValue( ) == IntersectionType.VALUE )
+			{
+				// reset value to convert type
+				getAxisForProcessing( ).getOrigin( )
+						.setValue( txtValue.getDataElement( ) );
+			}
 		}
 		else if ( e.widget.equals( btnCategoryAxis ) )
 		{
@@ -847,5 +804,40 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		{
 			getAxisForProcessing( ).setLabelSpan( lneLabelSpan.getValue( ) );
 		}
+	}
+	
+	private Axis getOppositeAxis( )
+	{
+		if ( getAxisAngleType( ) == AngleType.X )
+		{
+			return ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChart( ),
+					0 );
+		}
+		return ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) );
+	}
+
+	private IDataElementComposite createDataElementComposite( Composite parent )
+	{
+		Axis oAxis = getOppositeAxis( );
+		DataElement data = getAxisForProcessing( ).getOrigin( ).getValue( );
+		if ( oAxis.getType( ).getValue( ) == AxisType.DATE_TIME
+				&& !( oAxis.isCategoryAxis( ) ) )
+		{
+			if ( !( data instanceof DateTimeDataElement ) )
+			{
+				data = DateTimeDataElementImpl.create( Calendar.getInstance( ) );
+			}
+			return new DateTimeDataElementComposite( parent,
+					SWT.BORDER,
+					(DateTimeDataElement) data,
+					false );
+		}
+
+		// Use number value for Linear or Text element
+		if ( !( data instanceof NumberDataElement ) )
+		{
+			data = NumberDataElementImpl.create( 0 );
+		}
+		return new NumberDataElementComposite( parent, (NumberDataElement) data );
 	}
 }

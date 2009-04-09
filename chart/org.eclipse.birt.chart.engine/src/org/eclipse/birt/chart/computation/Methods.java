@@ -68,7 +68,11 @@ public class Methods implements IConstants
 		{
 			return new CDateTime( (Date) o );
 		}
-		return (CDateTime) o;
+		else if ( o instanceof CDateTime )
+		{
+			return (CDateTime) o;
+		}
+		return null;
 	}
 
 	/**
@@ -91,7 +95,11 @@ public class Methods implements IConstants
 		{
 			return (Double) o;
 		}
-		return new Double( ( (Number) o ).doubleValue( ) );
+		else if ( o instanceof Number )
+		{
+			return new Double( ( (Number) o ).doubleValue( ) );
+		}
+		return Double.valueOf( 0 );
 	}
 
 	/**

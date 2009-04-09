@@ -361,11 +361,16 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			try
 			{
 				picker = new DateTimeDataElementComposite( parent,
-						(DateTimeDataElement) data );
+						SWT.BORDER,
+						(DateTimeDataElement) data,
+						true );
 			}
 			catch ( Exception e )
 			{
-				picker = new DateTimeDataElementComposite( parent, null );
+				picker = new DateTimeDataElementComposite( parent,
+						SWT.BORDER,
+						null,
+						true );
 			}
 		}
 
