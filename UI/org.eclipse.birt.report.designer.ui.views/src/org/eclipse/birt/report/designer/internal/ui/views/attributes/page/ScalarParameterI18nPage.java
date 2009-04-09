@@ -34,8 +34,14 @@ public class ScalarParameterI18nPage extends AttributePage
 		super.buildUI( parent );
 		container.setLayout( WidgetUtil.createGridLayout( 5 ,15) );
 	
-		buildsections(ScalarParameterHandle.PROMPT_TEXT_ID_PROP,ReportDesignConstants.SCALAR_PARAMETER_ELEMENT,I18N_I18N_PROMPT_TEXT);
-		buildsections(ScalarParameterHandle.HELP_TEXT_KEY_PROP,ReportDesignConstants.SCALAR_PARAMETER_ELEMENT,I18N_I18N_HELP_TEXT);
+		buildsections( ScalarParameterHandle.PROMPT_TEXT_ID_PROP,
+				ReportDesignConstants.SCALAR_PARAMETER_ELEMENT,
+				I18N_I18N_PROMPT_TEXT,
+				0 );
+		buildsections( ScalarParameterHandle.HELP_TEXT_KEY_PROP,
+				ReportDesignConstants.SCALAR_PARAMETER_ELEMENT,
+				I18N_I18N_HELP_TEXT,
+				1 );
 		
 		LabelSection labelSection = new LabelSection( MESSAGE_NOTE, container, true );
 		labelSection.setGridPlaceholder( 3, true );
@@ -47,11 +53,14 @@ public class ScalarParameterI18nPage extends AttributePage
 		layoutSections( );
 	}
 	
-	protected void buildsections(String propertyName, String elementName, String pageSectionId)
-	{		
-
+	protected void buildsections( String propertyName, String elementName,
+			String pageSectionId, int groupIndex )
+	{
 		ResourceKeyDescriptorProvider i18nProvider = new ResourceKeyDescriptorProvider( propertyName,
 				elementName );
+
+		i18nProvider.setGroupIndex( groupIndex );
+
 		ResourceKeySection i18nSection = new ResourceKeySection( i18nProvider.getDisplayName( ),
 				container,
 				true );

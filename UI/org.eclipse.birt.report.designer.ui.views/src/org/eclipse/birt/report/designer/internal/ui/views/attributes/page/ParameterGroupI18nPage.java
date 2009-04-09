@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * 
+ * The i18n page for Parameter Group
  */
 
 public class ParameterGroupI18nPage extends AttributePage
@@ -34,8 +34,14 @@ public class ParameterGroupI18nPage extends AttributePage
 		super.buildUI( parent );
 		container.setLayout( WidgetUtil.createGridLayout( 5 ,15) );
 	
-		buildsections(ParameterGroupHandle.PROMPT_TEXT_ID_PROP,ReportDesignConstants.PARAMETER_GROUP_ELEMENT,I18N_I18N_PROMPT_TEXT);
-		buildsections(ParameterGroupHandle.HELP_TEXT_KEY_PROP,ReportDesignConstants.PARAMETER_GROUP_ELEMENT,I18N_I18N_HELP_TEXT);
+		buildsections( ParameterGroupHandle.PROMPT_TEXT_ID_PROP,
+				ReportDesignConstants.PARAMETER_GROUP_ELEMENT,
+				I18N_I18N_PROMPT_TEXT,
+				0 );
+		buildsections( ParameterGroupHandle.HELP_TEXT_KEY_PROP,
+				ReportDesignConstants.PARAMETER_GROUP_ELEMENT,
+				I18N_I18N_HELP_TEXT,
+				1 );
 		
 		LabelSection labelSection = new LabelSection( MESSAGE_NOTE, container, true );
 		labelSection.setGridPlaceholder( 3, true );
@@ -47,11 +53,14 @@ public class ParameterGroupI18nPage extends AttributePage
 		layoutSections( );
 	}
 	
-	protected void buildsections(String propertyName, String elementName, String pageSectionId)
-	{		
-
+	protected void buildsections( String propertyName, String elementName,
+			String pageSectionId, int groupIndex )
+	{
 		ResourceKeyDescriptorProvider i18nProvider = new ResourceKeyDescriptorProvider( propertyName,
 				elementName );
+
+		i18nProvider.setGroupIndex( groupIndex );
+
 		ResourceKeySection i18nSection = new ResourceKeySection( i18nProvider.getDisplayName( ),
 				container,
 				true );
@@ -60,5 +69,4 @@ public class ParameterGroupI18nPage extends AttributePage
 		i18nSection.setGridPlaceholder( 3, true );
 		addSection( pageSectionId, i18nSection );
 	}
-
 }

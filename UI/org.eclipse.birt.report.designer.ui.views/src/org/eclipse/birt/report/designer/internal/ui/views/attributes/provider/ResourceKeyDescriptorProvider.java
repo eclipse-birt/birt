@@ -11,6 +11,13 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 public class ResourceKeyDescriptorProvider extends PropertyDescriptorProvider implements IResourceKeyDescriptorProvider
 {
 
+	private int groupIndex;
+
+	public void setGroupIndex( int groupIndex )
+	{
+		this.groupIndex = groupIndex;
+	}
+
 	public ResourceKeyDescriptorProvider( String property, String element )
 	{
 		super( property, element );
@@ -32,12 +39,14 @@ public class ResourceKeyDescriptorProvider extends PropertyDescriptorProvider im
 
 	public String getBrowseText( )
 	{
-		return Messages.getString( "ResourceKeyDescriptor.text.Browse" ); //$NON-NLS-1$
+		return groupIndex == 0 ? Messages.getString( "ResourceKeyDescriptor.text.Browse" )
+				: Messages.getString( "ResourceKeyDescriptor.text.Browse.Alt" ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public String getResetText( )
 	{
-		return Messages.getString( "ResourceKeyDescriptor.text.Reset" ); //$NON-NLS-1$
+		return groupIndex == 0 ? Messages.getString( "ResourceKeyDescriptor.text.Reset" )
+				: Messages.getString( "ResourceKeyDescriptor.text.Reset.Alt" ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public boolean isEnable( )
@@ -52,8 +61,6 @@ public class ResourceKeyDescriptorProvider extends PropertyDescriptorProvider im
 
 	public String getResetTooltipText( )
 	{
-
 		return Messages.getString( "ResourceKeyDescriptor.button.reset.tooltip" ); //$NON-NLS-1$
 	}
-
 }
