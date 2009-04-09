@@ -18,10 +18,10 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Si
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.UnitPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ColorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComplexUnitSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.UnitSection;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -58,7 +58,7 @@ public class RowPage extends GeneralFontPage
 
 		// Defines sections.
 
-		UnitSection heightSection = new UnitSection( heightProvider.getDisplayName( ),
+		ComplexUnitSection heightSection = new ComplexUnitSection( heightProvider.getDisplayName( ),
 				container,
 				true );
 

@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.UnitPropertyDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.UnitSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComplexUnitSection;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.widgets.Composite;
@@ -49,7 +49,7 @@ public class CellPaddingPage extends ResetAttributePage
 					ReportDesignConstants.STYLE_ELEMENT );
 			provider.enableReset( true );
 
-			UnitSection section = new UnitSection( provider.getDisplayName( ),
+			ComplexUnitSection section = new ComplexUnitSection( provider.getDisplayName( ),
 					container,
 					true );
 

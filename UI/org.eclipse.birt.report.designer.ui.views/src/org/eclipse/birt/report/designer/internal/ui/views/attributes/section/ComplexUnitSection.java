@@ -13,24 +13,24 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ComplexUnitPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.DescriptorToolkit;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.UnitPropertyDescriptor;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class UnitSection extends Section
+public class ComplexUnitSection extends Section
 {
 
-	public UnitSection( String labelText, Composite parent, boolean isFormStyle )
+	public ComplexUnitSection( String labelText, Composite parent, boolean isFormStyle )
 	{
 		super( labelText, parent, isFormStyle );
 		// TODO Auto-generated constructor stub
 	}
 
-	protected UnitPropertyDescriptor unit;
+	protected ComplexUnitPropertyDescriptor unit;
 
 	public void createSection( )
 	{
@@ -40,19 +40,20 @@ public class UnitSection extends Section
 
 	}
 
-	public UnitPropertyDescriptor getUnitComboControl( )
+	public ComplexUnitPropertyDescriptor getUnitComboControl( )
 	{
 		return unit;
 	}
 
-	protected UnitPropertyDescriptor getUnitComboControl( Composite parent )
+	protected ComplexUnitPropertyDescriptor getUnitComboControl(
+			Composite parent )
 	{
 		if ( unit == null )
 		{
 			if ( customUnit != null )
 				unit = customUnit;
 			else
-				unit = DescriptorToolkit.createUnitPropertyDescriptor( true );
+				unit = DescriptorToolkit.createComplexUnitPropertyDescriptor( true );
 			if ( getProvider( ) != null )
 				unit.setDescriptorProvider( getProvider( ) );
 			unit.createControl( parent );
@@ -169,9 +170,9 @@ public class UnitSection extends Section
 			placeholderLabel.setVisible( isVisible );
 	}
 
-	UnitPropertyDescriptor customUnit;
+	ComplexUnitPropertyDescriptor customUnit;
 
-	public void setUnit( UnitPropertyDescriptor unit )
+	public void setUnit( ComplexUnitPropertyDescriptor unit )
 	{
 		this.customUnit = unit;
 	}

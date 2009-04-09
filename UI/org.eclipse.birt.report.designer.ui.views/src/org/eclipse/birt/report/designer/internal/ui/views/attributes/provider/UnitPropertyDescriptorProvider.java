@@ -7,6 +7,7 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.CSSUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -82,16 +83,21 @@ public class UnitPropertyDescriptorProvider extends PropertyDescriptorProvider
 
 	public boolean validateDimensionValue( String value, String unit )
 	{
-		String unitValue = ChoiceSetFactory.getDimensionChoiceSet( getElement( ),
-				getProperty( ) )
-				.findChoiceByDisplayName( unit )
-				.getName( );
+		if ( value == null && unit == null )
+			return true;
+		else if ( unit == null )
+			return false;
+		IChoice choice = ChoiceSetFactory.getDimensionChoiceSet( getElement( ),
+				getProperty( ) ).findChoiceByDisplayName( unit );
+		if ( choice == null )
+			return false;
+
+		String unitValue = choice.getName( );
 
 		boolean val = true;
 		try
 		{
-			DimensionValue dimensionValue = StringUtil.parse( value
-					+ unitValue );
+			DimensionValue dimensionValue = StringUtil.parse( value + unitValue );
 
 			if ( dimensionValue == null )
 			{

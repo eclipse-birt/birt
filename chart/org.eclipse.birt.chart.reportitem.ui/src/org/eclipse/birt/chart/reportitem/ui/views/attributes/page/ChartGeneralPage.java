@@ -18,9 +18,9 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Genera
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComplexUnitSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.UnitSection;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.SWT;
@@ -57,7 +57,7 @@ public class ChartGeneralPage extends GeneralPage
 
 		IDescriptorProvider widthProvider = new ChartUnitPropertyDescriptorProvider( ReportItemHandle.WIDTH_PROP,
 				ReportDesignConstants.EXTENDED_ITEM );
-		UnitSection widthSection = new UnitSection( widthProvider.getDisplayName( ),
+		ComplexUnitSection widthSection = new ComplexUnitSection( widthProvider.getDisplayName( ),
 				container,
 				true );
 		widthSection.setWidth( 200 );
@@ -67,7 +67,7 @@ public class ChartGeneralPage extends GeneralPage
 
 		IDescriptorProvider heightProvider = new ChartUnitPropertyDescriptorProvider( ReportItemHandle.HEIGHT_PROP,
 				ReportDesignConstants.EXTENDED_ITEM );
-		UnitSection heightSection = new UnitSection( heightProvider.getDisplayName( ),
+		ComplexUnitSection heightSection = new ComplexUnitSection( heightProvider.getDisplayName( ),
 				container,
 				true );
 		heightSection.setProvider( heightProvider );

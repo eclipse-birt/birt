@@ -17,9 +17,9 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Te
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.UnitPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ColorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComplexUnitSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.UnitSection;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -33,9 +33,9 @@ import org.eclipse.swt.SWT;
 public class MasterPageGeneralPage extends GeneralPage
 {
 
-	private UnitSection heightSection;
+	private ComplexUnitSection heightSection;
 	private ComboPropertyDescriptorProvider typeProvider;
-	private UnitSection widthSection;
+	private ComplexUnitSection widthSection;
 	private ComboSection orientationSection;
 
 	protected void buildContent( )
@@ -58,7 +58,7 @@ public class MasterPageGeneralPage extends GeneralPage
 
 		UnitPropertyDescriptorProvider headHeightProvider = new UnitPropertyDescriptorProvider( SimpleMasterPageHandle.HEADER_HEIGHT_PROP,
 				ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT );
-		UnitSection headHeightSection = new UnitSection( headHeightProvider.getDisplayName( ),
+		ComplexUnitSection headHeightSection = new ComplexUnitSection( headHeightProvider.getDisplayName( ),
 				container,
 				true );
 		headHeightSection.setProvider( headHeightProvider );
@@ -80,7 +80,7 @@ public class MasterPageGeneralPage extends GeneralPage
 
 		UnitPropertyDescriptorProvider footHeightProvider = new UnitPropertyDescriptorProvider( SimpleMasterPageHandle.FOOTER_HEIGHT_PROP,
 				ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT );
-		UnitSection footHeightSection = new UnitSection( footHeightProvider.getDisplayName( ),
+		ComplexUnitSection footHeightSection = new ComplexUnitSection( footHeightProvider.getDisplayName( ),
 				container,
 				true );
 		footHeightSection.setProvider( footHeightProvider );
@@ -105,7 +105,7 @@ public class MasterPageGeneralPage extends GeneralPage
 
 		UnitPropertyDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider( MasterPageHandle.WIDTH_PROP,
 				ReportDesignConstants.MASTER_PAGE_ELEMENT );
-		widthSection = new UnitSection( widthProvider.getDisplayName( ),
+		widthSection = new ComplexUnitSection( widthProvider.getDisplayName( ),
 				container,
 				true );
 		widthSection.setProvider( widthProvider );
@@ -126,7 +126,7 @@ public class MasterPageGeneralPage extends GeneralPage
 
 		UnitPropertyDescriptorProvider heightProvider = new UnitPropertyDescriptorProvider( MasterPageHandle.HEIGHT_PROP,
 				ReportDesignConstants.MASTER_PAGE_ELEMENT );
-		heightSection = new UnitSection( heightProvider.getDisplayName( ),
+		heightSection = new ComplexUnitSection( heightProvider.getDisplayName( ),
 				container,
 				true );
 		heightSection.setProvider( heightProvider );

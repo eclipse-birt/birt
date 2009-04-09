@@ -14,7 +14,7 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CellPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSectionId;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.UnitSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComplexUnitSection;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabCellHeightProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabCellWidthProvider;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -30,7 +30,7 @@ public class CrosstabCellPage extends CellPage
 	{
 		IDescriptorProvider widthProvider = new CrosstabCellWidthProvider( ReportItemHandle.WIDTH_PROP,
 				ReportDesignConstants.REPORT_ITEM );
-		UnitSection widthSection = new UnitSection( widthProvider.getDisplayName( ),
+		ComplexUnitSection widthSection = new ComplexUnitSection( widthProvider.getDisplayName( ),
 				container,
 				true );
 		widthSection.setProvider( widthProvider );
@@ -42,7 +42,7 @@ public class CrosstabCellPage extends CellPage
 
 		IDescriptorProvider heightProvider = new CrosstabCellHeightProvider( ReportItemHandle.HEIGHT_PROP,
 				ReportDesignConstants.REPORT_ITEM );
-		UnitSection heightSection = new UnitSection( heightProvider.getDisplayName( ),
+		ComplexUnitSection heightSection = new ComplexUnitSection( heightProvider.getDisplayName( ),
 				container,
 				true );
 		heightSection.setProvider( heightProvider );

@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
@@ -17,7 +27,7 @@ public class DescriptorToolkit
 		SimpleComboPropertyDescriptor descriptor = new SimpleComboPropertyDescriptor( formStyle );
 		return descriptor;
 	}
-	
+
 	public static SimpleComboPropertyDescriptor createTocSimpleComboPropertyDescriptor(
 			boolean formStyle )
 	{
@@ -100,7 +110,7 @@ public class DescriptorToolkit
 		FormPropertyDescriptor descriptor = new FormPropertyDescriptor( formStyle );
 		return descriptor;
 	}
-	
+
 	public static SortingFormPropertyDescriptor createSortingFormPropertyDescriptor(
 			boolean formStyle )
 	{
@@ -127,7 +137,7 @@ public class DescriptorToolkit
 		MarignPropertyDescriptor descriptor = new MarignPropertyDescriptor( formStyle );
 		return descriptor;
 	}
-	
+
 	public static MarginsPropertyDescriptor createSpinnerPropertyDescriptor(
 			boolean formStyle )
 	{
@@ -141,7 +151,7 @@ public class DescriptorToolkit
 		ResourceKeyDescriptor descriptor = new ResourceKeyDescriptor( formStyle );
 		return descriptor;
 	}
-	
+
 	public static BorderPropertyDescriptor createBorderPropertyDescriptor(
 			boolean formStyle )
 	{
@@ -153,6 +163,13 @@ public class DescriptorToolkit
 			boolean formStyle )
 	{
 		AdvancePropertyDescriptor descriptor = new AdvancePropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
+	public static ComplexUnitPropertyDescriptor createComplexUnitPropertyDescriptor(
+			boolean formStyle )
+	{
+		ComplexUnitPropertyDescriptor descriptor = new ComplexUnitPropertyDescriptor( formStyle );
 		return descriptor;
 	}
 
