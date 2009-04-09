@@ -65,6 +65,8 @@ public class CellContent extends AbstractContent implements ICellContent
 	CellDesign cellDesign = null;
 
 	private String headers;
+	
+	private String scope;
 
 	private String drop;
 	
@@ -236,6 +238,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	static final protected short FIELD_DISPLAY_GROUP_ICON = 104;
 	static final protected short FIELD_DROP = 111;
 	static final protected short FIELD_HEADERS = 112;
+	static final protected short FIELD_SCOPE = 113;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -270,6 +273,11 @@ public class CellContent extends AbstractContent implements ICellContent
 			IOUtil.writeShort( out, FIELD_HEADERS );
 			IOUtil.writeString( out, headers );
 		}
+		if ( scope != null )
+		{
+			IOUtil.writeShort( out, FIELD_SCOPE );
+			IOUtil.writeString( out, scope );
+		}
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in,
@@ -298,6 +306,9 @@ public class CellContent extends AbstractContent implements ICellContent
 			case FIELD_HEADERS :
 				headers = IOUtil.readString( in );
 				break;
+			case FIELD_SCOPE :
+				scope = IOUtil.readString( in );
+				break;
 			default :
 				super.readField( version, filedId, in, loader );
 				break;
@@ -310,7 +321,7 @@ public class CellContent extends AbstractContent implements ICellContent
 		{
 			return true;
 		}
-		if ( displayGroupIcon != null || headers != null )
+		if ( displayGroupIcon != null || headers != null || scope != null )
 		{
 			return true;
 		}
@@ -441,7 +452,11 @@ public class CellContent extends AbstractContent implements ICellContent
 
 	public String getScope( )
 	{
-		if ( cellDesign != null )
+		if ( scope != null )
+		{
+			return scope;
+		}
+		else if ( cellDesign != null )
 		{
 			return cellDesign.getScope( );
 		}
@@ -451,6 +466,11 @@ public class CellContent extends AbstractContent implements ICellContent
 	public void setHeaders( String headers )
 	{
 		this.headers = headers;
+	}
+
+	public void setScope( String scope )
+	{
+		this.scope = scope;
 	}
 
 }

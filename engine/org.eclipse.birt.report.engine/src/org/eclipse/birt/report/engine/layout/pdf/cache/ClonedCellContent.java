@@ -417,4 +417,9 @@ public class ClonedCellContent implements ICellContent
 	{
 		cellContent.setHeaders( headers );
 	}
+
+	public void setScope( String scope )
+	{
+		cellContent.setScope( scope );
+	}
 }

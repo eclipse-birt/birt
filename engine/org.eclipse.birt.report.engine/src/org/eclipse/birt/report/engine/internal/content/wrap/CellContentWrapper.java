@@ -210,4 +210,9 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 	{
 		return cell.getScope( );
 	}
+
+	public void setScope( String scope )
+	{
+		cell.setScope( scope );
+	}
 }
