@@ -13,6 +13,8 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.IExtension;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
+import org.eclipse.birt.report.designer.ui.templates.ITemplateProvider;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -60,7 +62,8 @@ public class GraphicalPartFactory implements EditPartFactory
 		EditPart editPart = new DummyEditpart( model );
 
 		if ( model instanceof ReportItemHandle
-				&& !( (ReportItemHandle) model ).isValidLayoutForCompoundElement( ) )
+				&& (!( (ReportItemHandle) model ).isValidLayoutForCompoundElement( ) ||
+						!checkLayout( model )))
 		{
 			return new DestroyEditPart( model );
 		}
@@ -160,5 +163,25 @@ public class GraphicalPartFactory implements EditPartFactory
 			return (EditPart) obj;
 		}
 		return editPart;
+	}
+	
+	private boolean checkLayout(Object model)
+	{
+		Object[] checks = ElementAdapterManager.getAdapters( model,
+				ILayoutCheck.class );
+		if (checks == null)
+		{
+			return true;
+		}
+		for(int i=0;i<checks.length; i++)
+		{
+			ILayoutCheck check = (ILayoutCheck)checks[i];
+			if (!check.layoutCheck( model ))
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }

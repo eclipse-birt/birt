@@ -9,6 +9,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.draw2d.Figure;
@@ -73,6 +74,15 @@ public class DummyEditpart extends ReportElementEditPart
 	 */
 	public void refreshFigure( )
 	{
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#creatDesignElementHandleAdapter()
+	 */
+	public DesignElementHandleAdapter creatDesignElementHandleAdapter( )
+	{
+		return null;
+		//do nothing
 	}
 
 }
