@@ -833,14 +833,6 @@ public final class ResultSetWrapper
 				{
 					baseReference = (CDateTime) obj;
 				}
-				else if ( obj instanceof Calendar )
-				{
-					baseReference = new CDateTime( (Calendar) obj );
-				}
-				else if ( obj instanceof Date )
-				{
-					baseReference = new CDateTime( (Date) obj );
-				}
 				else
 				{
 					// set as the smallest Date.
@@ -867,14 +859,6 @@ public final class ResultSetWrapper
 					if ( obj instanceof CDateTime )
 					{
 						dCurrentValue = (CDateTime) obj;
-					}
-					else if ( obj instanceof Calendar )
-					{
-						dCurrentValue = new CDateTime( (Calendar) obj );
-					}
-					else if ( obj instanceof Date )
-					{
-						dCurrentValue = new CDateTime( (Date) obj );
 					}
 					else
 					{
@@ -926,14 +910,6 @@ public final class ResultSetWrapper
 						if ( obj instanceof CDateTime )
 						{
 							baseReference = (CDateTime) obj;
-						}
-						else if ( obj instanceof Calendar )
-						{
-							baseReference = new CDateTime( (Calendar) obj );
-						}
-						else if ( obj instanceof Date )
-						{
-							baseReference = new CDateTime( (Date) obj );
 						}
 						else
 						{
@@ -1851,14 +1827,6 @@ public final class ResultSetWrapper
 				if ( obj instanceof CDateTime )
 				{
 					baseReference = (CDateTime) obj;
-				}
-				else if ( obj instanceof Calendar )
-				{
-					baseReference = new CDateTime( (Calendar) obj );
-				}
-				else if ( obj instanceof Date )
-				{
-					baseReference = new CDateTime( (Date) obj );
 				}
 				else
 				{

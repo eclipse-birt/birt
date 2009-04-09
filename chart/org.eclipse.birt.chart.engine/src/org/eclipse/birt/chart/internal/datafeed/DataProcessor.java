@@ -1394,7 +1394,16 @@ public class DataProcessor
 				oaTuple = new Object[iColumnCount];
 				for ( int i = 0; i < columns.length; i++ )
 				{
-					oaTuple[i] = idre.evaluate( (String) columns[i] );
+					Object value = idre.evaluate( (String) columns[i] );
+					if ( value instanceof Date )
+					{
+						value = new CDateTime( (Date) value );
+					}
+					else if ( value instanceof Calendar )
+					{
+						value = new CDateTime( (Calendar) value );
+					}
+					oaTuple[i] = value;
 				}
 				liResultSet.add( oaTuple );
 			} while ( idre.next( ) );
@@ -1481,14 +1490,6 @@ public class DataProcessor
 				if ( obj instanceof CDateTime )
 				{
 					baseReference = (CDateTime) obj;
-				}
-				else if ( obj instanceof Calendar )
-				{
-					baseReference = new CDateTime( (Calendar) obj );
-				}
-				else if ( obj instanceof Date )
-				{
-					baseReference = new CDateTime( (Date) obj );
 				}
 				else
 				{

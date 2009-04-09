@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.computation;
 
-import java.util.Date;
-
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -178,15 +176,9 @@ public class SeriesNameFormat
 		@Override
 		public String format( Object obj )
 		{
-			if ( obj instanceof Calendar )
+			if ( obj instanceof CDateTime )
 			{
-				CDateTime cd = new CDateTime( (Calendar) obj );
-				return formatCDateTime( cd );
-			}
-			else if ( obj instanceof Date )
-			{
-				CDateTime cd = new CDateTime( (Date) obj );
-				return formatCDateTime( cd );
+				return formatCDateTime( (CDateTime) obj );
 			}
 			else
 			{

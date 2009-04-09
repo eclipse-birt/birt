@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -51,11 +50,9 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
-import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.text.DecimalFormat;
-import com.ibm.icu.util.Calendar;
 
 /**
  * A helper class for Legend computation.
@@ -805,15 +802,6 @@ public final class LegendBuilder implements IConstants
 			{
 				String sPattern = ValueFormatter.getNumericPattern( ( (Number) oText ).doubleValue( ) );
 				df = dfCache.get( sPattern );
-			}
-
-			if ( oText instanceof Calendar )
-			{
-				oText = new CDateTime( (Calendar) oText );
-			}
-			else if ( oText instanceof Date )
-			{
-				oText = new CDateTime( (Date) oText );
 			}
 			
 			// apply user defined format if exists

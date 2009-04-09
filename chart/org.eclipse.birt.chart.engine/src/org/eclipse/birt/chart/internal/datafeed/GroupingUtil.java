@@ -1,7 +1,5 @@
 package org.eclipse.birt.chart.internal.datafeed;
 
-import java.util.Date;
-
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.util.CDateTime;
 
@@ -31,14 +29,6 @@ final class GroupingUtil
 		if ( obj instanceof CDateTime )
 		{
 			date = (CDateTime) obj;
-		}
-		else if ( obj instanceof Calendar )
-		{
-			date = new CDateTime( (Calendar) obj );
-		}
-		else if ( obj instanceof Date )
-		{
-			date = new CDateTime( (Date) obj );
 		}
 		else
 		{
