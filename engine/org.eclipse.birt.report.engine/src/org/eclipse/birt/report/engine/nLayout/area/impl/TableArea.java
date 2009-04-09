@@ -403,6 +403,7 @@ public class TableArea extends RepeatableArea
 		 * 1. resolve all unresolved cell 2. resolve table bottom border 3.
 		 * update height of Root area 4. update the status of TableAreaLayout
 		 */
+
 		int borderHeight = 0;
 		if ( layout != null )
 		{
@@ -418,7 +419,17 @@ public class TableArea extends RepeatableArea
 		updateBackgroundImage( );
 		if ( parent != null )
 		{
-			checkPageBreak( );
+			boolean pb = checkPageBreak( );
+			if ( pb )
+			{
+				int height = layout.resolveAll( );
+				if ( 0 != height )
+				{
+					currentBP = currentBP + height;
+				}
+				borderHeight = layout.resolveBottomBorder( );
+				layout.remove( this );
+			}
 			parent.update( this );
 		}
 		finished = true;

@@ -130,11 +130,18 @@ public class RowArea extends ContainerArea
 
 	public void close( ) throws BirtException
 	{
-		getTableArea( ).addRow( this );
+		TableArea table = getTableArea( );
+		table.addRow( this );
 		updateBackgroundImage( );
-		checkPageBreak( );
+		boolean pb = checkPageBreak( );
+		// if page-break occurs, need re-add this row into layout
+		if ( pb )
+		{
+			table.addRow( this );
+		}
 		parent.update( this );
 		finished = true;
+		
 	}
 
 	public void initialize( ) throws BirtException
