@@ -11,3 +11,4 @@
 
 preference.chart=Í¼±í
 menu.lable.chart=Í¼±í(&C)
+preference.description=Insert a Chart item.
