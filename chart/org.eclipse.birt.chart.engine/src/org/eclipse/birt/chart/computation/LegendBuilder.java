@@ -56,7 +56,6 @@ import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.util.Calendar;
-import com.ibm.icu.util.ULocale;
 
 /**
  * A helper class for Legend computation.
@@ -1029,7 +1028,9 @@ public final class LegendBuilder implements IConstants
 			{
 				Series se = itSeries.next( );
 				String sItem = formatItemText( se.getSeriesIdentifier( ) );
-				String sValue = bShowValue ? getValueText( lgData.cm, se )
+				String sValue = bShowValue ? getValueText( lgData.cm,
+						se,
+						lgData.rtc )
 						: null;
 				return LegendItemHints.newEntry( sItem,
 						sValue,
@@ -1549,7 +1550,7 @@ public final class LegendBuilder implements IConstants
 	 * @return Value Text
 	 * @throws ChartException
 	 */
-	private static String getValueText( Chart cm, Series se )
+	private static String getValueText( Chart cm, Series se, RunTimeContext rtc )
 			throws ChartException
 	{
 		String strValueText = null;
@@ -1573,7 +1574,7 @@ public final class LegendBuilder implements IConstants
 				{
 					strValueText = ValueFormatter.format( obj,
 							null,
-							ULocale.getDefault( ),
+							rtc.getULocale( ),
 							null );
 				}
 				catch ( ChartException ex )
