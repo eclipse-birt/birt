@@ -34,29 +34,29 @@ public class ExportManifestUtils
 		"javax.servlet.jsp_.*.jar"
 	};
 	
-	static final String[] API_JAR_VERSIONS = new String[]{
-		null, //"chartengineapi.jar",
-		"4.0.1",//"com.ibm.icu.*.jar",
-		null,//"org.apache.commons.codec_.*.jar", 
-		null,//"coreapi.jar", 
-		null,//"dataaggregationapi.jar",
-		null,//"dataadapterapi.jar",
-		null,//"dteapi.jar", 
-		null,//"engineapi.jar", 
-		null,//"flute.jar", 
-		null,//"js.jar",
-		null,//"modelapi.jar", 
-		null,//"crosstabcoreapi.jar",
-		null,//"dataextraction.jar",
-		null,//"org.eclipse.emf.common_.*.jar",
-		null,//"org.eclipse.emf.ecore.xmi_.*.jar", 
-		null,//"org.eclipse.emf.ecore_.*.jar",
-		null,//"org.w3c.css.sac_.*.jar", 
-		null,//"scriptapi.jar",
-		null,//"modelodaapi.jar",
-		null,//"odadesignapi.jar",
-		null,//"javax.servlet_.*.jar",
-		null,//"javax.servlet.jsp_.*.jar"
+	static final Boolean[] API_JAR_VERSIONS = new Boolean[]{
+		false, //"chartengineapi.jar",
+		true,//"com.ibm.icu.*.jar",
+		false,//"org.apache.commons.codec_.*.jar", 
+		false,//"coreapi.jar", 
+		false,//"dataaggregationapi.jar",
+		false,//"dataadapterapi.jar",
+		false,//"dteapi.jar", 
+		false,//"engineapi.jar", 
+		false,//"flute.jar", 
+		false,//"js.jar",
+		false,//"modelapi.jar", 
+		false,//"crosstabcoreapi.jar",
+		false,//"dataextraction.jar",
+		false,//"org.eclipse.emf.common_.*.jar",
+		false,//"org.eclipse.emf.ecore.xmi_.*.jar", 
+		false,//"org.eclipse.emf.ecore_.*.jar",
+		false,//"org.w3c.css.sac_.*.jar", 
+		false,//"scriptapi.jar",
+		false,//"modelodaapi.jar",
+		false,//"odadesignapi.jar",
+		false,//"javax.servlet_.*.jar",
+		false,//"javax.servlet.jsp_.*.jar"
 	};
 
 	static public void main( String[] args ) throws IOException
@@ -89,7 +89,7 @@ public class ExportManifestUtils
 		return false;
 	}
 	
-	static String getVersion(File jarFile)
+	static Boolean getVersion(File jarFile)
 	{
 		String name = jarFile.getName( );
 		for ( int i = 0; i < API_JAR_PATTERNS.length; i++ )
@@ -107,7 +107,21 @@ public class ExportManifestUtils
 		System.out.println( "#" + jarFile.getName( ) );
 		JarFile jar = new JarFile( jarFile );
 		Entry root = new Entry( );
-		root.version = getVersion(jarFile);
+		String fileName = jarFile.getName();
+		root.hasVersion = getVersion(jarFile);
+		
+		if (root.hasVersion)
+		{
+			/* get the version from jar name*/
+			int startIdx;
+			int endIdx;
+			startIdx = fileName.indexOf("_");
+			endIdx = fileName.lastIndexOf(".");
+			root.version = fileName.substring(startIdx+1, endIdx-1);
+			endIdx = root.version.lastIndexOf(".");
+			root.version = root.version.substring(0, endIdx);
+		}
+		
 		Enumeration entries = jar.entries( );
 		while ( entries.hasMoreElements( ) )
 		{
@@ -124,6 +138,7 @@ public class ExportManifestUtils
 	{
 
 		String name;
+		Boolean hasVersion;
 		String version;
 		boolean hasFiles;
 		ArrayList children = new ArrayList( );
@@ -133,8 +148,8 @@ public class ExportManifestUtils
 	{
 		if ( entry.hasFiles )
 		{
-			if (entry.version != null){
-				System.out.println( " " + prefix + "." + entry.name + ";version=\""+entry.version+"\"," );
+			if (entry.hasVersion){
+				System.out.println( " " + prefix + "." + entry.name + ";version=\""+ entry.version +"\"," );
 			}
 			else
 			{
@@ -193,6 +208,7 @@ public class ExportManifestUtils
 		Entry entry = new Entry( );
 		entry.name = name;
 		entry.version = parent.version;
+		entry.hasVersion = parent.hasVersion;
 		parent.children.add( entry );
 		
 		return entry;
