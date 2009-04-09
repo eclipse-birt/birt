@@ -30,10 +30,15 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SelectionBorder;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -127,7 +132,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String ENABLE_COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.enable.comment.description.preferencestore"; //$NON-NLS-1$
 	public static final String BIRT_RESOURCE = "resources"; //$NON-NLS-1$
 
-	private static final List<String> elementToFilte = Arrays.asList( new String[]{
+	private static final List<String> elementToFilter = Arrays.asList( new String[]{
 			ReportDesignConstants.AUTOTEXT_ITEM,
 			ReportDesignConstants.DATA_SET_ELEMENT,
 			ReportDesignConstants.DATA_SOURCE_ELEMENT,
@@ -172,7 +177,8 @@ public class ReportPlugin extends AbstractUIPlugin
 			"CrosstabView", //$NON-NLS-1$
 			"DimensionView", //$NON-NLS-1$
 			"LevelView", //$NON-NLS-1$
-			"MeasureView" //$NON-NLS-1$
+			"MeasureView", //$NON-NLS-1$
+			"ComputedMeasureView" //$NON-NLS-1$
 
 	} );
 
@@ -556,7 +562,7 @@ public class ReportPlugin extends AbstractUIPlugin
 
 			// only set names for the elements when the element can have a name
 			if ( nameOption == MetaDataConstants.NO_NAME
-					|| filteName( elementDefn ) )
+					|| filterName( elementDefn ) )
 			{
 				continue;
 			}
@@ -580,9 +586,9 @@ public class ReportPlugin extends AbstractUIPlugin
 		// ResourceFilter.generateNoResourceInFolderFilter( ) );
 	}
 
-	private boolean filteName( IElementDefn elementDefn )
+	private boolean filterName( IElementDefn elementDefn )
 	{
-		return elementToFilte.indexOf( elementDefn.getName( ) ) != -1;
+		return elementToFilter.indexOf( elementDefn.getName( ) ) != -1;
 	}
 
 	/**
@@ -626,7 +632,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		}
 		else
 		{
-			preference.append( "" ); //$NON-NLS-1$
+			preference.append( getExtendedPaletteEntryDescription( defaultName ) );
 		}
 
 		preference.append( PREFERENCE_DELIMITER );
@@ -1425,5 +1431,44 @@ public class ReportPlugin extends AbstractUIPlugin
 		PreferenceFactory.getInstance( ).getPreferences( this,
 				UIUtil.getCurrentProject( ) ).setValue( LTR_BIDI_DIRECTION,
 				ltrDirection );
+	}
+
+	/**
+	 * Gets the description text of the extended palette entry elements.
+	 * 
+	 * @return the description text, or "" if not found.
+	 */
+	private String getExtendedPaletteEntryDescription( String defaultName )
+	{
+		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
+		if ( entries != null )
+		{
+			for ( int i = 0; i < entries.length; i++ )
+			{
+				if ( entries[i].getItemName( ).equals( defaultName ) )
+				{
+					return entries[i].getDescription( ) != null ? entries[i].getDescription( )
+							: ""; //$NON-NLS-1$
+				}
+			}
+		}
+
+		List points = ExtensionPointManager.getInstance( )
+				.getExtendedElementPoints( );
+		if ( points != null )
+		{
+			for ( Iterator itor = points.iterator( ); itor.hasNext( ); )
+			{
+				ExtendedElementUIPoint point = (ExtendedElementUIPoint) itor.next( );
+				if ( point.getExtensionName( ).equals( defaultName ) )
+				{
+					return point.getAttribute( IExtensionConstants.ATTRIBUTE_KEY_DESCRIPTION ) != null ? 
+							(String) point.getAttribute( IExtensionConstants.ATTRIBUTE_KEY_DESCRIPTION )
+							: ""; //$NON-NLS-1$
+				}
+			}
+		}
+		
+		return ""; //$NON-NLS-1$
 	}
 }
