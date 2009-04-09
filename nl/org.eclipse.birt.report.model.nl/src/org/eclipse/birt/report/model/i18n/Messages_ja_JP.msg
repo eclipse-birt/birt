@@ -83,11 +83,11 @@ Choices.fontWeight.800=800
 Choices.fontWeight.900=900
 
 #2.textUnderline
-Choices.textUnderline.none=No Underline
+Choices.textUnderline.none=下線なし
 Choices.textUnderline.underline=下線
   
 #3.lineStyle
-Choices.lineStyle.none=No Line Style
+Choices.lineStyle.none=線スタイルなし
 Choices.lineStyle.solid=実線
 Choices.lineStyle.dotted=点線
 Choices.lineStyle.dashed=破線
@@ -144,7 +144,7 @@ Choices.pageOrientation.portrait=縦
 Choices.pageOrientation.landscape=横
    
 #12.interval
-Choices.interval.none=No Interval
+Choices.interval.none=間隔なし
 Choices.interval.prefix=接頭辞
 Choices.interval.year=年
 Choices.interval.quarter=四半期
@@ -157,7 +157,7 @@ Choices.interval.second=秒
 Choices.interval.interval=間隔
 
 #interval type
-Choices.intervalType.none=No Interval
+Choices.intervalType.none=間隔なし
 Choices.intervalType.prefix=接頭辞
 Choices.intervalType.interval=間隔
 
@@ -236,7 +236,7 @@ Choices.lineSpacing.lines=線
 Choices.lineSpacing.exact=絶対位置
   
 #24.lineType
-Choices.lineType.none=No Line Type
+Choices.lineType.none=線種なし
 Choices.lineType.solid=実線
 Choices.lineType.dotted=点線
 Choices.lineType.dashed=破線
@@ -255,7 +255,7 @@ Choices.pageBreakAfter.avoid=なし
 Choices.pageBreakAfter.alwaysExcludingLast=全ページ（最後のページを除く）
 
 #27.actionLinkType
-Choices.actionLinkType.none=No Action Link Type
+Choices.actionLinkType.none=アクションリンクの種類なし
 Choices.actionLinkType.hyperlink=ハイパーリンク
 Choices.actionLinkType.drill-through=ドリルスルー
 Choices.actionLinkType.bookmark-link=ブックマークリンク
@@ -265,7 +265,7 @@ Choices.actionFormatType.html=HTML
 Choices.actionFormatType.pdf=PDF
   
 #28.drillThroughLinkType
-Choices.drillThroughType.none=No Drill-through Type
+Choices.drillThroughType.none=ドリルスルーリンクの種類なし
 Choices.drillThroughType.bookmark-link=ブックマークリンク
 Choices.drillThroughType.search=検索
  
@@ -320,7 +320,7 @@ Choices.backgroundPositionY.bottom=下端揃え
 Choices.transform.capitalize=先頭文字のみ大文字
 Choices.transform.uppercase=大文字
 Choices.transform.lowercase=小文字
-Choices.transform.none=No Transformation
+Choices.transform.none=変換なし
 
 #38.normal
 Choices.normal.normal=標準
@@ -343,7 +343,7 @@ Choices.whiteSpace.nowrap=折り返しなし
 #41.display
 Choices.display.block=ブロック
 Choices.display.inline=インライン
-Choices.display.none=No Display
+Choices.display.none=表示なし
 
 #43.pageBreakInside
 Choices.pageBreakInside.avoid=なし
@@ -353,11 +353,11 @@ Choices.pageBreakInside.auto=自動
 Choices.margine.auto=自動
 
 #45.textOverline
-Choices.textOverline.none=No Line Over Text
+Choices.textOverline.none=上線なし
 Choices.textOverline.overline=上線
 
 #46.textLineThrough
-Choices.textLineThrough.none=No Line Through Text
+Choices.textLineThrough.none=取り消し線なし
 Choices.textLineThrough.line-through=取り消し線
 
 #48.lineWidth
@@ -433,10 +433,10 @@ Choices.columnDataType.blob=BLOB
 #54. searchType
 Choices.searchType.any=任意
 Choices.searchType.indexed=インデックス付き
-Choices.searchType.none=No Search Type
+Choices.searchType.none=検索の種類なし
 
 #55. exportType
-Choices.exportType.none=No Export Type
+Choices.exportType.none=エクスポートの種類なし
 Choices.exportType.if-realized=一致したページ
 Choices.exportType.always=全ページ
 
@@ -445,7 +445,7 @@ Choices.analysisType.auto=自動
 Choices.analysisType.dimension=ディメンジョン
 Choices.analysisType.measure=メジャー
 Choices.analysisType.detail=詳細
-Choices.analysisType.none=No Analysis Type
+Choices.analysisType.none=分析の種類なし
 
 #57. scalarParamAlign
 Choices.scalarParamAlign.auto=自動
@@ -534,18 +534,18 @@ Choices.templateElementType.textData=TextData
 Choices.templateElementType.dataSet=データセット
 
 #61. sortType
-Choices.sortType.none=No Sort Type
-Choices.sortType.sortOnGroupkey=Sort on Group Key
-Choices.sortType.complexSort=Complex Sort
+Choices.sortType.none=ソート基準なし
+Choices.sortType.sortOnGroupkey=グループキーでソート
+Choices.sortType.complexSort=高度なソート
 
 #62. joinType
-Choices.joinType.inner=Inner Join
-Choices.joinType.leftOut=Left Out Join
-Choices.joinType.rightOut=Right Out Join
-Choices.joinType.fullOut=Full Out Join
+Choices.joinType.inner=インナージョイン
+Choices.joinType.leftOut=左アウタージョイン
+Choices.joinType.rightOut=右アウタージョイン
+Choices.joinType.fullOut=完全アウタージョイン
 
 #63. joinOperator
-Choices.joinOperator.equals=Equals
+Choices.joinOperator.equals=等しい
 
 #64. actionTargetFileType
 Choices.actionTargetFileType.report-design=レポートデザイン
@@ -652,8 +652,8 @@ Choices.backgroundSize.cover=補う
 #79 scopeType
 Choices.scopeType.row=行
 Choices.scopeType.col=列
-Choices.scopeType.rowgroup=Row Group
-Choices.scopeType.colgroup=Column Group
+Choices.scopeType.rowgroup=行グループ
+Choices.scopeType.colgroup=列グループ
 
 ###########################################################
 # Classes
@@ -2242,7 +2242,7 @@ Element.AbstractMultiViews=抽象マルチビュー
 Element.MultiViews=マルチビュー
 Element.VariableElement=変数
 Element.DataGroup=データグループ
-Element.DerivedDataSet=Derived Data Set
+Element.DerivedDataSet=派生データセット
 
 ###########################################################
 # Element property names
@@ -2267,7 +2267,7 @@ Element.Module.base=基本
 Element.Module.units=単位
 Element.Module.theme=テーマ
 Element.Module.propertyBindings=プロパティのバインド
-Element.Module.scriptLibs=Script libraries
+Element.Module.scriptLibs=スクリプトライブラリ
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=種類
@@ -3015,7 +3015,7 @@ Element.OdaDataSet.resultSetNumber=結果セット番号
 #37 DesignElement ( Prefix Element.DesignElement )
 Element.DesignElement.customXml=カスタム XML
 Element.DesignElement.propertyMasks=プロパティマスク
-Element.DesignElement.userProperties=User properties
+Element.DesignElement.userProperties=ユーザのプロパティ
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=スタイル
@@ -3023,16 +3023,16 @@ Element.Theme.cssStyleSheets=CSS スタイルシート
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=名前
-Element.TemplateParameterDefinition.allowedType=Allowed type
+Element.TemplateParameterDefinition.allowedType=使用可能な種類
 Element.TemplateParameterDefinition.description=説明
 Element.TemplateParameterDefinition.descriptionID=説明 ID
 Element.TemplateParameterDefinition.slot.default=デフォルト
 
 #40 TemplateElement ( Prefix Element.TemplateElement )
 Element.TemplateElement.name=名前
-Element.TemplateElement.refTemplateParameter=Reference template parameter
+Element.TemplateElement.refTemplateParameter=参照先テンプレートのパラメタ
 Element.TemplateElement.displayName=表示名
-Element.TemplateElement.displayNameID=Display name ID
+Element.TemplateElement.displayNameID=表示名 ID
 
 #41 JointDataset ( Prefix Element.JointDataset )
 Element.JointDataSet.resultSet=結果セットの列
@@ -3046,7 +3046,7 @@ Element.JointDataSet.parameters=データセットのパラメタ
 Element.TemplateReportItem.visibility=可視性
 
 #44.AutoText ( prefix Element.AutoText )
-Element.AutoText.type = Type of autotext
+Element.AutoText.type = 定型句の種類
 Element.AutoText.onPrepare=準備時
 Element.AutoText.onPrepare.this=定型句
 Element.AutoText.onPrepare.toolTip=スクリプトのスタートアップフェーズ用です。まだデータバインドはありません。ここで要素のデザインを変更できます。
@@ -3065,35 +3065,35 @@ Element.AutoText.onPageBreak.this=定型句のインスタンス
 Element.AutoText.onPageBreak.reportContext=レポートのコンテキスト
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.filter=Filter conditions
-Element.Cube.defaultMeasureGroup=Default measure group
+Element.Cube.filter=フィルタ条件
+Element.Cube.defaultMeasureGroup=デフォルトのメジャーグループ
 Element.Cube.accessControls=アクセスコントロール
 
 #46. Dimension ( prefix Element.Dimension )
-Element.Dimension.isTimeType=Is time type
-Element.Dimension.defaultHierarchy=Default hierarchy
+Element.Dimension.isTimeType=Is time 型
+Element.Dimension.defaultHierarchy=デフォルトの階層
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.filter=Filter conditions
+Element.Hierarchy.filter=フィルタ条件
 Element.Hierarchy.accessControls=アクセスコントロール
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=データ型
-Element.Level.dateTimeLevelType=Date time level type
-Element.Level.dateTimeFormat=Date time format
+Element.Level.dateTimeLevelType=日付と時間のレベルの種類
+Element.Level.dateTimeFormat=日付/時間の書式
 Element.Level.Interval=間隔
 Element.Level.intervalBase=間隔の基準
 Element.Level.interval=間隔
 Element.Level.intervalRange=間隔の範囲
-Element.Level.levelType=Level type
-Element.Level.staticValues=Static values
+Element.Level.levelType=レベルの型
+Element.Level.staticValues=静的な値
 Element.Level.valueAccessControls=値へのアクセスコントロール
 Element.Level.defaultValue=デフォルト値
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=関数
 Element.Measure.isCalculated=Is calculated
-Element.Measure.measureExpression=Measure expression
+Element.Measure.measureExpression=メジャー式
 Element.Measure.dataType=データ型
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
@@ -3110,8 +3110,8 @@ Element.ValueAccessControl.values=値
 #52. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=データセット
 Element.TabularCube.dimensions=サイズ
-Element.TabularCube.measureGroups=Measure groups
-Element.TabularCube.dimensionConditions=Dimension conditions
+Element.TabularCube.measureGroups=メジャーグループ
+Element.TabularCube.dimensionConditions=ディメンジョン条件
 
 #53. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=階層
@@ -3119,25 +3119,25 @@ Element.TabularDimension.hierarchies=階層
 #54. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=データセット
 Element.TabularHierarchy.levels=レベル
-Element.TabularHierarchy.primaryKeys=Primary key
+Element.TabularHierarchy.primaryKeys=プライマリキー
 
 #55. TabularLevel ( prefix Element.TabularLevel )
-Element.TabularLevel.columnName=Column name
-Element.TabularLevel.displayColumnName=Display column name
+Element.TabularLevel.columnName=列名
+Element.TabularLevel.displayColumnName=列名の表示
 Element.TabularLevel.attributes=属性
 
 #56. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=サイズ
-Element.OdaCube.measureGroups=Measure groups
-Element.OdaCube.nativeName=Native name
+Element.OdaCube.measureGroups=メジャーグループ
+Element.OdaCube.nativeName=ネイティブの名前
 
 #57. OdaDimension ( prefix Element.OdaDimension )
 Element.OdaDimension.hierarchies=階層
-Element.OdaDimension.nativeName=Native name
+Element.OdaDimension.nativeName=ネイティブの名前
 
 #58. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=レベル
-Element.OdaHierarchy.nativeName=Native name
+Element.OdaHierarchy.nativeName=ネイティブの名前
 
 #59. OdaLevel ( prefix Element.OdaLevel )
 Element.OdaLevel.attributes=属性
@@ -3145,7 +3145,7 @@ Element.OdaLevel.attributes=属性
 #60. MemberValue ( prefix Element.MemberValue )
 Element.MemberValue.value=値
 Element.MemberValue.level=レベル
-Element.MemberValue.memberValues=Member values
+Element.MemberValue.memberValues=メンバ値
 
 #61. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=キー
@@ -3157,9 +3157,9 @@ Element.FilterConditionElement.operator=演算子
 Element.FilterConditionElement.expr=式
 Element.FilterConditionElement.value1=値 1
 Element.FilterConditionElement.value2=値 2
-Element.FilterConditionElement.filterTarget=Filter target
+Element.FilterConditionElement.filterTarget=フィルタのターゲット
 Element.FilterConditionElement.member=メンバ 
-Element.FilterConditionElement.isOptional=Is optional
+Element.FilterConditionElement.isOptional=Is オプション
 
 #63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
@@ -3184,8 +3184,8 @@ Element.DataGroup.sortDirection=ソート方向
 Element.DataGroup.sortType=ソート基準
 
 #63. DerivedDataSet ( prefix Element.DerivedDataSet )
-Element.DerivedDataSet.inputDataSets=Input data sets
-Element.DerivedDataSet.queryText=クエリ
+Element.DerivedDataSet.inputDataSets=データセットの入力
+Element.DerivedDataSet.queryText=クエリテキスト
 
 ###########################################################
 # Predefined style
@@ -3445,7 +3445,7 @@ New.OdaHierarchy=新規ODAディメンジョン
 New.OdaLevel=新規ODAレベル
 New.OdaMeasure=新規ODAメジャー
 New.OdaMeasureGroup=新規ODAメジャーグループ
-New.DerivedDataSet=NewDerivedDataSet
+New.DerivedDataSet=新しい派生データセット
 
 ###########################################################
 #Default theme name.

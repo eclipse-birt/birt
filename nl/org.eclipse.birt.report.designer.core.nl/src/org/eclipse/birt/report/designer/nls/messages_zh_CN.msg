@@ -905,7 +905,7 @@ designerActionBarContributor.menu.data-newJointDataset=新建联接数据集(&J)
 DesignerActionBarContributor.menu.element.insert=插入(&I)
 DesignerActionBarContributor.menu.element.group=分组(&G) 
 DesignerActionBarContributor.menu.element.style=样式(&Y)
-DesignerActionBarContributor.menu.zoomCombo.tooltip=Zoom Level
+DesignerActionBarContributor.menu.zoomCombo.tooltip=缩放级别
 ###########################################################
 #DesignerOutlinePage properties
 
@@ -1736,9 +1736,9 @@ GeneralPreferencePage.errorMsg.duplicate.styleName=重复的样式名称。
 GeneralPreferencePage.label.styleNameDuplicate=样式名称“{0}”已存在，请选择另一个名称
 GeneralPreferencePage.label.customStyle=自定义样式(&C)
 GeneralPreferencePage.Label.CustomStyle=名称:
-GeneralPreferencePage.Label.Note=NOTE: * Apply style properties to a specific type of report element.
-GeneralPreferencePage.Label.PreDefinedStyle=Select Report Element:
-GeneralPreferencePage.label.predefinedStyle=&Predefined Style *
+GeneralPreferencePage.Label.Note=注: * 将样式属性应用于指定类型的报表元素。
+GeneralPreferencePage.Label.PreDefinedStyle=选择报表元素:
+GeneralPreferencePage.label.predefinedStyle=预定义样式(&P) *
 GeneralPreferencePage.label.nameEmpty=不允许空样式名称。 
 
 ###########################################################
@@ -3484,8 +3484,8 @@ StringVariableSelectionDialog.Dialog.Label=变量描述(&V):
 StringVariableSelectionDialog.Dialog.Prompt=选择变量(? = 任意字符，* = 任意字符串)(&C): 
 StringVariableSelectionDialog.Dialog.Title=选择变量 
 StyleBuilder.action.Apply=应用(&A)
-StyleBuilder.Edit.Info=Modify the desired style properties. All report elements that use this style are automatically updated to reflect the new format.
-StyleBuilder.New.Info=Create a new style by selectiong a property category on the left and specifying property values.
+StyleBuilder.Edit.Info=修改所需的样式属性。使用此样式的所有报表元素将自动更新以反映新格式。
+StyleBuilder.New.Info=通过从左侧选择属性类别并指定属性值创建新样式。
 StyleBuilder.Title=样式
 SytleBuilder.DialogTitle.New=新建样式
 SytleBuilder.DialogTitle.Edit=编辑样式

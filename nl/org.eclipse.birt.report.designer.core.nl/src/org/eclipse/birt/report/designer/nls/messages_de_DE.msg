@@ -905,7 +905,7 @@ designerActionBarContributor.menu.data-newJointDataset=Neuer &Verknüpfungsdatens
 DesignerActionBarContributor.menu.element.insert=E&infügen
 DesignerActionBarContributor.menu.element.group=&Gruppieren 
 DesignerActionBarContributor.menu.element.style=S&til
-DesignerActionBarContributor.menu.zoomCombo.tooltip=Zoom Level
+DesignerActionBarContributor.menu.zoomCombo.tooltip=Zoomebene
 ###########################################################
 #DesignerOutlinePage properties
 
@@ -1736,9 +1736,9 @@ GeneralPreferencePage.errorMsg.duplicate.styleName=Der Stilname ist bereits vorh
 GeneralPreferencePage.label.styleNameDuplicate=Stilname "{0}" ist bereits vorhanden. Wählen Sie einen anderen Namen.
 GeneralPreferencePage.label.customStyle=&Benutzerdefinierter Stil
 GeneralPreferencePage.Label.CustomStyle=Name:
-GeneralPreferencePage.Label.Note=NOTE: * Apply style properties to a specific type of report element.
-GeneralPreferencePage.Label.PreDefinedStyle=Select Report Element:
-GeneralPreferencePage.label.predefinedStyle=&Predefined Style *
+GeneralPreferencePage.Label.Note=HINWEIS: * Stileigenschaften müssen auf einen bestimmten Berichtelementtyp angewendet werden.
+GeneralPreferencePage.Label.PreDefinedStyle=Berichtelement wählen:
+GeneralPreferencePage.label.predefinedStyle=Vo&rdefinierter Stil*
 GeneralPreferencePage.label.nameEmpty=Leerer Stilname ist nicht zulässig. 
 
 ###########################################################
@@ -3484,8 +3484,8 @@ StringVariableSelectionDialog.Dialog.Label=&Variablenbeschreibung:
 StringVariableSelectionDialog.Dialog.Prompt=&Wählen Sie eine Variable (? = beliebiges Zeichen, * = beliebige Zeichenfolge): 
 StringVariableSelectionDialog.Dialog.Title=Variable wählen 
 StyleBuilder.action.Apply=&Anwenden
-StyleBuilder.Edit.Info=Modify the desired style properties. All report elements that use this style are automatically updated to reflect the new format.
-StyleBuilder.New.Info=Create a new style by selectiong a property category on the left and specifying property values.
+StyleBuilder.Edit.Info=Gewünschte Stileigenschaften bearbeiten. Alle Berichtelemente mit diesem Stil werden automatisch mit dem neuen Format aktualisiert.
+StyleBuilder.New.Info=Neuen Stil durch Auswahl einer Eigenschaftskategorie links und Angabe von Eigenschaftswerten erstellen.
 StyleBuilder.Title=Stil
 SytleBuilder.DialogTitle.New=Neuer Stil
 SytleBuilder.DialogTitle.Edit=Stil bearbeiten

@@ -905,7 +905,7 @@ designerActionBarContributor.menu.data-newJointDataset=Nouveau &jeu de données d
 DesignerActionBarContributor.menu.element.insert=&Insérer
 DesignerActionBarContributor.menu.element.group=&Groupe 
 DesignerActionBarContributor.menu.element.style=St&yle
-DesignerActionBarContributor.menu.zoomCombo.tooltip=Zoom Level
+DesignerActionBarContributor.menu.zoomCombo.tooltip=Niveau de zoom
 ###########################################################
 #DesignerOutlinePage properties
 
@@ -1736,9 +1736,9 @@ GeneralPreferencePage.errorMsg.duplicate.styleName=Nom de style en double
 GeneralPreferencePage.label.styleNameDuplicate=Le nom de style "{0}" existe déjà, choisissez un autre nom.
 GeneralPreferencePage.label.customStyle=&Style personnalisé
 GeneralPreferencePage.Label.CustomStyle=Nom :
-GeneralPreferencePage.Label.Note=NOTE: * Apply style properties to a specific type of report element.
-GeneralPreferencePage.Label.PreDefinedStyle=Select Report Element:
-GeneralPreferencePage.label.predefinedStyle=&Predefined Style *
+GeneralPreferencePage.Label.Note=REMARQUE : * appliquez les propriétés de style à un type spécifique d'élément d'état.
+GeneralPreferencePage.Label.PreDefinedStyle=Sélectionner élément d'état :
+GeneralPreferencePage.label.predefinedStyle=Style &prédéfini *
 GeneralPreferencePage.label.nameEmpty=Nom de style vide non autorisé. 
 
 ###########################################################
@@ -3484,8 +3484,8 @@ StringVariableSelectionDialog.Dialog.Label=Description de la &variable :
 StringVariableSelectionDialog.Dialog.Prompt=&Choisir une variable (? = tout caractère, * = toute chaîne) : 
 StringVariableSelectionDialog.Dialog.Title=Sélectionnez une variable 
 StyleBuilder.action.Apply=&Appliquer
-StyleBuilder.Edit.Info=Modify the desired style properties. All report elements that use this style are automatically updated to reflect the new format.
-StyleBuilder.New.Info=Create a new style by selectiong a property category on the left and specifying property values.
+StyleBuilder.Edit.Info=Modifiez les propriétés de style souhaitées. Tous les éléments d'état utilisant ce style sont automatiquement mis à jour pour refléter le nouveau format.
+StyleBuilder.New.Info=Créez un nouveau style en sélectionnant une catégorie de propriété sur la gauche et en spécifiant les valeurs de la propriété.
 StyleBuilder.Title=Style
 SytleBuilder.DialogTitle.New=Nouveau style
 SytleBuilder.DialogTitle.Edit=Modifier le style

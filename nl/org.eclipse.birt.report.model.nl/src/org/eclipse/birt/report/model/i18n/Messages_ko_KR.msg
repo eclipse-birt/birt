@@ -83,11 +83,11 @@ Choices.fontWeight.800=800
 Choices.fontWeight.900=900
 
 #2.textUnderline
-Choices.textUnderline.none=No Underline
+Choices.textUnderline.none=밑줄 없음
 Choices.textUnderline.underline=밑줄
   
 #3.lineStyle
-Choices.lineStyle.none=No Line Style
+Choices.lineStyle.none=선 스타일 없음
 Choices.lineStyle.solid=실선
 Choices.lineStyle.dotted=굵은 점선
 Choices.lineStyle.dashed=파선
@@ -144,7 +144,7 @@ Choices.pageOrientation.portrait=세로
 Choices.pageOrientation.landscape=가로
    
 #12.interval
-Choices.interval.none=No Interval
+Choices.interval.none=간격 없음
 Choices.interval.prefix=접두사
 Choices.interval.year=연
 Choices.interval.quarter=분기
@@ -157,7 +157,7 @@ Choices.interval.second=초
 Choices.interval.interval=간격
 
 #interval type
-Choices.intervalType.none=No Interval
+Choices.intervalType.none=간격 없음
 Choices.intervalType.prefix=접두사
 Choices.intervalType.interval=간격
 
@@ -236,7 +236,7 @@ Choices.lineSpacing.lines=줄
 Choices.lineSpacing.exact=정확히
   
 #24.lineType
-Choices.lineType.none=No Line Type
+Choices.lineType.none=선 형식 없음
 Choices.lineType.solid=실선
 Choices.lineType.dotted=굵은 점선
 Choices.lineType.dashed=파선
@@ -255,7 +255,7 @@ Choices.pageBreakAfter.avoid=피하기
 Choices.pageBreakAfter.alwaysExcludingLast=항상 마지막에 제외하기
 
 #27.actionLinkType
-Choices.actionLinkType.none=No Action Link Type
+Choices.actionLinkType.none=작업 링크 형식 없음
 Choices.actionLinkType.hyperlink=하이퍼링크
 Choices.actionLinkType.drill-through=확장
 Choices.actionLinkType.bookmark-link=책갈피 링크
@@ -265,7 +265,7 @@ Choices.actionFormatType.html=HTML
 Choices.actionFormatType.pdf=pdf
   
 #28.drillThroughLinkType
-Choices.drillThroughType.none=No Drill-through Type
+Choices.drillThroughType.none=드릴스루 형식 없음
 Choices.drillThroughType.bookmark-link=책갈피 링크
 Choices.drillThroughType.search=검색
  
@@ -320,7 +320,7 @@ Choices.backgroundPositionY.bottom=아래쪽
 Choices.transform.capitalize=첫 글자를 대문자로
 Choices.transform.uppercase=대문자
 Choices.transform.lowercase=소문자
-Choices.transform.none=No Transformation
+Choices.transform.none=변환 없음
 
 #38.normal
 Choices.normal.normal=표준
@@ -343,7 +343,7 @@ Choices.whiteSpace.nowrap=배치 안함
 #41.display
 Choices.display.block=블록
 Choices.display.inline=인라인
-Choices.display.none=No Display
+Choices.display.none=표시 없음
 
 #43.pageBreakInside
 Choices.pageBreakInside.avoid=피하기
@@ -353,11 +353,11 @@ Choices.pageBreakInside.auto=자동
 Choices.margine.auto=자동
 
 #45.textOverline
-Choices.textOverline.none=No Line Over Text
+Choices.textOverline.none=텍스트 위에 줄 없음
 Choices.textOverline.overline=윗줄
 
 #46.textLineThrough
-Choices.textLineThrough.none=No Line Through Text
+Choices.textLineThrough.none=텍스트 가운데에 줄 없음
 Choices.textLineThrough.line-through=가운데 줄
 
 #48.lineWidth
@@ -433,10 +433,10 @@ Choices.columnDataType.blob=Blob
 #54. searchType
 Choices.searchType.any=모두
 Choices.searchType.indexed=인덱스된
-Choices.searchType.none=No Search Type
+Choices.searchType.none=검색 형식 없음
 
 #55. exportType
-Choices.exportType.none=No Export Type
+Choices.exportType.none=내보내기 형식 없음
 Choices.exportType.if-realized=인식된 경우
 Choices.exportType.always=항상
 
@@ -445,7 +445,7 @@ Choices.analysisType.auto=자동
 Choices.analysisType.dimension=차원
 Choices.analysisType.measure=측정
 Choices.analysisType.detail=상세 정보
-Choices.analysisType.none=No Analysis Type
+Choices.analysisType.none=분석 형식 없음
 
 #57. scalarParamAlign
 Choices.scalarParamAlign.auto=자동
@@ -534,18 +534,18 @@ Choices.templateElementType.textData=텍스트 데이터
 Choices.templateElementType.dataSet=DataSet
 
 #61. sortType
-Choices.sortType.none=No Sort Type
-Choices.sortType.sortOnGroupkey=Sort on Group Key
-Choices.sortType.complexSort=Complex Sort
+Choices.sortType.none=정렬 형식 없음
+Choices.sortType.sortOnGroupkey=그룹 키 정렬
+Choices.sortType.complexSort=복합 정렬
 
 #62. joinType
-Choices.joinType.inner=Inner Join
-Choices.joinType.leftOut=Left Out Join
-Choices.joinType.rightOut=Right Out Join
-Choices.joinType.fullOut=Full Out Join
+Choices.joinType.inner=내부 조인
+Choices.joinType.leftOut=왼쪽 외부 조인
+Choices.joinType.rightOut=오른쪽 외부 조인
+Choices.joinType.fullOut=완전 외부 조인
 
 #63. joinOperator
-Choices.joinOperator.equals=Equals
+Choices.joinOperator.equals=같음
 
 #64. actionTargetFileType
 Choices.actionTargetFileType.report-design=보고서 디자인
@@ -652,8 +652,8 @@ Choices.backgroundSize.cover=덮어쓰기
 #79 scopeType
 Choices.scopeType.row=행
 Choices.scopeType.col=열
-Choices.scopeType.rowgroup=Row Group
-Choices.scopeType.colgroup=Column Group
+Choices.scopeType.rowgroup=행 그룹
+Choices.scopeType.colgroup=열 그룹
 
 ###########################################################
 # Classes
@@ -2242,7 +2242,7 @@ Element.AbstractMultiViews=요약 다중 보기
 Element.MultiViews=다중 보기
 Element.VariableElement=변수
 Element.DataGroup=데이터 그룹
-Element.DerivedDataSet=Derived Data Set
+Element.DerivedDataSet=파생 데이터 집합
 
 ###########################################################
 # Element property names
@@ -2267,7 +2267,7 @@ Element.Module.base=기본
 Element.Module.units=단위
 Element.Module.theme=테마
 Element.Module.propertyBindings=속성 바인딩
-Element.Module.scriptLibs=Script libraries
+Element.Module.scriptLibs=스크립트 라이브러리
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=스타일
@@ -3015,7 +3015,7 @@ Element.OdaDataSet.resultSetNumber=결과 집합 수
 #37 DesignElement ( Prefix Element.DesignElement )
 Element.DesignElement.customXml=사용자 지정 XML
 Element.DesignElement.propertyMasks=속성 마스크
-Element.DesignElement.userProperties=User properties
+Element.DesignElement.userProperties=사용자 속성
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=스타일
@@ -3023,16 +3023,16 @@ Element.Theme.cssStyleSheets=CSS 스타일시트
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=이름
-Element.TemplateParameterDefinition.allowedType=Allowed type
+Element.TemplateParameterDefinition.allowedType=허용된 형식
 Element.TemplateParameterDefinition.description=설명
 Element.TemplateParameterDefinition.descriptionID=설명 ID
 Element.TemplateParameterDefinition.slot.default=기본값
 
 #40 TemplateElement ( Prefix Element.TemplateElement )
 Element.TemplateElement.name=이름
-Element.TemplateElement.refTemplateParameter=Reference template parameter
+Element.TemplateElement.refTemplateParameter=참조 템플릿 매개 변수
 Element.TemplateElement.displayName=표시 이름
-Element.TemplateElement.displayNameID=Display name ID
+Element.TemplateElement.displayNameID=표시 이름 ID
 
 #41 JointDataset ( Prefix Element.JointDataset )
 Element.JointDataSet.resultSet=결과 집합 열
@@ -3046,7 +3046,7 @@ Element.JointDataSet.parameters=데이터 집합 매개 변수
 Element.TemplateReportItem.visibility=표시 유형
 
 #44.AutoText ( prefix Element.AutoText )
-Element.AutoText.type = Type of autotext
+Element.AutoText.type = AutoText 형식
 Element.AutoText.onPrepare=준비 중
 Element.AutoText.onPrepare.this=AutoText
 Element.AutoText.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
@@ -3065,35 +3065,35 @@ Element.AutoText.onPageBreak.this=AutoText 인스턴스
 Element.AutoText.onPageBreak.reportContext=보고서 컨텍스트
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.filter=Filter conditions
-Element.Cube.defaultMeasureGroup=Default measure group
+Element.Cube.filter=필터 조건
+Element.Cube.defaultMeasureGroup=기본 측정값 그룹
 Element.Cube.accessControls=액세스 컨트롤
 
 #46. Dimension ( prefix Element.Dimension )
-Element.Dimension.isTimeType=Is time type
-Element.Dimension.defaultHierarchy=Default hierarchy
+Element.Dimension.isTimeType=시간 유형 조건
+Element.Dimension.defaultHierarchy=기본 계층 구조
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.filter=Filter conditions
+Element.Hierarchy.filter=필터 조건
 Element.Hierarchy.accessControls=액세스 컨트롤
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=데이터 형식
-Element.Level.dateTimeLevelType=Date time level type
-Element.Level.dateTimeFormat=Date time format
+Element.Level.dateTimeLevelType=날짜 시간 수준 형식
+Element.Level.dateTimeFormat=날짜 시간 형식
 Element.Level.Interval=간격
 Element.Level.intervalBase=간격 기준
 Element.Level.interval=간격
 Element.Level.intervalRange=간격 범위
-Element.Level.levelType=Level type
-Element.Level.staticValues=Static values
+Element.Level.levelType=수준 형식
+Element.Level.staticValues=정적 값
 Element.Level.valueAccessControls=값 액세스 컨트롤
 Element.Level.defaultValue=기본값
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=함수
-Element.Measure.isCalculated=Is calculated
-Element.Measure.measureExpression=Measure expression
+Element.Measure.isCalculated=계산 조건
+Element.Measure.measureExpression=측정값 식
 Element.Measure.dataType=데이터 형식
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
@@ -3110,8 +3110,8 @@ Element.ValueAccessControl.values=값
 #52. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=데이터 집합
 Element.TabularCube.dimensions=크기
-Element.TabularCube.measureGroups=Measure groups
-Element.TabularCube.dimensionConditions=Dimension conditions
+Element.TabularCube.measureGroups=측정값 그룹
+Element.TabularCube.dimensionConditions=차원 조건
 
 #53. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=계층
@@ -3119,25 +3119,25 @@ Element.TabularDimension.hierarchies=계층
 #54. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=데이터 집합
 Element.TabularHierarchy.levels=수준
-Element.TabularHierarchy.primaryKeys=Primary key
+Element.TabularHierarchy.primaryKeys=기본 키
 
 #55. TabularLevel ( prefix Element.TabularLevel )
-Element.TabularLevel.columnName=Column name
-Element.TabularLevel.displayColumnName=Display column name
+Element.TabularLevel.columnName=열 이름
+Element.TabularLevel.displayColumnName=열 이름 표시
 Element.TabularLevel.attributes=특성
 
 #56. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=크기
-Element.OdaCube.measureGroups=Measure groups
-Element.OdaCube.nativeName=Native name
+Element.OdaCube.measureGroups=측정값 그룹
+Element.OdaCube.nativeName=고유 이름
 
 #57. OdaDimension ( prefix Element.OdaDimension )
 Element.OdaDimension.hierarchies=계층
-Element.OdaDimension.nativeName=Native name
+Element.OdaDimension.nativeName=고유 이름
 
 #58. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=수준
-Element.OdaHierarchy.nativeName=Native name
+Element.OdaHierarchy.nativeName=고유 이름
 
 #59. OdaLevel ( prefix Element.OdaLevel )
 Element.OdaLevel.attributes=특성
@@ -3145,7 +3145,7 @@ Element.OdaLevel.attributes=특성
 #60. MemberValue ( prefix Element.MemberValue )
 Element.MemberValue.value=값
 Element.MemberValue.level=수준
-Element.MemberValue.memberValues=Member values
+Element.MemberValue.memberValues=구성원 값
 
 #61. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=키
@@ -3157,9 +3157,9 @@ Element.FilterConditionElement.operator=연산자
 Element.FilterConditionElement.expr=식
 Element.FilterConditionElement.value1=Value1
 Element.FilterConditionElement.value2=Value2
-Element.FilterConditionElement.filterTarget=Filter target
+Element.FilterConditionElement.filterTarget=대상 필터
 Element.FilterConditionElement.member=구성원 
-Element.FilterConditionElement.isOptional=Is optional
+Element.FilterConditionElement.isOptional=옵션 여부
 
 #63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
@@ -3184,8 +3184,8 @@ Element.DataGroup.sortDirection=정렬 방향
 Element.DataGroup.sortType=정렬 형식
 
 #63. DerivedDataSet ( prefix Element.DerivedDataSet )
-Element.DerivedDataSet.inputDataSets=Input data sets
-Element.DerivedDataSet.queryText=쿼리
+Element.DerivedDataSet.inputDataSets=입력 데이터 집합
+Element.DerivedDataSet.queryText=쿼리 텍스트
 
 ###########################################################
 # Predefined style
@@ -3445,7 +3445,7 @@ New.OdaHierarchy=NewOdaHierarchy
 New.OdaLevel=NewOdaLevel
 New.OdaMeasure=NewOdaMeasure
 New.OdaMeasureGroup=NewOdaMeasureGroup
-New.DerivedDataSet=NewDerivedDataSet
+New.DerivedDataSet=새 파생 데이터 집합
 
 ###########################################################
 #Default theme name.

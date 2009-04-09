@@ -173,7 +173,7 @@ CrosstabFilterConditionBuilder.DialogMessage.Edit=フィルタを適用するグループレベ
 CrosstabFilterConditionBuilder.label.value=値
 CrosstabFilterConditionBuilder.Label.Target=ターゲット :
 CrosstabFilterConditionBuilder.Button.GroupLevel=グループレベル(&G)
-CrosstabFilterConditionBuilder.Button.Measure=Meas&ure
+CrosstabFilterConditionBuilder.Button.Measure=メジャー(&U)
 
 FilterbyTree.Bindings.Catogory.Measures=メジャー
 FilterbyTree.Bindings.Catogory.Dimension=ディメンジョン

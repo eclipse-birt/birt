@@ -173,7 +173,7 @@ CrosstabFilterConditionBuilder.DialogMessage.Edit=Seleccione el nivel de grupo a
 CrosstabFilterConditionBuilder.label.value=Valor
 CrosstabFilterConditionBuilder.Label.Target=Destino:
 CrosstabFilterConditionBuilder.Button.GroupLevel=&Nivel de grupo
-CrosstabFilterConditionBuilder.Button.Measure=Meas&ure
+CrosstabFilterConditionBuilder.Button.Measure=&Medida
 
 FilterbyTree.Bindings.Catogory.Measures=Medida
 FilterbyTree.Bindings.Catogory.Dimension=Dimensión

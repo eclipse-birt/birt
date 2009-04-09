@@ -387,7 +387,7 @@ data.olap.UnspecifiedBindingName=バインド名が指定されていません。
 data.olap.NotNestAggregationBinding=キューブネストされた集計のバインドではありません : {0}
 data.olap.InvalidNestAggregationExpression=キューブネストされた集計の式が無効です。
 data.olap.sort.exprError=参照するディメンジョンレベルにつき 1 つのレベルしか含めることができません。
-data.olap.query.noCubeBinding=Failed to execute the cube query because no cube binding is available!
+data.olap.query.noCubeBinding=キューブのバインドが使用できないため、キューブクエリを実行できませんでした。
 
 data.cache.UnsupportedIncrementalCacheMode=増分キャッシュの \"{0}\" モードはまだサポートされていません。
 # Configuration file parser error code

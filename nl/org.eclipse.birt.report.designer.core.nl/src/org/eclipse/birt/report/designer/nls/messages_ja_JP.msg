@@ -905,7 +905,7 @@ designerActionBarContributor.menu.data-newJointDataset=ƒWƒ‡ƒCƒ“ƒgƒf[ƒ^ƒZƒbƒg‚Ì
 DesignerActionBarContributor.menu.element.insert=‘}“ü(&I)
 DesignerActionBarContributor.menu.element.group=ƒOƒ‹[ƒv(&G) 
 DesignerActionBarContributor.menu.element.style=ƒXƒ^ƒCƒ‹(&Y)
-DesignerActionBarContributor.menu.zoomCombo.tooltip=Zoom Level
+DesignerActionBarContributor.menu.zoomCombo.tooltip=ƒY[ƒ€ƒŒƒxƒ‹
 ###########################################################
 #DesignerOutlinePage properties
 
@@ -1736,9 +1736,9 @@ GeneralPreferencePage.errorMsg.duplicate.styleName=ƒXƒ^ƒCƒ‹–¼‚ªd•¡‚µ‚Ä‚¢‚Ü‚·B
 GeneralPreferencePage.label.styleNameDuplicate=ƒXƒ^ƒCƒ‹–¼ "{0}" ‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B•Ê‚Ì–¼‘O‚ğ•t‚¯‚Ä‚­‚¾‚³‚¢B
 GeneralPreferencePage.label.customStyle=ƒ†[ƒUİ’è‚ÌƒXƒ^ƒCƒ‹(&C)...
 GeneralPreferencePage.Label.CustomStyle=–¼‘O :
-GeneralPreferencePage.Label.Note=NOTE: * Apply style properties to a specific type of report element.
-GeneralPreferencePage.Label.PreDefinedStyle=Select Report Element:
-GeneralPreferencePage.label.predefinedStyle=&Predefined Style *
+GeneralPreferencePage.Label.Note=’ : * ƒXƒ^ƒCƒ‹ƒvƒƒpƒeƒB‚ğ“Á’è‚Ìí—Ş‚ÌƒŒƒ|[ƒg—v‘f‚É“K—p‚µ‚Ä‚­‚¾‚³‚¢B
+GeneralPreferencePage.Label.PreDefinedStyle=ƒŒƒ|[ƒg—v‘f‚Ì‘I‘ğ :
+GeneralPreferencePage.label.predefinedStyle=’è‹`Ï‚İ‚ÌƒXƒ^ƒCƒ‹ *(&P)
 GeneralPreferencePage.label.nameEmpty=ƒXƒ^ƒCƒ‹–¼‚ğ‹ó”’‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB 
 
 ###########################################################
@@ -3484,8 +3484,8 @@ StringVariableSelectionDialog.Dialog.Label=•Ï”‚Ìà–¾(&V) :
 StringVariableSelectionDialog.Dialog.Prompt=•Ï”‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢ (? ‚Í”CˆÓ‚Ì 1 •¶šA* ‚Í”CˆÓ‚Ì•¶š—ñ‚ğ¦‚µ‚Ü‚·)(&C) : 
 StringVariableSelectionDialog.Dialog.Title=•Ï”‚Ì‘I‘ğ 
 StyleBuilder.action.Apply=“K—p(&A)
-StyleBuilder.Edit.Info=Modify the desired style properties. All report elements that use this style are automatically updated to reflect the new format.
-StyleBuilder.New.Info=Create a new style by selectiong a property category on the left and specifying property values.
+StyleBuilder.Edit.Info=ƒXƒ^ƒCƒ‹ƒvƒƒpƒeƒB‚ğ•ÏX‚µ‚Ü‚·B‚±‚ÌƒXƒ^ƒCƒ‹‚ğg—p‚µ‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒŒƒ|[ƒg—v‘f‚ªXV‚³‚êAV‚µ‚¢Œ`®‚ª”½‰f‚³‚ê‚Ü‚·B
+StyleBuilder.New.Info=V‚µ‚¢ƒXƒ^ƒCƒ‹‚ğì¬‚·‚é‚É‚ÍA¶‘¤‚ÌƒvƒƒpƒeƒB‚ÌƒJƒeƒSƒŠ‚ğ‘I‘ğ‚µAƒvƒƒpƒeƒB‚Ì’l‚ğw’è‚µ‚Ü‚·B
 StyleBuilder.Title=ƒXƒ^ƒCƒ‹
 SytleBuilder.DialogTitle.New=ƒXƒ^ƒCƒ‹‚ÌV‹Kì¬
 SytleBuilder.DialogTitle.Edit=ƒXƒ^ƒCƒ‹‚Ì•ÒW

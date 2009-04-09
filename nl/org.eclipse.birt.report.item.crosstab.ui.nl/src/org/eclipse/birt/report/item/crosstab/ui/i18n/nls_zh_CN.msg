@@ -173,7 +173,7 @@ CrosstabFilterConditionBuilder.DialogMessage.Edit=选择要应用筛选的组级别，然后设
 CrosstabFilterConditionBuilder.label.value=值
 CrosstabFilterConditionBuilder.Label.Target=目标:
 CrosstabFilterConditionBuilder.Button.GroupLevel=组级别(&G)
-CrosstabFilterConditionBuilder.Button.Measure=Meas&ure
+CrosstabFilterConditionBuilder.Button.Measure=度量(&U)
 
 FilterbyTree.Bindings.Catogory.Measures=度量
 FilterbyTree.Bindings.Catogory.Dimension=维

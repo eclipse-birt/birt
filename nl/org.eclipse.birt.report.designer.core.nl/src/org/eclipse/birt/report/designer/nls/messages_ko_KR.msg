@@ -905,7 +905,7 @@ designerActionBarContributor.menu.data-newJointDataset=새 조인 데이터 집합(&J)
 DesignerActionBarContributor.menu.element.insert=삽입(&I)
 DesignerActionBarContributor.menu.element.group=그룹(&G) 
 DesignerActionBarContributor.menu.element.style=스타일(&Y)
-DesignerActionBarContributor.menu.zoomCombo.tooltip=Zoom Level
+DesignerActionBarContributor.menu.zoomCombo.tooltip=확대/축소 수준
 ###########################################################
 #DesignerOutlinePage properties
 
@@ -1736,9 +1736,9 @@ GeneralPreferencePage.errorMsg.duplicate.styleName=중복된 스타일 이름입니다.
 GeneralPreferencePage.label.styleNameDuplicate=스타일 이름 "{0}"은(는) 이미 있습니다. 다른 이름을 선택하십시오.
 GeneralPreferencePage.label.customStyle=사용자 지정 스타일(&C)
 GeneralPreferencePage.Label.CustomStyle=이름:
-GeneralPreferencePage.Label.Note=NOTE: * Apply style properties to a specific type of report element.
-GeneralPreferencePage.Label.PreDefinedStyle=Select Report Element:
-GeneralPreferencePage.label.predefinedStyle=&Predefined Style *
+GeneralPreferencePage.Label.Note=참고: *스타일 속성을 특정 형식의 보고서 요소에 적용하십시오.
+GeneralPreferencePage.Label.PreDefinedStyle=보고서 요소 선택:
+GeneralPreferencePage.label.predefinedStyle=미리 정의된 스타일(&P)*
 GeneralPreferencePage.label.nameEmpty=스타일 이름은 필수 입력 항목입니다. 
 
 ###########################################################
@@ -3484,8 +3484,8 @@ StringVariableSelectionDialog.Dialog.Label=변수 설명(&V):
 StringVariableSelectionDialog.Dialog.Prompt=변수 선택(? = 모든 문자, * = 모든 문자열)(&C): 
 StringVariableSelectionDialog.Dialog.Title=변수 선택 
 StyleBuilder.action.Apply=적용(&A)
-StyleBuilder.Edit.Info=Modify the desired style properties. All report elements that use this style are automatically updated to reflect the new format.
-StyleBuilder.New.Info=Create a new style by selectiong a property category on the left and specifying property values.
+StyleBuilder.Edit.Info=원하는 스타일 속성을 수정합니다. 이 스타일을 사용하는 모든 보고서 요소는 자동으로 업데이트되어 새 형식을 반영합니다.
+StyleBuilder.New.Info=왼쪽의 속성 범주를 선택하고 속성 값을 지정하여 새 스타일을 생성합니다.
 StyleBuilder.Title=스타일
 SytleBuilder.DialogTitle.New=새 스타일
 SytleBuilder.DialogTitle.Edit=스타일 편집

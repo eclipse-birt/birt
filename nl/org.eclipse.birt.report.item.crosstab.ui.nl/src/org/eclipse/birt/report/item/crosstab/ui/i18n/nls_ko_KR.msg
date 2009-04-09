@@ -173,7 +173,7 @@ CrosstabFilterConditionBuilder.DialogMessage.Edit=필터를 적용할 그룹 수준을 선택
 CrosstabFilterConditionBuilder.label.value=값
 CrosstabFilterConditionBuilder.Label.Target=대상:
 CrosstabFilterConditionBuilder.Button.GroupLevel=그룹 수준(&G)
-CrosstabFilterConditionBuilder.Button.Measure=Meas&ure
+CrosstabFilterConditionBuilder.Button.Measure=측정값(&U)
 
 FilterbyTree.Bindings.Catogory.Measures=측정
 FilterbyTree.Bindings.Catogory.Dimension=차원
