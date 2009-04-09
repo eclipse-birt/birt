@@ -967,7 +967,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save( );
 
-		saveOutputFile( "CompatiblePropToExprTest_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "CompatiblePropToExprTest_golden.xml" )); //$NON-NLS-1$
 
 	}
 }

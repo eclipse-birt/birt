@@ -20,7 +20,9 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
 
@@ -57,7 +59,37 @@ class CompatiblePropToExprState extends CompatiblePropertyState
 
 	public void end( ) throws SAXException
 	{
-		String value = doCompatibility( text.toString( ) );
+		handleDefaultValueList( handler.module, element, propDefn, nameValue,
+				handler.versionNumber, text.toString( ) );
+	}
+
+	/**
+	 * Handles the compatibility case for specified properties.
+	 * 
+	 * @param value
+	 *            the value
+	 * @return the value has been compromised
+	 */
+
+	private static String doCompatibility( int versionNumber, String value,
+			DesignElement element, int propCode )
+	{
+		if ( versionNumber < VersionUtil.VERSION_3_2_4
+				&& ( element instanceof ScalarParameter )
+				&& DEFAULT_VALUE_PROP == propCode )
+		{
+
+			return StringUtil.trimQuotes( value );
+		}
+
+		return value;
+	}
+
+	public static void handleDefaultValueList( Module module,
+			DesignElement element, PropertyDefn propDefn, int propCode,
+			int versionNumber, String input )
+	{
+		String value = doCompatibility( versionNumber, input, element, propCode );
 
 		int tmpType = propDefn.getTypeCode( );
 
@@ -75,8 +107,8 @@ class CompatiblePropToExprState extends CompatiblePropertyState
 
 		try
 		{
-			newValue = propDefn.getType( ).validateValue( handler.module,
-					propDefn, newValue );
+			newValue = propDefn.getType( ).validateValue( module, propDefn,
+					newValue );
 		}
 		catch ( PropertyValueException e )
 		{
@@ -87,26 +119,5 @@ class CompatiblePropToExprState extends CompatiblePropertyState
 			return;
 
 		element.setProperty( propDefn, newValue );
-	}
-
-	/**
-	 * Handles the compatibility case for specified properties.
-	 * 
-	 * @param value
-	 *            the value
-	 * @return the value has been compromised
-	 */
-
-	private String doCompatibility( String value )
-	{
-		if ( handler.versionNumber < VersionUtil.VERSION_3_2_4
-				&& ( element instanceof ScalarParameter )
-				&& DEFAULT_VALUE_PROP == nameValue )
-		{
-
-			return StringUtil.trimQuotes( text.toString( ) );
-		}
-
-		return value;
 	}
 }
