@@ -18,6 +18,7 @@ import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.LayoutEmitterAdapter;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
@@ -58,9 +59,17 @@ public class AreaFactory
 			case IContent.DATA_CONTENT :
 			case IContent.LABEL_CONTENT :
 			case IContent.TEXT_CONTENT :
-				if(PropertyUtil.isInlineElement( content ))
+				if ( PropertyUtil.isInlineElement( content ) )
 				{
-					return new InlineTextArea(parent,  context, content);
+					DimensionType width = content.getWidth( );
+					if ( width != null )
+					{
+						return new BlockTextArea( parent, context, content );
+					}
+					else
+					{
+						return new InlineTextArea( parent, context, content );
+					}
 				}
 				else
 				{
