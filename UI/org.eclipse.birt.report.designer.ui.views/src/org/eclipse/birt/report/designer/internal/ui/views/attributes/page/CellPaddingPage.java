@@ -54,6 +54,7 @@ public class CellPaddingPage extends ResetAttributePage
 					true );
 
 			section.setProvider( provider );
+			section.setWidth( 200 );
 			// section.setLayoutNum( 5 );
 			section.setGridPlaceholder( 3, true );
 
