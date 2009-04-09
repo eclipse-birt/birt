@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
@@ -66,7 +67,8 @@ public class CrosstabPageBreakDialog extends BaseDialog
 
 	public final static String TITLE = Messages.getString( "CrosstabPageBreakDialog.Title" ); //$NON-NLS-1$
 
-	protected Combo levelCombo, pageBreakBeforeCombo, pageBreakAfterCombo;
+	protected Combo levelCombo, pageBreakBeforeCombo, pageBreakAfterCombo,
+			pageBreakInsideCombo;
 
 	protected Text intervalText;
 
@@ -76,9 +78,13 @@ public class CrosstabPageBreakDialog extends BaseDialog
 	final private static IChoice[] pagebreakAfterChoicesAll = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_PAGE_BREAK_AFTER )
 			.getChoices( );
+	final private static IChoice[] pagebreakInsideChoicesAll = DEUtil.getMetaDataDictionary( )
+			.getChoiceSet( DesignChoiceConstants.CHOICE_PAGE_BREAK_INSIDE )
+			.getChoices( );
 
 	final private static int PAGE_BREAK_BEFORE = 0;
 	final private static int PAGE_BREAK_AFTER = 1;
+	final private static int PAGE_BREAK_INSIDE = 2;
 
 	private int axis;
 
@@ -176,6 +182,12 @@ public class CrosstabPageBreakDialog extends BaseDialog
 				pageBreakAfterCombo.select( getPageBreakIndex( levelHandle.getPageBreakAfter( ),
 						PAGE_BREAK_AFTER ) );
 			}
+			if ( axis == ICrosstabConstants.ROW_AXIS_TYPE
+					&& levelHandle.getPageBreakInside( ) != null )
+			{
+				pageBreakInsideCombo.select( getPageBreakIndex( levelHandle.getPageBreakInside( ),
+						PAGE_BREAK_INSIDE ) );
+			}
 			if ( levelHandle.getModelHandle( )
 					.getProperty( ILevelViewConstants.PAGE_BREAK_INTERVAL_PROP ) != null )
 				intervalText.setText( Integer.toString( levelHandle.getPageBreakInterval( ) ) );
@@ -189,6 +201,10 @@ public class CrosstabPageBreakDialog extends BaseDialog
 			levelCombo.select( 0 );
 			pageBreakBeforeCombo.select( 0 );
 			pageBreakAfterCombo.select( 0 );
+			if ( axis == ICrosstabConstants.ROW_AXIS_TYPE )
+			{
+				pageBreakInsideCombo.select( 0 );
+			}
 			intervalText.setText( "" ); //$NON-NLS-1$
 		}
 
@@ -216,6 +232,11 @@ public class CrosstabPageBreakDialog extends BaseDialog
 					PAGE_BREAK_BEFORE ) );
 			level.setPageBreakAfter( getPageBreak( pageBreakAfterCombo.getSelectionIndex( ),
 					PAGE_BREAK_AFTER ) );
+			if ( axis == ICrosstabConstants.ROW_AXIS_TYPE )
+			{
+				level.setPageBreakInside( getPageBreak( pageBreakInsideCombo.getSelectionIndex( ),
+						PAGE_BREAK_INSIDE ) );
+			}
 			if ( intervalText.getText( ).trim( ).length( ) == 0 )
 			{
 				level.getModelHandle( )
@@ -272,6 +293,19 @@ public class CrosstabPageBreakDialog extends BaseDialog
 		pageBreakAfterCombo.setItems( getPageBreakDisplayNames( PAGE_BREAK_AFTER ) );
 		pageBreakAfterCombo.addListener( SWT.Selection, updateButtonListener );
 
+		if ( axis == ICrosstabConstants.ROW_AXIS_TYPE )
+		{
+			lb = new Label( container, SWT.NONE );
+			lb.setText( Messages.getString( "CrosstabPageBreakDialog.Text.PageBreakInside" ) ); //$NON-NLS-1$
+
+			pageBreakInsideCombo = new Combo( container, SWT.BORDER
+					| SWT.READ_ONLY );
+			pageBreakInsideCombo.setLayoutData( gdata );
+			pageBreakInsideCombo.setItems( getPageBreakDisplayNames( PAGE_BREAK_INSIDE ) );
+			pageBreakInsideCombo.addListener( SWT.Selection,
+					updateButtonListener );
+		}
+
 		lb = new Label( container, SWT.NONE );
 		lb.setText( Messages.getString( "CrosstabPageBreakDialog.Text.PageBreakInterval" ) ); //$NON-NLS-1$
 
@@ -324,11 +358,12 @@ public class CrosstabPageBreakDialog extends BaseDialog
 
 	private String[] getPageBreakDisplayNames( int type )
 	{
-		IChoice[][] pageBreakChoices = new IChoice[2][];
+		IChoice[][] pageBreakChoices = new IChoice[3][];
 		pageBreakChoices[0] = pagebreakBeforeChoicesAll;
 		pageBreakChoices[1] = pagebreakAfterChoicesAll;
+		pageBreakChoices[2] = pagebreakInsideChoicesAll;
 
-		if ( type > 2 || type < 0 )
+		if ( type > 3 || type < 0 )
 		{
 			type = PAGE_BREAK_BEFORE;
 		}
@@ -345,11 +380,12 @@ public class CrosstabPageBreakDialog extends BaseDialog
 
 	private String getPageBreakDisplayName( String name, int type )
 	{
-		IChoice[][] pageBreakChoices = new IChoice[2][];
+		IChoice[][] pageBreakChoices = new IChoice[3][];
 		pageBreakChoices[0] = pagebreakBeforeChoicesAll;
 		pageBreakChoices[1] = pagebreakAfterChoicesAll;
+		pageBreakChoices[2] = pagebreakInsideChoicesAll;
 
-		if ( type > 2 || type < 0 )
+		if ( type > 3 || type < 0 )
 		{
 			type = PAGE_BREAK_BEFORE;
 		}
@@ -369,11 +405,12 @@ public class CrosstabPageBreakDialog extends BaseDialog
 
 	private String getPageBreak( int index, int type )
 	{
-		IChoice[][] pageBreakChoices = new IChoice[2][];
+		IChoice[][] pageBreakChoices = new IChoice[3][];
 		pageBreakChoices[0] = pagebreakBeforeChoicesAll;
 		pageBreakChoices[1] = pagebreakAfterChoicesAll;
+		pageBreakChoices[2] = pagebreakInsideChoicesAll;
 
-		if ( type > 2 || type < 0 )
+		if ( type > 3 || type < 0 )
 		{
 			type = PAGE_BREAK_BEFORE;
 		}
@@ -389,11 +426,12 @@ public class CrosstabPageBreakDialog extends BaseDialog
 
 	private int getPageBreakIndex( String name, int type )
 	{
-		IChoice[][] pageBreakChoices = new IChoice[2][];
+		IChoice[][] pageBreakChoices = new IChoice[3][];
 		pageBreakChoices[0] = pagebreakBeforeChoicesAll;
 		pageBreakChoices[1] = pagebreakAfterChoicesAll;
+		pageBreakChoices[2] = pagebreakInsideChoicesAll;
 
-		if ( type > 2 || type < 0 )
+		if ( type > 3 || type < 0 )
 		{
 			type = PAGE_BREAK_BEFORE;
 		}

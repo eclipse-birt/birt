@@ -16,10 +16,9 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Widget
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.CheckSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.PageBreakProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.RepeatHeaderProvider;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.RowPageBreakProvider;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.widgets.Composite;
 
@@ -43,8 +42,7 @@ public class RowPageBreak extends AttributePage
 		addSection( CrosstabSectionPageId.ROWPAGEBREAK_REPEAT_COLUMN_HEADER,
 				repeatRowHeaderSection );
 
-		PageBreakProvider pageBreakProvider = new PageBreakProvider( );
-		pageBreakProvider.setAxis( ICrosstabConstants.ROW_AXIS_TYPE );
+		RowPageBreakProvider pageBreakProvider = new RowPageBreakProvider( );
 		FormSection pageBreakSection = new FormSection( pageBreakProvider.getDisplayName( ),
 				container,
 				true );
