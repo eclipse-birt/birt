@@ -43,7 +43,6 @@ public class CellExecutor extends QueryItemExecutor
 
 		processAction( cellDesign, cellContent );
 		processBookmark( cellDesign, cellContent );
-		processScope( cellDesign, cellContent );
 		processHeaders( cellDesign, cellContent );
 		processStyle( cellDesign, cellContent );
 		processVisibility( cellDesign, cellContent );
@@ -65,31 +64,10 @@ public class CellExecutor extends QueryItemExecutor
 
 	private void processHeaders( CellDesign cellDesign, ICellContent cellContent )
 	{
-		String headersExpression = cellDesign.getHeaders( );
-		if ( headersExpression != null )
+		String headers = evaluate( cellDesign.getHeaders( ) );
+		if ( headers != null && !headers.equals( "" ) )
 		{
-			try
-			{
-				Object tmp = evaluate( headersExpression );
-				if ( tmp != null && !tmp.equals( "" ) )
-				{
-					String headers = tmp.toString( );
-					cellContent.setHeaders( headers );
-				}
-			}
-			catch ( BirtException ex )
-			{
-				context.addException( ex );
-			}
-		}
-	}
-
-	private void processScope( CellDesign cellDesign, ICellContent cellContent )
-	{
-		String scope = cellDesign.getScope( );
-		if ( scope != null && !scope.equals( "" ) )
-		{
-			cellContent.setScope( scope );
+			cellContent.setHeaders( headers );
 		}
 	}
 

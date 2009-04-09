@@ -76,7 +76,7 @@ public class CellDesign extends ReportItemDesign
 	 */
 	private DimensionType antidiagonalWidth = null;
 	
-	private String headers;
+	private Expression<String> headers;
 
 	private String scope;
 
@@ -279,12 +279,12 @@ public class CellDesign extends ReportItemDesign
 		return antidiagonalWidth;
 	}
 
-	public void setHeaders( String headers )
+	public void setHeaders( Expression<String> headers )
 	{
 		this.headers = headers;
 	}
 
-	public String getHeaders( )
+	public Expression<String> getHeaders( )
 	{
 		return this.headers;
 	}

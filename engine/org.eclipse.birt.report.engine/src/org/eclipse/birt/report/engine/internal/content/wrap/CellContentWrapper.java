@@ -206,11 +206,6 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 		cell.setHeaders( headers );
 	}
 
-	public void setScope( String scope )
-	{
-		cell.setScope( scope );
-	}
-
 	public String getDrop( )
 	{
 		return cell.getScope( );

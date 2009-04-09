@@ -1134,6 +1134,14 @@ public class EngineIRReaderImpl implements IOConstants
 				DimensionType antidiagonalWidth = readDimension( in );
 				cell.setAntidiagonalWidth( antidiagonalWidth );
 				break;
+			case FIELD_HEADERS:
+				Expression<String> headers = readStringExpression(in);
+				cell.setHeaders( headers );
+				break;
+			case FIELD_SCOPE:
+				String scope = IOUtil.readString( in );
+				cell.setScope( scope );
+				break;
 			default :
 				readReportItemField( in, cell, fieldType );
 		}

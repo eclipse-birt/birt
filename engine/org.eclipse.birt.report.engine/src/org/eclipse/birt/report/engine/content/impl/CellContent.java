@@ -66,8 +66,6 @@ public class CellContent extends AbstractContent implements ICellContent
 
 	private String headers;
 
-	private String scope;
-
 	private String drop;
 	
 	public int getContentType( )
@@ -237,6 +235,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	static final protected short FIELD_START_OF_GROUP = 103;
 	static final protected short FIELD_DISPLAY_GROUP_ICON = 104;
 	static final protected short FIELD_DROP = 111;
+	static final protected short FIELD_HEADERS = 112;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -266,7 +265,11 @@ public class CellContent extends AbstractContent implements ICellContent
 			IOUtil.writeShort( out, FIELD_DROP );
 			IOUtil.writeString( out, drop );
 		}
-		
+		if ( headers != null )
+		{
+			IOUtil.writeShort( out, FIELD_HEADERS );
+			IOUtil.writeString( out, headers );
+		}
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in,
@@ -292,6 +295,9 @@ public class CellContent extends AbstractContent implements ICellContent
 			case FIELD_DROP :
 				drop = IOUtil.readString( in );
 				break;
+			case FIELD_HEADERS :
+				headers = IOUtil.readString( in );
+				break;
 			default :
 				super.readField( version, filedId, in, loader );
 				break;
@@ -304,7 +310,7 @@ public class CellContent extends AbstractContent implements ICellContent
 		{
 			return true;
 		}
-		if ( displayGroupIcon != null )
+		if ( displayGroupIcon != null || headers != null )
 		{
 			return true;
 		}
@@ -422,12 +428,24 @@ public class CellContent extends AbstractContent implements ICellContent
 
 	public String getHeaders( )
 	{
-		return headers;
+		if ( headers != null )
+		{
+			return headers;
+		}
+		else if ( cellDesign != null && cellDesign.getHeaders( ) != null )
+		{
+			return getConstantValue( cellDesign.getHeaders( ) );
+		}
+		return null;
 	}
 
 	public String getScope( )
 	{
-		return scope;
+		if ( cellDesign != null )
+		{
+			return cellDesign.getScope( );
+		}
+		return null;
 	}
 
 	public void setHeaders( String headers )
@@ -435,8 +453,4 @@ public class CellContent extends AbstractContent implements ICellContent
 		this.headers = headers;
 	}
 
-	public void setScope( String scope )
-	{
-		this.scope = scope;
-	}
 }

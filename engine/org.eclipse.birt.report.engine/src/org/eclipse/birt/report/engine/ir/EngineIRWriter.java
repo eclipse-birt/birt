@@ -1312,6 +1312,19 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeShort( out, FIELD_DROP );
 			IOUtil.writeString( out, drop );
 		}
+		Expression<String> headers = cell.getHeaders( );
+		if ( headers != null )
+		{
+			IOUtil.writeShort( out, FIELD_HEADERS );
+			write( out, headers );
+		}
+		String scope = cell.getScope( );
+		if ( scope != null )
+		{
+			IOUtil.writeShort( out, FIELD_SCOPE );
+			IOUtil.writeString( out, scope );
+		}
+
 		boolean displayGroupIcon = cell.getDisplayGroupIcon( );
 		if (displayGroupIcon)
 		{

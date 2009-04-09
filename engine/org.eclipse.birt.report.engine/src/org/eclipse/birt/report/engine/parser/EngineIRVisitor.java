@@ -1391,7 +1391,7 @@ public class EngineIRVisitor extends DesignVisitor
 		String bookmark = validateExpression( handle.getBookmark( ) );
 		cell.setBookmark( createExpression( bookmark ) );
 		String headers = handle.getHeaders( );
-		cell.setHeaders( validateExpression( headers ) );
+		cell.setHeaders( createExpression( validateExpression( headers ) ) );
 		String scope = handle.getScope( );
 		if ( scope != null )
 		{
