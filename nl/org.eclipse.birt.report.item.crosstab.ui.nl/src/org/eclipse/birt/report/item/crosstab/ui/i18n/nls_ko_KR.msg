@@ -202,6 +202,7 @@ CrosstabGrandTotalDialog.Text.Function=함수(&F):
 CrosstabPageBreakProvider.Column.GroupLevel=그룹 수준
 CrosstabPageBreakProvider.Column.Before=전
 CrosstabPageBreakProvider.Column.After=후
+CrosstabPageBreakProvider.Column.Inside=Inside
 CrosstabPageBreakProvider.Column.Interval=간격
 
 ###########################################################
@@ -216,6 +217,7 @@ CrosstabPageBreakDialog.Title=페이지 나누기
 CrosstabPageBreakDialog.Text.GroupLevel=그룹 수준(&G):
 CrosstabPageBreakDialog.Text.PageBreakBefore=다음 이전(&B):
 CrosstabPageBreakDialog.Text.PageBreakAfter=다음 이후(&A):
+CrosstabPageBreakDialog.Text.PageBreakInside=&Inside:
 CrosstabPageBreakDialog.Text.PageBreakInterval=페이지 나누기 간격(&P):
 
 ###########################################################
