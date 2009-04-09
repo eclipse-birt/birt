@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -117,21 +116,6 @@ public class ReportRunnableTest extends EngineCase
 		task.render( );
 		String outputString = out.toString( );
 		assertTrue(outputString.indexOf( "after onPrepare" )>0);
-		task.close( );
-		
-		
-		IReportRunnable bRunnable = reportDoc.getReportRunnable( );
-		task = engine.createRenderTask( reportDoc, bRunnable );
-
-		out = new ByteArrayOutputStream();
-		option.setOutputStream( out );
-		// set the render options
-		task.setRenderOption( option );
-		
-		// render report by page
-		task.render( );
-		outputString = out.toString( );
-		assertTrue(outputString.indexOf( "before onPrepare" )>0);
 		task.close( );
 		reportDoc.close( );
 	}

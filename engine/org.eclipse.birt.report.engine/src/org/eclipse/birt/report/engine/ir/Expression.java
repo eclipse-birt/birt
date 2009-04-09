@@ -47,7 +47,7 @@ public class Expression<T>
 		return new JSExpression<DimensionType>( expression, DimensionType.class );
 	}
 
-	protected Expression( T value, Class<T> type )
+	public Expression( T value, Class<T> type )
 	{
 		this.value = value;
 		this.type = type;
