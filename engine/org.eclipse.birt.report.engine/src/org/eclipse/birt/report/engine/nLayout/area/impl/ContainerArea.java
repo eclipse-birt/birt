@@ -359,23 +359,26 @@ public abstract class ContainerArea extends AbstractArea
 						logger.log( Level.WARNING, e.getMessage( ), e );
 					}
 				}
-				int resolutionX = img.getDpiX( );
-				int resolutionY = img.getDpiY( );
-				if ( 0 == resolutionX || 0 == resolutionY )
+				if ( img != null )
 				{
-					resolutionX = 96;
-					resolutionY = 96;
+					int resolutionX = img.getDpiX( );
+					int resolutionY = img.getDpiY( );
+					if ( 0 == resolutionX || 0 == resolutionY )
+					{
+						resolutionX = 96;
+						resolutionY = 96;
+					}
+					float imageWidth = img.plainWidth( ) / resolutionX * 72;
+					float imageHeight = img.plainHeight( ) / resolutionY * 72;
+					bgi
+							.setXOffset( bgi.getXOffset( )
+									* ( width - (int) ( imageWidth * PDFConstants.LAYOUT_TO_PDF_RATIO ) )
+									/ 100 );
+					bgi
+							.setYOffset( bgi.getYOffset( )
+									* ( height - (int) ( imageHeight * PDFConstants.LAYOUT_TO_PDF_RATIO ) )
+									/ 100 );
 				}
-				float imageWidth = img.plainWidth( ) / resolutionX * 72;
-				float imageHeight = img.plainHeight( ) / resolutionY * 72;
-				bgi
-						.setXOffset( bgi.getXOffset( )
-								* ( width - (int) ( imageWidth * PDFConstants.LAYOUT_TO_PDF_RATIO ) )
-								/ 100 );
-				bgi
-						.setYOffset( bgi.getYOffset( )
-								* ( height - (int) ( imageHeight * PDFConstants.LAYOUT_TO_PDF_RATIO ) )
-								/ 100 );
 			}
 		}
 	}
