@@ -58,9 +58,9 @@ public class TextCompositor
 	private boolean isNewLine = true;
 	
 	//three possible line break collapse status
-	private int LINE_BREAK_COLLAPSE_FREE = 0;
-	private int LINE_BREAK_COLLAPSE_STANDING_BY = 1;
-	private int LINE_BREAK_COLLAPSE_OCCUPY = 2;
+	private static int LINE_BREAK_COLLAPSE_FREE = 0;
+	private static int LINE_BREAK_COLLAPSE_STANDING_BY = 1;
+	private static int LINE_BREAK_COLLAPSE_OCCUPIED = 2;
 	
 	private int lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
 
@@ -108,7 +108,7 @@ public class TextCompositor
 		}
 		TextArea textArea = getNextTextArea( maxLineWidth );
 		offset += textArea.getTextLength( );
-		if( lineBreakCollapse == LINE_BREAK_COLLAPSE_OCCUPY )
+		if( lineBreakCollapse == LINE_BREAK_COLLAPSE_OCCUPIED )
 		{
 			lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
 			return null;
@@ -121,6 +121,7 @@ public class TextCompositor
 		// the hyphenation vestige
 		if ( null != wordVestige )
 		{
+			lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
 			TextArea textArea = createTextArea( textContent, offset, runLevel,
 					fontInfo );
 			textArea.setMaxWidth( maxLineWidth );
@@ -130,6 +131,7 @@ public class TextCompositor
 		}
 		if ( null != remainWord )
 		{
+			lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
 			TextArea textArea = createTextArea( textContent, offset, runLevel,
 					fontInfo );
 			textArea.setMaxWidth( maxLineWidth );
@@ -154,14 +156,11 @@ public class TextCompositor
 				hasLineBreak = true;
 				if( lineBreakCollapse == LINE_BREAK_COLLAPSE_STANDING_BY )
 				{
-					lineBreakCollapse = LINE_BREAK_COLLAPSE_OCCUPY;
+					lineBreakCollapse = LINE_BREAK_COLLAPSE_OCCUPIED;
 				}
 				return textArea;
 			}
-			if( lineBreakCollapse == LINE_BREAK_COLLAPSE_STANDING_BY )
-			{
-				lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
-			}
+			lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
 			fontInfo = chunk.getFontInfo( );
 			runLevel = chunk.getRunLevel( );
 			remainWords = new WordRecognizerWrapper( chunk.getText( ), context
