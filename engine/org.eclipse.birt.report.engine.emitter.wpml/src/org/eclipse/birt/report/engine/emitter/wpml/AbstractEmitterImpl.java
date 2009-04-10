@@ -617,6 +617,8 @@ public abstract class AbstractEmitterImpl
 		String extension = image.getExtension( );
 		String altText = image.getAltText( );
 
+		context.addContainer( false );
+
 		if ( FlashFile.isFlash( mimeType, uri, extension ) )
 		{
 			if ( altText == null )
