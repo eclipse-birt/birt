@@ -384,6 +384,14 @@
 		<copy tofile="${postingDirectory}/${buildId}/UpdateSite/site.xml" 
 			file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
 		
+        <property name="compsite.site" value="${postingDirectory}/../../../UpdateSite/${updateSite}" />
+        <property name="repo" value="${compsite.site}/${buildId}" />
+
+	    <copy todir="${postingDirectory}/${buildId}/UpdateSite/">
+	        <fileset dir="repo">
+	            <include name="*.jar"/>
+	        </fileset>
+	    </copy>
 		
 		<!-- clean last content -->
 		<!--delete failonerror="false">
