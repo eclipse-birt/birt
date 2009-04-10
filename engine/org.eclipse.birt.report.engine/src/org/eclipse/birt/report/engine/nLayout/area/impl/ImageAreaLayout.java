@@ -81,14 +81,12 @@ public class ImageAreaLayout implements ILayout
 		// choose the layout manager
 		IImageContent imageContent = (IImageContent) content;
 		Image imageObject = null;
-		boolean isFlash = FlashFile.isFlash( imageContent.getMIMEType( ),
-				imageContent.getURI( ), imageContent.getExtension( ) );
-		if ( !isFlash )
+		if ( objectType == TYPE_IMAGE_OBJECT )
 		{
 			imageObject = EmitterUtil.getImage( imageContent );
 		}
 		if ( isOutputSupported( objectType )
-				&& ( isFlash || imageObject != null ) )
+				&& ( objectType == TYPE_FLASH_OBJECT || imageObject != null ) )
 		{
 			// the output format can display this kind of object and the object
 			// is accessible.
@@ -104,7 +102,6 @@ public class ImageAreaLayout implements ILayout
 				return;
 			}
 			layout = new BlockTextArea( parent, context, altTextContent );
-			( (BlockTextArea) layout ).initialize( );
 		}
 	}
 
@@ -150,7 +147,6 @@ public class ImageAreaLayout implements ILayout
 		if ( FlashFile.isFlash( mimeType, uri, extension ) )
 		{
 			objectType = TYPE_FLASH_OBJECT;
-			ObjectContent flash = (ObjectContent) image;
 		}
 		else
 		{
