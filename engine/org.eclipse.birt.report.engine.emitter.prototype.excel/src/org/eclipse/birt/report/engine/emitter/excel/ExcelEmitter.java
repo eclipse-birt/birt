@@ -541,9 +541,24 @@ public class ExcelEmitter extends ContentEmitterAdapter
 						return false;
 					}
     			}
+				if ( isHtmlText( child ) )
+				{
+					logger
+							.log( Level.WARNING,
+									"Excel page header and footer don't support html text." );
+					return false;
+				}
 			}
 		}
 		return true;
+	}
+
+	private boolean isHtmlText( Object child )
+	{
+		return child instanceof IForeignContent
+				&& IForeignContent.HTML_TYPE
+						.equalsIgnoreCase( ( (IForeignContent) child )
+								.getRawType( ) );
 	}
 	
 	public String getTableValue( ITableContent table )
