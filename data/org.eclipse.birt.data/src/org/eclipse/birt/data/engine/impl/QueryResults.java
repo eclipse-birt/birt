@@ -474,7 +474,7 @@ public class QueryResults implements IQueryResults, IQueryService
 			while ( subIt.hasNext( ) )
 			{
 				ISubqueryDefinition subquery = (ISubqueryDefinition) subIt.next( );
-
+				PreparedQueryUtil.mappingParentColumnBinding( subquery );
 				subQueryMap.put( subquery.getName( ), subquery);
 				
 			}
