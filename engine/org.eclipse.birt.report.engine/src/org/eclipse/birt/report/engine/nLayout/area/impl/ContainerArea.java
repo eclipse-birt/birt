@@ -382,6 +382,17 @@ public abstract class ContainerArea extends AbstractArea
 			}
 		}
 	}
+	
+	public int getLineHeight( )
+	{
+		if ( content != null )
+		{
+			IStyle contentStyle = content.getComputedStyle( );
+			return PropertyUtil.getLineHeight( contentStyle.getLineHeight( ) );
+		}
+		return 0;
+	}
+
 
 	protected void calculateSpecifiedWidth( IContent content )
 	{

@@ -117,7 +117,19 @@ public abstract class InlineStackingArea extends ContainerArea
 			if (vAlign==null ||  IStyle.BASELINE_VALUE.equals( vAlign ) )
 			{
 				// FIXME to implement basline alignment
-				child.setPosition( child.getX( ), child.getY( ) + getBaseLine() - child.getBaseLine( ) );
+				int lineHeight = parent.getLineHeight( );
+				if ( lineHeight > 0 )
+				{
+					// align to middle, fix issue 164072
+					child.setPosition( child.getX( ), child.getY( )
+							+ getBaseLine( ) - child.getBaseLine( ) + spacing
+							/ 2 );
+				}
+				else
+				{
+					child.setPosition( child.getX( ), child.getY( )
+							+ getBaseLine( ) - child.getBaseLine( ) );
+				}
 			}
 			else if ( IStyle.BOTTOM_VALUE.equals( vAlign ) )
 			{

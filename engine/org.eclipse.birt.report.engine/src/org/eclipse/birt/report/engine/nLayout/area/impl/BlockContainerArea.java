@@ -187,16 +187,6 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 		parent.add( this );
 	}
 
-	public int getLineHeight( )
-	{
-		if ( content != null )
-		{
-			IStyle contentStyle = content.getComputedStyle( );
-			return PropertyUtil.getLineHeight( contentStyle.getLineHeight( ) );
-		}
-		return 0;
-	}
-
 	public BlockContainerArea cloneArea( )
 	{
 		return new BlockContainerArea( this );
