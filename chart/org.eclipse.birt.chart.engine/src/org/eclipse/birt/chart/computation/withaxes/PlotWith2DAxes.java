@@ -326,103 +326,115 @@ public final class PlotWith2DAxes extends PlotWithAxes
 
 			iDSP = ps.getDataSetProcessor( sea[i].getClass( ) );
 			ds = sea[i].getDataSet( );
-
-			oV1 = iDSP.getMinimum( ds );
-			oV2 = iDSP.getMaximum( ds );
-
-			if ( ( iType & NUMERICAL ) == NUMERICAL )
+			
+			if ( ds instanceof NullDataSet && rtc.getSharedScale( ) != null )
 			{
-				try
+				// Bugzilla#271740 If no data but shared scale used, get min/max
+				// value from scale directly.
+				oMin = rtc.getSharedScale( ).getScaleContext( ).getMin( );
+				oMax = rtc.getSharedScale( ).getScaleContext( ).getMax( );
+			}
+			else
+			{
+				oV1 = iDSP.getMinimum( ds );
+				oV2 = iDSP.getMaximum( ds );
+
+				if ( ( iType & NUMERICAL ) == NUMERICAL )
 				{
-					if ( oV1 != null ) // SETUP THE MINIMUM VALUE FOR ALL
-					// DATASETS
+					try
 					{
-						if ( oMin == null )
+						if ( oV1 != null ) // SETUP THE MINIMUM VALUE FOR ALL
+						// DATASETS
 						{
-							oMin = oV1;
-						}
-						else
-						{
-							final double dV1 = asDouble( oV1 ).doubleValue( );
-							if ( Math.min( asDouble( oMin ).doubleValue( ), dV1 ) == dV1 )
+							if ( oMin == null )
 							{
 								oMin = oV1;
 							}
+							else
+							{
+								final double dV1 = asDouble( oV1 ).doubleValue( );
+								if ( Math.min( asDouble( oMin ).doubleValue( ),
+										dV1 ) == dV1 )
+								{
+									oMin = oV1;
+								}
+							}
 						}
-					}
 
-					if ( oV2 != null ) // SETUP THE MAXIMUM VALUE FOR ALL
-					// DATASETS
-					{
-						if ( oMax == null )
+						if ( oV2 != null ) // SETUP THE MAXIMUM VALUE FOR ALL
+						// DATASETS
 						{
-							oMax = oV2;
-						}
-						else
-						{
-							final double dV2 = asDouble( oV2 ).doubleValue( );
-							if ( Math.max( asDouble( oMax ).doubleValue( ), dV2 ) == dV2 )
+							if ( oMax == null )
 							{
 								oMax = oV2;
 							}
-						}
-					}
-				}
-				catch ( ClassCastException ex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.DATA_SET,
-							"exception.datetime.data.numerical.axis", //$NON-NLS-1$ 
-							Messages.getResourceBundle( rtc.getULocale( ) ) );
-				}
-			}
-			else if ( ( iType & DATE_TIME ) == DATE_TIME )
-			{
-				try
-				{
-					if ( oV1 != null ) // SETUP THE MINIMUM VALUE FOR ALL
-					// DATASETS
-					{
-						if ( oMin == null )
-						{
-							oMin = oV1;
-						}
-						else
-						{
-							final CDateTime cdtV1 = asDateTime( oV1 );
-							final CDateTime cdtMin = asDateTime( oMin );
-							if ( cdtV1.before( cdtMin ) )
+							else
 							{
-								oMin = cdtV1;
+								final double dV2 = asDouble( oV2 ).doubleValue( );
+								if ( Math.max( asDouble( oMax ).doubleValue( ),
+										dV2 ) == dV2 )
+								{
+									oMax = oV2;
+								}
 							}
 						}
 					}
-
-					if ( oV2 != null ) // SETUP THE MAXIMUM VALUE FOR ALL
-					// DATASETS
+					catch ( ClassCastException ex )
 					{
-						if ( oMax == null )
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.DATA_SET,
+								"exception.datetime.data.numerical.axis", //$NON-NLS-1$ 
+								Messages.getResourceBundle( rtc.getULocale( ) ) );
+					}
+				}
+				else if ( ( iType & DATE_TIME ) == DATE_TIME )
+				{
+					try
+					{
+						if ( oV1 != null ) // SETUP THE MINIMUM VALUE FOR ALL
+						// DATASETS
 						{
-							oMax = oV2;
-						}
-						else
-						{
-							final CDateTime cdtV2 = asDateTime( oV2 );
-							final CDateTime cdtMax = asDateTime( oMax );
-							if ( cdtV2.after( cdtMax ) )
+							if ( oMin == null )
 							{
-								oMax = cdtV2;
+								oMin = oV1;
+							}
+							else
+							{
+								final CDateTime cdtV1 = asDateTime( oV1 );
+								final CDateTime cdtMin = asDateTime( oMin );
+								if ( cdtV1.before( cdtMin ) )
+								{
+									oMin = cdtV1;
+								}
+							}
+						}
+
+						if ( oV2 != null ) // SETUP THE MAXIMUM VALUE FOR ALL
+						// DATASETS
+						{
+							if ( oMax == null )
+							{
+								oMax = oV2;
+							}
+							else
+							{
+								final CDateTime cdtV2 = asDateTime( oV2 );
+								final CDateTime cdtMax = asDateTime( oMax );
+								if ( cdtV2.after( cdtMax ) )
+								{
+									oMax = cdtV2;
+								}
 							}
 						}
 					}
-				}
-				catch ( ClassCastException ex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.DATA_SET,
-							"exception.numerical.data.datetime.axis", //$NON-NLS-1$ 
-							Messages.getResourceBundle( rtc.getULocale( ) ) );
+					catch ( ClassCastException ex )
+					{
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.DATA_SET,
+								"exception.numerical.data.datetime.axis", //$NON-NLS-1$ 
+								Messages.getResourceBundle( rtc.getULocale( ) ) );
 
+					}
 				}
 			}
 		}
