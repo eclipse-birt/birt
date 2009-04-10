@@ -20,7 +20,9 @@ import java.util.logging.Level;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
@@ -33,6 +35,7 @@ import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
 import com.lowagie.text.Image;
@@ -760,6 +763,226 @@ public abstract class ContainerArea extends AbstractArea
 		}
 		return 0;
 	}
+	
+	
+	protected int getResolution( )
+	{
+		int resolution = 0;
+		ReportDesignHandle designHandle = content.getReportContent( )
+				.getDesign( ).getReportDesign( );
+		resolution = designHandle.getImageDPI( );
+
+		if ( 0 == resolution )
+		{
+			resolution = context.getDpi( );
+		}
+		if ( 0 == resolution )
+		{
+			resolution = 96;
+		}
+		return resolution;
+	}
+
+	protected int getDimensionValue( IContent content, DimensionType d )
+	{
+		return getDimensionValue( content, d, 0 );
+	}
+
+	protected int getDimensionValue( IContent content, DimensionType d,
+			int referenceLength )
+	{
+		return getDimensionValue( content, d, 0, referenceLength );
+	}
+
+	protected int getDimensionValue( IContent content, DimensionType d,
+			int dpi, int referenceLength )
+	{
+		if ( d == null )
+		{
+			return 0;
+		}
+		try
+		{
+			String units = d.getUnits( );
+			if ( units.equals( EngineIRConstants.UNITS_PT )
+					|| units.equals( EngineIRConstants.UNITS_CM )
+					|| units.equals( EngineIRConstants.UNITS_MM )
+					|| units.equals( EngineIRConstants.UNITS_PC )
+					|| units.equals( EngineIRConstants.UNITS_IN ) )
+			{
+				double point = d.convertTo( EngineIRConstants.UNITS_PT ) * 1000;
+				return (int) point;
+			}
+			else if ( units.equals( EngineIRConstants.UNITS_PX ) )
+			{
+				if ( dpi == 0 )
+				{
+					dpi = getResolution( );
+				}
+				double point = d.getMeasure( ) / dpi * 72000d;
+				return (int) point;
+			}
+			else if ( units.equals( EngineIRConstants.UNITS_PERCENTAGE ) )
+			{
+				double point = referenceLength * d.getMeasure( ) / 100.0;
+				return (int) point;
+			}
+			else if ( units.equals( EngineIRConstants.UNITS_EM )
+					|| units.equals( EngineIRConstants.UNITS_EX ) )
+			{
+				int size = 9000;
+				if ( content != null )
+				{
+					IStyle style = content.getComputedStyle( );
+					CSSValue fontSize = style
+							.getProperty( IStyle.STYLE_FONT_SIZE );
+					size = getDimensionValue( fontSize );
+				}
+				double point = size * d.getMeasure( );
+				return (int) point;
+			}
+		}
+		catch ( Exception e )
+		{
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return 0;
+		}
+		return 0;
+	}
+
+	protected int getDimensionValue( CSSValue value )
+	{
+		return getDimensionValue( value, 0 );
+	}
+
+	protected int getDimensionValue( CSSValue value, int referenceLength )
+	{
+		if ( value != null && ( value instanceof FloatValue ) )
+		{
+			FloatValue fv = (FloatValue) value;
+			float v = fv.getFloatValue( );
+			switch ( fv.getPrimitiveType( ) )
+			{
+				case CSSPrimitiveValue.CSS_CM :
+					return (int) ( v * 72000 / 2.54 );
+
+				case CSSPrimitiveValue.CSS_IN :
+					return (int) ( v * 72000 );
+
+				case CSSPrimitiveValue.CSS_MM :
+					return (int) ( v * 7200 / 2.54 );
+
+				case CSSPrimitiveValue.CSS_PT :
+					return (int) ( v * 1000 );
+				case CSSPrimitiveValue.CSS_NUMBER :
+					return (int) v;
+				case CSSPrimitiveValue.CSS_PERCENTAGE :
+
+					return (int) ( referenceLength * v / 100.0 );
+			}
+		}
+		return 0;
+	}
+
+	protected void validateBoxProperty( IStyle style, int maxWidth,
+			int maxHeight )
+	{
+		// support negative margin
+		int leftMargin = getDimensionValue( style
+				.getProperty( IStyle.STYLE_MARGIN_LEFT ), maxWidth );
+		int rightMargin = getDimensionValue( style
+				.getProperty( IStyle.STYLE_MARGIN_RIGHT ), maxWidth );
+		int topMargin = getDimensionValue( style
+				.getProperty( IStyle.STYLE_MARGIN_TOP ), maxWidth );
+		int bottomMargin = getDimensionValue( style
+				.getProperty( IStyle.STYLE_MARGIN_BOTTOM ), maxWidth );
+
+		// do not support negative paddding
+		int leftPadding = Math.max( 0, getDimensionValue( style
+				.getProperty( IStyle.STYLE_PADDING_LEFT ), maxWidth ) );
+		int rightPadding = Math.max( 0, getDimensionValue( style
+				.getProperty( IStyle.STYLE_PADDING_RIGHT ), maxWidth ) );
+		int topPadding = Math.max( 0, getDimensionValue( style
+				.getProperty( IStyle.STYLE_PADDING_TOP ), maxWidth ) );
+		int bottomPadding = Math.max( 0, getDimensionValue( style
+				.getProperty( IStyle.STYLE_PADDING_BOTTOM ), maxWidth ) );
+		// border does not support negative value, do not support pencentage
+		// dimension
+		int leftBorder = Math.max( 0, getDimensionValue( style
+				.getProperty( IStyle.STYLE_BORDER_LEFT_WIDTH ), 0 ) );
+		int rightBorder = Math.max( 0, getDimensionValue( style
+				.getProperty( IStyle.STYLE_BORDER_RIGHT_WIDTH ), 0 ) );
+		int topBorder = Math.max( 0, getDimensionValue( style
+				.getProperty( IStyle.STYLE_BORDER_TOP_WIDTH ), 0 ) );
+		int bottomBorder = Math.max( 0, getDimensionValue( style
+				.getProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH ), 0 ) );
+
+		int[] vs = new int[]{rightMargin, leftMargin, rightPadding,
+				leftPadding, rightBorder, leftBorder};
+		resolveBoxConflict( vs, maxWidth );
+
+		int[] hs = new int[]{bottomMargin, topMargin, bottomPadding,
+				topPadding, bottomBorder, topBorder};
+		// resolveBoxConflict( hs, maxHeight );
+
+		style.setProperty( IStyle.STYLE_MARGIN_LEFT, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, vs[1] ) );
+		style.setProperty( IStyle.STYLE_MARGIN_RIGHT, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, vs[0] ) );
+		style.setProperty( IStyle.STYLE_MARGIN_TOP, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, hs[1] ) );
+		style.setProperty( IStyle.STYLE_MARGIN_BOTTOM, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, hs[0] ) );
+
+		style.setProperty( IStyle.STYLE_PADDING_LEFT, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, vs[3] ) );
+		style.setProperty( IStyle.STYLE_PADDING_RIGHT, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, vs[2] ) );
+		style.setProperty( IStyle.STYLE_PADDING_TOP, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, hs[3] ) );
+		style.setProperty( IStyle.STYLE_PADDING_BOTTOM, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, hs[2] ) );
+
+		style.setProperty( IStyle.STYLE_BORDER_LEFT_WIDTH, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, vs[5] ) );
+		style.setProperty( IStyle.STYLE_BORDER_RIGHT_WIDTH, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, vs[4] ) );
+		style.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, hs[5] ) );
+		style.setProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH, new FloatValue(
+				CSSPrimitiveValue.CSS_NUMBER, hs[4] ) );
+	}
+
+	private void resolveConflict( int[] values, int maxTotal, int total,
+			int start )
+	{
+		int length = values.length - start;
+		if ( length == 0 )
+		{
+			return;
+		}
+		assert ( length > 0 );
+		if ( total > maxTotal )
+		{
+			int othersTotal = total - values[start];
+			if ( values[start] > 0 )
+			{
+				values[start] = 0;
+			}
+			resolveConflict( values, maxTotal, othersTotal, start + 1 );
+		}
+	}
+
+	protected void resolveBoxConflict( int[] vs, int max )
+	{
+		int vTotal = 0;
+		for ( int i = 0; i < vs.length; i++ )
+		{
+			vTotal += vs[i];
+		}
+		resolveConflict( vs, max, vTotal, 0 );
+	}
+
 
 	protected void buildProperties( IContent content, LayoutContext context )
 	{
