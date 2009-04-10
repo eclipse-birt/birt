@@ -647,6 +647,24 @@ public class TableLayout
 				}
 			}
 		}
+		else
+		{
+			for ( int i = startCol; i <= endCol; i++ )
+			{
+				CellArea upperCell = null;
+				if ( lastRow != null )
+				{
+					upperCell = lastRow.getCell( i );
+				}
+				// upperCell has row span, or is a drop cell.
+				if ( upperCell != null && ( upperCell.getRowSpan( ) > 1 ) )
+				{
+					DummyCell dummyCell = createDummyCell( upperCell );
+					rowArea.setCell( dummyCell );
+					i = i + upperCell.getColSpan( ) - 1;
+				}
+			}
+		}
 		updateRowHeight( rowArea, height, isFixedLayout );
 	}
 
