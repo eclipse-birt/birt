@@ -221,7 +221,7 @@ public class PageArea extends BlockContainerArea
 	public void initialize( ) throws BirtException
 	{
 		createRoot( );
-		Color backgroundColor = PropertyUtil.getColor( pageContent.getStyle( )
+		Color backgroundColor = PropertyUtil.getColor( pageContent.getComputedStyle( )
 				.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
 		ReportDesignHandle designHandle = pageContent.getReportContent( )
 				.getDesign( ).getReportDesign( );
