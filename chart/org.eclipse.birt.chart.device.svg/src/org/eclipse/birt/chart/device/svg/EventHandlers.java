@@ -100,8 +100,8 @@ public final class EventHandlers
 			.append( "	}	\n" ) //$NON-NLS-1$
 			.append( "	}	\n" ) //$NON-NLS-1$
 			.append( "		\n" ) //$NON-NLS-1$
-			.append( "			TM.show = function TooltiplManager_showTooltip(evt,id){	\n" ) //$NON-NLS-1$
-			.append( "        if (typeof id != 'undefined'){	\n" ) //$NON-NLS-1$
+			.append( "			TM.show = function TooltiplManager_showTooltip(evt,id,title){	\n" ) //$NON-NLS-1$
+			.append( "        if (id != null && typeof id != 'undefined'){	\n" ) //$NON-NLS-1$
 			.append( "     	       var mainSvg = evt.target.ownerDocument;	\n" ) //$NON-NLS-1$
 			.append( "               var comp = mainSvg.getElementById(id);	\n" ) //$NON-NLS-1$
 			.append( "               var styleStr = comp.getAttribute(\"style\");	\n" ) //$NON-NLS-1$
@@ -111,6 +111,7 @@ public final class EventHandlers
 			.append( "     		       return;	\n" ) //$NON-NLS-1$
 			.append( "     }	\n" ) //$NON-NLS-1$
 			.append( "		var text = TM.getText(TM.getTitleElement(evt));	\n" ) //$NON-NLS-1$
+			.append( "		if ( title) text = TM.getText( title );	\n" ) //$NON-NLS-1$
 			.append( "		x = evt.clientX;	\n" ) //$NON-NLS-1$
 			.append( "		y = evt.clientY;	\n" ) //$NON-NLS-1$
 			.append( "		update = true;\n" ) //$NON-NLS-1$
@@ -165,6 +166,7 @@ public final class EventHandlers
 			.append( "	           TM.setContent(textObj, text);\n" ) //$NON-NLS-1$
 			.append( "	           var outline = textObj.element.getBBox();\n" ) //$NON-NLS-1$
 			.append( "                   var tooltipHeight = outline.height+6;\n" ) //$NON-NLS-1$
+			.append( "                   if ( tooltipHeight < 17 ) tooltipHeight = 17;\n" ) //$NON-NLS-1$
 			.append( "                   var tooltipWidth = outline.width+2*this.xPadding;\n" ) //$NON-NLS-1$
 			.append( "                   var root=evt.target.ownerDocument.documentElement;\n" ) //$NON-NLS-1$
 			.append( "                   var rootWidth =root.getAttribute('width');\n" ) //$NON-NLS-1$
@@ -686,6 +688,7 @@ public final class EventHandlers
     	.append("    			\n") //$NON-NLS-1$
     	.append("    	rectangle.addToParent(this.group.element);		\n") //$NON-NLS-1$
     	.append("    	setStyles( rectangle.element, HM.getMenuStyles( this.menuStyles[1] ) );		\n") //$NON-NLS-1$
+    	.append("    	HM.createTooltipItem(evt, rectangle, this.hyperlinks[index][3] );		\n") //$NON-NLS-1$
     	.append("        return rectangle;		\n") //$NON-NLS-1$
     	.append("    }		\n") //$NON-NLS-1$
     	.append("    		\n") //$NON-NLS-1$
@@ -704,31 +707,66 @@ public final class EventHandlers
     	.append("    		);		\n") //$NON-NLS-1$
     	.append("    			\n") //$NON-NLS-1$
     	.append("    	textObj.addToParent(this.group.element);		\n") //$NON-NLS-1$
-    	.append("    	HM.setContent(textObj, this.hyperlinks[index][0]);		\n") //$NON-NLS-1$
+    	.append("    	HM.setContent(evt, textObj, this.hyperlinks[index][0], this.hyperlinks[index][3]);		\n") //$NON-NLS-1$
     	.append("    	setStyles( textObj.element, HM.getTextStyles( this.menuStyles[1] ) );		\n") //$NON-NLS-1$
     	.append("    	return textObj;		\n") //$NON-NLS-1$
     	.append("    }		\n") //$NON-NLS-1$
     	.append("    		\n") //$NON-NLS-1$
-    	.append("    HM.setContent = function TM_setContent(textElement, text){		\n") //$NON-NLS-1$
+    	.append("    HM.setContent = function HM_setContent(evt, textElement, text, tooltip ){		\n") //$NON-NLS-1$
     	.append("       text = text.replace(/\\n/g, \"\\\\n\");		\n") //$NON-NLS-1$
     	.append("       var multiLine = text.split(/\\n/);		\n") //$NON-NLS-1$
     	.append("       for (var x=0; x<multiLine.length; x++){		\n") //$NON-NLS-1$
     	.append("           if (x == 0){		\n") //$NON-NLS-1$
     	.append("               textObj = new BuildHelper(\"tspan\",		\n") //$NON-NLS-1$
-    	.append("                              {x: 5},		\n") //$NON-NLS-1$
+    	.append("                              {x: 5, onmouseover: \"HM.showTooltip(evt);\", onmouseout:\"try{TM.remove();}catch(e){}\"},		\n") //$NON-NLS-1$
     	.append("                              multiLine[x]);		\n") //$NON-NLS-1$
     	.append("            }		\n") //$NON-NLS-1$
     	.append("            else{		\n") //$NON-NLS-1$
     	.append("                textObj = new BuildHelper(\"tspan\",		\n") //$NON-NLS-1$
     	.append("                           {x: 5,		\n") //$NON-NLS-1$
-    	.append("                             dy:17		\n") //$NON-NLS-1$
+    	.append("                             dy:17, onmouseover: \"HM.showTooltip(evt);\", onmouseout:\"try{TM.remove();}catch(e){}\"		\n") //$NON-NLS-1$
     	.append("                        },multiLine[x]);		\n") //$NON-NLS-1$
     	.append("            }		\n") //$NON-NLS-1$
     	.append("            textObj.addToParent(textElement.element);		\n") //$NON-NLS-1$
+    	.append("            HM.createTooltipItem(evt, textObj, tooltip );	\n") //$NON-NLS-1$
     	.append("    	}		\n") //$NON-NLS-1$
     	.append("    }		\n") //$NON-NLS-1$
     	.append("    			\n") //$NON-NLS-1$
+    	.append("    HM.createTooltipItem = function HM_createTooltipItem( evt, parent, tooltip ) {		\n") //$NON-NLS-1$
+    	.append("        if ( typeof tooltip == 'undefined' ) return null; 		\n") //$NON-NLS-1$
+    	.append("        var title = new BuildHelper(\"title\", 		\n") //$NON-NLS-1$               
+    	.append("            {id: \"title_\" + tooltip}                		\n") //$NON-NLS-1$
+    	.append("        );              		\n") //$NON-NLS-1$
+    	.append("        title.addToParent( parent.element );		\n") //$NON-NLS-1$
+    	.append("        var textObj = evt.target.ownerDocument.createTextNode( tooltip );		\n") //$NON-NLS-1$
+    	.append("        title.element.appendChild( textObj );		\n") //$NON-NLS-1$
+    	.append("        return title;		\n") //$NON-NLS-1$
+    	.append("    }		\n") //$NON-NLS-1$
+    	.append("                		\n") //$NON-NLS-1$
+    	.append("    HM.showTooltip = function HM_showTooltip( evt ) {		\n") //$NON-NLS-1$
+    	.append("        try {		\n") //$NON-NLS-1$
+    	.append("            var elem = HM.getTitleElement( evt.currentTarget );		\n") //$NON-NLS-1$
+    	.append("            if ( elem != null ) TM.show( evt, null, elem );		\n") //$NON-NLS-1$
+    	.append("        } catch ( e ) {}		\n") //$NON-NLS-1$
+    	.append("	 return;		\n") //$NON-NLS-1$
+    	.append("    }		\n") //$NON-NLS-1$
+    	.append("           		\n") //$NON-NLS-1$
+    	.append("    HM.getTitleElement = function TM_getTitleElement(elem){		\n") //$NON-NLS-1$
+    	.append("        if (elem == null ) return;  		\n") //$NON-NLS-1$
+    	.append("        var childs = elem.childNodes;		\n") //$NON-NLS-1$
+    	.append("    		\n") //$NON-NLS-1$
+    	.append("        for (var x=0; x<childs.length; x++){		\n") //$NON-NLS-1$
+    	.append("            if (childs.item(x).nodeType == 1 && childs.item(x).nodeName == \"title\")		\n") //$NON-NLS-1$
+    	.append("                return childs.item(x);		\n") //$NON-NLS-1$
+    	.append("    		 var e = HM.getTitleElement( childs.item(x) );		\n") //$NON-NLS-1$
+    	.append("    		if ( e != null ) return e;		\n") //$NON-NLS-1$
+    	.append("        }		\n") //$NON-NLS-1$
+    	.append("        return null;		\n") //$NON-NLS-1$
+    	.append("    }		\n") //$NON-NLS-1$
     	.append("    HM.redirect = function(url, urlTarget) {		\n") //$NON-NLS-1$
+    	.append("    	try {		\n") //$NON-NLS-1$
+    	.append("    		TM.remove();		\n") //$NON-NLS-1$
+    	.append("    	} catch ( e ) {};  		\n") //$NON-NLS-1$ 
     	.append("    	HM.remove();		\n") //$NON-NLS-1$
     	.append("    	if ( url.indexOf(\"#\", 0) == 0 ) {		\n") //$NON-NLS-1$
     	.append("    		top.document.location.hash = url;		\n") //$NON-NLS-1$
@@ -768,6 +806,7 @@ public final class EventHandlers
     	.append("    		setStyles( menuComp,  HM.getMenuStyles(this.menuStyles[2]) );		\n") //$NON-NLS-1$
     	.append("    		setStyles( textComp,  HM.getTextStyles(this.menuStyles[2]) ); 		\n") //$NON-NLS-1$
     	.append("    	}		\n") //$NON-NLS-1$
+    	.append("    	HM.showTooltip( evt );  \n") //$NON-NLS-1$
     	.append("    	try {		\n") //$NON-NLS-1$
     	.append("    		window.clearTimeout( this.hideTimer );		\n") //$NON-NLS-1$
     	.append("    	} catch ( e) {};		\n") //$NON-NLS-1$
@@ -794,6 +833,9 @@ public final class EventHandlers
     	.append("    		setStyles( menuComp,  HM.getMenuStyles(this.menuStyles[3]) );		\n") //$NON-NLS-1$
     	.append("    		setStyles( textComp,  HM.getTextStyles(this.menuStyles[3]) ); 		\n") //$NON-NLS-1$
     	.append("    	}		\n") //$NON-NLS-1$
+    	.append("    	try {		\n") //$NON-NLS-1$
+    	.append("    		TM.remove();		\n") //$NON-NLS-1$
+    	.append("    	} catch ( e ) {};  		\n") //$NON-NLS-1$ 
     	.append("    	this.hideTimer = window.setTimeout(\"HM.remove();\", 300);		\n") //$NON-NLS-1$
     	.append("    }		\n") //$NON-NLS-1$
     	.append("    		\n") //$NON-NLS-1$

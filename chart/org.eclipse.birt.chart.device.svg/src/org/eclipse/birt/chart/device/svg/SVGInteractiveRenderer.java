@@ -739,10 +739,13 @@ public class SVGInteractiveRenderer
 			}
 			String text = uv.getLabel( ).getCaption( ).getValue( );
 			
-			sb.append( "    linkEntry = new Array(3);\n"); //$NON-NLS-1$
+			sb.append( "    linkEntry = new Array(4);\n"); //$NON-NLS-1$
 			sb.append( "    linkEntry[0] = \"" + text + "\";\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append( "    linkEntry[1] = " + url + ";\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append( "    linkEntry[2] = '" + uv.getTarget( ) + "';\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			if ( uv.getTooltip( ) != null )
+				sb.append( "    linkEntry[3] = '" + uv.getTooltip( ) + "';\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			
 			sb.append( "    hyperlinks[count++] = linkEntry;\n"); //$NON-NLS-1$
 		}
 		sb.append( "\n" ); //$NON-NLS-1$
