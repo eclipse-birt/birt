@@ -132,12 +132,14 @@ public class FileUtil
 	{
 		assert srcUri != null && tgtFile != null;
 
+		FileOutputStream fos = null;
+		InputStream is = null;
 		try
 		{
-			FileOutputStream fos = new FileOutputStream( tgtFile );
+			fos = new FileOutputStream( tgtFile );
 
 			URL srcUrl = new URL( srcUri );
-			InputStream is = srcUrl.openStream( );
+			is = srcUrl.openStream( );
 
 			byte[] buffer = new byte[1024];
 			while ( is.read( buffer ) > 0 )
@@ -145,14 +147,37 @@ public class FileUtil
 				fos.write( buffer );
 			}
 
-			is.close( );
-			fos.close( );
 			return true;
 		}
 		catch ( Exception e )
 		{
 		    logger.log( Level.SEVERE, e.getMessage(),  e );
 			return false;
+		}
+		finally
+		{
+			if( fos != null )
+			{
+				try
+				{
+					fos.close( );
+				}
+				catch( IOException ex )
+				{
+					logger.log( Level.SEVERE, ex.getMessage( ), ex );
+				}
+			}
+			if( is != null )
+			{
+				try
+				{
+					is.close( );
+				}
+				catch( IOException ex )
+				{
+					logger.log( Level.SEVERE, ex.getMessage( ), ex );
+				}
+			}
 		}
 	}
 
@@ -262,18 +287,31 @@ public class FileUtil
 			return false;
 		}
 
+		FileOutputStream out = null;
 		try
 		{
-			FileOutputStream out;
 			out = new FileOutputStream( targetFile );
 			out.write( data );
-			out.close( );
 			return true;
 		}
 		catch ( IOException e )
 		{
 		    logger.log( Level.SEVERE, e.getMessage(),  e );
 			return false;
+		}
+		finally
+		{
+			if( out != null )
+			{
+				try
+				{
+					out.close( );
+				}
+				catch( IOException ex )
+				{
+					logger.log( Level.SEVERE, ex.getMessage( ), ex );
+				}
+			}
 		}
 	}
 
@@ -348,12 +386,14 @@ public class FileUtil
 			return null;
 		}
 		
+		BufferedInputStream in = null;
+		ByteArrayOutputStream out = null;
 		try
 		{
 			//Uses the buffered stream to improve the performance.
-			BufferedInputStream in = new BufferedInputStream(
+			in = new BufferedInputStream(
 					new FileInputStream( fileName ) );
-			ByteArrayOutputStream out = new ByteArrayOutputStream( );
+			out = new ByteArrayOutputStream( );
 			byte[] buf = new byte[1024];
 			int len;
 			while ( ( len = in.read( buf ) ) != -1 )
@@ -365,6 +405,31 @@ public class FileUtil
 		catch ( Exception e )
 		{
 		    logger.log( Level.SEVERE,  "Cannot get the content of the file " + fileName, e ); //$NON-NLS-1$
+		}
+		finally
+		{
+			if ( in != null )
+			{
+				try
+				{
+					in.close( );
+				}
+				catch ( IOException e )
+				{
+					logger.log( Level.SEVERE, e.getMessage( ), e );
+				}
+			}
+			if ( out != null )
+			{
+				try
+				{
+					out.close( );
+				}
+				catch ( IOException e )
+				{
+					logger.log( Level.SEVERE, e.getMessage( ), e );
+				}
+			}
 		}
 		return null;
 	}
