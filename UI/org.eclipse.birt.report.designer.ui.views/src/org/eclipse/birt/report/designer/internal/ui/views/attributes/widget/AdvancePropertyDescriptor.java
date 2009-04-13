@@ -55,7 +55,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
@@ -676,23 +675,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 			UIUtil.getModelEventManager( ).addModelEventProcessor( this );
 	}
 
-	public void updateSorting( int sortingType )
-	{
-		Memento memento = (Memento) viewerMemento.getChild( provider.getElementType( ) );
-		if ( memento != null )
-		{
-			saveSortingType( );
-
-			Object obj = ( (Memento) memento ).getMementoElement( )
-					.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
-			if ( obj != null )
-				( (Memento) memento ).getMementoElement( )
-						.setAttribute( MementoElement.ATTRIBUTE_SELECTED, null );
-		}
-		deactivateCellEditor( );
-		execMemento( );
-	}
-
 	private static class CustomTreeViewer extends TreeViewer
 	{
 
@@ -767,11 +749,13 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 						{
 							// expandToDefaultLevel( );
 
-							if ( treeListener != null )
-								viewer.getTree( )
-										.removeTreeListener( treeListener );
-							viewer.getTree( ).removeAll( );
-
+							/*
+							 * Check the focus control.
+							 */
+							// if ( treeListener != null )
+							// viewer.getTree( )
+							// .removeTreeListener( treeListener );
+							// viewer.getTree( ).removeAll( );
 							viewer.refresh( );
 							expandToDefaultLevel( );
 							if ( treeListener != null )
@@ -809,7 +793,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		provider.selectViewMode( PreferenceFactory.getInstance( )
 				.getPreferences( ReportPlugin.getDefault( ) )
 				.getInt( SORTING_PREFERENCE_KEY ) );
-
 	}
 
 	private void saveSortingType( )
@@ -873,7 +856,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 
 	private boolean changed = false;
 	private TreeListener treeListener;
-	private ToolItem[] sortItems = new ToolItem[3];
 
 	public void postElementEvent( )
 	{
@@ -890,5 +872,22 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 	public Object getAdapter( Class adapter )
 	{
 		return null;
+	}
+
+	public void updateSorting( int sortingType )
+	{
+		Memento memento = (Memento) viewerMemento.getChild( provider.getElementType( ) );
+		if ( memento != null )
+		{
+			saveSortingType( );
+
+			Object obj = ( (Memento) memento ).getMementoElement( )
+					.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
+			if ( obj != null )
+				( (Memento) memento ).getMementoElement( )
+						.setAttribute( MementoElement.ATTRIBUTE_SELECTED, null );
+		}
+		deactivateCellEditor( );
+		execMemento( );
 	}
 }
