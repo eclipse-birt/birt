@@ -138,7 +138,7 @@ public final class ShapedAction
 	/**
 	 * Returns the shape associated with current ShapedAction.
 	 * 
-	 * @return
+	 * @return shape
 	 */
 	public final Shape getShape( )
 	{
@@ -148,18 +148,18 @@ public final class ShapedAction
 	/**
 	 * Returns the action associated with current ShapedAction.
 	 * 
-	 * @return
+	 * @return action
 	 */
 	public final Action getActionForCondition( TriggerCondition condition )
 	{
-		return (Action)_triggers.get( condition );
+		return _triggers.get( condition );
 	}
 
 
 	/**
 	 * Returns the source object associated with current ShapedAction.
 	 * 
-	 * @return
+	 * @return source object
 	 */
 	public final StructureSource getSource( )
 	{
@@ -175,7 +175,7 @@ public final class ShapedAction
 	/**
 	 * Returns cursor.
 	 * 
-	 * @return
+	 * @return cursor
 	 */
 	public Cursor getCursor( )
 	{

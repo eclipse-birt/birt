@@ -883,14 +883,14 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	{
 		// Use the event type and action type as the key and function name to
 		// handle multiple invoke script events in a chart
-		String key = condition.getLiteral( )
-				+ sa.getSource( ).getClass( ).getName( );
+		String functionName = getJSMethodName( condition, sa );
+		String key = condition.getLiteral( ) + functionName;
 		if ( !callbackMethodsRegistry.containsKey( key ) )
 		{
 			addScriptCallBack( sa,
 					sb,
 					sa.getActionForCondition( condition ),
-					getJSMethodName( condition, sa ) );
+					functionName );
 			callbackMethodsRegistry.put( key, Boolean.TRUE );
 		}
 	}
