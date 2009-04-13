@@ -150,6 +150,7 @@ public class SlotHandleDropAdapter implements IElementDropAdapter
 							{
 								EmbeddedImage image = StructureFactory.newEmbeddedImageFrom( sourceEmbeddedImageHandle,
 										moduleHandle );
+								image.setType( sourceEmbeddedImageHandle.getType( ) );
 								DNDUtil.addEmbeddedImageHandle( target, image );
 								result = true;
 							}

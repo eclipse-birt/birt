@@ -9,17 +9,19 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.designer.internal.ui.util.graphics;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 
 /**
  * ImageLoader to load a give image file into embedded image.
@@ -27,6 +29,11 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
 public class BirtImageLoader
 {
+
+	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
+			.getStructure( EmbeddedImage.EMBEDDED_IMAGE_STRUCT )
+			.getMember( EmbeddedImage.TYPE_MEMBER )
+			.getAllowedChoices( );
 
 	/**
 	 * load file into byte array with given file name.
@@ -42,7 +49,7 @@ public class BirtImageLoader
 		try
 		{
 			file = new FileInputStream( fileName );
-			
+
 			if ( file != null )
 			{
 				try
@@ -59,9 +66,10 @@ public class BirtImageLoader
 		catch ( FileNotFoundException e )
 		{
 			throw e;
-		}finally
+		}
+		finally
 		{
-			if(file != null)
+			if ( file != null )
 			{
 				file.close( );
 			}
@@ -85,9 +93,9 @@ public class BirtImageLoader
 	public EmbeddedImage save( ModuleHandle handle, String fileName )
 			throws SemanticException, IOException
 	{
-		return save(handle,fileName,fileName);
+		return save( handle, fileName, fileName );
 	}
-	
+
 	/**
 	 * Loads given image file into given Design file.
 	 * 
@@ -97,19 +105,38 @@ public class BirtImageLoader
 	 *            file name of image
 	 * @param imageName
 	 *            name of embedded image
-
+	 * 
 	 * @return
 	 * @throws SemanticException
 	 * @throws IOException
 	 */
-	public EmbeddedImage save( ModuleHandle handle, String fileName, String imageName )
-			throws SemanticException, IOException
+	public EmbeddedImage save( ModuleHandle handle, String fileName,
+			String imageName ) throws SemanticException, IOException
 	{
 		EmbeddedImage embeddedImage = StructureFactory.createEmbeddedImage( );
+		embeddedImage.setType( getModelImageType( imageName ) );
 		embeddedImage.setName( imageName );
 		embeddedImage.setData( load( fileName ) );
 		handle.addImage( embeddedImage );
 
 		return embeddedImage;
+	}
+
+	private String getModelImageType( String imageName )
+	{
+		if ( imageName.lastIndexOf( "." ) > -1 )
+		{
+			String suffix = imageName.substring( imageName.lastIndexOf( "." ) + 1 )
+					.toLowerCase( );
+			String type = "image/" + suffix;
+			if ( "svg".equals( suffix ) )
+				type += "+xml";
+			for ( IChoice choice : DATA_TYPE_CHOICE_SET.getChoices( ) )
+			{
+				if ( choice.getValue( ).equals( type ) )
+					return choice.getValue( ).toString( );
+			}
+		}
+		return null;
 	}
 }

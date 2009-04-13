@@ -259,6 +259,7 @@ public class AddElementtoReport extends Action
 						{
 							EmbeddedImage image = StructureFactory.newEmbeddedImageFrom( sourceEmbeddedImageHandle,
 									moduleHandle );
+							image.setType( sourceEmbeddedImageHandle.getType( ) );
 							DNDUtil.addEmbeddedImageHandle( target, image );
 							result = true;
 						}
