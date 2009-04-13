@@ -333,6 +333,8 @@ public final class SwingEventHandler
 			JMenuItem menuItem = new JMenuItem(  );
 			popupMenu.add( menuItem );
 			menuItem.setText( uv.getLabel( ).getCaption( ).getValue( ) );
+			if ( uv.getTooltip( ) != null && uv.getTooltip( ).length( ) > 0 )
+				menuItem.setToolTipText( uv.getTooltip( ) );
 			URLMenuItemModel uim = new URLMenuItemModel( );
 			uim.setURLValue( uv );
 			menuItem.setModel( uim );
