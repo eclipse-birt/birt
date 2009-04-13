@@ -19,10 +19,14 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.CubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
@@ -40,9 +44,11 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -58,7 +64,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -161,13 +166,13 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		gd = new GridData( GridData.FILL_BOTH );
 		composite.setLayoutData( gd );
-		setContentSize(composite);
+		setContentSize( composite );
 	}
 
 	public void initDialog( )
 	{
 		cmbType.setItems( dataTypes );
-		
+
 		if ( isAggregate( ) )
 		{
 			initFunction( );
@@ -305,7 +310,87 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				aggOnList.add( name + "," + name2 ); //$NON-NLS-1$
 			}
 		}
+
+		try
+		{
+			IBinding[] aggregateBindings = CubeQueryUtil.getAggregationBindings( getCrosstabBindings( xtabHandle ) );
+			for ( IBinding binding : aggregateBindings )
+			{
+				if ( getBinding( )==null || !getBinding( ).getName( )
+						.equals( binding.getBindingName( ) ) )
+					aggOnList.add( binding.getBindingName( ) );
+			}
+		}
+		catch ( AdapterException e )
+		{
+		}
+		catch ( BirtException e )
+		{
+		}
+
 		return (String[]) aggOnList.toArray( new String[aggOnList.size( )] );
+	}
+
+	private IBinding[] getCrosstabBindings( CrosstabReportItemHandle xtabHandle )
+			throws BirtException
+	{
+		Iterator bindingItr = ( (ExtendedItemHandle) xtabHandle.getModelHandle( ) ).columnBindingsIterator( );
+		ModuleHandle module = ( (ExtendedItemHandle) xtabHandle.getModelHandle( ) ).getModuleHandle( );
+
+		List<IBinding> bindingList = new ArrayList<IBinding>( );
+
+		if ( bindingItr != null )
+		{
+			Map cache = new HashMap( );
+
+			List rowLevelNameList = new ArrayList( );
+			List columnLevelNameList = new ArrayList( );
+
+			while ( bindingItr.hasNext( ) )
+			{
+				ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next( );
+
+				Binding binding = new Binding( column.getName( ) );
+				binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
+						: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
+				binding.setExpression( column.getExpression( ) == null ? null
+						: new ScriptExpression( column.getExpression( ) ) );
+				binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
+
+				if ( column.getFilterExpression( ) != null )
+				{
+					binding.setFilter( new ScriptExpression( column.getFilterExpression( ) ) );
+				}
+
+				for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
+				{
+					AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
+					if ( aah.getValue( ) != null )
+					{
+						binding.addArgument( new ScriptExpression( aah.getValue( ) ) );
+					}
+				}
+
+				List aggrList = column.getAggregateOnList( );
+
+				if ( aggrList != null )
+				{
+					for ( Iterator aggrItr = aggrList.iterator( ); aggrItr.hasNext( ); )
+					{
+						String baseLevel = (String) aggrItr.next( );
+
+						CrosstabUtil.addHierachyAggregateOn( module,
+								binding,
+								baseLevel,
+								rowLevelNameList,
+								columnLevelNameList,
+								cache );
+					}
+				}
+				bindingList.add( binding );
+			}
+		}
+		return bindingList.toArray( new IBinding[bindingList.size( )] );
 	}
 
 	private List getCrosstabViewHandleLevels( CrosstabReportItemHandle xtab,
@@ -773,7 +858,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		paramsComposite.layout( );
 		composite.layout( );
-		setContentSize(composite);
+		setContentSize( composite );
 	}
 
 	private void createExpressionButton( final Composite parent, final Text text )
@@ -939,23 +1024,34 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					DEUtil.getAggregateOn( binding ) ) )
 				return true;
 
-			for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
+			IAggrFunction function = getFunctionByDisplayName( cmbFunction.getText( ) );
+			if ( function != null )
 			{
-				AggregationArgumentHandle handle = (AggregationArgumentHandle) iterator.next( );
-				if ( paramsMap.containsKey( handle.getName( ) ) )
+				IParameterDefn[] params = function.getParameterDefn( );
+				for ( final IParameterDefn param : params )
 				{
-					String paramValue = getControlValue( paramsMap.get( handle.getName( ) ) );
-					if ( !strEquals( handle.getValue( ), paramValue ) )
+					if ( paramsMap.containsKey( param.getName( ) ) )
 					{
-						return true;
+						String paramValue = getControlValue( paramsMap.get( param.getName( ) ) );
+						for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
+						{
+							AggregationArgumentHandle handle = (AggregationArgumentHandle) iterator.next( );
+							if ( param.getName( ).equals( handle.getName( ) )
+									&& !strEquals( handle.getValue( ),
+											paramValue ) )
+							{
+								return true;
+							}
+						}
+						if ( param.isDataField( )
+								&& binding.getExpression( ) != null
+								&& !strEquals( binding.getExpression( ), paramValue ) )
+						{
+							return true;
+						}
 					}
 				}
-				else
-				{
-					return true;
-				}
 			}
-
 		}
 		else
 		{
@@ -1094,5 +1190,5 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		return true;
 	}
-	
+
 }
