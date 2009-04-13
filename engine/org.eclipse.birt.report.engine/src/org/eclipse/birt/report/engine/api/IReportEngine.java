@@ -420,4 +420,11 @@ public interface IReportEngine
 	 */
 	public IDocumentWriter openDocumentWriter( IArchiveFile file )
 			throws EngineException;
+	
+	/**
+	 * get the version of BIRT
+	 * 
+	 * @return the version of BIRT
+	 */
+	public String getVersion( );
 }

@@ -554,4 +554,12 @@ public class ReportEngine implements IReportEngine
 	{
 		return engine.openDocumentWriter( file );
 	}
+	
+	/**
+	 * get the BIRT version
+	 */
+	public String getVersion( )
+	{
+		return engine.getVersion( );
+	}
 }

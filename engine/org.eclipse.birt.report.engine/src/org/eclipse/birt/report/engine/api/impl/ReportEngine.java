@@ -58,6 +58,7 @@ import org.eclipse.core.runtime.Platform;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.ScriptableObject;
+import org.osgi.framework.Bundle;
 
 /**
  * A report engine provides an entry point for reporting functionalities. It is
@@ -106,6 +107,8 @@ public class ReportEngine implements IReportEngine
 	private LinkedObjectManager<ReportDocumentReader> openedDocuments;
 
 	private EngineExtensionManager extensionManager = new EngineExtensionManager();
+	
+	private String version;
 	/**
 	 * Create a Report Engine using a configuration.
 	 * 
@@ -807,6 +810,12 @@ public class ReportEngine implements IReportEngine
 	{
 		LinkedEntry<ReportDocumentReader> entry = openedDocuments.add( document );
 		document.setEngineCacheEntry( entry );
+	}
+	
+	public String getVersion( )
+	{
+		Bundle bundle = Platform.getBundle( "org.eclipse.birt.report.engine" );
+		return bundle.getVersion( ).toString( );
 	}
 
 	private class EngineExtensionManager
