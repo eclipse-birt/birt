@@ -34,7 +34,8 @@ import com.ibm.icu.util.ULocale;
 /**
  * A cell editor that manages a dimension field.
  */
-public class DimensionCellEditor extends CDialogCellEditor {
+public class DimensionCellEditor extends CDialogCellEditor
+{
 
 	private String[] units;
 	private String unitName;
@@ -50,8 +51,9 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	 * @param unitNames
 	 *            the name list
 	 */
-	public DimensionCellEditor(Composite parent, String[] unitNames) {
-		super(parent);
+	public DimensionCellEditor( Composite parent, String[] unitNames )
+	{
+		super( parent );
 		this.units = unitNames;
 	}
 
@@ -65,8 +67,9 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	 * @param style
 	 *            the style bits
 	 */
-	public DimensionCellEditor(Composite parent, String[] unitNames, int style) {
-		super(parent, style);
+	public DimensionCellEditor( Composite parent, String[] unitNames, int style )
+	{
+		super( parent, style );
 		this.units = unitNames;
 		this.style = style;
 	}
@@ -78,48 +81,58 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	 * org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.
 	 * swt.widgets.Control)
 	 */
-	protected Object openDialogBox(Control cellEditorWindow) {
-		DimensionBuilderDialog dialog = new DimensionBuilderDialog(
-				cellEditorWindow.getShell());
+	protected Object openDialogBox( Control cellEditorWindow )
+	{
+		DimensionBuilderDialog dialog = new DimensionBuilderDialog( cellEditorWindow.getShell( ) );
 
 		DimensionValue value;
-		try {
-			value = StringUtil.parseInput((String) this.getDefaultText()
-					.getText(), ULocale.getDefault());
-		} catch (PropertyValueException e) {
+		try
+		{
+			value = StringUtil.parseInput( (String) this.getDefaultText( )
+					.getText( ), ULocale.getDefault( ) );
+		}
+		catch ( PropertyValueException e )
+		{
 			value = null;
 		}
 
-		dialog.setUnitNames(units);
-		dialog.setUnitName(unitName);
+		dialog.setUnitNames( units );
+		dialog.setUnitName( unitName );
 
-		if (value != null) {
-			dialog.setMeasureData(new Double(value.getMeasure()));
+		if ( value != null )
+		{
+			dialog.setMeasureData( new Double( value.getMeasure( ) ) );
 		}
 
 		inProcessing = 1;
-		if (dialog.open() == Window.OK) {
-			deactivate();
+		if ( dialog.open( ) == Window.OK )
+		{
+			deactivate( );
 			inProcessing = 0;
 
 			String newValue = null;
 			Double doubleValue = 0.0;
-			if (dialog.getMeasureData() instanceof Double) {
-				doubleValue = (Double) dialog.getMeasureData();
-			} else if (dialog.getMeasureData() instanceof DimensionValue) {
-				doubleValue = ((DimensionValue) dialog.getMeasureData())
-						.getMeasure();
+			if ( dialog.getMeasureData( ) instanceof Double )
+			{
+				doubleValue = (Double) dialog.getMeasureData( );
 			}
-			DimensionValue dValue = new DimensionValue(doubleValue, dialog
-					.getUnitName());
-			
-			if (dValue != null) {
-				newValue = dValue.toDisplayString();
+			else if ( dialog.getMeasureData( ) instanceof DimensionValue )
+			{
+				doubleValue = ( (DimensionValue) dialog.getMeasureData( ) ).getMeasure( );
+			}
+			DimensionValue dValue = new DimensionValue( doubleValue,
+					dialog.getUnitName( ) );
+
+			if ( dValue != null )
+			{
+				newValue = dValue.toDisplayString( );
 			}
 			return newValue;
-		} else {
-			getDefaultText().setFocus();
-			getDefaultText().selectAll();
+		}
+		else
+		{
+			getDefaultText( ).setFocus( );
+			getDefaultText( ).selectAll( );
 		}
 		inProcessing = 0;
 		return null;
@@ -131,7 +144,8 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	 * 
 	 * @param units
 	 */
-	public void setUnits(String units) {
+	public void setUnits( String units )
+	{
 		this.unitName = units;
 	}
 
@@ -140,9 +154,10 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
-	protected void doSetFocus() {
-		getDefaultText().setFocus();
-		getDefaultText().selectAll();
+	protected void doSetFocus( )
+	{
+		getDefaultText( ).setFocus( );
+		getDefaultText( ).selectAll( );
 	}
 
 	/*
@@ -151,40 +166,57 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.property.widgets.
 	 * CDialogCellEditor#doValueChanged()
 	 */
-	protected void doValueChanged() {
-		Object oldValue = doGetValue();
-		if (oldValue != null && oldValue instanceof String) {
-			oldValue = parseInputString2dValue((String) oldValue);
+	protected void doValueChanged( )
+	{
+		Object oldValue = doGetValue( );
+		if ( oldValue != null && oldValue instanceof String )
+		{
+			oldValue = parseInputString2dValue( (String) oldValue );
 		}
-		String newValue = defaultLabel.getText();
-		DimensionValue dValue = parseInputString2dValue(newValue);
-		if (dValue != null) {
-			newValue = dValue.toDisplayString();
+		String newValue = defaultLabel.getText( );
+		DimensionValue dValue = parseInputString2dValue( newValue );
+		if ( dValue != null )
+		{
+			newValue = dValue.toDisplayString( );
 		}
 
-		if (dValue != null && (!dValue.equals(oldValue))) {
-			markDirty();
-			doSetValue(newValue);
+		if ( dValue != null && ( !dValue.equals( oldValue ) ) )
+		{
+			markDirty( );
+			doSetValue( newValue );
+		}
+		else if ( ( dValue == null && oldValue != null ) )
+		{
+			markDirty( );
+			doSetValue( null );
 		}
 	}
 
-	private DimensionValue parseString2dValue(String strValue) {
+	private DimensionValue parseString2dValue( String strValue )
+	{
 		DimensionValue dValue = null;
-		try {
-			dValue = StringUtil.parse((String) strValue);
-		} catch (PropertyValueException e) {
+		try
+		{
+			dValue = StringUtil.parse( (String) strValue );
+		}
+		catch ( PropertyValueException e )
+		{
 			dValue = null;
 		}
 
 		return dValue;
 	}
 
-	private DimensionValue parseInputString2dValue(String strValue) {
+	private DimensionValue parseInputString2dValue( String strValue )
+	{
 		DimensionValue dValue = null;
-		try {
-			dValue = StringUtil.parseInput((String) strValue, ULocale
-					.getDefault());
-		} catch (PropertyValueException e) {
+		try
+		{
+			dValue = StringUtil.parseInput( (String) strValue,
+					ULocale.getDefault( ) );
+		}
+		catch ( PropertyValueException e )
+		{
 			dValue = null;
 		}
 
@@ -205,35 +237,40 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	 * @param cell
 	 *            the control for this cell editor
 	 */
-	protected Control createContents(Composite cell) {
-		defaultLabel = new Text(cell, SWT.LEFT | style);
-		defaultLabel.setFont(cell.getFont());
-		defaultLabel.setBackground(cell.getBackground());
+	protected Control createContents( Composite cell )
+	{
+		defaultLabel = new Text( cell, SWT.LEFT | style );
+		defaultLabel.setFont( cell.getFont( ) );
+		defaultLabel.setBackground( cell.getBackground( ) );
 
-		defaultLabel.addKeyListener(new KeyAdapter() {
+		defaultLabel.addKeyListener( new KeyAdapter( ) {
 
 			// hook key pressed - see PR 14201
-			public void keyPressed(KeyEvent e) {
-				keyReleaseOccured(e);
+			public void keyPressed( KeyEvent e )
+			{
+				keyReleaseOccured( e );
 			}
-		});
+		} );
 
-		defaultLabel.addTraverseListener(new TraverseListener() {
+		defaultLabel.addTraverseListener( new TraverseListener( ) {
 
-			public void keyTraversed(TraverseEvent e) {
-				if (e.detail == SWT.TRAVERSE_ESCAPE
-						|| e.detail == SWT.TRAVERSE_RETURN) {
+			public void keyTraversed( TraverseEvent e )
+			{
+				if ( e.detail == SWT.TRAVERSE_ESCAPE
+						|| e.detail == SWT.TRAVERSE_RETURN )
+				{
 					e.doit = false;
 				}
 			}
-		});
+		} );
 
-		defaultLabel.addFocusListener(new FocusAdapter() {
+		defaultLabel.addFocusListener( new FocusAdapter( ) {
 
-			public void focusLost(FocusEvent e) {
-				DimensionCellEditor.this.focusLost();
+			public void focusLost( FocusEvent e )
+			{
+				DimensionCellEditor.this.focusLost( );
 			}
-		});
+		} );
 
 		return defaultLabel;
 	}
@@ -253,31 +290,40 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	 * @param value
 	 *            the new value of this cell editor
 	 */
-	protected void updateContents(Object value) {
-		if (defaultLabel == null)
+	protected void updateContents( Object value )
+	{
+		if ( defaultLabel == null )
 			return;
 
 		String text = "";//$NON-NLS-1$
-		if (value != null) {
-			if (value instanceof String) {
+		if ( value != null )
+		{
+			if ( value instanceof String )
+			{
 				DimensionValue dValue;
-				try {
-					dValue = StringUtil.parseInput((String) value, ULocale
-							.getDefault());
-				} catch (PropertyValueException e) {
+				try
+				{
+					dValue = StringUtil.parseInput( (String) value,
+							ULocale.getDefault( ) );
+				}
+				catch ( PropertyValueException e )
+				{
 					dValue = null;
 				}
 
-				if (dValue == null) {
+				if ( dValue == null )
+				{
 					return;
 				}
-				text = NumberUtil.double2LocaleNum(dValue.getMeasure())
-						+ dValue.getUnits();
-			} else {
-				text = value.toString();
+				text = NumberUtil.double2LocaleNum( dValue.getMeasure( ) )
+						+ dValue.getUnits( );
+			}
+			else
+			{
+				text = value.toString( );
 			}
 		}
-		defaultLabel.setText(text);
+		defaultLabel.setText( text );
 	}
 
 	/**
@@ -285,7 +331,8 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	 * 
 	 * @return the default label widget
 	 */
-	protected Text getDefaultText() {
+	protected Text getDefaultText( )
+	{
 		return defaultLabel;
 	}
 
@@ -296,24 +343,31 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	 * org.eclipse.jface.viewers.CellEditor#keyReleaseOccured(org.eclipse.swt
 	 * .events.KeyEvent)
 	 */
-	protected void keyReleaseOccured(KeyEvent keyEvent) {
-		if (keyEvent.character == '\u001b') { // Escape character
-			fireCancelEditor();
-		} else if (keyEvent.character == '\t') { // tab key
-			applyEditorValueAndDeactivate();
-		} else if (keyEvent.character == '\r') { // Return key
-			applyEditorValueAndDeactivate();
+	protected void keyReleaseOccured( KeyEvent keyEvent )
+	{
+		if ( keyEvent.character == '\u001b' )
+		{ // Escape character
+			fireCancelEditor( );
+		}
+		else if ( keyEvent.character == '\t' )
+		{ // tab key
+			applyEditorValueAndDeactivate( );
+		}
+		else if ( keyEvent.character == '\r' )
+		{ // Return key
+			applyEditorValueAndDeactivate( );
 		}
 	}
 
 	/**
 	 * 
 	 */
-	private void applyEditorValueAndDeactivate() {
+	private void applyEditorValueAndDeactivate( )
+	{
 		inProcessing = 1;
-		doValueChanged();
-		fireApplyEditorValue();
-		deactivate();
+		doValueChanged( );
+		fireApplyEditorValue( );
+		deactivate( );
 		inProcessing = 0;
 	}
 
@@ -325,19 +379,22 @@ public class DimensionCellEditor extends CDialogCellEditor {
 	 * at appropriate times. Subclasses may also extend or reimplement.
 	 * </p>
 	 */
-	protected void focusLost() {
-		if (inProcessing == 1)
+	protected void focusLost( )
+	{
+		if ( inProcessing == 1 )
 			return;
-		else {
+		else
+		{
 			// if click button, ignore focuslost event.
-			Rectangle rect = getButton().getBounds();
-			Point location = getButton().toDisplay(0, 0);
+			Rectangle rect = getButton( ).getBounds( );
+			Point location = getButton( ).toDisplay( 0, 0 );
 			rect.x = location.x;
 			rect.y = location.y;
-			Point cursorLocation = getButton().getDisplay().getCursorLocation();
-			if (rect.contains(cursorLocation))
+			Point cursorLocation = getButton( ).getDisplay( )
+					.getCursorLocation( );
+			if ( rect.contains( cursorLocation ) )
 				return;
 		}
-		super.focusLost();
+		super.focusLost( );
 	}
 }
