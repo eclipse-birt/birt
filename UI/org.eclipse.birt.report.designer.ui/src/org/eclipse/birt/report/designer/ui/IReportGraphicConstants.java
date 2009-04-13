@@ -38,7 +38,7 @@ public interface IReportGraphicConstants
 	public final static String ICON_TEMPLATE_FILE = "Template"; //$NON-NLS-1$
 
 	public final static String ICON_REPORT_LOCK = "Report Lock"; //$NON-NLS-1$
-	
+
 	public final static String ICON_LOCK_MENU = "Report Menu"; //$NON-NLS-1$
 
 	public final static String ICON_QUIK_EDIT = "Quick edit"; //$NON-NLS-1$
@@ -187,10 +187,10 @@ public interface IReportGraphicConstants
 	public final static String ICON_SCALAR_PARAMETER_ELEMENT_LINK = ReportDesignConstants.SCALAR_PARAMETER_ELEMENT
 			+ "_" //$NON-NLS-1$
 			+ LINK;
-	
+
 	public final static String ICON_CASCADING_PARAMETER_GROUP_ELEMENT_LINK = ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT
-	+ "_" //$NON-NLS-1$
-	+ LINK;
+			+ "_" //$NON-NLS-1$
+			+ LINK;
 
 	public final static String ICON_PARAMETER_GROUP_ELEMENT_LINK = ReportDesignConstants.PARAMETER_GROUP_ELEMENT
 			+ "_" //$NON-NLS-1$
@@ -455,8 +455,8 @@ public interface IReportGraphicConstants
 	public static final String ICON_TOOL_CALENDAR = "Calendar";
 
 	public static final String ICON_STATUS_ERROR = "Error";
-	
-	//bidi_hcg BiDi-specific property
+
+	// bidi_hcg BiDi-specific property
 	public static final String REPORT_BIDIORIENTATION_PROPERTY = "bidiLayoutOrientation";//$NON-NLS-1$ 
 
 	public static final String ICON_GROUP_SORT = "GroupSort";
@@ -464,4 +464,6 @@ public interface IReportGraphicConstants
 	public static final String ICON_LOCAL_PROPERTIES = "LocalProperties";
 
 	public static final String ICON_STYLE_MODIFIED = "StyleModified";
+
+	public static final String ICON_STYLE_RESOTRE = "StyleRestore";
 }

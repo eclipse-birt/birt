@@ -166,7 +166,7 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_REPORT_FILE, ICONS_PATH
 				+ EVIEW16_PATH
 				+ "report.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_TEMPLATE_FILE, ICONS_PATH
 				+ EVIEW16_PATH
 				+ "template.gif" ); //$NON-NLS-1$
@@ -366,7 +366,7 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_SIMPLE_MASTER_PAGE_ELEMENT_LINK,
 				ICONS_PATH + LINK_PATH + "simple_masterpage_link.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_CASCADING_PARAMETER_GROUP_ELEMENT_LINK,
 				ICONS_PATH + LINK_PATH + "parameter_group_link.gif" ); //$NON-NLS-1$
 
@@ -719,7 +719,7 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_TOOL_CALENDAR, ICONS_PATH
 				+ OBJ16_PATH
 				+ "calendar.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_STATUS_ERROR, ICONS_PATH
 				+ OBJ16_PATH
 				+ "error_obj.gif" ); //$NON-NLS-1$
@@ -727,6 +727,11 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_STYLE_MODIFIED, ICONS_PATH
 				+ OBJ16_PATH
 				+ "style_modified.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_STYLE_RESOTRE, ICONS_PATH
+				+ OBJ16_PATH
+				+ "style_restore.gif" ); //$NON-NLS-1$
+
 	}
 
 	/**
@@ -737,11 +742,10 @@ public class ReportPlatformUIImages
 	 * {@link org.eclipse.ui.ISharedImages IWorkbench.getSharedImages()}. For
 	 * "shared" images, the workbench remembers the image descriptor and will
 	 * manages the image object create from it; clients retrieve "shared" images
-	 * via
-	 * {@link org.eclipse.ui.ISharedImages#getImage ISharedImages.getImage()}.
-	 * For the other, "non-shared" images, the workbench remembers only the
-	 * image descriptor; clients retrieve the image descriptor via
-	 * {@link org.eclipse.ui.ISharedImages#getImageDescriptor
+	 * via {@link org.eclipse.ui.ISharedImages#getImage
+	 * ISharedImages.getImage()}. For the other, "non-shared" images, the
+	 * workbench remembers only the image descriptor; clients retrieve the image
+	 * descriptor via {@link org.eclipse.ui.ISharedImages#getImageDescriptor
 	 * ISharedImages.getImageDescriptor()} and are entirely responsible for
 	 * managing the image objects they create from it. (This is made confusing
 	 * by the historical fact that the API interface is called "ISharedImages".)
@@ -777,8 +781,7 @@ public class ReportPlatformUIImages
 	/**
 	 * Returns the image descriptor stored under the given symbolic name. If
 	 * there isn't any value associated with the name then <code>null
-	 * </code>
-	 * is returned.
+	 * </code> is returned.
 	 * 
 	 * The class also "caches" commonly used images in the image registry. If
 	 * you are looking for one of these common images it is recommended you use

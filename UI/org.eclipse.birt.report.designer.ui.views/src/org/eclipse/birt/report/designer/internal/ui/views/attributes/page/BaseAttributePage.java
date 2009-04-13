@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.TabPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlAdapter;
@@ -186,8 +187,17 @@ public class BaseAttributePage extends TabPage
 		{
 			return;
 		}
-		title.showResetButton( page instanceof ResetAttributePage
-				&& ( (ResetAttributePage) page ).canReset( ) );
+
+		if ( page instanceof AttributePage )
+		{
+			Object adapter = ( (AttributePage) page ).getAdapter( IAction.class );
+			if ( adapter instanceof IAction[] )
+				title.setActions( (IAction[]) adapter );
+			else
+				title.setActions( null );
+		}
+		else
+			title.setActions( null );
 		showPage( page );
 	}
 

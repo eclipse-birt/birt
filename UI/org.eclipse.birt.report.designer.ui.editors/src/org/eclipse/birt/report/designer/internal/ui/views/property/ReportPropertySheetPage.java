@@ -23,7 +23,6 @@ import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyTit
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.AlphabeticallyViewSorter;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AdvancePropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.Memento;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoBuilder;
@@ -42,6 +41,8 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -69,8 +70,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
@@ -130,63 +129,30 @@ public class ReportPropertySheetPage extends Page implements
 	private IMemento propertySheetMemento;
 	private IMemento viewerMemento;
 	protected String propertyViewerID = "Report_Property_Sheet_Page_Viewer_ID"; //$NON-NLS-1$
-	private ToolItem[] sortItems = new ToolItem[3];
-	private ToolItem sortItem;
 
-	private class SortsortItemListener extends SelectionAdapter
+	public void updateSorting( int sortingType )
 	{
-
-		public void widgetSelected( SelectionEvent e )
+		Memento memento = (Memento) viewerMemento.getChild( getInputElementType( ) );
+		if ( memento != null )
 		{
+			saveSortingType( );
 
-			sortItem = ( (ToolItem) e.widget );
-			if ( sortItem.getSelection( ) == false )
-			{
-				sortItem.setSelection( true );
-				return;
-			}
-			else
-			{
-				if ( sortItem == sortItems[0] )
-				{
-					sortItems[1].setSelection( false );
-					sortItems[2].setSelection( false );
-				}
-				else if ( sortItem == sortItems[1] )
-				{
-					sortItems[0].setSelection( false );
-					sortItems[2].setSelection( false );
-				}
-				else if ( sortItem == sortItems[2] )
-				{
-					sortItems[0].setSelection( false );
-					sortItems[1].setSelection( false );
-				}
-			}
-
-			Memento memento = (Memento) viewerMemento.getChild( getInputElementType( ) );
-			if ( memento != null )
-			{
-
-				sortingType = ( (Integer) sortItem.getData( ) ).intValue( );
-				saveSortingType( );
-
-				Object obj = ( (Memento) memento ).getMementoElement( )
-						.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
-				if ( obj != null )
-					( (Memento) memento ).getMementoElement( )
-							.setAttribute( MementoElement.ATTRIBUTE_SELECTED,
-									null );
-			}
-			deactivateCellEditor( );
-			execMemento( );
+			Object obj = ( (Memento) memento ).getMementoElement( )
+					.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
+			if ( obj != null )
+				( (Memento) memento ).getMementoElement( )
+						.setAttribute( MementoElement.ATTRIBUTE_SELECTED, null );
 		}
+		deactivateCellEditor( );
+		execMemento( );
 	}
 
 	public ReportPropertySheetPage( ModuleHandle module )
 	{
 		super( );
 		this.moduleHandle = module;
+		this.provider = new ReportPropertySheetContentProvider( );
+		initSortingType( );
 	}
 
 	/*
@@ -206,6 +172,12 @@ public class ReportPropertySheetPage extends Page implements
 				FormWidgetFactory.getInstance( ) );
 		title.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
+		title.setActions( new Action[]{
+				new GroupSortingAction( ),
+				new AlphabeticSortingAction( ),
+				new LocalModelAction( )
+		} );
+
 		Composite viewerContainer = new Composite( container, SWT.NONE );
 		layout = new GridLayout( );
 		layout.marginWidth = 10;
@@ -213,51 +185,12 @@ public class ReportPropertySheetPage extends Page implements
 		viewerContainer.setLayout( layout );
 		viewerContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		ToolBar sortBar = new ToolBar( viewerContainer, SWT.FLAT );
-		GridData gd = new GridData( );
-		gd.grabExcessHorizontalSpace = true;
-		gd.horizontalAlignment = SWT.END;
-		sortBar.setLayoutData( gd );
-
-		sortItems[0] = new ToolItem( sortBar, SWT.CHECK );
-		SortsortItemListener listener = new SortsortItemListener( );
-		sortItems[0].setToolTipText( Messages.getString( "ReportPropertySheetPage.Tooltip.Group" ) ); //$NON-NLS-1$
-		sortItems[0].setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_GROUP_SORT ) );
-		sortItem = sortItems[0];
-
-		sortItems[0].addSelectionListener( listener );
-		sortItems[0].setData( Integer.valueOf( AdvancePropertyDescriptorProvider.MODE_GROUPED ) );
-
-		sortItems[1] = new ToolItem( sortBar, SWT.CHECK );
-		sortItems[1].setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ALPHABETIC_SORT ) );
-		sortItems[1].setToolTipText( Messages.getString( "ReportPropertySheetPage.Tooltip.Alphabetic" ) ); //$NON-NLS-1$
-		sortItems[1].addSelectionListener( listener );
-		sortItems[1].setData( Integer.valueOf( AdvancePropertyDescriptorProvider.MODE_ALPHABETIC ) );
-
-		sortItems[2] = new ToolItem( sortBar, SWT.CHECK );
-		sortItems[2].setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_LOCAL_PROPERTIES ) );
-		sortItems[2].setToolTipText( Messages.getString( "ReportPropertySheetPage.Tooltip.Local" ) ); //$NON-NLS-1$
-		sortItems[2].addSelectionListener( listener );
-		sortItems[2].setData( Integer.valueOf( AdvancePropertyDescriptorProvider.MODE_LOCAL_ONLY ) );
-
-		initSortingType( );
-
 		viewer = new CustomTreeViewer( viewerContainer, SWT.FULL_SELECTION );
 		tableTree = viewer.getTree( );
 		tableTree.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		tableTree.setHeaderVisible( true );
 		tableTree.setLinesVisible( true );
 
-		provider = new ReportPropertySheetContentProvider( );
-		provider.setViewMode( sortingType );
-		for ( int i = 0; i < sortItems.length; i++ )
-		{
-			if ( ( (Integer) sortItems[i].getData( ) ).intValue( ) == sortingType )
-			{
-				sortItems[i].setSelection( true );
-				break;
-			}
-		}
 		viewer.setContentProvider( provider );
 
 		TreeViewerColumn tvc1 = new TreeViewerColumn( viewer, SWT.NONE );
@@ -720,18 +653,18 @@ public class ReportPropertySheetPage extends Page implements
 		PreferenceFactory.getInstance( )
 				.getPreferences( Activator.getDefault( ) )
 				.setDefault( SORTING_PREFERENCE_KEY,
-						AdvancePropertyDescriptorProvider.MODE_GROUPED );
+						ReportPropertySheetContentProvider.MODE_GROUPED );
 
-		sortingType = PreferenceFactory.getInstance( )
+		provider.setViewMode( PreferenceFactory.getInstance( )
 				.getPreferences( Activator.getDefault( ) )
-				.getInt( SORTING_PREFERENCE_KEY );
+				.getInt( SORTING_PREFERENCE_KEY ) );
 	}
 
 	private void saveSortingType( )
 	{
 		PreferenceFactory.getInstance( )
 				.getPreferences( Activator.getDefault( ) )
-				.setValue( SORTING_PREFERENCE_KEY, sortingType );
+				.setValue( SORTING_PREFERENCE_KEY, provider.getViewMode( ) );
 	}
 
 	/*
@@ -795,7 +728,6 @@ public class ReportPropertySheetPage extends Page implements
 						IMemento memento = viewerMemento.getChild( getInputElementType( ) );
 						if ( memento == null )
 						{
-							provider.setViewMode( (Integer) sortItem.getData( ) );
 							viewer.getTree( ).removeAll( );
 							viewer.refresh( );
 
@@ -813,22 +745,18 @@ public class ReportPropertySheetPage extends Page implements
 						{
 							// expandToDefaultLevel( );
 
-							if ( sortingType != provider.getViewMode( ) )
-							{
-								provider.setViewMode( sortingType );
+							if ( treeListener != null )
+								viewer.getTree( )
+										.removeTreeListener( treeListener );
+							viewer.getTree( ).removeAll( );
 
-								if ( treeListener != null )
-									viewer.getTree( )
-											.removeTreeListener( treeListener );
-								viewer.getTree( ).removeAll( );
-							}
 							viewer.refresh( );
 							expandToDefaultLevel( );
 							if ( treeListener != null )
 								viewer.getTree( )
 										.addTreeListener( treeListener );
 
-							if ( sortingType == AdvancePropertyDescriptorProvider.MODE_GROUPED )
+							if ( provider.getViewMode( ) == ReportPropertySheetContentProvider.MODE_GROUPED )
 								expandTreeFromMemento( (Memento) memento );
 
 							Object obj = ( (Memento) memento ).getMementoElement( )
@@ -1054,7 +982,6 @@ public class ReportPropertySheetPage extends Page implements
 	private boolean changed = false;
 	private ReportPropertySheetContentProvider provider;
 	private TreeListener treeListener;
-	private int sortingType;
 
 	/*
 	 * (non-Javadoc)
@@ -1163,4 +1090,89 @@ public class ReportPropertySheetPage extends Page implements
 			super.createChildren( widget );
 		}
 	};
+
+	class GroupSortingAction extends Action
+	{
+
+		GroupSortingAction( )
+		{
+			super( null, IAction.AS_CHECK_BOX );
+			setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_GROUP_SORT ) );
+			setToolTipText( Messages.getString( "ReportPropertySheetPage.Tooltip.Group" ) );
+		}
+
+		public void run( )
+		{
+			updateSorting( ReportPropertySheetContentProvider.MODE_GROUPED );
+		}
+
+		public boolean isChecked( )
+		{
+			return provider.getViewMode( ) == ReportPropertySheetContentProvider.MODE_GROUPED;
+		}
+
+		public void setChecked( boolean check )
+		{
+			if ( provider.getViewMode( ) != ReportPropertySheetContentProvider.MODE_GROUPED )
+				provider.setViewMode( ReportPropertySheetContentProvider.MODE_GROUPED );
+			firePropertyChange( CHECKED, null, null );
+		}
+	}
+
+	class AlphabeticSortingAction extends Action
+	{
+
+		AlphabeticSortingAction( )
+		{
+			super( null, IAction.AS_CHECK_BOX );
+			setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ALPHABETIC_SORT ) );
+			setToolTipText( Messages.getString( "ReportPropertySheetPage.Tooltip.Alphabetic" ) );
+		}
+
+		public void run( )
+		{
+			updateSorting( ReportPropertySheetContentProvider.MODE_ALPHABETIC );
+		}
+
+		public boolean isChecked( )
+		{
+			return provider.getViewMode( ) == ReportPropertySheetContentProvider.MODE_ALPHABETIC;
+		}
+
+		public void setChecked( boolean check )
+		{
+			if ( provider.getViewMode( ) != ReportPropertySheetContentProvider.MODE_ALPHABETIC )
+				provider.setViewMode( ReportPropertySheetContentProvider.MODE_ALPHABETIC );
+			firePropertyChange( CHECKED, null, null );
+		}
+	}
+
+	class LocalModelAction extends Action
+	{
+
+		LocalModelAction( )
+		{
+			super( null, IAction.AS_CHECK_BOX );
+			setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_LOCAL_PROPERTIES ) );
+			setToolTipText( Messages.getString( "ReportPropertySheetPage.Tooltip.Local" ) );
+		}
+
+		public void run( )
+		{
+			updateSorting( ReportPropertySheetContentProvider.MODE_LOCAL_ONLY );
+		}
+
+		public boolean isChecked( )
+		{
+			return provider.getViewMode( ) == ReportPropertySheetContentProvider.MODE_LOCAL_ONLY;
+		}
+
+		public void setChecked( boolean check )
+		{
+			if ( provider.getViewMode( ) != ReportPropertySheetContentProvider.MODE_LOCAL_ONLY )
+				provider.setViewMode( ReportPropertySheetContentProvider.MODE_LOCAL_ONLY );
+			firePropertyChange( CHECKED, null, null );
+		}
+	}
+
 }

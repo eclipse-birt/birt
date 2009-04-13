@@ -21,8 +21,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.memento.Memento;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoBuilder;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoElement;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.ReportPlugin;
@@ -57,7 +55,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -107,7 +104,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 	protected String propertyViewerID = "Report_Property_Sheet_Page_Viewer_ID"; //$NON-NLS-1$
 
 	private static final String SORTING_PREFERENCE_KEY = "AdvancePropertyDescriptor.preference.sorting.type"; //$NON-NLS-1$
-	private int sortingType;
 
 	public AdvancePropertyDescriptor( boolean formStyle )
 	{
@@ -125,57 +121,21 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 	{
 		container = new Composite( parent, SWT.NONE );
 		GridLayout layout = UIUtil.createGridLayoutWithoutMargin( 1, false );
-		layout.marginTop = 0;
+		layout.marginTop = 2;
 		layout.marginWidth = layout.marginBottom = 1;
 		container.setLayout( layout );
 		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-
-		ToolBar sortBar = new ToolBar( container, SWT.FLAT );
-		GridData gd = new GridData( );
-		gd.grabExcessHorizontalSpace = true;
-		gd.horizontalAlignment = SWT.END;
-		sortBar.setLayoutData( gd );
-
-		sortItems[0] = new ToolItem( sortBar, SWT.CHECK );
-		SortsortItemListener listener = new SortsortItemListener( );
-		sortItems[0].setToolTipText( provider.getToolTipText( AdvancePropertyDescriptorProvider.MODE_GROUPED ) );
-		sortItems[0].setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_GROUP_SORT ) );
-
-		sortItems[0].addSelectionListener( listener );
-		sortItems[0].setData( Integer.valueOf( AdvancePropertyDescriptorProvider.MODE_GROUPED ) );
-
-		sortItems[1] = new ToolItem( sortBar, SWT.CHECK );
-		sortItems[1].setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ALPHABETIC_SORT ) );
-		sortItems[1].setToolTipText( provider.getToolTipText( AdvancePropertyDescriptorProvider.MODE_ALPHABETIC ) );
-		sortItems[1].addSelectionListener( listener );
-		sortItems[1].setData( Integer.valueOf( AdvancePropertyDescriptorProvider.MODE_ALPHABETIC ) );
-
-		sortItems[2] = new ToolItem( sortBar, SWT.CHECK );
-		sortItems[2].setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_LOCAL_PROPERTIES ) );
-		sortItems[2].setToolTipText( provider.getToolTipText( AdvancePropertyDescriptorProvider.MODE_LOCAL_ONLY ) );
-		sortItems[2].addSelectionListener( listener );
-		sortItems[2].setData( Integer.valueOf( AdvancePropertyDescriptorProvider.MODE_LOCAL_ONLY ) );
 
 		initSortingType( );
 
 		viewer = new CustomTreeViewer( container, SWT.FULL_SELECTION );
 
 		tableTree = viewer.getTree( );
-		gd = new GridData( GridData.FILL_BOTH );
+		GridData gd = new GridData( GridData.FILL_BOTH );
 		tableTree.setLayoutData( gd );
 		tableTree.setHeaderVisible( true );
 		tableTree.setLinesVisible( true );
 
-		provider.selectViewMode( sortingType );
-		for ( int i = 0; i < sortItems.length; i++ )
-		{
-			if ( ( (Integer) sortItems[i].getData( ) ).intValue( ) == sortingType )
-			{
-				sortItems[i].setSelection( true );
-				sortItem = sortItems[i];
-				break;
-			}
-		}
 		viewer.setContentProvider( provider.getContentProvier( ) );
 
 		TreeViewerColumn tvc1 = new TreeViewerColumn( viewer, SWT.NONE );
@@ -716,55 +676,21 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 			UIUtil.getModelEventManager( ).addModelEventProcessor( this );
 	}
 
-	private ToolItem sortItem;
-
-	private class SortsortItemListener extends SelectionAdapter
+	public void updateSorting( int sortingType )
 	{
-
-		public void widgetSelected( SelectionEvent e )
+		Memento memento = (Memento) viewerMemento.getChild( provider.getElementType( ) );
+		if ( memento != null )
 		{
+			saveSortingType( );
 
-			sortItem = ( (ToolItem) e.widget );
-			if ( sortItem.getSelection( ) == false )
-			{
-				sortItem.setSelection( true );
-				return;
-			}
-			else
-			{
-				if ( sortItem == sortItems[0] )
-				{
-					sortItems[1].setSelection( false );
-					sortItems[2].setSelection( false );
-				}
-				else if ( sortItem == sortItems[1] )
-				{
-					sortItems[0].setSelection( false );
-					sortItems[2].setSelection( false );
-				}
-				else if ( sortItem == sortItems[2] )
-				{
-					sortItems[0].setSelection( false );
-					sortItems[1].setSelection( false );
-				}
-			}
-
-			Memento memento = (Memento) viewerMemento.getChild( provider.getElementType( ) );
-			if ( memento != null )
-			{
-				sortingType = ( (Integer) sortItem.getData( ) ).intValue( );
-				saveSortingType( );
-
-				Object obj = ( (Memento) memento ).getMementoElement( )
-						.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
-				if ( obj != null )
-					( (Memento) memento ).getMementoElement( )
-							.setAttribute( MementoElement.ATTRIBUTE_SELECTED,
-									null );
-			}
-			deactivateCellEditor( );
-			execMemento( );
+			Object obj = ( (Memento) memento ).getMementoElement( )
+					.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
+			if ( obj != null )
+				( (Memento) memento ).getMementoElement( )
+						.setAttribute( MementoElement.ATTRIBUTE_SELECTED, null );
 		}
+		deactivateCellEditor( );
+		execMemento( );
 	}
 
 	private static class CustomTreeViewer extends TreeViewer
@@ -823,7 +749,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 						IMemento memento = viewerMemento.getChild( provider.getElementType( ) );
 						if ( memento == null )
 						{
-							provider.selectViewMode( (Integer) sortItem.getData( ) );
 							provider.setInput( input );
 							viewer.getTree( ).removeAll( );
 							viewer.refresh( );
@@ -842,22 +767,18 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 						{
 							// expandToDefaultLevel( );
 
-							if ( sortingType != provider.getViewMode( ) )
-							{
-								provider.selectViewMode( sortingType );
+							if ( treeListener != null )
+								viewer.getTree( )
+										.removeTreeListener( treeListener );
+							viewer.getTree( ).removeAll( );
 
-								if ( treeListener != null )
-									viewer.getTree( )
-											.removeTreeListener( treeListener );
-								viewer.getTree( ).removeAll( );
-							}
 							viewer.refresh( );
 							expandToDefaultLevel( );
 							if ( treeListener != null )
 								viewer.getTree( )
 										.addTreeListener( treeListener );
 
-							if ( sortingType == AdvancePropertyDescriptorProvider.MODE_GROUPED )
+							if ( provider.getViewMode( ) == AdvancePropertyDescriptorProvider.MODE_GROUPED )
 								expandTreeFromMemento( (Memento) memento );
 
 							Object obj = ( (Memento) memento ).getMementoElement( )
@@ -885,16 +806,17 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 				.setDefault( SORTING_PREFERENCE_KEY,
 						AdvancePropertyDescriptorProvider.MODE_GROUPED );
 
-		sortingType = PreferenceFactory.getInstance( )
+		provider.selectViewMode( PreferenceFactory.getInstance( )
 				.getPreferences( ReportPlugin.getDefault( ) )
-				.getInt( SORTING_PREFERENCE_KEY );
+				.getInt( SORTING_PREFERENCE_KEY ) );
+
 	}
 
 	private void saveSortingType( )
 	{
 		PreferenceFactory.getInstance( )
 				.getPreferences( ReportPlugin.getDefault( ) )
-				.setValue( SORTING_PREFERENCE_KEY, sortingType );
+				.setValue( SORTING_PREFERENCE_KEY, provider.getViewMode( ) );
 	}
 
 	public void save( Object obj ) throws SemanticException

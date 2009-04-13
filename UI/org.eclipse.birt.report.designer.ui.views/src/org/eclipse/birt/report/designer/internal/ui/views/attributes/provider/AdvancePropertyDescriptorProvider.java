@@ -19,9 +19,12 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
 import org.eclipse.birt.report.designer.core.model.views.property.PropertySheetRootElement;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.AdvancePropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.Memento;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoElement;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
@@ -29,6 +32,8 @@ import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StyledString;
@@ -218,14 +223,115 @@ public class AdvancePropertyDescriptorProvider extends
 		switch ( mode )
 		{
 			case MODE_GROUPED :
-				return Messages.getString("AdvancePropertyDescriptorProvider.Tooltip.Group"); //$NON-NLS-1$
+				return Messages.getString( "AdvancePropertyDescriptorProvider.Tooltip.Group" ); //$NON-NLS-1$
 			case MODE_ALPHABETIC :
-				return Messages.getString("AdvancePropertyDescriptorProvider.Tooltip.Alphabetic"); //$NON-NLS-1$
+				return Messages.getString( "AdvancePropertyDescriptorProvider.Tooltip.Alphabetic" ); //$NON-NLS-1$
 			case MODE_LOCAL_ONLY :
-				return Messages.getString("AdvancePropertyDescriptorProvider.Tooltip.Local"); //$NON-NLS-1$
+				return Messages.getString( "AdvancePropertyDescriptorProvider.Tooltip.Local" ); //$NON-NLS-1$
 		}
 		return "";//$NON-NLS-1$ 
 	}
+
+	class GroupSortingAction extends Action
+	{
+
+		private AdvancePropertyDescriptor control;
+
+		GroupSortingAction( AdvancePropertyDescriptor control )
+		{
+			super( null, IAction.AS_CHECK_BOX );
+			this.control = control;
+			setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_GROUP_SORT ) );
+			setToolTipText( AdvancePropertyDescriptorProvider.this.getToolTipText( AdvancePropertyDescriptorProvider.MODE_GROUPED ) );
+		}
+
+		public void run( )
+		{
+			control.updateSorting( MODE_GROUPED );
+		}
+
+		public boolean isChecked( )
+		{
+			return contentProvider.getViewMode( ) == MODE_GROUPED;
+		}
+
+		public void setChecked( boolean check )
+		{
+			if ( contentProvider.getViewMode( ) != MODE_GROUPED )
+				selectViewMode( MODE_GROUPED );
+			firePropertyChange( CHECKED, null, null );
+		}
+	}
+
+	class AlphabeticSortingAction extends Action
+	{
+
+		private AdvancePropertyDescriptor control;
+		AlphabeticSortingAction( AdvancePropertyDescriptor control )
+		{
+			super( null, IAction.AS_CHECK_BOX );
+			this.control = control;
+			setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ALPHABETIC_SORT ) );
+			setToolTipText( AdvancePropertyDescriptorProvider.this.getToolTipText( AdvancePropertyDescriptorProvider.MODE_ALPHABETIC ) );
+		}
+
+		public void run( )
+		{
+			control.updateSorting( MODE_ALPHABETIC );
+		}
+
+		public boolean isChecked( )
+		{
+			return contentProvider.getViewMode( ) == MODE_ALPHABETIC;
+		}
+
+		public void setChecked( boolean check )
+		{
+			if ( contentProvider.getViewMode( ) != MODE_ALPHABETIC )
+				selectViewMode( MODE_ALPHABETIC );
+			firePropertyChange( CHECKED, null, null );
+		}
+	}
+
+	class LocalModelAction extends Action
+	{
+
+		private AdvancePropertyDescriptor control;
+		LocalModelAction( AdvancePropertyDescriptor control )
+		{
+			super( null, IAction.AS_CHECK_BOX );
+			this.control = control;
+			setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_LOCAL_PROPERTIES ) );
+			setToolTipText( AdvancePropertyDescriptorProvider.this.getToolTipText( AdvancePropertyDescriptorProvider.MODE_LOCAL_ONLY ) );
+		}
+
+		public void run( )
+		{
+			control.updateSorting( MODE_LOCAL_ONLY );
+		}
+
+		public boolean isChecked( )
+		{
+			return contentProvider.getViewMode( ) == MODE_LOCAL_ONLY;
+		}
+
+		public void setChecked( boolean check )
+		{
+			if ( contentProvider.getViewMode( ) != MODE_LOCAL_ONLY )
+				selectViewMode( MODE_LOCAL_ONLY );
+			firePropertyChange( CHECKED, null, null );
+		}
+	}
+
+	public Object getActions( AdvancePropertyDescriptor control )
+	{
+		return new Action[]{
+				new GroupSortingAction( control ),
+				new AlphabeticSortingAction( control ),
+				new LocalModelAction( control )
+		};
+	}
+
 }
 
 class AdvancedPropertyNameLabelProvider extends ColumnLabelProvider implements

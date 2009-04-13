@@ -12,6 +12,11 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 
 /**
  * The sup-class of all attribute page, provides common register/unregister
@@ -38,4 +43,31 @@ public abstract class ResetAttributePage extends AttributePage
 		return true;
 	}
 
+	class ResetAction extends Action
+	{
+
+		ResetAction( )
+		{
+			super( null, IAction.AS_PUSH_BUTTON );
+			setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_STYLE_RESOTRE ) );
+			setToolTipText( Messages.getString( "ResetAttributePage.Style.Resotre.TooltipText" ) ); //$NON-NLS-1$
+		}
+
+		public void run( )
+		{
+			reset( );
+		}
+
+	}
+
+	public Object getAdapter( Class adapter )
+	{
+		if ( adapter == IAction.class && canReset( ) )
+		{
+			return new Action[]{
+				new ResetAction( )
+			};
+		}
+		return null;
+	}
 }
