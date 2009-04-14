@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.data.oda.xml.impl;
 
 import org.eclipse.birt.report.data.oda.xml.util.RelationInformation;
+import org.eclipse.datatools.enablement.oda.xml.util.MappedTables;
 
 /**
  * This class describe the information of certain ResultSet.
@@ -27,8 +28,8 @@ public class ResultSetMetaData
 	 * @param ri
 	 * @param tableName
 	 */
-	ResultSetMetaData( RelationInformation ri, String tableName )
+	ResultSetMetaData( MappedTables mt, String tableName )
 	{
-		super( ri, tableName );
+		super( mt, tableName );
 	}
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.data.oda.xml.impl;
 
 import org.eclipse.birt.report.data.oda.xml.util.RelationInformation;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.enablement.oda.xml.util.MappedTables;
 
 /**
  * This class implement IResultSet class
@@ -30,8 +31,8 @@ public class ResultSet
 	 * @param maxRows
 	 * @throws OdaException
 	 */
-	public ResultSet( org.eclipse.datatools.enablement.oda.xml.impl.Connection conn, RelationInformation ri, String tableName, int maxRows ) throws OdaException
+	public ResultSet( org.eclipse.datatools.enablement.oda.xml.impl.Connection conn, MappedTables mt, String tableName, int maxRows ) throws OdaException
 	{
-		super( conn, ri, tableName, maxRows );
+		super( conn, mt, tableName, maxRows );
 	}
 }
