@@ -1120,7 +1120,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 				{
 					tableViewer.refresh( );
 					table.select( selectIndex );
-					table.setFocus( );
+					// table.setFocus( );
 					updateArraw( );
 					updateBindingParameters( );
 				}
