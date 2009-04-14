@@ -1564,30 +1564,78 @@ class DataSetParameterAdapter
 			{
 				userDefinedParams.add( ( setDefinedParams.get( i ) ) );
 			}
+			return;
 		}
 
 		// Compare designer value and data set handle.
 
-		else
+		List posList = getPositions( parameters );
+
+		for ( int i = 0; i < setDefinedParams.size( ); i++ )
 		{
-			List posList = getPositions( parameters );
-
-			for ( int i = 0; i < setDefinedParams.size( ); i++ )
+			OdaDataSetParameterHandle paramHandle = setDefinedParams.get( i );
+			Integer position = paramHandle.getPosition( );
+			if ( position == null )
+				continue;
+			if ( !posList.contains( position ) )
 			{
-				OdaDataSetParameterHandle paramHandle = setDefinedParams
-						.get( i );
-				Integer position = paramHandle.getPosition( );
-				if ( position == null )
-					continue;
-				if ( !posList.contains( position ) )
-				{
-					// User-defined parameter.
+				// User-defined parameter.
 
-					userDefinedParams.add( paramHandle );
-				}
+				userDefinedParams.add( paramHandle );
 			}
 		}
+	}
 
+	/**
+	 * 
+	 * 
+	 * @param parameters
+	 * 
+	 * @throws SemanticException
+	 */
+
+	void updateDriverDefinedParameter( DataSetParameters driverDefineParams )
+	{
+		if ( driverDefineParams == null )
+			return;
+
+		List<ParameterDefinition> tmpParams = driverDefineParams
+				.getParameterDefinitions( );
+		for ( int i = 0; i < tmpParams.size( ); i++ )
+		{
+			ParameterDefinition tmpParam = tmpParams.get( i );
+
+			DataElementAttributes tmpAttrs = tmpParam.getAttributes( );
+			OdaDataSetParameterHandle tmpROMParam = findDataSetParameterByName(
+					tmpAttrs.getName( ),
+					new Integer( tmpAttrs.getPosition( ) ), new Integer(
+							tmpAttrs.getNativeDataTypeCode( ) ),
+					setDefinedParams.iterator( ) );
+
+			if ( tmpROMParam == null )
+				continue;
+
+			InputParameterAttributes inputParamAttrs = tmpParam
+					.getInputAttributes( );
+			if ( inputParamAttrs == null )
+			{
+				inputParamAttrs = ODADesignFactory.getFactory( )
+						.createInputParameterAttributes( );
+				tmpParam.setInputAttributes( inputParamAttrs );
+			}
+
+			InputElementAttributes inputElementAttrs = inputParamAttrs
+					.getElementAttributes( );
+			if ( inputElementAttrs == null )
+			{
+				inputElementAttrs = ODADesignFactory.getFactory( )
+						.createInputElementAttributes( );
+				inputParamAttrs.setElementAttributes( inputElementAttrs );
+			}
+
+			setDefaultScalarValue( inputElementAttrs,
+					tmpROMParam.getDataType( ), tmpROMParam.getDefaultValue( ) );
+		}
 	}
 
 	/**

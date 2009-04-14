@@ -385,9 +385,14 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		{
 		}
 
+		// the driver defined parameters are in the designer values
+
 		DataSetParameters cachedParams = null;
 		if ( designerValues != null )
 			cachedParams = designerValues.getDataSetParameters( );
+
+		DataSetParameterAdapter dataParamAdapter = new DataSetParameterAdapter(
+				setHandle, setDesign );
 
 		DataSetParameters designDefinedParams = null;
 		if ( cachedParams != null )
@@ -395,10 +400,12 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			designDefinedParams = (DataSetParameters) EcoreUtil
 					.copy( cachedParams );
 			setDesign.setParameters( designDefinedParams );
+
+			dataParamAdapter.updateDriverDefinedParameter( designDefinedParams );
 		}
 
-		DataSetParameterAdapter dataParamAdapter = new DataSetParameterAdapter(
-				setHandle, setDesign );
+		// if there is no driver defined parameters
+
 		if ( designDefinedParams == null )
 		{
 			designDefinedParams = dataParamAdapter
@@ -1223,9 +1230,9 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 		DataSourceDesign tmpDesign = (DataSourceDesign) EcoreUtil.copy( design );
 		tmpDesign.setHostResourceIdentifiers( null );
-		
-		return new EcoreUtil.EqualityHelper( )
-				.equals( designFromHandle, tmpDesign );
+
+		return new EcoreUtil.EqualityHelper( ).equals( designFromHandle,
+				tmpDesign );
 	}
 
 	/*
