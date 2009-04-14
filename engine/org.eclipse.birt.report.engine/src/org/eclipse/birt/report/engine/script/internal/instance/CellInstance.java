@@ -88,6 +88,18 @@ public class CellInstance extends ReportElementInstance
 		return cell.getColumn( );
 	}
 
+	public void setHeight( String height )
+	{
+		throw new UnsupportedOperationException(
+				"Can't set cell height, please set row height instead." );
+	}
+
+	public void setWidth( String width )
+	{
+		throw new UnsupportedOperationException(
+				"Can't set cell width, please set column width instead." );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
