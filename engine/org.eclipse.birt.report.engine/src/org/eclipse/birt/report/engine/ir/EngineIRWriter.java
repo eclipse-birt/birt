@@ -1538,7 +1538,14 @@ public class EngineIRWriter implements IOConstants
 				IOUtil.writeString( out, image.getImageFormat( ) );
 				break;
 		}
-
+		
+		boolean isFitToContainer = image.isFitToContainer( );
+		if ( isFitToContainer )
+		{
+			IOUtil.writeShort( out, FIELD_FIT_TO_CONTAINER );
+			IOUtil.writeBool( out, true );
+		}
+		
 		Expression<String> altText = image.getAltText( );
 		Expression<String> altTextKey = image.getAltTextKey( );
 		Expression<String> helpText = image.getHelpText( );

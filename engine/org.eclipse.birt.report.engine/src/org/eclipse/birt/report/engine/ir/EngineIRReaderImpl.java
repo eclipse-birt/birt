@@ -1432,6 +1432,10 @@ public class EngineIRReaderImpl implements IOConstants
 				Expression<String> helpText = readStringConstant( in );
 				image.setHelpText( helpTextKey, helpText );
 				break;
+			case FIELD_FIT_TO_CONTAINER:
+				Boolean isFitToContainer = IOUtil.readBool( in );
+				image.setFitToContainer( isFitToContainer );
+				break;
 			default :
 				readReportItemField( in, image, fieldType );
 		}
