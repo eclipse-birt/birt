@@ -14,6 +14,8 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.tools;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerComposite;
+import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerComposite.DragGuideInfo;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.TableDragGuideTracker;
@@ -335,5 +337,17 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker
 				resizeFixColumn(0,  datas[i].columnNumber, 1);
 			}
 		}
+	}
+	
+	@Override
+	protected DragGuideInfo createDragGuideInfo( )
+	{
+		int value = getTrueValue( getMouseTrueValueX());
+		Point p = getStartLocation( ).getCopy( );
+		
+		getAbstractTableEditPart( ).getFigure( ).translateToRelative( p );
+		value = value + p.x;
+		EditorRulerComposite.DragGuideInfo info = new EditorRulerComposite.DragGuideInfo(true, value );
+		return info;
 	}
 }

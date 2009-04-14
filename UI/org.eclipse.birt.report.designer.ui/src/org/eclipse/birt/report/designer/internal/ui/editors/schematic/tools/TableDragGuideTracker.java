@@ -15,6 +15,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
+import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerComposite;
+import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerComposite.DragGuideInfo;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
@@ -46,8 +48,10 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.internal.ui.rulers.DragGuidePolicy;
 import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.internal.EarlyStartupRunnable;
 
 /**
  * TableDragGuideTracker
@@ -111,7 +115,8 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 		getMarqueeFeedbackFigure( ).setBounds( rect );
 		
 		getInfomationLabel( ).setText( getInfomation( ) );
-
+		
+		showDragGuide( );
 	}
 
 	private Dimension getDistance()
@@ -172,6 +177,11 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 		part.getViewer( ).setSelection( part.getViewer( ).getSelection( ) );
 	}
 
+	protected EditorRulerComposite.DragGuideInfo createDragGuideInfo()
+	{
+		return null;
+	}
+	
 	protected boolean isFitResize()
 	{
 		EditPart part = getSourceEditPart( );
@@ -267,6 +277,8 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 			removeFeedback( labelFigure );
 			labelFigure = null;
 		}
+		
+		eraseDragGuide( );
 	}
 
 	private static class MarqueeRectangleFigure extends Figure
@@ -511,5 +523,24 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 	protected AbstractTableEditPart getAbstractTableEditPart()
 	{
 		return (AbstractTableEditPart)getSourceEditPart( );
+	}
+	
+	private void showDragGuide()
+	{
+		DragGuideInfo info = createDragGuideInfo( );
+		if (info != null)
+		{
+			getSourceEditPart( ).getViewer( ).setProperty( DeferredGraphicalViewer.PROPERTY_DRAG_GUIDE, info );
+		}
+	}
+	
+	private void eraseDragGuide()
+	{
+		DragGuideInfo info = createDragGuideInfo( );
+		if (info != null)
+		{
+			info.setPostion( -1 );
+			getSourceEditPart( ).getViewer( ).setProperty( DeferredGraphicalViewer.PROPERTY_DRAG_GUIDE, info );
+		}
 	}
 }

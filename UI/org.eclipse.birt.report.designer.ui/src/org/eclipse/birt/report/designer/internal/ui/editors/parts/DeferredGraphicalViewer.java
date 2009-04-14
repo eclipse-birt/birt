@@ -67,7 +67,9 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	public static final String RULER_SIZE = "Ruler Size"; //$NON-NLS-1$
 
 	public static final String PROPERTY_MARGIN_VISIBILITY = "Property Margin Visibility"; //$NON-NLS-1$
-
+	
+	/**Show the guide*/
+	public static final String PROPERTY_DRAG_GUIDE = "Drag Guide"; //$NON-NLS-1$
 	
 
 	/**

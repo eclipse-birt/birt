@@ -588,6 +588,11 @@ public class EditorRulerComposite extends Composite
 					setRuler( (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER ),
 							PositionConstants.WEST );
 				}
+				else if (DeferredGraphicalViewer.PROPERTY_DRAG_GUIDE.equals( property ))
+				{
+					DragGuideInfo info = (DragGuideInfo)diagramViewer.getProperty( DeferredGraphicalViewer.PROPERTY_DRAG_GUIDE );
+					changeGuide( info );
+				}
 				else if ( RulerProvider.PROPERTY_RULER_VISIBILITY.equals( property ) )
 					setRulerVisibility( ( (Boolean) diagramViewer.getProperty( RulerProvider.PROPERTY_RULER_VISIBILITY ) ).booleanValue( ) );
 			}
@@ -604,6 +609,29 @@ public class EditorRulerComposite extends Composite
 		resetAllGuide( );
 
 		addModelListeners( );
+	}
+	
+	private void changeGuide(DragGuideInfo info)
+	{
+		if (info.horizontal)
+		{
+			Object obj = ((EditorRulerProvider)diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER )).getRuler( );
+			if (obj instanceof EditorRuler)
+			{
+				EditorRuler ruler = (EditorRuler)obj;
+				ruler.changeDragGuide( info.postion, true );
+			}
+			
+		}
+		else
+		{
+			Object obj = ((EditorRulerProvider)diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER )).getRuler( );
+			if (obj instanceof EditorRuler)
+			{
+				EditorRuler ruler = (EditorRuler)obj;
+				ruler.changeDragGuide( info.postion, false );
+			}
+		}
 	}
 
 	private void processProvider( )
@@ -1025,6 +1053,40 @@ public class EditorRulerComposite extends Composite
 				}
 				return super.keyPressed( event );
 			}
+		}
+	}
+	
+	/**Drag info
+	 * DragGuideInfo
+	 */
+	public static class DragGuideInfo
+	{
+		public int getPostion( )
+		{
+			return postion;
+		}
+		
+		public void setPostion( int postion )
+		{
+			this.postion = postion;
+		}
+		
+		public boolean isHorizontal( )
+		{
+			return horizontal;
+		}
+		
+		public void setHorizontal( boolean horizontal )
+		{
+			this.horizontal = horizontal;
+		}
+		private int postion;
+		private boolean horizontal;
+		public DragGuideInfo( boolean horizontal, int postion )
+		{
+			super( );
+			this.horizontal = horizontal;
+			this.postion = postion;
 		}
 	}
 

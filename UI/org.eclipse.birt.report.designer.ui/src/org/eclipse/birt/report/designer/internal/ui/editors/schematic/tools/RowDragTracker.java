@@ -14,6 +14,8 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerComposite;
+import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerComposite.DragGuideInfo;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -363,5 +365,17 @@ public class RowDragTracker extends TableDragGuideTracker
 		
 		part.getTableAdapter( ).transEnd( );
 		
+	}
+	
+	@Override
+	protected DragGuideInfo createDragGuideInfo( )
+	{
+		int value = getTrueValue( getMouseTrueValueY());
+		Point p = getStartLocation( ).getCopy( );
+		
+		getAbstractTableEditPart( ).getFigure( ).translateToRelative( p );
+		value = value + p.y;
+		EditorRulerComposite.DragGuideInfo info = new EditorRulerComposite.DragGuideInfo(false, value );
+		return info;
 	}
 }

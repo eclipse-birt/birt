@@ -57,11 +57,11 @@ public class EditorGuideFigure extends Figure
 		Dimension prefSize;
 		if ( isHorizontal( ) )
 		{
-			prefSize = H_PREFSIZE;
+			prefSize = H_PREFSIZE.getCopy( );
 		}
 		else
 		{
-			prefSize = V_PREFSIZE;
+			prefSize = V_PREFSIZE.getCopy( );
 		}
 		if ( getBorder( ) != null )
 		{

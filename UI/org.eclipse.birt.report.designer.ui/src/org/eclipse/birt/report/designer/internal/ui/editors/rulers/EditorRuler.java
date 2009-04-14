@@ -310,4 +310,41 @@ public class EditorRuler
 	{
 		return leftSpace;
 	}
+	
+	/**
+	 *Change the drag guide  
+	 */
+	public void changeDragGuide(int position, boolean horizontal)
+	{
+		DragEditorGuide dragGuide = findDragEditorGuide( );
+		if (position <= 0 )
+		{
+			if (dragGuide != null)
+			{
+				removeGuide( dragGuide );
+			}
+		}
+		else if (dragGuide != null)
+		{
+			dragGuide.setPosition( position );
+		}
+		else
+		{
+			dragGuide = new DragEditorGuide(horizontal );
+			dragGuide.setPosition( position );
+			addGuide( dragGuide );
+		}
+	}
+	
+	private DragEditorGuide findDragEditorGuide()
+	{
+		for (int i=0; i<guides.size( ); i++)
+		{
+			if (guides.get( i ) instanceof DragEditorGuide)
+			{
+				return (DragEditorGuide)guides.get( i );
+			}
+		}
+		return null;
+	}
 }

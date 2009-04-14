@@ -42,6 +42,10 @@ public class EditorRulerEditPartFactory implements EditPartFactory
 	protected EditPart createGuideEditPart( EditPart parentEditPart,
 			Object model )
 	{
+		if (model instanceof DragEditorGuide)
+		{
+			return new DragEditorGuideEditPart(model);
+		}
 		return new EditorGuideEditPart( model );
 	}
 

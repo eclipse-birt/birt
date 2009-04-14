@@ -400,6 +400,8 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart
 		}
 		getGuideLineFigure( ).setLocation( guideFeedbackLocation );
 		getGuideLineFigure( ).revalidate( );
+		
+		getFigure( ).getParent( ).repaint( );
 	}
 
 	public static class GuideSelectionPolicy extends SelectionEditPolicy
