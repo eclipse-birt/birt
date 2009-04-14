@@ -452,13 +452,12 @@ public class TableLayout
 	 * need to end these cells and vertical align for them.
 	 * 
 	 */
-	public int resolveAll( )
+	public int resolveAll( RowArea row )
 	{
 		if ( rows.size( ) == 0 )
 		{
 			return 0;
 		}
-		RowArea row = (RowArea) rows.getCurrent( );
 		int originalRowHeight = row.getHeight( );
 		int height = originalRowHeight;
 

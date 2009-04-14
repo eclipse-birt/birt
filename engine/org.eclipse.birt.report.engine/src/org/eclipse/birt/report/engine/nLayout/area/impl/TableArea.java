@@ -263,7 +263,7 @@ public class TableArea extends RepeatableArea
 		if ( result.getResult( ) != null )
 		{
 			TableArea tableResult = (TableArea) result.getResult( );
-			int h = tableResult.layout.resolveAll( );
+			int h = tableResult.layout.resolveAll( tableResult.getLastRow( ) );
 			if ( h > 0 )
 			{
 				tableResult.setHeight( tableResult.getHeight( ) + h );
@@ -407,7 +407,7 @@ public class TableArea extends RepeatableArea
 		int borderHeight = 0;
 		if ( layout != null )
 		{
-			int height = layout.resolveAll( );
+			int height = layout.resolveAll( getLastRow() );
 			if ( 0 != height )
 			{
 				currentBP = currentBP + height;
@@ -422,7 +422,7 @@ public class TableArea extends RepeatableArea
 			boolean pb = checkPageBreak( );
 			if ( pb )
 			{
-				int height = layout.resolveAll( );
+				int height = layout.resolveAll( getLastRow() );
 				if ( 0 != height )
 				{
 					currentBP = currentBP + height;
