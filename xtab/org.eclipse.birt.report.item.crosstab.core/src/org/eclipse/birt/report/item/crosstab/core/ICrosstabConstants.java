@@ -119,6 +119,12 @@ public interface ICrosstabConstants
 	String AGGREGATION_HEADER_LOCATION_BEFORE = "before"; //$NON-NLS-1$
 	String AGGREGATION_HEADER_LOCATION_AFTER = "after"; //$NON-NLS-1$
 
+	/**
+	 * Grand total location constants.
+	 */
+	String GRAND_TOTAL_LOCATION_BEFORE = "before"; //$NON-NLS-1$
+	String GRAND_TOTAL_LOCATION_AFTER = "after"; //$NON-NLS-1$
+
 	String CROSSTAB_SELECTOR = "crosstab"; //$NON-NLS-1$
 	String CROSSTAB_CELL_SELECTOR = "crosstab-cell"; //$NON-NLS-1$
 	String CROSSTAB_HEADER_SELECTOR = "crosstab-header"; //$NON-NLS-1$

@@ -213,6 +213,39 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	}
 
 	/**
+	 * Returns the location of the grandtotal. The return value is defined in
+	 * <code>ICrosstabConstants</code> and can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>GRAND_TOTAL_LOCATION_BEFORE</code>
+	 * <li><code>GRAND_TOTAL_LOCATION_AFTER</code>
+	 * </ul>
+	 * 
+	 * @return the location
+	 */
+	public String getGrandTotalLocation( )
+	{
+		return handle.getStringProperty( GRAND_TOTAL_LOCATIION_PROP );
+	}
+
+	/**
+	 * Sets the location of the grand total. The input value can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>GRAND_TOTAL_LOCATION_BEFORE</code>
+	 * <li><code>GRAND_TOTAL_LOCATION_AFTER</code>
+	 * </ul>
+	 * 
+	 * @param value
+	 *            the location to set
+	 * @throws SemanticException
+	 */
+	public void setGrandTotalLocation( String value ) throws SemanticException
+	{
+		handle.setStringProperty( GRAND_TOTAL_LOCATIION_PROP, value );
+	}
+
+	/**
 	 * Adds grand-total for this crosstab view.
 	 * 
 	 * @param measureList

@@ -37,6 +37,7 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 	private static final int STATE_GRAND_TOTAL = 6;
 	private static final int STATE_MEASURE = 7;
 	private static final int STATE_END = 10;
+	private static final int STATE_PENDING_CHECK_COLUMN_EDGE = 20;
 
 	private CrosstabReportItemHandle crosstabItem;
 	private EdgeCursor columnEdgeCursor;
@@ -54,6 +55,7 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 	private int tmpStartGroupIndex, tmpEndGroupIndex;
 	private List columnDimensionCursors;
 	private boolean hasNext, columnProcessed;
+	private boolean inProcessingGrandTotalBefore;
 
 	// this is used to skip subtotal check for innerest column level
 	private final int lastColumnGroupIndex;
@@ -90,9 +92,20 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 	{
 		if ( currentState == STATE_INIT )
 		{
-			advance( );
+			safeAdvance( );
 		}
 		return currentState != STATE_END;
+	}
+
+	private void safeAdvance( ) throws OLAPException
+	{
+		advance( );
+
+		if ( currentState == STATE_PENDING_CHECK_COLUMN_EDGE )
+		{
+			// need advance again to recheck the state
+			advance( );
+		}
 	}
 
 	private void advance( ) throws OLAPException
@@ -137,7 +150,18 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 
 			case STATE_MEASURE_HEADER :
 
-				if ( columnGroups.size( ) > 0 && columnEdgeCursor != null )
+				// check if need processing grandtotal_before
+				inProcessingGrandTotalBefore = columnGroups.size( ) > 0
+						&& columnEdgeCursor != null
+						&& crosstabItem.getGrandTotal( COLUMN_AXIS_TYPE ) != null
+						&& GRAND_TOTAL_LOCATION_BEFORE.equals( crosstabItem.getCrosstabView( COLUMN_AXIS_TYPE )
+								.getGrandTotalLocation( ) );
+
+			case STATE_PENDING_CHECK_COLUMN_EDGE :
+
+				if ( !inProcessingGrandTotalBefore
+						&& columnGroups.size( ) > 0
+						&& columnEdgeCursor != null )
 				{
 					columnDimensionCursors = columnEdgeCursor.getDimensionCursor( );
 
@@ -156,7 +180,9 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 			case STATE_COLUMN_TOTAL_AFTER :
 			case STATE_COLUMN_EDGE :
 
-				if ( columnGroups.size( ) > 0 && columnEdgeCursor != null )
+				if ( !inProcessingGrandTotalBefore
+						&& columnGroups.size( ) > 0
+						&& columnEdgeCursor != null )
 				{
 					while ( hasNext )
 					{
@@ -342,6 +368,16 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 
 						measureIndex = -1;
 					}
+
+					// check if grandtotal already processed, otherwise, this is
+					// already the end of column edge
+					if ( crosstabItem.getGrandTotal( COLUMN_AXIS_TYPE ) != null
+							&& GRAND_TOTAL_LOCATION_BEFORE.equals( crosstabItem.getCrosstabView( COLUMN_AXIS_TYPE )
+									.getGrandTotalLocation( ) ) )
+					{
+						currentState = STATE_END;
+						return;
+					}
 				}
 
 				// reset measure index
@@ -384,6 +420,16 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 									return;
 								}
 							}
+						}
+
+						// check if this is grandtotal_before, then forward the
+						// processing to column edge
+						if ( inProcessingGrandTotalBefore )
+						{
+							inProcessingGrandTotalBefore = false;
+
+							currentState = STATE_PENDING_CHECK_COLUMN_EDGE;
+							return;
 						}
 					}
 
@@ -461,7 +507,7 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 			evt.dataPosition = columnEdgeCursor.getPosition( );
 		}
 
-		advance( );
+		safeAdvance( );
 
 		return evt;
 	}

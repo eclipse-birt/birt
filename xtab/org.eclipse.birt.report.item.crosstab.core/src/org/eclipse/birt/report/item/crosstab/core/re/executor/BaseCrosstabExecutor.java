@@ -533,6 +533,19 @@ public abstract class BaseCrosstabExecutor implements
 		return null;
 	}
 
+	protected boolean needRowGrandTotal( String position ) throws OLAPException
+	{
+		if ( rowGroups.size( ) > 0
+				&& getRowEdgeCursor( ) != null
+				&& ( crosstabItem.getMeasureCount( ) > 0 || !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE )
+				&& crosstabItem.getGrandTotal( ROW_AXIS_TYPE ) != null )
+		{
+			return position.equals( crosstabItem.getCrosstabView( ROW_AXIS_TYPE )
+					.getGrandTotalLocation( ) );
+		}
+		return false;
+	}
+
 	public void close( )
 	{
 		// TODO clean up

@@ -34,7 +34,11 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor
 
 	private boolean hasMeasureHeader;
 	private boolean useCornerHeader;
+	private boolean hasGrandTotal;
 	private int currentGroupIndex;
+
+	private int currentGrandTotalRow;
+	private int totalGrandTotalRow;
 
 	private long resetRowCursorPosition = -1;
 
@@ -89,10 +93,12 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor
 
 			if ( rowCursor != null )
 			{
-				// reset cursor position to initial state 
+				// reset cursor position to initial state
 				resetRowCursorPosition = rowCursor.getPosition( );
 				rowCursor.setPosition( -1 );
 			}
+
+			hasGrandTotal = needRowGrandTotal( GRAND_TOTAL_LOCATION_BEFORE );
 		}
 		catch ( OLAPException e )
 		{
@@ -107,6 +113,15 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor
 		useCornerHeader = columnGroups.size( ) == 0
 				&& !hasMeasureHeader
 				&& crosstabItem.getHeader( ) != null;
+
+		if ( hasGrandTotal )
+		{
+			currentGrandTotalRow = 0;
+
+			int count = crosstabItem.getMeasureCount( );
+			totalGrandTotalRow = ( count > 1 && MEASURE_DIRECTION_VERTICAL.equals( crosstabItem.getMeasureDirection( ) ) ) ? count
+					: 1;
+		}
 	}
 
 	public IReportItemExecutor getNextChild( )
@@ -133,6 +148,11 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor
 			nextExecutor = new CrosstabCornerHeaderRowExecutor( this );
 			useCornerHeader = false;
 		}
+		else if ( hasGrandTotal )
+		{
+			return new CrosstabGrandTotalRowExecutor( this,
+					currentGrandTotalRow++ );
+		}
 
 		return nextExecutor;
 	}
@@ -154,6 +174,23 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor
 			return true;
 		}
 
+		if ( hasGrandTotal && currentGrandTotalRow < totalGrandTotalRow )
+		{
+			if ( GroupUtil.hasTotalContent( crosstabItem,
+					ROW_AXIS_TYPE,
+					-1,
+					-1,
+					MEASURE_DIRECTION_VERTICAL.equals( crosstabItem.getMeasureDirection( ) ) ? currentGrandTotalRow
+							: -1 ) )
+			{
+				return true;
+			}
+			else
+			{
+				currentGrandTotalRow++;
+				return hasNextChild( );
+			}
+		}
 		return false;
 	}
 }

@@ -34,7 +34,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -1263,7 +1262,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 				errorList.add( e );
 			}
 
-			// update header
+			// adding crosstab header support (? -> 2.3.0) 
 			if ( getHeader( ) == null )
 			{
 				PropertyHandle headerHandle = handle.getPropertyHandle( HEADER_PROP );

@@ -193,7 +193,8 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 			// prepare header
 			if ( columnGroups.size( ) > 0
 					|| GroupUtil.hasMeasureHeader( crosstabItem,
-							COLUMN_AXIS_TYPE ) )
+							COLUMN_AXIS_TYPE )
+					|| needRowGrandTotal( GRAND_TOTAL_LOCATION_BEFORE ) )
 			{
 				CrosstabHeaderExecutor headerExecutor = new CrosstabHeaderExecutor( this );
 				children.add( headerExecutor );
@@ -209,10 +210,7 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 
 			// prepare footer, if the rowCursor is avaiable but has zero data,
 			// we still need the footer
-			if ( rowGroups.size( ) > 0
-					&& rowCursor != null
-					&& crosstabItem.getGrandTotal( ROW_AXIS_TYPE ) != null
-					&& ( measureCount > 0 || !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE ) )
+			if ( needRowGrandTotal( GRAND_TOTAL_LOCATION_AFTER ) )
 			{
 				CrosstabFooterExecutor totalExecutor = new CrosstabFooterExecutor( this );
 				children.add( totalExecutor );
@@ -236,7 +234,8 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 			if ( columnGroups.size( ) > 0
 					|| GroupUtil.hasMeasureHeader( crosstabItem,
 							COLUMN_AXIS_TYPE )
-					|| crosstabItem.getHeader( ) != null )
+					|| crosstabItem.getHeader( ) != null
+					|| needRowGrandTotal( GRAND_TOTAL_LOCATION_BEFORE ) )
 			{
 				CrosstabHeaderExecutor headerExecutor = new CrosstabHeaderExecutor( this );
 				children.add( headerExecutor );
@@ -258,8 +257,7 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 		// this is the end of entire edge
 		if ( endingGroupIndex <= 0 )
 		{
-			if ( crosstabItem.getGrandTotal( ROW_AXIS_TYPE ) != null
-					&& ( measureCount > 0 || !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE ) )
+			if ( needRowGrandTotal( GRAND_TOTAL_LOCATION_AFTER ) )
 			{
 				CrosstabFooterExecutor totalExecutor = new CrosstabFooterExecutor( this );
 				children.add( totalExecutor );

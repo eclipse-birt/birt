@@ -261,6 +261,24 @@
                name="mirrorStartingLevel"
                type="elementRef">
          </property>
+         <property
+               canInherit="true"
+               defaultValue="after"
+               displayNameID="Element.GrandTotalLocation"
+               isEncryptable="false"
+               name="grandTotalLocation"
+               type="choice">
+            <choice
+                  displayNameID="Element.choice.before"
+                  name="before"
+                  value="before">
+            </choice>
+            <choice
+                  displayNameID="Element.choice.after"
+                  name="after"
+                  value="after">
+            </choice>
+         </property>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
@@ -562,7 +580,7 @@
          </propertyVisibility>
          <propertyVisibility
                name="drop"
-               visibility="hide">
+               visibility="readonly">
          </propertyVisibility>
          <propertyVisibility
                name="colSpan"

@@ -39,4 +39,8 @@ public interface ICrosstabViewConstants
 	 */
 	String MIRROR_STARTING_LEVEL_PROP = "mirrorStartingLevel"; //$NON-NLS-1$
 
+	/**
+	 * Name of the property that specifies the location for grand total header
+	 */
+	String GRAND_TOTAL_LOCATIION_PROP = "grandTotalLocation"; //$NON-NLS-1$
 }
