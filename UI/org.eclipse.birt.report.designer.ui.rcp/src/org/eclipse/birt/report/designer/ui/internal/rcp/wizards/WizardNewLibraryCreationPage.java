@@ -172,7 +172,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 			setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameEmpty" ) ); //$NON-NLS-1$
 			return false;
 		}
-		
+
 		if ( path.toFile( ).exists( ) )
 		{
 			setErrorMessage( MSG_DUPLICATE_FILE_NAME );
@@ -353,10 +353,17 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 			ModuleHandle handle = SessionHandleAdapter.getInstance( )
 					.getSessionHandle( )
 					.openLibrary( sourceFileName );
+
 			if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
 			{
 				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
 						ReportPlugin.getDefault( ).getCommentPreference( ) );
+			}
+
+			if ( ReportPlugin.getDefault( ).getDefaultUnitPreference( ) != null )
+			{
+				handle.setStringProperty( ModuleHandle.UNITS_PROP,
+						ReportPlugin.getDefault( ).getDefaultUnitPreference( ) );
 			}
 
 			if ( inPredifinedTemplateFolder( sourceFileName ) )

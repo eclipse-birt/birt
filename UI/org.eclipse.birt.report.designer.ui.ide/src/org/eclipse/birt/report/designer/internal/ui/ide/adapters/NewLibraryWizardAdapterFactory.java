@@ -12,9 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 import java.util.Locale;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
@@ -37,7 +35,6 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
@@ -124,7 +121,7 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 	protected void createAdvancedControls( Composite parent )
 	{
 	}
-	
+
 	protected IStatus validateLinkedResource( )
 	{
 		// always return OK here.
@@ -168,7 +165,7 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 		}
 
 		final String libraryFileName = UIUtil.getDefaultLibraryTemplate( );
-		if (libraryFileName == null)
+		if ( libraryFileName == null )
 		{
 			return false;
 		}
@@ -238,10 +235,21 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 			ModuleHandle handle = SessionHandleAdapter.getInstance( )
 					.getSessionHandle( )
 					.createLibraryFromTemplate( sourceFileName );
-			if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
+
+			if ( ReportPlugin.getDefault( )
+					.getEnableCommentPreference( file.getProject( ) ) )
 			{
 				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
-						ReportPlugin.getDefault( ).getCommentPreference( ) );
+						ReportPlugin.getDefault( )
+								.getCommentPreference( file.getProject( ) ) );
+			}
+
+			if ( ReportPlugin.getDefault( )
+					.getDefaultUnitPreference( file.getProject( ) ) != null )
+			{
+				handle.setStringProperty( ModuleHandle.UNITS_PROP,
+						ReportPlugin.getDefault( )
+								.getDefaultUnitPreference( file.getProject( ) ) );
 			}
 
 			if ( inPredifinedTemplateFolder( sourceFileName ) )
@@ -324,7 +332,8 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage#updatePerspective(org.eclipse.core.runtime.IConfigurationElement)
+	 * @seeorg.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage#
+	 * updatePerspective(org.eclipse.core.runtime.IConfigurationElement)
 	 */
 	public void updatePerspective( IConfigurationElement configElement )
 	{
@@ -349,8 +358,9 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 				}
 				else
 					resourcePath = getContainerFullPath( ).append( getFileName( ) );
-				
-				if ( resourcePath.lastSegment( ).equals( "." + fileExtension ) ){
+
+				if ( resourcePath.lastSegment( ).equals( "." + fileExtension ) )
+				{
 					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameEmpty" ) ); //$NON-NLS-1$
 					return false;
 				}
@@ -380,7 +390,8 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 				else
 					resourcePath = getContainerFullPath( ).append( getFileName( ) );
 
-				if ( resourcePath.lastSegment( ).equals( "." + fileExtension ) ){
+				if ( resourcePath.lastSegment( ).equals( "." + fileExtension ) )
+				{
 					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameEmpty" ) ); //$NON-NLS-1$
 					return false;
 				}

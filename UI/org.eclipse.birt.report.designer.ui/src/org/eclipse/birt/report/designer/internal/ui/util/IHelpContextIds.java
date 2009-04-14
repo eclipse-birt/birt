@@ -286,6 +286,9 @@ public interface IHelpContextIds
 	public static final String PREFERENCE_BIRT_BIDI_ID = PREFIX
 			+ "Preference_BIRT_BIDI_ID"; //$NON-NLS-1$
 
+	public static final String PREFERENCE_BIRT_LAYOUT_ID = PREFIX
+			+ "Preference_BIRT_Layout_ID"; //$NON-NLS-1$
+
 	public static final String PREFERENCE_BIRT_RESOURCE_ID = PREFIX
 			+ "Preference_BIRT_Resource_ID"; //$NON-NLS-1$
 

@@ -39,13 +39,11 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
 public class NewTemplateWizard extends NewReportWizard
 {
@@ -68,8 +66,10 @@ public class NewTemplateWizard extends NewReportWizard
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard#init(org.eclipse.ui.IWorkbench,
-	 *      org.eclipse.jface.viewers.IStructuredSelection)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard#init(
+	 * org.eclipse.ui.IWorkbench,
+	 * org.eclipse.jface.viewers.IStructuredSelection)
 	 */
 	public void init( IWorkbench workbench, IStructuredSelection selection )
 	{
@@ -117,7 +117,9 @@ public class NewTemplateWizard extends NewReportWizard
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard#performFinish()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard#performFinish
+	 * ()
 	 */
 	public boolean performFinish( )
 	{
@@ -251,10 +253,19 @@ public class NewTemplateWizard extends NewReportWizard
 			ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
 					.getSessionHandle( )
 					.createDesignFromTemplate( sourceFileName );
-			if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
+			if ( ReportPlugin.getDefault( )
+					.getEnableCommentPreference( file.getProject( ) ) )
 			{
 				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
-						ReportPlugin.getDefault( ).getCommentPreference( ) );
+						ReportPlugin.getDefault( )
+								.getCommentPreference( file.getProject( ) ) );
+			}
+			if ( ReportPlugin.getDefault( )
+					.getDefaultUnitPreference( file.getProject( ) ) != null )
+			{
+				handle.setStringProperty( ModuleHandle.UNITS_PROP,
+						ReportPlugin.getDefault( )
+								.getDefaultUnitPreference( file.getProject( ) ) );
 			}
 			setReportSettings( handle );
 			handle.saveAs( file.getLocation( ).toOSString( ) );

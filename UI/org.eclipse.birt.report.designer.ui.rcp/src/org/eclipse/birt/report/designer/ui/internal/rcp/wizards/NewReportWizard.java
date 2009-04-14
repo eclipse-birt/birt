@@ -299,6 +299,11 @@ public class NewReportWizard extends Wizard implements
 				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
 						ReportPlugin.getDefault( ).getCommentPreference( ) );
 			}
+			if ( ReportPlugin.getDefault( ).getDefaultUnitPreference( ) != null )
+			{
+				handle.setStringProperty( ModuleHandle.UNITS_PROP,
+						ReportPlugin.getDefault( ).getDefaultUnitPreference( ) );
+			}
 			if ( isPredifinedTemplate( sourceFileName ) )
 			{
 				handle.setDisplayName( null );

@@ -82,9 +82,12 @@ import com.ibm.icu.util.StringTokenizer;
 public class ReportPlugin extends AbstractUIPlugin
 {
 
+	public static final String DEFAULT_UNIT_AUTO = "Auto"; //$NON-NLS-1$
+
 	protected static final Logger logger = Logger.getLogger( ReportPlugin.class.getName( ) );
 
 	public static final String LTR_BIDI_DIRECTION = "report.designer.ui.preferences.bidiproperties.ltrdirection"; //$NON-NLS-1$
+	public static final String DEFAULT_UNIT_PREFERENCE = "report.designer.ui.preferences.default.unit"; //$NON-NLS-1$
 
 	// Add the static String list, remeber thr ignore view for the selection
 	private List<String> ignore = new ArrayList<String>( );
@@ -114,7 +117,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	private Cursor cellLeftCursor, cellRightCursor;
 
 	public static final String NATURE_ID = "org.eclipse.birt.report.designer.ui.reportprojectnature"; //$NON-NLS-1$
-	
+
 	// The entry delimiter
 	public static final String PREFERENCE_DELIMITER = ";"; //$NON-NLS-1$
 	public static final String SPACE = " "; //$NON-NLS-1$
@@ -132,7 +135,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String ENABLE_COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.enable.comment.description.preferencestore"; //$NON-NLS-1$
 	public static final String BIRT_RESOURCE = "resources"; //$NON-NLS-1$
 
-	private static final List<String> elementToFilter = Arrays.asList( new String[]{
+	private static final List<String> elementToFilte = Arrays.asList( new String[]{
 			ReportDesignConstants.AUTOTEXT_ITEM,
 			ReportDesignConstants.DATA_SET_ELEMENT,
 			ReportDesignConstants.DATA_SOURCE_ELEMENT,
@@ -177,8 +180,7 @@ public class ReportPlugin extends AbstractUIPlugin
 			"CrosstabView", //$NON-NLS-1$
 			"DimensionView", //$NON-NLS-1$
 			"LevelView", //$NON-NLS-1$
-			"MeasureView", //$NON-NLS-1$
-			"ComputedMeasureView" //$NON-NLS-1$
+			"MeasureView" //$NON-NLS-1$
 
 	} );
 
@@ -237,6 +239,8 @@ public class ReportPlugin extends AbstractUIPlugin
 		initCellCursor( );
 
 		setDefaultBiDiSettings( );
+
+		setDefaultUnitSettings( );
 
 		// set default Element names
 		setDefaultElementNamePreference( PreferenceFactory.getInstance( )
@@ -562,7 +566,7 @@ public class ReportPlugin extends AbstractUIPlugin
 
 			// only set names for the elements when the element can have a name
 			if ( nameOption == MetaDataConstants.NO_NAME
-					|| filterName( elementDefn ) )
+					|| filteName( elementDefn ) )
 			{
 				continue;
 			}
@@ -586,9 +590,9 @@ public class ReportPlugin extends AbstractUIPlugin
 		// ResourceFilter.generateNoResourceInFolderFilter( ) );
 	}
 
-	private boolean filterName( IElementDefn elementDefn )
+	private boolean filteName( IElementDefn elementDefn )
 	{
-		return elementToFilter.indexOf( elementDefn.getName( ) ) != -1;
+		return elementToFilte.indexOf( elementDefn.getName( ) ) != -1;
 	}
 
 	/**
@@ -632,7 +636,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		}
 		else
 		{
-			preference.append( getExtendedPaletteEntryDescription( defaultName ) );
+			preference.append( "" ); //$NON-NLS-1$
 		}
 
 		preference.append( PREFERENCE_DELIMITER );
@@ -951,10 +955,11 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void setDefaultTemplatePreference( )
 	{
 		String defaultRootDir = UIUtil.getFragmentDirectory( );
-		File templateFolder = new File(defaultRootDir, "/custom-templates/"); //$NON-NLS-1$
+		File templateFolder = new File( defaultRootDir, "/custom-templates/" ); //$NON-NLS-1$
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
-				.setDefault( TEMPLATE_PREFERENCE, templateFolder.getAbsolutePath( ) );
+				.setDefault( TEMPLATE_PREFERENCE,
+						templateFolder.getAbsolutePath( ) );
 	}
 
 	/**
@@ -1141,6 +1146,13 @@ public class ReportPlugin extends AbstractUIPlugin
 				UIUtil.getCurrentProject( ) ).getString( COMMENT_PREFERENCE );
 	}
 
+	public String getCommentPreference( IProject project )
+	{
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this, project )
+				.getString( COMMENT_PREFERENCE );
+	}
+
 	/**
 	 * set comment preference
 	 * 
@@ -1184,6 +1196,13 @@ public class ReportPlugin extends AbstractUIPlugin
 	{
 		return PreferenceFactory.getInstance( )
 				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.getBoolean( ENABLE_COMMENT_PREFERENCE );
+	}
+
+	public boolean getEnableCommentPreference( IProject project )
+	{
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this, project )
 				.getBoolean( ENABLE_COMMENT_PREFERENCE );
 	}
 
@@ -1399,6 +1418,13 @@ public class ReportPlugin extends AbstractUIPlugin
 				.setDefault( LTR_BIDI_DIRECTION, true );
 	}
 
+	public void setDefaultUnitSettings( )
+	{
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( DEFAULT_UNIT_PREFERENCE, DEFAULT_UNIT_AUTO );
+	}
+
 	/**
 	 * Retrieves if BiDi orientation is Left To Right
 	 * 
@@ -1432,8 +1458,8 @@ public class ReportPlugin extends AbstractUIPlugin
 				UIUtil.getCurrentProject( ) ).setValue( LTR_BIDI_DIRECTION,
 				ltrDirection );
 	}
-
-	/**
+	
+		/**
 	 * Gets the description text of the extended palette entry elements.
 	 * 
 	 * @return the description text, or "" if not found.
@@ -1470,5 +1496,33 @@ public class ReportPlugin extends AbstractUIPlugin
 		}
 		
 		return ""; //$NON-NLS-1$
+	}
+
+	public String getDefaultUnitPreference( IProject project )
+	{
+		String unit = PreferenceFactory.getInstance( ).getPreferences( this,
+				project ).getString( DEFAULT_UNIT_PREFERENCE );
+		if ( unit == DEFAULT_UNIT_AUTO )
+			return null;
+		else
+			return unit;
+	}
+
+	public String getDefaultUnitPreference( )
+	{
+		String unit = PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.getString( DEFAULT_UNIT_PREFERENCE );
+		if ( unit == DEFAULT_UNIT_AUTO )
+			return null;
+		else
+			return unit;
+	}
+
+	public void setDefaultUnitPreference( String unit )
+	{
+		PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.setValue( DEFAULT_UNIT_PREFERENCE, unit );
 	}
 }
