@@ -690,7 +690,9 @@ public final class AxesRenderHelper
 						}
 						else
 						{
-							if ( !bSkipTickLine )
+							if ( !bSkipTickLine
+									&& ( ( i > 0 && i < length - 1 )
+											|| !axModel.isCategoryAxis( ) || bTickBetweenCategories ) )
 							{
 								LineRenderEvent lreMinor = null;
 								int minorStep = (int) ( 1d / da.getStep( ) );
@@ -935,7 +937,9 @@ public final class AxesRenderHelper
 						}
 						else
 						{
-							if ( !bSkipTickLine )
+							if ( !bSkipTickLine
+									&& ( ( i > 0 && i < length - 1 )
+											|| !axModel.isCategoryAxis( ) || bTickBetweenCategories ) )
 							{
 								LineRenderEvent lreMinor = null;
 								int minorStep = (int) ( 1d / da.getStep( ) );

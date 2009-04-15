@@ -1684,6 +1684,14 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					for ( int j = 0; j < da.size( ) - 1; j++ )
 					{
+						// skip the first and the last for category
+						// non-crossBetweenCategorgies axis
+						if ( ( j == 0 || j == da.size( ) - 2 )
+								&& sc.isCategoryScale( )
+								&& !sc.isTickBetweenCategories( ) )
+						{
+							continue;
+						}
 						x = da.getCoordinate( j );
 						for ( int k = 0; k < doaMinor.length; k++ )
 						{
@@ -1714,6 +1722,14 @@ public abstract class AxesRenderer extends BaseRenderer
 
 				for ( int j = 0; j < da.size( ) - 1; j++ )
 				{
+					// skip the first and the last for category
+					// non-crossBetweenCategorgies axis
+					if ( ( j == 0 || j == da.size( ) - 2 )
+							&& sc.isCategoryScale( )
+							&& !sc.isTickBetweenCategories( ) )
+					{
+						continue;
+					}
 					x = da.getCoordinate( j );
 					vnext = da.getCoordinate( j + 1 );
 					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
@@ -1755,6 +1771,14 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					for ( int j = 0; j < da.size( ) - 1; j++ )
 					{
+						// skip the first and the last for category
+						// non-crossBetweenCategorgies axis
+						if ( ( j == 0 || j == da.size( ) - 2 )
+								&& sc.isCategoryScale( )
+								&& !sc.isTickBetweenCategories( ) )
+						{
+							continue;
+						}
 						y = da.getCoordinate( j ) - pwa.getSeriesThickness( );
 						vnext = da.getCoordinate( j + 1 ) - pwa.getSeriesThickness( );
 						for ( int k = 0; k < doaMinor.length; k++ )
@@ -1785,6 +1809,14 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				for ( int j = 0; j < da.size( ) - 1; j++ )
 				{
+					// skip the first and the last for category
+					// non-crossBetweenCategorgies axis
+					if ( ( j == 0 || j == da.size( ) - 2 )
+							&& sc.isCategoryScale( )
+							&& !sc.isTickBetweenCategories( ) )
+					{
+						continue;
+					}
 					y = da.getCoordinate( j );
 					vnext = da.getCoordinate( j + 1 );
 					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
@@ -1978,6 +2010,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						// if ( j == da.size( ) - 1
 						// && insCA.getTop( ) < lia.getThickness( ) )
 						// continue;
+						if ( j == da.size( ) - 1
+								&& sc.isCategoryScale( )
+								&& !sc.isTickBetweenCategories( ) )
+							continue;
 
 						x = da.getCoordinate( j );
 						lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
@@ -1998,6 +2034,10 @@ public abstract class AxesRenderer extends BaseRenderer
 					// if ( j == da.size( ) - 1
 					// && insCA.getTop( ) < lia.getThickness( ) )
 					// continue;
+					if ( j == da.size( ) - 1
+							&& sc.isCategoryScale( )
+							&& !sc.isTickBetweenCategories( ) )
+						continue;
 
 					x = da.getCoordinate( j );
 					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
@@ -2026,6 +2066,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						// if ( j == da.size( ) - 1
 						// && insCA.getRight( ) < lia.getThickness( ) )
 						// continue;
+						if ( j == da.size( ) - 1
+								&& sc.isCategoryScale( )
+								&& !sc.isTickBetweenCategories( ) )
+							continue;
 
 						y = ( da.getCoordinate( j ) - pwa.getSeriesThickness( ) );
 						lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
@@ -2045,6 +2089,10 @@ public abstract class AxesRenderer extends BaseRenderer
 					// if ( j == da.size( ) - 1
 					// && insCA.getRight( ) < lia.getThickness( ) )
 					// continue;
+					if ( j == da.size( ) - 1
+							&& sc.isCategoryScale( )
+							&& !sc.isTickBetweenCategories( ) )
+						continue;
 
 					y = da.getCoordinate( j );
 					if ( pwa.getDimension( ) == IConstants.TWO_5_D )
