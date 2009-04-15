@@ -115,7 +115,7 @@ public class TextArea extends AbstractArea implements ITextArea
 
 	private String calculateText( )
 	{
-		if( blankLine )
+		if( blankLine || text == null )
 		{
 			return "";
 		}
