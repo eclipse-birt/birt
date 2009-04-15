@@ -339,7 +339,66 @@ public class FormatSpecifierComposite extends Composite
 			cmbDataType.setItems( supportedTypes );
 		}
 
-		if ( formatspecifier == null )
+		if ( formatspecifier instanceof DateFormatSpecifier
+				|| formatspecifier instanceof JavaDateFormatSpecifier )
+		{
+			cmbDataType.setText( DATA_TYPE_DATETIME );
+			// support the type selected
+			if ( cmbDataType.getText( ).trim( ).length( ) != 0 )
+			{
+				if ( formatspecifier instanceof DateFormatSpecifier )
+				{
+					btnStandard.setSelection( true );
+				}
+				else if ( formatspecifier instanceof JavaDateFormatSpecifier )
+				{
+					btnAdvanced.setSelection( true );
+				}
+				else
+				{
+					btnUndefined.setSelection( true );
+				}
+				slStandardDetails.topControl = this.cmpStandardDateDetails;
+				slAdvancedDetails.topControl = this.cmpAdvancedDateDetails;
+			}
+		}
+		else if ( formatspecifier instanceof NumberFormatSpecifier
+				|| formatspecifier instanceof JavaNumberFormatSpecifier )
+		{
+			cmbDataType.setText( DATA_TYPE_NUMBER );
+			// support the type selected
+			if ( cmbDataType.getText( ).trim( ).length( ) != 0 )
+			{
+				if ( formatspecifier instanceof NumberFormatSpecifier )
+				{
+					btnStandard.setSelection( true );
+				}
+				else if ( formatspecifier instanceof JavaNumberFormatSpecifier )
+				{
+					btnAdvanced.setSelection( true );
+				}
+				else
+				{
+					btnUndefined.setSelection( true );
+				}
+				slStandardDetails.topControl = this.cmpStandardNumberDetails;
+				slAdvancedDetails.topControl = this.cmpAdvancedNumberDetails;
+			}
+		}
+		else if ( formatspecifier instanceof FractionNumberFormatSpecifier )
+		{
+			cmbDataType.setText( DATA_TYPE_NUMBER );
+			// support the type selected
+			if ( cmbDataType.getText( ).trim( ).length( ) != 0 )
+			{
+				btnFraction.setSelection( true );
+				slStandardDetails.topControl = this.cmpStandardNumberDetails;
+				slAdvancedDetails.topControl = this.cmpAdvancedNumberDetails;
+			}
+		}
+
+		if ( formatspecifier == null
+				|| cmbDataType.getText( ).trim( ).length( ) == 0 )
 		{
 			cmbDataType.select( 0 );
 			btnUndefined.setSelection( true );
@@ -362,51 +421,6 @@ public class FormatSpecifierComposite extends Composite
 				btnStandard.setVisible( false );
 				btnAdvanced.setVisible( false );
 			}
-		}
-		else if ( formatspecifier instanceof DateFormatSpecifier
-				|| formatspecifier instanceof JavaDateFormatSpecifier )
-		{
-			cmbDataType.setText( DATA_TYPE_DATETIME );
-			if ( formatspecifier instanceof DateFormatSpecifier )
-			{
-				btnStandard.setSelection( true );
-			}
-			else if ( formatspecifier instanceof JavaDateFormatSpecifier )
-			{
-				btnAdvanced.setSelection( true );
-			}
-			else
-			{
-				btnUndefined.setSelection( true );
-			}
-			slStandardDetails.topControl = this.cmpStandardDateDetails;
-			slAdvancedDetails.topControl = this.cmpAdvancedDateDetails;
-		}
-		else if ( formatspecifier instanceof NumberFormatSpecifier
-				|| formatspecifier instanceof JavaNumberFormatSpecifier )
-		{
-			cmbDataType.setText( DATA_TYPE_NUMBER );
-			if ( formatspecifier instanceof NumberFormatSpecifier )
-			{
-				btnStandard.setSelection( true );
-			}
-			else if ( formatspecifier instanceof JavaNumberFormatSpecifier )
-			{
-				btnAdvanced.setSelection( true );
-			}
-			else
-			{
-				btnUndefined.setSelection( true );
-			}
-			slStandardDetails.topControl = this.cmpStandardNumberDetails;
-			slAdvancedDetails.topControl = this.cmpAdvancedNumberDetails;
-		}
-		else if ( formatspecifier instanceof FractionNumberFormatSpecifier )
-		{
-			cmbDataType.setText( DATA_TYPE_NUMBER );
-			btnFraction.setSelection( true );
-			slStandardDetails.topControl = this.cmpStandardNumberDetails;
-			slAdvancedDetails.topControl = this.cmpAdvancedNumberDetails;
 		}
 
 		cpWrapStandardDate.populateLists( );

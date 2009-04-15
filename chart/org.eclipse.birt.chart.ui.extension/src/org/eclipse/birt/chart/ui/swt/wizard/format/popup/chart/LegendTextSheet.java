@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
 
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
@@ -70,9 +72,15 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 
 	private Spinner spnEllipsis;
 
+	private boolean isByCategory;
+
+	private boolean containsYOG;
+
 	public LegendTextSheet( String title, ChartWizardContext context )
 	{
 		super( title, context, true );
+		isByCategory = getChart( ).getLegend( ).getItemType( ) != LegendItemType.SERIES_LITERAL;
+		containsYOG = ChartUtil.containsYOptionalGrouping( getChart( ) );
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -99,8 +107,6 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 			grpTxtArea.setText( Messages.getString( "MoreOptionsChartLegendSheet.Label.TextArea" ) ); //$NON-NLS-1$
 		}
 		
-		boolean isByCategory = getChart( ).getLegend( ).getItemType( ) != LegendItemType.SERIES_LITERAL;
-		boolean containsYOG = ChartUtil.containsYOptionalGrouping( getChart( ) );
 		Label lblFormat = new Label( grpTxtArea, SWT.NONE );
 		{
 			lblFormat.setText( Messages.getString( "DialLabelSheet.Label.Format" ) ); //$NON-NLS-1$
@@ -335,6 +341,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		{
 			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
 					getChart( ).getLegend( ).getFormatSpecifier( ),
+					getEntryType( ),
 					Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
 			if ( editor.open( ) == Window.OK )
 			{
@@ -348,6 +355,39 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 	private Legend getLegend( )
 	{
 		return getChart( ).getLegend( );
+	}
+
+	private AxisType getEntryType( )
+	{
+		DataType type = DataType.TEXT_LITERAL;
+		if(isByCategory)
+		{
+			type = getCategoryQueryType( );
+		}
+		else if ( containsYOG )
+		{
+			type = getContext( ).getDataServiceProvider( )
+					.getDataType( ChartUtil.getYOptoinalExpressions( getChart( ) )[0] );
+		}
+		if ( type == DataType.NUMERIC_LITERAL )
+		{
+			return AxisType.LINEAR_LITERAL;
+		}
+		else if ( type == DataType.DATE_TIME_LITERAL )
+		{
+			return AxisType.DATE_TIME_LITERAL;
+		}
+
+		return AxisType.TEXT_LITERAL;
+	}
+
+	private DataType getCategoryQueryType( )
+	{
+		String query = ChartUIUtil.getDataQuery( ChartUIUtil.getBaseSeriesDefinitions( getChart( ) )
+				.get( 0 ),
+				0 )
+				.getDefinition( );
+		return getContext( ).getDataServiceProvider( ).getDataType( query );
 	}
 
 }
