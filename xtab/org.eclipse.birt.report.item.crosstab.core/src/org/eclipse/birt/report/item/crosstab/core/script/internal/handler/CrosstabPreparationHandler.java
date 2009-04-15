@@ -151,7 +151,11 @@ public class CrosstabPreparationHandler extends BaseCrosstabEventHandler impleme
 			// TODO check visibility?
 			MeasureViewHandle mv = crosstab.getMeasure( i );
 
-			handleCell( mv.getHeader( ), emptyValue );
+			for ( int j = 0; j < mv.getHeaderCount( ); j++ )
+			{
+				handleCell( mv.getHeader( j ), emptyValue );
+			}
+
 			handleCell( mv.getCell( ), emptyValue );
 
 			for ( int j = 0; j < mv.getAggregationCount( ); j++ )

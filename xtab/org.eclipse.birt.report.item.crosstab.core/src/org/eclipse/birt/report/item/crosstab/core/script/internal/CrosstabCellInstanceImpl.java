@@ -17,7 +17,6 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.ICellContent;
-import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.script.ICrosstabCellInstance;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -84,29 +83,9 @@ public class CrosstabCellInstanceImpl implements ICrosstabCellInstance
 		return null;
 	}
 
-	public String getHeight( )
-	{
-		DimensionType height = content.getHeight( );
-		if ( height != null )
-		{
-			return height.toString( );
-		}
-		return null;
-	}
-
 	public String getHelpText( )
 	{
 		return content.getHelpText( );
-	}
-
-	public String getHorizontalPosition( )
-	{
-		DimensionType x = content.getX( );
-		if ( x != null )
-		{
-			return x.toString( );
-		}
-		return null;
 	}
 
 	public String getName( )
@@ -138,39 +117,9 @@ public class CrosstabCellInstanceImpl implements ICrosstabCellInstance
 		return null;
 	}
 
-	public String getVerticalPosition( )
-	{
-		DimensionType y = content.getY( );
-		if ( y != null )
-		{
-			return y.toString( );
-		}
-		return null;
-	}
-
-	public String getWidth( )
-	{
-		DimensionType width = content.getWidth( );
-		if ( width != null )
-		{
-			return width.toString( );
-		}
-		return null;
-	}
-
-	public void setHeight( String height )
-	{
-		content.setHeight( DimensionType.parserUnit( height ) );
-	}
-
 	public void setHelpText( String help )
 	{
 		content.setHelpText( help );
-	}
-
-	public void setHorizontalPosition( String position )
-	{
-		content.setX( DimensionType.parserUnit( position ) );
 	}
 
 	public void setName( String name )
@@ -196,16 +145,6 @@ public class CrosstabCellInstanceImpl implements ICrosstabCellInstance
 				}
 			}
 		}
-	}
-
-	public void setVerticalPosition( String position )
-	{
-		content.setY( DimensionType.parserUnit( position ) );
-	}
-
-	public void setWidth( String width )
-	{
-		content.setWidth( DimensionType.parserUnit( width ) );
 	}
 
 }

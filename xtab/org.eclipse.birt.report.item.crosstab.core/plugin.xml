@@ -497,7 +497,7 @@
          <property
                canInherit="true"
                isEncryptable="false"
-               isList="false"
+               isList="true"
                name="header"
                type="element">
             <elementType

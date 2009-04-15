@@ -33,22 +33,6 @@ public interface ICrosstabCellInstance
 
 	IScriptStyle getStyle( );
 
-	String getHorizontalPosition( );
-
-	void setHorizontalPosition( String position );
-
-	String getVerticalPosition( );
-
-	void setVerticalPosition( String position );
-
-	String getWidth( );
-
-	void setWidth( String width );
-
-	String getHeight( );
-
-	void setHeight( String height );
-
 	Object getNamedExpressionValue( String name );
 
 	Object getUserPropertyValue( String name );

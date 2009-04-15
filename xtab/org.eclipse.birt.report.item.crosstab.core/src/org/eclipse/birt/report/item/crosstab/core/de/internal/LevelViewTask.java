@@ -50,8 +50,8 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 	 * @return
 	 * @throws SemanticException
 	 */
-	public CrosstabCellHandle addSubTotal( List measureList, List functionList )
-			throws SemanticException
+	public CrosstabCellHandle addSubTotal( List<MeasureViewHandle> measureList,
+			List<String> functionList ) throws SemanticException
 	{
 		return addSubTotal( measureList, functionList, true );
 	}
@@ -64,8 +64,9 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 	 * @return
 	 * @throws SemanticException
 	 */
-	CrosstabCellHandle addSubTotal( List measureList, List functionList,
-			boolean needTransaction ) throws SemanticException
+	CrosstabCellHandle addSubTotal( List<MeasureViewHandle> measureList,
+			List<String> functionList, boolean needTransaction )
+			throws SemanticException
 	{
 		if ( focus == null || !isValidParameters( functionList, measureList ) )
 			return null;
@@ -105,6 +106,8 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 			if ( crosstab != null && measureList != null )
 			{
 				addMeasureAggregations( focus, measureList, functionList, false );
+
+				addTotalMeasureHeader( focus.getAxisType( ), focus, measureList );
 			}
 
 			validateCrosstab( );
@@ -148,11 +151,12 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 				// depend on the aggregation information set in this level view
 				if ( crosstab != null )
 				{
+					removeTotalMeasureHeader( focus.getAxisType( ), focus );
+
 					removeMeasureAggregations( focus );
 				}
 
 				focus.getAggregationHeaderProperty( ).drop( 0 );
-
 			}
 			catch ( SemanticException e )
 			{
@@ -184,6 +188,10 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 				// depend on the aggregation information set in this level view
 				if ( crosstab != null )
 				{
+					removeTotalMeasureHeader( focus.getAxisType( ),
+							focus,
+							measureIndex );
+
 					removeMeasureAggregations( focus, measureIndex );
 				}
 
@@ -278,7 +286,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 	private void doValidateAggregations( int axisType )
 			throws SemanticException
 	{
-		List aggregationLevelList = CrosstabModelUtil.getAllAggregationLevels( crosstab,
+		List<LevelViewHandle> aggregationLevelList = CrosstabModelUtil.getAllAggregationLevels( crosstab,
 				CrosstabModelUtil.getOppositeAxisType( axisType ) );
 		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
 		{
@@ -345,7 +353,8 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 
 	/**
 	 * Gets the measure view list that define aggregations for the given level
-	 * view. Each item in the list is instance of <code>MeasureViewHandle</code>.
+	 * view. Each item in the list is instance of <code>MeasureViewHandle</code>
+	 * .
 	 * 
 	 * @param levelView
 	 * @return

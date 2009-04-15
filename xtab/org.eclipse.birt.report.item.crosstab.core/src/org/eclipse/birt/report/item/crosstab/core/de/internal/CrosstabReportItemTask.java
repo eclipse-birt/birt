@@ -59,8 +59,9 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	 * @return
 	 * @throws SemanticException
 	 */
-	public CrosstabCellHandle addGrandTotal( int axisType, List measureList,
-			List functionList ) throws SemanticException
+	public CrosstabCellHandle addGrandTotal( int axisType,
+			List<MeasureViewHandle> measureList, List<String> functionList )
+			throws SemanticException
 	{
 		if ( crosstab == null || !CrosstabModelUtil.isValidAxisType( axisType ) )
 			return null;
@@ -143,13 +144,13 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	 * @param axisType
 	 * @return
 	 */
-	public List getAggregationMeasures( int axisType )
+	public List<MeasureViewHandle> getAggregationMeasures( int axisType )
 	{
 		// if crosstab is null or has no grand total, then return empty
 		if ( crosstab == null || crosstab.getGrandTotal( axisType ) == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
-		List measures = new ArrayList( );
+		List<MeasureViewHandle> measures = new ArrayList<MeasureViewHandle>( );
 		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
 		{
 			MeasureViewHandle measureView = crosstab.getMeasure( i );
@@ -296,8 +297,8 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 		assert dimensionView != null;
 
 		// record existing subtotal aggregation info from source dimension
-		Map functionListMap = new HashMap( );
-		Map measureListMap = new HashMap( );
+		Map<String, List<String>> functionListMap = new HashMap<String, List<String>>( );
+		Map<String, List<MeasureViewHandle>> measureListMap = new HashMap<String, List<MeasureViewHandle>>( );
 		for ( int i = 0; i < dimensionView.getLevelCount( ); i++ )
 		{
 			LevelViewHandle levelView = dimensionView.getLevel( i );
@@ -306,7 +307,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 				continue;
 
 			List measureList = levelView.getAggregationMeasures( );
-			List functionList = new ArrayList( );
+			List<String> functionList = new ArrayList<String>( );
 			for ( int j = 0; j < measureList.size( ); j++ )
 			{
 				MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( j );
@@ -327,11 +328,11 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 		// record existing grandtotal aggregation info on target view, we need
 		// to keep the grandtotal, but when remove dimension on source view, it
 		// could be removed
-		List grandMeasureList = getAggregationMeasures( targetAxisType );
-		List grandFunctionList = new ArrayList( );
+		List<MeasureViewHandle> grandMeasureList = getAggregationMeasures( targetAxisType );
+		List<String> grandFunctionList = new ArrayList<String>( );
 		for ( int j = 0; j < grandMeasureList.size( ); j++ )
 		{
-			MeasureViewHandle measureView = (MeasureViewHandle) grandMeasureList.get( j );
+			MeasureViewHandle measureView = grandMeasureList.get( j );
 			String function = getAggregationFunction( targetAxisType,
 					measureView );
 			if ( function == null )
@@ -365,8 +366,8 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 				targetCrosstabView = crosstab.addCrosstabView( targetAxisType );
 			}
 
-			List transferMeasureList = new ArrayList( );
-			List transferFunctionList = new ArrayList( );
+			List<MeasureViewHandle> transferMeasureList = new ArrayList<MeasureViewHandle>( );
+			List<String> transferFunctionList = new ArrayList<String>( );
 
 			// check if target view is empty and no grandtotal defined, then
 			// remove dummy grandtotal from original view
@@ -480,8 +481,8 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 				else
 				{
 					// try restore original subtotal
-					List measureList = (List) measureListMap.get( levelName );
-					List functionList = (List) functionListMap.get( levelName );
+					List<MeasureViewHandle> measureList = measureListMap.get( levelName );
+					List<String> functionList = functionListMap.get( levelName );
 					new LevelViewTask( levelView ).addSubTotal( measureList,
 							functionList,
 							false );

@@ -22,6 +22,8 @@ import org.eclipse.birt.report.item.crosstab.core.IAggregationCellConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabCellConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.internal.MeasureViewTask;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
@@ -111,7 +113,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 	 * 
 	 * @return the header slot handle
 	 */
-	PropertyHandle getHeaderProperty( )
+	public PropertyHandle getHeaderProperty( )
 	{
 		return handle.getPropertyHandle( HEADER_PROP );
 	}
@@ -299,20 +301,114 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 	}
 
 	/**
-	 * Gets measure header cell for specific dimension and level.
+	 * Gets the first header cell for this measure.
 	 * 
-	 * @param dimensionName
-	 *            name of the dimension to find
-	 * @param levelName
-	 *            name of the level to find
-	 * @return the header cell which refers the given dimension and level
+	 * @return the header cell
 	 */
 	public CrosstabCellHandle getHeader( )
 	{
-		DesignElementHandle headerCell = getHeaderCell( );
+		return getHeader( 0 );
+	}
+
+	/**
+	 * Returns the header associated with given level view. If the level view is
+	 * *null*, it returns the header associated with the grandtotal; if the
+	 * level view is the inner most, it returns the header associated with the
+	 * detail area; otherwise, it returns the header associated with the
+	 * subtotal. The result may be null if the given level view doesn't yield a
+	 * grandtotal or subtotal, or is in the wrong axis.
+	 * 
+	 * @param lv
+	 * @return
+	 * 
+	 * @since 2.5
+	 */
+	public CrosstabCellHandle getHeader( LevelViewHandle levelView )
+	{
+		CrosstabReportItemHandle crosstab = getCrosstab( );
+
+		int targetAxis = MEASURE_DIRECTION_VERTICAL.equals( crosstab.getMeasureDirection( ) ) ? ROW_AXIS_TYPE
+				: COLUMN_AXIS_TYPE;
+
+		if ( levelView == null )
+		{
+			// this is grandtotal, return the last header if available
+			if ( CrosstabModelUtil.isAggregationOn( this, null, targetAxis ) )
+			{
+				return getHeader( getHeaderCount( ) - 1 );
+			}
+		}
+		else if ( levelView.getAxisType( ) == targetAxis )
+		{
+			// this is subtotal or detial
+			LevelViewHandle innerMost = CrosstabModelUtil.getInnerMostLevel( crosstab,
+					targetAxis );
+
+			if ( levelView == innerMost )
+			{
+				// return first header
+				return getHeader( );
+			}
+			else
+			{
+				List<LevelViewHandle> levels = CrosstabModelUtil.getAllAggregationLevels( crosstab,
+						targetAxis );
+
+				// we need the reversed order here to count from inner most to
+				// outer most
+				Collections.reverse( levels );
+
+				int realIndex = 0;
+
+				for ( int i = 0; i < levels.size( ); i++ )
+				{
+					LevelViewHandle lv = levels.get( i );
+
+					if ( lv == innerMost
+							|| CrosstabModelUtil.isAggregationOn( this,
+									lv.getCubeLevelName( ),
+									targetAxis ) )
+					{
+						// find the real header index
+						if ( levelView == lv )
+						{
+							return getHeader( realIndex );
+						}
+
+						realIndex++;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Gets header cell for this measure by given index.
+	 * 
+	 * @param index
+	 *            the header index
+	 * @return the header cell which refers the given dimension and level
+	 * 
+	 * @since 2.5
+	 */
+	public CrosstabCellHandle getHeader( int index )
+	{
+		DesignElementHandle headerCell = getHeaderCell( index );
 		return (CrosstabCellHandle) ( headerCell == null ? null
 				: CrosstabUtil.getReportItem( headerCell,
 						CROSSTAB_CELL_EXTENSION_NAME ) );
+	}
+
+	/**
+	 * @return Returns the header cell count for this measure.
+	 * 
+	 * @since 2.5
+	 */
+	public int getHeaderCount( )
+	{
+		return getHeaderProperty( ).getContentCount( );
 	}
 
 	/**
@@ -321,12 +417,12 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 	 * @return the design element handle for the header cell if found, otherwise
 	 *         null
 	 */
-	private DesignElementHandle getHeaderCell( )
+	private DesignElementHandle getHeaderCell( int index )
 	{
 		PropertyHandle propHandle = getHeaderProperty( );
-		if ( propHandle.getContentCount( ) <= 0 )
+		if ( index < 0 || propHandle.getContentCount( ) <= index )
 			return null;
-		return propHandle.getContent( 0 );
+		return propHandle.getContent( index );
 	}
 
 	/**
@@ -336,11 +432,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 	 */
 	public void removeHeader( ) throws SemanticException
 	{
-		DesignElementHandle headerCell = getHeaderCell( );
-		if ( headerCell != null )
-		{
-			headerCell.drop( );
-		}
+		new MeasureViewTask( this ).removeHeader( );
 	}
 
 	/**
@@ -351,17 +443,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 	 */
 	public void addHeader( ) throws SemanticException
 	{
-		PropertyHandle propHandle = getHeaderProperty( );
-
-		if ( propHandle.getContentCount( ) > 0 )
-		{
-			logger.log( Level.INFO,
-					"Measure header is set, need not add another" ); //$NON-NLS-1$
-			return;
-		}
-
-		ExtendedItemHandle headerCell = CrosstabExtendedItemFactory.createCrosstabCell( moduleHandle );
-		propHandle.add( headerCell );
+		new MeasureViewTask( this ).addHeader( );
 	}
 
 	/**
@@ -416,12 +498,15 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 
 		if ( crosstab.compStatus < 0 )
 		{
+			CompatibilityStatus status = null;
+			List errorList = null;
+
 			ExtendedItemHandle exhandle = (ExtendedItemHandle) getModelHandle( );
 
 			Map illegalContents = exhandle.getIllegalContents( );
 
 			// do compatibility for "detail" property since 2.3, update old
-			// "crosstabCell" to new "aggregationCell"
+			// "crosstabCell" to new "aggregationCell" (? -> 2.3.0)
 			if ( illegalContents.containsKey( IMeasureViewConstants.DETAIL_PROP ) )
 			{
 				List detailInfoList = (List) illegalContents.get( IMeasureViewConstants.DETAIL_PROP );
@@ -434,12 +519,11 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 
 					if ( oldDetail != null )
 					{
-						CompatibilityStatus status = new CompatibilityStatus( );
+						status = new CompatibilityStatus( );
+						status.setStatusType( CompatibilityStatus.CONVERT_COMPATIBILITY_TYPE );
 
 						try
 						{
-							status.setStatusType( CompatibilityStatus.CONVERT_COMPATIBILITY_TYPE );
-
 							ExtendedItemHandle newDetail = CrosstabExtendedItemFactory.createAggregationCell( getModuleHandle( ) );
 
 							handle.getPropertyHandle( DETAIL_PROP )
@@ -505,14 +589,67 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 						}
 						catch ( SemanticException e )
 						{
-							List errorList = new ArrayList( 1 );
+							if ( errorList == null )
+							{
+								errorList = new ArrayList( 1 );
+							}
 							errorList.add( e );
-							status.setErrors( errorList );
 						}
-
-						return status;
 					}
 				}
+			}
+
+			// do compatibility for measure header property since 2.5.0, now
+			// use different header instance for subtotal/grandtotal/detail
+			// header (? -> 2.5.0)
+			int expectHeaders = CrosstabModelUtil.computeAllMeasureHeaderCount( crosstab,
+					this );
+			int availableHeaders = getHeaderCount( );
+
+			if ( availableHeaders < expectHeaders )
+			{
+				// upgrade the model to multi-header state
+				PropertyHandle propHandle = getHeaderProperty( );
+				DesignElementHandle oldHeader = getHeaderCell( 0 );
+
+				try
+				{
+					for ( int i = 0; i < expectHeaders - availableHeaders; i++ )
+					{
+						DesignElementHandle newHeader;
+
+						if ( oldHeader == null )
+						{
+							newHeader = CrosstabExtendedItemFactory.createCrosstabCell( getModuleHandle( ) );
+						}
+						else
+						{
+							newHeader = oldHeader.copy( )
+									.getHandle( getModuleHandle( ).getModule( ) );
+						}
+
+						propHandle.add( newHeader );
+					}
+				}
+				catch ( SemanticException e )
+				{
+					if ( errorList == null )
+					{
+						errorList = new ArrayList( 1 );
+					}
+					errorList.add( e );
+				}
+
+			}
+
+			if ( status != null )
+			{
+				if ( errorList != null )
+				{
+					status.setErrors( errorList );
+				}
+
+				return status;
 			}
 		}
 

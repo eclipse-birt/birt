@@ -19,6 +19,9 @@ import javax.olap.OLAPException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 
 /**
@@ -33,7 +36,11 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 	private int currentChangeType;
 	private int currentColIndex;
 	private int lastMeasureIndex;
+	private int lastDimensionIndex;
+	private int lastLevelIndex;
 
+	private int totalMeasureCount;
+	
 	private long currentEdgePosition;
 
 	private boolean hasColumnGroups;
@@ -67,14 +74,36 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 
 		blankStarted = false;
 		hasColumnGroups = columnGroups != null && columnGroups.size( ) > 0;
+		
+		totalMeasureCount = crosstabItem.getMeasureCount( );
 
 		rowSpan = 1;
 		colSpan = 0;
 		lastMeasureIndex = -1;
+		lastDimensionIndex = -1;
+		lastLevelIndex = -1;
 
 		hasLast = false;
 
 		walker.reload( );
+	}
+
+	private CrosstabCellHandle getSubTotalMeasureHeaderCell( int axis,
+			int dimensionIndex, int levelIndex, int measureIndex )
+	{
+		if ( measureIndex >= 0
+				&& measureIndex < totalMeasureCount
+				&& dimensionIndex >= 0
+				&& levelIndex >= 0 )
+		{
+			DimensionViewHandle dv = crosstabItem.getDimension( axis,
+					dimensionIndex );
+			LevelViewHandle lv = dv.getLevel( levelIndex );
+
+			return crosstabItem.getMeasure( measureIndex ).getHeader( lv );
+		}
+
+		return null;
 	}
 
 	public IReportItemExecutor getNextChild( )
@@ -110,12 +139,38 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 						break;
 					case ColumnEvent.MEASURE_CHANGE :
 					case ColumnEvent.COLUMN_EDGE_CHANGE :
-					case ColumnEvent.COLUMN_TOTAL_CHANGE :
-					case ColumnEvent.GRAND_TOTAL_CHANGE :
 
 						nextExecutor = new CrosstabCellExecutor( this,
 								crosstabItem.getMeasure( lastMeasureIndex )
 										.getHeader( ),
+								rowSpan,
+								colSpan,
+								currentColIndex - colSpan + 1 );
+
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
+						hasLast = false;
+						break;
+					case ColumnEvent.COLUMN_TOTAL_CHANGE :
+
+						nextExecutor = new CrosstabCellExecutor( this,
+								getSubTotalMeasureHeaderCell( COLUMN_AXIS_TYPE,
+										lastDimensionIndex,
+										lastLevelIndex,
+										lastMeasureIndex ),
+								rowSpan,
+								colSpan,
+								currentColIndex - colSpan + 1 );
+
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
+						hasLast = false;
+						break;
+					case ColumnEvent.GRAND_TOTAL_CHANGE :
+
+						nextExecutor = new CrosstabCellExecutor( this,
+								crosstabItem.getMeasure( lastMeasureIndex )
+										.getHeader( null ),
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
@@ -134,6 +189,8 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 					rowSpan = 1;
 					colSpan = 0;
 					lastMeasureIndex = ev.measureIndex;
+					lastDimensionIndex = ev.dimensionIndex;
+					lastLevelIndex = ev.levelIndex;
 					hasLast = true;
 				}
 				else if ( !blankStarted
@@ -189,12 +246,36 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 					break;
 				case ColumnEvent.MEASURE_CHANGE :
 				case ColumnEvent.COLUMN_EDGE_CHANGE :
-				case ColumnEvent.COLUMN_TOTAL_CHANGE :
-				case ColumnEvent.GRAND_TOTAL_CHANGE :
 
 					nextExecutor = new CrosstabCellExecutor( this,
 							crosstabItem.getMeasure( lastMeasureIndex )
 									.getHeader( ),
+							rowSpan,
+							colSpan,
+							currentColIndex - colSpan + 1 );
+
+					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
+					break;
+				case ColumnEvent.COLUMN_TOTAL_CHANGE :
+
+					nextExecutor = new CrosstabCellExecutor( this,
+							getSubTotalMeasureHeaderCell( COLUMN_AXIS_TYPE,
+									lastDimensionIndex,
+									lastLevelIndex,
+									lastMeasureIndex ),
+							rowSpan,
+							colSpan,
+							currentColIndex - colSpan + 1 );
+
+					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
+					break;
+				case ColumnEvent.GRAND_TOTAL_CHANGE :
+
+					nextExecutor = new CrosstabCellExecutor( this,
+							crosstabItem.getMeasure( lastMeasureIndex )
+									.getHeader( null ),
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );

@@ -21,6 +21,7 @@ import javax.olap.cursor.EdgeCursor;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
@@ -113,6 +114,24 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor
 				isVerticalMeasure );
 
 		walker.reload( );
+	}
+
+	private CrosstabCellHandle getSubTotalMeasureHeaderCell( int axis,
+			int dimensionIndex, int levelIndex, int measureIndex )
+	{
+		if ( measureIndex >= 0
+				&& measureIndex < totalMeasureCount
+				&& dimensionIndex >= 0
+				&& levelIndex >= 0 )
+		{
+			DimensionViewHandle dv = crosstabItem.getDimension( axis,
+					dimensionIndex );
+			LevelViewHandle lv = dv.getLevel( levelIndex );
+
+			return crosstabItem.getMeasure( measureIndex ).getHeader( lv );
+		}
+
+		return null;
 	}
 
 	private AggregationCellHandle getRowSubTotalCell( int colDimensionIndex,
@@ -300,7 +319,10 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor
 					case ColumnEvent.MEASURE_HEADER_CHANGE :
 
 						nextExecutor = new CrosstabCellExecutor( this,
-								crosstabItem.getMeasure( rowIndex ).getHeader( ),
+								getSubTotalMeasureHeaderCell( ROW_AXIS_TYPE,
+										dimensionIndex,
+										levelIndex,
+										rowIndex ),
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
@@ -501,7 +523,10 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor
 				case ColumnEvent.MEASURE_HEADER_CHANGE :
 
 					nextExecutor = new CrosstabCellExecutor( this,
-							crosstabItem.getMeasure( rowIndex ).getHeader( ),
+							getSubTotalMeasureHeaderCell( ROW_AXIS_TYPE,
+									dimensionIndex,
+									levelIndex,
+									rowIndex ),
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );

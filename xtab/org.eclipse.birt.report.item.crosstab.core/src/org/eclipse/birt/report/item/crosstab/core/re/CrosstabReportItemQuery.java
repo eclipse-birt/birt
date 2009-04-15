@@ -44,7 +44,9 @@ public class CrosstabReportItemQuery extends ReportItemQueryBase implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.ReportItemQueryBase#setModelObject(org.eclipse.birt.report.model.api.ExtendedItemHandle)
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.ReportItemQueryBase#setModelObject
+	 * (org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
 	public void setModelObject( ExtendedItemHandle modelHandle )
 	{
@@ -65,7 +67,9 @@ public class CrosstabReportItemQuery extends ReportItemQueryBase implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.ReportItemQueryBase#createReportQueries(org.eclipse.birt.data.engine.api.IDataQueryDefinition)
+	 * @seeorg.eclipse.birt.report.engine.extension.ReportItemQueryBase#
+	 * createReportQueries
+	 * (org.eclipse.birt.data.engine.api.IDataQueryDefinition)
 	 */
 	public IDataQueryDefinition[] createReportQueries(
 			IDataQueryDefinition parent ) throws BirtException
@@ -97,7 +101,11 @@ public class CrosstabReportItemQuery extends ReportItemQueryBase implements
 				MeasureViewHandle mv = crosstabItem.getMeasure( i );
 
 				processChildQuery( cubeQuery, mv.getCell( ) );
-				processChildQuery( cubeQuery, mv.getHeader( ) );
+
+				for ( int j = 0; j < mv.getHeaderCount( ); j++ )
+				{
+					processChildQuery( cubeQuery, mv.getHeader( j ) );
+				}
 
 				for ( int j = 0; j < mv.getAggregationCount( ); j++ )
 				{

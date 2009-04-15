@@ -108,7 +108,7 @@ public class CrosstabGrandTotalRowExecutor extends BaseRowExecutor
 					case ColumnEvent.MEASURE_HEADER_CHANGE :
 
 						nextExecutor = new CrosstabCellExecutor( this,
-								crosstabItem.getMeasure( rowIndex ).getHeader( ),
+								crosstabItem.getMeasure( rowIndex ).getHeader( null ),
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
@@ -272,7 +272,7 @@ public class CrosstabGrandTotalRowExecutor extends BaseRowExecutor
 				case ColumnEvent.MEASURE_HEADER_CHANGE :
 
 					nextExecutor = new CrosstabCellExecutor( this,
-							crosstabItem.getMeasure( rowIndex ).getHeader( ),
+							crosstabItem.getMeasure( rowIndex ).getHeader( null ),
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );

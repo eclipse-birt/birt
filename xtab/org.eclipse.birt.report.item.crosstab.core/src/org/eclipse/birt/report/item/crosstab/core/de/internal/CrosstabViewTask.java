@@ -20,6 +20,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
@@ -54,14 +55,16 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 	 * @return
 	 * @throws SemanticException
 	 */
-	public CrosstabCellHandle addGrandTotal( List measureList, List functionList )
+	public CrosstabCellHandle addGrandTotal(
+			List<MeasureViewHandle> measureList, List<String> functionList )
 			throws SemanticException
 	{
 		return addGrandTotal( measureList, functionList, true );
 	}
 
-	CrosstabCellHandle addGrandTotal( List measureList, List functionList,
-			boolean needTransaction ) throws SemanticException
+	CrosstabCellHandle addGrandTotal( List<MeasureViewHandle> measureList,
+			List<String> functionList, boolean needTransaction )
+			throws SemanticException
 	{
 		if ( !isValidParameters( functionList, measureList ) )
 			return null;
@@ -99,6 +102,11 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 						measureList,
 						functionList,
 						false );
+
+				// adjust measure header
+				addTotalMeasureHeader( crosstabView.getAxisType( ),
+						null,
+						measureList );
 			}
 
 			validateCrosstab( );
@@ -159,6 +167,10 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 
 			try
 			{
+				removeTotalMeasureHeader( crosstabView.getAxisType( ),
+						null,
+						measureIndex );
+
 				removeMeasureAggregations( crosstabView.getAxisType( ),
 						measureIndex );
 
@@ -217,6 +229,8 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 				// && CrosstabModelUtil.getAllLevelCount( crosstab,
 				// crosstabView.getAxisType( ) ) > 0 )
 				{
+					removeTotalMeasureHeader( crosstabView.getAxisType( ), null );
+
 					removeMeasureAggregations( crosstabView.getAxisType( ) );
 				}
 
