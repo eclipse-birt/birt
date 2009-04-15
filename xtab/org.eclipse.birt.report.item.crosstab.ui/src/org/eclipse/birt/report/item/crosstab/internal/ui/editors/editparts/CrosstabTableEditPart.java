@@ -40,6 +40,7 @@ import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.CrosstabXYLayoutEditPolicy;
@@ -630,7 +631,8 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 		for ( int i = 1; i < columnNumber + 1; i++ )
 		{
 			DimensionHandle dimHandle = getCrosstabHandleAdapter( ).getColumnWidth( colNumber );
-			if ( dimHandle != null && dimHandle.getMeasure( ) > 0 )
+			boolean bool = isFixLayout( ) && dimHandle != null && DesignChoiceConstants.UNITS_PERCENTAGE.equals( dimHandle.getUnits( ) );
+			if ( dimHandle != null && dimHandle.getMeasure( ) > 0 && !bool)
 			{
 				allNumbers = allNumbers - 1;
 				width = width - getColumnWidthValue( colNumber );
@@ -967,7 +969,8 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 			if ( ICrosstabReportItemConstants.MEASURE_DIRECTION_PROP.equals( obj )
 					|| ICrosstabReportItemConstants.PAGE_LAYOUT_PROP.equals( obj )
 					|| ILevelViewConstants.AGGREGATION_HEADER_LOCATION_PROP.equals( obj ) 
-					|| ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP.equals( obj ))
+					|| ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP.equals( obj )
+					|| ICrosstabViewConstants.GRAND_TOTAL_LOCATIION_PROP.equals( obj ))
 			{
 				refresh( );
 				return;
