@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.dataextraction.csv;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -34,7 +35,7 @@ import org.eclipse.birt.report.engine.dataextraction.impl.CommonDataExtractionIm
 public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 {
 	public static final String PLUGIN_ID = "org.eclipse.birt.report.engine.dataextraction.csv"; //$NON-NLS-1$
-	public static final String DEFAULT_ENCODING = ICSVDataExtractionOption.UTF_8_ENCODE;
+	public static final String DEFAULT_ENCODING = Charset.defaultCharset().name();
 	
 	private OutputStream outputStream;	
 	private String encoding;
@@ -93,7 +94,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 		}
 		
 		isExportDataType = csvOptions.isExportDataType( );
-		selectedColumnNames = (String[]) csvOptions.getSelectedColumns( );
+		selectedColumnNames = csvOptions.getSelectedColumns( );
 	}
 
 	/**
