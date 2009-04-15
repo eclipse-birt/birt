@@ -158,7 +158,8 @@ public class MasterPageGeneralPage extends GeneralPage
 		 * WidgetUtil.buildGridControl( container, propertiesMap,
 		 * ReportDesignConstants.MASTER_PAGE_ELEMENT,
 		 * MasterPageHandle.TYPE_PROP, 1, false ); pageSizeDescriptor =
-		 * (IPropertyDescriptor) propertiesMap.get( MasterPageHandle.TYPE_PROP );
+		 * (IPropertyDescriptor) propertiesMap.get( MasterPageHandle.TYPE_PROP
+		 * );
 		 * 
 		 * WidgetUtil.createGridPlaceholder( container, 3, false );
 		 * 
@@ -191,7 +192,7 @@ public class MasterPageGeneralPage extends GeneralPage
 	{
 		if ( checkControl( ) )
 		{
-			if ( typeProvider.load( )
+			if ( !typeProvider.load( )
 					.equals( DesignChoiceConstants.PAGE_SIZE_CUSTOM ) )
 			{
 				widthSection.getUnitComboControl( ).setReadOnly( false );
