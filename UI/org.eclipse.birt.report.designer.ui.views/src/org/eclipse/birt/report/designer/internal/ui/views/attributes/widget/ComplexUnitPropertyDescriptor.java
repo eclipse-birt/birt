@@ -210,7 +210,7 @@ public class ComplexUnitPropertyDescriptor extends PropertyDescriptor
 
 	public void setReadOnly( boolean isReadOnly )
 	{
-		complexUnit.setReadOnly( !isReadOnly );
+		complexUnit.setReadOnly( isReadOnly );
 		this.isReadOnly = isReadOnly;
 	}
 

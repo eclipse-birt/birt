@@ -195,16 +195,16 @@ public class MasterPageGeneralPage extends GeneralPage
 			if ( !typeProvider.load( )
 					.equals( DesignChoiceConstants.PAGE_SIZE_CUSTOM ) )
 			{
-				widthSection.getUnitComboControl( ).setReadOnly( false );
-				heightSection.getUnitComboControl( ).setReadOnly( false );
+				widthSection.getUnitComboControl( ).setReadOnly( true );
+				heightSection.getUnitComboControl( ).setReadOnly( true );
 				orientationSection.getComboControl( )
 						.getControl( )
 						.setEnabled( false );
 			}
 			else
 			{
-				widthSection.getUnitComboControl( ).setReadOnly( true );
-				heightSection.getUnitComboControl( ).setReadOnly( true );
+				widthSection.getUnitComboControl( ).setReadOnly( false );
+				heightSection.getUnitComboControl( ).setReadOnly( false );
 				orientationSection.getComboControl( )
 						.getControl( )
 						.setEnabled( true );
