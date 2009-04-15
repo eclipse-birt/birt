@@ -33,7 +33,10 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.parser.DesignParserException;
@@ -45,6 +48,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -119,16 +123,16 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 					&& ( (ResourceEntry) selection[0] ).isFile( ) )
 			{
 				status = OKStatus;
-			}			
-			else if ( newFileName == null || newFileName.length( ) == 0
+			}
+			else if ( newFileName == null
+					|| newFileName.length( ) == 0
 					|| newFileName.toLowerCase( ).equals( ext.toLowerCase( ) )
 					|| newFileName.startsWith( "." ) //$NON-NLS-1$
 					|| containInvalidChar( newFileName ) )
 			{
 				return ErrorStatusInvalid;
 			}
-			else if ( !newFileName.toLowerCase( )
-							.endsWith( ext.toLowerCase( ) ) )
+			else if ( !newFileName.toLowerCase( ).endsWith( ext.toLowerCase( ) ) )
 			{
 				return ErrorStatus;
 			}
@@ -329,7 +333,47 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 					path );
 			libraryHandle = (LibraryHandle) handle;
 
-			if ( firstElement instanceof DesignElementHandle )
+			if ( firstElement instanceof StyleHandle
+					&& libraryHandle.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL )
+							.size( ) > 0 )
+			{
+				Object[] result = getExportTheme( (StyleHandle) firstElement,
+						libraryHandle );
+				if ( result == null )
+					return;
+				else if ( result[0] == null )
+				{
+					cancelPressed( );
+					return;
+				}
+				else
+				{
+					boolean notExist = ( (Boolean) result[1] ).booleanValue( );
+					if ( !notExist )
+					{
+						int confirm = confirmOverride( );
+						switch ( confirm )
+						{
+							case 0 : // Yes
+								break;
+							case 1 : // No
+								return;
+							case 2 : // Cancel
+							default :
+								cancelPressed( );
+								return;
+						}
+					}
+					else
+					{
+
+						ElementExportUtil.exportStyle( (StyleHandle) firstElement,
+								(ThemeHandle) result[0],
+								true );
+					}
+				}
+			}
+			else if ( firstElement instanceof DesignElementHandle )
 			{
 
 				boolean notExist = ElementExportUtil.canExport( (DesignElementHandle) firstElement,
@@ -350,13 +394,17 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 							return;
 					}
 				}
-				ElementExportUtil.exportElement( (DesignElementHandle) firstElement,
-						libraryHandle,
-						true );
-				if ( firstElement instanceof ImageHandle )
+				else
 				{
-					exportEmbeddedImage( (ImageHandle) firstElement,
-							libraryHandle );
+
+					ElementExportUtil.exportElement( (DesignElementHandle) firstElement,
+							libraryHandle,
+							true );
+					if ( firstElement instanceof ImageHandle )
+					{
+						exportEmbeddedImage( (ImageHandle) firstElement,
+								libraryHandle );
+					}
 				}
 
 			}
@@ -419,10 +467,24 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 		if ( synchronizer != null )
 		{
 			synchronizer.notifyResourceChanged( new LibrarySaveChangeEvent( this,
-					Path.fromOSString( path ), IReportResourceChangeEvent.LibraySaveChange, Path.fromOSString( path ).toOSString( ) ) );
+					Path.fromOSString( path ),
+					IReportResourceChangeEvent.LibraySaveChange,
+					Path.fromOSString( path ).toOSString( ) ) );
 		}
 
 		super.okPressed( );
+	}
+
+	private Object[] getExportTheme( StyleHandle firstElement,
+			LibraryHandle libraryHandle )
+	{
+		ExportStyleDialog dialog = new ExportStyleDialog( firstElement,
+				libraryHandle );
+		if ( dialog.open( ) == Window.OK )
+		{
+			return (Object[]) dialog.getResult( );
+		}
+		return null;
 	}
 
 	/*
@@ -566,15 +628,15 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 				{
 					String templateName = UIUtil.getDefaultLibraryTemplate( );
 					LibraryHandle libraryHandle;
-					if (templateName == null)
+					if ( templateName == null )
 					{
-						 libraryHandle = session.createLibrary( );
+						libraryHandle = session.createLibrary( );
 					}
 					else
 					{
-						 libraryHandle = session.createLibraryFromTemplate( templateName );
+						libraryHandle = session.createLibraryFromTemplate( templateName );
 					}
-					
+
 					libraryHandle.setFileName( libraryFileName );
 					return libraryHandle;
 				}
@@ -588,7 +650,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 	{
 		boolean ret = false;
 		char[] invalidChars = new char[]{
-				'\\', '/', ':', '*', '?','"', '<', '>', '|'
+				'\\', '/', ':', '*', '?', '"', '<', '>', '|'
 		};
 		for ( int i = 0; i < invalidChars.length; i++ )
 		{
