@@ -27,9 +27,7 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 
@@ -42,7 +40,7 @@ public class ReportElementDragTracker extends DragEditPartsTracker
 	private static final int FLAG_DELAY_SELECTION = DragEditPartsTracker.MAX_FLAG << 1;
 	protected static final int MAX_FLAG = FLAG_DELAY_SELECTION;
 	private DelaySelectionHelper activeHelper = null;
-	private static final int DELAY_TIME = 1700;
+	private static final int DELAY_TIME = 1200;
 	private IDelaySelectionDragTracker proxy;
 
 	public ReportElementDragTracker( EditPart sourceEditPart )
