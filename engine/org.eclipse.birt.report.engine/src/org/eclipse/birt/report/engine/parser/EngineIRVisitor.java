@@ -409,10 +409,20 @@ public class EngineIRVisitor extends DesignVisitor
 			width = new DimensionType( effectWidth.getMeasure( ), effectWidth
 					.getUnits( ) );
 		}
+		else
+		{
+			width = new DimensionType( DEFAULT_MASTERPAGE_WIDTH,
+					DimensionType.UNITS_IN );
+		}
 		if ( effectHeight != null )
 		{
 			height = new DimensionType( effectHeight.getMeasure( ),
 					effectHeight.getUnits( ) );
+		}
+		else
+		{
+			height = new DimensionType( DEFAULT_MASTERPAGE_HEIGHT,
+					DimensionType.UNITS_IN );
 		}
 		page.setPageSize( width, height );
 		page.setOrientation( handle.getOrientation( ) );
