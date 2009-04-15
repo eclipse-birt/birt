@@ -56,4 +56,26 @@ public class CubeUtil
 
 		return results;
 	}
+
+	/**
+	 * Gets the full name of the level element.
+	 * 
+	 * @param dimensionName
+	 *            the dimension name
+	 * @param levelName
+	 *            the short level name
+	 * @return the full level name
+	 */
+	public static String getFullLevelName( String dimensionName,
+			String levelName )
+	{
+		dimensionName = StringUtil.trimString( dimensionName );
+		levelName = StringUtil.trimString( levelName );
+		
+		if ( StringUtil.isBlank( dimensionName ) )
+			return levelName;
+		if ( StringUtil.isBlank( levelName ) )
+			return null;
+		return dimensionName + NameExecutor.NAME_SEPARATOR + levelName;
+	}
 }

@@ -71,4 +71,36 @@ public class CubeUtilTest extends TestCase
 		assertEquals( "testLevel", results[1] ); //$NON-NLS-1$
 
 	}
+
+	/**
+	 * Tests the getFullLevelName in CubeUtil.
+	 */
+	public void testGetFullLevelName( )
+	{
+		String dimensionName = null;
+		String levelName = null;
+
+		// if dimension name is null return levelName
+		assertEquals( levelName, CubeUtil.getFullLevelName( dimensionName,
+				levelName ) );
+
+		// if dimension name is empty, return levelName too
+		dimensionName = " "; //$NON-NLS-1$
+		levelName = "levelName"; //$NON-NLS-1$
+		assertEquals( levelName, CubeUtil.getFullLevelName( dimensionName,
+				levelName ) );
+
+		// if level name is null, or empty, return null
+		levelName = null;
+		dimensionName = "dimensionName"; //$NON-NLS-1$
+		assertNull( CubeUtil.getFullLevelName( dimensionName, levelName ) );
+		levelName = " "; //$NON-NLS-1$
+		assertNull( CubeUtil.getFullLevelName( dimensionName, levelName ) );
+
+		// if dimension name and level name is not empty, then get full name
+		levelName = "levelName"; //$NON-NLS-1$
+		assertEquals(
+				"dimensionName/levelName", CubeUtil.getFullLevelName( dimensionName, levelName ) ); //$NON-NLS-1$
+
+	}
 }
