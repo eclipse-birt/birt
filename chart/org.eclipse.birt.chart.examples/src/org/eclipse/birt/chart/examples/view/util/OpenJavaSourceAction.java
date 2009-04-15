@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.chart.examples.view.util;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -22,26 +22,27 @@ import org.eclipse.birt.chart.examples.view.ChartExamples;
 import org.eclipse.birt.chart.examples.view.description.Messages;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-
-import org.eclipse.jface.action.Action;
-
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
-
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorRegistry;
+import org.eclipse.ui.IPathEditorInput;
+import org.eclipse.ui.IPersistableElement;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.FileStoreEditorInput;
+import org.eclipse.ui.model.IWorkbenchAdapter;
 import org.eclipse.ui.part.FileEditorInput;
 import org.osgi.framework.Bundle;
 
@@ -78,6 +79,8 @@ public class OpenJavaSourceAction extends Action
 					&& fileStore.fetchInfo( ).exists( ) )
 			{
 				IEditorInput input = createEditorInput( fileStore );
+				// no org.eclipse.jdt.ui.CompilationUnitEditor in RCP
+				// so it will open the java source with external editor.
 				String editorId = getEditorId( fileStore );
 				try
 				{
@@ -111,12 +114,90 @@ public class OpenJavaSourceAction extends Action
 		return absolutePath;
 	}
 
-	private IEditorInput createEditorInput( IFileStore fileStore )
+	private interface IEPInput extends IEditorInput, IPathEditorInput
+	{
+
+	}
+
+	private IEditorInput createEditorInput( final IFileStore fileStore )
 	{
 		IFile workspaceFile = getWorkspaceFile( fileStore );
 		if ( workspaceFile != null )
 			return new FileEditorInput( workspaceFile );
-		return new FileStoreEditorInput( fileStore );
+		IEditorInput iei = null;
+		try
+		{
+			Class.forName( "org.eclipse.ui.ide.FileStoreEditorInput" ); //$NON-NLS-1$
+			iei = new FileStoreEditorInput( fileStore );
+		}
+		catch ( ClassNotFoundException e )
+		{
+			// RCP
+			return new IEPInput( ) {
+
+				public boolean exists( )
+				{
+					return fileStore.fetchInfo().exists();
+				}
+
+				public ImageDescriptor getImageDescriptor( )
+				{
+					return null;
+				}
+
+				public String getName( )
+				{
+					return fileStore.getName( );
+				}
+
+				public IPersistableElement getPersistable( )
+				{
+					return null;
+				}
+
+				public String getToolTipText( )
+				{
+					return fileStore.toString( );
+				}
+
+				public Object getAdapter( Class adapter )
+				{
+					if (IWorkbenchAdapter.class.equals(adapter))
+						return new IWorkbenchAdapter(){
+
+							public Object[] getChildren( Object o )
+							{
+								return null;
+							}
+
+							public ImageDescriptor getImageDescriptor(
+									Object object )
+							{
+								return null;
+							}
+
+							public String getLabel( Object o )
+							{
+								return ((FileStoreEditorInput) o).getName();
+							}
+
+							public Object getParent( Object o )
+							{
+								return null;
+							}
+						
+					};
+					return Platform.getAdapterManager().getAdapter(this, adapter);
+				}
+
+				public IPath getPath( )
+				{
+					return new Path( fileStore.toURI( ).getPath( ) );
+				}
+				
+			};
+		}
+		return iei;
 	}
 
 	private IFile getWorkspaceFile( IFileStore fileStore )
