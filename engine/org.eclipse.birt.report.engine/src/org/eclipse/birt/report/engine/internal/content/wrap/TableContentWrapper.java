@@ -19,6 +19,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
  * 
@@ -164,6 +165,15 @@ public class TableContentWrapper extends AbstractContentWrapper
 	public List getColumns( )
 	{
 		return tableContent.getColumns( );
+	}
+	
+	public DimensionType getWidth( )
+	{
+		if ( getColumnCount( ) != tableContent.getColumnCount( ) )
+		{
+			return null;
+		}
+		return tableContent.getWidth( );
 	}
 	
 	/*
