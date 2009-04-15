@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
@@ -28,7 +27,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -54,6 +52,8 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 	private int columnAndMeasureColumnNumber = -1;
 
 	private List oldModelList = new ArrayList( );
+	
+	private int adjustGrandColumn, adjustGrandRow;
 
 	/**
 	 * Record the infomation of the model structure.
@@ -103,11 +103,55 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 
 		buildLeftConner( list );
 		// debug("all", list);
-
+		adjustGrandTotal( list );
 		Collections.sort( list, new ModelComparator( ) );
 
 		oldModelList = list;
 		return list;
+	}
+	
+	private void adjustGrandTotal(List list)
+	{
+		CrosstabCellAdapter first = (CrosstabCellAdapter)list.get( 0 );
+		int rowCount = getRowCount( );
+		int columnCount = getColumnCount( );
+		for (int i=0; i<list.size( ); i++)
+		{
+			CrosstabCellAdapter cellAdapter = (CrosstabCellAdapter)list.get( i );
+			if (adjustGrandColumn > 0)
+			{
+				int beforeColumnNumber = columnCount - adjustGrandColumn;
+				int cellColumnNumber = cellAdapter.getColumnNumber( );
+				if (cellColumnNumber > first.getColumnNumber( ) + first.getColumnSpan( ) - 1)
+				{
+					
+					if (cellColumnNumber <= beforeColumnNumber)
+					{
+						cellAdapter.setColumnNumber( cellColumnNumber + adjustGrandColumn );
+					}
+					else
+					{
+						cellAdapter.setColumnNumber( cellColumnNumber - beforeColumnNumber + first.getColumnNumber( ) + first.getColumnSpan( ) - 1);
+					}
+				}
+			}
+			if (adjustGrandRow > 0)
+			{
+				int beforeRowNumber = rowCount - adjustGrandRow;
+				int cellRowNumber = cellAdapter.getRowNumber( );
+				if (cellRowNumber > first.getRowNumber( ) + first.getRowSpan( ) - 1)
+				{
+					if (cellRowNumber <= beforeRowNumber)
+					{
+						cellAdapter.setRowNumber( cellRowNumber + adjustGrandRow );
+					}
+					else
+					{
+						cellAdapter.setRowNumber( cellRowNumber - beforeRowNumber + first.getRowNumber( ) + first.getRowSpan( ) - 1 );
+					}
+				}
+			}
+		}
 	}
 	
 	private void buildLeftConner( List list )
@@ -349,6 +393,8 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 
 	private void init( )
 	{
+		adjustGrandColumn = 0;
+		adjustGrandRow = 0;
 		columnAndMeasureColumnNumber = -1;
 		map.clear( );
 	}
@@ -660,11 +706,17 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 
 				retValue.add( grandCellAdapter );
 
+				int beforeRowNumber = rowNumber;
 				int addCount = addMesureHeader( retValue,
 						rowNumber,
 						ICrosstabConstants.ROW_AXIS_TYPE,
 						list );
 				rowNumber = rowNumber + ( addCount == 0 ? 1 : addCount );
+				//int adjust = rowNumber - beforeRowNumber;
+				if (isGrandBefore( ICrosstabConstants.ROW_AXIS_TYPE ))
+				{
+					adjustGrandRow = rowNumber - beforeRowNumber;
+				}
 				// rowNumber = rowNumber + 1;
 			}
 
@@ -822,7 +874,13 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 						columnNumber,
 						ICrosstabConstants.COLUMN_AXIS_TYPE,
 						list );
+				int beforeColumnNumber = columnNumber;
 				columnNumber = columnNumber + ( addCount == 0 ? 1 : addCount );
+				//int adjust = columnNumber - beforeColumnNumber;
+				if (isGrandBefore( ICrosstabConstants.COLUMN_AXIS_TYPE ))
+				{
+					adjustGrandColumn = columnNumber - beforeColumnNumber;
+				}
 			}
 		}
 		// put the row number to the map
@@ -1663,6 +1721,13 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		return false;
 	}
 
+
+	private boolean isGrandBefore(int type)
+	{
+		CrosstabReportItemHandle handle = getCrosstabReportItemHandle( );
+		return ICrosstabConstants.GRAND_TOTAL_LOCATION_BEFORE.equals( handle.getCrosstabView( type ).getGrandTotalLocation());
+	}
+	
 	private boolean isPageLayoutOver( )
 	{
 		return getCrosstabReportItemHandle( ).getPageLayout( )
