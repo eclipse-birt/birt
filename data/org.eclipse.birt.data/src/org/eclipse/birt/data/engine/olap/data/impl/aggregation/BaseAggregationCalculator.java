@@ -331,6 +331,8 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	 */
 	protected String[][] getKeyNames( )
 	{
+		if( keyLevelIndex == null )
+			return null;
 		String[][] result = new String[keyLevelIndex.length][];
 		for ( int i = 0; i < keyLevelIndex.length; i++ )
 		{
@@ -347,6 +349,8 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	 */
 	protected String[][] getAttributeNames( )
 	{
+		if( keyLevelIndex == null )
+			return null;
 		String[][] result = new String[keyLevelIndex.length][];
 		for ( int i = 0; i < keyLevelIndex.length; i++ )
 		{
