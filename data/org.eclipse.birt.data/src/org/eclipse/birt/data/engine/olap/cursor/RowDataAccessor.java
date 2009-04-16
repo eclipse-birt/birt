@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import javax.olap.OLAPException;
 
+import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
@@ -232,7 +233,7 @@ public class RowDataAccessor implements IRowDataAccessor
 			int position = dimTraverse.getCurrentRowPosition( dimAxisIndex );
 			if ( position == -1 )
 			{
-				throw new OLAPException( ResourceConstants.RD_EXPR_RESULT_SET_NOT_START );
+				throw new OLAPException( ResourceConstants.RD_GET_LEVEL_MEMBER_ERROR );
 			}
 			rs.seek( position );
 		}
@@ -258,7 +259,7 @@ public class RowDataAccessor implements IRowDataAccessor
 				int position = dimTraverse.getCurrentRowPosition( dimAxisIndex );
 				if ( position == -1 )
 				{
-					throw new OLAPException( ResourceConstants.RD_EXPR_RESULT_SET_NOT_START );
+					throw new OLAPException( ResourceConstants.RD_GET_LEVEL_MEMBER_ERROR );
 				}
 				rs.seek( position );
 			}

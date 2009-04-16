@@ -4,13 +4,8 @@
 
 package javax.olap;
 
-public class OLAPException extends java.lang.Exception
+public class OLAPException extends org.eclipse.birt.data.engine.core.DataException
 {
-
-	public OLAPException( )
-	{
-		super( );
-	}
 
 	public OLAPException( String reason )
 	{
@@ -35,17 +30,6 @@ public class OLAPException extends java.lang.Exception
 	public String getOLAPState( )
 	{
 		return ( new String( "return implementation of error text" ) );
-	}
-
-	public int getErrorCode( )
-	{
-		int retval = 0; 
-		return ( retval );
-	}
-
-	public OLAPException getNextException( )
-	{
-		return ( new OLAPException( ) ); 
 	}
 
 	public void setNextException( OLAPException exception )

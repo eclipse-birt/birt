@@ -7,11 +7,6 @@ package javax.olap;
 public class OLAPWarning extends OLAPException
 {
 
-	public OLAPWarning( )
-	{
-		super( );
-	}
-
 	public OLAPWarning( String reason )
 	{
 		super( reason );

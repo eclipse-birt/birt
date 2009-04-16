@@ -161,6 +161,7 @@ public class ResourceConstants
 	public final static String RD_EXPR_NULL_ERROR = "data.engine.NullExpr";
 	public final static String RD_EXPR_INVALID_ERROR = "data.engine.InValidExpr";
 	public final static String RD_EXPR_RESULT_SET_NOT_START = "data.engine.ResultSetNotStart";
+	public final static String RD_GET_LEVEL_MEMBER_ERROR = "data.engine.GetLevelMemberError";
 	
 	public final static String INVALID_ROW_INDEX = "data.engine.invalidRowIndex";
 	public final static String BACKWARD_SEEK_ERROR = "data.engine.backwardSeekError";
@@ -383,4 +384,9 @@ public class ResourceConstants
 	public final static String UNSPECIFIED_BINDING_NAME = "data.olap.UnspecifiedBindingName";
 	public final static String NOT_NEST_AGGREGATION_BINDING = "data.olap.NotNestAggregationBinding";
 	public final static String INVALID_NEST_AGGREGATION_EXPRESSION = "data.olap.InvalidNestAggregationExpression";
+	
+	//derived dataSet
+	public final static String COLUMN_NOT_EXIST = "data.derivedDataSet.columnNotExist";
+	public final static String UNION_QUERY_TEXT_PARSE_ERROR = "data.derivedDataSet.UnionQueryTextParseError";
+	public final static String JOIN_QUERY_TEXT_PARSE_ERROR = "data.derivedDataSet.JoinQueryTextParseError";
 }
