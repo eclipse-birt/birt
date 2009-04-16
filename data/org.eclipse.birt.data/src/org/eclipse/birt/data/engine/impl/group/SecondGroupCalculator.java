@@ -15,6 +15,8 @@ import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * This calculator is used to calculate a second group key basing group
  * interval.
@@ -28,10 +30,10 @@ class SecondGroupCalculator extends DateGroupCalculator
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
-	public SecondGroupCalculator( Object intervalStart, double intervalRange )
+	public SecondGroupCalculator( Object intervalStart, double intervalRange, ULocale locale )
 			throws BirtException
 	{
-		super( intervalStart, intervalRange );
+		super( intervalStart, intervalRange, locale );
 	}
 
 	/*
@@ -50,19 +52,19 @@ class SecondGroupCalculator extends DateGroupCalculator
 		
 		if ( intervalStart == null )
 		{
-			return new Double( Math.floor( DateTimeUtil.diffSecond( defaultStart,
+			return new Double( Math.floor( this.dateTimeUtil.diffSecond( defaultStart,
 					target )
 					/ getDateIntervalRange( ) ) );
 		}
 		else
 		{
-			if ( DateTimeUtil.diffSecond( (Date) intervalStart, target ) < 0 )
+			if ( this.dateTimeUtil.diffSecond( (Date) intervalStart, target ) < 0 )
 			{
 				return new Double( -1 );
 			}
 			else
 			{
-				return new Double( Math.floor( DateTimeUtil.diffSecond( (Date) intervalStart,
+				return new Double( Math.floor( this.dateTimeUtil.diffSecond( (Date) intervalStart,
 						target )
 						/ getDateIntervalRange( ) ) );
 			}

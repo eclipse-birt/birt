@@ -15,6 +15,8 @@ import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * This calculator is used to calculate a minute group key basing group
  * interval.
@@ -28,10 +30,10 @@ class MinuteGroupCalculator extends DateGroupCalculator
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
-	public MinuteGroupCalculator( Object intervalStart, double intervalRange )
+	public MinuteGroupCalculator( Object intervalStart, double intervalRange, ULocale locale )
 			throws BirtException
 	{
-		super( intervalStart, intervalRange );
+		super( intervalStart, intervalRange, locale );
 	}
 
 	/*
@@ -50,19 +52,19 @@ class MinuteGroupCalculator extends DateGroupCalculator
 		
 		if ( intervalStart == null )
 		{
-			return new Double( Math.floor( DateTimeUtil.diffMinute( defaultStart,
+			return new Double( Math.floor( this.dateTimeUtil.diffMinute( defaultStart,
 					target )
 					/ getDateIntervalRange( ) ) );
 		}
 		else
 		{
-			if ( DateTimeUtil.diffMinute( (Date) intervalStart, target ) < 0 )
+			if ( this.dateTimeUtil.diffMinute( (Date) intervalStart, target ) < 0 )
 			{
 				return new Double( -1 );
 			}
 			else
 			{
-				return new Double( Math.floor( DateTimeUtil.diffMinute( (Date) intervalStart,
+				return new Double( Math.floor( this.dateTimeUtil.diffMinute( (Date) intervalStart,
 						target )
 						/ getDateIntervalRange( ) ) );
 			}

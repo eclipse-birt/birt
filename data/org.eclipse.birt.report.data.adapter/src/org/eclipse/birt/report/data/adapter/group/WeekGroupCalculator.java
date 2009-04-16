@@ -15,6 +15,8 @@ import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * This calculator is used to calculate a week group key basing group interval.
  */
@@ -27,10 +29,10 @@ class WeekGroupCalculator extends DateGroupCalculator
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
-	public WeekGroupCalculator( Object intervalStart, double intervalRange )
+	public WeekGroupCalculator( Object intervalStart, double intervalRange, ULocale locale )
 			throws BirtException
 	{
-		super( intervalStart, intervalRange );
+		super( intervalStart, intervalRange, locale );
 	}
 
 	/*
@@ -47,19 +49,19 @@ class WeekGroupCalculator extends DateGroupCalculator
 
 		if ( intervalStart == null )
 		{
-			return new Double( Math.floor( DateTimeUtil.diffWeek( defaultStart,
+			return new Double( Math.floor( this.dateTimeUtil.diffWeek( defaultStart,
 					(Date) value )
 					/ getDateIntervalRange( ) ) );
 		}
 		else
 		{
-			if ( DateTimeUtil.diffWeek( (Date) intervalStart, (Date) value ) < 0 )
+			if ( this.dateTimeUtil.diffWeek( (Date) intervalStart, (Date) value ) < 0 )
 			{
 				return new Double( -1 );
 			}
 			else
 			{
-				return new Double( Math.floor( DateTimeUtil.diffWeek( (Date) intervalStart,
+				return new Double( Math.floor( this.dateTimeUtil.diffWeek( (Date) intervalStart,
 						(Date) value )
 						/ getDateIntervalRange( ) ) );
 			}

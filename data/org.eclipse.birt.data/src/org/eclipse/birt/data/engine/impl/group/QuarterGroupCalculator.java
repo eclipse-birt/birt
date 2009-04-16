@@ -15,6 +15,8 @@ import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * This calculator is used to calculate a quarter group key basing group
  * interval.
@@ -28,10 +30,10 @@ class QuarterGroupCalculator extends DateGroupCalculator
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
-	public QuarterGroupCalculator( Object intervalStart, double intervalRange )
+	public QuarterGroupCalculator( Object intervalStart, double intervalRange, ULocale locale )
 			throws BirtException
 	{
-		super( intervalStart, intervalRange );
+		super( intervalStart, intervalRange, locale  );
 	}
 
 	/*
@@ -50,19 +52,19 @@ class QuarterGroupCalculator extends DateGroupCalculator
 		
 		if ( intervalStart == null )
 		{
-			return new Double( Math.floor( DateTimeUtil.diffQuarter( defaultStart,
+			return new Double( Math.floor( this.dateTimeUtil.diffQuarter( defaultStart,
 					target )
 					/ getDateIntervalRange( ) ) );
 		}
 		else
 		{
-			if ( DateTimeUtil.diffQuarter( (Date) intervalStart, target ) < 0 )
+			if ( this.dateTimeUtil.diffQuarter( (Date) intervalStart, target ) < 0 )
 			{
 				return new Double( -1 );
 			}
 			else
 			{
-				return new Double( Math.floor( DateTimeUtil.diffQuarter( (Date) intervalStart,
+				return new Double( Math.floor( this.dateTimeUtil.diffQuarter( (Date) intervalStart,
 						target )
 						/ getDateIntervalRange( ) ) );
 			}

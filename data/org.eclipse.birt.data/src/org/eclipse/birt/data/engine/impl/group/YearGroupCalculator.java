@@ -15,6 +15,8 @@ import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * This calculator is used to calculate a year group key basing group interval.
  */
@@ -27,10 +29,10 @@ class YearGroupCalculator extends DateGroupCalculator
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
-	public YearGroupCalculator( Object intervalStart, double intervalRange )
+	public YearGroupCalculator( Object intervalStart, double intervalRange, ULocale locale )
 			throws BirtException
 	{
-		super( intervalStart, intervalRange );
+		super( intervalStart, intervalRange, locale );
 	}
 
 	/*
@@ -49,19 +51,19 @@ class YearGroupCalculator extends DateGroupCalculator
 		
 		if ( intervalStart == null )
 		{
-			return new Double( Math.floor( DateTimeUtil.diffYear( defaultStart,
+			return new Double( Math.floor( this.dateTimeUtil.diffYear( defaultStart,
 					target )
 					/ getDateIntervalRange( ) ) );
 		}
 		else
 		{
-			if ( DateTimeUtil.diffYear( (Date) intervalStart, target ) < 0 )
+			if ( this.dateTimeUtil.diffYear( (Date) intervalStart, target ) < 0 )
 			{
 				return new Double( -1 );
 			}
 			else
 			{
-				return new Double( Math.floor( DateTimeUtil.diffYear( (Date) intervalStart,
+				return new Double( Math.floor( this.dateTimeUtil.diffYear( (Date) intervalStart,
 						target )
 						/ getDateIntervalRange( ) ) );
 			}

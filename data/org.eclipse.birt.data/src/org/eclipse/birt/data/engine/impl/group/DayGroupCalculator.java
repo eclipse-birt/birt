@@ -15,6 +15,8 @@ import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * This calculator is used to calculate a day group key basing group interval.
  */
@@ -28,10 +30,10 @@ class DayGroupCalculator extends DateGroupCalculator
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
-	public DayGroupCalculator( Object intervalStart, double intervalRange )
+	public DayGroupCalculator( Object intervalStart, double intervalRange, ULocale locale )
 			throws BirtException
 	{
-		super( intervalStart, intervalRange );
+		super( intervalStart, intervalRange, locale );
 	}
 
 	/*
@@ -49,19 +51,19 @@ class DayGroupCalculator extends DateGroupCalculator
 		Date target = getDate( value );
 		if ( intervalStart == null )
 		{
-			return new Double( Math.floor( DateTimeUtil.diffDay( defaultStart,
+			return new Double( Math.floor( this.dateTimeUtil.diffDay( defaultStart,
 					target )
 					/ getDateIntervalRange( ) ) );
 		}
 		else
 		{
-			if ( DateTimeUtil.diffDay( (Date) intervalStart, target ) < 0 )
+			if ( this.dateTimeUtil.diffDay( (Date) intervalStart, target ) < 0 )
 			{
 				return new Double( -1 );
 			}
 			else
 			{
-				return new Double( Math.floor( DateTimeUtil.diffDay( (Date) intervalStart,
+				return new Double( Math.floor( this.dateTimeUtil.diffDay( (Date) intervalStart,
 						target )
 						/ getDateIntervalRange( ) ) );
 			}

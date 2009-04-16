@@ -15,6 +15,8 @@ import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * This calculator is used to calculate a month group key basing group interval.
  */
@@ -28,10 +30,10 @@ class MonthGroupCalculator extends DateGroupCalculator
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
-	public MonthGroupCalculator( Object intervalStart, double intervalRange )
+	public MonthGroupCalculator( Object intervalStart, double intervalRange, ULocale locale )
 			throws BirtException
 	{
-		super( intervalStart, intervalRange );
+		super( intervalStart, intervalRange, locale );
 	}
 
 	/*
@@ -50,19 +52,19 @@ class MonthGroupCalculator extends DateGroupCalculator
 		
 		if ( intervalStart == null )
 		{
-			return new Double( Math.floor( DateTimeUtil.diffMonth( defaultStart,
+			return new Double( Math.floor( this.dateTimeUtil.diffMonth( defaultStart,
 					target )
 					/ getDateIntervalRange( ) ) );
 		}
 		else
 		{
-			if ( DateTimeUtil.diffMonth( (Date) intervalStart, target ) < 0 )
+			if ( this.dateTimeUtil.diffMonth( (Date) intervalStart, target ) < 0 )
 			{
 				return new Double( -1 );
 			}
 			else
 			{
-				return new Double( Math.floor( DateTimeUtil.diffMonth( (Date) intervalStart,
+				return new Double( Math.floor( this.dateTimeUtil.diffMonth( (Date) intervalStart,
 						target )
 						/ getDateIntervalRange( ) ) );
 			}

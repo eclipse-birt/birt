@@ -17,6 +17,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 
 import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.ULocale;
 
 /**
  * This calculator is used to calculate a datetime group key basing group interval.
@@ -25,17 +26,10 @@ import com.ibm.icu.util.Calendar;
 abstract class DateGroupCalculator extends GroupCalculator
 {
 	
-	static protected Date defaultStart;
-	
+	protected Date defaultStart;
+	protected ULocale locale;
+	protected DateTimeUtil dateTimeUtil;
 	private int range;
-	
-	static
-	{
-		Calendar c = Calendar.getInstance( );
-		c.clear( );
-		c.set( 1970, 0, 1 );
-		defaultStart = c.getTime( );
-	}
 	
 	/**
 	 * 
@@ -43,13 +37,21 @@ abstract class DateGroupCalculator extends GroupCalculator
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
-	public DateGroupCalculator(Object intervalStart, double intervalRange) throws BirtException
+	public DateGroupCalculator(Object intervalStart, double intervalRange, ULocale locale ) throws BirtException
 	{
 		super( intervalStart, intervalRange );
 		range = (int)Math.round( intervalRange );
 		range = (range == 0 ? 1 : range);
 		if ( intervalStart != null )
 			this.intervalStart = DataTypeUtil.toDate( intervalStart );
+		this.locale = locale == null ? ULocale.getDefault( ):locale;
+		
+		Calendar c = Calendar.getInstance( this.locale );
+		c.clear( );
+		c.set( 1970, 0, 1 );
+		defaultStart = c.getTime( );
+		
+		this.dateTimeUtil = new DateTimeUtil( this.locale );
 	}
 	
 	/**

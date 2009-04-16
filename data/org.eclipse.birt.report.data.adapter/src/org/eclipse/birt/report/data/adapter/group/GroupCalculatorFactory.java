@@ -18,6 +18,8 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * A factory of group calculator.
  */
@@ -33,7 +35,7 @@ public class GroupCalculatorFactory
 	 * @throws DataException
 	 */
 	public static ICalculator getGroupCalculator( int interval, int dataType,
-			Object intervalStart, double intervalRange ) throws AdapterException
+			Object intervalStart, double intervalRange, ULocale locale ) throws AdapterException
 	{
 		if ( !isValidInterval( interval, dataType ) )
 		{
@@ -45,34 +47,34 @@ public class GroupCalculatorFactory
 			{
 				case IGroupDefinition.YEAR_INTERVAL :
 					return new YearGroupCalculator( intervalStart,
-							intervalRange );
+							intervalRange, locale );
 
 				case IGroupDefinition.MONTH_INTERVAL :
 					return new MonthGroupCalculator( intervalStart,
-							intervalRange );
+							intervalRange, locale);
 
 				case IGroupDefinition.QUARTER_INTERVAL :
 					return new QuarterGroupCalculator( intervalStart,
-							intervalRange );
+							intervalRange, locale );
 
 				case IGroupDefinition.WEEK_INTERVAL :
 					return new WeekGroupCalculator( intervalStart,
-							intervalRange );
+							intervalRange, locale );
 
 				case IGroupDefinition.DAY_INTERVAL :
-					return new DayGroupCalculator( intervalStart, intervalRange );
+					return new DayGroupCalculator( intervalStart, intervalRange, locale );
 
 				case IGroupDefinition.HOUR_INTERVAL :
 					return new HourGroupCalculator( intervalStart,
-							intervalRange );
+							intervalRange, locale );
 
 				case IGroupDefinition.MINUTE_INTERVAL :
 					return new MinuteGroupCalculator( intervalStart,
-							intervalRange );
+							intervalRange, locale );
 
 				case IGroupDefinition.SECOND_INTERVAL :
 					return new SecondGroupCalculator( intervalStart,
-							intervalRange );
+							intervalRange, locale );
 
 				case IGroupDefinition.NUMERIC_INTERVAL :
 					return new NumericGroupCalculator( intervalStart,
