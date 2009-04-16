@@ -60,11 +60,11 @@ import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 
 public class CubeQueryUtil implements ICubeQueryUtil
 {
-	private DataRequestSessionImpl session;
+	private DataRequestSessionImpl sessionImpl;
 	
 	public CubeQueryUtil( DataRequestSessionImpl session )
 	{
-		this.session = session;
+		this.sessionImpl = session;
 	}
 	
 	/*
@@ -728,8 +728,8 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			BirtException
 	{
 		List<ColumnMeta> metaList = new ArrayList<ColumnMeta>( );
-		IQueryDefinition defn = DataRequestSessionImpl.createQuery( session, hierHandle, metaList );
-		return new DataSetIterator( this.session, defn, metaList, appContext );
+		IQueryDefinition defn = sessionImpl.createQuery( sessionImpl, hierHandle, metaList );
+		return new DataSetIterator( this.sessionImpl, defn, metaList, appContext );
 	}
 	/**
 	 * @param hierHandle
@@ -738,11 +738,11 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	private void defineDataSourceAndDataSet( DataSetHandle dataSet )
 			throws BirtException
 	{
-		IModelAdapter modelAdaptor = session.getModelAdaptor( );
+		IModelAdapter modelAdaptor = sessionImpl.getModelAdaptor( );
 		DataSourceHandle dataSource = dataSet.getDataSource( );
 		if ( dataSource != null )
 		{
-			session.defineDataSource( modelAdaptor.adaptDataSource( dataSource ) );
+			sessionImpl.defineDataSource( modelAdaptor.adaptDataSource( dataSource ) );
 		}
 		if ( dataSet instanceof JointDataSetHandle )
 		{
@@ -756,14 +756,14 @@ public class CubeQueryUtil implements ICubeQueryUtil
 					DataSourceHandle childDataSource = childDataSet.getDataSource( );
 					if ( childDataSource != null )
 					{
-						session.defineDataSource( modelAdaptor.adaptDataSource( childDataSource ) );
+						sessionImpl.defineDataSource( modelAdaptor.adaptDataSource( childDataSource ) );
 					}
 					defineDataSourceAndDataSet( childDataSet );
 				}
 			}
 
 		}
-		session.defineDataSet( modelAdaptor.adaptDataSet( dataSet ) );
+		sessionImpl.defineDataSet( modelAdaptor.adaptDataSet( dataSet ) );
 	}
 	
 	/**

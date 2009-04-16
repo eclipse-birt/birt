@@ -482,6 +482,15 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 			else if ( query instanceof IPreparedCubeQuery )
 			{
+				String queryName = ( (IPreparedCubeQuery) query ).getCubeQueryDefinition( )
+						.getName( );
+				if ( this.cubeHandleMap.get( queryName ) != null )
+				{
+					this.materializeCube( (CubeHandle) this.cubeHandleMap.get( queryName ),
+							this.sessionContext.getAppContext( ) );
+					this.cubeHandleMap.remove( queryName );
+				}
+
 				return ( (IPreparedCubeQuery) query ).execute( outerResults, scope );
 			}
 			return null;
@@ -751,18 +760,17 @@ public class DataRequestSessionImpl extends DataRequestSession
 	/**
 	 * 
 	 * @param cubeHandle
-	 * @throws AdapterException
-	 * @throws DataException
+	 * @throws BirtException 
 	 */
 	private void prepareForCubeGeneration( TabularCubeHandle cubeHandle,
 			Map<ReportElementHandle, IQueryDefinition> queryMap,
 			Map<ReportElementHandle, List<ColumnMeta>> metaMap )
-			throws AdapterException, DataException
+			throws BirtException
 	{
 		List<IQueryDefinition> queryDefns = new ArrayList<IQueryDefinition>();
 		
 		List<ColumnMeta> metaList = new ArrayList<ColumnMeta>();
-		IQueryDefinition query =  DataRequestSessionImpl.createQuery( this, cubeHandle, metaList );
+		IQueryDefinition query =  createQuery( this, cubeHandle, metaList );
 		queryDefns.add( query );
 		queryMap.put( cubeHandle, query );
 		metaMap.put( cubeHandle, metaList );
@@ -774,7 +782,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			for ( TabularHierarchyHandle hier: hiers )
 			{
 				metaList = new ArrayList<ColumnMeta>();
-				query =  DataRequestSessionImpl.createQuery( this,  hier, metaList );
+				query =  createQuery( this,  hier, metaList );
 				queryDefns.add( query );
 				queryMap.put( hier, query );
 				metaMap.put( hier, metaList );
@@ -1075,13 +1083,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 		stopSign.start( );
 		setModuleHandleToAppContext( appContext );
 
-		if ( this.cubeHandleMap.get( query.getName( ) ) != null )
-		{
-			this.materializeCube( (CubeHandle) this.cubeHandleMap.get( query.getName( ) ),
-					appContext );
-			this.cubeHandleMap.remove( query.getName( ) );
-		}
-
 		return this.dataEngine.prepare( query, appContext );
 	}
 
@@ -1319,11 +1320,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param resultMetaList
 	 * @param levelNameColumnNamePair
 	 * @param hierHandle
-	 * @throws AdapterException
+	 * @throws BirtException 
 	 */
-	private static void prepareLevels( QueryDefinition query,
+	private void prepareLevels( QueryDefinition query,
 			TabularHierarchyHandle hierHandle, List metaList, String dimName )
-			throws AdapterException
+			throws BirtException
 	{
 		try
 		{
@@ -1349,7 +1350,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 									DataType.INTEGER_TYPE,
 									String.valueOf( DataSetIterator.getDefaultStartValue( level.getDateTimeLevelType( ),
 											level.getIntervalBase( ) ) ),
-									level.getIntervalRange( ) ) ),
+									level.getIntervalRange( ), sessionContext.getDataEngineContext( ).getLocale( ) ) ),
 							DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
 					temp.setDataType( DataType.INTEGER_TYPE );
 					exprString = DataSetIterator.createDateTransformerExpr( level.getDateTimeLevelType( ), exprString );
@@ -1364,7 +1365,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 							processor = new DataSetIterator.DataProcessorWrapper( GroupCalculatorFactory.getGroupCalculator( interval,
 									type,
 									level.getIntervalBase( ),
-									level.getIntervalRange( ) ) );
+									level.getIntervalRange( ),
+									sessionContext.getDataEngineContext( ).getLocale( )) );
 					}
 					else if ( DesignChoiceConstants.LEVEL_TYPE_MIRRORED.equals( level.getLevelType( ) ) )
 					{
@@ -1546,12 +1548,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param cubeHandle
 	 * @param metaList
 	 * @return
-	 * @throws AdapterException
-	 * @throws DataException
+	 * @throws BirtException 
 	 */
-	static QueryDefinition createQuery(
+	QueryDefinition createQuery(
 			DataRequestSessionImpl session, TabularCubeHandle cubeHandle,
-			List metaList ) throws AdapterException, DataException
+			List metaList ) throws BirtException
 	{
 		if( metaList == null )
 			metaList = new ArrayList();
@@ -1580,7 +1581,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 								.getQualifiedName( )
 								.equals( cubeHandle.getDataSet( ).getQualifiedName( ) ) )
 				{
-					DataRequestSessionImpl.prepareLevels( query,
+					prepareLevels( query,
 							hierHandle,
 							metaList,
 							dimension.getName());
@@ -1680,11 +1681,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param hierHandle
 	 * @param metaList
 	 * @return
-	 * @throws AdapterException
+	 * @throws BirtException 
 	 */
-	static QueryDefinition createQuery(
+	QueryDefinition createQuery(
 			DataRequestSessionImpl session, TabularHierarchyHandle hierHandle,
-			List metaList ) throws AdapterException
+			List metaList ) throws BirtException
 	{
 		assert metaList!= null;
 		QueryDefinition query = new QueryDefinition( );
@@ -1693,7 +1694,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		query.setDataSetName( DataRequestSessionImpl.getDataSet ( hierHandle ) );
 	
 		
-		DataRequestSessionImpl.prepareLevels( query,
+		prepareLevels( query,
 				hierHandle, metaList, null );
 		
 		DataRequestSessionImpl.popualteFilter( session, DataRequestSessionImpl.getFilterIterator( hierHandle ), query );
