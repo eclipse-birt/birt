@@ -108,21 +108,23 @@ public class JSSyntaxContext
 
 	public boolean setVariable( String name, String className )
 	{
-		try
+		JSObjectMetaData engineObj = getEnginJSObject( className );
+
+		if ( engineObj != null )
 		{
-			objectMetaMap.put( name, getJavaClassMeta( className ) );
+			objectMetaMap.put( name, engineObj );
 
 			return true;
 		}
-		catch ( Exception e )
+		else
 		{
-			if ( getEnginJSObject( className ) != null )
+			try
 			{
-				objectMetaMap.put( name, getEnginJSObject( className ) );
+				objectMetaMap.put( name, getJavaClassMeta( className ) );
 
 				return true;
 			}
-			else
+			catch ( Exception e )
 			{
 				removeVariable( name );
 
