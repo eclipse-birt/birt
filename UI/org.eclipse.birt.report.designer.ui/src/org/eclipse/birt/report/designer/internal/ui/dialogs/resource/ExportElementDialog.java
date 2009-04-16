@@ -364,13 +364,9 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 								return;
 						}
 					}
-					else
-					{
-
-						ElementExportUtil.exportStyle( (StyleHandle) firstElement,
+					ElementExportUtil.exportStyle( (StyleHandle) firstElement,
 								(ThemeHandle) result[0],
 								true );
-					}
 				}
 			}
 			else if ( firstElement instanceof DesignElementHandle )
