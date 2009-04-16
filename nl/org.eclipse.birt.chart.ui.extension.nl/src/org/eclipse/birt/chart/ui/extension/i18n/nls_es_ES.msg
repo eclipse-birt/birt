@@ -679,7 +679,7 @@ PropertyEditorDialog.Lbl.Remove=&Quitar
 HeadStyleAttributeComposite.Lbl.HeadStyle=Estilo de encabezado
 HyperlinkEditorDialog.ErrorMessage.ExistingText=El texto introducido ya existe, modifíquelo.
 HyperlinkEditorDialog.ErrorMessage.NullText=El texto no puede ser nulo\.
-HyperlinkEditorDialog.Text.MenuLabel=&Texto:
+HyperlinkEditorDialog.Text.MenuLabel=&Name:
 HyperlinkEditorDialog.Title.HyperlinkEditor=Editor de hyperlink
 
 TaskSelectType.TaskExp=Seleccionar tipo de diagrama

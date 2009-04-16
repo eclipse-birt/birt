@@ -679,7 +679,7 @@ PropertyEditorDialog.Lbl.Remove=&Entfernen
 HeadStyleAttributeComposite.Lbl.HeadStyle=Kopfzeilenstil:
 HyperlinkEditorDialog.ErrorMessage.ExistingText=Text bereits vorhanden, bitte ändern.
 HyperlinkEditorDialog.ErrorMessage.NullText=Text darf nicht Null sein.
-HyperlinkEditorDialog.Text.MenuLabel=&Text:
+HyperlinkEditorDialog.Text.MenuLabel=&Name:
 HyperlinkEditorDialog.Title.HyperlinkEditor=Hyperlink-Editor
 
 TaskSelectType.TaskExp=Diagrammtyp auswählen

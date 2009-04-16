@@ -679,7 +679,7 @@ PropertyEditorDialog.Lbl.Remove=删除(&R)
 HeadStyleAttributeComposite.Lbl.HeadStyle=针头样式:
 HyperlinkEditorDialog.ErrorMessage.ExistingText=该文本已存在，请修改为其它文本。
 HyperlinkEditorDialog.ErrorMessage.NullText=文本不能为空!
-HyperlinkEditorDialog.Text.MenuLabel=文本(&T):
+HyperlinkEditorDialog.Text.MenuLabel=&Name:
 HyperlinkEditorDialog.Title.HyperlinkEditor=超链接编辑器
 
 TaskSelectType.TaskExp=选择图表类型

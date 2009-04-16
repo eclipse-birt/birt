@@ -679,7 +679,7 @@ PropertyEditorDialog.Lbl.Remove=제거(&R)
 HeadStyleAttributeComposite.Lbl.HeadStyle=헤드 스타일:
 HyperlinkEditorDialog.ErrorMessage.ExistingText=텍스트가 이미 있습니다. 다른 텍스트로 수정하십시오.
 HyperlinkEditorDialog.ErrorMessage.NullText=텍스트는 널(null\)일 수 없습니다\!
-HyperlinkEditorDialog.Text.MenuLabel=텍스트(&T):
+HyperlinkEditorDialog.Text.MenuLabel=&Name:
 HyperlinkEditorDialog.Title.HyperlinkEditor=하이퍼링크 편집기
 
 TaskSelectType.TaskExp=차트 형식 선택
