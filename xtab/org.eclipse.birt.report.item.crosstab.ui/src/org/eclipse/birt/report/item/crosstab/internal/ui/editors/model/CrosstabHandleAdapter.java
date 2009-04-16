@@ -102,8 +102,10 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		adjustRow( rows, details );
 
 		buildLeftConner( list );
-		// debug("all", list);
+		
 		adjustGrandTotal( list );
+		
+		//debug("all", list);
 		Collections.sort( list, new ModelComparator( ) );
 
 		oldModelList = list;
@@ -613,10 +615,15 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		int rowNumber = 0;
 		if ( count != 0 )
 		{
+			LevelViewHandle lastHandle = findLastLevelViewHandle( ICrosstabConstants.ROW_AXIS_TYPE );
+			if (lastHandle ==  null)
+			{
+				throw new RuntimeException("lasthandle is null");//$NON-NLS-1$
+			}
 			rowNumber = addMesureHeader( retValue,
 					0,
 					ICrosstabConstants.ROW_AXIS_TYPE,
-					measureHandleList );
+					measureHandleList, lastHandle );
 		}
 
 		if ( rowNumber == 0 )
@@ -675,7 +682,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 						int addCount = addMesureHeader( retValue,
 								rowNumber,
 								ICrosstabConstants.ROW_AXIS_TYPE,
-								list );
+								list, preLevelHandle );
 						rowNumber = rowNumber + ( addCount == 0 ? 1 : addCount );
 					}
 
@@ -710,7 +717,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 				int addCount = addMesureHeader( retValue,
 						rowNumber,
 						ICrosstabConstants.ROW_AXIS_TYPE,
-						list );
+						list, null );
 				rowNumber = rowNumber + ( addCount == 0 ? 1 : addCount );
 				//int adjust = rowNumber - beforeRowNumber;
 				if (isGrandBefore( ICrosstabConstants.ROW_AXIS_TYPE ))
@@ -771,10 +778,15 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		int columnNumber = 0;
 		if ( count != 0 )
 		{
+			LevelViewHandle lastHandle = findLastLevelViewHandle( ICrosstabConstants.COLUMN_AXIS_TYPE );
+			if (lastHandle ==  null)
+			{
+				throw new RuntimeException("lasthandle is null");//$NON-NLS-1$
+			}
 			columnNumber = addMesureHeader( retValue,
 					0,
 					ICrosstabConstants.COLUMN_AXIS_TYPE,
-					measureHandleList );
+					measureHandleList, lastHandle );
 		}
 		if ( columnNumber == 0 )
 		{
@@ -834,7 +846,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 						int addCount = addMesureHeader( retValue,
 								columnNumber,
 								ICrosstabConstants.COLUMN_AXIS_TYPE,
-								list );
+								list, preLevelHandle );
 						columnNumber = columnNumber
 								+ ( addCount == 0 ? 1 : addCount );
 						// }
@@ -873,7 +885,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 				int addCount = addMesureHeader( retValue,
 						columnNumber,
 						ICrosstabConstants.COLUMN_AXIS_TYPE,
-						list );
+						list, null );
 				int beforeColumnNumber = columnNumber;
 				columnNumber = columnNumber + ( addCount == 0 ? 1 : addCount );
 				//int adjust = columnNumber - beforeColumnNumber;
@@ -1036,7 +1048,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 	}
 
 	private int addMesureHeader( List list, int baseColumn, int area,
-			List measures )
+			List measures, LevelViewHandle levelHandle )
 	{
 		if ( isVertical( ) && area == ICrosstabConstants.COLUMN_AXIS_TYPE )
 		{
@@ -1054,7 +1066,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		for ( int k = 0; k < measureCount; k++ )
 		{
 			MeasureViewHandle preMmeasureHandle = (MeasureViewHandle) measures.get( k );
-			CrosstabCellHandle preMeasureCellHandle = preMmeasureHandle.getHeader( );
+			CrosstabCellHandle preMeasureCellHandle = preMmeasureHandle.getHeader( levelHandle );
 
 			CrosstabCellAdapter measureCellAdapt = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CELL_MEASURE_HEADER,
 					preMeasureCellHandle,
@@ -1737,5 +1749,24 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 	private boolean isHideHeader()
 	{
 		return getCrosstabReportItemHandle( ).isHideMeasureHeader( );
+	}
+	
+	private LevelViewHandle findLastLevelViewHandle(int type)
+	{
+		CrosstabReportItemHandle handle = getCrosstabReportItemHandle( );
+		int count = handle.getDimensionCount( type );
+		if (count == 0)
+		{
+			return null;
+		}
+		
+		DimensionViewHandle dimensionHandle = handle.getDimension( type,count - 1 );
+		int levelCount = dimensionHandle.getLevelCount( );
+		if (levelCount == 0)
+		{
+			return null;
+		}
+		LevelViewHandle levelHandle = dimensionHandle.getLevel( levelCount - 1 );
+		return levelHandle;
 	}
 }

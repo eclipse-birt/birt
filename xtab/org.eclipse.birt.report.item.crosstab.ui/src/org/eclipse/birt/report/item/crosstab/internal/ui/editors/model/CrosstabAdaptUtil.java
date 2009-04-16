@@ -480,11 +480,11 @@ public class CrosstabAdaptUtil
 				position );
 		measureViewHandle.addHeader( );
 
-		LabelHandle labelHandle = DesignElementFactory.getInstance( )
-				.newLabel( null );
-		labelHandle.setText( measureHandle.getName( ) );
-
-		measureViewHandle.getHeader( ).addContent( labelHandle );
+//		LabelHandle labelHandle = DesignElementFactory.getInstance( )
+//				.newLabel( null );
+//		labelHandle.setText( measureHandle.getName( ) );
+//
+//		measureViewHandle.getHeader( ).addContent( labelHandle );
 	}
 
 	/**
