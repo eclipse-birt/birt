@@ -2249,8 +2249,12 @@ LabelPageGenerator.List.TOC=Inhaltsverzeichnis
 LabelPageGenerator.List.Visibility=Sichtbarkeit
 
 ###########################################################
-#LayoutEditor properties
+#LayoutConfigurationBlock properties
+LayoutConfigurationBlock.Default.Unit.Auto=Automatisch
+LayoutConfigurationBlock.Default.Unit.Label=Default Unit:
 
+###########################################################
+#LayoutEditor properties
 LayoutEditor.ErrorMessage.OpenError=Beim Öffnen des Editors ist ein Fehler aufgetreten.
 LayoutEditor.Page.Layout=Normal
 LayoutEditor.Page.MasterPage=Master-Seite
@@ -3485,7 +3489,7 @@ StringVariableSelectionDialog.Dialog.Prompt=&Wählen Sie eine Variable (? = belie
 StringVariableSelectionDialog.Dialog.Title=Variable wählen 
 StyleBuilder.action.Apply=&Anwenden
 StyleBuilder.Edit.Info=Gewünschte Stileigenschaften bearbeiten. Alle Berichtelemente mit diesem Stil werden automatisch mit dem neuen Format aktualisiert.
-StyleBuilder.New.Info=Neuen Stil durch Auswahl einer Eigenschaftskategorie links und Angabe von Eigenschaftswerten erstellen.
+StyleBuilder.New.Info=Create a new style by selecting a property category on the left and specifying property values.
 StyleBuilder.Title=Stil
 SytleBuilder.DialogTitle.New=Neuer Stil
 SytleBuilder.DialogTitle.Edit=Stil bearbeiten
@@ -4268,8 +4272,6 @@ BIRTGotoMarker.Error.Message=Das Berichtelement ist nicht vorhanden.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=Eigenschaften sind nicht verfügbar.
-TabbedPropertyTitle.Button.Default.Text=Stan&dard
-TabbedPropertyTitle.Button.Default.TooltipText=Standardstileigenschaften der aktuellen Seite wiederherstellen
 
 ###########################################################
 #Sample Reports View properties
@@ -4506,6 +4508,12 @@ ExportElementToLibraryAction.waring=Warnung
 ExportElementToLibraryAction.waringMsg=Das Element wurde nicht benannt. Es kann kein Name für das Element festgelegt werden.
 
 ###########################################################
+#ExportStyleDialog
+ExportStyleDialog.Label.Text=Theme:
+ExportStyleDialog.Message=Select a theme to be exported in the library.
+ExportStyleDialog.Title=Select Theme
+
+###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=Fehler im Bericht
 UIUtil.previewconfirm.message=Der Bericht enthält Fehler. Möchten Sie mit der Vorschau fortfahren?
@@ -4519,3 +4527,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=Fehler beim Löschen von Datei: {
 ShowPropertiesViewMenu.ActionName=Eig&enschaften
 ShowPropertiesViewMenu.ErrorMessage=Fehler beim Öffnen der Eigenschaftenansicht.
 ShowPropertiesViewMenu.ErrorTitle=Fehler
+
+###########################################################
+#ResetAttributePage
+ResetAttributePage.Style.Resotre.TooltipText=Standardstileigenschaften der aktuellen Seite wiederherstellen

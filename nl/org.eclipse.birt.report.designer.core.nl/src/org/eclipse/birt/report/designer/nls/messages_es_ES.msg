@@ -2249,8 +2249,12 @@ LabelPageGenerator.List.TOC=Tabla de contenido
 LabelPageGenerator.List.Visibility=Visibilidad
 
 ###########################################################
-#LayoutEditor properties
+#LayoutConfigurationBlock properties
+LayoutConfigurationBlock.Default.Unit.Auto=Automático
+LayoutConfigurationBlock.Default.Unit.Label=Default Unit:
 
+###########################################################
+#LayoutEditor properties
 LayoutEditor.ErrorMessage.OpenError=Se ha producido un error al abrir el editor.
 LayoutEditor.Page.Layout=Normal
 LayoutEditor.Page.MasterPage=Página maestra
@@ -3485,7 +3489,7 @@ StringVariableSelectionDialog.Dialog.Prompt=&Seleccionar una variable (? = cualq
 StringVariableSelectionDialog.Dialog.Title=Seleccionar variable 
 StyleBuilder.action.Apply=&Aplicar
 StyleBuilder.Edit.Info=Modificar las propiedades de estilo deseadas. Todos los elementos de informe que utilizan este estilo se actualizan automáticamente para reflejar el nuevo formato.
-StyleBuilder.New.Info=Para crear un estilo nuevo, se debe seleccionar una categoría de propiedades en la parte izquierda y especificar los valores de las propiedades.
+StyleBuilder.New.Info=Create a new style by selecting a property category on the left and specifying property values.
 StyleBuilder.Title=Estilo
 SytleBuilder.DialogTitle.New=Nuevo estilo
 SytleBuilder.DialogTitle.Edit=Editar estilo
@@ -4268,8 +4272,6 @@ BIRTGotoMarker.Error.Message=El elemento de informe no existe.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=Las propiedades no están disponibles
-TabbedPropertyTitle.Button.Default.Text=Pre&determinado
-TabbedPropertyTitle.Button.Default.TooltipText=Restaurar las propiedades de estilo de la página actual a los parámetros predeterminados
 
 ###########################################################
 #Sample Reports View properties
@@ -4506,6 +4508,12 @@ ExportElementToLibraryAction.waring=Advertencia
 ExportElementToLibraryAction.waringMsg=El elemento no tiene nombre, pero no se puede establecer su nombre.
 
 ###########################################################
+#ExportStyleDialog
+ExportStyleDialog.Label.Text=Theme:
+ExportStyleDialog.Message=Select a theme to be exported in the library.
+ExportStyleDialog.Title=Select Theme
+
+###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=Errores en el informe
 UIUtil.previewconfirm.message=El informe contiene errores, ¿desea continuar para realizar la vista previa?
@@ -4519,3 +4527,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=Error al eliminar archivo: {0}
 ShowPropertiesViewMenu.ActionName=Prop&iedades
 ShowPropertiesViewMenu.ErrorMessage=Error al abrir la vista de propiedades
 ShowPropertiesViewMenu.ErrorTitle=Error
+
+###########################################################
+#ResetAttributePage
+ResetAttributePage.Style.Resotre.TooltipText=Restaurar las propiedades de estilo de la página actual a los parámetros predeterminados

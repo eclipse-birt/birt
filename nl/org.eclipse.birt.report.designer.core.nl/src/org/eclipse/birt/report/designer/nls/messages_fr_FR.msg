@@ -2249,8 +2249,12 @@ LabelPageGenerator.List.TOC=Table des matières
 LabelPageGenerator.List.Visibility=Visibilité
 
 ###########################################################
-#LayoutEditor properties
+#LayoutConfigurationBlock properties
+LayoutConfigurationBlock.Default.Unit.Auto=Auto
+LayoutConfigurationBlock.Default.Unit.Label=Default Unit:
 
+###########################################################
+#LayoutEditor properties
 LayoutEditor.ErrorMessage.OpenError=Une erreur s'est produite lors de l'ouverture de l'éditeur.
 LayoutEditor.Page.Layout=Normal
 LayoutEditor.Page.MasterPage=Page maître
@@ -3485,7 +3489,7 @@ StringVariableSelectionDialog.Dialog.Prompt=&Choisir une variable (? = tout cara
 StringVariableSelectionDialog.Dialog.Title=Sélectionnez une variable 
 StyleBuilder.action.Apply=&Appliquer
 StyleBuilder.Edit.Info=Modifiez les propriétés de style souhaitées. Tous les éléments d'état utilisant ce style sont automatiquement mis à jour pour refléter le nouveau format.
-StyleBuilder.New.Info=Créez un nouveau style en sélectionnant une catégorie de propriété sur la gauche et en spécifiant les valeurs de la propriété.
+StyleBuilder.New.Info=Create a new style by selecting a property category on the left and specifying property values.
 StyleBuilder.Title=Style
 SytleBuilder.DialogTitle.New=Nouveau style
 SytleBuilder.DialogTitle.Edit=Modifier le style
@@ -4268,8 +4272,6 @@ BIRTGotoMarker.Error.Message=L'élément d'état n'existe pas.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=Les propriétés ne sont pas disponibles.
-TabbedPropertyTitle.Button.Default.Text=Défa&ut
-TabbedPropertyTitle.Button.Default.TooltipText=Restaurer les paramètres par défaut des propriétés de style de la page en cours
 
 ###########################################################
 #Sample Reports View properties
@@ -4506,6 +4508,12 @@ ExportElementToLibraryAction.waring=Avertissement
 ExportElementToLibraryAction.waringMsg=L'élément ne porte pas de nom, mais il est impossible d'en définir un.
 
 ###########################################################
+#ExportStyleDialog
+ExportStyleDialog.Label.Text=Theme:
+ExportStyleDialog.Message=Select a theme to be exported in the library.
+ExportStyleDialog.Title=Select Theme
+
+###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=Erreurs dans l'état
 UIUtil.previewconfirm.message=Cet état contient des erreurs, voulez-vous poursuivre la prévisualisation ?
@@ -4519,3 +4527,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=Echec de la suppression de fichi
 ShowPropertiesViewMenu.ActionName=P&ropriétés
 ShowPropertiesViewMenu.ErrorMessage=Echec d'ouverture de la vue des propriétés
 ShowPropertiesViewMenu.ErrorTitle=Erreur
+
+###########################################################
+#ResetAttributePage
+ResetAttributePage.Style.Resotre.TooltipText=Restaurer les paramètres par défaut des propriétés de style de la page en cours

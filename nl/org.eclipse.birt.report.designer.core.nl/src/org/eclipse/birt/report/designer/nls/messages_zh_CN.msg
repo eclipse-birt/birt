@@ -2249,8 +2249,12 @@ LabelPageGenerator.List.TOC=Ä¿Â¼
 LabelPageGenerator.List.Visibility=¿É¼ûĞÔ
 
 ###########################################################
-#LayoutEditor properties
+#LayoutConfigurationBlock properties
+LayoutConfigurationBlock.Default.Unit.Auto=×Ô¶¯
+LayoutConfigurationBlock.Default.Unit.Label=Default Unit:
 
+###########################################################
+#LayoutEditor properties
 LayoutEditor.ErrorMessage.OpenError=´ò¿ª±à¼­Æ÷Ê±³ö´í¡£
 LayoutEditor.Page.Layout=Õı³£
 LayoutEditor.Page.MasterPage=Ö÷Ò³
@@ -3485,7 +3489,7 @@ StringVariableSelectionDialog.Dialog.Prompt=Ñ¡Ôñ±äÁ¿(? = ÈÎÒâ×Ö·û£¬* = ÈÎÒâ×Ö·û´
 StringVariableSelectionDialog.Dialog.Title=Ñ¡Ôñ±äÁ¿ 
 StyleBuilder.action.Apply=Ó¦ÓÃ(&A)
 StyleBuilder.Edit.Info=ĞŞ¸ÄËùĞèµÄÑùÊ½ÊôĞÔ¡£Ê¹ÓÃ´ËÑùÊ½µÄËùÓĞ±¨±íÔªËØ½«×Ô¶¯¸üĞÂÒÔ·´Ó³ĞÂ¸ñÊ½¡£
-StyleBuilder.New.Info=Í¨¹ı´Ó×ó²àÑ¡ÔñÊôĞÔÀà±ğ²¢Ö¸¶¨ÊôĞÔÖµ´´½¨ĞÂÑùÊ½¡£
+StyleBuilder.New.Info=Create a new style by selecting a property category on the left and specifying property values.
 StyleBuilder.Title=ÑùÊ½
 SytleBuilder.DialogTitle.New=ĞÂ½¨ÑùÊ½
 SytleBuilder.DialogTitle.Edit=±à¼­ÑùÊ½
@@ -4268,8 +4272,6 @@ BIRTGotoMarker.Error.Message=±¨±íÔªËØ²»´æÔÚ¡£
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=ÊôĞÔ²»¿ÉÓÃ¡£
-TabbedPropertyTitle.Button.Default.Text=Ä¬ÈÏ(&U)
-TabbedPropertyTitle.Button.Default.TooltipText=½«µ±Ç°Ò³µÄÑùÊ½ÊôĞÔ»¹Ô­µ½Ä¬ÈÏÉèÖÃ
 
 ###########################################################
 #Sample Reports View properties
@@ -4506,6 +4508,12 @@ ExportElementToLibraryAction.waring=¾¯¸æ
 ExportElementToLibraryAction.waringMsg=ÔªËØÃ»ÓĞÃû³Æ£¬µ«²»ÄÜÎªÆäÉèÖÃÃû³Æ¡£
 
 ###########################################################
+#ExportStyleDialog
+ExportStyleDialog.Label.Text=Theme:
+ExportStyleDialog.Message=Select a theme to be exported in the library.
+ExportStyleDialog.Title=Select Theme
+
+###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=±¨±íÖĞ´æÔÚ´íÎó
 UIUtil.previewconfirm.message=±¨±í°üº¬´íÎó£¬ÊÇ·ñ¼ÌĞøÔ¤ÀÀ?
@@ -4519,3 +4527,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=É¾³ıÎÄ¼şÊ§°Ü: {0}
 ShowPropertiesViewMenu.ActionName=ÊôĞÔ(&E)
 ShowPropertiesViewMenu.ErrorMessage=ÎŞ·¨´ò¿ªÊôĞÔÊÓÍ¼
 ShowPropertiesViewMenu.ErrorTitle=´íÎó
+
+###########################################################
+#ResetAttributePage
+ResetAttributePage.Style.Resotre.TooltipText=½«µ±Ç°Ò³µÄÑùÊ½ÊôĞÔ»¹Ô­µ½Ä¬ÈÏÉèÖÃ

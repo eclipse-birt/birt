@@ -2249,8 +2249,12 @@ LabelPageGenerator.List.TOC=目次
 LabelPageGenerator.List.Visibility=可視性
 
 ###########################################################
-#LayoutEditor properties
+#LayoutConfigurationBlock properties
+LayoutConfigurationBlock.Default.Unit.Auto=自動
+LayoutConfigurationBlock.Default.Unit.Label=Default Unit:
 
+###########################################################
+#LayoutEditor properties
 LayoutEditor.ErrorMessage.OpenError=エディタを開く際にエラーが発生しました。
 LayoutEditor.Page.Layout=標準
 LayoutEditor.Page.MasterPage=マスタページ
@@ -3485,7 +3489,7 @@ StringVariableSelectionDialog.Dialog.Prompt=変数を選択してください (? は任意の 1
 StringVariableSelectionDialog.Dialog.Title=変数の選択 
 StyleBuilder.action.Apply=適用(&A)
 StyleBuilder.Edit.Info=スタイルプロパティを変更します。このスタイルを使用しているすべてのレポート要素が更新され、新しい形式が反映されます。
-StyleBuilder.New.Info=新しいスタイルを作成するには、左側のプロパティのカテゴリを選択し、プロパティの値を指定します。
+StyleBuilder.New.Info=Create a new style by selecting a property category on the left and specifying property values.
 StyleBuilder.Title=スタイル
 SytleBuilder.DialogTitle.New=スタイルの新規作成
 SytleBuilder.DialogTitle.Edit=スタイルの編集
@@ -4268,8 +4272,6 @@ BIRTGotoMarker.Error.Message=レポート要素は存在しません。
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=プロパティがありません。
-TabbedPropertyTitle.Button.Default.Text=デフォルト(&U)
-TabbedPropertyTitle.Button.Default.TooltipText=現在のページのスタイルプロパティをデフォルトの設定に戻す
 
 ###########################################################
 #Sample Reports View properties
@@ -4506,6 +4508,12 @@ ExportElementToLibraryAction.waring=警告
 ExportElementToLibraryAction.waringMsg=要素に名前が付いていませんが、名前を設定できません。
 
 ###########################################################
+#ExportStyleDialog
+ExportStyleDialog.Label.Text=Theme:
+ExportStyleDialog.Message=Select a theme to be exported in the library.
+ExportStyleDialog.Title=Select Theme
+
+###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=レポートのエラー
 UIUtil.previewconfirm.message=レポートにエラーがあります。プレビューを続行しますか ?
@@ -4519,3 +4527,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=ファイルを削除できません : {0}
 ShowPropertiesViewMenu.ActionName=プロパティ(&E)
 ShowPropertiesViewMenu.ErrorMessage=プロパティビューを開けませんでした
 ShowPropertiesViewMenu.ErrorTitle=エラー
+
+###########################################################
+#ResetAttributePage
+ResetAttributePage.Style.Resotre.TooltipText=現在のページのスタイルプロパティをデフォルトの設定に戻す

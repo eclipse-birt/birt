@@ -2249,8 +2249,12 @@ LabelPageGenerator.List.TOC=목차
 LabelPageGenerator.List.Visibility=표시 유형
 
 ###########################################################
-#LayoutEditor properties
+#LayoutConfigurationBlock properties
+LayoutConfigurationBlock.Default.Unit.Auto=자동
+LayoutConfigurationBlock.Default.Unit.Label=Default Unit:
 
+###########################################################
+#LayoutEditor properties
 LayoutEditor.ErrorMessage.OpenError=편집기를 여는 도중 오류가 발생했습니다.
 LayoutEditor.Page.Layout=일반
 LayoutEditor.Page.MasterPage=마스터 페이지
@@ -3485,7 +3489,7 @@ StringVariableSelectionDialog.Dialog.Prompt=변수 선택(? = 모든 문자, * = 모든 문
 StringVariableSelectionDialog.Dialog.Title=변수 선택 
 StyleBuilder.action.Apply=적용(&A)
 StyleBuilder.Edit.Info=원하는 스타일 속성을 수정합니다. 이 스타일을 사용하는 모든 보고서 요소는 자동으로 업데이트되어 새 형식을 반영합니다.
-StyleBuilder.New.Info=왼쪽의 속성 범주를 선택하고 속성 값을 지정하여 새 스타일을 생성합니다.
+StyleBuilder.New.Info=Create a new style by selecting a property category on the left and specifying property values.
 StyleBuilder.Title=스타일
 SytleBuilder.DialogTitle.New=새 스타일
 SytleBuilder.DialogTitle.Edit=스타일 편집
@@ -4268,8 +4272,6 @@ BIRTGotoMarker.Error.Message=보고서 요소가 없습니다.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=속성은 사용할 수 없습니다.
-TabbedPropertyTitle.Button.Default.Text=기본값(&U)
-TabbedPropertyTitle.Button.Default.TooltipText=현재 페이지의 스타일 속성을 기본 설정으로 복원합니다.
 
 ###########################################################
 #Sample Reports View properties
@@ -4506,6 +4508,12 @@ ExportElementToLibraryAction.waring=경고
 ExportElementToLibraryAction.waringMsg=요소에 이름이 없지만 해당 요소의 이름을 설정할 수 없습니다.
 
 ###########################################################
+#ExportStyleDialog
+ExportStyleDialog.Label.Text=Theme:
+ExportStyleDialog.Message=Select a theme to be exported in the library.
+ExportStyleDialog.Title=Select Theme
+
+###########################################################
 #UIUtil
 UIUtil.previewconfirm.title=보고서 오류
 UIUtil.previewconfirm.message=보고서에 오류가 있습니다. 미리 보기를 계속하시겠습니까?
@@ -4519,3 +4527,7 @@ FileReportProvider.CopyConfigFile.DeleteFailure=파일 삭제 실패: {0}
 ShowPropertiesViewMenu.ActionName=속성(&E)
 ShowPropertiesViewMenu.ErrorMessage=속성 뷰를 열지 못했습니다.
 ShowPropertiesViewMenu.ErrorTitle=오류
+
+###########################################################
+#ResetAttributePage
+ResetAttributePage.Style.Resotre.TooltipText=현재 페이지의 스타일 속성을 기본 설정으로 복원합니다.
