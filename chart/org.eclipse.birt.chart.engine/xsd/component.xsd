@@ -257,15 +257,21 @@ the various values plotted in each direction.  This class can further be extende
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="LabelSpan" type="xsd:double" minOccurs="0" maxOccurs="1">
+			<xsd:element name="LabelSpan" type="xsd:double"
+				minOccurs="0" maxOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>
-						Give the user a way to customize a fixed thickness of axis label. 
-						Span means width for vertical axis, and height for horizontal 
-						axis.  By default, this value is unset.
+						Give the user a way to customize a fixed
+						thickness of axis label. Span means width for
+						vertical axis, and height for horizontal axis.
+						By default, this value is unset.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="AxisPercent" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation>This field indicates this axis will use what percent size of chart plot height if the AxesStudyLayout of ChartWithAxes is true. The value of this field is just a number, not a percent value. The actual percent value will be computed by dividing total numbers of all axes.</xsd:documentation>
+				</xsd:annotation></xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="Series">

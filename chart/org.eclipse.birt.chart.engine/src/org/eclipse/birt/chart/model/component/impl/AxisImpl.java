@@ -89,6 +89,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isSideBySide <em>Side By Side</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getCursor <em>Cursor</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabelSpan <em>Label Span</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getAxisPercent <em>Axis Percent</em>}</li>
  * </ul>
  * </p>
  *
@@ -642,6 +643,35 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @ordered
 	 */
 	protected boolean labelSpanESet;
+
+	/**
+	 * The default value of the '{@link #getAxisPercent() <em>Axis Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAxisPercent()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int AXIS_PERCENT_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getAxisPercent() <em>Axis Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAxisPercent()
+	 * @generated
+	 * @ordered
+	 */
+	protected int axisPercent = AXIS_PERCENT_EDEFAULT;
+
+	/**
+	 * This is true if the Axis Percent attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean axisPercentESet;
 
 	/*
 	 * private static int iLastID = Integer.MIN_VALUE; private final int iID;
@@ -2222,6 +2252,66 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getAxisPercent( )
+	{
+		return axisPercent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAxisPercent( int newAxisPercent )
+	{
+		int oldAxisPercent = axisPercent;
+		axisPercent = newAxisPercent;
+		boolean oldAxisPercentESet = axisPercentESet;
+		axisPercentESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.AXIS__AXIS_PERCENT,
+					oldAxisPercent,
+					axisPercent,
+					!oldAxisPercentESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetAxisPercent( )
+	{
+		int oldAxisPercent = axisPercent;
+		boolean oldAxisPercentESet = axisPercentESet;
+		axisPercent = AXIS_PERCENT_EDEFAULT;
+		axisPercentESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.AXIS__AXIS_PERCENT,
+					oldAxisPercent,
+					AXIS_PERCENT_EDEFAULT,
+					oldAxisPercentESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetAxisPercent( )
+	{
+		return axisPercentESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
@@ -2340,6 +2430,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return getCursor( );
 			case ComponentPackage.AXIS__LABEL_SPAN :
 				return getLabelSpan( );
+			case ComponentPackage.AXIS__AXIS_PERCENT :
+				return getAxisPercent( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -2451,6 +2543,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__LABEL_SPAN :
 				setLabelSpan( (Double) newValue );
 				return;
+			case ComponentPackage.AXIS__AXIS_PERCENT :
+				setAxisPercent( (Integer) newValue );
+				return;
 		}
 		super.eSet( featureID, newValue );
 	}
@@ -2555,6 +2650,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__LABEL_SPAN :
 				unsetLabelSpan( );
 				return;
+			case ComponentPackage.AXIS__AXIS_PERCENT :
+				unsetAxisPercent( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -2630,6 +2728,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return cursor != null;
 			case ComponentPackage.AXIS__LABEL_SPAN :
 				return isSetLabelSpan( );
+			case ComponentPackage.AXIS__AXIS_PERCENT :
+				return isSetAxisPercent( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -2713,6 +2813,11 @@ public class AxisImpl extends EObjectImpl implements Axis
 		result.append( ", labelSpan: " ); //$NON-NLS-1$
 		if ( labelSpanESet )
 			result.append( labelSpan );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", axisPercent: " ); //$NON-NLS-1$
+		if ( axisPercentESet )
+			result.append( axisPercent );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
@@ -2978,6 +3083,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 		sideBySideESet = src.isSetSideBySide( );
 		labelSpan = src.getLabelSpan( );
 		labelSpanESet = src.isSetLabelSpan( );
+		axisPercent = src.getAxisPercent( );
+		axisPercentESet = src.isSetAligned( );
 	}
 
 } // AxisImpl

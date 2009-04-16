@@ -156,51 +156,75 @@ orthoganal axes.
 		<xsd:complexContent>
 			<xsd:extension base="Chart">
 				<xsd:sequence>
-					<xsd:element name="Axes" type="component:Axis" maxOccurs="unbounded">
+					<xsd:element name="Axes" type="component:Axis"
+						maxOccurs="unbounded">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Holds all the base axes for the chart.
+								Holds all the base axes for the chart.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="WallFill" type="attribute:Fill">
+					<xsd:element name="WallFill"
+						type="attribute:Fill">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Specifies the fill to be used for the chart wall (for charts with depth).
+								Specifies the fill to be used for the
+								chart wall (for charts with depth).
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="FloorFill" type="attribute:Fill">
+					<xsd:element name="FloorFill"
+						type="attribute:Fill">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Specifies the fill to be used for the chart floor (for charts with depth).
+								Specifies the fill to be used for the
+								chart floor (for charts with depth).
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="Orientation" type="attribute:Orientation" default="Vertical">
+					<xsd:element name="Orientation"
+						type="attribute:Orientation" default="Vertical">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Specifies whether the chart is a vertical or horizontal chart.
+								Specifies whether the chart is a
+								vertical or horizontal chart.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="UnitSpacing" type="attribute:Percentage">
+					<xsd:element name="UnitSpacing"
+						type="attribute:Percentage">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Specifies the spacing between the last series element of one unit and the first series element of the next unit in the chart. This should be given as a percentage.
+								Specifies the spacing between the last
+								series element of one unit and the first
+								series element of the next unit in the
+								chart. This should be given as a
+								percentage.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="Rotation" type="attribute:Rotation3D" minOccurs="0">
+					<xsd:element name="Rotation"
+						type="attribute:Rotation3D" minOccurs="0">
 						<xsd:annotation>
-							<xsd:documentation>Specifies the rotation angle by three directions for the chart. </xsd:documentation>
+							<xsd:documentation>
+								Specifies the rotation angle by three
+								directions for the chart.
+							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="ReverseCategory" type="xsd:boolean" default="false">
+					<xsd:element name="ReverseCategory"
+						type="xsd:boolean" default="false">
 						<xsd:annotation>
-							<xsd:documentation>Specifies if the categories are in reverse order</xsd:documentation>
+							<xsd:documentation>
+								Specifies if the categories are in
+								reverse order
+							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element name="StudyLayout" type="xsd:boolean">
+						<xsd:annotation>
+							<xsd:documentation>The field indicates if the layout of multiple Y axes is like Study Chart.</xsd:documentation>
+						</xsd:annotation></xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

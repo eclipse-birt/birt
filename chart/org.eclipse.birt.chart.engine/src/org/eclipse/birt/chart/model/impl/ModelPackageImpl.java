@@ -418,6 +418,17 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getChartWithAxes_StudyLayout( )
+	{
+		return (EAttribute) chartWithAxesEClass.getEStructuralFeatures( )
+				.get( 7 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -572,6 +583,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		createEReference( chartWithAxesEClass, CHART_WITH_AXES__ROTATION );
 		createEAttribute( chartWithAxesEClass,
 				CHART_WITH_AXES__REVERSE_CATEGORY );
+		createEAttribute( chartWithAxesEClass, CHART_WITH_AXES__STUDY_LAYOUT );
 
 		chartWithoutAxesEClass = createEClass( CHART_WITHOUT_AXES );
 		createEReference( chartWithoutAxesEClass,
@@ -716,6 +728,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		initEAttribute( getChartWithAxes_ReverseCategory( ),
 				theXMLTypePackage.getBoolean( ),
 				"reverseCategory", "false", 1, 1, ChartWithAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute( getChartWithAxes_StudyLayout( ),
+				theXMLTypePackage.getBoolean( ),
+				"studyLayout", null, 1, 1, ChartWithAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( chartWithoutAxesEClass,
 				ChartWithoutAxes.class,
@@ -868,6 +883,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 						"name", "ReverseCategory" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
+		addAnnotation( getChartWithAxes_StudyLayout( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "StudyLayout" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( chartWithoutAxesEClass, source, new String[]{
 				"name", "ChartWithoutAxes", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$

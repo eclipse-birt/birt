@@ -329,12 +329,21 @@ public interface ComponentPackage extends EPackage
 	int AXIS__LABEL_SPAN = 29;
 
 	/**
+	 * The feature id for the '<em><b>Axis Percent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AXIS__AXIS_PERCENT = 30;
+
+	/**
 	 * The number of structural features of the '<em>Axis</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS_FEATURE_COUNT = 30;
+	int AXIS_FEATURE_COUNT = 31;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.
@@ -1587,6 +1596,17 @@ public interface ComponentPackage extends EPackage
 	EAttribute getAxis_LabelSpan( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#getAxisPercent <em>Axis Percent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Axis Percent</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Axis#getAxisPercent()
+	 * @see #getAxis()
+	 * @generated
+	 */
+	EAttribute getAxis_AxisPercent( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.ChartPreferences <em>Chart Preferences</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Chart Preferences</em>'.
@@ -2754,6 +2774,14 @@ public interface ComponentPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute AXIS__LABEL_SPAN = eINSTANCE.getAxis_LabelSpan( );
+
+		/**
+		 * The meta object literal for the '<em><b>Axis Percent</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__AXIS_PERCENT = eINSTANCE.getAxis_AxisPercent( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.

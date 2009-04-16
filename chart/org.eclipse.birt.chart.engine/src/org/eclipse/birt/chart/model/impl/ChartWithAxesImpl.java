@@ -54,6 +54,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getUnitSpacing <em>Unit Spacing</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getRotation <em>Rotation</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#isReverseCategory <em>Reverse Category</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#isStudyLayout <em>Study Layout</em>}</li>
  * </ul>
  * </p>
  *
@@ -182,6 +183,35 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * @ordered
 	 */
 	protected boolean reverseCategoryESet;
+
+	/**
+	 * The default value of the '{@link #isStudyLayout() <em>Study Layout</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isStudyLayout()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean STUDY_LAYOUT_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isStudyLayout() <em>Study Layout</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isStudyLayout()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean studyLayout = STUDY_LAYOUT_EDEFAULT;
+
+	/**
+	 * This is true if the Study Layout attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean studyLayoutESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -589,6 +619,66 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isStudyLayout( )
+	{
+		return studyLayout;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStudyLayout( boolean newStudyLayout )
+	{
+		boolean oldStudyLayout = studyLayout;
+		studyLayout = newStudyLayout;
+		boolean oldStudyLayoutESet = studyLayoutESet;
+		studyLayoutESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ModelPackage.CHART_WITH_AXES__STUDY_LAYOUT,
+					oldStudyLayout,
+					studyLayout,
+					!oldStudyLayoutESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetStudyLayout( )
+	{
+		boolean oldStudyLayout = studyLayout;
+		boolean oldStudyLayoutESet = studyLayoutESet;
+		studyLayout = STUDY_LAYOUT_EDEFAULT;
+		studyLayoutESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ModelPackage.CHART_WITH_AXES__STUDY_LAYOUT,
+					oldStudyLayout,
+					STUDY_LAYOUT_EDEFAULT,
+					oldStudyLayoutESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetStudyLayout( )
+	{
+		return studyLayoutESet;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -629,11 +719,13 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 			case ModelPackage.CHART_WITH_AXES__ORIENTATION :
 				return getOrientation( );
 			case ModelPackage.CHART_WITH_AXES__UNIT_SPACING :
-				return new Double( getUnitSpacing( ) );
+				return getUnitSpacing( );
 			case ModelPackage.CHART_WITH_AXES__ROTATION :
 				return getRotation( );
 			case ModelPackage.CHART_WITH_AXES__REVERSE_CATEGORY :
-				return isReverseCategory( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isReverseCategory( );
+			case ModelPackage.CHART_WITH_AXES__STUDY_LAYOUT :
+				return isStudyLayout( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -662,13 +754,16 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 				setOrientation( (Orientation) newValue );
 				return;
 			case ModelPackage.CHART_WITH_AXES__UNIT_SPACING :
-				setUnitSpacing( ( (Double) newValue ).doubleValue( ) );
+				setUnitSpacing( (Double) newValue );
 				return;
 			case ModelPackage.CHART_WITH_AXES__ROTATION :
 				setRotation( (Rotation3D) newValue );
 				return;
 			case ModelPackage.CHART_WITH_AXES__REVERSE_CATEGORY :
-				setReverseCategory( ( (Boolean) newValue ).booleanValue( ) );
+				setReverseCategory( (Boolean) newValue );
+				return;
+			case ModelPackage.CHART_WITH_AXES__STUDY_LAYOUT :
+				setStudyLayout( (Boolean) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -704,6 +799,9 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 			case ModelPackage.CHART_WITH_AXES__REVERSE_CATEGORY :
 				unsetReverseCategory( );
 				return;
+			case ModelPackage.CHART_WITH_AXES__STUDY_LAYOUT :
+				unsetStudyLayout( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -731,6 +829,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 				return rotation != null;
 			case ModelPackage.CHART_WITH_AXES__REVERSE_CATEGORY :
 				return isSetReverseCategory( );
+			case ModelPackage.CHART_WITH_AXES__STUDY_LAYOUT :
+				return isSetStudyLayout( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -759,6 +859,11 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		result.append( ", reverseCategory: " ); //$NON-NLS-1$
 		if ( reverseCategoryESet )
 			result.append( reverseCategory );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", studyLayout: " ); //$NON-NLS-1$
+		if ( studyLayoutESet )
+			result.append( studyLayout );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
@@ -1162,6 +1267,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		unitSpacingESet = src.isSetUnitSpacing( );
 		reverseCategory = src.isReverseCategory( );
 		reverseCategoryESet = src.isSetReverseCategory( );
+		studyLayout = src.isStudyLayout( );
+		studyLayoutESet = src.isSetStudyLayout( );
 	}
 
 }

@@ -318,11 +318,21 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelSpan" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Give the user a way to customize a fixed thickness of axis label. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Span means width for vertical axis, and height for horizontal &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;axis.  By default, this value is unset.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Give the user a way to customize a fixed&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;thickness of axis label. Span means width for&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;vertical axis, and height for horizontal axis.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;By default, this value is unset.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="LabelSpan"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="axisPercent" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="This field indicates this axis will use what percent size of chart plot height if the AxesStudyLayout of ChartWithAxes is true. The value of this field is just a number, not a percent value. The actual percent value will be computed by dividing total numbers of all axes."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="AxisPercent"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

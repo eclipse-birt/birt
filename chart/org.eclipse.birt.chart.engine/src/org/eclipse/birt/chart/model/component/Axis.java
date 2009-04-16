@@ -67,6 +67,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isSideBySide <em>Side By Side</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getCursor <em>Cursor</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getLabelSpan <em>Label Span</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getAxisPercent <em>Axis Percent</em>}</li>
  * </ul>
  * </p>
  *
@@ -1240,6 +1241,59 @@ public interface Axis extends EObject
 	 * @generated
 	 */
 	boolean isSetLabelSpan( );
+
+	/**
+	 * Returns the value of the '<em><b>Axis Percent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * This field indicates this axis will use what percent size of chart plot height if the AxesStudyLayout of ChartWithAxes is true. The value of this field is just a number, not a percent value. The actual percent value will be computed by dividing total numbers of all axes.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Axis Percent</em>' attribute.
+	 * @see #isSetAxisPercent()
+	 * @see #unsetAxisPercent()
+	 * @see #setAxisPercent(int)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_AxisPercent()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+	 *        extendedMetaData="kind='element' name='AxisPercent'"
+	 * @generated
+	 */
+	int getAxisPercent( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getAxisPercent <em>Axis Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Axis Percent</em>' attribute.
+	 * @see #isSetAxisPercent()
+	 * @see #unsetAxisPercent()
+	 * @see #getAxisPercent()
+	 * @generated
+	 */
+	void setAxisPercent( int value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getAxisPercent <em>Axis Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetAxisPercent()
+	 * @see #getAxisPercent()
+	 * @see #setAxisPercent(int)
+	 * @generated
+	 */
+	void unsetAxisPercent( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getAxisPercent <em>Axis Percent</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Axis Percent</em>' attribute is set.
+	 * @see #unsetAxisPercent()
+	 * @see #getAxisPercent()
+	 * @see #setAxisPercent(int)
+	 * @generated
+	 */
+	boolean isSetAxisPercent( );
 
 	/**
 	 * 

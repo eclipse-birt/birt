@@ -670,6 +670,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Axis/sideBySide"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.component.ecore#//Axis/cursor"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Axis/labelSpan"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Axis/axisPercent"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.component.ecore#//ChartPreferences">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.component.ecore#//ChartPreferences/labels"/>
@@ -862,6 +863,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.ecore#//ChartWithAxes/unitSpacing"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.ecore#//ChartWithAxes/rotation"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.ecore#//ChartWithAxes/reverseCategory"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.ecore#//ChartWithAxes/studyLayout"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.ecore#//ChartWithoutAxes">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.ecore#//ChartWithoutAxes/seriesDefinitions"/>

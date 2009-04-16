@@ -189,8 +189,7 @@ public class ComponentPackageImpl extends EPackageImpl
 			return (ComponentPackage) EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI );
 
 		// Obtain or create and register package
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof ComponentPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
 				: new ComponentPackageImpl( ) );
 
 		isInited = true;
@@ -199,20 +198,15 @@ public class ComponentPackageImpl extends EPackageImpl
 		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
 				: AttributePackage.eINSTANCE );
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
 				: DataPackage.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
 				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
@@ -522,6 +516,16 @@ public class ComponentPackageImpl extends EPackageImpl
 	public EAttribute getAxis_LabelSpan( )
 	{
 		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 29 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAxis_AxisPercent( )
+	{
+		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 30 );
 	}
 
 	/**
@@ -1400,6 +1404,7 @@ public class ComponentPackageImpl extends EPackageImpl
 		createEAttribute( axisEClass, AXIS__SIDE_BY_SIDE );
 		createEReference( axisEClass, AXIS__CURSOR );
 		createEAttribute( axisEClass, AXIS__LABEL_SPAN );
+		createEAttribute( axisEClass, AXIS__AXIS_PERCENT );
 
 		chartPreferencesEClass = createEClass( CHART_PREFERENCES );
 		createEReference( chartPreferencesEClass, CHART_PREFERENCES__LABELS );
@@ -1649,6 +1654,9 @@ public class ComponentPackageImpl extends EPackageImpl
 		initEAttribute( getAxis_LabelSpan( ),
 				theXMLTypePackage.getDouble( ),
 				"labelSpan", null, 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getAxis_AxisPercent( ),
+				theXMLTypePackage.getInt( ),
+				"axisPercent", null, 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( chartPreferencesEClass,
 				ChartPreferences.class,
@@ -2105,6 +2113,10 @@ public class ComponentPackageImpl extends EPackageImpl
 		addAnnotation( getAxis_LabelSpan( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "LabelSpan" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getAxis_AxisPercent( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "AxisPercent" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( chartPreferencesEClass, source, new String[]{
 				"name", "ChartPreferences", //$NON-NLS-1$ //$NON-NLS-2$

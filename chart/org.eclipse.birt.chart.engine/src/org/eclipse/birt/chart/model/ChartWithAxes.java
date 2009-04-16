@@ -38,6 +38,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit Spacing</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getRotation <em>Rotation</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory <em>Reverse Category</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study Layout</em>}</li>
  * </ul>
  * </p>
  *
@@ -306,6 +307,59 @@ public interface ChartWithAxes extends Chart
 	 * @generated
 	 */
 	boolean isSetReverseCategory( );
+
+	/**
+	 * Returns the value of the '<em><b>Study Layout</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The field indicates if the layout of multiple Y axes is like Study Chart.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Study Layout</em>' attribute.
+	 * @see #isSetStudyLayout()
+	 * @see #unsetStudyLayout()
+	 * @see #setStudyLayout(boolean)
+	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithAxes_StudyLayout()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 *        extendedMetaData="kind='element' name='StudyLayout'"
+	 * @generated
+	 */
+	boolean isStudyLayout( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study Layout</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Study Layout</em>' attribute.
+	 * @see #isSetStudyLayout()
+	 * @see #unsetStudyLayout()
+	 * @see #isStudyLayout()
+	 * @generated
+	 */
+	void setStudyLayout( boolean value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study Layout</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetStudyLayout()
+	 * @see #isStudyLayout()
+	 * @see #setStudyLayout(boolean)
+	 * @generated
+	 */
+	void unsetStudyLayout( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#isStudyLayout <em>Study Layout</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Study Layout</em>' attribute is set.
+	 * @see #unsetStudyLayout()
+	 * @see #isStudyLayout()
+	 * @see #setStudyLayout(boolean)
+	 * @generated
+	 */
+	boolean isSetStudyLayout( );
 
 	/**
 	 * This method returns all base axes associated with the chart model
