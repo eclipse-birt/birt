@@ -27,7 +27,7 @@ AddComputedSummaryDialog.ErrMsg.Msg3=La expresión no puede estar vacía.
 ShowAsViewAction.DisplayName=Mostrar como
 ShowAsViewAction.TransName=Mostrar como
 
-MeasureComboPropertyDescriptorProvider.TransName=Cambiar la orientación de las referencias cruzadas
+MeasureComboPropertyDescriptorProvider.TransName=Change Crosstab Orientation
 
 ###########################################################
 # Crosstab Command trans name

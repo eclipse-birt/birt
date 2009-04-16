@@ -27,7 +27,7 @@ AddComputedSummaryDialog.ErrMsg.Msg3=Ausdruck darf nicht leer sein.
 ShowAsViewAction.DisplayName=Anzeigen als
 ShowAsViewAction.TransName=Anzeigen als
 
-MeasureComboPropertyDescriptorProvider.TransName=Kreuztabellen-Ausrichtung ändern
+MeasureComboPropertyDescriptorProvider.TransName=Change Crosstab Orientation
 
 ###########################################################
 # Crosstab Command trans name
