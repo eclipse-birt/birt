@@ -59,6 +59,7 @@ public class SimpleResultSet implements IResultIterator
 	private DataOutputStream dataSetLenStream;
 	private long offset = 4;
 	private long rowCountOffset = 0;
+	private Set resultSetNameSet = null;
 	
 	/**
 	 * 
@@ -83,6 +84,7 @@ public class SimpleResultSet implements IResultIterator
 		this.resultSet = resultSet;
 		this.stopSign = stopSign;
 		this.handler = handler;
+		this.resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( handler.getAllColumnBindings( ) );
 	}
 
 	/*
@@ -327,7 +329,6 @@ public class SimpleResultSet implements IResultIterator
 				{
 					int colCount = this.currResultObj.getResultClass( )
 							.getFieldCount( );
-					Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( handler.getAllColumnBindings( ) );
 					IOUtil.writeLong( dataSetLenStream, offset );
 
 					offset += ResultSetUtil.writeResultObject( new DataOutputStream( dataSetStream ),
