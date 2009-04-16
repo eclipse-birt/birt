@@ -121,6 +121,9 @@ LevelViewTask.msg.add.subtotal=添加小计
 DimensionViewTask.msg.remove.level=删除级别
 DimensionViewTask.msg.insert.level=插入级别
 
+MeasureViewTask.msg.remove.header=Remove Measure Header
+MeasureViewTask.msg.add.header=Add Measure Header
+
 CrosstabViewTask.msg.remove.dimension=删除维
 CrosstabViewTask.msg.remove.grandtotal=删除总计
 CrosstabViewTask.msg.add.grandtotal=添加总计

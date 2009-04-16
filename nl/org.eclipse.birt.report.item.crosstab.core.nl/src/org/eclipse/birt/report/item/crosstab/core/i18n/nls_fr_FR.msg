@@ -121,6 +121,9 @@ LevelViewTask.msg.add.subtotal=Ajouter le sous-total
 DimensionViewTask.msg.remove.level=Supprimer le niveau
 DimensionViewTask.msg.insert.level=Insérer un niveau
 
+MeasureViewTask.msg.remove.header=Remove Measure Header
+MeasureViewTask.msg.add.header=Add Measure Header
+
 CrosstabViewTask.msg.remove.dimension=Supprimer la dimension
 CrosstabViewTask.msg.remove.grandtotal=Supprimer le total général
 CrosstabViewTask.msg.add.grandtotal=Ajouter le total général
