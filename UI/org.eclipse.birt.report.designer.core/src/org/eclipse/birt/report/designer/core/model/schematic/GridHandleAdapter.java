@@ -145,4 +145,9 @@ public class GridHandleAdapter extends TableHandleAdapter
 			return String.valueOf( px );
 		}
 	}
+	
+	public boolean isSupportHeight()
+	{
+		return true;
+	}
 }

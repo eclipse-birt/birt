@@ -344,18 +344,23 @@ public class RowDragTracker extends TableDragGuideTracker
 			height = height + getTrueValue( value, getStart( ), getEnd( ));
 			resizeFixRow( value, getStart( ), getEnd( ) );
 		}
+		
 		Dimension tableSize = part.getFigure( ).getSize( ); 
 		try
 		{
-			ReportItemHandle handle = part.getTableAdapter( ).getReportItemHandle( );
-			//DimensionHandle dimension = handle.getWidth();
-			//dimension.s
-			//part.getTableAdapter( ).setSize( new Dimension(tableSize.width + width, -1) );
-			double tbWidth = converPixToDefaultUnit( tableSize.height + height );
-			
-			DimensionValue dimensionValue = new DimensionValue( tbWidth,
-					getDefaultUnits( ) );
-			handle.getHeight( ).setValue( dimensionValue );
+			if (part.getTableAdapter( ).isSupportHeight( ))
+			{
+				ReportItemHandle handle = part.getTableAdapter( ).getReportItemHandle( );
+				//DimensionHandle dimension = handle.getWidth();
+				//dimension.s
+				//part.getTableAdapter( ).setSize( new Dimension(tableSize.width + width, -1) );
+				double tbWidth = converPixToDefaultUnit( tableSize.height + height );
+				
+				DimensionValue dimensionValue = new DimensionValue( tbWidth,
+						getDefaultUnits( ) );
+				handle.getHeight( ).setValue( dimensionValue );
+			}
+
 		}
 		catch ( SemanticException e )
 		{

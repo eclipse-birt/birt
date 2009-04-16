@@ -1889,7 +1889,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 				getReportItemHandle( ).getWidth( ).setValue( dimensionValue );
 			}
 
-			if ( size.height >= 0 )
+			if ( size.height >= 0 && isSupportHeight( ))
 			{
 				double height = MetricUtility.pixelToPixelInch( size.height );
 
@@ -1901,8 +1901,31 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		}
 		else
 		{
-			super.setSize( size );
+			if ( size.width >= 0 )
+			{
+				double width = MetricUtility.pixelToPixelInch( size.width );
+
+				dimensionValue = new DimensionValue( width,
+						DesignChoiceConstants.UNITS_IN );
+
+				getReportItemHandle( ).getWidth( ).setValue( dimensionValue );
+			}
+
+			if ( size.height >= 0 && isSupportHeight( ))
+			{
+				double height = MetricUtility.pixelToPixelInch( size.height );
+
+				dimensionValue = new DimensionValue( height,
+						DesignChoiceConstants.UNITS_IN );
+
+				getReportItemHandle( ).getHeight( ).setValue( dimensionValue );
+			}
 		}
 		
+	}
+	
+	public boolean isSupportHeight()
+	{
+		return false;
 	}
 }

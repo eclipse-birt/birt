@@ -1539,19 +1539,19 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 
 	public void setWidth( double value, String units )
 	{
-		try
-		{
-			DimensionValue dimensionValue = new DimensionValue( value,
-					units);
-			DimensionHandle handle = getCrosstabReportItemHandle( ).getWidth( );
-			handle.setValue( dimensionValue );
-
-			return;
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-		}
+//		try
+//		{
+//			DimensionValue dimensionValue = new DimensionValue( value,
+//					units);
+//			DimensionHandle handle = getCrosstabReportItemHandle( ).getWidth( );
+//			handle.setValue( dimensionValue );
+//
+//			return;
+//		}
+//		catch ( SemanticException e )
+//		{
+//			ExceptionHandler.handle( e );
+//		}
 	}
 	
 	/**
