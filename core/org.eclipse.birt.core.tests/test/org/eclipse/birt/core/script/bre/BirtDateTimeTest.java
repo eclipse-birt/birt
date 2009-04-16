@@ -518,7 +518,7 @@ public class BirtDateTimeTest extends TestCase
 	public void testDiffMinute( ) throws BirtException
 	{
 		String[] scripts = new String[]{
-				"BirtDateTime.diffMinute(\"1900-1-8 12:1:1\",\"1900-1-8 12:2:58\" )",
+				"BirtDateTime.diffMinute(\"1930-1-8 12:1:1\",\"1930-1-8 12:2:58\" )",
 				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2005, 11, 31) )",
 				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2006, 0, 3) )",
 				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2006, 1, 7) )",
