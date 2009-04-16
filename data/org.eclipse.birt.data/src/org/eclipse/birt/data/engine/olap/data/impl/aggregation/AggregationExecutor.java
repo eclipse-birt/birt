@@ -49,7 +49,7 @@ public class AggregationExecutor
 	private DimColumn[] paraColumns = null;
 	
 	//for every dimColumn in paraColumns, save <dimIndex, levelIndex, columnIndex, isKey>
-	private IDataSet4Aggregation.ColumnInfo[] paraInfos;
+	private ColumnInfo[] paraInfos;
 	
 	private IDataSet4Aggregation dataSet4Aggregation;
 
@@ -98,7 +98,7 @@ public class AggregationExecutor
 	 * @throws BirtException
 	 */
 	public IAggregationResultSet[] execute( StopSign stopSign )
-			throws IOException, BirtException
+			throws IOException, DataException
 	{
 		populateSortedFactRows( stopSign );
 		for ( int i = 0; i < allSortedFactRows.size( ); i++ )
@@ -429,7 +429,7 @@ public class AggregationExecutor
 		}
 		paraColumns = new DimColumn[paraCols.size( )];
 		paraCols.toArray( paraColumns );
-		paraInfos = new IDataSet4Aggregation.ColumnInfo[paraColumns.length];
+		paraInfos = new ColumnInfo[paraColumns.length];
 		findColumnIndex( );
 	}
 	

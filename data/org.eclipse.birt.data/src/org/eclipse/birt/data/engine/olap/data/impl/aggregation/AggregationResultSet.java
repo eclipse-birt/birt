@@ -30,9 +30,9 @@ import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
 public class AggregationResultSet implements IAggregationResultSet
 {
-
 	private AggregationDefinition aggregation;
-	private Map aggregationResultNameMap = null;
+	private DimLevel[] levels;
+	private Map<String,Integer> aggregationResultNameMap = null;
 	private IDiskArray aggregationResultRows;
 	private int currentPosition;
 	private String[][] keyNames;
@@ -62,6 +62,7 @@ public class AggregationResultSet implements IAggregationResultSet
 				"AggregationResultSet",
 				params );
 		this.aggregation = aggregation;
+		this.levels = aggregation.getLevels( );
 		this.aggregationResultRows = aggregationResultRow;
 		produceaggregationNameMap( );
 		this.keyNames = keyNames;
@@ -98,6 +99,14 @@ public class AggregationResultSet implements IAggregationResultSet
 		setAggregationDataType( );
 		logger.exiting( AggregationResultSet.class.getName( ),
 				"AggregationResultSet" );
+	}
+	
+	public AggregationResultSet( AggregationDefinition aggregation,
+			DimLevel[] levels, IDiskArray aggregationResultRow,
+			String[][] keyNames, String[][] attributeNames ) throws IOException
+	{
+		this( aggregation, aggregationResultRow, keyNames, attributeNames );
+		this.levels = levels;
 	}
 
 	/**
@@ -148,7 +157,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	private void produceaggregationNameMap( )
 	{
 		AggregationFunctionDefinition[] functions = aggregation.getAggregationFunctions( );
-		aggregationResultNameMap = new HashMap( );
+		aggregationResultNameMap = new HashMap<String, Integer>( );
 		if ( functions == null )
 		{
 			return;
@@ -272,13 +281,13 @@ public class AggregationResultSet implements IAggregationResultSet
 	 */
 	public int getLevelIndex( DimLevel level )
 	{
-		if ( aggregation.getLevels( ) == null )
+		if ( levels == null )
 		{
 			return -1;
 		}
-		for ( int i = 0; i < aggregation.getLevels( ).length; i++ )
+		for ( int i = 0; i < levels.length; i++ )
 		{
-			if ( aggregation.getLevels( )[i].equals( level ) )
+			if ( levels[i].equals( level ) )
 			{
 				return i;
 			}
@@ -428,7 +437,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	{
 		if ( keyNames == null || levelIndex < 0 || keyNames[levelIndex] == null )
 		{
-			return DataType.UNKNOWN_TYPE;
+			return -1;
 		}
 		for ( int i = 0; i < keyNames[levelIndex].length; i++ )
 		{
@@ -437,7 +446,7 @@ public class AggregationResultSet implements IAggregationResultSet
 				return i;
 			}
 		}
-		return DataType.UNKNOWN_TYPE;
+		return -1;
 	}
 
 	/*
@@ -537,7 +546,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	 */
 	public DimLevel getLevel( int levelIndex )
 	{
-		return aggregation.getLevels( )[levelIndex];
+		return levels[levelIndex];
 	}
 	
 	/*
@@ -578,7 +587,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	 */
 	public DimLevel[] getAllLevels( )
 	{
-		return aggregation.getLevels( );
+		return levels;
 	}
 
 	/**

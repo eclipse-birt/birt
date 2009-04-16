@@ -28,6 +28,19 @@ public class AggregationFunctionDefinition
 	private String functionName;
 	private DimLevel paraLevel;
 	private IJSMeasureFilterEvalHelper filterEvalHelper;
+	private Object paraValue;
+
+	
+	public Object getParaValue( )
+	{
+		return paraValue;
+	}
+
+	
+	public void setParaValue( Object paraValue )
+	{
+		this.paraValue = paraValue;
+	}
 
 	private static Logger logger = Logger.getLogger( AggregationFunctionDefinition.class.getName( ) );
 	

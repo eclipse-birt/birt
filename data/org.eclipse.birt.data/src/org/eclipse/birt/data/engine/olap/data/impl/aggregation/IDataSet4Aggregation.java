@@ -15,7 +15,6 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 
 import java.io.IOException;
 
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
@@ -32,7 +31,7 @@ public interface IDataSet4Aggregation
 	//Move to next row
 	boolean next() throws DataException, IOException;
 	
-	void close( )throws BirtException, IOException;
+	void close( )throws DataException, IOException;
 	
 	//current row values
 	Object getMeasureValue(int measureIndex) throws DataException, IOException;
@@ -49,41 +48,4 @@ public interface IDataSet4Aggregation
 		String[] getAttributeNames(int dimIndex, int levelIndex);
 	}
 	
-	public static class ColumnInfo
-	{
-		private int dimIndex;
-		private int levelIndex;
-		private int columnIndex;
-		private boolean isKey;
-		
-		
-		public ColumnInfo(int dimIndex, int levelIndex, int columnIndex,  boolean isKey)
-		{
-			this.dimIndex = dimIndex;
-			this.levelIndex = levelIndex;
-			this.columnIndex = columnIndex;
-			this.isKey = isKey;
-			
-		}
-
-		int getDimIndex( )
-		{
-			return dimIndex;
-		}
-		
-		int getLevelIndex( )
-		{
-			return levelIndex;
-		}
-		
-		int getColumnIndex( )
-		{
-			return columnIndex;
-		}
-		
-		boolean isKey( )
-		{
-			return isKey;
-		}
-	}
 }
