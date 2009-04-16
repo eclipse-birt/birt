@@ -31,8 +31,14 @@ public class SimpleFunctionCalculator extends BaseAggregationCalculator
 	SimpleFunctionCalculator( AggregationDefinition aggregation, IAggregationResultSet aggrResultSet ) throws DataException, IOException
 	{
 		super( aggregation, aggrResultSet );
-		
-		keyLevelIndex= getKeyLevelIndexs( aggregation.getLevels( ) );
+		if( aggregation.getLevels( ) != null )
+		{
+			keyLevelIndex= getKeyLevelIndexs( aggregation.getLevels( ) );
+		}
+		else
+		{
+			keyLevelIndex = null;
+		}
 		facttableRow = new FacttableRow( getMeasureInfo( ) );
 	}
 	
@@ -42,7 +48,11 @@ public class SimpleFunctionCalculator extends BaseAggregationCalculator
 	 */
 	public IAggregationResultSet execute( StopSign stopSign ) throws IOException, DataException
 	{
-		AggregationResultRowComparator comparator = new AggregationResultRowComparator( keyLevelIndex );
+		AggregationResultRowComparator comparator = null;
+		if( keyLevelIndex != null )
+		{
+			comparator = new AggregationResultRowComparator( keyLevelIndex );
+		}
 		SortedAggregationRowArray sortedRows = new SortedAggregationRowArray( aggrResultSet, aggregation.getLevels( ) );
 		
 		IDiskArray result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
@@ -66,7 +76,7 @@ public class SimpleFunctionCalculator extends BaseAggregationCalculator
 		for ( int i = 1; !stopSign.isStopped( ) && i < sortedRows.size( ); i++ )
 		{
 			currentRow = sortedRows.get( i );
-			if( comparator.compare( currentRow, lastRow ) != 0 )
+			if( comparator != null && comparator.compare( currentRow, lastRow ) != 0 )
 			{
 				if ( accumulators != null )
 				{

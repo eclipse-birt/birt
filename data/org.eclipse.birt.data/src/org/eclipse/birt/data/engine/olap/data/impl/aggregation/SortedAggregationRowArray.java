@@ -35,7 +35,7 @@ public class SortedAggregationRowArray
 	{
 		this.aggregationResultSet = aggregationResultSet;
 		
-		if( needReSort( keyLevels ) )
+		if( keyLevels != null && needReSort( keyLevels ) )
 		{
 			sort( keyLevels );
 		}

@@ -39,8 +39,14 @@ public class RunningFunctionCalculator extends BaseAggregationCalculator
 	RunningFunctionCalculator( AggregationDefinition aggregation, IAggregationResultSet aggrResultSet ) throws DataException, IOException
 	{
 		super( aggregation, aggrResultSet );
-		
-		keyLevelIndex= getKeyLevelIndexs( aggrResultSet.getAllLevels( ) );
+		if( aggrResultSet.getAllLevels( ) != null )
+		{
+			keyLevelIndex = getKeyLevelIndexs( aggrResultSet.getAllLevels( ) );
+		}
+		else
+		{
+			keyLevelIndex = null;
+		}
 		facttableRow = new FacttableRow( getMeasureInfo( ) );
 		needMultiplePass = needMultiplePass( aggregation );
 	}
@@ -86,7 +92,11 @@ public class RunningFunctionCalculator extends BaseAggregationCalculator
 	 */
 	public IAggregationResultSet execute( StopSign stopSign ) throws IOException, DataException
 	{
-		AggregationResultRowComparator comparator = new AggregationResultRowComparator( getKeyLevelIndexs( aggregation.getLevels( ) ) );
+		AggregationResultRowComparator comparator = null;
+		if( aggregation.getLevels( ) != null )
+		{
+			comparator = new AggregationResultRowComparator( getKeyLevelIndexs( aggregation.getLevels( ) ) );
+		}
 		SortedAggregationRowArray sortedRows = new SortedAggregationRowArray( aggrResultSet, aggregation.getLevels( ) );
 		
 		IDiskArray result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
@@ -108,7 +118,7 @@ public class RunningFunctionCalculator extends BaseAggregationCalculator
 		for ( int i = 1; !stopSign.isStopped( ) && i < sortedRows.size( ); i++ )
 		{
 			currentRow = sortedRows.get( i );
-			if( comparator.compare( currentRow, lastRow ) != 0 )
+			if( comparator != null && comparator.compare( currentRow, lastRow ) != 0 )
 			{
 				if ( needMultiplePass )
 				{
