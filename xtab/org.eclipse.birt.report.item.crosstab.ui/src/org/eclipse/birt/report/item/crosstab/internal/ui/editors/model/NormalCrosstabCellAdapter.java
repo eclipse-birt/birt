@@ -14,8 +14,10 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
@@ -24,7 +26,8 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 /**
  * The default cell adapter
  */
-public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IVirtualValidator
+public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements
+		IVirtualValidator
 {
 
 	/**
@@ -54,45 +57,52 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IV
 	 */
 	public boolean equals( Object obj )
 	{
-//		if ( obj == getCrosstabItemHandle( ) )
-//		{
-//			return true;
-//		}
-//		if ( obj instanceof CrosstabCellAdapter )
-//		{
-//			return getCrosstabItemHandle( ) == ( (CrosstabCellAdapter) obj ).getCrosstabItemHandle( )
-//			&& getPositionType( ) == ( (CrosstabCellAdapter) obj ).getPositionType( );
-//		}
+		// if ( obj == getCrosstabItemHandle( ) )
+		// {
+		// return true;
+		// }
+		// if ( obj instanceof CrosstabCellAdapter )
+		// {
+		// return getCrosstabItemHandle( ) == ( (CrosstabCellAdapter) obj
+		// ).getCrosstabItemHandle( )
+		// && getPositionType( ) == ( (CrosstabCellAdapter) obj
+		// ).getPositionType( );
+		// }
 		return super.equals( obj );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.util.IVirtualValidator#handleValidate(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.util.IVirtualValidator#handleValidate
+	 * (java.lang.Object)
 	 */
 	public boolean handleValidate( Object obj )
 	{
 		CrosstabReportItemHandle crosstab = getCrosstabCellHandle( ).getCrosstab( );
-		if (obj instanceof Object[])
+		if ( obj instanceof Object[] )
 		{
-			Object[] objects = (Object[])obj;
+			Object[] objects = (Object[]) obj;
 			int len = objects.length;
-			if (len == 0)
+			if ( len == 0 )
 			{
 				return false;
 			}
-			if (len == 1)
+			if ( len == 1 )
 			{
 				return handleValidate( objects[0] );
 			}
 			else
 			{
-				for (int i=0; i<len; i++)
+				for ( int i = 0; i < len; i++ )
 				{
 					Object temp = objects[i];
-					if (temp instanceof MeasureHandle || temp instanceof MeasureGroupHandle)
+					if ( temp instanceof MeasureHandle
+							|| temp instanceof MeasureGroupHandle )
 					{
-						if (getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE ) &&
-								crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle)temp ))
+						if ( getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE )
+								&& crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle) temp ) )
 						{
 							continue;
 						}
@@ -120,35 +130,53 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IV
 				}
 				return true;
 			}
-			
+
 		}
-		if (obj instanceof DimensionHandle)
+		if ( obj instanceof DimensionHandle )
 		{
-			if ((getPositionType( ) .equals( ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE)
-					||getPositionType( ) .equals( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE))
-					&& CrosstabUtil.canContain( crosstab, (DimensionHandle )obj))
+			if ( ( getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE ) || getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE ) )
+					&& CrosstabUtil.canContain( crosstab, (DimensionHandle) obj ) )
 			{
 				return true;
 			}
 		}
-		if (obj instanceof LevelHandle)
+		if ( obj instanceof LevelHandle )
 		{
-			return handleValidate( CrosstabAdaptUtil.getDimensionHandle((LevelHandle)obj) );
+			return handleValidate( CrosstabAdaptUtil.getDimensionHandle( (LevelHandle) obj ) );
 		}
 
-		if (obj instanceof MeasureHandle)
+		// LevelAttributeHandle is enable when
+		// it's LevelHandle is not in the crosstab
+		// or it is not in the crosstab
+		if ( obj instanceof LevelAttributeHandle )
 		{
-			if (getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE )
-					&& CrosstabUtil.canContain( crosstab, (MeasureHandle )obj))
+			LevelAttributeHandle lah = (LevelAttributeHandle) obj;
+			LevelHandle lh = (LevelHandle) lah.getElementHandle( );
+			if ( handleValidate( CrosstabAdaptUtil.getDimensionHandle( lh ) ) )
+				return true;
+
+			if ( getCrosstabCellHandle( ) != null
+					&& getCrosstabCellHandle( ).getContainer( ) instanceof LevelViewHandle )
+			{
+				LevelViewHandle lvh = (LevelViewHandle) getCrosstabCellHandle( ).getContainer( );
+				if ( lvh.getCubeLevel( ) == lh )
+					return true;
+			}
+		}
+
+		if ( obj instanceof MeasureHandle )
+		{
+			if ( getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE )
+					&& CrosstabUtil.canContain( crosstab, (MeasureHandle) obj ) )
 			{
 				return true;
 			}
 		}
-		
-		if (obj instanceof MeasureGroupHandle)
+
+		if ( obj instanceof MeasureGroupHandle )
 		{
-			if (getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE )
-					&& crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle)obj ))
+			if ( getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE )
+					&& crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle) obj ) )
 			{
 				return true;
 			}

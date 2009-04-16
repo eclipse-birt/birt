@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.AddLevelAttributeHandleCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.ChangeAreaCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CreateDimensionViewCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CreateMeasureViewCommand;
@@ -28,6 +29,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabC
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
@@ -47,9 +49,10 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends
 
 	protected Command getCreateCommand( CreateRequest request )
 	{
-		//EditPart after = getInsertionReference( request );
+		// EditPart after = getInsertionReference( request );
 
-		//CreateCommand command = new CreateCommand( request.getExtendedData( ) );
+		// CreateCommand command = new CreateCommand( request.getExtendedData( )
+		// );
 
 		Object model = this.getHost( ).getModel( );
 		Object newObject = request.getExtendedData( )
@@ -75,6 +78,16 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends
 				command.setLevelHandles( new LevelHandle[]{
 					(LevelHandle) newObject
 				} );
+				return command;
+			}
+			if ( newObject instanceof LevelAttributeHandle )
+			{
+				LevelHandle levelHandle = (LevelHandle) ( (LevelAttributeHandle) newObject ).getElementHandle( );
+				DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( levelHandle );
+				AddLevelAttributeHandleCommand command = new AddLevelAttributeHandleCommand( adapter,
+						type,
+						dimensionHandle,
+						(LevelAttributeHandle) newObject );
 				return command;
 			}
 			else if ( newObject instanceof MeasureHandle
@@ -136,25 +149,27 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends
 			}
 		}
 		// No previous edit part
-		//		if ( after != null )
-		//		{
-		//			command.setAfter( after.getModel( ) );
-		//		}		
+		// if ( after != null )
+		// {
+		// command.setAfter( after.getModel( ) );
+		// }
 		return super.getCreateCommand( request );
-		//return null;
+		// return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart,
-	 *      org.eclipse.gef.EditPart, org.eclipse.gef.EditPart)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies
+	 * .ReportFlowLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart,
+	 * org.eclipse.gef.EditPart, org.eclipse.gef.EditPart)
 	 */
 	protected Command createAddCommand( EditPart parent, EditPart child,
 			EditPart after )
 	{
 		Object parentObj = parent.getModel( );
-		//Object source = child.getModel( );
+		// Object source = child.getModel( );
 		Object afterObj = after == null ? null : after.getModel( );
 		Object childParent = getOperator( child ).getModel( );
 		if ( parentObj instanceof VirtualCrosstabCellAdapter
@@ -193,11 +208,11 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends
 
 	private EditPart getOperator( EditPart child )
 	{
-		//		if (child instanceof CrosstabCellEditPart)
-		//		{
-		//			return child;
-		//		}
-		//		return child.getParent( );
+		// if (child instanceof CrosstabCellEditPart)
+		// {
+		// return child;
+		// }
+		// return child.getParent( );
 		return child;
 	}
 

@@ -202,6 +202,31 @@ public class CrosstabAdaptUtil
 		return dataHandle;
 	}
 
+	public static DataItemHandle createColumnBindingAndDataItem(
+			ReportItemHandle owner, LevelAttributeHandle levelAttrHandle )
+			throws SemanticException
+	{
+		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( owner,
+				levelAttrHandle.getName( ) );
+
+		ComputedColumnHandle bindingHandle = owner.addColumnBinding( bindingColumn,
+				false );
+
+		LevelHandle levelHandle = (LevelHandle) levelAttrHandle.getElementHandle( );
+
+		String dimensionName = levelHandle.getContainer( )
+				.getContainer( )
+				.getName( );
+		
+		bindingHandle.setExpression( ExpressionUtil.createJSDimensionExpression( dimensionName,
+				levelHandle.getName( ) ));
+
+		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
+				.newDataItem( levelAttrHandle.getName( ) );
+		dataHandle.setResultSetColumn( bindingHandle.getName( ) );
+
+		return dataHandle;
+	}
 	/**
 	 * @param owner
 	 * @param measureHandle

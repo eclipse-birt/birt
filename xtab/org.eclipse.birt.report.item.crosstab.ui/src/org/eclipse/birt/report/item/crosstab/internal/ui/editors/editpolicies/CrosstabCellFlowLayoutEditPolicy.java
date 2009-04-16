@@ -21,6 +21,7 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.AddDimensionViewHandleCommand;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.AddLevelAttributeHandleCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.AddMeasureViewHandleCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.AddMultipleMeasureCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.ChangeAreaCommand;
@@ -33,6 +34,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabA
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
@@ -109,6 +111,17 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 						type,
 						(DimensionHandle) newObject,
 						afterObj );
+			}
+			else if ( newObject instanceof LevelAttributeHandle )
+			{
+				Object afterObj = after == null ? null : after.getModel( );
+				LevelHandle levelHandle = (LevelHandle) ((LevelAttributeHandle) newObject).getElementHandle( );
+				DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( levelHandle );
+				AddLevelAttributeHandleCommand command = new AddLevelAttributeHandleCommand( (CrosstabCellAdapter) model,
+						type,
+						dimensionHandle, (LevelAttributeHandle) newObject, 
+						afterObj );
+				return command;
 			}
 			else if ( newObject instanceof MeasureHandle
 					&& position.equals( ICrosstabCellAdapterFactory.CELL_MEASURE ) )

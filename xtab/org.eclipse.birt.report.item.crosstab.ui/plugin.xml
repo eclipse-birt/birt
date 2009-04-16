@@ -322,6 +322,12 @@
       <dropAdapter
             adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.CubeDropAdapter">
       </dropAdapter>
+      <dragAdapter
+            adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.LevelAttributeHandleDragAdapter">
+      </dragAdapter>
+      <dropAdapter
+            adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.LevelAttributeHandleDropAdapter">
+      </dropAdapter>
 
    </extension>
    <extension

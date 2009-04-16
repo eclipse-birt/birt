@@ -18,8 +18,10 @@ import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
@@ -41,7 +43,9 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements
 
 	private int type = IMMACULATE_TYPE;
 
-	/**Constructor
+	/**
+	 * Constructor
+	 * 
 	 * @param handle
 	 */
 	public VirtualCrosstabCellAdapter( CrosstabCellHandle handle )
@@ -49,7 +53,9 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements
 		this( handle, IMMACULATE_TYPE );
 	}
 
-	/**Constructor
+	/**
+	 * Constructor
+	 * 
 	 * @param handle
 	 * @param type
 	 */
@@ -67,14 +73,17 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements
 	/*
 	 * Virtual adapter has no children. (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.model.schematic.crosstab.CrosstabCellAdapter#getModelList()
+	 * @seeorg.eclipse.birt.report.designer.core.model.schematic.crosstab.
+	 * CrosstabCellAdapter#getModelList()
 	 */
 	public final List getModelList( )
 	{
 		return Collections.EMPTY_LIST;
 	}
 
-	/**Sets the type
+	/**
+	 * Sets the type
+	 * 
 	 * @param type
 	 */
 	public void setType( int type )
@@ -90,8 +99,12 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements
 		return type;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.util.IVirtualValidator#handleValidate(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.util.IVirtualValidator#handleValidate
+	 * (java.lang.Object)
 	 */
 	public boolean handleValidate( Object obj )
 	{
@@ -126,7 +139,7 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements
 			}
 
 		}
-		//TODO there may be judge the dimension handle parent
+		// TODO there may be judge the dimension handle parent
 		if ( getType( ) == ICrosstabConstants.ROW_AXIS_TYPE
 				|| getType( ) == ICrosstabConstants.COLUMN_AXIS_TYPE )
 		{
@@ -140,6 +153,21 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements
 				return handleValidate( CrosstabAdaptUtil.getDimensionHandle( (LevelHandle) obj ) );
 			}
 
+			if ( obj instanceof LevelAttributeHandle )
+			{
+				LevelAttributeHandle lah = (LevelAttributeHandle) obj;
+				LevelHandle lh = (LevelHandle) lah.getElementHandle( );
+				if ( handleValidate( CrosstabAdaptUtil.getDimensionHandle( lh ) ) )
+					return true;
+
+				if ( getCrosstabCellHandle( ) != null
+						&& getCrosstabCellHandle( ).getContainer( ) instanceof LevelViewHandle )
+				{
+					LevelViewHandle lvh = (LevelViewHandle) getCrosstabCellHandle( ).getContainer( );
+					if ( lvh.getCubeLevel( ) == lh )
+						return true;
+				}
+			}
 		}
 		if ( getType( ) == MEASURE_TYPE )
 		{
@@ -164,7 +192,7 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements
 		this.crosstab = crosstab;
 	}
 
-	public CrosstabReportItemHandle getCrosstabReportItemHandle()
+	public CrosstabReportItemHandle getCrosstabReportItemHandle( )
 	{
 		return this.crosstab;
 	}
