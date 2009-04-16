@@ -292,6 +292,7 @@ public class DesignerDropListener extends DesignElementDropAdapter
 						{
 							EmbeddedImage image = StructureFactory.newEmbeddedImageFrom( sourceEmbeddedImageHandle,
 									moduleHandle );
+							image.setType( sourceEmbeddedImageHandle.getType( ) );
 							DNDUtil.addEmbeddedImageHandle( this.newTarget,
 									image );
 							result = true;
