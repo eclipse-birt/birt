@@ -32,6 +32,9 @@ ReportEditor=レポートエディタ
 ###############################################################################
 designer.ui.extensionPointName=レポートの拡張要素 UI
 
+###############################################################################
+# Preference
+###############################################################################
 preference.birt=レポートデザイン
 preference.datasetpreview=データセットエディタ
 preference.preview=プレビュー
@@ -43,6 +46,8 @@ preference.resource=リソース
 preference.commenttemplates=コメントテンプレート
 #hcg_bidi
 preference.bidiproperties=双方向プロパティ
+preference.layout=Layout
+
 
 designer.action.undo.label=元に戻す
 designer.action.redo.label=やり直し

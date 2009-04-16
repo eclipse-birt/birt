@@ -32,6 +32,9 @@ ReportEditor=报表编辑器
 ###############################################################################
 designer.ui.extensionPointName=报表扩展元素 UI
 
+###############################################################################
+# Preference
+###############################################################################
 preference.birt=报表设计
 preference.datasetpreview=数据集编辑器
 preference.preview=预览
@@ -43,6 +46,8 @@ preference.resource=资源
 preference.commenttemplates=注释模板
 #hcg_bidi
 preference.bidiproperties=双向属性
+preference.layout=Layout
+
 
 designer.action.undo.label=撤消
 designer.action.redo.label=重复

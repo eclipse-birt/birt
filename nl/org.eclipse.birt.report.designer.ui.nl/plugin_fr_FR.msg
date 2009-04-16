@@ -32,6 +32,9 @@ ReportEditor=Editeur d'état
 ###############################################################################
 designer.ui.extensionPointName=Interface utilisateur - Elément d'état étendu
 
+###############################################################################
+# Preference
+###############################################################################
 preference.birt=Modèle d'état
 preference.datasetpreview=Editeur de jeu de données
 preference.preview=Aperçu
@@ -43,6 +46,8 @@ preference.resource=Ressource
 preference.commenttemplates=Modèle de commentaire
 #hcg_bidi
 preference.bidiproperties=Propriétés bidirectionnelles
+preference.layout=Layout
+
 
 designer.action.undo.label=Annuler
 designer.action.redo.label=Rétablir

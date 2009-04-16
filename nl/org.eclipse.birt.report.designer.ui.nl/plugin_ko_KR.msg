@@ -32,6 +32,9 @@ ReportEditor=보고서 편집기
 ###############################################################################
 designer.ui.extensionPointName=보고서 확장 요소 UI
 
+###############################################################################
+# Preference
+###############################################################################
 preference.birt=보고서 디자인
 preference.datasetpreview=데이터 집합 편집기
 preference.preview=미리 보기
@@ -43,6 +46,8 @@ preference.resource=리소스
 preference.commenttemplates=설명 템플릿
 #hcg_bidi
 preference.bidiproperties=양방향 속성
+preference.layout=Layout
+
 
 designer.action.undo.label=실행 취소
 designer.action.redo.label=다시 실행

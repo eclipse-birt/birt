@@ -32,6 +32,9 @@ ReportEditor=Bericht-Editor
 ###############################################################################
 designer.ui.extensionPointName=Bericht mit erweiterter Element-Benutzeroberfläche
 
+###############################################################################
+# Preference
+###############################################################################
 preference.birt=Berichtdesign
 preference.datasetpreview=Datensatzeditor
 preference.preview=Vorschau
@@ -43,6 +46,8 @@ preference.resource=Ressource
 preference.commenttemplates=Kommentarvorlage
 #hcg_bidi
 preference.bidiproperties=Bidirektionale Eigenschaften
+preference.layout=Layout
+
 
 designer.action.undo.label=Rückgängig
 designer.action.redo.label=Wiederherstellen

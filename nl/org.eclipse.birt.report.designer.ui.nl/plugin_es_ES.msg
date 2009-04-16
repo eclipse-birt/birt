@@ -32,6 +32,9 @@ ReportEditor=Editor de informes
 ###############################################################################
 designer.ui.extensionPointName=Interfaz de usuario de elemento ampliado de informe
 
+###############################################################################
+# Preference
+###############################################################################
 preference.birt=Diseño de informe
 preference.datasetpreview=Editor de conjunto de datos
 preference.preview=Vista previa
@@ -43,6 +46,8 @@ preference.resource=Recurso
 preference.commenttemplates=Plantilla de comentario
 #hcg_bidi
 preference.bidiproperties=Propiedades bidireccionales
+preference.layout=Layout
+
 
 designer.action.undo.label=Deshacer
 designer.action.redo.label=Rehacer
