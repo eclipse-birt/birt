@@ -1407,6 +1407,19 @@ public class ReportPlugin extends AbstractUIPlugin
 		return filterMap;
 	}
 
+	public static LinkedHashMap<String, ResourceFilter> getFilterMap(
+			boolean showEmptyFolderFilter )
+	{
+		if ( !showEmptyFolderFilter )
+		{
+			LinkedHashMap map = (LinkedHashMap) filterMap.clone( );
+			map.remove( ResourceFilter.FILTER_EMPTY_FOLDERS );
+			return map;
+		}
+		else
+			return filterMap;
+	}
+
 	/**
 	 * Sets default settings for BiDi properties
 	 * 

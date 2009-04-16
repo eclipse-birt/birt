@@ -203,7 +203,7 @@ public class ResourceFileFolderSelectionDialog extends
 	 */
 	public ResourceFileFolderSelectionDialog( boolean showFiles,
 			boolean includeFragments, String[] fileNamePattern,
-			ITreeContentProvider contentProvider )
+			IResourceContentProvider contentProvider )
 	{
 		this( UIUtil.getDefaultShell( ),
 				new ResourceFileLabelProvider( ),
@@ -217,9 +217,13 @@ public class ResourceFileFolderSelectionDialog extends
 		{
 			this.input = ResourceLocator.getResourceFolder( fileNamePattern );
 		}
+
+		this.provider = contentProvider;
+
 		setInput( input );
 	}
 
+	private IResourceContentProvider provider;
 	protected ResourceFileFolderSelectionDialog( Shell parent,
 			ILabelProvider labelProvider, ITreeContentProvider contentProvider )
 	{
@@ -459,6 +463,28 @@ public class ResourceFileFolderSelectionDialog extends
 			}
 		} );
 		refreshRoot( );
+	}
+
+	private boolean isShowEmptyFolderFilter = true;
+
+	public boolean isShowEmptyFolderFilter( )
+	{
+		return isShowEmptyFolderFilter;
+	}
+
+	public int getEmptyFolderShowStatus( )
+	{
+		return provider.getEmptyFolderShowStatus( );
+	}
+
+	public void setEmptyFolderShowStatus( int showStatus )
+	{
+		provider.setEmptyFolderShowStatus( showStatus );
+		if ( showStatus == IResourceContentProvider.ALWAYS_SHOW_EMPTYFOLDER
+				|| showStatus == IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER )
+			isShowEmptyFolderFilter = false;
+		else
+			isShowEmptyFolderFilter = true;
 	}
 
 }

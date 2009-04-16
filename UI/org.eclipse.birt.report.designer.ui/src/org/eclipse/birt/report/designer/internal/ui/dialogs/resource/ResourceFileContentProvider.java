@@ -12,12 +12,13 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntryFilter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
@@ -25,7 +26,7 @@ import org.eclipse.jface.viewers.Viewer;
  * 
  */
 
-public class ResourceFileContentProvider implements ITreeContentProvider
+public class ResourceFileContentProvider implements IResourceContentProvider
 {
 
 	private boolean showFiles;
@@ -51,9 +52,7 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 
 			public boolean accept( ResourceEntry entity )
 			{
-				ResourceEntryFilter filter = new ResourceEntryFilter( (ResourceFilter[]) ReportPlugin.getFilterMap( )
-						.values( )
-						.toArray( new ResourceFilter[0] ) );
+				ResourceEntryFilter filter = new ResourceEntryFilter( getResourceFilters( ) );
 				if ( entity.hasChildren( ) )
 				{
 					return filter.accept( entity );
@@ -86,9 +85,8 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 
 			public boolean accept( ResourceEntry entity )
 			{
-				ResourceEntryFilter filter = new ResourceEntryFilter( (ResourceFilter[]) ReportPlugin.getFilterMap( )
-						.values( )
-						.toArray( new ResourceFilter[0] ) );
+
+				ResourceEntryFilter filter = new ResourceEntryFilter( getResourceFilters( ) );
 
 				if ( entity.hasChildren( ) )
 				{
@@ -115,9 +113,7 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 
 			public boolean accept( ResourceEntry entity )
 			{
-				ResourceEntryFilter filter = new ResourceEntryFilter( (ResourceFilter[]) ReportPlugin.getFilterMap( )
-						.values( )
-						.toArray( new ResourceFilter[0] ) );
+				ResourceEntryFilter filter = new ResourceEntryFilter( getResourceFilters( ) );
 				if ( entity.hasChildren( ) )
 				{
 					return filter.accept( entity );
@@ -237,5 +233,45 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 	public void setFilter( ResourceEntry.Filter filter )
 	{
 		this.filter = filter;
+	}
+
+	private int showEmptyFolderStatus = 0;
+
+	public int getEmptyFolderShowStatus( )
+	{
+		return showEmptyFolderStatus;
+	}
+
+	public void setEmptyFolderShowStatus( int showStatus )
+	{
+		this.showEmptyFolderStatus = showStatus;
+	}
+
+	private ResourceFilter[] getResourceFilters( )
+	{
+		ResourceFilter[] filters;
+		if ( showEmptyFolderStatus == IResourceContentProvider.ALWAYS_SHOW_EMPTYFOLDER )
+		{
+			filters = (ResourceFilter[]) ReportPlugin.getFilterMap( false )
+					.values( )
+					.toArray( new ResourceFilter[0] );
+		}
+		else if ( showEmptyFolderStatus == IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER )
+		{
+			List filterCollection = new ArrayList( );
+			filterCollection.addAll( ReportPlugin.getFilterMap( false )
+					.values( ) );
+			ResourceFilter filter = ResourceFilter.generateEmptyFolderFilter( );
+			filter.setEnabled( true );
+			filterCollection.add( filter );
+			filters = (ResourceFilter[]) filterCollection.toArray( new ResourceFilter[0] );
+		}
+		else
+		{
+			filters = (ResourceFilter[]) ReportPlugin.getFilterMap( )
+					.values( )
+					.toArray( new ResourceFilter[0] );
+		}
+		return filters;
 	}
 }

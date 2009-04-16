@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.IResourceContentProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -127,7 +128,7 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog
 
 	public NewLibraryDialog( File defaultLibrary )
 	{
-		super( false, false, null, new ResourceFolderProvider( ) );
+		super( false, false, null );
 		this.defaultLibrary = defaultLibrary;
 		setTitle( Messages.getString( "NewLibraryDialog.Title" ) ); //$NON-NLS-1$
 		setMessage( Messages.getString( "NewLibraryDialog.Message" ) ); //$NON-NLS-1$
@@ -135,6 +136,7 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog
 		setAllowMultiple( false );
 		setHelpAvailable( true );
 		setValidator( new Validator( ) );
+		setEmptyFolderShowStatus( IResourceContentProvider.ALWAYS_SHOW_EMPTYFOLDER );
 	}
 
 	/*

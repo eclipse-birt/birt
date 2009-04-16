@@ -49,6 +49,7 @@ public class AddResourceFileFolderSelectionDialog extends
 			String[] suffix )
 	{
 		super( true, pattern );
+		this.setEmptyFolderShowStatus( IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER );
 		this.FILENAME_PATTERN = pattern;
 		this.FILENAME_SUFFIX = suffix;
 		setValidator( new ResourceSelectionValidator( true,

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer.dialog;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.IResourceContentProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.nls.Messages;
 
@@ -26,11 +27,12 @@ public class MoveResourceDialog extends ResourceFileFolderSelectionDialog
 	 */
 	public MoveResourceDialog( )
 	{
-		super( false, false, null, new ResourceFolderProvider( ) );
+		super( false, false, null );
 		setTitle( Messages.getString( "MoveResourceDialog.Title" ) );
 		setMessage( Messages.getString( "MoveResourceDialog.Message" ) );
 		setDoubleClickSelects( true );
 		setAllowMultiple( false );
 		setHelpAvailable( false );
+		setEmptyFolderShowStatus( IResourceContentProvider.ALWAYS_SHOW_EMPTYFOLDER );
 	}
 }
