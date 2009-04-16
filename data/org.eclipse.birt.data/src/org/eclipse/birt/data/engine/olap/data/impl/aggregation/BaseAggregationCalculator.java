@@ -187,17 +187,25 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	 * 
 	 * @param keyLevels
 	 * @return
+	 * @throws DataException 
 	 */
-	protected int[] getKeyLevelIndexs( DimLevel[] keyLevels )
+	protected int[] getKeyLevelIndexs( DimLevel[] keyLevels ) throws DataException
 	{
 		int[] keyLevelIndexes = new int[keyLevels.length];
 		DimLevel[] allLevels = aggrResultSet.getAllLevels( );
 		for ( int i = 0; i < keyLevels.length; i++ )
 		{
+			keyLevelIndexes[i] = -1;
 			for ( int j = 0; j < allLevels.length; j++ )
 			{
 				if ( keyLevels[i].equals( allLevels[j] ) )
 					keyLevelIndexes[i] = j;
+			}
+			if( keyLevelIndexes[i] == -1 )
+			{
+				throw new DataException( DataResourceHandle.getInstance( )
+						.getMessage( ResourceConstants.NONEXISTENT_LEVEL )
+						+ keyLevels[i].getLevelName( ) );
 			}
 		}
 		return keyLevelIndexes;
