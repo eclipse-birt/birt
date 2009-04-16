@@ -570,7 +570,8 @@ public abstract class QueryExecutor implements IQueryExecutor
 					GroupCalculatorFactory.getGroupCalculator( src.getInterval( ),
 							src.getIntervalStart( ),
 							src.getIntervalRange( ),
-							dataType) );
+							dataType,
+							session.getEngineContext( ).getLocale( )) );
 
 		}
 		else

@@ -166,6 +166,8 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 		while ( bindingIterator.hasNext( ) )
 		{
 			IBinding binding = (IBinding) ( bindingIterator.next( ) );
+			if( binding.getAggrFunction( )!= null )
+				continue;
 			IBaseExpression expr = binding.getExpression( );
 			if ( expr instanceof IScriptExpression
 					&& !ExpressionUtil.hasAggregation( ( (IScriptExpression) expr ).getText( ) ) )
