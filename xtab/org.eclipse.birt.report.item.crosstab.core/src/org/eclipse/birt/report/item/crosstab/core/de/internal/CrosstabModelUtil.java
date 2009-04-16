@@ -46,6 +46,21 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 public class CrosstabModelUtil implements ICrosstabConstants
 {
 
+	private static ICrosstabModelListener modelListener;
+
+	public static void setCrosstabModelListener( ICrosstabModelListener listener )
+	{
+		modelListener = listener;
+	}
+
+	public static void notifyCreation( int type, Object model )
+	{
+		if ( modelListener != null )
+		{
+			modelListener.onCreated( type, model );
+		}
+	}
+
 	/**
 	 * 
 	 * @param elements

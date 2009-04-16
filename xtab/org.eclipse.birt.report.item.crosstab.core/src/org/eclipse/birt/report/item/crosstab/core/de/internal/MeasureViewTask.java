@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -104,6 +105,9 @@ public class MeasureViewTask extends AbstractCrosstabModelTask
 			{
 				ExtendedItemHandle headerCell = CrosstabExtendedItemFactory.createCrosstabCell( focus.getModuleHandle( ) );
 				propHandle.add( headerCell );
+
+				CrosstabModelUtil.notifyCreation( ICrosstabModelListener.MEASURE_HEADER,
+						CrosstabUtil.getReportItem( headerCell ) );
 			}
 		}
 		catch ( SemanticException e )

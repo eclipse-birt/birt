@@ -26,6 +26,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -1272,6 +1273,9 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 			ExtendedItemHandle newHeader = CrosstabExtendedItemFactory.createCrosstabCell( mv.getModuleHandle( ) );
 
 			mv.getHeaderProperty( ).add( newHeader );
+
+			CrosstabModelUtil.notifyCreation( ICrosstabModelListener.MEASURE_HEADER,
+					CrosstabUtil.getReportItem( newHeader ) );
 		}
 		else
 		{
@@ -1290,6 +1294,9 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 					ExtendedItemHandle newHeader = CrosstabExtendedItemFactory.createCrosstabCell( mv.getModuleHandle( ) );
 
 					mv.getHeaderProperty( ).add( newHeader, i );
+
+					CrosstabModelUtil.notifyCreation( ICrosstabModelListener.MEASURE_HEADER,
+							CrosstabUtil.getReportItem( newHeader ) );
 
 					break;
 				}
@@ -1441,6 +1448,9 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 			{
 				ExtendedItemHandle headerCell = CrosstabExtendedItemFactory.createCrosstabCell( measureView.getModuleHandle( ) );
 				propHandle.add( headerCell );
+
+				CrosstabModelUtil.notifyCreation( ICrosstabModelListener.MEASURE_HEADER,
+						CrosstabUtil.getReportItem( headerCell ) );
 			}
 		}
 		else if ( availableHeaders > expectHeaders )
