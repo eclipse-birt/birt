@@ -29,7 +29,6 @@ import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
@@ -218,17 +217,18 @@ public class ResourceFileFolderSelectionDialog extends
 			this.input = ResourceLocator.getResourceFolder( fileNamePattern );
 		}
 
-		this.provider = contentProvider;
-
 		setInput( input );
 	}
 
 	private IResourceContentProvider provider;
 	protected ResourceFileFolderSelectionDialog( Shell parent,
-			ILabelProvider labelProvider, ITreeContentProvider contentProvider )
+			ILabelProvider labelProvider,
+			IResourceContentProvider contentProvider )
 	{
 		super( parent, labelProvider, contentProvider );
 		setSorter( new FileViewerSorter( ) );
+
+		this.provider = contentProvider;
 	}
 
 	public void refreshRoot( )

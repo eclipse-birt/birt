@@ -11,18 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.Comparator;
-
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -68,7 +62,7 @@ public class AddImageResourceFileFolderSelectionDialog extends
 		super( UIUtil.getDefaultShell( ),
 				new ResourceFileLabelProvider( ),
 				new ResourceFileContentProvider( true ) );
-
+		this.setEmptyFolderShowStatus( IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER );
 	}
 
 	protected void initialize()
