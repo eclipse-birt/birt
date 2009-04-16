@@ -160,6 +160,7 @@ data.engine.sortExprContainRowNum=L'expression de tri ne peut pas référencer l'o
 
 
 data.engine.ResultSetNotStart=Le jeu de résultats n'a pas encore démarré.
+data.engine.GetLevelMemberError=The level member cannot be achieved because the result set has not started.
 
 data.engine.invalidRowIndex=Valeur d'index de ligne incorrecte : {0}.
 data.engine.backwardSeekError=La recherche en arrière n'est pas prise en charge dans cette version.
@@ -399,3 +400,8 @@ data.executor.configFileParser.getParametersByID=Impossible d''obtenir les param
 
 data.aggregation.expression.displayName=Expression
 data.aggregation.argumentError=L'expression de l'argument \"{0}\" de l'agrégation \"{1}\" est nulle ou vide.
+
+#derived dataSet
+data.derivedDataSet.columnNotExist=The column name \"{0}\" does not exist!
+data.derivedDataSet.UnionQueryTextParseError="Failed to parse Union Query. \"{0}\""
+data.derivedDataSet.JoinQueryTextParseError="Failed to parse Join Query. \"{0}\""

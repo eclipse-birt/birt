@@ -160,6 +160,7 @@ data.engine.sortExprContainRowNum=정렬 식에서 Java 스크립트 개체 "row.__num"을 �
 
 
 data.engine.ResultSetNotStart=결과 집합이 시작되지 않았습니다.
+data.engine.GetLevelMemberError=The level member cannot be achieved because the result set has not started.
 
 data.engine.invalidRowIndex=잘못된 행 인덱스 값: {0}.
 data.engine.backwardSeekError=이 버전에서는 뒤로 검색이 지원되지 않습니다.
@@ -399,3 +400,8 @@ data.executor.configFileParser.getParametersByID=구성 파일의 지정된 데이터 집합 
 
 data.aggregation.expression.displayName=식
 data.aggregation.argumentError=집계 \"{1}\"에 대한 인수 \"{0}\"의 식이 널(null)이거나 비어 있습니다!
+
+#derived dataSet
+data.derivedDataSet.columnNotExist=The column name \"{0}\" does not exist!
+data.derivedDataSet.UnionQueryTextParseError="Failed to parse Union Query. \"{0}\""
+data.derivedDataSet.JoinQueryTextParseError="Failed to parse Join Query. \"{0}\""
