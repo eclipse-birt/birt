@@ -400,6 +400,7 @@ data.executor.configFileParser.getParametersByID=구성 파일의 지정된 데이터 집합 
 
 data.aggregation.expression.displayName=식
 data.aggregation.argumentError=집계 \"{1}\"에 대한 인수 \"{0}\"의 식이 널(null)이거나 비어 있습니다!
+data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can't be such type:"{0}".
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=The column name \"{0}\" does not exist!

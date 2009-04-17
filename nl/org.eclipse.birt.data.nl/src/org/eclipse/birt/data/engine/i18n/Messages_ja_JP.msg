@@ -400,6 +400,7 @@ data.executor.configFileParser.getParametersByID=İ’èƒtƒ@ƒCƒ‹‚Åw’è‚µ‚½ƒf[ƒ^ƒZƒ
 
 data.aggregation.expression.displayName=®
 data.aggregation.argumentError=WŒv \"{1}\" ‚Ìˆø”® \"{0}\" ‚ª null ‚Ü‚½‚Í‹ó”’‚Å‚·B
+data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can't be such type:"{0}".
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=The column name \"{0}\" does not exist!

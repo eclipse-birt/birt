@@ -400,6 +400,7 @@ data.executor.configFileParser.getParametersByID=Der Parameter konnte anhand des
 
 data.aggregation.expression.displayName=Ausdruck
 data.aggregation.argumentError=Der Ausdruck des Arguments \"{0}\" für Aggregat \"{1}\" ist Null oder leer.
+data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can't be such type:"{0}".
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=The column name \"{0}\" does not exist!
