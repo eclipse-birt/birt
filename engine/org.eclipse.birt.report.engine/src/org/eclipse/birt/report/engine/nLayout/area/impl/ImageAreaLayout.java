@@ -533,6 +533,11 @@ class ConcreteImageLayout implements ILayout
 				area.setMIMEType( content.getMIMEType( ) );
 				break;
 		}
+		if ( content instanceof ObjectContent )
+		{
+			ObjectContent object = ( ObjectContent ) content;
+			area.setParameters( object.getParamters( ) );
+		}
 		return area;
 	}
 
