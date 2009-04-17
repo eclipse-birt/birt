@@ -225,6 +225,15 @@ public class CrosstabAdaptUtil
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( levelAttrHandle.getName( ) );
 		dataHandle.setResultSetColumn( bindingHandle.getName( ) );
+		
+		if ( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME.equals( levelAttrHandle.getName( ) ) )
+		{
+			bindingHandle.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+			dataHandle.getPrivateStyle( )
+					.setDateTimeFormatCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM );
+			dataHandle.getPrivateStyle( )
+					.setDateTimeFormat( levelHandle.getDateTimeFormat( ) );
+		}
 
 		return dataHandle;
 	}
