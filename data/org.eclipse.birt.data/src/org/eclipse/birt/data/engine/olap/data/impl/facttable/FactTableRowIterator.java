@@ -18,15 +18,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
+import org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Traversalor;
+import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableAccessor.FTSUDocumentObjectNamingUtil;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
@@ -67,7 +70,9 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	private List cubePosFilters;
 	
 	private static Logger logger = Logger.getLogger( FactTableRowIterator.class.getName( ) );
-
+	
+	//All the dimensions, dimIndex and levelIndex are got from it
+	IDimensionResultIterator[] allCubeDimensionResultIterators;
 	/**
 	 * 
 	 * @param factTable
@@ -79,7 +84,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	public FactTableRowIterator( FactTable factTable, String[] dimensionName,
 			IDiskArray[] dimensionPos, StopSign stopSign ) throws IOException
 	{
-		this( factTable, dimensionName, dimensionPos, null, stopSign );
+		this( factTable, dimensionName, dimensionPos,null, null, stopSign );
 	}
 	
 	/**
@@ -91,7 +96,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 * @throws IOException
 	 */
 	public FactTableRowIterator( FactTable factTable, String[] dimensionName,
-			IDiskArray[] dimensionPos, IComputedMeasureHelper computedMeasureHelper, StopSign stopSign ) throws IOException
+			IDiskArray[] dimensionPos, IDimensionResultIterator[] allCubeDimensionResultIterators, IComputedMeasureHelper computedMeasureHelper, StopSign stopSign ) throws IOException
 	{
 		Object[] params = {
 				factTable, dimensionName, dimensionPos, stopSign
@@ -106,6 +111,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		this.stopSign = stopSign;
 		this.measureFilters = new ArrayList( );
 		this.cubePosFilters = new ArrayList( );
+		this.allCubeDimensionResultIterators = allCubeDimensionResultIterators;
 		this.computedMeasureHelper = computedMeasureHelper;
 		assert dimensionName.length == dimensionPos.length;
 		
@@ -251,6 +257,40 @@ public class FactTableRowIterator implements IFactTableRowIterator
 			return false;
 		}
 		return next( );
+	}
+	
+	public Member getMember( int dimIndex, int levelIndex )
+			throws DataException, IOException
+	{
+//		String dimensionName = allCubeDimensionResultIterators[dimIndex].getDimesion( )
+//				.getName( );
+//		int indexInFact = getDimensionIndex( dimensionName );
+		try
+		{
+			return getLevelObject( dimIndex,
+					levelIndex,
+					getDimensionPosition( dimIndex ) );
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
+	}
+	
+	/**
+	 * 
+	 * @param iteratorIndex
+	 * @param levelIndex
+	 * @param dimensionPosition
+	 * @return
+	 * @throws BirtException
+	 * @throws IOException
+	 */
+	private Member getLevelObject( int dimIndex, int levelIndex,
+			int dimensionPosition ) throws BirtException, IOException
+	{
+		allCubeDimensionResultIterators[dimIndex].seek(dimensionPosition );
+		return allCubeDimensionResultIterators[dimIndex].getLevelMember( levelIndex );
 	}
 
 	/**
@@ -482,6 +522,108 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		}
 	}
 	
+	class MeasureMap implements IFacttableRow
+	{
+		private MeasureInfo[] measureInfos = null;
+		private Object[] measureValues = null;
+		/**
+		 * 
+		 * @param measureInfo
+		 */
+		MeasureMap( MeasureInfo[] measureInfo )
+		{
+			this.measureInfos = measureInfo;
+		}
+		
+		/**
+		 * 
+		 * @param measureValues
+		 */
+		void setMeasureValue( Object[] measureValues )
+		{
+			this.measureValues = measureValues;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.olap.data.api.IMeasureList#getMeasureValue(java.lang.String)
+		 */
+		public Object getMeasureValue( String measureName )
+		{
+			for ( int i = 0; i < measureInfos.length; i++ )
+			{
+				if ( measureInfos[i].getMeasureName().equals( measureName ) )
+				{
+					return measureValues[i];
+				}
+			}
+			return null;
+		}
+
+		public Object getLevelAttributeValue( String dimensionName,
+				String levelName, String attributeName ) throws DataException, IOException
+		{
+			int dimensionIndex = getDimensionIndex( dimensionName );
+			if ( dimensionIndex < 0 )
+			{
+				return null;
+			}
+			Member member;
+			try
+			{
+				member = getLevelMember( dimensionIndex, levelName );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
+			}
+			
+			int attributeIndex = allCubeDimensionResultIterators[dimensionIndex].getLevelAttributeIndex( levelName, attributeName );
+			if( member != null && attributeIndex >= 0 )
+				return member.getAttributes( )[attributeIndex];
+			return null;
+		}
+
+		public Object[] getLevelKeyValue( String dimensionName, String levelName )
+				throws DataException, IOException
+		{
+			Member member;
+			try
+			{
+				member = getLevelMember( dimensionName, levelName );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
+			}
+			if( member != null )
+				return member.getKeyValues( );
+			return null;
+		}
+		
+		private Member getLevelMember( String dimensionName, String levelName )
+				throws BirtException, IOException
+		{
+			int dimIndex = getDimensionIndex( dimensionName );
+			return getLevelMember( dimIndex, levelName );
+		}
+
+		private Member getLevelMember( int dimIndex, String levelName )
+				throws BirtException, IOException
+		{
+			int levelIndex = -1;
+			if ( dimIndex >= 0 )
+			{
+				IDimensionResultIterator itr = allCubeDimensionResultIterators[dimIndex];
+				levelIndex = itr.getLevelIndex( levelName );
+				if ( levelIndex >= 0 )
+					return getMember( dimIndex, levelIndex );
+			}
+
+			return null;
+		}
+	}
+	
 }
 
 class SelectedSubDimension
@@ -491,65 +633,7 @@ class SelectedSubDimension
 	int end;
 }
 
-class MeasureMap implements IFacttableRow
-{
-	private MeasureInfo[] measureInfos = null;
-	private Object[] measureValues = null;
-	/**
-	 * 
-	 * @param measureInfo
-	 */
-	MeasureMap( MeasureInfo[] measureInfo )
-	{
-		this.measureInfos = measureInfo;
-	}
-	
-	/**
-	 * 
-	 * @param measureValues
-	 */
-	void setMeasureValue( Object[] measureValues )
-	{
-		this.measureValues = measureValues;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.api.IMeasureList#getMeasureValue(java.lang.String)
-	 */
-	public Object getMeasureValue( String measureName )
-	{
-		for ( int i = 0; i < measureInfos.length; i++ )
-		{
-			if ( measureInfos[i].getMeasureName().equals( measureName ) )
-			{
-				return measureValues[i];
-			}
-		}
-		return null;
-	}
 
-	public Object getLevelValue( String dimensionName, String levelName )
-			throws DataException
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Object getLevelAttributeValue( String dimensionName,
-			String levelName, String attribute ) throws DataException
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Object[] getLevelKeyValue( String dimensionName, String levelName )
-			throws DataException
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-}
 
 class CubePosFilterHelper
 {
