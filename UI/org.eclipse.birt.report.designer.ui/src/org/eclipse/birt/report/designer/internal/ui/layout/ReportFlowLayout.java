@@ -532,9 +532,39 @@ public class ReportFlowLayout extends AbstractHintLayout
 
 		}
 	}
+	
+	private void updateChild(IFigure child, int wHint)
+	{
+		ReportItemConstraint constraint = (ReportItemConstraint) getConstraint( child );
+	
+		if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( layoutPreference ) && child instanceof IFixLayoutHelper)
+		{
+			if ( constraint != null )
+			{
+				Dimension dimension = constraint.getSize( );
 
+				if ( dimension.width <= 0 )
+				{
+					if ( constraint.getMeasure( ) != 0
+							&& DesignChoiceConstants.UNITS_PERCENTAGE.equals( constraint.getUnits( ) ) )
+					{
+						int width = (int) constraint.getMeasure( )
+								* wHint
+								/ 100;
+						if (child instanceof LabelFigure)
+						{
+							LabelFigure label = (LabelFigure)child;
+							Dimension dim = label.getRecommendSize( );
+							label.setRecommendSize( new Dimension(width, dim.height) );
+						}
+					}
+				}
+			}
+		}
+	}
 	protected Dimension getChildSize( IFigure child, int wHint, int hHint )
 	{
+		updateChild( child, wHint );
 		ReportItemConstraint constraint = (ReportItemConstraint) getConstraint( child );
 		Dimension preferredDimension;
 		if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( layoutPreference ) && child instanceof IFixLayoutHelper)
@@ -760,6 +790,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 			}
 			if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( layoutPreference ) && child instanceof IFixLayoutHelper)
 			{
+				updateChild( child, wHint );
 				int display = ReportItemConstraint.BLOCK;
 				display = getDisplay( child );
 				if (display == ReportItemConstraint.INLINE && child instanceof LabelFigure && 
