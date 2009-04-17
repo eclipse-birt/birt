@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.activity.ReadOnlyActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -609,6 +610,12 @@ public class SessionHandleTest extends BaseTestCase
 			 */
 			public URL findResource( ModuleHandle moduleHandle,
 					String filename, int type )
+			{
+				return null;
+			}
+
+			public URL findResource( ModuleHandle moduleHandle,
+					String fileName, int type, Map appContext )
 			{
 				return null;
 			}

@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
@@ -74,6 +75,18 @@ public class DefaultResourceLocator implements IResourceLocator
 		}
 		return u;
 
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see org.eclipse.birt.report.model.api.IResourceLocator#findResource(org.eclipse
+	 * .birt.report.model.api.ModuleHandle, java.lang.String, int, java.util.Map)
+	 */
+	public URL findResource( ModuleHandle moduleHandle, String fileName,
+			int type, Map appContext )
+	{		
+		return findResource( moduleHandle, fileName, type );
 	}
 
 	/**

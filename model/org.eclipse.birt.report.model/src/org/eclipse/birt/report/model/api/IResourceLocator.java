@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import java.net.URL;
+import java.util.Map;
 
 /**
  * Implements this interface to provide a custom file search algorithm. This
@@ -88,7 +89,7 @@ public interface IResourceLocator
 	 *            the search algorithm does not need the design. It can be the
 	 *            instance of one of <code>ReportDesignHandle</code> and
 	 *            <code>LibraryHandle</code>.
-	 * @param filename
+	 * @param fileName
 	 *            The file name to be searched. This could be an absolute path
 	 *            or a relative path.
 	 * @param type
@@ -99,6 +100,36 @@ public interface IResourceLocator
 	 *         can not be found.
 	 */
 
-	public URL findResource( ModuleHandle moduleHandle, String filename,
+	public URL findResource( ModuleHandle moduleHandle, String fileName,
 			int type );
+	
+	
+	/**
+	 * Searches the file by the given file name and the given user's information.
+	 * The actual search algorithm will be different in different environment. The
+	 * file type is just helpful when different file searching steps for different
+	 * files are required. Because new file type will be added if design file 
+	 * includes new file, the default searching steps are encouraged for unknown
+	 * file type to improve robustness.
+	 * 
+	 * @param moduleHandle
+	 *            The module to tell the search context. This could be null if
+	 *            the search algorithm does not need the design. It can be the
+	 *            instance of one of <code>ReportDesignHandle</code> and
+	 *            <code>LibraryHandle</code>.
+	 * @param fileName
+	 *            The file name to be searched. This could be an absolute path
+	 *            or a relative path.
+	 * @param type
+	 *            The type of the file to search. The value must be one of
+	 *            <code>IMAGE</code>,<code>LIBRARY</code> ,
+	 *            <code>CASCADING_STYLE_SHEET</code> and <code>MESSAGEFILE</code>.
+	 * @param appContext
+	 *            The map contains the user's information  				      
+	 * @return The <code>URL</code> object. <code>null</code> if the file
+	 *         can not be found.
+	 */
+
+	public URL findResource( ModuleHandle moduleHandle, String fileName,
+            int type , Map appContext);
 }
