@@ -61,7 +61,7 @@ public class FixTableLayout extends TableLayout
 		initFigureInfo(children);
 		
 		caleColumnWidth( );
-
+		//debugColumn( );
 		preCaleRow( );
 
 		layoutTable( container );
@@ -555,7 +555,20 @@ public class FixTableLayout extends TableLayout
 			}
 		}
 	}
-
+	
+	private void debugColumn()
+	{
+		System.out.println("//////////start//////////");
+		int containerWidth = getLayoutWidth( );
+		System.out.println("container width===" + containerWidth);
+		int size = data.columnWidths.length;
+		for ( int i = 0; i < size; i++ )
+		{
+			ColumnData cData = data.columnWidths[i];
+			System.out.println("column " + (i+1) + "===" + cData.width);
+		}
+	}
+	
 	private void caleColumnWidth( )
 	{
 		int size = data.columnWidths.length;
@@ -566,6 +579,10 @@ public class FixTableLayout extends TableLayout
 
 		int totalColumn = 0;
 		int forceCount = size;
+		//there add the percentage adjust
+		int percentageTotal = 0;
+		int forceTotal = 0;
+		double percentageValueTotal = 0.0;
 		for ( int i = 0; i < size; i++ )
 		{
 			ColumnData cData = data.columnWidths[i];
@@ -574,15 +591,45 @@ public class FixTableLayout extends TableLayout
 				cData.trueMinColumnWidth = (int) ( containerWidth
 						* cData.percentageWidth / 100 );
 				totalColumn = totalColumn + cData.trueMinColumnWidth;
+				percentageTotal = percentageTotal + cData.trueMinColumnWidth;
+				percentageValueTotal = percentageValueTotal + cData.percentageWidth;
 				cData.width = cData.trueMinColumnWidth;
 				forceCount--;
 			}
 			else if ( cData.isForce )
 			{
 				totalColumn = totalColumn + cData.trueMinColumnWidth;
+				forceTotal = forceTotal + cData.trueMinColumnWidth;
 				cData.width = cData.trueMinColumnWidth;
 				forceCount--;
 			}
+		}
+		
+		if (percentageTotal > 0 && containerWidth - forceTotal < percentageTotal)
+		{
+			percentageTotal = 0;
+		
+			int widthMore = containerWidth - forceTotal;
+			for ( int i = 0; i < size; i++ )
+			{
+				ColumnData cData = data.columnWidths[i];
+				if ( cData.isPercentage )
+				{
+					if (widthMore < 0 )
+					{
+						cData.trueMinColumnWidth = ALLOW_COLOUMN_WIDTH;
+					}
+					else
+					{
+						cData.trueMinColumnWidth = (int) ( widthMore
+								* cData.percentageWidth / percentageValueTotal );
+					}
+					percentageTotal = percentageTotal + cData.trueMinColumnWidth;
+					cData.width = cData.trueMinColumnWidth;	
+				}
+			}
+			
+			totalColumn = percentageTotal + forceTotal;
 		}
 
 		if ((!getOwner( ).isForceWidth( )) && forceCount == 0)
@@ -789,4 +836,5 @@ public class FixTableLayout extends TableLayout
 			figureInfo.put( figure, info );
 		}
 	}
+
 }
