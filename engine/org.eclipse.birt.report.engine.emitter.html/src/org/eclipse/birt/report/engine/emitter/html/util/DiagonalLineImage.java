@@ -288,14 +288,14 @@ public class DiagonalLineImage
 			// FIXME continue: Double style hasn't been implemented yet, and it
 			// will be treated as solid style. The double style should be
 			// implemented in the future.
-			/*if ( "double".equalsIgnoreCase( diagonalStyle ) && ( antidiagonalPXWidth > 2 ) )
+			/*if ( "double".equalsIgnoreCase( antidiagonalStyle ) && ( antidiagonalPXWidth > 2 ) )
 			{
 				// Double line has the same effect with the solid line when the
 				// line width equal 1px or 2px.
 				// FIXME continue: implement the left double part.
 			}
-			else if ( "dotted".equalsIgnoreCase( diagonalStyle ) )*/
-			if ( "dotted".equalsIgnoreCase( diagonalStyle ) )
+			else if ( "dotted".equalsIgnoreCase( antidiagonalStyle ) )*/
+			if ( "dotted".equalsIgnoreCase( antidiagonalStyle ) )
 			{
 				float dash[] = {
 						1, ( antidiagonalPXWidth * 2 ) - 1 + ( antidiagonalPXWidth % 2 )
@@ -342,7 +342,7 @@ public class DiagonalLineImage
 			}
 			else
 			{
-				if ( "dashed".equalsIgnoreCase( diagonalStyle ) )
+				if ( "dashed".equalsIgnoreCase( antidiagonalStyle ) )
 				{
 					float dash[] = {
 						3 * antidiagonalPXWidth
