@@ -13,7 +13,7 @@
             outputDisplayNone="true"
 	  		icon="resource/preview_html.gif"
 	  		mimeType="text/html"
-	  		supportedImageFormats="PNG;GIF;JPG;BMP;SWF" >
+	  		supportedImageFormats="PNG;GIF;JPG;BMP;SWF;SVG" >
 	 	</emitter>
    </extension>
 </plugin>
