@@ -147,7 +147,8 @@ public class DteDataEngine extends AbstractDataEngine
 	{
 		if ( useCache )
 		{
-			String rsetId = String.valueOf( cachedQueryToResults.get( query ) );
+			Object obj = cachedQueryToResults.get( query );
+			String rsetId = obj == null ? null : String.valueOf( obj );
 			query.setQueryResultsID( rsetId );
 		}
 		else
