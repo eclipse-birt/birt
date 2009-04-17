@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -149,37 +150,44 @@ public class PDFPageDevice implements IPageDevice
 		return currentPage;
 	}
 	
-	public void createTOC(Set bookmarks)
+	public void createTOC( Set bookmarks )
 	{
-		if( bookmarks.isEmpty() )
+		if ( bookmarks.isEmpty( ) )
 		{
+			writer.setViewerPreferences( PdfWriter.PageModeUseNone );
 			return;
 		}
 		ULocale ulocale = null;
 		Locale locale = context.getLocale( );
-		if(locale==null)
+		if ( locale == null )
 		{
 			ulocale = ULocale.getDefault( );
 		}
 		else
 		{
-			ulocale = ULocale.forLocale( locale);
+			ulocale = ULocale.forLocale( locale );
 		}
 		// Before closing the document, we need to create TOC.
-		TOCNode tocTree = report.getTOCTree( "pdf", //$NON-NLS-1$
-				ulocale ).getRoot( );
-		
-		if ( tocTree == null || tocTree.getChildren( ).isEmpty( ) )
+		ITOCTree tocTree = report.getTOCTree( "pdf", //$NON-NLS-1$
+				ulocale );
+		if ( tocTree == null )
 		{
 			writer.setViewerPreferences( PdfWriter.PageModeUseNone );
 		}
 		else
 		{
-			writer.setViewerPreferences( PdfWriter.PageModeUseOutlines );
-			TOCHandler tocHandler = new TOCHandler( tocTree, writer
-					.getDirectContent( ).getRootOutline( ), bookmarks );
-			tocHandler.createTOC( );
+			TOCNode rootNode = tocTree.getRoot( );
+			if ( rootNode == null || rootNode.getChildren( ).isEmpty( ) )
+			{
+				writer.setViewerPreferences( PdfWriter.PageModeUseNone );
+			}
+			else
+			{
+				writer.setViewerPreferences( PdfWriter.PageModeUseOutlines );
+				TOCHandler tocHandler = new TOCHandler( rootNode, writer
+						.getDirectContent( ).getRootOutline( ), bookmarks );
+				tocHandler.createTOC( );
+			}
 		}
 	}
-	
 }
