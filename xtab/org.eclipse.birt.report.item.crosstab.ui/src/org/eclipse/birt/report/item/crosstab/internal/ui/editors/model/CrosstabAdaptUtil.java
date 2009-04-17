@@ -217,9 +217,10 @@ public class CrosstabAdaptUtil
 		String dimensionName = levelHandle.getContainer( )
 				.getContainer( )
 				.getName( );
-		
+
 		bindingHandle.setExpression( ExpressionUtil.createJSDimensionExpression( dimensionName,
-				levelHandle.getName( ) ));
+				levelHandle.getName( ),
+				levelAttrHandle.getName( ) ) );
 
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( levelAttrHandle.getName( ) );
@@ -227,6 +228,7 @@ public class CrosstabAdaptUtil
 
 		return dataHandle;
 	}
+
 	/**
 	 * @param owner
 	 * @param measureHandle
@@ -373,12 +375,15 @@ public class CrosstabAdaptUtil
 	// processInvaildBindings( handle, true );
 	// }
 
-	public static boolean needRemoveInvaildBindings( CrosstabReportItemHandle handle )
+	public static boolean needRemoveInvaildBindings(
+			CrosstabReportItemHandle handle )
 	{
 		String preferenceData = PreferenceFactory.getInstance( )
-		.getPreferences( CrosstabPlugin.getDefault( ) )
-		.getString( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS );
-		if ( preferenceData == null || preferenceData.length( ) == 0 || preferenceData.equals( MessageDialogWithToggle.PROMPT ))
+				.getPreferences( CrosstabPlugin.getDefault( ) )
+				.getString( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS );
+		if ( preferenceData == null
+				|| preferenceData.length( ) == 0
+				|| preferenceData.equals( MessageDialogWithToggle.PROMPT ) )
 		{
 			MessageDialogWithToggle msgDlg = MessageDialogWithToggle.openYesNoQuestion( UIUtil.getDefaultShell( ),
 					Messages.getString( "DeleteBindingDialog.Title" ), //$NON-NLS-1$
@@ -387,27 +392,27 @@ public class CrosstabAdaptUtil
 					false,
 					null,
 					null );
-			
-			if(msgDlg.getToggleState( ))
+
+			if ( msgDlg.getToggleState( ) )
 			{
 				String value = "";
-				if(msgDlg.getReturnCode( ) == IDialogConstants.YES_ID)
+				if ( msgDlg.getReturnCode( ) == IDialogConstants.YES_ID )
 				{
 					value = MessageDialogWithToggle.ALWAYS;
-				}else
-				if(msgDlg.getReturnCode( ) == IDialogConstants.NO_ID)
+				}
+				else if ( msgDlg.getReturnCode( ) == IDialogConstants.NO_ID )
 				{
 					value = MessageDialogWithToggle.NEVER;
 				}
 				PreferenceFactory.getInstance( )
-				.getPreferences( CrosstabPlugin.getDefault( ) )
-				.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
-						value );
+						.getPreferences( CrosstabPlugin.getDefault( ) )
+						.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
+								value );
 			}
 			if ( msgDlg.getReturnCode( ) == IDialogConstants.YES_ID )
 			{
 				return true;
-				//removeInvalidBindings( handle );
+				// removeInvalidBindings( handle );
 			}
 			else if ( msgDlg.getReturnCode( ) == IDialogConstants.NO_ID )
 			{
@@ -416,10 +421,11 @@ public class CrosstabAdaptUtil
 			}
 
 		}
-		else if(preferenceData != null && preferenceData.equals( MessageDialogWithToggle.ALWAYS ))
+		else if ( preferenceData != null
+				&& preferenceData.equals( MessageDialogWithToggle.ALWAYS ) )
 		{
 			return true;
-			//removeInvalidBindings( handle );
+			// removeInvalidBindings( handle );
 		}
 		return false;
 		// removeInvalidBindings(handle);
@@ -480,11 +486,11 @@ public class CrosstabAdaptUtil
 				position );
 		measureViewHandle.addHeader( );
 
-//		LabelHandle labelHandle = DesignElementFactory.getInstance( )
-//				.newLabel( null );
-//		labelHandle.setText( measureHandle.getName( ) );
-//
-//		measureViewHandle.getHeader( ).addContent( labelHandle );
+		// LabelHandle labelHandle = DesignElementFactory.getInstance( )
+		// .newLabel( null );
+		// labelHandle.setText( measureHandle.getName( ) );
+		//
+		// measureViewHandle.getHeader( ).addContent( labelHandle );
 	}
 
 	/**
