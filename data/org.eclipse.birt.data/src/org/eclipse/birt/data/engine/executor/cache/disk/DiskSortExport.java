@@ -18,7 +18,6 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -52,28 +51,28 @@ class DiskSortExport extends DiskDataExport
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.resultset.DataBaseExport#exportStartDataToDisk(org.eclipse.birt.data.engine.executor.ResultObject[])
 	 */
-	public void exportStartDataToDisk( IResultObject[] resultObjects, StopSign stopSign )
+	public void exportStartDataToDisk( IResultObject[] resultObjects )
 			throws IOException, DataException
 	{
-		dataCountOfTotal = innerExportStartData( resultObjects, stopSign );
+		dataCountOfTotal = innerExportStartData( resultObjects );
 	}
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#exportRestDataToDisk(org.eclipse.birt.data.engine.odi.IResultObject,
 	 *      org.eclipse.birt.data.engine.executor.cache.RowResultSet)
 	 */
-	public int exportRestDataToDisk( IResultObject resultObject, IRowResultSet rs, StopSign stopSign ) throws DataException,
+	public int exportRestDataToDisk( IResultObject resultObject, IRowResultSet rs ) throws DataException,
 			IOException
 	{		 
 		// sort the raw data to unit
-		int dataCountOfRest = innerExportRestData( resultObject, rs, dataCountOfUnit, stopSign );
+		int dataCountOfRest = innerExportRestData( resultObject, rs, dataCountOfUnit );
 		dataCountOfTotal += dataCountOfRest;
 		
 		// prepares for merge sort
 		dataProvider.initForMerge( dataCountOfTotal );
 		
 		// merge sort on sorted unit
-		mergeSortOnUnits( getMergeCount( ), stopSign );
+		mergeSortOnUnits( getMergeCount( ) );
 		
 		// do clean job after merge sort is done
 		dataProvider.end( );
@@ -101,12 +100,12 @@ class DiskSortExport extends DiskDataExport
 	 * @see org.eclipse.birt.sort4.DataBaseExport#outputRowsUnit(org.eclipse.birt.sort4.RowData[],
 	 *      int)
 	 */
-	protected void outputResultObjects( IResultObject[] resultObjects, int indexOfUnit, StopSign stopSign )
+	protected void outputResultObjects( IResultObject[] resultObjects, int indexOfUnit )
 			throws IOException, DataException
 	{	
 		mergeSortUti.sortSelf( resultObjects );
 		dataProvider.writeData( SortDataProvider.SORT_ITSELF, indexOfUnit
-				* dataCountOfUnit, resultObjects, resultObjects.length, stopSign );
+				* dataCountOfUnit, resultObjects, resultObjects.length);
 	}
 	
 	/**
@@ -142,7 +141,7 @@ class DiskSortExport extends DiskDataExport
 	 * @throws DataException 
 	 * @throws Exception
 	 */
-	private void mergeSortOnUnits( int mergeCount, StopSign stopSign ) throws IOException, DataException
+	private void mergeSortOnUnits( int mergeCount ) throws IOException, DataException
 	{
 		int[] startIndexArray = new int[mergeCount];
 		int[] endIndexArray = new int[mergeCount];
@@ -178,8 +177,8 @@ class DiskSortExport extends DiskDataExport
 					tempEndIndex = endIndexArray[i];
 
 				resultObjects[i] = dataProvider.readData( tempBeginIndex[i],
-						tempEndIndex, stopSign );
-				if ( stopSign.isStopped( ) )
+						tempEndIndex );
+				if ( this.session.getStopSign( ).isStopped( ) )
 					return;
 			}
 
@@ -190,12 +189,11 @@ class DiskSortExport extends DiskDataExport
 			IResultObject[] mergedRowDatas = new IResultObject[length];
 
 			MergeSortInfo mergeInfo = mergeSortUti.mergeSort( resultObjects,
-					mergedRowDatas, stopSign );
+					mergedRowDatas, session );
 			dataProvider.writeData( SortDataProvider.SORT_MERGE,
 					currData,
 					mergedRowDatas,
-					mergeInfo.getDataCountOfTotal( ),
-					stopSign);
+					mergeInfo.getDataCountOfTotal( ));
 
 			for ( int i = 0; i < mergeCount; i++ )
 				tempBeginIndex[i] += mergeInfo.getDataCountOfUnit( i );

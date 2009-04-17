@@ -212,7 +212,7 @@ class PreparedSubquery implements IPreparedQueryService
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
-		protected IResultIterator executeOdiQuery( IEventHandler eventHandler, StopSign stopSign ) 
+		protected IResultIterator executeOdiQuery( IEventHandler eventHandler ) 
 				throws DataException
 		{
 			assert parentIterator != null;
@@ -226,7 +226,7 @@ class PreparedSubquery implements IPreparedQueryService
 				cdQuery.setCandidates( new CustomDataSet( parentIterator,
 						getMergedResultClass( ) ) );
 			
-			ret = cdQuery.execute( eventHandler, stopSign );
+			ret = cdQuery.execute( eventHandler );
 			//parentIterator = null;
 			return ret;
 		}

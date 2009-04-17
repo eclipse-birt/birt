@@ -17,7 +17,6 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -43,10 +42,10 @@ class DiskDirectExport extends DiskDataExport
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#exportStartDataToDisk(org.eclipse.birt.data.engine.odi.IResultObject[])
 	 */
-	public void exportStartDataToDisk( IResultObject[] resultObjects, StopSign stopSign )
+	public void exportStartDataToDisk( IResultObject[] resultObjects )
 			throws IOException, DataException
 	{
-		innerExportStartData( resultObjects, stopSign );
+		innerExportStartData( resultObjects );
 	}
 	
 	/*
@@ -54,9 +53,9 @@ class DiskDirectExport extends DiskDataExport
 	 *      org.eclipse.birt.data.engine.executor.cache.RowResultSet)
 	 */
 	public int exportRestDataToDisk( IResultObject resultObject,
-			IRowResultSet rs, StopSign stopSign ) throws DataException, IOException
+			IRowResultSet rs ) throws DataException, IOException
 	{
-		int result = innerExportRestData( resultObject, rs, dataCountOfUnit, stopSign );
+		int result = innerExportRestData( resultObject, rs, dataCountOfUnit );
 		rowFile.endWrite( );
 		return result;
 	}
@@ -81,10 +80,10 @@ class DiskDirectExport extends DiskDataExport
 	 * @see org.eclipse.birt.sort4.DiskExport#outputRowsUnit(org.eclipse.birt.sort4.RowData[],
 	 *      int)
 	 */
-	protected void outputResultObjects( IResultObject[] resultObjects, int indexOfUnit, StopSign stopSign )
+	protected void outputResultObjects( IResultObject[] resultObjects, int indexOfUnit )
 			throws IOException, DataException
 	{
-		rowFile.writeRows( resultObjects, resultObjects.length, stopSign );
+		rowFile.writeRows( resultObjects, resultObjects.length );
 	}
 
 }

@@ -23,7 +23,6 @@ import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.script.FilterPassController;
 
 /**
@@ -58,17 +57,17 @@ class FilterCalculator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	static void applyFilters( ResultSetPopulator populator, FilterByRow filterByRow, StopSign stopSign )
+	static void applyFilters( ResultSetPopulator populator, FilterByRow filterByRow )
 			throws DataException
 	{
-		new FilterCalculator( populator, filterByRow).applyFilters( stopSign );
+		new FilterCalculator( populator, filterByRow).applyFilters( );
 	}
 
 	/**
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void applyFilters( StopSign stopSign ) throws DataException
+	private void applyFilters( ) throws DataException
 	{
 		FilterPassController filterPass = new FilterPassController( );
 		// Prepare filter expression for top/bottom(n) evaluation
@@ -87,7 +86,7 @@ class FilterCalculator
 				.compileFilter( filterByRow.getFilterList( ), iccState );*/
 
 		// Actually carry out the filter job.
-		doFiltering( filterPass, stopSign );
+		doFiltering( filterPass );
 	}
 
 	/**
@@ -97,7 +96,7 @@ class FilterCalculator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doFiltering( FilterPassController filterPass, StopSign stopSign )
+	private void doFiltering( FilterPassController filterPass )
 			throws DataException
 	{
 		boolean needMultiPass = false;
@@ -109,14 +108,14 @@ class FilterCalculator
 		// necessary.
 		if ( needMultiPass )
 		{
-			makeMultiPassToFilter( filterPass, stopSign );
+			makeMultiPassToFilter( filterPass );
 		}
 		else
 		{
 			//Grouping is done here
 			PassUtil.pass( populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					false, stopSign  );
+					false  );
 		}
 
 		/*
@@ -137,7 +136,7 @@ class FilterCalculator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void makeMultiPassToFilter( FilterPassController filterPass, StopSign stopSign )
+	private void makeMultiPassToFilter( FilterPassController filterPass )
 			throws DataException
 	{
 		int max = populator.getQuery( ).getMaxRows( );
@@ -148,7 +147,7 @@ class FilterCalculator
 		// ResultSetCache will be overwrite.
 		ResultSetCache sCache = populator.getCache( );
 
-		makeFirstPassToMultiPassFilter( filterPass, stopSign );
+		makeFirstPassToMultiPassFilter( filterPass );
 
 		populator.setCache( sCache );
 		// Reset the smartCache and make cursor stay in first row.
@@ -156,7 +155,7 @@ class FilterCalculator
 		sCache.next( );
 
 		populator.getQuery( ).setMaxRows( max );
-		makeSecondPassToMultiPassFilter( filterPass, stopSign );
+		makeSecondPassToMultiPassFilter( filterPass );
 
 		// Prepare filter expression for top/bottom(n) evaluation
 		Iterator filterIt = filterByRow.getFilterList( ).iterator( );
@@ -179,7 +178,7 @@ class FilterCalculator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void makeFirstPassToMultiPassFilter( FilterPassController filterPass, StopSign stopSign )
+	private void makeFirstPassToMultiPassFilter( FilterPassController filterPass )
 			throws DataException
 	{
 		filterPass.setForceReset( true );
@@ -202,7 +201,7 @@ class FilterCalculator
 		}
 		PassUtil.pass( populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
-				false, stopSign );
+				false );
 		filterByRow.getFilterList( ).clear( );
 		filterByRow.getFilterList( ).addAll( temp );
 	}
@@ -214,7 +213,7 @@ class FilterCalculator
 	 * @throws DataException
 	 */
 	private void makeSecondPassToMultiPassFilter(
-			FilterPassController filterPass, StopSign stopSign ) throws DataException
+			FilterPassController filterPass ) throws DataException
 	{
 		// Set pass level to second
 		filterPass.setPassLevel( FilterPassController.SECOND_PASS );
@@ -222,7 +221,7 @@ class FilterCalculator
 		// Grouping is done here.
 		PassUtil.pass( populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
-				false, stopSign );
+				false );
 
 		filterPass.setPassLevel( FilterPassController.DEFAULT_PASS );
 		filterPass.setRowCount( FilterPassController.DEFAULT_ROW_COUNT );

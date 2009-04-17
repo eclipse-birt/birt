@@ -20,7 +20,6 @@ import org.eclipse.birt.data.engine.executor.cache.SmartRowResultSet;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupProcessorManager;
 import org.eclipse.birt.data.engine.executor.transform.pass.PassManager;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
@@ -80,7 +79,8 @@ public class ResultSetPopulator
 		this.eventHandler = eventHandler;
 		this.groupProcessorManager = new GroupProcessorManager(
 				query,
-				this );
+				this,
+				this.session );
 		// Initialize the ExpressionProcessor.
 		this.exprProcessor = query.getExprProcessor( );
 		// Set the query which is used by IExpressionProcessor
@@ -191,9 +191,9 @@ public class ResultSetPopulator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public void populateResultSet( OdiResultSetWrapper odaResultSet, StopSign stopSign ) throws DataException
+	public void populateResultSet( OdiResultSetWrapper odaResultSet ) throws DataException
 	{
-		PassManager.populateResultSet( this, odaResultSet, stopSign );
+		PassManager.populateResultSet( this, odaResultSet, this.session );
 	}
 
 	/**
@@ -203,13 +203,13 @@ public class ResultSetPopulator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public void reSetSmartCacheUsingOrderingInfo( OrderingInfo odInfo, StopSign stopSign )
+	public void reSetSmartCacheUsingOrderingInfo( OrderingInfo odInfo )
 			throws DataException
 	{
-		reSetCache( odInfo, stopSign );
+		reSetCache( odInfo );
 		this.groupProcessorManager.getGroupCalculationUtil( )
 				.getGroupInformationUtil( )
-				.doGrouping( stopSign );
+				.doGrouping( );
 		this.getCache( ).next( );
 	}
 
@@ -218,7 +218,7 @@ public class ResultSetPopulator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public void reSetCache( OrderingInfo odInfo, StopSign stopSign ) throws DataException
+	public void reSetCache( OrderingInfo odInfo ) throws DataException
 	{
 		this.getCache( ).reset( );
 		this.getCache( ).next( );
@@ -229,8 +229,7 @@ public class ResultSetPopulator
 				this.getEventHandler( ) ),
 				new SmartRowResultSet( this.getCache( ), rsMeta, odInfo ),
 				this.rsMeta,
-				this.session,
-				stopSign) );
+				this.session) );
 		
 		this.groupProcessorManager.getGroupCalculationUtil( )
 				.setResultSetCache( this.getCache( ) );

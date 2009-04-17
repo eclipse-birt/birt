@@ -638,7 +638,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#execute()
 	 */
-    public IResultIterator execute( IEventHandler eventHandler, StopSign stopSign )
+    public IResultIterator execute( IEventHandler eventHandler )
 			throws DataException
 	{
     	assert odaStatement != null;
@@ -671,7 +671,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			}
 		}
 		
-    	ICancellable queryCanceller = new OdaQueryCanceller( odaStatement, stopSign );
+    	ICancellable queryCanceller = new OdaQueryCanceller( odaStatement, session.getStopSign() );
     	this.session.getCancelManager( ).register( queryCanceller );
 		
 		odaStatement.execute( );
@@ -743,8 +743,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 					IResultIterator it = new SimpleResultSet( this,
 							rs,
 							resultMetadata,
-							eventHandler,
-							stopSign );
+							eventHandler );
 					eventHandler.handleEndOfDataSetProcess( it );
 					return it;
 				}
@@ -754,14 +753,13 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 					resultMetadata,
 					rs,
 					eventHandler,
-					session,
-					stopSign );
+					session );
 		}
 		else
 			ri = new CachedResultSet( this,
 					resultMetadata,
 					new DataSetResultCache( rs, resultMetadata, session ),
-					eventHandler, session, stopSign );
+					eventHandler, session );
 		
 		if ( ri != null && ri instanceof CachedResultSet )
 			( (CachedResultSet) ri ).setOdaResultSet( rs );

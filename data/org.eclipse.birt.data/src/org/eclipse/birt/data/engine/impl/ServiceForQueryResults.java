@@ -230,9 +230,9 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getResultIterator()
 	 */
-	public IResultIterator executeQuery( StopSign stopSign ) throws DataException
+	public IResultIterator executeQuery( ) throws DataException
 	{
-		queryExecutor.execute( new EventHandler( ), stopSign );
+		queryExecutor.execute( new EventHandler( ) );
 		return queryExecutor.getOdiResultSet( );
 	}
 	

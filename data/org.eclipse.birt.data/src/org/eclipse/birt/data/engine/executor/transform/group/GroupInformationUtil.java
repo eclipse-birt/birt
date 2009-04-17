@@ -22,7 +22,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -53,17 +52,19 @@ public class GroupInformationUtil
 	private GroupCalculationUtil groupCalculationUtil;
 	
 	private String tempDir;
+	private DataEngineSession session;
 	
 
 	/**
 	 * 
 	 * @param groupCalculationUtil
 	 */
-	GroupInformationUtil( GroupCalculationUtil groupCalculationUtil )
+	GroupInformationUtil( GroupCalculationUtil groupCalculationUtil, DataEngineSession session )
 	{
 		this.groupCalculationUtil = groupCalculationUtil;
 		this.tempDir = this.groupCalculationUtil.getResultSetPopoulator( ).getSession( ).getTempDir( );
 		this.groups = new List[0];
+		this.session = session;
 	}
 
 	/**
@@ -418,7 +419,7 @@ public class GroupInformationUtil
 	 * @param stopsign
 	 * @throws DataException
 	 */
-	public void doGrouping( StopSign stopSign ) throws DataException
+	public void doGrouping( ) throws DataException
 	{
 		assert this.groupCalculationUtil.getResultSetCache( ) != null;
 		// Pass through sorted data set to process group indexes
@@ -442,7 +443,7 @@ public class GroupInformationUtil
 		for ( int rowID = 0; rowID < this.groupCalculationUtil.getResultSetCache( )
 				.getCount( ); rowID++ )
 		{
-			if( stopSign.isStopped( ) )
+			if( session.getStopSign( ).isStopped( ) )
 				break;
 			IResultObject currRow = this.groupCalculationUtil.getResultSetCache( )
 					.fetch( );

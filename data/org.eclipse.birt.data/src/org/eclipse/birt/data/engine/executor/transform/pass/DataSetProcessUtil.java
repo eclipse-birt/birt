@@ -29,7 +29,6 @@ import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IAggrInfo;
 
 /**
@@ -73,7 +72,7 @@ class DataSetProcessUtil extends RowProcessUtil
 	 */
 	public static void doPopulate( ResultSetPopulator populator, ComputedColumnsState iccState,
 			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow,
-			PassStatusController psController, StopSign stopSign ) throws DataException
+			PassStatusController psController ) throws DataException
 	{
 		DataSetProcessUtil instance = new DataSetProcessUtil( populator,
 				iccState,
@@ -81,7 +80,7 @@ class DataSetProcessUtil extends RowProcessUtil
 				filterByRow,
 				psController
 				);
-		instance.populateDataSet( stopSign );
+		instance.populateDataSet( );
 	}
 	
 	/**
@@ -89,7 +88,7 @@ class DataSetProcessUtil extends RowProcessUtil
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void populateDataSet( StopSign stopSign ) throws DataException
+	private void populateDataSet( ) throws DataException
 	{
 		int originalMaxRows = this.populator.getQuery( ).getMaxRows( );
 		
@@ -101,7 +100,7 @@ class DataSetProcessUtil extends RowProcessUtil
 
 		if ( this.computedColumnHelper!= null )
 			this.computedColumnHelper.setModel( TransformationConstants.NONE_MODEL );
-		doDataSetFilter( changeMaxRows, stopSign );
+		doDataSetFilter( changeMaxRows );
 		
 		List aggCCList = prepareComputedColumns(TransformationConstants.DATA_SET_MODEL );
 		
@@ -109,17 +108,17 @@ class DataSetProcessUtil extends RowProcessUtil
 		//during the calculation of aggregation computed columns.
 		if( this.computedColumnHelper!= null )
 			computedColumnHelper.setModel( TransformationConstants.NONE_MODEL );
-		populateAggrCCs( this.getAggrComputedColumns( aggCCList, true ), stopSign );
+		populateAggrCCs( this.getAggrComputedColumns( aggCCList, true ) );
 		setStateForAggregationComputedColumns( );
 		removeAvailableComputedColumns( );
 		
 		//Begin populate computed columns with aggregations.
 		//TODO:remove me
-		populateComputedColumns( this.getAggrComputedColumns( aggCCList, false ), stopSign );	
+		populateComputedColumns( this.getAggrComputedColumns( aggCCList, false ) );	
 		if( filterByRow!= null && filterByRow.isFilterSetExist( FilterByRow.DATASET_AGGR_FILTER ) )
 		{
-			doDataSetAggrFilter( changeMaxRows, stopSign );
-			populateAggrCCs( this.getAggrComputedColumns( aggCCList, true ), stopSign );
+			doDataSetAggrFilter( changeMaxRows );
+			populateAggrCCs( this.getAggrComputedColumns( aggCCList, true ) );
 		}
 				
 		this.populator.getQuery( ).setMaxRows( originalMaxRows );
@@ -146,7 +145,7 @@ class DataSetProcessUtil extends RowProcessUtil
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void populateAggrCCs( List aggrComputedColumns, StopSign stopSign )
+	private void populateAggrCCs( List aggrComputedColumns )
 			throws DataException
 	{
 		if ( aggrComputedColumns.size( ) == 0 )
@@ -213,8 +212,7 @@ class DataSetProcessUtil extends RowProcessUtil
 		if ( !psController.needDoOperation( PassStatusController.DATA_SET_FILTERING ) )
 			PassUtil.pass( populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					false,
-					stopSign );
+					false );
 
 		AggregationHelper helper = new AggregationHelper( new AggrDefnManager( aggrInfos ),
 				this.populator );
@@ -225,8 +223,7 @@ class DataSetProcessUtil extends RowProcessUtil
 
 		PassUtil.pass( populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
-				false,
-				stopSign );
+				false );
 
 		this.populator.getQuery( ).getFetchEvents( ).remove( 0 );
 
@@ -238,13 +235,13 @@ class DataSetProcessUtil extends RowProcessUtil
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doDataSetFilter( boolean changeMaxRows, StopSign stopSign ) throws DataException
+	private void doDataSetFilter( boolean changeMaxRows ) throws DataException
 	{
 		if(	!psController.needDoOperation( PassStatusController.DATA_SET_FILTERING ))
 			return;
 				
 		applyFilters( FilterByRow.DATASET_FILTER,
-				changeMaxRows, stopSign );
+				changeMaxRows );
 	}
 
 	/**
@@ -253,13 +250,13 @@ class DataSetProcessUtil extends RowProcessUtil
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doDataSetAggrFilter( boolean changeMaxRows, StopSign stopSign ) throws DataException
+	private void doDataSetAggrFilter( boolean changeMaxRows ) throws DataException
 	{
 		if(	!psController.needDoOperation( PassStatusController.DATASET_AGGR_ROW_FILTERING ))
 			return;
 				
 		applyFilters( FilterByRow.DATASET_AGGR_FILTER,
-				changeMaxRows, stopSign );
+				changeMaxRows );
 	}
 	/**
 	 * 
@@ -267,7 +264,7 @@ class DataSetProcessUtil extends RowProcessUtil
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void populateComputedColumns( List aggCCList, StopSign stopSign ) throws DataException
+	private void populateComputedColumns( List aggCCList ) throws DataException
 	{
 		if ( !psController.needDoOperation( PassStatusController.DATA_SET_COMPUTED_COLUMN_POPULATING ) )
 			return;
@@ -276,8 +273,7 @@ class DataSetProcessUtil extends RowProcessUtil
 		{
 			PassUtil.pass( this.populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					false,
-					stopSign);
+					false );
 		}
 		computedColumnHelper.getComputedColumnList( ).clear( );
 		computedColumnHelper.getComputedColumnList( ).addAll( aggCCList );
@@ -290,7 +286,7 @@ class DataSetProcessUtil extends RowProcessUtil
 			ComputedColumnCalculator.populateComputedColumns( this.populator,
 					new OdiResultSetWrapper( this.populator.getResultIterator( ) ),
 					iccState,
-					computedColumnHelper, stopSign );
+					computedColumnHelper );
 		}
 		computedColumnHelper.setModel( TransformationConstants.NONE_MODEL );
 	}

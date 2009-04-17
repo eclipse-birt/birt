@@ -30,7 +30,6 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -87,24 +86,24 @@ public class DiskCache implements ResultSetCache
 	 */
 	public DiskCache( IResultObject[] resultObjects, IResultObject resultObject,
 			IRowResultSet rowResultSet, IResultClass rsMeta,
-			Comparator comparator, int MemoryCacheRowCount, DataEngineSession session, StopSign stopSign )
+			Comparator comparator, int MemoryCacheRowCount, DataEngineSession session )
 			throws DataException
 	{
 		//this.rsMeta = rsMeta;
 		this.MemoryCacheRowCount = MemoryCacheRowCount;
 		this.rsMeta = rsMeta;
 		this.session = session;
-		this.diskBasedResultSet = new DiskCacheResultSet( getInfoMap( ) );
+		this.diskBasedResultSet = new DiskCacheResultSet( getInfoMap( ), session );
 		
 		try
 		{
 			logger.info( "Start processStartResultObjects" );
 			diskBasedResultSet.processStartResultObjects( resultObjects,
-					comparator, stopSign );
+					comparator );
 			
 			logger.info( "Start processRestResultObjects" );
 			diskBasedResultSet.processRestResultObjects( resultObject,
-					rowResultSet, stopSign );
+					rowResultSet );
 		}
 		catch ( IOException e )
 		{

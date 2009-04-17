@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -36,7 +37,7 @@ public class ResultObjectReader
 	 * @return
 	 */
 	static ResultObjectReader newInstance( IResultClass rsMetaData,
-			InputStream intputStream, int dataCount )
+			InputStream intputStream, int dataCount, DataEngineSession session )
 	{
 		assert rsMetaData != null;
 		assert intputStream != null;
@@ -45,7 +46,7 @@ public class ResultObjectReader
 		ResultObjectReader roReader = new ResultObjectReader( );
 
 		roReader.intputStream = intputStream;
-		roReader.roUtil = ResultObjectUtil.newInstance( rsMetaData );
+		roReader.roUtil = ResultObjectUtil.newInstance( rsMetaData, session );
 		roReader.dataCount = dataCount;
 		roReader.curIndex = 0;
 
@@ -70,7 +71,7 @@ public class ResultObjectReader
 			try
 			{
 				curIndex++;
-				return roUtil.readData( intputStream, 1, null )[0];
+				return roUtil.readData( intputStream, 1 )[0];
 			}
 			catch ( IOException e )
 			{

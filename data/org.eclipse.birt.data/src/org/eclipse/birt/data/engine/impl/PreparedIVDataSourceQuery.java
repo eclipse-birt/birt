@@ -264,8 +264,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery
 		 * ()
 		 */
-		protected IResultIterator executeOdiQuery( IEventHandler eventHandler,
-				StopSign stopSign ) throws DataException
+		protected IResultIterator executeOdiQuery( IEventHandler eventHandler ) throws DataException
 		{
 			try
 			{
@@ -286,7 +285,6 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 						{
 							// When we can update the data set data.
 							populatePLSDataSetData( eventHandler,
-									stopSign,
 									manager );
 
 							dataSetResult.close( );
@@ -317,8 +315,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 									populateResultClass( populator.getResultClass( ) ),
 									populator,
 									eventHandler,
-									engine.getSession( ),
-									stopSign );
+									engine.getSession( ) );
 							dataSetResult.close( );
 							cleanUpOldRD( );
 							return resultIterator;
@@ -335,8 +332,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 						populateResultClass( meta ),
 						dataSetResult,
 						eventHandler,
-						engine.getSession( ),
-						stopSign );
+						engine.getSession( ) );
 				dataSetResult.close( );
 
 				return resultIterator;
@@ -355,8 +351,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		 * @throws DataException
 		 * @throws IOException
 		 */
-		private void populatePLSDataSetData( IEventHandler eventHandler,
-				StopSign stopSign, StreamManager manager )
+		private void populatePLSDataSetData( IEventHandler eventHandler, StreamManager manager )
 				throws DataException, IOException
 		{
 			org.eclipse.birt.data.engine.impl.document.ResultIterator docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator( engine.getSession( )
@@ -378,8 +373,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 					eventHandler ),
 					new OdiAdapter( populator ),
 					processedRC,
-					engine.getSession( ),
-					stopSign );
+					engine.getSession( ) );
 			
 			manager.dropStream1( DataEngineContext.DATASET_DATA_STREAM );
 			manager.dropStream1( DataEngineContext.DATASET_DATA_LEN_STREAM );

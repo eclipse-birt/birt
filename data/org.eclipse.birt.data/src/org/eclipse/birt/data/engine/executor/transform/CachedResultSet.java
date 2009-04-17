@@ -29,7 +29,6 @@ import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IAggrValueHolder;
@@ -75,7 +74,7 @@ public class CachedResultSet implements IResultIterator
 	 */
 	public CachedResultSet( BaseQuery query, IResultClass meta,
 			ResultSet odaResultSet, IEventHandler eventHandler,
-			DataEngineSession session, StopSign stopSign ) throws DataException
+			DataEngineSession session ) throws DataException
 	{
 		this.handler = eventHandler;
 		this.resultSetPopulator = new ResultSetPopulator( query,
@@ -83,7 +82,7 @@ public class CachedResultSet implements IResultIterator
 				this,
 				session,
 				eventHandler );
-		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet), stopSign );
+		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet) );
 	}
 
 	/**
@@ -98,7 +97,7 @@ public class CachedResultSet implements IResultIterator
 	 */
 	public CachedResultSet( BaseQuery query, IResultClass meta,
 			IDataSetPopulator odaResultSet, IEventHandler eventHandler,
-			DataEngineSession session, StopSign stopSign ) throws DataException
+			DataEngineSession session ) throws DataException
 	{
 		this.handler = eventHandler;
 		this.resultSetPopulator = new ResultSetPopulator( query,
@@ -106,7 +105,7 @@ public class CachedResultSet implements IResultIterator
 				this,
 				session,
 				eventHandler);
-		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet), stopSign );
+		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet));
 	}
 	
 	/**
@@ -118,7 +117,7 @@ public class CachedResultSet implements IResultIterator
 	 */
 	public CachedResultSet( BaseQuery query, IResultClass meta,
 			DataSetResultCache odaCacheResultSet, IEventHandler eventHandler,
-			DataEngineSession session, StopSign stopSign )
+			DataEngineSession session )
 			throws DataException
 	{
 		this.handler = eventHandler;
@@ -128,7 +127,7 @@ public class CachedResultSet implements IResultIterator
 				session,
 				eventHandler
 				);
-		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaCacheResultSet ), stopSign);
+		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaCacheResultSet ));
 		odaCacheResultSet.close( );
 	}
 
@@ -143,8 +142,7 @@ public class CachedResultSet implements IResultIterator
 	 */
 	public CachedResultSet( BaseQuery query, ICustomDataSet customDataSet,
 			IEventHandler eventHandler,
-			DataEngineSession session,
-			StopSign stopSign) throws DataException
+			DataEngineSession session ) throws DataException
 	{
 		this.handler = eventHandler;
 		assert customDataSet != null;
@@ -153,7 +151,7 @@ public class CachedResultSet implements IResultIterator
 				this,
 				session,
 				eventHandler);
-		resultSetPopulator.populateResultSet(new OdiResultSetWrapper( customDataSet), stopSign);
+		resultSetPopulator.populateResultSet(new OdiResultSetWrapper( customDataSet));
 	}
 
 	/**
@@ -169,7 +167,7 @@ public class CachedResultSet implements IResultIterator
 	 */
 	public CachedResultSet( BaseQuery query, IResultClass meta,
 			IResultIterator parentResultIterator, int groupLevel, IEventHandler eventHandler,
-			DataEngineSession session, StopSign stopSign )
+			DataEngineSession session )
 			throws DataException
 	{
 		this.handler = eventHandler;
@@ -186,7 +184,7 @@ public class CachedResultSet implements IResultIterator
 				eventHandler);
 		this.resultSetPopulator.populateResultSet( new OdiResultSetWrapper( new Object[]{
 				parentResultSet.resultSetPopulator.getCache( ), groupInfo
-		} ), stopSign);
+		} ));
 	}
 
 	private IResultClass createCustomDataSetMetaData(BaseQuery query,

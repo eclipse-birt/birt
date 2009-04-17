@@ -31,7 +31,6 @@ import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.odaconsumer.DataTypeUtil;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -214,14 +213,14 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
-		protected IResultIterator executeOdiQuery( IEventHandler eventHandler, StopSign stopSign )
+		protected IResultIterator executeOdiQuery( IEventHandler eventHandler )
 				throws DataException
 		{	
 			// prepareOdiQuery must be called before			
 			customDataSet.open();
 			dataSetAfterOpen( );
 			ICandidateQuery candidateQuery = (ICandidateQuery) odiQuery;
-			return candidateQuery.execute( eventHandler, stopSign );
+			return candidateQuery.execute( eventHandler );
 		}
 	
 		/**

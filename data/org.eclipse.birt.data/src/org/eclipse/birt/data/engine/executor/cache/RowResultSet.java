@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.executor.cache;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
@@ -84,7 +83,7 @@ public class RowResultSet implements IRowResultSet
 	 * @return next result data
 	 * @throws DataException
 	 */
-	public IResultObject next( StopSign stopSign ) throws DataException
+	public IResultObject next( ) throws DataException
 	{
 		if ( this.nextResultObject != null )
 		{
@@ -99,7 +98,7 @@ public class RowResultSet implements IRowResultSet
 		IResultObject odaObject = null;
 		while ( true )
 		{
-			odaObject = odiAdpater.fetch(stopSign);
+			odaObject = odiAdpater.fetch( );
 			if ( odaObject == null )
 			{
 				break;
@@ -178,7 +177,7 @@ public class RowResultSet implements IRowResultSet
 	{
 		if ( nextResultObject != null )
 			return true;
-		nextResultObject = this.next( null );
+		nextResultObject = this.next( );
 		if( nextResultObject != null )
 			return true;
 		else

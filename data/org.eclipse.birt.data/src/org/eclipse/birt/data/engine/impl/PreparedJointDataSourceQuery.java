@@ -600,7 +600,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
 		protected org.eclipse.birt.data.engine.odi.IResultIterator executeOdiQuery(
-				IEventHandler eventHandler, StopSign stopSign ) throws DataException
+				IEventHandler eventHandler ) throws DataException
 		{
 			if ( doesLoadFromCache( ) == true )
 			{
@@ -617,7 +617,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				dsQuery.setOrdering( toList( jointQuery.getOrdering( ) ) );
 				dsQuery.setGrouping( toList( jointQuery.getGrouping( ) ) );
 
-				return dsQuery.execute( eventHandler, stopSign );
+				return dsQuery.execute( eventHandler );
 			}
 			
 			ResultIterator left = null;
@@ -658,14 +658,12 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				return new CachedResultSet( (BaseQuery) this.odiQuery,
 						resultClass,
 						populator,
-						eventHandler, dataEngine.getSession( ),
-						stopSign);
+						eventHandler, dataEngine.getSession( ));
 			else
 				return new CachedResultSet( (BaseQuery) this.odiQuery,
 						resultClass,
 						new DataSetResultCache( populator, resultClass, dataEngine.getSession( ) ),
-						eventHandler, dataEngine.getSession( ),
-						stopSign);
+						eventHandler, dataEngine.getSession( ));
 		}
 
 		/**

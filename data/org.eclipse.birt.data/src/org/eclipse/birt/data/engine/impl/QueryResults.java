@@ -70,8 +70,6 @@ public class QueryResults implements IQueryResults, IQueryService
 		
 	private static Logger logger = Logger.getLogger( QueryResults.class.getName( ) );
 	
-	private StopSign stopSign;
-
 	private String name;
 	/**
 	 * @param queryService
@@ -90,7 +88,6 @@ public class QueryResults implements IQueryResults, IQueryService
 		this.session = queryService.getSession( );
 		this.queryScope = queryService.getScope( );
 		this.nestedLevel = queryService.getNestedLevel( );
-		this.stopSign = new StopSign( );
 		
 		logger.exiting( QueryResults.class.getName( ), "QueryResults" );
 	}
@@ -145,7 +142,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	 */
 	public IResultIterator getResultIterator( ) throws DataException
 	{ 
-		stopSign.start( );
+		this.session.getStopSign().start( );
 		if ( queryService == null )
 			throw new DataException( ResourceConstants.RESULT_CLOSED );
 
@@ -157,7 +154,7 @@ public class QueryResults implements IQueryResults, IQueryService
 				this.queryService.initAutoBinding( );
 				this.queryService.validateQuery( );
 
-				org.eclipse.birt.data.engine.odi.IResultIterator odiIterator = queryService.executeQuery( stopSign );
+				org.eclipse.birt.data.engine.odi.IResultIterator odiIterator = queryService.executeQuery( );
 				if ( isDummyQuery( odiIterator ) )
 				{
 					iterator = new DummyResultIterator( new ResultService( session,
@@ -595,7 +592,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	 */
 	public void cancel( )
 	{
-		stopSign.stop( );
+		this.session.getStopSign( ).stop( );
 	}
 
 	/*

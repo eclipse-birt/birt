@@ -14,13 +14,11 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -86,7 +84,7 @@ class DataFileReader
 	 * @return ResultObject array
 	 * @throws DataException 
 	 */
-	IResultObject[] read( int length, StopSign stopSign ) throws IOException, DataException
+	IResultObject[] read( int length ) throws IOException, DataException
 	{
 		if ( isOpen == false )
 		{
@@ -103,7 +101,7 @@ class DataFileReader
 			isOpen = true;
 		}
 
-		return resultObjectUtil.readData( bis, length, stopSign );
+		return resultObjectUtil.readData( bis, length );
 	}
 
 	/**

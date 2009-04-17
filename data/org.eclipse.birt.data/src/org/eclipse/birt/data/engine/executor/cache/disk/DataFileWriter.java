@@ -19,7 +19,6 @@ import java.io.IOException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -86,7 +85,7 @@ class DataFileWriter
 	 *             exception of writing file
 	 * @throws DataException 
 	 */
-	void write( IResultObject[] resultObjects, int count, StopSign stopSign ) throws IOException, DataException
+	void write( IResultObject[] resultObjects, int count ) throws IOException, DataException
 	{
 		if ( isOpen == false )
 		{
@@ -103,7 +102,7 @@ class DataFileWriter
 			isOpen = true;
 		}
 
-		resultObjectUtil.writeData( bos, resultObjects, count, stopSign );
+		resultObjectUtil.writeData( bos, resultObjects, count );
 	}
 
 	/**

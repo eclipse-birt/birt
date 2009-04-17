@@ -20,7 +20,6 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -77,7 +76,7 @@ class DiskSortExport2 extends DiskDataExport
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.resultset.DataBaseExport#exportStartDataToDisk(org.eclipse.birt.data.engine.executor.ResultObject[])
 	 */
-	public void exportStartDataToDisk( IResultObject[] resultObjects, StopSign stopSign )
+	public void exportStartDataToDisk( IResultObject[] resultObjects )
 			throws IOException
 	{
 		dataCountOfTotal = resultObjects.length;
@@ -90,20 +89,19 @@ class DiskSortExport2 extends DiskDataExport
 	 *      org.eclipse.birt.data.engine.executor.cache.RowResultSet)
 	 */
 	public int exportRestDataToDisk( IResultObject resultObject,
-			IRowResultSet rs, StopSign stopSign ) throws DataException, IOException
+			IRowResultSet rs ) throws DataException, IOException
 	{
 		// sort the raw data to unit
 		int dataCountOfRest = innerExportRestData( resultObject,
 				rs,
-				dataCountOfUnit,
-				stopSign );
+				dataCountOfUnit );
 		dataCountOfTotal += dataCountOfRest;
 
 		MergeSortImpl mergeSortImpl = new MergeSortImpl( this.dataCountOfUnit,
 				this.mergeSortUtil,
 				this.tempFileUtil,
-				this.currRowFiles );
-		this.goalRowIterator = mergeSortImpl.mergeSortOnUnits( stopSign );
+				this.currRowFiles, session );
+		this.goalRowIterator = mergeSortImpl.mergeSortOnUnits( );
 
 		return dataCountOfRest;
 	}
@@ -115,7 +113,7 @@ class DiskSortExport2 extends DiskDataExport
 	 *      org.eclipse.birt.data.engine.executor.cache.IRowResultSet, int)
 	 */
 	protected int innerExportRestData( IResultObject resultObject,
-			IRowResultSet rs, int dataCountOfUnit, StopSign stopSign ) throws DataException,
+			IRowResultSet rs, int dataCountOfUnit ) throws DataException,
 			IOException
 	{
 		addNewRow( resultObject );
@@ -124,9 +122,9 @@ class DiskSortExport2 extends DiskDataExport
 		int currDataCount = 1;
 		IResultObject odaObject = null;
 		
-		while ( ( odaObject = rs.next( stopSign ) ) != null )
+		while ( ( odaObject = rs.next( ) ) != null )
 		{
-			if( stopSign.isStopped( ) )
+			if( session.getStopSign( ).isStopped( ) )
 				return 0;
 			Object[] ob = new Object[columnCount];
 			for ( int i = 0; i < columnCount; i++ )
@@ -138,7 +136,7 @@ class DiskSortExport2 extends DiskDataExport
 			currDataCount++;
 		}
 		
-		processLastUnit( stopSign );
+		processLastUnit( );
 
 		return currDataCount;
 	}
@@ -167,7 +165,7 @@ class DiskSortExport2 extends DiskDataExport
 	 * @throws IOException
 	 * @throws DataException 
 	 */
-	private void processLastUnit( StopSign stopSign ) throws IOException, DataException
+	private void processLastUnit( ) throws IOException, DataException
 	{
 		// Now all the rest rows exist in memory.
 		rowBuffer = interchange( rowBuffer, inMemoryPos );
@@ -180,7 +178,7 @@ class DiskSortExport2 extends DiskDataExport
 		
 		// Output the rest rows
 		inMemoryPos = -1;
-		getCurrTempFile( currRowFiles ).writeRows( rowBuffer, rowBuffer.length, stopSign );
+		getCurrTempFile( currRowFiles ).writeRows( rowBuffer, rowBuffer.length );
 		getCurrTempFile( currRowFiles ).endWrite( );
 	}
 
@@ -237,7 +235,7 @@ class DiskSortExport2 extends DiskDataExport
 	 *      int)
 	 */
 	protected void outputResultObjects( IResultObject[] resultObjects,
-			int indexOfUnit, StopSign stopSign ) throws IOException
+			int indexOfUnit ) throws IOException
 	{
 	}
 

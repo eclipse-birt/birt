@@ -22,7 +22,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 /**
@@ -48,7 +47,7 @@ class GroupInstanceSorter
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	void doGroupSorting( ScriptContext cx, StopSign stopSign ) throws DataException
+	void doGroupSorting( ScriptContext cx ) throws DataException
 	{
 		List groupLevels = new ArrayList( );
 		List expressionList = new ArrayList( );
@@ -69,7 +68,7 @@ class GroupInstanceSorter
 					.getGroupInformationUtil( )
 					.getOrderingInfo( groupArray );
 
-			this.populator.reSetSmartCacheUsingOrderingInfo( odInfo, stopSign );
+			this.populator.reSetSmartCacheUsingOrderingInfo( odInfo );
 		}
 	}
 

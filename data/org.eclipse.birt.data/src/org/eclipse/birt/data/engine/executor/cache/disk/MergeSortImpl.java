@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.StopSign;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -33,6 +33,7 @@ class MergeSortImpl
 	// this value, max.
 	private final static int maxOpenFile = 500;
 	
+	private DataEngineSession session;
 	/**
 	 * @param dataCountOfUnit
 	 * @param mergeSortUtil
@@ -40,12 +41,13 @@ class MergeSortImpl
 	 * @param tempFiles
 	 */
 	MergeSortImpl( int dataCountOfUnit, MergeSortUtil mergeSortUtil,
-			MergeTempFileUtil tempFileUtil, List tempRowFiles )
+			MergeTempFileUtil tempFileUtil, List tempRowFiles, DataEngineSession session )
 	{
 		this.dataCountOfUnit = dataCountOfUnit;
 		this.mergeSortUtil = mergeSortUtil;
 		this.tempFileUtil = tempFileUtil;
 		this.tempRowFiles = tempRowFiles;
+		this.session = session;
 	}
 	
 	/**
@@ -56,7 +58,7 @@ class MergeSortImpl
 	 * @throws DataException 
 	 * @throws Exception
 	 */
-	IRowIterator mergeSortOnUnits( StopSign stopSign ) throws IOException, DataException
+	IRowIterator mergeSortOnUnits( ) throws IOException, DataException
 	{
 		IRowIterator goalFile = null;
 		
@@ -76,7 +78,7 @@ class MergeSortImpl
 			}
 			else
 			{
-				levelMergeSort( granularity, stopSign );
+				levelMergeSort( granularity );
 			}
 		} while ( !finish );
 		
@@ -101,7 +103,7 @@ class MergeSortImpl
 	 * @throws IOException
 	 * @throws DataException 
 	 */
-	private void levelMergeSort( int granularity, StopSign stopSign ) throws IOException, DataException
+	private void levelMergeSort( int granularity ) throws IOException, DataException
 	{		
 		int mergeCount = 0;
 		List newTempList = new ArrayList( );
@@ -115,7 +117,7 @@ class MergeSortImpl
 					( mergeCount + 1 ) * granularity - 1 ), targetFile );
 			newTempList.add( targetFile );
 			mergeCount++;
-			if( stopSign.isStopped( ) )
+			if( session.getStopSign( ).isStopped( ) )
 				break;
 		} while ( mergeCount * granularity <= tempRowFiles.size( ) - 1 );
 		

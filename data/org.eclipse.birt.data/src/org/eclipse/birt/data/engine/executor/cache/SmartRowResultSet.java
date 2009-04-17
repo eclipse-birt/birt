@@ -12,7 +12,6 @@ package org.eclipse.birt.data.engine.executor.cache;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -49,7 +48,7 @@ public class SmartRowResultSet implements IRowResultSet
 	 *  (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowResultSet#next()
 	 */
-	public IResultObject next( StopSign stopSign ) throws DataException
+	public IResultObject next( ) throws DataException
 	{
 		IResultObject result = null;
 		if( startNewGroup )

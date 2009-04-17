@@ -246,7 +246,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @return
 	 */
 	abstract protected IResultIterator executeOdiQuery(
-			IEventHandler eventHandler, StopSign stopSign ) throws DataException;
+			IEventHandler eventHandler ) throws DataException;
 
 	/**
 	 * @param context
@@ -996,7 +996,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#execute()
 	 */
-	public void execute( IEventHandler eventHandler, StopSign stopSign ) throws DataException
+	public void execute( IEventHandler eventHandler ) throws DataException
 	{
 		logger.logp( Level.FINER,
 				QueryExecutor.class.getName( ),
@@ -1011,7 +1011,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		eventHandler.setExecutorHelper( helper );
 
 		// Execute the query
-		odiResult = executeOdiQuery( eventHandler, stopSign );
+		odiResult = executeOdiQuery( eventHandler );
 
 		helper.setScriptable( this.dataSet.getJSResultRowObject( ) );
 		

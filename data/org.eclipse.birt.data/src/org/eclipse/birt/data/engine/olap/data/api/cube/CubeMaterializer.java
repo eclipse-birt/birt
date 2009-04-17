@@ -177,10 +177,6 @@ public class CubeMaterializer
 			IDatasetIterator factTable, String[] measureColumns,
 			StopSign stopSign ) throws IOException, BirtException
 	{
-		if ( stopSign == null )
-		{
-			stopSign = new StopSign( );
-		}
 		Cube cube = new Cube( name, documentManager );
 		cube.create( factTableJointColumnNames, DimJointColumnNames, dimensions, factTable, measureColumns, stopSign );
 		cube.close( );
@@ -196,10 +192,6 @@ public class CubeMaterializer
 	 */
 	public void saveCubeToReportDocument( String cubeName, IDocArchiveWriter writer, StopSign stopSign ) throws IOException, DataException
 	{
-		if ( stopSign == null )
-		{
-			stopSign = new StopSign( );
-		}
 		Cube cube = new Cube( cubeName, documentManager );
 		cube.load( stopSign );
 		//save cube

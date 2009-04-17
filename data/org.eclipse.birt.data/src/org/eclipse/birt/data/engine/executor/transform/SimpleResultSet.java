@@ -31,7 +31,6 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.executor.cache.RowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.SmartCacheRequest;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
@@ -50,7 +49,6 @@ public class SimpleResultSet implements IResultIterator
 
 	private ResultSet resultSet;
 	private RowResultSet rowResultSet;
-	private StopSign stopSign;
 	private IResultObject currResultObj;
 	private IEventHandler handler;
 	private int initialRowCount, rowCount;
@@ -71,18 +69,17 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public SimpleResultSet( DataSourceQuery dataSourceQuery,
 			ResultSet resultSet, IResultClass resultClass,
-			IEventHandler handler, StopSign stopSign ) throws DataException
+			IEventHandler handler ) throws DataException
 	{
 		this.rowResultSet = new RowResultSet( new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
 				dataSourceQuery.getFetchEvents( ),
 				new OdiAdapter( resultSet ),
 				resultClass,
 				false ) );
-		this.currResultObj = this.rowResultSet.next( stopSign );
+		this.currResultObj = this.rowResultSet.next( );
 		this.initialRowCount = ( this.currResultObj != null ) ? -1 : 0;
 		this.rowCount = ( this.currResultObj != null ) ? 1 : 0;
 		this.resultSet = resultSet;
-		this.stopSign = stopSign;
 		this.handler = handler;
 		this.resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( handler.getAllColumnBindings( ) );
 	}
@@ -341,7 +338,7 @@ public class SimpleResultSet implements IResultIterator
 			{
 			}
 		}
-		this.currResultObj = this.rowResultSet.next( stopSign );
+		this.currResultObj = this.rowResultSet.next( );
 
 		if ( this.currResultObj != null )
 			rowCount++;

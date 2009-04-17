@@ -15,11 +15,11 @@ import java.util.Comparator;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
+import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
-import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
-import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
-import org.eclipse.birt.data.engine.impl.StopSign;
 
 /**
  * When available memory can not accomodate existing data, it will rely on this
@@ -36,12 +36,14 @@ class DiskCacheResultSet
 	
 	private IRowIterator rowIterator;
 	
+	private DataEngineSession session;
 	/**
 	 * @param dataProvider
 	 */
-	DiskCacheResultSet( Map infoMap )
+	DiskCacheResultSet( Map infoMap, DataEngineSession session )
 	{
 		this.infoMap = infoMap;
+		this.session = session;
 	}
 
 	/**
@@ -52,17 +54,17 @@ class DiskCacheResultSet
 	 * @throws DataException 
 	 */
 	public void processStartResultObjects( IResultObject[] resultObjects,
-			Comparator comparator, StopSign stopSign ) throws IOException, DataException
+			Comparator comparator ) throws IOException, DataException
 	{
 		IResultClass rsMetaData = resultObjects[0].getResultClass( );
 		assert rsMetaData != null;
-		this.resultObjectUtil = ResultObjectUtil.newInstance( rsMetaData );
+		this.resultObjectUtil = ResultObjectUtil.newInstance( rsMetaData, session );
 		
 		databaseExport = DiskDataExport.newInstance( infoMap,
 				comparator,
 				rsMetaData,
-				resultObjectUtil );		
-		databaseExport.exportStartDataToDisk( resultObjects, stopSign );
+				resultObjectUtil, session );		
+		databaseExport.exportStartDataToDisk( resultObjects );
 		dataCount = resultObjects.length;
 	}
 	
@@ -74,9 +76,9 @@ class DiskCacheResultSet
 	 * @throws IOException
 	 */
 	public void processRestResultObjects( IResultObject resultObject,
-			IRowResultSet rs, StopSign stopSign ) throws DataException, IOException
+			IRowResultSet rs ) throws DataException, IOException
 	{
-		dataCount += databaseExport.exportRestDataToDisk( resultObject, rs, stopSign );
+		dataCount += databaseExport.exportRestDataToDisk( resultObject, rs );
 		rowIterator = databaseExport.getRowIterator( );
 	}
 	

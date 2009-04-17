@@ -66,19 +66,19 @@ class CacheUtilFactory
 	 * @param rs
 	 * @return
 	 */
-	public static ISaveUtil createSaveUtil( IDataSetCacheObject cacheObject , IResultClass rs)
+	public static ISaveUtil createSaveUtil( IDataSetCacheObject cacheObject , IResultClass rs, DataEngineSession session )
 	{
 		if ( cacheObject instanceof DiskDataSetCacheObject )
 		{
 			return new DiskSaveUtil( (DiskDataSetCacheObject) cacheObject,
-					rs );
+					rs, session  );
 		} else if ( cacheObject instanceof MemoryDataSetCacheObject )
 		{
 			return new MemorySaveUtil( (MemoryDataSetCacheObject)cacheObject, rs );
 		}
 		else if ( cacheObject instanceof IncreDataSetCacheObject )
 		{
-			return new IncreCacheSaveUtil( (IncreDataSetCacheObject) cacheObject, rs );
+			return new IncreCacheSaveUtil( (IncreDataSetCacheObject) cacheObject, rs, session );
 
 		}
 		return null;
@@ -102,7 +102,7 @@ class CacheUtilFactory
 		}
 		else if ( cacheObject instanceof IncreDataSetCacheObject )
 		{
-			return new IncreCacheLoadUtil( (IncreDataSetCacheObject) cacheObject );
+			return new IncreCacheLoadUtil( (IncreDataSetCacheObject) cacheObject, session );
 		}
 		return null;
 	}
@@ -142,11 +142,12 @@ class CacheUtilFactory
 		
 		private int rowCount;
 		private String tempFolder;
+		private DataEngineSession session;
 		/**
 		 * @param file
 		 * @param rsClass
 		 */
-		public DiskSaveUtil( DiskDataSetCacheObject cacheObject, IResultClass rsClass )
+		public DiskSaveUtil( DiskDataSetCacheObject cacheObject, IResultClass rsClass, DataEngineSession session )
 		{
 			assert rsClass != null;
 
@@ -157,6 +158,7 @@ class CacheUtilFactory
 			this.rsClass = rsClass;
 			this.rowCount = 0;
 			this.tempFolder = cacheObject.getCacheDir( );
+			this.session = session;
 		}
 		
 		/**
@@ -169,7 +171,7 @@ class CacheUtilFactory
 			
 			if ( roUtil == null )
 			{				
-				roUtil = ResultObjectUtil.newInstance( rsClass );
+				roUtil = ResultObjectUtil.newInstance( rsClass, session );
 				try
 				{
 					fos = FileSecurity.createFileOutputStream( file );
@@ -283,14 +285,15 @@ class CacheUtilFactory
 		
 		private int rowCount;
 		private String tempDir;
-
-		public IncreCacheSaveUtil( IncreDataSetCacheObject cacheObject, IResultClass rs )
+		private DataEngineSession session;
+		public IncreCacheSaveUtil( IncreDataSetCacheObject cacheObject, IResultClass rs, DataEngineSession session )
 		{
 			this.file = cacheObject.getDataFile( );
 			this.metaFile = cacheObject.getMetaFile( );
 			this.rsMeta = rs;
 			this.rowCount = 0;
 			this.tempDir = cacheObject.getCacheDir( );
+			this.session = session;
 		}
 
 		/**
@@ -303,7 +306,7 @@ class CacheUtilFactory
 			
 			if ( roUtil == null )
 			{				
-				roUtil = ResultObjectUtil.newInstance( rsMeta );
+				roUtil = ResultObjectUtil.newInstance( rsMeta, session );
 				try
 				{
 					bos = new BufferedOutputStream( FileSecurity.createFileOutputStream( file,
@@ -388,14 +391,16 @@ class CacheUtilFactory
 		private int rowCount;
 		private int currIndex;
 		
+		private DataEngineSession session;
 
-		public IncreCacheLoadUtil( IncreDataSetCacheObject cacheObject )
+		public IncreCacheLoadUtil( IncreDataSetCacheObject cacheObject, DataEngineSession session )
 		{
 			assert cacheObject != null;
 			this.file = cacheObject.getDataFile( );
 			this.metaFile = cacheObject.getMetaFile( );
 			this.rowCount = 0;
 			this.currIndex = -1;
+			this.session = session;
 		}
 		
 		
@@ -413,7 +418,7 @@ class CacheUtilFactory
 				if ( currIndex == rowCount - 1 )
 					return null;
 				currIndex++;
-				return roUtil.readData( bis, 1, null )[0];
+				return roUtil.readData( bis, 1 )[0];
 			}
 			catch ( IOException e )
 			{
@@ -452,7 +457,7 @@ class CacheUtilFactory
 
 				if ( rowCount > 0 )
 				{
-					roUtil = ResultObjectUtil.newInstance( rsClass );
+					roUtil = ResultObjectUtil.newInstance( rsClass, session );
 					fis = FileSecurity.createFileInputStream( file );
 					bis = new BufferedInputStream( fis );
 				}
@@ -543,7 +548,7 @@ class CacheUtilFactory
 					return null;
 				
 				currIndex++;
-				return roUtil.readData( bis, 1, null )[0];
+				return roUtil.readData( bis, 1 )[0];
 			}
 			catch ( IOException e )
 			{
@@ -582,7 +587,7 @@ class CacheUtilFactory
 
 				if ( rowCount > 0 )
 				{
-					roUtil = ResultObjectUtil.newInstance( rsClass );
+					roUtil = ResultObjectUtil.newInstance( rsClass, session );
 					fis = FileSecurity.createFileInputStream( file );
 					bis = new BufferedInputStream( fis );
 				}
@@ -691,7 +696,7 @@ class CacheUtilFactory
 				ClassNotFoundException
 		{
 
-			MergeUtil merge = new MergeUtil( dataFile, metaFile );
+			MergeUtil merge = new MergeUtil( dataFile, metaFile, session );
 			// read the objects from iterator to local file one by one
 			IResultIterator iterator = getResultIterator( list );
 			if ( iterator != null )
@@ -961,7 +966,7 @@ class CacheUtilFactory
 		private ResultObjectUtil roUtil;
 
 		private int rowCount;
-
+		private DataEngineSession session;
 		/**
 		 * constructor of class MergeUtil
 		 * 
@@ -969,14 +974,14 @@ class CacheUtilFactory
 		 * @param rsMeta
 		 * @throws DataException
 		 */
-		private MergeUtil( File dataFile, File metaFile ) throws DataException
+		private MergeUtil( File dataFile, File metaFile, DataEngineSession session ) throws DataException
 		{
 			assert dataFile != null;
 			assert metaFile != null;
 
 			this.dataFile = dataFile;
 			this.metaFile = metaFile;
-
+			this.session = session;
 			// this.metaFile.deleteOnExit( );
 			this.init( );
 		}
@@ -1024,7 +1029,7 @@ class CacheUtilFactory
 
 			if ( roUtil == null )
 			{
-				roUtil = ResultObjectUtil.newInstance( rsClass );
+				roUtil = ResultObjectUtil.newInstance( rsClass, session );
 				try
 				{
 					fos = FileSecurity.createFileOutputStream( dataFile, true );

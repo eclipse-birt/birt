@@ -34,7 +34,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.ObjectSecurity;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.StopSign;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.datatools.connectivity.oda.IBlob;
@@ -57,6 +57,8 @@ public class ResultObjectUtil
 	// meta data of result set
 	private IResultClass rsMetaData;
 
+	private DataEngineSession session;
+	
 	/**
 	 * In serializaing data to file and deserializing it from file, metadata
 	 * information is necessary to know which data type a column is, and then
@@ -68,7 +70,7 @@ public class ResultObjectUtil
 	 * @param rsMetaData
 	 * @throws DataException
 	 */
-	public static ResultObjectUtil newInstance( IResultClass rsMetaData )
+	public static ResultObjectUtil newInstance( IResultClass rsMetaData, DataEngineSession session )
 	{
 		ResultObjectUtil instance = new ResultObjectUtil( );
 		int length = rsMetaData.getFieldCount( );
@@ -87,7 +89,7 @@ public class ResultObjectUtil
 
 		instance.columnCount = rsMetaData.getFieldCount( );
 		instance.rsMetaData = rsMetaData;
-		
+		instance.session = session;
 		return instance;
 	}
 
@@ -125,7 +127,7 @@ public class ResultObjectUtil
 	 * @throws IOException
 	 * @throws DataException 
 	 */
-	public IResultObject[] readData( InputStream bis, int length, StopSign stopSign )
+	public IResultObject[] readData( InputStream bis, int length )
 			throws IOException, DataException
 	{
 		ResultObject[] rowDatas = new ResultObject[length];
@@ -138,7 +140,7 @@ public class ResultObjectUtil
 
 		for ( int i = 0; i < length; i++ )
 		{
-			if( stopSign != null && stopSign.isStopped( ) )
+			if( session.getStopSign( ).isStopped( ) )
 				break;
 			rowLen = IOUtil.readInt( bis );
 			rowDataBytes = new byte[rowLen];
@@ -234,12 +236,12 @@ public class ResultObjectUtil
 	 * @throws DataException 
 	 */
 	public void writeData( OutputStream bos,
-			IResultObject[] resultObjects, int length, StopSign stopSign ) throws IOException, DataException
+			IResultObject[] resultObjects, int length ) throws IOException, DataException
 	{		
 		for ( int i = 0; i < length; i++ )
 		{
 			writeData( bos, resultObjects[i] );
-			if( stopSign != null && stopSign.isStopped( ) )
+			if( session.getStopSign().isStopped( ) )
 				return;
 		}
 	}

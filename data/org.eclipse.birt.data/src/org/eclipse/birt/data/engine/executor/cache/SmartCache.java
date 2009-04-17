@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -48,13 +47,12 @@ public class SmartCache implements ResultSetCache
 	 * @throws DataException
 	 */
 	public SmartCache( CacheRequest cacheRequest, ResultSet odaResultSet,
-			IResultClass rsMeta, DataEngineSession session, StopSign stopSign ) throws DataException
+			IResultClass rsMeta, DataEngineSession session ) throws DataException
 	{
 		SmartCacheHelper smartCacheHelper = new SmartCacheHelper( session );
 		this.resultSetCache = smartCacheHelper.getResultSetCache( cacheRequest,
 				odaResultSet,
-				rsMeta,
-				stopSign);
+				rsMeta );
 	}
 	
 	/**
@@ -65,13 +63,12 @@ public class SmartCache implements ResultSetCache
 	 * @throws DataException
 	 */
 	public SmartCache( CacheRequest cacheRequest, OdiAdapter odiAdapter,
-			IResultClass rsMeta, DataEngineSession session, StopSign stopSign ) throws DataException
+			IResultClass rsMeta, DataEngineSession session ) throws DataException
 	{
 		SmartCacheHelper smartCacheHelper = new SmartCacheHelper( session );
 		this.resultSetCache = smartCacheHelper.getResultSetCache( cacheRequest,
 				odiAdapter,
-				rsMeta,
-				stopSign );
+				rsMeta );
 	}
 	
 	/**
@@ -87,7 +84,7 @@ public class SmartCache implements ResultSetCache
 	 * @throws DataException
 	 */
 	public SmartCache( CacheRequest cacheRequest, ResultSetCache resultCache,
-			int startIndex, int endIndex, IResultClass rsMeta, DataEngineSession session, StopSign stopSign )
+			int startIndex, int endIndex, IResultClass rsMeta, DataEngineSession session )
 			throws DataException
 	{
 		SmartCacheHelper smartCacheHelper = new SmartCacheHelper( session );
@@ -95,8 +92,7 @@ public class SmartCache implements ResultSetCache
 				resultCache,
 				startIndex,
 				endIndex,
-				rsMeta,
-				stopSign );
+				rsMeta );
 	}
 	
 	/**
@@ -107,13 +103,12 @@ public class SmartCache implements ResultSetCache
 	 * @throws DataException
 	 */
 	public SmartCache( CacheRequest cacheRequest, IRowResultSet rowResultSet,
-			IResultClass rsMeta, DataEngineSession session, StopSign stopSign ) throws DataException
+			IResultClass rsMeta, DataEngineSession session ) throws DataException
 	{
 		SmartCacheHelper smartCacheHelper = new SmartCacheHelper( session );
 		this.resultSetCache = smartCacheHelper.getResultSetCache( cacheRequest,
 				rowResultSet,
-				rsMeta,
-				stopSign );
+				rsMeta );
 	}
 	
 	/*

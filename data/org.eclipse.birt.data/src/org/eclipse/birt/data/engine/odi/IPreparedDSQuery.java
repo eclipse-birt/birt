@@ -115,7 +115,7 @@ public interface IPreparedDSQuery
      * 			the user can iterate to get results.
      * @throws DataException	if query execution error(s) occur.
      */
-    public IResultIterator execute( IEventHandler eventHandler, StopSign stopSign )
+    public IResultIterator execute( IEventHandler eventHandler )
 			throws DataException;
 
     /** 

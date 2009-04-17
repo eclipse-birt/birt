@@ -75,7 +75,7 @@ public class GroupCalculationUtil
 	 */
 
 	private ResultSetPopulator resultPopoulator;
-	
+	private DataEngineSession session;
 	/**
 	 * 
 	 * @param query
@@ -84,13 +84,14 @@ public class GroupCalculationUtil
 	 */
 	GroupCalculationUtil(
 			BaseQuery query,
-			ResultSetPopulator resultPopoulator) throws DataException
+			ResultSetPopulator resultPopoulator,
+			DataEngineSession session ) throws DataException
 	{
 		this.query = query;
 		this.resultPopoulator = resultPopoulator;
 		this.rsMeta = resultPopoulator.getResultSetMetadata( );
-		groupInformationUtil = new GroupInformationUtil( this );
-		
+		this.session = session;
+		this.groupInformationUtil = new GroupInformationUtil( this, session );
 		this.initGroupSpec( );
 	}
 

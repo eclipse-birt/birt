@@ -467,8 +467,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery
 		 * ()
 		 */
-		protected IResultIterator executeOdiQuery( IEventHandler eventHandler,
-				StopSign stopSign ) throws DataException
+		protected IResultIterator executeOdiQuery( IEventHandler eventHandler ) throws DataException
 		{
 
 			IResultIterator resultIterator;
@@ -489,8 +488,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 						resultClass,
 						querySourcePopulator,
 						eventHandler,
-						engine.getSession( ),
-						stopSign );
+						engine.getSession( ) );
 				return resultIterator;
 			}
 			catch ( BirtException e )

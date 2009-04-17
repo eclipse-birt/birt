@@ -29,7 +29,6 @@ import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.script.FilterPassController;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
@@ -60,7 +59,7 @@ class GroupInstanceFilter
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public void doGroupFiltering( ScriptContext cx,StopSign stopSign )
+	public void doGroupFiltering( ScriptContext cx )
 			throws DataException
 	{
 		List groupLevels = new ArrayList( );
@@ -85,7 +84,7 @@ class GroupInstanceFilter
 					.getGroupInformationUtil( )
 					.getOrderingInfo( groupBoundaryInfos );
 
-			this.populator.reSetSmartCacheUsingOrderingInfo( odInfo, stopSign );
+			this.populator.reSetSmartCacheUsingOrderingInfo( odInfo );
 		}
 	}
 

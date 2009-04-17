@@ -82,6 +82,7 @@ public class DataEngineImpl extends DataEngine
 
 	private IEngineExecutionHints queryExecutionHints;
 	
+
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
 	/**
@@ -108,6 +109,7 @@ public class DataEngineImpl extends DataEngine
 		
 		dataSourceManager = new DataSourceManager( logger );
 		this.session = new DataEngineSession( this );
+		
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
 		logger.log( Level.FINE, "Data Engine starts up" );
 	}
@@ -778,5 +780,10 @@ public class DataEngineImpl extends DataEngine
 	public void registerQueries( IDataQueryDefinition[] queryDefns ) throws DataException
 	{
 		((EngineExecutionHints)queryExecutionHints).populateCachedDataSets( this, queryDefns );
+	}
+
+	public void cancel( )
+	{
+		this.session.getStopSign( ).stop( );
 	}
 }

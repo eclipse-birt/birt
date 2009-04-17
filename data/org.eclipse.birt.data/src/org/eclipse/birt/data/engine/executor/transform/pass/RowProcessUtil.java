@@ -21,7 +21,6 @@ import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.ExprManagerUtil;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
-import org.eclipse.birt.data.engine.impl.StopSign;
 
 /**
  * The abstract class defines the common behavior of DataSetProcessUtil and 
@@ -163,7 +162,7 @@ abstract class RowProcessUtil
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	protected void applyFilters( int filterType, boolean changeMaxRows, StopSign stopSign )
+	protected void applyFilters( int filterType, boolean changeMaxRows )
 			throws DataException
 	{
 		if ( filterByRow != null && filterByRow.isFilterSetExist( filterType ) )
@@ -176,7 +175,7 @@ abstract class RowProcessUtil
 			}
 			filterByRow.setWorkingFilterSet( filterType );
 			FilterCalculator.applyFilters( this.populator,
-					this.filterByRow, stopSign );
+					this.filterByRow );
 			populator.getQuery( ).setMaxRows( max );
 		}
 

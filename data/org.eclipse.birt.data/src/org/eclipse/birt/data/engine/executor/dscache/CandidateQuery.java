@@ -48,12 +48,12 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#execute()
 	 */
-	public IResultIterator execute( IEventHandler eventHandler, StopSign stopSign ) throws DataException
+	public IResultIterator execute( IEventHandler eventHandler ) throws DataException
 	{
 		return new CachedResultSet( this,
 				getOdaCacheResultSet( ).getResultClass( ),
 				getOdaCacheResultSet( ),
-				eventHandler, session, stopSign );
+				eventHandler, session );
 	}
 
 	/*

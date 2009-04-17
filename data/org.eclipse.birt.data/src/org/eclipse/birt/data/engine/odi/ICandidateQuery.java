@@ -85,7 +85,7 @@ public interface ICandidateQuery extends IQuery
 	 * @throws DataException
 	 *             if query execution error(s) occur.
 	 */
-	public IResultIterator execute( IEventHandler eventHandler, StopSign stopSign )
+	public IResultIterator execute( IEventHandler eventHandler )
 			throws DataException;
 
     /**

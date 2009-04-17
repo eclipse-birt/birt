@@ -62,9 +62,9 @@ class ComputedColumnCalculator
 	 */
 	static void populateComputedColumns( ResultSetPopulator populator,
 			OdiResultSetWrapper odaResultSet, ComputedColumnsState iccState,
-			ComputedColumnHelper computedColumnHelper, StopSign stopSign ) throws DataException
+			ComputedColumnHelper computedColumnHelper ) throws DataException
 	{
-		new ComputedColumnCalculator( populator, iccState, computedColumnHelper).doPopulate( odaResultSet.getWrappedOdiResultSet( ) instanceof ICustomDataSet, stopSign );
+		new ComputedColumnCalculator( populator, iccState, computedColumnHelper ).doPopulate( odaResultSet.getWrappedOdiResultSet( ) instanceof ICustomDataSet );
 
 	}
 
@@ -74,11 +74,11 @@ class ComputedColumnCalculator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doPopulate( boolean isCustomDataSet, StopSign stopSign ) throws DataException
+	private void doPopulate( boolean isCustomDataSet ) throws DataException
 	{
 		while ( needMoreExpressionProcessOnComputedColumns( ) )
 		{
-			makeAPassToComputedColumn( isCustomDataSet, stopSign );
+			makeAPassToComputedColumn( isCustomDataSet );
 		}
 	}
 	/**
@@ -109,7 +109,7 @@ class ComputedColumnCalculator
 	 * @param backupFetchEvents
 	 * @throws DataException
 	 */
-	private void makeAPassToComputedColumn( boolean isCustomDataSet, StopSign stopSign )
+	private void makeAPassToComputedColumn( boolean isCustomDataSet )
 			throws DataException
 	{
 		// ICustomDataSet need special treatment.
@@ -124,7 +124,7 @@ class ComputedColumnCalculator
 			populator.setResultSetMetadata( rebuildCustomedResultClass( populator.getResultSetMetadata( ),
 					true ) );
 
-		PassUtil.pass( populator, new OdiResultSetWrapper( populator.getResultIterator( )), true, stopSign);
+		PassUtil.pass( populator, new OdiResultSetWrapper( populator.getResultIterator( )), true );
 	}
 
 	/**

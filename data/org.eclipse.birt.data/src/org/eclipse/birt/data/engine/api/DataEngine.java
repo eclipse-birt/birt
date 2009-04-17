@@ -361,6 +361,11 @@ abstract public class DataEngine
 	abstract public void removeListener( IShutdownListener listener );
 	
 	/**
+	 * 
+	 */
+	abstract public void cancel();
+	
+	/**
 	 * Shuts down this instance of data engine, and releases all associated resources.
 	 * This method should be called when the caller is done with an instance of the data engine.
 	 */

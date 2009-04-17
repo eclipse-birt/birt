@@ -58,7 +58,6 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
@@ -118,7 +117,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private IModelAdapter modelAdaptor;
 	private DataSessionContext sessionContext;
 	private Map cubeHandleMap;
-	private StopSign stopSign;
+
 
 	/**
 	 * Constructs the data request session with the provided session context
@@ -137,7 +136,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 		modelAdaptor = new ModelAdapter( context );
 		sessionContext = context;
 		cubeHandleMap = new HashMap( );
-		stopSign = new StopSign( );
 		if( sessionContext!= null )
 		{
 			this.setModuleHandleToAppContext();
@@ -601,7 +599,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				createCube(  (TabularCubeHandle)cubeHandle, cubeMaterializer, appContext );
 				cubeMaterializer.saveCubeToReportDocument( cubeHandle.getQualifiedName( ),
 						this.sessionContext.getDocumentWriter( ),
-						null );
+						this.dataEngine.getSession( ).getStopSign( ) );
 				cubeMaterializer.close( );
 			}
 		}
@@ -751,7 +749,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 						metaMap.get( cubeHandle ),
 						appContext ),
 				this.toStringArray( measureNames ),
-				stopSign );
+				dataEngine.getSession( ).getStopSign( ) );
 		appContext.clear( );
 		appContext.putAll( backupAppContext );
 		
@@ -1014,7 +1012,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 								metaMap.get( hierhandle ),
 								appContext ),
 						levelInHier,
-						stopSign ) );
+						dataEngine.getSession( ).getStopSign( ) ) );
 				appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, rowLimit );
 			}
 			else
@@ -1026,7 +1024,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 								metaMap.get( hierhandle ),
 								appContext ),
 						levelInHier,
-						stopSign ) );
+						dataEngine.getSession( ).getStopSign( ) ) );
 			}
 			
 		}
@@ -1080,7 +1078,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException
 	{
-		stopSign.start( );
+		dataEngine.getSession( ).getStopSign( ).start( );
 		setModuleHandleToAppContext( appContext );
 
 		return this.dataEngine.prepare( query, appContext );
@@ -1173,7 +1171,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public void cancel( )
 	{
-		stopSign.stop( );
+		this.dataEngine.cancel( );
 	}
 
 	/*

@@ -15,7 +15,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
-import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -86,7 +85,7 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 	 * 
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#execute()
 	 */
-	public IResultIterator execute( IEventHandler eventHandler, StopSign stopSign )
+	public IResultIterator execute( IEventHandler eventHandler )
 			throws DataException
 	{
 		if ( customDataSet == null ) // sub query
@@ -98,8 +97,7 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 					resultObjsIterator,
 					groupingLevel,
 					eventHandler,
-					session,
-					stopSign);
+					session );
 		}
 		else
 		// scripted query
@@ -108,8 +106,7 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 				return new CachedResultSet( this,
 						customDataSet,
 						eventHandler,
-						session,
-						stopSign);
+						session );
 			else
 				return new CachedResultSet( this,
 						resultMetadata,
@@ -117,8 +114,7 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 								resultMetadata,
 								session ),
 						eventHandler,
-						session,
-						stopSign);
+						session );
 
 		}
 	}

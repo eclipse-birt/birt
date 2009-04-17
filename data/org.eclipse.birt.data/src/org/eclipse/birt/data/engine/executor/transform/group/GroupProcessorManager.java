@@ -18,6 +18,7 @@ import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StopSign;
 
 /**
@@ -48,13 +49,14 @@ public class GroupProcessorManager
 	 * @throws DataException
 	 */
 	public GroupProcessorManager( BaseQuery query,
-			ResultSetPopulator populator )
+			ResultSetPopulator populator, DataEngineSession session )
 			throws DataException
 	{
 		this.populator = populator;
 		this.groupCalculationUtil = new GroupCalculationUtil(
 				query, 
-				this.populator);
+				this.populator,
+				session );
 	}
 
 	/**
@@ -65,7 +67,7 @@ public class GroupProcessorManager
 	 * @throws DataException
 	 */
 	public void doGroupFiltering( ResultSetCache rsCache,
-			IExpressionProcessor exprProc, StopSign stopSign )
+			IExpressionProcessor exprProc )
 			throws DataException
 	{
 		this.populator.setCache( rsCache );
@@ -75,8 +77,7 @@ public class GroupProcessorManager
 
 		new GroupInstanceFilter( this ).doGroupFiltering( this.populator.getSession( )
 				.getEngineContext( )
-				.getScriptContext( ),
-				stopSign );
+				.getScriptContext( ) );
 	}
 	
 	/**
@@ -87,7 +88,7 @@ public class GroupProcessorManager
 	 * @throws DataException
 	 */
 	public void doGroupSorting( ResultSetCache rsCache,
-			IExpressionProcessor exprProc, StopSign stopSign )
+			IExpressionProcessor exprProc )
 			throws DataException
 	{
 		this.populator.setCache( rsCache );
@@ -95,7 +96,9 @@ public class GroupProcessorManager
 		this.exprProcessor = exprProc;
 		exprProcessor.setResultIterator( this.populator.getResultIterator( ) );
 
-		new GroupInstanceSorter( this ).doGroupSorting( this.populator.getSession( ).getEngineContext( ).getScriptContext( ), stopSign );
+		new GroupInstanceSorter( this ).doGroupSorting( this.populator.getSession( )
+				.getEngineContext( )
+				.getScriptContext( ) );
 	}
 
 	/**

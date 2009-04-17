@@ -17,7 +17,7 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
-import org.eclipse.birt.data.engine.impl.StopSign;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 abstract class DiskDataExport
 {
 	protected ResultObjectUtil resultObjectUtil;
+	protected DataEngineSession session;
 	
 	/**
 	 * According to the parameter of comparator to generate the instance, which
@@ -41,7 +42,7 @@ abstract class DiskDataExport
 	 */
 	static DiskDataExport newInstance( Map infoMap,
 			Comparator comparator, IResultClass rsMetaData,
-			ResultObjectUtil resultObjectUtil )
+			ResultObjectUtil resultObjectUtil, DataEngineSession session )
 	{
 		DiskDataExport dbExport;
 		if ( comparator != null )
@@ -50,7 +51,7 @@ abstract class DiskDataExport
 			dbExport = new DiskDirectExport( infoMap, resultObjectUtil );
 
 		dbExport.resultObjectUtil = resultObjectUtil;
-
+		dbExport.session = session;
 		return dbExport;
 	}
 	
@@ -62,7 +63,7 @@ abstract class DiskDataExport
 	 * @param stopSign
 	 * @throws IOException, file writer exception
 	 */
-	public abstract void exportStartDataToDisk( IResultObject[] resultObjects, StopSign stopSign )
+	public abstract void exportStartDataToDisk( IResultObject[] resultObjects )
 			throws IOException, DataException;
 	
 	/**
@@ -76,7 +77,7 @@ abstract class DiskDataExport
 	 * @throws IOException, file writer exception
 	 */
 	public abstract int exportRestDataToDisk( IResultObject resultObject,
-			IRowResultSet rs, StopSign stopSign ) throws DataException, IOException;
+			IRowResultSet rs ) throws DataException, IOException;
 	
 	/**
 	 * get a ObjectFileWithCache object for goal file 
@@ -97,10 +98,10 @@ abstract class DiskDataExport
 	 * @return
 	 * @throws IOException
 	 */
-	protected int innerExportStartData( IResultObject[] resultObjects, StopSign stopSign )
+	protected int innerExportStartData( IResultObject[] resultObjects )
 			throws IOException, DataException
 	{
-		outputResultObjects( resultObjects, 0, stopSign );
+		outputResultObjects( resultObjects, 0 );
 		return resultObjects.length;
 	}
 	 
@@ -116,7 +117,7 @@ abstract class DiskDataExport
 	 * @return how much data is exported
 	 */
 	protected int innerExportRestData( IResultObject resultObject,
-			IRowResultSet rs, int dataCountOfUnit, StopSign stopSign ) throws DataException,
+			IRowResultSet rs, int dataCountOfUnit ) throws DataException,
 			IOException
 	{
 		int columnCount = rs.getMetaData( ).getFieldCount( );
@@ -127,7 +128,7 @@ abstract class DiskDataExport
 		int dataIndex = 1;
 		
 		IResultObject odaObject = null;
-		while ( ( odaObject = rs.next( stopSign ) ) != null && !stopSign.isStopped( ) )
+		while ( ( odaObject = rs.next( ) ) != null && !session.getStopSign( ).isStopped( ) )
 		{
 			Object[] ob = new Object[columnCount];
 			for ( int i = 0; i < columnCount; i++ )
@@ -138,7 +139,7 @@ abstract class DiskDataExport
 			{
 				int indexOfUnit = currDataCount / dataCountOfUnit - 1;
 				if ( indexOfUnit >= 0 )
-					outputResultObjects( rowDatas, indexOfUnit + 1, stopSign );
+					outputResultObjects( rowDatas, indexOfUnit + 1 );
 				dataIndex = 0;
 			}
 
@@ -156,7 +157,7 @@ abstract class DiskDataExport
 			rowDatas2 = new IResultObject[length];
 			System.arraycopy( rowDatas, 0, rowDatas2, 0, length );
 		}
-		outputResultObjects( rowDatas2, indexOfUnit + 1, stopSign );
+		outputResultObjects( rowDatas2, indexOfUnit + 1 );
 
 		return currDataCount;
 	}
@@ -171,6 +172,6 @@ abstract class DiskDataExport
 	 * @throws IOException, file writer exception
 	 */
 	protected abstract void outputResultObjects( IResultObject[] resultObjects,
-			int indexOfUnit, StopSign stopSign ) throws IOException, DataException;
+			int indexOfUnit ) throws IOException, DataException;
 
 }

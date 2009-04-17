@@ -31,7 +31,7 @@ public interface IQueryExecutor
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	void execute( IEventHandler eventHandler, StopSign stopSign ) throws DataException;
+	void execute( IEventHandler eventHandler ) throws DataException;
 
 	/**
 	 * @return shard scope

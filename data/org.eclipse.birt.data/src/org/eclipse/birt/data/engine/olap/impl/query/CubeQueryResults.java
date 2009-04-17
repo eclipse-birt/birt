@@ -63,7 +63,7 @@ public class CubeQueryResults implements ICubeQueryResults
 		this.appContext = appContext;
 		this.queryResultsId = ((ICubeQueryDefinition)preparedQuery.getCubeQueryDefinition( )).getQueryResultsID( );
 		this.outResults = outResults;
-		this.stopSign = new StopSign( );
+		this.stopSign = session.getStopSign( );
 	}
 
 	/*

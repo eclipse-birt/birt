@@ -52,6 +52,8 @@ public class DataEngineSession
 	private NamingRelation namingRelation;
 	
 	private CancelManager cancelManager;
+
+	private StopSign stopSign;
 	
 	private static ThreadLocal<ClassLoader> classLoaderHolder = new ThreadLocal<ClassLoader>();
 	
@@ -71,9 +73,9 @@ public class DataEngineSession
 
 		this.engine = engine;
 		this.scope = engine.getContext( ).getJavaScriptScope( );
-		
+		this.stopSign = new StopSign();
 	
-			if ( this.scope == null )
+		if ( this.scope == null )
 		{
 			this.scope = new ImporterTopLevel( engine.getContext( )
 					.getScriptContext( )
@@ -102,10 +104,39 @@ public class DataEngineSession
 			}} );
 		
 		engine.addShutdownListener( new ReportDocumentShutdownListener( this ) );
+		
+		this.cancelManager.register( new StopSignCancellable( stopSign ) );
 		this.queryResultIDUtil = new QueryResultIDUtil();
+		
 		logger.exiting( DataEngineSession.class.getName( ), "DataEngineSession" );
 	}
 	
+	private class StopSignCancellable implements ICancellable
+	{
+		private StopSign stopSign;
+		
+		StopSignCancellable( StopSign stopSign )
+		{
+			assert stopSign!= null;
+			this.stopSign = stopSign;
+		}
+
+		public void cancel( )
+		{
+			this.stopSign.stop( );			
+		}
+
+		public DataException collectException( )
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public boolean doCancel( )
+		{
+			return this.stopSign.isStopped( );
+		}
+	}
 	public void finalize()
 	{
 		this.houseKeepCancelManager( );
@@ -157,6 +188,10 @@ public class DataEngineSession
 		this.context.put( key, value );
 	}
 	
+	public StopSign getStopSign( )
+	{
+		return this.stopSign;
+	}
 	/**
 	 * 
 	 * @return

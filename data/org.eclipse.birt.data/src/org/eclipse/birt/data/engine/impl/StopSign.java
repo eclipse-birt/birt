@@ -21,6 +21,11 @@ public class StopSign
 {
 	private boolean isStopped = false;
 	
+	public StopSign()
+	{
+		
+	}
+	
 	/**
 	 * 
 	 *

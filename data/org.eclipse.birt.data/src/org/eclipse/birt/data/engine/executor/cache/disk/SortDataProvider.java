@@ -108,7 +108,7 @@ class SortDataProvider
 	 * @throws IOException, file reader exception
 	 * @throws DataException 
 	 */
-	IResultObject[] readData( int begin, int end, StopSign stopSign ) throws IOException, DataException
+	IResultObject[] readData( int begin, int end ) throws IOException, DataException
 	{
 		if ( begin == end )
 			return new IResultObject[0];
@@ -134,7 +134,7 @@ class SortDataProvider
 				|| offsetOfBegin >= cacheLength )
 		{
 			// no any loaded data
-			cachedResultObjects[readerIndex] = dfrArray[readerIndex].read( length, stopSign );
+			cachedResultObjects[readerIndex] = dfrArray[readerIndex].read( length );
 			sortedData = cachedResultObjects[readerIndex];
 			indexOfCachedRowData[readerIndex] = begin;
 		}
@@ -152,7 +152,7 @@ class SortDataProvider
 							+ i];
 
 				int nextReadLength = offsetOfEnd - cacheLength;
-				IResultObject[] nextSortData = dfrArray[readerIndex].read( nextReadLength, stopSign );
+				IResultObject[] nextSortData = dfrArray[readerIndex].read( nextReadLength );
 				for ( int i = 0; i < nextReadLength; i++ )
 					tempCachedData[fromBeginCachedLength + i] = nextSortData[i];
 
@@ -189,7 +189,7 @@ class SortDataProvider
 	 * @throws DataException 
 	 */
 	void writeData( int hint, int currPos, IResultObject[] resultObjects,
-			int count, StopSign stopSign ) throws IOException, DataException
+			int count ) throws IOException, DataException
 	{
 		if ( hint == SortDataProvider.SORT_ITSELF )
 		{
@@ -200,7 +200,7 @@ class SortDataProvider
 			else if ( currPos % dataCountOfUnit == 0 )
 				dfw.setWriteFile( outputFile );
 
-			dfw.write( resultObjects, count, stopSign );
+			dfw.write( resultObjects, count );
 			dfw.close( );
 		}
 		else
@@ -208,7 +208,7 @@ class SortDataProvider
 			if ( currPos == 0 )
 				dfw.setWriteFile( goalFile );
 
-			dfw.write( resultObjects, count, stopSign );
+			dfw.write( resultObjects, count );
 		}
 	}
 
