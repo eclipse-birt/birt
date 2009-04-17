@@ -2104,7 +2104,10 @@ public class CubeGroupContent extends Composite implements Listener
 
 		IAggrFunction countFunction = getCountFunction( );
 		if ( countFunction != null )
+		{
 			measure.setFunction( countFunction.getName( ) );
+			measure.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER );
+		}
 
 	}
 
