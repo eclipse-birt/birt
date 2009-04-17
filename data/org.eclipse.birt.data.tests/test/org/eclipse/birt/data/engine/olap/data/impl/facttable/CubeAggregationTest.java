@@ -280,7 +280,7 @@ public class CubeAggregationTest extends BaseTestCase
 		int[] sortTypes = new int[]{0,0};
 		AggregationFunctionDefinition[] aggregationFunctions = new AggregationFunctionDefinition[1];
 		aggregationFunctions[0] = new AggregationFunctionDefinition( "saleRank", "totalSale", IBuildInAggregation.TOTAL_RANK_FUNC );
-		aggregationFunctions[0].setParaValue( "true" );
+//		aggregationFunctions[0].setParaValue( "true" );
 		DimLevel[] dimLevels = new DimLevel[]{this.dimLevels[0],this.dimLevels[2]};
 		aggregations[0] = new AggregationDefinition( dimLevels, sortTypes, aggregationFunctions);
 		dimLevels = new DimLevel[]{this.dimLevels[0],this.dimLevels[1]};

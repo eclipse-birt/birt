@@ -235,13 +235,14 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	 * @param row
 	 * @param funcIndex
 	 * @return
+	 * @throws DataException 
 	 */
-	protected Object[] getAccumulatorParameter( AggregationFunctionDefinition function, IAggregationResultRow row, int funcIndex )
+	protected Object[] getAccumulatorParameter( AggregationFunctionDefinition function, IAggregationResultRow row, int funcIndex ) throws DataException
 	{
 		Object[] parameters = null;
 		if(  paraInfo[funcIndex] == null || paraInfo[funcIndex].getLevelIndex( ) == -1 )
 		{
-			if ( function.getParaValue( ) == null )
+			if ( getParaNum( funcIndex ) <= 1 )
 			{
 				parameters = new Object[1];
 				if ( measureIndexes[funcIndex] < 0 )
@@ -287,6 +288,15 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 		return parameters;
 	}
 	
+	private int getParaNum( int index ) throws DataException
+	{
+		AggregationFunctionDefinition[] aggregationFunctions = aggregation.getAggregationFunctions( );
+		IAggrFunction aggregationFunc = AggregationManager.getInstance( )
+			.getAggregation( aggregationFunctions[index].getFunctionName( ) );
+		if( aggregationFunc.getParameterDefn( ) == null )
+			return 0;
+		return aggregationFunc.getParameterDefn( ).length;
+	}
 	/**
 	 * 
 	 * @param row
