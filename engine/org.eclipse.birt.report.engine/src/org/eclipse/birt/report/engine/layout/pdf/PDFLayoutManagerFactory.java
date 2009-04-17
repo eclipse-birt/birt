@@ -34,12 +34,15 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
+import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.ILineStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.content.LineStackingExecutor;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+
+import com.ibm.icu.util.ULocale;
 
 public class PDFLayoutManagerFactory
 {
@@ -196,10 +199,22 @@ public class PDFLayoutManagerFactory
 				if ( parent instanceof PDFLineAreaLM )
 				{
 					String originalPageNumber = autoText.getText( );
-					NumberFormatter nf = new NumberFormatter( );
-					String patternStr = autoText.getComputedStyle( )
-							.getNumberFormat( );
-					nf.applyPattern( patternStr );
+					DataFormatValue format = autoText.getComputedStyle( )
+							.getDataFormat( );
+					NumberFormatter nf = null;
+					if ( format == null )
+						nf = new NumberFormatter( );
+					else
+					{
+						String pattern = format.getNumberPattern( );
+						String locale = format.getNumberLocale( );
+						if ( locale == null )
+							nf = new NumberFormatter( pattern );
+						else
+							nf = new NumberFormatter( pattern, new ULocale(
+									locale ) );
+					}
+
 					try
 					{
 						autoText.setText( nf.format( Integer

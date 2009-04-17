@@ -14,7 +14,9 @@ package org.eclipse.birt.report.engine.content;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTValueConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
@@ -116,4 +118,8 @@ public interface IStyle
 	public String getBackgroundHeight( );
 
 	public String getBackgroundWidth( );
+	
+	public DataFormatValue getDataFormat( );
+	
+	public void setDataFormat( DataFormatValue value );
 }

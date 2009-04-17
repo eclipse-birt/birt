@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
@@ -30,11 +31,12 @@ import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
-import org.eclipse.birt.report.engine.layout.area.impl.BlockContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.LogicContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+
+import com.ibm.icu.util.ULocale;
 
 
 public class PageLayout extends BlockStackingLayout
@@ -534,8 +536,20 @@ public class PageLayout extends BlockStackingLayout
 			if ( type == IAutoTextContent.PAGE_NUMBER
 					|| type == IAutoTextContent.UNFILTERED_PAGE_NUMBER )
 			{
-				String pattern = autoText.getComputedStyle( ).getNumberFormat( );
-				NumberFormatter nf = new NumberFormatter( pattern );
+				DataFormatValue format = autoText.getComputedStyle( )
+						.getDataFormat( );
+				NumberFormatter nf = null;
+				if ( format == null )
+					nf = new NumberFormatter( );
+				else
+				{
+					String pattern = format.getNumberPattern( );
+					String locale = format.getNumberLocale( );
+					if ( locale == null )
+						nf = new NumberFormatter( pattern );
+					else
+						nf = new NumberFormatter( pattern, new ULocale( locale ) );
+				}
 				autoText.setText( nf.format( pageNumber ) );
 			}
 		}

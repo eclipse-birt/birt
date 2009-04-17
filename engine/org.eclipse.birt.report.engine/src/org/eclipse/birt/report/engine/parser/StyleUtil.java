@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2009 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.parser;
 
@@ -8,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.elements.Style;
 
@@ -17,6 +28,7 @@ public class StyleUtil
 	public static Map<String, Integer> styleName2Index = null;
 	public static Set<String> colorProperties;
 	public static Map<String, Integer> ruleStyleName2Index = null;
+	public static Map<String, Integer> customName2Index = null;
 
 	public static void main( String[] args )
 	{
@@ -92,12 +104,14 @@ public class StyleUtil
 		styleName2Index.put( Style.CAN_SHRINK_PROP,
 				StyleConstants.STYLE_CAN_SHRINK );
 		styleName2Index.put( Style.COLOR_PROP, StyleConstants.STYLE_COLOR );
+		/*
 		styleName2Index.put( Style.DATE_TIME_FORMAT_PROP,
 				StyleConstants.STYLE_DATE_FORMAT );
 		styleName2Index.put( Style.DATE_FORMAT_PROP,
 				StyleConstants.STYLE_SQL_DATE_FORMAT );
 		styleName2Index.put( Style.TIME_FORMAT_PROP,
 				StyleConstants.STYLE_SQL_TIME_FORMAT );
+		*/
 		styleName2Index.put( Style.FONT_FAMILY_PROP,
 				StyleConstants.STYLE_FONT_FAMILY );
 		styleName2Index.put( Style.FONT_SIZE_PROP,
@@ -114,8 +128,10 @@ public class StyleUtil
 				StyleConstants.STYLE_TEXT_OVERLINE );
 		styleName2Index.put( Style.TEXT_LINE_THROUGH_PROP,
 				StyleConstants.STYLE_TEXT_LINETHROUGH );
+		/*
 		styleName2Index.put( Style.NUMBER_FORMAT_PROP,
 				StyleConstants.STYLE_NUMBER_FORMAT );
+		*/
 		styleName2Index.put( Style.NUMBER_ALIGN_PROP,
 				StyleConstants.STYLE_NUMBER_ALIGN );
 		styleName2Index.put( Style.DISPLAY_PROP, StyleConstants.STYLE_DISPLAY );
@@ -129,8 +145,10 @@ public class StyleUtil
 				StyleConstants.STYLE_PAGE_BREAK_INSIDE );
 		styleName2Index.put( Style.SHOW_IF_BLANK_PROP,
 				StyleConstants.STYLE_SHOW_IF_BLANK );
+		/*
 		styleName2Index.put( Style.STRING_FORMAT_PROP,
 				StyleConstants.STYLE_STRING_FORMAT );
+		*/
 		styleName2Index.put( Style.TEXT_ALIGN_PROP,
 				StyleConstants.STYLE_TEXT_ALIGN );
 		styleName2Index.put( Style.TEXT_INDENT_PROP,
@@ -186,14 +204,18 @@ public class StyleUtil
 				StyleConstants.STYLE_BORDER_RIGHT_COLOR );
 		ruleStyleName2Index.put( HighlightRule.BACKGROUND_COLOR_MEMBER,
 				StyleConstants.STYLE_BACKGROUND_COLOR );
+		/*
 		ruleStyleName2Index.put( HighlightRule.DATE_TIME_FORMAT_MEMBER,
 				StyleConstants.STYLE_SQL_DATE_FORMAT );
 		ruleStyleName2Index.put( HighlightRule.NUMBER_FORMAT_MEMBER,
 				StyleConstants.STYLE_NUMBER_FORMAT );
+		*/
 		ruleStyleName2Index.put( HighlightRule.NUMBER_ALIGN_MEMBER,
 				StyleConstants.STYLE_NUMBER_ALIGN );
+		/*
 		ruleStyleName2Index.put( HighlightRule.STRING_FORMAT_MEMBER,
 				StyleConstants.STYLE_STRING_FORMAT );
+		*/
 		ruleStyleName2Index.put( HighlightRule.FONT_FAMILY_MEMBER,
 				StyleConstants.STYLE_FONT_FAMILY );
 		ruleStyleName2Index.put( HighlightRule.FONT_SIZE_MEMBER,
@@ -220,5 +242,9 @@ public class StyleUtil
 				StyleConstants.STYLE_TEXT_INDENT );
 		ruleStyleName2Index.put( HighlightRule.TEXT_DIRECTION_MEMBER,
 				StyleConstants.STYLE_DIRECTION );
+		
+		customName2Index = new HashMap<String, Integer>( );
+		customName2Index.put( BIRTConstants.BIRT_STYLE_DATA_FORMAT,
+				StyleConstants.STYLE_DATA_FORMAT );
 	}
 }

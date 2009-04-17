@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -86,14 +87,17 @@ public class StylePropertyMapping
 		nameMapping.put( IStyleModel.MASTER_PAGE_PROP, new Integer( StyleConstants.STYLE_MASTER_PAGE ) );
 		nameMapping.put( IStyleModel.SHOW_IF_BLANK_PROP, new Integer( StyleConstants.STYLE_SHOW_IF_BLANK ) );
 		nameMapping.put( IStyleModel.CAN_SHRINK_PROP, new Integer( StyleConstants.STYLE_CAN_SHRINK ) );
+		/*
 		nameMapping.put( IStyleModel.NUMBER_FORMAT_PROP, new Integer( StyleConstants.STYLE_NUMBER_FORMAT ) );
 		nameMapping.put( IStyleModel.STRING_FORMAT_PROP, new Integer( StyleConstants.STYLE_STRING_FORMAT ) );
 		nameMapping.put( IStyleModel.DATE_TIME_FORMAT_PROP, new Integer( StyleConstants.STYLE_DATE_FORMAT ) );
+		*/
 		nameMapping.put( IStyleModel.NUMBER_ALIGN_PROP, new Integer( StyleConstants.STYLE_NUMBER_ALIGN ) );
 
 		// bidi_hcg: Add Bidi text direction.
 		nameMapping.put( IStyleModel.TEXT_DIRECTION_PROP, new Integer(
 				StyleConstants.STYLE_DIRECTION ) );
+		nameMapping.put( BIRTConstants.BIRT_STYLE_DATA_FORMAT, StyleConstants.STYLE_DATA_FORMAT );
 	}
 
 	protected static IElementDefn styleDefn;

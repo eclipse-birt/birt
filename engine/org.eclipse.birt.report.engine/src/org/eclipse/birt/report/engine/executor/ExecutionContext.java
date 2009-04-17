@@ -1538,13 +1538,23 @@ public class ExecutionContext
 	 *            string format
 	 * @return formatter object
 	 */
-	public StringFormatter getStringFormatter( String value )
+	public StringFormatter getStringFormatter( String pattern )
 	{
-		StringFormatter fmt = (StringFormatter) stringFormatters.get( value );
+		return getStringFormatter( pattern, ULocale.forLocale( locale ) );
+	}
+
+	public StringFormatter getStringFormatter( String pattern, ULocale locale )
+	{
+		if ( locale == null )
+		{
+			locale = ULocale.forLocale( this.locale );
+		}
+		String key = pattern + ":" + locale;
+		StringFormatter fmt = (StringFormatter) stringFormatters.get( key );
 		if ( fmt == null )
 		{
-			fmt = new StringFormatter( value, ULocale.forLocale(locale) );
-			stringFormatters.put( value, fmt );
+			fmt = new StringFormatter( pattern, locale );
+			stringFormatters.put( key, fmt );
 		}
 		return fmt;
 	}
@@ -1556,13 +1566,23 @@ public class ExecutionContext
 	 *            number format
 	 * @return formatter object
 	 */
-	public NumberFormatter getNumberFormatter( String value )
+	public NumberFormatter getNumberFormatter( String pattern )
 	{
-		NumberFormatter fmt = (NumberFormatter) numberFormatters.get( value );
+		return getNumberFormatter( pattern, ULocale.forLocale( locale ) );
+	}
+
+	public NumberFormatter getNumberFormatter( String pattern, ULocale locale )
+	{
+		if ( locale == null )
+		{
+			locale = ULocale.forLocale( this.locale );
+		}
+		String key = pattern + ":" + locale;
+		NumberFormatter fmt = (NumberFormatter) numberFormatters.get( key );
 		if ( fmt == null )
 		{
-			fmt = new NumberFormatter( value, ULocale.forLocale(locale) );
-			numberFormatters.put( value, fmt );
+			fmt = new NumberFormatter( pattern, locale );
+			numberFormatters.put( key, fmt );
 		}
 		return fmt;
 	}
@@ -1574,21 +1594,26 @@ public class ExecutionContext
 	 *            date format
 	 * @return formatter object
 	 */
-	public DateFormatter getDateFormatter( String value )
-	{	
-		DateFormatter fmt = null;
-		if ( value != null )
+	public DateFormatter getDateFormatter( String pattern )
+	{
+		return getDateFormatter( pattern, ULocale.forLocale( locale ) );
+	}
+	
+	public DateFormatter getDateFormatter( String pattern, ULocale locale )
+	{
+		if ( locale == null )
 		{
-			fmt = (DateFormatter) dateFormatters.get( value );
-			if ( fmt == null )
-			{
-				fmt = new DateFormatter( value, ULocale.forLocale( locale ),
-						timeZone );
-				dateFormatters.put( value, fmt );
-			}
-			return fmt;
+			locale = ULocale.forLocale( this.locale );
 		}
-		return new DateFormatter( value, ULocale.forLocale( locale ), timeZone );
+		String key = pattern + ":" + locale;
+		DateFormatter fmt = (DateFormatter) dateFormatters.get( key );
+		if ( fmt == null )
+		{
+			fmt = new DateFormatter( pattern, locale, timeZone );
+			dateFormatters.put( key, fmt );
+		}
+
+		return fmt;
 	}
 
 	/**

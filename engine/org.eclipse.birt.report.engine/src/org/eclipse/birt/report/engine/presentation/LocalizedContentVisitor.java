@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -56,6 +56,7 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.data.dte.SingleCubeResultSet;
 import org.eclipse.birt.report.engine.data.dte.SingleQueryResultSet;
@@ -295,10 +296,25 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			if ( value != null )
 			{
 				IStyle style = data.getComputedStyle( );
+				DataFormatValue dataFormat = style.getDataFormat( );
 				if ( value instanceof Number )
 				{
-					String format = style.getNumberFormat( );
-					NumberFormatter fmt = context.getNumberFormatter( format );
+					NumberFormatter fmt = null;
+					if ( dataFormat == null )
+					{
+						fmt = context.getNumberFormatter( null, null );
+					}
+					else
+					{
+						String pattern = dataFormat.getNumberPattern( );
+						String locale = dataFormat.getNumberLocale( );
+						if ( locale == null )
+							fmt = context.getNumberFormatter( null, null );
+						else
+							fmt = context.getNumberFormatter( pattern,
+									new ULocale( locale ) );
+					}
+					
 					text = fmt.format( (Number) value );
 					CSSValue align = style
 							.getProperty( IStyle.STYLE_NUMBER_ALIGN );
@@ -310,27 +326,55 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				}
 				else if ( value instanceof String )
 				{
-					StringFormatter fmt = context.getStringFormatter( style
-							.getStringFormat( ) );
+					StringFormatter fmt = null;
+					if ( dataFormat == null )
+					{
+						fmt = context.getStringFormatter( null, null );
+					}
+					else
+					{
+						String pattern = dataFormat.getStringPattern( );
+						String locale = dataFormat.getStringLocale( );
+						if ( locale == null )
+							fmt = context.getStringFormatter( null, null );
+						else
+							fmt = context.getStringFormatter( pattern,
+									new ULocale( locale ) );
+					}
 					text = fmt.format( (String) value );
 
 				}
 				else if ( value instanceof java.util.Date )
 				{
-					String dateFormat = null;
-					if ( value instanceof java.sql.Date )
+					DateFormatter fmt = null;
+					String pattern = null;
+					String locale = null;
+					if ( dataFormat != null )
 					{
-						dateFormat = style.getDateFormat( );
+						if ( value instanceof java.sql.Date )
+						{
+							pattern = dataFormat.getDatePattern( );
+							locale = dataFormat.getDateLocale( );
+						}
+						else if ( value instanceof java.sql.Time )
+						{
+							pattern = dataFormat.getTimePattern( );
+							locale = dataFormat.getTimeLocale( );
+						}
+						if ( pattern == null && locale == null )
+						{
+							pattern = dataFormat.getDateTimePattern( );
+							locale = dataFormat.getDateTimeLocale( );
+						}
+						if ( locale == null )
+							fmt = context.getDateFormatter( null, null );
+						else
+							fmt = context.getDateFormatter( pattern,
+									new ULocale( locale ) );
 					}
-					else if ( value instanceof java.sql.Time )
-					{
-						dateFormat = style.getTimeFormat( );
-					}
-					if ( dateFormat == null )
-					{
-						dateFormat = style.getDateTimeFormat( );
-					}
-					DateFormatter fmt = context.getDateFormatter( dateFormat );
+					else
+						fmt = context.getDateFormatter( null, null );
+
 					text = fmt.format( (java.util.Date) value );
 				}
 				else
@@ -427,9 +471,21 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	public Object visitAutoText( IAutoTextContent autoText, Object value )
 	{
 		int type = autoText.getType( );
-		String pattern = autoText.getComputedStyle( ).getNumberFormat( );
-		NumberFormatter format = context.getNumberFormatter( pattern );
-
+		DataFormatValue dataFormat = autoText.getComputedStyle( )
+				.getDataFormat( );
+		NumberFormatter format = null;
+		if ( dataFormat == null )
+			format = new NumberFormatter( );
+		else
+		{
+			String pattern = dataFormat.getNumberPattern( );
+			String locale = dataFormat.getNumberLocale( );
+			if ( locale == null )
+				format = new NumberFormatter( pattern );
+			else
+				format = new NumberFormatter( pattern, new ULocale( locale ) );
+		}
+		
 		if ( type == IAutoTextContent.PAGE_NUMBER )
 		{
 			long number = context.getFilteredPageNumber( );

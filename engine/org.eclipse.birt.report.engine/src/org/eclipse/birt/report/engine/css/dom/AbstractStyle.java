@@ -14,10 +14,13 @@ package org.eclipse.birt.report.engine.css.dom;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
+import org.eclipse.birt.report.model.elements.Style;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSRule;
@@ -56,6 +59,11 @@ abstract public class AbstractStyle implements IStyle
 
 		for ( int i = 0; i < NUMBER_OF_STYLE; i++ )
 		{
+			//we don't return the format in css as the format
+			//is a complex object which can't be represented as
+			//css string.
+			if (i == IStyle.STYLE_DATA_FORMAT)
+				continue;
 			CSSValue value = getProperty( i );
 			if ( value != null )
 			{
@@ -947,30 +955,56 @@ abstract public class AbstractStyle implements IStyle
 	{
 		setCssText( STYLE_WORD_SPACING, wordSpacing );
 	}
+	
+	private DataFormatValue copyDataFormat( DataFormatValue old )
+	{
+		DataFormatValue newValue = null;
+		if ( old != null )
+			newValue = old.clone( );
+		else
+			newValue = new DataFormatValue( );
+		setDataFormat( newValue );
+		return newValue;
+	}
 
 	public void setStringFormat( String format ) throws DOMException
 	{
-		setCssText( STYLE_STRING_FORMAT, format );
+		DataFormatValue value = getDataFormat( );
+		DataFormatValue newValue = copyDataFormat( value );
+		newValue.setStringFormat( format, value == null ? null : value
+				.getStringLocale( ) );
 	}
 
 	public void setNumberFormat( String format ) throws DOMException
 	{
-		setCssText( STYLE_NUMBER_FORMAT, format );
+		DataFormatValue value = getDataFormat( );
+		DataFormatValue newValue = copyDataFormat( value );
+		newValue.setNumberFormat( format, value == null ? null : value
+				.getNumberLocale( ) );
 	}
 
 	public void setDateFormat( String format ) throws DOMException
 	{
-		setCssText( STYLE_SQL_DATE_FORMAT, format );
+		DataFormatValue value = getDataFormat( );
+		DataFormatValue newValue = copyDataFormat( value );
+		newValue.setDateFormat( format, value == null ? null : value
+				.getDateLocale( ) );
 	}
-	
+
 	public void setDateTimeFormat( String format ) throws DOMException
 	{
-		setCssText( STYLE_DATE_FORMAT, format );
+		DataFormatValue value = getDataFormat( );
+		DataFormatValue newValue = copyDataFormat( value );
+		newValue.setDateTimeFormat( format, value == null ? null : value
+				.getDateTimeLocale( ) );
 	}
-	
+
 	public void setTimeFormat( String format ) throws DOMException
 	{
-		setCssText( STYLE_SQL_TIME_FORMAT, format );
+		DataFormatValue value = getDataFormat( );
+		DataFormatValue newValue = copyDataFormat( value );
+		newValue.setTimeFormat( format, value == null ? null : value
+				.getTimeLocale( ) );
 	}
 
 	public void setNumberAlign( String align ) throws DOMException
@@ -985,27 +1019,53 @@ abstract public class AbstractStyle implements IStyle
 
 	public String getStringFormat( )
 	{
-		return getCssText( STYLE_STRING_FORMAT );
+		DataFormatValue value = getDataFormat( );
+		if ( value != null )
+		{
+			return value.getStringPattern( );
+		}
+		return null;
 	}
 
 	public String getNumberFormat( )
 	{
-		return getCssText( STYLE_NUMBER_FORMAT );
+		DataFormatValue value = getDataFormat( );
+		if ( value != null )
+		{
+
+			return value.getNumberPattern( );
+		}
+		return null;
 	}
 
 	public String getDateFormat( )
 	{
-		return getCssText( STYLE_SQL_DATE_FORMAT );
+		DataFormatValue value = getDataFormat( );
+		if ( value != null )
+		{
+			return value.getDatePattern( );
+		}
+		return null;
 	}
-	
+
 	public String getDateTimeFormat( )
 	{
-		return getCssText( STYLE_DATE_FORMAT );
+		DataFormatValue value = getDataFormat( );
+		if ( value != null )
+		{
+			return value.getDateTimePattern( );
+		}
+		return null;
 	}
-	
+
 	public String getTimeFormat( )
 	{
-		return getCssText( STYLE_SQL_TIME_FORMAT );
+		DataFormatValue value = getDataFormat( );
+		if ( value != null )
+		{
+			return value.getTimePattern( );
+		}
+		return null;
 	}
 
 	public String getNumberAlign( )
@@ -1864,21 +1924,30 @@ abstract public class AbstractStyle implements IStyle
 		for ( int i = 0; i < StyleConstants.NUMBER_OF_STYLE; i++ )
 		{
 			CSSValue value = getProperty( i );
-			if( null != value )
+			if ( null != value )
 			{
 				validCount++;
 			}
 		}
 		IOUtil.writeInt( out, validCount );
-		
+
 		// write the style's property
 		for ( int i = 0; i < StyleConstants.NUMBER_OF_STYLE; i++ )
 		{
 			CSSValue value = getProperty( i );
-			if( null != value )
+			if ( null != value )
 			{
-				IOUtil.writeString( out, engine.getPropertyName( i ) );
-				IOUtil.writeString( out, value.getCssText( ) );
+				String propertyName = engine.getPropertyName( i );
+				IOUtil.writeString( out, propertyName );
+				int index = getPropertyIndex( propertyName );
+				if ( index == StyleConstants.STYLE_DATA_FORMAT )
+				{
+					DataFormatValue.write( out, (DataFormatValue) value );
+				}
+				else
+				{
+					IOUtil.writeString( out, value.getCssText( ) );
+				}
 			}
 		}
 	}
@@ -1889,9 +1958,63 @@ abstract public class AbstractStyle implements IStyle
 		for ( int i = 0; i < validCount; i++ )
 		{
 			String propertyName = IOUtil.readString( in );
-			String propertyCssText = IOUtil.readString( in );
 			int index = getPropertyIndex( propertyName );
-			setCssText( index, propertyCssText );
+			if ( index == -1 )
+			{
+				String propertyCssText = IOUtil.readString( in );
+				if ( Style.STRING_FORMAT_PROP.equalsIgnoreCase( propertyName ) )
+				{
+					this.setStringFormat( propertyCssText );
+				}
+				else if ( Style.NUMBER_FORMAT_PROP
+						.equalsIgnoreCase( propertyName ) )
+				{
+					this.setNumberFormat( propertyCssText );
+				}
+				else if ( Style.DATE_FORMAT_PROP
+						.equalsIgnoreCase( propertyName ) )
+				{
+					this.setDateFormat( propertyCssText );
+				}
+				else if ( Style.TIME_FORMAT_PROP
+						.equalsIgnoreCase( propertyName ) )
+				{
+					this.setTimeFormat( propertyCssText );
+				}
+				else if ( Style.DATE_TIME_FORMAT_PROP
+						.equalsIgnoreCase( propertyName ) )
+				{
+					this.setDateTimeFormat( propertyCssText );
+				}
+				else
+				{
+					throw new IOException( propertyName + " not valid" );
+				}
+			}
+			else
+			{
+				if ( index == StyleConstants.STYLE_DATA_FORMAT )
+				{
+					CSSValue value = DataFormatValue.read( in );
+					setProperty( index, value );
+				}
+				else
+				{
+					String propertyCssText = IOUtil.readString( in );
+					setCssText( index, propertyCssText );
+				}
+			}
 		}
+	}
+	
+	public DataFormatValue getDataFormat( )
+	{
+		return (DataFormatValue) this
+				.getProperty( StyleConstants.STYLE_DATA_FORMAT );
+	}
+
+	public void setDataFormat( DataFormatValue value )
+	{
+		setProperty( StyleConstants.STYLE_DATA_FORMAT, value );
 	}
 }

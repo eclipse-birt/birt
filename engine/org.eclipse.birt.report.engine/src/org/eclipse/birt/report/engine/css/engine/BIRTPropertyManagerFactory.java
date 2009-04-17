@@ -15,6 +15,7 @@ import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BackgroundPositionXManager;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BackgroundPositionYManager;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BooleanManager;
+import org.eclipse.birt.report.engine.css.engine.value.birt.DataFormatManager;
 import org.eclipse.birt.report.engine.css.engine.value.birt.VisibleFormatManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.BackgroundAttachmentManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.BackgroundRepeatManager;
@@ -72,7 +73,7 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory
 		vms[StyleConstants.STYLE_NUMBER_ALIGN] = new TextAlignManager(
 				BIRTConstants.BIRT_NUMBER_ALIGN_PROPERTY,
 				CSSValueConstants.NONE_VALUE );
-
+/*
 		vms[StyleConstants.STYLE_NUMBER_FORMAT] = new StringManager(
 				BIRTConstants.BIRT_NUMBER_FORMAT_PROPERTY, true,
 				CSSValueConstants.NULL_STRING_VALUE );
@@ -88,7 +89,7 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory
 		vms[StyleConstants.STYLE_SQL_TIME_FORMAT] = new StringManager(
 				BIRTConstants.BIRT_TIME_FORMAT_PROPERTY, true,
 				CSSValueConstants.NULL_STRING_VALUE );
-		
+*/		
 
 		vms[StyleConstants.STYLE_VERTICAL_ALIGN] = new VerticalAlignManager( );
 
@@ -194,6 +195,8 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory
 				CSSConstants.CSS_BACKGROUND_HEIGHT_PROPERTY, false, null );
 		vms[StyleConstants.STYLE_BACKGROUND_WIDTH] = new StringManager(
 				CSSConstants.CSS_BACKGROUND_WIDTH_PROPERTY, false, null );
+		
+		vms[StyleConstants.STYLE_DATA_FORMAT] = new DataFormatManager( );
 	}
 
 	public int getNumberOfProperties( )

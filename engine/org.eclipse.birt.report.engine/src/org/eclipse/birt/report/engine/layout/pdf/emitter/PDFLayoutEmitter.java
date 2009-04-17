@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
+import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -50,6 +51,8 @@ import org.eclipse.birt.report.engine.layout.pdf.text.ChunkGenerator;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
+
+import com.ibm.icu.util.ULocale;
 
 public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEmitter
 {
@@ -129,10 +132,22 @@ public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEm
 		IAutoTextContent totalPageContent = (IAutoTextContent) con;
 		if ( null != totalPageContent )
 		{
-			NumberFormatter nf = new NumberFormatter( );
-			String patternStr = totalPageContent.getComputedStyle( )
-					.getNumberFormat( );
-			nf.applyPattern( patternStr );
+			DataFormatValue format = totalPageContent.getComputedStyle( )
+					.getDataFormat( );
+			NumberFormatter nf = null;
+			if ( format == null )
+			{
+				nf = new NumberFormatter( );
+			}
+			else
+			{
+				String pattern = format.getNumberPattern( );
+				String locale = format.getNumberLocale( );
+				if ( locale == null )
+					nf = new NumberFormatter( pattern );
+				else
+					nf = new NumberFormatter( pattern, new ULocale( locale ) );
+			}
 			
 			long totalPageCount = 0;
 			if ( context.autoPageBreak )

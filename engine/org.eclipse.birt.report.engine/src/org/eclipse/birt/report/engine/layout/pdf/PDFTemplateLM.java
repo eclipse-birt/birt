@@ -16,11 +16,14 @@ import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TemplateArea;
+
+import com.ibm.icu.util.ULocale;
 
 public class PDFTemplateLM extends PDFLeafItemLM
 {
@@ -87,11 +90,21 @@ public class PDFTemplateLM extends PDFLeafItemLM
 		}
 		if ( IAutoTextContent.PAGE_NUMBER == autoText.getType( ) )
 		{
-
 			String originalPageNumber = autoText.getText( );
-			NumberFormatter nf = new NumberFormatter( );
-			String patternStr = autoText.getComputedStyle( ).getNumberFormat( );
-			nf.applyPattern( patternStr );
+			DataFormatValue format = autoText.getComputedStyle( )
+					.getDataFormat( );
+			NumberFormatter nf = null;
+			if ( format == null )
+				nf = new NumberFormatter( );
+			else
+			{
+				String pattern = format.getNumberPattern( );
+				String locale = format.getNumberLocale( );
+				if ( locale == null )
+					nf = new NumberFormatter( pattern );
+				else
+					nf = new NumberFormatter( pattern, new ULocale( locale ) );
+			}
 			autoText.setText( nf
 					.format( Integer.parseInt( originalPageNumber ) ) );
 		}

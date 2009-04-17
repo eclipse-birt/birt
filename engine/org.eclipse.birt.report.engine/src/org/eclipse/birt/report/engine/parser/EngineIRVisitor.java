@@ -25,6 +25,8 @@ import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
+import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.BandDesign;
@@ -111,6 +113,7 @@ import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -120,6 +123,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.core.runtime.Assert;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Constructs an internal representation of the report design for report
@@ -2333,6 +2338,73 @@ public class EngineIRVisitor extends DesignVisitor
 		return style;
 
 	}
+	
+	private void createDataFormat( DesignElementHandle handle,
+			StyleDeclaration style )
+	{
+		if ( handle == null )
+			return;
+
+		Set<String> propertyNames = StyleUtil.customName2Index.keySet( );
+		for ( String propertyName : propertyNames )
+		{
+			if ( BIRTConstants.BIRT_STYLE_DATA_FORMAT
+					.equalsIgnoreCase( propertyName ) )
+			{
+				DataFormatValue formatSet = new DataFormatValue( );
+				boolean formatSetValid = false;
+				FormatValue modelValue = (FormatValue) handle
+						.getProperty( StyleHandle.STRING_FORMAT_PROP );
+				if ( modelValue != null )
+				{
+					ULocale locale = modelValue.getLocale( );
+					formatSet.setStringFormat( modelValue.getPattern( ),
+							locale == null ? null : locale.toString( ) );
+					formatSetValid = true;
+				}
+				modelValue = (FormatValue) handle
+						.getProperty( StyleHandle.NUMBER_FORMAT_PROP );
+				if ( modelValue != null )
+				{
+					ULocale locale = modelValue.getLocale( );
+					formatSet.setNumberFormat( modelValue.getPattern( ),
+							locale == null ? null : locale.toString( ) );
+					formatSetValid = true;
+				}
+				modelValue = (FormatValue) handle
+						.getProperty( StyleHandle.DATE_FORMAT_PROP );
+				if ( modelValue != null )
+				{
+					ULocale locale = modelValue.getLocale( );
+					formatSet.setDateFormat( modelValue.getPattern( ),
+							locale == null ? null : locale.toString( ) );
+					formatSetValid = true;
+				}
+				modelValue = (FormatValue) handle
+						.getProperty( StyleHandle.TIME_FORMAT_PROP );
+				if ( modelValue != null )
+				{
+					ULocale locale = modelValue.getLocale( );
+					formatSet.setTimeFormat( modelValue.getPattern( ),
+							locale == null ? null : locale.toString( ) );
+					formatSetValid = true;
+				}
+				modelValue = (FormatValue) handle
+						.getProperty( StyleHandle.DATE_TIME_FORMAT_PROP );
+				if ( modelValue != null )
+				{
+					ULocale locale = modelValue.getLocale( );
+					formatSet.setDateTimeFormat( modelValue.getPattern( ),
+							locale == null ? null : locale.toString( ) );
+					formatSetValid = true;
+				}
+
+				if ( formatSetValid )
+					style.setProperty( StyleUtil.customName2Index
+							.get( propertyName ), formatSet );
+			}
+		}
+	}
 
 	protected StyleDeclaration createPrivateStyle( StyledElementDesign design,
 			StyleHandle handle )
@@ -2344,8 +2416,8 @@ public class EngineIRVisitor extends DesignVisitor
 		{
 			createPrivateStyle( handle, design, style, propertyName );
 		}
+		createDataFormat( handle, style );
 		return style;
-
 	}
 
 	private void createPrivateStyle( StyleHandle handle,
@@ -2366,6 +2438,7 @@ public class EngineIRVisitor extends DesignVisitor
 		{
 			populateElementProperty( handle, design, style, propertyName );
 		}
+		createDataFormat( handle, style );
 		design.setStyle( style );
 	}
 
@@ -2587,9 +2660,13 @@ public class EngineIRVisitor extends DesignVisitor
 		addReportDefaultPropertyValue( Style.PADDING_RIGHT_PROP, handle );
 
 		//Format
-		addReportDefaultPropertyValue( Style.STRING_FORMAT_PROP, handle );
-		addReportDefaultPropertyValue( Style.NUMBER_FORMAT_PROP, handle );
-		addReportDefaultPropertyValue( Style.DATE_TIME_FORMAT_PROP, handle );
+		/*
+		 * addReportDefaultPropertyValue( Style.STRING_FORMAT_PROP, handle );
+		 * addReportDefaultPropertyValue( Style.NUMBER_FORMAT_PROP, handle );
+		 * addReportDefaultPropertyValue( Style.DATE_TIME_FORMAT_PROP, handle );
+		 */
+		createDataFormat( handle, nonInheritableReportStyle );
+		createDataFormat( handle, inheritableReportStyle );
 		
 		report.setRootStyleName( assignStyleName( inheritableReportStyle ) );
 		report.setRootStyle( inheritableReportStyle );

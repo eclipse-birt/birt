@@ -24,18 +24,20 @@ public interface BIRTConstants extends CSSConstants {
 	String BIRT_BACKGROUND_POSITION_X_PROPERTY = "background-position-x";
 	String BIRT_BACKGROUND_POSITION_Y_PROPERTY = "background-position-y";
 	String BIRT_CAN_SHRINK_PROPERTY = "can-shrink"; //$NON-NLS-1$
-	String BIRT_DATE_TIME_FORMAT_PROPERTY = "date-format"; //$NON-NLS-1$
-	String BIRT_TIME_FORMAT_PROPERTY = "sql-time-format"; //$NON-NLS-1$
-	String BIRT_DATE_FORMAT_PROPERTY = "sql-date-format"; //$NON-NLS-1$
 	String BIRT_MASTER_PAGE_PROPERTY= "master-page"; //$NON-NLS-1$
 	String BIRT_NUMBER_ALIGN_PROPERTY = "number-align";
-	String BIRT_NUMBER_FORMAT_PROPERTY = "number-format"; //$NON-NLS-1$
 	String BIRT_SHOW_IF_BLANK_PROPERTY= "show-if-blank"; //$NON-NLS-1$
-	String BIRT_STRING_FORMAT_PROPERTY = "string-format"; //$NON-NLS-1$
 	String BIRT_TEXT_UNDERLINE_PROPERTY = "text-underline"; //$NON-NLS-1$
 	String BIRT_TEXT_OVERLINE_PROPERTY = "text-overline"; //$NON-NLS-1$
 	String BIRT_TEXT_LINETHROUGH_PROPERTY = "text-linethrough"; //$NON-NLS-1$
 	String BIRT_VISIBLE_FORMAT_PROPERTY = "visible-format";
+	String BIRT_STYLE_DATA_FORMAT = "data-format";
+	
+//	String BIRT_DATE_TIME_FORMAT_PROPERTY = "date-format"; //$NON-NLS-1$
+//	String BIRT_TIME_FORMAT_PROPERTY = "sql-time-format"; //$NON-NLS-1$
+//	String BIRT_DATE_FORMAT_PROPERTY = "sql-date-format"; //$NON-NLS-1$
+//	String BIRT_NUMBER_FORMAT_PROPERTY = "number-format"; //$NON-NLS-1$
+//	String BIRT_STRING_FORMAT_PROPERTY = "string-format"; //$NON-NLS-1$
 	
     /////////////////////////////////////////////////////////////////////////
     // BIRT attribute value
