@@ -11,4 +11,4 @@
 
 preference.chart=차트
 menu.lable.chart=차트(&C)
-preference.description=Insert a Chart item.
+preference.description=차트 항목을 삽입합니다.

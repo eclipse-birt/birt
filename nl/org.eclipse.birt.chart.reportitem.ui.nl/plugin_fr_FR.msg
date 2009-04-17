@@ -11,4 +11,4 @@
 
 preference.chart=Graphique
 menu.lable.chart=&Graphique
-preference.description=Insert a Chart item.
+preference.description=Insérer un élément du graphique.

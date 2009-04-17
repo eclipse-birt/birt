@@ -203,7 +203,7 @@ CrosstabGrandTotalDialog.Text.Function=&Funktion:
 CrosstabPageBreakProvider.Column.GroupLevel=Gruppenebene
 CrosstabPageBreakProvider.Column.Before=Vor
 CrosstabPageBreakProvider.Column.After=Nach
-CrosstabPageBreakProvider.Column.Inside=Inside
+CrosstabPageBreakProvider.Column.Inside=Innen
 CrosstabPageBreakProvider.Column.Interval=Intervall
 
 ###########################################################
@@ -218,7 +218,7 @@ CrosstabPageBreakDialog.Title=Seitenumbruch
 CrosstabPageBreakDialog.Text.GroupLevel=&Gruppenebene:
 CrosstabPageBreakDialog.Text.PageBreakBefore=&Vorher:
 CrosstabPageBreakDialog.Text.PageBreakAfter=&Nachher:
-CrosstabPageBreakDialog.Text.PageBreakInside=&Inside:
+CrosstabPageBreakDialog.Text.PageBreakInside=&Innen:
 CrosstabPageBreakDialog.Text.PageBreakInterval=&Intervall für Seitenumbruch:
 
 ###########################################################

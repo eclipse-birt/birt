@@ -203,7 +203,7 @@ CrosstabGrandTotalDialog.Text.Function=函数(&F):
 CrosstabPageBreakProvider.Column.GroupLevel=组级别
 CrosstabPageBreakProvider.Column.Before=之前
 CrosstabPageBreakProvider.Column.After=之后
-CrosstabPageBreakProvider.Column.Inside=Inside
+CrosstabPageBreakProvider.Column.Inside=内部
 CrosstabPageBreakProvider.Column.Interval=间隔
 
 ###########################################################
@@ -218,7 +218,7 @@ CrosstabPageBreakDialog.Title=分页符
 CrosstabPageBreakDialog.Text.GroupLevel=组级别(&G):
 CrosstabPageBreakDialog.Text.PageBreakBefore=之前(&B):
 CrosstabPageBreakDialog.Text.PageBreakAfter=之后(&A):
-CrosstabPageBreakDialog.Text.PageBreakInside=&Inside:
+CrosstabPageBreakDialog.Text.PageBreakInside=内部(&I):
 CrosstabPageBreakDialog.Text.PageBreakInterval=分页符间隔(&P):
 
 ###########################################################

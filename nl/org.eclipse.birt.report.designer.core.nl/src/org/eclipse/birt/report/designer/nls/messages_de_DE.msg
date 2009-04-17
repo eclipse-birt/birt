@@ -3273,9 +3273,9 @@ ResourceEditDialog.text.Value=&Wert
 ###########################################################
 #ResourceKeyDescriptor properties
 ResourceKeyDescriptor.text.Browse=&Durchsuchen...
-ResourceKeyDescriptor.text.Browse.Alt=&Durchsuchen...
+ResourceKeyDescriptor.text.Browse.Alt=Durchsu&chen...
 ResourceKeyDescriptor.text.Reset=&Zurücksetzen
-ResourceKeyDescriptor.text.Reset.Alt=R&eset
+ResourceKeyDescriptor.text.Reset.Alt=Zurücks&etzen:
 ResourceKeyDescriptor.title.SelectKey=Schlüssel auswählen
 ResourceKeyDescriptor.button.reset.tooltip=Schlüssel zurücksetzen
 ResourceKeyDescriptor.button.browse.tooltip=Durchsuchen und Schlüssel auswählen

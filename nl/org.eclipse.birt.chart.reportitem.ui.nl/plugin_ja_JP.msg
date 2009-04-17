@@ -11,4 +11,4 @@
 
 preference.chart=グラフ
 menu.lable.chart=グラフ(&C)
-preference.description=Insert a Chart item.
+preference.description=グラフ項目の挿入

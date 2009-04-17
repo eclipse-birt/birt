@@ -11,4 +11,4 @@
 
 preference.chart=Diagrama
 menu.lable.chart=&Diagrama
-preference.description=Insert a Chart item.
+preference.description=Insertar un elemento de diagrama.
