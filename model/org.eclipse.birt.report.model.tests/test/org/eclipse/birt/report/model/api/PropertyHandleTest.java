@@ -455,12 +455,13 @@ public class PropertyHandleTest extends BaseTestCase
 				.getPropertyHandle( SimpleDataSet.DATA_SOURCE_PROP );
 
 		assertEquals( 2, propertyHandle.getReferenceableElementList( ).size( ) );
-		
+
 		// test cube list
 		propertyHandle = label2.getPropertyHandle( IReportItemModel.CUBE_PROP );
 		assertEquals( 0, propertyHandle.getReferenceableElementList( ).size( ) );
-		CubeHandle cubeHandle = designHandle.getElementFactory( ).newTabularCube( null );
-		designHandle.getCubes( ).add( cubeHandle );		
+		CubeHandle cubeHandle = designHandle.getElementFactory( )
+				.newTabularCube( null );
+		designHandle.getCubes( ).add( cubeHandle );
 		assertEquals( 1, propertyHandle.getReferenceableElementList( ).size( ) );
 	}
 
@@ -500,6 +501,14 @@ public class PropertyHandleTest extends BaseTestCase
 		assertFalse( propHandle.isVisible( ) );
 		propHandle = cube.getPropertyHandle( ICubeModel.ACCESS_CONTROLS_PROP );
 		assertFalse( propHandle.isVisible( ) );
+
+		// both hide and readonly are set
+		ExtendedItemHandle extendedItem = elemFactory.newExtendedItem( null,
+				"TestingMatrix" ); //$NON-NLS-1$
+		propHandle = extendedItem
+				.getPropertyHandle( ExtendedItemHandle.BOOKMARK_PROP );
+		assertFalse( propHandle.isVisible( ) );
+		assertTrue( propHandle.isReadOnly( ) );
 	}
 
 	/**
@@ -526,12 +535,15 @@ public class PropertyHandleTest extends BaseTestCase
 
 		// The structures: like, eq, ge
 
-		assertEquals( "like", ( (StructureHandle) list.get( 0 ) ) //$NON-NLS-1$
-				.getProperty( MapRule.OPERATOR_MEMBER ) );
-		assertEquals( "eq", ( (StructureHandle) list.get( 1 ) ) //$NON-NLS-1$
-				.getProperty( MapRule.OPERATOR_MEMBER ) );
-		assertEquals( "ge", ( (StructureHandle) list.get( 2 ) ) //$NON-NLS-1$
-				.getProperty( MapRule.OPERATOR_MEMBER ) );
+		assertEquals( DesignChoiceConstants.MAP_OPERATOR_LIKE,
+				( (StructureHandle) list.get( 0 ) )
+						.getProperty( MapRule.OPERATOR_MEMBER ) );
+		assertEquals( DesignChoiceConstants.MAP_OPERATOR_EQ,
+				( (StructureHandle) list.get( 1 ) )
+						.getProperty( MapRule.OPERATOR_MEMBER ) );
+		assertEquals( DesignChoiceConstants.MAP_OPERATOR_GE,
+				( (StructureHandle) list.get( 2 ) )
+						.getProperty( MapRule.OPERATOR_MEMBER ) );
 
 		MapRule ruleToDropped = (MapRule) ( (StructureHandle) list.get( 1 ) )
 				.getStructure( );
@@ -546,10 +558,10 @@ public class PropertyHandleTest extends BaseTestCase
 		// Check the first one
 
 		MapRuleHandle rule = ( (MapRuleHandle) list.get( 0 ) );
-		assertEquals( "like", //$NON-NLS-1$
-				rule.getStructure( ).getLocalProperty( design, memberDefn ) );
-		assertEquals( "like", //$NON-NLS-1$
-				rule.getProperty( MapRule.OPERATOR_MEMBER ) );
+		assertEquals( DesignChoiceConstants.MAP_OPERATOR_LIKE, rule
+				.getStructure( ).getProperty( design, memberDefn ) );
+		assertEquals( DesignChoiceConstants.MAP_OPERATOR_LIKE, rule
+				.getProperty( MapRule.OPERATOR_MEMBER ) );
 
 		// Check the second one
 
@@ -601,7 +613,8 @@ public class PropertyHandleTest extends BaseTestCase
 
 		try
 		{
-			ruleDropped.setProperty( MapRule.OPERATOR_MEMBER, "le" ); //$NON-NLS-1$
+			ruleDropped.setProperty( MapRule.OPERATOR_MEMBER,
+					DesignChoiceConstants.MAP_OPERATOR_LE );
 			fail( );
 		}
 		catch ( Exception e )
@@ -613,24 +626,23 @@ public class PropertyHandleTest extends BaseTestCase
 
 		rule = ( (MapRuleHandle) list.get( 2 ) );
 
-		assertEquals( "ge", rule //$NON-NLS-1$
-				.getStructure( ).getLocalProperty( design, memberDefn ) );
-		assertEquals( "ge", rule //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.MAP_OPERATOR_GE, rule
+				.getStructure( ).getProperty( design, memberDefn ) );
+		assertEquals( DesignChoiceConstants.MAP_OPERATOR_GE, rule
 				.getProperty( MapRule.OPERATOR_MEMBER ) );
 
 		// Add the dropped structure to the end.
 
 		MapRuleHandle ruleAdded = (MapRuleHandle) propHandle
 				.addItem( ruleToDropped );
-		assertEquals( "eq", //$NON-NLS-1$
-				ruleDropped.getStructure( ).getLocalProperty( design,
-						memberDefn ) );
-		assertEquals( "eq", //$NON-NLS-1$
-				ruleDropped.getProperty( MapRule.OPERATOR_MEMBER ) );
-		assertEquals( "eq", //$NON-NLS-1$
-				ruleAdded.getStructure( ).getLocalProperty( design, memberDefn ) );
-		assertEquals( "eq", //$NON-NLS-1$
-				ruleAdded.getProperty( MapRule.OPERATOR_MEMBER ) );
+		assertEquals( DesignChoiceConstants.MAP_OPERATOR_EQ, ruleDropped
+				.getStructure( ).getProperty( design, memberDefn ) );
+		assertEquals( DesignChoiceConstants.MAP_OPERATOR_EQ, ruleDropped
+				.getProperty( MapRule.OPERATOR_MEMBER ) );
+		assertEquals( DesignChoiceConstants.MAP_OPERATOR_EQ, ruleAdded
+				.getStructure( ).getProperty( design, memberDefn ) );
+		assertEquals( DesignChoiceConstants.MAP_OPERATOR_EQ, ruleAdded
+				.getProperty( MapRule.OPERATOR_MEMBER ) );
 	}
 
 	/**
@@ -677,7 +689,8 @@ public class PropertyHandleTest extends BaseTestCase
 
 		grid1.setWidth( "31.2mm" ); //$NON-NLS-1$
 		grid1.setStyleName( "style1" ); //$NON-NLS-1$
-		assertEquals( "larger", grid1.getStringProperty( "fontSize" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( DesignChoiceConstants.FONT_SIZE_LARGER, grid1
+				.getStringProperty( IStyleModel.FONT_SIZE_PROP ) );
 
 		row1.setStringProperty( RowHandle.HEIGHT_PROP, "13pt" ); //$NON-NLS-1$
 		row1.setStyleName( "style2" ); //$NON-NLS-1$
@@ -686,7 +699,8 @@ public class PropertyHandleTest extends BaseTestCase
 
 		cell1.setStringProperty( CellHandle.WIDTH_PROP, "20pt" ); //$NON-NLS-1$
 		cell1.setStyleName( "style2" ); //$NON-NLS-1$
-		assertEquals( "bold", cell1.getStringProperty( "fontWeight" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( DesignChoiceConstants.FONT_WEIGHT_BOLD, cell1
+				.getStringProperty( IStyleModel.FONT_WEIGHT_PROP ) );
 
 		save( );
 		assertTrue( compareFile( "PropertyHandleTest_golden2.xml" ) ); //$NON-NLS-1$
@@ -703,7 +717,7 @@ public class PropertyHandleTest extends BaseTestCase
 		createDesign( );
 		ElementFactory factory = designHandle.getElementFactory( );
 		LabelHandle label = factory.newLabel( "aaa" ); //$NON-NLS-1$
-		label.setProperty( IStyleModel.COLOR_PROP, "red" ); //$NON-NLS-1$
+		label.setProperty( IStyleModel.COLOR_PROP, IColorConstants.RED );
 		assertEquals( 16711680, label.getIntProperty( IStyleModel.COLOR_PROP ) );
 		assertEquals( 16711680, label
 				.getPropertyHandle( IStyleModel.COLOR_PROP ).getIntValue( ) );

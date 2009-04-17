@@ -40,7 +40,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.DisableCachingListener;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.StyleUtil;
 
 /**
  * Represents the overall report design. The report design defines a set of
@@ -466,7 +466,7 @@ public class ReportDesignHandle extends ModuleHandle
 			if ( stylesheet.findStyle( style.getName( ) ) != null )
 			{
 				// Copy CssStyle to Style
-				SharedStyleHandle newStyle = ModelUtil
+				SharedStyleHandle newStyle = StyleUtil
 						.TransferCssStyleToSharedStyle( module, style );
 
 				module.makeUniqueName( newStyle.getElement( ) );

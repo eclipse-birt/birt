@@ -30,7 +30,7 @@ import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.NamePropertyType;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.StyleUtil;
 
 /**
  * This class represents a theme in the library.
@@ -157,7 +157,7 @@ public class Theme extends ReferenceableElement
 		{
 			StyleElement tmpStyle = (StyleElement) slots[STYLES_SLOT]
 					.getContent( i );
-			int pos = ModelUtil.getStylePosition( styleList, tmpStyle
+			int pos = StyleUtil.getStylePosition( styleList, tmpStyle
 					.getFullName( ) );
 			if ( pos == -1 )
 			{

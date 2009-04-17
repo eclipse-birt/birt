@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.util.BaseTestCase;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.LibraryUtil;
 
 import com.ibm.icu.util.ULocale;
 
@@ -647,7 +647,7 @@ public class ElementExporterTest extends BaseTestCase
 		}
 
 		libraryHandle.setFileName( "notcontainlibrary.xml" );//$NON-NLS-1$
-		ModelUtil.hasLibrary( designHandle, libraryHandle );
+		LibraryUtil.hasLibrary( designHandle, libraryHandle );
 		libraryHandle.close( );
 
 		openLibrary( "RelativeContainlibrary.xml" );//$NON-NLS-1$

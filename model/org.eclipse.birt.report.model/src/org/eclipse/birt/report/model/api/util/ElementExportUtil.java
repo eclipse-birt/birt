@@ -35,7 +35,7 @@ import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.parser.DesignParserException;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.LibraryUtil;
 
 /**
  * Represents the utility class to help export element and structure to library
@@ -429,7 +429,7 @@ public class ElementExportUtil
 			boolean genDefaultName ) throws SemanticException
 	{
 
-		if ( ModelUtil.hasLibrary( designToExport, targetLibraryHandle ) )
+		if ( LibraryUtil.hasLibrary( designToExport, targetLibraryHandle ) )
 		{
 			throw new SemanticException(
 					designToExport.getElement( ),

@@ -473,7 +473,7 @@ Designer UI
          <attribute name="visibility" type="string">
             <annotation>
                <documentation>
-                  Two options are: hide, readonly.
+                  Two options are: hide, readonly. Support to set multiple options to one property separated by &apos;,&apos;. For example, visibility=&quot;readonly,hide&quot;.
                </documentation>
             </annotation>
          </attribute>

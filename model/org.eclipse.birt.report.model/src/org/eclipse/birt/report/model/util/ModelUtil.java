@@ -34,7 +34,6 @@ import org.eclipse.birt.report.model.api.IVersionInfo;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CssException;
@@ -63,36 +62,28 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
-import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableItem;
-import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -115,50 +106,6 @@ import com.ibm.icu.util.ULocale;
 
 public class ModelUtil
 {
-
-	/**
-	 * Transfer Css Style to Customer Style.
-	 * 
-	 * @param module
-	 * @param cssStyleHandle
-	 * @return the shared style handle from the css style handle
-	 */
-	public static SharedStyleHandle TransferCssStyleToSharedStyle(
-			Module module, SharedStyleHandle cssStyleHandle )
-	{
-		if ( cssStyleHandle == null )
-			return null;
-		Style newStyle = new Style( cssStyleHandle.getName( ) );
-		SharedStyleHandle styleHandle = newStyle.handle( module );
-		duplicateProperties( cssStyleHandle, styleHandle, false, false );
-		return styleHandle;
-	}
-
-	/**
-	 * Checks all style names in styles list exist in styleList or not
-	 * 
-	 * @param styleList
-	 *            style list , each item is <code>StyleElement</code>
-	 * @param name
-	 *            style name
-	 * @return if exist return true; else return false;
-	 */
-
-	public static int getStylePosition( List<? extends StyleElement> styleList,
-			String name )
-	{
-		for ( int i = 0; i < styleList.size( ); ++i )
-		{
-			StyleElement style = styleList.get( i );
-			String styleName = style.getName( ).toLowerCase( );
-
-			if ( styleName.equalsIgnoreCase( name ) )
-			{
-				return i;
-			}
-		}
-		return -1;
-	}
 
 	/**
 	 * Returns the wrapped value that is visible to API level. For example,
@@ -860,40 +807,6 @@ public class ModelUtil
 	}
 
 	/**
-	 * Inserts a default theme to the library slot.
-	 * 
-	 * @param library
-	 *            the target library
-	 * @param theme
-	 *            the theme to insert
-	 */
-
-	public static void insertCompatibleThemeToLibrary( Library library,
-			Theme theme )
-	{
-		assert library != null;
-		assert theme != null;
-
-		// The name should not be null if it is required. The parser state
-		// should have already caught this case.
-
-		String name = theme.getName( );
-		assert !StringUtil.isBlank( name )
-				&& ModelMessages.getMessage( IThemeModel.DEFAULT_THEME_NAME )
-						.equals( name );
-
-		NameSpace ns = library.getNameHelper( ).getNameSpace(
-				Module.THEME_NAME_SPACE );
-		assert library.getNameHelper( ).canContain( Module.THEME_NAME_SPACE,
-				name );
-
-		ns.insert( theme );
-
-		// Add the item to the container.
-		library.add( theme, ILibraryModel.THEMES_SLOT );
-	}
-
-	/**
 	 * Uses the new name space of the current module for reference property
 	 * values of the given element. This method checks the <code>content</code>
 	 * and nested elements in it.
@@ -1171,61 +1084,6 @@ public class ModelUtil
 		}
 
 		return (String) structure.getProperty( module, propName );
-	}
-
-	/**
-	 * Checks if report design contains the same library as the target library
-	 * which user wants to export. If no exception throws , that stands for user
-	 * can export report design to library. Comparing with the obsolute file
-	 * name path, if file is the same , throw <code>SemanticException</code>
-	 * which error code is include recursive error.
-	 * 
-	 * For example , the path of library is "C:\test\lib.xml" .The followings
-	 * will throw semantic exception:
-	 * 
-	 * <ul>
-	 * <li>design file and library in the same folder:</li>
-	 * <li><list-property name="libraries"> <structure> <property
-	 * name="fileName">lib.xml</property> <property
-	 * name="namespace">lib</property> </structure> </list-property></li>
-	 * </ul>
-	 * <ul>
-	 * <li>folder of design file is "C:\design"</li>
-	 * <li><list-property name="libraries"> <structure> <property
-	 * name="fileName">..\test\lib.xml</property> <property
-	 * name="namespace">lib</property> </structure> </list-property></li>
-	 * </ul>
-	 * 
-	 * @param designToExport
-	 *            handle of the report design to export
-	 * @param targetLibraryHandle
-	 *            handle of target library
-	 * @return if contains the same absolute file path , return true; else
-	 *         return false.
-	 * @throws SemanticException
-	 *             if absolut file path is the same between library included in
-	 *             report design and library.
-	 */
-
-	public static boolean hasLibrary( ReportDesignHandle designToExport,
-			LibraryHandle targetLibraryHandle )
-	{
-		String reportLocation = targetLibraryHandle.getModule( ).getLocation( );
-
-		List<Library> libList = designToExport.getModule( ).getAllLibraries( );
-
-		for ( Iterator<Library> libIter = libList.iterator( ); libIter
-				.hasNext( ); )
-		{
-			Library library = libIter.next( );
-			String libLocation = library.getRoot( ).getLocation( );
-
-			if ( reportLocation.equals( libLocation ) )
-			{
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**

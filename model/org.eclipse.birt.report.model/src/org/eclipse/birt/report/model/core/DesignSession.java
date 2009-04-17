@@ -53,6 +53,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.parser.DesignReader;
 import org.eclipse.birt.report.model.parser.GenericModuleReader;
 import org.eclipse.birt.report.model.parser.LibraryReader;
+import org.eclipse.birt.report.model.util.LibraryUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.URIUtilImpl;
 
@@ -824,7 +825,7 @@ public class DesignSession
 			theme = new Theme( defaultThemeName );
 			library.setProperty( IModuleModel.THEME_PROP, new ElementRefValue(
 					null, theme ) );
-			ModelUtil.insertCompatibleThemeToLibrary( library, theme );
+			LibraryUtil.insertCompatibleThemeToLibrary( library, theme );
 
 			// set initial id.
 

@@ -251,10 +251,32 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	protected final static String UNHIDDEN_IN_PROPERTY_SHEET = "unhide"; //$NON-NLS-1$
 
 	/**
-	 * The property is shown in the property sheet but readonly.
+	 * The property is shown in the property sheet but read-only.
 	 */
 
 	protected final static String READONLY_IN_PROPERTY_SHEET = "readonly"; //$NON-NLS-1$
+
+	/**
+	 * The key that specifies that there is no visibility set for the property.
+	 */
+	protected final static int NO_VISIBILITY_KEY = 0x00;
+
+	/**
+	 * The key that specifies that this property will be hidden in property
+	 * sheet and editor.
+	 */
+	protected final static int HIDDEN_IN_PROPERTY_SHEET_KEY = 0x01;
+
+	/**
+	 * The key that specifies that this property will be read-only and can not
+	 * be changed by Model public API.
+	 */
+	protected final static int READONLY_KEY = 0x02;
+
+	/**
+	 * The separator that is used to delimit multiple visibility options.
+	 */
+	protected final static String VISIBILITY_SEPERATOR = ","; //$NON-NLS-1$
 
 	/**
 	 * Whether this definition represents an abstract element that the user
@@ -344,14 +366,14 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * property for an extension element.
 	 */
 
-	protected Map<String, String> propVisibilites = null;
+	protected Map<String, Integer> propVisibilites = null;
 
 	/**
 	 * Cached property visibility. It contains local defined and parents'
 	 * defined property visibility. The key is property name, the value is the
-	 * visibility of the property.
+	 * integer visibility of the property.
 	 */
-	protected Map<String, String> cachedPropVisibilites = null;
+	protected Map<String, Integer> cachedPropVisibilites = null;
 
 	/**
 	 * The name of the XML element used when serializing this ROM element.
@@ -1159,14 +1181,14 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( parent != null && parent.cachedPropVisibilites != null )
 		{
 			if ( cachedPropVisibilites == null )
-				cachedPropVisibilites = new HashMap<String, String>( );
+				cachedPropVisibilites = new HashMap<String, Integer>( );
 			cachedPropVisibilites.putAll( parent.cachedPropVisibilites );
 		}
 
 		if ( propVisibilites != null )
 		{
 			if ( cachedPropVisibilites == null )
-				cachedPropVisibilites = new HashMap<String, String>( );
+				cachedPropVisibilites = new HashMap<String, Integer>( );
 			Iterator<String> propNames = propVisibilites.keySet( ).iterator( );
 
 			while ( propNames.hasNext( ) )
@@ -1188,7 +1210,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 					continue;
 				}
 
-				String visibility = propVisibilites.get( propName );
+				Integer visibility = propVisibilites.get( propName );
 
 				cachedPropVisibilites.put( propName, visibility );
 
@@ -1674,9 +1696,45 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	public void addPropertyVisibility( String propName, String propVisibility )
 	{
 		if ( propVisibilites == null )
-			propVisibilites = new HashMap<String, String>( );
+			propVisibilites = new HashMap<String, Integer>( );
 
-		propVisibilites.put( propName, propVisibility );
+		propVisibilites.put( propName, getIntVisibility( propVisibility ) );
+	}
+
+	/**
+	 * Builds the string property visibility to get the integer values. The
+	 * string is separated by ',' to multiple options.
+	 * 
+	 * @param propVisibility
+	 *            the string property visibility
+	 * @return
+	 */
+	private Integer getIntVisibility( String propVisibility )
+	{
+		propVisibility = StringUtil.trimString( propVisibility );
+		if ( propVisibility == null )
+			return Integer.valueOf( NO_VISIBILITY_KEY );
+
+		int intVisibility = NO_VISIBILITY_KEY;
+
+		String[] values = propVisibility.split( VISIBILITY_SEPERATOR );
+		for ( int i = 0; i < values.length; i++ )
+		{
+
+			if ( HIDDEN_IN_PROPERTY_SHEET.equalsIgnoreCase( values[i] ) )
+			{
+				intVisibility |= HIDDEN_IN_PROPERTY_SHEET_KEY;
+			}
+			else if ( UNHIDDEN_IN_PROPERTY_SHEET.equalsIgnoreCase( values[i] ) )
+			{
+				intVisibility &= ~HIDDEN_IN_PROPERTY_SHEET_KEY;
+			}
+			else if ( READONLY_IN_PROPERTY_SHEET.equalsIgnoreCase( values[i] ) )
+			{
+				intVisibility |= READONLY_KEY;
+			}
+		}
+		return Integer.valueOf( intVisibility );
 	}
 
 	/*
@@ -1693,8 +1751,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( propDefn == null )
 			return true;
 
-		String visibility = getPropertyVisibility( propDefn.getName( ) );
-		if ( READONLY_IN_PROPERTY_SHEET.equals( visibility ) )
+		int visibility = getPropertyVisibility( propDefn.getName( ) );
+		if ( ( visibility & READONLY_KEY ) != 0 )
 			return true;
 
 		return false;
@@ -1720,8 +1778,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( ( (PropertyDefn) propDefn ).isElementType( ) )
 			return false;
 
-		String visibility = getPropertyVisibility( propDefn.getName( ) );
-		if ( HIDDEN_IN_PROPERTY_SHEET.equals( visibility ) )
+		int visibility = getPropertyVisibility( propDefn.getName( ) );
+		if ( ( HIDDEN_IN_PROPERTY_SHEET_KEY & visibility ) != 0 )
 			return false;
 
 		return true;
@@ -1735,12 +1793,14 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * @return the visibility of the property
 	 */
 
-	private String getPropertyVisibility( String propName )
+	private int getPropertyVisibility( String propName )
 	{
 		if ( cachedPropVisibilites == null )
-			return null;
+			return NO_VISIBILITY_KEY;
 
-		return cachedPropVisibilites.get( propName );
+		return cachedPropVisibilites.get( propName ) == null
+				? NO_VISIBILITY_KEY
+				: cachedPropVisibilites.get( propName ).intValue( );
 	}
 
 	/**

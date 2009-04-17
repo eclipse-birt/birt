@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -145,9 +144,10 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 			if ( propDefn.getValueType( ) != IPropertyDefn.ODA_PROPERTY )
 				continue;
 
-			String visibility = propVisibilites.get( propName );
-			if ( !DesignChoiceConstants.PROPERTY_MASK_TYPE_HIDE
-					.equalsIgnoreCase( visibility ) )
+			Integer visibility = propVisibilites.get( propName );
+
+			// if not hide visibility is set for this property, do nothing
+			if ( ( visibility.intValue( ) & HIDDEN_IN_PROPERTY_SHEET_KEY ) == 0 )
 				continue;
 
 			if ( hidePrivateProps == null )

@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.StyleUtil;
 
 /**
  * Represents the handle of library element. The library contains the resuable
@@ -294,7 +294,7 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 				{
 					// Copy CssStyle to Style
 
-					SharedStyleHandle newStyle = ModelUtil
+					SharedStyleHandle newStyle = StyleUtil
 							.TransferCssStyleToSharedStyle( module, style );
 
 					newStyle.getElement( )

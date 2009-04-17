@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.metadata;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
-import org.eclipse.birt.report.model.util.StylePropertyUtil;
+import org.eclipse.birt.report.model.util.StyleUtil;
 
 /**
  * String property type.
@@ -63,7 +63,7 @@ public class StringPropertyType extends TextualPropertyType
 
 		if ( IStyleModel.FONT_FAMILY_PROP.equals( defn.getName( ) ) )
 		{
-			return StylePropertyUtil.handleFontFamily( defn, stringValue );
+			return StyleUtil.handleFontFamily( defn, stringValue );
 		}
 
 		return stringValue;
