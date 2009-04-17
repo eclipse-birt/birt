@@ -11,6 +11,6 @@
 #  
 #************************************************************************
 #
-connection_nullProfile=Unable to find the connection profile referenced by the data source connection properties.
-connection_openFailed=Unable to open a connection with the database connection profile.
-dBProfileStatement_nullPropertyNameArg=Null property name argument specified in {0}.
+connection_nullProfile=Das in den Datenquellen-Verbindungseigenschaften angegebene Verbindungsprofil konnte nicht gefunden werden.
+connection_openFailed=Öffnen einer Verbindung mit dem Datenbankverbindungsprofil nicht möglich.
+dBProfileStatement_nullPropertyNameArg=Null-Argument für Eigenschaftsname in {0} angegeben.

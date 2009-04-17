@@ -11,32 +11,32 @@
 
 ########################################
 #ReportLauncher
-ReportLauncher.PortValueAbsent=The request port value is absent.
-ReportLauncher.FailToStartDebugServer=Fail to start Debug Server.
-ReportLauncher.FailToStartReportPlatform=Fail to start Report Platform.
-ReportLauncher.UserClassPathReceived=User class path received: 
-ReportLauncher.EngineException=Engine exception
-ReportLauncher.IOException=IO exception
+ReportLauncher.PortValueAbsent=リクエストされたポートの値がありません。
+ReportLauncher.FailToStartDebugServer=デバッグサーバを起動できません。
+ReportLauncher.FailToStartReportPlatform=レポートプラットフォームを起動できません。
+ReportLauncher.UserClassPathReceived=ユーザクラスパスを受け付けました : 
+ReportLauncher.EngineException=エンジンの例外が発生しました。
+ReportLauncher.IOException=IO の例外が発生しました。
 
 ########################################
 #ReportVMClient
-ReportVMClient.ServerConnected=[Client] server connected
-ReportVMClient.ServerShutDown=[Client] server is already shut down
-ReportVMClient.ClientDisconnected=[Client] client disconnected
-ReportVMClient.EnterEventDispatching=[Client] enter event dispatching
-ReportVMClient.ReceivedVMEvent=[Client] received vm event: 
-ReportVMClient.ServerShuttingDown=[Client] server is shutting down
-ReportVMClient.RequestIgnored.ServerDisconnected=[Client] server has already disconnected, request ignored: 
-ReportVMClient.RequestIgnored.ServerShuttingDown=[Client] server is shutting down, request ignored: 
+ReportVMClient.ServerConnected=[クライアント] サーバに接続しました。
+ReportVMClient.ServerShutDown=[クライアント] サーバはすでにシャットダウンしています。
+ReportVMClient.ClientDisconnected=[クライアント] クライアントは切断されました。
+ReportVMClient.EnterEventDispatching=[クライアント] イベントディスパッチングを入力してください。
+ReportVMClient.ReceivedVMEvent=[クライアント]vm イベントを受け付けました: 
+ReportVMClient.ServerShuttingDown=[クライアント] サーバをシャットダウンしています。
+ReportVMClient.RequestIgnored.ServerDisconnected=[クライアント] サーバはすでに切断されています。リクエストは無視されました : 
+ReportVMClient.RequestIgnored.ServerShuttingDown=[クライアント] サーバをシャットダウンしています。リクエストは無視されました : 
 
 ########################################
 #ReportVMServer
-ReportVMServer.ClientAccpted=[Server] client accepted
-ReportVMServer.ClientDisconnected=[Server] client is already disconnected
-ReportVMServer.ServerShutDown=[Server] server is shut down
-ReportVMServer.EnterRequestDispatching=[Server] enter request dispatching
-ReportVMServer.ReceivedRequest=[Server] received request: 
-ReportVMServer.SendBackResponse=[Server] send back response
-ReportVMServer.ClientDisconnected=[Server] client disconnected
-ReportVMServer.ServerShuttingDown=[Server] server is shutting down
-ReportVMServer.SendVMEvent=[Server] send vm event: 
+ReportVMServer.ClientAccpted=[サーバ] クライアントが受け付けました。
+ReportVMServer.ClientDisconnected=[サーバ] クライアントはすでに切断されています。
+ReportVMServer.ServerShutDown=[サーバ] サーバをシャットダウンしています。
+ReportVMServer.EnterRequestDispatching=[サーバ] リクエストディスパッチングを入力してください。
+ReportVMServer.ReceivedRequest=[サーバ] リクエストを受け付けました: 
+ReportVMServer.SendBackResponse=[サーバ] 応答を返信しました。
+ReportVMServer.ClientDisconnected=[サーバ] クライアントはすでに切断されています。
+ReportVMServer.ServerShuttingDown=[サーバ] サーバをシャットダウンしています。
+ReportVMServer.SendVMEvent=[サーバ]vm イベントを送信しました: 

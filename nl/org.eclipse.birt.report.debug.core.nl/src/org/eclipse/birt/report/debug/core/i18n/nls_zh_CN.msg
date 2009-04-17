@@ -11,32 +11,32 @@
 
 ########################################
 #ReportLauncher
-ReportLauncher.PortValueAbsent=The request port value is absent.
-ReportLauncher.FailToStartDebugServer=Fail to start Debug Server.
-ReportLauncher.FailToStartReportPlatform=Fail to start Report Platform.
-ReportLauncher.UserClassPathReceived=User class path received: 
-ReportLauncher.EngineException=Engine exception
-ReportLauncher.IOException=IO exception
+ReportLauncher.PortValueAbsent=缺少请求端口值。
+ReportLauncher.FailToStartDebugServer=无法启动调试服务器。
+ReportLauncher.FailToStartReportPlatform=无法启动报表平台。
+ReportLauncher.UserClassPathReceived=收到的用户类路径: 
+ReportLauncher.EngineException=引擎例外
+ReportLauncher.IOException=IO 例外
 
 ########################################
 #ReportVMClient
-ReportVMClient.ServerConnected=[Client] server connected
-ReportVMClient.ServerShutDown=[Client] server is already shut down
-ReportVMClient.ClientDisconnected=[Client] client disconnected
-ReportVMClient.EnterEventDispatching=[Client] enter event dispatching
-ReportVMClient.ReceivedVMEvent=[Client] received vm event: 
-ReportVMClient.ServerShuttingDown=[Client] server is shutting down
-ReportVMClient.RequestIgnored.ServerDisconnected=[Client] server has already disconnected, request ignored: 
-ReportVMClient.RequestIgnored.ServerShuttingDown=[Client] server is shutting down, request ignored: 
+ReportVMClient.ServerConnected=[客户端] 服务器已连接
+ReportVMClient.ServerShutDown=[客户端] 服务器已关闭
+ReportVMClient.ClientDisconnected=[客户端] 客户端已断开连接
+ReportVMClient.EnterEventDispatching=[客户端] 进入事件调度
+ReportVMClient.ReceivedVMEvent=[客户端] 接收的 vm 事件: 
+ReportVMClient.ServerShuttingDown=[客户端] 服务器正在关闭
+ReportVMClient.RequestIgnored.ServerDisconnected=[客户端] 服务器已断开连接，已忽略请求: 
+ReportVMClient.RequestIgnored.ServerShuttingDown=[客户端] 服务器正在关闭，已忽略请求: 
 
 ########################################
 #ReportVMServer
-ReportVMServer.ClientAccpted=[Server] client accepted
-ReportVMServer.ClientDisconnected=[Server] client is already disconnected
-ReportVMServer.ServerShutDown=[Server] server is shut down
-ReportVMServer.EnterRequestDispatching=[Server] enter request dispatching
-ReportVMServer.ReceivedRequest=[Server] received request: 
-ReportVMServer.SendBackResponse=[Server] send back response
-ReportVMServer.ClientDisconnected=[Server] client disconnected
-ReportVMServer.ServerShuttingDown=[Server] server is shutting down
-ReportVMServer.SendVMEvent=[Server] send vm event: 
+ReportVMServer.ClientAccpted=[服务器] 客户端已接受
+ReportVMServer.ClientDisconnected=[服务器] 客户端已断开连接
+ReportVMServer.ServerShutDown=[服务器] 服务器已关闭
+ReportVMServer.EnterRequestDispatching=[服务器] 进入请求调度
+ReportVMServer.ReceivedRequest=[服务器] 接收的请求: 
+ReportVMServer.SendBackResponse=[服务器] 发回响应
+ReportVMServer.ClientDisconnected=[服务器] 客户端已断开连接
+ReportVMServer.ServerShuttingDown=[服务器] 服务器正在关闭
+ReportVMServer.SendVMEvent=[服务器] 发送 vm 事件: 

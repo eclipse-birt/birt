@@ -11,15 +11,15 @@
 #  
 #************************************************************************
 #
-sqbWizPage_cannotOpenConnectionMsg=Unable to establish a connection to build a SQL query.  Please check the data source connection properties.
-sqbWizPage_cannotOpenConnectionTitle=Connection Error
-sqbWizPage_dataSourceDesignError=Data Source Design Error
-sqbWizPage_dbErrorMsg=Database error message: 
-sqbWizPage_detectExternalSqlTextChangedMsg=The SQL query text has been changed externally in the data set design.  Do you want to replace the SQL Query Builder contents with these changes?
-sqbWizPage_detectSqlTextChangedTitle=SQL Query Text Changed
-sqbWizPage_inputFailOnOpenAskUserMessage=Do you wish to continue?
-sqbWizPage_invalidSqbStateMsg=Unable to restore the previous state of the SQL Query Builder.
-sqbWizPage_invalidSqbStateTitle=Invalid SQL Query Builder State
-sqbWizPage_noConnProfileMsg=The database connection profile is not found or invalid.  Unable to open the SQL Query Builder.
-sqbWizPage_connectingDB=Connecting to the database...
-sqbDesignState_invalidSqbStateVersion=Invalid version in the saved SQL Query Builder state.
+sqbWizPage_cannotOpenConnectionMsg=Impossible d'établir une connexion pour créer une requête SQL. Vérifiez les propriétés de la connexion à la source de données.
+sqbWizPage_cannotOpenConnectionTitle=Erreur de connexion
+sqbWizPage_dataSourceDesignError=Erreur de conception de la source de données
+sqbWizPage_dbErrorMsg=Message d'erreur de la base de données : 
+sqbWizPage_detectExternalSqlTextChangedMsg=Le texte de la requête SQL a été modifié en externe dans la conception du jeu de données. Voulez-vous remplacer le contenu du générateur de requête SQL par ces modifications ?
+sqbWizPage_detectSqlTextChangedTitle=Le texte de la requête SQL a été modifié
+sqbWizPage_inputFailOnOpenAskUserMessage=Voulez-vous continuer ?
+sqbWizPage_invalidSqbStateMsg=Impossible de restaurer l'état précédent du générateur de requête SQL.
+sqbWizPage_invalidSqbStateTitle=Etat du générateur de requête SQL non valide
+sqbWizPage_noConnProfileMsg=Le profil de connexion de la base de données est introuvable ou non valide. Impossible d'ouvrir le générateur de requête SQL.
+sqbWizPage_connectingDB=Connexion à la base de données...
+sqbDesignState_invalidSqbStateVersion=Version non valide dans l'état du générateur de requête SQL enregistré.

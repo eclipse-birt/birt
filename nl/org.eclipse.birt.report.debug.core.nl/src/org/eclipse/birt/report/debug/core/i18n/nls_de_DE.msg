@@ -11,32 +11,32 @@
 
 ########################################
 #ReportLauncher
-ReportLauncher.PortValueAbsent=The request port value is absent.
-ReportLauncher.FailToStartDebugServer=Fail to start Debug Server.
-ReportLauncher.FailToStartReportPlatform=Fail to start Report Platform.
-ReportLauncher.UserClassPathReceived=User class path received: 
-ReportLauncher.EngineException=Engine exception
-ReportLauncher.IOException=IO exception
+ReportLauncher.PortValueAbsent=Abfrageportwert nicht vorhanden.
+ReportLauncher.FailToStartDebugServer=Debug-Server konnte nicht gestartet werden.
+ReportLauncher.FailToStartReportPlatform=Berichtplattform konnte nicht gestartet werden.
+ReportLauncher.UserClassPathReceived=Benutzerklassenpfad erhalten: 
+ReportLauncher.EngineException=Ausnahme Engine
+ReportLauncher.IOException=Ausnahme IO
 
 ########################################
 #ReportVMClient
-ReportVMClient.ServerConnected=[Client] server connected
-ReportVMClient.ServerShutDown=[Client] server is already shut down
-ReportVMClient.ClientDisconnected=[Client] client disconnected
-ReportVMClient.EnterEventDispatching=[Client] enter event dispatching
-ReportVMClient.ReceivedVMEvent=[Client] received vm event: 
-ReportVMClient.ServerShuttingDown=[Client] server is shutting down
-ReportVMClient.RequestIgnored.ServerDisconnected=[Client] server has already disconnected, request ignored: 
-ReportVMClient.RequestIgnored.ServerShuttingDown=[Client] server is shutting down, request ignored: 
+ReportVMClient.ServerConnected=[Client] Server verbunden
+ReportVMClient.ServerShutDown=[Client] Server bereits heruntergefahren
+ReportVMClient.ClientDisconnected=[Client] Client-Verbindung getrennt
+ReportVMClient.EnterEventDispatching=[Client] hat Ereignis-Dispatch eingeleitet
+ReportVMClient.ReceivedVMEvent=[Client] hat VM-Ereignis erhalten: 
+ReportVMClient.ServerShuttingDown=[Client] Server wird heruntergefahren
+ReportVMClient.RequestIgnored.ServerDisconnected=[Client] Server-Verbindung bereits getrennt, Auftrag ignoriert: 
+ReportVMClient.RequestIgnored.ServerShuttingDown=[Client] Server wird heruntergefahren, Auftrag ignoriert: 
 
 ########################################
 #ReportVMServer
-ReportVMServer.ClientAccpted=[Server] client accepted
-ReportVMServer.ClientDisconnected=[Server] client is already disconnected
-ReportVMServer.ServerShutDown=[Server] server is shut down
-ReportVMServer.EnterRequestDispatching=[Server] enter request dispatching
-ReportVMServer.ReceivedRequest=[Server] received request: 
-ReportVMServer.SendBackResponse=[Server] send back response
-ReportVMServer.ClientDisconnected=[Server] client disconnected
-ReportVMServer.ServerShuttingDown=[Server] server is shutting down
-ReportVMServer.SendVMEvent=[Server] send vm event: 
+ReportVMServer.ClientAccpted=[Server] Client akzeptiert
+ReportVMServer.ClientDisconnected=[Server] Client-Verbindung bereits getrennt
+ReportVMServer.ServerShutDown=[Server] Server ist heruntergefahren
+ReportVMServer.EnterRequestDispatching=[Server] hat Auftrags-Dispatch eingeleitet
+ReportVMServer.ReceivedRequest=[Server] hat Auftrag erhalten: 
+ReportVMServer.SendBackResponse=[Server] sendet Antwort
+ReportVMServer.ClientDisconnected=[Server] Client-Verbindung bereits getrennt
+ReportVMServer.ServerShuttingDown=[Server] Server wird heruntergefahren
+ReportVMServer.SendVMEvent=[Server] sendet VM-Ereignis: 

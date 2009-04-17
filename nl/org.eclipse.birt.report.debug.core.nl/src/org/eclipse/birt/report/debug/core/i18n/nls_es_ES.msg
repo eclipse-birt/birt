@@ -11,32 +11,32 @@
 
 ########################################
 #ReportLauncher
-ReportLauncher.PortValueAbsent=The request port value is absent.
-ReportLauncher.FailToStartDebugServer=Fail to start Debug Server.
-ReportLauncher.FailToStartReportPlatform=Fail to start Report Platform.
-ReportLauncher.UserClassPathReceived=User class path received: 
-ReportLauncher.EngineException=Engine exception
-ReportLauncher.IOException=IO exception
+ReportLauncher.PortValueAbsent=El valor de puerto de la solicitud se encuentra ausente.
+ReportLauncher.FailToStartDebugServer=No se ha podido iniciar el servidor de depuración.
+ReportLauncher.FailToStartReportPlatform=No se ha podido iniciar la plataforma de informes.
+ReportLauncher.UserClassPathReceived=Se ha recibido la ruta de clase de usuario: 
+ReportLauncher.EngineException=Excepción del motor
+ReportLauncher.IOException=Excepción de E/S
 
 ########################################
 #ReportVMClient
-ReportVMClient.ServerConnected=[Client] server connected
-ReportVMClient.ServerShutDown=[Client] server is already shut down
-ReportVMClient.ClientDisconnected=[Client] client disconnected
-ReportVMClient.EnterEventDispatching=[Client] enter event dispatching
-ReportVMClient.ReceivedVMEvent=[Client] received vm event: 
-ReportVMClient.ServerShuttingDown=[Client] server is shutting down
-ReportVMClient.RequestIgnored.ServerDisconnected=[Client] server has already disconnected, request ignored: 
-ReportVMClient.RequestIgnored.ServerShuttingDown=[Client] server is shutting down, request ignored: 
+ReportVMClient.ServerConnected=Conectado al servidor [Cliente]
+ReportVMClient.ServerShutDown=El servidor [Cliente] ya está cerrado
+ReportVMClient.ClientDisconnected=El cliente [Cliente] se ha desconectado
+ReportVMClient.EnterEventDispatching=[Cliente] introduce la distribución de eventos
+ReportVMClient.ReceivedVMEvent=[Cliente] ha recibido el evento vm: 
+ReportVMClient.ServerShuttingDown=El servidor [Cliente] se está cerrando
+ReportVMClient.RequestIgnored.ServerDisconnected=El servidor [Cliente] ya se ha desconectado, se ha omitido la solicitud: 
+ReportVMClient.RequestIgnored.ServerShuttingDown=El servidor [Cliente] se está cerrando, se ha omitido la solicitud: 
 
 ########################################
 #ReportVMServer
-ReportVMServer.ClientAccpted=[Server] client accepted
-ReportVMServer.ClientDisconnected=[Server] client is already disconnected
-ReportVMServer.ServerShutDown=[Server] server is shut down
-ReportVMServer.EnterRequestDispatching=[Server] enter request dispatching
-ReportVMServer.ReceivedRequest=[Server] received request: 
-ReportVMServer.SendBackResponse=[Server] send back response
-ReportVMServer.ClientDisconnected=[Server] client disconnected
-ReportVMServer.ServerShuttingDown=[Server] server is shutting down
-ReportVMServer.SendVMEvent=[Server] send vm event: 
+ReportVMServer.ClientAccpted=El cliente [Servidor] ha sido aceptado
+ReportVMServer.ClientDisconnected=El cliente [Servidor] ya está desconectado
+ReportVMServer.ServerShutDown=El servidor [Servidor] está cerrado
+ReportVMServer.EnterRequestDispatching=[Servidor] introduce la distribución de solicitudes
+ReportVMServer.ReceivedRequest=[Servidor] ha recibido la solicitud: 
+ReportVMServer.SendBackResponse=[Servidor] ha enviado una repuesta
+ReportVMServer.ClientDisconnected=El cliente [Servidor] ya está desconectado
+ReportVMServer.ServerShuttingDown=El servidor [Servidor] se está cerrando
+ReportVMServer.SendVMEvent=[Servidor] ha enviado un evento vm: 

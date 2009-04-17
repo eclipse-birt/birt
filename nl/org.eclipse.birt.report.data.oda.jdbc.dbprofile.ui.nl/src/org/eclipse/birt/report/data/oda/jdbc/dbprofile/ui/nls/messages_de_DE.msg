@@ -11,15 +11,15 @@
 #  
 #************************************************************************
 #
-sqbWizPage_cannotOpenConnectionMsg=Unable to establish a connection to build a SQL query.  Please check the data source connection properties.
-sqbWizPage_cannotOpenConnectionTitle=Connection Error
-sqbWizPage_dataSourceDesignError=Data Source Design Error
-sqbWizPage_dbErrorMsg=Database error message: 
-sqbWizPage_detectExternalSqlTextChangedMsg=The SQL query text has been changed externally in the data set design.  Do you want to replace the SQL Query Builder contents with these changes?
-sqbWizPage_detectSqlTextChangedTitle=SQL Query Text Changed
-sqbWizPage_inputFailOnOpenAskUserMessage=Do you wish to continue?
-sqbWizPage_invalidSqbStateMsg=Unable to restore the previous state of the SQL Query Builder.
-sqbWizPage_invalidSqbStateTitle=Invalid SQL Query Builder State
-sqbWizPage_noConnProfileMsg=The database connection profile is not found or invalid.  Unable to open the SQL Query Builder.
-sqbWizPage_connectingDB=Connecting to the database...
-sqbDesignState_invalidSqbStateVersion=Invalid version in the saved SQL Query Builder state.
+sqbWizPage_cannotOpenConnectionMsg=Aufbau einer Verbindung zur Erstellung einer SQL-Abfrage nicht möglich. Überprüfen Sie die Datenquellen-Verbindungseigenschaften.
+sqbWizPage_cannotOpenConnectionTitle=Verbindungsfehler
+sqbWizPage_dataSourceDesignError=Datenquellen-Designfehler
+sqbWizPage_dbErrorMsg=Datenbank-Fehlermeldung: 
+sqbWizPage_detectExternalSqlTextChangedMsg=Der SQL-Abfragetext wurde extern im Datensatz-Design geändert. Möchten Sie die Inhalte der SQL-Abfrageerstellung mit diesen Änderungen ersetzen?
+sqbWizPage_detectSqlTextChangedTitle=SQL-Abfragetext geändert
+sqbWizPage_inputFailOnOpenAskUserMessage=Möchten Sie fortfahren?
+sqbWizPage_invalidSqbStateMsg=SQL-Abfrageerstellung kann nicht in vorherigen Zustand zurückgesetzt werden.
+sqbWizPage_invalidSqbStateTitle=SQL-Abfrageerstellung - Ungültiger Zustand
+sqbWizPage_noConnProfileMsg=Das Datenbankverbindungsprofil ist nicht vorhanden oder ungültig. Öffnen der SQL-Abfrageerstellung nicht möglich.
+sqbWizPage_connectingDB=Verbindung zur Datenbank wird hergestellt...
+sqbDesignState_invalidSqbStateVersion=Ungültige Version im gespeicherten SQL-Abfrageerstellungszustand

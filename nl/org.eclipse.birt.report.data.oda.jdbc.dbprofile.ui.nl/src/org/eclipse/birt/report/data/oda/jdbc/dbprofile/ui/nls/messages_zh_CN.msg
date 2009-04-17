@@ -11,15 +11,15 @@
 #  
 #************************************************************************
 #
-sqbWizPage_cannotOpenConnectionMsg=Unable to establish a connection to build a SQL query.  Please check the data source connection properties.
-sqbWizPage_cannotOpenConnectionTitle=Connection Error
-sqbWizPage_dataSourceDesignError=Data Source Design Error
-sqbWizPage_dbErrorMsg=Database error message: 
-sqbWizPage_detectExternalSqlTextChangedMsg=The SQL query text has been changed externally in the data set design.  Do you want to replace the SQL Query Builder contents with these changes?
-sqbWizPage_detectSqlTextChangedTitle=SQL Query Text Changed
-sqbWizPage_inputFailOnOpenAskUserMessage=Do you wish to continue?
-sqbWizPage_invalidSqbStateMsg=Unable to restore the previous state of the SQL Query Builder.
-sqbWizPage_invalidSqbStateTitle=Invalid SQL Query Builder State
-sqbWizPage_noConnProfileMsg=The database connection profile is not found or invalid.  Unable to open the SQL Query Builder.
-sqbWizPage_connectingDB=Connecting to the database...
-sqbDesignState_invalidSqbStateVersion=Invalid version in the saved SQL Query Builder state.
+sqbWizPage_cannotOpenConnectionMsg=无法建立连接以生成 SQL 查询。请检查数据源连接属性。
+sqbWizPage_cannotOpenConnectionTitle=连接错误
+sqbWizPage_dataSourceDesignError=数据源设计错误
+sqbWizPage_dbErrorMsg=数据库错误消息: 
+sqbWizPage_detectExternalSqlTextChangedMsg=SQL 查询文本已在数据集设计外部更改。是否要使用这些更改替换 SQL 查询生成器内容?
+sqbWizPage_detectSqlTextChangedTitle=SQL 查询文本已更改
+sqbWizPage_inputFailOnOpenAskUserMessage=是否要继续?
+sqbWizPage_invalidSqbStateMsg=无法恢复 SQL 查询生成器的先前状态。
+sqbWizPage_invalidSqbStateTitle=无效的 SQL 查询生成器状态
+sqbWizPage_noConnProfileMsg=数据库连接配置文件找不到或无效。无法打开 SQL 查询生成器。
+sqbWizPage_connectingDB=正在连接到数据库...
+sqbDesignState_invalidSqbStateVersion=保存的 SQL 查询生成器状态中的版本无效。

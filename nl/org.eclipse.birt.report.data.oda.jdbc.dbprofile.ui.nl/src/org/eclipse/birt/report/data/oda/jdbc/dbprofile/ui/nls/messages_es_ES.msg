@@ -11,15 +11,15 @@
 #  
 #************************************************************************
 #
-sqbWizPage_cannotOpenConnectionMsg=Unable to establish a connection to build a SQL query.  Please check the data source connection properties.
-sqbWizPage_cannotOpenConnectionTitle=Connection Error
-sqbWizPage_dataSourceDesignError=Data Source Design Error
-sqbWizPage_dbErrorMsg=Database error message: 
-sqbWizPage_detectExternalSqlTextChangedMsg=The SQL query text has been changed externally in the data set design.  Do you want to replace the SQL Query Builder contents with these changes?
-sqbWizPage_detectSqlTextChangedTitle=SQL Query Text Changed
-sqbWizPage_inputFailOnOpenAskUserMessage=Do you wish to continue?
-sqbWizPage_invalidSqbStateMsg=Unable to restore the previous state of the SQL Query Builder.
-sqbWizPage_invalidSqbStateTitle=Invalid SQL Query Builder State
-sqbWizPage_noConnProfileMsg=The database connection profile is not found or invalid.  Unable to open the SQL Query Builder.
-sqbWizPage_connectingDB=Connecting to the database...
-sqbDesignState_invalidSqbStateVersion=Invalid version in the saved SQL Query Builder state.
+sqbWizPage_cannotOpenConnectionMsg=No es posible establecer la conexión para compilar consultas SQL. Compruebe las propiedades de conexión de la fuente de datos.
+sqbWizPage_cannotOpenConnectionTitle=Error de conexión
+sqbWizPage_dataSourceDesignError=Error de diseño de fuente de datos
+sqbWizPage_dbErrorMsg=Mensaje de error de la base de datos: 
+sqbWizPage_detectExternalSqlTextChangedMsg=Se ha modificado externamente el texto de la consulta SQL en el diseño del conjunto de datos. ¿Desea reemplazar el contenido del compilador de consultas SQL con estos cambios?
+sqbWizPage_detectSqlTextChangedTitle=Texto modificado en la consulta SQL
+sqbWizPage_inputFailOnOpenAskUserMessage=¿Desea continuar?
+sqbWizPage_invalidSqbStateMsg=No es posible restaurar el compilador de consultas SQL al estado anterior.
+sqbWizPage_invalidSqbStateTitle=Estado del compilador de consultas SQL no válido
+sqbWizPage_noConnProfileMsg=No se encuentra el perfil de conexión de la base de datos o no es válido. No es posible abrir el compilador de consultas SQL.
+sqbWizPage_connectingDB=Conectando con la base de datos...
+sqbDesignState_invalidSqbStateVersion=La versión guardada en el estado del compilador de consultas SQL no es válida.
