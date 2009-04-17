@@ -577,7 +577,8 @@ public class LabelFigure extends ReportElementFigure
 			
 			if (recommendSize.width > 0)
 			{
-				height = getPreferredSize( width, h, true, true, false ).height;
+				int maxWidth = calcMaxSegment( );
+				height = getPreferredSize( Math.max( maxWidth, recommendSize.width ), h, true, true, false ).height;
 			}
 			else
 			{
