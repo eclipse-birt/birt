@@ -18,14 +18,11 @@ import java.util.List;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
-import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
-import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
@@ -2135,7 +2132,14 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	private boolean isCubeMode( )
 	{
-		return ChartXTabUtil.getBindingCube( itemHandle ) != null;
+		boolean bCube = ChartXTabUtil.getBindingCube( itemHandle ) != null;
+		if ( bCube )
+		{
+			// If current item doesn't support cube, referenced cube should be
+			// invalid.
+			return isDataItemSupported( SELECT_DATA_CUBE );
+		}
+		return false;
 	}
 
 	private CubeHandle getCube( )
@@ -2348,8 +2352,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 		else
 		{
-			CubeHandle cube = getCube( );
-			if ( cube == null )
+			if ( !isCubeMode( ) )
 			{
 				try
 				{
@@ -2369,9 +2372,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			}
 			else
 			{
-				if ( dataProvider.isInheritanceOnly( ) // Is in multiple view
-						|| dataProvider.isSharedBinding( ) ) // Is sharing
-				// query case.
+				if ( dataProvider.isInheritanceOnly( )
+						|| dataProvider.isSharedBinding( ) )
 				{
 					// Get all column bindings.
 					List<String> dimensionExprs = new ArrayList<String>( );
