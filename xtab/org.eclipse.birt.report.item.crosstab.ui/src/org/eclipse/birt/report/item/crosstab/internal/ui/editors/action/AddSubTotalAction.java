@@ -893,6 +893,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			AggregationDialog.GrandTotalInfo info = new AggregationDialog.GrandTotalInfo( );
 			// info.setMeasure( reportHandle.getMeasure( i ).getCubeMeasure( )
 			// );
+			info.setViewHandle( reportHandle.getCrosstabView( axis ) );
 			info.setMeasureQualifiedName( reportHandle.getMeasure( i )
 					.getCubeMeasure( )
 					.getQualifiedName( ) );
@@ -902,6 +903,8 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 
 			info.setFunction( CrosstabUtil.getDefaultMeasureAggregationFunction( reportHandle.getMeasure( i ) ) );
 			info.setExpectedView( "" ); //$NON-NLS-1$
+			
+			info.setPosition( reportHandle.getCrosstabView( axis ).getGrandTotalLocation( ) );
 			retValue.add( info );
 			info.setAssociation( getAssociation( axis ) );
 		}
@@ -917,6 +920,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			AggregationDialog.GrandTotalInfo info = new AggregationDialog.GrandTotalInfo( );
 			MeasureViewHandle measureViewHandle = (MeasureViewHandle) measures.get( i );
 			// info.setMeasure( measureViewHandle.getCubeMeasure( ) );
+			info.setViewHandle( reportHandle.getCrosstabView( axis ) );
 			info.setMeasureQualifiedName( measureViewHandle.getCubeMeasure( )
 					.getQualifiedName( ) );
 			info.setMeasureDisplayName( measureViewHandle.getCubeMeasure( )
@@ -933,7 +937,8 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					axis );
 			String view = getExpectedView( cell );
 			info.setExpectedView( view ); //$NON-NLS-1$
-
+			info.setPosition( reportHandle.getCrosstabView( axis ).getGrandTotalLocation( ) );
+			
 			replaceInfo( info, retValue );
 		}
 
@@ -968,6 +973,8 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				tempInfo.setAggregationOn( true );
 				tempInfo.setFunction( info.getFunction( ) );
 				tempInfo.setExpectedView( info.getExpectedView( ) );
+				tempInfo.setViewHandle( info.getViewHandle( ) );
+				tempInfo.setPosition( info.getPosition( ) );
 			}
 		}
 	}

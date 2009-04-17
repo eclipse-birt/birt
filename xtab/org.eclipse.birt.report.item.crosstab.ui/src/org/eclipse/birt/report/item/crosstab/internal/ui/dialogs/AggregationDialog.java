@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -576,8 +577,11 @@ public class AggregationDialog extends BaseDialog
 		private String expectedView = ""; //$NON-NLS-1$
 
 		// Use MeasureName instead of MeasureHandle
-//		private MeasureHandle measure;		
+//		private MeasureHandle measure;	
+		private CrosstabViewHandle viewHandle;
+		
 		private String measureQualifiedName = "";
+		
 		private String measureDisplayName = "";
 		
 		private boolean aggregationOn = false;
@@ -595,9 +599,40 @@ public class AggregationDialog extends BaseDialog
 			retValue.setMeasureDisplayName( getMeasureDisplayName( ) );
 			retValue.setAssociation( isAssociation( ) );
 			retValue.setExpectedView( expectedView );
+			retValue.setViewHandle( getViewHandle( ) );
+			retValue.setPosition( getPosition( ) );
 			return retValue;
 		}
+		
+		public String getPosition( )
+		{
+			return viewHandle.getGrandTotalLocation( );
+		}
 
+		
+		public void setPosition( String position )
+		{
+			try
+			{
+				viewHandle.setGrandTotalLocation( position );
+			}
+			catch ( SemanticException e )
+			{
+				//do nothing now
+			}
+		}
+		
+		public CrosstabViewHandle getViewHandle( )
+		{
+			return viewHandle;
+		}
+
+		
+		public void setViewHandle( CrosstabViewHandle viewHandle )
+		{
+			this.viewHandle = viewHandle;
+		}
+		
 		public String getExpectedView( )
 		{
 			return expectedView;
