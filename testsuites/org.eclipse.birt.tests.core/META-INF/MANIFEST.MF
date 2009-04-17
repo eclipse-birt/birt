@@ -2,11 +2,11 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests Core Plug-in
 Bundle-SymbolicName: org.eclipse.birt.tests.core
-Bundle-Version: 2.3.2
+Bundle-Version: 2.5.0.qualifier
 Bundle-Localization: plugin
 Require-Bundle: org.junit,
  org.eclipse.birt.report.engine,
  org.eclipse.birt.core
 Export-Package: utility
 Bundle-ClassPath: utility.jar
-Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
