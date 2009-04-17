@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.StackLayout;
@@ -46,6 +47,8 @@ public class LabelFigure extends ReportElementFigure
 	private String display;
 
 	private Dimension recommendSize = new Dimension();
+	
+	private boolean isFixLayout;
 
 	/**
 	 * Creates a new LabelFigure with a default MarginBorder size 3 and a
@@ -98,13 +101,27 @@ public class LabelFigure extends ReportElementFigure
 						bottom = Math.max( bottom, box.getBaseline( )
 								+ box.getDescent( ) );
 					}
-
+					int width = LabelFigure.this.getClientArea( ).width;
+					if (isFixLayout)
+					{
+						int maxWidth = calcMaxSegment( )-getInsets( ).getWidth( );
+						width = Math.max( width,  maxWidth);
+					}
+					
+					
 					setBounds( new Rectangle( left,
 							top,
-							LabelFigure.this.getClientArea( ).width,
+							width,
 							Math.max( LabelFigure.this.getClientArea( ).height,
 									bottom - top ) ) );
 
+					if (isFixLayout( ))
+					{
+						Figure child = (Figure)getParent( );
+						Rectangle rect = child.getBounds( );
+						child.setBounds( new Rectangle(rect.x, rect.y, width, rect.height) );
+					}
+					
 					list = getChildren( );
 					for ( int i = 0; i < list.size( ); i++ )
 					{
@@ -618,7 +635,8 @@ public class LabelFigure extends ReportElementFigure
 		{
 			if (recommendSize.width > 0)
 			{
-				height = getMinimumSize( width, h, true, true, false ).height;
+				int maxWidth = calcMaxSegment( );
+				height = getMinimumSize( Math.max( maxWidth, recommendSize.width ), h, true, true, false ).height;
 			}
 			else
 			{
@@ -629,10 +647,14 @@ public class LabelFigure extends ReportElementFigure
 		return new Dimension(width, height);
 	}
 	
-	@Override
-	public void setBounds( Rectangle rect )
+	public boolean isFixLayout( )
 	{
-		// TODO Auto-generated method stub
-		super.setBounds( rect );
+		return isFixLayout;
+	}
+
+	
+	public void setFixLayout( boolean isFixLayout )
+	{
+		this.isFixLayout = isFixLayout;
 	}
 }

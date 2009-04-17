@@ -123,6 +123,7 @@ public class LabelEditPart extends ReportElementEditPart
 
 		( (LabelFigure) getFigure( ) ).setRecommendSize( getLabelAdapter( ).getSize( ) );
 
+		( (LabelFigure) getFigure( ) ).setFixLayout( isFixLayout( ) );
 		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
 				getFigure( ),
 				getConstraint( ) );
@@ -198,6 +199,13 @@ public class LabelEditPart extends ReportElementEditPart
 	public EditPolicy getResizePolice( EditPolicy parentPolice )
 	{
 		return new ReportElementNonResizablePolicy( );
+	}
+	
+	@Override
+	protected void updateLayoutPreference( )
+	{
+		super.updateLayoutPreference( );
+		( (LabelFigure) getFigure( ) ).setFixLayout( isFixLayout( ) );
 	}
 
 }
