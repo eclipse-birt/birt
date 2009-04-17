@@ -1535,7 +1535,7 @@ public class CubeIVTest extends BaseTestCase
 		documentManager.flush( );
 		cubeMaterializer.saveCubeToReportDocument( "cube",
 				writter,
-				null );
+				new StopSign() );
 		cubeMaterializer.close( );
 	}
 	
