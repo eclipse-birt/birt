@@ -388,7 +388,7 @@
         <property name="repo" value="${compsite.site}/${buildId}" />
 
 	    <copy todir="${postingDirectory}/${buildId}/UpdateSite/">
-	        <fileset dir="repo">
+	        <fileset dir="${repo}">
 	            <include name="*.jar"/>
 	        </fileset>
 	    </copy>
