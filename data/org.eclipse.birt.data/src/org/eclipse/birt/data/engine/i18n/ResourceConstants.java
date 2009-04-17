@@ -193,6 +193,7 @@ public class ResourceConstants
 	public static final String INVALID_AGGR_BINDING_EXPRESSION = "data.engine.aggregation.InvalidBindingExpression";
 	public static final String INVALID_EXPRESSION="data.engine.InvalidExpression";
 	
+	
 	public static final String CACHE_FUNCTION_WRONG_MODE="data.engine.cacheFunctionWrongMode";
 	public static final String INDEX_ARRAY_INVALID="data.engine.document.invalidIndexArray";
 	public static final String GROUP_ITEM_INCORRECT="data.engine.document.invalidGroupItem";
@@ -358,6 +359,7 @@ public class ResourceConstants
 	public final static String NONEXISTENT_LEVEL = "data.olap.NonexistentLevel";
 	public final static String NONEXISTENT_KEY_OR_ATTR = "data.olap.NonexistentKeyOrAttr";
 	public final static String UNSUPPORTED_FUNCTION = "data.olap.UnsupportedFunction";
+	public static final String INVALID_AGGR_TYPE_ON_MEASURE = "data.olap.InvalidAggrTypeOnMeasure";
 	
 	public final static String REFERENCED_BINDING_NOT_EXIST = "data.olap.referencedBindingNotExist";
 	public final static String INVALID_BINDING_REFER_TO_INEXIST_DIMENSION = "data.olap.invalidBindingReferToInexitDim";
@@ -389,4 +391,5 @@ public class ResourceConstants
 	public final static String COLUMN_NOT_EXIST = "data.derivedDataSet.columnNotExist";
 	public final static String UNION_QUERY_TEXT_PARSE_ERROR = "data.derivedDataSet.UnionQueryTextParseError";
 	public final static String JOIN_QUERY_TEXT_PARSE_ERROR = "data.derivedDataSet.JoinQueryTextParseError";
+	
 }

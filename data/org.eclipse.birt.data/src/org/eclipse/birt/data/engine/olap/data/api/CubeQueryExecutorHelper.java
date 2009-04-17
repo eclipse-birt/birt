@@ -39,7 +39,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationExecutor;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.DataSet4AggregationFactory;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.DataSetFromOriginalCube;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.IDataSet4Aggregation;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggregationFilterHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
@@ -494,7 +494,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		}
 		DimensionResultIterator[] dimensionResultIterators = populateDimensionResultIterator( dimPosition, stopSign );
 
-		IDataSet4Aggregation dataSet4Aggregation = DataSet4AggregationFactory.createDataSet4Aggregation( factTableRowIterator,
+		IDataSet4Aggregation dataSet4Aggregation = new DataSetFromOriginalCube( factTableRowIterator,
 				dimensionResultIterators,
 				computedMeasureHelper );
 		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor(dataSet4Aggregation, 
@@ -514,15 +514,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		}
 		return dimResultSet;
 	}
-	
-	public static IAggregationResultSet computeNestAggregation (
-			IDataSet4Aggregation ds4aggr, AggregationDefinition aggrDef, StopSign stopSign) throws IOException, BirtException
-	{
-		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor(ds4aggr, 
-				new AggregationDefinition[]{aggrDef } );
-		return aggregationCalculatorExecutor.execute( stopSign )[0];
-	}
-	
 	
 	/**
 	 * 

@@ -22,6 +22,8 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.IQueryService;
@@ -339,6 +341,12 @@ public class OlapExpressionUtil
 			{
 				if ( binding.getAggrFunction( ) != null
 						|| binding.getAggregatOns( ).size( ) != 0 )
+				{
+					IAggrFunction af = AggregationManager.getInstance( ).getAggregation( binding.getAggrFunction( ) );
+					if ( af != null && af.getType( ) == IAggrFunction.RUNNING_AGGR )
+					{
+						throw new DataException( ResourceConstants.INVALID_AGGR_TYPE_ON_MEASURE, af.getName( ));
+					}
 					cubeAggrDefns.add( new CubeAggrDefnOnMeasure( binding.getBindingName( ),
 							getMeasure( binding.getExpression( )==null?null:( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
 							convertToDimLevel( binding.getAggregatOns( ) ),
@@ -346,6 +354,7 @@ public class OlapExpressionUtil
 							convertToDimLevelAttribute( binding.getArguments( ),
 									bindings ),
 							binding.getFilter( ) ) );
+				}
 			}
 			catch ( DataException ex )
 			{

@@ -9,17 +9,19 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.DataSet4AggregationFactory;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.IDataSet4Aggregation;
+import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSetWithOneMoreDummyAggr;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.MergedAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.CalculatedMember;
 import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
@@ -78,18 +80,18 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 			for ( int i=0; i<sources.length && !stopSign.isStopped( ); i++ )
 			{
 				IAggregationResultSet ars = sources[i];
-				if ( ars.getAggregationIndex( firstReference ) >= 0 )
+				if ( !isResultForRunningAggregation(ars) //Currently, Nest aggregation on running aggregation result is not supported.
+						&& ars.getAggregationIndex( firstReference ) >= 0 )
 				{
-					IDataSet4Aggregation ds4aggr = DataSet4AggregationFactory.createDataSet4Aggregation( 
+					IAggregationResultSet based = new AggregationResultSetWithOneMoreDummyAggr(
 							ars, cnaf.getName( ), cnaf.getBasedExpression( ), scope, cx );
 					AggregationDefinition[] ads = CubeQueryDefinitionUtil.createAggregationDefinitons( 
 							new CalculatedMember[]{newMembers[index]}, cubeQueryDefn );
-					newArs = CubeQueryExecutorHelper.computeNestAggregation( 
-							ds4aggr, ads[0], stopSign );
+					newArs = AggregationHelper.execute( based, ads, stopSign )[0];
 					break;
 				}
 			}
-			//referenced binding does not exist or not a aggregation 
+			//referenced binding does not exist or not a aggregation which is not running type 
 			if ( newArs == null )
 			{
 				throw new DataException( ResourceConstants.INVALID_AGGR_BINDING_EXPRESSION );
@@ -98,7 +100,8 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 			for ( int i=0; i<currentSources.size( ) && !stopSign.isStopped( ); i++ )
 			{
 				IAggregationResultSet ars = currentSources.get( i );
-				if ( ars.getAggregationCount( ) > 0 //omit edge IAggregationResultSet 
+				if ( !isResultForRunningAggregation( ars ) //not aggregation result for running aggregation
+						&& ars.getAggregationCount( ) > 0 //omit edge IAggregationResultSet 
 						&& Arrays.deepEquals( ars.getAllLevels( ), newArs.getAllLevels( ) ))
 				{
 					ars = new MergedAggregationResultSet( ars, newArs );
@@ -127,5 +130,22 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 	public CubeAggrDefn[] getNewCubeAggrDefns( )
 	{
 		return aggrDefns;
+	}
+	
+	private static boolean isResultForRunningAggregation( IAggregationResultSet ars ) throws DataException
+	{
+		AggregationDefinition ad = ars.getAggregationDefinition( );
+		if ( ad != null )
+		{
+			AggregationFunctionDefinition[] afds = ad.getAggregationFunctions( );
+			if ( afds != null 
+					&& afds.length == 0 )
+			{
+				String functionName = afds[0].getFunctionName( );
+				IAggrFunction af = AggregationManager.getInstance( ).getAggregation( functionName );
+				return af != null && af.getType( ) == IAggrFunction.RUNNING_AGGR;
+			}
+		}
+		return false;
 	}
 }

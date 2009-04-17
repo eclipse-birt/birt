@@ -28,6 +28,8 @@ import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
@@ -156,6 +158,11 @@ public class CubeQueryDefinitionUtil
 		return result;
 	}
 
+	private static boolean isRunnnigAggr( CubeAggrDefn cubeAggr ) throws DataException
+	{
+		IAggrFunction af = AggregationManager.getInstance( ).getAggregation( cubeAggr.getAggrName( ) );
+		return af != null && af.getType( ) == IAggrFunction.RUNNING_AGGR;
+	}
 	
 	public static CalculatedMember[] addCalculatedMembers (CubeAggrDefn[] cubeAggrs, MeasureNameManager manager,
 			Scriptable scope, ScriptContext cx ) throws DataException
@@ -171,12 +178,15 @@ public class CubeQueryDefinitionUtil
 		for (CubeAggrDefn cubeAggrDefn : cubeAggrs)
 		{
 			int id = -1;
-			for ( CalculatedMember cm : manager.getCalculatedMembers( ) )
+			if ( !isRunnnigAggr( cubeAggrDefn ) ) //Currently, no aggregation compose step for running type aggregation
 			{
-				if ( cm.getCubeAggrDefn( ).getAggrLevels( ).equals( cubeAggrDefn.getAggrLevels( ) ))
+				for ( CalculatedMember cm : manager.getCalculatedMembers( ) )
 				{
-					id = cm.getRsID( );
-					break;
+					if ( cm.getCubeAggrDefn( ).getAggrLevels( ).equals( cubeAggrDefn.getAggrLevels( ) ))
+					{
+						id = cm.getRsID( );
+						break;
+					}
 				}
 			}
 			if ( id == -1 )

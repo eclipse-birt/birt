@@ -46,7 +46,9 @@ import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationExecutor;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.DataSet4AggregationFactory;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationHelper;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSetWithOneMoreDummyAggr;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.DataSetFromOriginalCube;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.IDataSet4Aggregation;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.SimpleLevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
@@ -519,7 +521,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		levelsForFilter = new DimLevel[]{dimLevel31};
 		aggregations[1] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 		IDataSet4Aggregation dataSet4Aggregation 
-			= DataSet4AggregationFactory.createDataSet4Aggregation( facttableRowIterator, dimesionResultSets, null );
+			= new DataSetFromOriginalCube( facttableRowIterator, dimesionResultSets, null );
 		AggregationExecutor aggregationCalculatorExecutor = 
 			new AggregationExecutor( dataSet4Aggregation,
 					aggregations );
@@ -992,7 +994,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		aggregations[0] = new AggregationDefinition( null, null, funcitons );
 
 		IDataSet4Aggregation dataSet4Aggregation 
-			= DataSet4AggregationFactory.createDataSet4Aggregation( facttableRowIterator, dimesionResultSets, null );
+			= new DataSetFromOriginalCube( facttableRowIterator, dimesionResultSets, null );
 		AggregationExecutor aggregationCalculatorExecutor = 
 				new AggregationExecutor( dataSet4Aggregation,
 						aggregations );
@@ -1129,7 +1131,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 
 		IDataSet4Aggregation dataSet4Aggregation 
-			= DataSet4AggregationFactory.createDataSet4Aggregation( facttableRowIterator, dimesionResultSets, null );
+			= new DataSetFromOriginalCube( facttableRowIterator, dimesionResultSets, null );
 		AggregationExecutor aggregationCalculatorExecutor = 
 				new AggregationExecutor( dataSet4Aggregation,
 						aggregations );
@@ -1169,14 +1171,10 @@ public class FactTableHelperTest2 extends BaseTestCase
 		Context context = Context.enter( );
 		ScriptableObject scope = context.initStandardObjects( );
 		ScriptContext cx = new ScriptContext( scope );
-		dataSet4Aggregation 
-			= DataSet4AggregationFactory.createDataSet4Aggregation( sourceAggrResultSet, 
+		IAggregationResultSet ars 
+			= new AggregationResultSetWithOneMoreDummyAggr( sourceAggrResultSet, 
 					"max_total", new ScriptExpression("data[\"total\"]"), scope, cx);
-		
-		aggregationCalculatorExecutor = 
-				new AggregationExecutor( dataSet4Aggregation,
-						aggregations );
-		resultSet = aggregationCalculatorExecutor.execute( new StopSign( ) );
+		resultSet = AggregationHelper.execute( ars, aggregations, new StopSign( ) );
 		assertEquals( resultSet[0].length( ), 1 );
 		
 		resultSet[0].seek( 0 );
@@ -1192,13 +1190,10 @@ public class FactTableHelperTest2 extends BaseTestCase
 		funcitons[0] = new AggregationFunctionDefinition( "sum_total", "total", IBuildInAggregation.TOTAL_SUM_FUNC );
 		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 
-		dataSet4Aggregation 
-			= DataSet4AggregationFactory.createDataSet4Aggregation( sourceAggrResultSet,
+		ars
+			= new AggregationResultSetWithOneMoreDummyAggr( sourceAggrResultSet,
 					"sum_total", new ScriptExpression("data[\"total\"]"), scope, cx);
-		aggregationCalculatorExecutor = 
-				new AggregationExecutor( dataSet4Aggregation,
-						aggregations );
-		resultSet = aggregationCalculatorExecutor.execute( new StopSign( ) );
+		resultSet = AggregationHelper.execute( ars, aggregations, new StopSign( ) );
 		assertEquals( resultSet[0].length( ), 3 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
 		assertEquals( resultSet[0].getLevelIndex( dimLevel11 ), 0 );
