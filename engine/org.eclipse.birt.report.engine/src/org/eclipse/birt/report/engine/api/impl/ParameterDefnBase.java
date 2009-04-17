@@ -18,7 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 
 /**
  * Base class for parameter definition. 
@@ -247,8 +247,8 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 
 		Locale theLocale = ( locale == null ) ? Locale.getDefault( ) : locale;
 		return handle.getExternalizedValue(
-				IScalarParameterModel.PROMPT_TEXT_ID_PROP,
-				IScalarParameterModel.PROMPT_TEXT_PROP, theLocale );
+				ScalarParameterHandle.PROMPT_TEXT_ID_PROP,
+				ScalarParameterHandle.PROMPT_TEXT_PROP, theLocale );
 	}
 	
 	/**
