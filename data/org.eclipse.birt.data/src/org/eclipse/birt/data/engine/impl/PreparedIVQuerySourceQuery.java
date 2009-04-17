@@ -170,7 +170,8 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 				continue;
 			IBaseExpression expr = binding.getExpression( );
 			if ( expr instanceof IScriptExpression
-					&& !ExpressionUtil.hasAggregation( ( (IScriptExpression) expr ).getText( ) ) )
+					&& !ExpressionUtil.hasAggregation( ( (IScriptExpression) expr ).getText( ) )
+					&& binding.getAggrFunction( ) == null )
 			{
 				boolean exist = false;
 				for ( int i = 0; i < resultBindingList.size( ); i++ )

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -571,6 +572,67 @@ public class ComputedColumnTest extends APITestCase
 				new ScriptExpression("dataSetRow." + ccName[1], 0),
 				new ScriptExpression("dataSetRow." + ccName[2], 0),
 				new ScriptExpression("dataSetRow." + ccName[3], 0) };
+
+		IResultIterator resultIt = this.executeQuery(this.createQuery(
+				null, null, null, null, null,
+				null, null, null, null, bindingNameRow, bindingExprRow));
+		
+		printResult(resultIt, bindingNameRow, bindingExprRow);
+		// assert
+		checkOutputFile();
+		
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testAggregationOnComputedColumn2( ) throws Exception
+	{
+		ccName = new String[] { "cc1", "cc2", "cc3" };
+		ccExpr = new String[] {
+				"row.COL0",
+				"row.cc1",
+				"row.cc2" };
+
+		ComputedColumn computedColumn0 = new ComputedColumn( ccName[0],
+				ccExpr[0],
+				DataType.INTEGER_TYPE,
+				IBuildInAggregation.TOTAL_COUNT_FUNC,
+				null,
+				new ArrayList( ) );
+
+		( (BaseDataSetDesign) this.dataSet ).addComputedColumn( computedColumn0 );
+
+		ComputedColumn computedColumn1 = new ComputedColumn( ccName[1],
+				ccExpr[1],
+				DataType.INTEGER_TYPE );
+
+		( (BaseDataSetDesign) this.dataSet ).addComputedColumn( computedColumn1 );
+
+		ComputedColumn computedColumn2 = new ComputedColumn( ccName[2],
+				ccExpr[2],
+				DataType.INTEGER_TYPE );
+
+		( (BaseDataSetDesign) this.dataSet ).addComputedColumn( computedColumn2 );
+		
+		String[] bindingNameRow = new String[7];
+		bindingNameRow[0] = "ROW_COL0";
+		bindingNameRow[1] = "ROW_COL1";
+		bindingNameRow[2] = "ROW_COL2";
+		bindingNameRow[3] = "ROW_COL3";
+		bindingNameRow[4] = "ROW_cc1";
+		bindingNameRow[5] = "ROW_cc2";
+		bindingNameRow[6] = "ROW_cc3";
+
+		ScriptExpression[] bindingExprRow = new ScriptExpression[] {
+				new ScriptExpression("dataSetRow." + "COL0", 0),
+				new ScriptExpression("dataSetRow." + "COL1", 0),
+				new ScriptExpression("dataSetRow." + "COL2", 0),
+				new ScriptExpression("dataSetRow." + "COL3", 0),
+				new ScriptExpression("dataSetRow." + ccName[0], 0),
+				new ScriptExpression("dataSetRow." + ccName[1], 0),
+				new ScriptExpression("dataSetRow." + ccName[2], 0) };
 
 		IResultIterator resultIt = this.executeQuery(this.createQuery(
 				null, null, null, null, null,

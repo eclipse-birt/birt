@@ -26,6 +26,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -370,6 +371,62 @@ public class ExprManagerUtil
 				l.put( groupLevel, key );
 		}
 		return l;
+	}
+	
+	/**
+	 * 
+	 * @param computedColumn
+	 * @param allComputes
+	 * @return
+	 * @throws DataException
+	 */
+	public static boolean parseAggregation( IComputedColumn computedColumn, List allComputes ) throws DataException
+	{
+
+		IBaseExpression expr = computedColumn.getExpression( );
+		
+		//check if it's an old style aggregation
+		if ( expr instanceof IScriptExpression )
+		{
+			if ( ExpressionUtil.hasAggregation( ( (IScriptExpression) expr ).getText( ) ))
+			{
+				return true;
+			}
+		}
+		
+		//check if itself is an aggregation
+		if ( computedColumn.getAggregateFunction( ) != null )
+		{
+			return true;
+		}
+		
+		
+		// check if it refers to some aggregation bindings
+		List<String> referencedBindings = ExpressionCompilerUtil.extractColumnExpression( computedColumn.getExpression( ),
+				ExpressionUtil.ROW_INDICATOR );
+		for ( int i = 0; i < referencedBindings.size( ); i++ )
+		{
+			IComputedColumn b = null;
+			for ( int j = 0; j < allComputes.size( ); j++ )
+			{
+				IComputedColumn com = (IComputedColumn) allComputes.get( i );
+				if ( com.getName( ).equals( referencedBindings.get( i ) ) )
+				{
+					b = com;
+				}
+			}
+			if ( b != null )
+			{
+				boolean isAggr = parseAggregation( b, allComputes );
+				if ( isAggr )
+				{
+					return true;
+				}
+			}
+		}
+		
+		//not an aggregation
+		return false;
 	}
 	
 }

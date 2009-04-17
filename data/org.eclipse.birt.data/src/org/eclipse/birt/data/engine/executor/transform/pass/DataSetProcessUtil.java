@@ -110,19 +110,34 @@ class DataSetProcessUtil extends RowProcessUtil
 		if( this.computedColumnHelper!= null )
 			computedColumnHelper.setModel( TransformationConstants.NONE_MODEL );
 		populateAggrCCs( this.getAggrComputedColumns( aggCCList, true ), stopSign );
-		
-		if( filterByRow!= null && filterByRow.isFilterSetExist( FilterByRow.DATASET_AGGR_FILTER ) )
-		{
-			doDataSetAggrFilter( changeMaxRows, stopSign );
-			populateAggrCCs( this.getAggrComputedColumns( aggCCList, true ), stopSign );
-		}
+		setStateForAggregationComputedColumns( );
 		removeAvailableComputedColumns( );
 		
 		//Begin populate computed columns with aggregations.
 		//TODO:remove me
 		populateComputedColumns( this.getAggrComputedColumns( aggCCList, false ), stopSign );	
-		
+		if( filterByRow!= null && filterByRow.isFilterSetExist( FilterByRow.DATASET_AGGR_FILTER ) )
+		{
+			doDataSetAggrFilter( changeMaxRows, stopSign );
+			populateAggrCCs( this.getAggrComputedColumns( aggCCList, true ), stopSign );
+		}
+				
 		this.populator.getQuery( ).setMaxRows( originalMaxRows );
+	}
+	
+	private void setStateForAggregationComputedColumns( ) throws DataException
+	{
+		if ( iccState != null )
+		{
+			for ( int i = 0; i < iccState.getCount( ); i++ )
+			{
+				if ( iccState.getComputedColumn( i )
+								.getAggregateFunction( ) != null )
+				{
+					iccState.setValueAvailable( i );
+				}
+			}
+		}
 	}
 	
 	/**

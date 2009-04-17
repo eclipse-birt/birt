@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.ExprManagerUtil;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.impl.StopSign;
 
@@ -143,7 +144,9 @@ abstract class RowProcessUtil
 			{
 				if ( !this.populator.getExpressionProcessor( )
 						.hasAggregation( iccState.getComputedColumn( i )
-								.getExpression( ) ) )
+								.getExpression( ) )
+						&& !ExprManagerUtil.parseAggregation( iccState.getComputedColumn( i ),
+								computedColumnHelper.getComputedColumnList( ) ) )
 				{
 					iccState.setValueAvailable( i );
 				}
