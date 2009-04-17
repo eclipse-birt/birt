@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
@@ -310,87 +311,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				aggOnList.add( name + "," + name2 ); //$NON-NLS-1$
 			}
 		}
-
-		try
-		{
-			IBinding[] aggregateBindings = CubeQueryUtil.getAggregationBindings( getCrosstabBindings( xtabHandle ) );
-			for ( IBinding binding : aggregateBindings )
-			{
-				if ( getBinding( )==null || !getBinding( ).getName( )
-						.equals( binding.getBindingName( ) ) )
-					aggOnList.add( binding.getBindingName( ) );
-			}
-		}
-		catch ( AdapterException e )
-		{
-		}
-		catch ( BirtException e )
-		{
-		}
-
 		return (String[]) aggOnList.toArray( new String[aggOnList.size( )] );
-	}
-
-	private IBinding[] getCrosstabBindings( CrosstabReportItemHandle xtabHandle )
-			throws BirtException
-	{
-		Iterator bindingItr = ( (ExtendedItemHandle) xtabHandle.getModelHandle( ) ).columnBindingsIterator( );
-		ModuleHandle module = ( (ExtendedItemHandle) xtabHandle.getModelHandle( ) ).getModuleHandle( );
-
-		List<IBinding> bindingList = new ArrayList<IBinding>( );
-
-		if ( bindingItr != null )
-		{
-			Map cache = new HashMap( );
-
-			List rowLevelNameList = new ArrayList( );
-			List columnLevelNameList = new ArrayList( );
-
-			while ( bindingItr.hasNext( ) )
-			{
-				ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next( );
-
-				Binding binding = new Binding( column.getName( ) );
-				binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
-						: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
-				binding.setExpression( column.getExpression( ) == null ? null
-						: new ScriptExpression( column.getExpression( ) ) );
-				binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
-
-				if ( column.getFilterExpression( ) != null )
-				{
-					binding.setFilter( new ScriptExpression( column.getFilterExpression( ) ) );
-				}
-
-				for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
-				{
-					AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
-					if ( aah.getValue( ) != null )
-					{
-						binding.addArgument( new ScriptExpression( aah.getValue( ) ) );
-					}
-				}
-
-				List aggrList = column.getAggregateOnList( );
-
-				if ( aggrList != null )
-				{
-					for ( Iterator aggrItr = aggrList.iterator( ); aggrItr.hasNext( ); )
-					{
-						String baseLevel = (String) aggrItr.next( );
-
-						CrosstabUtil.addHierachyAggregateOn( module,
-								binding,
-								baseLevel,
-								rowLevelNameList,
-								columnLevelNameList,
-								cache );
-					}
-				}
-				bindingList.add( binding );
-			}
-		}
-		return bindingList.toArray( new IBinding[bindingList.size( )] );
 	}
 
 	private List getCrosstabViewHandleLevels( CrosstabReportItemHandle xtab,
@@ -571,8 +492,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	 */
 	private void initDataFields( Combo cmbDataField, IParameterDefn param )
 	{
-		String[] items = getMesures( );
+		List<String> datas = getMesures( );
+		datas.addAll( getDatas() );
+		String[] items = datas.toArray( new String[datas.size( )] );
 		cmbDataField.setItems( items );
+		
 		if ( paramsValueMap.containsKey( param.getName( ) ) )
 		{
 			cmbDataField.setText( paramsValueMap.get( param.getName( ) ) );
@@ -613,13 +537,13 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 	}
 
-	private String[] getMesures( )
+	private List<String> getMesures( )
 	{
+		List<String> measures = new ArrayList<String>( );
 		try
 		{
 			CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) getBindingHolder( ) ).getReportItem( );
 
-			List<String> measures = new ArrayList<String>( );
 			measures.add( "" ); //$NON-NLS-1$
 
 			for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
@@ -632,12 +556,105 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				}
 				measures.add( DEUtil.getExpression( mv.getCubeMeasure( ) ) );
 			}
-			return measures.toArray( new String[measures.size( )] );
 		}
 		catch ( ExtendedElementException e )
 		{
 		}
-		return new String[0];
+		return measures;
+	}
+
+	private List<String> getDatas( )
+	{
+		List<String> datas = new ArrayList<String>( );
+		try
+		{
+			CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) getBindingHolder( ) ).getReportItem( );
+
+
+			try
+			{
+				IBinding[] aggregateBindings = CubeQueryUtil.getAggregationBindings( getCrosstabBindings( xtabHandle ) );
+				for ( IBinding binding : aggregateBindings )
+				{
+					if ( getBinding( )==null || !getBinding( ).getName( )
+							.equals( binding.getBindingName( ) ) )
+						datas.add( ExpressionUtil.createJSDataExpression( binding.getBindingName( ) ) );
+				}
+			}
+			catch ( AdapterException e )
+			{
+			}
+			catch ( BirtException e )
+			{
+			}
+
+		}
+		catch ( ExtendedElementException e )
+		{
+		}
+		return datas;
+	}
+
+	private IBinding[] getCrosstabBindings( CrosstabReportItemHandle xtabHandle )
+			throws BirtException
+	{
+		Iterator bindingItr = ( (ExtendedItemHandle) xtabHandle.getModelHandle( ) ).columnBindingsIterator( );
+		ModuleHandle module = ( (ExtendedItemHandle) xtabHandle.getModelHandle( ) ).getModuleHandle( );
+
+		List<IBinding> bindingList = new ArrayList<IBinding>( );
+
+		if ( bindingItr != null )
+		{
+			Map cache = new HashMap( );
+
+			List rowLevelNameList = new ArrayList( );
+			List columnLevelNameList = new ArrayList( );
+
+			while ( bindingItr.hasNext( ) )
+			{
+				ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next( );
+
+				Binding binding = new Binding( column.getName( ) );
+				binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
+						: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
+				binding.setExpression( column.getExpression( ) == null ? null
+						: new ScriptExpression( column.getExpression( ) ) );
+				binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
+
+				if ( column.getFilterExpression( ) != null )
+				{
+					binding.setFilter( new ScriptExpression( column.getFilterExpression( ) ) );
+				}
+
+				for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
+				{
+					AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
+					if ( aah.getValue( ) != null )
+					{
+						binding.addArgument( new ScriptExpression( aah.getValue( ) ) );
+					}
+				}
+
+				List aggrList = column.getAggregateOnList( );
+
+				if ( aggrList != null )
+				{
+					for ( Iterator aggrItr = aggrList.iterator( ); aggrItr.hasNext( ); )
+					{
+						String baseLevel = (String) aggrItr.next( );
+
+						CrosstabUtil.addHierachyAggregateOn( module,
+								binding,
+								baseLevel,
+								rowLevelNameList,
+								columnLevelNameList,
+								cache );
+					}
+				}
+				bindingList.add( binding );
+			}
+		}
+		return bindingList.toArray( new IBinding[bindingList.size( )] );
 	}
 
 	private void setDataFieldExpression( String expression )
