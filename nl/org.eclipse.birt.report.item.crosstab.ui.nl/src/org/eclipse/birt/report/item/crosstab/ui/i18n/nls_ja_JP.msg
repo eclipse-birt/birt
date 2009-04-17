@@ -47,6 +47,7 @@ CrosstabTableEditPart.GuideText=クロスタブ
 GrandTotalProvider.Column.AggregateOn=総計条件
 GrandTotalProvider.Column.DataField=データフィールド
 GrandTotalProvider.Column.View=ビュー
+GrandTotalProvider.Column.Position=位置
 GrandTotalProvider.Column.Function=関数
 GrandTotalProvider.ViewStatus=現在のビューの保存
 GrandTotalProvider.ShowAs={0} として表示

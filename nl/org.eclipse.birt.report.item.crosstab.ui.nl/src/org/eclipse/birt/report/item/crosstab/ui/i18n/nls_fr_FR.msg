@@ -47,6 +47,7 @@ CrosstabTableEditPart.GuideText=Tableau croisé
 GrandTotalProvider.Column.AggregateOn=Regrouper par
 GrandTotalProvider.Column.DataField=Champ de données
 GrandTotalProvider.Column.View=Vue
+GrandTotalProvider.Column.Position=Position
 GrandTotalProvider.Column.Function=Fonctions
 GrandTotalProvider.ViewStatus=Conserver la Vue actuelle
 GrandTotalProvider.ShowAs=Afficher sous {0}

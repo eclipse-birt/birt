@@ -47,6 +47,7 @@ CrosstabTableEditPart.GuideText=Tabla de referencias cruzadas
 GrandTotalProvider.Column.AggregateOn=Agregar en
 GrandTotalProvider.Column.DataField=Campo de datos
 GrandTotalProvider.Column.View=Ver
+GrandTotalProvider.Column.Position=Posición
 GrandTotalProvider.Column.Function=Funciones
 GrandTotalProvider.ViewStatus=Mantener vista actual
 GrandTotalProvider.ShowAs=Mostrar como {0}

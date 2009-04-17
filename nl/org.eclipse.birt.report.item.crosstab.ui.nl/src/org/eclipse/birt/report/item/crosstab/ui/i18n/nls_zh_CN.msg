@@ -47,6 +47,7 @@ CrosstabTableEditPart.GuideText=交叉表
 GrandTotalProvider.Column.AggregateOn=聚合条件
 GrandTotalProvider.Column.DataField=数据字段
 GrandTotalProvider.Column.View=视图
+GrandTotalProvider.Column.Position=位置
 GrandTotalProvider.Column.Function=函数
 GrandTotalProvider.ViewStatus=保留当前视图
 GrandTotalProvider.ShowAs=显示为 {0}

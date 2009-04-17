@@ -47,6 +47,7 @@ CrosstabTableEditPart.GuideText=크로스 탭
 GrandTotalProvider.Column.AggregateOn=집계 대상
 GrandTotalProvider.Column.DataField=데이터 필드
 GrandTotalProvider.Column.View=보기
+GrandTotalProvider.Column.Position=위치
 GrandTotalProvider.Column.Function=함수
 GrandTotalProvider.ViewStatus=현재 보기 유지
 GrandTotalProvider.ShowAs={0}(으)로 표시
