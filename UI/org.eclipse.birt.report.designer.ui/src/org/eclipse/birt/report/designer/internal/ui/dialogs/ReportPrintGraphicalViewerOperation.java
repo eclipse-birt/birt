@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -51,6 +52,8 @@ public class ReportPrintGraphicalViewerOperation
 	private GC printerGC;
 	private SWTGraphics g;
 	private CompositePrinterGraphics printerGraphics;
+	private String orientation = DesignChoiceConstants.BIDI_DIRECTION_LTR;
+
 
 	public ReportPrintGraphicalViewerOperation( GraphicalViewer g,
 			Drawable drawable, Device device, Rectangle region )
@@ -86,6 +89,23 @@ public class ReportPrintGraphicalViewerOperation
 	{
 		return drawable;
 	}
+	
+	/**Gets the orientation.
+	 * @return
+	 */
+	public String getOrientation( )
+	{
+		return orientation;
+	}
+
+	
+	/**Sets the orientation.
+	 * @param orientation
+	 */
+	public void setOrientation( String orientation )
+	{
+		this.orientation = orientation;
+	}
 
 	/**
 	 * @param jobName
@@ -94,7 +114,15 @@ public class ReportPrintGraphicalViewerOperation
 	{
 		// the job name is not use now.
 		preparePrintSource( );
-		printerGC = new GC( getDrawable( ), SWT.LEFT_TO_RIGHT );
+		if (DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( getOrientation() ))
+		{
+			printerGC = new GC( getDrawable( ), SWT.RIGHT_TO_LEFT );
+		
+		}
+		else
+		{
+			printerGC = new GC( getDrawable( ), SWT.LEFT_TO_RIGHT );
+		}
 		printPages( );
 		restorePrintSource( );
 		cleanup( );

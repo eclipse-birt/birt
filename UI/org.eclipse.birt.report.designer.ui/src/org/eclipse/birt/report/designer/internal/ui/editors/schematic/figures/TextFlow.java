@@ -647,10 +647,14 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 			textLayout.setStyle( new TextStyle( g.getFont( ),
 					g.getForegroundColor( ),
 					TRANSPARENT_COLOR ), 0, text.length( ) );
-
+			RGB rgbData = g.getForegroundColor( ).getRGB( );
+			if (ColorConstants.black.getRGB( ).equals( rgbData ))
+			{
+				rgbData = ColorConstants.buttonDarker.getRGB( );
+			}
 			PaletteData paletteData = new PaletteData( new RGB[]{
 					TRANSPARENT_COLOR.getRGB( ),
-					g.getForegroundColor( ).getRGB( )
+					rgbData
 			} );
 			ImageData imageData = new ImageData(
 			// RTL graphics has a 1-pixel-origin-shift problem, so add
