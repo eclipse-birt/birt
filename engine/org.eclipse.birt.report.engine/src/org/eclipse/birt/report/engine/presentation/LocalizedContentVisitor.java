@@ -309,7 +309,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 						String pattern = dataFormat.getNumberPattern( );
 						String locale = dataFormat.getNumberLocale( );
 						if ( locale == null )
-							fmt = context.getNumberFormatter( null, null );
+							fmt = context.getNumberFormatter( pattern, null );
 						else
 							fmt = context.getNumberFormatter( pattern,
 									new ULocale( locale ) );
@@ -336,7 +336,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 						String pattern = dataFormat.getStringPattern( );
 						String locale = dataFormat.getStringLocale( );
 						if ( locale == null )
-							fmt = context.getStringFormatter( null, null );
+							fmt = context.getStringFormatter( pattern, null );
 						else
 							fmt = context.getStringFormatter( pattern,
 									new ULocale( locale ) );
@@ -367,7 +367,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 							locale = dataFormat.getDateTimeLocale( );
 						}
 						if ( locale == null )
-							fmt = context.getDateFormatter( null, null );
+							fmt = context.getDateFormatter( pattern, null );
 						else
 							fmt = context.getDateFormatter( pattern,
 									new ULocale( locale ) );
