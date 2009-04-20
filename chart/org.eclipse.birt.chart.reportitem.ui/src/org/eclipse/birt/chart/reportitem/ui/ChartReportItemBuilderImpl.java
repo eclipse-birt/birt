@@ -418,7 +418,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#validate(org.eclipse.birt.chart.model.Chart,
 	 *      java.lang.Object)
 	 */
-	public final String[] validate( Chart cm, Object oContext )
+	public String[] validate( Chart cm, Object oContext )
 	{
 		final ArrayList<String> alProblems = new ArrayList<String>( 4 );
 
