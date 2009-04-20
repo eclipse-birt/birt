@@ -67,6 +67,7 @@ import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -1615,7 +1616,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		// Sharing case
 		if ( referredHandle != null && !isChartCubeReference )
 		{
-			return new SharedCubeResultSetEvaluator( ipcq.execute( null, null ),
+			return new SharedCubeResultSetEvaluator( (ICubeQueryResults) session.execute( ipcq,
+					null,
+					null ),
 					qd,
 					cm ) {
 
@@ -1642,7 +1645,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			};
 		}
 
-		return new BIRTCubeResultSetEvaluator( ipcq.execute( null, null ) ) {
+		return new BIRTCubeResultSetEvaluator( (ICubeQueryResults) session.execute( ipcq,
+				null,
+				null ) ) {
 
 			/*
 			 * (non-Javadoc)

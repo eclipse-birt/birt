@@ -2352,7 +2352,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 		else
 		{
-			if ( !isCubeMode( ) )
+			if ( getCube( ) == null )
 			{
 				try
 				{
@@ -2370,7 +2370,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				}
 				
 			}
-			else
+			else if ( isDataItemSupported( SELECT_DATA_CUBE ) )
 			{
 				if ( dataProvider.isInheritanceOnly( )
 						|| dataProvider.isSharedBinding( ) )
@@ -2451,6 +2451,30 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
 							valueExprs );
 				}
+				// TODO do we need to handle xtab inheritance case? currently we
+				// just inherit the cube from xtab essentially
+//				else if ( ChartXTabUIUtil.isInheritXTabCell( itemHandle ) )
+//				{
+//					// Chart in xtab cell and inherits its cube
+//					List<String> measureExprs = new ArrayList<String>( );
+//					for ( Iterator<ComputedColumnHandle> iter = ChartReportItemUtil.getBindingHolder( itemHandle )
+//							.getColumnBindings( )
+//							.iterator( ); iter.hasNext( ); )
+//					{
+//						ComputedColumnHandle cch = iter.next( );
+//						if ( ChartXTabUtil.isMeasureExpresion( cch.getExpression( ) ) )
+//						{
+//							measureExprs.add( ExpressionUtil.createJSDataExpression( cch.getName( ) ) );
+//						}
+//					}
+//					String[] valueExprs = measureExprs.toArray( new String[measureExprs.size( )] );
+//					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+//							null );
+//					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
+//							null );
+//					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
+//							valueExprs );
+//				}
 				else
 				{
 					Iterator<ComputedColumnHandle> columnBindings = ChartXTabUtil.getAllColumnBindingsIterator( itemHandle );
