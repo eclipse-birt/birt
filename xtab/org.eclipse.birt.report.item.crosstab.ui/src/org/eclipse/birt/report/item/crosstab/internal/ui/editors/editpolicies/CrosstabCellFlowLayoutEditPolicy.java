@@ -62,12 +62,15 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies
+	 * .ReportFlowLayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.
+	 * CreateRequest)
 	 */
 	protected Command getCreateCommand( CreateRequest request )
 	{
 		EditPart after;
-		if (getLocationFromRequest( request ) == null)
+		if ( getLocationFromRequest( request ) == null )
 		{
 			after = null;
 		}
@@ -115,11 +118,14 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 			else if ( newObject instanceof LevelAttributeHandle )
 			{
 				Object afterObj = after == null ? null : after.getModel( );
-				LevelHandle levelHandle = (LevelHandle) ((LevelAttributeHandle) newObject).getElementHandle( );
+				LevelHandle levelHandle = (LevelHandle) ( (LevelAttributeHandle) newObject ).getElementHandle( );
 				DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( levelHandle );
 				AddLevelAttributeHandleCommand command = new AddLevelAttributeHandleCommand( (CrosstabCellAdapter) model,
 						type,
-						dimensionHandle, (LevelAttributeHandle) newObject, 
+						dimensionHandle,
+						new LevelAttributeHandle[]{
+							(LevelAttributeHandle) newObject
+						},
 						afterObj );
 				return command;
 			}
@@ -190,6 +196,29 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 				command.setLevelHandles( levelHandles );
 				return command;
 			}
+			else if ( newObject instanceof Object[] )
+			{
+				Class arrayType = getArrayType( (Object[]) newObject );
+				if ( LevelAttributeHandle.class.isAssignableFrom( arrayType ) )
+				{
+					Object[] items = (Object[]) newObject;
+					LevelAttributeHandle[] levelAttributeHandles = new LevelAttributeHandle[items.length];
+					System.arraycopy( items,
+							0,
+							levelAttributeHandles,
+							0,
+							levelAttributeHandles.length );
+					Object afterObj = after == null ? null : after.getModel( );
+					LevelHandle levelHandle = (LevelHandle) ( (LevelAttributeHandle) items[0] ).getElementHandle( );
+					DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( levelHandle );
+					AddLevelAttributeHandleCommand command = new AddLevelAttributeHandleCommand( (CrosstabCellAdapter) model,
+							type,
+							dimensionHandle,
+							levelAttributeHandles,
+							afterObj );
+					return command;
+				}
+			}
 			else
 			{
 				CrosstabCellCreateCommand command = new CrosstabCellCreateCommand( request.getExtendedData( ) );
@@ -219,9 +248,22 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 				else if ( container != ( (LevelHandle) items[i] ).getContainer( ) )
 					return false;
 			}
-			return true;
+			return items.length > 0;
 		}
 		return false;
+	}
+
+	private Class getArrayType( Object[] array )
+	{
+		Class type = null;
+		for ( int i = 0; i < array.length; i++ )
+		{
+			if ( type == null )
+				type = array[i].getClass( );
+			else if ( type != array[i].getClass( ) )
+				return null;
+		}
+		return type;
 	}
 
 	private int getAreaType( CrosstabCellAdapter cellAdapter )
@@ -243,8 +285,10 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart,
-	 *      org.eclipse.gef.EditPart, org.eclipse.gef.EditPart)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies
+	 * .ReportFlowLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart,
+	 * org.eclipse.gef.EditPart, org.eclipse.gef.EditPart)
 	 */
 	protected Command createAddCommand( EditPart parent, EditPart child,
 			EditPart after )
@@ -390,8 +434,9 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy#createMoveChildCommand(org.eclipse.gef.EditPart,
-	 *      org.eclipse.gef.EditPart)
+	 * @see
+	 * org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy#createMoveChildCommand
+	 * (org.eclipse.gef.EditPart, org.eclipse.gef.EditPart)
 	 */
 	protected Command createMoveChildCommand( EditPart child, EditPart after )
 	{

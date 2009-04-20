@@ -43,8 +43,7 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand
 	 * type.
 	 */
 	private int type = -1;
-	private LevelAttributeHandle levelAttributeHandle;
-	private LevelHandle[] levelHandles;
+	private LevelAttributeHandle[] levelAttributeHandles;
 	private DimensionHandle[] dimensionHandles;
 	private DimensionHandle dimensionHandle;
 	private Object after;
@@ -64,11 +63,11 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand
 	 */
 	public AddLevelAttributeHandleCommand( CrosstabCellAdapter handleAdpter,
 			int type, DimensionHandle dimensionHandle,
-			LevelAttributeHandle levelAttrHandle, Object after )
+			LevelAttributeHandle[] levelAttrHandles, Object after )
 	{
 		super( dimensionHandle );
 		this.dimensionHandle = dimensionHandle;
-		this.levelAttributeHandle = levelAttrHandle;
+		this.levelAttributeHandles = levelAttrHandles;
 		setHandleAdpter( handleAdpter );
 		setType( type );
 		setDimensionHandles( new DimensionHandle[]{
@@ -80,11 +79,11 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand
 
 	public AddLevelAttributeHandleCommand( CrosstabHandleAdapter handleAdpter,
 			int type, DimensionHandle dimensionHandle,
-			LevelAttributeHandle levelAttrHandle )
+			LevelAttributeHandle[] levelAttrHandles )
 	{
 		super( dimensionHandle );
 		this.dimensionHandle = dimensionHandle;
-		this.levelAttributeHandle = levelAttrHandle;
+		this.levelAttributeHandles = levelAttrHandles;
 		setHandleAdpter( handleAdpter );
 		setType( type );
 		setDimensionHandles( new DimensionHandle[]{
@@ -156,86 +155,85 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand
 	 */
 	public void execute( )
 	{
-		transStart( NAME );
-		CrosstabReportItemHandle crosstabHandle = getCrosstabHandle( );
-
-		try
+		if ( this.levelAttributeHandles != null
+				&& this.levelAttributeHandles.length > 0 )
 		{
-			// if dimension is not in the crosstab, then add it
-			DimensionViewHandle viewHandle = null;
-			int position = findPosition( );
-			if ( CrosstabUtil.canContain( crosstabHandle, this.dimensionHandle ) )
-			{
-				if ( crosstabHandle.getCube( ) == null )
-				{
-					crosstabHandle.setCube( CrosstabAdaptUtil.getCubeHandle( dimensionHandle ) );
-				}
-				viewHandle = crosstabHandle.insertDimension( dimensionHandle,
-						getType( ),
-						position );
-			}
-			else
-			{
-				viewHandle = crosstabHandle.getDimension( getType( ), position-1 );
-			}
+			transStart( NAME );
+			CrosstabReportItemHandle crosstabHandle = getCrosstabHandle( );
 
-			// if level attribute's level is not in the crosstab, then add it
-			LevelHandle levelHandle = (LevelHandle) this.levelAttributeHandle.getElementHandle( );
-			if ( levelHandle == null )
+			try
+			{
+				// if dimension is not in the crosstab, then add it
+				DimensionViewHandle viewHandle = null;
+				int position = findCellPosition( );
+				if ( CrosstabUtil.canContain( crosstabHandle,
+						this.dimensionHandle ) )
+				{
+					if ( crosstabHandle.getCube( ) == null )
+					{
+						crosstabHandle.setCube( CrosstabAdaptUtil.getCubeHandle( dimensionHandle ) );
+					}
+					viewHandle = crosstabHandle.insertDimension( dimensionHandle,
+							getType( ),
+							position );
+				}
+				else
+				{
+					viewHandle = crosstabHandle.getDimension( getType( ),
+							position - 1 );
+				}
+
+				// if level attribute's level is not in the crosstab, then add
+				// it
+				LevelHandle levelHandle = (LevelHandle) this.levelAttributeHandles[0].getElementHandle( );
+				if ( levelHandle == null )
+				{
+					rollBack( );
+					return;
+				}
+				LevelViewHandle levelViewHandle = null;
+				if ( viewHandle.getLevel( levelHandle.getQualifiedName( ) ) == null )
+				{
+					DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) crosstabHandle.getModelHandle( ),
+							levelHandle );
+					levelViewHandle = viewHandle.insertLevel( levelHandle,
+							viewHandle.getLevelCount( ) );
+					CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
+					cellHandle.addContent( dataHandle );
+				}
+				else
+				{
+					levelViewHandle = viewHandle.getLevel( levelHandle.getQualifiedName( ) );
+				}
+
+				position = findPosition( );
+
+				// add level attribute to crosstab
+				for ( LevelAttributeHandle lah : this.levelAttributeHandles )
+				{
+					DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) crosstabHandle.getModelHandle( ),
+							lah );
+					CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
+					if ( position > 0 )
+						cellHandle.addContent( dataHandle, position );
+					else
+						cellHandle.addContent( dataHandle );
+				}
+				transEnd( );
+			}
+			catch ( Exception e )
 			{
 				rollBack( );
-				return;
+				ExceptionHandler.handle( e );
 			}
-			LevelViewHandle levelViewHandle = null;
-			if ( viewHandle.getLevel( levelHandle.getQualifiedName( ) ) == null )
-			{
-				DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) crosstabHandle.getModelHandle( ),
-						levelHandle );
-				levelViewHandle = viewHandle.insertLevel( levelHandle,
-						viewHandle.getLevelCount( ) );
-				CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
-				cellHandle.addContent( dataHandle );
-			}
-			else
-			{
-				levelViewHandle = viewHandle.getLevel( levelHandle.getQualifiedName( ) );
-			}
-
-			// add level attribute to crosstab
-			DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) crosstabHandle.getModelHandle( ),
-					this.levelAttributeHandle );
-			CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
-			cellHandle.addContent( dataHandle );
-			transEnd( );
-		}
-		catch ( Exception e )
-		{
-			rollBack( );
-			ExceptionHandler.handle( e );
 		}
 	}
 
-	private LevelHandle[] getLevelHandles( DimensionHandle dimensionHandle )
-	{
-		if ( levelHandles == null )
-		{
-			LevelHandle[] dimensionLevelHandles = new LevelHandle[dimensionHandle.getDefaultHierarchy( )
-					.getLevelCount( )];
-			for ( int i = 0; i < dimensionLevelHandles.length; i++ )
-			{
-				dimensionLevelHandles[i] = dimensionHandle.getDefaultHierarchy( )
-						.getLevel( i );
-			}
-			return dimensionLevelHandles;
-		}
-		return levelHandles;
-	}
-
-	private int findPosition( )
+	private int findCellPosition( )
 	{
 		if ( this.handleAdpter instanceof CrosstabCellAdapter )
 		{
-			int base =  CrosstabAdaptUtil.getDimensionViewHandle( (ExtendedItemHandle) ( (CrosstabCellAdapter) handleAdpter ).getCrosstabCellHandle( )
+			int base = CrosstabAdaptUtil.getDimensionViewHandle( (ExtendedItemHandle) ( (CrosstabCellAdapter) handleAdpter ).getCrosstabCellHandle( )
 					.getModelHandle( ) )
 					.getModelHandle( )
 					.getIndex( );
@@ -244,9 +242,13 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand
 		return 0;
 	}
 
-	public void setLevelHandles( LevelHandle[] levelHandles )
+	private int findPosition( )
 	{
-		this.levelHandles = levelHandles;
+		if ( after instanceof DesignElementHandle )
+		{
+			return ( (DesignElementHandle) after ).getIndex( );
+		}
+		return 0;
 	}
 
 	/**

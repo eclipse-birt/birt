@@ -126,9 +126,11 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements
 				for ( int i = 0; i < len; i++ )
 				{
 					Object temp = objects[i];
+					if ( temp instanceof LevelAttributeHandle )
+						temp = ( (LevelAttributeHandle) temp ).getElementHandle( );
 					if ( ( crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle) temp ) || crosstab.getCube( ) == null ) )
 					{
-						isValidate = handleValidate( objects[i] );
+						isValidate = handleValidate( temp );
 					}
 					else
 					{

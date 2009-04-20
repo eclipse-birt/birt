@@ -87,7 +87,7 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends
 				AddLevelAttributeHandleCommand command = new AddLevelAttributeHandleCommand( adapter,
 						type,
 						dimensionHandle,
-						(LevelAttributeHandle) newObject );
+						 new LevelAttributeHandle[]{(LevelAttributeHandle) newObject} );
 				return command;
 			}
 			else if ( newObject instanceof MeasureHandle
@@ -144,6 +144,22 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends
 						return new CreateDimensionViewCommand( adapter,
 								type,
 								dimensions );
+					}
+					else if ( LevelAttributeHandle.class.isAssignableFrom( arrayType ) )
+					{
+						Object[] items = (Object[]) newObject;
+						LevelAttributeHandle[] levelAttributeHandles = new LevelAttributeHandle[items.length];
+						System.arraycopy( items,
+								0,
+								levelAttributeHandles,
+								0,
+								levelAttributeHandles.length );
+						LevelHandle levelHandle = (LevelHandle) ((LevelAttributeHandle) items[0]).getElementHandle( );
+						DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( levelHandle );
+						AddLevelAttributeHandleCommand command = new AddLevelAttributeHandleCommand( adapter,
+								type,
+								dimensionHandle, levelAttributeHandles);
+						return command;
 					}
 				}
 			}

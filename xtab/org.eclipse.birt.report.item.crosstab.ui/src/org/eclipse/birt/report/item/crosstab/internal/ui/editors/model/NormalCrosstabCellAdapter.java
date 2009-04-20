@@ -95,16 +95,22 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements
 			}
 			else
 			{
+				boolean isValidate = false;
+				
 				for ( int i = 0; i < len; i++ )
 				{
 					Object temp = objects[i];
+
+					if ( temp instanceof LevelAttributeHandle )
+						temp = ( (LevelAttributeHandle) temp ).getElementHandle( );
+
 					if ( temp instanceof MeasureHandle
 							|| temp instanceof MeasureGroupHandle )
 					{
 						if ( getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE )
 								&& crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle) temp ) )
 						{
-							continue;
+							isValidate = handleValidate(temp);
 						}
 						else
 						{
@@ -115,20 +121,24 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements
 					{
 						if ( i > 0 )
 						{
-							if ( !( objects[i - 1] instanceof LevelHandle ) )
+							Object preObj = objects[i - 1];
+							if ( preObj instanceof LevelAttributeHandle )
+								preObj = ( (LevelAttributeHandle) preObj ).getElementHandle( );
+							if ( !( preObj instanceof LevelHandle ) )
 								return false;
 							DesignElementHandle container = ( (LevelHandle) temp ).getContainer( );
-							DesignElementHandle preContainer = ( (LevelHandle) objects[i - 1] ).getContainer( );
+							DesignElementHandle preContainer = ( (LevelHandle) preObj ).getContainer( );
 							if ( container != preContainer )
 								return false;
 						}
+						isValidate = handleValidate(temp);
 					}
 					else
 					{
 						return false;
 					}
 				}
-				return true;
+				return isValidate;
 			}
 
 		}
