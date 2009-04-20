@@ -11,12 +11,16 @@
 
 package org.eclipse.birt.report.engine.emitter.html.util;
 
+import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
 import org.eclipse.birt.report.engine.emitter.HTMLWriter;
+import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 
 /**
@@ -96,13 +100,9 @@ public class HTMLEmitterUtil
 			htmlBookmark = bookmark;
 		}
 		
-		if ( tagName == null || !HTMLTags.TAG_A.equalsIgnoreCase( tagName ) )
+		writer.attribute( HTMLTags.ATTR_ID, htmlBookmark );
+		if ( HTMLTags.TAG_A.equalsIgnoreCase( tagName ) )
 		{
-			writer.attribute( HTMLTags.ATTR_ID, htmlBookmark );
-		}
-		else
-		{
-			writer.attribute( HTMLTags.ATTR_ID, htmlBookmark );
 			writer.attribute( HTMLTags.ATTR_NAME, htmlBookmark );
 		}
 	}
@@ -185,5 +185,41 @@ public class HTMLEmitterUtil
 			return 0;
 		}
 		return 0;
+	}
+	
+	public static ReportElementHandle getElementHandle( Object element )
+	{
+		Object generateBy = null;
+		if ( element instanceof IContent )
+		{
+			generateBy = ( (IContent) element ).getGenerateBy( );
+		}
+		else if ( element instanceof IColumn )
+		{
+			generateBy = ( (IColumn) element ).getGenerateBy( );
+		}
+
+		if ( generateBy instanceof ReportItemDesign )
+		{
+			Object handle = ( (ReportItemDesign) generateBy ).getHandle( );
+			if ( handle instanceof ReportElementHandle )
+			{
+				return (ReportElementHandle) handle;
+			}
+		}
+		else if ( generateBy instanceof ColumnDesign )
+		{
+			Object handle = ( (ColumnDesign) generateBy ).getHandle( );
+			if ( handle instanceof ReportElementHandle )
+			{
+				return (ReportElementHandle) handle;
+			}
+		}
+		else if ( generateBy instanceof ReportElementHandle )
+		{
+			return (ReportElementHandle) generateBy;
+		}
+
+		return null;
 	}
 }

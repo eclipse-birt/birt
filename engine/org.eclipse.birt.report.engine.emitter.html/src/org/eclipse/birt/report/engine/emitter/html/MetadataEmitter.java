@@ -13,10 +13,13 @@ package org.eclipse.birt.report.engine.emitter.html;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IMetadataFilter;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -67,10 +70,14 @@ public class MetadataEmitter
 	private boolean displayFilterIcon;
 	private boolean displayGroupIcon;
 	private boolean wrapTemplateTable;
-	private MetadataIDGenerator idGenerator = new MetadataIDGenerator( );
+	private IDGenerator idGenerator;
 	private List ouputInstanceIDs;
 	private String imagePath;
 	private String htmlIDNamespace;
+	/**
+	 * attrNamePrefix must contain colon ':'.
+	 */
+	private String attrNamePrefix;
 	
 	/**
 	 * the instance ID of current wrapping table.
@@ -88,7 +95,7 @@ public class MetadataEmitter
 	 *            : the prefix of the attribute name.
 	 */
 	public MetadataEmitter( HTMLWriter writer, HTMLRenderOption htmlOption,
-			String attrNamePrefix )
+			String attrNamePrefix, IDGenerator idGenerator )
 	{
 		this.writer = writer;
 		this.displayFilterIcon = htmlOption.getDisplayFilterIcon( );
@@ -107,6 +114,9 @@ public class MetadataEmitter
 		{
 			imagePath = "";
 		}
+		assert idGenerator != null;
+		this.idGenerator = idGenerator;
+		this.attrNamePrefix = attrNamePrefix;
 		initializeAttrName( attrNamePrefix );
 	}
 	
@@ -194,79 +204,14 @@ public class MetadataEmitter
 				state.hasOutput = true;
 			}
 		}
-		outputRowMetaData( row );
 	}
 	
-	protected void outputRowMetaData( IRowContent rowContent )
-	{
-		Object parent = rowContent.getParent( );
-		if ( parent instanceof ITableBandContent )
-		{
-			ITableBandContent bandContent = (ITableBandContent) parent;
-			IGroupContent group = rowContent.getGroup( );
-			String groupId = rowContent.getGroupId( );
-			if ( groupId != null )
-			{
-				writer.attribute( HTMLTags.ATTR_GOURP_ID, groupId );
-			}
-			String rowType = null;
-			String metaType = null;
-
-			int bandType = bandContent.getBandType( );
-			if ( bandType == ITableBandContent.BAND_HEADER )
-			{
-				metaType = "wrth";
-				rowType = "header";
-			}
-			else if ( bandType == ITableBandContent.BAND_FOOTER )
-			{
-				metaType = "wrtf";
-				rowType = "footer";
-			}
-			else if ( bandType == ITableBandContent.BAND_GROUP_HEADER )
-			{
-				rowType = "group-header";
-				if ( group != null )
-				{
-					metaType = "wrgh" + group.getGroupLevel( );
-				}
-			}
-			else if ( bandType == ITableBandContent.BAND_GROUP_FOOTER )
-			{
-				rowType = "group-footer";
-				if ( group != null )
-				{
-					metaType = "wrgf" + group.getGroupLevel( );
-				}
-			}
-			writer.attribute( attrType, metaType );
-			writer.attribute( attrRowType, rowType );
-		}
-	}
-
 	public void endRow( IRowContent row )
 	{
 		DetailRowState state = (DetailRowState) detailRowStateStack.peek( );
 		if ( state.isStartOfDetail )
 		{
 			state.isStartOfDetail = false;
-		}
-	}
-	
-	/**
-	 * output the cell's iid
-	 * @param cell
-	 */
-	public void outputCellIID( ICellContent cell )
-	{
-		if ( cell != null )
-		{
-			// Instance ID
-			InstanceID iid = cell.getInstanceID( );
-			if ( iid != null )
-			{
-				writer.attribute( attrIID, iid.toString( ) );
-			}
 		}
 	}
 
@@ -303,7 +248,7 @@ public class MetadataEmitter
 			writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
 			String bookmark = idGenerator.generateUniqueID( );
 			HTMLEmitterUtil.setBookmark( writer, null, htmlIDNamespace, bookmark );
-			setActiveIDTypeIID( bookmark, "GROUP", null, -1 );
+			exportElementID( bookmark, "GROUP", -1 );
 			writer.closeTag( HTMLTags.TAG_IMAGE );
 			writer.closeTag( HTMLTags.TAG_TD );
 			writer.openTag( HTMLTags.TAG_TD );
@@ -336,7 +281,7 @@ public class MetadataEmitter
 					.getInstanceID( ).toString( ) );
 			String bookmark = idGenerator.generateUniqueID( );
 			HTMLEmitterUtil.setBookmark( writer, null, htmlIDNamespace, bookmark );
-			setActiveIDTypeIID( bookmark, "COLOUMNINFO", null, -1 );
+			exportElementID( bookmark, "COLOUMNINFO", -1 );
 			writer.closeTag( HTMLTags.TAG_IMAGE );
 		}
 		if ( needColumnFilter || needGroupIcon )
@@ -347,301 +292,177 @@ public class MetadataEmitter
 		}
 	}
 
-	/**
-	 * Output instance id and bookmark for text items.
-	 * 
-	 * @param text
-	 * @param tag
-	 * @return
-	 */
-	public boolean startText( ITextContent text, String tag )
-	{
-		if ( needMetadata( text ) )
-		{
-			startContent( text, tag );
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Outputs instance id and bookmark for foreign contents.
-	 * 
-	 * @param foreign
-	 * @param tag
-	 * @return
-	 */
-	public boolean startForeign ( IForeignContent foreign, String tag )
-	{
-		if ( needMetadata( foreign ) )
-		{
-			startContent( foreign, tag );
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Outputs instance id and bookmark for charts.
-	 * 
-	 * @param image
-	 * @return
-	 */
-	public boolean startImage( IImageContent image )
-	{
-		if ( image.getGenerateBy( ) instanceof ExtendedItemDesign )
-		{
-			// If the image is a chart, add it to active id list, and output type ��iid to html
-			String bookmark = image.getBookmark( );
-			assert bookmark != null;
-			setActiveIDTypeIID( image, bookmark );
-			HTMLEmitterUtil.setBookmark(  writer, HTMLTags.ATTR_IMAGE, htmlIDNamespace, bookmark ); //$NON-NLS-1$
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Outputs instance id.
-	 * 
-	 * @param bookmark
-	 * @param type
-	 * @param iid
-	 * @param elementId
-	 */
-	private void setActiveIDTypeIID( String bookmark, String type,
-			InstanceID iid, long elementId )
-	{
-		String htmlBookmark;
-		if ( null != htmlIDNamespace )
-		{
-			htmlBookmark = htmlIDNamespace + bookmark;
-		}
-		else
-		{
-			htmlBookmark = bookmark;
-		}
-		exportElementID( ouputInstanceIDs, htmlBookmark, type, elementId );
-		
-		// type
-		writer.attribute( attrElementType, type );
-		if ( iid != null )
-		{
-			if ( type != TYPE_LABEL
-					&& type != TYPE_TEMPLATE && type != TYPE_DATA
-					&& type != TYPE_TEXT && type != TYPE_UNKNOWN )
-			{
-				writer.attribute( attrIID, iid.toUniqueString( ) );
-			}
-			else
-			{
-				writer.attribute( attrIID, iid.toString( ) );
-			}
-		}
-	}
-	
-	private void exportElementID( List ouputInstanceIDs, String bookmark,
-			String type, long componentID )
+	private void exportElementID( String bookmark, String elementType, long componentID )
 	{
 		if ( ouputInstanceIDs != null )
 		{
+
 			if ( bookmark != null )
 			{
-				assert type != null;
-				StringBuffer buffer = new StringBuffer();
-				buffer.append(bookmark);
-				buffer.append(",");
-				buffer.append(type);
-				buffer.append(",");
-				buffer.append(componentID);
-				ouputInstanceIDs.add( buffer.toString() );
-			}
-		}
-	}
-
-	public void setActiveIDTypeIID( IContent content )
-	{
-		setActiveIDTypeIID( content, content.getBookmark( ) );
-	}
-
-	private void setActiveIDTypeIID( IContent content, String bookmark )
-	{
-		// If content is generated by LabelItemDesign or TemplateDesign,
-		// ExtendedItemDesign, TableItemDesign
-		// add it to active id list, and output type & iid to html
-		String type = getActiveIdType( content );
-		if ( type != null )
-		{
-			// Instance ID
-			InstanceID iid = content.getInstanceID( );
-			long componentID = ( iid != null ) ? iid.getComponentID( ) : 0;
-			setActiveIDTypeIID( bookmark, type, iid, componentID );
-		}
-	}
-	
-	static final String TYPE_LABEL = "LABEL";
-	static final String TYPE_TEMPLATE = "TEMPLATE";
-	static final String TYPE_EXTENDED = "EXTENDED";
-	static final String TYPE_TABLE = "TABLE";
-	static final String TYPE_LIST = "LIST";
-	static final String TYPE_DATA = "DATA";
-	static final String TYPE_TEXT = "TEXT";
-	static final String TYPE_UNKNOWN = null;
-
-	private static String getActiveIdType( IContent content )
-	{
-		Object genBy = content.getGenerateBy( );
-		if ( genBy instanceof LabelItemDesign )
-		{
-			return TYPE_LABEL;
-		}
-		if ( genBy instanceof TemplateDesign )
-		{
-			return TYPE_TEMPLATE;
-		}
-
-		if ( genBy instanceof ExtendedItemDesign )
-		{
-			DesignElementHandle handle = ( (ExtendedItemDesign) genBy ).getHandle( );
-			if ( handle instanceof ExtendedItemHandle )
-			{
-				return ( (ExtendedItemHandle) handle ).getExtensionName( );
-			}
-			return TYPE_EXTENDED;
-		}
-		if ( genBy instanceof TableItemDesign )
-		{
-			return TYPE_TABLE;
-		}
-		if ( genBy instanceof ListItemDesign )
-		{
-			return TYPE_LIST;
-		}
-		if ( genBy instanceof DataItemDesign )
-		{
-			return TYPE_DATA;
-		}
-		if ( genBy instanceof TextItemDesign )
-		{
-			return TYPE_TEXT;
-		}
-		return TYPE_UNKNOWN;
-	}
-	
-	public void outputColumnIID( IColumn column )
-	{
-		if ( null != column )
-		{
-			// Instance ID
-			InstanceID iid = column.getInstanceID( );
-			if ( iid != null )
-			{
-				writer.attribute( attrIID, iid.toString( ) );
-			}
-		}
-	}
-
-	/**
-	 * Output instance id and bookmark for a content.
-	 * 
-	 * @param content
-	 * @param tag
-	 */
-	private void startContent( IContent content, String tag )
-	{
-		String bookmark = content.getBookmark( );
-		if ( bookmark == null )
-		{
-			bookmark = idGenerator.generateUniqueID( );
-		}
-		setActiveIDTypeIID( content, bookmark );
-		HTMLEmitterUtil.setBookmark( writer, tag, htmlIDNamespace, bookmark );
-	}
-
-	/**
-	 * A TextContent needs metadata when it's a :
-	 * <li>label item.
-	 * <li>template item.
-	 * <li>data item in table header/footer or table group header/footer and
-	 * using the query extended from the table.
-	 * 
-	 * @param text
-	 *            the text content.
-	 * @return true if and only if the metadata of the content needs to be
-	 *         output.
-	 */
-	private boolean needMetadata( ITextContent text )
-	{
-		Object generateBy = text.getGenerateBy( );
-		if ( generateBy instanceof LabelItemDesign )
-		{
-			return true;
-		}
-		if ( generateBy instanceof TextItemDesign )
-		{
-			if ( isTopLevelContent( text ) )
-			{
-				return true;
-			}
-			return isInHeaderFooter( text );
-		}
-		// Meta data of data items which are in table header, ta
-		if ( generateBy instanceof DataItemDesign )
-		{
-			if ( isTopLevelContent( text ) )
-			{
-				return true;
-			}
-			return isAggregatable( text );
-		}
-		return false;
-	}
-	
-	private boolean isTopLevelContent( IContent content )
-	{
-		if ( null == content.getParent( ) )
-		{
-			return true;
-		}
-		else
-		{
-			IReportContent report = content.getReportContent( );
-			if ( null != report )
-			{
-				if ( report.getRoot( ) == content.getParent( ) )
+				assert elementType != null;
+				String htmlBookmark;
+				if ( null != htmlIDNamespace )
 				{
-					return true;
+					htmlBookmark = htmlIDNamespace + bookmark;
+				}
+				else
+				{
+					htmlBookmark = bookmark;
+				}
+				StringBuffer buffer = new StringBuffer( );
+				buffer.append( htmlBookmark );
+				buffer.append( "," );
+				buffer.append( elementType );
+				buffer.append( "," );
+				buffer.append( componentID );
+				ouputInstanceIDs.add( buffer.toString( ) );
+			}
+		}
+	}
+
+	/**
+	 * Output metadata properties.
+	 * @param map
+	 * @param element
+	 * @param tagName
+	 * @return boolean: has the bookmark been output?
+	 */
+	public boolean outputMetadataProperty( HashMap propertyMap, Object element,
+			String tagName )
+	{
+		if ( propertyMap == null )
+		{
+			return false;
+		}
+		boolean iidOutput = false;
+		boolean bookmarkOutput = false;
+		boolean elementTypeOutput = false;
+		boolean addToIIDList = false;
+		InstanceID iid = null;
+		String bookmark = null;
+		String elementType = null;
+
+		Iterator ite = propertyMap.entrySet( ).iterator( );
+		while ( ite.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) ite.next( );
+			Object keyObj = entry.getKey( );
+			Object valueObj = entry.getValue( );
+			if ( keyObj instanceof String )
+			{
+				String keyStr = (String) keyObj;
+				if ( keyStr == IMetadataFilter.KEY_OUTPUT_IID )
+				{
+					Object genBy = null;
+					if ( element instanceof IContent )
+					{
+						iid = ( (IContent) element ).getInstanceID( );
+						genBy = ( (IContent) element ).getGenerateBy( );
+					}
+					else if ( element instanceof IColumn )
+					{
+						iid = ( (IColumn) element ).getInstanceID( );
+						genBy = ( (IColumn) element ).getGenerateBy( );
+					}
+					if ( iid != null )
+					{
+						if ( ( genBy instanceof TableItemDesign )
+								|| ( genBy instanceof ListItemDesign )
+								|| ( genBy instanceof ExtendedItemDesign ) )
+						{
+							writer.attribute( attrIID, iid.toUniqueString( ) );
+						}
+						else
+						{
+							writer.attribute( attrIID, iid.toString( ) );
+						}
+						iidOutput = true;
+					}
+				}
+				else if ( keyStr == IMetadataFilter.KEY_OUTPUT_BOOKMARK )
+				{
+					if ( element instanceof IContent )
+					{
+						IContent content = (IContent) element;
+						bookmark = content.getBookmark( );
+						if ( bookmark == null )
+						{
+							bookmark = idGenerator.generateUniqueID( );
+							content.setBookmark( bookmark );
+						}
+						HTMLEmitterUtil.setBookmark( writer,
+								tagName,
+								htmlIDNamespace,
+								bookmark );
+						bookmarkOutput = true;
+					}
+				}
+				else if ( keyStr == IMetadataFilter.KEY_ATTR_ELEMENT_TYPE )
+				{
+					if ( valueObj == null )
+					{
+						continue;
+					}
+					elementType = (String) valueObj;
+					writer.attribute( attrElementType, elementType );
+					elementTypeOutput = true;
+				}
+				else if ( keyStr == IMetadataFilter.KEY_ADD_INTO_IID_LIST )
+				{
+					addToIIDList = true;
+				}
+				else if ( keyStr.equalsIgnoreCase( IMetadataFilter.KEY_ATTR_TYPE ) )
+				{
+					if ( valueObj != null )
+					{
+						writer.attribute( attrType, (String) valueObj );
+					}
+				}
+				else if ( keyStr == IMetadataFilter.KEY_ATTR_ROW_TYPE )
+				{
+					if ( valueObj != null )
+					{
+						writer.attribute( attrRowType, (String) valueObj );
+					}
+				}
+				else if ( keyStr == IMetadataFilter.KEY_OUTPUT_GOURP_ID )
+				{
+					if ( element instanceof IRowContent )
+					{
+						String groupId = ( (IRowContent) element ).getGroupId( );
+						if ( groupId != null )
+						{
+							writer.attribute( HTMLTags.ATTR_GOURP_ID, groupId );
+						}
+					}
+				}
+				else
+				{
+					if ( valueObj != null )
+					{
+						if ( keyStr.length( ) > 0 )
+						{
+							if ( attrNamePrefix != null )
+							{
+								writer.attribute( attrNamePrefix + keyStr,
+										valueObj.toString( ) );
+							}
+							else
+							{
+								writer.attribute( keyStr, valueObj.toString( ) );
+							}
+						}
+					}
 				}
 			}
 		}
-		return false;
-	}
 
-	/**
-	 * A ForeignContent needs metadata when it's a template item.
-	 * 
-	 * @param text
-	 *            the text content.
-	 * @return true if and only if the metadata of the content needs to be
-	 *         output.
-	 */
-	private boolean needMetadata( IForeignContent foreign )
-	{
-		Object generator = foreign.getGenerateBy( );
-		if ( generator instanceof TemplateDesign
-				|| generator instanceof ExtendedItemDesign )
+		if ( addToIIDList && iidOutput && bookmarkOutput && elementTypeOutput )
 		{
-			return true;
+			exportElementID( bookmark, elementType, iid.getComponentID( ) );
 		}
-		else if ( generator instanceof TextItemDesign )
-		{
-			if ( isTopLevelContent( foreign ) )
-			{
-				return true;
-			}
-			return isInHeaderFooter( foreign );
-		}
-		return false;
+
+		return bookmarkOutput;
 	}
 
 	/**
@@ -665,99 +486,6 @@ public class MetadataEmitter
 		return false;
 	}
 
-	private HashMap aggregatables = new HashMap();
-	private HashMap inHeaderFooter = new HashMap();
-	/**
-	 * Checks if the text is a data content in table header/footer or table
-	 * group header/footer and uses the query of the table.
-	 * 
-	 * @param text
-	 *            the text content.
-	 */
-	private boolean isAggregatable( ITextContent text )
-	{
-		//FIXME: code review: getGenerateBy may return a null value.
-		Object generateBy = text.getGenerateBy( );
-		Boolean isAggregate = (Boolean)aggregatables.get(generateBy);  
-		if ( isAggregate != null)
-		{
-			return isAggregate.booleanValue();
-		}
-		//The data item should not have query of itself.
-		DataItemDesign data = ( DataItemDesign )generateBy;
-		if ( data.getQuery( ) != null )
-		{
-			aggregatables.put(generateBy, Boolean.FALSE);
-			return false;
-		}
-		
-		return isInHeaderFooter( text );
-	}
-	
-	/**
-	 * Checks if a text is in a table header/footer or group header/footer.
-	 * 
-	 * @param text
-	 * @return
-	 */
-	private boolean isInHeaderFooter( IContent content )
-	{
-		Object generateBy = content.getGenerateBy( );
-		IElement parent = content.getParent( );
-		while( parent != null )
-		{
-			// The item should not extends from a container which is
-			// not a table.
-			if ( parent instanceof IContent )
-			{
-				IContent parentContent = (IContent) parent;
-				Object parentGenerateBy = parentContent.getGenerateBy( );
-				if ( parentGenerateBy instanceof ReportItemDesign )
-				{
-					ReportItemDesign design = (ReportItemDesign) parentGenerateBy;
-					if ( design.getQuery( ) != null )
-					{
-						inHeaderFooter.put( generateBy, Boolean.FALSE );
-						return false;
-					}
-				}
-				else if ( null != parentGenerateBy )
-				{
-					inHeaderFooter.put( generateBy, Boolean.FALSE );
-					return false;
-				}
-			}
-
-			// The data item should be in table header/footer or group
-			// header/footer and its query extends from this table
-			if ( parent instanceof IBandContent )
-			{
-				IBandContent bandContent = (IBandContent )parent;
-				int bandType = bandContent.getBandType( );
-				if ( bandType == IBandContent.BAND_HEADER
-						|| bandType == IBandContent.BAND_FOOTER
-						|| bandType == IBandContent.BAND_GROUP_HEADER
-						|| bandType == IBandContent.BAND_GROUP_FOOTER )
-				{
-					IElement bandParent = bandContent.getParent( );
-					while ( bandParent instanceof IGroupContent )
-					{
-						bandParent = bandParent.getParent( );
-					}
-					if ( bandParent instanceof ITableContent )
-					{
-						inHeaderFooter.put( generateBy, Boolean.TRUE );
-						return true;
-					}
-					// FIXME: code review: needs return a false value?
-				}
-			}
-			parent = parent.getParent( );
-		}
-		inHeaderFooter.put(generateBy, Boolean.FALSE);
-		return false;
-	}
-	
 	//FIXME: code review: rename to getPredefineStyle or other names????
 	public String getMetadataStyleClass( IContent content )
 	{
@@ -1006,19 +734,5 @@ class DetailRowState
 		this.isStartOfDetail = isStartOfDetail;
 		this.hasOutput = hasOutput;
 		this.isTable = isTable;
-	}
-}
-
-class MetadataIDGenerator
-{
-	protected int bookmarkId = 0;
-	MetadataIDGenerator( )
-	{
-		this.bookmarkId = 0;
-	}
-	protected String generateUniqueID( )
-	{
-		bookmarkId ++;
-		return "AUTOGENMETADATABOOKMARK_" + bookmarkId;
 	}
 }
