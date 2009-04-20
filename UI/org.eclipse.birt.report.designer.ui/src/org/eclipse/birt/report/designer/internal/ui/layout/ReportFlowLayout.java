@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportRootFigure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.AbstractHintLayout;
 import org.eclipse.draw2d.IFigure;
@@ -292,7 +293,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 		majorAdjustment = data.area.width - data.rowWidth + getMinorSpacing( );
 		if (majorAdjustment < 0)
 		{
-			if (!parent.isMirrored( ))
+			if (parent instanceof ReportRootFigure || !parent.isMirrored( ))
 			{
 				majorAdjustment = 0;
 			}			
