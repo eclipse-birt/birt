@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -25,10 +26,12 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.IQueryService;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
@@ -386,18 +389,31 @@ public class OlapExpressionUtil
 		List<CubeNestAggrDefn> cubeAggrDefns = new ArrayList<CubeNestAggrDefn>( );
 		for ( IBinding binding : bindings )
 		{
-			based.add( binding );
 			try
 			{
 				if ( binding.getAggrFunction( ) != null )
 				{
-					cubeAggrDefns.add( new CubeNestAggrDefn( binding.getBindingName( ),
-							binding.getExpression( ),
-							convertToDimLevel( binding.getAggregatOns( ) ),
-							binding.getAggrFunction( ),
-							convertToDimLevelAttribute( binding.getArguments( ),
-									based ),
-							binding.getFilter( ) ) );
+					if ( !CubeQueryDefinitionUtil.isRunnnigAggr( binding.getAggrFunction( ) ))
+					{
+						cubeAggrDefns.add( new CubeNestAggrDefn( binding.getBindingName( ),
+								binding.getExpression( ),
+								convertToDimLevel( binding.getAggregatOns( ) ),
+								binding.getAggrFunction( ),
+								convertToDimLevelAttribute( binding.getArguments( ),
+										based ),
+								binding.getFilter( ) ) );
+					}
+					else
+					{
+						cubeAggrDefns.add( new CubeRunningNestAggrDefn( binding.getBindingName( ),
+								binding.getExpression( ),
+								convertToDimLevel( binding.getAggregatOns( ) ),
+								binding.getAggrFunction( ),
+								convertToDimLevelAttribute( binding.getArguments( ),
+										based ),
+								binding.getFilter( ),
+								getFullLevelsForRunningAggregation( binding, based)) );
+					}
 				}
 					
 			}
@@ -407,8 +423,32 @@ public class OlapExpressionUtil
 						ex,
 						binding.getBindingName( ) );
 			}
+			based.add( binding );
 		}
 		return cubeAggrDefns.toArray( new CubeNestAggrDefn[0] );
+	}
+	
+	private static List getFullLevelsForRunningAggregation( IBinding binding, List<IBinding> based ) throws DataException
+	{
+		List<String> referencedBindings = 
+			ExpressionCompilerUtil.extractColumnExpression( 
+					binding.getExpression( ), ExpressionUtil.DATA_INDICATOR );
+		if ( referencedBindings == null || referencedBindings.isEmpty( ) )
+		{
+			throw new DataException( ResourceConstants.INVALID_AGGR_BINDING_EXPRESSION,
+					binding.getBindingName( ) );
+		}
+		String reference = referencedBindings.get( 0 );
+		for ( IBinding b : based )
+		{
+			if ( b.getBindingName( ).equals( reference )
+					&& isAggregationBinding( b ))
+			{
+				return convertToDimLevel( b.getAggregatOns( ) );
+			}
+		}
+		throw new DataException( ResourceConstants.INVALID_AGGR_BINDING_EXPRESSION,
+				binding.getBindingName( ) );
 	}
 	
 	public static boolean isAggregationBinding(IBinding binding) throws DataException

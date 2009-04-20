@@ -135,7 +135,8 @@ public class AggregationAccessor implements Accessor
 		}
 
 		CalculatedMember member = this.view.getMeasureNameManger( ).getCalculatedMember( aggrName );
-		List memberList = member.getCubeAggrDefn( ).getAggrLevels( );
+		
+		List memberList = member.getCubeAggrDefn( ).getAggrLevelsInAggregationResult( );
 
 		Relationship relation = (Relationship) this.relationMap.get( aggrName );
 		List pageLevelList = relation.getLevelListOnPage( );
@@ -170,7 +171,60 @@ public class AggregationAccessor implements Accessor
 		if ( columnLevelList.isEmpty( ) && rowLevelList.isEmpty( ) && pageLevelList.isEmpty( ) )
 			return true;
 
-		return findValueMatcher( rs, memberList, valueMap, aggrIndex );
+		if ( rs.getAllLevels( ).equals( member.getCubeAggrDefn( ).getAggrLevelsInDefinition( ) ))
+		{
+			return findValueMatcher( rs, memberList, valueMap, aggrIndex );
+		}
+		else
+		{
+			//AggregationResultSet for running aggregation
+			return findValueMatcherOneByOne( rs, memberList, valueMap, aggrIndex );
+		}
+	}
+	
+	/**
+	 * Find the value matcher in cube cursor. Based on sort direction and
+	 * compared result, decide to move on/back along resultset.
+	 * 
+	 * @param rs
+	 * @param levelList
+	 * @param valueMap
+	 * @param aggrIndex
+	 * @return
+	 * @throws IOException 
+	 */
+	private boolean findValueMatcherOneByOne( IAggregationResultSet rs, List levelList,
+			Map valueMap, int aggrIndex ) throws IOException
+	{
+		int position = 0;
+		if ( rs.length( ) <= 0 || levelList.isEmpty( ))
+			return true;
+		while ( position < rs.length( ) )
+		{
+			rs.seek( position );
+			boolean match = true;
+			for ( int i = 0; i < levelList.size( ); i++ )
+			{
+				DimLevel level = (DimLevel) levelList.get( i );
+				Object value1 = valueMap.get( level );
+				Object value2 = rs.getLevelKeyValue( rs.getLevelIndex( level ) )[rs.getLevelKeyColCount( rs.getLevelIndex( level ) ) - 1];;
+				if ( !value1.equals( value2 ) )
+				{
+					match = false;
+					break;
+				}
+			}
+			if ( match )
+			{
+				return true;
+			}
+			else
+			{
+				++position;
+			}
+		}
+
+		return false;
 	}
 	
 	/**

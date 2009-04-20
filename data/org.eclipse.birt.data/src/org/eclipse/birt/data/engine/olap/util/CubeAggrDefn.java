@@ -48,7 +48,12 @@ public abstract class CubeAggrDefn
 	 * Return a list of levels that the aggregations is based.
 	 * @return
 	 */
-	public List getAggrLevels( )
+	public List getAggrLevelsInAggregationResult( )
+	{
+		return this.aggrLevels;
+	}
+	
+	public List getAggrLevelsInDefinition( )
 	{
 		return this.aggrLevels;
 	}

@@ -133,7 +133,7 @@ public class CubeQueryDefinitionUtil
 		for (CubeAggrDefn cubeAggrDefn : cubeAggrs)
 		{
 			int id = getResultSetIndex( withDistinctRsIds,
-					cubeAggrDefn.getAggrLevels( ) );
+					cubeAggrDefn.getAggrLevelsInAggregationResult( ) );
 			if ( id == -1 )
 			{
 				result[index] = new CalculatedMember( cubeAggrDefn,
@@ -158,9 +158,15 @@ public class CubeQueryDefinitionUtil
 		return result;
 	}
 
-	private static boolean isRunnnigAggr( CubeAggrDefn cubeAggr ) throws DataException
+	public static boolean isRunnnigAggr( CubeAggrDefn cubeAggr ) throws DataException
 	{
-		IAggrFunction af = AggregationManager.getInstance( ).getAggregation( cubeAggr.getAggrName( ) );
+		return isRunnnigAggr( cubeAggr.getAggrName( ) );
+
+	}
+	
+	public static boolean isRunnnigAggr( String aggrFunc ) throws DataException
+	{
+		IAggrFunction af = AggregationManager.getInstance( ).getAggregation( aggrFunc );
 		return af != null && af.getType( ) == IAggrFunction.RUNNING_AGGR;
 	}
 	
@@ -182,7 +188,7 @@ public class CubeQueryDefinitionUtil
 			{
 				for ( CalculatedMember cm : manager.getCalculatedMembers( ) )
 				{
-					if ( cm.getCubeAggrDefn( ).getAggrLevels( ).equals( cubeAggrDefn.getAggrLevels( ) ))
+					if ( cm.getCubeAggrDefn( ).getAggrLevelsInAggregationResult( ).equals( cubeAggrDefn.getAggrLevelsInAggregationResult( ) ))
 					{
 						id = cm.getRsID( );
 						break;
@@ -262,12 +268,12 @@ public class CubeQueryDefinitionUtil
 						list.get( index ).getFilterEvalHelper( ) );
 			}
 
-			DimLevel[] levels = new DimLevel[calculatedMembers[i].getCubeAggrDefn( ).getAggrLevels( )
+			DimLevel[] levels = new DimLevel[calculatedMembers[i].getCubeAggrDefn( ).getAggrLevelsInDefinition( )
 					.size( )];
 			int[] sortType = new int[levels.length];
 			for ( int index = 0; index < levels.length; index++ )
 			{
-				Object obj = calculatedMembers[i].getCubeAggrDefn( ).getAggrLevels( )
+				Object obj = calculatedMembers[i].getCubeAggrDefn( ).getAggrLevelsInDefinition( )
 						.get( index );
 				levels[index] = (DimLevel) obj;
 				sortType[index] = getSortDirection( levels[index], query );
@@ -641,7 +647,7 @@ public class CubeQueryDefinitionUtil
 		for ( int i = 0; i < aggrList.size( ); i++ )
 		{
 			CalculatedMember member = (CalculatedMember) aggrList.get( i );
-			if ( member.getCubeAggrDefn( ).getAggrLevels( ).equals( levelList ) )
+			if ( member.getCubeAggrDefn( ).getAggrLevelsInAggregationResult( ).equals( levelList ) )
 			{
 				return member.getRsID( );
 			}
@@ -747,7 +753,7 @@ public class CubeQueryDefinitionUtil
 			{
 				if ( cubeAggrs[i].getAggrName( ) == null )
 					continue;
-				List aggrOns = cubeAggrs[i].getAggrLevels( );
+				List aggrOns = cubeAggrs[i].getAggrLevelsInAggregationResult( );
 				List usedLevelOnRow = new ArrayList( );
 				List usedLevelOnColumn = new ArrayList( );
 				List usedLevelOnPage = new ArrayList( );

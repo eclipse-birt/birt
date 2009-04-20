@@ -632,6 +632,91 @@ public class CubeFeaturesTest extends BaseTestCase
 		engine.shutdown( );
 	}
 	
+	/**
+	 * Test adding nest aggregations cube operation	
+	 * @throws Exception
+	 */
+	public void testCubeRankAggregation( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding3 = new Binding( "edge1level3" );
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
+		cqd.addBinding( binding3 );
+
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding5 );
+
+
+		IBinding binding6 = new Binding( "total" );
+		binding6.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		binding6.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
+		cqd.addBinding( binding6 );
+		
+		IBinding binding7 = new Binding( "totalRankInCountry" );
+		binding7.setExpression( new ScriptExpression( "data[\"total\"]"  ) );
+		binding7.setAggrFunction( IBuildInAggregation.TOTAL_RANK_FUNC );
+		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+
+
+		//add nest aggregation bindings
+		cqd.addBinding( binding7 );
+
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+		
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
+		this.printCubeWithRank( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				"measure1",
+				new String[0]);
+		this.checkOutputFile( );
+		cursor.close( );
+		engine.shutdown( );
+	}
+	
 	public void testValidateBinding( ) throws Exception
 	{
 		checkDuplicateBindingName( );
@@ -6391,6 +6476,20 @@ public class CubeFeaturesTest extends BaseTestCase
 		this.testPrint( output );
 	}
 	
+	private void printCubeWithRank( CubeCursor cursor, List columnEdgeBindingNames,
+			List rowEdgeBindingNames, String measureBindingName,
+			String[] columnAggrs)
+			throws Exception
+	{
+		String output = getOutputFromCursorWithRank(
+				cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				measureBindingName,
+				columnAggrs);
+		this.testPrint( output );
+	}
+	
 	
 	private String getOutputFromCursor( CubeCursor cursor,
 			List columnEdgeBindingNames, List rowEdgeBindingNames,
@@ -6563,6 +6662,75 @@ public class CubeFeaturesTest extends BaseTestCase
 			line+= cursor.getObject( "sumSumTotal1" )+ "		";
 		}
 		output +="\n" + line + "";
+		
+		return output;
+	}
+	
+	private String getOutputFromCursorWithRank( CubeCursor cursor,
+			List columnEdgeBindingNames, List rowEdgeBindingNames,
+			String measureBindingName, String[] columnAggrs
+			) throws OLAPException
+	{
+		EdgeCursor edge1 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 0 ) );
+		EdgeCursor edge2 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 1 ) );
+
+		String[] lines = new String[columnEdgeBindingNames.size( )];
+		for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
+		{
+			lines[i] = "		";
+		}
+
+		while ( edge1.next( ) )
+		{
+			for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
+			{
+				lines[i] += cursor.getObject( columnEdgeBindingNames.get( i )
+						.toString( ) )
+						+ "		";
+			}
+		}
+
+
+		String output = "";
+		for ( int i = 0; i < lines.length; i++ )
+		{
+			output += "\n" + lines[i];
+		}
+
+		while ( edge2.next( ) )
+		{
+			String line = "";
+			for ( int i = 0; i < rowEdgeBindingNames.size( ); i++ )
+			{
+				line += cursor.getObject( rowEdgeBindingNames.get( i )
+						.toString( ) ).toString( )
+						+ "		";
+			}
+			edge1.beforeFirst( );
+			while ( edge1.next( ) )
+			{
+				line += cursor.getObject( measureBindingName ) + "		";
+			}
+			output += "\n" + line;
+		}
+
+		String line = "total" + "		";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while( edge1.next( ) )
+		{
+			line+= cursor.getObject( "total" )+ "		";
+		}
+		output +="\n" + line;
+		
+		line = "rankInCountry" + "	";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while (edge1.next( ))
+		{
+			line+= cursor.getObject( "totalRankInCountry" )+ "		";
+		}
+		output +="\n" + line;
 		
 		return output;
 	}

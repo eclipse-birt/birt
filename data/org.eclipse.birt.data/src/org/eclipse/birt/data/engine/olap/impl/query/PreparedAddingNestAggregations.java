@@ -97,17 +97,20 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 				throw new DataException( ResourceConstants.INVALID_AGGR_BINDING_EXPRESSION );
 			}
 			boolean merged = false;
-			for ( int i=0; i<currentSources.size( ) && !stopSign.isStopped( ); i++ )
+			if ( !isResultForRunningAggregation( newArs )) //no merge step for running type nest aggregation
 			{
-				IAggregationResultSet ars = currentSources.get( i );
-				if ( !isResultForRunningAggregation( ars ) //not aggregation result for running aggregation
-						&& ars.getAggregationCount( ) > 0 //omit edge IAggregationResultSet 
-						&& Arrays.deepEquals( ars.getAllLevels( ), newArs.getAllLevels( ) ))
+				for ( int i=0; i<currentSources.size( ) && !stopSign.isStopped( ); i++ )
 				{
-					ars = new MergedAggregationResultSet( ars, newArs );
-					currentSources.set( i, ars );
-					merged = true;
-					break;
+					IAggregationResultSet ars = currentSources.get( i );
+					if ( !isResultForRunningAggregation( ars ) //not aggregation result for running aggregation
+							&& ars.getAggregationCount( ) > 0 //omit edge IAggregationResultSet 
+							&& Arrays.deepEquals( ars.getAllLevels( ), newArs.getAllLevels( ) ))
+					{
+						ars = new MergedAggregationResultSet( ars, newArs );
+						currentSources.set( i, ars );
+						merged = true;
+						break;
+					}
 				}
 			}
 			if ( !merged )
@@ -139,7 +142,7 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 		{
 			AggregationFunctionDefinition[] afds = ad.getAggregationFunctions( );
 			if ( afds != null 
-					&& afds.length == 0 )
+					&& afds.length == 1 )
 			{
 				String functionName = afds[0].getFunctionName( );
 				IAggrFunction af = AggregationManager.getInstance( ).getAggregation( functionName );
