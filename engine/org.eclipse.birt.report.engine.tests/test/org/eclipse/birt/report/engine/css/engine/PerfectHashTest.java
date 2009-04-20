@@ -11,14 +11,14 @@ public class PerfectHashTest extends TestCase {
 		assertEquals(StyleConstants.STYLE_TEXT_ALIGN, PerfectHash.in_word_set("text-align"));
 		assertEquals(StyleConstants.STYLE_TEXT_INDENT, PerfectHash.in_word_set("text-indent"));
 		assertEquals(StyleConstants.STYLE_NUMBER_ALIGN, PerfectHash.in_word_set("number-align"));
-		assertEquals(StyleConstants.STYLE_NUMBER_FORMAT , PerfectHash.in_word_set("number-format"));
+//		assertEquals(StyleConstants.STYLE_NUMBER_FORMAT , PerfectHash.in_word_set("number-format"));
 		assertEquals(StyleConstants.STYLE_VERTICAL_ALIGN , PerfectHash.in_word_set("vertical-align"));
 		assertEquals(StyleConstants.STYLE_LINE_HEIGHT , PerfectHash.in_word_set("line-height"));
 		assertEquals(StyleConstants.STYLE_BACKGROUND_REPEAT  , PerfectHash.in_word_set("background-repeat"));
 		assertEquals(StyleConstants.STYLE_BACKGROUND_ATTACHMENT  , PerfectHash.in_word_set("background-attachment"));
-		assertEquals(StyleConstants.STYLE_DATE_FORMAT  , PerfectHash.in_word_set("date-format"));
-		assertEquals(StyleConstants.STYLE_SQL_DATE_FORMAT  , PerfectHash.in_word_set("sql-date-format"));
-		assertEquals(StyleConstants.STYLE_SQL_TIME_FORMAT  , PerfectHash.in_word_set("sql-time-format"));
+//		assertEquals(StyleConstants.STYLE_DATE_FORMAT  , PerfectHash.in_word_set("date-format"));
+//		assertEquals(StyleConstants.STYLE_SQL_DATE_FORMAT  , PerfectHash.in_word_set("sql-date-format"));
+//		assertEquals(StyleConstants.STYLE_SQL_TIME_FORMAT  , PerfectHash.in_word_set("sql-time-format"));
 		assertEquals(StyleConstants.STYLE_CAN_SHRINK  , PerfectHash.in_word_set("can-shrink"));
 		assertEquals(StyleConstants.STYLE_TEXT_OVERLINE  , PerfectHash.in_word_set("text-overline"));
 		assertEquals(StyleConstants.STYLE_TEXT_UNDERLINE  , PerfectHash.in_word_set("text-underline"));
@@ -53,7 +53,7 @@ public class PerfectHashTest extends TestCase {
 		assertEquals(StyleConstants.STYLE_WHITE_SPACE, PerfectHash.in_word_set("white-space"));
 		assertEquals(StyleConstants.STYLE_ORPHANS   , PerfectHash.in_word_set("orphans"));
 		assertEquals(StyleConstants.STYLE_MASTER_PAGE , PerfectHash.in_word_set("master-page"));
-		assertEquals(StyleConstants.STYLE_STRING_FORMAT , PerfectHash.in_word_set("string-format"));
+//		assertEquals(StyleConstants.STYLE_STRING_FORMAT , PerfectHash.in_word_set("string-format"));
 		assertEquals(StyleConstants.STYLE_WORD_SPACING , PerfectHash.in_word_set("word-spacing"));
 		assertEquals(StyleConstants.STYLE_BACKGROUND_POSITION_X   , PerfectHash.in_word_set("background-position-x"));
 		assertEquals(StyleConstants.STYLE_PAGE_BREAK_BEFORE   , PerfectHash.in_word_set("page-break-before"));

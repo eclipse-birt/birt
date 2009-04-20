@@ -162,16 +162,16 @@ can-shrink: true
 can-shrink: true
 
 #date-format
-date-format: G
-date-format: 'G'
+#date-format: G
+#date-format: 'G'
 
 #sql-time-format
-sql-time-format: G
-sql-time-format: 'G'
+#sql-time-format: G
+#sql-time-format: 'G'
 
 #sql-date-format
-sql-date-format: G
-sql-date-format: 'G'
+#sql-date-format: G
+#sql-date-format: 'G'
 
 #master-page
 master-page: me
@@ -185,10 +185,10 @@ number-align: left
 number-align: left
 
 #number-format
-number-format: "Currency"
-number-format: 'Currency'
-number-format: "Standard"
-number-format: 'Standard'
+#number-format: "Currency"
+#number-format: 'Currency'
+#number-format: "Standard"
+#number-format: 'Standard'
 
 #show-if-blank
 show-if-blank: false
@@ -196,17 +196,17 @@ show-if-blank: false
 
 
 #string-format
-string-format: '>'
-string-format: '>'
+#string-format: '>'
+#string-format: '>'
 
-string-format: "&&& &&&&-&&&"
-string-format: '&&& &&&&-&&&'
+#string-format: "&&& &&&&-&&&"
+#string-format: '&&& &&&&-&&&'
 
-string-format: "(@@@) @@@-@@"
-string-format: '(@@@) @@@-@@'
+#string-format: "(@@@) @@@-@@"
+#string-format: '(@@@) @@@-@@'
 
-string-format: "!&&& &&&&-&&&"
-string-format: '!&&& &&&&-&&&'
+#string-format: "!&&& &&&&-&&&"
+#string-format: '!&&& &&&&-&&&'
 
 #text-underline,text-overline,text-linethrough
 text-underline: underline
