@@ -234,6 +234,10 @@ public class CrosstabAdaptUtil
 			dataHandle.getPrivateStyle( )
 					.setDateTimeFormat( levelHandle.getDateTimeFormat( ) );
 		}
+		else
+		{
+			bindingHandle.setDataType( levelHandle.getDataType( ) );
+		}
 
 		return dataHandle;
 	}
