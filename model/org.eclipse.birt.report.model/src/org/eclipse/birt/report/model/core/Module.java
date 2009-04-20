@@ -1543,6 +1543,46 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
+	 * Returns the <code>URL</code> object if the file with
+	 * <code>fileName</code> exists. This method takes the following search
+	 * steps:
+	 * <ul>
+	 * <li>Search file taking <code>fileName</code> as absolute file name;
+	 * <li>
+	 * Search file taking <code>fileName</code> as relative file name and basing
+	 * "base" property of module;
+	 * <li>Search file with the file locator (<code>
+	 * IResourceLocator</code>) in
+	 * session.
+	 * </ul>
+	 * 
+	 * @param fileName
+	 *            file name to search
+	 * @param fileType
+	 *            file type. The value should be one of:
+	 *            <ul>
+	 *            <li><code>IResourceLocator.IMAGE</code>
+	 *            <li><code>
+	 *            IResourceLocator.LIBRARY</code>
+	 *            <li><code>
+	 *            IResourceLocator.MESSAGEFILE</code>
+	 *            </ul>
+	 *            Any invalid value will be treated as
+	 *            <code>IResourceLocator.IMAGE</code>.
+	 * @param appContext
+	 *            The map containing the user's information 
+	 * @return the <code>URL</code> object if the file with
+	 *         <code>fileName</code> is found, or null otherwise.
+	 */
+
+	public URL findResource( String fileName, int fileType, Map appContext )
+	{
+		URL url = getSession( ).getResourceLocator( ).findResource(
+				(ModuleHandle) getHandle( this ), fileName, fileType, appContext );
+		return url;
+	}
+	
+	/**
 	 * Loads library with the given library file name. This file name can be
 	 * absolute or relative. If the library doesn't exist or fatal error occurs
 	 * when opening library, one invalid library will be added into the library

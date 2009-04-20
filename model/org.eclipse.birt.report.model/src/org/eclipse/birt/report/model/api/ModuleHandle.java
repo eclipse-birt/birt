@@ -2513,8 +2513,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	/**
 	 * Returns the <code>URL</code> object if the file with <code>fileName
-	 * </code> exists. This
-	 * method takes the following search steps:
+	 * </code> exists. This method takes the following search steps:
 	 * 
 	 * <ul>
 	 * If file type is MESSAGEFILE ,
@@ -2522,7 +2521,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * session. And Now just deal with relative file name.
 	 * 
 	 * <ul>
-	 * If file type isnot MESSAGEFILE,
+	 * If file type is not MESSAGEFILE,
 	 * <li>Search file taking <code>fileName
 	 * </code> as absolute file name;
 	 * <li>Search file taking <code>fileName
@@ -2552,6 +2551,47 @@ public abstract class ModuleHandle extends DesignElementHandle
 		return module.findResource( fileName, fileType );
 	}
 
+	/**
+	 * Returns the <code>URL</code> object if the file with <code>fileName
+	 * </code> exists. This method takes the following search steps:
+	 * 
+	 * <ul>
+	 * If file type is MESSAGEFILE ,
+	 * <li>Search file with the file locator ( <code>IResourceLocator</code>) in
+	 * session. And Now just deal with relative file name.
+	 * 
+	 * <ul>
+	 * If file type is not MESSAGEFILE,
+	 * <li>Search file taking <code>fileName
+	 * </code> as absolute file name;
+	 * <li>Search file taking <code>fileName
+	 * </code> as relative file name and basing "base"
+	 * property of report design;
+	 * <li>Search file with the file locator (<code>IResourceLocator
+	 * </code>) in session
+	 * </ul>
+	 * 
+	 * @param fileName
+	 *            file name to search
+	 * @param fileType
+	 *            file type. The value should be one of:
+	 *            <ul>
+	 *            <li><code>IResourceLocator.IMAGE</code> <li><code>
+	 *            IResourceLocator.LIBRARY</code> <li><code>
+	 *            IResourceLocator.MESSAGEFILE</code>
+	 *            </ul>
+	 *            Any invalid value will be treated as <code>
+	 *            IResourceLocator.IMAGE</code>.
+	 * @param appContext
+	 *            The map containing the user's information
+	 * @return the <code>URL</code> object if the file with <code>fileName
+	 *         </code> is found, or null otherwise.
+	 */
+
+	public URL findResource( String fileName, int fileType, Map appContext )
+	{
+		return module.findResource( fileName, fileType, appContext );
+	}
 	/**
 	 * Gets the result style sheet with given file name of an external CSS2
 	 * resource.

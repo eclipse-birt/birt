@@ -125,7 +125,7 @@ public interface IResourceLocator
 	 *            <code>IMAGE</code>,<code>LIBRARY</code> ,
 	 *            <code>CASCADING_STYLE_SHEET</code> and <code>MESSAGEFILE</code>.
 	 * @param appContext
-	 *            The map contains the user's information  				      
+	 *            The map containing the user's information  				      
 	 * @return The <code>URL</code> object. <code>null</code> if the file
 	 *         can not be found.
 	 */
