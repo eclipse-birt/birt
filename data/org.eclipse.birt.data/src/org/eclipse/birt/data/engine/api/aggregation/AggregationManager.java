@@ -69,7 +69,8 @@ public class AggregationManager
 			"MEDIAN",
 			"MODE",
 			"STDDEV",
-			"VARIANCE"
+			"VARIANCE",
+			"RANK"
 	};
 
 	public static final int AGGR_TABULAR = 0;
