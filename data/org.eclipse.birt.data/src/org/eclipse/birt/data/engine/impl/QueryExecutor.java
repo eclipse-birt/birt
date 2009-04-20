@@ -571,7 +571,8 @@ public abstract class QueryExecutor implements IQueryExecutor
 							src.getIntervalStart( ),
 							src.getIntervalRange( ),
 							dataType,
-							session.getEngineContext( ).getLocale( )) );
+							session.getEngineContext( ).getLocale( ),
+							session.getEngineContext( ).getTimeZone( )) );
 
 		}
 		else

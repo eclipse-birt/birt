@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -81,6 +82,7 @@ public class DataEngineContext
 	private IDocArchiveReader reader;
 	private IDocArchiveWriter writer;
 	private ULocale currentLocale;
+
 	private final Map<String, Object> propertyMap = new HashMap<String, Object>( );
 	
 	/** cacheCount field */
@@ -134,6 +136,7 @@ public class DataEngineContext
 	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
 	
 	private ScriptContext scriptContext;
+	private TimeZone currentTimeZone;
 	
 	/**
 	 * When mode is MODE_GENERATION, the writer stream of archive will be used.
@@ -226,6 +229,8 @@ public class DataEngineContext
 		this.writer = writer;
 		this.cacheOption = CACHE_USE_DEFAULT;
 		this.scriptContext = context;
+		this.currentLocale = ULocale.getDefault( );
+		this.currentTimeZone = TimeZone.getDefault( );
 		logger.exiting( DataEngineContext.class.getName( ), "DataEngineContext" ); //$NON-NLS-1$
 	}
 
@@ -453,6 +458,16 @@ public class DataEngineContext
 
 	}
 
+	public void setTimeZone( TimeZone zone )
+	{
+		currentTimeZone = zone;
+	}
+	
+	public TimeZone getTimeZone( )
+	{
+		return this.currentTimeZone;
+	}
+	
 	private Scriptable newSubScope( Scriptable parentAndProtoScope, ScriptContext scriptContext )
 	{
 		if ( parentAndProtoScope == null )

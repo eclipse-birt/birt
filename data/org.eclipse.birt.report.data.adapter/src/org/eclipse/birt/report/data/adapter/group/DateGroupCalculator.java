@@ -17,6 +17,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 
 import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -30,14 +31,18 @@ abstract class DateGroupCalculator extends GroupCalculator
 	
 	protected DateTimeUtil dateTimeUtil;
 	
-	public DateGroupCalculator( Object intervalStart, double intervalRange, ULocale locale ) throws BirtException
+	public DateGroupCalculator( Object intervalStart, double intervalRange, ULocale locale, TimeZone timeZone ) throws BirtException
 	{
 		super( intervalStart, intervalRange );
-		Calendar c = locale == null ? Calendar.getInstance( ):Calendar.getInstance( locale );
+		ULocale aLocale = locale == null ? ULocale.getDefault( ):locale;
+		TimeZone aZone = timeZone == null? TimeZone.getDefault( ):timeZone;
+		
+		Calendar c = Calendar.getInstance( aLocale );
+		c.setTimeZone( aZone );
 		c.clear( );
 		c.set( 1970, 0, 1 );
 		this.defaultStart = c.getTime( );
-		this.dateTimeUtil = new DateTimeUtil( locale );
+		this.dateTimeUtil = new DateTimeUtil( aLocale, aZone );
 	}
 	/**
 	 * 

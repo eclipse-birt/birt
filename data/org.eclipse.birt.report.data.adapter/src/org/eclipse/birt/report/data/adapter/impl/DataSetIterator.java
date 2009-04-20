@@ -16,7 +16,6 @@ package org.eclipse.birt.report.data.adapter.impl;
 
 import java.math.BigDecimal;
 import java.sql.Time;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +39,10 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
+import com.ibm.icu.util.ULocale;
+
 /**
  * This is an implementation of IDatasetIterator interface.
  *
@@ -52,17 +55,10 @@ public class DataSetIterator implements IDatasetIterator
 	private boolean started = false;
 	private IResultIterator it;
 	private ResultMeta metadata;
-
-	private static long nullTime;
+	private Calendar calendar;
 	
-	static
-	{
-		Calendar c = Calendar.getInstance( );
-		c.clear( );
-		c.set( 0, 0, 1, 0, 0, 0 );
-		nullTime = c.getTimeInMillis( );
-		
-	}
+	private long nullTime;
+	
 	
 	/**
 	 * 
@@ -78,7 +74,9 @@ public class DataSetIterator implements IDatasetIterator
 		{
 			
 			Scriptable scope = session.getScope( );
-			TempDateTransformer tt = new TempDateTransformer();
+			TempDateTransformer tt = new TempDateTransformer( session.getDataSessionContext( )
+					.getDataEngineContext( )
+					.getLocale( ) );
 			ScriptableObject.putProperty( scope, tt.getClassName( ), tt );
 			this.it = session.prepare( query, appContext ).execute( scope ).getResultIterator( );
 		}
@@ -96,8 +94,18 @@ public class DataSetIterator implements IDatasetIterator
 	 * @param cubeHandle
 	 * @throws BirtException
 	 */
-	public DataSetIterator( DataRequestSessionImpl session, IQueryDefinition query, List<ColumnMeta> meta, Map appContext ) throws BirtException
+	public DataSetIterator( DataRequestSessionImpl session,
+			IQueryDefinition query, List<ColumnMeta> meta, Map appContext ) throws BirtException
 	{
+		this.calendar = Calendar.getInstance( session.getDataSessionContext( )
+				.getDataEngineContext( )
+				.getLocale( ) ); 
+		this.calendar.setTimeZone( session.getDataSessionContext( )
+				.getDataEngineContext( ).getTimeZone( ) );
+		this.calendar.clear( );
+		this.calendar.set( 0, 0, 1, 0, 0, 0 );
+		this.nullTime = this.calendar.getTimeInMillis( );
+		this.calendar.clear( );
 		executeQuery( session, query, appContext );
 		this.metadata = new ResultMeta( meta );
 
@@ -252,7 +260,7 @@ public class DataSetIterator implements IDatasetIterator
 		return hasNext;
 	}
 
-	private static Calendar getCalendar( Object d )
+	private  Calendar getCalendar( Object d )
 	{
 		assert d != null;
 		
@@ -260,9 +268,8 @@ public class DataSetIterator implements IDatasetIterator
 		try
 		{
 			date = DataTypeUtil.toDate( d );
-			Calendar c = Calendar.getInstance( );
-			c.setTime( date );
-			return c;
+			this.calendar.setTime( date );
+			return this.calendar;
 		}
 		catch ( BirtException e )
 		{
@@ -494,107 +501,7 @@ public class DataSetIterator implements IDatasetIterator
 		}
 	}
 	
-	/**
-	 * For all Time level, there is by default an "DateTime" attribute which contains the corresponding
-	 * DateTime value of that time level.
-	 */
-	static class DateTimeAttributeProcessor implements IDataProcessor
-	{
-		private String timeType;
-		
-		DateTimeAttributeProcessor( String timeType )
-		{
-			this.timeType = timeType;
-		}
-		
-		public Object process( Object d ) throws AdapterException
-		{
-			if( d == null )
-				return null;
-			
-			Calendar cal = getCalendar( d );
-			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( timeType ) 
-				 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK.equals( timeType )
-				 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR.equals( timeType )
-				 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH.equals( timeType )
-				 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR.equals( timeType ))
-			{
-				cleanTimePortion( cal );
-				return cal.getTime();
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals( timeType ) )
-			{
-				//For all month, clear time portion and set DayOfMonth to 1.
-				cleanTimePortion( cal );
-				cal.set( Calendar.DATE, 1 );
-				return cal.getTime();
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( timeType ) )
-			{
-				//For all quarter, clear time portion and set month to first month of 
-				//that quarter and set day to first day of that month.
-				cleanTimePortion( cal );
-				cal.set( Calendar.DATE, 1 );
-				int month = cal.get( Calendar.MONTH );
-				switch ( month )
-				{
-					case Calendar.JANUARY :
-					case Calendar.FEBRUARY :
-					case Calendar.MARCH :
-						cal.set(Calendar.MONTH, 0);
-						break;
-					case Calendar.APRIL :
-					case Calendar.MAY :
-					case Calendar.JUNE :
-						cal.set(Calendar.MONTH, 3);
-						break;
-					case Calendar.JULY :
-					case Calendar.AUGUST :
-					case Calendar.SEPTEMBER :
-						cal.set(Calendar.MONTH, 6);
-						break;
-					case Calendar.OCTOBER :
-					case Calendar.NOVEMBER :
-					case Calendar.DECEMBER :
-						cal.set(Calendar.MONTH, 9);
-						break;
-				}
-				return cal.getTime();
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( timeType ) )
-			{
-				//For year, clear all time portion and set Date to Jan 1st.
-				cleanTimePortion( cal );
-				cal.set(Calendar.MONTH, 0);
-				cal.set(Calendar.DATE, 1);
-				return cal.getTime();
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR.equals( timeType ) )
-			{
-				//For hour, set minute to 0 and second to 1.
-				cal.set(Calendar.MINUTE, 0);
-				cal.set(Calendar.SECOND, 1);
-				cal.set(Calendar.MILLISECOND, 0);
-				return cal.getTime();
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE.equals( timeType ) )
-			{
-				//For minute, set second to 1.
-				cal.set(Calendar.SECOND, 1);
-				cal.set(Calendar.MILLISECOND, 0);
-				return cal.getTime();
-			}
-			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals( timeType ) )
-			{
-				//For second, set millisecond to 0.
-				cal.set(Calendar.MILLISECOND, 0);
-				return cal.getTime();
-			}
-			else
-				throw new AdapterException( ResourceConstants.INVALID_DATE_TIME_TYPE, timeType );
 	
-		}
-	}
 	
 	/**
 	 * Clear time portion of a date value
@@ -618,10 +525,10 @@ public class DataSetIterator implements IDatasetIterator
 	
 	private class TempDateTransformer extends ScriptableObject
 	{
-
-		public TempDateTransformer( )
+		
+		public TempDateTransformer( ULocale locale )
 		{
-			this.defineProperty( "transform", new Function_Transform( ), 0 );
+			this.defineProperty( "transform", new Function_Transform( locale ), 0 );
 		}
 
 		/**
@@ -636,7 +543,12 @@ public class DataSetIterator implements IDatasetIterator
 
 	private class Function_Transform extends Function_temp
 	{
-
+		private ULocale locale;
+		
+		public Function_Transform( ULocale locale )
+		{
+			this.locale = locale;
+		}
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -779,4 +691,128 @@ public class DataSetIterator implements IDatasetIterator
 		}
 		
 	}
+	
+	/**
+	 * For all Time level, there is by default an "DateTime" attribute which contains the corresponding
+	 * DateTime value of that time level.
+	 */
+	static class DateTimeAttributeProcessor implements IDataProcessor
+	{
+		private String timeType;
+		private Calendar calendar;
+	
+		DateTimeAttributeProcessor( String timeType, ULocale locale, TimeZone zone )
+		{
+			this.timeType = timeType;
+			this.calendar = Calendar.getInstance( locale );
+			if( zone!= null )
+				this.calendar.setTimeZone( zone );
+		}
+		
+		private  void populateCalendar( Object d )
+		{
+			assert d != null;
+			
+			Date date;
+			try
+			{
+				date = DataTypeUtil.toDate( d );
+				this.calendar.setTime( date );
+			}
+			catch ( BirtException e )
+			{
+				throw new java.lang.IllegalArgumentException( AdapterResourceHandle.getInstance( )
+						.getMessage( ResourceConstants.INVALID_DATETIME_VALUE ) );
+			}
+		}
+		public Object process( Object d ) throws AdapterException
+		{
+			if( d == null )
+				return null;
+			
+			populateCalendar( d );
+			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( timeType ) 
+				 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK.equals( timeType )
+				 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR.equals( timeType )
+				 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH.equals( timeType )
+				 || DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR.equals( timeType ))
+			{
+				cleanTimePortion( this.calendar );
+				return this.calendar.getTime();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals( timeType ) )
+			{
+				//For all month, clear time portion and set DayOfMonth to 1.
+				cleanTimePortion( this.calendar );
+				this.calendar.set( Calendar.DATE, 1 );
+				return this.calendar.getTime();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( timeType ) )
+			{
+				//For all quarter, clear time portion and set month to first month of 
+				//that quarter and set day to first day of that month.
+				cleanTimePortion( this.calendar );
+				this.calendar.set( Calendar.DATE, 1 );
+				int month = this.calendar.get( Calendar.MONTH );
+				switch ( month )
+				{
+					case Calendar.JANUARY :
+					case Calendar.FEBRUARY :
+					case Calendar.MARCH :
+						this.calendar.set(Calendar.MONTH, 0);
+						break;
+					case Calendar.APRIL :
+					case Calendar.MAY :
+					case Calendar.JUNE :
+						this.calendar.set(Calendar.MONTH, 3);
+						break;
+					case Calendar.JULY :
+					case Calendar.AUGUST :
+					case Calendar.SEPTEMBER :
+						this.calendar.set(Calendar.MONTH, 6);
+						break;
+					case Calendar.OCTOBER :
+					case Calendar.NOVEMBER :
+					case Calendar.DECEMBER :
+						this.calendar.set(Calendar.MONTH, 9);
+						break;
+				}
+				return this.calendar.getTime();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( timeType ) )
+			{
+				//For year, clear all time portion and set Date to Jan 1st.
+				cleanTimePortion( this.calendar );
+				this.calendar.set(Calendar.MONTH, 0);
+				this.calendar.set(Calendar.DATE, 1);
+				return this.calendar.getTime();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR.equals( timeType ) )
+			{
+				//For hour, set minute to 0 and second to 1.
+				this.calendar.set(Calendar.MINUTE, 0);
+				this.calendar.set(Calendar.SECOND, 1);
+				this.calendar.set(Calendar.MILLISECOND, 0);
+				return this.calendar.getTime();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE.equals( timeType ) )
+			{
+				//For minute, set second to 1.
+				this.calendar.set(Calendar.SECOND, 1);
+				this.calendar.set(Calendar.MILLISECOND, 0);
+				return this.calendar.getTime();
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals( timeType ) )
+			{
+				//For second, set millisecond to 0.
+				this.calendar.set(Calendar.MILLISECOND, 0);
+				return this.calendar.getTime();
+			}
+			else
+				throw new AdapterException( ResourceConstants.INVALID_DATE_TIME_TYPE, timeType );
+	
+		}
+	}
 }
+
+

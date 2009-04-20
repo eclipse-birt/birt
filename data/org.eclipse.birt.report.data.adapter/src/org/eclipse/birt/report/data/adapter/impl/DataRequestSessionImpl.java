@@ -1348,7 +1348,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 									DataType.INTEGER_TYPE,
 									String.valueOf( DataSetIterator.getDefaultStartValue( level.getDateTimeLevelType( ),
 											level.getIntervalBase( ) ) ),
-									level.getIntervalRange( ), sessionContext.getDataEngineContext( ).getLocale( ) ) ),
+									level.getIntervalRange( ), sessionContext.getDataEngineContext( ).getLocale( ),
+									sessionContext.getDataEngineContext( ).getTimeZone( )) ),
 							DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
 					temp.setDataType( DataType.INTEGER_TYPE );
 					exprString = DataSetIterator.createDateTransformerExpr( level.getDateTimeLevelType( ), exprString );
@@ -1364,7 +1365,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 									type,
 									level.getIntervalBase( ),
 									level.getIntervalRange( ),
-									sessionContext.getDataEngineContext( ).getLocale( )) );
+									sessionContext.getDataEngineContext( ).getLocale( ),
+									sessionContext.getDataEngineContext( ).getTimeZone( )) );
 					}
 					else if ( DesignChoiceConstants.LEVEL_TYPE_MIRRORED.equals( level.getLevelType( ) ) )
 					{
@@ -1409,7 +1411,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 					String bindingExpr = null;
 					if( level.getDateTimeLevelType( ) != null && DataSetIterator.DATE_TIME_ATTR_NAME.equals( levelAttr.getName()))
 					{
-						processor = new DataSetIterator.DateTimeAttributeProcessor( level.getDateTimeLevelType());
+						processor = new DataSetIterator.DateTimeAttributeProcessor( level.getDateTimeLevelType( ),
+								this.sessionContext.getDataEngineContext( )
+										.getLocale( ), sessionContext.getDataEngineContext( ).getTimeZone( ) );
 						bindingExpr = ExpressionUtil.createJSDataSetRowExpression( level.getColumnName() ) ;
 					}else
 					{
@@ -1426,7 +1430,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					query.addBinding( new Binding( meta.getName( ),
 							new ScriptExpression( bindingExpr ) ));
 				}
-				
+				 
 				//Only dynamical level can use display name.
 				if ( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC.equals( level.getLevelType( ) )
 						&& level.getDisplayColumnName( ) != null )

@@ -15,6 +15,7 @@ import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -29,10 +30,10 @@ class HourGroupCalculator extends DateGroupCalculator
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
-	public HourGroupCalculator( Object intervalStart, double intervalRange, ULocale locale )
+	public HourGroupCalculator( Object intervalStart, double intervalRange, ULocale locale, TimeZone timeZone )
 			throws BirtException
 	{
-		super( intervalStart, intervalRange, locale );
+		super( intervalStart, intervalRange, locale, timeZone );
 	}
 
 	/*

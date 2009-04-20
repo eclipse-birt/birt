@@ -18,6 +18,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -35,7 +36,7 @@ public class GroupCalculatorFactory
 	 * @throws DataException
 	 */
 	public static ICalculator getGroupCalculator( int interval, int dataType,
-			Object intervalStart, double intervalRange, ULocale locale ) throws AdapterException
+			Object intervalStart, double intervalRange, ULocale locale, TimeZone timeZone ) throws AdapterException
 	{
 		if ( !isValidInterval( interval, dataType ) )
 		{
@@ -47,34 +48,34 @@ public class GroupCalculatorFactory
 			{
 				case IGroupDefinition.YEAR_INTERVAL :
 					return new YearGroupCalculator( intervalStart,
-							intervalRange, locale );
+							intervalRange, locale, timeZone );
 
 				case IGroupDefinition.MONTH_INTERVAL :
 					return new MonthGroupCalculator( intervalStart,
-							intervalRange, locale);
+							intervalRange, locale, timeZone);
 
 				case IGroupDefinition.QUARTER_INTERVAL :
 					return new QuarterGroupCalculator( intervalStart,
-							intervalRange, locale );
+							intervalRange, locale, timeZone );
 
 				case IGroupDefinition.WEEK_INTERVAL :
 					return new WeekGroupCalculator( intervalStart,
-							intervalRange, locale );
+							intervalRange, locale, timeZone );
 
 				case IGroupDefinition.DAY_INTERVAL :
-					return new DayGroupCalculator( intervalStart, intervalRange, locale );
+					return new DayGroupCalculator( intervalStart, intervalRange, locale, timeZone );
 
 				case IGroupDefinition.HOUR_INTERVAL :
 					return new HourGroupCalculator( intervalStart,
-							intervalRange, locale );
+							intervalRange, locale, timeZone );
 
 				case IGroupDefinition.MINUTE_INTERVAL :
 					return new MinuteGroupCalculator( intervalStart,
-							intervalRange, locale );
+							intervalRange, locale, timeZone );
 
 				case IGroupDefinition.SECOND_INTERVAL :
 					return new SecondGroupCalculator( intervalStart,
-							intervalRange, locale );
+							intervalRange, locale, timeZone );
 
 				case IGroupDefinition.NUMERIC_INTERVAL :
 					return new NumericGroupCalculator( intervalStart,
