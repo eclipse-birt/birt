@@ -1917,6 +1917,20 @@ abstract public class AbstractStyle implements IStyle
 		return new DOMException( DOMException.NOT_SUPPORTED_ERR, property );
 	}
 	
+	protected void writeCSSValue( DataOutputStream out, String propertyName,
+			CSSValue value ) throws IOException
+	{
+		int index = getPropertyIndex( propertyName );
+		if ( index == StyleConstants.STYLE_DATA_FORMAT )
+		{
+			DataFormatValue.write( out, (DataFormatValue) value );
+		}
+		else
+		{
+			IOUtil.writeString( out, value.getCssText( ) );
+		}
+	}
+	
 	public void write( DataOutputStream out ) throws IOException
 	{
 		// count how many valid value in the style
@@ -1939,15 +1953,7 @@ abstract public class AbstractStyle implements IStyle
 			{
 				String propertyName = engine.getPropertyName( i );
 				IOUtil.writeString( out, propertyName );
-				int index = getPropertyIndex( propertyName );
-				if ( index == StyleConstants.STYLE_DATA_FORMAT )
-				{
-					DataFormatValue.write( out, (DataFormatValue) value );
-				}
-				else
-				{
-					IOUtil.writeString( out, value.getCssText( ) );
-				}
+				writeCSSValue( out, propertyName, value );
 			}
 		}
 	}

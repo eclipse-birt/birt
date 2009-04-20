@@ -125,8 +125,9 @@ public class StyleDeclaration extends AbstractStyle
 			CSSValue value = values[i];
 			if ( null != value )
 			{
-				IOUtil.writeString( out, engine.getPropertyName( i ) );
-				IOUtil.writeString( out, value.getCssText( ) );
+				String propertyName = engine.getPropertyName( i );
+				IOUtil.writeString( out, propertyName );
+				writeCSSValue( out, propertyName, value );
 			}
 		}
 	}
