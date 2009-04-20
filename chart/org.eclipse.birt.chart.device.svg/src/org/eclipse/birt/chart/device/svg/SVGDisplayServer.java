@@ -38,8 +38,8 @@ public class SVGDisplayServer extends SwingDisplayServer
 		return new SVGImage( image, urlFound );
 	}
 	
-	public ITextMetrics getTextMetrics( Label la )
+	public ITextMetrics getTextMetrics( Label la, boolean autoReuse )
 	{
-		return new ChartTextMetrics( this, la );
+		return new ChartTextMetrics( this, la, autoReuse );
 	}
 }

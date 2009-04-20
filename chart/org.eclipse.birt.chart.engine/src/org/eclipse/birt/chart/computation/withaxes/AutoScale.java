@@ -21,6 +21,7 @@ import java.util.Set;
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.EllipsisHelper;
+import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.Point;
@@ -31,6 +32,7 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.factory.RunTimeContext.StateKey;
 import org.eclipse.birt.chart.internal.factory.DateFormatWrapperFactory;
 import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
 import org.eclipse.birt.chart.log.ILogger;
@@ -130,6 +132,8 @@ public final class AutoScale extends Methods implements Cloneable
 	private ChartUtil.CacheDecimalFormat cacheNumFormat;
 
 	private ChartUtil.CacheDateFormat cacheDateFormat;
+
+	private IChartComputation cComp;
 
 	/** Indicates the max boundary of axis ticks. */
 	private static final int TICKS_MAX = 1000;
@@ -234,10 +238,7 @@ public final class AutoScale extends Methods implements Cloneable
 	AutoScale( int _iType, RunTimeContext _rtc )
 	{
 		iType = _iType;
-		rtc = _rtc;
-
-		cacheNumFormat = new ChartUtil.CacheDecimalFormat( rtc.getULocale( ) );
-		cacheDateFormat = new ChartUtil.CacheDateFormat( rtc.getULocale( ) );
+		setRunTimeContext( _rtc );
 	}
 
 	/**
@@ -254,10 +255,7 @@ public final class AutoScale extends Methods implements Cloneable
 		iType = _iType;
 		oMinimum = _oMinimum;
 		oMaximum = _oMaximum;
-		rtc = _rtc;
-
-		cacheNumFormat = new ChartUtil.CacheDecimalFormat( rtc.getULocale( ) );
-		cacheDateFormat = new ChartUtil.CacheDateFormat( rtc.getULocale( ) );
+		setRunTimeContext( _rtc );
 	}
 
 	final void setFixed( boolean _bMinimum, boolean _bMaximum, boolean _bStep )
@@ -1313,7 +1311,7 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 		AxisTickCoordinates da = atcTickCoordinates;
 		RotatedRectangle rrPrev = null, rrPrev2 = null, rr;
-		Double fontHeight = Methods.computeFontHeight( xs, la );
+		Double fontHeight = cComp.computeFontHeight( xs, la );
 
 		if ( ( iType & ( NUMERICAL | LINEAR ) ) == ( NUMERICAL | LINEAR ) )
 		{
@@ -1357,21 +1355,13 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 
 				la.getCaption( ).setValue( sText );
-				try
-				{
-					rr = computePolygon( xs,
+
+				rr = cComp.computePolygon( xs,
 							iLabelLocation,
 							la,
 							x,
 							y,
 							fontHeight );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							uiex );
-				}
 
 				if ( i == 0 && bLabelWithinAxes )
 				{
@@ -1453,21 +1443,12 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 
 				la.getCaption( ).setValue( sText );
-				try
-				{
-					rr = computePolygon( xs,
-							iLabelLocation,
-							la,
-							x,
-							y,
-							fontHeight );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							uiex );
-				}
+				rr = cComp.computePolygon( xs,
+						iLabelLocation,
+						la,
+						x,
+						y,
+						fontHeight );
 
 				Point p = rr.getPoint( iPointToCheck );
 
@@ -1521,21 +1502,12 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 
 				la.getCaption( ).setValue( sText );
-				try
-				{
-					rr = computePolygon( xs,
-							iLabelLocation,
-							la,
-							x,
-							y,
-							fontHeight );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							uiex );
-				}
+				rr = cComp.computePolygon( xs,
+						iLabelLocation,
+						la,
+						x,
+						y,
+						fontHeight );
 
 				if ( i == 0 && bLabelWithinAxes )
 				{
@@ -1584,7 +1556,7 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	private CateLabVisTester createCateLabVisTester( IDisplayServer xs,
-			Label la, int iLabelLocation )
+			Label la, int iLabelLocation ) throws ChartException
 	{
 		// compute visiblility for category labels
 		final double dAngleInDegrees = la.getCaption( )
@@ -1730,7 +1702,12 @@ public final class AutoScale extends Methods implements Cloneable
 				if ( rrPrev[arrayIndex] == null )
 				{
 					// Always show the first label.
-					rrCurr = computePolygon( xs, iLabelLocation, la, x, y );
+					rrCurr = cComp.computePolygon( xs,
+							iLabelLocation,
+							la,
+							x,
+							y,
+							null );
 					bVis = true;
 				}
 				else
@@ -1768,13 +1745,14 @@ public final class AutoScale extends Methods implements Cloneable
 
 		CateLabVisTester( int iLabelLocation, int iNewPointToCheck,
 				int iPrevPointToCheck, Label la, IDisplayServer xs )
+				throws ChartException
 		{
 			this.iLabelLocation = iLabelLocation;
 			this.iNewPointToCheck = iNewPointToCheck;
 			this.iPrevPointToCheck = iPrevPointToCheck;
 			this.la = la;
 			this.xs = xs;
-			this.fontHeight = Methods.computeFontHeight( xs, la );
+			this.fontHeight = cComp.computeFontHeight( xs, la );
 		}
 
 		private void setFPara( RotatedRectangle rrPrev, double x, double y )
@@ -1799,7 +1777,7 @@ public final class AutoScale extends Methods implements Cloneable
 			if ( quickCheckVisibility( iLabelLocation, previousPoint, x, y ) )
 			{
 				// extensive check (expensive)
-				rrCurr = computePolygon( xs,
+				rrCurr = cComp.computePolygon( xs,
 						iLabelLocation,
 						la,
 						x,
@@ -3034,16 +3012,8 @@ public final class AutoScale extends Methods implements Cloneable
 				la.getCaption( ).setValue( formatCategoryValue( getType( ),
 						dsi.first( ),
 						iDateTimeUnit ) );
-				try
-				{
-					bb = computeBox( xs, iLocation, la, 0, 0 );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							uiex );
-				}
+
+				bb = cComp.computeBox( xs, iLocation, la, 0, 0 );
 
 				if ( iOrientation == VERTICAL ) // VERTICAL AXIS
 				{
@@ -3103,16 +3073,9 @@ public final class AutoScale extends Methods implements Cloneable
 				la.getCaption( ).setValue( formatCategoryValue( getType( ),
 						dsi.last( ),
 						iDateTimeUnit ) );
-				try
-				{
-					bb = computeBox( xs, iLocation, la, 0, dEnd );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							uiex );
-				}
+
+				bb = cComp.computeBox( xs, iLocation, la, 0, dEnd );
+
 				if ( iOrientation == VERTICAL ) // VERTICAL AXIS
 				{
 					if ( bCenter )
@@ -3186,17 +3149,8 @@ public final class AutoScale extends Methods implements Cloneable
 					sValue = IConstants.NULL_STRING;
 				}
 				la.getCaption( ).setValue( sValue );
-				BoundingBox bb = null;
-				try
-				{
-					bb = computeBox( xs, iLocation, la, 0, 0 );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							uiex );
-				}
+				BoundingBox bb = cComp.computeBox( xs, iLocation, la, 0, 0 );
+
 				if ( iOrientation == VERTICAL ) // VERTICAL AXIS
 				{
 					dStartShift = Math.max( dMaxSS,
@@ -3220,17 +3174,9 @@ public final class AutoScale extends Methods implements Cloneable
 					logger.log( dfex );
 					sValue = IConstants.NULL_STRING;
 				}
+
 				la.getCaption( ).setValue( sValue );
-				try
-				{
-					bb = computeBox( xs, iLocation, la, 0, 0 );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							uiex );
-				}
+				bb = cComp.computeBox( xs, iLocation, la, 0, 0 );
 
 				if ( iOrientation == VERTICAL ) // VERTICAL AXIS
 				{
@@ -3268,16 +3214,8 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				la.getCaption( ).setValue( sValue );
 				BoundingBox bb = null;
-				try
-				{
-					bb = computeBox( xs, iLocation, la, 0, 0 );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							uiex );
-				}
+				bb = cComp.computeBox( xs, iLocation, la, 0, 0 );
+
 				if ( iOrientation == VERTICAL ) // VERTICAL AXIS
 				{
 					dStartShift = Math.max( dMaxSS,
@@ -3309,16 +3247,7 @@ public final class AutoScale extends Methods implements Cloneable
 					sValue = IConstants.NULL_STRING;
 				}
 				la.getCaption( ).setValue( sValue );
-				try
-				{
-					bb = computeBox( xs, iLocation, la, 0, 0 );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							uiex );
-				}
+				bb = cComp.computeBox( xs, iLocation, la, 0, 0 );
 
 				if ( iOrientation == VERTICAL ) // VERTICAL AXIS
 				{
@@ -3360,17 +3289,8 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			la.getCaption( ).setValue( sText );
 
-			BoundingBox bb = null;
-			try
-			{
-				bb = computeBox( xs, iLocation, la, 0, 0 );
-			}
-			catch ( IllegalArgumentException uiex )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						uiex );
-			}
+			BoundingBox bb = cComp.computeBox( xs, iLocation, la, 0, 0 );
+
 			if ( iOrientation == VERTICAL ) // VERTICAL AXIS
 			{
 				dStartShift = Math.max( dMaxSS,
@@ -3393,16 +3313,8 @@ public final class AutoScale extends Methods implements Cloneable
 				sText = IConstants.NULL_STRING;
 			}
 			la.getCaption( ).setValue( sText );
-			try
-			{
-				bb = computeBox( xs, iLocation, la, 0, dEnd );
-			}
-			catch ( IllegalArgumentException uiex )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						uiex );
-			}
+			bb = cComp.computeBox( xs, iLocation, la, 0, dEnd );
+
 			if ( iOrientation == VERTICAL ) // VERTICAL AXIS
 			{
 				dEndShift = Math.max( dMaxES, bb.getHotPoint( ) );
@@ -3452,7 +3364,7 @@ public final class AutoScale extends Methods implements Cloneable
 				for ( int id : visIds )
 				{
 					la.getCaption( ).setValue( getComputedLabelText( id ) );
-					dW = computeWidth( xs, la );
+					dW = cComp.computeWidth( xs, la );
 
 					if ( isAxisLabelStaggered( ) && isTickLabelStaggered( id ) )
 					{
@@ -3518,7 +3430,7 @@ public final class AutoScale extends Methods implements Cloneable
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
-					dW = computeWidth( xs, la );
+					dW = cComp.computeWidth( xs, la );
 
 					if ( isAxisLabelStaggered( ) && isTickLabelStaggered( i ) )
 					{
@@ -3557,7 +3469,7 @@ public final class AutoScale extends Methods implements Cloneable
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
-					dW = computeWidth( xs, la );
+					dW = cComp.computeWidth( xs, la );
 					if ( isAxisLabelStaggered( ) && isTickLabelStaggered( i ) )
 					{
 						dMaxW2 = Math.max( dW, dMaxW2 );
@@ -3595,7 +3507,7 @@ public final class AutoScale extends Methods implements Cloneable
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
-					dW = computeWidth( xs, la );
+					dW = cComp.computeWidth( xs, la );
 					if ( isAxisLabelStaggered( ) && isTickLabelStaggered( i ) )
 					{
 						dMaxW2 = Math.max( dW, dMaxW2 );
@@ -3619,7 +3531,7 @@ public final class AutoScale extends Methods implements Cloneable
 				for ( int id : visIds )
 				{
 					la.getCaption( ).setValue( getComputedLabelText( id ) );
-					dH = computeHeight( xs, la );
+					dH = cComp.computeHeight( xs, la );
 					if ( isAxisLabelStaggered( ) && isTickLabelStaggered( id ) )
 					{
 						dMaxH2 = Math.max( dH, dMaxH2 );
@@ -3687,7 +3599,7 @@ public final class AutoScale extends Methods implements Cloneable
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
-					dH = computeHeight( xs, la );
+					dH = cComp.computeHeight( xs, la );
 					if ( isAxisLabelStaggered( ) && isTickLabelStaggered( i ) )
 					{
 						dMaxH2 = Math.max( dH, dMaxH2 );
@@ -3725,7 +3637,7 @@ public final class AutoScale extends Methods implements Cloneable
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
-					dH = computeHeight( xs, la );
+					dH = cComp.computeHeight( xs, la );
 					if ( isAxisLabelStaggered( ) && isTickLabelStaggered( i ) )
 					{
 						dMaxH2 = Math.max( dH, dMaxH2 );
@@ -3763,7 +3675,7 @@ public final class AutoScale extends Methods implements Cloneable
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
-					dH = computeHeight( xs, la );
+					dH = cComp.computeHeight( xs, la );
 					if ( isAxisLabelStaggered( ) && isTickLabelStaggered( i ) )
 					{
 						dMaxH2 = Math.max( dH, dMaxH2 );
@@ -3826,7 +3738,7 @@ public final class AutoScale extends Methods implements Cloneable
 							iDateTimeUnit ) );
 					if ( !isTickLabelStaggered( i ) )
 					{
-						dW = computeWidth( xs, la );
+						dW = cComp.computeWidth( xs, la );
 
 						if ( dW > dMaxW )
 						{
@@ -3865,7 +3777,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 					if ( !isTickLabelStaggered( i ) )
 					{
-						dW = computeWidth( xs, la );
+						dW = cComp.computeWidth( xs, la );
 
 						if ( dW > dMaxW )
 						{
@@ -3904,7 +3816,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 					if ( !isTickLabelStaggered( i ) )
 					{
-						dW = computeWidth( xs, la );
+						dW = cComp.computeWidth( xs, la );
 
 						if ( dW > dMaxW )
 						{
@@ -3943,7 +3855,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 					if ( !isTickLabelStaggered( i ) )
 					{
-						dW = computeWidth( xs, la );
+						dW = cComp.computeWidth( xs, la );
 
 						if ( dW > dMaxW )
 						{
@@ -3974,7 +3886,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 					if ( !isTickLabelStaggered( i ) )
 					{
-						dH = computeHeight( xs, la );
+						dH = cComp.computeHeight( xs, la );
 
 						if ( dH > dMaxH )
 						{
@@ -4013,7 +3925,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 					if ( !isTickLabelStaggered( i ) )
 					{
-						dH = computeHeight( xs, la );
+						dH = cComp.computeHeight( xs, la );
 
 						if ( dH > dMaxH )
 						{
@@ -4052,7 +3964,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 					if ( !isTickLabelStaggered( i ) )
 					{
-						dH = computeHeight( xs, la );
+						dH = cComp.computeHeight( xs, la );
 
 						if ( dH > dMaxH )
 						{
@@ -4091,7 +4003,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 					if ( !isTickLabelStaggered( i ) )
 					{
-						dH = computeHeight( xs, la );
+						dH = cComp.computeHeight( xs, la );
 
 						if ( dH > dMaxH )
 						{
@@ -4213,7 +4125,10 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	public final void setRunTimeContext( RunTimeContext context )
 	{
-		this.rtc = context;
+		rtc = context;
+		cacheNumFormat = new ChartUtil.CacheDecimalFormat( rtc.getULocale( ) );
+		cacheDateFormat = new ChartUtil.CacheDateFormat( rtc.getULocale( ) );
+		cComp = rtc.getState( StateKey.CHART_COMPUTATION_KEY );
 	}
 
 	/**

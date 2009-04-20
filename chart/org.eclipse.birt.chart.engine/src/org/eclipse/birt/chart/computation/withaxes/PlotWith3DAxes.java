@@ -21,7 +21,6 @@ import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.computation.IConstants;
-import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.Rectangle;
 import org.eclipse.birt.chart.computation.UserDataSetHints;
 import org.eclipse.birt.chart.computation.Vector;
@@ -42,9 +41,6 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Scale;
@@ -115,38 +111,40 @@ public class PlotWith3DAxes extends PlotWithAxes
 	}
 
 	public Bounds getAdjustedPlotBounds( boolean refresh )
+			throws ChartException
 	{
 		if ( !refresh && cachedAdjustedBounds != null )
 		{
 			return cachedAdjustedBounds;
 		}
 
-		final Bounds bo = getPlotBounds( ).adjustedInstance( getPlotInsets( ) );
+		final Bounds bo = goFactory.adjusteBounds( getPlotBounds( ),
+				getPlotInsets( ) );
 
 		double h, w;
 		Label la;
 
 		// approximate estimation of axes label space
 		// TODO better estimation
-		la = aax.getPrimaryBase( ).getLabel( ).copyInstance( );
+		la = goFactory.copyOf( aax.getPrimaryBase( ).getLabel( ) );
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
-		h = Methods.computeHeight( ids, la );
+		h = cComp.computeHeight( ids, la );
 
-		la = aax.getAncillaryBase( ).getLabel( ).copyInstance( );
+		la = goFactory.copyOf( aax.getAncillaryBase( ).getLabel( ) );
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
-		h = Math.max( h, Methods.computeHeight( ids, la ) );
+		h = Math.max( h, cComp.computeHeight( ids, la ) );
 
-		la = aax.getPrimaryOrthogonal( ).getLabel( ).copyInstance( );
+		la = goFactory.copyOf( aax.getPrimaryOrthogonal( ).getLabel( ) );
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
-		w = Methods.computeWidth( ids, la );
+		w = cComp.computeWidth( ids, la );
 
 		// consider axes lable space.
-		bo.adjust( InsetsImpl.create( 0, 0, h, w ) );
+		bo.adjust( goFactory.createInsets( 0, 0, h, w ) );
 		cachedAdjustedBounds = bo;
 		return bo;
 	}
 
-	public final Location getPanningOffset( )
+	public final Location getPanningOffset( ) throws ChartException
 	{
 		final Bounds bo = getAdjustedPlotBounds( false );
 
@@ -155,7 +153,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 		// TODO read custom panning setting
 
-		return LocationImpl.create( xOff, yOff );
+		return goFactory.createLocation( xOff, yOff );
 	}
 
 	/**
@@ -170,7 +168,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 			// Use a fixed light direction here.
 			Vector lightDirection = new Vector( -1, 1, -1, false );
 
-			final Bounds bo = getPlotBounds( ).adjustedInstance( getPlotInsets( ) );
+			final Bounds bo = goFactory.adjusteBounds( getPlotBounds( ),
+					getPlotInsets( ) );
 
 			double width = bo.getWidth( );
 			double height = bo.getHeight( );
@@ -198,14 +197,30 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 		List<Location3D> vertexList = new ArrayList<Location3D>( );
 
-		Location3D bbl = Location3DImpl.create( -xlen / 2, -ylen / 2, -zlen / 2 );
-		Location3D bbr = Location3DImpl.create( xlen / 2, -ylen / 2, -zlen / 2 );
-		Location3D bfl = Location3DImpl.create( -xlen / 2, -ylen / 2, zlen / 2 );
-		Location3D bfr = Location3DImpl.create( xlen / 2, -ylen / 2, zlen / 2 );
-		Location3D tbl = Location3DImpl.create( -xlen / 2, ylen / 2, -zlen / 2 );
-		Location3D tbr = Location3DImpl.create( xlen / 2, ylen / 2, -zlen / 2 );
-		Location3D tfl = Location3DImpl.create( -xlen / 2, ylen / 2, zlen / 2 );
-		Location3D tfr = Location3DImpl.create( xlen / 2, ylen / 2, zlen / 2 );
+		Location3D bbl = goFactory.createLocation3D( -xlen / 2,
+				-ylen / 2,
+				-zlen / 2 );
+		Location3D bbr = goFactory.createLocation3D( xlen / 2,
+				-ylen / 2,
+				-zlen / 2 );
+		Location3D bfl = goFactory.createLocation3D( -xlen / 2,
+				-ylen / 2,
+				zlen / 2 );
+		Location3D bfr = goFactory.createLocation3D( xlen / 2,
+				-ylen / 2,
+				zlen / 2 );
+		Location3D tbl = goFactory.createLocation3D( -xlen / 2,
+				ylen / 2,
+				-zlen / 2 );
+		Location3D tbr = goFactory.createLocation3D( xlen / 2,
+				ylen / 2,
+				-zlen / 2 );
+		Location3D tfl = goFactory.createLocation3D( -xlen / 2,
+				ylen / 2,
+				zlen / 2 );
+		Location3D tfr = goFactory.createLocation3D( xlen / 2,
+				ylen / 2,
+				zlen / 2 );
 
 		vertexList.add( bbl );
 		vertexList.add( bbr );
@@ -229,7 +244,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 		{
 			Location3D p3d = itr.next( );
 
-			event.setLocation3D( Location3DImpl.create( p3d.getX( ),
+			event.setLocation3D( goFactory.createLocation3D( p3d.getX( ),
 					p3d.getY( ),
 					p3d.getZ( ) ) );
 			if ( engine.processEvent( event, xOff, yOff ) != null )
@@ -315,7 +330,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 			{
 				Location3D p3d = itr.next( );
 
-				event.setLocation3D( Location3DImpl.create( p3d.getX( ) * scale,
+				event.setLocation3D( goFactory.createLocation3D( p3d.getX( )
+						* scale,
 						p3d.getY( ) * scale,
 						p3d.getZ( ) * scale ) );
 				if ( engine.processEvent( event, xOff, yOff ) != null )
@@ -432,10 +448,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 	public void compute( Bounds bo ) throws ChartException,
 			IllegalArgumentException
 	{
-		bo = bo.scaledInstance( dPointToPixel ); // CONVERSION
+		bo = goFactory.scaleBounds( bo, dPointToPixel ); // CONVERSION
 
 		boPlot = bo;
-		boPlotBackground = bo.copyInstance( );
+		boPlotBackground = goFactory.copyOf( bo );
 
 		// MUST BE 3-D DIMENSION ONLY HERE.
 		iDimension = getDimension( cm.getDimension( ) );
@@ -572,22 +588,22 @@ public class PlotWith3DAxes extends PlotWithAxes
 		double xZoom = computeAxisZoomFactor( get3DEngine( ),
 				dX,
 				dX + dW,
-				Location3DImpl.create( dX, dY, dZ ),
-				Location3DImpl.create( dX + dW, dY, dZ ),
+				goFactory.createLocation3D( dX, dY, dZ ),
+				goFactory.createLocation3D( dX + dW, dY, dZ ),
 				panningOffset.getX( ),
 				panningOffset.getY( ) );
 		double yZoom = computeAxisZoomFactor( get3DEngine( ),
 				dY,
 				dY + dH,
-				Location3DImpl.create( dX, dY, dZ ),
-				Location3DImpl.create( dX, dY + dH, dZ ),
+				goFactory.createLocation3D( dX, dY, dZ ),
+				goFactory.createLocation3D( dX, dY + dH, dZ ),
 				panningOffset.getX( ),
 				panningOffset.getY( ) );
 		double zZoom = computeAxisZoomFactor( get3DEngine( ),
 				dZ,
 				dZ + dWZ,
-				Location3DImpl.create( dX, dY, dZ ),
-				Location3DImpl.create( dX, dY, dZ + dWZ ),
+				goFactory.createLocation3D( dX, dY, dZ ),
+				goFactory.createLocation3D( dX, dY, dZ + dWZ ),
 				panningOffset.getX( ),
 				panningOffset.getY( ) );
 
@@ -669,31 +685,17 @@ public class PlotWith3DAxes extends PlotWithAxes
 		final OneAxis axxPV = aax.getPrimaryOrthogonal( );
 		Label laYAxisTitle = axxPV.getTitle( );
 		double dYAxisTitleThickness = 0;
-		int iYTitleLocation = axxPV.getTitlePosition( );
 		
 		if ( laYAxisTitle.isVisible( ) )
 		{
-			try
-			{
-				dYAxisTitleThickness = Methods.computeBox( ids,
-						iYTitleLocation,
-						laYAxisTitle,
-						0,
-						0,
-						ChartUtil.computeHeightOfOrthogonalAxisTitle( getModel( ),
-								getDisplayServer( ) ) )
-						.getWidth( );
-			}
-			catch ( IllegalArgumentException uiex )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						uiex );
-			}
+			dYAxisTitleThickness = cComp.computeLabelSize( ids,
+					laYAxisTitle,
+					ChartUtil.computeHeightOfOrthogonalAxisTitle( getModel( ),
+							getDisplayServer( ) ),
+					null ).getWidth( );
 		}
 		
 		return dYAxisTitleThickness;
-
 	}
 	
 	private double computeXAxisTitleThickness( ) throws ChartException
@@ -701,30 +703,17 @@ public class PlotWith3DAxes extends PlotWithAxes
 		final OneAxis axxPB = aax.getPrimaryBase( );
 		Label laXAxisTitle = axxPB.getTitle( );
 		double dXAxisTitleThickness = 0;
-		int iXTitleLocation = axxPB.getTitlePosition( );
 		
 		if ( laXAxisTitle.isVisible( ) )
 		{
-			try
-			{
-				dXAxisTitleThickness = Methods.computeBox( ids,
-						iXTitleLocation,
-						laXAxisTitle,
-						0,
-						0,
-						ChartUtil.computeHeightOfOrthogonalAxisTitle( getModel( ),
-								getDisplayServer( ) ) ).getHeight( );
-			}
-			catch ( IllegalArgumentException uiex )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						uiex );
-			}
+			dXAxisTitleThickness = cComp.computeLabelSize( ids,
+					laXAxisTitle,
+					ChartUtil.computeHeightOfOrthogonalAxisTitle( getModel( ),
+							getDisplayServer( ) ),
+					null ).getHeight( );
 		}
 		
 		return dXAxisTitleThickness;
-
 	}
 	
 
@@ -828,13 +817,13 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 		// set new 3D axis coordinate. this coordinate has been normalized to
 		// Zero-coordinates.
-		axPH.setAxisCoordinate3D( Location3DImpl.create( 0,
+		axPH.setAxisCoordinate3D( goFactory.createLocation3D( 0,
 				dXAxisLocation,
 				dYAxisLocationOnZ ) );
-		axPV.setAxisCoordinate3D( Location3DImpl.create( dYAxisLocationOnX,
+		axPV.setAxisCoordinate3D( goFactory.createLocation3D( dYAxisLocationOnX,
 				0,
 				dYAxisLocationOnZ ) );
-		axAB.setAxisCoordinate3D( Location3DImpl.create( dYAxisLocationOnX,
+		axAB.setAxisCoordinate3D( goFactory.createLocation3D( dYAxisLocationOnX,
 				dZAxisLocation,
 				0 ) );
 	}
@@ -1436,7 +1425,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
 
-				lo3d = Location3DImpl.create( dX, dY, dZ );
+				lo3d = goFactory.createLocation3D( dX, dY, dZ );
 				dXLength = ( i < iXTickCount - 1 )
 						? daXTickCoordinates.getCoordinate( i + 1 )
 								- daXTickCoordinates.getCoordinate( i ) : 0;
@@ -1643,19 +1632,19 @@ public class PlotWith3DAxes extends PlotWithAxes
 		double y1 = scPrimaryOrthogonal.getEnd( );
 		double z1 = scAncillaryBase.getEnd( );
 
-		loa[0] = Location3DImpl.create( x0, y0, z0 );
-		loa[1] = Location3DImpl.create( x0, y0, z1 );
-		loa[2] = Location3DImpl.create( x0, y1, z0 );
-		loa[3] = Location3DImpl.create( x0, y1, z1 );
-		loa[4] = Location3DImpl.create( x1, y0, z0 );
-		loa[5] = Location3DImpl.create( x1, y0, z1 );
-		loa[6] = Location3DImpl.create( x1, y1, z0 );
-		loa[7] = Location3DImpl.create( x1, y1, z1 );
+		loa[0] = goFactory.createLocation3D( x0, y0, z0 );
+		loa[1] = goFactory.createLocation3D( x0, y0, z1 );
+		loa[2] = goFactory.createLocation3D( x0, y1, z0 );
+		loa[3] = goFactory.createLocation3D( x0, y1, z1 );
+		loa[4] = goFactory.createLocation3D( x1, y0, z0 );
+		loa[5] = goFactory.createLocation3D( x1, y0, z1 );
+		loa[6] = goFactory.createLocation3D( x1, y1, z0 );
+		loa[7] = goFactory.createLocation3D( x1, y1, z1 );
 
 		return loa;
 	}
 
-	public Rectangle get3DGraphicBoudingRect( )
+	public Rectangle get3DGraphicBoudingRect( ) throws ChartException
 	{
 		Text3DRenderEvent event = new Text3DRenderEvent( this );
 		Location3D[] loa3D = get3DGraphicVeteces( );
@@ -1688,7 +1677,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 		AxisTickCoordinates da = oax.getScale( ).getTickCordinates( );
 		final int length = bTextAxis  ? da.size( ) - 1 : da.size( );
 		int iLabelLocation = oax.getLabelPosition( );
-		Label la = oax.getLabel( ).copyInstance( );
+		Label la = goFactory.copyOf( oax.getLabel( ) );
 		AxisLabelTextProvider textProvider = AxisLabelTextProvider.create( oax );
 
 		Rectangle rect = null;
@@ -1700,7 +1689,11 @@ public class PlotWith3DAxes extends PlotWithAxes
 				Location[] lo = lProvider.getLocation(i);
 				String str = textProvider.getLabelText( i );
 				la.getCaption( ).setValue( str );
-				BoundingBox bb = Methods.computeBox( ids, iLabelLocation, la, lo[0].getX( ), lo[0].getY( ) );
+				BoundingBox bb = cComp.computeBox( ids,
+						iLabelLocation,
+						la,
+						lo[0].getX( ),
+						lo[0].getY( ) );
 				
 				if (rect == null )
 				{
@@ -1725,7 +1718,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 		boolean bTextAxis = ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT	|| sc.isCategoryScale( );
 		AxisTickCoordinates da = oax.getScale( ).getTickCordinates( );
 		final int length = bTextAxis  ? da.size( ) - 1 : da.size( );
-		Label la = oax.getLabel( ).copyInstance( );
+		Label la = goFactory.copyOf( oax.getLabel( ) );
 		
 		AxisLabelTextProvider textProvider = AxisLabelTextProvider.create( oax );
 
@@ -1738,8 +1731,16 @@ public class PlotWith3DAxes extends PlotWithAxes
 				Location[] lo = lProvider.getLocation(i);
 				String str = textProvider.getLabelText( i );
 				la.getCaption( ).setValue( str );
-				BoundingBox bb0 = Methods.computeBox( ids, TextRenderEvent.LEFT, la, lo[0].getX( ), lo[0].getY( ) );
-				BoundingBox bb1 = Methods.computeBox( ids, TextRenderEvent.RIGHT, la, lo[1].getX( ), lo[1].getY( ) );
+				BoundingBox bb0 = cComp.computeBox( ids,
+						TextRenderEvent.LEFT,
+						la,
+						lo[0].getX( ),
+						lo[0].getY( ) );
+				BoundingBox bb1 = cComp.computeBox( ids,
+						TextRenderEvent.RIGHT,
+						la,
+						lo[1].getX( ),
+						lo[1].getY( ) );
 				
 				if (rect[0] == null )
 				{
@@ -1794,7 +1795,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 		protected OneAxis oax;
 		protected AutoScale sc;
 		protected AxisTickCoordinates da;
-		protected int length;
+		// protected int length;
 		protected int iMajorTickStyle;
 		protected double dXEnd, dZEnd;
 		protected double dTick1, dTick2;
@@ -1804,14 +1805,16 @@ public class PlotWith3DAxes extends PlotWithAxes
 		protected Location loOff;
 		
 		protected Text3DRenderEvent event = new Text3DRenderEvent( this );
-		protected Location3D lo3d = Location3DImpl.create( 0, 0, 0 );
+		protected Location3D lo3d = goFactory.createLocation3D( 0, 0, 0 );
 		
-		public int getLength( )
-		{
-			return length;
-		}
+
+		// public int getLength( )
+		// {
+		// return length;
+		// }
 		
-		protected AxisLabelCanvasLocationProvider( PlotWith3DAxes pwa3D, OneAxis oax )
+		protected AxisLabelCanvasLocationProvider( PlotWith3DAxes pwa3D,
+				OneAxis oax ) throws ChartException
 		{
 			this.pwa3D = pwa3D;
 			this.engine = pwa3D.get3DEngine( );
@@ -1821,7 +1824,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 			this.iMajorTickStyle = oax.getGrid( ).getTickStyle( IConstants.MAJOR );
 			
 			boolean bTextAxis = ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT	|| sc.isCategoryScale( );
-			length = bTextAxis ? da.size( ) - 1 : da.size( );
+			// length = bTextAxis ? da.size( ) - 1 : da.size( );
 			boolean bTickBetweenCategories = oax.getModelAxis( ).getScale( ).isTickBetweenCategories( );
 			int iDirection = sc.getDirection( ) != IConstants.FORWARD ? -1 : 1;
 
@@ -1841,7 +1844,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 	{
 		private double y;
 
-		public HAxisLabelCanvasLocationProvider( PlotWith3DAxes pwa3D, OneAxis oax )
+		public HAxisLabelCanvasLocationProvider( PlotWith3DAxes pwa3D,
+				OneAxis oax ) throws ChartException
 		{
 			super( pwa3D, oax );
 			
@@ -1886,7 +1890,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 		private double x;
 		private double z_ax;
 
-		public VAxisLabelCanvasLocationProvider( PlotWith3DAxes pwa3D, OneAxis oax )
+		public VAxisLabelCanvasLocationProvider( PlotWith3DAxes pwa3D,
+				OneAxis oax ) throws ChartException
 		{
 			super( pwa3D, oax );
 			

@@ -80,7 +80,6 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.BaseRenderer;
@@ -1694,12 +1693,12 @@ public class SwingRendererImpl extends DeviceAdapter
 			final Bounds bo = ( (RectangleRenderEvent) pre ).getBounds( );
 
 			final Location[] loa = new Location[4];
-			loa[0] = LocationImpl.create( bo.getLeft( ), bo.getTop( ) );
-			loa[1] = LocationImpl.create( bo.getLeft( ), bo.getTop( )
+			loa[0] = goFactory.createLocation( bo.getLeft( ), bo.getTop( ) );
+			loa[1] = goFactory.createLocation( bo.getLeft( ), bo.getTop( )
 					+ bo.getHeight( ) );
-			loa[2] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
+			loa[2] = goFactory.createLocation( bo.getLeft( ) + bo.getWidth( ),
 					bo.getTop( ) + bo.getHeight( ) );
-			loa[3] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
+			loa[3] = goFactory.createLocation( bo.getLeft( ) + bo.getWidth( ),
 					bo.getTop( ) );
 			return new ShapedAction( iev.getStructureSource( ), loa, clipping );
 		}
@@ -1729,12 +1728,12 @@ public class SwingRendererImpl extends DeviceAdapter
 			final Bounds bo = ( (AreaRenderEvent) pre ).getBounds( );
 
 			final Location[] loa = new Location[4];
-			loa[0] = LocationImpl.create( bo.getLeft( ), bo.getTop( ) );
-			loa[1] = LocationImpl.create( bo.getLeft( ), bo.getTop( )
+			loa[0] = goFactory.createLocation( bo.getLeft( ), bo.getTop( ) );
+			loa[1] = goFactory.createLocation( bo.getLeft( ), bo.getTop( )
 					+ bo.getHeight( ) );
-			loa[2] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
+			loa[2] = goFactory.createLocation( bo.getLeft( ) + bo.getWidth( ),
 					bo.getTop( ) + bo.getHeight( ) );
-			loa[3] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
+			loa[3] = goFactory.createLocation( bo.getLeft( ) + bo.getWidth( ),
 					bo.getTop( ) );
 			return new ShapedAction( iev.getStructureSource( ), loa, clipping );
 

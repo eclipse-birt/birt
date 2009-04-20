@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.LegendLayoutHints;
@@ -175,6 +176,13 @@ public final class RunTimeContext implements Serializable
 	 */
 	public void clearState( )
 	{
+		IChartComputation cComp = getState( StateKey.CHART_COMPUTATION_KEY );
+
+		if ( cComp != null )
+		{
+			cComp.dispose( );
+		}
+
 		for ( Iterator<Map.Entry<Object, Object>> iter = stateStore.entrySet( ).iterator( ); iter.hasNext( ); )
 		{
 			Map.Entry<Object, Object> entry = iter.next( );
@@ -712,6 +720,11 @@ public final class RunTimeContext implements Serializable
 		 * Key to reference LabelLimiter lookup table.
 		 */
 		public final static StateKey<Map<Label, LabelLimiter>> LABEL_LIMITER_LOOKUP_KEY = StateKey.create( false );
+
+		/**
+		 * Key to reference Chart Computation.
+		 */
+		public final static StateKey<IChartComputation> CHART_COMPUTATION_KEY = StateKey.create( false );
 	}
 
 }

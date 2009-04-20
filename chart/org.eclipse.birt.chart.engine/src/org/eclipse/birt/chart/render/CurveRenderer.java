@@ -14,6 +14,8 @@ package org.eclipse.birt.chart.render;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.EventObjectCache;
@@ -31,7 +33,6 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
@@ -43,6 +44,8 @@ public final class CurveRenderer
 {
 
 	private static final double kError = 0.5d;
+
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	private int iNumberOfPoints = 0;
 
@@ -164,14 +167,14 @@ public final class CurveRenderer
 		{
 			for ( int i = 0; i < 4; i++ )
 			{
-				loa[i] = LocationImpl.create( 0, 0 );
+				loa[i] = goFactory.createLocation( 0, 0 );
 			}
 		}
 		if ( loa3d != null )
 		{
 			for ( int i = 0; i < 4; i++ )
 			{
-				loa3d[i] = Location3DImpl.create( 0, 0, 0 );
+				loa3d[i] = goFactory.createLocation3D( 0, 0, 0 );
 			}
 		}
 
@@ -182,23 +185,23 @@ public final class CurveRenderer
 		
 		dc = _render.getDeferredCacheManager( ).getLastDeferredCache( );
 		this.iRender = _render;
-		loStart = LocationImpl.create( 0, 0 );
-		loEnd = LocationImpl.create( 0, 0 );
+		loStart = goFactory.createLocation( 0, 0 );
+		loEnd = goFactory.createLocation( 0, 0 );
 
 		bUseLastState = _bUseLastState;
 		bKeepState = _bKeepState;
 
 		if ( paletteEntry instanceof ColorDefinition && usePaletteLineColor )
 		{
-			lia = lia.copyInstance( );
-			lia.setColor( ( (ColorDefinition) paletteEntry ).copyInstance( ) );
+			lia = goFactory.copyOf( lia );
+			lia.setColor( goFactory.copyOf( (ColorDefinition) paletteEntry ) );
 		}
 
 		if ( bFillArea && paletteEntry instanceof ColorDefinition )
 		{
 			// TODO support gradient and image.
 
-			fillColor = ( (ColorDefinition) paletteEntry ).copyInstance( );
+			fillColor = goFactory.copyOf( (ColorDefinition) paletteEntry );
 			tapeColor = fillColor.brighter( );
 			sideColor = fillColor.darker( );
 		}
@@ -290,10 +293,10 @@ public final class CurveRenderer
 						Line3DRenderEvent lre3dValue = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 								Line3DRenderEvent.class );
 						Location3D[] loa3dValue = new Location3D[2];
-						loa3dValue[0] = Location3DImpl.create( faX[0],
+						loa3dValue[0] = goFactory.createLocation3D( faX[0],
 								faY[0],
 								faZ[0] );
-						loa3dValue[1] = Location3DImpl.create( faX[0],
+						loa3dValue[1] = goFactory.createLocation3D( faX[0],
 								faY[0],
 								faZ[0] - dTapeWidth );
 						lre3dValue.setStart3D( loa3dValue[0] );
@@ -306,7 +309,7 @@ public final class CurveRenderer
 					{
 						final OvalRenderEvent ore = (OvalRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 								OvalRenderEvent.class );
-						ore.setBounds( BoundsImpl.create( faX[0] - iSize,
+						ore.setBounds( goFactory.createBounds( faX[0] - iSize,
 								faY[0] - iSize,
 								2 * iSize,
 								2 * iSize ) );
@@ -541,8 +544,11 @@ public final class CurveRenderer
 			final Line3DRenderEvent lre = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 					Line3DRenderEvent.class );
 			lre.setLineAttributes( lia );
-			lre.setStart3D( Location3DImpl.create( x1 + kError, y1 + kError, z1 ) );
-			lre.setEnd3D( Location3DImpl.create( x2 + kError, y2 + kError, z2 ) );
+			lre.setStart3D( goFactory.createLocation3D( x1 + kError, y1
+					+ kError, z1 ) );
+			lre.setEnd3D( goFactory.createLocation3D( x2 + kError,
+					y2 + kError,
+					z2 ) );
 
 			dc.addLine( lre );
 		}
@@ -704,14 +710,14 @@ public final class CurveRenderer
 				for ( int i = 0; i < points.size( ); i++ )
 				{
 					double[] pt = (double[]) points.get( i );
-					lst.add( LocationImpl.create( pt[0], pt[1] ) );
+					lst.add( goFactory.createLocation( pt[0], pt[1] ) );
 				}
 
 				if ( lastFixedX != null )
 				{
 					for ( int i = lastFixedX.length - 1; i >= 0; i-- )
 					{
-						lst.add( LocationImpl.create( lastFixedX[i],
+						lst.add( goFactory.createLocation( lastFixedX[i],
 								lastFixedY[i] ) );
 					}
 				}
@@ -719,7 +725,7 @@ public final class CurveRenderer
 				{
 					for ( int i = lastX.length - 1; i >= 0; i-- )
 					{
-						lst.add( LocationImpl.create( lastX[i], lastY[i] ) );
+						lst.add( goFactory.createLocation( lastX[i], lastY[i] ) );
 					}
 				}
 
@@ -770,13 +776,15 @@ public final class CurveRenderer
 				for ( int i = 1; i < points.size( ); i++ )
 				{
 					double[] pt = (double[]) points.get( i );
-					pa[pa.length - i] = Location3DImpl.create( pt[0],
+					pa[pa.length - i] = goFactory.createLocation3D( pt[0],
 							pt[1],
 							pt[2] );
 				}
-				pa[0] = Location3DImpl.create( pt0[0], pt0[1], pt0[2] );
-				pa[1] = Location3DImpl.create( pt0[0], zeroLocation, pt0[2] );
-				pa[2] = Location3DImpl.create( pa[3].getX( ),
+				pa[0] = goFactory.createLocation3D( pt0[0], pt0[1], pt0[2] );
+				pa[1] = goFactory.createLocation3D( pt0[0],
+						zeroLocation,
+						pt0[2] );
+				pa[2] = goFactory.createLocation3D( pa[3].getX( ),
 						zeroLocation,
 						pa[3].getZ( ) );
 			}
@@ -785,12 +793,14 @@ public final class CurveRenderer
 				for ( int i = 0; i < points.size( ); i++ )
 				{
 					double[] pt = (double[]) points.get( i );
-					pa[i + 2] = Location3DImpl.create( pt[0], pt[1], pt[2] );
+					pa[i + 2] = goFactory.createLocation3D( pt[0], pt[1], pt[2] );
 				}
-				pa[0] = Location3DImpl.create( pa[pa.length - 1].getX( ),
+				pa[0] = goFactory.createLocation3D( pa[pa.length - 1].getX( ),
 						zeroLocation,
 						pa[pa.length - 1].getZ( ) );
-				pa[1] = Location3DImpl.create( pt0[0], zeroLocation, pt0[2] );
+				pa[1] = goFactory.createLocation3D( pt0[0],
+						zeroLocation,
+						pt0[2] );
 			}
 
 			pre3d.setOutline( null );
@@ -835,21 +845,21 @@ public final class CurveRenderer
 			for ( int i = 0; i < points.size( ); i++ )
 			{
 				double[] pt = (double[]) points.get( i );
-				pa[i] = LocationImpl.create( pt[0], pt[1] );
+				pa[i] = goFactory.createLocation( pt[0], pt[1] );
 			}
 
 			if ( cwa.isTransposed( ) )
 			{
-				pa[pa.length - 2] = LocationImpl.create( zeroLocation,
+				pa[pa.length - 2] = goFactory.createLocation( zeroLocation,
 						pa[pa.length - 3].getY( ) );
-				pa[pa.length - 1] = LocationImpl.create( zeroLocation,
+				pa[pa.length - 1] = goFactory.createLocation( zeroLocation,
 						pa[0].getY( ) );
 			}
 			else
 			{
-				pa[pa.length - 2] = LocationImpl.create( pa[pa.length - 3].getX( ),
+				pa[pa.length - 2] = goFactory.createLocation( pa[pa.length - 3].getX( ),
 						zeroLocation );
-				pa[pa.length - 1] = LocationImpl.create( pa[0].getX( ),
+				pa[pa.length - 1] = goFactory.createLocation( pa[0].getX( ),
 						zeroLocation );
 			}
 

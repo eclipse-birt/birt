@@ -15,10 +15,12 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
+import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.factory.RunTimeContext.StateKey;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.layout.Block;
@@ -94,7 +96,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 	protected BoundingBox computeBox( IDisplayServer xs, RunTimeContext rtc )
 			throws ChartException
 	{
-		Label la = getLabel( ).copyInstance( );
+		Label la = goFactory.copyOf( getLabel( ) );
 		final String sPreviousValue = la.getCaption( ).getValue( );
 		la.getCaption( ).setValue( rtc.externalizedMessage( sPreviousValue ) );
 		// ellipsis always enabled for chart title
@@ -106,7 +108,11 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 		EnumSet<LabelLimiter.Option> option = iTitileAnchor == Anchor.EAST
 				|| iTitileAnchor == Anchor.WEST ? EnumSet.of( LabelLimiter.Option.FIX_HEIGHT )
 				: EnumSet.of( LabelLimiter.Option.FIX_WIDTH );
-		LabelLimiter lbLimiterNew = lbLimiter.limitLabelSize( xs, la, option );
+		IChartComputation cComp = rtc.getState( StateKey.CHART_COMPUTATION_KEY );
+		LabelLimiter lbLimiterNew = lbLimiter.limitLabelSize( cComp,
+				xs,
+				la,
+				option );
 		mapLimiter.put( getLabel( ), lbLimiterNew );
 		return lbLimiterNew.getBounding( null );
 		// Do not set the text back because of wrapping

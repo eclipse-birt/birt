@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 
 /**
  * A rendering event type for rendering Line object.
@@ -99,7 +98,8 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 		final double dMaxX = Math.max( loStart.getX( ), loEnd.getX( ) );
 		final double dMinY = Math.min( loStart.getY( ), loEnd.getY( ) );
 		final double dMaxY = Math.max( loStart.getY( ), loEnd.getY( ) );
-		return BoundsImpl.create( dMinX, dMinY, dMaxX - dMinX, dMaxY - dMinY );
+		return goFactory.createBounds( dMinX, dMinY, dMaxX - dMinX, dMaxY
+				- dMinY );
 	}
 
 	/*
@@ -110,10 +110,7 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	public PrimitiveRenderEvent copy( )
 	{
 		LineRenderEvent lre = new LineRenderEvent( source );
-		if ( lia != null )
-		{
-			lre.setLineAttributes( lia.copyInstance( ) );
-		}
+		lre.setLineAttributes( goFactory.copyOf( lia ) );
 
 		if ( loStart != null )
 		{

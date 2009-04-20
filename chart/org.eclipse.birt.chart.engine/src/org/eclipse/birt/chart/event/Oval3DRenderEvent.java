@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.util.FillUtil;
 
 /**
  * A rendering event type for rendering 3D Oval object.
@@ -67,15 +65,9 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 			ore.object3D = new Object3D( object3D );
 		}
 
-		if ( _lia != null )
-		{
-			ore.setOutline( _lia.copyInstance( ) );
-		}
+		ore.setOutline( goFactory.copyOf( _lia ) );
 
-		if ( _ifBackground != null )
-		{
-			ore.setBackground( FillUtil.copyOf( _ifBackground ) );
-		}
+		ore.setBackground( goFactory.copyOf( _ifBackground ) );
 		return ore;
 	}
 
@@ -109,7 +101,7 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 		}
 		points = lst.toArray( new Location[lst.size( )] );
 
-		setBounds( BoundsImpl.create( points[0].getX( ),
+		setBounds( goFactory.createBounds( points[0].getX( ),
 				points[0].getY( ),
 				points[2].getX( ) - points[0].getX( ),
 				points[2].getY( ) - points[0].getY( ) ) );

@@ -1087,22 +1087,17 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 				* result
 				+ ( ( alignment == null ) ? 0 : alignment.hashCode( ) );
 		result = prime * result + ( bold ? 1231 : 1237 );
-		result = prime * result + ( boldESet ? 1231 : 1237 );
 		result = prime * result + ( italic ? 1231 : 1237 );
-		result = prime * result + ( italicESet ? 1231 : 1237 );
-		result = prime * result + ( ( name == null ) ? 0 : name.hashCode( ) );
+		result = prime
+				* result
+				+ ( ( name == null ) ? 0 : name.toLowerCase( ).hashCode( ) );
 		long temp;
 		temp = Double.doubleToLongBits( rotation );
 		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
-		result = prime * result + ( rotationESet ? 1231 : 1237 );
 		result = prime * result + Float.floatToIntBits( size );
-		result = prime * result + ( sizeESet ? 1231 : 1237 );
 		result = prime * result + ( strikethrough ? 1231 : 1237 );
-		result = prime * result + ( strikethroughESet ? 1231 : 1237 );
 		result = prime * result + ( underline ? 1231 : 1237 );
-		result = prime * result + ( underlineESet ? 1231 : 1237 );
 		result = prime * result + ( wordWrap ? 1231 : 1237 );
-		result = prime * result + ( wordWrapESet ? 1231 : 1237 );
 		return result;
 	}
 
@@ -1118,50 +1113,36 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 			return true;
 		if ( obj == null )
 			return false;
-		if ( getClass( ) != obj.getClass( ) )
+		if ( !( obj instanceof FontDefinition ) )
 			return false;
-		FontDefinitionImpl other = (FontDefinitionImpl) obj;
+		FontDefinition other = (FontDefinition) obj;
 		if ( alignment == null )
 		{
-			if ( other.alignment != null )
+			if ( other.getAlignment( ) != null )
 				return false;
 		}
-		else if ( !alignment.equals( other.alignment ) )
+		else if ( !alignment.equals( other.getAlignment( ) ) )
 			return false;
-		if ( bold != other.bold )
+		if ( bold != other.isBold( ) )
 			return false;
-		if ( boldESet != other.boldESet )
-			return false;
-		if ( italic != other.italic )
-			return false;
-		if ( italicESet != other.italicESet )
+		if ( italic != other.isItalic( ) )
 			return false;
 		if ( name == null )
 		{
-			if ( other.name != null )
+			if ( other.getName( ) != null )
 				return false;
 		}
-		else if ( !name.equals( other.name ) )
+		else if ( !name.equalsIgnoreCase( other.getName( ) ) )
 			return false;
-		if ( Double.doubleToLongBits( rotation ) != Double.doubleToLongBits( other.rotation ) )
+		if ( Double.doubleToLongBits( rotation ) != Double.doubleToLongBits( other.getRotation( ) ) )
 			return false;
-		if ( rotationESet != other.rotationESet )
+		if ( Float.floatToIntBits( size ) != Float.floatToIntBits( other.getSize( ) ) )
 			return false;
-		if ( Float.floatToIntBits( size ) != Float.floatToIntBits( other.size ) )
+		if ( strikethrough != other.isStrikethrough( ) )
 			return false;
-		if ( sizeESet != other.sizeESet )
+		if ( underline != other.isUnderline( ) )
 			return false;
-		if ( strikethrough != other.strikethrough )
-			return false;
-		if ( strikethroughESet != other.strikethroughESet )
-			return false;
-		if ( underline != other.underline )
-			return false;
-		if ( underlineESet != other.underlineESet )
-			return false;
-		if ( wordWrap != other.wordWrap )
-			return false;
-		if ( wordWrapESet != other.wordWrapESet )
+		if ( wordWrap != other.isWordWrap( ) )
 			return false;
 		return true;
 	}

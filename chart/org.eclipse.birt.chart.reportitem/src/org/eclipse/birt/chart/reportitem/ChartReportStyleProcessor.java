@@ -14,6 +14,8 @@ package org.eclipse.birt.chart.reportitem;
 import java.net.URL;
 import java.util.logging.Level;
 
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
@@ -23,11 +25,6 @@ import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
-import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.style.SimpleStyle;
@@ -82,6 +79,8 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 	private SimpleStyle cache = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+
+	protected static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * The constructor. Default not using cache.
@@ -192,10 +191,10 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 				va = VerticalAlignment.BOTTOM_LITERAL;
 			}
 
-			TextAlignment ta = TextAlignmentImpl.create( );
+			TextAlignment ta = goFactory.createTextAlignment( );
 			ta.setHorizontalAlignment( ha );
 			ta.setVerticalAlignment( va );
-			FontDefinition fd = FontDefinitionImpl.create( fname,
+			FontDefinition fd = goFactory.createFontDefinition( fname,
 					fsize,
 					fbold,
 					fitalic,
@@ -214,14 +213,14 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			else if ( ch != null && ch.getRGB( ) != -1 )
 			{
 				int rgbValue = ch.getRGB( );
-				ColorDefinition cd = ColorDefinitionImpl.create( ( rgbValue >> 16 ) & 0xff,
+				ColorDefinition cd = goFactory.createColorDefinition( ( rgbValue >> 16 ) & 0xff,
 						( rgbValue >> 8 ) & 0xff,
 						rgbValue & 0xff );
 				ss.setColor( cd );
 			}
 			else
 			{
-				ss.setColor( ColorDefinitionImpl.BLACK( ) );
+				ss.setColor( goFactory.BLACK( ) );
 			}
 
 			ch = style.getBackgroundColor( );
@@ -232,7 +231,7 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			else if ( ch != null && ch.getRGB( ) != -1 )
 			{
 				int rgbValue = ch.getRGB( );
-				ColorDefinition cd = ColorDefinitionImpl.create( ( rgbValue >> 16 ) & 0xff,
+				ColorDefinition cd = goFactory.createColorDefinition( ( rgbValue >> 16 ) & 0xff,
 						( rgbValue >> 8 ) & 0xff,
 						rgbValue & 0xff );
 				ss.setBackgroundColor( cd );
@@ -246,7 +245,7 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 				{
 					new URL( urlString );
 
-					ss.setBackgroundImage( ImageImpl.create( urlString ) );
+					ss.setBackgroundImage( goFactory.createImage( urlString ) );
 				}
 				catch ( Exception _ )
 				{
@@ -263,7 +262,7 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 					try
 					{
 						new URL( urlString );
-						ss.setBackgroundImage( ImageImpl.create( urlString ) );
+						ss.setBackgroundImage( goFactory.createImage( urlString ) );
 					}
 					catch ( Exception __ )
 					{
@@ -276,7 +275,7 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			double pb = convertToPixel( style.getPaddingBottom( ) );
 			double pl = convertToPixel( style.getPaddingLeft( ) );
 			double pr = convertToPixel( style.getPaddingRight( ) );
-			ss.setPadding( InsetsImpl.create( pt, pl, pb, pr ) );
+			ss.setPadding( goFactory.createInsets( pt, pl, pb, pr ) );
 
 			if ( useCache )
 			{
@@ -655,7 +654,7 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			RGBColorValue color = (RGBColorValue) value;
 			try
 			{
-				return ColorDefinitionImpl.create( Math.round( color.getRed( )
+				return goFactory.createColorDefinition( Math.round( color.getRed( )
 						.getFloatValue( CSSPrimitiveValue.CSS_NUMBER ) ),
 						Math.round( color.getGreen( )
 								.getFloatValue( CSSPrimitiveValue.CSS_NUMBER ) ),

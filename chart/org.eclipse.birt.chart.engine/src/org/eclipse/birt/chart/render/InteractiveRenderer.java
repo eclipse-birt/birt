@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.StructureSource;
@@ -38,12 +40,14 @@ import org.eclipse.emf.common.util.EList;
 public class InteractiveRenderer
 {
 
-	private Map<String, Set<ActionType>> targets = new HashMap<String, Set<ActionType>>( );
+	private final Map<String, Set<ActionType>> targets = new HashMap<String, Set<ActionType>>( );
 	private IUpdateNotifier iun;
 
-	private Map<ColorDefinition, ColorDefinition> savedColors = new HashMap<ColorDefinition, ColorDefinition>( );
-	private Map<LineAttributes, LineAttributes> savedLines = new HashMap<LineAttributes, LineAttributes>( );
-	private Map<Label, Label> savedLabels = new HashMap<Label, Label>( );
+	private final Map<ColorDefinition, ColorDefinition> savedColors = new HashMap<ColorDefinition, ColorDefinition>( );
+	private final Map<LineAttributes, LineAttributes> savedLines = new HashMap<LineAttributes, LineAttributes>( );
+	private final Map<Label, Label> savedLabels = new HashMap<Label, Label>( );
+
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * Register a chart element with an interactive action
@@ -312,20 +316,20 @@ public class InteractiveRenderer
 	private void saveColor( ColorDefinition cd )
 	{
 		if ( !savedColors.containsKey( cd ) )
-			savedColors.put( cd, cd.copyInstance( ) );
+			savedColors.put( cd, goFactory.copyOf( cd ) );
 
 	}
 
 	private void saveLine( LineAttributes line )
 	{
 		if ( !savedLines.containsKey( line ) )
-			savedLines.put( line, line.copyInstance( ) );
+			savedLines.put( line, goFactory.copyOf( line ) );
 	}
 
 	private void saveLabel( Label label )
 	{
 		if ( !savedLabels.containsKey( label ) )
-			savedLabels.put( label, label.copyInstance( ) );
+			savedLabels.put( label, goFactory.copyOf( label ) );
 	}
 
 	protected void restoreEvent( )

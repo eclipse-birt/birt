@@ -157,7 +157,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 
 		if ( img != null )
 		{
-			ire.setImage( img.copyInstance( ) );
+			ire.setImage( goFactory.copyOf( img ) );
 		}
 
 		ire.setPosition( pos );

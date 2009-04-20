@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.device.swt;
 
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Cursor;
@@ -40,6 +42,8 @@ public final class RegionAction
 	private Rectangle _bb;
 
 	private final Action _ac;
+
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	private RegionAction( StructureSource source, Rectangle bb, Action ac )
 	{
@@ -112,7 +116,7 @@ public final class RegionAction
 	{
 		_oSource = oSource;
 
-		bo = bo.copyInstance( );
+		bo = goFactory.copyOf( bo );
 		bo.translate( dTranslateX, dTranslateY );
 		bo.scale( dScale );
 
@@ -149,7 +153,7 @@ public final class RegionAction
 	{
 		_oSource = oSource;
 
-		boEllipse = boEllipse.copyInstance( );
+		boEllipse = goFactory.copyOf( boEllipse );
 		boEllipse.translate( dTranslateX, dTranslateY );
 		boEllipse.scale( dScale );
 

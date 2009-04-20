@@ -172,14 +172,9 @@ public final class SwtDisplayServer extends DisplayAdapter
 
 
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IDisplayServer#getTextMetrics(org.eclipse.birt.chart.model.component.Label)
-	 */
-	public ITextMetrics getTextMetrics( Label la )
+	public ITextMetrics getTextMetrics( Label la, boolean autoReuse )
 	{
-		return new SwtTextMetrics( this, la, gc );
+		return new SwtTextMetrics( this, la, gc, autoReuse );
 	}
 
 	final Device getDevice( )

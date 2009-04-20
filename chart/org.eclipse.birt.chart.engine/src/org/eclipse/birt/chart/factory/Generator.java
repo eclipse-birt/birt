@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Stack;
 
+import org.eclipse.birt.chart.computation.ChartComputationFactory;
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.PlotComputation;
 import org.eclipse.birt.chart.computation.withaxes.PlotWith2DAxes;
@@ -28,6 +31,7 @@ import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.RunTimeContext.StateKey;
 import org.eclipse.birt.chart.internal.datafeed.DataProcessor;
 import org.eclipse.birt.chart.internal.factory.SqlDataRowEvaluator;
 import org.eclipse.birt.chart.internal.layout.LayoutManager;
@@ -49,8 +53,6 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.Text;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
@@ -101,6 +103,8 @@ public final class Generator implements IGenerator
 	private static Generator g = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/factory" ); //$NON-NLS-1$
+
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * A private constructor.
@@ -267,7 +271,7 @@ public final class Generator implements IGenerator
 				{
 					if ( ins == null )
 					{
-						ins = InsetsImpl.create( 0, 0, 0, 0 );
+						ins = goFactory.createInsets( 0, 0, 0, 0 );
 						( (Block) component ).setInsets( ins );
 						// Set the outside padding size directly
 						ins.setTop( padding.getTop( ) );
@@ -399,13 +403,13 @@ public final class Generator implements IGenerator
 			{
 				if ( newStyle.getFont( ) != null )
 				{
-					currentStyle.setFont( newStyle.getFont( ).copyInstance( ) );
+					currentStyle.setFont( goFactory.copyOf( newStyle.getFont( ) ) );
 				}
 			}
 			else if ( newStyle.getFont( ) != null )
 			{
 				FontDefinition fd = currentStyle.getFont( );
-				FontDefinition newFd = newStyle.getFont( ).copyInstance( );
+				FontDefinition newFd = goFactory.copyOf( newStyle.getFont( ) );
 
 				ChartUtil.mergeFont( fd, newFd );
 			}
@@ -413,7 +417,7 @@ public final class Generator implements IGenerator
 			if ( currentStyle.getColor( ) == null
 					&& newStyle.getColor( ) != null )
 			{
-				currentStyle.setColor( newStyle.getColor( ).copyInstance( ) );
+				currentStyle.setColor( goFactory.copyOf( newStyle.getColor( ) ) );
 			}
 		}
 
@@ -879,6 +883,9 @@ public final class Generator implements IGenerator
 		{
 			rtc = new RunTimeContext( );
 		}
+		
+		rtc.putState( StateKey.CHART_COMPUTATION_KEY,
+				ChartComputationFactory.instance( ).createChartComputation( ) );
 
 		// UPDATE THE CONTEXT WITH A LOCALE IF IT IS UNDEFINED
 		if ( rtc.getULocale( ) == null )
@@ -1019,7 +1026,7 @@ public final class Generator implements IGenerator
 			{
 				lhmRenderers.put( brna[i].getSeries( ),
 						new LegendItemRenderingHints( brna[i],
-								BoundsImpl.create( 0, 0, 0, 0 ) ) );
+								goFactory.createBounds( 0, 0, 0, 0 ) ) );
 			}
 
 			// Set series renderers info.
@@ -1053,7 +1060,7 @@ public final class Generator implements IGenerator
 		// COMPUTE THE PLOT AREA
 		Bounds boPlot = cmRunTime.getPlot( ).getBounds( );
 		Insets insPlot = cmRunTime.getPlot( ).getInsets( );
-		boPlot = boPlot.adjustedInstance( insPlot );
+		boPlot = goFactory.adjusteBounds( boPlot, insPlot );
 
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.BEFORE_COMPUTATIONS,
@@ -1153,7 +1160,7 @@ public final class Generator implements IGenerator
 		// COMPUTE THE PLOT AREA
 		Bounds boPlot = cm.getPlot( ).getBounds( );
 		Insets insPlot = cm.getPlot( ).getInsets( );
-		boPlot = boPlot.adjustedInstance( insPlot );
+		boPlot = goFactory.adjusteBounds( boPlot, insPlot );
 
 		try
 		{
@@ -1232,7 +1239,9 @@ public final class Generator implements IGenerator
 		// CHART OFFSCREEN
 		final Bounds bo = gcs.getChartModel( ).getBlock( ).getBounds( );
 		idr.setProperty( IDeviceRenderer.EXPECTED_BOUNDS,
-				bo.scaledInstance( idr.getDisplayServer( ).getDpiResolution( ) / 72d ) );
+				goFactory.scaleBounds( bo, idr.getDisplayServer( )
+						.getDpiResolution( ) / 72d ) );
+		idr.setChartComputation( gcs.getComputations( ).getChartComputation( ) );
 
 		// UPDATE THE STRUCTURE DEFINITION LISTENER MAINTAINED BY THE RUNTIME
 		// CONTEXT
@@ -1275,6 +1284,7 @@ public final class Generator implements IGenerator
 				ScriptHandler.AFTER_RENDERING,
 				gcs,
 				gcs.getRunTimeContext( ).getScriptContext( ) );
+
 	}
 
 	/**
@@ -1304,7 +1314,7 @@ public final class Generator implements IGenerator
 
 		double dX, dY;
 		final Size sz = lg.getPreferredSize( ids, cm, rtc );
-		boContainer = boContainer.scaledInstance( 1d / dScale );
+		boContainer = goFactory.scaleBounds( boContainer, 1d / dScale );
 
 		// USE ANCHOR IN POSITIONING THE LEGEND CLIENT AREA WITHIN THE BLOCK
 		// SLACK SPACE

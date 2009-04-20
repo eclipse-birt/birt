@@ -78,7 +78,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		tre.setTextPosition( _iTextPosition );
 		if ( _la != null )
 		{
-			tre.setLabel( _la.copyInstance( ) );
+			tre.setLabel( goFactory.copyOf( _la ) );
 		}
 		if ( object3D != null )
 		{
@@ -86,7 +86,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		}
 		if ( _taBlock != null )
 		{
-			tre.setBlockAlignment( _taBlock.copyInstance( ) );
+			tre.setBlockAlignment( goFactory.copyOf( _taBlock ) );
 		}
 		return tre;
 	}

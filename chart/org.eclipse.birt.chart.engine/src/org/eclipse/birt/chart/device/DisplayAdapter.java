@@ -135,8 +135,7 @@ public class DisplayAdapter implements IDisplayServer
 	 */
 	public ITextMetrics getTextMetrics( Label la )
 	{
-		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
-		return null;
+		return getTextMetrics( la, true );
 	}
 
 	/*
@@ -203,6 +202,11 @@ public class DisplayAdapter implements IDisplayServer
 			}
 		}
 		return urlOriginal;
+	}
+
+	public ITextMetrics getTextMetrics( Label la, boolean autoReuse )
+	{
+		return null;
 	}
 
 }

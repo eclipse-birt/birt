@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.computation.GObjectFacotry;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.TextAdapter;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -29,6 +31,8 @@ import org.eclipse.swt.graphics.TextLayout;
  */
 public final class SwtTextMetrics extends TextAdapter
 {
+
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	private int iLineCount = 0;
 
@@ -52,14 +56,25 @@ public final class SwtTextMetrics extends TextAdapter
 	 * 
 	 * @param _ids
 	 * @param _la
+	 * @param gc
+	 * @param autoReuse
 	 */
-	public SwtTextMetrics( final IDisplayServer _ids, Label _la, GC gc )
+	public SwtTextMetrics( final IDisplayServer _ids, Label _la, GC gc,
+			boolean autoReuse )
 	{
 		this.gc = gc;
 		ids = _ids;
 		la = _la;
 
-		reuse( la );
+		if ( autoReuse )
+		{
+			reuse( la );
+		}
+	}
+
+	public SwtTextMetrics( final IDisplayServer _ids, Label _la, GC gc )
+	{
+		this( _ids, _la, gc, true );
 	}
 
 	/**
@@ -97,7 +112,8 @@ public final class SwtTextMetrics extends TextAdapter
 			oText = sa;
 		}
 
-		ins = la.getInsets( ).scaledInstance( ids.getDpiResolution( ) / 72d );
+		ins = goFactory.scaleInsets( la.getInsets( ),
+				ids.getDpiResolution( ) / 72d );
 		
 		if ( forceWrappingSize > 0 )
 		{
@@ -287,7 +303,7 @@ public final class SwtTextMetrics extends TextAdapter
 
 			for ( Iterator<String> itr = al.iterator( ); itr.hasNext( ); )
 			{
-				String ns = (String) itr.next( );
+				String ns = itr.next( );
 
 				tl.setText( ns );
 
@@ -316,7 +332,7 @@ public final class SwtTextMetrics extends TextAdapter
 		final String[] sa = new String[n];
 		for ( i = 0; i < al.size( ); i++ )
 		{
-			sa[i] = (String) al.get( i );
+			sa[i] = al.get( i );
 		}
 		return sa;
 	}

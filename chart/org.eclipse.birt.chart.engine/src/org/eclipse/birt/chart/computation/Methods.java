@@ -21,18 +21,12 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.ChartWithoutAxes;
-import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
-import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
 
@@ -43,6 +37,8 @@ import com.ibm.icu.util.Calendar;
  */
 public class Methods implements IConstants
 {
+
+	private final static IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * Converts given object to a DateTime object.
@@ -386,23 +382,28 @@ public class Methods implements IConstants
 	 */
 	public static final double computeWidth( IDisplayServer xs, Label la )
 	{
-		final FontDefinition fd = la.getCaption( ).getFont( );
-		final double dAngleInRadians = ( ( -fd.getRotation( ) * Math.PI ) / 180.0 );
-		final double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
-		final double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
 		final ITextMetrics itm = xs.getTextMetrics( la );
 		try
 		{
-			double dW = itm.getFullWidth( ) *
-					dCosTheta +
-					itm.getFullHeight( ) *
-					dSineTheta;
-			return dW;
+			return computeWidth( itm, la );
 		}
 		finally
 		{
 			itm.dispose( );
 		}
+	}
+
+	public static final double computeWidth( ITextMetrics itm, Label la )
+	{
+		final FontDefinition fd = la.getCaption( ).getFont( );
+		final double dAngleInRadians = ( ( -fd.getRotation( ) * Math.PI ) / 180.0 );
+		final double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
+		final double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
+		double dW = itm.getFullWidth( )
+				* dCosTheta
+				+ itm.getFullHeight( )
+				* dSineTheta;
+		return dW;
 	}
 
 	/**
@@ -415,23 +416,28 @@ public class Methods implements IConstants
 	 */
 	public static final double computeHeight( IDisplayServer xs, Label la )
 	{
-		final FontDefinition fd = la.getCaption( ).getFont( );
-		final double dAngleInRadians = ( ( -fd.getRotation( ) * Math.PI ) / 180.0 );
-		final double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
-		final double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
 		final ITextMetrics itm = xs.getTextMetrics( la );
 		try
 		{
-			double dH = itm.getFullWidth( ) *
-					dSineTheta +
-					itm.getFullHeight( ) *
-					dCosTheta;
-			return dH;
+			return computeHeight( itm, la );
 		}
 		finally
 		{
 			itm.dispose( );
 		}
+	}
+
+	public static final double computeHeight( ITextMetrics itm, Label la )
+	{
+		final FontDefinition fd = la.getCaption( ).getFont( );
+		final double dAngleInRadians = ( ( -fd.getRotation( ) * Math.PI ) / 180.0 );
+		final double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
+		final double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
+		double dH = itm.getFullWidth( )
+				* dSineTheta
+				+ itm.getFullHeight( )
+				* dCosTheta;
+		return dH;
 	}
 
 	/**
@@ -470,320 +476,339 @@ public class Methods implements IConstants
 			int iLabelLocation, Label la, double dX, double dY,
 			Double fontHeight ) throws IllegalArgumentException
 	{
-		double dAngleInDegrees = la.getCaption( ).getFont( ).getRotation( );
-		final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
-		final double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
-		final double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
-
 		final ITextMetrics itm = xs.getTextMetrics( la );
 		try
 		{
-			double dW = itm.getFullWidth( );
-			double dH = fontHeight == null ? itm.getFullHeight( )
-					: itm.getFullHeight( fontHeight );
-
-			RotatedRectangle rr = null;
-			if ( ( iLabelLocation & LEFT ) == LEFT )
-			{
-				// ZERO : HORIZONTAL
-				if ( dAngleInDegrees == 0 )
-				{
-					rr = new RotatedRectangle( dX - dW, dY - dH / 2, // TL
-							dX,
-							dY - dH / 2, // TR
-							dX,
-							dY + dH / 2, // BR
-							dX - dW,
-							dY + dH / 2 // BL
-					);
-				}
-				// POSITIVE
-				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-				{
-					rr = new RotatedRectangle( dX -
-							dH *
-							dSineTheta -
-							dW *
-							dCosTheta, dY - dH * dCosTheta + dW * dSineTheta, // TL
-							dX - dH * dSineTheta,
-							dY - dH * dCosTheta, // TR
-							dX,
-							dY, // BR
-							dX - dW * dCosTheta,
-							dY + dW * dSineTheta // BL
-					);
-				}
-				// NEGATIVE
-				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-				{
-					rr = new RotatedRectangle( dX - dW * dCosTheta, dY -
-							dW *
-							dSineTheta, // TL
-							dX,
-							dY, // TR
-							dX - dH * dSineTheta,
-							dY + dH * dCosTheta, // BR
-							dX - dH * dSineTheta - dW * dCosTheta,
-							dY + dH * dCosTheta - dW * dSineTheta // BL
-					);
-				}
-				// ?90 : VERTICALLY UP OR DOWN
-				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-				{
-					rr = new RotatedRectangle( dX - dH, dY - dW / 2, // TL
-							dX,
-							dY - dW / 2, // TR
-							dX,
-							dY + dW / 2, // BR
-							dX - dH,
-							dY + dW / 2 // BL
-					);
-				}
-			}
-			else if ( ( iLabelLocation & RIGHT ) == RIGHT )
-			{
-				// ZERO : HORIZONTAL
-				if ( dAngleInDegrees == 0 )
-				{
-					rr = new RotatedRectangle( dX, dY - dH / 2, // TL
-							dX + dW,
-							dY - dH / 2, // TR
-							dX + dW,
-							dY + dH / 2, // BR
-							dX,
-							dY + dH / 2 // BL
-					);
-				}
-				// POSITIVE
-				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-				{
-					rr = new RotatedRectangle( dX, dY, // TL
-							dX + dW * dCosTheta,
-							dY - dW * dSineTheta, // TR
-							dX + dW * dCosTheta + dH * dSineTheta,
-							dY - dW * dSineTheta + dH * dCosTheta, // BR
-							dX + dH * dSineTheta,
-							dY + dH * dCosTheta // BL
-					);
-				}
-				// NEGATIVE
-				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-				{
-					rr = new RotatedRectangle( dX + dH * dSineTheta, dY -
-							dH *
-							dCosTheta, // TL
-							dX + dH * dSineTheta + dW * dCosTheta,
-							dY - dH * dCosTheta + dW * dSineTheta, // TR
-							dX + dW * dCosTheta,
-							dY + dW * dSineTheta, // BR
-							dX,
-							dY // BL
-					);
-				}
-				// ?90 : VERTICALLY UP OR DOWN
-				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-				{
-					rr = new RotatedRectangle( dX, dY - dW / 2, // TL
-							dX + dH,
-							dY - dW / 2, // TR
-							dX + dH,
-							dY + dW / 2, // BR
-							dX,
-							dY + dW / 2 // BL
-					);
-				}
-			}
-			else if ( ( iLabelLocation & BOTTOM ) == BOTTOM )
-			{
-				// ZERO : HORIZONTAL
-				if ( dAngleInDegrees == 0 )
-				{
-					rr = new RotatedRectangle( dX - dW / 2, dY, // TL
-							dX + dW / 2,
-							dY, // TR
-							dX + dW / 2,
-							dY + dH, // BR
-							dX - dW / 2,
-							dY + dH // BL
-					);
-				}
-				// POSITIVE
-				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-				{
-					rr = new RotatedRectangle( dX - dW * dCosTheta, dY +
-							dW *
-							dSineTheta, // TL
-							dX,
-							dY, // TR
-							dX + dH * dSineTheta,
-							dY + dH * dCosTheta, // BR
-							dX + dH * dSineTheta - dW * dCosTheta,
-							dY + dH * dCosTheta + dW * dSineTheta // BL
-					);
-				}
-				// NEGATIVE
-				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-				{
-					rr = new RotatedRectangle( dX, dY, // TL
-							dX + dW * dCosTheta,
-							dY + dW * dSineTheta, // TR
-							dX + dW * dCosTheta - dH * dSineTheta,
-							dY + dW * dSineTheta + dH * dCosTheta, // BR
-							dX - dH * dSineTheta,
-							dY + dH * dCosTheta // BL
-					);
-				}
-				// ?90 : VERTICALLY UP OR DOWN
-				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-				{
-					rr = new RotatedRectangle( dX - dH / 2, dY, // TL
-							dX + dH / 2,
-							dY, // TR
-							dX + dH / 2,
-							dY + dW, // BR
-							dX - dH / 2,
-							dY + dW // BL
-					);
-				}
-			}
-			else if ( ( iLabelLocation & TOP ) == TOP )
-			{
-				// ZERO : HORIZONTAL
-				if ( dAngleInDegrees == 0 )
-				{
-					rr = new RotatedRectangle( dX - dW / 2, dY - dH, // TL
-							dX + dW / 2,
-							dY - dH, // TR
-							dX + dW / 2,
-							dY, // BR
-							dX - dW / 2,
-							dY // BL
-					);
-				}
-				// POSITIVE
-				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-				{
-					rr = new RotatedRectangle( dX - dH * dSineTheta, dY -
-							dH *
-							dCosTheta, // TL
-							dX - dH * dSineTheta + dW * dCosTheta,
-							dY - dH * dCosTheta - dW * dSineTheta, // TR
-							dX + dW * dCosTheta,
-							dY - dW * dSineTheta, // BR
-							dX,
-							dY // BL
-					);
-				}
-				// NEGATIVE
-				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-				{
-					rr = new RotatedRectangle( dX -
-							dW *
-							dCosTheta +
-							dH *
-							dSineTheta, dY - dW * dSineTheta - dH * dCosTheta, // TL
-							dX + dH * dSineTheta,
-							dY - dH * dCosTheta, // TR
-							dX,
-							dY, // BR
-							dX - dW * dCosTheta,
-							dY - dW * dSineTheta // BL
-					);
-				}
-				// ?90 : VERTICALLY UP OR DOWN
-				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-				{
-					rr = new RotatedRectangle( dX - dH / 2, dY - dW, // TL
-							dX + dH / 2,
-							dY - dW, // TR
-							dX + dH / 2,
-							dY, // BR
-							dX - dH / 2,
-							dY // BL
-					);
-				}
-			}
-			else if ( ( iLabelLocation & INSIDE ) == INSIDE )
-			{
-				// ZERO : HORIZONTAL
-				if ( dAngleInDegrees == 0 )
-				{
-					rr = new RotatedRectangle( dX - dW / 2, dY - dH / 2, // TL
-							dX + dW / 2,
-							dY - dH / 2, // TR
-							dX + dW / 2,
-							dY + dH / 2, // BR
-							dX - dW / 2,
-							dY + dH / 2 // BL
-					);
-				}
-				// POSITIVE
-				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-				{
-					rr = new RotatedRectangle( dX -
-							dH /
-							2 *
-							dSineTheta -
-							dW /
-							2 *
-							dCosTheta, dY -
-							dH /
-							2 *
-							dCosTheta +
-							dW /
-							2 *
-							dSineTheta, // TL
-							dX - dH / 2 * dSineTheta + dW / 2 * dCosTheta,
-							dY - dH / 2 * dCosTheta - dW / 2 * dSineTheta, // TR
-							dX + dH / 2 * dSineTheta + dW / 2 * dCosTheta,
-							dY + dH / 2 * dCosTheta - dW / 2 * dSineTheta, // BR
-							dX + dH / 2 * dSineTheta - dW / 2 * dCosTheta,
-							dY + dH / 2 * dCosTheta + dW / 2 * dSineTheta // BL
-					);
-				}
-				// NEGATIVE
-				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-				{
-					rr = new RotatedRectangle( dX -
-							dW /
-							2 *
-							dCosTheta +
-							dH /
-							2 *
-							dSineTheta, dY -
-							dW /
-							2 *
-							dSineTheta -
-							dH /
-							2 *
-							dCosTheta, // TL
-							dX + dH / 2 * dSineTheta + dW / 2 * dCosTheta,
-							dY - dH / 2 * dCosTheta + dW / 2 * dSineTheta, // TR
-							dX + dW / 2 * dCosTheta - dH / 2 * dSineTheta,
-							dY + dH / 2 * dCosTheta + dW / 2 * dSineTheta, // BR
-							dX - dW / 2 * dCosTheta - dH / 2 * dSineTheta,
-							dY - dW / 2 * dSineTheta + dH / 2 * dCosTheta // BL
-					);
-				}
-				// ?90 : VERTICALLY UP OR DOWN
-				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-				{
-					rr = new RotatedRectangle( dX - dH / 2, dY - dW / 2, // TL
-							dX + dH / 2,
-							dY - dW / 2, // TR
-							dX + dH / 2,
-							dY + dW / 2, // BR
-							dX - dH / 2,
-							dY + dW / 2 // BL
-					);
-				}
-			}
-			return rr;
+			return computePolygon( itm, iLabelLocation, la, dX, dY, fontHeight );
 		}
 		finally
 		{
 			itm.dispose( );
 		}
+	}
+
+	/**
+	 * 
+	 * @param xs
+	 * @param iLabelLocation
+	 * @param la
+	 * @param dX
+	 * @param dY
+	 * @param fontHeight
+	 *            , see also: computeFontHeight
+	 * @return RotatedRectangle
+	 * @throws IllegalArgumentException
+	 */
+	public static final RotatedRectangle computePolygon( ITextMetrics itm,
+			int iLabelLocation, Label la, double dX, double dY,
+			Double fontHeight ) throws IllegalArgumentException
+	{
+		double dAngleInDegrees = la.getCaption( ).getFont( ).getRotation( );
+		final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
+		final double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
+		final double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
+
+		double dW = itm.getFullWidth( );
+		double dH = fontHeight == null ? itm.getFullHeight( )
+				: itm.getFullHeight( fontHeight );
+
+		RotatedRectangle rr = null;
+		if ( ( iLabelLocation & LEFT ) == LEFT )
+		{
+			// ZERO : HORIZONTAL
+			if ( dAngleInDegrees == 0 )
+			{
+				rr = new RotatedRectangle( dX - dW, dY - dH / 2, // TL
+						dX,
+						dY - dH / 2, // TR
+						dX,
+						dY + dH / 2, // BR
+						dX - dW,
+						dY + dH / 2 // BL
+				);
+			}
+			// POSITIVE
+			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+			{
+				rr = new RotatedRectangle( dX
+						- dH
+						* dSineTheta
+						- dW
+						* dCosTheta, dY - dH * dCosTheta + dW * dSineTheta, // TL
+						dX - dH * dSineTheta,
+						dY - dH * dCosTheta, // TR
+						dX,
+						dY, // BR
+						dX - dW * dCosTheta,
+						dY + dW * dSineTheta // BL
+				);
+			}
+			// NEGATIVE
+			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+			{
+				rr = new RotatedRectangle( dX - dW * dCosTheta, dY
+						- dW
+						* dSineTheta, // TL
+						dX,
+						dY, // TR
+						dX - dH * dSineTheta,
+						dY + dH * dCosTheta, // BR
+						dX - dH * dSineTheta - dW * dCosTheta,
+						dY + dH * dCosTheta - dW * dSineTheta // BL
+				);
+			}
+			// ?90 : VERTICALLY UP OR DOWN
+			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+			{
+				rr = new RotatedRectangle( dX - dH, dY - dW / 2, // TL
+						dX,
+						dY - dW / 2, // TR
+						dX,
+						dY + dW / 2, // BR
+						dX - dH,
+						dY + dW / 2 // BL
+				);
+			}
+		}
+		else if ( ( iLabelLocation & RIGHT ) == RIGHT )
+		{
+			// ZERO : HORIZONTAL
+			if ( dAngleInDegrees == 0 )
+			{
+				rr = new RotatedRectangle( dX, dY - dH / 2, // TL
+						dX + dW,
+						dY - dH / 2, // TR
+						dX + dW,
+						dY + dH / 2, // BR
+						dX,
+						dY + dH / 2 // BL
+				);
+			}
+			// POSITIVE
+			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+			{
+				rr = new RotatedRectangle( dX, dY, // TL
+						dX + dW * dCosTheta,
+						dY - dW * dSineTheta, // TR
+						dX + dW * dCosTheta + dH * dSineTheta,
+						dY - dW * dSineTheta + dH * dCosTheta, // BR
+						dX + dH * dSineTheta,
+						dY + dH * dCosTheta // BL
+				);
+			}
+			// NEGATIVE
+			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+			{
+				rr = new RotatedRectangle( dX + dH * dSineTheta, dY
+						- dH
+						* dCosTheta, // TL
+						dX + dH * dSineTheta + dW * dCosTheta,
+						dY - dH * dCosTheta + dW * dSineTheta, // TR
+						dX + dW * dCosTheta,
+						dY + dW * dSineTheta, // BR
+						dX,
+						dY // BL
+				);
+			}
+			// ?90 : VERTICALLY UP OR DOWN
+			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+			{
+				rr = new RotatedRectangle( dX, dY - dW / 2, // TL
+						dX + dH,
+						dY - dW / 2, // TR
+						dX + dH,
+						dY + dW / 2, // BR
+						dX,
+						dY + dW / 2 // BL
+				);
+			}
+		}
+		else if ( ( iLabelLocation & BOTTOM ) == BOTTOM )
+		{
+			// ZERO : HORIZONTAL
+			if ( dAngleInDegrees == 0 )
+			{
+				rr = new RotatedRectangle( dX - dW / 2, dY, // TL
+						dX + dW / 2,
+						dY, // TR
+						dX + dW / 2,
+						dY + dH, // BR
+						dX - dW / 2,
+						dY + dH // BL
+				);
+			}
+			// POSITIVE
+			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+			{
+				rr = new RotatedRectangle( dX - dW * dCosTheta, dY
+						+ dW
+						* dSineTheta, // TL
+						dX,
+						dY, // TR
+						dX + dH * dSineTheta,
+						dY + dH * dCosTheta, // BR
+						dX + dH * dSineTheta - dW * dCosTheta,
+						dY + dH * dCosTheta + dW * dSineTheta // BL
+				);
+			}
+			// NEGATIVE
+			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+			{
+				rr = new RotatedRectangle( dX, dY, // TL
+						dX + dW * dCosTheta,
+						dY + dW * dSineTheta, // TR
+						dX + dW * dCosTheta - dH * dSineTheta,
+						dY + dW * dSineTheta + dH * dCosTheta, // BR
+						dX - dH * dSineTheta,
+						dY + dH * dCosTheta // BL
+				);
+			}
+			// ?90 : VERTICALLY UP OR DOWN
+			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+			{
+				rr = new RotatedRectangle( dX - dH / 2, dY, // TL
+						dX + dH / 2,
+						dY, // TR
+						dX + dH / 2,
+						dY + dW, // BR
+						dX - dH / 2,
+						dY + dW // BL
+				);
+			}
+		}
+		else if ( ( iLabelLocation & TOP ) == TOP )
+		{
+			// ZERO : HORIZONTAL
+			if ( dAngleInDegrees == 0 )
+			{
+				rr = new RotatedRectangle( dX - dW / 2, dY - dH, // TL
+						dX + dW / 2,
+						dY - dH, // TR
+						dX + dW / 2,
+						dY, // BR
+						dX - dW / 2,
+						dY // BL
+				);
+			}
+			// POSITIVE
+			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+			{
+				rr = new RotatedRectangle( dX - dH * dSineTheta, dY
+						- dH
+						* dCosTheta, // TL
+						dX - dH * dSineTheta + dW * dCosTheta,
+						dY - dH * dCosTheta - dW * dSineTheta, // TR
+						dX + dW * dCosTheta,
+						dY - dW * dSineTheta, // BR
+						dX,
+						dY // BL
+				);
+			}
+			// NEGATIVE
+			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+			{
+				rr = new RotatedRectangle( dX
+						- dW
+						* dCosTheta
+						+ dH
+						* dSineTheta, dY - dW * dSineTheta - dH * dCosTheta, // TL
+						dX + dH * dSineTheta,
+						dY - dH * dCosTheta, // TR
+						dX,
+						dY, // BR
+						dX - dW * dCosTheta,
+						dY - dW * dSineTheta // BL
+				);
+			}
+			// ?90 : VERTICALLY UP OR DOWN
+			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+			{
+				rr = new RotatedRectangle( dX - dH / 2, dY - dW, // TL
+						dX + dH / 2,
+						dY - dW, // TR
+						dX + dH / 2,
+						dY, // BR
+						dX - dH / 2,
+						dY // BL
+				);
+			}
+		}
+		else if ( ( iLabelLocation & INSIDE ) == INSIDE )
+		{
+			// ZERO : HORIZONTAL
+			if ( dAngleInDegrees == 0 )
+			{
+				rr = new RotatedRectangle( dX - dW / 2, dY - dH / 2, // TL
+						dX + dW / 2,
+						dY - dH / 2, // TR
+						dX + dW / 2,
+						dY + dH / 2, // BR
+						dX - dW / 2,
+						dY + dH / 2 // BL
+				);
+			}
+			// POSITIVE
+			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+			{
+				rr = new RotatedRectangle( dX
+						- dH
+						/ 2
+						* dSineTheta
+						- dW
+						/ 2
+						* dCosTheta, dY
+						- dH
+						/ 2
+						* dCosTheta
+						+ dW
+						/ 2
+						* dSineTheta, // TL
+						dX - dH / 2 * dSineTheta + dW / 2 * dCosTheta,
+						dY - dH / 2 * dCosTheta - dW / 2 * dSineTheta, // TR
+						dX + dH / 2 * dSineTheta + dW / 2 * dCosTheta,
+						dY + dH / 2 * dCosTheta - dW / 2 * dSineTheta, // BR
+						dX + dH / 2 * dSineTheta - dW / 2 * dCosTheta,
+						dY + dH / 2 * dCosTheta + dW / 2 * dSineTheta // BL
+				);
+			}
+			// NEGATIVE
+			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+			{
+				rr = new RotatedRectangle( dX
+						- dW
+						/ 2
+						* dCosTheta
+						+ dH
+						/ 2
+						* dSineTheta, dY
+						- dW
+						/ 2
+						* dSineTheta
+						- dH
+						/ 2
+						* dCosTheta, // TL
+						dX + dH / 2 * dSineTheta + dW / 2 * dCosTheta,
+						dY - dH / 2 * dCosTheta + dW / 2 * dSineTheta, // TR
+						dX + dW / 2 * dCosTheta - dH / 2 * dSineTheta,
+						dY + dH / 2 * dCosTheta + dW / 2 * dSineTheta, // BR
+						dX - dW / 2 * dCosTheta - dH / 2 * dSineTheta,
+						dY - dW / 2 * dSineTheta + dH / 2 * dCosTheta // BL
+				);
+			}
+			// ?90 : VERTICALLY UP OR DOWN
+			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+			{
+				rr = new RotatedRectangle( dX - dH / 2, dY - dW / 2, // TL
+						dX + dH / 2,
+						dY - dW / 2, // TR
+						dX + dH / 2,
+						dY + dW / 2, // BR
+						dX - dH / 2,
+						dY + dW / 2 // BL
+				);
+			}
+		}
+		return rr;
 	}
 
 	/**
@@ -811,7 +836,7 @@ public class Methods implements IConstants
 
 		double dAngleInRadians = Math.toRadians( dAngleInDegrees );
 
-		Location loc = LocationImpl.create( bbox.getLeft( ), bbox.getTop( ) );
+		Location loc = goFactory.createLocation( bbox.getLeft( ), bbox.getTop( ) );
 
 		if ( dAngleInDegrees == 0 )
 		{
@@ -913,6 +938,7 @@ public class Methods implements IConstants
 					uiex );
 		}
 	}
+
 	/**
 	 * 
 	 * @param xs
@@ -925,20 +951,20 @@ public class Methods implements IConstants
 	 * @return BoundingBox
 	 * @throws IllegalArgumentException
 	 */
-	public static final BoundingBox computeBox( IDisplayServer xs,
+	public static final BoundingBox computeBox( IDisplayServer xs, 
 			int iLabelLocation, Label la, double dX, double dY, double dWrapping )
 			throws IllegalArgumentException
 	{
 		return computeBox( xs, iLabelLocation, la, dX, dY, dWrapping, null );
 	}
 
-
 	public static final BoundingBox computeBox( IDisplayServer xs,
-			int iLabelLocation, Label la, double dX, double dY,
-			double dWrapping, Double fontHeight )
-			throws IllegalArgumentException
+			ITextMetrics itm, int iLabelLocation, Label la, double dX,
+			double dY, Double fontHeight ) throws IllegalArgumentException
 	{
-		double dAngleInDegrees = la.getCaption( ).getFont( ).getRotation( );
+		double dAngleInDegrees = la.getCaption( )
+				.getFont( )
+				.getRotation( );
 		if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
 		{
 			throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( xs.getULocale( ) )
@@ -947,239 +973,218 @@ public class Methods implements IConstants
 						la
 					} ) );
 		}
+
 		final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 		final double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
 		final double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
 
+		double dW = itm.getFullWidth( );
+		double dH = fontHeight == null ? itm.getFullHeight( )
+				: itm.getFullHeight( fontHeight );
+
+		BoundingBox bb = null;
+		if ( ( iLabelLocation & LEFT ) == LEFT )
+		{
+			// ZERO : HORIZONTAL
+			if ( dAngleInDegrees == 0 )
+			{
+				bb = new BoundingBox( LEFT,
+						dX - dW,
+						dY - dH / 2,
+						dW,
+						dH,
+						dH / 2 );
+			}
+			// POSITIVE
+			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+			{
+				bb = new BoundingBox( LEFT, dX
+						- ( dH * dSineTheta + dW * dCosTheta ), dY
+						- dH
+						* dCosTheta, dH * dSineTheta + dW * dCosTheta, dH
+						* dCosTheta
+						+ dW
+						* dSineTheta, dH * dCosTheta );
+			}
+			// NEGATIVE
+			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+			{
+				bb = new BoundingBox( LEFT, dX
+						- ( dH * dSineTheta + dW * dCosTheta ), dY
+						- dW
+						* dSineTheta, dH * dSineTheta + dW * dCosTheta, dH
+						* dCosTheta
+						+ dW
+						* dSineTheta, dW * dSineTheta );
+			}
+			// ?90 : VERTICALLY UP OR DOWN
+			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+			{
+				bb = new BoundingBox( LEFT,
+						dX - dH,
+						dY - dW / 2,
+						dH,
+						dW,
+						dW / 2 );
+			}
+		}
+		else if ( ( iLabelLocation & RIGHT ) == RIGHT )
+		{
+			// ZERO : HORIZONTAL
+			if ( dAngleInDegrees == 0 )
+			{
+				bb = new BoundingBox( RIGHT, dX, dY - dH / 2, dW, dH, dH / 2 );
+			}
+			// POSITIVE
+			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+			{
+				bb = new BoundingBox( RIGHT, dX, dY - dW * dSineTheta, dH
+						* dSineTheta
+						+ dW
+						* dCosTheta, dH * dCosTheta + dW * dSineTheta, dW
+						* dSineTheta );
+			}
+			// NEGATIVE
+			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+			{
+				bb = new BoundingBox( RIGHT, dX, dY - dH * dCosTheta, dH
+						* dSineTheta
+						+ dW
+						* dCosTheta, dH * dCosTheta + dW * dSineTheta, dH
+						* dCosTheta );
+			}
+			// ?90 : VERTICALLY UP OR DOWN
+			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+			{
+				bb = new BoundingBox( RIGHT, dX, dY - dW / 2, dH, dW, dW / 2 );
+			}
+		}
+		else if ( ( iLabelLocation & BOTTOM ) == BOTTOM )
+		{
+			// ZERO : HORIZONTAL
+			if ( dAngleInDegrees == 0 )
+			{
+				bb = new BoundingBox( BOTTOM, dX - dW / 2, dY, dW, dH, dW / 2 );
+			}
+			// POSITIVE
+			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+			{
+				bb = new BoundingBox( BOTTOM, dX - dW * dCosTheta, dY, dH
+						* dSineTheta
+						+ dW
+						* dCosTheta, dH * dCosTheta + dW * dSineTheta, dW
+						* dCosTheta );
+			}
+			// NEGATIVE
+			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+			{
+				bb = new BoundingBox( BOTTOM, dX - dH * dSineTheta, dY, dH
+						* dSineTheta
+						+ dW
+						* dCosTheta, dH * dCosTheta + dW * dSineTheta, dH
+						* dSineTheta );
+			}
+			// ?90 : VERTICALLY UP OR DOWN
+			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+			{
+				bb = new BoundingBox( BOTTOM, dX - dH / 2, dY, dH, dW, dH / 2 );
+			}
+		}
+		else if ( ( iLabelLocation & TOP ) == TOP )
+		{
+			// ZERO : HORIZONTAL
+			if ( dAngleInDegrees == 0 )
+			{
+				bb = new BoundingBox( TOP, dX - dW / 2, dY - dH, dW, dH, dW / 2 );
+			}
+			// POSITIVE
+			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+			{
+				bb = new BoundingBox( TOP, dX - dH * dSineTheta, dY
+						- ( dH * dCosTheta + dW * dSineTheta ), dH
+						* dSineTheta
+						+ dW
+						* dCosTheta, dH * dCosTheta + dW * dSineTheta, dH
+						* dSineTheta );
+			}
+			// NEGATIVE
+			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+			{
+				bb = new BoundingBox( TOP, dX - dW * dCosTheta, dY
+						- ( dH * dCosTheta + dW * dSineTheta ), dH
+						* dSineTheta
+						+ dW
+						* dCosTheta, dH * dCosTheta + dW * dSineTheta, dW
+						* dCosTheta );
+			}
+			// ?90 : VERTICALLY UP OR DOWN
+			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+			{
+				bb = new BoundingBox( TOP, dX - dH / 2, dY - dW, dH, dW, dH / 2 );
+			}
+		}
+		else if ( ( iLabelLocation & INSIDE ) == INSIDE )
+		{
+			// ZERO : HORIZONTAL
+			if ( dAngleInDegrees == 0 )
+			{
+				bb = new BoundingBox( INSIDE,
+						dX - dW / 2,
+						dY - dH / 2,
+						dW,
+						dH,
+						0 );
+			}
+			// POSITIVE
+			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+			{
+				bb = new BoundingBox( INSIDE, dX
+						- ( dH * dSineTheta + dW * dCosTheta )
+						/ 2, dY - ( dH * dCosTheta + dW * dSineTheta ) / 2, dH
+						* dSineTheta
+						+ dW
+						* dCosTheta, dH * dCosTheta + dW * dSineTheta, 0 );
+			}
+			// NEGATIVE
+			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+			{
+				bb = new BoundingBox( INSIDE, dX
+						- ( dW * dCosTheta + dH * dSineTheta )
+						/ 2, dY - ( dH * dCosTheta + dW * dSineTheta ) / 2, dH
+						* dSineTheta
+						+ dW
+						* dCosTheta, dH * dCosTheta + dW * dSineTheta, 0 );
+			}
+			// ?90 : VERTICALLY UP OR DOWN
+			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+			{
+				bb = new BoundingBox( INSIDE,
+						dX - dH / 2,
+						dY - dW / 2,
+						dH,
+						dW,
+						0 );
+			}
+		}
+
+		return bb;
+	}
+
+	public static final BoundingBox computeBox( IDisplayServer xs,
+			int iLabelLocation, Label la, double dX, double dY,
+			double dWrapping, Double fontHeight )
+			throws IllegalArgumentException
+	{
 		final ITextMetrics itm = xs.getTextMetrics( la );
-		
+
 		try
 		{
-		if ( dWrapping > 0 )
+			if ( dWrapping > 0 )
 			{
 				itm.reuse( la, dWrapping );
 			}
-			double dW = itm.getFullWidth( );
-			double dH = fontHeight == null ? itm.getFullHeight( )
-					: itm.getFullHeight( fontHeight );
-			
-			BoundingBox bb = null;
-			if ( ( iLabelLocation & LEFT ) == LEFT )
-			{
-				// ZERO : HORIZONTAL
-				if ( dAngleInDegrees == 0 )
-				{
-					bb = new BoundingBox( LEFT,
-							dX - dW,
-							dY - dH / 2,
-							dW,
-							dH,
-							dH / 2 );
-				}
-				// POSITIVE
-				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-				{
-					bb = new BoundingBox( LEFT, dX -
-							( dH * dSineTheta + dW * dCosTheta ), dY -
-							dH *
-							dCosTheta, dH * dSineTheta + dW * dCosTheta, dH *
-							dCosTheta +
-							dW *
-							dSineTheta, dH * dCosTheta );
-				}
-				// NEGATIVE
-				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-				{
-					bb = new BoundingBox( LEFT, dX -
-							( dH * dSineTheta + dW * dCosTheta ), dY -
-							dW *
-							dSineTheta, dH * dSineTheta + dW * dCosTheta, dH *
-							dCosTheta +
-							dW *
-							dSineTheta, dW * dSineTheta );
-				}
-				// ?90 : VERTICALLY UP OR DOWN
-				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-				{
-					bb = new BoundingBox( LEFT,
-							dX - dH,
-							dY - dW / 2,
-							dH,
-							dW,
-							dW / 2 );
-				}
-			}
-			else if ( ( iLabelLocation & RIGHT ) == RIGHT )
-			{
-				// ZERO : HORIZONTAL
-				if ( dAngleInDegrees == 0 )
-				{
-					bb = new BoundingBox( RIGHT,
-							dX,
-							dY - dH / 2,
-							dW,
-							dH,
-							dH / 2 );
-				}
-				// POSITIVE
-				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-				{
-					bb = new BoundingBox( RIGHT, dX, dY - dW * dSineTheta, dH *
-							dSineTheta +
-							dW *
-							dCosTheta, dH * dCosTheta + dW * dSineTheta, dW *
-							dSineTheta );
-				}
-				// NEGATIVE
-				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-				{
-					bb = new BoundingBox( RIGHT, dX, dY - dH * dCosTheta, dH *
-							dSineTheta +
-							dW *
-							dCosTheta, dH * dCosTheta + dW * dSineTheta, dH *
-							dCosTheta );
-				}
-				// ?90 : VERTICALLY UP OR DOWN
-				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-				{
-					bb = new BoundingBox( RIGHT,
-							dX,
-							dY - dW / 2,
-							dH,
-							dW,
-							dW / 2 );
-				}
-			}
-			else if ( ( iLabelLocation & BOTTOM ) == BOTTOM )
-			{
-				// ZERO : HORIZONTAL
-				if ( dAngleInDegrees == 0 )
-				{
-					bb = new BoundingBox( BOTTOM,
-							dX - dW / 2,
-							dY,
-							dW,
-							dH,
-							dW / 2 );
-				}
-				// POSITIVE
-				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-				{
-					bb = new BoundingBox( BOTTOM, dX - dW * dCosTheta, dY, dH *
-							dSineTheta +
-							dW *
-							dCosTheta, dH * dCosTheta + dW * dSineTheta, dW *
-							dCosTheta );
-				}
-				// NEGATIVE
-				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-				{
-					bb = new BoundingBox( BOTTOM, dX - dH * dSineTheta, dY, dH *
-							dSineTheta +
-							dW *
-							dCosTheta, dH * dCosTheta + dW * dSineTheta, dH *
-							dSineTheta );
-				}
-				// ?90 : VERTICALLY UP OR DOWN
-				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-				{
-					bb = new BoundingBox( BOTTOM,
-							dX - dH / 2,
-							dY,
-							dH,
-							dW,
-							dH / 2 );
-				}
-			}
-			else if ( ( iLabelLocation & TOP ) == TOP )
-			{
-				// ZERO : HORIZONTAL
-				if ( dAngleInDegrees == 0 )
-				{
-					bb = new BoundingBox( TOP,
-							dX - dW / 2,
-							dY - dH,
-							dW,
-							dH,
-							dW / 2 );
-				}
-				// POSITIVE
-				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-				{
-					bb = new BoundingBox( TOP, dX - dH * dSineTheta, dY -
-							( dH * dCosTheta + dW * dSineTheta ), dH *
-							dSineTheta +
-							dW *
-							dCosTheta, dH * dCosTheta + dW * dSineTheta, dH *
-							dSineTheta );
-				}
-				// NEGATIVE
-				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-				{
-					bb = new BoundingBox( TOP, dX - dW * dCosTheta, dY -
-							( dH * dCosTheta + dW * dSineTheta ), dH *
-							dSineTheta +
-							dW *
-							dCosTheta, dH * dCosTheta + dW * dSineTheta, dW *
-							dCosTheta );
-				}
-				// ?90 : VERTICALLY UP OR DOWN
-				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-				{
-					bb = new BoundingBox( TOP,
-							dX - dH / 2,
-							dY - dW,
-							dH,
-							dW,
-							dH / 2 );
-				}
-			}
-			else if ( ( iLabelLocation & INSIDE ) == INSIDE )
-			{
-				// ZERO : HORIZONTAL
-				if ( dAngleInDegrees == 0 )
-				{
-					bb = new BoundingBox( INSIDE,
-							dX - dW / 2,
-							dY - dH / 2,
-							dW,
-							dH,
-							0 );
-				}
-				// POSITIVE
-				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-				{
-					bb = new BoundingBox( INSIDE,
-							dX - ( dH * dSineTheta + dW * dCosTheta ) / 2,
-							dY - ( dH * dCosTheta + dW * dSineTheta ) / 2,
-							dH * dSineTheta + dW * dCosTheta,
-							dH * dCosTheta + dW * dSineTheta,
-							0 );
-				}
-				// NEGATIVE
-				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-				{
-					bb = new BoundingBox( INSIDE,
-							dX - ( dW * dCosTheta + dH * dSineTheta ) / 2,
-							dY - ( dH * dCosTheta + dW * dSineTheta ) / 2,
-							dH * dSineTheta + dW * dCosTheta,
-							dH * dCosTheta + dW * dSineTheta,
-							0 );
-				}
-				// ?90 : VERTICALLY UP OR DOWN
-				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-				{
-					bb = new BoundingBox( INSIDE,
-							dX - dH / 2,
-							dY - dW / 2,
-							dH,
-							dW,
-							0 );
-				}
-			}
-			
 
-			return bb;
+			return computeBox( xs, itm, iLabelLocation, la, dX, dY, fontHeight );
 		}
 		finally
 		{
@@ -1221,183 +1226,6 @@ public class Methods implements IConstants
 	}
 	
 	/**
-	 * Limits the Data point Label inside area including axes
-	 * 
-	 * @param cm
-	 * @param xs
-	 * @param laDataPoint
-	 * @param dScale
-	 * @param lo
-	 * @throws ChartException
-	 * @since 2.3
-	 */
-	public static void limitDataPointLabelLocation( Chart cm,
-			IDisplayServer xs, Label laDataPoint, double dScale, Location lo,
-			Position lp )
-			throws ChartException
-	{
-		if ( lo == null
-				|| cm instanceof ChartWithoutAxes )
-		{
-			return;
-		}
-
-		ChartWithAxes cwa = (ChartWithAxes) cm;
-		Plot p = cwa.getPlot( );
-
-		BoundingBox bb = Methods.computeBox( xs,
-				IConstants.ABOVE,
-				laDataPoint,
-				0,
-				0 );
-
-		Bounds boCa = p.getBounds( ).scaledInstance( dScale );
-
-		double rotation = laDataPoint.getCaption( ).getFont( ).getRotation( );
-		int state = 0;
-		// use 1 to 8 to indicate the state, starts from the bottom
-		// center,counter-clockwise
-		switch ( lp.getValue( ) )
-		{
-			case Position.ABOVE :
-				if ( rotation > 0 && rotation < 90 )
-				{
-					state = 8;
-				}
-				else if ( rotation < 0 && rotation > -90 )
-				{
-					state = 2;
-				}
-				else
-				{
-					state = 1;
-				}
-				break;
-			case Position.RIGHT :
-				if ( rotation > 0 && rotation < 90 )
-				{
-					state = 8;
-				}
-				else if ( rotation < 0 && rotation > -90 )
-				{
-					state = 6;
-				}
-				else
-				{
-					state = 7;
-				}
-				break;
-			case Position.BELOW :
-				if ( rotation > 0 && rotation < 90 )
-				{
-					state = 4;
-				}
-				else if ( rotation < 0 && rotation > -90 )
-				{
-					state = 6;
-				}
-				else
-				{
-					state = 5;
-				}
-				break;
-			case Position.LEFT :
-				if ( rotation > 0 && rotation < 90 )
-				{
-					state = 4;
-				}
-				else if ( rotation < 0 && rotation > -90 )
-				{
-					state = 2;
-				}
-				else
-				{
-					state = 3;
-				}
-				break;
-		}
-		double dYmin, dYmax, dXmin, dXmax;
-		switch ( state )
-		{
-			case 1 :
-				dYmin = boCa.getTop( ) + bb.getHeight( );
-				dYmax = boCa.getTop( ) + boCa.getHeight( );
-				dXmin = boCa.getLeft( ) + bb.getWidth( ) / 2;
-				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( ) / 2;
-				break;
-			case 2 :
-				dYmin = boCa.getTop( ) + bb.getHeight( );
-				dYmax = boCa.getTop( ) + boCa.getHeight( );
-				dXmin = boCa.getLeft( ) + bb.getWidth( );
-				dXmax = boCa.getLeft( ) + boCa.getWidth( );
-				break;
-			case 3 :
-				dYmin = boCa.getTop( ) + bb.getHeight( ) / 2;
-				dYmax = boCa.getTop( )
-						+ boCa.getHeight( ) - bb.getHeight( ) / 2;
-				dXmin = boCa.getLeft( ) + bb.getWidth( );
-				dXmax = boCa.getLeft( ) + boCa.getWidth( );
-				break;
-			case 4 :
-				dYmin = boCa.getTop( );
-				dYmax = boCa.getTop( ) + boCa.getHeight( ) - bb.getHeight( );
-				dXmin = boCa.getLeft( ) + bb.getWidth( );
-				dXmax = boCa.getLeft( ) + boCa.getWidth( );
-				break;
-			case 5 :
-				dYmin = boCa.getTop( );
-				dYmax = boCa.getTop( ) + boCa.getHeight( ) - bb.getHeight( );
-				dXmin = boCa.getLeft( ) + bb.getWidth( ) / 2;
-				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( ) / 2;
-				break;
-			case 6 :
-				dYmin = boCa.getTop( );
-				dYmax = boCa.getTop( ) + boCa.getHeight( ) - bb.getHeight( );
-				dXmin = boCa.getLeft( );
-				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( );
-				break;
-			case 7 :
-				dYmin = boCa.getTop( ) + bb.getHeight( ) / 2;
-				dYmax = boCa.getTop( )
-						+ boCa.getHeight( ) - bb.getHeight( ) / 2;
-				dXmin = boCa.getLeft( );
-				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( );
-				break;
-			case 8 :
-				dYmin = boCa.getTop( ) + bb.getHeight( );
-				dYmax = boCa.getTop( ) + boCa.getHeight( );
-				dXmin = boCa.getLeft( );
-				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( );
-				break;
-			default :
-				dYmin = lo.getY( );
-				dYmax = lo.getY( );
-				dXmin = lo.getX( );
-				dXmax = lo.getX( );
-				break;
-		}
-		
-		if ( lo.getY( ) < dYmin )
-		{
-			lo.setY( dYmin );
-		}
-		if ( lo.getY( ) > dYmax )
-		{
-			lo.setY( dYmax );
-		}
-		if ( lo.getX( ) < dXmin )
-		{
-			lo.setX( dXmin );
-		}
-		if ( lo.getX( ) > dXmax )
-		{
-			lo.setX( dXmax );
-		}
-		
-
-	}
-
-	/**
 	 * Convenient method to compute the font's height of a label. This
 	 * computation is costly, but in most case we do not change the font of a
 	 * label, we just change the string value, so the font height will not
@@ -1410,6 +1238,8 @@ public class Methods implements IConstants
 	 */
 	public static double computeFontHeight( IDisplayServer xs, Label la )
 	{
+		String sText = la.getCaption( ).getValue( );
+		la.getCaption( ).setValue( "X" );
 		ITextMetrics itm = xs.getTextMetrics( la );
 		try
 		{
@@ -1419,6 +1249,7 @@ public class Methods implements IConstants
 		finally
 		{
 			itm.dispose( );
+			la.getCaption( ).setValue( sText );
 		}
 	}
 

@@ -98,10 +98,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	public PrimitiveRenderEvent copy( )
 	{
 		Line3DRenderEvent lre = new Line3DRenderEvent( source );
-		if ( lia != null )
-		{
-			lre.setLineAttributes( lia.copyInstance( ) );
-		}
+		lre.setLineAttributes( goFactory.copyOf( lia ) );
 		if ( object3D != null )
 		{
 			lre.object3D = new Object3D( object3D );

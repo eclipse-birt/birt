@@ -13,6 +13,10 @@ package org.eclipse.birt.chart.device;
 
 import java.util.Locale;
 
+import org.eclipse.birt.chart.computation.BIRTChartComputation;
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IChartComputation;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.event.ArcRenderEvent;
 import org.eclipse.birt.chart.event.AreaRenderEvent;
 import org.eclipse.birt.chart.event.ClipRenderEvent;
@@ -37,6 +41,10 @@ import com.ibm.icu.util.ULocale;
 public abstract class DeviceAdapter extends EventObjectCache implements
 		IDeviceRenderer
 {
+
+	protected final static IGObjectFactory goFactory = GObjectFacotry.instance( );
+
+	protected IChartComputation cComp = new BIRTChartComputation( );
 
 	/*
 	 * (non-Javadoc)
@@ -336,4 +344,14 @@ public abstract class DeviceAdapter extends EventObjectCache implements
 	 * @since 2.3
 	 */
 	abstract protected String convertFont( String fontFamily ); 
+
+	public IChartComputation getChartComputation( )
+	{
+		return cComp;
+	}
+
+	public void setChartComputation( IChartComputation cComp )
+	{
+		this.cComp = cComp;
+	}
 }

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.style;
 
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Image;
@@ -31,6 +33,8 @@ public final class SimpleStyle implements IStyle
 	private Image backimage;
 
 	private Insets padding;
+
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * The constructor.
@@ -73,23 +77,23 @@ public final class SimpleStyle implements IStyle
 		{
 			if ( src.getFont( ) != null )
 			{
-				setFont( src.getFont( ).copyInstance( ) );
+				setFont( goFactory.copyOf( src.getFont( ) ) );
 			}
 			if ( src.getColor( ) != null )
 			{
-				setColor( src.getColor( ).copyInstance( ) );
+				setColor( goFactory.copyOf( src.getColor( ) ) );
 			}
 			if ( src.getBackgroundColor( ) != null )
 			{
-				setBackgroundColor( src.getBackgroundColor( ).copyInstance( ) );
+				setBackgroundColor( goFactory.copyOf( src.getBackgroundColor( ) ) );
 			}
 			if ( src.getBackgroundImage( ) != null )
 			{
-				setBackgroundImage( src.getBackgroundImage( ).copyInstance( ) );
+				setBackgroundImage( goFactory.copyOf( src.getBackgroundImage( ) ) );
 			}
 			if ( src.getPadding( ) != null )
 			{
-				setPadding( src.getPadding( ).copyInstance( ) );
+				setPadding( goFactory.copyOf( src.getPadding( ) ) );
 			}
 		}
 	}
@@ -105,23 +109,23 @@ public final class SimpleStyle implements IStyle
 
 		if ( font != null )
 		{
-			ss.setFont( font.copyInstance( ) );
+			ss.setFont( goFactory.copyOf( font ) );
 		}
 		if ( color != null )
 		{
-			ss.setColor( color.copyInstance( ) );
+			ss.setColor( goFactory.copyOf( color ) );
 		}
 		if ( backcolor != null )
 		{
-			ss.setBackgroundColor( backcolor.copyInstance( ) );
+			ss.setBackgroundColor( goFactory.copyOf( backcolor ) );
 		}
 		if ( backimage != null )
 		{
-			ss.setBackgroundImage( backimage.copyInstance( ) );
+			ss.setBackgroundImage( goFactory.copyOf( backimage ) );
 		}
 		if ( padding != null )
 		{
-			ss.setPadding( padding.copyInstance( ) );
+			ss.setPadding( goFactory.copyOf( padding ) );
 		}
 
 		return ss;

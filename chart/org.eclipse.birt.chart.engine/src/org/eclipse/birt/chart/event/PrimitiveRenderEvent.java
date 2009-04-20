@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.chart.event;
 
+import org.eclipse.birt.chart.computation.GObjectFacotry;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -31,6 +33,8 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 public abstract class PrimitiveRenderEvent extends ChartEvent implements
 		Comparable
 {
+
+	protected static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * A constant indicats a Drawing operation.

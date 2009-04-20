@@ -23,9 +23,6 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
@@ -87,12 +84,12 @@ public final class EmptyWithAxes extends AxesRenderer
 		{
 			return;
 		}
-		final LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.GREY( ),
+		final LineAttributes lia = goFactory.createLineAttributes( goFactory.GREY( ),
 				LineStyle.SOLID_LITERAL,
 				1 );
 		if ( fPaletteEntry == null ) // TEMPORARY PATCH: WILL BE REMOVED SOON
 		{
-			fPaletteEntry = ColorDefinitionImpl.RED( );
+			fPaletteEntry = goFactory.RED( );
 		}
 
 		// COMPUTE THE FRONT FACE ONLY
@@ -100,12 +97,12 @@ public final class EmptyWithAxes extends AxesRenderer
 		loaFrontFace = new Location[4];
 		final double dOffset =  bo.getWidth( ) > bo.getHeight( ) ? bo.getHeight( )
 				: bo.getWidth( );
-		loaFrontFace[0] = LocationImpl.create( bo.getLeft( ), bo.getTop( ) );
-		loaFrontFace[1] = LocationImpl.create( bo.getLeft( ), bo.getTop( )
+		loaFrontFace[0] = goFactory.createLocation( bo.getLeft( ), bo.getTop( ) );
+		loaFrontFace[1] = goFactory.createLocation( bo.getLeft( ), bo.getTop( )
 				+ dOffset );
-		loaFrontFace[2] = LocationImpl.create( bo.getLeft( ) + dOffset,
+		loaFrontFace[2] = goFactory.createLocation( bo.getLeft( ) + dOffset,
 				bo.getTop( ) + dOffset );
-		loaFrontFace[3] = LocationImpl.create( bo.getLeft( ) + dOffset,
+		loaFrontFace[3] = goFactory.createLocation( bo.getLeft( ) + dOffset,
 				bo.getTop( ) );
 
 		// RENDER THE PLANE (INTERNALLY EXTRUDED IF NECESSARY)

@@ -24,6 +24,8 @@ import java.util.Set;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.computation.Polygon;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -77,7 +79,8 @@ public class ChartUtil
 	 * precision check.
 	 */
 	public static final double EPS = 1E-9;	
-	private static final String EPS_FORMAT = "%.9f";//$NON-NLS-1$	
+	private static final String EPS_FORMAT = "%.9f";//$NON-NLS-1$
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 	
 	/**
 	 * Default max row count that will be supported in charts.
@@ -364,16 +367,16 @@ public class ChartUtil
 		{
 			if ( fill instanceof MultipleFill )
 			{
-				fill = ( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
-						.get( 0 ) ).copyInstance( );
+				fill = goFactory.copyOf( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
+						.get( 0 ) );
 			}
 		}
 		else
 		{
 			if ( fill instanceof MultipleFill )
 			{
-				fill = ( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
-						.get( 1 ) ).copyInstance( );
+				fill = goFactory.copyOf( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
+						.get( 1 ) );
 			}
 			else if ( fNegative != null )
 			{

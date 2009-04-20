@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.layout.Block;
-import org.eclipse.birt.chart.util.FillUtil;
 
 /**
  * A rendering event type for rendering Rectangle object.
@@ -96,7 +95,7 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 	{
 		_lia = bl.getOutline( );
 		_ifBackground = bl.getBackground( );
-		_bo = bl.getBounds( ).scaledInstance( dScale );
+		_bo = goFactory.scaleBounds( bl.getBounds( ), dScale );
 	}
 
 	/*
@@ -109,17 +108,17 @@ public final class RectangleRenderEvent extends PrimitiveRenderEvent
 		final RectangleRenderEvent rre = new RectangleRenderEvent( source );
 		if ( _bo != null )
 		{
-			rre.setBounds( _bo.copyInstance( ) );
+			rre.setBounds( goFactory.copyOf( _bo ) );
 		}
 
 		if ( _lia != null )
 		{
-			rre.setOutline( _lia.copyInstance( ) );
+			rre.setOutline( goFactory.copyOf( _lia ) );
 		}
 
 		if ( _ifBackground != null )
 		{
-			rre.setBackground( FillUtil.copyOf( _ifBackground ) );
+			rre.setBackground( goFactory.copyOf( _ifBackground ) );
 		}
 		return rre;
 	}

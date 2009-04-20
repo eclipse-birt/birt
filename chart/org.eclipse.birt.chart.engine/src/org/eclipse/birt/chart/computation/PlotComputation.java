@@ -14,12 +14,12 @@ package org.eclipse.birt.chart.computation;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.factory.RunTimeContext.StateKey;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
@@ -34,6 +34,8 @@ public abstract class PlotComputation
 
 	protected final static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
 
+	protected final static IGObjectFactory goFactory = GObjectFacotry.instance( );
+
 	/**
 	 * An internal XServer implementation capable of obtaining text metrics,
 	 * etc.
@@ -44,6 +46,8 @@ public abstract class PlotComputation
 	 * The runtime context associated with chart generation
 	 */
 	protected final RunTimeContext rtc;
+
+	protected final IChartComputation cComp;
 
 	/**
 	 * A final internal reference to the model used in rendering computations
@@ -64,6 +68,7 @@ public abstract class PlotComputation
 	public PlotComputation( IDisplayServer ids, RunTimeContext rtc, Chart cm )
 	{
 		this.rtc = rtc;
+		this.cComp = rtc.getState( StateKey.CHART_COMPUTATION_KEY );
 		this.ids = ids;
 		this.cm = cm;
 		dPointToPixel = ids.getDpiResolution( ) / 72d;
@@ -73,7 +78,7 @@ public abstract class PlotComputation
 	 * A computed plot area based on the block dimensions and the axis
 	 * attributes and label values (within axes)
 	 */
-	protected Bounds boPlotBackground = BoundsImpl.create( 0, 0, 100, 100 );
+	protected Bounds boPlotBackground = goFactory.createBounds( 0, 0, 100, 100 );
 
 	/**
 	 * This method computes the entire chart within the given bounds. If the
@@ -119,5 +124,10 @@ public abstract class PlotComputation
 	public final RunTimeContext getRunTimeContext( )
 	{
 		return rtc;
+	}
+
+	public IChartComputation getChartComputation( )
+	{
+		return cComp;
 	}
 }

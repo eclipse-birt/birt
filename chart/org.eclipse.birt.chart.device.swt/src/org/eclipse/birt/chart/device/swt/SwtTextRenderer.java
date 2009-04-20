@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.device.swt;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
+import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.RotatedRectangle;
@@ -34,7 +35,6 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.swt.SWT;
@@ -176,6 +176,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 			boolean b )
 	{
 		GC gc = (GC) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
+		IChartComputation cComp = ( (IDeviceRenderer) ipr ).getChartComputation( );
 		double dX = lo.getX( ), dY = lo.getY( );
 		final FontDefinition fd = la.getCaption( ).getFont( );
 
@@ -184,9 +185,10 @@ final class SwtTextRenderer extends TextRendererAdapter
 
 		final Color clrBackground = (Color) _sxs.getColor( la.getShadowColor( ) );
 
-		final ITextMetrics itm = _sxs.getTextMetrics( la );
+		final ITextMetrics itm = cComp.getTextMetrics( _sxs, la, 0 );
 		final double dFW = itm.getFullWidth( );
 		final double dFH = itm.getFullHeight( );
+		cComp.recycleTextMetrics( itm );
 
 		double scaledThickness = SHADOW_THICKNESS
 				* _sxs.getDpiResolution( )
@@ -359,17 +361,8 @@ final class SwtTextRenderer extends TextRendererAdapter
 			Label la ) throws ChartException
 	{
 		final GC gc = (GC) ( (IDeviceRenderer) idr ).getGraphicsContext( );
-		BoundingBox bb = null;
-		try
-		{
-			bb = Methods.computeBox( _sxs, iLabelPosition, la, 0, 0 );
-		}
-		catch ( IllegalArgumentException uiex )
-		{
-			throw new ChartException( ChartDeviceSwtActivator.ID,
-					ChartException.RENDERING,
-					uiex );
-		}
+		IChartComputation cComp = ( (IDeviceRenderer) idr ).getChartComputation( );
+		BoundingBox bb = cComp.computeBox( _sxs, iLabelPosition, la, 0, 0 );
 
 		switch ( iLabelPosition & POSITION_MASK )
 		{
@@ -405,9 +398,9 @@ final class SwtTextRenderer extends TextRendererAdapter
 		// RENDER Shadow around the text label
 		if ( ChartUtil.isShadowDefined( la ) )
 		{
+			ITextMetrics itm =  cComp.getTextMetrics( _sxs, la, 0 );
 			try
 			{
-				final ITextMetrics itm = _sxs.getTextMetrics( la );
 				final double dFH = itm.getFullHeight( );
 
 				Location tmpLoc = Methods.computeRotatedTopPoint( _sxs,
@@ -423,20 +416,25 @@ final class SwtTextRenderer extends TextRendererAdapter
 						ChartException.RENDERING,
 						uiex );
 			}
+			finally
+			{
+				cComp.recycleTextMetrics( itm );
+			}
 		}
 
 		if ( la.getCaption( ).getFont( ).getRotation( ) == 0
 				|| R31Enhance.isR31Available( ) )
 		{
-			renderHorizontalText( gc, la, bb.getLeft( ), bb.getTop( ) );
+			renderHorizontalText(cComp, gc, la, bb.getLeft( ), bb.getTop( ) );
 		}
 		else
 		{
-			final Image imgText = rotatedTextAsImage( la );
+			final Image imgText = rotatedTextAsImage(cComp, la );
 			gc.drawImage( imgText, (int) bb.getLeft( ), (int) bb.getTop( ) );
 			imgText.dispose( );
 		}
-		renderBorder( gc, la, iLabelPosition, lo );
+		
+		renderBorder(cComp, gc, la, iLabelPosition, lo );
 	}
 
 	/**
@@ -449,6 +447,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 	public final void renderTextInBlock( IDeviceRenderer idr, Bounds boBlock,
 			TextAlignment taBlock, Label la ) throws ChartException
 	{
+		IChartComputation cComp = ( (IDeviceRenderer) idr ).getChartComputation( );
 		Text t = la.getCaption( );
 		String sText = t.getValue( );
 		ColorDefinition cdText = t.getColor( );
@@ -461,17 +460,8 @@ final class SwtTextRenderer extends TextRendererAdapter
 		}
 		final GC gc = (GC) idr.getGraphicsContext( );
 		la.getCaption( ).setValue( sText );
-		BoundingBox bb = null;
-		try
-		{
-			bb = Methods.computeBox( _sxs, ABOVE, la, 0, 0 );
-		}
-		catch ( IllegalArgumentException uiex )
-		{
-			throw new ChartException( ChartDeviceSwtActivator.ID,
-					ChartException.RENDERING,
-					uiex );
-		}
+		BoundingBox bb = cComp.computeBox( _sxs, ABOVE, la, 0, 0 );
+
 		if ( taBlock == null )
 		{
 			taBlock = AttributeFactory.eINSTANCE.createTextAlignment( );
@@ -518,9 +508,10 @@ final class SwtTextRenderer extends TextRendererAdapter
 		// RENDER Shadow around the text label
 		if ( ChartUtil.isShadowDefined( la ) )
 		{
+			final ITextMetrics itm = cComp.getTextMetrics( _sxs, la, 0 );
+			
 			try
 			{
-				final ITextMetrics itm = _sxs.getTextMetrics( la );
 				final double dFH = itm.getFullHeight( );
 
 				Location tmpLoc = Methods.computeRotatedTopPoint( _sxs,
@@ -536,34 +527,33 @@ final class SwtTextRenderer extends TextRendererAdapter
 						ChartException.RENDERING,
 						uiex );
 			}
+			finally
+			{
+				cComp.recycleTextMetrics( itm );
+			}
 		}
 
 		if ( la.getCaption( ).getFont( ).getRotation( ) == 0
 				|| R31Enhance.isR31Available( ) )
 		{
-			renderHorizontalText( gc, la, bb.getLeft( ), bb.getTop( ) );
+			renderHorizontalText(cComp, gc, la, bb.getLeft( ), bb.getTop( ) );
 		}
 		else
 		{
-			final Image imgText = rotatedTextAsImage( la );
+			final Image imgText = rotatedTextAsImage(cComp, la );
 			gc.drawImage( imgText, (int) bb.getLeft( ), (int) bb.getTop( ) );
 			imgText.dispose( );
 		}
-		renderBorder( gc,
+		
+		renderBorder( cComp,
+				gc,
 				la,
 				IConstants.ABOVE,
-				LocationImpl.create( bb.getLeft( ) + bb.getHotPoint( ),
+				goFactory.createLocation( bb.getLeft( ) + bb.getHotPoint( ),
 						bb.getTop( ) + bb.getHeight( ) ) );
 	}
 
-	/**
-	 * 
-	 * @param gc
-	 * @param la
-	 * @param iLabelLocation
-	 * @param lo
-	 */
-	private final void renderBorder( GC gc, Label la, int iLabelLocation,
+	private final void renderBorder( IChartComputation cComp, GC gc, Label la, int iLabelLocation,
 			Location lo ) throws ChartException
 	{
 		// RENDER THE OUTLINE/BORDER
@@ -574,22 +564,13 @@ final class SwtTextRenderer extends TextRendererAdapter
 				&& lia.isSetThickness( )
 				&& lia.getColor( ) != null )
 		{
-			RotatedRectangle rr = null;
+			RotatedRectangle rr = cComp.computePolygon( _sxs,
+					iLabelLocation,
+					la,
+					lo.getX( ),
+					lo.getY( ),
+					null );
 
-			try
-			{
-				rr = Methods.computePolygon( _sxs,
-						iLabelLocation,
-						la,
-						lo.getX( ),
-						lo.getY( ) );
-			}
-			catch ( IllegalArgumentException uiex )
-			{
-				throw new ChartException( ChartDeviceSwtActivator.ID,
-						ChartException.RENDERING,
-						uiex );
-			}
 			final int iOldLineStyle = gc.getLineStyle( );
 			final int iOldLineWidth = gc.getLineWidth( );
 
@@ -629,21 +610,21 @@ final class SwtTextRenderer extends TextRendererAdapter
 	 * @param la
 	 * @param lo
 	 */
-	private final void renderHorizontalText( GC gc, Label la, double dX,
+	private final void renderHorizontalText( IChartComputation cComp, GC gc, Label la, double dX,
 			double dY )
 	{
 		final FontDefinition fd = la.getCaption( ).getFont( );
 		final Color clrText = (Color) _sxs.getColor( la.getCaption( )
 				.getColor( ) );
 
-		final ITextMetrics itm = new SwtTextMetrics( _sxs, la, gc );
+		final ITextMetrics itm = cComp.getTextMetrics( _sxs, la, 0 );
 		final double dFW = itm.getFullWidth( );
 		final double dH = itm.getHeight( );
 		final double dFH = itm.getFullHeight( );
 		double dXOffset = 0;
 		double dW = 0;
-		final Insets ins = la.getInsets( )
-				.scaledInstance( _sxs.getDpiResolution( ) / 72d );
+		final Insets ins = goFactory.scaleInsets( la.getInsets( ),
+				_sxs.getDpiResolution( ) / 72d );
 
 		final HorizontalAlignment ha = la.getCaption( )
 				.getFont( )
@@ -854,7 +835,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 
 		f.dispose( );
 		clrText.dispose( );
-		itm.dispose( );
+		cComp.recycleTextMetrics( itm );
 	}
 
 	/**
@@ -863,7 +844,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 	 * @param la
 	 * @return
 	 */
-	final Image rotatedTextAsImage( Label la )
+	final Image rotatedTextAsImage(IChartComputation cComp, Label la )
 	{
 		double dX = 0, dY = 0;
 		final FontDefinition fd = la.getCaption( ).getFont( );
@@ -872,13 +853,13 @@ final class SwtTextRenderer extends TextRendererAdapter
 				.getColor( ) );
 		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 
-		final ITextMetrics itm =  _sxs.getTextMetrics( la );
+		final ITextMetrics itm =  cComp.getTextMetrics( _sxs, la, 0 );
 		final double dFW = itm.getFullWidth( );
 		final double dH = itm.getHeight( );
 		final double dFH = itm.getFullHeight( );
 		final int iLC = itm.getLineCount( );
-		final Insets ins = la.getInsets( )
-				.scaledInstance( _sxs.getDpiResolution( ) / 72d );
+		final Insets ins = goFactory.scaleInsets( la.getInsets( ),
+				_sxs.getDpiResolution( ) / 72d );
 		dY += dFH;
 		double dCosTheta = Math.cos( dAngleInRadians );
 		double dSineTheta = Math.sin( dAngleInRadians );
@@ -971,7 +952,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 		}
 
 		clrText.dispose( );
-		itm.dispose( );
+		cComp.recycleTextMetrics( itm );
 		f.dispose( );
 		gc.dispose( );
 

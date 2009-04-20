@@ -11,7 +11,12 @@
 
 package org.eclipse.birt.chart.plugin;
 
+import org.eclipse.birt.chart.computation.ChartComputationFactory;
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IChartComputationFactory;
 import org.eclipse.birt.chart.internal.log.JavaUtilLoggerImpl;
+import org.eclipse.core.runtime.IAdapterManager;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
@@ -27,19 +32,24 @@ public class ChartEnginePlugin extends Plugin
 	 */
 	public static final String ID = "org.eclipse.birt.chart.engine"; //$NON-NLS-1$ 
 
-	private static ChartEnginePlugin plugin = null;
-
-	public static ChartEnginePlugin getInstance( )
-	{
-		return plugin;
-	}
-
 	@Override
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
-		plugin = this;
 		JavaUtilLoggerImpl.setStateDir( getStateLocation( ).toOSString( ) );
+		initChartComputation( this );
+	}
+
+	private static void initChartComputation( ChartEnginePlugin plugin )
+	{
+		IAdapterManager adapterManager = Platform.getAdapterManager( );
+		IChartComputationFactory factory = (IChartComputationFactory) adapterManager.loadAdapter( plugin,
+				IChartComputationFactory.class.getName( ) );
+		if ( factory != null )
+		{
+			ChartComputationFactory.initInstance( factory );
+			GObjectFacotry.initInstance( factory.createGObjectFactory( ) );
+		}
 	}
 
 }

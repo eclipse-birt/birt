@@ -71,7 +71,9 @@ public final class PlotWithoutAxes extends PlotComputation
 	{
 		// bo.adjustDueToInsets(cwoa.getPlot().getInsets()); // INSETS DEFINED
 		// IN POINTS: ALREADY COMPENSATED IN GENERATOR!
-		boPlotBackground = bo.scaledInstance( dPointToPixel ); // CONVERSION TO PIXELS
+		boPlotBackground = goFactory.scaleBounds( bo, dPointToPixel ); // CONVERSION
+																		// TO
+																		// PIXELS
 		// final Series[] sea = cwoa.getRunTimeSeries();
 
 		EList<SeriesDefinition> el = getModel( ).getSeriesDefinitions( );
@@ -100,10 +102,9 @@ public final class PlotWithoutAxes extends PlotComputation
 
 		szCell = SizeImpl.create( boPlotBackground.getWidth( ) / iColumns,
 				boPlotBackground.getHeight( ) / iRows );
-		insCA = getModel( ).getPlot( )
+		insCA = goFactory.scaleInsets( getModel( ).getPlot( )
 				.getClientArea( )
-				.getInsets( )
-				.scaledInstance( dPointToPixel );
+				.getInsets( ), dPointToPixel );
 	}
 	
 	private static int getAutoColumCount( Bounds boPlot, int iSeries )

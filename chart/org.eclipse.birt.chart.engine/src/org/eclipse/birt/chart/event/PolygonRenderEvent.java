@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.util.FillUtil;
 
 /**
@@ -97,7 +96,7 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 	 */
 	public Bounds getBounds( ) throws ChartException
 	{
-		final Bounds bo = BoundsImpl.create( 0, 0, 0, 0 );
+		final Bounds bo = goFactory.createBounds( 0, 0, 0, 0 );
 		bo.updateFrom( _loa );
 		return bo;
 	}
@@ -122,7 +121,7 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 
 		if ( _lia != null )
 		{
-			pre.setOutline( _lia.copyInstance( ) );
+			pre.setOutline( goFactory.copyOf( _lia ) );
 		}
 
 		if ( _ifBackground != null )

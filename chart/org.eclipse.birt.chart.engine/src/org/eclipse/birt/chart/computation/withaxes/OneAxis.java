@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.chart.computation.withaxes;
 
+import org.eclipse.birt.chart.computation.GObjectFacotry;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -63,6 +65,8 @@ public final class OneAxis
 
 	// if there is place to show labels
 	private boolean bShowLabels = true;
+
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * The constructor.
@@ -316,8 +320,8 @@ public final class OneAxis
 
 	void set( Label _laAxisLabels, Label _laAxisTitle )
 	{
-		la = _laAxisLabels.copyInstance( );
-		laTitle = _laAxisTitle.copyInstance( );
+		la = goFactory.copyOf( _laAxisLabels );
+		laTitle = goFactory.copyOf( _laAxisTitle );
 	}
 
 	void set( LineAttributes _la )

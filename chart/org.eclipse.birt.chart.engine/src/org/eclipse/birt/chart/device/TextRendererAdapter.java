@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.device;
 
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
@@ -25,6 +27,8 @@ public class TextRendererAdapter implements ITextRenderer
 {
 
 	protected IDisplayServer _sxs = null;
+
+	protected static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	protected TextRendererAdapter( IDisplayServer sxs )
 	{

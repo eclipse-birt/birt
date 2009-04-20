@@ -15,7 +15,6 @@ import java.util.Iterator;
 
 import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.util.FillUtil;
 
 /**
  * A rendering event type for rendering 3D Area object.
@@ -55,12 +54,12 @@ public class Area3DRenderEvent extends AreaRenderEvent implements
 
 		if ( fill != null )
 		{
-			are.setBackground( FillUtil.copyOf( fill ) );
+			are.setBackground( goFactory.copyOf( fill ) );
 		}
 
 		if ( lia != null )
 		{
-			are.setOutline( lia.copyInstance( ) );
+			are.setOutline( goFactory.copyOf( lia ) );
 		}
 
 		for ( Iterator<PrimitiveRenderEvent> itr = alLinesAndArcs.iterator( ); itr.hasNext( ); )

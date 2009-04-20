@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
 
 /**
@@ -263,8 +262,8 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 				.setValue( rtc.externalizedMessage( sPreviousValue ) );
 		setLabel( lb.getLabel( ) );
 
-		Bounds bo = lb.getBounds( ).scaledInstance( dScale );
-		bo = bo.adjustedInstance( lb.getInsets( ).scaledInstance( dScale ) );
+		Bounds bo = goFactory.scaleBounds( lb.getBounds( ), dScale );
+		bo.adjust( goFactory.scaleInsets( lb.getInsets( ), dScale ) );
 
 		setBlockBounds( bo );
 		setBlockAlignment( lb.getLabel( )
@@ -283,15 +282,12 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	public PrimitiveRenderEvent copy( )
 	{
 		final TextRenderEvent tre = new TextRenderEvent( source );
-		if ( _boBlock != null )
-		{
-			tre.setBlockBounds( _boBlock.copyInstance( ) );
-		}
+		tre.setBlockBounds( goFactory.copyOf( _boBlock ) );
 		tre.setAction( _iAction );
 		tre.setTextPosition( _iTextPosition );
 		if ( _la != null )
 		{
-			tre.setLabel( LabelImpl.copyCompactInstance( _la ) );
+			tre.setLabel( goFactory.copyCompactLabel( _la ) );
 		}
 		if ( _lo != null )
 		{
@@ -299,7 +295,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 		}
 		if ( _taBlock != null )
 		{
-			tre.setBlockAlignment( _taBlock.copyInstance( ) );
+			tre.setBlockAlignment( goFactory.copyOf( _taBlock ) );
 		}
 		return tre;
 	}

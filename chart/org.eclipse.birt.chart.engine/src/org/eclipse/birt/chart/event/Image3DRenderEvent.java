@@ -66,7 +66,7 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 
 		if ( img != null )
 		{
-			ire.setImage( img.copyInstance( ) );
+			ire.setImage( goFactory.copyOf( img ) );
 		}
 
 		ire.setPosition( pos );

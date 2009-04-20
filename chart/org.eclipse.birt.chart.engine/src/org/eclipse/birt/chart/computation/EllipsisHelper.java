@@ -169,16 +169,21 @@ public class EllipsisHelper
 		}
 	}
 
-	public static ITester createSimpleTester( IDisplayServer xs, Label la,
-			Double fontHeight )
+	public static ITester createSimpleTester( IChartComputation cComp,
+			IDisplayServer xs, Label la, Double fontHeight )
+			throws ChartException
 	{
-		return new SimpleTester( xs, la, fontHeight );
+		return new SimpleTester( cComp, xs, la, fontHeight );
 	}
 
-	public static EllipsisHelper simpleInstance( IDisplayServer xs, Label la,
-			Double fontHeight )
+	public static EllipsisHelper simpleInstance( IChartComputation cComp,
+			IDisplayServer xs, Label la, Double fontHeight )
+			throws ChartException
 	{
-		return new EllipsisHelper( createSimpleTester( xs, la, fontHeight ), 1 );
+		return new EllipsisHelper( createSimpleTester( cComp,
+				xs,
+				la,
+				fontHeight ), 1 );
 	}
 
 	/**
@@ -187,13 +192,16 @@ public class EllipsisHelper
 	private static class SimpleTester implements EllipsisHelper.ITester
 	{
 
+		private final IChartComputation cComp;
 		private final IDisplayServer xs;
 		private final Label la;
 		private final Double fontHeight;
 		private BoundingBox bb = null;
 
-		public SimpleTester( IDisplayServer xs, Label la, Double fontHeight )
+		public SimpleTester( IChartComputation cComp, IDisplayServer xs,
+				Label la, Double fontHeight ) throws ChartException
 		{
+			this.cComp = cComp;
 			this.xs = xs;
 			this.la = la;
 			if ( fontHeight != null )
@@ -202,13 +210,13 @@ public class EllipsisHelper
 			}
 			else
 			{
-				this.fontHeight = Methods.computeFontHeight( xs, la );
+				this.fontHeight = cComp.computeFontHeight( xs, la );
 			}
 		}
 
 		private void computeSize( double dWrapping ) throws ChartException
 		{
-			bb = Methods.computeLabelSize( xs, la, dWrapping, fontHeight );
+			bb = cComp.computeLabelSize( xs, la, dWrapping, fontHeight );
 		}
 
 		private boolean testSize( LabelLimiter lblLimit )

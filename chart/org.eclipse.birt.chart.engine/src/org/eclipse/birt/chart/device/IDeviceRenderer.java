@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.device;
 
 import java.util.Locale;
 
+import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.exception.ChartException;
 
 import com.ibm.icu.util.ULocale;
@@ -189,4 +190,20 @@ public interface IDeviceRenderer extends
 	 * @since 2.3
 	 */
 	String getMimeType( );
+
+	/**
+	 * Returns the chart computation.
+	 * 
+	 * @return
+	 * @since 2.5
+	 */
+	IChartComputation getChartComputation( );
+
+	/**
+	 * Sets the chart computation.
+	 * 
+	 * @return
+	 * @since 2.5
+	 */
+	void setChartComputation( IChartComputation cComp );
 }

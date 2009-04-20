@@ -37,6 +37,10 @@ import org.eclipse.birt.chart.model.component.Label;
 public final class SwingTextMetrics extends TextAdapter
 {
 
+	//
+	public static int iCount = 0;
+	//
+
 	private int iLineCount = 0;
 
 	private Object oText = null;
@@ -69,16 +73,26 @@ public final class SwingTextMetrics extends TextAdapter
 	 */
 	public SwingTextMetrics( IDisplayServer _xs, Label _la, Graphics2D _g2d )
 	{
+		this( _xs, _la, _g2d, true );
+	}
+
+	public SwingTextMetrics( IDisplayServer _xs, Label _la, Graphics2D _g2d,
+			boolean autoReuse )
+	{
 		this.g2d = _g2d;
 		xs = _xs;
 		la = _la;
 
 		computeTextAntialiasing( );
-		reuse( la );
+
+		if ( autoReuse )
+		{
+			reuse( la );
+		}
 	}
 
 	/**
-	 * Only antialias rotated, bold text, and font size > 13
+	 * Only anti-alias rotated, bold text, and font size > 13
 	 * 
 	 */
 	private void computeTextAntialiasing( )
@@ -108,6 +122,15 @@ public final class SwingTextMetrics extends TextAdapter
 	 */
 	public final void reuse( Label la, double forceWrappingSize )
 	{
+		//
+//		 System.out.println( "reuse["
+//		 + ( ++iCount )
+//		 + "]: "
+//		 + la.getCaption( ).getValue( )
+//		 + ", wrapping: "
+//		 + forceWrappingSize );
+		//
+
 		final Font f = (Font) xs.createFont( la.getCaption( ).getFont( ) );
 		fm = g2d.getFontMetrics( f );
 		final FontRenderContext frc = g2d.getFontRenderContext( );
@@ -338,7 +361,7 @@ public final class SwingTextMetrics extends TextAdapter
 
 			for ( Iterator<String> itr = al.iterator( ); itr.hasNext( ); )
 			{
-				String ns = (String) itr.next( );
+				String ns = itr.next( );
 
 				AttributedString as = new AttributedString( ns,
 						ft.getAttributes( ) );
@@ -368,7 +391,7 @@ public final class SwingTextMetrics extends TextAdapter
 		final String[] sa = new String[n];
 		for ( i = 0; i < al.size( ); i++ )
 		{
-			sa[i] = (String) al.get( i );
+			sa[i] = al.get( i );
 		}
 		return sa;
 	}

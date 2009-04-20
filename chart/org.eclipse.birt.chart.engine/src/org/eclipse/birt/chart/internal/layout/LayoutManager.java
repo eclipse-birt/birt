@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -26,7 +28,6 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.layout.Block;
@@ -42,6 +43,8 @@ import com.ibm.icu.util.ULocale;
  */
 public final class LayoutManager
 {
+
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * The constructor.
@@ -59,7 +62,7 @@ public final class LayoutManager
 			RunTimeContext rtc, Bounds bo )
 	{
 		final double dPercent = 0.5;
-		bo = bo.scaledInstance( xs.getDpiResolution( ) / 72d );
+		bo = goFactory.scaleBounds( bo, xs.getDpiResolution( ) / 72d );
 		bo.adjust( cm.getTitle( ).getInsets( ) );
 		int iTitleAnchor = cm.getTitle( ).getAnchor( ).getValue( );
 		LabelLimiter lbLimiter = null;
@@ -102,7 +105,7 @@ public final class LayoutManager
 			bl.setBounds( boFull );
 			Insets ins = bl.getInsets( );
 
-			bo = boFull.adjustedInstance( ins );
+			bo = goFactory.adjusteBounds( boFull, ins );
 			Legend lg = cm.getLegend( );
 			Plot pl = cm.getPlot( );
 
@@ -1210,7 +1213,7 @@ public final class LayoutManager
 
 		if ( cbo == null )
 		{
-			cbo = BoundsImpl.create( 0, 0, 0, 0 );
+			cbo = goFactory.createBounds( 0, 0, 0, 0 );
 		}
 		else if ( cbo.getLeft( ) != 0
 				|| cbo.getTop( ) != 0
@@ -1220,7 +1223,7 @@ public final class LayoutManager
 			return;
 		}
 
-		bo = bo.adjustedInstance( ins );
+		bo = goFactory.adjusteBounds( bo, ins );
 
 		Anchor anchor = block.getAnchor( );
 

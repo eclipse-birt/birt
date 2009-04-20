@@ -30,11 +30,13 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
@@ -1887,6 +1889,72 @@ public class ChartUIUtil
 				return DataType.TEXT_LITERAL;
 		}
 		return null;
+	}
+
+	/**
+	 * Creates Gradient fill by default.
+	 * 
+	 * @param color
+	 *            color to create Gradient
+	 * @return default gradient
+	 */
+	public static Gradient createDefaultGradient( ColorDefinition color )
+	{
+		if ( color == null )
+		{
+			return null;
+		}
+		Gradient gradient = AttributeFactory.eINSTANCE.createGradient( );
+		int currentLuminance = convertRGBToLuminance( color.getRed( ),
+				color.getGreen( ),
+				color.getBlue( ) );
+		if ( currentLuminance < 200 )
+		{
+			ColorDefinition newStartColor = color.copyInstance( );
+			newStartColor.eAdapters( ).addAll( color.eAdapters( ) );
+			gradient.setStartColor( newStartColor );
+
+			ColorDefinition newColor = color.copyInstance( );
+			newColor.eAdapters( ).addAll( color.eAdapters( ) );
+
+			int lumDiff = 240 - currentLuminance;
+			newColor.setRed( getNewColor( lumDiff, newColor.getRed( ), 0.3 ) );
+			newColor.setGreen( getNewColor( lumDiff, newColor.getGreen( ), 0.59 ) );
+			newColor.setBlue( getNewColor( lumDiff, newColor.getBlue( ), 0.11 ) );
+			gradient.setEndColor( newColor );
+		}
+		else
+		{
+			ColorDefinition newEndColor = color.copyInstance( );
+			newEndColor.eAdapters( ).addAll( color.eAdapters( ) );
+			gradient.setEndColor( newEndColor );
+
+			ColorDefinition newColor = color.copyInstance( );
+			newColor.eAdapters( ).addAll( color.eAdapters( ) );
+
+			int lumDiff = -100;
+			newColor.setRed( getNewColor( lumDiff, newColor.getRed( ), 0.3 ) );
+			newColor.setGreen( getNewColor( lumDiff, newColor.getGreen( ), 0.59 ) );
+			newColor.setBlue( getNewColor( lumDiff, newColor.getBlue( ), 0.11 ) );
+			gradient.setStartColor( newColor );
+		}
+		return gradient;
+	}
+
+	private static int convertRGBToLuminance( int red, int green, int blue )
+	{
+		return (int) ( 0.3 * red + 0.59 * green + 0.11 * blue );
+	}
+
+	private static int getNewColor( int lumDiff, int oldColor,
+			double coefficient )
+	{
+		int newColor = (int) ( lumDiff * coefficient ) + oldColor;
+		if ( newColor < 0 )
+		{
+			return 0;
+		}
+		return newColor < 255 ? newColor : 255;
 	}
 
 }

@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.computation;
 
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 
 /**
  * The <code>Rectangle</code> class defines a rectangle specified in Rectangle
@@ -21,6 +20,8 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 
 public class Rectangle
 {
+
+	protected static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * The bitmask that indicates that a point lies to the left of this
@@ -90,7 +91,7 @@ public class Rectangle
 
 	public Bounds getBounds( )
 	{
-		return BoundsImpl.create( x, y, width, height );
+		return goFactory.createBounds( x, y, width, height );
 	}
 
 	/**

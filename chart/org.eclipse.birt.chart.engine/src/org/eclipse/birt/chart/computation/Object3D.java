@@ -8,8 +8,6 @@ import java.util.List;
 import org.eclipse.birt.chart.internal.computations.Matrix;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
-import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 
 /**
  * This class represents a 3D object and is used to perform all 3d operations.
@@ -37,6 +35,8 @@ public class Object3D
 	
 	private HashMap<Object3D, Boolean> hmSwap = new HashMap<Object3D, Boolean>( );
 	
+	protected static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+
 	/**
 	 * Construction by an empty array of coordinates
 	 */
@@ -129,7 +129,7 @@ public class Object3D
 		Location3D[] loa3d = new Location3D[va.length];
 		for ( int i = 0; i < va.length; i++ )
 		{
-			loa3d[i] = Location3DImpl.create( va[i].get( 0 ),
+			loa3d[i] = goFactory.createLocation3D( va[i].get( 0 ),
 					va[i].get( 1 ),
 					va[i].get( 2 ) );
 		}
@@ -359,7 +359,7 @@ public class Object3D
 	{
 		byte retval;
 
-		List lst = new ArrayList( );
+		List<Vector> lst = new ArrayList<Vector>( );
 
 		switch ( va.length )
 		{
@@ -441,7 +441,7 @@ public class Object3D
 			}
 				break;
 		}
-		va = (Vector[]) lst.toArray( new Vector[lst.size( )] );
+		va = lst.toArray( new Vector[lst.size( )] );
 	}
 
 	/**
@@ -501,7 +501,7 @@ public class Object3D
 		Location[] locations = new Location[va.length];
 		for ( int i = 0; i < va.length; i++ )
 		{
-			locations[i] = LocationImpl.create( va[i].get( 0 ) + xOffset,
+			locations[i] = goFactory.createLocation( va[i].get( 0 ) + xOffset,
 					va[i].get( 1 ) + yOffset );
 		}
 		return locations;

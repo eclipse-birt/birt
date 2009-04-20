@@ -21,10 +21,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.EllipsisHelper;
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.computation.LegendEntryRenderingHints;
 import org.eclipse.birt.chart.computation.LegendItemHints;
@@ -39,7 +43,6 @@ import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
-import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.BlockGenerationEvent;
 import org.eclipse.birt.chart.event.EventObjectCache;
@@ -87,9 +90,6 @@ import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.attribute.impl.SeriesValueImpl;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
@@ -97,7 +97,6 @@ import org.eclipse.birt.chart.model.attribute.impl.URLValueImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
@@ -143,6 +142,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	/** The key is to reference the size information of stacked cone or triangle series. */
 	protected final static String STACKED_SERIES_SIZE_KEY = "stacked_series_size_key"; //$NON-NLS-1$
 
+	protected final static IGObjectFactory goFactory = GObjectFacotry.instance( );
+
 	protected ISeriesRenderingHints srh;
 
 	protected IDisplayServer xs;
@@ -158,6 +159,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	protected Series se;
 
 	protected SeriesDefinition sd;
+
+	protected IChartComputation cComp;
+
 
 	/**
 	 * All renders associated with the chart provided for convenience and
@@ -178,7 +182,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	/**
 	 * Internally used to simulate a translucent shadow
 	 */
-	public static final ColorDefinition SHADOW = ColorDefinitionImpl.create( 64,
+	public static final ColorDefinition SHADOW = goFactory.createColorDefinition( 64,
 			64,
 			64,
 			127 );
@@ -187,7 +191,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * Internally used to darken a tiled image with a translucent dark grey
 	 * color
 	 */
-	protected static final ColorDefinition DARK_GLASS = ColorDefinitionImpl.create( 64,
+	protected static final ColorDefinition DARK_GLASS = goFactory.createColorDefinition( 64,
 			64,
 			64,
 			127 );
@@ -196,7 +200,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * Internally used to brighten a tiled image with a translucent light grey
 	 * color
 	 */
-	protected static final ColorDefinition LIGHT_GLASS = ColorDefinitionImpl.create( 196,
+	protected static final ColorDefinition LIGHT_GLASS = goFactory.createColorDefinition( 196,
 			196,
 			196,
 			127 );
@@ -255,9 +259,15 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			SeriesDefinition _sd )
 	{
 		cm = _cm;
-		oComputations = _oComputation;
+		setComputation( _oComputation );
 		se = _se;
 		sd = _sd;
+	}
+
+	private void setComputation( PlotComputation _oComputation )
+	{
+		oComputations = _oComputation;
+		cComp = _oComputation.getChartComputation( );
 	}
 
 	/**
@@ -571,21 +581,21 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	{
 		final ClientArea ca = lg.getClientArea( );
 		final double dScale = getDeviceScale( );
-		LineAttributes lia = ca.getOutline( ).copyInstance( );
+		LineAttributes lia = goFactory.copyOf( ca.getOutline( ) );
 		lia.setVisible( true ); // SEPARATOR LINES MUST BE VISIBLE
 		LineAttributes liSep = lg.getSeparator( ) == null ? lia
 				: lg.getSeparator( );
 
 		// INITIALIZATION OF VARS USED IN FOLLOWING LOOPS
-		Label la = LabelImpl.create( );
-		la.setCaption( lg.getText( ).copyInstance( ) );
+		Label la = goFactory.createLabel( );
+		la.setCaption( goFactory.copyOf( lg.getText( ) ) );
 		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
-		final ITextMetrics itm = xs.getTextMetrics( la );
-		final double dItemHeight = itm.getFullHeight( );
-		itm.dispose( );
+		final double dItemHeight = cComp.computeFontHeight( xs, la )
+				+ la.getInsets( ).getTop( )
+				+ la.getInsets( ).getBottom( );
 
 		final double dHorizontalSpacing = 4;
-		final Insets insCA = ca.getInsets( ).scaledInstance( dScale );
+		final Insets insCA = goFactory.scaleInsets( ca.getInsets( ), dScale );
 		
 		final LegendItemHints[] liha = lilh.getLegendItemHints( );
 		final Orientation orientation = lg.getOrientation( );
@@ -666,7 +676,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				Label valueLa = null;
 				if ( !bPaletteByCategory && lg.isShowValue( ) )
 				{
-					valueLa = se.getLabel( ).copyInstance( );
+					valueLa = goFactory.copyOf( se.getLabel( ) );
 					valueLa.getCaption( )
 							.setValue( EllipsisHelper.ellipsisString( lih.getValueText( ),
 									lih.getValidValueLen( ) ) );
@@ -765,7 +775,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		renderBlock( ipr, lg, StructureSource.createLegend( lg ) );
 		final IDisplayServer xs = getDevice( ).getDisplayServer( );
 		final double dScale = getDeviceScale( );
-		Bounds bo = lg.getBounds( ).scaledInstance( dScale );
+		Bounds bo = goFactory.scaleBounds( lg.getBounds( ), dScale );
 
 		Size sz = null;
 
@@ -947,10 +957,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		// RENDER THE LEGEND CLIENT AREA
 		final ClientArea ca = lg.getClientArea( );
-		final Insets lgIns = lg.getInsets( ).scaledInstance( dScale );
+		final Insets lgIns = goFactory.scaleInsets( lg.getInsets( ), dScale );
 		LineAttributes lia = ca.getOutline( );
-		bo = BoundsImpl.create( dX, dY, sz.getWidth( ), sz.getHeight( ) );
-		bo = bo.adjustedInstance( lgIns );
+		bo = goFactory.createBounds( dX, dY, sz.getWidth( ), sz.getHeight( ) );
+		bo = goFactory.adjusteBounds( bo, lgIns );
 		dX = bo.getLeft( );
 		dY = bo.getTop( );
 
@@ -970,7 +980,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		// render client area shadow.
 		if ( ca.getShadowColor( ) != null )
 		{
-			rre.setBounds( bo.translateInstance( 3, 3 ) );
+			rre.setBounds( goFactory.translateBounds( bo, 3, 3 ) );
 			rre.setBackground( ca.getShadowColor( ) );
 			ipr.fillRectangle( rre );
 		}
@@ -981,7 +991,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		rre.setBackground( ca.getBackground( ) );
 		ipr.fillRectangle( rre );
 		ipr.drawRectangle( rre );
-		lia = lia.copyInstance( );
+		lia = goFactory.copyOf( lia );
 		lia.setVisible( true ); // SEPARATOR LINES MUST BE VISIBLE
 
 		final boolean bPaletteByCategory = ( cm.getLegend( )
@@ -1052,7 +1062,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			final TextRenderEvent tre = ( (EventObjectCache) ir ).getEventObject( WrappedStructureSource.createLegendTitle( lg,
 					lgTitle ),
 					TextRenderEvent.class );
-			tre.setBlockBounds( BoundsImpl.create( lX,
+			tre.setBlockBounds( goFactory.createBounds( lX,
 					lY,
 					lgTitleWidth,
 					lgTitleHeight ) );
@@ -1097,8 +1107,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			final LineRenderEvent lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
 					LineRenderEvent.class );
 			lre.setLineAttributes( lia );
-			lre.setStart( LocationImpl.create( dX, dY ) );
-			lre.setEnd( LocationImpl.create( dX + dLength, dY ) );
+			lre.setStart( goFactory.createLocation( dX, dY ) );
+			lre.setEnd( goFactory.createLocation( dX + dLength, dY ) );
 			ipr.drawLine( lre );
 		}
 		else if ( o.getValue( ) == Orientation.VERTICAL )
@@ -1106,8 +1116,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			final LineRenderEvent lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
 					LineRenderEvent.class );
 			lre.setLineAttributes( lia );
-			lre.setStart( LocationImpl.create( dX, dY ) );
-			lre.setEnd( LocationImpl.create( dX, dY + dLength ) );
+			lre.setStart( goFactory.createLocation( dX, dY ) );
+			lre.setEnd( goFactory.createLocation( dX, dY + dLength ) );
 			ipr.drawLine( lre );
 		}
 	}
@@ -1204,12 +1214,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				&& valueLa != null
 				&& valueLa.getCaption( ) != null )
 		{
-			valueLa.getCaption( ).setFont( la.getCaption( )
-					.getFont( )
-					.copyInstance( ) );
-			valueLa.getCaption( ).setColor( la.getCaption( )
-					.getColor( )
-					.copyInstance( ) );
+			valueLa.getCaption( ).setFont( goFactory.copyOf( la.getCaption( )
+					.getFont( ) ) );
+			valueLa.getCaption( ).setColor( goFactory.copyOf( la.getCaption( )
+					.getColor( ) ) );
 		}
 		
 		LegendEntryRenderingHints lerh = new LegendEntryRenderingHints( la,
@@ -1257,9 +1265,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						lih.getValidItemLen( ) ) );
 		}
 		
-		ITextMetrics itm = xs.getTextMetrics( la );
-		itm.reuse( la, lg.getWrappingSize( ) );
-		itm.dispose( );
+		cComp.applyWrapping( xs, la, lg.getWrappingSize( ) );
 
 		bo.setLeft( bo.getLeft( ) * dScale );
 		bo.setTop( bo.getTop( ) * dScale );
@@ -1294,7 +1300,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		if ( isRightToLeft( ) )
 		{
-			tre.setLocation( LocationImpl.create( dX
+			tre.setLocation( goFactory.createLocation( dX
 					+ dColumnWidth
 					- dLeftInset
 					- 3
@@ -1305,7 +1311,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		}
 		else
 		{
-			tre.setLocation( LocationImpl.create( dX
+			tre.setLocation( goFactory.createLocation( dX
 					+ dLeftInset
 					+ ( 3 * dItemHeight / 2 )
 					+ dHorizontalSpacing, bo.getTop( ) + dDeltaHeight ) );
@@ -1329,13 +1335,13 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			final double dValueWidth = dColumnWidth - 2 * dLeftInset;
 
-			Label tmpLa = valueLa.copyInstance( );
+			Label tmpLa = goFactory.copyOf( valueLa );
 
 			TextAlignment ta = TextAlignmentImpl.create( );
 			ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
 			ta.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
 			tre.setBlockAlignment( ta );
-			tre.setBlockBounds( BoundsImpl.create( dX + dLeftInset + 1, dY
+			tre.setBlockBounds( goFactory.createBounds( dX + dLeftInset + 1, dY
 					+ dFullHeight
 					+ 1, dValueWidth - 2, dExtraHeight - 1 ) );
 			tre.setLabel( tmpLa );
@@ -1360,13 +1366,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Location[] loaHotspot = new Location[4];
 
 			// use the complete legend item area as the hotspot
-			loaHotspot[0] = LocationImpl.create( dX + 1, dY + 1 );
-			loaHotspot[1] = LocationImpl.create( dX + dColumnWidth - 1, dY + 1 );
-			loaHotspot[2] = LocationImpl.create( dX + dColumnWidth - 1, dY
+			loaHotspot[0] = goFactory.createLocation( dX + 1, dY + 1 );
+			loaHotspot[1] = goFactory.createLocation( dX + dColumnWidth - 1,
+					dY + 1 );
+			loaHotspot[2] = goFactory.createLocation( dX + dColumnWidth - 1, dY
 					+ dFullHeight
 					+ dExtraHeight
 					- 1 );
-			loaHotspot[3] = LocationImpl.create( dX + 1, dY
+			loaHotspot[3] = goFactory.createLocation( dX + 1, dY
 					+ dFullHeight
 					+ dExtraHeight
 					- 1 );
@@ -1499,12 +1506,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			final TextRenderEvent tre = ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 					TextRenderEvent.class );
-			Label tmpLa = la.copyInstance( );
+			Label tmpLa = goFactory.copyOf( la );
 			TextAlignment ta = TextAlignmentImpl.create( );
 			ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
 			ta.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
 			tre.setBlockAlignment( ta );
-			tre.setBlockBounds( BoundsImpl.create( dX + dLeftInset + 1,
+			tre.setBlockBounds( goFactory.createBounds( dX + dLeftInset + 1,
 					dY + 1,
 					dWidth - 2,
 					dHeight - 1 ) );
@@ -1604,7 +1611,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			// render client area shadow
 			if ( ca.getShadowColor( ) != null )
 			{
-				rre.setBounds( bo.translateInstance( 3, 3 ) );
+				rre.setBounds( goFactory.translateBounds( bo, 3, 3 ) );
 				rre.setBackground( ca.getShadowColor( ) );
 				ipr.fillRectangle( rre );
 			}
@@ -1642,10 +1649,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 				for ( int i = 0; i < colCount + 1; i++ )
 				{
-					lre.setStart( LocationImpl.create( bo.getLeft( )
+					lre.setStart( goFactory.createLocation( bo.getLeft( )
 							+ i
 							* sz.getWidth( ), bo.getTop( ) ) );
-					lre.setEnd( LocationImpl.create( bo.getLeft( )
+					lre.setEnd( goFactory.createLocation( bo.getLeft( )
 							+ i
 							* sz.getWidth( ), bo.getTop( ) + bo.getHeight( ) ) );
 					ipr.drawLine( lre );
@@ -1653,9 +1660,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				
 				for ( int j = 0; j < rowCount + 1; j++ )
 				{
-					lre.setStart( LocationImpl.create( bo.getLeft( ),
+					lre.setStart( goFactory.createLocation( bo.getLeft( ),
 							bo.getTop( ) + j * sz.getHeight( ) ) );
-					lre.setEnd( LocationImpl.create( bo.getLeft( )
+					lre.setEnd( goFactory.createLocation( bo.getLeft( )
 							+ bo.getWidth( ), bo.getTop( ) + j * sz.getHeight( ) ) );
 					ipr.drawLine( lre );
 				}
@@ -1713,15 +1720,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Trigger tg;
 			EList<Trigger> elTriggers = b.getTriggers( );
 			Location[] loaHotspot = new Location[4];
-			Bounds bo = b.getBounds( ).scaledInstance( dScale );
+			Bounds bo = goFactory.scaleBounds( b.getBounds( ), dScale );
 			double dLeft = bo.getLeft( );
 			double dTop = bo.getTop( );
 			double dWidth = bo.getWidth( );
 			double dHeight = bo.getHeight( );
-			loaHotspot[0] = LocationImpl.create( dLeft, dTop );
-			loaHotspot[1] = LocationImpl.create( dLeft + dWidth, dTop );
-			loaHotspot[2] = LocationImpl.create( dLeft + dWidth, dTop + dHeight );
-			loaHotspot[3] = LocationImpl.create( dLeft, dTop + dHeight );
+			loaHotspot[0] = goFactory.createLocation( dLeft, dTop );
+			loaHotspot[1] = goFactory.createLocation( dLeft + dWidth, dTop );
+			loaHotspot[2] = goFactory.createLocation( dLeft + dWidth, dTop
+					+ dHeight );
+			loaHotspot[3] = goFactory.createLocation( dLeft, dTop + dHeight );
 
 			if ( !elTriggers.isEmpty( ) )
 			{
@@ -1765,7 +1773,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		Map<Label, LabelLimiter> mapLimiter = rtc.getState( RunTimeContext.StateKey.LABEL_LIMITER_LOOKUP_KEY );
 		LabelLimiter lbLimiter = mapLimiter.get( lb.getLabel( ) );
 		lbLimiter.computeWrapping( xs, lb.getLabel( ) );
-		lbLimiter = lbLimiter.limitLabelSize( xs, lb.getLabel( ) );
+		lbLimiter = lbLimiter.limitLabelSize( cComp, xs, lb.getLabel( ) );
 
 		if ( !lbLimiter.isSuccessed( ) )
 		{
@@ -1820,15 +1828,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			EList<Trigger> elTriggers = b.getTriggers( );
 			Location[] loaHotspot = new Location[4];
 			final double dScale = getDeviceScale( );
-			Bounds bo = b.getBounds( ).scaledInstance( dScale );
+			Bounds bo = goFactory.scaleBounds( b.getBounds( ), dScale );
 			double dLeft = bo.getLeft( );
 			double dTop = bo.getTop( );
 			double dWidth = bo.getWidth( );
 			double dHeight = bo.getHeight( );
-			loaHotspot[0] = LocationImpl.create( dLeft, dTop );
-			loaHotspot[1] = LocationImpl.create( dLeft + dWidth, dTop );
-			loaHotspot[2] = LocationImpl.create( dLeft + dWidth, dTop + dHeight );
-			loaHotspot[3] = LocationImpl.create( dLeft, dTop + dHeight );
+			loaHotspot[0] = goFactory.createLocation( dLeft, dTop );
+			loaHotspot[1] = goFactory.createLocation( dLeft + dWidth, dTop );
+			loaHotspot[2] = goFactory.createLocation( dLeft + dWidth, dTop
+					+ dHeight );
+			loaHotspot[3] = goFactory.createLocation( dLeft, dTop + dHeight );
 
 			if ( !elTriggers.isEmpty( ) )
 			{
@@ -2164,14 +2173,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			fDarker = f;
 			if ( fDarker instanceof ColorDefinition )
 			{
-				fDarker = ( (ColorDefinition) fDarker ).darker( );
+				fDarker = goFactory.darker( (ColorDefinition) fDarker );
 			}
 			fBrighter = f;
 			if ( !( getModel( ).getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL ) )
 			{
 				if ( fBrighter instanceof ColorDefinition )
 				{
-					fBrighter = ( (ColorDefinition) fBrighter ).brighter( );
+					fBrighter = goFactory.brighter( (ColorDefinition) fBrighter );
 				}
 			}
 			else
@@ -2195,13 +2204,13 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			if ( j >= loaFront.length )
 				j = 0;
 			loa = new Location[4];
-			loa[0] = LocationImpl.create( loaFront[i].getX( ),
+			loa[0] = goFactory.createLocation( loaFront[i].getX( ),
 					loaFront[i].getY( ) );
-			loa[1] = LocationImpl.create( loaFront[j].getX( ),
+			loa[1] = goFactory.createLocation( loaFront[j].getX( ),
 					loaFront[j].getY( ) );
-			loa[2] = LocationImpl.create( loaFront[j].getX( )
+			loa[2] = goFactory.createLocation( loaFront[j].getX( )
 					+ dSeriesThickness, loaFront[j].getY( ) - dSeriesThickness );
-			loa[3] = LocationImpl.create( loaFront[i].getX( )
+			loa[3] = goFactory.createLocation( loaFront[i].getX( )
 					+ dSeriesThickness, loaFront[i].getY( ) - dSeriesThickness );
 			loaa[i] = loa;
 		}
@@ -2751,19 +2760,19 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Coordinates co = pwoa.getCellCoordinates( seriesIndex - 1 );
 			Size sz = pwoa.getCellSize( );
 
-			bo = pwoa.getPlotBounds( ).copyInstance( );
+			bo = goFactory.copyOf( pwoa.getPlotBounds( ) );
 			bo.setLeft( bo.getLeft( ) + co.getColumn( ) * sz.getWidth( ) );
 			bo.setTop( bo.getTop( ) + co.getRow( ) * sz.getHeight( ) );
 			bo.setWidth( sz.getWidth( ) );
 			bo.setHeight( sz.getHeight( ) );
-			bo = bo.adjustedInstance( pwoa.getPlotInsets( ) );
+			bo = goFactory.adjusteBounds( bo, pwoa.getPlotInsets( ) );
 		}
 		else if ( obj instanceof PlotWithAxes )
 		{
 			PlotWithAxes pwa = (PlotWithAxes) obj;
 
-			bo = pwa.getPlotBounds( ).copyInstance( );
-			bo = bo.adjustedInstance( pwa.getPlotInsets( ) );
+			bo = goFactory.copyOf( pwa.getPlotBounds( ) );
+			bo = goFactory.adjusteBounds( bo, pwa.getPlotInsets( ) );
 		}
 
 		return bo;
@@ -2778,8 +2787,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	protected final Bounds getPlotBounds( )
 	{
 		PlotComputation oComputation = getComputations( );
-		Bounds bo = oComputation.getPlotBounds( ).copyInstance( );
-		bo = bo.adjustedInstance( oComputation.getPlotInsets( ) );
+		Bounds bo = goFactory.adjusteBounds( oComputation.getPlotBounds( ),
+				oComputation.getPlotInsets( ) );
 		return bo;
 	}
 
@@ -2794,13 +2803,180 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			throws ChartException
 	{
 		// Bugzilla#216718 data point labels should be inside area including axes
-		Methods.limitDataPointLabelLocation( getModel( ),
+		limitDataPointLabelLocation( getModel( ),
 				xs,
 				laDataPoint,
 				getDeviceScale( ),
 				lo,
 				lp );
 		renderLabel( oSource, iTextRenderType, laDataPoint, lp, lo, bo, dc );
+	}
+
+	private void limitDataPointLabelLocation( Chart cm, IDisplayServer xs,
+			Label laDataPoint, double dScale, Location lo, Position lp )
+			throws ChartException
+	{
+		if ( lo == null || cm instanceof ChartWithoutAxes )
+		{
+			return;
+		}
+
+		ChartWithAxes cwa = (ChartWithAxes) cm;
+		Plot p = cwa.getPlot( );
+
+		BoundingBox bb = cComp.computeBox( xs,
+				IConstants.ABOVE,
+				laDataPoint,
+				0,
+				0 );
+
+		Bounds boCa = goFactory.scaleBounds( p.getBounds( ), dScale );
+
+		double rotation = laDataPoint.getCaption( ).getFont( ).getRotation( );
+		int state = 0;
+		// use 1 to 8 to indicate the state, starts from the bottom
+		// center,counter-clockwise
+		switch ( lp.getValue( ) )
+		{
+			case Position.ABOVE :
+				if ( rotation > 0 && rotation < 90 )
+				{
+					state = 8;
+				}
+				else if ( rotation < 0 && rotation > -90 )
+				{
+					state = 2;
+				}
+				else
+				{
+					state = 1;
+				}
+				break;
+			case Position.RIGHT :
+				if ( rotation > 0 && rotation < 90 )
+				{
+					state = 8;
+				}
+				else if ( rotation < 0 && rotation > -90 )
+				{
+					state = 6;
+				}
+				else
+				{
+					state = 7;
+				}
+				break;
+			case Position.BELOW :
+				if ( rotation > 0 && rotation < 90 )
+				{
+					state = 4;
+				}
+				else if ( rotation < 0 && rotation > -90 )
+				{
+					state = 6;
+				}
+				else
+				{
+					state = 5;
+				}
+				break;
+			case Position.LEFT :
+				if ( rotation > 0 && rotation < 90 )
+				{
+					state = 4;
+				}
+				else if ( rotation < 0 && rotation > -90 )
+				{
+					state = 2;
+				}
+				else
+				{
+					state = 3;
+				}
+				break;
+		}
+		double dYmin, dYmax, dXmin, dXmax;
+		switch ( state )
+		{
+			case 1 :
+				dYmin = boCa.getTop( ) + bb.getHeight( );
+				dYmax = boCa.getTop( ) + boCa.getHeight( );
+				dXmin = boCa.getLeft( ) + bb.getWidth( ) / 2;
+				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( ) / 2;
+				break;
+			case 2 :
+				dYmin = boCa.getTop( ) + bb.getHeight( );
+				dYmax = boCa.getTop( ) + boCa.getHeight( );
+				dXmin = boCa.getLeft( ) + bb.getWidth( );
+				dXmax = boCa.getLeft( ) + boCa.getWidth( );
+				break;
+			case 3 :
+				dYmin = boCa.getTop( ) + bb.getHeight( ) / 2;
+				dYmax = boCa.getTop( )
+						+ boCa.getHeight( )
+						- bb.getHeight( )
+						/ 2;
+				dXmin = boCa.getLeft( ) + bb.getWidth( );
+				dXmax = boCa.getLeft( ) + boCa.getWidth( );
+				break;
+			case 4 :
+				dYmin = boCa.getTop( );
+				dYmax = boCa.getTop( ) + boCa.getHeight( ) - bb.getHeight( );
+				dXmin = boCa.getLeft( ) + bb.getWidth( );
+				dXmax = boCa.getLeft( ) + boCa.getWidth( );
+				break;
+			case 5 :
+				dYmin = boCa.getTop( );
+				dYmax = boCa.getTop( ) + boCa.getHeight( ) - bb.getHeight( );
+				dXmin = boCa.getLeft( ) + bb.getWidth( ) / 2;
+				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( ) / 2;
+				break;
+			case 6 :
+				dYmin = boCa.getTop( );
+				dYmax = boCa.getTop( ) + boCa.getHeight( ) - bb.getHeight( );
+				dXmin = boCa.getLeft( );
+				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( );
+				break;
+			case 7 :
+				dYmin = boCa.getTop( ) + bb.getHeight( ) / 2;
+				dYmax = boCa.getTop( )
+						+ boCa.getHeight( )
+						- bb.getHeight( )
+						/ 2;
+				dXmin = boCa.getLeft( );
+				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( );
+				break;
+			case 8 :
+				dYmin = boCa.getTop( ) + bb.getHeight( );
+				dYmax = boCa.getTop( ) + boCa.getHeight( );
+				dXmin = boCa.getLeft( );
+				dXmax = boCa.getLeft( ) + boCa.getWidth( ) - bb.getWidth( );
+				break;
+			default :
+				dYmin = lo.getY( );
+				dYmax = lo.getY( );
+				dXmin = lo.getX( );
+				dXmax = lo.getX( );
+				break;
+		}
+
+		if ( lo.getY( ) < dYmin )
+		{
+			lo.setY( dYmin );
+		}
+		if ( lo.getY( ) > dYmax )
+		{
+			lo.setY( dYmax );
+		}
+		if ( lo.getX( ) < dXmin )
+		{
+			lo.setX( dXmin );
+		}
+		if ( lo.getX( ) > dXmax )
+		{
+			lo.setX( dXmax );
+		}
+
 	}
 
 	/**
@@ -3201,7 +3377,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 	protected Label getExternalizedCopy( Label la )
 	{
-		Label laCopy = getModel( ).getEmptyMessage( ).copyInstance( );
+		Label laCopy = goFactory.copyOf( getModel( ).getEmptyMessage( ) );
 		Text caption = laCopy.getCaption( );
 		caption.setValue( getRunTimeContext( ).externalizedMessage( caption.getValue( ) ) );
 		return laCopy;
@@ -3236,12 +3412,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		Bounds bo = rre.getBounds( );
 		Insets insPlot = p.getInsets( );
-		bo = bo.adjustedInstance( insPlot );
+		bo = goFactory.adjusteBounds( bo, insPlot );
 
 		// render client area shadow
 		if ( ca.getShadowColor( ) != null )
 		{
-			rre.setBounds( bo.translateInstance( 3, 3 ) );
+			rre.setBounds( goFactory.translateBounds( bo, 3, 3 ) );
 			rre.setBackground( ca.getShadowColor( ) );
 			ipr.fillRectangle( rre );
 		}
@@ -3288,7 +3464,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				bo.getHeight( ),
 				0 );
 		lbLimiter.computeWrapping( xs, la );
-		lbLimiter.limitLabelSize( xs, la );
+		lbLimiter.limitLabelSize( cComp, xs, la );
 
 		tre.setBlockAlignment( la.getCaption( ).getFont( ).getAlignment( ) );
 		tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );

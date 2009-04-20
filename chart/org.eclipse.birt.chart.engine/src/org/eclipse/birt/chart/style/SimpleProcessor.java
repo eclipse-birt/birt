@@ -13,15 +13,14 @@ package org.eclipse.birt.chart.style;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Style;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 
 /**
  * A default implementation for IStyleProcessor.
@@ -33,10 +32,12 @@ public final class SimpleProcessor implements IStyleProcessor
 
 	private static SimpleProcessor instance;
 
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+
 	static
 	{
-		TextAlignment ta = TextAlignmentImpl.create( );
-		FontDefinition font = FontDefinitionImpl.create( "SansSerif", //$NON-NLS-1$
+		TextAlignment ta = goFactory.createTextAlignment( );
+		FontDefinition font = goFactory.createFontDefinition( "SansSerif", //$NON-NLS-1$
 				12,
 				false,
 				false,
@@ -47,7 +48,7 @@ public final class SimpleProcessor implements IStyleProcessor
 				ta );
 
 		defaultStyle = new SimpleStyle( font,
-				ColorDefinitionImpl.BLACK( ),
+				goFactory.BLACK( ),
 				null,
 				null,
 				null );
@@ -93,27 +94,23 @@ public final class SimpleProcessor implements IStyleProcessor
 
 					SimpleStyle rt = new SimpleStyle( defaultStyle );
 
-					if ( ss.getFont( ) != null )
-					{
-						rt.setFont( ss.getFont( ).copyInstance( ) );
-					}
+					rt.setFont( goFactory.copyOf( ss.getFont( ) ) );
+
 					if ( ss.getColor( ) != null )
 					{
-						rt.setColor( ss.getColor( ).copyInstance( ) );
+						rt.setColor( goFactory.copyOf( ss.getColor( ) ) );
 					}
 					if ( ss.getBackgroundColor( ) != null )
 					{
-						rt.setBackgroundColor( ss.getBackgroundColor( )
-								.copyInstance( ) );
+						rt.setBackgroundColor( goFactory.copyOf( ss.getBackgroundColor( ) ) );
 					}
 					if ( ss.getBackgroundImage( ) != null )
 					{
-						rt.setBackgroundImage( ss.getBackgroundImage( )
-								.copyInstance( ) );
+						rt.setBackgroundImage( goFactory.copyOf( ss.getBackgroundImage( ) ) );
 					}
 					if ( ss.getPadding( ) != null )
 					{
-						rt.setPadding( ss.getPadding( ).copyInstance( ) );
+						rt.setPadding( goFactory.copyOf( ss.getPadding( ) ) );
 					}
 
 					return rt;

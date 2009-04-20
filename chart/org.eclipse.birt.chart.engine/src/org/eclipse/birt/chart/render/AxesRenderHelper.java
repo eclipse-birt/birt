@@ -15,7 +15,10 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.Engine3D;
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.ValueFormatter;
@@ -29,7 +32,6 @@ import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
-import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.InteractionEvent;
@@ -58,10 +60,6 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
@@ -86,6 +84,8 @@ public final class AxesRenderHelper
 
 	static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
 
+	protected final static IGObjectFactory goFactory = GObjectFacotry.instance( );
+
 	AxesRenderer renderer;
 	OneAxis ax;
 	int iWhatToDraw;
@@ -93,6 +93,7 @@ public final class AxesRenderHelper
 
 	private Axis axModel;
 	private PlotWithAxes pwa;
+	private IChartComputation cComp;
 	private Insets insCA;
 	private ScriptHandler sh;
 	private double dLocation;
@@ -149,13 +150,13 @@ public final class AxesRenderHelper
 	private boolean bLabelWithinAxes;
 
 	AxesRenderHelper( AxesRenderer renderer, IPrimitiveRenderer ipr, Plot pl,
-			OneAxis ax, int iWhatToDraw )
+			OneAxis ax, int iWhatToDraw ) throws ChartException
 	{
 		init( renderer, ipr, pl, ax, iWhatToDraw );
 	}
 
 	private void init( AxesRenderer renderer, IPrimitiveRenderer ipr, Plot pl,
-			OneAxis ax, int iWhatToDraw )
+			OneAxis ax, int iWhatToDraw ) throws ChartException
 	{
 		this.renderer = renderer;
 		this.ax = ax;
@@ -164,6 +165,7 @@ public final class AxesRenderHelper
 
 		axModel = ax.getModelAxis( );
 		pwa = (PlotWithAxes) renderer.getComputations( );
+		cComp = pwa.getChartComputation( );
 		insCA = pwa.getAxes( ).getInsets( );
 		sh = getRunTimeContext( ).getScriptHandler( );
 		dLocation = ax.getAxisCoordinate( );
@@ -174,7 +176,7 @@ public final class AxesRenderHelper
 		iLabelLocation = ax.getLabelPosition( );
 		iOrientation = ax.getOrientation( );
 		xs = renderer.getDevice( ).getDisplayServer( );
-		la = ax.getLabel( ).copyInstance( );
+		la = goFactory.copyOf( ax.getLabel( ) );
 
 		daEndPoints = sc.getEndPoints( );
 		da = sc.getTickCordinates( );
@@ -194,7 +196,7 @@ public final class AxesRenderHelper
 		bRenderAxisLabels = ax.isShowLabels( )
 				&& ( ( iWhatToDraw & IConstants.LABELS ) == IConstants.LABELS && la.isVisible( ) );
 		bRenderAxisTitle = ( ( iWhatToDraw & IConstants.LABELS ) == IConstants.LABELS );
-		lo = LocationImpl.create( 0, 0 );
+		lo = goFactory.createLocation( 0, 0 );
 
 		trae = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 				TransformationEvent.class );
@@ -300,7 +302,6 @@ public final class AxesRenderHelper
 	{
 
 		ComputationContext context;
-		ITextMetrics itmText;
 
 		TextAxisTypeComputation( ComputationContext context )
 		{
@@ -309,7 +310,6 @@ public final class AxesRenderHelper
 
 		public void initialize( ) throws ChartException
 		{
-			itmText = xs.getTextMetrics( la );
 			sc.getData( ).reset( );
 		}
 
@@ -349,9 +349,9 @@ public final class AxesRenderHelper
 									&& iDimension == IConstants.TWO_5_D
 									&& iv.getType( ) == IConstants.VALUE )
 							{
-								lre.setStart( LocationImpl.create( context.dX,
+								lre.setStart( goFactory.createLocation( context.dX,
 										y ) );
-								lre.setEnd( LocationImpl.create( context.dX
+								lre.setEnd( goFactory.createLocation( context.dX
 										+ dSeriesThickness, y
 										- dSeriesThickness ) );
 								ipr.drawLine( lre );
@@ -406,7 +406,7 @@ public final class AxesRenderHelper
 			}
 			finally
 			{
-				itmText.dispose( ); // DISPOSED
+				// itmText.dispose( ); // DISPOSED
 			}
 		}
 
@@ -427,14 +427,6 @@ public final class AxesRenderHelper
 				else
 				{
 					la.getCaption( ).setValue( sc.getComputedLabelText( i ) );
-					// la.getCaption( )
-					// .setValue( sc.formatCategoryValue( sc.getType( ),
-					// sc.getData( ).next( ),
-					// iDateTimeUnit ) );
-				}
-				if ( sc.isTickLabelVisible( i ) )
-				{
-					itmText.reuse( la ); // RECYCLED
 				}
 			}
 
@@ -654,8 +646,8 @@ public final class AxesRenderHelper
 				: context.dTick2 + 1;
 
 		int yLast = Integer.MIN_VALUE;
-		Location loMinorStart = LocationImpl.create( 0, 0 );
-		Location loMinorEnd = LocationImpl.create( 0, 0 );
+		Location loMinorStart = goFactory.createLocation( 0, 0 );
+		Location loMinorEnd = goFactory.createLocation( 0, 0 );
 		for ( int i = 0; i < length; i++ )
 		{
 			computation.handlePreEachTick( i );
@@ -761,8 +753,8 @@ public final class AxesRenderHelper
 							&& iDimension == IConstants.TWO_5_D
 							&& iv.getType( ) == IConstants.VALUE )
 					{
-						lre.setStart( LocationImpl.create( context.dX, y ) );
-						lre.setEnd( LocationImpl.create( context.dX
+						lre.setStart( goFactory.createLocation( context.dX, y ) );
+						lre.setEnd( goFactory.createLocation( context.dX
 								+ dSeriesThickness, y - dSeriesThickness ) );
 						ipr.drawLine( lre );
 					}
@@ -891,8 +883,8 @@ public final class AxesRenderHelper
 				: ( bRendering3D ? context.dTick2 - 1 : context.dTick2 + 1 );
 
 		int xLast = Integer.MIN_VALUE;
-		Location loMinorStart = LocationImpl.create( 0, 0 );
-		Location loMinorEnd = LocationImpl.create( 0, 0 );
+		Location loMinorStart = goFactory.createLocation( 0, 0 );
+		Location loMinorEnd = goFactory.createLocation( 0, 0 );
 		for ( int i = 0; i < length; i++ )
 		{
 
@@ -1133,8 +1125,8 @@ public final class AxesRenderHelper
 		tre.setLocation( lo );
 
 		lre.setLineAttributes( lia );
-		lre.setStart( LocationImpl.create( 0, 0 ) );
-		lre.setEnd( LocationImpl.create( 0, 0 ) );
+		lre.setStart( goFactory.createLocation( 0, 0 ) );
+		lre.setEnd( goFactory.createLocation( 0, 0 ) );
 
 		double dXStart = 0;
 		double dXEnd = 0;
@@ -1152,7 +1144,7 @@ public final class AxesRenderHelper
 			daEndPoints3D = sc.getEndPoints( );
 			da3D = sc.getTickCordinates( );
 
-			lo3d = Location3DImpl.create( 0, 0, 0 );
+			lo3d = goFactory.createLocation3D( 0, 0, 0 );
 
 			t3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 					Text3DRenderEvent.class );
@@ -1164,8 +1156,8 @@ public final class AxesRenderHelper
 			l3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 					Line3DRenderEvent.class );
 			l3dre.setLineAttributes( lia );
-			l3dre.setStart3D( Location3DImpl.create( 0, 0, 0 ) );
-			l3dre.setEnd3D( Location3DImpl.create( 0, 0, 0 ) );
+			l3dre.setStart3D( goFactory.createLocation3D( 0, 0, 0 ) );
+			l3dre.setEnd3D( goFactory.createLocation3D( 0, 0, 0 ) );
 		}
 
 		if ( iOrientation == IConstants.VERTICAL )
@@ -1239,19 +1231,19 @@ public final class AxesRenderHelper
 									Polygon3DRenderEvent.class );
 
 							// process center y-axis.
-							loaHotspot[0] = Location3DImpl.create( context.dX
+							loaHotspot[0] = goFactory.createLocation3D( context.dX
 									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dStart,
 									dZ + IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[1] = Location3DImpl.create( context.dX
+							loaHotspot[1] = goFactory.createLocation3D( context.dX
 									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dStart,
 									dZ - IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[2] = Location3DImpl.create( context.dX
+							loaHotspot[2] = goFactory.createLocation3D( context.dX
 									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dEnd,
 									dZ - IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[3] = Location3DImpl.create( context.dX
+							loaHotspot[3] = goFactory.createLocation3D( context.dX
 									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dEnd,
 									dZ + IConstants.LINE_EXPAND_DOUBLE_SIZE );
@@ -1284,19 +1276,19 @@ public final class AxesRenderHelper
 									Polygon3DRenderEvent.class );
 							loaHotspot = new Location3D[4];
 
-							loaHotspot[0] = Location3DImpl.create( dXStart
+							loaHotspot[0] = goFactory.createLocation3D( dXStart
 									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dStart,
 									dZEnd + IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[1] = Location3DImpl.create( dXStart
+							loaHotspot[1] = goFactory.createLocation3D( dXStart
 									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dStart,
 									dZEnd - IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[2] = Location3DImpl.create( dXStart
+							loaHotspot[2] = goFactory.createLocation3D( dXStart
 									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dEnd,
 									dZEnd - IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[3] = Location3DImpl.create( dXStart
+							loaHotspot[3] = goFactory.createLocation3D( dXStart
 									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dEnd,
 									dZEnd + IConstants.LINE_EXPAND_DOUBLE_SIZE );
@@ -1342,22 +1334,22 @@ public final class AxesRenderHelper
 									Polygon3DRenderEvent.class );
 							loaHotspot = new Location3D[4];
 
-							loaHotspot[0] = Location3DImpl.create( dXEnd
+							loaHotspot[0] = goFactory.createLocation3D( dXEnd
 									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dStart,
 									dZStart
 											+ IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[1] = Location3DImpl.create( dXEnd
+							loaHotspot[1] = goFactory.createLocation3D( dXEnd
 									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dStart,
 									dZStart
 											- IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[2] = Location3DImpl.create( dXEnd
+							loaHotspot[2] = goFactory.createLocation3D( dXEnd
 									+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dEnd,
 									dZStart
 											- IConstants.LINE_EXPAND_DOUBLE_SIZE );
-							loaHotspot[3] = Location3DImpl.create( dXEnd
+							loaHotspot[3] = goFactory.createLocation3D( dXEnd
 									- IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dEnd,
 									dZStart
@@ -1414,17 +1406,17 @@ public final class AxesRenderHelper
 							&& iDimension == IConstants.TWO_5_D )
 					{
 						final Location[] loa = new Location[4];
-						loa[0] = LocationImpl.create( context.dX, dStart );
-						loa[1] = LocationImpl.create( context.dX
+						loa[0] = goFactory.createLocation( context.dX, dStart );
+						loa[1] = goFactory.createLocation( context.dX
 								+ dSeriesThickness, dStart - dSeriesThickness );
-						loa[2] = LocationImpl.create( context.dX
+						loa[2] = goFactory.createLocation( context.dX
 								+ dSeriesThickness, dEnd - dSeriesThickness );
-						loa[3] = LocationImpl.create( context.dX, dEnd );
+						loa[3] = goFactory.createLocation( context.dX, dEnd );
 
 						final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 								PolygonRenderEvent.class );
 						pre.setPoints( loa );
-						pre.setBackground( ColorDefinitionImpl.create( 255,
+						pre.setBackground( goFactory.createColorDefinition( 255,
 								255,
 								255,
 								127 ) );
@@ -1457,13 +1449,13 @@ public final class AxesRenderHelper
 
 							Location[] loaHotspot = new Location[4];
 
-							loaHotspot[0] = LocationImpl.create( context.dX
+							loaHotspot[0] = goFactory.createLocation( context.dX
 									- IConstants.LINE_EXPAND_SIZE, dStart );
-							loaHotspot[1] = LocationImpl.create( context.dX
+							loaHotspot[1] = goFactory.createLocation( context.dX
 									+ IConstants.LINE_EXPAND_SIZE, dStart );
-							loaHotspot[2] = LocationImpl.create( context.dX
+							loaHotspot[2] = goFactory.createLocation( context.dX
 									+ IConstants.LINE_EXPAND_SIZE, dEnd );
-							loaHotspot[3] = LocationImpl.create( context.dX
+							loaHotspot[3] = goFactory.createLocation( context.dX
 									- IConstants.LINE_EXPAND_SIZE, dEnd );
 
 							final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
@@ -1484,7 +1476,7 @@ public final class AxesRenderHelper
 					dZ,
 					dStaggeredLabelOffset );
 
-			la = ax.getTitle( ).copyInstance( ); // TEMPORARILY USE
+			la = goFactory.copyOf( ax.getTitle( ) ); // TEMPORARILY USE
 			// FOR AXIS TITLE
 			if ( la.isVisible( ) && bRenderAxisTitle )
 			{
@@ -1516,50 +1508,36 @@ public final class AxesRenderHelper
 								.getRotation( ) ) <= 30;
 						final double dYAxisHeightPC = ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
 								xs );
-						try
+
+						if ( bTitleHorizontal )
 						{
-							if ( bTitleHorizontal )
-							{
-								// Horizontal title always starts with axis and
-								// within
-								// axis. It shouldn't display outside axis.
-								bWithinAxis = true;
-							}
-							else
-							{
-								final BoundingBox bbWoWrap = Methods.computeBox( xs,
-										iLabelLocation,
-										la,
-										0,
-										0,
-										dYAxisHeightPC );
-								bWithinAxis = bbWoWrap.getHeight( ) < daEndPoints[0]
-										- daEndPoints[1];
-							}
-							// Keep the same behavior with PlotWithAxes. If
-							// title is
-							// horizontal, only wrap if title exceeds height
-							// plus
-							// corner.
-							bb = Methods.computeBox( xs,
-									ax.getTitlePosition( ),
+							// Horizontal title always starts with axis and
+							// within
+							// axis. It shouldn't display outside axis.
+							bWithinAxis = true;
+						}
+						else
+						{
+							final BoundingBox bbWoWrap = cComp.computeLabelSize( xs,
 									la,
-									0,
-									0,
-									bWithinAxis && !bTitleHorizontal ? daEndPoints[0]
-											- daEndPoints[1]
-											: dYAxisHeightPC );
+									dYAxisHeightPC,
+									null );
+							bWithinAxis = bbWoWrap.getHeight( ) < daEndPoints[0]
+									- daEndPoints[1];
 						}
-						catch ( IllegalArgumentException uiex )
-						{
-							throw new ChartException( ChartEnginePlugin.ID,
-									ChartException.RENDERING,
-									uiex );
-						}
+						// Keep the same behavior with PlotWithAxes. If
+						// title is
+						// horizontal, only wrap if title exceeds height
+						// plus
+						// corner.
+						bb = cComp.computeLabelSize( xs, la, bWithinAxis
+								&& !bTitleHorizontal ? daEndPoints[0]
+								- daEndPoints[1] : dYAxisHeightPC, null );
 
 						// Bounds cbo = renderer.getPlotBounds( );
 						//
-						// tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
+						// tre.setBlockBounds( goFactory.createBounds(
+						// cbo.getLeft( )
 						// + ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
 						// / 2d,
 						// cbo.getTop( ) + 30,
@@ -1574,7 +1552,8 @@ public final class AxesRenderHelper
 						// );
 						// ipr.drawText( tre );
 						//
-						// tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
+						// tre.setBlockBounds( goFactory.createBounds(
+						// cbo.getLeft( )
 						// + cbo.getWidth( )
 						// - bb.getWidth( ),
 						// cbo.getTop( ) + 30 * 2,
@@ -1649,7 +1628,7 @@ public final class AxesRenderHelper
 						}
 						t3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 								Text3DRenderEvent.class );
-						t3dre.setLocation3D( Location3DImpl.create( leftYAxisTitlePosition
+						t3dre.setLocation3D( goFactory.createLocation3D( leftYAxisTitlePosition
 								- leftTitleYDelta,
 								yCenter,
 								zPosition ) );
@@ -1681,7 +1660,7 @@ public final class AxesRenderHelper
 						{
 							zPosition = dZ - rightTitleZDelta;
 						}
-						t3dre.setLocation3D( Location3DImpl.create( rightYAxisTitlePosition
+						t3dre.setLocation3D( goFactory.createLocation3D( rightYAxisTitlePosition
 								+ rightTitleYDelta,
 								yCenter,
 								zPosition ) );
@@ -1695,7 +1674,7 @@ public final class AxesRenderHelper
 						LabelLimiter lbLimit = pwa.getLabellLimiter( ax.getModelAxis( )
 								.getTitle( ) );
 						lbLimit.computeWrapping( xs, la );
-						lbLimit = lbLimit.limitLabelSize( xs, la );
+						lbLimit = lbLimit.limitLabelSize( cComp, xs, la );
 
 						if ( lbLimit.isSuccessed( ) )
 						{
@@ -1724,7 +1703,7 @@ public final class AxesRenderHelper
 							// this.renderer.cm ).getTitle( )
 							// .getBounds( );
 							double dTop = computeTopOfOrthogonalAxisTitle( );
-							final Bounds bo = BoundsImpl.create( ax.getTitleCoordinate( ),
+							final Bounds bo = goFactory.createBounds( ax.getTitleCoordinate( ),
 									bWithinAxis ? daEndPoints[1] : dTop,
 									bb.getWidth( ),
 									bWithinAxis ? dHeightWithinAxis
@@ -1732,10 +1711,9 @@ public final class AxesRenderHelper
 
 							tre.setBlockBounds( bo );
 							tre.setLabel( la );
-							TextAlignment ta = la.getCaption( )
+							TextAlignment ta = goFactory.copyOf( la.getCaption( )
 									.getFont( )
-									.getAlignment( )
-									.copyInstance( );
+									.getAlignment( ) );
 							if ( ax.getModelAxis( ).getAssociatedAxes( ).size( ) != 0 )
 							{
 								tre.setBlockAlignment( ChartUtil.transposeAlignment( ta ) );
@@ -1772,7 +1750,7 @@ public final class AxesRenderHelper
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_TITLE,
 						la );
 			}
-			la = ax.getLabel( ).copyInstance( );
+			la = goFactory.copyOf( ax.getLabel( ) );
 
 			if ( iv != null
 					&& iv.getType( ) == IConstants.MAX
@@ -1843,19 +1821,19 @@ public final class AxesRenderHelper
 									Polygon3DRenderEvent.class );
 
 							Location3D[] loaHotspot = new Location3D[4];
-							loaHotspot[0] = Location3DImpl.create( dStart,
+							loaHotspot[0] = goFactory.createLocation3D( dStart,
 									context.dY
 											- IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dZ );
-							loaHotspot[1] = Location3DImpl.create( dStart,
+							loaHotspot[1] = goFactory.createLocation3D( dStart,
 									context.dY
 											+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dZ );
-							loaHotspot[2] = Location3DImpl.create( dEnd,
+							loaHotspot[2] = goFactory.createLocation3D( dEnd,
 									context.dY
 											+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dZ );
-							loaHotspot[3] = Location3DImpl.create( dEnd,
+							loaHotspot[3] = goFactory.createLocation3D( dEnd,
 									context.dY
 											- IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dZ );
@@ -1906,19 +1884,19 @@ public final class AxesRenderHelper
 									Polygon3DRenderEvent.class );
 
 							Location3D[] loaHotspot = new Location3D[4];
-							loaHotspot[0] = Location3DImpl.create( dX,
+							loaHotspot[0] = goFactory.createLocation3D( dX,
 									context.dY
 											- IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dStart );
-							loaHotspot[1] = Location3DImpl.create( dX,
+							loaHotspot[1] = goFactory.createLocation3D( dX,
 									context.dY
 											+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dStart );
-							loaHotspot[2] = Location3DImpl.create( dX,
+							loaHotspot[2] = goFactory.createLocation3D( dX,
 									context.dY
 											+ IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dEnd );
-							loaHotspot[3] = Location3DImpl.create( dX,
+							loaHotspot[3] = goFactory.createLocation3D( dX,
 									context.dY
 											- IConstants.LINE_EXPAND_DOUBLE_SIZE,
 									dEnd );
@@ -1965,17 +1943,19 @@ public final class AxesRenderHelper
 					{
 						// Zero plane.
 						final Location[] loa = new Location[4];
-						loa[0] = LocationImpl.create( dStart, context.dY );
-						loa[1] = LocationImpl.create( dStart + dSeriesThickness,
+						loa[0] = goFactory.createLocation( dStart, context.dY );
+						loa[1] = goFactory.createLocation( dStart
+								+ dSeriesThickness,
 								context.dY - dSeriesThickness );
-						loa[2] = LocationImpl.create( dEnd + dSeriesThickness,
+						loa[2] = goFactory.createLocation( dEnd
+								+ dSeriesThickness,
 								context.dY - dSeriesThickness );
-						loa[3] = LocationImpl.create( dEnd, context.dY );
+						loa[3] = goFactory.createLocation( dEnd, context.dY );
 
 						final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 								PolygonRenderEvent.class );
 						pre.setPoints( loa );
-						pre.setBackground( ColorDefinitionImpl.create( 255,
+						pre.setBackground( goFactory.createColorDefinition( 255,
 								255,
 								255,
 								127 ) );
@@ -2008,13 +1988,13 @@ public final class AxesRenderHelper
 
 							Location[] loaHotspot = new Location[4];
 
-							loaHotspot[0] = LocationImpl.create( dStart,
+							loaHotspot[0] = goFactory.createLocation( dStart,
 									context.dY - IConstants.LINE_EXPAND_SIZE );
-							loaHotspot[1] = LocationImpl.create( dEnd,
+							loaHotspot[1] = goFactory.createLocation( dEnd,
 									context.dY - IConstants.LINE_EXPAND_SIZE );
-							loaHotspot[2] = LocationImpl.create( dEnd,
+							loaHotspot[2] = goFactory.createLocation( dEnd,
 									context.dY + IConstants.LINE_EXPAND_SIZE );
-							loaHotspot[3] = LocationImpl.create( dStart,
+							loaHotspot[3] = goFactory.createLocation( dStart,
 									context.dY + IConstants.LINE_EXPAND_SIZE );
 
 							final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
@@ -2035,7 +2015,7 @@ public final class AxesRenderHelper
 					dStaggeredLabelOffset );
 
 			// RENDER THE AXIS TITLE
-			la = ax.getTitle( ).copyInstance( ); // TEMPORARILY USE
+			la = goFactory.copyOf( ax.getTitle( ) ); // TEMPORARILY USE
 			// FOR AXIS TITLE
 			if ( la.isVisible( ) && bRenderAxisTitle )
 			{
@@ -2059,65 +2039,15 @@ public final class AxesRenderHelper
 				{
 					if ( bRendering3D )
 					{
-						BoundingBox bb = null;
-						try
-						{
-							bb = Methods.computeBox( xs,
-									ax.getTitlePosition( ),
-									la,
-									0,
-									0,
-									Math.abs( daEndPoints[1] - daEndPoints[0] ) );
-						}
-						catch ( IllegalArgumentException uiex )
-						{
-							throw new ChartException( ChartEnginePlugin.ID,
-									ChartException.RENDERING,
-									uiex );
-						}
-						// Bounds cbo = renderer.getPlotBounds( );
-						//
-						// if ( axisType == IConstants.BASE_AXIS )
-						// {
-						// tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-						// + ( cbo.getWidth( ) / 3d - bb.getWidth( ) ),
-						// cbo.getTop( )
-						// + cbo.getHeight( )
-						// - Math.min( bb.getHeight( ),
-						// bb.getWidth( ) ),
-						// bb.getWidth( ),
-						// bb.getHeight( ) ) );
-						// }
-						// else
-						// {
-						// tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-						// + cbo.getWidth( )
-						// * 2
-						// / 3d
-						// + ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
-						// / 2d,
-						// cbo.getTop( )
-						// + cbo.getHeight( )
-						// - Math.min( bb.getHeight( ),
-						// bb.getWidth( ) ),
-						// bb.getWidth( ),
-						// bb.getHeight( ) ) );
-						// }
-						//
-						// tre.setLabel( la );
-						// tre.setBlockAlignment( la.getCaption( )
-						// .getFont( )
-						// .getAlignment( ) );
-						// tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK
-						// );
-						// ipr.drawText( tre );
+						BoundingBox bb = cComp.computeLabelSize( xs,
+								la,
+								Math.abs( daEndPoints[1] - daEndPoints[0] ),
+								null );
 
-						// Comment above code and add following code to partial
-						// fix bugzilla bug 192833. This fix only made that the
-						// axis title position is decided by its axis location.
 						Angle3D a3D = ( (ChartWithAxes) renderer.cm ).getRotation( )
 								.getAngles( )
 								.get( 0 );
+
 						if ( axisType == IConstants.BASE_AXIS )
 						{
 							t3dre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
@@ -2129,13 +2059,13 @@ public final class AxesRenderHelper
 									: da.size( );
 
 							OneAxis axxPB = pwa.getAxes( ).getPrimaryBase( );
-							double xLabelThickness = Methods.computeHeight( xs,
+							double xLabelThickness = cComp.computeHeight( xs,
 									axxPB.getLabel( ) );
 
 							int xStart = (int) da3D.getCoordinate( 0 );
 							int xEnd = (int) da3D.getCoordinate( length - 1 );
 							int x = xStart + ( xEnd - xStart ) / 2;
-							Location3D location = Location3DImpl.create( x,
+							Location3D location = goFactory.createLocation3D( x,
 									context.dY
 											- xLabelThickness
 											- ( dZEnd - dZ ),
@@ -2159,7 +2089,7 @@ public final class AxesRenderHelper
 						else
 						{
 							double yAngle = a3D.getYAngle( );
-							Location3D location = Location3DImpl.create( dXEnd
+							Location3D location = goFactory.createLocation3D( dXEnd
 									+ ( dZEnd - dZ ),
 									context.dY
 											- ( dZEnd - dZ )
@@ -2195,23 +2125,22 @@ public final class AxesRenderHelper
 							lbLimit.setMaxWidth( dWidthWithinAxis );
 						}
 						lbLimit.computeWrapping( xs, la );
-						lbLimit = lbLimit.limitLabelSize( xs, la );
+						lbLimit = lbLimit.limitLabelSize( cComp, xs, la );
 
 						if ( lbLimit.isSuccessed( ) )
 						{
 							BoundingBox bb = lbLimit.getBounding( null );
 
-							final Bounds bo = BoundsImpl.create( daEndPoints[0],
+							final Bounds bo = goFactory.createBounds( daEndPoints[0],
 									ax.getTitleCoordinate( ),
 									daEndPoints[1] - daEndPoints[0],
 									bb.getHeight( ) );
 
 							tre.setBlockBounds( bo );
 							tre.setLabel( la );
-							TextAlignment ta = la.getCaption( )
+							TextAlignment ta = goFactory.copyOf( la.getCaption( )
 									.getFont( )
-									.getAlignment( )
-									.copyInstance( );
+									.getAlignment( ) );
 
 							if ( ax.getModelAxis( ).getAssociatedAxes( ).size( ) != 0 )
 							{
@@ -2245,7 +2174,7 @@ public final class AxesRenderHelper
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_TITLE,
 						la );
 			}
-			la = ax.getLabel( ).copyInstance( ); // RESTORE BACK TO
+			la = goFactory.copyOf( ax.getLabel( ) ); // RESTORE BACK TO
 			// AXIS LABEL
 
 			if ( iv != null
@@ -2277,6 +2206,7 @@ public final class AxesRenderHelper
 	}
 
 	private Location get3DTextLocation( Text3DRenderEvent t3dre )
+			throws ChartException
 	{
 		PlotWith3DAxes pwa3D = (PlotWith3DAxes) pwa;
 		Engine3D engine = pwa3D.get3DEngine( );

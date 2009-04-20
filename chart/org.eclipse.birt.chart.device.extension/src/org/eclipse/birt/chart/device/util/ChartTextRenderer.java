@@ -16,11 +16,12 @@ import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
-import org.eclipse.birt.chart.computation.Methods;
+import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
@@ -30,7 +31,6 @@ import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
@@ -41,7 +41,6 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.util.ChartUtil;
 
@@ -228,20 +227,16 @@ public class ChartTextRenderer extends TextRendererAdapter
 		g2d.setFont( (java.awt.Font) dispServer.createFont( fontDef ) );
 
 		label.getCaption( ).setValue( labelText );
-		BoundingBox boundBox = null;
-		try
-		{
-			boundBox = Methods.computeBox( dispServer, ABOVE, label, 0, 0 );
-		}
-		catch ( IllegalArgumentException uiex )
-		{
-			throw new ChartException( ChartDeviceExtensionPlugin.ID,
-					ChartException.RENDERING,
-					uiex );
-		}
+		BoundingBox boundBox = renderer.getChartComputation( )
+				.computeBox( dispServer,
+					ABOVE,
+					label,
+					0,
+					0 );
+
 		if ( taBlock == null )
 		{
-			taBlock = AttributeFactory.eINSTANCE.createTextAlignment( );
+			taBlock = goFactory.createTextAlignment( );
 			taBlock.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
 			taBlock.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
 		}
@@ -286,20 +281,23 @@ public class ChartTextRenderer extends TextRendererAdapter
 		if ( ChartUtil.isShadowDefined( label ) )
 		{
 			showTopValue( renderer,
-					LocationImpl.create( boundBox.getLeft( ), boundBox.getTop( )
+					goFactory.createLocation( boundBox.getLeft( ),
+							boundBox.getTop( )
 							+ boundBox.getHeight( ) ),
 					label,
 					0,
 					true );
 		}
-		showTopValue( renderer, LocationImpl.create( boundBox.getLeft( ),
+		showTopValue( renderer, goFactory.createLocation( boundBox.getLeft( ),
 				boundBox.getTop( ) + boundBox.getHeight( ) ), label, 0, false );
 	}
 
 	private final void showLeftValue( IPrimitiveRenderer renderer,
 			Location location, Label label, int labelPosition, boolean bShadow )
 	{
-		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
+		IDeviceRenderer idr = (IDeviceRenderer) renderer;
+		IChartComputation cComp = idr.getChartComputation( );
+		Graphics2D g2d = (Graphics2D) idr.getGraphicsContext( );
 		FontDefinition fontDef = label.getCaption( ).getFont( );
 		double dAngleInDegrees = fontDef.getRotation( );
 		if ( bShadow ) // UPDATE TO FALSE IF SHADOW COLOR UNDEFINED BUT SHADOW
@@ -313,12 +311,12 @@ public class ChartTextRenderer extends TextRendererAdapter
 		{
 			clrBackground = (Color) _sxs.getColor( (ColorDefinition) label.getBackground( ) );
 		}
+		
 		final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 		final double dSineTheta = ( Math.sin( dAngleInRadians ) );
 		final double dCosTheta = ( Math.cos( dAngleInRadians ) );
-
-		// final ITextMetrics textMetrics = new ChartTextMetrics( _sxs, label );
-		final ITextMetrics textMetrics = _sxs.getTextMetrics( label );
+		final ITextMetrics textMetrics = cComp.getTextMetrics( _sxs, label, 0 );
+		AffineTransform afTransform = g2d.getTransform( );
 
 		// Tune text position if needed. Location instance may be changed
 		location = adjustTextPosition( labelPosition,
@@ -326,6 +324,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 				textMetrics,
 				dAngleInDegrees );
 		double dX = location.getX( ), dY = location.getY( );
+		
 		try
 		{
 			final double dFullWidth = textMetrics.getFullWidth( );
@@ -498,8 +497,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 					// RENDER THE OUTLINE
 					renderOutline( renderer, label.getOutline( ), r2d );
 				}
-				g2d.rotate( -dAngleInRadians, dRotateX + dDeltaX, dRotateY
-						- dDeltaY );
+				// g2d.rotate( -dAngleInRadians, dRotateX + dDeltaX, dRotateY
+				// - dDeltaY );
 			}
 
 			// DRAW NEGATIVE ANGLE (< 0)
@@ -581,8 +580,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 					// RENDER THE OUTLINE/BORDER
 					renderOutline( renderer, label.getOutline( ), r2d );
 				}
-				g2d.rotate( -dAngleInRadians, dRotateX + dDeltaX, dRotateY
-						- dDeltaY );
+				// g2d.rotate( -dAngleInRadians, dRotateX + dDeltaX, dRotateY
+				// - dDeltaY );
 			}
 
 			// VERTICALLY UP
@@ -655,7 +654,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 					// RENDER THE OUTLINE/BORDER
 					renderOutline( renderer, label.getOutline( ), r2d );
 				}
-				g2d.rotate( -dAngleInRadians, dX, dY );
+				// g2d.rotate( -dAngleInRadians, dX, dY );
 			}
 
 			// VERTICALLY DOWN
@@ -726,19 +725,22 @@ public class ChartTextRenderer extends TextRendererAdapter
 					// RENDER THE OUTLINE/BORDER
 					renderOutline( renderer, label.getOutline( ), r2d );
 				}
-				g2d.rotate( -dAngleInRadians, dX, dY );
+				// g2d.rotate( -dAngleInRadians, dX, dY );
 			}
 		}
 		finally
 		{
-			textMetrics.dispose( );
+			g2d.setTransform( afTransform );
+			cComp.recycleTextMetrics( textMetrics );
 		}
 	}
 
 	private final void showRightValue( IPrimitiveRenderer renderer,
 			Location location, Label label, int labelPosition, boolean bShadow )
 	{
-		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
+		IDeviceRenderer idr = (IDeviceRenderer) renderer;
+		IChartComputation cComp = idr.getChartComputation( );
+		Graphics2D g2d = (Graphics2D) idr.getGraphicsContext( );
 		FontDefinition fontDef = label.getCaption( ).getFont( );
 		double dAngleInDegrees = fontDef.getRotation( );
 		if ( bShadow ) // UPDATE TO FALSE IF SHADOW COLOR UNDEFINED BUT SHADOW
@@ -753,8 +755,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 			clrBackground = (Color) _sxs.getColor( (ColorDefinition) label.getBackground( ) );
 		}
 
-		// final ITextMetrics textMetrics = new ChartTextMetrics( _sxs, label );
-		final ITextMetrics textMetrics = _sxs.getTextMetrics( label );
+		final ITextMetrics textMetrics = cComp.getTextMetrics( _sxs, label, 0 );
+		AffineTransform afTransform = g2d.getTransform( );
 		
 		// Tune text position if needed. Location instance may be changed
 		location = adjustTextPosition( labelPosition,
@@ -946,8 +948,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 				}
 
 				// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-				g2d.rotate( -dAngleInRadians, iRotateX - dDeltaX, iRotateY
-						+ dDeltaY );
+				// g2d.rotate( -dAngleInRadians, iRotateX - dDeltaX, iRotateY
+				// + dDeltaY );
 				// crossHairs(g2d, (int)dX, (int)dY);
 			}
 
@@ -1023,7 +1025,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 				}
 
 				// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-				g2d.rotate( -dAngleInRadians, iRotateX, iRotateY + dDeltaY );
+				// g2d.rotate( -dAngleInRadians, iRotateX, iRotateY + dDeltaY );
 				// crossHairs(g2d, (int)dX, (int)dY);
 			}
 
@@ -1098,7 +1100,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 				}
 
 				// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-				g2d.rotate( -dAngleInRadians, dX, dY );
+				// g2d.rotate( -dAngleInRadians, dX, dY );
 				// crossHairs(g2d, (int)dX, (int)dY);
 			}
 
@@ -1173,20 +1175,23 @@ public class ChartTextRenderer extends TextRendererAdapter
 				}
 
 				// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-				g2d.rotate( -dAngleInRadians, dX, dY );
+				// g2d.rotate( -dAngleInRadians, dX, dY );
 				// crossHairs(g2d, (int)dX, (int)dY);
 			}
 		}
 		finally
 		{
-			textMetrics.dispose( );
+			g2d.setTransform( afTransform );
+			cComp.recycleTextMetrics( textMetrics );
 		}
 	}
 
 	private final void showBottomValue( IPrimitiveRenderer renderer,
 			Location location, Label label, int labelPosition, boolean bShadow )
 	{
-		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
+		IDeviceRenderer idr = (IDeviceRenderer) renderer;
+		Graphics2D g2d = (Graphics2D) idr.getGraphicsContext( );
+		IChartComputation cComp = idr.getChartComputation( );
 		FontDefinition fontDef = label.getCaption( ).getFont( );
 		// Color clrShadow = bShadow ? (Color)
 		// _sxs.getColor(label.getShadowColor()) : null;
@@ -1197,10 +1202,11 @@ public class ChartTextRenderer extends TextRendererAdapter
 		{
 			clrBackground = (Color) _sxs.getColor( (ColorDefinition) label.getBackground( ) );
 		}
+		
 		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
-
-		// final ITextMetrics textMetrics = new ChartTextMetrics( _sxs, label );
-		final ITextMetrics textMetrics = _sxs.getTextMetrics( label );
+		final ITextMetrics textMetrics = cComp.getTextMetrics( _sxs, label, 0 );
+		AffineTransform afTransform = g2d.getTransform( );
+		
 		// Tune text position if needed. Location instance may be changed
 		location = adjustTextPosition( labelPosition,
 				location,
@@ -1380,7 +1386,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 				}
 
 				// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-				g2d.rotate( -dAngleInRadians, dX, dY );
+				// g2d.rotate( -dAngleInRadians, dX, dY );
 			}
 
 			// DRAW IT AT A NEGATIVE ANGLE
@@ -1450,7 +1456,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 				}
 
 				// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-				g2d.rotate( -dAngleInRadians, dX, dY - dHeight );
+				// g2d.rotate( -dAngleInRadians, dX, dY - dHeight );
 			}
 
 			// VERTICALLY UP
@@ -1529,7 +1535,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 				}
 
 				// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-				g2d.rotate( -dAngleInRadians, dX, dY );
+				// g2d.rotate( -dAngleInRadians, dX, dY );
 				// crossHairs(g2d, (int)dX, (int)dY);
 			}
 
@@ -1610,12 +1616,13 @@ public class ChartTextRenderer extends TextRendererAdapter
 				}
 
 				// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-				g2d.rotate( -dAngleInRadians, dX, dY );
+				// g2d.rotate( -dAngleInRadians, dX, dY );
 			}
 		}
 		finally
 		{
-			textMetrics.dispose( );
+			g2d.setTransform( afTransform );
+			cComp.recycleTextMetrics( textMetrics );
 		}
 	}
 	
@@ -1627,7 +1634,9 @@ public class ChartTextRenderer extends TextRendererAdapter
 	private final void showTopValue( IPrimitiveRenderer renderer,
 			Location location, Label label, int labelPosition, boolean bShadow )
 	{
-		final Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
+		IDeviceRenderer idr = (IDeviceRenderer) renderer;
+		IChartComputation cComp = idr.getChartComputation( );
+		final Graphics2D g2d = (Graphics2D) idr.getGraphicsContext( );
 		final FontDefinition fontDef = label.getCaption( ).getFont( );
 		// final Color clrShadow = bShadow ? (Color)
 		// _sxs.getColor(la.getShadowColor()) : null;
@@ -1642,7 +1651,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 
 		// final ITextMetrics textMetrics = new ChartTextMetrics( _sxs, label );
-		final ITextMetrics textMetrics = _sxs.getTextMetrics( label );
+		final ITextMetrics textMetrics = cComp.getTextMetrics( _sxs, label, 0 );
+		AffineTransform afTransform = g2d.getTransform( );
 
 		// Tune text position if needed. Location instance may be changed
 		location = adjustTextPosition( labelPosition,
@@ -1824,7 +1834,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 				}
 
 				// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-				g2d.rotate( -dAngleInRadians, dX, dY );
+				// g2d.rotate( -dAngleInRadians, dX, dY );
 				// crossHairs(g2d, (int)dX, (int)dY);
 			}
 
@@ -1902,7 +1912,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 				}
 
 				// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-				g2d.rotate( -dAngleInRadians, dX, dY );
+				// g2d.rotate( -dAngleInRadians, dX, dY );
 				/*
 				 * final RotatedRectangle rr = computePolygon(IConstants.ABOVE,
 				 * label, location.getX(), location.getY());
@@ -1987,7 +1997,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 				}
 
 				// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-				g2d.rotate( -dAngleInRadians, dX, dY );
+				// g2d.rotate( -dAngleInRadians, dX, dY );
 				// crossHairs(g2d, (int)dX, (int)dY);
 			}
 
@@ -2067,13 +2077,14 @@ public class ChartTextRenderer extends TextRendererAdapter
 				}
 
 				// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
-				g2d.rotate( -dAngleInRadians, dX, dY );
+				// g2d.rotate( -dAngleInRadians, dX, dY );
 				// crossHairs(g2d, (int)dX, (int)dY);
 			}
 		}
 		finally
 		{
-			textMetrics.dispose( );
+			g2d.setTransform( afTransform );
+			cComp.recycleTextMetrics( textMetrics );
 		}
 	}
 
@@ -2089,7 +2100,9 @@ public class ChartTextRenderer extends TextRendererAdapter
 	private final void showCenterValue( IPrimitiveRenderer renderer,
 			Location location, Label label, boolean bShadow )
 	{
-		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
+		IDeviceRenderer idr = (IDeviceRenderer) renderer;
+		IChartComputation cComp = idr.getChartComputation( );
+		Graphics2D g2d = (Graphics2D) idr.getGraphicsContext( );
 		double dX = location.getX( ), dY = location.getY( );
 		FontDefinition fontDef = label.getCaption( ).getFont( );
 		double dAngleInDegrees = fontDef.getRotation( );
@@ -2104,11 +2117,13 @@ public class ChartTextRenderer extends TextRendererAdapter
 		{
 			clrBackground = (Color) _sxs.getColor( (ColorDefinition) label.getBackground( ) );
 		}
+		
 		final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 		final double dSineTheta = ( Math.sin( dAngleInRadians ) );
 		final double dCosTheta = ( Math.cos( dAngleInRadians ) );
-
-		final ITextMetrics textMetrics = _sxs.getTextMetrics( label );
+		final ITextMetrics textMetrics = cComp.getTextMetrics( _sxs, label, 0 );
+		AffineTransform afTransform = g2d.getTransform( );
+		
 		try
 		{
 			final double dFullWidth = textMetrics.getFullWidth( );
@@ -2283,8 +2298,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 					// RENDER THE OUTLINE
 					renderOutline( renderer, label.getOutline( ), r2d );
 				}
-				g2d.rotate( -dAngleInRadians, dRotateX + dDeltaX, dRotateY
-						- dDeltaY );
+				// g2d.rotate( -dAngleInRadians, dRotateX + dDeltaX, dRotateY
+				// - dDeltaY );
 			}
 
 			// DRAW NEGATIVE ANGLE (< 0)
@@ -2366,8 +2381,8 @@ public class ChartTextRenderer extends TextRendererAdapter
 					// RENDER THE OUTLINE/BORDER
 					renderOutline( renderer, label.getOutline( ), r2d );
 				}
-				g2d.rotate( -dAngleInRadians, dRotateX + dDeltaX, dRotateY
-						- dDeltaY );
+				// g2d.rotate( -dAngleInRadians, dRotateX + dDeltaX, dRotateY
+				// - dDeltaY );
 			}
 
 			// VERTICALLY UP
@@ -2442,7 +2457,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 					// RENDER THE OUTLINE/BORDER
 					renderOutline( renderer, label.getOutline( ), r2d );
 				}
-				g2d.rotate( -dAngleInRadians, dX, dY );
+				// g2d.rotate( -dAngleInRadians, dX, dY );
 			}
 
 			// VERTICALLY DOWN
@@ -2515,12 +2530,13 @@ public class ChartTextRenderer extends TextRendererAdapter
 					// RENDER THE OUTLINE/BORDER
 					renderOutline( renderer, label.getOutline( ), r2d );
 				}
-				g2d.rotate( -dAngleInRadians, dX, dY );
+				// g2d.rotate( -dAngleInRadians, dX, dY );
 			}
 		}
 		finally
 		{
-			textMetrics.dispose( );
+			g2d.setTransform( afTransform );
+			cComp.recycleTextMetrics( textMetrics );
 		}
 	}
 

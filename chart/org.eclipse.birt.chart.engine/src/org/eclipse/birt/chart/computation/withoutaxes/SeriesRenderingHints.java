@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.computation.withoutaxes;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -35,6 +37,8 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 	private final DataPointHints[] dpha;
 
 	private final PlotWithoutAxes pwoa;
+
+	private final static IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * The constructor.
@@ -179,7 +183,7 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 	 */
 	public Bounds getClientAreaBounds( boolean bReduceByInsets )
 	{
-		final Bounds boClientArea = pwoa.getPlotBounds( ).copyInstance( );
+		final Bounds boClientArea = goFactory.copyOf( pwoa.getPlotBounds( ) );
 		if ( bReduceByInsets )
 		{
 			boClientArea.adjust( pwoa.getPlotInsets( ) );

@@ -12,11 +12,14 @@
 package org.eclipse.birt.chart.model.layout.impl;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.computation.IConstants;
-import org.eclipse.birt.chart.computation.Methods;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.factory.RunTimeContext.StateKey;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Size;
@@ -27,7 +30,6 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
 import org.eclipse.birt.chart.model.layout.LayoutFactory;
 import org.eclipse.birt.chart.model.layout.LayoutPackage;
-import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -48,6 +50,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class LabelBlockImpl extends BlockImpl implements LabelBlock
 {
+
+	protected static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
@@ -275,16 +279,8 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 		Label la = getLabel( ).copyInstance( );
 		final String sPreviousValue = getLabel( ).getCaption( ).getValue( );
 		la.getCaption( ).setValue( rtc.externalizedMessage( sPreviousValue ) );
-		try
-		{
-			return Methods.computeBox( xs, IConstants.TOP, la, 0, 0 );
-		}
-		catch ( IllegalArgumentException uiex )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					uiex );
-		}
+		IChartComputation cComp = rtc.getState( StateKey.CHART_COMPUTATION_KEY );
+		return cComp.computeBox( xs, IConstants.TOP, la, 0, 0 );
 	}
 
 	/**

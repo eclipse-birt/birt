@@ -23,7 +23,6 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
-import org.eclipse.birt.chart.util.FillUtil;
 
 
 /**
@@ -159,7 +158,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 		dBrightness = value;
 		if ( _ifBackground != null )
 		{
-			Fill fill = _ifBackground.copyInstance( );
+			Fill fill = goFactory.copyOf( _ifBackground );
 		
 			applyBrightnessToFill( fill, dBrightness );
 			runtimeBackground = fill;
@@ -241,12 +240,12 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 
 		if ( _lia != null )
 		{
-			pre.setOutline( _lia.copyInstance( ) );
+			pre.setOutline( goFactory.copyOf( _lia ) );
 		}
 
 		if ( _ifBackground != null )
 		{
-			pre.setBackground( FillUtil.copyOf( _ifBackground ) );
+			pre.setBackground( goFactory.copyOf( _ifBackground ) );
 		}
 
 		pre.bDoubleSided = bDoubleSided;

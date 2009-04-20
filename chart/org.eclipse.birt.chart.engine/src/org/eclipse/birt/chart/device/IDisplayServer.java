@@ -135,6 +135,19 @@ public interface IDisplayServer
 	ITextMetrics getTextMetrics( Label la );
 
 	/**
+	 * An instance of a text metrics computation class capable of providing text
+	 * metric information associated with a given Label to aid in typically
+	 * computing the size of rendered text
+	 * 
+	 * @param la
+	 *            The Label instance for which text metrics are being requested
+	 * @param autoReuse
+	 * 
+	 * @return Text metrics associated with the specified Label instance
+	 */
+	ITextMetrics getTextMetrics( Label la, boolean autoReuse );
+
+	/**
 	 * Provides the locale to display server implementations as needed to
 	 * retrieve localized resources for presentation.
 	 * 

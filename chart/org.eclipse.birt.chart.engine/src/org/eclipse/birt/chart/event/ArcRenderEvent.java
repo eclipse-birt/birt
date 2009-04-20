@@ -11,15 +11,14 @@
 
 package org.eclipse.birt.chart.event;
 
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
-import org.eclipse.birt.chart.util.FillUtil;
 
 /**
  * A rendering event type for rendering Arc object.
@@ -28,6 +27,8 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 {
 
 	private static final long serialVersionUID = -8516218845415390970L;
+
+	protected static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	protected Location loTopLeft = null;
 
@@ -261,7 +262,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	 */
 	public final void setBounds( Bounds bo )
 	{
-		setTopLeft( LocationImpl.create( bo.getLeft( ), bo.getTop( ) ) );
+		setTopLeft( goFactory.createLocation( bo.getLeft( ), bo.getTop( ) ) );
 		setWidth( bo.getWidth( ) );
 		setHeight( bo.getHeight( ) );
 	}
@@ -273,7 +274,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 	 */
 	public Bounds getEllipseBounds( )
 	{
-		return BoundsImpl.create( loTopLeft.getX( ),
+		return goFactory.createBounds( loTopLeft.getX( ),
 				loTopLeft.getY( ),
 				dWidth,
 				dHeight );
@@ -396,7 +397,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 		x1 = getTopLeft( ).getX( ) + ( x1 * 0.5 + 0.5 ) * w;
 		y1 = getTopLeft( ).getY( ) + ( y1 * 0.5 + 0.5 ) * h;
 
-		return BoundsImpl.create( x1, y1, x2, y2 );
+		return goFactory.createBounds( x1, y1, x2, y2 );
 	}
 
 	/**
@@ -464,12 +465,12 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 		ArcRenderEvent are = new ArcRenderEvent( source );
 		if ( outline != null )
 		{
-			are.setOutline( outline.copyInstance( ) );
+			are.setOutline( goFactory.copyOf( outline ) );
 		}
 
 		if ( ifBackground != null )
 		{
-			are.setBackground( FillUtil.copyOf( ifBackground ) );
+			are.setBackground( goFactory.copyOf( ifBackground ) );
 		}
 
 		if ( loTopLeft != null )

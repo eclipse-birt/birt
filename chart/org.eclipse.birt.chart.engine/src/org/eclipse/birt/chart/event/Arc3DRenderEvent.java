@@ -67,12 +67,12 @@ public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent
 
 		if ( outline != null )
 		{
-			are.setOutline( outline.copyInstance( ) );
+			are.setOutline( goFactory.copyOf( outline ) );
 		}
 
 		if ( ifBackground != null )
 		{
-			are.setBackground( ifBackground.copyInstance( ) );
+			are.setBackground( goFactory.copyOf( ifBackground ) );
 		}
 
 		are.setStyle( iStyle );

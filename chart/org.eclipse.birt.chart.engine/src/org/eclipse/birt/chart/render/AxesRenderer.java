@@ -76,9 +76,6 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -642,7 +639,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				CurveRenderer crdr = new CurveRenderer( (ChartWithAxes) getModel( ),
 						this,
 						curve.getLineAttributes( ),
-						LocationImpl.create( baseArray, orthogonalArray ),
+						goFactory.createLocations( baseArray, orthogonalArray ),
 						bShowAsTape,
 						-1,
 						bDeferred,
@@ -657,14 +654,14 @@ public abstract class AxesRenderer extends BaseRenderer
 			if ( curve.getLabel( ).isSetVisible( )
 					&& curve.getLabel( ).isVisible( ) )
 			{
-				Label lb = curve.getLabel( ).copyInstance( );
+				Label lb = goFactory.copyOf( curve.getLabel( ) );
 
 				// handle external resource string
 				final String sPreviousValue = lb.getCaption( ).getValue( );
 				lb.getCaption( )
 						.setValue( getRunTimeContext( ).externalizedMessage( sPreviousValue ) );
 
-				BoundingBox bb = Methods.computeBox( getXServer( ),
+				BoundingBox bb = cComp.computeBox( getXServer( ),
 						IConstants.LEFT/* DONT-CARE */,
 						lb,
 						0,
@@ -786,7 +783,7 @@ public abstract class AxesRenderer extends BaseRenderer
 //							lb,
 //							Position.RIGHT_LITERAL,
 //							LocationImpl.create( bb.getLeft( ), bb.getTop( ) ),
-//							BoundsImpl.create( bb.getLeft( ),
+				// goFactory.createBounds( bb.getLeft( ),
 //									bb.getTop( ),
 //									bb.getWidth( ),
 //									bb.getHeight( ) ) );
@@ -797,8 +794,8 @@ public abstract class AxesRenderer extends BaseRenderer
 						TextRenderEvent.RENDER_TEXT_IN_BLOCK,
 						lb,
 						Position.RIGHT_LITERAL,
-						LocationImpl.create( bb.getLeft( ), bb.getTop( ) ),
-						BoundsImpl.create( bb.getLeft( ),
+						goFactory.createLocation( bb.getLeft( ), bb.getTop( ) ),
+						goFactory.createBounds( bb.getLeft( ),
 								bb.getTop( ),
 								bb.getWidth( ),
 								bb.getHeight( ) ),
@@ -882,13 +879,13 @@ public abstract class AxesRenderer extends BaseRenderer
 		double dMin = 0, dMax = 0;
 		int iOrientation, iCompare = IConstants.EQUAL;
 
-		final Bounds bo = BoundsImpl.create( 0, 0, 0, 0 );
+		final Bounds bo = goFactory.createBounds( 0, 0, 0, 0 );
 		final IDeviceRenderer idr = getDevice( );
 		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
 		final boolean bTransposed = ( (ChartWithAxes) getModel( ) ).isTransposed( );
 		final PlotWithAxes pwa = (PlotWithAxes) getComputations( );
 		final StringBuffer sb = new StringBuffer( );
-		Bounds boText = BoundsImpl.create( 0, 0, 0, 0 );
+		Bounds boText = goFactory.createBounds( 0, 0, 0, 0 );
 		Anchor anc = null;
 		Label la = null;
 		TextRenderEvent tre;
@@ -1050,7 +1047,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				idr.fillRectangle( rre );
 				idr.drawRectangle( rre );
 
-				la = mr.getLabel( ).copyInstance( );
+				la = goFactory.copyOf( mr.getLabel( ) );
 				if ( la.isVisible( ) )
 				{
 					if ( la.getCaption( ).getValue( ) != null
@@ -1116,7 +1113,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					BoundingBox bb = null;
 					try
 					{
-						bb = Methods.computeBox( idr.getDisplayServer( ),
+						bb = cComp.computeBox( idr.getDisplayServer( ),
 								IConstants.LEFT,
 								la,
 								0,
@@ -1204,7 +1201,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			// render client area shadow
 			if ( ca.getShadowColor( ) != null )
 			{
-				rre.setBounds( bo.translateInstance( 3, 3 ) );
+				rre.setBounds( goFactory.translateBounds( bo, 3, 3 ) );
 				rre.setBackground( ca.getShadowColor( ) );
 				ipr.fillRectangle( rre );
 			}
@@ -1280,8 +1277,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				renderPlane( ipr,
 						StructureSource.createPlot( p ),
 						new Location[]{
-								LocationImpl.create( daX[0], daY[0] ),
-								LocationImpl.create( daX[0], daY[1] )
+								goFactory.createLocation( daX[0], daY[0] ),
+								goFactory.createLocation( daX[0], daY[1] )
 						},
 						ca.getBackground( ),
 						ca.getOutline( ),
@@ -1292,11 +1289,13 @@ public abstract class AxesRenderer extends BaseRenderer
 			else
 			{
 				loa = new Location[4];
-				loa[0] = LocationImpl.create( daX[0], daY[0] );
-				loa[1] = LocationImpl.create( daX[0], daY[1] );
-				loa[2] = LocationImpl.create( daX[0] + dSeriesThickness, daY[1]
+				loa[0] = goFactory.createLocation( daX[0], daY[0] );
+				loa[1] = goFactory.createLocation( daX[0], daY[1] );
+				loa[2] = goFactory.createLocation( daX[0] + dSeriesThickness,
+						daY[1]
 						- dSeriesThickness );
-				loa[3] = LocationImpl.create( daX[0] + dSeriesThickness, daY[0]
+				loa[3] = goFactory.createLocation( daX[0] + dSeriesThickness,
+						daY[0]
 						- dSeriesThickness );
 				final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 						PolygonRenderEvent.class );
@@ -1313,8 +1312,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				renderPlane( ipr,
 						StructureSource.createPlot( p ),
 						new Location[]{
-								LocationImpl.create( daX[0], daY[0] ),
-								LocationImpl.create( daX[1], daY[0] )
+								goFactory.createLocation( daX[0], daY[0] ),
+								goFactory.createLocation( daX[1], daY[0] )
 						},
 						ca.getBackground( ),
 						ca.getOutline( ),
@@ -1328,11 +1327,13 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					loa = new Location[4];
 				}
-				loa[0] = LocationImpl.create( daX[0], daY[0] );
-				loa[1] = LocationImpl.create( daX[1], daY[0] );
-				loa[2] = LocationImpl.create( daX[1] + dSeriesThickness, daY[0]
+				loa[0] = goFactory.createLocation( daX[0], daY[0] );
+				loa[1] = goFactory.createLocation( daX[1], daY[0] );
+				loa[2] = goFactory.createLocation( daX[1] + dSeriesThickness,
+						daY[0]
 						- dSeriesThickness );
-				loa[3] = LocationImpl.create( daX[0] + dSeriesThickness, daY[0]
+				loa[3] = goFactory.createLocation( daX[0] + dSeriesThickness,
+						daY[0]
 						- dSeriesThickness );
 				final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 						PolygonRenderEvent.class );
@@ -1355,10 +1356,10 @@ public abstract class AxesRenderer extends BaseRenderer
 			loa = new Location3D[4];
 
 			// Left Wall
-			loa[0] = Location3DImpl.create( dXStart, dYStart, dZStart );
-			loa[1] = Location3DImpl.create( dXStart, dYEnd, dZStart );
-			loa[2] = Location3DImpl.create( dXStart, dYEnd, dZEnd );
-			loa[3] = Location3DImpl.create( dXStart, dYStart, dZEnd );
+			loa[0] = goFactory.createLocation3D( dXStart, dYStart, dZStart );
+			loa[1] = goFactory.createLocation3D( dXStart, dYEnd, dZStart );
+			loa[2] = goFactory.createLocation3D( dXStart, dYEnd, dZEnd );
+			loa[3] = goFactory.createLocation3D( dXStart, dYStart, dZEnd );
 			pre.setPoints3D( loa );
 			pre.setBackground( cwa.getWallFill( ) );
 			pre.setDoubleSided( true );
@@ -1369,10 +1370,10 @@ public abstract class AxesRenderer extends BaseRenderer
 			o3dLeftWall = Engine3D.getObjectFromEvent( event_new );
 
 			// Right Wall
-			loa[0] = Location3DImpl.create( dXStart, dYStart, dZStart );
-			loa[1] = Location3DImpl.create( dXEnd, dYStart, dZStart );
-			loa[2] = Location3DImpl.create( dXEnd, dYEnd, dZStart );
-			loa[3] = Location3DImpl.create( dXStart, dYEnd, dZStart );
+			loa[0] = goFactory.createLocation3D( dXStart, dYStart, dZStart );
+			loa[1] = goFactory.createLocation3D( dXEnd, dYStart, dZStart );
+			loa[2] = goFactory.createLocation3D( dXEnd, dYEnd, dZStart );
+			loa[3] = goFactory.createLocation3D( dXStart, dYEnd, dZStart );
 			pre.setPoints3D( loa );
 			pre.setBackground( cwa.getWallFill( ) );
 			pre.setDoubleSided( true );
@@ -1395,10 +1396,10 @@ public abstract class AxesRenderer extends BaseRenderer
 				loa = new Location3D[4];
 			}
 
-			loa[0] = Location3DImpl.create( dXStart, dYStart, dZStart );
-			loa[1] = Location3DImpl.create( dXStart, dYStart, dZEnd );
-			loa[2] = Location3DImpl.create( dXEnd, dYStart, dZEnd );
-			loa[3] = Location3DImpl.create( dXEnd, dYStart, dZStart );
+			loa[0] = goFactory.createLocation3D( dXStart, dYStart, dZStart );
+			loa[1] = goFactory.createLocation3D( dXStart, dYStart, dZEnd );
+			loa[2] = goFactory.createLocation3D( dXEnd, dYStart, dZEnd );
+			loa[3] = goFactory.createLocation3D( dXEnd, dYStart, dZStart );
 			pre.setPoints3D( loa );
 			pre.setBackground( cwa.getFloorFill( ) );
 			pre.setDoubleSided( true );
@@ -1495,11 +1496,11 @@ public abstract class AxesRenderer extends BaseRenderer
 											continue;
 										}
 
-										lre3d.setStart3D( Location3DImpl.create( xa.getCoordinate( k )
+									lre3d.setStart3D( goFactory.createLocation3D( xa.getCoordinate( k )
 												+ doaMinor[j],
 												dYStart,
 												dZStart ) );
-										lre3d.setEnd3D( Location3DImpl.create( xa.getCoordinate( k )
+									lre3d.setEnd3D( goFactory.createLocation3D( xa.getCoordinate( k )
 												+ doaMinor[j],
 												dYStart,
 												dZStart
@@ -1527,11 +1528,11 @@ public abstract class AxesRenderer extends BaseRenderer
 											continue;
 										}
 
-										lre3d.setStart3D( Location3DImpl.create( xa.getCoordinate( k )
+									lre3d.setStart3D( goFactory.createLocation3D( xa.getCoordinate( k )
 												+ doaMinor[j],
 												dYStart,
 												dZStart ) );
-										lre3d.setEnd3D( Location3DImpl.create( xa.getCoordinate( k )
+									lre3d.setEnd3D( goFactory.createLocation3D( xa.getCoordinate( k )
 												+ doaMinor[j],
 												dYStart
 													+ ( orthogonalTickCount - 1 )
@@ -1561,10 +1562,10 @@ public abstract class AxesRenderer extends BaseRenderer
 											continue;
 										}
 
-										lre3d.setStart3D( Location3DImpl.create( dXStart,
+									lre3d.setStart3D( goFactory.createLocation3D( dXStart,
 												ya.getCoordinate( k ) + doaMinor[j],
 												dZStart ) );
-									lre3d.setEnd3D( Location3DImpl.create( dXStart,
+									lre3d.setEnd3D( goFactory.createLocation3D( dXStart,
 												ya.getCoordinate( k ) + doaMinor[j],
 												dZStart
 													+ ( ancillaryTickCount - 1 )
@@ -1591,10 +1592,10 @@ public abstract class AxesRenderer extends BaseRenderer
 											continue;
 										}
 
-										lre3d.setStart3D( Location3DImpl.create( dXStart,
+									lre3d.setStart3D( goFactory.createLocation3D( dXStart,
 											ya.getCoordinate( k ) + doaMinor[j],
 												dZStart ) );
-										lre3d.setEnd3D( Location3DImpl.create( dXStart
+									lre3d.setEnd3D( goFactory.createLocation3D( dXStart
 												+ ( baseTickCount - 1 )
 											* xStep,
 											ya.getCoordinate( k ) + doaMinor[j],
@@ -1623,10 +1624,10 @@ public abstract class AxesRenderer extends BaseRenderer
 											continue;
 										}
 
-										lre3d.setStart3D( Location3DImpl.create( dXStart,
+									lre3d.setStart3D( goFactory.createLocation3D( dXStart,
 												dYStart,
 												za.getCoordinate( k ) + doaMinor[j] ) );
-										lre3d.setEnd3D( Location3DImpl.create( dXStart,
+									lre3d.setEnd3D( goFactory.createLocation3D( dXStart,
 												dYStart
 													+ ( orthogonalTickCount - 1 )
 													* yStep,
@@ -1653,10 +1654,10 @@ public abstract class AxesRenderer extends BaseRenderer
 											continue;
 										}
 
-										lre3d.setStart3D( Location3DImpl.create( dXStart,
+									lre3d.setStart3D( goFactory.createLocation3D( dXStart,
 												dYStart,
 												za.getCoordinate( k ) + doaMinor[j] ) );
-										lre3d.setEnd3D( Location3DImpl.create( dXStart
+									lre3d.setEnd3D( goFactory.createLocation3D( dXStart
 												+ ( baseTickCount - 1 )
 											* xStep,
 												dYStart,
@@ -1709,10 +1710,10 @@ public abstract class AxesRenderer extends BaseRenderer
 							lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 									LineRenderEvent.class );
 							lre.setLineAttributes( lia );
-							lre.setStart( LocationImpl.create( x
+							lre.setStart( goFactory.createLocation( x
 									+ iDirection * doaMinor[k], dY1
 									+ pwa.getSeriesThickness( ) ) );
-							lre.setEnd( LocationImpl.create( x
+							lre.setEnd( goFactory.createLocation( x
 									+ iDirection * doaMinor[k]
 									+ pwa.getSeriesThickness( ), dY1 ) );
 							ipr.drawLine( lre );
@@ -1752,9 +1753,9 @@ public abstract class AxesRenderer extends BaseRenderer
 						lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 								LineRenderEvent.class );
 						lre.setLineAttributes( lia );
-						lre.setStart( LocationImpl.create( x
+						lre.setStart( goFactory.createLocation( x
 								+ iDirection * doaMinor[k], dY1 ) );
-						lre.setEnd( LocationImpl.create( x
+						lre.setEnd( goFactory.createLocation( x
 								+ iDirection * doaMinor[k], dY2 ) );
 						ipr.drawLine( lre );
 					}
@@ -1797,9 +1798,9 @@ public abstract class AxesRenderer extends BaseRenderer
 							lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 									LineRenderEvent.class );
 							lre.setLineAttributes( lia );
-							lre.setStart( LocationImpl.create( dX1, y
+							lre.setStart( goFactory.createLocation( dX1, y
 									+ iDirection * doaMinor[k] ) );
-							lre.setEnd( LocationImpl.create( dX1
+							lre.setEnd( goFactory.createLocation( dX1
 									- pwa.getSeriesThickness( ), y
 									+ iDirection * doaMinor[k]
 									+ pwa.getSeriesThickness( ) ) );
@@ -1839,9 +1840,9 @@ public abstract class AxesRenderer extends BaseRenderer
 						lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 								LineRenderEvent.class );
 						lre.setLineAttributes( lia );
-						lre.setStart( LocationImpl.create( dX1, y
+						lre.setStart( goFactory.createLocation( dX1, y
 								+ iDirection * doaMinor[k] ) );
-						lre.setEnd( LocationImpl.create( dX2, y
+						lre.setEnd( goFactory.createLocation( dX2, y
 								+ iDirection * doaMinor[k] ) );
 						ipr.drawLine( lre );
 					}
@@ -1879,10 +1880,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							for ( int k = 0; k < xa.size( ); k += STEP_NUMBER )
 							{
-								lre3d.setStart3D( Location3DImpl.create( xa.getCoordinate( k ),
+								lre3d.setStart3D( goFactory.createLocation3D( xa.getCoordinate( k ),
 										dYStart,
 										dZStart ) );
-								lre3d.setEnd3D( Location3DImpl.create( xa.getCoordinate( k ),
+								lre3d.setEnd3D( goFactory.createLocation3D( xa.getCoordinate( k ),
 										dYStart,
 										dZStart
 												+ ( ancillaryTickCount - 1 )
@@ -1898,10 +1899,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							for ( int k = 0; k < xa.size( ); k += STEP_NUMBER )
 							{
-								lre3d.setStart3D( Location3DImpl.create( xa.getCoordinate( k ),
+								lre3d.setStart3D( goFactory.createLocation3D( xa.getCoordinate( k ),
 										dYStart,
 										dZStart ) );
-								lre3d.setEnd3D( Location3DImpl.create( xa.getCoordinate( k ),
+								lre3d.setEnd3D( goFactory.createLocation3D( xa.getCoordinate( k ),
 										dYStart
 												+ ( orthogonalTickCount - 1 )
 												* yStep,
@@ -1919,10 +1920,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							for ( int k = 0; k < ya.size( ); k += STEP_NUMBER )
 							{
-								lre3d.setStart3D( Location3DImpl.create( dXStart,
+								lre3d.setStart3D( goFactory.createLocation3D( dXStart,
 										ya.getCoordinate( k ),
 										dZStart ) );
-								lre3d.setEnd3D( Location3DImpl.create( dXStart,
+								lre3d.setEnd3D( goFactory.createLocation3D( dXStart,
 										ya.getCoordinate( k ),
 										dZStart
 												+ ( ancillaryTickCount - 1 )
@@ -1938,10 +1939,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							for ( int k = 0; k < ya.size( ); k += STEP_NUMBER )
 							{
-								lre3d.setStart3D( Location3DImpl.create( dXStart,
+								lre3d.setStart3D( goFactory.createLocation3D( dXStart,
 										ya.getCoordinate( k ),
 										dZStart ) );
-								lre3d.setEnd3D( Location3DImpl.create( dXStart
+								lre3d.setEnd3D( goFactory.createLocation3D( dXStart
 											+ ( baseTickCount - 1 )
 										* xStep,
 											ya.getCoordinate( k ),
@@ -1960,10 +1961,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							for ( int k = 0; k < za.size( ); k += STEP_NUMBER )
 							{
-								lre3d.setStart3D( Location3DImpl.create( dXStart,
+								lre3d.setStart3D( goFactory.createLocation3D( dXStart,
 										dYStart,
 										za.getCoordinate( k ) ) );
-								lre3d.setEnd3D( Location3DImpl.create( dXStart,
+								lre3d.setEnd3D( goFactory.createLocation3D( dXStart,
 										dYStart
 												+ ( orthogonalTickCount - 1 )
 												* yStep,
@@ -1979,10 +1980,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							for ( int k = 0; k < za.size( ); k += STEP_NUMBER )
 							{
-								lre3d.setStart3D( Location3DImpl.create( dXStart,
+								lre3d.setStart3D( goFactory.createLocation3D( dXStart,
 										dYStart,
 										za.getCoordinate( k ) ) );
-								lre3d.setEnd3D( Location3DImpl.create( dXStart
+								lre3d.setEnd3D( goFactory.createLocation3D( dXStart
 										+ ( baseTickCount - 1 )
 										* xStep, dYStart, za.getCoordinate( k ) ) );
 
@@ -2019,9 +2020,9 @@ public abstract class AxesRenderer extends BaseRenderer
 						lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 								LineRenderEvent.class );
 						lre.setLineAttributes( lia );
-						lre.setStart( LocationImpl.create( x, dY1
+						lre.setStart( goFactory.createLocation( x, dY1
 								+ pwa.getSeriesThickness( ) ) );
-						lre.setEnd( LocationImpl.create( x
+						lre.setEnd( goFactory.createLocation( x
 								+ pwa.getSeriesThickness( ), dY1 ) );
 						ipr.drawLine( lre );
 					}
@@ -2047,8 +2048,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 							LineRenderEvent.class );
 					lre.setLineAttributes( lia );
-					lre.setStart( LocationImpl.create( x, dY1 ) );
-					lre.setEnd( LocationImpl.create( x, dY2 ) );
+					lre.setStart( goFactory.createLocation( x, dY1 ) );
+					lre.setEnd( goFactory.createLocation( x, dY2 ) );
 					ipr.drawLine( lre );
 				}
 			}
@@ -2075,8 +2076,8 @@ public abstract class AxesRenderer extends BaseRenderer
 						lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 								LineRenderEvent.class );
 						lre.setLineAttributes( lia );
-						lre.setStart( LocationImpl.create( dX1, y ) );
-						lre.setEnd( LocationImpl.create( dX1
+						lre.setStart( goFactory.createLocation( dX1, y ) );
+						lre.setEnd( goFactory.createLocation( dX1
 								- pwa.getSeriesThickness( ), y
 								+ pwa.getSeriesThickness( ) ) );
 						ipr.drawLine( lre );
@@ -2102,8 +2103,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 							LineRenderEvent.class );
 					lre.setLineAttributes( lia );
-					lre.setStart( LocationImpl.create( dX1, y ) );
-					lre.setEnd( LocationImpl.create( dX2, y ) );
+					lre.setStart( goFactory.createLocation( dX1, y ) );
+					lre.setEnd( goFactory.createLocation( dX2, y ) );
 					ipr.drawLine( lre );
 				}
 			}
@@ -2415,16 +2416,16 @@ public abstract class AxesRenderer extends BaseRenderer
 						Oval3DRenderEvent.class );
 				Location3D lo3d = (Location3D) lo;
 				ore.setLocation3D( new Location3D[]{
-						Location3DImpl.create( lo3d.getX( ) - iSize,
+						goFactory.createLocation3D( lo3d.getX( ) - iSize,
 								lo3d.getY( ) + iSize,
 								lo3d.getZ( ) ),
-						Location3DImpl.create( lo3d.getX( ) - iSize,
+						goFactory.createLocation3D( lo3d.getX( ) - iSize,
 								lo3d.getY( ) - iSize,
 								lo3d.getZ( ) ),
-						Location3DImpl.create( lo3d.getX( ) + iSize,
+						goFactory.createLocation3D( lo3d.getX( ) + iSize,
 								lo3d.getY( ) - iSize,
 								lo3d.getZ( ) ),
-						Location3DImpl.create( lo3d.getX( ) + iSize,
+						goFactory.createLocation3D( lo3d.getX( ) + iSize,
 								lo3d.getY( ) + iSize,
 								lo3d.getZ( ) )
 				} );
@@ -2434,7 +2435,8 @@ public abstract class AxesRenderer extends BaseRenderer
 			{
 				final OvalRenderEvent ore = ( (EventObjectCache) ipr ).getEventObject( oSource,
 						OvalRenderEvent.class );
-				ore.setBounds( BoundsImpl.create( lo.getX( ) - iSize, lo.getY( )
+				ore.setBounds( goFactory.createBounds( lo.getX( ) - iSize,
+						lo.getY( )
 						- iSize, iSize * 2, iSize * 2 ) );
 				preCopy = ore.copy( );
 			}
@@ -2518,8 +2520,8 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		final IDeviceRenderer idr = getDevice( );
 		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
-		final Location loStart = LocationImpl.create( 0, 0 );
-		final Location loEnd = LocationImpl.create( 0, 0 );
+		final Location loStart = goFactory.createLocation( 0, 0 );
+		final Location loEnd = goFactory.createLocation( 0, 0 );
 
 		Anchor anc;
 		TextRenderEvent tre = null;
@@ -2527,7 +2529,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		double dOriginalAngle = 0;
 		final boolean bTransposed = ( (ChartWithAxes) getModel( ) ).isTransposed( );
 		final PlotWithAxes pwa = (PlotWithAxes) getComputations( );
-		final Bounds boText = BoundsImpl.create( 0, 0, 0, 0 );
+		final Bounds boText = goFactory.createBounds( 0, 0, 0, 0 );
 
 		for ( int i = 0; i < iAxisCount; i++ )
 		{
@@ -2566,7 +2568,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 
 				// UPDATE THE LABEL CONTENT ASSOCIATED WITH THE MARKER LINE
-				la = ml.getLabel( ).copyInstance( );
+				la = goFactory.copyOf( ml.getLabel( ) );
 
 				if ( la.getCaption( ).getValue( ) != null
 						&& !IConstants.UNDEFINED_STRING.equals( la.getCaption( )
@@ -2714,7 +2716,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					BoundingBox bb = null;
 					try
 					{
-						bb = Methods.computeBox( idr.getDisplayServer( ),
+						bb = cComp.computeBox( idr.getDisplayServer( ),
 								IConstants.LEFT,
 								la,
 								0,
@@ -2880,27 +2882,27 @@ public abstract class AxesRenderer extends BaseRenderer
 
 						if ( iOrientation == Orientation.HORIZONTAL )
 						{
-							loaHotspot[0] = LocationImpl.create( loStart.getX( )
+							loaHotspot[0] = goFactory.createLocation( loStart.getX( )
 									- IConstants.LINE_EXPAND_SIZE,
 									loStart.getY( ) );
-							loaHotspot[1] = LocationImpl.create( loStart.getX( )
+							loaHotspot[1] = goFactory.createLocation( loStart.getX( )
 									+ IConstants.LINE_EXPAND_SIZE,
 									loStart.getY( ) );
-							loaHotspot[2] = LocationImpl.create( loEnd.getX( )
+							loaHotspot[2] = goFactory.createLocation( loEnd.getX( )
 									+ IConstants.LINE_EXPAND_SIZE, loEnd.getY( ) );
-							loaHotspot[3] = LocationImpl.create( loEnd.getX( )
+							loaHotspot[3] = goFactory.createLocation( loEnd.getX( )
 									- IConstants.LINE_EXPAND_SIZE, loEnd.getY( ) );
 						}
 						else
 						{
-							loaHotspot[0] = LocationImpl.create( loStart.getX( ),
+							loaHotspot[0] = goFactory.createLocation( loStart.getX( ),
 									loStart.getY( )
 											- IConstants.LINE_EXPAND_SIZE );
-							loaHotspot[1] = LocationImpl.create( loEnd.getX( ),
+							loaHotspot[1] = goFactory.createLocation( loEnd.getX( ),
 									loEnd.getY( ) - IConstants.LINE_EXPAND_SIZE );
-							loaHotspot[2] = LocationImpl.create( loEnd.getX( ),
+							loaHotspot[2] = goFactory.createLocation( loEnd.getX( ),
 									loEnd.getY( ) + IConstants.LINE_EXPAND_SIZE );
-							loaHotspot[3] = LocationImpl.create( loStart.getX( ),
+							loaHotspot[3] = goFactory.createLocation( loStart.getX( ),
 									loStart.getY( )
 											+ IConstants.LINE_EXPAND_SIZE );
 						}
@@ -3145,7 +3147,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	/**
 	 * Returns the panning offset for 3D engine.
 	 */
-	protected Location getPanningOffset( )
+	protected Location getPanningOffset( ) throws ChartException
 	{
 		if ( isDimension3D( ) )
 		{
@@ -3233,7 +3235,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	{
 		final AutoScale scaleOrth = getInternalOrthogonalAxis( ).getScale( );	
 		final Bounds clipArea = srh.getClientAreaBounds( true );
-		final Bounds boClientArea = clipArea.copyInstance( );
+		final Bounds boClientArea = goFactory.copyOf( clipArea );
 		// Adjust the position in 2d+
 		if ( bShowAsTape )
 		{
@@ -3394,14 +3396,16 @@ public abstract class AxesRenderer extends BaseRenderer
 			final int DIFF = 5;
 			ClipRenderEvent clip = new ClipRenderEvent( this );
 			Location[] locations = new Location[4];
-			locations[0] = LocationImpl.create( boClientArea.getLeft( ) - DIFF,
+			locations[0] = goFactory.createLocation( boClientArea.getLeft( )
+					- DIFF,
 					boClientArea.getTop( ) - DIFF );
-			locations[1] = LocationImpl.create( boClientArea.getLeft( ) - DIFF,
+			locations[1] = goFactory.createLocation( boClientArea.getLeft( )
+					- DIFF,
 					boClientArea.getTop( ) + boClientArea.getHeight( ) + DIFF );
-			locations[2] = LocationImpl.create( boClientArea.getLeft( )
+			locations[2] = goFactory.createLocation( boClientArea.getLeft( )
 					+ boClientArea.getWidth( ) + DIFF, boClientArea.getTop( )
 					+ boClientArea.getHeight( ) + DIFF );
-			locations[3] = LocationImpl.create( boClientArea.getLeft( )
+			locations[3] = goFactory.createLocation( boClientArea.getLeft( )
 					+ boClientArea.getWidth( ) + DIFF, boClientArea.getTop( )
 					- DIFF );
 			clip.setVertices( locations );

@@ -640,6 +640,15 @@ public class GradientImpl extends FillImpl implements Gradient
 		return g;
 	}
 
+	public static final Gradient create( ColorDefinition cdStart,
+			ColorDefinition cdEnd )
+	{
+		final Gradient g = AttributeFactory.eINSTANCE.createGradient( );
+		g.setStartColor( cdStart );
+		g.setEndColor( cdEnd );
+		return g;
+	}
+
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().

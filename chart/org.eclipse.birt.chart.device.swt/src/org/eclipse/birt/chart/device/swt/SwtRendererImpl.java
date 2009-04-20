@@ -50,7 +50,6 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.InteractiveRenderer;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -577,7 +576,7 @@ public class SwtRendererImpl extends DeviceAdapter
 				&& ( are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
 				|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
 		{
-			Bounds bo = BoundsImpl.create( are.getTopLeft( ).getX( ),
+			Bounds bo = goFactory.createBounds( are.getTopLeft( ).getX( ),
 					are.getTopLeft( ).getY( ),
 					are.getWidth( ),
 					are.getHeight( ) );
@@ -586,14 +585,15 @@ public class SwtRendererImpl extends DeviceAdapter
 
 			if ( are.getOuterRadius( ) > 0 )
 			{
-				rctOuter = BoundsImpl.create( ( ( bo.getLeft( ) + dTranslateX + ( bo.getWidth( ) / 2d - are.getOuterRadius( ) ) ) * dScale ),
+				rctOuter = goFactory.createBounds( ( ( bo.getLeft( )
+						+ dTranslateX + ( bo.getWidth( ) / 2d - are.getOuterRadius( ) ) ) * dScale ),
 						( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getOuterRadius( ) ) ) * dScale ),
 						( 2 * are.getOuterRadius( ) * dScale ),
 						( 2 * are.getOuterRadius( ) * dScale ) );
 			}
 			else
 			{
-				rctOuter = BoundsImpl.create( ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
+				rctOuter = goFactory.createBounds( ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
 						( ( bo.getTop( ) + dTranslateY ) * dScale ),
 						( bo.getWidth( ) * dScale ),
 						( bo.getHeight( ) * dScale ) );
@@ -601,14 +601,16 @@ public class SwtRendererImpl extends DeviceAdapter
 
 			if ( are.getInnerRadius( ) > 0 )
 			{
-				rctInner = BoundsImpl.create( ( ( bo.getLeft( ) + dTranslateX + ( bo.getWidth( ) / 2d - are.getInnerRadius( ) ) ) * dScale ),
+				rctInner = goFactory.createBounds( ( ( bo.getLeft( )
+						+ dTranslateX + ( bo.getWidth( ) / 2d - are.getInnerRadius( ) ) ) * dScale ),
 						( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getInnerRadius( ) ) ) * dScale ),
 						( 2 * are.getInnerRadius( ) * dScale ),
 						( 2 * are.getInnerRadius( ) * dScale ) );
 			}
 			else
 			{
-				rctInner = BoundsImpl.create( ( ( bo.getLeft( ) + dTranslateX + bo.getWidth( ) / 2d ) * dScale ),
+				rctInner = goFactory.createBounds( ( ( bo.getLeft( )
+						+ dTranslateX + bo.getWidth( ) / 2d ) * dScale ),
 						( ( bo.getTop( ) + dTranslateY + bo.getHeight( ) / 2d ) * dScale ),
 						0,
 						0 );
@@ -811,7 +813,7 @@ public class SwtRendererImpl extends DeviceAdapter
 			return;
 		}
 
-		Bounds bo = BoundsImpl.create( are.getTopLeft( ).getX( ),
+		Bounds bo = goFactory.createBounds( are.getTopLeft( ).getX( ),
 				are.getTopLeft( ).getY( ),
 				are.getWidth( ),
 				are.getHeight( ) );
@@ -830,14 +832,15 @@ public class SwtRendererImpl extends DeviceAdapter
 
 			if ( are.getOuterRadius( ) > 0 )
 			{
-				rctOuter = BoundsImpl.create( ( ( bo.getLeft( ) + dTranslateX + ( bo.getWidth( ) / 2d - are.getOuterRadius( ) ) ) * dScale ),
+				rctOuter = goFactory.createBounds( ( ( bo.getLeft( )
+						+ dTranslateX + ( bo.getWidth( ) / 2d - are.getOuterRadius( ) ) ) * dScale ),
 						( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getOuterRadius( ) ) ) * dScale ),
 						( 2 * are.getOuterRadius( ) * dScale ),
 						( 2 * are.getOuterRadius( ) * dScale ) );
 			}
 			else
 			{
-				rctOuter = BoundsImpl.create( ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
+				rctOuter = goFactory.createBounds( ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
 						( ( bo.getTop( ) + dTranslateY ) * dScale ),
 						( bo.getWidth( ) * dScale ),
 						( bo.getHeight( ) * dScale ) );
@@ -845,14 +848,16 @@ public class SwtRendererImpl extends DeviceAdapter
 
 			if ( are.getInnerRadius( ) > 0 )
 			{
-				rctInner = BoundsImpl.create( ( ( bo.getLeft( ) + dTranslateX + ( bo.getWidth( ) / 2d - are.getInnerRadius( ) ) ) * dScale ),
+				rctInner = goFactory.createBounds( ( ( bo.getLeft( )
+						+ dTranslateX + ( bo.getWidth( ) / 2d - are.getInnerRadius( ) ) ) * dScale ),
 						( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getInnerRadius( ) ) ) * dScale ),
 						( 2 * are.getInnerRadius( ) * dScale ),
 						( 2 * are.getInnerRadius( ) * dScale ) );
 			}
 			else
 			{
-				rctInner = BoundsImpl.create( ( ( bo.getLeft( ) + dTranslateX + bo.getWidth( ) / 2d ) * dScale ),
+				rctInner = goFactory.createBounds( ( ( bo.getLeft( )
+						+ dTranslateX + bo.getWidth( ) / 2d ) * dScale ),
 						( ( bo.getTop( ) + dTranslateY + bo.getHeight( ) / 2d ) * dScale ),
 						0,
 						0 );
@@ -1624,7 +1629,7 @@ public class SwtRendererImpl extends DeviceAdapter
 				break;
 
 			case TextRenderEvent.RENDER_TEXT_IN_BLOCK :
-				final Bounds bo = tre.getBlockBounds( ).copyInstance( );
+				final Bounds bo = goFactory.copyOf( tre.getBlockBounds( ) );
 				bo.translate( dTranslateX, dTranslateY );
 				bo.scale( dScale );
 

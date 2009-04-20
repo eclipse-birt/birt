@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.factory.RunTimeContext.StateKey;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -42,7 +43,6 @@ import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
@@ -59,6 +59,7 @@ import com.ibm.icu.text.DecimalFormat;
  */
 public final class LegendBuilder implements IConstants
 {
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * inner class for legend data
@@ -83,6 +84,7 @@ public final class LegendBuilder implements IConstants
 		private final double dSafeSpacing;
 		private final double dHorizonalReservedSpace;
 		private final double dShadowness;
+		private final IChartComputation cComp;
 
 		public LegendData( IDisplayServer xs, Chart cm,
 				SeriesDefinition[] seda, RunTimeContext rtc )
@@ -92,16 +94,17 @@ public final class LegendBuilder implements IConstants
 			this.lg = cm.getLegend( );
 			this.seda = seda;
 			this.rtc = rtc;
+			this.cComp = rtc.getState( StateKey.CHART_COMPUTATION_KEY );
 			this.bPaletteByCategory = ( lg.getItemType( ).getValue( ) == LegendItemType.CATEGORIES );
 
-			this.la = LabelImpl.create( );
+			this.la = goFactory.createLabel( );
 			la.setEllipsis( lg.isSetEllipsis( ) ? lg.getEllipsis( ) : 1 );
-			la.setCaption( lg.getText( ).copyInstance( ) );
+			la.setCaption( goFactory.copyOf( lg.getText( ) ) );
 
 			la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
-			ITextMetrics itm = xs.getTextMetrics( la );
+			ITextMetrics itm = cComp.getTextMetrics( xs, la, 0 );
 			this.dItemHeight = itm.getFullHeight( );
-			itm.dispose( );
+			cComp.recycleTextMetrics( itm );
 
 			ClientArea ca = lg.getClientArea( );
 			dSeparatorThickness = lg.getSeparator( ) != null ? lg.getSeparator( )
@@ -109,7 +112,7 @@ public final class LegendBuilder implements IConstants
 					: ca.getOutline( ).getThickness( );
 
 			dScale = xs.getDpiResolution( ) / 72d;
-			insCa = ca.getInsets( ).scaledInstance( dScale );
+			insCa = goFactory.scaleInsets( ca.getInsets( ), dScale );
 			maxWrappingSize = lg.getWrappingSize( ) * dScale;
 
 			dHorizontalSpacing = 3 * dScale;
@@ -197,25 +200,12 @@ public final class LegendBuilder implements IConstants
 			return index_;
 		}
 
-		public boolean getInverse( )
-		{
-			return isInverse_;
-		}
-
-		public void setInverse( boolean isInverse )
-		{
-			isInverse_ = isInverse;
-		}
-
 	}
 
-	public static class LabelItem implements
- EllipsisHelper.ITester
+	public static class LabelItem implements EllipsisHelper.ITester
 	{
-
-		private final IDisplayServer xs;
-		private final RunTimeContext rtc;
-		private final double maxWrappingSize;
+		private final LegendData lgData;
+		private final double dWrapping;
 		private final Label la;
 		private final Double fontHeight;
 		private String text; // Text without considering about ellipsis
@@ -224,59 +214,22 @@ public final class LegendBuilder implements IConstants
 		private EllipsisHelper eHelper = null;
 		private int iValidLen = 0;
 
-		/**
-		 * constructor
-		 * 
-		 * @param xs
-		 * @param rtc
-		 * @param itm
-		 * @param la
-		 */
-		public LabelItem( IDisplayServer xs, RunTimeContext rtc, Label la,
-				double maxWrappingSize )
+		public LabelItem( LegendData lgData, Label la, double dWrapping )
 		{
-			this.xs = xs;
-			this.rtc = rtc;
+			this.lgData = lgData;
 			this.la = la;
-			this.maxWrappingSize = maxWrappingSize;
-			ITextMetrics itm = xs.getTextMetrics( la );
-			updateEllipsisWidth( itm );
+			this.dWrapping = dWrapping;
+			la.getCaption( ).setValue( EllipsisHelper.ELLIPSIS_STRING );
+			ITextMetrics itm = lgData.cComp.getTextMetrics( lgData.xs, la, 0 );
+			dEllipsisWidth = itm.getFullWidth( );
 			fontHeight = itm.getHeight( );
-			itm.dispose( );
+			lgData.cComp.recycleTextMetrics( itm );
 			eHelper = new EllipsisHelper( this, la.getEllipsis( ) );
 		}
 
-		/**
-		 * constructor
-		 * 
-		 * @param xs
-		 * @param rtc
-		 * @param itm
-		 * @param la
-		 */
-		public LabelItem( IDisplayServer xs, RunTimeContext rtc, Label la )
+		public LabelItem( LegendData lgData, Label la )
 		{
-			this( xs, rtc, la, 0 );
-		}
-
-		/**
-		 * copy constructor
-		 * 
-		 * @param original
-		 */
-		public static LabelItem copyOf( LabelItem original )
-		{
-			return new LabelItem( original.xs,
-					original.rtc,
-					original.la.copyInstance( ),
-					original.maxWrappingSize );
-		}
-
-		/**
-		 * 
-		 */
-		public void dispose( )
-		{
+			this( lgData, la, 0 );
 		}
 
 		public void setText( String sText ) throws ChartException
@@ -364,14 +317,7 @@ public final class LegendBuilder implements IConstants
 		private void updateLabel( String strText ) throws ChartException
 		{
 			la.getCaption( ).setValue( strText );
-			bb = Methods.computeLabelSize( xs, la, maxWrappingSize, fontHeight );
-		}
-
-		private void updateEllipsisWidth( ITextMetrics itm )
-		{
-			la.getCaption( ).setValue( EllipsisHelper.ELLIPSIS_STRING );
-			itm.reuse( la );
-			dEllipsisWidth = itm.getFullWidth( );
+			bb = lgData.cComp.computeLabelSize( lgData.xs, la, dWrapping, fontHeight );
 		}
 
 	}
@@ -388,17 +334,19 @@ public final class LegendBuilder implements IConstants
 	{
 		final Block bl = lgData.cm.getBlock( );
 		final Position lgPosition = lgData.lg.getPosition( );
-		final Bounds boFull = bl.getBounds( ).scaledInstance( lgData.dScale );
-		final Insets ins = bl.getInsets( ).scaledInstance( lgData.dScale );
-		final Insets lgIns = lgData.lg.getInsets( )
-				.scaledInstance( lgData.dScale );
+		final Bounds boFull = goFactory.scaleBounds( bl.getBounds( ),
+				lgData.dScale );
+		final Insets ins = goFactory.scaleInsets( bl.getInsets( ),
+				lgData.dScale );
+		final Insets lgIns = goFactory.scaleInsets( lgData.lg.getInsets( ),
+				lgData.dScale );
 
 		int titleWPos = 0;
 		int titleHPos = 0;
 
 		final TitleBlock titleBlock = lgData.cm.getTitle( );
-		final Bounds titleBounds = titleBlock.getBounds( )
-				.scaledInstance( lgData.dScale );
+		final Bounds titleBounds = goFactory.scaleBounds( titleBlock.getBounds( ),
+				lgData.dScale );
 
 		if ( titleBlock.isVisible( ) )
 		{
@@ -481,7 +429,7 @@ public final class LegendBuilder implements IConstants
 
 		if ( laTitle != null && laTitle.isSetVisible( ) && laTitle.isVisible( ) )
 		{
-			laTitle = laTitle.copyInstance( );
+			laTitle = goFactory.copyOf( laTitle );
 			String sTitle = laTitle.getCaption( ).getValue( );
 			laTitle.getCaption( )
 					.setValue( lgData.rtc.externalizedMessage( sTitle ) );
@@ -504,7 +452,7 @@ public final class LegendBuilder implements IConstants
 
 			lbLimit = new LabelLimiter( dMaxTWidth, dMaxTHeight, 0 );
 			lbLimit.computeWrapping( lgData.xs, laTitle );
-			lbLimit = lbLimit.limitLabelSize( lgData.xs, laTitle );
+			lbLimit = lbLimit.limitLabelSize(lgData.cComp, lgData.xs, laTitle );
 			size = SizeImpl.create( lbLimit.getMaxWidth( ) + space,
 					lbLimit.getMaxHeight( ) + space );
 
@@ -1194,8 +1142,7 @@ public final class LegendBuilder implements IConstants
 			this.bCategory = ( lgData.lg.getItemType( ).getValue( ) == LegendItemType.CATEGORIES );
 			this.bIsShowValue = !bCategory && lgData.lg.isShowValue( );
 			this.bIsLeftRight = ( lgData.lg.getDirection( ).getValue( ) == Direction.LEFT_RIGHT );
-			this.laiItem = new LabelItem( lgData.xs,
-					lgData.rtc,
+			this.laiItem = new LabelItem( lgData,
 					lgData.la,
 					lgData.maxWrappingSize );
 			if ( !bCategory )
@@ -1205,18 +1152,6 @@ public final class LegendBuilder implements IConstants
 								: lgData.dVerticalSpacing );
 			}
 
-		}
-
-		public void dispose( )
-		{
-			if ( laiItem != null )
-			{
-				laiItem.dispose( );
-			}
-			if ( laiValue != null )
-			{
-				laiValue.dispose( );
-			}
 		}
 
 		public abstract boolean placeContent( LegendItemHints lih )
@@ -1261,15 +1196,10 @@ public final class LegendBuilder implements IConstants
 		{
 			if ( sed != lih.getSeriesDefinition( ) )
 			{
-				if ( laiValue != null )
-				{
-					laiValue.dispose( );
-				}
 				Series series = lih.getSeriesDefinition( ).getSeries( ).get( 0 );
-				Label laValue = series.getLabel( ).copyInstance( );
+				Label laValue =  goFactory.copyOf( series.getLabel( ) );
 				laValue.setEllipsis( 1 );
-				this.laiValue = new LabelItem( lgData.xs,
-						lgData.rtc,
+				this.laiValue = new LabelItem( lgData,
 						laValue,
 						lgData.maxWrappingSize );
 			}

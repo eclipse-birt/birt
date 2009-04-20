@@ -268,14 +268,12 @@ public class SwingDisplayServer extends DisplayAdapter
 		return _imageCache.getObserver( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IDisplayServer#getTextMetrics(org.eclipse.birt.chart.model.component.Label)
-	 */
-	public ITextMetrics getTextMetrics( Label label )
+	public ITextMetrics getTextMetrics( Label label, boolean autoReuse )
 	{
-		return new SwingTextMetrics( this, label, getGraphicsContext() );
+		return new SwingTextMetrics( this,
+				label,
+				getGraphicsContext( ),
+				autoReuse );
 	}
 
 	/**

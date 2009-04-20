@@ -22,7 +22,6 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.birt.chart.util.FillUtil;
 
 /**
  * A rendering event type for rendering Area object.
@@ -145,7 +144,7 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 				bo = pre.getBounds( );
 				if ( i == 0 )
 				{
-					boFull = bo.copyInstance( );
+					boFull = goFactory.copyOf( bo );
 				}
 				else
 				{
@@ -217,12 +216,12 @@ public class AreaRenderEvent extends PrimitiveRenderEvent
 
 		if ( fill != null )
 		{
-			are.setBackground( FillUtil.copyOf( fill ) );
+			are.setBackground( goFactory.copyOf( fill ) );
 		}
 
 		if ( lia != null )
 		{
-			are.setOutline( lia.copyInstance( ) );
+			are.setOutline( goFactory.copyOf( lia ) );
 		}
 
 		for ( Iterator<PrimitiveRenderEvent> itr = alLinesAndArcs.iterator( ); itr.hasNext( ); )

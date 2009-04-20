@@ -15,10 +15,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.render.DeferredCache;
 
 import com.ibm.icu.util.ULocale;
@@ -41,6 +42,8 @@ public final class WrappedInstruction implements IRenderInstruction
 	private PrimitiveRenderEvent pre = null;
 	
 	private long zorder = 0;
+
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * The constructor.
@@ -188,12 +191,11 @@ public final class WrappedInstruction implements IRenderInstruction
 				{
 					if ( i == 0 )
 					{
-						bo = ( (PrimitiveRenderEvent) alEvents.get( i ) ).getBounds( )
-								.copyInstance( );
+						bo = goFactory.copyOf( ( (PrimitiveRenderEvent) alEvents.get( i ) ).getBounds( ) );
 					}
 					else
 					{
-						( (BoundsImpl) bo ).max( ( (PrimitiveRenderEvent) alEvents.get( i ) ).getBounds( ) );
+						bo.max( ( (PrimitiveRenderEvent) alEvents.get( i ) ).getBounds( ) );
 					}
 				}
 				catch ( Exception ex )

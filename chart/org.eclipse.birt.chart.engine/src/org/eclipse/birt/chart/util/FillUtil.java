@@ -13,13 +13,14 @@ package org.eclipse.birt.chart.util;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -28,6 +29,8 @@ import org.eclipse.emf.common.util.EList;
 
 public class FillUtil
 {
+
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * Returns a darker color.
@@ -39,25 +42,25 @@ public class FillUtil
 	{
 		if ( fill instanceof ColorDefinition )
 		{
-			return ( (ColorDefinition) fill ).darker( );
+			return goFactory.darker( (ColorDefinition) fill );
 		}
 		if ( fill instanceof Gradient )
 		{
 			ColorDefinition cdStart = ( (Gradient) fill ).getStartColor( );
 			ColorDefinition cdEnd = ( (Gradient) fill ).getEndColor( );
-			return getSortedColors( false, cdStart, cdEnd ).darker( );
+			return goFactory.darker( getSortedColors( false, cdStart, cdEnd ) );
 		}
 		if ( fill instanceof Image )
 		{
 			// Gray color
-			return ColorDefinitionImpl.create( 128, 128, 128 );
+			return goFactory.createColorDefinition( 128, 128, 128 );
 		}
 		if ( fill instanceof MultipleFill )
 		{
 			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
 			ColorDefinition cd0 = (ColorDefinition) fills.get( 0 );
 			ColorDefinition cd1 = (ColorDefinition) fills.get( 1 );
-			return getSortedColors( false, cd0, cd1 ).darker( );
+			return goFactory.darker( getSortedColors( false, cd0, cd1 ) );
 		}
 		return null;
 	}
@@ -87,25 +90,25 @@ public class FillUtil
 	{
 		if ( fill instanceof ColorDefinition )
 		{
-			return ( (ColorDefinition) fill ).brighter( );
+			return goFactory.brighter( ( (ColorDefinition) fill ) );
 		}
 		if ( fill instanceof Gradient )
 		{
 			ColorDefinition cdStart = ( (Gradient) fill ).getStartColor( );
 			ColorDefinition cdEnd = ( (Gradient) fill ).getEndColor( );
-			return getSortedColors( true, cdStart, cdEnd ).brighter( );
+			return goFactory.brighter( getSortedColors( true, cdStart, cdEnd ) );
 		}
 		if ( fill instanceof Image )
 		{
 			// Gray color
-			return ColorDefinitionImpl.create( 192, 192, 192 );
+			return goFactory.createColorDefinition( 192, 192, 192 );
 		}
 		if ( fill instanceof MultipleFill )
 		{
 			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
 			ColorDefinition cd0 = (ColorDefinition) fills.get( 0 );
 			ColorDefinition cd1 = (ColorDefinition) fills.get( 1 );
-			return getSortedColors( true, cd0, cd1 ).brighter( );
+			return goFactory.brighter( getSortedColors( true, cd0, cd1 ) );
 		}
 		return null;
 	}
@@ -114,8 +117,7 @@ public class FillUtil
 	{
 		if ( fill instanceof ColorDefinition )
 		{
-			ColorDefinition new_fill = ( (ColorDefinition) fill ).copyInstance( );
-			new_fill.eAdapters( ).addAll( fill.eAdapters( ) );
+			ColorDefinition new_fill = goFactory.copyOf( (ColorDefinition) fill );
 			applyBrightness( new_fill, brightness );
 			return new_fill;
 		}
@@ -234,41 +236,42 @@ public class FillUtil
 		{
 			return null;
 		}
-		Gradient gradient = AttributeFactory.eINSTANCE.createGradient( );
+
 		int currentLuminance = convertRGBToLuminance( color.getRed( ),
 				color.getGreen( ),
 				color.getBlue( ) );
+
+		ColorDefinition newStartColor = goFactory.copyOf( color );
+		ColorDefinition newEndColor = goFactory.copyOf( color );
+
 		if ( currentLuminance < 200 )
 		{
-			ColorDefinition newStartColor = color.copyInstance( );
-			newStartColor.eAdapters( ).addAll( color.eAdapters( ) );
-			gradient.setStartColor( newStartColor );
-
-			ColorDefinition newColor = color.copyInstance( );
-			newColor.eAdapters( ).addAll( color.eAdapters( ) );
-
 			int lumDiff = 240 - currentLuminance;
-			newColor.setRed( getNewColor( lumDiff, newColor.getRed( ), 0.3 ) );
-			newColor.setGreen( getNewColor( lumDiff, newColor.getGreen( ), 0.59 ) );
-			newColor.setBlue( getNewColor( lumDiff, newColor.getBlue( ), 0.11 ) );
-			gradient.setEndColor( newColor );
+			newEndColor.setRed( getNewColor( lumDiff,
+					newEndColor.getRed( ),
+					0.3 ) );
+			newEndColor.setGreen( getNewColor( lumDiff,
+					newEndColor.getGreen( ),
+					0.59 ) );
+			newEndColor.setBlue( getNewColor( lumDiff,
+					newEndColor.getBlue( ),
+					0.11 ) );
 		}
 		else
 		{
-			ColorDefinition newEndColor = color.copyInstance( );
-			newEndColor.eAdapters( ).addAll( color.eAdapters( ) );
-			gradient.setEndColor( newEndColor );
-
-			ColorDefinition newColor = color.copyInstance( );
-			newColor.eAdapters( ).addAll( color.eAdapters( ) );
-
 			int lumDiff = -100;
-			newColor.setRed( getNewColor( lumDiff, newColor.getRed( ), 0.3 ) );
-			newColor.setGreen( getNewColor( lumDiff, newColor.getGreen( ), 0.59 ) );
-			newColor.setBlue( getNewColor( lumDiff, newColor.getBlue( ), 0.11 ) );
-			gradient.setStartColor( newColor );
+			newStartColor.setRed( getNewColor( lumDiff,
+					newStartColor.getRed( ),
+					0.3 ) );
+			newStartColor.setGreen( getNewColor( lumDiff,
+					newStartColor.getGreen( ),
+					0.59 ) );
+			newStartColor.setBlue( getNewColor( lumDiff,
+					newStartColor.getBlue( ),
+					0.11 ) );
 		}
-		return gradient;
+
+		return goFactory.createGradient( newStartColor, newEndColor );
 	}
 
 	private static int convertRGBToLuminance( int red, int green, int blue )
@@ -320,7 +323,7 @@ public class FillUtil
 		Fill fill = elPalette.get( index % iPaletteSize );
 		if ( index < iPaletteSize )
 		{
-			return copyOf( elPalette.get( index % iPaletteSize ) );
+			return goFactory.copyOf( elPalette.get( index % iPaletteSize ) );
 		}
 		int d = index / iPaletteSize;
 		if ( d % 2 == 1 )

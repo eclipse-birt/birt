@@ -38,8 +38,6 @@ import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Scale;
@@ -78,7 +76,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 
 	private int iMarginPercent = 0;
 
-	private Bounds boPlotWithMargin = BoundsImpl.create( 0, 0, 100, 100 );
+	private Bounds boPlotWithMargin = goFactory.createBounds( 0, 0, 100, 100 );
 
 	/**
 	 * The default constructor
@@ -126,10 +124,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 
 		final Axis[] axaOverlayOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase,
 				false );
-		aax = new AllAxes( cwa.getPlot( )
+		aax = new AllAxes( goFactory.scaleInsets( cwa.getPlot( )
 				.getClientArea( )
-				.getInsets( )
-				.scaledInstance( dPointToPixel ) ); // CONVERSION
+				.getInsets( ), dPointToPixel ) ); // CONVERSION
 		insCA = aax.getInsets( );
 
 		final boolean isTransposed = cwa.isTransposed( );
@@ -691,7 +688,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			IllegalArgumentException
 	{
 		ChartWithAxes cwa = getModel( );
-		bo = bo.scaledInstance( dPointToPixel ); // CONVERSION
+		bo = goFactory.scaleBounds( bo, dPointToPixel ); // CONVERSION
 		dSeriesThickness = ( ids.getDpiResolution( ) / 72d )
 				* cwa.getSeriesThickness( );
 		
@@ -866,7 +863,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		// UPDATE THE SIZES OF THE OVERLAY AXES
 		updateOverlayAxes( aax );
 		// #9026, pass the bounds which takes the overlay axes into accounts
-		growBaseAxis( aax, BoundsImpl.create( dX, dY, dW, dH ) );
+		growBaseAxis( aax, goFactory.createBounds( dX, dY, dW, dH ) );
 
 		// UPDATE FOR OVERLAYS
 		final OneAxis axPH = aax.areAxesSwapped( ) ? aax.getPrimaryOrthogonal( )
@@ -910,7 +907,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			boPlotBackground.delta( dSeriesThickness, -dSeriesThickness, 0, 0 );
 		}
 
-		boPlotWithMargin = boPlotBackground.copyInstance( );
+		boPlotWithMargin = goFactory.copyOf( boPlotBackground );
 		if ( iMarginPercent > 0 )
 		{
 			// TODO do we need to add margin support for datetime scale?
@@ -1286,7 +1283,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							maxHeight,
 							0 );
 					lbLimit.computeWrapping( ids, laAxisTitle );
-					lbLimit = lbLimit.limitLabelSize( ids,
+					lbLimit = lbLimit.limitLabelSize( cComp,
+							ids,
 							laAxisTitle,
 							EnumSet.of( LabelLimiter.Option.FIX_HEIGHT ) );
 					dAxisTitleThickness = lbLimit.getMaxWidth( );
@@ -1458,14 +1456,14 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					Label laAxisTitleV = aax.getPrimaryOrthogonal( ).getTitle( );
 					if ( laAxisTitleV.isVisible( ) )
 					{
-						laAxisTitleV = laAxisTitleV.copyInstance( );
+						laAxisTitleV = goFactory.copyOf( laAxisTitleV );
 						laAxisTitleV.getCaption( )
 								.setValue( rtc.externalizedMessage( laAxisTitleV.getCaption( )
 										.getValue( ) ) );
 						LabelLimiter lbLimitV = new LabelLimiter( boPlot.getWidth( )
 								* AXIS_TITLE_PERCENT, boPlot.getWidth( ), 0 );
 						lbLimitV.computeWrapping( ids, laAxisTitleV );
-						lbLimitV.limitLabelSize( ids, laAxisTitleV );
+						lbLimitV.limitLabelSize( cComp, ids, laAxisTitleV );
 						maxWidth -= lbLimitV.getMaxWidth( );
 					}
 
@@ -1473,7 +1471,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							maxHeight,
 							0 );
 					lbLimit.computeWrapping( ids, laAxisTitle );
-					lbLimit = lbLimit.limitLabelSize( ids,
+					lbLimit = lbLimit.limitLabelSize( cComp,
+							ids,
 							laAxisTitle,
 							EnumSet.of( LabelLimiter.Option.FIX_WIDTH ) );
 					dAxisTitleThickness = lbLimit.getMaxHeight( );
@@ -1964,7 +1963,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						dY = dTemp;
 					}
 				}
-				lo = LocationImpl.create( dX, dY );
+				lo = goFactory.createLocation( dX, dY );
 
 				// Compute the offset between two ticks
 				double dLength = 0;

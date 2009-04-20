@@ -16,8 +16,6 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.util.FillUtil;
 
 /**
  * A rendering event type for rendering Oval object.
@@ -54,7 +52,10 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	 */
 	public final Bounds getBounds( )
 	{
-		final Bounds bo = BoundsImpl.create( _bo.getLeft( ), _bo.getTop( ), _bo.getWidth( ), _bo.getHeight( ) );
+		final Bounds bo = goFactory.createBounds( _bo.getLeft( ),
+				_bo.getTop( ),
+				_bo.getWidth( ),
+				_bo.getHeight( ) );
 		return bo;
 	}
 
@@ -101,20 +102,11 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	public PrimitiveRenderEvent copy( )
 	{
 		final OvalRenderEvent ore = new OvalRenderEvent( source );
-		if ( _bo != null )
-		{
-			ore.setBounds( _bo.copyInstance( ) );
-		}
+		ore.setBounds( goFactory.copyOf( _bo ) );
 
-		if ( _lia != null )
-		{
-			ore.setOutline( _lia.copyInstance( ) );
-		}
+		ore.setOutline( goFactory.copyOf( _lia ) );
 
-		if ( _ifBackground != null )
-		{
-			ore.setBackground( FillUtil.copyOf( _ifBackground ) );
-		}
+		ore.setBackground( goFactory.copyOf( _ifBackground ) );
 		return ore;
 	}
 

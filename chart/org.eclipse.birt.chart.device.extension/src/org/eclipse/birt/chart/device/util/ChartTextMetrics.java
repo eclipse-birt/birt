@@ -63,8 +63,9 @@ public final class ChartTextMetrics extends TextAdapter
 	 * 
 	 * @param _xs
 	 * @param _la
+	 * @param autoReuse
 	 */
-	public ChartTextMetrics( IDisplayServer _xs, Label _la )
+	public ChartTextMetrics( IDisplayServer _xs, Label _la, boolean autoReuse )
 	{
 		if ( bi == null )
 		{
@@ -84,7 +85,16 @@ public final class ChartTextMetrics extends TextAdapter
 		la = _la;
 
 		computeTextAntialiasing( );
-		reuse( la );
+
+		if ( autoReuse )
+		{
+			reuse( la );
+		}
+	}
+
+	public ChartTextMetrics( IDisplayServer _xs, Label _la )
+	{
+		this( _xs, _la, true );
 	}
 
 	/**
@@ -339,7 +349,7 @@ public final class ChartTextMetrics extends TextAdapter
 
 			for ( Iterator<String> itr = al.iterator( ); itr.hasNext( ); )
 			{
-				String ns = (String) itr.next( );
+				String ns = itr.next( );
 
 				AttributedString as = new AttributedString( ns,
 						fm.getFont( )
@@ -370,7 +380,7 @@ public final class ChartTextMetrics extends TextAdapter
 		final String[] sa = new String[n];
 		for ( i = 0; i < al.size( ); i++ )
 		{
-			sa[i] = (String) al.get( i );
+			sa[i] = al.get( i );
 		}
 		return sa;
 	}

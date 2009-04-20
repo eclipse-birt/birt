@@ -36,7 +36,6 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
@@ -75,7 +74,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 	 * Bounds of the whole plot client area (include axes), insets have been
 	 * calculated.
 	 */
-	protected Bounds boPlot = BoundsImpl.create( 0, 0, 100, 100 );
+	protected Bounds boPlot = goFactory.createBounds( 0, 0, 100, 100 );
 
 
 	/**
@@ -904,7 +903,8 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 			double maxHeight = boPlot.getHeight( );
 			LabelLimiter lblLimit = new LabelLimiter( maxWidth, maxHeight, 0 );
 			lblLimit.computeWrapping( ids, laYAxisTitle );
-			lblLimit = lblLimit.limitLabelSize( ids,
+			lblLimit = lblLimit.limitLabelSize( cComp,
+					ids,
 					laYAxisTitle,
 					EnumSet.of( LabelLimiter.Option.FIX_HEIGHT ) );
 			putLabelLimiter( axPV.getModelAxis( ).getTitle( ), lblLimit );
@@ -1838,7 +1838,8 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 			double maxHeight = AXIS_TITLE_PERCENT * boPlot.getHeight( );
 			LabelLimiter lblLimit = new LabelLimiter( maxWidth, maxHeight, 0 );
 			lblLimit.computeWrapping( ids, laXAxisTitle );
-			lblLimit = lblLimit.limitLabelSize( ids,
+			lblLimit = lblLimit.limitLabelSize( cComp,
+					ids,
 					laXAxisTitle,
 					EnumSet.of( LabelLimiter.Option.FIX_WIDTH ) );
 			putLabelLimiter( axPH.getModelAxis( ).getTitle( ), lblLimit );

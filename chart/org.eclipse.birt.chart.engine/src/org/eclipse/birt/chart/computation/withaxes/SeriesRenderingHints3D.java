@@ -13,7 +13,9 @@ package org.eclipse.birt.chart.computation.withaxes;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
+import org.eclipse.birt.chart.computation.GObjectFacotry;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -61,6 +63,8 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	private final DataSetIterator dsiOrthogonal;
 
 	private final DataSetIterator dsiAncillary;
+
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 
 	/**
 	 * @param _pwa
@@ -341,7 +345,7 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	public final Label getLabelAttributes( Series se )
 			throws IllegalArgumentException
 	{
-		return se.getLabel( ).copyInstance( );
+		return goFactory.copyOf( se.getLabel( ) );
 	}
 
 	/**
@@ -351,7 +355,7 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	 */
 	public final Bounds getClientAreaBounds( boolean bReduceByInsets )
 	{
-		final Bounds boClientArea = pwa.getPlotBounds( ).copyInstance( );
+		final Bounds boClientArea = goFactory.copyOf( pwa.getPlotBounds( ) );
 		if ( bReduceByInsets )
 		{
 			boClientArea.adjust( pwa.getPlotInsets( ) );

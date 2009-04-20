@@ -43,6 +43,7 @@ public class LabelLimiter
 		FIX_HEIGHT
 	};
 
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
 	private double maxWidth;
 	private double maxHeight;
 	private double wrapping;
@@ -114,7 +115,7 @@ public class LabelLimiter
 		{
 			double dScale = xs.getDpiResolution( ) / 72d;
 			double fRotation = la.getCaption( ).getFont( ).getRotation( );
-			Insets insets = la.getInsets( ).scaledInstance( dScale );
+			Insets insets = goFactory.scaleInsets( la.getInsets( ), dScale );
 			double dInsetsWidth = insets.getLeft( ) + insets.getRight( );
 
 			if ( ChartUtil.mathEqual( fRotation, 0 ) )
@@ -204,10 +205,14 @@ public class LabelLimiter
 	 * @return
 	 * @throws ChartException
 	 */
-	public LabelLimiter limitLabelSize( IDisplayServer xs, Label la )
-			throws ChartException
+	public LabelLimiter limitLabelSize( IChartComputation cComp,
+			IDisplayServer xs, Label la ) throws ChartException
 	{
-		return limitLabelSize( xs, la, this, EnumSet.noneOf( Option.class ) );
+		return limitLabelSize( cComp,
+				xs,
+				la,
+				this,
+				EnumSet.noneOf( Option.class ) );
 	}
 
 	/**
@@ -219,10 +224,11 @@ public class LabelLimiter
 	 * @return
 	 * @throws ChartException
 	 */
-	public LabelLimiter limitLabelSize( IDisplayServer xs, Label la,
-			EnumSet<Option> options ) throws ChartException
+	public LabelLimiter limitLabelSize( IChartComputation cComp,
+			IDisplayServer xs, Label la, EnumSet<Option> options )
+			throws ChartException
 	{
-		return limitLabelSize( xs, la, this, options );
+		return limitLabelSize( cComp, xs, la, this, options );
 	}
 
 	/**
@@ -238,7 +244,7 @@ public class LabelLimiter
 	 * @return
 	 * @throws ChartException
 	 */
-	public static final LabelLimiter limitLabelSize( IDisplayServer xs,
+	public static final LabelLimiter limitLabelSize(IChartComputation cComp, IDisplayServer xs,
 			Label la, LabelLimiter lbLimit, EnumSet<Option> options )
 			throws ChartException
 	{
@@ -247,7 +253,7 @@ public class LabelLimiter
 
 		if ( lbLimit != null )
 		{
-			EllipsisHelper eHelper = EllipsisHelper.simpleInstance( xs,
+			EllipsisHelper eHelper = EllipsisHelper.simpleInstance( cComp, xs,
 					la,
 					null );
 			if ( eHelper.checkLabelEllipsis( la.getCaption( ).getValue( ),
@@ -267,7 +273,7 @@ public class LabelLimiter
 		}
 		else
 		{
-			BoundingBox bb = Methods.computeLabelSize( xs, la, 0, null );
+			BoundingBox bb = cComp.computeLabelSize( xs, la, 0, null );
 			maxWidth = bb.getWidth( );
 			maxHeight = bb.getHeight( );
 			wrapping = 0;
