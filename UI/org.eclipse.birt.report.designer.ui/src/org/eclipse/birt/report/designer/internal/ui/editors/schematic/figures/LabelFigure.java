@@ -389,6 +389,15 @@ public class LabelFigure extends ReportElementFigure
 		this.recommendSize = recommendSize;
 	}
 
+	
+	/**Gets the recommended size.
+	 * @return
+	 */
+	public Dimension getRecommendSize( )
+	{
+		return recommendSize;
+	}
+
 	/**
 	 * Sets the display property of the Label.
 	 * 
