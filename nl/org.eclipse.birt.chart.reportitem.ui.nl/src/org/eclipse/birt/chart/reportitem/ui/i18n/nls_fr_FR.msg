@@ -18,7 +18,7 @@ ChartDataBindingPage.Msg.AskSaveDataSet=Souhaitez-vous modifier le jeu de donnée
 DesignerRepresentation.error.Error=Erreur : 
 DesignerRepresentation.log.UnableToFind=Impossible de trouver le modèle de graphique pendant le rendu dans Designer.
 DesignerRepresentation.msg.InvalidChart=Le graphique actuel est incorrect. Pour continuer à travailler sur ce graphique, veuillez commencer par le supprimer.
-ChartReportItemBuilderImpl.problem.hasNotBeenFound=Le graphique n'a pas encore été lié à un jeu de données.
+ChartReportItemBuilderImpl.problem.hasNotBeenFound=The chart has not yet been bound to a Data Set or Data Cube.
 ChartReportItemBuilderImpl.log.UnableToLocate=Impossible de localiser le wrapper d'élément d'état pour l'objet de graphique.
 
 ChartPreferencePage.Label.MaxRowNumber=&Nombre max. de lignes dans la prévisualisation des données :

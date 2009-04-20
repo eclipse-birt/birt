@@ -18,7 +18,7 @@ ChartDataBindingPage.Msg.AskSaveDataSet=¿Desea cambiar el conjunto de datos enla
 DesignerRepresentation.error.Error=Error: 
 DesignerRepresentation.log.UnableToFind=No es posible encontrar el modelo de diagrama mientras se procesa en el diseñador.
 DesignerRepresentation.msg.InvalidChart=El diagrama actual no es válido. Si desea continuar trabajando en él, primero debe eliminarlo.
-ChartReportItemBuilderImpl.problem.hasNotBeenFound=El diagrama no se ha enlazado aún a un conjunto de datos.
+ChartReportItemBuilderImpl.problem.hasNotBeenFound=The chart has not yet been bound to a Data Set or Data Cube.
 ChartReportItemBuilderImpl.log.UnableToLocate=No se puede localizar el empaquetador de elementos de informe para el objeto de diagrama.
 
 ChartPreferencePage.Label.MaxRowNumber=&Número de fila máximo de vista previa de datos:

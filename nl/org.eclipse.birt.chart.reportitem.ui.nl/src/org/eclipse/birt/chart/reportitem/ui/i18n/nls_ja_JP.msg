@@ -18,7 +18,7 @@ ChartDataBindingPage.Msg.AskSaveDataSet=バインドされたデータセットを変更しますか
 DesignerRepresentation.error.Error=エラー : 
 DesignerRepresentation.log.UnableToFind=デザイナで描画中に、グラフのモデルが見つかりません。
 DesignerRepresentation.msg.InvalidChart=現在のグラフは無効です。このグラフの作業を続ける場合は、いったん削除してください。
-ChartReportItemBuilderImpl.problem.hasNotBeenFound=グラフはデータセットにバインドされていません。
+ChartReportItemBuilderImpl.problem.hasNotBeenFound=The chart has not yet been bound to a Data Set or Data Cube.
 ChartReportItemBuilderImpl.log.UnableToLocate=グラフオブジェクトのレポート項目ラッパーが見つかりません。
 
 ChartPreferencePage.Label.MaxRowNumber=データプレビューの最大行数 (&M):
