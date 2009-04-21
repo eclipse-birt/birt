@@ -2316,7 +2316,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				TextParser.TEXT_TYPE_HTML );
 		ReportDesignHandle design = (ReportDesignHandle) runnable
 				.getDesignHandle( );
-		HTMLProcessor htmlProcessor = new HTMLProcessor( design );
+		HTMLProcessor htmlProcessor = new HTMLProcessor( design, reportContext
+				.getAppContext( ) );
 
 		HashMap styleMap = new HashMap( );
 
@@ -3103,7 +3104,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		ReportDesignHandle design = (ReportDesignHandle) runnable
 				.getDesignHandle( );
-		URL url = design.findResource( uri, IResourceLocator.IMAGE );
+		URL url = design.findResource( uri, IResourceLocator.IMAGE,
+				reportContext.getAppContext( ) );
 		if ( url == null )
 		{
 			return uri;

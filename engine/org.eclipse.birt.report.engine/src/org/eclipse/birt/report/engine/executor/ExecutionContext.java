@@ -921,9 +921,10 @@ public class ExecutionContext
 		return reportContent;
 	}
 
-	public void setReportContent( IReportContent content )
+	public void setReportContent( ReportContent content )
 	{
 		this.reportContent = content;
+		content.setReportContext( reportContext );
 		content.getErrors( ).addAll( onPrepareErrors );
 	}
 
@@ -942,7 +943,7 @@ public class ExecutionContext
 		if ( reportDesign != null )
 		{
 			url = reportDesign.findResource( fileName,
-					IResourceLocator.LIBRARY );
+					IResourceLocator.LIBRARY, appContext );
 		}
 		if (url == null)
 		{
@@ -2059,7 +2060,8 @@ public class ExecutionContext
 	{
 		if ( getDesign( ) != null )
 		{
-			return getDesign( ).findResource( resourceName, IResourceLocator.OTHERS );
+			return getDesign( ).findResource( resourceName,
+					IResourceLocator.OTHERS, appContext );
 		}
 		return null;
 	}

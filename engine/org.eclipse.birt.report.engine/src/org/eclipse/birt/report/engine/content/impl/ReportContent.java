@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -77,6 +78,8 @@ public class ReportContent implements IReportContent
 	private long totalPage;
 
 	protected String acl;
+	
+	private IReportContext reportContext;
 
 	/**
 	 * default constructor.
@@ -303,5 +306,15 @@ public class ReportContent implements IReportContent
 	public void setACL( String acl )
 	{
 		this.acl = acl;
+	}
+	
+	public IReportContext getReportContext( )
+	{
+		return reportContext;
+	}
+	
+	public void setReportContext( IReportContext context )
+	{
+		this.reportContext = context;
 	}
 }

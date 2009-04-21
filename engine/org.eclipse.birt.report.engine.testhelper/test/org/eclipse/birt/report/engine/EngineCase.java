@@ -53,6 +53,12 @@ abstract public class EngineCase extends TestCase
 		super( );
 		this.archiveFactory = new ArchiveFileFactory( );
 	}
+	
+	public EngineCase( String name )
+	{
+		super( name );
+		this.archiveFactory = new ArchiveFileFactory( );
+	}
 
 	protected void setUp( ) throws Exception
 	{

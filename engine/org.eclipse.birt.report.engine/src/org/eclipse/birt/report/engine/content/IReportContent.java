@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.ir.Report;
 
 import com.ibm.icu.util.ULocale;
@@ -237,4 +238,10 @@ public interface IReportContent
 	public String getACL( );
 
 	public void setACL( String acl );
+	
+	/**
+	 * 
+	 * @return the ReportContext
+	 */
+	public IReportContext getReportContext( );
 }

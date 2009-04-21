@@ -343,7 +343,9 @@ public class HTML2Content
 		}
 		if ( body != null )
 		{
-			htmlProcessor.execute( body, styleMap );
+			htmlProcessor.execute( body, styleMap, foreign.getReportContent( )
+					.getReportContext( ) == null ? null : foreign
+					.getReportContent( ).getReportContext( ).getAppContext( ) );
 			IContainerContent container = foreign.getReportContent( )
 					.createContainerContent( );
 
@@ -748,7 +750,11 @@ public class HTML2Content
 			{
 				ReportDesignHandle handle = content.getReportContent( )
 						.getDesign( ).getReportDesign( );
-				URL url = handle.findResource( src, IResourceLocator.IMAGE );
+				URL url = handle.findResource( src, IResourceLocator.IMAGE,
+						content.getReportContent( ).getReportContext( ) == null
+								? null
+								: content.getReportContent( )
+										.getReportContext( ).getAppContext( ) );
 				if ( url != null )
 				{
 					src = url.toString( );
@@ -828,7 +834,11 @@ public class HTML2Content
 			{
 				ReportDesignHandle handle = content.getReportContent( )
 						.getDesign( ).getReportDesign( );
-				URL url = handle.findResource( src, IResourceLocator.IMAGE );
+				URL url = handle.findResource( src, IResourceLocator.IMAGE,
+						content.getReportContent( ).getReportContext( ) == null
+								? null
+								: content.getReportContent( )
+										.getReportContext( ).getAppContext( ) );
 				if ( url != null )
 				{
 					src = url.toString( );

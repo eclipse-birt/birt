@@ -1185,7 +1185,9 @@ public abstract class ContainerArea extends AbstractArea
 		if ( reportDesign != null )
 		{
 			URL url = reportDesign.findResource( imageUri,
-					IResourceLocator.IMAGE );
+					IResourceLocator.IMAGE, context.getReport( )
+							.getReportContext( ) == null ? null : context
+							.getReport( ).getReportContext( ).getAppContext( ) );
 			if ( url != null )
 			{
 				imageUrl = url.toExternalForm( );

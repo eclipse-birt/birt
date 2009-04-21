@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -153,7 +154,14 @@ public class EmitterUtil
 				case IImageContent.IMAGE_FILE :
 					ReportDesignHandle design = content.getReportContent( )
 							.getDesign( ).getReportDesign( );
-					URL url = design.findResource( uri, IResourceLocator.IMAGE );
+					URL url = design
+							.findResource( uri, IResourceLocator.IMAGE,
+									content.getReportContent( )
+											.getReportContext( ) == null
+											? null
+											: content.getReportContent( )
+													.getReportContext( )
+													.getAppContext( ) );
 					InputStream in = url.openStream( );
 					try
 					{
@@ -338,13 +346,13 @@ public class EmitterUtil
 	}
 
 	public static String getBackgroundImageUrl( IStyle style,
-			ReportDesignHandle reportDesign )
+			ReportDesignHandle reportDesign, Map context )
 	{
 		String imageUri = PropertyUtil.getBackgroundImage( style
 				.getProperty( StyleConstants.STYLE_BACKGROUND_IMAGE ) );
 		if ( imageUri != null )
 		{
-			String url = getImageUrl( imageUri, reportDesign );
+			String url = getImageUrl( imageUri, reportDesign, context );
 			if ( url != null && url.length( ) > 0 )
 			{
 				return url;
@@ -354,13 +362,13 @@ public class EmitterUtil
 	}
 
 	private static String getImageUrl( String imageUri,
-			ReportDesignHandle reportDesign )
+			ReportDesignHandle reportDesign, Map context )
 	{
 		String imageUrl = imageUri;
 		if ( reportDesign != null )
 		{
 			URL url = reportDesign.findResource( imageUri,
-					IResourceLocator.IMAGE );
+					IResourceLocator.IMAGE, context );
 			if ( url != null )
 			{
 				imageUrl = url.toExternalForm( );

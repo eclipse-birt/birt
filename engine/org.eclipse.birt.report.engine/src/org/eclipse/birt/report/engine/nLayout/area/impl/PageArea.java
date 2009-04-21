@@ -226,8 +226,12 @@ public class PageArea extends BlockContainerArea
 		ReportDesignHandle designHandle = pageContent.getReportContent( )
 				.getDesign( ).getReportDesign( );
 		IStyle style = pageContent.getStyle( );
+		
 		String imageUrl = EmitterUtil.getBackgroundImageUrl( style,
-				designHandle );
+				designHandle, pageContent.getReportContent( )
+						.getReportContext( ) == null ? null : pageContent
+						.getReportContent( ).getReportContext( )
+						.getAppContext( ) );
 		if ( backgroundColor != null || imageUrl != null )
 		{
 			boxStyle = new BoxStyle( );

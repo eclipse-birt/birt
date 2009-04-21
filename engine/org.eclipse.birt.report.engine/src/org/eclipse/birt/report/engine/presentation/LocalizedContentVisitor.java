@@ -137,7 +137,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		ReportDesignHandle reportDesign = context.getDesign( );
 		if ( reportDesign != null )
 		{
-			URL url = reportDesign.findResource( image, IResourceLocator.IMAGE );
+			URL url = reportDesign.findResource( image, IResourceLocator.IMAGE,
+					context.getAppContext( ) );
 			if ( url != null )
 			{
 				style.setBackgroundImage( url.toExternalForm( ) );
@@ -650,8 +651,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			String strUri = image.getURI( );
 
 			ReportDesignHandle reportDesign = context.getDesign( );
-			URL uri = reportDesign
-					.findResource( strUri, IResourceLocator.IMAGE );
+			URL uri = reportDesign.findResource( strUri,
+					IResourceLocator.IMAGE, context.getAppContext( ) );
 			if ( uri != null )
 			{
 				image.setURI( uri.toExternalForm( ) );

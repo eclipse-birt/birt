@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.pdf.util;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -79,7 +80,7 @@ public class HTMLStyleProcessor
 	 * @param text
 	 *            the text content object
 	 */
-	public void execute( Element ele, HashMap styles)
+	public void execute( Element ele, HashMap styles, Map context )
 	{
 		
 		StyleDeclaration style = null;
@@ -158,7 +159,7 @@ public class HTMLStyleProcessor
 						if( FileUtil.isLocalResource( bgi ) )
 						{
 							URL url = report.findResource( bgi,
-									IResourceLocator.IMAGE );
+									IResourceLocator.IMAGE, context );
 							if ( url != null )
 							{
 								String fileName = url.getFile( );
@@ -198,7 +199,7 @@ public class HTMLStyleProcessor
 			Node child = ele.getChildNodes( ).item( i );
 			if ( child.getNodeType( ) == Node.ELEMENT_NODE )
 			{
-				execute( (Element) child, styles);
+				execute( (Element) child, styles, context );
 			}
 		}
 	}

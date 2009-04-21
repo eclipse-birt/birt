@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.executor.css;
 import java.io.StringReader;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,6 +44,8 @@ public class HTMLProcessor
 
 	/** the CSS2.0 Parser */
 	private CssParser cssParser;
+	
+	private Map appContext;
 
 	/** the possible values for property SIZE of HTML element FONT */
 	private static String[] FONT_SIZE = new String[]{
@@ -67,13 +70,14 @@ public class HTMLProcessor
 	 * @param context
 	 *            the execution context
 	 */
-	public HTMLProcessor( ReportDesignHandle design )
+	public HTMLProcessor( ReportDesignHandle design, Map context )
 	{
 		this.design = design;
 		this.rootPath = null;
 		// Takes the zero-length string as parameter just for keeping to the
 		// interface of constructor
 		cssParser = new CssParser( new StringReader( "" ) ); //$NON-NLS-1$
+		this.appContext = context;
 	}
 
 	public HTMLProcessor( String rootPath )
@@ -135,7 +139,8 @@ public class HTMLProcessor
 				}
 				if ( design != null )
 				{
-					URL url = design.findResource( src, IResourceLocator.IMAGE );
+					URL url = design.findResource( src, IResourceLocator.IMAGE,
+							appContext );
 					if ( url != null )
 					{
 						src = url.toExternalForm( );
@@ -234,7 +239,7 @@ public class HTMLProcessor
 				}
 				if ( design != null )
 				{
-					URL url = design.findResource( src, IResourceLocator.IMAGE );
+					URL url = design.findResource( src, IResourceLocator.IMAGE, appContext );
 					if ( url != null )
 					{
 						src = url.toExternalForm( );

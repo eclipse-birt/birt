@@ -42,8 +42,8 @@ public class HTMLProcessorTest extends TestCase
 	{
 		Document doc = getDomTree( );
 		HashMap styles = new HashMap( );
-		new HTMLProcessor( (ReportDesignHandle) null ).execute( (Element) doc
-				.getFirstChild( ), styles );
+		new HTMLProcessor( (ReportDesignHandle) null, null ).execute(
+				(Element) doc.getFirstChild( ), styles );
 		Element iEle = (Element) doc.getFirstChild( ).getFirstChild( );
 		assertEquals( iEle.getTagName( ), "span" ); //$NON-NLS-1$
 		assertEquals( "red", getStyle( styles, iEle, "color" ) ); //$NON-NLS-1$ //$NON-NLS-2$

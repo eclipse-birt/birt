@@ -982,7 +982,8 @@ public abstract class AbstractEmitterImpl
 			if ( backgroundHeight != null || backgroundWidth != null )
 			{
 				String backgroundImageUrl = EmitterUtil.getBackgroundImageUrl(
-						style, reportContent.getDesign( ).getReportDesign( ) );
+						style, reportContent.getDesign( ).getReportDesign( ),
+						reportContext.getAppContext( ) );
 				wordWriter.drawDocumentBackgroundImage(
 						backgroundImageUrl, backgroundHeight, backgroundWidth,
 						WordUtil.twipToPt( topMargin ), WordUtil
@@ -1021,9 +1022,9 @@ public abstract class AbstractEmitterImpl
 		// Set the first page background which is not null to DOC
 		IStyle style = previousPage.getComputedStyle( );
 		String backgroundColor = style.getBackgroundColor( );
-		String backgroundImageUrl = EmitterUtil
-				.getBackgroundImageUrl( style, reportContent.getDesign( )
-						.getReportDesign( ) );
+		String backgroundImageUrl = EmitterUtil.getBackgroundImageUrl( style,
+				reportContent.getDesign( ).getReportDesign( ), reportContext
+						.getAppContext( ) );
 		String height = style.getBackgroundHeight( );
 		String width = style.getBackgroundWidth( );
 		wordWriter.drawDocumentBackground( backgroundColor,

@@ -145,7 +145,10 @@ public class PDFImageLM extends PDFLeafItemLM
 				ReportDesignHandle design = content.getReportContent( )
 						.getDesign( ).getReportDesign( );
 				URL url = design.findResource( content.getURI( ),
-						IResourceLocator.IMAGE );
+						IResourceLocator.IMAGE, content.getReportContent( )
+								.getReportContext( ) == null ? null : content
+								.getReportContent( ).getReportContext( )
+								.getAppContext( ) );
 				InputStream in = url.openStream( );
 				try
 				{
