@@ -15,6 +15,7 @@ import java.io.OutputStream;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
@@ -26,6 +27,7 @@ import org.eclipse.birt.report.engine.emitter.wpml.SpanInfo;
 import org.eclipse.birt.report.engine.emitter.wpml.WordUtil;
 import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.InlineFlag;
 import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.TextFlag;
+import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.w3c.dom.css.CSSValue;
 
 public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
@@ -335,11 +337,13 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 	}
 
 	public void drawDocumentBackground( String bgcolor,
-			String backgroundImageUrl )
+			String backgroundImageUrl, String backgroundHeight,
+			String backgroundWidth )
 	{
 		// Image priority is higher than color.
 		writer.openTag( "w:bgPict" );
-		if ( backgroundImageUrl != null )
+		if ( backgroundImageUrl != null && backgroundHeight == null
+				&& backgroundWidth == null )
 		{
 			byte[] backgroundImageData = EmitterUtil
 					.getImageData( backgroundImageUrl );
@@ -348,6 +352,52 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 		else
 			drawDocumentBackgroundColor( bgcolor );
 		writer.closeTag( "w:bgPict" );
+	}
+
+	public void drawDocumentBackgroundImage( String backgroundImageUrl,
+			String height, String width, double topMargin, double leftMargin,
+			double pageHeight, double pageWidth )
+	{
+		if ( backgroundImageUrl != null )
+		{
+			Image imageInfo = EmitterUtil.parseImage( null,
+					IImageContent.IMAGE_URL, backgroundImageUrl, null, null );
+			int imageWidth = imageInfo.getWidth( );
+			int imageHeight = imageInfo.getHeight( );
+			String[] realSize = WordUtil.parseBackgroundSize( height, width,
+					imageWidth, imageHeight, pageWidth, pageHeight );
+			byte[] backgroundImageData = EmitterUtil
+					.getImageData( backgroundImageUrl );
+			int imageId = getImageID( );
+			writer.openTag( "w:p" );
+			writeHiddenProperty( );
+			writer.openTag( "w:r" );
+			writer.openTag( "w:pict" );
+			drawImageShapeType( imageId );
+			drawImageData( backgroundImageData, imageId );
+			drawBackgroundImageShape( realSize, topMargin, leftMargin, imageId );
+			writer.closeTag( "w:pict" );
+			writer.closeTag( "w:r" );
+			writer.closeTag( "w:p" );
+		}
+	}
+
+	private void drawBackgroundImageShape( String[] size, double topMargin,
+			double leftMargin, int imageId )
+	{
+		writer.openTag( "v:shape" );
+		writer.attribute( "id", "_x0000_i10" + imageId );
+		writer.attribute( "type", "#_x0000_t" + imageId );
+		writer.attribute( "style",
+				"position:absolute;left:0;text-align:left;margin-left:-"
+						+ leftMargin + "pt" + ";margin-top:-" + topMargin
+						+ "pt" + ";width:" + size[1] + ";height:" + size[0]
+						+ ";z-index:-1" );
+		writer.openTag( "v:imagedata" );
+		writer.attribute( "src", "wordml://" + imageId + ".png" );
+		writer.attribute( "otitle", "" );
+		writer.closeTag( "v:imagedata" );
+		writer.closeTag( "v:shape" );
 	}
 
 	private void drawDocumentBackgroundImage( byte[] data )

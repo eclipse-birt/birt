@@ -25,7 +25,13 @@ public interface IWordWriter
 			throws IOException;
 
 	void drawDocumentBackground( String backgroundColor,
-			String backgroundImageUrl ) throws IOException;
+			String backgroundImageUrl, String backgrounHeight,
+			String backgroundWidth ) throws IOException;
+
+	void drawDocumentBackgroundImage( String backgroundImageUrl,
+			String backgroundHeight, String backgroundWidth, double topMargin,
+			double leftMargin, double pageHeight, double pageWidth )
+			throws IOException;
 
 	void end( ) throws IOException;
 

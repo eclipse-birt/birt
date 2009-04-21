@@ -289,4 +289,83 @@ public class WordUtil
 		}
 		return style;
 	}
+
+	public static String[] parseBackgroundSize( String height, String width,
+			int imageWidth, int imageHeight, double pageWidth, double pageHeight )
+	{
+		String actualHeight = height;
+		String actualWidth = width;
+		if ( height == null || "auto".equalsIgnoreCase( height ) )
+			actualHeight = String.valueOf( pageHeight )+"pt";
+		if ( width == null || "auto".equalsIgnoreCase( width ) )
+			actualWidth = String.valueOf( pageWidth ) + "pt";
+		actualHeight = actualHeight.trim( );
+		actualWidth = actualWidth.trim( );
+
+		if ( "contain".equalsIgnoreCase( actualWidth )
+				|| ( "contain" ).equalsIgnoreCase( actualHeight ) )
+		{
+			double rh = imageHeight / pageHeight;
+			double rw = imageWidth / pageWidth;
+			if ( rh > rw )
+			{
+				actualHeight = String.valueOf( pageHeight ) + "pt";
+				actualWidth = String.valueOf( imageWidth * pageHeight
+						/ imageHeight )
+						+ "pt";
+			}
+			else
+			{
+				actualWidth = String.valueOf( pageWidth ) + "pt";
+				actualHeight = String.valueOf( imageHeight * pageWidth
+						/ imageWidth )
+						+ "pt";
+			}
+		}
+		else if ( "cover".equals( actualWidth )
+				|| "cover".equals( actualHeight ) )
+		{
+			double rh = imageHeight / pageHeight;
+			double rw = imageWidth / pageWidth;
+			if ( rh > rw )
+			{
+				actualWidth = String.valueOf( pageWidth ) + "pt";
+				actualHeight = String.valueOf( imageHeight * pageWidth
+						/ imageWidth )
+						+ "pt";
+			}
+			else
+			{
+				actualHeight = String.valueOf( pageHeight ) + "pt";
+				actualWidth = String.valueOf( imageWidth * pageHeight
+						/ imageHeight )
+						+ "pt";
+			}
+		}
+		if ( height != null && height.endsWith( "%" ) )
+		{
+			actualHeight = getPercentValue( height, pageHeight ) + "pt";
+		}
+		if ( width != null && width.endsWith( "%" ) )
+		{
+			actualWidth = getPercentValue( width, pageWidth ) + "pt";
+		}
+		return new String[]{actualHeight, actualWidth};
+	}
+
+	private static String getPercentValue( String height, double pageHeight )
+	{
+		String value = null;
+		try
+		{
+			String percent = height.substring( 0, height.length( ) - 1 );
+			int percentValue = Integer.valueOf( percent ).intValue( );
+			value = String.valueOf( pageHeight * percentValue / 100 );
+		}
+		catch ( NumberFormatException e )
+		{
+			value = height;
+		}
+		return value;
+	}
 }

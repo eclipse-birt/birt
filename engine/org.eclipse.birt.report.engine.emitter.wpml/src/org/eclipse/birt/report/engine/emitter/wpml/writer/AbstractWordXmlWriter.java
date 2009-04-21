@@ -736,7 +736,7 @@ public abstract class AbstractWordXmlWriter
 		writer.closeTag( "w:p" );
 	}
 
-	private void writeHiddenProperty( )
+	public void writeHiddenProperty( )
 	{
 		writer.openTag( "w:rPr" );
 		writeAttrTag( "w:vanish", "on" );

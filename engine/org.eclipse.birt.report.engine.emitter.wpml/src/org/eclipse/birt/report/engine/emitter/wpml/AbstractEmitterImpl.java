@@ -967,12 +967,30 @@ public abstract class AbstractEmitterImpl
 
 	private void writeHeaderFooter( ) throws IOException, BirtException
 	{
-		if ( previousPage.getPageHeader( ) != null )
+		IStyle style = previousPage.getComputedStyle( );
+		String backgroundHeight = style.getBackgroundHeight( );
+		String backgroundWidth = style.getBackgroundWidth( );
+
+		if ( previousPage.getPageHeader( ) != null || backgroundHeight != null
+				|| backgroundWidth != null )
 		{
 			SimpleMasterPageDesign master = (SimpleMasterPageDesign) previousPage
 					.getGenerateBy( );
 			wordWriter.startHeader( !master.isShowHeaderOnFirst( ),
 					headerHeight, contentWidth );
+
+			if ( backgroundHeight != null || backgroundWidth != null )
+			{
+				String backgroundImageUrl = EmitterUtil.getBackgroundImageUrl(
+						style, reportContent.getDesign( ).getReportDesign( ) );
+				wordWriter.drawDocumentBackgroundImage(
+						backgroundImageUrl, backgroundHeight, backgroundWidth,
+						WordUtil.twipToPt( topMargin ), WordUtil
+								.twipToPt( leftMargin ), WordUtil
+								.twipToPt( pageHeight ), WordUtil
+								.twipToPt( pageWidth ) );
+			}
+
 			contentVisitor.visitChildren( previousPage.getPageHeader( ), null );
 			wordWriter.endHeader( );
 		}
@@ -1006,7 +1024,10 @@ public abstract class AbstractEmitterImpl
 		String backgroundImageUrl = EmitterUtil
 				.getBackgroundImageUrl( style, reportContent.getDesign( )
 						.getReportDesign( ) );
-		wordWriter.drawDocumentBackground( backgroundColor, backgroundImageUrl );
+		String height = style.getBackgroundHeight( );
+		String width = style.getBackgroundWidth( );
+		wordWriter.drawDocumentBackground( backgroundColor,
+					backgroundImageUrl, height, width );
 	}
 
 	private boolean isInherityProperty( int propertyIndex )
