@@ -1260,11 +1260,11 @@ public final class AxesRenderHelper
 								cachedTriggers = new ArrayList<Trigger>( );
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
-									tg = elTriggers.get( t ).copyInstance( );
+									tg = goFactory.copyOf( elTriggers.get( t ) );
 									processTrigger( tg,
 											StructureSource.createAxis( axModel ) );
 									cachedTriggers.add( tg );
-									iev.addTrigger( tg.copyInstance( ) );
+									iev.addTrigger( goFactory.copyOf( tg ) );
 								}
 
 								iev.setHotSpot( pre3d );
@@ -1308,11 +1308,11 @@ public final class AxesRenderHelper
 									cachedTriggers = new ArrayList<Trigger>( );
 									for ( int t = 0; t < elTriggers.size( ); t++ )
 									{
-										tg = elTriggers.get( t ).copyInstance( );
+										tg = goFactory.copyOf( elTriggers.get( t ) );
 										processTrigger( tg,
 												StructureSource.createAxis( axModel ) );
 										cachedTriggers.add( tg );
-										iev.addTrigger( tg.copyInstance( ) );
+										iev.addTrigger( goFactory.copyOf( tg ) );
 									}
 
 								}
@@ -1320,8 +1320,7 @@ public final class AxesRenderHelper
 								{
 									for ( int t = 0; t < cachedTriggers.size( ); t++ )
 									{
-										iev.addTrigger( cachedTriggers.get( t )
-												.copyInstance( ) );
+										iev.addTrigger( goFactory.copyOf( cachedTriggers.get( t ) ) );
 									}
 								}
 
@@ -1369,7 +1368,7 @@ public final class AxesRenderHelper
 								{
 									for ( int t = 0; t < elTriggers.size( ); t++ )
 									{
-										tg = elTriggers.get( t ).copyInstance( );
+										tg = goFactory.copyOf( elTriggers.get( t ) );
 										processTrigger( tg,
 												StructureSource.createAxis( axModel ) );
 										iev.addTrigger( tg );
@@ -1441,7 +1440,7 @@ public final class AxesRenderHelper
 							
 							for ( int t = 0; t < elTriggers.size( ); t++ )
 							{
-								tg = elTriggers.get( t ).copyInstance( );
+								tg = goFactory.copyOf( elTriggers.get( t ) );
 								processTrigger( tg,
 										StructureSource.createAxis( axModel ) );
 								iev.addTrigger( tg );
@@ -1850,7 +1849,7 @@ public final class AxesRenderHelper
 								
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
-									tg = elTriggers.get( t ).copyInstance( );
+									tg = goFactory.copyOf( elTriggers.get( t ) );
 									processTrigger( tg,
 											StructureSource.createAxis( axModel ) );
 									iev.addTrigger( tg );
@@ -1913,7 +1912,7 @@ public final class AxesRenderHelper
 								
 								for ( int t = 0; t < elTriggers.size( ); t++ )
 								{
-									tg = elTriggers.get( t ).copyInstance( );
+									tg = goFactory.copyOf( elTriggers.get( t ) );
 									processTrigger( tg,
 											StructureSource.createAxis( axModel ) );
 									iev.addTrigger( tg );
@@ -1980,7 +1979,7 @@ public final class AxesRenderHelper
 							
 							for ( int t = 0; t < elTriggers.size( ); t++ )
 							{
-								tg = elTriggers.get( t ).copyInstance( );
+								tg = goFactory.copyOf( elTriggers.get( t ) );
 								processTrigger( tg,
 										StructureSource.createAxis( axModel ) );
 								iev.addTrigger( tg );

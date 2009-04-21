@@ -90,7 +90,6 @@ import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
-import org.eclipse.birt.chart.model.attribute.impl.SeriesValueImpl;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.attribute.impl.URLValueImpl;
@@ -100,8 +99,6 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
-import org.eclipse.birt.chart.model.data.impl.ActionImpl;
-import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
@@ -1398,9 +1395,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						}
 						if ( !customed )
 						{
-							buildinTg = TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
-									ActionImpl.create( ActionType.HIGHLIGHT_LITERAL,
-											SeriesValueImpl.create( String.valueOf( se.getSeriesIdentifier( ) ) ) ) );
+							buildinTg = goFactory.createTrigger( TriggerCondition.ONCLICK_LITERAL,
+									goFactory.createAction( ActionType.HIGHLIGHT_LITERAL,
+											goFactory.createSeriesValue( String.valueOf( se.getSeriesIdentifier( ) ) ) ) );
 						}
 						break;
 					case LegendBehaviorType.TOGGLE_SERIE_VISIBILITY :
@@ -1415,9 +1412,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						}
 						if ( !customed )
 						{
-							buildinTg = TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
-									ActionImpl.create( ActionType.TOGGLE_VISIBILITY_LITERAL,
-											SeriesValueImpl.create( String.valueOf( se.getSeriesIdentifier( ) ) ) ) );
+							buildinTg = goFactory.createTrigger( TriggerCondition.ONCLICK_LITERAL,
+									goFactory.createAction( ActionType.TOGGLE_VISIBILITY_LITERAL,
+											goFactory.createSeriesValue( String.valueOf( se.getSeriesIdentifier( ) ) ) ) );
 						}
 						break;
 					case LegendBehaviorType.NONE :
@@ -1456,7 +1453,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
-					tg = elTriggers.get( t ).copyInstance( );
+					tg = goFactory.copyOf( elTriggers.get( t ) );
 					processTrigger( tg,
 							WrappedStructureSource.createLegendEntry( lg, lih ) );
 					iev.addTrigger( tg );
@@ -1739,7 +1736,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
-					tg = elTriggers.get( t ).copyInstance( );
+					tg = goFactory.copyOf( elTriggers.get( t ) );
 					processTrigger( tg, StructureSource.createChartBlock( b ) );
 					iev.addTrigger( tg );
 				}
@@ -1847,7 +1844,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
-					tg = elTriggers.get( t ).copyInstance( );
+					tg = goFactory.copyOf( elTriggers.get( t ) );
 					processTrigger( tg, StructureSource.createTitle( b ) );
 					iev.addTrigger( tg );
 				}
@@ -3303,7 +3300,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final InteractionEvent iev = new InteractionEvent( iSource );
 		for ( int t = 0; t < elTriggers.size( ); t++ )
 		{
-			Trigger tg = elTriggers.get( t ).copyInstance( );
+			Trigger tg = goFactory.copyOf( elTriggers.get( t ) );
 			processTrigger( tg, iSource );
 			iev.addTrigger( tg );
 		}

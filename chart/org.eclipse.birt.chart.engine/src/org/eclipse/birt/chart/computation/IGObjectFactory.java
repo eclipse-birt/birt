@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.computation;
 
+import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -22,9 +24,17 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.Marker;
+import org.eclipse.birt.chart.model.attribute.ScriptValue;
+import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
+import org.eclipse.birt.chart.model.attribute.TooltipValue;
+import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.data.Action;
+import org.eclipse.birt.chart.model.data.Trigger;
 
 /**
  * 
@@ -74,7 +84,13 @@ public interface IGObjectFactory
 
 	Insets copyOf( Insets src );
 
+	Trigger copyOf( Trigger src );
+
 	Gradient copyOf( Gradient src );
+
+	ActionValue copyOf( ActionValue src );
+
+	Action copyOf( Action src );
 
 	Label createLabel( );
 
@@ -123,4 +139,19 @@ public interface IGObjectFactory
 
 	Insets max( Insets ins1, Insets ins2 );
 
+	Trigger createTrigger( TriggerCondition tc, Action a );
+
+	Marker copyMarkerNoFill( Marker src );
+
+	Action createAction( ActionType at, ActionValue av );
+
+	ScriptValue createScriptValue( String script );
+
+	SeriesValue createSeriesValue( String name );
+
+	TooltipValue createTooltipValue( int iDelay, String sText );
+
+	URLValue createURLValue( String sBaseUrl, String sTarget,
+			String sBaseParameterName, String sValueParameterName,
+			String sSeriesParameterName );
 }

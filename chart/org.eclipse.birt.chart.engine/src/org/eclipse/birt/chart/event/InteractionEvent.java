@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,15 +11,15 @@
 
 package org.eclipse.birt.chart.event;
 
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Trigger;
-import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 
 /**
  * An event type for Interactivity.
@@ -31,9 +31,12 @@ public final class InteractionEvent extends ChartEvent
 
 	private PrimitiveRenderEvent _pre = null;
 
-	private final LinkedHashMap _lhmTriggers = new LinkedHashMap( );
+	private final LinkedHashMap<TriggerCondition, Action> _lhmTriggers = new LinkedHashMap<TriggerCondition, Action>( );
 
 	private Cursor cursor = null;
+
+	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+
 	/**
 	 * The constructor.
 	 */
@@ -83,7 +86,7 @@ public final class InteractionEvent extends ChartEvent
 	 */
 	public final Action getAction( TriggerCondition tc )
 	{
-		return (Action) _lhmTriggers.get( tc );
+		return _lhmTriggers.get( tc );
 	}
 
 	/**
@@ -92,25 +95,22 @@ public final class InteractionEvent extends ChartEvent
 	public final Trigger[] getTriggers( )
 	{
 		if ( _lhmTriggers.isEmpty( ) )
-			return null;
-		Trigger[] tga = new Trigger[_lhmTriggers.size( )];
-		final Iterator it = _lhmTriggers.entrySet( ).iterator( );
-		int i = 0;
-		while ( it.hasNext( ) )
 		{
-			Map.Entry entry = (Map.Entry) it.next( );
-			TriggerCondition tcKey = (TriggerCondition) entry.getKey( );
-			Action acValue = (Action) entry.getValue( );
-			tga[i++] = TriggerImpl.create( tcKey, acValue );
+			return null;
+		}
+
+		Trigger[] tga = new Trigger[_lhmTriggers.size( )];
+		int i = 0;
+
+		for ( Map.Entry<TriggerCondition, Action> entry : _lhmTriggers.entrySet( ) )
+		{
+			TriggerCondition tcKey = entry.getKey( );
+			Action acValue = entry.getValue( );
+			tga[i++] = goFactory.createTrigger( tcKey, acValue );
 		}
 		return tga;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#reset()
-	 */
 	public void reset( )
 	{
 		_pre = null;

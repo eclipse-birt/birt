@@ -76,7 +76,6 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
-import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
@@ -100,7 +99,6 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -1151,7 +1149,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						
 						for ( int t = 0; t < elTriggers.size( ); t++ )
 						{
-							tg = elTriggers.get( t ).copyInstance( );
+							tg = goFactory.copyOf( elTriggers.get( t ) );
 							processTrigger( tg,
 									StructureSource.createMarkerRange( mr ) );
 							iev.addTrigger( tg );
@@ -2358,7 +2356,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		}
 		
 		Fill markerFill = m.getFill( );
-		m = MarkerImpl.copyInstanceNoFill( m );
+		m = goFactory.copyMarkerNoFill( m );
 
 		// Convert Fill for negative value
 		if ( dph != null && dph.getOrthogonalValue( ) instanceof Double )
@@ -2373,12 +2371,12 @@ public abstract class AxesRenderer extends BaseRenderer
 		if ( m.getType( ).getValue( ) != MarkerType.ICON
 				&& fPaletteEntry != null )
 		{
-			MarkerImpl.setFillSimple( m, fPaletteEntry );
+			m.setFill( fPaletteEntry );
 		}
 		else
 		{
 			// use the original marker's fill
-			MarkerImpl.setFillSimple( m, FillUtil.copyOf( markerFill ) );
+			m.setFill( goFactory.copyOf( markerFill ) );
 		}
 		
 		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
@@ -2478,7 +2476,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					Trigger tg;
 					for ( int t = 0; t < elTriggers.size( ); t++ )
 					{
-						tg = elTriggers.get( t ).copyInstance( );
+						tg = goFactory.copyOf( elTriggers.get( t ) );
 						this.processTrigger( tg, iSource );
 						iev.addTrigger( tg );
 					}
@@ -2872,7 +2870,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						
 						for ( int t = 0; t < elTriggers.size( ); t++ )
 						{
-							tg = elTriggers.get( t ).copyInstance( );
+							tg = goFactory.copyOf( elTriggers.get( t ) );
 							processTrigger( tg,
 									StructureSource.createMarkerLine( ml ) );
 							iev.addTrigger( tg );
@@ -3604,7 +3602,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			Trigger tg;
 			for ( int t = 0; t < elTriggers.size( ); t++ )
 			{
-				tg = elTriggers.get( t ).copyInstance( );
+				tg = goFactory.copyOf( elTriggers.get( t ) );
 				this.processTrigger( tg, iSource );
 				iev.addTrigger( tg );
 			}
