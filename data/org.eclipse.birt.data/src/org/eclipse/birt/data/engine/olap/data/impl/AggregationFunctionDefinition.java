@@ -14,7 +14,7 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
-import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
 
 /**
  * Defines a function which is used in cube aggregation.
@@ -27,7 +27,7 @@ public class AggregationFunctionDefinition
 	private String paraColName;
 	private String functionName;
 	private DimLevel paraLevel;
-	private IJSMeasureFilterEvalHelper filterEvalHelper;
+	private IJSFacttableFilterEvalHelper filterEvalHelper;
 	private Object paraValue;
 
 	
@@ -78,7 +78,7 @@ public class AggregationFunctionDefinition
 	 * @param functionName
 	 */
 	public AggregationFunctionDefinition( String name, String measureName, DimLevel paraLevel, String paraColName,
-			String functionName, IJSMeasureFilterEvalHelper filterEvalHelper )
+			String functionName, IJSFacttableFilterEvalHelper filterEvalHelper )
 	{
 		Object[] params = {
 				name, measureName, functionName
@@ -149,7 +149,7 @@ public class AggregationFunctionDefinition
 	 * 
 	 * @return
 	 */
-	public IJSMeasureFilterEvalHelper getFilterEvalHelper( )
+	public IJSFacttableFilterEvalHelper getFilterEvalHelper( )
 	{
 		return filterEvalHelper;
 	}

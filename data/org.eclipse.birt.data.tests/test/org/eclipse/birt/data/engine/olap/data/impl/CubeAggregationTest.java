@@ -66,7 +66,7 @@ import org.eclipse.birt.data.engine.olap.util.filter.BaseDimensionFilterEvalHelp
 import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
-import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
 import org.mozilla.javascript.ImporterTopLevel;
 
 import testutil.BaseTestCase;
@@ -498,7 +498,9 @@ public class CubeAggregationTest extends BaseTestCase
 		
 		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 		JSMeasureFilterEvalHelper measureFilter = new JSMeasureFilterEvalHelper( );
-		cubeQueryExcutorHelper.addMeasureFilter( measureFilter );
+		List<IJSFacttableFilterEvalHelper> helper = new ArrayList<IJSFacttableFilterEvalHelper>();
+		helper.add( measureFilter);
+		cubeQueryExcutorHelper.addMeasureFilter( helper );
 		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
 				new StopSign( ) );
 		CubeQueryExecutorHelper.saveAggregationResultSet( pathName, "test2", resultSet );
@@ -1577,7 +1579,7 @@ class ComputedMeasureHelper implements IComputedMeasureHelper
 	{}
 }
 
-class JSMeasureFilterEvalHelper implements IJSMeasureFilterEvalHelper
+class JSMeasureFilterEvalHelper implements IJSFacttableFilterEvalHelper
 {
 
 	public boolean evaluateFilter( IFacttableRow facttableRow )

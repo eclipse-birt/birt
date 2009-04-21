@@ -35,7 +35,7 @@ import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.util.filter.ICubePosFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
-import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
 
 /**
  * An iterator on a result set from a executed fact table query.
@@ -344,7 +344,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		{
 			for ( int i = 0; i < measureFilters.size( ); i++ )
 			{
-				IJSMeasureFilterEvalHelper measureFilter = (IJSMeasureFilterEvalHelper) measureFilters.get( i );
+				IJSFacttableFilterEvalHelper measureFilter = (IJSFacttableFilterEvalHelper) measureFilters.get( i );
 				if( !measureFilter.evaluateFilter( currentMeasureMap ))
 					return false;
 			}
@@ -490,7 +490,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 * 
 	 * @param measureList
 	 */
-	public void addMeasureFilter( IJSMeasureFilterEvalHelper measureFilter )
+	public void addMeasureFilter( IJSFacttableFilterEvalHelper measureFilter )
 	{
 		measureFilters.add( measureFilter );
 	}

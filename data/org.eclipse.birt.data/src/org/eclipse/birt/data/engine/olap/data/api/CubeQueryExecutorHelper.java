@@ -41,10 +41,10 @@ import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationExecutor;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.DataSetFromOriginalCube;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.IDataSet4Aggregation;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggrMeasureFilterHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggregationFilterHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilterHelper;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggrMeasureFilterHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.SimpleLevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort;
@@ -52,10 +52,10 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.ICubePosFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
-import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
-import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper;
 
 /**
@@ -490,7 +490,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		
 		for( int i=0;i<measureFilters.size( );i++)
 		{
-			factTableRowIterator.addMeasureFilter( (IJSMeasureFilterEvalHelper)measureFilters.get( i ) );
+			factTableRowIterator.addMeasureFilter( (IJSFacttableFilterEvalHelper)measureFilters.get( i ) );
 		}
 		DimensionResultIterator[] dimensionResultIterators = populateDimensionResultIterator( dimPosition, stopSign );
 
@@ -589,9 +589,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * 
 	 * @param aggrFilterHelper
 	 */
-	public void addAggrMeasureFilter(IAggrMeasureFilterEvalHelper aggrFilterHelper)
+	public void addAggrMeasureFilter(List<IAggrMeasureFilterEvalHelper> aggrFilterHelper)
 	{
-		this.aggrMeasureFilters.add( aggrFilterHelper );
+		this.aggrMeasureFilters.addAll( aggrFilterHelper );
 	}
 
 	
@@ -630,9 +630,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.data.api.ICubeQueryExcutorHelper#addMeasureFilter(org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper)
 	 */
-	public void addMeasureFilter( IJSMeasureFilterEvalHelper measureFilter )
+	public void addMeasureFilter( List<IJSFacttableFilterEvalHelper> measureFilter )
 	{
-		measureFilters.add( measureFilter );
+		measureFilters.addAll( measureFilter );
 	}
 	
 	/**

@@ -49,8 +49,8 @@ import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefnOnMeasure;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
-import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
-import org.eclipse.birt.data.engine.olap.util.filter.JSMeasureFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.JSFacttableFilterEvalHelper;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
@@ -149,7 +149,7 @@ public class CubeQueryDefinitionUtil
 
 			if ( cubeAggrDefn.getFilter( ) != null )
 			{
-				IJSMeasureFilterEvalHelper filterEvalHelper = new JSMeasureFilterEvalHelper( scope, cx,
+				IJSFacttableFilterEvalHelper filterEvalHelper = new JSFacttableFilterEvalHelper( scope, cx,
 						new FilterDefinition( cubeAggrDefn.getFilter( ) ) );
 				result[index].setFilterEvalHelper( filterEvalHelper );
 			}
@@ -209,7 +209,7 @@ public class CubeQueryDefinitionUtil
 
 			if ( cubeAggrDefn.getFilter( ) != null )
 			{
-				IJSMeasureFilterEvalHelper filterEvalHelper = new JSMeasureFilterEvalHelper( scope, cx,
+				IJSFacttableFilterEvalHelper filterEvalHelper = new JSFacttableFilterEvalHelper( scope, cx,
 						new FilterDefinition( cubeAggrDefn.getFilter( ) ));
 				newCm.setFilterEvalHelper( filterEvalHelper );
 			}

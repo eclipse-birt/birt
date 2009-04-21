@@ -12,7 +12,7 @@
 package org.eclipse.birt.data.engine.olap.query.view;
 
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
-import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
 
 /**
  * A CalculatedMember is an Aggregation Object which need to be calculated in
@@ -24,7 +24,7 @@ public class CalculatedMember
 
 	private CubeAggrDefn aggrDefn;
 	private int rsID;
-	private IJSMeasureFilterEvalHelper filterEvalHelper;
+	private IJSFacttableFilterEvalHelper filterEvalHelper;
 
 
 	/**
@@ -43,7 +43,7 @@ public class CalculatedMember
 	 * 
 	 * @param filterEvalHelper
 	 */
-	public void setFilterEvalHelper( IJSMeasureFilterEvalHelper filterEvalHelper )
+	public void setFilterEvalHelper( IJSFacttableFilterEvalHelper filterEvalHelper )
 	{
 		this.filterEvalHelper = filterEvalHelper;
 	}
@@ -51,7 +51,7 @@ public class CalculatedMember
 	/**
 	 * @return
 	 */
-	public IJSMeasureFilterEvalHelper getFilterEvalHelper( )
+	public IJSFacttableFilterEvalHelper getFilterEvalHelper( )
 	{
 		return this.filterEvalHelper;
 	}

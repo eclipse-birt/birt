@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.archive.FileArchiveReader;
@@ -50,7 +49,6 @@ import org.eclipse.birt.data.engine.olap.impl.query.CubeOperationsExecutor;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
-import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.sort.DimensionSortEvalHelper;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
@@ -62,7 +60,7 @@ import org.mozilla.javascript.Scriptable;
 public class QueryExecutor
 {
 	
-	private CubeQueryExecutorHelper cubeQueryExcutorHelper;
+	private CubeQueryExecutorHelper cubeQueryExecutorHelper;
 
 	/**
 	 * @param view
@@ -91,67 +89,69 @@ public class QueryExecutor
 				view,
 				cube,
 				view.getMeasureNameManger( ).getCalculatedMembersFromQuery( ) );
-		cubeQueryExcutorHelper = new CubeQueryExecutorHelper( cube,
+		cubeQueryExecutorHelper = new CubeQueryExecutorHelper( cube,
 				executor.getComputedMeasureHelper( ) );
-		cubeQueryExcutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );
-		List list = executor.getMeasureFilterEvalHelpers( );
-		for ( Iterator itr = list.iterator( ); itr.hasNext( ); )
-		{
-			IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) itr.next( );
-			cubeQueryExcutorHelper.addAggrMeasureFilter( filterHelper );
-		}
-		populateAggregationSort( executor, cubeQueryExcutorHelper, ICubeQueryDefinition.COLUMN_EDGE );
-		populateAggregationSort( executor, cubeQueryExcutorHelper, ICubeQueryDefinition.ROW_EDGE );
-		populateAggregationSort( executor, cubeQueryExcutorHelper, ICubeQueryDefinition.PAGE_EDGE );
+		cubeQueryExecutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );
+		cubeQueryExecutorHelper.addAggrMeasureFilter( executor.getMeasureFilterEvalHelpers( ) );
+		cubeQueryExecutorHelper.addMeasureFilter( executor.getFacttableBasedFilterHelpers( ) );
+		
+		populateAggregationSort( executor, cubeQueryExecutorHelper, ICubeQueryDefinition.COLUMN_EDGE );
+		populateAggregationSort( executor, cubeQueryExecutorHelper, ICubeQueryDefinition.ROW_EDGE );
+		populateAggregationSort( executor, cubeQueryExecutorHelper, ICubeQueryDefinition.PAGE_EDGE );
 		
 		IAggregationResultSet[] rs = null;
-		cubeQueryExcutorHelper.setBreakHierarchy( executor.getCubeQueryDefinition( )
+
+		cubeQueryExecutorHelper.setBreakHierarchy( executor.getCubeQueryDefinition( )
 				.getFilterOption( ) == 0 );
 		
-		if ( executor.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
+		switch ( executor.getContext( ).getMode( ))
 		{
-			rs = populateRs( view, aggrDefns, cubeQueryExcutorHelper, 
-							stopSign, true );
-		}
-		else if ( executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
-		{
-			rs = populateRs( view, aggrDefns, cubeQueryExcutorHelper, 
-							stopSign, false );
-		}
-		else if ( executor.getContext( ).getMode( ) == DataEngineContext.MODE_PRESENTATION )
-		{
-			assert executor.getCubeQueryDefinition( ).getQueryResultsID( ) != null;
-			//In presentation mode, we need to load aggregation result set from report document.
-			rs = AggregationResultSetSaveUtil.load( executor.getCubeQueryDefinition( )
-					.getQueryResultsID( ),
-					executor.getContext( ).getDocReader( ),new VersionManager( executor.getContext()).getVersion( ));
-		}
-		else
-		{
-			//In Interactive viewing mode, we always re-execute the query.
-			rs = cubeQueryExcutorHelper.execute( aggrDefns, stopSign );
-			CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
-					view.getPreparedCubeOperations( ),
-					view.getCubeQueryExecutor( ).getScope( ),
-					view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
-
-			rs = coe.execute( rs, stopSign );
-			
-			String id = executor.getCubeQueryDefinition( ).getQueryResultsID( );
-			if (id == null) 
+			case DataEngineContext.MODE_GENERATION:
 			{
-				id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
+				rs = populateRs( view, aggrDefns, cubeQueryExecutorHelper, 
+						stopSign, true );
+				break;
 			}
-			//save rs back to report document
-			AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
-					.getDocWriter( ) );
-			
-			//TODO:affect the shared report item??
-			
+			case DataEngineContext.DIRECT_PRESENTATION:
+			{
+				rs = populateRs( view, aggrDefns, cubeQueryExecutorHelper, 
+						stopSign, false );
+				break;
+			}
+			case DataEngineContext.MODE_PRESENTATION:
+			{
+				assert executor.getCubeQueryDefinition( ).getQueryResultsID( ) != null;
+				//In presentation mode, we need to load aggregation result set from report document.
+				rs = AggregationResultSetSaveUtil.load( executor.getCubeQueryDefinition( )
+						.getQueryResultsID( ),
+						executor.getContext( ).getDocReader( ),new VersionManager( executor.getContext()).getVersion( ));
+				break;
+			}
+			default:
+			{
+				//In Interactive viewing mode, we always re-execute the query.
+				rs = cubeQueryExecutorHelper.execute( aggrDefns, stopSign );
+				CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
+						view.getPreparedCubeOperations( ),
+						view.getCubeQueryExecutor( ).getScope( ),
+						view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
+
+				rs = coe.execute( rs, stopSign );
+				
+				String id = executor.getCubeQueryDefinition( ).getQueryResultsID( );
+				if (id == null) 
+				{
+					id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
+				}
+				//save rs back to report document
+				AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
+						.getDocWriter( ) );
+				
+			}
 		}
 		
 		cube.close( );
-		return new CubeResultSet( rs, view, cubeQueryExcutorHelper );
+		return new CubeResultSet( rs, view, cubeQueryExecutorHelper );
 	}
 
 	private IAggregationResultSet[] populateRs( BirtCubeView view,
@@ -166,7 +166,7 @@ public class QueryExecutor
 		//If not load from local dir
 		if ( executor.getCubeQueryDefinition( ).getQueryResultsID( ) == null )
 		{
-			rs = cubeQueryExcutorHelper.execute( aggrDefns, new StopSign( ) );
+			rs = cubeQueryExecutorHelper.execute( aggrDefns, new StopSign( ) );
 			
 			CubeOperationsExecutor coe = new CubeOperationsExecutor(view.getCubeQueryDefinition( ),
 					view.getPreparedCubeOperations( ),
@@ -239,7 +239,7 @@ public class QueryExecutor
 	{
 		return new CubeResultSet( parentResultSet,
 				view,
-				cubeQueryExcutorHelper,
+				cubeQueryExecutorHelper,
 				startingColumnLevelIndex,
 				startingRowLevelIndex );
 	}

@@ -1678,6 +1678,137 @@ public class CubeFeaturesTest extends BaseTestCase
 	}
 
 	/**
+	 * Filter out all level11 == US. meanwhile level11 is not defined in 
+	 * cube query.
+	 * 
+	 * @throws Exception
+	 */
+	public void testFilter5( ) throws Exception
+	{
+
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level12" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding5 );
+
+		IFilterDefinition filter = new CubeFilterDefinition( new ConditionalExpression( "dimension[\"dimension1\"][\"level11\"]",
+				IConditionalExpression.OP_EQ,
+				"\"US\"" ) );
+		cqd.addFilter( filter );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
+		this.printCube( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				"measure1" );
+		
+		engine.shutdown( );
+
+	}
+	
+	/**
+	 * Mixed dimension filter and facttable based filter,
+	 * 1. filter out all level11 == US. meanwhile level11 is not defined in cube query 
+	 * 2. filter out all level21 == "CS"
+	 * 3. filter out all aggr measure > 38.0
+	 * cube query.
+	 * 
+	 * @throws Exception
+	 */
+	public void testFilter6( ) throws Exception
+	{
+
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level12" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding5 );
+
+		IFilterDefinition filter1 = new CubeFilterDefinition( new ConditionalExpression( "dimension[\"dimension1\"][\"level11\"]",
+				IConditionalExpression.OP_EQ,
+				"\"US\"" ) );
+		
+		IFilterDefinition filter2 = new CubeFilterDefinition( new ConditionalExpression( "dimension[\"dimension1\"][\"level12\"]",
+				IConditionalExpression.OP_EQ,
+				"\"CS\"" ) );
+		
+		IFilterDefinition filter3 = new CubeFilterDefinition( new ConditionalExpression( "data[\"measure1\"]",
+				IConditionalExpression.OP_GE,
+				"38.0" ) );
+		cqd.addFilter( filter1 );
+		cqd.addFilter( filter2 );
+		cqd.addFilter( filter3 );
+		
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
+		this.printCube( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				"measure1" );
+		
+		engine.shutdown( );
+
+	}
+	/**
 	 * Test grand total
 	 * 
 	 * @throws Exception

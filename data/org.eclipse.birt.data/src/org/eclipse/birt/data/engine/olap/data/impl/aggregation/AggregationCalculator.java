@@ -31,7 +31,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
-import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
 
 /**
  * The AggregationCalculator class calculates values for its associated
@@ -198,7 +198,7 @@ public class AggregationCalculator
 			throws DataException
 	{
 		facttableRow.setMeasure( row.getMeasures( ) );
-		IJSMeasureFilterEvalHelper filterEvalHelper = ( aggregation.getAggregationFunctions( )[functionNo] ).getFilterEvalHelper( );
+		IJSFacttableFilterEvalHelper filterEvalHelper = ( aggregation.getAggregationFunctions( )[functionNo] ).getFilterEvalHelper( );
 		if ( filterEvalHelper == null )
 		{
 			return true;
