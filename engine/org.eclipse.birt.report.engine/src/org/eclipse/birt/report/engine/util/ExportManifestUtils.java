@@ -32,7 +32,8 @@ public class ExportManifestUtils
 		"javax.servlet_.*.jar",
 		"javax.servlet.jsp_.*.jar",
 		"org.eclipse.birt.report.engine.dataextraction_*.jar",
-		"dataaggregationapi.jar"
+		"dataaggregationapi.jar",
+		"emitterconfig.jar"
 	};
 
 	static public void main( String[] args ) throws IOException
