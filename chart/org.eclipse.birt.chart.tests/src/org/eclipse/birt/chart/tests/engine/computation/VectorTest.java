@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.tests.engine.computation;
 
 import junit.framework.TestCase;
+
 import org.eclipse.birt.chart.computation.Vector;
 import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 
@@ -186,6 +187,6 @@ public class VectorTest extends TestCase
 	 */
 	public void testToString( )
 	{
-		assertEquals( "X:0.0,Y:3.0,Z:4.0,PV:1", v3.toString( ) ); //$NON-NLS-1$
+		assertEquals( "X:0.0,Y:3.0,Z:4.0,PV:1.0", v3.toString( ) ); //$NON-NLS-1$
 	}
 }
