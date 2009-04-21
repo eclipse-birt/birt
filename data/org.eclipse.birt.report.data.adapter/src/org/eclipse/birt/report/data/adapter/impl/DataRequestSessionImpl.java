@@ -1002,7 +1002,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 			createLeafLevel( levels, levelInHier, leafLevelKeyColumn );
 			Object rowLimit = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
 			if ( rowLimit != null
-					&& !cubeHandle.getDataSet( ).getName( ).equals( hierhandle.getDataSet( ).getName( ) ) )
+					&& !( cubeHandle.getDataSet( )
+							.equals( hierhandle.getDataSet( ) ) || hierhandle.getDataSet( ) == null ) )
 			{
 				appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
 				iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
