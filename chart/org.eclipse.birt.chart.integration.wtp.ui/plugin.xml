@@ -5,21 +5,6 @@
 	<!--======================================================================================-->
 	<!--         BIRT Web Project Wizard                                                      -->
 	<!--======================================================================================-->
-	
-	<extension point="org.eclipse.ui.newWizards">	
-		<wizard name="%birt.web.project.name" 
-				class="org.eclipse.birt.chart.integration.wtp.ui.internal.wizards.BirtWebProjectWizard"
-				category="org.eclipse.wst.web.ui"
-				id="org.eclipse.birt.chart.integration.wtp.ui.internal.wizards.BirtWebProjectCreationWizard"
-				finalPerspective="org.eclipse.jst.j2ee.J2EEPerspective"
-				project="true"
-				icon="icons/create_project_wizard.gif">
-			<description>
-				%birt.web.project.description
-			</description>			
-		</wizard>		
-	</extension>
-	
 	<extension point="org.eclipse.wst.common.ui.exampleProjectCreationWizard">
 		<wizard	id="org.eclipse.birt.chart.integration.wtp.ui.BirtExampleProjectCreationWizard">
 			<projectsetup>
@@ -27,76 +12,6 @@
 			</projectsetup>
 		</wizard>
 	</extension>
-	
-   <extension point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="%birt.web.category.name"
-            description="%birt.web.actionsets.description"
-            visible="true"
-            id="org.eclipse.birt.chart.integration.wtp.ui.actionset">
-            <action
-               label="%create.birt.web.module"
-               icon="icons/create_project_wizard.gif"
-               tooltip="%create.birt.web.module"
-               toolbarPath="J2EEMain"
-               class="org.eclipse.birt.chart.integration.wtp.ui.internal.actions.NewBirtWebComponentAction"
-               id="org.eclipse.birt.chart.wtp.ui.internal.actions.NewBirtWebComponentAction">
-	        </action>
-
-				<action 
-		   	   id="org.eclipse.birt.chart.integration.wtp.ui.internal.actions.ImportChartRuntimeAction"
-			   menubarPath="project/additions"
-			   label="%birt.action.importruntime.name"
-			   tooltip="%birt.action.importruntime.name"
-			   class="org.eclipse.birt.chart.integration.wtp.ui.internal.actions.ImportChartRuntimeAction"
-			   enablesFor="1">
-		   	  <enablement>
-				<and>
-					<objectClass name="org.eclipse.jdt.core.IJavaProject"/>
-				</and>
-				</enablement>            
-		 		</action>	
-      </actionSet>      
-	</extension> 
-	
-	<extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IProject"
-            adaptable="true"
-            id = "org.eclipse.birt.chart.integration.wtp.ui.internal.actions.ImportChartRuntimeAction">
-				<menu
-        	label="%birt.web.category.name"
-          path="additions"
-          id="ImportBirtRuntimeAction">
-          <separator
-          	name="ImportBirtRuntimeAction">
-          </separator>
-        </menu>
-        <action
-					label="%birt.action.importruntime.name"
-					tooltip="%birt.action.importruntime.name"
-					menubarPath="ImportBirtRuntimeAction/ImportBirtRuntimeAction"
-					class="org.eclipse.birt.chart.integration.wtp.ui.internal.actions.ImportChartRuntimeAction"
-					enablesFor="1"
-					id="org.eclipse.birt.chart.integration.wtp.ui.internal.actions.ImportChartRuntimeAction">
-	 			</action>
-	 			<enablement>
-		  		<adapt type="org.eclipse.core.resources.IProject">
-		    		<test forcePluginActivation="true"
-				  		property="org.eclipse.wst.common.project.facet.core.projectFacet"
-				  		value="jst.web"/>
-		  		</adapt>
-	 			</enablement>
-      </objectContribution>  
-    </extension>
-
-   <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension targetID="org.eclipse.jst.j2ee.J2EEPerspective">
-		<actionSet id="org.eclipse.birt.chart.integration.wtp.ui.actionset"/> 		
-      </perspectiveExtension>
-   </extension>
           			
 	<!-- Project Facets -->
 	

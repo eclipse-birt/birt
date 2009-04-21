@@ -169,14 +169,12 @@ public class BirtWizardUtil implements IBirtWizardConstants
 			IPath destPath, IProgressMonitor monitor, IOverwriteQuery query )
 			throws CoreException
 	{
+		IConfigurationElement configElement = BirtWizardUtil.findConfigurationElementById( IBirtWizardConstants.EXAMPLE_WIZARD_EXTENSION_POINT,
+				IBirtWizardConstants.BIRTEXAMPLE_WIZARD_ID );
 
 		// if source file is null, try to find it defined extension
 		if ( source == null )
 		{
-			// get zip file name
-			IConfigurationElement configElement = BirtWizardUtil.findConfigurationElementById( IBirtWizardConstants.EXAMPLE_WIZARD_EXTENSION_POINT,
-					IBirtWizardConstants.BIRTEXAMPLE_WIZARD_ID );
-
 			if ( configElement != null )
 			{
 				// get projectsetup fregment
@@ -203,10 +201,6 @@ public class BirtWizardUtil implements IBirtWizardConstants
 			Logger.log( Logger.ERROR, message );
 			throw ChartIntegrationException.getException( message, null );
 		}
-
-		// find configuration element of birt wizard extension
-		IConfigurationElement configElement = findConfigurationElementById( NEW_WIZARDS_EXTENSION_POINT,
-				BIRT_WIZARD_ID );
 
 		// create zip entry from source file
 		ZipFile zipFile = getZipFileFromPluginDir( source,

@@ -53,11 +53,20 @@ public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate
 
 			// get destination path
 			IDataModel dataModel = (IDataModel) model.getProperty( "FacetInstallDataModelProvider.MASTER_PROJECT_DM" ); //$NON-NLS-1$
-			String dest = BirtWizardUtil.getConfigFolder( dataModel );
-			IFolder folder = BirtWizardUtil.getFolder( project, dest );
 			IPath destPath = null;
-			if ( folder != null )
-				destPath = folder.getFullPath( );
+
+			if ( dataModel != null )
+			{
+				String dest = BirtWizardUtil.getConfigFolder( dataModel );
+				IFolder folder = BirtWizardUtil.getFolder( project, dest );
+
+				if ( folder != null )
+					destPath = folder.getFullPath( );
+			}
+			else
+			{
+				destPath = BirtWizardUtil.getWebContentPath( project );
+			}
 
 			// import birt runtime componenet
 			BirtWizardUtil.doImports( project,
