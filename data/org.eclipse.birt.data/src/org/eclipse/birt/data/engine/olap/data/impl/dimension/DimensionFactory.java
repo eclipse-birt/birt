@@ -27,16 +27,7 @@ import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 
 public class DimensionFactory
 {
-	public static IDimension createDimension( String name,
-			IDocumentManager documentManager, IDatasetIterator iterator,
-			ILevelDefn[] levelDefs, boolean isTime ) throws IOException,
-			BirtException
-	{
-		return createDimension( name,  documentManager, iterator,
-				levelDefs, isTime, new StopSign() );
-	}
-	
-    //TODO : to refactor to use different name between dimension name and hierarcy name.
+   //TODO : to refactor to use different name between dimension name and hierarcy name.
 	public static IDimension createDimension( String name,IDocumentManager documentManager, IDatasetIterator iterator,
 			ILevelDefn[] levelDefs, boolean isTime, StopSign stopSign ) throws IOException, BirtException
 	{

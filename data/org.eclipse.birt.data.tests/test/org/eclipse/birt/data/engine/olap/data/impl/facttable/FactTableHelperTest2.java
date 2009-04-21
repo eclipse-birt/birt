@@ -129,7 +129,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		levelDefs[0] = new LevelDefinition( "level11", new String[]{"level11"}, null );
 		levelDefs[1] = new LevelDefinition( "level12", new String[]{"level12"}, null );
 		levelDefs[2] = new LevelDefinition( "level13", new String[]{"level13"}, null );
-		dimensions[0] = (Dimension) DimensionFactory.createDimension( "dimension1", documentManager, iterator, levelDefs, false );
+		dimensions[0] = (Dimension) DimensionFactory.createDimension( "dimension1", documentManager, iterator, levelDefs, false, new StopSign() );
 		IHierarchy hierarchy = dimensions[0].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension1" );
 		assertEquals( dimensions[0].length( ), FactTable1.L1Col.length );
@@ -142,7 +142,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		
 		levelDefs = new ILevelDefn[1];
 		levelDefs[0] = new LevelDefinition( "level21", new String[]{"level21"}, null );
-		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false );
+		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false, new StopSign() );
 		hierarchy = dimensions[1].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension2" );
 		assertEquals( dimensions[1].length( ), 3 );
@@ -162,7 +162,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[2].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension3" );
 		assertEquals( dimensions[2].length( ), 3 );
@@ -282,7 +282,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		levelDefs[0] = new LevelDefinition( "level11", new String[]{"level11"}, null );
 		levelDefs[1] = new LevelDefinition( "level12", new String[]{"level12"}, null );
 		levelDefs[2] = new LevelDefinition( "level13", new String[]{"level13"}, null );
-		dimensions[0] = (Dimension) DimensionFactory.createDimension( "dimension1", documentManager, iterator, levelDefs, false );
+		dimensions[0] = (Dimension) DimensionFactory.createDimension( "dimension1", documentManager, iterator, levelDefs, false, new StopSign() );
 		IHierarchy hierarchy = dimensions[0].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension1" );
 		assertEquals( dimensions[0].length( ), FactTable2.L1Col.length );
@@ -295,7 +295,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		
 		levelDefs = new ILevelDefn[1];
 		levelDefs[0] = new LevelDefinition( "level21", new String[]{"level21"}, null );
-		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false );
+		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false, new StopSign() );
 		hierarchy = dimensions[1].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension2" );
 		assertEquals( dimensions[1].length( ), 3 );
@@ -314,7 +314,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[2].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension3" );
 		assertEquals( dimensions[2].length( ), 12 );
@@ -419,7 +419,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		IHierarchy hierarchy = dimensions[0].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension1" );
 		assertEquals( dimensions[0].length( ), FactTable2.L1Col.length );
@@ -432,7 +432,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		
 		levelDefs = new ILevelDefn[1];
 		levelDefs[0] = new LevelDefinition( "level21", new String[]{"level21"}, null );
-		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false );
+		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false, new StopSign() );
 		hierarchy = dimensions[1].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension2" );
 		assertEquals( dimensions[1].length( ), 3 );
@@ -450,7 +450,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[2].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension3" );
 		assertEquals( dimensions[2].length( ), 12 );
@@ -600,7 +600,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		levelDefs[0] = new LevelDefinition( "level11", new String[]{"level11"}, null );
 		levelDefs[1] = new LevelDefinition( "level12", new String[]{"level12"}, null );
 		levelDefs[2] = new LevelDefinition( "level13", new String[]{"level13"}, null );
-		dimensions[0] = (Dimension) DimensionFactory.createDimension( "dimension1", documentManager, iterator, levelDefs, false );
+		dimensions[0] = (Dimension) DimensionFactory.createDimension( "dimension1", documentManager, iterator, levelDefs, false, new StopSign() );
 		IHierarchy hierarchy = dimensions[0].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension1" );
 		assertEquals( dimensions[0].length( ), FactTable2.L1Col.length );
@@ -613,7 +613,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		
 		levelDefs = new ILevelDefn[1];
 		levelDefs[0] = new LevelDefinition( "level21", new String[]{"level21"}, null );
-		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false );
+		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false, new StopSign() );
 		hierarchy = dimensions[1].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension2" );
 		assertEquals( dimensions[1].length( ), 3 );
@@ -632,7 +632,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		
 		hierarchy = dimensions[2].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension3" );
@@ -917,7 +917,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		IHierarchy hierarchy = dimensions[0].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension1" );
 		assertEquals( dimensions[0].length( ), FactTable2.L3Col.length );
@@ -930,7 +930,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		
 		levelDefs = new ILevelDefn[1];
 		levelDefs[0] = new LevelDefinition( "level21", new String[]{"level21"}, null );
-		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false );
+		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false, new StopSign() );
 		hierarchy = dimensions[1].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension2" );
 		assertEquals( dimensions[1].length( ), 3 );
@@ -948,7 +948,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[2].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension3" );
 		assertEquals( dimensions[2].length( ), 12 );
@@ -1050,7 +1050,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		IHierarchy hierarchy = dimensions[0].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension1" );
 		assertEquals( dimensions[0].length( ), FactTable2.L3Col.length );
@@ -1063,7 +1063,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		
 		levelDefs = new ILevelDefn[1];
 		levelDefs[0] = new LevelDefinition( "level21", new String[]{"level21"}, null );
-		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false );
+		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false, new StopSign() );
 		hierarchy = dimensions[1].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension2" );
 		assertEquals( dimensions[1].length( ), 3 );
@@ -1081,7 +1081,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[2].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension3" );
 		assertEquals( dimensions[2].length( ), 12 );

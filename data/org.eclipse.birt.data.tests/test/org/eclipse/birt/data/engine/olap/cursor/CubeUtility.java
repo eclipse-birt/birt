@@ -82,7 +82,7 @@ public class CubeUtility
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		IHierarchy hierarchy = dimensions[0].getHierarchy( );
 		IDiskArray allRow = dimensions[0].getAllRows( new StopSign( ) );
 		
@@ -100,7 +100,7 @@ public class CubeUtility
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[1].getHierarchy( );
 		allRow = dimensions[1].getAllRows( new StopSign( ) );		
 		
@@ -118,7 +118,7 @@ public class CubeUtility
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[2].getHierarchy( );
 		allRow = dimensions[2].getAllRows( new StopSign( ) );
 		
@@ -136,7 +136,7 @@ public class CubeUtility
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[3].getHierarchy( );
 		allRow = dimensions[3].getAllRows( new StopSign( ) );
 		
@@ -154,7 +154,7 @@ public class CubeUtility
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[4].getHierarchy( );
 		allRow = dimensions[4].getAllRows( new StopSign( ) );
 		
@@ -176,7 +176,7 @@ public class CubeUtility
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[5].getHierarchy( );
 		allRow = dimensions[5].getAllRows( new StopSign( ) );
 		
@@ -213,7 +213,7 @@ public class CubeUtility
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		IHierarchy hierarchy = dimensions[0].getHierarchy( );
 		IDiskArray allRow = dimensions[0].getAllRows( new StopSign( ) );
 		
@@ -231,7 +231,7 @@ public class CubeUtility
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[1].getHierarchy( );
 		allRow = dimensions[1].getAllRows( new StopSign( ) );		
 		
@@ -249,7 +249,7 @@ public class CubeUtility
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[2].getHierarchy( );
 		allRow = dimensions[2].getAllRows( new StopSign( ) );
 		
@@ -267,7 +267,7 @@ public class CubeUtility
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[3].getHierarchy( );
 		allRow = dimensions[3].getAllRows( new StopSign( ) );
 		
@@ -285,7 +285,7 @@ public class CubeUtility
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false , new StopSign());
 		hierarchy = dimensions[4].getHierarchy( );
 		allRow = dimensions[4].getAllRows( new StopSign( ) );
 		
@@ -305,7 +305,7 @@ public class CubeUtility
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[5].getHierarchy( );
 		allRow = dimensions[5].getAllRows( new StopSign( ) );
 		

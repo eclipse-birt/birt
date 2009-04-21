@@ -1500,7 +1500,7 @@ public class CubeIVTest extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		IHierarchy hierarchy = dimensions[0].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension1" );
 		assertEquals( dimensions[0].length( ), 13 );
@@ -1519,7 +1519,7 @@ public class CubeIVTest extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[1].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension2" );
 		assertEquals( dimensions[1].length( ), 5 );

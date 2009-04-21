@@ -307,7 +307,7 @@ public class DimensionTest2 extends TestCase
 				documentManager,
 				new Dataset1( ),
 				levelDefs,
-				true );
+				true, new StopSign() );
 		assertEquals( dimension.isTime( ), true );
 		IHierarchy hierarchy = dimension.getHierarchy( );
 		assertEquals( hierarchy.getName( ), "student" );
@@ -327,7 +327,7 @@ public class DimensionTest2 extends TestCase
 		levelDefs[2] = new LevelDefinition("l3", new String[] { "l3" }, null);
 
 		IDimension dimension = DimensionFactory.createDimension("dataset2",
-				documentManager, new Dataset2(), levelDefs, true);
+				documentManager, new Dataset2(), levelDefs, true, new StopSign());
 		assertEquals(dimension.isTime(), true);
 		IHierarchy hierarchy = dimension.getHierarchy();
 		assertEquals(hierarchy.getName(), "dataset2");
@@ -347,7 +347,7 @@ public class DimensionTest2 extends TestCase
 		levelDefs[2] = new LevelDefinition("l3", new String[] { "l3" }, null);
 
 		IDimension dimension = DimensionFactory.createDimension("dataset3",
-				documentManager, new Dataset3(), levelDefs, true);
+				documentManager, new Dataset3(), levelDefs, true, new StopSign());
 		assertEquals(dimension.isTime(), true);
 		IHierarchy hierarchy = dimension.getHierarchy();
 		assertEquals(hierarchy.getName(), "dataset3");

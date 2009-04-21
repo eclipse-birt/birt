@@ -166,7 +166,7 @@ public class QueryExecutor
 		//If not load from local dir
 		if ( executor.getCubeQueryDefinition( ).getQueryResultsID( ) == null )
 		{
-			rs = cubeQueryExecutorHelper.execute( aggrDefns, new StopSign( ) );
+			rs = cubeQueryExecutorHelper.execute( aggrDefns, executor.getSession( ).getStopSign( ) );
 			
 			CubeOperationsExecutor coe = new CubeOperationsExecutor(view.getCubeQueryDefinition( ),
 					view.getPreparedCubeOperations( ),
@@ -372,7 +372,7 @@ public class QueryExecutor
 		cube = CubeQueryExecutorHelper.loadCube( executor.getCubeQueryDefinition( )
 				.getName( ),
 				documentManager,
-				new StopSign( ) );
+				executor.getSession( ).getStopSign( ) );
 
 		return cube;
 	}

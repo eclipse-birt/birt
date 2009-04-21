@@ -86,7 +86,7 @@ public class DimensionTest extends TestCase
 				documentManager,
 				new OneLevelDataset( ),
 				levelDefs,
-				false);
+				false, new StopSign());
 		IHierarchy hierarchy = dimension.getHierarchy( );
 		assertEquals( hierarchy.getName( ), "student" );
 		ILevel[] level = hierarchy.getLevels( );
@@ -192,7 +192,7 @@ public class DimensionTest extends TestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false);
+				false, new StopSign());
 		IHierarchy hierarchy = dimension.getHierarchy( );
 		assertEquals( hierarchy.getName( ), "student" );
 		ILevel[] level = hierarchy.getLevels( );
@@ -271,7 +271,7 @@ public class DimensionTest extends TestCase
 				documentManager,
 				new ThreeLevelDataset( ),
 				levelDefs,
-				false );
+				false, new StopSign() );
 		IHierarchy hierarchy = dimension.getHierarchy( );
 		assertEquals( hierarchy.getName( ), "three" );
 		ILevel[] level = hierarchy.getLevels( );
@@ -446,7 +446,7 @@ public class DimensionTest extends TestCase
 				documentManager,
 				new ThreeLevelDataset( ),
 				levelDefs,
-				false );
+				false, new StopSign() );
 		IHierarchy hierarchy = dimension.getHierarchy( );
 		assertEquals( hierarchy.getName( ), "three" );
 		ILevel[] level = hierarchy.getLevels( );
@@ -620,7 +620,7 @@ public class DimensionTest extends TestCase
 				documentManager,
 				new ThreeLevelDataset( ),
 				levelDefs,
-				false );
+				false, new StopSign() );
 		IHierarchy hierarchy = dimension.getHierarchy( );
 		assertEquals( hierarchy.getName( ), "three" );
 		ILevel[] level = hierarchy.getLevels( );
@@ -731,7 +731,7 @@ public class DimensionTest extends TestCase
 				documentManager,
 				new FourLevelDataset( ),
 				levelDefs,
-				false );
+				false, new StopSign() );
 		IHierarchy hierarchy = dimension.getHierarchy( );
 		assertEquals( hierarchy.getName( ), "four" );
 		ILevel[] level = hierarchy.getLevels( );
@@ -866,7 +866,7 @@ public class DimensionTest extends TestCase
 				documentManager,
 				new FourLevelDataset( ),
 				levelDefs,
-				false );
+				false, new StopSign() );
 		IHierarchy hierarchy = dimension.getHierarchy( );
 		assertEquals( hierarchy.getName( ), "four" );
 		ILevel[] levels = hierarchy.getLevels( );
@@ -959,7 +959,7 @@ public class DimensionTest extends TestCase
 				documentManager,
 				new FourLevelDataset( ),
 				levelDefs,
-				false );
+				false, new StopSign() );
 		IHierarchy hierarchy = dimension.getHierarchy( );
 		assertEquals( hierarchy.getName( ), "four" );
 
@@ -1018,7 +1018,7 @@ public class DimensionTest extends TestCase
 				documentManager,
 				new FourLevelDataset( ),
 				levelDefs,
-				false );
+				false, new StopSign() );
 		assertEquals( dimension.isTime( ), false );
 		IHierarchy hierarchy = dimension.getHierarchy( );
 		assertEquals( hierarchy.getName( ), "four" );
@@ -1070,7 +1070,7 @@ public class DimensionTest extends TestCase
 				documentManager,
 				new FourLevelDataset( ),
 				levelDefs,
-				false );
+				false, new StopSign() );
 		assertEquals( dimension.isTime( ), false );
 		IHierarchy hierarchy = dimension.getHierarchy( );
 		assertEquals( hierarchy.getName( ), "four" );

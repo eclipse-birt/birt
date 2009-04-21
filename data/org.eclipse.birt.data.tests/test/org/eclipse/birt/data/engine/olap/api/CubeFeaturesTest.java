@@ -6959,7 +6959,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false,
+				new StopSign());
 		IHierarchy hierarchy = dimensions[0].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension1" );
 		assertEquals( dimensions[0].length( ), 13 );
@@ -6982,7 +6983,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[1].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension2" );
 		assertEquals( dimensions[1].length( ), 5 );
@@ -7030,7 +7031,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		IHierarchy hierarchy = dimensions[0].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension1" );
 
@@ -7048,7 +7049,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[1].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension2" );
 
@@ -7066,7 +7067,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[2].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension3" );
 		
@@ -7088,7 +7089,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				documentManager,
 				iterator,
 				levelDefs,
-				false );
+				false, new StopSign() );
 		hierarchy = dimensions[3].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension4" );
 		assertEquals( dimensions[3].length( ), 5 );

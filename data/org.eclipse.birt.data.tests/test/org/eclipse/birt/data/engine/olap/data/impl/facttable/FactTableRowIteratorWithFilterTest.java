@@ -102,7 +102,7 @@ public class FactTableRowIteratorWithFilterTest extends TestCase
 		DimensionForTest iterator = new DimensionForTest( levelNames );
 		iterator.setLevelMember( 0, distinct( LevelsAndFactTableDataset.dimension1Col ) );
 		levelDefs[0] = new LevelDefinition( "dimension1", new String[]{"dimension1"}, null );
-		dimensions[0] = (Dimension) DimensionFactory.createDimension( "dimension1", documentManager, iterator, levelDefs, false );
+		dimensions[0] = (Dimension) DimensionFactory.createDimension( "dimension1", documentManager, iterator, levelDefs, false, new StopSign() );
 		IHierarchy hierarchy = dimensions[0].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension1" );
 		
@@ -111,7 +111,7 @@ public class FactTableRowIteratorWithFilterTest extends TestCase
 		iterator = new DimensionForTest( levelNames );
 		iterator.setLevelMember( 0, distinct( LevelsAndFactTableDataset.dimension2Col ) );
 		levelDefs[0] = new LevelDefinition( "dimension2", new String[]{"dimension2"}, null );
-		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false );
+		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false, new StopSign() );
 		hierarchy = dimensions[1].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension2" );
 		
@@ -120,7 +120,7 @@ public class FactTableRowIteratorWithFilterTest extends TestCase
 		iterator = new DimensionForTest( levelNames );
 		iterator.setLevelMember( 0, distinct( LevelsAndFactTableDataset.dimension3Col ) );
 		levelDefs[0] = new LevelDefinition( "dimension3", new String[]{"dimension3"}, null );
-		dimensions[2] = (Dimension) DimensionFactory.createDimension( "dimension3", documentManager, iterator, levelDefs, false );
+		dimensions[2] = (Dimension) DimensionFactory.createDimension( "dimension3", documentManager, iterator, levelDefs, false, new StopSign() );
 		hierarchy = dimensions[2].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension3" );
 		
