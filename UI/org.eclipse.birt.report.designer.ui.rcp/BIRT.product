@@ -114,6 +114,7 @@
       <plugin id="org.eclipse.birt.report.engine"/>
       <plugin id="org.eclipse.birt.report.engine.dataextraction"/>
       <plugin id="org.eclipse.birt.report.engine.dataextraction.csv"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.html"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.pdf"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.postscript"/>
