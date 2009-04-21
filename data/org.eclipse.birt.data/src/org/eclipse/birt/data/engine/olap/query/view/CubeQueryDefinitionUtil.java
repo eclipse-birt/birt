@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -47,11 +48,13 @@ import org.eclipse.birt.data.engine.olap.impl.query.LevelDefiniton;
 import org.eclipse.birt.data.engine.olap.impl.query.MeasureDefinition;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefnOnMeasure;
+import org.eclipse.birt.data.engine.olap.util.CubeRunningNestAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.JSFacttableFilterEvalHelper;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -230,7 +233,7 @@ public class CubeQueryDefinitionUtil
 	}
 	
 	public static AggregationDefinition[] createAggregationDefinitons(CalculatedMember[] calculatedMembers,
-			ICubeQueryDefinition query) throws DataException
+			ICubeQueryDefinition query, Scriptable scope, ScriptContext cx) throws DataException
 	{
 		if (calculatedMembers == null)
 		{
@@ -266,6 +269,23 @@ public class CubeQueryDefinitionUtil
 						attributeName,
 						list.get( index ).getCubeAggrDefn( ).getAggrName( ),
 						list.get( index ).getFilterEvalHelper( ) );
+				
+				CubeAggrDefn cad = ( (CalculatedMember) list.get( index ) ).getCubeAggrDefn( );
+				if ( cad instanceof CubeRunningNestAggrDefn )
+				{
+					//Special process to pass aggregation arguments for running type aggregation
+					CubeRunningNestAggrDefn crnad = (CubeRunningNestAggrDefn) cad;
+					if ( crnad.getNotLevelArguments( ) != null && !crnad.getNotLevelArguments( ).isEmpty( ))
+					{
+						IScriptExpression se = crnad.getNotLevelArguments( ).get( 0 );
+						Object argumentValue = ScriptEvalUtil.evalExpr( se,
+								cx,
+								scope,
+								ScriptExpression.defaultID,
+								0 );
+						funcitons[index].setParaValue( argumentValue );
+					}
+				}
 			}
 
 			DimLevel[] levels = new DimLevel[calculatedMembers[i].getCubeAggrDefn( ).getAggrLevelsInDefinition( )

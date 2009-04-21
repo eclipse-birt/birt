@@ -409,10 +409,10 @@ public class OlapExpressionUtil
 								binding.getExpression( ),
 								convertToDimLevel( binding.getAggregatOns( ) ),
 								binding.getAggrFunction( ),
-								convertToDimLevelAttribute( binding.getArguments( ),
-										based ),
+								null,
 								binding.getFilter( ),
-								getFullLevelsForRunningAggregation( binding, based)) );
+								getFullLevelsForRunningAggregation( binding, based),
+								binding.getArguments( )));
 					}
 				}
 					

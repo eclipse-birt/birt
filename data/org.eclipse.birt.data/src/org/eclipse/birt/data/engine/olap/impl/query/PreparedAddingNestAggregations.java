@@ -86,7 +86,7 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 					IAggregationResultSet based = new AggregationResultSetWithOneMoreDummyAggr(
 							ars, cnaf.getName( ), cnaf.getBasedExpression( ), scope, cx );
 					AggregationDefinition[] ads = CubeQueryDefinitionUtil.createAggregationDefinitons( 
-							new CalculatedMember[]{newMembers[index]}, cubeQueryDefn );
+							new CalculatedMember[]{newMembers[index]}, cubeQueryDefn, scope, cx );
 					newArs = AggregationHelper.execute( based, ads, stopSign )[0];
 					break;
 				}

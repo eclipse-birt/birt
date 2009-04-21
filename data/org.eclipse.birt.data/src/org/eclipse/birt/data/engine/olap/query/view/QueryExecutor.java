@@ -484,7 +484,7 @@ public class QueryExecutor
 		}		
 		
 		AggregationDefinition[] fromCalculatedMembers
-			= CubeQueryDefinitionUtil.createAggregationDefinitons( calculatedMember, query );
+			= CubeQueryDefinitionUtil.createAggregationDefinitons( calculatedMember, query, null, null );
 		
 		aggregations.addAll( Arrays.asList( fromCalculatedMembers ) );
 		

@@ -689,10 +689,17 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding7.setExpression( new ScriptExpression( "data[\"total\"]"  ) );
 		binding7.setAggrFunction( IBuildInAggregation.TOTAL_RANK_FUNC );
 		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		
+		IBinding binding8 = new Binding( "totalRankInCountryDesc" );
+		binding8.setExpression( new ScriptExpression( "data[\"total\"]"  ) );
+		binding8.setAggrFunction( IBuildInAggregation.TOTAL_RANK_FUNC );
+		binding8.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding8.addArgument( new ScriptExpression( "false") );
 
 
 		//add nest aggregation bindings
 		cqd.addBinding( binding7 );
+		cqd.addBinding( binding8 );
 
 		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
@@ -6854,12 +6861,21 @@ public class CubeFeaturesTest extends BaseTestCase
 		}
 		output +="\n" + line;
 		
-		line = "rankInCountry" + "	";
+		line = "rankInCountryA" + "	";
 		edge1.beforeFirst( );
 		edge2.first( );
 		while (edge1.next( ))
 		{
 			line+= cursor.getObject( "totalRankInCountry" )+ "		";
+		}
+		output +="\n" + line;
+		
+		line = "rankInCountryD" + "	";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while (edge1.next( ))
+		{
+			line+= cursor.getObject( "totalRankInCountryDesc" )+ "		";
 		}
 		output +="\n" + line;
 		
