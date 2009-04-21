@@ -63,35 +63,46 @@ public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate
 			IDataModel masterDataModel = (IDataModel) facetDataModel
 					.getProperty( FacetInstallDataModelProvider.MASTER_PROJECT_DM );
 
+			IPath destPath = null;
 			// get web content folder
-			String configFolder = BirtWizardUtil
-					.getConfigFolder( masterDataModel );
-			Map birtProperties = (Map) facetDataModel
-					.getProperty( BirtFacetInstallDataModelProperties.BIRT_CONFIG );
+			if ( masterDataModel != null )
+			{
+				String configFolder = BirtWizardUtil
+						.getConfigFolder( masterDataModel );
 
-			if ( configFolder == null )
+				if ( configFolder != null )
+				{
+					IFolder folder = BirtWizardUtil.getFolder( project, configFolder );
+					if ( folder != null )
+						destPath = folder.getFullPath( );
+				}
+			}
+			else
+			{
+				destPath = BirtWizardUtil.getWebContentPath( project );
+			}
+
+			if ( destPath == null )
 			{
 				String message = BirtWTPMessages.BIRTErrors_wrong_webcontent;
 				Logger.log( Logger.ERROR, message );
 				throw BirtCoreException.getException( message, null );
-			}
+			}			
+			
+			Map birtProperties = (Map) facetDataModel
+					.getProperty( BirtFacetInstallDataModelProvider.BIRT_CONFIG );
 
 			monitor.worked( 1 );
 
 			// process BIRT Configuration
-			preConfiguration( project, birtProperties, configFolder, monitor );
+			preConfiguration( project, birtProperties, destPath.toFile( ).getName( ), monitor );
 
 			monitor.worked( 1 );
 
 			processConfiguration( project, birtProperties, monitor );
 
 			monitor.worked( 1 );
-
-			IFolder folder = BirtWizardUtil.getFolder( project, configFolder );
-			IPath destPath = null;
-			if ( folder != null )
-				destPath = folder.getFullPath( );
-
+			
 			// import birt runtime componenet
 			BirtWizardUtil.doImports( project, null, destPath, monitor,
 					new SimpleImportOverwriteQuery( ) );
