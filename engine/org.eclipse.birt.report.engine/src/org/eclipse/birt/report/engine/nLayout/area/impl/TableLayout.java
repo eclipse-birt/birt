@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -41,7 +42,9 @@ public class TableLayout
 	protected int startCol;
 
 	protected int endCol;
-
+	
+	protected RowArea unresolvedRow;
+	
 	public TableLayout( ITableContent tableContent, TableLayoutInfo layoutInfo,
 			int startCol, int endCol )
 	{
@@ -55,6 +58,11 @@ public class TableLayout
 		}
 	}
 
+	public void setUnresolvedRow( RowArea row )
+	{
+		unresolvedRow = row;
+	}
+	
 	protected int resolveBottomBorder( CellArea cell )
 	{
 		IStyle tableStyle = tableContent.getComputedStyle( );
@@ -454,7 +462,7 @@ public class TableLayout
 	 */
 	public int resolveAll( RowArea row )
 	{
-		if ( rows.size( ) == 0 )
+		if ( row == null || rows.size( ) == 0 )
 		{
 			return 0;
 		}
@@ -474,7 +482,8 @@ public class TableLayout
 			{
 				DummyCell dummyCell = (DummyCell) cell;
 				int delta = dummyCell.getDelta( );
-				height = Math.max( height, dummyCell.getCell( ).getHeight( ) - delta );
+				//FIXME 
+				//height = Math.max( height, dummyCell.getCell( ).getHeight( ) - delta );
 			}
 			else
 			{
@@ -512,9 +521,10 @@ public class TableLayout
 			}
 			else
 			{
-				if ( dValue != 0 )
+				int oh = cell.getHeight( );
+				cell.setHeight( height );
+				if ( oh != height )
 				{
-					cell.setHeight( height );
 					verticalAlign( cell );
 				}
 			}
@@ -564,7 +574,15 @@ public class TableLayout
 				CellArea cell = row.getCell( i );
 				if ( cell != null )
 				{
-					cell.setHeight( cell.getHeight( ) + result );
+					if(cell instanceof DummyCell)
+					{
+						CellArea oc = ((DummyCell)cell).getCell( );
+						oc.setHeight( oc.getHeight( ) + result );
+					}
+					else
+					{
+						cell.setHeight( cell.getHeight( ) + result );
+					}
 					i = i + cell.getColSpan( ) - 1;
 				}
 			}
@@ -604,7 +622,7 @@ public class TableLayout
 	private void updateRow( RowArea rowArea, boolean isFixedLayout )
 	{
 		RowArea lastRow = (RowArea) rows.getCurrent( );
-
+		boolean usedResolvedRow= false;
 		int height = rowArea.getSpecifiedHeight( );
 		if ( !isFixedLayout || height==0)
 		{
@@ -618,6 +636,10 @@ public class TableLayout
 				// upperCell has row span, or is a drop cell.
 				if ( upperCell != null && ( upperCell.getRowSpan( ) > 1 ) )
 				{
+					if(rowArea.cells[i]!=null)
+					{
+						rowArea.removeChild( rowArea.cells[i] );
+					}
 					DummyCell dummyCell = createDummyCell( upperCell );
 					rowArea.setCell( dummyCell );
 
@@ -636,6 +658,19 @@ public class TableLayout
 				else
 				{
 					CellArea cell = rowArea.getCell( i );
+					if(cell==null)
+					{
+						if ( unresolvedRow != null )
+						{
+							upperCell = unresolvedRow.getCell( i );
+							usedResolvedRow = true;
+						}
+						if ( upperCell != null )
+						{
+							cell = createEmptyCell( upperCell, i, rowArea,
+									lastRow );
+						}
+					}
 
 					if ( cell != null && cell.getRowSpan( ) == 1 )
 					{
@@ -664,8 +699,78 @@ public class TableLayout
 				}
 			}
 		}
+		if ( usedResolvedRow )
+		{
+			unresolvedRow = null;
+		}
 		updateRowHeight( rowArea, height, isFixedLayout );
 	}
+	
+	private CellArea createEmptyCell( CellArea upperCell,
+			int columnId, RowArea row, RowArea lastRow )
+	{
+		ICellContent cellContent = null;
+		int rowSpan = 1;
+
+		if ( upperCell != null )
+		{
+			cellContent = (ICellContent) upperCell.getContent( );
+			rowSpan = upperCell.getRowSpan( ) -1;
+		}
+		
+		if ( cellContent == null )
+		{
+			cellContent = tableContent.getReportContent( )
+					.createCellContent( );
+			cellContent.setColumn( columnId );
+			cellContent.setColSpan( 1 );
+			cellContent.setRowSpan( 1 );
+			cellContent.setParent( row.getContent( ) );
+		}
+		int emptyCellColID = cellContent.getColumn( );
+		int emptyCellColSpan = cellContent.getColSpan( );
+		CellArea emptyCell = upperCell.cloneArea( );
+		emptyCell.setHeight( 0 );
+		emptyCell.setRowSpan( rowSpan );
+		
+		CellArea leftSideCellArea = null;
+		if ( emptyCellColID > startCol )
+		{
+			leftSideCellArea = row.getCell( emptyCellColID - 1 );
+			if ( leftSideCellArea == null )
+			{
+				// the left-side cell is a dummy cell which will be
+				// created in addRow()
+				int k = emptyCellColID - 1;
+				while ( leftSideCellArea == null && k > startCol )
+				{
+					k--;
+					leftSideCellArea = row.getCell( k );
+				}
+			}
+		}
+		else
+		{
+			leftSideCellArea = null;
+		}
+		emptyCell.setParent( row );
+		row.setCell( emptyCell );
+		resolveBorderConflict( emptyCell, true );
+		emptyCell.setWidth( getCellWidth( emptyCellColID, emptyCellColID
+				+ emptyCellColSpan ) );
+		emptyCell.setPosition( layoutInfo.getXPosition( columnId ), 0 );
+		if ( leftSideCellArea != null )
+		{
+			int index = row.indexOf( leftSideCellArea );
+			row.addChild( index + 1, emptyCell );
+		}
+		else
+		{
+			row.addChild( 0, emptyCell );
+		}
+		return emptyCell;
+	}
+
 
 	/**
 	 * Creates dummy cell and updates its delta value.

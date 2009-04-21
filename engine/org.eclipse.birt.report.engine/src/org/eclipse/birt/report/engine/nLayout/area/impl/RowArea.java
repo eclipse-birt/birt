@@ -84,9 +84,13 @@ public class RowArea extends ContainerArea
 
 	public void replace( CellArea origin, CellArea dest )
 	{
-		children.remove( origin );
-		children.add( dest );
-		dest.setParent( this );
+		int index = children.indexOf( origin );
+		if ( index >= 0 )
+		{
+			children.remove( origin );
+			children.add( index, dest );
+			dest.setParent( this );
+		}
 	}
 
 	public void setRowID( int rowID )
@@ -199,6 +203,23 @@ public class RowArea extends ContainerArea
 		children.add( area );
 		this.setCell( (CellArea) area );
 	}
+	
+	public void addChildByColumnId( CellArea cell )
+	{
+		int columnId = cell.getColumnID( );
+		int index = 0;
+		for ( int i = 0; i < children.size( ); i++ )
+		{
+			CellArea current = (CellArea) children.get( i );
+			if ( current.getColumnID( ) >= columnId )
+			{
+				index = i;
+				break;
+			}
+		}
+		children.add( index, cell );
+		setCell( cell );
+	}
 
 	public SplitResult split( int height, boolean force ) throws BirtException
 	{
@@ -235,15 +256,26 @@ public class RowArea extends ContainerArea
 			{
 				if ( cells[i] instanceof DummyCell )
 				{
-					SplitResult splitCell = cells[i].split( 0, force );
-					CellArea cell = (CellArea) splitCell.getResult( );
-					if ( cell != null )
+					int oh = ( (DummyCell) cells[i] ).getCell( ).getHeight( );
+					int ch = ( (DummyCell) cells[i] ).getDelta( );
+					int rowSpan = ( (DummyCell) cells[i] ).getRowSpan( );
+					if ( ch >= oh )
 					{
-						cell.setHeight( ( (DummyCell) cells[i] ).getDelta( ) );
-						CellArea org = ( (DummyCell) cells[i] ).getCell( );
-						RowArea row = (RowArea) org.getParent( );
-						row.replace( org, cell );
-						cell.setParent( row );
+						CellArea cell = cells[i].cloneArea( );
+						cell.setHeight( 0 );
+						cell.setRowSpan( rowSpan );
+						cell.setParent( this );
+						addChildByColumnId( cell );
+					}
+					else
+					{
+						// FIXME split the cell and update all dummycell
+						// reference
+						CellArea cell = cells[i].cloneArea( );
+						cell.setHeight( 0 );
+						cell.setRowSpan( rowSpan );
+						cell.setParent( this );
+						addChildByColumnId( cell );
 					}
 					i = i + cells[i].getColSpan( ) - 1;
 				}

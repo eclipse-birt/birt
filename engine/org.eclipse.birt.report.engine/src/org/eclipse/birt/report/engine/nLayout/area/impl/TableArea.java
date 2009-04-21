@@ -40,6 +40,8 @@ public class TableArea extends RepeatableArea
 	protected transient TableLayoutInfo layoutInfo;
 
 	protected transient TableLayout layout;
+	
+	protected RowArea unresolvedRow;
 
 	protected int startCol;
 	protected int endCol;
@@ -263,53 +265,49 @@ public class TableArea extends RepeatableArea
 		if ( result.getResult( ) != null )
 		{
 			TableArea tableResult = (TableArea) result.getResult( );
-			int h = tableResult.layout.resolveAll( tableResult.getLastRow( ) );
+			unresolvedRow = tableResult.getLastRow( );
+			int h = tableResult.layout.resolveAll( unresolvedRow );
 			if ( h > 0 )
 			{
 				tableResult.setHeight( tableResult.getHeight( ) + h );
 			}
 			tableResult.resolveBottomBorder( );
-			relayoutChildren( );
+			layout.setUnresolvedRow( unresolvedRow );
 		}
+		relayoutChildren( );
 
 		return result;
 	}
 
-	protected IArea getLastChild( ContainerArea container )
+	protected RowArea getLastRow( ContainerArea container )
 	{
 		int count = container.getChildrenCount( );
-		if ( count > 0 )
+		for ( int i = count - 1; i >= 0; i-- )
 		{
-			return (IArea) container.getChild( count - 1 );
+			IArea child = container.getChild( i );
+			if ( child instanceof RowArea )
+			{
+				return (RowArea) child;
+			}
+			else if ( child instanceof ContainerArea )
+			{
+				RowArea lastRow = getLastRow( (ContainerArea) child );
+				if ( lastRow != null )
+				{
+					return lastRow;
+				}
+			}
+			else
+			{
+				return null;
+			}
 		}
 		return null;
 	}
 
 	protected RowArea getLastRow( )
 	{
-		IArea child = getLastChild( this );
-		while ( true )
-		{
-			if ( child == null )
-			{
-				return null;
-			}
-			else
-			{
-				if ( child instanceof RowArea )
-				{
-					return (RowArea) child;
-				}
-				else if ( child instanceof ContainerArea )
-				{
-					child = getLastChild( (ContainerArea) child );
-				}
-				else
-				{
-					return null;
-				}
-			}
-		}
+		return getLastRow( this );
 	}
 
 	public void resolveBottomBorder( )
@@ -326,6 +324,7 @@ public class TableArea extends RepeatableArea
 					{
 						bw = Math.max( bw, layout
 								.resolveBottomBorder( lastRow.cells[i] ) );
+						i = i + lastRow.cells[i].getColSpan( ) - 1;
 					}
 				}
 				if ( bw > 0 )
@@ -347,6 +346,7 @@ public class TableArea extends RepeatableArea
 										.getHeight( )
 										+ bw );
 							}
+							i = i + lastRow.cells[i].getColSpan( ) - 1;
 						}
 					}
 				}
@@ -382,6 +382,16 @@ public class TableArea extends RepeatableArea
 			}
 			if ( row.finished )
 			{
+				if ( row.getChildrenCount( ) != row.cells.length )
+				{
+					for ( int i = 0; i < row.cells.length; i++ )
+					{
+						if ( row.cells[i] instanceof DummyCell )
+						{
+							row.cells[i] = null;
+						}
+					}
+				}
 				layout.addRow( (RowArea) container, context.isFixedLayout( ) );
 			}
 		}

@@ -95,6 +95,14 @@ public class DummyCell extends CellArea
 		this.delta = delta;
 	}
 	
+	public CellArea cloneArea( )
+	{
+		CellArea cloneCell = cell.cloneArea( );
+		cloneCell.setRowID( rowSpan );
+		cloneCell.setColSpan( colSpan );
+		return cloneCell;
+	}
+	
 	public SplitResult split( int height, boolean force ) throws BirtException
 	{
 		SplitResult result = cell.split( height + delta, force );

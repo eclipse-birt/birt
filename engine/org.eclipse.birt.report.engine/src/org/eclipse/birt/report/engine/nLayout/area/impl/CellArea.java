@@ -245,6 +245,11 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 	{
 		CellArea cell = (CellArea) super.deepClone( );
 		cell.setBoxStyle( new BoxStyle( cell.getBoxStyle( ) ) );
+		if ( getRowSpan( ) > 1 )
+		{
+			cell.setHeight( currentBP + getOffsetY( )
+					+ localProperties.getPaddingBottom( ) );
+		}
 		return cell;
 	}
 
