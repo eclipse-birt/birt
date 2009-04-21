@@ -514,6 +514,7 @@
 			<include name="org.eclipse.birt.report.data.oda.sampledb_*/**" />
 			<include name="org.eclipse.birt.report.data.oda.xml_*.jar" />
 			<include name="org.eclipse.birt.report.engine_*.jar" />
+			<include name="org.eclipse.birt.report.engine.emitter.config_*.jar" />
 			<include name="org.eclipse.birt.report.engine.emitter.html_*.jar" />
 			<include name="org.eclipse.birt.report.engine.emitter.pdf_*.jar" />
 			<include name="org.eclipse.birt.report.engine.emitter.postscript_*.jar" />
@@ -571,6 +572,9 @@
 		<fileset dir="../org.eclipse.birt.report.engine/lib">
 			<include name="commons-cli*.jar" />
 		</fileset>
+        <fileset dir="../org.eclipse.birt.report.engine.emitter.config">
+            <include name="emitterconfig.jar" />
+        </fileset>		
 		<fileset dir="../org.mozilla.rhino/lib">
 			<include name="*.jar" />
 		</fileset>
