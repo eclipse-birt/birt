@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportElementNonResizablePolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -25,6 +26,7 @@ import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -122,6 +124,10 @@ public class ExtendedEditPart extends ReportElementEditPart
 		}
 		constraint.setDisplay( type );
 		constraint.setMargin( getModelAdapter( ).getMargin( null ) );
+		
+		DimensionHandle value = handle.getWidth( );
+		constraint.setMeasure( value.getMeasure( ) );
+		constraint.setUnits( value.getUnits( ) );
 		return constraint;
 	}
 
@@ -216,6 +222,16 @@ public class ExtendedEditPart extends ReportElementEditPart
 		else
 		{
 			return new ReportElementNonResizablePolicy( );
+		}
+	}
+	
+	@Override
+	protected void updateLayoutPreference( )
+	{
+		super.updateLayoutPreference( );
+		if (getFigure( ) instanceof LabelFigure)
+		{
+			( (LabelFigure) getFigure( ) ).setFixLayout( isFixLayout( ) );
 		}
 	}
 }
