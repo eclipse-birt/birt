@@ -409,7 +409,7 @@ public class ExprManagerUtil
 			IComputedColumn b = null;
 			for ( int j = 0; j < allComputes.size( ); j++ )
 			{
-				IComputedColumn com = (IComputedColumn) allComputes.get( i );
+				IComputedColumn com = (IComputedColumn) allComputes.get( j );
 				if ( com.getName( ).equals( referencedBindings.get( i ) ) )
 				{
 					b = com;
