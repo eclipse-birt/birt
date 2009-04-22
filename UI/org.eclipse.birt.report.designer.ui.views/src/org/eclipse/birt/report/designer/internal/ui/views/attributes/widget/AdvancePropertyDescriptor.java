@@ -715,6 +715,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 
 	private boolean execMemento = false;
 
+	private int oldViewMode = -1;
 	private void execMemento( )
 	{
 		if ( !execMemento )
@@ -749,13 +750,14 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 						{
 							// expandToDefaultLevel( );
 
-							/*
-							 * Check the focus control.
-							 */
-							// if ( treeListener != null )
-							// viewer.getTree( )
-							// .removeTreeListener( treeListener );
-							// viewer.getTree( ).removeAll( );
+							if ( treeListener != null )
+								viewer.getTree( )
+										.removeTreeListener( treeListener );
+							if ( provider.getViewMode( ) != oldViewMode )
+							{
+								viewer.getTree( ).removeAll( );
+								oldViewMode = provider.getViewMode( );
+							}
 							viewer.refresh( );
 							expandToDefaultLevel( );
 							if ( treeListener != null )

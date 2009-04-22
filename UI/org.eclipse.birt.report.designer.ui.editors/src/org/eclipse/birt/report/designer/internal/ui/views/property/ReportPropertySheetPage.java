@@ -712,6 +712,7 @@ public class ReportPropertySheetPage extends Page implements
 
 	private boolean execMemento = false;
 
+	private int oldViewMode = -1;
 	private void execMemento( )
 	{
 		if ( !execMemento )
@@ -748,9 +749,11 @@ public class ReportPropertySheetPage extends Page implements
 							if ( treeListener != null )
 								viewer.getTree( )
 										.removeTreeListener( treeListener );
-							viewer.getTree( ).removeAll( );
-
-							viewer.refresh( );
+							if ( provider.getViewMode( ) != oldViewMode )
+							{
+								viewer.getTree( ).removeAll( );
+								oldViewMode = provider.getViewMode( );
+							}
 							expandToDefaultLevel( );
 							if ( treeListener != null )
 								viewer.getTree( )
