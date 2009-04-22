@@ -21,7 +21,6 @@ import org.eclipse.birt.report.designer.testutil.PlatformUtil;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
 
 /**
  *  
@@ -30,17 +29,17 @@ import org.eclipse.swt.graphics.ImageData;
 public class ImageManagerTest extends BaseTestCase
 {
 
-	private static ImageData localData;
+	private Image localImage;
 
 	private static String iconPath;
 
 	private static final String TEST_FILE = "icon/test.jpg"; //$NON-NLS-1$
-	//Doesn't exist
+	// Doesn't exist
 	private static final String TEST_ERROR_FILE = "icon/error.jpg"; //$NON-NLS-1$ //not exists
 
 	private static final String TEST_URL = "http://www.eclipse.org/images/Idea.jpg"; //$NON-NLS-1$
 
-	//Invalid url
+	// Invalid url
 	private static final String TEST_ERROR_URL = "http://"; //$NON-NLS-1$
 
 	static
@@ -50,12 +49,27 @@ public class ImageManagerTest extends BaseTestCase
 			iconPath = Platform.asLocalURL( TestsPlugin.getDefault( )
 					.getBundle( )
 					.getEntry( "/" ) ).getFile( );
-			localData = new ImageData( iconPath + TEST_FILE );
 		}
 		catch ( IOException e )
 		{
 		}
 
+	}
+
+	@Override
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+
+		localImage = new Image( null, iconPath + TEST_FILE );
+	}
+	
+	@Override
+	protected void tearDown( ) throws Exception
+	{
+		localImage.dispose( );
+		
+		super.tearDown( );
 	}
 
 	/*
@@ -68,9 +82,9 @@ public class ImageManagerTest extends BaseTestCase
 				+ TEST_FILE );
 		assertNotNull( image );
 		if ( PlatformUtil.isWindows( ) )
-		{//platform related issue
+		{// platform related issue
 			assertTrue( Arrays.equals( image.getImageData( ).data,
-					localData.data ) );
+					localImage.getImageData( ).data ) );
 		}
 	}
 
@@ -90,7 +104,7 @@ public class ImageManagerTest extends BaseTestCase
 	{
 		Image image = ImageManager.getInstance( ).getImage( TEST_URL );
 		assertNotNull( image );
-		assertTrue( Arrays.equals( image.getImageData( ).data, localData.data ) );
+		assertTrue( Arrays.equals( image.getImageData( ).data, localImage.getImageData( ).data ) );
 		assertEquals( image, ImageManager.getInstance( ).getImage( TEST_URL ) );
 	}
 
@@ -115,15 +129,17 @@ public class ImageManagerTest extends BaseTestCase
 		embeddedImage.setData( data );
 		getReportDesign( ).handle( ).addImage( embeddedImage );
 		Image image = ImageManager.getInstance( )
-				.getEmbeddedImage( getReportDesignHandle( ), embeddedImage.getName( ) );
+				.getEmbeddedImage( getReportDesignHandle( ),
+						embeddedImage.getName( ) );
 		assertNotNull( image );
 		if ( PlatformUtil.isWindows( ) )
-		{//platform related issue
+		{// platform related issue
 			assertTrue( Arrays.equals( image.getImageData( ).data,
-					localData.data ) );
+					localImage.getImageData( ).data ) );
 		}
 		assertEquals( image, ImageManager.getInstance( )
-				.getEmbeddedImage( getReportDesignHandle( ), embeddedImage.getName( ) ) );
+				.getEmbeddedImage( getReportDesignHandle( ),
+						embeddedImage.getName( ) ) );
 	}
 
 	public void testLoadImage( ) throws IOException
