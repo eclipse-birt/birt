@@ -13,6 +13,9 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import java.util.Arrays;
 
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.ComplexUnit;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.IDimensionValueChangedListener;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.UnitPropertyDescriptorProvider;
@@ -78,7 +81,7 @@ public class ComplexUnitPropertyDescriptor extends PropertyDescriptor
 		else
 			complexUnit = new ComplexUnit( parent, style );
 
-		complexUnit.addValueChangeListener( new IValueChangedListener( ) {
+		complexUnit.addValueChangeListener( new IDimensionValueChangedListener( ) {
 
 			public void valueChanged( String newValue, String unit )
 			{

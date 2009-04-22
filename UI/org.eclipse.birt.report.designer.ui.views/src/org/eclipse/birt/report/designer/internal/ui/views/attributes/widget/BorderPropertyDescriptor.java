@@ -3,6 +3,11 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.BorderCanvas;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.BorderInfomation;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.IComboProvider;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.StyleCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;

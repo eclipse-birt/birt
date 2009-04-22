@@ -23,6 +23,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
@@ -307,17 +308,36 @@ void comboEvent (Event event) {
 }
 
 public Point computeSize (int wHint, int hHint, boolean changed) {
-	checkWidget();
+		checkWidget( );
 	int width = 0, height = 0;
-	Point textSize = text.computeSize (wHint, SWT.DEFAULT, changed);
-	Point arrowSize = arrow.computeSize(SWT.DEFAULT, SWT.DEFAULT, changed);
-	Point listSize = list.computeSize (wHint, SWT.DEFAULT, changed);
-	int borderWidth = getBorderWidth();
+		String[] items = list.getItems( );
+		GC gc = new GC( text );
+		int spacer = gc.stringExtent( " " ).x; //$NON-NLS-1$
+		int textWidth = gc.stringExtent( text.getText( ) ).x;
+		for ( int i = 0; i < items.length; i++ )
+		{
+			textWidth = Math.max( gc.stringExtent( items[i] ).x, textWidth );
+		}
+		gc.dispose( );
+		Point textSize = text.computeSize( SWT.DEFAULT, SWT.DEFAULT, changed );
+		Point arrowSize = arrow.computeSize( SWT.DEFAULT, SWT.DEFAULT, changed );
+		Point listSize = list.computeSize( SWT.DEFAULT, SWT.DEFAULT, changed );
+		int borderWidth = getBorderWidth( );
 	
-	height = Math.max (hHint, Math.max(textSize.y, arrowSize.y)  + 2*borderWidth);
-	width = Math.max (wHint, Math.max(textSize.x + arrowSize.x + 2*borderWidth, listSize.x + 2)  );
-	return new Point (width, height);
+	height = Math.max( textSize.y, arrowSize.y );
+		width = Math.max( textWidth
+				+ 2
+				* spacer
+				+ arrowSize.x
+				+ 2
+				* borderWidth, listSize.x );
+		if ( wHint != SWT.DEFAULT )
+			width = wHint;
+		if ( hHint != SWT.DEFAULT )
+			height = hHint;
+		return new Point( width + 2 * borderWidth, height + 2 * borderWidth );
 }
+
 void createPopup(String[] items, int selectionIndex) {		
 		// create shell and list
 		popup = new Shell (getShell(), SWT.NO_TRIM | SWT.ON_TOP);

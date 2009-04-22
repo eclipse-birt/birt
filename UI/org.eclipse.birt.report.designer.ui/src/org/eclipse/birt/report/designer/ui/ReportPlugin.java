@@ -35,6 +35,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointMana
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -403,6 +404,8 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		// clean up border width cache to free resource
 		BaseBorder.cleanWidthCache( );
+
+		FormWidgetFactory.getInstance( ).dispose( );
 
 		super.stop( context );
 	}
@@ -1471,8 +1474,8 @@ public class ReportPlugin extends AbstractUIPlugin
 				UIUtil.getCurrentProject( ) ).setValue( LTR_BIDI_DIRECTION,
 				ltrDirection );
 	}
-	
-		/**
+
+	/**
 	 * Gets the description text of the extended palette entry elements.
 	 * 
 	 * @return the description text, or "" if not found.
@@ -1501,13 +1504,12 @@ public class ReportPlugin extends AbstractUIPlugin
 				ExtendedElementUIPoint point = (ExtendedElementUIPoint) itor.next( );
 				if ( point.getExtensionName( ).equals( defaultName ) )
 				{
-					return point.getAttribute( IExtensionConstants.ATTRIBUTE_KEY_DESCRIPTION ) != null ? 
-							(String) point.getAttribute( IExtensionConstants.ATTRIBUTE_KEY_DESCRIPTION )
+					return point.getAttribute( IExtensionConstants.ATTRIBUTE_KEY_DESCRIPTION ) != null ? (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_KEY_DESCRIPTION )
 							: ""; //$NON-NLS-1$
 				}
 			}
 		}
-		
+
 		return ""; //$NON-NLS-1$
 	}
 

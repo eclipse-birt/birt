@@ -12,7 +12,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.property;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.GroupPropertyHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.BackgroundImageCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.ComboBoxColorCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.ComboBoxDimensionCellEditor;

@@ -1,7 +1,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.BorderInfomation;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.BorderInfomation;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.model.api.StyleHandle;

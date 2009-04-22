@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
 import org.eclipse.birt.report.designer.core.model.views.property.PropertySheetRootElement;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AdvancePropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
@@ -38,7 +37,7 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider
 	public final static int MODE_ALPHABETIC = 1;
 	public final static int MODE_LOCAL_ONLY = 2;
 
-	private int viewMode = AdvancePropertyDescriptorProvider.MODE_GROUPED;
+	private int viewMode = MODE_GROUPED;
 
 	public void setViewMode( int mode )
 	{
@@ -61,7 +60,7 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider
 			ArrayList items = new ArrayList( );
 			GroupElementHandle handle = (GroupElementHandle) ( (PropertySheetRootElement) parentElement ).getModel( );
 
-			if ( viewMode == AdvancePropertyDescriptorProvider.MODE_GROUPED )
+			if ( viewMode == MODE_GROUPED )
 			{
 				HashMap map = new HashMap( );
 				for ( Iterator it = handle.visiblePropertyIterator( ); it.hasNext( ); )
@@ -83,7 +82,7 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider
 					}
 				}
 			}
-			else if ( viewMode == AdvancePropertyDescriptorProvider.MODE_ALPHABETIC )
+			else if ( viewMode == MODE_ALPHABETIC )
 			{
 				for ( Iterator it = handle.visiblePropertyIterator( ); it.hasNext( ); )
 				{
@@ -92,7 +91,7 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider
 					items.add( new GroupPropertyHandleWrapper( property ) );
 				}
 			}
-			else if ( viewMode == AdvancePropertyDescriptorProvider.MODE_LOCAL_ONLY )
+			else if ( viewMode == MODE_LOCAL_ONLY )
 			{
 				for ( Iterator it = handle.visiblePropertyIterator( ); it.hasNext( ); )
 				{
