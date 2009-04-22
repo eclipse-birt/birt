@@ -11,7 +11,13 @@
 
 package org.eclipse.birt.chart.integration.wtp.ui.project.facet;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.birt.chart.integration.wtp.ui.internal.util.WebArtifactUtil;
+import org.eclipse.birt.chart.integration.wtp.ui.internal.webapp.WebAppBean;
 import org.eclipse.birt.chart.integration.wtp.ui.internal.wizards.BirtWizardUtil;
+import org.eclipse.birt.chart.integration.wtp.ui.internal.wizards.IBirtWizardConstants;
 import org.eclipse.birt.chart.integration.wtp.ui.internal.wizards.SimpleImportOverwriteQuery;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -74,6 +80,23 @@ public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate
 					destPath,
 					monitor,
 					new SimpleImportOverwriteQuery( ) );
+
+			Map properties = new HashMap( );
+
+			// initialize webapp settings from Extension
+			BirtWizardUtil.initWebapp( properties );
+
+			// initialize webapp settings from existed web.xml
+			WebArtifactUtil.initializeWebapp( properties, project );
+
+			// process defined folders
+			BirtWizardUtil.processCheckFolder( properties,
+					project,
+					destPath.toFile( ).getName( ),
+					monitor );
+
+			// configurate web.xml
+			processConfiguration( properties, project, monitor );
 		}
 		finally
 		{
@@ -84,4 +107,40 @@ public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate
 		}
 	}
 
+	protected void processConfiguration( Map properties, IProject project,
+			IProgressMonitor monitor ) throws CoreException
+	{
+		SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery( );
+
+		// configure WebArtifact
+		WebArtifactUtil.configureWebApp( (WebAppBean) properties.get( IBirtWizardConstants.EXT_WEBAPP ),
+				project,
+				query,
+				monitor );
+
+		WebArtifactUtil.configureContextParam( (Map) properties.get( IBirtWizardConstants.EXT_CONTEXT_PARAM ),
+				project,
+				query,
+				monitor );
+
+		WebArtifactUtil.configureListener( (Map) properties.get( IBirtWizardConstants.EXT_LISTENER ),
+				project,
+				query,
+				monitor );
+
+		WebArtifactUtil.configureServlet( (Map) properties.get( IBirtWizardConstants.EXT_SERVLET ),
+				project,
+				query,
+				monitor );
+
+		WebArtifactUtil.configureServletMapping( (Map) properties.get( IBirtWizardConstants.EXT_SERVLET_MAPPING ),
+				project,
+				query,
+				monitor );
+
+		WebArtifactUtil.configureTaglib( (Map) properties.get( IBirtWizardConstants.EXT_TAGLIB ),
+				project,
+				query,
+				monitor );
+	}
 }
