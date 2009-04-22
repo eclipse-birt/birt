@@ -60,6 +60,11 @@ public class CellContent extends AbstractContent implements ICellContent
 	protected Boolean displayGroupIcon;
 	
 	/**
+	 * Flag identify if need repeat content in cell after page-break
+	 */
+	protected boolean repeatContent = true;
+	
+	/**
 	 * The cell design, which generate this cell content.
 	 */
 	CellDesign cellDesign = null;
@@ -471,6 +476,16 @@ public class CellContent extends AbstractContent implements ICellContent
 	public void setScope( String scope )
 	{
 		this.scope = scope;
+	}
+
+	public boolean repeatContent( )
+	{
+		return repeatContent;
+	}
+
+	public void setRepeatContent( boolean repeatContent )
+	{
+		this.repeatContent = repeatContent;
 	}
 
 }
