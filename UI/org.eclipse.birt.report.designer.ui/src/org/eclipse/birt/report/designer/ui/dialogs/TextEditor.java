@@ -11,14 +11,11 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
-import java.io.IOException;
 import java.text.Bidi;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import javax.swing.text.BadLocationException;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -37,15 +34,12 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.ITextOperationTarget;
@@ -69,9 +63,7 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -83,8 +75,6 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.preferences.ScopedPreferenceStore;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.texteditor.TextEditorAction;
 
@@ -117,7 +107,7 @@ public class TextEditor extends BaseDialog
 
 	private static final String TOOL_TIP_VALUE_OF = Messages.getString( "TextEditDialog.toolTip.valueOf" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_FORMAT_HTML = Messages.getString( "TextEditDialog.toolTip.formatHTML" );
+	private static final String TOOL_TIP_FORMAT_HTML = Messages.getString( "TextEditDialog.toolTip.formatHTML" ); //$NON-NLS-1$
 
 	private static final String TOOL_TIP_TAG_DD = Messages.getString( "TextEditDialog.toolTip.tag.dd" ); //$NON-NLS-1$
 
@@ -185,7 +175,7 @@ public class TextEditor extends BaseDialog
 
 	private static final String TOOL_TIP_TEXT_COPY = Messages.getString( "TextEditDialog.toolTipText.copy" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_TEXT_FX = Messages.getString( "TextEditDialog.toolTipText.fx" );
+	private static final String TOOL_TIP_TEXT_FX = Messages.getString( "TextEditDialog.toolTipText.fx" ); //$NON-NLS-1$
 
 	public static final String DLG_TITLE_NEW = Messages.getString( "TextEditDialog.title.DlgNew" ); //$NON-NLS-1$
 
@@ -221,22 +211,8 @@ public class TextEditor extends BaseDialog
 
 	private Composite formatParent;
 
-	private String TEXT_EDIT_LAST_STAGE = "org.eclipse.birt.report.designer.ui.dialogs.TextEditor.lastStage";
+	private String TEXT_EDIT_LAST_STAGE = "org.eclipse.birt.report.designer.ui.dialogs.TextEditor.lastStage"; //$NON-NLS-1$
 
-	public class CustomStyledText extends StyledText{
-
-		public CustomStyledText( Composite parent, int style )
-		{
-			super( parent, style );
-		}
-
-		@Override
-		public void paste( )
-		{
-			pasteClipboard( );
-		}
-	}
-	
 	/**
 	 * Constructor
 	 * 
@@ -356,7 +332,7 @@ public class TextEditor extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				pasteClipboard( );
+				textEditor.paste( );
 			}
 		} );
 
@@ -475,42 +451,6 @@ public class TextEditor extends BaseDialog
 		commonTagsBar.setEnabled( textTypeChoicer.getSelectionIndex( ) != PLAIN_INDEX );
 		createCommonTags( commonTagsBar );
 
-	}
-
-	private void pasteClipboard( )
-	{
-		Clipboard cb = new Clipboard( Display.getCurrent( ) );
-		TransferData[] types = cb.getAvailableTypes( );
-		RTFTransfer rtfTransfer = RTFTransfer.getInstance( );
-		Object contents = cb.getContents( rtfTransfer );
-		// textEditor.paste( );
-		if ( contents != null )
-		{
-			RTFHTMLHandler handler = new RTFHTMLHandler( );
-			try
-			{
-				RTFParser.parse( contents.toString( ), handler );
-				textEditor.insert( handler.toHTML( ) );
-				return;
-			}
-			catch ( Exception e1 )
-			{
-			}
-		}
-		else
-		{
-			HTMLTransfer htmlTransfer = HTMLTransfer.getInstance( );
-			contents = cb.getContents( htmlTransfer );
-			if ( contents != null )
-			{
-				textEditor.insert( contents.toString( ) );
-				return;
-			}
-		}
-
-		TextTransfer plainTextTransfer = TextTransfer.getInstance( );
-		String text = (String) cb.getContents( plainTextTransfer, DND.CLIPBOARD );
-		textEditor.insert( text );
 	}
 
 	private int getContentChoiceType( CCombo typeChoicer, String contentType )
@@ -640,17 +580,7 @@ public class TextEditor extends BaseDialog
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION );
-
-		textViewer = new SourceViewer( parent, ruler, style ) {
-
-			@Override
-			protected StyledText createTextWidget( Composite parent, int styles )
-			{
-				return new CustomStyledText( parent, styles ) ;
-			}
-
-		};
-
+		textViewer = new SourceViewer( parent, ruler, style );
 		textViewer.setDocument( new Document( ) );
 		textEditor = textViewer.getTextWidget( );
 		{
@@ -698,9 +628,6 @@ public class TextEditor extends BaseDialog
 		} );
 
 		textViewer.configure( new SourceViewerConfiguration( ) );
-		updateStyledTextColors( new ScopedPreferenceStore( new InstanceScope( ),
-				"org.eclipse.ui.editors" ),
-				textViewer.getTextWidget( ) );
 		textEditor.invokeAction( ST.TEXT_END );
 
 		// create actions for context menu and short cut keys
@@ -770,6 +697,15 @@ public class TextEditor extends BaseDialog
 						copyAction );
 				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_COPY,
 						pasteAction );
+				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_COPY,
+						new Action( Messages.getString("TextEditor.PasteFormattedText") ) { //$NON-NLS-1$
+
+							@Override
+							public void run( )
+							{
+								pasteClipboard( );
+							}
+						} );
 				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_EDIT,
 						selectAllAction );
 
@@ -786,7 +722,7 @@ public class TextEditor extends BaseDialog
 
 					public void run( )
 					{
-						String result = " format=\"HTML\"";
+						String result = " format=\"HTML\""; //$NON-NLS-1$
 						textEditor.insert( result ); //$NON-NLS-1$
 					}
 				};
@@ -885,58 +821,6 @@ public class TextEditor extends BaseDialog
 		textEditor.setMenu( menuMgr.createContextMenu( textEditor ) );
 	}
 
-	private void updateStyledTextColors( IPreferenceStore preferenceStore,
-			StyledText styledText )
-	{
-		styledText.setForeground( getForegroundColor( preferenceStore ) );
-		styledText.setBackground( getBackgroundColor( preferenceStore ) );
-	}
-
-	private Color getForegroundColor( IPreferenceStore preferenceStore )
-	{
-		Color color = preferenceStore.getBoolean( AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND_SYSTEM_DEFAULT ) ? null
-				: createColor( preferenceStore,
-						AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND,
-						Display.getCurrent( ) );
-		return color;
-	}
-
-	private Color getBackgroundColor( IPreferenceStore preferenceStore )
-	{
-		Color color = preferenceStore.getBoolean( AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND_SYSTEM_DEFAULT ) ? null
-				: createColor( preferenceStore,
-						AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND,
-						Display.getCurrent( ) );
-		return color;
-	}
-
-	/**
-	 * Creates a color from the information stored in the given preference
-	 * store. Returns <code>null</code> if there is no such information
-	 * available.
-	 */
-	private Color createColor( IPreferenceStore store, String key,
-			Display display )
-	{
-		RGB rgb = null;
-		if ( store.contains( key ) )
-		{
-			if ( store.isDefault( key ) )
-			{
-				rgb = PreferenceConverter.getDefaultColor( store, key );
-			}
-			else
-			{
-				rgb = PreferenceConverter.getColor( store, key );
-			}
-			if ( rgb != null )
-			{
-				return new Color( display, rgb );
-			}
-		}
-		return null;
-	}
-
 	// inner class definition for create text editor actions.
 	static class EBTextAction extends TextEditorAction
 	{
@@ -974,7 +858,41 @@ public class TextEditor extends BaseDialog
 			sourceViewer.doOperation( operationCode );
 		}
 	}
+	private void pasteClipboard( )
+	{
+		Clipboard cb = new Clipboard( Display.getCurrent( ) );
+		TransferData[] types = cb.getAvailableTypes( );
+		RTFTransfer rtfTransfer = RTFTransfer.getInstance( );
+		Object contents = cb.getContents( rtfTransfer );
+		// textEditor.paste( );
+		if ( contents != null )
+		{
+			RTFHTMLHandler handler = new RTFHTMLHandler( );
+			try
+			{
+				RTFParser.parse( contents.toString( ), handler );
+				textEditor.insert( handler.toHTML( ) );
+				return;
+			}
+			catch ( Exception e1 )
+			{
+			}
+		}
+		else
+		{
+			HTMLTransfer htmlTransfer = HTMLTransfer.getInstance( );
+			contents = cb.getContents( htmlTransfer );
+			if ( contents != null )
+			{
+				textEditor.insert( contents.toString( ) );
+				return;
+			}
+		}
 
+		TextTransfer plainTextTransfer = TextTransfer.getInstance( );
+		String text = (String) cb.getContents( plainTextTransfer, DND.CLIPBOARD );
+		textEditor.insert( text );
+	}
 	/**
 	 * Creates common html tags uesd frequently.
 	 */
@@ -1222,7 +1140,7 @@ public class TextEditor extends BaseDialog
 
 					public void widgetSelected( SelectionEvent e )
 					{
-						String result = " format=\"HTML\"";
+						String result = " format=\"HTML\""; //$NON-NLS-1$
 						textEditor.insert( result ); //$NON-NLS-1$
 					}
 				} );
@@ -1233,7 +1151,7 @@ public class TextEditor extends BaseDialog
 				formatParent.setLayout( gdLayout );
 				GridData gd = new GridData( );
 				formatParent.setLayoutData( gd );
-				new Label( formatParent, SWT.NONE ).setText( "<VALUE-OF" );
+				new Label( formatParent, SWT.NONE ).setText( "<VALUE-OF" ); //$NON-NLS-1$
 				final CCombo combo = new CCombo( formatParent, SWT.READ_ONLY
 						| SWT.FLAT );
 				GridData gdata = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
@@ -1243,11 +1161,11 @@ public class TextEditor extends BaseDialog
 						.getDisplay( )
 						.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
 				combo.setItems( new String[]{
-						Messages.getString( "TextEditDialog.action.item.formatNumber" ),
-						Messages.getString( "TextEditDialog.action.item.formatString" ),
-						Messages.getString( "TextEditDialog.action.item.formatDateTime" ),
+						Messages.getString( "TextEditDialog.action.item.formatNumber" ), //$NON-NLS-1$
+						Messages.getString( "TextEditDialog.action.item.formatString" ), //$NON-NLS-1$
+						Messages.getString( "TextEditDialog.action.item.formatDateTime" ), //$NON-NLS-1$
 				} );
-				new Label( formatParent, SWT.NONE ).setText( ">" );
+				new Label( formatParent, SWT.NONE ).setText( ">" ); //$NON-NLS-1$
 				combo.addSelectionListener( new SelectionListener( ) {
 
 					public void widgetDefaultSelected( SelectionEvent e )
