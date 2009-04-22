@@ -58,6 +58,7 @@ public class AllParserTests
 		test.addTestSuite( ReportElementParseTest.class );
 		test.addTestSuite( ReportItemParseTest.class );
 		test.addTestSuite( ScalarParameterParseTest.class );
+		test.addTestSuite( DynamicFilterParameterParseTest.class );
 		test.addTestSuite( ScriptDataSetParseTest.class );
 		test.addTestSuite( ScriptDataSourceParseTest.class );
 		test.addTestSuite( SortingParserTest.class );

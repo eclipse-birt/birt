@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <parameters>
-        <scalar-parameter name="param1" id="10">
-            <property name="valueType">dynamic</property>
-            <property name="dataType">string</property>
-            <text-property name="promptText">City</text-property>
-            <property name="listLimit">100</property>
-            <property name="controlType">check-box</property>
-            <property name="dataSetName">dataSet1</property>
-            <expression name="valueExpr">row["test"]</expression>
-            <expression name="labelExpr">test column</expression>            
-        </scalar-parameter>
+        <scalar-parameter name="param1" id="10"/>
     </parameters>
     <data-sources>
         <script-data-source name="dataSource1" id="11">
@@ -63,9 +54,6 @@
             <property name="color">green</property>
         </style>
     </styles>
-    <page-setup>
-        <graphic-master-page name="My Page" id="2"/>
-    </page-setup>
     <body>
         <label name="label" id="8">
             <property name="backgroundColor">red</property>

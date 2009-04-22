@@ -49,7 +49,8 @@ public interface ReportDesignConstants
 	String REPORT_DESIGN_ELEMENT = "ReportDesign"; //$NON-NLS-1$ 
 	String REPORT_ITEM = "ReportItem"; //$NON-NLS-1$ 
 	String ROW_ELEMENT = "Row"; //$NON-NLS-1$ 
-	String SCALAR_PARAMETER_ELEMENT = "ScalarParameter"; //$NON-NLS-1$ 
+	String SCALAR_PARAMETER_ELEMENT = "ScalarParameter"; //$NON-NLS-1$
+	String DYNAMIC_FILTER_PARAMETER_ELEMENT = "DynamicFilterParameter"; //$NON-NLS-1$
 	String SCRIPT_DATA_SET = "ScriptDataSet"; //$NON-NLS-1$
 	String SCRIPT_DATA_SOURCE = "ScriptDataSource"; //$NON-NLS-1$
 	String SIMPLE_MASTER_PAGE_ELEMENT = "SimpleMasterPage"; //$NON-NLS-1$

@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
-import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -79,7 +79,7 @@ public class CascadingParameterTypeValidator extends AbstractElementValidator
 		if ( param.getContainer( ) instanceof CascadingParameterGroup
 				&& !DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
 						.equalsIgnoreCase( param.getStringProperty( module,
-								IScalarParameterModel.VALUE_TYPE_PROP ) ) )
+								IAbstractScalarParameterModel.VALUE_TYPE_PROP ) ) )
 		{
 			list
 					.add( new SemanticError(

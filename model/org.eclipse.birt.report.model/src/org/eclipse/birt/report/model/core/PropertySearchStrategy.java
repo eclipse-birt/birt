@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.command.ContentElementInfo;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -595,7 +596,7 @@ public class PropertySearchStrategy
 				// the bounddatacolumn property can't inherit from parent
 
 				if ( element.getLocalProperty( element.getRoot( ),
-						IScalarParameterModel.DATASET_NAME_PROP ) != null )
+						IAbstractScalarParameterModel.DATASET_NAME_PROP ) != null )
 					return false;
 			}
 		}

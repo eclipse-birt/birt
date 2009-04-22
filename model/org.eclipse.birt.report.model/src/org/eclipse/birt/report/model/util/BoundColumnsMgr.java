@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -55,7 +56,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
@@ -723,7 +723,7 @@ public abstract class BoundColumnsMgr
 	protected void dealScalarParameter( ScalarParameter element, Module module )
 	{
 		Expression tmpValue = (Expression) element.getLocalProperty( module,
-				IScalarParameterModel.VALUE_EXPR_PROP );
+				IAbstractScalarParameterModel.VALUE_EXPR_PROP );
 		String value = null;
 
 		if ( tmpValue != null )
@@ -732,7 +732,7 @@ public abstract class BoundColumnsMgr
 			handleBoundsForValue( element, module, value );
 
 		tmpValue = (Expression) element.getLocalProperty( module,
-				IScalarParameterModel.LABEL_EXPR_PROP );
+				IAbstractScalarParameterModel.LABEL_EXPR_PROP );
 
 		value = null;
 		if ( tmpValue != null )

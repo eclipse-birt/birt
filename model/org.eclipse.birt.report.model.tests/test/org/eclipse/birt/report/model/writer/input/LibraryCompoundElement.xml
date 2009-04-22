@@ -142,19 +142,6 @@
 		</list>        	
     </components>
     <parameters>
-	    <scalar-parameter name="param1" id="33">
-            <property name="dataType">string</property>
-			<property name="valueType">dynamic</property>
-            <property name="controlType">check-box</property>
-	        <property name="dataSetName">dataSet1</property>
-            <expression name="valueExpr">row["test"]</expression>
-            <expression name="labelExpr">test column</expression>
-            <property name="promptText">City</property>
-            <property name="listLimit">100</property>
-            <property name="allowNull">true</property>
-        </scalar-parameter>
+	    <scalar-parameter name="param1" id="33"/>
     </parameters>
-    <page-setup>
-        <graphic-master-page name="libPage1" id="7"/>
-    </page-setup>
 </library>

@@ -32,7 +32,9 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * 
  */
 
-public class ScalarParameter extends Parameter implements IScalarParameterModel
+public class ScalarParameter extends AbstractScalarParameter
+		implements
+			IScalarParameterModel
 {
 
 	/**
@@ -58,7 +60,9 @@ public class ScalarParameter extends Parameter implements IScalarParameterModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 
 	public void apply( ElementVisitor visitor )
@@ -80,7 +84,9 @@ public class ScalarParameter extends Parameter implements IScalarParameterModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
 	public DesignElementHandle getHandle( Module module )
@@ -124,7 +130,7 @@ public class ScalarParameter extends Parameter implements IScalarParameterModel
 
 		return list;
 	}
-	
+
 	/**
 	 * Returns the data set element, if any, for this element.
 	 * 
@@ -140,6 +146,6 @@ public class ScalarParameter extends Parameter implements IScalarParameterModel
 				DATASET_NAME_PROP );
 		if ( dataSetRef == null )
 			return null;
-		return (DataSet)dataSetRef.getElement( );
+		return (DataSet) dataSetRef.getElement( );
 	}
 }

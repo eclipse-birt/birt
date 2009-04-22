@@ -21,18 +21,17 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
-import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
  * Validates the data set name of scalar parameter is required.
  * 
- * <h3>Rule</h3>
- * The rule is that DATASET_NAME_PROP is required when LABEL_EXPR_PROP or
- * VALUE_EXPR_PROP is provided.
+ * <h3>Rule</h3> The rule is that DATASET_NAME_PROP is required when
+ * LABEL_EXPR_PROP or VALUE_EXPR_PROP is provided.
  * 
- * <h3>Applicability</h3>
- * This validator is only applied to <code>ScalarParameter</code>.
+ * <h3>Applicability</h3> This validator is only applied to
+ * <code>ScalarParameter</code>.
  * 
  */
 
@@ -55,8 +54,10 @@ public class DataSetNameRequiredValidator extends AbstractElementValidator
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.validators.core.AbstractElementValidator#validate(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.validators.core.AbstractElementValidator
+	 * #validate(org.eclipse.birt.report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
 	public List validate( Module module, DesignElement element )
@@ -72,9 +73,9 @@ public class DataSetNameRequiredValidator extends AbstractElementValidator
 		List list = new ArrayList( );
 
 		String labelExpr = toValidate.getStringProperty( module,
-				IScalarParameterModel.LABEL_EXPR_PROP );
+				IAbstractScalarParameterModel.LABEL_EXPR_PROP );
 		String valueExpr = toValidate.getStringProperty( module,
-				IScalarParameterModel.VALUE_EXPR_PROP );
+				IAbstractScalarParameterModel.VALUE_EXPR_PROP );
 
 		if ( toValidate.getContainer( ) instanceof CascadingParameterGroup )
 			return list;
@@ -83,13 +84,13 @@ public class DataSetNameRequiredValidator extends AbstractElementValidator
 				|| !StringUtil.isBlank( valueExpr ) )
 		{
 			String dataSetName = toValidate.getStringProperty( module,
-					IScalarParameterModel.DATASET_NAME_PROP );
+					IAbstractScalarParameterModel.DATASET_NAME_PROP );
 
 			if ( StringUtil.isBlank( dataSetName ) )
 				list
 						.add( new PropertyValueException(
 								toValidate,
-								IScalarParameterModel.DATASET_NAME_PROP,
+								IAbstractScalarParameterModel.DATASET_NAME_PROP,
 								null,
 								PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}

@@ -294,6 +294,13 @@ public class ElementFactoryTest extends BaseTestCase
 		handle = factory.newScalarParameter( "new scalar parameter" ); //$NON-NLS-1$
 		assertNotNull( handle );
 
+		handle = factory.newDynamicFilterParameter( null );
+		assertEquals( "NewDynamicFilterParameter", handle.getName( ) ); //$NON-NLS-1$
+
+		handle = factory
+				.newDynamicFilterParameter( "new dynamic filter parameter" ); //$NON-NLS-1$
+		assertNotNull( handle );
+
 		handle = factory.newScriptDataSet( "new script data set" ); //$NON-NLS-1$
 		assertNotNull( handle );
 

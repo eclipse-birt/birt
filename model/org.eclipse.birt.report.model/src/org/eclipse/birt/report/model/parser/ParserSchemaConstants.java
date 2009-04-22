@@ -93,6 +93,8 @@ interface ParserSchemaConstants
 			.toLowerCase( ).hashCode( );
 	int SCALAR_PARAMETER_TAG = DesignSchemaConstants.SCALAR_PARAMETER_TAG
 			.toLowerCase( ).hashCode( );
+	int DYNAMIC_FILTER_PARAMETER_TAG = DesignSchemaConstants.DYNAMIC_FILTER_PARAMETER_TAG
+			.toLowerCase( ).hashCode( );
 	int FILTER_PARAMETER_TAG = DesignSchemaConstants.FILTER_PARAMETER_TAG
 			.toLowerCase( ).hashCode( );
 	int LIST_PARAMETER_TAG = DesignSchemaConstants.LIST_PARAMETER_TAG

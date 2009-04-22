@@ -84,15 +84,17 @@ public class ScalarParameterParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.PARAM_TYPE_DATETIME, handle1
 				.getDataType( ) );
 
-		handle1.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_AD_HOC );
-		assertEquals( DesignChoiceConstants.SCALAR_PARAM_TYPE_AD_HOC, handle1
+		handle1.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_SIMPLE );
+		assertEquals( DesignChoiceConstants.SCALAR_PARAM_TYPE_SIMPLE, handle1
 				.getParamType( ) );
 
 		handle1.setConcealValue( true );
 		assertTrue( handle1.isConcealValue( ) );
 
-		handle1.setDefaultValue( "new default value.\r\nthis the next line of the value." ); //$NON-NLS-1$
-		assertEquals( "new default value.\r\nthis the next line of the value.", handle1.getDefaultValue( ) ); //$NON-NLS-1$
+		handle1
+				.setDefaultValue( "new default value.\r\nthis the next line of the value." ); //$NON-NLS-1$
+		assertEquals(
+				"new default value.\r\nthis the next line of the value.", handle1.getDefaultValue( ) ); //$NON-NLS-1$
 
 		handle1.setIsRequired( false );
 		assertFalse( handle1.isRequired( ) );

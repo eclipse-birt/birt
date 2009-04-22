@@ -5,10 +5,7 @@
     <property name="units">in</property>
     <parameters>
         <scalar-parameter name="NewParameter" id="4">
-            <property name="valueType">static</property>
-            <property name="dataType">string</property>
             <property name="format">Custom:&lt;</property>
-            <property name="controlType">text-box</property>
         </scalar-parameter>
     </parameters>
 </report>

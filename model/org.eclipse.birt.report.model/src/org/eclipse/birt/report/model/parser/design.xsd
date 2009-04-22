@@ -517,6 +517,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="scalar-parameter" type="ScalarParamType"/>
+			<xs:element name="dynamic-filter-parameter" type="DynamicFilterParamType"/>
 			<xs:element name="filter-parameter" type="FilterParamType"/>
 			<xs:element name="list-parameter" type="ListParamType"/>
 			<xs:element name="table-parameter" type="TableParamType"/>
@@ -562,6 +563,14 @@
 	<xs:complexType name="ScalarParamType">
 		<xs:annotation>
 			<xs:documentation>A parameter that holds a single, simple data value.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ParameterType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DynamicFilterParamType">
+		<xs:annotation>
+			<xs:documentation>A dynimic filter parameter.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ParameterType"/>

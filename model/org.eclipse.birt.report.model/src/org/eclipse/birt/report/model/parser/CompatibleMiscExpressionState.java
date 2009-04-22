@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
-import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -136,7 +136,7 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_19
 				&& element instanceof ScalarParameter
-				&& IScalarParameterModel.DEFAULT_VALUE_PROP
+				&& IAbstractScalarParameterModel.DEFAULT_VALUE_PROP
 						.equalsIgnoreCase( name ) )
 		{
 			CompatiblePropToExprState.handleDefaultValueList( handler.module,

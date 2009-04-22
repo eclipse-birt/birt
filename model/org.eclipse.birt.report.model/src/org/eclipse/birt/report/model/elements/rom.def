@@ -583,7 +583,6 @@
   <ChoiceType name="scalarParamType">
   	<Choice displayNameID="Choices.scalarParamType.simple" name="simple"/>
   	<Choice displayNameID="Choices.scalarParamType.multi-value" name="multi-value"/>
-  	<Choice displayNameID="Choices.scalarParamType.ad-hoc" name="ad-hoc"/>
   </ChoiceType>
   <ChoiceType name="bidiDirection">
     <Choice displayNameID="Choices.bidiDirection.ltr" name="ltr"/>
@@ -594,6 +593,10 @@
   	<Choice displayNameID="Choices.scopeType.col" name="col"/>
   	<Choice displayNameID="Choices.scopeType.rowgroup" name="rowgroup"/>
   	<Choice displayNameID="Choices.scopeType.colgroup" name="colgroup"/>
+  </ChoiceType>
+  <ChoiceType name="dynamicFilterChoice">
+  	<Choice displayNameID="Choices.dynamicFilterChoice.simple" name="simple"/>
+  	<Choice displayNameID="Choices.dynamicFilterChoice.advanced" name="advanced"/>
   </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
@@ -1888,18 +1891,49 @@
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Parameter" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="Parameter" nameSpace="parameter" since="1.0">
     <Property displayNameID="Element.Parameter.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Parameter.helpTextID" name="helpTextID" type="resourceKey"/>
+    <Property displayNameID="Element.Parameter.promptText" name="promptText" runtimeSettable="false" since="2.0" type="string"/>
+    <Property displayNameID="Element.Parameter.promptTextID" name="promptTextID" since="2.1" type="resourceKey"/>
     <Property displayNameID="Element.Parameter.hidden" name="hidden" runtimeSettable="false" since="1.0" type="boolean">
         <Default>false</Default>
     </Property>
   	<Method context="factory" displayNameID="Element.Parameter.validate" name="validate" returnType="boolean" since="reserved" toolTipID="Element.Parameter.validate.toolTip"/>
   </Element>
-  <Element displayNameID="Element.ScalarParameter" extends="Parameter" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScalarParameter" name="ScalarParameter" since="1.0" xmlName="scalar-parameter">
-    <Property detailType="paramType" displayNameID="Element.ScalarParameter.dataType" name="dataType" runtimeSettable="false" since="1.0" type="choice">
-      <Default>string</Default>
+  <Element displayNameID="Element.AbstractScalarParameter" extends="Parameter" isAbstract="true" javaClass="org.eclipse.birt.report.model.elements.AbstractScalarParameter" name="AbstractScalarParameter" since="2.5">
+  	<Property displayNameID="Element.AbstractScalarParameter.isRequired" name="isRequired" runtimeSettable="false" since="2.2" type="boolean">
+      <Default>true</Default>
     </Property>
-    <Property detailType="paramValueType" displayNameID="Element.ScalarParameter.valueType" name="valueType" runtimeSettable="false" since="2.0" type="choice" >
+    <PropertyGroup displayNameID="Element.AbstractScalarParameter.dynamicList">
+      <Property detailType="DataSet" displayNameID="Element.AbstractScalarParameter.dynamicList.dataSetName" name="dataSetName" runtimeSettable="false" since="2.0" type="elementRef">
+		<Trigger validator="DataSetNameRequiredValidator"/>
+	  </Property>
+      <Property displayNameID="Element.AbstractScalarParameter.dynamicList.valueExpr" name="valueExpr" returnType="any" runtimeSettable="false" since="2.0" type="expression">
+		<Trigger validator="DataSetNameRequiredValidator"/>
+	  </Property>
+      <Property displayNameID="Element.AbstractScalarParameter.dynamicList.labelExpr" name="labelExpr" returnType="string" runtimeSettable="false" since="2.0" type="expression">
+		<Trigger validator="DataSetNameRequiredValidator"/>
+	  </Property>
+    </PropertyGroup>
+    <Property displayNameID="Element.AbstractScalarParameter.listLimit" name="listLimit" runtimeSettable="false" since="2.0" type="integer"/>
+    <Property detailType="sortDirection" displayNameID="Element.AbstractScalarParameter.sortDirection" name="sortDirection" runtimeSettable="false" since="2.2" type="choice"/>
+    <Property detailType="paramSortValues" displayNameID="Element.AbstractScalarParameter.sortBy" name="sortBy" runtimeSettable="false" since="2.2" type="choice"/>
+    <Property displayNameID="Element.AbstractScalarParameter.sortByColumn" name="sortByColumn" runtimeSettable="false" since="2.3" type="expression"/>
+    <Property detailType="paramValueType" displayNameID="Element.AbstractScalarParameter.valueType" name="valueType" runtimeSettable="false" since="2.0" type="choice" >
       	<Default>static</Default>
 		<Trigger validator="CascadingParameterTypeValidator"/>
+    </Property>
+    <Property allowExpression="true" displayNameID="Element.AbstractScalarParameter.defaultValue" name="defaultValue" runtimeSettable="false" since="1.0" subType="literalString" type="list"/>
+    <Property detailType="SelectionChoice" displayNameID="Element.AbstractScalarParameter.selectionList" isList="true" name="selectionList" runtimeSettable="false" since="1.0" type="structure"/>
+  </Element>
+  <Element displayNameID="Element.DynamicFilterParameter" extends="AbstractScalarParameter" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.DynamicFilterParameter" name="DynamicFilterParameter" since="2.5" xmlName="dynamic-filter-parameter">
+  	<Property detailType="dynamicFilterChoice" displayNameID="Element.DynamicFilterParameter.displayType" name="displayType" runtimeSettable="false" since="2.5" type="choice">
+  		<Default>simple</Default>
+  	</Property>
+  	<Property displayNameID="Element.DynamicFilterParameter.filterOperator" name="filterOperator" runtimeSettable="false" since="2.5" subType="string" type="list"/>
+  	<Property displayNameID="Element.DynamicFilterParameter.column" name="column" since="2.5" type="string" valueRequired="true"/>
+  </Element>
+  <Element displayNameID="Element.ScalarParameter" extends="AbstractScalarParameter" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScalarParameter" name="ScalarParameter" since="1.0" xmlName="scalar-parameter">
+    <Property detailType="paramType" displayNameID="Element.ScalarParameter.dataType" name="dataType" runtimeSettable="false" since="1.0" type="choice">
+      <Default>string</Default>
     </Property>
     <Property detailType="scalarParamType" displayNameID="Element.ScalarParameter.paramType" name="paramType" runtimeSettable="false" since="2.2" type="choice" >
       	<Default>simple</Default>
@@ -1907,35 +1941,14 @@
     <Property displayNameID="Element.ScalarParameter.concealValue" name="concealValue" runtimeSettable="false" since="1.0" type="boolean">
       <Default>false</Default>
     </Property>
-    <Property displayNameID="Element.ScalarParameter.isRequired" name="isRequired" runtimeSettable="false" since="2.2" type="boolean">
-      <Default>true</Default>
-    </Property>
     <Property displayNameID="Element.ScalarParameter.distinct" name="distinct" runtimeSettable="false" since="2.2" type="boolean">
       <Default>true</Default>
     </Property>    
     <Property detailType="ParameterFormatValue" displayNameID="Element.ScalarParameter.format" name="format" runtimeSettable="false" since="1.0" type="structure"/>
     <Property detailType="paramControl" displayNameID="Element.ScalarParameter.controlType" name="controlType" runtimeSettable="false" since="1.0" type="choice"/>
-    <Property displayNameID="Element.ScalarParameter.promptText" name="promptText" runtimeSettable="false" since="2.0" type="string"/>
-    <Property displayNameID="Element.ScalarParameter.promptTextID" name="promptTextID" since="2.1" type="resourceKey"/>
-    <Property displayNameID="Element.ScalarParameter.listLimit" name="listLimit" runtimeSettable="false" since="2.0" type="integer"/>
     <Property detailType="scalarParamAlign" displayNameID="Element.ScalarParameter.alignment" name="alignment" runtimeSettable="false" since="1.0" type="choice">
       <Default>auto</Default>
     </Property>
-    <Property detailType="sortDirection" displayNameID="Element.ScalarParameter.sortDirection" name="sortDirection" runtimeSettable="false" since="2.2" type="choice"/>      
-    <Property detailType="paramSortValues" displayNameID="Element.ScalarParameter.sortBy" name="sortBy" runtimeSettable="false" since="2.2" type="choice"/>
-    <Property displayNameID="Element.ScalarParameter.sortByColumn" name="sortByColumn" runtimeSettable="false" since="2.3" type="expression"/>          
-    <Property allowExpression="true" displayNameID="Element.ScalarParameter.defaultValue" name="defaultValue" runtimeSettable="false" since="1.0" subType="literalString" type="list"/>
-    <PropertyGroup displayNameID="Element.ScalarParameter.dynamicList">
-      <Property detailType="DataSet" displayNameID="Element.ScalarParameter.dynamicList.dataSetName" name="dataSetName" runtimeSettable="false" since="2.0" type="elementRef">
-		<Trigger validator="DataSetNameRequiredValidator"/>
-	  </Property>
-      <Property displayNameID="Element.ScalarParameter.dynamicList.valueExpr" name="valueExpr" returnType="any" runtimeSettable="false" since="2.0" type="expression">
-		<Trigger validator="DataSetNameRequiredValidator"/>
-	  </Property>
-      <Property displayNameID="Element.ScalarParameter.dynamicList.labelExpr" name="labelExpr" returnType="string" runtimeSettable="false" since="2.0" type="expression">
-		<Trigger validator="DataSetNameRequiredValidator"/>
-	  </Property>
-    </PropertyGroup>
     <PropertyGroup displayNameID="Element.ScalarParameter.selectionList">
       <Property displayNameID="Element.ScalarParameter.selectionList.mustMatch" name="mustMatch" runtimeSettable="false" since="1.0" type="boolean">
         <Default>true</Default>
@@ -1943,7 +1956,6 @@
       <Property displayNameID="Element.ScalarParameter.selectionList.fixedOrder" name="fixedOrder" runtimeSettable="false" since="1.0" type="boolean">
         <Default>true</Default>
       </Property>
-      <Property detailType="SelectionChoice" displayNameID="Element.ScalarParameter.selectionList.selectionList" isList="true" name="selectionList" runtimeSettable="false" since="1.0" type="structure"/>
     </PropertyGroup>
     <Property detailType="ComputedColumn" displayNameID="Element.ScalarParameter.boundDataColumns" name="boundDataColumns" since="2.1" isList="true" type="structure"/>    
     <Property displayNameID="Element.ScalarParameter.autoSuggestThreshold" name="autoSuggestThreshold" since="2.3" type="integer">
@@ -1971,7 +1983,7 @@
 		<Default>single</Default>
 	</Property>
     <Slot displayNameID="Element.CascadingParameterGroup.slot.parameters" multipleCardinality="true" name="parameters" since="2.0" xmlName="parameters">
-      <Type name="Parameter"/>
+      <Type name="ScalarParameter"/>
       <Trigger validator="CascadingParameterTypeValidator"/>
     </Slot>
   </Element>

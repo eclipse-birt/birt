@@ -126,12 +126,13 @@ public class CascadingParameterGroupParserTest extends BaseTestCase
 		assertEquals( 2, errors.size( ) );
 
 		ErrorDetail error1 = errors.get( 0 );
-		assertEquals(
-				SemanticError.DESIGN_EXCEPTION_INVALID_SCALAR_PARAMETER_TYPE,
+		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF,
 				error1.getErrorCode( ) );
 
 		ErrorDetail error2 = errors.get( 1 );
-		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF,
+		assertEquals(
+				SemanticError.DESIGN_EXCEPTION_INVALID_SCALAR_PARAMETER_TYPE,
 				error2.getErrorCode( ) );
+
 	}
 }

@@ -51,6 +51,7 @@ import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
@@ -67,8 +68,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
-import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -547,7 +546,7 @@ class PropertyState extends AbstractPropertyState
 			CompatibleParamAllowMumbleState state = new CompatibleParamAllowMumbleState(
 					handler, element, name );
 
-			state.setName( ScalarParameter.IS_REQUIRED_PROP );
+			state.setName( IAbstractScalarParameterModel.IS_REQUIRED_PROP );
 			return state;
 		}
 
@@ -684,7 +683,7 @@ class PropertyState extends AbstractPropertyState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_19
 				&& element instanceof ScalarParameter
-				&& IScalarParameterModel.DEFAULT_VALUE_PROP
+				&& IAbstractScalarParameterModel.DEFAULT_VALUE_PROP
 						.equalsIgnoreCase( name ) )
 		{
 			CompatiblePropToExprState state = new CompatiblePropToExprState(

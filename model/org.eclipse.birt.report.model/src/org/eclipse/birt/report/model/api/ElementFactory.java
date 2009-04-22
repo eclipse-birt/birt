@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataGroup;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.DerivedDataSet;
+import org.eclipse.birt.report.model.elements.DynamicFilterParameter;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FilterConditionElement;
 import org.eclipse.birt.report.model.elements.FreeForm;
@@ -326,6 +327,21 @@ public class ElementFactory
 	public ScalarParameterHandle newScalarParameter( String name )
 	{
 		ScalarParameter element = new ScalarParameter( name );
+		module.makeUniqueName( element );
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates a new dynamic filter parameter element. The name is required. If
+	 * the <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the required dynamic filter parameter name
+	 * @return a handle to the dynamic filter parameter
+	 */
+	public DynamicFilterParameterHandle newDynamicFilterParameter( String name )
+	{
+		DynamicFilterParameter element = new DynamicFilterParameter( name );
 		module.makeUniqueName( element );
 		return element.handle( module );
 	}

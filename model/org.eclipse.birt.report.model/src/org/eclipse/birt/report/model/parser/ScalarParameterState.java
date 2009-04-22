@@ -16,7 +16,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
-import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
  * 
  */
 
-public class ScalarParameterState extends ParameterState
+public class ScalarParameterState extends AbstractScalarParameterState
 {
 
 	/**
@@ -52,19 +52,6 @@ public class ScalarParameterState extends ParameterState
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );
-	}
-
-	/**
-	 * Constructs the scalar parameter state with the design file parser
-	 * handler.
-	 * 
-	 * @param theHandler
-	 *            the parse handler
-	 */
-
-	ScalarParameterState( DesignParserHandler theHandler )
-	{
-		super( theHandler );
 	}
 
 	/*
@@ -148,9 +135,9 @@ public class ScalarParameterState extends ParameterState
 			}
 
 			if ( isRequired != null )
-				param
-						.setProperty( ScalarParameter.IS_REQUIRED_PROP,
-								isRequired );
+				param.setProperty(
+						IAbstractScalarParameterModel.IS_REQUIRED_PROP,
+						isRequired );
 
 		}
 
@@ -158,31 +145,39 @@ public class ScalarParameterState extends ParameterState
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_17 )
 		{
 			String sortBy = param.getStringProperty( handler.module,
-					IScalarParameterModel.SORT_BY_PROP );
+					IAbstractScalarParameterModel.SORT_BY_PROP );
 
 			// if sortBy is set and parameter is dynamic or cascading, and the
 			// sortByColumn is not set then do the compatibility
 			if ( !StringUtil.isBlank( sortBy )
 					&& isDynamicParam( )
-					&& StringUtil.isBlank( param.getStringProperty(
-							handler.module,
-							IScalarParameterModel.SORT_BY_COLUMN_PROP ) ) )
+					&& StringUtil
+							.isBlank( param
+									.getStringProperty(
+											handler.module,
+											IAbstractScalarParameterModel.SORT_BY_COLUMN_PROP ) ) )
 			{
 				if ( DesignChoiceConstants.PARAM_SORT_VALUES_VALUE
 						.equalsIgnoreCase( sortBy ) )
 				{
-					param.setProperty(
-							IScalarParameterModel.SORT_BY_COLUMN_PROP,
-							param.getStringProperty( handler.module,
-									IScalarParameterModel.VALUE_EXPR_PROP ) );
+					param
+							.setProperty(
+									IAbstractScalarParameterModel.SORT_BY_COLUMN_PROP,
+									param
+											.getStringProperty(
+													handler.module,
+													IAbstractScalarParameterModel.VALUE_EXPR_PROP ) );
 				}
 				else if ( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
 						.equalsIgnoreCase( sortBy ) )
 				{
-					param.setProperty(
-							IScalarParameterModel.SORT_BY_COLUMN_PROP,
-							param.getStringProperty( handler.module,
-									IScalarParameterModel.LABEL_EXPR_PROP ) );
+					param
+							.setProperty(
+									IAbstractScalarParameterModel.SORT_BY_COLUMN_PROP,
+									param
+											.getStringProperty(
+													handler.module,
+													IAbstractScalarParameterModel.LABEL_EXPR_PROP ) );
 				}
 			}
 		}
@@ -193,7 +188,7 @@ public class ScalarParameterState extends ParameterState
 	private boolean isDynamicParam( )
 	{
 		String valueType = param.getStringProperty( handler.module,
-				IScalarParameterModel.VALUE_TYPE_PROP );
+				IAbstractScalarParameterModel.VALUE_TYPE_PROP );
 
 		// if the parameter is set to be 'dynamic'
 		if ( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC.equals( valueType ) )

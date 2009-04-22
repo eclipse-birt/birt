@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.DerivedDataSet;
+import org.eclipse.birt.report.model.elements.DynamicFilterParameter;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FreeForm;
@@ -456,6 +457,17 @@ public class DesignVisitor
 	 */
 
 	protected void visitScalarParameter( ScalarParameterHandle obj )
+	{
+		visitParameter( obj );
+	}
+
+	/**
+	 * Visits the dynamic filter parameter element.
+	 * 
+	 * @param obj
+	 *            the handle of the dynamic filter parameter to traverse.
+	 */
+	protected void visitDynamicFilterParameter( DynamicFilterParameterHandle obj )
 	{
 		visitParameter( obj );
 	}
@@ -1196,6 +1208,18 @@ public class DesignVisitor
 		public void visitScalarParameter( ScalarParameter obj )
 		{
 			DesignVisitor.this.visitScalarParameter( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the dynamic filter parameter.
+		 * 
+		 * @param obj
+		 *            the dynamic filter parameter to traverse
+		 */
+		public void visitDynamicFilterParameter( DynamicFilterParameter obj )
+		{
+			DesignVisitor.this
+					.visitDynamicFilterParameter( obj.handle( module ) );
 		}
 
 		/**

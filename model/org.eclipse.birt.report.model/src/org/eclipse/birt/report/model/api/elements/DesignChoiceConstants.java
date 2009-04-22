@@ -397,7 +397,6 @@ public interface DesignChoiceConstants
 	public static final String IMAGE_TYPE_IMAGE_TIFF = "image/tiff"; //$NON-NLS-1$
 	public static final String IMAGE_TYPE_IMAGE_SVG = "image/svg+xml"; //$NON-NLS-1$
 
-
 	// lineSpacing
 
 	public static final String CHOICE_LINE_SPACING = "lineSpacing"; //$NON-NLS-1$
@@ -931,4 +930,9 @@ public interface DesignChoiceConstants
 	public static final String SCOPE_TYPE_COL = "col"; //$NON-NLS-1$
 	public static final String SCOPE_TYPE_ROWGROUP = "rowgroup"; //$NON-NLS-1$
 	public static final String SCOPE_TYPE_COLGROUP = "colgroup"; //$NON-NLS-1$
+
+	// dynamic filter
+	public static final String CHOICE_DYNAMIC_FILTER = "dynamicFilterChoice"; //$NON-NLS-1$
+	public static final String DYNAMIC_FILTER_SIMPLE = "simple"; //$NON-NLS-1$
+	public static final String DYNAMIC_FILTER_ADVANCED = "advanced"; //$NON-NLS-1$
 };

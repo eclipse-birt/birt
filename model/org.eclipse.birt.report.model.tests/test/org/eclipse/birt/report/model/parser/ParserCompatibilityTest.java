@@ -470,12 +470,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 	}
 
 	/**
-	 * Test cases:
-	 * 
-	 * "onRow" property value of table/list is set to be "onCreate" of detail
-	 * rows.
-	 * 
-	 * "onFinish", "onStart" property values are ignored.
+	 * Tests compatibility of the format property.
 	 * 
 	 * @throws Exception
 	 */
@@ -953,7 +948,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 		assertTrue( compareFile( "CompatibleQueryTextParseTest_golden.xml" ) ); //$NON-NLS-1$
 
 	}
-	
+
 	/**
 	 * Test backward compatibility. Uses ScalarParameter.defaultValue as
 	 * examples.
@@ -967,7 +962,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save( );
 
-		assertTrue( compareFile( "CompatiblePropToExprTest_golden.xml" )); //$NON-NLS-1$
+		assertTrue( compareFile( "CompatiblePropToExprTest_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 }

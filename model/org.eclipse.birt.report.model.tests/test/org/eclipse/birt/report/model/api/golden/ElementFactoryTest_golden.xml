@@ -10,21 +10,9 @@
     <parameters>
         <cascading-parameter-group name="NewCascadingParameterGroup" id="8">
             <parameters>
-                <scalar-parameter name="NewParameter" id="9">
-                    <property name="valueType">dynamic</property>
-                    <property name="controlType">list-box</property>
-                    <expression name="valueExpr">open_dt</expression>
-                </scalar-parameter>
-                <scalar-parameter name="NewParameter1" id="10">
-                    <property name="valueType">dynamic</property>
-                    <property name="controlType">list-box</property>
-                    <expression name="valueExpr">account_id</expression>
-                </scalar-parameter>
-                <scalar-parameter name="NewParameter2" id="11">
-                    <property name="valueType">dynamic</property>
-                    <property name="controlType">list-box</property>
-                    <expression name="valueExpr">account_nm</expression>
-                </scalar-parameter>
+                <scalar-parameter name="NewParameter" id="9"/>
+                <scalar-parameter name="NewParameter1" id="10"/>
+                <scalar-parameter name="NewParameter2" id="11"/>
             </parameters>
         </cascading-parameter-group>
         <cascading-parameter-group name="newPara" id="148" extends="Lib3.NewCascadingParameterGroup">

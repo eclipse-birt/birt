@@ -6,33 +6,17 @@
             <text-property name="helpText" key="new resource key of the help text">new help text</text-property>
             <method name="validate"><![CDATA[new validation test]]></method>
             <property name="valueType">static</property>
-            <property name="dataType">dateTime</property>
-            <property name="paramType">ad-hoc</property>
-            <property name="concealValue">true</property>
-            <property name="isRequired">false</property>            
-            <property name="controlType">radio-button</property>
-            <property name="alignment">right</property>
+            <property name="isRequired">false</property>  
             <property name="dataSetName">ds1</property>
             <expression name="valueExpr">new value column</expression>
             <expression name="labelExpr">new label column</expression>
-            <property name="mustMatch">false</property>
-            <property name="fixedOrder">false</property>
+            <property name="sortBy">label</property>
+            <expression name="sortByColumn">city</expression>
+            <property name="sortDirection">asc</property> 
             <simple-property-list name="defaultValue">
             	<value>new default value.&#13;
             	this the next line of the value.</value>
-            </simple-property-list>
-            <property name="distinct">false</property>
-            <property name="sortBy">label</property>
-            <expression name="sortByColumn">city</expression>
-            <property name="sortDirection">asc</property>    
-            <property name="autoSuggestThreshold">600</property>
-            <method name="getDefaultValueList"><![CDATA[new getDefaultValueList]]></method>
-            <method name="getSelectionValueList"><![CDATA[new getSelectionValueList]]></method>                      
-            <structure name="format">
-                <property name="category">Custom</property>
-                <property name="pattern">$***,***.**</property>
-                <property name="locale">en_CA</property>
-            </structure>
+            </simple-property-list> 
             <list-property name="selectionList">
                 <structure>
                     <property name="value">option 1</property>
@@ -48,24 +32,38 @@
                     <property name="value">option 3</property>
                 </structure>
             </list-property>
+            <property name="dataType">dateTime</property>
+            <property name="paramType">simple</property>
+            <property name="concealValue">true</property>        
+            <property name="controlType">radio-button</property>
+            <property name="alignment">right</property>
+            <property name="mustMatch">false</property>
+            <property name="fixedOrder">false</property>
+            <property name="distinct">false</property>   
+            <property name="autoSuggestThreshold">600</property>
+            <method name="getDefaultValueList"><![CDATA[new getDefaultValueList]]></method>
+            <method name="getSelectionValueList"><![CDATA[new getSelectionValueList]]></method>                      
+            <structure name="format">
+                <property name="category">Custom</property>
+                <property name="pattern">$***,***.**</property>
+                <property name="locale">en_CA</property>
+            </structure>
         </scalar-parameter>
         <scalar-parameter name="Param 2" id="5">
-            <property name="valueType">static</property>
-            <property name="dataType">string</property>
             <text-property name="promptText" key="ResourceKey.Parameter.PromptText">new Text</text-property>
             <property name="listLimit">300</property>
-            <property name="controlType">check-box</property>
+            <property name="valueType">static</property>
             <expression name="labelExpr">test column</expression>
+            <property name="dataType">string</property>
+            <property name="controlType">check-box</property>
             <structure name="format">
                 <property name="locale">zh</property>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="Param 3" id="6">
-            <property name="valueType">dynamic</property>
-            <property name="dataType">string</property>
             <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
             <property name="listLimit">100</property>
-            <property name="controlType">check-box</property>
+            <property name="valueType">dynamic</property>
             <property name="dataSetName">ds1</property>
             <expression name="valueExpr">row["test"]</expression>
             <expression name="labelExpr">test column</expression>
@@ -75,6 +73,8 @@
                 <value type="constant">default_value_2</value>
                 <value type="constant"></value>
             </simple-property-list>
+            <property name="dataType">string</property>
+            <property name="controlType">check-box</property>
             <structure name="format"/>
         </scalar-parameter>
         <scalar-parameter name="Param 4" id="7">

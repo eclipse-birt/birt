@@ -49,7 +49,9 @@ class ParametersState extends SlotState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
@@ -62,6 +64,8 @@ class ParametersState extends SlotState
 			return new CascadingParameterGroupState( handler );
 		if ( ParserSchemaConstants.SCALAR_PARAMETER_TAG == tagValue )
 			return new ScalarParameterState( handler, container, slotID );
+		if ( ParserSchemaConstants.DYNAMIC_FILTER_PARAMETER_TAG == tagValue )
+			return new DynamicFilterParameterState( handler, container, slotID );
 		if ( ParserSchemaConstants.FILTER_PARAMETER_TAG == tagValue )
 			return new AnyElementState( handler );
 		if ( ParserSchemaConstants.LIST_PARAMETER_TAG == tagValue )

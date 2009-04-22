@@ -411,6 +411,28 @@ public class ElementVisitor
 
 	public void visitScalarParameter( ScalarParameter obj )
 	{
+		visitAbstractScalarParameter( obj );
+	}
+
+	/**
+	 * Visits DynamicFilterParameter element
+	 * 
+	 * @param obj
+	 *            the DynamicFilterParameter to traverse
+	 */
+	public void visitDynamicFilterParameter( DynamicFilterParameter obj )
+	{
+		visitAbstractScalarParameter( obj );
+	}
+
+	/**
+	 * Visits the abstract scalar parameter element.
+	 * 
+	 * @param obj
+	 *            the abstract scalar parameter element.
+	 */
+	public void visitAbstractScalarParameter( AbstractScalarParameter obj )
+	{
 		visitParameter( obj );
 	}
 

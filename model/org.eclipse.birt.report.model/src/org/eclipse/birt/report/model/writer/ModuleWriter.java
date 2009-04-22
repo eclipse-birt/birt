@@ -53,6 +53,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.AbstractScalarParameter;
 import org.eclipse.birt.report.model.elements.AccessControl;
 import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
@@ -62,6 +63,7 @@ import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.DerivedDataSet;
+import org.eclipse.birt.report.model.elements.DynamicFilterParameter;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FilterConditionElement;
@@ -105,6 +107,7 @@ import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.ValueAccessControl;
 import org.eclipse.birt.report.model.elements.VariableElement;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IAccessControlModel;
 import org.eclipse.birt.report.model.elements.interfaces.IAutoTextModel;
 import org.eclipse.birt.report.model.elements.interfaces.ICascadingParameterGroupModel;
@@ -116,6 +119,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDerivedDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDynamicFilterParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IFreeFormModel;
@@ -2354,26 +2358,15 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitScalarParameter( obj );
 
-		property( obj, IScalarParameterModel.VALUE_TYPE_PROP );
 		property( obj, IScalarParameterModel.DATA_TYPE_PROP );
 		property( obj, IScalarParameterModel.PARAM_TYPE_PROP );
-		resourceKey( obj, IScalarParameterModel.PROMPT_TEXT_ID_PROP,
-				IScalarParameterModel.PROMPT_TEXT_PROP );
-		property( obj, IScalarParameterModel.LIST_LIMIT_PROP );
+
 		property( obj, IScalarParameterModel.CONCEAL_VALUE_PROP );
-		property( obj, IScalarParameterModel.IS_REQUIRED_PROP );
 		property( obj, IScalarParameterModel.CONTROL_TYPE_PROP );
 		property( obj, IScalarParameterModel.ALIGNMENT_PROP );
-		property( obj, IScalarParameterModel.DATASET_NAME_PROP );
-		property( obj, IScalarParameterModel.VALUE_EXPR_PROP );
-		property( obj, IScalarParameterModel.LABEL_EXPR_PROP );
 		property( obj, IScalarParameterModel.MUCH_MATCH_PROP );
 		property( obj, IScalarParameterModel.FIXED_ORDER_PROP );
-		writeSimplePropertyList( obj, IScalarParameterModel.DEFAULT_VALUE_PROP );
 		property( obj, IScalarParameterModel.DISTINCT_PROP );
-		property( obj, IScalarParameterModel.SORT_BY_PROP );
-		property( obj, IScalarParameterModel.SORT_BY_COLUMN_PROP );
-		property( obj, IScalarParameterModel.SORT_DIRECTION_PROP );
 		property( obj, IScalarParameterModel.AUTO_SUGGEST_THRESHOLD_PROP );
 
 		// write two method
@@ -2381,9 +2374,57 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IScalarParameterModel.GET_SELECTION_VALUE_LIST_PROP );
 
 		writeStructure( obj, IScalarParameterModel.FORMAT_PROP );
-		writeStructureList( obj, IScalarParameterModel.SELECTION_LIST_PROP );
 		writeStructureList( obj, IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.elements.ElementVisitor#
+	 * visitAbstractScalarParameter
+	 * (org.eclipse.birt.report.model.elements.AbstractScalarParameter)
+	 */
+	public void visitAbstractScalarParameter( AbstractScalarParameter obj )
+	{
+		super.visitAbstractScalarParameter( obj );
+
+		property( obj, IAbstractScalarParameterModel.LIST_LIMIT_PROP );
+		property( obj, IAbstractScalarParameterModel.VALUE_TYPE_PROP );
+		property( obj, IAbstractScalarParameterModel.IS_REQUIRED_PROP );
+		property( obj, IAbstractScalarParameterModel.DATASET_NAME_PROP );
+		property( obj, IAbstractScalarParameterModel.VALUE_EXPR_PROP );
+		property( obj, IAbstractScalarParameterModel.LABEL_EXPR_PROP );
+		property( obj, IAbstractScalarParameterModel.SORT_BY_PROP );
+		property( obj, IAbstractScalarParameterModel.SORT_BY_COLUMN_PROP );
+		property( obj, IAbstractScalarParameterModel.SORT_DIRECTION_PROP );
+
+		writeSimplePropertyList( obj,
+				IAbstractScalarParameterModel.DEFAULT_VALUE_PROP );
+
+		writeStructureList( obj,
+				IAbstractScalarParameterModel.SELECTION_LIST_PROP );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.elements.ElementVisitor#
+	 * visitDynamicFilterParameter
+	 * (org.eclipse.birt.report.model.elements.DynamicFilterParameter)
+	 */
+	public void visitDynamicFilterParameter( DynamicFilterParameter obj )
+	{
+		writer
+				.startElement( DesignSchemaConstants.DYNAMIC_FILTER_PARAMETER_TAG );
+		super.visitDynamicFilterParameter( obj );
+
+		property( obj, IDynamicFilterParameterModel.COLUMN_PROP );
+		property( obj, IDynamicFilterParameterModel.DSIPLAY_TYPE_PROP );
+
+		writeSimplePropertyList( obj,
+				IDynamicFilterParameterModel.FILTER_OPERATOR_PROP );
 		writer.endElement( );
 	}
 
@@ -3132,6 +3173,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		resourceKey( obj, IParameterModel.HELP_TEXT_KEY_PROP,
 				IParameterModel.HELP_TEXT_PROP );
 		property( obj, IParameterModel.VALIDATE_PROP );
+		resourceKey( obj, IParameterModel.PROMPT_TEXT_ID_PROP,
+				IParameterModel.PROMPT_TEXT_PROP );
 	}
 
 	/*

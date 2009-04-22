@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
+    <parameters>
+        <dynamic-filter-parameter name="Param 1" id="2">
+        	<property name="listLimit">5</property>
+        	<property name="column">newColumn</property>
+        	<property name="displayType">simple</property>
+            <simple-property-list name="filterOperator">
+            	<value>test1</value>
+            	<value>test2</value>
+            </simple-property-list>            
+        </dynamic-filter-parameter>
+    </parameters>
+</report>

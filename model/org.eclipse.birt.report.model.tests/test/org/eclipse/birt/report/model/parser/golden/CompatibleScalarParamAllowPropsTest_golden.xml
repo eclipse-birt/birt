@@ -3,28 +3,28 @@
     <parameters>
         <scalar-parameter name="Param 1" id="4">
             <property name="valueType">static</property>
-            <property name="dataType">decimal</property>
             <property name="isRequired">false</property>
+            <property name="dataType">decimal</property>
         </scalar-parameter>
         <scalar-parameter name="Param 2" id="5">
+        	<property name="isRequired">true</property>
             <property name="dataType">decimal</property>
-            <property name="isRequired">true</property>
         </scalar-parameter>
         <scalar-parameter name="Param 3" id="6">
+        	<property name="isRequired">false</property>
             <property name="dataType">string</property>
-            <property name="isRequired">false</property>
         </scalar-parameter>
         <scalar-parameter name="Param 4" id="7">
+        	<property name="isRequired">false</property>
             <property name="dataType">string</property>
-            <property name="isRequired">false</property>
         </scalar-parameter>
         <scalar-parameter name="Param 5" id="8">
+        	<property name="isRequired">true</property>
             <property name="dataType">string</property>
-            <property name="isRequired">true</property>
         </scalar-parameter>
         <scalar-parameter name="Param 6" id="9">
+        	<property name="isRequired">false</property>
             <property name="dataType">string</property>
-            <property name="isRequired">false</property>
         </scalar-parameter>        
     </parameters>
     <data-sources>

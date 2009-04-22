@@ -16,7 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 
 /**
  *
@@ -37,7 +37,7 @@ public class CompatiblePropertyChangeTables
 
 		propToExprTable.add( new CompatibleProperty(
 				ReportDesignConstants.SCALAR_PARAMETER_ELEMENT,
-				IScalarParameterModel.DEFAULT_VALUE_PROP,
+				IAbstractScalarParameterModel.DEFAULT_VALUE_PROP,
 				ExpressionType.CONSTANT, VersionUtil.VERSION_3_2_19 ) );
 	}
 

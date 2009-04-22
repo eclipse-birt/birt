@@ -4,10 +4,7 @@
     <property name="units">in</property>
     <parameters>
         <scalar-parameter name="NewParameter" id="4">
-            <property name="valueType">static</property>
-            <property name="dataType">string</property>
-			<property name="isRequired">false</property>            
-            <property name="controlType">text-box</property>
+            <property name="isRequired">false</property>
             <structure name="format">
                 <property name="category">Custom</property>
                 <property name="pattern">&lt;</property>

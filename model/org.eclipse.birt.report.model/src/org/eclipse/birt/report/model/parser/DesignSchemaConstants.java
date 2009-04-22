@@ -75,7 +75,7 @@ public interface DesignSchemaConstants
 	static final String DATA_TAG = "data"; //$NON-NLS-1$ 
 	static final String DEFAULT_VALUE_TAG = "default-value"; //$NON-NLS-1$
 	static final String DEFAULT_TAG = "default"; //$NON-NLS-1$
-	String DERIVED_DATA_SET_TAG ="derived-data-set"; //$NON-NLS-1$
+	String DERIVED_DATA_SET_TAG = "derived-data-set"; //$NON-NLS-1$
 	static final String DETAIL_TAG = "detail"; //$NON-NLS-1$
 	static final String DIMENSION_TAG = "dimension"; //$NON-NLS-1$
 	static final String ENCRYPTION_ID_ATTRIB = "encryptionID"; //$NON-NLS-1$
@@ -172,7 +172,8 @@ public interface DesignSchemaConstants
 	static final String RESOURCE_KEY_ATTRIB = "resource-key"; //$NON-NLS-1$
 	static final String RESOURCE_TAG = "resource"; //$NON-NLS-1$	
 	static final String ROW_TAG = "row"; //$NON-NLS-1$ 
-	static final String SCALAR_PARAMETER_TAG = "scalar-parameter"; //$NON-NLS-1$ 
+	static final String SCALAR_PARAMETER_TAG = "scalar-parameter"; //$NON-NLS-1$
+	static final String DYNAMIC_FILTER_PARAMETER_TAG = "dynamic-filter-parameter"; //$NON-NLS-1$
 	static final String SCRATCH_PAD_TAG = "scratch-pad"; //$NON-NLS-1$
 	static final String SCRIPT_DATA_SET_TAG = "script-data-set"; //$NON-NLS-1$
 	static final String SCRIPT_DATA_SOURCE_TAG = "script-data-source"; //$NON-NLS-1$

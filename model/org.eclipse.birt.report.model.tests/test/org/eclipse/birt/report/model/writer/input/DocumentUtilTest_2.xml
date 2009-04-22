@@ -15,10 +15,7 @@
 	</styles>
 	<parameters>
         <scalar-parameter name="param1" extends="Lib1.param1"/>
-    </parameters>    
-    <page-setup>
-        <graphic-master-page name="My Page" id="2"/>
-    </page-setup>
+    </parameters>
 	<body>
 		<label name="label" id="8" extends="Lib1.libLabel2">
 			<property name="backgroundColor">red</property>
