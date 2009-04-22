@@ -211,6 +211,11 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation
 		return factTableRowIterator.next( );
 	}
 
+	public int[] getDimensionPosition( )
+	{
+		return factTableRowIterator.getDimensionPosition( );
+	}
+	
 	public Object getMeasureValue( int measureIndex ) throws DataException
 	{
 		if ( measureIndex < factTableRowIterator.getMeasureCount( ) )

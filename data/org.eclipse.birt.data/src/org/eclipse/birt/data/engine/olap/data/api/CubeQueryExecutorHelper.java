@@ -39,6 +39,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationExecutor;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.CubeDimensionReader;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.DataSetFromOriginalCube;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.IDataSet4Aggregation;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggrMeasureFilterHelper;
@@ -54,8 +55,8 @@ import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterato
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.ICubePosFilter;
-import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper;
 
 /**
@@ -497,7 +498,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		IDataSet4Aggregation dataSet4Aggregation = new DataSetFromOriginalCube( factTableRowIterator,
 				dimensionResultIterators,
 				computedMeasureHelper );
-		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor(dataSet4Aggregation, 
+		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor( new CubeDimensionReader( cube ),
+				dataSet4Aggregation,
 				aggregations );
 		return aggregationCalculatorExecutor.execute( stopSign );
 	}

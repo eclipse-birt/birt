@@ -52,7 +52,6 @@ public class AggregationExecutor
 	private ColumnInfo[] paraInfos;
 	
 	private IDataSet4Aggregation dataSet4Aggregation;
-
 	protected static Logger logger = Logger.getLogger( AggregationExecutor.class.getName( ) );
 
 	/**
@@ -63,6 +62,7 @@ public class AggregationExecutor
 	 * @throws BirtOlapException 
 	 */
 	public AggregationExecutor(
+			ICubeDimensionReader cubeDimensionReader, 
 			IDataSet4Aggregation dataSet4Aggregation,
 			AggregationDefinition[] aggregations ) throws IOException, DataException
 	{
@@ -80,7 +80,7 @@ public class AggregationExecutor
 		for ( int i = 0; i < this.aggregationCalculators.length; i++ )
 		{
 			this.aggregationCalculators[i] = new AggregationCalculator( aggregations[i], paraColumns, 
-					dataSet4Aggregation.getMetaInfo( ));
+					dataSet4Aggregation.getMetaInfo( ), cubeDimensionReader );
 		}
 		sortedFactRows = new DiskSortedStackWrapper[aggregations.length];
 		
@@ -219,7 +219,7 @@ public class AggregationExecutor
 					int[] levelIndex = diskSortedStackWrapper.levelIndex;
 
 					Row4Aggregation aggregationRow = new Row4Aggregation( );
-
+					aggregationRow.setDimPos( dataSet4Aggregation.getDimensionPosition( ) );
 					aggregationRow.setLevelMembers( getLevelMembers( levelIndex ) );
 
 					if ( aggregationRow.getLevelMembers( ) == null )

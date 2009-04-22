@@ -44,6 +44,12 @@ public interface IFactTableRowIterator
 	
 	/**
 	 * 
+	 * @return
+	 */
+	public int[] getDimensionPosition( );
+	
+	/**
+	 * 
 	 * @param measureIndex
 	 * @return
 	 */

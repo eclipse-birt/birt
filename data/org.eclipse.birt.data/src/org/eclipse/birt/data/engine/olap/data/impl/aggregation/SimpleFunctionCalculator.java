@@ -39,7 +39,7 @@ public class SimpleFunctionCalculator extends BaseAggregationCalculator
 		{
 			keyLevelIndex = null;
 		}
-		facttableRow = new FacttableRow( getMeasureInfo( ) );
+		facttableRow = new FacttableRow( getMeasureInfo( ), null, null );
 	}
 	
 	/*

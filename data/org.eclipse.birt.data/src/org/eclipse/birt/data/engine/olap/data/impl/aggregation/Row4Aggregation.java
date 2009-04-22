@@ -25,6 +25,7 @@ public class Row4Aggregation implements IStructure
 	private Member[] levelMembers;
 	private Object[] measures;
 	private Object[] parameterValues;
+	private int[] dimPos;
 	
 	
 	/*
@@ -33,13 +34,29 @@ public class Row4Aggregation implements IStructure
 	 */
 	public Object[] getFieldValues( )
 	{
-		Object[][] objectArrays = new Object[getLevelMembers().length+2][];
+		Object[][] objectArrays = new Object[getLevelMembers().length + 3][];
 		for ( int i = 0; i < getLevelMembers().length; i++ )
 		{
 			objectArrays[i] = getLevelMembers()[i].getFieldValues( );
 		}
-		objectArrays[objectArrays.length-2] = measures;
-		objectArrays[objectArrays.length-1] = parameterValues;
+		objectArrays[objectArrays.length-3] = measures;
+		objectArrays[objectArrays.length-2] = parameterValues;
+		Integer[] dimPosObj = null;
+		if( dimPos == null )
+		{
+			dimPosObj = new Integer[1];
+			dimPosObj[0] = new Integer( 0 );
+		}
+		else
+		{
+			dimPosObj = new Integer[dimPos.length + 1];
+			dimPosObj[0] = new Integer( 1 );
+			for ( int i = 0; i < dimPos.length; i++ )
+			{
+				dimPosObj[i + 1] = new Integer( dimPos[i] );
+			}
+		}
+		objectArrays[objectArrays.length-1] = dimPosObj;
 		return ObjectArrayUtil.convert( objectArrays );
 	}
 	
@@ -51,34 +68,46 @@ public class Row4Aggregation implements IStructure
 		return new Row4AggregationCreator( );
 	}
 
-	void setLevelMembers( Member[] levelMembers )
+	
+	public int[] getDimPos( )
+	{
+		return dimPos;
+	}
+
+	
+	public void setDimPos( int[] dimPos )
+	{
+		this.dimPos = dimPos;
+	}
+
+	public void setLevelMembers( Member[] levelMembers )
 	{
 		this.levelMembers = levelMembers;
 	}
 
-	Member[] getLevelMembers( )
+	public Member[] getLevelMembers( )
 	{
 		return levelMembers;
 	}
 
-	void setMeasures( Object[] measures )
+	public void setMeasures( Object[] measures )
 	{
 		this.measures = measures;
 	}
 
-	Object[] getMeasures( )
+	public Object[] getMeasures( )
 	{
 		return measures;
 	}
 
 	
-	Object[] getParameterValues( )
+	public Object[] getParameterValues( )
 	{
 		return parameterValues;
 	}
 
 	
-	void setParameterValues( Object[] parameterValues )
+	public void setParameterValues( Object[] parameterValues )
 	{
 		this.parameterValues = parameterValues;
 	}
@@ -102,13 +131,22 @@ class Row4AggregationCreator implements IStructureCreator
 		Object[][] objectArrays = ObjectArrayUtil.convert( fields );
 		Row4Aggregation result = new Row4Aggregation( );
 		
-		result.setLevelMembers( new Member[objectArrays.length - 2] );
+		result.setLevelMembers( new Member[objectArrays.length - 3] );
 		for ( int i = 0; i < result.getLevelMembers().length; i++ )
 		{
 			result.getLevelMembers()[i] = (Member) levelMemberCreator.createInstance( objectArrays[i] );
 		}
-		result.setMeasures( objectArrays[objectArrays.length-2] );
-		result.setParameterValues( objectArrays[objectArrays.length-1] );
+		result.setMeasures( objectArrays[objectArrays.length-3] );
+		result.setParameterValues( objectArrays[objectArrays.length-2] );
+		if( objectArrays[objectArrays.length-1][0].equals( new Integer( 1 ) ) )
+		{
+			int[] dimPos = new int[objectArrays[objectArrays.length - 1].length - 1];
+			for ( int i = 0; i < dimPos.length; i++ )
+			{
+				dimPos[i] = ((Integer)(objectArrays[objectArrays.length-1][i+1])).intValue( );
+			}
+			result.setDimPos( dimPos );
+		}
 		
 		return result;
 	}

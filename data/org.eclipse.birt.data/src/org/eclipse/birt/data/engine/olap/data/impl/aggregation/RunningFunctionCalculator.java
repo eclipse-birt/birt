@@ -47,7 +47,7 @@ public class RunningFunctionCalculator extends BaseAggregationCalculator
 		{
 			keyLevelIndex = null;
 		}
-		facttableRow = new FacttableRow( getMeasureInfo( ) );
+		facttableRow = new FacttableRow( getMeasureInfo( ), null, null );
 		needMultiplePass = needMultiplePass( aggregation );
 	}
 	

@@ -523,7 +523,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		IDataSet4Aggregation dataSet4Aggregation 
 			= new DataSetFromOriginalCube( facttableRowIterator, dimesionResultSets, null );
 		AggregationExecutor aggregationCalculatorExecutor = 
-			new AggregationExecutor( dataSet4Aggregation,
+			new AggregationExecutor( null, dataSet4Aggregation,
 					aggregations );
 		IAggregationResultSet[] resultSet = aggregationCalculatorExecutor.execute( new StopSign( ) );
 		assertEquals( resultSet[0].length( ), 2 );
@@ -996,7 +996,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		IDataSet4Aggregation dataSet4Aggregation 
 			= new DataSetFromOriginalCube( facttableRowIterator, dimesionResultSets, null );
 		AggregationExecutor aggregationCalculatorExecutor = 
-				new AggregationExecutor( dataSet4Aggregation,
+				new AggregationExecutor( null, dataSet4Aggregation,
 						aggregations );
 		IAggregationResultSet[] resultSet = aggregationCalculatorExecutor.execute( new StopSign( ) );
 		assertEquals( resultSet[0].length( ), 1 );
@@ -1133,7 +1133,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		IDataSet4Aggregation dataSet4Aggregation 
 			= new DataSetFromOriginalCube( facttableRowIterator, dimesionResultSets, null );
 		AggregationExecutor aggregationCalculatorExecutor = 
-				new AggregationExecutor( dataSet4Aggregation,
+				new AggregationExecutor( null, dataSet4Aggregation,
 						aggregations );
 		IAggregationResultSet[] resultSet = aggregationCalculatorExecutor.execute( new StopSign( ) );
 		assertEquals( resultSet[0].length( ), 6 );

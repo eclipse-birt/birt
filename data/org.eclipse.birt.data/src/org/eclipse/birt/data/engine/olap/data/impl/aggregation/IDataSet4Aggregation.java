@@ -37,6 +37,8 @@ public interface IDataSet4Aggregation
 	Object getMeasureValue(int measureIndex) throws DataException, IOException;
 	Member getMember(int dimIndex, int levelIndex) throws DataException, IOException;
 	
+	int[] getDimensionPosition( );
+	
 	public static interface MetaInfo
 	{
 		MeasureInfo[] getMeasureInfos( ) throws IOException;

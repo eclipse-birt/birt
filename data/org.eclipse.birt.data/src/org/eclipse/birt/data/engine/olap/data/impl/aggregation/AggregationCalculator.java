@@ -60,7 +60,8 @@ public class AggregationCalculator
 	 */
 	AggregationCalculator( AggregationDefinition aggregationDef, 
 			DimColumn[] parameterColNames, //the parameter sequence corresponding with <code>Row4Aggregation.getParameterValues()</code>  
-			IDataSet4Aggregation.MetaInfo metaInfo ) throws IOException, DataException
+			IDataSet4Aggregation.MetaInfo metaInfo,
+			ICubeDimensionReader cubeDimensionReader ) throws IOException, DataException
 	{
 		Object[] params = {
 				aggregationDef, parameterColNames, metaInfo
@@ -113,7 +114,7 @@ public class AggregationCalculator
 		}
 		result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
 		measureInfos = metaInfo.getMeasureInfos( );
-		facttableRow = new FacttableRow( measureInfos );
+		facttableRow = new FacttableRow( measureInfos, cubeDimensionReader, metaInfo );
 		logger.exiting( AggregationCalculator.class.getName( ),
 				"AggregationCalculator" );
 	}
@@ -197,6 +198,7 @@ public class AggregationCalculator
 	private boolean getFilterResult( Row4Aggregation row, int functionNo )
 			throws DataException
 	{
+		facttableRow.setDimPos( row.getDimPos( ) );
 		facttableRow.setMeasure( row.getMeasures( ) );
 		IJSFacttableFilterEvalHelper filterEvalHelper = ( aggregation.getAggregationFunctions( )[functionNo] ).getFilterEvalHelper( );
 		if ( filterEvalHelper == null )

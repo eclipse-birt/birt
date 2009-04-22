@@ -439,6 +439,15 @@ public class FactTableRowIterator implements IFactTableRowIterator
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#getDimensionPosition()
+	 */
+	public int[] getDimensionPosition( )
+	{
+		return currentPos;
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#getMeasureCount()
 	 */
 	public int getMeasureCount( )
