@@ -20,27 +20,32 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.elements.structures.HideRule;
+import org.eclipse.birt.report.model.api.simpleapi.IAction;
 import org.eclipse.birt.report.model.api.simpleapi.IDataItem;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSet;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSource;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
 import org.eclipse.birt.report.model.api.simpleapi.IDynamicText;
+import org.eclipse.birt.report.model.api.simpleapi.IFilterCondition;
 import org.eclipse.birt.report.model.api.simpleapi.IGrid;
+import org.eclipse.birt.report.model.api.simpleapi.IHideRule;
+import org.eclipse.birt.report.model.api.simpleapi.IHighlightRule;
 import org.eclipse.birt.report.model.api.simpleapi.IImage;
 import org.eclipse.birt.report.model.api.simpleapi.ILabel;
 import org.eclipse.birt.report.model.api.simpleapi.IList;
 import org.eclipse.birt.report.model.api.simpleapi.IMasterPage;
 import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 import org.eclipse.birt.report.model.api.simpleapi.IReportElement;
+import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
 import org.eclipse.birt.report.model.api.simpleapi.ITable;
 import org.eclipse.birt.report.model.api.simpleapi.ITextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 
 /**
- * 
- * 
+ * InternalReportDesign
  */
-
 class InternalReportDesign extends DesignElement implements IReportDesign
 {
 
@@ -244,5 +249,52 @@ class InternalReportDesign extends DesignElement implements IReportDesign
 	public void setTheme( String theme ) throws SemanticException
 	{
 		setProperty( IModuleModel.THEME_PROP, theme );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IReportDesign#
+	 * createFilterCondition()
+	 */
+	public IFilterCondition createFilterCondition( )
+	{
+		FilterCondition c = new FilterCondition( );
+		IFilterCondition condition = new FilterConditionImpl( c );
+		return condition;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHideRule()
+	 */
+	public IHideRule createHideRule( )
+	{
+		HideRule r = new HideRule( );
+		IHideRule rule = new HideRuleImpl( r );
+		return rule;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHighLightRule()
+	 */
+	public IHighlightRule createHighLightRule( )
+	{
+		return new HighlightRuleImpl( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createSortCondition()
+	 */
+	public ISortCondition createSortCondition( )
+	{
+		return new SortConditionImpl( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createAction()
+	 */
+	public IAction createAction( )
+	{
+		return new ActionImpl( );
 	}
 }

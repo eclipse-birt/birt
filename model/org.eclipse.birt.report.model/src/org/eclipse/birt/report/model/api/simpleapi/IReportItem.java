@@ -9,7 +9,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 public interface IReportItem extends IReportElement
 {
-
+	static ScriptConstants constants = new ScriptConstants();
 	/**
 	 * Gets the item's x (horizontal) position.
 	 * 

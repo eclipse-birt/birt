@@ -250,6 +250,12 @@ public interface IImage extends IReportItem
 	 */
 
 	IAction getAction( );
+	
+	/**
+	 * Add the action structure to this Image item. 
+	 * @param action
+	 */
+	void addAction(IAction action) throws SemanticException;
 
 	/**
 	 * Returns the help text of this image item.

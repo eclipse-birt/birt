@@ -69,6 +69,12 @@ public interface ILabel extends IReportItem
 	 */
 
 	IAction getAction( );
+	
+	/**
+	 * Add the action structure to this Label item. 
+	 * @param action
+	 */
+	void addAction(IAction action) throws SemanticException;
 
 	/**
 	 * Returns the help text of this label item.

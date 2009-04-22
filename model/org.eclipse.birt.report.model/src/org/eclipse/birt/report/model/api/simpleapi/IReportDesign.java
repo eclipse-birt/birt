@@ -214,4 +214,49 @@ public interface IReportDesign extends IDesignElement
 	 * @return report element
 	 */
 	IReportElement getReportElementByID( long id );
+
+	/**
+	 * Create <code>IFilterCondition</code>
+	 * 
+	 * @return instance
+	 */
+
+	IFilterCondition createFilterCondition( );
+
+	/**
+	 * Create IHideRule instance
+	 * 
+	 * @return IHideRule
+	 */
+
+	IHideRule createHideRule( );
+
+	/**
+	 * Create IHighLightRule
+	 * 
+	 * @return instance
+	 */
+
+	IHighlightRule createHighLightRule( );
+
+	/**
+	 * Create ISortCondition
+	 * 
+	 * @return instance
+	 */
+
+	ISortCondition createSortCondition( );
+
+	/**
+	 * Creates the action structure.
+	 * 
+	 * @param action
+	 *            the structure handle
+	 * @param handle
+	 *            the element handle that holds the action structure
+	 * @return the action
+	 */
+
+	public IAction createAction( );
+
 }

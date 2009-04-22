@@ -19,20 +19,29 @@ import java.util.Set;
 
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.elements.structures.HideRule;
+import org.eclipse.birt.report.model.api.simpleapi.IAction;
 import org.eclipse.birt.report.model.api.simpleapi.IDataItem;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSet;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSource;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
 import org.eclipse.birt.report.model.api.simpleapi.IDynamicText;
+import org.eclipse.birt.report.model.api.simpleapi.IFilterCondition;
 import org.eclipse.birt.report.model.api.simpleapi.IGrid;
+import org.eclipse.birt.report.model.api.simpleapi.IHideRule;
+import org.eclipse.birt.report.model.api.simpleapi.IHighlightRule;
 import org.eclipse.birt.report.model.api.simpleapi.IImage;
 import org.eclipse.birt.report.model.api.simpleapi.ILabel;
 import org.eclipse.birt.report.model.api.simpleapi.IList;
 import org.eclipse.birt.report.model.api.simpleapi.IMasterPage;
 import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 import org.eclipse.birt.report.model.api.simpleapi.IReportElement;
+import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
 import org.eclipse.birt.report.model.api.simpleapi.IStyle;
 import org.eclipse.birt.report.model.api.simpleapi.ITable;
 import org.eclipse.birt.report.model.api.simpleapi.ITextItem;
@@ -44,10 +53,8 @@ import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrappedException;
 
 /**
- * 
- * 
+ * ReportDesign
  */
-
 public class ReportDesign extends ScriptableObject implements IReportDesign
 {
 
@@ -356,7 +363,7 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 		}
 
 		// must handle special case with long parameter or polymiorphism
-		
+
 		tmpNames.remove( "getReportElementByID" ); //$NON-NLS-1$
 		tmpNames.remove( "setUserProperty" ); //$NON-NLS-1$
 
@@ -365,9 +372,11 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 		this.defineFunctionProperties( tmpArray, this.getClass( ), DONTENUM );
 
 		this.defineProperty( "getReportElementByID", //$NON-NLS-1$
-				new Function_getReportElementByID( ), DONTENUM );
+				new Function_getReportElementByID( ),
+				DONTENUM );
 		this.defineProperty( "setUserProperty", //$NON-NLS-1$
-				new Function_setUserProperty( ), DONTENUM );
+				new Function_setUserProperty( ),
+				DONTENUM );
 	}
 
 	private class Function_getReportElementByID extends BaseFunction
@@ -388,8 +397,7 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 		public Object call( Context cx, Scriptable scope, Scriptable thisObj,
 				java.lang.Object[] args )
 		{
-			Object[] convertedArgs = JavascriptEvalUtil
-					.convertToJavaObjects( args );
+			Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects( args );
 
 			return report.getReportElementByID( (Integer) convertedArgs[0] );
 		}
@@ -413,8 +421,7 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 		public Object call( Context cx, Scriptable scope, Scriptable thisObj,
 				java.lang.Object[] args )
 		{
-			Object[] convertedArgs = JavascriptEvalUtil
-					.convertToJavaObjects( args );
+			Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects( args );
 
 			try
 			{
@@ -423,7 +430,8 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 							(String) convertedArgs[1] );
 				else if ( convertedArgs.length == 3 )
 					report.setUserProperty( (String) convertedArgs[0],
-							convertedArgs[1], (String) convertedArgs[2] );
+							convertedArgs[1],
+							(String) convertedArgs[2] );
 
 			}
 			catch ( SemanticException e )
@@ -438,10 +446,54 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getUserPropertyExpression(java.lang.String)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IDesignElement#
+	 * getUserPropertyExpression(java.lang.String)
 	 */
 	public Object getUserPropertyExpression( String name )
 	{
-		return report.getUserPropertyExpression( name );		
+		return report.getUserPropertyExpression( name );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IReportDesign#
+	 * createFilterCondition()
+	 */
+	public IFilterCondition createFilterCondition( )
+	{
+		return report.createFilterCondition( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHideRule()
+	 */
+	public IHideRule createHideRule( )
+	{
+		return report.createHideRule( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHighLightRule()
+	 */
+	public IHighlightRule createHighLightRule( )
+	{
+		return report.createHighLightRule( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createSortCondition()
+	 */
+	public ISortCondition createSortCondition( )
+	{
+		return report.createSortCondition( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createAction()
+	 */
+	public IAction createAction( )
+	{
+		return report.createAction( );
 	}
 }

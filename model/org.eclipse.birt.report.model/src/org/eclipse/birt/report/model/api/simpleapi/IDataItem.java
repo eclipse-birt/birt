@@ -18,6 +18,12 @@ public interface IDataItem extends IReportItem
 	 * @see ActionHandle
 	 */
 	IAction getAction( );
+	
+	/**
+	 * Add the action structure to this Data item. 
+	 * @param action
+	 */
+	void addAction(IAction action) throws SemanticException;
 
 	/**
 	 * Returns the help text of this data item.

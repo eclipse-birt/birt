@@ -322,5 +322,13 @@ public interface IImage extends IReportItem
 	 * @return image file.
 	 */
 	String getFile( );
+	
+	
+	/**
+	 * Adds the action structure to this data item.
+	 * @param action
+	 * 			action structure
+	 */
+	void addAction(IAction action);
 
 }

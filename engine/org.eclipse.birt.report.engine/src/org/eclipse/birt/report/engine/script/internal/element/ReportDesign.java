@@ -39,7 +39,12 @@ import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.engine.api.script.element.IAction;
 
+
+/**
+ * ReportDesign
+ */
 public class ReportDesign extends DesignElement implements IReportDesign
 {
 
@@ -56,22 +61,17 @@ public class ReportDesign extends DesignElement implements IReportDesign
 
 	public IDataSet getDataSet( String name )
 	{
-		return new DataSet(
-				( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-						.getDataSet( name ) );
+		return new DataSet( ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getDataSet( name ) );
 	}
 
 	public IDataSource getDataSource( String name )
 	{
-		return new DataSource(
-				( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-						.getDataSource( name ) );
+		return new DataSource( ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getDataSource( name ) );
 	}
 
 	public IReportElement getReportElement( String name )
 	{
-		org.eclipse.birt.report.model.api.simpleapi.IReportElement tmpElement = ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-				.getReportElement( name );
+		org.eclipse.birt.report.model.api.simpleapi.IReportElement tmpElement = ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getReportElement( name );
 
 		IDesignElement retElement = ElementUtil.getElement( tmpElement );
 		if ( retElement instanceof IReportElement )
@@ -88,8 +88,7 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	 */
 	public IReportElement getReportElementByID( long id )
 	{
-		org.eclipse.birt.report.model.api.simpleapi.IReportElement tmpElement = ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-				.getReportElementByID( id );
+		org.eclipse.birt.report.model.api.simpleapi.IReportElement tmpElement = ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getReportElementByID( id );
 
 		IDesignElement retElement = ElementUtil.getElement( tmpElement );
 		if ( retElement instanceof IReportElement )
@@ -100,58 +99,42 @@ public class ReportDesign extends DesignElement implements IReportDesign
 
 	public IDataItem getDataItem( String name )
 	{
-		return new DataItem(
-				( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-						.getDataItem( name ) );
+		return new DataItem( ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getDataItem( name ) );
 	}
 
 	public IGrid getGrid( String name )
 	{
-		return new Grid(
-				( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-						.getGrid( name ) );
+		return new Grid( ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getGrid( name ) );
 	}
 
 	public IImage getImage( String name )
 	{
-		return new Image(
-				( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-						.getImage( name ) );
+		return new Image( ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getImage( name ) );
 	}
 
 	public ILabel getLabel( String name )
 	{
-		return new Label(
-				( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-						.getLabel( name ) );
+		return new Label( ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getLabel( name ) );
 	}
 
 	public IList getList( String name )
 	{
-		return new List(
-				( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-						.getList( name ) );
+		return new List( ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getList( name ) );
 	}
 
 	public ITable getTable( String name )
 	{
-		return new Table(
-				( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-						.getTable( name ) );
+		return new Table( ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getTable( name ) );
 	}
 
 	public IDynamicText getDynamicText( String name )
 	{
-		return new DynamicText(
-				( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-						.getDynamicText( name ) );
+		return new DynamicText( ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getDynamicText( name ) );
 	}
 
 	public ITextItem getTextItem( String name )
 	{
-		return new TextItem(
-				( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-						.getTextItem( name ) );
+		return new TextItem( ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getTextItem( name ) );
 	}
 
 	public void setDisplayNameKey( String displayNameKey )
@@ -159,8 +142,7 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	{
 		try
 		{
-			( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-					.setDisplayNameKey( displayNameKey );
+			( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).setDisplayNameKey( displayNameKey );
 		}
 		catch ( SemanticException e )
 		{
@@ -170,16 +152,14 @@ public class ReportDesign extends DesignElement implements IReportDesign
 
 	public String getDisplayNameKey( )
 	{
-		return ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-				.getDisplayNameKey( );
+		return ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getDisplayNameKey( );
 	}
 
 	public void setDisplayName( String displayName ) throws ScriptException
 	{
 		try
 		{
-			( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-					.setDisplayName( displayName );
+			( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).setDisplayName( displayName );
 		}
 		catch ( SemanticException e )
 		{
@@ -189,15 +169,12 @@ public class ReportDesign extends DesignElement implements IReportDesign
 
 	public String getDisplayName( )
 	{
-		return ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-				.getDisplayName( );
+		return ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getDisplayName( );
 	}
 
 	public IMasterPage getMasterPage( String name )
 	{
-		return new MasterPage(
-				( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-						.getMasterPage( name ) );
+		return new MasterPage( ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getMasterPage( name ) );
 	}
 
 	/*
@@ -209,8 +186,7 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	 */
 	public String getTheme( )
 	{
-		return ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-				.getTheme( );
+		return ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).getTheme( );
 	}
 
 	/*
@@ -224,8 +200,7 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	{
 		try
 		{
-			( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
-					.setTheme( theme );
+			( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl ).setTheme( theme );
 		}
 		catch ( SemanticException e )
 		{
@@ -297,5 +272,15 @@ public class ReportDesign extends DesignElement implements IReportDesign
 		SortKey s = new SortKey( );
 		ISortCondition sort = new SortConditionImpl( s );
 		return sort;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportDesign#createAction()
+	 */
+	public IAction createAction( )
+	{
+		IAction action = new ActionImpl(  );
+		return action;
 	}
 }

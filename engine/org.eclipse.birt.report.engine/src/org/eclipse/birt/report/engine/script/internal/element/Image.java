@@ -437,4 +437,11 @@ public class Image extends ReportItem implements IImage
 				.getURL( );
 	}
 
+	@Override
+	public void addAction( IAction action )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

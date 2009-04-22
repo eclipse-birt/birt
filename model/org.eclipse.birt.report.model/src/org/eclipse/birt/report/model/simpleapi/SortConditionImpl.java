@@ -78,7 +78,7 @@ public class SortConditionImpl extends Structure implements ISortCondition
 	}
 
 	/**
-	 * Create instance of <code>HideRule</code>
+	 * Create instance of <code>SorterKey</code>
 	 * 
 	 * @return instance
 	 */

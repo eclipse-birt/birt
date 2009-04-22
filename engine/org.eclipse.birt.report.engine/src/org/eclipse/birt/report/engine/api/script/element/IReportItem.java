@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
+import org.eclipse.birt.report.model.api.simpleapi.ScriptConstants;
 
 
 /**
@@ -12,6 +13,7 @@ public interface IReportItem
 		extends
 			IReportElement
 {
+	static ScriptConstants constants = new ScriptConstants();
 
 	/**
 	 * Gets the item's x (horizontal) position.

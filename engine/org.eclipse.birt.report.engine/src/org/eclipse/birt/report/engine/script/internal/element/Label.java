@@ -16,6 +16,7 @@ import org.eclipse.birt.report.engine.api.script.element.IAction;
 import org.eclipse.birt.report.engine.api.script.element.ILabel;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 
 public class Label extends ReportItem implements ILabel
 {
@@ -172,5 +173,14 @@ public class Label extends ReportItem implements ILabel
                 ( (org.eclipse.birt.report.model.api.simpleapi.ILabel) designElementImpl )
                         .getAction() );
     }
+
+	@Override
+	public void addAction( IAction action )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 }

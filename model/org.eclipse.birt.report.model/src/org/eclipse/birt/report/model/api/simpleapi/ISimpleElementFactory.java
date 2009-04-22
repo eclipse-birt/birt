@@ -181,6 +181,14 @@ public interface ISimpleElementFactory
 	 */
 
 	public IAction createAction( ActionHandle action, ReportItemHandle handle );
+	
+	/**
+	 * Create the action structure. 
+	 * 
+	 * @return
+	 * 		the action.
+	 */
+	public IAction createAction( );
 
 	/**
 	 * Creates the IDesignElement instance.

@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
@@ -62,12 +63,19 @@ public interface ILabel extends IReportItem
 	 * Returns a handle to work with the action property, action is a structure
 	 * that defines a hyperlink.
 	 * 
-	 * @return a handle to the action property, return <code>null</code> if
-	 *         the action has not been set on the label.
+	 * @return a handle to the action property, return <code>null</code> if the
+	 *         action has not been set on the label.
 	 * @see ActionHandle
 	 */
 
 	IAction getAction( );
+
+	/**
+	 * Adds the action structure to this Label item.
+	 * @param action
+	 * 			the action stucture to be added.
+	 */
+	void addAction( IAction action );
 
 	/**
 	 * Returns the help text of this label item.

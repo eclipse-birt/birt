@@ -258,6 +258,14 @@ public class SimpleElementFactory implements ISimpleElementFactory
 		return new ActionImpl( action, handle );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createAction()
+	 */
+	public IAction createAction( )
+	{
+		return new ActionImpl( );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

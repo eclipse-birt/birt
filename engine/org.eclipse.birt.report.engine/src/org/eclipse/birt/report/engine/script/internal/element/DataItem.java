@@ -99,4 +99,11 @@ public class DataItem extends ReportItem implements IDataItem
                 ( (org.eclipse.birt.report.model.api.simpleapi.IDataItem) designElementImpl )
                         .getAction() );
     }
+
+	@Override
+	public void addAction( IAction action )
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

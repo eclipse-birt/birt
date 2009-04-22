@@ -206,4 +206,17 @@ public interface IReportDesign extends IDesignElement
 	 */
 
 	ISortCondition createSortCondition( );
+	
+	/**
+	 * Creates the action structure.
+	 * 
+	 * @param action
+	 *            the structure handle
+	 * @param handle
+	 *            the element handle that holds the action structure
+	 * @return the action
+	 */
+
+	 IAction createAction( );
+
 }

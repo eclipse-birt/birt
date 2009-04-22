@@ -11,11 +11,14 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IAction;
 import org.eclipse.birt.report.model.api.simpleapi.ILabel;
 import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 public class Label extends ReportItem implements ILabel
 {
@@ -143,6 +146,27 @@ public class Label extends ReportItem implements ILabel
 	{
 		return new ActionImpl( ( (LabelHandle) handle ).getActionHandle( ),
 				(LabelHandle) handle );
+	}
+
+	public void addAction( IAction action ) throws SemanticException
+	{
+		if ( action == null )
+			return;
+
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			handle.setProperty( ILabelModel.ACTION_PROP, action.getStructure( ));
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 }

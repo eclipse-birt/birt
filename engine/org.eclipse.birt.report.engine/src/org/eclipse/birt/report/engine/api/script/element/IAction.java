@@ -8,17 +8,21 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
+import org.eclipse.birt.report.model.api.core.IStructure;
+
 
 /**
  * Script wrapper of <code>ActionHandle</code>
- *
+ * 
  */
 
 public interface IAction
 {
+
 	/**
 	 * Gets the identifier of the hyperlink if the link type is
 	 * <code>ACTION_LINK_TYPE_HYPERLINK</code>. Otherwise, return null.
@@ -36,7 +40,7 @@ public interface IAction
 	 */
 
 	public String getTargetWindow( );
-	
+
 	/**
 	 * Gets the link type of the action. The link type are defined in
 	 * DesignChoiceConstants and can be one of the following:
@@ -74,7 +78,6 @@ public interface IAction
 
 	public void setLinkType( String type ) throws ScriptException;
 
-
 	/**
 	 * Sets the format type of the action. The format type for action are
 	 * defined in DesignChoiceConstants and can be one of the following: *
@@ -85,11 +88,11 @@ public interface IAction
 	 * </ul>
 	 * 
 	 * @param type
-	 * 			the type of the action
+	 *            the type of the action
 	 * @throws ScriptException
 	 */
 	public void setFormatType( String type ) throws ScriptException;
-	
+
 	/**
 	 * Gets the format type of the action. The format type for action are
 	 * defined in DesignChoiceConstants and can be one of the following: *
@@ -101,7 +104,7 @@ public interface IAction
 	 * 
 	 * @return the format type of the action
 	 */
-	public String getFormatType();
+	public String getFormatType( );
 
 	/**
 	 * Sets the target window of the action.
@@ -179,5 +182,11 @@ public interface IAction
 	 */
 
 	public void setTargetBookmark( String bookmark ) throws ScriptException;
-
+	
+	/**
+	 * Returns the Model Structure instance. 
+	 * @return
+	 * 		structure instance.
+	 */
+	public IStructure getStructure();
 }

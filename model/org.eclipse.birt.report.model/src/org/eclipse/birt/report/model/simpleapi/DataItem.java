@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IAction;
 import org.eclipse.birt.report.model.api.simpleapi.IDataItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 public class DataItem extends ReportItem implements IDataItem
@@ -83,5 +85,28 @@ public class DataItem extends ReportItem implements IDataItem
 	{
 		return new ActionImpl( ( (DataItemHandle) handle ).getActionHandle( ),
 				(DataItemHandle) handle );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IDataItem#addAction(org.eclipse.birt.report.model.api.simpleapi.IAction)
+	 */
+	public void addAction( IAction action ) throws SemanticException
+	{
+		if ( action == null )
+			return;
+
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			handle.setProperty( IDataItemModel.ACTION_PROP, action.getStructure( ));
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 }
