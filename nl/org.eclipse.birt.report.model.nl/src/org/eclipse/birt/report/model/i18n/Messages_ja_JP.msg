@@ -638,7 +638,6 @@ Choices.dateTimeLevelType.second=秒
 #76. scalarParamType
 Choices.scalarParamType.simple=簡易
 Choices.scalarParamType.multi-value=複数の値
-Choices.scalarParamType.ad-hoc=アドホック
 
 #77. bidiLayoutOrientation   
 Choices.bidiDirection.rtl=右から左へ
@@ -654,6 +653,10 @@ Choices.scopeType.row=行
 Choices.scopeType.col=列
 Choices.scopeType.rowgroup=行グループ
 Choices.scopeType.colgroup=列グループ
+
+#80 dynamicFilterChoice
+Choices.dynamicFilterChoice.simple=簡易
+Choices.dynamicFilterChoice.advanced=Advanced
 
 ###########################################################
 # Classes
@@ -2174,7 +2177,9 @@ Element.DataSet=データセット
 Element.SimpleDataSet=簡易データセット
 Element.JdbcSelectDataSet=JDBC 選択データセット
 Element.Parameter=パラメタ
+Element.AbstractScalarParameter=Abstract ScalarParameter
 Element.ScalarParameter=ScalarParameter
+Element.DynamicFilterParameter=Dynamic Filter Parameter
 Element.ParameterGroup=パラメタグループ
 Element.CascadingParameterGroup=カスケードパラメタグループ
 Element.Style=種類
@@ -2400,35 +2405,23 @@ Element.Parameter.helpTextID=ヘルプテキストキー
 Element.Parameter.hidden=非表示
 Element.Parameter.validate=検証
 Element.Parameter.validate.toolTip=パラメタのカスタム検証を行い、true または false を返します。
+Element.Parameter.promptText=プロンプトテキスト
+Element.Parameter.promptTextID=プロンプトテキストキー
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.valueType=値の型
 Element.ScalarParameter.dataType=データ型
 Element.ScalarParameter.paramType=スカラーパラメタの型
 Element.ScalarParameter.displayPrompt=プロンプトの表示
 Element.ScalarParameter.concealValue=値を隠す
-Element.ScalarParameter.isRequired=必須
 Element.ScalarParameter.format=書式
 Element.ScalarParameter.controlType=コントロール型
 Element.ScalarParameter.alignment=配置
-Element.ScalarParameter.defaultValue=デフォルト値
-Element.ScalarParameter.dynamicList=動的なリスト
-Element.ScalarParameter.dynamicList.dataSetName=データセット名
-Element.ScalarParameter.dynamicList.valueExpr=値式
-Element.ScalarParameter.dynamicList.labelExpr=ラベル式
 Element.ScalarParameter.selectionList=選択リスト
 Element.ScalarParameter.selectionList.mustMatch=必ず一致
 Element.ScalarParameter.selectionList.fixedOrder=固定順序
-Element.ScalarParameter.selectionList.selectionList=選択リスト
-Element.ScalarParameter.promptText=プロンプトテキスト
-Element.ScalarParameter.promptTextID=プロンプトテキストキー
-Element.ScalarParameter.listLimit=一覧の制限
 Element.ScalarParameter.boundDataColumns=バインドされたデータカラム
 Element.ScalarParameter.distinct=Distinct
-Element.ScalarParameter.sortDirection=ソート方向
-Element.ScalarParameter.sortBy=方向
 Element.ScalarParameter.autoSuggestThreshold=入力補完のしきい値
-Element.ScalarParameter.sortByColumn=列を基準に並べ替える
 Element.ScalarParameter.getDefaultValueList=デフォルト値リストの取得
 Element.ScalarParameter.getDefaultValueList.toolTip=パラメタのデフォルト値リストを返します
 Element.ScalarParameter.getSelectionValueList=選択値リストの取得
@@ -3167,11 +3160,11 @@ Element.AbstractMultiViews.index=Index
 #64. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=ビュー
 
-#61. VariableElement ( prefix Element.VariableElement )
+#65. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.variableName=名前
 Element.VariableElement.value=値
 
-#62. DataGroup  ( prefix  Element.DataGroup )
+#66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=名前
 Element.DataGroup.keyExpr=キーの式
 Element.DataGroup.sort=ソート
@@ -3183,9 +3176,29 @@ Element.DataGroup.intervalRange=間隔の範囲
 Element.DataGroup.sortDirection=ソート方向
 Element.DataGroup.sortType=ソート基準
 
-#63. DerivedDataSet ( prefix Element.DerivedDataSet )
+#67. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=データセットの入力
 Element.DerivedDataSet.queryText=クエリテキスト
+
+#68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
+Element.AbstractScalarParameter.isRequired=必須
+Element.AbstractScalarParameter.dynamicList=動的なリスト
+Element.AbstractScalarParameter.dynamicList.dataSetName=データセット名
+Element.AbstractScalarParameter.dynamicList.valueExpr=値式
+Element.AbstractScalarParameter.dynamicList.labelExpr=ラベル式
+Element.AbstractScalarParameter.listLimit=一覧の制限
+Element.AbstractScalarParameter.sortDirection=ソート方向
+Element.AbstractScalarParameter.sortBy=方向
+Element.AbstractScalarParameter.valueType=値の型
+Element.AbstractScalarParameter.sortByColumn=列を基準に並べ替える
+Element.AbstractScalarParameter.defaultValue=デフォルト値
+Element.AbstractScalarParameter.selectionList=選択リスト
+
+#69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
+Element.DynamicFilterParameter.displayType=Display type
+Element.DynamicFilterParameter.filterOperator=Filter operator
+Element.DynamicFilterParameter.column=Column
+
 
 ###########################################################
 # Predefined style
@@ -3398,6 +3411,7 @@ New.ReportDesign=新しいレポートデザイン
 New.Parameter=新しいパラメタ
 New.CascadingParameterGroup=新しいカスケードパラメタグループ
 New.ScalarParameter=新しいパラメタ
+New.DynamicFilterParameter=NewDynamicFilterParameter
 New.ParameterGroup=新しいパラメタグループ
 New.Style=新しいスタイル
 New.MasterPage=新しいマスタページ

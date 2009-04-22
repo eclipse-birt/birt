@@ -638,7 +638,6 @@ Choices.dateTimeLevelType.second=초
 #76. scalarParamType
 Choices.scalarParamType.simple=단순
 Choices.scalarParamType.multi-value=복수 값
-Choices.scalarParamType.ad-hoc=Ad-hoc
 
 #77. bidiLayoutOrientation   
 Choices.bidiDirection.rtl=오른쪽에서 왼쪽
@@ -654,6 +653,10 @@ Choices.scopeType.row=행
 Choices.scopeType.col=열
 Choices.scopeType.rowgroup=행 그룹
 Choices.scopeType.colgroup=열 그룹
+
+#80 dynamicFilterChoice
+Choices.dynamicFilterChoice.simple=단순
+Choices.dynamicFilterChoice.advanced=Advanced
 
 ###########################################################
 # Classes
@@ -2174,7 +2177,9 @@ Element.DataSet=데이터 집합
 Element.SimpleDataSet=단순 데이터 집합
 Element.JdbcSelectDataSet=JDBC 선택 데이터 집합
 Element.Parameter=매개 변수
+Element.AbstractScalarParameter=Abstract ScalarParameter
 Element.ScalarParameter=ScalarParameter
+Element.DynamicFilterParameter=Dynamic Filter Parameter
 Element.ParameterGroup=매개 변수 그룹
 Element.CascadingParameterGroup=계단식 매개변수 그룹
 Element.Style=스타일
@@ -2400,35 +2405,23 @@ Element.Parameter.helpTextID=도움말 텍스트 키
 Element.Parameter.hidden=숨김
 Element.Parameter.validate=유효성 검사
 Element.Parameter.validate.toolTip=매개 변수의 사용자 지정 유효성 검사에 대해 참 또는 거짓 값을 반환합니다.
+Element.Parameter.promptText=프롬프트 텍스트
+Element.Parameter.promptTextID=프롬프트 텍스트 키
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.valueType=값 형식
 Element.ScalarParameter.dataType=데이터 형식
 Element.ScalarParameter.paramType=스칼라 매개 변수 형식
 Element.ScalarParameter.displayPrompt=프롬프트 표시
 Element.ScalarParameter.concealValue=값 숨기기
-Element.ScalarParameter.isRequired=가 필요합니다.
 Element.ScalarParameter.format=서식
 Element.ScalarParameter.controlType=컨트롤 형식
 Element.ScalarParameter.alignment=맞춤
-Element.ScalarParameter.defaultValue=기본값
-Element.ScalarParameter.dynamicList=동적 목록
-Element.ScalarParameter.dynamicList.dataSetName=데이터 집합 이름
-Element.ScalarParameter.dynamicList.valueExpr=값 식
-Element.ScalarParameter.dynamicList.labelExpr=레이블 식
 Element.ScalarParameter.selectionList=선택 목록
 Element.ScalarParameter.selectionList.mustMatch=일치해야 함
 Element.ScalarParameter.selectionList.fixedOrder=고정된 순서
-Element.ScalarParameter.selectionList.selectionList=선택 목록
-Element.ScalarParameter.promptText=프롬프트 텍스트
-Element.ScalarParameter.promptTextID=프롬프트 텍스트 키
-Element.ScalarParameter.listLimit=목록 제한
 Element.ScalarParameter.boundDataColumns=바인딩된 데이터 열
 Element.ScalarParameter.distinct=고유
-Element.ScalarParameter.sortDirection=정렬 방향
-Element.ScalarParameter.sortBy=정렬 기준
 Element.ScalarParameter.autoSuggestThreshold=자동 제안 임계값
-Element.ScalarParameter.sortByColumn=열을 기준으로 정렬
 Element.ScalarParameter.getDefaultValueList=기본값 목록 가져오기
 Element.ScalarParameter.getDefaultValueList.toolTip=매개 변수의 기본값 목록을 반환합니다.
 Element.ScalarParameter.getSelectionValueList=선택값 목록 가져오기
@@ -3167,11 +3160,11 @@ Element.AbstractMultiViews.index=Index
 #64. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=보기
 
-#61. VariableElement ( prefix Element.VariableElement )
+#65. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.variableName=이름
 Element.VariableElement.value=값
 
-#62. DataGroup  ( prefix  Element.DataGroup )
+#66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=이름
 Element.DataGroup.keyExpr=키 식
 Element.DataGroup.sort=정렬
@@ -3183,9 +3176,29 @@ Element.DataGroup.intervalRange=간격 범위
 Element.DataGroup.sortDirection=정렬 방향
 Element.DataGroup.sortType=정렬 형식
 
-#63. DerivedDataSet ( prefix Element.DerivedDataSet )
+#67. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=입력 데이터 집합
 Element.DerivedDataSet.queryText=쿼리 텍스트
+
+#68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
+Element.AbstractScalarParameter.isRequired=가 필요합니다.
+Element.AbstractScalarParameter.dynamicList=동적 목록
+Element.AbstractScalarParameter.dynamicList.dataSetName=데이터 집합 이름
+Element.AbstractScalarParameter.dynamicList.valueExpr=값 식
+Element.AbstractScalarParameter.dynamicList.labelExpr=레이블 식
+Element.AbstractScalarParameter.listLimit=목록 제한
+Element.AbstractScalarParameter.sortDirection=정렬 방향
+Element.AbstractScalarParameter.sortBy=정렬 기준
+Element.AbstractScalarParameter.valueType=값 형식
+Element.AbstractScalarParameter.sortByColumn=열을 기준으로 정렬
+Element.AbstractScalarParameter.defaultValue=기본값
+Element.AbstractScalarParameter.selectionList=선택 목록
+
+#69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
+Element.DynamicFilterParameter.displayType=Display type
+Element.DynamicFilterParameter.filterOperator=Filter operator
+Element.DynamicFilterParameter.column=열
+
 
 ###########################################################
 # Predefined style
@@ -3398,6 +3411,7 @@ New.ReportDesign=새 보고서 디자인
 New.Parameter=새 매개 변수
 New.CascadingParameterGroup=새 계단식 매개 변수 그룹
 New.ScalarParameter=새 매개 변수
+New.DynamicFilterParameter=NewDynamicFilterParameter
 New.ParameterGroup=새 매개 변수 그룹
 New.Style=새 스타일
 New.MasterPage=새 마스터 페이지

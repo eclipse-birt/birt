@@ -638,7 +638,6 @@ Choices.dateTimeLevelType.second=秒
 #76. scalarParamType
 Choices.scalarParamType.simple=简单
 Choices.scalarParamType.multi-value=多个值
-Choices.scalarParamType.ad-hoc=特定
 
 #77. bidiLayoutOrientation   
 Choices.bidiDirection.rtl=从右到左
@@ -654,6 +653,10 @@ Choices.scopeType.row=行
 Choices.scopeType.col=列
 Choices.scopeType.rowgroup=行组
 Choices.scopeType.colgroup=列组
+
+#80 dynamicFilterChoice
+Choices.dynamicFilterChoice.simple=简单
+Choices.dynamicFilterChoice.advanced=Advanced
 
 ###########################################################
 # Classes
@@ -2174,7 +2177,9 @@ Element.DataSet=数据集
 Element.SimpleDataSet=简单数据集
 Element.JdbcSelectDataSet=JDBC 选择数据集
 Element.Parameter=参数
+Element.AbstractScalarParameter=Abstract ScalarParameter
 Element.ScalarParameter=标量参数
+Element.DynamicFilterParameter=Dynamic Filter Parameter
 Element.ParameterGroup=参数组
 Element.CascadingParameterGroup=级联参数组
 Element.Style=样式
@@ -2400,35 +2405,23 @@ Element.Parameter.helpTextID=帮助文本关键字
 Element.Parameter.hidden=隐藏
 Element.Parameter.validate=验证
 Element.Parameter.validate.toolTip=对该参数的自定义验证返回真或假
+Element.Parameter.promptText=提示文本
+Element.Parameter.promptTextID=提示文本关键字
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.valueType=值类型
 Element.ScalarParameter.dataType=数据类型
 Element.ScalarParameter.paramType=标量参数类型
 Element.ScalarParameter.displayPrompt=显示提示
 Element.ScalarParameter.concealValue=隐藏值
-Element.ScalarParameter.isRequired=必需
 Element.ScalarParameter.format=格式
 Element.ScalarParameter.controlType=控件类型
 Element.ScalarParameter.alignment=对齐
-Element.ScalarParameter.defaultValue=默认值
-Element.ScalarParameter.dynamicList=动态列表
-Element.ScalarParameter.dynamicList.dataSetName=数据集名称
-Element.ScalarParameter.dynamicList.valueExpr=值表达式
-Element.ScalarParameter.dynamicList.labelExpr=标签表达式
 Element.ScalarParameter.selectionList=选择列表
 Element.ScalarParameter.selectionList.mustMatch=必须匹配
 Element.ScalarParameter.selectionList.fixedOrder=固定顺序
-Element.ScalarParameter.selectionList.selectionList=选择列表
-Element.ScalarParameter.promptText=提示文本
-Element.ScalarParameter.promptTextID=提示文本关键字
-Element.ScalarParameter.listLimit=列表限制
 Element.ScalarParameter.boundDataColumns=绑定的数据列
 Element.ScalarParameter.distinct=特异
-Element.ScalarParameter.sortDirection=排序方向
-Element.ScalarParameter.sortBy=排序依据
 Element.ScalarParameter.autoSuggestThreshold=自动建议阈值
-Element.ScalarParameter.sortByColumn=按列排序
 Element.ScalarParameter.getDefaultValueList=获得默认值列表
 Element.ScalarParameter.getDefaultValueList.toolTip=返回参数的默认值列表
 Element.ScalarParameter.getSelectionValueList=获得选择值列表
@@ -3167,11 +3160,11 @@ Element.AbstractMultiViews.index=Index
 #64. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=视图
 
-#61. VariableElement ( prefix Element.VariableElement )
+#65. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.variableName=名称
 Element.VariableElement.value=值
 
-#62. DataGroup  ( prefix  Element.DataGroup )
+#66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=名称
 Element.DataGroup.keyExpr=关键字表达式
 Element.DataGroup.sort=排序
@@ -3183,9 +3176,29 @@ Element.DataGroup.intervalRange=间隔范围
 Element.DataGroup.sortDirection=排序方向
 Element.DataGroup.sortType=排序类型
 
-#63. DerivedDataSet ( prefix Element.DerivedDataSet )
+#67. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=输入数据集
 Element.DerivedDataSet.queryText=查询文本
+
+#68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
+Element.AbstractScalarParameter.isRequired=必需
+Element.AbstractScalarParameter.dynamicList=动态列表
+Element.AbstractScalarParameter.dynamicList.dataSetName=数据集名称
+Element.AbstractScalarParameter.dynamicList.valueExpr=值表达式
+Element.AbstractScalarParameter.dynamicList.labelExpr=标签表达式
+Element.AbstractScalarParameter.listLimit=列表限制
+Element.AbstractScalarParameter.sortDirection=排序方向
+Element.AbstractScalarParameter.sortBy=排序依据
+Element.AbstractScalarParameter.valueType=值类型
+Element.AbstractScalarParameter.sortByColumn=按列排序
+Element.AbstractScalarParameter.defaultValue=默认值
+Element.AbstractScalarParameter.selectionList=选择列表
+
+#69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
+Element.DynamicFilterParameter.displayType=Display type
+Element.DynamicFilterParameter.filterOperator=Filter operator
+Element.DynamicFilterParameter.column=列
+
 
 ###########################################################
 # Predefined style
@@ -3398,6 +3411,7 @@ New.ReportDesign=新报表设计
 New.Parameter=新参数
 New.CascadingParameterGroup=新建级联参数
 New.ScalarParameter=新参数
+New.DynamicFilterParameter=NewDynamicFilterParameter
 New.ParameterGroup=新参数组
 New.Style=新样式
 New.MasterPage=新主页

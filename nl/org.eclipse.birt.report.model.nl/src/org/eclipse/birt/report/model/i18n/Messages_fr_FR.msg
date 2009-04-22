@@ -638,7 +638,6 @@ Choices.dateTimeLevelType.second=Deuxième
 #76. scalarParamType
 Choices.scalarParamType.simple=Simple
 Choices.scalarParamType.multi-value=Valeurs multiples
-Choices.scalarParamType.ad-hoc=Ad hoc
 
 #77. bidiLayoutOrientation   
 Choices.bidiDirection.rtl=Droite à gauche
@@ -654,6 +653,10 @@ Choices.scopeType.row=Ligne
 Choices.scopeType.col=Colonne
 Choices.scopeType.rowgroup=Groupe de lignes
 Choices.scopeType.colgroup=Groupe de colonnes
+
+#80 dynamicFilterChoice
+Choices.dynamicFilterChoice.simple=Simple
+Choices.dynamicFilterChoice.advanced=Advanced
 
 ###########################################################
 # Classes
@@ -2174,7 +2177,9 @@ Element.DataSet=Jeu de données
 Element.SimpleDataSet=Jeu de données simple
 Element.JdbcSelectDataSet=Jeu de données JDBC de sélection
 Element.Parameter=Paramètre
+Element.AbstractScalarParameter=Abstract ScalarParameter
 Element.ScalarParameter=Paramètre scalaire
+Element.DynamicFilterParameter=Dynamic Filter Parameter
 Element.ParameterGroup=Groupe de paramètres
 Element.CascadingParameterGroup=Groupe de paramètres en cascade
 Element.Style=Style
@@ -2400,35 +2405,23 @@ Element.Parameter.helpTextID=Clé du texte d'aide
 Element.Parameter.hidden=Masqué
 Element.Parameter.validate=Validation
 Element.Parameter.validate.toolTip=Renvoie la valeur Vrai (True) ou Faux (False) pour la validation personnalisée du paramètre.
+Element.Parameter.promptText=Texte de l'invite
+Element.Parameter.promptTextID=Clé du texte de l'invite
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.valueType=Type de valeur
 Element.ScalarParameter.dataType=Type de données
 Element.ScalarParameter.paramType=Type de paramètre scalaire
 Element.ScalarParameter.displayPrompt=Afficher une invite
 Element.ScalarParameter.concealValue=Masquer la valeur
-Element.ScalarParameter.isRequired=Est requis
 Element.ScalarParameter.format=Format
 Element.ScalarParameter.controlType=Type de contrôle
 Element.ScalarParameter.alignment=Alignement
-Element.ScalarParameter.defaultValue=Valeur par défaut
-Element.ScalarParameter.dynamicList=Liste dynamique
-Element.ScalarParameter.dynamicList.dataSetName=Nom du jeu de données
-Element.ScalarParameter.dynamicList.valueExpr=Expression de valeur
-Element.ScalarParameter.dynamicList.labelExpr=Expression d'étiquette
 Element.ScalarParameter.selectionList=Liste de sélection
 Element.ScalarParameter.selectionList.mustMatch=Doit correspondre
 Element.ScalarParameter.selectionList.fixedOrder=Ordre fixe
-Element.ScalarParameter.selectionList.selectionList=Liste de sélection
-Element.ScalarParameter.promptText=Texte de l'invite
-Element.ScalarParameter.promptTextID=Clé du texte de l'invite
-Element.ScalarParameter.listLimit=Limite de liste
 Element.ScalarParameter.boundDataColumns=Colonnes de données liées
 Element.ScalarParameter.distinct=Distinct
-Element.ScalarParameter.sortDirection=Direction du tri
-Element.ScalarParameter.sortBy=Trier par
 Element.ScalarParameter.autoSuggestThreshold=Seuil de suggestion automatique
-Element.ScalarParameter.sortByColumn=Trier par colonne
 Element.ScalarParameter.getDefaultValueList=Obtenir la liste de valeurs par défaut
 Element.ScalarParameter.getDefaultValueList.toolTip=Renvoie la liste de valeurs par défaut des paramètres
 Element.ScalarParameter.getSelectionValueList=Obtenir la liste de valeurs de sélection
@@ -3167,11 +3160,11 @@ Element.AbstractMultiViews.index=Index
 #64. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=Vues
 
-#61. VariableElement ( prefix Element.VariableElement )
+#65. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.variableName=Nom
 Element.VariableElement.value=Valeur
 
-#62. DataGroup  ( prefix  Element.DataGroup )
+#66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=Nom
 Element.DataGroup.keyExpr=Expression clé :
 Element.DataGroup.sort=Trier
@@ -3183,9 +3176,29 @@ Element.DataGroup.intervalRange=Plage d'intervalles
 Element.DataGroup.sortDirection=Direction du tri
 Element.DataGroup.sortType=Type de tri
 
-#63. DerivedDataSet ( prefix Element.DerivedDataSet )
+#67. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=Jeux de données d'entrée
 Element.DerivedDataSet.queryText=Texte de la requête
+
+#68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
+Element.AbstractScalarParameter.isRequired=Est requis
+Element.AbstractScalarParameter.dynamicList=Liste dynamique
+Element.AbstractScalarParameter.dynamicList.dataSetName=Nom du jeu de données
+Element.AbstractScalarParameter.dynamicList.valueExpr=Expression de valeur
+Element.AbstractScalarParameter.dynamicList.labelExpr=Expression d'étiquette
+Element.AbstractScalarParameter.listLimit=Limite de liste
+Element.AbstractScalarParameter.sortDirection=Direction du tri
+Element.AbstractScalarParameter.sortBy=Trier par
+Element.AbstractScalarParameter.valueType=Type de valeur
+Element.AbstractScalarParameter.sortByColumn=Trier par colonne
+Element.AbstractScalarParameter.defaultValue=Valeur par défaut
+Element.AbstractScalarParameter.selectionList=Liste de sélection
+
+#69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
+Element.DynamicFilterParameter.displayType=Display type
+Element.DynamicFilterParameter.filterOperator=Filter operator
+Element.DynamicFilterParameter.column=Colonne
+
 
 ###########################################################
 # Predefined style
@@ -3398,6 +3411,7 @@ New.ReportDesign=Nouveau modèle d'état
 New.Parameter=Nouveau paramètre
 New.CascadingParameterGroup=Nouveau groupe de paramètres en cascade
 New.ScalarParameter=Nouveau paramètre
+New.DynamicFilterParameter=NewDynamicFilterParameter
 New.ParameterGroup=Nouveau groupe de paramètres
 New.Style=Nouveau style
 New.MasterPage=Nouvelle page maître
