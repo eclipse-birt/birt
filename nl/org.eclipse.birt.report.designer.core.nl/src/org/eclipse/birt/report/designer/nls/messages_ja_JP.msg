@@ -4531,3 +4531,7 @@ ShowPropertiesViewMenu.ErrorTitle=エラー
 ###########################################################
 #ResetAttributePage
 ResetAttributePage.Style.Resotre.TooltipText=現在のページのスタイルプロパティをデフォルトの設定に戻す
+
+###########################################################
+#TextEditor
+TextEditor.PasteFormattedText=Paste Formatted Text

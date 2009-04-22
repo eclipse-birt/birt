@@ -4531,3 +4531,7 @@ ShowPropertiesViewMenu.ErrorTitle=错误
 ###########################################################
 #ResetAttributePage
 ResetAttributePage.Style.Resotre.TooltipText=将当前页的样式属性还原到默认设置
+
+###########################################################
+#TextEditor
+TextEditor.PasteFormattedText=Paste Formatted Text

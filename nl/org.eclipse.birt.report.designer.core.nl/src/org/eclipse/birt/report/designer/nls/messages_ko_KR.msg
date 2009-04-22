@@ -4531,3 +4531,7 @@ ShowPropertiesViewMenu.ErrorTitle=오류
 ###########################################################
 #ResetAttributePage
 ResetAttributePage.Style.Resotre.TooltipText=현재 페이지의 스타일 속성을 기본 설정으로 복원합니다.
+
+###########################################################
+#TextEditor
+TextEditor.PasteFormattedText=Paste Formatted Text

@@ -4531,3 +4531,7 @@ ShowPropertiesViewMenu.ErrorTitle=Fehler
 ###########################################################
 #ResetAttributePage
 ResetAttributePage.Style.Resotre.TooltipText=Standardstileigenschaften der aktuellen Seite wiederherstellen
+
+###########################################################
+#TextEditor
+TextEditor.PasteFormattedText=Paste Formatted Text
