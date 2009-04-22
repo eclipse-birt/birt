@@ -64,7 +64,7 @@ public class DteDataEngine extends AbstractDataEngine
 							.getApplicationClassLoader( ) );
 			DataEngineContext dteEngineContext = dteSessionContext.getDataEngineContext( );
 			dteEngineContext.setLocale( context.getLocale( ) );
-
+			dteEngineContext.setTimeZone( context.getTimeZone( ) );
 			String tempDir = getTempDir( context );
 			if ( tempDir != null )
 			{

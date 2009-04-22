@@ -60,7 +60,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 		DataEngineContext dteEngineContext = dteSessionContext
 				.getDataEngineContext( );
 		dteEngineContext.setLocale( context.getLocale( ) );
-
+		dteEngineContext.setTimeZone( context.getTimeZone( ) );
 		String tempDir = getTempDir( context );
 		if ( tempDir != null )
 		{
