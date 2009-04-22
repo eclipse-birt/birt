@@ -449,7 +449,7 @@ public class ThumbnailBuilder extends BaseDialog
 		public void handleEvent( Event event )
 		{
 			String fileName = null;
-
+			String absoluteFileName = null;
 			AddImageResourceFileFolderSelectionDialog dlg = new AddImageResourceFileFolderSelectionDialog( );
 			if ( dlg.open( ) != Window.OK )
 			{
@@ -465,20 +465,20 @@ public class ThumbnailBuilder extends BaseDialog
 			
 			try
 			{
-				fileName = DEUtil.getFilePathFormURL( url );
+				absoluteFileName = DEUtil.getFilePathFormURL( url );
 			}
 			catch ( Exception e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
-			if ( checkExtensions( fileName ) == false )
+			if ( checkExtensions( absoluteFileName ) == false )
 			{
 				ExceptionHandler.openErrorMessageBox( Messages.getString( "ThumbnailBuilder.FileDialog.FileNameError.Title" ), //$NON-NLS-1$
 						Messages.getString( "ThumbnailBuilder.FileDialog.FileNameError.Message" ) ); //$NON-NLS-1$
 				return;
 			}
 
-			boolean continueSave = continueSaveImage( fileName );
+			boolean continueSave = continueSaveImage( absoluteFileName );
 			if ( !continueSave )
 			{
 				return;
@@ -487,7 +487,7 @@ public class ThumbnailBuilder extends BaseDialog
 			removeImage( );
 			try
 			{
-				image = new Image( null, fileName );
+				image = new Image( null, absoluteFileName );
 				previewCanvas.loadImage( image );
 				btnRemove.setEnabled( true );
 				hasThumbnail = true;
@@ -568,9 +568,9 @@ public class ThumbnailBuilder extends BaseDialog
 		}
 
 		MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
-				Messages.getString( "ThumbnailBuilder.PreviewImage.WarningDialog.Title" ),
+				Messages.getString( "ThumbnailBuilder.PreviewImage.WarningDialog.Title" ), //$NON-NLS-1$
 				null, // accept
-				Messages.getString( "ThumbnailBuilder.PreviewImage.WarningDialog.Prompt" ),
+				Messages.getString( "ThumbnailBuilder.PreviewImage.WarningDialog.Prompt" ), //$NON-NLS-1$
 				MessageDialog.WARNING,
 				new String[]{
 						IDialogConstants.PROCEED_LABEL,

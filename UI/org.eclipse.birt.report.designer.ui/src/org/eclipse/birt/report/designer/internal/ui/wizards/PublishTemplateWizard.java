@@ -27,7 +27,6 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -227,16 +226,6 @@ public class PublishTemplateWizard extends Wizard
 		if ( !page.getPreviewImagePath( ).equals( "" ) ) //$NON-NLS-1$
 		{
 			newHandle.setIconFile( page.getPreviewImagePath( ) );
-		}
-		else
-		{
-			newHandle.setIconFile( "" ); //$NON-NLS-1$
-		}
-
-		if ( !StringUtil.isEqual( newHandle.getIconFile( ),
-				handle.getIconFile( ) ) )
-		{
-			// cleanup existing thumbnail if icon file changed.
 			newHandle.deleteThumbnail( );
 		}
 		// if ( !page.getCheetSheetPath( ).equals( "" ) ) //$NON-NLS-1$

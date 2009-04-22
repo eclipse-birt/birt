@@ -105,7 +105,11 @@ public class SaveReportAsWizard extends Wizard
 			{
 				reportHandle.setDisplayName( settingPage.getDisplayName( ) );
 				reportHandle.setDescription( settingPage.getDescription( ) );
-				reportHandle.setIconFile( settingPage.getPreviewImagePath( ) );
+				if ( !settingPage.getPreviewImagePath( ).equals( "" ) ) //$NON-NLS-1$
+				{
+					reportHandle.setIconFile( settingPage.getPreviewImagePath( ) );
+					reportHandle.deleteThumbnail( );
+				}
 				reportHandle.setFileName( saveAsPath.toOSString( ) );
 			}
 			catch ( SemanticException e )
