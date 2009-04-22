@@ -7,12 +7,12 @@ create.birt.web.module=BIRT 차트 웹 모듈 생성
 BIRT_FACET_LABEL=BIRT 차트 런타임 구성 요소
 BIRT_FACET_DESCRIPTION=BIRT 차트 런타임 구성 요소
 BIRT_FACET_TEMPLATE_LABEL=BIRT 차트 웹 프로젝트
-BIRT_FACET_TEMPLATE_DESCRIPTION=BIRT 차트 구성 요소가 포함된 웹 프로젝트
+BIRT_FACET_TEMPLATE_DESCRIPTION=Web project with the BIRT Chart Runtime Component
 
 JSP_New_context_type_Extension_Element.name=BIRT 차트 태그를 사용한 새 JSP
 JSP_Tag_context_type_Extension_Element.name=새 BIRT 차트 JSP 태그
 
-BirtResourcesDefinition= 차트 웹 응용 프로그램 리소스 정의
+birtResourcesDefinition= 차트 웹 응용 프로그램 리소스 정의
 
 birt.action.importruntime.name=차트 런타임 구성 요소 가져오기(&C)...
 

@@ -7,12 +7,12 @@ create.birt.web.module=Créer un module Web de création de graphiques BIRT
 BIRT_FACET_LABEL=Composant d'exécution de création de graphiques BIRT
 BIRT_FACET_DESCRIPTION=Composant d'exécution de création de graphiques BIRT
 BIRT_FACET_TEMPLATE_LABEL=Projet Web de création de graphiques BIRT
-BIRT_FACET_TEMPLATE_DESCRIPTION=Projet Web avec le composant de création de graphiques BIRT
+BIRT_FACET_TEMPLATE_DESCRIPTION=Web project with the BIRT Chart Runtime Component
 
 JSP_New_context_type_Extension_Element.name=Nouveau JSP avec balise de création de graphiques BIRT
 JSP_Tag_context_type_Extension_Element.name=Nouvelle balise JSP de création de graphiques BIRT
 
-BirtResourcesDefinition= Définition des ressources d'application Web de création de graphiques
+birtResourcesDefinition= Définition des ressources d'application Web de création de graphiques
 
 birt.action.importruntime.name=Importer le &composant d'exécution de création de graphiques...
 

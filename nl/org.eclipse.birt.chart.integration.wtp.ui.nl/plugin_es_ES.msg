@@ -7,12 +7,12 @@ create.birt.web.module=Crear un módulo Web de diagramas BIRT
 BIRT_FACET_LABEL=Componente de tiempo de ejecución de diagramas BIRT
 BIRT_FACET_DESCRIPTION=Componente de tiempo de ejecución de diagramas BIRT
 BIRT_FACET_TEMPLATE_LABEL=Proyecto Web de diagramas BIRT
-BIRT_FACET_TEMPLATE_DESCRIPTION=Proyecto Web con el componente de diagramas BIRT
+BIRT_FACET_TEMPLATE_DESCRIPTION=Web project with the BIRT Chart Runtime Component
 
 JSP_New_context_type_Extension_Element.name=Nuevo JSP con etiqueta de diagramas BIRT
 JSP_Tag_context_type_Extension_Element.name=Nueva etiqueta JSP de diagramas BIRT
 
-BirtResourcesDefinition= Definición de recursos de aplicación Web de diagramas
+birtResourcesDefinition= Definición de recursos de aplicación Web de diagramas
 
 birt.action.importruntime.name=Im&portar componente de tiempo de ejecución de diagramas...
 

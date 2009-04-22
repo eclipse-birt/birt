@@ -7,12 +7,12 @@ create.birt.web.module=BIRT-Diagramm-Webmodul erstellen
 BIRT_FACET_LABEL=BIRT-Diagramm-Runtime-Komponente
 BIRT_FACET_DESCRIPTION=BIRT-Diagramm-Runtime-Komponente
 BIRT_FACET_TEMPLATE_LABEL=BIRT-Diagramm-Webprojekt
-BIRT_FACET_TEMPLATE_DESCRIPTION=Webprojekt mit der BIRT-Diagrammkomponente
+BIRT_FACET_TEMPLATE_DESCRIPTION=Web project with the BIRT Chart Runtime Component
 
 JSP_New_context_type_Extension_Element.name=Neue JSP mit BIRT-Diagramm-Tag
 JSP_Tag_context_type_Extension_Element.name=Neuer BIRT-Diagramm-JSP-Tag
 
-BirtResourcesDefinition= Ressourcendefinition für Diagramm-Webanwendung
+birtResourcesDefinition= Ressourcendefinition für Diagramm-Webanwendung
 
 birt.action.importruntime.name=&Diagramm-Runtime-Komponente importieren...
 
