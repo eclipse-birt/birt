@@ -136,7 +136,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String ENABLE_COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.enable.comment.description.preferencestore"; //$NON-NLS-1$
 	public static final String BIRT_RESOURCE = "resources"; //$NON-NLS-1$
 
-	private static final List<String> elementToFilte = Arrays.asList( new String[]{
+	private static final List<String> elementToFilter = Arrays.asList( new String[]{
 			ReportDesignConstants.AUTOTEXT_ITEM,
 			ReportDesignConstants.DATA_SET_ELEMENT,
 			ReportDesignConstants.DATA_SOURCE_ELEMENT,
@@ -181,8 +181,8 @@ public class ReportPlugin extends AbstractUIPlugin
 			"CrosstabView", //$NON-NLS-1$
 			"DimensionView", //$NON-NLS-1$
 			"LevelView", //$NON-NLS-1$
-			"MeasureView" //$NON-NLS-1$
-
+			"MeasureView", //$NON-NLS-1$
+			"ComputedMeasureView" //$NON-NLS-1$
 	} );
 
 	private List<String> reportExtensionNames;
@@ -569,7 +569,7 @@ public class ReportPlugin extends AbstractUIPlugin
 
 			// only set names for the elements when the element can have a name
 			if ( nameOption == MetaDataConstants.NO_NAME
-					|| filteName( elementDefn ) )
+					|| filterName( elementDefn ) )
 			{
 				continue;
 			}
@@ -593,9 +593,9 @@ public class ReportPlugin extends AbstractUIPlugin
 		// ResourceFilter.generateNoResourceInFolderFilter( ) );
 	}
 
-	private boolean filteName( IElementDefn elementDefn )
+	private boolean filterName( IElementDefn elementDefn )
 	{
-		return elementToFilte.indexOf( elementDefn.getName( ) ) != -1;
+		return elementToFilter.indexOf( elementDefn.getName( ) ) != -1;
 	}
 
 	/**
@@ -639,7 +639,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		}
 		else
 		{
-			preference.append( "" ); //$NON-NLS-1$
+			preference.append( getExtendedPaletteEntryDescription( defaultName ) );
 		}
 
 		preference.append( PREFERENCE_DELIMITER );
