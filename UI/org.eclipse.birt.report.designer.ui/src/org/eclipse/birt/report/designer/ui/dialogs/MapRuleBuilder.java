@@ -56,6 +56,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -394,9 +395,12 @@ public class MapRuleBuilder extends BaseDialog
 
 		Composite condition = new Composite( innerParent, SWT.NONE );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.heightHint = 180;
+		// gdata.heightHint = 180;
 		condition.setLayoutData( gdata );
-		glayout = new GridLayout( 4, false );
+		glayout = GridLayoutFactory.createFrom( glayout )
+				.numColumns( 4 )
+				.equalWidth( false )
+				.create( );
 		condition.setLayout( glayout );
 
 		expression = new Combo( condition, SWT.NONE );
@@ -460,11 +464,6 @@ public class MapRuleBuilder extends BaseDialog
 		gdata.widthHint = 300;
 		display.setLayoutData( gdata );
 
-		Composite space = new Composite( innerParent, SWT.NONE );
-		gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.heightHint = 20;
-		space.setLayoutData( gdata );
-
 		createResourceKeyArea( innerParent );
 
 		lb = new Label( innerParent, SWT.SEPARATOR | SWT.HORIZONTAL );
@@ -513,12 +512,18 @@ public class MapRuleBuilder extends BaseDialog
 		andLable = new Label( condition, SWT.NONE );
 		andLable.setText( Messages.getString( "HighlightRuleBuilderDialog.text.AND" ) ); //$NON-NLS-1$
 		andLable.setVisible( false );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		andLable.setLayoutData( gd );
 		compositeList.add( andLable );
 
 		dummy = createDummy( condition, 3 );
+
 		compositeList.add( dummy );
 
 		expressionValue2 = new ValueCombo( condition, SWT.NONE );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.minimumWidth = 110;
+		gd.heightHint = 20;
 		expressionValue2.setLayoutData( gd );
 		expressionValue2.setItems( popupItems );
 		compositeList.add( expressionValue2 );
@@ -536,10 +541,6 @@ public class MapRuleBuilder extends BaseDialog
 		{
 			operator.select( 0 );
 		}
-
-		condition.getParent( ).layout( true, true );
-		if ( condition.getShell( ) != null )
-			condition.getShell( ).pack( );
 		return 1;
 	}
 
@@ -806,10 +807,6 @@ public class MapRuleBuilder extends BaseDialog
 		addExpressionValue.addSelectionListener( 0, mAddSelValueAction );
 		addExpressionValue.addSelectionListener( 1, mAddExpValueAction );
 		addExpressionValue.setItems( popupItems );
-
-		parent.getParent( ).layout( true, true );
-		if ( parent.getShell( ) != null )
-			parent.getShell( ).pack( );
 		return 1;
 	}
 
@@ -1176,21 +1173,37 @@ public class MapRuleBuilder extends BaseDialog
 		{
 			expressionValue1.setVisible( false );
 			expressionValue2.setVisible( false );
+			( (GridData) expressionValue1.getLayoutData( ) ).exclude = true;
+			( (GridData) expressionValue2.getLayoutData( ) ).exclude = true;
+			( (GridData) andLable.getLayoutData( ) ).exclude = true;
 			andLable.setVisible( false );
 		}
 		else if ( valueVisible == 1 )
 		{
 			expressionValue1.setVisible( true );
 			expressionValue2.setVisible( false );
+			( (GridData) expressionValue1.getLayoutData( ) ).exclude = false;
+			( (GridData) expressionValue2.getLayoutData( ) ).exclude = true;
+			( (GridData) andLable.getLayoutData( ) ).exclude = true;
 			andLable.setVisible( false );
 		}
 		else if ( valueVisible == 2 )
 		{
 			expressionValue1.setVisible( true );
 			expressionValue2.setVisible( true );
+			( (GridData) expressionValue1.getLayoutData( ) ).exclude = false;
+			( (GridData) expressionValue2.getLayoutData( ) ).exclude = false;
+			( (GridData) andLable.getLayoutData( ) ).exclude = false;
 			andLable.setVisible( true );
 		}
 		updateButtons( );
+
+		operator.getParent( ).layout( true, true );
+
+		operator.getParent( ).setSize( operator.getParent( )
+				.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
+		if ( operator.getShell( ) != null )
+			operator.getShell( ).pack( );
 	}
 
 	private Listener textModifyListener = new Listener( ) {

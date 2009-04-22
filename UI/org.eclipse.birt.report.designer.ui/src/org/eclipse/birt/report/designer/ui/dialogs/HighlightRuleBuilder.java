@@ -70,6 +70,7 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -134,9 +135,8 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 	private int exprControlType;
 	protected String dlgDescription = "";
 	protected String dlgTitle = "";
-	
-	protected Logger logger = Logger.getLogger( HighlightRuleBuilder.class.getName( ) );
 
+	protected Logger logger = Logger.getLogger( HighlightRuleBuilder.class.getName( ) );
 
 	/**
 	 * Usable operators for building highlight rule conditions.
@@ -389,9 +389,12 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 
 		Group condition = new Group( contents, SWT.NONE );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.heightHint = 185;
 		condition.setLayoutData( gdata );
-		glayout = new GridLayout( 4, false );
+		glayout = GridLayoutFactory.createFrom( new GridLayout( ) )
+				.spacing( 5, 0 )
+				.numColumns( 4 )
+				.equalWidth( false )
+				.create( );
 		condition.setLayout( glayout );
 		condition.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Group.Condition" ) );
 
@@ -539,19 +542,35 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 			expressionValue1.setVisible( false );
 			expressionValue2.setVisible( false );
 			andLable.setVisible( false );
+			( (GridData) expressionValue1.getLayoutData( ) ).exclude = true;
+			( (GridData) expressionValue2.getLayoutData( ) ).exclude = true;
+			( (GridData) andLable.getLayoutData( ) ).exclude = true;
 		}
 		else if ( valueVisible == 1 )
 		{
 			expressionValue1.setVisible( true );
 			expressionValue2.setVisible( false );
 			andLable.setVisible( false );
+			( (GridData) expressionValue1.getLayoutData( ) ).exclude = false;
+			( (GridData) expressionValue2.getLayoutData( ) ).exclude = true;
+			( (GridData) andLable.getLayoutData( ) ).exclude = true;
 		}
 		else if ( valueVisible == 2 )
 		{
 			expressionValue1.setVisible( true );
 			expressionValue2.setVisible( true );
 			andLable.setVisible( true );
+			( (GridData) expressionValue1.getLayoutData( ) ).exclude = false;
+			( (GridData) expressionValue2.getLayoutData( ) ).exclude = false;
+			( (GridData) andLable.getLayoutData( ) ).exclude = false;
 		}
+
+		operator.getParent( ).layout( true, true );
+
+		operator.getParent( ).setSize( operator.getParent( )
+				.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
+		if ( operator.getShell( ) != null )
+			operator.getShell( ).pack( );
 
 		updateButtons( );
 	}
@@ -1850,12 +1869,15 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		andLable = new Label( condition, SWT.NONE );
 		andLable.setText( Messages.getString( "HighlightRuleBuilderDialog.text.AND" ) ); //$NON-NLS-1$
 		andLable.setVisible( false );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		andLable.setLayoutData( gd );
 		compositeList.add( andLable );
 
 		dummy = createDummy( condition, 3 );
 		compositeList.add( dummy );
 
 		expressionValue2 = new ValueCombo( condition, SWT.NONE );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
 		expressionValue2.setLayoutData( gd );
 		compositeList.add( expressionValue2 );
 
@@ -2169,8 +2191,6 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 		addExpressionValue.addSelectionListener( 0, mAddSelValueAction );
 		addExpressionValue.addSelectionListener( 1, mAddExpValueAction );
 		addExpressionValue.setItems( popupItems );
-
-		parent.getParent( ).layout( true, true );
 
 		return 1;
 	}
