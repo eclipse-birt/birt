@@ -422,4 +422,14 @@ public class ClonedCellContent implements ICellContent
 	{
 		cellContent.setScope( scope );
 	}
+	
+	public boolean repeatContent( )
+	{
+		return cellContent.repeatContent( );
+	}
+
+	public void setRepeatContent( boolean repeatContent )
+	{
+		cellContent.setRepeatContent( repeatContent );
+	}
 }

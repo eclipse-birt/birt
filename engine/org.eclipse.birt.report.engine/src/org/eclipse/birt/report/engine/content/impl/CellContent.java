@@ -62,7 +62,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	/**
 	 * Flag identify if need repeat content in cell after page-break
 	 */
-	protected boolean repeatContent = true;
+	protected boolean repeatContent = false;
 	
 	/**
 	 * The cell design, which generate this cell content.

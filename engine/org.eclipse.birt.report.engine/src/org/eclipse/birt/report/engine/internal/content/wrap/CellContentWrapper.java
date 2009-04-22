@@ -215,4 +215,15 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 	{
 		cell.setScope( scope );
 	}
+	
+	public boolean repeatContent( )
+	{
+		return cell.repeatContent( );
+	}
+
+	public void setRepeatContent( boolean repeatContent )
+	{
+		cell.setRepeatContent( repeatContent );
+	}
+
 }
