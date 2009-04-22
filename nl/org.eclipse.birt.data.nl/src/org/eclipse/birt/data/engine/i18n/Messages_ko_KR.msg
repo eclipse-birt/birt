@@ -387,6 +387,7 @@ data.olap.UnsupportedFunction=지원되지 않는 함수:
 data.olap.UnspecifiedBindingName=바인딩 이름이 지정되지 않았습니다.
 data.olap.NotNestAggregationBinding=큐브 중첩 집계 바인딩이 아닙니다: {0}
 data.olap.InvalidNestAggregationExpression=큐브 중첩 집계의 식이 잘못되었습니다.
+data.olap.InvalidNestAggregationOn="{0}" aggregate on in cube nest aggregation "{1}" does not exist in its based aggregation(s).
 data.olap.sort.exprError=참조되는 차원 수준 집합에는 1개의 수준만 포함되어야 합니다!
 data.olap.query.noCubeBinding=사용 가능한 큐브 바인딩이 없어 큐브 쿼리를 실행하지 못했습니다!
 

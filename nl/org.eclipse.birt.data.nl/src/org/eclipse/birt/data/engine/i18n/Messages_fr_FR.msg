@@ -387,6 +387,7 @@ data.olap.UnsupportedFunction=Fonction non prise en charge :
 data.olap.UnspecifiedBindingName=Le nom de liaison n'est pas spécifié.
 data.olap.NotNestAggregationBinding=Aucune liaison d'agrégation imbriquée du cube : {0}
 data.olap.InvalidNestAggregationExpression=L'expression d'agrégation imbriquée du cube est incorrecte.
+data.olap.InvalidNestAggregationOn="{0}" aggregate on in cube nest aggregation "{1}" does not exist in its based aggregation(s).
 data.olap.sort.exprError=Le jeu de niveaux de dimension référencés ne doit contenir qu'un seul niveau.
 data.olap.query.noCubeBinding=Impossible d'exécuter la requête du cube car aucune liaison au cube n'est disponible.
 
