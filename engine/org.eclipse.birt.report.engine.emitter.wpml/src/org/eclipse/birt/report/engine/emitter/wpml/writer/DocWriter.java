@@ -107,6 +107,51 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 		writeAttrTag( "w:color", "0000ff" );
 		writer.closeTag( "w:rPr" );
 		writer.closeTag( "w:style" );
+
+		writer.openTag( "w:style" );
+		writer.attribute( "w:type", "table" );
+		writer.attribute( "w:default", "on" );
+		writer.attribute( "styleId", "TableNormal" );
+		writeAttrTag( "w:name", "Normal Table" );
+		writer.openTag( "wx:uiName" );
+		writer.attribute( "wx:val", "Table Normal" );
+		writer.closeTag( "wx:uiName" );
+		writer.openTag( "w:rPr" );
+		writer.openTag( "wx:font" );
+		writer.attribute( "wx:val", "Calibri" );
+		writer.closeTag( "wx:font" );
+		writer.openTag( "w:lang" );
+		writer.attribute( "w:val", "EN-US" );
+		writer.attribute( "w:fareast", "ZH-CN" );
+		writer.attribute( "w:bidi", "AR-SA" );
+		writer.closeTag( "w:lang" );
+		writer.closeTag( "w:rPr" );
+		writer.openTag( "w:tblPr" );
+		writer.openTag( "w:tblInd" );
+		writer.attribute( "w:w", 0 );
+		writer.attribute( "w:type", "dxa" );
+		writer.closeTag( "w:tblInd" );
+		writer.openTag( "w:tblCellMar" );
+		writer.openTag( "w:top" );
+		writer.attribute( "w:w", 0 );
+		writer.attribute( "w:type", "dxa" );
+		writer.closeTag( "w:top" );
+		writer.openTag( "w:left" );
+		writer.attribute( "w:w", 108 );
+		writer.attribute( "w:type", "dxa" );
+		writer.closeTag( "w:left" );
+		writer.openTag( "w:bottom" );
+		writer.attribute( "w:w", 0 );
+		writer.attribute( "w:type", "dxa" );
+		writer.closeTag( "w:bottom" );
+		writer.openTag( "w:right" );
+		writer.attribute( "w:w", 108 );
+		writer.attribute( "w:type", "dxa" );
+		writer.closeTag( "w:right" );
+		writer.closeTag( "w:tblCellMar" );
+		writer.closeTag( "w:tblPr" );
+		writer.closeTag( "w:style" );
+
 		writer.closeTag( "w:styles" );
 
 		// For show background
