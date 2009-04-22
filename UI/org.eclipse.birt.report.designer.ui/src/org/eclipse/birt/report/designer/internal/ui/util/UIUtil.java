@@ -63,8 +63,6 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
-import org.eclipse.birt.report.designer.ui.expressions.ExpressionButton;
-import org.eclipse.birt.report.designer.ui.expressions.IExpressionButtonProvider;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
@@ -133,7 +131,6 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -1749,24 +1746,6 @@ public class UIUtil
 
 	}
 
-	public static ExpressionButton createExpressionButton(
-			Composite parent, int style )
-	{
-		ExpressionButton button = new ExpressionButton( parent, style );
-		IExpressionButtonProvider provider = (IExpressionButtonProvider) ElementAdapterManager.getAdapter( button,
-					IExpressionButtonProvider.class );
-		if ( provider != null )
-			button.setExpressionButtonProvider( provider );
-
-		GridData gd = new GridData( );
-		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
-		{
-			gd.heightHint = 20;
-		}
-		button.getControl( ).setLayoutData( gd );
-		return button;
-	}
-
 	/**
 	 * @return Returns all extended items that doesn't register any UI
 	 *         extensions, which implies they are invisible to UI.
@@ -2309,151 +2288,4 @@ public class UIUtil
 		viewer.setProperty( IReportGraphicConstants.REPORT_BIDIORIENTATION_PROPERTY,
 				newOrientation );
 	}
-
-	public static void drawArrow( GC gc, Rectangle rect, int style )
-	{
-		Point point = new Point( rect.x + ( rect.width / 2 ), rect.y
-				+ ( rect.height / 2 ) );
-		int[] points = null;
-		switch ( style )
-		{
-			case SWT.LEFT :
-				points = new int[]{
-						point.x + 2,
-						point.y - 4,
-						point.x + 2,
-						point.y + 4,
-						point.x - 2,
-						point.y
-				};
-				gc.fillPolygon( points );
-				break;
-
-			/*
-			 * Low efficiency because of Win98 bug.
-			 */
-			case SWT.UP :
-				gc.fillRectangle( new Rectangle( point.x, point.y - 1, 1, 1 ) );
-				gc.fillRectangle( new Rectangle( point.x - 1, point.y, 3, 1 ) );
-				gc.fillRectangle( new Rectangle( point.x - 2, point.y + 1, 5, 1 ) );
-				break;
-
-			case SWT.RIGHT :
-				points = new int[]{
-						point.x - 2,
-						point.y - 4,
-						point.x - 2,
-						point.y + 4,
-						point.x + 2,
-						point.y
-				};
-				gc.fillPolygon( points );
-				break;
-
-			/*
-			 * Low efficiency because of Win98 bug.
-			 */
-			default :
-				gc.fillRectangle( new Rectangle( point.x - 2, point.y - 1, 5, 1 ) );
-				gc.fillRectangle( new Rectangle( point.x - 1, point.y, 3, 1 ) );
-				gc.fillRectangle( new Rectangle( point.x, point.y + 1, 1, 1 ) );
-				break;
-		}
-
-	}
-
-	/**
-	 * Blends c1 and c2 based in the provided ratio.
-	 * 
-	 * @param c1
-	 *            first color
-	 * @param c2
-	 *            second color
-	 * @param ratio
-	 *            percentage of the first color in the blend (0-100)
-	 * @return the RGB value of the blended color
-	 * @since 3.1
-	 */
-	public static RGB blend( RGB c1, RGB c2, int ratio )
-	{
-		int r = blend( c1.red, c2.red, ratio );
-		int g = blend( c1.green, c2.green, ratio );
-		int b = blend( c1.blue, c2.blue, ratio );
-		return new RGB( r, g, b );
-	}
-
-	/**
-	 * Blends two primary color components based on the provided ratio.
-	 * 
-	 * @param v1
-	 *            first component
-	 * @param v2
-	 *            second component
-	 * @param ratio
-	 *            percentage of the first component in the blend
-	 * @return
-	 */
-	private static int blend( int v1, int v2, int ratio )
-	{
-		int b = ( ratio * v1 + ( 100 - ratio ) * v2 ) / 100;
-		return Math.min( 255, b );
-	}
-
-	private static final String[] htmlCode = new String[256];
-
-	static
-	{
-		for ( int i = 0; i < 10; i++ )
-		{
-			htmlCode[i] = "&#00" + i + ";";
-		}
-
-		for ( int i = 10; i < 32; i++ )
-		{
-			htmlCode[i] = "&#0" + i + ";";
-		}
-
-		for ( int i = 32; i < 128; i++ )
-		{
-			htmlCode[i] = String.valueOf( (char) i );
-		}
-
-		// Special characters
-		htmlCode['\t'] = "\t";
-		htmlCode['\n'] = "<br/>\n";
-		htmlCode['\"'] = "&quot;"; // double quote
-		htmlCode['&'] = "&amp;"; // ampersand
-		htmlCode['<'] = "&lt;"; // lower than
-		htmlCode['>'] = "&gt;"; // greater than
-
-		for ( int i = 128; i < 256; i++ )
-		{
-			htmlCode[i] = "&#" + i + ";";
-		}
-	}
-
-	public static String encode( String string )
-	{
-		int n = string.length( );
-		char character;
-		StringBuffer buffer = new StringBuffer( );
-		// loop over all the characters of the String.
-		for ( int i = 0; i < n; i++ )
-		{
-			character = string.charAt( i );
-			// the Htmlcode of these characters are added to a StringBuffer one
-			// by one
-			if ( character < 256 )
-			{
-				buffer.append( htmlCode[character] );
-			}
-			else
-			{
-				// Improvement posted by Joachim Eyrich
-				buffer.append( "&#" ).append( (int) character ).append( ";" );
-			}
-		}
-		return buffer.toString( ).trim( );
-	}
-
 }

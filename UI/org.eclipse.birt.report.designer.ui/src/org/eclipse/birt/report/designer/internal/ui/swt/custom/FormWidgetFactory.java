@@ -134,27 +134,6 @@ public class FormWidgetFactory extends FormToolkit
 		return b;
 	}
 
-	public SplitButton createSplitButton( Composite parent, String text,
-			int style )
-	{
-		SplitButton button = new SplitButton( parent, style | SWT.FLAT );
-		if ( text != null )
-			button.setText( text );
-		button.setBackground( parent.getBackground( ) );
-		return button;
-	}
-
-	public SplitButton createSplitButton( Composite parent, int style,
-			boolean isFormStyle )
-	{
-		SplitButton b;
-		if ( isFormStyle )
-			b = createSplitButton( parent, "", style ); //$NON-NLS-1$
-		else
-			b = new SplitButton( parent, style );
-		return b;
-	}
-
 	public Label createLabel( Composite parent, int style, boolean isFormStyle )
 	{
 		Label l;
