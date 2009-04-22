@@ -248,6 +248,7 @@ public class MetadataEmitter
 			writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
 			String bookmark = idGenerator.generateUniqueID( );
 			HTMLEmitterUtil.setBookmark( writer, null, htmlIDNamespace, bookmark );
+			writer.attribute( attrElementType, "GROUP" );
 			exportElementID( bookmark, "GROUP", -1 );
 			writer.closeTag( HTMLTags.TAG_IMAGE );
 			writer.closeTag( HTMLTags.TAG_TD );
@@ -281,6 +282,7 @@ public class MetadataEmitter
 					.getInstanceID( ).toString( ) );
 			String bookmark = idGenerator.generateUniqueID( );
 			HTMLEmitterUtil.setBookmark( writer, null, htmlIDNamespace, bookmark );
+			writer.attribute( attrElementType, "COLOUMNINFO" );
 			exportElementID( bookmark, "COLOUMNINFO", -1 );
 			writer.closeTag( HTMLTags.TAG_IMAGE );
 		}
