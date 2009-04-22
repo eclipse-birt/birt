@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -506,6 +507,11 @@ public class PlotImpl extends BlockImpl implements Plot
 		horizontalSpacingESet = src.isSetHorizontalSpacing( );
 		verticalSpacing = src.getVerticalSpacing( );
 		verticalSpacingESet = src.isSetVerticalSpacing( );
+	}
+
+	public static Plot create( EObject parent )
+	{
+		return new PlotImpl( );
 	}
 
 } // PlotImpl

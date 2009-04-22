@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -828,6 +829,11 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 		greenESet = src.isSetGreen( );
 		blue = src.getBlue( );
 		blueESet = src.isSetBlue( );
+	}
+
+	public static ColorDefinition create( EObject parent )
+	{
+		return new ColorDefinitionImpl( );
 	}
 
 } // ColorDefinitionImpl

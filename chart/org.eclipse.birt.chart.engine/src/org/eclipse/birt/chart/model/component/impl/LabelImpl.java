@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -809,7 +810,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 */
 	protected final void initialize( )
 	{
-		setCaption( TextImpl.create( null ) );
+		setCaption( TextImpl.create( (String) null ) );
 
 		setBackground( ColorDefinitionImpl.TRANSPARENT( ) );
 
@@ -912,6 +913,11 @@ public class LabelImpl extends EObjectImpl implements Label
 			lb.shadowColor = src.getShadowColor( ).copyInstance( );
 		}
 		return lb;
+	}
+
+	public static Label create( EObject parent )
+	{
+		return new LabelImpl( );
 	}
 
 } // LabelImpl

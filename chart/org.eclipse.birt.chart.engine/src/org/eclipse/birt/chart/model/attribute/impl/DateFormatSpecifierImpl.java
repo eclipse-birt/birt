@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.DateFormatType;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import com.ibm.icu.text.DateFormat;
@@ -417,6 +418,11 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 		typeESet = src.isSetType( );
 		detail = src.getDetail( );
 		detailESet = src.isSetDetail( );
+	}
+
+	public static DateFormatSpecifier create( EObject parent )
+	{
+		return new DateFormatSpecifierImpl( );
 	}
 
 } // DateFormatSpecifierImpl

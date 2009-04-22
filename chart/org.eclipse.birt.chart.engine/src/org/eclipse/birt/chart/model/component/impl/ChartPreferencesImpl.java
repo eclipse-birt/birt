@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -238,6 +239,11 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 				list.add( element.copyInstance( ) );
 			}
 		}
+	}
+
+	public static ChartPreferences create( EObject parent )
+	{
+		return new ChartPreferencesImpl( );
 	}
 
 } // ChartPreferencesImpl

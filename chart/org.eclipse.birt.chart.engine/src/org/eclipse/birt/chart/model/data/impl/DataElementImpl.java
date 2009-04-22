@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.data.impl;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
@@ -58,6 +59,11 @@ public class DataElementImpl extends EObjectImpl implements DataElement
 
 	protected void set( DataElement src )
 	{
+	}
+
+	public static DataElement create( EObject parent )
+	{
+		return new DataElementImpl( );
 	}
 
 } //DataElementImpl

@@ -38,6 +38,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -1305,6 +1306,11 @@ public class SeriesImpl extends EObjectImpl implements Series
 		stackedESet = src.isSetStacked( );
 		translucent = src.isTranslucent( );
 		translucentESet = src.isSetTranslucent( );
+	}
+
+	public static Series create( EObject parent )
+	{
+		return new SeriesImpl( );
 	}
 
 } // SeriesImpl

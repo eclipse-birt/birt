@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -289,6 +290,11 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 				list.add( element.copyInstance( ) );
 			}
 		}
+	}
+
+	public static SampleData create( EObject parent )
+	{
+		return new SampleDataImpl( );
 	}
 
 } //SampleDataImpl

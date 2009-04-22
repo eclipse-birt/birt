@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -193,6 +194,11 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 	protected void set( BaseSampleData src )
 	{
 		dataSetRepresentation = src.getDataSetRepresentation( );
+	}
+
+	public static BaseSampleData create( EObject parent )
+	{
+		return new BaseSampleDataImpl( );
 	}
 
 } //BaseSampleDataImpl

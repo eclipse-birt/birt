@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -1283,6 +1284,11 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 		decorationLabelPositionESet = src.isSetDecorationLabelPosition( );
 		paletteLineColor = src.isPaletteLineColor( );
 		paletteLineColorESet = src.isSetPaletteLineColor( );
+	}
+
+	public static GanttSeries create( EObject parent )
+	{
+		return new GanttSeriesImpl( );
 	}
 
 } // GanttSeriesImpl

@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import com.ibm.icu.text.DecimalFormat;
@@ -512,6 +513,11 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 		multiplierESet = src.isSetMultiplier( );
 		fractionDigits = src.getFractionDigits( );
 		fractionDigitsESet = src.isSetFractionDigits( );
+	}
+
+	public static NumberFormatSpecifier create( EObject parent )
+	{
+		return new NumberFormatSpecifierImpl( );
 	}
 
 } // NumberFormatSpecifierImpl

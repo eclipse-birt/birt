@@ -11,6 +11,7 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.DifferenceDataSet;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Difference Data Set</b></em>'.
@@ -85,6 +86,11 @@ public class DifferenceDataSetImpl extends DataSetImpl implements
 	{
 		super.set( src );
 
+	}
+
+	public static DifferenceDataSet create( EObject parent )
+	{
+		return new DifferenceDataSetImpl( );
 	}
 
 } // DifferenceDataSetImpl

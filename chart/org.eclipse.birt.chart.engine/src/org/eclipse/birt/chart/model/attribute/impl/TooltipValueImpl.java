@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -317,6 +318,11 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 		text = src.getText( );
 		delay = src.getDelay( );
 		delayESet = src.isSetDelay( );
+	}
+
+	public static TooltipValue create( EObject parent )
+	{
+		return new TooltipValueImpl( );
 	}
 
 } // TooltipValueImpl

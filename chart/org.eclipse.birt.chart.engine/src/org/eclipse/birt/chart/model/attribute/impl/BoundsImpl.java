@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -790,6 +791,11 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 		widthESet = src.isSetWidth( );
 		height = src.getHeight( );
 		heightESet = src.isSetHeight( );
+	}
+
+	public static Bounds create( EObject parent )
+	{
+		return new BoundsImpl( );
 	}
 
 } // BoundsImpl

@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.NullDataSet;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Null Data Set</b></em>'.
@@ -85,6 +86,11 @@ public class NullDataSetImpl extends DataSetImpl implements NullDataSet
 	{
 		super.set( src );
 
+	}
+
+	public static NullDataSet create( EObject parent )
+	{
+		return new NullDataSetImpl( );
 	}
 
 } // NullDataSetImpl

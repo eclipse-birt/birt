@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -406,6 +407,11 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 		connectMissingValueESet = src.isSetConnectMissingValue( );
 		accOrientation = src.getAccOrientation( );
 		accOrientationESet = src.isSetAccOrientation( );
+	}
+
+	public static BubbleSeries create( EObject parent )
+	{
+		return new BubbleSeriesImpl( );
 	}
 
 } // BubbleSeriesImpl

@@ -42,6 +42,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -2113,7 +2114,7 @@ public class LegendImpl extends BlockImpl implements Legend
 		ca.getInsets( ).set( 2, 2, 2, 2 );
 		setClientArea( ca );
 
-		setText( TextImpl.create( null ) );
+		setText( TextImpl.create( (String) null ) );
 	}
 
 	/*
@@ -2213,6 +2214,11 @@ public class LegendImpl extends BlockImpl implements Legend
 		titlePercentESet = src.isSetTitlePercent( );
 		ellipsis = src.getEllipsis( );
 		ellipsisESet = src.isSetEllipsis( );
+	}
+
+	public static Legend create( EObject parent )
+	{
+		return new LegendImpl( );
 	}
 
 } // LegendImpl

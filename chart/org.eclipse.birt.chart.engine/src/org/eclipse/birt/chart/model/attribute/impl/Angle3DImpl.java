@@ -13,6 +13,7 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -629,6 +630,11 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 		zAngleESet = src.isSetZAngle( );
 		type = src.getType( );
 		typeESet = src.isSetType( );
+	}
+
+	public static Angle3D create( EObject parent )
+	{
+		return new Angle3DImpl( );
 	}
 
 } // Angle3DImpl

@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.component.Grid;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -643,6 +644,11 @@ public class GridImpl extends EObjectImpl implements Grid
 		tickSizeESet = src.isSetTickSize( );
 		tickCount = src.getTickCount( );
 		tickCountESet = src.isSetTickCount( );
+	}
+
+	public static Grid create( EObject parent )
+	{
+		return new GridImpl( );
 	}
 
 } // GridImpl

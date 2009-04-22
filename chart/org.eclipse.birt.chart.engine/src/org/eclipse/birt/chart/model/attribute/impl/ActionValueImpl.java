@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.attribute.impl;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
@@ -58,6 +59,11 @@ public class ActionValueImpl extends EObjectImpl implements ActionValue
 
 	protected void set( ActionValue src )
 	{
+	}
+
+	public static ActionValue create( EObject parent )
+	{
+		return new ActionValueImpl( );
 	}
 
 } // ActionValueImpl

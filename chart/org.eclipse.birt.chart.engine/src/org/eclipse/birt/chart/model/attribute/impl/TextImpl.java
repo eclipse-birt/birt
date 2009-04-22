@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -419,6 +420,11 @@ public class TextImpl extends EObjectImpl implements Text
 		}
 
 		value = src.getValue( );
+	}
+
+	public static Text create( EObject parent )
+	{
+		return new TextImpl( );
 	}
 
 } // TextImpl

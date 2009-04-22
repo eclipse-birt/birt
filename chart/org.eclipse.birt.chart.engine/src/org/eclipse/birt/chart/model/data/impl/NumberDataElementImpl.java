@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -252,6 +253,11 @@ public class NumberDataElementImpl extends DataElementImpl implements
 
 		value = src.getValue( );
 		valueESet = src.isSetValue( );
+	}
+
+	public static NumberDataElement create( EObject parent )
+	{
+		return new NumberDataElementImpl( );
 	}
 
 } //NumberDataElementImpl

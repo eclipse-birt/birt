@@ -13,6 +13,7 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -361,6 +362,11 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	public void linkToVector( Vector vector )
 	{
 		this.vector = vector;
+	}
+
+	public static Location3D create( EObject parent )
+	{
+		return new Location3DImpl( );
 	}
 
 } // Location3DImpl

@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.StockDataSet;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Stock Data Set</b></em>'. <!--
@@ -86,6 +87,11 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet
 	{
 		super.set( src );
 
+	}
+
+	public static StockDataSet create( EObject parent )
+	{
+		return new StockDataSetImpl( );
 	}
 
 } //StockDataSetImpl

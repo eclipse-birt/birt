@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.attribute.impl;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
@@ -59,6 +60,11 @@ public class FormatSpecifierImpl extends EObjectImpl implements FormatSpecifier
 
 	protected void set( FormatSpecifier src )
 	{
+	}
+
+	public static FormatSpecifier create( EObject parent )
+	{
+		return new FormatSpecifierImpl( );
 	}
 
 } // FormatSpecifierImpl

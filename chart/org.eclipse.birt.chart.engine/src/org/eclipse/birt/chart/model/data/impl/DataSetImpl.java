@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -193,6 +194,11 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 		result.append( values );
 		result.append( ')' );
 		return result.toString( );
+	}
+
+	public static DataSet create( EObject parent )
+	{
+		return new DataSetImpl( );
 	}
 
 } //DataSetImpl

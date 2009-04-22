@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Text Data Set</b></em>'. <!-- end-user-doc
@@ -86,6 +87,11 @@ public class TextDataSetImpl extends DataSetImpl implements TextDataSet
 	{
 		super.set( src );
 
+	}
+
+	public static TextDataSet create( EObject parent )
+	{
+		return new TextDataSetImpl( );
 	}
 
 } //TextDataSetImpl

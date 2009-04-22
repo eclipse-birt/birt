@@ -413,7 +413,7 @@ public class GroupSortingDialog extends TrayDialog
 	{
 		if ( getSeriesDefinitionForProcessing( ).getSortKey( ) == null )
 		{
-			getSeriesDefinitionForProcessing( ).setSortKey( QueryImpl.create( null ) );
+			getSeriesDefinitionForProcessing( ).setSortKey( QueryImpl.create( (String) null ) );
 		}
 	}
 

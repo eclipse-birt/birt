@@ -26,6 +26,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -712,6 +713,11 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 		minSliceLabel = src.getMinSliceLabel( );
 		coverage = src.getCoverage( );
 		coverageESet = src.isSetCoverage( );
+	}
+
+	public static ChartWithoutAxes create( EObject parent )
+	{
+		return new ChartWithoutAxesImpl( );
 	}
 
 } // ChartWithoutAxesImpl

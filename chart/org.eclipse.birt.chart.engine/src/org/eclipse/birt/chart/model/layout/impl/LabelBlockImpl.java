@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -303,6 +304,11 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 			setLabel( src.getLabel( ).copyInstance( ) );
 		}
 
+	}
+
+	public static LabelBlock create( EObject parent )
+	{
+		return new LabelBlockImpl( );
 	}
 
 } // LabelBlockImpl

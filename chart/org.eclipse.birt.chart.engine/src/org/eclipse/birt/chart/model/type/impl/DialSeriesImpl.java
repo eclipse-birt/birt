@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -366,6 +367,11 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 			setNeedle( src.getNeedle( ).copyInstance( ) );
 		}
 
+	}
+
+	public static DialSeries create( EObject parent )
+	{
+		return new DialSeriesImpl( );
 	}
 
 } // DialSeriesImpl

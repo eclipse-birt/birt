@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -125,6 +126,11 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 		curveESet = src.isSetCurve( );
 		connectMissingValue = src.isConnectMissingValue( );
 		connectMissingValueESet = src.isSetConnectMissingValue( );
+	}
+
+	public static ScatterSeries create( EObject parent )
+	{
+		return new ScatterSeriesImpl( );
 	}
 
 } // ScatterSeriesImpl
