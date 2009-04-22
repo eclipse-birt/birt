@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor;
 import org.eclipse.birt.report.designer.internal.ui.script.JSEditorInput;
+import org.eclipse.birt.report.designer.internal.ui.script.JSSourceViewerConfiguration;
 import org.eclipse.birt.report.designer.internal.ui.script.JSSyntaxContext;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.schematic.action.TextSaveAction;
@@ -35,6 +36,7 @@ import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.projection.ProjectionAnnotationModel;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
@@ -75,6 +77,8 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	/** The parent editor. */
 	private final IEditorPart parent;
 
+	private ScriptSourceViewerConfiguration sourceViewerConfiguration;
+
 	/**
 	 * Constructs a decorated script editor with the specified parent.
 	 * 
@@ -99,7 +103,8 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	{
 		super( );
 		this.parent = parent;
-		setSourceViewerConfiguration( new ScriptSourceViewerConfiguration( context ) );
+		this.sourceViewerConfiguration = new ScriptSourceViewerConfiguration( context );
+		setSourceViewerConfiguration( this.sourceViewerConfiguration );
 		setDocumentProvider( new ScriptDocumentProvider( parent ) );
 		setScript( script );
 	}
@@ -107,7 +112,9 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.texteditor.StatusTextEditor#createPartControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.ui.texteditor.StatusTextEditor#createPartControl(org.eclipse
+	 * .swt.widgets.Composite)
 	 */
 	public void createPartControl( Composite parent )
 	{
@@ -125,14 +132,15 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 			( (ProjectionViewer) viewer ).doOperation( ProjectionViewer.TOGGLE );
 		}
 		// bidi_hcg: Force LTR orientation of the StyledText widget
-		getSourceViewer( ).getTextWidget( ).setOrientation(
-				SWT.LEFT_TO_RIGHT );
+		getSourceViewer( ).getTextWidget( ).setOrientation( SWT.LEFT_TO_RIGHT );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#editorContextMenuAboutToShow(org.eclipse.jface.action.IMenuManager)
+	 * @see
+	 * org.eclipse.ui.texteditor.AbstractTextEditor#editorContextMenuAboutToShow
+	 * (org.eclipse.jface.action.IMenuManager)
 	 */
 	protected void editorContextMenuAboutToShow( IMenuManager menu )
 	{
@@ -169,7 +177,8 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#isEditorInputIncludedInContextMenu()
+	 * @seeorg.eclipse.ui.texteditor.AbstractTextEditor#
+	 * isEditorInputIncludedInContextMenu()
 	 */
 	protected boolean isEditorInputIncludedInContextMenu( )
 	{
@@ -188,11 +197,11 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 		return new JSEditorInput( script );
 	}
 
-
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#createActions()
+	 * @see
+	 * org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#createActions()
 	 */
 	protected void createActions( )
 	{
@@ -250,8 +259,9 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#setAction(java.lang.String,
-	 *      org.eclipse.jface.action.IAction)
+	 * @see
+	 * org.eclipse.ui.texteditor.AbstractTextEditor#setAction(java.lang.String,
+	 * org.eclipse.jface.action.IAction)
 	 */
 	public void setAction( String actionID, IAction action )
 	{
@@ -266,7 +276,9 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor#getActionRegistry()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor
+	 * #getActionRegistry()
 	 */
 	public ActionRegistry getActionRegistry( )
 	{
@@ -280,7 +292,9 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor#getViewer()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor
+	 * #getViewer()
 	 */
 	public ISourceViewer getViewer( )
 	{
@@ -290,7 +304,9 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor#getScript()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor
+	 * #getScript()
 	 */
 	public String getScript( )
 	{
@@ -312,7 +328,9 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor#setScript(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor
+	 * #setScript(java.lang.String)
 	 */
 	public void setScript( String script )
 	{
@@ -351,7 +369,9 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor#getContext()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor
+	 * #getContext()
 	 */
 	public JSSyntaxContext getContext( )
 	{
@@ -361,7 +381,9 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editor.script.IDebugScriptEditor#saveDocument()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editor.script.IDebugScriptEditor#
+	 * saveDocument()
 	 */
 	public void saveDocument( )
 	{
@@ -379,8 +401,10 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#createSourceViewer(org.eclipse.swt.widgets.Composite,
-	 *      org.eclipse.jface.text.source.IVerticalRuler, int)
+	 * @see
+	 * org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#createSourceViewer
+	 * (org.eclipse.swt.widgets.Composite,
+	 * org.eclipse.jface.text.source.IVerticalRuler, int)
 	 */
 	protected ISourceViewer createSourceViewer( Composite parent,
 			IVerticalRuler ruler, int styles )
@@ -411,7 +435,8 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#rulerContextMenuAboutToShow(org.eclipse.jface.action.IMenuManager)
+	 * @seeorg.eclipse.ui.texteditor.AbstractDecoratedTextEditor#
+	 * rulerContextMenuAboutToShow(org.eclipse.jface.action.IMenuManager)
 	 */
 	protected void rulerContextMenuAboutToShow( IMenuManager menu )
 	{
@@ -494,8 +519,8 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 			{
 				ScriptProjectionAnnotation scriptAnnotation = (ScriptProjectionAnnotation) annotation;
 
-				if ( !scriptAnnotation.isCollapsed( ) &&
-						scriptAnnotation.isStyle( style ) )
+				if ( !scriptAnnotation.isCollapsed( )
+						&& scriptAnnotation.isStyle( style ) )
 				{
 					scriptAnnotation.markCollapsed( );
 					modified.add( scriptAnnotation );
@@ -516,4 +541,25 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	{
 		return parent;
 	}
+
+	@Override
+	protected void handlePreferenceStoreChanged( PropertyChangeEvent event )
+	{
+		if ( getSourceViewer( ) != null )
+		{
+			sourceViewerConfiguration.resetScannerColoer( );
+			// reset textwidget text
+			getSourceViewer( ).getTextWidget( )
+					.setText( getSourceViewer( ).getTextWidget( ).getText( ) );
+		}
+		super.handlePreferenceStoreChanged( event );
+	}
+
+	@Override
+	public void dispose( )
+	{
+		sourceViewerConfiguration.dispose( );
+		super.dispose( );
+	}
+
 }

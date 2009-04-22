@@ -49,18 +49,25 @@ import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.PreferenceConverter;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.ITextOperationTarget;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.IVerticalRulerColumn;
 import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -91,11 +98,13 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -116,6 +125,8 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
 
 import com.ibm.icu.text.Collator;
 
@@ -388,6 +399,12 @@ public class ExpressionBuilder extends TitleAreaDialog
 	private TreeViewer subCategoryTable;
 	private IExpressionProvider provider;
 	private SourceViewer sourceViewer;
+	private JSSourceViewerConfiguration sourceViewerConfiguration = new JSSourceViewerConfiguration( );
+	
+	private IPreferenceStore preferenceStore;
+	private Color backgroundColor;
+	private Color foregroundColor;
+	
 	private String expression = null;
 	private FormText messageLine;
 
@@ -410,6 +427,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 		super( parentShell );
 		title = DIALOG_TITLE;
 		this.expression = UIUtil.convertToGUIString( initExpression );
+		this.preferenceStore = new ScopedPreferenceStore( new InstanceScope( ),
+				"org.eclipse.ui.editors" );
 	}
 
 	protected void setShellStyle( int newShellStyle )
@@ -673,7 +692,6 @@ public class ExpressionBuilder extends TitleAreaDialog
 						event.segments = UIUtil.getExpressionBidiSegments( event.lineText );
 					}
 				} );
-
 	}
 
 	private void createOperatorsBar( Composite parent )
@@ -1097,7 +1115,9 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 		SourceViewer viewer = new SourceViewer( composite, ruler, styles );
 
-		viewer.configure( new JSSourceViewerConfiguration( ) );
+		viewer.configure( sourceViewerConfiguration );
+
+		updateStyledTextColors( viewer.getTextWidget( ) );
 
 		JSEditorInput editorInput = new JSEditorInput( expression,
 				getEncoding( ) );
@@ -1116,6 +1136,62 @@ public class ExpressionBuilder extends TitleAreaDialog
 				ruler == null ? null : ruler.getModel( ) );
 
 		return viewer;
+	}
+
+	private void updateStyledTextColors( StyledText styledText )
+	{
+		if ( preferenceStore != null )
+		{
+			styledText.setForeground( getForegroundColor( preferenceStore ) );
+			styledText.setBackground( getBackgroundColor( preferenceStore ) );
+		}
+	}
+
+	private Color getForegroundColor( IPreferenceStore preferenceStore )
+	{
+		Color color = preferenceStore.getBoolean( AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND_SYSTEM_DEFAULT ) ? null
+				: createColor( preferenceStore,
+						AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND,
+						Display.getCurrent( ) );
+		foregroundColor = color;
+		return color;
+	}
+
+	private Color getBackgroundColor( IPreferenceStore preferenceStore )
+	{
+		Color color = preferenceStore.getBoolean( AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND_SYSTEM_DEFAULT ) ? null
+				: createColor( preferenceStore,
+						AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND,
+						Display.getCurrent( ) );
+		backgroundColor = color;
+		return color;
+	}
+
+	/**
+	 * Creates a color from the information stored in the given preference
+	 * store. Returns <code>null</code> if there is no such information
+	 * available.
+	 */
+	private Color createColor( IPreferenceStore store, String key,
+			Display display )
+	{
+		RGB rgb = null;
+		if ( store.contains( key ) )
+		{
+			if ( store.isDefault( key ) )
+			{
+				rgb = PreferenceConverter.getDefaultColor( store, key );
+			}
+			else
+			{
+				rgb = PreferenceConverter.getColor( store, key );
+			}
+			if ( rgb != null )
+			{
+				return new Color( display, rgb );
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -1305,4 +1381,19 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 		return encoding;
 	}
+
+	@Override
+	public boolean close( )
+	{
+		if ( foregroundColor != null )
+		{
+			foregroundColor.dispose( );
+		}
+		if ( backgroundColor != null )
+		{
+			backgroundColor.dispose( );
+		}
+		return super.close( );
+	}
+
 }

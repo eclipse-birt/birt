@@ -12,6 +12,9 @@
 package org.eclipse.birt.report.designer.internal.ui.script;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
@@ -25,6 +28,10 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
 
 /**
  * Sets JS configuration the editor needs
@@ -35,15 +42,32 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 
 	private RuleBasedScanner scanner;
 	private JSSyntaxContext context;
+	private IPreferenceStore preferenceStore;
+	private Color foregroundColor;
 
 	public JSSourceViewerConfiguration( )
 	{
-		this.context = new JSSyntaxContext( );
+		this( new JSSyntaxContext( ),
+				new ScopedPreferenceStore( new InstanceScope( ),
+						"org.eclipse.ui.editors" ) );
+	}
+
+	public JSSourceViewerConfiguration( IPreferenceStore preferenceStore )
+	{
+		this( new JSSyntaxContext( ), preferenceStore );
 	}
 
 	public JSSourceViewerConfiguration( JSSyntaxContext context )
 	{
+		this( context, new ScopedPreferenceStore( new InstanceScope( ),
+				"org.eclipse.ui.editors" ) );
+	}
+
+	public JSSourceViewerConfiguration( JSSyntaxContext context,
+			IPreferenceStore preferenceStore )
+	{
 		this.context = context;
+		this.preferenceStore = preferenceStore;
 	}
 
 	/**
@@ -54,15 +78,15 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 	 */
 	public static Color getColorByCategory( String categoryColor )
 	{
-//		String rgbString = getRgbString( categoryColor );
-//		if ( rgbString.length( ) <= 0 )
-//		{
-//			rgbString = "0,0,0"; //$NON-NLS-1$
-//		}
-//		RGB rgbVal = StringConverter.asRGB( rgbString );
-//		return ColorManager.getColor( rgbVal );
+		// String rgbString = getRgbString( categoryColor );
+		// if ( rgbString.length( ) <= 0 )
+		// {
+		//			rgbString = "0,0,0"; //$NON-NLS-1$
+		// }
+		// RGB rgbVal = StringConverter.asRGB( rgbString );
+		// return ColorManager.getColor( rgbVal );
 		return getRgbString( categoryColor );
-	
+
 	}
 
 	/**
@@ -87,9 +111,8 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 	{
 		if ( scanner == null )
 		{
-			Color defaultColor = getColorByCategory( PreferenceNames.P_DEFAULT_COLOR );
 			scanner = new JSScanner( );
-			scanner.setDefaultReturnToken( new Token( new TextAttribute( defaultColor ) ) );
+			scanner.setDefaultReturnToken( new Token( new TextAttribute( getForegroundColor( preferenceStore ) ) ) );
 		}
 		return scanner;
 	}
@@ -152,7 +175,9 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getContentAssistant(org.eclipse.jface.text.source.ISourceViewer)
+	 * @see
+	 * org.eclipse.jface.text.source.SourceViewerConfiguration#getContentAssistant
+	 * (org.eclipse.jface.text.source.ISourceViewer)
 	 */
 	public IContentAssistant getContentAssistant( ISourceViewer sourceViewer )
 	{
@@ -165,4 +190,60 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 		return assistant;
 	}
 
+	public void resetScannerColoer( )
+	{
+		if ( scanner != null && preferenceStore != null )
+		{
+			scanner.setDefaultReturnToken( new Token( new TextAttribute( getForegroundColor( preferenceStore ) ) ) );
+		}
+	}
+
+	private Color getForegroundColor( IPreferenceStore preferenceStore )
+	{
+		Color color = preferenceStore.getBoolean( AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND_SYSTEM_DEFAULT ) ? null
+				: createColor( preferenceStore,
+						AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND,
+						Display.getCurrent( ) );
+		if ( foregroundColor != null )
+		{
+			foregroundColor.dispose( );
+		}
+		foregroundColor = color;
+		return color;
+	}
+
+	/**
+	 * Creates a color from the information stored in the given preference
+	 * store. Returns <code>null</code> if there is no such information
+	 * available.
+	 */
+	private Color createColor( IPreferenceStore store, String key,
+			Display display )
+	{
+		RGB rgb = null;
+		if ( store.contains( key ) )
+		{
+			if ( store.isDefault( key ) )
+			{
+				rgb = PreferenceConverter.getDefaultColor( store, key );
+			}
+			else
+			{
+				rgb = PreferenceConverter.getColor( store, key );
+			}
+			if ( rgb != null )
+			{
+				return new Color( display, rgb );
+			}
+		}
+		return null;
+	}
+
+	public void dispose( )
+	{
+		if ( foregroundColor != null )
+		{
+			foregroundColor.dispose( );
+		}
+	}
 }

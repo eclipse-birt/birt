@@ -11,11 +11,14 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.io.IOException;
 import java.text.Bidi;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import javax.swing.text.BadLocationException;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -32,12 +35,15 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.ITextOperationTarget;
@@ -50,22 +56,33 @@ import org.eclipse.swt.custom.BidiSegmentListener;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.HTMLTransfer;
+import org.eclipse.swt.dnd.RTFTransfer;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.texteditor.TextEditorAction;
 
@@ -204,6 +221,20 @@ public class TextEditor extends BaseDialog
 
 	private String TEXT_EDIT_LAST_STAGE = "org.eclipse.birt.report.designer.ui.dialogs.TextEditor.lastStage";
 
+	public class CustomStyledText extends StyledText{
+
+		public CustomStyledText( Composite parent, int style )
+		{
+			super( parent, style );
+		}
+
+		@Override
+		public void paste( )
+		{
+			pasteClipboard( );
+		}
+	}
+	
 	/**
 	 * Constructor
 	 * 
@@ -323,7 +354,7 @@ public class TextEditor extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				textEditor.paste( );
+				pasteClipboard( );
 			}
 		} );
 
@@ -442,6 +473,42 @@ public class TextEditor extends BaseDialog
 		commonTagsBar.setEnabled( textTypeChoicer.getSelectionIndex( ) != PLAIN_INDEX );
 		createCommonTags( commonTagsBar );
 
+	}
+
+	private void pasteClipboard( )
+	{
+		Clipboard cb = new Clipboard( Display.getCurrent( ) );
+		TransferData[] types = cb.getAvailableTypes( );
+		RTFTransfer rtfTransfer = RTFTransfer.getInstance( );
+		Object contents = cb.getContents( rtfTransfer );
+		// textEditor.paste( );
+		if ( contents != null )
+		{
+			RTFHTMLHandler handler = new RTFHTMLHandler( );
+			try
+			{
+				RTFParser.parse( contents.toString( ), handler );
+				textEditor.insert( handler.toHTML( ) );
+				return;
+			}
+			catch ( Exception e1 )
+			{
+			}
+		}
+		else
+		{
+			HTMLTransfer htmlTransfer = HTMLTransfer.getInstance( );
+			contents = cb.getContents( htmlTransfer );
+			if ( contents != null )
+			{
+				textEditor.insert( contents.toString( ) );
+				return;
+			}
+		}
+
+		TextTransfer plainTextTransfer = TextTransfer.getInstance( );
+		String text = (String) cb.getContents( plainTextTransfer, DND.CLIPBOARD );
+		textEditor.insert( text );
 	}
 
 	private int getContentChoiceType( CCombo typeChoicer, String contentType )
@@ -571,7 +638,17 @@ public class TextEditor extends BaseDialog
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION );
-		textViewer = new SourceViewer( parent, ruler, style );
+
+		textViewer = new SourceViewer( parent, ruler, style ) {
+
+			@Override
+			protected StyledText createTextWidget( Composite parent, int styles )
+			{
+				return new CustomStyledText( parent, styles ) ;
+			}
+
+		};
+
 		textViewer.setDocument( new Document( ) );
 		textEditor = textViewer.getTextWidget( );
 		{
@@ -619,6 +696,9 @@ public class TextEditor extends BaseDialog
 		} );
 
 		textViewer.configure( new SourceViewerConfiguration( ) );
+		updateStyledTextColors( new ScopedPreferenceStore( new InstanceScope( ),
+				"org.eclipse.ui.editors" ),
+				textViewer.getTextWidget( ) );
 		textEditor.invokeAction( ST.TEXT_END );
 
 		// create actions for context menu and short cut keys
@@ -801,6 +881,58 @@ public class TextEditor extends BaseDialog
 			}
 		} );
 		textEditor.setMenu( menuMgr.createContextMenu( textEditor ) );
+	}
+
+	private void updateStyledTextColors( IPreferenceStore preferenceStore,
+			StyledText styledText )
+	{
+		styledText.setForeground( getForegroundColor( preferenceStore ) );
+		styledText.setBackground( getBackgroundColor( preferenceStore ) );
+	}
+
+	private Color getForegroundColor( IPreferenceStore preferenceStore )
+	{
+		Color color = preferenceStore.getBoolean( AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND_SYSTEM_DEFAULT ) ? null
+				: createColor( preferenceStore,
+						AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND,
+						Display.getCurrent( ) );
+		return color;
+	}
+
+	private Color getBackgroundColor( IPreferenceStore preferenceStore )
+	{
+		Color color = preferenceStore.getBoolean( AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND_SYSTEM_DEFAULT ) ? null
+				: createColor( preferenceStore,
+						AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND,
+						Display.getCurrent( ) );
+		return color;
+	}
+
+	/**
+	 * Creates a color from the information stored in the given preference
+	 * store. Returns <code>null</code> if there is no such information
+	 * available.
+	 */
+	private Color createColor( IPreferenceStore store, String key,
+			Display display )
+	{
+		RGB rgb = null;
+		if ( store.contains( key ) )
+		{
+			if ( store.isDefault( key ) )
+			{
+				rgb = PreferenceConverter.getDefaultColor( store, key );
+			}
+			else
+			{
+				rgb = PreferenceConverter.getColor( store, key );
+			}
+			if ( rgb != null )
+			{
+				return new Color( display, rgb );
+			}
+		}
+		return null;
 	}
 
 	// inner class definition for create text editor actions.
