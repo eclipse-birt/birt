@@ -299,8 +299,7 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 						currentChild = 0;
 						children = new ArrayList( );
 
-						if ( crosstabItem.getGrandTotal( ROW_AXIS_TYPE ) != null
-								&& ( measureCount > 0 || !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE ) )
+						if ( needRowGrandTotal( GRAND_TOTAL_LOCATION_AFTER ) )
 						{
 							CrosstabFooterExecutor totalExecutor = new CrosstabFooterExecutor( this );
 							children.add( totalExecutor );
