@@ -236,7 +236,7 @@ public class CrosstabAdaptUtil
 		}
 		else
 		{
-			bindingHandle.setDataType( levelHandle.getDataType( ) );
+			bindingHandle.setDataType( levelAttrHandle.getDataType( ) );
 		}
 
 		return dataHandle;
