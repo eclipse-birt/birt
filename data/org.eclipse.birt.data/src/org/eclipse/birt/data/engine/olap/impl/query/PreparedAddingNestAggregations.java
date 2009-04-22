@@ -17,6 +17,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
@@ -87,6 +88,7 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 							ars, cnaf.getName( ), cnaf.getBasedExpression( ), scope, cx );
 					AggregationDefinition[] ads = CubeQueryDefinitionUtil.createAggregationDefinitons( 
 							new CalculatedMember[]{newMembers[index]}, cubeQueryDefn, scope, cx );
+					checkAggregateOns( ads[0], based);
 					newArs = AggregationHelper.execute( based, ads, stopSign )[0];
 					break;
 				}
@@ -150,5 +152,21 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 			}
 		}
 		return false;
+	}
+	
+	private static void checkAggregateOns( AggregationDefinition ad, IAggregationResultSet based ) throws DataException
+	{
+		if ( ad.getLevels( ) == null )
+		{
+			return;
+		}
+		for ( DimLevel dl : ad.getLevels( ))
+		{
+			if ( based.getLevelIndex( dl ) < 0 )
+			{
+				throw new DataException(ResourceConstants.INVALID_NEST_AGGREGATION_ON, 
+						new Object[]{dl, ad.getAggregationFunctions( )[0].getName( )});
+			}
+		}
 	}
 }
