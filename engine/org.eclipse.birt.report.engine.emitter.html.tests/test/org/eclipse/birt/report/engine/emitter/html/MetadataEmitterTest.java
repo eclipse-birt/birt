@@ -41,6 +41,8 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	static String imageMetadata2 = "\"[^<>]*)>[^<>]*";
 	static String imageNoMetadata1 = "<div>[^<>]*<img([^<>]* id=\"";
 	static String imageNoMetadata2 = "\"[^<>]*)>[^<>]*</div>";
+	static String chartMetadata1 = "<embed([^<>]* id=\"";
+	static String chartMetadata2 = "\"[^<>]*)>[^<>]*";
 
 	public String getWorkSpace( )
 	{
@@ -436,9 +438,13 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 		{
 			return new String[]{list1, list2};
 		}
-		else if ( "IMAGE".equals( type ) || "EXTENDED".equals( type ) || "Chart".equals( type ))
+		else if ( "IMAGE".equals( type ) || "EXTENDED".equals( type ) )
 		{
 			return new String[]{imageMetadata1, imageMetadata2};
+		}
+		else if ( "Chart".equals( type ))
+		{
+			return new String[]{chartMetadata1, chartMetadata2};
 		}
 		else if ( "TEMPLATE".equals( type ))
 		{
