@@ -21,7 +21,9 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BorderUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart;
@@ -30,8 +32,10 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportRootFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
+import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
@@ -80,8 +84,9 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 		layout.setInitSize(bounds);
 
 		figure.setLayoutManager(layout);
-
-		figure.setBorder(new ReportDesignMarginBorder(INSETS));
+		ReportDesignMarginBorder border = new ReportDesignMarginBorder(INSETS);
+		border.reInitStyle( );
+		figure.setBorder(border);
 
 		figure.setBounds(bounds.getCopy());
 
@@ -292,5 +297,12 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 	protected void updateLayoutPreference( )
 	{
 		//must do nothing now, because libraryHandle don't support the property
+	}
+	
+	@Override
+	public void refreshMarginBorder( ReportDesignMarginBorder border )
+	{
+		border.reInitStyle( );
+		getFigure( ).setBorder( border );
 	}
 }

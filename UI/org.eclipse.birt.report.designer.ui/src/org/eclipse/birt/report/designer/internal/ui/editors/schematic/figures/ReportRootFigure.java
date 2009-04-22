@@ -30,7 +30,7 @@ public class ReportRootFigure extends ReportElementFigure
 	private static final Insets DEFAULT_MARGIN = new Insets( 3, 3, 3, 3 );
 	
 	private static final Point PRIVATE_POINT = new Point( );
-	private static final Insets DEFAULT_CROP = new Insets( -3, -3, -2, -2 );
+	public static final Insets DEFAULT_CROP = new Insets( -3, -3, -2, -2 );
 	private boolean showMargin;
 
 	/**
@@ -44,10 +44,10 @@ public class ReportRootFigure extends ReportElementFigure
 	/* Do nothing
 	 * @see org.eclipse.draw2d.Figure#paintBorder(org.eclipse.draw2d.Graphics)
 	 */
-	protected void paintBorder( Graphics graphics )
-	{
-		//does nothing , figure paint itself.
-	}
+//	protected void paintBorder( Graphics graphics )
+//	{
+//		//does nothing , figure paint itself.
+//	}
 
 	
 	/* (non-Javadoc)
@@ -72,12 +72,13 @@ public class ReportRootFigure extends ReportElementFigure
 	 */
 	protected void paintFigure( Graphics graphics )
 	{
-		super.paintFigure( graphics );
-
-		graphics.setForegroundColor( ReportColorConstants.MarginBorderColor );
-		graphics.drawRectangle( getBounds( ).getCopy( )
-				.crop( getInsets( ) )
-				.crop( DEFAULT_CROP ) );
+		graphics.fillRectangle( getBounds( ) );
+		super.paintFigure( graphics );		
+		
+//		graphics.setForegroundColor( ReportColorConstants.MarginBorderColor );
+//		graphics.drawRectangle( getBounds( ).getCopy( )
+//				.crop( getInsets( ) )
+//				.crop( DEFAULT_CROP ) );
 		
 		graphics.setForegroundColor( ReportColorConstants.ReportForeground );
 		graphics.drawRectangle( getBounds( ).getCopy( ).crop( new Insets(0, 0, 1,1) ) );

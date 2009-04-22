@@ -190,4 +190,13 @@ public class LineBorder extends BaseBorder
 		g.restoreState( );
 	}
 
+	
+	/**Gets the padding
+	 * @return
+	 */
+	public Insets getPaddingInsets( )
+	{
+		return new Insets(paddingInsets);
+	}
+
 }

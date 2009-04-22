@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
@@ -27,9 +28,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.Root
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -46,7 +46,6 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.gef.tools.DeselectAllTracker;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * <p>
@@ -58,8 +57,9 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 {
 
 	protected boolean showMargin = true;
-//	private final double wScale = 1.3;
-//	private final double hScale = 1.0;
+
+	// private final double wScale = 1.3;
+	// private final double hScale = 1.0;
 
 	/**
 	 * constructor
@@ -119,7 +119,8 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.designer.ui.editor.edit.ReportElementEditPart#getModelChildren()
+	 * @seeorg.eclipse.birt.designer.ui.editor.edit.ReportElementEditPart#
+	 * getModelChildren()
 	 */
 	protected List getModelChildren( )
 	{
@@ -127,7 +128,6 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 				.getReportDesignHandleAdapter( getModel( ) )
 				.getChildren( );
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -146,12 +146,13 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.editparts.AbstractReportEditPart#refreshFigure()
+	 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.editparts.
+	 * AbstractReportEditPart#refreshFigure()
 	 */
 	public void refreshFigure( )
 	{
-		
-		SimpleMasterPageHandle masterPageHandle = getSimpleMasterPageHandle();
+
+		SimpleMasterPageHandle masterPageHandle = getSimpleMasterPageHandle( );
 
 		Dimension size = getMasterPageSize( masterPageHandle );
 
@@ -159,18 +160,14 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 
 		ReportRootFigure figure = (ReportRootFigure) getFigure( );
 		figure.setShowMargin( showMargin );
-		
-		((ReportDesignLayout)(figure.getLayoutManager())).setAuto(DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT.
-				equals(( (ReportDesignHandle) getModel( ) ).getLayoutPreference()));
+
+		( (ReportDesignLayout) ( figure.getLayoutManager( ) ) ).setAuto( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT.equals( ( (ReportDesignHandle) getModel( ) ).getLayoutPreference( ) ) );
 		/*
 		 * Bidi-specific properties are affected only if Bidi Support is enabled
 		 */
-		
-		( (ReportDesignLayout) ( figure.getLayoutManager( ) ) )
-				.setAuto( DesignChoiceConstants.BIDI_DIRECTION_LTR
-						.equals( ( (ReportDesignHandle) getModel( ) )
-								.getBidiOrientation( ) ) );
-		
+
+		( (ReportDesignLayout) ( figure.getLayoutManager( ) ) ).setAuto( DesignChoiceConstants.BIDI_DIRECTION_LTR.equals( ( (ReportDesignHandle) getModel( ) ).getBidiOrientation( ) ) );
+
 		if ( !showMargin )
 		{
 			Insets mg = getMasterPageInsets( masterPageHandle );
@@ -178,19 +175,27 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 			bounds.width -= mg.getWidth( );
 			bounds.height -= mg.getHeight( );
 		}
-		Insets initInsets = getMasterPageInsets( masterPageHandle ) ;
+		Insets initInsets = getMasterPageInsets( masterPageHandle );
 		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitSize( bounds );
-		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitInsets(initInsets);
+		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitInsets( initInsets );
+		
+		refreshMarginBorder( (ReportDesignMarginBorder)getFigure( ).getBorder() );
 		// getFigure( ).setBounds( bounds );
 
 		int color = getBackgroundColor( masterPageHandle );
-		getFigure( ).setBackgroundColor(getBackGroundColor(color)  );
-
+		getFigure( ).setBackgroundColor( getBackGroundColor( color ) );
 
 		refreshBackground( masterPageHandle );
 	}
 
-	private SimpleMasterPageHandle getSimpleMasterPageHandle()
+	public void refreshMarginBorder( ReportDesignMarginBorder border )
+	{
+		refreshBorder( getSimpleMasterPageHandle( ), border );
+		Insets pist = getPadding( getSimpleMasterPageHandle( ), null );
+		( (LineBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( pist );
+	}
+
+	private SimpleMasterPageHandle getSimpleMasterPageHandle( )
 	{
 		SlotHandle slotHandle = ( (ModuleHandle) getModel( ) ).getMasterPages( );
 		Iterator iter = slotHandle.iterator( );
@@ -222,96 +227,112 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 				}
 			}
 		} );
-		if (getModel() instanceof ReportDesignHandle)
+		if ( getModel( ) instanceof ReportDesignHandle )
 		{
-			getViewer().setProperty(IReportGraphicConstants.REPORT_LAYOUT_PROPERTY, 
-					((ReportDesignHandle)getModel()).getLayoutPreference());
-			
-			/* 
-			 * if BiDi support is enabled, set valid value for BiDi orientation property
+			getViewer( ).setProperty( IReportGraphicConstants.REPORT_LAYOUT_PROPERTY,
+					( (ReportDesignHandle) getModel( ) ).getLayoutPreference( ) );
+
+			/*
+			 * if BiDi support is enabled, set valid value for BiDi orientation
+			 * property
 			 */
-			
+
 			getViewer( ).setProperty( IReportGraphicConstants.REPORT_BIDIORIENTATION_PROPERTY,
-					( (ReportDesignHandle) getModel()).getBidiOrientation( ) );
-			
+					( (ReportDesignHandle) getModel( ) ).getBidiOrientation( ) );
+
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#isinterest(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#isinterest(java.lang.Object)
 	 */
 	public boolean isinterest( Object model )
 	{
 		return super.isinterest( model ) || model instanceof MasterPageHandle;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#propertyChange(java.util.Map)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#propertyChange(java.util.Map)
 	 */
-	protected void propertyChange(Map info) 
+	protected void propertyChange( Map info )
 	{
 		boolean invalidate = false;
 		/*
 		 * Bidi-specific behavior is addressed only if Bidi support is enabled
 		 */
-		
+
 		if ( info.get( ReportDesignHandle.BIDI_ORIENTATION_PROP ) instanceof ReportDesignHandle )
 		{
-			String newOrientation = ( (ReportDesignHandle) info.get(
-					ReportDesignHandle.BIDI_ORIENTATION_PROP ) ).getBidiOrientation( );
-					
+			String newOrientation = ( (ReportDesignHandle) info.get( ReportDesignHandle.BIDI_ORIENTATION_PROP ) ).getBidiOrientation( );
+
 			UIUtil.processOrientationChange( newOrientation, getViewer( ) );
 
 			invalidate = true;
 		}
-		
-		super.propertyChange(info);
-		if (info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP) != null)
-		{
-			if (info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP) instanceof ReportDesignHandle)
-			{
-				getViewer().setProperty(IReportGraphicConstants.REPORT_LAYOUT_PROPERTY, 
-						((ReportDesignHandle)info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP)).getLayoutPreference());
 
-				//invalidate = true;
+		super.propertyChange( info );
+		if ( info.get( ReportDesignHandle.LAYOUT_PREFERENCE_PROP ) != null )
+		{
+			if ( info.get( ReportDesignHandle.LAYOUT_PREFERENCE_PROP ) instanceof ReportDesignHandle )
+			{
+				getViewer( ).setProperty( IReportGraphicConstants.REPORT_LAYOUT_PROPERTY,
+						( (ReportDesignHandle) info.get( ReportDesignHandle.LAYOUT_PREFERENCE_PROP ) ).getLayoutPreference( ) );
+
+				// invalidate = true;
 			}
 		}
 		if ( invalidate )
 		{
 			getFigure( ).invalidateTree( );
-			//getFigure( ).getUpdateManager( ).addInvalidFigure( getFigure( ) );
+			// getFigure( ).getUpdateManager( ).addInvalidFigure( getFigure( )
+			// );
 			getFigure( ).revalidate( );
 		}
-		if (getModel() instanceof ReportDesignHandle)
+		if ( getModel( ) instanceof ReportDesignHandle )
 		{
-			
-			if (info.get(IMasterPageModel.TOP_MARGIN_PROP) != null
-					||info.get(IMasterPageModel.BOTTOM_MARGIN_PROP) != null
-					||info.get(IMasterPageModel.LEFT_MARGIN_PROP) != null
-					||info.get(IMasterPageModel.RIGHT_MARGIN_PROP) != null
-					
-					||info.get(IMasterPageModel.TYPE_PROP) != null
-					||info.get(IMasterPageModel.WIDTH_PROP) != null
-					||info.get(IMasterPageModel.HEIGHT_PROP) != null
-					||info.get(IMasterPageModel.ORIENTATION_PROP) != null
-						)
-			{				
+
+			if ( info.get( IMasterPageModel.TOP_MARGIN_PROP ) != null
+					|| info.get( IMasterPageModel.BOTTOM_MARGIN_PROP ) != null
+					|| info.get( IMasterPageModel.LEFT_MARGIN_PROP ) != null
+					|| info.get( IMasterPageModel.RIGHT_MARGIN_PROP ) != null
+
+					|| info.get( IMasterPageModel.TYPE_PROP ) != null
+					|| info.get( IMasterPageModel.WIDTH_PROP ) != null
+					|| info.get( IMasterPageModel.HEIGHT_PROP ) != null
+					|| info.get( IMasterPageModel.ORIENTATION_PROP ) != null )
+			{
 				SlotHandle slotHandle = ( (ModuleHandle) getModel( ) ).getMasterPages( );
 				Iterator iter = slotHandle.iterator( );
 				SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next( );
-	
+
 				Dimension size = getMasterPageSize( masterPageHandle );
-	
-				Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
-	
-				((AbstractPageFlowLayout)getFigure( ).getLayoutManager( )).setInitSize( bounds );
-	
-	
-				figure.setBorder( new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) ) );
-	
+
+				Rectangle bounds = new Rectangle( 0,
+						0,
+						size.width - 1,
+						size.height - 1 );
+
+				( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitSize( bounds );
+
+				//figure.setBorder( new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) ) );
+				refreshMarginBorder( new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) ) );
+
 				figure.setBounds( bounds.getCopy( ) );
 			}
 		}
 	}
-	
+
+	private Insets getPadding( MasterPageHandle handle, Insets retValue )
+	{
+		return DEUtil.getPadding( handle, retValue );
+	}
+
 }

@@ -16,12 +16,14 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.MasterPageLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -140,19 +142,14 @@ public class MasterPageEditPart extends AbstractReportEditPart
 	{
 		Figure figure = new ReportElementFigure( ) {
 
-			protected void paintBorder( Graphics graphics )
-			{
-				// does nothing , figure paint itself.
-			}
-
 			protected void paintFigure( Graphics graphics )
 			{
+				graphics.fillRectangle( getBounds( ) );
 				super.paintFigure( graphics );
-
-				graphics.setForegroundColor( ReportColorConstants.MarginBorderColor );
-				graphics.drawRectangle( getBounds( ).getCopy( )
-						.crop( getBorder( ).getInsets( this ) )
-						.crop( DEFAULT_CROP ) );
+//				graphics.setForegroundColor( ReportColorConstants.MarginBorderColor );
+//				graphics.drawRectangle( getBounds( ).getCopy( )
+//						.crop( getBorder( ).getInsets( this ) )
+//						.crop( DEFAULT_CROP ) );
 
 				graphics.setForegroundColor( ReportColorConstants.ReportForeground );
 				graphics.drawRectangle( getBounds( ).getCopy( )
@@ -278,11 +275,27 @@ public class MasterPageEditPart extends AbstractReportEditPart
 		// getModel( ) ).getProperty( StyleHandle.BACKGROUND_COLOR_PROP ) );
 		reportDesignMarginBorder.setBackgroundColor( ( (MasterPageHandle) getModel( ) ).getPropertyHandle( StyleHandle.BACKGROUND_COLOR_PROP )
 				.getIntValue( ) );
-		getFigure( ).setBorder( reportDesignMarginBorder );
-
+		//getFigure( ).setBorder( reportDesignMarginBorder );
+		
+		refreshMarginBorder( reportDesignMarginBorder );
+		
 		refreshBackground( (MasterPageHandle) getModel( ) );
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractReportEditPart#refreshMarginBorder(org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder)
+	 */
+	public void refreshMarginBorder( ReportDesignMarginBorder border )
+	{
+		refreshBorder( (MasterPageHandle) getModel( ), border );
+		Insets pist = getPadding( null );
+		( (LineBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( pist );
+	}
 
+	private Insets getPadding(Insets retValue )
+	{
+		return DEUtil.getPadding( (MasterPageHandle) getModel( ), retValue );
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

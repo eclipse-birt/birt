@@ -12,25 +12,25 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportRootFigure;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * Presents border of margin
  *  
  */
-public class ReportDesignMarginBorder extends MarginBorder
+public class ReportDesignMarginBorder extends LineBorder
 {
 
-	private static final Insets DEFAULT_CROP = new Insets(-3, -3, -2, -2);
+	private boolean needChangeStyle = true;
 	
 	private int backgroundColor = 0xFFFFFF;
 
+	private Insets marginInsets;
 	/**
 	 * Constructor
 	 * 
@@ -38,51 +38,8 @@ public class ReportDesignMarginBorder extends MarginBorder
 	 */
 	public ReportDesignMarginBorder( Insets insets )
 	{
-		super( insets );
-
-	}
-
-	/**
-	 * paint the border (non-Javadoc)
-	 * 
-	 * @see org.eclipse.draw2d.MarginBorder#paint(org.eclipse.draw2d.IFigure,
-	 *      org.eclipse.draw2d.Graphics, org.eclipse.draw2d.geometry.Insets)
-	 */
-	public void paint( IFigure figure, Graphics graphics, Insets insets )
-	{
-		Color oldBackgroundColor = graphics.getBackgroundColor( );
-		Color oldForegroundColor = graphics.getForegroundColor( );
-		Rectangle rect = figure.getBounds( ).getCopy( );
-		Insets margin = getInsets( figure );
-		
-		graphics.setBackgroundColor( ColorManager.getColor( backgroundColor ) );
-
-		Rectangle top = new Rectangle( rect.x, rect.y, rect.width, margin.top );
-		graphics.fillRectangle( top );
-		Rectangle left = new Rectangle( rect.x,
-				rect.y,
-				margin.left,
-				rect.height );
-		graphics.fillRectangle( left );
-		Rectangle bottom = new Rectangle( rect.x,
-				rect.height - margin.bottom,
-				rect.width,
-				margin.bottom );
-		graphics.fillRectangle( bottom );
-		Rectangle right = new Rectangle( rect.width - margin.right,
-				rect.y,
-				margin.right,
-				rect.height );
-		graphics.fillRectangle( right );
-
-		graphics.setBackgroundColor( oldBackgroundColor );
-
-		graphics.setForegroundColor( ReportColorConstants.MarginBorderColor );
-		graphics.drawRectangle( figure.getBounds( )
-				.getCopy( )
-				.crop( margin )
-				.crop( DEFAULT_CROP ) );
-		graphics.setForegroundColor( oldForegroundColor );
+		//super( insets );
+		setMarginInsets( insets );
 	}
 	
 	/**
@@ -104,11 +61,63 @@ public class ReportDesignMarginBorder extends MarginBorder
 		return backgroundColor;
 	}
 	
-	/**
-	 * @param insets
-	 */
-	public void setInset(Insets insets)
+	@Override
+	protected void drawBorder( IFigure figure, Graphics g, int side, int style,
+			int[] width, int color, Insets insets )
 	{
-		this.insets = insets;
+		Rectangle r = figure.getBounds( ).getCopy( ).crop(getMarginInsets( )).crop( insets ).
+			crop(ReportRootFigure.DEFAULT_CROP).crop( new Insets(1,1,1,1));
+
+		if ( style != 0 && needChangeStyle)
+		{
+			//set ForegroundColor with the given color
+			g.setForegroundColor( ColorManager.getColor( color ) );
+			BorderUtil.drawBorderLine( g, side, style, width, r );
+		}
+		else
+		{
+			g.setForegroundColor( ReportColorConstants.MarginBorderColor );
+			//if the border style is set to none, draw a default dot line in
+			// black as default
+			BorderUtil.drawDefaultLine( g, side, r );
+		}
+
+		g.restoreState( );
+	}
+	
+	public Insets getBorderInsets( )
+	{
+		return new Insets(marginInsets).add( super.getBorderInsets( ));
+		//return super.getBorderInsets( );
+	}
+	
+	/**
+	 *Reset the style 
+	 */
+	public void reInitStyle( )
+	{
+		needChangeStyle = false;
+	}
+	
+	/**Gets the margin insets
+	 * @return
+	 */
+	public Insets getMarginInsets( )
+	{
+		return new Insets(marginInsets);
+	}
+	
+	@Override
+	public Insets getInsets( IFigure figure )
+	{
+		return new Insets(marginInsets).add( super.getInsets( figure ) );
+	}
+	
+	/**Gets the margin insets
+	 * @param marginInsets
+	 */
+	public void setMarginInsets( Insets marginInsets )
+	{
+		this.marginInsets = marginInsets;
 	}
 }

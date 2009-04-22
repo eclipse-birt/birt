@@ -92,6 +92,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
@@ -3080,5 +3081,44 @@ public class DEUtil
 		}
 		
 		return DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(((ReportDesignHandle)handle).getLayoutPreference( ) );
+	}
+	
+	/**Gets the padding
+	 * @param handle
+	 * @param retValue
+	 * @return
+	 */
+	public static Insets getPadding( DesignElementHandle handle, Insets retValue )
+	{
+		if ( retValue == null )
+		{
+			retValue = new Insets( );
+		}
+		else
+		{
+			retValue = new Insets( retValue );
+		}
+
+		int fontSize = DEUtil.getFontSizeIntValue( handle );
+
+		DimensionValue dimensionValue = (DimensionValue) handle.getProperty( StyleHandle.PADDING_TOP_PROP );
+		double px = DEUtil.convertToPixel( dimensionValue, fontSize );
+
+		dimensionValue = (DimensionValue) handle.getProperty( StyleHandle.PADDING_BOTTOM_PROP );
+		double py = DEUtil.convertToPixel( dimensionValue, fontSize );
+
+		retValue.top = (int) px;
+		retValue.bottom = (int) py;
+
+		dimensionValue = (DimensionValue) handle.getProperty( StyleHandle.PADDING_LEFT_PROP );
+		px = DEUtil.convertToPixel( dimensionValue, fontSize );
+
+		dimensionValue = (DimensionValue) handle.getProperty( StyleHandle.PADDING_RIGHT_PROP );
+		py = DEUtil.convertToPixel( dimensionValue, fontSize );
+
+		retValue.left = (int) px;
+		retValue.right = (int) py;
+
+		return retValue;
 	}
 }

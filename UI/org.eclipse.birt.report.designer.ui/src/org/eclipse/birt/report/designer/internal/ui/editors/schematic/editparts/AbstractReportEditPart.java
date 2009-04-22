@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -350,5 +351,10 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 	public void activate( )
 	{
 		super.activate( );
+	}
+	
+	public void refreshMarginBorder( ReportDesignMarginBorder border )
+	{
+		//do nothing now
 	}
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.layout;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractReportEditPart;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
@@ -56,13 +57,16 @@ public class ReportDesignLayout extends AbstractPageFlowLayout
 	{
 		initLayout();
  		super.layout( parent );
-
+ 		
+ 		ReportDesignMarginBorder border = (ReportDesignMarginBorder)parent.getBorder();
+		Insets insets = border.getMarginInsets( );
+		
  		Dimension extend = new Dimension(getInitInsets( ).getWidth( ), getInitInsets( ).getHeight( ));
  		Dimension prefSize = new Dimension(maxWidth, maxHeight).expand( extend );
 
 		Rectangle bounds = parent.getBounds( ).getCopy( );
 
-		bounds.height = Math.max( prefSize.height, getInitSize().height );
+		bounds.height = Math.max( prefSize.height + border.getTrueBorderInsets( ).getHeight( ) + border.getPaddingInsets( ).getHeight( ), getInitSize().height );
 
 		if (bounds.width < getInitSize().width)
 		{
@@ -78,16 +82,17 @@ public class ReportDesignLayout extends AbstractPageFlowLayout
 				+ result.bottomSpace );
 		
 		
-		ReportDesignMarginBorder border = (ReportDesignMarginBorder)parent.getBorder();
-		Insets insets = border.getInsets(parent);
+		
 		//int contentWidth = prefSize.width - insets.getWidth() - getInitSize().width + getInitInsets().getWidth();
-		int contentWidth = maxWidth - getInitSize().width + getInitInsets().getWidth();
+		int contentWidth = maxWidth - getInitSize().width + getInitInsets().getWidth() + border.getTrueBorderInsets( ).left + border.getPaddingInsets( ).left;
 		if (insets.right < contentWidth )
 		{
 			ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( new Insets(insets.top, insets.left, insets.bottom,
 					contentWidth ));
 			reportDesignMarginBorder.setBackgroundColor(border.getBackgroundColor());
-			parent.setBorder( reportDesignMarginBorder );
+			
+			//parent.setBorder( reportDesignMarginBorder );
+			getAbstractReportEditPart( ).refreshMarginBorder( reportDesignMarginBorder );
 			bounds.width = bounds.width + contentWidth - insets.right;
 		}
 		else if (getInitInsets().right > contentWidth && insets.right != getInitInsets().right)
@@ -95,7 +100,8 @@ public class ReportDesignLayout extends AbstractPageFlowLayout
 			ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( new Insets(insets.top, insets.left, insets.bottom,
 					getInitInsets().right ));
 			reportDesignMarginBorder.setBackgroundColor(border.getBackgroundColor());
-			parent.setBorder( reportDesignMarginBorder );
+			//parent.setBorder( reportDesignMarginBorder );
+			getAbstractReportEditPart( ).refreshMarginBorder( reportDesignMarginBorder );
 			bounds.width = getInitSize().width;;
 		}
 		else if (insets.right > contentWidth && getInitInsets().right < contentWidth)
@@ -103,7 +109,8 @@ public class ReportDesignLayout extends AbstractPageFlowLayout
 			ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( new Insets(insets.top, insets.left, insets.bottom,
 					contentWidth ));
 			reportDesignMarginBorder.setBackgroundColor(border.getBackgroundColor());
-			parent.setBorder( reportDesignMarginBorder );
+			//parent.setBorder( reportDesignMarginBorder );
+			getAbstractReportEditPart( ).refreshMarginBorder( reportDesignMarginBorder );
 			bounds.width = bounds.width + contentWidth - insets.right;
 		}
 
@@ -124,6 +131,17 @@ public class ReportDesignLayout extends AbstractPageFlowLayout
 	 */
 	void postLayoutRow(WorkingData data)
 	{
+//		ReportDesignMarginBorder border = (ReportDesignMarginBorder)getOwner( ).getFigure( ).getBorder( );
+//		Insets insets = border.getTrueBorderInsets( );
+//		if (data.rowY + insets.getHeight( ) > maxHeight)
+//		{
+//			maxHeight = data.rowY + insets.getHeight( );
+//		}
+//		if (data.rowWidth + insets.getWidth( ) > maxWidth )
+//		{
+//			maxWidth = data.rowWidth + insets.getWidth( );
+//		}
+		
 		if (data.rowY > maxHeight)
 		{
 			maxHeight = data.rowY;
@@ -148,4 +166,8 @@ public class ReportDesignLayout extends AbstractPageFlowLayout
 		this.isAuto = isAuto;
 	}
 	
+	private AbstractReportEditPart getAbstractReportEditPart()
+	{
+		return (AbstractReportEditPart)getOwner( );
+	}
 }

@@ -200,36 +200,7 @@ public abstract class DesignElementHandleAdapter
 	 */
 	public Insets getPadding( Insets retValue )
 	{
-		if ( retValue == null )
-		{
-			retValue = new Insets( );
-		}
-		else
-		{
-			retValue = new Insets( retValue );
-		}
-
-		int fontSize = DEUtil.getFontSizeIntValue( getHandle( ) );
-
-		DimensionValue dimensionValue = (DimensionValue) getHandle( ).getProperty( StyleHandle.PADDING_TOP_PROP );
-		double px = DEUtil.convertToPixel( dimensionValue, fontSize );
-
-		dimensionValue = (DimensionValue) getHandle( ).getProperty( StyleHandle.PADDING_BOTTOM_PROP );
-		double py = DEUtil.convertToPixel( dimensionValue, fontSize );
-
-		retValue.top = (int) px;
-		retValue.bottom = (int) py;
-
-		dimensionValue = (DimensionValue) getHandle( ).getProperty( StyleHandle.PADDING_LEFT_PROP );
-		px = DEUtil.convertToPixel( dimensionValue, fontSize );
-
-		dimensionValue = (DimensionValue) getHandle( ).getProperty( StyleHandle.PADDING_RIGHT_PROP );
-		py = DEUtil.convertToPixel( dimensionValue, fontSize );
-
-		retValue.left = (int) px;
-		retValue.right = (int) py;
-
-		return retValue;
+		return DEUtil.getPadding( getHandle(), retValue );
 	}
 
 	/**
