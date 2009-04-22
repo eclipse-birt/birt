@@ -244,6 +244,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	static final protected short FIELD_DROP = 111;
 	static final protected short FIELD_HEADERS = 112;
 	static final protected short FIELD_SCOPE = 113;
+	static final protected short FIELD_REPEAT_CONTENT = 114;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -283,6 +284,11 @@ public class CellContent extends AbstractContent implements ICellContent
 			IOUtil.writeShort( out, FIELD_SCOPE );
 			IOUtil.writeString( out, scope );
 		}
+		if ( repeatContent )
+		{
+			IOUtil.writeShort( out, FIELD_REPEAT_CONTENT );
+			IOUtil.writeBool( out, true );
+		}
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in,
@@ -313,6 +319,9 @@ public class CellContent extends AbstractContent implements ICellContent
 				break;
 			case FIELD_SCOPE :
 				scope = IOUtil.readString( in );
+				break;
+			case FIELD_REPEAT_CONTENT :
+				repeatContent = IOUtil.readBool( in );
 				break;
 			default :
 				super.readField( version, filedId, in, loader );

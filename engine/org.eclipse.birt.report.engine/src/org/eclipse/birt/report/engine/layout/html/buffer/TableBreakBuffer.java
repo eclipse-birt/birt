@@ -40,7 +40,9 @@ public class TableBreakBuffer implements IPageBuffer
 	int repeatStart = 0;
 	int repeatEnd = 0;
 	boolean isRepeatStatus = false;
+	boolean isRepeatCellContent = false;
 	ArrayList<ContentEvent> repeatEvent = new ArrayList<ContentEvent>();
+	ArrayList<ContentEvent> repeatCellContentEvent = new ArrayList<ContentEvent>();
 
 	public TableBreakBuffer( IPageBuffer parentBuffer, HTMLLayoutContext context )
 	{
@@ -153,13 +155,36 @@ public class TableBreakBuffer implements IPageBuffer
 					{
 						isRepeatStatus = true;
 					}
-					int index = getPageIndex( (ICellContent) content );
+					int index = getStartPageIndex( (ICellContent) content );
+					
 					if ( index != currentIndex )
 					{
 						currentIndex = index;
 						repeatCells( emitter);
 					}
 					currentBuffer = buffers[currentIndex];
+					//flush repeat cell content
+					if ( isRepeatCellContent )
+					{
+						repeatCellContent( emitter );
+						repeatCellContentEvent.clear( );
+						isRepeatCellContent = false;
+					}
+					//cache repeat cell content
+					if ( ( (ICellContent) content ).repeatContent( ) )
+					{
+
+						int colSpan = ( (ICellContent) content ).getColSpan( );
+						if ( colSpan > 1 )
+						{
+							int col = ( (ICellContent) content ).getColumn( );
+							if ( col + colSpan > pageBreakIndexs[currentIndex] + 1 )
+							{
+								isRepeatCellContent = true;
+							}
+						}
+					}
+
 				}
 				currentBuffer.startContainer( content, isFirst, emitter,
 						visible );
@@ -174,17 +199,39 @@ public class TableBreakBuffer implements IPageBuffer
 		{
 			repeatEvent.add(new ContentEvent(content, visible, ContentEvent.START_CONTAINER_EVENT));
 		}
+		if ( isRepeatCellContent )
+		{
+			repeatCellContentEvent.add( new ContentEvent( content, visible,
+					ContentEvent.START_CONTAINER_EVENT ) );
+		}
 	}
+	
+	
+	protected void repeatCellContent( IContentEmitter emitter )
+			throws BirtException
+	{
+		int size = repeatCellContentEvent.size( );
+		if ( size > 0 )
+		{
+			ContentEvent last = repeatCellContentEvent.get( size - 1 );
+			last.isFirst = false;
+			Iterator iter = repeatCellContentEvent.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				ContentEvent child = (ContentEvent) iter.next( );
+				visitEvent( child, emitter );
+			}
+		}
+	}
+	
 	
 	protected void repeatCells( IContentEmitter emitter ) throws BirtException
 	{
 		int size = repeatEvent.size( );
 		if(size>1)
 		{
-			
 			ContentEvent last = repeatEvent.get( size-1 );
 			last.isFirst = false;
-			
 			Iterator iter = repeatEvent.iterator( );
 			while ( iter.hasNext( ) )
 			{
@@ -231,6 +278,11 @@ public class TableBreakBuffer implements IPageBuffer
 		{
 			repeatEvent.add(new ContentEvent(content, visible, ContentEvent.START_LEAF_EVENT));
 		}
+		if ( isRepeatCellContent )
+		{
+			repeatCellContentEvent.add( ( new ContentEvent( content, visible,
+					ContentEvent.START_LEAF_EVENT ) ) );
+		}
 	}
 
 	public void endContainer( IContent content, boolean finished,
@@ -271,13 +323,23 @@ public class TableBreakBuffer implements IPageBuffer
 			case IContent.ROW_CONTENT :
 				if ( currentTableIndex == nestCount &&  currentTableIndex > 0 )
 				{
-					if ( pageBreakIndexs.length-1 != currentIndex )
+					if ( pageBreakIndexs.length - 1 != currentIndex )
 					{
-						for(int i=currentIndex; i<pageBreakIndexs.length; i++)
+						for ( int i = currentIndex; i < pageBreakIndexs.length; i++ )
 						{
 							currentIndex = i;
 							currentBuffer = buffers[currentIndex];
-							repeatCells( emitter);
+							repeatCells( emitter );
+							if ( isRepeatCellContent )
+							{
+								repeatCellContent( emitter );
+							}
+						}
+						repeatEvent.clear( );
+						if ( isRepeatCellContent )
+						{
+							isRepeatCellContent = false;
+							repeatCellContentEvent.clear( );
 						}
 					}
 					endContainerInPages( content, finished, emitter, visible );
@@ -291,19 +353,35 @@ public class TableBreakBuffer implements IPageBuffer
 			case IContent.CELL_CONTENT :
 				if ( currentTableIndex == nestCount && currentTableIndex > 0 )
 				{
-					int pageIndex = needPageBreak( (ICellContent) content );
-					if ( pageIndex >= 0 )
+					int pageIndex = getEndPageIndex( (ICellContent) content );
+					if ( pageIndex > currentIndex )
 					{
 						currentBuffer.endContainer( content, finished, emitter,
 								visible );
-						for ( int i = currentIndex + 1; i < pageIndex; i++ )
+						if(pageIndex > currentIndex+1)
 						{
-							currentBuffer = buffers[i];
-							repeatCells( emitter );
-							currentBuffer.startContainer( content, false,
-									emitter, visible );
-							currentBuffer.endContainer( content, finished,
-									emitter, visible );
+							// prepare repeat cell content
+							if ( isRepeatCellContent )
+							{
+								repeatCellContentEvent.add( new ContentEvent(
+										content, visible,
+										ContentEvent.END_CONTAINER_EVENT ) );
+							}
+							for ( int i = currentIndex + 1; i < pageIndex; i++ )
+							{
+								currentBuffer = buffers[i];
+								repeatCells( emitter );
+								if ( isRepeatCellContent )
+								{
+									repeatCellContent( emitter );
+								}
+							}
+							// restore the cache of repeat cell content
+							if ( isRepeatCellContent )
+							{
+								repeatCellContentEvent
+										.remove( repeatCellContentEvent.size( ) - 1 );
+							}
 						}
 						pageIndex = ( pageIndex == pageBreakIndexs.length
 								? pageIndex - 1
@@ -341,6 +419,11 @@ public class TableBreakBuffer implements IPageBuffer
 		if(isRepeatStatus)
 		{
 			repeatEvent.add(new ContentEvent(content, visible, ContentEvent.END_CONTAINER_EVENT));
+		}
+		if ( isRepeatCellContent )
+		{
+			repeatCellContentEvent.add( new ContentEvent( content, visible,
+					ContentEvent.END_CONTAINER_EVENT ) );
 		}
 
 	}
@@ -484,7 +567,7 @@ public class TableBreakBuffer implements IPageBuffer
 		return false;
 	}
 
-	public int getPageIndex( ICellContent cell )
+	public int getStartPageIndex( ICellContent cell )
 	{
 		int start = cell.getColumn( );
 		int current = currentIndex;
@@ -502,11 +585,11 @@ public class TableBreakBuffer implements IPageBuffer
 		}
 		return current;
 	}
-
-	public int needPageBreak( ICellContent cell )
+		
+	public int getEndPageIndex( ICellContent cell )
 	{
 		int current = currentIndex;
-		int end = cell.getColumn( ) + cell.getColSpan( );
+		int end = cell.getColumn( ) + cell.getColSpan( )  ;
 		if ( end > pageBreakIndexs[current] )
 		{
 			while ( pageBreakIndexs[current] < end )
@@ -520,7 +603,7 @@ public class TableBreakBuffer implements IPageBuffer
 			}
 			return current;
 		}
-		return -1;
+		return current;
 
 	}
 

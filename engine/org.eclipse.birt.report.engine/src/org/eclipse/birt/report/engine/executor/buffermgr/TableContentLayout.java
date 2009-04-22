@@ -87,6 +87,10 @@ public class TableContentLayout
 		List hints = context.getTableColumnHint( tableId );
 		
 		this.adjustedColumnIds = new int[colCount];
+		for(int i=0; i<colCount; i++)
+		{
+			adjustedColumnIds[i] = -1;
+		}
 		
 		if(hints.size()>0)
 		{
@@ -106,13 +110,13 @@ public class TableContentLayout
 					adjustedColumnIds[i] = ( current >= 0 ? current : 0 );
 				}
 			}
-			
-			current = adjustedColumnIds[0];
-			for ( int i = 1; i < colCount; i++ )
+			int maxColId = Math.max( 0, current) ;
+			current = 0;
+			for ( int i = 0; i < colCount; i++ )
 			{
 				if ( adjustedColumnIds[i] < current )
 				{
-					adjustedColumnIds[i] = current;
+					adjustedColumnIds[i] = Math.min( maxColId, current + 1 );
 				}
 				else
 				{
