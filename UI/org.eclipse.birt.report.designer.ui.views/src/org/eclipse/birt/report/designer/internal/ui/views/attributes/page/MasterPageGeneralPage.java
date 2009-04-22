@@ -199,7 +199,7 @@ public class MasterPageGeneralPage extends GeneralPage
 				heightSection.getUnitComboControl( ).setReadOnly( true );
 				orientationSection.getComboControl( )
 						.getControl( )
-						.setEnabled( false );
+						.setEnabled( true );
 			}
 			else
 			{
@@ -207,7 +207,7 @@ public class MasterPageGeneralPage extends GeneralPage
 				heightSection.getUnitComboControl( ).setReadOnly( false );
 				orientationSection.getComboControl( )
 						.getControl( )
-						.setEnabled( true );
+						.setEnabled( false );
 			}
 		}
 	}
