@@ -13,7 +13,7 @@
             <property name="isRequired">false</property>
             <property name="controlType">text-box</property>
             <simple-property-list name="defaultValue">
-                <value>"abc"</value>
+                <value type="constant">abc</value>
             </simple-property-list>
             <structure name="format">
                 <property name="category">Unformatted</property>

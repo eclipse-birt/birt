@@ -452,7 +452,7 @@ from OFFICES]]></xml-property>
         <label name="location" id="6">
             <text-property name="text">label1</text-property>
         </label>
-        <extended-item extensionName="Crosstab" extensionVersion="2.3.0" name="NewCross Tab"
+        <extended-item extensionName="Crosstab" extensionVersion="2.5.0" name="NewCross Tab"
  id="13">
             <property name="measures">
                 <extended-item extensionName="MeasureView" name="NewMeasure View" id="20">

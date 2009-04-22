@@ -15,7 +15,7 @@
             <property name="mustMatch">false</property>
             <property name="fixedOrder">true</property>
             <simple-property-list name="defaultValue">
-                <value>10/15/2005</value>
+                <value type="constant">10/15/2005</value>
             </simple-property-list>
             <structure name="format">
                 <property name="category">Long Date</property>

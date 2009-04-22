@@ -14,7 +14,7 @@ package org.eclipse.birt.report.tests.model.regression;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IParameterModel;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
@@ -52,7 +52,7 @@ public class Regression_141709 extends BaseTestCase
 		ScalarParameterHandle param = (ScalarParameterHandle) designHandle
 				.findParameter( "p1" ); //$NON-NLS-1$
 		assertEquals( "k1", param //$NON-NLS-1$
-				.getProperty( IScalarParameterModel.PROMPT_TEXT_ID_PROP ) );
+				.getProperty( IParameterModel.PROMPT_TEXT_ID_PROP ) );
 		param.setPromptTextID( "k2" ); //$NON-NLS-1$
 		assertEquals( "k2", param.getPromptTextID( ) ); //$NON-NLS-1$
 
