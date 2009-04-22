@@ -250,6 +250,7 @@ public class ReportTemplateTransferDropTargetListener extends
 							{
 								EmbeddedImage image = StructureFactory.newEmbeddedImageFrom( (EmbeddedImageHandle) dragObj,
 										moduleHandle );
+								image.setType( ( (EmbeddedImageHandle) dragObj ).getType( ) );
 								DNDUtil.addEmbeddedImageHandle( getTargetEditPart( ).getModel( ),
 										image );
 							}
