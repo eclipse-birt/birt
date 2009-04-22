@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 
 /**
@@ -76,6 +77,13 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 		content.setRowSpan( rowSpan );
 		content.setColSpan( colSpan );
 		content.setColumn( colIndex );
+
+		// set repeat content property for level view cells
+		if ( cellHandle != null
+				&& cellHandle.getContainer( ) instanceof LevelViewHandle )
+		{
+			content.setRepeatContent( true );
+		}
 
 		// reset data position before style processing
 		try
