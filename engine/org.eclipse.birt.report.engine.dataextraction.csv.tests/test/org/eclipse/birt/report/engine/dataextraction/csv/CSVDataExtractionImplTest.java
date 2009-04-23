@@ -611,7 +611,7 @@ public class CSVDataExtractionImplTest extends TestCase
 		
 		DataExtractionOption deOptions = new DataExtractionOption(allOptions);
 		deOptions.setOutputStream( out );		
-		extract.initilize( null, deOptions );
+		extract.initialize( null, deOptions );
 		return extract;
 	}
 
