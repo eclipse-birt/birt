@@ -29,7 +29,6 @@ import org.eclipse.birt.data.engine.api.aggregation.AggrFunctionWrapper.Paramete
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.ResultIterator;
 
 /**
  * 
@@ -70,7 +69,8 @@ public class AggregationManager
 			"MODE",
 			"STDDEV",
 			"VARIANCE",
-			"RANK"
+			"RANK",
+			"RUNNINGSUM"
 	};
 
 	public static final int AGGR_TABULAR = 0;
