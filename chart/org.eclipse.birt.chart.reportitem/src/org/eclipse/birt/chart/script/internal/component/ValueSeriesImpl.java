@@ -48,6 +48,7 @@ import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.simpleapi.IAction;
 import org.eclipse.emf.common.util.EList;
 
@@ -55,9 +56,8 @@ import org.eclipse.emf.common.util.EList;
  * 
  */
 
-public abstract class ValueSeriesImpl extends SeriesImpl
-		implements
-			IValueSeries
+public abstract class ValueSeriesImpl extends SeriesImpl implements
+		IValueSeries
 {
 
 	protected ValueSeriesImpl( SeriesDefinition sd, Chart cm )
@@ -87,11 +87,11 @@ public abstract class ValueSeriesImpl extends SeriesImpl
 
 	public IAction getAction( )
 	{
-		EList triggers = series.getTriggers( );
+		EList<Trigger> triggers = series.getTriggers( );
 		Action chartAction = null;
 		for ( int i = 0; i < triggers.size( ); i++ )
 		{
-			chartAction = ( (Trigger) triggers.get( i ) ).getAction( );
+			chartAction = triggers.get( i ).getAction( );
 			if ( ActionType.URL_REDIRECT_LITERAL.equals( chartAction.getType( ) ) )
 			{
 				URLValue uv = (URLValue) chartAction.getValue( );
@@ -173,6 +173,11 @@ public abstract class ValueSeriesImpl extends SeriesImpl
 						action.setURI( uri );
 					}
 
+					public IStructure getStructure( )
+					{
+						return action.getStructure( );
+					}
+
 				};
 			}
 		}
@@ -184,14 +189,13 @@ public abstract class ValueSeriesImpl extends SeriesImpl
 		SeriesGrouping grouping = null;
 		if ( cm instanceof ChartWithAxes )
 		{
-			Axis bAxis = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
-			SeriesDefinition bSd = (SeriesDefinition) bAxis.getSeriesDefinitions( )
-					.get( 0 );
+			Axis bAxis = ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
+			SeriesDefinition bSd = bAxis.getSeriesDefinitions( ).get( 0 );
 			grouping = bSd.getGrouping( );
 		}
 		if ( cm instanceof ChartWithoutAxes )
 		{
-			SeriesDefinition bSd = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+			SeriesDefinition bSd = ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
 					.get( 0 );
 			grouping = bSd.getGrouping( );
 		}
