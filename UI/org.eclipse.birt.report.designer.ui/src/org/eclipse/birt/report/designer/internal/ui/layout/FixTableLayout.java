@@ -33,6 +33,9 @@ public class FixTableLayout extends TableLayout
 	private static final int ALLOW_COLOUMN_WIDTH = 1;
 	public static final int DEFAULT_ROW_HEIGHT = 16;
 
+	/**Constructor
+	 * @param part
+	 */
 	public FixTableLayout( ITableLayoutOwner part )
 	{
 		super( part );
@@ -58,9 +61,12 @@ public class FixTableLayout extends TableLayout
 
 		init( data.columnWidths, data.rowHeights );
 		
+		//put the figure, info key
 		initFigureInfo(children);
 		
+		//set the column
 		caleColumnWidth( );
+		
 		//debugColumn( );
 		preCaleRow( );
 
@@ -577,10 +583,15 @@ public class FixTableLayout extends TableLayout
 
 		containerWidth = Math.max( 0, containerWidth );
 
+		//Totol of the figure set width(include ercentage), should = percentageTotal + forceTotal;
 		int totalColumn = 0;
+		
+		//Total count of the figure set width(include ercentage)
 		int forceCount = size;
-		//there add the percentage adjust
+		//there add the percentage adjust,total width of the figure set percentage
 		int percentageTotal = 0;
+		
+		//Total of force count 
 		int forceTotal = 0;
 		double percentageValueTotal = 0.0;
 		for ( int i = 0; i < size; i++ )
@@ -605,6 +616,11 @@ public class FixTableLayout extends TableLayout
 			}
 		}
 		
+		/*if the percentageTotal > containerWidth - forceTotal, the precentage reset on scale.
+		for example, (All units is pix),if the containerWidth is 1000,has 4 columns, one is 300(user set),one
+		is 40% and one is 35%, the last column not set.So The 1000*40% + 1000*35 > 1000 - 300, the last result is 
+		300, 700*40/(40+35), 700*35/(40+35), 1(ALLOW_COLOUMN_WIDTH).  		  
+		 */
 		if (percentageTotal > 0 && containerWidth - forceTotal < percentageTotal)
 		{
 			percentageTotal = 0;
@@ -632,10 +648,17 @@ public class FixTableLayout extends TableLayout
 			totalColumn = percentageTotal + forceTotal;
 		}
 
+		/*The forceWidth is the user set the size(include %),if the user don't set the size, the default size is
+		 * 100%,but is not force width  If the force count is 0, means all the column set width(include %).
+		 * If force count is 0, and the table don't set width,don't change anything. 
+		 * 
+		 */
 		if ((!getOwner( ).isForceWidth( )) && forceCount == 0)
 		{
 			return;
 		}
+		
+		//if the set width total larger than container width, the others column (not set width ) set the 1 pix.
 		if ( totalColumn >= containerWidth )
 		{
 			for ( int i = 0; i < size; i++ )
@@ -648,11 +671,19 @@ public class FixTableLayout extends TableLayout
 				}
 			}
 		}
+		/*
+		 * If the container width larger than totalColumn, assign the more width to the column average.
+		 */
 		else
 		{
 			int moreWith = containerWidth - totalColumn;
+			//moreWith / column count
 			int argaWith;
+			//Mode of the moreWith % column count
 			int others;
+			/*
+			 * If all the column set width, the more with assign the all column average.
+			 */
 			if ( forceCount == 0 )
 			{
 				argaWith = moreWith / size;
@@ -670,6 +701,9 @@ public class FixTableLayout extends TableLayout
 					}
 				}
 			}
+			/*
+			 * If has other column don't set the column, the more width assign to the columns(not set the width) average
+			 */
 			else
 			{
 				if ( moreWith < forceCount * ALLOW_COLOUMN_WIDTH )
