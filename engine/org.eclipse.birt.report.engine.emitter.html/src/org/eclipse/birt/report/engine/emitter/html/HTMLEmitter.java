@@ -526,7 +526,11 @@ public abstract class HTMLEmitter
 
 		if ( ( type & HTMLEmitterUtil.DISPLAY_BLOCK ) > 0 )
 		{
-			buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, width );
+			if ( width != null )
+			{
+				buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, width );
+				styleBuffer.append( " overflow: hidden;" );
+			}
 			if ( !canShrink )
 			{
 				buildSize( styleBuffer, HTMLTags.ATTR_MIN_HEIGHT, height );
@@ -542,7 +546,11 @@ public abstract class HTMLEmitter
 			}
 			if ( !canShrink )
 			{
-				buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, width );
+				if ( width != null )
+				{
+					buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, width );
+					styleBuffer.append( " overflow: hidden;" );
+				}
 			}
 
 		}
