@@ -238,7 +238,7 @@ public abstract class BoundColumnsMgr
 
 	private void dealListingGroup( GroupElement element, Module module )
 	{
-		String value = (String) element.getLocalProperty( module,
+		String value = getLocalStringProperty( module, element,
 				IGroupElementModel.KEY_EXPR_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
@@ -479,7 +479,7 @@ public abstract class BoundColumnsMgr
 
 	private void dealRow( TableRow element, Module module )
 	{
-		String value = (String) element.getLocalProperty( module,
+		String value = getLocalStringProperty( module, element,
 				ITableRowModel.BOOKMARK_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
@@ -532,15 +532,16 @@ public abstract class BoundColumnsMgr
 
 		dealReportItem( element, module );
 
-		String value = (String) element.getLocalProperty( module,
+		String value = getLocalStringProperty( module, element,
 				IImageItemModel.URI_PROP );
+
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 		value = getLocalStringProperty( module, element,
 				IImageItemModel.VALUE_EXPR_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
-		value = (String) element.getLocalProperty( module,
+		value = getLocalStringProperty( module, element,
 				IImageItemModel.TYPE_EXPR_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
