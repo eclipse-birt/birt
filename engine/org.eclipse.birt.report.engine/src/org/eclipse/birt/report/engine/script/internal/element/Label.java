@@ -174,7 +174,6 @@ public class Label extends ReportItem implements ILabel
                         .getAction() );
     }
 
-	@Override
 	public void addAction( IAction action )
 	{
 		// TODO Auto-generated method stub
