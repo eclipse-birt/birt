@@ -6,11 +6,30 @@
          <meta.schema plugin="org.eclipse.birt.core" id="ScriptFunctionService" name="ScriptFunctionService"/>
       </appInfo>
       <documentation>
-         This extension point is defined for user to extends the script function supported by BIRT. The script function is used in java script expression in BIRT report design. 
+         This extension point is defined for user to extends the script function supported by BIRT. The script function is used in java script expression in BIRT report designer. 
 
 The script function consists of two parts: Category and function. The Category groups functions that of similar purpose together. The function provides necessary calculations against given argument.
 
 When being referred in expression, the following format prevail: [CategoryName].[FunctionName]. Say, to refer to a function &quot;foo&quot; in category &quot;Sample&quot;, the expression should like &quot;Sample.foo()&quot;.
+
+Users can also define new categories and new functions by this extension point, which will show up in java script expression in BIRT report design as those funcions defined by BIRT.
+
+To make a certain user-defined Category or Function work properly, the variable attributes of it should be registered correctly.
+
+A Category usually has four attributes while it may have any number of functions.
+
+The attribute &quot;isVisible&quot; indicates whether this category should show up in the BIRT report designer. If the value is false, the whole category including its sub functions will not be visible in the BIRT report designer.
+
+A Function usually has six attributes while it may have any number of arguments. 
+
+The attribute &quot;variableArguments&quot; indicates whether the function&apos;s last argument is varargument.
+The default value is &quot;false&quot;. 
+
+The attribute &quot;isVisible&quot; indicates whether this function should be visible in BIRT report designer. The default value is &quot;true&quot;.
+
+The attribute &quot;isStatic&quot; indicates whether it is a static script function of its category. Its different settings have different results in the BIRT report designer. If the value is set to &quot;true&quot;, then the generated expression will be in the standard format &quot;[CategoryName].[FunctionName]&quot;. For example, to refer a function &quot;foo&quot; under the category &quot;Sample&quot;, the expression will be like &quot;Sample.foo()&quot;. If the value of &quot;isStatic&quot; is set to &quot;false&quot;, then the resulted expression will be &quot;foo()&quot;. The default value is &quot;true&quot;.
+
+The attribute &quot;isConstructor&quot; indicates whether this function is a constructor of its category. Its different values have different results in the BIRT report designer. If a function &quot;foo&quot; with the attribute &quot;isConstructor&quot; registered as &quot;true&quot;, the generated Java script expression will be &quot;new foo()&quot;. The default value is &quot;false&quot;. Note that when a function is registered as &quot;static&quot;, then the setting of the attribute &quot;isConstructor&quot; will not take effect.
       </documentation>
    </annotation>
 
@@ -90,7 +109,7 @@ When being referred in expression, the following format prevail: [CategoryName].
          <attribute name="isVisible" type="boolean">
             <annotation>
                <documentation>
-                  
+                  The attribute of isVisible indicates whether this Category should be visible in the BIRT report designer. The default value is &quot;true&quot;.
                </documentation>
             </annotation>
          </attribute>
@@ -125,28 +144,28 @@ When being referred in expression, the following format prevail: [CategoryName].
          <attribute name="variableArguments" type="boolean">
             <annotation>
                <documentation>
-                  Indicate whether the function&apos;s last argument is varargument.
+                  Indicate whether the function&apos;s last argument is varargument. The default value is &quot;false&quot;.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="isStatic" type="boolean">
             <annotation>
                <documentation>
-                  Indicate whether it is a boolean function.
+                  Indicates whether it is a static script function. A static script function means that it can be referred directly by the expression like: &quot;[CategoryName].[FunctionName]&quot;. The default value is &quot;true&quot;.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="isConstructor" type="boolean">
             <annotation>
                <documentation>
-                  Indicate whether this function is a constructor of its category.
+                  Indicate whether this function is a constructor of its category. The default value is &quot;false&quot;.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="isVisible" type="boolean">
             <annotation>
                <documentation>
-                  
+                  The attribute of isVisible indicates whether this Function should be visible in the BIRT report designer. The default value is &quot;true&quot;.
                </documentation>
             </annotation>
          </attribute>
@@ -241,6 +260,13 @@ When being referred in expression, the following format prevail: [CategoryName].
          &lt;FunctionFactory class = &quot;org.eclipse.birt.script.function.FunctionFactory&quot;/&gt;
    &lt;/extension&gt;
 &lt;/plugin&gt;
+
+Suppose there is a category named &quot;Sample&quot; and under the category there is a user-defined function named &quot;foo&quot; defined.
+
+As for the category level, to make the defined category &quot;Sample&quot; visible in the BIRT report designer, the value of the attribute &quot;isVisible&quot; should be set to &quot;true&quot;. If it is manually set to &quot;false&quot;, then the whole category as well as its sub functions will not show up in the BIRT report designer, which means the function &quot;foo&quot; will be invisible either.
+
+As for the function level, to make the function &quot;foo&quot; visible under the category &quot;Sample&quot;, the attribute &quot;isVisible&quot; should be set to &quot;true&quot; as well as the same attribute of the category &quot;Sample&quot; is &quot;true&quot;. Otherwise, it will not show up in the BIRT report designer. In order to refer the function &quot;foo&quot;, the expression should be in the standard format: &quot;Sample.foo()&quot;. To make the expression generated by BIRT correctly, the attribute &quot;isStatic&quot; should be set to &quot;true&quot;. Otherwise, the generated expression will be just like: &quot;foo()&quot;. In addition, the attribute &quot;isConstructor&quot; should be set to &quot;false&quot; which indicates &quot;foo&quot; is not a constructor. If it is registered as a constructor, then the resulted expression will be: &quot;new foo()&quot;. If &quot;foo&quot; is registered as both a static function and a constructor, then it is regarded just as a static function rather than a constructor. That means the corresponding expression will be: &quot;Sample.foo()&quot;.
+
       </documentation>
    </annotation>
 
