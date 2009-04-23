@@ -58,6 +58,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -810,8 +811,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					{
 						final Combo cmbDataField = new Combo( paramsComposite,
 								SWT.BORDER );
-						cmbDataField.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-								| GridData.GRAB_HORIZONTAL ) );
+						cmbDataField.setLayoutData( GridDataFactory.fillDefaults( ).grab( true, false ).span( 2, 1 ).create( ) );
 
 						initDataFields( cmbDataField, param );
 
