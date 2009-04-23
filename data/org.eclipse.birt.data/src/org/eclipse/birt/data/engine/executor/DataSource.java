@@ -96,28 +96,31 @@ class DataSource implements IDataSource
     
     private Set<CacheConnection> getOdaConnections( boolean populateToCache )
 	{
-		if ( DataSource.dataEngineLevelConnectionPool.get( this.session ) == null )
+		synchronized ( DataSource.dataEngineLevelConnectionPool )
 		{
-			if ( populateToCache )
+			if ( DataSource.dataEngineLevelConnectionPool.get( this.session ) == null )
 			{
-				DataSource.dataEngineLevelConnectionPool.put( this.session,
-						new HashMap<ConnectionProp, Set<CacheConnection>>( ) );
+				if ( populateToCache )
+				{
+					DataSource.dataEngineLevelConnectionPool.put( this.session,
+							new HashMap<ConnectionProp, Set<CacheConnection>>( ) );
+				}
+				else
+				{
+					return new HashSet<CacheConnection>( );
+				}
 			}
-			else
-			{
-				return new HashSet<CacheConnection>();
-			}
-		}
 
-		Map<ConnectionProp, Set<CacheConnection>> odaConnectionsMap = DataSource.dataEngineLevelConnectionPool.get( this.session );
-		ConnectionProp connProp = new ConnectionProp( this.driverName,
-				this.connectionProps,
-				this.appContext );
-		if ( odaConnectionsMap.get( connProp ) == null )
-		{
-			odaConnectionsMap.put( connProp, new HashSet<CacheConnection>( ) );
+			Map<ConnectionProp, Set<CacheConnection>> odaConnectionsMap = DataSource.dataEngineLevelConnectionPool.get( this.session );
+			ConnectionProp connProp = new ConnectionProp( this.driverName,
+					this.connectionProps,
+					this.appContext );
+			if ( odaConnectionsMap.get( connProp ) == null )
+			{
+				odaConnectionsMap.put( connProp, new HashSet<CacheConnection>( ) );
+			}
+			return odaConnectionsMap.get( connProp );
 		}
-		return odaConnectionsMap.get( connProp );
 	}
 	/**
 	 * Returns the driverName.
