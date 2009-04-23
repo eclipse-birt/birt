@@ -27,6 +27,8 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionButton;
+import org.eclipse.birt.report.designer.ui.expressions.IExpressionHelper;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.ComboBoxCellEditor;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionCellEditor;
@@ -40,6 +42,8 @@ import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -106,6 +110,8 @@ import org.eclipse.ui.PlatformUI;
 public class HyperlinkBuilder extends BaseDialog
 {
 
+	private static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
+	private static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
 	private static final String TITLE = Messages.getString( "HyperlinkBuilder.DialogTitle" ); //$NON-NLS-1$
 	private static final String LABEL_SELECT_TYPE = Messages.getString( "HyperlinkBuilder.Label.SelectType" ); //$NON-NLS-1$
 	private static final String LABEL_LOCATION = Messages.getString( "HyperlinkBuilder.Label.Location" ); //$NON-NLS-1$
@@ -587,10 +593,10 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 		} );
 		Composite buttonArea = new Composite( displayArea, SWT.NONE );
-		buttonArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, true ) );
+		buttonArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		buttonArea.setLayoutData( new GridData( ) );
 		createBrowerButton( buttonArea, locationEditor, true, false );
-		createExpressionButton( buttonArea, locationEditor );
+		createComplexExpressionButton( buttonArea, locationEditor );
 		createTargetBar( );
 		createTooltipBar( );
 	}
@@ -1025,6 +1031,55 @@ public class HyperlinkBuilder extends BaseDialog
 		} );
 
 	}
+	
+	private void createComplexExpressionButton( Composite parent,
+			final Text text )
+	{
+
+		final ExpressionButton button = UIUtil.createExpressionButton( parent,
+				SWT.PUSH );
+		IExpressionHelper helper = new IExpressionHelper( ) {
+
+			public String getExpression( )
+			{
+				if ( text != null )
+					return text.getText( );
+				return "";
+			}
+
+			public void notifyExpressionChangeEvent( String oldExpression,
+					String newExpression )
+			{
+				updateButtons( );
+			}
+
+			public void setExpression( String expression )
+			{
+				if ( text != null )
+					text.setText( expression );
+			}
+
+			public IExpressionProvider getExpressionProvider( )
+			{
+				return HyperlinkBuilder.this.getExpressionProvider( );
+			}
+
+			public String getExpressionType( )
+			{
+				return (String) text.getData( EXPR_TYPE );
+			}
+
+			public void setExpressionType( String exprType )
+			{
+				text.setData( EXPR_TYPE, exprType );
+			}
+
+		};
+
+		button.setExpressionHelper( helper );
+
+		text.setData( EXPR_BUTTON, button );
+	}
 
 	/**
 	 * Configures the expression builder which is to be opened in the hyper-link
@@ -1197,13 +1252,24 @@ public class HyperlinkBuilder extends BaseDialog
 		createExpressionButton( displayArea, bookmarkEditor );
 	}
 
+	public void setURI( String expr, String exprType ) throws SemanticException
+	{
+		Expression expression = new Expression( expr, exprType );
+		inputHandle.setExprssionProperty( Action.URI_MEMBER, expression );
+	}
+
+	public ExpressionHandle getURI( )
+	{
+		return inputHandle.getExprssionProperty( Action.URI_MEMBER );
+	}
+
 	protected void okPressed( )
 	{
 		try
 		{
 			// Remove original settings
 			inputHandle.setToolTip( null );
-			inputHandle.setURI( null );
+			setURI( null, null );
 			inputHandle.setTargetBookmark( null );
 			inputHandle.setTargetBookmarkType( null );
 			inputHandle.setTargetWindow( null );
@@ -1215,7 +1281,8 @@ public class HyperlinkBuilder extends BaseDialog
 
 			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
 			{
-				inputHandle.setURI( locationEditor.getText( ).trim( ) );
+				setURI( locationEditor.getText( ).trim( ),
+						(String) locationEditor.getData( EXPR_TYPE ) );
 				if ( bTargetEnabled )
 				{
 					inputHandle.setTargetWindow( ChoiceSetFactory.getValueFromChoiceSet( targetChooser.getText( ),
@@ -1385,9 +1452,17 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
 		{
-			if ( inputHandle.getURI( ) != null )
+			ExpressionHandle uri = (ExpressionHandle) getURI( );
+			if ( uri != null )
 			{
-				locationEditor.setText( inputHandle.getURI( ) );
+				locationEditor.setText( uri == null
+						|| uri.getExpression( ) == null ? "" : (String) uri.getExpression( ) ); //$NON-NLS-1$
+				locationEditor.setData( EXPR_TYPE, uri == null
+						|| uri.getType( ) == null ? null
+						: (String) uri.getType( ) );
+				ExpressionButton button = (ExpressionButton) locationEditor.getData( EXPR_BUTTON );
+				if ( button != null )
+					button.refresh( );
 			}
 			if ( bTargetEnabled )
 			{

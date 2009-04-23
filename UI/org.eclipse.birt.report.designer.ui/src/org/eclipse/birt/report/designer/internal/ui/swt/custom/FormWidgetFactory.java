@@ -134,6 +134,27 @@ public class FormWidgetFactory extends FormToolkit
 		return b;
 	}
 
+	public MenuButton createMenuButton( Composite parent, String text,
+			int style )
+	{
+		MenuButton button = new MenuButton( parent, style | SWT.FLAT );
+		if ( text != null )
+			button.setText( text );
+		button.setBackground( parent.getBackground( ) );
+		return button;
+	}
+
+	public MenuButton createSplitButton( Composite parent, int style,
+			boolean isFormStyle )
+	{
+		MenuButton b;
+		if ( isFormStyle )
+			b = createMenuButton( parent, "", style ); //$NON-NLS-1$
+		else
+			b = new MenuButton( parent, style );
+		return b;
+	}
+
 	public Label createLabel( Composite parent, int style, boolean isFormStyle )
 	{
 		Label l;

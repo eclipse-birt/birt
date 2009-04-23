@@ -674,16 +674,22 @@ public class ReportPlatformUIImages
 
 		// Other icons
 		declareImage( IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS,
-				ICONS_PATH + OTHERS_PATH + "exp-builder-fx-disabled.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OTHERS_PATH + "fx_disabled.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS,
-				ICONS_PATH + OTHERS_PATH + "exp-builder-fx-enabled.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OTHERS_PATH + "fx_enabled.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_CONSTANT,
-				ICONS_PATH + OTHERS_PATH + "exp-constant-enabled.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OTHERS_PATH + "fx_constant_enabled.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_DISABLE_EXPRESSION_CONSTANT,
-				ICONS_PATH + OTHERS_PATH + "exp-constant-disabled.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OTHERS_PATH + "fx_constant_disabled.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_JAVASCRIPT,
+				ICONS_PATH + OTHERS_PATH + "fx_js_enabled.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_DISABLE_EXPRESSION_JAVASCRIPT,
+				ICONS_PATH + OTHERS_PATH + "fx_js_disabled.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_AGGREGATION,
 				ICONS_PATH + OBJ16_PATH + "aggregation.gif" ); //$NON-NLS-1$

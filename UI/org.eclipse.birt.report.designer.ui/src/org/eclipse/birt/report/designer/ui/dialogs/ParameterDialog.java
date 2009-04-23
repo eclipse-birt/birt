@@ -29,6 +29,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
@@ -46,6 +47,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionButton;
+import org.eclipse.birt.report.designer.ui.expressions.IExpressionHelper;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -80,6 +83,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
@@ -286,6 +290,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private static final double DEFAULT_PREVIEW_NUMBER = 1234.56;
 
+	private static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
+
+	private static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
+
 	private ScalarParameterHandle inputParameter;
 
 	private boolean loading = true;
@@ -310,7 +318,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	private Button allowMultiChoice;
 
 	// Combo chooser for static
-	private Combo dataTypeChooser, defaultValueChooser;
+	private Combo dataTypeChooser;
+	private CCombo defaultValueChooser;
 
 	// Combo chooser for dynamic
 	private Combo dataSetChooser, columnChooser, displayTextChooser,
@@ -973,12 +982,21 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		Expression expression = getFirstDefaultValue( );
 		String defaultValue = expression == null ? null
 				: expression.getStringExpression( );
+		String expressionType = expression == null ? null
+				: expression.getType( );
 
 		if ( isStatic( ) )
 		{
 			if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( controlType ) )
 			{
-				if ( isValidValue( defaultValue ) != null )
+				if ( expressionType != null )
+				{
+					defaultValueChooser.setData( EXPR_TYPE, expressionType );
+					ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( EXPR_BUTTON );
+					if ( button != null )
+						button.refresh( );
+				}
+				if ( isValidValue( defaultValue, expressionType ) != null )
 				{
 					defaultValue = null;
 					defaultValueChooser.select( 0 );
@@ -989,7 +1007,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					{
 						defaultValueChooser.select( defaultValueChooser.indexOf( CHOICE_NO_DEFAULT ) );
 					}
-					else if ( Boolean.valueOf( defaultValue ).booleanValue( ) )
+					else if ( ExpressionType.CONSTANT.equals( expressionType ) )
+					{
+						if ( Boolean.valueOf( defaultValue ).booleanValue( ) )
 					{
 						defaultValueChooser.select( 1 );
 					}
@@ -997,12 +1017,23 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					{
 						defaultValueChooser.select( 2 );
 					}
+					}
+					else
+						defaultValueChooser.setText( defaultValue );
+
 				}
 			}
 			else if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( controlType ) )
 			{
 				if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 				{
+					if ( expressionType != null )
+					{
+						defaultValueChooser.setData( EXPR_TYPE, expressionType );
+						ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( EXPR_BUTTON );
+						if ( button != null )
+							button.refresh( );
+					}
 					defaultValueChooser.setText( DEUtil.resolveNull( defaultValue ) );
 				}
 				else if ( defaultValue != null )
@@ -1013,6 +1044,14 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					}
 					else
 					{
+						if ( expressionType != null )
+						{
+							defaultValueChooser.setData( EXPR_TYPE,
+									expressionType );
+							ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( EXPR_BUTTON );
+							if ( button != null )
+								button.refresh( );
+						}
 						defaultValueChooser.setText( defaultValue );
 					}
 				}
@@ -1052,6 +1091,15 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				displayTextChooser.setText( columnName );
 			}
+
+			if ( expressionType != null )
+			{
+				defaultValueChooser.setData( EXPR_TYPE, expressionType );
+				ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( EXPR_BUTTON );
+				if ( button != null )
+					button.refresh( );
+			}
+
 			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 			{
 				defaultValueChooser.setText( DEUtil.resolveNull( defaultValue ) );
@@ -1074,13 +1122,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		return null;
 	}
 
-	private void setFirstDefaultValue( String value )
+	private void setFirstDefaultValue( String value, String type )
 	{
 		if ( defaultValueList == null )
 			defaultValueList = new ArrayList<Expression>( );
 		Expression expression = null;
 		if ( value != null )
-			expression = new Expression( value, ExpressionType.CONSTANT );
+			expression = new Expression( value, type );
 		if ( !defaultValueList.contains( expression ) )
 			defaultValueList.add( 0, expression );
 		updateMessageLine( );
@@ -1671,30 +1719,101 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	private void switchToCheckBox( )
 	{
 		createLabel( valueArea, LABEL_DEFAULT_VALUE );
-		defaultValueChooser = new Combo( valueArea, SWT.READ_ONLY | SWT.BORDER );
+
+		Composite composite = new Composite( valueArea, SWT.NONE );
+		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = layout.marginHeight = 0;
+		layout.numColumns = 2;
+		composite.setLayout( layout );
+
+		defaultValueChooser = new CCombo( composite, SWT.BORDER );
 		defaultValueChooser.add( CHOICE_NO_DEFAULT );
 		defaultValueChooser.add( BOOLEAN_TRUE );
 		defaultValueChooser.add( BOOLEAN_FALSE );
 		defaultValueChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		defaultValueChooser.addSelectionListener( new SelectionAdapter( ) {
+		defaultValueChooser.addModifyListener( new ModifyListener( ) {
 
-			public void widgetSelected( SelectionEvent e )
+			public void modifyText( ModifyEvent e )
 			{
-				switch ( defaultValueChooser.getSelectionIndex( ) )
+				String type = (String) defaultValueChooser.getData( EXPR_TYPE );
+
+				List list = new ArrayList( );
+				list.addAll( Arrays.asList( defaultValueChooser.getItems( ) ) );
+
+				switch ( list.indexOf( defaultValueChooser.getText( ) ) )
 				{
 					case 0 :
 						defaultValueList = null;
 						break;
 					case 1 :
-						setFirstDefaultValue( "true" );//$NON-NLS-1$
+						addDefaultValue( "true", type );//$NON-NLS-1$
 						break;
 					case 2 :
-						setFirstDefaultValue( "false" );//$NON-NLS-1$
+						addDefaultValue( "false", type );//$NON-NLS-1$
 						break;
+					default :
+						if ( ExpressionType.JAVASCRIPT.equals( type ) )
+							addDefaultValue( defaultValueChooser.getText( ),
+									type );//$NON-NLS-1$
 				}
 				updateMessageLine( );
 			}
 		} );
+
+		IExpressionHelper helper = new IExpressionHelper( ) {
+
+			public String getExpression( )
+			{
+				if ( defaultValueChooser != null )
+					return defaultValueChooser.getText( );
+				else
+					return "";
+			}
+
+			public void setExpression( String expression )
+			{
+				if ( defaultValueChooser != null )
+					defaultValueChooser.setText( expression );
+			}
+
+			public void notifyExpressionChangeEvent( String oldExpression,
+					String newExpression )
+			{
+				// preview( DEUtil.removeQuote( newExpression ) );
+			}
+
+			public IExpressionProvider getExpressionProvider( )
+			{
+				return new ParameterExpressionProvider( inputParameter,
+						dataSetChooser != null ? dataSetChooser.getText( )
+								: null );
+			}
+
+			public String getExpressionType( )
+			{
+				return (String) defaultValueChooser.getData( EXPR_TYPE );
+			}
+
+			public void setExpressionType( String exprType )
+			{
+				defaultValueChooser.setData( EXPR_TYPE, exprType );
+				if ( ExpressionType.CONSTANT.equals( exprType ) )
+					defaultValueChooser.setEditable( false );
+				else
+					defaultValueChooser.setEditable( true );
+				defaultValueChooser.notifyListeners( SWT.Modify, new Event( ) );
+			}
+
+		};
+
+		ExpressionButton expressionButton = UIUtil.createExpressionButton( composite,
+				SWT.PUSH );
+		expressionButton.setExpressionHelper( helper );
+		defaultValueChooser.setData( EXPR_BUTTON, expressionButton );
+		defaultValueChooser.setData( EXPR_TYPE, ExpressionType.CONSTANT );
+		expressionButton.refresh( );
 	}
 
 	private void switchToList( )
@@ -1869,6 +1988,14 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private void addDefaultValue( String value )
 	{
+		addDefaultValue( value, null );
+	}
+
+	private void addDefaultValue( String value, String exprType )
+	{
+		String type = ExpressionType.CONSTANT;
+		if ( exprType != null )
+			type = exprType;
 		if ( defaultValueList == null )
 		{
 			defaultValueList = new ArrayList<Expression>( );
@@ -1883,7 +2010,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 		Expression expression = null;
 		if ( value != null )
-			expression = new Expression( value, ExpressionType.CONSTANT );
+			expression = new Expression( value, type );
 		if ( !defaultValueList.contains( expression ) )
 			defaultValueList.add( expression );
 		updateMessageLine( );
@@ -2154,7 +2281,16 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	private void createDefaultEditor( )
 	{
 		createLabel( valueArea, LABEL_DEFAULT_VALUE );
-		defaultValueChooser = new Combo( valueArea, SWT.BORDER );
+
+		Composite composite = new Composite( valueArea, SWT.NONE );
+		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = layout.marginHeight = 0;
+		layout.numColumns = 2;
+		composite.setLayout( layout );
+
+		defaultValueChooser = new CCombo( composite, SWT.BORDER );
 		defaultValueChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		if ( !isStatic( ) )
 		{
@@ -2211,6 +2347,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					if ( status == Window.OK )
 					{
 						String selectedValue = dialog.getSelectedValue( );
+						if ( ExpressionType.JAVASCRIPT.equals( defaultValueChooser.getData( EXPR_TYPE ) ) )
+							selectedValue = getSelectedExprValue( selectedValue );
 						defaultValueChooser.setText( DEUtil.resolveNull( selectedValue ) );
 					}
 				}
@@ -2236,6 +2374,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			public void modifyText( ModifyEvent e )
 			{
 				String value = defaultValueChooser.getText( );
+				String type = (String) defaultValueChooser.getData( EXPR_TYPE );
 				// if ( value.equals( CHOICE_NULL_VALUE )
 				// || value.equals( CHOICE_BLANK_VALUE ) )
 				// return;
@@ -2244,7 +2383,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				String modelValue = UIUtil.convertToModelString( value, false );
 				if ( modelValue != null )
 				{
-					setFirstDefaultValue( modelValue );
+					setFirstDefaultValue( modelValue, type );
 				}
 				if ( isStatic( ) )
 				{
@@ -2252,6 +2391,55 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				}
 			}
 		} );
+
+		IExpressionHelper helper = new IExpressionHelper( ) {
+
+			public String getExpression( )
+			{
+				if ( defaultValueChooser != null )
+					return defaultValueChooser.getText( );
+				else
+					return "";
+			}
+
+			public void setExpression( String expression )
+			{
+				if ( defaultValueChooser != null )
+					defaultValueChooser.setText( expression );
+			}
+
+			public void notifyExpressionChangeEvent( String oldExpression,
+					String newExpression )
+			{
+				// preview( DEUtil.removeQuote( newExpression ) );
+			}
+
+			public IExpressionProvider getExpressionProvider( )
+			{
+				return new ParameterExpressionProvider( inputParameter,
+						dataSetChooser != null ? dataSetChooser.getText( )
+								: null );
+			}
+
+			public String getExpressionType( )
+			{
+				return (String) defaultValueChooser.getData( EXPR_TYPE );
+			}
+
+			public void setExpressionType( String exprType )
+			{
+				defaultValueChooser.setData( EXPR_TYPE, exprType );
+				defaultValueChooser.notifyListeners( SWT.Modify, new Event( ) );
+			}
+
+		};
+
+		ExpressionButton expressionButton = UIUtil.createExpressionButton( composite,
+				SWT.PUSH );
+		expressionButton.setExpressionHelper( helper );
+		defaultValueChooser.setData( EXPR_BUTTON, expressionButton );
+		defaultValueChooser.setData( EXPR_TYPE, ExpressionType.CONSTANT );
+		expressionButton.refresh( );
 	}
 
 	private void createPromptLine( Composite parent )
@@ -2262,7 +2450,16 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private Object validateValue( String value ) throws BirtException
 	{
+		return validateValue( value, null );
+	}
+
+	private Object validateValue( String value, String type )
+			throws BirtException
+	{
 		String tempdefaultValue = value;
+		String exprType = ExpressionType.CONSTANT;
+		if ( type != null )
+			exprType = type;
 
 		if ( !( ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( getSelectedDataType( ) ) ) || ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( getSelectedDataType( ) ) ) ) )
 		{
@@ -2278,11 +2475,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				tempdefaultValue = ParameterUtil.convertToStandardFormat( DataTypeUtil.toSqlTime( tempdefaultValue ) );
 			}
-
-			return ParameterValidationUtil.validate( getSelectedDataType( ),
-					STANDARD_DATE_TIME_PATTERN,
-					tempdefaultValue,
-					ULocale.getDefault( ) );
+			if ( ExpressionType.CONSTANT.equals( exprType ) )
+				return ParameterValidationUtil.validate( getSelectedDataType( ),
+						STANDARD_DATE_TIME_PATTERN,
+						tempdefaultValue,
+						ULocale.getDefault( ) );
+			else
+				return tempdefaultValue;
 
 		}
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) )
@@ -2292,7 +2491,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				return DataTypeUtil.toBoolean( null );
 			}
-			return DataTypeUtil.toBoolean( tempdefaultValue );
+			if ( ExpressionType.CONSTANT.equals( exprType ) )
+				return DataTypeUtil.toBoolean( tempdefaultValue );
+			else
+				return tempdefaultValue;
 		}
 		else
 			return tempdefaultValue;
@@ -2308,7 +2510,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				if ( value == null )
 					validateValue( null );
 				else
-					validateValue( value.getStringExpression( ) );
+					validateValue( value.getStringExpression( ),
+							value.getType( ) );
 			}
 		}
 	}
@@ -2817,7 +3020,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		{
 			try
 			{
-				validateValue( defaultValueChooser.getText( ) );
+				validateValue( defaultValueChooser.getText( ),
+						(String) defaultValueChooser.getData( EXPR_TYPE ) );
 			}
 			catch ( BirtException e )
 			{
@@ -2859,7 +3063,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	 * @return Returns the error message if the input value is invalid,or null
 	 *         if it is valid
 	 */
+
 	private String isValidValue( String value )
+	{
+		return isValidValue( value, null );
+	}
+
+	private String isValidValue( String value, String exprType )
 	{
 		if ( canBeNull( ) )
 		{
@@ -2896,7 +3106,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 		try
 		{
-			validateValue( value );
+			validateValue( value, exprType );
 		}
 		catch ( BirtException e )
 		{
@@ -2990,6 +3200,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		Expression expression = getFirstDefaultValue( );
 		String defaultValue = expression == null ? null
 				: expression.getStringExpression( );
+		String exprType = expression == null ? ExpressionType.CONSTANT
+				: expression.getType( );
+		if ( ExpressionType.JAVASCRIPT.equals( exprType ) )
+			defaultValue = null;
 
 		if ( choiceSet == null )
 		{ // Boolean type;
@@ -3292,6 +3506,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		return columnName;
 	}
 
+
 	private String getColumnName( String expression )
 	{
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
@@ -3384,5 +3599,39 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 		}
 		chooser.setText( key );
+	}
+	
+	public String getSelectedExprValue( String value )
+	{
+		String exprValue = null;
+
+		if ( value == null || columnChooser == null )
+		{
+			return "null"; //$NON-NLS-1$
+		}
+		else
+		{
+			String dataType = getSelectedDataType( );
+			if ( dataType == null )
+				return "null"; //$NON-NLS-1$
+			if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( dataType )
+					|| DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType )
+					|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ) )
+			{
+				exprValue = value;
+			}
+			else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType ) )
+			{
+				exprValue = "new java.math.BigDecimal(\"" + value + "\")";
+			}
+			else
+			{
+				exprValue = "\"" //$NON-NLS-1$
+						+ JavascriptEvalUtil.transformToJsConstants( value )
+						+ "\""; //$NON-NLS-1$
+			}
+		}
+
+		return exprValue;
 	}
 }

@@ -386,6 +386,11 @@ public interface IReportGraphicConstants
 	public static final String ICON_ENABLE_EXPRESSION_CONSTANT = "Enable Expression Constant"; //$NON-NLS-1$
 
 	public static final String ICON_DISABLE_EXPRESSION_CONSTANT = "Disable Expression Constant"; //$NON-NLS-1$
+
+	public static final String ICON_ENABLE_EXPRESSION_JAVASCRIPT = "Enable Expression Javascript"; //$NON-NLS-1$
+
+	public static final String ICON_DISABLE_EXPRESSION_JAVASCRIPT = "Disable Expression Javasciprt"; //$NON-NLS-1$
+
 	// Template preview image
 	public static final String ICON_TEMPLATE_NO_PREVIEW = "no_preview";//$NON-NLS-1$
 
