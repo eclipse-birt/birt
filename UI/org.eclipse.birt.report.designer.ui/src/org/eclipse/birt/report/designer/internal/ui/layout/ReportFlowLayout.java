@@ -549,8 +549,13 @@ public class ReportFlowLayout extends AbstractHintLayout
 					if ( constraint.getMeasure( ) != 0
 							&& DesignChoiceConstants.UNITS_PERCENTAGE.equals( constraint.getUnits( ) ) )
 					{
+						int trueWidth = wHint;
+						//if (trueWidth <= 0)
+						{
+							trueWidth = getParentClientArea( child );	
+						}
 						int width = (int) constraint.getMeasure( )
-								* wHint
+								* trueWidth
 								/ 100;
 						if (child instanceof LabelFigure)
 						{
@@ -562,6 +567,16 @@ public class ReportFlowLayout extends AbstractHintLayout
 				}
 			}
 		}
+	}
+	
+	private int getParentClientArea(IFigure child)
+	{
+		int parentWidth = child.getParent( ).getClientArea( ).width;
+
+		Insets fmargin = getFigureMargin( child );
+			
+		return Math.max( 0, parentWidth - fmargin.getWidth( ) );
+			
 	}
 	protected Dimension getChildSize( IFigure child, int wHint, int hHint )
 	{
@@ -581,8 +596,13 @@ public class ReportFlowLayout extends AbstractHintLayout
 					if ( constraint.getMeasure( ) != 0
 							&& DesignChoiceConstants.UNITS_PERCENTAGE.equals( constraint.getUnits( ) ) )
 					{
+						int trueWidth = wHint;
+						//if (trueWidth <= 0)
+						{
+							trueWidth = getParentClientArea( child );
+						}
 						preferredDimension.width = (int) constraint.getMeasure( )
-								* wHint
+								* trueWidth
 								/ 100;
 					}
 					
@@ -798,10 +818,21 @@ public class ReportFlowLayout extends AbstractHintLayout
 						(lastChild != null && getDisplay( lastChild ) == ReportItemConstraint.INLINE))
 				{
 					childSize = ((IFixLayoutHelper)child).getFixMinimumSize( wHint - width - getMinorSpacing( ) <=0 ? -1:wHint - width - getMinorSpacing( ),hHint );
+					if (childSize.width ==   wHint - width - getMinorSpacing( ))
+					{
+						childSize = ((IFixLayoutHelper)child).getFixMinimumSize( -1, hHint );
+					}
 				}
 				else
 				{
-					childSize = ((IFixLayoutHelper)child).getFixMinimumSize( wHint, hHint );
+					if (display == ReportItemConstraint.INLINE)
+					{
+						childSize = ((IFixLayoutHelper)child).getFixMinimumSize( -1, hHint );
+					}
+					else
+					{
+						childSize = ((IFixLayoutHelper)child).getFixMinimumSize( wHint, hHint );
+					}
 				}
 			}
 			else
@@ -836,6 +867,22 @@ public class ReportFlowLayout extends AbstractHintLayout
 				// The current row is full or the element is not in-line, start
 				// a
 				// new row.
+				if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( layoutPreference ) && child instanceof IFixLayoutHelper)
+				{
+					int display = ReportItemConstraint.BLOCK;
+					display = getDisplay( child );
+					
+					if (display == ReportItemConstraint.INLINE)
+					{
+						childSize = ((IFixLayoutHelper)child).getFixMinimumSize( -1, hHint );
+					}
+					else
+					{
+						childSize = ((IFixLayoutHelper)child).getFixMinimumSize( wHint, hHint );
+					}
+					
+					//height = childSize.height+ fmargin.getHeight( );
+				}
 				prefSize.height += height + getMajorSpacing( );
 				prefSize.width = Math.max( prefSize.width, width );
 				width = childSize.width + fmargin.getWidth( );
