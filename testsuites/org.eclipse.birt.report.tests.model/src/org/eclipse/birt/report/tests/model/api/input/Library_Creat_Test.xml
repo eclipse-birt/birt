@@ -1,110 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 1.0 -->
-<report xmlns=" http://www.eclipse.org/birt/2005/design" version="2">
-    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20050829-0737></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090422-0630 Build &lt;2.5.0.v20090422-0630></property>
     <property name="units">in</property>
     <parameters>
-        <scalar-parameter name="Parameter1">
+        <scalar-parameter name="Parameter1" id="2">
             <property name="dataType">string</property>
-            <property name="format">Unformatted</property>
+            <property name="isRequired">false</property>
             <property name="controlType">text-box</property>
-            <expression name="defaultValue">"abc"</expression>
+            <simple-property-list name="defaultValue">
+                <value type="constant">abc</value>
+            </simple-property-list>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+                <property name="pattern">Unformatted</property>
+            </structure>
         </scalar-parameter>
     </parameters>
     <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="db2d">
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="db2d" id="3">
             <property name="odaDriverClass">com.ibm.db2.jcc.DB2Driver</property>
             <property name="odaURL">jdbc:db2://spmdb:1527/gui</property>
             <property name="odaUser">root</property>
-            <encrypted-property name="odaPassword">cm9vdA==</encrypted-property>
+            <encrypted-property name="odaPassword" encryptionID="base64">cm9vdA==</encrypted-property>
         </oda-data-source>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="db2ds">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="db2ds" id="4">
             <property name="dataSource">db2d</property>
-            <property name="queryText">select *
-from ROOT.SAMPLEDATA</property>
+            <xml-property name="queryText"><![CDATA[select *
+from ROOT.SAMPLEDATA]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="myStyle">
+        <style name="myStyle" id="5">
             <property name="backgroundColor">#8080FF</property>
             <property name="color">#FF0000</property>
         </style>
     </styles>
     <page-setup>
-        <simple-master-page name="Simple MasterPage"/>
+        <simple-master-page name="Simple MasterPage" id="6">
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
+        </simple-master-page>
     </page-setup>
     <body>
-        <label name="myLabel">
+        <label name="myLabel" id="7">
             <text-property name="text">Label</text-property>
         </label>
-        <text name="myText">
+        <text name="myText" id="8">
             <property name="contentType">plain</property>
             <text-property name="content"><![CDATA[Text]]></text-property>
         </text>
-        <data name="myData">
-            <expression name="valueExpr">new Date()</expression>
+        <data name="myData" id="9">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">new Date()</property>
+                    <expression name="expression">new Date()</expression>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">new Date()</property>
         </data>
-        <data name="myPara">
-            <expression name="valueExpr">params["Parameter1"]</expression>
+        <data name="myPara" id="10">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">params["Parameter1"]</property>
+                    <expression name="expression">params["Parameter1"]</expression>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">params["Parameter1"]</property>
         </data>
-        <table name="myTable">
+        <table name="myTable" id="11">
             <property name="width">100%</property>
             <property name="dataSet">db2ds</property>
-            <column/>
-            <column/>
-            <column/>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CATEGORY</property>
+                    <expression name="expression">dataSetRow["CATEGORY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">VALUE1</property>
+                    <expression name="expression">dataSetRow["VALUE1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">VALUE2</property>
+                    <expression name="expression">dataSetRow["VALUE2"]</expression>
+                </structure>
+            </list-property>
+            <property name="pageBreakInterval">50</property>
+            <column id="12"/>
+            <column id="13"/>
+            <column id="14"/>
             <header>
-                <row>
-                    <cell>
-                        <label>
+                <row id="15">
+                    <cell id="16">
+                        <label id="17">
                             <text-property name="text">CATEGORY</text-property>
                         </label>
                     </cell>
-                    <cell>
-                        <label>
+                    <cell id="18">
+                        <label id="19">
                             <text-property name="text">VALUE1</text-property>
                         </label>
                     </cell>
-                    <cell>
-                        <label>
+                    <cell id="20">
+                        <label id="21">
                             <text-property name="text">VALUE2</text-property>
                         </label>
                     </cell>
                 </row>
             </header>
             <detail>
-                <row>
-                    <cell>
-                        <data>
-                            <expression name="valueExpr">row["CATEGORY"]</expression>
+                <row id="22">
+                    <cell id="23">
+                        <data id="24">
+                            <property name="resultSetColumn">CATEGORY</property>
                         </data>
                     </cell>
-                    <cell>
-                        <data>
-                            <expression name="valueExpr">row["VALUE1"]</expression>
+                    <cell id="25">
+                        <data id="26">
+                            <property name="resultSetColumn">VALUE1</property>
                         </data>
                     </cell>
-                    <cell>
-                        <data>
-                            <expression name="valueExpr">row["VALUE2"]</expression>
+                    <cell id="27">
+                        <data id="28">
+                            <property name="resultSetColumn">VALUE2</property>
                         </data>
                     </cell>
                 </row>
             </detail>
             <footer>
-                <row>
-                    <cell/>
-                    <cell/>
-                    <cell/>
+                <row id="29">
+                    <cell id="30"/>
+                    <cell id="31"/>
+                    <cell id="32"/>
                 </row>
             </footer>
         </table>
-        <extended-item extensionName="Chart" name="myChart">
-            <property name="height">2.562in</property>
-            <property name="width">4.072in</property>
-            <property name="dataSet">db2ds</property>
+        <extended-item extensionName="Chart" name="myChart" id="33">
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
@@ -370,8 +404,8 @@ from ROOT.SAMPLEDATA</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>292.5</Width>
-      <Height>183.75</Height>
+      <Width>293.184</Width>
+      <Height>184.464</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -414,6 +448,37 @@ from ROOT.SAMPLEDATA</property>
       <SeriesDefinitionIndex>0</SeriesDefinitionIndex>
     </OrthogonalSampleData>
   </SampleData>
+  <EmptyMessage>
+    <Caption>
+      <Value></Value>
+      <Font>
+        <Alignment/>
+      </Font>
+    </Caption>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+    </Outline>
+    <Insets>
+      <Top>0.0</Top>
+      <Left>2.0</Left>
+      <Bottom>0.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Visible>false</Visible>
+  </EmptyMessage>
   <Axes>
     <Type>Text</Type>
     <Title>
@@ -634,7 +699,7 @@ from ROOT.SAMPLEDATA</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -759,7 +824,7 @@ from ROOT.SAMPLEDATA</property>
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -963,7 +1028,7 @@ from ROOT.SAMPLEDATA</property>
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -1094,9 +1159,27 @@ from ROOT.SAMPLEDATA</property>
   <Orientation>Vertical</Orientation>
 </model:ChartWithAxes>
 ]]></xml-property>
+            <property name="dataSet">db2ds</property>
+            <property name="height">2.562in</property>
+            <property name="width">4.072in</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CATEGORY</property>
+                    <expression name="expression">dataSetRow["CATEGORY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">VALUE1</property>
+                    <expression name="expression">dataSetRow["VALUE1"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">VALUE2</property>
+                    <expression name="expression">dataSetRow["VALUE2"]</expression>
+                </structure>
+            </list-property>
         </extended-item>
-        <image name="myImage">
-            <expression name="uri">http://www.actuate.com/images/birt_flying_logo.jpg</expression>
+        <image name="myImage" id="34">
+            <property name="source">url</property>
+            <expression name="uri">"http://www.actuate.com/images/birt_flying_logo.jpg"</expression>
         </image>
     </body>
 </report>

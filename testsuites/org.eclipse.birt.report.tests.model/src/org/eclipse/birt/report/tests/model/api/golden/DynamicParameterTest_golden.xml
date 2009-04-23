@@ -4,19 +4,19 @@
     <property name="units">in</property>
     <parameters>
         <scalar-parameter name="Param 1" id="2">
-            <property name="valueType">dynamic</property>
-            <property name="dataType">dateTime</property>
             <text-property name="promptText">abc</text-property>
             <property name="listLimit">20</property>
+            <property name="valueType">dynamic</property>
             <property name="isRequired">true</property>
-            <property name="controlType">list-box</property>
             <property name="dataSetName">dataset1</property>
             <expression name="valueExpr">row["ORDERDATE"]</expression>
-            <property name="mustMatch">false</property>
-            <property name="fixedOrder">true</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">10/15/2005</value>
             </simple-property-list>
+            <property name="dataType">dateTime</property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">false</property>
+            <property name="fixedOrder">true</property>
             <structure name="format">
                 <property name="category">Long Date</property>
                 <property name="pattern">Long Date</property>
@@ -31,15 +31,15 @@
         <scalar-parameter name="Param 2" id="3">
             <property name="hidden">false</property>
             <text-property name="helpText" key="help">scalar para help</text-property>
-            <property name="valueType">dynamic</property>
-            <property name="dataType">float</property>
             <property name="listLimit">5</property>
-            <property name="concealValue">false</property>
+            <property name="valueType">dynamic</property>
             <property name="isRequired">false</property>
-            <property name="controlType">list-box</property>
-            <property name="alignment">left</property>
             <property name="dataSetName">dataset2</property>
             <expression name="valueExpr">row["Amount"]</expression>
+            <property name="dataType">float</property>
+            <property name="concealValue">false</property>
+            <property name="controlType">list-box</property>
+            <property name="alignment">left</property>
             <structure name="format">
                 <property name="category">Custom</property>
                 <property name="pattern">##,###.##</property>

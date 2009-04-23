@@ -9,12 +9,12 @@
     </list-property>
     <parameters>
         <scalar-parameter name="Parameter1" id="2">
-            <property name="dataType">string</property>
             <property name="isRequired">false</property>
-            <property name="controlType">text-box</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">abc</value>
             </simple-property-list>
+            <property name="dataType">string</property>
+            <property name="controlType">text-box</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
                 <property name="pattern">Unformatted</property>

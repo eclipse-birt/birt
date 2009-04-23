@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.16" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <property name="theme">defaultTheme</property>
     <parameters>
         <scalar-parameter name="Parameter1" id="30">
-            <property name="dataType">string</property>
             <property name="isRequired">false</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">abc</value>
+            </simple-property-list>
+            <property name="dataType">string</property>
             <property name="controlType">text-box</property>
-            <property name="defaultValue">"abc"</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
                 <property name="pattern">Unformatted</property>
@@ -24,8 +26,8 @@
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="db2ds" id="4">
             <property name="dataSource">db2d</property>
-            <property name="queryText">select *
-from ROOT.SAMPLEDATA</property>
+            <xml-property name="queryText"><![CDATA[select *
+from ROOT.SAMPLEDATA]]></xml-property>
         </oda-data-set>
     </data-sets>
     <themes>
@@ -115,7 +117,7 @@ from ROOT.SAMPLEDATA</property>
         </table>
         <image name="myImage" id="31">
             <property name="source">url</property>
-            <expression name="uri">http://www.actuate.com/images/birt_flying_logo.jpg</expression>
+            <expression name="uri">"http://www.actuate.com/images/birt_flying_logo.jpg"</expression>
         </image>
         <data name="myData" id="32">
             <list-property name="boundDataColumns">
