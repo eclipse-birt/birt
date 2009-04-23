@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report>
 <styles>
-<style css-text="font-variant: normal; font-size: medium; font-style: normal; font-weight: normal; color: black; text-overline: none; text-align: left; line-height: normal; orphans: 2; text-transform: none; text-indent: 0em; widows: 2; text-underline: none; word-spacing: normal; letter-spacing: normal; text-linethrough: none; font-family: serif; white-space: normal; page-break-inside: auto" name="style_0"/>
+<style css-text="line-height: normal; color: black; text-indent: 0em; text-align: left; letter-spacing: normal; text-linethrough: none; font-weight: normal; font-variant: normal; orphans: 2; text-transform: none; word-spacing: normal; text-overline: none; page-break-inside: auto; font-size: medium; font-style: normal; text-underline: none; widows: 2; font-family: serif; white-space: normal" name="style_0"/>
 </styles>
 <page-setup>
 <simple-master-page bottom-margin="1in" floating-footer="false" height="11in" id="2" left-margin="1.25in" name="Simple MasterPage" orientation="auto" right-margin="1.25in" show-footer-on-last="true" show-header-on-first="true" top-margin="1in" type="us-letter" width="8.5in">
