@@ -1455,6 +1455,8 @@ ExpressionBuilder.Script.Warning=경고
 ExpressionBuilder.Script.Confirm=\n현재 스크립트에 구문 오류가 있습니다. 저장하시겠습니까?
 ExpressionBuilder.toolTipText.calendar=달력 
 ExpressionBuilder.Calendar.Button.OK=확인 
+ExpressionButtonProvider.Constant=Constant
+ExpressionButtonProvider.Javascript=JavaScript Syntax
 
 ###########################################################
 #ExpressionPropertyDescriptor properties

@@ -1455,6 +1455,8 @@ ExpressionBuilder.Script.Warning=Warnung
 ExpressionBuilder.Script.Confirm=\nIm aktuellen Skript ist ein Syntaxfehler aufgetreten. Möchten Sie es wirklich speichern?
 ExpressionBuilder.toolTipText.calendar=Kalender 
 ExpressionBuilder.Calendar.Button.OK=OK 
+ExpressionButtonProvider.Constant=Constant
+ExpressionButtonProvider.Javascript=JavaScript Syntax
 
 ###########################################################
 #ExpressionPropertyDescriptor properties

@@ -1455,6 +1455,8 @@ ExpressionBuilder.Script.Warning=警告
 ExpressionBuilder.Script.Confirm=\n現在のスクリプトに構文エラーがあります。保存しますか ?
 ExpressionBuilder.toolTipText.calendar=カレンダ 
 ExpressionBuilder.Calendar.Button.OK=OK 
+ExpressionButtonProvider.Constant=Constant
+ExpressionButtonProvider.Javascript=JavaScript Syntax
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
