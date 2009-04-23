@@ -243,6 +243,10 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public void setLocale( Locale locale )
 	{
+		if ( locale == null )
+		{
+			throw new NullPointerException( );
+		}
 		log.log( Level.FINE, "EngineTask.setLocale: locale={0}", locale == null
 				? null
 				: locale.getDisplayName( ) );
@@ -264,17 +268,25 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public void setLocale( ULocale uLocale )
 	{
+		if ( uLocale == null )
+		{
+			throw new NullPointerException( );
+		}
 		log.log( Level.FINE, "EngineTask.setLocale: uLocale={0}",
 				uLocale == null ? null : uLocale.getDisplayName( ) );
 		doSetLocale( uLocale.toLocale( ) );
 	}
-	
+
 	public void setTimeZone( TimeZone timeZone )
 	{
+		if ( timeZone == null )
+		{
+			throw new NullPointerException( );
+		}
 		this.timeZone = timeZone;
 		executionContext.setTimeZone( timeZone );
 	}
-	
+
 	public TimeZone getTimeZone( )
 	{
 		return timeZone;
