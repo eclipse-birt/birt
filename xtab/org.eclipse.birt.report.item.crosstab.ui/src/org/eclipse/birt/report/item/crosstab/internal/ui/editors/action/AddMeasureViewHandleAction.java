@@ -269,11 +269,11 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 						reportHandle.getMeasureCount( ) );
 				measureViewHandle.addHeader( );
 
-				LabelHandle labelHandle = DesignElementFactory.getInstance( )
-						.newLabel( null );
-				labelHandle.setText( info.getMeasureDisplayName( ) );
+//				LabelHandle labelHandle = DesignElementFactory.getInstance( )
+//						.newLabel( null );
+//				labelHandle.setText( info.getMeasureDisplayName( ) );
 				needUpdateView = true;
-				measureViewHandle.getHeader( ).addContent( labelHandle );
+//				measureViewHandle.getHeader( ).addContent( labelHandle );
 				if ( info.getExpectedView( ) != null
 						&& info.getExpectedView( ).length( ) != 0 )
 				{

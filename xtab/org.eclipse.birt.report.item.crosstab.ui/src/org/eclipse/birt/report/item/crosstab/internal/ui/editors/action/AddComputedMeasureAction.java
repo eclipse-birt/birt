@@ -97,10 +97,10 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 				ComputedMeasureViewHandle computedMeasure = reportHandle.insertComputedMeasure( measureName, index );
 				computedMeasure.addHeader( );
 
-				LabelHandle labelHandle = DesignElementFactory.getInstance( )
-						.newLabel( null );
-				labelHandle.setText( measureName );
-				computedMeasure.getHeader( ).addContent( labelHandle );
+//				LabelHandle labelHandle = DesignElementFactory.getInstance( )
+//						.newLabel( null );
+//				labelHandle.setText( measureName );
+//				computedMeasure.getHeader( ).addContent( labelHandle );
 				
 				ExtendedItemHandle crosstabModelHandle = (ExtendedItemHandle) reportHandle.getModelHandle( );
 				ComputedColumn bindingColumn = StructureFactory.newComputedColumn( crosstabModelHandle,
