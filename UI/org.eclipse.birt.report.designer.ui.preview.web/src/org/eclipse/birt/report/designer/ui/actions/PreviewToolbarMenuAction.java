@@ -50,14 +50,22 @@ public class PreviewToolbarMenuAction implements
 	public static final String TYPE_PPT = "ppt"; //$NON-NLS-1$
 	public static final String TYPE_PS = "postscript"; //$NON-NLS-1$
 	public static final String TYPE_XLS = "xls"; //$NON-NLS-1$
+	public static final String TYPE_DOCX = "docx"; //$NON-NLS-1$
+	public static final String TYPE_PPTX = "pptx"; //$NON-NLS-1$
+	public static final String TYPE_XHTML = "xhtml"; //$NON-NLS-1$
+	//public static final String TYPE_XLSX = "xlsx"; //$NON-NLS-1$
 	public static final String IMG_FILE_DEFAULT = "icons/etool16/preview.gif"; //$NON-NLS-1$
-	public static final String IMG_FILE_WEB = "icons/etool16/preview_web.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_WEB = "icons/etool16/preview.gif"; //$NON-NLS-1$
 	public static final String IMG_FILE_DOC = "icons/etool16/preview_doc.gif"; //$NON-NLS-1$
 	public static final String IMG_FILE_HTML = "icons/etool16/preview_html.gif"; //$NON-NLS-1$
 	public static final String IMG_FILE_PDF = "icons/etool16/preview_pdf.gif"; //$NON-NLS-1$
 	public static final String IMG_FILE_PPT = "icons/etool16/preview_ppt.gif"; //$NON-NLS-1$
 	public static final String IMG_FILE_PS = "icons/etool16/preview_ps.gif"; //$NON-NLS-1$
 	public static final String IMG_FILE_XLS = "icons/etool16/preview_xls.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_DOCX = "icons/etool16/preview_docx.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_PPTX = "icons/etool16/preview_pptx.gif"; //$NON-NLS-1$
+	public static final String IMG_FILE_XHTML = "icons/etool16/preview_xhtml.gif"; //$NON-NLS-1$
+	//public static final String IMG_FILE_XLSX = "icons/etool16/preview_xlsx.gif"; //$NON-NLS-1$
 
 	static
 	{
@@ -67,6 +75,10 @@ public class PreviewToolbarMenuAction implements
 		typeMap.put( TYPE_PPT, IMG_FILE_PPT );
 		typeMap.put( TYPE_PS, IMG_FILE_PS );
 		typeMap.put( TYPE_XLS, IMG_FILE_XLS );
+		typeMap.put( TYPE_DOCX, IMG_FILE_DOCX );
+		typeMap.put( TYPE_PPTX, IMG_FILE_PPTX );
+		typeMap.put( TYPE_XHTML, IMG_FILE_XHTML );
+		// typeMap.put( TYPE_XLSX, IMG_FILE_XLSX );
 	}
 
 	/**
@@ -217,9 +229,9 @@ public class PreviewToolbarMenuAction implements
 			for ( IContentType type : contentTypes )
 			{
 				if ( type.getId( )
-						.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" )
+						.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ) //$NON-NLS-1$
 						|| type.getId( )
-								.equals( "org.eclipse.birt.report.designer.ui.editors.reporttemplate" ) )
+								.equals( "org.eclipse.birt.report.designer.ui.editors.reporttemplate" ) ) //$NON-NLS-1$
 					return true;
 			}
 		}
