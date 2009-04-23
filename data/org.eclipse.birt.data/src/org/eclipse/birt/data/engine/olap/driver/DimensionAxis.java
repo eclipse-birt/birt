@@ -86,15 +86,6 @@ public class DimensionAxis
 	}
 
 	/**
-	 * 
-	 * @return
-	 */
-	public IAggregationResultSet getAssociationQueryResultSet( )
-	{
-		return this.rs;
-	}
-
-	/**
 	 * Get dimension's metadata
 	 * @return
 	 */

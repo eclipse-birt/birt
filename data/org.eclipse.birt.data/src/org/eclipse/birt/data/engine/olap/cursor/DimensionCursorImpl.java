@@ -59,10 +59,6 @@ class DimensionCursorImpl extends AbstractCursorSupport
 	 */
 	public long getEdgeEnd( ) throws OLAPException
 	{
-		if ( navigator.getPosition( ) < 0
-				|| navigator.getPosition( ) > dimensionAxis.getAssociationQueryResultSet( )
-						.length( ) )
-			return -1;
 		return dimensionAxis.getEdgeEnd( );
 	}
 
@@ -71,10 +67,6 @@ class DimensionCursorImpl extends AbstractCursorSupport
 	 */
 	public long getEdgeStart( ) throws OLAPException
 	{
-		if ( navigator.getPosition( ) < 0
-				|| navigator.getPosition( ) > dimensionAxis.getAssociationQueryResultSet( )
-						.length( ) )
-			return -1;
 		return dimensionAxis.getEdgeStart( );
 
 	}

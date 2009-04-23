@@ -11,6 +11,7 @@
 package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,6 +34,16 @@ class MemberTreeNode
 	void insertNode( MemberTreeNode node )
 	{
 		childNodesList.add( node );
+	}
+
+	void addAllNodes( MemberTreeNode[] nodes )
+	{
+		List nodesList = Arrays.asList( nodes );
+		childNodesList.addAll( nodesList );
+		for ( int i = 0; i < nodesList.size( ); i++ )
+		{
+			( (MemberTreeNode) nodesList.get( i ) ).parentNode = this;
+		}
 	}
 	
 	MemberTreeNode getChild( Object childKey )

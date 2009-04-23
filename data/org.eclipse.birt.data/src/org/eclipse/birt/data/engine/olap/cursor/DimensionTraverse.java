@@ -340,6 +340,10 @@ class DimensionTraverse
 	 */
 	int getEdgeStart( int dimAxisIndex )
 	{
+		if ( this.dimensionCursorPosition[dimAxisIndex] < 0
+				|| this.dimensionCursorPosition[dimAxisIndex] > this.relationMap.traverseLength )
+			return -1;
+		
 		int outer = this.dimAxis.length;
 		EdgeInfo edgeInfo = findCurrentEdgeInfo( dimAxisIndex );
 		if ( edgeInfo == null )
@@ -362,6 +366,10 @@ class DimensionTraverse
 	 */
 	int getEdgeEnd( int dimAxisIndex )
 	{
+		if ( this.dimensionCursorPosition[dimAxisIndex] < 0
+				|| this.dimensionCursorPosition[dimAxisIndex] > this.relationMap.traverseLength )
+			return -1;
+		
 		EdgeInfo edgeInfo = findCurrentEdgeInfo( dimAxisIndex );
 		if ( edgeInfo == null )
 			return -1;
