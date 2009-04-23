@@ -21,6 +21,7 @@ import org.eclipse.birt.core.archive.FolderArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
@@ -178,6 +179,10 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 */
 	protected void doRun( ) throws EngineException
 	{	
+		if ( progressMonitor != null )
+		{
+			progressMonitor.onProgress( IProgressMonitor.START_TASK, TASK_RUN );
+		}
 		loadDataSource( );
 		doValidateParameters( );
 		loadDesign( );
@@ -260,6 +265,10 @@ public class RunTask extends AbstractRunTask implements IRunTask
 				IReportDocumentInfo docInfo = new ReportDocumentInfo(
 						executionContext, totalPage, true );
 				pageHandler.onPage( totalPage, true, docInfo );
+			}
+			if ( progressMonitor != null )
+			{
+				progressMonitor.onProgress( IProgressMonitor.END_TASK, TASK_RUN );
 			}
 		}
 	}

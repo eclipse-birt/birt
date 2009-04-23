@@ -317,4 +317,6 @@ public interface IEngineTask {
 	 *            a string array, each element is a single SID.
 	 */
 	public void setUserACL( String[] acl );
+	
+	public void setProgressMonitor( IProgressMonitor monitor );
 }

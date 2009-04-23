@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
+import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -289,5 +290,10 @@ public class DataExtractionTask implements IDataExtractionTask
 	public boolean isCubeExportEnabled( )
 	{
 		return task.isCubeExportEnabled( );
+	}
+	
+	public void setProgressMonitor( IProgressMonitor monitor )
+	{
+		task.setProgressMonitor( monitor );
 	}
 }

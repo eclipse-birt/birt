@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IHTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
+import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -177,6 +178,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 */
 	public void render( ) throws EngineException
 	{
+		if ( progressMonitor != null )
+		{
+			progressMonitor.onProgress( IProgressMonitor.START_TASK,
+					TASK_RENDER );
+		}
 		try
 		{
 			switchToOsgiClassLoader( );
@@ -243,6 +249,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			changeStatusToStopped( );
 			switchClassLoaderBack( );
+			if ( progressMonitor != null )
+			{
+				progressMonitor.onProgress( IProgressMonitor.END_TASK,
+						TASK_RENDER );
+			}
 		}
 	}
 
@@ -916,6 +927,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 						executionContext, totalPage, finished );
 				pageHandler.onPage( (int) pageNumber, false, reportDocumentInfo );
 			}
+			executionContext.getProgressMonitor( ).onProgress(
+					IProgressMonitor.END_PAGE, (int) pageNumber );
 		}
 	}
 }

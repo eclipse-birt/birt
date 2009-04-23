@@ -46,10 +46,12 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.ILinkedResult;
+import org.eclipse.birt.report.engine.adapter.ProgressMonitorProxy;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
+import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -301,6 +303,8 @@ public class ExecutionContext
 	private int maxRowsPerQuery = -1;
 	
 	private EventHandlerManager eventHandlerManager;
+	
+	private IProgressMonitor progressMonitor;
 
 	/**
 	 * create a new context. Call close to finish using the execution context
@@ -2143,5 +2147,19 @@ public class ExecutionContext
 	public EventHandlerManager getEventHandlerManager( )
 	{
 		return eventHandlerManager;
+	}
+	
+	public void setProgressMonitor( IProgressMonitor monitor )
+	{
+		progressMonitor = new ProgressMonitorProxy( monitor );
+	}
+
+	public IProgressMonitor getProgressMonitor( )
+	{
+		if ( progressMonitor == null )
+		{
+			progressMonitor = new ProgressMonitorProxy( null );
+		}
+		return progressMonitor;
 	}
 }

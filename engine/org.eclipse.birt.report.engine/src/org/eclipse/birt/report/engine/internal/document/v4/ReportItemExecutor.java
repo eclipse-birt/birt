@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -403,6 +404,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				rsets = new IBaseResultSet[queries.length];
 				try
 				{
+					context.getProgressMonitor( )
+							.onProgress( IProgressMonitor.START_QUERY,
+									(int) design.getID( ) );
+					
 					IBaseResultSet prset = restoreParentResultSet( );
 					for ( int i = 0; i < queries.length; i++ )
 					{
@@ -410,6 +415,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 								design.getHandle( ), useCache );
 					}
 					context.setResultSets( rsets );
+					
+					context.getProgressMonitor( ).onProgress(
+							IProgressMonitor.END_QUERY, (int) design.getID( ) );
+					
 					rsetEmpty = true;
 					if ( rsets[0] != null
 							&& rsets[0] instanceof IQueryResultSet )

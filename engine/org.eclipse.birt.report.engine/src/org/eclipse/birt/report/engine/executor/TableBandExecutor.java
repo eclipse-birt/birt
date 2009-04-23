@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
@@ -59,6 +60,9 @@ public class TableBandExecutor extends StyledItemExecutor
 		// prepare to execute the row in the band
 		currentRow = 0;
 
+		context.getProgressMonitor( ).onProgress( IProgressMonitor.FETCH_ROW,
+				tableExecutor.rowId );
+		
 		return content;
 	}
 

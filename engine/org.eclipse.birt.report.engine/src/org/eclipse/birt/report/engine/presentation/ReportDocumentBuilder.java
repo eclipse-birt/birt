@@ -28,6 +28,7 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPageHandler;
+import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.EngineTask;
@@ -446,6 +447,8 @@ public class ReportDocumentBuilder
 			// write the page content into the disk
 			pageNumber = page.getPageNumber( );
 
+			executionContext.getProgressMonitor( ).onProgress(
+					IProgressMonitor.START_PAGE, (int) pageNumber );
 			// write the page contents
 			try
 			{
@@ -673,6 +676,8 @@ public class ReportDocumentBuilder
 					}
 				}
 			}
+			executionContext.getProgressMonitor( ).onProgress(
+					IProgressMonitor.END_PAGE, (int) pageNumber );
 		}
 	}
 

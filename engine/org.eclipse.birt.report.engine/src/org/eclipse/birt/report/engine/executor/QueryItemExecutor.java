@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.data.dte.BlankResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -73,9 +74,16 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 		{
 			try
 			{
+				context.getProgressMonitor( ).onProgress(
+						IProgressMonitor.START_QUERY, (int) design.getID( ) );
+				
 				rset = (IQueryResultSet) context.executeQuery( parentRset,
 						query, design.getHandle( ), useCache );
 				context.setResultSet( rset );
+				
+				context.getProgressMonitor( ).onProgress(
+						IProgressMonitor.END_QUERY, (int) design.getID( ) );
+				
 				if ( rset != null )
 				{
 					rsetEmpty = !rset.next( );

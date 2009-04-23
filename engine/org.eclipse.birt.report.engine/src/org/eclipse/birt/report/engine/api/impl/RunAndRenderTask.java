@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -32,7 +33,6 @@ import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExec
 import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
-import org.eclipse.birt.report.engine.layout.pdf.emitter.PDFLayoutEmitterProxy;
 import org.eclipse.birt.report.engine.nLayout.LayoutEngine;
 
 /**
@@ -63,6 +63,11 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	 */
 	public void run( ) throws EngineException
 	{
+		if ( progressMonitor != null )
+		{
+			progressMonitor.onProgress( IProgressMonitor.START_TASK,
+					TASK_RUNANDRENDER );
+		}
 		try
 		{
 			switchToOsgiClassLoader( );
@@ -73,6 +78,11 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		{
 			changeStatusToStopped( );
 			switchClassLoaderBack( );
+			if ( progressMonitor != null )
+			{
+				progressMonitor.onProgress( IProgressMonitor.END_TASK,
+						TASK_RUNANDRENDER );
+			}
 		}
 	}
 
@@ -210,6 +220,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			{
 				pageHandler.onPage( (int) pageNumber, false, null );
 			}
+			executionContext.getProgressMonitor( ).onProgress(
+					IProgressMonitor.END_PAGE, (int) pageNumber );
 		}
 	}
 }

@@ -43,6 +43,7 @@ import org.eclipse.birt.report.engine.api.IEngineConfig;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IPageHandler;
+import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
@@ -52,7 +53,6 @@ import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.PDFRenderOption;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
-import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTask.SelectionChoice;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
@@ -173,6 +173,8 @@ public abstract class EngineTask implements IEngineTask
 	private ClassLoader contextClassLoader;
 
 	protected IPageHandler pageHandler;
+	
+	protected IProgressMonitor progressMonitor;
 	
 	/**
 	 * @param engine
@@ -2098,5 +2100,11 @@ public abstract class EngineTask implements IEngineTask
 			}
 		}
 		return strippedAcls.toArray( new String[strippedAcls.size( )] );
+	}
+	
+	public void setProgressMonitor( IProgressMonitor monitor )
+	{
+		progressMonitor = monitor;
+		executionContext.setProgressMonitor( monitor );
 	}
 }
