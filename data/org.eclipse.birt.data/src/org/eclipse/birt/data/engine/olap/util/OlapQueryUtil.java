@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
@@ -130,7 +131,22 @@ public class OlapQueryUtil
 			}
 		}
 		
-		// Check binding references
+		//add binding names introduced from cube operations
+		for ( ICubeOperation co : queryDefn.getCubeOperations( ) )
+		{
+			for ( IBinding b : co.getNewBindings( ) )
+			{
+				if ( bindingNames.contains( b.getBindingName( ) ))
+				{
+					result.add( b );
+					throwException(suppressException, new DataException( ResourceConstants.DUPLICATED_BINDING_NAME,
+								b.getBindingName( )));
+				}
+				bindingNames.add( b.getBindingName( ) );
+			}
+		}
+		
+		//Check binding references
 		for ( Entry<IBinding, Set<String>> entry : bindingReferences.entrySet( ) )
 		{
 			for ( String reference : entry.getValue( ) )

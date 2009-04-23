@@ -685,21 +685,29 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
 		cqd.addBinding( binding6 );
 		
+		//rank aggregation
 		IBinding binding7 = new Binding( "totalRankInCountry" );
 		binding7.setExpression( new ScriptExpression( "data[\"total\"]"  ) );
 		binding7.setAggrFunction( IBuildInAggregation.TOTAL_RANK_FUNC );
 		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
 		
+		//rank aggregation with a "false" parameter 
 		IBinding binding8 = new Binding( "totalRankInCountryDesc" );
 		binding8.setExpression( new ScriptExpression( "data[\"total\"]"  ) );
 		binding8.setAggrFunction( IBuildInAggregation.TOTAL_RANK_FUNC );
 		binding8.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
 		binding8.addArgument( new ScriptExpression( "false") );
 
+		//a binding refering a rank aggregation
+		IBinding binding9 = new Binding( "referRankAggr" );
+		binding9.setExpression( new ScriptExpression( "data[\"totalRankInCountry\"]"  ) );
 
 		//add nest aggregation bindings
 		cqd.addBinding( binding7 );
 		cqd.addBinding( binding8 );
+		
+		//add a binding which refers to nest aggregation
+		cqd.addBinding( binding9 );
 
 		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
@@ -6867,6 +6875,15 @@ public class CubeFeaturesTest extends BaseTestCase
 		while (edge1.next( ))
 		{
 			line+= cursor.getObject( "totalRankInCountry" )+ "		";
+		}
+		output +="\n" + line;
+		
+		line = "referBinding" + "	";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while (edge1.next( ))
+		{
+			line+= cursor.getObject( "referRankAggr" )+ "		";
 		}
 		output +="\n" + line;
 		
