@@ -252,16 +252,17 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 			}
 		}
 		
-		int level = mirrorLevel;
+		int level = mirrorLevel + 1;
+		List nodeList1 = new ArrayList( );
+		nodeList1.addAll( noBreakHierarchyKeyMap.values( ) );
+
 		for ( int k = mirrorLevel + 1; k < rs.getLevelCount( ); k++ )
 		{
 			final int childSortType = this.getSortTypeOnMirroredLevel( k );
+			List nodeList2 = new ArrayList( );
 
 			if ( sortType != IDimensionSortDefn.SORT_UNDEFINED )
 			{
-				List nodeList1 = new ArrayList( );
-				List nodeList2 = new ArrayList( );
-				nodeList1.addAll( noBreakHierarchyKeyMap.values( ) );
 				while ( k > level )
 				{
 					for ( int j = 0; j < nodeList1.size( ); j++ )
