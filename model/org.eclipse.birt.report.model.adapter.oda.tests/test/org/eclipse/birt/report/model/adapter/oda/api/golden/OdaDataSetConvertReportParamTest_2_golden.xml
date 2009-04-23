@@ -5,11 +5,8 @@
             <property name="hidden">true</property>
             <text-property name="helpText" key="help">scalar para help</text-property>
             <method name="validate"><![CDATA[the validation test]]></method>
-            <property name="valueType">static</property>
-            <property name="dataType">decimal</property>
             <text-property name="promptText">param1 prompt text</text-property>
-            <property name="concealValue">true</property>
-            <property name="controlType">check-box</property>
+            <property name="valueType">static</property>
             <property name="dataSetName">myDataSet2</property>
             <expression name="valueExpr">value column</expression>
             <expression name="labelExpr">label column</expression>
@@ -31,29 +28,32 @@
                     <property name="value">option 3</property>
                 </structure>
             </list-property>
+            <property name="dataType">decimal</property>
+            <property name="concealValue">true</property>
+            <property name="controlType">check-box</property>
         </scalar-parameter>
         <scalar-parameter name="Param 2" id="6">
-            <property name="valueType">dynamic</property>
-            <property name="dataType">string</property>
             <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
             <property name="listLimit">100</property>
-            <property name="controlType">list-box</property>
+            <property name="valueType">dynamic</property>
             <property name="dataSetName">myDataSet2</property>
             <expression name="valueExpr">row["test"]</expression>
             <expression name="labelExpr">test column</expression>
+            <property name="dataType">string</property>
+            <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
-            <property name="autoSuggestThreshold">1</property>            
+            <property name="autoSuggestThreshold">1</property>
         </scalar-parameter>
         <scalar-parameter name="Param 3" id="7">
-            <property name="valueType">dynamic</property>
-            <property name="dataType">string</property>
             <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
             <property name="listLimit">100</property>
-            <property name="controlType">list-box</property>
+            <property name="valueType">dynamic</property>
             <property name="dataSetName">myDataSet2</property>
             <expression name="valueExpr">row["test"]</expression>
             <expression name="labelExpr">test column</expression>
-            <property name="autoSuggestThreshold">1</property>            
+            <property name="dataType">string</property>
+            <property name="controlType">list-box</property>
+            <property name="autoSuggestThreshold">1</property>
         </scalar-parameter>
     </parameters>
     <data-sources>
