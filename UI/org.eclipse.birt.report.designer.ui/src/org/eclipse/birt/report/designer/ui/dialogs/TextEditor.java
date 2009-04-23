@@ -1218,10 +1218,10 @@ public class TextEditor extends BaseDialog
 	{
 		FormatBuilder dialog = new FormatBuilder( style );
 		if ( dialog.open( ) == OK
-				&& ( (String[]) dialog.getResult( ) )[1] != null )
+				&& ( (Object[]) dialog.getResult( ) )[1] != null )
 		{
 			String result = " format=\"" //$NON-NLS-1$
-					+ ( (String[]) dialog.getResult( ) )[1]
+					+ ( (Object[]) dialog.getResult( ) )[1]
 					+ "\""; //$NON-NLS-1$
 			textEditor.insert( result );
 		}
