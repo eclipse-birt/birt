@@ -568,6 +568,7 @@ Choices.dataSetMode.multiple=多个数据集
 #68. filterTarget
 Choices.filterTarget.DataSet=数据集
 Choices.filterTarget.ResultSet=结果集
+Choices.filterTarget.OdaDataSet=ODA 数据集
 
 #69. viewAction
 Choices.viewAction.NoChange=无更改
@@ -1927,6 +1928,10 @@ Structure.FilterCondition.value1=值 1
 Structure.FilterCondition.value2=值 2
 Structure.FilterCondition.filterTarget=筛选目标
 Structure.FilterCondition.isOptional=可选
+Structure.FilterCondition.extensionName=Extension Name
+Structure.FilterCondition.extensionExprId=Extension Expression Id
+Structure.FilterCondition.pushDown=Push Down
+Structure.FilterCondition.dynamicFilterParameter=Dynamic Filter Parameter
 
 #10. PropertyMask
 Structure.PropertyMask.name=名称
@@ -2771,6 +2776,7 @@ Element.Row.onRender.this=行实例
 Element.Row.onRender.reportContext=报表上下文
 Element.Row.suppressDuplicates=抑制重复
 Element.Row.viewAction=查看操作
+Element.Row.repeatable=Repeatable
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=列
@@ -3153,6 +3159,11 @@ Element.FilterConditionElement.value2=值 2
 Element.FilterConditionElement.filterTarget=筛选目标
 Element.FilterConditionElement.member=成员 
 Element.FilterConditionElement.isOptional=可选
+Element.FilterConditionElement.extensionName=Extension Name
+Element.FilterConditionElement.extensionExprId=Extension Expression Id
+Element.FilterConditionElement.pushDown=Push Down
+Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
+
 
 #63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index

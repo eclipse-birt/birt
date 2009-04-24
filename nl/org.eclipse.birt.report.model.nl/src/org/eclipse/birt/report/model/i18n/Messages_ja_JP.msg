@@ -568,6 +568,7 @@ Choices.dataSetMode.multiple=複数のデータセット
 #68. filterTarget
 Choices.filterTarget.DataSet=データセット
 Choices.filterTarget.ResultSet=結果セット
+Choices.filterTarget.OdaDataSet=ODA データセット
 
 #69. viewAction
 Choices.viewAction.NoChange=変更なし
@@ -1927,6 +1928,10 @@ Structure.FilterCondition.value1=値 1
 Structure.FilterCondition.value2=値 2
 Structure.FilterCondition.filterTarget=フィルタのターゲット
 Structure.FilterCondition.isOptional=オプション
+Structure.FilterCondition.extensionName=Extension Name
+Structure.FilterCondition.extensionExprId=Extension Expression Id
+Structure.FilterCondition.pushDown=Push Down
+Structure.FilterCondition.dynamicFilterParameter=Dynamic Filter Parameter
 
 #10. PropertyMask
 Structure.PropertyMask.name=名前
@@ -2771,6 +2776,7 @@ Element.Row.onRender.this=行インスタンス
 Element.Row.onRender.reportContext=レポートのコンテキスト
 Element.Row.suppressDuplicates=重複を表示しない
 Element.Row.viewAction=アクションの表示
+Element.Row.repeatable=Repeatable
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=列
@@ -3153,6 +3159,11 @@ Element.FilterConditionElement.value2=値 2
 Element.FilterConditionElement.filterTarget=フィルタのターゲット
 Element.FilterConditionElement.member=メンバ 
 Element.FilterConditionElement.isOptional=Is オプション
+Element.FilterConditionElement.extensionName=Extension Name
+Element.FilterConditionElement.extensionExprId=Extension Expression Id
+Element.FilterConditionElement.pushDown=Push Down
+Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
+
 
 #63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index

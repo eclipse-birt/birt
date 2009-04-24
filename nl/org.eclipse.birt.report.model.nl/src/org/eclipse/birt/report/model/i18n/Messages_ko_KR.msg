@@ -568,6 +568,7 @@ Choices.dataSetMode.multiple=다중 데이터 집합
 #68. filterTarget
 Choices.filterTarget.DataSet=데이터 집합
 Choices.filterTarget.ResultSet=결과 집합
+Choices.filterTarget.OdaDataSet=ODA 데이터 집합
 
 #69. viewAction
 Choices.viewAction.NoChange=변경 사항 없음
@@ -1927,6 +1928,10 @@ Structure.FilterCondition.value1=값 1
 Structure.FilterCondition.value2=값 2
 Structure.FilterCondition.filterTarget=대상 필터
 Structure.FilterCondition.isOptional=옵션 항목입니다.
+Structure.FilterCondition.extensionName=Extension Name
+Structure.FilterCondition.extensionExprId=Extension Expression Id
+Structure.FilterCondition.pushDown=Push Down
+Structure.FilterCondition.dynamicFilterParameter=Dynamic Filter Parameter
 
 #10. PropertyMask
 Structure.PropertyMask.name=이름
@@ -2771,6 +2776,7 @@ Element.Row.onRender.this=행 인스턴스
 Element.Row.onRender.reportContext=보고서 컨텍스트
 Element.Row.suppressDuplicates=중복 항목 숨기기
 Element.Row.viewAction=작업 보기
+Element.Row.repeatable=Repeatable
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=열
@@ -3153,6 +3159,11 @@ Element.FilterConditionElement.value2=Value2
 Element.FilterConditionElement.filterTarget=대상 필터
 Element.FilterConditionElement.member=구성원 
 Element.FilterConditionElement.isOptional=옵션 여부
+Element.FilterConditionElement.extensionName=Extension Name
+Element.FilterConditionElement.extensionExprId=Extension Expression Id
+Element.FilterConditionElement.pushDown=Push Down
+Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
+
 
 #63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index

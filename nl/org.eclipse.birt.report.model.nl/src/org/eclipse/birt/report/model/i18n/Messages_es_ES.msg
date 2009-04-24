@@ -568,6 +568,7 @@ Choices.dataSetMode.multiple=Conjunto de datos múltiple
 #68. filterTarget
 Choices.filterTarget.DataSet=Conjunto de datos
 Choices.filterTarget.ResultSet=Conjunto de resultados
+Choices.filterTarget.OdaDataSet=Conjunto de datos ODA
 
 #69. viewAction
 Choices.viewAction.NoChange=Sin cambio
@@ -1927,6 +1928,10 @@ Structure.FilterCondition.value1=Valor 1
 Structure.FilterCondition.value2=Valor 2
 Structure.FilterCondition.filterTarget=Destino del filtro
 Structure.FilterCondition.isOptional=Es opcional
+Structure.FilterCondition.extensionName=Extension Name
+Structure.FilterCondition.extensionExprId=Extension Expression Id
+Structure.FilterCondition.pushDown=Push Down
+Structure.FilterCondition.dynamicFilterParameter=Dynamic Filter Parameter
 
 #10. PropertyMask
 Structure.PropertyMask.name=Nombre
@@ -2771,6 +2776,7 @@ Element.Row.onRender.this=Instancia de fila
 Element.Row.onRender.reportContext=Contexto de informe
 Element.Row.suppressDuplicates=Suprimir duplicados
 Element.Row.viewAction=Ver acción
+Element.Row.repeatable=Repeatable
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=Columna
@@ -3153,6 +3159,11 @@ Element.FilterConditionElement.value2=Valor2
 Element.FilterConditionElement.filterTarget=Destino de filtro
 Element.FilterConditionElement.member=Miembro 
 Element.FilterConditionElement.isOptional=Es opcional
+Element.FilterConditionElement.extensionName=Extension Name
+Element.FilterConditionElement.extensionExprId=Extension Expression Id
+Element.FilterConditionElement.pushDown=Push Down
+Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
+
 
 #63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
