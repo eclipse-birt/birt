@@ -2117,6 +2117,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ITableRowModel.HEIGHT_PROP );
 		property( obj, ITableRowModel.BOOKMARK_PROP );
 		property( obj, ITableRowModel.SUPPRESS_DUPLICATES_PROP );
+		property( obj, ITableRowModel.REPEATABLE_PROP );
 
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 		property( obj, IDesignElementModel.NEW_HANDLER_ON_EACH_EVENT_PROP );

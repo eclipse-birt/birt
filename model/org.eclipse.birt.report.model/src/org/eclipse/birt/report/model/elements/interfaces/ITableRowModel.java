@@ -50,6 +50,12 @@ public interface ITableRowModel
 	public static final String STYLE_PROP = "style"; //$NON-NLS-1$
 
 	/**
+	 * Name of the repeatable property. This property is used to control the
+	 * output of a row in table header is repeated on every page or just once.
+	 */
+	public static final String REPEATABLE_PROP = "repeatable"; //$NON-NLS-1$
+
+	/**
 	 * Name of the on-create property. It is for a script executed when the
 	 * element is created in the Factory. Called after the item is created, but
 	 * before the item is saved to the report document file.

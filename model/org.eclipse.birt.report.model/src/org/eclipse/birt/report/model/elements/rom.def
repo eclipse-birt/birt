@@ -2995,6 +2995,9 @@
     <Property displayNameID="Element.Row.suppressDuplicates" name="suppressDuplicates" since="2.1" type="boolean">
       <Default>false</Default>
     </Property>
+    <Property displayNameID="Element.Row.repeatable" name="repeatable" runtimeSettable="false"  since="2.5" type="boolean">
+      <Default>true</Default>
+    </Property>
     <Property canInherit="false" detailType="viewAction" displayNameID="Element.Row.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
     	<Default>NoChange</Default>
     </Property>

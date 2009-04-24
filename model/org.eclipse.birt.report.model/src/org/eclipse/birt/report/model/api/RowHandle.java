@@ -228,4 +228,29 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 	{
 		setBooleanProperty( SUPPRESS_DUPLICATES_PROP, value );
 	}
+
+	/**
+	 * Gets repeatable value. This property is used to control the output of a
+	 * row is repeated on every page or just once.
+	 * 
+	 * @return the repeatable value.
+	 */
+	public boolean repeatable( )
+	{
+		return getBooleanProperty( REPEATABLE_PROP );
+	}
+
+	/**
+	 * Sets the repeatable value. This property is used to control the output of
+	 * a row is repeated on every page or just once.
+	 * 
+	 * @param repeatable
+	 *            the repeatable value.
+	 * @throws SemanticException
+	 *             if this value is locked.
+	 */
+	public void setRepeatable( boolean repeatable ) throws SemanticException
+	{
+		setBooleanProperty( REPEATABLE_PROP, repeatable );
+	}
 }
