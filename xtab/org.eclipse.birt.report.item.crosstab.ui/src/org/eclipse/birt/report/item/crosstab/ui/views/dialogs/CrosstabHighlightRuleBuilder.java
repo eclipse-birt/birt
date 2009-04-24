@@ -291,6 +291,13 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 			// TODO Auto-generated catch block
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
+		finally
+		{
+			if (session != null)
+			{
+				session.shutdown( );
+			}
+		}
 		List valueList = new ArrayList( );
 		int count = 0;
 		int MAX_COUNT = PreferenceFactory.getInstance( )

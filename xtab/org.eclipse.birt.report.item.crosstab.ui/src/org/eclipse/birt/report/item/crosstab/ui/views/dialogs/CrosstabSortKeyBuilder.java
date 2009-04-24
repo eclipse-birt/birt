@@ -990,7 +990,13 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			// TODO Auto-generated catch block
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
-
+		finally
+		{
+			if (session != null)
+			{
+				session.shutdown( );
+			}
+		}
 		return retList;
 	}
 

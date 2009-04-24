@@ -2173,10 +2173,15 @@ public class UIUtil
 			ExceptionHandler.handle( e );
 			return false;
 		}
+		boolean bool = false;
 		if ( cubeQueryUtil != null )
-			return cubeQueryUtil.isValidDimensionName( name );
-		else
-			return false;
+			bool =  cubeQueryUtil.isValidDimensionName( name );
+		
+		if (session != null)
+		{
+			session.shutdown( );
+		}
+		return bool;
 	}
 
 	/**

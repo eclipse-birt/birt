@@ -60,7 +60,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.16 $ $Date: 2008/04/18 08:57:04 $
+ * @version $Revision: 1.17 $ $Date: 2009/02/16 06:24:48 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -528,6 +528,13 @@ public class ExpressionValueCellEditor extends CellEditor
 		{
 			// TODO Auto-generated catch block
 			logger.log( Level.SEVERE, e.getMessage( ), e );
+		}
+		finally
+		{
+			if (session != null)
+			{
+				session.shutdown( );
+			}
 		}
 
 		// iterator to list

@@ -103,6 +103,13 @@ public class CrosstabUseCubeQueryList implements IUseCubeQueryList
 			// TODO Auto-generated catch block
 
 		}
+		finally
+		{
+			if (session != null)
+			{
+				session.shutdown( );
+			}
+		}
 		List valueList = new ArrayList( );
 		int count = 0;
 		int MAX_COUNT = PreferenceFactory.getInstance( )

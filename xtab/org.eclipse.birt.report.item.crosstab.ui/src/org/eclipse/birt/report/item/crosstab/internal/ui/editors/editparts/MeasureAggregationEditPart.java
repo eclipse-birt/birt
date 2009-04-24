@@ -95,15 +95,23 @@ public class MeasureAggregationEditPart extends DataEditPart
 
 	private String getMeasureName( ComputedColumnHandle bindingColumn )
 	{
+		DataRequestSession session = null;
 		try
 		{
-			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 			return session.getCubeQueryUtil( )
 					.getReferencedMeasureName( DataUtil.getAggregationExpression( bindingColumn ) );
 		}
 		catch ( BirtException e )
 		{
 			return null;
+		}
+		finally
+		{
+			if (session != null)
+			{
+				session.shutdown( );
+			}
 		}
 	}
 }

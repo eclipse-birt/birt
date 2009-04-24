@@ -446,6 +446,7 @@ public class CrosstabAdaptUtil
 
 	public static void removeInvalidBindings( CrosstabReportItemHandle handle )
 	{
+		DataRequestSession session = null;
 		try
 		{
 			ICubeQueryDefinition definition = CrosstabQueryUtil.createCubeQuery( handle,
@@ -456,7 +457,7 @@ public class CrosstabAdaptUtil
 					true,
 					false,
 					false );
-			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 			List list = session.getCubeQueryUtil( )
 					.getInvalidBindings( definition );
 			// for (int i=0; i<list.size( ); i++)
@@ -480,6 +481,13 @@ public class CrosstabAdaptUtil
 		{
 			// donothing
 			logger.log( Level.SEVERE, e.getMessage( ), e );
+		}
+		finally
+		{
+			if (session != null)
+			{
+				session.shutdown( );
+			}
 		}
 	}
 
