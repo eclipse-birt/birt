@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -469,7 +470,7 @@ public class PropertyHandleTest extends BaseTestCase
 	 * Tests property visibilities defined in ROM.
 	 */
 
-	public void testPropertyVisibilities( )
+	public void testPropertyVisibilities( ) throws Exception
 	{
 
 		createDesign( );
@@ -501,6 +502,60 @@ public class PropertyHandleTest extends BaseTestCase
 		assertFalse( propHandle.isVisible( ) );
 		propHandle = cube.getPropertyHandle( ICubeModel.ACCESS_CONTROLS_PROP );
 		assertFalse( propHandle.isVisible( ) );
+
+		// tests visibility of row which locates in the header and footer of the
+		// table.
+		TableHandle table = elemFactory.newTableItem( "table", 3 ); //$NON-NLS-1$
+		SlotHandle headerSlot = table.getHeader( );
+		RowHandle rowHandle = (RowHandle) headerSlot.get( 0 );
+		propHandle = rowHandle
+				.getPropertyHandle( ITableRowModel.REPEATABLE_PROP );
+		assertTrue( propHandle.isVisible( ) );
+		assertFalse( propHandle.isReadOnly( ) );
+
+		SlotHandle footerSlot = table.getFooter( );
+		rowHandle = (RowHandle) footerSlot.get( 0 );
+		propHandle = rowHandle
+				.getPropertyHandle( ITableRowModel.REPEATABLE_PROP );
+		assertTrue( propHandle.isVisible( ) );
+		assertFalse( propHandle.isReadOnly( ) );
+
+		SlotHandle detailSlot = table.getDetail( );
+		rowHandle = (RowHandle) detailSlot.get( 0 );
+		propHandle = rowHandle
+				.getPropertyHandle( ITableRowModel.REPEATABLE_PROP );
+		assertFalse( propHandle.isVisible( ) );
+		assertTrue( propHandle.isReadOnly( ) );
+
+		// tests visibility of row which locates in the header and footer of the
+		// table group.
+		SlotHandle groupSlot = table.getGroups( );
+		TableGroupHandle group = elemFactory.newTableGroup( );
+		groupSlot.add( group );
+		SlotHandle groupFooterSlot = group.getFooter( );
+		rowHandle = elemFactory.newTableRow( );
+		groupFooterSlot.add( rowHandle );
+		propHandle = rowHandle
+				.getPropertyHandle( ITableRowModel.REPEATABLE_PROP );
+		assertTrue( propHandle.isVisible( ) );
+		assertFalse( propHandle.isReadOnly( ) );
+
+		SlotHandle groupHeaderSlot = group.getHeader( );
+		rowHandle = elemFactory.newTableRow( );
+		groupHeaderSlot.add( rowHandle );
+		propHandle = rowHandle
+				.getPropertyHandle( ITableRowModel.REPEATABLE_PROP );
+		assertTrue( propHandle.isVisible( ) );
+		assertFalse( propHandle.isReadOnly( ) );
+
+		// tests visibility of row which locates in the grid.
+		GridHandle grid = elemFactory.newGridItem( "grid", 2, 2 ); //$NON-NLS-1$	
+		SlotHandle rowSlot = grid.getRows( );
+		rowHandle = (RowHandle) rowSlot.get( 0 );
+		propHandle = rowHandle
+				.getPropertyHandle( ITableRowModel.REPEATABLE_PROP );
+		assertFalse( propHandle.isVisible( ) );
+		assertTrue( propHandle.isReadOnly( ) );
 
 		// both hide and readonly are set
 		ExtendedItemHandle extendedItem = elemFactory.newExtendedItem( null,

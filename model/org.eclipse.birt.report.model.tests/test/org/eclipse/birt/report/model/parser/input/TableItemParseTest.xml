@@ -110,6 +110,7 @@
             </column>
             <header>
                 <row>
+                	<property name="repeatable">false</property>
                     <expression name="bookmark">This is bookmark for section.</expression>
                     <list-property name="visibility">
                         <structure>

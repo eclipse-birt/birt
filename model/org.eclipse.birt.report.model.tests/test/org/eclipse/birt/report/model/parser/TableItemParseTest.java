@@ -128,7 +128,6 @@ public class TableItemParseTest extends ParserTestCase
 {
 
 	String fileName = "TableItemParseTest.xml"; //$NON-NLS-1$
-	String outFileName = "TableItemParseTest_out.xml"; //$NON-NLS-1$
 	String goldenFileName = "TableItemParseTest_golden.xml"; //$NON-NLS-1$
 	String semanticCheckFileName = "TableItemParseTest_1.xml"; //$NON-NLS-1$
 
@@ -251,6 +250,7 @@ public class TableItemParseTest extends ParserTestCase
 		assertNotNull( headerSlot );
 
 		RowHandle rowHandle = (RowHandle) headerSlot.get( 0 );
+		assertFalse( rowHandle.repeatable( ) );
 		testReadVisibilityRules( rowHandle );
 		assertEquals( 1, headerSlot.getCount( ) );
 
@@ -390,6 +390,8 @@ public class TableItemParseTest extends ParserTestCase
 		SlotHandle footerSlot = table.getFooter( );
 		assertNotNull( footerSlot );
 		assertEquals( 1, footerSlot.getCount( ) );
+		rowHandle = (RowHandle) footerSlot.get( 0 );
+		assertTrue( rowHandle.repeatable( ) );
 
 		// reads in a table that exists in the components.
 
@@ -514,6 +516,9 @@ public class TableItemParseTest extends ParserTestCase
 
 		RowHandle rowHandle = (RowHandle) tableHandle.getHeader( ).get( 0 );
 		testWriteVisibilityRules( rowHandle );
+
+		rowHandle = (RowHandle) tableHandle.getFooter( ).get( 0 );
+		rowHandle.setRepeatable( false );
 
 		TableGroupHandle group = (TableGroupHandle) groupSlot.get( 0 );
 		group.setName( "new group name" ); //$NON-NLS-1$

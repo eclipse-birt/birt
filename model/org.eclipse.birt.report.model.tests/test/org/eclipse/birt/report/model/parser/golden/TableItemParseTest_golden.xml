@@ -109,6 +109,7 @@
             <header>
                 <row id="16">
                     <expression name="bookmark">This is bookmark for section.</expression>
+                    <property name="repeatable">false</property>
                     <list-property name="visibility">
                         <structure>
                             <expression name="valueExpr">new rule 1</expression>
@@ -256,6 +257,7 @@
             </detail>
             <footer>
                 <row id="34">
+                	<property name="repeatable">false</property>
                     <cell id="35">
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
