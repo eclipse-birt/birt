@@ -56,6 +56,12 @@ The data set type indicates the type of query. For example, if your report conne
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/connecting.2.1.html" label="Connecting to a Data Source"/>
 </context>
 
+<context id="Wizard_SQLQuery_Dataset_ID" title="New SQL Select Query">
+<description>Use this page to create the SQL Select query that specifies what data to retrieve from the database. Use the middle pane to select tables and columns, and to join tables. Use the items in the lower pane to specify the following: how to sort data, what subset of the data to retrieve, what data to group for aggregations, and the criteria for returning specific aggregate data. Based on the selections you make in these panes, the top pane displays the SQL Select statement. 
+</description>
+</context>
+
+
 <context id="Wizard_DatasourceProfile_ID" title="Data Source Profile">
 <description>
 This screen displays a profile of the selected database.
@@ -71,7 +77,7 @@ Use this dialog box to define a new JDBC data source.
   - In Database URL, type the URL for the machine that runs the database.
   - In User Name, type the user name you use to access the database.
   - In Password, type the Password for the user name.
-  - In JNDI URL, type the URL for the JNDI name you use to access the database.
+  - In JNDI URL, type the URL for the JNDI database service used to retrieve a pooled connection.
 
 Choose Manage Drivers to add, remove, or change the drivers in the Driver Class drop-down list.
 
@@ -653,6 +659,17 @@ When the report orientation is right to left:
 </context>
 
 
+<context id="Preference_Chart_Content_Assist_ID" title="Preferences - Chart Content Assist page">
+<description>Use this page to control the behavior of the content assist tool in the chart builder. Content assist is available in fields for which you supply an expression. Use it to insert an expression in a field.
+</description>
+</context>
+
+
+<context id="Preference_Chart_Field_Assist_ID" title="Preferences - Chart Field Assist page">
+<description>Use this page to control the behavior of field assist in the chart builder. You can choose whether or not to identify required fields with a symbol. You can also specify the position of the symbol relative to the field.
+</description>
+</context>
+
 <context id="Preference_BIRT_DataSetEditor_ID" title="Preferences - Data Set Editor page">
 <description>Use this page to control how the Data Set Editor displays SQL queries and report previews.
 </description>
@@ -798,6 +815,12 @@ Note that you must assign a resource file to the report before you can define lo
 <description>Use this dialog box to add a library to the resource folder.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.20.1.html" label="Building a shared report development framework"/>
+</context>
+
+
+<context id="AddResourceDialog_ID" title="Add Resource">
+<description>Use this dialog box to add a shared resource, such as a library, an image, and a CSS file, to the resource folder. 
+</description>
 </context>
 
 

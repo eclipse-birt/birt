@@ -233,9 +233,8 @@ Use the <b>Labels</b>, <b>Regions</b>, <b>Interactivity</b>, and <b>Series Palet
 </context>
 
 <context id="Interactivity_ID" title="Interactivity">
-<description>Use this dialog box to define interactive features of your chart, both the types of interactivity and the actions that trigger the interactive responses.
-
-If you change a definition, choose <b>Update</b> to apply it.
+<description>
+Use this dialog box to define interactive features of your chart, both the types of interactivity and the actions that trigger the interactive responses.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/viewing.html" label="Adding Interactive Viewing Features"/>
 </context>
