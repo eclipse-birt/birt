@@ -55,6 +55,8 @@ public class DataEngineSession
 
 	private StopSign stopSign;
 	
+	private Timer currentTimer;
+	
 	private static ThreadLocal<ClassLoader> classLoaderHolder = new ThreadLocal<ClassLoader>();
 	
 	private static Logger logger = Logger.getLogger( DataEngineSession.class.getName( ) );
@@ -90,8 +92,8 @@ public class DataEngineSession
 
 		this.dataSetCacheManager = new DataSetCacheManager( this );
 		this.cancelManager = new CancelManager( );
-		Timer timer = new Timer( );
-		timer.schedule( cancelManager, 1000, 1000 );
+		this.currentTimer = new Timer( );
+		this.currentTimer.schedule( cancelManager, 1000, 1000 );
 		
 		classLoaderHolder.set( engine.getContext( ).getClassLoader( ) );
 		engine.addShutdownListener( new IShutdownListener(){
@@ -268,6 +270,7 @@ public class DataEngineSession
 		{
 			cancelManager.cancel( );
 			cancelManager = null;
+			this.currentTimer.cancel();
 		}
 	}
 
