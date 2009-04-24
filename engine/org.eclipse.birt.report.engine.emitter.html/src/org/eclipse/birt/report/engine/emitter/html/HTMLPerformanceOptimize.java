@@ -160,9 +160,33 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 			// HTML.
 			// This is different with the PDF. PDF will use the 100% as the
 			// default width for a shrink table.
+			// If the table's columns all have a absolute width, we should not
+			// output the 100% as the default width.
 			if ( !"true".equalsIgnoreCase( style.getCanShrink( ) ) )
 			{
-				styleBuffer.append( " width: 100%;" );
+				boolean absoluteWidth = true;
+				for ( int i = 0; i < table.getColumnCount( ); i++ )
+				{
+					IColumn column = table.getColumn( i );
+					DimensionType columnWidth = column.getWidth( );
+					if ( columnWidth == null )
+					{
+						absoluteWidth = false;
+						break;
+					}
+					else
+					{
+						if ( "%".endsWith( columnWidth.getUnits( ) ) )
+						{
+							absoluteWidth = false;
+							break;
+						}
+					}
+				}
+				if ( !absoluteWidth )
+				{
+					styleBuffer.append( " width: 100%;" );
+				}
 			}
 		}
 
