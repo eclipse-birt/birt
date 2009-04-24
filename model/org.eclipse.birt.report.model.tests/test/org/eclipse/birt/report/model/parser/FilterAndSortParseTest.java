@@ -15,8 +15,10 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
+import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.SortElementHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -52,6 +54,10 @@ public class FilterAndSortParseTest extends BaseTestCase
 		assertEquals( "value2 expression", filter.getValue2( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.FILTER_TARGET_RESULT_SET, filter
 				.getFilterTarget( ) );
+		assertEquals( "ext name", filter.getExtensionName( ) ); //$NON-NLS-1$
+		assertEquals( "ext id", filter.getExtensionExprId( ) ); //$NON-NLS-1$
+		assertTrue( filter.pushDown( ) ); //$NON-NLS-1$
+		assertEquals( "DynamicFilterParam", filter.getDynamicFilterParameter( ) ); //$NON-NLS-1$
 
 		// test member value in filter
 		MemberValueHandle memberValue = filter.getMember( );
@@ -82,6 +88,23 @@ public class FilterAndSortParseTest extends BaseTestCase
 		assertEquals( "value_2", memberValue.getValue( ) ); //$NON-NLS-1$
 		assertNull( memberValue.getLevel( ) );
 		assertNull( memberValue.getCubeLevelName( ) );
+		
+		// test filter condition 
+
+		TableHandle table = (TableHandle) designHandle.findElement( "Test table" ); //$NON-NLS-1$
+		assertNotNull( table );
+		
+		FilterConditionHandle filterHandle = (FilterConditionHandle) table.filtersIterator( ).next( );
+
+		assertEquals( DesignChoiceConstants.FILTER_OPERATOR_LT, filterHandle.getOperator( ) ); //$NON-NLS-1$
+		assertEquals( "filter expression", filterHandle.getExpr( ) ); //$NON-NLS-1$
+		assertEquals( "value1 expression", filterHandle.getValue1( ) ); //$NON-NLS-1$
+		assertEquals( "value2 expression", filterHandle.getValue2( ) ); //$NON-NLS-1$
+		assertEquals( "ext name", filterHandle.getExtensionName( ) ); //$NON-NLS-1$
+		assertEquals( "ext id", filterHandle.getExtensionExprId( ) ); //$NON-NLS-1$
+		assertTrue( filterHandle.pushDown( ) ); //$NON-NLS-1$
+		assertEquals( "DynamicFilterParam", filterHandle.getDynamicFilterParameter( ) ); //$NON-NLS-1$
+		
 	}
 
 	/**
@@ -94,7 +117,7 @@ public class FilterAndSortParseTest extends BaseTestCase
 		DesignElementHandle testTable = designHandle.findElement( "testTable" ); //$NON-NLS-1$
 		assertNotNull( testTable );
 
-		String valuePrix = "new "; //$NON-NLS-1$
+		final String valuePrefix = "new "; //$NON-NLS-1$
 
 		// test filter properties
 		List valueList = testTable.getListProperty( "filter" ); //$NON-NLS-1$
@@ -103,14 +126,18 @@ public class FilterAndSortParseTest extends BaseTestCase
 				.get( 0 );
 		filter.setOperator( DesignChoiceConstants.FILTER_OPERATOR_GE );
 		filter.setOptional( false );
-		filter.setExpr( valuePrix + filter.getExpr( ) );
-		filter.setValue1( valuePrix + filter.getValue1( ) );
-		filter.setValue2( valuePrix + filter.getValue2( ) );
+		filter.setExpr( valuePrefix + filter.getExpr( ) );
+		filter.setValue1( valuePrefix + filter.getValue1( ) );
+		filter.setValue2( valuePrefix + filter.getValue2( ) );
 		filter.setFilterTarget( DesignChoiceConstants.FILTER_TARGET_DATA_SET );
+		filter.setExtensionExprId( valuePrefix + filter.getExtensionExprId( ) );
+		filter.setExtensionName( valuePrefix + filter.getExtensionName( ) );
+		filter.setPushDown( false );
+		filter.setDynamicFilterParameter( valuePrefix + filter.getDynamicFilterParameter( ) );
 
 		// test member value in filter
 		MemberValueHandle memberValue = filter.getMember( );
-		memberValue.setValue( valuePrix + memberValue.getValue( ) );
+		memberValue.setValue( valuePrefix + memberValue.getValue( ) );
 		memberValue.setLevel( designHandle
 				.findLevel( "testDimension/testLevel_one" ) ); //$NON-NLS-1$
 
@@ -118,16 +145,32 @@ public class FilterAndSortParseTest extends BaseTestCase
 		valueList = testTable.getListProperty( "sorts" ); //$NON-NLS-1$
 		assertEquals( 2, valueList.size( ) );
 		SortElementHandle sort = (SortElementHandle) valueList.get( 0 );
-		sort.setKey( valuePrix + sort.getKey( ) );
+		sort.setKey( valuePrefix + sort.getKey( ) );
 		sort.setDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
 
 		// test member value in sort
 		memberValue = sort.getMember( );
-		memberValue.setValue( valuePrix + memberValue.getValue( ) );
+		memberValue.setValue( valuePrefix + memberValue.getValue( ) );
 		memberValue.setLevel( designHandle
 				.findLevel( "testDimension/testLevel_one" ) ); //$NON-NLS-1$
+	
+		// test filter condition 
+
+		TableHandle table = (TableHandle) designHandle.findElement( "Test table" ); //$NON-NLS-1$
+		assertNotNull( table );
+		
+		FilterConditionHandle filterHandle = (FilterConditionHandle) table.filtersIterator( ).next( );
+
+		filterHandle.setOperator( DesignChoiceConstants.FILTER_OPERATOR_GT ); //$NON-NLS-1$
+		filterHandle.setExpr( valuePrefix + filterHandle.getExpr( ) );
+		filterHandle.setValue1( valuePrefix + filterHandle.getValue1( ) );		
+		filterHandle.setExtensionExprId( valuePrefix + filterHandle.getExtensionExprId( ) );
+		filterHandle.setExtensionName( valuePrefix + filterHandle.getExtensionName( ) );
+		filterHandle.setPushDown( false );
+		filterHandle.setDynamicFilterParameter( valuePrefix + filterHandle.getDynamicFilterParameter( ) );
 
 		save( );
 		assertTrue( compareFile( "FilterAndSortParseTest_golden.xml" ) ); //$NON-NLS-1$
+	
 	}
 }

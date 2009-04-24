@@ -4042,6 +4042,11 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeSimplePropertyList( obj, IFilterConditionElementModel.VALUE1_PROP );
 		property( obj, IFilterConditionElementModel.VALUE2_PROP );
 		property( obj, IFilterConditionElementModel.FILTER_TARGET_PROP );
+		property( obj, IFilterConditionElementModel.EXTENSION_NAME_PROP );
+		property( obj, IFilterConditionElementModel.EXTENSION_EXPR_ID_PROP );
+		property( obj, IFilterConditionElementModel.PUSH_DOWN_PROP );
+		property( obj, IFilterConditionElementModel.DYNAMIC_FILTER_PARAMETER_PROP );
+		
 		writeContents( obj, IFilterConditionElementModel.MEMBER_PROP );
 
 		writer.endElement( );

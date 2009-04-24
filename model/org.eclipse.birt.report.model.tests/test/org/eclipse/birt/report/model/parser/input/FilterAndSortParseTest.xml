@@ -44,6 +44,10 @@
                     		</property>
                     	</member-value>
                     </property>
+                    <property name="extensionName">ext name</property>
+                    <property name="extensionExprId">ext id</property>
+                    <property name="pushDown">true</property>
+                    <property name="dynamicFilterParameter">DynamicFilterParam</property>                    
     			</filter-condition-element>
     			<filter-condition-element>
     				<property name="operator">lt</property>
@@ -70,5 +74,19 @@
     			</sort-element>
     		</property>
     	</extended-item>
+    	<table name="Test table">	
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">lt</property>
+                    <expression name="expr">filter expression</expression>
+                    <expression name="value1">value1 expression</expression>
+                    <expression name="value2">value2 expression</expression>
+                    <property name="extensionName">ext name</property>
+                    <property name="extensionExprId">ext id</property>
+                    <property name="pushDown">true</property>
+                    <property name="dynamicFilterParameter">DynamicFilterParam</property>
+                </structure>
+            </list-property>   
+        </table>  
     </body>
 </report>

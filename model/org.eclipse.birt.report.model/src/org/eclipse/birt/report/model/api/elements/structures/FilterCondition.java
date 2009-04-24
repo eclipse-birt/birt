@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.PropertyStructure;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -56,7 +56,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * 
  */
 
-public class FilterCondition extends Structure
+public class FilterCondition extends PropertyStructure
 {
 
 	/**
@@ -103,42 +103,32 @@ public class FilterCondition extends Structure
 	public static final String IS_OPTIONAL_MEMBER = "isOptional"; //$NON-NLS-1$
 
 	/**
-	 * The filter operator.
+	 * Name of the member that indicates the extension name defined to map to a
+	 * BIRT filter operator.
 	 */
 
-	private String operator;
+	public static final String EXTENSION_NAME_MEMBER = "extensionName"; //$NON-NLS-1$
 
 	/**
-	 * The filter expression.
+	 * Name of the member that indicates the unique id of a custom filter expression
+	 * contributed and defined by the extension.
 	 */
-
-	private Expression expr;
-
+	
+	public static final String EXTENSION_EXPR_ID_MEMBER = "extensionExprId"; //$NON-NLS-1$
+	
 	/**
-	 * The filter value 1 expression.
+	 * Name of the member that indicates if the current filter condition will be pushed
+	 * down to the database.
 	 */
-
-	private List value1;
-
+	
+	public static final String PUSH_DOWN_MEMBER = "pushDown"; //$NON-NLS-1$
+	
 	/**
-	 * The filter value 2 expression.
+	 * Name of the member that indicates the name of the dynamic filter parameter to reference.  
 	 */
-
-	private Expression value2;
-
-	/**
-	 * Filter target. It can either <code>DataSet</code> or
-	 * <code>ResultSet</code>>.
-	 */
-
-	private String filterTarget;
-
-	/**
-	 * Member value that stores whether this filter is optional or not.
-	 */
-
-	private Boolean isOptional;
-
+	
+	public static final String DYNAMIC_FILTER_PARAMETER_MEMBER = "dynamicFilterParameter";//$NON-NLS-1$
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -157,56 +147,6 @@ public class FilterCondition extends Structure
 	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
-
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( OPERATOR_MEMBER.equals( propName ) )
-			return operator;
-		else if ( EXPR_MEMBER.equals( propName ) )
-			return expr;
-		else if ( VALUE1_MEMBER.equals( propName ) )
-			return value1;
-		else if ( VALUE2_MEMBER.equals( propName ) )
-			return value2;
-		else if ( FILTER_TARGET_MEMBER.equals( propName ) )
-			return filterTarget;
-		else if ( IS_OPTIONAL_MEMBER.equals( propName ) )
-			return isOptional;
-
-		assert false;
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
-	 * .lang.String, java.lang.Object)
-	 */
-
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( OPERATOR_MEMBER.equals( propName ) )
-			operator = (String) value;
-		else if ( EXPR_MEMBER.equals( propName ) )
-			expr = convertObjectToExpression( value );
-		else if ( VALUE1_MEMBER.equals( propName ) )
-		{
-			if ( value == null )
-				value1 = null;
-			else if ( value instanceof List<?> )
-				value1 = convertListToExpressionList( (List<String>) value );
-		}
-		else if ( VALUE2_MEMBER.equals( propName ) )
-			value2 = convertObjectToExpression( value );
-		else if ( FILTER_TARGET_MEMBER.equals( propName ) )
-			filterTarget = (String) value;
-		else if ( IS_OPTIONAL_MEMBER.equals( propName ) )
-			isOptional = (Boolean) value;
-		else
-			assert false;
-	}
 
 	/**
 	 * Returns the filter expression.
@@ -584,7 +524,7 @@ public class FilterCondition extends Structure
 	}
 
 	/**
-	 * Determines whether this filte rcondition is optional or not.
+	 * Determines whether this filter condition is optional or not.
 	 * 
 	 * @return true if this filter is optional, otherwise false
 	 */
@@ -605,5 +545,109 @@ public class FilterCondition extends Structure
 	public void setOptional( boolean isOptional )
 	{
 		setProperty( IS_OPTIONAL_MEMBER, Boolean.valueOf( isOptional ) );
+	}
+	
+	/**
+	 * Returns the unique id of an org.eclipse.datatools.connectivity.oda.filterExpressions
+	 * extension to whose custom expressions are defined to map to a BIRT filter operator.
+	 *  
+	 * @return the extension name
+	 */
+	public String getExtensionName( )
+	{
+		return (String) getProperty( null, EXTENSION_NAME_MEMBER );
+	}
+	
+	/**
+	 * Returns the id of a custom filter expression contributed and defined by the extension
+	 * identified in the consumerExpressionMapping. 
+	 * 
+	 * @return the extension expression id
+	 */
+	
+	public String getExtensionExprId( )
+	{
+		return (String) getProperty( null, EXTENSION_EXPR_ID_MEMBER );
+	}
+	
+	/**
+	 * Indicate if the current filter condition will be pushed down to the database. Default 
+	 * value is false. Only the oda extension provider supported operators can be pushed down
+	 * to database. For those only BIRT supported operators even this property is set to true,
+	 * will be ignored.
+	 *  	
+	 * @return true if the current filter condition will be pushed down to the database, 
+	 * otherwise false.
+	 */
+	 
+	public boolean pushDown( )
+	{
+		Boolean pushDown = (Boolean) getProperty( null, PUSH_DOWN_MEMBER );
+		if ( pushDown == null )
+		{
+			return false;
+		}
+		return pushDown.booleanValue( ); 
+	}
+	
+	/**
+	 * Returns the name of the dynamic filter parameter to reference when the filter condition
+	 * is dynamic.
+	 * 
+	 * @return the name to the dynamic filter parameter to reference.
+	 */
+	
+	public String getDynamicFilterParameter( )
+	{
+		return getStringProperty( null, DYNAMIC_FILTER_PARAMETER_MEMBER );
+	}
+	
+	/**
+	 * Sets the unique id of an org.eclipse.datatools.connectivity.oda.filterExpressions 
+	 * extension to whose custom expressions are defined to map to a BIRT filter operator.  
+	 * 
+	 * @param extensionName 
+	 * 				the extension name to set
+	 */
+	
+	public void setExtensionName( String extensionName )
+	{
+		setProperty( EXTENSION_NAME_MEMBER, extensionName );
+	}
+	
+	/**
+	 * Sets the id of a custom filter expression contributed and defined by the extension
+	 * identified in the consumerExpressionMapping.
+	 *   
+	 * @param extensionExprId the id to set
+	 */
+	
+	public void setExtensionExprId( String extensionExprId )
+	{
+		setProperty( EXTENSION_EXPR_ID_MEMBER, extensionExprId );
+	}
+	
+	/**
+	 * Sets the push down status for this filter condition
+	 * 
+	 * @param pushDown 
+	 * 				true if the current filter condition will be pushed down to the database, 
+	 * 				otherwise false.
+	 */
+	public void setPushDown( boolean pushDown)
+	{
+		setProperty( PUSH_DOWN_MEMBER, Boolean.valueOf( pushDown ) );
+	}
+	
+	/**
+	 * Sets the name of the dynamic filter parameter to reference.
+	 * 
+	 * @param parameterName
+	 * 				the name of the dynamic filter parameter to set
+	 */
+	
+	public void setDynamicFilterParameter( String parameterName )
+	{
+		setProperty( DYNAMIC_FILTER_PARAMETER_MEMBER, parameterName );
 	}
 }

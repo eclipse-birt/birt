@@ -178,7 +178,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 			value = StructureFactory.createTOC( (String) value );
 		}
 
-		if ( IExtendedItemModel.EXTENSION_NAME_PROP.equals( prop.getName( ) ) )
+		if ( IExtendedItemModel.EXTENSION_NAME_PROP.equals( prop.getName( ) ) 
+				&& element instanceof IExtendedItemModel )
 		{
 			throw new PropertyValueException(
 					element,

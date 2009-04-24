@@ -513,6 +513,7 @@
   <ChoiceType name="filterTarget">
   	<Choice displayNameID="Choices.filterTarget.DataSet" name="DataSet"/>
   	<Choice displayNameID="Choices.filterTarget.ResultSet" name="ResultSet"/>
+  	<Choice displayNameID="Choices.filterTarget.OdaDataSet" name="OdaDataSet"/>
   </ChoiceType>
   <ChoiceType name="viewAction">
   	<Choice displayNameID="Choices.viewAction.NoChange" name="NoChange"/>
@@ -1283,18 +1284,24 @@
     </Member>
   </Structure>
   <Structure displayNameID="Structure.FilterCondition" name="FilterCondition" since="1.0">
-    <Member detailType="filterOperator" displayNameID="Structure.FilterCondition.operator" isIntrinsic="true" name="operator" runtimeSettable="false" since="1.0" type="choice">
+    <Member detailType="filterOperator" displayNameID="Structure.FilterCondition.operator" name="operator" runtimeSettable="false" since="1.0" type="choice">
       <Default>eq</Default>
     </Member>
-    <Member displayNameID="Structure.FilterCondition.expr" isIntrinsic="true" name="expr" returnType="any" runtimeSettable="false" since="1.0" type="expression" valueRequired="true"/>
-    <Member displayNameID="Structure.FilterCondition.value1" isIntrinsic="true" name="value1" returnType="any" runtimeSettable="false" since="1.0" subType="expression" type="list"/>
-    <Member displayNameID="Structure.FilterCondition.value2" isIntrinsic="true" name="value2" returnType="any" runtimeSettable="false" since="1.0" type="expression"/>
-    <Member detailType="filterTarget" displayNameID="Structure.FilterCondition.filterTarget" isIntrinsic="true" name="filterTarget" returnType="any" runtimeSettable="false" since="2.1" type="choice">
+    <Member displayNameID="Structure.FilterCondition.expr" name="expr" returnType="any" runtimeSettable="false" since="1.0" type="expression" valueRequired="true"/>
+    <Member displayNameID="Structure.FilterCondition.value1" name="value1" returnType="any" runtimeSettable="false" since="1.0" subType="expression" type="list"/>
+    <Member displayNameID="Structure.FilterCondition.value2" name="value2" returnType="any" runtimeSettable="false" since="1.0" type="expression"/>
+    <Member detailType="filterTarget" displayNameID="Structure.FilterCondition.filterTarget" name="filterTarget" returnType="any" runtimeSettable="false" since="2.1" type="choice">
     	<Default>DataSet</Default>
     </Member>
-    <Member displayNameID="Structure.FilterCondition.isOptional" isIntrinsic="true" name="isOptional" runtimeSettable="false" since="2.2" type="boolean">
+    <Member displayNameID="Structure.FilterCondition.isOptional" name="isOptional" runtimeSettable="false" since="2.2" type="boolean">
       <Default>false</Default>
     </Member>
+    <Member displayNameID="Structure.FilterCondition.extensionName" name="extensionName" runtimeSettable="false" since="2.5" type="string"/>
+    <Member displayNameID="Structure.FilterCondition.extensionExprId" name="extensionExprId" runtimeSettable="false" since="2.5" type="string"/>
+    <Member displayNameID="Structure.FilterCondition.pushDown" name="pushDown" runtimeSettable="false" since="2.5" type="boolean">
+    	<Default>false</Default>
+    </Member>
+    <Member displayNameID="Structure.FilterCondition.dynamicFilterParameter" name="dynamicFilterParameter" runtimeSettable="false" since="2.5" type="string"/>    
   </Structure>
   <Structure displayNameID="Structure.HideRule" name="HideRule" since="1.0">
     <Member detailType="formatType" displayNameID="Structure.HideRule.format" isIntrinsic="true" name="format" since="1.0" type="string">
@@ -3516,6 +3523,12 @@
     <Property displayNameID="Element.FilterConditionElement.member" isList="false" name="member" since="2.2" type="contentElement">
 		<Type name="MemberValue"/>
 	</Property>
+	<Property displayNameID="Element.FilterConditionElement.extensionName" name="extensionName" runtimeSettable="false" since="2.5" type="string"/>
+    <Property displayNameID="Element.FilterConditionElement.extensionExprId" name="extensionExprId" runtimeSettable="false" since="2.5" type="string"/>
+    <Property displayNameID="Element.FilterConditionElement.pushDown" name="pushDown" runtimeSettable="false" since="2.5" type="boolean">
+    	<Default>false</Default>
+    </Property>
+    <Property displayNameID="Element.FilterConditionElement.dynamicFilterParameter" name="dynamicFilterParameter" runtimeSettable="false" since="2.5" type="string"/>
   </Element>    	
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TemplateParameterDefinition" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.TemplateParameterDefinition" name="TemplateParameterDefinition" nameSpace="templateParameterDefinition" since="2.0" xmlName="template-parameter-definition">
   	<Property canInherit="false" displayNameID="Element.TemplateParameterDefinition.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.0" type="name"/>
