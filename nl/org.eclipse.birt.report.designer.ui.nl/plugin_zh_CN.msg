@@ -46,7 +46,7 @@ preference.resource=资源
 preference.commenttemplates=注释模板
 #hcg_bidi
 preference.bidiproperties=双向属性
-preference.layout=Layout
+preference.layout=布局
 
 
 designer.action.undo.label=撤消

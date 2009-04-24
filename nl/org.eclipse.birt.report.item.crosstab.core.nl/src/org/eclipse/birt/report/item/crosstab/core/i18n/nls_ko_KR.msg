@@ -121,8 +121,8 @@ LevelViewTask.msg.add.subtotal=부분합 추가
 DimensionViewTask.msg.remove.level=수준 제거
 DimensionViewTask.msg.insert.level=수준 삽입
 
-MeasureViewTask.msg.remove.header=Remove Measure Header
-MeasureViewTask.msg.add.header=Add Measure Header
+MeasureViewTask.msg.remove.header=측정값 머리글 제거
+MeasureViewTask.msg.add.header=측정값 머리글 추가
 
 CrosstabViewTask.msg.remove.dimension=차원 제거
 CrosstabViewTask.msg.remove.grandtotal=총합계 제거

@@ -679,7 +679,7 @@ PropertyEditorDialog.Lbl.Remove=&Supprimer
 HeadStyleAttributeComposite.Lbl.HeadStyle=Style de pointe :
 HyperlinkEditorDialog.ErrorMessage.ExistingText=Le texte existe déjà, veuillez le modifier.
 HyperlinkEditorDialog.ErrorMessage.NullText=Le texte ne peut pas être une valeur nulle \!
-HyperlinkEditorDialog.Text.MenuLabel=&Name:
+HyperlinkEditorDialog.Text.MenuLabel=&Nom :
 HyperlinkEditorDialog.Title.HyperlinkEditor=Editeur du lien hypertexte
 
 TaskSelectType.TaskExp=Sélectionner le type de graphique

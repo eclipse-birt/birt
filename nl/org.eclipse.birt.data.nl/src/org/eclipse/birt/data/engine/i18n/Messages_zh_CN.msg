@@ -160,7 +160,7 @@ data.engine.sortExprContainRowNum=ÅÅĞò±í´ïÊ½²»ÄÜÒıÓÃ java ½Å±¾¶ÔÏó "row.__num"¡£
 
 
 data.engine.ResultSetNotStart=½á¹û¼¯ÉĞÎ´Æô¶¯¡£
-data.engine.GetLevelMemberError=The level member cannot be achieved because the result set has not started.
+data.engine.GetLevelMemberError=ÎŞ·¨ÊµÏÖ¸Ã¼¶±ğ³ÉÔ±£¬Ô­ÒòÊÇÉĞÎ´Æô¶¯½á¹û¼¯¡£
 
 data.engine.invalidRowIndex=ÎŞĞ§µÄĞĞË÷ÒıÖµ: {0}¡£
 data.engine.backwardSeekError=´Ë°æ±¾²»Ö§³Ö·´ÏòËÑÑ°¡£
@@ -401,9 +401,9 @@ data.executor.configFileParser.getParametersByID=ÎŞ·¨°´ÅäÖÃÎÄ¼şÖĞÖ¸¶¨µÄÊı¾İ¼¯Ãû³
 
 data.aggregation.expression.displayName=±í´ïÊ½
 data.aggregation.argumentError=¾ÛºÏ¡°{1}¡±µÄ²ÎÊı¡°{0}¡±µÄ±í´ïÊ½Îª null »ò¿Õ!
-data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can't be such type:"{0}".
+data.olap.InvalidAggrTypeOnMeasure=¶àÎ¬Êı¾İ¼¯¶ÈÁ¿¾ÛºÏ²»ÄÜÎª´ËÀàĞÍ:¡°{0}¡±¡£
 
 #derived dataSet
-data.derivedDataSet.columnNotExist=The column name \"{0}\" does not exist!
-data.derivedDataSet.UnionQueryTextParseError="Failed to parse Union Query. \"{0}\""
-data.derivedDataSet.JoinQueryTextParseError="Failed to parse Join Query. \"{0}\""
+data.derivedDataSet.columnNotExist=ÁĞÃû³Æ¡°{0}¡±²»´æÔÚ!
+data.derivedDataSet.UnionQueryTextParseError="ÎŞ·¨·ÖÎöÁªºÏ²éÑ¯¡£ \"{0}\""
+data.derivedDataSet.JoinQueryTextParseError="ÎŞ·¨·ÖÎöÁª½Ó²éÑ¯¡£ \"{0}\""

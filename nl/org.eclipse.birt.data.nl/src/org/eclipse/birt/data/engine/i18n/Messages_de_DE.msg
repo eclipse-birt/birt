@@ -160,7 +160,7 @@ data.engine.sortExprContainRowNum=Sortierungsausdruck kann nicht auf Javascript-
 
 
 data.engine.ResultSetNotStart=Das Ergebnis wurde noch nicht gestartet.
-data.engine.GetLevelMemberError=The level member cannot be achieved because the result set has not started.
+data.engine.GetLevelMemberError=Die Mitgliederanzahl konnte nicht erreicht werden, da das Ergebnis nicht gestartet wurde.
 
 data.engine.invalidRowIndex=Ungültiger Zeilenindexwert: {0}.
 data.engine.backwardSeekError=Die Rückwärtssuche wird in dieser Version nicht unterstützt.
@@ -401,9 +401,9 @@ data.executor.configFileParser.getParametersByID=Der Parameter konnte anhand des
 
 data.aggregation.expression.displayName=Ausdruck
 data.aggregation.argumentError=Der Ausdruck des Arguments \"{0}\" für Aggregat \"{1}\" ist Null oder leer.
-data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can't be such type:"{0}".
+data.olap.InvalidAggrTypeOnMeasure=Ungültiger Typ für Aggregat in Quadereinheit: '{0}'.
 
 #derived dataSet
-data.derivedDataSet.columnNotExist=The column name \"{0}\" does not exist!
-data.derivedDataSet.UnionQueryTextParseError="Failed to parse Union Query. \"{0}\""
-data.derivedDataSet.JoinQueryTextParseError="Failed to parse Join Query. \"{0}\""
+data.derivedDataSet.columnNotExist=Der Spaltenname '{0}' ist nicht vorhanden.
+data.derivedDataSet.UnionQueryTextParseError="Fehler bei Analyse von Union-Abfrage. \"{0}\""
+data.derivedDataSet.JoinQueryTextParseError="Fehler bei Analyse von Join-Abfrage. \"{0}\""

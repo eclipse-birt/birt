@@ -46,7 +46,7 @@ preference.resource=Ressource
 preference.commenttemplates=Modèle de commentaire
 #hcg_bidi
 preference.bidiproperties=Propriétés bidirectionnelles
-preference.layout=Layout
+preference.layout=Mise en page
 
 
 designer.action.undo.label=Annuler

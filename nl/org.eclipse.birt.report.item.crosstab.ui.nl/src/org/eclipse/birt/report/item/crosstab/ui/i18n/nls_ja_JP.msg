@@ -27,7 +27,7 @@ AddComputedSummaryDialog.ErrMsg.Msg3=式は空白にできません。
 ShowAsViewAction.DisplayName=表示形式
 ShowAsViewAction.TransName=表示形式
 
-MeasureComboPropertyDescriptorProvider.TransName=Change Crosstab Orientation
+MeasureComboPropertyDescriptorProvider.TransName=クロスタブの向きを変更する
 
 ###########################################################
 # Crosstab Command trans name

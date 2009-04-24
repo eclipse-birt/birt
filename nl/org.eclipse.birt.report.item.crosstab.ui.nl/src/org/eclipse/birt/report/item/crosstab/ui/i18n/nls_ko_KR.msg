@@ -27,7 +27,7 @@ AddComputedSummaryDialog.ErrMsg.Msg3=식은 비어 있으면 안 됩니다.
 ShowAsViewAction.DisplayName=표시
 ShowAsViewAction.TransName=표시
 
-MeasureComboPropertyDescriptorProvider.TransName=Change Crosstab Orientation
+MeasureComboPropertyDescriptorProvider.TransName=크로스 탭 방향 변경
 
 ###########################################################
 # Crosstab Command trans name

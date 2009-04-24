@@ -679,7 +679,7 @@ PropertyEditorDialog.Lbl.Remove=削除(&R)
 HeadStyleAttributeComposite.Lbl.HeadStyle=針の先端 :
 HyperlinkEditorDialog.ErrorMessage.ExistingText=既存のテキストです。別のテキストに変更してください。
 HyperlinkEditorDialog.ErrorMessage.NullText=テキストは null にできません。
-HyperlinkEditorDialog.Text.MenuLabel=&Name:
+HyperlinkEditorDialog.Text.MenuLabel=名前(&N) :
 HyperlinkEditorDialog.Title.HyperlinkEditor=ハイパーリンクエディタ
 
 TaskSelectType.TaskExp=グラフの種類の選択

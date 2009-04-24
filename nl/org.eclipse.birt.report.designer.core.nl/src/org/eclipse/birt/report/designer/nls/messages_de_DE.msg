@@ -2252,8 +2252,8 @@ LabelPageGenerator.List.Visibility=Sichtbarkeit
 
 ###########################################################
 #LayoutConfigurationBlock properties
-LayoutConfigurationBlock.Default.Unit.Auto=Automatisch
-LayoutConfigurationBlock.Default.Unit.Label=Default Unit:
+LayoutConfigurationBlock.Default.Unit.Auto=Auto
+LayoutConfigurationBlock.Default.Unit.Label=Standardeinheit:
 
 ###########################################################
 #LayoutEditor properties
@@ -3491,7 +3491,7 @@ StringVariableSelectionDialog.Dialog.Prompt=&Wählen Sie eine Variable (? = belie
 StringVariableSelectionDialog.Dialog.Title=Variable wählen 
 StyleBuilder.action.Apply=&Anwenden
 StyleBuilder.Edit.Info=Gewünschte Stileigenschaften bearbeiten. Alle Berichtelemente mit diesem Stil werden automatisch mit dem neuen Format aktualisiert.
-StyleBuilder.New.Info=Create a new style by selecting a property category on the left and specifying property values.
+StyleBuilder.New.Info=Neuen Stil durch Auswahl einer Eigenschaftskategorie links und Angabe von Eigenschaftswerten erstellen.
 StyleBuilder.Title=Stil
 SytleBuilder.DialogTitle.New=Neuer Stil
 SytleBuilder.DialogTitle.Edit=Stil bearbeiten
@@ -4511,9 +4511,9 @@ ExportElementToLibraryAction.waringMsg=Das Element wurde nicht benannt. Es kann 
 
 ###########################################################
 #ExportStyleDialog
-ExportStyleDialog.Label.Text=Theme:
-ExportStyleDialog.Message=Select a theme to be exported in the library.
-ExportStyleDialog.Title=Select Theme
+ExportStyleDialog.Label.Text=Thema:
+ExportStyleDialog.Message=Thema zum Export in die Bibliothek wählen.
+ExportStyleDialog.Title=Thema wählen
 
 ###########################################################
 #UIUtil

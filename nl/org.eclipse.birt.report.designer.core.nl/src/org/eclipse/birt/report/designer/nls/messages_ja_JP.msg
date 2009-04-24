@@ -2253,7 +2253,7 @@ LabelPageGenerator.List.Visibility=‰Â‹«
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=©“®
-LayoutConfigurationBlock.Default.Unit.Label=Default Unit:
+LayoutConfigurationBlock.Default.Unit.Label=ƒfƒtƒHƒ‹ƒg‚Ì’PˆÊ :
 
 ###########################################################
 #LayoutEditor properties
@@ -3491,7 +3491,7 @@ StringVariableSelectionDialog.Dialog.Prompt=•Ï”‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢ (? ‚Í”CˆÓ‚Ì 1
 StringVariableSelectionDialog.Dialog.Title=•Ï”‚Ì‘I‘ğ 
 StyleBuilder.action.Apply=“K—p(&A)
 StyleBuilder.Edit.Info=ƒXƒ^ƒCƒ‹ƒvƒƒpƒeƒB‚ğ•ÏX‚µ‚Ü‚·B‚±‚ÌƒXƒ^ƒCƒ‹‚ğg—p‚µ‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒŒƒ|[ƒg—v‘f‚ªXV‚³‚êAV‚µ‚¢Œ`®‚ª”½‰f‚³‚ê‚Ü‚·B
-StyleBuilder.New.Info=Create a new style by selecting a property category on the left and specifying property values.
+StyleBuilder.New.Info=V‚µ‚¢ƒXƒ^ƒCƒ‹‚ğì¬‚·‚é‚É‚ÍA¶‘¤‚ÌƒvƒƒpƒeƒB‚ÌƒJƒeƒSƒŠ‚ğ‘I‘ğ‚µAƒvƒƒpƒeƒB‚Ì’l‚ğw’è‚µ‚Ü‚·B
 StyleBuilder.Title=ƒXƒ^ƒCƒ‹
 SytleBuilder.DialogTitle.New=ƒXƒ^ƒCƒ‹‚ÌV‹Kì¬
 SytleBuilder.DialogTitle.Edit=ƒXƒ^ƒCƒ‹‚Ì•ÒW
@@ -4511,9 +4511,9 @@ ExportElementToLibraryAction.waringMsg=—v‘f‚É–¼‘O‚ª•t‚¢‚Ä‚¢‚Ü‚¹‚ñ‚ªA–¼‘O‚ğİ’è‚
 
 ###########################################################
 #ExportStyleDialog
-ExportStyleDialog.Label.Text=Theme:
-ExportStyleDialog.Message=Select a theme to be exported in the library.
-ExportStyleDialog.Title=Select Theme
+ExportStyleDialog.Label.Text=ƒe[ƒ} : 
+ExportStyleDialog.Message=ƒ‰ƒCƒuƒ‰ƒŠ‚ÉƒGƒNƒXƒ|[ƒg‚·‚éƒe[ƒ}‚ğ‘I‘ğ‚µ‚Ü‚·B
+ExportStyleDialog.Title=ƒe[ƒ}‚Ì‘I‘ğ
 
 ###########################################################
 #UIUtil

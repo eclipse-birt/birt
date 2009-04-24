@@ -160,7 +160,7 @@ data.engine.sortExprContainRowNum=ƒ\[ƒg®‚Å‚ÍAJava ƒXƒNƒŠƒvƒgƒIƒuƒWƒFƒNƒg "row
 
 
 data.engine.ResultSetNotStart=Œ‹‰ÊƒZƒbƒg‚Í‚Ü‚¾ŠJn‚µ‚Ä‚¢‚Ü‚¹‚ñB
-data.engine.GetLevelMemberError=The level member cannot be achieved because the result set has not started.
+data.engine.GetLevelMemberError=Œ‹‰ÊƒZƒbƒg‚ªŠJn‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßAƒŒƒxƒ‹ƒƒ“ƒo‚ğ’B¬‚Å‚«‚Ü‚¹‚ñB
 
 data.engine.invalidRowIndex=s‚ÌƒCƒ“ƒfƒbƒNƒX’l‚ª–³Œø‚Å‚· : {0}
 data.engine.backwardSeekError=‚±‚Ìƒo[ƒWƒ‡ƒ“‚Å‚ÍAŒã•ûƒV[ƒN‚ğÀs‚Å‚«‚Ü‚¹‚ñB
@@ -401,9 +401,9 @@ data.executor.configFileParser.getParametersByID=İ’èƒtƒ@ƒCƒ‹‚Åw’è‚µ‚½ƒf[ƒ^ƒZƒ
 
 data.aggregation.expression.displayName=®
 data.aggregation.argumentError=WŒv \"{1}\" ‚Ìˆø”® \"{0}\" ‚ª null ‚Ü‚½‚Í‹ó”’‚Å‚·B
-data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can't be such type:"{0}".
+data.olap.InvalidAggrTypeOnMeasure=ƒLƒ…[ƒu‚ÌƒƒWƒƒ[‚É‘Î‚·‚éWŒv‚Å‚Í‚±‚ÌŒ^‚Íg—p‚Å‚«‚Ü‚¹‚ñ : "{0}"
 
 #derived dataSet
-data.derivedDataSet.columnNotExist=The column name \"{0}\" does not exist!
-data.derivedDataSet.UnionQueryTextParseError="Failed to parse Union Query. \"{0}\""
-data.derivedDataSet.JoinQueryTextParseError="Failed to parse Join Query. \"{0}\""
+data.derivedDataSet.columnNotExist=—ñ–¼ \"{0}\" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
+data.derivedDataSet.UnionQueryTextParseError="˜aW‡ƒNƒGƒŠ‚ğ‰ğÍ‚Å‚«‚Ü‚¹‚ñB \"{0}\""
+data.derivedDataSet.JoinQueryTextParseError="ƒWƒ‡ƒCƒ“ƒNƒGƒŠ‚ğ‰ğÍ‚Å‚«‚Ü‚¹‚ñB \"{0}\""

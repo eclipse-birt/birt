@@ -2253,7 +2253,7 @@ LabelPageGenerator.List.Visibility=표시 유형
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=자동
-LayoutConfigurationBlock.Default.Unit.Label=Default Unit:
+LayoutConfigurationBlock.Default.Unit.Label=기본 단위:
 
 ###########################################################
 #LayoutEditor properties
@@ -3491,7 +3491,7 @@ StringVariableSelectionDialog.Dialog.Prompt=변수 선택(? = 모든 문자, * = 모든 문
 StringVariableSelectionDialog.Dialog.Title=변수 선택 
 StyleBuilder.action.Apply=적용(&A)
 StyleBuilder.Edit.Info=원하는 스타일 속성을 수정합니다. 이 스타일을 사용하는 모든 보고서 요소는 자동으로 업데이트되어 새 형식을 반영합니다.
-StyleBuilder.New.Info=Create a new style by selecting a property category on the left and specifying property values.
+StyleBuilder.New.Info=왼쪽의 속성 범주를 선택하고 속성 값을 지정하여 새 스타일을 생성합니다.
 StyleBuilder.Title=스타일
 SytleBuilder.DialogTitle.New=새 스타일
 SytleBuilder.DialogTitle.Edit=스타일 편집
@@ -4511,9 +4511,9 @@ ExportElementToLibraryAction.waringMsg=요소에 이름이 없지만 해당 요소의 이름을 �
 
 ###########################################################
 #ExportStyleDialog
-ExportStyleDialog.Label.Text=Theme:
-ExportStyleDialog.Message=Select a theme to be exported in the library.
-ExportStyleDialog.Title=Select Theme
+ExportStyleDialog.Label.Text=테마:
+ExportStyleDialog.Message=라이브러리에서 내보낼 테마를 선택합니다.
+ExportStyleDialog.Title=테마 선택
 
 ###########################################################
 #UIUtil

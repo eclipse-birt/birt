@@ -27,7 +27,7 @@ AddComputedSummaryDialog.ErrMsg.Msg3=L'expression doit être renseignée.
 ShowAsViewAction.DisplayName=Afficher sous
 ShowAsViewAction.TransName=Afficher sous
 
-MeasureComboPropertyDescriptorProvider.TransName=Change Crosstab Orientation
+MeasureComboPropertyDescriptorProvider.TransName=Modifier l'orientation du tableau croisé
 
 ###########################################################
 # Crosstab Command trans name

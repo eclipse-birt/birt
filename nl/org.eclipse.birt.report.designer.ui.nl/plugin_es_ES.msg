@@ -46,7 +46,7 @@ preference.resource=Recurso
 preference.commenttemplates=Plantilla de comentario
 #hcg_bidi
 preference.bidiproperties=Propiedades bidireccionales
-preference.layout=Layout
+preference.layout=Diseño
 
 
 designer.action.undo.label=Deshacer

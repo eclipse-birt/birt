@@ -27,7 +27,7 @@ AddComputedSummaryDialog.ErrMsg.Msg3=表达式不能为空。
 ShowAsViewAction.DisplayName=显示为
 ShowAsViewAction.TransName=显示为
 
-MeasureComboPropertyDescriptorProvider.TransName=Change Crosstab Orientation
+MeasureComboPropertyDescriptorProvider.TransName=更改交叉表方向
 
 ###########################################################
 # Crosstab Command trans name

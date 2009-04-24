@@ -121,8 +121,8 @@ LevelViewTask.msg.add.subtotal=小計の追加
 DimensionViewTask.msg.remove.level=レベルの削除
 DimensionViewTask.msg.insert.level=レベルの挿入
 
-MeasureViewTask.msg.remove.header=Remove Measure Header
-MeasureViewTask.msg.add.header=Add Measure Header
+MeasureViewTask.msg.remove.header=メジャーのヘッダの削除
+MeasureViewTask.msg.add.header=メジャーのヘッダの追加
 
 CrosstabViewTask.msg.remove.dimension=ディメンジョンの削除
 CrosstabViewTask.msg.remove.grandtotal=総計の削除

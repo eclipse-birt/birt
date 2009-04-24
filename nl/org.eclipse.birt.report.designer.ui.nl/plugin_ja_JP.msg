@@ -46,7 +46,7 @@ preference.resource=リソース
 preference.commenttemplates=コメントテンプレート
 #hcg_bidi
 preference.bidiproperties=双方向プロパティ
-preference.layout=Layout
+preference.layout=レイアウト
 
 
 designer.action.undo.label=元に戻す

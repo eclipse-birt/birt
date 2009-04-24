@@ -2253,7 +2253,7 @@ LabelPageGenerator.List.Visibility=Visibilité
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=Auto
-LayoutConfigurationBlock.Default.Unit.Label=Default Unit:
+LayoutConfigurationBlock.Default.Unit.Label=Unité par défaut :
 
 ###########################################################
 #LayoutEditor properties
@@ -3491,7 +3491,7 @@ StringVariableSelectionDialog.Dialog.Prompt=&Choisir une variable (? = tout cara
 StringVariableSelectionDialog.Dialog.Title=Sélectionnez une variable 
 StyleBuilder.action.Apply=&Appliquer
 StyleBuilder.Edit.Info=Modifiez les propriétés de style souhaitées. Tous les éléments d'état utilisant ce style sont automatiquement mis à jour pour refléter le nouveau format.
-StyleBuilder.New.Info=Create a new style by selecting a property category on the left and specifying property values.
+StyleBuilder.New.Info=Créez un nouveau style en sélectionnant une catégorie de propriété sur la gauche et en spécifiant les valeurs de la propriété.
 StyleBuilder.Title=Style
 SytleBuilder.DialogTitle.New=Nouveau style
 SytleBuilder.DialogTitle.Edit=Modifier le style
@@ -4511,9 +4511,9 @@ ExportElementToLibraryAction.waringMsg=L'élément ne porte pas de nom, mais il es
 
 ###########################################################
 #ExportStyleDialog
-ExportStyleDialog.Label.Text=Theme:
-ExportStyleDialog.Message=Select a theme to be exported in the library.
-ExportStyleDialog.Title=Select Theme
+ExportStyleDialog.Label.Text=Thème :
+ExportStyleDialog.Message=Sélectionnez un thème à exporter dans la bibliothèque.
+ExportStyleDialog.Title=Sélectionner le thème
 
 ###########################################################
 #UIUtil
