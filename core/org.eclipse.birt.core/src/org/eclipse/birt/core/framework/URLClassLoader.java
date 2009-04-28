@@ -547,7 +547,7 @@ public class URLClassLoader extends java.net.URLClassLoader
 		}
 		catch ( IOException ex )
 		{
-			logger.log( Level.SEVERE, "can't load the class from " + url, ex );
+			logger.log( Level.WARNING, "can't load the class from " + url, ex );
 			return null;
 		}
 	}
