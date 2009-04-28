@@ -31,5 +31,18 @@
 				</filter-condition-element>
 			</property>
 		</extended-item>
+    	<table name="table1">	
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">lt</property>
+                    <expression name="expr">filter expression</expression>
+					<simple-property-list name="value1">
+						<value type="javascript">filter1</value>
+						<value type="javascript">filter2</value>
+					</simple-property-list>
+                    <expression name="value2">value2 expression</expression>
+                </structure>
+            </list-property>   
+        </table> 		
 	</body>
 </report>

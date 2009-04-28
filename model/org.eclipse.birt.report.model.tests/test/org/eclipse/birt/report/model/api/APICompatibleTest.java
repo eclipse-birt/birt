@@ -439,7 +439,8 @@ public class APICompatibleTest extends BaseTestCase
 		tmpValues = (List<String>) tmpMap.getValue1List( ); //$NON-NLS-1$
 		assertEquals( "[map_value1, map_value2]", tmpValues.toString( ) ); //$NON-NLS-1$
 
-		DesignElementHandle testTable = designHandle.findElement( "testTable" ); //$NON-NLS-1$
+		ExtendedItemHandle testTable = (ExtendedItemHandle) designHandle
+				.findElement( "testTable" ); //$NON-NLS-1$
 		assertNotNull( testTable );
 
 		// test filter properties
@@ -449,5 +450,13 @@ public class APICompatibleTest extends BaseTestCase
 				.get( 0 );
 		tmpValues = (List<String>) filter.getValue1List( );
 		assertEquals( "[filter_value1, filter_value2]", tmpValues.toString( ) ); //$NON-NLS-1$
+
+		TableHandle table1 = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
+		FilterConditionHandle filter1 = (FilterConditionHandle) table1
+				.filtersIterator( ).next( );
+		filter1.setValue1( "ship" ); //$NON-NLS-1$
+
+		assertEquals( "ship", filter1.getValue1( ) ); //$NON-NLS-1$
+
 	}
 }
