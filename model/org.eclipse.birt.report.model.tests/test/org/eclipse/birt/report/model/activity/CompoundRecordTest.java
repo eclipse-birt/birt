@@ -138,7 +138,7 @@ public class CompoundRecordTest extends BaseTestCase
 		super.setUp( );
 		this.compoundRecord = new CompoundRecord( "SampleCompoundRecord" ); //$NON-NLS-1$
 		this.activityRecord = new MockupActivityRecord( 1 );
-		this.activityStack = new ActivityStack( );
+		this.activityStack = new ActivityStack( null );
 	}
 
 	/*
@@ -429,7 +429,9 @@ public class CompoundRecordTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord#canRedo()
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.activity.ActivityRecord
+		 * #canRedo()
 		 */
 		public boolean canRedo( )
 		{
@@ -439,7 +441,9 @@ public class CompoundRecordTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord#canUndo()
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.activity.ActivityRecord
+		 * #canUndo()
 		 */
 		public boolean canUndo( )
 		{
@@ -459,7 +463,9 @@ public class CompoundRecordTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord#execute()
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.activity.ActivityRecord
+		 * #execute()
 		 */
 		public void execute( )
 		{
@@ -470,7 +476,9 @@ public class CompoundRecordTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord#undo()
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.activity.ActivityRecord
+		 * #undo()
 		 */
 		public void undo( )
 		{
@@ -484,7 +492,9 @@ public class CompoundRecordTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.activity.ActivityRecord#redo()
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.activity.ActivityRecord
+		 * #redo()
 		 */
 		public void redo( )
 		{
@@ -498,7 +508,9 @@ public class CompoundRecordTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord#getTarget()
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
+		 * #getTarget()
 		 */
 		public DesignElement getTarget( )
 		{
@@ -508,7 +520,9 @@ public class CompoundRecordTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord#getEvent()
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
+		 * #getEvent()
 		 */
 		public NotificationEvent getEvent( )
 		{
@@ -521,8 +535,8 @@ public class CompoundRecordTest extends BaseTestCase
 		}
 
 		/**
-		 * Returns <code>true</code> if need to hold the event at this time.
-		 * We need to hold the event if it is sent inside a transaction that
+		 * Returns <code>true</code> if need to hold the event at this time. We
+		 * need to hold the event if it is sent inside a transaction that
 		 * declared to filter notification events(
 		 * <code>FilterEventsCompoundRecord</code>).
 		 * 
@@ -573,7 +587,10 @@ public class CompoundRecordTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.elements.DesignElement#apply(org.eclipse.birt.report.model.design.report.elements.DesignVisitor)
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.elements.DesignElement#
+		 * apply
+		 * (org.eclipse.birt.report.model.design.report.elements.DesignVisitor)
 		 */
 		public void apply( ElementVisitor visitor )
 		{
@@ -582,7 +599,9 @@ public class CompoundRecordTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.elements.DesignElement#getElementName()
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.elements.DesignElement#
+		 * getElementName()
 		 */
 		public String getElementName( )
 		{
@@ -592,7 +611,10 @@ public class CompoundRecordTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.design.core.elements.DesignElement#getHandle(org.eclipse.birt.report.model.design.core.activity.DesignContext)
+		 * @see
+		 * org.eclipse.birt.report.model.design.core.elements.DesignElement#
+		 * getHandle
+		 * (org.eclipse.birt.report.model.design.core.activity.DesignContext)
 		 */
 		public DesignElementHandle getHandle( Module rootElement )
 		{
@@ -606,7 +628,9 @@ public class CompoundRecordTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.activity.NotificationEvent#getEventType()
+		 * @see
+		 * org.eclipse.birt.report.model.activity.NotificationEvent#getEventType
+		 * ()
 		 */
 		public int getEventType( )
 		{

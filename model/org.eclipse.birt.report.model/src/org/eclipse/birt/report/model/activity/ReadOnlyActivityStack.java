@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.birt.report.model.api.activity.IActivityRecord;
 import org.eclipse.birt.report.model.api.extension.IElementCommand;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Represents the activity stack which is read-only. Thats means any operation
@@ -28,22 +29,24 @@ public class ReadOnlyActivityStack extends ActivityStack
 	/**
 	 * library read-only message
 	 */
-	
+
 	public final static String MESSAGE = "The module is read-only and operation is forbidden."; //$NON-NLS-1$
 
 	/**
 	 * Constructs a <code>ReadOnlyActivityStack</code>.
 	 */
 
-	public ReadOnlyActivityStack( )
+	public ReadOnlyActivityStack( Module module )
 	{
-
+		super( module );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#execute(org.eclipse.birt.report.model.api.extension.IElementCommand)
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.ActivityStack#execute(org.
+	 * eclipse.birt.report.model.api.extension.IElementCommand)
 	 */
 	public void execute( IElementCommand command )
 	{
@@ -53,7 +56,9 @@ public class ReadOnlyActivityStack extends ActivityStack
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#getCurrentTransNo()
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.ActivityStack#getCurrentTransNo
+	 * ()
 	 */
 	public int getCurrentTransNo( )
 	{
@@ -63,7 +68,8 @@ public class ReadOnlyActivityStack extends ActivityStack
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#getRecords()
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.ActivityStack#getRecords()
 	 */
 	public Object[] getRecords( )
 	{
@@ -73,7 +79,9 @@ public class ReadOnlyActivityStack extends ActivityStack
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#sendNotifcations(org.eclipse.birt.report.model.api.activity.ActivityStackEvent)
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.ActivityStack#sendNotifcations
+	 * (org.eclipse.birt.report.model.api.activity.ActivityStackEvent)
 	 */
 	public void sendNotifcations( ActivityStackEvent event )
 	{
@@ -153,7 +161,9 @@ public class ReadOnlyActivityStack extends ActivityStack
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.CommandStack#startTrans(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.CommandStack#startTrans(java.lang.String
+	 * )
 	 */
 	public void startTrans( String string )
 	{
@@ -223,7 +233,9 @@ public class ReadOnlyActivityStack extends ActivityStack
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.CommandStack#execute(org.eclipse.birt.report.model.api.activity.IActivityRecord)
+	 * @see
+	 * org.eclipse.birt.report.model.api.CommandStack#execute(org.eclipse.birt
+	 * .report.model.api.activity.IActivityRecord)
 	 */
 	public void execute( IActivityRecord record )
 	{
@@ -233,7 +245,9 @@ public class ReadOnlyActivityStack extends ActivityStack
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.CommandStack#addListener(org.eclipse.birt.report.model.api.activity.ActivityStackListener)
+	 * @see
+	 * org.eclipse.birt.report.model.api.CommandStack#addListener(org.eclipse
+	 * .birt.report.model.api.activity.ActivityStackListener)
 	 */
 	public void addListener( ActivityStackListener obj )
 	{
@@ -243,7 +257,9 @@ public class ReadOnlyActivityStack extends ActivityStack
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.CommandStack#removeListener(org.eclipse.birt.report.model.api.activity.ActivityStackListener)
+	 * @see
+	 * org.eclipse.birt.report.model.api.CommandStack#removeListener(org.eclipse
+	 * .birt.report.model.api.activity.ActivityStackListener)
 	 */
 	public void removeListener( ActivityStackListener obj )
 	{

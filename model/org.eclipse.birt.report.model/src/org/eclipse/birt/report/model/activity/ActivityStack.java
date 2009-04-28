@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.birt.report.model.api.activity.IActivityRecord;
 import org.eclipse.birt.report.model.api.activity.TransactionOption;
 import org.eclipse.birt.report.model.api.extension.IElementCommand;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * An implementation of a command stack, called an "activity stack" here. The
@@ -296,12 +297,19 @@ public class ActivityStack implements CommandStack
 	protected ArrayList<ActivityStackListener> listeners = null;
 
 	/**
+	 * The host module where this activity stack resides.
+	 */
+
+	protected Module module = null;
+
+	/**
 	 * Default constructor.
 	 */
 
-	public ActivityStack( )
+	public ActivityStack( Module module )
 	{
 		adapter = new TransactionAdapter( this );
+		this.module = module;
 	}
 
 	/**
@@ -344,6 +352,13 @@ public class ActivityStack implements CommandStack
 
 		record.execute( );
 		record.setState( ActivityRecord.DONE_STATE );
+
+		// if module is in the caching state and any record is executed, then
+		// the cache must be disabled
+		if ( module != null && module.isCached( ) )
+		{
+			module.setIsCached( false );
+		}
 
 		assert !( record instanceof CompoundRecord );
 
@@ -449,7 +464,8 @@ public class ActivityStack implements CommandStack
 	 * Determines if the record stack has a record to undo. There is a record to
 	 * undo if
 	 * <nl>
-	 * <li>no transaction is active,</li> <li>the undo stack is not empty, and
+	 * <li>no transaction is active,</li>
+	 * <li>the undo stack is not empty, and
 	 * <li>the top record can be undone.</li>
 	 * </nl>
 	 * 
@@ -473,8 +489,9 @@ public class ActivityStack implements CommandStack
 	 * Determines if the record stack has a record to redo. There is a record to
 	 * redo if
 	 * <nl>
-	 * <li>no transaction is active,</li> <li>the redo stack is not empty, and
-	 * </li> <li>the top record can be redone.</li>
+	 * <li>no transaction is active,</li>
+	 * <li>the redo stack is not empty, and</li>
+	 * <li>the top record can be redone.</li>
 	 * </nl>
 	 * 
 	 * @return <code>true</code> if {@link #redo()}can be called.

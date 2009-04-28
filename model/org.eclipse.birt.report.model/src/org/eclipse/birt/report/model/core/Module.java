@@ -199,7 +199,7 @@ public abstract class Module extends DesignElement
 	 * The undo/redo stack for operations on this module.
 	 */
 
-	protected ActivityStack activityStack = new ActivityStack( );
+	protected ActivityStack activityStack = new ActivityStack( this );
 
 	/**
 	 * The save state used for dirty file detection. See
@@ -760,7 +760,7 @@ public abstract class Module extends DesignElement
 
 		// clear some attributes
 
-		module.activityStack = new ActivityStack( );
+		module.activityStack = new ActivityStack( module );
 		module.allExceptions = null;
 		module.attributeListeners = null;
 		module.disposeListeners = null;
@@ -1570,7 +1570,7 @@ public abstract class Module extends DesignElement
 	 *            Any invalid value will be treated as
 	 *            <code>IResourceLocator.IMAGE</code>.
 	 * @param appContext
-	 *            The map containing the user's information 
+	 *            The map containing the user's information
 	 * @return the <code>URL</code> object if the file with
 	 *         <code>fileName</code> is found, or null otherwise.
 	 */
@@ -1578,10 +1578,11 @@ public abstract class Module extends DesignElement
 	public URL findResource( String fileName, int fileType, Map appContext )
 	{
 		URL url = getSession( ).getResourceLocator( ).findResource(
-				(ModuleHandle) getHandle( this ), fileName, fileType, appContext );
+				(ModuleHandle) getHandle( this ), fileName, fileType,
+				appContext );
 		return url;
 	}
-	
+
 	/**
 	 * Loads library with the given library file name. This file name can be
 	 * absolute or relative. If the library doesn't exist or fatal error occurs
@@ -2853,7 +2854,7 @@ public abstract class Module extends DesignElement
 
 	public void setReadOnly( )
 	{
-		activityStack = new ReadOnlyActivityStack( );
+		activityStack = new ReadOnlyActivityStack( this );
 	}
 
 	/**

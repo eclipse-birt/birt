@@ -346,7 +346,7 @@ public class ActivityStackTest extends BaseTestCase
 
 		this.designElement = new MockupDesignElement( );
 		this.record = new MockupActivityRecord( designElement );
-		this.as = new ActivityStack( );
+		this.as = new ActivityStack( null );
 	}
 
 	/*
@@ -1555,13 +1555,16 @@ public class ActivityStackTest extends BaseTestCase
 	 * 
 	 * <ul>
 	 * <li>Silent transaction with add() operations. Before the commit, the
-	 * layout is not updated.</li> <li>Undo/redo with silent transaction. After
-	 * undo/redo, the layout is updated.</li> <li>Drop methods with filter
-	 * transaction. The layout is updated.</li> <li>Silent transaction with drop
-	 * methods (filter transaction). The layout is updated after the commit.
-	 * </li> <li>Silent transaction with drop methods (filter transaction). The
-	 * layout keeps same after rollback.</li> <li>Silent transaction with add()
-	 * methods(). The layout is updated after the commit.</li>
+	 * layout is not updated.</li>
+	 * <li>Undo/redo with silent transaction. After undo/redo, the layout is
+	 * updated.</li>
+	 * <li>Drop methods with filter transaction. The layout is updated.</li>
+	 * <li>Silent transaction with drop methods (filter transaction). The layout
+	 * is updated after the commit.</li>
+	 * <li>Silent transaction with drop methods (filter transaction). The layout
+	 * keeps same after rollback.</li>
+	 * <li>Silent transaction with add() methods(). The layout is updated after
+	 * the commit.</li>
 	 * </ul>
 	 * 
 	 * @throws Exception
