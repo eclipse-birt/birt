@@ -251,7 +251,7 @@ public class ParameterConverterTest extends TestCase
 		assertEquals( "-1,002.20", rpc.format( new Double( -1002.2 ) ) );
 		assertEquals( "0.00", rpc.format( new Double( 0.004 ) ) );
 		assertEquals( "0.00", rpc.format( new Double( 0.004123456 ) ) );
-		assertEquals( "-0.00", rpc.format( new Double( -0.004 ) ) );
+		assertEquals( "0.00", rpc.format( new Double( -0.004 ) ) );
 		assertEquals( "3,333,333,333.33",
 				rpc.format( new Double( 3333333333.33 ) ) );
 		assertEquals( "0.00", rpc.format( new Long( 0 ) ) );

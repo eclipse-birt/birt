@@ -78,6 +78,10 @@ public class NumberFormatter
 	 * Do we use hex pattern?
 	 */
 	private boolean hexFlag;
+	
+	private int roundPrecision;
+	
+	private String realPattern;
 
 	/**
 	 * constructor with no argument
@@ -161,6 +165,8 @@ public class NumberFormatter
 		{
 			this.formatPattern = patternStr;
 			hexFlag = false;
+			roundPrecision = -1;
+			realPattern = formatPattern;
 
 			// null format String
 			if ( this.formatPattern == null )
@@ -174,6 +180,7 @@ public class NumberFormatter
 						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				decimalFormat.setMinimumIntegerDigits( 1 );
 				decimalFormat.setGroupingUsed( false );
+				roundPrecision = getRoundPrecision( numberFormat );
 				return;
 			}
 
@@ -181,11 +188,13 @@ public class NumberFormatter
 			if ( patternStr.length( ) == 1 )
 			{
 				handleSingleCharFormatString( patternStr.charAt( 0 ) );
+				roundPrecision = getRoundPrecision( numberFormat );
 				return;
 			}
 
 			// Named formats and arbitrary format string
 			handleNamedFormats( patternStr );
+			roundPrecision = getRoundPrecision( numberFormat );
 		}
 		catch ( Exception illeagueE )
 		{
@@ -228,6 +237,8 @@ public class NumberFormatter
 				return result.replace( '.', decimalSeparator );
 			}
 			
+			if ( num < 0 && num > -1 )
+				num = roundValue( num );
 			return numberFormat.format( num );
 
 		}
@@ -262,7 +273,8 @@ public class NumberFormatter
 			{
 				return decimalFormat.format( bigDecimal );
 			}
-
+			
+			bigDecimal = roundValue( bigDecimal );
 			return numberFormat.format( bigDecimal );
 		}
 		catch ( Exception e )
@@ -290,9 +302,9 @@ public class NumberFormatter
 				return format( number.doubleValue( ) );
 			}
 			
-			if ( this.formatPattern == null && number instanceof BigDecimal )
+			if ( number instanceof BigDecimal )
 			{
-				return decimalFormat.format( number );
+				return format( (BigDecimal) number );
 			}
 
 			return numberFormat.format( number );
@@ -337,23 +349,28 @@ public class NumberFormatter
 				return;
 			case 'F' :
 			case 'f' :
-				numberFormat = new DecimalFormat( "#0.00", //$NON-NLS-1$
+				realPattern = "#0.00"; //$NON-NLS-1$
+				numberFormat = new DecimalFormat( realPattern, 
 						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				return;
 			case 'N' :
 			case 'n' :
-				numberFormat = new DecimalFormat( "###,##0.00", //$NON-NLS-1$
+				realPattern = "###,##0.00"; //$NON-NLS-1$
+				numberFormat = new DecimalFormat( realPattern,
 						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				return;
 			case 'P' :
 			case 'p' :
-				numberFormat = new DecimalFormat( "###,##0.00 %", //$NON-NLS-1$
+				realPattern = "###,##0.00 %"; //$NON-NLS-1$
+				numberFormat = new DecimalFormat( realPattern,
 						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				return;
 			case 'E' :
 			case 'e' :
-				numberFormat = new DecimalFormat( "0.000000E00", //$NON-NLS-1$
+				realPattern = "0.000000E00"; //$NON-NLS-1$
+				numberFormat = new DecimalFormat( realPattern,
 						new DecimalFormatSymbols( locale.toLocale( ) ) );
+				roundPrecision = -2;
 				return;
 			case 'X' :
 			case 'x' :
@@ -382,27 +399,32 @@ public class NumberFormatter
 		}
 		if ( patternStr.equals( "Fixed" ) ) //$NON-NLS-1$
 		{
-			numberFormat = new DecimalFormat( "#0.00", //$NON-NLS-1$
+			realPattern = "#0.00"; //$NON-NLS-1$
+			numberFormat = new DecimalFormat( realPattern,
 					new DecimalFormatSymbols( locale.toLocale( ) ) );
 			return;
 
 		}
 		if ( patternStr.equals( "Percent" ) ) //$NON-NLS-1$
 		{
-			numberFormat = new DecimalFormat( "0.00%", //$NON-NLS-1$
+			realPattern = "0.00%"; //$NON-NLS-1$
+			numberFormat = new DecimalFormat( realPattern,
 					new DecimalFormatSymbols( locale.toLocale( ) ) );
 			return;
 		}
 		if ( patternStr.equals( "Scientific" ) ) //$NON-NLS-1$
 		{
-			numberFormat = new DecimalFormat( "0.00E00", //$NON-NLS-1$
+			realPattern = "0.00E00"; //$NON-NLS-1$
+			numberFormat = new DecimalFormat( realPattern,
 					new DecimalFormatSymbols( locale.toLocale( ) ) );
+			roundPrecision = -2;
 			return;
 
 		}
 		if ( patternStr.equals( "Standard" ) ) //$NON-NLS-1$
 		{
-			numberFormat = new DecimalFormat( "###,##0.00", //$NON-NLS-1$
+			realPattern = "###,##0.00"; //$NON-NLS-1$
+			numberFormat = new DecimalFormat( realPattern,
 					new DecimalFormatSymbols( locale.toLocale( ) ) );
 			return;
 
@@ -448,5 +470,51 @@ public class NumberFormatter
 			( (DecimalFormat) numberFormat ).setParseBigDecimal( this.parseBigDecimal );
 		}
 		return numberFormat.parse( number );
+	}
+
+	BigDecimal roundValue( BigDecimal bd )
+	{
+		if ( roundPrecision >= 0 )
+		{
+			int scale = bd.scale( );
+			if ( scale > roundPrecision )
+			{
+				bd = bd.setScale( roundPrecision, BigDecimal.ROUND_HALF_DOWN );
+			}
+		}
+		return bd;
+	}
+
+	double roundValue( double value )
+	{
+		if ( roundPrecision >= 0 )
+		{
+			BigDecimal bd = BigDecimal.valueOf( value );
+			int scale = bd.scale( );
+			if ( scale > roundPrecision )
+			{
+				bd = bd.setScale( roundPrecision, BigDecimal.ROUND_HALF_DOWN );
+				return bd.doubleValue( );
+			}
+		}
+		return value;
+	}
+
+	int getRoundPrecision( NumberFormat format )
+	{
+		if ( realPattern != null && realPattern.indexOf( 'E' ) != -1 )
+		{
+			return -1;
+		}
+
+		int precision = numberFormat.getMaximumFractionDigits( );
+		if ( numberFormat instanceof DecimalFormat )
+		{
+			int formatMultiplier = ( (DecimalFormat) numberFormat )
+					.getMultiplier( );
+			precision += formatMultiplier / 10;
+		}
+		
+		return precision;
 	}
 }
