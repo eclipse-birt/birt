@@ -425,11 +425,18 @@ public class ExcelLayoutEngine
 		containers.pop( );
 	}
 
-	public void addData( Object txt, IStyle style, HyperlinkDef link, BookmarkDef bookmark )
+	public void addData( Object txt, IStyle style, HyperlinkDef link,
+			BookmarkDef bookmark )
+	{
+		addData( txt, style, link, bookmark, null );
+	}
+
+	public void addData( Object txt, IStyle style, HyperlinkDef link,
+			BookmarkDef bookmark, String dataLocale )
 	{
 		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );
 		StyleEntry entry = engine.getStyle( style, rule );
-		Data data = createData( txt, entry );
+		Data data = createData( txt, entry, dataLocale );
 		data.setHyperlinkDef( link );
 		data.setBookmark( bookmark );
 		data.setSizeInfo( rule );
@@ -483,7 +490,8 @@ public class ExcelLayoutEngine
 
 	}
 
-	public void addDateTime(Object txt, IStyle style, HyperlinkDef link, BookmarkDef bookmark)
+	public void addDateTime( Object txt, IStyle style, HyperlinkDef link,
+			BookmarkDef bookmark, String dateTimeLocale )
 	{
 		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );
 		StyleEntry entry = engine.getStyle( style, rule );
@@ -492,12 +500,12 @@ public class ExcelLayoutEngine
 		IDataContent dataContent = (IDataContent)txt;
 		Object value = dataContent.getValue( );
 		Date date = ExcelUtil.getDate( value );
-		
 		//If date time is before 1900, it must be output as string, otherwise, excel can't format the date.
 		if ( date != null
 				&& ( ( date instanceof Time ) || date.getYear( ) >= 0 ) )
 		{
-			data = createDateData( value, entry, style.getDateTimeFormat( ) );
+			data = createDateData( value, entry, style.getDateTimeFormat( ),
+					dateTimeLocale );
 			data.setHyperlinkDef( link );
 			data.setBookmark( bookmark );
 			data.setSizeInfo( rule );
@@ -505,7 +513,8 @@ public class ExcelLayoutEngine
 		}
 		else
 		{
-			addData( dataContent.getText( ), style, link, bookmark );
+			addData( dataContent.getText( ), style, link, bookmark,
+					dateTimeLocale );
 		}
 	}
 
@@ -520,14 +529,24 @@ public class ExcelLayoutEngine
 		addData( data );
 	}
 
-	public Data createData( Object txt, StyleEntry entry )
+	private Data createData( Object txt, StyleEntry entry )
+	{
+		return createData( txt, entry, getLocale( null ) );
+	}
+
+	private Data createData( Object txt, StyleEntry entry, String dlocale )
+	{
+		return createData( txt, entry, getLocale( dlocale ) );
+	}
+
+	private Data createData( Object txt, StyleEntry entry, ULocale dataLocale )
 	{
 		int type = SheetData.STRING;
 		if ( SheetData.NUMBER==ExcelUtil.getType( txt )  )
 		{
 			String format = ExcelUtil.getPattern( txt, entry
 					.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) );
-			format = ExcelUtil.formatNumberPattern( format, locale );
+			format = ExcelUtil.formatNumberPattern( format, dataLocale );
 			entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, format );
 			type = SheetData.NUMBER;
 
@@ -546,14 +565,21 @@ public class ExcelLayoutEngine
 		return new Data( txt, entry, type, getCurrentContainer( ) );
 	}
 
-	private Data createDateData( Object txt, StyleEntry entry, String timeFormat )
+	private Data createDateData( Object txt, StyleEntry entry,
+			String timeFormat, String dlocale )
 	{
-		timeFormat = ExcelUtil.parse( txt, timeFormat, locale );
-		timeFormat = DateTimeUtil.formatDateTime( timeFormat, locale );
+		ULocale dateLocale = getLocale( dlocale );
+		timeFormat = ExcelUtil.parse( txt, timeFormat, dateLocale );
+		timeFormat = DateTimeUtil.formatDateTime( timeFormat, dateLocale );
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, timeFormat );
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Integer
 				.toString( SheetData.DATE ) );
 		return new Data( txt, entry, SheetData.DATE, getCurrentContainer( ) );
+	}
+
+	private ULocale getLocale( String dlocale )
+	{
+		return dlocale == null ? locale : new ULocale( dlocale );
 	}
 
 	private void addData( SheetData data )

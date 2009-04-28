@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
@@ -43,6 +44,7 @@ import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.emitter.excel.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.emitter.excel.layout.PageDef;
 import org.eclipse.birt.report.engine.emitter.excel.layout.TableInfo;
+import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
@@ -278,25 +280,42 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{
 		HyperlinkDef url = parseHyperLink( data );
 		BookmarkDef bookmark = getBookmark( data );
-		
-		if ( ( (StyledElementDesign) data.getGenerateBy( ) ).getMap( ) != null
-				&& ( (StyledElementDesign) data.getGenerateBy( ) ).getMap( )
-						.getRuleCount( ) > 0 && data.getLabelText( ) != null )
+		IStyle style = data.getComputedStyle( );
+		DataFormatValue dataformat = style.getDataFormat( );
+		MapDesign map = ( (StyledElementDesign) data.getGenerateBy( ) ).getMap( );
+		if ( map != null && map.getRuleCount( ) > 0
+				&& data.getLabelText( ) != null )
 		{
-			engine.addData( data.getLabelText( ).trim( ), data.getComputedStyle( ),
-					url, bookmark );
+			engine.addData( data.getLabelText( ).trim( ), style, url, bookmark );
 		}
-		else if ( ExcelUtil.getType( data.getValue( ) ) == SheetData.STRING )
+		else
 		{
-			engine.addData( data.getText(), data.getComputedStyle( ), url, bookmark );
-		}
-		else if ( ExcelUtil.getType( data.getValue( ) ) != Data.NUMBER )
-		{
-			engine.addDateTime( data, data.getComputedStyle( ), url, bookmark );
-		}
-		else 
-		{
-			engine.addData( data.getValue( ), data.getComputedStyle( ), url, bookmark );
+			String locale = null;
+			int type = ExcelUtil.getType( data.getValue( ) );
+			if ( type == SheetData.STRING )
+			{
+				if ( dataformat != null )
+				{
+					locale = dataformat.getStringLocale( );
+				}
+				engine.addData( data.getText( ), style, url, bookmark, locale );
+			}
+			else if ( type == Data.NUMBER )
+			{
+				if ( dataformat != null )
+				{
+					locale = dataformat.getNumberLocale( );
+				}
+				engine.addData( data.getValue( ), style, url, bookmark, locale );
+			}
+			else
+			{
+				if ( dataformat != null )
+				{
+					locale = dataformat.getDateTimeLocale( );
+				}
+				engine.addDateTime( data, style, url, bookmark, locale );
+			}
 		}
 	}
 	
