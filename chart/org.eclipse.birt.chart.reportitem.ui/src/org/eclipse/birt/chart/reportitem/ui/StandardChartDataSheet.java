@@ -1284,8 +1284,11 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							if ( dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY ))
 							{
 								ExtendedItemHandle refHandle = (ExtendedItemHandle) ChartReportItemUtil.getChartReferenceItemHandle( itemHandle );
-								ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
+								if ( refHandle != null )
+								{
+									ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
 										getChartModel( ) );
+								}
 							}
 							ChartAdapter.endIgnoreNotifications( );
 							

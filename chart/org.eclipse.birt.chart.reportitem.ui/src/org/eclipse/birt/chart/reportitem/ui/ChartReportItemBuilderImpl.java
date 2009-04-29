@@ -248,8 +248,11 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			if ( dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
 			{
 				ExtendedItemHandle refHandle = (ExtendedItemHandle) ChartReportItemUtil.getChartReferenceItemHandle( extendedHandle );
-				ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
+				if ( refHandle != null )
+				{
+					ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
 						context.getModel( ) );
+				}
 			}
 			ChartAdapter.endIgnoreNotifications( );
 			

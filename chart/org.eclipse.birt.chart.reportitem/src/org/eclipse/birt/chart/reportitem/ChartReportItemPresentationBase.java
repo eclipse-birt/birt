@@ -183,8 +183,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				&& ChartReportItemUtil.isChartHandle( handle.getDataBindingReference( ) ) )
 		{
 			ExtendedItemHandle refHandle = (ExtendedItemHandle) ChartReportItemUtil.getChartReferenceItemHandle( handle );
-			ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle  ),
+			if ( refHandle != null )
+			{
+				ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle  ),
 					cm );
+			}
 		}
 		
 		setChartModelObject( item );

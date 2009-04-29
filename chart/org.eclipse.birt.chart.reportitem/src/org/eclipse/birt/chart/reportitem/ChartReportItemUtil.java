@@ -1469,21 +1469,28 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	public static ReportItemHandle getChartReferenceItemHandle( ReportItemHandle handle )
 	{
 		ReportItemHandle refHandle = handle.getDataBindingReference( ) ;
-		if ( refHandle == null )
+		if ( refHandle == null || !isChartHandle( refHandle ) )
 		{
 			return null;
 		}
 		
-		if ( isChartHandle( refHandle) && refHandle.getDataBindingReference( ) != null )
+		return getChartReferenceItemHandleImpl( refHandle );
+	}
+
+	private static ReportItemHandle getChartReferenceItemHandleImpl(
+			ReportItemHandle refHandle )
+	{
+		if ( refHandle.getDataBindingReference( ) != null
+				&& isChartHandle( refHandle.getDataBindingReference( ) ) )
 		{
-			return getChartReferenceItemHandle( refHandle );
+			return getChartReferenceItemHandleImpl( refHandle.getDataBindingReference( ) );
 		}
 		else
 		{
 			return refHandle;
 		}
 	}
-	
+
 	/**
 	 * Copy series definition from one chart model to another.
 	 *
