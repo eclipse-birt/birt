@@ -66,6 +66,14 @@ public class FormWidgetFactory extends FormToolkit
 		return factory;
 	}
 
+	public synchronized static void close( )
+	{
+		if ( factory != null )
+		{
+			factory.dispose( );
+		}
+	}
+
 	/**
 	 * Creates the tab folder as a part of the form.
 	 * 
@@ -134,8 +142,7 @@ public class FormWidgetFactory extends FormToolkit
 		return b;
 	}
 
-	public MenuButton createMenuButton( Composite parent, String text,
-			int style )
+	public MenuButton createMenuButton( Composite parent, String text, int style )
 	{
 		MenuButton button = new MenuButton( parent, style | SWT.FLAT );
 		if ( text != null )

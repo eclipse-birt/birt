@@ -405,7 +405,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		// clean up border width cache to free resource
 		BaseBorder.cleanWidthCache( );
 
-		FormWidgetFactory.getInstance( ).dispose( );
+		FormWidgetFactory.close( );
 
 		super.stop( context );
 	}
