@@ -316,7 +316,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 		final double dSineTheta = ( Math.sin( dAngleInRadians ) );
 		final double dCosTheta = ( Math.cos( dAngleInRadians ) );
 		final ITextMetrics textMetrics = cComp.getTextMetrics( _sxs, label, 0 );
-		AffineTransform afTransform = g2d.getTransform( );
+		AffineTransform afTransform = new AffineTransform( g2d.getTransform( ) );
 
 		// Tune text position if needed. Location instance may be changed
 		location = adjustTextPosition( labelPosition,
@@ -756,7 +756,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 		}
 
 		final ITextMetrics textMetrics = cComp.getTextMetrics( _sxs, label, 0 );
-		AffineTransform afTransform = g2d.getTransform( );
+		AffineTransform afTransform = new AffineTransform( g2d.getTransform( ) );
 		
 		// Tune text position if needed. Location instance may be changed
 		location = adjustTextPosition( labelPosition,
@@ -1205,7 +1205,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 		
 		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 		final ITextMetrics textMetrics = cComp.getTextMetrics( _sxs, label, 0 );
-		AffineTransform afTransform = g2d.getTransform( );
+		AffineTransform afTransform = new AffineTransform( g2d.getTransform( ) );
 		
 		// Tune text position if needed. Location instance may be changed
 		location = adjustTextPosition( labelPosition,
@@ -1652,7 +1652,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 
 		// final ITextMetrics textMetrics = new ChartTextMetrics( _sxs, label );
 		final ITextMetrics textMetrics = cComp.getTextMetrics( _sxs, label, 0 );
-		AffineTransform afTransform = g2d.getTransform( );
+		AffineTransform afTransform = new AffineTransform( g2d.getTransform( ) );
 
 		// Tune text position if needed. Location instance may be changed
 		location = adjustTextPosition( labelPosition,
@@ -2122,7 +2122,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 		final double dSineTheta = ( Math.sin( dAngleInRadians ) );
 		final double dCosTheta = ( Math.cos( dAngleInRadians ) );
 		final ITextMetrics textMetrics = cComp.getTextMetrics( _sxs, label, 0 );
-		AffineTransform afTransform = g2d.getTransform( );
+		AffineTransform afTransform = new AffineTransform( g2d.getTransform( ) );
 		
 		try
 		{
