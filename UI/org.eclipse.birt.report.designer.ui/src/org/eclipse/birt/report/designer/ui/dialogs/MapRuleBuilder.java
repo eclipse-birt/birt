@@ -444,6 +444,13 @@ public class MapRuleBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				update2ValueStatus( );
+
+				operator.getParent( ).layout( true, true );
+
+				operator.getParent( ).setSize( operator.getParent( )
+						.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
+				if ( operator.getShell( ) != null )
+					operator.getShell( ).pack( );
 			}
 		} );
 
@@ -1197,13 +1204,6 @@ public class MapRuleBuilder extends BaseDialog
 			andLable.setVisible( true );
 		}
 		updateButtons( );
-
-		operator.getParent( ).layout( true, true );
-
-		operator.getParent( ).setSize( operator.getParent( )
-				.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
-		if ( operator.getShell( ) != null )
-			operator.getShell( ).pack( );
 	}
 
 	private Listener textModifyListener = new Listener( ) {

@@ -460,6 +460,13 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				update2ValueStatus( );
+
+				operator.getParent( ).layout( true, true );
+
+				operator.getParent( ).setSize( operator.getParent( )
+						.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
+				if ( operator.getShell( ) != null )
+					operator.getShell( ).pack( );
 			}
 		} );
 
@@ -564,13 +571,6 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 			( (GridData) expressionValue2.getLayoutData( ) ).exclude = false;
 			( (GridData) andLable.getLayoutData( ) ).exclude = false;
 		}
-
-		operator.getParent( ).layout( true, true );
-
-		operator.getParent( ).setSize( operator.getParent( )
-				.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
-		if ( operator.getShell( ) != null )
-			operator.getShell( ).pack( );
 
 		updateButtons( );
 	}
@@ -1390,6 +1390,7 @@ public class HighlightRuleBuilder extends TitleAreaDialog
 			underline.setSelection( DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( handle.getTextUnderline( ) ) );
 			linethrough.setSelection( DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( handle.getTextLineThrough( ) ) );
 		}
+
 	}
 
 	private void syncFamily( )
