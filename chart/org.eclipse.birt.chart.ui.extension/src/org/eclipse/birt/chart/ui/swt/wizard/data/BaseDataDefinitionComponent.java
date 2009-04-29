@@ -1174,6 +1174,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		if ( context.getDataServiceProvider( )
 				.checkState( IDataServiceProvider.SHARE_QUERY ) )
 		{
+			if ( cmbDefinition == null )
+				return false;
 			int index = cmbDefinition.indexOf( expression );
 			if ( index < 0 )
 			{
