@@ -844,6 +844,22 @@ public class ExtensionManager
 		return supported;
 	}
 	
+	public String getSupportedFormat(String format)
+	{
+		Collection supportedFormats = getSupportedFormat( );
+		Iterator iter = supportedFormats.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			String supportedFormat = (String) iter.next( );
+			if ( supportedFormat != null
+					&& supportedFormat.equalsIgnoreCase( format ) )
+			{
+				return supportedFormat;
+			}
+		}
+		return null;
+	}
+	
 	public String getFormat(String emitterid)
 	{
 		String format = null;

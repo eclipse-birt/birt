@@ -1641,8 +1641,8 @@ public abstract class EngineTask implements IEngineTask
 				}
 				else
 				{
-					boolean supportedFormat = extManager.isSupportedFormat( format );
-					if ( !supportedFormat )
+					String innerFormat = extManager.getSupportedFormat( format );
+					if ( innerFormat == null )
 					{
 						log.log( Level.SEVERE,
 								MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
@@ -1651,6 +1651,8 @@ public abstract class EngineTask implements IEngineTask
 					}
 					else
 					{
+						renderOptions.setOutputFormat( innerFormat );
+						format = innerFormat;
 						emitterID = extManager.getEmitterID( format );
 					}
 				}
