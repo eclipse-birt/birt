@@ -88,7 +88,6 @@ public class AggregationDropAdapter implements IDropAdapter
 
 			if ( dialog.open( ) == Window.OK )
 			{
-				cellHandle.getModelHandle( ).getPropertyHandle( ICrosstabCellConstants.CONTENT_PROP ).removeItem( dataHandle );
 				CreateRequest request = new CreateRequest( );
 
 				request.getExtendedData( )
