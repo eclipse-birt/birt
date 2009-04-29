@@ -452,7 +452,12 @@ public class ReportEngineService
 
 			task = engine.createGetParameterDefinitionTask( runnable );
 			task.setLocale( locale );
-			task.setTimeZone( BirtUtility.toICUTimeZone( timeZone ) );
+			
+			com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone( timeZone );
+			if ( tz != null )
+			{
+				task.setTimeZone( tz );
+			}
 
 			// set app context
 			Map context = BirtUtility.getAppContext( request );
@@ -934,7 +939,13 @@ public class ReportEngineService
 		IRunAndRenderTask runAndRenderTask = engine
 				.createRunAndRenderTask( runnable );
 		runAndRenderTask.setLocale( locale );
-		runAndRenderTask.setTimeZone( BirtUtility.toICUTimeZone( timeZone ) );
+		
+		com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone( timeZone );
+		if ( tz != null )
+		{
+			runAndRenderTask.setTimeZone( tz );
+		}
+
 		if ( parameters != null )
 		{
 			runAndRenderTask.setParameterValues( parameters );
@@ -1213,7 +1224,13 @@ public class ReportEngineService
 		IRunTask runTask = null;
 		runTask = engine.createRunTask( runnable );
 		runTask.setLocale( locale );
-		runTask.setTimeZone( BirtUtility.toICUTimeZone( timeZone ) );
+		
+		com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone( timeZone );
+		if ( tz != null )
+		{
+			runTask.setTimeZone( tz );
+		}
+
 		runTask.setParameterValues( parameters );
 
 		// set MaxRows settings
@@ -1622,7 +1639,12 @@ public class ReportEngineService
 
 		renderTask.setRenderOption( renderOption );
 		renderTask.setLocale( locale );
-		renderTask.setTimeZone( BirtUtility.toICUTimeZone( timeZone ) );
+		
+		com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone( timeZone );
+		if ( tz != null )
+		{
+			renderTask.setTimeZone( tz );
+		}
 
 		return renderTask;
 	}
@@ -1932,7 +1954,12 @@ public class ReportEngineService
 
 			// set locale information
 			dataTask.setLocale( locale );
-			dataTask.setTimeZone( BirtUtility.toICUTimeZone( timeZone ) );
+			
+			com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone( timeZone );
+			if ( tz != null )
+			{
+				dataTask.setTimeZone( tz );
+			}
 
 			DataExtractionOption extractOption = null;
 
