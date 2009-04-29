@@ -496,8 +496,8 @@ class ConcreteImageLayout implements ILayout
 				imageArea.setWidth( actualWidth );
 				imageArea.setHeight( actualHeight );
 				root.setNeedClip( true );
-				root.setAllocatedHeight( Math.min( maxHeight, cHeight ) );
-				root.setAllocatedWidth( Math.min( maxWidth, cWidth ) );
+				root.setAllocatedHeight( cHeight );
+				root.setAllocatedWidth( cWidth );
 			}
 		}
 		else
