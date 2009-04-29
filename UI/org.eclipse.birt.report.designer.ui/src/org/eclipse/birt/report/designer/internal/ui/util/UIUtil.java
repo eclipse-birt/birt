@@ -2006,6 +2006,7 @@ public class UIUtil
 
 	public static boolean canPreviewWithErrors( ModuleHandle model )
 	{
+		model.checkReport( );
 		List list = model.getErrorList( );
 		if ( list.size( ) > 0 )
 		{
