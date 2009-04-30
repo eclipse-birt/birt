@@ -225,5 +225,8 @@ public class TransientReportDocument implements IInternalReportDocument
 		return null;
 	}
 
-	
+	public String getSystemId( )
+	{
+		return document.getSystemId();
+	}
 }

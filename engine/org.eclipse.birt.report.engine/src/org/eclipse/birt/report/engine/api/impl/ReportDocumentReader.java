@@ -1566,4 +1566,9 @@ public class ReportDocumentReader
 	{
 		this.engineCacheEntry = entry;
 	}
+	
+	public String getSystemId( )
+	{
+		return systemId;
+	}
 }

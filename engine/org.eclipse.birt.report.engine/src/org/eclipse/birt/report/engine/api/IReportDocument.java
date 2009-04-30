@@ -229,4 +229,10 @@ public interface IReportDocument
 	 * @return the instance id of the report item
 	 */
 	InstanceID getBookmarkInstance( String bookmark );
+	
+	/**
+	 * return the system id assigned to the document
+	 * @return the system id
+	 */
+	String getSystemId( );
 }
