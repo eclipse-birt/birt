@@ -18,7 +18,7 @@ ChartDataBindingPage.Msg.AskSaveDataSet=바인딩된 데이터 집합을 변경하시겠습니까?
 DesignerRepresentation.error.Error=오류: 
 DesignerRepresentation.log.UnableToFind=디자이너에서 렌더링하는 동안에는 차트 모델을 찾을 수 없습니다.
 DesignerRepresentation.msg.InvalidChart=현재 차트가 잘못되었습니다. 이 차트에서 작업을 계속하려면 먼저 삭제하십시오.
-ChartReportItemBuilderImpl.problem.hasNotBeenFound=The chart has not yet been bound to a Data Set or Data Cube.
+ChartReportItemBuilderImpl.problem.hasNotBeenFound=차트가 아직 데이터 집합이나 데이터 큐브에 바인딩되지 않았습니다.
 ChartReportItemBuilderImpl.log.UnableToLocate=차트 개체에 대한 보고서 항목 래퍼를 찾을 수 없습니다.
 
 ChartPreferencePage.Label.MaxRowNumber=최대 데이터 미리 보기 행 번호(&M):

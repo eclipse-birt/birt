@@ -1455,8 +1455,8 @@ ExpressionBuilder.Script.Warning=Avertissement
 ExpressionBuilder.Script.Confirm=\nLe script actuel comporte une erreur de syntaxe. Voulez-vous vraiment l'enregistrer ?
 ExpressionBuilder.toolTipText.calendar=Calendrier 
 ExpressionBuilder.Calendar.Button.OK=OK 
-ExpressionButtonProvider.Constant=Constant
-ExpressionButtonProvider.Javascript=JavaScript Syntax
+ExpressionButtonProvider.Constant=Constante
+ExpressionButtonProvider.Javascript=Syntaxe JavaScript
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -4536,4 +4536,4 @@ ResetAttributePage.Style.Resotre.TooltipText=Restaurer les paramètres par défaut
 
 ###########################################################
 #TextEditor
-TextEditor.PasteFormattedText=Paste Formatted Text
+TextEditor.PasteFormattedText=Coller texte formaté

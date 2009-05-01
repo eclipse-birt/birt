@@ -1455,8 +1455,8 @@ ExpressionBuilder.Script.Warning=Œx
 ExpressionBuilder.Script.Confirm=\nŒ»İ‚ÌƒXƒNƒŠƒvƒg‚É\•¶ƒGƒ‰[‚ª‚ ‚è‚Ü‚·B•Û‘¶‚µ‚Ü‚·‚© ?
 ExpressionBuilder.toolTipText.calendar=ƒJƒŒƒ“ƒ_ 
 ExpressionBuilder.Calendar.Button.OK=OK 
-ExpressionButtonProvider.Constant=Constant
-ExpressionButtonProvider.Javascript=JavaScript Syntax
+ExpressionButtonProvider.Constant=’è”
+ExpressionButtonProvider.Javascript=JavaScript \•¶
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -4536,4 +4536,4 @@ ResetAttributePage.Style.Resotre.TooltipText=Œ»İ‚Ìƒy[ƒW‚ÌƒXƒ^ƒCƒ‹ƒvƒƒpƒeƒB‚ğƒ
 
 ###########################################################
 #TextEditor
-TextEditor.PasteFormattedText=Paste Formatted Text
+TextEditor.PasteFormattedText=‘®•t‚«ƒeƒLƒXƒg‚Ì“\‚è•t‚¯

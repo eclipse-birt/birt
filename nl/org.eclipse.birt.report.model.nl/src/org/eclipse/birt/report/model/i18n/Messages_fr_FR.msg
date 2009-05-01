@@ -657,7 +657,7 @@ Choices.scopeType.colgroup=Groupe de colonnes
 
 #80 dynamicFilterChoice
 Choices.dynamicFilterChoice.simple=Simple
-Choices.dynamicFilterChoice.advanced=Advanced
+Choices.dynamicFilterChoice.advanced=Avancé
 
 ###########################################################
 # Classes
@@ -1928,10 +1928,10 @@ Structure.FilterCondition.value1=Valeur 1
 Structure.FilterCondition.value2=Valeur 2
 Structure.FilterCondition.filterTarget=Filtrer la cible
 Structure.FilterCondition.isOptional=Facultatif
-Structure.FilterCondition.extensionName=Extension Name
-Structure.FilterCondition.extensionExprId=Extension Expression Id
-Structure.FilterCondition.pushDown=Push Down
-Structure.FilterCondition.dynamicFilterParameter=Dynamic Filter Parameter
+Structure.FilterCondition.extensionName=Nom d'extension
+Structure.FilterCondition.extensionExprId=ID de l'expression d'extension
+Structure.FilterCondition.pushDown=Pousser vers le bas
+Structure.FilterCondition.dynamicFilterParameter=Paramètre filtre dynamique
 
 #10. PropertyMask
 Structure.PropertyMask.name=Nom
@@ -2182,9 +2182,9 @@ Element.DataSet=Jeu de données
 Element.SimpleDataSet=Jeu de données simple
 Element.JdbcSelectDataSet=Jeu de données JDBC de sélection
 Element.Parameter=Paramètre
-Element.AbstractScalarParameter=Abstract ScalarParameter
+Element.AbstractScalarParameter=Paramètre scalaire abstrait
 Element.ScalarParameter=Paramètre scalaire
-Element.DynamicFilterParameter=Dynamic Filter Parameter
+Element.DynamicFilterParameter=Paramètre filtre dynamique
 Element.ParameterGroup=Groupe de paramètres
 Element.CascadingParameterGroup=Groupe de paramètres en cascade
 Element.Style=Style
@@ -2776,7 +2776,7 @@ Element.Row.onRender.this=Instance de ligne
 Element.Row.onRender.reportContext=Contexte d'état
 Element.Row.suppressDuplicates=Supprimer les doubles
 Element.Row.viewAction=Afficher l'action
-Element.Row.repeatable=Repeatable
+Element.Row.repeatable=Répétable
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=Colonne
@@ -3159,9 +3159,9 @@ Element.FilterConditionElement.value2=Valeur2
 Element.FilterConditionElement.filterTarget=Filtrer la cible
 Element.FilterConditionElement.member=Membre 
 Element.FilterConditionElement.isOptional=Est facultatif
-Element.FilterConditionElement.extensionName=Extension Name
-Element.FilterConditionElement.extensionExprId=Extension Expression Id
-Element.FilterConditionElement.pushDown=Push Down
+Element.FilterConditionElement.extensionName=Nom d'extension
+Element.FilterConditionElement.extensionExprId=ID de l'expression d'extension
+Element.FilterConditionElement.pushDown=Pousser vers le bas
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 
 
@@ -3206,8 +3206,8 @@ Element.AbstractScalarParameter.defaultValue=Valeur par défaut
 Element.AbstractScalarParameter.selectionList=Liste de sélection
 
 #69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
-Element.DynamicFilterParameter.displayType=Display type
-Element.DynamicFilterParameter.filterOperator=Filter operator
+Element.DynamicFilterParameter.displayType=Type d'affichage
+Element.DynamicFilterParameter.filterOperator=Opérateur filtre
 Element.DynamicFilterParameter.column=Colonne
 
 

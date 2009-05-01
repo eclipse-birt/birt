@@ -18,7 +18,7 @@ ChartDataBindingPage.Msg.AskSaveDataSet=是否要更改绑定数据集?
 DesignerRepresentation.error.Error=错误: 
 DesignerRepresentation.log.UnableToFind=设计器中执行呈现操作时无法找到图表模型
 DesignerRepresentation.msg.InvalidChart=当前图表无效。如果要继续使用此图表，请先删除它。
-ChartReportItemBuilderImpl.problem.hasNotBeenFound=The chart has not yet been bound to a Data Set or Data Cube.
+ChartReportItemBuilderImpl.problem.hasNotBeenFound=该图表尚未绑定到数据集或多维数据集。
 ChartReportItemBuilderImpl.log.UnableToLocate=无法为图表对象找到报表项包装程序。
 
 ChartPreferencePage.Label.MaxRowNumber=数据预览的最大行号(&M):

@@ -657,7 +657,7 @@ Choices.scopeType.colgroup=列グループ
 
 #80 dynamicFilterChoice
 Choices.dynamicFilterChoice.simple=簡易
-Choices.dynamicFilterChoice.advanced=Advanced
+Choices.dynamicFilterChoice.advanced=詳細設定
 
 ###########################################################
 # Classes
@@ -1928,10 +1928,10 @@ Structure.FilterCondition.value1=値 1
 Structure.FilterCondition.value2=値 2
 Structure.FilterCondition.filterTarget=フィルタのターゲット
 Structure.FilterCondition.isOptional=オプション
-Structure.FilterCondition.extensionName=Extension Name
-Structure.FilterCondition.extensionExprId=Extension Expression Id
-Structure.FilterCondition.pushDown=Push Down
-Structure.FilterCondition.dynamicFilterParameter=Dynamic Filter Parameter
+Structure.FilterCondition.extensionName=拡張子名
+Structure.FilterCondition.extensionExprId=拡張式 ID
+Structure.FilterCondition.pushDown=プッシュ (下へ)
+Structure.FilterCondition.dynamicFilterParameter=動的フィルタパラメタ
 
 #10. PropertyMask
 Structure.PropertyMask.name=名前
@@ -2182,9 +2182,9 @@ Element.DataSet=データセット
 Element.SimpleDataSet=簡易データセット
 Element.JdbcSelectDataSet=JDBC 選択データセット
 Element.Parameter=パラメタ
-Element.AbstractScalarParameter=Abstract ScalarParameter
+Element.AbstractScalarParameter=抽象スカラーパラメタ
 Element.ScalarParameter=ScalarParameter
-Element.DynamicFilterParameter=Dynamic Filter Parameter
+Element.DynamicFilterParameter=動的フィルタパラメタ
 Element.ParameterGroup=パラメタグループ
 Element.CascadingParameterGroup=カスケードパラメタグループ
 Element.Style=種類
@@ -2776,7 +2776,7 @@ Element.Row.onRender.this=行インスタンス
 Element.Row.onRender.reportContext=レポートのコンテキスト
 Element.Row.suppressDuplicates=重複を表示しない
 Element.Row.viewAction=アクションの表示
-Element.Row.repeatable=Repeatable
+Element.Row.repeatable=反復可能
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=列
@@ -3159,9 +3159,9 @@ Element.FilterConditionElement.value2=値 2
 Element.FilterConditionElement.filterTarget=フィルタのターゲット
 Element.FilterConditionElement.member=メンバ 
 Element.FilterConditionElement.isOptional=Is オプション
-Element.FilterConditionElement.extensionName=Extension Name
-Element.FilterConditionElement.extensionExprId=Extension Expression Id
-Element.FilterConditionElement.pushDown=Push Down
+Element.FilterConditionElement.extensionName=拡張子名
+Element.FilterConditionElement.extensionExprId=拡張式 ID
+Element.FilterConditionElement.pushDown=プッシュ (下へ)
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 
 
@@ -3206,9 +3206,9 @@ Element.AbstractScalarParameter.defaultValue=デフォルト値
 Element.AbstractScalarParameter.selectionList=選択リスト
 
 #69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
-Element.DynamicFilterParameter.displayType=Display type
-Element.DynamicFilterParameter.filterOperator=Filter operator
-Element.DynamicFilterParameter.column=Column
+Element.DynamicFilterParameter.displayType=表示型
+Element.DynamicFilterParameter.filterOperator=演算子
+Element.DynamicFilterParameter.column=列
 
 
 ###########################################################
@@ -3422,7 +3422,7 @@ New.ReportDesign=新しいレポートデザイン
 New.Parameter=新しいパラメタ
 New.CascadingParameterGroup=新しいカスケードパラメタグループ
 New.ScalarParameter=新しいパラメタ
-New.DynamicFilterParameter=NewDynamicFilterParameter
+New.DynamicFilterParameter=動的フィルタパラメタの新規作成
 New.ParameterGroup=新しいパラメタグループ
 New.Style=新しいスタイル
 New.MasterPage=新しいマスタページ

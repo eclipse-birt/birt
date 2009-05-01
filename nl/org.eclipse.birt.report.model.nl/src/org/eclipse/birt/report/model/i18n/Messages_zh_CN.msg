@@ -657,7 +657,7 @@ Choices.scopeType.colgroup=列组
 
 #80 dynamicFilterChoice
 Choices.dynamicFilterChoice.simple=简单
-Choices.dynamicFilterChoice.advanced=Advanced
+Choices.dynamicFilterChoice.advanced=高级
 
 ###########################################################
 # Classes
@@ -1928,10 +1928,10 @@ Structure.FilterCondition.value1=值 1
 Structure.FilterCondition.value2=值 2
 Structure.FilterCondition.filterTarget=筛选目标
 Structure.FilterCondition.isOptional=可选
-Structure.FilterCondition.extensionName=Extension Name
-Structure.FilterCondition.extensionExprId=Extension Expression Id
-Structure.FilterCondition.pushDown=Push Down
-Structure.FilterCondition.dynamicFilterParameter=Dynamic Filter Parameter
+Structure.FilterCondition.extensionName=扩展名
+Structure.FilterCondition.extensionExprId=扩展表达式 Id
+Structure.FilterCondition.pushDown=下推
+Structure.FilterCondition.dynamicFilterParameter=动态筛选器参数
 
 #10. PropertyMask
 Structure.PropertyMask.name=名称
@@ -2182,9 +2182,9 @@ Element.DataSet=数据集
 Element.SimpleDataSet=简单数据集
 Element.JdbcSelectDataSet=JDBC 选择数据集
 Element.Parameter=参数
-Element.AbstractScalarParameter=Abstract ScalarParameter
+Element.AbstractScalarParameter=抽象标量参数
 Element.ScalarParameter=标量参数
-Element.DynamicFilterParameter=Dynamic Filter Parameter
+Element.DynamicFilterParameter=动态筛选器参数
 Element.ParameterGroup=参数组
 Element.CascadingParameterGroup=级联参数组
 Element.Style=样式
@@ -2776,7 +2776,7 @@ Element.Row.onRender.this=行实例
 Element.Row.onRender.reportContext=报表上下文
 Element.Row.suppressDuplicates=抑制重复
 Element.Row.viewAction=查看操作
-Element.Row.repeatable=Repeatable
+Element.Row.repeatable=可重复
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=列
@@ -3159,9 +3159,9 @@ Element.FilterConditionElement.value2=值 2
 Element.FilterConditionElement.filterTarget=筛选目标
 Element.FilterConditionElement.member=成员 
 Element.FilterConditionElement.isOptional=可选
-Element.FilterConditionElement.extensionName=Extension Name
-Element.FilterConditionElement.extensionExprId=Extension Expression Id
-Element.FilterConditionElement.pushDown=Push Down
+Element.FilterConditionElement.extensionName=扩展名
+Element.FilterConditionElement.extensionExprId=扩展表达式 Id
+Element.FilterConditionElement.pushDown=下推
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 
 
@@ -3206,8 +3206,8 @@ Element.AbstractScalarParameter.defaultValue=默认值
 Element.AbstractScalarParameter.selectionList=选择列表
 
 #69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
-Element.DynamicFilterParameter.displayType=Display type
-Element.DynamicFilterParameter.filterOperator=Filter operator
+Element.DynamicFilterParameter.displayType=显示类型
+Element.DynamicFilterParameter.filterOperator=筛选运算符
 Element.DynamicFilterParameter.column=列
 
 
@@ -3422,7 +3422,7 @@ New.ReportDesign=新报表设计
 New.Parameter=新参数
 New.CascadingParameterGroup=新建级联参数
 New.ScalarParameter=新参数
-New.DynamicFilterParameter=NewDynamicFilterParameter
+New.DynamicFilterParameter=新动态筛选器参数
 New.ParameterGroup=新参数组
 New.Style=新样式
 New.MasterPage=新主页

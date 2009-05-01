@@ -1455,8 +1455,8 @@ ExpressionBuilder.Script.Warning=警告
 ExpressionBuilder.Script.Confirm=\n当前脚本中找到语法错误。是否确实要保存?
 ExpressionBuilder.toolTipText.calendar=日历 
 ExpressionBuilder.Calendar.Button.OK=确定 
-ExpressionButtonProvider.Constant=Constant
-ExpressionButtonProvider.Javascript=JavaScript Syntax
+ExpressionButtonProvider.Constant=常量
+ExpressionButtonProvider.Javascript=JavaScript 语法
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -4536,4 +4536,4 @@ ResetAttributePage.Style.Resotre.TooltipText=将当前页的样式属性还原到默认设置
 
 ###########################################################
 #TextEditor
-TextEditor.PasteFormattedText=Paste Formatted Text
+TextEditor.PasteFormattedText=粘贴带格式文本

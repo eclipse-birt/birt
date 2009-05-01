@@ -18,7 +18,7 @@ ChartDataBindingPage.Msg.AskSaveDataSet=Möchten Sie den gebundenen Datensatz änd
 DesignerRepresentation.error.Error=Fehler: 
 DesignerRepresentation.log.UnableToFind=Diagrammmodel konnte während des Renderns im Designer nicht gefunden werden.
 DesignerRepresentation.msg.InvalidChart=Das aktuelle Diagramm ist ungültig. Wenn Sie an diesem Diagramm weiterarbeiten möchten, müssen Sie es zuerst löschen.
-ChartReportItemBuilderImpl.problem.hasNotBeenFound=The chart has not yet been bound to a Data Set or Data Cube.
+ChartReportItemBuilderImpl.problem.hasNotBeenFound=Das Diagramm wurde noch nicht mit einem Datensatz oder Datenquader verbunden.
 ChartReportItemBuilderImpl.log.UnableToLocate=Berichtobjekt-Wrapper für Diagrammobjekt kann nicht gefunden werden.
 
 ChartPreferencePage.Label.MaxRowNumber=&Maximale Zeilenzahl der Datenvorschau:

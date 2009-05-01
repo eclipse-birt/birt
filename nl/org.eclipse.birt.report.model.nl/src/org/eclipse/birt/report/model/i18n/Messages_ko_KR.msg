@@ -657,7 +657,7 @@ Choices.scopeType.colgroup=열 그룹
 
 #80 dynamicFilterChoice
 Choices.dynamicFilterChoice.simple=단순
-Choices.dynamicFilterChoice.advanced=Advanced
+Choices.dynamicFilterChoice.advanced=고급
 
 ###########################################################
 # Classes
@@ -1928,10 +1928,10 @@ Structure.FilterCondition.value1=값 1
 Structure.FilterCondition.value2=값 2
 Structure.FilterCondition.filterTarget=대상 필터
 Structure.FilterCondition.isOptional=옵션 항목입니다.
-Structure.FilterCondition.extensionName=Extension Name
-Structure.FilterCondition.extensionExprId=Extension Expression Id
-Structure.FilterCondition.pushDown=Push Down
-Structure.FilterCondition.dynamicFilterParameter=Dynamic Filter Parameter
+Structure.FilterCondition.extensionName=확장 이름
+Structure.FilterCondition.extensionExprId=확장 식 ID
+Structure.FilterCondition.pushDown=아래로 밀어내기
+Structure.FilterCondition.dynamicFilterParameter=동적 필터 매개 변수
 
 #10. PropertyMask
 Structure.PropertyMask.name=이름
@@ -2182,9 +2182,9 @@ Element.DataSet=데이터 집합
 Element.SimpleDataSet=단순 데이터 집합
 Element.JdbcSelectDataSet=JDBC 선택 데이터 집합
 Element.Parameter=매개 변수
-Element.AbstractScalarParameter=Abstract ScalarParameter
+Element.AbstractScalarParameter=추상적 스칼라 매개 변수
 Element.ScalarParameter=ScalarParameter
-Element.DynamicFilterParameter=Dynamic Filter Parameter
+Element.DynamicFilterParameter=동적 필터 매개 변수
 Element.ParameterGroup=매개 변수 그룹
 Element.CascadingParameterGroup=계단식 매개변수 그룹
 Element.Style=스타일
@@ -2776,7 +2776,7 @@ Element.Row.onRender.this=행 인스턴스
 Element.Row.onRender.reportContext=보고서 컨텍스트
 Element.Row.suppressDuplicates=중복 항목 숨기기
 Element.Row.viewAction=작업 보기
-Element.Row.repeatable=Repeatable
+Element.Row.repeatable=반복 가능
   
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=열
@@ -3159,9 +3159,9 @@ Element.FilterConditionElement.value2=Value2
 Element.FilterConditionElement.filterTarget=대상 필터
 Element.FilterConditionElement.member=구성원 
 Element.FilterConditionElement.isOptional=옵션 여부
-Element.FilterConditionElement.extensionName=Extension Name
-Element.FilterConditionElement.extensionExprId=Extension Expression Id
-Element.FilterConditionElement.pushDown=Push Down
+Element.FilterConditionElement.extensionName=확장 이름
+Element.FilterConditionElement.extensionExprId=확장 식 ID
+Element.FilterConditionElement.pushDown=아래로 밀어내기
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 
 
@@ -3192,7 +3192,7 @@ Element.DerivedDataSet.inputDataSets=입력 데이터 집합
 Element.DerivedDataSet.queryText=쿼리 텍스트
 
 #68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
-Element.AbstractScalarParameter.isRequired=가 필요합니다.
+Element.AbstractScalarParameter.isRequired=필요
 Element.AbstractScalarParameter.dynamicList=동적 목록
 Element.AbstractScalarParameter.dynamicList.dataSetName=데이터 집합 이름
 Element.AbstractScalarParameter.dynamicList.valueExpr=값 식
@@ -3206,8 +3206,8 @@ Element.AbstractScalarParameter.defaultValue=기본값
 Element.AbstractScalarParameter.selectionList=선택 목록
 
 #69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
-Element.DynamicFilterParameter.displayType=Display type
-Element.DynamicFilterParameter.filterOperator=Filter operator
+Element.DynamicFilterParameter.displayType=표시 형식
+Element.DynamicFilterParameter.filterOperator=필터 연산자
 Element.DynamicFilterParameter.column=열
 
 
@@ -3422,7 +3422,7 @@ New.ReportDesign=새 보고서 디자인
 New.Parameter=새 매개 변수
 New.CascadingParameterGroup=새 계단식 매개 변수 그룹
 New.ScalarParameter=새 매개 변수
-New.DynamicFilterParameter=NewDynamicFilterParameter
+New.DynamicFilterParameter=새 동적 필터 매개 변수
 New.ParameterGroup=새 매개 변수 그룹
 New.Style=새 스타일
 New.MasterPage=새 마스터 페이지

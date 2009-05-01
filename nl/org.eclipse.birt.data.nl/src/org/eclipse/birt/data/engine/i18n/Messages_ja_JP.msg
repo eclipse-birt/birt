@@ -387,7 +387,7 @@ data.olap.UnsupportedFunction=サポートされていない関数 :
 data.olap.UnspecifiedBindingName=バインド名が指定されていません。
 data.olap.NotNestAggregationBinding=キューブネストされた集計のバインドではありません : {0}
 data.olap.InvalidNestAggregationExpression=キューブネストされた集計の式が無効です。
-data.olap.InvalidNestAggregationOn="{0}" aggregate on in cube nest aggregation "{1}" does not exist in its based aggregation(s).
+data.olap.InvalidNestAggregationOn=キューブネストされた集計 "{1}" での "{0}" 集計は、ベースとなる集計にありません。
 data.olap.sort.exprError=参照するディメンジョンレベルにつき 1 つのレベルしか含めることができません。
 data.olap.query.noCubeBinding=キューブのバインドが使用できないため、キューブクエリを実行できませんでした。
 

@@ -1455,8 +1455,8 @@ ExpressionBuilder.Script.Warning=경고
 ExpressionBuilder.Script.Confirm=\n현재 스크립트에 구문 오류가 있습니다. 저장하시겠습니까?
 ExpressionBuilder.toolTipText.calendar=달력 
 ExpressionBuilder.Calendar.Button.OK=확인 
-ExpressionButtonProvider.Constant=Constant
-ExpressionButtonProvider.Javascript=JavaScript Syntax
+ExpressionButtonProvider.Constant=상수
+ExpressionButtonProvider.Javascript=JavaScript 구문
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -4536,4 +4536,4 @@ ResetAttributePage.Style.Resotre.TooltipText=현재 페이지의 스타일 속성을 기본 설
 
 ###########################################################
 #TextEditor
-TextEditor.PasteFormattedText=Paste Formatted Text
+TextEditor.PasteFormattedText=서식 있는 텍스트 붙여넣기
