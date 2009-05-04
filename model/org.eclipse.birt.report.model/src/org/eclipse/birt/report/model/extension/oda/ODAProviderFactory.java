@@ -22,12 +22,12 @@ import org.eclipse.birt.report.model.core.DesignElement;
 public class ODAProviderFactory implements IODAProviderFactory
 {
 
-	/*
+	/**
 	 * Factory used to create the ODAProvider instance.
 	 */
 	private static IODAProviderFactory baseFactory = null;
 
-	/*
+	/**
 	 * The only one ODAProviderFactory instance.
 	 */
 	private static ODAProviderFactory instance = null;

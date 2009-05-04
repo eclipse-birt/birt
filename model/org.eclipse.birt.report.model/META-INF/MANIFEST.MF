@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.birt.report.model; singleton:=true
 Bundle-Version: 2.5.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.model.plugin.ModelPlugin
 Bundle-ClassPath: tests.jar,
+ modelOdaFilter.jar,
  .
 Eclipse-ExtensibleAPI: true 
 Bundle-Vendor: Eclipse.org
@@ -19,6 +20,8 @@ Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.b
  org.eclipse.birt.report.model.api.elements.structures,
  org.eclipse.birt.report.model.api.elements.table,
  org.eclipse.birt.report.model.api.extension,
+ org.eclipse.birt.report.model.api.filterExtension,
+ org.eclipse.birt.report.model.api.filterExtension.interfaces,
  org.eclipse.birt.report.model.api.metadata,
  org.eclipse.birt.report.model.api.olap,
  org.eclipse.birt.report.model.api.scripts,
