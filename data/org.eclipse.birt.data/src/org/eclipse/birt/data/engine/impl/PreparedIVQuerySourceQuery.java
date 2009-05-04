@@ -24,7 +24,6 @@ import java.util.Map;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -32,7 +31,6 @@ import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
@@ -160,30 +158,30 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 	 * @throws DataException 
 	 */
 	protected static void addQueryBindings( List<IBinding> resultBindingList,
-			Collection bindingCollection ) throws DataException
+			Map bindings ) throws DataException
 	{
-		Iterator bindingIterator = bindingCollection.iterator( );
-		while ( bindingIterator.hasNext( ) )
+		Map<String, Boolean> aggrInfo = PreparedQueryUtil.parseAggregations( bindings );
+		Iterator it = bindings.keySet( ).iterator( );
+		while ( it.hasNext( ) )
 		{
-			IBinding binding = (IBinding) ( bindingIterator.next( ) );
-			if( binding.getAggrFunction( )!= null )
-				continue;
-			IBaseExpression expr = binding.getExpression( );
-			if ( expr instanceof IScriptExpression
-					&& !ExpressionUtil.hasAggregation( ( (IScriptExpression) expr ).getText( ) )
-					&& binding.getAggrFunction( ) == null )
+			String name = (String)it.next( );
+			
+			if ( !aggrInfo.get( name ) )
 			{
-				boolean exist = false;
-				for ( int i = 0; i < resultBindingList.size( ); i++ )
 				{
-					if ( resultBindingList.get( i ) != null
-							&& resultBindingList.get( i ).getBindingName( ).equals( binding.getBindingName( ) ) )
+					IBinding binding = (IBinding) ( bindings.get(name) );
+					boolean exist = false;
+					for ( int i = 0; i < resultBindingList.size( ); i++ )
 					{
-						exist = true;
+						if ( resultBindingList.get( i ) != null
+								&& resultBindingList.get( i ).getBindingName( ).equals( binding.getBindingName( ) ) )
+						{
+							exist = true;
+						}
 					}
+					if ( !exist )
+						resultBindingList.add( binding );
 				}
-				if ( !exist )
-					resultBindingList.add( binding );
 			}
 		}
 	}
@@ -204,13 +202,13 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 					&& subqueryDefinitions[j].getName( )
 							.equals( subQueryName ) )
 			{
-				addQueryBindings( resultBindingList, subqueryDefinitions[j].getBindings( ).values( ) );
+				addQueryBindings( resultBindingList, subqueryDefinitions[j].getBindings( ) );
 				return;
 			}
 			getSubQueryBindings( subqueryDefinitions[j], subQueryName, resultBindingList );
 			if ( resultBindingList.size( ) > 0 )
 			{
-				addQueryBindings( resultBindingList, subqueryDefinitions[j].getBindings( ).values( ) );
+				addQueryBindings( resultBindingList, subqueryDefinitions[j].getBindings( ) );
 				return;
 			}
 		}
@@ -349,7 +347,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 				ArrayList<IBinding> bindingList = new ArrayList<IBinding>( );
 				getSubQueryBindings( queryDefinition,
 						( (SubqueryLocator) queryDefn.getSourceQuery( ) ).getName( ), bindingList );
-				addQueryBindings( bindingList, queryDefinition.getBindings( ).values( ) );
+				addQueryBindings( bindingList, queryDefinition.getBindings( ) );
 				bindings = bindingList.toArray( new IBinding[0] );
 			}
 			else

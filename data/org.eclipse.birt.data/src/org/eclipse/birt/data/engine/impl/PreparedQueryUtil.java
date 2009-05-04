@@ -934,7 +934,7 @@ class PreparedQueryUtil
 	 * @return 
 	 * @throws DataException
 	 */
-	private static Map<String, Boolean> parseAggregations( Map<String, IBinding> input ) throws DataException
+	static Map<String, Boolean> parseAggregations( Map<String, IBinding> input ) throws DataException
 	{
 		Map<String, Boolean> result = new HashMap<String, Boolean>( );
 		for ( Entry<String, IBinding> entry : input.entrySet( ) )

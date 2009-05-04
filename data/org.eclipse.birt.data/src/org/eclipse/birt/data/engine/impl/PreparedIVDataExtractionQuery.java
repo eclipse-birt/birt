@@ -54,7 +54,7 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery
 					ArrayList<IBinding> bindingList = new ArrayList<IBinding>( );
 					getSubQueryBindings( queryDefinition,
 							( (SubqueryLocator) queryDefn.getSourceQuery( ) ).getName( ), bindingList );
-					addQueryBindings( bindingList, queryDefinition.getBindings( ).values( ) );
+					addQueryBindings( bindingList, queryDefinition.getBindings( ) );
 					bindings = bindingList.toArray( new IBinding[0] );
 				}
 				else
