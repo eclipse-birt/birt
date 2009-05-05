@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.birt.report.model; singleton:=true
 Bundle-Version: 2.5.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.model.plugin.ModelPlugin
 Bundle-ClassPath: tests.jar,
- modelOdaFilter.jar,
+ modelFragment.jar,
  .
 Eclipse-ExtensibleAPI: true 
 Bundle-Vendor: Eclipse.org
