@@ -279,7 +279,7 @@
 			<include name="*.jar"/>
 		</fileset>
 		<fileset dir="${buildDirectory}/plugins" >
-			<include name="javax.wsdl_1.5*.jar"/>
+			<include name="javax._1.5*.jar"/>
 		</fileset>
 	</copy>
 </target>
@@ -296,7 +296,7 @@
 				<include name="javax.servlet*.jar" />
 				<include name="org.apache.jasper*.jar" />
 				<include name="org.apache.commons.logging*.jar" />
-				<include name="javax.wsdl_1.5*.jar"/>
+				<include name="javax._1.5*.jar"/>
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins" >
 				<include name="org.apache.axis_*/lib/*.jar"/>
@@ -466,7 +466,7 @@
 			<include name="org.eclipse.datatools.connectivity.console.profile_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.xml_*.jar" />
 			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar" />
-			<include name="javax.wsdl_1.4.0*.jar" />
+			<include name="javax.wsdl_1.5*.jar" />
 			<!-- xerces for DTP, may not be the same version as BIRT uses -->
 			<include name="org.apache.xerces_*.jar" />
 			<include name="org.apache.xml.resolver_*.jar" />
