@@ -979,6 +979,8 @@ public abstract class AbstractWordXmlWriter
 		writeTextLineThrough( style );
 		writeFontStyle( style );
 		writeFontWeight( style );
+		writer.openTag( "w:cs" );
+		writer.closeTag( "w:cs" );
 	}
 
 	private void writeTextColor( IStyle style )

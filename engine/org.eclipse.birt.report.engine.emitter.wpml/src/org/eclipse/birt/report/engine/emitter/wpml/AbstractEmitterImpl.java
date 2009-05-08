@@ -77,7 +77,6 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.w3c.dom.css.CSSValue;
 
 import com.ibm.icu.util.ULocale;
-import com.lowagie.text.pdf.BaseFont;
 
 public abstract class AbstractEmitterImpl
 {
@@ -822,10 +821,12 @@ public abstract class AbstractEmitterImpl
 				while ( fontSplitter.hasMore( ) )
 				{
 					Chunk ch = fontSplitter.getNext( );
+					int offset = ch.getOffset( );
+					int length = ch.getLength( );
 					fontFamily = getFontFamily( computedStyle, ch );
-					wordWriter.writeContent( type, ch.getText( ),
-							computedStyle, inlineStyle, fontFamily, hyper,
-							inlineFlag, textFlag );
+					wordWriter.writeContent( type, txt.substring( offset,
+							offset + length ), computedStyle, inlineStyle,
+							fontFamily, hyper, inlineFlag, textFlag );
 					textFlag = fontSplitter.hasMore( )
 							? TextFlag.MIDDLE
 							: TextFlag.END;
@@ -848,22 +849,8 @@ public abstract class AbstractEmitterImpl
 
 	private String getFontFamily( IStyle c_style, Chunk ch )
 	{
-		String fontFamily;
 		FontInfo info = ch.getFontInfo( );
-		BaseFont basefont = null;
-		if ( info != null )
-		{
-			basefont = info.getBaseFont( );
-			String[][] fontName = basefont.getFamilyFontName( );
-			int x = fontName.length - 1;
-			int y = fontName[0].length - 1;
-			fontFamily = fontName[x][y];
-		}
-		else
-		{
-			fontFamily = c_style.getFontFamily( );
-		}
-		return fontFamily;
+		return info.getFontName( );
 	}
 
 	private FontSplitter getFontSplitter( IContent content )
