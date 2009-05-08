@@ -2,6 +2,7 @@ ChartImpl.AltText=이 차트에는 데이터가 없습니다.
 ChartWithAxesImpl.X_Axis.title=X축 제목
 ChartWithAxesImpl.Y_Axis.title=Y축 제목
 ChartWithAxesImpl.Z_Axis.title=Z축 제목
+ChartWithoutAxesImpl.Unsupported3Dimension=Pie chart does not support 3D.
 exception.convert.double=값 {0}을(를) double 값으로 변환할 수 없습니다.
 exception.data.outofsync=입력 데이터가 동기화되지 않았습니다. 범주 계열에는 {0} 값이 들어 있고 값 계열에는 {1} 값이 들어 있습니다.
 exception.out.of.bounds=범위 밖

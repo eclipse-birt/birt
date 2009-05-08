@@ -2,6 +2,7 @@ ChartImpl.AltText=Este diagrama no contiene datos.
 ChartWithAxesImpl.X_Axis.title=Título de eje X
 ChartWithAxesImpl.Y_Axis.title=Título de eje Y
 ChartWithAxesImpl.Z_Axis.title=Título del eje Z
+ChartWithoutAxesImpl.Unsupported3Dimension=Pie chart does not support 3D.
 exception.convert.double=No es posible convertir el valor {0} en un valor doble
 exception.data.outofsync=Los datos de entrada no están sincronizados; la serie de categoría contiene {0} valores; la serie del valor contiene {1} valores.
 exception.out.of.bounds=Fuera de los límites

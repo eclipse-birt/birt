@@ -2,6 +2,7 @@ ChartImpl.AltText=此图表不包含数据。
 ChartWithAxesImpl.X_Axis.title=X 轴标题
 ChartWithAxesImpl.Y_Axis.title=Y 轴标题
 ChartWithAxesImpl.Z_Axis.title=Z 轴标题
+ChartWithoutAxesImpl.Unsupported3Dimension=Pie chart does not support 3D.
 exception.convert.double=无法将值 {0} 转换为双精度值
 exception.data.outofsync=输入数据不同步；类别系列包含 {0} 个值；值系列包含 {1} 个值。
 exception.out.of.bounds=超出边界

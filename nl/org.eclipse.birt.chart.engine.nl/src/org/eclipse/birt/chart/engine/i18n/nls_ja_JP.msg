@@ -2,6 +2,7 @@ ChartImpl.AltText=このグラフにはデータがありません。
 ChartWithAxesImpl.X_Axis.title=X 軸のタイトル
 ChartWithAxesImpl.Y_Axis.title=Y 軸のタイトル
 ChartWithAxesImpl.Z_Axis.title=Z 軸のタイトル
+ChartWithoutAxesImpl.Unsupported3Dimension=Pie chart does not support 3D.
 exception.convert.double=値 {0} を倍精度の値に変換できません。
 exception.data.outofsync=入力データが同期していません。カテゴリ系列に {0} 個の値が含まれていますが、値系列に {1} 個の値が含まれています。
 exception.out.of.bounds=範囲外
