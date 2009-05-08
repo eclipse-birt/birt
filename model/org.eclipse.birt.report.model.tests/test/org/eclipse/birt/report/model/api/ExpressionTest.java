@@ -178,7 +178,7 @@ public class ExpressionTest extends BaseTestCase
 
 		assertEquals( "expression", sortHandle.getKey( ) ); //$NON-NLS-1$
 		ExpressionHandle tmpExpr = sortHandle
-				.getExprssionProperty( SortKey.KEY_MEMBER );
+				.getExpressionProperty( SortKey.KEY_MEMBER );
 		assertEquals( "expression", sortHandle.getKey( ) ); //$NON-NLS-1$
 		assertEquals( "expression", tmpExpr.getStringExpression( ) ); //$NON-NLS-1$
 		assertEquals( ExpressionType.JAVASCRIPT, tmpExpr.getType( ) );

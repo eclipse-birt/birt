@@ -21,6 +21,22 @@
             </styles>
         </theme>
     </themes>
+    <parameters>
+        <parameter-group name="NewParameterGroup" id="39">
+            <parameters>
+                <scalar-parameter name="NewParameter" id="40">
+                    <property name="valueType">static</property>
+                    <property name="dataType">string</property>
+                    <property name="paramType">simple</property>
+                    <property name="controlType">text-box</property>
+                    <property name="distinct">true</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+            </parameters>
+        </parameter-group>
+    </parameters>    
     <components>
         <table name="libTable1" id="8">
             <property name="style">style1</property>

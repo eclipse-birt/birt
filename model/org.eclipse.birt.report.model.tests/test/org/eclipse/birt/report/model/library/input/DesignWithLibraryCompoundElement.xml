@@ -12,6 +12,13 @@
 	        <property name="namespace">Lib1</property>
 		</structure>
     </list-property>
+    <parameters>
+        <parameter-group name="NewParameterGroup" id="39" extends="Lib1.NewParameterGroup">
+            <overridden-values>
+                <ref-entry baseId="40" name="NewParameter" id="40" />
+            </overridden-values>
+        </parameter-group>
+    </parameters>    
     <page-setup>
         <graphic-master-page name="My Page" id="2"/>
     </page-setup>

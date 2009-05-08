@@ -344,7 +344,7 @@ public class StructureHandle extends ValueHandle
 	 *             value is not valid for the member.
 	 */
 
-	public void setExprssionProperty( String memberName, Expression value )
+	public void setExpressionProperty( String memberName, Expression value )
 			throws SemanticException
 	{
 		setProperty( memberName, value );
@@ -361,13 +361,13 @@ public class StructureHandle extends ValueHandle
 	 *             value is not valid for the member.
 	 */
 
-	public ExpressionHandle getExprssionProperty( String memberName )
+	public ExpressionHandle getExpressionProperty( String memberName )
 	{
 		PropertyDefn defn = (PropertyDefn) getDefn( ).getMember( memberName );
 		if ( defn == null )
 			return null;
 
-		if ( defn.allowExpression( ) )
+		if ( defn.allowExpression( ) && !defn.isListType( ) )
 			return new ExpressionHandle( getElementHandle( ),
 					new CachedMemberRef( getReference( ), memberName ) );
 

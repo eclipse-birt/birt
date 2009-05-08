@@ -2308,6 +2308,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeContents( obj, IParameterGroupModel.PARAMETERS_SLOT,
 				DesignSchemaConstants.PARAMETERS_TAG );
 
+		writeOverridenPropertyValues( obj );
+		
 		writer.endElement( );
 	}
 
