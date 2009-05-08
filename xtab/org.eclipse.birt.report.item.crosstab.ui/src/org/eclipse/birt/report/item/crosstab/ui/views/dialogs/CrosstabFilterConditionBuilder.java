@@ -1504,13 +1504,6 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		{
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
-		finally
-		{
-			if (session != null)
-			{
-				session.shutdown( );
-			}
-		}
 		selValueList = new ArrayList( );
 		int count = 0;
 		int MAX_COUNT = PreferenceFactory.getInstance( )
@@ -1541,6 +1534,10 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		// }
 		// // test end
 		needRefreshList = false;
+		if (session != null)
+		{
+			session.shutdown( );
+		}
 		return selValueList;
 	}
 

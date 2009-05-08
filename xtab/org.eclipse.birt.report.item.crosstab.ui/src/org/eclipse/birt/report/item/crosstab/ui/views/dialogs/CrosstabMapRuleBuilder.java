@@ -286,13 +286,6 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 			// TODO Auto-generated catch block
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
-		finally
-		{
-			if (session != null)
-			{
-				session.shutdown( );
-			}
-		}
 		List valueList = new ArrayList( );
 		int count = 0;
 		int MAX_COUNT = PreferenceFactory.getInstance( )
@@ -315,6 +308,10 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 
 			}
 
+		}
+		if (session != null)
+		{
+			session.shutdown( );
 		}
 		return valueList;
 	}
