@@ -32,8 +32,4 @@ public interface IRowContent extends IContainerContent
 
 	public IBandContent getBand( );
 
-	public void setRepeatable( boolean repeatable );
-	
-	public boolean getRepeatable( );
-
 }

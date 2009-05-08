@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
 
 public class HTMLTableLM extends HTMLBlockStackingLM
@@ -94,7 +95,8 @@ public class HTMLTableLM extends HTMLBlockStackingLM
 			while ( itr.hasNext( ) )
 			{
 				IRowContent rowContent = (IRowContent) itr.next( );
-				if ( !rowContent.getRepeatable( ) )
+				RowDesign rowDesign = (RowDesign) rowContent.getGenerateBy( );
+				if ( !rowDesign.getRepeatable( ) )
 				{
 					removed.add( rowContent );
 				}

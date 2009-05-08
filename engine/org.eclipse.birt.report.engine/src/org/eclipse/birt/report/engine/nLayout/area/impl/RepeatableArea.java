@@ -19,6 +19,7 @@ import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 
 public abstract class RepeatableArea extends BlockContainerArea
@@ -140,7 +141,9 @@ public abstract class RepeatableArea extends BlockContainerArea
 					{
 						if ( content instanceof IRowContent )
 						{
-							if ( ( (IRowContent) content ).getRepeatable( ) )
+							RowDesign rowDesign = (RowDesign) content
+									.getGenerateBy( );
+							if ( rowDesign.getRepeatable( ) )
 								repeatList.add( area );
 						}
 						else
