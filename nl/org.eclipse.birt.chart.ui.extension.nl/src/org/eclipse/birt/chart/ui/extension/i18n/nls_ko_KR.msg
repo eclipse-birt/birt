@@ -9,8 +9,9 @@ Shared.mne.Background_K=배경(&K):
 
 ChartWithAxesImpl.Z_Axis.title=Z축 제목
 ChartSheetImpl.Buttom.Auto=자동(&U)
-ChartSheetImpl.Button.AutoHide=표시할 데이터가 없는 경우 차트 숨기기(&D)
-ChartSheetImpl.Group.EmptyMessage=빈 메시지
+ChartSheetImpl.Button.AutoHide=Hi&de the chart if there is no data to display.
+ChartSheetImpl.Button.ShowEmptyMsg=Show the chart with the following message:
+ChartSheetImpl.Group.EmptyMessage=Chart Visibility
 ChartSheetImpl.Label.Outline=윤곽선:
 ChartLegendImpl.Group.Rotation=회전
 ChartPlotSheetImpl.Label.Outline=윤곽선:
@@ -1017,9 +1018,8 @@ ssPreferencesContentAssistFilter= 팝업이 열려 있는 동안 입력하는 경우:
 ssPreferencesContentAssistFilterCumulative= 누적 입력으로 팝업 내용 필터링(&L)
 ssPreferencesContentAssistFilterCharacter= 입력된 마지막 문자에 따라 팝업 필터링(&T)
 ssPreferencesContentAssistFilterNone= 필터링하지 않음(&N)
-ssPreferencesRequiredFieldIndicator = 필수 필드 표시:
-ssPreferencesShowRequiredFieldLabelIndicator = 필드 레이블에 필수 필드 표시기 표시
-ssPreferencesShowRequiredFieldDecorator = 필수 필드 데코레이트
+ssPreferencesShowRequiredFieldLabelIndicator= Identify required fields
+ssPreferencesAssistSymbol= Location of the assist symbol
 
 ssDecoratorContentAssist= 이 필드에 사용 가능한 내용 지원을 보려면 {0}을(를) 누르십시오.
 ssDecorationMenuItem=잘못된 문자 제거

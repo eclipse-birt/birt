@@ -9,8 +9,9 @@ Shared.mne.Background_K=Fon&do:
 
 ChartWithAxesImpl.Z_Axis.title=Título del eje Z
 ChartSheetImpl.Buttom.Auto=A&utomática
-ChartSheetImpl.Button.AutoHide=O&cultar diagrama si no hay datos que mostrar.
-ChartSheetImpl.Group.EmptyMessage=Mensaje vacío
+ChartSheetImpl.Button.AutoHide=Hi&de the chart if there is no data to display.
+ChartSheetImpl.Button.ShowEmptyMsg=Show the chart with the following message:
+ChartSheetImpl.Group.EmptyMessage=Chart Visibility
 ChartSheetImpl.Label.Outline=Contorno:
 ChartLegendImpl.Group.Rotation=Rotación
 ChartPlotSheetImpl.Label.Outline=Contorno:
@@ -1017,9 +1018,8 @@ ssPreferencesContentAssistFilter= Al escribir mientras el elemento emergente est
 ssPreferencesContentAssistFilterCumulative= &Filtrar contenido emergente con escritura acumulativa
 ssPreferencesContentAssistFilterCharacter= Filtrar elemento emer&gente según el último carácter escrito
 ssPreferencesContentAssistFilterNone= &No filtrar
-ssPreferencesRequiredFieldIndicator = Mostrando campos necesarios:
-ssPreferencesShowRequiredFieldLabelIndicator = Mostrar el indicador de campo necesario en la etiqueta del campo
-ssPreferencesShowRequiredFieldDecorator = Decorar campos necesarios
+ssPreferencesShowRequiredFieldLabelIndicator= Identify required fields
+ssPreferencesAssistSymbol= Location of the assist symbol
 
 ssDecoratorContentAssist= Este campo dispone de ayuda de contenido, pulse {0}
 ssDecorationMenuItem=Eliminar caracteres no válidos

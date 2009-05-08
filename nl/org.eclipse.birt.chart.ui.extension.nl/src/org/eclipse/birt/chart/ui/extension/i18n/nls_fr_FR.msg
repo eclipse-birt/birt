@@ -9,8 +9,9 @@ Shared.mne.Background_K=A&rrière-plan :
 
 ChartWithAxesImpl.Z_Axis.title=Titre de l'axe des z
 ChartSheetImpl.Buttom.Auto=A&uto
-ChartSheetImpl.Button.AutoHide=Masquer le graphique s'il n'y a pas de &données à afficher.
-ChartSheetImpl.Group.EmptyMessage=Message vide
+ChartSheetImpl.Button.AutoHide=Hi&de the chart if there is no data to display.
+ChartSheetImpl.Button.ShowEmptyMsg=Show the chart with the following message:
+ChartSheetImpl.Group.EmptyMessage=Chart Visibility
 ChartSheetImpl.Label.Outline=Contour :
 ChartLegendImpl.Group.Rotation=Rotation
 ChartPlotSheetImpl.Label.Outline=Contour :
@@ -1017,9 +1018,8 @@ ssPreferencesContentAssistFilter= Lorsque vous saisissez des informations alors 
 ssPreferencesContentAssistFilterCumulative= Fi&ltrage du contenu de la fenêtre avec une saisie cumulée
 ssPreferencesContentAssistFilterCharacter= Fil&trage de la fenêtre en fonction du dernier caractère saisi
 ssPreferencesContentAssistFilterNone= &Pas de filtrage
-ssPreferencesRequiredFieldIndicator = Affichage des champs requis :
-ssPreferencesShowRequiredFieldLabelIndicator = Afficher l'indicateur de champ requis dans l'étiquette du champ
-ssPreferencesShowRequiredFieldDecorator = Décorer les champs requis
+ssPreferencesShowRequiredFieldLabelIndicator= Identify required fields
+ssPreferencesAssistSymbol= Location of the assist symbol
 
 ssDecoratorContentAssist= Un assistant de contenu est disponible sur ce champ, appuyez sur {0}
 ssDecorationMenuItem=Supprimer les caractères incorrects

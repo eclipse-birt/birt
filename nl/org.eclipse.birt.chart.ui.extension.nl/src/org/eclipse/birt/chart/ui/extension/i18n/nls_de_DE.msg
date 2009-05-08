@@ -9,8 +9,9 @@ Shared.mne.Background_K=&Hintergrund:
 
 ChartWithAxesImpl.Z_Axis.title=Titel der Z-Achse
 ChartSheetImpl.Buttom.Auto=A&uto
-ChartSheetImpl.Button.AutoHide=Diagramm ausblen&den, wenn keine anzuzeigenden Daten vorhanden sind
-ChartSheetImpl.Group.EmptyMessage=Leere Nachricht
+ChartSheetImpl.Button.AutoHide=Hi&de the chart if there is no data to display.
+ChartSheetImpl.Button.ShowEmptyMsg=Show the chart with the following message:
+ChartSheetImpl.Group.EmptyMessage=Chart Visibility
 ChartSheetImpl.Label.Outline=Umriss:
 ChartLegendImpl.Group.Rotation=Rotation
 ChartPlotSheetImpl.Label.Outline=Umriss:
@@ -1017,9 +1018,8 @@ ssPreferencesContentAssistFilter= Bei Eingabe bei aktivem Popup:
 ssPreferencesContentAssistFilterCumulative= Popup-Inhalt mit kumulativer Eingabe fi&ltern
 ssPreferencesContentAssistFilterCharacter= Popup nach letztem eingegebenem Zeichen fil&tern
 ssPreferencesContentAssistFilterNone= &Nicht filtern
-ssPreferencesRequiredFieldIndicator = Erforderliche Felder anzeigen:
-ssPreferencesShowRequiredFieldLabelIndicator = Indikator von erforderlichem Feld in Feldbeschriftung anzeigen
-ssPreferencesShowRequiredFieldDecorator = Erforderliche Felder dekorieren
+ssPreferencesShowRequiredFieldLabelIndicator= Identify required fields
+ssPreferencesAssistSymbol= Location of the assist symbol
 
 ssDecoratorContentAssist= Hilfe zum Inhalt zu diesem Feld verfügbar, bitte {0} drücken
 ssDecorationMenuItem=Ungültige Zeichen entfernen
