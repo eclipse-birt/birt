@@ -60,11 +60,7 @@ public class ListArea extends RepeatableArea
 		IListContent list = (IListContent) content;
 		if ( list != null && list.isHeaderRepeat( ) )
 		{
-			IContent header = (IContent) list.getHeader( );
-			if ( header != null && header.getChildren( ).size( ) > 0 )
-			{
-				return true;
-			}
+			return true;
 		}
 		return false;
 	}

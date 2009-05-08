@@ -39,11 +39,7 @@ public class ListGroupArea extends RepeatableArea
 		IGroupContent group = (IGroupContent) content;
 		if ( group != null && group.isHeaderRepeat( ) )
 		{
-			IContent header = (IContent) group.getHeader( );
-			if ( header != null && header.getChildren( ).size( ) > 0 )
-			{
-				return true;
-			}
+			return true;
 		}
 		return false;
 	}

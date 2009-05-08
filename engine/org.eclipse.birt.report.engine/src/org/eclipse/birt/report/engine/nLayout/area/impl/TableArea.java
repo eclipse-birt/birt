@@ -85,11 +85,7 @@ public class TableArea extends RepeatableArea
 		ITableContent table = (ITableContent) content;
 		if ( table != null && table.isHeaderRepeat( ) )
 		{
-			IContent header = (IContent) table.getHeader( );
-			if ( header != null )
-			{
-				return true;
-			}
+			return true;
 		}
 		return false;
 	}
