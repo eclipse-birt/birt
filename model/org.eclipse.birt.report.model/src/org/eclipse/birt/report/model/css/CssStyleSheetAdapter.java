@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
+import org.eclipse.birt.report.model.util.ResourceLocatorImpl;
 
 /**
  * Adapter of CssStyleSheet operation.
@@ -54,7 +54,7 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 		// do not use Module.findResource to avoid call third-part resource
 		// locater
 
-		IResourceLocator locator = new DefaultResourceLocator( );
+		IResourceLocator locator = new ResourceLocatorImpl( );
 
 		for ( int i = 0; i < csses.size( ); ++i )
 		{

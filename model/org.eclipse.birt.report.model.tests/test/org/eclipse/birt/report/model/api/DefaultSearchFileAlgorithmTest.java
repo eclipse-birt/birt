@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.util.BaseTestCase;
+import org.eclipse.birt.report.model.util.ResourceLocatorImpl;
 
 import com.ibm.icu.util.ULocale;
 
@@ -45,7 +46,7 @@ import com.ibm.icu.util.ULocale;
 public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 {
 
-	private DefaultResourceLocator rl;
+	private ResourceLocatorImpl rl;
 
 	/*
 	 * (non-Javadoc)
@@ -58,7 +59,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 		ULocale locale = new ULocale( "en_US" );//$NON-NLS-1$
 
 		createDesign( locale );
-		rl = new DefaultResourceLocator( );
+		rl = new ResourceLocatorImpl( );
 	}
 
 	/**

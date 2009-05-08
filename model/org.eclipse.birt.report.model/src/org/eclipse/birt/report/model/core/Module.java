@@ -779,6 +779,10 @@ public abstract class Module extends DesignElement
 		assert module.getElementByID( module.getID( ) ) == null;
 		module.addElementID( module );
 
+		// disable the caching, if the original cache is able, we will
+		// overwrite doClone in ReportDesign to do the caching
+		module.isCached = false;
+
 		// clone theme property
 		if ( theme != null )
 			module.theme = new ElementRefValue( theme.getLibraryNamespace( ),

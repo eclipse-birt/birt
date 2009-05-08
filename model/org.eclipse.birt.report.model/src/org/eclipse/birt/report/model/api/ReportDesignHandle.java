@@ -1254,20 +1254,6 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public synchronized void cacheValues( )
 	{
-		module.setIsCached( true );
-
 		module.cacheValues( );
-
-		ContentIterator iter1 = new ContentIterator( module,
-				new ContainerContext( module, BODY_SLOT ) );
-		while ( iter1.hasNext( ) )
-		{
-			DesignElement tmpElement = iter1.next( );
-			if ( !( tmpElement instanceof ReportItem ) )
-				continue;
-
-			( (ReportItem) tmpElement ).cacheValues( );
-		}
-
 	}
 }

@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -55,6 +54,7 @@ import org.eclipse.birt.report.model.parser.GenericModuleReader;
 import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.util.LibraryUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ResourceLocatorImpl;
 import org.eclipse.birt.report.model.util.URIUtilImpl;
 
 import com.ibm.icu.util.ULocale;
@@ -99,10 +99,10 @@ public class DesignSession
 	 * The algorithm of how to search a file.
 	 */
 
-	protected IResourceLocator resourceLocator = new DefaultResourceLocator( );
+	protected IResourceLocator resourceLocator = new ResourceLocatorImpl( );
 
 	/**
-	 * Static resource path to do the compability of some APIs.
+	 * Static resource path to do the compatibility of some APIs.
 	 */
 
 	protected static String resourcePath = null;
@@ -1298,7 +1298,7 @@ public class DesignSession
 	private void initDefaultTOCStyle( )
 	{
 		defaultTOCStyleList = new ArrayList<DesignElement>( );
-		URL url = new DefaultResourceLocator( ).findResource( null,
+		URL url = new ResourceLocatorImpl( ).findResource( null,
 				TOC_DEFAULT_VALUE, IResourceLocator.OTHERS );
 		if ( url == null )
 			return;

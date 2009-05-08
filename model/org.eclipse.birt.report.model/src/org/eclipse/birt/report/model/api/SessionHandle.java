@@ -46,7 +46,7 @@ import com.ibm.icu.util.ULocale;
  * The default resource locator will search in the folder where the design file
  * is located.
  * 
- * @see org.eclipse.birt.report.model.api.DefaultResourceLocator
+ * @see org.eclipse.birt.report.model.util.ResourceLocatorImpl
  * @see org.eclipse.birt.report.model.core.DesignSession
  */
 

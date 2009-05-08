@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.writer.DesignWriter;
 import org.eclipse.birt.report.model.writer.ModuleWriter;
@@ -332,4 +333,47 @@ public class ReportDesign extends Module
 		return operation.getCsses( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.Module#doClone(org.eclipse.birt.report
+	 * .model.elements.strategy.CopyPolicy)
+	 */
+
+	public Object doClone( CopyPolicy policy )
+			throws CloneNotSupportedException
+	{
+		Module module = (Module) super.doClone( policy );
+		if ( isCached( ) )
+		{
+			cacheValues( );
+		}
+
+		return module;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Module#cacheValues()
+	 */
+	public void cacheValues( )
+	{
+		setIsCached( true );
+
+		super.cacheValues( );
+
+		ContentIterator iter1 = new ContentIterator( this,
+				new ContainerContext( this, BODY_SLOT ) );
+		while ( iter1.hasNext( ) )
+		{
+			DesignElement tmpElement = iter1.next( );
+			if ( !( tmpElement instanceof ReportItem ) )
+				continue;
+
+			( (ReportItem) tmpElement ).cacheValues( );
+		}
+
+	}
 }
