@@ -134,7 +134,10 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			// Mouse over event for Select field
 			this.__neh_mouseover_select_closure = this.__neh_mouseover_select.bindAsEventListener( this );
 			this.__neh_mouseout_select_closure = this.__neh_mouseout_select.bindAsEventListener( this );
+		}
 		
+		if ( BrowserUtility.isIE )
+		{
 			// Focus events
 			this.__neh_focus_select_closure = this.__neh_focus_select.bindAsEventListener( this );
 			this.__neh_blur_select_closure = this.__neh_blur_select.bindAsEventListener( this );
@@ -173,7 +176,9 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			{
 				Event.observe( element, 'mouseover', this.__neh_mouseover_select_closure, false );
 				Event.observe( element, 'mouseout', this.__neh_mouseout_select_closure, false );
-				
+			}
+			if ( BrowserUtility.isIE )
+			{
 				Event.observe( element, 'focus', this.__neh_focus_select_closure, false );
 				Event.observe( element, 'blur', this.__neh_blur_select_closure, false );
 			}
