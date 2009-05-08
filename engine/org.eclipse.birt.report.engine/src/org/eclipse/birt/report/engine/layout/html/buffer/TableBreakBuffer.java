@@ -166,9 +166,15 @@ public class TableBreakBuffer implements IPageBuffer
 					//flush repeat cell content
 					if ( isRepeatCellContent )
 					{
-						repeatCellContent( emitter );
-						repeatCellContentEvent.clear( );
-						isRepeatCellContent = false;
+						if ( currentIndex >= 1 )
+						{
+							ICellContent cc = (ICellContent) content;
+							int start = cc.getColumn( );
+							if ( start > pageBreakIndexs[currentIndex - 1] + 1 )
+								repeatCellContent( emitter );
+							repeatCellContentEvent.clear( );
+							isRepeatCellContent = false;
+						}
 					}
 					//cache repeat cell content
 					if ( ( (ICellContent) content ).repeatContent( ) )
