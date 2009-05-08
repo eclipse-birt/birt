@@ -272,10 +272,10 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		currentY += getY( container );
 	}
 	
-	protected void drawCellDiagonal(CellArea cell)
+	protected void drawCellDiagonal( CellArea cell )
 	{
 		DiagonalInfo diagonalInfo = cell.getDiagonalInfo( );
-		if(diagonalInfo!=null)
+		if ( diagonalInfo != null )
 		{
 			int startX = currentX + getX( cell );
 			int startY = currentY + getY( cell );
@@ -284,79 +284,91 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			int width = getWidth( cell );
 			int height = getHeight( cell );
 			int dw = diagonalInfo.getDiagonalWidth( );
-			switch(diagonalInfo.getDiagonalNumber( ))
+			int ds = diagonalInfo.getDiagonalStyle( );
+			// support double style, use solid style instead.
+			if ( ds == DiagonalInfo.BORDER_STYLE_DOUBLE )
 			{
-				case 2:
-					pageGraphic.drawLine( startX, startY + dw/2, startX + width,
-							startY + height/2- dw/2, getScaledValue( diagonalInfo
-									.getDiagonalWidth( ) ), diagonalInfo
-									.getColor( ), diagonalInfo
-									.getDiagonalStyle( ) );
-					pageGraphic.drawLine( startX, startY + dw/2, startX + width/2,
-							startY + height - dw/2, getScaledValue(dw ), diagonalInfo
-									.getColor( ), diagonalInfo
-									.getDiagonalStyle( ) );
+				ds = DiagonalInfo.BORDER_STYLE_SOLID;
+			}
+			switch ( diagonalInfo.getDiagonalNumber( ) )
+			{
+				case 2 :
+					pageGraphic.drawLine( startX, startY + dw / 2, startX
+							+ width, startY + height / 2 - dw / 2,
+							getScaledValue( diagonalInfo.getDiagonalWidth( ) ),
+							diagonalInfo.getColor( ), ds );
+					pageGraphic.drawLine( startX, startY + dw / 2, startX
+							+ width / 2, startY + height - dw / 2,
+							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
 					break;
-				case 3:
-					pageGraphic.drawLine( startX, startY + dw/2, startX + width,
-							startY + height- dw/2, getScaledValue( dw ), diagonalInfo
-									.getColor( ), diagonalInfo
-									.getDiagonalStyle( ) );
-					pageGraphic.drawLine( startX, startY + dw/2, startX + width,
-							startY + height/2- dw/2, getScaledValue( dw), diagonalInfo
-									.getColor( ), diagonalInfo
-									.getDiagonalStyle( ) );
-					pageGraphic.drawLine( startX, startY + dw/2, startX + width/2,
-							startY + height- dw/2, getScaledValue( dw ), diagonalInfo
-									.getColor( ), diagonalInfo
-									.getDiagonalStyle( ) );
+				case 3 :
+					pageGraphic.drawLine( startX, startY + dw / 2, startX
+							+ width, startY + height - dw / 2,
+							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
+					pageGraphic.drawLine( startX, startY + dw / 2, startX
+							+ width, startY + height / 2 - dw / 2,
+							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
+					pageGraphic.drawLine( startX, startY + dw / 2, startX
+							+ width / 2, startY + height - dw / 2,
+							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
 					break;
-				default:
-					pageGraphic.drawLine( startX, startY + dw/2, startX + width,
-							startY + height- dw/2, getScaledValue( dw ), diagonalInfo
-									.getColor( ), diagonalInfo
-									.getDiagonalStyle( ) );
+				default :
+					pageGraphic.drawLine( startX, startY + dw / 2, startX
+							+ width, startY + height - dw / 2,
+							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
 					break;
 			}
 			dw = diagonalInfo.getAntidiagonalWidth( );
-			switch(diagonalInfo.getAntidiagonalNumber( ))
+			ds = diagonalInfo.getAntidiagonalStyle( );
+			// support double style, use solid style instead.
+			if ( ds == DiagonalInfo.BORDER_STYLE_DOUBLE )
+			{
+				ds = DiagonalInfo.BORDER_STYLE_SOLID;
+			}
+			switch ( diagonalInfo.getAntidiagonalNumber( ) )
 			{
 
-				case 2:
-					pageGraphic.drawLine( startX, startY + height - dw/2, startX + width/2 ,
-							startY+ dw/2, getScaledValue( diagonalInfo
-									.getAntidiagonalWidth( ) ), diagonalInfo
-									.getColor( ), diagonalInfo
-									.getAntidiagonalStyle( ) );
-					pageGraphic.drawLine( startX, startY + height- dw/2, startX + width,
-							startY + height/2, getScaledValue( diagonalInfo
-									.getAntidiagonalWidth( ) ), diagonalInfo
-									.getColor( ), diagonalInfo
-									.getAntidiagonalStyle( ) );
+				case 2 :
+					pageGraphic
+							.drawLine( startX, startY + height - dw / 2, startX
+									+ width / 2, startY + dw / 2,
+									getScaledValue( diagonalInfo
+											.getAntidiagonalWidth( ) ),
+									diagonalInfo.getColor( ), ds );
+					pageGraphic
+							.drawLine( startX, startY + height - dw / 2, startX
+									+ width, startY + height / 2,
+									getScaledValue( diagonalInfo
+											.getAntidiagonalWidth( ) ),
+									diagonalInfo.getColor( ), ds );
 					break;
-				case 3:
-					pageGraphic.drawLine( startX, startY + height - dw/2, startX + width/2 ,
-							startY+ dw/2, getScaledValue( diagonalInfo
-									.getAntidiagonalWidth( ) ), diagonalInfo
-									.getColor( ), diagonalInfo
-									.getAntidiagonalStyle( ) );
-					pageGraphic.drawLine( startX, startY + height- dw/2, startX + width,
-							startY + height/2, getScaledValue( diagonalInfo
-									.getAntidiagonalWidth( ) ), diagonalInfo
-									.getColor( ), diagonalInfo
-									.getAntidiagonalStyle( ) );
-					pageGraphic.drawLine( startX, startY + height - dw/2, startX + width ,
-							startY + dw/2 , getScaledValue( diagonalInfo
-									.getAntidiagonalWidth( ) ), diagonalInfo
-									.getColor( ), diagonalInfo
-									.getAntidiagonalStyle( ) );
+				case 3 :
+					pageGraphic
+							.drawLine( startX, startY + height - dw / 2, startX
+									+ width / 2, startY + dw / 2,
+									getScaledValue( diagonalInfo
+											.getAntidiagonalWidth( ) ),
+									diagonalInfo.getColor( ), ds );
+					pageGraphic
+							.drawLine( startX, startY + height - dw / 2, startX
+									+ width, startY + height / 2,
+									getScaledValue( diagonalInfo
+											.getAntidiagonalWidth( ) ),
+									diagonalInfo.getColor( ), ds );
+					pageGraphic
+							.drawLine( startX, startY + height - dw / 2, startX
+									+ width, startY + dw / 2,
+									getScaledValue( diagonalInfo
+											.getAntidiagonalWidth( ) ),
+									diagonalInfo.getColor( ), ds );
 					break;
-				default:
-					pageGraphic.drawLine( startX, startY + height - dw/2, startX + width ,
-							startY + dw/2 , getScaledValue( diagonalInfo
-									.getAntidiagonalWidth( ) ), diagonalInfo
-									.getColor( ), diagonalInfo
-									.getAntidiagonalStyle( ) );
+				default :
+					pageGraphic
+							.drawLine( startX, startY + height - dw / 2, startX
+									+ width, startY + dw / 2,
+									getScaledValue( diagonalInfo
+											.getAntidiagonalWidth( ) ),
+									diagonalInfo.getColor( ), ds );
 					break;
 			}
 		}
