@@ -57,4 +57,9 @@ public class DataSourcePage extends GeneralPage
 		addSection( PageSectionId.DATA_SOURCE_ELEMENT_ID, elementIdSection );
 
 	}
+
+	public boolean canReset( )
+	{
+		return false;
+	}
 }

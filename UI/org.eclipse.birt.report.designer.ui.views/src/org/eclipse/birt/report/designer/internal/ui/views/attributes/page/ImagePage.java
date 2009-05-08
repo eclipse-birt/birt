@@ -119,4 +119,9 @@ public class ImagePage extends GeneralPage
 		addSection( PageSectionId.IMAGE_SEPERATOR_1, seperator2Section ); //$NON-NLS-1$
 		addSection( PageSectionId.IMAGE_REPORT, reportSection ); //$NON-NLS-1$
 	}
+
+	public boolean canReset( )
+	{
+		return false;
+	}
 }

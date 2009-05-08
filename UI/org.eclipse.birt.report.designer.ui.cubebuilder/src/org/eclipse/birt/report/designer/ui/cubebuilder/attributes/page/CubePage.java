@@ -59,4 +59,9 @@ public class CubePage extends GeneralPage
 
 	}
 
+	public boolean canReset( )
+	{
+		return false;
+	}
+
 }

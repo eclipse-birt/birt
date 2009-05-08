@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 
@@ -30,12 +32,18 @@ public abstract class ResetAttributePage extends AttributePage
 	{
 		if ( !canReset( ) )
 			return;
+
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+		stack.startTrans( Messages.getString("ResetAttributePage.Style.Restore.Transaction.Name") ); //$NON-NLS-1$
+
 		Section[] sectionArray = getSections( );
 		for ( int i = 0; i < sectionArray.length; i++ )
 		{
 			Section section = (Section) sectionArray[i];
 			section.reset( );
 		}
+		stack.commit( );
 	}
 
 	public boolean canReset( )
@@ -50,7 +58,7 @@ public abstract class ResetAttributePage extends AttributePage
 		{
 			super( null, IAction.AS_PUSH_BUTTON );
 			setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_STYLE_RESOTRE ) );
-			setToolTipText( Messages.getString( "ResetAttributePage.Style.Resotre.TooltipText" ) ); //$NON-NLS-1$
+			setToolTipText( Messages.getString( "ResetAttributePage.Style.Restore.TooltipText" ) ); //$NON-NLS-1$
 		}
 
 		public void run( )

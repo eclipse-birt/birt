@@ -88,4 +88,9 @@ public class ScalarParameterPage extends GeneralPage
 		addSection( PageSectionId.SCALAR_PARAMETER_CTRL_TYPE, ctrlTypeSection ); //$NON-NLS-1$
 
 	}
+
+	public boolean canReset( )
+	{
+		return false;
+	}
 }

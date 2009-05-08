@@ -59,4 +59,8 @@ public class CascadingParameterGroupPage extends GeneralPage
 				displayNameSection );
 	}
 
+	public boolean canReset( )
+	{
+		return false;
+	}
 }

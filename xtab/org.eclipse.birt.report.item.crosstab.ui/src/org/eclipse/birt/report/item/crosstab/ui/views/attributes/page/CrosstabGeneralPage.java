@@ -17,6 +17,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ID
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.CheckSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -25,6 +27,7 @@ import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.HideMe
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.MeasureComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.swt.SWT;
 
 public class CrosstabGeneralPage extends GeneralPage
 {
@@ -54,6 +57,11 @@ public class CrosstabGeneralPage extends GeneralPage
 		elementIdSection.setLayoutNum( 4 );
 		elementIdSection.setGridPlaceholder( 2, true );
 		addSection( CrosstabPageSectionId.CROSSTAB_ELEMENT_ID, elementIdSection );
+
+		Section seperatorSection = new SeperatorSection( container,
+				SWT.HORIZONTAL );
+		addSection( CrosstabPageSectionId.CROSSTAB_SEPERATOR_1,
+				seperatorSection );
 
 		// IDescriptorProvider cubeProvider = new
 		// CrosstabSimpleComboPropertyDescriptorProvider(
@@ -114,5 +122,10 @@ public class CrosstabGeneralPage extends GeneralPage
 		hideMeasureSection.setGridPlaceholder( 2, true );
 		addSection( CrosstabPageSectionId.HIDE_MEASURE_HEADER,
 				hideMeasureSection );
+	}
+
+	public boolean canReset( )
+	{
+		return false;
 	}
 }

@@ -65,4 +65,8 @@ public class DataSetPage extends GeneralPage
 
 	}
 
+	public boolean canReset( )
+	{
+		return false;
+	}
 }

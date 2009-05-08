@@ -90,4 +90,8 @@ public class ChartGeneralPage extends GeneralPage
 		layoutSections( );
 	}
 
+	public boolean canReset( )
+	{
+		return false;
+	}
 }

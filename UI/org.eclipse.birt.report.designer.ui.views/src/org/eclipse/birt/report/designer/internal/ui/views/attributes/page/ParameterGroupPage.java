@@ -55,4 +55,8 @@ public class ParameterGroupPage extends GeneralPage
 		addSection( PageSectionId.PARAMTER_GROUP_DISPLAY_NAME, displayNameSection );		
 	}
 
+	public boolean canReset( )
+	{
+		return false;
+	}
 }
