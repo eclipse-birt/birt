@@ -16,9 +16,11 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -721,4 +723,35 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 		return new ChartWithoutAxesImpl( );
 	}
 
+	/**
+	 * Set pie chart dimension type.
+	 */
+	public void setDimension( ChartDimension newDimension )
+	{
+		if ( isValidDimensionNType( this.type, newDimension ) )
+		{
+			super.setDimension( newDimension );
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.model.impl.ChartImpl#setType(java.lang.String)
+	 */
+	public void setType( String newType )
+	{
+		if ( isValidDimensionNType( newType, this.dimension ) )
+		{
+			super.setType( newType );
+		}
+	}
+	
+	protected boolean isValidDimensionNType(String type, ChartDimension dimension )
+	{
+		if ( "Pie Chart".equals( type ) && dimension == ChartDimension.THREE_DIMENSIONAL_LITERAL ) //$NON-NLS-1$
+		{
+			// Does not support 3D for Pie chart.
+			throw new UnsupportedOperationException( Messages.getString("ChartWithoutAxesImpl.Unsupported3Dimension") ); //$NON-NLS-1$
+		}
+		return true;
+	}
 } // ChartWithoutAxesImpl
