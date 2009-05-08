@@ -703,6 +703,9 @@ datasource.editor.property=プロパティのバインド
 datasource.editor.duplicatedName=データソース名 "{0}" が重複しています。
 datasource.error.title.noReportDesign=エラー
 datasource.error.msg.noReportDesign=使用できるレポートデザインがありません。
+datasource.exprotToCP.title=エクスポート
+datasource.exportToCP.message=You are exporting "{0}" to Data Source Explorer.
+datasource.exportToCP.checkBox=Create a Connection Profile Store for the exported data source
 
 ###########################################################
 #DataSourceProcess properties
@@ -1422,7 +1425,7 @@ ExportToLibraryAction.Message.RememberDecision=次回から同じ設定を使う
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=ライブラリにエクスポート(&X)...
-
+ExportToCPSouceAction.action.text=Export to C&onnection Profile...
 
 
 ###########################################################
@@ -1868,7 +1871,7 @@ HighlightRuleBuilderDialog.text.Description.Element.Row=行
 HighlightRuleBuilderDialog.text.Description.Element.Column=列
 HighlightRuleBuilderDialog.text.Description.Element.DataItem=データ項目
 HighlightRuleBuilderDialog.text.Description.Element.Cell=セル
-HighlightRuleBuilderDialog.text.Group.Condition=条件
+HighlightRuleBuilderDialog.text.Group.Condition=Con&dition
 HighlightRuleBuilderDialog.text.Group.Format=書式
 HighlightRuleBuilderDialog.text.Description.Element.ReportElement=レポート要素
 
@@ -4532,7 +4535,8 @@ ShowPropertiesViewMenu.ErrorTitle=エラー
 
 ###########################################################
 #ResetAttributePage
-ResetAttributePage.Style.Resotre.TooltipText=現在のページのスタイルプロパティをデフォルトの設定に戻す
+ResetAttributePage.Style.Restore.TooltipText=現在のページのスタイルプロパティをデフォルトの設定に戻す
+ResetAttributePage.Style.Restore.Transaction.Name=Restore Style
 
 ###########################################################
 #TextEditor

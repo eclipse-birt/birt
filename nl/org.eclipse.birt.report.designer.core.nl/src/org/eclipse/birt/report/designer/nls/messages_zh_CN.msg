@@ -703,6 +703,9 @@ datasource.editor.property=属性绑定
 datasource.editor.duplicatedName=数据源名称“{0}”重复。
 datasource.error.title.noReportDesign=错误
 datasource.error.msg.noReportDesign=没有可用的报表设计。
+datasource.exprotToCP.title=导出
+datasource.exportToCP.message=You are exporting "{0}" to Data Source Explorer.
+datasource.exportToCP.checkBox=Create a Connection Profile Store for the exported data source
 
 ###########################################################
 #DataSourceProcess properties
@@ -1422,7 +1425,7 @@ ExportToLibraryAction.Message.RememberDecision=记住我的决定。
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=导出到库(&X)...
-
+ExportToCPSouceAction.action.text=Export to C&onnection Profile...
 
 
 ###########################################################
@@ -1868,7 +1871,7 @@ HighlightRuleBuilderDialog.text.Description.Element.Row=行
 HighlightRuleBuilderDialog.text.Description.Element.Column=列
 HighlightRuleBuilderDialog.text.Description.Element.DataItem=数据项
 HighlightRuleBuilderDialog.text.Description.Element.Cell=单元格
-HighlightRuleBuilderDialog.text.Group.Condition=条件
+HighlightRuleBuilderDialog.text.Group.Condition=Con&dition
 HighlightRuleBuilderDialog.text.Group.Format=格式
 HighlightRuleBuilderDialog.text.Description.Element.ReportElement=报表元素
 
@@ -4532,7 +4535,8 @@ ShowPropertiesViewMenu.ErrorTitle=错误
 
 ###########################################################
 #ResetAttributePage
-ResetAttributePage.Style.Resotre.TooltipText=将当前页的样式属性还原到默认设置
+ResetAttributePage.Style.Restore.TooltipText=将当前页的样式属性还原到默认设置
+ResetAttributePage.Style.Restore.Transaction.Name=Restore Style
 
 ###########################################################
 #TextEditor

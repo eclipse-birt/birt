@@ -703,6 +703,9 @@ datasource.editor.property=Liaison de propriété
 datasource.editor.duplicatedName=Le nom de la source de données "{0}" est dupliqué.
 datasource.error.title.noReportDesign=Erreur
 datasource.error.msg.noReportDesign=Aucun modèle d'état disponible.
+datasource.exprotToCP.title=Exporter
+datasource.exportToCP.message=You are exporting "{0}" to Data Source Explorer.
+datasource.exportToCP.checkBox=Create a Connection Profile Store for the exported data source
 
 ###########################################################
 #DataSourceProcess properties
@@ -1422,7 +1425,7 @@ ExportToLibraryAction.Message.RememberDecision=Mémoriser ma décision.
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=E&xporter vers la bibliothèque...
-
+ExportToCPSouceAction.action.text=Export to C&onnection Profile...
 
 
 ###########################################################
@@ -1868,7 +1871,7 @@ HighlightRuleBuilderDialog.text.Description.Element.Row=ligne
 HighlightRuleBuilderDialog.text.Description.Element.Column=colonne
 HighlightRuleBuilderDialog.text.Description.Element.DataItem=élément de données
 HighlightRuleBuilderDialog.text.Description.Element.Cell=cellule
-HighlightRuleBuilderDialog.text.Group.Condition=Condition
+HighlightRuleBuilderDialog.text.Group.Condition=Con&dition
 HighlightRuleBuilderDialog.text.Group.Format=Format
 HighlightRuleBuilderDialog.text.Description.Element.ReportElement=élément d'état
 
@@ -4532,7 +4535,8 @@ ShowPropertiesViewMenu.ErrorTitle=Erreur
 
 ###########################################################
 #ResetAttributePage
-ResetAttributePage.Style.Resotre.TooltipText=Restaurer les paramètres par défaut des propriétés de style de la page en cours
+ResetAttributePage.Style.Restore.TooltipText=Restaurer les paramètres par défaut des propriétés de style de la page en cours
+ResetAttributePage.Style.Restore.Transaction.Name=Restore Style
 
 ###########################################################
 #TextEditor

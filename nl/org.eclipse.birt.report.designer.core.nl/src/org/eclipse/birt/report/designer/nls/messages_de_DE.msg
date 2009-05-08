@@ -703,6 +703,9 @@ datasource.editor.property=Eigenschaftenbindung
 datasource.editor.duplicatedName=Datenquellenname "{0}" ist bereits vorhanden.
 datasource.error.title.noReportDesign=Fehler
 datasource.error.msg.noReportDesign=Kein Berichtdesign verfügbar.
+datasource.exprotToCP.title=Exportieren
+datasource.exportToCP.message=You are exporting "{0}" to Data Source Explorer.
+datasource.exportToCP.checkBox=Create a Connection Profile Store for the exported data source
 
 ###########################################################
 #DataSourceProcess properties
@@ -1422,7 +1425,7 @@ ExportToLibraryAction.Message.RememberDecision=Antwort merken
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=In Bibliothek e&xportieren...
-
+ExportToCPSouceAction.action.text=Export to C&onnection Profile...
 
 
 ###########################################################
@@ -1868,7 +1871,7 @@ HighlightRuleBuilderDialog.text.Description.Element.Row=Zeile
 HighlightRuleBuilderDialog.text.Description.Element.Column=Spalte
 HighlightRuleBuilderDialog.text.Description.Element.DataItem=Datenelement
 HighlightRuleBuilderDialog.text.Description.Element.Cell=Zelle
-HighlightRuleBuilderDialog.text.Group.Condition=Bedingung
+HighlightRuleBuilderDialog.text.Group.Condition=Con&dition
 HighlightRuleBuilderDialog.text.Group.Format=Format
 HighlightRuleBuilderDialog.text.Description.Element.ReportElement=Berichtselement
 
@@ -4532,7 +4535,8 @@ ShowPropertiesViewMenu.ErrorTitle=Fehler
 
 ###########################################################
 #ResetAttributePage
-ResetAttributePage.Style.Resotre.TooltipText=Standardstileigenschaften der aktuellen Seite wiederherstellen
+ResetAttributePage.Style.Restore.TooltipText=Standardstileigenschaften der aktuellen Seite wiederherstellen
+ResetAttributePage.Style.Restore.Transaction.Name=Restore Style
 
 ###########################################################
 #TextEditor
