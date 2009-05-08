@@ -22,12 +22,14 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -86,6 +88,11 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			for ( int i = 0; i < bindings.size( ); i++ )
 			{
 				IBinding binding = (IBinding) bindings.get( i );
+				if ( isNestAggregation( binding ))
+				{
+					//just skip nest aggregation bindings
+					continue;
+				}
 				if ( !OlapExpressionUtil.isDirectRerenrence( binding.getExpression( ),
 						bindings ) )
 				{
@@ -168,6 +175,23 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		}
 	}
 
+	private static boolean isNestAggregation( IBinding b ) throws DataException
+	{
+		if ( b.getAggrFunction( ) == null )
+		{
+			return false;
+		}
+		List<String> referencedBindings = 
+			ExpressionCompilerUtil.extractColumnExpression( 
+					b.getExpression( ), ExpressionUtil.DATA_INDICATOR );
+		if ( referencedBindings == null || referencedBindings.size( ) == 0 )
+		{
+			return false;
+		}
+		return true;
+		
+	}
+	
 	/**
 	 * 
 	 * @param queryDefn
