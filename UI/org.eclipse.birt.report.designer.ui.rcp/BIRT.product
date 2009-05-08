@@ -91,6 +91,8 @@
       <plugin id="org.eclipse.birt.example"/>
       <plugin id="org.eclipse.birt.report.data.adapter"/>
       <plugin id="org.eclipse.birt.report.data.oda.jdbc"/>
+      <plugin id="org.eclipse.birt.report.data.oda.jdbc.dbprofile"/>
+      <plugin id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui"/>
       <plugin id="org.eclipse.birt.report.data.oda.jdbc.ui"/>
       <plugin id="org.eclipse.birt.report.data.oda.sampledb"/>
       <plugin id="org.eclipse.birt.report.data.oda.sampledb.ui"/>
