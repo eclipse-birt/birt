@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.EmptyUpdateNotifier;
@@ -43,7 +44,6 @@ import org.eclipse.birt.chart.script.IExternalContext;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.PlatformConfig;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.ULocale;
@@ -68,15 +68,15 @@ public class ChartImageManager
 
 	private static int imageIndex = 0;
 
-	private String sessionId = null;
+	private final HttpSession session;
 
-	private Chart cm = null;
+	private final Chart cm;
 
 	private String sExtension = null;
 
-	private IDataRowExpressionEvaluator evaluator = null;
+	private final IDataRowExpressionEvaluator evaluator;
 
-	private IStyleProcessor styleProc = null;
+	private final IStyleProcessor styleProc;
 
 	private RunTimeContext rtc = null;
 
@@ -88,12 +88,12 @@ public class ChartImageManager
 
 	private int dpi = 72;
 
-	public ChartImageManager( String sessionId, Chart chartModel,
+	public ChartImageManager( HttpSession session, Chart chartModel,
 			String outputFormat, IDataRowExpressionEvaluator evaluator,
 			RunTimeContext rtc, IExternalContext externalContext,
 			IStyleProcessor styleProc ) throws Exception
 	{
-		this.sessionId = sessionId;
+		this.session = session;
 		this.cm = chartModel;
 		this.sExtension = outputFormat;
 		this.evaluator = evaluator;
@@ -133,7 +133,7 @@ public class ChartImageManager
 			this.rtc = rtc;
 		}
 
-		sessionIds.add( sessionId );
+		sessionIds.add( session.getId( ) );
 
 		generateImage( );
 	}
@@ -164,7 +164,8 @@ public class ChartImageManager
 			idr = ChartEngine.instance( ).getRenderer( "dv." //$NON-NLS-1$
 					+ sExtension.toUpperCase( Locale.US ) );
 
-			idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, Integer.valueOf( dpi ) );
+			idr.setProperty( IDeviceRenderer.DPI_RESOLUTION,
+					Integer.valueOf( dpi ) );
 
 			if ( "SVG".equalsIgnoreCase( sExtension ) ) //$NON-NLS-1$
 			{
@@ -177,7 +178,7 @@ public class ChartImageManager
 			// we must copy the bounds to avoid that setting it on one object
 			// unsets it on its precedent container
 
-			final Bounds bo = (Bounds) EcoreUtil.copy( originalBounds );
+			final Bounds bo = originalBounds.copyInstance( );
 
 			GeneratedChartState gcs = gr.build( idr.getDisplayServer( ),
 					cm,
@@ -271,9 +272,11 @@ public class ChartImageManager
 	private void generateImage( ) throws Exception
 	{
 		String imageName = IMAGE_NAME_PREFIX
-				+ +imageIndex++ + "." + this.sExtension.toLowerCase( ); //$NON-NLS-1$
+				+ +imageIndex++
+				+ "." + this.sExtension.toLowerCase( ); //$NON-NLS-1$
 		imageFile = new File( getAbsoluteImageFolder( )
-				+ File.separator + imageName );
+				+ File.separator
+				+ imageName );
 		if ( !imageFile.getParentFile( ).exists( ) )
 		{
 			imageFile.getParentFile( ).mkdirs( );
@@ -309,7 +312,7 @@ public class ChartImageManager
 		PlatformConfig config = new PlatformConfig( );
 		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
 		ChartEngine.instance( config );
-		
+
 		// Image folder setting
 		imageFolder = processRealPath( context, IMAGE_FOLDER, true );
 	}
@@ -348,12 +351,16 @@ public class ChartImageManager
 
 	public String getAbsoluteImageFolder( )
 	{
-		return imageFolder + File.separator + sessionId;
+		return imageFolder + File.separator + session.getId( );
 	}
 
 	public String getRelativeImageFolder( )
 	{
-		return IMAGE_FOLDER + "/" + sessionId; //$NON-NLS-1$
+		// Here do not use File.separator since it's in URL
+		return session.getServletContext( ).getContextPath( ) + "/" //$NON-NLS-1$
+				+ IMAGE_FOLDER
+				+ "/" //$NON-NLS-1$
+				+ session.getId( );
 	}
 
 	/**

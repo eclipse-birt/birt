@@ -148,7 +148,7 @@
         </Color>
         <Visible>false</Visible>
       </Outline>
-      <Visible>true</Visible>
+      <Visible>false</Visible>
       <ClientArea>
         <Outline>
           <Style>Solid</Style>
@@ -593,7 +593,7 @@
             <Action>
               <Type>URL_Redirect</Type>
               <Value xsi:type="attribute:URLValue">
-                <BaseUrl>https://bugs.eclipse.org/bugs/buglist.cgi?classification=BIRT&amp;product=BIRT&amp;version=2.2.0&amp;bug_status=RESOLVED&amp;resolution=FIXED _blank</BaseUrl>
+                <BaseUrl>drill/bugDetail.jsp _blank</BaseUrl>
                 <BaseParameterName>component</BaseParameterName>
                 <ValueParameterName></ValueParameterName>
                 <SeriesParameterName></SeriesParameterName>

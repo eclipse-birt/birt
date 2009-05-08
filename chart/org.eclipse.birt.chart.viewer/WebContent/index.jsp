@@ -11,26 +11,56 @@
 </head>
 <body>
 <p>Read <a href="notes.html">notes</a> here if you can't preview following charts in some servers.</p>
-
-1. Bar chart with Tooltips and Hyperlinks (PNG):
-<br>
-<chart:renderChart width="600" height="400" model="SampleBar.chart"
-	data="<%=SampleHelper.createSampleEvaluator() %>"
+<table border="1">
+<tr><td align="center">Sample chart</td><td align="center">Properties</td></tr>
+<tr>
+<td>
+<chart:renderChart width="500" height="300" model="SampleBar.chart"
+	data="<%=SampleHelper.createSampleHeaderEvaluator() %>"
 	runtimeContext="<%=SampleHelper.createSampleRuntimeContext(ULocale.ENGLISH) %>">
 </chart:renderChart>
-<br>
-2. Difference chart (SVG):
-<br>
-<chart:renderChart width="400" height="300" output="svg"
-	model="<%=SampleHelper.createSampleChart() %>"
+</td>
+<td valign="top">
+Chart type: Tube<br>
+Output format: PNG<br>
+Model type: XML file<br>
+Data type: Evaluator<br>
+Style processor: NONE<br>
+Interactivity: Tooltips and Hyperlinks<br>
+(Click the tube to see the detail data)
+</td>
+</tr>
+<tr>
+<td>
+<chart:renderChart width="500" height="300" output="svg"
+	model="<%=SampleHelper.createSampleRuntimeChart() %>"
 	styleProcessor="<%=SampleHelper.getSampleStyleProcessor() %>">
 </chart:renderChart>
-<br>
-3. Pie chart (PDF):
-<br>
-<chart:renderChart width="400" height="300" output="pdf"
+</td>
+<td valign="top">
+Chart type: Difference<br>
+Output format: SVG<br>
+Model type: Java instance<br>
+Data type: Built-in data in Java<br>
+Style processor: Yes<br>
+Interactivity: Highlight series
+</td>
+</tr>
+<tr>
+<td>
+<chart:renderChart width="500" height="300" output="pdf"
 	model="SamplePie.chart">
 </chart:renderChart>
-<br>
+</td>
+<td valign="top">
+Chart type: Pie<br>
+Output format: PDF<br>
+Model type: XML file<br>
+Data type: Sample data in Java<br>
+Style processor: NONE<br>
+Interactivity: NONE
+</td>
+</tr>
+</table>
 </body>
 </html>

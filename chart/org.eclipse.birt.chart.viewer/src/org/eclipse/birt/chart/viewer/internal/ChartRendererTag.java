@@ -107,8 +107,7 @@ public class ChartRendererTag extends TagSupport
 				return EVAL_PAGE;
 			}
 
-			ChartImageManager imageManager = new ChartImageManager( request.getSession( )
-					.getId( ),
+			ChartImageManager imageManager = new ChartImageManager( request.getSession( ),
 					chartModel,
 					output,
 					data,
@@ -119,10 +118,10 @@ public class ChartRendererTag extends TagSupport
 			String imageId = imageFile.getName( );
 			imageId = imageId.substring( 0, imageId.lastIndexOf( '.' ) );
 
-			pageContext.getOut( )
-					.println( createEmitter( imageId,
-							imageManager.getRelativeImageFolder( )
-									+ "/" + imageFile.getName( ), imageManager.getImageMap( ) ).generateHTML( ) ); //$NON-NLS-1$
+			pageContext.getOut( ).println( createEmitter( imageId,
+					imageManager.getRelativeImageFolder( ) + "/" //$NON-NLS-1$
+							+ imageFile.getName( ),
+					imageManager.getImageMap( ) ).generateHTML( ) );
 		}
 		catch ( Exception e )
 		{
