@@ -67,11 +67,27 @@ public class CSSHelper
 			int i = 0;
 			for ( Image uri : cursorImages )
 			{
+				if ( uri.getURL( ) == null || uri.getURL( ).trim( ).length( ) == 0 )
+				{
+					continue;
+				}
+				
+				String sUri = uri.getURL( );
+				if ( sUri.startsWith( "\"" ) && sUri.endsWith( "\"" )) //$NON-NLS-1$ //$NON-NLS-2$
+				{
+					sUri = sUri.substring( 1, sUri.length( ) - 1 );
+				}
+				if ( sUri.trim( ).length( ) == 0 )
+				{
+					continue;
+				}
+				
 				if ( i != 0 )
 				{
 					value += ","; //$NON-NLS-1$
 				}
-				value += "url(" + uri.getURL( ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+				
+				value += "url(" + sUri + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 				i++;
 			}
 			if ( cursorImages.size( ) > 0 )
