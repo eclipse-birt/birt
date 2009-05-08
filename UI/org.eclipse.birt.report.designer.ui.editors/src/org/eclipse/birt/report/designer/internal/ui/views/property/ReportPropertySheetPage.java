@@ -695,6 +695,8 @@ public class ReportPropertySheetPage extends Page implements
 
 	protected void refresh( )
 	{
+		viewer.getTree( ).deselectAll( );
+
 		viewer.refresh( true );
 
 		deactivateCellEditor( );
@@ -851,6 +853,7 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		if ( selectedPath.length <= 1 )
 			return;
+
 		for ( int i = 1; i < selectedPath.length; i++ )
 		{
 			MementoElement element = selectedPath[i];
@@ -998,7 +1001,7 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		if ( !viewer.getTree( ).isDisposed( ) )
 		{
-			execMemento( );
+			refresh( );
 		}
 		else
 		{

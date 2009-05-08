@@ -10,7 +10,6 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.AlphabeticallyViewSorter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -80,8 +79,7 @@ import org.eclipse.ui.IPageLayout;
  * 
  * @see IPropertySource
  */
-public class AdvancePropertyDescriptor extends PropertyDescriptor implements
-		IFastConsumerProcessor
+public class AdvancePropertyDescriptor extends PropertyDescriptor
 {
 
 	private boolean isFormStyle;
@@ -586,6 +584,8 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 
 	protected void refresh( )
 	{
+		viewer.getTree( ).deselectAll( );
+
 		viewer.refresh( true );
 		deactivateCellEditor( );
 		if ( input != null )
@@ -635,7 +635,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 			else
 				return;
 		}
-		viewer.getTree( ).setSelection( root );
+		// viewer.getTree( ).setSelection( root );
 
 	}
 
@@ -660,21 +660,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		}
 	}
 
-	protected void deRegisterEventManager( )
-	{
-		if ( UIUtil.getModelEventManager( ) != null )
-			UIUtil.getModelEventManager( ).removeModelEventProcessor( this );
-	}
-
-	/**
-	 * Registers model change listener to DE elements.
-	 */
-	protected void registerEventManager( )
-	{
-		if ( UIUtil.getModelEventManager( ) != null )
-			UIUtil.getModelEventManager( ).addModelEventProcessor( this );
-	}
-
 	private static class CustomTreeViewer extends TreeViewer
 	{
 
@@ -691,7 +676,14 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 
 	public void load( )
 	{
-		deRegisterEventManager( );
+		// deRegisterEventManager( );
+
+		if ( viewer.getTree( ) != null && !viewer.getTree( ).isDisposed( ) )
+		{
+			viewer.getTree( ).deselectAll( );
+			viewer.refresh( true );
+		}
+
 		if ( !provider.isEnable( ) )
 		{
 			viewer.setInput( null );
@@ -709,13 +701,14 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		else
 			viewer.setInput( input );
 
-		registerEventManager( );
+		// registerEventManager( );
 		execMemento( );
 	}
 
 	private boolean execMemento = false;
 
 	private int oldViewMode = -1;
+
 	private void execMemento( )
 	{
 		if ( !execMemento )
@@ -758,7 +751,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 								viewer.getTree( ).removeAll( );
 								oldViewMode = provider.getViewMode( );
 							}
-							viewer.refresh( );
 							expandToDefaultLevel( );
 							if ( treeListener != null )
 								viewer.getTree( )
@@ -859,17 +851,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 	private boolean changed = false;
 	private TreeListener treeListener;
 
-	public void postElementEvent( )
-	{
-		if ( !viewer.getTree( ).isDisposed( ) )
-		{
-			execMemento( );
-		}
-		else
-		{
-			deRegisterEventManager( );
-		}
-	}
 
 	public Object getAdapter( Class adapter )
 	{
