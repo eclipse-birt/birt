@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.olap.cursor;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -171,7 +172,7 @@ public class AggregationAccessor implements Accessor
 		if ( columnLevelList.isEmpty( ) && rowLevelList.isEmpty( ) && pageLevelList.isEmpty( ) )
 			return true;
 
-		if ( rs.getAllLevels( ).equals( member.getCubeAggrDefn( ).getAggrLevelsInDefinition( ) ))
+		if ( Arrays.deepEquals( rs.getAllLevels( ), member.getCubeAggrDefn( ).getAggrLevelsInDefinition( ).toArray( ) ))
 		{
 			return findValueMatcher( rs, memberList, valueMap, aggrIndex );
 		}
