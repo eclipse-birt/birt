@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.UserPropertyBuilder;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.UserPropertyEvent;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
@@ -98,7 +99,12 @@ public class NamedExpressionsHandleProvier extends AbstractFormHandleProvider
 		{
 			return def.getName( );
 		}
-		return (String) def.getDefault( );
+		Object defaultValue = def.getDefault( );
+		if ( defaultValue instanceof Expression )
+			return ( (Expression) defaultValue ).getStringExpression( );
+		else if ( defaultValue instanceof String )
+			return (String) defaultValue;
+		return null;
 	}
 
 	public String getImagePath( Object element, int columnIndex )
