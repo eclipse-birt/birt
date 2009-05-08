@@ -61,6 +61,11 @@ public interface IReportLaunchConstants
 	 * Default eclipse home key
 	 */
 	String ATTR_USE_DEFULT_ENGINE_HOME = "use.default.engine.home"; //$NON-NLS-1$
+	
+	/**
+	 * Resource folder
+	 */
+	String ATTR_RESOURCE_FOLDER = "use.resource.folder"; //$NON-NLS-1$
 
 	/**
 	 * User class path key

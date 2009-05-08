@@ -123,6 +123,11 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 	{
 		return System.getProperty( ATTR_ENGINE_HOME );
 	}
+	
+	private static String getResourceFolder()
+	{
+		return System.getProperty( ATTR_RESOURCE_FOLDER );
+	}
 
 	private static String getOutputFolder( )
 	{
@@ -463,6 +468,10 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 
 		engineConfig = new LauncherEngineConfig( );
 		engineConfig.setEngineHome( getEngineHome( ) );
+		if (getResourceFolder( ) != null)
+		{
+			engineConfig.setResourcePath( getResourceFolder( ) );
+		}
 
 		try
 		{

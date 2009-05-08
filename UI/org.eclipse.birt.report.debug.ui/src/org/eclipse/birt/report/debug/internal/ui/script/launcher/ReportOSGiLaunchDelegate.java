@@ -62,6 +62,7 @@ public class ReportOSGiLaunchDelegate extends
 		helper.addUserClassPath( arguments, configuration );
 		helper.addFileNameArgs( arguments );
 		helper.addEngineHomeArgs( arguments );
+		helper.addResourceFolder( arguments );
 		helper.addTempFolder( arguments );
 		helper.addTypeArgs( arguments );
 		helper.addParameterArgs( arguments );

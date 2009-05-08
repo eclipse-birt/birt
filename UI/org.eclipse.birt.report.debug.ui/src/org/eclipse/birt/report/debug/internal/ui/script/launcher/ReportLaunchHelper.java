@@ -29,14 +29,19 @@ import org.eclipse.birt.report.debug.internal.core.launcher.LauncherEngineConfig
 import org.eclipse.birt.report.debug.internal.core.launcher.ReportLauncher;
 import org.eclipse.birt.report.debug.internal.ui.script.util.ScriptDebugUtil;
 import org.eclipse.birt.report.debug.ui.DebugUI;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.InputParameterDialog;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterFactory;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportEngineFactory;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -90,7 +95,27 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 	{
 		list.add( "-D" + ATTR_USER_CLASS_PATH + "=" + convertClassPath( getUserClasspath( config ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
+	
+	void addResourceFolder(List list)
+	{
+		String str = getResourceFolder( fileName );
+		if (str != null)
+		{
+			list.add( "-D" + ATTR_RESOURCE_FOLDER + "=" + str);
+		}
+	}
 
+	private String getResourceFolder(String fileName)
+	{
+		IPath path = new Path(fileName);
+		IFile[] files = ResourcesPlugin.getWorkspace( ).getRoot( ).findFilesForLocation( path );
+		if (files == null || files.length == 0)
+		{
+			return null;
+		}
+		
+		return ReportPlugin.getDefault( ).getResourceFolder( files[0].getProject( ) );
+	}
 	void addPortArgs( List list )
 	{
 		listenPort = findFreePort( );
@@ -334,6 +359,10 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 
 		final String fileName = covertVariables( configuration.getAttribute( ATTR_REPORT_FILE_NAME,
 				"" ) ); //$NON-NLS-1$
+		if (getResourceFolder( fileName ) != null)
+		{
+			engineConfig.setResourcePath( getResourceFolder( fileName ) );
+		}
 		final int taskType = configuration.getAttribute( ATTR_TASK_TYPE,
 				DEFAULT_TASK_TYPE );
 
