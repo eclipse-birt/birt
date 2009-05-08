@@ -1855,7 +1855,8 @@ public abstract class PropertyDefn
 	public boolean allowExpression( )
 	{
 		return allowExpression
-				|| getTypeCode( ) == IPropertyType.EXPRESSION_TYPE;
+				|| getTypeCode( ) == IPropertyType.EXPRESSION_TYPE
+				|| getSubTypeCode( ) == IPropertyType.EXPRESSION_TYPE;
 	}
 
 	/**

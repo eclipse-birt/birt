@@ -88,6 +88,13 @@
                     <property name="pushDown">false</property>
                     <property name="dynamicFilterParameter">new DynamicFilterParam</property>
                 </structure>
+                <structure>
+                    <property name="operator">gt</property>
+                    <expression name="expr">filter expression</expression>
+                    <simple-property-list name="value1">
+                        <value type="constant">constant1</value>
+                    </simple-property-list>
+                </structure>                
             </list-property>   
         </table>  
     </body>

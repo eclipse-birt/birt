@@ -3012,7 +3012,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( defn == null )
 			return null;
 
-		if ( defn.allowExpression( ) )
+		if ( defn.allowExpression( ) && !defn.isListType( )  )
 			return new ExpressionHandle( this, (ElementPropertyDefn) defn );
 
 		return null;
