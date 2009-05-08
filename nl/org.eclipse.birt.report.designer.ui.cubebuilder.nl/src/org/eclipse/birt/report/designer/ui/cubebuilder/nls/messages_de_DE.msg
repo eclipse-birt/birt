@@ -37,8 +37,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Title=Warnung
 CubeBuilder.Title=Kreuztabellen-Cube Builder
 DatasePage.EmptyName.ErrorMessage=Der Name des Quaders ist erforderlich.
 DatasetPage.Title=Datensatz
-GroupDialog.Button.DateGroup=Datumsgruppe
-GroupDialog.Button.RegularGroup=Reguläre Gruppe
+GroupDialog.Button.DateGroup=&Date Group
+GroupDialog.Button.RegularGroup=&Regular Group
 GroupsPage.Title=Gruppen und Zusammenfassungen
 LinkGroupsPage.Title=Gruppen verknüpfen
 DatasetPage.Label.Name=&Name:
@@ -143,10 +143,10 @@ ExpressionProvider.Category.DataSets=Verfügbare Datensätze
 DateGroupDialog.Shell.Title=Gruppenebene
 DateLevelDialog.Shell.Title=Datumsebene bearbeiten
 DateLevelDialog.Interval.Base=Festen Basiswert für Intervall verwenden:
-DateGroupDialog.Name=Name:
-DateLevelDialog.Name=Name:
-DateLevelDialog.Type=Typ:
-DateLevelDialog.Format=Format:
+DateGroupDialog.Name=&Name:
+DateLevelDialog.Name=&Name:
+DateLevelDialog.Type=&Type:
+DateLevelDialog.Format=&Format:
 DateLevelDialog.None=Ohne
 
 ############################################################

@@ -37,8 +37,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Title=경고
 CubeBuilder.Title=크로스 탭 큐브 빌더
 DatasePage.EmptyName.ErrorMessage=큐브의 이름이 필요합니다.
 DatasetPage.Title=데이터 집합
-GroupDialog.Button.DateGroup=날짜 그룹
-GroupDialog.Button.RegularGroup=일반 그룹
+GroupDialog.Button.DateGroup=&Date Group
+GroupDialog.Button.RegularGroup=&Regular Group
 GroupsPage.Title=그룹 및 요약
 LinkGroupsPage.Title=그룹 링크
 DatasetPage.Label.Name=이름(&N):
@@ -143,10 +143,10 @@ ExpressionProvider.Category.DataSets=사용 가능한 데이터 집합
 DateGroupDialog.Shell.Title=그룹 수준
 DateLevelDialog.Shell.Title=날짜 수준 편집
 DateLevelDialog.Interval.Base=간격에 고정된 기본값 사용:
-DateGroupDialog.Name=이름:
-DateLevelDialog.Name=이름:
-DateLevelDialog.Type=유형:
-DateLevelDialog.Format=서식:
+DateGroupDialog.Name=이름(&N):
+DateLevelDialog.Name=이름(&N):
+DateLevelDialog.Type=&Type:
+DateLevelDialog.Format=&Format:
 DateLevelDialog.None=없음
 
 ############################################################

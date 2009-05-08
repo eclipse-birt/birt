@@ -37,8 +37,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Title=警告
 CubeBuilder.Title=交叉表多维数据集生成器
 DatasePage.EmptyName.ErrorMessage=需要提供多维数据集的名称。
 DatasetPage.Title=数据集
-GroupDialog.Button.DateGroup=日期组
-GroupDialog.Button.RegularGroup=常规组
+GroupDialog.Button.DateGroup=&Date Group
+GroupDialog.Button.RegularGroup=&Regular Group
 GroupsPage.Title=组和摘要
 LinkGroupsPage.Title=链接组
 DatasetPage.Label.Name=名称(&N):
@@ -143,10 +143,10 @@ ExpressionProvider.Category.DataSets=可用数据集
 DateGroupDialog.Shell.Title=组级别
 DateLevelDialog.Shell.Title=编辑日期级别
 DateLevelDialog.Interval.Base=对间隔使用固定基值:
-DateGroupDialog.Name=名称:
-DateLevelDialog.Name=名称:
-DateLevelDialog.Type=类型:
-DateLevelDialog.Format=格式:
+DateGroupDialog.Name=名称(&N):
+DateLevelDialog.Name=名称(&N):
+DateLevelDialog.Type=&Type:
+DateLevelDialog.Format=&Format:
 DateLevelDialog.None=无
 
 ############################################################

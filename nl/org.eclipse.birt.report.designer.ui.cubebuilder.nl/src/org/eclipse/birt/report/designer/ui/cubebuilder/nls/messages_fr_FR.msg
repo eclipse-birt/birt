@@ -37,8 +37,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Title=Avertissement
 CubeBuilder.Title=Générateur de cube de tableau croisé
 DatasePage.EmptyName.ErrorMessage=Le nom du cube est requis.
 DatasetPage.Title=Jeu de données
-GroupDialog.Button.DateGroup=Groupe de dates
-GroupDialog.Button.RegularGroup=Groupe normal
+GroupDialog.Button.DateGroup=&Date Group
+GroupDialog.Button.RegularGroup=&Regular Group
 GroupsPage.Title=Groupes et résumés
 LinkGroupsPage.Title=Lier les groupes
 DatasetPage.Label.Name=&Nom :
@@ -143,10 +143,10 @@ ExpressionProvider.Category.DataSets=Jeux de données disponibles
 DateGroupDialog.Shell.Title=Niveau de groupe
 DateLevelDialog.Shell.Title=Modifier le niveau de date
 DateLevelDialog.Interval.Base=Utiliser une valeur de base fixe pour l'intervalle :
-DateGroupDialog.Name=Nom :
-DateLevelDialog.Name=Nom :
-DateLevelDialog.Type=Type :
-DateLevelDialog.Format=Format :
+DateGroupDialog.Name=&Nom :
+DateLevelDialog.Name=&Nom :
+DateLevelDialog.Type=&Type:
+DateLevelDialog.Format=&Format:
 DateLevelDialog.None=Aucun
 
 ############################################################
