@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.ui.internal.rcp;
 
 import org.eclipse.birt.report.designer.ui.rcp.nls.DesignerWorkbenchMessages;
+import org.eclipse.core.runtime.IProduct;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
@@ -40,6 +42,18 @@ public class DesignerWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor
 		IWorkbenchWindowConfigurer configurer = getWindowConfigurer( );
 		configurer.setShowCoolBar( true );
 		configurer.setShowStatusLine( true );
-		configurer.setTitle( DesignerWorkbenchMessages.Workbench_title );
+
+		String title = null;
+		IProduct product = Platform.getProduct( );
+		if ( product != null )
+		{
+			title = product.getName( );
+		}
+
+		if ( title == null )
+		{
+			title = DesignerWorkbenchMessages.Workbench_title;
+		}
+		configurer.setTitle( title );
 	}
 }
