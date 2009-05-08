@@ -38,7 +38,7 @@ public final class ChartReportItemPresentationPlotImpl extends
 
 		try
 		{
-			AggregationCellHandle xtabCell = ChartXTabUtil.getXtabContainerCell( handle );
+			AggregationCellHandle xtabCell = ChartXTabUtil.getXtabContainerCell( modelHandle );
 			if ( xtabCell != null )
 			{
 				if ( xtabCell.getSpanOverOnColumn( ) != null )

@@ -97,8 +97,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 	protected IDeviceRenderer idr = null;
 
-	protected ExtendedItemHandle handle;
-
 	protected RunTimeContext rtc = null;
 
 	private static List<String> registeredDevices = null;
@@ -168,21 +166,22 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	 */
 	public void setModelObject( ExtendedItemHandle eih )
 	{
+		super.setModelObject( eih );
+		
 		IReportItem item = getReportItem( eih );
 		if ( item == null )
 		{
 			return;
 		}
 		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
-		handle = eih;
 		
 		// #269935
 		// If it is sharing chart case, copy expressions settings from referred
 		// chart model into current.
-		if ( cm != null && handle.getDataBindingReference( ) != null
-				&& ChartReportItemUtil.isChartHandle( handle.getDataBindingReference( ) ) )
+		if ( cm != null && eih.getDataBindingReference( ) != null
+				&& ChartReportItemUtil.isChartHandle( eih.getDataBindingReference( ) ) )
 		{
-			ExtendedItemHandle refHandle = (ExtendedItemHandle) ChartReportItemUtil.getChartReferenceItemHandle( handle );
+			ExtendedItemHandle refHandle = (ExtendedItemHandle) ChartReportItemUtil.getChartReferenceItemHandle( eih );
 			if ( refHandle != null )
 			{
 				ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle  ),
@@ -195,7 +194,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 	protected void setChartModelObject( IReportItem item )
 	{
-		Object of = handle.getProperty( ChartReportItemConstants.PROPERTY_OUTPUT );
+		Object of = modelHandle.getProperty( ChartReportItemConstants.PROPERTY_OUTPUT );
 		if ( of instanceof String )
 		{
 			outputChartFormat = (String) of;
@@ -350,9 +349,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				// presentation.
 				// No command should be executed, since it's a runtime operation
 				// Set the model directly through setModel and not setProperty
-				if ( cm != null && handle != null )
+				if ( cm != null && modelHandle != null )
 				{
-					IReportItem item = handle.getReportItem( );
+					IReportItem item = modelHandle.getReportItem( );
 					( (ChartReportItemImpl) item ).setModel( cm );
 					( (ChartReportItemImpl) item ).setSharedScale( rtc.getSharedScale( ) );
 				}
@@ -492,14 +491,14 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			// here checks the version number( <3.2.16, before BIRT 2.3 ) of
 			// report model to use old evaluator logic for chart and chart
 			// does group/aggregation by itself.
-			if ( ChartReportItemUtil.isOldChartUsingInternalGroup( handle, cm ) )
+			if ( ChartReportItemUtil.isOldChartUsingInternalGroup( modelHandle, cm ) )
 			{
 				// Version is less than 3.2.16, directly return.
 				return new BIRTQueryResultSetEvaluator( (IQueryResultSet) set );
 			}
 
-			boolean isSharingChart = handle.getDataBindingReference( ) != null
-					&& ChartReportItemUtil.isChartHandle( handle.getDataBindingReference( ) );
+			boolean isSharingChart = modelHandle.getDataBindingReference( ) != null
+					&& ChartReportItemUtil.isChartHandle( modelHandle.getDataBindingReference( ) );
 			// Here, we must use chart model to check if grouping is defined. we
 			// can't use grouping definitions in IQueryResultSet to check it,
 			// because maybe chart inherits data set from container and the data
@@ -511,22 +510,22 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 						ChartReportItemUtil.isSetSummaryAggregation( cm ),
 						isSubQuery( ),
 						cm,
-						handle );
+						modelHandle );
 			}
 			return new BIRTQueryResultSetEvaluator( (IQueryResultSet) set );
 		}
 		else if ( set instanceof ICubeResultSet )
 		{
-			if ( ChartXTabUtil.isPlotChart( handle )
-					|| ChartXTabUtil.isAxisChart( handle ) )
+			if ( ChartXTabUtil.isPlotChart( modelHandle )
+					|| ChartXTabUtil.isAxisChart( modelHandle ) )
 			{
 				return new BIRTChartXtabResultSetEvaluator( (ICubeResultSet) set,
-						handle );
+						modelHandle );
 			}
 
 			// Fixed ED 28
 			// Sharing case/Multiple view case
-			ReportItemHandle itemHandle = ChartReportItemUtil.getReportItemReference( handle );
+			ReportItemHandle itemHandle = ChartReportItemUtil.getReportItemReference( modelHandle );
 			boolean isChartCubeReference = ChartReportItemUtil.isChartReportItemHandle( itemHandle );
 			if ( itemHandle != null && !isChartCubeReference )
 			{
@@ -541,7 +540,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 	private boolean isSubQuery( )
 	{
-		return handle.getDataSet( ) == null;
+		return modelHandle.getDataSet( ) == null;
 	}
 
 	protected SharedScaleContext createSharedScale( IBaseResultSet baseResultSet )
@@ -633,7 +632,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	 * Wraps the logic to bind data. Returns true if the data set is not empty,
 	 * otherwise false.
 	 */
-	private boolean bindData( IDataRowExpressionEvaluator rowAdapter,
+	protected boolean bindData( IDataRowExpressionEvaluator rowAdapter,
 			IActionEvaluator evaluator ) throws BirtException
 	{
 		boolean bNotEmpty = true;
@@ -673,8 +672,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		IBaseResultSet resultSet = getDataToRender( baseResultSet );
 		boolean bAutoHide = ( cm != null && !cm.getEmptyMessage( ).isVisible( ) );
 
-		// Skip gracefully if there is no data
-		if ( resultSet == null )
+		// Display alt text if binding is not complete
+		if ( resultSet == null
+				|| !ChartReportItemUtil.checkChartBindingComplete( cm ) )
 		{
 			// Returns an object array for engine to display alt text instead of
 			// image when result set is null.
@@ -684,13 +684,13 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				}
 			};
 		}
-		else if ( ChartReportItemUtil.isEmpty( resultSet ) )
+		// Display blank if data empty.
+		if ( ChartReportItemUtil.isEmpty( resultSet ) )
 		{
 			if ( bAutoHide )
 			{
 				// Returns null for engine to display empty when the result set
-				// is
-				// empty.
+				// is empty.
 				return null;
 			}
 		}
@@ -706,22 +706,22 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		{
 			// Create and set shared scale if needed
 			if ( rtc.getSharedScale( ) == null
-					&& ChartReportItemUtil.canScaleShared( handle, cm ) )
+					&& ChartReportItemUtil.canScaleShared( modelHandle, cm ) )
 			{
 				rtc.setSharedScale( createSharedScale( resultSet ) );
 			}
 
 			// Set sharing query flag.
 			boolean isSharingQuery = false;
-			if ( handle.getDataBindingReference( ) != null
-					|| handle.getContainer( ) instanceof MultiViewsHandle
-					|| ChartReportItemUtil.isChartInheritGroups( handle ) )
+			if ( modelHandle.getDataBindingReference( ) != null
+					|| modelHandle.getContainer( ) instanceof MultiViewsHandle
+					|| ChartReportItemUtil.isChartInheritGroups( modelHandle ) )
 			{
 				isSharingQuery = true;
 				// Here we will set isSharingQuery to false if it is sharing
 				// chart case to ensure that chart generates correct expressions
 				// to do evaluating in chart generator phase.
-				isSharingQuery &= !ChartReportItemUtil.isChartHandle( handle.getDataBindingReference( ) );
+				isSharingQuery &= !ChartReportItemUtil.isChartHandle( modelHandle.getDataBindingReference( ) );
 			}
 			rtc.setSharingQuery( isSharingQuery );
 
@@ -771,7 +771,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 					&& !rtc.getSharedScale( ).isShared( ) )
 			{
 				rtc.getSharedScale( ).setShared( true );
-				( (ChartReportItemImpl) getReportItem( handle ) ).setSharedScale( rtc.getSharedScale( ) );
+				( (ChartReportItemImpl) getReportItem( modelHandle ) ).setSharedScale( rtc.getSharedScale( ) );
 			}
 
 			// Returns the content to display (image or image+imagemap)
@@ -794,7 +794,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	 * @param baseResultSet
 	 * @return null if nothing to render
 	 */
-	private IBaseResultSet getDataToRender( IBaseResultSet[] baseResultSet )
+	protected IBaseResultSet getDataToRender( IBaseResultSet[] baseResultSet )
 			throws BirtException
 	{
 		// BIND RESULTSET TO CHART DATASETS
@@ -818,7 +818,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsStart" ) ); //$NON-NLS-1$
 
 		// catch unwanted null handle case
-		if ( handle == null )
+		if ( modelHandle == null )
 		{
 			assert false; // should we throw an exception here instead?
 			return null;
@@ -826,10 +826,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		return resultSet;
 	}
 
-	private void initializeScriptHandler( BIRTExternalContext externalContext )
+	protected void initializeScriptHandler( BIRTExternalContext externalContext )
 			throws ChartException
 	{
-		String javaHandlerClass = handle.getEventHandlerClass( );
+		String javaHandlerClass = modelHandle.getEventHandlerClass( );
 		if ( javaHandlerClass != null && javaHandlerClass.length( ) > 0 )
 		{
 			// use java handler if available.
@@ -867,7 +867,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 					&& sScriptContent.length( ) > 0
 					&& rtc.isScriptingEnabled( ) )
 			{
-				sh.register( ModuleUtil.getScriptUID( handle.getPropertyHandle( IReportItemModel.ON_RENDER_METHOD ) ),
+				sh.register( ModuleUtil.getScriptUID( modelHandle.getPropertyHandle( IReportItemModel.ON_RENDER_METHOD ) ),
 						sScriptContent );
 			}
 		}
@@ -890,7 +890,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 						bo,
 						externalContext,
 						rtc,
-						new ChartReportStyleProcessor( handle, true, this.style ) );
+						new ChartReportStyleProcessor( modelHandle, true, this.style ) );
 		boundsRuntime = gcs.getChartModel( ).getBlock( ).getBounds( );
 		return gcs;
 	}
@@ -990,7 +990,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			IReportContext context )
 	{
 		IAdapterManager adapterManager = Platform.getAdapterManager( );
-		IChartReportItemFactory factory = (IChartReportItemFactory) adapterManager.loadAdapter( this.handle,
+		IChartReportItemFactory factory = (IChartReportItemFactory) adapterManager.loadAdapter( modelHandle,
 				IChartReportItemFactory.class.getName( ) );
 		if ( factory != null )
 		{
@@ -1005,16 +1005,16 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	private void initializeRuntimeContext(
 			IDataRowExpressionEvaluator rowAdapter )
 	{
-		rtc.setActionRenderer( createActionRenderer( this.handle,
+		rtc.setActionRenderer( createActionRenderer( modelHandle,
 				this.ah,
 				rowAdapter,
 				this.context ) );
 		rtc.setMessageLookup( new BIRTMessageLookup( context ) );
 
 		// Set direction from model to chart runtime context
-		rtc.setRightToLeftText( handle.isDirectionRTL( ) );
+		rtc.setRightToLeftText( modelHandle.isDirectionRTL( ) );
 		// Set text direction from StyleHandle to chart runtime context
-		ChartReportItemImpl crii = (ChartReportItemImpl) getReportItem( handle );
+		ChartReportItemImpl crii = (ChartReportItemImpl) getReportItem( modelHandle );
 		rtc.setRightToLeft( crii.isLayoutDirectionRTL( ) );
 		rtc.setResourceFinder( crii );
 		rtc.setExternalizer( crii );

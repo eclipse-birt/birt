@@ -34,8 +34,8 @@ public final class ChartReportItemPresentationAxisImpl extends
 	public void setModelObject( ExtendedItemHandle eih )
 	{
 		// Get the host chart handle from host chart
-		handle = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
-		IReportItem item = getReportItem( handle );
+		modelHandle = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
+		IReportItem item = getReportItem( modelHandle );
 		if ( item == null )
 		{
 			return;
