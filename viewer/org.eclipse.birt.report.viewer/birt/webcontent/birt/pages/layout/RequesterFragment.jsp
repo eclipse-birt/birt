@@ -33,7 +33,7 @@
 	baseHref += request.getContextPath( ) + fragment.getJSPRootPath( );
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <HTML>
 	<HEAD>
 		<TITLE>PARAMETER SELECTION PAGE</TITLE>
