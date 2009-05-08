@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt;
 
+import java.io.UnsupportedEncodingException;
+
 import org.eclipse.swt.dnd.ByteArrayTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.dnd.TransferData;
@@ -84,7 +86,17 @@ public class SimpleTextTransfer extends ByteArrayTransfer
 	{
 		if ( checkText( object ) && isSupportedType( transferData ) )
 		{
-			super.javaToNative( ( (String) object ).getBytes( ), transferData );
+			try
+			{
+				super.javaToNative( ( (String) object ).getBytes( "UTF-8" ), //$NON-NLS-1$
+						transferData );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				// do not need to log
+				super.javaToNative( ( (String) object ).getBytes( ),
+						transferData );
+			}
 		}
 	}
 
@@ -107,6 +119,15 @@ public class SimpleTextTransfer extends ByteArrayTransfer
 			return null;
 		}
 		byte[] bytes = (byte[]) super.nativeToJava( transferData );
+
+		try
+		{
+			return new String( bytes, "UTF-8" ); //$NON-NLS-1$
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			// do not need to log
+		}
 		return new String( bytes );
 	}
 
