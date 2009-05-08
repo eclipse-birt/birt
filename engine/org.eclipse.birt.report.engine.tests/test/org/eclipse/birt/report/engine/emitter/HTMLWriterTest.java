@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -57,13 +57,12 @@ public class HTMLWriterTest extends TestCase
 		writer.endWriter( );
 
 		assertEquals(
-				"&amp;&lt;&gt;\"1 2 &#xa0;3 &#xa0; 4 &#xa0; &#xa0;", //$NON-NLS-1$
+				"&amp;&lt;>\"1 2&#xa0; 3&#xa0;&#xa0; 4&#xa0;&#xa0;&#xa0;&#xa0;", //$NON-NLS-1$
 				stream.toString( ).replaceAll( "[\\r|\\t|\\n]*", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		stream.close( );
 	}
-	
-	
+
 	public void testWhiteSpace( ) throws IOException
 	{
 		ByteArrayOutputStream stream = new ByteArrayOutputStream( );
@@ -76,27 +75,28 @@ public class HTMLWriterTest extends TestCase
 		writer.endWriter( );
 
 		assertEquals(
-				"&#xa0;a &#xa0;b&#xa0;<br>&#xa0;&#xa0;abc &#xa0;<br>&#xa0;&#xa0; abc cde", //$NON-NLS-1$
+				"&#xa0;a&#xa0; b&#xa0;<br>&#xa0; abc&#xa0;&#xa0;<br>&#xa0;&#xa0; abc cde", //$NON-NLS-1$
 				stream.toString( ).replaceAll( "[\\r|\\t|\\n]*", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		stream.close( );
 	}
-	
+
 	public void testStyleEscape( ) throws IOException
 	{
 		ByteArrayOutputStream stream = new ByteArrayOutputStream( );
 		HTMLWriter writer = new HTMLWriter( );
 		writer.open( stream );
-		
-		writer.attribute( "style", " font-family: Arial,\"Courier New\",\"Franklin Gothic Book\",'ABC{!}\"DEF'" );
+
+		writer
+				.attribute( "style",
+						" font-family: Arial,\"Courier New\",\"Franklin Gothic Book\",'ABC{!}\"DEF'" );
 		// flush the buffer
 		writer.endWriter( );
-		
+
 		assertEquals(
 				" style=\" font-family: Arial,&#34;Courier New&#34;,&#34;Franklin Gothic Book&#34;,'ABC{!}&#34;DEF'\"", //$NON-NLS-1$
 				stream.toString( ).replaceAll( "[\\r|\\t|\\n]*", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		
-		
+
 		stream.close( );
 	}
 }

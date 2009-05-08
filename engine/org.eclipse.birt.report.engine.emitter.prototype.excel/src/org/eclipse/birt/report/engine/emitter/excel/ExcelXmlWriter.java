@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2009 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
@@ -13,6 +22,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.emitter.XMLEncodeUtil;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -33,6 +43,73 @@ public class ExcelXmlWriter implements IExcelWriter
 	private String pageHeader, pageFooter, orientation;
 	private int sheetIndex = 1;
 
+	static class XLSEncodeUtil extends XMLEncodeUtil
+	{
+
+		protected static final char[] XLS_TEXT_ENCODE = new char[]{'&', '<',
+				'\r', '\n'};
+
+		static String encodeXLSText( String s )
+		{
+			char[] chars = s.toCharArray( );
+			int length = chars.length;
+			int index = testEscape( chars, XLS_TEXT_ENCODE );
+			if ( index >= length )
+			{
+				return s;
+			}
+
+			StringBuilder sb = new StringBuilder( 2 * length );
+			sb.append( chars, 0, index );
+
+			while ( index < length )
+			{
+				char c = chars[index++];
+				if ( Character.isHighSurrogate( c ) )
+				{
+					index += decodeSurrogate( c, chars, index, sb );
+				}
+				else if ( isValidCodePoint( c ) )
+				{
+					if ( c == '&' )
+					{
+						sb.append( "&amp;" );
+					}
+					else if ( c == '<' )
+					{
+						sb.append( "&lt;" );
+					}
+					else if ( c == '\r' )
+					{
+						if ( index < length )
+						{
+							char nc = chars[index];
+							if ( nc == '\n' )
+							{
+								index++;
+							}
+						}
+						sb.append( "&#10;" );
+					}
+					else if ( c == '\n' )
+					{
+						sb.append( "&#10;" );
+					}
+					else
+					{
+						sb.append( c );
+					}
+				}
+				else
+				{
+					logger.log( Level.WARNING, MESSAGE_INVALID_CHARACTER,
+							Integer.valueOf( c ) );
+				}
+			}
+			return sb.toString( );
+		}
+	}
+
 	public class XMLWriterXLS extends XMLWriter
 	{
 
@@ -41,32 +118,9 @@ public class ExcelXmlWriter implements IExcelWriter
 			return printWriter;
 		}
 
-		@Override
-		protected String getEscapedStr( String s, boolean whitespace )
+		protected String encodeText( String text )
 		{
-			s = super.getEscapedStr( s, whitespace );
-
-			StringBuffer buffer = new StringBuffer();
-
-			for ( int i = 0, max = s.length( ); i < max; i++ )
-			{
-				char c = s.charAt( i );
-
-				if ( c == '\n' || c == '\r' )
-				{
-					buffer.append( "&#10;" ); //$NON-NLS-1$
-					if ( c == '\r' && i + 1 < max && s.charAt( i + 1 ) == '\n')
-					{
-						i++;
-					}
-				}
-				else
-				{
-					buffer.append( c );
-				}
-
-			}
-			return buffer.toString( );
+			return XLSEncodeUtil.encodeText( text );
 		}
 	}
 

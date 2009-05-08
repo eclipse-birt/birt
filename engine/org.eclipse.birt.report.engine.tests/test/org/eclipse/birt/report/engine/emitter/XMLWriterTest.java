@@ -100,7 +100,7 @@ public class XMLWriterTest extends TestCase
 		writer.close();
 
 		assertEquals(
-				"<fo:block>'\"&amp;&lt;&gt;</fo:block>",
+				"<fo:block>'\"&amp;&lt;></fo:block>",
 				out.toString( "UTF-8" ).replaceAll( "[\\r|\\n |\\t]", "" ) );
 	}
 

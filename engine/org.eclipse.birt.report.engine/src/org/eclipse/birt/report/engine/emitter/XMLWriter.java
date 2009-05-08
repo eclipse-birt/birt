@@ -210,11 +210,10 @@ public class XMLWriter
 			printWriter.print( ' ' );
 			printWriter.print( attrName );
 			printWriter.print( "=\"" ); //$NON-NLS-1$
-			printWriter.print( escapeAttrValue( attrValue ) );
+			printWriter.print( encodeAttr( attrValue ) );
 			printWriter.print( '\"' );
 		}
 	}
-	
 	/**
 	 * Output the attribute whose value is not null but can be ""
 	 * 
@@ -230,7 +229,7 @@ public class XMLWriter
 			printWriter.print( ' ' );
 			printWriter.print( attrName );
 			printWriter.print( "=\"" ); //$NON-NLS-1$
-			printWriter.print( escapeAttrValue( attrValue ) );
+			printWriter.print( encodeAttr( attrValue ) );
 			printWriter.print( '\"' );
 		}
 	}
@@ -245,13 +244,9 @@ public class XMLWriter
 	 */
 	public void attribute( String attrName, Object attrValue )
 	{
-		if ( attrValue != null && attrValue.toString( ).length( ) > 0 )
+		if ( attrValue != null )
 		{
-			printWriter.print( ' ' );
-			printWriter.print( attrName );
-			printWriter.print( "=\"" ); //$NON-NLS-1$
-			printWriter.print( escapeAttrValue( attrValue.toString( ) ) );
-			printWriter.print( '\"' );
+			attribute( attrName, attrValue.toString( ) );
 		}
 	}
 
@@ -302,27 +297,11 @@ public class XMLWriter
 	 * 
 	 * @param value
 	 *            the content
-	 */
-	public void text( String value )
-	{
-		text( value, true );
-	}
-
-	/**
-	 * Output the encoded content
-	 * 
-	 * @param value
-	 *            the content
 	 * @param whiteespace
 	 *            A
 	 *            <code>boolean<code> indicating if the white space character should be converted or not.
 	 */
-	public void text( String value, boolean whitespace )
-	{
-		text( value, whitespace, true );
-	}
-	
-	public void text( String value, boolean whitespace, boolean escapeString )
+	public void text( String value )
 	{
 		if ( value == null || value.length( ) == 0 )
 		{
@@ -333,10 +312,25 @@ public class XMLWriter
 			printWriter.print( '>' );
 			bPairedFlag = true;
 		}
-		
-		String stringToPrint = escapeString ? getEscapedStr(value, whitespace) : value;
+
+		String stringToPrint = encodeText( value );
 		printWriter.print( stringToPrint );
 		bText = true;
+	}
+
+	public void cdata( String value )
+	{
+		if ( !bPairedFlag )
+		{
+			printWriter.print( '>' );
+			bPairedFlag = true;
+		}
+		String text = encodeCdata( value );
+		printWriter.print( text );
+		if ( bPairedFlag )
+		{
+			bText = true;
+		}
 	}
 
 	/**
@@ -395,74 +389,9 @@ public class XMLWriter
 	 *            <code>boolean<code> value indicating if the white space character should be converted or not. 
 	 * @return the replaced string
 	 */
-	protected String getEscapedStr( String s, boolean whitespace )
+	protected String encodeText( String s )
 	{
-		StringBuffer result = null;
-		int spacePos = 1;
-		char[] s2char = s.toCharArray( );
-
-		for ( int i = 0, max = s2char.length, delta = 0; i < max; i++ )
-		{
-			char c = s2char[i];
-			String replacement = null;
-			if ( whitespace && c == ' ' )
-			{
-				if ( spacePos % 2 == 1 || i == max - 1 )
-				{
-					replacement = "&#160;"; //$NON-NLS-1$
-				}
-				spacePos++;
-			}
-			else
-			{
-				spacePos = 0;
-			}
-
-			// Filters the char not defined.
-			if ( !( c == 0x9 || c == 0xA || c == 0xD
-					|| ( c >= 0x20 && c <= 0xD7FF ) || ( c >= 0xE000 && c <= 0xFFFD ) ) )
-			{
-				// Ignores the illegal character.
-				replacement = ""; //$NON-NLS-1$
-				log.log( Level.WARNING,
-						"Ignore the illegal XML character: 0x{0};", Integer //$NON-NLS-1$
-								.toHexString( c ) );
-			}
-			else if ( c == '&' )
-			{
-				replacement = "&amp;"; //$NON-NLS-1$
-			}
-			else if ( c == '<' )
-			{
-				replacement = "&lt;"; //$NON-NLS-1$
-			}
-			else if ( c == '>' )
-			{
-				replacement = "&gt;"; //$NON-NLS-1$
-			}
-			else if ( c == '\t' )
-			{
-				replacement = " "; //$NON-NLS-1$
-			}
-			else if ( c >= 0x80 )
-			{
-				replacement = "&#x" + Integer.toHexString( c ) + ';'; //$NON-NLS-1$ 
-			}
-			if ( replacement != null )
-			{
-				if ( result == null )
-				{
-					result = new StringBuffer( s );
-				}
-				result.replace( i + delta, i + delta + 1, replacement );
-				delta += ( replacement.length( ) - 1 );
-			}
-		}
-		if ( result == null )
-		{
-			return s;
-		}
-		return result.toString( );
+		return XMLEncodeUtil.encodeText( s );
 	}
 
 	/**
@@ -472,64 +401,14 @@ public class XMLWriter
 	 *            The string needs to be replaced.
 	 * @return the replaced string
 	 */
-	protected String escapeAttrValue( String s )
+	protected String encodeAttr( String s )
 	{
-		StringBuffer result = null;
-		char[] s2char = s.toCharArray( );
+		return XMLEncodeUtil.encodeAttr( s );
+	}
 
-		for ( int i = 0, max = s2char.length, delta = 0; i < max; i++ )
-		{
-			char c = s2char[i];
-			String replacement = null;
-			// Filters the char not defined.
-			if ( !( c == 0x9 || c == 0xA || c == 0xD
-					|| ( c >= 0x20 && c <= 0xD7FF ) || ( c >= 0xE000 && c <= 0xFFFD ) ) )
-			{
-				// Ignores the illegal character.
-				replacement = ""; //$NON-NLS-1$
-				log.log( Level.WARNING,
-						"Ignore the illegal XML character: 0x{0};", Integer //$NON-NLS-1$
-								.toHexString( c ) );
-			}
-			if ( c == '&' )
-			{
-				replacement = "&amp;"; //$NON-NLS-1$
-			}
-			else if ( c == '"' )
-			{
-				replacement = "&quot;"; //$NON-NLS-1$
-			}
-			// else if ( c == '<' )
-			// {
-			// replacement = "&lt;"; //$NON-NLS-1$
-			// }
-			else if ( c == '\r' )
-			{
-				replacement = "&#13;"; //$NON-NLS-1$
-			}
-			else if ( c == '<' )
-			{
-				replacement = "&lt;"; //$NON-NLS-1$
-			}
-			else if ( c >= 0x80 )
-			{
-				replacement = "&#x" + Integer.toHexString( c ) + ';'; //$NON-NLS-1$ 
-			}
-			if ( replacement != null )
-			{
-				if ( result == null )
-				{
-					result = new StringBuffer( s );
-				}
-				result.replace( i + delta, i + delta + 1, replacement );
-				delta += ( replacement.length( ) - 1 );
-			}
-		}
-		if ( result == null )
-		{
-			return s;
-		}
-		return result.toString( );
+	protected String encodeCdata( String s )
+	{
+		return XMLEncodeUtil.encodeCdata( s );
 	}
 
 	/**

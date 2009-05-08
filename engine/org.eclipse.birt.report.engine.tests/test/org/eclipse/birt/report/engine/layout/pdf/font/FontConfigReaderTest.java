@@ -45,8 +45,8 @@ public class FontConfigReaderTest extends TestCase
 		assertTrue( cf != null );
 		// special characters
 		assertEquals( "Zapfdingbats", cf.getUsedFont( 'a' ) );
-		// character which can be display in both chinese and japanese
-		assertEquals( "STSong-Light", cf.getUsedFont( '手' ) );
+		// character which can be display in both chinese and japanese (Chinse Hand)
+		assertEquals( "STSong-Light", cf.getUsedFont( '\u624b' ) );
 		// character which can be displayed in western scripts.
 		assertEquals( "Times-Roman", cf.getUsedFont( 'b' ) );
 

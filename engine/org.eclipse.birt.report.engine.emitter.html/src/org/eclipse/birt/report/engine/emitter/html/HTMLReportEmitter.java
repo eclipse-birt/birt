@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -2357,19 +2357,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				if ( isScriptText( node ) )
 				{
-					textForScript( node.getNodeValue( ) );
+					writer.cdata( node.getNodeValue( ) );
 				}
 				else
 				{
 					// bug132213 in text item should only deal with the
 					// escape special characters: < > &
 					// writer.text( node.getNodeValue( ), false, true );
-					writer.textForHtmlItem( node.getNodeValue( ) );
+					writer.text( node.getNodeValue( ) );
 				}
 			}
 			else if ( nodeType == Node.COMMENT_NODE )
 			{
-				writer.commentForHtmlItem( node.getNodeValue( ) );
+				writer.comment( node.getNodeValue( ) );
 			}
 			else if ( nodeType == Node.ELEMENT_NODE )
 			{
@@ -2414,15 +2414,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * the script is output directly.
-	 * @param text
-	 */
-	private void textForScript( String text )
-	{
-		writer.text( text, false, false );
 	}
 
 	public void startNode( Node node, HashMap cssStyles )
@@ -2586,7 +2577,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				writer.openTag( HTMLTags.TAG_MAP );
 				writer.attribute( HTMLTags.ATTR_ID, imageMapId );
 				writer.attribute( HTMLTags.ATTR_NAME, imageMapId );
-				writer.text( (String) imageMapObject, true, false );
+				writer.cdata( (String) imageMapObject );
 				writer.closeTag( HTMLTags.TAG_MAP );
 			}
 
