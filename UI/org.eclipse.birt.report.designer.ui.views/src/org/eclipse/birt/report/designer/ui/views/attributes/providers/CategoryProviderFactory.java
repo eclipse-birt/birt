@@ -415,8 +415,8 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 		{
 			return new CategoryHolder( new String[]{
 					CATEGORY_KEY_GENERAL,
-					CATEGORY_KEY_MARGIN,
 					CATEGORY_KEY_BORDERS,
+					CATEGORY_KEY_MARGIN,
 					CATEGORY_KEY_SECTION,
 					CATEGORY_KEY_VISIBILITY,
 					CATEGORY_KEY_TOC,
@@ -429,8 +429,8 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			},
 					new String[]{
 							Messages.getString( "GridPageGenerator.List.General" ), //$NON-NLS-1$
-							Messages.getString( "GridPageGenerator.List.Margin" ), //$NON-NLS-1$
 							Messages.getString( "GridPageGenerator.List.Borders" ), //$NON-NLS-1$
+							Messages.getString( "GridPageGenerator.List.Margin" ), //$NON-NLS-1$
 							Messages.getString( "GridPageGenerator.List.Section" ), //$NON-NLS-1$
 							Messages.getString( "GridPageGenerator.List.Visibility" ), //$NON-NLS-1$
 							Messages.getString( "GridPageGenerator.List.TOC" ), //$NON-NLS-1$
@@ -442,8 +442,8 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 					},
 					new Class[]{
 							GridPage.class,
-							ItemMarginPage.class,
 							BordersPage.class,
+							ItemMarginPage.class,
 							SectionPage.class,
 							VisibilityPage.class,
 							TOCExpressionPage.class,
@@ -462,6 +462,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 					CATEGORY_KEY_HYPERLINK,
 					CATEGORY_KEY_ALTTEXT,
 					CATEGORY_KEY_BORDERS,
+					CATEGORY_KEY_MARGIN,
 					CATEGORY_KEY_SECTION,
 					CATEGORY_KEY_VISIBILITY,
 					CATEGORY_KEY_TOC,
@@ -477,6 +478,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 							Messages.getString( "ImagePageGenerator.List.HyperLink" ), //$NON-NLS-1$
 							Messages.getString( "ImagePageGenerator.List.AltText" ), //$NON-NLS-1$
 							Messages.getString( "ImagePageGenerator.List.Borders" ), //$NON-NLS-1$
+							Messages.getString( "GridPageGenerator.List.Margin" ), //$NON-NLS-1$
 							Messages.getString( "ImagePageGenerator.List.Section" ), //$NON-NLS-1$
 							Messages.getString( "ImagePageGenerator.List.Visibility" ), //$NON-NLS-1$
 							Messages.getString( "ImagePageGenerator.List.TOC" ), //$NON-NLS-1$
@@ -492,6 +494,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 							HyperLinkPage.class,
 							AlterPage.class,
 							BordersPage.class,
+							ItemMarginPage.class,
 							SectionPage.class,
 							VisibilityPage.class,
 							TOCExpressionPage.class,
@@ -772,8 +775,8 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 		{
 			return new CategoryHolder( new String[]{
 					CATEGORY_KEY_GENERAL,
-					CATEGORY_KEY_MARGIN,
 					CATEGORY_KEY_BORDERS,
+					CATEGORY_KEY_MARGIN,
 					CATEGORY_KEY_SECTION,
 					CATEGORY_KEY_VISIBILITY,
 					CATEGORY_KEY_TOC,
@@ -785,8 +788,8 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			},
 					new String[]{
 							Messages.getString( "TablePageGenerator.List.General" ), //$NON-NLS-1$
-							Messages.getString( "TablePageGenerator.List.Marign" ), //$NON-NLS-1$
 							Messages.getString( "TablePageGenerator.List.Borders" ), //$NON-NLS-1$
+							Messages.getString( "TablePageGenerator.List.Marign" ), //$NON-NLS-1$
 							Messages.getString( "TablePageGenerator.List.Section" ), //$NON-NLS-1$
 							Messages.getString( "TablePageGenerator.List.Visibility" ), //$NON-NLS-1$
 							Messages.getString( "TablePageGenerator.List.TOC" ), //$NON-NLS-1$
@@ -798,8 +801,8 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 					},
 					new Class[]{
 							TablePage.class,
-							ItemMarginPage.class,
 							BordersPage.class,
+							ItemMarginPage.class,
 							ListingSectionPage.class,
 							VisibilityPage.class,
 							TOCExpressionPage.class,
