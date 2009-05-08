@@ -101,7 +101,8 @@ public class BidiUIUtils
 		catch ( ClassNotFoundException e )
 		{
 			osWinClass = null;
-			ExceptionHandler.handle( e, true );
+			//Don't need handle the exception 
+			//ExceptionHandler.handle( e, true );
 		}
 		catch ( NoSuchMethodException e )
 		{
