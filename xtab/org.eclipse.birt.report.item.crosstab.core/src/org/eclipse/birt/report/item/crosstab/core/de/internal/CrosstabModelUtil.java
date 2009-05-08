@@ -1379,6 +1379,13 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			return 0;
 		}
 
+		if ( measureView instanceof ComputedMeasureViewHandle )
+		{
+			// currently computed measure do not support subtotal or grandtotal,
+			// so it can only have one header.
+			return 1;
+		}
+
 		int targetAxis = MEASURE_DIRECTION_VERTICAL.equals( crosstab.getMeasureDirection( ) ) ? ROW_AXIS_TYPE
 				: COLUMN_AXIS_TYPE;
 

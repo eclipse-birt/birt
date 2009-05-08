@@ -863,6 +863,76 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 			}
 		}
 
+		// check any redundant aggreations on "toValidateAxis"
+		boolean needCheckRedundantAggregations = false;
+
+		// so far we only check for computed measures
+		if ( measureView instanceof ComputedMeasureViewHandle )
+		{
+			// for computed measure, aggregation is not needed in following
+			// cases:
+			// 1. targetAxis==Row, measureDirection==Vertical
+			// 1. targetAxis==Column, measureDirection==Horizontal
+
+			int bypassAxis = MEASURE_DIRECTION_VERTICAL.equals( crosstab.getMeasureDirection( ) ) ? ROW_AXIS_TYPE
+					: COLUMN_AXIS_TYPE;
+
+			if ( toValidateAxisType == bypassAxis )
+			{
+				needCheckRedundantAggregations = true;
+			}
+		}
+
+		if ( needCheckRedundantAggregations )
+		{
+			// try remove unnecessary subtoal aggregations
+			for ( int i = 0; i < aggregationLevels.size( ); i++ )
+			{
+				LevelViewHandle levelView = aggregationLevels.get( i );
+
+				// redundant aggreagtions only happen on non-innermost levels
+				if ( !isInnerMost )
+				{
+					// if the validate axis is blank, we should skip the measure
+					// detail areas.
+					if ( toValidataDimCount > 0 )
+					{
+						AggregationCellHandle aggCell = getAggregation( measureView,
+								toValidateLevelView,
+								levelView );
+
+						if ( aggCell != null )
+						{
+							aggCell.getModelHandle( ).drop( );
+						}
+					}
+				}
+			}
+
+			// try remove unnecessary grandtotal aggregations
+			if ( maxAggregationCount == 0
+					|| crosstab.getGrandTotal( CrosstabModelUtil.getOppositeAxisType( toValidateAxisType ) ) != null )
+			{
+				// redundant aggreagtions only happen on non-innermost levels
+				if ( !isInnerMost )
+				{
+					// if the validate axis is blank, we should skip the measure
+					// detail areas.
+					if ( toValidataDimCount > 0 )
+					{
+						AggregationCellHandle aggCell = getAggregation( measureView,
+								toValidateLevelView,
+								null );
+
+						if ( aggCell != null )
+						{
+							aggCell.getModelHandle( ).drop( );
+						}
+					}
+				}
+			}
+		}
+
 	}
 
 	/**

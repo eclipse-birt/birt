@@ -657,16 +657,16 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		return getMeasuresProperty( ).getContentCount( );
 	}
 
-	public List<MeasureViewHandle> getAllMeasures()
+	public List<MeasureViewHandle> getAllMeasures( )
 	{
-		List<MeasureViewHandle> measureList = new ArrayList<MeasureViewHandle> ();
-		for(int i = 0; i < getMeasureCount( ); i ++)
+		List<MeasureViewHandle> measureList = new ArrayList<MeasureViewHandle>( );
+		for ( int i = 0; i < getMeasureCount( ); i++ )
 		{
 			measureList.add( getMeasure( i ) );
 		}
 		return measureList;
 	}
-	
+
 	/**
 	 * Inserts a row/column dimension into the given position. The axis type can
 	 * be either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
@@ -1165,7 +1165,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#getSimpleElement()
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.ReportItem#getSimpleElement()
 	 */
 	public IReportItem getSimpleElement( )
 	{
@@ -1197,7 +1198,9 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#getMethods(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.ReportItem#getMethods(java
+	 * .lang.String)
 	 */
 	public IMethodInfo[] getMethods( String methodName )
 	{
@@ -1238,7 +1241,9 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#checkCompatibility()
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.ReportItem#checkCompatibility
+	 * ()
 	 */
 	public CompatibilityStatus checkCompatibility( )
 	{
@@ -1262,7 +1267,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 				errorList.add( e );
 			}
 
-			// adding crosstab header support (? -> 2.3.0) 
+			// adding crosstab header support (? -> 2.3.0)
 			if ( getHeader( ) == null )
 			{
 				PropertyHandle headerHandle = handle.getPropertyHandle( HEADER_PROP );
@@ -1289,7 +1294,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		}
 		else if ( compStatus > 0 )
 		{
-			return new CompatibilityStatus( null,
+			return new CompatibilityStatus( Collections.EMPTY_LIST,
 					CompatibilityStatus.NOT_SUPPORTED_TYPE );
 		}
 
@@ -1305,7 +1310,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	{
 		List list = new ArrayList( );
 
-		if ( !(this.getModelHandle( ).isInTemplateParameter()) && this.getCube( ) == null )
+		if ( !( this.getModelHandle( ).isInTemplateParameter( ) )
+				&& this.getCube( ) == null )
 		{
 			ExtendedElementException extendedException = new ExtendedElementException( this.getModelHandle( )
 					.getElement( ),
