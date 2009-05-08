@@ -13,9 +13,9 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
-import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea.SplitResult;
 
 public class InlineTextArea extends InlineContainerArea implements ILayout
 {
@@ -29,6 +29,11 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 	public void layout( ) throws BirtException
 	{
 		initialize( );
+		if ( content instanceof ITextContent
+				&& lineParent.getChildrenCount( ) == 1 )
+		{
+			lineParent.setTextIndent( (ITextContent) content );
+		}
 		TextAreaLayout inlineText = new TextAreaLayout( this, context, content );
 		inlineText.initialize( );
 		inlineText.layout( );

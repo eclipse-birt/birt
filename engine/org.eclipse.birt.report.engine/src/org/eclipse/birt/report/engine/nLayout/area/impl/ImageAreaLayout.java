@@ -406,7 +406,7 @@ class ConcreteImageLayout implements ILayout
 			{
 				if ( !lineParent.isEmptyLine( ) )
 				{
-					lineParent.endLine( );
+					lineParent.endLine( false );
 					layout( );
 				}
 				else

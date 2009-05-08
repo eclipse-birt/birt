@@ -15,6 +15,7 @@ import java.util.Iterator;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.w3c.dom.css.CSSValue;
 
@@ -33,7 +34,7 @@ public abstract class InlineStackingArea extends ContainerArea
 		super( area );
 	}
 
-	public abstract void endLine( ) throws BirtException;
+	public abstract void endLine( boolean endParagraph ) throws BirtException;
 
 	public abstract boolean isEmptyLine( );
 
@@ -141,5 +142,7 @@ public abstract class InlineStackingArea extends ContainerArea
 			}
 		}
 	}
+	
+	public abstract void setTextIndent( ITextContent content );
 
 }

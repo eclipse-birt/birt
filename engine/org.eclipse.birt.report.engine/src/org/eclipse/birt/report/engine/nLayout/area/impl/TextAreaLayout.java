@@ -56,6 +56,7 @@ public class TextAreaLayout implements ILayout
 	{
 		parentLM = (InlineStackingArea) parent;
 		ITextContent textContent = (ITextContent) content;
+		parentLM.setTextIndent( textContent );
 		String text = textContent.getText( );
 		if ( text != null && text.length( ) != 0 )
 			transform( textContent );
@@ -187,7 +188,7 @@ public class TextAreaLayout implements ILayout
 	 */
 	public void newLine( ) throws BirtException
 	{
-		parentLM.endLine( );
+		parentLM.endLine( true );
 	}
 
 	public int getFreeSpace( )

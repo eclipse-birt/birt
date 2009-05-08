@@ -17,6 +17,7 @@ import java.util.Iterator;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
@@ -82,14 +83,7 @@ public class InlineContainerArea extends InlineStackingArea
 			area.setParent( parent );
 			children = new ArrayList( );
 			parent.addChild( parent.getChildrenCount( ) - 1, area );
-			if ( !isInInlineStacking && context.isAutoPageBreak( ) )
-			{
-				int aHeight = getAllocatedHeight( );
-				if ( aHeight + parent.getAbsoluteBP( ) >= context.getMaxBP( ) )
-				{
-					parent.autoPageBreak( );
-				}
-			}
+			checkPageBreak( );
 			parent.update( area );
 			setPosition( parent.currentIP + parent.getOffsetX( ), parent
 					.getOffsetY( )
@@ -131,7 +125,7 @@ public class InlineContainerArea extends InlineStackingArea
 		return new InlineContainerArea( this );
 	}
 
-	public void endLine( ) throws BirtException
+	public void endLine( boolean endParagraph ) throws BirtException
 	{
 		lineCount++;
 		if ( getChildrenCount( ) > 0 )
@@ -141,7 +135,7 @@ public class InlineContainerArea extends InlineStackingArea
 		if ( lineParent != null )
 		{
 			lineParent.removeChild( this );
-			lineParent.endLine( );
+			lineParent.endLine( endParagraph );
 			initialize( );
 		}
 	}
@@ -158,6 +152,11 @@ public class InlineContainerArea extends InlineStackingArea
 			return false;
 		}
 		return lineParent.isEmptyLine( );
+	}
+	
+	public void setTextIndent( ITextContent content )
+	{
+		lineParent.setTextIndent( content );
 	}
 
 	public SplitResult split( int height, boolean force ) throws BirtException

@@ -16,6 +16,8 @@ import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
@@ -67,7 +69,17 @@ public class LineArea extends InlineStackingArea
 		children.add( area );
 	}
 
-	public void align( boolean lastLine, LayoutContext context )
+	public void setTextIndent( ITextContent content )
+	{
+		if ( content != null )
+		{
+			IStyle contentStyle = content.getComputedStyle( );
+			currentIP =  getDimensionValue( contentStyle
+					.getProperty( StyleConstants.STYLE_TEXT_INDENT ), maxAvaWidth ) ;
+		}
+	}
+
+	public void align( boolean endParagraph, LayoutContext context )
 	{
 		assert ( parent instanceof BlockContainerArea );
 		CSSValue align = ( (BlockContainerArea) parent ).getTextAlign( );
@@ -75,7 +87,7 @@ public class LineArea extends InlineStackingArea
 		// bidi_hcg: handle empty and justify align in RTL direction as right
 		// alignment
 		boolean isRightAligned = BidiAlignmentResolver.isRightAligned(
-				parent.content, align, lastLine );
+				parent.content, align, endParagraph );
 
 		// single line
 		if ( ( isRightAligned || IStyle.CENTER_VALUE.equals( align ) ) )
@@ -105,7 +117,7 @@ public class LineArea extends InlineStackingArea
 
 			}
 		}
-		else if ( IStyle.JUSTIFY_VALUE.equals( align ) && !lastLine )
+		else if ( IStyle.JUSTIFY_VALUE.equals( align ) && !endParagraph )
 		{
 			justify( );
 		}
@@ -328,9 +340,9 @@ public class LineArea extends InlineStackingArea
 		}
 	}
 
-	public void endLine( ) throws BirtException
+	public void endLine( boolean endParagraph ) throws BirtException
 	{
-		close( false );
+		close( false, endParagraph );
 		//initialize( );
 		currentIP = 0;
 	}
@@ -351,7 +363,7 @@ public class LineArea extends InlineStackingArea
 		if(aWidth + currentIP > maxAvaWidth )
 		{
 			removeChild( area );
-			endLine( );
+			endLine( false );
 			children.add( area );
 		}
 		area.setAllocatedPosition( currentIP, currentBP );
@@ -363,7 +375,7 @@ public class LineArea extends InlineStackingArea
 		}
 	}
 	
-	protected void close( boolean isLastLine ) throws BirtException
+	protected void close( boolean isLastLine, boolean endParagraph) throws BirtException
 	{
 		if ( children.size( ) == 0 )
 		{
@@ -372,7 +384,7 @@ public class LineArea extends InlineStackingArea
 		int lineHeight = ( (BlockContainerArea) parent ).getLineHeight( );
 		height = Math.max( height, lineHeight );
 		width = Math.max( currentIP, maxAvaWidth );
-		align( isLastLine, context );
+		align( endParagraph, context );
 		if ( isLastLine )
 		{
 			checkPageBreak( );
@@ -381,15 +393,7 @@ public class LineArea extends InlineStackingArea
 		}
 		else
 		{
-			if ( !isInInlineStacking && context.isAutoPageBreak( ) )
-			{
-				int aHeight = getAllocatedHeight( );
-				while ( aHeight + parent.getAbsoluteBP( ) >= context.getMaxBP( ) )
-				{
-					parent.autoPageBreak( );
-					aHeight = getAllocatedHeight( );
-				}
-			}
+			checkPageBreak( );
 			LineArea area = cloneArea( );
 			area.children = children;
 			area.setParent( parent );
@@ -405,7 +409,7 @@ public class LineArea extends InlineStackingArea
 
 	public void close( ) throws BirtException
 	{
-		close( true );
+		close( true, true );
 		finished = true;
 	}
 

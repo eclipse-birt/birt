@@ -72,17 +72,5 @@ public class TextLineArea extends LineArea
 		return true;
 	}
 	
-	public void setTextIndent( ITextContent content )
-	{
-		if( children.isEmpty( ) )
-		{
-			if ( content != null )
-			{
-				IStyle contentStyle = content.getComputedStyle( );
-				currentIP =  getDimensionValue( contentStyle
-						.getProperty( StyleConstants.STYLE_TEXT_INDENT ), maxAvaWidth ) ;
-			}
-		}
-	}
 
 }
