@@ -13,8 +13,6 @@ package org.eclipse.birt.report.session;
 
 import java.util.Date;
 
-import org.eclipse.birt.report.exception.ViewerException;
-
 /**
  * This interface provides methods for a BIRT viewing session.
  * 

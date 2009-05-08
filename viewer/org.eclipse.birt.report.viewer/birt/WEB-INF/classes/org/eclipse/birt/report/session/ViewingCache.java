@@ -12,13 +12,17 @@
 package org.eclipse.birt.report.session;
 
 import java.io.File;
+import java.io.Serializable;
+
 import org.eclipse.birt.report.IBirtConstants;
 
 /**
  * Manager class for the files cached for each session.
  */
-public class ViewingCache
+public class ViewingCache implements Serializable
 {
+	private static final long serialVersionUID = -348510678864943788L;
+
 	/**
 	 * Prefix of sub document folder
 	 */
@@ -119,7 +123,7 @@ public class ViewingCache
 			folder = ( prefix + sessionId ) + File.separator;
 			if ( subSessionId != null )
 			{
-				folder += subSessionId + File.separator; //$NON-NLS-1$
+				folder += subSessionId + File.separator;
 			}
 		}
 		else

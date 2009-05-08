@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.session;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.eclipse.birt.core.format.DateFormatter;
@@ -21,10 +22,10 @@ import org.eclipse.birt.report.resource.ResourceConstants;
 
 /**
  * This class represents a BIRT viewing session.
- * 
  */
-public class ViewingSession implements IViewingSession
+public class ViewingSession implements IViewingSession, Serializable
 {
+	private static final long serialVersionUID = -5723569084974892854L;
 
 	private static DateFormatter sessionDateFormatter;
 

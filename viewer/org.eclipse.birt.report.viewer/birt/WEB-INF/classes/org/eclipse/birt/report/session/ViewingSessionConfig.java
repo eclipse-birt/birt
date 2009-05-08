@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.report.session;
 
-public class ViewingSessionConfig
+import java.io.Serializable;
+
+public class ViewingSessionConfig implements Serializable
 {
+	private static final long serialVersionUID = 6339493364214445787L;
 
 	public enum ViewingSessionPolicy {
 		SESSION_POLICY_DISCARD_OLDEST, SESSION_POLICY_DISCARD_NEW

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.session;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -42,9 +43,10 @@ import org.eclipse.birt.report.resource.ResourceConstants;
  * </ul>
  */
 public class ViewingSessionManager implements IViewingSessionManager, 
-	HttpSessionBindingListener
+	HttpSessionBindingListener, Serializable
 {
-
+	private static final long serialVersionUID = -7623325281275814412L;
+	
 	private ViewingCache viewingCache;
 	private long nextCleanupTime;
 
