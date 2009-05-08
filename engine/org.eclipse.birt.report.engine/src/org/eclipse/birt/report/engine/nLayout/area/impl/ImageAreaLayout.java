@@ -456,7 +456,7 @@ class ConcreteImageLayout implements ILayout
 		root.initialize( );
 
 		// First, the width of root is set to its parent's max available width.
-		root.setAllocatedWidth( parent.getCurrentMaxContentWidth( ) );
+		root.setAllocatedWidth( parent.getMaxAvaWidth( ) );
 		root.setMaxAvaWidth( root.getContentWidth( ) );
 		Dimension contentDimension = getSpecifiedDimension( image, root
 				.getContentWidth( ), true );
@@ -496,8 +496,8 @@ class ConcreteImageLayout implements ILayout
 				imageArea.setWidth( actualWidth );
 				imageArea.setHeight( actualHeight );
 				root.setNeedClip( true );
-				root.setAllocatedHeight( cHeight );
-				root.setAllocatedWidth( cWidth );
+				root.setAllocatedHeight( Math.min( maxHeight, cHeight ) );
+				root.setAllocatedWidth( Math.min( maxWidth, cWidth ) );
 			}
 		}
 		else
