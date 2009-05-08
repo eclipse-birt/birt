@@ -305,6 +305,14 @@
     <file-association
           content-type="org.eclipse.birt.report.designer.ui.editors.reportlibrary"
           file-extensions="rptlibrary"/>
+ </extension>
+ <extension
+       id="birtproblemmarker"
+       name="%birtproblemName"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="org.eclipse.core.resources.problemmarker">
+    </super>
  </extension>	 
 
 </plugin>

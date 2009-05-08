@@ -52,6 +52,7 @@ import org.eclipse.ui.part.FileEditorInput;
 public class IDEMultiPageReportEditor extends MultiPageReportEditor
 {
 
+	private static final String ProblemMarkID = "org.eclipse.birt.report.designer.ui.ide" + ".birtproblemmarker"; 
 	protected static final Logger logger = Logger.getLogger( IDEMultiPageReportEditor.class.getName( ) );
 
 	/**
@@ -349,7 +350,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		if ( file != null )
 		{
 			// Deletes existed markers
-			file.deleteMarkers( IMarker.PROBLEM, true, IResource.DEPTH_INFINITE );
+			file.deleteMarkers( ProblemMarkID, true, IResource.DEPTH_INFINITE );
 
 			// Adds markers
 			ModuleHandle reportDesignHandle = getModel( );
@@ -368,7 +369,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 			for ( int i = 0, m = list.size( ); i < m; i++ )
 			{
 				ErrorDetail errorDetail = (ErrorDetail) list.get( i );
-				IMarker marker = file.createMarker( IMarker.PROBLEM );
+				IMarker marker = file.createMarker( ProblemMarkID );
 
 				Map<String, Object> attrib = new HashMap<String, Object>( );
 
@@ -467,7 +468,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 		IResource resource = getFile( getEditorInput( ) );
 		if ( resource != null && resource.exists( ) )
 		{
-			resource.deleteMarkers( IMarker.PROBLEM, true, IResource.DEPTH_ONE );
+			resource.deleteMarkers( ProblemMarkID, true, IResource.DEPTH_ONE );
 		}
 	}
 
