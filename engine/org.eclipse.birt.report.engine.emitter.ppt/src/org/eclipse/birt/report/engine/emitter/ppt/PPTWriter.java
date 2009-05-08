@@ -11,15 +11,11 @@
 package org.eclipse.birt.report.engine.emitter.ppt;
 
 import java.awt.Color;
-import java.awt.Image;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -31,12 +27,12 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.net.QuotedPrintableCodec;
+import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -659,42 +655,17 @@ public class PPTWriter
 		}
 		float imageWidth = iWidth;
 		float imageHeight = iHeight;
-		byte[] imageData = null;
-		InputStream imageStream = null;
-		try
+		String extension = getImageExtension( imageURI );
+
+		Image image = EmitterUtil.parseImage( null, IImageContent.IMAGE_URL,
+				imageURI, null, extension );
+		byte[] imageData = image.getData( );
+		if ( imageWidth == 0 || imageHeight == 0 )
 		{
-			URL url = new URL( imageURI );
-			imageStream = url.openStream( );
-			imageData = getImageData( imageStream );
-			imageStream.close( );
-			imageStream = url.openStream( );
-			Image image = ImageIO.read( imageStream );
-			ImageIcon imageIcon = new ImageIcon( image );
-			if ( imageWidth == 0 || imageHeight == 0 )
-			{
-				imageWidth = imageIcon.getIconWidth( );
-				imageHeight = imageIcon.getIconHeight( );
-			}
-		}
-		catch ( IOException ioe )
-		{
-			logger.log( Level.WARNING, ioe.getMessage( ), ioe );
-		}
-		finally
-		{
-			if ( imageStream != null )
-			{
-				try
-				{
-					imageStream.close( );
-				}
-				catch ( IOException e )
-				{
-				}
-			}
+			imageWidth = image.getWidth( );
+			imageHeight = image.getHeight( );
 		}
 
-		String extension = getImageExtension( imageURI );
 		ImageInfo imageInfo = getImageInfo(imageURI, imageData, extension );
 
 		Position areaPosition = new Position( x, y );
@@ -718,19 +689,6 @@ public class PPTWriter
 		return "slide" + currentPageNum + "_image" + ( ++shapeCount );
 	}
 
-	private byte[] getImageData( InputStream imageStream ) throws IOException
-	{
-		byte[] imageData;
-		ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
-		int data = -1;
-		while( (data = imageStream.read( ) ) >=0)
-		{
-			byteArrayStream.write( data );
-		}
-		imageData = byteArrayStream.toByteArray( );
-		return imageData;
-	}
-	
 	protected String getEscapedStr( String s )
 	{
 		StringBuffer result = null;

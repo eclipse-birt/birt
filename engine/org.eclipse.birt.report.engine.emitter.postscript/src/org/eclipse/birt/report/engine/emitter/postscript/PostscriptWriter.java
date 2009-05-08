@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
 import java.awt.image.PixelGrabber;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +23,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
-import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
@@ -43,6 +43,8 @@ import java.util.zip.DeflaterOutputStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.ITrueTypeWriter;
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.TrueTypeFont;
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.Util;
@@ -442,51 +444,48 @@ public class PostscriptWriter
 			float width, float height, float imageWidth, float imageHeight,
 			float positionX, float positionY, int repeat ) throws IOException
 	{
-		URL url = new URL( imageURI );
-		InputStream imageStream = null;
-		try
+		if ( imageURI == null || imageURI.length( ) == 0 )
 		{
-			imageStream = url.openStream( );
-			Image image = ImageIO.read( imageStream );
-			Position imageSize = null;
-			ImageIcon imageIcon = new ImageIcon( image );
-			if ( imageHeight == 0 || imageWidth == 0 )
-			{
-				imageSize = new Position( imageIcon.getIconWidth( ), imageIcon
-						.getIconHeight( ) );
-			}
-			else
-			{
-				imageSize = new Position( imageWidth, imageHeight );
-			}
-			Position areaPosition = new Position( x, y );
-			Position areaSize = new Position( width, height );
-			Position imagePosition = new Position( x + positionX, y + positionY );
-			BackgroundImageLayout layout = new BackgroundImageLayout(
-					areaPosition, areaSize, imagePosition, imageSize );
-			Collection positions = layout.getImagePositions( repeat );
-			gSave( );
-			setColor( Color.WHITE );
-			out.println( "newpath" );
-			drawRawRect( x, y, width, height );
-			out.println( "closepath clip" );
-			Iterator iterator = positions.iterator( );
-			while ( iterator.hasNext( ) )
-			{
-				Position position = (Position) iterator.next( );
-				drawImage( imageURI, image, position.getX( ), position.getY( ),
-						imageSize.getX( ), imageSize.getY( ) );
-			}
-			gRestore( );
+			return;
 		}
-		finally
+		org.eclipse.birt.report.engine.layout.emitter.Image image = EmitterUtil
+				.parseImage( null, IImageContent.IMAGE_URL, imageURI, null,
+						null );
+		byte[] imageData = image.getData( );
+		if ( imageWidth == 0 || imageHeight == 0 )
 		{
-			if ( imageStream != null )
+			imageWidth = image.getWidth( );
+			imageHeight = image.getHeight( );
+		}
+
+		Position imageSize = new Position( imageWidth, imageHeight );
+		Position areaPosition = new Position( x, y );
+		Position areaSize = new Position( width, height );
+		Position imagePosition = new Position( x + positionX, y + positionY );
+		BackgroundImageLayout layout = new BackgroundImageLayout( areaPosition,
+				areaSize, imagePosition, imageSize );
+		Collection positions = layout.getImagePositions( repeat );
+		gSave( );
+		setColor( Color.WHITE );
+		out.println( "newpath" );
+		drawRawRect( x, y, width, height );
+		out.println( "closepath clip" );
+		Iterator iterator = positions.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			Position position = (Position) iterator.next( );
+			try
 			{
-				imageStream.close( );
-				imageStream = null;
+				drawImage( imageURI, new ByteArrayInputStream( imageData ),
+						position.getX( ), position.getY( ), imageSize.getX( ),
+						imageSize.getY( ) );
+			}
+			catch ( Exception e )
+			{
+				log.log( Level.WARNING, e.getLocalizedMessage( ) );
 			}
 		}
+		gRestore( );
 	}
 
 	/**
