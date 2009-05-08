@@ -1903,7 +1903,9 @@
     <Property displayNameID="Element.Parameter.hidden" name="hidden" runtimeSettable="false" since="1.0" type="boolean">
         <Default>false</Default>
     </Property>
-  	<Method context="factory" displayNameID="Element.Parameter.validate" name="validate" returnType="boolean" since="reserved" toolTipID="Element.Parameter.validate.toolTip"/>
+  	<Method context="factory" displayNameID="Element.Parameter.validate" name="validate" returnType="boolean" since="2.5" toolTipID="Element.Parameter.validate.toolTip">
+  		<Argument name="reportContext" tagID="Element.Parameter.validate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+  	</Method>
   </Element>
   <Element displayNameID="Element.AbstractScalarParameter" extends="Parameter" isAbstract="true" javaClass="org.eclipse.birt.report.model.elements.AbstractScalarParameter" name="AbstractScalarParameter" since="2.5">
   	<Property displayNameID="Element.AbstractScalarParameter.isRequired" name="isRequired" runtimeSettable="false" since="2.2" type="boolean">
@@ -1968,8 +1970,12 @@
     <Property displayNameID="Element.ScalarParameter.autoSuggestThreshold" name="autoSuggestThreshold" since="2.3" type="integer">
     	<Default>1</Default>
     </Property>
-    <Method context="factory" displayNameID="Element.ScalarParameter.getDefaultValueList" name="getDefaultValueList" returnType="list" since="2.5" toolTipID="Element.ScalarParameter.getDefaultValueList.toolTip"/>
-    <Method context="factory" displayNameID="Element.ScalarParameter.getSelectionValueList" name="getSelectionValueList" returnType="list" since="2.5" toolTipID="Element.ScalarParameter.getSelectionValueList.toolTip"/>
+    <Method context="factory" displayNameID="Element.ScalarParameter.getDefaultValueList" name="getDefaultValueList" returnType="list" since="2.5" toolTipID="Element.ScalarParameter.getDefaultValueList.toolTip">
+    	<Argument name="reportContext" tagID="Element.ScalarParameter.getDefaultValueList.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.ScalarParameter.getSelectionValueList" name="getSelectionValueList" returnType="list" since="2.5" toolTipID="Element.ScalarParameter.getSelectionValueList.toolTip">
+		<Argument name="reportContext" tagID="Element.ScalarParameter.getSelectionValueList.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>    
+    </Method>
     <PropertyVisibility name="autoSuggestThreshold" visibility="hide"/>    
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.ParameterGroup" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ParameterGroup" name="ParameterGroup" nameSpace="parameter" since="1.0" xmlName="parameter-group">
