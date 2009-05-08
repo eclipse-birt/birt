@@ -18,10 +18,8 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.w3c.dom.css.CSSValue;
 
 
-public class TextStyle
+public class TextStyle  extends AreaConstants
 {
-	public final static int DIRECTION_LTR = 0;
-	public final static int DIRECTION_RTL = 1;
 	
 	protected int fontSize = 9000;
 	protected int letterSpacing = 0;

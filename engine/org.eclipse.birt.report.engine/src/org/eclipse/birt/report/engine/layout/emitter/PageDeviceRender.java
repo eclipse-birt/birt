@@ -16,7 +16,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -24,9 +23,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.content.impl.ObjectContent;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorder.Border;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorder.BorderSegment;
@@ -45,6 +42,7 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
+import org.eclipse.birt.report.engine.nLayout.area.style.DiagonalInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.engine.util.SvgFile;
@@ -264,7 +262,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		else if ( container instanceof CellArea )
 		{
-			drawCell(container);
+			drawCell( (CellArea) container );
 		}
 		else
 		{
@@ -274,8 +272,99 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		currentY += getY( container );
 	}
 	
-	protected void drawCell( IContainerArea container )
+	protected void drawCellDiagonal(CellArea cell)
 	{
+		DiagonalInfo diagonalInfo = cell.getDiagonalInfo( );
+		if(diagonalInfo!=null)
+		{
+			int startX = currentX + getX( cell );
+			int startY = currentY + getY( cell );
+
+			// the dimension of the container
+			int width = getWidth( cell );
+			int height = getHeight( cell );
+			int dw = diagonalInfo.getDiagonalWidth( );
+			switch(diagonalInfo.getDiagonalNumber( ))
+			{
+				case 2:
+					pageGraphic.drawLine( startX, startY + dw/2, startX + width,
+							startY + height/2- dw/2, getScaledValue( diagonalInfo
+									.getDiagonalWidth( ) ), diagonalInfo
+									.getColor( ), diagonalInfo
+									.getDiagonalStyle( ) );
+					pageGraphic.drawLine( startX, startY + dw/2, startX + width/2,
+							startY + height - dw/2, getScaledValue(dw ), diagonalInfo
+									.getColor( ), diagonalInfo
+									.getDiagonalStyle( ) );
+					break;
+				case 3:
+					pageGraphic.drawLine( startX, startY + dw/2, startX + width,
+							startY + height- dw/2, getScaledValue( dw ), diagonalInfo
+									.getColor( ), diagonalInfo
+									.getDiagonalStyle( ) );
+					pageGraphic.drawLine( startX, startY + dw/2, startX + width,
+							startY + height/2- dw/2, getScaledValue( dw), diagonalInfo
+									.getColor( ), diagonalInfo
+									.getDiagonalStyle( ) );
+					pageGraphic.drawLine( startX, startY + dw/2, startX + width/2,
+							startY + height- dw/2, getScaledValue( dw ), diagonalInfo
+									.getColor( ), diagonalInfo
+									.getDiagonalStyle( ) );
+					break;
+				default:
+					pageGraphic.drawLine( startX, startY + dw/2, startX + width,
+							startY + height- dw/2, getScaledValue( dw ), diagonalInfo
+									.getColor( ), diagonalInfo
+									.getDiagonalStyle( ) );
+					break;
+			}
+			dw = diagonalInfo.getAntidiagonalWidth( );
+			switch(diagonalInfo.getAntidiagonalNumber( ))
+			{
+
+				case 2:
+					pageGraphic.drawLine( startX, startY + height - dw/2, startX + width/2 ,
+							startY+ dw/2, getScaledValue( diagonalInfo
+									.getAntidiagonalWidth( ) ), diagonalInfo
+									.getColor( ), diagonalInfo
+									.getAntidiagonalStyle( ) );
+					pageGraphic.drawLine( startX, startY + height- dw/2, startX + width,
+							startY + height/2, getScaledValue( diagonalInfo
+									.getAntidiagonalWidth( ) ), diagonalInfo
+									.getColor( ), diagonalInfo
+									.getAntidiagonalStyle( ) );
+					break;
+				case 3:
+					pageGraphic.drawLine( startX, startY + height - dw/2, startX + width/2 ,
+							startY+ dw/2, getScaledValue( diagonalInfo
+									.getAntidiagonalWidth( ) ), diagonalInfo
+									.getColor( ), diagonalInfo
+									.getAntidiagonalStyle( ) );
+					pageGraphic.drawLine( startX, startY + height- dw/2, startX + width,
+							startY + height/2, getScaledValue( diagonalInfo
+									.getAntidiagonalWidth( ) ), diagonalInfo
+									.getColor( ), diagonalInfo
+									.getAntidiagonalStyle( ) );
+					pageGraphic.drawLine( startX, startY + height - dw/2, startX + width ,
+							startY + dw/2 , getScaledValue( diagonalInfo
+									.getAntidiagonalWidth( ) ), diagonalInfo
+									.getColor( ), diagonalInfo
+									.getAntidiagonalStyle( ) );
+					break;
+				default:
+					pageGraphic.drawLine( startX, startY + height - dw/2, startX + width ,
+							startY + dw/2 , getScaledValue( diagonalInfo
+									.getAntidiagonalWidth( ) ), diagonalInfo
+									.getColor( ), diagonalInfo
+									.getAntidiagonalStyle( ) );
+					break;
+			}
+		}
+	}
+	
+	protected void drawCell( CellArea container )
+	{
+		drawCellDiagonal( container );
 		Color rowbc = null;
 		BackgroundImageInfo rowbi = null;
 		BoxStyle rowStyle = null;
@@ -331,6 +420,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				drawBackgroundImage( bi, startX, startY, width, height );
 			}
 		}
+		
 	}
 	
 	

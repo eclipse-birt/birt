@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
+import org.eclipse.birt.report.engine.nLayout.area.style.DiagonalInfo;
 import org.w3c.dom.css.CSSValue;
 
 public class CellArea extends BlockContainerArea implements IContainerArea
@@ -33,6 +34,9 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 	protected int colSpan = 1;
 	protected int columnID = 0;
 	protected int rowID = 0;
+	
+	protected DiagonalInfo diagonalInfo;
+	
 
 	static
 	{
@@ -61,7 +65,21 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		colSpan = cell.colSpan;
 		columnID = cell.columnID;
 		rowID = cell.rowID;
+		diagonalInfo = cell.diagonalInfo;
 	}
+	
+	
+	public DiagonalInfo getDiagonalInfo( )
+	{
+		return diagonalInfo;
+	}
+
+	
+	public void setDiagonalInfo( DiagonalInfo diagonalInfo )
+	{
+		this.diagonalInfo = diagonalInfo;
+	}
+
 
 	public int getColumnID( )
 	{
@@ -121,7 +139,8 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		TableArea table = getTable( );
 		hasStyle = true;
 		width = table.getCellWidth( columnID, columnID + colSpan );
-		this.buildProperties( cellContent, context );
+		buildProperties( cellContent, context );
+		buildDiagonalInfo( );
 		table.resolveBorderConflict( this, true );
 
 		maxAvaWidth = getContentWidth( );
@@ -138,6 +157,41 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		this.bookmark = content.getBookmark( );
 		this.action = content.getHyperlinkAction( );
 		parent.add( this );
+	}
+	
+	protected void buildDiagonalInfo( )
+	{
+		ICellContent cellContent = (ICellContent) content;
+		if ( cellContent.hasDiagonalLine( ) )
+		{
+			int diagonalNumber = cellContent.getDiagonalNumber( );
+			int diagonalWidth = PropertyUtil.getDimensionValue( cellContent,
+					cellContent.getDiagonalWidth( ), width );
+			String diagonalStyle = cellContent.getDiagonalStyle( );
+			Color color = PropertyUtil.getColor( cellContent.getComputedStyle( )
+					.getProperty( IStyle.STYLE_COLOR ) );
+			if ( diagonalNumber > 0 && diagonalWidth > 0
+					&& diagonalStyle != null )
+			{
+				diagonalInfo = new DiagonalInfo( color );
+				diagonalInfo.setDiagonal( diagonalNumber, diagonalStyle,
+						diagonalWidth );
+			}
+			int antidiagonalNumber = cellContent.getAntidiagonalNumber( );
+			int antidiagonalWidth = PropertyUtil.getDimensionValue(
+					cellContent, cellContent.getAntidiagonalWidth( ), width );
+			String antidiagonalStyle = cellContent.getAntidiagonalStyle( );
+			if ( antidiagonalNumber > 0 && antidiagonalWidth > 0
+					&& antidiagonalStyle != null )
+			{
+				if ( diagonalInfo == null )
+				{
+					diagonalInfo = new DiagonalInfo( color );
+				}
+				diagonalInfo.setAntiDiagonal( antidiagonalNumber,
+						antidiagonalStyle, antidiagonalWidth );
+			}
+		}
 	}
 
 	protected void buildProperties( IContent content, LayoutContext context )

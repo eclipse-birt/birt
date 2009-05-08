@@ -285,7 +285,8 @@ public class PropertyUtil
 		return getDimensionValue(content,  d, 0, 0 );
 	}
 	
-	public static int getDimensionValue(  IContent content, DimensionType d,  int dpi, int referenceLength )
+	public static int getDimensionValue( IContent content, DimensionType d,
+			int dpi, int referenceLength )
 	{
 		if ( d == null )
 		{
@@ -293,43 +294,62 @@ public class PropertyUtil
 		}
 		try
 		{
-			String units = d.getUnits( );
-			if ( units.equals( EngineIRConstants.UNITS_PT )
-					|| units.equals( EngineIRConstants.UNITS_CM )
-					|| units.equals( EngineIRConstants.UNITS_MM )
-					|| units.equals( EngineIRConstants.UNITS_PC )
-					|| units.equals( EngineIRConstants.UNITS_IN ) )
+			if ( d.getValueType( ) == DimensionType.TYPE_DIMENSION )
 			{
-				double point = d.convertTo( EngineIRConstants.UNITS_PT ) * 1000;
-				return (int) point;
-			}
-			else if ( units.equals( EngineIRConstants.UNITS_PX ) )
-			{
-				if( dpi == 0 )
+				String units = d.getUnits( );
+				if ( units.equals( EngineIRConstants.UNITS_PT )
+						|| units.equals( EngineIRConstants.UNITS_CM )
+						|| units.equals( EngineIRConstants.UNITS_MM )
+						|| units.equals( EngineIRConstants.UNITS_PC )
+						|| units.equals( EngineIRConstants.UNITS_IN ) )
 				{
-					dpi = 96;
+					double point = d.convertTo( EngineIRConstants.UNITS_PT ) * 1000;
+					return (int) point;
 				}
-				double point = d.getMeasure( ) / dpi * 72000d;
-				return (int) point;
-			}
-			else if ( units.equals( EngineIRConstants.UNITS_PERCENTAGE ) )
-			{
-				double point = referenceLength * d.getMeasure( ) / 100.0;
-				return (int) point;
-			}
-			else if ( units.equals( EngineIRConstants.UNITS_EM )
-					|| units.equals( EngineIRConstants.UNITS_EX ) )
-			{
-				int size = 9000;
-				if ( content != null )
+				else if ( units.equals( EngineIRConstants.UNITS_PX ) )
 				{
-					IStyle style = content.getComputedStyle( );
-					CSSValue fontSize = style
-							.getProperty( IStyle.STYLE_FONT_SIZE );
-					size = getDimensionValue( fontSize );
+					if ( dpi == 0 )
+					{
+						dpi = 96;
+					}
+					double point = d.getMeasure( ) / dpi * 72000d;
+					return (int) point;
 				}
-				double point = size * d.getMeasure( );
-				return (int) point;
+				else if ( units.equals( EngineIRConstants.UNITS_PERCENTAGE ) )
+				{
+					double point = referenceLength * d.getMeasure( ) / 100.0;
+					return (int) point;
+				}
+				else if ( units.equals( EngineIRConstants.UNITS_EM )
+						|| units.equals( EngineIRConstants.UNITS_EX ) )
+				{
+					int size = 9000;
+					if ( content != null )
+					{
+						IStyle style = content.getComputedStyle( );
+						CSSValue fontSize = style
+								.getProperty( IStyle.STYLE_FONT_SIZE );
+						size = getDimensionValue( fontSize );
+					}
+					double point = size * d.getMeasure( );
+					return (int) point;
+				}
+			}
+			else if ( d.getValueType( ) == DimensionType.TYPE_CHOICE )
+			{
+				String choice = d.getChoice( );
+				if ( IStyle.CSS_MEDIUM_VALUE.equals( choice ) )
+				{
+					return 3000;
+				}
+				else if ( IStyle.CSS_THIN_VALUE.equals( choice ) )
+				{
+					return 1000;
+				}
+				else if ( IStyle.CSS_THICK_VALUE.equals( choice ) )
+				{
+					return 5000;
+				}
 			}
 		}
 		catch ( Exception e )

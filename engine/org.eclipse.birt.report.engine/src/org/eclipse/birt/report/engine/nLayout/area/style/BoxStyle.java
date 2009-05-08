@@ -13,7 +13,7 @@ package org.eclipse.birt.report.engine.nLayout.area.style;
 
 import java.awt.Color;
 
-public class BoxStyle
+public class BoxStyle  extends AreaConstants
 {
 
 	public final static BoxStyle DEFAULT = new BoxStyle( );
