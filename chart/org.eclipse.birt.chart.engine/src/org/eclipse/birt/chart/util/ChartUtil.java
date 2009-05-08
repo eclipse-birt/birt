@@ -994,7 +994,7 @@ public class ChartUtil
 				&& baseSD.getGrouping( ).isEnabled( ) )
 		{
 			SeriesGrouping grouping = orthSD.getGrouping( );
-			if ( grouping.isSetEnabled( ) && grouping.isEnabled( ) )
+			if ( grouping.isEnabled( ) )
 			{
 				if ( orthQuery != null && orthQuery.getGrouping( ) != null )
 				{
@@ -1088,7 +1088,6 @@ public class ChartUtil
 	{
 		String strBaseAggExp = null;
 		if ( baseSD.getGrouping( ) != null
-				&& baseSD.getGrouping( ).isSetEnabled( )
 				&& baseSD.getGrouping( ).isEnabled( ) )
 		{
 			strBaseAggExp = baseSD.getGrouping( ).getAggregateExpression( );
@@ -1811,4 +1810,20 @@ public class ChartUtil
 		// ...
 		return;
 	}
+
+	/**
+	 * 
+	 * @return
+	 * @since 2.5
+	 */
+	public static boolean isDataEmpty( RunTimeContext rtc )
+	{
+		Boolean bDataEmpty = rtc.getState( RunTimeContext.StateKey.DATA_EMPTY_KEY );
+		if ( bDataEmpty == null )
+		{
+			bDataEmpty = false;
+		}
+		return bDataEmpty;
+	}
+
 }

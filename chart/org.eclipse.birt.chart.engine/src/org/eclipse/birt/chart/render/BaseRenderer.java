@@ -904,7 +904,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		double yOffset = 0, xOffset = 0, wOffset = 0, hOffset = 0;
 
 		final boolean bRenderLegendTitle = lgTitle != null
-				&& lgTitle.isSetVisible( )
 				&& lgTitle.isVisible( )
 				&& !lilh.getLaTitle( ).getCaption( ).getValue( ).equals( "" ); //$NON-NLS-1$
 		int iTitlePos = Position.ABOVE;
@@ -1618,13 +1617,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			rre.setBackground( ca.getBackground( ) );
 			ipr.fillRectangle( rre );
 
-			if ( !ca.getOutline( ).isSetVisible( ) )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.RENDERING,
-						"exception.client.area.outline.visibility", //$NON-NLS-1$ 
-						Messages.getResourceBundle( rtc.getULocale( ) ) );
-			}
 			if ( ca.getOutline( ).isVisible( ) )
 			{
 				Size sz = pwoa.getCellSize( );
@@ -1879,20 +1871,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * 
-	 * @return
-	 */
-	protected static boolean isDataEmpty( RunTimeContext rtc )
-	{
-		Boolean bDataEmpty = rtc.getState( RunTimeContext.StateKey.DATA_EMPTY_KEY );
-		if ( bDataEmpty == null )
-		{
-			bDataEmpty = false;
-		}
-		return bDataEmpty;
-	}
-
-	/**
 	 * This method returns appropriate renders for the given chart model. It
 	 * uses extension points to identify a renderer corresponding to a custom
 	 * series.
@@ -2011,7 +1989,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				sdBase = elBase.get( i );
 				alRuntimeSeries = sdBase.getRunTimeSeries( );
 
-				if ( isDataEmpty( rtc ) )
+				if ( ChartUtil.isDataEmpty( rtc ) )
 				{
 					brna = new BaseRenderer[1];
 					brna[0] = new EmptyWithoutAxes( );
@@ -3380,50 +3358,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		return laCopy;
 	}
 
-	protected void renderEmptyPlot( IPrimitiveRenderer ipr, Plot p )
+	protected void renderEmptyPlot( IPrimitiveRenderer ipr, Plot p, Bounds bo )
 			throws ChartException
 	{
 
-		if ( !p.isVisible( ) ) // CHECK VISIBILITY
-		{
-			return;
-		}
-
 		StructureSource oSource = StructureSource.createPlot( p );
-		EventObjectCache eoc = (EventObjectCache) ipr;
-
-		// render plot background
-		double dScale = getDeviceScale( );
-		RectangleRenderEvent rre = eoc.getEventObject( oSource,
-				RectangleRenderEvent.class );
-		rre.updateFrom( p, dScale ); // POINTS => PIXELS
-		ipr.fillRectangle( rre );
-		ipr.drawRectangle( rre );
-
-		// render client area
-		ClientArea ca = p.getClientArea( );
-		if ( !ca.isVisible( ) )
-		{
-			return;
-		}
-
-		Bounds bo = rre.getBounds( );
-		Insets insPlot = p.getInsets( );
-		bo = goFactory.adjusteBounds( bo, insPlot );
-
-		// render client area shadow
-		if ( ca.getShadowColor( ) != null )
-		{
-			rre.setBounds( goFactory.translateBounds( bo, 3, 3 ) );
-			rre.setBackground( ca.getShadowColor( ) );
-			ipr.fillRectangle( rre );
-		}
-
-		// render client area
-		rre.setBounds( bo );
-		rre.setOutline( ca.getOutline( ) );
-		rre.setBackground( ca.getBackground( ) );
-		ipr.fillRectangle( rre );
 
 		// render text
 		if ( getModel( ).getEmptyMessage( ).isVisible( ) )

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.render;
 
+import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.StructureSource;
@@ -45,15 +46,31 @@ public final class EmptyWithAxes extends AxesRenderer
 	public void renderSeries( IPrimitiveRenderer ipr, Plot p,
 			ISeriesRenderingHints isrh ) throws ChartException
 	{
-		// NOTE: NO-OP IMPL
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "info.render.series", //$NON-NLS-1$
-						new Object[]{
-								getClass( ).getName( ),
-								Integer.valueOf( iSeriesIndex + 1 ),
-								Integer.valueOf( iSeriesCount )
-						},
-						getRunTimeContext( ).getULocale( ) ) );
+		Boolean bDataEmpty = rtc.getState( RunTimeContext.StateKey.DATA_EMPTY_KEY );
+		if ( bDataEmpty == null )
+		{
+			bDataEmpty = false;
+		}
+
+		Label laAltText = getModel( ).getEmptyMessage( );
+
+		if ( bDataEmpty && laAltText.isVisible( ) )
+		{
+			final PlotWithAxes pwa = (PlotWithAxes) getComputations( );
+			renderEmptyPlot( ipr, p, pwa.getPlotBounds( ) );
+		}
+		else
+		{
+			// NOTE: NO-OP IMPL
+			logger.log( ILogger.INFORMATION,
+					Messages.getString( "info.render.series", //$NON-NLS-1$
+							new Object[]{
+									getClass( ).getName( ),
+									Integer.valueOf( iSeriesIndex + 1 ),
+									Integer.valueOf( iSeriesCount )
+							},
+							getRunTimeContext( ).getULocale( ) ) );
+		}
 	}
 
 	/*
@@ -116,33 +133,4 @@ public final class EmptyWithAxes extends AxesRenderer
 				false );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.chart.render.AxesRenderer#renderPlot(org.eclipse.birt
-	 * .chart.device.IPrimitiveRenderer,
-	 * org.eclipse.birt.chart.model.layout.Plot)
-	 */
-	@Override
-	public void renderPlot( IPrimitiveRenderer ipr, Plot p )
-			throws ChartException
-	{
-		Boolean bDataEmpty = rtc.getState( RunTimeContext.StateKey.DATA_EMPTY_KEY );
-		if ( bDataEmpty == null )
-		{
-			bDataEmpty = false;
-		}
-
-		Label laAltText = getModel( ).getEmptyMessage( );
-
-		if ( bDataEmpty && laAltText.isVisible( ) )
-		{
-			renderEmptyPlot( ipr, p );
-		}
-		else
-		{
-			super.renderPlot( ipr, p );
-		}
-	}
 }

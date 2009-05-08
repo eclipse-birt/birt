@@ -577,14 +577,6 @@ public abstract class AxesRenderer extends BaseRenderer
 			Location[] points, CurveFitting curve, boolean bShowAsTape,
 			boolean bDeferred ) throws ChartException
 	{
-		if ( !curve.getLineAttributes( ).isSetVisible( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.RENDERING,
-					"exception.curve.line.visibility.not.defined", //$NON-NLS-1$
-					Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
-		}
-
 		boolean isTransposed = ( (ChartWithAxes) getModel( ) ).isTransposed( );
 
 		if ( curve.getLineAttributes( ).isVisible( ) )
@@ -649,8 +641,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 
 			// Render curve label.
-			if ( curve.getLabel( ).isSetVisible( )
-					&& curve.getLabel( ).isVisible( ) )
+			if ( curve.getLabel( ).isVisible( ) )
 			{
 				Label lb = goFactory.copyOf( curve.getLabel( ) );
 
@@ -1450,7 +1441,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			iCount = g.getMinorCountPerMajor( );
 
 			lia = oaxa[i].getGrid( ).getLineAttributes( IConstants.MINOR );
-			if ( lia == null || !lia.isSetStyle( ) || !lia.isVisible( ) )
+			if ( lia == null || !lia.isVisible( ) )
 			{
 				continue;
 			}
@@ -1855,7 +1846,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					.getScale( )
 					.getMajorGridsStepNumber( );
 			lia = oaxa[i].getGrid( ).getLineAttributes( IConstants.MAJOR );
-			if ( lia == null || !lia.isSetStyle( ) || !lia.isVisible( ) ) // GRID
+			if ( lia == null || !lia.isVisible( ) ) // GRID
 			// LINE
 			// UNDEFINED
 			{
@@ -2194,7 +2185,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			renderAxesStructure( ipr, p );
 		}
 
-		if ( getSeries( ) != null )
+		if ( getSeries( ) != null || ChartUtil.isDataEmpty( rtc ) )
 		{
 			ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
 					ScriptHandler.BEFORE_DRAW_SERIES,
@@ -2398,8 +2389,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		final Location panningOffset = this.getPanningOffset( );
 		PrimitiveRenderEvent preCopy = null;
 
-		if ( m == null
-				|| ( m != null && !( m.isSetVisible( ) && m.isVisible( ) ) ) )
+		if ( m == null || !m.isVisible( ) )
 		{
 			int iSize = 5;
 			if ( m != null )
@@ -2407,7 +2397,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				iSize = m.getSize( );
 			}
 
-			// prepare hotspot only
+			// prepare hot spot only
 			if ( lo instanceof Location3D )
 			{
 				final Oval3DRenderEvent ore = ( (EventObjectCache) ipr ).getEventObject( oSource,
@@ -2439,7 +2429,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				preCopy = ore.copy( );
 			}
 		}
-		else if ( m.isSetVisible( ) && m.isVisible( ) )
+		else if ( m.isVisible( ) )
 		{
 			final MarkerRenderer mr = new MarkerRenderer( this.getDevice( ),
 					oSource,

@@ -92,6 +92,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private Button btnAutoHide;
 
+	private Button btnShowEmptyMsg;
+
 	private Button btnResetValue;
 
 	private Button btnEnable;
@@ -213,22 +215,38 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.horizontalSpan = 3;
 				grpEmptyMsg.setLayoutData( gd );
-				grpEmptyMsg.setLayout( new GridLayout( 2, false ) );
+				grpEmptyMsg.setLayout( new GridLayout( 1, false ) );
 			}
 
 			org.eclipse.birt.chart.model.component.Label laEmptyMsg = getChart( ).getEmptyMessage( );
 
-			btnAutoHide = new Button( grpEmptyMsg, SWT.CHECK );
+			btnAutoHide = new Button( grpEmptyMsg, SWT.RADIO );
 			{
 				btnAutoHide.setText( Messages.getString("ChartSheetImpl.Button.AutoHide") ); //$NON-NLS-1$
 				GridData gd = new GridData( );
-				gd.horizontalSpan = 2;
 				btnAutoHide.setLayoutData( gd );
 				btnAutoHide.setSelection( !laEmptyMsg.isVisible( ) );
 				btnAutoHide.addListener( SWT.Selection, this );
 			}
 
-			lbTxtEmptyMsg = new Label( grpEmptyMsg, SWT.NONE );
+			btnShowEmptyMsg = new Button( grpEmptyMsg, SWT.RADIO );
+			{
+				btnShowEmptyMsg.setText( Messages.getString( "ChartSheetImpl.Button.ShowEmptyMsg" ) ); //$NON-NLS-1$
+				GridData gd = new GridData( );
+				btnShowEmptyMsg.setLayoutData( gd );
+				btnShowEmptyMsg.setSelection( laEmptyMsg.isVisible( ) );
+				btnShowEmptyMsg.addListener( SWT.Selection, this );
+			}
+
+			Composite cmpEmptyText = new Composite( grpEmptyMsg, SWT.NONE );
+			{
+				GridData gd = new GridData( GridData.FILL_BOTH );
+				gd.horizontalIndent = 12;
+				cmpEmptyText.setLayoutData( gd );
+				cmpEmptyText.setLayout( new GridLayout( 2, false ) );
+			}
+
+			lbTxtEmptyMsg = new Label( cmpEmptyText, SWT.NONE );
 			lbTxtEmptyMsg.setText( Messages.getString( "ChartSheetImpl.Label.Text" ) ); //$NON-NLS-1$
 
 			List<String> keys = null;
@@ -238,7 +256,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 						.getRegisteredKeys( );
 			}
 
-			txtEmptyMsg = new ExternalizedTextEditorComposite( grpEmptyMsg,
+			txtEmptyMsg = new ExternalizedTextEditorComposite( cmpEmptyText,
 					SWT.BORDER,
 					-1,
 					-1,
@@ -252,10 +270,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				txtEmptyMsg.addListener( this );
 			}
 
-			lbFdcEmptyMsg = new Label( grpEmptyMsg, SWT.NONE );
+			lbFdcEmptyMsg = new Label( cmpEmptyText, SWT.NONE );
 			lbFdcEmptyMsg.setText( Messages.getString( "ChartSheetImpl.Label.Font" ) ); //$NON-NLS-1$
 
-			fdcEmptyMsg = new FontDefinitionComposite( grpEmptyMsg,
+			fdcEmptyMsg = new FontDefinitionComposite( cmpEmptyText,
 					SWT.NONE,
 					getContext( ),
 					laEmptyMsg.getCaption( ).getFont( ),
@@ -493,7 +511,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 					.getCaption( )
 					.setValue( txtEmptyMsg.getText( ) );
 		}
-		else if ( event.widget == btnAutoHide )
+		else if ( event.widget == btnAutoHide
+				|| event.widget == btnShowEmptyMsg )
 		{
 			getChart( ).getEmptyMessage( )
 					.setVisible( !btnAutoHide.getSelection( ) );

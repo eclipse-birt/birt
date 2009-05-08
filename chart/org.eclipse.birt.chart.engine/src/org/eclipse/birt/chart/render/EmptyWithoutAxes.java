@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.render;
 
+import org.eclipse.birt.chart.computation.withoutaxes.PlotWithoutAxes;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.StructureSource;
@@ -35,25 +36,34 @@ public final class EmptyWithoutAxes extends BaseRenderer
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.render.BaseRenderer#renderSeries(org.eclipse.birt.chart.device.IPrimitiveRenderer,
-	 *      org.eclipse.birt.chart.model.layout.Plot,
-	 *      org.eclipse.birt.chart.render.ISeriesRenderingHints)
-	 */
 	public void renderSeries( IPrimitiveRenderer ipr, Plot p,
 			ISeriesRenderingHints isrh ) throws ChartException
 	{
-		// NOTE: NO-OP IMPL
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "info.render.series", //$NON-NLS-1$
-						new Object[]{
-								getClass( ).getName( ),
-								Integer.valueOf( iSeriesIndex + 1 ),
-								Integer.valueOf( iSeriesCount )
-						},
-						getRunTimeContext( ).getULocale( ) ) );
+		Boolean bDataEmpty = rtc.getState( RunTimeContext.StateKey.DATA_EMPTY_KEY );
+		if ( bDataEmpty == null )
+		{
+			bDataEmpty = false;
+		}
+
+		Label laAltText = getModel( ).getEmptyMessage( );
+
+		if ( bDataEmpty && laAltText.isVisible( ) )
+		{
+			final PlotWithoutAxes pwoa = (PlotWithoutAxes) getComputations( );
+			renderEmptyPlot( ipr, p, pwoa.getPlotBounds( ) );
+		}
+		else
+		{
+			// NOTE: NO-OP IMPL
+			logger.log( ILogger.INFORMATION,
+					Messages.getString( "info.render.series", //$NON-NLS-1$
+							new Object[]{
+									getClass( ).getName( ),
+									Integer.valueOf( iSeriesIndex + 1 ),
+									Integer.valueOf( iSeriesCount )
+							},
+							getRunTimeContext( ).getULocale( ) ) );
+		}
 	}
 
 	/*
@@ -112,33 +122,4 @@ public final class EmptyWithoutAxes extends BaseRenderer
 				false );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.chart.render.BaseRenderer#renderPlot(org.eclipse.birt
-	 * .chart.device.IPrimitiveRenderer,
-	 * org.eclipse.birt.chart.model.layout.Plot)
-	 */
-	@Override
-	public void renderPlot( IPrimitiveRenderer ipr, Plot p )
-			throws ChartException
-	{
-		Boolean bDataEmpty = rtc.getState( RunTimeContext.StateKey.DATA_EMPTY_KEY );
-		if ( bDataEmpty == null )
-		{
-			bDataEmpty = false;
-		}
-
-		Label laAltText = getModel( ).getEmptyMessage( );
-
-		if ( bDataEmpty && laAltText.isVisible( ) )
-		{
-			renderEmptyPlot( ipr, p );
-		}
-		else
-		{
-			super.renderPlot( ipr, p );
-		}
-	}
 }

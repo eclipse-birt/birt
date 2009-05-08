@@ -40,7 +40,6 @@ import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
-import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Scale;
@@ -866,9 +865,16 @@ public class PlotWith3DAxes extends PlotWithAxes
 				// use orthogonal sereis identifier instead.
 				List<String> data = new ArrayList<String>( );
 
-				for ( int i = 0; i < osea.length; i++ )
+				if ( osea.length > 0 )
 				{
-					data.add( String.valueOf( osea[i].getSeriesIdentifier( ) ) );
+					for ( int i = 0; i < osea.length; i++ )
+					{
+						data.add( String.valueOf( osea[i].getSeriesIdentifier( ) ) );
+					}
+				}
+				else
+				{
+					data.add( "A" );
 				}
 
 				return new DataSetIterator( data.toArray( new String[data.size( )] ) );
@@ -1502,24 +1508,12 @@ public class PlotWith3DAxes extends PlotWithAxes
 		final Axis axPrimaryBase = axa[0]; // NOTE: FOR REL 1 AXIS RENDERS, WE
 		// SUPPORT A SINGLE PRIMARY BASE AXIS
 		// ONLY
-		if ( !axPrimaryBase.isSetOrientation( ) )
-		{
-			axPrimaryBase.setOrientation( Orientation.HORIZONTAL_LITERAL );
-		}
 		validateAxis( axPrimaryBase );
 
 		final Axis axPrimaryOrthogonal = getModel( ).getPrimaryOrthogonalAxis( axPrimaryBase );
-		if ( !axPrimaryOrthogonal.isSetOrientation( ) )
-		{
-			axPrimaryOrthogonal.setOrientation( Orientation.VERTICAL_LITERAL );
-		}
 		validateAxis( axPrimaryOrthogonal );
 
 		final Axis axAncillaryBase = getModel( ).getAncillaryBaseAxis( axPrimaryBase );
-		// if ( !axAncillaryBase.isSetOrientation( ) )
-		{
-			axAncillaryBase.setOrientation( Orientation.HORIZONTAL_LITERAL );
-		}
 		validateAxis( axAncillaryBase );
 
 		if ( axPrimaryBase.getAssociatedAxes( ).size( ) > 1 )
@@ -1543,8 +1537,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 						getLabelPosition( axPrimaryBase.getLabelPosition( ) ) ),
 				transposeLabelPosition( IConstants.BASE,
 						getLabelPosition( axPrimaryBase.getTitlePosition( ) ) ),
-				axPrimaryBase.isSetCategoryAxis( )
-						&& axPrimaryBase.isCategoryAxis( ),
+				axPrimaryBase.isCategoryAxis( ),
 				axPrimaryBase.getScale( ).isTickBetweenCategories( ) );
 		oaxPrimaryBase.setGridProperties( axPrimaryBase.getMajorGrid( )
 				.getLineAttributes( ),
@@ -1570,8 +1563,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 						getLabelPosition( axPrimaryOrthogonal.getLabelPosition( ) ) ),
 				transposeLabelPosition( IConstants.ORTHOGONAL,
 						getLabelPosition( axPrimaryOrthogonal.getTitlePosition( ) ) ),
-				axPrimaryOrthogonal.isSetCategoryAxis( )
-						&& axPrimaryOrthogonal.isCategoryAxis( ),
+				axPrimaryOrthogonal.isCategoryAxis( ),
 				axPrimaryOrthogonal.getScale( ).isTickBetweenCategories( ) );
 		oaxPrimaryOrthogonal.setGridProperties( axPrimaryOrthogonal.getMajorGrid( )
 				.getLineAttributes( ),
@@ -1596,8 +1588,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 		oaxAncillaryBase.set( IConstants.HORIZONTAL,
 				getLabelPosition( axAncillaryBase.getLabelPosition( ) ),
 				getLabelPosition( axAncillaryBase.getTitlePosition( ) ),
-				axAncillaryBase.isSetCategoryAxis( )
-						&& axAncillaryBase.isCategoryAxis( ),
+				axAncillaryBase.isCategoryAxis( ),
 				axAncillaryBase.getScale( ).isTickBetweenCategories( ) );
 		oaxAncillaryBase.setGridProperties( axAncillaryBase.getMajorGrid( )
 				.getLineAttributes( ),

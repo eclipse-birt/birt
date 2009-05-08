@@ -967,8 +967,10 @@ public final class Generator implements IGenerator
 				cmRunTime,
 				rtc.getScriptContext( ) );
 
-		// remove invisable series from runtime model
+		// remove invisible series from runtime model
 		ChartUtil.pruneInvisibleSeries( cmRunTime );
+
+		checkDataEmpty( cmRunTime, rtc );
 
 		// flatten the default styles.
 		prepareStyles( cmRunTime, externalProcessor );
@@ -1757,5 +1759,32 @@ public final class Generator implements IGenerator
 		}
 
 		return alExpressions;
+	}
+
+	private static void checkDataEmpty( Chart cm, RunTimeContext rtc )
+	{
+		if ( !ChartUtil.isDataEmpty( rtc ) )
+		{
+			return;
+		}
+
+		// Set all axis label to invisible if there is no data.
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes) cm;
+			Axis axBase = cwa.getBaseAxes( )[0];
+			axBase.getLabel( ).setVisible( false );
+
+			for ( Axis ax : axBase.getAssociatedAxes( ) )
+			{
+				ax.getLabel( ).setVisible( false );
+			}
+
+			for ( Axis ax : axBase.getAncillaryAxes( ) )
+			{
+				ax.getLabel( ).setVisible( false );
+			}
+		}
+
 	}
 }
