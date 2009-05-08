@@ -63,17 +63,20 @@ public class TemplateDescriptorProvider extends AbstractDescriptorProvider imple
 
 	public void save( Object value ) throws SemanticException
 	{
-		if ( value != null
-				&& DEUtil.getInputSize( input ) == 1
+		if ( DEUtil.getInputSize( input ) == 1
 				&& DEUtil.getInputFirstElement( input ) instanceof TemplateReportItemHandle )
 		{
 			TemplateReportItemHandle handle = (TemplateReportItemHandle) DEUtil.getInputFirstElement( input );
 			if ( handle != null )
-				handle.setDescriptionKey( value.toString( ) );
+			{
+				String key = null;
+				if ( value instanceof String )
+					key = value.toString( );
+				handle.setDescriptionKey( key );
+			}
 		}
 
 	}
-
 	private Object input;
 
 	public void setInput( Object input )
