@@ -111,10 +111,10 @@ public class TableContentLayout
 				}
 			}
 			int maxColId = Math.max( 0, current) ;
-			current = 0;
+			current = -1;
 			for ( int i = 0; i < colCount; i++ )
 			{
-				if ( adjustedColumnIds[i] < current )
+				if ( adjustedColumnIds[i] == -1 )
 				{
 					adjustedColumnIds[i] = Math.min( maxColId, current + 1 );
 				}
