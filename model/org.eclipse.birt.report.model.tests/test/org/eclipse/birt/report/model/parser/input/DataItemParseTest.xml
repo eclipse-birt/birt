@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
+    <simple-property-list name="includeResource">
+    	<value>dataitemparse_test</value>
+    </simple-property-list>
     <components>
         <data name="componentsData">
            <property name="resultSetColumn">Components data value</property>
@@ -60,6 +63,7 @@
 				<structure>
 					<property name="name">column1</property>
 					<property name="displayName">Display data value</property>
+					<property name="displayNameID">ResourceKey.DisplayName</property>
 					<expression name="expression">column1 expr</expression>						
 					<property name="dataType">integer</property>	
 					<simple-property-list name="aggregateOn">

@@ -67,6 +67,11 @@ public class ComputedColumn extends PropertyStructure
 	public static final String DISPLAY_NAME_MEMBER = "displayName"; //$NON-NLS-1$
 
 	/**
+	 * DisplayNameID of the column name member.
+	 */
+	public static final String DISPLAY_NAME_ID_MEMBER = "displayNameID"; //$NON-NLS-1$
+
+	/**
 	 * Name of the column name member.
 	 * 
 	 * @deprecated using {@link #NAME_MEMBER} instead.
@@ -157,7 +162,17 @@ public class ComputedColumn extends PropertyStructure
 
 	public String getDisplayName( )
 	{
-		return (String) getProperty( null, ComputedColumn.DISPLAY_NAME_MEMBER );
+		return (String) getProperty( null, DISPLAY_NAME_MEMBER );
+	}
+
+	/**
+	 * Gets column display name id.
+	 * 
+	 * @return the column display name id.
+	 */
+	public String getDisplayNameID( )
+	{
+		return (String) getProperty( null, DISPLAY_NAME_ID_MEMBER );
 	}
 
 	/**
@@ -170,7 +185,18 @@ public class ComputedColumn extends PropertyStructure
 
 	public void setDisplayName( String columnDisplayName )
 	{
-		setProperty( ComputedColumn.DISPLAY_NAME_MEMBER, columnDisplayName );
+		setProperty( DISPLAY_NAME_MEMBER, columnDisplayName );
+	}
+
+	/**
+	 * Sets the column display name id.
+	 * 
+	 * @param displayNameID
+	 *            the column display name id.
+	 */
+	public void setDisplayNameID( String displayNameID )
+	{
+		setProperty( DISPLAY_NAME_ID_MEMBER, displayNameID );
 	}
 
 	/**
@@ -426,8 +452,7 @@ public class ComputedColumn extends PropertyStructure
 
 	public String getAggregateFunction( )
 	{
-		return (String) getProperty( null,
-				ComputedColumn.AGGREGATEON_FUNCTION_MEMBER );
+		return (String) getProperty( null, AGGREGATEON_FUNCTION_MEMBER );
 	}
 
 	/**
@@ -438,7 +463,7 @@ public class ComputedColumn extends PropertyStructure
 
 	public String getFilterExpression( )
 	{
-		return (String) getProperty( null, ComputedColumn.FILTER_MEMBER );
+		return (String) getProperty( null, FILTER_MEMBER );
 	}
 
 	/**
@@ -452,7 +477,7 @@ public class ComputedColumn extends PropertyStructure
 
 	public void setAggregateFunction( String expression )
 	{
-		setProperty( ComputedColumn.AGGREGATEON_FUNCTION_MEMBER, expression );
+		setProperty( AGGREGATEON_FUNCTION_MEMBER, expression );
 	}
 
 	/**
@@ -466,7 +491,7 @@ public class ComputedColumn extends PropertyStructure
 
 	public void setFilterExpression( String expression )
 	{
-		setProperty( ComputedColumn.FILTER_MEMBER, expression );
+		setProperty( FILTER_MEMBER, expression );
 	}
 
 	/**
