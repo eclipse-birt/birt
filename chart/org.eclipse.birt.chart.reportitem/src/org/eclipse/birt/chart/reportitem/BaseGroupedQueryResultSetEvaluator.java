@@ -468,16 +468,22 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	{
 		try
 		{
-			int i = 0;
-			for ( IGroupDefinition gd : groupDefinitions )
+			// Check if the expression is grouping expression.
+			for ( int i = 0; i < groupDefinitions.size( ); i++ )
+
 			{
+				IGroupDefinition gd = groupDefinitions.get( i );
 				// First to check if the expression is a grouping expression.
 				if ( expr.contains( gd.getKeyExpression( ) ) )
 				{
 					return i;
 				}
-				
-				// Check if expression contains a grouping expression.
+			}
+			
+			// Check if the expression contains a grouping expression.
+			for ( int i = 0; i < groupDefinitions.size( ); i++ )
+			{
+				IGroupDefinition gd = groupDefinitions.get( i );
 				List<IColumnBinding> expressionList = ExpressionUtil.extractColumnExpressions( gd.getKeyExpression( ) );
 				if ( expressionList == null || expressionList.size( ) == 0 )
 				{
@@ -493,8 +499,6 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 						return i;
 					}
 				}
-
-				i++;
 			}
 		}
 		catch ( BirtException e )
