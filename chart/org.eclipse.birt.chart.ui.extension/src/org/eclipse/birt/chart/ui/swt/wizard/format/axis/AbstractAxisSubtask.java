@@ -37,7 +37,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
-import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
+import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -329,8 +329,10 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 		if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
 		{
-			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "AbstractAxisSubtask.Label.LabelSpan" ) ); //$NON-NLS-1$
-
+			Label l = new Label( cmpBasic, SWT.NONE );
+			l.setText( Messages.getString( "AbstractAxisSubtask.Label.LabelSpan" ) ); //$NON-NLS-1$
+			FieldAssistHelper.getInstance( ).addRequiredFieldIndicator( l );
+			
 			Composite cmpEditorWithUnit = new Composite( cmpBasic, SWT.NONE );
 			{
 				GridData gd = new GridData( );
@@ -344,8 +346,6 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 			lneLabelSpan = new LocalizedNumberEditorComposite( cmpEditorWithUnit,
 					SWT.BORDER );
-			new TextNumberEditorAssistField( lneLabelSpan.getTextControl( ),
-					null );
 			{
 				lneLabelSpan.setValue( getAxisForProcessing( ).getLabelSpan( ) );
 				lneLabelSpan.addModifyListener( this );
