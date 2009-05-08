@@ -1954,6 +1954,7 @@ Structure.ResultSetColumn.nativeDataType=本地数据类型代码
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
 Structure.ComputedColumn.displayName=列显示名称
+Structure.ComputedColumn.displayNameID=Column Display Name ID
 Structure.ComputedColumn.expression=表达式
 Structure.ComputedColumn.dataType=数据类型
 Structure.ComputedColumn.aggregateOn=AggregateOn 表达式
@@ -2409,6 +2410,7 @@ Element.Parameter.helpText=帮助文本
 Element.Parameter.helpTextID=帮助文本关键字
 Element.Parameter.hidden=隐藏
 Element.Parameter.validate=验证
+Element.Parameter.validate.reportContext=报表上下文
 Element.Parameter.validate.toolTip=对该参数的自定义验证返回真或假
 Element.Parameter.promptText=提示文本
 Element.Parameter.promptTextID=提示文本关键字
@@ -2428,8 +2430,10 @@ Element.ScalarParameter.boundDataColumns=绑定的数据列
 Element.ScalarParameter.distinct=特异
 Element.ScalarParameter.autoSuggestThreshold=自动建议阈值
 Element.ScalarParameter.getDefaultValueList=获得默认值列表
+Element.ScalarParameter.getDefaultValueList.reportContext=报表上下文
 Element.ScalarParameter.getDefaultValueList.toolTip=返回参数的默认值列表
 Element.ScalarParameter.getSelectionValueList=获得选择值列表
+Element.ScalarParameter.getSelectionValueList.reportContext=报表上下文
 Element.ScalarParameter.getSelectionValueList.toolTip=如果参数控制类型为“list”或“combo”则返回选择值列表
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )

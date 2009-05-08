@@ -1954,6 +1954,7 @@ Structure.ResultSetColumn.nativeDataType=Código de tipo de datos nativo
 #15. ComputedColumn
 Structure.ComputedColumn.name=Nombre de la columna
 Structure.ComputedColumn.displayName=Nombre en pantalla de columna
+Structure.ComputedColumn.displayNameID=Column Display Name ID
 Structure.ComputedColumn.expression=Expresión
 Structure.ComputedColumn.dataType=Tipo de datos
 Structure.ComputedColumn.aggregateOn=Expresión de Agregar en
@@ -2409,6 +2410,7 @@ Element.Parameter.helpText=Texto de ayuda
 Element.Parameter.helpTextID=Clave de texto de ayuda:
 Element.Parameter.hidden=Oculto
 Element.Parameter.validate=Validación
+Element.Parameter.validate.reportContext=Contexto de informe
 Element.Parameter.validate.toolTip=Devuelve "True" o "False" para la validación personalizada del parámetro
 Element.Parameter.promptText=Texto de solicitud
 Element.Parameter.promptTextID=Solicitar clave de texto
@@ -2428,8 +2430,10 @@ Element.ScalarParameter.boundDataColumns=Columnas de datos enlazados
 Element.ScalarParameter.distinct=Diferenciación
 Element.ScalarParameter.autoSuggestThreshold=Sugerir umbral automáticamente
 Element.ScalarParameter.getDefaultValueList=Obtener lista de valores predeterminados
+Element.ScalarParameter.getDefaultValueList.reportContext=Contexto de informe
 Element.ScalarParameter.getDefaultValueList.toolTip=Devuelve la lista de valores predeterminados del parámetro
 Element.ScalarParameter.getSelectionValueList=Obtener lista de valores de selección
+Element.ScalarParameter.getSelectionValueList.reportContext=Contexto de informe
 Element.ScalarParameter.getSelectionValueList.toolTip=Devuelve la lista de valores de selección si el tipo de control del parámetro es 'lista' o 'combinado'
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )

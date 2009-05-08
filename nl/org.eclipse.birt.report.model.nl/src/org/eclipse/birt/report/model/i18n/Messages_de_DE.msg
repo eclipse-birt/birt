@@ -1954,6 +1954,7 @@ Structure.ResultSetColumn.nativeDataType=Programmeigener Datentypcode
 #15. ComputedColumn
 Structure.ComputedColumn.name=Spaltenname
 Structure.ComputedColumn.displayName=Spaltenanzeigename
+Structure.ComputedColumn.displayNameID=Column Display Name ID
 Structure.ComputedColumn.expression=Ausdruck
 Structure.ComputedColumn.dataType=Datentyp
 Structure.ComputedColumn.aggregateOn=Ausdruck "AggregateOn"
@@ -2409,6 +2410,7 @@ Element.Parameter.helpText=Hilfetext
 Element.Parameter.helpTextID=Hilfetextschlüssel
 Element.Parameter.hidden=Ausgeblendet
 Element.Parameter.validate=Validierung
+Element.Parameter.validate.reportContext=Berichtkontext
 Element.Parameter.validate.toolTip=Gibt "True" oder "False" für die benutzerdefinierte Validierung des Parameters zurück
 Element.Parameter.promptText=Aufforderungstext
 Element.Parameter.promptTextID=Aufforderungstextschlüssel
@@ -2428,8 +2430,10 @@ Element.ScalarParameter.boundDataColumns=Gebundene Datenspalten
 Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.autoSuggestThreshold=Grenzwert für automatischen Vorschlag
 Element.ScalarParameter.getDefaultValueList=Standardwerteliste abrufen
+Element.ScalarParameter.getDefaultValueList.reportContext=Berichtkontext
 Element.ScalarParameter.getDefaultValueList.toolTip=Gibt die Standardwerteliste des Parameters aus.
 Element.ScalarParameter.getSelectionValueList=Auswahlwerteliste abrufen
+Element.ScalarParameter.getSelectionValueList.reportContext=Berichtkontext
 Element.ScalarParameter.getSelectionValueList.toolTip=Gibt die Auswahlwerteliste aus, wenn der Parameter-Steuerelementtyp 'Liste' oder 'Kombination' ist.
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )

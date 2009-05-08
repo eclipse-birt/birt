@@ -1954,6 +1954,7 @@ Structure.ResultSetColumn.nativeDataType=ネイティブのデータ型コード
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
 Structure.ComputedColumn.displayName=列の表示名
+Structure.ComputedColumn.displayNameID=Column Display Name ID
 Structure.ComputedColumn.expression=式
 Structure.ComputedColumn.dataType=データ型
 Structure.ComputedColumn.aggregateOn=AggregateOn 式
@@ -2409,6 +2410,7 @@ Element.Parameter.helpText=ヘルプテキスト
 Element.Parameter.helpTextID=ヘルプテキストキー
 Element.Parameter.hidden=非表示
 Element.Parameter.validate=検証
+Element.Parameter.validate.reportContext=レポートのコンテキスト
 Element.Parameter.validate.toolTip=パラメタのカスタム検証を行い、true または false を返します。
 Element.Parameter.promptText=プロンプトテキスト
 Element.Parameter.promptTextID=プロンプトテキストキー
@@ -2428,8 +2430,10 @@ Element.ScalarParameter.boundDataColumns=バインドされたデータカラム
 Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.autoSuggestThreshold=入力補完のしきい値
 Element.ScalarParameter.getDefaultValueList=デフォルト値リストの取得
+Element.ScalarParameter.getDefaultValueList.reportContext=レポートのコンテキスト
 Element.ScalarParameter.getDefaultValueList.toolTip=パラメタのデフォルト値リストを返します
 Element.ScalarParameter.getSelectionValueList=選択値リストの取得
+Element.ScalarParameter.getSelectionValueList.reportContext=レポートのコンテキスト
 Element.ScalarParameter.getSelectionValueList.toolTip=パラメタコントロール型が [リスト] または [コンボ] のときに、選択値リストを返します。
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )

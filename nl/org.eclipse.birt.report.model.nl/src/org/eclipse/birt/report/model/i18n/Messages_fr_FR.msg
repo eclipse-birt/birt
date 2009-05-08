@@ -1954,6 +1954,7 @@ Structure.ResultSetColumn.nativeDataType=Code de type de données natives
 #15. ComputedColumn
 Structure.ComputedColumn.name=Nom de colonne
 Structure.ComputedColumn.displayName=Nom d'affichage de la colonne
+Structure.ComputedColumn.displayNameID=Column Display Name ID
 Structure.ComputedColumn.expression=Expression
 Structure.ComputedColumn.dataType=Type de données
 Structure.ComputedColumn.aggregateOn=Expression AggregateOn
@@ -2409,6 +2410,7 @@ Element.Parameter.helpText=Texte d'aide
 Element.Parameter.helpTextID=Clé du texte d'aide
 Element.Parameter.hidden=Masqué
 Element.Parameter.validate=Validation
+Element.Parameter.validate.reportContext=Contexte d'état
 Element.Parameter.validate.toolTip=Renvoie la valeur Vrai (True) ou Faux (False) pour la validation personnalisée du paramètre.
 Element.Parameter.promptText=Texte de l'invite
 Element.Parameter.promptTextID=Clé du texte de l'invite
@@ -2428,8 +2430,10 @@ Element.ScalarParameter.boundDataColumns=Colonnes de données liées
 Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.autoSuggestThreshold=Seuil de suggestion automatique
 Element.ScalarParameter.getDefaultValueList=Obtenir la liste de valeurs par défaut
+Element.ScalarParameter.getDefaultValueList.reportContext=Contexte d'état
 Element.ScalarParameter.getDefaultValueList.toolTip=Renvoie la liste de valeurs par défaut des paramètres
 Element.ScalarParameter.getSelectionValueList=Obtenir la liste de valeurs de sélection
+Element.ScalarParameter.getSelectionValueList.reportContext=Contexte d'état
 Element.ScalarParameter.getSelectionValueList.toolTip=Renvoie la liste de valeurs de la sélection si le type de contrôle du paramètre est "liste" ou "liste déroulante"
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )

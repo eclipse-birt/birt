@@ -1954,6 +1954,7 @@ Structure.ResultSetColumn.nativeDataType=고유 데이터 형식 코드
 #15. ComputedColumn
 Structure.ComputedColumn.name=열 이름
 Structure.ComputedColumn.displayName=열 표시 이름
+Structure.ComputedColumn.displayNameID=Column Display Name ID
 Structure.ComputedColumn.expression=식
 Structure.ComputedColumn.dataType=데이터 형식
 Structure.ComputedColumn.aggregateOn=AggregateOn 식
@@ -2409,6 +2410,7 @@ Element.Parameter.helpText=도움말 텍스트
 Element.Parameter.helpTextID=도움말 텍스트 키
 Element.Parameter.hidden=숨김
 Element.Parameter.validate=유효성 검사
+Element.Parameter.validate.reportContext=보고서 컨텍스트
 Element.Parameter.validate.toolTip=매개 변수의 사용자 지정 유효성 검사에 대해 참 또는 거짓 값을 반환합니다.
 Element.Parameter.promptText=프롬프트 텍스트
 Element.Parameter.promptTextID=프롬프트 텍스트 키
@@ -2428,8 +2430,10 @@ Element.ScalarParameter.boundDataColumns=바인딩된 데이터 열
 Element.ScalarParameter.distinct=고유
 Element.ScalarParameter.autoSuggestThreshold=자동 제안 임계값
 Element.ScalarParameter.getDefaultValueList=기본값 목록 가져오기
+Element.ScalarParameter.getDefaultValueList.reportContext=보고서 컨텍스트
 Element.ScalarParameter.getDefaultValueList.toolTip=매개 변수의 기본값 목록을 반환합니다.
 Element.ScalarParameter.getSelectionValueList=선택값 목록 가져오기
+Element.ScalarParameter.getSelectionValueList.reportContext=보고서 컨텍스트
 Element.ScalarParameter.getSelectionValueList.toolTip=매개 변수 컨트롤 형식이 "목록" 또는 "콤보"인 경우 선택값을 반환합니다.
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
