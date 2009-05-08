@@ -20,6 +20,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -47,7 +48,7 @@ public class PlotImpl extends BlockImpl implements Plot
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int HORIZONTAL_SPACING_EDEFAULT = 0;
+	protected static final int HORIZONTAL_SPACING_EDEFAULT = 5;
 
 	/**
 	 * The cached value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
@@ -76,7 +77,7 @@ public class PlotImpl extends BlockImpl implements Plot
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int VERTICAL_SPACING_EDEFAULT = 0;
+	protected static final int VERTICAL_SPACING_EDEFAULT = 5;
 
 	/**
 	 * The cached value of the '
@@ -332,9 +333,9 @@ public class PlotImpl extends BlockImpl implements Plot
 		switch ( featureID )
 		{
 			case LayoutPackage.PLOT__HORIZONTAL_SPACING :
-				return new Integer( getHorizontalSpacing( ) );
+				return getHorizontalSpacing( );
 			case LayoutPackage.PLOT__VERTICAL_SPACING :
-				return new Integer( getVerticalSpacing( ) );
+				return getVerticalSpacing( );
 			case LayoutPackage.PLOT__CLIENT_AREA :
 				return getClientArea( );
 		}
@@ -352,10 +353,10 @@ public class PlotImpl extends BlockImpl implements Plot
 		switch ( featureID )
 		{
 			case LayoutPackage.PLOT__HORIZONTAL_SPACING :
-				setHorizontalSpacing( ( (Integer) newValue ).intValue( ) );
+				setHorizontalSpacing( (Integer) newValue );
 				return;
 			case LayoutPackage.PLOT__VERTICAL_SPACING :
-				setVerticalSpacing( ( (Integer) newValue ).intValue( ) );
+				setVerticalSpacing( (Integer) newValue );
 				return;
 			case LayoutPackage.PLOT__CLIENT_AREA :
 				setClientArea( (ClientArea) newValue );
@@ -478,9 +479,6 @@ public class PlotImpl extends BlockImpl implements Plot
 		final ClientArea ca = LayoutFactory.eINSTANCE.createClientArea( );
 		( (ClientAreaImpl) ca ).initialize( );
 		setClientArea( ca );
-
-		setHorizontalSpacing( 5 );
-		setVerticalSpacing( 5 );
 	}
 
 	/**
@@ -509,7 +507,7 @@ public class PlotImpl extends BlockImpl implements Plot
 		verticalSpacingESet = src.isSetVerticalSpacing( );
 	}
 
-	public static Plot create( EObject parent )
+	public static Plot create( EObject parent, EReference ref )
 	{
 		return new PlotImpl( );
 	}

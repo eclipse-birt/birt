@@ -191,21 +191,22 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="GroupingInterval" type="xsd:double">
+			<xsd:element name="GroupingInterval" type="xsd:double" default="1">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-						Specifies the interval of grouping.
+						Specifies the interval of grouping, by
+						default it's 1.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="GroupType" type="attribute:DataType" default="Numeric">
+			<xsd:element name="GroupType" type="attribute:DataType" default="Text">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 						Specifies the type of data to be grouped.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="AggregateExpression" type="xsd:string">
+			<xsd:element name="AggregateExpression" type="xsd:string" default="Sum">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 						Specifies the aggregate function to be applied

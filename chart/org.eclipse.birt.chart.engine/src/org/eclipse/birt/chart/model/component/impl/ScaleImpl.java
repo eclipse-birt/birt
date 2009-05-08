@@ -19,6 +19,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -127,7 +128,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int MINOR_GRIDS_PER_UNIT_EDEFAULT = 0;
+	protected static final int MINOR_GRIDS_PER_UNIT_EDEFAULT = 5;
 
 	/**
 	 * The cached value of the '{@link #getMinorGridsPerUnit() <em>Minor Grids Per Unit</em>}' attribute.
@@ -1030,24 +1031,23 @@ public class ScaleImpl extends EObjectImpl implements Scale
 			case ComponentPackage.SCALE__MAX :
 				return getMax( );
 			case ComponentPackage.SCALE__STEP :
-				return new Double( getStep( ) );
+				return getStep( );
 			case ComponentPackage.SCALE__UNIT :
 				return getUnit( );
 			case ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT :
-				return new Integer( getMinorGridsPerUnit( ) );
+				return getMinorGridsPerUnit( );
 			case ComponentPackage.SCALE__STEP_NUMBER :
-				return new Integer( getStepNumber( ) );
+				return getStepNumber( );
 			case ComponentPackage.SCALE__SHOW_OUTSIDE :
-				return isShowOutside( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isShowOutside( );
 			case ComponentPackage.SCALE__TICK_BETWEEN_CATEGORIES :
-				return isTickBetweenCategories( ) ? Boolean.TRUE
-						: Boolean.FALSE;
+				return isTickBetweenCategories( );
 			case ComponentPackage.SCALE__AUTO_EXPAND :
-				return isAutoExpand( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isAutoExpand( );
 			case ComponentPackage.SCALE__MAJOR_GRIDS_STEP_NUMBER :
-				return new Integer( getMajorGridsStepNumber( ) );
+				return getMajorGridsStepNumber( );
 			case ComponentPackage.SCALE__FACTOR :
-				return new Double( getFactor( ) );
+				return getFactor( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -1069,31 +1069,31 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				setMax( (DataElement) newValue );
 				return;
 			case ComponentPackage.SCALE__STEP :
-				setStep( ( (Double) newValue ).doubleValue( ) );
+				setStep( (Double) newValue );
 				return;
 			case ComponentPackage.SCALE__UNIT :
 				setUnit( (ScaleUnitType) newValue );
 				return;
 			case ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT :
-				setMinorGridsPerUnit( ( (Integer) newValue ).intValue( ) );
+				setMinorGridsPerUnit( (Integer) newValue );
 				return;
 			case ComponentPackage.SCALE__STEP_NUMBER :
-				setStepNumber( ( (Integer) newValue ).intValue( ) );
+				setStepNumber( (Integer) newValue );
 				return;
 			case ComponentPackage.SCALE__SHOW_OUTSIDE :
-				setShowOutside( ( (Boolean) newValue ).booleanValue( ) );
+				setShowOutside( (Boolean) newValue );
 				return;
 			case ComponentPackage.SCALE__TICK_BETWEEN_CATEGORIES :
-				setTickBetweenCategories( ( (Boolean) newValue ).booleanValue( ) );
+				setTickBetweenCategories( (Boolean) newValue );
 				return;
 			case ComponentPackage.SCALE__AUTO_EXPAND :
-				setAutoExpand( ( (Boolean) newValue ).booleanValue( ) );
+				setAutoExpand( (Boolean) newValue );
 				return;
 			case ComponentPackage.SCALE__MAJOR_GRIDS_STEP_NUMBER :
-				setMajorGridsStepNumber( ( (Integer) newValue ).intValue( ) );
+				setMajorGridsStepNumber( (Integer) newValue );
 				return;
 			case ComponentPackage.SCALE__FACTOR :
-				setFactor( ( (Double) newValue ).doubleValue( ) );
+				setFactor( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -1285,7 +1285,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 		factorESet = src.isSetFactor( );
 	}
 
-	public static Scale create( EObject parent )
+	public static Scale create( EObject parent, EReference ref )
 	{
 		return new ScaleImpl( );
 	}

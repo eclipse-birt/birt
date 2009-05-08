@@ -16,12 +16,12 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Direction;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
+import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -43,6 +44,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -162,7 +164,7 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.HORIZONTAL_LITERAL;
+	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.VERTICAL_LITERAL;
 
 	/**
 	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
@@ -186,10 +188,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * The default value of the '{@link #getDirection() <em>Direction</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDirection()
-	 * @generated
 	 * @ordered
 	 */
-	protected static final Direction DIRECTION_EDEFAULT = Direction.LEFT_RIGHT_LITERAL;
+	protected static final Direction DIRECTION_EDEFAULT = Direction.TOP_BOTTOM_LITERAL;
 
 	/**
 	 * The cached value of the '{@link #getDirection() <em>Direction</em>}' attribute.
@@ -225,7 +226,7 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Position POSITION_EDEFAULT = Position.ABOVE_LITERAL;
+	protected static final Position POSITION_EDEFAULT = Position.RIGHT_LITERAL;
 
 	/**
 	 * The cached value of the '{@link #getPosition() <em>Position</em>}' attribute.
@@ -1692,9 +1693,9 @@ public class LegendImpl extends BlockImpl implements Legend
 		switch ( featureID )
 		{
 			case LayoutPackage.LEGEND__HORIZONTAL_SPACING :
-				return new Integer( getHorizontalSpacing( ) );
+				return getHorizontalSpacing( );
 			case LayoutPackage.LEGEND__VERTICAL_SPACING :
-				return new Integer( getVerticalSpacing( ) );
+				return getVerticalSpacing( );
 			case LayoutPackage.LEGEND__CLIENT_AREA :
 				return getClientArea( );
 			case LayoutPackage.LEGEND__TEXT :
@@ -1714,19 +1715,19 @@ public class LegendImpl extends BlockImpl implements Legend
 			case LayoutPackage.LEGEND__TITLE_POSITION :
 				return getTitlePosition( );
 			case LayoutPackage.LEGEND__SHOW_VALUE :
-				return isShowValue( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isShowValue( );
 			case LayoutPackage.LEGEND__SHOW_PERCENT :
-				return isShowPercent( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isShowPercent( );
 			case LayoutPackage.LEGEND__SHOW_TOTAL :
-				return isShowTotal( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isShowTotal( );
 			case LayoutPackage.LEGEND__WRAPPING_SIZE :
-				return new Double( getWrappingSize( ) );
+				return getWrappingSize( );
 			case LayoutPackage.LEGEND__MAX_PERCENT :
-				return new Double( getMaxPercent( ) );
+				return getMaxPercent( );
 			case LayoutPackage.LEGEND__TITLE_PERCENT :
-				return new Double( getTitlePercent( ) );
+				return getTitlePercent( );
 			case LayoutPackage.LEGEND__ELLIPSIS :
-				return new Integer( getEllipsis( ) );
+				return getEllipsis( );
 			case LayoutPackage.LEGEND__FORMAT_SPECIFIER :
 				return getFormatSpecifier( );
 		}
@@ -1743,10 +1744,10 @@ public class LegendImpl extends BlockImpl implements Legend
 		switch ( featureID )
 		{
 			case LayoutPackage.LEGEND__HORIZONTAL_SPACING :
-				setHorizontalSpacing( ( (Integer) newValue ).intValue( ) );
+				setHorizontalSpacing( (Integer) newValue );
 				return;
 			case LayoutPackage.LEGEND__VERTICAL_SPACING :
-				setVerticalSpacing( ( (Integer) newValue ).intValue( ) );
+				setVerticalSpacing( (Integer) newValue );
 				return;
 			case LayoutPackage.LEGEND__CLIENT_AREA :
 				setClientArea( (ClientArea) newValue );
@@ -1776,25 +1777,25 @@ public class LegendImpl extends BlockImpl implements Legend
 				setTitlePosition( (Position) newValue );
 				return;
 			case LayoutPackage.LEGEND__SHOW_VALUE :
-				setShowValue( ( (Boolean) newValue ).booleanValue( ) );
+				setShowValue( (Boolean) newValue );
 				return;
 			case LayoutPackage.LEGEND__SHOW_PERCENT :
-				setShowPercent( ( (Boolean) newValue ).booleanValue( ) );
+				setShowPercent( (Boolean) newValue );
 				return;
 			case LayoutPackage.LEGEND__SHOW_TOTAL :
-				setShowTotal( ( (Boolean) newValue ).booleanValue( ) );
+				setShowTotal( (Boolean) newValue );
 				return;
 			case LayoutPackage.LEGEND__WRAPPING_SIZE :
-				setWrappingSize( ( (Double) newValue ).doubleValue( ) );
+				setWrappingSize( (Double) newValue );
 				return;
 			case LayoutPackage.LEGEND__MAX_PERCENT :
-				setMaxPercent( ( (Double) newValue ).doubleValue( ) );
+				setMaxPercent( (Double) newValue );
 				return;
 			case LayoutPackage.LEGEND__TITLE_PERCENT :
-				setTitlePercent( ( (Double) newValue ).doubleValue( ) );
+				setTitlePercent( (Double) newValue );
 				return;
 			case LayoutPackage.LEGEND__ELLIPSIS :
-				setEllipsis( ( (Integer) newValue ).intValue( ) );
+				setEllipsis( (Integer) newValue );
 				return;
 			case LayoutPackage.LEGEND__FORMAT_SPECIFIER :
 				setFormatSpecifier( (FormatSpecifier) newValue );
@@ -2088,25 +2089,20 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected final void initialize( )
 	{
 		super.initialize( );
-		setPosition( Position.RIGHT_LITERAL );
-		setOrientation( Orientation.VERTICAL_LITERAL );
-		setDirection( Direction.TOP_BOTTOM_LITERAL );
-		setItemType( LegendItemType.SERIES_LITERAL );
 
 		Label la = LabelImpl.create( );
-		LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
-				LineStyle.SOLID_LITERAL,
-				1 );
-		lia.setVisible( false );
+		LineAttributes lia = LineAttributesImpl.create( this,
+				ComponentPackage.eINSTANCE.getLabel_Outline( ) );
+		lia.setColor( ColorDefinitionImpl.create( lia,
+				AttributePackage.eINSTANCE.getLineAttributes_Color( ) ) );
 		la.setOutline( lia );
 		la.setVisible( false );
 		setTitle( la );
-		setTitlePosition( Position.ABOVE_LITERAL );
 
-		LineAttributes separator = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
-				LineStyle.SOLID_LITERAL,
-				1 );
-		separator.setVisible( true );
+		LineAttributes separator = LineAttributesImpl.create( this,
+				LayoutPackage.eINSTANCE.getLegend_Separator( ) );
+		separator.setColor( ColorDefinitionImpl.create( separator,
+				AttributePackage.eINSTANCE.getLineAttributes_Color( ) ) );
 		setSeparator( separator );
 
 		final ClientArea ca = LayoutFactory.eINSTANCE.createClientArea( );
@@ -2216,7 +2212,7 @@ public class LegendImpl extends BlockImpl implements Legend
 		ellipsisESet = src.isSetEllipsis( );
 	}
 
-	public static Legend create( EObject parent )
+	public static Legend create( EObject parent, EReference ref )
 	{
 		return new LegendImpl( );
 	}

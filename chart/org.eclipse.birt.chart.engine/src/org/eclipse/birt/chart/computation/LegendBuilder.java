@@ -98,7 +98,7 @@ public final class LegendBuilder implements IConstants
 			this.bPaletteByCategory = ( lg.getItemType( ).getValue( ) == LegendItemType.CATEGORIES );
 
 			this.la = goFactory.createLabel( );
-			la.setEllipsis( lg.isSetEllipsis( ) ? lg.getEllipsis( ) : 1 );
+			la.setEllipsis( lg.getEllipsis( ) );
 			la.setCaption( goFactory.copyOf( lg.getText( ) ) );
 
 			la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
@@ -427,7 +427,7 @@ public final class LegendBuilder implements IConstants
 		LabelLimiter lbLimit = null;
 		Label laTitle = lgData.lg.getTitle( );
 
-		if ( laTitle != null && laTitle.isSetVisible( ) && laTitle.isVisible( ) )
+		if ( laTitle != null && laTitle.isVisible( ) )
 		{
 			laTitle = goFactory.copyOf( laTitle );
 			String sTitle = laTitle.getCaption( ).getValue( );
@@ -488,21 +488,6 @@ public final class LegendBuilder implements IConstants
 		// 3. ALL OTHERS
 
 		final Legend lg = cm.getLegend( );
-		if ( !lg.isSetOrientation( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					"exception.legend.orientation.horzvert", //$NON-NLS-1$
-					Messages.getResourceBundle( xs.getULocale( ) ) );
-		}
-		if ( !lg.isSetDirection( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					"exception.legend.direction.tblr", //$NON-NLS-1$
-					Messages.getResourceBundle( xs.getULocale( ) ) );
-		}
-
 		LegendData lgData = new LegendData( xs, cm, seda, rtc );
 
 		// Get maximum block width/height available

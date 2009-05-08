@@ -16,7 +16,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Hashtable;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
-import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -25,7 +24,6 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
-import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.SecurityUtil;
 
 /**
@@ -117,21 +115,6 @@ public class EventObjectCache
 			return false;
 		}
 		
-		if ( !lia.isSetStyle( ) || !lia.isSetThickness( ) )
-		{
-			return false; // NO LINE STYLE = DON'T DRAW LINE
-		}
-		if ( !lia.isSetVisible( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.RENDERING,
-					"exception.unset.line.visibility", //$NON-NLS-1$ 
-					new Object[]{
-						oSource
-					},
-					Messages.getResourceBundle( ) );
-		}
-
 		if ( !lia.isVisible( ) )
 		{
 			return false;

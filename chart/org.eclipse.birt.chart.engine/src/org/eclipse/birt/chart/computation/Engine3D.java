@@ -622,7 +622,6 @@ public final class Engine3D implements IConstants
 			Line3DRenderEvent l3dre = (Line3DRenderEvent) obj;
 
 			if ( l3dre.getLineAttributes( ) == null
-					|| !l3dre.getLineAttributes( ).isSetVisible( )
 					|| !l3dre.getLineAttributes( ).isVisible( ) )
 			{
 				return false;
@@ -967,7 +966,7 @@ public final class Engine3D implements IConstants
 			ColorDefinition sharedBackgroundColor = (ColorDefinition) FillUtil.copyOf( backgroundColor );
 			
 			sharedPolygonEdge.setBackground( sharedBackgroundColor  );
-			if (backgroundColor.isSetTransparency( ) && backgroundColor.getTransparency( ) < 255 )
+			if ( backgroundColor.getTransparency( ) < 255 )
 			{
 				int t=  backgroundColor.getTransparency( );
 				// Make the background more transparent than the original so it doesn't appear too much.

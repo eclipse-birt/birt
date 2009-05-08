@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Cache manager for chart series, sub-type and etc.
@@ -127,7 +126,7 @@ public final class ChartCacheManager
 		{
 			return null;
 		}
-		return (Series) EcoreUtil.copy( map.get( seriesClass ) );
+		return map.get( seriesClass ).copyInstance( );
 	}
 
 	/**
@@ -149,7 +148,7 @@ public final class ChartCacheManager
 			}
 			// Clone the series instance and save it
 			cacheSeries.get( i ).put( series.getClass( ).getName( ),
-					(Series) EcoreUtil.copy( series ) );
+					series.copyInstance( ) );
 		}
 
 		// Remove redundant series instances.
@@ -173,7 +172,7 @@ public final class ChartCacheManager
 			cacheSeries.add( new HashMap<String, Series>( ) );
 		}
 		cacheSeries.get( seriesIndex ).put( series.getClass( ).getName( ),
-				(Series) EcoreUtil.copy( series ) );
+				series.copyInstance( ) );
 	}
 
 	/**

@@ -19,6 +19,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -58,7 +59,7 @@ public class GridImpl extends EObjectImpl implements Grid
 	 * @generated
 	 * @ordered
 	 */
-	protected static final TickStyle TICK_STYLE_EDEFAULT = TickStyle.LEFT_LITERAL;
+	protected static final TickStyle TICK_STYLE_EDEFAULT = TickStyle.ACROSS_LITERAL;
 
 	/**
 	 * The cached value of the '{@link #getTickStyle() <em>Tick Style</em>}' attribute.
@@ -496,9 +497,9 @@ public class GridImpl extends EObjectImpl implements Grid
 			case ComponentPackage.GRID__TICK_ATTRIBUTES :
 				return getTickAttributes( );
 			case ComponentPackage.GRID__TICK_SIZE :
-				return new Double( getTickSize( ) );
+				return getTickSize( );
 			case ComponentPackage.GRID__TICK_COUNT :
-				return new Integer( getTickCount( ) );
+				return getTickCount( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -523,10 +524,10 @@ public class GridImpl extends EObjectImpl implements Grid
 				setTickAttributes( (LineAttributes) newValue );
 				return;
 			case ComponentPackage.GRID__TICK_SIZE :
-				setTickSize( ( (Double) newValue ).doubleValue( ) );
+				setTickSize( (Double) newValue );
 				return;
 			case ComponentPackage.GRID__TICK_COUNT :
-				setTickCount( ( (Integer) newValue ).intValue( ) );
+				setTickCount( (Integer) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -646,7 +647,7 @@ public class GridImpl extends EObjectImpl implements Grid
 		tickCountESet = src.isSetTickCount( );
 	}
 
-	public static Grid create( EObject parent )
+	public static Grid create( EObject parent, EReference ref )
 	{
 		return new GridImpl( );
 	}

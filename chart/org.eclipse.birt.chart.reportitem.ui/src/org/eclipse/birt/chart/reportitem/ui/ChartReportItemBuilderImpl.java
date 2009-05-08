@@ -53,7 +53,6 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -159,8 +158,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 
 			final ChartReportItemImpl crii = ( (ChartReportItemImpl) item );
 			final Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
-			final Chart cmClone = ( cm == null ) ? null
-					: (Chart) EcoreUtil.copy( cm );
+			final Chart cmClone = ( cm == null ) ? null : cm.copyInstance( );
 			
 			// This array is for storing the latest chart data before pressing
 			// apply button
@@ -207,7 +205,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				{
 					super.run( );
 					// Save the data when applying
-					applyData[0] = EcoreUtil.copy( context.getModel( ) );
+					applyData[0] = context.getModel( ).copyInstance( );
 					applyData[1] = context.getOutputFormat( );
 					applyData[2] = context.isInheritColumnsOnly( );
 
@@ -266,6 +264,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			
 			if ( contextResult != null && contextResult.getModel( ) != null )
 			{
+
 				// Pressing Finish
 				updateModel( extendedHandle,
 						chartBuilder,
@@ -329,6 +328,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			ChartReportItemImpl crii, Chart cmOld, Chart cmNew,
 			String outputFormat, boolean bInheritColumnsOnly )
 	{
+		// Optimizer the chart.
+		cmNew = crii.getSerializer( ).optimize( cmNew );
+
 		// Revise chart version to current.
 		ChartUtil.reviseVersion( cmNew );
 		

@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -53,7 +52,7 @@ public class FormatSpecifierDialog extends TrayDialog
 		super( shellParent );
 		if ( formatspecifier != null )
 		{
-			this.formatspecifier = (FormatSpecifier) EcoreUtil.copy( formatspecifier );
+			this.formatspecifier = formatspecifier.copyInstance( );
 		}
 	}
 	

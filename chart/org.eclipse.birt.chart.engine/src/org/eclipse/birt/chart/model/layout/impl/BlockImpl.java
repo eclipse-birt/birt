@@ -20,13 +20,12 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Anchor;
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
+import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.Stretch;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
@@ -43,6 +42,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -168,7 +168,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int ROW_EDEFAULT = 0;
+	protected static final int ROW_EDEFAULT = -1;
 
 	/**
 	 * The cached value of the '{@link #getRow() <em>Row</em>}' attribute.
@@ -195,7 +195,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int COLUMN_EDEFAULT = 0;
+	protected static final int COLUMN_EDEFAULT = -1;
 
 	/**
 	 * The cached value of the '{@link #getColumn() <em>Column</em>}' attribute.
@@ -222,7 +222,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int ROWSPAN_EDEFAULT = 0;
+	protected static final int ROWSPAN_EDEFAULT = -1;
 
 	/**
 	 * The cached value of the '{@link #getRowspan() <em>Rowspan</em>}' attribute.
@@ -249,7 +249,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int COLUMNSPAN_EDEFAULT = 0;
+	protected static final int COLUMNSPAN_EDEFAULT = -1;
 
 	/**
 	 * The cached value of the '{@link #getColumnspan() <em>Columnspan</em>}' attribute.
@@ -303,7 +303,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean VISIBLE_EDEFAULT = false;
+	protected static final boolean VISIBLE_EDEFAULT = true;
 
 	/**
 	 * The cached value of the '{@link #isVisible() <em>Visible</em>}' attribute.
@@ -1404,13 +1404,13 @@ public class BlockImpl extends EObjectImpl implements Block
 			case LayoutPackage.BLOCK__INSETS :
 				return getInsets( );
 			case LayoutPackage.BLOCK__ROW :
-				return new Integer( getRow( ) );
+				return getRow( );
 			case LayoutPackage.BLOCK__COLUMN :
-				return new Integer( getColumn( ) );
+				return getColumn( );
 			case LayoutPackage.BLOCK__ROWSPAN :
-				return new Integer( getRowspan( ) );
+				return getRowspan( );
 			case LayoutPackage.BLOCK__COLUMNSPAN :
-				return new Integer( getColumnspan( ) );
+				return getColumnspan( );
 			case LayoutPackage.BLOCK__MIN_SIZE :
 				return getMinSize( );
 			case LayoutPackage.BLOCK__OUTLINE :
@@ -1418,13 +1418,13 @@ public class BlockImpl extends EObjectImpl implements Block
 			case LayoutPackage.BLOCK__BACKGROUND :
 				return getBackground( );
 			case LayoutPackage.BLOCK__VISIBLE :
-				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isVisible( );
 			case LayoutPackage.BLOCK__TRIGGERS :
 				return getTriggers( );
 			case LayoutPackage.BLOCK__WIDTH_HINT :
-				return new Double( getWidthHint( ) );
+				return getWidthHint( );
 			case LayoutPackage.BLOCK__HEIGHT_HINT :
-				return new Double( getHeightHint( ) );
+				return getHeightHint( );
 			case LayoutPackage.BLOCK__CURSOR :
 				return getCursor( );
 		}
@@ -1459,16 +1459,16 @@ public class BlockImpl extends EObjectImpl implements Block
 				setInsets( (Insets) newValue );
 				return;
 			case LayoutPackage.BLOCK__ROW :
-				setRow( ( (Integer) newValue ).intValue( ) );
+				setRow( (Integer) newValue );
 				return;
 			case LayoutPackage.BLOCK__COLUMN :
-				setColumn( ( (Integer) newValue ).intValue( ) );
+				setColumn( (Integer) newValue );
 				return;
 			case LayoutPackage.BLOCK__ROWSPAN :
-				setRowspan( ( (Integer) newValue ).intValue( ) );
+				setRowspan( (Integer) newValue );
 				return;
 			case LayoutPackage.BLOCK__COLUMNSPAN :
-				setColumnspan( ( (Integer) newValue ).intValue( ) );
+				setColumnspan( (Integer) newValue );
 				return;
 			case LayoutPackage.BLOCK__MIN_SIZE :
 				setMinSize( (Size) newValue );
@@ -1480,17 +1480,17 @@ public class BlockImpl extends EObjectImpl implements Block
 				setBackground( (Fill) newValue );
 				return;
 			case LayoutPackage.BLOCK__VISIBLE :
-				setVisible( ( (Boolean) newValue ).booleanValue( ) );
+				setVisible( (Boolean) newValue );
 				return;
 			case LayoutPackage.BLOCK__TRIGGERS :
 				getTriggers( ).clear( );
 				getTriggers( ).addAll( (Collection<? extends Trigger>) newValue );
 				return;
 			case LayoutPackage.BLOCK__WIDTH_HINT :
-				setWidthHint( ( (Double) newValue ).doubleValue( ) );
+				setWidthHint( (Double) newValue );
 				return;
 			case LayoutPackage.BLOCK__HEIGHT_HINT :
-				setHeightHint( ( (Double) newValue ).doubleValue( ) );
+				setHeightHint( (Double) newValue );
 				return;
 			case LayoutPackage.BLOCK__CURSOR :
 				setCursor( (Cursor) newValue );
@@ -1810,27 +1810,19 @@ public class BlockImpl extends EObjectImpl implements Block
 	 */
 	protected void initialize( )
 	{
-		final LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
-				LineStyle.SOLID_LITERAL,
-				1 );
-		lia.setVisible( false );
+		final LineAttributes lia = LineAttributesImpl.create( this,
+				LayoutPackage.eINSTANCE.getBlock_Outline( ) );
+		lia.setColor( ColorDefinitionImpl.create( lia,
+				AttributePackage.eINSTANCE.getLineAttributes_Color( ) ) );
 		setOutline( lia );
 
-		final Bounds bo = AttributeFactory.eINSTANCE.createBounds( );
-		( (BoundsImpl) bo ).set( 0, 0, 0, 0 );
+		final Bounds bo = BoundsImpl.create( this,
+				LayoutPackage.eINSTANCE.getBlock_Bounds( ) );
 		setBounds( bo );
 
-		final Insets i = AttributeFactory.eINSTANCE.createInsets( );
-		( (InsetsImpl) i ).set( 3, 3, 3, 3 );
+		final Insets i = InsetsImpl.create( this,
+				LayoutPackage.eINSTANCE.getBlock_Insets( ) );
 		setInsets( i );
-
-		setRow( -1 );
-		setColumn( -1 );
-		setRowspan( -1 );
-		setColumnspan( -1 );
-		// setStretch(Stretch.NONE_LITERAL);
-
-		setVisible( true );
 	}
 
 	/**
@@ -1912,7 +1904,7 @@ public class BlockImpl extends EObjectImpl implements Block
 		heightHintESet = src.isSetHeightHint( );
 	}
 
-	public static Block create( EObject parent )
+	public static Block create( EObject parent, EReference ref )
 	{
 		return new BlockImpl( );
 	}

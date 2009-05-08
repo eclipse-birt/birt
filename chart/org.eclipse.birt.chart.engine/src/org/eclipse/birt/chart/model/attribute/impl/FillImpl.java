@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -239,7 +240,7 @@ public class FillImpl extends EObjectImpl implements Fill
 		typeESet = src.isSetType( );
 	}
 
-	public static Fill create( EObject parent )
+	public static Fill create( EObject parent, EReference ref )
 	{
 		return new FillImpl( );
 	}

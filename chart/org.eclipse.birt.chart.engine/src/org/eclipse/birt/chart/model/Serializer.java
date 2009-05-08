@@ -118,4 +118,13 @@ public interface Serializer
      * @deprecated only reserved for compatibility
      */
     public ChartPreferences loadPreferences(InputStream is) throws IOException;
+
+	/**
+	 * Optimizes the chart model.
+	 * 
+	 * @param cm
+	 * @return
+	 * @since 2.5.0
+	 */
+	public Chart optimize( Chart cm );
 }

@@ -27,7 +27,6 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
-import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.emf.common.util.EList;
 
@@ -221,16 +220,6 @@ public final class StackedSeriesLookup
 						}
 						if ( se.canBeStacked( ) )
 						{
-							if ( !se.isSetStacked( ) )
-							{
-								throw new ChartException( ChartEnginePlugin.ID,
-										ChartException.UNDEFINED_VALUE,
-										"exception.unset.series.stacked.property", //$NON-NLS-1$
-										new Object[]{
-											se
-										},
-										Messages.getResourceBundle( rtc.getULocale( ) ) );
-							}
 							if ( se.canShareAxisUnit( ) )
 							{
 								if ( se.isStacked( ) )

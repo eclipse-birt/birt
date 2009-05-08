@@ -29,7 +29,6 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -231,7 +230,7 @@ public class DefaultChartTypeImpl implements IChartType
 				.findSeries( firstSeries.getClass( ).getName( ), seriesIndex );
 		if ( tmpseries == null )
 		{
-			tmpseries = (Series) EcoreUtil.copy( firstSeries );
+			tmpseries = firstSeries.copyInstance( );
 		}
 
 		// Copy generic series properties

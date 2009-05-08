@@ -1657,7 +1657,7 @@ public final class ResultSetWrapper
 		// For previous chart version(before2.3M3), the seriesGrouping argument
 		// may be null, so here needs to check null case.
 		boolean groupingIntervalEnabled = false;
-		if ( query != null && query.getGrouping( ) != null && query.getGrouping( ).isSetGroupType( ) )
+		if ( query != null && query.getGrouping( ) != null )
 		{
 			groupingIntervalEnabled = true;
 		}

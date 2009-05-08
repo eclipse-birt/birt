@@ -1112,14 +1112,6 @@ public final class AxesRenderHelper
 				la,
 				iOrientation );
 
-		if ( !lia.isSetVisible( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.RENDERING,
-					"exception.unset.axis.visibility", //$NON-NLS-1$
-					Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
-		}
-
 		tre.setLabel( la );
 		tre.setTextPosition( iLabelLocation );
 		tre.setLocation( lo );

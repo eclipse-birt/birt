@@ -49,7 +49,6 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -610,7 +609,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	 */
 	protected void handleGroupAction( )
 	{
-		SeriesDefinition sdBackup = (SeriesDefinition) EcoreUtil.copy( seriesdefinition );
+		SeriesDefinition sdBackup = seriesdefinition.copyInstance( );
 		GroupSortingDialog groupDialog = createGroupSortingDialog( sdBackup );
 
 		if ( groupDialog.open( ) == Window.OK )

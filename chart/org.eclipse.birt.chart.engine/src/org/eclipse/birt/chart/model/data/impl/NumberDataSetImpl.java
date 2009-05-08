@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Number Data Set</b></em>'. <!--
@@ -89,7 +90,7 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet
 
 	}
 
-	public static NumberDataSet create( EObject parent )
+	public static NumberDataSet create( EObject parent, EReference ref )
 	{
 		return new NumberDataSetImpl( );
 	}

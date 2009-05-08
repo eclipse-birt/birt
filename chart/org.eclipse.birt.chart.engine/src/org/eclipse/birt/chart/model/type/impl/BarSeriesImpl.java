@@ -32,6 +32,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -563,7 +564,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 		riserESet = src.isSetRiser( );
 	}
 
-	public static BarSeries create( EObject parent )
+	public static BarSeries create( EObject parent, EReference ref )
 	{
 		return new BarSeriesImpl( );
 	}

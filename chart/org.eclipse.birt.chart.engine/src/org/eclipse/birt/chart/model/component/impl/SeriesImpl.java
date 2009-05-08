@@ -19,12 +19,8 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
-import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.DataPointImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.CurveFitting;
@@ -39,6 +35,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -163,7 +160,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Position LABEL_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
+	protected static final Position LABEL_POSITION_EDEFAULT = Position.OUTSIDE_LITERAL;
 
 	/**
 	 * The cached value of the '
@@ -931,7 +928,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 		switch ( featureID )
 		{
 			case ComponentPackage.SERIES__VISIBLE :
-				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isVisible( );
 			case ComponentPackage.SERIES__LABEL :
 				return getLabel( );
 			case ComponentPackage.SERIES__DATA_DEFINITION :
@@ -948,11 +945,11 @@ public class SeriesImpl extends EObjectImpl implements Series
 			case ComponentPackage.SERIES__LABEL_POSITION :
 				return getLabelPosition( );
 			case ComponentPackage.SERIES__STACKED :
-				return isStacked( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isStacked( );
 			case ComponentPackage.SERIES__TRIGGERS :
 				return getTriggers( );
 			case ComponentPackage.SERIES__TRANSLUCENT :
-				return isTranslucent( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isTranslucent( );
 			case ComponentPackage.SERIES__CURVE_FITTING :
 				return getCurveFitting( );
 			case ComponentPackage.SERIES__CURSOR :
@@ -973,7 +970,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 		switch ( featureID )
 		{
 			case ComponentPackage.SERIES__VISIBLE :
-				setVisible( ( (Boolean) newValue ).booleanValue( ) );
+				setVisible( (Boolean) newValue );
 				return;
 			case ComponentPackage.SERIES__LABEL :
 				setLabel( (Label) newValue );
@@ -995,14 +992,14 @@ public class SeriesImpl extends EObjectImpl implements Series
 				setLabelPosition( (Position) newValue );
 				return;
 			case ComponentPackage.SERIES__STACKED :
-				setStacked( ( (Boolean) newValue ).booleanValue( ) );
+				setStacked( (Boolean) newValue );
 				return;
 			case ComponentPackage.SERIES__TRIGGERS :
 				getTriggers( ).clear( );
 				getTriggers( ).addAll( (Collection<? extends Trigger>) newValue );
 				return;
 			case ComponentPackage.SERIES__TRANSLUCENT :
-				setTranslucent( ( (Boolean) newValue ).booleanValue( ) );
+				setTranslucent( (Boolean) newValue );
 				return;
 			case ComponentPackage.SERIES__CURVE_FITTING :
 				setCurveFitting( (CurveFitting) newValue );
@@ -1169,18 +1166,10 @@ public class SeriesImpl extends EObjectImpl implements Series
 	 */
 	protected void initialize( )
 	{
-		setStacked( false );
-		setVisible( true );
-		final Label la = LabelImpl.create( );
-		LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
-				LineStyle.SOLID_LITERAL,
-				1 );
-		la.setOutline( lia );
-		lia.setVisible( false );
-		// la.setBackground(ColorDefinitionImpl.YELLOW());
+		LabelImpl la = (LabelImpl) LabelImpl.create( this,
+				ComponentPackage.eINSTANCE.getSeries_Label( ) );
+		la.initialize( );
 		setLabel( la );
-		la.setVisible( false );
-		setLabelPosition( Position.OUTSIDE_LITERAL );
 		setSeriesIdentifier( IConstants.UNDEFINED_STRING );
 		setDataPoint( DataPointImpl.create( null, null, ", " ) ); //$NON-NLS-1$
 	}
@@ -1308,7 +1297,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 		translucentESet = src.isSetTranslucent( );
 	}
 
-	public static Series create( EObject parent )
+	public static Series create( EObject parent, EReference ref )
 	{
 		return new SeriesImpl( );
 	}

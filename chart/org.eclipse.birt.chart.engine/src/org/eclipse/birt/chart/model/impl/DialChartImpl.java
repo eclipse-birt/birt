@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -269,7 +270,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 		dialSuperimpositionESet = src.isSetDialSuperimposition( );
 	}
 
-	public static DialChart create( EObject parent )
+	public static DialChart create( EObject parent, EReference ref )
 	{
 		return new DialChartImpl( );
 	}

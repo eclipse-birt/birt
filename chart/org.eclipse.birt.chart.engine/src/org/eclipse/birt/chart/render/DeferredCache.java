@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.event.I3DRenderEvent;
 import org.eclipse.birt.chart.event.IRenderInstruction;
-import org.eclipse.birt.chart.event.Line3DRenderEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
 import org.eclipse.birt.chart.event.MarkerInstruction;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
@@ -180,7 +179,6 @@ public final class DeferredCache
 		if ( lre instanceof I3DRenderEvent )
 		{
 			if ( lre.getLineAttributes( ) != null
-					&& lre.getLineAttributes( ).isSetVisible( )
 					&& lre.getLineAttributes( ).isVisible( ) )
 			{
 				PrimitiveRenderEvent lre1 = lre.copy( );

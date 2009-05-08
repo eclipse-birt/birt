@@ -560,8 +560,6 @@ final class SwtTextRenderer extends TextRendererAdapter
 		final LineAttributes lia = la.getOutline( );
 		if ( lia != null
 				&& lia.isVisible( )
-				&& lia.isSetStyle( )
-				&& lia.isSetThickness( )
 				&& lia.getColor( ) != null )
 		{
 			RotatedRectangle rr = cComp.computePolygon( _sxs,

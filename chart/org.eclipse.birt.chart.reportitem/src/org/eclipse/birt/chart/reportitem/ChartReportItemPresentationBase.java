@@ -73,7 +73,6 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.EvaluatorException;
 
 /**
@@ -474,7 +473,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		// we must copy the bounds to avoid that setting it on one object
 		// unsets it on its precedent container
 
-		Bounds bounds = (Bounds) EcoreUtil.copy( originalBounds );
+		Bounds bounds = originalBounds.copyInstance( );
 		return bounds;
 	}
 

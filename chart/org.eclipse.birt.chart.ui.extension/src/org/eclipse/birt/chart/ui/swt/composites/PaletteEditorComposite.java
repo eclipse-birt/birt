@@ -31,9 +31,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
@@ -490,7 +488,7 @@ public final class PaletteEditorComposite extends Composite implements
 			{
 				if ( fccNewEntry.getFill( ) != null )
 				{
-					append( (Fill) EcoreUtil.copy( fccNewEntry.getFill( ) ) );
+					append( fccNewEntry.getFill( ).copyInstance( ) );
 				}
 				else
 				{
@@ -648,7 +646,7 @@ public final class PaletteEditorComposite extends Composite implements
 				{
 					vSeriesDefns[i].getSeriesPalette( )
 							.getEntries( )
-							.set( iSelectedIndex - i, ChartUtil.eCopy( f ) );
+							.set( iSelectedIndex - i, f.copyInstance( ) );
 				}
 				else
 				{
@@ -661,8 +659,9 @@ public final class PaletteEditorComposite extends Composite implements
 					// The index may be out of size of series palette, so ignore it.
 					if ( index <  vSeriesDefns[i].getSeriesPalette( ).getEntries( ).size() )
 					{
-						vSeriesDefns[i].getSeriesPalette( ).getEntries( ).set( index,
- ChartUtil.eCopy( f ) );
+						vSeriesDefns[i].getSeriesPalette( )
+								.getEntries( )
+								.set( index, f.copyInstance( ) );
 					}
 				}
 			}
@@ -690,7 +689,7 @@ public final class PaletteEditorComposite extends Composite implements
 					vSeriesDefns[i].getSeriesPalette( ).getEntries( ).add( size
 							- i
 							- 1,
-							ChartUtil.eCopy( fi ) );
+							fi.copyInstance( ) );
 				}
 				else
 				{
@@ -700,7 +699,7 @@ public final class PaletteEditorComposite extends Composite implements
 					{
 						vSeriesDefns[i].getSeriesPalette( )
 								.getEntries( )
-								.add( j, ChartUtil.eCopy( el.get( j ) ) );
+								.add( j, el.get( j ).copyInstance( ) );
 					}
 					for ( int j = el.size( ); j < vSeriesDefns[i].getSeriesPalette( )
 							.getEntries( )
@@ -783,7 +782,7 @@ public final class PaletteEditorComposite extends Composite implements
 					vSeriesDefns[min].getSeriesPalette( )
 							.getEntries( )
 							.set( 0,
-							ChartUtil.eCopy( elPaletteEntries1.get( min ) ) );
+							elPaletteEntries1.get( min ).copyInstance( ) );
 				}
 				else if ( vSeriesDefns.length - 1 >= max )
 				{
@@ -791,11 +790,11 @@ public final class PaletteEditorComposite extends Composite implements
 					vSeriesDefns[min].getSeriesPalette( )
 							.getEntries( )
 							.set( 0,
-							ChartUtil.eCopy( elPaletteEntries1.get( min ) ) );
+							elPaletteEntries1.get( min ).copyInstance( ) );
 					vSeriesDefns[max].getSeriesPalette( )
 							.getEntries( )
 							.set( 0,
-							ChartUtil.eCopy( elPaletteEntries1.get( max ) ) );
+							elPaletteEntries1.get( max ).copyInstance( ) );
 				}
 			}
 			else

@@ -45,7 +45,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -298,14 +297,15 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 					index -= paletteSize;
 				}
 				sdTmp.getSeriesPalette( ).getEntries( ).add( i,
-						ChartUtil.eCopy( pa.getEntries( ).get( index ) ) );
+						pa.getEntries( ).get( index ).copyInstance( ) );
 			}
 			sdTmp.getSeriesPalette( ).getEntries( ).remove( pa.getEntries( )
 					.size( ) );
-			sdTmp.getSeries( ).add( ChartUtil.eCopy( seriesDefns.get( 0 )
-					.getDesignTimeSeries( ) ) );
+			sdTmp.getSeries( ).add( seriesDefns.get( 0 )
+					.getDesignTimeSeries( )
+					.copyInstance( ) );
 			// Add grouping query of the first series definition
-			sdTmp.setQuery( ChartUtil.eCopy( seriesDefns.get( 0 ).getQuery( ) ) );
+			sdTmp.setQuery( seriesDefns.get( 0 ).getQuery( ).copyInstance( ) );
 			cleanDataDefinition( sdTmp );
 			// clean the possible series name
 			sdTmp.getDesignTimeSeries( ).setSeriesIdentifier( "" ); //$NON-NLS-1$
@@ -316,7 +316,8 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 					.getOrthogonalSampleData( );
 
 			// Create a new OrthogonalSampleData instance from the existing one
-			OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( list.get( firstIndex ) );
+			OrthogonalSampleData sdOrthogonal = list.get( firstIndex )
+					.copyInstance( );
 			if ( axisIndex == -1 )
 			{
 				sdOrthogonal.setSeriesDefinitionIndex( seriesDefns.size( ) );

@@ -1191,9 +1191,10 @@ public interface Axis extends EObject
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 						Give the user a way to customize a fixed thickness of axis label. 
-	 * 						Span means width for vertical axis, and height for horizontal 
-	 * 						axis.  By default, this value is unset.
+	 * 						Give the user a way to customize a fixed
+	 * 						thickness of axis label. Span means width for
+	 * 						vertical axis, and height for horizontal axis.
+	 * 						By default, this value is unset.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Label Span</em>' attribute.

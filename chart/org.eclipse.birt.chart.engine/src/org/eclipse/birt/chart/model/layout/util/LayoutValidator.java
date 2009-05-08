@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LayoutValidator.java,v 1.1 2008/11/24 03:38:30 ywang1 Exp $
+ * $Id: LayoutValidator.java,v 1.2 2008/12/18 05:15:57 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.layout.util;
@@ -127,7 +127,7 @@ public class LayoutValidator extends EObjectValidator
 						diagnostics,
 						context );
 			case LayoutPackage.ELLIPSIS_TYPE :
-				return validateEllipsisType( ( (Integer) value ).intValue( ),
+				return validateEllipsisType( (Integer) value,
 						diagnostics,
 						context );
 			case LayoutPackage.ELLIPSIS_TYPE_OBJECT :
@@ -135,7 +135,7 @@ public class LayoutValidator extends EObjectValidator
 						diagnostics,
 						context );
 			case LayoutPackage.TITLE_PERCENT_TYPE :
-				return validateTitlePercentType( ( (Double) value ).doubleValue( ),
+				return validateTitlePercentType( (Double) value,
 						diagnostics,
 						context );
 			case LayoutPackage.TITLE_PERCENT_TYPE_OBJECT :
@@ -253,8 +253,8 @@ public class LayoutValidator extends EObjectValidator
 		boolean result = ellipsisType >= ELLIPSIS_TYPE__MIN__VALUE;
 		if ( !result && diagnostics != null )
 			reportMinViolation( LayoutPackage.Literals.ELLIPSIS_TYPE,
-					new Integer( ellipsisType ),
-					new Integer( ELLIPSIS_TYPE__MIN__VALUE ),
+					ellipsisType,
+					ELLIPSIS_TYPE__MIN__VALUE,
 					true,
 					diagnostics,
 					context );
@@ -269,7 +269,7 @@ public class LayoutValidator extends EObjectValidator
 	public boolean validateEllipsisTypeObject( Integer ellipsisTypeObject,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
-		boolean result = validateEllipsisType_Min( ellipsisTypeObject.intValue( ),
+		boolean result = validateEllipsisType_Min( ellipsisTypeObject,
 				diagnostics,
 				context );
 		return result;
@@ -313,8 +313,8 @@ public class LayoutValidator extends EObjectValidator
 		boolean result = titlePercentType >= TITLE_PERCENT_TYPE__MIN__VALUE;
 		if ( !result && diagnostics != null )
 			reportMinViolation( LayoutPackage.Literals.TITLE_PERCENT_TYPE,
-					new Double( titlePercentType ),
-					new Double( TITLE_PERCENT_TYPE__MIN__VALUE ),
+					titlePercentType,
+					TITLE_PERCENT_TYPE__MIN__VALUE,
 					true,
 					diagnostics,
 					context );
@@ -341,8 +341,8 @@ public class LayoutValidator extends EObjectValidator
 		boolean result = titlePercentType <= TITLE_PERCENT_TYPE__MAX__VALUE;
 		if ( !result && diagnostics != null )
 			reportMaxViolation( LayoutPackage.Literals.TITLE_PERCENT_TYPE,
-					new Double( titlePercentType ),
-					new Double( TITLE_PERCENT_TYPE__MAX__VALUE ),
+					titlePercentType,
+					TITLE_PERCENT_TYPE__MAX__VALUE,
 					true,
 					diagnostics,
 					context );
@@ -358,11 +358,11 @@ public class LayoutValidator extends EObjectValidator
 			Double titlePercentTypeObject, DiagnosticChain diagnostics,
 			Map<Object, Object> context )
 	{
-		boolean result = validateTitlePercentType_Min( titlePercentTypeObject.doubleValue( ),
+		boolean result = validateTitlePercentType_Min( titlePercentTypeObject,
 				diagnostics,
 				context );
 		if ( result || diagnostics != null )
-			result &= validateTitlePercentType_Max( titlePercentTypeObject.doubleValue( ),
+			result &= validateTitlePercentType_Max( titlePercentTypeObject,
 					diagnostics,
 					context );
 		return result;

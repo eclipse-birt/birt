@@ -62,9 +62,10 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Chart extends EObject
 {
+
 	/** The current chart version, the number should be modified when chart mode is updated. */
 	public static final String VERSION = "2.5.0"; //$NON-NLS-1$
-	
+
 	/**
 	 * Returns the value of the '<em><b>Version</b></em>' attribute. The default value is <code>"1.0.0"</code>.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->

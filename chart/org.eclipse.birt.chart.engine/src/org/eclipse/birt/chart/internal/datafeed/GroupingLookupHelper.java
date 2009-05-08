@@ -532,7 +532,6 @@ public class GroupingLookupHelper
 	{
 		SeriesGrouping grouping = sd.getGrouping( );
 		if ( grouping != null &&
-				grouping.isSetEnabled( ) &&
 				grouping.isEnabled( ) )
 		{
 			return grouping.getAggregateExpression( );
@@ -556,7 +555,6 @@ public class GroupingLookupHelper
 		 String strOrthoAgg = null;
 		 SeriesGrouping grouping = orthoSD.getGrouping( );
 		 if ( grouping != null
-				&& grouping.isSetEnabled( )
 				&& grouping.isEnabled( ) )
 		{
 			// Set own group

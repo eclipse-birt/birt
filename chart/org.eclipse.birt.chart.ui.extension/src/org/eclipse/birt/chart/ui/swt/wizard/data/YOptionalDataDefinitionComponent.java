@@ -20,14 +20,12 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.composites.YOptionalGroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.ModifyEvent;
 
@@ -88,7 +86,7 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 	
 	protected void handleGroupAction( )
 	{
-		SeriesDefinition sdBackup = (SeriesDefinition) EcoreUtil.copy( seriesdefinition );
+		SeriesDefinition sdBackup = seriesdefinition.copyInstance( );
 		GroupSortingDialog groupDialog = createGroupSortingDialog( sdBackup );
 
 		if ( groupDialog.open( ) == Window.OK )
@@ -152,8 +150,9 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 					{
 						SeriesDefinition sdf = (SeriesDefinition) sds.get( i );
 						sdf.getQuery( )
-								.setGrouping( (SeriesGrouping) EcoreUtil.copy( seriesdefinition.getQuery( )
-										.getGrouping( ) ) );
+								.setGrouping( seriesdefinition.getQuery( )
+										.getGrouping( )
+										.copyInstance( ) );
 						sdf.getQuery( )
 								.getGrouping( )
 								.eAdapters( )

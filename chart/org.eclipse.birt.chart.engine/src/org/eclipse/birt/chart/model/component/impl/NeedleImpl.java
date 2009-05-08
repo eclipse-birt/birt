@@ -23,6 +23,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -376,7 +377,7 @@ public class NeedleImpl extends EObjectImpl implements Needle
 		decoratorESet = src.isSetDecorator( );
 	}
 
-	public static Needle create( EObject parent )
+	public static Needle create( EObject parent, EReference ref )
 	{
 		return new NeedleImpl( );
 	}

@@ -11,12 +11,12 @@
 
 package org.eclipse.birt.chart.model.component.impl;
 
-import org.eclipse.birt.chart.model.attribute.AttributeFactory;
+import org.eclipse.birt.chart.model.ModelPackage;
+import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
@@ -31,6 +31,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -108,7 +109,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean VISIBLE_EDEFAULT = false;
+	protected static final boolean VISIBLE_EDEFAULT = true;
 
 	/**
 	 * The cached value of the '{@link #isVisible() <em>Visible</em>}' attribute.
@@ -664,9 +665,9 @@ public class LabelImpl extends EObjectImpl implements Label
 			case ComponentPackage.LABEL__INSETS :
 				return getInsets( );
 			case ComponentPackage.LABEL__VISIBLE :
-				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isVisible( );
 			case ComponentPackage.LABEL__ELLIPSIS :
-				return new Integer( getEllipsis( ) );
+				return getEllipsis( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -696,10 +697,10 @@ public class LabelImpl extends EObjectImpl implements Label
 				setInsets( (Insets) newValue );
 				return;
 			case ComponentPackage.LABEL__VISIBLE :
-				setVisible( ( (Boolean) newValue ).booleanValue( ) );
+				setVisible( (Boolean) newValue );
 				return;
 			case ComponentPackage.LABEL__ELLIPSIS :
-				setEllipsis( ( (Integer) newValue ).intValue( ) );
+				setEllipsis( (Integer) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -808,28 +809,22 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * 
 	 * Note: Manually written
 	 */
-	protected final void initialize( )
+	public final void initialize( )
 	{
 		setCaption( TextImpl.create( (String) null ) );
 
-		setBackground( ColorDefinitionImpl.TRANSPARENT( ) );
+		setBackground( ColorDefinitionImpl.create( this,
+				ComponentPackage.eINSTANCE.getLabel_Background( ) ) );
 
-		// final FormatSpecifier fs =
-		// AttributeFactory.eINSTANCE.createFormatSpecifier();
-		// ((FormatSpecifierImpl) fs).initialize();
-		// setFormatSpecifier(fs);
-
-		final Insets ins = AttributeFactory.eINSTANCE.createInsets( );
-		( (InsetsImpl) ins ).set( 0, 2, 0, 3 );
+		final Insets ins = InsetsImpl.create( this,
+				ComponentPackage.eINSTANCE.getLabel_Insets( ) );
 		setInsets( ins );
 
-		final LineAttributes lia = AttributeFactory.eINSTANCE.createLineAttributes( );
-		( (LineAttributesImpl) lia ).set( ColorDefinitionImpl.BLACK( ),
-				LineStyle.SOLID_LITERAL,
-				1 );
+		final LineAttributes lia = LineAttributesImpl.create( this,
+				ComponentPackage.eINSTANCE.getLabel_Outline( ) );
+		lia.setColor( ColorDefinitionImpl.create( lia,
+				AttributePackage.eINSTANCE.getLineAttributes_Color( ) ) );
 		setOutline( lia );
-
-		setVisible( true );
 	}
 
 	/**
@@ -897,7 +892,6 @@ public class LabelImpl extends EObjectImpl implements Label
 		lb.visible = src.isVisible( );
 		lb.visibleESet = src.isSetVisible( );
 
-		// TODO remove more unused attrbutes.
 		if ( src.getBackground( ) != null )
 		{
 			lb.background = FillUtil.copyOf( src.getBackground( ) );
@@ -915,9 +909,17 @@ public class LabelImpl extends EObjectImpl implements Label
 		return lb;
 	}
 
-	public static Label create( EObject parent )
+	public static Label create( EObject parent, EReference ref )
 	{
-		return new LabelImpl( );
+		LabelImpl la = new LabelImpl( );
+
+		if ( ref == ComponentPackage.eINSTANCE.getSeries_Label( )
+				|| ref == ModelPackage.eINSTANCE.getChart_EmptyMessage( ) )
+		{
+			la.visible = false;
+		}
+
+		return la;
 	}
 
 } // LabelImpl

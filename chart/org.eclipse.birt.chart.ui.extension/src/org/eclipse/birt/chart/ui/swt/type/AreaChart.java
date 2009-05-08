@@ -59,7 +59,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -366,7 +365,7 @@ public class AreaChart extends DefaultChartTypeImpl
 	private Chart getConvertedChart( Chart currentChart, String sNewSubType,
 			Orientation newOrientation, String sNewDimension )
 	{
-		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
+		Chart helperModel = currentChart.copyInstance( );
 		ChartDimension oldDimension = currentChart.getDimension( );
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )

@@ -14,14 +14,14 @@ For charts without axes, this area includes the data points and data labels, but
 		<xsd:complexContent>
 			<xsd:extension base="Block">
 				<xsd:sequence>
-					<xsd:element name="HorizontalSpacing" type="xsd:int">
+					<xsd:element name="HorizontalSpacing" type="xsd:int" default="5">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							The horizontal spacing between elements in the plot.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="VerticalSpacing" type="xsd:int">
+					<xsd:element name="VerticalSpacing" type="xsd:int" default="5">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							The vertical spacing between elements in the plot.
@@ -82,20 +82,20 @@ The legend items usually describe either the series or categories, depeding on t
 						</xsd:annotation>
 					</xsd:element>
 					<xsd:element name="Orientation"
-						type="attribute:Orientation">
+						type="attribute:Orientation" default="Vertical">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 								The orientation of elements in the
-								legend.
+								legend, by default it's Vertical.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="Direction"
-						type="attribute:Direction">
+					<xsd:element name="Direction" 
+						type="attribute:Direction" default="Top_Bottom">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 								The direction in which the entries are
-								added to the legend.
+								added to the legend, by default it's TopBottom.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
@@ -110,10 +110,11 @@ The legend items usually describe either the series or categories, depeding on t
 						</xsd:annotation>
 					</xsd:element>
 					<xsd:element name="Position"
-						type="attribute:Position">
+						type="attribute:Position" default="Right">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-								The position of the legend.
+								The position of the legend, by
+								default it's Right.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
@@ -307,31 +308,35 @@ The legend items usually describe either the series or categories, depeding on t
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Row" type="xsd:int">
+			<xsd:element name="Row" type="xsd:int" default="-1">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-						Defines the row index for the block.
+						Defines the row index for the block, by
+						default it's -1.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Column" type="xsd:int">
+			<xsd:element name="Column" type="xsd:int" default="-1">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-						Defines the column index for the block.
+						Defines the column index for the block, by
+						default it's -1.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Rowspan" type="xsd:int">
+			<xsd:element name="Rowspan" type="xsd:int" default="-1">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-						Defines the rowspan value for the block.
+						Defines the rowspan value for the block, by
+						default it's -1.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Columnspan" type="xsd:int">
+			<xsd:element name="Columnspan" type="xsd:int" default="-1">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-						Defines the columnspan value for the block.
+						Defines the columnspan value for the block, by
+						default it's -1.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
@@ -359,10 +364,11 @@ The legend items usually describe either the series or categories, depeding on t
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Visible" type="xsd:boolean">
+			<xsd:element name="Visible" type="xsd:boolean" default="true">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-						Specifies whether the block is visible.
+						Specifies whether the block is visible, by default
+						it's true.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>

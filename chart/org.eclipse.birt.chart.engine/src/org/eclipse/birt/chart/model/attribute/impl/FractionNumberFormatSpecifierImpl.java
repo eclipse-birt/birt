@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import com.ibm.icu.util.ULocale;
@@ -715,7 +716,8 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		delimiterESet = src.isSetDelimiter( );
 	}
 
-	public static FractionNumberFormatSpecifier create( EObject parent )
+	public static FractionNumberFormatSpecifier create( EObject parent,
+			EReference ref )
 	{
 		return new FractionNumberFormatSpecifierImpl( );
 	}

@@ -12,6 +12,7 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.GanttDataSet;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Gantt Data Set</b></em>'.
@@ -86,7 +87,7 @@ public class GanttDataSetImpl extends DataSetImpl implements GanttDataSet
 
 	}
 
-	public static GanttDataSet create( EObject parent )
+	public static GanttDataSet create( EObject parent, EReference ref )
 	{
 		return new GanttDataSetImpl( );
 	}

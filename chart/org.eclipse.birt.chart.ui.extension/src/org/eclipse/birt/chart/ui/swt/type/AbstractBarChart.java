@@ -44,7 +44,7 @@ import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.swt.ChartPreviewPainterBase;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
@@ -58,7 +58,6 @@ import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -108,6 +107,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getTypeName()
 	 */
+	@Override
 	public String getName( )
 	{
 		return fsTypeLiteral;
@@ -118,6 +118,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getTypeName()
 	 */
+	@Override
 	public Image getImage( )
 	{
 		return UIHelper.getImage( "icons/obj16/" + fsChartTypePrefix.toLowerCase( ) + "charticon.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -227,6 +228,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getHelp()
 	 */
+	@Override
 	public IHelpContent getHelp( )
 	{
 		return new HelpContentImpl( fsTypeLiteral,
@@ -240,6 +242,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(
 	 * java.lang.String)
 	 */
+	@Override
 	public Collection<IChartSubType> getChartSubtypes( String sDimension,
 			Orientation orientation )
 	{
@@ -337,6 +340,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang
 	 * .String, java.lang.String, java.lang.String)
 	 */
+	@Override
 	public Chart getModel( String sSubType, Orientation orientation,
 			String sDimension, Chart currentChart )
 	{
@@ -359,15 +363,15 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		newChart.setDimension( ChartUIUtil.getDimensionType( sDimension ) );
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
 
-		( (Axis) newChart.getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
-		( (Axis) newChart.getAxes( ).get( 0 ) ).setType( AxisType.TEXT_LITERAL );
-		( (Axis) newChart.getAxes( ).get( 0 ) ).setCategoryAxis( true );
+		( newChart.getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
+		( newChart.getAxes( ).get( 0 ) ).setType( AxisType.TEXT_LITERAL );
+		( newChart.getAxes( ).get( 0 ) ).setCategoryAxis( true );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getSeriesPalette( ).shift( 0 );
-		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
+		( newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
 
 		newChart.getTitle( )
@@ -377,9 +381,9 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 
 		newChart.setUnitSpacing( 50 );
 
-		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
+		( ( newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
-		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
+		( ( newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).shift( 0 );
@@ -391,7 +395,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		}
 		else if ( sSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 		{
-			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
+			( ( newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).setPercent( true );
 
 			valueSeries.setStacked( true );
@@ -403,7 +407,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		}
 
 		sdY.getSeries( ).add( valueSeries );
-		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
+		( ( newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
 		ChartUIUtil.setSeriesName( newChart );
 
@@ -478,7 +482,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	private Chart getConvertedChart( Chart currentChart, String sNewSubType,
 			Orientation newOrientation, String sNewDimension )
 	{
-		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
+		Chart helperModel = currentChart.copyInstance( );
 		ChartDimension oldDimension = currentChart.getDimension( );
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
@@ -494,66 +498,72 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 						.getCaption( )
 						.setValue( getDefaultTitle( ) );
 
-				ArrayList axisTypes = new ArrayList( );
-				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( );
+				ArrayList<AxisType> axisTypes = new ArrayList<AxisType>( );
+				EList<Axis> axes = ( (ChartWithAxes) currentChart ).getAxes( )
+						.get( 0 )
+						.getAssociatedAxes( );
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
-					if ( !ChartPreviewPainter.isLivePreviewActive( )
-							&& !isNumbericAxis( (Axis) axes.get( i ) ) )
+					if ( !ChartPreviewPainterBase.isLivePreviewActive( )
+							&& !isNumbericAxis( axes.get( i ) ) )
 					{
-						( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+						axes.get( i ).setType( AxisType.LINEAR_LITERAL );
 					}
-					( (Axis) axes.get( i ) ).setPercent( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) );
-					EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
+					axes.get( i )
+							.setPercent( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) );
+					EList<SeriesDefinition> seriesdefinitions = axes.get( i )
+							.getSeriesDefinitions( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
-						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+						Series series = seriesdefinitions.get( j )
+								.getDesignTimeSeries( );
 						series = getConvertedSeries( series, seriesIndex++ );
-						if ( !ChartPreviewPainter.isLivePreviewActive( )
-								&& !isNumbericAxis( (Axis) axes.get( i ) ) )
+						if ( !ChartPreviewPainterBase.isLivePreviewActive( )
+								&& !isNumbericAxis( axes.get( i ) ) )
 						{
-							( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+							axes.get( i ).setType( AxisType.LINEAR_LITERAL );
 						}
 						boolean isStacked = ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) );
 						series.setStacked( isStacked );
 
-						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
+						seriesdefinitions.get( j ).getSeries( )
 								.clear( );
-						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
+						seriesdefinitions.get( j ).getSeries( )
 								.add( series );
-						axisTypes.add( ( (Axis) axes.get( i ) ).getType( ) );
+						axisTypes.add( axes.get( i ).getType( ) );
 					}
 				}
 
 				currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
-						( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-								.get( 0 ) ).getType( ),
+						( (ChartWithAxes) currentChart ).getAxes( )
+								.get( 0 )
+								.getType( ),
 						axisTypes ) );
 			}
 			else
 			{
-				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( );
+				EList<Axis> axes = ( (ChartWithAxes) currentChart ).getAxes( )
+						.get( 0 )
+						.getAssociatedAxes( );
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
 					if ( !currentChart.getSubType( ).equals( sNewSubType ) )
 					{
 						if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 						{
-							if ( !ChartPreviewPainter.isLivePreviewActive( )
-									&& !isNumbericAxis( (Axis) axes.get( i ) ) )
+							if ( !ChartPreviewPainterBase.isLivePreviewActive( )
+									&& !isNumbericAxis( axes.get( i ) ) )
 							{
-								( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+								axes.get( i ).setType( AxisType.LINEAR_LITERAL );
 							}
-							( (Axis) axes.get( i ) ).setPercent( true );
+							axes.get( i ).setPercent( true );
 						}
 						else
 						{
-							( (Axis) axes.get( i ) ).setPercent( false );
+							axes.get( i ).setPercent( false );
 						}
 					}
-					EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
+					EList seriesdefinitions = ( axes.get( i ) ).getSeriesDefinitions( );
 					Series firstSeries = ( (SeriesDefinition) seriesdefinitions.get( 0 ) ).getDesignTimeSeries( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
@@ -567,10 +577,10 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 										firstSeries );
 							}
 							seriesIndex++;
-							if ( !ChartPreviewPainter.isLivePreviewActive( )
-									&& !isNumbericAxis( (Axis) axes.get( i ) ) )
+							if ( !ChartPreviewPainterBase.isLivePreviewActive( )
+									&& !isNumbericAxis( axes.get( i ) ) )
 							{
-								( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+								( axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 							}
 							if ( series.canBeStacked( ) )
 							{
@@ -603,10 +613,14 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
 			currentChart.setDimension( ChartUIUtil.getDimensionType( sNewDimension ) );
 
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
+			( (ChartWithAxes) currentChart ).getAxes( )
+					.get( 0 )
+					.setOrientation( Orientation.HORIZONTAL_LITERAL );
+			( (ChartWithAxes) currentChart ).getAxes( )
+					.get( 0 )
+					.setCategoryAxis( true );
 
-			( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+			( ( ( (ChartWithAxes) currentChart ).getAxes( )
 					.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
 
 			// Copy generic chart properties from the old chart
@@ -629,46 +643,46 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 
 			{
 				// Clear existing series definitions
-				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
+				( ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 						.clear( );
 
 				// Copy base series definitions
-				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
+				( ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 						.add( ( (ChartWithoutAxes) helperModel ).getSeriesDefinitions( )
 								.get( 0 ) );
 
 				// Clear existing series definitions
-				( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+				( ( ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).getSeriesDefinitions( )
 						.clear( );
 
 				// Copy orthogonal series definitions
-				( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+				( ( ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).getSeriesDefinitions( )
-						.addAll( ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+						.addAll( ( ( ( (ChartWithAxes) currentChart ).getAxes( )
 								.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getSeriesDefinitions( ) );
 
 				// Update the base series
-				Series series = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+				Series series = ( ( ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
 				// series = getConvertedSeries( series );
 
 				// Clear existing series
-				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+				( ( ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getSeries( )
 						.clear( );
 
 				// Add converted series
-				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+				( ( ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getSeries( )
 						.add( series );
 
 				// Update the orthogonal series
-				EList seriesdefinitions = ( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+				EList<SeriesDefinition> seriesdefinitions = ( ( ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).getSeriesDefinitions( );
 				for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 				{
-					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+					series = ( seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
 					series.getLabel( ).setVisible( false );
 					if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
@@ -680,10 +694,10 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 						series.setStacked( false );
 					}
 					// Clear any existing series
-					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
+					( seriesdefinitions.get( j ) ).getSeries( )
 							.clear( );
 					// Add the new series
-					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
+					( seriesdefinitions.get( j ) ).getSeries( )
 							.add( series );
 				}
 			}
@@ -750,11 +764,12 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 						.add( sdAncillary );
 			}
 
-			EList seriesdefinitions = ChartUIUtil.getOrthogonalSeriesDefinitions( currentChart,
+			EList<SeriesDefinition> seriesdefinitions = ChartUIUtil.getOrthogonalSeriesDefinitions( currentChart,
 					0 );
 			for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 			{
-				Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+				Series series = seriesdefinitions.get( j )
+						.getDesignTimeSeries( );
 				( (BarSeries) series ).setRiser( foRiserType );
 				series.setStacked( false );// Stacked is unsupported in 3D
 				if ( ( series instanceof BarSeries )
@@ -856,6 +871,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions
 	 * ()
 	 */
+	@Override
 	public String[] getSupportedDimensions( )
 	{
 		return new String[]{
@@ -871,6 +887,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
 	 */
+	@Override
 	public String getDefaultDimension( )
 	{
 		return TWO_DIMENSION_TYPE;
@@ -883,6 +900,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
 	 * ()
 	 */
+	@Override
 	public boolean supportsTransposition( )
 	{
 		return true;
@@ -895,6 +913,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
 	 * (java.lang.String)
 	 */
+	@Override
 	public boolean supportsTransposition( String dimension )
 	{
 		if ( ChartUIUtil.getDimensionType( dimension ) == ChartDimension.THREE_DIMENSIONAL_LITERAL )
@@ -912,16 +931,18 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#canAdapt(org.eclipse
 	 * .birt.chart.model.Chart, java.util.Hashtable)
 	 */
+	@Override
 	public boolean canAdapt( Chart cModel, Hashtable htModelHints )
 	{
 		return false;
 	}
 
+	@Override
 	public ISelectDataComponent getBaseUI( Chart chart,
 			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
 			String sTitle )
 	{
-		return new DefaultBaseSeriesComponent( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
+		return new DefaultBaseSeriesComponent( ChartUIUtil.getBaseSeriesDefinitions( chart )
 				.get( 0 ),
 				context,
 				sTitle );
@@ -932,6 +953,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName( )
 	{
 		return Messages.getString( fsChartTypePrefix + "Chart.Txt.DisplayName" ); //$NON-NLS-1$
@@ -968,6 +990,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
 	 */
+	@Override
 	public Series getSeries( )
 	{
 		BarSeries barseries = (BarSeries) BarSeriesImpl.create( );

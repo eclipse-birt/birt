@@ -259,7 +259,7 @@ public final class OneAxis
 	 */
 	final boolean isAxisLabelStaggered( )
 	{
-		if ( axModel == null || !axModel.isSetStaggered( ) )
+		if ( axModel == null )
 		{
 			return false;
 		}
@@ -281,7 +281,7 @@ public final class OneAxis
 
 	final int getLableShowingInterval( )
 	{
-		if ( axModel == null || !axModel.isSetInterval( ) )
+		if ( axModel == null )
 		{
 			return 1;
 		}

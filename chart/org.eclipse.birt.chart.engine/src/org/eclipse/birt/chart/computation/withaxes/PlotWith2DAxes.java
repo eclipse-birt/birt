@@ -37,7 +37,6 @@ import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Location;
-import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Scale;
@@ -109,17 +108,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		// NOTE: FOR REL 1 AXIS RENDERS, WE SUPPORT A SINGLE PRIMARY BASE AXIS
 		// ONLY
 		final Axis axPrimaryBase = axa[0];
-		if ( !axPrimaryBase.isSetOrientation( ) )
-		{
-			axPrimaryBase.setOrientation( Orientation.HORIZONTAL_LITERAL );
-		}
 		validateAxis( axPrimaryBase );
 
 		final Axis axPrimaryOrthogonal = cwa.getPrimaryOrthogonalAxis( axPrimaryBase );
-		if ( !axPrimaryOrthogonal.isSetOrientation( ) )
-		{
-			axPrimaryOrthogonal.setOrientation( Orientation.VERTICAL_LITERAL );
-		}
 		validateAxis( axPrimaryOrthogonal );
 
 		final Axis[] axaOverlayOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase,
@@ -146,8 +137,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						// axPrimaryBase.getTitlePosition( ) )
 						// :
 						axPrimaryBase.getTitlePosition( ) ) ),
-				axPrimaryBase.isSetCategoryAxis( )
-						&& axPrimaryBase.isCategoryAxis( ),
+				axPrimaryBase.isCategoryAxis( ),
 				axPrimaryBase.getScale( ).isTickBetweenCategories( ) );
 		oaxPrimaryBase.setGridProperties( axPrimaryBase.getMajorGrid( )
 				.getLineAttributes( ),
@@ -185,8 +175,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						getLabelPosition( !isTransposed
 								? axPrimaryOrthogonal.getTitlePosition( )
 								: axPrimaryOrthogonal.getTitlePosition( ) ) ),
-				axPrimaryOrthogonal.isSetCategoryAxis( )
-						&& axPrimaryOrthogonal.isCategoryAxis( ),
+				axPrimaryOrthogonal.isCategoryAxis( ),
 				axPrimaryOrthogonal.getScale( ).isTickBetweenCategories( ) );
 		oaxPrimaryOrthogonal.setGridProperties( axPrimaryOrthogonal.getMajorGrid( )
 				.getLineAttributes( ),
@@ -217,10 +206,6 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		OneAxis oaxOverlayOrthogonal;
 		for ( int i = 0; i < axaOverlayOrthogonal.length; i++ )
 		{
-			if ( !axaOverlayOrthogonal[i].isSetOrientation( ) )
-			{
-				axaOverlayOrthogonal[i].setOrientation( Orientation.VERTICAL_LITERAL );
-			}
 			validateAxis( axaOverlayOrthogonal[i] );
 
 			oaxOverlayOrthogonal = new OneAxis( axaOverlayOrthogonal[i] );
@@ -233,8 +218,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							getLabelPosition( !isTransposed
 									? axaOverlayOrthogonal[i].getTitlePosition( )
 									: axaOverlayOrthogonal[i].getTitlePosition( ) ) ),
-					axaOverlayOrthogonal[i].isSetCategoryAxis( )
-							&& axaOverlayOrthogonal[i].isCategoryAxis( ),
+					axaOverlayOrthogonal[i].isCategoryAxis( ),
 					axaOverlayOrthogonal[i].getScale( )
 							.isTickBetweenCategories( ) );
 			oaxOverlayOrthogonal.setGridProperties( axaOverlayOrthogonal[i].getMajorGrid( )

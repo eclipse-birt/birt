@@ -12,6 +12,7 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -264,7 +265,7 @@ public class AccessibilityValueImpl extends ActionValueImpl implements
 		accessibility = src.getAccessibility( );
 	}
 
-	public static AccessibilityValue create( EObject parent )
+	public static AccessibilityValue create( EObject parent, EReference ref )
 	{
 		return new AccessibilityValueImpl( );
 	}

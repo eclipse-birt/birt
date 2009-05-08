@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -75,7 +76,9 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.graphics.Color;
@@ -484,7 +487,7 @@ public class ChartUIUtil
 
 					for ( int j = 0; j < seRuntimes.size( ); j++ )
 					{
-						Series seRuntimeOrthogonal = ChartUtil.eCopy( seDesignOrthogonal );
+						Series seRuntimeOrthogonal = seDesignOrthogonal.copyInstance( );
 						seRuntimeOrthogonal.setDataSet( seRuntimes.get( j )
 								.getDataSet( ) );
 						if ( iOrthogonalSeriesDefinitionCount < 1 )
@@ -538,7 +541,7 @@ public class ChartUIUtil
 
 				for ( int j = 0; j < seRuntimes.size( ); j++ )
 				{
-					Series seRuntimeOrthogonal = ChartUtil.eCopy( seDesignOrthogonal );
+					Series seRuntimeOrthogonal = seDesignOrthogonal.copyInstance( );
 					seRuntimeOrthogonal.setDataSet( seRuntimes.get( j ).getDataSet( ) );
 					if ( iOrthogonalSeriesDefinitionCount < 1 )
 					{
@@ -731,7 +734,7 @@ public class ChartUIUtil
 				.get( 0 )
 				.getAssociatedAxes( )
 				.get( 0 );
-		Axis overlayAxis = (Axis) EcoreUtil.copy( yAxis );
+		Axis overlayAxis = yAxis.copyInstance( );
 		// Now update overlay axis to set the properties that are
 		// different from
 		// the original
@@ -772,9 +775,10 @@ public class ChartUIUtil
 		// Create a new OrthogonalSampleData instance from the existing
 		// one
 		int currentSize = sd.getOrthogonalSampleData( ).size( );
-		OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( chartModel.getSampleData( )
+		OrthogonalSampleData sdOrthogonal = chartModel.getSampleData( )
 				.getOrthogonalSampleData( )
-				.get( 0 ) );
+				.get( 0 )
+				.copyInstance( );
 		sdOrthogonal.setDataSetRepresentation( ChartUtil.getNewSampleData( overlayAxis.getType( ),
 				currentSize ) );
 		sdOrthogonal.setSeriesDefinitionIndex( currentSize );
@@ -1013,17 +1017,13 @@ public class ChartUIUtil
 				if ( oldSeries.getDataDefinition( ).size( ) != 4 )
 				{
 					// For High value
-					newSeries.getDataDefinition( )
-							.add( ChartUtil.eCopy( query ) );
+					newSeries.getDataDefinition( ).add( query.copyInstance( ) );
 					// For Low value
-					newSeries.getDataDefinition( )
-							.add( ChartUtil.eCopy( query ) );
+					newSeries.getDataDefinition( ).add( query.copyInstance( ) );
 					// For Open value
-					newSeries.getDataDefinition( )
-							.add( ChartUtil.eCopy( query ) );
+					newSeries.getDataDefinition( ).add( query.copyInstance( ) );
 					// For Close value
-					newSeries.getDataDefinition( )
-							.add( ChartUtil.eCopy( query ) );
+					newSeries.getDataDefinition( ).add( query.copyInstance( ) );
 				}
 				else
 				{
@@ -1036,11 +1036,9 @@ public class ChartUIUtil
 				if ( oldSeries.getDataDefinition( ).size( ) != 2 )
 				{
 					// For value
-					newSeries.getDataDefinition( )
-							.add( ChartUtil.eCopy( query ) );
+					newSeries.getDataDefinition( ).add( query.copyInstance( ) );
 					// For Size
-					newSeries.getDataDefinition( )
-							.add( ChartUtil.eCopy( query ) );
+					newSeries.getDataDefinition( ).add( query.copyInstance( ) );
 				}
 				else
 				{
@@ -1052,10 +1050,8 @@ public class ChartUIUtil
 			{
 				if ( oldSeries.getDataDefinition( ).size( ) != 2 )
 				{
-					newSeries.getDataDefinition( )
-							.add( ChartUtil.eCopy( query ) );
-					newSeries.getDataDefinition( )
-							.add( ChartUtil.eCopy( query ) );
+					newSeries.getDataDefinition( ).add( query.copyInstance( ) );
+					newSeries.getDataDefinition( ).add( query.copyInstance( ) );
 				}
 				else
 				{
@@ -1068,14 +1064,11 @@ public class ChartUIUtil
 				if ( oldSeries.getDataDefinition( ).size( ) != 3 )
 				{
 					// For start
-					newSeries.getDataDefinition( )
-							.add( ChartUtil.eCopy( query ) );
+					newSeries.getDataDefinition( ).add( query.copyInstance( ) );
 					// For end
-					newSeries.getDataDefinition( )
-							.add( ChartUtil.eCopy( query ) );
+					newSeries.getDataDefinition( ).add( query.copyInstance( ) );
 					// For Label
-					newSeries.getDataDefinition( )
-							.add( ChartUtil.eCopy( query ) );
+					newSeries.getDataDefinition( ).add( query.copyInstance( ) );
 				}
 				else
 				{
@@ -1955,6 +1948,41 @@ public class ChartUIUtil
 			return 0;
 		}
 		return newColor < 255 ? newColor : 255;
+	}
+
+	private static void applyAdapter( EObject dest, EObject src )
+	{
+		if ( dest == null || src == null )
+		{
+			return;
+		}
+
+		dest.eAdapters( ).addAll( src.eAdapters( ) );
+
+		if ( dest.eClass( ) == src.eClass( ) )
+		{
+			EClass eClass = dest.eClass( );
+			for ( EReference ref : eClass.getEAllReferences( ) )
+			{
+				if ( ref.isMany( ) )
+				{
+					if ( ref.getEReferenceType( ).getInstanceClass( ) == Map.Entry.class )
+					{
+
+					}
+					else
+					{
+						List list = (List) dest.eGet( ref );
+					}
+				}
+				else
+				{
+					applyAdapter( (EObject) dest.eGet( ref ),
+							(EObject) src.eGet( ref ) );
+				}
+			}
+		}
+
 	}
 
 }

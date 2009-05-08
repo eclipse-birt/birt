@@ -41,7 +41,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesPaletteShe
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -793,9 +792,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					for ( int i = 0; i < osds.length; i++ )
 					{
 						bsd.getSeriesPalette( ).getEntries( ).set( i,
-								ChartUtil.eCopy( osds[i].getSeriesPalette( )
+								osds[i].getSeriesPalette( )
 										.getEntries( )
-										.get( 0 ) ) );
+										.get( 0 )
+										.copyInstance( ) );
 					}
 					( (SeriesPaletteSheet) popup ).setCategorySeries( bsd );
 

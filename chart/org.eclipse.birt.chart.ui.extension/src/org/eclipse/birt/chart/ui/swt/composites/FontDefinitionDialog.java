@@ -29,7 +29,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
@@ -129,12 +128,11 @@ public class FontDefinitionDialog extends TrayDialog implements
 		this.isAlignmentEnabled = isAlignmentEnabled;
 		this.wizardContext = wizardContext;
 		this.fdCurrent = fdCurrent == null ? FontDefinitionImpl.createEmpty( )
-				: (FontDefinition) EcoreUtil.copy( fdCurrent );
-		this.cdCurrent = cdCurrent == null ? null
-				: (ColorDefinition) EcoreUtil.copy( cdCurrent );
-		this.fdBackup = (FontDefinition) EcoreUtil.copy( this.fdCurrent );
+				: fdCurrent.copyInstance( );
+		this.cdCurrent = cdCurrent == null ? null : cdCurrent.copyInstance( );
+		this.fdBackup = fdCurrent.copyInstance( );
 		this.cdBackup = this.cdCurrent == null ? null
-				: (ColorDefinition) EcoreUtil.copy( this.cdCurrent );
+				: cdCurrent.copyInstance( );
 	}
 
 	protected void setShellStyle( int newShellStyle )
@@ -603,7 +601,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 
 	private void updatePreview( )
 	{
-		FontDefinition fd = (FontDefinition)EcoreUtil.copy( fdCurrent );
+		FontDefinition fd = fdCurrent.copyInstance( );
 		ChartUIUtil.getFlippedAlignment( fd.getAlignment( ), isFlippedAxes( ) );
 		fcPreview.setFontDefinition( fd );
 		fcPreview.redraw( );

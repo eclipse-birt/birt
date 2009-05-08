@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.computation.GObjectFacotry;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.device.IDisplayServer;
-import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
@@ -34,9 +33,6 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
-import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * A default layout policy implementation
@@ -128,14 +124,6 @@ public final class LayoutManager
 
 			szLegend = ( !lg.isVisible( ) ) ? SizeImpl.create( 0, 0 )
 					: lg.getPreferredSize( xs, cm, rtc );
-
-			if ( !lg.isSetPosition( ) )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						Messages.getString( "error.legend.position", //$NON-NLS-1$
-								ULocale.getDefault( ) ) );
-			}
 
 			if ( pl.isSetWidthHint( ) )
 			{

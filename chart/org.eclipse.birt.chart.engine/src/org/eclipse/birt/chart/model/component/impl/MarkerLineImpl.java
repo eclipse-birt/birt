@@ -34,6 +34,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -840,7 +841,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 		labelAnchorESet = src.isSetLabelAnchor( );
 	}
 
-	public static MarkerLine create( EObject parent )
+	public static MarkerLine create( EObject parent, EReference ref )
 	{
 		return new MarkerLineImpl( );
 	}

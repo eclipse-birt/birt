@@ -13,9 +13,12 @@ package org.eclipse.birt.chart.model.attribute.impl;
 
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -699,9 +702,24 @@ public class InsetsImpl extends EObjectImpl implements Insets
 		return true;
 	}
 
-	public static Insets create( EObject parent )
+	public static Insets create( EObject parent, EReference ref )
 	{
-		return new InsetsImpl( );
+		InsetsImpl insets = new InsetsImpl( );
+
+		if ( ref == ComponentPackage.eINSTANCE.getLabel_Insets( ) )
+		{
+			insets.left = 2;
+			insets.right = 3;
+		}
+		else if ( ref == LayoutPackage.eINSTANCE.getBlock_Insets( ) )
+		{
+			insets.left = 3;
+			insets.top = 3;
+			insets.right = 3;
+			insets.bottom = 3;
+		}
+
+		return insets;
 	}
 
 } // InsetsImpl

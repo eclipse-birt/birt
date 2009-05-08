@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
@@ -35,6 +36,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
+import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -63,6 +65,8 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
+import org.eclipse.core.runtime.IAdapterManager;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -1807,5 +1811,28 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			}
 		}
 		return true;
+	}
+
+	public static <T> T getAdapter( Object adaptable, Class<T> adapterClass )
+	{
+		IAdapterManager adapterManager = Platform.getAdapterManager( );
+		return adapterClass.cast( adapterManager.loadAdapter( adaptable,
+				adapterClass.getName( ) ) );
+	}
+
+	public static Serializer instanceSerializer( ExtendedItemHandle handle )
+	{
+
+		IChartReportItemFactory factory = ChartReportItemUtil.getAdapter( handle,
+				IChartReportItemFactory.class );
+
+		if ( factory != null )
+		{
+			return factory.createSerializer( handle );
+		}
+		else
+		{
+			return SerializerImpl.instance( );
+		}
 	}
 }

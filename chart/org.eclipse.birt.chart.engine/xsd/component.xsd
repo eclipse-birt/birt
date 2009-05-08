@@ -35,11 +35,11 @@ the various values plotted in each direction.  This class can further be extende
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="TitlePosition" type="attribute:Position"
-				minOccurs="0">
+				minOccurs="0" default="Left">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 						Specifies where the title for the axis should be
-						displayed.
+						displayed, by default it's Left.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
@@ -80,10 +80,11 @@ the various values plotted in each direction.  This class can further be extende
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="Orientation" type="attribute:Orientation"
-				minOccurs="0">
+				minOccurs="0" default="Vertical">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-						Specifies the orientation of the Axis.
+						Specifies the orientation of the Axis,
+						by default it's Vertical.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
@@ -113,11 +114,11 @@ the various values plotted in each direction.  This class can further be extende
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="LabelPosition" type="attribute:Position"
-				minOccurs="0">
+				minOccurs="0" default="Left">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 						Specifies where the labels for the axis should
-						be displayed.
+						be displayed, by default it's Left.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
@@ -332,11 +333,11 @@ data set is null, while at runtime, each series' data set gets populated with th
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="LabelPosition" type="attribute:Position"
-				minOccurs="0">
+				minOccurs="0" default="Outside">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 						Specifies where the data label for the series
-						should be displayed.
+						should be displayed, by default it's Outside.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
@@ -422,10 +423,11 @@ a chart element.			</xsd:documentation>
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Visible" type="xsd:boolean">
+			<xsd:element name="Visible" type="xsd:boolean" default="true">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies whether or not the label is visible on the chart.
+					By default it's true;
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
@@ -588,7 +590,7 @@ It can be used to denote a target value or threshold.</xsd:documentation>
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="TickStyle" type="attribute:TickStyle">
+			<xsd:element name="TickStyle" type="attribute:TickStyle" default="Across">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies how the tick is to be marked for the grid line.
@@ -653,11 +655,11 @@ It can be used to denote a target value or threshold.</xsd:documentation>
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="MinorGridsPerUnit" type="xsd:int">
+			<xsd:element name="MinorGridsPerUnit" type="xsd:int" default="5">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 						Specifies the number of minor grids per unit of
-						the scale.
+						the scale, by default it's 5.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>

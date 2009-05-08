@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
@@ -61,7 +62,7 @@ public class DataElementImpl extends EObjectImpl implements DataElement
 	{
 	}
 
-	public static DataElement create( EObject parent )
+	public static DataElement create( EObject parent, EReference ref )
 	{
 		return new DataElementImpl( );
 	}

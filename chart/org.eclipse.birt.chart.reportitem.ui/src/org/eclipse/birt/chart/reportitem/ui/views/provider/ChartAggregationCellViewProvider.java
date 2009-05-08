@@ -53,7 +53,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Provider for conversion between chart and text in cross tab
@@ -466,7 +465,7 @@ public class ChartAggregationCellViewProvider extends
 						return;
 					}
 
-					cmNew = (ChartWithAxes) EcoreUtil.copy( cm );
+					cmNew = cm.copyInstance( );
 					if ( type == CHANGE_ORIENTATION_TYPE
 							&& cell.getAggregationOnColumn( ) != null
 							&& cell.getAggregationOnRow( ) != null

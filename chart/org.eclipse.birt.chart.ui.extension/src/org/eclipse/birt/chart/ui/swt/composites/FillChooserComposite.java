@@ -24,7 +24,6 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
@@ -797,7 +796,7 @@ public class FillChooserComposite extends Composite implements
 			}
 			else if ( fCurrent instanceof ColorDefinition )
 			{
-				ColorDefinition newCD = (ColorDefinition) EcoreUtil.copy( fCurrent );
+				ColorDefinition newCD = ( (ColorDefinition) fCurrent ).copyInstance( );
 				newCD.eAdapters( ).addAll( fCurrent.eAdapters( ) );
 				pncd = new PositiveNegativeColorDialog( this.getShell( ),
 						wizardContext,
@@ -875,7 +874,7 @@ public class FillChooserComposite extends Composite implements
 			}
 			else if ( fCurrent instanceof ColorDefinition )
 			{
-				ColorDefinition newCD = (ColorDefinition) EcoreUtil.copy( fCurrent );
+				ColorDefinition newCD = (ColorDefinition) fCurrent.copyInstance( );
 				newCD.eAdapters( ).addAll( fCurrent.eAdapters( ) );
 				ged = new GradientEditorDialog( this.getShell( ),
 						wizardContext,

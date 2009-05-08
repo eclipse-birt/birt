@@ -12,6 +12,7 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Bubble Data Set</b></em>'.
@@ -86,7 +87,7 @@ public class BubbleDataSetImpl extends DataSetImpl implements BubbleDataSet
 	{
 	}
 
-	public static BubbleDataSet create( EObject parent )
+	public static BubbleDataSet create( EObject parent, EReference ref )
 	{
 		return new BubbleDataSetImpl( );
 	}

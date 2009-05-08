@@ -22,7 +22,6 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
@@ -45,7 +44,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Utility class for XTab integration in UI
@@ -472,17 +470,23 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 	{
 		ChartReportItemImpl reportItem = (ChartReportItemImpl) eih.getReportItem( );
 		ChartWithAxes cmOld = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
-		ChartWithAxes cmNew = (ChartWithAxes) EcoreUtil.copy( cmOld );
+		ChartWithAxes cmNew = cmOld.copyInstance( );
 
 		cmNew.setTransposed( cmFrom.isTransposed( ) );
 		// To resolve potential wrong axis type issue when flipping axes
 		cmNew.getBaseAxes( )[0].setType( AxisType.TEXT_LITERAL );
-		Query queryFrom = (Query) ( (SeriesDefinition) ( (Axis) cmFrom.getAxes( )
-				.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( )
+		Query queryFrom = cmFrom.getAxes( )
+				.get( 0 )
+				.getSeriesDefinitions( )
+				.get( 0 )
+				.getDesignTimeSeries( )
 				.getDataDefinition( )
 				.get( 0 );
-		Query queryTo = (Query) ( (SeriesDefinition) ( (Axis) cmNew.getAxes( )
-				.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( )
+		Query queryTo = cmNew.getAxes( )
+				.get( 0 )
+				.getSeriesDefinitions( )
+				.get( 0 )
+				.getDesignTimeSeries( )
 				.getDataDefinition( )
 				.get( 0 );
 		queryTo.setDefinition( queryFrom.getDefinition( ) );

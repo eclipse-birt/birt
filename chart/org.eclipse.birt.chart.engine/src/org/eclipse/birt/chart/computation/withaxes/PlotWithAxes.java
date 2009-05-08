@@ -176,15 +176,8 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 
 		org.eclipse.birt.chart.model.component.Grid gr = ( iMajorOrMinor == MAJOR ) ? ax.getMajorGrid( )
 				: ax.getMinorGrid( );
-		if ( !gr.isSetTickStyle( ) )
-		{
-			return iTickStyle;
-		}
 		final LineAttributes lia = gr.getTickAttributes( );
-		if ( !lia.isSetStyle( )
-				|| !lia.isSetThickness( )
-				|| !lia.isSetVisible( )
-				|| !lia.isVisible( ) )
+		if ( !lia.isVisible( ) )
 		{
 			return iTickStyle;
 		}
@@ -314,100 +307,10 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 	 */
 	protected void validateAxis( Axis ax ) throws ChartException
 	{
-		if ( !ax.isSetType( ) ) // AXIS TYPE UNDEFINED
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.VALIDATION,
-					new ChartException( ChartEnginePlugin.ID,
-							ChartException.UNDEFINED_VALUE,
-							"exception.undefined.axis.data.type", //$NON-NLS-1$
-							new Object[]{
-								ax
-							},
-							Messages.getResourceBundle( rtc.getULocale( ) ) ) );
-		}
-
-		if ( !ax.getLabel( ).isSetVisible( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.VALIDATION,
-					new ChartException( ChartEnginePlugin.ID,
-							ChartException.UNDEFINED_VALUE,
-							"exception.undefined.axis.label.visibility", //$NON-NLS-1$
-							new Object[]{
-								ax
-							},
-							Messages.getResourceBundle( rtc.getULocale( ) ) ) );
-		}
-
-		if ( !ax.getTitle( ).isSetVisible( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.VALIDATION,
-					new ChartException( ChartEnginePlugin.ID,
-							ChartException.UNDEFINED_VALUE,
-							"exception.undefined.axis.title.visibility", //$NON-NLS-1$
-							new Object[]{
-								ax
-							},
-							Messages.getResourceBundle( rtc.getULocale( ) ) ) );
-		}
-
-		if ( !ax.isSetLabelPosition( ) && ax.getLabel( ).isVisible( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.VALIDATION,
-					new ChartException( ChartEnginePlugin.ID,
-							ChartException.UNDEFINED_VALUE,
-							"exception.undefined.axis.label.position", //$NON-NLS-1$ 
-							new Object[]{
-								ax
-							},
-							Messages.getResourceBundle( rtc.getULocale( ) ) ) );
-		}
-
-		if ( !ax.isSetTitlePosition( ) && ax.getTitle( ).isVisible( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.VALIDATION,
-					new ChartException( ChartEnginePlugin.ID,
-							ChartException.UNDEFINED_VALUE,
-							"exception.undefined.axis.title.position", //$NON-NLS-1$
-							new Object[]{
-								ax
-							},
-							Messages.getResourceBundle( rtc.getULocale( ) ) ) );
-		}
-
 		LineAttributes liaTicks = ax.getMajorGrid( ).getTickAttributes( );
-		if ( !ax.getMajorGrid( ).isSetTickStyle( ) && liaTicks.isVisible( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.VALIDATION,
-					new ChartException( ChartEnginePlugin.ID,
-							ChartException.UNDEFINED_VALUE,
-							"exception.undefined.axis.major.tick.style", //$NON-NLS-1$
-							new Object[]{
-								ax
-							},
-							Messages.getResourceBundle( rtc.getULocale( ) ) ) );
-		}
-
 		liaTicks = ax.getMinorGrid( ).getTickAttributes( );
-		if ( !ax.getMinorGrid( ).isSetTickStyle( ) && liaTicks.isVisible( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.VALIDATION,
-					new ChartException( ChartEnginePlugin.ID,
-							ChartException.UNDEFINED_VALUE,
-							"exception.undefined.axis.minor.tick.style", //$NON-NLS-1$
-							new Object[]{
-								ax
-							},
-							Messages.getResourceBundle( rtc.getULocale( ) ) ) );
-		}
-
 		final int iOrientation = ax.getOrientation( ).getValue( );
+
 		if ( iOrientation == Orientation.VERTICAL )
 		{
 			int iPosition = -1;

@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.component.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -22,11 +23,9 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
-import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
@@ -48,6 +47,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -153,7 +153,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Position TITLE_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
+	protected static final Position TITLE_POSITION_EDEFAULT = Position.LEFT_LITERAL;
 
 	/**
 	 * The cached value of the '
@@ -236,7 +236,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.HORIZONTAL_LITERAL;
+	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.VERTICAL_LITERAL;
 
 	/**
 	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
@@ -292,7 +292,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Position LABEL_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
+	protected static final Position LABEL_POSITION_EDEFAULT = Position.LEFT_LITERAL;
 
 	/**
 	 * The cached value of the '
@@ -2851,9 +2851,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 		setLabel( LabelImpl.create( ) );
 
 		// AXIS LINE
-		LineAttributes lia = LineAttributesImpl.create( null,
-				LineStyle.SOLID_LITERAL,
-				1 );
+		LineAttributes lia = LineAttributesImpl.create( this,
+				ComponentPackage.eINSTANCE.getAxis_LineAttributes( ) );
 		setLineAttributes( lia );
 
 		// INTERSECTION VALUE
@@ -2863,7 +2862,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 		setOrigin( ao );
 
 		// PRIMARY AXIS
-		setPrimaryAxis( false );
+		// setPrimaryAxis( false );
 
 		// AXIS TITLE
 		Label la = LabelImpl.create( );
@@ -2879,38 +2878,32 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 		// MAJOR GRID
 		Grid gr = ComponentFactory.eINSTANCE.createGrid( );
-		lia = LineAttributesImpl.create( ColorDefinitionImpl.create( 196,
-				196,
-				196 ), LineStyle.SOLID_LITERAL, 1 );
-		lia.setVisible( false );
+		lia = LineAttributesImpl.create( gr,
+				ComponentPackage.eINSTANCE.getGrid_LineAttributes( ) );
+		lia.setColor( ColorDefinitionImpl.create( 196, 196, 196 ) );
 		gr.setLineAttributes( lia );
-		lia = LineAttributesImpl.create( ColorDefinitionImpl.create( 196,
-				196,
-				196 ), LineStyle.SOLID_LITERAL, 1 );
+		lia = LineAttributesImpl.create( gr,
+				ComponentPackage.eINSTANCE.getGrid_LineAttributes( ) );
+		lia.setColor( ColorDefinitionImpl.create( 196, 196, 196 ) );
+		lia.setVisible( true );
 		gr.setTickAttributes( lia );
-		gr.setTickStyle( TickStyle.ACROSS_LITERAL );
 		setMajorGrid( gr );
 
 		// MINOR GRID
 		gr = ComponentFactory.eINSTANCE.createGrid( );
-		lia = LineAttributesImpl.create( ColorDefinitionImpl.create( 225,
-				225,
-				225 ), LineStyle.SOLID_LITERAL, 1 );
-		lia.setVisible( false );
+		lia = LineAttributesImpl.create( gr,
+				ComponentPackage.eINSTANCE.getGrid_LineAttributes( ) );
+		lia.setColor( ColorDefinitionImpl.create( 225, 225, 225 ) );
 		gr.setLineAttributes( lia );
-		lia = LineAttributesImpl.create( ColorDefinitionImpl.create( 225,
-				225,
-				225 ), LineStyle.SOLID_LITERAL, 1 );
-		lia.setVisible( false );
+		lia = LineAttributesImpl.create( gr,
+				ComponentPackage.eINSTANCE.getGrid_LineAttributes( ) );
+		lia.setColor( ColorDefinitionImpl.create( 225, 225, 225 ) );
 		gr.setTickAttributes( lia );
-		gr.setTickStyle( TickStyle.ACROSS_LITERAL );
 		setMinorGrid( gr );
 
 		// SCALE
 		Scale sc = ComponentFactory.eINSTANCE.createScale( );
-		sc.setMinorGridsPerUnit( 5 );
 		setScale( sc );
-		setPercent( false );
 
 		if ( iAxisType == Axis.BASE )
 		{
@@ -3088,9 +3081,19 @@ public class AxisImpl extends EObjectImpl implements Axis
 		axisPercentESet = src.isSetAligned( );
 	}
 
-	public static Axis create( EObject parent )
+	public static Axis create( EObject parent, EReference ref )
 	{
-		return new AxisImpl( );
+		AxisImpl ax = new AxisImpl( );
+
+		if ( ref == ModelPackage.eINSTANCE.getChartWithAxes_Axes( ) )
+		{
+			ax.titlePosition = Position.BELOW_LITERAL;
+			ax.labelPosition = Position.BELOW_LITERAL;
+			ax.categoryAxis = true;
+			ax.orientation = Orientation.HORIZONTAL_LITERAL;
+		}
+
+		return ax;
 	}
 
 } // AxisImpl

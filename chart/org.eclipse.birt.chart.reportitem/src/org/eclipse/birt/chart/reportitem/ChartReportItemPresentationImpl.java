@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.reportitem;
 
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Standard presentation implementation for Chart
@@ -29,7 +28,7 @@ public final class ChartReportItemPresentationImpl
 		// we must copy the bounds to avoid that setting it on one object
 		// unsets it on its precedent container
 
-		Bounds bounds = (Bounds) EcoreUtil.copy( originalBounds );
+		Bounds bounds = originalBounds.copyInstance( );
 		return bounds;
 	}
 

@@ -16,10 +16,13 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -76,7 +79,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int THICKNESS_EDEFAULT = 0;
+	protected static final int THICKNESS_EDEFAULT = 1;
 
 	/**
 	 * The cached value of the '{@link #getThickness() <em>Thickness</em>}' attribute.
@@ -413,11 +416,11 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 			case AttributePackage.LINE_ATTRIBUTES__STYLE :
 				return getStyle( );
 			case AttributePackage.LINE_ATTRIBUTES__THICKNESS :
-				return new Integer( getThickness( ) );
+				return getThickness( );
 			case AttributePackage.LINE_ATTRIBUTES__COLOR :
 				return getColor( );
 			case AttributePackage.LINE_ATTRIBUTES__VISIBLE :
-				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isVisible( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -435,13 +438,13 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 				setStyle( (LineStyle) newValue );
 				return;
 			case AttributePackage.LINE_ATTRIBUTES__THICKNESS :
-				setThickness( ( (Integer) newValue ).intValue( ) );
+				setThickness( (Integer) newValue );
 				return;
 			case AttributePackage.LINE_ATTRIBUTES__COLOR :
 				setColor( (ColorDefinition) newValue );
 				return;
 			case AttributePackage.LINE_ATTRIBUTES__VISIBLE :
-				setVisible( ( (Boolean) newValue ).booleanValue( ) );
+				setVisible( (Boolean) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -588,9 +591,27 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 		visibleESet = src.isSetVisible( );
 	}
 
-	public static LineAttributes create( EObject parent )
+	public static LineAttributes create( EObject parent, EReference ref )
 	{
-		return new LineAttributesImpl( );
+		LineAttributesImpl lia = new LineAttributesImpl( );
+
+		if ( ref != null )
+		{
+			switch ( ref.getFeatureID( ) )
+			{
+				case LayoutPackage.CLIENT_AREA__OUTLINE : // 1
+					lia.thickness = 0;
+					break;
+				case LayoutPackage.LEGEND__SEPARATOR : // 23
+				case ComponentPackage.AXIS__LINE_ATTRIBUTES : // 9
+					lia.visible = true;
+					break;
+				default :
+					break;
+			}
+		}
+
+		return lia;
 	}
 
 } // LineAttributesImpl

@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -255,7 +256,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 		value = src.getValue( );
 	}
 
-	public static ExtendedProperty create( EObject parent )
+	public static ExtendedProperty create( EObject parent, EReference ref )
 	{
 		return new ExtendedPropertyImpl( );
 	}

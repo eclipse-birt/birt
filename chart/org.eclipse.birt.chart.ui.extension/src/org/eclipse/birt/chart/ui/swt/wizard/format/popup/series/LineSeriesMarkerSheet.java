@@ -36,7 +36,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -432,7 +431,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 		Marker renderMarker = currentMarker;
 		if ( currentMarker.getType( ) == MarkerType.ICON_LITERAL )
 		{
-			renderMarker = (Marker) EcoreUtil.copy( currentMarker );
+			renderMarker = currentMarker.copyInstance( );
 			renderMarker.setFill( ImageImpl.create( UIHelper.getURL( "icons/obj16/marker_icon.gif" ).toString( ) ) ); //$NON-NLS-1$
 		}
 

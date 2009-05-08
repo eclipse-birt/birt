@@ -37,6 +37,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -127,7 +128,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double UNIT_SPACING_EDEFAULT = 0.0;
+	protected static final double UNIT_SPACING_EDEFAULT = 50.0;
 
 	/**
 	 * The cached value of the '{@link #getUnitSpacing() <em>Unit Spacing</em>}' attribute.
@@ -1272,7 +1273,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		studyLayoutESet = src.isSetStudyLayout( );
 	}
 
-	public static ChartWithAxes create( EObject parent )
+	public static ChartWithAxes create( EObject parent, EReference ref )
 	{
 		return new ChartWithAxesImpl( );
 	}

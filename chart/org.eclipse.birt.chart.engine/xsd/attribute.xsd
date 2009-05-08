@@ -894,10 +894,11 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Thickness" type="xsd:int">
+			<xsd:element name="Thickness" type="xsd:int" default="1">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds the thickness of the line.
+					Holds the thickness of the line, by default
+					it's 1.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
@@ -978,10 +979,11 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 		<xsd:complexContent>
 			<xsd:extension base="Fill">
 				<xsd:sequence>
-					<xsd:element name="Transparency" type="xsd:int">
+					<xsd:element name="Transparency" type="xsd:int" default="255">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Specifies the transparency for the color.
+							Specifies the transparency for the color, by default
+							it's 255.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>

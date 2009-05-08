@@ -27,7 +27,6 @@ import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
@@ -102,7 +101,7 @@ public class MarkerIconDialog extends TrayDialog
 
 		if ( fill != null )
 		{
-			icon = (Fill) EcoreUtil.copy( fill );
+			icon = fill.copyInstance( );
 		}
 	}
 

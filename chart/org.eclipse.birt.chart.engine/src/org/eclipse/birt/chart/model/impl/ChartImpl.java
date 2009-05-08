@@ -24,17 +24,23 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
+import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
@@ -56,6 +62,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -249,7 +256,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double SERIES_THICKNESS_EDEFAULT = 0.0;
+	protected static final double SERIES_THICKNESS_EDEFAULT = 10.0;
 
 	/**
 	 * The cached value of the '
@@ -1422,7 +1429,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 		txtChartTitle.getFont( ).setAlignment( taTitle );
 
 		// 4. SETUP OTHER BASIC PROPERTIES
-		setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
+		// setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
 		setSeriesThickness( 10 );
 
 		// 5. SETUP INTERACTIVITY
@@ -1435,18 +1442,28 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	private Label newEmptyMessage( )
 	{
-		Label laAltText = LabelImpl.create( );
-		laAltText.getCaption( )
-				.setValue( Messages.getString( "ChartImpl.AltText" ) ); //$NON-NLS-1$
-		laAltText.getCaption( )
-				.getFont( )
-				.getAlignment( )
-				.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
-		laAltText.getCaption( )
-				.getFont( )
-				.getAlignment( )
-				.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
-		laAltText.setVisible( false );
+		Label laAltText = LabelImpl.create( this,
+				ModelPackage.eINSTANCE.getChart_EmptyMessage( ) );
+
+		laAltText.setCaption( TextImpl.create( Messages.getString( "ChartImpl.AltText" ) ) ); //$NON-NLS-1$
+		TextAlignment ta = laAltText.getCaption( ).getFont( ).getAlignment( );
+		ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
+		ta.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
+
+		ColorDefinition bgColor = ColorDefinitionImpl.GREY( );
+		bgColor.setTransparency( 64 );
+		laAltText.setBackground( bgColor );
+
+		laAltText.setInsets( InsetsImpl.create( 10, 10, 10, 10 ) );
+
+		ColorDefinition outlineColor = ColorDefinitionImpl.GREY( );
+		outlineColor.setTransparency( 128 );
+		LineAttributes lia = LineAttributesImpl.create( laAltText,
+				ComponentPackage.eINSTANCE.getLabel_Outline( ) );
+		lia.setColor( outlineColor );
+		lia.setVisible( true );
+		laAltText.setOutline( lia );
+
 		return laAltText;
 	}
 
@@ -1766,7 +1783,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 		gridColumnCountESet = src.isSetGridColumnCount( );
 	}
 
-	public static Chart create( EObject parent )
+	public static Chart create( EObject parent, EReference ref )
 	{
 		return new ChartImpl( );
 	}

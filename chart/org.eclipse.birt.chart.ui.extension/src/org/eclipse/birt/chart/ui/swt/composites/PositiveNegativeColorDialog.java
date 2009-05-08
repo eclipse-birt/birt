@@ -21,7 +21,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -64,8 +63,8 @@ public class PositiveNegativeColorDialog extends TrayDialog implements Listener
 		this.wizardContext = wizardContext;
 		if ( mSelected != null )
 		{
-			mCurrent = (MultipleFill) EcoreUtil.copy( mSelected );
-			mBackup = (MultipleFill) EcoreUtil.copy( mSelected );
+			mCurrent = mSelected.copyInstance( );
+			mBackup = mSelected.copyInstance( );
 		}
 		else
 		{
@@ -171,7 +170,7 @@ public class PositiveNegativeColorDialog extends TrayDialog implements Listener
 		if ( currentLuminance < 200 )
 		{
 			mFill.getFills( ).add( 0, selectedColor );
-			ColorDefinition newColor = (ColorDefinition) EcoreUtil.copy( selectedColor );
+			ColorDefinition newColor = selectedColor.copyInstance( );
 			newColor.eAdapters( ).addAll( selectedColor.eAdapters( ) );
 
 			int lumDiff = 240 - currentLuminance;
@@ -183,7 +182,7 @@ public class PositiveNegativeColorDialog extends TrayDialog implements Listener
 		else
 		{
 			mFill.getFills( ).add( 0, selectedColor );
-			ColorDefinition newColor = (ColorDefinition) EcoreUtil.copy( selectedColor );
+			ColorDefinition newColor = selectedColor.copyInstance( );
 			newColor.eAdapters( ).addAll( selectedColor.eAdapters( ) );
 
 			int lumDiff = -100;

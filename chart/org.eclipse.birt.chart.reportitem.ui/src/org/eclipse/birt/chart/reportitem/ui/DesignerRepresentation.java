@@ -53,7 +53,6 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
@@ -154,13 +153,13 @@ public final class DesignerRepresentation extends Figure
 				if ( ChartXTabUtil.isPlotChart( crii.getHandle( ) ) )
 				{
 					// Update model for Plot chart
-					cm = ChartXTabUtil.updateModelToRenderPlot( (Chart) EcoreUtil.copy( cm ),
+					cm = ChartXTabUtil.updateModelToRenderPlot( cm.copyInstance( ),
 							crii.getHandle( ).isDirectionRTL( ) );
 				}
 				else if ( ChartXTabUtil.isAxisChart( crii.getHandle( ) ) )
 				{
 					// Update model for Axis chart
-					cm = ChartXTabUtil.updateModelToRenderAxis( (Chart) EcoreUtil.copy( cm ),
+					cm = ChartXTabUtil.updateModelToRenderAxis( cm.copyInstance( ),
 							crii.getHandle( ).isDirectionRTL( ) );
 				}
 
@@ -530,7 +529,7 @@ public final class DesignerRepresentation extends Figure
 		// MODEL
 		try
 		{
-			Chart cmRunTime = (Chart) EcoreUtil.copy( cm );
+			Chart cmRunTime = cm.copyInstance( );
 			removeScaleInfoForSample( cmRunTime );
 
 			RunTimeContext rtc = new RunTimeContext( );

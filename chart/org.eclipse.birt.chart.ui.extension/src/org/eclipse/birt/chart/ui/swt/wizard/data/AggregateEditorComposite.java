@@ -31,7 +31,6 @@ import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -143,7 +142,7 @@ public class AggregateEditorComposite extends Composite implements
 		fSeriesDefi = sd;
 		if ( sd.getGrouping( ) != null )
 		{
-			fGrouping = (SeriesGrouping) EcoreUtil.copy( sd.getGrouping( ) );
+			fGrouping = sd.getGrouping( ).copyInstance( );
 		}
 		else
 		{
@@ -159,7 +158,7 @@ public class AggregateEditorComposite extends Composite implements
 		{
 			if ( sd.getGrouping( ) != null )
 			{
-				fGrouping = (SeriesGrouping) EcoreUtil.copy( sd.getGrouping( ) );
+				fGrouping = sd.getGrouping( ).copyInstance( );
 			}
 			else
 			{
@@ -168,7 +167,7 @@ public class AggregateEditorComposite extends Composite implements
 		}
 		else
 		{
-			fGrouping = (SeriesGrouping) EcoreUtil.copy( query.getGrouping( ) );
+			fGrouping = query.getGrouping( ).copyInstance( );
 		}
 	}
 	
@@ -269,7 +268,7 @@ public class AggregateEditorComposite extends Composite implements
 
 	private boolean isSetAggregate( )
 	{
-		return ( fGrouping.isEnabled( ) && fGrouping.isSetEnabled( ) );
+		return ( fGrouping.isEnabled( ) );
 	}
 
 	/**

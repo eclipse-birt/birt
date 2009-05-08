@@ -80,11 +80,11 @@ expected to be present for all charts.
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="SeriesThickness" type="xsd:double"
-				minOccurs="0">
+				minOccurs="0" default="10">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 						Specifies the thickness to be used while
-						rendering the chart with depth or in 3D.
+						rendering the chart with depth or in 3D, by default it's 10.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
@@ -192,7 +192,7 @@ orthoganal axes.
 						</xsd:annotation>
 					</xsd:element>
 					<xsd:element name="UnitSpacing"
-						type="attribute:Percentage">
+						type="attribute:Percentage" default="50">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 								Specifies the spacing between the last

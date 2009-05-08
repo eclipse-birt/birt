@@ -1627,7 +1627,7 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		hmComputedLabelText = new HashMap<Integer, String>( );
 
-		boolean vis = la.isSetVisible( ) && la.isVisible( );
+		boolean vis = la.isVisible( );
 		if ( !vis && rtc.getSharedScale( ) != null )
 		{
 			// In shared scale case, treat plot chart with invisible labels has
@@ -2101,7 +2101,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.dZoomFactor = zoomFactor;
 			sc.iMarginPercent = iMarginPercent;
 			sc.bExpandMinMax = scModel.isAutoExpand( );
-			sc.bAlignZero = ax.getModelAxis( ).isSetAligned( );
+			sc.bAlignZero = ax.getModelAxis( ).isAligned( );
 			sc.setData( dsi );
 			sc.setDirection( direction );
 			sc.computeTicks( xs,
@@ -2191,7 +2191,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.dPrecision = dPrecision;
 			sc.iMarginPercent = iMarginPercent;
 			sc.bExpandMinMax = scModel.isAutoExpand( );
-			sc.bAlignZero = ax.getModelAxis( ).isSetAligned( );
+			sc.bAlignZero = ax.getModelAxis( ).isAligned( );
 
 			// OVERRIDE MIN OR MAX IF SPECIFIED
 			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
@@ -2263,7 +2263,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.setData( dsi );
 			sc.setDirection( direction );
 			sc.bExpandMinMax = scModel.isAutoExpand( );
-			sc.bAlignZero = ax.getModelAxis( ).isSetAligned( );
+			sc.bAlignZero = ax.getModelAxis( ).isAligned( );
 
 			// OVERRIDE MIN OR MAX IF SPECIFIED
 			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
@@ -2370,7 +2370,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.dZoomFactor = zoomFactor;
 			sc.iMarginPercent = iMarginPercent;
 			sc.bExpandMinMax = scModel.isAutoExpand( );
-			sc.bAlignZero = ax.getModelAxis( ).isSetAligned( );
+			sc.bAlignZero = ax.getModelAxis( ).isAligned( );
 
 			// OVERRIDE MINIMUM IF SPECIFIED
 			if ( oMinimum != null )
@@ -3339,17 +3339,6 @@ public final class AutoScale extends Methods implements Cloneable
 	public final double computeAxisLabelThickness( IDisplayServer xs, Label la,
 			int iOrientation ) throws ChartException
 	{
-		if ( !la.isSetVisible( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					"exception.unset.label.visibility", //$NON-NLS-1$
-					new Object[]{
-						la.getCaption( ).getValue( )
-					},
-					Messages.getResourceBundle( rtc.getULocale( ) ) );
-		}
-
 		if ( !la.isVisible( ) )
 		{
 			return 0;
@@ -3711,17 +3700,6 @@ public final class AutoScale extends Methods implements Cloneable
 	public final double computeStaggeredAxisLabelOffset( IDisplayServer xs,
 			Label la, int iOrientation ) throws ChartException
 	{
-		if ( !la.isSetVisible( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					"exception.unset.label.visibility", //$NON-NLS-1$
-					new Object[]{
-						la.getCaption( ).getValue( )
-					},
-					Messages.getResourceBundle( rtc.getULocale( ) ) );
-		}
-
 		if ( !la.isVisible( ) || !isAxisLabelStaggered( ) )
 		{
 			return 0;

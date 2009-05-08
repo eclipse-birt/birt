@@ -35,7 +35,6 @@ import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
@@ -311,7 +310,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		Marker renderMarker = currentMarker;
 		if ( currentMarker.getType( ) == MarkerType.ICON_LITERAL )
 		{
-			renderMarker = (Marker) EcoreUtil.copy( currentMarker );
+			renderMarker = currentMarker.copyInstance( );
 			renderMarker.setFill( ImageImpl.create( UIHelper.getURL( "icons/obj16/marker_icon.gif" ).toString( ) ) ); //$NON-NLS-1$
 		}
 

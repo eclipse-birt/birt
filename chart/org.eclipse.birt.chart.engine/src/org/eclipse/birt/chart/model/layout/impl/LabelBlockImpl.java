@@ -34,6 +34,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -306,7 +307,7 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 
 	}
 
-	public static LabelBlock create( EObject parent )
+	public static LabelBlock create( EObject parent, EReference ref )
 	{
 		return new LabelBlockImpl( );
 	}

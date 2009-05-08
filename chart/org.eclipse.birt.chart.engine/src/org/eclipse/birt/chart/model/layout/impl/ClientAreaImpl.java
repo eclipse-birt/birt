@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.chart.model.layout.impl;
 
+import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
@@ -25,6 +25,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -501,7 +502,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 			case LayoutPackage.CLIENT_AREA__INSETS :
 				return getInsets( );
 			case LayoutPackage.CLIENT_AREA__VISIBLE :
-				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
+				return isVisible( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -529,7 +530,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 				setInsets( (Insets) newValue );
 				return;
 			case LayoutPackage.CLIENT_AREA__VISIBLE :
-				setVisible( ( (Boolean) newValue ).booleanValue( ) );
+				setVisible( (Boolean) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -617,12 +618,13 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	public final void initialize( )
 	{
 		//setBackground( ColorDefinitionImpl.WHITE( ) );
-		final LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
-				LineStyle.SOLID_LITERAL,
-				0 );
-		lia.setVisible( false );
+		final LineAttributes lia = LineAttributesImpl.create( this,
+				LayoutPackage.eINSTANCE.getClientArea_Outline( ) );
+		lia.setColor( ColorDefinitionImpl.create( lia,
+				AttributePackage.eINSTANCE.getLineAttributes_Color( ) ) );
 		setOutline( lia );
-		setInsets( InsetsImpl.create( 0, 0, 0, 0 ) );
+		setInsets( InsetsImpl.create( this,
+				LayoutPackage.eINSTANCE.getClientArea_Insets( ) ) );
 	}
 
 	/**
@@ -662,7 +664,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 		visibleESet = src.isSetVisible( );
 	}
 
-	public static ClientArea create( EObject parent )
+	public static ClientArea create( EObject parent, EReference ref )
 	{
 		return new ClientAreaImpl( );
 	}

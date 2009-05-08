@@ -62,7 +62,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -1067,7 +1066,8 @@ public class TaskSelectType extends SimpleTask implements
 				if ( !lastSeries.getDisplayName( )
 						.equals( cbSeriesType.getText( ) ) )
 				{
-					Series newSeries = (Series) EcoreUtil.copy( htSeriesNames.get( cbSeriesType.getText( ) ) );
+					Series newSeries = htSeriesNames.get( cbSeriesType.getText( ) )
+							.copyInstance( );
 					newSeries.translateFrom( lastSeries,
 							iSeriesDefinitionIndex,
 							chartModel );

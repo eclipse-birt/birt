@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CursorImpl.java,v 1.4 2009/03/12 09:24:16 ywang1 Exp $
+ * $Id: CursorImpl.java,v 1.5 2009/04/22 08:40:24 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -18,6 +18,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -319,7 +320,7 @@ public class CursorImpl extends EObjectImpl implements Cursor
 		typeESet = src.isSetType( );
 	}
 
-	public static Cursor create( EObject parent )
+	public static Cursor create( EObject parent, EReference ref )
 	{
 		return new CursorImpl( );
 	}

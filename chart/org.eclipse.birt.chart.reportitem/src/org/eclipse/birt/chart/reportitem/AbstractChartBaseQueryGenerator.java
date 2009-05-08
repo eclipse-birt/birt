@@ -643,8 +643,7 @@ public abstract class AbstractChartBaseQueryGenerator
 			String yGroupExpr = orthSD.getQuery( ).getDefinition( );
 			SeriesGrouping yGroupingInterval = orthSD.getQuery( ).getGrouping( );
 			
-			if ( yGroupingInterval != null &&
-					yGroupingInterval.isSetGroupType( ) )
+			if ( yGroupingInterval != null )
 			{
 				dataType = yGroupingInterval.getGroupType( );
 				groupUnit = yGroupingInterval.getGroupingUnit( );
@@ -728,7 +727,6 @@ public abstract class AbstractChartBaseQueryGenerator
 	{
 		String baseAggFunExpr = null;
 		if ( baseSD.getGrouping( ) != null &&
-				baseSD.getGrouping( ).isSetEnabled( ) &&
 				baseSD.getGrouping( ).isEnabled( ) )
 		{
 			baseAggFunExpr = baseSD.getGrouping( ).getAggregateExpression( );

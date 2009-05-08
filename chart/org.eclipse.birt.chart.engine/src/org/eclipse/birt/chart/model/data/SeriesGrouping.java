@@ -300,10 +300,35 @@ public interface SeriesGrouping extends EObject
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateExpression <em>Aggregate Expression</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Aggregate Expression</em>' attribute.
+	 * @see #isSetAggregateExpression()
+	 * @see #unsetAggregateExpression()
 	 * @see #getAggregateExpression()
 	 * @generated
 	 */
 	void setAggregateExpression( String value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateExpression <em>Aggregate Expression</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetAggregateExpression()
+	 * @see #getAggregateExpression()
+	 * @see #setAggregateExpression(String)
+	 * @generated
+	 */
+	void unsetAggregateExpression( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateExpression <em>Aggregate Expression</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Aggregate Expression</em>' attribute is set.
+	 * @see #unsetAggregateExpression()
+	 * @see #getAggregateExpression()
+	 * @see #setAggregateExpression(String)
+	 * @generated
+	 */
+	boolean isSetAggregateExpression( );
 
 	/**
 	 * Returns the value of the '<em><b>Aggregate Parameters</b></em>' attribute list.

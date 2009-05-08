@@ -19,7 +19,6 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Presentation implementation for Chart Plot in Cross tab
@@ -34,7 +33,7 @@ public final class ChartReportItemPresentationPlotImpl extends
 
 		// we must copy the bounds to avoid that setting it on one object
 		// unsets it on its precedent container
-		Bounds bounds = (Bounds) EcoreUtil.copy( originalBounds );
+		Bounds bounds = originalBounds.copyInstance( );
 
 		try
 		{

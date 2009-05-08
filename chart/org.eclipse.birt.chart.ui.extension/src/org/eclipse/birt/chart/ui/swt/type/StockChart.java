@@ -50,7 +50,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
 import com.ibm.icu.text.SimpleDateFormat;
@@ -240,7 +239,7 @@ public class StockChart extends DefaultChartTypeImpl
 	private Chart getConvertedChart( Chart currentChart, String sNewSubType,
 			Orientation newOrientation, String sNewDimension )
 	{
-		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
+		Chart helperModel = currentChart.copyInstance( );
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );

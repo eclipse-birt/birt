@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import com.ibm.icu.util.Calendar;
@@ -295,7 +296,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 		valueESet = src.isSetValue( );
 	}
 
-	public static DateTimeDataElement create( EObject parent )
+	public static DateTimeDataElement create( EObject parent, EReference ref )
 	{
 		return new DateTimeDataElementImpl( );
 	}

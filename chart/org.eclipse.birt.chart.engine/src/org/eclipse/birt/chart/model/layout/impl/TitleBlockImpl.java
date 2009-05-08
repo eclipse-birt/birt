@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Title Block</b></em>'. <!-- end-user-doc
@@ -136,7 +137,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 
 	}
 
-	public static TitleBlock create( EObject parent )
+	public static TitleBlock create( EObject parent, EReference ref )
 	{
 		return new TitleBlockImpl( );
 	}

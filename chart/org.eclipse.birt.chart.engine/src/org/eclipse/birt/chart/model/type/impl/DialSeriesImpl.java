@@ -25,6 +25,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -369,7 +370,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 	}
 
-	public static DialSeries create( EObject parent )
+	public static DialSeries create( EObject parent, EReference ref )
 	{
 		return new DialSeriesImpl( );
 	}

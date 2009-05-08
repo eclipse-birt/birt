@@ -27,7 +27,6 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 
 /**
@@ -105,7 +104,7 @@ public class FlipAxisAction extends Action
 			{
 				ChartReportItemImpl reportItem = (ChartReportItemImpl) eih.getReportItem( );
 				ChartWithAxes cmOld = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
-				ChartWithAxes cmNew = (ChartWithAxes) EcoreUtil.copy( cmOld );
+				ChartWithAxes cmNew = cmOld.copyInstance( );
 				List<String> exprs = ChartXTabUtil.getAllLevelsBindingExpression( containerCell.getCrosstab( ) );
 				Query query = cmNew.getAxes( )
 						.get( 0 )

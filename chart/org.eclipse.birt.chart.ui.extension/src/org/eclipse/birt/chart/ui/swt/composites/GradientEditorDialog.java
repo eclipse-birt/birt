@@ -18,7 +18,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -79,8 +78,8 @@ public class GradientEditorDialog extends TrayDialog implements
 		this.wizardContext = wizardContext;
 		this.bSupportAngle = bSupportAngle;
 
-		gCurrent = (Gradient) EcoreUtil.copy( gSelected );
-		gBackup = (Gradient) EcoreUtil.copy( gSelected );
+		gCurrent = gSelected.copyInstance( );
+		gBackup = gSelected.copyInstance( );
 	}
 
 	public GradientEditorDialog( Shell shellParent,

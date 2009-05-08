@@ -233,7 +233,10 @@ public interface ChartWithAxes extends Chart
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies the rotation angle by three directions for the chart. 
+	 * 
+	 * 								Specifies the rotation angle by three
+	 * 								directions for the chart.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Rotation</em>' containment reference.
 	 * @see #setRotation(Rotation3D)
@@ -260,7 +263,10 @@ public interface ChartWithAxes extends Chart
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies if the categories are in reverse order
+	 * 
+	 * 								Specifies if the categories are in
+	 * 								reverse order
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Reverse Category</em>' attribute.
 	 * @see #isSetReverseCategory()

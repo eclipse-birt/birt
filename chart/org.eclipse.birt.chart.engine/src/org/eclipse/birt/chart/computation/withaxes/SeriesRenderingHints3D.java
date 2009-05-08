@@ -17,13 +17,11 @@ import org.eclipse.birt.chart.computation.GObjectFacotry;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.computation.Methods;
-import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints3D;
 
 /**
@@ -297,18 +295,6 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 	public final Position getLabelPosition( Series se ) throws ChartException,
 			IllegalArgumentException
 	{
-		if ( !se.isSetLabelPosition( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.UNDEFINED_VALUE,
-					"exception.undefined.data.label.position", //$NON-NLS-1$
-					new Object[]{
-						se
-					},
-					Messages.getResourceBundle( pwa.getRunTimeContext( )
-							.getULocale( ) ) );
-		}
-
 		final int iTransposed = pwa.transposeLabelPosition( IConstants.ORTHOGONAL,
 				Methods.getLabelPosition( se.getLabelPosition( ) ) );
 		Position p = null;

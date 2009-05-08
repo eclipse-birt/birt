@@ -28,7 +28,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 
 /**
@@ -116,9 +115,8 @@ public class ShowAxisAction extends Action
 			}
 			ChartReportItemImpl reportItem = (ChartReportItemImpl) plotChart.getReportItem( );
 			ChartWithAxes cmOld = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
-			ChartWithAxes cmNew = (ChartWithAxes) EcoreUtil.copy( cmOld );
-			Axis yAxis = (Axis) ( (Axis) cmNew.getAxes( ).get( 0 ) ).getAssociatedAxes( )
-					.get( 0 );
+			ChartWithAxes cmNew = cmOld.copyInstance( );
+			Axis yAxis = cmNew.getAxes( ).get( 0 ).getAssociatedAxes( ).get( 0 );
 			if ( yAxis != null )
 			{
 				yAxis.getLineAttributes( ).setVisible( isChecked( ) );

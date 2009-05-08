@@ -46,7 +46,6 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.IChartEventHandler;
@@ -66,8 +65,6 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItem;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
-import org.eclipse.core.runtime.IAdapterManager;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
@@ -148,36 +145,13 @@ public final class ChartReportItemImpl extends ReportItem implements
 		}
 	};
 
-	public static <T> T getAdapter( Object adaptable, Class<T> adapterClass )
-	{
-		IAdapterManager adapterManager = Platform.getAdapterManager( );
-		return adapterClass.cast( adapterManager.loadAdapter( adaptable,
-				adapterClass.getName( ) ) );
-	}
-
-	private Serializer instanceSerializer( ExtendedItemHandle handle )
-	{
-
-		IChartReportItemFactory factory = getAdapter( handle,
-				IChartReportItemFactory.class );
-
-		if ( factory != null )
-		{
-			return factory.createSerializer( handle );
-		}
-		else
-		{
-			return SerializerImpl.instance( );
-		}
-	}
-
 	/**
-	 * The construcotor.
+	 * The constructor.
 	 */
 	public ChartReportItemImpl( ExtendedItemHandle handle )
 	{
 		this.handle = handle;
-		this.serializer = instanceSerializer( handle );
+		this.serializer = ChartReportItemUtil.instanceSerializer( handle );
 	}
 
 	/**
@@ -966,4 +940,14 @@ public final class ChartReportItemImpl extends ReportItem implements
 		return handle.getContainer( ).isDirectionRTL( );
 	}
 	
+	/**
+	 * Returns the current serializer.
+	 * 
+	 * @return
+	 */
+	public Serializer getSerializer( )
+	{
+		return serializer;
+	}
+
 }

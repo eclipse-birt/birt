@@ -14,9 +14,11 @@ package org.eclipse.birt.chart.model.attribute.impl;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -46,7 +48,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int TRANSPARENCY_EDEFAULT = 0;
+	protected static final int TRANSPARENCY_EDEFAULT = 255;
 
 	/**
 	 * The cached value of the '
@@ -173,7 +175,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 		setRed( iRed );
 		setGreen( iGreen );
 		setBlue( iBlue );
-		setTransparency( 255 );
 	}
 
 	/**
@@ -383,13 +384,13 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 		switch ( featureID )
 		{
 			case AttributePackage.COLOR_DEFINITION__TRANSPARENCY :
-				return new Integer( getTransparency( ) );
+				return getTransparency( );
 			case AttributePackage.COLOR_DEFINITION__RED :
-				return new Integer( getRed( ) );
+				return getRed( );
 			case AttributePackage.COLOR_DEFINITION__GREEN :
-				return new Integer( getGreen( ) );
+				return getGreen( );
 			case AttributePackage.COLOR_DEFINITION__BLUE :
-				return new Integer( getBlue( ) );
+				return getBlue( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -404,16 +405,16 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 		switch ( featureID )
 		{
 			case AttributePackage.COLOR_DEFINITION__TRANSPARENCY :
-				setTransparency( ( (Integer) newValue ).intValue( ) );
+				setTransparency( (Integer) newValue );
 				return;
 			case AttributePackage.COLOR_DEFINITION__RED :
-				setRed( ( (Integer) newValue ).intValue( ) );
+				setRed( (Integer) newValue );
 				return;
 			case AttributePackage.COLOR_DEFINITION__GREEN :
-				setGreen( ( (Integer) newValue ).intValue( ) );
+				setGreen( (Integer) newValue );
 				return;
 			case AttributePackage.COLOR_DEFINITION__BLUE :
-				setBlue( ( (Integer) newValue ).intValue( ) );
+				setBlue( (Integer) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -831,9 +832,26 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 		blueESet = src.isSetBlue( );
 	}
 
-	public static ColorDefinition create( EObject parent )
+	public static ColorDefinition create( EObject parent, EReference ref )
 	{
-		return new ColorDefinitionImpl( );
+		ColorDefinitionImpl color = new ColorDefinitionImpl( );
+
+		if ( ref == AttributePackage.eINSTANCE.getPalette_Entries( ) )
+		{
+			color.red = 128;
+			color.green = 128;
+			color.blue = 128;
+		}
+		else if ( ref == ComponentPackage.eINSTANCE.getLabel_Background( ) )
+		{
+			color.red = 255;
+			color.green = 255;
+			color.blue = 255;
+			color.transparency = 0;
+			color.transparencyESet = true;
+		}
+
+		return color;
 	}
 
 } // ColorDefinitionImpl

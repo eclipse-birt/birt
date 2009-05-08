@@ -25,6 +25,7 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -135,7 +136,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double GROUPING_INTERVAL_EDEFAULT = 0.0;
+	protected static final double GROUPING_INTERVAL_EDEFAULT = 1.0;
 
 	/**
 	 * The cached value of the '{@link #getGroupingInterval() <em>Grouping Interval</em>}' attribute.
@@ -162,7 +163,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @generated
 	 * @ordered
 	 */
-	protected static final DataType GROUP_TYPE_EDEFAULT = DataType.NUMERIC_LITERAL;
+	protected static final DataType GROUP_TYPE_EDEFAULT = DataType.TEXT_LITERAL;
 
 	/**
 	 * The cached value of the '{@link #getGroupType() <em>Group Type</em>}' attribute.
@@ -189,7 +190,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String AGGREGATE_EXPRESSION_EDEFAULT = null;
+	protected static final String AGGREGATE_EXPRESSION_EDEFAULT = "Sum";
 
 	/**
 	 * The cached value of the '{@link #getAggregateExpression() <em>Aggregate Expression</em>}' attribute.
@@ -199,6 +200,15 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @ordered
 	 */
 	protected String aggregateExpression = AGGREGATE_EXPRESSION_EDEFAULT;
+
+	/**
+	 * This is true if the Aggregate Expression attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean aggregateExpressionESet;
 
 	/**
 	 * The cached value of the '{@link #getAggregateParameters() <em>Aggregate Parameters</em>}' attribute list.
@@ -538,12 +548,45 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	{
 		String oldAggregateExpression = aggregateExpression;
 		aggregateExpression = newAggregateExpression;
+		boolean oldAggregateExpressionESet = aggregateExpressionESet;
+		aggregateExpressionESet = true;
 		if ( eNotificationRequired( ) )
 			eNotify( new ENotificationImpl( this,
 					Notification.SET,
 					DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION,
 					oldAggregateExpression,
-					aggregateExpression ) );
+					aggregateExpression,
+					!oldAggregateExpressionESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetAggregateExpression( )
+	{
+		String oldAggregateExpression = aggregateExpression;
+		boolean oldAggregateExpressionESet = aggregateExpressionESet;
+		aggregateExpression = AGGREGATE_EXPRESSION_EDEFAULT;
+		aggregateExpressionESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION,
+					oldAggregateExpression,
+					AGGREGATE_EXPRESSION_EDEFAULT,
+					oldAggregateExpressionESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetAggregateExpression( )
+	{
+		return aggregateExpressionESet;
 	}
 
 	/**
@@ -670,7 +713,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 				unsetGroupType( );
 				return;
 			case DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION :
-				setAggregateExpression( AGGREGATE_EXPRESSION_EDEFAULT );
+				unsetAggregateExpression( );
 				return;
 			case DataPackage.SERIES_GROUPING__AGGREGATE_PARAMETERS :
 				getAggregateParameters( ).clear( );
@@ -700,8 +743,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 			case DataPackage.SERIES_GROUPING__GROUP_TYPE :
 				return isSetGroupType( );
 			case DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION :
-				return AGGREGATE_EXPRESSION_EDEFAULT == null ? aggregateExpression != null
-						: !AGGREGATE_EXPRESSION_EDEFAULT.equals( aggregateExpression );
+				return isSetAggregateExpression( );
 			case DataPackage.SERIES_GROUPING__AGGREGATE_PARAMETERS :
 				return aggregateParameters != null
 						&& !aggregateParameters.isEmpty( );
@@ -741,7 +783,10 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ", aggregateExpression: " ); //$NON-NLS-1$
-		result.append( aggregateExpression );
+		if ( aggregateExpressionESet )
+			result.append( aggregateExpression );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ", aggregateParameters: " ); //$NON-NLS-1$
 		result.append( aggregateParameters );
 		result.append( ')' );
@@ -760,8 +805,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	{
 		final SeriesGrouping sg = DataFactory.eINSTANCE.createSeriesGrouping( );
 		sg.setAggregateExpression( DEFAULT_AGGREGATE_EXPRESSION );
-		sg.setGroupingInterval( DEFAULT_GROUPING_INTERVAL );
-		sg.setEnabled( false );
+		// sg.setGroupingInterval( DEFAULT_GROUPING_INTERVAL );
+		// sg.setEnabled( false );
 		sg.setGroupType( DataType.TEXT_LITERAL );
 		return sg;
 	}
@@ -793,6 +838,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 		groupType = src.getGroupType( );
 		groupTypeESet = src.isSetGroupType( );
 		aggregateExpression = src.getAggregateExpression( );
+		aggregateExpressionESet = src.isSetAggregateExpression( );
 
 		if ( src.getAggregateParameters( ) != null )
 		{
@@ -809,7 +855,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	}
 
-	public static SeriesGrouping create( EObject parent )
+	public static SeriesGrouping create( EObject parent, EReference ref )
 	{
 		return new SeriesGroupingImpl( );
 	}

@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import com.ibm.icu.text.SimpleDateFormat;
@@ -239,7 +240,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 		pattern = src.getPattern( );
 	}
 
-	public static JavaDateFormatSpecifier create( EObject parent )
+	public static JavaDateFormatSpecifier create( EObject parent, EReference ref )
 	{
 		return new JavaDateFormatSpecifierImpl( );
 	}

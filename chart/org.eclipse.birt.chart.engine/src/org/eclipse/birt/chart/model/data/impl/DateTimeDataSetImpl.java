@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Date Time Data Set</b></em>'. <!--
@@ -89,7 +90,7 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet
 
 	}
 
-	public static DateTimeDataSet create( EObject parent )
+	public static DateTimeDataSet create( EObject parent, EReference ref )
 	{
 		return new DateTimeDataSetImpl( );
 	}

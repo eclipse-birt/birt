@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Area Series</b></em>'.
@@ -132,7 +133,7 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 		connectMissingValueESet = src.isSetConnectMissingValue( );
 	}
 
-	public static AreaSeries create( EObject parent )
+	public static AreaSeries create( EObject parent, EReference ref )
 	{
 		return new AreaSeriesImpl( );
 	}

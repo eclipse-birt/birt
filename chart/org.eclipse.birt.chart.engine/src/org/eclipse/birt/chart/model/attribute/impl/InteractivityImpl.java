@@ -14,6 +14,7 @@ import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -348,7 +349,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 		legendBehaviorESet = src.isSetLegendBehavior( );
 	}
 
-	public static Interactivity create( EObject parent )
+	public static Interactivity create( EObject parent, EReference ref )
 	{
 		return new InteractivityImpl( );
 	}

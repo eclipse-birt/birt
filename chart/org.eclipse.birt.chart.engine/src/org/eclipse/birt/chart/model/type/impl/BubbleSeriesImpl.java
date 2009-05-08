@@ -23,6 +23,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -409,7 +410,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 		accOrientationESet = src.isSetAccOrientation( );
 	}
 
-	public static BubbleSeries create( EObject parent )
+	public static BubbleSeries create( EObject parent, EReference ref )
 	{
 		return new BubbleSeriesImpl( );
 	}

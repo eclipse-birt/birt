@@ -173,10 +173,12 @@ public interface Label extends EObject
 
 	/**
 	 * Returns the value of the '<em><b>Visible</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
 	 * 					Specifies whether or not the label is visible on the chart.
+	 * 					By default it's true;
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Visible</em>' attribute.
@@ -184,7 +186,7 @@ public interface Label extends EObject
 	 * @see #unsetVisible()
 	 * @see #setVisible(boolean)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getLabel_Visible()
-	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model default="true" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='Visible'"
 	 * @generated
 	 */

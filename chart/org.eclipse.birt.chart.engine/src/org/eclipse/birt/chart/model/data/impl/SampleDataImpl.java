@@ -21,6 +21,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -292,7 +293,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 		}
 	}
 
-	public static SampleData create( EObject parent )
+	public static SampleData create( EObject parent, EReference ref )
 	{
 		return new SampleDataImpl( );
 	}

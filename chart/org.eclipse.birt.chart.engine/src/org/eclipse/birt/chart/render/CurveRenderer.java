@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.birt.chart.computation.GObjectFacotry;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
-import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.Line3DRenderEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
@@ -35,7 +34,6 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
-import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 /**
  * CurveRenderer
@@ -227,15 +225,6 @@ public final class CurveRenderer
 	 */
 	public final void draw( IPrimitiveRenderer ipr ) throws ChartException
 	{
-		if ( !lia.isSetVisible( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.RENDERING,
-					"exception.curve.visibility.unset",//$NON-NLS-1$ 
-					Messages.getResourceBundle( iRender.getRunTimeContext( )
-							.getULocale( ) ) );
-		}
-
 		if ( !bFillArea && !lia.isVisible( ) )
 		{
 			return;
@@ -744,7 +733,7 @@ public final class CurveRenderer
 					ipr.fillPolygon( pre );
 				}
 
-				if ( lia.isSetVisible( ) && lia.isVisible( ) )
+				if ( lia.isVisible( ) )
 				{
 					for ( int i = 0; i < points.size( ) - 1; i++ )
 					{
@@ -822,7 +811,7 @@ public final class CurveRenderer
 			pre3d.setPoints3D( loa3d );
 			dc.addPlane( pre3d, PrimitiveRenderEvent.FILL );
 
-			if ( lia.isSetVisible( ) && lia.isVisible( ) && points.size( ) > 1 )
+			if ( lia.isVisible( ) && points.size( ) > 1 )
 			{
 				double[] ptp = (double[]) points.get( 0 );
 
@@ -876,7 +865,7 @@ public final class CurveRenderer
 				ipr.fillPolygon( pre );
 			}
 
-			if ( lia.isSetVisible( ) && lia.isVisible( ) )
+			if ( lia.isVisible( ) )
 			{
 				for ( int i = 0; i < points.size( ) - 1; i++ )
 				{
