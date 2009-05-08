@@ -635,7 +635,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 			else
 				return;
 		}
-		// viewer.getTree( ).setSelection( root );
+		viewer.getTree( ).setSelection( root );
 
 	}
 
