@@ -816,14 +816,17 @@ public class ChartUtil
 			SeriesDefinition orthSD, SeriesDefinition categorySD )
 			throws ChartException
 	{
-		if ( isCubeRowExpression( orthQuery.getDefinition( ), true ) )
+		String str = orthQuery.getDefinition( );
+		if ( isConstantExpression( str ) )
+		{
+			return str;
+		}
+		if ( isCubeRowExpression( str, true ) )
 		{
 			return orthQuery.getDefinition( );
 		}
 
-		return getValueSeriesRowFullExpression( orthQuery,
-				orthSD,
-				categorySD );
+		return getValueSeriesRowFullExpression( orthQuery, orthSD, categorySD );
 	}
 	
 	/**
@@ -835,7 +838,7 @@ public class ChartUtil
 	 *            indicates if operation can be allowed in expression
 	 * @since 2.3
 	 */
-	private static boolean isCubeRowExpression( String expr, boolean hasOperation )
+	public static boolean isCubeRowExpression( String expr, boolean hasOperation )
 	{
 		if ( expr == null )
 		{
@@ -844,6 +847,24 @@ public class ChartUtil
 		String regExp = hasOperation ? ".*\\Qdata[\"\\E.*\\Q\"]\\E.*" //$NON-NLS-1$
 				: "\\Qdata[\"\\E.*\\Q\"]\\E"; //$NON-NLS-1$
 		return expr.matches( regExp );
+	}
+	
+	/**
+	 * Checks if the expression is a constant value.
+	 * 
+	 * @param expr
+	 *            expression
+	 * @return true if constant value
+	 * @since 2.5
+	 */
+	public static boolean isConstantExpression( String expr )
+	{
+		if ( expr == null )
+		{
+			return false;
+		}
+		// Currently only check number value
+		return expr.matches( "^[+-]?\\d*([\\.]?\\d*)?$" );//$NON-NLS-1$
 	}
 	
 	/**
@@ -1593,7 +1614,8 @@ public class ChartUtil
 	/**
 	 * Creates new sample data for Ancillary Series.
 	 * 
-	 * @param vOSD: vector of all orthogonal SeriesDefinitions
+	 * @param vOSD
+	 *            vector of all orthogonal SeriesDefinitions
 	 */
 	public static String getNewAncillarySampleData(
 			Vector<SeriesDefinition> vOSD )

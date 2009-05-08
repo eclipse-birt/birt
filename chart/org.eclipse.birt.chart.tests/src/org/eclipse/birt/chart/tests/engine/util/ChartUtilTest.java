@@ -284,4 +284,26 @@ public class ChartUtilTest extends TestCase
 		assertEquals( 0, ChartUtil.compareVersion( "3.1.1.5", "3.1.1.5.0" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( -1, ChartUtil.compareVersion( "3.1.1.5", "3.1.1.6" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
+	
+	public void testIsCubeRowExpression( )
+	{
+		assertEquals( true, ChartUtil.isCubeRowExpression( "data[\"a\"]", true ) ); //$NON-NLS-1$
+		assertEquals( true,
+				ChartUtil.isCubeRowExpression( "data[\"a\"]", false ) ); //$NON-NLS-1$
+		assertEquals( true,
+				ChartUtil.isCubeRowExpression( "data[\"a\"]+5", true ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartUtil.isCubeRowExpression( "data[\"a\"]+5", false ) ); //$NON-NLS-1$
+		assertEquals( true,
+				ChartUtil.isCubeRowExpression( "data[\"a\"]+data[\"c d\"]", true ) ); //$NON-NLS-1$
+	}
+
+	public void testIsConstantExpression( )
+	{
+		assertEquals( true, ChartUtil.isConstantExpression( "0" ) ); //$NON-NLS-1$
+		assertEquals( true, ChartUtil.isConstantExpression( "20000" ) ); //$NON-NLS-1$
+		assertEquals( true, ChartUtil.isConstantExpression( "-1.5" ) ); //$NON-NLS-1$
+		assertEquals( false, ChartUtil.isConstantExpression( "1d" ) ); //$NON-NLS-1$
+		assertEquals( false, ChartUtil.isConstantExpression( "1.2.4" ) ); //$NON-NLS-1$
+	}
 }
