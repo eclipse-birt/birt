@@ -35,6 +35,7 @@ public class InlineContainerArea extends InlineStackingArea
 		super( parent, context, content );
 		this.isInlineStacking = true;
 		lineParent = (InlineStackingArea) parent;
+		isInInlineStacking = parent.isInInlineStacking;
 	}
 
 	InlineContainerArea( InlineContainerArea area )
