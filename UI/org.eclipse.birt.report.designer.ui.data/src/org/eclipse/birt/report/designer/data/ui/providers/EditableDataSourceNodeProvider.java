@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.data.ui.providers;
 
+import org.eclipse.birt.report.designer.data.ui.actions.ExportElementToSourceCPStoreAction;
 import org.eclipse.birt.report.designer.data.ui.datasource.DataSourceEditor;
 import org.eclipse.birt.report.designer.data.ui.util.WizardUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.data.providers.DataSourceNodeProvider;
@@ -45,6 +46,12 @@ public class EditableDataSourceNodeProvider extends DataSourceNodeProvider
 		}
 
 		super.createContextMenu( sourceViewer, object, menu );
+				
+		ExportElementToSourceCPStoreAction exportSourceAction = new ExportElementToSourceCPStoreAction( object );
+		if ( exportSourceAction.isEnabled( ) )
+		{
+			menu.add( exportSourceAction );
+		}
 	}
 
 	/*
