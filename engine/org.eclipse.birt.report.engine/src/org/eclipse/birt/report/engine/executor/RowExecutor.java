@@ -74,6 +74,8 @@ public class RowExecutor extends QueryItemExecutor
 
 		startTOCEntry( rowContent );
 
+		rowContent.setRepeatable( rowDesign.getRepeatable( ) );
+
 		// prepare to execute the children
 		currentCell = 0;
 		return rowContent;

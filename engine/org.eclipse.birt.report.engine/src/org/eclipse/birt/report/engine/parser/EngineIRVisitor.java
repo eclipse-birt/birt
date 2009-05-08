@@ -1220,6 +1220,8 @@ public class EngineIRVisitor extends DesignVisitor
 		row.setOnPageBreak( handle.getOnPageBreak( ) );
 		*/
 		
+		row.setRepeatable( handle.repeatable( ) );
+		
 		setCurrentElement( row );
 	}
 

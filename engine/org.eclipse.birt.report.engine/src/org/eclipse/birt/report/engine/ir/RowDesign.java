@@ -31,6 +31,8 @@ public class RowDesign extends ReportItemDesign
 	//TODO: this field should be removed
 	protected boolean isStartOfGroup = false;
 
+	protected boolean isRepeatable = false;
+	
 	/**
 	 * @return the isStartOfGroup
 	 */
@@ -98,5 +100,15 @@ public class RowDesign extends ReportItemDesign
 	public Object accept( IReportItemVisitor visitor , Object value)
 	{
 		return visitor.visitRow(this, value);
+	}
+	
+	public void setRepeatable( boolean repeatable )
+	{
+		isRepeatable = repeatable;
+	}
+
+	public boolean getRepeatable( )
+	{
+		return isRepeatable;
 	}
 }

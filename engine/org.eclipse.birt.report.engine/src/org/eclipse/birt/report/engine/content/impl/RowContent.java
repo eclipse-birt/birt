@@ -37,6 +37,8 @@ public class RowContent extends AbstractContent implements IRowContent
 	
 	protected String groupId;
 	
+	protected boolean repeatable;
+	
 	RowContent(IRowContent row)
 	{
 		super(row);
@@ -100,6 +102,7 @@ public class RowContent extends AbstractContent implements IRowContent
 	static final protected short FIELD_ROWTYPE = 801;
 	static final protected short FIELD_ROW_GROUPLEVEL = 802;
 	static final protected short FIELD_ROW_GROUPID = 803;
+	static final protected short FIELD_REPEATABLE = 804;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -114,6 +117,9 @@ public class RowContent extends AbstractContent implements IRowContent
 			IOUtil.writeShort( out,  FIELD_ROW_GROUPID );
 			IOUtil.writeString( out,  groupId );
 		}
+		// repeatable
+		IOUtil.writeShort( out, FIELD_REPEATABLE );
+		IOUtil.writeBool( out, repeatable );
 	}
 
 	public boolean needSave( )
@@ -137,6 +143,9 @@ public class RowContent extends AbstractContent implements IRowContent
 				break;
 			case FIELD_ROW_GROUPID :
 				groupId = IOUtil.readString( in );
+				break;
+			case FIELD_REPEATABLE:
+				repeatable = IOUtil.readBool( in );
 				break;
 			default :
 				super.readField( version, filedId, in, loader );
@@ -187,5 +196,15 @@ public class RowContent extends AbstractContent implements IRowContent
 	protected IContent cloneContent()
 	{
 		return new RowContent(this);
+	}
+	
+	public void setRepeatable( boolean repeatable )
+	{
+		this.repeatable = repeatable;
+	}
+
+	public boolean getRepeatable( )
+	{
+		return this.repeatable;
 	}
 }

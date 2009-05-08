@@ -11,10 +11,16 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
+import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
@@ -33,6 +39,7 @@ public class HTMLGroupLM extends HTMLBlockStackingLM
 	}
 
 	boolean isFirstLayout = true;
+	boolean isHeaderRefined = false;
 
 	public void initialize( HTMLAbstractLM parent, IContent content,
 			IReportItemExecutor executor, IContentEmitter emitter )
@@ -40,6 +47,7 @@ public class HTMLGroupLM extends HTMLBlockStackingLM
 	{
 		super.initialize( parent, content, executor, emitter );
 		isFirstLayout = true;
+		isHeaderRefined = false;
 	}
 	
 	protected boolean isHeaderBand()
@@ -63,6 +71,7 @@ public class HTMLGroupLM extends HTMLBlockStackingLM
 			IBandContent header = group.getHeader( );
 			if ( group.isHeaderRepeat( ) && header != null && !isHeaderBand())
 			{
+				refineBandContent( (ITableBandContent) header );
 				boolean pageBreak = context.allowPageBreak( );
 				context.setAllowPageBreak( false );
 				IPageBuffer buffer =  context.getPageBufferManager( );
@@ -74,6 +83,29 @@ public class HTMLGroupLM extends HTMLBlockStackingLM
 			}
 		}
 		isFirstLayout = false;
+	}
+	
+	private void refineBandContent( ITableBandContent content )
+	{
+		if ( isHeaderRefined )
+			return;
+
+		Collection children = content.getChildren( );
+		ArrayList removed = new ArrayList( );
+		if ( children != null )
+		{
+			Iterator itr = children.iterator( );
+			while ( itr.hasNext( ) )
+			{
+				IRowContent rowContent = (IRowContent) itr.next( );
+				if ( !rowContent.getRepeatable( ) )
+				{
+					removed.add( rowContent );
+				}
+			}
+			children.removeAll( removed );
+		}
+		isHeaderRefined = true;
 	}
 
 	protected boolean layoutChildren( ) throws BirtException

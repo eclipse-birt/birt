@@ -18,8 +18,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
+import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
-import org.eclipse.birt.report.engine.nLayout.area.IArea;
 
 public abstract class RepeatableArea extends BlockContainerArea
 {
@@ -138,7 +138,13 @@ public abstract class RepeatableArea extends BlockContainerArea
 					if ( type == IBandContent.BAND_HEADER
 							|| type == IBandContent.BAND_GROUP_HEADER )
 					{
-						repeatList.add( area );
+						if ( content instanceof IRowContent )
+						{
+							if ( ( (IRowContent) content ).getRepeatable( ) )
+								repeatList.add( area );
+						}
+						else
+							repeatList.add( area );
 					}
 				}
 			}
