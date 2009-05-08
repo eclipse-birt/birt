@@ -1454,9 +1454,36 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	public static boolean isChartInheritGroups( ReportItemHandle handle )
 	{
 		return handle.getDataSet( ) == null
-				&& ( handle.getContainer( ) instanceof CellHandle
-						|| handle.getContainer( ) instanceof ListHandle || handle.getContainer( ) instanceof ListGroupHandle )
+				&& isContainerInheritable( handle )
 				&& !handle.getBooleanProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS );
+	}
+	
+	/**
+	 * Checks if the item's container is inheritable. Usually only Table and
+	 * List can support inheritance.
+	 * 
+	 * @param itemHandle
+	 *            item
+	 * @return true means inheritable
+	 * @since 2.5
+	 */
+	public static boolean isContainerInheritable( ReportItemHandle itemHandle )
+	{
+		DesignElementHandle container = itemHandle.getContainer( );
+		if ( container instanceof CellHandle
+				|| container instanceof ListHandle
+				|| container instanceof ListGroupHandle )
+		{
+			while ( container != null )
+			{
+				if ( container instanceof ListingHandle )
+				{
+					return true;
+				}
+				container = container.getContainer( );
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -1746,5 +1773,39 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 					tagSeries.getDataDefinition().add( q.copyInstance( ) );
 			}
 		}
+	}
+	
+	/**
+	 * Checks if chart model has bound queries completely.
+	 * 
+	 * @param cm
+	 *            chart model
+	 * @return true complete
+	 * @since 2.5
+	 */
+	public static boolean checkChartBindingComplete( Chart cm )
+	{
+		Series bs = ChartUtil.getBaseSeriesDefinitions( cm )
+				.get( 0 )
+				.getDesignTimeSeries( );
+		if ( bs.getDataDefinition( ).size( ) == 0
+				|| ChartUtil.isEmpty( bs.getDataDefinition( )
+						.get( 0 )
+						.getDefinition( ) ) )
+		{
+			return false;
+		}
+		for ( SeriesDefinition vsd : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
+		{
+			Series vs = vsd.getDesignTimeSeries( );
+			if ( vs.getDataDefinition( ).size( ) == 0
+					|| ChartUtil.isEmpty( vs.getDataDefinition( )
+							.get( 0 )
+							.getDefinition( ) ) )
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 }

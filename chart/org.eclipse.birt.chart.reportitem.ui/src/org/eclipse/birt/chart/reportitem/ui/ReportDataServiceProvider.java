@@ -88,7 +88,6 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
-import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
@@ -98,8 +97,6 @@ import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.birt.report.model.api.ListGroupHandle;
-import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
@@ -2840,16 +2837,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	boolean isInheritColumnsOnly( )
 	{
 		return itemHandle.getDataSet( ) == null
-				&& ( itemHandle.getContainer( ) instanceof CellHandle
-						|| itemHandle.getContainer( ) instanceof ListHandle || itemHandle.getContainer( ) instanceof ListGroupHandle )
+				&& ChartReportItemUtil.isContainerInheritable( itemHandle )
 				&& context.isInheritColumnsOnly( );
 	}
 
 	boolean isInheritColumnsGroups( )
 	{
 		return itemHandle.getDataSet( ) == null
-				&& ( itemHandle.getContainer( ) instanceof CellHandle
-						|| itemHandle.getContainer( ) instanceof ListHandle || itemHandle.getContainer( ) instanceof ListGroupHandle )
+				&& ChartReportItemUtil.isContainerInheritable( itemHandle )
 				&& !context.isInheritColumnsOnly( );
 	}
 
