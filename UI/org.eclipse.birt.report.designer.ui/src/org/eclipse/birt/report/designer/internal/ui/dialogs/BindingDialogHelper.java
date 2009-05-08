@@ -43,6 +43,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -576,6 +577,19 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				{
 					TableGroupHandle groupHandle = (TableGroupHandle) ( (DesignElementHandle) this.container ).getContainer( )
 							.getContainer( );
+					for ( int i = 0; i < groups.length; i++ )
+					{
+						if ( groups[i].equals( groupHandle.getName( ) ) )
+						{
+							cmbGroup.select( i );
+						}
+					}
+					btnTable.setSelection( false );
+					btnGroup.setSelection( true );
+				}
+				else if (this.container instanceof ListGroupHandle)
+				{
+					ListGroupHandle groupHandle = (ListGroupHandle)  this.container;
 					for ( int i = 0; i < groups.length; i++ )
 					{
 						if ( groups[i].equals( groupHandle.getName( ) ) )
