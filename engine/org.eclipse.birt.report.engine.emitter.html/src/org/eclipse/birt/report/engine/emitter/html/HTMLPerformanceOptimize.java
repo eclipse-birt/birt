@@ -149,10 +149,12 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 			buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, height );
 		}
 		// width
+		boolean widthOutputFlag = false;
 		DimensionType width = table.getWidth( );
 		if ( null != width )
 		{
 			buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, width );
+			widthOutputFlag = true;
 		}
 		else
 		{
@@ -186,6 +188,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 				if ( !absoluteWidth )
 				{
 					styleBuffer.append( " width: 100%;" );
+					widthOutputFlag = true;
 				}
 			}
 		}
@@ -196,6 +199,12 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 			// shrink table will not output table-layout;
 			if ( !"true".equalsIgnoreCase( style.getCanShrink( ) ) )
 			{
+				if ( !widthOutputFlag )
+				{
+					// In Firefox, if a table hasn't a width, the
+					// " table-layout:fixed;"
+					styleBuffer.append( " width: 1px;" );
+				}
 				// build the table-layout
 				styleBuffer.append( " table-layout:fixed;" );
 			}
