@@ -1255,12 +1255,12 @@ public class HyperlinkBuilder extends BaseDialog
 	public void setURI( String expr, String exprType ) throws SemanticException
 	{
 		Expression expression = new Expression( expr, exprType );
-		inputHandle.setExprssionProperty( Action.URI_MEMBER, expression );
+		inputHandle.setExpressionProperty( Action.URI_MEMBER, expression );
 	}
 
 	public ExpressionHandle getURI( )
 	{
-		return inputHandle.getExprssionProperty( Action.URI_MEMBER );
+		return inputHandle.getExpressionProperty( Action.URI_MEMBER );
 	}
 
 	protected void okPressed( )
