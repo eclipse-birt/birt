@@ -337,13 +337,6 @@ public final class FieldAssistHelper
 				{
 					showContentAssistDecoration( assistField, true );
 				}
-				else
-				{
-					showContentAssistDecoration( assistField, false );
-					boolean showRequiredFieldDecoration = getPreferenceStore( ).getBoolean( PreferenceConstants.PREF_SHOWREQUIREDFIELDDECORATION );
-					showRequiredFieldDecoration( assistField,
-							showRequiredFieldDecoration );
-				}
 			}
 		}
 	}
@@ -539,12 +532,34 @@ public final class FieldAssistHelper
 	 */
 	public void addRequiredFieldIndicator( AssistField assistField, Label label )
 	{
-		boolean showRequiredFieldLabelIndicator = getPreferenceStore().getBoolean( PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR );
+		boolean showRequiredFieldLabelIndicator = isShowingRequiredFieldIndicator();
 		if (showRequiredFieldLabelIndicator && assistField.isRequiredField()) {
 			String text = label.getText();
 			// This concatenation could be done by a field assist helper.
 			text = text.concat("*"); //$NON-NLS-1$
 			label.setText(text);
 		}
+	}
+	
+	/**
+	 * Add a required field indicator to related label component.
+	 * 
+	 * @param assistField
+	 * @param label
+	 */
+	public void addRequiredFieldIndicator( Label label )
+	{
+		boolean showRequiredFieldLabelIndicator = isShowingRequiredFieldIndicator();
+		if (showRequiredFieldLabelIndicator ) {
+			String text = label.getText();
+			// This concatenation could be done by a field assist helper.
+			text = text.concat("*"); //$NON-NLS-1$
+			label.setText(text);
+		}
+	}
+	
+	public boolean isShowingRequiredFieldIndicator()
+	{
+		return getPreferenceStore().getBoolean( PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR );
 	}
 }

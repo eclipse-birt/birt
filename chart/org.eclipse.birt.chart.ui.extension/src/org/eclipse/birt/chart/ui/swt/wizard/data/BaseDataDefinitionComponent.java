@@ -194,9 +194,10 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			cmpTop.setLayoutData( gd );
 		}
 
+		Label lblDesc = null;
 		if ( description != null && description.length( ) > 0 )
 		{
-			Label lblDesc = new Label( cmpTop, SWT.NONE );
+			lblDesc = new Label( cmpTop, SWT.NONE );
 			lblDesc.setText( description );
 			lblDesc.setToolTipText( tooltipWhenBlank );
 		}
@@ -439,6 +440,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 
 		setTooltipForInputControl( );
+		boolean isRequiredField = ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) || ChartUIConstants.QUERY_VALUE.equals( queryType ) );
+		if ( lblDesc != null && isRequiredField )
+		{
+			FieldAssistHelper.getInstance( ).addRequiredFieldIndicator( lblDesc );
+		}
 		return cmpTop;
 	}
 

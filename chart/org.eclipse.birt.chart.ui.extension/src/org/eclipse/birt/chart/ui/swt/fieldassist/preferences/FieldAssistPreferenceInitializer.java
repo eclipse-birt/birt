@@ -53,8 +53,6 @@ public class FieldAssistPreferenceInitializer extends
 				PreferenceConstants.PREF_CONTENTASSISTKEY1 );
 		store.setDefault( PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOMKEY,
 				"" ); //$NON-NLS-1$
-		store.setDefault(PreferenceConstants.PREF_SHOWREQUIREDFIELDDECORATION,
-				false);
 		store.setDefault(
 				PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR, true);
 		store.setDefault( PreferenceConstants.PREF_CONTENTASSISTKEY_PROPAGATE,

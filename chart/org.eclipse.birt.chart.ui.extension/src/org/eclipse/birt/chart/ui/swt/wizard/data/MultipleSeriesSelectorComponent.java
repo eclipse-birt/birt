@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt.wizard.data;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
+import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
@@ -87,7 +88,14 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 //			gd.minimumWidth = 150;
 			cmpLeft.setLayoutData( gd );
-			cmpLeft.setText( areaTitle );
+			if ( FieldAssistHelper.getInstance( ).isShowingRequiredFieldIndicator( ) )
+			{
+				cmpLeft.setText( areaTitle.concat( "*" ) ); //$NON-NLS-1$
+			}
+			else
+			{
+				cmpLeft.setText( areaTitle );
+			}
 		}
 
 		if ( seriesDefnsArray.length > 2 )

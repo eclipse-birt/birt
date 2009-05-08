@@ -19,7 +19,9 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -58,6 +60,17 @@ public class FieldAssistPreferencePage extends FieldEditorPreferencePage impleme
 	 */
 	public void createFieldEditors( )
 	{
+		addField(new BooleanFieldEditor(
+				PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR,
+				FieldAssistMessages.ssPreferencesShowRequiredFieldLabelIndicator,
+				getFieldEditorParent()));
+				
+		Group g = new Group( getFieldEditorParent(), SWT.NONE );
+		g.setText( FieldAssistMessages.ssPreferencesAssistSymbol );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		g.setLayoutData( gd );
+		
+		
 		addField( new RadioGroupFieldEditor( PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION,
 				FieldAssistMessages.ssPreferencesDecoratorVert,
 				1,
@@ -75,7 +88,7 @@ public class FieldAssistPreferencePage extends FieldEditorPreferencePage impleme
 								PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_BOTTOM
 						}
 				},
-				getFieldEditorParent( ) ) );
+				g ) );
 
 		addField( new RadioGroupFieldEditor( PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION,
 				FieldAssistMessages.ssPreferencesDecoratorHorz,
@@ -90,27 +103,15 @@ public class FieldAssistPreferencePage extends FieldEditorPreferencePage impleme
 								PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION_RIGHT
 						}
 				},
-				getFieldEditorParent( ) ) );
+				g ) );
 
 		IntegerFieldEditor editor = new IntegerFieldEditor( PreferenceConstants.PREF_DECORATOR_MARGINWIDTH,
 				FieldAssistMessages.ssPreferencesDecoratorMargin,
-				getFieldEditorParent( ) );
+				g );
 		editor.setValidRange( 0, 10 );
 		addField( editor );
 
-		// 
-		Label label = new Label(getFieldEditorParent(), SWT.WRAP);
-		label
-				.setText(FieldAssistMessages.ssPreferencesRequiredFieldIndicator);
-		addField(new BooleanFieldEditor(
-				PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR,
-				FieldAssistMessages.ssPreferencesShowRequiredFieldLabelIndicator,
-				getFieldEditorParent()));
-
-		addField(new BooleanFieldEditor(
-				PreferenceConstants.PREF_SHOWREQUIREDFIELDDECORATION,
-				FieldAssistMessages.ssPreferencesShowRequiredFieldDecorator,
-				getFieldEditorParent()));
+		g.setLayout( new GridLayout( ) );
 		
 		Dialog.applyDialogFont( getFieldEditorParent( ) );
 	}
