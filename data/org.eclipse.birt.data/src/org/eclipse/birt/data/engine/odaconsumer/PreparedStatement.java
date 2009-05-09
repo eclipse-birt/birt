@@ -46,6 +46,7 @@ import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.SortSpec;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
 /**
  * <code>PreparedStatement</code> represents a statement query that can be executed without 
@@ -116,6 +117,58 @@ public class PreparedStatement
 		m_queryText = query;
 
 		sm_logger.exiting( sm_className, methodName, this );
+	}
+	
+	/**
+	 * Gets the current effective query text prepared by the underlying ODA driver.
+	 * @return the current effective query text, or null if no query text 
+	 *         is effective or available at the current query state
+	 */
+	public String getEffectiveQueryText()
+    {
+        final String methodName = "getEffectiveQueryText"; //$NON-NLS-1$
+        sm_logger.entering( sm_className, methodName );
+            
+        String queryText = null;
+        try
+        {
+            queryText = m_statement.getEffectiveQueryText();
+        }
+        catch( Exception ex )
+        {
+            // ignore exception; simply log warning and return null
+            sm_logger.logp( Level.WARNING, sm_className, methodName, 
+                            "Unable to get effective query text.", ex ); //$NON-NLS-1$
+        }
+        
+        sm_logger.exiting( sm_className, methodName, queryText );
+        return queryText;
+    }
+	
+	/**
+	 * Gets the current specification of characteristics to apply when executing this.
+	 * @return the current QuerySpecification, or null if none is effective
+	 */
+	@SuppressWarnings("restriction")
+    public QuerySpecification getQuerySpecification()
+	{
+        final String methodName = "getQuerySpecification"; //$NON-NLS-1$
+        sm_logger.entering( sm_className, methodName );
+            
+        QuerySpecification querySpec = null;
+        try
+        {
+            querySpec = m_statement.getSpecification();
+        }
+        catch( Exception ex )
+        {
+            // ignore exception; simply log warning and return null
+            sm_logger.logp( Level.WARNING, sm_className, methodName, 
+                            "Unable to get effective query specification.", ex ); //$NON-NLS-1$
+        }
+        
+        sm_logger.exiting( sm_className, methodName, querySpec );
+        return querySpec;
 	}
 	
 	/**
@@ -2023,6 +2076,12 @@ public class PreparedStatement
                             doGetBoolean( paramIndex ) :
                             getBoolean( paramNameObj );
                 break;
+                
+            case Types.JAVA_OBJECT:
+                paramValue = ( paramNameObj == null ) ?
+                            doGetObject( paramIndex ) :
+                            getObject( paramNameObj );
+                break;
 				
 			default:
 				assert false;	// exception now thrown by DriverManager
@@ -2257,6 +2316,28 @@ public class PreparedStatement
         }
         
         sm_logger.exiting( sm_className, methodName, ret ); 
+        return ret;
+    }
+    
+    private Object getObject( ParameterName paramName ) throws DataException
+    {
+        final String methodName = "getObject( ParameterName )"; //$NON-NLS-1$
+        sm_logger.entering( sm_className, methodName, paramName );
+        
+        Object ret = null;
+        
+        if( ! supportsNamedParameter() )
+        {
+            int paramIndex = getIndexFromParamHints( paramName.getRomName() );
+            if( paramIndex > 0 )
+                ret = doGetObject( paramIndex );
+        }
+        else
+        {
+            ret = doGetObject( paramName );
+        }
+        
+        sm_logger.exiting( sm_className, methodName, ret );
         return ret;
     }
 	
@@ -2773,6 +2854,57 @@ public class PreparedStatement
         }
         return null;
     }
+    
+    private Object doGetObject( int paramIndex ) throws DataException
+    {
+        final String methodName = "doGetObject( int )"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_GET_OBJECT_FROM_PARAMETER;
+        sm_logger.entering( sm_className, methodName, paramIndex );
+        
+        try
+        {
+            Object ret = getAdvancedStatement().getObject( paramIndex );
+            
+            sm_logger.exiting( sm_className, methodName, ret );
+            
+            return ret;
+        }
+        catch( OdaException ex )
+        {
+            handleException( ex, errorCode, methodName, paramIndex );
+        }
+        catch( UnsupportedOperationException ex )
+        {
+            handleException( ex, errorCode, methodName, paramIndex );
+        }
+        return null;
+    }
+    
+    private Object doGetObject( ParameterName paramName ) throws DataException
+    {
+        final String methodName = "doGetObject( ParameterName )"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_GET_OBJECT_FROM_PARAMETER;
+        sm_logger.entering( sm_className, methodName, paramName );
+        
+        String effectiveParamName = paramName.getEffectiveName();
+        try
+        {
+            Object ret = getAdvancedStatement().getObject( effectiveParamName );
+            
+            sm_logger.exiting( sm_className, methodName, ret );
+            
+            return ret;
+        }
+        catch( OdaException ex )
+        {
+            handleException( ex, errorCode, methodName, effectiveParamName );
+        }
+        catch( UnsupportedOperationException ex )
+        {
+            handleException( ex, errorCode, methodName, effectiveParamName );
+        }
+        return null;
+    }
 	
 	private boolean wasNull() throws DataException
 	{
@@ -2924,15 +3056,15 @@ public class PreparedStatement
 		sm_logger.exiting( sm_className, methodName );
 	}
 
-	// provide a work-around for older ODA drivers or ODA drivers that 
-	// don't support the clearInParameters call
-	// the workaround involves creating a new instance of the underlying 
+	// Provides a work-around for older ODA drivers or ODA drivers that 
+	// don't support the clearInParameters call.
+	// The workaround involves creating a new instance of the underlying 
 	// ODA statement and setting it back up to the state of the current 
-	// statement
+	// statement.
 	private void handleUnsupportedClearInParameters() throws DataException
 	{
 		m_statement = m_connection.prepareOdaQuery( m_queryText, 
-		                                                m_dataSetType );
+		                  m_dataSetType, getQuerySpecification() );
 
 		// getting the new statement back into the previous statement's
 		// state
@@ -3153,6 +3285,13 @@ public class PreparedStatement
                 setBoolean( paramNameObj, paramIndex, val );
                 return;
             }
+            
+            // for all other types of value, try to set by Object type
+            // regardless of the data type defined in its hint
+            {
+                setObject( paramNameObj, paramIndex, paramValue );
+                return;
+            }
 		}
 		catch( RuntimeException ex )
 		{
@@ -3165,14 +3304,14 @@ public class PreparedStatement
 			return;
 		}
 
-		sm_logger.logp( Level.SEVERE, sm_className, methodName,
+/*		sm_logger.logp( Level.SEVERE, sm_className, methodName,
 						"Unsupported parameter value type." ); //$NON-NLS-1$
 		
 		throw new DataException( ResourceConstants.UNSUPPORTED_PARAMETER_VALUE_TYPE, 
                                  new Object[] { paramValue.getClass() } );
-	}
+*/	}
 
-	// retry setting the parameter value by using an alternate setter method 
+	// Retry setting the parameter value by using an alternate setter method 
 	// using the runtime parameter metadata. Or if the runtime parameter metadata 
 	// is not available, then use the input parameter hints, if available.  
 	// It will default to calling setString() if we can't get the info from 
@@ -3222,6 +3361,14 @@ public class PreparedStatement
         if( paramValue == null )
         {
             retrySetNullParamValue( paramName, paramIndex, parameterType, lastException );
+            return;
+        }
+        
+        // Explicitly defined object type takes precedence over the actual type of value in retry
+        if( parameterType == Types.JAVA_OBJECT )
+        {
+            // no type conversion is needed
+            setObject( paramName, paramIndex, paramValue );
             return;
         }
 		
@@ -3282,7 +3429,7 @@ public class PreparedStatement
                                        parameterType );
             return;
         }
-		
+        
 		assert false;	// unsupported parameter value type was checked earlier
 	}
 
@@ -3733,6 +3880,12 @@ public class PreparedStatement
                 setTimestamp( paramName, paramIndex, null );
                 return;
             }
+
+            case Types.JAVA_OBJECT:
+            {
+                setObject( paramName, paramIndex, null );
+                return;
+            }
             
             default:
                 // metadata indicates primitive data types or types not supported for input parameter, 
@@ -3809,7 +3962,7 @@ public class PreparedStatement
             ex.initCause( lastException );
             
             sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-                            logContextMsg, lastException ); //$NON-NLS-1$
+                            logContextMsg, lastException );
             
             throw ex;
         }
@@ -4102,6 +4255,42 @@ public class PreparedStatement
             return false;
         
         doSetBoolean( paramIndex, val );
+        return true;
+    }
+
+    private void setObject( ParameterName paramName, int paramIndex, Object value ) throws DataException
+    {
+        if( paramName == null )
+            doSetObject( paramIndex, value );
+        else
+            setObject( paramName, value );
+    }
+
+    private void setObject( ParameterName paramName, Object value ) throws DataException
+    {
+        final String methodName = "setObject( ParameterName, Object )"; //$NON-NLS-1$
+        
+        if( supportsNamedParameter() )
+        {
+            doSetObject( paramName, value );
+            return;
+        }
+        
+        if( ! setObjectUsingHints( paramName, value ) )
+        {
+            final String errorCode = ResourceConstants.CANNOT_SET_OBJECT_PARAMETER;
+            Object[] msgArgs = new Object[] { value, paramName };                    
+            handleError( errorCode, msgArgs, methodName );
+        }
+    }
+
+    private boolean setObjectUsingHints( ParameterName paramName, Object value ) throws DataException
+    {
+        int paramIndex = getIndexFromParamHints( paramName.getRomName() );
+        if( paramIndex <= 0 )
+            return false;
+        
+        doSetObject( paramIndex, value );
         return true;
     }
 
@@ -4525,6 +4714,54 @@ public class PreparedStatement
             }
         }
     }
+    
+    private void doSetObject( int paramIndex, Object value ) throws DataException
+    {
+        final String methodName = "doSetObject( int, Object )"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_SET_OBJECT_PARAMETER;
+        
+        try
+        {
+            getStatement().setObject( paramIndex, value );
+        }
+        catch( OdaException ex )
+        {
+            Object[] msgArgs = new Object[] { value, new Integer( paramIndex ) };                    
+            handleException( ex, errorCode, msgArgs, methodName );
+        }
+        catch( UnsupportedOperationException ex )
+        {
+            Object[] msgArgs = new Object[] { value, new Integer( paramIndex ) };                    
+            handleException( ex, errorCode, msgArgs, methodName );
+        }
+    }
+    
+    private void doSetObject( ParameterName paramName, Object value ) throws DataException
+    {
+        final String methodName = "doSetObject( ParameterName, Object )"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_SET_OBJECT_PARAMETER;
+        
+        String effectiveParamName = paramName.getEffectiveName();
+        try
+        {
+            getStatement().setObject( effectiveParamName, value );
+        }
+        catch( OdaException ex )
+        {
+            Object[] msgArgs = new Object[] { value, effectiveParamName };                    
+            handleException( ex, errorCode, msgArgs, methodName );
+        }
+        catch( UnsupportedOperationException ex )
+        {
+            // first try to set value by position if the parameter hints provide name-to-position mapping,  
+            // otherwise we need to wrap the UnsupportedOperationException up and throw it
+            if( ! setObjectUsingHints( paramName, value ) )
+            {
+                Object[] msgArgs = new Object[] { value, effectiveParamName };                    
+                handleException( ex, errorCode, msgArgs, methodName );
+            }
+        }
+    }
 
     private void doSetNull( int paramIndex ) throws DataException
     {
@@ -4574,7 +4811,7 @@ public class PreparedStatement
         }
     }
 
-    private static boolean hasValue( String value )
+    static boolean hasValue( String value )
     {
         return ( value != null && value.length() > 0 );
     }

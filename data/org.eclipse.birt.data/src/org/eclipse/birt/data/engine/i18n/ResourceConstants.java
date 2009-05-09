@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -289,6 +289,7 @@ public class ResourceConstants
 	public final static String CANNOT_GET_CLOB_FROM_COLUMN = "odaconsumer.CannotGetClobFromColumn";
 	public final static String CANNOT_GET_BLOB_FROM_COLUMN = "odaconsumer.CannotGetBlobFromColumn";
     public final static String CANNOT_GET_BOOLEAN_FROM_COLUMN = "odaconsumer.CannotGetBooleanFromColumn";
+    public final static String CANNOT_GET_OBJECT_FROM_COLUMN = "odaconsumer.CannotGetObjectFromColumn";
 	public final static String CANNOT_GET_ROW_POSITION = "odaconsumer.CannotGetRowPosition";
 	public final static String CANNOT_CLOSE_RESULT_SET = "odaconsumer.CannotCloseResultSet";
 	public final static String CANNOT_GET_PARAMETER_COUNT = "odaconsumer.CannotGetParameterCount";
@@ -302,6 +303,7 @@ public class ResourceConstants
 	public final static String CANNOT_GET_BLOB_FROM_PARAMETER = "odaconsumer.CannotGetBlobFromParameter";
 	public final static String CANNOT_GET_CLOB_FROM_PARAMETER = "odaconsumer.CannotGetClobFromParameter";
     public final static String CANNOT_GET_BOOLEAN_FROM_PARAMETER = "odaconsumer.CannotGetBooleanFromParameter";
+    public final static String CANNOT_GET_OBJECT_FROM_PARAMETER = "odaconsumer.CannotGetObjectFromParameter";
 	public final static String CANNOT_FIND_IN_PARAMETER = "odaconsumer.CannotFindInParameter";
 	public final static String CANNOT_SET_INT_PARAMETER = "odaconsumer.CannotSetIntParameter";
 	public final static String CANNOT_SET_DOUBLE_PARAMETER = "odaconsumer.CannotSetDoubleParameter";
@@ -311,6 +313,7 @@ public class ResourceConstants
 	public final static String CANNOT_SET_TIME_PARAMETER = "odaconsumer.CannotSetTimeParameter";
 	public final static String CANNOT_SET_TIMESTAMP_PARAMETER = "odaconsumer.CannotSetTimestampParameter";
     public final static String CANNOT_SET_BOOLEAN_PARAMETER = "odaconsumer.CannotSetBooleanParameter";
+    public final static String CANNOT_SET_OBJECT_PARAMETER = "odaconsumer.CannotSetObjectParameter";
     public final static String CANNOT_SET_NULL_PARAMETER = "odaconsumer.CannotSetNullParameter";
 	public final static String CANNOT_CLEAR_IN_PARAMETERS = "odaconsumer.CannotClearInParameters";
 	public final static String UNRECOGNIZED_ODA_TYPE = "odaconsumer.UnrecognizedOdaType";
@@ -321,6 +324,7 @@ public class ResourceConstants
 	public final static String CANNOT_FIND_LOG_DIRECTORY = "odaconsumer.CannotFindLogDirectory";
     public final static String PARAMETER_NAMES_INFO = "odaconsumer.ParameterNames";
     public final static String INVALID_METHOD_ARGUMENT = "odaconsumer.InvalidArgument";
+    public final static String CANNOT_SET_CONN_LOCALE = "odaconsumer.CannotSetConnectionLocale";
 
 	//OLAP errors
 	public final static String OLAPDIR_CREATE_FAIL = "data.olap.OlapDirCreateFail";

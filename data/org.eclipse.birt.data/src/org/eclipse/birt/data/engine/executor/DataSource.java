@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,6 +34,7 @@ import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
 /**
  * Implementation of ODI's IDataSource interface
@@ -255,14 +256,16 @@ class DataSource implements IDataSource
      * in pool have readed their maximum active statements.
      * Returned PreparedStatement must be closed by calling closeStatement.
      */
-    synchronized PreparedStatement prepareStatement ( String queryText, String dataSetType )
+    @SuppressWarnings("restriction")
+    synchronized PreparedStatement prepareStatement ( String queryText, String dataSetType, 
+            QuerySpecification querySpec )
     	throws DataException
     {
         assert isOpen();
         CacheConnection conn = getAvailableConnection();
         assert conn.currentStatements < conn.maxStatements;
         ++ conn.currentStatements;
-        PreparedStatement stmt = conn.odaConn.prepareStatement( queryText, dataSetType );
+        PreparedStatement stmt = conn.odaConn.prepareStatement( queryText, dataSetType, querySpec );
         
         // Map statement to the open connection, so we can release the connection
         // when statement is closed

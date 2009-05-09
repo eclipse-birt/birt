@@ -198,6 +198,8 @@ public class ResultSet
                 if( ! wasNull() )
                     colValue = new Boolean( val );
             }
+            else if( dataType == Object.class )
+                colValue = getObject( driverPosition );
 			else
 				assert false;
 			
@@ -413,6 +415,26 @@ public class ResultSet
             throwDataException( ex, errorCode, methodName, driverPosition );
         }
         return false;
+    }
+    
+    private Object getObject( int driverPosition ) throws DataException
+    {
+        final String methodName = "getObject"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_GET_OBJECT_FROM_COLUMN;
+
+        try
+        {
+            return m_resultSet.getObject( driverPosition );
+        }
+        catch( OdaException ex )
+        {
+            throwDataException( ex, errorCode, methodName, driverPosition );
+        }
+        catch( UnsupportedOperationException ex )
+        {
+            throwDataException( ex, errorCode, methodName, driverPosition );
+        }
+        return null;
     }
 	
 	private boolean wasNull() throws DataException

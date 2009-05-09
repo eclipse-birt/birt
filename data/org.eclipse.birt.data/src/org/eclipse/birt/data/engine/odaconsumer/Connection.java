@@ -1,6 +1,6 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,6 +23,9 @@ import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
 import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * A runtime connection of a specific data source extension.
@@ -139,24 +142,43 @@ public class Connection
 	}
 
 	/**
-	 * Creates a <code>PreparedStatement</code> object that needs to specify input 
-	 * parameter values to execute.
-	 * @param dataSetType	name of the data set type.
-	 * @param query	the statement query text to be executed.
-	 * @return	a <code>PreparedStatement</code> of the specified type with the specified 
-	 * 			statement query.
-	 * @throws DataException	if data source error occurs.
+	 * Creates a {@link PreparedStatement} instance of the specified data set type
+	 * and query text.
+	 * @param query	the statement query text to be prepared and executed
+     * @param dataSetType   name of the data set type
+	 * @return	a {@link PreparedStatement} of the specified type with the specified 
+	 * 		    query text.
+	 * @throws DataException	if data source error occurs
 	 */
 	public PreparedStatement prepareStatement( String query, 
 											   String dataSetType )
 		throws DataException
 	{
-		String methodName = "prepareStatement";		
+	    return prepareStatement( query, dataSetType, null );
+	}
+	
+	/**
+     * Creates a {@link PreparedStatement} instance of the specified data set type
+     * with the query text and query specification.
+     * @param query the statement query text to be prepared and executed
+     * @param dataSetType  name of the data set type
+	 * @param querySpec    query specification for the query preparation; may be null
+     * @return  a {@link PreparedStatement} of the specified type with the specified 
+     *          query text and query specification
+     * @throws DataException    if data source error occurs
+	 */
+	@SuppressWarnings("restriction")
+    public PreparedStatement prepareStatement( String query, 
+                                               String dataSetType,
+                                               QuerySpecification querySpec )
+        throws DataException
+    {
+		final String methodName = "prepareStatement(String,String,QuerySpecification)";		 //$NON-NLS-1$
 		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { query, dataSetType } );
 		
-		IQuery statement = prepareOdaQuery( query, dataSetType );
+		IQuery statement = prepareOdaQuery( query, dataSetType, querySpec );
 		PreparedStatement ret = ( new PreparedStatement( statement, dataSetType, this, 
 														 query ) );
 		
@@ -165,12 +187,44 @@ public class Connection
 	}
 	
 	/**
+     * Specifies the locale setting for all locale-sensitive tasks in this connection. 
+     * An optional method. This setting, if specified, overrides the driver's default locale setting.
+	 * @param locale
+	 * @throws DataException
+	 */
+	public void setLocale( ULocale locale ) throws DataException
+	{
+        final String methodName = "setLocale(ULocale)";       //$NON-NLS-1$
+        sm_logger.entering( sm_className, methodName );
+        
+        try
+        {
+            m_connection.setLocale( locale );
+        }
+        catch( OdaException ex )
+        {
+            sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+                            "Unable to set locale: " + locale, ex ); //$NON-NLS-1$
+            
+            throw new DataException( ResourceConstants.CANNOT_SET_CONN_LOCALE, ex, locale );
+        }
+        catch( UnsupportedOperationException ex )
+        {
+            // log warning and ignore exception
+            sm_logger.logp( Level.WARNING, sm_className, methodName, 
+                            "Unable to set locale: " + locale + ". Using default locale instead.", ex ); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        
+        sm_logger.exiting( sm_className, methodName );
+	}
+	
+	/**
 	 * Closes this <code>Connection</code>.
 	 * @throws DataException	if data source error occurs.
 	 */
 	public void close( ) throws DataException
 	{
-		String methodName = "close";		
+		final String methodName = "close";		 //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName );
 		
 		try
@@ -180,14 +234,14 @@ public class Connection
 		catch( OdaException ex )
 		{
 			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot close connection.", ex );
+							"Cannot close connection.", ex ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.CANNOT_CLOSE_CONNECTION, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
 			sm_logger.logp( Level.WARNING, sm_className, methodName, 
-							"Cannot close connection.", ex );			
+							"Cannot close connection.", ex );    //$NON-NLS-1$
 		}
 		
 		sm_logger.exiting( sm_className, methodName );
@@ -208,17 +262,22 @@ public class Connection
 		return m_dataSourceId;
 	}
 	
-	IQuery prepareOdaQuery( String query, String dataSetType ) 
+	@SuppressWarnings("restriction")
+    IQuery prepareOdaQuery( String query, String dataSetType, QuerySpecification querySpec ) 
 		throws DataException
 	{
-		String methodName = "prepareOdaQuery";		
+		final String methodName = "prepareOdaQuery";		 //$NON-NLS-1$
 		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, new Object[] { query, dataSetType } );
+			sm_logger.entering( sm_className, methodName, new Object[] { query, dataSetType, querySpec } );
 		
 		try
 		{
 			assert( m_connection.isOpen( ) );
 			IQuery statement = m_connection.newQuery( dataSetType );
+			
+			// set the query spec, if exists, before prepare 
+			setOdaQuerySpec( statement, querySpec );
+			
 			statement.prepare( query );
 			
 			sm_logger.exiting( sm_className, methodName, statement );
@@ -228,7 +287,7 @@ public class Connection
 		catch( OdaException ex )
 		{
 			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot prepare statement.", ex );
+							"Cannot prepare statement.", ex ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.CANNOT_PREPARE_STATEMENT, ex, 
 			                         new Object[] { query, dataSetType } );
@@ -236,10 +295,33 @@ public class Connection
 		catch( UnsupportedOperationException ex )
 		{
 			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot prepare statement.", ex );
+							"Cannot prepare statement.", ex ); //$NON-NLS-1$
 			
 			throw new DataException( ResourceConstants.CANNOT_PREPARE_STATEMENT, ex, 
 			                         new Object[] { query, dataSetType } );
 		}
 	}
+	
+	@SuppressWarnings("restriction")
+    private void setOdaQuerySpec( IQuery statement, QuerySpecification querySpec )
+	    throws OdaException
+	{
+        final String methodName = "setOdaQuerySpec";       //$NON-NLS-1$
+        sm_logger.entering( sm_className, methodName, querySpec );
+
+        try
+        {
+            if( querySpec != null )
+                statement.setSpecification( querySpec );
+        }
+        catch( UnsupportedOperationException ex )
+        {
+            // log warning and ignore, so not to stop query preparation
+            sm_logger.logp( Level.WARNING, sm_className, methodName, 
+                    "Cannot set query specification.", ex );            //$NON-NLS-1$
+        }	    
+
+        sm_logger.exiting( sm_className, methodName );
+    }
+	
 }

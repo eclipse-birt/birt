@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -34,6 +36,7 @@ import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.ICancellable;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
+import org.eclipse.birt.data.engine.odaconsumer.QuerySpecHelper;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
@@ -45,6 +48,8 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification.ParameterIdentifier;
 
 /**
  *	Structure to hold info of a custom field. 
@@ -249,17 +254,22 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.odi.IDataSourceQuery#prepare()
      */
+    @SuppressWarnings("restriction")
     public IPreparedDSQuery prepare() throws DataException
     {
         if ( odaStatement != null )
             throw new DataException( ResourceConstants.QUERY_HAS_PREPARED );
 
-        odaStatement = dataSource.prepareStatement( queryText, queryType );
+        // create and populate a query specification for preparing a statement
+        QuerySpecification querySpec = populateQuerySpecification();
         
-        // Add custom properties
-        addProperties();
+        odaStatement = dataSource.prepareStatement( queryText, queryType, querySpec );
         
-        // Add parameter defns. This step must be done before odaStatement.setColumnsProjection()
+        // Add custom properties to odaStatement
+        addPropertiesToPreparedStatement( querySpec );
+        
+        // Adds input and output parameter hints to odaStatement.
+        // This step must be done before odaStatement.setColumnsProjection()
         // for some jdbc driver need to carry out a query execution before the metadata can be achieved
         // and only when the Parameters are successfully set the query execution can succeed.
         addParameterDefns();
@@ -384,28 +394,93 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		return result;
     }
     
-    /** 
-     * Adds custom properties to oda statement being prepared 
+    /*
+     * Prepare a query specification with the property and input parameter values,
+     * for use by an ODA driver before IQuery#prepare.
      */
-    private void addProperties() throws DataException
+    @SuppressWarnings("restriction")
+    private QuerySpecification populateQuerySpecification() throws DataException
+    {
+        QuerySpecHelper querySpecHelper = new QuerySpecHelper( dataSource.getDriverName(), queryType );
+        QuerySpecification querySpec = querySpecHelper.getFactoryHelper().createQuerySpecification();
+        
+        // add custom properties
+        addPropertiesToQuerySpec( querySpec );
+        
+        // add parameter defns
+        addParametersToQuerySpec( querySpec );
+        
+        return querySpec;
+    }
+    
+    /** 
+     * Adds custom properties to the QuerySpecification.
+     */
+    @SuppressWarnings("restriction")
+    private void addPropertiesToQuerySpec( QuerySpecification querySpec )
+    {
+        if ( propNames == null )
+            return;   // nothing to add
+        
+        assert propValues != null;        
+        Iterator it_name = propNames.iterator();
+        Iterator it_val = propValues.iterator();
+        while ( it_name.hasNext() )
+        {
+            assert it_val.hasNext();
+            String name = (String) it_name.next();
+            String val = (String) it_val.next();
+            querySpec.setProperty( name, val );
+        }  
+    }
+    
+    /** 
+     * Adds custom properties to prepared oda statement;
+     * use the same properties already set in querySpec before prepare  
+     */
+    @SuppressWarnings("restriction")
+    private void addPropertiesToPreparedStatement( QuerySpecification querySpec ) throws DataException
 	{
+        if( querySpec == null || querySpec.getProperties().isEmpty() )
+            return;     // no properties to add
+        
     	assert odaStatement != null;
-    	if ( propNames != null )
+    	Map<String,Object> propertyMap = querySpec.getProperties();
+    	Iterator<Entry<String, Object>> iter = propertyMap.entrySet().iterator();
+    	while( iter.hasNext() )
     	{
-    		assert propValues != null;
-    		
-    		Iterator it_name = propNames.iterator();
-    		Iterator it_val = propValues.iterator();
-    		while ( it_name.hasNext())
-    		{
-    			assert it_val.hasNext();
-    			String name = (String) it_name.next();
-    			String val = (String) it_val.next();
-    			odaStatement.setProperty( name, val );
-    		}
+    	    Entry<String, Object> property = iter.next();
+    	    String value = ( property.getValue() == null ) ? null : property.getValue().toString();
+            odaStatement.setProperty( property.getKey(), value );
     	}
 	}
-      
+    
+    /**
+     * Adds input parameter values to the QuerySpecification.
+     */
+    @SuppressWarnings("restriction")
+    private void addParametersToQuerySpec( QuerySpecification querySpec )
+        throws DataException
+    {
+        if ( this.parameterHints == null )
+            return; // nothing to add
+        
+        // iterate thru the collection to add parameter hints
+        Iterator it = this.parameterHints.iterator( );
+        while ( it.hasNext( ) )
+        {
+            ParameterHint parameterHint = (ParameterHint) it.next();
+            
+            //If the parameter is input parameter, add its value to query spec
+            if ( parameterHint.isInputMode( ) )
+            {
+                Object inputValue = getParameterInputValue( parameterHint );
+                
+                QuerySpecHelper.setParameterValue( querySpec, parameterHint, inputValue );
+            }           
+        }
+    }
+    
 	/** 
 	 * Adds input and output parameter hints to odaStatement
 	 */
@@ -426,20 +501,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			//If the parameter is input parameter then add it to input value list.
 			if ( parameterHint.isInputMode( ) )
 			{
-                Class paramHintDataType = parameterHint.getDataType();
-                
-                // since a Date may have extended types,
-                // use the type of Date that is most effective for data conversion
-                if( paramHintDataType == Date.class )
-                    paramHintDataType = parameterHint.getEffectiveDataType( 
-                                            dataSource.getDriverName(), queryType );
-                
-				Object inputValue = parameterHint.getDefaultInputValue( );
-				// neither IBlob nor IClob will be converted
-				if ( paramHintDataType != IBlob.class
-						&& paramHintDataType != IClob.class )
-					inputValue = convertToValue( parameterHint.getDefaultInputValue( ),
-							paramHintDataType );
+                Object inputValue = getParameterInputValue( parameterHint );
 				if ( parameterHint.getPosition( ) <= 0 || odaStatement.supportsNamedParameter( ))
 				{
 					this.setInputParamValue( parameterHint.getName( ), parameterHint.getPosition( ),
@@ -455,6 +517,26 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		}
 		this.setInputParameterBinding();
 	}
+    
+    private Object getParameterInputValue( ParameterHint parameterHint )
+        throws DataException
+    {
+        assert parameterHint.isInputMode( );
+        Class paramHintDataType = parameterHint.getDataType();
+        
+        // since a Date may have extended types,
+        // use the type of Date that is most effective for data conversion
+        if( paramHintDataType == Date.class )
+            paramHintDataType = parameterHint.getEffectiveDataType( 
+                                    dataSource.getDriverName(), queryType );
+        
+        Object inputValue = parameterHint.getDefaultInputValue( );
+        // neither IBlob nor IClob will be converted
+        if ( paramHintDataType != IBlob.class && paramHintDataType != IClob.class )
+            inputValue = convertToValue( parameterHint.getDefaultInputValue( ),
+                                        paramHintDataType );
+        return inputValue;
+    }
 	
 	/**
 	 * @param inputParamName

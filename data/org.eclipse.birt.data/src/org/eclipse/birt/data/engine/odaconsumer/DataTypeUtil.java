@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -40,18 +40,8 @@ public final class DataTypeUtil
 	}
 
 	/**
-	 * Converts an ODA data type to its corresponding Java class. <br><br>
-	 * <b>ODA Data Type -> Java Class</b><br>
-	 * <i>Integer -> java.lang.Integer<br>
-	 * Double -> java.lang.Double<br>
-	 * Character -> java.lang.String<br>
-	 * Decimal -> java.math.BigDecimal<br>
-     * Date -> java.sql.Date<br>
-	 * Time -> java.sql.Time<br>
-	 * Timestamp -> java.sql.Timestamp<br>
-	 * Blob -> org.eclipse.datatools.connectivity.oda.IBlob<br>
-	 * Clob -> org.eclipse.datatools.connectivity.oda.IClob<br>
-     * Boolean -> java.lang.Boolean<br></i>
+	 * Converts an ODA data type to its corresponding Java class,
+	 * as defined by the {@link DataTypeUtil} utility.
 	 * @param odaDataType	an ODA data type code
 	 * @return	the Java class that corresponds to the specified ODA data type
 	 * @throws IllegalArgumentException	if the specified ODA data type 
@@ -59,7 +49,7 @@ public final class DataTypeUtil
 	 */
 	public static Class toTypeClass( int odaDataType )
 	{
-		final String methodName = "toTypeClass";		
+		final String methodName = "toTypeClass";		 //$NON-NLS-1$
  
         Class fieldClass = null;
         try
@@ -73,7 +63,7 @@ public final class DataTypeUtil
 				DataResourceHandle.getInstance().getMessage( ResourceConstants.UNRECOGNIZED_ODA_TYPE, 
 				                                             new Object[] { new Integer( odaDataType ) } );
 			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"Invalid ODA data type: {0}", new Integer( odaDataType ) );
+					"Invalid ODA data type: {0}", new Integer( odaDataType ) ); //$NON-NLS-1$
 			throw new IllegalArgumentException( localizedMessage );
 		}
 		
@@ -93,26 +83,14 @@ public final class DataTypeUtil
 	}
 	
 	/**
-	 * Converts a Java class to its corresponding ODA data type. <br>
-	 * <b>Java Class -> ODA Data Type</b><br>
-	 * <i>java.lang.Integer -> Integer<br>
-	 * java.lang.Double -> Double<br>
-	 * java.lang.String -> Character<br>
-	 * java.math.BigDecimal -> Decimal<br>
-     * java.util.Date -> Timestamp<br>
-     * java.sql.Date -> Date<br>
-	 * java.sql.Time -> Time<br>
-	 * java.sql.Timestamp -> Timestamp<br>
-	 * org.eclipse.datatools.connectivity.oda.IBlob -> Blob<br>
-	 * org.eclipse.datatools.connectivity.oda.IClob -> Clob<br>
-     * java.lang.Boolean -> Boolean<br></i><br>
-	 * All other Java classes are mapped to the ODA character type.
+	 * Converts a Java class to its corresponding ODA data type,
+     * as defined by the {@link org.eclipse.birt.core.data.DataTypeUtil} utility.
 	 * @param javaClass	the Java class.
 	 * @return	the ODA data type that maps to the Java class.
 	 */
 	public static int toOdaType( Class javaClass )
 	{
-		final String methodName = "toOdaType";		
+		final String methodName = "toOdaType";		 //$NON-NLS-1$
 
         // returns Types.CHAR if the hint didn't have data type information
         int odaType = Types.CHAR;   // default
@@ -125,13 +103,11 @@ public final class DataTypeUtil
         else if( javaClass == IClob.class )
             odaType = Types.CLOB;
         else
-            odaType = 
-                org.eclipse.birt.core.data.DataTypeUtil
-                    .toOdaDataType( javaClass );
+            odaType = org.eclipse.birt.core.data.DataTypeUtil.toOdaDataType( javaClass );
 		
 		if( sm_logger.isLoggable( Level.FINEST ) )
 		    sm_logger.logp( Level.FINEST, sm_className, methodName, 
-				"Converted from Java data type class {0} to ODA data type {1}.", 
+				"Converted from Java data type class {0} to ODA data type {1}.",  //$NON-NLS-1$
 				new Object[] { javaClass, new Integer( odaType ) } );
 
 		return odaType;
