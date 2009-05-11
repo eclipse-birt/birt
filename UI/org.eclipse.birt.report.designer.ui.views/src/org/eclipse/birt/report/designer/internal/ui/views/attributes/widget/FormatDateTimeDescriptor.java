@@ -420,11 +420,8 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		else if ( result.length == 2 )
 			setInput( result[0], result[1] );
 		else if ( result.length == 3 )
-			setInput( result[0],
-					result[1],
-					getLocaleByDisplayName( result[2] ) );
+			setInput( result[0], result[1], getLocaleByDisplayName( result[2] ) );
 	}
-
 
 	public void save( Object obj ) throws SemanticException
 	{
@@ -630,7 +627,8 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 
 	public void setEnabled( boolean enabled )
 	{
-		content.setEnabled( enabled );
+		if ( content.isEnabled( ) != enabled )
+			content.setEnabled( enabled );
 		setControlsEnabeld( enabled );
 	}
 
@@ -1251,11 +1249,16 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 
 	private void setControlsEnabeld( boolean b )
 	{
-		typeChoicer.setEnabled( b );
-		localeChoicer.setEnabled( b );
-		formatCode.setEnabled( b );
-		previewTextBox.setEnabled( b );
-		table.setEnabled( b );
+		if ( typeChoicer.isEnabled( ) != b )
+			typeChoicer.setEnabled( b );
+		if ( localeChoicer.isEnabled( ) != b )
+			localeChoicer.setEnabled( b );
+		if ( formatCode.isEnabled( ) != b )
+			formatCode.setEnabled( b );
+		if ( previewTextBox.isEnabled( ) != b )
+			previewTextBox.setEnabled( b );
+		if ( table.isEnabled( ) != b )
+			table.setEnabled( b );
 		return;
 	}
 

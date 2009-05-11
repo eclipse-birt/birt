@@ -508,7 +508,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 		oldCategory = categoryStr;
 		oldPattern = patternStr;
 		oldLocale = localeStr;
-		
+
 		hasLoaded = true;
 		return;
 	}
@@ -654,7 +654,8 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 
 	public void setEnabled( boolean enabled )
 	{
-		content.setEnabled( enabled );
+		if ( content.isEnabled( ) != enabled )
+			content.setEnabled( enabled );
 		setControlsEnabeld( enabled );
 	}
 
@@ -1251,11 +1252,16 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 
 	private void setControlsEnabeld( boolean b )
 	{
-		typeChoicer.setEnabled( b );
-		localeChoicer.setEnabled( b );
-		formatCode.setEnabled( b );
-		previewTextBox.setEnabled( b );
-		table.setEnabled( b );
+		if ( typeChoicer.isEnabled( ) != b )
+			typeChoicer.setEnabled( b );
+		if ( localeChoicer.isEnabled( ) != b )
+			localeChoicer.setEnabled( b );
+		if ( formatCode.isEnabled( ) != b )
+			formatCode.setEnabled( b );
+		if ( previewTextBox.isEnabled( ) != b )
+			previewTextBox.setEnabled( b );
+		if ( table.isEnabled( ) != b )
+			table.setEnabled( b );
 	}
 
 	private FormatStringDescriptorProvider provider;

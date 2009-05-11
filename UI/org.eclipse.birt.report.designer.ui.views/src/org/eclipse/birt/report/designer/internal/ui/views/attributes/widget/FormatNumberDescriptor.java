@@ -876,7 +876,8 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 
 	public void setEnabled( boolean enabled )
 	{
-		content.setEnabled( enabled );
+		if ( content.isEnabled( ) != enabled )
+			content.setEnabled( enabled );
 		setControlsEnabled( enabled );
 	}
 
@@ -2074,40 +2075,59 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 
 	private void setControlsEnabled( boolean b )
 	{
-		typeChoicer.setEnabled( b );
-		localeChoicer.setEnabled( b );
+		if ( typeChoicer.isEnabled( ) != b )
+			typeChoicer.setEnabled( b );
+		if ( localeChoicer.isEnabled( ) != b )
+			localeChoicer.setEnabled( b );
 
-		cPlacesChoice.setEnabled( b );
-		cUseSep.setEnabled( b );
-		cUseSpace.setEnabled( b );
-		cSymbolChoice.setEnabled( b );
-		cSymPosChoice.setEnabled( b );
+		if ( cPlacesChoice.isEnabled( ) != b )
+			cPlacesChoice.setEnabled( b );
+		if ( cUseSep.isEnabled( ) != b )
+			cUseSep.setEnabled( b );
+		if ( cUseSpace.isEnabled( ) != b )
+			cUseSpace.setEnabled( b );
+		if ( cSymbolChoice.isEnabled( ) != b )
+			cSymbolChoice.setEnabled( b );
+		if ( cSymPosChoice.isEnabled( ) != b )
+			cSymPosChoice.setEnabled( b );
 		if ( b )
 		{
 			if ( cSymbolChoice.getSelectionIndex( ) == 0 )
 			{
-				cSymPosChoice.setEnabled( false );
+				if ( cSymPosChoice.isEnabled( ) != false )
+					cSymPosChoice.setEnabled( false );
 			}
 		}
-		cNegNumChoice.setEnabled( b );
+		if ( cNegNumChoice.isEnabled( ) != b )
+			cNegNumChoice.setEnabled( b );
 
-		fPlacesChoice.setEnabled( b );
-		fUseSep.setEnabled( b );
+		if ( fPlacesChoice.isEnabled( ) != b )
+			fPlacesChoice.setEnabled( b );
+		if ( fUseSep.isEnabled( ) != b )
+			fUseSep.setEnabled( b );
 		// fUseZero.setEnabled( b );
-		fNegNumChoice.setEnabled( b );
+		if ( fNegNumChoice.isEnabled( ) != b )
+			fNegNumChoice.setEnabled( b );
 
-		pPlacesChoice.setEnabled( b );
-		pUseSep.setEnabled( b );
+		if ( pPlacesChoice.isEnabled( ) != b )
+			pPlacesChoice.setEnabled( b );
+		if ( pUseSep.isEnabled( ) != b )
+			pUseSep.setEnabled( b );
 
 		// pUseZero.setEnabled( b );
-		pSymPosChoice.setEnabled( b );
-		pNegNumChoice.setEnabled( b );
+		if ( pSymPosChoice.isEnabled( ) != b )
+			pSymPosChoice.setEnabled( b );
+		if ( pNegNumChoice.isEnabled( ) != b )
+			pNegNumChoice.setEnabled( b );
 
-		sPlacesChoice.setEnabled( b );
-
-		formatCodeBox.setEnabled( b );
-		previewTextBox.setEnabled( b );
-		table.setEnabled( b );
+		if ( sPlacesChoice.isEnabled( ) != b )
+			sPlacesChoice.setEnabled( b );
+		if ( formatCodeBox.isEnabled( ) != b )
+			formatCodeBox.setEnabled( b );
+		if ( previewTextBox.isEnabled( ) != b )
+			previewTextBox.setEnabled( b );
+		if ( table.isEnabled( ) != b )
+			table.setEnabled( b );
 	}
 
 	public void save( Object obj ) throws SemanticException
