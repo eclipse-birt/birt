@@ -47,6 +47,7 @@ public class RowResultSet implements IRowResultSet
 	
 	private IResultObject nextResultObject;
 
+	private boolean finished = false;
 	/**
 	 * Construction
 	 * 
@@ -85,6 +86,8 @@ public class RowResultSet implements IRowResultSet
 	 */
 	public IResultObject next( ) throws DataException
 	{
+		if ( finished )
+			return null;
 		if ( this.nextResultObject != null )
 		{
 			this.lastResultObject = this.nextResultObject;
@@ -175,12 +178,17 @@ public class RowResultSet implements IRowResultSet
 
 	public boolean hasNext() throws DataException
 	{
+		if ( finished )
+			return false;
 		if ( nextResultObject != null )
 			return true;
 		nextResultObject = this.next( );
 		if( nextResultObject != null )
 			return true;
 		else
+		{
+			finished = true;
 			return false;
+		}
 	}
 }
