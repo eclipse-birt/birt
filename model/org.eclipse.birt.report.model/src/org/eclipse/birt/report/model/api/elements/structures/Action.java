@@ -142,8 +142,9 @@ public class Action extends PropertyStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 
 	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
@@ -155,12 +156,13 @@ public class Action extends PropertyStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt.report.model.api.SimpleValueHandle)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
+	 * .report.model.api.SimpleValueHandle)
 	 */
 
 	public StructureHandle getHandle( SimpleValueHandle valueHandle )
 	{
-		return new ActionHandle( valueHandle.getElementHandle( ), valueHandle
-				.getReference( ) );
+		return new ActionHandle( valueHandle.getElementHandle( ), getContext( ) );
 	}
 }

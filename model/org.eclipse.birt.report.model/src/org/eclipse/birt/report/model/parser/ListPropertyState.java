@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
@@ -253,7 +254,8 @@ public class ListPropertyState extends AbstractPropertyState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
 		{
 			if ( struct != null )
-				return new StructureState( handler, element, propDefn, struct );
+				return new StructureState( handler, element, propDefn,
+						(Structure) struct );
 
 			return new StructureState( handler, element, propDefn );
 		}

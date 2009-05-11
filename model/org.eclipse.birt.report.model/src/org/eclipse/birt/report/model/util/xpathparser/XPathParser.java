@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.XPathUtil;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -44,7 +43,14 @@ public class XPathParser
 
 	// ******** keep the property *****
 
-	private CachedMemberRef ref = null;
+	// private CachedMemberRef ref = null;
+
+	/**
+	 * The object that represents the xpath string parsed.
+	 */
+	private Object parsedHandle = null;
+
+	private int posn = -1;
 
 	/**
 	 * The current parsed element.
@@ -69,6 +75,8 @@ public class XPathParser
 	private int slotID = DesignElement.NO_SLOT;
 
 	private String propertyName = null;
+
+	private boolean isValid = true;
 
 	/**
 	 * Default constructor.
@@ -223,14 +231,14 @@ public class XPathParser
 			if ( ( valueType & STRUCTURE ) != 0 && isStructureTag( tagName ) )
 			{
 				valueType = STRUCTURE;
-				ref = parsePropertyValue( tagName, attrValue, index );
+				parsedHandle = parsePropertyValue( tagName, attrValue, index );
 			}
 
 			if ( ( ( valueType & ELEMENT ) != 0 || ( valueType & PROPERTY ) != 0 )
 					&& isPropertyTag( tagName ) )
 			{
 				valueType = PROPERTY;
-				ref = parsePropertyValue( tagName, attrValue, index );
+				parsedHandle = parsePropertyValue( tagName, attrValue, index );
 			}
 
 			if ( valueType == INVALID )
@@ -340,7 +348,12 @@ public class XPathParser
 
 	private Object getRespectivePropertyHandle( int index )
 	{
-		if ( ref == null )
+		// if something is wrong during the parser, that is 'isValid' is set to
+		// FALSE, return null;
+		if ( !isValid )
+			return null;
+
+		if ( parsedHandle == null )
 		{
 			if ( propertyName == null )
 				return null;
@@ -348,51 +361,68 @@ public class XPathParser
 			return new PropertyHandle( currentElement, propertyName );
 		}
 
-		switch ( ref.refType )
+		if ( valueType == STRUCTURE )
 		{
-			case CachedMemberRef.PROPERTY :
-				return new PropertyHandle( currentElement, ref.getPropDefn( ) );
-			case CachedMemberRef.PROPERTY_LISTn :
-				PropertyHandle propHandle = new PropertyHandle( currentElement,
-						ref.getPropDefn( ) );
+			if ( parsedHandle instanceof PropertyHandle )
+			{
+
+				PropertyHandle propHandle = (PropertyHandle) parsedHandle;
 				if ( index < 0 || index >= propHandle.getListValue( ).size( ) )
 					return null;
-				return propHandle.getAt( index < 0 ? 0 : index );
-			case CachedMemberRef.PROPERTY_MEMBER_LISTn :
-				propHandle = new PropertyHandle( currentElement, ref
-						.getPropDefn( ) );
-				StructureHandle structHandle = ( (Structure) propHandle
-						.getValue( ) ).getHandle( propHandle );
-				MemberHandle memberHandle = structHandle.getMember( ref
-						.getMemberDefn( ).getName( ) );
+				return propHandle.getAt( index );
+			}
+			else if ( parsedHandle instanceof MemberHandle )
+			{
+				MemberHandle memberHandle = (MemberHandle) parsedHandle;
 				if ( index < 0 || index >= memberHandle.getListValue( ).size( ) )
 					return null;
-				return memberHandle.getAt( index < 0 ? 0 : index );
-			default :
-				return null;
+				return memberHandle.getAt( index );
+			}
+			else if ( parsedHandle instanceof StructureHandle )
+			{
+				return parsedHandle;
+			}
+			return null;
 		}
+
+		// can not return MemberHandle, so add this constraint, think only
+		// PropertyHandle and strucrureHandle is valid
+		if ( parsedHandle instanceof PropertyHandle
+				|| parsedHandle instanceof StructureHandle )
+			return parsedHandle;
+
+		return null;
 	}
 
-	private CachedMemberRef parsePropertyValue( String tagName,
-			String propName, int index )
+	private Object parsePropertyValue( String tagName, String propName,
+			int index )
 	{
+		// if something has wrong before, need do nothing now
+		if ( !isValid )
+			return parsedHandle;
+
 		if ( propertyName == null )
 		{
 			IPropertyDefn propDefn = currentElement.getPropertyDefn( propName );
 			if ( propDefn == null )
+			{
+				isValid = false;
 				return null;
+			}
 
 			propertyName = propName;
 
 			if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
-				ref = new CachedMemberRef( (ElementPropertyDefn) propDefn );
-
-			return ref;
+			{
+				parsedHandle = new PropertyHandle( currentElement,
+						(ElementPropertyDefn) propDefn );
+			}
+			return parsedHandle;
 		}
 
 		// case for the resource key
 
-		if ( ref == null && propertyName != null
+		if ( parsedHandle == null && propertyName != null
 				&& DesignSchemaConstants.KEY_ATTRIB.equalsIgnoreCase( propName ) )
 		{
 			String newPropName = propertyName + XPathUtil.RESOURCE_KEY_SUFFIX;
@@ -408,55 +438,88 @@ public class XPathParser
 
 		// case for the simple property list
 
-		if ( ref == null
+		if ( parsedHandle == null
 				&& propertyName != null
 				&& DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG
 						.equalsIgnoreCase( tagName ) )
 		{
-			ElementDefn elementDefn = (ElementDefn) currentElement.getDefn( );
-			IPropertyDefn propDefn = elementDefn.getProperty( propName );
+			IPropertyDefn propDefn = currentElement.getPropertyDefn( propName );
 			if ( propDefn == null )
+			{
+				isValid = false;
 				return null;
+			}
 
 			propertyName = propName;
 
 			if ( index > 0
 					&& propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
-				ref = new CachedMemberRef( (ElementPropertyDefn) propDefn,
-						index - 1 < 0 ? 0 : index - 1 );
+			{
+				parsedHandle = new PropertyHandle( currentElement,
+						(ElementPropertyDefn) propDefn );
 
-			return ref;
+				// for the simple list cases, the property handle or member
+				// handle can not identify the position to specify the item in
+				// the list, so store the index information in the class member
+				posn = index - 1 < 0 ? 0 : index - 1;
+			}
+
+			return parsedHandle;
 		}
 
-		assert ref != null;
+		// assert parsedHandle != null;
 
-		if ( ref.refType == CachedMemberRef.PROPERTY
+		if ( parsedHandle instanceof PropertyHandle
 				&& DesignSchemaConstants.STRUCTURE_TAG
 						.equalsIgnoreCase( tagName ) )
 		{
-			ElementDefn elementDefn = (ElementDefn) currentElement.getDefn( );
-			IPropertyDefn propDefn = elementDefn.getProperty( ref.getPropDefn( )
-					.getName( ) );
+			PropertyHandle propHandle = (PropertyHandle) parsedHandle;
+			if ( index < 0 || index >= propHandle.getListValue( ).size( ) )
+				isValid = false;
+			else
+				parsedHandle = propHandle.getAt( index );
 
-			ref = new CachedMemberRef( (ElementPropertyDefn) propDefn,
-					index < 0 ? 0 : index );
-			return ref;
+			return parsedHandle;
 		}
 
-		if ( ref.refType == CachedMemberRef.PROPERTY
-				&& DesignSchemaConstants.LIST_PROPERTY_TAG
-						.equalsIgnoreCase( tagName ) )
+		if ( DesignSchemaConstants.LIST_PROPERTY_TAG.equalsIgnoreCase( tagName ) )
 		{
-			ref = new CachedMemberRef( ref, propName );
-			return ref;
+			if ( parsedHandle instanceof PropertyHandle )
+			{
+				PropertyHandle propHandle = (PropertyHandle) parsedHandle;
+				Object value = propHandle.getValue( );
+				if ( value instanceof Structure )
+				{
+					Structure struct = (Structure) value;
+					StructureHandle structHandle = struct
+							.getHandle( propHandle );
+					parsedHandle = structHandle.getMember( propName );
+					if ( parsedHandle == null )
+						isValid = false;
+				}
+			}
+			else if ( parsedHandle instanceof StructureHandle )
+			{
+				StructureHandle structHandle = (StructureHandle) parsedHandle;
+				parsedHandle = structHandle.getMember( propName );
+				if ( parsedHandle == null )
+					isValid = false;
+			}
+
+			return parsedHandle;
 		}
 
-		if ( ref.refType == CachedMemberRef.PROPERTY_MEMBER
+		if ( parsedHandle instanceof MemberHandle
 				&& DesignSchemaConstants.STRUCTURE_TAG
 						.equalsIgnoreCase( tagName ) )
 		{
-			ref = new CachedMemberRef( ref, index < 0 ? 0 : index );
-			return ref;
+			MemberHandle memberHandle = (MemberHandle) parsedHandle;
+			if ( index < 0 || index >= memberHandle.getListValue( ).size( ) )
+				isValid = false;
+			else
+				parsedHandle = memberHandle.getAt( index );
+
+			return parsedHandle;
 		}
 
 		return null;

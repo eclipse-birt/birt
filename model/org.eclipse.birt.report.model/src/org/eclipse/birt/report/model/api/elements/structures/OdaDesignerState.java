@@ -116,7 +116,9 @@ public class OdaDesignerState extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -137,8 +139,9 @@ public class OdaDesignerState extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -250,31 +253,32 @@ public class OdaDesignerState extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 
 	/**
-	 * Return an <code>FormatValueHandle</code> to deal with the string
-	 * format.
+	 * Return an <code>FormatValueHandle</code> to deal with the string format.
 	 * 
 	 * @param valueHandle
 	 *            the property or member handle
-	 * @return the strcuture handle
+	 * @return the structure handle
 	 * 
 	 */
 
 	public StructureHandle getHandle( SimpleValueHandle valueHandle )
 	{
 		return new OdaDesignerStateHandle( valueHandle.getElementHandle( ),
-				valueHandle.getReference( ) );
+				getContext( ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )

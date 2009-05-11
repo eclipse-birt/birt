@@ -17,11 +17,10 @@ import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.util.StructureContextUtil;
 
 /**
  * Represents a highlight rule in the highlight property of a style. A highlight
@@ -41,8 +40,8 @@ public class HighlightRuleHandle extends StyleRuleHandle
 
 	/**
 	 * Constructs a highlight rule handle with the given
-	 * <code>SimpleValueHandle</code> and the index of the highlight rule in
-	 * the highlight.
+	 * <code>SimpleValueHandle</code> and the index of the highlight rule in the
+	 * highlight.
 	 * 
 	 * @param valueHandle
 	 *            handle to a list property or member
@@ -131,14 +130,14 @@ public class HighlightRuleHandle extends StyleRuleHandle
 
 	private ColorHandle doGetColorHandle( String memberName )
 	{
-		MemberRef memberRef = new CachedMemberRef( structRef, memberName );
-		return new ColorHandle( getElementHandle( ), memberRef );
+		return new ColorHandle( getElementHandle( ), StructureContextUtil
+				.createStructureContext( this, memberName ) );
 	}
 
 	/**
 	 * Returns the style of the border bottom line. The return value is one of
-	 * the CSS (pre-defined) values see <code>DesignChoiceConstants</code>.
-	 * They are:
+	 * the CSS (pre-defined) values see <code>DesignChoiceConstants</code>. They
+	 * are:
 	 * <ul>
 	 * <li><code>LINE_STYLE_NONE</code>
 	 * <li><code>LINE_STYLE_SOLID</code>
@@ -167,7 +166,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 *            the new border bottom line style
 	 * @throws SemanticException
 	 *             if the value is not one of above.
-	 * @see #getBorderBottomStyle( )
+	 * @see #getBorderBottomStyle()
 	 */
 
 	public void setBorderBottomStyle( String value ) throws SemanticException
@@ -179,7 +178,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 * Returns the style of the border left line.
 	 * 
 	 * @return the border left line style
-	 * @see #getBorderBottomStyle( )
+	 * @see #getBorderBottomStyle()
 	 */
 
 	public String getBorderLeftStyle( )
@@ -195,7 +194,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 *            the new border left line style
 	 * @throws SemanticException
 	 *             if the value is not one of above.
-	 * @see #setBorderBottomStyle( String )
+	 * @see #setBorderBottomStyle(String )
 	 */
 
 	public void setBorderLeftStyle( String value ) throws SemanticException
@@ -207,7 +206,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 * Returns the style of the border right line.
 	 * 
 	 * @return the border right line style
-	 * @see #getBorderBottomStyle( )
+	 * @see #getBorderBottomStyle()
 	 */
 
 	public String getBorderRightStyle( )
@@ -222,7 +221,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 *            the new border right line style
 	 * @throws SemanticException
 	 *             if the value is not one of above.
-	 * @see #setBorderBottomStyle( String )
+	 * @see #setBorderBottomStyle(String )
 	 */
 
 	public void setBorderRightStyle( String value ) throws SemanticException
@@ -234,7 +233,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 * Returns the style of the top line of the border.
 	 * 
 	 * @return the border top line style
-	 * @see #getBorderBottomStyle( )
+	 * @see #getBorderBottomStyle()
 	 */
 
 	public String getBorderTopStyle( )
@@ -250,7 +249,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 *            the new border top line style
 	 * @throws SemanticException
 	 *             if the value is not one of above.
-	 * @see #setBorderBottomStyle( String )
+	 * @see #setBorderBottomStyle(String )
 	 */
 
 	public void setBorderTopStyle( String value ) throws SemanticException
@@ -433,7 +432,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 * </ul>
 	 * 
 	 * @return the value of Bidi direction property
-	 *
+	 * 
 	 * @author bidi_hcg
 	 */
 
@@ -454,7 +453,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 *            the new direction value
 	 * @throws SemanticException
 	 *             if the value is not one of the above.
-	 *
+	 * 
 	 * @author bidi_hcg
 	 */
 
@@ -605,8 +604,8 @@ public class HighlightRuleHandle extends StyleRuleHandle
 
 	private DimensionHandle doGetDimensionHandle( String memberName )
 	{
-		MemberRef memberRef = new CachedMemberRef( structRef, memberName );
-		return new DimensionHandle( getElementHandle( ), memberRef );
+		return new DimensionHandle( getElementHandle( ), StructureContextUtil
+				.createStructureContext( this, memberName ) );
 	}
 
 	/**
@@ -617,9 +616,9 @@ public class HighlightRuleHandle extends StyleRuleHandle
 
 	public FontHandle getFontFamilyHandle( )
 	{
-		MemberRef memberRef = new CachedMemberRef( structRef,
-				HighlightRule.FONT_FAMILY_MEMBER );
-		return new FontHandle( getElementHandle( ), memberRef );
+		return new FontHandle( getElementHandle( ),
+				StructureContextUtil.createStructureContext( this,
+						HighlightRule.FONT_FAMILY_MEMBER ) );
 
 	}
 
@@ -658,7 +657,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 *            the new font weight
 	 * @throws SemanticException
 	 *             if the input value is not one of the above
-	 * @see #getFontWeight( )
+	 * @see #getFontWeight()
 	 */
 
 	public void setFontWeight( String value ) throws SemanticException

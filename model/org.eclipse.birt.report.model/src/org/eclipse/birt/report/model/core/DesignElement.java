@@ -20,7 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -69,6 +68,7 @@ import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.EncryptionUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
+import org.eclipse.birt.report.model.util.StructureContextUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 import org.eclipse.birt.report.model.validators.ValidationNode;
 
@@ -1190,6 +1190,15 @@ public abstract class DesignElement
 			StructRefValue oldRef = (StructRefValue) propValues.get( propName );
 			ReferenceValueUtil.updateReference( this, oldRef,
 					(StructRefValue) value, prop );
+		}
+
+		if ( prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE && !prop.isList( ) )
+		{
+			if ( value instanceof Structure )
+			{
+				( (Structure) value ).setContext( new StructureContext( this,
+						prop, (Structure) value ) );
+			}
 		}
 
 		// Set or clear the property.
@@ -3202,7 +3211,7 @@ public abstract class DesignElement
 		while ( iter.hasNext( ) )
 		{
 			String key = iter.next( );
-			PropertyDefn propDefn = getPropertyDefn( key );
+			ElementPropertyDefn propDefn = getPropertyDefn( key );
 			Object value = propValues.get( key );
 			if ( value == null )
 				continue;
@@ -3224,7 +3233,8 @@ public abstract class DesignElement
 
 			if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 			{
-				ModelUtil.setStructureContext( propDefn, clonedValue, element );
+				StructureContextUtil.setStructureContext( propDefn,
+						clonedValue, element );
 			}
 		}
 

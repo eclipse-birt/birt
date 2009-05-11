@@ -1331,8 +1331,12 @@ public class ReportDesignSerializer extends ElementVisitor
 					ScriptLib targetScriptLib = new ScriptLib( );
 					targetScriptLib.setName( sourceScriptLibPath );
 
-					targetScriptLib.setContext( new StructureContext( target,
-							IModuleModel.SCRIPTLIBS_PROP ) );
+					targetScriptLib
+							.setContext( new StructureContext(
+									target,
+									target
+											.getPropertyDefn( IModuleModel.SCRIPTLIBS_PROP ),
+									targetScriptLib ) );
 
 					relativePathList.add( sourceScriptLibPath );
 					targetValueList.add( targetScriptLib );

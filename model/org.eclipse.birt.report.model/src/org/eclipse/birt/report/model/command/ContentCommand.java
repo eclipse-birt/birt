@@ -30,14 +30,13 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.BackRef;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
@@ -431,10 +430,9 @@ public class ContentCommand extends AbstractContentCommand
 					Structure struct = ref.getStructure( );
 					if ( struct != null )
 					{
-						MemberRef memberRef = struct.getListMemberRef( );
 						ComplexPropertyCommand cmd = new ComplexPropertyCommand(
 								module, client );
-						cmd.removeItem( memberRef, struct );
+						cmd.removeItem( struct.getContext( ), struct );
 					}
 					else if ( ref.getPropertyName( ) != null )
 					{
@@ -502,7 +500,7 @@ public class ContentCommand extends AbstractContentCommand
 		assert index != -1;
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module, client );
-		cmd.removeItem( new CachedMemberRef( propDefn ), index );
+		cmd.removeItem( new StructureContext( client, propDefn, null ), index );
 
 	}
 
@@ -569,8 +567,8 @@ public class ContentCommand extends AbstractContentCommand
 						module, (ElementPropertyDefn) propDefn );
 				if ( valueList != null )
 				{
-					CachedMemberRef tmpMemberRef = new CachedMemberRef(
-							(ElementPropertyDefn) propDefn );
+					StructureContext tmpMemberRef = new StructureContext(
+							element, (ElementPropertyDefn) propDefn, null );
 					for ( int i = valueList.size( ) - 1; i >= 0; i-- )
 					{
 						ElementRefValue item = (ElementRefValue) valueList
@@ -973,8 +971,8 @@ public class ContentCommand extends AbstractContentCommand
 					.getPropertyDefn( IModuleModel.PROPERTY_BINDINGS_PROP );
 			ComplexPropertyCommand propCommand = new ComplexPropertyCommand(
 					module, module );
-			propCommand.removeItem( new CachedMemberRef( propDefn ),
-					propBinding );
+			propCommand.removeItem( new StructureContext( module, propDefn,
+					null ), propBinding );
 		}
 	}
 

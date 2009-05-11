@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.elements.structures.Rule;
-import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.StructureContext;
 
 /**
  * Represents a rule handle.
@@ -27,13 +27,13 @@ public class RuleHandle extends StructureHandle
 	 * 
 	 * @param element
 	 *            the element that defined the action.
-	 * @param ref
-	 *            reference to the action property.
+	 * @param context
+	 *            context to the rule structure property.
 	 */
 
-	public RuleHandle( DesignElementHandle element, MemberRef ref )
+	public RuleHandle( DesignElementHandle element, StructureContext context )
 	{
-		super( element, ref );
+		super( element, context );
 	}
 
 	/**

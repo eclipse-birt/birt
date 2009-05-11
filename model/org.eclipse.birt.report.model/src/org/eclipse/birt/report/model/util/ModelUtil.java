@@ -64,7 +64,6 @@ import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.DataSet;
@@ -1563,89 +1562,6 @@ public class ModelUtil
 			return true;
 
 		return false;
-	}
-
-	/**
-	 * Sets structure context.
-	 * 
-	 * @param propDefn
-	 *            the property define
-	 * @param clonedValue
-	 *            the cloned value
-	 * @param element
-	 *            the design element.
-	 */
-	public static void setStructureContext( PropertyDefn propDefn,
-			Object clonedValue, DesignElement element )
-	{
-		assert propDefn != null;
-		assert clonedValue != null;
-		assert element != null;
-
-		if ( propDefn.isList( ) )
-		{
-			List values = (ArrayList) clonedValue;
-			for ( int i = 0; i < values.size( ); i++ )
-			{
-				Structure item = (Structure) values.get( i );
-				item.setContext( new StructureContext( element, propDefn
-						.getName( ) ) );
-				setupStructureContext( item );
-			}
-		}
-		else
-		{
-			( (Structure) clonedValue ).setContext( new StructureContext(
-					element, propDefn.getName( ) ) );
-			setupStructureContext( (Structure) clonedValue );
-		}
-	}
-
-	/**
-	 * Establishes the structure context for the given structure or any nested
-	 * structure.
-	 * 
-	 * @param struct
-	 *            the structure to setup
-	 * 
-	 */
-
-	public static void setupStructureContext( Structure struct )
-	{
-		if ( struct == null )
-			return;
-		Iterator<IPropertyDefn> members = struct.getDefn( )
-				.getPropertyIterator( );
-		while ( members.hasNext( ) )
-		{
-			IPropertyDefn member = members.next( );
-			if ( member.getTypeCode( ) != IPropertyType.STRUCT_TYPE )
-				continue;
-
-			Object tmpValue = struct.getLocalProperty( null,
-					(PropertyDefn) member );
-			if ( tmpValue == null )
-				continue;
-			if ( tmpValue instanceof List )
-			{
-				List tmpList = (List) tmpValue;
-				for ( int i = 0; i < tmpList.size( ); i++ )
-				{
-					Structure child = (Structure) tmpList.get( i );
-					child.setContext( new StructureContext( struct, member
-							.getName( ) ) );
-					setupStructureContext( child );
-				}
-
-				continue;
-			}
-
-			Structure child = (Structure) tmpValue;
-			child
-					.setContext( new StructureContext( struct, member.getName( ) ) );
-			setupStructureContext( child );
-		}
-
 	}
 
 	/**

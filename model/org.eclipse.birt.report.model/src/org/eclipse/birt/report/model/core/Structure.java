@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -108,6 +107,20 @@ public abstract class Structure implements IStructure
 	{
 		return MetaDataDictionary.getInstance( )
 				.getStructure( getStructName( ) );
+	}
+
+	/**
+	 * Gets the definition for the member with the given name. Return the
+	 * definition if the member is found in this structure definition, otherwise
+	 * return null.
+	 * 
+	 * @param memberName
+	 *            name of the member to find
+	 * @return the member definition if found, otherwise return null
+	 */
+	public IPropertyDefn getMemberDefn( String memberName )
+	{
+		return (PropertyDefn) getDefn( ).getMember( memberName );
 	}
 
 	/**
@@ -472,6 +485,9 @@ public abstract class Structure implements IStructure
 
 	public void setContext( StructureContext context )
 	{
+		if ( context != null )
+			assert context.getStructure( ) == this;
+		
 		this.context = context;
 	}
 
@@ -495,85 +511,6 @@ public abstract class Structure implements IStructure
 			return null;
 
 		return context.getElement( );
-	}
-
-	/**
-	 * @return
-	 */
-
-	public MemberRef getListMemberRef( )
-	{
-		if ( context == null )
-			return null;
-
-		StructureContext tmpContext = context;
-
-		int index[] = new int[]{-1, -1, -1};
-		List<IPropertyDefn> propDefns = new ArrayList<IPropertyDefn>( );
-
-		Structure tmpStruct = this;
-		int i = 0;
-		while ( tmpContext != null )
-		{
-			IPropertyDefn propDefn = tmpContext.getPropDefn( );
-			propDefns.add( propDefn );
-
-			Object valueContainer = tmpContext.getValueContainer( );
-
-			Structure parentStruct = null;
-			if ( valueContainer instanceof Structure )
-			{
-				parentStruct = (Structure) valueContainer;
-				if ( propDefn.isList( ) )
-				{
-					List<Structure> list = (List<Structure>) parentStruct
-							.getLocalProperty( null, (PropertyDefn) propDefn );
-					int tmpIndex = list.indexOf( tmpStruct );
-					index[i] = tmpIndex;
-				}
-			}
-			else
-			{
-				DesignElement tmpElement = (DesignElement) valueContainer;
-				if ( propDefn.isList( ) )
-				{
-					List<Structure> list = (List<Structure>) tmpElement
-							.getLocalProperty( null,
-									(ElementPropertyDefn) propDefn );
-					int tmpIndex = list.indexOf( tmpStruct );
-					index[i] = tmpIndex;
-				}
-				break;
-			}
-
-			tmpContext = parentStruct.getContext( );
-			tmpStruct = parentStruct;
-			i++;
-		}
-
-		ElementPropertyDefn elementPropDefn = (ElementPropertyDefn) propDefns
-				.get( propDefns.size( ) - 1 );
-		CachedMemberRef ref = new CachedMemberRef( elementPropDefn );
-
-		for ( int j = propDefns.size( ) - 1; j > 0; j-- )
-		{
-			int tmpIndex = index[j];
-
-			IPropertyDefn tmpPropDefn = propDefns.get( j - 1 );
-
-			if ( tmpIndex > 0 )
-			{
-				ref = new CachedMemberRef( ref, tmpIndex,
-						(StructPropertyDefn) tmpPropDefn );
-			}
-			else
-			{
-				ref = new CachedMemberRef( ref,
-						(StructPropertyDefn) tmpPropDefn );
-			}
-		}
-
-		return ref;
 	}
 
 	/**

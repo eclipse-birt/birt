@@ -53,12 +53,11 @@ import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.command.StyleCommand;
 import org.eclipse.birt.report.model.command.TemplateCommand;
 import org.eclipse.birt.report.model.command.UserPropertyCommand;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.MultiViews;
@@ -117,7 +116,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Property handle for element type properties.
 	 */
-	private Map propHandles = new HashMap( );
+	private Map<String, PropertyHandle> propHandles = new HashMap<String, PropertyHandle>( );
 
 	/**
 	 * Constructs a handle with the given module.
@@ -162,7 +161,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	final protected void cachePropertyHandles( )
 	{
-		List contents = getDefn( ).getContents( );
+		List<IElementPropertyDefn> contents = getDefn( ).getContents( );
 		for ( int i = 0; i < contents.size( ); i++ )
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) contents
@@ -2339,7 +2338,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 					root );
 			// maskValue is null, remove the item from the structure list.
 
-			cmd.removeItem( new CachedMemberRef( defn ), bindingList
+			cmd.removeItem( binding.getContext( ), bindingList
 					.indexOf( binding ) );
 		}
 		else
@@ -2357,16 +2356,16 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				binding.setValue( value );
 				ComplexPropertyCommand cmd = new ComplexPropertyCommand(
 						module, root );
-				cmd.addItem( new CachedMemberRef( defn ), binding );
+				cmd.addItem( new StructureContext( root, defn, null ), binding );
 			}
 			else
 			{
 				// changes the binding value.
 
-				MemberRef memberRef = new CachedMemberRef( defn, bindingList
-						.indexOf( binding ), PropertyBinding.VALUE_MEMBER );
 				PropertyCommand cmd = new PropertyCommand( module, root );
-				cmd.setMember( memberRef, value );
+				cmd.setMember( new StructureContext( binding,
+						(PropertyDefn) binding.getDefn( ).getMember(
+								PropertyBinding.VALUE_MEMBER ), null ), value );
 			}
 		}
 	}

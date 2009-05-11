@@ -27,9 +27,9 @@ import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.command.ContentElementInfo.Step;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.StructureContextUtil;
 
 /**
  * 
@@ -359,12 +360,12 @@ class ContentElementCommand extends AbstractContentCommand
 	}
 
 	/**
-	 * @param ref
+	 * @param context
 	 * @param value
 	 *            the value should not be structure instance.
 	 */
 
-	protected void addItem( MemberRef ref, Object value )
+	protected void addItem( StructureContext context, Object value )
 	{
 		ActivityStack stack = getActivityStack( );
 
@@ -375,14 +376,19 @@ class ContentElementCommand extends AbstractContentCommand
 		// for add action, the content parameter can be ignored.
 
 		DesignElement tmpElement = copyTopCompositeValue( );
-		List list = ref.getList( module, tmpElement );
+
+		// the context must be updated, since the element in the old context may
+		// be not this tmp element
+		context = StructureContextUtil.getLocalStructureContext( module,
+				tmpElement, context );
+		List list = context.getList( module );
 
 		PropertyListRecord record = null;
 		if ( value instanceof Structure )
 			assert false;
 		else
-			record = new PropertyListRecord( tmpElement, ref.getPropDefn( ),
-					list, value, list.size( ) );
+			record = new PropertyListRecord( tmpElement, context
+					.getElementProp( ), list, value, list.size( ) );
 
 		assert record != null;
 
@@ -393,12 +399,12 @@ class ContentElementCommand extends AbstractContentCommand
 	}
 
 	/**
-	 * @param ref
+	 * @param context
 	 * @param value
 	 *            the value should not be structure instance.
 	 */
 
-	protected void removeItem( MemberRef ref )
+	protected void removeItem( StructureContext context, int posn )
 	{
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( CommandLabelFactory
@@ -408,14 +414,18 @@ class ContentElementCommand extends AbstractContentCommand
 		// for add action, the content parameter can be ignored.
 
 		DesignElement tmpElement = copyTopCompositeValue( );
+		// the context must be updated, since the element in the old context may
+		// be not this tmp element
+		context = StructureContextUtil.getLocalStructureContext( module,
+				tmpElement, context );
 
-		List list = ref.getList( module, tmpElement );
+		List list = context.getList( module );
 
-		PropertyDefn propDefn = ref.getPropDefn( );
-		if ( ref.getMemberDefn( ) != null )
-			propDefn = ref.getMemberDefn( );
+		PropertyDefn propDefn = context.getElementProp( );
+		if ( context.getPropDefn( ) != null )
+			propDefn = context.getPropDefn( );
 
-		Object value = list.get( ref.getIndex( ) );
+		Object value = list.get( posn );
 
 		PropertyListRecord record = null;
 
@@ -423,8 +433,8 @@ class ContentElementCommand extends AbstractContentCommand
 			assert false;
 		else
 		{
-			record = new PropertyListRecord( tmpElement, ref.getPropDefn( ),
-					list, value );
+			record = new PropertyListRecord( tmpElement, context
+					.getElementProp( ), list, value );
 		}
 		assert record != null;
 		stack.execute( record );

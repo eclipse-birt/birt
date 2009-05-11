@@ -50,6 +50,7 @@ import org.eclipse.birt.report.model.parser.treebuild.IContentHandler;
 import org.eclipse.birt.report.model.util.EncryptionUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
+import org.eclipse.birt.report.model.util.StructureContextUtil;
 
 /**
  * Represents the extensibility provider which supports the peer extension. The
@@ -721,7 +722,7 @@ public abstract class PeerExtensibilityProvider
 		while ( it.hasNext( ) )
 		{
 			String propName = it.next( );
-			PropertyDefn propDefn = element.getPropertyDefn( propName );
+			ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
 			if ( propDefn.isElementType( ) )
 				continue;
 
@@ -736,7 +737,8 @@ public abstract class PeerExtensibilityProvider
 
 			if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 			{
-				ModelUtil.setStructureContext( propDefn, valueToSet, element );
+				StructureContextUtil.setStructureContext( propDefn, valueToSet,
+						element );
 			}
 			extensionPropValues.put( propName, valueToSet );
 		}

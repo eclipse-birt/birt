@@ -25,9 +25,9 @@ import org.eclipse.birt.report.model.api.command.CssReloadedEvent;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
@@ -161,9 +161,11 @@ public class CssCommand extends AbstractElementCommand
 		ComplexPropertyCommand propCommand = new ComplexPropertyCommand(
 				module, element );
 		if ( posn == APPEND_POS )
-			propCommand.addItem( new CachedMemberRef( propDefn ), css );
+			propCommand.addItem(
+					new StructureContext( element, propDefn, null ), css );
 		else
-			propCommand.insertItem( new CachedMemberRef( propDefn ), css, posn );
+			propCommand.insertItem( new StructureContext( element, propDefn,
+					null ), css, posn );
 	}
 
 	/**
@@ -270,7 +272,8 @@ public class CssCommand extends AbstractElementCommand
 				.getPropertyDefn( IReportDesignModel.CSSES_PROP );
 		ComplexPropertyCommand propCommand = new ComplexPropertyCommand(
 				module, element );
-		propCommand.removeItem( new CachedMemberRef( propDefn ), css );
+		propCommand.removeItem(
+				new StructureContext( element, propDefn, null ), css );
 	}
 
 	/**

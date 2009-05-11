@@ -29,9 +29,9 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
@@ -405,8 +405,8 @@ public class ExtendsCommand extends AbstractElementCommand
 
 					if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 					{
-						command.makeLocalCompositeValue( new CachedMemberRef(
-								propDefn ) );
+						command.makeLocalCompositeValue( new StructureContext(
+								element, propDefn, null ) );
 					}
 					else
 					{

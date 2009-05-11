@@ -17,9 +17,9 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
-import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
+import org.eclipse.birt.report.model.util.StructureContextUtil;
 
 /**
  * A handle to a member of a property structure. A structure list occurs in an
@@ -34,33 +34,10 @@ public class MemberHandle extends SimpleValueHandle
 {
 
 	/**
-	 * The reference to the member itself.
+	 * The context to the member itself.
 	 */
 
-	protected CachedMemberRef memberRef;
-
-	/**
-	 * Constructs a member handle with the given element handle and the member
-	 * reference. The application usually does not create a handle directly.
-	 * Instead, it obtains a handle by calling a method another handle.
-	 * 
-	 * @param element
-	 *            handle to the report element that has the property that
-	 *            contains the structure that contains the member the list that
-	 *            contains the structure that contains the member.
-	 * @param ref
-	 *            The reference to the member.
-	 */
-
-	public MemberHandle( DesignElementHandle element, MemberRef ref )
-	{
-		super( element );
-		memberRef = new CachedMemberRef( ref );
-		if ( !memberRef.checkOrCacheStructure( elementHandle.getModule( ),
-				elementHandle.getElement( ) ) )
-			throw new RuntimeException(
-					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
-	}
+	protected StructureContext memberContext;
 
 	/**
 	 * Constructs a member handle with the given structure handle and the member
@@ -76,11 +53,16 @@ public class MemberHandle extends SimpleValueHandle
 	public MemberHandle( StructureHandle structHandle, StructPropertyDefn member )
 	{
 		super( structHandle.getElementHandle( ) );
-		memberRef = new CachedMemberRef( structHandle.getReference( ), member );
-		if ( !memberRef.checkOrCacheStructure( elementHandle.getModule( ),
-				elementHandle.getElement( ) ) )
+
+		if ( !StructureContextUtil.isValidStructureHandle( structHandle ) )
+		{
 			throw new RuntimeException(
 					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
+		}
+
+		memberContext = StructureContextUtil.getMemberContext( structHandle,
+				member );
+		assert memberContext != null;
 	}
 
 	/*
@@ -90,7 +72,7 @@ public class MemberHandle extends SimpleValueHandle
 	 */
 	public IPropertyDefn getDefn( )
 	{
-		return memberRef.getMemberDefn( );
+		return memberContext.getPropDefn( );
 	}
 
 	/*
@@ -100,7 +82,7 @@ public class MemberHandle extends SimpleValueHandle
 	 */
 	protected Object getRawValue( )
 	{
-		return memberRef.getValue( getModule( ), getElement( ) );
+		return memberContext.getValue( getModule( ) );
 	}
 
 	/*
@@ -113,7 +95,7 @@ public class MemberHandle extends SimpleValueHandle
 	public void setValue( Object value ) throws SemanticException
 	{
 		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
-		cmd.setMember( memberRef, value );
+		cmd.setMember( memberContext, value );
 	}
 
 	/*
@@ -128,7 +110,7 @@ public class MemberHandle extends SimpleValueHandle
 
 		try
 		{
-			cmd.removeItem( memberRef, posn );
+			cmd.removeItem( memberContext, posn );
 		}
 		catch ( PropertyValueException e )
 		{
@@ -155,22 +137,28 @@ public class MemberHandle extends SimpleValueHandle
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.addItem( memberRef, item );
+		cmd.addItem( memberContext, item );
 
 	}
 
-	// Implementation of abstract method defined in base class.
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.ValueHandle#getPropertyDefn()
+	 */
 	public IElementPropertyDefn getPropertyDefn( )
 	{
-		return memberRef.getPropDefn( );
+		return memberContext.getElementProp( );
 	}
 
-	// Implementation of abstract method defined in base class.
-
-	public MemberRef getReference( )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.ValueHandle#getContext()
+	 */
+	public StructureContext getContext( )
 	{
-		return memberRef;
+		return memberContext;
 	}
 
 	/*

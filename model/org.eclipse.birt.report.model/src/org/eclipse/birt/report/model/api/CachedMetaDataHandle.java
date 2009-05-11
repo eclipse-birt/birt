@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
-import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.StructureContext;
 
 /**
  * Structure handle to deal with cached data set metadata informations. The
@@ -33,7 +33,8 @@ public class CachedMetaDataHandle extends StructureHandle
 	 *            a member reference to the data-set meta-data property.
 	 */
 
-	public CachedMetaDataHandle( DesignElementHandle element, MemberRef ref )
+	public CachedMetaDataHandle( DesignElementHandle element,
+			StructureContext ref )
 	{
 		super( element, ref );
 	}
@@ -43,14 +44,14 @@ public class CachedMetaDataHandle extends StructureHandle
 	 * 
 	 * @return a handle to deal with the cached parameter list member.
 	 */
-	
+
 	public MemberHandle getParameters( )
 	{
 		return getMember( CachedMetaData.PARAMETERS_MEMBER );
 	}
 
 	/**
-	 * Get a handle to deal with the cached resuklt set list member.
+	 * Get a handle to deal with the cached result set list member.
 	 * 
 	 * @return a handle to deal with the cached result set list member.
 	 */

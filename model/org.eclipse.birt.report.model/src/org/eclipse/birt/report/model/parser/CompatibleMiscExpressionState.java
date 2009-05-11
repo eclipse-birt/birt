@@ -298,7 +298,7 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 	}
 
 	/**
-	 * Appends to the cached group bound columns. Becuase of "aggregateOn"
+	 * Appends to the cached group bound columns. Because of "aggregateOn"
 	 * property on bound columns, has to add bound columns at end() function of
 	 * ListingElementState.
 	 * 

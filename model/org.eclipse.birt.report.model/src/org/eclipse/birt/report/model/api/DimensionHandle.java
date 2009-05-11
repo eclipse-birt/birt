@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.DimensionPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -40,12 +40,12 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * produce physical, absolute dimensions.
  * <p>
  * The application generally does not create dimension handles directly. It uses
- * the method in <code>DesignElementHandle</code> to get a dimension handle.
- * For example:
+ * the method in <code>DesignElementHandle</code> to get a dimension handle. For
+ * example:
  * 
  * <pre>
  * DesignElementHandle elementHandle = element.handle( );
- * <p>
+ * &lt;p&gt;
  * DimensionHandle dimensionHandle = elementHandle
  * 		.getDimensionProperty( Style.FONT_SIZE_PROP );
  * </pre>
@@ -68,14 +68,15 @@ public class DimensionHandle extends ComplexValueHandle
 	 * 
 	 * @param element
 	 *            the design element handle
-	 * @param memberRef
-	 *            the memberRef for the member property
+	 * @param context
+	 *            the context for the member property
 	 */
 
-	public DimensionHandle( DesignElementHandle element, MemberRef memberRef )
+	public DimensionHandle( DesignElementHandle element,
+			StructureContext context )
 	{
-		super( element, memberRef );
-		assert memberRef.getMemberDefn( ).getType( ) instanceof DimensionPropertyType;
+		super( element, context );
+		assert context.getPropDefn( ).getType( ) instanceof DimensionPropertyType;
 	}
 
 	/**
@@ -117,8 +118,8 @@ public class DimensionHandle extends ComplexValueHandle
 	 * Returns the numeric measure part of the dimension. For example, if the
 	 * dimension value is "2.3cm", the measure is 2.3.
 	 * 
-	 * @return the numeric measure of the dimension, return <code>0.0</code>
-	 *         if the dimension from an choice.
+	 * @return the numeric measure of the dimension, return <code>0.0</code> if
+	 *         the dimension from an choice.
 	 */
 
 	public double getMeasure( )
@@ -148,7 +149,7 @@ public class DimensionHandle extends ComplexValueHandle
 		if ( memberRef == null )
 			return propDefn.getAllowedUnits( ).getChoices( );
 
-		return memberRef.getMemberDefn( ).getAllowedUnits( ).getChoices( );
+		return memberRef.getPropDefn( ).getAllowedUnits( ).getChoices( );
 	}
 
 	/**

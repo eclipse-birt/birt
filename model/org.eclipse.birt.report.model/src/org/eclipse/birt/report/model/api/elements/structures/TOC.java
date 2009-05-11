@@ -107,8 +107,7 @@ public class TOC extends PropertyStructure
 
 	public StructureHandle getHandle( SimpleValueHandle valueHandle )
 	{
-		return new TOCHandle( valueHandle.getElementHandle( ), valueHandle
-				.getReference( ) );
+		return new TOCHandle( valueHandle.getElementHandle( ), getContext( ) );
 	}
 
 	/*

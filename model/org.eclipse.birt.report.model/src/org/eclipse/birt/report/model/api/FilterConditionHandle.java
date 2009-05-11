@@ -18,13 +18,11 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.util.OperatorUtil;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.StructureContextUtil;
 
 /**
  * Represents one filter in the filter list of List, Table or their Groups.
@@ -256,11 +254,8 @@ public class FilterConditionHandle extends StructureHandle
 
 	public ExpressionListHandle getValue1ExpressionList( )
 	{
-		MemberRef tmpRef = new CachedMemberRef( structRef,
-				(StructPropertyDefn) getDefn( ).getMember(
-						FilterCondition.VALUE1_MEMBER ) );
-
-		return new ExpressionListHandle( elementHandle, tmpRef );
+		return new ExpressionListHandle( elementHandle, StructureContextUtil
+				.createStructureContext( this, FilterCondition.VALUE1_MEMBER ) );
 	}
 
 	/**

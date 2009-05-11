@@ -19,10 +19,11 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
@@ -224,8 +225,9 @@ public class GroupElementCommand extends ContentCommand
 			{
 				int columnIndex = ( toCleared.get( i ) ).intValue( );
 
-				CachedMemberRef memberRef = new CachedMemberRef( propDefn,
-						columnIndex, structPropDefn );
+				StructureContext memberRef = new StructureContext(
+						(Structure) boundColumns.get( columnIndex ),
+						structPropDefn, null );
 
 				PropertyCommand propCmd = new PropertyCommand( module, element );
 				propCmd.setMember( memberRef, null );

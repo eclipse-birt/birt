@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 
@@ -42,7 +43,7 @@ abstract class CompatibleStructureState extends StructureState
 	public CompatibleStructureState( ModuleParserHandler theHandler,
 			DesignElement element, PropertyDefn propDefn, IStructure struct )
 	{
-		super( theHandler, element, propDefn, struct );
+		super( theHandler, element, propDefn, (Structure) struct );
 	}
 
 	/**
@@ -99,7 +100,9 @@ abstract class CompatibleStructureState extends StructureState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.ExpressionState#versionConditionalJumpTo()
+	 * @see
+	 * org.eclipse.birt.report.model.parser.ExpressionState#versionConditionalJumpTo
+	 * ()
 	 */
 
 	protected AbstractParseState versionConditionalJumpTo( )

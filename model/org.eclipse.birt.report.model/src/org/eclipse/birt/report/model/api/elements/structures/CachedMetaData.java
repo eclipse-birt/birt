@@ -46,8 +46,9 @@ public class CachedMetaData extends PropertyStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 
 	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
@@ -59,13 +60,15 @@ public class CachedMetaData extends PropertyStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt.report.model.api.SimpleValueHandle)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
+	 * .report.model.api.SimpleValueHandle)
 	 */
 
 	public StructureHandle getHandle( SimpleValueHandle valueHandle )
 	{
 		return new CachedMetaDataHandle( valueHandle.getElementHandle( ),
-				valueHandle.getReference( ) );
+				getContext( ) );
 	}
 
 	/*

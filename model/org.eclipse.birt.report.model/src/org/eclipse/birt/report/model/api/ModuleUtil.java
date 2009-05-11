@@ -205,9 +205,8 @@ public class ModuleUtil
 		{
 			Action action = StructureFactory.createAction( );
 			e.setProperty( ImageHandle.ACTION_PROP, action );
-			action
-					.setContext( new StructureContext( e,
-							ImageHandle.ACTION_PROP ) );
+			action.setContext( new StructureContext( e, e
+					.getPropertyDefn( ImageHandle.ACTION_PROP ), action ) );
 			return getActionHandle( e.getHandle( module ) );
 		}
 
@@ -222,9 +221,8 @@ public class ModuleUtil
 			Action action = (Action) image.getProperty( handler.getModule( ),
 					IImageItemModel.ACTION_PROP );
 			e.setProperty( IImageItemModel.ACTION_PROP, action );
-			action
-					.setContext( new StructureContext( e,
-							ImageHandle.ACTION_PROP ) );
+			action.setContext( new StructureContext( e, e
+					.getPropertyDefn( ImageHandle.ACTION_PROP ), action ) );
 		}
 
 		return getActionHandle( e.getHandle( module ) );

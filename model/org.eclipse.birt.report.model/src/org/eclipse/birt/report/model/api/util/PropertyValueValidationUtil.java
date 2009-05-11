@@ -113,11 +113,11 @@ public class PropertyValueValidationUtil
 			StructureContext context = null;
 
 			if ( parentStruct == null )
-				context = new StructureContext( element.getElement( ), propDefn
-						.getName( ) );
+				context = new StructureContext( element.getElement( ),
+						(ElementPropertyDefn) propDefn, (Structure) item );
 			else
-				context = new StructureContext( parentStruct, propDefn
-						.getName( ) );
+				context = new StructureContext( parentStruct,
+						(PropertyDefn) propDefn, (Structure) item );
 
 			( (Structure) item ).setContext( context );
 

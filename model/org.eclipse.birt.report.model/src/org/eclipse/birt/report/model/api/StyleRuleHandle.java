@@ -18,12 +18,10 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.util.OperatorUtil;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
-import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.StructureContextUtil;
 
 /**
  * Represents the handle of style rule. This abstract class provides the common
@@ -184,11 +182,8 @@ public abstract class StyleRuleHandle extends StructureHandle
 
 	public ExpressionListHandle getValue1ExpressionList( )
 	{
-		MemberRef tmpRef = new CachedMemberRef( structRef,
-				(StructPropertyDefn) getDefn( ).getMember(
-						StyleRule.VALUE1_MEMBER ) );
-
-		return new ExpressionListHandle( elementHandle, tmpRef );
+		return new ExpressionListHandle( elementHandle, StructureContextUtil
+				.createStructureContext( this, StyleRule.VALUE1_MEMBER ) );
 	}
 
 	/**

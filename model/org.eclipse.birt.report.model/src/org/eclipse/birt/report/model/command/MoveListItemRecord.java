@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
@@ -39,7 +40,7 @@ public class MoveListItemRecord extends SimpleRecord
 	 * Reference to the item to move.
 	 */
 
-	protected MemberRef itemRef = null;
+	protected StructureContext itemRef = null;
 
 	/**
 	 * The list that contains the item.
@@ -74,7 +75,7 @@ public class MoveListItemRecord extends SimpleRecord
 	 *            the new position of the item
 	 */
 
-	public MoveListItemRecord( DesignElement obj, MemberRef ref,
+	public MoveListItemRecord( DesignElement obj, StructureContext ref,
 			List<Object> theList, int from, int to )
 	{
 		assert obj != null;
@@ -84,8 +85,8 @@ public class MoveListItemRecord extends SimpleRecord
 		assert from >= 0 && from < theList.size( );
 		assert to >= 0 && to < theList.size( );
 
-		assert obj.getPropertyDefn( ref.getPropDefn( ).getName( ) ) == ref
-				.getPropDefn( );
+		assert obj.getPropertyDefn( ref.getElementProp( ).getName( ) ) == ref
+				.getElementProp( );
 
 		element = obj;
 		itemRef = ref;

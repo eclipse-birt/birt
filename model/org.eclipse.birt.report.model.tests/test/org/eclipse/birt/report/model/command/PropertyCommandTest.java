@@ -54,9 +54,9 @@ import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.MasterPage;
@@ -509,10 +509,10 @@ public class PropertyCommandTest extends BaseTestCase
 	 * <ul>
 	 * <li>Add map rules to a style which contains null list.</li>
 	 * <li>Add a map rule to a style which already has one</li>
-	 * <li>Add a map rule to a style which has no map rule, but its parent has
-	 * a map rule.</li>
-	 * <li>Add a structure in the list to the list again. The new structure
-	 * will be added.
+	 * <li>Add a map rule to a style which has no map rule, but its parent has a
+	 * map rule.</li>
+	 * <li>Add a structure in the list to the list again. The new structure will
+	 * be added.
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -567,11 +567,10 @@ public class PropertyCommandTest extends BaseTestCase
 	 * Test Cases:
 	 * <ul>
 	 * <li>Table define a highlight rule list, row inherited it. Now add a new
-	 * rule on the row, ensure that the list value in table won't be affected.
-	 * </li>
-	 * <li>Label2 extends from label1, and label1 has defined an Action. Now
-	 * add a parameter binding to label2, ensure that list value in label1 won't
-	 * be affected.
+	 * rule on the row, ensure that the list value in table won't be affected.</li>
+	 * <li>Label2 extends from label1, and label1 has defined an Action. Now add
+	 * a parameter binding to label2, ensure that list value in label1 won't be
+	 * affected.
 	 * 
 	 * </li>
 	 * </ul>
@@ -746,8 +745,8 @@ public class PropertyCommandTest extends BaseTestCase
 	 * <p>
 	 * Test Cases:
 	 * <ul>
-	 * <li>Table define a highlight rule list, row inherited it, change the
-	 * rule property on row won't affect the value on table.</li>
+	 * <li>Table define a highlight rule list, row inherited it, change the rule
+	 * property on row won't affect the value on table.</li>
 	 * <li>Label2 extends from label1, and label1 has defined an Action, test
 	 * that change the action on label2 won't affect the value on label1.</li>
 	 * </ul>
@@ -956,13 +955,13 @@ public class PropertyCommandTest extends BaseTestCase
 	 * 
 	 * Analysis:
 	 * 
-	 * In <code>removeAllItems</code>, it must confirm <code>propDefn</code>
-	 * is an object of <code>StructListPropertyType</code>.
+	 * In <code>removeAllItems</code>, it must confirm <code>propDefn</code> is
+	 * an object of <code>StructListPropertyType</code>.
 	 * (PropertyCommand#checkListProperty) While if the property is set to
 	 * empty, the value must be validated. (PropertyCommand#validateValue)
 	 * 
-	 * The problem is that <code>StructListPropertyType</code> always throws
-	 * an PropertyValueException when it tries to validate the value.
+	 * The problem is that <code>StructListPropertyType</code> always throws an
+	 * PropertyValueException when it tries to validate the value.
 	 * (StructListPropertyType#validateValue)
 	 * 
 	 * This likes conflict.
@@ -980,7 +979,7 @@ public class PropertyCommandTest extends BaseTestCase
 		assertNotNull( propHandle );
 		ComplexPropertyCommand command = new ComplexPropertyCommand( design,
 				shareHandle.getElement( ) );
-		command.removeAllItems( propHandle.getReference( ) );
+		command.removeAllItems( propHandle.getContext( ) );
 
 		assertNull( shareHandle.getProperty( Style.MAP_RULES_PROP ) );
 
@@ -992,7 +991,7 @@ public class PropertyCommandTest extends BaseTestCase
 		assertEquals( 2, memberHandle.getListValue( ).size( ) );
 
 		command = new ComplexPropertyCommand( design, imageHandle.getElement( ) );
-		command.removeAllItems( memberHandle.getReference( ) );
+		command.removeAllItems( memberHandle.getContext( ) );
 
 		assertNull( memberHandle.getListValue( ) );
 	}
@@ -1018,8 +1017,8 @@ public class PropertyCommandTest extends BaseTestCase
 		// Delete the second one
 		ComplexPropertyCommand command = new ComplexPropertyCommand( design,
 				shareHandle.getElement( ) );
-		command.removeItem( new CachedMemberRef(
-				(ElementPropertyDefn) propHandle.getPropertyDefn( ) ), 1 );
+		command.removeItem( new StructureContext( shareHandle.getElement( ),
+				(ElementPropertyDefn) propHandle.getPropertyDefn( ), null ), 1 );
 
 		list = propHandle.getListValue( );
 		assertEquals( 1, list.size( ) );
@@ -1027,8 +1026,8 @@ public class PropertyCommandTest extends BaseTestCase
 
 		// Delete the first one
 		command = new ComplexPropertyCommand( design, shareHandle.getElement( ) );
-		command.removeItem( new CachedMemberRef(
-				(ElementPropertyDefn) propHandle.getPropertyDefn( ) ), 0 );
+		command.removeItem( new StructureContext( shareHandle.getElement( ),
+				(ElementPropertyDefn) propHandle.getPropertyDefn( ), null ), 0 );
 
 		list = propHandle.getListValue( );
 		assertEquals( 0, list.size( ) );
@@ -1037,8 +1036,9 @@ public class PropertyCommandTest extends BaseTestCase
 		{
 			command = new ComplexPropertyCommand( design, shareHandle
 					.getElement( ) );
-			command.removeItem( new CachedMemberRef(
-					(ElementPropertyDefn) propHandle.getPropertyDefn( ) ), 4 );
+			command.removeItem( new StructureContext(
+					shareHandle.getElement( ), (ElementPropertyDefn) propHandle
+							.getPropertyDefn( ), null ), 4 );
 			fail( );
 		}
 		catch ( IndexOutOfBoundsException e )
@@ -1069,8 +1069,8 @@ public class PropertyCommandTest extends BaseTestCase
 		// Delete the second one
 		ComplexPropertyCommand command = new ComplexPropertyCommand( design,
 				shareHandle.getElement( ) );
-		command.removeItem( new CachedMemberRef(
-				(ElementPropertyDefn) propHandle.getPropertyDefn( ) ),
+		command.removeItem( new StructureContext( shareHandle.getElement( ),
+				(ElementPropertyDefn) propHandle.getPropertyDefn( ), null ),
 				(MapRule) list.get( 1 ) );
 
 		list = propHandle.getListValue( );
@@ -1079,8 +1079,8 @@ public class PropertyCommandTest extends BaseTestCase
 
 		// Delete the first one
 		command = new ComplexPropertyCommand( design, shareHandle.getElement( ) );
-		command.removeItem( new CachedMemberRef(
-				(ElementPropertyDefn) propHandle.getPropertyDefn( ) ),
+		command.removeItem( new StructureContext( shareHandle.getElement( ),
+				(ElementPropertyDefn) propHandle.getPropertyDefn( ), null ),
 				(MapRule) list.get( 0 ) );
 
 		list = propHandle.getListValue( );
@@ -1090,9 +1090,9 @@ public class PropertyCommandTest extends BaseTestCase
 		{
 			command = new ComplexPropertyCommand( design, shareHandle
 					.getElement( ) );
-			command.removeItem( new CachedMemberRef(
-					(ElementPropertyDefn) propHandle.getPropertyDefn( ) ),
-					new MapRule( ) );
+			command.removeItem( new StructureContext(
+					shareHandle.getElement( ), (ElementPropertyDefn) propHandle
+							.getPropertyDefn( ), null ), new MapRule( ) );
 			fail( );
 		}
 		catch ( PropertyValueException e )
@@ -1169,8 +1169,8 @@ public class PropertyCommandTest extends BaseTestCase
 
 	/**
 	 * Invoke
-	 * {@link org.eclipse.birt.report.model.command.PropertyCommand#replaceItem( MemberRef,
-	 * IStructure, IStructure)}.
+	 * {@link org.eclipse.birt.report.model.command.PropertyCommand#replaceItem(MemberRef, IStructure, IStructure)}
+	 * .
 	 * 
 	 * <p>
 	 * Test Cases:
@@ -1178,8 +1178,8 @@ public class PropertyCommandTest extends BaseTestCase
 	 * <ul>
 	 * <li>Execute the command, save the file,compare with a golden file, they
 	 * should be identical</li>
-	 * <li>Undo the command, save the file,compare with a golden file, should
-	 * be</li>
+	 * <li>Undo the command, save the file,compare with a golden file, should be
+	 * </li>
 	 * <li>Redo the command, save the file, compare with a golden file, should
 	 * be identical</li>
 	 * </ul>
@@ -1257,10 +1257,10 @@ public class PropertyCommandTest extends BaseTestCase
 
 		// get member reference directly from the property handle
 
-		MemberRef mem1 = styleHandle1.getPropertyHandle( Style.MAP_RULES_PROP )
-				.getReference( );
-		MemberRef mem2 = styleHandle2.getPropertyHandle( Style.MAP_RULES_PROP )
-				.getReference( );
+		StructureContext mem1 = styleHandle1.getPropertyHandle(
+				Style.MAP_RULES_PROP ).getContext( );
+		StructureContext mem2 = styleHandle2.getPropertyHandle(
+				Style.MAP_RULES_PROP ).getContext( );
 
 		// use the rule1 structure to replace rule2 structure
 
@@ -1312,8 +1312,8 @@ public class PropertyCommandTest extends BaseTestCase
 		key.setExpression( "SearchKey3" ); //$NON-NLS-1$
 
 		command1 = new ComplexPropertyCommand( design, imageHandle.getElement( ) );
-		command1.replaceItem( memberHandle.getReference( ), memberHandle.getAt(
-				0 ).getStructure( ), key );
+		command1.replaceItem( memberHandle.getContext( ), memberHandle
+				.getAt( 0 ).getStructure( ), key );
 
 		assertEquals(
 				"SearchKey3", ( (SearchKeyHandle) memberHandle.getAt( 0 ) ).getExpression( ) ); //$NON-NLS-1$
@@ -1439,7 +1439,7 @@ public class PropertyCommandTest extends BaseTestCase
 
 		ComplexPropertyCommand command = new ComplexPropertyCommand( design,
 				imageHandle.getElement( ) );
-		command.addItem( memberHandle.getReference( ), paramBinding );
+		command.addItem( memberHandle.getContext( ), paramBinding );
 
 		assertEquals( 1, memberHandle.getListValue( ).size( ) );
 
@@ -1449,7 +1449,7 @@ public class PropertyCommandTest extends BaseTestCase
 		assertEquals( 2, memberHandle.getListValue( ).size( ) );
 
 		command = new ComplexPropertyCommand( design, imageHandle.getElement( ) );
-		command.removeItem( memberHandle.getReference( ), 1 );
+		command.removeItem( memberHandle.getContext( ), 1 );
 
 		assertEquals( 1, memberHandle.getListValue( ).size( ) );
 
@@ -1531,7 +1531,7 @@ public class PropertyCommandTest extends BaseTestCase
 
 		ComplexPropertyCommand command = new ComplexPropertyCommand( design,
 				imageHandle.getElement( ) );
-		command.moveItem( memberHandle.getReference( ), 0, 2 );
+		command.moveItem( memberHandle.getContext( ), 0, 2 );
 
 		assertEquals(
 				"searchKey1", ( (SearchKeyHandle) memberHandle.getAt( 1 ) ).getExpression( ) ); //$NON-NLS-1$
@@ -1661,14 +1661,14 @@ public class PropertyCommandTest extends BaseTestCase
 	public void testProeprtyRecordForListValue( ) throws Exception
 	{
 		createDesign( );
-		
+
 		TableHandle table = designHandle.getElementFactory( ).newTableItem(
 				"table" ); //$NON-NLS-1$
 		designHandle.getBody( ).add( table );
 
 		ActivityStack stack = (ActivityStack) designHandle.getCommandStack( );
 		stack.flush( );
-		
+
 		ComputedColumn column = new ComputedColumn( );
 		column.setDataType( "string" ); //$NON-NLS-1$
 		column.setExpression( "expression" ); //$NON-NLS-1$
@@ -1806,8 +1806,10 @@ public class PropertyCommandTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.model.core.DesignElement,
-		 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
+		 * .report.model.core.DesignElement,
+		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 		public void elementChanged( DesignElementHandle focus,
 				NotificationEvent ev )

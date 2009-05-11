@@ -41,12 +41,11 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.Cell;
@@ -167,10 +166,13 @@ public class PropertyCommand extends AbstractPropertyCommand
 				.equals( propName ) )
 				&& ( value instanceof String ) )
 		{
-			Object oldValue = element.getLocalProperty( module, prop );
+			Structure oldValue = (Structure) element.getLocalProperty( module,
+					prop );
 			if ( oldValue != null )
 			{
-				MemberRef ref = new CachedMemberRef( prop, TOC.TOC_EXPRESSION );
+				StructureContext ref = new StructureContext( oldValue,
+						(PropertyDefn) oldValue.getDefn( ).getMember(
+								TOC.TOC_EXPRESSION ), null );
 				setMember( ref, value );
 				return;
 			}
@@ -467,7 +469,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 			ActivityStack stack = getActivityStack( );
 
 			PropertyRecord record = new PropertyRecord( element, prop, value );
-			record.setEventTarget( getEventTarget( prop ) );
+			record.setEventTarget( getEventTarget( ) );
 
 			stack.startTrans( record.getLabel( ) );
 			stack.execute( record );
@@ -517,8 +519,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 				{
 					try
 					{
-						cmd.addItem( new CachedMemberRef(
-								attributesPropertyDefn ), struct );
+						cmd.addItem( new StructureContext( element,
+								attributesPropertyDefn, null ), struct );
 					}
 					catch ( SemanticException e )
 					{
@@ -539,7 +541,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 		PropertyRecord record = new PropertyRecord( element, prop, value );
 		stack.startTrans( record.getLabel( ) );
 
-		record.setEventTarget( getEventTarget( prop ) );
+		record.setEventTarget( getEventTarget( ) );
 
 		stack.execute( record );
 
@@ -953,12 +955,12 @@ public class PropertyCommand extends AbstractPropertyCommand
 	 *             if the value is not valid
 	 */
 
-	public void setMember( MemberRef ref, Object value )
+	public void setMember( StructureContext ref, Object value )
 			throws SemanticException
 	{
 		checkAllowedOperation( );
-		PropertyDefn memberDefn = ref.getMemberDefn( );
-		PropertyDefn propDefn = ref.getPropDefn( );
+		PropertyDefn memberDefn = (PropertyDefn) ref.getPropDefn( );
+		PropertyDefn propDefn = ref.getElementProp( );
 		assert propDefn != null;
 		assertExtendedElement( module, element, propDefn );
 
@@ -982,7 +984,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 		// This avoids making local copies if the user enters the existing
 		// value, or if the UI gets a bit sloppy.
 
-		Object oldValue = ref.getLocalValue( module, element );
+		Object oldValue = ref.getLocalValue( module );
 		if ( oldValue == null && value == null )
 			return;
 		if ( oldValue != null && value != null && oldValue.equals( value ) )
@@ -996,14 +998,14 @@ public class PropertyCommand extends AbstractPropertyCommand
 				.getCommandLabel( MessageConstants.CHANGE_ITEM_MESSAGE );
 		stack.startTrans( label );
 
-		makeLocalCompositeValue( ref );
+		ref = makeLocalCompositeValue( ref );
 
 		MemberRecord record = new MemberRecord( module, element, ref, value );
 
-		record.setEventTarget( getEventTarget( ref.getPropDefn( ) ) );
+		record.setEventTarget( getEventTarget( ) );
 		stack.execute( record );
 
-		Structure structure = ref.getStructure( module, element );
+		Structure structure = ref.getStructure( );
 		List<SemanticException> semanticList = structure.validate( module,
 				element );
 		if ( semanticList.size( ) > 0 )

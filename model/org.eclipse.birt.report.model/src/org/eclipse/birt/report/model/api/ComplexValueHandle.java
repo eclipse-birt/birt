@@ -15,8 +15,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.command.PropertyCommand;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -39,7 +39,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 	 * Path to the property within an element, a list or a structure.
 	 */
 
-	protected MemberRef memberRef = null;
+	protected StructureContext memberRef = null;
 
 	/**
 	 * Constructs a handle given an element handle and definition of a property.
@@ -73,12 +73,12 @@ public abstract class ComplexValueHandle extends ValueHandle
 	 */
 
 	public ComplexValueHandle( DesignElementHandle element,
-			MemberRef theMemberRef )
+			StructureContext theMemberRef )
 	{
 		super( element );
 		assert theMemberRef != null;
 
-		propDefn = theMemberRef.getPropDefn( );
+		propDefn = theMemberRef.getElementProp( );
 
 		assert propDefn != null;
 
@@ -140,7 +140,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 		}
 		else
 		{
-			value = memberRef.getValue( tmpModule, getElement( ) );
+			value = memberRef.getValue( tmpModule );
 		}
 
 		return value;
@@ -170,7 +170,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 	public String getStringValue( )
 	{
 		PropertyDefn prop = memberRef == null ? propDefn : memberRef
-				.getMemberDefn( );
+				.getPropDefn( );
 		return prop.getStringValue( getModule( ), getValue( ) );
 	}
 
@@ -184,7 +184,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 	public String getDisplayValue( )
 	{
 		PropertyDefn prop = memberRef == null ? propDefn : memberRef
-				.getMemberDefn( );
+				.getPropDefn( );
 		return prop.getDisplayValue( getModule( ), getValue( ) );
 	}
 
@@ -205,7 +205,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 	 * @see org.eclipse.birt.report.model.api.ValueHandle#getReference()
 	 */
 
-	public MemberRef getReference( )
+	public StructureContext getContext( )
 	{
 		return this.memberRef;
 	}
@@ -223,7 +223,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 		// return value is <code>ElementPropertyDefn</code>.
 
 		if ( memberRef != null )
-			return memberRef.getMemberDefn( );
+			return memberRef.getPropDefn( );
 
 		return propDefn;
 	}
@@ -253,7 +253,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 			return handle.isSet( );
 		}
 
-		Object value = memberRef.getValue( getModule( ), getElement( ) );
+		Object value = memberRef.getValue( getModule( ) );
 		return ( value != null );
 	}
 }

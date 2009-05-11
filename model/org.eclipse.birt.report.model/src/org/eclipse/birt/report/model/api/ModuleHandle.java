@@ -59,11 +59,11 @@ import org.eclipse.birt.report.model.command.CustomMsgCommand;
 import org.eclipse.birt.report.model.command.LibraryCommand;
 import org.eclipse.birt.report.model.command.ShiftLibraryCommand;
 import org.eclipse.birt.report.model.command.ThemeCommand;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.StyleSheetLoader;
@@ -210,7 +210,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.addItem( new CachedMemberRef( propDefn ), configVar );
+		cmd.addItem( new StructureContext( getElement( ), propDefn, null ),
+				configVar );
 	}
 
 	/**
@@ -228,7 +229,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module,
 				getElement( ) );
 		ElementPropertyDefn propDefn = module.getPropertyDefn( IMAGES_PROP );
-		cmd.addItem( new CachedMemberRef( propDefn ), image );
+		cmd.addItem( new StructureContext( module, propDefn, null ), image );
 	}
 
 	/**
@@ -458,13 +459,13 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Returns the iterator over all config variables. Each one is the instance
-	 * of <code>ConfigVariableHandle</code>.
+	 * Returns the iterator over all configuration variables. Each one is the
+	 * instance of <code>ConfigVariableHandle</code>.
 	 * <p>
 	 * Note: The configure variable in library file will be hidden if the one
 	 * with the same name appears in design file.
 	 * 
-	 * @return the iterator over all config variables.
+	 * @return the iterator over all configuration variables.
 	 * @see ConfigVariableHandle
 	 */
 
@@ -1545,8 +1546,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module,
 				getElement( ) );
-		cmd.replaceItem( new CachedMemberRef( propDefn ), (Structure) oldVar,
-				(Structure) newVar );
+		cmd.replaceItem( new StructureContext( getElement( ), propDefn, null ),
+				(Structure) oldVar, (Structure) newVar );
 	}
 
 	/**
@@ -2513,7 +2514,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	/**
 	 * Returns the <code>URL</code> object if the file with <code>fileName
-	 * </code> exists. This method takes the following search steps:
+	 * </code> exists. This
+	 * method takes the following search steps:
 	 * 
 	 * <ul>
 	 * If file type is MESSAGEFILE ,
@@ -2553,7 +2555,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	/**
 	 * Returns the <code>URL</code> object if the file with <code>fileName
-	 * </code> exists. This method takes the following search steps:
+	 * </code> exists. This
+	 * method takes the following search steps:
 	 * 
 	 * <ul>
 	 * If file type is MESSAGEFILE ,
@@ -2592,6 +2595,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		return module.findResource( fileName, fileType, appContext );
 	}
+
 	/**
 	 * Gets the result style sheet with given file name of an external CSS2
 	 * resource.
@@ -2941,7 +2945,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.removeItem( new CachedMemberRef( propDefn ), scriptLib );
+		cmd.removeItem( new StructureContext( getElement( ), propDefn, null ),
+				scriptLib );
 	}
 
 	/**
@@ -2963,7 +2968,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.removeItem( new CachedMemberRef( propDefn ), includeScript );
+		cmd.removeItem( new StructureContext( getElement( ), propDefn, null ),
+				includeScript );
 	}
 
 	/**
@@ -2984,8 +2990,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.removeItem( new CachedMemberRef( propDefn ), scriptLibHandle
-				.getStructure( ) );
+		cmd.removeItem( new StructureContext( getElement( ), propDefn, null ),
+				scriptLibHandle.getStructure( ) );
 	}
 
 	/**
@@ -3078,7 +3084,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.moveItem( new CachedMemberRef( propDefn ), sourceIndex, destIndex );
+		cmd.moveItem( new StructureContext( getElement( ), propDefn, null ),
+				sourceIndex, destIndex );
 	}
 
 	/**
@@ -3103,7 +3110,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 				.getPropertyDefn( INCLUDE_SCRIPTS_PROP );
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.moveItem( new CachedMemberRef( propDefn ), sourceIndex, destIndex );
+		cmd.moveItem( new StructureContext( getElement( ), propDefn, null ),
+				sourceIndex, destIndex );
 	}
 
 	/**
@@ -3119,7 +3127,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.addItem( new CachedMemberRef( propDefn ), scriptLib );
+		cmd.addItem( new StructureContext( getElement( ), propDefn, null ),
+				scriptLib );
 	}
 
 	/**
@@ -3137,7 +3146,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 				.getPropertyDefn( INCLUDE_SCRIPTS_PROP );
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.addItem( new CachedMemberRef( propDefn ), includeScript );
+		cmd.addItem( new StructureContext( getElement( ), propDefn, null ),
+				includeScript );
 	}
 
 	/**
@@ -3180,7 +3190,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
-	 * looks up line number of the element\property\struceture, in xml source
+	 * looks up line number of the element\property\structure, in xml source
 	 * with given xPaht. Returns 1 if there is no corresponding
 	 * element\property\structure.
 	 * 
@@ -3188,7 +3198,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            The xPath of the element\property\structure, it should be
 	 *            unique in an report file.
 	 * @return The line number of the element\property\structure, or 1 if
-	 *         correspondign item does not exsit.
+	 *         corresponding item does not exist.
 	 */
 
 	public int getLineNo( Object obj )

@@ -68,6 +68,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -113,7 +114,7 @@ public class StructureState extends AbstractPropertyState
 	 * The structure which holds this property as a member.
 	 */
 
-	protected IStructure parentStruct = null;
+	protected Structure parentStruct = null;
 
 	/**
 	 * Constructs the state of the structure which is one property.
@@ -143,7 +144,7 @@ public class StructureState extends AbstractPropertyState
 	 */
 
 	StructureState( ModuleParserHandler theHandler, DesignElement element,
-			PropertyDefn propDefn, IStructure parentStruct )
+			PropertyDefn propDefn, Structure parentStruct )
 	{
 		super( theHandler, element );
 
@@ -166,7 +167,7 @@ public class StructureState extends AbstractPropertyState
 	 */
 
 	StructureState( ModuleParserHandler theHandler, DesignElement element,
-			IStructure parentStruct )
+			Structure parentStruct )
 	{
 		super( theHandler, element );
 
@@ -226,7 +227,9 @@ public class StructureState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -234,6 +237,9 @@ public class StructureState extends AbstractPropertyState
 		lineNumber = handler.getCurrentLineNo( );
 
 		String tmpName = getAttrib( attrs, DesignSchemaConstants.NAME_ATTRIB );
+
+		// if this is a structure that has name.
+
 		if ( !StringUtil.isBlank( tmpName ) && propDefn == null )
 		{
 			name = tmpName;
@@ -243,13 +249,14 @@ public class StructureState extends AbstractPropertyState
 				propDefn = element.getPropertyDefn( name );
 			}
 			else
-				propDefn = (PropertyDefn) parentStruct.getDefn( ).getMember(
-						name );
+				propDefn = (PropertyDefn) parentStruct.getMemberDefn( name );
 
 		}
 
 		if ( propDefn == null || !propDefn.isList( ) )
 		{
+			// if it is not a structure list, it must have the name.
+
 			if ( StringUtil.isBlank( name ) )
 			{
 				handler
@@ -260,26 +267,38 @@ public class StructureState extends AbstractPropertyState
 				valid = false;
 				return;
 			}
-
-			propDefn = element.getPropertyDefn( name );
-			if ( propDefn == null )
+			else if ( propDefn == null )
 			{
-				handler
-						.getErrorHandler( )
-						.semanticError(
-								new DesignParserException(
-										DesignParserException.DESIGN_EXCEPTION_INVALID_STRUCTURE_NAME ) );
-				valid = false;
-				return;
+				if ( parentStruct == null )
+				{
+					propDefn = element.getPropertyDefn( name );
+				}
+				else
+					propDefn = (PropertyDefn) parentStruct.getMemberDefn( name );
 			}
+
 		}
+
+		if ( propDefn == null )
+		{
+			handler
+					.getErrorHandler( )
+					.semanticError(
+							new DesignParserException(
+									DesignParserException.DESIGN_EXCEPTION_INVALID_STRUCTURE_NAME ) );
+			valid = false;
+			return;
+		}
+
 		createStructure( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
@@ -308,7 +327,7 @@ public class StructureState extends AbstractPropertyState
 			return new TextPropertyState( handler, element, struct );
 
 		if ( ParserSchemaConstants.STRUCTURE_TAG == tagValue )
-			return new StructureState( handler, element, struct );
+			return new StructureState( handler, element, (Structure) struct );
 
 		if ( ParserSchemaConstants.SIMPLE_PROPERTY_LIST_TAG == tagValue )
 			return new SimplePropertyListState( handler, element, propDefn,
@@ -333,7 +352,7 @@ public class StructureState extends AbstractPropertyState
 			if ( parentStruct != null )
 			{
 				StructureContext context = new StructureContext( parentStruct,
-						propDefn.getName( ) );
+						propDefn, (Structure) struct );
 
 				if ( propDefn.isList( ) )
 				{
@@ -351,7 +370,7 @@ public class StructureState extends AbstractPropertyState
 			else
 			{
 				StructureContext context = new StructureContext( element,
-						propDefn.getName( ) );
+						(ElementPropertyDefn) propDefn, (Structure) struct );
 
 				// structure property.
 
@@ -374,7 +393,9 @@ public class StructureState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo()
+	 * @see
+	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo
+	 * ()
 	 */
 
 	protected AbstractParseState generalJumpTo( )

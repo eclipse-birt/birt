@@ -19,12 +19,12 @@ import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -60,7 +60,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 		super( module );
 		assert element != null;
 		this.element = element;
-		
+
 		initializeSlotHandles( );
 		cachePropertyHandles( );
 	}
@@ -211,8 +211,8 @@ public abstract class ReportElementHandle extends DesignElementHandle
 		{
 			// maskValue is null, remove the item from the structure list.
 
-			cmd.removeItem( new CachedMemberRef( maskProp ), masks
-					.indexOf( mask ) );
+			cmd.removeItem( new StructureContext( element, maskProp, null ),
+					masks.indexOf( mask ) );
 		}
 		else
 		{
@@ -233,14 +233,16 @@ public abstract class ReportElementHandle extends DesignElementHandle
 				mask = new PropertyMask( );
 				mask.setProperty( maskDefn, value );
 				mask.setProperty( nameDefn, propName );
-				cmd.addItem( new CachedMemberRef( maskProp ), mask );
+				cmd.addItem( new StructureContext( element, maskProp, null ),
+						mask );
 			}
 			else
 			{
 				// changes the mask value.
 
-				MemberRef memberRef = new CachedMemberRef( maskProp, masks
-						.indexOf( mask ), PropertyMask.MASK_MEMBER );
+				StructureContext memberRef = new StructureContext( mask,
+						(PropertyDefn) mask.getDefn( ).getMember(
+								PropertyMask.MASK_MEMBER ), null );
 				PropertyCommand pCmd = new PropertyCommand( module,
 						getElement( ) );
 				pCmd.setMember( memberRef, value );

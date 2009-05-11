@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
  * The reference supports up to two level of list.member identification. This is
  * the most used by the element definitions.
  * 
+ * @deprecated since 2.5
  */
 
 public class MemberRef

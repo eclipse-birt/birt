@@ -16,11 +16,11 @@ import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.util.StructureContextUtil;
 
 /**
  * Represents an "TOC" attached to an element.Obtain an instance of this class
@@ -42,13 +42,13 @@ public class TOCHandle extends StructureHandle
 	 * 
 	 * @param element
 	 *            the element that defined the action.
-	 * @param ref
-	 *            reference to the toc property.
+	 * @param context
+	 *            context to the toc property.
 	 */
 
-	public TOCHandle( DesignElementHandle element, MemberRef ref )
+	public TOCHandle( DesignElementHandle element, StructureContext context )
 	{
-		super( element, ref );
+		super( element, context );
 	}
 
 	/**
@@ -202,8 +202,8 @@ public class TOCHandle extends StructureHandle
 
 	private DimensionHandle doGetDimensionHandle( String memberName )
 	{
-		MemberRef memberRef = new CachedMemberRef( structRef, memberName );
-		return new DimensionHandle( getElementHandle( ), memberRef );
+		return new DimensionHandle( getElementHandle( ), StructureContextUtil
+				.createStructureContext( this, memberName ) );
 	}
 
 	/**
@@ -216,8 +216,8 @@ public class TOCHandle extends StructureHandle
 
 	private ColorHandle doGetColorHandle( String memberName )
 	{
-		MemberRef memberRef = new CachedMemberRef( structRef, memberName );
-		return new ColorHandle( getElementHandle( ), memberRef );
+		return new ColorHandle( getElementHandle( ), StructureContextUtil
+				.createStructureContext( this, memberName ) );
 	}
 
 	/**
@@ -693,8 +693,8 @@ public class TOCHandle extends StructureHandle
 
 	private FontHandle doGetFontHandle( String memberName )
 	{
-		MemberRef memberRef = new CachedMemberRef( structRef, memberName );
-		return new FontHandle( getElementHandle( ), memberRef );
+		return new FontHandle( getElementHandle( ), StructureContextUtil
+				.createStructureContext( this, memberName ) );
 	}
 
 	/**

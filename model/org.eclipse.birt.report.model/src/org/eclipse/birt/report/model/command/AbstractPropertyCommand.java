@@ -27,13 +27,12 @@ import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.core.BackRef;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -43,6 +42,7 @@ import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.EncryptionUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.StructureContextUtil;
 
 /**
  * Abstract property command to do all property value change operations.
@@ -98,8 +98,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	/**
 	 * Validates the values of the item members.
 	 * 
-	 * @param ref
-	 *            reference to a list.
+	 * @param context
+	 *            context to a list.
 	 * @param item
 	 *            the item to check
 	 * @throws SemanticException
@@ -108,11 +108,10 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	 *             list.
 	 */
 
-	protected void checkItem( MemberRef ref, IStructure item )
+	protected void checkItem( StructureContext context, IStructure item )
 			throws SemanticException
 	{
-		checkItem( ref.getPropDefn( ),
-				(StructPropertyDefn) ref.getMemberDefn( ), item );
+		checkItem( context.getElementProp( ), context.getPropDefn( ), item );
 	}
 
 	/**
@@ -167,9 +166,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	 *             list.
 	 */
 
-	private void checkItem( PropertyDefn propDefn,
-			StructPropertyDefn memberDefn, IStructure item )
-			throws SemanticException
+	private void checkItem( PropertyDefn propDefn, PropertyDefn memberDefn,
+			IStructure item ) throws SemanticException
 	{
 		assert item != null;
 
@@ -333,8 +331,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	/**
 	 * Validates the values of the item members.
 	 * 
-	 * @param ref
-	 *            reference to a list.
+	 * @param memberContext
+	 *            context to a list.
 	 * @param item
 	 *            the item to check
 	 * @throws SemanticException
@@ -343,17 +341,17 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	 *             list.
 	 */
 
-	protected void checkItemName( MemberRef memberRef, String newName )
+	protected void checkItemName( StructureContext memberContext, String newName )
 			throws SemanticException
 	{
-		PropertyDefn propDefn = memberRef.getPropDefn( );
+		PropertyDefn propDefn = memberContext.getElementProp( );
 
-		Structure structure = memberRef.getStructure( module, element );
+		Structure structure = memberContext.getStructure( );
 
 		List<SemanticException> errors = StructureListValidator.getInstance( )
 				.validateForRenaming( element.getHandle( module ), propDefn,
-						memberRef.getList( module, element ), structure,
-						memberRef.getMemberDefn( ), newName );
+						memberContext.getList( module ), structure,
+						memberContext.getPropDefn( ), newName );
 
 		if ( !errors.isEmpty( ) )
 		{
@@ -376,7 +374,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	 * 
 	 * @param referred
 	 *            the element to be deleted
-	 * @param memberRef
+	 * @param memberContext
 	 * @param unresolveReference
 	 *            the flag indicating the reference property should be
 	 *            unresolved, instead of cleared
@@ -388,7 +386,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	 */
 
 	protected void adjustReferenceClients( Structure referred,
-			MemberRef memberRef )
+			StructureContext memberContext )
 	{
 		IStructureDefn structDefn = referred.getDefn( );
 		Iterator<IPropertyDefn> memberDefns = structDefn.getPropertyIterator( );
@@ -435,14 +433,16 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	 * will be made, so change to the child won't affect the original value in
 	 * the parent.
 	 * 
-	 * @param ref
-	 *            a reference to a list property or member.
+	 * @param context
+	 *            a context to a list property or member.
 	 */
 
-	void makeLocalCompositeValue( MemberRef ref )
+	StructureContext makeLocalCompositeValue( StructureContext context )
 	{
-		assert ref != null;
-		ElementPropertyDefn propDefn = ref.getPropDefn( );
+		assert context != null;
+
+		// make local composite value from the top level element property
+		ElementPropertyDefn propDefn = context.getElementProp( );
 
 		if ( propDefn.isListType( ) )
 		{
@@ -451,10 +451,9 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 			List list = (ArrayList) element.getLocalProperty( module, propDefn );
 
 			if ( list != null )
-				return;
+				return context;
 
 			// Make a local copy of the inherited list value.
-
 			ArrayList inherited = (ArrayList) element.getProperty( module,
 					propDefn );
 
@@ -464,7 +463,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 
 				// establish context when add items.
 				if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
-					setupStructureContext( list );
+					StructureContextUtil.setStructureContext( propDefn, list,
+							element );
 			}
 			else
 				list = new ArrayList( );
@@ -475,11 +475,10 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 					list );
 			getActivityStack( ).execute( propRecord );
 
-			if ( ref instanceof CachedMemberRef )
-				( (CachedMemberRef) ref ).cacheStructureInForce( module,
-						element );
-
-			return;
+			// update the structure context to refer the new value
+			context = StructureContextUtil.getLocalStructureContext( module,
+					element, context );
+			return context;
 		}
 
 		// Top level property is a structure.
@@ -488,7 +487,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 				propDefn );
 
 		if ( struct != null )
-			return;
+			return context;
 
 		// Make a local copy of the inherited list value.
 
@@ -499,29 +498,17 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 		{
 			IStructure copy = inherited.copy( );
 
-			ModelUtil.setupStructureContext( (Structure) copy );
+			StructureContextUtil.setupStructureContext( (Structure) copy );
 			PropertyRecord propRecord = new PropertyRecord( element, propDefn,
 					copy );
 			getActivityStack( ).execute( propRecord );
+
+			// update the structure context to refer the new value
+			context = StructureContextUtil.getLocalStructureContext( module,
+					element, context );
 		}
 
-		if ( ref instanceof CachedMemberRef )
-			( (CachedMemberRef) ref ).cacheStructureInForce( module, element );
-
-		return;
-	}
-
-	/**
-	 * @param values
-	 */
-
-	private static void setupStructureContext( List values )
-	{
-		for ( int i = 0; i < values.size( ); i++ )
-		{
-			Structure child = (Structure) values.get( i );
-			ModelUtil.setupStructureContext( child );
-		}
+		return context;
 	}
 
 	/**
@@ -567,15 +554,10 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	/**
 	 * Returns the target element for the notification event.
 	 * 
-	 * @param element
-	 *            the design element
-	 * @param propDefn
-	 *            the property definition
-	 * 
 	 * @return the event target.
 	 */
 
-	protected ContentElementInfo getEventTarget( PropertyDefn propDefn )
+	protected ContentElementInfo getEventTarget( )
 	{
 		DesignElement tmpContainer = element.getContainer( );
 		if ( tmpContainer == null )

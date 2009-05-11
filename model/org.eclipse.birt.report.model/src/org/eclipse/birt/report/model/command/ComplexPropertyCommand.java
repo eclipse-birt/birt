@@ -19,12 +19,9 @@ import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.core.IStructure;
-import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
@@ -32,10 +29,11 @@ import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.StructureContextUtil;
 
 /**
  * Complex property command to handle all list related operations, such as,
@@ -73,17 +71,17 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 * </ul>
 	 * 
 	 * @param ref
-	 *            reference to the list into which to add the structure
+	 *            context to the list into which to add the structure
 	 * @param item
 	 *            the structure to add to the list
 	 * @throws SemanticException
 	 *             if the item to add is invalid.
 	 */
 
-	private void addItem( MemberRef ref, IStructure item )
+	private void addItem( StructureContext context, IStructure item )
 			throws SemanticException
 	{
-		assert ref != null;
+		assert context != null;
 		checkAllowedOperation( );
 		if ( item == null )
 			return;
@@ -95,20 +93,20 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		// for the new structure, establish the context for its nested
 		// structures.
 
-		ModelUtil.setupStructureContext( struct );
+		StructureContextUtil.setupStructureContext( struct );
 
-		PropertyDefn propDefn = ref.getPropDefn( );
+		PropertyDefn propDefn = context.getElementProp( );
 		assert propDefn != null;
 		assertExtendedElement( module, element, propDefn );
 
 		if ( struct.isReferencable( ) )
 			assert !( (ReferencableStructure) struct ).hasReferences( );
 
-		checkListMemberRef( ref );
-		checkItem( ref, struct );
+		checkListMemberRef( context );
+		checkItem( context, struct );
 
-		List list = ref.getList( module, element );
-		PropertyDefn memberDefn = ref.getMemberDefn( );
+		List list = context.getList( module );
+		PropertyDefn memberDefn = context.getPropDefn( );
 		if ( memberDefn != null )
 			element.checkStructureList( module, memberDefn, list, struct );
 		else
@@ -118,20 +116,20 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		stack.startTrans( CommandLabelFactory
 				.getCommandLabel( MessageConstants.ADD_ITEM_MESSAGE ) );
 
-		makeLocalCompositeValue( ref );
-		list = ref.getList( module, element );
+		context = makeLocalCompositeValue( context );
+		list = context.getList( module );
 		if ( null == list )
 		{
 			list = new ArrayList( );
-			MemberRecord memberRecord = new MemberRecord( module, element, ref,
-					list );
+			MemberRecord memberRecord = new MemberRecord( module, element,
+					context, list );
 			stack.execute( memberRecord );
 		}
 
-		PropertyListRecord record = constructStructureRecord( ref, struct, list
-				.size( ) );
+		PropertyListRecord record = constructStructureRecord( context, struct,
+				list.size( ) );
 
-		record.setEventTarget( getEventTarget( ref.getPropDefn( ) ) );
+		record.setEventTarget( getEventTarget( ) );
 		stack.execute( record );
 		stack.commit( );
 
@@ -150,23 +148,24 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 * the new element is then appended to the copy.</li>
 	 * </ul>
 	 * 
-	 * @param ref
-	 *            reference to the list into which to add the structure
+	 * @param context
+	 *            context to the list into which to add the structure
 	 * @param item
 	 *            the structure to add to the list
 	 * @throws SemanticException
 	 *             if the item to add is invalid.
 	 */
 
-	public void addItem( MemberRef ref, Object item ) throws SemanticException
+	public void addItem( StructureContext context, Object item )
+			throws SemanticException
 	{
 		if ( item instanceof IStructure )
 		{
-			addItem( ref, (IStructure) item );
+			addItem( context, (IStructure) item );
 			return;
 		}
 
-		assert ref != null;
+		assert context != null;
 		checkAllowedOperation( );
 		if ( item == null )
 			return;
@@ -174,8 +173,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		// this method is not called for structure list property
 
 		assert !( item instanceof IStructure );
-		PropertyDefn prop = ref.getPropDefn( );
-		PropertyDefn memberDefn = ref.getMemberDefn( );
+		PropertyDefn prop = context.getElementProp( );
+		PropertyDefn memberDefn = context.getPropDefn( );
 		assertExtendedElement( module, element, prop );
 
 		if ( memberDefn != null )
@@ -194,7 +193,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 						module, element, ( (ContentElement) element )
 								.getValueContainer( ) );
 
-				attrCmd.addItem( ref, value );
+				attrCmd.addItem( context, value );
 				return;
 			}
 		}
@@ -202,7 +201,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		// check whether the value in the list is unique when the sub-type is
 		// element reference value
 
-		List list = ref.getList( module, element );
+		List list = context.getList( module );
 		if ( prop.getTypeCode( ) == IPropertyType.LIST_TYPE )
 			element.checkSimpleList( module, prop, list, value );
 
@@ -210,21 +209,30 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		stack.startTrans( CommandLabelFactory
 				.getCommandLabel( MessageConstants.ADD_ITEM_MESSAGE ) );
 
-		makeLocalCompositeValue( ref );
+		context = makeLocalCompositeValue( context );
 
-		list = ref.getList( module, element );
+		list = context.getList( module );
 		if ( null == list )
 		{
 			list = new ArrayList( );
-			MemberRecord memberRecord = new MemberRecord( module, element, ref,
-					list );
-			stack.execute( memberRecord );
+			if ( context.getValueContainer( ) instanceof DesignElement )
+			{
+				PropertyRecord record = new PropertyRecord( element, context
+						.getElementProp( ), list );
+				stack.execute( record );
+			}
+			else
+			{
+				MemberRecord memberRecord = new MemberRecord( module, element,
+						context, list );
+				stack.execute( memberRecord );
+			}
 		}
 
-		PropertyListRecord record = new PropertyListRecord( element, ref
-				.getPropDefn( ), list, value, list.size( ) );
+		PropertyListRecord record = new PropertyListRecord( element, context
+				.getElementProp( ), list, value, list.size( ) );
 
-		record.setEventTarget( getEventTarget( ref.getPropDefn( ) ) );
+		record.setEventTarget( getEventTarget( ) );
 
 		stack.execute( record );
 
@@ -255,8 +263,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 * the new element is then inserted into the copy.</li>
 	 * </ul>
 	 * 
-	 * @param ref
-	 *            reference to the list into which to insert the new item
+	 * @param context
+	 *            context to the list into which to insert the new item
 	 * @param item
 	 *            the item to insert
 	 * @param posn
@@ -268,10 +276,10 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 *             <code>(index &lt; 0 || index &gt; list.size())</code>.
 	 */
 
-	public void insertItem( MemberRef ref, IStructure item, int posn )
+	public void insertItem( StructureContext context, IStructure item, int posn )
 			throws SemanticException
 	{
-		assert ref != null;
+		assert context != null;
 		checkAllowedOperation( );
 		if ( item == null )
 			return;
@@ -280,28 +288,29 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		if ( struct.getContext( ) != null )
 			struct = (Structure) struct.copy( );
 
-		PropertyDefn propDefn = ref.getPropDefn( );
+		PropertyDefn propDefn = context.getElementProp( );
 		assert propDefn != null;
 		assertExtendedElement( module, element, propDefn );
 
-		checkListMemberRef( ref );
-		checkItem( ref, struct );
+		checkListMemberRef( context );
+		checkItem( context, struct );
 
-		List list = ref.getList( module, element );
-		element.checkStructureList( module, ref.getPropDefn( ), list, struct );
+		List list = context.getList( module );
+		element.checkStructureList( module, context.getPropDefn( ), list,
+				struct );
 
 		ActivityStack stack = getActivityStack( );
 
 		stack.startTrans( CommandLabelFactory
 				.getCommandLabel( MessageConstants.INSERT_ITEM_MESSAGE ) );
 
-		makeLocalCompositeValue( ref );
-		list = ref.getList( module, element );
+		context = makeLocalCompositeValue( context );
+		list = context.getList( module );
 		if ( null == list )
 		{
 			list = new ArrayList( );
-			MemberRecord memberRecord = new MemberRecord( module, element, ref,
-					list );
+			MemberRecord memberRecord = new MemberRecord( module, element,
+					context, list );
 			stack.execute( memberRecord );
 		}
 
@@ -309,9 +318,10 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			throw new IndexOutOfBoundsException(
 					"Posn: " + posn + ", List Size: " + list.size( ) ); //$NON-NLS-1$//$NON-NLS-2$
 
-		PropertyListRecord record = constructStructureRecord( ref, struct, posn );
+		PropertyListRecord record = constructStructureRecord( context, struct,
+				posn );
 
-		record.setEventTarget( getEventTarget( ref.getPropDefn( ) ) );
+		record.setEventTarget( getEventTarget( ) );
 
 		stack.execute( record );
 		stack.commit( );
@@ -330,7 +340,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 * </ul>
 	 * 
 	 * @param ref
-	 *            reference to the list in which to remove an item.
+	 *            context to the list in which to remove an item.
 	 * @param posn
 	 *            position of the item to be removed from the list.
 	 * @throws SemanticException
@@ -340,17 +350,18 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 *             <code>(index &lt; 0 || index &gt;= list.size())</code>.
 	 */
 
-	public void removeItem( MemberRef ref, int posn ) throws SemanticException
+	public void removeItem( StructureContext context, int posn )
+			throws SemanticException
 	{
-		assert ref != null;
-		PropertyDefn propDefn = ref.getPropDefn( );
+		assert context != null;
+		PropertyDefn propDefn = context.getElementProp( );
 
 		checkAllowedOperation( );
 
 		assert propDefn != null;
 		assertExtendedElement( module, element, propDefn );
 
-		PropertyDefn memberDefn = ref.getMemberDefn( );
+		PropertyDefn memberDefn = context.getPropDefn( );
 		List list = null;
 
 		if ( memberDefn != null )
@@ -360,16 +371,16 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		{
 			// do not need to do checkListProperty( memberDefn );
 
-			list = ref.getList( module, element );
+			list = context.getList( module );
 		}
 		else
 		{
-			checkListMemberRef( ref );
-			list = ref.getList( module, element );
+			checkListMemberRef( context );
+			list = context.getList( module );
 		}
 
 		if ( list == null )
-			throw new PropertyValueException( element, ref.getPropDefn( ),
+			throw new PropertyValueException( element, context.getPropDefn( ),
 					null,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
@@ -385,12 +396,12 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 						module, element, ( (ContentElement) element )
 								.getValueContainer( ) );
 
-				attrCmd.removeItem( new CachedMemberRef( ref, posn ) );
+				attrCmd.removeItem( context, posn );
 				return;
 			}
 		}
 
-		doRemoveItem( new CachedMemberRef( ref, posn ) );
+		doRemoveItem( context, posn );
 	}
 
 	/**
@@ -405,46 +416,46 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 * of the target item is removed from the copy of the list.</li>
 	 * </ul>
 	 * 
-	 * @param ref
-	 *            the structure list reference
+	 * @param context
+	 *            the structure list context
 	 * @param structure
 	 *            the item to remove
 	 * @throws PropertyValueException
 	 *             if the item to remove is not found.
 	 */
 
-	public void removeItem( MemberRef ref, IStructure structure )
+	public void removeItem( StructureContext context, IStructure structure )
 			throws PropertyValueException
 	{
 		checkAllowedOperation( );
-		PropertyDefn propDefn = ref.getPropDefn( );
+		PropertyDefn propDefn = context.getElementProp( );
 		assert propDefn != null;
 		assertExtendedElement( module, element, propDefn );
 
-		checkListMemberRef( ref );
-		List list = ref.getList( module, element );
+		checkListMemberRef( context );
+		List list = context.getList( module );
 		if ( list == null )
-			throw new PropertyValueException( element, ref.getPropDefn( ),
+			throw new PropertyValueException( element, context.getPropDefn( ),
 					null,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		int posn = list.indexOf( structure );
 		if ( posn == -1 )
-			throw new PropertyValueException( element, ref.getPropDefn( )
+			throw new PropertyValueException( element, context.getPropDefn( )
 					.getName( ), null,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
-		doRemoveItem( new CachedMemberRef( ref, posn ) );
+		doRemoveItem( context, posn );
 	}
 
 	/**
 	 * Removes structure from structure list.
 	 * 
-	 * @param structRef
-	 *            reference to the item to remove
+	 * @param memberContext
+	 *            context to the item to remove
 	 */
 
-	private void doRemoveItem( MemberRef memberRef )
+	private void doRemoveItem( StructureContext memberContext, int posn )
 	{
 		String label = CommandLabelFactory
 				.getCommandLabel( MessageConstants.REMOVE_ITEM_MESSAGE );
@@ -452,11 +463,11 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		ActivityStack stack = module.getActivityStack( );
 		stack.startTrans( label );
 
-		makeLocalCompositeValue( memberRef );
-		List list = memberRef.getList( module, element );
+		memberContext = makeLocalCompositeValue( memberContext );
+		List list = memberContext.getList( module );
 		assert list != null;
 
-		Structure struct = memberRef.getStructure( module, element );
+		Structure struct = memberContext.getStructureAt( module, posn );
 		if ( struct != null )
 		{
 			if ( struct.isReferencable( ) )
@@ -464,10 +475,10 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 			// handle the structure member refers to other elements.
 
-			adjustReferenceClients( struct, memberRef );
+			adjustReferenceClients( struct, memberContext );
 		}
 
-		Object item = list.get( memberRef.getIndex( ) );
+		Object item = list.get( posn );
 
 		PropertyListRecord record = null;
 
@@ -476,11 +487,11 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 					item );
 		else
 		{
-			record = new PropertyListRecord( element, memberRef.getPropDefn( ),
-					list, item );
+			record = new PropertyListRecord( element, memberContext
+					.getElementProp( ), list, item );
 		}
 
-		record.setEventTarget( getEventTarget( memberRef.getPropDefn( ) ) );
+		record.setEventTarget( getEventTarget( ) );
 		stack.execute( record );
 
 		if ( item instanceof ElementRefValue )
@@ -489,8 +500,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			if ( refValue.isResolved( ) )
 			{
 				ElementRefRecord refRecord = new ElementRefRecord( element,
-						refValue.getTargetElement( ), memberRef.getPropDefn( )
-								.getName( ), false );
+						refValue.getTargetElement( ), memberContext
+								.getPropDefn( ).getName( ), false );
 				stack.execute( refRecord );
 
 			}
@@ -511,8 +522,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 * is removed from the copy of the list.</li>
 	 * </ul>
 	 * 
-	 * @param ref
-	 *            The structure list reference.
+	 * @param context
+	 *            The structure list context.
 	 * @param oldItem
 	 *            the old item to be replaced
 	 * @param newItem
@@ -522,20 +533,20 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 *             structure list.
 	 */
 
-	public void replaceItem( MemberRef ref, IStructure oldItem,
+	public void replaceItem( StructureContext context, IStructure oldItem,
 			IStructure newItem ) throws SemanticException
 	{
-		assert ref != null;
+		assert context != null;
 		checkAllowedOperation( );
-		PropertyDefn propDefn = ref.getPropDefn( );
+		PropertyDefn propDefn = context.getElementProp( );
 		assert propDefn != null;
 		assertExtendedElement( module, element, propDefn );
 
-		checkListMemberRef( ref );
+		checkListMemberRef( context );
 
-		List list = ref.getList( module, element );
+		List list = context.getList( module );
 		if ( list == null )
-			throw new PropertyValueException( element, ref.getPropDefn( ),
+			throw new PropertyValueException( element, context.getPropDefn( ),
 					null,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
@@ -546,8 +557,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			if ( struct.getContext( ) != null )
 				struct = (Structure) struct.copy( );
 
-			checkItem( ref, struct );
-			element.checkStructureList( module, ref.getPropDefn( ), list,
+			checkItem( context, struct );
+			element.checkStructureList( module, context.getPropDefn( ), list,
 					struct );
 		}
 
@@ -556,20 +567,20 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		stack.startTrans( CommandLabelFactory
 				.getCommandLabel( MessageConstants.REPLACE_ITEM_MESSAGE ) );
 
-		makeLocalCompositeValue( ref );
-		list = ref.getList( module, element );
+		context = makeLocalCompositeValue( context );
+		list = context.getList( module );
 		assert list != null;
 
 		int index = list.indexOf( oldItem );
 		if ( index == -1 )
-			throw new PropertyValueException( element, ref.getPropDefn( )
+			throw new PropertyValueException( element, context.getPropDefn( )
 					.getName( ), oldItem,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
-		PropertyReplaceRecord record = new PropertyReplaceRecord( element, ref,
-				list, index, struct );
+		PropertyReplaceRecord record = new PropertyReplaceRecord( element,
+				context, list, index, struct );
 
-		record.setEventTarget( getEventTarget( propDefn ) );
+		record.setEventTarget( getEventTarget( ) );
 		stack.execute( record );
 
 		if ( oldItem.isReferencable( ) )
@@ -583,30 +594,31 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 * the property. Removing all the contents leaves the property set to an
 	 * empty list.
 	 * 
-	 * @param ref
-	 *            reference to the list to clear
+	 * @param context
+	 *            context to the list to clear
 	 * @throws SemanticException
 	 *             if the property is not a structure list property
 	 */
 
-	public void removeAllItems( MemberRef ref ) throws SemanticException
+	public void removeAllItems( StructureContext context )
+			throws SemanticException
 	{
 		checkAllowedOperation( );
-		checkListMemberRef( ref );
+		checkListMemberRef( context );
 
-		PropertyDefn propDefn = ref.getPropDefn( );
+		PropertyDefn propDefn = context.getElementProp( );
 		assert propDefn != null;
 		assertExtendedElement( module, element, propDefn );
 
-		if ( ref.refType == MemberRef.PROPERTY )
+		if ( context.getValueContainer( ) instanceof DesignElement )
 		{
 			PropertyCommand cmd = new PropertyCommand( module, element );
-			cmd.setProperty( ref.getPropDefn( ), null );
+			cmd.setProperty( context.getElementProp( ), null );
 		}
 		else
 		{
 			PropertyCommand cmd = new PropertyCommand( module, element );
-			cmd.setMember( ref, null );
+			cmd.setMember( context, null );
 		}
 	}
 
@@ -624,11 +636,11 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 * 
 	 * <p>
 	 * For example, if a list has A, B, C structures in order, when move A
-	 * strucutre to <code>newPosn</code> with the value 2, the sequence becomes
+	 * structure to <code>newPosn</code> with the value 2, the sequence becomes
 	 * B, A, C.
 	 * 
 	 * 
-	 * @param ref
+	 * @param context
 	 *            reference to the list in which to do the move the item.
 	 * @param oldPosn
 	 *            the old position of the item.
@@ -645,18 +657,18 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 *             <code>(index &lt; 0 || index &gt;= list.size())</code>.
 	 */
 
-	public void moveItem( MemberRef ref, int oldPosn, int newPosn )
+	public void moveItem( StructureContext context, int oldPosn, int newPosn )
 			throws PropertyValueException
 	{
-		assert ref != null;
+		assert context != null;
 		checkAllowedOperation( );
-		PropertyDefn propDefn = ref.getPropDefn( );
+		PropertyDefn propDefn = context.getElementProp( );
 		assert propDefn != null;
-		checkListMemberRef( ref );
+		checkListMemberRef( context );
 
-		List list = ref.getList( module, element );
+		List list = context.getList( module );
 		if ( list == null )
-			throw new PropertyValueException( element, ref.getPropDefn( ),
+			throw new PropertyValueException( element, context.getPropDefn( ),
 					null,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
@@ -671,13 +683,13 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		stack.startTrans( label );
 
-		makeLocalCompositeValue( ref );
-		list = ref.getList( module, element );
+		context = makeLocalCompositeValue( context );
+		list = context.getList( module );
 		assert list != null;
 
-		MoveListItemRecord record = new MoveListItemRecord( element, ref, list,
-				oldPosn, adjustedNewPosn );
-		record.setEventTarget( getEventTarget( ref.getPropDefn( ) ) );
+		MoveListItemRecord record = new MoveListItemRecord( element, context,
+				list, oldPosn, adjustedNewPosn );
+		record.setEventTarget( getEventTarget( ) );
 
 		stack.execute( record );
 		stack.commit( );
@@ -703,18 +715,18 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	/**
 	 * Check to see whether the reference points to a list.
 	 * 
-	 * @param ref
-	 *            reference to the list into which to add the structure
+	 * @param context
+	 *            context to the list into which to add the structure
 	 * @throws PropertyValueException
 	 *             if the <code>ref</code> doesn't refer a list property or
 	 *             member.
 	 */
 
-	protected void checkListMemberRef( MemberRef ref )
+	protected void checkListMemberRef( StructureContext context )
 			throws PropertyValueException
 	{
-		if ( !ref.isListRef( ) )
-			throw new PropertyValueException( element, ref.getPropDefn( ),
+		if ( !context.isListRef( ) )
+			throw new PropertyValueException( element, context.getPropDefn( ),
 					null, PropertyValueException.DESIGN_EXCEPTION_NOT_LIST_TYPE );
 	}
 
@@ -733,24 +745,25 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		}
 	}
 
-	private PropertyListRecord constructStructureRecord( MemberRef ref,
-			Structure struct, int posn )
+	private PropertyListRecord constructStructureRecord(
+			StructureContext context, Structure struct, int posn )
 	{
 		PropertyListRecord record = null;
-		Object parentStruct = ref.getStructure( module, element );
+		Object parentStruct = context.getStructure( );
 
-		IPropertyDefn tmpPropDefn = ref.getMemberDefn( );
+		PropertyDefn tmpPropDefn = context.getPropDefn( );
 		if ( tmpPropDefn == null )
-			tmpPropDefn = ref.getPropDefn( );
+			tmpPropDefn = context.getElementProp( );
 
-		StructureContext context = null;
+		StructureContext tmpContext = null;
 		if ( parentStruct == null )
-			context = new StructureContext( element, tmpPropDefn.getName( ) );
+			tmpContext = new StructureContext( element,
+					(ElementPropertyDefn) tmpPropDefn, null );
 		else
-			context = new StructureContext( (Structure) parentStruct,
-					tmpPropDefn.getName( ) );
+			tmpContext = new StructureContext( (Structure) parentStruct,
+					tmpPropDefn, null );
 
-		record = new PropertyListRecord( element, context, struct, posn );
+		record = new PropertyListRecord( element, tmpContext, struct, posn );
 
 		return record;
 	}

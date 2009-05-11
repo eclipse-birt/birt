@@ -30,11 +30,10 @@ import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.command.ContentCommand;
 import org.eclipse.birt.report.model.command.EncryptionCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportItem;
@@ -129,11 +128,14 @@ public class PropertyHandle extends SimpleValueHandle
 		cmd.setProperty( propDefn, value );
 	}
 
-	// Implementation of abstract method defined in base class.
-
-	public MemberRef getReference( )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.ValueHandle#getContext()
+	 */
+	public StructureContext getContext( )
 	{
-		return new CachedMemberRef( propDefn );
+		return new StructureContext( getElement( ), propDefn, null );
 	}
 
 	/**
@@ -331,7 +333,7 @@ public class PropertyHandle extends SimpleValueHandle
 		{
 			ComplexPropertyCommand cmd = new ComplexPropertyCommand(
 					getModule( ), getElement( ) );
-			cmd.removeItem( getReference( ), posn );
+			cmd.removeItem( getContext( ), posn );
 		}
 		catch ( PropertyValueException e )
 		{
@@ -363,7 +365,7 @@ public class PropertyHandle extends SimpleValueHandle
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.addItem( getReference( ), item );
+		cmd.addItem( getContext( ), item );
 	}
 
 	/**

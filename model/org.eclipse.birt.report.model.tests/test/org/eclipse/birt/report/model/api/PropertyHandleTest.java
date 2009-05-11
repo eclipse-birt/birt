@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.metadata.IColorConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.Label;
@@ -122,8 +122,8 @@ public class PropertyHandleTest extends BaseTestCase
 				Style.MAP_RULES_PROP );
 		assertNull( propHandle.getAt( 0 ) );
 
-		MemberRef memberRef = propHandle.getReference( );
-		propDefn = memberRef.getPropDefn( );
+		StructureContext memberRef = propHandle.getContext( );
+		propDefn = memberRef.getElementProp( );
 		assertEquals( Style.MAP_RULES_PROP, propDefn.getName( ) );
 
 		Label label = (Label) design.findElement( "base" ); //$NON-NLS-1$
@@ -627,7 +627,7 @@ public class PropertyHandleTest extends BaseTestCase
 
 		try
 		{
-			assertTrue( ruleDropped.iterator( ).hasNext( ) );
+			assertFalse( ruleDropped.iterator( ).hasNext( ) );
 			ruleDropped.iterator( ).next( );
 			fail( );
 		}

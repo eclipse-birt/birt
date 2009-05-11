@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 /**
@@ -23,10 +23,11 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
  * 
  * Values of a font family can be a list of font names, a string, a CSS
  * (pre-defined) string. The CSS values are defined in
- * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}. For example,
- * the font family allows values in these formats:
+ * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}. For
+ * example, the font family allows values in these formats:
  * <ul>
- * <li>"serif, recursive, Times New Roman, Arial" ( a list of font names separated by commas )
+ * <li>"serif, recursive, Times New Roman, Arial" ( a list of font names
+ * separated by commas )
  * <li>Song ( a string )
  * <li>cursive, sans-serif ( a CSS constant )
  * </ul>
@@ -48,10 +49,13 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
  * 
  * <pre>
  * 
- * DesignElementHandle elementHandle = element.handle( );FontHandle fontHandle = elementHandle.getFontProperty( Style.FONT_FAMILY_PROP );
- *  
+ * 
+ * 
+ * DesignElementHandle elementHandle = element.handle( );
+ * FontHandle fontHandle = elementHandle.getFontProperty( Style.FONT_FAMILY_PROP );
+ * 
  * </pre>
- *  
+ * 
  */
 
 public class FontHandle extends ComplexValueHandle
@@ -77,16 +81,17 @@ public class FontHandle extends ComplexValueHandle
 	 * 
 	 * @param handle
 	 *            the element handle
-	 * @param memberRef
-	 *            the reference to the structure member.
-	 *  
+	 * @param context
+	 *            the context to the structure member.
+	 * 
 	 */
 
-	public FontHandle( DesignElementHandle handle, MemberRef memberRef )
+	public FontHandle( DesignElementHandle handle, StructureContext context )
 	{
-		super( handle, memberRef );
+		super( handle, context );
 
-		propDefn = getElement( ).getPropertyDefn( IStyleModel.HIGHLIGHT_RULES_PROP );
+		propDefn = getElement( ).getPropertyDefn(
+				IStyleModel.HIGHLIGHT_RULES_PROP );
 		assert propDefn != null;
 	}
 
@@ -95,8 +100,8 @@ public class FontHandle extends ComplexValueHandle
 	 * are separated by commas in the property value, and are slit into an array
 	 * by this method.
 	 * 
-	 * @return an array containing font names or <code>null</code> if the
-	 *         value of the font family property is not set.
+	 * @return an array containing font names or <code>null</code> if the value
+	 *         of the font family property is not set.
 	 */
 
 	public String[] getFontFamilies( )
@@ -134,5 +139,5 @@ public class FontHandle extends ComplexValueHandle
 		IChoice[] choices = choiceSet.getChoices( );
 		return choices;
 	}
-	
+
 }

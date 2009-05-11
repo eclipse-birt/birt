@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.StructureContextUtil;
 
 /**
  * Factory element handle class to retrieve some factory styles.
@@ -129,7 +130,7 @@ public class FactoryElementHandle
 				// for structure type value, must set up the structure context
 				if ( prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 				{
-					ModelUtil.setStructureContext( prop, clonedValue, element );
+					StructureContextUtil.setStructureContext( prop, clonedValue, element );
 				}
 			}
 
@@ -147,7 +148,7 @@ public class FactoryElementHandle
 				// for structure type value, must set up the structure context
 				if ( prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 				{
-					ModelUtil.setStructureContext( prop, clonedValue, element );
+					StructureContextUtil.setStructureContext( prop, clonedValue, element );
 				}
 			}
 		}

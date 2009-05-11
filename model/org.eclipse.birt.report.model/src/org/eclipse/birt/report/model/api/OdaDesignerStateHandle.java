@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.api;
 import java.io.UnsupportedEncodingException;
 
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
-import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.StructureContext;
 
 /**
  * The structure handle of the Oda designer state.
@@ -28,14 +28,14 @@ public class OdaDesignerStateHandle extends StructureHandle
 	 * 
 	 * @param elementHandle
 	 *            the oda data set element.
-	 * @param memberRef
-	 *            reference to the structure.
+	 * @param context
+	 *            context to the structure.
 	 */
 
 	public OdaDesignerStateHandle( DesignElementHandle elementHandle,
-			MemberRef memberRef )
+			StructureContext context )
 	{
-		super( elementHandle, memberRef );
+		super( elementHandle, context );
 	}
 
 	/**

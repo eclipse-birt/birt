@@ -12,22 +12,24 @@
 package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
-import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.StructureContextUtil;
 
 /**
  * Handle to a structure within a list property. List properties contain objects
@@ -43,7 +45,7 @@ public class StructureHandle extends ValueHandle
 	 * Reference to the structure.
 	 */
 
-	protected CachedMemberRef structRef;
+	protected StructureContext structContext;
 
 	/**
 	 * Constructs a handle for a structure within a list property of a given
@@ -51,17 +53,18 @@ public class StructureHandle extends ValueHandle
 	 * 
 	 * @param element
 	 *            handle to the report element.
-	 * @param ref
-	 *            reference to the structure
+	 * @param context
+	 *            context of the structure
 	 */
 
-	public StructureHandle( DesignElementHandle element, MemberRef ref )
+	public StructureHandle( DesignElementHandle element,
+			StructureContext context )
 	{
 		super( element );
-		structRef = new CachedMemberRef( ref );
-		if ( !structRef.checkOrCacheStructure( getModule( ), getElement( ) ) )
-			throw new RuntimeException(
-					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
+
+		structContext = context;
+
+		checkValidation( );
 	}
 
 	/**
@@ -77,18 +80,49 @@ public class StructureHandle extends ValueHandle
 	public StructureHandle( SimpleValueHandle valueHandle, int index )
 	{
 		super( valueHandle.getElementHandle( ) );
-		structRef = new CachedMemberRef( new CachedMemberRef( valueHandle
-				.getReference( ), index ) );
-		if ( !structRef.checkOrCacheStructure( getModule( ), getElement( ) ) )
-			throw new RuntimeException(
-					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
+		StructureContext context = valueHandle.getContext( );
+		assert context.isListRef( );
+		assert context.getPropDefn( ).getTypeCode( ) == IPropertyType.STRUCT_TYPE;
+
+		Object value = context.getValue( valueHandle.getModule( ) );
+		if ( value instanceof Structure )
+		{
+			assert index == 0;
+			this.structContext = ( (Structure) value ).getContext( );
+
+		}
+		else if ( value instanceof List )
+		{
+			List valueList = (List) value;
+
+			assert index >= 0 && index < valueList.size( );
+			Object item = valueList.get( index );
+
+			assert item instanceof Structure;
+			this.structContext = ( (Structure) item ).getContext( );
+
+		}
+		else
+		{
+			assert false;
+		}
+
+		checkValidation( );
+	}
+
+	private void checkValidation( )
+	{
+		if ( structContext == null )
+			throw new IllegalArgumentException(
+					"The context can not be null when creating a structure handle!" ); //$NON-NLS-1$
+		assert structContext.getStructure( ) != null;
 	}
 
 	// Implementation of abstract method defined in base class.
 
 	public IElementPropertyDefn getPropertyDefn( )
 	{
-		return structRef.getPropDefn( );
+		return structContext.getElementProp( );
 	}
 
 	/**
@@ -102,7 +136,15 @@ public class StructureHandle extends ValueHandle
 
 	public IStructure getStructure( )
 	{
-		return structRef.getStructure( getModule( ), getElement( ) );
+		Structure struct = structContext.getStructure( );
+
+		// user may cache this structure handle, when the structure is removed,
+		// we must return null; in another word, if the structure has no
+		// context, return null
+		if ( struct.getContext( ) == null )
+			return null;
+
+		return struct;
 	}
 
 	/**
@@ -162,8 +204,6 @@ public class StructureHandle extends ValueHandle
 					memberName );
 
 		memberHandle.setValue( value );
-
-		structRef.cacheStructureInForce( getModule( ), getElement( ) );
 	}
 
 	/**
@@ -204,7 +244,7 @@ public class StructureHandle extends ValueHandle
 
 	public IStructureDefn getDefn( )
 	{
-		return structRef.getStructDefn( );
+		return structContext.getStructDefn( );
 	}
 
 	/**
@@ -239,17 +279,14 @@ public class StructureHandle extends ValueHandle
 		return new MemberIterator( this );
 	}
 
-	/**
-	 * Returns a reference to the structure.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return a reference to the structure
-	 * 
-	 * @see org.eclipse.birt.report.model.core.MemberRef
+	 * @see org.eclipse.birt.report.model.api.ValueHandle#getContext()
 	 */
-
-	public MemberRef getReference( )
+	public StructureContext getContext( )
 	{
-		return structRef;
+		return structContext;
 	}
 
 	/**
@@ -262,33 +299,10 @@ public class StructureHandle extends ValueHandle
 
 	public void drop( ) throws PropertyValueException
 	{
-		MemberRef listRef = null;
-		MemberRef ref = getReference( );
-		ElementPropertyDefn propDefn = (ElementPropertyDefn) getPropertyDefn( );
-
-		if ( propDefn.isList( ) )
-		{
-			if ( ref.getDepth( ) == 1 )
-			{
-				listRef = new CachedMemberRef( propDefn );
-			}
-			else if ( ref.getDepth( ) == 2 )
-			{
-				listRef = ref.getParentRef( );
-			}
-		}
-		else
-		{
-			assert ref.getDepth( ) == 1;
-
-			listRef = new CachedMemberRef( propDefn, (StructPropertyDefn) ref
-					.getMemberDefn( ) );
-
-		}
-
+		Structure struct = (Structure) getStructure( );
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.removeItem( listRef, getStructure( ) );
+		cmd.removeItem( struct.getContext( ), struct );
 	}
 
 	/**
@@ -369,7 +383,8 @@ public class StructureHandle extends ValueHandle
 
 		if ( defn.allowExpression( ) && !defn.isListType( ) )
 			return new ExpressionHandle( getElementHandle( ),
-					new CachedMemberRef( getReference( ), memberName ) );
+					StructureContextUtil.createStructureContext( this,
+							memberName ) );
 
 		return null;
 	}

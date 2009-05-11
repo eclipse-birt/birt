@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
@@ -46,7 +45,7 @@ public class PropertyReplaceRecord extends SimpleRecord
 	 * Reference to the property list.
 	 */
 
-	protected MemberRef listRef = null;
+	protected StructureContext listRef = null;
 
 	/**
 	 * The old item to be replaced
@@ -87,15 +86,16 @@ public class PropertyReplaceRecord extends SimpleRecord
 	 *            the new item that will replace the old one.
 	 */
 
-	public PropertyReplaceRecord( DesignElement obj, MemberRef ref,
+	public PropertyReplaceRecord( DesignElement obj, StructureContext ref,
 			List theList, int posn, IStructure newItem )
 	{
 		assert obj != null;
 		assert ref != null;
 		assert theList != null;
 		assert ref.isListRef( );
-		assert obj.getPropertyDefn( ref.getPropDefn( ).getName( ) ) == ref
-				.getPropDefn( );
+		assert obj.getPropertyDefn( ref.getElementProp( ).getName( ) ) == ref
+				.getElementProp( );
+		assert obj == ref.getElement( );
 
 		this.element = obj;
 		this.listRef = ref;

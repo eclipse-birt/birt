@@ -98,6 +98,9 @@ public class PropertyListRecord extends SimpleRecord
 		this.value = toRemove;
 		this.propDefn = (ElementPropertyDefn) context.getElementProp( );
 
+		// ensure the top of the context is just the element itself
+		assert element == context.getElement( );
+
 		Object valueContainer = context.getValueContainer( );
 		if ( valueContainer instanceof Structure )
 			list = (List) ( (Structure) valueContainer ).getLocalProperty(
@@ -138,6 +141,9 @@ public class PropertyListRecord extends SimpleRecord
 		this.context = context;
 		this.value = toAdd;
 		this.propDefn = (ElementPropertyDefn) context.getElementProp( );
+
+		// ensure the top of the context is just the element itself
+		assert element == context.getElement( );
 
 		Object valueContainer = context.getValueContainer( );
 		if ( valueContainer instanceof Structure )
@@ -213,7 +219,7 @@ public class PropertyListRecord extends SimpleRecord
 
 		this.list = theList;
 		posn = list.indexOf( toRemove );
-		this.context = null;
+		this.context = new StructureContext( element, propDefn, null );
 		this.propDefn = propDefn;
 
 		label = CommandLabelFactory.getCommandLabel(

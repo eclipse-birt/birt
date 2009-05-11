@@ -19,7 +19,8 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -30,7 +31,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.xpathparser.XPathParser;
 
 /**
- * The XPath string helps user locate this element in desing file. It follows a
+ * The XPath string helps user locate this element in design file. It follows a
  * subset of XPath syntax. Each node name indicates the name of the element
  * definition and the 1-based element position in the slot. The position
  * information is only available when the element is in the multicardinality
@@ -318,33 +319,42 @@ public class XPathUtil
 	 * Returns the XPath of the given structure. Currently, only
 	 * <code>EmbeddedImageHandle</code> is supported.
 	 * 
-	 * @param slot
+	 * @param structHandle
 	 *            the structure instance
 	 * @return the XPath in string
 	 */
 
-	private static String serializeToXPath( StructureHandle prop )
+	private static String serializeToXPath( StructureHandle structHandle )
 	{
 		StringBuffer sb = new StringBuffer( );
 
-		DesignElementHandle tmpElement = prop.getElementHandle( );
-		sb.append( serializeToXPath( tmpElement ) );
+		DesignElementHandle tmpElement = structHandle.getElementHandle( );
+		// sb.append( serializeToXPath( tmpElement ) );
 
-		MemberRef memberRef = prop.getReference( );
-		PropertyDefn tmpPropDefn = memberRef.getPropDefn( );
+		Structure struct = (Structure) structHandle.getStructure( );
+		assert struct != null;
+		StructureContext memberRef = structHandle.getContext( );
 
-		// first levle is the structure.
-
-		if ( !tmpPropDefn.isList( ) && tmpPropDefn.getStructDefn( ) != null )
+		String parentXPath = null;
+		Object container = memberRef.getValueContainer( );
+		if ( container instanceof Structure )
 		{
-			sb.append( SEPARATOR
-					+ DesignSchemaConstants.STRUCTURE_TAG
-					+ formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
-							tmpPropDefn.getName( ) ) );
-
-			tmpPropDefn = memberRef.getMemberDefn( );
+			Structure parentStruct = (Structure) container;
+			parentXPath = serializeToXPath( new StructureHandle( tmpElement,
+					parentStruct.getContext( ) ) );
+		}
+		else if ( container instanceof DesignElement )
+		{
+			parentXPath = serializeToXPath( tmpElement );
+		}
+		else
+		{
+			assert false;
 		}
 
+		PropertyDefn tmpPropDefn = memberRef.getPropDefn( );
+
+		sb.append( parentXPath );
 		if ( tmpPropDefn.isList( ) )
 		{
 			sb.append( SEPARATOR
@@ -358,11 +368,11 @@ public class XPathUtil
 		if ( !tmpPropDefn.isList( ) )
 		{
 			sb.append( formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
-					prop.getDefn( ).getName( ) ) );
+					tmpPropDefn.getName( ) ) );
 		}
 		else
 		{
-			int index = memberRef.getIndex( ) + 1;
+			int index = memberRef.getIndex( structHandle.getModule( ) ) + 1;
 			sb.append( "[" + index + "]" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 

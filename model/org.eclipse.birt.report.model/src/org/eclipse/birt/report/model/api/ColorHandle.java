@@ -20,8 +20,8 @@ import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -79,10 +79,10 @@ public class ColorHandle extends ComplexValueHandle
 	 *            the memberRef for the member property
 	 */
 
-	public ColorHandle( DesignElementHandle element, MemberRef memberRef )
+	public ColorHandle( DesignElementHandle element, StructureContext memberRef )
 	{
 		super( element, memberRef );
-		assert memberRef.getMemberDefn( ).getType( ) instanceof ColorPropertyType;
+		assert memberRef.getPropDefn( ).getType( ) instanceof ColorPropertyType;
 	}
 
 	/**

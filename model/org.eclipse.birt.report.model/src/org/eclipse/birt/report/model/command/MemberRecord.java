@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
@@ -56,7 +55,7 @@ public class MemberRecord extends SimpleRecord
 	 * Reference to the member.
 	 */
 
-	protected MemberRef memberRef;
+	protected StructureContext memberRef;
 
 	/**
 	 * The structure that contains the member.
@@ -90,16 +89,19 @@ public class MemberRecord extends SimpleRecord
 	 *            new value for the member
 	 */
 
-	public MemberRecord( Module module, DesignElement obj, MemberRef ref,
-			Object value )
+	public MemberRecord( Module module, DesignElement obj,
+			StructureContext ref, Object value )
 	{
 		element = obj;
 		memberRef = ref;
 		newValue = value;
 		assert module != null;
+		
+		assert obj == ref.getElement( );
+		
 		this.module = module;
-		structure = memberRef.getStructure( module, element );
-		oldValue = memberRef.getLocalValue( module, element );
+		structure = memberRef.getStructure( );
+		oldValue = memberRef.getLocalValue( module );
 
 		label = CommandLabelFactory.getCommandLabel(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE,
@@ -117,7 +119,7 @@ public class MemberRecord extends SimpleRecord
 
 	protected void perform( boolean undo )
 	{
-		PropertyDefn prop = memberRef.getMemberDefn( );
+		PropertyDefn prop = memberRef.getPropDefn( );
 		if ( structure != null )
 		{
 			Object value = null;
@@ -134,8 +136,7 @@ public class MemberRecord extends SimpleRecord
 				tmpOldValue = newValue;
 			}
 
-			StructureContext context = new StructureContext( structure, prop
-					.getName( ) );
+			StructureContext context = new StructureContext( structure, prop, null );
 
 			if ( tmpOldValue instanceof Structure )
 				context.remove( (Structure) tmpOldValue );

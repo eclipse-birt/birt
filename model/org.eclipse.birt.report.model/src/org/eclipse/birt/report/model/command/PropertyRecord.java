@@ -273,8 +273,8 @@ public class PropertyRecord extends SimpleRecord
 		if ( values instanceof List && ( (List) values ).isEmpty( ) )
 			return;
 
-		StructureContext context = new StructureContext( element, propDefn
-				.getName( ) );
+		StructureContext context = new StructureContext( element, propDefn,
+				null );
 
 		if ( values instanceof Structure )
 			context.add( (Structure) values );
@@ -297,8 +297,8 @@ public class PropertyRecord extends SimpleRecord
 		if ( values instanceof List && ( (List) values ).isEmpty( ) )
 			return;
 
-		StructureContext context = new StructureContext( element, propDefn
-				.getName( ) );
+		StructureContext context = new StructureContext( element, propDefn,
+				null );
 
 		if ( values instanceof Structure )
 			context.remove( (Structure) values );

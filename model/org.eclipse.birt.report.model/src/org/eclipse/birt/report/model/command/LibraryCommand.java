@@ -33,9 +33,9 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -707,12 +707,13 @@ public class LibraryCommand extends AbstractElementCommand
 				module, module );
 
 		if ( removePosn == APPEND_POS )
-			propCommand.addItem( new CachedMemberRef( propDefn ),
+			propCommand.addItem(
+					new StructureContext( module, propDefn, null ),
 					includeLibrary );
 		else
 		{
-			propCommand.insertItem( new CachedMemberRef( propDefn ),
-					includeLibrary, removePosn );
+			propCommand.insertItem( new StructureContext( module, propDefn,
+					null ), includeLibrary, removePosn );
 		}
 	}
 
@@ -850,8 +851,8 @@ public class LibraryCommand extends AbstractElementCommand
 					.getPropertyDefn( IModuleModel.LIBRARIES_PROP );
 			ComplexPropertyCommand propCommand = new ComplexPropertyCommand(
 					module, module );
-			propCommand.removeItem( new CachedMemberRef( propDefn ),
-					includeLibrary );
+			propCommand.removeItem( new StructureContext( module, propDefn,
+					null ), includeLibrary );
 			break;
 		}
 	}

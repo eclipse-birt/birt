@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.DataColumnNameValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
@@ -309,16 +310,17 @@ public class BoundDataColumnUtil
 		if ( target instanceof ReportItem )
 		{
 			propName = IReportItemModel.BOUND_DATA_COLUMNS_PROP;
-			ElementPropertyDefn prop = (ElementPropertyDefn) target.getDefn( )
-					.getProperty( propName );
-			if ( prop == null )
-				return null;
+
 		}
 
 		if ( target instanceof ScalarParameter )
 			propName = IScalarParameterModel.BOUND_DATA_COLUMNS_PROP;
 
-		List columns = (List) target.getLocalProperty( module, propName );
+		ElementPropertyDefn prop = (ElementPropertyDefn) target.getDefn( )
+				.getProperty( propName );
+		if ( prop == null )
+			return null;
+		List columns = (List) target.getLocalProperty( module, prop );
 
 		if ( columns == null )
 		{
@@ -333,7 +335,10 @@ public class BoundDataColumnUtil
 				&& ( DataColumnNameValidator.getColumn( columns, newName ) == null ) )
 		{
 			ComputedColumn column = StructureFactory.createComputedColumn( );
-			columns.add( column );
+			// can not call tmpList.add(column) to insert this column to
+			// list, must call structureContext to add it; otherwise the
+			// column will not set up the structure context
+			new StructureContext( target, prop, null ).add( column );
 
 			column.setName( newName );
 			column.setExpression( expression );
@@ -652,11 +657,11 @@ public class BoundDataColumnUtil
 	}
 
 	/**
-	 * Does backward compatiblility work for the text item from BIRT 2.1M5 to
+	 * Does backward compatibility work for the text item from BIRT 2.1M5 to
 	 * BIRT 2.1.0.
 	 * <p>
-	 * Parts of backward compatiblility work for the Text Item from BIRT 2.1M5
-	 * to BIRT 2.1.0.
+	 * Parts of backward compatibility work for the Text Item from BIRT 2.1M5 to
+	 * BIRT 2.1.0.
 	 * 
 	 * @param jsExprs
 	 *            the expression from the extended item.
@@ -836,7 +841,7 @@ public class BoundDataColumnUtil
 	}
 
 	/**
-	 * Appends to the cached group bound columns. Becuase of "aggregateOn"
+	 * Appends to the cached group bound columns. because of "aggregateOn"
 	 * property on bound columns, has to add bound columns at end() function of
 	 * ListingElementState.
 	 * 
@@ -861,10 +866,11 @@ public class BoundDataColumnUtil
 			ComputedColumn column = (ComputedColumn) newColumns.get( i );
 			boundColumns.add( column );
 		}
+
 	}
 
 	/**
-	 * Appends to the cached group bound columns. Becuase of "aggregateOn"
+	 * Appends to the cached group bound columns. because of "aggregateOn"
 	 * property on bound columns, has to add bound columns at end() function of
 	 * ListingElementState.
 	 * 

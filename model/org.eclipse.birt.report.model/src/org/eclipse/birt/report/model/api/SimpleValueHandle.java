@@ -532,7 +532,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 	{
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.replaceItem( getReference( ), oldItem, newItem );
+		cmd.replaceItem( getContext( ), oldItem, newItem );
 	}
 
 	/**
@@ -555,7 +555,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.addItem( getReference( ), item );
+		cmd.addItem( getContext( ), item );
 
 		return ( (Structure) item ).getHandle( this );
 	}
@@ -599,7 +599,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.insertItem( this.getReference( ), item, posn );
+		cmd.insertItem( getContext( ), item, posn );
 
 		return ( (Structure) item ).getHandle( this );
 	}
@@ -623,7 +623,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 	{
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.moveItem( getReference( ), from, to );
+		cmd.moveItem( getContext( ), from, to );
 	}
 
 	/**

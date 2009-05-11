@@ -15,15 +15,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
 
 /**
  * Iterates over the structures within a property or member defined as a list of
  * structures. Each object returned by <code>getNext( )</code> is of type
  * <code>StructureHandle</code>.
- *  
+ * 
  */
 
 class StructureIterator implements Iterator
@@ -39,7 +37,7 @@ class StructureIterator implements Iterator
 	 * Cached copy of the property list.
 	 */
 
-	protected final ArrayList list;
+	protected final ArrayList<Structure> list;
 
 	/**
 	 * The count over the list positions.
@@ -106,10 +104,7 @@ class StructureIterator implements Iterator
 		if ( !hasNext( ) )
 			return null;
 
-		MemberRef structRef = new CachedMemberRef( valueHandle.getReference( ), index );
-		Structure struct = structRef.getStructure( valueHandle.getModule( ),
-				valueHandle.getElement( ) );
-
+		Structure struct = list.get( index );
 		return struct.getHandle( valueHandle, index++ );
 	}
 

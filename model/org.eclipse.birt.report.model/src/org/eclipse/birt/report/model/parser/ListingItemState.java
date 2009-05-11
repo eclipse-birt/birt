@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.DataColumnNameValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
@@ -143,21 +144,24 @@ public abstract class ListingItemState extends ReportItemState
 			List tmpList = (List) element.getLocalProperty( handler.module,
 					ListingElement.BOUND_DATA_COLUMNS_PROP );
 
+			ElementPropertyDefn boundPropDefn = element
+					.getPropertyDefn( ListingElement.BOUND_DATA_COLUMNS_PROP );
 			if ( tmpList == null )
 			{
 				tmpList = new ArrayList( );
-				element.setProperty( ListingElement.BOUND_DATA_COLUMNS_PROP,
-						tmpList );
+				element.setProperty( boundPropDefn, tmpList );
 			}
 
+			StructureContext context = new StructureContext( element,
+					boundPropDefn, null );
 			if ( handler.versionNumber <= VersionUtil.VERSION_3_0_0 )
 			{
-				addCachedListWithAggregateOnToListing( columns, tmpList, group,
-						groupName );
+				addCachedListWithAggregateOnToListing( columns, context,
+						tmpList, group, groupName );
 				continue;
 			}
 
-			addCachedListToListing( columns, tmpList, group, groupName );
+			addCachedListToListing( columns, context, tmpList, group, groupName );
 
 		}
 
@@ -256,8 +260,8 @@ public abstract class ListingItemState extends ReportItemState
 
 	/**
 	 * Reset the result column name for the data item. Since the bound column
-	 * name may recreated in this state, the corresponding result set colum must
-	 * be resetted.
+	 * name may recreated in this state, the corresponding result set column
+	 * must be reseted.
 	 * 
 	 * @param group
 	 *            the group element
@@ -317,7 +321,8 @@ public abstract class ListingItemState extends ReportItemState
 	 */
 
 	public void addCachedListWithAggregateOnToListing( List columns,
-			List tmpList, GroupElement group, String groupName )
+			StructureContext context, List tmpList, GroupElement group,
+			String groupName )
 	{
 		for ( int j = 0; j < columns.size( ); j++ )
 		{
@@ -335,7 +340,11 @@ public abstract class ListingItemState extends ReportItemState
 				String newName = getUniqueBoundColumnNameForGroup( tmpList,
 						column );
 				column.setName( newName );
-				tmpList.add( column );
+				// can not call tmpList.add(column) to insert this column to
+				// list, must call structureContext to add it; otherwise the
+				// column will not set up the structure context
+				context.add( column );
+
 			}
 		}
 
@@ -357,8 +366,8 @@ public abstract class ListingItemState extends ReportItemState
 	 *            the group name
 	 */
 
-	public void addCachedListToListing( List columns, List tmpList,
-			GroupElement group, String groupName )
+	public void addCachedListToListing( List columns, StructureContext context,
+			List tmpList, GroupElement group, String groupName )
 	{
 		for ( int j = 0; j < columns.size( ); j++ )
 		{
@@ -369,7 +378,10 @@ public abstract class ListingItemState extends ReportItemState
 				if ( ExpressionUtil.hasAggregation( column.getExpression( ) ) )
 					column.setAggregateOn( groupName );
 
-				tmpList.add( column );
+				// can not call tmpList.add(column) to insert this column to
+				// list, must call structureContext to add it; otherwise the
+				// column will not set up the structure context
+				context.add( column );
 			}
 		}
 	}

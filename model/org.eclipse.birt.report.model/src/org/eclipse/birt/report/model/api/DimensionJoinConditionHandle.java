@@ -85,7 +85,7 @@ public class DimensionJoinConditionHandle extends StructureHandle
 		setPropertySilently( DimensionJoinCondition.HIERARCHY_KEY_MEMBER,
 				hierarchyKey );
 	}
-	
+
 	/**
 	 * Gets the referred level element handle of this condition.
 	 * 
@@ -152,9 +152,8 @@ public class DimensionJoinConditionHandle extends StructureHandle
 
 		DimensionJoinConditionHandle temp = (DimensionJoinConditionHandle) obj;
 
-		return ( temp.structRef.equals( this.structRef )
-				&& temp.elementHandle.equals( this.elementHandle ) && temp.structRef
-				.getIndex( ) == this.structRef.getIndex( ) );
+		return ( temp.structContext.equals( this.structContext ) && temp.elementHandle
+				.equals( this.elementHandle ) );
 	}
 
 	/*
@@ -167,8 +166,8 @@ public class DimensionJoinConditionHandle extends StructureHandle
 	{
 		int hash = 1;
 
-		hash = 7 * hash + this.structRef.getIndex( );
-		hash = 7 * hash + this.structRef.hashCode( );
+		hash = 7 * hash + this.structContext.getIndex( getModule( ) );
+		hash = 7 * hash + this.structContext.hashCode( );
 		hash = 7 * hash + this.elementHandle.hashCode( );
 		return hash;
 	}

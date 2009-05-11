@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
-import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.StructureContext;
 
 /**
  * Represents an "action" (hyperlink) attached to an element. Obtain an instance
@@ -55,13 +55,13 @@ public class ActionHandle extends StructureHandle
 	 * 
 	 * @param element
 	 *            the element that defined the action.
-	 * @param ref
+	 * @param context
 	 *            reference to the action property.
 	 */
 
-	public ActionHandle( DesignElementHandle element, MemberRef ref )
+	public ActionHandle( DesignElementHandle element, StructureContext context )
 	{
-		super( element, ref );
+		super( element, context );
 	}
 
 	/**
@@ -399,8 +399,8 @@ public class ActionHandle extends StructureHandle
 
 	/**
 	 * Sets the drill-through bookmark. The link type will be changed to
-	 * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>, and drill-through type
-	 * will be changed to <code>DRILL_THROUGH_LINK_TYPE_BOOKMARK_LINK</code>.
+	 * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>, and drill-through type will
+	 * be changed to <code>DRILL_THROUGH_LINK_TYPE_BOOKMARK_LINK</code>.
 	 * 
 	 * @param bookmark
 	 *            the bookmark to set.
@@ -533,9 +533,9 @@ public class ActionHandle extends StructureHandle
 
 	/**
 	 * Gets the search key list for a drill-through action if the link type is
-	 * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code> and the drill through type
-	 * is <code>DRILL_THROUGH_LINK_TYPE_SEARCH</code>. Each one is the
-	 * instance of <code>SearchKeyHandle</code>
+	 * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code> and the drill through type is
+	 * <code>DRILL_THROUGH_LINK_TYPE_SEARCH</code>. Each one is the instance of
+	 * <code>SearchKeyHandle</code>
 	 * <p>
 	 * The search key list identifies search criteria in the target report and
 	 * is used for drill-though links. The search is assumed to be quality. That

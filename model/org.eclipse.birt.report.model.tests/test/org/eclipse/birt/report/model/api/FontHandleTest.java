@@ -177,7 +177,8 @@ public class FontHandleTest extends BaseTestCase
 
 		// tests with the font entry at a given position.
 
-		assertEquals( "\"Time New Roman\", \"Arial\"", fontHandle.getStringValue( ) ); //$NON-NLS-1$
+		assertEquals(
+				"\"Time New Roman\", \"Arial\"", fontHandle.getStringValue( ) ); //$NON-NLS-1$
 
 		String[] names = fontHandle.getFontFamilies( );
 		assertEquals( "\"Time New Roman\"", names[0] ); //$NON-NLS-1$
@@ -419,8 +420,8 @@ public class FontHandleTest extends BaseTestCase
 
 		assertEquals( Style.HIGHLIGHT_RULES_PROP, fontHandle.getPropertyDefn( )
 				.getName( ) );
-		assertEquals( Style.FONT_FAMILY_PROP, fontHandle.getReference( )
-				.getMemberDefn( ).getName( ) );
+		assertEquals( Style.FONT_FAMILY_PROP, fontHandle.getContext( )
+				.getPropDefn( ).getName( ) );
 
 	}
 }

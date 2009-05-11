@@ -39,28 +39,29 @@ public class NumberFormatValue extends FormatValue
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{
-		return new FormatValueHandle( valueHandle, index );
+		assert false;
+		return null;
 	}
 
 	/**
-	 * Return an <code>FormatValueHandle</code> to deal with the number
-	 * format.
+	 * Return an <code>FormatValueHandle</code> to deal with the number format.
 	 * 
 	 * @param valueHandle
 	 *            the property or member handle
-	 * @return the strcuture handle
+	 * @return the structure handle
 	 * 
 	 */
 
 	public StructureHandle getHandle( SimpleValueHandle valueHandle )
 	{
 		return new FormatValueHandle( valueHandle.getElementHandle( ),
-				valueHandle.getReference( ) );
+				getContext( ) );
 	}
 }
