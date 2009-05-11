@@ -53,8 +53,8 @@ public abstract class MasterPageHandle extends ReportElementHandle
 	/**
 	 * Returns the size of the page. The size is either one of the standard
 	 * sizes, or a custom size. Note that the size returned <em>will not</em>
-	 * match the <code>getWidth</code> and <code>getHeight</code> values
-	 * unless the page uses a custom size.
+	 * match the <code>getWidth</code> and <code>getHeight</code> values unless
+	 * the page uses a custom size.
 	 * 
 	 * @return the actual page size in application units
 	 */
@@ -264,4 +264,51 @@ public abstract class MasterPageHandle extends ReportElementHandle
 	{
 		return (DimensionValue) getProperty( IMasterPageModel.WIDTH_PROP );
 	}
+
+	/**
+	 * Gets the script of onPageStart method.
+	 * 
+	 * @return the script of onPageStart method.
+	 */
+	public String getOnPageStart( )
+	{
+		return getStringProperty( ON_PAGE_START_METHOD );
+	}
+
+	/**
+	 * Sets the script of onPageStart method.
+	 * 
+	 * @param onPageStart
+	 *            the script of onPageStart method.
+	 * @throws SemanticException
+	 *             if the property is locked by masks.
+	 */
+	public void setOnPageStart( String onPageStart ) throws SemanticException
+	{
+		setStringProperty( ON_PAGE_START_METHOD, onPageStart );
+	}
+
+	/**
+	 * Gets the script of onPageEnd method.
+	 * 
+	 * @return the script of onPageEnd method.
+	 */
+	public String getOnPageEnd( )
+	{
+		return getStringProperty( ON_PAGE_END_METHOD );
+	}
+
+	/**
+	 * Sets the script of onPageEnd method.
+	 * 
+	 * @param onPageEnd
+	 *            the script of onPageEnd method.
+	 * @throws SemanticException
+	 *             if the property is locked by masks.
+	 */
+	public void setOnPageEnd( String onPageEnd ) throws SemanticException
+	{
+		setStringProperty( ON_PAGE_END_METHOD, onPageEnd );
+	}
+
 }

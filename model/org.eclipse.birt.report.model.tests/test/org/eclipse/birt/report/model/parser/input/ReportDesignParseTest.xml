@@ -12,6 +12,14 @@
 	</simple-property-list>
     <property name="eventHandlerClass">on_Event</property>
     <property name="newHandlerOnEachEvent">true</property>
+    <property name="pageVariables">
+    	<variable-element>
+			<property name="variableName">variable1</property>
+		</variable-element>
+		<variable-element>
+			<property name="variableName">variable2</property>
+		</variable-element>
+    </property>
     <text-property name="title" key="TITLE_ID">Sample Report</text-property>
     <property name="comments">First sample report.</property>
     <html-property name="description" key="DESCRIP_ID">This is a first sample report.</html-property>
@@ -33,6 +41,8 @@
     <method name="afterCloseDoc"><![CDATA[script of afterCloseDoc]]></method>
     <method name="beforeRender"><![CDATA[script of beforeRender]]></method>
     <method name="afterRender"><![CDATA[script of afterRender]]></method>
+    <method name="onPageStart"><![CDATA[script of onPageStart]]></method>
+    <method name="onPageEnd"><![CDATA[script of onPageEnd]]></method>
     <list-property name="includeLibraries">
 		<structure>
 			<property name="fileName">LibraryA.xml</property>

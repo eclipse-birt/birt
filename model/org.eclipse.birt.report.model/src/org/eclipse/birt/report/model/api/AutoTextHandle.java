@@ -53,6 +53,9 @@ public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
 	 * <ul>
 	 * <li><code>AUTO_TEXT_PAGE_NUMBER</code>
 	 * <li><code>AUTO_TEXT_TOTAL_PAGE</code>
+	 * <li><code>AUTO_TEXT_PAGE_NUMBER_UNFILTERED</code>
+	 * <li><code>AUTO_TEXT_TOTAL_PAGE_UNFILTERED</code>
+	 * <li><code>AUTO_TEXT_PAGE_VARIABLE</code>
 	 * </ul>
 	 * 
 	 * @return the type for the parameter
@@ -74,6 +77,9 @@ public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
 	 * <ul>
 	 * <li><code>AUTO_TEXT_PAGE_NUMBER</code>
 	 * <li><code>AUTO_TEXT_TOTAL_PAGE</code>
+	 * <li><code>AUTO_TEXT_PAGE_NUMBER_UNFILTERED</code>
+	 * <li><code>AUTO_TEXT_TOTAL_PAGE_UNFILTERED</code>
+	 * <li><code>AUTO_TEXT_PAGE_VARIABLE</code>
 	 * </ul>
 	 * 
 	 * @param type
@@ -88,6 +94,28 @@ public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
 	public void setAutoTextType( String type ) throws SemanticException
 	{
 		setStringProperty( IAutoTextModel.AUTOTEXT_TYPE_PROP, type );
+	}
+
+	/**
+	 * Gets the page variable property value.
+	 * 
+	 * @return the page variable property value.
+	 */
+	public String getPageVariable( )
+	{
+		return getStringProperty( PAGE_VARIABLE_PROP );
+	}
+
+	/**
+	 * Sets the page variable property value.
+	 * 
+	 * @param pageVariable
+	 *            page variable property value.
+	 * @throws SemanticException
+	 */
+	public void setPageVariable( String pageVariable ) throws SemanticException
+	{
+		setStringProperty( PAGE_VARIABLE_PROP, pageVariable );
 	}
 
 }

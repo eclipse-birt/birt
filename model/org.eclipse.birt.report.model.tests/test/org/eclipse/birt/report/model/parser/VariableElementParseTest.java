@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -47,9 +48,12 @@ public class VariableElementParseTest extends BaseTestCase
 
 		assertEquals( "variable1", var1.getVariableName( ) ); //$NON-NLS-1$
 		assertEquals( "expression for variable", var1.getValue( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.VARIABLE_MODE_REPORT, var1
+				.getWorkMode( ) );
 
 		var1.setVariableName( "new variable1" ); //$NON-NLS-1$
 		var1.setValue( "new expression for variable" ); //$NON-NLS-1$
+		var1.setWorkMode( DesignChoiceConstants.VARIABLE_MODE_PAGE );
 
 		save( );
 

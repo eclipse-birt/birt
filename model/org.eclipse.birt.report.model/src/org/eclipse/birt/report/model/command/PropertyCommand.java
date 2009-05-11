@@ -180,7 +180,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 			value = StructureFactory.createTOC( (String) value );
 		}
 
-		if ( IExtendedItemModel.EXTENSION_NAME_PROP.equals( prop.getName( ) ) 
+		if ( IExtendedItemModel.EXTENSION_NAME_PROP.equals( prop.getName( ) )
 				&& element instanceof IExtendedItemModel )
 		{
 			throw new PropertyValueException(
@@ -312,7 +312,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 			// clear all the original contents and add the new value content
 			if ( contents != null )
 			{
-				for ( int i = 0; i < contents.size( ); i++ )
+				for ( int i = contents.size( ) - 1; i >= 0; i-- )
 				{
 					DesignElement content = contents.get( i );
 					cmd.remove( content );

@@ -109,6 +109,8 @@ public class MasterPageParseTest extends BaseTestCase
 		assertEquals( "2in", page.getBottomMargin( ).getStringValue( ) ); //$NON-NLS-1$
 		assertEquals( "1in", page.getLeftMargin( ).getStringValue( ) ); //$NON-NLS-1$
 		assertEquals( "2in", page.getRightMargin( ).getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( "script of onPageStart", page.getOnPageStart( ) ); //$NON-NLS-1$
+		assertEquals( "script of onPageEnd", page.getOnPageEnd( ) ); //$NON-NLS-1$
 
 		SimpleMasterPageHandle simplePage = (SimpleMasterPageHandle) designHandle
 				.findMasterPage( "Simple MasterPage" ); //$NON-NLS-1$
@@ -138,6 +140,9 @@ public class MasterPageParseTest extends BaseTestCase
 
 		page.setOrientation( DesignChoiceConstants.PAGE_ORIENTATION_LANDSCAPE );
 		page.setPageType( DesignChoiceConstants.PAGE_SIZE_US_LEGAL );
+
+		page.setOnPageStart( "new script of onPageStart" ); //$NON-NLS-1$
+		page.setOnPageEnd( "new script of onPageEnd" ); //$NON-NLS-1$
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );

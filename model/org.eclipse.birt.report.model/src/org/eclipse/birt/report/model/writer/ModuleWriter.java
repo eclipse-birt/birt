@@ -1937,6 +1937,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitAutoText( obj );
 
 		property( obj, IAutoTextModel.AUTOTEXT_TYPE_PROP );
+		property( obj, IAutoTextModel.PAGE_VARIABLE_PROP );
 
 		writer.endElement( );
 
@@ -2309,7 +2310,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				DesignSchemaConstants.PARAMETERS_TAG );
 
 		writeOverridenPropertyValues( obj );
-		
+
 		writer.endElement( );
 	}
 
@@ -3255,6 +3256,10 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeStyle( obj );
 		writeOverridenPropertyValues( obj );
+
+		property( obj, IMasterPageModel.ON_PAGE_START_METHOD );
+		property( obj, IMasterPageModel.ON_PAGE_END_METHOD );
+
 	}
 
 	/*
@@ -4048,8 +4053,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IFilterConditionElementModel.EXTENSION_NAME_PROP );
 		property( obj, IFilterConditionElementModel.EXTENSION_EXPR_ID_PROP );
 		property( obj, IFilterConditionElementModel.PUSH_DOWN_PROP );
-		property( obj, IFilterConditionElementModel.DYNAMIC_FILTER_PARAMETER_PROP );
-		
+		property( obj,
+				IFilterConditionElementModel.DYNAMIC_FILTER_PARAMETER_PROP );
+
 		writeContents( obj, IFilterConditionElementModel.MEMBER_PROP );
 
 		writer.endElement( );
@@ -4131,6 +4137,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitVariableElement( obj );
 		property( obj, IVariableElementModel.VARIABLE_NAME_PROP );
 		property( obj, IVariableElementModel.VALUE_PROP );
+		property( obj, IVariableElementModel.WORK_MODE_PROP );
 
 		writer.endElement( );
 	}

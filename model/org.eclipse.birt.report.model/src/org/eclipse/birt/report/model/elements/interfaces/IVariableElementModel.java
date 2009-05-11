@@ -19,7 +19,7 @@ public interface IVariableElementModel
 {
 
 	/**
-	 * Name of the "name" member. 
+	 * Name of the "name" member.
 	 */
 
 	String VARIABLE_NAME_PROP = "variableName"; //$NON-NLS-1$
@@ -29,5 +29,10 @@ public interface IVariableElementModel
 	 */
 
 	String VALUE_PROP = "value"; //$NON-NLS-1$
+
+	/**
+	 * Name of the work mode property which indicates how this variable works.
+	 */
+	String WORK_MODE_PROP = "workMode"; //$NON-NLS-1$
 
 }

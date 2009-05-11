@@ -9,6 +9,7 @@
                 <variable-element>
                     <property name="variableName">new variable1</property>
                     <expression name="value">new expression for variable</expression>
+                    <property name="workMode">page</property>
                 </variable-element>
             </property>
         </extended-item>

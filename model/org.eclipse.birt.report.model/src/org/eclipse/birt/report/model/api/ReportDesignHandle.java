@@ -31,12 +31,11 @@ import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.CssStyleSheetHandleAdapter;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IVariableElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
-import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 import org.eclipse.birt.report.model.util.StyleUtil;
 
@@ -1183,6 +1182,121 @@ public class ReportDesignHandle extends ModuleHandle
 	public void setImageDPI( int imageDPI ) throws SemanticException
 	{
 		setIntProperty( IMAGE_DPI_PROP, imageDPI );
+	}
+
+	/**
+	 * Gets the script of onPageStart method.
+	 * 
+	 * @return the script of onPageStart method.
+	 */
+	public String getOnPageStart( )
+	{
+		return getStringProperty( ON_PAGE_START_METHOD );
+	}
+
+	/**
+	 * Sets the script of onPageStart method.
+	 * 
+	 * @param onPageStart
+	 *            the script of onPageStart method.
+	 * @throws SemanticException
+	 *             if the property is locked by masks.
+	 */
+	public void setOnPageStart( String onPageStart ) throws SemanticException
+	{
+		setStringProperty( ON_PAGE_START_METHOD, onPageStart );
+	}
+
+	/**
+	 * Gets the script of onPageEnd method.
+	 * 
+	 * @return the script of onPageEnd method.
+	 */
+	public String getOnPageEnd( )
+	{
+		return getStringProperty( ON_PAGE_END_METHOD );
+	}
+
+	/**
+	 * Sets the script of onPageEnd method.
+	 * 
+	 * @param onPageEnd
+	 *            the script of onPageEnd method.
+	 * @throws SemanticException
+	 *             if the property is locked by masks.
+	 */
+	public void setOnPageEnd( String onPageEnd ) throws SemanticException
+	{
+		setStringProperty( ON_PAGE_END_METHOD, onPageEnd );
+	}
+
+	/**
+	 * Gets the pageVariables list value which contains
+	 * <code>VariableElementHandle</code>.
+	 * 
+	 * @return the page variables list value.
+	 */
+	public List<VariableElementHandle> getPageVariables( )
+	{
+		return getListProperty( PAGE_VARIABLES_PROP );
+	}
+
+	/**
+	 * Gets the <VariableElementHandle> according to the input page variable
+	 * name.
+	 * 
+	 * @param pageVariableName
+	 *            the page variable name.
+	 * @return the <VariableElementHandle> according to the input page variable
+	 *         name
+	 * 
+	 */
+	public VariableElementHandle getPageVariable( String pageVariableName )
+	{
+		if ( pageVariableName == null )
+			return null;
+		List<VariableElementHandle> list = getPageVariables( );
+
+		if ( list == null )
+			return null;
+
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			VariableElementHandle handle = list.get( i );
+			if ( pageVariableName.equals( handle.getVariableName( ) ) )
+				return handle;
+		}
+		return null;
+	}
+
+	/**
+	 * Sets the page variable value.
+	 * 
+	 * @param pageVariableName
+	 *            the page variable name.
+	 * @param value
+	 *            the page variable value.
+	 * @throws SemanticException
+	 */
+	public void setPageVariable( String pageVariableName, Expression value )
+			throws SemanticException
+	{
+		if ( pageVariableName == null )
+			return;
+		VariableElementHandle handle = getPageVariable( pageVariableName );
+		if ( handle == null )
+		{
+			ElementFactory factory = new ElementFactory( module );
+
+			handle = factory.newVariableElement( );
+			handle.setVariableName( pageVariableName );
+			handle.setExpressionProperty( IVariableElementModel.VALUE_PROP,
+					value );
+			add( PAGE_VARIABLES_PROP, handle );
+			return;
+		}
+
+		handle.setExpressionProperty( IVariableElementModel.VALUE_PROP, value );
 	}
 
 	/**

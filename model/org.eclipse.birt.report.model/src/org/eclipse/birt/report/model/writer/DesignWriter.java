@@ -79,6 +79,8 @@ public class DesignWriter extends ModuleWriter
 		property( obj, IReportDesignModel.AFTER_FACTORY_METHOD );
 		property( obj, IReportDesignModel.BEFORE_RENDER_METHOD );
 		property( obj, IReportDesignModel.AFTER_RENDER_METHOD );
+		property( obj, IReportDesignModel.ON_PAGE_START_METHOD );
+		property( obj, IReportDesignModel.ON_PAGE_END_METHOD );
 
 		if ( markLineNumber )
 		{
@@ -143,6 +145,7 @@ public class DesignWriter extends ModuleWriter
 				DesignSchemaConstants.BODY_TAG );
 		writeContents( obj, IReportDesignModel.SCRATCH_PAD_SLOT,
 				DesignSchemaConstants.SCRATCH_PAD_TAG );
+		writeContents( obj, IReportDesignModel.PAGE_VARIABLES_PROP );
 
 		// write thumbnail
 
@@ -156,7 +159,8 @@ public class DesignWriter extends ModuleWriter
 				if ( data != null )
 					value = new String( data, OdaDesignerState.CHARSET );
 
-				if ( value != null && value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
+				if ( value != null
+						&& value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
 					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
 							IReportDesignModel.THUMBNAIL_PROP, null, value,
 							false );

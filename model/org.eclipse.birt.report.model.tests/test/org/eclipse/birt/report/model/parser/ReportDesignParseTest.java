@@ -20,6 +20,8 @@ import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
@@ -34,6 +36,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
@@ -122,8 +125,6 @@ public class ReportDesignParseTest extends BaseTestCase
 {
 
 	String fileName = "ReportDesignParseTest.xml"; //$NON-NLS-1$
-	String outFileName = "ReportDesigntParseTest_out.xml"; //$NON-NLS-1$
-	String outFileName_2 = "ReportDesigntParseTest_out_2.xml"; //$NON-NLS-1$
 	String goldenFileName = "ReportDesignParseTest_golden.xml"; //$NON-NLS-1$
 	String goldenFileName_2 = "ReportDesignParseTest_golden_2.xml"; //$NON-NLS-1$
 	String semanticCheckFileName = "ReportDesignParseTest_1.xml"; //$NON-NLS-1$
@@ -325,6 +326,9 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertEquals( "script of beforeRender", designHandle.getBeforeRender( ) ); //$NON-NLS-1$
 		assertEquals( "script of afterRender", designHandle.getAfterRender( ) ); //$NON-NLS-1$
 
+		assertEquals( "script of onPageStart", designHandle.getOnPageStart( ) ); //$NON-NLS-1$
+		assertEquals( "script of onPageEnd", designHandle.getOnPageEnd( ) ); //$NON-NLS-1$
+
 		// test parser css in report design
 		Iterator iterator = designHandle.includeCssesIterator( );
 		IncludedCssStyleSheetHandle css = (IncludedCssStyleSheetHandle) iterator
@@ -349,6 +353,21 @@ public class ReportDesignParseTest extends BaseTestCase
 
 		StyleHandle style = (StyleHandle) styles.get( 0 );
 		assertEquals( "left", style.getTextAlign( ) );//$NON-NLS-1$
+
+		List<VariableElementHandle> list = designHandle.getPageVariables( );
+		assertEquals( 2, list.size( ) );
+
+		VariableElementHandle handle = list.get( 0 );
+		assertEquals( "variable1", handle.getVariableName( ) ); //$NON-NLS-1$
+
+		handle = list.get( 1 );
+		assertEquals( "variable2", handle.getVariableName( ) ); //$NON-NLS-1$
+
+		handle = designHandle.getPageVariable( "variable2" ); //$NON-NLS-1$
+		assertEquals( "variable2", handle.getVariableName( ) ); //$NON-NLS-1$
+
+		handle = designHandle.getPageVariable( "notFound" ); //$NON-NLS-1$
+		assertNull( handle );
 
 	}
 
@@ -408,6 +427,9 @@ public class ReportDesignParseTest extends BaseTestCase
 		designHandle.setBeforeRender( "new beforeRender script" ); //$NON-NLS-1$
 		designHandle.setAfterRender( "new afterRender script" ); //$NON-NLS-1$
 
+		designHandle.setOnPageStart( "new script of onPageStart" ); //$NON-NLS-1$
+		designHandle.setOnPageEnd( "new script of onPageEnd" ); //$NON-NLS-1$
+
 		designHandle.setDisplayName( "new display name" ); //$NON-NLS-1$
 		designHandle.setDisplayNameKey( "new display name key" ); //$NON-NLS-1$
 		designHandle.setIconFile( "new iconFile" ); //$NON-NLS-1$
@@ -455,6 +477,14 @@ public class ReportDesignParseTest extends BaseTestCase
 		}
 
 		designHandle.setImageDPI( 10 );
+
+		// sets the variable element value which already existed.
+		Expression value = new Expression( "testValue", ExpressionType.CONSTANT ); //$NON-NLS-1$
+		designHandle.setPageVariable( "variable2", value ); //$NON-NLS-1$
+
+		// sets the variable element value which is not existed.
+		value = new Expression( "testValue10", ExpressionType.CONSTANT ); //$NON-NLS-1$
+		designHandle.setPageVariable( "variable10", value ); //$NON-NLS-1$
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );

@@ -161,4 +161,20 @@ public interface IReportDesignModel
 	 * at design time as at run time.
 	 */
 	public static final String IMAGE_DPI_PROP = "imageDPI"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property contains list of Variable element defined for page
+	 * level page break.
+	 */
+	public static final String PAGE_VARIABLES_PROP = "pageVariables"; //$NON-NLS-1$
+
+	/**
+	 * Name of the method on page start.
+	 */
+	public static final String ON_PAGE_START_METHOD = "onPageStart"; //$NON-NLS-1$
+
+	/**
+	 * Name of the method on page end.
+	 */
+	public static final String ON_PAGE_END_METHOD = "onPageEnd"; //$NON-NLS-1$
 }

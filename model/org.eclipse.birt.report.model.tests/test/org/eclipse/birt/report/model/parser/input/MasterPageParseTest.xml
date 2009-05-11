@@ -17,6 +17,8 @@
             <property name="color">red</property>
             <property name="columns">2</property>
             <property name="columnSpacing">2mm</property>
+            <method name="onPageStart"><![CDATA[script of onPageStart]]></method>
+            <method name="onPageEnd"><![CDATA[script of onPageEnd]]></method>
             <contents>
                 <label/>
             </contents>

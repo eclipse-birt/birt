@@ -6,6 +6,7 @@
             <page-header>
                 <auto-text name="sf1" id="3">
                     <property name="type">page-number</property>
+                    <property name="pageVariable">test</property>
                 </auto-text>
             </page-header>
         </simple-master-page>

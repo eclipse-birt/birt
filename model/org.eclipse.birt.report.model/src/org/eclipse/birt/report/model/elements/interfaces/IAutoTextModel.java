@@ -21,7 +21,13 @@ public interface IAutoTextModel
 	 * Name of the autotext type property that supports page number and total
 	 * page
 	 */
-	
+
 	public static final String AUTOTEXT_TYPE_PROP = "type"; //$NON-NLS-1$
+
+	/**
+	 * Name of the page variable property which refers to the page variable
+	 * name.
+	 */
+	public static final String PAGE_VARIABLE_PROP = "pageVariable"; //$NON-NLS-1$
 
 }

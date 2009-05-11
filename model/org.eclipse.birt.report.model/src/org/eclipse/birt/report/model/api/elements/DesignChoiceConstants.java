@@ -762,6 +762,7 @@ public interface DesignChoiceConstants
 	public static final String AUTO_TEXT_TOTAL_PAGE = "total-page"; //$NON-NLS-1$
 	public static final String AUTO_TEXT_PAGE_NUMBER_UNFILTERED = "page-number-unfiltered"; //$NON-NLS-1$
 	public static final String AUTO_TEXT_TOTAL_PAGE_UNFILTERED = "total-page-unfiltered"; //$NON-NLS-1$
+	public static final String AUTO_TEXT_PAGE_VARIABLE = "page-variable"; //$NON-NLS-1$
 
 	/**
 	 * dataSetMode -- the mode to support data sets. Can be single data set and
@@ -935,4 +936,12 @@ public interface DesignChoiceConstants
 	public static final String CHOICE_DYNAMIC_FILTER = "dynamicFilterChoice"; //$NON-NLS-1$
 	public static final String DYNAMIC_FILTER_SIMPLE = "simple"; //$NON-NLS-1$
 	public static final String DYNAMIC_FILTER_ADVANCED = "advanced"; //$NON-NLS-1$
+
+	/**
+	 * Choice constants for workMode.
+	 * 
+	 */
+	public static final String CHOICE_VARIABLE_MODE = "variableMode"; //$NON-NLS-1$
+	public static final String VARIABLE_MODE_REPORT = "report"; //$NON-NLS-1$
+	public static final String VARIABLE_MODE_PAGE = "page"; //$NON-NLS-1$
 };

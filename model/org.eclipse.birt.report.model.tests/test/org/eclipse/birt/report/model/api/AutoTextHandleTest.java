@@ -69,6 +69,8 @@ public class AutoTextHandleTest extends BaseTestCase
 		assertEquals( "Total Page", displayName ); //$NON-NLS-1$
 		assertEquals(
 				"Total Page", autoText.getDisplayLabel( DesignElement.FULL_LABEL ) ); //$NON-NLS-1$
+
+		assertEquals( "test", autoText.getPageVariable( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -84,14 +86,8 @@ public class AutoTextHandleTest extends BaseTestCase
 		openDesign( INPUT_FILE );
 		ElementFactory factory = new ElementFactory( design );
 		AutoTextHandle sf = factory.newAutoText( "sf1" ); //$NON-NLS-1$
-		try
-		{
-			sf.setAutoTextType( "page-number" ); //$NON-NLS-1$
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
+
+		sf.setAutoTextType( DesignChoiceConstants.AUTO_TEXT_PAGE_VARIABLE );
 
 		SimpleMasterPageHandle smpHandle = (SimpleMasterPageHandle) designHandle
 				.findMasterPage( "My Page" );//$NON-NLS-1$
@@ -105,6 +101,7 @@ public class AutoTextHandleTest extends BaseTestCase
 		designHandle.getStyles( ).add( reportSelector );
 
 		sf.setStyleName( "myStyle" );//$NON-NLS-1$
+		sf.setPageVariable( "test" ); //$NON-NLS-1$
 
 		save( );
 		assertTrue( compareFile( OUTPUT_FILE ) );

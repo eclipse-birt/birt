@@ -87,11 +87,43 @@ public class VariableElementHandle extends ContentElementHandle
 	 * @param value
 	 *            the value to set
 	 * @throws SemanticException
-
 	 */
 
 	public void setValue( String value ) throws SemanticException
 	{
 		setStringProperty( VALUE_PROP, value );
+	}
+
+	/**
+	 * Gets the value of work mode property.The return value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>VARIABLE_MODE_REPORT</code>
+	 * <li><code>VARIABLE_MODE_PAGE</code>
+	 * </ul>
+	 * 
+	 * 
+	 * @return the work mode property value.
+	 */
+	public String getWorkMode( )
+	{
+		return getStringProperty( WORK_MODE_PROP );
+	}
+
+	/**
+	 * Sets the value of work mode property. The value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>VARIABLE_MODE_REPORT</code>
+	 * <li><code>VARIABLE_MODE_PAGE</code>
+	 * </ul>
+	 * 
+	 * @param workMode
+	 *            the work mode property value.
+	 * @throws SemanticException
+	 */
+	public void setWorkMode( String workMode ) throws SemanticException
+	{
+		setStringProperty( WORK_MODE_PROP, workMode );
 	}
 }

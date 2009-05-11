@@ -505,6 +505,7 @@
     <Choice displayNameID="Choices.autoTextType.total-page" name="total-page"/>
 	<Choice displayNameID="Choices.autoTextType.page-number-unfiltered" name="page-number-unfiltered"/>
     <Choice displayNameID="Choices.autoTextType.total-page-unfiltered" name="total-page-unfiltered"/>
+    <Choice displayNameID="Choices.autoTextType.page-variable" name="page-variable"/>
   </ChoiceType>	
   <ChoiceType name="dataSetMode">
     <Choice displayNameID="Choices.dataSetMode.single" name="single"/>
@@ -598,6 +599,10 @@
   <ChoiceType name="dynamicFilterChoice">
   	<Choice displayNameID="Choices.dynamicFilterChoice.simple" name="simple"/>
   	<Choice displayNameID="Choices.dynamicFilterChoice.advanced" name="advanced"/>
+  </ChoiceType>
+  <ChoiceType name="variableMode">
+  	<Choice displayNameID="Choices.variableMode.report" name="report"/>
+  	<Choice displayNameID="Choices.variableMode.page" name="page"/>
   </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
@@ -1638,6 +1643,9 @@
 	</Property>
 	<Property displayNameID="Element.ReportDesign.ACLExpression" name="ACLExpression" since="2.3" type="expression" />
 	<Property displayNameID="Element.ReportDesign.imageDPI" name="imageDPI" since="2.5" type="integer" validator="NonNegativeValueValidator" />
+	<Property displayNameID="Element.ReportDesign.pageVariables" isList="true" name="pageVariables" since="2.5" type="element">
+  	  <Type name="VariableElement"/>	
+  	</Property>
 	<Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
 		<Argument name="reportContext" tagID="Element.ReportDesign.initialize.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>  
@@ -1667,6 +1675,16 @@
     </Method>
     <Method context="presentation" displayNameID="Element.ReportDesign.afterRender" name="afterRender" since="1.0" toolTipID="Element.ReportDesign.afterRender.toolTip">
       <Argument name="reportContext" tagID="Element.ReportDesign.afterRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.ReportDesign.onPageStart" name="onPageStart" since="2.5" toolTipID="Element.ReportDesign.onPageStart.toolTip">
+      <Argument name="context" tagID="Element.ReportDesign.onPageStart.context" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="this" tagID="Element.ReportDesign.onPageStart.this" type="org.eclipse.birt.report.engine.api.script.element.IMasterPage"/>
+      <Argument name="content" tagID="Element.ReportDesign.onPageStart.content" type="org.eclipse.birt.report.engine.api.script.instance.IMasterPageInstance"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.ReportDesign.onPageEnd" name="onPageEnd" since="2.5" toolTipID="Element.ReportDesign.onPageEnd.toolTip">
+      <Argument name="context" tagID="Element.ReportDesign.onPageEnd.context" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="this" tagID="Element.ReportDesign.onPageEnd.this" type="org.eclipse.birt.report.engine.api.script.element.IMasterPage"/>
+      <Argument name="content" tagID="Element.ReportDesign.onPageEnd.content" type="org.eclipse.birt.report.engine.api.script.instance.IMasterPageInstance"/>
     </Method>
     <Property displayNameID="Element.ReportDesign.displayName" name="displayName" runtimeSettable="false" since="2.0" type="string"/>
     <Property displayNameID="Element.ReportDesign.displayNameID" name="displayNameID" since="2.0" type="resourceKey"/>
@@ -2257,6 +2275,16 @@
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
     </PropertyGroup>
+  	<Method context="factory" displayNameID="Element.MasterPage.onPageStart" name="onPageStart" since="2.5" toolTipID="Element.MasterPage.onPageStart.toolTip">
+      <Argument name="context" tagID="Element.MasterPage.onPageStart.context" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="design" tagID="Element.MasterPage.onPageStart.design" type="org.eclipse.birt.report.engine.api.script.element.IMasterPage"/>
+      <Argument name="content" tagID="Element.MasterPage.onPageStart.content" type="org.eclipse.birt.report.engine.api.script.instance.IMasterPageInstance"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.MasterPage.onPageEnd" name="onPageEnd" since="2.5" toolTipID="Element.MasterPage.onPageEnd.toolTip">
+      <Argument name="context" tagID="Element.MasterPage.onPageEnd.context" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="design" tagID="Element.MasterPage.onPageEnd.design" type="org.eclipse.birt.report.engine.api.script.element.IMasterPage"/>
+      <Argument name="content" tagID="Element.MasterPage.onPageEnd.content" type="org.eclipse.birt.report.engine.api.script.instance.IMasterPageInstance"/>
+    </Method>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.GraphicMasterPage" extends="MasterPage" hasStyle="true" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.GraphicMasterPage" name="GraphicMasterPage" selector="page" since="reserved" xmlName="graphic-master-page">
     <Property displayNameID="Element.GraphicMasterPage.columns" name="columns" since="1.0" type="integer" validator="PositiveValueValidator">
@@ -2366,6 +2394,7 @@
   </Element>
   <Element canExtend="true" displayNameID="Element.AutoText" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.AutoText"  name="AutoText" since="2.1" xmlName="auto-text">
     <Property detailType="autoTextType"  displayNameID="Element.AutoText.type" name="type" since="2.1" type="choice" />
+    <Property displayNameID="Element.AutoText.pageVariable" name="pageVariable" runtimeSettable="false" since="2.5" type="string"/>
     <Method context="startup" displayNameID="Element.AutoText.onPrepare" name="onPrepare" since="2.2" toolTipID="Element.AutoText.onPrepare.toolTip">
       <Argument name="this" tagID="Element.AutoText.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IAutoText"/>
       <Argument name="reportContext" tagID="Element.AutoText.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
@@ -3583,7 +3612,8 @@
   </Element>    
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.VariableElement" hasStyle="false" isAbstract="true" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.VariableElement" name="VariableElement" nameSpace="none" since="2.3" xmlName="variable-element">
 	<Property displayNameID="Element.VariableElement.variableName" name="variableName" since="2.3" type="string" />  		
-	<Property displayNameID="Element.VariableElement.value" name="value" since="2.3" type="expression" />	
+	<Property displayNameID="Element.VariableElement.value" name="value" since="2.3" type="expression" />
+	<Property detailType="variableMode" displayNameID="Element.VariableElement.workMode" name="workMode" runtimeSettable="false" since="2.5" type="choice"/>
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.DataGroup" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.DataGroup" name="DataGroup" nameSpace="none" since="2.2" xmlName="data-group">
     <Property displayNameID="Element.DataGroup.groupName" name="groupName" runtimeSettable="false" since="2.3" type="string"/>

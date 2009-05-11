@@ -16,7 +16,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
  */
 public interface IMasterPageModel
 {
-	
+
 	/**
 	 * Name of the page type property. This gives a name to the page size such
 	 * as A4 or US Letter.
@@ -72,7 +72,6 @@ public interface IMasterPageModel
 
 	public static final String LEFT_MARGIN_PROP = "leftMargin"; //$NON-NLS-1$
 
-
 	/**
 	 * Property name for the reference to the shared style.
 	 */
@@ -114,4 +113,14 @@ public interface IMasterPageModel
 	 */
 
 	public static final String A4_WIDTH = "210mm"; //$NON-NLS-1$
+
+	/**
+	 * Name of the method on page start.
+	 */
+	public static final String ON_PAGE_START_METHOD = "onPageStart"; //$NON-NLS-1$
+
+	/**
+	 * Name of the method on page end.
+	 */
+	public static final String ON_PAGE_END_METHOD = "onPageEnd"; //$NON-NLS-1$
 }

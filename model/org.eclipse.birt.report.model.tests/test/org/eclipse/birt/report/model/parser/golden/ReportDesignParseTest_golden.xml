@@ -16,6 +16,8 @@
     <method name="afterFactory"><![CDATA[new afterFactory script]]></method>
     <method name="beforeRender"><![CDATA[new beforeRender script]]></method>
     <method name="afterRender"><![CDATA[new afterRender script]]></method>
+    <method name="onPageStart"><![CDATA[new script of onPageStart]]></method>
+    <method name="onPageEnd"><![CDATA[new script of onPageEnd]]></method>
     <text-property name="displayName" key="new display name key">new display name</text-property>
     <property name="iconFile">new iconFile</property>
     <property name="cheatSheet">new cheetSheet</property>
@@ -88,6 +90,19 @@
             <property name="columns">1</property>
         </graphic-master-page>
     </page-setup>
+    <property name="pageVariables">
+    	<variable-element>
+			<property name="variableName">variable1</property>
+		</variable-element>
+		<variable-element>
+			<property name="variableName">variable2</property>
+			<expression name="value" type="constant">testValue</expression>
+		</variable-element>
+		<variable-element>
+			<property name="variableName">variable10</property>
+			<expression name="value" type="constant">testValue10</expression>
+		</variable-element>
+    </property>
     <property name="thumbnail">newthumbnailimageAAA</property>
     <list-property name="images">
         <structure>
