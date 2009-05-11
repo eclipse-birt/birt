@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+     <extension 
+	 	point="org.eclipse.birt.report.engine.emitter.config"
+	 	name = "Postscript Emitter Descriptor">
+
+        <descriptor
+              class="org.eclipse.birt.report.engine.emitter.config.postscript.PostscriptEmitterDescriptor"
+              id="org.eclipse.birt.report.engine.emitter.postscript"/>
+  </extension>  
+</plugin>
