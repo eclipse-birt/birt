@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.internal.ui.util;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
@@ -47,6 +49,12 @@ public class RTFHTMLHandler implements RTFDocumentHandler
 			return this;
 		}
 
+		
+		public String getContent( )
+		{
+			return content;
+		}
+
 		public HTMLNode attribute( String name, String value )
 		{
 			this.attributes.put( name, value );
@@ -58,6 +66,13 @@ public class RTFHTMLHandler implements RTFDocumentHandler
 			this.content = content;
 			return this;
 		}
+
+		
+		public void setChildNodes( List<HTMLNode> childNodes )
+		{
+			this.childNodes = childNodes;
+		}
+
 
 		public HTMLNode parent( HTMLNode parent )
 		{
@@ -72,6 +87,21 @@ public class RTFHTMLHandler implements RTFDocumentHandler
 			return child;
 		}
 
+		public HTMLNode delete(HTMLNode child)
+		{
+			this.childNodes.remove( child );
+			return child;
+		}
+		
+		public List<HTMLNode> getChildren()
+		{
+			return Collections.unmodifiableList( childNodes );
+		}
+		
+		public HashMap<String, String> getAttributes()
+		{
+			return attributes;
+		}
 		public String toString( )
 		{
 			return this.name;
@@ -126,7 +156,6 @@ public class RTFHTMLHandler implements RTFDocumentHandler
 		{
 			this.currentNode = this.currentNode.child( new HTMLNode( ).name( "b" ) );
 		}
-
 	}
 
 	public void content( String content )
@@ -160,14 +189,101 @@ public class RTFHTMLHandler implements RTFDocumentHandler
 	public String toHTML( )
 	{
 		StringBuffer sb = new StringBuffer( );
+		trimRootNode( rootNode );
+		unionRootNode( rootNode );
 		serializeHTMLNode( this.rootNode, sb, 0 );
 		return sb.toString( );
 	}
 
+	private void trimRootNode(HTMLNode rootNode)
+	{
+		List<HTMLNode> nodes = rootNode.getChildren( );
+		List<HTMLNode> temps = new ArrayList<HTMLNode>( nodes );
+		for (int i=0; i<nodes.size( ); i++)
+		{
+			HTMLNode node = nodes.get( i );
+			if (isBlankNode( node ))
+			{
+				temps.remove( node );
+			}
+		}
+		rootNode.setChildNodes( temps );
+		nodes = rootNode.getChildren( );
+		for (int i=0; i<temps.size( ); i++)
+		{
+			HTMLNode node = nodes.get( i );
+			trimRootNode(nodes.get( i ));
+		}
+	}
+	
+	private boolean isBlankNode(HTMLNode node)
+	{
+		boolean bool = false;
+		if (node.getChildren( ).size( ) == 0)
+		{
+			bool = true;
+		}
+		else if (node.getChildren( ).size( ) == 1)
+		{
+			if (isBlankNode( node.getChildren( ).get( 0 ) ))
+			{
+				bool = true;
+			}
+			else
+			{
+				bool = false;
+			}
+		}
+		else
+		{
+			bool = false;
+		}
+		return node.getAttributes( ).size( ) == 0 && node.getContent( )== null
+			&&bool;
+	}
+	private void unionRootNode(HTMLNode rootNode)
+	{
+		List<HTMLNode> nodes = rootNode.getChildren( );
+		if (nodes.size( ) == 1)
+		{
+			HTMLNode first = nodes.get( 0 );
+			if (rootNode.getAttributes( ).size( ) == 0 && rootNode.getContent( )==null
+					&& rootNode.name.equals( first.name ))
+			{
+				List<HTMLNode> temp = first.getChildren( );
+				rootNode.delete( first );
+				for (int i=0; i<temp.size( ); i++)
+				{
+					rootNode.child( temp.get( i ) );
+				}
+				unionRootNode( rootNode );
+			}
+		}
+		
+		nodes = rootNode.getChildren( );
+		for (int i=0; i<nodes.size( ); i++)
+		{
+			unionRootNode( nodes.get( i ) );
+		}
+	}
+	
 	private void serializeHTMLNode( HTMLNode node, StringBuffer sb, int indent )
 	{
 		if ( node.name.equals( "content" ) )
 		{
+			if (node.childNodes.size( ) == 0)
+			{
+				if ( node.content != null )
+				{
+					if ( indent > 0 )
+						sb.append( "\n" );
+					for ( int i = 0; i < indent; i++ )
+					{
+						sb.append( "\t" );
+					}
+					sb.append( node.content );
+				}
+			}
 			for ( HTMLNode childNode : node.childNodes )
 				serializeHTMLNode( childNode, sb, indent );
 			return;
@@ -195,10 +311,13 @@ public class RTFHTMLHandler implements RTFDocumentHandler
 			sb.append( node.content );
 		}
 
-		sb.append( "\n" );
-		for ( int i = 0; i < indent; i++ )
+		if (node.name.equals( "div" ))
 		{
-			sb.append( "\t" );
+			sb.append( "\n" );
+			for ( int i = 0; i < indent; i++ )
+			{
+				sb.append( "\t" );
+			}
 		}
 		sb.append( "</" ).append( node.name ).append( ">" );
 	}

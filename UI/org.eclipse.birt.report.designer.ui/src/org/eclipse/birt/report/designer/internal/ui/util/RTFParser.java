@@ -35,14 +35,18 @@ public class RTFParser
 		ByteArrayInputStream bytearrayinputstream = new ByteArrayInputStream( rtfString.getBytes( ) );
 		rtfeditorkit.read( bytearrayinputstream, document, 0 );
 		Element element = document.getDefaultRootElement( );
-		parseElement( document, element, handler );
+		parseElement( document, element, handler, true );
 	}
 
 	private static void parseElement( DefaultStyledDocument document,
-			Element parent, RTFDocumentHandler handler )
+			Element parent, RTFDocumentHandler handler, boolean lostLast )
 	{
 		for ( int i = 0; i < parent.getElementCount( ); i++ )
 		{
+			if (lostLast && i==parent.getElementCount( )-1 && parent.getElementCount( ) != 1)
+			{
+				break;
+			}
 			Element element = parent.getElement( i );
 			AttributeSet attributeset = element.getAttributes( );
 			handler.startElement( element.getName( ), attributeset );
@@ -59,7 +63,7 @@ public class RTFParser
 				{
 				}
 			}
-			parseElement( document, element, handler );
+			parseElement( document, element, handler, false );
 			handler.endElement( element.getName( ) );
 		}
 	}
