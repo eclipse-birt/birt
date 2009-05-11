@@ -158,4 +158,10 @@ public class PostscriptPage extends AbstractPage
 	{
 		writer.clipRect( startX, startY, width, height );
 	}
+
+	protected void drawBackgroundImage( float x, float y, float width,
+			float height, int repeat, String imageUrl, float absPosX,
+			float absPosY ) throws IOException
+	{
+	}
 }

@@ -25,4 +25,6 @@ public interface ITrueTypeWriter
 	void ensureGlyphAvailable( char c ) throws IOException;
 	
 	void ensureGlyphsAvailable( String string ) throws IOException;
+
+	String toHexString( String text );
 }

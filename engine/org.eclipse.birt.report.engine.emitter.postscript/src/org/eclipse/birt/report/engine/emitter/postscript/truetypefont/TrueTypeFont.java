@@ -1285,58 +1285,74 @@ public class TrueTypeFont
 		{
 			int[] tableLocation = (int[]) positionTables.get( "loca" );
 			int locaLength = tableLocation[1];
-			int glyphCount = locaLength / head.locaBytesPerEntry + 1;
+			int glyphCount = locaLength / head.locaBytesPerEntry - 1;
 			rf = new RandomAccessFileOrArray( fileName );
-			out.println( "mark" );
-			out.println( "/FontMatrix matrix" );
-			out.println( "/FontBBox " + "["
-					+ Util.div( head.xMin, head.unitsPerEm ) + " "
-					+ Util.div( head.yMin, head.unitsPerEm ) + " "
-					+ Util.div( head.xMax, head.unitsPerEm ) + " "
-					+ Util.div( head.yMax, head.unitsPerEm ) + "]" );
-			String psFontName = toPSString( fontName );
-			out.println( "/FontName " + psFontName );
-			out
-					.println( "/Encoding 256 array  0 1 255 {1 index exch /.notdef put} for" );
-			out.println( "/GlyphDirectory "+ glyphCount + " dict" );
-			out.println( "/FontInfo mark" );
-			if ( hasTable( "name" ) )
-			{
-				output( out, "/Notice", getName( notice ) );
-				output( out, "/FamilyName", getName( familyName ) );
-				output( out, "/FullName", getName( fullName ) );
-				output( out, "/Version", getName( version ) );
-			}
-			if ( hasTable( "post" ) )
-			{
-				out.println( "/ItalicAngle " + italicAngle );
-				out.println( "/isFixedPitch " + isFixedPitch );
-				out.println( "/UnderlinePosition " + underlinePosition );
-				out.println( "/UnderlineThickness " + underlineThickness );
-			}
-			out.println( ">>" );
+			out.println( "18 dict begin" );
+			out.println( "/CIDFontName /" + fontName + " def");
+			out.println( "/PaintType 0 def" );
+			out.println( "/FontType 42 def" );
+			out.println( "/CIDFontType 2 def" );
+			out.println( "/GDBytes 2 def" );
+			out.println( "/CIDSystemInfo 3 dict dup begin" );
+			out.println( "  /Registry (Adobe) def" );
+			out.println( "  /Ordering (Identity) def" );
+			out.println( "  /Supplement 0 def" );
+			out.println( "end def" );
+			out.println( "/FontMatrix matrix def" );
+			out.println( "/FontBBox " + getFontBBox( ) + " def" );
+			out.println( "/CIDCount " + glyphCount + " def");
+			out.println( "/CDevProc {pop pop pop pop pop 0 -1 7 index 2 div .88}bind def");
+			out.println( "/CharStrings 1 dict dup begin /.notdef 0 def end def" );
+			out.println( "/Encoding 1 array dup 0 /.notdef put readonly def" );
+			out.println( "/GlyphDirectory 16 dict def" );
 			outputSfnts( out );
-			out.println( "/CIDFontName " + psFontName );
-			out.println( "/CIDFontType 2" );
-			out.println( "/CIDSystemInfo mark" );
-			out.println( "  /Registry (Actuate)" );
-			out.println( "  /Ordering (China)" );
-			out.println( "  /Supplement 0" );
-			out.println( ">>" );
-			out.println( "/CharStrings mark /.notdef 0 >>" );
-			out.println( "/CIDCount " + glyphCount );
-			out.println( "/CIDMap 20 dict" );
-			out.println( "/PaintType 0" );
-			out.println( "/FontType 42" );
-			out.println( "/GDBytes 2" );
-			out.println( ">>" );
-			out
-					.println( "dup /CIDFontName get cvn exch /CIDFont defineresource pop" );
+			outputCIDMap( out, glyphCount );
+			out.println( "CIDFontName currentdict end /CIDFont defineresource pop" );
+		}
+
+		private String getFontBBox( )
+		{
+			StringBuffer buffer = new StringBuffer( );
+			buffer.append( "[" );
+			buffer.append( Util.div( head.xMin, head.unitsPerEm ) );
+			buffer.append ( " " );
+			buffer.append( Util.div( head.yMin, head.unitsPerEm ) );
+			buffer.append( " " );
+			buffer.append( Util.div( head.xMax, head.unitsPerEm ));
+			buffer.append( " " );
+			buffer.append( Util.div( head.yMax, head.unitsPerEm ) );
+			buffer.append( "]" );
+			return buffer.toString( );
+		}
+
+		private void outputCIDMap( PrintStream out, int glyphCount )
+		{
+			out.print( "/CIDMap [<" );
+			int lineBreakCount = 0;
+			int stringLimitCount = 0;
+			for ( int i = 0; i < glyphCount; i++ )
+			{
+				out.print( Util.toHexString( i ) );
+				lineBreakCount++;
+				stringLimitCount++;
+				if ( lineBreakCount == 20 )
+				{
+					out.println( );
+					lineBreakCount = 0;
+				}
+				if ( stringLimitCount == 0x7fff )
+				{
+					out.print("><");
+					stringLimitCount = 0;
+				}
+			}
+			out.println( ">] def" );
 		}
 
 		public void useDisplayName(String displayName )
 		{
-			out.println( "/" + displayName + " /PeerCMap [/"+ fontName + "] composefont pop");
+			out.println( "/" + displayName + " /Identity-H [/" + fontName
+					+ "] composefont pop" );
 		}
 		
 		public void ensureGlyphAvailable( char c ) throws IOException
@@ -1371,7 +1387,7 @@ public class TrueTypeFont
 		{
 			int glyph = getGlyphIndex( c );
 			List<TrueTypeGlyph> result = getCharactersToOutput( glyph );
-			result.add( new TrueTypeCharacter( c, glyph ) );
+			result.add( new TrueTypeGlyph( glyph ) );
 			return result;
 		}
 
@@ -1394,7 +1410,7 @@ public class TrueTypeFont
 			{
 				int flags = rf.readUnsignedShort( );
 				Integer cGlyph = new Integer( rf.readUnsignedShort( ) );
-				TrueTypeGlyph trueTypeGlyph = getGlyph( cGlyph.intValue( ) );
+				TrueTypeGlyph trueTypeGlyph = new TrueTypeGlyph( cGlyph.intValue( ) );
 				if ( !glyphDefined.contains( trueTypeGlyph ) )
 				{
 					characters.add( trueTypeGlyph );
@@ -1416,22 +1432,6 @@ public class TrueTypeFont
 			}
 		}
 
-		private TrueTypeGlyph getGlyph( int glyph )
-		{
-			HashMap<Integer, int[]> cmap = getCMap( );
-			Set<Map.Entry<Integer, int[]>> entries = cmap.entrySet( );
-			for ( Map.Entry<Integer, int[]> entry : entries )
-			{
-				int[] glyphIndice = entry.getValue( );
-				if ( glyphIndice[0] == glyph )
-				{
-					char character = (char) ( entry.getKey( ) ).intValue( );
-					return new TrueTypeCharacter( character, glyph );
-				}
-			}
-			return new TrueTypeGlyph( glyph );
-	    }
-	    
 		private class TrueTypeGlyph
 		{
 			protected int glyph;
@@ -1441,16 +1441,6 @@ public class TrueTypeFont
 				this.glyph = glyph;
 			}
 
-			public TrueTypeGlyph( char c, TrueTypeFont trueTypeFont )
-			{
-				this( trueTypeFont.getGlyphIndex( c ) );
-			}
-			
-			public int getGlyph( )
-			{
-				return this.glyph;
-			}
-			
 			public boolean equals( Object obj )
 			{
 				if ( !( obj instanceof TrueTypeGlyph ) )
@@ -1479,33 +1469,6 @@ public class TrueTypeFont
 				}
 				// output glyph data
 				out.println( " /" + fontName + " AddT42Glyph" );
-			}
-		}
-		
-		private class TrueTypeCharacter extends TrueTypeGlyph
-		{
-			protected char c;
-			
-			TrueTypeCharacter( char c, int glyph )
-			{
-				super( glyph );
-				this.c = c;
-			}
-
-			public void ensureRawDataAvailable( PrintStream out, String fontName )
-			{
-				out.print( ( (int) c ) + " " );// CID
-				out.print( glyph + " " );// glyph index.
-				try
-				{
-					outputAsPsString( out, getGlyphData( glyph ) );
-				}
-				catch ( IOException e )
-				{
-					logger.log( Level.WARNING, e.getMessage( ) );
-				}
-				// output glyph data
-				out.println( " /" + fontName + " AddT42Char" );
 			}
 		}
 		
@@ -1552,7 +1515,7 @@ public class TrueTypeFont
 		{
 			if ( value != null )
 			{
-				out.println( key + " " + value );
+				out.println( key + " " + value + " def" );
 			}
 		}
 
@@ -1673,7 +1636,7 @@ public class TrueTypeFont
 			{
 				out.println( toHexString( bytes ) );
 			}
-			out.println( "]" );
+			out.println( "] def" );
 		}
 
 		private String toHexString( byte[] metadataArray )
@@ -1773,6 +1736,20 @@ public class TrueTypeFont
 				result.add( slice );
 			}
 			return result;
+		}
+
+		public String toHexString( String text )
+		{
+			StringBuffer buffer = new StringBuffer( );
+			buffer.append( '<' );
+			for ( int i = 0; i < text.length( ); i++ )
+			{
+				char c = text.charAt( i );
+				int glyphIndex = getGlyphIndex( c );
+				buffer.append( Util.toHexString( glyphIndex ) );
+			}
+			buffer.append( '>' );
+			return buffer.toString( );
 		}
 	}
 

@@ -121,27 +121,5 @@
 }def
 /startDefImage{currentfile /ASCIIHexDecode filter /FlateDecode filter /ReusableStreamDecode filter} def
 /endDefImage{<</source 6 -1 roll /width 6 -1 roll /height 7 -1 roll>> def} def
-/CIDInit /ProcSet findresource begin
-  10 dict begin
-    begincmap
-      /CIDSystemInfo 3 dict dup begin
-        /Registry(Actuate)def
-        /Ordering(Engine)def
-        /Supplement 0 def
-      end def
-      /CMapType 0 def
-      /WMode 0 def
-      1 begincodespacerange
-        <0000><ffff>
-      endcodespacerange
-      1 begincidrange
-        <0000><ffff> 0
-      endcidrange
-    endcmap
-    /PeerCMap currentdict /CMap defineresource
-    pop
-  end
-end
-/Helvetica 0.0 usefont
 %%EndResource
 %%EndSetup

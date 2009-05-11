@@ -703,7 +703,7 @@ public class PostscriptWriter
 				trueTypeWriter.useDisplayName( displayName );
 				trueTypeWriter.ensureGlyphsAvailable( text );
 				setFont( displayName, fontSize );
-				return toHexString( text );
+				return trueTypeWriter.toHexString( text );
 			}
 			catch ( Exception e )
 			{
@@ -737,29 +737,6 @@ public class PostscriptWriter
 		}
 		matcher.appendTail( buffer );
 		return buffer.toString( );
-	}
-
-	private String toHexString( String text )
-	{
-		StringBuffer buffer = new StringBuffer( );
-		buffer.append( '<' );
-		for ( int i = 0; i < text.length( ); i++ )
-		{
-			buffer.append( toHexString( text.charAt( i ) ) );
-		}
-		buffer.append( '>' );
-		return buffer.toString( );
-	}
-
-	private String toHexString( char c )
-	{
-		final String[] padding = {"0", "00", "000"};
-		String result = Integer.toHexString( c );
-		if ( result.length( ) < 4 )
-		{
-			result = padding[3 - result.length( )] + result;
-		}
-		return result;
 	}
 
 	private ITrueTypeWriter getTrueTypeFontWriter( String fontPath )

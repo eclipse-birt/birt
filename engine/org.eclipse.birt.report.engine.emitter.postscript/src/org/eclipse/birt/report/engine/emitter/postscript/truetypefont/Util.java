@@ -59,7 +59,7 @@ public class Util
 		return result;
 	}
 
-	public static  String toHexString( byte[] bytes )
+	public static String toHexString( byte[] bytes )
 	{
 		StringBuffer result = new StringBuffer( );
 		int length = 0;
@@ -173,5 +173,16 @@ public class Util
 	private static char getBase85Char( long number )
 	{
 		return (char)('!' + number);
+	}
+
+	public static String toHexString( int c )
+	{
+		final String[] padding = {"0", "00", "000"};
+		String result = Integer.toHexString( c );
+		if ( result.length( ) < 4 )
+		{
+			result = padding[3 - result.length( )] + result;
+		}
+		return result;
 	}
 }
