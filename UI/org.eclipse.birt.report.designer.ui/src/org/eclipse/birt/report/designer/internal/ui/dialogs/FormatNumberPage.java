@@ -20,6 +20,7 @@ import java.util.Locale;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -176,6 +177,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 	private String previewText = null;
 
+	private boolean showLocale = true;
 	/**
 	 * Listener, or <code>null</code> if none
 	 */
@@ -227,7 +229,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 */
 	public FormatNumberPage( Composite parent, int style )
 	{
-		this( parent, style, PAGE_ALIGN_VIRTICAL );
+		this( parent, style, PAGE_ALIGN_VIRTICAL, true );
 	}
 
 	/**
@@ -241,10 +243,12 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 *            Aligns the page virtically(PAGE_ALIGN_VIRTICAL) or
 	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
 	 */
-	public FormatNumberPage( Composite parent, int style, int pageAlignment )
+	public FormatNumberPage( Composite parent, int style, int pageAlignment,
+			boolean showLocale )
 	{
 		super( parent, style );
 		this.pageAlignment = pageAlignment;
+		this.showLocale = showLocale;
 		formatAdapter = new FormatAdapter( );
 		createContents( pageAlignment );
 	}
@@ -291,7 +295,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		} );
 		typeChoicer.setItems( getFormatTypes( ) );
 
-		new Label( topContainer, SWT.NONE ).setText( LABEL_FORMAT_NUMBER_LOCALE );
+		Label label = new Label( topContainer, SWT.NONE );
+		label.setText( LABEL_FORMAT_NUMBER_LOCALE );
 		localeChoicer = new Combo( topContainer, SWT.READ_ONLY );
 		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
@@ -306,6 +311,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		localeChoicer.setItems( formatAdapter.getLocaleDisplayNames( ) );
 		if ( localeChoicer.getItemCount( ) > 0 )
 			localeChoicer.select( 0 );
+		WidgetUtil.setExcludeGridData( label, !showLocale );
+		WidgetUtil.setExcludeGridData( localeChoicer, !showLocale );
 
 		infoComp = new Composite( this, SWT.NONE );
 		infoComp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -345,7 +352,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		} );
 		typeChoicer.setItems( getFormatTypes( ) );
 
-		new Label( container, SWT.NONE ).setText( LABEL_FORMAT_NUMBER_LOCALE );
+		Label label = new Label( container, SWT.NONE );
+		label.setText( LABEL_FORMAT_NUMBER_LOCALE );
 		localeChoicer = new Combo( container, SWT.READ_ONLY );
 		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
@@ -360,6 +368,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		localeChoicer.setItems( formatAdapter.getLocaleDisplayNames( ) );
 		if ( localeChoicer.getItemCount( ) > 0 )
 			localeChoicer.select( 0 );
+		WidgetUtil.setExcludeGridData( label, !showLocale );
+		WidgetUtil.setExcludeGridData( localeChoicer, !showLocale );
 
 		// create the right part setting pane
 		infoComp = new Composite( this, SWT.NONE );

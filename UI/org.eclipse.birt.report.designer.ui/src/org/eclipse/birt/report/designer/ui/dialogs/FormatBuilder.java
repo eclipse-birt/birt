@@ -28,11 +28,8 @@ import org.eclipse.swt.widgets.Control;
 import com.ibm.icu.util.ULocale;
 
 /**
- * The builder used to generate a format string
- * <dt><b>Styles: </b></dt>
- * <dd>STRING</dd>
- * <dd>NUMBER</dd>
- * <dd>DATETIME</dd>
+ * The builder used to generate a format string <dt><b>Styles: </b></dt> <dd>
+ * STRING</dd> <dd>NUMBER</dd> <dd>DATETIME</dd>
  */
 
 public class FormatBuilder extends BaseDialog
@@ -85,20 +82,23 @@ public class FormatBuilder extends BaseDialog
 			case STRING :
 				page = new FormatStringPage( composite,
 						SWT.NONE,
-						IFormatPage.PAGE_ALIGN_VIRTICAL );
+						IFormatPage.PAGE_ALIGN_VIRTICAL,
+						false );
 				break;
 			case NUMBER :
 				page = new FormatNumberPage( composite,
 						SWT.NONE,
-						IFormatPage.PAGE_ALIGN_VIRTICAL );
+						IFormatPage.PAGE_ALIGN_VIRTICAL,
+						false );
 				break;
 			case DATETIME :
-			case DATE:
-			case TIME:
+			case DATE :
+			case TIME :
 				page = new FormatDateTimePage( composite,
 						type,
 						SWT.NONE,
-						IFormatPage.PAGE_ALIGN_VIRTICAL );
+						IFormatPage.PAGE_ALIGN_VIRTICAL,
+						false );
 				break;
 		}
 		( (Composite) page ).setLayoutData( new GridData( GridData.FILL_BOTH ) );

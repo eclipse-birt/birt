@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.FontManager;
@@ -118,6 +119,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 	private boolean isDirty = false;
 
+	private boolean showLocale = true;
 	/**
 	 * Listener, or <code>null</code> if none
 	 */
@@ -142,7 +144,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 	public FormatDateTimePage( Composite parent, int type, int style )
 	{
-		this( parent, type, style, PAGE_ALIGN_VIRTICAL );
+		this( parent, type, style, PAGE_ALIGN_VIRTICAL, true );
 	}
 
 	/**
@@ -158,10 +160,11 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	 */
 
 	public FormatDateTimePage( Composite parent, int type, int style,
-			int pageAlignment )
+			int pageAlignment, boolean showLocale )
 	{
 		super( parent, style );
 		this.pageAlignment = pageAlignment;
+		this.showLocale = showLocale;
 		formatAdapter = new FormatDateTimeAdapter( type );
 		createContents( pageAlignment );
 	}
@@ -210,7 +213,8 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		typeChoicer.setItems( formatAdapter.getFormatTypes( null ) );
 		typeChoicer.select( 0 );
 
-		new Label( topContainer, SWT.NONE ).setText( LABEL_FORMAT_DATE_TIME_LOCALE );
+		Label label = new Label( topContainer, SWT.NONE );
+		label.setText( LABEL_FORMAT_DATE_TIME_LOCALE );
 		localeChoicer = new Combo( topContainer, SWT.READ_ONLY );
 		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
@@ -225,6 +229,8 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		localeChoicer.setItems( formatAdapter.getLocaleDisplayNames( ) );
 		if ( localeChoicer.getItemCount( ) > 0 )
 			localeChoicer.select( 0 );
+		WidgetUtil.setExcludeGridData( label, !showLocale );
+		WidgetUtil.setExcludeGridData( localeChoicer, !showLocale );
 
 		infoComp = new Composite( this, SWT.NONE );
 		infoComp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -263,7 +269,8 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		} );
 		typeChoicer.setItems( formatAdapter.getFormatTypes( null ) );
 
-		new Label( container, SWT.NONE ).setText( LABEL_FORMAT_DATE_TIME_LOCALE );
+		Label label = new Label( container, SWT.NONE );
+		label.setText( LABEL_FORMAT_DATE_TIME_LOCALE );
 		localeChoicer = new Combo( container, SWT.READ_ONLY );
 		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		localeChoicer.addSelectionListener( new SelectionAdapter( ) {
@@ -278,6 +285,8 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		localeChoicer.setItems( formatAdapter.getLocaleDisplayNames( ) );
 		if ( localeChoicer.getItemCount( ) > 0 )
 			localeChoicer.select( 0 );
+		WidgetUtil.setExcludeGridData( label, !showLocale );
+		WidgetUtil.setExcludeGridData( localeChoicer, !showLocale );
 
 		// create the right part setting pane
 		infoComp = new Composite( this, SWT.NONE );

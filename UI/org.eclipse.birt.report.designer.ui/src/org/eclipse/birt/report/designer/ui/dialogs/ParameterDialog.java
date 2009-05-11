@@ -995,7 +995,18 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					ExpressionButton button = (ExpressionButton) defaultValueChooser.getData( EXPR_BUTTON );
 					if ( button != null )
 						button.refresh( );
+
 				}
+				String type = (String) defaultValueChooser.getData( EXPR_TYPE );
+				if ( ExpressionType.CONSTANT.equals( type ) )
+				{
+					defaultValueChooser.setEditable( false );
+				}
+				else
+				{
+					defaultValueChooser.setEditable( true );
+				}
+
 				if ( isValidValue( defaultValue, expressionType ) != null )
 				{
 					defaultValue = null;
@@ -1003,23 +1014,27 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				}
 				else
 				{
+
 					if ( defaultValue == null )
 					{
 						defaultValueChooser.select( defaultValueChooser.indexOf( CHOICE_NO_DEFAULT ) );
 					}
 					else if ( ExpressionType.CONSTANT.equals( expressionType ) )
 					{
+
 						if ( Boolean.valueOf( defaultValue ).booleanValue( ) )
-					{
-						defaultValueChooser.select( 1 );
+						{
+							defaultValueChooser.select( 1 );
+						}
+						else
+						{
+							defaultValueChooser.select( 2 );
+						}
 					}
 					else
 					{
-						defaultValueChooser.select( 2 );
-					}
-					}
-					else
 						defaultValueChooser.setText( defaultValue );
+					}
 
 				}
 			}
@@ -1754,9 +1769,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 						addDefaultValue( "false", type );//$NON-NLS-1$
 						break;
 					default :
-						if ( ExpressionType.JAVASCRIPT.equals( type ) )
-							addDefaultValue( defaultValueChooser.getText( ),
-									type );//$NON-NLS-1$
+						addDefaultValue( defaultValueChooser.getText( ), type );//$NON-NLS-1$
 				}
 				updateMessageLine( );
 			}
@@ -1767,7 +1780,26 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			public String getExpression( )
 			{
 				if ( defaultValueChooser != null )
-					return defaultValueChooser.getText( );
+				{
+					List list = new ArrayList( );
+					list.addAll( Arrays.asList( defaultValueChooser.getItems( ) ) );
+					String value;
+					switch ( list.indexOf( defaultValueChooser.getText( ) ) )
+					{
+						case 0 :
+							value = null;
+							break;
+						case 1 :
+							value = "true";//$NON-NLS-1$
+							break;
+						case 2 :
+							value = "false";//$NON-NLS-1$
+							break;
+						default :
+							value = defaultValueChooser.getText( );
+					}
+					return value;
+				}
 				else
 					return "";
 			}
@@ -1786,9 +1818,25 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public IExpressionProvider getExpressionProvider( )
 			{
+				List list = new ArrayList( );
+				list.addAll( Arrays.asList( defaultValueChooser.getItems( ) ) );
+				String value;
+				switch ( list.indexOf( defaultValueChooser.getText( ) ) )
+				{
+					case 0 :
+						value = null;
+						break;
+					case 1 :
+						value = "true";//$NON-NLS-1$
+						break;
+					case 2 :
+						value = "false";//$NON-NLS-1$
+						break;
+					default :
+						value = defaultValueChooser.getText( );
+				}
 				return new ParameterExpressionProvider( inputParameter,
-						dataSetChooser != null ? dataSetChooser.getText( )
-								: null );
+						dataSetChooser != null ? value : null );
 			}
 
 			public String getExpressionType( )
@@ -2463,23 +2511,26 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 		if ( !( ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( getSelectedDataType( ) ) ) || ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( getSelectedDataType( ) ) ) ) )
 		{
-			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
-			{
-				tempdefaultValue = ParameterUtil.convertToStandardFormat( DataTypeUtil.toDate( tempdefaultValue ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
-			{
-				tempdefaultValue = ParameterUtil.convertToStandardFormat( DataTypeUtil.toSqlDate( tempdefaultValue ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
-			{
-				tempdefaultValue = ParameterUtil.convertToStandardFormat( DataTypeUtil.toSqlTime( tempdefaultValue ) );
-			}
 			if ( ExpressionType.CONSTANT.equals( exprType ) )
+			{
+				if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+				{
+					tempdefaultValue = ParameterUtil.convertToStandardFormat( DataTypeUtil.toDate( tempdefaultValue ) );
+				}
+				else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
+				{
+					tempdefaultValue = ParameterUtil.convertToStandardFormat( DataTypeUtil.toSqlDate( tempdefaultValue ) );
+				}
+				else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
+				{
+					tempdefaultValue = ParameterUtil.convertToStandardFormat( DataTypeUtil.toSqlTime( tempdefaultValue ) );
+				}
+
 				return ParameterValidationUtil.validate( getSelectedDataType( ),
 						STANDARD_DATE_TIME_PATTERN,
 						tempdefaultValue,
 						ULocale.getDefault( ) );
+			}
 			else
 				return tempdefaultValue;
 
@@ -3506,7 +3557,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		return columnName;
 	}
 
-
 	private String getColumnName( String expression )
 	{
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
@@ -3600,7 +3650,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 		chooser.setText( key );
 	}
-	
+
 	public String getSelectedExprValue( String value )
 	{
 		String exprValue = null;

@@ -17,6 +17,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.FormatStringPattern;
@@ -131,6 +132,8 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 	private FormatAdapter formatAdapter;
 
+	private boolean showLocale = true;
+
 	/**
 	 * Constructs a new instance of format string page, default aligns the page
 	 * virtically.
@@ -143,7 +146,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 	public FormatStringPage( Composite parent, int style )
 	{
-		this( parent, style, PAGE_ALIGN_VIRTICAL );
+		this( parent, style, PAGE_ALIGN_VIRTICAL, true );
 	}
 
 	/**
@@ -158,10 +161,12 @@ public class FormatStringPage extends Composite implements IFormatPage
 	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
 	 */
 
-	public FormatStringPage( Composite parent, int style, int pageAlignment )
+	public FormatStringPage( Composite parent, int style, int pageAlignment,
+			boolean showLocale )
 	{
 		super( parent, style );
 		this.pageAlignment = pageAlignment;
+		this.showLocale = showLocale;
 		formatAdapter = new FormatAdapter( );
 		createContents( pageAlignment );
 	}
@@ -210,7 +215,8 @@ public class FormatStringPage extends Composite implements IFormatPage
 		} );
 		typeChoicer.setItems( getFormatTypes( ) );
 
-		new Label( topContainer, SWT.NONE ).setText( LABEL_FORMAT_STRING_LOCALE );
+		Label label = new Label( topContainer, SWT.NONE );
+		label.setText( LABEL_FORMAT_STRING_LOCALE );
 		localeChoicer = new Combo( topContainer, SWT.READ_ONLY );
 
 		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -226,6 +232,8 @@ public class FormatStringPage extends Composite implements IFormatPage
 		localeChoicer.setItems( formatAdapter.getLocaleDisplayNames( ) );
 		if ( localeChoicer.getItemCount( ) > 0 )
 			localeChoicer.select( 0 );
+		WidgetUtil.setExcludeGridData( label, !showLocale );
+		WidgetUtil.setExcludeGridData( localeChoicer, !showLocale );
 
 		infoComp = new Composite( this, SWT.NONE );
 		infoComp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -263,7 +271,8 @@ public class FormatStringPage extends Composite implements IFormatPage
 		} );
 		typeChoicer.setItems( getFormatTypes( ) );
 
-		new Label( container, SWT.NONE ).setText( LABEL_FORMAT_STRING_LOCALE );
+		Label label = new Label( container, SWT.NONE );
+		label.setText( LABEL_FORMAT_STRING_LOCALE );
 		localeChoicer = new Combo( container, SWT.READ_ONLY );
 
 		localeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -279,6 +288,8 @@ public class FormatStringPage extends Composite implements IFormatPage
 		localeChoicer.setItems( formatAdapter.getLocaleDisplayNames( ) );
 		if ( localeChoicer.getItemCount( ) > 0 )
 			localeChoicer.select( 0 );
+		WidgetUtil.setExcludeGridData( label, !showLocale );
+		WidgetUtil.setExcludeGridData( localeChoicer, !showLocale );
 
 		// create the right part setting pane
 		infoComp = new Composite( this, SWT.NONE );
