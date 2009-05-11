@@ -130,4 +130,14 @@ public abstract class PlotComputation
 	{
 		return cComp;
 	}
+	
+	/**
+	 * Returns current rate for Point->Pixel.
+	 * @return
+	 * @since 2.5
+	 */
+	public double getPointToPixel( )
+	{
+		return dPointToPixel;
+	}
 }

@@ -112,7 +112,7 @@ public final class AllAxes implements IConstants
 		double dMaxSS = 0;
 		for ( int i = 0; i < getOverlayCount( ); i++ )
 		{
-			if ( oa[i].getScale( ).getStartShift( ) > dMaxSS )
+			if ( oa[i].getScale( ) != null && oa[i].getScale( ).getStartShift( ) > dMaxSS )
 			{
 				dMaxSS = oa[i].getScale( ).getStartShift( );
 			}
@@ -125,7 +125,7 @@ public final class AllAxes implements IConstants
 		double dMaxES = 0;
 		for ( int i = 0; i < getOverlayCount( ); i++ )
 		{
-			if ( oa[i].getScale( ).getEndShift( ) > dMaxES )
+			if ( oa[i].getScale( ) != null && oa[i].getScale( ).getEndShift( ) > dMaxES )
 			{
 				dMaxES = oa[i].getScale( ).getEndShift( );
 			}

@@ -291,4 +291,15 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	{
 		return dsiOrthogonal;
 	}
+	
+	/**
+	 * Returns Orthogonal axis's AutoScale object.
+	 * 
+	 * @return
+	 * @since 2.5
+	 */
+	public AutoScale getOrthogonalScale( )
+	{
+		return scOrthogonal;
+	}
 }

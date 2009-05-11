@@ -3078,7 +3078,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 		labelSpan = src.getLabelSpan( );
 		labelSpanESet = src.isSetLabelSpan( );
 		axisPercent = src.getAxisPercent( );
-		axisPercentESet = src.isSetAligned( );
+		axisPercentESet = src.isSetAxisPercent( );
 	}
 
 	public static Axis create( EObject parent, EReference ref )

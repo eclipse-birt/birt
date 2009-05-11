@@ -52,6 +52,7 @@ import org.eclipse.birt.chart.render.AxesRenderer;
 import org.eclipse.birt.chart.render.IAxesDecorator;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 
@@ -661,18 +662,37 @@ public final class PlotWith2DAxes extends PlotWithAxes
 	}
 
 	/**
-	 * This method computes the entire chart within the given bounds. If the
-	 * dataset has changed but none of the axis attributes have changed, simply
-	 * re-compute without 'rebuilding axes'.
+	 * Computes while current is study layout.
 	 * 
-	 * @param bo
-	 * 
+	 * @throws ChartException
+	 * @throws IllegalArgumentException
 	 */
-	public final void compute( Bounds bo ) throws ChartException,
-			IllegalArgumentException
+	private void computeWithStudyLayout( ) throws ChartException, IllegalArgumentException
 	{
 		ChartWithAxes cwa = getModel( );
-		bo = goFactory.scaleBounds( bo, dPointToPixel ); // CONVERSION
+		// 1. Computes properties and scale of primary base axis.
+		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
+		updatePrimaryBaseAxis( axPrimaryBase, boPlot );
+		
+		// 2. Computes properties and scale of orthogonal-axes
+		ValueAxesHelper valueAxesHelper = new ValueAxesHelper( this, aax, boPlot );
+		updateValueAxes( valueAxesHelper, cwa );
+		
+		// 3. Adjusts axes position due to scale, start/end labels.
+		new AxesAdjuster( this, valueAxesHelper, boPlot).adjust( );
+		
+		// 4. Updates plot bounds
+		computePlotBackground( aax.getPrimaryBase( ), valueAxesHelper.getValueAxes( ) );
+		boPlotWithMargin = boPlotBackground.copyInstance( );
+	}
+
+	/**
+	 * @param bo
+	 * @param cwa
+	 */
+	private void initInnerFields( Bounds bo, ChartWithAxes cwa )
+	{
+		boPlot = goFactory.scaleBounds( bo, dPointToPixel ); // CONVERSION
 		dSeriesThickness = ( ids.getDpiResolution( ) / 72d )
 				* cwa.getSeriesThickness( );
 		
@@ -680,11 +700,10 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		dSeriesThickness = cwa.getPlot( ).getClientArea( ).isVisible( ) ? dSeriesThickness : 0;
 
 		// MAINTAIN IN LOCAL VARIABLES FOR PERFORMANCE/CONVENIENCE
-		bo.adjust( insCA );
-		double dX = bo.getLeft( );
-		double dY = bo.getTop( );
-		double dW = bo.getWidth( );
-		double dH = bo.getHeight( );
+		boPlot.adjust( insCA );
+		double dY = boPlot.getTop( );
+		double dW = boPlot.getWidth( );
+		double dH = boPlot.getHeight( );
 
 		iDimension = getDimension( cwa.getDimension( ) );
 		dXAxisPlotSpacing = cwa.getPlot( ).getHorizontalSpacing( )
@@ -698,15 +717,118 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			dH -= dSeriesThickness;
 			dW -= dSeriesThickness;
 
-			bo.setHeight( dH );
-			bo.setTop( dY );
-			bo.setWidth( dW );
+			boPlot.setHeight( dH );
+			boPlot.setTop( dY );
+			boPlot.setWidth( dW );
+		}
+	}
+
+	/**
+	 * @param valueAxesHelper
+	 * @param cwa
+	 * @throws ChartException
+	 */
+	private void updateValueAxes( ValueAxesHelper valueAxesHelper, ChartWithAxes cwa) throws ChartException
+	{
+		OneAxis[] allYAxes = valueAxesHelper.getValueAxes( );
+		int i = 0;
+		for ( OneAxis axis : allYAxes )
+		{
+			updateValueAxis( axis,
+					valueAxesHelper.getStart( i ),
+					valueAxesHelper.getEnd( i ),
+					cwa.isReverseCategory( ) );
+			i++;
+		}
+	}
+	
+	/**
+	 * This method computes the entire chart within the given bounds. If the
+	 * dataset has changed but none of the axis attributes have changed, simply
+	 * re-compute without 'rebuilding axes'.
+	 * 
+	 * @param bo
+	 * 
+	 */
+	public final void compute( Bounds bo ) throws ChartException,
+			IllegalArgumentException
+	{
+		ChartWithAxes cwa = getModel( );
+		initInnerFields( bo, cwa );
+		
+		// If plot bounds is zero, Do not compute.
+		if ( boPlot.getWidth( ) <= 0 || boPlot.getHeight( ) <= 0 )
+		{
+			return;
+		}
+		
+		if ( ChartUtil.hasMultipleYAxes( getModel( ) ) && ( (ChartWithAxes) getModel( ) ).isStudyLayout( ) )
+		{
+			computeWithStudyLayout( );
+		}
+		else
+		{
+			computeCommon( );
+		}
+	}
+	
+	/**
+	 * @param axPrimaryBase
+	 * @param boPlot
+	 * @throws ChartException
+	 */
+	private void updatePrimaryBaseAxis( final Axis axPrimaryBase , Bounds boPlot ) throws ChartException
+	{
+		double dX = boPlot.getLeft( );
+		double dY = boPlot.getTop( );
+		double dW = boPlot.getWidth( );
+		double dH = boPlot.getHeight( );
+		
+		// COMPUTE PRIMARY-BASE-AXIS PROPERTIES AND ITS SCALE
+		// 3. Compute primary-base-axis properties and its scale
+		OneAxis oaxPrimaryBase = aax.getPrimaryBase( );
+		int iAxisType = getAxisType( axPrimaryBase );
+
+		Object oaData = null;
+		if ( iAxisType == TEXT || oaxPrimaryBase.isCategoryScale( ) )
+		{
+			oaData = getTypedDataSet( axPrimaryBase, iAxisType, 0 );
+		}
+		else if ( ( iAxisType & NUMERICAL ) == NUMERICAL )
+		{
+			oaData = getMinMax( axPrimaryBase, iAxisType );
+		}
+		else if ( ( iAxisType & DATE_TIME ) == DATE_TIME )
+		{
+			oaData = getMinMax( axPrimaryBase, iAxisType );
 		}
 
-		// update boPlot
-		boPlot = bo;
-
-		// PLACE OVERLAYS FIRST TO REDUCE VIRTUAL PLOT BOUNDS
+		DataSetIterator dsi = ( oaData instanceof DataSetIterator )
+				? (DataSetIterator) oaData : new DataSetIterator( oaData,
+						iAxisType );
+		double dStart, dEnd;
+		dStart = ( aax.areAxesSwapped( ) ) ? dY + dH : dX;
+		dEnd = ( aax.areAxesSwapped( ) ) ? dY : dStart + dW;
+		
+		updateAxisScale( oaxPrimaryBase, iAxisType, dsi , dStart, dEnd);
+	}
+	
+	/**
+	 * Computes for non-study-layout case.
+	 * 
+	 * @throws ChartException
+	 * @throws IllegalArgumentException
+	 */
+	private void computeCommon( ) throws ChartException, IllegalArgumentException
+	{
+		ChartWithAxes cwa = getModel( );
+		double dX = boPlot.getLeft( );
+		double dY = boPlot.getTop( );
+		double dW = boPlot.getWidth( );
+		double dH = boPlot.getHeight( );
+		
+		// 1. Update scales of overlay axes.
+		// Place overlays first to reduce virtual plot bounds.
 		if ( aax.getOverlayCount( ) > 0 )
 		{
 			if ( aax.areAxesSwapped( ) ) // ORTHOGONAL OVERLAYS = HORIZONTAL
@@ -730,7 +852,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		final Axis axPrimaryOrthogonal = cwa.getPrimaryOrthogonalAxis( axPrimaryBase );
 		Scale sc = axPrimaryBase.getScale( );
 
-		// COMPUTE PRIMARY-BASE-AXIS PROPERTIES AND ITS SCALE
+		// 2. Compute primary-base-axis properties and its scale
 		AutoScale scPrimaryBase = null;
 		OneAxis oaxPrimaryBase = aax.getPrimaryBase( );
 		int iAxisType = getAxisType( axPrimaryBase );
@@ -771,10 +893,11 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				iDirection,
 				1,
 				iMarginPercent );
-		// UPDATE SCALE ON PRIMARY-BASE AXIS
+
+		// Update scale on primary-base axis
 		oaxPrimaryBase.set( scPrimaryBase );
 
-		// COMPUTE PRIMARY-ORTHOGONAL-AXIS PROPERTIES AND ITS SCALE
+		// 3. Compute primary-orthogonal-axis properties and its scale
 		AutoScale scPrimaryOrthogonal = null;
 		OneAxis oaxPrimaryOrthogonal = aax.getPrimaryOrthogonal( );
 		iAxisType = getAxisType( axPrimaryOrthogonal );
@@ -818,23 +941,24 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				AUTO,
 				1,
 				iMarginPercent );
-		// UPDATE SCALE ON PRIMARY-ORTHOGONAL AXIS
+
+		// Update scale on primary-orthogonal axis
 		oaxPrimaryOrthogonal.set( scPrimaryOrthogonal );
 
-		// ITERATIVELY ADJUST THE PRIMARY ORTHOGONAL AXIS POSITION DUE TO THE
-		// SCALE, START/END LABELS
-		double dYAxisLocation = adjustHorizontal( dX, dW, aax );
+		// 4. adjust axis position due to scale, start/end labels.
+		// 4.1 Iteratively adjust the primary orthogonal axis position due to the scale, start/end lables.
+		double dYAxisLocation = adjustHorizontal( dX, dW, aax, aax.getPrimaryOrthogonal( ) );
+		
+		// 4.2 Iteratively adjust the primary base axis position due to the scale, start/end labels.
+		double dXAxisLocation = adjustVerticalDueToHorizontal( dY, dH, aax, aax.getPrimaryOrthogonal( ) );
 
-		// ITERATIVELY ADJUST THE PRIMARY BASE AXIS POSITION DUE TO THE SCALE,
-		// START/END LABELS
-		double dXAxisLocation = adjustVerticalDueToHorizontal( dY, dH, aax );
-
-		// SETUP THE FULL DATASET FOR THE PRIMARY ORTHOGONAL AXIS
+		// 5. Set dataset
+		// Setup the full dataset for the primary orthogonal axis.
 		iAxisType = getAxisType( axPrimaryOrthogonal );
 		oaData = getTypedDataSet( axPrimaryOrthogonal, iAxisType, 0 );
 		scPrimaryOrthogonal.setData( dsi );
 
-		// SETUP THE FULL DATASET FOR THE PRIMARY ORTHOGONAL AXIS
+		// Setup the full dataset for the primary orthogonal aixs
 		iAxisType = getAxisType( axPrimaryBase );
 		if ( iAxisType != IConstants.TEXT )
 		{
@@ -844,12 +968,13 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		scPrimaryBase.resetShifts( );
 		scPrimaryOrthogonal.resetShifts( );
 
-		// UPDATE THE SIZES OF THE OVERLAY AXES
+		// 6. 
+		// Update the sizes of the overlay axes.
 		updateOverlayAxes( aax );
 		// #9026, pass the bounds which takes the overlay axes into accounts
 		growBaseAxis( aax, goFactory.createBounds( dX, dY, dW, dH ) );
 
-		// UPDATE FOR OVERLAYS
+		// Update for overlays
 		final OneAxis axPH = aax.areAxesSwapped( ) ? aax.getPrimaryOrthogonal( )
 				: aax.getPrimaryBase( );
 		final OneAxis axPV = aax.areAxesSwapped( ) ? aax.getPrimaryBase( )
@@ -858,38 +983,19 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		axPH.setAxisCoordinate( dXAxisLocation );
 		axPV.setAxisCoordinate( dYAxisLocation );
 
+	    // 7. Update plot bounds.
+		computePlotBackground( aax.getPrimaryBase( ), new OneAxis[]{aax.getPrimaryOrthogonal( )} );
+		computePlotWithMargin( axPH, axPV );
+	}
+
+
+	/**
+	 * @param axPH
+	 * @param axPV
+	 */
+	private void computePlotWithMargin( final OneAxis axPH, final OneAxis axPV )
+	{
 		double[] daX = axPH.getScale( ).getEndPoints( );
-		double[] daY = axPV.getScale( ).getEndPoints( );
-
-		if ( axPH.getScale( ).getDirection( ) == BACKWARD )
-		{
-			boPlotBackground.setLeft( daX[1] - insCA.getLeft( ) );
-			boPlotBackground.setWidth( daX[0]
-					- daX[1] + insCA.getLeft( ) + insCA.getRight( ) + 1 );
-		}
-		else
-		{
-			boPlotBackground.setLeft( daX[0] - insCA.getLeft( ) );
-			boPlotBackground.setWidth( daX[1]
-					- daX[0] + insCA.getLeft( ) + insCA.getRight( ) + 1 );
-		}
-
-		if ( axPV.getScale( ).getDirection( ) == FORWARD )
-		{
-			boPlotBackground.setTop( daY[0] - insCA.getTop( ) );
-			boPlotBackground.setHeight( daY[1]
-					- daY[0] + insCA.getTop( ) + insCA.getBottom( ) + 1 );
-		}
-		else
-		{
-			boPlotBackground.setTop( daY[1] - insCA.getTop( ) );
-			boPlotBackground.setHeight( daY[0]
-					- daY[1] + insCA.getTop( ) + insCA.getBottom( ) + 1 );
-		}
-		if ( iDimension == TWO_5_D )
-		{
-			boPlotBackground.delta( dSeriesThickness, -dSeriesThickness, 0, 0 );
-		}
 
 		boPlotWithMargin = goFactory.copyOf( boPlotBackground );
 		if ( iMarginPercent > 0 )
@@ -946,6 +1052,102 @@ public final class PlotWith2DAxes extends PlotWithAxes
 	}
 
 	/**
+	 * Compute plot background by related <code>OneAxis</code>.
+	 * 
+	 * @param axPrimaryBase the primary base OneAxis.
+	 * @param axOrthogonals The array of related orthogonal OneAxis[s] to used to compute plot bounds.
+	 */
+	private void computePlotBackground( final OneAxis axPrimaryBase,
+			final OneAxis[] axOrthogonals )
+	{
+		double yAxesLength;
+		double left, top, width, height;
+		if ( !aax.areAxesSwapped( ) )
+		{
+			int size = axOrthogonals.length;
+			if ( size > 1 )
+			{
+				yAxesLength = axOrthogonals[0].getScale( ).getEndPoints( )[0] - axOrthogonals[size - 1].getScale( ).getEndPoints( )[1];
+			}
+			else
+			{
+				yAxesLength = axOrthogonals[0].getScale( ).getEndPoints( )[0] - axOrthogonals[0].getScale( ).getEndPoints( )[1];
+			}
+			
+			// Get left and width.
+			double[] point = axPrimaryBase.getScale( ).getEndPoints( );
+			if ( axPrimaryBase.getScale( ).getDirection( ) != BACKWARD )
+			{
+				left = point[0] - insCA.getLeft( );
+				width = point[1] - point[0] + insCA.getLeft( ) + insCA.getRight( ) + 1;
+			}
+			else
+			{
+				left = point[1] - insCA.getLeft( );
+				width = point[0] - point[1] + insCA.getLeft( ) + insCA.getRight( ) + 1;
+			}
+			
+			// Get top and height.
+			if ( axOrthogonals[0].getScale( ).getDirection( ) == FORWARD )
+			{
+				top = axOrthogonals[axOrthogonals.length - 1].getScale( ).getEndPoints( )[0] - insCA.getTop( );
+				height = -yAxesLength + insCA.getTop( ) + insCA.getBottom( ) + 1; 
+			}
+			else
+			{
+				top = axOrthogonals[axOrthogonals.length - 1].getScale( ).getEndPoints( )[1] - insCA.getTop( );
+				height = yAxesLength + insCA.getTop( ) + insCA.getBottom( ) + 1;
+			}
+
+		}
+		else
+		{
+			int size = axOrthogonals.length;
+			if ( size > 1 )
+			{
+				yAxesLength = axOrthogonals[size - 1].getScale( ).getEndPoints( )[1] - axOrthogonals[0].getScale( ).getEndPoints( )[0];
+			}
+			else
+			{
+				yAxesLength = axOrthogonals[0].getScale( ).getEndPoints( )[1] - axOrthogonals[0].getScale( ).getEndPoints( )[0];
+			}
+			
+			// Get left and width.
+			if ( axOrthogonals[0].getScale( ).getDirection( ) != BACKWARD )
+			{
+				left =  axOrthogonals[0].getScale( ).getEndPoints( )[0] - insCA.getLeft( );
+				width = yAxesLength + insCA.getLeft( ) + insCA.getRight( ) + 1;
+			}
+			else
+			{
+				left = axOrthogonals[axOrthogonals.length - 1].getScale( ).getEndPoints( )[0] - insCA.getLeft( );
+				width = -yAxesLength + insCA.getLeft( ) + insCA.getRight( ) + 1;
+			}
+			
+			// Get top and height.
+			if ( axPrimaryBase.getScale( ).getDirection( ) == FORWARD )
+			{
+				top = axPrimaryBase.getScale( ).getEndPoints( )[0] - insCA.getTop( );
+				height = axPrimaryBase.getScale( ).getEndPoints( )[1] - axPrimaryBase.getScale( ).getEndPoints( )[0] + insCA.getTop( ) + insCA.getBottom( ) + 1;
+			}
+			else
+			{
+				top = axPrimaryBase.getScale( ).getEndPoints( )[1] - insCA.getTop( );
+				height = axPrimaryBase.getScale( ).getEndPoints( )[0] - axPrimaryBase.getScale( ).getEndPoints( )[1] + insCA.getTop( ) + insCA.getBottom( ) + 1;
+			}
+		}
+		
+		boPlotBackground.setLeft( left );
+		boPlotBackground.setTop( top );
+		boPlotBackground.setWidth( width );
+		boPlotBackground.setHeight( height );
+		if ( iDimension == TWO_5_D )
+		{
+			boPlotBackground.delta( dSeriesThickness, -dSeriesThickness, 0, 0 );
+		}
+	}
+
+	/**
 	 * Returns the plot bounds with margin area. Only valid when margin percent
 	 * is set, otherwise will return plot bounds.
 	 * 
@@ -975,12 +1177,14 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			return;
 		}
 
-		if ( !aax.areAxesSwapped( ) ) // STANDARD ORIENTATION
+		if ( !aax.areAxesSwapped( ) ) // STANDARD ORIENTATION 
 		{
 			// IF PRIMARY ORTHOGONAL AXIS IS NOT ON THE RIGHT
+			// If primary orthogonal axis is not on the right.
 			if ( oaxOrthogonal.getIntersectionValue( ).getType( ) != IConstants.MAX )
 			{
 				// IF ANY OVERLAY ORTHOGONAL AXES ARE ON THE RIGHT
+				// If any overlay orthogonal arex are on the right.
 				if ( aax.anyOverlayPositionedAt( IConstants.MAX ) )
 				{
 					scBase.computeAxisStartEndShifts( ids,
@@ -1008,9 +1212,11 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				}
 			}
 			// IF PRIMARY ORTHOGONAL AXIS IS NOT ON THE LEFT
+			// If primary orthogonal axis is not on the left.
 			else if ( oaxOrthogonal.getIntersectionValue( ).getType( ) != IConstants.MIN )
 			{
 				// IF ANY OVERLAY ORTHOGONAL AXES ARE ON THE LEFT
+				// If any overlay orthogonal axes are ont he left.
 				if ( aax.anyOverlayPositionedAt( IConstants.MIN ) )
 				{
 					scBase.computeAxisStartEndShifts( ids,
@@ -1045,6 +1251,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			// !Note if it's transposed, the intersection is not swapped.
 
 			// IF PRIMARY ORTHOGONAL AXIS IS NOT AT THE TOP
+			// If primary orthogonal axis is not at the top.
 			if ( oaxOrthogonal.getIntersectionValue( ).getType( ) != IConstants.MAX )
 			{
 				// IF ANY OVERLAY ORTHOGONAL AXES ARE AT THE TOP
@@ -1077,6 +1284,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			}
 
 			// IF PRIMARY ORTHOGONAL AXIS IS NOT AT THE BOTTOM
+			// If primary orthogonal axis is not at the bottom.
 			else if ( oaxOrthogonal.getIntersectionValue( ).getType( ) != IConstants.MIN )
 			{
 				// IF ANY OVERLAY ORTHOGONAL AXES IS AT THE BOTTOM
@@ -1144,6 +1352,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		Map<Series, LegendItemRenderingHints> seriesRenderingHints = rtc.getSeriesRenderers( );
 
 		// ITERATE THROUGH EACH OVERLAY ORTHOGONAL AXIS
+		// Iterate through each overlay orthogonal axis.
 		for ( int i = 0; i < iOverlayCount; i++ )
 		{
 			// GO BACKWARDS TO ENSURE CORRECT RENDERING ORDER
@@ -2141,4 +2350,69 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		}
 	}
 
+	void updateValueAxis( OneAxis valueAxis, double dStart,
+			double dEnd, boolean isReverseCategory ) throws ChartException,
+			IllegalArgumentException
+	{
+		final Axis yAxis = valueAxis.getModelAxis( );
+		int iAxisType = getAxisType( yAxis );
+		DataSetIterator dsi = null;
+		if ( ( iAxisType & NUMERICAL ) == NUMERICAL
+				|| ( iAxisType & DATE_TIME ) == DATE_TIME )
+		{
+			if ( rtc.getSharedScale( ) != null )
+			{
+				dsi = rtc.getSharedScale( ).createDataSetIterator( iAxisType );
+			}
+			else
+			{
+				dsi = new DataSetIterator( getMinMax( yAxis, iAxisType ),
+						iAxisType );
+			}
+			// Reverse the series categories if needed.
+			dsi.reverse( isReverseCategory );
+		}
+		else
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.DATA_FORMAT,
+					"exception.orthogonal.axis.numerical.datetime", //$NON-NLS-1$
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
+		}
+
+		updateAxisScale( valueAxis, iAxisType, dsi , dStart, dEnd);
+	}
+
+	/**
+	 * @param oax
+	 * @param dStart
+	 * @param dEnd
+	 * @param yAxis
+	 * @param iAxisType
+	 * @param dsi
+	 * @throws ChartException
+	 */
+	private void updateAxisScale( OneAxis oax, int iAxisType, DataSetIterator dsi , double dStart,
+			double dEnd)
+			throws ChartException
+	{
+		Scale sc = oax.getModelAxis( ).getScale( );
+		AutoScale scValueAxis = AutoScale.computeScale( ids,
+				oax,
+				dsi,
+				iAxisType,
+				dStart,
+				dEnd,
+				sc,
+				oax.getModelAxis( ).getOrigin( ),
+				oax.getModelAxis( ).getFormatSpecifier( ),
+				rtc,
+				AUTO,
+				1,
+				iMarginPercent );
+
+		// Update scale.
+		oax.set( scValueAxis );
+		scValueAxis.resetShifts( );
+	}
 }

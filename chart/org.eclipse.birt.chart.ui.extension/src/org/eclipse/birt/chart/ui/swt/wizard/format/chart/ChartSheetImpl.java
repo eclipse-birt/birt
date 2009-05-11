@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.GeneralProperties
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -107,6 +108,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 	private Spinner spnCorverage;
 
 	private Button btnCoverageAuto;
+
+	private Button btnEnableStudy;
 
 	public void createControl( Composite parent )
 	{
@@ -365,11 +368,25 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			btnEnable.setSelection( getChart( ).getInteractivity( ).isEnable( ) );
 			btnEnable.addSelectionListener( this );
 		}
+		
+		// #170985
+		if ( ChartUtil.hasMultipleYAxes( getChart( ) ) )
+		{
+			btnEnableStudy = new Button( cmpBasic, SWT.CHECK );
+			GridData gridData = new GridData( );
+			gridData.horizontalSpan = 3;
+			btnEnableStudy.setLayoutData( gridData );
+			btnEnableStudy.setText( Messages.getString("ChartSheetImpl.Button.EnableStudyLayout") ); //$NON-NLS-1$
+			btnEnableStudy.setSelection( ((ChartWithAxes)getChart( )).isStudyLayout( ) );
+			btnEnableStudy.addSelectionListener( this );
+		}
 
 		populateLists( );
 
 		createButtonGroup( cmpContent );
 	}
+
+
 
 	private void init( )
 	{
@@ -613,6 +630,15 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				cwa.setCoverage( spnCorverage.getSelection( ) / 100d );
 			}
 		}
+		else if ( e.widget == btnEnableStudy )
+		{
+			if ( getChart( ) instanceof ChartWithAxes )
+			{
+				ChartWithAxes cwa = (ChartWithAxes) getChart( );
+				cwa.setStudyLayout( btnEnableStudy.getSelection( ) );
+			}
+		}
+		
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )

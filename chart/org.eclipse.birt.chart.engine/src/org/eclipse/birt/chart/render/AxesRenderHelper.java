@@ -1681,11 +1681,17 @@ public final class AxesRenderHelper
 							final boolean bTitleHorizontal = Math.abs( la.getCaption( )
 									.getFont( )
 									.getRotation( ) ) <= 30;
-							final double dYAxisHeightPC = ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
+							double dYAxisHeightPC = ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
 									xs );
 							double dHeightWithinAxis = daEndPoints[0]
 									- daEndPoints[1];
-
+							
+							if ( ChartUtil.isStudyLayout( renderer.cm ))
+							{
+								// If it is study layout, the axis title height should use the orthogonal axis scale range as height. 
+								dYAxisHeightPC = dHeightWithinAxis;
+							}
+							
 							bWithinAxis = bTitleHorizontal
 									|| ( lbLimit.getMaxHeight( ) < dHeightWithinAxis );
 
@@ -1694,6 +1700,13 @@ public final class AxesRenderHelper
 							// this.renderer.cm ).getTitle( )
 							// .getBounds( );
 							double dTop = computeTopOfOrthogonalAxisTitle( );
+							
+							if ( ChartUtil.isStudyLayout( renderer.cm ))
+							{
+								// If it is study layout, the axis title top should use the scale end of orthogonal axis scale as top.
+								dTop = daEndPoints[1];
+							}
+							
 							final Bounds bo = goFactory.createBounds( ax.getTitleCoordinate( ),
 									bWithinAxis ? daEndPoints[1] : dTop,
 									bb.getWidth( ),

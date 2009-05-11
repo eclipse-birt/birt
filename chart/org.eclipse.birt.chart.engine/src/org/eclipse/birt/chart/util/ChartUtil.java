@@ -39,6 +39,7 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -1658,7 +1659,7 @@ public class ChartUtil
 
 		return cm;
 	}
-
+	
 	/**
 	 * Check if specified string is empty.
 	 * 
@@ -1825,5 +1826,55 @@ public class ChartUtil
 		}
 		return bDataEmpty;
 	}
-
+	
+	/**
+	 * Check if current chart model defines multiple Y axes.
+	 * 
+	 * @return
+	 * @since 2.5
+	 */
+	public static boolean hasMultipleYAxes( Chart cm )
+	{
+		return cm.getDimension( ) != ChartDimension.THREE_DIMENSIONAL_LITERAL
+				&& cm instanceof ChartWithAxes
+				&& ( (ChartWithAxes) cm ).getAxes( )
+						.get( 0 )
+						.getAssociatedAxes( )
+						.size( ) > 1;
+	}
+	
+	/**
+	 * Check if current plot layout is study layout for multiple Y axes.
+	 * 
+	 * @param cm
+	 * @return
+	 * @since 2.5
+	 */
+	public static boolean isStudyLayout( Chart cm )
+	{
+		return hasMultipleYAxes( cm ) && ( (ChartWithAxes) cm ).isStudyLayout( );
+	}
+	
+	/**
+	 * Returns the Axis instance which contains specified series.
+	 * 
+	 * @param series
+	 * @return
+	 * @since 2.5
+	 */
+	public static Axis getAxisFromSeries( Series series )
+	{
+		EObject e= series.eContainer( );
+		int loop_limit = 10;
+		while( e != null && loop_limit-- > 0 )
+		{
+			if ( e instanceof Axis )
+			{
+				return (Axis) e;
+			}
+			e = e.eContainer( );
+		}
+		
+		return null;
+	}
 }

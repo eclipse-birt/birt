@@ -23,15 +23,18 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
@@ -55,12 +58,18 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 {
 
 	private static final int HORIZONTAL_SPACING = 10;
+	private boolean enableAxisPercent = false ;
 
 	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_AXIS );
-
-		final int COLUMN_NUMBER = 6;
+		
+		enableAxisPercent = ChartUtil.isStudyLayout( getChart() );
+		
+		int columnNumber = 6;
+		if ( enableAxisPercent )
+			columnNumber++;
+		
 		cmpContent = new Composite( parent, SWT.NONE ) {
 
 			public Point computeSize( int wHint, int hHint, boolean changed )
@@ -93,7 +102,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 
 		Composite cmpList = new Composite( cmpScroll, SWT.NONE );
 		{
-			GridLayout glContent = new GridLayout( COLUMN_NUMBER, false );
+			GridLayout glContent = new GridLayout( columnNumber, false );
 			glContent.horizontalSpacing = 10;
 			cmpList.setLayout( glContent );
 
@@ -153,14 +162,26 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			lblSideBySide.setFont( JFaceResources.getBannerFont( ) );
 			lblSideBySide.setText( Messages.getString("AxisSheetImpl.Label.SideBySide") ); //$NON-NLS-1$
 		}
+		
+		if ( enableAxisPercent )
+		{
+			Label lblAxisPercent = new Label( cmpList, SWT.WRAP | SWT.CENTER );
+			GridData gd = new GridData( );
+			gd.horizontalAlignment = SWT.CENTER;
+			lblAxisPercent.setLayoutData( gd );
+			lblAxisPercent.setFont( JFaceResources.getBannerFont( ) );
+			lblAxisPercent.setText( Messages.getString("AxisSheetImpl.Label.AxisPercent") ); //$NON-NLS-1$
+		}
 
 		int treeIndex = 0;
 
+		// Category axis.
 		new AxisOptionChoser( ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) ),
 				Messages.getString( "AxisSheetImpl.Label.CategoryX" ), //$NON-NLS-1$
 				AngleType.X,
 				treeIndex++ ).placeComponents( cmpList );
 
+		// Y axes.
 		int yaxisNumber = ChartUIUtil.getOrthogonalAxisNumber( getChart( ) );
 		for ( int i = 0; i < yaxisNumber; i++ )
 		{
@@ -170,6 +191,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 					yaxisNumber == 1 ? text : ( text + " - " + ( i + 1 ) ), AngleType.Y, treeIndex++ ).placeComponents( cmpList ); //$NON-NLS-1$
 		}
 
+		// Z axis.
 		if ( ChartUIUtil.is3DType( getChart( ) ) )
 		{
 			new AxisOptionChoser( ChartUIUtil.getAxisZForProcessing( (ChartWithAxes) getChart( ) ),
@@ -197,6 +219,8 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 
 		private Button btnAligned;
 		private Button btnSideBySide;
+		
+		private TextEditorComposite compAxisPercent;
 
 		public AxisOptionChoser( Axis axis, String axisName, int angleType,
 				int treeIndex )
@@ -277,6 +301,41 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				updateBtnSideBySidStatus( );
 			}
 
+			if ( enableAxisPercent )
+			{
+				if ( this.angleType == AngleType.Y )
+				{
+					compAxisPercent = new TextEditorComposite( parent, SWT.BORDER, 
+							TextEditorComposite.TYPE_NUMBERIC ) {
+						public void keyPressed( KeyEvent e )
+						{
+							char c = e.character;
+							if ( c == '0' && "".equals( compAxisPercent.getText( ).trim( ) ) ) //$NON-NLS-1$
+							{
+								e.doit = false;
+								return;
+							}
+							
+							super.keyPressed( e );
+						}
+					};
+					compAxisPercent.setDefaultValue( null );
+					GridData gd = new GridData( );
+					gd.horizontalAlignment = SWT.CENTER;
+					gd.widthHint = 30;
+					compAxisPercent.setLayoutData( gd );
+					if ( axis.isSetAxisPercent( ) )
+					{
+						compAxisPercent.setText( String.valueOf( axis.getAxisPercent( ) ) );
+					}
+
+					compAxisPercent.addListener( this );
+				}
+				else
+				{
+					new Label( parent, SWT.NONE );
+				}
+			}
 		}
 
 		private void updateBtnAlignedStatus( )
@@ -325,6 +384,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			{
 				axis.setSideBySide( btnSideBySide.getSelection( ) );
 			}
+			
 		}
 
 		public void widgetDefaultSelected( SelectionEvent e )
@@ -341,6 +401,28 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				{
 					axis.getLineAttributes( )
 							.setColor( (ColorDefinition) event.data );
+				}
+			}
+			else if ( event.widget == compAxisPercent )
+			{
+				try
+				{
+					int value = Integer.valueOf( compAxisPercent.getText( ) )
+							.intValue( );
+					if ( value == 0 )
+					{
+						compAxisPercent.setText( "" ); //$NON-NLS-1$
+						axis.unsetAxisPercent( );
+					}
+					else
+					{
+						axis.setAxisPercent( value );
+					}
+				}
+				catch ( NumberFormatException e )
+				{
+					compAxisPercent.setText( "" ); //$NON-NLS-1$
+					axis.unsetAxisPercent( );
 				}
 			}
 		}
