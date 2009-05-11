@@ -25,7 +25,7 @@ public class ChartServletContextListener implements ServletContextListener
 
 	public void contextDestroyed( ServletContextEvent event )
 	{
-		ChartImageManager.dispose( );
+		ChartImageManager.dispose( event.getServletContext( ) );
 	}
 
 	public void contextInitialized( ServletContextEvent event )

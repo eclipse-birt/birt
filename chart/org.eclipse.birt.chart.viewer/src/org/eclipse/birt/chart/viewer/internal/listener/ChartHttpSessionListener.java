@@ -40,7 +40,8 @@ public class ChartHttpSessionListener implements HttpSessionListener
 	public void sessionDestroyed( HttpSessionEvent event )
 	{
 		String sessionId = event.getSession( ).getId( );
-		ChartImageManager.clearSessionFiles( sessionId );
+		ChartImageManager.clearSessionFiles( sessionId, event.getSession( )
+				.getServletContext( ) );
 	}
 
 }

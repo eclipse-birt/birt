@@ -107,7 +107,7 @@ public class ChartRendererTag extends TagSupport
 				return EVAL_PAGE;
 			}
 
-			ChartImageManager imageManager = new ChartImageManager( request.getSession( ),
+			ChartImageManager imageManager = new ChartImageManager( request,
 					chartModel,
 					output,
 					data,

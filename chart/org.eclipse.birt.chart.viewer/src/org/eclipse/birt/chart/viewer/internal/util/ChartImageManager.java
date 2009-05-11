@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.EmptyUpdateNotifier;
@@ -68,7 +68,7 @@ public class ChartImageManager
 
 	private static int imageIndex = 0;
 
-	private final HttpSession session;
+	private final HttpServletRequest request;
 
 	private final Chart cm;
 
@@ -88,12 +88,12 @@ public class ChartImageManager
 
 	private int dpi = 72;
 
-	public ChartImageManager( HttpSession session, Chart chartModel,
+	public ChartImageManager( HttpServletRequest request, Chart chartModel,
 			String outputFormat, IDataRowExpressionEvaluator evaluator,
 			RunTimeContext rtc, IExternalContext externalContext,
 			IStyleProcessor styleProc ) throws Exception
 	{
-		this.session = session;
+		this.request = request;
 		this.cm = chartModel;
 		this.sExtension = outputFormat;
 		this.evaluator = evaluator;
@@ -133,7 +133,7 @@ public class ChartImageManager
 			this.rtc = rtc;
 		}
 
-		sessionIds.add( session.getId( ) );
+		sessionIds.add( request.getSession( ).getId( ) );
 
 		generateImage( );
 	}
@@ -281,7 +281,9 @@ public class ChartImageManager
 		{
 			imageFile.getParentFile( ).mkdirs( );
 		}
-		System.out.println( "Generated file: " + imageFile.getPath( ) ); //$NON-NLS-1$
+		request.getSession( )
+				.getServletContext( )
+				.log( "Generated file: " + imageFile.getPath( ) ); //$NON-NLS-1$
 		OutputStream fos = new FileOutputStream( imageFile );
 		InputStream fis = generateStream( );
 		byte[] buffer = new byte[1024];
@@ -320,23 +322,25 @@ public class ChartImageManager
 	/**
 	 * Disposes all resources and reset.
 	 */
-	public static void dispose( )
+	public static void dispose( ServletContext context )
 	{
 		for ( int i = 0, n = sessionIds.size( ); i < n; i++ )
 		{
 			String sessionId = sessionIds.get( i );
-			clearSessionFiles( sessionId );
+			clearSessionFiles( sessionId, context );
 		}
 		sessionIds.clear( );
 	}
 
 	/**
-	 * Clear the temp files when session is expired
+	 * Clear the temporary files when session is expired
 	 * 
 	 * @param id
 	 *            session id
+	 * @param context
+	 *            sevlet context
 	 */
-	public static void clearSessionFiles( String id )
+	public static void clearSessionFiles( String id, ServletContext context )
 	{
 		if ( id == null )
 		{
@@ -346,37 +350,38 @@ public class ChartImageManager
 		// clear image folder
 		String tempFolder = imageFolder + File.separator + id;
 		File file = new File( tempFolder );
-		deleteDir( file );
+		deleteDir( file, context );
 	}
 
 	public String getAbsoluteImageFolder( )
 	{
-		return imageFolder + File.separator + session.getId( );
+		return imageFolder + File.separator + request.getSession( ).getId( );
 	}
 
 	public String getRelativeImageFolder( )
 	{
 		// Here do not use File.separator since it's in URL
-		return session.getServletContext( ).getContextPath( ) + "/" //$NON-NLS-1$
+		return request.getContextPath( ) + "/" //$NON-NLS-1$
 				+ IMAGE_FOLDER
 				+ "/" //$NON-NLS-1$
-				+ session.getId( );
+				+ request.getSession( ).getId( );
 	}
 
 	/**
-	 * Deletes all files and subdirectories under dir. Returns true if all
-	 * deletions were successful. If a deletion fails, the method stops
+	 * Deletes all files and sub-directories under directories. Returns true if
+	 * all deletions were successful. If a deletion fails, the method stops
 	 * attempting to delete and returns false.
 	 */
 
-	private static boolean deleteDir( File dir )
+	private static boolean deleteDir( File dir, ServletContext context )
 	{
 		if ( dir.isDirectory( ) )
 		{
 			String[] children = dir.list( );
 			for ( int i = 0; i < children.length; i++ )
 			{
-				boolean success = deleteDir( new File( dir, children[i] ) );
+				boolean success = deleteDir( new File( dir, children[i] ),
+						context );
 				if ( !success )
 				{
 					return false;
@@ -384,7 +389,7 @@ public class ChartImageManager
 			}
 		}
 		// The directory is now empty so delete it
-		System.out.println( "Cleaned file: " + dir.getPath( ) ); //$NON-NLS-1$
+		context.log( "Cleaned file: " + dir.getPath( ) ); //$NON-NLS-1$
 		return dir.delete( );
 	}
 
