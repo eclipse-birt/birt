@@ -463,7 +463,7 @@ public class ComputedColumn extends PropertyStructure
 
 	public String getFilterExpression( )
 	{
-		return (String) getProperty( null, FILTER_MEMBER );
+		return getStringProperty( null, FILTER_MEMBER );
 	}
 
 	/**

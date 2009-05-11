@@ -459,4 +459,20 @@ public class APICompatibleTest extends BaseTestCase
 		assertEquals( "ship", filter1.getValue1( ) ); //$NON-NLS-1$
 
 	}
+
+	/**
+	 * Backward to avoid class Exception.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testComputedColumnFilterExpression( ) throws Exception
+	{
+		ComputedColumn column = StructureFactory.createComputedColumn( );
+		column.setName( "column 1" ); //$NON-NLS-1$
+		column.setFilterExpression( "value1" ); //$NON-NLS-1$
+
+		assertEquals( "value1", column.getFilterExpression( ) ); //$NON-NLS-1$
+
+	}
 }
