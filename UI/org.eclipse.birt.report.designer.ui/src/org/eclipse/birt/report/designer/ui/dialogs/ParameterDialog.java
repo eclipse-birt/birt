@@ -1001,34 +1001,50 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				if ( ExpressionType.CONSTANT.equals( type ) )
 				{
 					defaultValueChooser.setEditable( false );
+					if ( defaultValueChooser.getItemCount( ) == 0 )
+					{
+						defaultValueChooser.add( CHOICE_NO_DEFAULT );
+						defaultValueChooser.add( BOOLEAN_TRUE );
+						defaultValueChooser.add( BOOLEAN_FALSE );
+					}
 				}
 				else
 				{
 					defaultValueChooser.setEditable( true );
+					if ( defaultValueChooser.getItemCount( ) != 0 )
+					{
+						defaultValueChooser.removeAll( );
+					}
 				}
 
 				if ( isValidValue( defaultValue, expressionType ) != null )
 				{
 					defaultValue = null;
-					defaultValueChooser.select( 0 );
+					if ( ExpressionType.CONSTANT.equals( type ) )
+						defaultValueChooser.select( defaultValueChooser.indexOf( CHOICE_NO_DEFAULT ) );
+					else
+						defaultValueChooser.setText( "" );//$NON-NLS-1$
 				}
 				else
 				{
 
 					if ( defaultValue == null )
 					{
-						defaultValueChooser.select( defaultValueChooser.indexOf( CHOICE_NO_DEFAULT ) );
+						if ( ExpressionType.CONSTANT.equals( type ) )
+							defaultValueChooser.select( defaultValueChooser.indexOf( CHOICE_NO_DEFAULT ) );
+						else
+							defaultValueChooser.setText( "" );//$NON-NLS-1$
 					}
 					else if ( ExpressionType.CONSTANT.equals( expressionType ) )
 					{
 
 						if ( Boolean.valueOf( defaultValue ).booleanValue( ) )
 						{
-							defaultValueChooser.select( 1 );
+							defaultValueChooser.select( defaultValueChooser.indexOf( BOOLEAN_TRUE ) );
 						}
 						else
 						{
-							defaultValueChooser.select( 2 );
+							defaultValueChooser.select( defaultValueChooser.indexOf( BOOLEAN_FALSE ) );
 						}
 					}
 					else
@@ -1846,11 +1862,70 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public void setExpressionType( String exprType )
 			{
+				List list = new ArrayList( );
+				list.addAll( Arrays.asList( defaultValueChooser.getItems( ) ) );
+				String value;
+				switch ( list.indexOf( defaultValueChooser.getText( ) ) )
+				{
+					case 0 :
+						value = null;
+						break;
+					case 1 :
+						value = "true";//$NON-NLS-1$
+						break;
+					case 2 :
+						value = "false";//$NON-NLS-1$
+						break;
+					default :
+						value = defaultValueChooser.getText( );
+				}
+
 				defaultValueChooser.setData( EXPR_TYPE, exprType );
 				if ( ExpressionType.CONSTANT.equals( exprType ) )
+				{
 					defaultValueChooser.setEditable( false );
+					if ( defaultValueChooser.getItemCount( ) == 0 )
+					{
+						defaultValueChooser.add( CHOICE_NO_DEFAULT );
+						defaultValueChooser.add( BOOLEAN_TRUE );
+						defaultValueChooser.add( BOOLEAN_FALSE );
+					}
+				}
 				else
+				{
+					if ( defaultValueChooser.getItemCount( ) != 0 )
+					{
+						defaultValueChooser.remove( CHOICE_NO_DEFAULT );
+						defaultValueChooser.remove( BOOLEAN_TRUE );
+						defaultValueChooser.remove( BOOLEAN_FALSE );
+					}
 					defaultValueChooser.setEditable( true );
+				}
+
+				if ( value == null || value.trim( ).length( ) == 0 )
+				{
+					if ( ExpressionType.CONSTANT.equals( exprType ) )
+						defaultValueChooser.select( defaultValueChooser.indexOf( CHOICE_NO_DEFAULT ) );
+					else
+						defaultValueChooser.setText( "" );//$NON-NLS-1$
+				}
+				else if ( ExpressionType.CONSTANT.equals( exprType ) )
+				{
+
+					if ( Boolean.valueOf( value ).booleanValue( ) )
+					{
+						defaultValueChooser.select( defaultValueChooser.indexOf( BOOLEAN_TRUE ) );
+					}
+					else
+					{
+						defaultValueChooser.select( defaultValueChooser.indexOf( BOOLEAN_FALSE ) );
+					}
+				}
+				else
+				{
+					defaultValueChooser.setText( value );
+				}
+
 				defaultValueChooser.notifyListeners( SWT.Modify, new Event( ) );
 			}
 
