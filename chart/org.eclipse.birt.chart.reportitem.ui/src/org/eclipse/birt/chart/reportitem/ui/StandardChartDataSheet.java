@@ -1687,7 +1687,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	{
 		String actualExpr = expr;
 
-		if ( dataProvider.checkState( IDataServiceProvider.SHARE_QUERY ) )
+		if ( dataProvider.checkState( IDataServiceProvider.SHARE_QUERY )
+				|| dataProvider.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) )
 		{
 			boolean isGroupOrAggr = false;
 			// Convert to actual expression.
