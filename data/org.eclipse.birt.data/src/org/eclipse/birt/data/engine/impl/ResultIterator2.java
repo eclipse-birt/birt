@@ -66,6 +66,11 @@ class ResultIterator2 extends ResultIterator
 		boolean hasNext = super.next( );
 		if ( hasNext )
 			currRowIndex++;
+		else if ( currRowIndex == -1)
+		{
+			//If empty result set, the cachedRowId should be -1.
+			this.cachedRowId = -1;
+		}
 		return hasNext;
 	}
 	
