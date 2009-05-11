@@ -52,12 +52,19 @@ import com.ibm.icu.util.ULocale;
 
 public class DataUtil
 {
-
+	private static AggregationManager manager;
+	
 	public static AggregationManager getAggregationManager( )
 			throws BirtException
 	{
-		return DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) )
-				.getAggregationManager( );
+		if( manager == null )
+		{
+			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			manager = session.getAggregationManager( );
+			session.shutdown( );	
+		}
+		
+		return manager;
 	}
 
 	/**
