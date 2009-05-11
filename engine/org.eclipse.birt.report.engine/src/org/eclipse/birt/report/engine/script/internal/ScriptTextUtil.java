@@ -22,11 +22,18 @@ final class ScriptTextUtil
 	{
 		if ( script == null )
 			return true;
-		String scriptWithoutComments = script.replaceAll( "(?:/\\*(?:[^*]|(?:\\*+[^*/]))*\\*+/)|(?://.*)",
-				"" );
-		if ( scriptWithoutComments.trim( ).length( ) == 0 )
-			return true;
-		else
+		try
+		{
+			String scriptWithoutComments = script.replaceAll( "(?:/\\*(?:[^*]|(?:\\*+[^*/]))*\\*+/)|(?://.*)",
+					"" );
+			if ( scriptWithoutComments.trim( ).length( ) == 0 )
+				return true;
+			else
+				return false;
+		}
+		catch ( Throwable e )
+		{
 			return false;
+		}
 	}
 }
