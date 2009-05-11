@@ -45,6 +45,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.HyperlinkBuilder;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -245,7 +246,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			ChartAdapter.beginIgnoreNotifications( );
 			if ( dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
 			{
-				ExtendedItemHandle refHandle = (ExtendedItemHandle) ChartReportItemUtil.getChartReferenceItemHandle( extendedHandle );
+				ExtendedItemHandle refHandle = ChartReportItemUtil.getChartReferenceItemHandle( extendedHandle );
 				if ( refHandle != null )
 				{
 					ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
@@ -273,9 +274,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						contextResult.getModel( ),
 						contextResult.getOutputFormat( ),
 						contextResult.isInheritColumnsOnly( ) );
-				if ( dataProvider.isPartChart( ) )
+				if ( dataProvider.isPartChart( ) && ChartXTabUtil.getXtabContainerCell( extendedHandle ) instanceof AggregationCellHandle )
 				{
-					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
+					ChartXTabUIUtil.updateXTabForAxis( (AggregationCellHandle) ChartXTabUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,
 							ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
 							(ChartWithAxes) contextResult.getModel( ) );
@@ -295,10 +296,10 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						(Chart) applyData[0],
 						(String) applyData[1],
 						(Boolean) applyData[2] );
-				if ( dataProvider.isPartChart( ) )
+				if ( dataProvider.isPartChart( ) && ChartXTabUtil.getXtabContainerCell( extendedHandle ) instanceof AggregationCellHandle )
 				{
 					commandStack.startTrans( TRANS_NAME );
-					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
+					ChartXTabUIUtil.updateXTabForAxis( (AggregationCellHandle) ChartXTabUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,
 							ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
 							(ChartWithAxes) applyData[0] );

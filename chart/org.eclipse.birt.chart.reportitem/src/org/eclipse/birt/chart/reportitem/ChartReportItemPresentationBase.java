@@ -180,7 +180,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		if ( cm != null && eih.getDataBindingReference( ) != null
 				&& ChartReportItemUtil.isChartHandle( eih.getDataBindingReference( ) ) )
 		{
-			ExtendedItemHandle refHandle = (ExtendedItemHandle) ChartReportItemUtil.getChartReferenceItemHandle( eih );
+			ExtendedItemHandle refHandle = ChartReportItemUtil.getChartReferenceItemHandle( eih );
 			if ( refHandle != null )
 			{
 				ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle  ),

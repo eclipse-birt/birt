@@ -1497,28 +1497,29 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 * @return
 	 * @since 2.5
 	 */
-	public static ReportItemHandle getChartReferenceItemHandle( ReportItemHandle handle )
+	public static ExtendedItemHandle getChartReferenceItemHandle(
+			ReportItemHandle handle )
 	{
-		ReportItemHandle refHandle = handle.getDataBindingReference( ) ;
+		ReportItemHandle refHandle = handle.getDataBindingReference( );
 		if ( refHandle == null || !isChartHandle( refHandle ) )
 		{
 			return null;
 		}
-		
-		return getChartReferenceItemHandleImpl( refHandle );
+
+		return getChartReferenceItemHandleImpl( (ExtendedItemHandle) refHandle );
 	}
 
-	private static ReportItemHandle getChartReferenceItemHandleImpl(
-			ReportItemHandle refHandle )
+	private static ExtendedItemHandle getChartReferenceItemHandleImpl(
+			ExtendedItemHandle chartHandle )
 	{
-		if ( refHandle.getDataBindingReference( ) != null
-				&& isChartHandle( refHandle.getDataBindingReference( ) ) )
+		ReportItemHandle refHandle = chartHandle.getDataBindingReference( );
+		if ( refHandle != null && isChartHandle( refHandle ) )
 		{
-			return getChartReferenceItemHandleImpl( refHandle.getDataBindingReference( ) );
+			return getChartReferenceItemHandleImpl( (ExtendedItemHandle) chartHandle.getDataBindingReference( ) );
 		}
 		else
 		{
-			return refHandle;
+			return chartHandle;
 		}
 	}
 

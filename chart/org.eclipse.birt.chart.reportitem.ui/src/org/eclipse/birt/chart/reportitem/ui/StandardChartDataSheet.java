@@ -1283,7 +1283,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							ChartAdapter.beginIgnoreNotifications( );
 							if ( dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY ))
 							{
-								ExtendedItemHandle refHandle = (ExtendedItemHandle) ChartReportItemUtil.getChartReferenceItemHandle( itemHandle );
+								ExtendedItemHandle refHandle = ChartReportItemUtil.getChartReferenceItemHandle( itemHandle );
 								if ( refHandle != null )
 								{
 									ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
