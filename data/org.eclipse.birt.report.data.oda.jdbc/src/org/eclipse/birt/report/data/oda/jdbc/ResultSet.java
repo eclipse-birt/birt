@@ -350,6 +350,16 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
+			try
+			{
+				Object value = rs.getObject( index );
+				if ( value instanceof BigDecimal )
+					return (BigDecimal) value;
+			}
+			catch ( SQLException e1 )
+			{
+			}
+
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BIGDECIMAL_VALUE,
 					e );
 		}
@@ -370,6 +380,15 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
+			try
+			{
+				Object value = rs.getObject( columnName );
+				if ( value instanceof BigDecimal )
+					return (BigDecimal) value;
+			}
+			catch ( SQLException e1 )
+			{
+			}
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BIGDECIMAL_VALUE,
 					e );
 		}
@@ -534,6 +553,16 @@ public class ResultSet implements IResultSet
 			}
 			catch ( SQLException e2 )
 			{
+				try
+				{
+					Object value = rs.getObject( columnName );
+					if ( value instanceof IBlob )
+						return (IBlob) value;
+				}
+				catch ( SQLException ex )
+				{
+				}
+				
 				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
 						e2 );
 			}
@@ -578,6 +607,16 @@ public class ResultSet implements IResultSet
 			}
 			catch ( SQLException e2 )
 			{
+				try
+				{
+					Object value = rs.getObject( index );
+					if ( value instanceof IBlob )
+						return (IBlob) value;
+				}
+				catch ( SQLException ex )
+				{
+				}
+				
 				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
 						e2 );
 			}
@@ -597,6 +636,16 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
+			try
+			{
+				Object value = rs.getObject( columnName );
+				if ( value instanceof IBlob )
+					return (IClob) value;
+			}
+			catch ( SQLException ex )
+			{
+			}
+			
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
 					e );
 		}
@@ -615,6 +664,16 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
+			try
+			{
+				Object value = rs.getObject( index );
+				if ( value instanceof IBlob )
+					return (IClob) value;
+			}
+			catch ( SQLException ex )
+			{
+			}
+			
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
 					e );
 		}
