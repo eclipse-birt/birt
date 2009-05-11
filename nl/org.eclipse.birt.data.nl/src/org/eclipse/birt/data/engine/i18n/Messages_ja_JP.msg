@@ -1,5 +1,5 @@
 #************************************************************************
-# Copyright (c) 2004, 2008 Actuate Corporation.
+# Copyright (c) 2004, 2009 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -288,6 +288,7 @@ odaconsumer.CannotGetTimestampFromColumn=—ñ {0} ‚©‚çƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚Ì’l‚ğæ“¾‚Å‚«
 odaconsumer.CannotGetClobFromColumn=—ñ {0} ‚©‚ç CLOB ‚Ì’l‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetBlobFromColumn=—ñ {0} ‚©‚ç BLOB ‚Ì’l‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetBooleanFromColumn=—ñ {0} ‚©‚ç˜_—’l‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
+odaconsumer.CannotGetObjectFromColumn=Cannot get the object value from column: {0}.
 odaconsumer.CannotGetRowPosition=Œ»İ‚Ìs‚ÌˆÊ’u‚ğæ“¾‚Å‚«‚Ü‚¹‚ñ
 odaconsumer.CannotCloseResultSet=Œ‹‰ÊƒZƒbƒg‚ğ•Â‚¶‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetParameterCount=ƒpƒ‰ƒƒ^‚Ì”‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
@@ -301,6 +302,7 @@ odaconsumer.CannotGetTimestampFromParameter=ƒpƒ‰ƒƒ^ {0} ‚©‚çƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚Ì’l‚
 odaconsumer.CannotGetBlobFromParameter=ƒpƒ‰ƒƒ^ {0} ‚©‚ç BLOB ‚Ì’l‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetClobFromParameter=ƒpƒ‰ƒƒ^ {0} ‚©‚ç CLOB ‚Ì’l‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetBooleanFromParameter=ƒpƒ‰ƒƒ^ {0} ‚©‚ç ˜_—’l‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
+odaconsumer.CannotGetObjectFromParameter=Cannot get the object value from parameter: {0}.
 odaconsumer.CannotFindInParameter=“ü—Íƒpƒ‰ƒƒ^ {0} ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 odaconsumer.CannotSetIntParameter=ƒpƒ‰ƒƒ^ {1} ‚É‚Í®”‚Ì’l ({0}) ‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotSetDoubleParameter=ƒpƒ‰ƒƒ^ {1} ‚É‚Í”{¸“x‚Ì’l ({0}) ‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
@@ -310,6 +312,7 @@ odaconsumer.CannotSetDateParameter=ƒpƒ‰ƒƒ^ {1} ‚É‚Í“ú•t‚Ì’l ({0}) ‚ğİ’è‚Å‚«‚Ü‚
 odaconsumer.CannotSetTimeParameter=ƒpƒ‰ƒƒ^ {1} ‚É‚ÍŠÔ‚Ì’l ({0}) ‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotSetTimestampParameter=ƒpƒ‰ƒƒ^ {1} ‚É‚Íƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚Ì’l ({0}) ‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotSetBooleanParameter=ƒpƒ‰ƒƒ^ {1} ‚É‚Í˜_—’l ({0}) ‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
+odaconsumer.CannotSetObjectParameter=Cannot set the object value ({0}) to parameter {1}.
 odaconsumer.CannotSetNullParameter=ƒpƒ‰ƒƒ^ {0} ‚É‚Í NULL ’l‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotClearInParameters=“ü—Íƒpƒ‰ƒƒ^‚Ì’l‚ğƒNƒŠƒA‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.UnrecognizedOdaType=ODA ƒf[ƒ^‚ÌŒ^ {0} ‚ğ¯•Ê‚Å‚«‚Ü‚¹‚ñB
@@ -320,6 +323,7 @@ odaconsumer.MustSpecifyColumnName=—ñ‚Ìƒqƒ“ƒg‚ğ’Ç‰Á‚·‚é‚Æ‚«‚ÍA—ñ–¼‚ğw’è‚µ‚Ä‚­‚¾
 odaconsumer.CannotFindLogDirectory=ƒƒOƒfƒBƒŒƒNƒgƒŠ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 odaconsumer.ParameterNames=\n‚±‚Ìƒpƒ‰ƒƒ^‚É‚ÍAƒ‚ƒfƒ‹–¼ ({0}) ‚Æƒhƒ‰ƒCƒo‚Å’è‹`‚³‚ê‚½–¼‘O ({1}) ‚ª•t‚¢‚Ä‚¢‚Ü‚·B
 odaconsumer.InvalidArgument=–³Œø‚Èˆø” ({1}) ‚Åƒƒ\ƒbƒh ({0}) ‚ğŒÄ‚Ño‚µ‚Ü‚µ‚½B
+odaconsumer.CannotSetConnectionLocale=Unable to set connection locale ({0}).
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=executeQuery() ‚ğŒÄ‚Ño‚µ‚½Œã‚ÍAŒ‹‰ÊƒZƒbƒg‚ğ–¼‘O‚Åæ“¾‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.manager.CannotSetParamBeforePrepare=•¶‚ğ‹Lq‚·‚é‘O‚Í“ü—Íƒpƒ‰ƒƒ^‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
@@ -401,7 +405,7 @@ data.executor.configFileParser.getParametersByID=İ’èƒtƒ@ƒCƒ‹‚Åw’è‚µ‚½ƒf[ƒ^ƒZƒ
 
 data.aggregation.expression.displayName=®
 data.aggregation.argumentError=WŒv \"{1}\" ‚Ìˆø”® \"{0}\" ‚ª null ‚Ü‚½‚Í‹ó”’‚Å‚·B
-data.olap.InvalidAggrTypeOnMeasure=ƒLƒ…[ƒu‚ÌƒƒWƒƒ[‚É‘Î‚·‚éWŒv‚Å‚Í‚±‚ÌŒ^‚Íg—p‚Å‚«‚Ü‚¹‚ñ : "{0}"
+data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can not be such type: "{0}".
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=—ñ–¼ \"{0}\" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB

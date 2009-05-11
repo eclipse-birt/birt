@@ -1,5 +1,5 @@
 #************************************************************************
-# Copyright (c) 2004, 2008 Actuate Corporation.
+# Copyright (c) 2004, 2009 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -288,6 +288,7 @@ odaconsumer.CannotGetTimestampFromColumn=Timestamp-Wert aus Spalte kann nicht ab
 odaconsumer.CannotGetClobFromColumn=CLOB-Wert aus Spalte kann nicht abgerufen werden: {0}.
 odaconsumer.CannotGetBlobFromColumn=BLOB-Wert aus Spalte kann nicht abgerufen werden: {0}.
 odaconsumer.CannotGetBooleanFromColumn=Boolescher Wert aus Spalte kann nicht abgerufen werden: {0}.
+odaconsumer.CannotGetObjectFromColumn=Cannot get the object value from column: {0}.
 odaconsumer.CannotGetRowPosition=Aktuelle Spaltenposition kann nicht abgerufen werden.
 odaconsumer.CannotCloseResultSet=Ergebnis kann nicht geschlossen werden.
 odaconsumer.CannotGetParameterCount=Parameteranzahl kann nicht abgerufen werden.
@@ -301,6 +302,7 @@ odaconsumer.CannotGetTimestampFromParameter=Timestamp-Wert aus Parameter kann ni
 odaconsumer.CannotGetBlobFromParameter=BLOB-Wert aus Parameter kann nicht abgerufen werden: {0}.
 odaconsumer.CannotGetClobFromParameter=CLOB-Wert aus Parameter kann nicht abgerufen werden: {0}.
 odaconsumer.CannotGetBooleanFromParameter=Boolescher Wert aus Parameter kann nicht abgerufen werden: {0}.
+odaconsumer.CannotGetObjectFromParameter=Cannot get the object value from parameter: {0}.
 odaconsumer.CannotFindInParameter=Eingabeparameter kann nicht gefunden werden: {0}.
 odaconsumer.CannotSetIntParameter=Ganzzahlwert ({0}) kann nicht auf Parameter {1} festgelegt werden.
 odaconsumer.CannotSetDoubleParameter=Doppelwert ({0}) kann nicht auf Parameter {1} festgelegt werden.
@@ -310,6 +312,7 @@ odaconsumer.CannotSetDateParameter=Datumswert ({0}) kann nicht auf Parameter {1}
 odaconsumer.CannotSetTimeParameter=Zeitwert ({0}) kann nicht auf Parameter {1} festgelegt werden.
 odaconsumer.CannotSetTimestampParameter=Timestamp-Wert ({0}) kann nicht auf Parameter {1} festgelegt werden.
 odaconsumer.CannotSetBooleanParameter=Boolescher Wert ({0}) kann nicht auf Parameter {1} festgelegt werden.
+odaconsumer.CannotSetObjectParameter=Cannot set the object value ({0}) to parameter {1}.
 odaconsumer.CannotSetNullParameter=Nullwert kann nicht auf Parameter {0} festgelegt werden.
 odaconsumer.CannotClearInParameters=Eingabeparameterwerte können nicht gelöscht werden.
 odaconsumer.UnrecognizedOdaType=Nicht erkannter ODA-Datentyp: {0}
@@ -320,6 +323,7 @@ odaconsumer.MustSpecifyColumnName=Beim Hinzufügen eines Spaltenhinweises muss ei
 odaconsumer.CannotFindLogDirectory=Protokollverzeichnis kann nicht gefunden werden.
 odaconsumer.ParameterNames=\nParameter mit Modellnamen ({0}) und über den Treiber definierten Namen ({1}) definiert.
 odaconsumer.InvalidArgument=Die Methode ({0}) wurde mit einem ungültigen Argument ({1}) aufgerufen.
+odaconsumer.CannotSetConnectionLocale=Unable to set connection locale ({0}).
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=Nach Aufruf von executeQuery() können Ergebnisse nicht nach Namen abgerufen werden.
 odaconsumer.manager.CannotSetParamBeforePrepare=Die Eingabeparameter können erst nach Vorbereitung der Anweisung eingestellt werden.
@@ -401,7 +405,7 @@ data.executor.configFileParser.getParametersByID=Der Parameter konnte anhand des
 
 data.aggregation.expression.displayName=Ausdruck
 data.aggregation.argumentError=Der Ausdruck des Arguments \"{0}\" für Aggregat \"{1}\" ist Null oder leer.
-data.olap.InvalidAggrTypeOnMeasure=Ungültiger Typ für Aggregat in Quadereinheit: '{0}'.
+data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can not be such type: "{0}".
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=Der Spaltenname '{0}' ist nicht vorhanden.
