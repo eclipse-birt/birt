@@ -452,6 +452,10 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	 */
 	public void setDefaultEmitter( String format, String emitterId )
 	{
+		if ( format != null )
+		{
+			format = format.toLowerCase( );
+		}
 		defaultEmitterIdsOfFormats.put( format, emitterId );
 	}
 
@@ -465,6 +469,10 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	 */
 	public String getDefaultEmitter( String format )
 	{
+		if ( format != null )
+		{
+			format = format.toLowerCase( );
+		}
 		return defaultEmitterIdsOfFormats.get( format );
 	}
 	

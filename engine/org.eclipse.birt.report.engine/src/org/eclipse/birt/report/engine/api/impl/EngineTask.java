@@ -1626,7 +1626,7 @@ public abstract class EngineTask implements IEngineTask
 				{
 					renderOptions.setOutputFormat( formatOfEmitter );
 				}
-				else if ( !format.equals( formatOfEmitter ) )
+				else if ( !format.equalsIgnoreCase( formatOfEmitter ) )
 				{
 					throw new EngineException( MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
 				}
