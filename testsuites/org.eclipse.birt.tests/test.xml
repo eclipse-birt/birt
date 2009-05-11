@@ -10,6 +10,15 @@
 		</ant>
 	</target>
 	
+	<target name="runbirtUItests">
+			<ant target="ui-test" antfile="${library-file}" dir="${eclipse-home}">
+				<property name="data-dir" value="${junittempfolder}"/>
+				<property name="plugin-name" value="${plugin-name}"/>
+				<property name="classname" value="${classname}"/>
+				<property name="useEclipseExe" value="true"/>
+			</ant>
+	</target>
+	
 	<target name="runbirtviewertests">
 		<ant target="core-test" antfile="${library-file}" dir="${eclipse-home}">
 			<property name="catalina_home" value="${catalina_home}"/>
