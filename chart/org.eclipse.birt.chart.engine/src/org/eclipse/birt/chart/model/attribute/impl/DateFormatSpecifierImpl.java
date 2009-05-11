@@ -13,13 +13,11 @@ package org.eclipse.birt.chart.model.attribute.impl;
 
 import java.util.Locale;
 
-import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.DateFormatType;
-import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -161,12 +159,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	 */
 	private final int getJavaType( ) throws ChartException
 	{
-		if ( !isSetType( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.UNDEFINED_VALUE,
-					Messages.getString( "error.type.not.set" ) ); //$NON-NLS-1$
-		}
 		switch ( getType( ).getValue( ) )
 		{
 			case DateFormatType.SHORT :

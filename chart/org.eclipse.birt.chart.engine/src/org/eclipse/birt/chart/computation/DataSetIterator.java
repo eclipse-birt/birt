@@ -678,4 +678,23 @@ public final class DataSetIterator implements Iterator
 			}
 		}
 	}
+
+	/**
+	 * Skips the next iCount rows
+	 * 
+	 * @param iCount
+	 * @return number of actually skipped rows
+	 */
+	public int skip( int iCount )
+	{
+		int iSkipped = 0;
+
+		while ( iCount-- > 0 && hasNext( ) )
+		{
+			next( );
+			iSkipped++;
+		}
+
+		return iSkipped;
+	}
 }

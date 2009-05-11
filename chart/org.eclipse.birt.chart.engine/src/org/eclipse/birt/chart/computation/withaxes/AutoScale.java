@@ -1612,7 +1612,6 @@ public final class AutoScale extends Methods implements Cloneable
 				xs );
 	}
 
-
 	/**
 	 * Calculates visibility for axis labels.
 	 * 
@@ -1672,14 +1671,27 @@ public final class AutoScale extends Methods implements Cloneable
 
 		double dStep = Math.abs( atcTickCoordinates.getStep( ) * dZoomFactor );
 		int indexStep = dStep > 1 ? 1 : (int) ( 1d / dStep );
+		int iSkip = indexStep - 1;
 
 		for ( int i = start_id; i < atcTickCoordinates.size( ) - 1; i += indexStep )
 		{
 			Object oValue = null;
 
+			if ( iSkip > 0 )
+			{
+				if ( dsi.skip( iSkip ) < iSkip )
+				{
+					break;
+				}
+			}
+
 			if ( dsi.hasNext( ) )
 			{
 				oValue = dsi.next( );
+			}
+			else
+			{
+				break;
 			}
 
 			// only check visible labels.
