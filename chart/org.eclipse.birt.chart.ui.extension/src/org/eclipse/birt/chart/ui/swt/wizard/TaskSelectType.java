@@ -1047,7 +1047,6 @@ public class TaskSelectType extends SimpleTask implements
 			ChartCacheManager.getInstance( )
 					.cacheSeriesType( cbSeriesType.getText( ) );
 		}
-		boolean bException = false;
 		try
 		{
 			// CHANGE ALL OVERLAY SERIES TO NEW SELECTED TYPE
@@ -1081,21 +1080,17 @@ public class TaskSelectType extends SimpleTask implements
 					ChartUIUtil.setSeriesName( chartModel );
 				}
 			}
+			ChartWizard.removeException( ChartWizard.TaskSelType_chOvST_ID );
 		}
 		catch ( Exception e )
 		{
-			bException = true;
-			WizardBase.showException( e.getLocalizedMessage( ) );
+			ChartWizard.showException( ChartWizard.TaskSelType_chOvST_ID,
+					e.getLocalizedMessage( ) );
 		}
 		finally
 		{
 			// ENABLE NOTIFICATIONS IN CASE EXCEPTIONS OCCUR
 			ChartAdapter.endIgnoreNotifications( );
-		}
-
-		if ( !bException )
-		{
-			WizardBase.removeException( );
 		}
 	}
 
@@ -1342,7 +1337,6 @@ public class TaskSelectType extends SimpleTask implements
 		// DISABLE PREVIEW REFRESH DURING CONVERSION
 		ChartAdapter.beginIgnoreNotifications( );
 		IChartType chartType = htTypes.get( sType );
-		boolean bException = false;
 		try
 		{
 			chartModel = chartType.getModel( sSubType,
@@ -1354,15 +1348,12 @@ public class TaskSelectType extends SimpleTask implements
 			( (ChartWizardContext) context ).setChartType( chartType );
 			
 			updateAdapters( );
+			ChartWizard.removeException( ChartWizard.TaskSelType_refreCh_ID );
 		}
 		catch ( Exception e )
 		{
-			bException = true;
-			WizardBase.showException( e.getLocalizedMessage( ) );
-		}
-		if ( !bException )
-		{
-			WizardBase.removeException( );
+			ChartWizard.showException( ChartWizard.TaskSelType_refreCh_ID,
+					e.getLocalizedMessage( ) );
 		}
 
 		// RE-ENABLE PREVIEW REFRESH
@@ -1597,10 +1588,12 @@ public class TaskSelectType extends SimpleTask implements
 						aggFunc = ChartUtil.getAggregateFuncExpr( orthSD,
 								baseSD,
 								query );
+						ChartWizard.removeException( ChartWizard.PluginSet_getAggF_ID );
 					}
 					catch ( ChartException e )
 					{
-						WizardBase.showException( e.getLocalizedMessage( ) );
+						ChartWizard.showException( ChartWizard.PluginSet_getAggF_ID,
+								e.getLocalizedMessage( ) );
 					}
 
 					if ( baseSD != null )
@@ -1639,10 +1632,14 @@ public class TaskSelectType extends SimpleTask implements
 				{
 					provider.validateSeriesBindingType( series,
 							getDataServiceProvider( ) );
+					ChartWizard.removeException( ChartWizard.CheckSeriesBindingType_ID
+							+ series.eContainer( ).hashCode( ) );
 				}
 				catch ( ChartException ce )
 				{
-					WizardBase.showException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
+					ChartWizard.showException( ChartWizard.CheckSeriesBindingType_ID
+							+ series.eContainer( ).hashCode( ),
+							Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$ 
 							new String[]{
 									ce.getLocalizedMessage( ),
 									series.getDisplayName( )

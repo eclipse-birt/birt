@@ -46,6 +46,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -53,7 +54,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.PluginSettings;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -241,7 +241,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	{
 		// Populate DataPoint Components List
 		String[] componentsDisplayName = LiteralHelper.dataPointComponentTypeSet.getDisplayNames( );
-		boolean bException = false;
 		try
 		{
 			mapDataPointNames.clear( );
@@ -261,15 +260,12 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				componentsDisplayName = concatenateArrays( dpTypeDisplay,
 						componentsDisplayName );
 			}
+			ChartWizard.removeException( ChartWizard.PluginSet_getDPDef_ID );
 		}
 		catch ( ChartException e )
 		{
-			bException = true;
-			WizardBase.showException( e.getLocalizedMessage( ) );
-		}
-		if ( !bException )
-		{
-			WizardBase.removeException( );
+			ChartWizard.showException( ChartWizard.PluginSet_getDPDef_ID,
+					e.getLocalizedMessage( ) );
 		}
 		cmbComponentTypes.setItems( componentsDisplayName );
 		cmbComponentTypes.select( 0 );

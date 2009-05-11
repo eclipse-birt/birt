@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -334,10 +335,12 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 		try
 		{
 			DEUtil.addColumn( inputElement, column, true );
+			ChartWizard.removeException( ChartWizard.ChartColBinDia_ID );
 		}
 		catch ( SemanticException e )
 		{
-			WizardBase.showException( e.getLocalizedMessage( ) );
+			ChartWizard.showException( ChartWizard.ChartColBinDia_ID,
+					e.getLocalizedMessage( ) );
 		}
 	}
 

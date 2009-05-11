@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.render.MarkerRenderer;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -331,20 +332,15 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				null,
 				false,
 				false );
-		boolean bException = false;
 		try
 		{
 			mr.draw( idrSWT );
+			ChartWizard.removeException( ChartWizard.MarkerEdiCom_ID );
 		}
 		catch ( ChartException ex )
 		{
-			bException = true;
-			WizardBase.showException( ex.getLocalizedMessage( ) );
-		}
-
-		if ( !bException )
-		{
-			WizardBase.removeException( );
+			ChartWizard.showException( ChartWizard.MarkerEdiCom_ID,
+					ex.getLocalizedMessage( ) );
 		}
 
 		// Render a boundary line to indicate focus

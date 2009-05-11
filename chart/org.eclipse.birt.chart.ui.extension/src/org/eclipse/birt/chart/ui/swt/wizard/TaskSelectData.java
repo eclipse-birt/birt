@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -52,7 +51,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -138,12 +136,11 @@ public class TaskSelectData extends SimpleTask implements
 			customizeUI( );
 		}
 		resize( );
-		List<String> errorMsgs = null;
 		if ( getChartModel( ) instanceof ChartWithAxes )
 		{
-			errorMsgs = checkDataTypeForChartWithAxes( );
+			checkDataTypeForChartWithAxes( );
 		}
-		doPreview( errorMsgs );
+		doPreview( );
 		// Refresh all data definition text
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
 		ChartUIUtil.checkGroupType( (ChartWizardContext) getContext( ),
@@ -475,13 +472,20 @@ public class TaskSelectData extends SimpleTask implements
 				return;
 			}
 
-			List<String> errorMsgs = new ArrayList<String>( 2 );
+			// if remove the seriesDefition, remove the error messages
+			// associated to it
+			if ( notification.getEventType( ) == Notification.REMOVE
+					&& notification.getNotifier( ) instanceof Axis )
+			{
+				ChartWizard.removeAllExceptions( "" + notification.getOldValue( ) //$NON-NLS-1$
+						.hashCode( ) );
+			}
+
 			// Only data definition query (not group query) will be validated
 			if ( ( notification.getNotifier( ) instanceof Query && ( (Query) notification.getNotifier( ) ).eContainer( ) instanceof Series ) )
 			{
 				Query query = (Query) notification.getNotifier( );
-				errorMsgs.addAll( checkDataType( query,
-						(Series) query.eContainer( ) ) );
+				checkDataType( query, (Series) query.eContainer( ) );
 				
 				// add default category grouping for data set binding
 				if ( !( ( (ChartWizardContext) getContext( ) ).getChartType( ) instanceof GanttChart )
@@ -544,7 +548,7 @@ public class TaskSelectData extends SimpleTask implements
 			if ( notification.getNotifier( ) instanceof SeriesDefinition
 					&& getChartModel( ) instanceof ChartWithAxes )
 			{
-				errorMsgs.addAll( checkDataTypeForChartWithAxes( ) );
+				checkDataTypeForChartWithAxes( );
 			}
 
 			// In old logic, the following statements are used to disable
@@ -563,7 +567,7 @@ public class TaskSelectData extends SimpleTask implements
 					|| notification.getNotifier( ) instanceof SeriesDefinition
 					|| notification.getNotifier( ) instanceof SeriesGrouping )
 			{
-				doPreview( errorMsgs );
+				doPreview( );
 			}
 			else if ( ChartPreviewPainterBase.isLivePreviewActive( ) )
 			{
@@ -571,19 +575,17 @@ public class TaskSelectData extends SimpleTask implements
 				ChartUIUtil.syncRuntimeSeries( getChartModel( ) );
 				ChartAdapter.endIgnoreNotifications( );
 
-				doPreview( errorMsgs );
+				doPreview( );
 			}
 			else
 			{
-				doPreview( errorMsgs );
+				doPreview( );
 			}
 		}
 	}
 
-	private List<String> checkDataType( Query query, Series series )
+	private void checkDataType( Query query, Series series )
 	{
-		List<String> errorMsgs = new ArrayList<String>( 2 );
-
 		String expression = query.getDefinition( );
 
 		Axis axis = null;
@@ -617,25 +619,18 @@ public class TaskSelectData extends SimpleTask implements
 					SeriesDefinition orthSD = null;
 					orthSD = (SeriesDefinition) series.eContainer( );
 
-					boolean hasException = false;
 					String aggFunc = null;
 					try
 					{
 						aggFunc = ChartUtil.getAggregateFuncExpr( orthSD,
 								baseSD,
 								query );
+						ChartWizard.removeException( ChartWizard.PluginSet_getAggF_ID );
 					}
 					catch ( ChartException e )
 					{
-						hasException = true;
-						WizardBase.showException( e.getLocalizedMessage( ) );
-						errorMsgs.add( e.getLocalizedMessage( ) );
-					}
-
-					if ( !hasException )
-					{
-
-						WizardBase.removeException( );
+						ChartWizard.showException( ChartWizard.PluginSet_getAggF_ID,
+								e.getLocalizedMessage( ) );
 					}
 
 					if ( baseSD != orthSD && baseSD.eContainer( ) != axis // Is
@@ -686,34 +681,27 @@ public class TaskSelectData extends SimpleTask implements
 
 				}
 
-				boolean bException = false;
 				try
 				{
 					provider.validateSeriesBindingType( series,
 							getDataServiceProvider( ) );
+					ChartWizard.removeException( ChartWizard.CheckSeriesBindingType_ID
+							+ series.eContainer( ).hashCode( ) );
 				}
 				catch ( ChartException ce )
 				{
-					bException = true;
-					String errMsg = Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
+					ChartWizard.showException( ChartWizard.CheckSeriesBindingType_ID
+							+ series.eContainer( ).hashCode( ),
+							Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
 							new String[]{
 									ce.getLocalizedMessage( ),
 									series.getDisplayName( )
-							} );
-					WizardBase.showException( errMsg );
-					errorMsgs.add( errMsg );
-				}
-
-				if ( !bException )
-				{
-					WizardBase.removeException( );
+									} ) );
 				}
 
 				break;
 			}
 		}
-
-		return errorMsgs;
 	}
 
 	private boolean isValidatedAxis( DataType dataType, AxisType axisType )
@@ -831,19 +819,15 @@ public class TaskSelectData extends SimpleTask implements
 		}
 	}
 
-	private List<String> checkDataTypeForChartWithAxes( )
+	private void checkDataTypeForChartWithAxes( )
 	{
-		List<String> errorMsgs = new ArrayList<String>( 2 );
 		List<SeriesDefinition> osds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChartModel( ) );
 		for ( int i = 0; i < osds.size( ); i++ )
 		{
 			SeriesDefinition sd = osds.get( i );
 			Series series = sd.getDesignTimeSeries( );
-			errorMsgs.addAll( checkDataType( ChartUIUtil.getDataQuery( sd, 0 ),
-					series ) );
+			checkDataType( ChartUIUtil.getDataQuery( sd, 0 ), series );
 		}
-
-		return errorMsgs;
 	}
 
 	/*
@@ -859,32 +843,6 @@ public class TaskSelectData extends SimpleTask implements
 	private IChartDataSheet getDataSheet( )
 	{
 		return ( (ChartWizardContext) getContext( ) ).getDataSheet( );
-	}
-
-	/**
-	 * Do chart preview.
-	 * 
-	 * @param errorMsgs
-	 */
-	protected void doPreview( List<String> errorMsgs )
-	{
-		List<String> msgs = ChartUIUtil.prepareLivePreview( getChartModel( ),
-				getDataServiceProvider( ) );
-		if ( errorMsgs != null )
-		{
-			msgs.addAll( 0, errorMsgs );
-		}
-
-		if ( msgs.size( ) > 0 )
-		{
-			WizardBase.showException( msgs.get( 0 ) );
-		}
-		else
-		{
-			WizardBase.removeException( );
-		}
-
-		previewPainter.renderModel( getChartModel( ) );
 	}
 
 	public void doPreview( )

@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.ui.swt.type.BubbleChart;
 import org.eclipse.birt.chart.ui.swt.type.PieChart;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesPaletteSheet;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
@@ -43,7 +44,6 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -574,7 +574,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		private Series getNewSeries( String sSeriesName, final Series oldSeries )
 		{
-			boolean bException = false;
 			try
 			{
 				// Cache old series
@@ -591,16 +590,13 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					ChartUIUtil.copyGeneralSeriesAttributes( oldSeries, series );
 					ChartAdapter.endIgnoreNotifications( );
 				}
+				ChartWizard.removeException( ChartWizard.SeriesShImpl_ID );
 				return series;
 			}
 			catch ( Exception e )
 			{
-				bException = true;
-				WizardBase.showException( e.getLocalizedMessage( ) );
-			}
-			if ( !bException )
-			{
-				WizardBase.removeException( );
+				ChartWizard.showException( ChartWizard.SeriesShImpl_ID,
+						e.getLocalizedMessage( ) );
 			}
 			return null;
 		}

@@ -912,14 +912,19 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				{
 					// Can't select expressions of one dimension to set
 					// on category series and Y optional at one time.
-					WizardBase.showException( Messages.getString( "BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden" ) ); //$NON-NLS-1$
+
+					// did not show the warning since its logic is different
+					// from others
+					// ChartWizard.showException( ChartWizard.BaseDataDefCom_ID,
+					//	Messages.getString( "BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden" ) ); //$NON-NLS-1$ 
 					setUIText( getInputControl( ), oldQuery );
 					return;
 				}
-				else
-				{
-					WizardBase.removeException( );
-				}
+				// else
+				// {
+				// ChartWizard.removeException(
+				// ChartWizard.BaseDataDefCom_ID );
+				// }
 			}
 		}
 

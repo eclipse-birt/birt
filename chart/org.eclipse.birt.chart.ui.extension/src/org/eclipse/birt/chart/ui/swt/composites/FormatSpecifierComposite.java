@@ -602,10 +602,12 @@ public class FormatSpecifierComposite extends Composite
 		try
 		{
 			fsp.updatePreview( getFormatSpecifier( ) );
+			ChartWizard.removeException( ChartWizard.FormatSpeciCom_ID );
 		}
 		catch ( IllegalArgumentException e )
 		{
-			ChartWizard.showException( e.getMessage( ) );
+			ChartWizard.showException( ChartWizard.FormatSpeciCom_ID,
+					e.getMessage( ) );
 			hasException = true;
 		}
 

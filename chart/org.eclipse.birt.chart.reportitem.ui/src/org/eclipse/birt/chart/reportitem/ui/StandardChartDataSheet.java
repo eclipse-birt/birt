@@ -47,6 +47,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -683,7 +684,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 				getContext().setShowingDataPreview( Boolean.FALSE );
 			}
-			
+			ChartWizard.removeException( ChartWizard.StaChartDSh_gHeaders_ID );
 		}
 		catch ( NullPointerException e )
 		{
@@ -691,7 +692,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 		catch ( ChartException e )
 		{
-			WizardBase.showException( e.getMessage( ) );
+			ChartWizard.showException( ChartWizard.StaChartDSh_gHeaders_ID,
+					e.getMessage( ) );
 		}
 
 		btnShowDataPreviewA.setSelection( getContext().isShowingDataPreview( ) );
@@ -725,8 +727,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			refreshColumnsListView( );
 		}
 	}
-
-	private String errorMsg = null;
 
 	/**
 	 * 
@@ -773,11 +773,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						public void run( )
 						{
 							updateColumnsTableViewer( headerInfo, data );
-							if ( errorMsg != null
-									&& errorMsg.equals( WizardBase.getErrors( ) ) )
-							{
-								WizardBase.removeException( );
-							}
+							ChartWizard.removeException( ChartWizard.StaChartDSh_dPreview_ID );
 						}
 
 					} );
@@ -788,7 +784,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					final List<?> data = dataList;
 
 					// Catch any exception.
-					errorMsg = e.getMessage( );
+					final String message = e.getLocalizedMessage( );
 					Display.getDefault( ).syncExec( new Runnable( ) {
 
 						/*
@@ -800,7 +796,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						{
 
 							updateColumnsTableViewer( headerInfo, data );
-							WizardBase.showException( errorMsg );
+							ChartWizard.showException( ChartWizard.StaChartDSh_dPreview_ID,
+									message );
 						}
 					} );
 				}
@@ -1355,10 +1352,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					getContext().setShowingDataPreview( Boolean.valueOf( w.getSelection( ) ) );
 					updateDragDataSource( );
 				}
+				ChartWizard.removeException( ChartWizard.StaChartDSh_switch_ID );
 			}
 			catch ( ChartException e1 )
 			{
-				WizardBase.showException( e1.getLocalizedMessage( ) );
+				ChartWizard.showException( ChartWizard.StaChartDSh_switch_ID,
+						e1.getLocalizedMessage( ) );
 			}
 		}
 	}
@@ -1519,11 +1518,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						public void run( )
 						{
 							updateTablePreview( headerInfo, data );
-							if ( errorMsg != null
-									&& errorMsg.equals( WizardBase.getErrors( ) ) )
-							{
-								WizardBase.removeException( );
-							}
+							ChartWizard.removeException( ChartWizard.StaChartDSh_dPreview_ID );
 						}
 					} );
 				}
@@ -1533,7 +1528,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					final List<?> data = dataList;
 
 					// Catch any exception.
-					errorMsg = e.getMessage( );
+					final String message = e.getMessage( );
 					Display.getDefault( ).syncExec( new Runnable( ) {
 
 						/*
@@ -1549,7 +1544,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							// even if there is no preview data.
 							updateTablePreview( headerInfo, data );
 
-							WizardBase.showException( errorMsg );
+							ChartWizard.showException( ChartWizard.StaChartDSh_dPreview_ID,
+									message );
 						}
 					} );
 				}

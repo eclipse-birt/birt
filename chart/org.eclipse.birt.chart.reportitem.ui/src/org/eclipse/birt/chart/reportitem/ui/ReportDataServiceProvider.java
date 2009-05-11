@@ -46,6 +46,7 @@ import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -54,7 +55,6 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -226,10 +226,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					generateBindings( generateComputedColumns( cubeHandle ) );
 				}
 			}
+			ChartWizard.removeException( ChartWizard.RepDSProvider_Cube_ID );
 		}
 		catch ( SemanticException e )
 		{
-			WizardBase.showException( e.getLocalizedMessage( ) );
+			ChartWizard.showException( ChartWizard.RepDSProvider_Cube_ID,
+					e.getLocalizedMessage( ) );
 		}
 	}
 
@@ -645,10 +647,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					generateBindings( generateComputedColumns( dataset ) );
 				}
 			}
+			ChartWizard.removeException( ChartWizard.RepDSProvider_Set_ID );
 		}
 		catch ( SemanticException e )
 		{
-			WizardBase.showException( e.getLocalizedMessage( ) );
+			ChartWizard.showException( ChartWizard.RepDSProvider_Set_ID,
+					e.getLocalizedMessage( ) );
 		}
 	}
 
@@ -909,10 +913,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				itemHandle.setStyle( getStyle( styleName ) );
 			}
+			ChartWizard.removeException( ChartWizard.RepDSProvider_Style_ID );
 		}
 		catch ( SemanticException e )
 		{
-			WizardBase.showException( e.getLocalizedMessage( ) );
+			ChartWizard.showException( ChartWizard.RepDSProvider_Style_ID,
+					e.getLocalizedMessage( ) );
 		}
 	}
 
@@ -1166,10 +1172,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					// generateBindings( );
 				}
 			}
+			ChartWizard.removeException( ChartWizard.RepDSProvider_Ref_ID );
 		}
 		catch ( SemanticException e )
 		{
-			WizardBase.showException( e.getLocalizedMessage( ) );
+			ChartWizard.showException( ChartWizard.RepDSProvider_Ref_ID,
+					e.getLocalizedMessage( ) );
 		}
 	}
 

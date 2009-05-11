@@ -68,13 +68,13 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -1603,7 +1603,12 @@ public class ChartUIUtil
 		}
 		if ( cGroupWarning.length( ) != 0 || yGroupWarning.length( ) != 0 )
 		{
-			WizardBase.showException( cGroupWarning + yGroupWarning );
+			ChartWizard.showException( ChartWizard.ChartUIUtil_cGType_ID,
+					cGroupWarning + yGroupWarning );
+		}
+		else
+		{
+			ChartWizard.removeException( ChartWizard.ChartUIUtil_cGType_ID );
 		}
 	}
 
@@ -1621,6 +1626,23 @@ public class ChartUIUtil
 	public static boolean isValidAggregation( ChartWizardContext context,
 			SeriesGrouping grouping, boolean isCategoryGrouping )
 	{
+		String id;
+		if ( isCategoryGrouping )
+		{
+			id = ChartWizard.Gatt_aggCheck_ID
+				+ isCategoryGrouping;
+		}
+		else
+		{
+			Query query = (Query) grouping.eContainer( );
+			Series series = (Series) query.eContainer( );
+			// the error contains the prefix, the series definition's hash code
+			// and the query index.
+			id = ChartWizard.Gatt_aggCheck_ID
+					+ series.eContainer( ).hashCode( )
+					+ series.getDataDefinition( ).indexOf( query );
+		}
+		ChartWizard.removeException( id );
 		if ( context == null || grouping == null )
 		{
 			return true;
@@ -1648,7 +1670,12 @@ public class ChartUIUtil
 			{
 				aggPlace = Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.ValueSeriesAggregate" ); //$NON-NLS-1$
 			}
-			WizardBase.showException( Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.GanttChart" ) + aggName + Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAggAs" ) + aggPlace + Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.Aggregation" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			ChartWizard.showException( id,
+					Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.GanttChart" )//$NON-NLS-1$
+							+ aggName
+							+ Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAggAs" )//$NON-NLS-1$
+							+ aggPlace
+							+ Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.Aggregation" ) );//$NON-NLS-1$
 
 			return false;
 		}
@@ -1727,10 +1754,10 @@ public class ChartUIUtil
 	 * @param dataServiceProvider
 	 * @since BIRT 2.3
 	 */
-	public static List<String> prepareLivePreview( Chart cm,
+	public static void prepareLivePreview( Chart cm,
 			IDataServiceProvider dataServiceProvider )
 	{
-		return prepareLivePreview( cm, dataServiceProvider, null );
+		prepareLivePreview( cm, dataServiceProvider, null );
 	}
 
 	/**
@@ -1740,10 +1767,9 @@ public class ChartUIUtil
 	 * @param dataServiceProvider
 	 * @since BIRT 2.3
 	 */
-	public static List<String> prepareLivePreview( Chart cm,
+	public static void prepareLivePreview( Chart cm,
 			IDataServiceProvider dataServiceProvider, IActionEvaluator iae )
 	{
-		List<String> errorMsgs = new ArrayList<String>( 2 );
 		if ( dataServiceProvider.isLivePreviewEnabled( )
 				&& ChartUIUtil.checkDataBinding( cm ) )
 		{
@@ -1751,7 +1777,7 @@ public class ChartUIUtil
 			ChartPreviewPainterBase.activateLivePreview( true );
 			// Make sure not affect model changed
 			ChartAdapter.beginIgnoreNotifications( );
-			boolean hasOtherException = false;
+			boolean bException = false;
 
 			try
 			{
@@ -1774,15 +1800,15 @@ public class ChartUIUtil
 
 				if ( !isZeroDataset )
 				{
-					hasOtherException = true;
+					bException = true;
 					ChartPreviewPainterBase.activateLivePreview( false );
-					WizardBase.showException( e.getLocalizedMessage( ) );
-					errorMsgs.add( e.getLocalizedMessage( ) );
+					ChartWizard.showException( ChartWizard.ChartUIUtil_pLiPreview_ID,
+							e.getLocalizedMessage( ) );
 				}
 			}
-			if ( !hasOtherException )
+			if ( !bException )
 			{
-				WizardBase.removeException( );
+				ChartWizard.removeException( ChartWizard.ChartUIUtil_pLiPreview_ID );
 			}
 			ChartAdapter.endIgnoreNotifications( );
 		}
@@ -1790,9 +1816,10 @@ public class ChartUIUtil
 		{
 			// Disable live preview
 			ChartPreviewPainterBase.activateLivePreview( false );
+			// remove the error message
+			ChartWizard.removeException( ChartWizard.ChartUIUtil_pLiPreview_ID );
 		}
 
-		return errorMsgs;
 	}
 
 	public static String getText( Control control )

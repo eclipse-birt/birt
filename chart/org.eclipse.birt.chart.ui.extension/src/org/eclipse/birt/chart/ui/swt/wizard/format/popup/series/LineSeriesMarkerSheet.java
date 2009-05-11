@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.render.MarkerRenderer;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.MarkerEditorComposite;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -192,7 +193,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 
 		// This control needs to be repainted by gc
 		currentMarkerEditor = new MarkerEditorComposite( cnvMarkers,
-				(Marker)getMarkers().get( 0 ) );
+				getMarkers( ).get( 0 ) );
 		{
 			currentMarkerEditor.setBounds( 0,
 					0,
@@ -338,7 +339,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 			}
 
 			getMarkers( ).remove( currentMarkerEditor.getMarker( ) );
-			currentMarkerEditor.setMarker( (Marker) getMarkers( ).get( iSelectedIndex ) );
+			currentMarkerEditor.setMarker( getMarkers( ).get( iSelectedIndex ) );
 
 			cnvMarkers.redraw( );
 			updateScrollBar( );
@@ -401,14 +402,13 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 				continue;
 			}
 
-			paintMarker( gc,
-					(Marker) getMarkers( ).get( i ),
+			paintMarker( gc, getMarkers( ).get( i ),
 					LocationImpl.create( x + MARKER_BLOCK_WIDTH / 2, y
 							+ MARKER_BLOCK_HEIGHT / 2 ) );
 
 			if ( i == iSelectedIndex )
 			{
-				currentMarkerEditor.setMarker( (Marker) getMarkers( ).get( i ) );
+				currentMarkerEditor.setMarker( getMarkers( ).get( i ) );
 				currentMarkerEditor.setLocation( x + 8, y );
 			}
 
@@ -452,24 +452,19 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 				null,
 				false,
 				false );
-		boolean bException = false;
 		try
 		{
 			mr.draw( idrSWT );
+			ChartWizard.removeException( ChartWizard.LineSMarkerSh_ID );
 		}
 		catch ( ChartException ex )
 		{
-			bException = true;
-			WizardBase.showException( ex.getLocalizedMessage( ) );
-		}
-
-		if ( !bException )
-		{
-			WizardBase.removeException( );
+			ChartWizard.showException( ChartWizard.LineSMarkerSh_ID,
+					ex.getLocalizedMessage( ) );
 		}
 	}
 
-	private EList getMarkers( )
+	private EList<Marker> getMarkers( )
 	{
 		if ( bPositive )
 		{

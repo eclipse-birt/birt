@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -39,9 +41,36 @@ import org.eclipse.swt.widgets.Shell;
 public class ChartWizard extends WizardBase
 {
 
+	public static final String PreviewPainter_ID = "ChartPreviewPainter"; //$NON-NLS-1$
+	public static final String RepDSProvider_Cube_ID = "ReportDataServiceProvider.setDataCube"; //$NON-NLS-1$
+	public static final String RepDSProvider_Set_ID = "ReportDataServiceProvider.setDataSet"; //$NON-NLS-1$
+	public static final String RepDSProvider_Ref_ID = "ReportDataServiceProvider.setReportItemReference"; //$NON-NLS-1$
+	public static final String RepDSProvider_Style_ID = "ReportDataServiceProvider.setStyle"; //$NON-NLS-1$
+	public static final String StaChartDSh_switch_ID = "StandardChartDataSheet.swtichDataSet"; //$NON-NLS-1$
+	public static final String StaChartDSh_dPreview_ID = "StandChartDataSheet.dataPreview"; //$NON-NLS-1$
+	public static final String StaChartDSh_gHeaders_ID = "StandardChartDataSheet.getPreviewHeaders"; //$NON-NLS-1$
+	public static final String ChartColBinDia_ID = "ChartColumnBindingDialog"; //$NON-NLS-1$
+	public static final String FormatSpeciCom_ID = "FormatSpecifierComposite"; //$NON-NLS-1$
+	public static final String MarkerEdiCom_ID = "MarkerEditorComposite"; //$NON-NLS-1$
+	public static final String PluginSet_getAggF_ID = "PluginSettings.getAggregateFunc"; //$NON-NLS-1$
+	public static final String PluginSet_getDPDef_ID = "PluginSettings.getDataPointDefinition"; //$NON-NLS-1$
+	public static final String CheckSeriesBindingType_ID = "CheckSeriesBindingType_"; //$NON-NLS-1$
+	public static final String TaskSelType_chOvST_ID = "TaskSelectType.changeOverlaySeriesType"; //$NON-NLS-1$
+	public static final String TaskSelType_refreCh_ID = "TaskSelectType.refreshChart"; //$NON-NLS-1$
+	public static final String LineSMarkerSh_ID = "LineSeriesMarkerSheet"; //$NON-NLS-1$
+	public static final String SeriesShImpl_ID = "SeriesSheetImpl.getNewSeries"; //$NON-NLS-1$
+	public static final String ChartUIUtil_pLiPreview_ID = "ChartUIUtil.prepareLivePreview"; //$NON-NLS-1$
+	public static final String Gatt_aggCheck_ID = "Gantt.aggCheck_"; //$NON-NLS-1$
+	public static final String ChartUIUtil_cGType_ID = "ChartUIUtil.checkGroupType"; //$NON-NLS-1$
+
 	private static final int CHART_WIZARD_WIDTH_MINMUM = 690;
 
 	private static final int CHART_WIZARD_HEIGHT_MINMUM = 670;
+
+	/**
+	 * Store all the unfixed error messages when operating.
+	 */
+	private static Map<String, String> errors = new HashMap<String, String>( 3 );
 
 	/**
 	 * Indicates whether the popup is being closed by users
@@ -173,6 +202,8 @@ public class ChartWizard extends WizardBase
 	public IWizardContext open( String[] sTasks, String topTaskId,
 			IWizardContext initialContext )
 	{
+		// clear the errors when open a new wizard.
+		errors.clear( );
 		Chart chart = getChartModel( initialContext );
 
 		if ( chart == null )
@@ -254,5 +285,70 @@ public class ChartWizard extends WizardBase
 	protected String getTitleEditChart( )
 	{
 		return Messages.getString( "ChartWizard.Title.EditChart" ); //$NON-NLS-1$
+	}
+
+	public static void showException( String key, String errorMessage )
+	{
+		WizardBase.showException( errorMessage );
+		errors.put( key, errorMessage );
+	}
+
+	public static void removeException( String key )
+	{
+		boolean removed = false;
+		String error = errors.get( key );
+		if ( error != null && error.equals( WizardBase.getErrors( ) ) )
+		{
+			WizardBase.removeException( );
+			removed = true;
+		}
+
+		errors.remove( key );
+		// show other unfixed exceptions
+		if ( ( removed || WizardBase.getErrors( ) == null )
+				&& errors.size( ) > 0 )
+		{
+			String es = errors.values( ).toArray( new String[errors.size( )] )[0];
+			WizardBase.showException( es );
+		}
+	}
+
+	/**
+	 * Remove all the exceptions which the keys contain the argument.
+	 * 
+	 * @param subKey
+	 */
+	public static void removeAllExceptions( String subKey )
+	{
+		boolean removed = false;
+
+		Iterator<String> iter = errors.keySet( ).iterator( );
+		List<String> needToRemove = new ArrayList<String>( 2 );
+		while ( iter.hasNext( ) )
+		{
+			String key = iter.next( );
+			if ( key.indexOf( subKey ) > -1 )
+			{
+				needToRemove.add( key );
+			}
+		}
+		for ( String s : needToRemove )
+		{
+			String e = errors.get( s );
+			if ( e != null && e.equals( WizardBase.getErrors( ) ) )
+			{
+				WizardBase.removeException( );
+				removed = true;
+			}
+			errors.remove( s );
+		}
+
+		// show other unfixed exceptions
+		if ( ( removed || WizardBase.getErrors( ) == null )
+				&& errors.size( ) > 0 )
+		{
+			String es = errors.values( ).toArray( new String[errors.size( )] )[0];
+			WizardBase.showException( es );
+		}
 	}
 }

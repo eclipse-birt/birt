@@ -20,8 +20,8 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -41,8 +41,6 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements
 	private boolean bIsPainting = false;
 
 	private Image buffer;
-
-	private String errorMessage = null;
 
 	private ChartWizardContext wizardContext;
 
@@ -85,7 +83,6 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements
 		{
 			return;
 		}
-		Throwable paintError = null;
 		if ( chart == null )
 		{
 			return;
@@ -177,10 +174,13 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements
 					isProcessorEnabled( ) ? wizardContext.getProcessor( )
 							: null );
 			gr.render( deviceRenderer, gcs );
+			ChartWizard.removeException( ChartWizard.PreviewPainter_ID );
 		}
 		catch ( Exception ex )
 		{
-			paintError = ex;
+			buffer = oldBuffer;
+			ChartWizard.showException( ChartWizard.PreviewPainter_ID,
+					ex.getLocalizedMessage( ) );
 		}
 		finally
 		{
@@ -189,24 +189,6 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements
 			{
 				deviceRenderer.dispose( );
 			}
-		}
-
-		boolean bException = false;
-		if ( paintError != null )
-		{
-			buffer = oldBuffer;
-			bException = true;
-			if ( WizardBase.getErrors( ) == null )
-			{
-				errorMessage = paintError.getLocalizedMessage( );
-				WizardBase.showException( errorMessage );
-			}
-		}
-
-		if ( !bException
-				&& ( ( WizardBase.getErrors( ) == null ) || ( WizardBase.getErrors( ).equals( errorMessage ) ) ) )
-		{
-			WizardBase.removeException( );
 		}
 
 		if ( oldBuffer != null && oldBuffer != buffer )
