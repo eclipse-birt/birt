@@ -859,6 +859,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		private boolean linkedParameterChanged = true;
 		private DataSetViewData[] savedItemModel = null;
 		private String savedQueryText = null;
+		private ClassLoader oldContextLoader = null;
 
 		/**
 		 * Start action
@@ -891,8 +892,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		private void setContextLoader( DataSetHandle dataSet )
 		{
 			// set context class loader
-			ClassLoader oldContextLoader = Thread.currentThread( )
-					.getContextClassLoader( );
+			oldContextLoader = Thread.currentThread( ).getContextClassLoader( );
 			ClassLoader parentLoader = oldContextLoader;
 			if ( parentLoader == null )
 				parentLoader = this.getClass( ).getClassLoader( );
@@ -933,6 +933,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 				DataSetProvider.getCurrentInstance( )
 						.setModelOfDataSetHandle( this.ds, savedItemModel );
 			}
+			//Restore old context loader
+			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
 			ds.removeListener( this );
 		}
 
