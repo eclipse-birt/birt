@@ -430,7 +430,7 @@ class DataSource implements IDataSource
     		session = st;
     	}
     
-		public void run( )
+		public synchronized void run( )
 		{
 			try
 			{
