@@ -44,8 +44,7 @@ import com.ibm.icu.util.ULocale;
  * 
  * <p>
  * 
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -62,8 +61,8 @@ import com.ibm.icu.util.ULocale;
  * <td>testSetGetValues</td>
  * <td>Sets and gets the property value in different prototype like float,
  * string.</td>
- * <td>Values can be set/gotten correctly and the output file matches the
- * golden file.</td>
+ * <td>Values can be set/gotten correctly and the output file matches the golden
+ * file.</td>
  * </tr>
  * 
  * <tr>
@@ -625,16 +624,8 @@ public class PropertyHandleTest extends BaseTestCase
 
 		// All operation related with MemberHandle is not allowed.
 
-		try
-		{
-			assertFalse( ruleDropped.iterator( ).hasNext( ) );
-			ruleDropped.iterator( ).next( );
-			fail( );
-		}
-		catch ( Exception e )
-		{
-			assertTrue( e instanceof RuntimeException );
-		}
+		assertFalse( ruleDropped.iterator( ).hasNext( ) );
+		assertNull( ruleDropped.iterator( ).next( ) );
 
 		try
 		{
