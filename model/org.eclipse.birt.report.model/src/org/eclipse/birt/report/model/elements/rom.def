@@ -2224,8 +2224,7 @@
     <PropertyVisibility name="backgroundPositionY" visibility="hide"/> 
     <PropertyVisibility name="backgroundRepeat" visibility="hide"/>                    
     <PropertyVisibility name="masterPage" visibility="hide"/>    
-    <PropertyVisibility name="canShrink" visibility="hide"/>  
-	<PropertyVisibility name="bidiTextDirection" visibility="hide"/>                  
+    <PropertyVisibility name="canShrink" visibility="hide"/>                    
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.MasterPage" extends="ReportElement" hasStyle="true" isAbstract="true" isNameRequired="true" name="MasterPage" nameSpace="masterPage" selector="page" since="1.0">
     <Property detailType="pageSize" displayNameID="Element.MasterPage.type" name="type" since="1.0" type="string">
