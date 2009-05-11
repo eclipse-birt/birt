@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.report.engine.nLayout.area.style.AreaConstants;
+
 /**
  * Represents the algorithm to calculate the positions of background images for
  * a rectangle area. The background maybe set to "no-repeat", "repeat-x",
@@ -25,11 +27,6 @@ import java.util.Set;
  */
 public class BackgroundImageLayout
 {
-
-	public static final int REPEAT_NONE = 0;
-	public static final int REPEAT_X = 1;
-	public static final int REPEAT_Y = 2;
-	public static final int REPEAT_BOTH = 3;
 
 	private Position areaPosition, areaSize, imagePosition, imageSize;
 
@@ -59,7 +56,7 @@ public class BackgroundImageLayout
 
 	public List<Position> getImagePositions( int repeat )
 	{
-		if ( repeat < 0 || repeat > 3 )
+		if ( repeat < AreaConstants.NO_REPEAT || repeat >  AreaConstants.REPEAT )
 		{
 			throw new IllegalArgumentException(
 					" repeat should in range 0-3 : " + repeat );
@@ -92,20 +89,20 @@ public class BackgroundImageLayout
 
 	public List<Position> getImagePositions( String repeat )
 	{
-		int repeatMode = REPEAT_BOTH;
+		int repeatMode = AreaConstants.REPEAT;
 		if ( !( "repeat".equals( repeat ) ) )
 		{
 			if ( "repeat-x".equals( repeat ) )
 			{
-				repeatMode = REPEAT_X;
+				repeatMode = AreaConstants.REPEAT_X;
 			}
 			else if ( "repeat-y".equals( repeat ) )
 			{
-				repeatMode = REPEAT_Y;
+				repeatMode = AreaConstants.REPEAT_Y;
 			}
 			else if ( "no-repeat".equals( repeat ) )
 			{
-				repeatMode = REPEAT_NONE;
+				repeatMode = AreaConstants.NO_REPEAT;
 			}
 		}
 		return getImagePositions( repeatMode );
@@ -135,12 +132,12 @@ public class BackgroundImageLayout
 
 	private static boolean isRepeatX( int repeat )
 	{
-		return ( repeat & REPEAT_X ) != 0;
+		return repeat==AreaConstants.REPEAT || repeat==AreaConstants.REPEAT_X;
 	}
 
 	private static boolean isRepeatY( int repeat )
 	{
-		return ( repeat & REPEAT_Y ) != 0;
+		return repeat==AreaConstants.REPEAT || repeat==AreaConstants.REPEAT_Y;
 	}
 
 }

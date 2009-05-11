@@ -17,6 +17,8 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.report.engine.nLayout.area.style.AreaConstants;
+
 public class BackgroundImageLayoutTest extends TestCase
 {
 
@@ -30,7 +32,7 @@ public class BackgroundImageLayoutTest extends TestCase
 		Position imagePosition = new Position( 2, 2 );
 		BackgroundImageLayout layout = getLayoutOfSmallImage( );
 		List positions = layout
-				.getImagePositions( BackgroundImageLayout.REPEAT_NONE );
+				.getImagePositions( AreaConstants.NO_REPEAT );
 		assertEquals( 1, positions.size( ) );
 		assertEquals( imagePosition, positions.iterator( ).next( ) );
 	}
@@ -40,7 +42,7 @@ public class BackgroundImageLayoutTest extends TestCase
 		Position imagePosition = new Position( 2, 2 );
 		BackgroundImageLayout layout = getLayoutOfSmallImage2( );
 		List positions = layout
-				.getImagePositions( BackgroundImageLayout.REPEAT_NONE );
+				.getImagePositions( AreaConstants.NO_REPEAT );
 		assertEquals( 1, positions.size( ) );
 		assertEquals( imagePosition, positions.iterator( ).next( ) );
 	}
@@ -54,7 +56,7 @@ public class BackgroundImageLayoutTest extends TestCase
 		}
 		BackgroundImageLayout layout = getLayoutOfSmallImage( );
 		List actual = layout
-				.getImagePositions( BackgroundImageLayout.REPEAT_X );
+				.getImagePositions( AreaConstants.REPEAT_X );
 		assertEquals( expected, actual );
 	}
 
@@ -67,7 +69,7 @@ public class BackgroundImageLayoutTest extends TestCase
 		}
 		BackgroundImageLayout layout = getLayoutOfSmallImage( );
 		List actual = layout
-				.getImagePositions( BackgroundImageLayout.REPEAT_Y );
+				.getImagePositions( AreaConstants.REPEAT_Y );
 		assertEquals( expected, actual );
 	}
 
@@ -84,7 +86,7 @@ public class BackgroundImageLayoutTest extends TestCase
 		Collections.sort( expected );
 		BackgroundImageLayout layout = getLayoutOfSmallImage( );
 		List actual = layout
-				.getImagePositions( BackgroundImageLayout.REPEAT_BOTH );
+				.getImagePositions( AreaConstants.REPEAT );
 		assertEquals( expected, actual );
 	}
 
@@ -102,17 +104,17 @@ public class BackgroundImageLayoutTest extends TestCase
 		BackgroundImageLayout layout = new BackgroundImageLayout( areaPosition,
 				areaSize, imagePosition, imageSize );
 		List positions = layout
-				.getImagePositions( BackgroundImageLayout.REPEAT_NONE );
+				.getImagePositions( AreaConstants.NO_REPEAT );
 		assertEquals( 1, positions.size( ) );
 		assertEquals( imagePosition, positions.iterator( ).next( ) );
-		positions = layout.getImagePositions( BackgroundImageLayout.REPEAT_X );
+		positions = layout.getImagePositions( AreaConstants.REPEAT_X );
 		assertEquals( 1, positions.size( ) );
 		assertEquals( imagePosition, positions.iterator( ).next( ) );
-		positions = layout.getImagePositions( BackgroundImageLayout.REPEAT_Y );
+		positions = layout.getImagePositions( AreaConstants.REPEAT_Y  );
 		assertEquals( 1, positions.size( ) );
 		assertEquals( imagePosition, positions.iterator( ).next( ) );
 		positions = layout
-				.getImagePositions( BackgroundImageLayout.REPEAT_BOTH );
+				.getImagePositions( AreaConstants.REPEAT );
 		assertEquals( 1, positions.size( ) );
 		assertEquals( imagePosition, positions.iterator( ).next( ) );
 	}
