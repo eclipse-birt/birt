@@ -560,6 +560,7 @@ Choices.autoTextType.page-number=ページ番号
 Choices.autoTextType.total-page=合計ページ数
 Choices.autoTextType.page-number-unfiltered=フィルタされていないページ番号
 Choices.autoTextType.total-page-unfiltered=フィルタされていない合計ページ数
+Choices.autoTextType.page-variable=Page Variable
 
 #67. dataSetMode
 Choices.dataSetMode.single=1 つのデータセット
@@ -658,6 +659,10 @@ Choices.scopeType.colgroup=列グループ
 #80 dynamicFilterChoice
 Choices.dynamicFilterChoice.simple=簡易
 Choices.dynamicFilterChoice.advanced=詳細設定
+
+#81 variableMode
+Choices.variableMode.report=レポート
+Choices.variableMode.page=ページ
 
 ###########################################################
 # Classes
@@ -2311,6 +2316,12 @@ Element.ReportDesign.beforeRender=レンダリング前
 Element.ReportDesign.beforeRender.reportContext=レポートのコンテキスト
 Element.ReportDesign.afterRender=レンダリング後
 Element.ReportDesign.afterRender.reportContext=レポートのコンテキスト
+Element.ReportDesign.onPageStart.context=レポートのコンテキスト
+Element.ReportDesign.onPageStart.this=レポートデザイン
+Element.ReportDesign.onPageStart.content=Report content
+Element.ReportDesign.onPageEnd.context=レポートのコンテキスト
+Element.ReportDesign.onPageEnd.this=レポートデザイン
+Element.ReportDesign.onPageEnd.content=Report content
 Element.ReportDesign.displayNameID=表示名キー
 Element.ReportDesign.displayName=表示名
 Element.ReportDesign.iconFile=アイコンファイル
@@ -2326,6 +2337,8 @@ Element.ReportDesign.beforeCloseDoc.toolTip=Factory でレポート文書ファイルを閉じ
 Element.ReportDesign.afterCloseDoc.toolTip=Factory でレポート文書ファイルを閉じた直後に呼び出されます
 Element.ReportDesign.beforeRender.toolTip=プレゼンテーション時のアクションを開始する前に呼び出されます
 Element.ReportDesign.afterRender.toolTip=プレゼンテーション時のアクションを開始した後に呼び出されます
+Element.ReportDesign.onPageStart.toolTip=Called on page start.
+Element.ReportDesign.onPageEnd.toolTip=Called on page end.
 Element.ReportDesign.slot.styles=種類
 Element.ReportDesign.slot.parameters=パラメタ
 Element.ReportDesign.slot.dataSources=データソース
@@ -2344,6 +2357,9 @@ Element.ReportDesign.enableACL=ACLを有効にする
 Element.ReportDesign.ACLExpression=ACL 式
 Element.ReportDesign.cascadeACL=ACL を重ねて表示
 Element.ReportDesign.imageDPI=イメージの DPI
+Element.ReportDesign.pageVariables=Page variables
+Element.ReportDesign.onPageStart=On page start
+Element.ReportDesign.onPageEnd=On page end
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=表示名
@@ -2462,6 +2478,16 @@ Element.MasterPage.leftMargin=左余白
 Element.MasterPage.bottomMargin=下余白
 Element.MasterPage.rightMargin=右余白
 Element.MasterPage.slot.contents=コンテンツ
+Element.MasterPage.onPageStart=On page start
+Element.MasterPage.onPageEnd=On page end
+Element.MasterPage.onPageStart.toolTip=Called on page start.
+Element.MasterPage.onPageEnd.toolTip=Called on page end.
+Element.MasterPage.onPageStart.context=レポートのコンテキスト
+Element.MasterPage.onPageStart.design=レポートデザイン
+Element.MasterPage.onPageStart.content=Report content
+Element.MasterPage.onPageEnd.context=レポートのコンテキスト
+Element.MasterPage.onPageEnd.design=レポートデザイン
+Element.MasterPage.onPageEnd.content=Report content
 
 #9. Style ( Prefix = Element.Style)
 Element.Style.background=背景
@@ -2535,7 +2561,7 @@ Element.Style.section=セクション
 Element.Style.showIfBlank=空白でも表示
 Element.Style.text=テキスト
 Element.Style.text.align=文字列の位置揃え
-Element.Style.text.direction=双方向文字列の向き
+Element.Style.text.direction=文字列の向き 
 Element.Style.text.indent=文字列のインデント
 Element.Style.text.transform=文字列の位置変更
 Element.Style.verticalAlign=垂直方向の配置
@@ -3066,6 +3092,7 @@ Element.AutoText.onPageBreak=ページ区切り
 Element.AutoText.onPageBreak.toolTip=TBD
 Element.AutoText.onPageBreak.this=定型句のインスタンス
 Element.AutoText.onPageBreak.reportContext=レポートのコンテキスト
+Element.AutoText.pageVariable=Page variable
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=フィルタ条件
@@ -3178,6 +3205,7 @@ Element.MultiViews.views=ビュー
 #65. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.variableName=名前
 Element.VariableElement.value=値
+Element.VariableElement.workMode=Work mode
 
 #66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=名前

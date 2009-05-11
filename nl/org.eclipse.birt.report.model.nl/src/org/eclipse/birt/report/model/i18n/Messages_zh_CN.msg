@@ -560,6 +560,7 @@ Choices.autoTextType.page-number=页码
 Choices.autoTextType.total-page=总页数
 Choices.autoTextType.page-number-unfiltered=未筛选的页数
 Choices.autoTextType.total-page-unfiltered=未筛选的总页数
+Choices.autoTextType.page-variable=Page Variable
 
 #67. dataSetMode
 Choices.dataSetMode.single=单个数据集
@@ -658,6 +659,10 @@ Choices.scopeType.colgroup=列组
 #80 dynamicFilterChoice
 Choices.dynamicFilterChoice.simple=简单
 Choices.dynamicFilterChoice.advanced=高级
+
+#81 variableMode
+Choices.variableMode.report=报表
+Choices.variableMode.page=页面
 
 ###########################################################
 # Classes
@@ -2311,6 +2316,12 @@ Element.ReportDesign.beforeRender=实施前
 Element.ReportDesign.beforeRender.reportContext=报表上下文
 Element.ReportDesign.afterRender=实施后
 Element.ReportDesign.afterRender.reportContext=报表上下文
+Element.ReportDesign.onPageStart.context=报表上下文
+Element.ReportDesign.onPageStart.this=报表设计
+Element.ReportDesign.onPageStart.content=Report content
+Element.ReportDesign.onPageEnd.context=报表上下文
+Element.ReportDesign.onPageEnd.this=报表设计
+Element.ReportDesign.onPageEnd.content=Report content
 Element.ReportDesign.displayNameID=显示名称关键字
 Element.ReportDesign.displayName=显示名称
 Element.ReportDesign.iconFile=图标文件
@@ -2326,6 +2337,8 @@ Element.ReportDesign.beforeCloseDoc.toolTip=仅在工厂中关闭报表文档文件前调用
 Element.ReportDesign.afterCloseDoc.toolTip=仅在工厂中关闭报表文档文件后调用
 Element.ReportDesign.beforeRender.toolTip=开始展示时间操作前调用
 Element.ReportDesign.afterRender.toolTip=开始展示时间操作后调用
+Element.ReportDesign.onPageStart.toolTip=Called on page start.
+Element.ReportDesign.onPageEnd.toolTip=Called on page end.
 Element.ReportDesign.slot.styles=样式
 Element.ReportDesign.slot.parameters=参数
 Element.ReportDesign.slot.dataSources=数据源
@@ -2344,6 +2357,9 @@ Element.ReportDesign.enableACL=启用e ACL
 Element.ReportDesign.ACLExpression=ACL 表达式
 Element.ReportDesign.cascadeACL=层叠 ACL
 Element.ReportDesign.imageDPI=图像 DPI
+Element.ReportDesign.pageVariables=Page variables
+Element.ReportDesign.onPageStart=On page start
+Element.ReportDesign.onPageEnd=On page end
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=显示名称
@@ -2462,6 +2478,16 @@ Element.MasterPage.leftMargin=左边距
 Element.MasterPage.bottomMargin=下边距
 Element.MasterPage.rightMargin=右边距
 Element.MasterPage.slot.contents=目录
+Element.MasterPage.onPageStart=On page start
+Element.MasterPage.onPageEnd=On page end
+Element.MasterPage.onPageStart.toolTip=Called on page start.
+Element.MasterPage.onPageEnd.toolTip=Called on page end.
+Element.MasterPage.onPageStart.context=报表上下文
+Element.MasterPage.onPageStart.design=报表设计
+Element.MasterPage.onPageStart.content=Report content
+Element.MasterPage.onPageEnd.context=报表上下文
+Element.MasterPage.onPageEnd.design=报表设计
+Element.MasterPage.onPageEnd.content=Report content
 
 #9. Style ( Prefix = Element.Style)
 Element.Style.background=背景
@@ -2535,7 +2561,7 @@ Element.Style.section=区域
 Element.Style.showIfBlank=如果为空白则显示
 Element.Style.text=文本
 Element.Style.text.align=文本对齐
-Element.Style.text.direction=双向文本方向
+Element.Style.text.direction=文本方向 
 Element.Style.text.indent=文本缩进
 Element.Style.text.transform=文本转换
 Element.Style.verticalAlign=垂直对齐
@@ -3066,6 +3092,7 @@ Element.AutoText.onPageBreak=出现分页符时
 Element.AutoText.onPageBreak.toolTip=TBD
 Element.AutoText.onPageBreak.this=自动图文集实例
 Element.AutoText.onPageBreak.reportContext=报表上下文
+Element.AutoText.pageVariable=Page variable
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=筛选条件
@@ -3178,6 +3205,7 @@ Element.MultiViews.views=视图
 #65. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.variableName=名称
 Element.VariableElement.value=值
+Element.VariableElement.workMode=Work mode
 
 #66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=名称

@@ -560,6 +560,7 @@ Choices.autoTextType.page-number=Número de página
 Choices.autoTextType.total-page=Páginas totales
 Choices.autoTextType.page-number-unfiltered=Número de página no filtrado
 Choices.autoTextType.total-page-unfiltered=Número total de páginas no filtrado
+Choices.autoTextType.page-variable=Page Variable
 
 #67. dataSetMode
 Choices.dataSetMode.single=Conjunto de datos único
@@ -658,6 +659,10 @@ Choices.scopeType.colgroup=Grupo de columnas
 #80 dynamicFilterChoice
 Choices.dynamicFilterChoice.simple=Simple
 Choices.dynamicFilterChoice.advanced=Avanzado
+
+#81 variableMode
+Choices.variableMode.report=Informe
+Choices.variableMode.page=Página
 
 ###########################################################
 # Classes
@@ -2311,6 +2316,12 @@ Element.ReportDesign.beforeRender=Antes de procesamiento
 Element.ReportDesign.beforeRender.reportContext=Contexto de informe
 Element.ReportDesign.afterRender=Después de procesamiento
 Element.ReportDesign.afterRender.reportContext=Contexto de informe
+Element.ReportDesign.onPageStart.context=Contexto de informe
+Element.ReportDesign.onPageStart.this=Diseño de informe
+Element.ReportDesign.onPageStart.content=Report content
+Element.ReportDesign.onPageEnd.context=Contexto de informe
+Element.ReportDesign.onPageEnd.this=Diseño de informe
+Element.ReportDesign.onPageEnd.content=Report content
 Element.ReportDesign.displayNameID=Clave de nombre en pantalla
 Element.ReportDesign.displayName=Nombre en pantalla
 Element.ReportDesign.iconFile=Archivo de icono
@@ -2326,6 +2337,8 @@ Element.ReportDesign.beforeCloseDoc.toolTip=Llamado justo antes de cerrar el doc
 Element.ReportDesign.afterCloseDoc.toolTip=Llamado justo después de cerrar el documento de informe en la fábrica
 Element.ReportDesign.beforeRender.toolTip=Llamado antes de iniciar una acción de hora de presentación
 Element.ReportDesign.afterRender.toolTip=Llamado después de iniciar una acción de hora de presentación
+Element.ReportDesign.onPageStart.toolTip=Called on page start.
+Element.ReportDesign.onPageEnd.toolTip=Called on page end.
 Element.ReportDesign.slot.styles=Estilos
 Element.ReportDesign.slot.parameters=Parámetros
 Element.ReportDesign.slot.dataSources=Fuente de datos
@@ -2344,6 +2357,9 @@ Element.ReportDesign.enableACL=Activar ACL
 Element.ReportDesign.ACLExpression=Expresión ACL
 Element.ReportDesign.cascadeACL=Cascada ACL
 Element.ReportDesign.imageDPI=Imagen DPI
+Element.ReportDesign.pageVariables=Page variables
+Element.ReportDesign.onPageStart=On page start
+Element.ReportDesign.onPageEnd=On page end
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nombre en pantalla
@@ -2462,6 +2478,16 @@ Element.MasterPage.leftMargin=Margen izquierdo
 Element.MasterPage.bottomMargin=Margen inferior
 Element.MasterPage.rightMargin=Margen derecho
 Element.MasterPage.slot.contents=Contenido
+Element.MasterPage.onPageStart=On page start
+Element.MasterPage.onPageEnd=On page end
+Element.MasterPage.onPageStart.toolTip=Called on page start.
+Element.MasterPage.onPageEnd.toolTip=Called on page end.
+Element.MasterPage.onPageStart.context=Contexto de informe
+Element.MasterPage.onPageStart.design=Diseño de informe
+Element.MasterPage.onPageStart.content=Report content
+Element.MasterPage.onPageEnd.context=Contexto de informe
+Element.MasterPage.onPageEnd.design=Diseño de informe
+Element.MasterPage.onPageEnd.content=Report content
 
 #9. Style ( Prefix = Element.Style)
 Element.Style.background=Fondo
@@ -2535,7 +2561,7 @@ Element.Style.section=Sección
 Element.Style.showIfBlank=Mostrar si en blanco:
 Element.Style.text=Texto
 Element.Style.text.align=Alineación de texto
-Element.Style.text.direction=Dirección bidimensional del texto
+Element.Style.text.direction=Dirección del texto 
 Element.Style.text.indent=Sangrado de texto
 Element.Style.text.transform=Transformación de texto
 Element.Style.verticalAlign=Alineación vertical
@@ -3066,6 +3092,7 @@ Element.AutoText.onPageBreak=En el salto de página
 Element.AutoText.onPageBreak.toolTip=TBD
 Element.AutoText.onPageBreak.this=Instancia de AutoText
 Element.AutoText.onPageBreak.reportContext=Contexto de informe
+Element.AutoText.pageVariable=Page variable
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=Condiciones de filtro
@@ -3178,6 +3205,7 @@ Element.MultiViews.views=Vistas
 #65. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.variableName=Nombre
 Element.VariableElement.value=Valor
+Element.VariableElement.workMode=Work mode
 
 #66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=Nombre

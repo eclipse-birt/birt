@@ -560,6 +560,7 @@ Choices.autoTextType.page-number=페이지 번호
 Choices.autoTextType.total-page=전체 페이지
 Choices.autoTextType.page-number-unfiltered=필터링되지 않은 페이지 번호
 Choices.autoTextType.total-page-unfiltered=필터링되지 않은 전체 페이지
+Choices.autoTextType.page-variable=Page Variable
 
 #67. dataSetMode
 Choices.dataSetMode.single=단일 데이터 집합
@@ -658,6 +659,10 @@ Choices.scopeType.colgroup=열 그룹
 #80 dynamicFilterChoice
 Choices.dynamicFilterChoice.simple=단순
 Choices.dynamicFilterChoice.advanced=고급
+
+#81 variableMode
+Choices.variableMode.report=보고서
+Choices.variableMode.page=페이지
 
 ###########################################################
 # Classes
@@ -2311,6 +2316,12 @@ Element.ReportDesign.beforeRender=렌더링 이전
 Element.ReportDesign.beforeRender.reportContext=보고서 컨텍스트
 Element.ReportDesign.afterRender=렌더링 이후
 Element.ReportDesign.afterRender.reportContext=보고서 컨텍스트
+Element.ReportDesign.onPageStart.context=보고서 컨텍스트
+Element.ReportDesign.onPageStart.this=보고서 디자인
+Element.ReportDesign.onPageStart.content=Report content
+Element.ReportDesign.onPageEnd.context=보고서 컨텍스트
+Element.ReportDesign.onPageEnd.this=보고서 디자인
+Element.ReportDesign.onPageEnd.content=Report content
 Element.ReportDesign.displayNameID=표시 이름 키
 Element.ReportDesign.displayName=표시 이름
 Element.ReportDesign.iconFile=아이콘 파일
@@ -2326,6 +2337,8 @@ Element.ReportDesign.beforeCloseDoc.toolTip=공장에서 보고서 문서를 닫기 직전 호�
 Element.ReportDesign.afterCloseDoc.toolTip=공장에서 보고서 문서를 닫기 직후 호출됩니다
 Element.ReportDesign.beforeRender.toolTip=프리젠테이션 시간 작업 시작 전에 호출됩니다
 Element.ReportDesign.afterRender.toolTip=프리젠테이션 시간 작업 시작 후에 호출됩니다
+Element.ReportDesign.onPageStart.toolTip=Called on page start.
+Element.ReportDesign.onPageEnd.toolTip=Called on page end.
 Element.ReportDesign.slot.styles=스타일
 Element.ReportDesign.slot.parameters=매개 변수
 Element.ReportDesign.slot.dataSources=데이터 원본
@@ -2344,6 +2357,9 @@ Element.ReportDesign.enableACL=ACL 사용
 Element.ReportDesign.ACLExpression=ACL 식
 Element.ReportDesign.cascadeACL=ACL 하위 전달
 Element.ReportDesign.imageDPI=이미지 DPI
+Element.ReportDesign.pageVariables=Page variables
+Element.ReportDesign.onPageStart=On page start
+Element.ReportDesign.onPageEnd=On page end
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=표시 이름
@@ -2462,6 +2478,16 @@ Element.MasterPage.leftMargin=왼쪽 여백
 Element.MasterPage.bottomMargin=아래쪽 여백
 Element.MasterPage.rightMargin=오른쪽 여백
 Element.MasterPage.slot.contents=내용
+Element.MasterPage.onPageStart=On page start
+Element.MasterPage.onPageEnd=On page end
+Element.MasterPage.onPageStart.toolTip=Called on page start.
+Element.MasterPage.onPageEnd.toolTip=Called on page end.
+Element.MasterPage.onPageStart.context=보고서 컨텍스트
+Element.MasterPage.onPageStart.design=보고서 디자인
+Element.MasterPage.onPageStart.content=Report content
+Element.MasterPage.onPageEnd.context=보고서 컨텍스트
+Element.MasterPage.onPageEnd.design=보고서 디자인
+Element.MasterPage.onPageEnd.content=Report content
 
 #9. Style ( Prefix = Element.Style)
 Element.Style.background=배경
@@ -2535,7 +2561,7 @@ Element.Style.section=섹션
 Element.Style.showIfBlank=비어있는 경우 표시
 Element.Style.text=텍스트
 Element.Style.text.align=텍스트 맞춤
-Element.Style.text.direction=Bidi 텍스트 방향
+Element.Style.text.direction=텍스트 방향 
 Element.Style.text.indent=텍스트 들여쓰기
 Element.Style.text.transform=텍스트 변환
 Element.Style.verticalAlign=세로 맞춤
@@ -3066,6 +3092,7 @@ Element.AutoText.onPageBreak=페이지 나누기
 Element.AutoText.onPageBreak.toolTip=TBD
 Element.AutoText.onPageBreak.this=AutoText 인스턴스
 Element.AutoText.onPageBreak.reportContext=보고서 컨텍스트
+Element.AutoText.pageVariable=Page variable
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=필터 조건
@@ -3178,6 +3205,7 @@ Element.MultiViews.views=보기
 #65. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.variableName=이름
 Element.VariableElement.value=값
+Element.VariableElement.workMode=Work mode
 
 #66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=이름

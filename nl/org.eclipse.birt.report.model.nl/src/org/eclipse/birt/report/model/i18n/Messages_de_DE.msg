@@ -560,6 +560,7 @@ Choices.autoTextType.page-number=Seitenzahl
 Choices.autoTextType.total-page=Gesamtseite
 Choices.autoTextType.page-number-unfiltered=Seitenzahl nicht gefiltert
 Choices.autoTextType.total-page-unfiltered=Gesamtseite nicht gefiltert
+Choices.autoTextType.page-variable=Page Variable
 
 #67. dataSetMode
 Choices.dataSetMode.single=Einfacher Datensatz
@@ -658,6 +659,10 @@ Choices.scopeType.colgroup=Spaltengruppe
 #80 dynamicFilterChoice
 Choices.dynamicFilterChoice.simple=Einfach
 Choices.dynamicFilterChoice.advanced=Erweitert
+
+#81 variableMode
+Choices.variableMode.report=Bericht
+Choices.variableMode.page=Seite
 
 ###########################################################
 # Classes
@@ -2311,6 +2316,12 @@ Element.ReportDesign.beforeRender=Vor dem Rendern
 Element.ReportDesign.beforeRender.reportContext=Berichtkontext
 Element.ReportDesign.afterRender=Nach dem Rendern
 Element.ReportDesign.afterRender.reportContext=Berichtkontext
+Element.ReportDesign.onPageStart.context=Berichtkontext
+Element.ReportDesign.onPageStart.this=Berichtdesign
+Element.ReportDesign.onPageStart.content=Report content
+Element.ReportDesign.onPageEnd.context=Berichtkontext
+Element.ReportDesign.onPageEnd.this=Berichtdesign
+Element.ReportDesign.onPageEnd.content=Report content
 Element.ReportDesign.displayNameID=Anzeigenamenschlüssel
 Element.ReportDesign.displayName=Anzeigename
 Element.ReportDesign.iconFile=Symboldatei
@@ -2326,6 +2337,8 @@ Element.ReportDesign.beforeCloseDoc.toolTip=Wird kurz vor Schließen des Berichts
 Element.ReportDesign.afterCloseDoc.toolTip=Wird kurz nach Schließen des Berichtsdokuments in der Factory aufgerufen
 Element.ReportDesign.beforeRender.toolTip=Wird vor dem Starten eines Präsentationszeit-Vorgangs aufgerufen
 Element.ReportDesign.afterRender.toolTip=Wird nach dem Starten eines Präsentationszeit-Vorgangs aufgerufen
+Element.ReportDesign.onPageStart.toolTip=Called on page start.
+Element.ReportDesign.onPageEnd.toolTip=Called on page end.
 Element.ReportDesign.slot.styles=Stile
 Element.ReportDesign.slot.parameters=Parameter
 Element.ReportDesign.slot.dataSources=Datenquellen
@@ -2344,6 +2357,9 @@ Element.ReportDesign.enableACL=ACL aktivieren
 Element.ReportDesign.ACLExpression=Ausdruck 'ACL'
 Element.ReportDesign.cascadeACL=Verschachtelung 'ACL'
 Element.ReportDesign.imageDPI=Bild-DPI
+Element.ReportDesign.pageVariables=Page variables
+Element.ReportDesign.onPageStart=On page start
+Element.ReportDesign.onPageEnd=On page end
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Anzeigename
@@ -2462,6 +2478,16 @@ Element.MasterPage.leftMargin=Linker Rand
 Element.MasterPage.bottomMargin=Unterer Rand
 Element.MasterPage.rightMargin=Rechter Rand
 Element.MasterPage.slot.contents=Inhalt
+Element.MasterPage.onPageStart=On page start
+Element.MasterPage.onPageEnd=On page end
+Element.MasterPage.onPageStart.toolTip=Called on page start.
+Element.MasterPage.onPageEnd.toolTip=Called on page end.
+Element.MasterPage.onPageStart.context=Berichtkontext
+Element.MasterPage.onPageStart.design=Berichtdesign
+Element.MasterPage.onPageStart.content=Report content
+Element.MasterPage.onPageEnd.context=Berichtkontext
+Element.MasterPage.onPageEnd.design=Berichtdesign
+Element.MasterPage.onPageEnd.content=Report content
 
 #9. Style ( Prefix = Element.Style)
 Element.Style.background=Hintergrund
@@ -2535,7 +2561,7 @@ Element.Style.section=Bereich
 Element.Style.showIfBlank=Anzeigen, wenn leer
 Element.Style.text=Text
 Element.Style.text.align=Textausrichtung
-Element.Style.text.direction=Bidirektionale Textrichtung
+Element.Style.text.direction=Textrichtung 
 Element.Style.text.indent=Texteinzug
 Element.Style.text.transform=Textumwandlung
 Element.Style.verticalAlign=Vertikale Anpassung
@@ -3066,6 +3092,7 @@ Element.AutoText.onPageBreak=Bei Seitenumbruch
 Element.AutoText.onPageBreak.toolTip=TBD
 Element.AutoText.onPageBreak.this=AutoText-Instanz
 Element.AutoText.onPageBreak.reportContext=Berichtkontext
+Element.AutoText.pageVariable=Page variable
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=Filterbedingungen
@@ -3178,6 +3205,7 @@ Element.MultiViews.views=Ansichten
 #65. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.variableName=Name
 Element.VariableElement.value=Wert
+Element.VariableElement.workMode=Work mode
 
 #66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=Name
