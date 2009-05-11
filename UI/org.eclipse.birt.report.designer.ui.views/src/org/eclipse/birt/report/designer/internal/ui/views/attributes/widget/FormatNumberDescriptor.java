@@ -1216,7 +1216,8 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		if ( !provider.isBlank( fmtPattern.getSymPos( ) ) ) //$NON-NLS-1$
 		{
 			cSymPosChoice.setText( fmtPattern.getSymPos( ) );
-			cSymPosChoice.setEnabled( true );
+			if ( cSymPosChoice.isEnabled( ) != true )
+				cSymPosChoice.setEnabled( true );
 		}
 		if ( fmtPattern.getUseBracket( ) )
 		{
@@ -2077,19 +2078,25 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	{
 		if ( typeChoicer.isEnabled( ) != b )
 			typeChoicer.setEnabled( b );
+
 		if ( localeChoicer.isEnabled( ) != b )
 			localeChoicer.setEnabled( b );
 
 		if ( cPlacesChoice.isEnabled( ) != b )
 			cPlacesChoice.setEnabled( b );
+
 		if ( cUseSep.isEnabled( ) != b )
 			cUseSep.setEnabled( b );
+
 		if ( cUseSpace.isEnabled( ) != b )
 			cUseSpace.setEnabled( b );
+
 		if ( cSymbolChoice.isEnabled( ) != b )
 			cSymbolChoice.setEnabled( b );
+
 		if ( cSymPosChoice.isEnabled( ) != b )
 			cSymPosChoice.setEnabled( b );
+
 		if ( b )
 		{
 			if ( cSymbolChoice.getSelectionIndex( ) == 0 )
@@ -2098,34 +2105,43 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 					cSymPosChoice.setEnabled( false );
 			}
 		}
+
 		if ( cNegNumChoice.isEnabled( ) != b )
 			cNegNumChoice.setEnabled( b );
 
 		if ( fPlacesChoice.isEnabled( ) != b )
 			fPlacesChoice.setEnabled( b );
+
 		if ( fUseSep.isEnabled( ) != b )
 			fUseSep.setEnabled( b );
 		// fUseZero.setEnabled( b );
+
 		if ( fNegNumChoice.isEnabled( ) != b )
 			fNegNumChoice.setEnabled( b );
 
 		if ( pPlacesChoice.isEnabled( ) != b )
 			pPlacesChoice.setEnabled( b );
+
 		if ( pUseSep.isEnabled( ) != b )
 			pUseSep.setEnabled( b );
 
 		// pUseZero.setEnabled( b );
+
 		if ( pSymPosChoice.isEnabled( ) != b )
 			pSymPosChoice.setEnabled( b );
+
 		if ( pNegNumChoice.isEnabled( ) != b )
 			pNegNumChoice.setEnabled( b );
 
 		if ( sPlacesChoice.isEnabled( ) != b )
 			sPlacesChoice.setEnabled( b );
+
 		if ( formatCodeBox.isEnabled( ) != b )
 			formatCodeBox.setEnabled( b );
+
 		if ( previewTextBox.isEnabled( ) != b )
 			previewTextBox.setEnabled( b );
+
 		if ( table.isEnabled( ) != b )
 			table.setEnabled( b );
 	}
