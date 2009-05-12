@@ -810,7 +810,7 @@ public abstract class AbstractEmitterImpl
 		{
 			TextFlag textFlag = TextFlag.START;
 			String fontFamily = null;
-			if ( "".equals( txt ) )
+			if ( "".equals( txt ) || txt == null )
 			{
 				wordWriter.writeContent( type, txt, computedStyle, inlineStyle,
 						fontFamily, hyper, inlineFlag, textFlag );
@@ -849,8 +849,17 @@ public abstract class AbstractEmitterImpl
 
 	private String getFontFamily( IStyle c_style, Chunk ch )
 	{
+		String fontFamily = null;
 		FontInfo info = ch.getFontInfo( );
-		return info.getFontName( );
+		if ( info != null )
+		{
+			fontFamily = info.getFontName( );
+		}
+		else
+		{
+			fontFamily = c_style.getFontFamily( );
+		}
+		return fontFamily;
 	}
 
 	private FontSplitter getFontSplitter( IContent content )

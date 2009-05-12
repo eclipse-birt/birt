@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.text;
 
-import com.ibm.icu.text.Bidi;
-
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
+
+import com.ibm.icu.text.Bidi;
 
 public class Chunk 
 {
@@ -60,6 +60,11 @@ public class Chunk
 		this.text = text;
 	}
 	
+	public void setOffset( int offset )
+	{
+		this.offset = offset;
+	}
+
 	public String getText()
 	{
 		return this.text;
