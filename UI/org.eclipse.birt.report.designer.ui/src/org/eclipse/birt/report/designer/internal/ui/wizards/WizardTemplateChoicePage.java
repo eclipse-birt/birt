@@ -335,7 +335,7 @@ public class WizardTemplateChoicePage extends WizardPage
 		 * will be added to wizard page
 		 */
 
-		addBidiPart( composite );
+		//addBidiPart( composite );
 
 		// bidi_hcg end
 		hookListeners( );
@@ -472,10 +472,16 @@ public class WizardTemplateChoicePage extends WizardPage
 			chkBox.setSelection( false );
 			chkBox.setEnabled( false );
 			setPageComplete( false );
-			directionCombo.setEnabled( false );
+			if (directionCombo != null)
+			{
+				directionCombo.setEnabled( false );
+			}
 			return;
 		}
-		directionCombo.setEnabled( true );
+		if (directionCombo != null)
+		{
+			directionCombo.setEnabled( true );
+		}
 		String ReprotDescription = handle.getDescription( );
 		if ( ReprotDescription != null
 				&& ReprotDescription.trim( ).length( ) != 0 )
