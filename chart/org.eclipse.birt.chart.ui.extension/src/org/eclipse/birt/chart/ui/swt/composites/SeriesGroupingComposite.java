@@ -20,10 +20,18 @@ import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
+import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
+import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.type.StockChart;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
@@ -77,13 +85,13 @@ public class SeriesGroupingComposite extends Composite implements
 
 	private transient Combo cmbAggregate = null;
 
-	private transient boolean fbAggEnabled = true;
+	private final boolean fbAggEnabled;
 
 	private Composite fCmpAggregate;
 	
-	private List fAggParamtersTextWidgets = new ArrayList();
+	private List<Text> fAggParamtersTextWidgets = new ArrayList<Text>( );
 
-	private Map fExprBuilderWidgetsMap = new HashMap();
+	private Map<Button, Text> fExprBuilderWidgetsMap = new HashMap<Button, Text>( );
 	
 	private Composite fAggParameterComposite;
 
@@ -425,19 +433,18 @@ public class SeriesGroupingComposite extends Composite implements
 	{
 		if ( fbAggEnabled )
 		{
-			EList aggPars = fGrouping.getAggregateParameters( );
+			EList<String> aggPars = fGrouping.getAggregateParameters( );
 			if ( aggPars.size( ) > 0 )
 			{
 				int size = aggPars.size( ) > fAggParamtersTextWidgets.size( ) ? fAggParamtersTextWidgets.size( )
 						: aggPars.size( );
 				for ( int i = 0; i < size; i++ )
 				{
-					String value = (String) aggPars.get( i );
+					String value = aggPars.get( i );
 					if ( value != null )
 					{
-						( (Text) fAggParamtersTextWidgets.get( i ) ).setText( value );
+						fAggParamtersTextWidgets.get( i ).setText( value );
 					}
-
 				}
 			}
 		}
@@ -566,6 +573,12 @@ public class SeriesGroupingComposite extends Composite implements
 			{
 				lblAggregate.setEnabled( bEnableUI );
 				cmbAggregate.setEnabled( bEnableUI );
+
+				if ( fGrouping.getGroupType( ).getValue( ) == DataType.DATE_TIME
+						&& fChartContext.getChartType( ) instanceof StockChart )
+				{
+					updateStockAggregations( );
+				}
 			}
 		}
 		else if ( oSource.equals( cmbUnit ) )
@@ -619,7 +632,7 @@ public class SeriesGroupingComposite extends Composite implements
 		{
 			try
 			{
-				Text txtArg = (Text) fExprBuilderWidgetsMap.get( oSource );
+				Text txtArg = fExprBuilderWidgetsMap.get( oSource );
 				String sExpr = fChartContext.getUIServiceProvider( )
 						.invoke( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
 								txtArg.getText( ),
@@ -642,9 +655,9 @@ public class SeriesGroupingComposite extends Composite implements
 	
 	private void setAggParameter( Text oSource )
 	{
-		String text = ( (Text) oSource ).getText( );
+		String text = oSource.getText( );
 		int index = fAggParamtersTextWidgets.indexOf( oSource );
-		EList parameters = fGrouping.getAggregateParameters( );
+		EList<String> parameters = fGrouping.getAggregateParameters( );
 		for ( int i = parameters.size( ); i < fAggParamtersTextWidgets.size( ); i++ )
 		{
 			parameters.add( null );
@@ -770,5 +783,38 @@ public class SeriesGroupingComposite extends Composite implements
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
+	}
+	
+	private void updateStockAggregations( )
+	{
+		for ( SeriesDefinition vsd : ChartUIUtil.getAllOrthogonalSeriesDefinitions( fChartContext.getModel( ) ) )
+		{
+			Series vs = vsd.getDesignTimeSeries( );
+			if ( vs instanceof StockSeries )
+			{
+				EList<Query> queries = vs.getDataDefinition( );
+				while ( queries.size( ) < 4 )
+				{
+					queries.add( QueryImpl.create( "" ) ); //$NON-NLS-1$
+				}
+				setSeriesAggregation( queries.get( 0 ), "Max" );//High //$NON-NLS-1$
+				setSeriesAggregation( queries.get( 1 ), "Min" );//Low //$NON-NLS-1$
+				setSeriesAggregation( queries.get( 2 ), "First" );//Open //$NON-NLS-1$
+				setSeriesAggregation( queries.get( 3 ), "Last" );//Close //$NON-NLS-1$
+			}
+		}
+	}
+	
+	private void setSeriesAggregation( Query query, String aggFunc )
+	{
+		SeriesGrouping grouping = query.getGrouping( );
+		if ( grouping == null )
+		{
+			grouping = SeriesGroupingImpl.create( );
+			query.setGrouping( grouping );
+		}
+		grouping.setEnabled( true );
+		grouping.setAggregateExpression( aggFunc );
+		query.setGrouping( grouping );
 	}
 }
