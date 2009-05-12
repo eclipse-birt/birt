@@ -485,6 +485,12 @@
                singleton="false"
                type="org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper">
          </adapter>
+         <adapter
+               factory="org.eclipse.birt.report.designer.internal.ui.views.actions.ImageMenuAdapterFactory"
+               id="org.eclipse.birt.report.designer.internal.ui.views.actions.image.reload"
+               singleton="false"
+               type="org.eclipse.jface.action.IMenuListener">
+         </adapter>
       </adaptable>
       <adaptable
             class="org.eclipse.birt.report.model.api.GridHandle">
