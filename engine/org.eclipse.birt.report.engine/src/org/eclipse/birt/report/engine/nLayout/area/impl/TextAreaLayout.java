@@ -165,7 +165,7 @@ public class TextAreaLayout implements ILayout
 				comp.setNewLineStatus( false );
 				if ( area.isLineBreak( ) )
 				{
-					newLine();
+					newLine( area.blankLine );
 					comp.setNewLineStatus( true );
 				}
 			}
@@ -186,9 +186,9 @@ public class TextAreaLayout implements ILayout
 	/**
 	 * true if succeed to new a line.
 	 */
-	public void newLine( ) throws BirtException
+	public void newLine(boolean endParagraph ) throws BirtException
 	{
-		parentLM.endLine( true );
+		parentLM.endLine( endParagraph );
 	}
 
 	public int getFreeSpace( )
