@@ -851,7 +851,7 @@ public class TriggerDataComposite extends Composite
 					MultiURLValues muv = MultiURLValuesImpl.create( );
 					URLValue uv = (URLValue) value ;
 					org.eclipse.birt.chart.model.component.Label l = LabelImpl.create( );
-					l.setCaption( TextImpl.create( uv.getBaseUrl( ) ) );
+					l.setCaption( TextImpl.create( Messages.getString("TriggerDataComposite.TemporaryName.Hyperlink") ) ); //$NON-NLS-1$
 					uv.setLabel( l );
 					muv.getURLValues( ).add( uv );
 					muv.setTooltip( uv.getTooltip( ) );
