@@ -175,6 +175,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 		setRed( iRed );
 		setGreen( iGreen );
 		setBlue( iBlue );
+		setTransparency( 255 );
 	}
 
 	/**

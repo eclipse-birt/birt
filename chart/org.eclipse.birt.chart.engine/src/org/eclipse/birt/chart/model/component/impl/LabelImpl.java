@@ -12,11 +12,12 @@
 package org.eclipse.birt.chart.model.component.impl;
 
 import org.eclipse.birt.chart.model.ModelPackage;
-import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
@@ -809,22 +810,23 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * 
 	 * Note: Manually written
 	 */
-	public final void initialize( )
+	protected final void initialize( )
 	{
 		setCaption( TextImpl.create( (String) null ) );
 
-		setBackground( ColorDefinitionImpl.create( this,
-				ComponentPackage.eINSTANCE.getLabel_Background( ) ) );
+		setBackground( ColorDefinitionImpl.TRANSPARENT( ) );
 
-		final Insets ins = InsetsImpl.create( this,
-				ComponentPackage.eINSTANCE.getLabel_Insets( ) );
+		final Insets ins = AttributeFactory.eINSTANCE.createInsets( );
+		( (InsetsImpl) ins ).set( 0, 2, 0, 3 );
 		setInsets( ins );
 
-		final LineAttributes lia = LineAttributesImpl.create( this,
-				ComponentPackage.eINSTANCE.getLabel_Outline( ) );
-		lia.setColor( ColorDefinitionImpl.create( lia,
-				AttributePackage.eINSTANCE.getLineAttributes_Color( ) ) );
+		final LineAttributes lia = AttributeFactory.eINSTANCE.createLineAttributes( );
+		( (LineAttributesImpl) lia ).set( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1 );
 		setOutline( lia );
+
+		setVisible( true );
 	}
 
 	/**

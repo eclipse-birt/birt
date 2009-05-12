@@ -16,12 +16,12 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Direction;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
@@ -29,7 +29,6 @@ import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
-import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -2089,20 +2088,25 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected final void initialize( )
 	{
 		super.initialize( );
+		setPosition( Position.RIGHT_LITERAL );
+		setOrientation( Orientation.VERTICAL_LITERAL );
+		setDirection( Direction.TOP_BOTTOM_LITERAL );
+		setItemType( LegendItemType.SERIES_LITERAL );
 
 		Label la = LabelImpl.create( );
-		LineAttributes lia = LineAttributesImpl.create( this,
-				ComponentPackage.eINSTANCE.getLabel_Outline( ) );
-		lia.setColor( ColorDefinitionImpl.create( lia,
-				AttributePackage.eINSTANCE.getLineAttributes_Color( ) ) );
+		LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1 );
+		lia.setVisible( false );
 		la.setOutline( lia );
 		la.setVisible( false );
 		setTitle( la );
+		setTitlePosition( Position.ABOVE_LITERAL );
 
-		LineAttributes separator = LineAttributesImpl.create( this,
-				LayoutPackage.eINSTANCE.getLegend_Separator( ) );
-		separator.setColor( ColorDefinitionImpl.create( separator,
-				AttributePackage.eINSTANCE.getLineAttributes_Color( ) ) );
+		LineAttributes separator = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1 );
+		separator.setVisible( true );
 		setSeparator( separator );
 
 		final ClientArea ca = LayoutFactory.eINSTANCE.createClientArea( );

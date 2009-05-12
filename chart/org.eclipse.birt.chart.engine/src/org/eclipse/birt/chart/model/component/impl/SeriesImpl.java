@@ -19,8 +19,12 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
+import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.DataPointImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.CurveFitting;
@@ -1166,10 +1170,18 @@ public class SeriesImpl extends EObjectImpl implements Series
 	 */
 	protected void initialize( )
 	{
-		LabelImpl la = (LabelImpl) LabelImpl.create( this,
-				ComponentPackage.eINSTANCE.getSeries_Label( ) );
-		la.initialize( );
+		setStacked( false );
+		setVisible( true );
+		final Label la = LabelImpl.create( );
+		LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1 );
+		la.setOutline( lia );
+		lia.setVisible( false );
+		// la.setBackground(ColorDefinitionImpl.YELLOW());
 		setLabel( la );
+		la.setVisible( false );
+		setLabelPosition( Position.OUTSIDE_LITERAL );
 		setSeriesIdentifier( IConstants.UNDEFINED_STRING );
 		setDataPoint( DataPointImpl.create( null, null, ", " ) ); //$NON-NLS-1$
 	}

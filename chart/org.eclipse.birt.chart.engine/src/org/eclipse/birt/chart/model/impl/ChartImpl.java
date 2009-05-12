@@ -1429,7 +1429,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 		txtChartTitle.getFont( ).setAlignment( taTitle );
 
 		// 4. SETUP OTHER BASIC PROPERTIES
-		// setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
+		setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
 		setSeriesThickness( 10 );
 
 		// 5. SETUP INTERACTIVITY

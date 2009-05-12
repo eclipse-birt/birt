@@ -23,9 +23,11 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
+import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
@@ -2851,8 +2853,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 		setLabel( LabelImpl.create( ) );
 
 		// AXIS LINE
-		LineAttributes lia = LineAttributesImpl.create( this,
-				ComponentPackage.eINSTANCE.getAxis_LineAttributes( ) );
+		LineAttributes lia = LineAttributesImpl.create( null,
+				LineStyle.SOLID_LITERAL,
+				1 );
 		setLineAttributes( lia );
 
 		// INTERSECTION VALUE
@@ -2862,7 +2865,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 		setOrigin( ao );
 
 		// PRIMARY AXIS
-		// setPrimaryAxis( false );
+		setPrimaryAxis( false );
 
 		// AXIS TITLE
 		Label la = LabelImpl.create( );
@@ -2878,32 +2881,38 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 		// MAJOR GRID
 		Grid gr = ComponentFactory.eINSTANCE.createGrid( );
-		lia = LineAttributesImpl.create( gr,
-				ComponentPackage.eINSTANCE.getGrid_LineAttributes( ) );
-		lia.setColor( ColorDefinitionImpl.create( 196, 196, 196 ) );
+		lia = LineAttributesImpl.create( ColorDefinitionImpl.create( 196,
+				196,
+				196 ), LineStyle.SOLID_LITERAL, 1 );
+		lia.setVisible( false );
 		gr.setLineAttributes( lia );
-		lia = LineAttributesImpl.create( gr,
-				ComponentPackage.eINSTANCE.getGrid_LineAttributes( ) );
-		lia.setColor( ColorDefinitionImpl.create( 196, 196, 196 ) );
-		lia.setVisible( true );
+		lia = LineAttributesImpl.create( ColorDefinitionImpl.create( 196,
+				196,
+				196 ), LineStyle.SOLID_LITERAL, 1 );
 		gr.setTickAttributes( lia );
+		gr.setTickStyle( TickStyle.ACROSS_LITERAL );
 		setMajorGrid( gr );
 
 		// MINOR GRID
 		gr = ComponentFactory.eINSTANCE.createGrid( );
-		lia = LineAttributesImpl.create( gr,
-				ComponentPackage.eINSTANCE.getGrid_LineAttributes( ) );
-		lia.setColor( ColorDefinitionImpl.create( 225, 225, 225 ) );
+		lia = LineAttributesImpl.create( ColorDefinitionImpl.create( 225,
+				225,
+				225 ), LineStyle.SOLID_LITERAL, 1 );
+		lia.setVisible( false );
 		gr.setLineAttributes( lia );
-		lia = LineAttributesImpl.create( gr,
-				ComponentPackage.eINSTANCE.getGrid_LineAttributes( ) );
-		lia.setColor( ColorDefinitionImpl.create( 225, 225, 225 ) );
+		lia = LineAttributesImpl.create( ColorDefinitionImpl.create( 225,
+				225,
+				225 ), LineStyle.SOLID_LITERAL, 1 );
+		lia.setVisible( false );
 		gr.setTickAttributes( lia );
+		gr.setTickStyle( TickStyle.ACROSS_LITERAL );
 		setMinorGrid( gr );
 
 		// SCALE
 		Scale sc = ComponentFactory.eINSTANCE.createScale( );
+		sc.setMinorGridsPerUnit( 5 );
 		setScale( sc );
+		setPercent( false );
 
 		if ( iAxisType == Axis.BASE )
 		{

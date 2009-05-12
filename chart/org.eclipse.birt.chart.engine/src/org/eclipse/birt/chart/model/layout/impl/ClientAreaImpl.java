@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.chart.model.layout.impl;
 
-import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
@@ -618,13 +618,12 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	public final void initialize( )
 	{
 		//setBackground( ColorDefinitionImpl.WHITE( ) );
-		final LineAttributes lia = LineAttributesImpl.create( this,
-				LayoutPackage.eINSTANCE.getClientArea_Outline( ) );
-		lia.setColor( ColorDefinitionImpl.create( lia,
-				AttributePackage.eINSTANCE.getLineAttributes_Color( ) ) );
+		final LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				0 );
+		lia.setVisible( false );
 		setOutline( lia );
-		setInsets( InsetsImpl.create( this,
-				LayoutPackage.eINSTANCE.getClientArea_Insets( ) ) );
+		setInsets( InsetsImpl.create( 0, 0, 0, 0 ) );
 	}
 
 	/**

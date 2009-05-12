@@ -479,6 +479,9 @@ public class PlotImpl extends BlockImpl implements Plot
 		final ClientArea ca = LayoutFactory.eINSTANCE.createClientArea( );
 		( (ClientAreaImpl) ca ).initialize( );
 		setClientArea( ca );
+
+		setHorizontalSpacing( 5 );
+		setVerticalSpacing( 5 );
 	}
 
 	/**

@@ -20,12 +20,13 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Anchor;
-import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.Stretch;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
@@ -1810,19 +1811,27 @@ public class BlockImpl extends EObjectImpl implements Block
 	 */
 	protected void initialize( )
 	{
-		final LineAttributes lia = LineAttributesImpl.create( this,
-				LayoutPackage.eINSTANCE.getBlock_Outline( ) );
-		lia.setColor( ColorDefinitionImpl.create( lia,
-				AttributePackage.eINSTANCE.getLineAttributes_Color( ) ) );
+		final LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1 );
+		lia.setVisible( false );
 		setOutline( lia );
 
-		final Bounds bo = BoundsImpl.create( this,
-				LayoutPackage.eINSTANCE.getBlock_Bounds( ) );
+		final Bounds bo = AttributeFactory.eINSTANCE.createBounds( );
+		( (BoundsImpl) bo ).set( 0, 0, 0, 0 );
 		setBounds( bo );
 
-		final Insets i = InsetsImpl.create( this,
-				LayoutPackage.eINSTANCE.getBlock_Insets( ) );
+		final Insets i = AttributeFactory.eINSTANCE.createInsets( );
+		( (InsetsImpl) i ).set( 3, 3, 3, 3 );
 		setInsets( i );
+
+		setRow( -1 );
+		setColumn( -1 );
+		setRowspan( -1 );
+		setColumnspan( -1 );
+		// setStretch(Stretch.NONE_LITERAL);
+
+		setVisible( true );
 	}
 
 	/**
