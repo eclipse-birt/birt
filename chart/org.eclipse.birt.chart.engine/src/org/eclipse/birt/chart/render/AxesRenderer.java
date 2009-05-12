@@ -2341,6 +2341,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	{
 		// If data point is invalid, simply return.
 		if ( dph != null
+				&& dph.getIndex( ) >= 0
 				&& ( isNaN( dph.getOrthogonalValue( ) ) || dph.isOutside( ) ) )
 		{
 			return;
@@ -3616,6 +3617,28 @@ public abstract class AxesRenderer extends BaseRenderer
 				ipr.enableInteraction( iev );
 			}
 		}
+	}
+	
+	protected final DataPointHints createDummyDataPointHintsForLegendItem( )
+			throws ChartException
+	{
+		if ( getSeries( ) == null )
+		{
+			return null;
+		}
+		return new DataPointHints( null,
+				null,
+				getSeries( ).getSeriesIdentifier( ),
+				null,
+				getSeries( ).getDataPoint( ),
+				null,
+				null,
+				null,
+				null,
+				-1,// avoid invalid check
+				null,
+				0,
+				rtc );
 	}
 	
 }
