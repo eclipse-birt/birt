@@ -289,6 +289,9 @@ public class ColorSelector extends EventManager
 			}
 			updateColorImage( );
 		}
-		shell.dispose( );
+		if ( isWin32 )
+		{
+			shell.dispose( );
+		}
 	}
 }
