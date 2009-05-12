@@ -279,7 +279,7 @@
 			<include name="*.jar"/>
 		</fileset>
 		<fileset dir="${buildDirectory}/plugins" >
-			<include name="javax._1.5*.jar"/>
+			<include name="javax.wsdl_1.5*.jar"/>
 		</fileset>
 	</copy>
 </target>
