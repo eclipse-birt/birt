@@ -31,7 +31,6 @@ import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -154,13 +153,13 @@ public class InteractivityCharts
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( bs );
 
-		Series bs2 = (Series) EcoreUtil.copy( bs );
+		Series bs2 = bs.copyInstance( );
 		bs2.setDataSet( NumberDataSetImpl.create( new double[]{
 				35, 30, 10
 		} ) );
 		sdY.getSeries( ).add( bs2 );
 
-		Series bs3 = (Series) EcoreUtil.copy( bs );
+		Series bs3 = bs.copyInstance( );
 		bs3.setDataSet( NumberDataSetImpl.create( new double[]{
 				20, 10, 30
 		} ) );
@@ -340,8 +339,10 @@ public class InteractivityCharts
 		
 		for ( int i = 0; i < ls.getMarkers( ).size( ); i++ )
 		{
-			((Marker)ls.getMarkers( ).get( i )).setType( MarkerType.FOUR_DIAMONDS_LITERAL );
-			((Marker)ls.getMarkers( ).get( i )).setSize( 8 );
+			ls.getMarkers( )
+					.get( i )
+					.setType( MarkerType.FOUR_DIAMONDS_LITERAL );
+			ls.getMarkers( ).get( i ).setSize( 8 );
 		}
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
@@ -397,7 +398,7 @@ public class InteractivityCharts
 		} );
 
 		// Base Series
-		Series seCategory = (Series) SeriesImpl.create( );
+		Series seCategory = SeriesImpl.create( );
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
@@ -719,7 +720,7 @@ public class InteractivityCharts
 	/**
 	 * The method returns a chart model with multiple URL settings.
 	 * 
-	 * @return
+	 * @return chart model
 	 */
 	public static Chart createMultiURChart( )
 	{
@@ -752,7 +753,7 @@ public class InteractivityCharts
 		} );
 
 		// Base Series
-		Series seCategory = (Series) SeriesImpl.create( );
+		Series seCategory = SeriesImpl.create( );
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );

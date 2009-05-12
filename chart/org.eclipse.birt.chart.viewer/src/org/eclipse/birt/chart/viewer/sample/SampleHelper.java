@@ -18,11 +18,8 @@ import org.eclipse.birt.chart.integrate.SimpleDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
-import org.eclipse.birt.chart.model.attribute.Image;
-import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
@@ -61,7 +58,6 @@ import org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl;
 import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.style.SimpleStyle;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.ibm.icu.util.ULocale;
 
@@ -133,23 +129,25 @@ public class SampleHelper
 
 						if ( style.getFont( ) != null )
 						{
-							rt.setFont( (FontDefinition) EcoreUtil.copy( style.getFont( ) ) );
+							rt.setFont( style.getFont( ).copyInstance( ) );
 						}
 						if ( style.getColor( ) != null )
 						{
-							rt.setColor( (ColorDefinition) EcoreUtil.copy( style.getColor( ) ) );
+							rt.setColor( style.getColor( ).copyInstance( ) );
 						}
 						if ( style.getBackgroundColor( ) != null )
 						{
-							rt.setBackgroundColor( (ColorDefinition) EcoreUtil.copy( style.getBackgroundColor( ) ) );
+							rt.setBackgroundColor( style.getBackgroundColor( )
+									.copyInstance( ) );
 						}
 						if ( style.getBackgroundImage( ) != null )
 						{
-							rt.setBackgroundImage( (Image) EcoreUtil.copy( style.getBackgroundImage( ) ) );
+							rt.setBackgroundImage( style.getBackgroundImage( )
+									.copyInstance( ) );
 						}
 						if ( style.getPadding( ) != null )
 						{
-							rt.setPadding( (Insets) EcoreUtil.copy( style.getPadding( ) ) );
+							rt.setPadding( style.getPadding( ).copyInstance( ) );
 						}
 
 						return rt;

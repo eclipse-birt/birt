@@ -33,7 +33,6 @@ import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TasksManager;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.utils.UIHelper;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.widgets.Display;
 
 import com.ibm.icu.util.ULocale;
@@ -89,7 +88,7 @@ public class ChartWizardLauncher implements ChartUIConstants
 
 		// Add predefined queries to select in data sheet
 		context.addPredefinedQuery( QUERY_CATEGORY, new String[]{
-				"row[\"abc\"]", "abc"
+				"row[\"abc\"]", "abc" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 
 		context.setRtL( ChartUtil.isRightToLeftLocale( ULocale.getDefault( ) ) );
@@ -105,7 +104,7 @@ public class ChartWizardLauncher implements ChartUIConstants
 			{
 				super.run( );
 				// Save the data when applying
-				applyData[0] = EcoreUtil.copy( context.getModel( ) );
+				applyData[0] = context.getModel( ).copyInstance( );
 			}
 
 		} );

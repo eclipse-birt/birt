@@ -11,14 +11,9 @@
 
 package org.eclipse.birt.chart.examples.api.processor;
 
-import java.util.Iterator;
-
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
-import org.eclipse.birt.chart.model.attribute.Image;
-import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Style;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
@@ -31,7 +26,6 @@ import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.style.SimpleStyle;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * SimpleProcessor
@@ -58,9 +52,6 @@ public final class StyleProcessor implements IStyleProcessor
 				InsetsImpl.create( 1.0, 1.0, 1.0, 1.0 ) );
 	}
 
-	/**
-	 * @return
-	 */
 	synchronized public static StyleProcessor instance( )
 	{
 		if ( instance == null )
@@ -88,10 +79,8 @@ public final class StyleProcessor implements IStyleProcessor
 	{
 		if ( model != null && model.getStyles( ).size( ) > 0 )
 		{
-			for ( Iterator itr = model.getStyles( ).iterator( ); itr.hasNext( ); )
+			for ( StyleMap sm : model.getStyles( ) )
 			{
-				StyleMap sm = (StyleMap) itr.next( );
-
 				if ( sm.getComponentName( ).equals( name ) )
 				{
 					Style style = sm.getStyle( );
@@ -100,23 +89,25 @@ public final class StyleProcessor implements IStyleProcessor
 
 					if ( style.getFont( ) != null )
 					{
-						rt.setFont( (FontDefinition) EcoreUtil.copy( style.getFont( ) ) );
+						rt.setFont( style.getFont( ).copyInstance( ) );
 					}
 					if ( style.getColor( ) != null )
 					{
-						rt.setColor( (ColorDefinition) EcoreUtil.copy( style.getColor( ) ) );
+						rt.setColor( style.getColor( ).copyInstance( ) );
 					}
 					if ( style.getBackgroundColor( ) != null )
 					{
-						rt.setBackgroundColor( (ColorDefinition) EcoreUtil.copy( style.getBackgroundColor( ) ) );
+						rt.setBackgroundColor( style.getBackgroundColor( )
+								.copyInstance( ) );
 					}
 					if ( style.getBackgroundImage( ) != null )
 					{
-						rt.setBackgroundImage( (Image) EcoreUtil.copy( style.getBackgroundImage( ) ) );
+						rt.setBackgroundImage( style.getBackgroundImage( )
+								.copyInstance( ) );
 					}
 					if ( style.getPadding( ) != null )
 					{
-						rt.setPadding( (Insets) EcoreUtil.copy( style.getPadding( ) ) );
+						rt.setPadding( style.getPadding( ).copyInstance( ) );
 					}
 
 					return rt;
