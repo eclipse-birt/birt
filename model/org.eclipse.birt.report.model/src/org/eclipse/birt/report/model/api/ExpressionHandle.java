@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -42,6 +43,22 @@ public class ExpressionHandle extends ComplexValueHandle
 	{
 		super( element, context );
 	}
+	
+	/**
+	 * Constructs an expression handle for the structure member.
+	 * 
+	 * @param element
+	 *            the design element handle
+	 * @param memberRef
+	 *            the memberRef for the member property
+	 * @deprecated
+	 */
+
+	public ExpressionHandle( DesignElementHandle element, MemberRef memberRef )
+	{
+		super( element, memberRef );
+	}
+	
 
 	/**
 	 * Constructs an expression handle for an element property.

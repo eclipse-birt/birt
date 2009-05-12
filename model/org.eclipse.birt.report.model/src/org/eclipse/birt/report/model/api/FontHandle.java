@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
@@ -48,6 +49,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
  * method in <code>DesignElementHandle</code> to get a color handle like:
  * 
  * <pre>
+ * 
+ * 
  * 
  * 
  * 
@@ -87,6 +90,26 @@ public class FontHandle extends ComplexValueHandle
 	 */
 
 	public FontHandle( DesignElementHandle handle, StructureContext context )
+	{
+		super( handle, context );
+
+		propDefn = getElement( ).getPropertyDefn(
+				IStyleModel.HIGHLIGHT_RULES_PROP );
+		assert propDefn != null;
+	}
+
+	/**
+	 * Constructs a font family handle for a structure member.
+	 * 
+	 * @param handle
+	 *            the element handle
+	 * @param context
+	 *            the context to the structure member
+	 * @deprecated
+	 * 
+	 */
+
+	public FontHandle( DesignElementHandle handle, MemberRef context )
 	{
 		super( handle, context );
 

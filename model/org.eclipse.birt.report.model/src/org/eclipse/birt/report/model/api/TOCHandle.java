@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
+import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.Style;
@@ -47,6 +48,21 @@ public class TOCHandle extends StructureHandle
 	 */
 
 	public TOCHandle( DesignElementHandle element, StructureContext context )
+	{
+		super( element, context );
+	}
+
+	/**
+	 * Construct an handle to deal with the toc structure.
+	 * 
+	 * @param element
+	 *            the element that defined the action.
+	 * @param context
+	 *            context to the toc property
+	 * @deprecated
+	 */
+
+	public TOCHandle( DesignElementHandle element, MemberRef context )
 	{
 		super( element, context );
 	}

@@ -55,7 +55,7 @@ public abstract class ValueHandle extends ElementDetailHandle
 
 	public MemberRef getReference( )
 	{
-		return null;
+		return new MemberRef( getContext( ) );
 	}
 
 	/**

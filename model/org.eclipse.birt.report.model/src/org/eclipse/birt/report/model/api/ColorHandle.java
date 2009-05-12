@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
+import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -46,6 +47,9 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * </ul>
  * 
  * <pre>
+ * 
+ * 
+ * 
  * 
  * ColorHandle colorHandle = styleHandle.getColor( );
  * </pre>
@@ -75,14 +79,31 @@ public class ColorHandle extends ComplexValueHandle
 	 * 
 	 * @param element
 	 *            the design element handle
-	 * @param memberRef
-	 *            the memberRef for the member property
+	 * @param context
+	 *            the context for the member property
 	 */
 
-	public ColorHandle( DesignElementHandle element, StructureContext memberRef )
+	public ColorHandle( DesignElementHandle element, StructureContext context )
 	{
-		super( element, memberRef );
-		assert memberRef.getPropDefn( ).getType( ) instanceof ColorPropertyType;
+		super( element, context );
+		assert context.getPropDefn( ).getType( ) instanceof ColorPropertyType;
+	}
+
+	/**
+	 * Constructs a color handle for a member in a structure. This member must
+	 * be a color type.
+	 * 
+	 * @param element
+	 *            the design element handle
+	 * @param context
+	 *            the context for the member property
+	 * @deprecated
+	 */
+
+	public ColorHandle( DesignElementHandle element, MemberRef context )
+	{
+		super( element, context );
+		assert context.getPropDefn( ).getType( ) instanceof ColorPropertyType;
 	}
 
 	/**
@@ -131,7 +152,6 @@ public class ColorHandle extends ComplexValueHandle
 		setValue( new Integer( rgbValue ) );
 	}
 
-	
 	/**
 	 * Returns a CSS-compatible color value. It is a CSS-defined color name like
 	 * "red", or a CSS absolute RGB value like RGB(255,0,0).
@@ -151,7 +171,7 @@ public class ColorHandle extends ComplexValueHandle
 	 * 
 	 * @return a list of localized color names, including both standard(CSS)
 	 *         colors and user defined colors.
-	 *  
+	 * 
 	 */
 
 	public List getColors( )
@@ -166,7 +186,7 @@ public class ColorHandle extends ComplexValueHandle
 		for ( int i = 0; i < colors.size( ); i++ )
 		{
 			CustomColor customColor = (CustomColor) colors.get( i );
-			retList.add( customColor.getDisplayName( getModule() ) );
+			retList.add( customColor.getDisplayName( getModule( ) ) );
 		}
 
 		return retList;
@@ -177,7 +197,7 @@ public class ColorHandle extends ComplexValueHandle
 	 * localized.
 	 * 
 	 * @return a list of localized CSS color names.
-	 *  
+	 * 
 	 */
 
 	public List getCSSColors( )
@@ -193,4 +213,3 @@ public class ColorHandle extends ComplexValueHandle
 		return retList;
 	}
 }
-

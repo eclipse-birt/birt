@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
+import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.StructureContext;
 
 /**
@@ -25,7 +26,7 @@ public class CachedMetaDataHandle extends StructureHandle
 
 	/**
 	 * Constructors a handle given an element handle that defines the property
-	 * and a member reference to the metadata property.
+	 * and a member context to the metadata property.
 	 * 
 	 * @param element
 	 *            an element handle that defines the property
@@ -35,6 +36,22 @@ public class CachedMetaDataHandle extends StructureHandle
 
 	public CachedMetaDataHandle( DesignElementHandle element,
 			StructureContext ref )
+	{
+		super( element, ref );
+	}
+
+	/**
+	 * Constructors a handle given an element handle that defines the property
+	 * and a member reference to the metadata property.
+	 * 
+	 * @param element
+	 *            an element handle that defines the property
+	 * @param ref
+	 *            a member reference to the data-set meta-data property
+	 * @deprecated
+	 */
+
+	public CachedMetaDataHandle( DesignElementHandle element, MemberRef ref )
 	{
 		super( element, ref );
 	}

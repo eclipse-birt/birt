@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ListPropertyType;
@@ -42,6 +43,23 @@ public class ExpressionListHandle extends ComplexValueHandle
 	{
 		super( element, context );
 		assert context.getPropDefn( ).getType( ) instanceof ListPropertyType;
+	}
+
+	/**
+	 * Constructs an expression list handle for the structure member.
+	 * 
+	 * @param element
+	 *            the design element handle
+	 * @param context
+	 *            the memberRef for the member property
+	 * @deprecated
+	 */
+
+	protected ExpressionListHandle( DesignElementHandle element, MemberRef ref )
+	{
+		super( element, ref );
+		assert ref.getContext( ) != null;
+		assert ref.getPropDefn( ).getType( ) instanceof ListPropertyType;
 	}
 
 	/**

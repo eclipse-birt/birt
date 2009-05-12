@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.DimensionPropertyType;
@@ -74,6 +75,23 @@ public class DimensionHandle extends ComplexValueHandle
 
 	public DimensionHandle( DesignElementHandle element,
 			StructureContext context )
+	{
+		super( element, context );
+		assert context.getPropDefn( ).getType( ) instanceof DimensionPropertyType;
+	}
+
+	/**
+	 * Constructs a dimension handle for a member of a structure. This member
+	 * must be a dimension type.
+	 * 
+	 * @param element
+	 *            the design element handle
+	 * @param context
+	 *            the context for the member property
+	 * @deprecated
+	 */
+
+	public DimensionHandle( DesignElementHandle element, MemberRef context )
 	{
 		super( element, context );
 		assert context.getPropDefn( ).getType( ) instanceof DimensionPropertyType;
@@ -146,10 +164,10 @@ public class DimensionHandle extends ComplexValueHandle
 
 	public IChoice[] getAllowedUnits( )
 	{
-		if ( memberRef == null )
+		if ( memberContext == null )
 			return propDefn.getAllowedUnits( ).getChoices( );
 
-		return memberRef.getPropDefn( ).getAllowedUnits( ).getChoices( );
+		return memberContext.getPropDefn( ).getAllowedUnits( ).getChoices( );
 	}
 
 	/**

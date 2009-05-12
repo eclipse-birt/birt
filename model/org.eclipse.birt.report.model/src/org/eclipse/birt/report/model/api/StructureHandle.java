@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
+import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -64,6 +65,27 @@ public class StructureHandle extends ValueHandle
 
 		structContext = context;
 
+		checkValidation( );
+	}
+
+	/**
+	 * Constructs a handle for a structure within a list property of a given
+	 * element.
+	 * 
+	 * @param element
+	 *            handle to the report element.
+	 * @param ref
+	 *            reference to the structure
+	 * @deprecated
+	 */
+
+	public StructureHandle( DesignElementHandle element, MemberRef ref )
+	{
+		super( element );
+		if ( ref == null )
+			throw new IllegalArgumentException(
+					"The member reference can not be null when creating the structure handle." ); //$NON-NLS-1$
+		structContext = ref.getContext( );
 		checkValidation( );
 	}
 

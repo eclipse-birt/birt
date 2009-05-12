@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
+import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.StructureContext;
 
 /**
@@ -62,6 +63,21 @@ public class ActionHandle extends StructureHandle
 	public ActionHandle( DesignElementHandle element, StructureContext context )
 	{
 		super( element, context );
+	}
+
+	/**
+	 * Construct an handle to deal with the action structure.
+	 * 
+	 * @param element
+	 *            the element that defined the action.
+	 * @param ref
+	 *            reference to the action property.
+	 * @deprecated
+	 */
+
+	public ActionHandle( DesignElementHandle element, MemberRef ref )
+	{
+		super( element, ref );
 	}
 
 	/**

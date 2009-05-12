@@ -92,6 +92,11 @@ public class MemberRef
 	protected final int depth;
 
 	/**
+	 * The structure context of this reference.
+	 */
+	protected StructureContext context = null;
+
+	/**
 	 * Constructs one member reference as same as the given one.
 	 * 
 	 * @param memberRef
@@ -549,6 +554,21 @@ public class MemberRef
 	}
 
 	/**
+	 * Constructs the member reference with the context.
+	 * 
+	 * @param context
+	 */
+	public MemberRef( StructureContext context )
+	{
+		this.context = context;
+		propDefn = null;
+
+		refType = PROPERTY;
+		index[0] = -1;
+		depth = 1;
+	}
+
+	/**
 	 * Returns a reference to the parent.
 	 * <p>
 	 * <strong>property.list[n].member.list[n][member] </strong>
@@ -576,6 +596,8 @@ public class MemberRef
 
 	public Object getValue( Module module, DesignElement element )
 	{
+		if ( context != null )
+			return context.getValue( module );
 		if ( propDefn.isListType( ) )
 		{
 			// property
@@ -658,6 +680,8 @@ public class MemberRef
 
 	public Object getLocalValue( Module module, DesignElement element )
 	{
+		if ( context != null )
+			return context.getLocalValue( module );
 		Structure struct = getStructure( module, element );
 		if ( struct == null )
 			return null;
@@ -723,6 +747,8 @@ public class MemberRef
 
 	public ElementPropertyDefn getPropDefn( )
 	{
+		if ( context != null )
+			return context.getElementProp( );
 		return propDefn;
 	}
 
@@ -741,6 +767,8 @@ public class MemberRef
 
 	public PropertyDefn getMemberDefn( )
 	{
+		if ( context != null )
+			return context.getPropDefn( );
 		return member[1] == null ? member[0] : member[1];
 	}
 
@@ -765,6 +793,8 @@ public class MemberRef
 
 	public Structure getStructure( Module module, DesignElement element )
 	{
+		if ( context != null )
+			return context.getStructure( );
 		if ( propDefn.isListType( ) )
 		{
 			ArrayList list = (ArrayList) element.getProperty( module, propDefn );
@@ -878,6 +908,8 @@ public class MemberRef
 
 	public IStructureDefn getStructDefn( )
 	{
+		if ( context != null )
+			return context.getStructDefn( );
 		switch ( refType )
 		{
 			case PROPERTY :
@@ -912,6 +944,8 @@ public class MemberRef
 
 	public int getIndex( )
 	{
+		if ( context != null )
+			return context.getIndex( null );
 		if ( propDefn.isListType( ) )
 			return index[depth - 1];
 
@@ -955,6 +989,8 @@ public class MemberRef
 
 	public List getList( Module module, DesignElement element )
 	{
+		if ( context != null )
+			return context.getList( module );
 		if ( propDefn.isListType( ) )
 		{
 			// Get the property list. If the list is null, there
@@ -1021,6 +1057,8 @@ public class MemberRef
 
 	public boolean isListRef( )
 	{
+		if ( context != null )
+			return context.isListRef( );
 		switch ( refType )
 		{
 			case PROPERTY :
@@ -1192,6 +1230,16 @@ public class MemberRef
 			hash += array[i].hashCode( );
 		}
 		return hash;
+	}
+
+	/**
+	 * Gets the context of this reference.
+	 * 
+	 * @return
+	 */
+	public StructureContext getContext( )
+	{
+		return this.context;
 	}
 
 }

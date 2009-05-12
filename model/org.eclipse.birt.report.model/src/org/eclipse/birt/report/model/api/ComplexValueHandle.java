@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.command.PropertyCommand;
+import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -39,7 +40,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 	 * Path to the property within an element, a list or a structure.
 	 */
 
-	protected StructureContext memberRef = null;
+	protected StructureContext memberContext = null;
 
 	/**
 	 * Constructs a handle given an element handle and definition of a property.
@@ -68,21 +69,47 @@ public abstract class ComplexValueHandle extends ValueHandle
 	 * @param element
 	 *            handle to the report element that has the property that
 	 *            contains the structure that contains the member.
-	 * @param theMemberRef
-	 *            The reference to the member.
+	 * @param theMemberContext
+	 *            The context to the member.
 	 */
 
 	public ComplexValueHandle( DesignElementHandle element,
-			StructureContext theMemberRef )
+			StructureContext theMemberContext )
+	{
+		super( element );
+		assert theMemberContext != null;
+
+		propDefn = theMemberContext.getElementProp( );
+
+		assert propDefn != null;
+
+		memberContext = theMemberContext;
+	}
+
+	/**
+	 * Constructs a handle given an element handle and member reference. The
+	 * element property definition can not be null.
+	 * 
+	 * @param element
+	 *            handle to the report element that has the property that
+	 *            contains the structure that contains the member.
+	 * @param theMemberRef
+	 *            The reference to the member.
+	 * @deprecated
+	 */
+
+	public ComplexValueHandle( DesignElementHandle element,
+			MemberRef theMemberRef )
 	{
 		super( element );
 		assert theMemberRef != null;
 
-		propDefn = theMemberRef.getElementProp( );
+		memberContext = theMemberRef.getContext( );
+		assert memberContext != null;
+
+		propDefn = memberContext.getElementProp( );
 
 		assert propDefn != null;
-
-		memberRef = theMemberRef;
 	}
 
 	/**
@@ -99,13 +126,13 @@ public abstract class ComplexValueHandle extends ValueHandle
 	{
 		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 
-		if ( memberRef == null )
+		if ( memberContext == null )
 		{
 			cmd.setProperty( propDefn, value );
 		}
 		else
 		{
-			cmd.setMember( memberRef, value );
+			cmd.setMember( memberContext, value );
 		}
 	}
 
@@ -134,13 +161,13 @@ public abstract class ComplexValueHandle extends ValueHandle
 	{
 		Module tmpModule = getModule( );
 		Object value = null;
-		if ( memberRef == null )
+		if ( memberContext == null )
 		{
 			value = getElement( ).getProperty( tmpModule, propDefn );
 		}
 		else
 		{
-			value = memberRef.getValue( tmpModule );
+			value = memberContext.getValue( tmpModule );
 		}
 
 		return value;
@@ -169,7 +196,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 
 	public String getStringValue( )
 	{
-		PropertyDefn prop = memberRef == null ? propDefn : memberRef
+		PropertyDefn prop = memberContext == null ? propDefn : memberContext
 				.getPropDefn( );
 		return prop.getStringValue( getModule( ), getValue( ) );
 	}
@@ -183,7 +210,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 
 	public String getDisplayValue( )
 	{
-		PropertyDefn prop = memberRef == null ? propDefn : memberRef
+		PropertyDefn prop = memberContext == null ? propDefn : memberContext
 				.getPropDefn( );
 		return prop.getDisplayValue( getModule( ), getValue( ) );
 	}
@@ -207,7 +234,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 
 	public StructureContext getContext( )
 	{
-		return this.memberRef;
+		return this.memberContext;
 	}
 
 	/**
@@ -222,8 +249,8 @@ public abstract class ComplexValueHandle extends ValueHandle
 		// is <code>StructPropertyDefn</code>. For an element property, the
 		// return value is <code>ElementPropertyDefn</code>.
 
-		if ( memberRef != null )
-			return memberRef.getPropDefn( );
+		if ( memberContext != null )
+			return memberContext.getPropDefn( );
 
 		return propDefn;
 	}
@@ -246,14 +273,14 @@ public abstract class ComplexValueHandle extends ValueHandle
 
 	public boolean isSet( )
 	{
-		if ( memberRef == null )
+		if ( memberContext == null )
 		{
 			FactoryPropertyHandle handle = new FactoryPropertyHandle(
 					elementHandle, propDefn );
 			return handle.isSet( );
 		}
 
-		Object value = memberRef.getValue( getModule( ) );
+		Object value = memberContext.getValue( getModule( ) );
 		return ( value != null );
 	}
 }

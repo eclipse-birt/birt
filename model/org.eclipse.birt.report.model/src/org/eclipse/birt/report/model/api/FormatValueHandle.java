@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
+import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.StructureContext;
 
 import com.ibm.icu.util.ULocale;
@@ -36,6 +37,21 @@ public class FormatValueHandle extends StructureHandle
 
 	public FormatValueHandle( DesignElementHandle element,
 			StructureContext context )
+	{
+		super( element, context );
+	}
+
+	/**
+	 * Construct an handle to deal with the action structure.
+	 * 
+	 * @param element
+	 *            the element that defined the action.
+	 * @param context
+	 *            context to the format value property
+	 * @deprecated
+	 */
+
+	public FormatValueHandle( DesignElementHandle element, MemberRef context )
 	{
 		super( element, context );
 	}
