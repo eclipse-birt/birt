@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.util.IdentifierUtility;
@@ -43,6 +44,7 @@ import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.InputParameterAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ParameterMode;
+import org.eclipse.datatools.connectivity.oda.design.StaticValues;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -91,6 +93,12 @@ class DataSetParameterAdapter
 	private List<OdaDataSetParameterHandle> setDefinedParams = null;
 
 	/**
+	 * 
+	 */
+
+	private final IODADesignFactory designFactory;
+
+	/**
 	 * The constructor.
 	 * 
 	 * @param setHandle
@@ -110,6 +118,8 @@ class DataSetParameterAdapter
 		setDefinedParams = new ArrayList<OdaDataSetParameterHandle>( );
 		while ( tmpParams.hasNext( ) )
 			setDefinedParams.add( tmpParams.next( ) );
+
+		designFactory = ODADesignFactory.getFactory( );
 	}
 
 	/**
@@ -167,8 +177,7 @@ class DataSetParameterAdapter
 		ParameterDefinition odaParamDefn = null;
 
 		if ( lastOdaParamDefn == null )
-			odaParamDefn = ODADesignFactory.getFactory( )
-					.createParameterDefinition( );
+			odaParamDefn = designFactory.createParameterDefinition( );
 		else
 			odaParamDefn = (ParameterDefinition) EcoreUtil
 					.copy( lastOdaParamDefn );
@@ -181,8 +190,7 @@ class DataSetParameterAdapter
 		InputParameterAttributes inputAttrs = odaParamDefn.getInputAttributes( );
 		if ( inputAttrs == null )
 		{
-			inputAttrs = ODADesignFactory.getFactory( )
-					.createInputParameterAttributes( );
+			inputAttrs = designFactory.createInputParameterAttributes( );
 			odaParamDefn.setInputAttributes( inputAttrs );
 		}
 
@@ -232,8 +240,7 @@ class DataSetParameterAdapter
 	{
 		DataElementAttributes dataAttrs = lastDataAttrs;
 		if ( dataAttrs == null )
-			dataAttrs = ODADesignFactory.getFactory( )
-					.createDataElementAttributes( );
+			dataAttrs = designFactory.createDataElementAttributes( );
 
 		dataAttrs
 				.setNullability( newElementNullability( paramDefn.allowNull( ) ) );
@@ -801,8 +808,7 @@ class DataSetParameterAdapter
 		InputElementAttributes inputAttrs = lastInputAttrs;
 
 		if ( inputAttrs == null )
-			inputAttrs = ODADesignFactory.getFactory( )
-					.createInputElementAttributes( );
+			inputAttrs = designFactory.createInputElementAttributes( );
 
 		setDefaultScalarValue( inputAttrs, paramDefn.getParameterDataType( ),
 				paramDefn.getDefaultValue( ) );
@@ -1109,7 +1115,7 @@ class DataSetParameterAdapter
 		if ( odaParams.isEmpty( ) )
 			return null;
 
-		DataSetParameters odaSetParams = ODADesignFactory.getFactory( )
+		DataSetParameters odaSetParams = designFactory
 				.createDataSetParameters( );
 
 		List<ParameterDefinition> params = odaSetParams
@@ -1216,7 +1222,15 @@ class DataSetParameterAdapter
 				literalValue = BIRT_JS_EXPR;
 		}
 
-		elementAttrs.setDefaultScalarValue( literalValue );
+		StaticValues newValues = null;
+
+		if ( literalValue != null )
+		{
+			newValues = designFactory.createStaticValues( );
+			newValues.add( literalValue );
+		}
+
+		elementAttrs.setDefaultValues( newValues );
 	}
 
 	/**
@@ -1619,7 +1633,7 @@ class DataSetParameterAdapter
 					.getInputAttributes( );
 			if ( inputParamAttrs == null )
 			{
-				inputParamAttrs = ODADesignFactory.getFactory( )
+				inputParamAttrs = designFactory
 						.createInputParameterAttributes( );
 				tmpParam.setInputAttributes( inputParamAttrs );
 			}
@@ -1628,7 +1642,7 @@ class DataSetParameterAdapter
 					.getElementAttributes( );
 			if ( inputElementAttrs == null )
 			{
-				inputElementAttrs = ODADesignFactory.getFactory( )
+				inputElementAttrs = designFactory
 						.createInputElementAttributes( );
 				inputParamAttrs.setElementAttributes( inputElementAttrs );
 			}
