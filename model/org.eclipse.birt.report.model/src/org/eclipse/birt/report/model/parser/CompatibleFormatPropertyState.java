@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
@@ -28,7 +29,7 @@ import org.xml.sax.SAXException;
  * Can translate the obsolete format
  * 
  * <pre>
- *        
+ * 
  *        Old design file:
  *        
  *           &lt;property name=&quot;dateTimeFormat&quot;&gt;:yyyy/mm/dd&lt;/property&gt;
@@ -49,7 +50,7 @@ import org.xml.sax.SAXException;
  *        	  &lt;property name=&quot;category&quot;&gt;noformat&lt;/property&gt;
  *        	  &lt;property name=&quot;pattern&quot;&gt;***&lt;/property&gt;
  *        	&lt;/structure&gt;
- *        
+ * 
  * </pre>
  */
 
@@ -149,7 +150,7 @@ public class CompatibleFormatPropertyState extends CompatiblePropertyState
 
 		if ( parentStruct != null )
 		{
-			parentStruct.setProperty( propDefn, struct );
+			((Structure)parentStruct).setProperty( name, struct );
 		}
 		else
 		{

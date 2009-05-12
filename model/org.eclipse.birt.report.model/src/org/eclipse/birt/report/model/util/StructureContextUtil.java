@@ -55,15 +55,12 @@ public class StructureContextUtil
 				item
 						.setContext( new StructureContext( element, propDefn,
 								item ) );
-				StructureContextUtil.setupStructureContext( item );
 			}
 		}
 		else
 		{
 			( (Structure) clonedValue ).setContext( new StructureContext(
 					element, propDefn, (Structure) clonedValue ) );
-			StructureContextUtil
-					.setupStructureContext( (Structure) clonedValue );
 		}
 	}
 

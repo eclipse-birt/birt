@@ -1192,12 +1192,28 @@ public abstract class DesignElement
 					(StructRefValue) value, prop );
 		}
 
-		if ( prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE && !prop.isList( ) )
+		if ( prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 		{
-			if ( value instanceof Structure )
+			if ( prop.isList( ) )
 			{
-				( (Structure) value ).setContext( new StructureContext( this,
-						prop, (Structure) value ) );
+				if ( value instanceof List )
+				{
+					List listValue = (List) value;
+					for ( Object item : listValue )
+					{
+						Structure struct = (Structure) item;
+						struct.setContext( new StructureContext( this, prop,
+								struct ) );
+					}
+				}
+			}
+			else
+			{
+				if ( value instanceof Structure )
+				{
+					( (Structure) value ).setContext( new StructureContext(
+							this, prop, (Structure) value ) );
+				}
 			}
 		}
 

@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
+import org.eclipse.birt.report.model.util.StructureContextUtil;
 
 /**
  * Base class for property structures. Implements the two "boiler-plate" methods
@@ -87,6 +88,7 @@ public abstract class Structure implements IStructure
 		try
 		{
 			Structure retValue = (Structure) clone( );
+			StructureContextUtil.setupStructureContext( retValue );
 			retValue.context = null;
 			return retValue;
 		}
@@ -256,9 +258,11 @@ public abstract class Structure implements IStructure
 	public void setProperty( PropertyDefn prop, Object value )
 	{
 		updateReference( prop, value );
+		setupContext( prop, value );
 
 		if ( prop.isIntrinsic( ) )
 			setIntrinsicProperty( prop.getName( ), value );
+
 	}
 
 	/**
@@ -278,6 +282,40 @@ public abstract class Structure implements IStructure
 			ElementRefValue oldRef = (ElementRefValue) getLocalProperty( null,
 					prop.getName( ) );
 			doUpdateReference( oldRef, (ElementRefValue) value, prop );
+		}
+	}
+
+	/**
+	 * Sets up the context if the value to set is structure or structure list.
+	 * 
+	 * @param prop
+	 * @param value
+	 */
+	protected void setupContext( PropertyDefn prop, Object value )
+	{
+		if ( prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+		{
+			if ( prop.isList( ) )
+			{
+				if ( value instanceof List )
+				{
+					List listValue = (List) value;
+					for ( Object item : listValue )
+					{
+						Structure struct = (Structure) item;
+						struct.setContext( new StructureContext( this, prop,
+								struct ) );
+					}
+				}
+			}
+			else
+			{
+				if ( value instanceof Structure )
+				{
+					( (Structure) value ).setContext( new StructureContext(
+							this, prop, (Structure) value ) );
+				}
+			}
 		}
 	}
 
@@ -487,7 +525,7 @@ public abstract class Structure implements IStructure
 	{
 		if ( context != null )
 			assert context.getStructure( ) == this;
-		
+
 		this.context = context;
 	}
 

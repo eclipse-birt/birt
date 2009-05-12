@@ -280,22 +280,19 @@ public class ReportDesignSerializer extends ElementVisitor
 
 	private void addExternalStructures( )
 	{
-		List<IStructure> images = (List) targetDesign.getLocalProperty(
-				targetDesign, IModuleModel.IMAGES_PROP );
-		if ( images == null )
-		{
-			images = new ArrayList<IStructure>( );
-			targetDesign.setProperty( IModuleModel.IMAGES_PROP, images );
-		}
+		ElementPropertyDefn propDefn = targetDesign
+				.getPropertyDefn( IModuleModel.IMAGES_PROP );
 
 		Iterator<IStructure> embeddedImages = externalStructs.values( )
 				.iterator( );
+		StructureContext context = new StructureContext( targetDesign,
+				propDefn, null );
 		while ( embeddedImages.hasNext( ) )
 		{
 			EmbeddedImage image = (EmbeddedImage) embeddedImages.next( );
 
 			targetDesign.rename( image );
-			images.add( image );
+			context.add( image );
 		}
 
 	}
@@ -1261,9 +1258,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	{
 		List<Object> scriptLibsPath = new ArrayList<Object>( );
 
-		for ( int i = 0; i < scriptLibsPath.size( ); i++ )
+		for ( int i = 0; i < scriptLibList.size( ); i++ )
 		{
-			ScriptLib sourceScriptLib = (ScriptLib) scriptLibsPath.get( i );
+			ScriptLib sourceScriptLib = (ScriptLib) scriptLibList.get( i );
 			scriptLibsPath.add( sourceScriptLib.getName( ) );
 		}
 
@@ -1924,12 +1921,12 @@ public class ReportDesignSerializer extends ElementVisitor
 		{
 			Cube newCube = iter.next( );
 			Cube srcCube = cubes.get( newCube );
+			ElementPropertyDefn propDefn = srcCube
+					.getPropertyDefn( ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
 			List<Object> dimensionConditionList = (List<Object>) srcCube
-					.getProperty( sourceDesign,
-							ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
-			List<Object> newValueList = new ArrayList<Object>( );
-			newCube.setProperty( ITabularCubeModel.DIMENSION_CONDITIONS_PROP,
-					newValueList );
+					.getProperty( sourceDesign, propDefn );
+			StructureContext dimensionConditionsContext = new StructureContext(
+					newCube, propDefn, null );
 
 			// one by one handle the dimension condition
 			if ( dimensionConditionList != null )
@@ -1940,7 +1937,7 @@ public class ReportDesignSerializer extends ElementVisitor
 							.get( i );
 					DimensionCondition newDimensionCond = (DimensionCondition) dimensionCond
 							.copy( );
-					newValueList.add( newDimensionCond );
+					dimensionConditionsContext.add( newDimensionCond );
 
 					// handle hierarchy reference
 					ElementRefValue hierarchyRef = (ElementRefValue) dimensionCond
@@ -2115,19 +2112,15 @@ public class ReportDesignSerializer extends ElementVisitor
 	private void handleStructureValue( DesignElement newElement,
 			PropertyDefn propDefn, Object valueList )
 	{
+		assert propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE;
 		if ( propDefn.isList( )
 				&& IModuleModel.IMAGES_PROP.equalsIgnoreCase( propDefn
 						.getName( ) ) )
 		{
-			List<Object> images = newElement.getListProperty( targetDesign,
-					IModuleModel.IMAGES_PROP );
-			if ( images == null )
-			{
-				images = new ArrayList<Object>( );
-				newElement.setProperty( propDefn, images );
-			}
+			StructureContext context = new StructureContext( newElement,
+					(ElementPropertyDefn) propDefn, null );
 
-			localizeEmbeddedImage( (List<Object>) valueList, images );
+			localizeEmbeddedImage( (List<Object>) valueList, context );
 		}
 		else
 		{
@@ -2376,14 +2369,17 @@ public class ReportDesignSerializer extends ElementVisitor
 	 * 
 	 * @param sourceEmbeddedImage
 	 *            the source images
-	 * @param targetEmeddedImage
-	 *            the target images
+	 * @param targetContext
+	 *            the target context to add the embedded image
 	 */
 
 	private void localizeEmbeddedImage( List<Object> sourceEmbeddedImage,
-			List<Object> targetEmeddedImage )
+			StructureContext targetContext )
 	{
 
+		List targetEmeddedImage = targetContext.getList( targetDesign );
+		if ( targetEmeddedImage == null )
+			targetEmeddedImage = Collections.emptyList( );
 		for ( int i = 0; i < sourceEmbeddedImage.size( ); i++ )
 		{
 			EmbeddedImage sourceImage = (EmbeddedImage) sourceEmbeddedImage
@@ -2396,7 +2392,7 @@ public class ReportDesignSerializer extends ElementVisitor
 
 				localizeEmbeddedImageValues( sourceImage, newEmeddedImage );
 
-				targetEmeddedImage.add( newEmeddedImage );
+				targetContext.add( newEmeddedImage );
 			}
 		}
 	}
