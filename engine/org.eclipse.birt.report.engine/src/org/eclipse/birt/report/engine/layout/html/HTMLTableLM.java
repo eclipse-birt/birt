@@ -96,7 +96,7 @@ public class HTMLTableLM extends HTMLBlockStackingLM
 			{
 				IRowContent rowContent = (IRowContent) itr.next( );
 				RowDesign rowDesign = (RowDesign) rowContent.getGenerateBy( );
-				if ( !rowDesign.getRepeatable( ) )
+				if ( rowDesign != null && !rowDesign.getRepeatable( ) )
 				{
 					removed.add( rowContent );
 				}
