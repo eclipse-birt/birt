@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -347,6 +348,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		// Index of tree item in the navigator tree
 		private int treeIndex = 0;
 
+		private boolean bStackedPercent;
+
 		public SeriesOptionChoser( SeriesDefinition seriesDefn,
 				String seriesName, int iSeriesDefinitionIndex, int treeIndex,
 				boolean canStack )
@@ -356,6 +359,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			this.iSeriesDefinitionIndex = iSeriesDefinitionIndex;
 			this.treeIndex = treeIndex;
 			this.canStack = canStack;
+			this.bStackedPercent = isStackedPercent( seriesDefn );
 		}
 
 		public SeriesOptionChoser( SeriesDefinition seriesDefn,
@@ -368,6 +372,16 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			this.treeIndex = treeIndex;
 			this.canStack = canStack;
 			this.axisIndex = axisIndex;
+			this.bStackedPercent = isStackedPercent( seriesDefn );
+		}
+
+		private boolean isStackedPercent( SeriesDefinition seriesDefn )
+		{
+			if ( seriesDefn.eContainer( ) instanceof Axis )
+			{
+				return ( (Axis) seriesDefn.eContainer( ) ).isPercent( );
+			}
+			return false;
 		}
 
 		public void placeComponents( Composite parent )
@@ -452,7 +466,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					btnStack.setLayoutData( gd );
 					btnStack.setEnabled( canStack
 							&& series.canBeStacked( )
-							&& getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL );
+							&& getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL
+							&& !bStackedPercent );
 					if ( series.isStacked( ) && !canStack )
 					{
 						btnStack.setSelection( false );
@@ -740,7 +755,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 								.getDisplayName( ) ) )
 				{
 					if ( canStack
-							&& seriesDefn.getDesignTimeSeries( ).canBeStacked( ) )
+							&& seriesDefn.getDesignTimeSeries( ).canBeStacked( )
+							&& !bStackedPercent )
 					{
 						btnStack.setEnabled( true );
 					}
