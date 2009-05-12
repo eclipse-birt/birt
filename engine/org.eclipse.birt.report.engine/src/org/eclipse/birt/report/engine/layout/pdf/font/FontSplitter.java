@@ -122,9 +122,7 @@ public class FontSplitter implements ISplitter
 		if (null == lastFontInfo)
 		{
 			chunkStartPos = currentPos + returnCharacterCount;
-			Chunk breakChunk = Chunk.HARD_LINE_BREAK;
-			breakChunk.setOffset( chunkStartPos );
-			return breakChunk;
+			return Chunk.HARD_LINE_BREAK;
 		}
 		lineBreak = lineBreakChunk;
 		Chunk c = new Chunk(new String(chunkText, chunkStartPos, currentPos-chunkStartPos), 
