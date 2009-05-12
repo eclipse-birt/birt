@@ -17,16 +17,26 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
+import org.eclipse.birt.report.designer.data.ui.util.DataUIConstants;
 import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -79,7 +89,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 	/**
 	 * the text list used in composite
 	 */
-	private List propertyTextList = new ArrayList( );
+	private List<Text> propertyTextList = new ArrayList( );
 	/**
 	 * the button list used in composite
 	 */
@@ -89,6 +99,8 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 	private final String QUERYTEXT = "queryText"; //$NON-NLS-1$
 	private final String PASSWORD = "odaPassword"; //$NON-NLS-1$
 	private static Logger logger = Logger.getLogger( PropertyBindingPage.class.getName( ) );
+	
+	private ReportElementHandle handle;
 
 	/**
 	 * the content
@@ -108,8 +120,8 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 		composite.setLayoutData( gridData );
 
 		Label nameLabel;
-		Text propertyText;
-		Button buildButton;
+		Text propertyText = null;
+		
 		// according the binding properties's size, dynamically add the
 		// label,text,button group list to composite
 		for ( int i = 0; i < size; i++ )
@@ -136,32 +148,103 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 					: (String) bindingValue.get( i ) );
 			propertyTextList.add( propertyText );
 
-			buildButton = new Button( composite, SWT.NONE );
-			UIUtil.setExpressionButtonImage( buildButton );
-			buttonList.add( buildButton );
+			if ( ds instanceof OdaDataSourceHandle )
+			{
+				handle = (OdaDataSourceHandle)ds;
+				Button buildButton = new Button( composite, SWT.NONE );
+				UIUtil.setExpressionButtonImage( buildButton );
+				buttonList.add( buildButton );
+				// add button listener
+				addListener( );
+				
+				OdaDataSourceHandle odsh = (OdaDataSourceHandle)ds;
+				Utility.setSystemHelp( composite, 
+						IHelpConstants.PREFIX + "Wizard_DataSourcePropertyBinding"
+						+ "("+ odsh.getExtensionID( ).replace( '.', '_' ) + ")" //'.' char will interrupt help system
+						+ "_ID");
+
+			}
+			else if ( ds instanceof OdaDataSetHandle )
+			{
+				handle = (OdaDataSetHandle) ds;
+				OdaDataSourceHandle odsh = (OdaDataSourceHandle) ( ( (OdaDataSetHandle) ds ).getDataSource( ) );
+				ExpressionButton button = createExpressionButton( composite, propertyText );
+				propertyText.setData( DataUIConstants.EXPR_BUTTON,
+						button );
+				Expression expr = handle.getPropertyBindingExpression( (String) bindingName.get( i ) );
+				propertyText.setText( expr == null
+						|| expr.getStringExpression( ) == null ? ""
+						: expr.getStringExpression( ) );
+				if ( expr != null && expr.getType( ) != null )
+					propertyText.setData( DataUIConstants.EXPR_TYPE,
+							expr.getType( ) );
+				
+				button = (ExpressionButton) propertyText.getData( DataUIConstants.EXPR_BUTTON );
+				if ( button != null )
+					button.refresh( );
+
+				Utility.setSystemHelp( composite, 
+						IHelpConstants.PREFIX + "Wizard_DataSetPropertyBinding"
+						+ "("+ odsh.getExtensionID( ).replace( '.', '_' ) + ")" //'.' char will interrupt help system
+						+ "_ID");
+			}
 		}
-		// add button listener
-		addListener( );
 		if ( size <= 0 )
 			setEmptyPropertyMessages( composite );
-		if ( ds instanceof OdaDataSourceHandle )
-		{
-			OdaDataSourceHandle odsh = (OdaDataSourceHandle)ds;
-			Utility.setSystemHelp( composite, 
-					IHelpConstants.PREFIX + "Wizard_DataSourcePropertyBinding"
-					+ "("+ odsh.getExtensionID( ).replace( '.', '_' ) + ")" //'.' char will interrupt help system
-					+ "_ID");
-
-		}
-		else if ( ds instanceof OdaDataSetHandle )
-		{
-			OdaDataSourceHandle odsh = (OdaDataSourceHandle)(((OdaDataSetHandle)ds).getDataSource( ));
-			Utility.setSystemHelp( composite, 
-					IHelpConstants.PREFIX + "Wizard_DataSetPropertyBinding"
-					+ "("+ odsh.getExtensionID( ).replace( '.', '_' ) + ")" //'.' char will interrupt help system
-					+ "_ID");
-		}
 		return composite;
+	}
+	
+	private ExpressionButton createExpressionButton( Composite composite, final Text property )
+	{
+		ExpressionButton exprButton = UIUtil.createExpressionButton( composite, SWT.PUSH );
+		if ( handle == null )
+		{
+			handle = DesignElementFactory.getInstance( getModuleHandle( ) )
+					.newOdaDataSet( null );
+		}
+		
+		IExpressionHelper helper = new IExpressionHelper( ) {
+
+			public String getExpression( )
+			{
+				if ( property != null )
+					return property.getText( );
+				else
+					return "";
+			}
+
+			public void setExpression( String expression )
+			{
+				if ( property != null )
+					property.setText( expression );
+			}
+
+			public void notifyExpressionChangeEvent( String oldExpression,
+					String newExpression )
+			{
+
+			}
+
+			public IExpressionProvider getExpressionProvider( )
+			{
+				return new ExpressionProvider( handle );
+			}
+
+			public String getExpressionType( )
+			{
+				return (String) property.getData( DataUIConstants.EXPR_TYPE );
+			}
+
+			public void setExpressionType( String exprType )
+			{
+				property.setData( DataUIConstants.EXPR_TYPE, exprType );
+			}
+
+		};
+		exprButton.setExpressionHelper( helper );
+		
+		buttonList.add( exprButton );		
+		return exprButton;
 	}
 
 	/**
@@ -308,22 +391,23 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 			try
 			{
 				String value = null;
-				if ( ( (Text) propertyTextList.get( i ) ).isDisposed( )
-						|| ( (Text) propertyTextList.get( i ) ).getText( ) == null
-						|| ( (Text) propertyTextList.get( i ) ).getText( )
-								.trim( )
-								.length( ) == 0 )
+				Text propertyText = (Text) propertyTextList.get( i );
+				if ( propertyText.isDisposed( )
+						|| propertyText.getText( ) == null
+						|| propertyText.getText( ).trim( ).length( ) == 0 )
 					value = null;
 				else
-					value = ( (Text) propertyTextList.get( i ) ).getText( )
-							.trim( );
+					value = propertyText.getText( ).trim( );
 				
+				Expression expr = new Expression( value,
+						(String) propertyText.getData( DataUIConstants.EXPR_TYPE ) );
+
 				if ( ds instanceof DataSourceHandle )
 					( (DataSourceHandle) ds ).setPropertyBinding( (String) bindingName.get( i ),
 							value );
 				else if ( ds instanceof DataSetHandle )
 					( (DataSetHandle) ds ).setPropertyBinding( (String) bindingName.get( i ),
-							value );
+							expr );
 			}
 			catch ( SemanticException e )
 			{
@@ -368,4 +452,10 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 	{
 		return Messages.getString( "PropertyBindingPage.property.tooltip" ); //$NON-NLS-1$
 	}
+	
+	private ModuleHandle getModuleHandle( )
+	{
+		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+	}
+
 }

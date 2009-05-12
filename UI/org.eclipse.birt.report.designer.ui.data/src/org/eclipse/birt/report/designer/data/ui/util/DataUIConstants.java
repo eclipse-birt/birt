@@ -19,5 +19,9 @@ public class DataUIConstants
 	public static final String DATA_SOURCE_SCRIPT = "script"; //$NON-NLS-1$
 
 	public static final String DATA_SET_SCRIPT = "ScriptSelectDataSet"; //$NON-NLS-1$
+	
+	public static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
+	
+	public static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
 
 }

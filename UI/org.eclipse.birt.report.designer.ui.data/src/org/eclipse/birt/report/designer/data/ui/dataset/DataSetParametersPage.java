@@ -22,16 +22,24 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.data.ui.util.ControlProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
+import org.eclipse.birt.report.designer.data.ui.util.DataUIConstants;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterDialog;
 import org.eclipse.birt.report.model.adapter.oda.ReportParameterAdapter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
@@ -50,7 +58,6 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -1749,9 +1756,18 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 				}
 			};
 
-			ControlProvider.createButton( defaultValueComposite,
-					SWT.PUSH,
-					listener );
+			ExpressionButton exprButton = createExpressionButton( defaultValueComposite );
+			defaultValue.setData( DataUIConstants.EXPR_BUTTON, exprButton );
+
+			ExpressionHandle expr = getExpressionHandle( );
+			defaultValue.setText( expr == null || expr.getExpression( ) == null
+					? "" : (String) expr.getExpression( ) );
+			defaultValue.setData( DataUIConstants.EXPR_TYPE, expr == null
+					|| expr.getType( ) == null ? null : (String) expr.getType( ) );
+			ExpressionButton button = (ExpressionButton) defaultValue.getData( DataUIConstants.EXPR_BUTTON );
+			if ( button != null )
+				button.refresh( );
+			
 		}
 
 		private void createComboCellParameter( Composite parent, String label )
@@ -1911,6 +1927,63 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			return getOKStatus( );
 		}
 		
+		private ExpressionButton createExpressionButton( Composite composite )
+		{			
+			ExpressionButton expressionButton = UIUtil.createExpressionButton( composite, SWT.PUSH );
+			
+			IExpressionHelper helper = new IExpressionHelper( ) {
+
+				public String getExpression( )
+				{
+					return defaultValue.getText( );
+				}
+
+				public void setExpression( String expression )
+				{
+					if ( expression != null )
+					{
+						defaultValue.setText( expression );
+					}
+				}
+
+				public void notifyExpressionChangeEvent( String oldExpression,
+						String newExpression )
+				{
+
+				}
+
+				public IExpressionProvider getExpressionProvider( )
+				{
+					return new ExpressionProvider( (DataSetHandle) getContainer( ).getModel( ) );
+				}
+
+				public String getExpressionType( )
+				{
+					return (String)defaultValue.getData( DataUIConstants.EXPR_TYPE );
+
+				}
+
+				public void setExpressionType( String exprType )
+				{
+					defaultValue.setData( DataUIConstants.EXPR_TYPE, exprType );
+				}
+
+			};
+			
+			expressionButton.setExpressionHelper( helper );
+
+			return expressionButton;
+			
+		}
+
+		private ExpressionHandle getExpressionHandle( )
+		{
+			String propName = DataSetParameter.DEFAULT_VALUE_MEMBER;
+
+			return structureHandle.getExpressionProperty( propName );
+
+		}
+		
 
 		/*
 		 * necessary in two scenarios 1. linkToSalarParameter 2. okPressed
@@ -1922,8 +1995,11 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 				structureHandle.setName( dataSetParamName.getText( ) );
 				structureHandle.setParameterDataType( ParameterPageUtil.getTypeName( dataType.getText( ) ) );
 				setDirection( direction.getText( ) );
-				structureHandle.setDefaultValue( defaultValue.isEnabled( )
-						? defaultValue.getText( ).trim( ) : defaultValueString );
+				structureHandle.setExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER,
+						new Expression( defaultValue.isEnabled( )
+								? defaultValue.getText( ).trim( )
+								: defaultValueString,
+								(String) defaultValue.getData( DataUIConstants.EXPR_TYPE ) ) );
 
 				if ( isOdaDataSetHandle )
 					( (OdaDataSetParameterHandle) structureHandle ).setParamName( Utility.findIndex( linkToSalarParameter.getItems( ),
