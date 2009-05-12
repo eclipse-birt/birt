@@ -590,6 +590,7 @@ TriggerDataComposite.Lbl.TooltipDelay=Retardo de la &información sobre herramien
 TriggerDataComposite.Lbl.ParameterNames=Parámetros de URL de punto de datos opcionales
 TriggerDataComposite.Lbl.CategorySeries=&Serie de categoría:
 TriggerDataComposite.Lbl.Cursor=Cur&sor:
+TriggerDataComposite.TemporaryName.Hyperlink=Hyperlink
 TriggerDataComposite.Text.EditBaseURL=Editar &URL base...
 TriggerDataComposite.Text.Advanced=&Avanzado>>
 TriggerDataComposite.Text.OpenAdvanced=&Avanzado<<

@@ -590,6 +590,7 @@ TriggerDataComposite.Lbl.TooltipDelay=工具提示延迟（毫秒）(&D):
 TriggerDataComposite.Lbl.ParameterNames=可选数据点 URL 参数
 TriggerDataComposite.Lbl.CategorySeries=类别系列(&C):
 TriggerDataComposite.Lbl.Cursor=光标(&S):
+TriggerDataComposite.TemporaryName.Hyperlink=Hyperlink
 TriggerDataComposite.Text.EditBaseURL=编辑基本 URL(&U)...
 TriggerDataComposite.Text.Advanced=高级(&A)>>
 TriggerDataComposite.Text.OpenAdvanced=高级(&A)<<

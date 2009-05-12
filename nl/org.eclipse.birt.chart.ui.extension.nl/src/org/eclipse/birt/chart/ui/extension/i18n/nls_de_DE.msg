@@ -590,6 +590,7 @@ TriggerDataComposite.Lbl.TooltipDelay=QuickInfo-&Verzögerung (in ms):
 TriggerDataComposite.Lbl.ParameterNames=Optionale Datenpunkt-URL-Parameter
 TriggerDataComposite.Lbl.CategorySeries=&Kategorie-Datenreihe:
 TriggerDataComposite.Lbl.Cursor=Cur&sor:
+TriggerDataComposite.TemporaryName.Hyperlink=Hyperlink
 TriggerDataComposite.Text.EditBaseURL=Basis-&URL bearbeiten...
 TriggerDataComposite.Text.Advanced=&Erweitert>>
 TriggerDataComposite.Text.OpenAdvanced=&Erweitert<<

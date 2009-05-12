@@ -590,6 +590,7 @@ TriggerDataComposite.Lbl.TooltipDelay=ツールチップを表示するまでの時間 (ミリ秒) 
 TriggerDataComposite.Lbl.ParameterNames=オプションのデータポイントの URL パラメタ
 TriggerDataComposite.Lbl.CategorySeries=カテゴリ系列(&C) :
 TriggerDataComposite.Lbl.Cursor=カーソル(&S) :
+TriggerDataComposite.TemporaryName.Hyperlink=Hyperlink
 TriggerDataComposite.Text.EditBaseURL=ベース URL の編集(&U)...
 TriggerDataComposite.Text.Advanced=詳細設定(&A) >>
 TriggerDataComposite.Text.OpenAdvanced=詳細設定(&A) <<

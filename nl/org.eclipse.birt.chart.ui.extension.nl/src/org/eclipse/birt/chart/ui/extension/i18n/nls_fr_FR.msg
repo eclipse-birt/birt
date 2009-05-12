@@ -590,6 +590,7 @@ TriggerDataComposite.Lbl.TooltipDelay=Retard &infobulle (en ms) :
 TriggerDataComposite.Lbl.ParameterNames=Paramètres URL de points de données optionnels
 TriggerDataComposite.Lbl.CategorySeries=Série de &catégories :
 TriggerDataComposite.Lbl.Cursor=Cur&seur :
+TriggerDataComposite.TemporaryName.Hyperlink=Hyperlink
 TriggerDataComposite.Text.EditBaseURL=Modifier l'&URL de base...
 TriggerDataComposite.Text.Advanced=&Avancé>>
 TriggerDataComposite.Text.OpenAdvanced=&Avancé<<

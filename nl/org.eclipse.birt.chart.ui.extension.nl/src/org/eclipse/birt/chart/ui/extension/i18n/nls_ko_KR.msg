@@ -590,6 +590,7 @@ TriggerDataComposite.Lbl.TooltipDelay=도구 설명 지연(ms)(&D):
 TriggerDataComposite.Lbl.ParameterNames=옵션 데이터 요소 URL 매개 변수
 TriggerDataComposite.Lbl.CategorySeries=범주 계열(&C):
 TriggerDataComposite.Lbl.Cursor=커서(&S):
+TriggerDataComposite.TemporaryName.Hyperlink=Hyperlink
 TriggerDataComposite.Text.EditBaseURL=기본 URL 편집(&U)...
 TriggerDataComposite.Text.Advanced=고급(&A)>>
 TriggerDataComposite.Text.OpenAdvanced=고급(&A)<<
