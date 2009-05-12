@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.birt.report.engine">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.birt.report.engine" id="dataExtraction" name="Data Extractin Support"/>
+         <meta.schema plugin="org.eclipse.birt.report.engine" id="dataExtraction" name="Data Extraction Support"/>
       </appInfo>
       <documentation>
          This extension point defines how to create a new data extraction extension which is used to extracts data in a custom way.
