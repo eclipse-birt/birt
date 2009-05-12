@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -89,7 +90,7 @@ public class PropertyBindingTest extends BaseTestCase
 		assertNotNull( tempHandle );
 		assertTrue( tempHandle instanceof LabelHandle );
 		assertNotNull( tempHandle.getPropertyDefn( "text" ) ); //$NON-NLS-1$
-		assertEquals( "params[p1]", tempHandle.getPropertyBinding( "text" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( "params[p1]", tempHandle.getPropertyBindingExpression( "text" ).getStringExpression( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( bindingList.get( 0 ), moduleHandle.getModule( )
 				.findPropertyBinding( tempHandle.getElement( ), "text" ) ); //$NON-NLS-1$
 
@@ -131,13 +132,13 @@ public class PropertyBindingTest extends BaseTestCase
 
 		CellHandle cell = (CellHandle) designHandle.getElementByID( 22 );
 		assertNotNull( cell );
-		cell.setPropertyBinding( CellHandle.COLUMN_PROP, null );
+		cell.setPropertyBinding( CellHandle.COLUMN_PROP, (String)null );
 
 		// update label property binding
 
 		LabelHandle label = (LabelHandle) designHandle.getElementByID( 23 );
 		assertNotNull( label );
-		label.setPropertyBinding( LabelHandle.TEXT_PROP, "params[p3]" ); //$NON-NLS-1$
+		label.setPropertyBinding( LabelHandle.TEXT_PROP, new Expression( "params[p3]", null ) ); //$NON-NLS-1$
 
 		// set another label property binding with the same property
 
@@ -224,7 +225,7 @@ public class PropertyBindingTest extends BaseTestCase
 
 		LabelHandle label = (LabelHandle) designHandle.getElementByID( 23 );
 		assertNotNull( label );
-		label.setPropertyBinding( LabelHandle.BOOKMARK_PROP, "params[p]" ); //$NON-NLS-1$
+		label.setPropertyBinding( LabelHandle.BOOKMARK_PROP, new Expression( "params[p]", null ) ); //$NON-NLS-1$
 
 		label.drop( );
 

@@ -2185,31 +2185,17 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *            user-defined property name.
 	 * 
 	 * @return the property binding, or null if the overridden value is not set
+	 * @deprecated instead use getPropertyBindingExpression( String propName )
 	 */
 
 	public String getPropertyBinding( String propName )
 	{
-		if ( propName == null )
-			return null;
-
-		DesignElement element = getElement( );
-		while ( element != null && element.getRoot( ) != null )
+		PropertyBinding propBinding = findPropertyBinding( propName );
+		if ( propBinding != null ) 
 		{
-			PropertyBinding propBinding = element.getRoot( )
-					.findPropertyBinding( element, propName );
-			if ( propBinding != null )
-				return propBinding.getValue( );
-
-			if ( element.isVirtualElement( ) )
-			{
-				element = element.getVirtualParent( );
-			}
-			else
-			{
-				element = element.getExtendsElement( );
-			}
+			return propBinding.getValue( );
 		}
-		return null;
+		return null;				
 	}
 
 	/**
@@ -2288,86 +2274,13 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * 
 	 * @throws SemanticException
 	 *             if the maskValue is not one of the above.
+	 * @deprecated instead use setPropertyBinding( String propName, Expression value )
 	 */
 
 	public void setPropertyBinding( String propName, String value )
 			throws SemanticException
 	{
-		// check whether the property is defined on this element
-
-		ElementPropertyDefn defn = (ElementPropertyDefn) getPropertyDefn( propName );
-		if ( defn == null )
-			throw new SemanticError( getElement( ), new String[]{propName},
-					SemanticError.DESIGN_EXCEPTION_INVALID_PROPERTY_NAME );
-		if ( IModuleModel.PROPERTY_BINDINGS_PROP.equals( defn.getName( ) ) )
-			return;
-
-		// check the element is in the id-map of the root module
-
-		Module root = getElement( ).getRoot( );
-		if ( root == null )
-			throw new SemanticError( getElement( ),
-					SemanticError.DESIGN_EXCEPTION_PROPERTY_BINDING_FORBIDDEN );
-		assert root.getElementByID( getID( ) ) == getElement( );
-
-		ArrayList bindingList = (ArrayList) root.getLocalProperty( root,
-				IModuleModel.PROPERTY_BINDINGS_PROP );
-
-		PropertyBinding binding = root.findPropertyBinding( getElement( ),
-				propName );
-
-		// if the binding is not set, and the new value is null, returns
-
-		if ( binding == null && value == null )
-			return;
-
-		if ( bindingList == null )
-		{
-			assert value != null;
-
-			bindingList = new ArrayList( );
-			root.setProperty( IModuleModel.PROPERTY_BINDINGS_PROP, bindingList );
-		}
-
-		defn = root.getPropertyDefn( IModuleModel.PROPERTY_BINDINGS_PROP );
-		assert defn != null;
-
-		if ( value == null && binding != null )
-		{
-			ComplexPropertyCommand cmd = new ComplexPropertyCommand( module,
-					root );
-			// maskValue is null, remove the item from the structure list.
-
-			cmd.removeItem( binding.getContext( ), bindingList
-					.indexOf( binding ) );
-		}
-		else
-		{
-			/*
-			 * If the property has no binding related to, adds a new binding
-			 * item into the structure list.
-			 */
-
-			if ( binding == null )
-			{
-				binding = new PropertyBinding( );
-				binding.setName( propName );
-				binding.setID( getID( ) );
-				binding.setValue( value );
-				ComplexPropertyCommand cmd = new ComplexPropertyCommand(
-						module, root );
-				cmd.addItem( new StructureContext( root, defn, null ), binding );
-			}
-			else
-			{
-				// changes the binding value.
-
-				PropertyCommand cmd = new PropertyCommand( module, root );
-				cmd.setMember( new StructureContext( binding,
-						(PropertyDefn) binding.getDefn( ).getMember(
-								PropertyBinding.VALUE_MEMBER ), null ), value );
-			}
-		}
+		setPropertyBinding( propName, (Object)value );
 	}
 
 	/**
@@ -3031,5 +2944,172 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throws SemanticException
 	{
 		setProperty( propName, expression );
+	}
+	
+	/**
+	 * Sets the mask of the specified property.
+	 * 
+	 * @param propName
+	 *            the property name to get. Can be a system-defined or
+	 *            user-defined property name.
+	 * 
+	 * @param value
+	 *            the overridden value
+	 * 
+	 * @throws SemanticException
+	 *             if the maskValue is not one of the above.
+	 */
+
+	public void setPropertyBinding( String propName, Expression value )
+			throws SemanticException
+	{
+		setPropertyBinding( propName, (Object)value );
+	}
+
+	/**
+	 * Returns the overridden value of the specified property given its internal
+	 * name.
+	 * 
+	 * @param propName
+	 *            the name of the property to get. Can be a system-defined or
+	 *            user-defined property name.
+	 * 
+	 * @return the property binding, or null if the overridden value is not set
+	 */
+
+	public Expression getPropertyBindingExpression( String propName )
+	{
+		PropertyBinding propBinding = findPropertyBinding( propName );
+		if ( propBinding != null ) 
+		{
+			return propBinding.getExpressionProperty( PropertyBinding.VALUE_MEMBER );
+		}
+		return null;
+	}
+	
+	/**
+	 * Sets the mask of the specified property.
+	 * 
+	 * @param propName
+	 *            the property name to get. Can be a system-defined or
+	 *            user-defined property name.
+	 * 
+	 * @param value
+	 *            the overridden value
+	 * 
+	 * @throws SemanticException
+	 *             if the maskValue is not one of the above.
+	 */
+	private void setPropertyBinding( String propName, Object value ) throws SemanticException
+	{
+		// check whether the property is defined on this element
+
+		ElementPropertyDefn defn = (ElementPropertyDefn) getPropertyDefn( propName );
+		if ( defn == null )
+			throw new SemanticError( getElement( ), new String[]{propName},
+					SemanticError.DESIGN_EXCEPTION_INVALID_PROPERTY_NAME );
+		if ( IModuleModel.PROPERTY_BINDINGS_PROP.equals( defn.getName( ) ) )
+			return;
+
+		// check the element is in the id-map of the root module
+
+		Module root = getElement( ).getRoot( );
+		if ( root == null )
+			throw new SemanticError( getElement( ),
+					SemanticError.DESIGN_EXCEPTION_PROPERTY_BINDING_FORBIDDEN );
+		assert root.getElementByID( getID( ) ) == getElement( );
+
+		ArrayList bindingList = (ArrayList) root.getLocalProperty( root,
+				IModuleModel.PROPERTY_BINDINGS_PROP );
+
+		PropertyBinding binding = root.findPropertyBinding( getElement( ),
+				propName );
+
+		// if the binding is not set, and the new value is null, returns
+
+		if ( binding == null && value == null )
+			return;
+
+		if ( bindingList == null )
+		{
+			assert value != null;
+
+			bindingList = new ArrayList( );
+			root.setProperty( IModuleModel.PROPERTY_BINDINGS_PROP, bindingList );
+		}
+
+		defn = root.getPropertyDefn( IModuleModel.PROPERTY_BINDINGS_PROP );
+		assert defn != null;
+
+		if ( value == null && binding != null )
+		{
+			ComplexPropertyCommand cmd = new ComplexPropertyCommand( module,
+					root );
+			// maskValue is null, remove the item from the structure list.
+
+			cmd.removeItem( binding.getContext( ), bindingList
+					.indexOf( binding ) );
+		}
+		else
+		{
+			/*
+			 * If the property has no binding related to, adds a new binding
+			 * item into the structure list.
+			 */
+
+			if ( binding == null )
+			{
+				binding = new PropertyBinding( );
+				binding.setName( propName );
+				binding.setID( getID( ) );
+				binding.setProperty( PropertyBinding.VALUE_MEMBER, value );
+				ComplexPropertyCommand cmd = new ComplexPropertyCommand(
+						module, root );
+				cmd.addItem( new StructureContext( root, defn, null ), binding );
+			}
+			else
+			{
+				// changes the binding value.
+
+				PropertyCommand cmd = new PropertyCommand( module, root );
+				cmd.setMember( new StructureContext( binding,
+						(PropertyDefn) binding.getDefn( ).getMember(
+								PropertyBinding.VALUE_MEMBER ), null ), value );
+			}
+		}
+	}
+	
+	/**
+	 * Returns the specified property with its internal name.
+	 * 
+	 * @param propName
+	 *            the name of the property to get. Can be a system-defined or
+	 *            user-defined property name.
+	 * 
+	 * @return the property binding
+	 */
+	private PropertyBinding findPropertyBinding( String propName )
+	{
+		if ( propName == null )
+			return null;
+
+		DesignElement element = getElement( );
+		while ( element != null && element.getRoot( ) != null )
+		{
+			PropertyBinding propBinding = element.getRoot( )
+					.findPropertyBinding( element, propName );
+			if ( propBinding != null )
+				return propBinding;
+
+			if ( element.isVirtualElement( ) )
+			{
+				element = element.getVirtualParent( );
+			}
+			else
+			{
+				element = element.getExtendsElement( );
+			}
+		}
+		return null;
 	}
 }
