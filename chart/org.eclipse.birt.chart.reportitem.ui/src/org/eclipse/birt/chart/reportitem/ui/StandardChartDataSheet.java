@@ -38,7 +38,6 @@ import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartCubeF
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartFilterProviderDelegate;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
-import org.eclipse.birt.chart.ui.swt.ColumnNamesTableDragListener;
 import org.eclipse.birt.chart.ui.swt.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DefaultChartDataSheet;
@@ -166,6 +165,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private Button btnShowDataPreviewA;
 	private Button btnShowDataPreviewB;
 	private TableViewer tableViewerColumns;
+	private Label columnListDescription;
 
 	public StandardChartDataSheet( ExtendedItemHandle itemHandle,
 			ReportDataServiceProvider dataProvider, int iSupportedDataItems )
@@ -418,12 +418,11 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		if ( !dataProvider.isInXTabMeasureCell( )
 				&& !dataProvider.isInMultiView( ) )
 		{
-			// No description if dnd is disabled
-			Label description = new Label( cmpColumnsList, SWT.WRAP );
+			columnListDescription = new Label( cmpColumnsList, SWT.WRAP );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				description.setLayoutData( gd );
-				description.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
+				columnListDescription.setLayoutData( gd );
+				columnListDescription.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
 			}
 		}
 		
@@ -502,31 +501,41 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 				if ( e.button == 3 )
 				{
-					TableItem item = ((Table)e.widget).getItem( new Point( e.x, e.y ) );
-					if ( item == null )
+					if ( isCubeMode( ) )
 					{
-						tableViewerColumns.getTable( ).select( -1 );
-					}
-					// Bind context menu to each header button
-					boolean isSharingChart = dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY );
-					if ( item != null && !isSharingChart) 
-					{
-						if ( table.getMenu( ) != null )
-						{
-							table.getMenu( ).dispose( );
-						}
-						table.setMenu( createMenuManager( item.getData( ) ).createContextMenu( table ) );
+						// share cube
+						table.setMenu( null );
 					}
 					else
 					{
-						table.setMenu( null );
-					}
+						TableItem item = ( (Table) e.widget ).getItem( new Point( e.x,
+								e.y ) );
+						if ( item == null )
+						{
+							tableViewerColumns.getTable( ).select( -1 );
+						}
+						// Bind context menu to each header button
+						boolean isSharingChart = dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY );
+						if ( item != null && !isSharingChart )
+						{
+							if ( table.getMenu( ) != null )
+							{
+								table.getMenu( ).dispose( );
+							}
+							table.setMenu( createMenuManager( item.getData( ) ).createContextMenu( table ) );
+						}
+						else
+						{
+							table.setMenu( null );
+						}
 
-					if ( table.getMenu( ) != null && !isSharingChart )
-					{
-						table.getMenu( ).setVisible( true );
+						if ( table.getMenu( ) != null && !isSharingChart )
+						{
+							table.getMenu( ).setVisible( true );
+						}
 					}
 					
+
 				}
 			}
 		} ) ;
@@ -546,7 +555,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		ds.setTransfer( new Transfer[]{
 			SimpleTextTransfer.getInstance( )
 		} );
-		ColumnNamesTableDragListener dragSourceAdapter = new ColumnNamesTableDragListener( table );
+		ColumnNamesTableDragListener dragSourceAdapter = new ColumnNamesTableDragListener( table,
+				itemHandle );
 		ds.addDragListener( dragSourceAdapter );
 		
 		tableViewerColumns.setContentProvider( new IStructuredContentProvider() {
@@ -660,12 +670,46 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		
 		if ( isCubeMode( ) )
 		{
-			stackLayout.topControl = cmpCubeTree;
-			cubeTreeViewer.setInput( getCube( ) );
+			if ( getDataServiceProvider( ).getReportItemReference( ) != null )
+			{// share cube
+
+				if ( !getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
+				{
+					( (GridData) columnListDescription.getLayoutData( ) ).exclude = false;
+					columnListDescription.setVisible( true );
+					columnListDescription.setText( Messages.getString("StandardChartDataSheet.Label.ShareCrossTab") ); //$NON-NLS-1$
+				}
+				else
+				{
+					( (GridData) columnListDescription.getLayoutData( ) ).exclude = true;
+					columnListDescription.setVisible( false );
+				}
+				cmpColumnsList.layout( );
+
+				getContext( ).setShowingDataPreview( Boolean.FALSE );
+				btnShowDataPreviewB.setSelection( false );
+				btnShowDataPreviewB.setEnabled( false );
+
+				stackLayout.topControl = cmpColumnsList;
+				refreshDataPreviewPane( );
+			}
+			else
+			{
+				stackLayout.topControl = cmpCubeTree;
+				cubeTreeViewer.setInput( getCube( ) );
+
+			}
+
 			cmpStack.layout( );
 			return;
 		}
 		
+		( (GridData) columnListDescription.getLayoutData( ) ).exclude = false;
+		columnListDescription.setVisible( true );
+		columnListDescription.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
+		btnShowDataPreviewB.setEnabled( true );
+		cmpColumnsList.layout( );
+
 		// Clear data preview setting if current data item was changed.
 		String pValue = ( previousData == null ) ? "" : previousData; //$NON-NLS-1$
 		String cValue = ( currentData == null ) ? "" : currentData; //$NON-NLS-1$
@@ -733,15 +777,15 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	 */
 	private void refreshColumnsListView( )
 	{
-		if ( dataProvider.getDataSetFromHandle( ) == null )
-		{
-			return;
-		}
-		
-		if ( isCubeMode( ) )
-		{
-			return;
-		}
+		// if ( dataProvider.getDataSetFromHandle( ) == null )
+		// {
+		// return;
+		// }
+		//		
+		// if ( isCubeMode( ) )
+		// {
+		//
+		// }
 		
 		// 1. Create a runnable.
 		Runnable runnable = new Runnable( ) {
