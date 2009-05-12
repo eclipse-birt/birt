@@ -47,7 +47,7 @@ public class SeriesGroupingTest extends BaseChartTestCase
 		grouping.setGroupType( "Num" );
 		assertEquals( "Test invalid group type",
 				grouping.getGroupType( ),
-				"Numeric" );
+				"Text" );
 	}
 
 	public void testGroupUnit( )
