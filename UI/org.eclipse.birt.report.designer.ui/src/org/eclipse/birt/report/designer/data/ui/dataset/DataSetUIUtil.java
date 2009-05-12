@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -240,12 +241,15 @@ public final class DataSetUIUtil
 			for ( int i = 0; i < dataSetBindingList.size( ); i++ )
 			{
 				PropertyBinding binding = (PropertyBinding) dataSetBindingList.get( i );
-				dsHandle.clearProperty( binding.getName( ) );
+				dsHandle.setPropertyBinding( binding.getName( ),
+						(Expression) null );
 			}
 			for ( int i = 0; i < dataSourceBindingList.size( ); i++ )
 			{
 				PropertyBinding binding = (PropertyBinding) dataSourceBindingList.get( i );
-				dsHandle.getDataSource( ).clearProperty( binding.getName( ) );
+				dsHandle.getDataSource( )
+						.setPropertyBinding( binding.getName( ),
+								(Expression) null );
 			}
 		}
 	}
