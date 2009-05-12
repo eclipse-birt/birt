@@ -3007,8 +3007,6 @@ Element.Listing.onFinish=終了時
 Element.Listing.onFinish.toolTip=この要素のデータセットから最後の行が読み込まれた後で、フッタバンドが作成される前に呼び出されます
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
-Element.GraphicMasterPage.columns=列
-Element.GraphicMasterPage.columnSpacing=列の間隔
 Element.GraphicMasterPage.slot.contents=コンテンツ
 
 #34 SimpleMasterPage ( Prefix Element.SimpleMasterPage)

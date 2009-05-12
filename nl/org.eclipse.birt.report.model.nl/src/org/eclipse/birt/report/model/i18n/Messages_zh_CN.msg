@@ -3007,8 +3007,6 @@ Element.Listing.onFinish=完成时
 Element.Listing.onFinish.toolTip=在从此元素的数据集内读取最后一行之后调用，但在创建页脚区段之前
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
-Element.GraphicMasterPage.columns=列
-Element.GraphicMasterPage.columnSpacing=列间距
 Element.GraphicMasterPage.slot.contents=内容
 
 #34 SimpleMasterPage ( Prefix Element.SimpleMasterPage)

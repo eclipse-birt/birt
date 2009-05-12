@@ -3007,8 +3007,6 @@ Element.Listing.onFinish=Beim Beenden
 Element.Listing.onFinish.toolTip=Wird nach dem Lesen der letzten Zeile aus dem Datensatz für dieses Element aufgerufen, jedoch vor dem Erstellen der Fußzeile
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
-Element.GraphicMasterPage.columns=Spalten
-Element.GraphicMasterPage.columnSpacing=Spaltenabstand
 Element.GraphicMasterPage.slot.contents=Inhalt
 
 #34 SimpleMasterPage ( Prefix Element.SimpleMasterPage)

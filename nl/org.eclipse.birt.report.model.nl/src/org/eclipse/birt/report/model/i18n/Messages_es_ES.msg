@@ -3007,8 +3007,6 @@ Element.Listing.onFinish=En fin
 Element.Listing.onFinish.toolTip=Llamado después de leer la última fila del conjunto de datos para este elemento, pero antes de crear la banda de pie de página
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
-Element.GraphicMasterPage.columns=Columnas
-Element.GraphicMasterPage.columnSpacing=Espacio de columnas
 Element.GraphicMasterPage.slot.contents=Contenido
 
 #34 SimpleMasterPage ( Prefix Element.SimpleMasterPage)

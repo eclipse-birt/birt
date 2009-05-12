@@ -3007,8 +3007,6 @@ Element.Listing.onFinish=종료 시
 Element.Listing.onFinish.toolTip=이 요소에 대한 데이터 집합에서 마지막 행을 읽은 이후이며 바닥글 밴드가 생성되기 이전에 호출됩니다
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
-Element.GraphicMasterPage.columns=열
-Element.GraphicMasterPage.columnSpacing=열 공백
 Element.GraphicMasterPage.slot.contents=내용
 
 #34 SimpleMasterPage ( Prefix Element.SimpleMasterPage)

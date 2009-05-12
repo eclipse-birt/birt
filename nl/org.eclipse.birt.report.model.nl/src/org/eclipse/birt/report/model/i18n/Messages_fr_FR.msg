@@ -3007,8 +3007,6 @@ Element.Listing.onFinish=A la fin
 Element.Listing.onFinish.toolTip=Commande appelée après la lecture de la dernière ligne du jeu de données pour cet élément, mais avant la création de la bande du pied de page
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
-Element.GraphicMasterPage.columns=Colonnes
-Element.GraphicMasterPage.columnSpacing=Espacement des colonnes
 Element.GraphicMasterPage.slot.contents=Contenu
 
 #34 SimpleMasterPage ( Prefix Element.SimpleMasterPage)
