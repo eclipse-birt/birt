@@ -196,9 +196,9 @@
         <ant dir="${working.dir}/org.eclipse.birt.report.tests_${org.eclipse.birt.report.tests}" antfile="test.xml">
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
-        	<property name="jvm" value="${jvm15_home}/bin/java"/>
+        	        <property name="jvm" value="${jvm15_home}/bin/java"/>
 			<property name="vmargs" value="  -Xms256M -Xmx256M -Djava.awt.headless=true"/>
-        	<property name="test-output" value="${test-output-dir}/org.eclipse.birt.report.tests.regression.AllTests.xml"/>
+        	        <property name="test-output" value="${test-output-dir}/org.eclipse.birt.report.tests.regression.AllTests.xml"/>
         </ant>
     </target>	
 	<!-- OBSOLETE -->
@@ -222,8 +222,8 @@
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
 			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
-        	<property name="jvm" value="${jvm15_home}/bin/java"/>
-        	<property name="test-output" value="${test-output-dir}/org.eclipse.birt.report.tests.model.AllTests.xml"/>
+        	        <property name="jvm" value="${jvm15_home}/bin/java"/>
+        	        <property name="test-output" value="${test-output-dir}/org.eclipse.birt.report.tests.model.AllTests.xml"/>
         </ant>
     </target>
 
@@ -232,7 +232,8 @@
                 <ant dir="${working.dir}/org.eclipse.birt.report.designer.tests_${org.eclipse.birt.report.designer.tests}" antfile="test.xml">
                         <property name="os" value="${os}"/>
                         <property name="eclipse-home" value="${eclipse-home}"/>
-                        <property name="jvm" value="${jvm.15.home}"/>
+                        <property name="vmargs" value="  -Xms800M -Xmx800M"/>
+                        <property name="jvm" value="${jvm15_home}/bin/java"/>
                         <property name="test-output" value="${test-output-dir}/org.eclipse.birt.report.designer.AllTests.xml"/>
                 </ant>
     </target>
