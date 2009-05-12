@@ -29,11 +29,6 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 	public void layout( ) throws BirtException
 	{
 		initialize( );
-		if ( content instanceof ITextContent
-				&& lineParent.getChildrenCount( ) == 1 )
-		{
-			lineParent.setTextIndent( (ITextContent) content );
-		}
 		TextAreaLayout inlineText = new TextAreaLayout( this, context, content );
 		inlineText.initialize( );
 		inlineText.layout( );

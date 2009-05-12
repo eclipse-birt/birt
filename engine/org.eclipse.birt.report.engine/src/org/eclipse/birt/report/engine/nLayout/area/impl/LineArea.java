@@ -32,6 +32,8 @@ public class LineArea extends InlineStackingArea
 {
 
 	protected byte baseLevel = Bidi.DIRECTION_LEFT_TO_RIGHT;
+	
+	protected boolean setIndent = false;
 
 	public LineArea( ContainerArea parent, LayoutContext context )
 	{
@@ -71,11 +73,12 @@ public class LineArea extends InlineStackingArea
 
 	public void setTextIndent( ITextContent content )
 	{
-		if ( content != null )
+		if ( !setIndent && content != null )
 		{
 			IStyle contentStyle = content.getComputedStyle( );
 			currentIP =  getDimensionValue( contentStyle
-					.getProperty( StyleConstants.STYLE_TEXT_INDENT ), maxAvaWidth ) ;
+						.getProperty( StyleConstants.STYLE_TEXT_INDENT ), maxAvaWidth ) ;
+			setIndent = true;
 		}
 	}
 
@@ -343,8 +346,12 @@ public class LineArea extends InlineStackingArea
 	public void endLine( boolean endParagraph ) throws BirtException
 	{
 		close( false, endParagraph );
-		//initialize( );
+		// initialize( );
 		currentIP = 0;
+		if ( endParagraph )
+		{
+			setIndent = false;
+		}
 	}
 
 	public int getMaxLineWidth( )

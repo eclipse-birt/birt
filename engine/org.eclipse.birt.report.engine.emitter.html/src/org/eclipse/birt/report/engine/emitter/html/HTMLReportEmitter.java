@@ -2364,7 +2364,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					// bug132213 in text item should only deal with the
 					// escape special characters: < > &
 					// writer.text( node.getNodeValue( ), false, true );
-					writer.text( node.getNodeValue( ) );
+					writer.text( node.getNodeValue( ), false );
 				}
 			}
 			else if ( nodeType == Node.COMMENT_NODE )
