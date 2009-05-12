@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -1031,7 +1032,7 @@ public class HyperlinkBuilder extends BaseDialog
 		} );
 
 	}
-	
+
 	private void createComplexExpressionButton( Composite parent,
 			final Text text )
 	{
@@ -1189,9 +1190,18 @@ public class HyperlinkBuilder extends BaseDialog
 								filename );
 
 						filename = new Path( filename ).toString( );
-						if ( needQuote )
+
+						if ( text.getData( EXPR_BUTTON ) != null )
 						{
-							filename = "\"" + filename + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+							text.setData( EXPR_TYPE, ExpressionType.CONSTANT );
+							( (ExpressionButton) text.getData( EXPR_BUTTON ) ).refresh( );
+						}
+						else
+						{
+							if ( needQuote )
+							{
+								filename = "\"" + filename + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+							}
 						}
 						text.setText( filename );
 					}
@@ -1685,35 +1695,37 @@ public class HyperlinkBuilder extends BaseDialog
 						}
 					}
 
-//					if ( newFilename.equals( inputHandle.getReportName( ) ) )
-//					{
-//						for ( Iterator iter = inputHandle.paramBindingsIterator( ); iter.hasNext( ); )
-//						{
-//							ParamBindingHandle handle = (ParamBindingHandle) iter.next( );
-//							bindingList.add( (ParamBinding) handle.getStructure( ) );
-//						}
-//					}
+					// if ( newFilename.equals( inputHandle.getReportName( ) ) )
+					// {
+					// for ( Iterator iter = inputHandle.paramBindingsIterator(
+					// ); iter.hasNext( ); )
+					// {
+					// ParamBindingHandle handle = (ParamBindingHandle)
+					// iter.next( );
+					// bindingList.add( (ParamBinding) handle.getStructure( ) );
+					// }
+					// }
 				}
 			}
-			
+
 			if ( errorMessage != null )
 			{
 				messageLine.setText( errorMessage );
 				messageLine.setImage( ERROR_ICON );
-//				paramBindingTable.getTable( ).setEnabled( false );
+				// paramBindingTable.getTable( ).setEnabled( false );
 			}
 			else
 			{
 				messageLine.setText( "" ); //$NON-NLS-1$
 				messageLine.setImage( null );
-//				paramBindingTable.getTable( ).setEnabled( true );
+				// paramBindingTable.getTable( ).setEnabled( true );
 			}
 			// paramBindingTable.getTable( )
 			// .setEnabled( !parameterList.isEmpty( ) );
 
 			updateButtons( );
 		}
-		
+
 		bindingList.clear( );
 		for ( Iterator iter = inputHandle.paramBindingsIterator( ); iter.hasNext( ); )
 		{
@@ -1721,7 +1733,7 @@ public class HyperlinkBuilder extends BaseDialog
 			bindingList.add( (ParamBinding) handle.getStructure( ) );
 		}
 
-//		parammeter table is always enabled
+		// parammeter table is always enabled
 		paramBindingTable.getTable( ).setEnabled( true );
 		paramBindingTable.refresh( );
 	}

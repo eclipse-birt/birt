@@ -1,0 +1,75 @@
+/*******************************************************************************
+ * Copyright (c) 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.views.actions;
+
+import java.io.IOException;
+
+import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
+import org.eclipse.birt.report.designer.util.ImageManager;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+
+/**
+ * 
+ */
+
+public class ReloadImageAction extends AbstractViewAction
+{
+
+	public ReloadImageAction( Object element )
+	{
+		super( element, Messages.getString( "ReloadImageAction.Text" ) ); //$NON-NLS-1$
+	}
+
+	public void run( )
+	{
+		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+				.getResourceSynchronizerService( );
+
+		if ( synchronizer != null )
+		{
+			ImageHandle image = ( (ImageHandle) this.getSelection( ) );
+			ExpressionHandle uri = (ExpressionHandle) image.getExpressionProperty( IImageItemModel.URI_PROP );
+			if ( uri != null )
+			{
+				String imageUri = (String) uri.getExpression( );
+				if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equals( image.getSource( ) ) )
+				{
+					try
+					{
+						ImageManager.getInstance( )
+								.rloadImage( image.getModuleHandle( ), imageUri );
+					}
+					catch ( IOException e )
+					{
+
+					}
+				}
+				else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equals( image.getSource( ) ) )
+				{
+					ImageManager.getInstance( )
+							.reloadURIImage( image.getModuleHandle( ), imageUri );
+				}
+				synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
+						imageUri,
+						IReportResourceChangeEvent.ImageResourceChange ) );
+			}
+
+		}
+	}
+}

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,19 +29,17 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.BirtImageLoader;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
-import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
-import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -135,8 +132,7 @@ public class ImageBuilder extends BaseDialog
 
 	private ImageHandle inputImage;
 
-	private Button embedded, uri, dynamic, resource, inputButton, importButton,
-			refreshButton;
+	private Button embedded, uri, dynamic, resource, inputButton, importButton;
 
 	private Composite inputArea;
 
@@ -319,7 +315,7 @@ public class ImageBuilder extends BaseDialog
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.heightHint = 80;
 		inputArea.setLayoutData( gd );
-		inputArea.setLayout( new GridLayout( 4, false ) );
+		inputArea.setLayout( new GridLayout( 3, false ) );
 	}
 
 	private void createPreviewArea( Composite composite )
@@ -374,7 +370,7 @@ public class ImageBuilder extends BaseDialog
 		// Indication Label
 		Label uriEditorLabel = new Label( inputArea, SWT.NONE );
 		GridData labelGd = new GridData( GridData.FILL_HORIZONTAL );
-		labelGd.horizontalSpan = 4;
+		labelGd.horizontalSpan = 3;
 		uriEditorLabel.setLayoutData( labelGd );
 		uriEditorLabel.setText( uriEditorLabelMap.get( Integer.valueOf( type ) ) );
 
@@ -454,65 +450,6 @@ public class ImageBuilder extends BaseDialog
 		}
 	}
 
-	private void buildRefreshButton( )
-	{
-		refreshButton = new Button( inputArea, SWT.PUSH );
-
-		String imageName = IReportGraphicConstants.ICON_REFRESH;
-		Image image = ReportPlatformUIImages.getImage( imageName );
-
-		setButtonImage( refreshButton, image );
-
-		refreshButton.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent event )
-			{
-				refreshImage( );
-			}
-		} );
-
-		refreshButton.setToolTipText( Messages.getString( "ImageBuilder.Reload.Tooltip" ) ); //$NON-NLS-1$
-	}
-
-	private void refreshImage( )
-	{
-		String str = DEUtil.removeQuote(uriEditor.getText( ).trim( ));
-		if (str == null || str.length( ) == 0)
-		{
-			return ;
-		}
-		
-		try
-		{
-			if ( selectedType == URI_TYPE )
-			{
-				ImageManager.getInstance( )
-						.reloadURIImage( inputImage.getModuleHandle( ), str );
-			}
-			else
-			{
-				ImageManager.getInstance( )
-						.rloadImage( inputImage.getModuleHandle( ), str );
-			}
-		}
-		catch ( IOException e )
-		{
-			// do nothing
-		}
-		clearPreview( );
-		preview( str );
-
-		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
-				.getResourceSynchronizerService( );
-
-		if ( synchronizer != null )
-		{
-			synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
-					str,
-					IReportResourceChangeEvent.ImageResourceChange ) );
-		}
-	}
-
 	private void buildInputAreaButton( int type )
 	{
 		IExpressionHelper helper = new IExpressionHelper( ) {
@@ -559,7 +496,6 @@ public class ImageBuilder extends BaseDialog
 					SWT.PUSH );
 			expressionButton.setExpressionHelper( helper );
 			uriEditor.setData( EXPR_BUTTON, expressionButton );
-			buildRefreshButton( );
 			new Label( inputArea, SWT.NONE );
 		}
 		else if ( type == FILE_TYPE )
@@ -580,7 +516,6 @@ public class ImageBuilder extends BaseDialog
 					SWT.PUSH );
 			expressionButton.setExpressionHelper( helper );
 			uriEditor.setData( EXPR_BUTTON, expressionButton );
-			buildRefreshButton( );
 		}
 		else if ( type == EMBEDDED_TYPE )
 		{
@@ -685,7 +620,9 @@ public class ImageBuilder extends BaseDialog
 
 		if ( dialog.open( ) == Window.OK )
 		{
-			uriEditor.setText( "\"" + dialog.getPath( ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+			uriEditor.setText( dialog.getPath( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			uriEditor.setData( EXPR_TYPE, ExpressionType.CONSTANT );
+			( (ExpressionButton) uriEditor.getData( EXPR_BUTTON ) ).refresh( );
 			preview( dialog.getPath( ) );
 		}
 	}
