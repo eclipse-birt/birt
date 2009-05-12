@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -452,6 +453,56 @@ public class ColumnBindingDialog extends BaseDialog
 		{
 			ExceptionHandler.handle( e );
 		}
+	}
+
+	private void generateOutputParmsBindings( DataSetHandle datasetHandle )
+	{
+		List<DataSetParameterHandle> outputParams = new ArrayList<DataSetParameterHandle>( );
+		for ( Iterator iter = datasetHandle.parametersIterator( ); iter.hasNext( ); )
+		{
+			Object obj = iter.next( );
+			if ( ( obj instanceof DataSetParameterHandle )
+					&& ( (DataSetParameterHandle) obj ).isOutput( ) == true )
+			{
+				outputParams.add( (DataSetParameterHandle) obj );
+			}
+		}
+
+		int ret = -1;
+		if ( outputParams.size( ) > 0 )
+		{
+			MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
+					Messages.getString( "dataBinding.title.generateOutputParam" ),//$NON-NLS-1$
+					null,
+					Messages.getString( "dataBinding.msg.generateOutputParam" ),//$NON-NLS-1$
+					MessageDialog.QUESTION,
+					new String[]{
+							Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$
+							Messages.getString( "AttributeView.dialg.Message.No" )},//$NON-NLS-1$
+					0 );//$NON-NLS-1$
+
+			ret = prefDialog.open( );
+		}
+
+		if ( ret == 0 )
+			for ( int i = 0; i < outputParams.size( ); i++ )
+			{
+				DataSetParameterHandle param = outputParams.get( i );
+				ComputedColumn bindingColumn = StructureFactory.newComputedColumn( inputElement,
+						param.getName( ) );
+				bindingColumn.setDataType( param.getDataType( ) );
+				bindingColumn.setExpression( DEUtil.getExpression( param ) );
+
+				try
+				{
+					inputElement.addColumnBinding( bindingColumn, false );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+				continue;
+			}
 	}
 
 	/**
@@ -1021,6 +1072,8 @@ public class ColumnBindingDialog extends BaseDialog
 				addBinding( (ComputedColumn) iter.next( ) );
 			}
 		}
+		if ( inputElement != null )
+			generateOutputParmsBindings( inputElement.getDataSet( ) );
 		refreshBindingTable( );
 	}
 

@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -34,6 +35,7 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -46,6 +48,7 @@ import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 
@@ -486,6 +489,8 @@ public class DataSetColumnBindingsFormHandleProvider implements
 						}
 
 					}
+
+					generateOutputParmsBindings( datasetHandle );
 				}
 				catch ( SemanticException e )
 				{
@@ -494,6 +499,69 @@ public class DataSetColumnBindingsFormHandleProvider implements
 		}
 	}
 
+	private void generateOutputParmsBindings( DataSetHandle datasetHandle )
+	{
+		List<DataSetParameterHandle> outputParams = new ArrayList<DataSetParameterHandle>( );
+		for ( Iterator iter = datasetHandle.parametersIterator( ); iter.hasNext( ); )
+		{
+			Object obj = iter.next( );
+			if ( ( obj instanceof DataSetParameterHandle )
+					&& ( (DataSetParameterHandle) obj ).isOutput( ) == true )
+			{
+				outputParams.add( (DataSetParameterHandle) obj );
+			}
+		}
+
+		int ret = -1;
+		if ( outputParams.size( ) > 0 )
+		{
+			MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
+					Messages.getString( "dataBinding.title.generateOutputParam" ),//$NON-NLS-1$
+					null,
+					Messages.getString( "dataBinding.msg.generateOutputParam" ),//$NON-NLS-1$
+					MessageDialog.QUESTION,
+					new String[]{
+							Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$
+							Messages.getString( "AttributeView.dialg.Message.No" )},//$NON-NLS-1$
+					0 );//$NON-NLS-1$
+
+			ret = prefDialog.open( );
+		}
+
+		if ( ret == 0 )
+			for ( int i = 0; i < outputParams.size( ); i++ )
+			{
+				DataSetParameterHandle param = outputParams.get( i );
+				ComputedColumn bindingColumn = StructureFactory.newComputedColumn( bindingObject,
+						param.getName( ) );
+				bindingColumn.setDataType( param.getDataType( ) );
+				String groupType = DEUtil.getGroupControlType( bindingObject );
+				List groupList = DEUtil.getGroups( bindingObject );
+				bindingColumn.setExpression( DEUtil.getExpression( param ) );
+
+				if ( bindingObject instanceof ReportItemHandle )
+				{
+					try
+					{
+						( (ReportItemHandle) bindingObject ).addColumnBinding( bindingColumn,
+								false );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+					continue;
+				}
+
+				if ( ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) )
+				{
+					if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
+						bindingColumn.setAggregrateOn( ( (GroupHandle) groupList.get( 0 ) ).getName( ) );
+					else if ( groupType.equals( DEUtil.TYPE_GROUP_LISTING ) )
+						bindingColumn.setAggregrateOn( null );
+				}
+			}
+	}
 	public void removedUnusedColumnBindings( List inputElement )
 	{
 		if ( inputElement.size( ) > 0 )
