@@ -1895,22 +1895,6 @@ public class ChartUIUtil
 		return false;
 	}
 
-
-	public static DataType convertAxisTypeToDataType( AxisType axisType )
-	{
-		switch ( axisType.getValue( ) )
-		{
-			case AxisType.DATE_TIME :
-				return DataType.DATE_TIME_LITERAL;
-			case AxisType.LINEAR :
-			case AxisType.LOGARITHMIC :
-				return DataType.NUMERIC_LITERAL;
-			case AxisType.TEXT :
-				return DataType.TEXT_LITERAL;
-		}
-		return null;
-	}
-
 	/**
 	 * Creates Gradient fill by default.
 	 * 

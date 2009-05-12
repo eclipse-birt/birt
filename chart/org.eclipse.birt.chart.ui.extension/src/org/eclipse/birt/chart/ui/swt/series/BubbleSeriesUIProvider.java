@@ -107,12 +107,12 @@ public class BubbleSeriesUIProvider extends DefaultSeriesUIProvider
 	public void validateSeriesBindingType( Series series,
 			IDataServiceProvider idsp ) throws ChartException
 	{
-		List entries = series.getDataDefinition( );
+		List<Query> entries = series.getDataDefinition( );
 		if ( entries.size( ) >= 2 )
 		{
 			// Only check if Bubble size is numeric. Bubble value can support
 			// any types.
-			Query query = (Query) entries.get( 1 );
+			Query query = entries.get( 1 );
 			DataType dataType = idsp.getDataType( query.getDefinition( ) );
 			if ( dataType == DataType.TEXT_LITERAL
 					|| dataType == DataType.DATE_TIME_LITERAL )

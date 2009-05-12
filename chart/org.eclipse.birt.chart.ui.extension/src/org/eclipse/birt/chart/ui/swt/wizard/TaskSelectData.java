@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPreviewable;
+import org.eclipse.birt.chart.ui.swt.series.BubbleSeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.type.GanttChart;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.data.SelectDataDynamicArea;
@@ -612,6 +613,7 @@ public class TaskSelectData extends SimpleTask implements
 
 			if ( sSeries.equals( series.getClass( ).getName( ) ) )
 			{
+				boolean isMagicAgg = false;
 				if ( getChartModel( ) instanceof ChartWithAxes )
 				{
 					DataType dataType = getDataServiceProvider( ).getDataType( expression );
@@ -642,49 +644,56 @@ public class TaskSelectData extends SimpleTask implements
 					{
 						// Only check aggregation is count in Y axis
 						dataType = DataType.NUMERIC_LITERAL;
+						isMagicAgg = true;
 					}
 
-					AxisType[] axisTypes = provider.getCompatibleAxisType( series );
-					int[] validationIndex = provider.validationIndex( series );
-					boolean needValidate = false;
-					for ( int i = 0; i < validationIndex.length; i++ )
+					if ( !isValidatedAxis( dataType, axis.getType( ) ) )
 					{
-						if ( query == series.getDataDefinition( ).get( i ) )
+						AxisType[] axisTypes = provider.getCompatibleAxisType( series );
+						// do not check bubble size query for axis type
+						int[] validationIndex = provider instanceof BubbleSeriesUIProvider
+								? new int[]{
+									0
+								} : provider.validationIndex( series );
+						boolean needValidate = false;
+						for ( int i = 0; i < validationIndex.length; i++ )
 						{
-							needValidate = true;
-							break;
-						}
-					}
-					SeriesDefinition sd = (SeriesDefinition) series.eContainer( );
-					if ( ( (Axis) sd.eContainer( ) ).getSeriesDefinitions( )
-							.indexOf( sd ) > 0 )
-					{
-						needValidate = false;
-					}
-					if ( needValidate )
-					{
-						if ( dataType == null )
-						{
-							dataType = ChartUIUtil.convertAxisTypeToDataType( axis.getType( ) );
-						}
-
-						for ( int i = 0; i < axisTypes.length; i++ )
-						{
-							if ( isValidatedAxis( dataType, axisTypes[i] ) )
+							if ( query == series.getDataDefinition( ).get( i ) )
 							{
-								axisNotification( axis, axisTypes[i] );
-								axis.setType( axisTypes[i] );
+								needValidate = true;
 								break;
 							}
 						}
+						SeriesDefinition sd = (SeriesDefinition) series.eContainer( );
+						if ( ( (Axis) sd.eContainer( ) ).getSeriesDefinitions( )
+								.indexOf( sd ) > 0 )
+						{
+							needValidate = false;
+						}
+						if ( needValidate )
+						{
+							for ( int i = 0; i < axisTypes.length; i++ )
+							{
+								if ( isValidatedAxis( dataType, axisTypes[i] ) )
+								{
+									axisNotification( axis, axisTypes[i] );
+									axis.setType( axisTypes[i] );
+									break;
+								}
+							}
+						}
 					}
+
 
 				}
 
 				try
 				{
-					provider.validateSeriesBindingType( series,
+					if ( !isMagicAgg )
+					{
+						provider.validateSeriesBindingType( series,
 							getDataServiceProvider( ) );
+					}
 					ChartWizard.removeException( ChartWizard.CheckSeriesBindingType_ID
 							+ series.eContainer( ).hashCode( ) );
 				}

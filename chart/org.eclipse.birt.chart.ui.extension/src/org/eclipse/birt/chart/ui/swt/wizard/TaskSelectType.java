@@ -1608,9 +1608,9 @@ public class TaskSelectType extends SimpleTask implements
 						}
 					}
 
-					if ( dataType == null )
+					if ( isValidatedAxis( dataType, axis.getType( ) ) )
 					{
-						dataType = ChartUIUtil.convertAxisTypeToDataType( axis.getType( ) );
+						break;
 					}
 
 					AxisType[] axisTypes = provider.getCompatibleAxisType( series );
