@@ -148,7 +148,7 @@ public class PropertyEditorFactory
 			}
 			catch ( PropertyValueException e )
 			{
-				// Do nothing
+				editor.setValue( value );
 			}
 		}
 		else if ( handle.isDimensionProperty( o ) )
