@@ -19,17 +19,16 @@
 		<TABLE class=banner-area cellSpacing=0 cellPadding=0 width="100%" border=0>
 			<TBODY>
 				<TR>
-					<TD width=116 bgColor=black><a href="http://www.eclipse.org/">
-						<IMG src="webcontent/birt/images/EclipseBannerPic.jpg" border=0 width="115" height="50">
-						</a>
+					<TD width=115><a href="http://www.eclipse.org/">
+						<IMG src="webcontent/birt/images/EclipseBannerPic.jpg" alt="Eclipse Logo" width="115" height="50" border=0></a>
 					</TD>
-					<TD width=637>
-						<IMG height=53 src="webcontent/birt/images/gradient.jpg" width=282 border=0>
+					<TD>
+						<IMG src="webcontent/birt/images/gradient.jpg" alt="gradient banner" width="300" height="50" border=0>
 					</TD>
 					<TD vAlign=center align=right width=250>
 						<a class="birt" href="http://www.eclipse.org/birt">
 							<!-- Temporary BIRT header -->
-							<SPAN style="PADDING-RIGHT: 20pt; FONT-WEIGHT: bold; FONT-SIZE: 20px; COLOR: #e8e8ff; FONT-FAMILY: arial, sans-serif">
+							<SPAN style="PADDING-RIGHT: 10px; FONT-WEIGHT: bold; FONT-SIZE: 20px; COLOR: #e8e8ff; FONT-FAMILY: arial, sans-serif">
 								BIRT
 							</SPAN>
 						</a> 
@@ -38,10 +37,10 @@
 			</TBODY>
 		</TABLE>
 		<!-- Table with menu & content -->
-		<TABLE cellSpacing=0 cols=2 cellPadding=0 width="1173" border=0>
+		<TABLE cellSpacing=0 cols=2 cellPadding=0 border=0 width="100%">
 			<TBODY>
 				<TR>
-					<TD class=content style="PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; PADDING-TOP: 10px" vAlign=top width="1077">
+					<TD class=content style="PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; PADDING-TOP: 10px" >
 						<!-- Page title -->
 						<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
 							<TBODY>
@@ -50,7 +49,7 @@
 										<span class="indextop">BIRT viewer has been installed.</span><p>&nbsp;
 									</TD>
 									<TD class=jump style="PADDING-LEFT: 10px" align=right rowSpan=2>
-										<IMG src="webcontent/birt/images/Idea.jpg" width="120" height="86">
+										<IMG src="webcontent/birt/images/Idea.jpg" alt="Idea" width="120" height="86">
 									</TD>
 								</TR>
 								<TR>
