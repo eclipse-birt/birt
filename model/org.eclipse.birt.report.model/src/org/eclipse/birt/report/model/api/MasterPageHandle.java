@@ -310,5 +310,40 @@ public abstract class MasterPageHandle extends ReportElementHandle
 	{
 		setStringProperty( ON_PAGE_END_METHOD, onPageEnd );
 	}
+	
+	/**
+	 * Returns the number of columns in the report.
+	 * 
+	 * @return the number of columns in the report
+	 */
 
+	public int getColumnCount( )
+	{
+		return getIntProperty( COLUMNS_PROP );
+	}
+
+	/**
+	 * Sets the number of columns in the report.
+	 * 
+	 * @param count
+	 *            the number of columns in the report
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setColumnCount( int count ) throws SemanticException
+	{
+		setIntProperty( COLUMNS_PROP, count );
+	}
+
+	/**
+	 * Returns a handle to work with the the space between columns.
+	 * 
+	 * @return a DimensionHandle to deal with the space between columns.
+	 */
+
+	public DimensionHandle getColumnSpacing( )
+	{
+		return super.getDimensionProperty( COLUMN_SPACING_PROP );
+	}
 }

@@ -21,8 +21,8 @@ import org.eclipse.birt.report.model.api.util.Point;
 import org.eclipse.birt.report.model.api.util.Rectangle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.GraphicMasterPage;
-import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
+import org.eclipse.birt.report.model.elements.MasterPage;
+import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -76,14 +76,14 @@ public class MasterPageMultiColumnValidator extends AbstractElementValidator
 	public List<SemanticException> validate( Module module,
 			DesignElement element )
 	{
-		if ( !( element instanceof GraphicMasterPage ) )
+		if ( !( element instanceof MasterPage ) )
 			return Collections.emptyList( );
 
-		return doValidate( module, (GraphicMasterPage) element );
+		return doValidate( module, (MasterPage) element );
 	}
 
 	private List<SemanticException> doValidate( Module module,
-			GraphicMasterPage toValidate )
+			MasterPage toValidate )
 	{
 		List<SemanticException> list = new ArrayList<SemanticException>( );
 
@@ -95,9 +95,9 @@ public class MasterPageMultiColumnValidator extends AbstractElementValidator
 				|| margins.height <= 0 || margins.width <= 0 ) )
 		{
 			int columns = toValidate.getIntProperty( module,
-					IGraphicMaterPageModel.COLUMNS_PROP );
+					IMasterPageModel.COLUMNS_PROP );
 			double columnSpacing = toValidate.getFloatProperty( module,
-					IGraphicMaterPageModel.COLUMN_SPACING_PROP );
+					IMasterPageModel.COLUMN_SPACING_PROP );
 			if ( margins.width < ( columns - 1 ) * columnSpacing )
 			{
 				list.add( new SemanticError( toValidate,

@@ -2274,7 +2274,7 @@
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
     </PropertyGroup>
-  	<Method context="factory" displayNameID="Element.MasterPage.onPageStart" name="onPageStart" since="2.5" toolTipID="Element.MasterPage.onPageStart.toolTip">
+    <Method context="factory" displayNameID="Element.MasterPage.onPageStart" name="onPageStart" since="2.5" toolTipID="Element.MasterPage.onPageStart.toolTip">
       <Argument name="context" tagID="Element.MasterPage.onPageStart.context" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="design" tagID="Element.MasterPage.onPageStart.design" type="org.eclipse.birt.report.engine.api.script.element.IMasterPage"/>
       <Argument name="content" tagID="Element.MasterPage.onPageStart.content" type="org.eclipse.birt.report.engine.api.script.instance.IMasterPageInstance"/>
@@ -2284,17 +2284,17 @@
       <Argument name="design" tagID="Element.MasterPage.onPageEnd.design" type="org.eclipse.birt.report.engine.api.script.element.IMasterPage"/>
       <Argument name="content" tagID="Element.MasterPage.onPageEnd.content" type="org.eclipse.birt.report.engine.api.script.instance.IMasterPageInstance"/>
     </Method>
-  </Element>
-  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.GraphicMasterPage" extends="MasterPage" hasStyle="true" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.GraphicMasterPage" name="GraphicMasterPage" selector="page" since="reserved" xmlName="graphic-master-page">
-    <Property displayNameID="Element.GraphicMasterPage.columns" name="columns" since="1.0" type="integer" validator="PositiveValueValidator">
+    <Property displayNameID="Element.MasterPage.columns" name="columns" since="1.0" type="integer" validator="PositiveValueValidator">
       <Default>1</Default>
       <Trigger validator="MasterPageMultiColumnValidator"/>
     </Property>
-    <Property displayNameID="Element.GraphicMasterPage.columnSpacing" name="columnSpacing" since="1.0" type="dimension">
+    <Property displayNameID="Element.MasterPage.columnSpacing" name="columnSpacing" since="1.0" type="dimension">
 	  <DefaultUnit>pt</DefaultUnit>	    	
-      <Default>0.5</Default>      
+      <Default>12</Default>      
       <Trigger validator="MasterPageMultiColumnValidator"/>
     </Property>
+  </Element>
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.GraphicMasterPage" extends="MasterPage" hasStyle="true" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.GraphicMasterPage" name="GraphicMasterPage" selector="page" since="reserved" xmlName="graphic-master-page">
     <Slot displayNameID="Element.GraphicMasterPage.slot.contents" multipleCardinality="true" name="contents" since="1.0" xmlName="contents">
       <Type name="Label"/>
       <Type name="FreeForm"/>
@@ -2325,7 +2325,7 @@
 	<Property displayNameID="Element.SimpleMasterPage.footerHeight" name="footerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
 		<DefaultUnit>in</DefaultUnit>	  
 		<Default>0.5</Default>	    
-	</Property>   
+	</Property>	
   	<PropertyVisibility name="floatingFooter" visibility="hide"/>    	    
 	<Slot displayNameID="Element.SimpleMasterPage.slot.pageHeader" multipleCardinality="false" name="pageHeader" xmlName="page-header">
       <Type name="FreeForm"/>

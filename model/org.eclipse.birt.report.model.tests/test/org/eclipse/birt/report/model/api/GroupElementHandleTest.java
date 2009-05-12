@@ -471,7 +471,8 @@ public class GroupElementHandleTest extends BaseTestCase
 		assertNotNull( propHandle );
 
 		// "columns" is not shared
-		propHandle = groupElementHandle.getPropertyHandle( "columns" ); //$NON-NLS-1$
+		propHandle = groupElementHandle
+				.getPropertyHandle( SimpleMasterPage.HEADER_HEIGHT_PROP );
 		assertNull( propHandle );
 
 	}

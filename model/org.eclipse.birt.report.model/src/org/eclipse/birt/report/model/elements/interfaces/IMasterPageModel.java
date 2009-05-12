@@ -123,4 +123,18 @@ public interface IMasterPageModel
 	 * Name of the method on page end.
 	 */
 	public static final String ON_PAGE_END_METHOD = "onPageEnd"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the property that gives the number of columns to appear on the
+	 * page.
+	 */
+
+	public static final String COLUMNS_PROP = "columns"; //$NON-NLS-1$
+
+	/**
+	 * Name of the dimension property that gives the spacing between columns of
+	 * a multi-column page.
+	 */
+
+	public static final String COLUMN_SPACING_PROP = "columnSpacing"; //$NON-NLS-1$
 }

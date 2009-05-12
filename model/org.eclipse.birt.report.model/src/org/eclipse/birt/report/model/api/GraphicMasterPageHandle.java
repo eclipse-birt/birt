@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
@@ -61,44 +60,6 @@ public class GraphicMasterPageHandle extends MasterPageHandle
 
 	public SlotHandle getContent( )
 	{
-		return getSlot( IGraphicMaterPageModel.CONTENT_SLOT );
+		return getSlot( CONTENT_SLOT );
 	}
-
-	/**
-	 * Returns the number of columns in the report.
-	 * 
-	 * @return the number of columns in the report
-	 */
-
-	public int getColumnCount( )
-	{
-		return getIntProperty( IGraphicMaterPageModel.COLUMNS_PROP );
-	}
-
-	/**
-	 * Sets the number of columns in the report.
-	 * 
-	 * @param count
-	 *            the number of columns in the report
-	 * @throws SemanticException
-	 *             if the property is locked.
-	 */
-
-	public void setColumnCount( int count ) throws SemanticException
-	{
-		setIntProperty( IGraphicMaterPageModel.COLUMNS_PROP, count );
-	}
-
-	/**
-	 * Returns a handle to work with the the space between columns.
-	 * 
-	 * @return a DimensionHandle to deal with the space between columns.
-	 */
-
-	public DimensionHandle getColumnSpacing( )
-	{
-		return super
-				.getDimensionProperty( IGraphicMaterPageModel.COLUMN_SPACING_PROP );
-	}
-
 }

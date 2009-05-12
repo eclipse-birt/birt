@@ -2249,9 +2249,6 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitGraphicMasterPage( obj );
 
-		property( obj, IGraphicMaterPageModel.COLUMNS_PROP );
-		property( obj, IGraphicMaterPageModel.COLUMN_SPACING_PROP );
-
 		writeContents( obj, IGraphicMaterPageModel.CONTENT_SLOT,
 				DesignSchemaConstants.CONTENTS_TAG );
 
@@ -3253,6 +3250,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IMasterPageModel.LEFT_MARGIN_PROP );
 		property( obj, IMasterPageModel.BOTTOM_MARGIN_PROP );
 		property( obj, IMasterPageModel.RIGHT_MARGIN_PROP );
+
+		property( obj, IMasterPageModel.COLUMNS_PROP );
+		property( obj, IMasterPageModel.COLUMN_SPACING_PROP );
 
 		writeStyle( obj );
 		writeOverridenPropertyValues( obj );

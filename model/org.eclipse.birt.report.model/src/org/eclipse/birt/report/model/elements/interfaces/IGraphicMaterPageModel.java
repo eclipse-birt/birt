@@ -16,21 +16,6 @@ package org.eclipse.birt.report.model.elements.interfaces;
  */
 public interface IGraphicMaterPageModel
 {
-
-	/**
-	 * Name of the property that gives the number of columns to appear on the
-	 * page.
-	 */
-
-	public static final String COLUMNS_PROP = "columns"; //$NON-NLS-1$
-
-	/**
-	 * Name of the dimension property that gives the spacing between columns of
-	 * a multi-column page.
-	 */
-
-	public static final String COLUMN_SPACING_PROP = "columnSpacing"; //$NON-NLS-1$
-
 	/**
 	 * Identifier of the slot that holds the page decoration.
 	 */
