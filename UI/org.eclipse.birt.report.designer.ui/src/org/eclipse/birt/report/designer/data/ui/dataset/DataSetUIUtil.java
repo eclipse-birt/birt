@@ -240,13 +240,13 @@ public final class DataSetUIUtil
 			for ( int i = 0; i < dataSetBindingList.size( ); i++ )
 			{
 				PropertyBinding binding = (PropertyBinding) dataSetBindingList.get( i );
-				dsHandle.setPropertyBinding( binding.getName( ), null );
+				dsHandle.setPropertyBinding( binding.getName( ), "" );
 			}
 			for ( int i = 0; i < dataSourceBindingList.size( ); i++ )
 			{
 				PropertyBinding binding = (PropertyBinding) dataSourceBindingList.get( i );
 				dsHandle.getDataSource( )
-						.setPropertyBinding( binding.getName( ), null );
+						.setPropertyBinding( binding.getName( ), "" );
 			}
 		}
 	}
@@ -288,8 +288,7 @@ public final class DataSetUIUtil
 					for ( int i = 0; i < pList.size( ); i++ )
 					{
 						PropertyBinding binding = (PropertyBinding) pList.get( i );
-						dsHandle.setPropertyBinding( binding.getName( ),
-								binding.getValue( ) );
+						dsHandle.clearProperty( binding.getName( ) );
 					}
 				}
 				if ( dataSourceMap.get( dsHandle.getDataSource( ).getName( ) ) != null )
@@ -300,8 +299,7 @@ public final class DataSetUIUtil
 					{
 						PropertyBinding binding = (PropertyBinding) pList.get( i );
 						dsHandle.getDataSource( )
-								.setPropertyBinding( binding.getName( ),
-										binding.getValue( ) );
+								.clearProperty( binding.getName( ) );
 					}
 				}
 			}
