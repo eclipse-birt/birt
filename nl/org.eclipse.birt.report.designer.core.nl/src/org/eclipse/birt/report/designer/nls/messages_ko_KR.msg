@@ -4541,3 +4541,7 @@ ResetAttributePage.Style.Restore.Transaction.Name=Restore Style
 ###########################################################
 #TextEditor
 TextEditor.PasteFormattedText=서식 있는 텍스트 붙여넣기
+
+###########################################################
+#ReloadImageAction
+ReloadImageAction.Text=이미지 다시 로드

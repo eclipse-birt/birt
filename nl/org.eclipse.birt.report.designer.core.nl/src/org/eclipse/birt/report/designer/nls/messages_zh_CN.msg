@@ -4541,3 +4541,7 @@ ResetAttributePage.Style.Restore.Transaction.Name=Restore Style
 ###########################################################
 #TextEditor
 TextEditor.PasteFormattedText=粘贴带格式文本
+
+###########################################################
+#ReloadImageAction
+ReloadImageAction.Text=重新加载图像

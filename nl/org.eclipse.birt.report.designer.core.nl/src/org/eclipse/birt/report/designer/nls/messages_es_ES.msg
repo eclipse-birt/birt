@@ -4541,3 +4541,7 @@ ResetAttributePage.Style.Restore.Transaction.Name=Restore Style
 ###########################################################
 #TextEditor
 TextEditor.PasteFormattedText=Pegar texto con formato
+
+###########################################################
+#ReloadImageAction
+ReloadImageAction.Text=Volver a cargar la imagen

@@ -4541,3 +4541,7 @@ ResetAttributePage.Style.Restore.Transaction.Name=Restore Style
 ###########################################################
 #TextEditor
 TextEditor.PasteFormattedText=書式付きテキストの貼り付け
+
+###########################################################
+#ReloadImageAction
+ReloadImageAction.Text=イメージの再ロード
