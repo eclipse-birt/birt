@@ -72,7 +72,8 @@ public class HTMLGroupLM extends HTMLBlockStackingLM
 			IBandContent header = group.getHeader( );
 			if ( group.isHeaderRepeat( ) && header != null && !isHeaderBand())
 			{
-				refineBandContent( (ITableBandContent) header );
+				if( header instanceof ITableBandContent )
+					refineBandContent( (ITableBandContent) header );
 				boolean pageBreak = context.allowPageBreak( );
 				context.setAllowPageBreak( false );
 				IPageBuffer buffer =  context.getPageBufferManager( );
