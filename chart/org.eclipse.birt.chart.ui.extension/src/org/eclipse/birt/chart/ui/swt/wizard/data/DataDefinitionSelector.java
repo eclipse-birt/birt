@@ -429,7 +429,11 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		{
 			dds.get( i ).setDefinition( "" ); //$NON-NLS-1$
 			// disable the grouping aggregation
-			dds.get( i ).getGrouping( ).setEnabled( false );
+			if ( dds.get( i ).getGrouping( ) != null )
+			{
+				dds.get( i ).getGrouping( ).setEnabled( false );
+			}
+
 		}
 	}
 
