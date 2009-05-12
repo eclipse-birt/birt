@@ -295,6 +295,10 @@ public class DeleteCommand extends Command
 	 */
 	protected boolean canDrop( Object source )
 	{
+		if (SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
+		{
+			return false;
+		}
 		if ( source == null )
 		{
 			return false;

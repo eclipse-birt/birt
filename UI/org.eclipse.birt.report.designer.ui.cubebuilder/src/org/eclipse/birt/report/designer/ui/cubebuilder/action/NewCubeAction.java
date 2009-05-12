@@ -81,6 +81,10 @@ public class NewCubeAction extends Action
 		{
 			System.out.println( "New cube action >> Run ..." ); //$NON-NLS-1$
 		}
+		if (SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
+		{
+			return;
+		}
 		// Get the list of data sets before inserting a new Data Set
 		List existingCubes = getCubes( );
 

@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.action.Action;
@@ -107,6 +108,10 @@ public abstract class MenuUpdateAction extends SelectionAction
 		if ( Policy.TRACING_ACTIONS )
 		{
 			System.out.println( "Action [" + getClass( ) + "] >> Run ..." ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		if (SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
+		{
+			return;
 		}
 		if ( menu != null )
 		{

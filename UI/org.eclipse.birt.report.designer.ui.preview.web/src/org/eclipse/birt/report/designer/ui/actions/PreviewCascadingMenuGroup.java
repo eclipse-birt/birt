@@ -189,6 +189,11 @@ public class PreviewCascadingMenuGroup implements
 		ModuleHandle model = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 
+		if (model == null)
+		{
+			return;
+		}
+		
 		if ( editor != null )
 		{
 			if ( model.needsSave( ) )

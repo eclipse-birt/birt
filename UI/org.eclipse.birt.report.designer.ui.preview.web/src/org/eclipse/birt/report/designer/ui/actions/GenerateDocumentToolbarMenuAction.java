@@ -61,6 +61,10 @@ public class GenerateDocumentToolbarMenuAction implements
 		FormEditor editor = UIUtil.getActiveReportEditor( false );
 		ModuleHandle model = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
+		if (model == null)
+		{
+			return;
+		}
 		if ( editor != null )
 		{
 			if ( model.needsSave( ) )

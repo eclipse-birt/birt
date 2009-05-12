@@ -258,7 +258,10 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 				return;
 			}
 		}
-
+		if (SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
+		{
+			return;
+		}
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getCommandStack( );
 		stack.startTrans( STACK_MSG_INSERT_ELEMENT );

@@ -190,6 +190,10 @@ public class RenameAction extends AbstractViewerAction
 		{
 			newName = null;
 		}
+		if (SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
+		{
+			return false;
+		}
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getCommandStack( );
 		stack.startTrans( TRANS_LABEL + " " + DEUtil.getDisplayLabel( handle ) ); //$NON-NLS-1$ 

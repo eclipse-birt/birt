@@ -92,7 +92,10 @@ public class NewJointDataSetAction extends Action
 		{
 			System.out.println( "New joint data set action >> Run ..." ); //$NON-NLS-1$
 		}
-
+		if (SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
+		{
+			return;
+		}
 		// Get the list of data sets before inserting a new Data Set
 		List existingDataSets = getDataSets( );
 
@@ -107,6 +110,10 @@ public class NewJointDataSetAction extends Action
 		}
 		else
 		{
+			if (SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
+			{
+				return;
+			}
 			HandleAdapterFactory.getInstance( )
 					.getReportDesignHandleAdapter( )
 					.getModuleHandle( )

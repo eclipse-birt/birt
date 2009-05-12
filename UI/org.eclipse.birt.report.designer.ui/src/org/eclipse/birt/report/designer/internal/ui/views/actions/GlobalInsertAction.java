@@ -92,6 +92,10 @@ public class GlobalInsertAction extends AbstractGlobalSelectionAction
 
 	public void run( )
 	{
+		if (SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
+		{
+			return;
+		}
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
 				.getCommandStack( );

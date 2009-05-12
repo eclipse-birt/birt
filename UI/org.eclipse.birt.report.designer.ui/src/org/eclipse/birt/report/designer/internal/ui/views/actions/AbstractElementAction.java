@@ -50,6 +50,10 @@ public abstract class AbstractElementAction extends AbstractViewAction
 		{
 			return;
 		}
+		if (SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
+		{
+			return;
+		}
 		CommandStack stack = getCommandStack( );
 		stack.startTrans( getTransactionLabel( ) );
 		try
