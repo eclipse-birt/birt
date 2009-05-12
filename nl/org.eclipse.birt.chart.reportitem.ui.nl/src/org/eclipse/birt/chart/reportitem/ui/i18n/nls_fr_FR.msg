@@ -77,6 +77,7 @@ StandardChartDataSheet.Label.Component=\ Composant
 StandardChartDataSheet.Label.CubeTree=Cube de données : Groupes et résumés
 StandardChartDataSheet.Label.Overlay=Superposition 
 StandardChartDataSheet.Label.Series=Série 
+StandardChartDataSheet.Label.ShareCrossTab=Under Value (Y) Series, click the arrow button and select a measure from the list.
 StandardChartDataSheet.Label.ShowDataPreview=&Afficher la prévisualisation des données
 StandardChartDataSheet.Label.UseAsCategoryXAxis=Utiliser comme axe horizontal de catégories
 StandardChartDataSheet.Label.UseAsCategorySeries=Utiliser comme série de catégories

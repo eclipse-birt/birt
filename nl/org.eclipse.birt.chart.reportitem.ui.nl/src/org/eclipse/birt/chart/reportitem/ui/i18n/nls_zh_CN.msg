@@ -77,6 +77,7 @@ StandardChartDataSheet.Label.Component=\ 组件
 StandardChartDataSheet.Label.CubeTree=多维数据集: 组和摘要
 StandardChartDataSheet.Label.Overlay=覆盖 
 StandardChartDataSheet.Label.Series=系列 
+StandardChartDataSheet.Label.ShareCrossTab=Under Value (Y) Series, click the arrow button and select a measure from the list.
 StandardChartDataSheet.Label.ShowDataPreview=显示数据预览(&S)
 StandardChartDataSheet.Label.UseAsCategoryXAxis=用作类别 (X) 轴
 StandardChartDataSheet.Label.UseAsCategorySeries=用作类别系列

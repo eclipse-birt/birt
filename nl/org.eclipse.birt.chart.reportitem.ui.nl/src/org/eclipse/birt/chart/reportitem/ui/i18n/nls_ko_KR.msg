@@ -77,6 +77,7 @@ StandardChartDataSheet.Label.Component=\ 구성 요소
 StandardChartDataSheet.Label.CubeTree=데이터 큐브: 그룹 및 요약
 StandardChartDataSheet.Label.Overlay=이중 
 StandardChartDataSheet.Label.Series=계열 
+StandardChartDataSheet.Label.ShareCrossTab=Under Value (Y) Series, click the arrow button and select a measure from the list.
 StandardChartDataSheet.Label.ShowDataPreview=미리 보기 표시(&S)
 StandardChartDataSheet.Label.UseAsCategoryXAxis=범주 (X) 축으로 사용
 StandardChartDataSheet.Label.UseAsCategorySeries=범주 계열로 사용

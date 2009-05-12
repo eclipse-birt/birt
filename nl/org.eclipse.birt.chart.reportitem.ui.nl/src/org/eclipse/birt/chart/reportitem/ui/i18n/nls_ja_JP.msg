@@ -77,6 +77,7 @@ StandardChartDataSheet.Label.Component=\ コンポーネント
 StandardChartDataSheet.Label.CubeTree=データキューブ : グループとサマリ
 StandardChartDataSheet.Label.Overlay=オーバーレイ 
 StandardChartDataSheet.Label.Series=系列 
+StandardChartDataSheet.Label.ShareCrossTab=Under Value (Y) Series, click the arrow button and select a measure from the list.
 StandardChartDataSheet.Label.ShowDataPreview=データプレビューの表示(&S)
 StandardChartDataSheet.Label.UseAsCategoryXAxis=カテゴリ軸 (X) として使用する
 StandardChartDataSheet.Label.UseAsCategorySeries=カテゴリ系列として使用する
