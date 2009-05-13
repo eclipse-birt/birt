@@ -680,8 +680,9 @@ PropertyEditorDialog.Lbl.Value=값
 PropertyEditorDialog.Lbl.Add=추가(&A)
 PropertyEditorDialog.Lbl.Remove=제거(&R)
 HeadStyleAttributeComposite.Lbl.HeadStyle=헤드 스타일:
-HyperlinkEditorDialog.ErrorMessage.ExistingText=텍스트가 이미 있습니다. 다른 텍스트로 수정하십시오.
-HyperlinkEditorDialog.ErrorMessage.NullText=텍스트는 널(null\)일 수 없습니다\!
+HyperlinkEditorDialog.ErrorMessage.ExistingText=The name is existing, please modify to a different one.
+HyperlinkEditorDialog.ErrorMessage.NullText=Name cannot be blank\!
+HyperlinkEditorDialog.HyperlinkName.Title.Warning=Warning
 HyperlinkEditorDialog.Text.MenuLabel=이름(&N):
 HyperlinkEditorDialog.Title.HyperlinkEditor=하이퍼링크 편집기
 

@@ -680,8 +680,9 @@ PropertyEditorDialog.Lbl.Value=Valeur
 PropertyEditorDialog.Lbl.Add=&Ajouter
 PropertyEditorDialog.Lbl.Remove=&Supprimer
 HeadStyleAttributeComposite.Lbl.HeadStyle=Style de pointe :
-HyperlinkEditorDialog.ErrorMessage.ExistingText=Le texte existe déjà, veuillez le modifier.
-HyperlinkEditorDialog.ErrorMessage.NullText=Le texte ne peut pas être une valeur nulle \!
+HyperlinkEditorDialog.ErrorMessage.ExistingText=The name is existing, please modify to a different one.
+HyperlinkEditorDialog.ErrorMessage.NullText=Name cannot be blank\!
+HyperlinkEditorDialog.HyperlinkName.Title.Warning=Warning
 HyperlinkEditorDialog.Text.MenuLabel=&Nom :
 HyperlinkEditorDialog.Title.HyperlinkEditor=Editeur du lien hypertexte
 

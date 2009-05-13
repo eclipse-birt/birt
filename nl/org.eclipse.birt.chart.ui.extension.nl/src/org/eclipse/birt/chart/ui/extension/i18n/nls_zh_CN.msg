@@ -680,8 +680,9 @@ PropertyEditorDialog.Lbl.Value=值
 PropertyEditorDialog.Lbl.Add=添加(&A)
 PropertyEditorDialog.Lbl.Remove=删除(&R)
 HeadStyleAttributeComposite.Lbl.HeadStyle=针头样式:
-HyperlinkEditorDialog.ErrorMessage.ExistingText=该文本已存在，请修改为其它文本。
-HyperlinkEditorDialog.ErrorMessage.NullText=文本不能为空!
+HyperlinkEditorDialog.ErrorMessage.ExistingText=The name is existing, please modify to a different one.
+HyperlinkEditorDialog.ErrorMessage.NullText=Name cannot be blank\!
+HyperlinkEditorDialog.HyperlinkName.Title.Warning=Warning
 HyperlinkEditorDialog.Text.MenuLabel=名称(&N):
 HyperlinkEditorDialog.Title.HyperlinkEditor=超链接编辑器
 

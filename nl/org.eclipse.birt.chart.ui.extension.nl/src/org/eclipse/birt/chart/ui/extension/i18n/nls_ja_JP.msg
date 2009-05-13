@@ -680,8 +680,9 @@ PropertyEditorDialog.Lbl.Value=値
 PropertyEditorDialog.Lbl.Add=追加(&A)
 PropertyEditorDialog.Lbl.Remove=削除(&R)
 HeadStyleAttributeComposite.Lbl.HeadStyle=針の先端 :
-HyperlinkEditorDialog.ErrorMessage.ExistingText=既存のテキストです。別のテキストに変更してください。
-HyperlinkEditorDialog.ErrorMessage.NullText=テキストは null にできません。
+HyperlinkEditorDialog.ErrorMessage.ExistingText=The name is existing, please modify to a different one.
+HyperlinkEditorDialog.ErrorMessage.NullText=Name cannot be blank\!
+HyperlinkEditorDialog.HyperlinkName.Title.Warning=Warning
 HyperlinkEditorDialog.Text.MenuLabel=名前(&N) :
 HyperlinkEditorDialog.Title.HyperlinkEditor=ハイパーリンクエディタ
 
