@@ -56,7 +56,7 @@ Interactivity: Highlight series
 Chart type: Pie<br>
 Output format: PDF<br>
 Model type: XML file<br>
-Data type: Sample data in Java<br>
+Data type: Sample data<br>
 Style processor: NONE<br>
 Interactivity: NONE
 </td>
