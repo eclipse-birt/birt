@@ -70,6 +70,7 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontSplitter;
 import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -419,10 +420,14 @@ public abstract class AbstractEmitterImpl
 	private void drawDiagonalLine( ICellContent cell, double cellWidth )
 	{
 		DiagonalLineInfo diagonalLineInfo = new DiagonalLineInfo( );
-		diagonalLineInfo.setDiagonalLine( cell.getDiagonalNumber( ), cell.getDiagonalStyle( ),
-				cell.getDiagonalWidth( ) );
+		int diagonalWidth = PropertyUtil.getDimensionValue( cell, cell
+				.getDiagonalWidth( ), (int) cellWidth ) / 1000;
+		diagonalLineInfo.setDiagonalLine( cell.getDiagonalNumber( ), cell
+				.getDiagonalStyle( ), diagonalWidth );
+		int antidiagonalWidth = PropertyUtil.getDimensionValue( cell, cell
+				.getAntidiagonalWidth( ), (int) cellWidth ) / 1000;
 		diagonalLineInfo.setAntidiagonalLine( cell.getAntidiagonalNumber( ),
-				cell.getAntidiagonalStyle( ), cell.getAntidiagonalWidth( ) );
+				cell.getAntidiagonalStyle( ), antidiagonalWidth );
 		int cellHeight = WordUtil.convertTo( getCellHeight( cell ), 0 ) / 20;
 		diagonalLineInfo.setCoordinateSize( cellWidth, cellHeight );
 		String lineColor = WordUtil.parseColor( cell.getComputedStyle( )

@@ -13,20 +13,21 @@ package org.eclipse.birt.report.engine.emitter.wpml;
 
 import java.util.ArrayList;
 
-import org.eclipse.birt.report.engine.ir.DimensionType;
-
 public class DiagonalLineInfo
 {
 
+	private static final double CELL_MARGIN_COMPENSATION = 5.4;
 	private int diagonalCount = -1;
 	private String diagonalStyle = null;
-	private DimensionType diagonalWidth = null;
+	// unit:point
+	private int diagonalWidth = 0;
 	private int antiDiagonalCount = -1;
 	private String antiDiagonalStyle = null;
-	private DimensionType antiDiagonalWidth = null;
+	// unit:point
+	private int antiDiagonalWidth = 0;
 	private String color = null;
 
-	// point
+	// unit:point
 	private final double DEFAULT_COORDSIZEX = 100;
 	private final double DEFAULT_COORDSIZEY = 100;
 	private double width = DEFAULT_COORDSIZEX;
@@ -35,7 +36,7 @@ public class DiagonalLineInfo
 	private double coordoriginY = 0;
 
 	public void setDiagonalLine( int diagonalCount, String diagonalStyle,
-			DimensionType diagonalWidth )
+			int diagonalWidth )
 	{
 		this.diagonalCount = diagonalCount;
 		this.diagonalStyle = diagonalStyle;
@@ -43,7 +44,7 @@ public class DiagonalLineInfo
 	}
 
 	public void setAntidiagonalLine( int antidiagonalCount,
-			String antidiagonalStyle, DimensionType antidiagonalWidth )
+			String antidiagonalStyle, int antidiagonalWidth )
 	{
 		this.antiDiagonalCount = antidiagonalCount;
 		this.antiDiagonalStyle = antidiagonalStyle;
@@ -85,16 +86,23 @@ public class DiagonalLineInfo
 
 		if ( diagonalCount % 2 == 1 )
 		{
-			diagonalLine.add( new Line( coordoriginX, coordoriginY,
-					coordoriginX + width, coordoriginY + height ) );
+			diagonalLine.add( new Line(
+					coordoriginX - CELL_MARGIN_COMPENSATION, coordoriginY,
+					coordoriginX + width - CELL_MARGIN_COMPENSATION,
+					coordoriginY + height ) );
 		}
 		for ( int i = 1; i <= num; i++ )
 		{
 			diagonalLine
-					.add( new Line( coordoriginX + width - i * x, coordoriginY,
-							coordoriginX + width, coordoriginY + height ) );
-			diagonalLine.add( new Line( coordoriginX, coordoriginY + height - i
-					* y, coordoriginX + width, coordoriginY + height ) );
+					.add( new Line( coordoriginX + width - i * x
+							- CELL_MARGIN_COMPENSATION, coordoriginY,
+							coordoriginX + width - CELL_MARGIN_COMPENSATION,
+							coordoriginY + height ) );
+			diagonalLine
+					.add( new Line( coordoriginX - CELL_MARGIN_COMPENSATION,
+							coordoriginY + height - i * y, coordoriginX + width
+									- CELL_MARGIN_COMPENSATION, coordoriginY
+									+ height ) );
 		}
 		return diagonalLine;
 	}
@@ -107,18 +115,21 @@ public class DiagonalLineInfo
 		double y = 2d / ( antiDiagonalCount + 1 ) * height;
 		if ( antiDiagonalCount % 2 == 1 )
 		{
-			antiDiagonalLine
-					.add( new Line( coordoriginX, coordoriginY + height,
-							coordoriginX + width, coordoriginY ) );
+			antiDiagonalLine.add( new Line( coordoriginX
+					- CELL_MARGIN_COMPENSATION, coordoriginY + height,
+					coordoriginX + width - CELL_MARGIN_COMPENSATION,
+					coordoriginY ) );
 		}
 		for ( int i = 1; i <= num; i++ )
 		{
-			antiDiagonalLine
-					.add( new Line( coordoriginX, coordoriginY + height,
-							coordoriginX + i * x, coordoriginY ) );
-			antiDiagonalLine.add( new Line( coordoriginX,
-					coordoriginY + height, coordoriginX + width, coordoriginY
-							+ height - i * y ) );
+			antiDiagonalLine.add( new Line( coordoriginX
+					- CELL_MARGIN_COMPENSATION, coordoriginY + height,
+					coordoriginX + i * x - CELL_MARGIN_COMPENSATION,
+					coordoriginY ) );
+			antiDiagonalLine.add( new Line( coordoriginX
+					- CELL_MARGIN_COMPENSATION, coordoriginY + height,
+					coordoriginX + width - CELL_MARGIN_COMPENSATION,
+					coordoriginY + height - i * y ) );
 		}
 		return antiDiagonalLine;
 	}
@@ -145,12 +156,12 @@ public class DiagonalLineInfo
 
 	public double getDiagonalLineWidth( )
 	{
-		return WordUtil.convertTo( diagonalWidth, 0 ) / 20d;
+		return diagonalWidth;
 	}
 
 	public double getAntiDiagonalLineWidth( )
 	{
-		return WordUtil.convertTo( antiDiagonalWidth, 0 ) / 20d;
+		return antiDiagonalWidth;
 	}
 
 	public class Line
