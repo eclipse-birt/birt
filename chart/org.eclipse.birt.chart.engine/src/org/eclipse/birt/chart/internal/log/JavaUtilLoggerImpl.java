@@ -59,6 +59,10 @@ public class JavaUtilLoggerImpl implements ILogger
 
 		if ( fileHandler != null )
 		{
+			if ( fileHandler.getLevel( ).intValue( ) < javaLevel.intValue( ) )
+			{
+				javaLevel = fileHandler.getLevel( );
+			}
 			this.logger.addHandler( fileHandler );
 			this.logger.setUseParentHandlers( false );
 		}
