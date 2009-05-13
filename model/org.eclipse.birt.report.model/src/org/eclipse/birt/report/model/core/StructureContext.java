@@ -47,8 +47,10 @@ public class StructureContext
 	 * 
 	 * @param element
 	 *            the design element
-	 * @param elementPropName
-	 *            the element property name
+	 * @param elementPropDefn
+	 *            the property definition
+	 * @param obj
+	 *            the structure that is the value of the propDefn
 	 */
 
 	public StructureContext( DesignElement element,
@@ -65,8 +67,10 @@ public class StructureContext
 	 * 
 	 * @param struct
 	 *            the structure
-	 * @param memberName
-	 *            the member name
+	 * @param propDefn
+	 *            the member definition
+	 * @param obj
+	 *            the structure that is the value of the propDefn
 	 */
 
 	public StructureContext( IStructure struct, PropertyDefn propDefn,

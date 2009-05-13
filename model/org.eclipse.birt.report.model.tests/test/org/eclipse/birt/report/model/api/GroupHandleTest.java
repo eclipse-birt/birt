@@ -28,8 +28,7 @@ import com.ibm.icu.util.ULocale;
  * 
  * <p>
  * 
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -56,26 +55,31 @@ public class GroupHandleTest extends BaseTestCase
 	{
 		ULocale locale = ULocale.GERMANY;
 		createDesign( locale );
-		
-		TableHandle tableHandle = designHandle.getElementFactory( ).newTableItem( "table" , 3 ); //$NON-NLS-1$
+
+		TableHandle tableHandle = designHandle.getElementFactory( )
+				.newTableItem( "table", 3 ); //$NON-NLS-1$
 		designHandle.getBody( ).add( tableHandle );
-		
-		TableGroupHandle groupHandle = designHandle.getElementFactory( ).newTableGroup( );
+
+		TableGroupHandle groupHandle = designHandle.getElementFactory( )
+				.newTableGroup( );
 		groupHandle.setName( "group" );//$NON-NLS-1$
 		groupHandle.setKeyExpr( "row[\"hello\"]" );//$NON-NLS-1$
 		groupHandle.setIntervalRange( "1,234.5" );//$NON-NLS-1$
-		
+
 		tableHandle.getGroups( ).add( groupHandle );
-		
-		TableGroupHandle groupHandle2 = designHandle.getElementFactory( ).newTableGroup( );
+
+		TableGroupHandle groupHandle2 = designHandle.getElementFactory( )
+				.newTableGroup( );
 		groupHandle2.setName( "group2" );//$NON-NLS-1$
 		groupHandle2.setKeyExpr( "row[\"hello2\"]" );//$NON-NLS-1$
 		groupHandle2.setIntervalRange( 1000.5 );
-		
+
 		tableHandle.getGroups( ).add( groupHandle2 );
-		
-		assertEquals( "1.234" , groupHandle.getStringProperty( GroupElement.INTERVAL_RANGE_PROP ) );//$NON-NLS-1$
-		assertEquals( new Double( 1000.5 ) , new Double( groupHandle2.getIntervalRange( )) );
+
+		assertEquals(
+				"1.234", groupHandle.getStringProperty( GroupElement.INTERVAL_RANGE_PROP ) );//$NON-NLS-1$
+		assertEquals( new Double( 1000.5 ), new Double( groupHandle2
+				.getIntervalRange( ) ) );
 	}
 
 	/**
@@ -153,13 +157,13 @@ public class GroupHandleTest extends BaseTestCase
 
 		group.setKeyExpr( "new key expression" ); //$NON-NLS-1$
 		assertEquals( "new key expression", group.getKeyExpr( ) ); //$NON-NLS-1$
-		
+
 		group.setTocExpression( "new toc expression" ); //$NON-NLS-1$
 		assertEquals( "new toc expression", group.getTocExpression( ) ); //$NON-NLS-1$
 
 		group.setTocExpression( null );
 		assertEquals( "new key expression", group.getKeyExpr( ) ); //$NON-NLS-1$
-		assertNull( group.getTocExpression( ) ); 
+		assertNull( group.getTocExpression( ) );
 
 		group.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
 		assertEquals( DesignChoiceConstants.SORT_DIRECTION_DESC, group
@@ -167,13 +171,13 @@ public class GroupHandleTest extends BaseTestCase
 
 		group.setOnPrepare( "new prepare on the group" ); //$NON-NLS-1$
 		assertEquals( "new prepare on the group", group.getOnPrepare( ) ); //$NON-NLS-1$
-	
-		//test bookmark 
+
+		// test bookmark
 		assertNull( group.getBookmark( ) );
-		
+
 		group.setBookmark( "bookmark" );//$NON-NLS-1$
-		assertEquals("bookmark" , group.getBookmark( ) );//$NON-NLS-1$
-		
+		assertEquals( "bookmark", group.getBookmark( ) );//$NON-NLS-1$
+
 	}
 
 	/**
@@ -202,9 +206,13 @@ public class GroupHandleTest extends BaseTestCase
 		assertEquals( false, group.hasHeader( ) );
 
 	}
-	
+
 	/**
-	 * Tests addTOC , getTOC , setTOCExpression, getTOCExpression
+	 * 
+	 * <ul>
+	 * <li>Tests addTOC , getTOC , setTOCExpression, getTOCExpression.
+	 * <li>drop the style set on toc
+	 * </ul>
 	 * 
 	 * @throws Exception
 	 */
@@ -212,20 +220,27 @@ public class GroupHandleTest extends BaseTestCase
 	public void testTOC( ) throws Exception
 	{
 		openDesign( "GroupHandleTest.xml" ); //$NON-NLS-1$
-		
+
 		ListHandle list = (ListHandle) designHandle.findElement( "My List" ); //$NON-NLS-1$
 		SlotHandle groupSlot = list.getGroups( );
 		GroupHandle group = (GroupHandle) groupSlot.get( 0 );
-		
+
+		TOCHandle tocHandle = group.getTOC( );
+		StyleHandle styleHandle = designHandle.findNativeStyle( tocHandle
+				.getStyleName( ) );
+		styleHandle.dropAndClear( );
+
+		assertNull( tocHandle.getStyleName( ) );
+
 		TOC toc = StructureFactory.createTOC( "toc" ); //$NON-NLS-1$
-		TOCHandle tocHandle = group.addTOC( toc );
+		tocHandle = group.addTOC( toc );
 		assertNotNull( tocHandle );
-		assertEquals( "toc" , tocHandle.getExpression( ) );//$NON-NLS-1$
-		
-		assertEquals( "toc" , group.getTocExpression( ) );//$NON-NLS-1$
-		
+		assertEquals( "toc", tocHandle.getExpression( ) );//$NON-NLS-1$
+
+		assertEquals( "toc", group.getTocExpression( ) );//$NON-NLS-1$
+
 		group.setTocExpression( "toc2" );//$NON-NLS-1$
-		assertEquals( "toc2" , group.getTocExpression( ));//$NON-NLS-1$
-		
+		assertEquals( "toc2", group.getTocExpression( ) );//$NON-NLS-1$
+
 	}
 }

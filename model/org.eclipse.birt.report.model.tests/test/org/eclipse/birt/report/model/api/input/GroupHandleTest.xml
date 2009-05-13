@@ -9,6 +9,11 @@
             <property name="dataSource">myDataSource</property>
         </oda-data-set>
     </data-sets>
+    <styles>
+    	<style name="newStyle">
+    		<property name="color">blue</property>
+    	</style>
+    </styles>
     <page-setup>
         <graphic-master-page name="My Page">
             <property name="columns">1</property>
@@ -40,6 +45,10 @@
                 <method name="onStart"><![CDATA[start]]></method>
                 <method name="onRow"><![CDATA[row]]></method>
                 <method name="onFinish"><![CDATA[finish]]></method>
+                <structure name="toc">
+                    <expression name="expressionValue">row["COUNTRY"]</expression>
+                    <property name="TOCStyle">newStyle</property>
+                </structure>                
                 <list-property name="sort">
                     <structure>
                         <property name="direction">asc</property>

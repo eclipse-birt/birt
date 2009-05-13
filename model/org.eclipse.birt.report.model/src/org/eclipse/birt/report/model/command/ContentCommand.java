@@ -422,8 +422,24 @@ public class ContentCommand extends AbstractContentCommand
 			{
 				if ( ( (DesignElement) referred ).isStyle( ) )
 				{
-					StyleCommand clientCmd = new StyleCommand( module, client );
-					clientCmd.setStyleElement( (DesignElement) null );
+					Structure struct = ref.getStructure( );
+
+					if ( struct != null )
+					{
+						PropertyCommand cmd = new PropertyCommand( module,
+								client );
+						cmd.setMember( new StructureContext( struct,
+								(PropertyDefn) struct.getDefn( ).getMember(
+										ref.getPropertyName( ) ), struct ),
+								null );
+					}
+					else
+					{
+						StyleCommand clientCmd = new StyleCommand( module,
+								client );
+						clientCmd.setStyleElement( (DesignElement) null );
+
+					}
 				}
 				else
 				{
