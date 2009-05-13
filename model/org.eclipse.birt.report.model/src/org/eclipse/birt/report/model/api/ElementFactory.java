@@ -916,10 +916,13 @@ public class ElementFactory
 	 * @return a handle to derived data set
 	 */
 
-	public DerivedDataSetHandle newDerivedDataSet( String name )
+	public DerivedDataSetHandle newDerivedDataSet( String name,
+			String extensionID )
 	{
 		DerivedDataSet element = new DerivedDataSet( name );
 		module.makeUniqueName( element );
+		element.setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
+				extensionID );
 		return element.handle( module );
 	}
 

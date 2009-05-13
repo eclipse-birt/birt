@@ -105,4 +105,15 @@ public class DerivedDataSetHandle extends DataSetHandle
 
 		return dataSets;
 	}
+
+	/**
+	 * Returns ID of the extension which extends this ODA data set.
+	 * 
+	 * @return the extension ID
+	 */
+
+	public String getExtensionID( )
+	{
+		return getStringProperty( EXTENSION_ID_PROP );
+	}
 }

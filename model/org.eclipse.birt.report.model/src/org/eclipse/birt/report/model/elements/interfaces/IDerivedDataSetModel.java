@@ -18,4 +18,10 @@ public interface IDerivedDataSetModel
 	 * Name of the property that gives the query text for this derived data set.
 	 */
 	String QUERY_TEXT_PROP = "queryText"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that identifies the extension.
+	 */
+
+	String EXTENSION_ID_PROP = "extensionID"; //$NON-NLS-1$
 }

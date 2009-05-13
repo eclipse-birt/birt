@@ -3559,6 +3559,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitDerivedDataSet( DerivedDataSet obj )
 	{
 		writer.startElement( DesignSchemaConstants.DERIVED_DATA_SET_TAG );
+		attribute( obj, IDerivedDataSetModel.EXTENSION_ID_PROP,
+				IDerivedDataSetModel.EXTENSION_ID_PROP );
+
 		super.visitDerivedDataSet( obj );
 
 		writeSimplePropertyList( obj, IDerivedDataSetModel.INPUT_DATA_SETS_PROP );

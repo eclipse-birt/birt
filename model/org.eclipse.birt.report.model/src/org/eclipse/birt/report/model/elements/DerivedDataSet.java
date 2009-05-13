@@ -30,6 +30,12 @@ public class DerivedDataSet extends DataSet implements IDerivedDataSetModel
 {
 
 	/**
+	 * ID of the extension which extends this derived data set.
+	 */
+
+	protected String extensionID = null;
+
+	/**
 	 * Default constructor.
 	 */
 
@@ -115,5 +121,41 @@ public class DerivedDataSet extends DataSet implements IDerivedDataSetModel
 	public List<SemanticException> validate( Module module )
 	{
 		return Collections.emptyList( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty
+	 * (java.lang.String)
+	 */
+
+	protected Object getIntrinsicProperty( String propName )
+	{
+		if ( EXTENSION_ID_PROP.equals( propName ) )
+			return extensionID;
+
+		return super.getIntrinsicProperty( propName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty
+	 * (java.lang.String, java.lang.Object)
+	 */
+
+	protected void setIntrinsicProperty( String propName, Object value )
+	{
+		if ( EXTENSION_ID_PROP.equals( propName ) )
+		{
+			extensionID = (String) value;
+		}
+		else
+		{
+			super.setIntrinsicProperty( propName, value );
+		}
 	}
 }

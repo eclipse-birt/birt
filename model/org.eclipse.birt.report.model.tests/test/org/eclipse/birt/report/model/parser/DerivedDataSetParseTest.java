@@ -28,6 +28,8 @@ public class DerivedDataSetParseTest extends BaseTestCase
 				.findDataSet( "derivedDataSet" ); //$NON-NLS-1$
 
 		assertEquals(
+				"derived.extension", derivedDataSetHandle.getExtensionID( ) ); //$NON-NLS-1$
+		assertEquals(
 				"query text for the derived data set", derivedDataSetHandle.getQueryText( ) ); //$NON-NLS-1$
 
 		List<DataSetHandle> dataSets = derivedDataSetHandle.getInputDataSets( );
@@ -55,7 +57,7 @@ public class DerivedDataSetParseTest extends BaseTestCase
 
 		// create another derived-data set
 		derivedDataSetHandle = designHandle.getElementFactory( )
-				.newDerivedDataSet( null );
+				.newDerivedDataSet( null, "derived.extensionID.new" ); //$NON-NLS-1$
 		derivedDataSetHandle.addInputDataSets( "DataSet3" ); //$NON-NLS-1$
 		derivedDataSetHandle.addInputDataSets( "DataSet1" ); //$NON-NLS-1$
 		designHandle.getDataSets( ).add( derivedDataSetHandle );
