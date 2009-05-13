@@ -1620,7 +1620,7 @@ public class ChartUIUtil
 	 * @param context
 	 * @since 2.3
 	 */
-	public static void checkAggregateType( ChartWizardContext context )
+	public static boolean checkAggregateType( ChartWizardContext context )
 	{
 		boolean isValid = true;
 		SeriesDefinition baseSD = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
@@ -1631,7 +1631,7 @@ public class ChartUIUtil
 		{
 			if ( !isValid )
 			{
-				return;
+				break;
 			}
 			Series oSeries = orthSD.getDesignTimeSeries( );
 
@@ -1640,6 +1640,8 @@ public class ChartUIUtil
 					baseSD );
 
 		}
+
+		return isValid;
 	}
 
 	/**
