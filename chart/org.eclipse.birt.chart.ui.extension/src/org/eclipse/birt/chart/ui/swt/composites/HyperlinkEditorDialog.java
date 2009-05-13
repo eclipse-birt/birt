@@ -35,8 +35,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
@@ -374,11 +376,18 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 	 */
 	protected void okPressed( )
 	{
-		if ( !isValidLabel( ) )
+		String result = getNameCheckResult( );
+		if ( result != null )
 		{
+			MessageBox mb = new MessageBox( Display.getDefault( )
+					.getActiveShell( ), SWT.ICON_WARNING);
+			mb.setText( Messages.getString("HyperlinkEditorDialog.HyperlinkName.Title.Warning") ); //$NON-NLS-1$
+			mb.setMessage( result );
+			mb.open( );
 			fTxtHyperlinkLabel.setFocus( );
 			return;
 		}
+		
 		fURLValue.getLabel( )
 				.getCaption( )
 				.setValue( fTxtHyperlinkLabel.getText( ).trim( ) );
@@ -394,23 +403,20 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 	 * 
 	 * @return
 	 */
-	private boolean isValidLabel( )
+	private String getNameCheckResult( )
 	{
 		if ( "".equals( fTxtHyperlinkLabel.getText( ).trim( ) ) )//$NON-NLS-1$
 		{
-			return false;
+			return Messages.getString("HyperlinkEditorDialog.ErrorMessage.NullText"); //$NON-NLS-1$
+			
 		}
-		if ( fExistingLabels == null )
+		
+		if ( fExistingLabels != null && fExistingLabels.contains( fTxtHyperlinkLabel.getText( ).trim( ) ) )
 		{
-			return true;
+			return Messages.getString("HyperlinkEditorDialog.ErrorMessage.ExistingText"); //$NON-NLS-1$;
 		}
 
-		if ( fExistingLabels.contains( fTxtHyperlinkLabel.getText( ).trim( ) ) )
-		{
-			return false;
-		}
-
-		return true;
+		return null;
 	}
 
 	/**
