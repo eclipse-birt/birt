@@ -1388,7 +1388,7 @@ public class EngineIRVisitor extends DesignVisitor
 			cell.setDiagonalNumber( diagonalNumber );
 			cell.setDiagonalStyle( handle.getDiagonalStyle( ) );
 			cell.setDiagonalWidth( createDimension( handle.getDiagonalThickness( ),
-					false ) );
+					true ) );
 		}
 		int antidiagonalNumber = handle.getAntidiagonalNumber( );
 		if ( antidiagonalNumber > 0 )
@@ -1397,7 +1397,7 @@ public class EngineIRVisitor extends DesignVisitor
 			cell.setAntidiagonalNumber( antidiagonalNumber );
 			cell.setAntidiagonalStyle( handle.getAntidiagonalStyle( ) );
 			cell.setAntidiagonalWidth( createDimension( handle.getAntidiagonalThickness( ),
-					false ) );
+					true ) );
 		}
 				
 		setCurrentElement( cell );
