@@ -1070,8 +1070,32 @@ public class PropertyCommand extends AbstractPropertyCommand
 			Object value )
 	{
 
-		if ( !( value instanceof Expression )
-				|| ( (Expression) value ).getUserDefinedType( ) != null )
+		// currently only consider the case for the
+		// ScalarParameter.defaultValue: the literalString --> allowExpression =
+		// true. And the property type is the list
+
+		boolean isCompatible = false;
+
+		if ( propDefn.allowExpression( ) )
+		{
+			// for the case that the given value is a string/integer, etc.
+
+			if ( value != null && !( value instanceof List<?> )
+					&& !( value instanceof Expression ) )
+				isCompatible = true;
+
+			// for the case that the given value is a string/integer list
+
+			if ( value != null && value instanceof List<?> )
+			{
+				List tmpList = (List) value;
+				if ( !tmpList.isEmpty( )
+						&& !( tmpList.get( 0 ) instanceof Expression ) )
+					isCompatible = true;
+			}
+		}
+
+		if ( !isCompatible )
 			return value;
 
 		String defaultType = CompatiblePropertyChangeTables.getDefaultExprType(
@@ -1086,7 +1110,9 @@ public class PropertyCommand extends AbstractPropertyCommand
 		// for example: integer -> integer/expression, string ->
 		// string/expression.
 
-		switch ( propDefn.getTypeCode( ) )
+		int typeCode = propDefn.getTypeCode( );
+
+		switch ( typeCode )
 		{
 			case IPropertyType.EXPRESSION_TYPE :
 

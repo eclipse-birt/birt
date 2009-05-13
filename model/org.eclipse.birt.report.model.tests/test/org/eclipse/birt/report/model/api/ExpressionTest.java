@@ -66,8 +66,8 @@ public class ExpressionTest extends BaseTestCase
 				ExpressionType.JAVASCRIPT ) );
 
 		values = new ArrayList<Expression>( );
-		values.add( new Expression( "value1", ExpressionType.JAVASCRIPT ) );
-		values.add( new Expression( "123", ExpressionType.CONSTANT ) );
+		values.add( new Expression( "value1", ExpressionType.JAVASCRIPT ) ); //$NON-NLS-1$
+		values.add( new Expression( "123", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
 
 		param.setProperty( ScalarParameterHandle.DEFAULT_VALUE_PROP, values );
 		values = (List<Expression>) param

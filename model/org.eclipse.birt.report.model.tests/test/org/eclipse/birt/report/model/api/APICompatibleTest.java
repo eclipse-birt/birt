@@ -475,4 +475,23 @@ public class APICompatibleTest extends BaseTestCase
 		assertEquals( "value1", column.getFilterExpression( ) ); //$NON-NLS-1$
 
 	}
+
+	/**
+	 * Backward for the default value list.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testScalarParamDefaultValue( ) throws Exception
+	{
+		createDesign( );
+
+		ScalarParameterHandle param = designHandle.getElementFactory( )
+				.newScalarParameter( null );
+
+		param.setDefaultValue( "default value 1" );  //$NON-NLS-1$
+		List<Expression> tmpValues = param.getDefaultValueList( );
+		assertTrue( tmpValues.get( 0 ) instanceof Expression );
+	}
+
 }

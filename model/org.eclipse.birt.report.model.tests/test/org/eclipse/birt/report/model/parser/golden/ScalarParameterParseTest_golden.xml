@@ -14,7 +14,7 @@
             <expression name="sortByColumn">city</expression>
             <property name="sortDirection">asc</property> 
             <simple-property-list name="defaultValue">
-            	<value>new default value.&#13;
+            	<value type="constant">new default value.&#13;
             	this the next line of the value.</value>
             </simple-property-list> 
             <list-property name="selectionList">
