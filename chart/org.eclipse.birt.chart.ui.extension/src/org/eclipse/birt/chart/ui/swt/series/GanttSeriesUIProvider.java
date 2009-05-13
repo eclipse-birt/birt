@@ -19,16 +19,20 @@ import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.data.YOptionalDataDefinitionComponent;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -109,11 +113,11 @@ public class GanttSeriesUIProvider extends DefaultSeriesUIProvider
 	public void validateSeriesBindingType( Series series,
 			IDataServiceProvider idsp ) throws ChartException
 	{
-		ArrayList al = new ArrayList( );
+		ArrayList<Query> al = new ArrayList<Query>( );
 		al.addAll( series.getDataDefinition( ) );
 		for ( int i = 0; i < al.size( ); i++ )
 		{
-			Query query = (Query) al.get( i );
+			Query query = al.get( i );
 			DataType dataType = idsp.getDataType( query.getDefinition( ) );
 
 			if ( ( i != 2 )
@@ -129,6 +133,64 @@ public class GanttSeriesUIProvider extends DefaultSeriesUIProvider
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @seeorg.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#
+	 * validateAggregationType (org.eclipse.birt.chart.model.component.Series,
+	 * org.eclipse.birt.chart.model.data.SeriesDefinition,
+	 * org.eclipse.birt.chart.model.data.SeriesDefinition)
+	 */
+	public boolean isValidAggregationType( Series series,
+			SeriesDefinition orthSD, SeriesDefinition baseSD )
+	{
+		boolean isValidAgg = true;
+		EList<Query> queries = series.getDataDefinition( );
+		for ( int i : validationIndex( series ) )
+		{
+			if ( !isValidAgg )
+			{
+				break;
+			}
+			Query query = queries.get( i );
+			boolean checked = false;
+			String id = ChartWizard.Gatt_aggCheck_ID
+					+ series.eContainer( ).hashCode( )
+					+ series.getDataDefinition( ).indexOf( query );
+			if ( query.getGrouping( ) != null
+					&& query.getGrouping( ).isEnabled( ) )
+			{
+				checked = true;
+				isValidAgg = isValidAggregation( query.getGrouping( ),
+						false,
+						id );
+			}
+
+			if ( !checked
+					&& orthSD.getGrouping( ) != null
+					&& orthSD.getGrouping( ).isEnabled( ) )
+			{
+				checked = true;
+				isValidAgg = isValidAggregation( orthSD.getGrouping( ),
+						false,
+						id );
+			}
+
+			if ( !checked )
+			{
+
+				if ( baseSD.getGrouping( ) != null
+						&& baseSD.getGrouping( ).isEnabled( ) )
+				{
+					isValidAgg = isValidAggregation( baseSD.getGrouping( ),
+							true,
+							id );
+				}
+			}
+		}
+		return isValidAgg;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validationIndex(org.eclipse.birt.chart.model.component.Series)
 	 */
 	public int[] validationIndex( Series series )
@@ -136,6 +198,56 @@ public class GanttSeriesUIProvider extends DefaultSeriesUIProvider
 		return new int[]{
 				0, 1
 		};
+	}
+
+	/**
+	 * Check if default aggregation and value series aggregation are valid for
+	 * Gantt chart and show warning message in UI.
+	 * 
+	 * @param grouping
+	 * @param isCategoryGrouping
+	 * @param id
+	 *            error id for log
+	 * @return <code>true</code> if aggregation is valid.
+	 * @since 2.3
+	 * 
+	 */
+	private boolean isValidAggregation( SeriesGrouping grouping,
+			boolean isCategoryGrouping, String id )
+	{
+		ChartWizard.removeAllExceptions( id );
+		if ( grouping == null || !grouping.isEnabled( ) )
+		{
+			return true;
+		}
+
+		String aggName = grouping.getAggregateExpression( );
+		// Gantt chart only allow First, Last, Min and Max aggregations.
+		if ( !( "First".equalsIgnoreCase( aggName ) //$NON-NLS-1$
+				|| "Last".equalsIgnoreCase( aggName ) //$NON-NLS-1$
+				|| "Min".equalsIgnoreCase( aggName ) //$NON-NLS-1$
+		|| "Max".equalsIgnoreCase( aggName ) ) ) //$NON-NLS-1$
+		{
+			String aggPlace = ""; //$NON-NLS-1$
+			if ( isCategoryGrouping )
+			{
+				aggPlace = Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.DefaultAggregate" ); //$NON-NLS-1$
+			}
+			else
+			{
+				aggPlace = Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.ValueSeriesAggregate" ); //$NON-NLS-1$
+			}
+			ChartWizard.showException( id,
+					Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.GanttChart" )//$NON-NLS-1$
+							+ aggName
+							+ Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAggAs" )//$NON-NLS-1$
+							+ aggPlace
+							+ Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.Aggregation" ) );//$NON-NLS-1$
+
+			return false;
+		}
+
+		return true;
 	}
 
 }

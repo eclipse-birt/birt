@@ -86,11 +86,25 @@ public interface ISeriesUIProvider
 	 */
 	public void validateSeriesBindingType( Series series,
 			IDataServiceProvider idsp ) throws ChartException;
-	
+
+	/**
+	 * Validate the aggregation type.
+	 * 
+	 * @param series
+	 * @param orthSD
+	 * @param baseSD
+	 * @since 2.5
+	 * @return true if valid
+	 */
+	public boolean isValidAggregationType( Series series,
+			SeriesDefinition orthSD, SeriesDefinition baseSD );
+
 	/**
 	 * Get the compatible axis type according to series type.
+	 * 
 	 * @param series
-	 * @return An array containing all possible axis types for the designated series.
+	 * @return An array containing all possible axis types for the designated
+	 *         series.
 	 * @since 2.2
 	 */
 	public AxisType[] getCompatibleAxisType( Series series );

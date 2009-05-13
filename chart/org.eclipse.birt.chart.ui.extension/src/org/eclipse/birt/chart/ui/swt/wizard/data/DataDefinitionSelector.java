@@ -598,6 +598,8 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 
 			updateAllSeriesUnderAxis( );
 		}
+		// series updated, check the aggregation
+		ChartUIUtil.checkAggregateType( wizardContext );
 	}
 
 	private void updateAllSeriesUnderAxis( )

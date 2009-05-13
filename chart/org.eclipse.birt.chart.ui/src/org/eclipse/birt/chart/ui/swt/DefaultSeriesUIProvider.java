@@ -81,6 +81,21 @@ public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @seeorg.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#
+	 * validateAggregationType (org.eclipse.birt.chart.model.component.Series,
+	 * org.eclipse.birt.chart.model.data.SeriesDefinition,
+	 * org.eclipse.birt.chart.model.data.SeriesDefinition)
+	 */
+	public boolean isValidAggregationType( Series series,
+			SeriesDefinition orthSD, SeriesDefinition baseSD )
+	{
+		// Do not validate series binding type by default.
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series)
 	 */
 	public AxisType[] getCompatibleAxisType( Series series )

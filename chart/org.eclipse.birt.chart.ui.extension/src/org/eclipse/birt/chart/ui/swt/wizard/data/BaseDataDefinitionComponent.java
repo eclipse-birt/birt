@@ -639,9 +639,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					.eAdapters( )
 					.addAll( seriesdefinition.eAdapters( ) );
 			ChartUIUtil.checkGroupType( context, context.getModel( ) );
-			ChartUIUtil.isValidAggregation( context,
-					seriesdefinition.getGrouping( ),
-					true );
+			ChartUIUtil.checkAggregateType( context );
 		}
 	}
 

@@ -50,7 +50,6 @@ import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
@@ -1612,76 +1611,7 @@ public class ChartUIUtil
 		}
 	}
 
-	/**
-	 * Check if default aggregation and value series aggregation are valid for
-	 * Gantt chart and show warning message in UI.
-	 * 
-	 * @param context
-	 * @param grouping
-	 * @param isCategoryGrouping
-	 * @return <code>true</code> if aggregation is valid.
-	 * @since 2.3
-	 * 
-	 */
-	public static boolean isValidAggregation( ChartWizardContext context,
-			SeriesGrouping grouping, boolean isCategoryGrouping )
-	{
-		String id;
-		if ( isCategoryGrouping )
-		{
-			id = ChartWizard.Gatt_aggCheck_ID
-				+ isCategoryGrouping;
-		}
-		else
-		{
-			Query query = (Query) grouping.eContainer( );
-			Series series = (Series) query.eContainer( );
-			// the error contains the prefix, the series definition's hash code
-			// and the query index.
-			id = ChartWizard.Gatt_aggCheck_ID
-					+ series.eContainer( ).hashCode( )
-					+ series.getDataDefinition( ).indexOf( query );
-		}
-		ChartWizard.removeException( id );
-		if ( context == null || grouping == null )
-		{
-			return true;
-		}
 
-		if ( !ChartUIConstants.TYPE_GANTT.equals( context.getModel( ).getType( ) )
-				|| !grouping.isEnabled( ) )
-		{
-			return true;
-		}
-
-		String aggName = grouping.getAggregateExpression( );
-		// Gantt chart only allow First, Last, Min and Max aggregations.
-		if ( !( "First".equalsIgnoreCase( aggName ) //$NON-NLS-1$
-				|| "Last".equalsIgnoreCase( aggName ) //$NON-NLS-1$
-				|| "Min".equalsIgnoreCase( aggName ) //$NON-NLS-1$
-		|| "Max".equalsIgnoreCase( aggName ) ) ) //$NON-NLS-1$
-		{
-			String aggPlace = ""; //$NON-NLS-1$
-			if ( isCategoryGrouping )
-			{
-				aggPlace = Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.DefaultAggregate" ); //$NON-NLS-1$
-			}
-			else
-			{
-				aggPlace = Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.ValueSeriesAggregate" ); //$NON-NLS-1$
-			}
-			ChartWizard.showException( id,
-					Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.GanttChart" )//$NON-NLS-1$
-							+ aggName
-							+ Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAggAs" )//$NON-NLS-1$
-							+ aggPlace
-							+ Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.Aggregation" ) );//$NON-NLS-1$
-
-			return false;
-		}
-
-		return true;
-	}
 
 	/**
 	 * Check if default aggregation and value series aggregation are valid for
@@ -1692,36 +1622,23 @@ public class ChartUIUtil
 	 */
 	public static void checkAggregateType( ChartWizardContext context )
 	{
-		boolean isValidAgg = true;
+		boolean isValid = true;
+		SeriesDefinition baseSD = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
+				.get( 0 );
 
-		for ( Iterator<SeriesDefinition> iter = ChartUIUtil.getOrthogonalSeriesDefinitions( context.getModel( ),
-				0 )
-				.iterator( ); iter.hasNext( ); )
+		for ( SeriesDefinition orthSD : ChartUIUtil.getOrthogonalSeriesDefinitions( context.getModel( ),
+				0 ) )
 		{
-			if ( !isValidAgg )
+			if ( !isValid )
 			{
 				return;
 			}
+			Series oSeries = orthSD.getDesignTimeSeries( );
 
-			SeriesDefinition orthSD = iter.next( );
-			if ( orthSD.getGrouping( ) != null
-					&& orthSD.getGrouping( ).isEnabled( ) )
-			{
-				isValidAgg = isValidAggregation( context,
-						orthSD.getGrouping( ),
-						false );
-			}
-		}
+			isValid = getSeriesUIProvider( oSeries ).isValidAggregationType( oSeries,
+					orthSD,
+					baseSD );
 
-		if ( isValidAgg )
-		{
-			SeriesDefinition baseSD = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
-					.get( 0 );
-			if ( baseSD.getGrouping( ) != null
-					&& baseSD.getGrouping( ).isEnabled( ) )
-			{
-				isValidAggregation( context, baseSD.getGrouping( ), true );
-			}
 		}
 	}
 
