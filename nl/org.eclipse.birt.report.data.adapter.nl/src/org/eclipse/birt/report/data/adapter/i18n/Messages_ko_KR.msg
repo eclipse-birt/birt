@@ -30,3 +30,7 @@ exception.error=Ã³¸® µµÁß ¿¹¿Ü°¡ ¹ß»ıÇß½À´Ï´Ù. ÀÚ¼¼ÇÑ ³»¿ëÀº ´ÙÀ½ ¸Ş½ÃÁö¸¦ ÂüÁ¶Ç
 invalid.level.expression=¼öÁØ ÀÌ¸§ "{0}"À»(¸¦) Ã£À» ¼ö ¾ø½À´Ï´Ù.
 invalid.measure.expression=ÃøÁ¤°ª "{0}"ÀÇ ÃøÁ¤°ª ½ÄÀº ³Î(null)ÀÏ ¼ö ¾ø½À´Ï´Ù.
 invalid.data.type=Àß¸øµÈ µ¥ÀÌÅÍ Çü½Ä: {0}. 
+
+cube.error.createhierarchy=Error happens when create hierarchy:{0}.
+cube.error.createdimension=Error happens when create dimension:{0}.
+cube.error.createmeasure=Error happens when create measure.

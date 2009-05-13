@@ -30,3 +30,7 @@ exception.error=Une exception s'est produite au cours du traitement. Pour plus d
 invalid.level.expression=Le nom de niveau "{0}" est introuvable.
 invalid.measure.expression=L'expression de mesure"{0}" ne peut pas être nulle.
 invalid.data.type=Type de données incorrect : {0}. 
+
+cube.error.createhierarchy=Error happens when create hierarchy:{0}.
+cube.error.createdimension=Error happens when create dimension:{0}.
+cube.error.createmeasure=Error happens when create measure.
