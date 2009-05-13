@@ -224,6 +224,11 @@ public class OdaDataSet extends SimpleDataSet
 			}
 			else
 				provider = null;
+
+			if ( provider != null && provider.getExtDefn( ) != null )
+			{
+				this.cachedDefn = provider.getExtDefn( );
+			}
 		}
 		else
 		{

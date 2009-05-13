@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementMo
 import org.eclipse.birt.report.model.extension.ExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataException;
 import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.datatools.connectivity.oda.util.manifest.DataSetType;
@@ -71,7 +72,8 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.ExtensibilityProvider#getPropertyDefns()
+	 * @seeorg.eclipse.birt.report.model.extension.ExtensibilityProvider#
+	 * getPropertyDefns()
 	 */
 
 	public List<IElementPropertyDefn> getPropertyDefns( )
@@ -83,14 +85,16 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 		List<UserPropertyDefn> userProps = element.getUserProperties( );
 		if ( userProps != null )
 			list.addAll( userProps );
-		
+
 		return list;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.ExtensibilityProvider#getPropertyDefn(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.extension.ExtensibilityProvider#getPropertyDefn
+	 * (java.lang.String)
 	 */
 
 	public IPropertyDefn getPropertyDefn( String propName )
@@ -99,7 +103,7 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 			return null;
 
 		IPropertyDefn propDefn = getExtDefn( ).getProperty( propName );
-		
+
 		if ( propDefn == null )
 			propDefn = element.getUserPropertyDefn( propName );
 		return propDefn;
@@ -108,7 +112,9 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.ExtensibilityProvider#checkExtends(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.extension.ExtensibilityProvider#checkExtends
+	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
 	public void checkExtends( DesignElement parent ) throws ExtendsException
@@ -125,7 +131,8 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IExtendableElement#getExtDefn()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IExtendableElement#getExtDefn()
 	 */
 
 	public ExtensionElementDefn getExtDefn( )
@@ -135,66 +142,73 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 
 		if ( cachedExtDefn == null )
 		{
-			cachedExtDefn = new ODAExtensionElementDefn( element.getDefn( ) );
-
-			try
+			cachedExtDefn = (ExtensionElementDefn) MetaDataDictionary
+					.getInstance( ).getElement( extensionID );
+			if ( cachedExtDefn == null )
 			{
-				Property[] properties = null;
-				Properties visibilities = null;
 
-				if ( element instanceof OdaDataSource )
+				cachedExtDefn = new ODAExtensionElementDefn( element.getDefn( ) );
+
+				try
 				{
-					ExtensionManifest manifest = ODAManifestUtil
-							.getDataSourceExtension( extensionID );
+					Property[] properties = null;
+					Properties visibilities = null;
 
-					if ( manifest != null )
+					if ( element instanceof OdaDataSource )
 					{
-						properties = manifest.getProperties( );
-						visibilities = manifest.getPropertiesVisibility( );
-					}
+						ExtensionManifest manifest = ODAManifestUtil
+								.getDataSourceExtension( extensionID );
 
-				}
-				else if ( element instanceof OdaDataSet )
-				{
-					DataSetType dataSetType = ODAManifestUtil
-							.getDataSetExtension( extensionID );
-
-					if ( dataSetType != null )
-					{
-						properties = ODAManifestUtil.getDataSetExtension(
-								extensionID ).getProperties( );
-						visibilities = ODAManifestUtil.getDataSetExtension(
-								extensionID ).getPropertiesVisibility( );
-					}
-				}
-
-				if ( properties != null )
-				{
-					for ( int i = 0; i < properties.length; i++ )
-					{
-						ODAPropertyDefn propDefn = new ODAPropertyDefn(
-								properties[i] );
-
-						cachedExtDefn.addProperty( propDefn );
-					}
-
-					if ( visibilities != null )
-					{
-						for ( Iterator<Object> iter = visibilities.keySet( ).iterator( ); iter
-								.hasNext( ); )
+						if ( manifest != null )
 						{
-							String key = (String) iter.next( );
-							cachedExtDefn.addPropertyVisibility( key,
-									visibilities.getProperty( key ) );
+							properties = manifest.getProperties( );
+							visibilities = manifest.getPropertiesVisibility( );
+						}
+
+					}
+					else if ( element instanceof OdaDataSet )
+					{
+						DataSetType dataSetType = ODAManifestUtil
+								.getDataSetExtension( extensionID );
+
+						if ( dataSetType != null )
+						{
+							properties = ODAManifestUtil.getDataSetExtension(
+									extensionID ).getProperties( );
+							visibilities = ODAManifestUtil.getDataSetExtension(
+									extensionID ).getPropertiesVisibility( );
 						}
 					}
-				}
 
-				( (ODAExtensionElementDefn) cachedExtDefn ).buildDefinition( );
-			}
-			catch ( MetaDataException e )
-			{
-				return null;
+					if ( properties != null )
+					{
+						for ( int i = 0; i < properties.length; i++ )
+						{
+							ODAPropertyDefn propDefn = new ODAPropertyDefn(
+									properties[i] );
+
+							cachedExtDefn.addProperty( propDefn );
+						}
+
+						if ( visibilities != null )
+						{
+							for ( Iterator<Object> iter = visibilities.keySet( )
+									.iterator( ); iter.hasNext( ); )
+							{
+								String key = (String) iter.next( );
+								cachedExtDefn.addPropertyVisibility( key,
+										visibilities.getProperty( key ) );
+							}
+						}
+					}
+
+					MetaDataDictionary.getInstance( ).cacheOdaExtension(
+							extensionID, cachedExtDefn );
+				}
+				catch ( MetaDataException e )
+				{
+					return null;
+				}
 			}
 		}
 
@@ -204,7 +218,9 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#convertExtensionID(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#convertExtensionID
+	 * (java.lang.String)
 	 */
 
 	public String convertExtensionID( )
@@ -239,7 +255,9 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidExtensionID()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidExtensionID
+	 * ()
 	 */
 
 	public boolean isValidExtensionID( )

@@ -54,7 +54,7 @@ public final class ExtensionManager
 	 * by their internal names.
 	 */
 
-	private HashMap<String, IElementDefn> extensionNameMap = null;
+	private HashMap<String, IElementDefn> peerExtensionNameMap = null;
 
 	/**
 	 * The factory to create scriptable classes.
@@ -68,13 +68,19 @@ public final class ExtensionManager
 	private Map<String, Style> extensionFactoryStyles = null;
 
 	/**
+	 * Provides the list of the oda extension elements that are requested.
+	 */
+	private HashMap<String, IElementDefn> odaExtensionNameMap = null;
+
+	/**
 	 * Don't allow to instantiate.
 	 */
 
 	private ExtensionManager( )
 	{
 		encryptionHelperMap = new HashMap<String, IEncryptionHelper>( );
-		extensionNameMap = new HashMap<String, IElementDefn>( );
+		peerExtensionNameMap = new HashMap<String, IElementDefn>( );
+		odaExtensionNameMap = new HashMap<String, IElementDefn>( );
 		extensionFactoryStyles = new HashMap<String, Style>( );
 	}
 
@@ -137,7 +143,8 @@ public final class ExtensionManager
 
 	public IElementDefn getElement( String name )
 	{
-		return extensionNameMap.get( name );
+		IElementDefn defn = peerExtensionNameMap.get( name );
+		return defn == null ? odaExtensionNameMap.get( name ) : defn;
 	}
 
 	/**
@@ -150,7 +157,7 @@ public final class ExtensionManager
 
 	public List<IElementDefn> getExtensions( )
 	{
-		return new ArrayList<IElementDefn>( extensionNameMap.values( ) );
+		return new ArrayList<IElementDefn>( peerExtensionNameMap.values( ) );
 	}
 
 	/**
@@ -174,7 +181,7 @@ public final class ExtensionManager
 			throw new MetaDataException( new String[]{elementName},
 					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_EXTENSION_NAME );
 
-		extensionNameMap.put( elementName, extDefn );
+		peerExtensionNameMap.put( elementName, extDefn );
 	}
 
 	/**
@@ -294,9 +301,9 @@ public final class ExtensionManager
 	}
 
 	/**
-	 * return the predefined styls instance of the extension element.
+	 * return the predefined style instance of the extension element.
 	 * 
-	 * @return the list of style intance for the extension element.
+	 * @return the list of style instance for the extension element.
 	 */
 	public List<Style> getExtensionFactoryStyles( )
 	{
@@ -320,6 +327,20 @@ public final class ExtensionManager
 					.log( "the extension predefined style has duplicated name, will be ignored." ); //$NON-NLS-1$
 		else
 			extensionFactoryStyles.put( style.getName( ), style );
+
+	}
+
+	/**
+	 * 
+	 * @param extensionID
+	 * @param extDefn
+	 */
+	void cacheOdaExtension( String extensionID, ExtensionElementDefn extDefn )
+			throws MetaDataException
+	{
+		odaExtensionNameMap.put( extensionID, extDefn );
+		if ( !extDefn.isBuilt )
+			extDefn.build( );
 
 	}
 }

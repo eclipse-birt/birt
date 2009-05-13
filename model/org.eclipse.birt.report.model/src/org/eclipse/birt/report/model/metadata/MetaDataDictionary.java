@@ -800,6 +800,18 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	}
 
 	/**
+	 * Caches and builds oda extension definition.
+	 * 
+	 * @param extDefn
+	 */
+	public void cacheOdaExtension( String extensionID,
+			ExtensionElementDefn extDefn ) throws MetaDataException
+	{
+		ExtensionManager.getInstance( )
+				.cacheOdaExtension( extensionID, extDefn );
+	}
+
+	/**
 	 * Add a new validator to the dictionary.
 	 * 
 	 * @param validator

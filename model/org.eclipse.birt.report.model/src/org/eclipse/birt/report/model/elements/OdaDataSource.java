@@ -219,6 +219,11 @@ public class OdaDataSource extends DataSource
 			}
 			else
 				provider = null;
+			
+			if ( provider != null && provider.getExtDefn( ) != null )
+			{
+				this.cachedDefn = provider.getExtDefn( );
+			}
 		}
 		else
 		{

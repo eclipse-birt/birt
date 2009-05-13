@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -30,6 +35,9 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 
 public abstract class ExtensionElementDefn extends ElementDefn
 {
+
+	private static Logger logger = Logger.getLogger( ExtensionElementDefn.class
+			.getName( ) );
 
 	/**
 	 * The extension point that this extension definition extended from.
@@ -107,5 +115,117 @@ public abstract class ExtensionElementDefn extends ElementDefn
 	public String getExtensionPoint( )
 	{
 		return this.extensionPoint;
+	}
+
+	/**
+	 * Reflects to clone new instance of property definition.
+	 * 
+	 * @param defn
+	 *            property definition
+	 * @return shadow cloned property definition.
+	 */
+
+	protected PropertyDefn reflectClass( PropertyDefn defn )
+	{
+		ElementPropertyDefn retDefn = null;
+
+		String className = defn.getClass( ).getName( );
+		try
+		{
+			Class<? extends Object> clazz = Class.forName( className );
+			retDefn = (ElementPropertyDefn) clazz.newInstance( );
+
+			Class<? extends Object> ownerClass = defn.getClass( );
+			Class<? extends Object> clonedClass = retDefn.getClass( );
+
+			shadowCopyProperties( defn, retDefn, ownerClass, clonedClass );
+		}
+		catch ( InstantiationException e )
+		{
+			logger.log( Level.WARNING, e.getMessage( ) );
+			MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$				
+		}
+		catch ( IllegalAccessException e )
+		{
+			logger.log( Level.WARNING, e.getMessage( ) );
+			MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
+		}
+		catch ( ClassNotFoundException e )
+		{
+			logger.log( Level.WARNING, e.getMessage( ) );
+			MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
+		}
+
+		if ( retDefn == null )
+			return null;
+
+		shadowCopyProperties( defn, retDefn, defn.getClass( ),
+				ExtensionPropertyDefn.class );
+
+		return retDefn;
+	}
+
+	/**
+	 * Shadow copy all properties to cloned property definition instance.
+	 * 
+	 * @param defn
+	 *            property definition
+	 * @param clonedDefn
+	 *            cloned property definition
+	 * @param ownerClass
+	 *            property definition class
+	 * @param clonedClass
+	 *            cloned property definition class
+	 */
+
+	private void shadowCopyProperties( PropertyDefn defn,
+			PropertyDefn clonedDefn, Class<? extends Object> ownerClass,
+			Class<? extends Object> clonedClass )
+	{
+		if ( ownerClass == null || clonedClass == null )
+			return;
+
+		Field[] fields = ownerClass.getDeclaredFields( );
+		for ( int i = 0; i < fields.length; ++i )
+		{
+			Field field = fields[i];
+			if ( ( field.getModifiers( ) & Modifier.STATIC ) != 0 )
+				continue;
+
+			try
+			{
+				Object property = field.get( defn );
+				Field clonedField = ownerClass.getDeclaredField( field
+						.getName( ) );
+				clonedField.set( clonedDefn, property );
+			}
+			catch ( IllegalArgumentException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ) );
+				MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
+
+				continue;
+			}
+			catch ( IllegalAccessException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ) );
+				MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
+				continue;
+			}
+			catch ( SecurityException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ) );
+				MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
+				continue;
+			}
+			catch ( NoSuchFieldException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ) );
+				MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
+				continue;
+			}
+		}
+		shadowCopyProperties( defn, clonedDefn, ownerClass.getSuperclass( ),
+				clonedClass.getSuperclass( ) );
 	}
 }
