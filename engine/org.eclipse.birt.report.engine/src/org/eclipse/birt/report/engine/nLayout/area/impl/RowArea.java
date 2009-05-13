@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -269,13 +270,28 @@ public class RowArea extends ContainerArea
 					}
 					else
 					{
-						// FIXME split the cell and update all dummycell
-						// reference
-						CellArea cell = cells[i].cloneArea( );
-						cell.setHeight( 0 );
-						cell.setRowSpan( rowSpan );
-						cell.setParent( this );
-						addChildByColumnId( cell );
+						SplitResult splitCell = cells[i].split( height, force );
+						CellArea cell = (CellArea) splitCell.getResult( );
+						if ( cell != null )
+						{
+							CellArea oc = ( (DummyCell) cells[i] ).getCell( );
+							ArrayList temp = cell.children;
+							cell.children = oc.children;
+							oc.children = temp;
+							oc.updateChildrenPosition( );
+							cell.updateChildrenPosition( );
+							cell.setRowSpan( rowSpan );
+							cell.setParent( this );
+							addChildByColumnId( cell );
+						}
+						else
+						{
+							cell = cells[i].cloneArea( );
+							cell.setHeight( 0 );
+							cell.setRowSpan( rowSpan );
+							cell.setParent( this );
+							addChildByColumnId( cell );
+						}
 					}
 					i = i + cells[i].getColSpan( ) - 1;
 				}

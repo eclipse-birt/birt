@@ -106,12 +106,6 @@ public class DummyCell extends CellArea
 	public SplitResult split( int height, boolean force ) throws BirtException
 	{
 		SplitResult result = cell.split( height + delta, force );
-		if ( result.getResult( ) != null )
-		{
-			RowArea row = (RowArea) cell.getParent( );
-			row.replace( cell, (CellArea) result.getResult( ) );
-			// FIXME update rowSpan
-		}
 		return result;
 	}
 	
