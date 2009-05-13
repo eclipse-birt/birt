@@ -21,6 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
@@ -493,11 +494,23 @@ class ConcreteImageLayout implements ILayout
 			}
 			else
 			{
-				imageArea.setWidth( actualWidth );
-				imageArea.setHeight( actualHeight );
-				root.setNeedClip( true );
-				root.setAllocatedHeight( Math.min( maxHeight, cHeight ) );
-				root.setAllocatedWidth( Math.min( maxWidth, cWidth ) );
+				//Fix Bugzilla – Bug 268921 [Automation][Regression]Fit to page does not work in PDF
+				if ( context.getPageOverflow( ) == IPDFRenderOption.FIT_TO_PAGE_SIZE
+						|| context.getPageOverflow( ) == IPDFRenderOption.ENLARGE_PAGE_SIZE )
+				{
+					imageArea.setWidth( actualWidth );
+					imageArea.setHeight( actualHeight );
+					root.setContentHeight( actualHeight );
+					root.setContentWidth( actualWidth );
+				}
+				else
+				{
+					imageArea.setWidth( actualWidth );
+					imageArea.setHeight( actualHeight );
+					root.setNeedClip( true );
+					root.setAllocatedHeight( Math.min( maxHeight, cHeight ) );
+					root.setAllocatedWidth( Math.min( maxWidth, cWidth ) );
+				}
 			}
 		}
 		else
