@@ -35,7 +35,7 @@ public class Object3D
 	
 	private HashMap<Object3D, Boolean> hmSwap = new HashMap<Object3D, Boolean>( );
 	
-	protected static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	protected static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
 	 * Construction by an empty array of coordinates

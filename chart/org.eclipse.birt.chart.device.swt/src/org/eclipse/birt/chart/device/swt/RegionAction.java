@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.device.swt;
 
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -43,7 +43,7 @@ public final class RegionAction
 
 	private final Action _ac;
 
-	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	private RegionAction( StructureSource source, Rectangle bb, Action ac )
 	{

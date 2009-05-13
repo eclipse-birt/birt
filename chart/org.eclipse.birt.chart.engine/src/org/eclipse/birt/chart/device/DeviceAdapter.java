@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.device;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.computation.BIRTChartComputation;
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.event.ArcRenderEvent;
@@ -42,7 +42,7 @@ public abstract class DeviceAdapter extends EventObjectCache implements
 		IDeviceRenderer
 {
 
-	protected final static IGObjectFactory goFactory = GObjectFacotry.instance( );
+	protected final static IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	protected IChartComputation cComp = new BIRTChartComputation( );
 

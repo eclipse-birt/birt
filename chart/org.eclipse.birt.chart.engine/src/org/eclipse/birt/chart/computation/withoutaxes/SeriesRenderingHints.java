@@ -13,7 +13,7 @@ package org.eclipse.birt.chart.computation.withoutaxes;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -38,7 +38,7 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 
 	private final PlotWithoutAxes pwoa;
 
-	private final static IGObjectFactory goFactory = GObjectFacotry.instance( );
+	private final static IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
 	 * The constructor.

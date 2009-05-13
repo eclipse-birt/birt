@@ -38,7 +38,7 @@ import com.ibm.icu.util.Calendar;
 public class Methods implements IConstants
 {
 
-	private final static IGObjectFactory goFactory = GObjectFacotry.instance( );
+	private final static IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
 	 * Converts given object to a DateTime object.

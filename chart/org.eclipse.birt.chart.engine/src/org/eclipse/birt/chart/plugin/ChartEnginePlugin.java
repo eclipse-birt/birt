@@ -12,7 +12,7 @@
 package org.eclipse.birt.chart.plugin;
 
 import org.eclipse.birt.chart.computation.ChartComputationFactory;
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IChartComputationFactory;
 import org.eclipse.birt.chart.internal.log.JavaUtilLoggerImpl;
 import org.eclipse.core.runtime.IAdapterManager;
@@ -48,7 +48,7 @@ public class ChartEnginePlugin extends Plugin
 		if ( factory != null )
 		{
 			ChartComputationFactory.initInstance( factory );
-			GObjectFacotry.initInstance( factory.createGObjectFactory( ) );
+			GObjectFactory.initInstance( factory.createGObjectFactory( ) );
 		}
 	}
 

@@ -25,7 +25,7 @@ import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.EllipsisHelper;
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
@@ -139,7 +139,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	/** The key is to reference the size information of stacked cone or triangle series. */
 	protected final static String STACKED_SERIES_SIZE_KEY = "stacked_series_size_key"; //$NON-NLS-1$
 
-	protected final static IGObjectFactory goFactory = GObjectFacotry.instance( );
+	protected final static IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	protected ISeriesRenderingHints srh;
 

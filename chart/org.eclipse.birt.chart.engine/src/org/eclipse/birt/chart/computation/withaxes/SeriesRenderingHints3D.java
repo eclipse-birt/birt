@@ -13,7 +13,7 @@ package org.eclipse.birt.chart.computation.withaxes;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.computation.Methods;
@@ -62,7 +62,7 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D
 
 	private final DataSetIterator dsiAncillary;
 
-	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
 	 * @param _pwa

@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.computation.LabelLimiter;
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -40,7 +40,7 @@ import org.eclipse.birt.chart.model.layout.TitleBlock;
 public final class LayoutManager
 {
 
-	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
 	 * The constructor.

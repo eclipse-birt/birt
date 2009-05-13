@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
@@ -47,7 +47,7 @@ public class InteractiveRenderer
 	private final Map<LineAttributes, LineAttributes> savedLines = new HashMap<LineAttributes, LineAttributes>( );
 	private final Map<Label, Label> savedLabels = new HashMap<Label, Label>( );
 
-	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
 	 * Register a chart element with an interactive action

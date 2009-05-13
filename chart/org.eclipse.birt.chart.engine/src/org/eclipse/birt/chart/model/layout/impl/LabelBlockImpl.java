@@ -12,7 +12,7 @@
 package org.eclipse.birt.chart.model.layout.impl;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
@@ -53,7 +53,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 public class LabelBlockImpl extends BlockImpl implements LabelBlock
 {
 
-	protected static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	protected static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.

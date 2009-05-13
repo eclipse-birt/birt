@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.computation.withaxes;
 
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -40,7 +40,7 @@ public final class AllAxes implements IConstants
 
 	private Insets insClientArea = null;
 
-	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	AllAxes( Insets _insClientArea )
 	{

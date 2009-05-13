@@ -21,7 +21,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 public class Rectangle
 {
 
-	protected static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	protected static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
 	 * The bitmask that indicates that a point lies to the left of this

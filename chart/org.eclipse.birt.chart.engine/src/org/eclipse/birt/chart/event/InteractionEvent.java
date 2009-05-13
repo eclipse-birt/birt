@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.event;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
@@ -35,7 +35,7 @@ public final class InteractionEvent extends ChartEvent
 
 	private Cursor cursor = null;
 
-	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
 	 * The constructor.

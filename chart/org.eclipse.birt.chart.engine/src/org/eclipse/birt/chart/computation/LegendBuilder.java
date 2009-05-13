@@ -59,7 +59,7 @@ import com.ibm.icu.text.DecimalFormat;
  */
 public final class LegendBuilder implements IConstants
 {
-	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
 	 * inner class for legend data

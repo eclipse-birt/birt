@@ -24,7 +24,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.computation.Polygon;
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -81,7 +81,7 @@ public class ChartUtil
 	 */
 	public static final double EPS = 1E-9;	
 	private static final String EPS_FORMAT = "%.9f";//$NON-NLS-1$
-	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 	
 	/**
 	 * Default max row count that will be supported in charts.

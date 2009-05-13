@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.render;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.event.EventObjectCache;
@@ -43,7 +43,7 @@ public final class CurveRenderer
 
 	private static final double kError = 0.5d;
 
-	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	private int iNumberOfPoints = 0;
 

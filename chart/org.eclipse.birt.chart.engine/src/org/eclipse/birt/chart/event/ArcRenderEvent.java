@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.event;
 
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -28,7 +28,7 @@ public class ArcRenderEvent extends PrimitiveRenderEvent
 
 	private static final long serialVersionUID = -8516218845415390970L;
 
-	protected static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	protected static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	protected Location loTopLeft = null;
 

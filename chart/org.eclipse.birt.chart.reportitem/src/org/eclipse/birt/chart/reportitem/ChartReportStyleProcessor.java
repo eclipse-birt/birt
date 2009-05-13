@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.reportitem;
 import java.net.URL;
 import java.util.logging.Level;
 
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -80,7 +80,7 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
-	protected static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	protected static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
 	 * The constructor. Default not using cache.

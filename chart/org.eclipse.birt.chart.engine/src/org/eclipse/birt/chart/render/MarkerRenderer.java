@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.render;
 
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
@@ -53,7 +53,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 public final class MarkerRenderer
 {
 
-	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	private final IDeviceRenderer iRender;
 

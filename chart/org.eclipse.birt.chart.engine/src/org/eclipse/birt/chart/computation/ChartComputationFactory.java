@@ -32,7 +32,7 @@ public class ChartComputationFactory implements IChartComputationFactory
 
 	public IGObjectFactory createGObjectFactory( )
 	{
-		return new GObjectFacotry( );
+		return new GObjectFactory( );
 	}
 
 	public IChartComputation createChartComputation( )

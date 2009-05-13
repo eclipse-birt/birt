@@ -34,7 +34,7 @@ public abstract class PlotComputation
 
 	protected final static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
 
-	protected final static IGObjectFactory goFactory = GObjectFacotry.instance( );
+	protected final static IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
 	 * An internal XServer implementation capable of obtaining text metrics,

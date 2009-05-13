@@ -43,7 +43,7 @@ public class LabelLimiter
 		FIX_HEIGHT
 	};
 
-	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 	private double maxWidth;
 	private double maxHeight;
 	private double wrapping;

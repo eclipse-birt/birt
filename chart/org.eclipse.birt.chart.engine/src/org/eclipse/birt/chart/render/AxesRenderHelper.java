@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.Engine3D;
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
@@ -84,7 +84,7 @@ public final class AxesRenderHelper
 
 	static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
 
-	protected final static IGObjectFactory goFactory = GObjectFacotry.instance( );
+	protected final static IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	AxesRenderer renderer;
 	OneAxis ax;

@@ -13,7 +13,7 @@ package org.eclipse.birt.chart.util;
 
 import java.util.List;
 
-import org.eclipse.birt.chart.computation.GObjectFacotry;
+import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -30,7 +30,7 @@ import org.eclipse.emf.common.util.EList;
 public class FillUtil
 {
 
-	private static final IGObjectFactory goFactory = GObjectFacotry.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
 	 * Returns a darker color.
