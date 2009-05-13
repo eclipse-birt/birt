@@ -630,13 +630,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param cubeHandle
 	 * @param cubeMaterializer
 	 * @param stopSign
+	 * @throws BirtException 
 	 * @throws IOException
 	 * @throws BirtException
 	 * @throws DataException
 	 */
 	private void createCube( TabularCubeHandle cubeHandle,
-			CubeMaterializer cubeMaterializer, Map appContext )
-			throws IOException, BirtException, DataException
+			CubeMaterializer cubeMaterializer, Map appContext ) throws BirtException
 	{
 		Map<?,?> backupAppContext = new HashMap();
 		if( appContext == null )
@@ -740,16 +740,24 @@ public class DataRequestSessionImpl extends DataRequestSession
 					throw new AdapterException( ResourceConstants.MISSING_JOIN_CONDITION, dim.getName() );
 			}
 		}
-		cubeMaterializer.createCube( cubeHandle.getQualifiedName( ),
-				factTableKey,
-				dimensionKey,
-				dimensions,
-				new DataSetIterator( this,
-						queryMap.get( cubeHandle ),
-						metaMap.get( cubeHandle ),
-						appContext ),
-				this.toStringArray( measureNames ),
-				dataEngine.getSession( ).getStopSign( ) );
+		try
+		{
+			cubeMaterializer.createCube( cubeHandle.getQualifiedName( ),
+					factTableKey,
+					dimensionKey,
+					dimensions,
+					new DataSetIterator( this,
+							queryMap.get( cubeHandle ),
+							metaMap.get( cubeHandle ),
+							appContext ),
+					this.toStringArray( measureNames ),
+					dataEngine.getSession( ).getStopSign( ) );
+		}
+		catch ( Exception e )
+		{
+			throw new AdapterException( ResourceConstants.CUBE_MEASURE_CREATION_ERROR,
+					e );
+		}
 		appContext.clear( );
 		appContext.putAll( backupAppContext );
 		
@@ -912,6 +920,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param dimHandles
 	 * @param stopSign
 	 * @return
+	 * @throws AdapterException 
 	 * @throws IOException
 	 * @throws BirtException
 	 * @throws DataException
@@ -919,8 +928,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private IDimension[] populateDimensions( CubeMaterializer cubeMaterializer,
 			TabularCubeHandle cubeHandle, Map appContext,
 			Map<ReportElementHandle, IQueryDefinition> queryMap,
-			Map<ReportElementHandle, List<ColumnMeta>> metaMap )
-			throws IOException, BirtException, DataException
+			Map<ReportElementHandle, List<ColumnMeta>> metaMap ) throws AdapterException
 	{
 		List dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
 		List result = new ArrayList( );
@@ -949,6 +957,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param dim
 	 * @param stopSign
 	 * @return
+	 * @throws AdapterException 
 	 * @throws IOException
 	 * @throws BirtException
 	 * @throws DataException
@@ -957,31 +966,30 @@ public class DataRequestSessionImpl extends DataRequestSession
 			DimensionHandle dim, TabularCubeHandle cubeHandle, Map appContext,
 			Map<ReportElementHandle, IQueryDefinition> queryMap,
 			Map<ReportElementHandle, List<ColumnMeta>> metaMap )
-			throws IOException,
-			BirtException, DataException
+			throws AdapterException
 	{
 		List hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
-		List iHiers = new ArrayList();
+		List iHiers = new ArrayList( );
 		for ( int j = 0; j < hiers.size( ); j++ )
 		{
 			TabularHierarchyHandle hierhandle = (TabularHierarchyHandle) hiers.get( 0 );
 			List levels = hierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
 
 			ILevelDefn[] levelInHier = null;
-			if( hierhandle.getLevelCount( ) == 1 )
+			if ( hierhandle.getLevelCount( ) == 1 )
 				levelInHier = new ILevelDefn[1];
 			else
-				levelInHier = new ILevelDefn[hierhandle.getLevelCount( )+1];
+				levelInHier = new ILevelDefn[hierhandle.getLevelCount( ) + 1];
 
 			String[] leafLevelKeyColumn = new String[levels.size( )];
 			for ( int k = 0; k < levels.size( ); k++ )
 			{
 				TabularLevelHandle level = (TabularLevelHandle) levels.get( k );
-				List levelKeys = new ArrayList();
+				List levelKeys = new ArrayList( );
 				Iterator it = level.attributesIterator( );
-				while( it.hasNext( ) )
+				while ( it.hasNext( ) )
 				{
-					LevelAttributeHandle levelAttr = (LevelAttributeHandle)it.next( );
+					LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next( );
 					levelKeys.add( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
 							levelAttr.getName( ) ) );
 				}
@@ -991,46 +999,64 @@ public class DataRequestSessionImpl extends DataRequestSession
 					levelKeys.add( OlapExpressionUtil.getDisplayColumnName( level.getName( ) ) );
 				}
 				leafLevelKeyColumn[k] = level.getName( );
-				
+
 				levelInHier[k] = CubeElementFactory.createLevelDefinition( level.getName( ),
 						new String[]{
 							level.getName( )
 						},
 						this.toStringArray( levelKeys ) );
 			}
-			
+
 			createLeafLevel( levels, levelInHier, leafLevelKeyColumn );
 			Object rowLimit = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
-			if ( rowLimit != null
-					&& !( cubeHandle.getDataSet( )
-							.equals( hierhandle.getDataSet( ) ) || hierhandle.getDataSet( ) == null ) )
+			try
 			{
-				appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
-				iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
-						hierhandle.getName( ),
-						new DataSetIterator( this,
-								queryMap.get( hierhandle ),
-								metaMap.get( hierhandle ),
-								appContext ),
-						levelInHier,
-						dataEngine.getSession( ).getStopSign( ) ) );
-				appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, rowLimit );
+				if ( rowLimit != null
+						&& !( cubeHandle.getDataSet( )
+								.equals( hierhandle.getDataSet( ) ) || hierhandle.getDataSet( ) == null ) )
+				{
+					appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
+					iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
+							hierhandle.getName( ),
+							new DataSetIterator( this,
+									queryMap.get( hierhandle ),
+									metaMap.get( hierhandle ),
+									appContext ),
+							levelInHier,
+							dataEngine.getSession( ).getStopSign( ) ) );
+					appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, rowLimit );
+				}
+				else
+				{
+					iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
+							hierhandle.getName( ),
+							new DataSetIterator( this,
+									queryMap.get( hierhandle ),
+									metaMap.get( hierhandle ),
+									appContext ),
+							levelInHier,
+							dataEngine.getSession( ).getStopSign( ) ) );
+				}
 			}
-			else
+			catch ( Exception e )
 			{
-				iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
-						hierhandle.getName( ),
-						new DataSetIterator( this,
-								queryMap.get( hierhandle ),
-								metaMap.get( hierhandle ),
-								appContext ),
-						levelInHier,
-						dataEngine.getSession( ).getStopSign( ) ) );
+				throw new AdapterException( ResourceConstants.CUBE_HIERARCHY_CREATION_ERROR,
+						e,
+						dim.getName( ) + "." + hierhandle.getName( ) );
 			}
-			
 		}
-		return cubeMaterializer.createDimension( dim.getName( ),
-				(IHierarchy) iHiers.get( 0 ) ) ;
+
+		try
+		{
+			return cubeMaterializer.createDimension( dim.getName( ),
+					(IHierarchy) iHiers.get( 0 ) );
+		}
+		catch ( Exception e )
+		{
+			throw new AdapterException( ResourceConstants.CUBE_DIMENSION_CREATION_ERROR,
+					e,
+					dim.getName( ) );
+		}
 	}
 
 	/**
