@@ -2388,6 +2388,7 @@ Element.DataSet.columnHints=열 힌트
 Element.DataSet.cachedMetaData=캐시된 메타데이터
 Element.DataSet.rowFetchLimit=데이터 집합에서 인출할 최대 행 수
 Element.DataSet.needsCache=데이터 엔진용 캐시가 필요합니다.
+Element.DataSet.parameters=데이터 집합 매개 변수
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=데이터 원본
@@ -2989,8 +2990,7 @@ Element.ScriptDataSet.fetch.reportContext=보고서 컨텍스트
 Element.ScriptDataSet.fetch.this=스크립트 데이터 집합 
 Element.ScriptDataSet.close=닫기
 Element.ScriptDataSet.close.toolTip=데이터 집합을 닫습니다
-Element.ScriptDataSet.close.this=스크립트 데이터 집합
-Element.ScriptDataSet.parameters=데이터 집합 매개 변수
+Element.ScriptDataSet.close.this=Script data set
 Element.ScriptDataSet.resultSetHints=결과 집합 힌트
 
 #32 Listing ( prefix Element.Lising )
@@ -3034,7 +3034,6 @@ Element.OdaDataSet.resultSetName=결과 집합 이름
 Element.OdaDataSet.publicDriverProperties=공용 드라이버 속성
 Element.OdaDataSet.privateDriverProperties=개인 드라이버 속성
 Element.OdaDataSet.designerState=Designer state
-Element.OdaDataSet.parameters=데이터 집합 매개 변수
 Element.OdaDataSet.designerValues=디자이너 값
 Element.OdaDataSet.resultSetNumber=결과 집합 수
 
@@ -3065,7 +3064,6 @@ Element.TemplateElement.displayNameID=표시 이름 ID
 Element.JointDataSet.resultSet=결과 집합 열
 Element.JointDataSet.dataSets=데이터 집합
 Element.JointDataSet.joinConditions=조인 조건
-Element.JointDataSet.parameters=데이터 집합 매개 변수
 
 #42 Rectangle  ( prefix  Element.Rectangle )
 
@@ -3220,6 +3218,7 @@ Element.DataGroup.sortType=정렬 형식
 #67. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=입력 데이터 집합
 Element.DerivedDataSet.queryText=쿼리 텍스트
+Element.DerivedDataSet.extensionID=확장 ID
 
 #68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
 Element.AbstractScalarParameter.isRequired=필요

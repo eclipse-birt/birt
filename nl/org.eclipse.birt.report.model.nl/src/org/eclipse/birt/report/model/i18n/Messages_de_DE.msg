@@ -2388,6 +2388,7 @@ Element.DataSet.columnHints=Spaltenhinweise
 Element.DataSet.cachedMetaData=Zwischengespeicherte Metadaten
 Element.DataSet.rowFetchLimit=Maximale Anzahl an Zeilen, die aus dem Datensatz abgerufen werden:
 Element.DataSet.needsCache=Cache wird für Daten-Engine benötigt
+Element.DataSet.parameters=Datensatzparameter
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=Datenquelle
@@ -2989,8 +2990,7 @@ Element.ScriptDataSet.fetch.reportContext=Berichtkontext
 Element.ScriptDataSet.fetch.this=Skript-Datensatz 
 Element.ScriptDataSet.close=Schließen
 Element.ScriptDataSet.close.toolTip=Schließt den Datensatz
-Element.ScriptDataSet.close.this=Skript-Datensatz
-Element.ScriptDataSet.parameters=Datensatzparameter
+Element.ScriptDataSet.close.this=Script data set
 Element.ScriptDataSet.resultSetHints=Ergebnishinweise
 
 #32 Listing ( prefix Element.Lising )
@@ -3034,7 +3034,6 @@ Element.OdaDataSet.resultSetName=Name des Ergebnisses
 Element.OdaDataSet.publicDriverProperties=Eigenschaften des öffentlichen Treibers
 Element.OdaDataSet.privateDriverProperties=Eigenschaften des privaten Treibers
 Element.OdaDataSet.designerState=Designer state
-Element.OdaDataSet.parameters=Datensatzparameter
 Element.OdaDataSet.designerValues=Designer-Werte
 Element.OdaDataSet.resultSetNumber=Ergebnisnummer
 
@@ -3065,7 +3064,6 @@ Element.TemplateElement.displayNameID=Namen-ID anzeigen
 Element.JointDataSet.resultSet=Ergebnis Satzspalten
 Element.JointDataSet.dataSets=Datensätze
 Element.JointDataSet.joinConditions=Knotenpunktbedingung
-Element.JointDataSet.parameters=Datensatzparameter
 
 #42 Rectangle  ( prefix  Element.Rectangle )
 
@@ -3220,6 +3218,7 @@ Element.DataGroup.sortType=Sortiertyp
 #67. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=Eingabedatensätze
 Element.DerivedDataSet.queryText=Abfragetext
+Element.DerivedDataSet.extensionID=ID der Erweiterung
 
 #68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
 Element.AbstractScalarParameter.isRequired=Erforderlich

@@ -2388,6 +2388,7 @@ Element.DataSet.columnHints=Astuces de colonne
 Element.DataSet.cachedMetaData=Métadonnées en cache
 Element.DataSet.rowFetchLimit=Nombre maximum de lignes à récupérer à partir du jeu de données
 Element.DataSet.needsCache=Besoin d'un cache pour le moteur de données
+Element.DataSet.parameters=Paramètres du jeu de données
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=Source de données
@@ -2989,8 +2990,7 @@ Element.ScriptDataSet.fetch.reportContext=Contexte d'état
 Element.ScriptDataSet.fetch.this=Jeu de données de script 
 Element.ScriptDataSet.close=Fermer
 Element.ScriptDataSet.close.toolTip=Ferme le jeu de données
-Element.ScriptDataSet.close.this=Jeu de données de script
-Element.ScriptDataSet.parameters=Paramètres du jeu de données
+Element.ScriptDataSet.close.this=Script data set
 Element.ScriptDataSet.resultSetHints=Astuces de jeu de résultats
 
 #32 Listing ( prefix Element.Lising )
@@ -3034,7 +3034,6 @@ Element.OdaDataSet.resultSetName=Nom de jeu de résultats
 Element.OdaDataSet.publicDriverProperties=Propriétés de pilote public
 Element.OdaDataSet.privateDriverProperties=Propriétés de pilote privé
 Element.OdaDataSet.designerState=Designer state
-Element.OdaDataSet.parameters=Paramètres du jeu de données
 Element.OdaDataSet.designerValues=Valeurs du concepteur
 Element.OdaDataSet.resultSetNumber=Nombre de jeux de résultats
 
@@ -3065,7 +3064,6 @@ Element.TemplateElement.displayNameID=ID du nom d'affichage
 Element.JointDataSet.resultSet=Colonnes de jeux de résultats
 Element.JointDataSet.dataSets=Jeux de données
 Element.JointDataSet.joinConditions=Conditions de jointure
-Element.JointDataSet.parameters=Paramètres du jeu de données
 
 #42 Rectangle  ( prefix  Element.Rectangle )
 
@@ -3220,6 +3218,7 @@ Element.DataGroup.sortType=Type de tri
 #67. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=Jeux de données d'entrée
 Element.DerivedDataSet.queryText=Texte de la requête
+Element.DerivedDataSet.extensionID=ID d'extension
 
 #68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
 Element.AbstractScalarParameter.isRequired=Est requis

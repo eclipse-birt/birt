@@ -2388,6 +2388,7 @@ Element.DataSet.columnHints=Sugerencias de columna
 Element.DataSet.cachedMetaData=Metadatos en caché
 Element.DataSet.rowFetchLimit=Número máximo de filas que recuperar del conjunto de datos
 Element.DataSet.needsCache=Caché necesario para el motor de datos
+Element.DataSet.parameters=Parámetros de conjunto de datos
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=Fuente de datos
@@ -2989,8 +2990,7 @@ Element.ScriptDataSet.fetch.reportContext=Contexto de informe
 Element.ScriptDataSet.fetch.this=Conjunto de datos de script 
 Element.ScriptDataSet.close=Cerrar
 Element.ScriptDataSet.close.toolTip=Cierra el conjunto de datos
-Element.ScriptDataSet.close.this=Conjunto de datos de script
-Element.ScriptDataSet.parameters=Parámetros de conjunto de datos
+Element.ScriptDataSet.close.this=Script data set
 Element.ScriptDataSet.resultSetHints=Sugerencias de conjuntos de resultados
 
 #32 Listing ( prefix Element.Lising )
@@ -3034,7 +3034,6 @@ Element.OdaDataSet.resultSetName=Nombre de conjunto de resultados
 Element.OdaDataSet.publicDriverProperties=Propiedades de controlador públicas
 Element.OdaDataSet.privateDriverProperties=Propiedades de controlador privadas
 Element.OdaDataSet.designerState=Designer state
-Element.OdaDataSet.parameters=Parámetros de conjunto de datos
 Element.OdaDataSet.designerValues=Valores de diseñador
 Element.OdaDataSet.resultSetNumber=Número de conjunto del resultado
 
@@ -3065,7 +3064,6 @@ Element.TemplateElement.displayNameID=ID de nombre en pantalla
 Element.JointDataSet.resultSet=Columnas de conjuntos de resultados
 Element.JointDataSet.dataSets=Conjuntos de datos
 Element.JointDataSet.joinConditions=Condiciones de combinación
-Element.JointDataSet.parameters=Parámetros de conjunto de datos
 
 #42 Rectangle  ( prefix  Element.Rectangle )
 
@@ -3220,6 +3218,7 @@ Element.DataGroup.sortType=Tipo de orden
 #67. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=Conjuntos de datos de entrada
 Element.DerivedDataSet.queryText=Texto de consulta
+Element.DerivedDataSet.extensionID=ID de extensión
 
 #68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
 Element.AbstractScalarParameter.isRequired=Es necesario

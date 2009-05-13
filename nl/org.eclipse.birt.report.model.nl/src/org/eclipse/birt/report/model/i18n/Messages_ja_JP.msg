@@ -2388,6 +2388,7 @@ Element.DataSet.columnHints=カラムのヒント
 Element.DataSet.cachedMetaData=キャッシュされたメタデータ
 Element.DataSet.rowFetchLimit=データセットからフェッチする最大行数
 Element.DataSet.needsCache=データエンジン用のキャッシュが必要です。
+Element.DataSet.parameters=データセットのパラメタ
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=データソース
@@ -2989,8 +2990,7 @@ Element.ScriptDataSet.fetch.reportContext=レポートのコンテキスト
 Element.ScriptDataSet.fetch.this=スクリプトデータセット 
 Element.ScriptDataSet.close=閉じる
 Element.ScriptDataSet.close.toolTip=データセットを閉じます
-Element.ScriptDataSet.close.this=スクリプトデータセット
-Element.ScriptDataSet.parameters=データセットのパラメタ
+Element.ScriptDataSet.close.this=Script data set
 Element.ScriptDataSet.resultSetHints=結果セットのヒント
 
 #32 Listing ( prefix Element.Lising )
@@ -3034,7 +3034,6 @@ Element.OdaDataSet.resultSetName=結果セット名
 Element.OdaDataSet.publicDriverProperties=パブリックドライバのプロパティ
 Element.OdaDataSet.privateDriverProperties=プライベートドライバのプロパティ
 Element.OdaDataSet.designerState=Designer state
-Element.OdaDataSet.parameters=データセットのパラメタ
 Element.OdaDataSet.designerValues=Designer の値
 Element.OdaDataSet.resultSetNumber=結果セット番号
 
@@ -3065,7 +3064,6 @@ Element.TemplateElement.displayNameID=表示名 ID
 Element.JointDataSet.resultSet=結果セットの列
 Element.JointDataSet.dataSets=データセット
 Element.JointDataSet.joinConditions=ジョインの条件
-Element.JointDataSet.parameters=データセットのパラメタ
 
 #42 Rectangle  ( prefix  Element.Rectangle )
 
@@ -3220,6 +3218,7 @@ Element.DataGroup.sortType=ソート基準
 #67. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=データセットの入力
 Element.DerivedDataSet.queryText=クエリテキスト
+Element.DerivedDataSet.extensionID=拡張 ID
 
 #68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
 Element.AbstractScalarParameter.isRequired=必須

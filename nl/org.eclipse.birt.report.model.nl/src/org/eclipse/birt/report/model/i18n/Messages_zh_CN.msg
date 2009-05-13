@@ -2388,6 +2388,7 @@ Element.DataSet.columnHints=列提示
 Element.DataSet.cachedMetaData=缓存元数据
 Element.DataSet.rowFetchLimit=从数据集提取的最大行数
 Element.DataSet.needsCache=需要数据引擎缓存
+Element.DataSet.parameters=数据集参数
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=数据源
@@ -2989,8 +2990,7 @@ Element.ScriptDataSet.fetch.reportContext=报表上下文
 Element.ScriptDataSet.fetch.this=脚本数据集 
 Element.ScriptDataSet.close=关闭
 Element.ScriptDataSet.close.toolTip=关闭数据集
-Element.ScriptDataSet.close.this=脚本数据集
-Element.ScriptDataSet.parameters=数据集参数
+Element.ScriptDataSet.close.this=Script data set
 Element.ScriptDataSet.resultSetHints=结果集提示
 
 #32 Listing ( prefix Element.Lising )
@@ -3034,7 +3034,6 @@ Element.OdaDataSet.resultSetName=结果集名称
 Element.OdaDataSet.publicDriverProperties=公共驱动程序属性
 Element.OdaDataSet.privateDriverProperties=私有驱动程序属性
 Element.OdaDataSet.designerState=Designer state
-Element.OdaDataSet.parameters=数据集参数
 Element.OdaDataSet.designerValues=设计器值
 Element.OdaDataSet.resultSetNumber=结果集数值
 
@@ -3065,7 +3064,6 @@ Element.TemplateElement.displayNameID=显示名称 ID
 Element.JointDataSet.resultSet=结果集列
 Element.JointDataSet.dataSets=数据集
 Element.JointDataSet.joinConditions=联接条件
-Element.JointDataSet.parameters=数据集参数
 
 #42 Rectangle  ( prefix  Element.Rectangle )
 
@@ -3220,6 +3218,7 @@ Element.DataGroup.sortType=排序类型
 #67. DerivedDataSet ( prefix Element.DerivedDataSet )
 Element.DerivedDataSet.inputDataSets=输入数据集
 Element.DerivedDataSet.queryText=查询文本
+Element.DerivedDataSet.extensionID=扩展 ID
 
 #68. AbstractScalarParameter  ( prefix  AbstractScalarParameter )
 Element.AbstractScalarParameter.isRequired=必需
