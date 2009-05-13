@@ -19,16 +19,6 @@
                     <expression name="value2">value2 expression</expression>
                 </structure>
             </list-property>
-            <list-property name="paramBindings">
-                <structure>
-                    <property name="paramName">param1</property>
-                    <expression name="expression">value1</expression>
-                </structure>
-                <structure>
-                    <property name="paramName">param2</property>
-                    <expression name="expression">value2</expression>
-                </structure>
-            </list-property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">name</property>
@@ -42,6 +32,16 @@
                     <property name="isOutput">false</property>
                 </structure>
             </list-property>
+            <list-property name="paramBindings">
+                <structure>
+                    <property name="paramName">param1</property>
+                    <expression name="expression">value1</expression>
+                </structure>
+                <structure>
+                    <property name="paramName">param2</property>
+                    <expression name="expression">value2</expression>
+                </structure>
+            </list-property>            
         </oda-data-set>
     </data-sets>
     <body>

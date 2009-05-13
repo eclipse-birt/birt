@@ -19,10 +19,10 @@ import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -37,12 +37,14 @@ import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
+import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -122,6 +124,16 @@ public class OdaDataSetParseTest extends BaseTestCase
 		OdaDataSetHandle dataSet = (OdaDataSetHandle) designHandle
 				.findDataSet( "MyDataSet" ); //$NON-NLS-1$
 		assertNotNull( dataSet );
+
+		// test resultsethints and parameters definition
+		ElementPropertyDefn propDefn = (ElementPropertyDefn) dataSet
+				.getPropertyDefn( OdaDataSetHandle.RESULT_SET_HINTS_PROP );
+		assertEquals( OdaResultSetColumn.STRUCTURE_NAME, propDefn
+				.getStructDefn( ).getName( ) );
+		propDefn = (ElementPropertyDefn) dataSet
+				.getPropertyDefn( OdaDataSetHandle.PARAMETERS_PROP );
+		assertEquals( OdaDataSetParameter.STRUCT_NAME, propDefn.getStructDefn( )
+				.getName( ) );
 
 		assertEquals( "1.1", dataSet.getDesigerStateVersion( ) ); //$NON-NLS-1$
 		assertEquals( "content as string", dataSet //$NON-NLS-1$
@@ -608,7 +620,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 
 		Iterator parameters = dataSet.parametersIterator( );
 
-		DataSetParameterHandle parameter = (DataSetParameterHandle) parameters
+		OdaDataSetParameterHandle parameter = (OdaDataSetParameterHandle) parameters
 				.next( );
 
 		assertEquals( 1, parameter.getPosition( ).intValue( ) );
@@ -633,23 +645,23 @@ public class OdaDataSetParseTest extends BaseTestCase
 
 		// Test "output-parameters" on DataSet
 
-		parameter = (DataSetParameterHandle) parameters.next( );
+		parameter = (OdaDataSetParameterHandle) parameters.next( );
 		assertEquals( "birth", parameter.getName( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME,
 				parameter.getDataType( ) );
 		assertTrue( parameter.isOutput( ) );
 
-		parameter = (DataSetParameterHandle) parameters.next( );
+		parameter = (OdaDataSetParameterHandle) parameters.next( );
 		assertEquals( "title", parameter.getName( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING, parameter
 				.getDataType( ) );
 
-		parameter = (DataSetParameterHandle) parameters.next( );
+		parameter = (OdaDataSetParameterHandle) parameters.next( );
 		assertEquals( "startdate", parameter.getName( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE, parameter
 				.getDataType( ) );
 
-		parameter = (DataSetParameterHandle) parameters.next( );
+		parameter = (OdaDataSetParameterHandle) parameters.next( );
 		assertEquals( "enddate", parameter.getName( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME, parameter
 				.getDataType( ) );
@@ -761,9 +773,9 @@ public class OdaDataSetParseTest extends BaseTestCase
 		// Change "input-parameters" on DataSet
 
 		parameters = dataSet.parametersIterator( );
-		parameter = (DataSetParameterHandle) parameters.next( );
+		parameter = (OdaDataSetParameterHandle) parameters.next( );
 
-		parameter = (DataSetParameterHandle) parameters.next( );
+		parameter = (OdaDataSetParameterHandle) parameters.next( );
 		parameter.setPosition( Integer.valueOf( "91" ) ); //$NON-NLS-1$
 		parameter.setName( "new name" ); //$NON-NLS-1$
 		parameter.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT );
@@ -771,7 +783,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 
 		// Change "output-parameters" on DataSet
 
-		parameter = (DataSetParameterHandle) parameters.next( );
+		parameter = (OdaDataSetParameterHandle) parameters.next( );
 		parameter.setName( "new name" ); //$NON-NLS-1$
 		parameter.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT );
 		parameter.setPosition( Integer.valueOf( "91" ) ); //$NON-NLS-1$

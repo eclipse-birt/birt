@@ -1669,7 +1669,6 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitScriptDataSet( obj );
 
-		writeStructureList( obj, IDataSetModel.PARAMETERS_PROP );
 		property( obj, IScriptDataSetModel.OPEN_METHOD );
 		property( obj, IScriptDataSetModel.DESCRIBE_METHOD );
 		property( obj, IScriptDataSetModel.FETCH_METHOD );
@@ -3090,6 +3089,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeStructureList( obj, IDataSetModel.COMPUTED_COLUMNS_PROP );
 		writeStructureList( obj, IDataSetModel.COLUMN_HINTS_PROP );
 		writeStructureList( obj, IDataSetModel.FILTER_PROP );
+		writeStructureList( obj, IDataSetModel.PARAMETERS_PROP );
 
 		CachedMetaData metadata = (CachedMetaData) obj.getLocalProperty(
 				getModule( ), IDataSetModel.CACHED_METADATA_PROP );
@@ -3379,7 +3379,6 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitOdaDataSet( obj );
 
-		writeStructureList( obj, IDataSetModel.PARAMETERS_PROP );
 		writeStructureList( obj, IDataSetModel.RESULT_SET_PROP );
 
 		if ( (String) obj.getLocalProperty( getModule( ),
@@ -3541,7 +3540,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.JOINT_DATA_SET_TAG );
 		super.visitJointDataSet( obj );
 
-		writeStructureList( obj, IDataSetModel.PARAMETERS_PROP );
+		
 		writeStructureList( obj, IDataSetModel.RESULT_SET_PROP );
 		writeSimplePropertyList( obj, IJointDataSetModel.DATA_SETS_PROP );
 

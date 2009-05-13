@@ -17,12 +17,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
-import org.eclipse.birt.report.model.elements.OdaDataSet;
 
 /**
  * Represents the extension element definition for ODA.
@@ -85,31 +83,6 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 		buildTriggerDefnSet( );
 
 		isBuilt = true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#buildProperties()
-	 */
-	protected void buildProperties( ) throws MetaDataException
-	{
-		super.buildProperties( );
-
-		// change the details of 'resultSetHints' in OdaDataSet to
-		// OdaResultSetColumn rather than ResultSetColumn
-		ElementPropertyDefn resultSetHints = (ElementPropertyDefn) cachedProperties
-				.get( OdaDataSet.RESULT_SET_HINTS_PROP );
-		if ( resultSetHints == null )
-			return;
-		ElementPropertyDefn clonedDefn = (ElementPropertyDefn) reflectClass( resultSetHints );
-		if ( clonedDefn == null )
-			return;
-
-		clonedDefn.details = MetaDataDictionary.getInstance( ).getStructure(
-				OdaResultSetColumn.STRUCTURE_NAME );
-		clonedDefn.definedBy = this;
-		cachedProperties.put( OdaDataSet.RESULT_SET_HINTS_PROP, clonedDefn );
 	}
 
 	/**

@@ -159,7 +159,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public Iterator parametersIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( IDataSetModel.PARAMETERS_PROP );
+		PropertyHandle propHandle = getPropertyHandle( PARAMETERS_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}

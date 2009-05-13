@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.PrivateStyleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -831,13 +832,13 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		Iterator parameters = dataSet.parametersIterator( );
 
-		DataSetParameterHandle parameter = (DataSetParameterHandle) parameters
+		DataSetParameterHandle parameter = (OdaDataSetParameterHandle) parameters
 				.next( );
 
 		// tests compatibility for any.
 		assertEquals( DesignChoiceConstants.PARAM_TYPE_ANY, parameter
 				.getDataType( ) );
-		parameter = (DataSetParameterHandle) parameters.next( );
+		parameter = (OdaDataSetParameterHandle) parameters.next( );
 
 		// tests default value.
 		assertEquals( DesignChoiceConstants.PARAM_TYPE_STRING, parameter

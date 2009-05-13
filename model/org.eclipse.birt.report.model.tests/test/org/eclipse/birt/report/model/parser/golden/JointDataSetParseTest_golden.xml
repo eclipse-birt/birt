@@ -56,7 +56,6 @@
                     <expression name="value2">value2 expression</expression>
                 </structure>
             </list-property>
-            <property name="rowFetchLimit">10</property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">name</property>
@@ -69,6 +68,7 @@
                     <property name="isOutput">false</property>
                 </structure>
             </list-property>
+            <property name="rowFetchLimit">10</property>            
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>

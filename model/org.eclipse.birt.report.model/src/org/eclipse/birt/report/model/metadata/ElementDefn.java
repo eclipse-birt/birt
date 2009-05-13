@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,6 +25,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -33,6 +37,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.StyleReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
@@ -1043,6 +1048,162 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		buildStyleProperties( );
 
 		buildCachedPropertyDefns( );
+
+		buildOdaDataSetProperties( );
+	}
+
+	/**
+	 * Builds some oda data set properties. Special handle is needed for
+	 * resultsethints and parameters in it.
+	 */
+	private void buildOdaDataSetProperties( )
+	{
+		if ( ReportDesignConstants.ODA_DATA_SET.equalsIgnoreCase( name ) )
+		{
+
+			// change the details of 'resultSetHints' in OdaDataSet to
+			// OdaResultSetColumn rather than ResultSetColumn
+			ElementPropertyDefn resultSetHints = (ElementPropertyDefn) cachedProperties
+					.get( OdaDataSet.RESULT_SET_HINTS_PROP );
+			if ( resultSetHints == null )
+				return;
+			ElementPropertyDefn clonedDefn = (ElementPropertyDefn) reflectClass( resultSetHints );
+			if ( clonedDefn == null )
+				return;
+
+			clonedDefn.details = MetaDataDictionary.getInstance( )
+					.getStructure( OdaResultSetColumn.STRUCTURE_NAME );
+			clonedDefn.definedBy = this;
+			cachedProperties.put( OdaDataSet.RESULT_SET_HINTS_PROP, clonedDefn );
+
+			// change the details of 'parameters' in odaDataSet to
+			// OdaDataSetParam
+			// rather than DataSetParam
+			ElementPropertyDefn params = (ElementPropertyDefn) cachedProperties
+					.get( OdaDataSet.PARAMETERS_PROP );
+			if ( params == null )
+				return;
+			clonedDefn = (ElementPropertyDefn) reflectClass( params );
+			if ( clonedDefn == null )
+				return;
+
+			clonedDefn.details = MetaDataDictionary.getInstance( )
+					.getStructure( OdaDataSetParameter.STRUCT_NAME );
+			clonedDefn.definedBy = this;
+			cachedProperties.put( OdaDataSet.PARAMETERS_PROP, clonedDefn );
+		}
+	}
+
+	/**
+	 * Reflects to clone new instance of property definition.
+	 * 
+	 * @param defn
+	 *            property definition
+	 * @return shadow cloned property definition.
+	 */
+
+	protected PropertyDefn reflectClass( PropertyDefn defn )
+	{
+		ElementPropertyDefn retDefn = null;
+
+		String className = defn.getClass( ).getName( );
+		try
+		{
+			Class<? extends Object> clazz = Class.forName( className );
+			retDefn = (ElementPropertyDefn) clazz.newInstance( );
+
+			Class<? extends Object> ownerClass = defn.getClass( );
+			Class<? extends Object> clonedClass = retDefn.getClass( );
+
+			shadowCopyProperties( defn, retDefn, ownerClass, clonedClass );
+		}
+		catch ( InstantiationException e )
+		{
+			logger.log( Level.WARNING, e.getMessage( ) );
+			MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$				
+		}
+		catch ( IllegalAccessException e )
+		{
+			logger.log( Level.WARNING, e.getMessage( ) );
+			MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
+		}
+		catch ( ClassNotFoundException e )
+		{
+			logger.log( Level.WARNING, e.getMessage( ) );
+			MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
+		}
+
+		if ( retDefn == null )
+			return null;
+
+		shadowCopyProperties( defn, retDefn, defn.getClass( ),
+				ExtensionPropertyDefn.class );
+
+		return retDefn;
+	}
+
+	/**
+	 * Shadow copy all properties to cloned property definition instance.
+	 * 
+	 * @param defn
+	 *            property definition
+	 * @param clonedDefn
+	 *            cloned property definition
+	 * @param ownerClass
+	 *            property definition class
+	 * @param clonedClass
+	 *            cloned property definition class
+	 */
+
+	private void shadowCopyProperties( PropertyDefn defn,
+			PropertyDefn clonedDefn, Class<? extends Object> ownerClass,
+			Class<? extends Object> clonedClass )
+	{
+		if ( ownerClass == null || clonedClass == null )
+			return;
+
+		Field[] fields = ownerClass.getDeclaredFields( );
+		for ( int i = 0; i < fields.length; ++i )
+		{
+			Field field = fields[i];
+			if ( ( field.getModifiers( ) & Modifier.STATIC ) != 0 )
+				continue;
+
+			try
+			{
+				Object property = field.get( defn );
+				Field clonedField = ownerClass.getDeclaredField( field
+						.getName( ) );
+				clonedField.set( clonedDefn, property );
+			}
+			catch ( IllegalArgumentException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ) );
+				MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
+
+				continue;
+			}
+			catch ( IllegalAccessException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ) );
+				MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
+				continue;
+			}
+			catch ( SecurityException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ) );
+				MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
+				continue;
+			}
+			catch ( NoSuchFieldException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ) );
+				MetaLogManager.log( "Overrides property error", e ); //$NON-NLS-1$	
+				continue;
+			}
+		}
+		shadowCopyProperties( defn, clonedDefn, ownerClass.getSuperclass( ),
+				clonedClass.getSuperclass( ) );
 	}
 
 	/**

@@ -12,6 +12,18 @@
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">param1</property>
+                    <property name="paramName">NewParameter</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                    <property name="position">1</property>
+                    <expression name="defaultValue">params["NewParameter"]</expression>
+                    <property name="isInput">true</property>
+                </structure>
+            </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -31,19 +43,7 @@
                     </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">Data Source</property>
-            <list-property name="parameters">
-                <structure>
-                    <property name="name">param1</property>
-                    <property name="paramName">NewParameter</property>
-                    <property name="nativeName"></property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                    <property name="position">1</property>
-                    <expression name="defaultValue">params["NewParameter"]</expression>
-                    <property name="isInput">true</property>
-                </structure>
-            </list-property>
+            <property name="dataSource">Data Source</property>            
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
