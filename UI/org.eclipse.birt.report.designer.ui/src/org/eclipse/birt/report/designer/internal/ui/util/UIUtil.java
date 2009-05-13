@@ -1771,7 +1771,7 @@ public class UIUtil
 	 * @return Returns all extended items that doesn't register any UI
 	 *         extensions, which implies they are invisible to UI.
 	 */
-	private static List<IElementDefn> getInvisibleExtensionElements( )
+	public static List<IElementDefn> getInvisibleExtensionElements( )
 	{
 		List<IElementDefn> list = new ArrayList<IElementDefn>( );
 

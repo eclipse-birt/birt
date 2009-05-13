@@ -148,7 +148,6 @@ public class ReportPlugin extends AbstractUIPlugin
 			ReportDesignConstants.MASTER_PAGE_ELEMENT,
 			ReportDesignConstants.ODA_DATA_SET,
 			ReportDesignConstants.ODA_DATA_SOURCE,
-			"Parameter", //$NON-NLS-1$
 			ReportDesignConstants.RECTANGLE_ITEM,
 			ReportDesignConstants.REPORT_ITEM,
 			ReportDesignConstants.SCRIPT_DATA_SET,
@@ -157,6 +156,7 @@ public class ReportPlugin extends AbstractUIPlugin
 			ReportDesignConstants.TEMPLATE_DATA_SET,
 			ReportDesignConstants.TEMPLATE_ELEMENT,
 			ReportDesignConstants.TEMPLATE_PARAMETER_DEFINITION,
+			"Parameter", //$NON-NLS-1$
 
 			// fix bug 192781
 			ReportDesignConstants.ODA_HIERARCHY_ELEMENT,
@@ -177,12 +177,6 @@ public class ReportPlugin extends AbstractUIPlugin
 			ReportDesignConstants.TABULAR_MEASURE_ELEMENT,
 			ReportDesignConstants.LEVEL_ELEMENT,
 			ReportDesignConstants.TABULAR_DIMENSION_ELEMENT,
-			// filter some extension items;
-			"CrosstabView", //$NON-NLS-1$
-			"DimensionView", //$NON-NLS-1$
-			"LevelView", //$NON-NLS-1$
-			"MeasureView", //$NON-NLS-1$
-			"ComputedMeasureView" //$NON-NLS-1$
 	} );
 
 	private List<String> reportExtensionNames;
@@ -555,21 +549,25 @@ public class ReportPlugin extends AbstractUIPlugin
 		List tmpList = DEUtil.getMetaDataDictionary( ).getElements( );
 		List tmpList2 = DEUtil.getMetaDataDictionary( ).getExtensions( );
 		tmpList.addAll( tmpList2 );
-		int i;
+
+		List invExtElements = UIUtil.getInvisibleExtensionElements( );
+
 		StringBuffer bufferDefaultName = new StringBuffer( );
 		StringBuffer bufferCustomName = new StringBuffer( );
 		StringBuffer bufferPreference = new StringBuffer( );
 
 		int nameOption;
 		IElementDefn elementDefn;
-		for ( i = 0; i < tmpList.size( ); i++ )
+		for ( int i = 0; i < tmpList.size( ); i++ )
 		{
 			elementDefn = (IElementDefn) ( tmpList.get( i ) );
 			nameOption = elementDefn.getNameOption( );
 
 			// only set names for the elements when the element can have a name
+			// and is visible to UI.
 			if ( nameOption == MetaDataConstants.NO_NAME
-					|| filterName( elementDefn ) )
+					|| elementToFilter.contains( elementDefn.getName( ) )
+					|| invExtElements.contains( elementDefn ) )
 			{
 				continue;
 			}
@@ -591,11 +589,6 @@ public class ReportPlugin extends AbstractUIPlugin
 		initFilterMap( store, ResourceFilter.generateEmptyFolderFilter( ) );
 		// initFilterMap( store,
 		// ResourceFilter.generateNoResourceInFolderFilter( ) );
-	}
-
-	private boolean filterName( IElementDefn elementDefn )
-	{
-		return elementToFilter.indexOf( elementDefn.getName( ) ) != -1;
 	}
 
 	/**
@@ -636,6 +629,10 @@ public class ReportPlugin extends AbstractUIPlugin
 		else if ( defaultName.equals( ReportDesignConstants.TEXT_ITEM ) )
 		{
 			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.textReportItem" ) ); //$NON-NLS-1$
+		}
+		else if ( defaultName.equals( ReportDesignConstants.TEXT_DATA_ITEM ) )
+		{
+			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.textDataReportItem" ) ); //$NON-NLS-1$
 		}
 		else
 		{
