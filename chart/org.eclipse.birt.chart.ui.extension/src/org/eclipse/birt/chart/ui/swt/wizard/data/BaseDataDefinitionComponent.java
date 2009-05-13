@@ -440,7 +440,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 
 		setTooltipForInputControl( );
-		boolean isRequiredField = ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) || ChartUIConstants.QUERY_VALUE.equals( queryType ) );
+		boolean isRequiredField = ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) );
 		if ( lblDesc != null && isRequiredField )
 		{
 			FieldAssistHelper.getInstance( ).addRequiredFieldIndicator( lblDesc );

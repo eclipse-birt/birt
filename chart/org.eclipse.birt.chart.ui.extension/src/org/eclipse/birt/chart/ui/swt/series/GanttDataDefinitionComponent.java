@@ -94,7 +94,7 @@ public class GanttDataDefinitionComponent extends DefaultSelectDataComponent
 		for ( int i = 0; i < 2; i++ )
 		{
 			Label labelArray = new Label( cmpSeries, SWT.NONE );
-			labelArray.setText( ChartUIUtil.getGanttTitle( i ) );
+			labelArray.setText( ChartUIUtil.getGanttTitle( i ) + "*" ); //$NON-NLS-1$
 			Composite cmpData = dataComArray[i].createArea( cmpSeries );
 			cmpData.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}

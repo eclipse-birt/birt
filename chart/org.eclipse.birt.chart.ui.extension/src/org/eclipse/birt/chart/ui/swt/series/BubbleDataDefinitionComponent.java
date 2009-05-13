@@ -82,7 +82,7 @@ public class BubbleDataDefinitionComponent extends DefaultSelectDataComponent
 
 		for ( int i = 0; i < dataComArray.length; i++ )
 		{
-			( (BaseDataDefinitionComponent) dataComArray[i] ).setDescription( ChartUIUtil.getBubbleTitle( i ) );
+			( (BaseDataDefinitionComponent) dataComArray[i] ).setDescription( ChartUIUtil.getBubbleTitle( i ) + "*" ); //$NON-NLS-1$
 			Composite cmpData = dataComArray[i].createArea( cmpSeries );
 			cmpData.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}

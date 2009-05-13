@@ -85,7 +85,7 @@ public class DifferenceDataDefinitionComponent
 		for ( int i = 0; i < dataComArray.length; i++ )
 		{
 			labelArray[i] = new Label( cmpSeries, SWT.NONE );
-			labelArray[i].setText( ChartUIUtil.getDifferenceTitle( i ) );
+			labelArray[i].setText( ChartUIUtil.getDifferenceTitle( i ) + "*" ); //$NON-NLS-1$
 			Composite cmpData = dataComArray[i].createArea( cmpSeries );
 			cmpData.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
