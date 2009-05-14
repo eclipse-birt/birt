@@ -331,6 +331,25 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_INVALID_MANIFEST = MessageConstants.SEMANTIC_ERROR_INVALID_MANIFEST;
 
 	/**
+	 * Image reference type is expression, but not both type expression and
+	 * value expression are present in the design file.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE;
+
+	/**
+	 * Image URL value is empty.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGE_URL_VALUE;
+
+	/**
+	 * Image Name is empty.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGE_NAME_VALUE;
+
+	/**
 	 * The constant for the semantic error.
 	 */
 

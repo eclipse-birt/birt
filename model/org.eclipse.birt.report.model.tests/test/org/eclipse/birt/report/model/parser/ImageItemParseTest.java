@@ -281,11 +281,11 @@ public class ImageItemParseTest extends BaseTestCase
 
 			int i = 0;
 			assertEquals(
-					DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE,
-					e.getErrorList( ).get( i++ ).getErrorCode( ) );
-			assertEquals(
 					DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT,
 					e.getErrorList( ).get( i++ ).getErrorCode( ) );
+			assertEquals(
+					SemanticError.DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE,
+					e.getErrorList( ).get( i++ ).getErrorCode( ) );			
 		}
 	}
 

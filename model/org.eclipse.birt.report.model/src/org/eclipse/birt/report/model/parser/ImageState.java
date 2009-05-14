@@ -14,11 +14,14 @@ package org.eclipse.birt.report.model.parser;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
+import org.eclipse.birt.report.model.api.validators.ImageDataValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
@@ -184,53 +187,13 @@ public class ImageState extends ReportItemState
 				&& handler.versionNumber <= VersionUtil.VERSION_3_2_3 )
 			checkImageType( );
 
-		String refType = image.getStringProperty( module,
-				IImageItemModel.SOURCE_PROP );
+		// check the validation of the image data.
 
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR
-				.equalsIgnoreCase( refType ) )
+		List<SemanticException> tmpList = ImageDataValidator.getInstance( )
+				.validate( handler.module, image );
+		for ( int i = 0; i < tmpList.size( ); i++ )
 		{
-			String valueExpr = image.getStringProperty( module,
-					IImageItemModel.VALUE_EXPR_PROP );
-			if ( StringUtil.isEmpty( valueExpr ) )
-			{
-				handler
-						.getErrorHandler( )
-						.semanticError(
-								new DesignParserException(
-										DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE ) );
-			}
-		}
-		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL
-				.equalsIgnoreCase( refType )
-				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE
-						.equalsIgnoreCase( refType ) )
-		{
-			String uri = image.getStringProperty( module,
-					IImageItemModel.URI_PROP );
-			if ( StringUtil.isEmpty( uri ) )
-			{
-				handler
-						.getErrorHandler( )
-						.semanticError(
-								new DesignParserException(
-										DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE ) );
-			}
-		}
-		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
-				.equalsIgnoreCase( refType ) )
-		{
-			String name = image.getStringProperty( module,
-					IImageItemModel.IMAGE_NAME_PROP );
-
-			if ( StringUtil.isEmpty( name ) )
-			{
-				handler
-						.getErrorHandler( )
-						.semanticError(
-								new DesignParserException(
-										DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE ) );
-			}
+			handler.getErrorHandler( ).semanticWarning( tmpList.get( i ) );
 		}
 
 		super.end( );

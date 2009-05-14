@@ -1173,7 +1173,7 @@
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataColumnNameValidator" modules="design, library" name="DataColumnNameValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.IncludedCssStyleSheetValidator" modules="design, library" name="IncludedCssStyleSheetValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.IncludedLibraryValidator" modules="design, library" name="IncludedLibraryValidator"/>	  	  
-	<!--<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ColumnBindingNameValidator" modules="design, library" name="ColumnBindingNameValidator"/>	  	  	  -->
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ImageDataValidator" modules="design, library" name="ImageDataValidator"/>
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
     <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
@@ -3154,6 +3154,7 @@
     </Property>
     <Property detailType="imageRefType" displayNameID="Element.Image.source" name="source" runtimeSettable="false" since="1.0" type="choice" valueRequired="true">
       <Default>none</Default>
+      <Trigger validator="ImageDataValidator"/>
     </Property>
     <Property displayNameID="Element.Image.uri" name="uri" returnType="string" runtimeSettable="false" since="1.0" type="expression"/>
 	<Property detailType="EmbeddedImage" displayNameID="Element.Image.imageName" name="imageName" returnType="string" runtimeSettable="false" since="1.0" type="structRef"/>

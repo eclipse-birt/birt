@@ -67,29 +67,10 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	public static final String DESIGN_EXCEPTION_IMAGE_REF_CONFLICT = MessageConstants.DESIGN_PARSER_EXCEPTION_IMAGE_REF_CONFLICT;
 
 	/**
-	 * Image reference type is expression, but not both type expression and
-	 * value expression are present in the design file.
-	 */
-
-	public static final String DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE;
-
-	/**
-	 * Image URL value is empty.
-	 */
-
-	public static final String DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGE_URL_VALUE;
-
-	/**
 	 * One property is not encryptable.
 	 */
 
 	public static final String DESIGN_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE = MessageConstants.DESIGN_PARSER_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE;
-
-	/**
-	 * Image Name is empty.
-	 */
-
-	public static final String DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_IMAGE_NAME_VALUE;
 
 	/**
 	 * An action Drillthrough is missing the "reportName" value.
