@@ -2166,9 +2166,11 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ICellModel.DIAGONAL_NUMBER_PROP );
 		property( obj, ICellModel.DIAGONAL_STYLE_PROP );
 		property( obj, ICellModel.DIAGONAL_THICKNESS_PROP );
+		property( obj, ICellModel.DIAGONAL_COLOR_PROP );
 		property( obj, ICellModel.ANTIDIAGONAL_NUMBER_PROP );
 		property( obj, ICellModel.ANTIDIAGONAL_STYLE_PROP );
 		property( obj, ICellModel.ANTIDIAGONAL_THICKNESS_PROP );
+		property( obj, ICellModel.ANTIDIAGONAL_COLOR_PROP );
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 		property( obj, IDesignElementModel.NEW_HANDLER_ON_EACH_EVENT_PROP );
 		property( obj, ICellModel.SCOPE_PROP );
@@ -3540,7 +3542,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.JOINT_DATA_SET_TAG );
 		super.visitJointDataSet( obj );
 
-		
 		writeStructureList( obj, IDataSetModel.RESULT_SET_PROP );
 		writeSimplePropertyList( obj, IJointDataSetModel.DATA_SETS_PROP );
 

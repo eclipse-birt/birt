@@ -16,6 +16,8 @@ diagonalThickness
 antidiagonalThickness
 diagonalStyle
 antidiagonalStyle
+diagonalColor
+antidiagonalColor
 onPrepare
 onCreate
 onRender

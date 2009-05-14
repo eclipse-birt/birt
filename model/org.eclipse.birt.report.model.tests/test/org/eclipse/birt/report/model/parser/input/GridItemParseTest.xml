@@ -76,6 +76,8 @@
         			<property name="antidiagonalNumber">20</property>
         			<property name="diagonalThickness">10mm</property>
         			<property name="antidiagonalThickness">20mm</property>
+        			<property name="diagonalColor">red</property>
+        			<property name="antidiagonalColor">blue</property>
         			<property name="diagonalStyle">solid</property>
         			<property name="antidiagonalStyle">dashed</property>
         			<property name="scope">rowgroup</property>

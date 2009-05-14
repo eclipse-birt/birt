@@ -130,6 +130,18 @@ public interface ICellModel
 	public static final String ANTIDIAGONAL_STYLE_PROP = "antidiagonalStyle"; //$NON-NLS-1$
 
 	/**
+	 * Name of the diagonalColor property that defines the color of the diagonal
+	 * that is from top-left to bottom-right corner.
+	 */
+	public static final String DIAGONAL_COLOR_PROP = "diagonalColor"; //$NON-NLS-1$
+
+	/**
+	 * Name of the antidiagonalColor property that defines the color of the
+	 * anti-diagonal that is from the top-right to bottom-left
+	 */
+	public static final String ANTIDIAGONAL_COLOR_PROP = "antidiagonalColor"; //$NON-NLS-1$
+
+	/**
 	 * Name of the scope property that defines the current cell provides header
 	 * information for the container where the cell locates in.
 	 */

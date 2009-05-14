@@ -58,7 +58,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public int getColumnSpan( )
 	{
-		return getIntProperty( ICellModel.COL_SPAN_PROP );
+		return getIntProperty( COL_SPAN_PROP );
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setColumnSpan( int span ) throws SemanticException
 	{
-		setIntProperty( ICellModel.COL_SPAN_PROP, span );
+		setIntProperty( COL_SPAN_PROP, span );
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public int getRowSpan( )
 	{
-		return getIntProperty( ICellModel.ROW_SPAN_PROP );
+		return getIntProperty( ROW_SPAN_PROP );
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setRowSpan( int span ) throws SemanticException
 	{
-		setIntProperty( ICellModel.ROW_SPAN_PROP, span );
+		setIntProperty( ROW_SPAN_PROP, span );
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public String getDrop( )
 	{
-		return getStringProperty( ICellModel.DROP_PROP );
+		return getStringProperty( DROP_PROP );
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setDrop( String drop ) throws SemanticException
 	{
-		setStringProperty( ICellModel.DROP_PROP, drop );
+		setStringProperty( DROP_PROP, drop );
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public SlotHandle getContent( )
 	{
-		return getSlot( ICellModel.CONTENT_SLOT );
+		return getSlot( CONTENT_SLOT );
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public int getColumn( )
 	{
-		return getIntProperty( ICellModel.COLUMN_PROP );
+		return getIntProperty( COLUMN_PROP );
 	}
 
 	/**
@@ -186,7 +186,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setColumn( int column ) throws SemanticException
 	{
-		setIntProperty( ICellModel.COLUMN_PROP, column );
+		setIntProperty( COLUMN_PROP, column );
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public DimensionHandle getHeight( )
 	{
-		return getDimensionProperty( ICellModel.HEIGHT_PROP );
+		return getDimensionProperty( HEIGHT_PROP );
 	}
 
 	/**
@@ -208,7 +208,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public DimensionHandle getWidth( )
 	{
-		return getDimensionProperty( ICellModel.WIDTH_PROP );
+		return getDimensionProperty( WIDTH_PROP );
 	}
 
 	/**
@@ -221,7 +221,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public String getOnPrepare( )
 	{
-		return getStringProperty( ICellModel.ON_PREPARE_METHOD );
+		return getStringProperty( ON_PREPARE_METHOD );
 	}
 
 	/**
@@ -233,7 +233,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public String getOnCreate( )
 	{
-		return getStringProperty( ICellModel.ON_CREATE_METHOD );
+		return getStringProperty( ON_CREATE_METHOD );
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public String getOnRender( )
 	{
-		return getStringProperty( ICellModel.ON_RENDER_METHOD );
+		return getStringProperty( ON_RENDER_METHOD );
 	}
 
 	/**
@@ -261,7 +261,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setOnPrepare( String script ) throws SemanticException
 	{
-		setProperty( ICellModel.ON_PREPARE_METHOD, script );
+		setProperty( ON_PREPARE_METHOD, script );
 	}
 
 	/**
@@ -278,7 +278,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setOnCreate( String script ) throws SemanticException
 	{
-		setProperty( ICellModel.ON_CREATE_METHOD, script );
+		setProperty( ON_CREATE_METHOD, script );
 	}
 
 	/**
@@ -294,7 +294,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 
 	public void setOnRender( String script ) throws SemanticException
 	{
-		setProperty( ICellModel.ON_RENDER_METHOD, script );
+		setProperty( ON_RENDER_METHOD, script );
 	}
 
 	/**
@@ -308,7 +308,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	public void setDiagonalNumber( int diagonalNumber )
 			throws SemanticException
 	{
-		setIntProperty( ICellModel.DIAGONAL_NUMBER_PROP, diagonalNumber );
+		setIntProperty( DIAGONAL_NUMBER_PROP, diagonalNumber );
 	}
 
 	/**
@@ -319,7 +319,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 */
 	public int getDiagonalNumber( )
 	{
-		return getIntProperty( ICellModel.DIAGONAL_NUMBER_PROP );
+		return getIntProperty( DIAGONAL_NUMBER_PROP );
 	}
 
 	/**
@@ -337,7 +337,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 */
 	public DimensionHandle getDiagonalThickness( )
 	{
-		return getDimensionProperty( ICellModel.DIAGONAL_THICKNESS_PROP );
+		return getDimensionProperty( DIAGONAL_THICKNESS_PROP );
 	}
 
 	/**
@@ -367,7 +367,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 */
 	public void setDiagonalStyle( String lineStyle ) throws SemanticException
 	{
-		setStringProperty( ICellModel.DIAGONAL_STYLE_PROP, lineStyle );
+		setStringProperty( DIAGONAL_STYLE_PROP, lineStyle );
 	}
 
 	/**
@@ -394,7 +394,18 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 */
 	public String getDiagonalStyle( )
 	{
-		return getStringProperty( ICellModel.DIAGONAL_STYLE_PROP );
+		return getStringProperty( DIAGONAL_STYLE_PROP );
+	}
+
+	/**
+	 * Gets a color handle to deal with the color of the diagonal.
+	 * 
+	 * @return a ColorHandle to for the color of the diagonal.
+	 */
+
+	public ColorHandle getDiagonalColor( )
+	{
+		return getColorProperty( DIAGONAL_COLOR_PROP );
 	}
 
 	/**
@@ -408,7 +419,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	public void setAntidiagonalNumber( int antidiagonalNumber )
 			throws SemanticException
 	{
-		setIntProperty( ICellModel.ANTIDIAGONAL_NUMBER_PROP, antidiagonalNumber );
+		setIntProperty( ANTIDIAGONAL_NUMBER_PROP, antidiagonalNumber );
 	}
 
 	/**
@@ -419,7 +430,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 */
 	public int getAntidiagonalNumber( )
 	{
-		return getIntProperty( ICellModel.ANTIDIAGONAL_NUMBER_PROP );
+		return getIntProperty( ANTIDIAGONAL_NUMBER_PROP );
 	}
 
 	/**
@@ -437,7 +448,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 */
 	public DimensionHandle getAntidiagonalThickness( )
 	{
-		return getDimensionProperty( ICellModel.ANTIDIAGONAL_THICKNESS_PROP );
+		return getDimensionProperty( ANTIDIAGONAL_THICKNESS_PROP );
 	}
 
 	/**
@@ -464,7 +475,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 */
 	public String getAntidiagonalStyle( )
 	{
-		return getStringProperty( ICellModel.ANTIDIAGONAL_STYLE_PROP );
+		return getStringProperty( ANTIDIAGONAL_STYLE_PROP );
 	}
 
 	/**
@@ -495,8 +506,18 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	public void setAntidiagonalStyle( String antidiagonalStyle )
 			throws SemanticException
 	{
-		setStringProperty( ICellModel.ANTIDIAGONAL_STYLE_PROP,
-				antidiagonalStyle );
+		setStringProperty( ANTIDIAGONAL_STYLE_PROP, antidiagonalStyle );
+	}
+
+	/**
+	 * Gets a color handle to deal with the color of the anti-diagonal.
+	 * 
+	 * @return a ColorHandle to for the color of the anti-diagonal.
+	 */
+
+	public ColorHandle getAntidiagonalColor( )
+	{
+		return getColorProperty( ANTIDIAGONAL_COLOR_PROP );
 	}
 
 	/**
@@ -517,7 +538,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 */
 	public void setScope( String scope ) throws SemanticException
 	{
-		setStringProperty( ICellModel.SCOPE_PROP, scope );
+		setStringProperty( SCOPE_PROP, scope );
 	}
 
 	/**
@@ -535,7 +556,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 */
 	public String getScope( )
 	{
-		return getStringProperty( ICellModel.SCOPE_PROP );
+		return getStringProperty( SCOPE_PROP );
 	}
 
 	/**
@@ -548,7 +569,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 */
 	public void setBookmark( String bookmark ) throws SemanticException
 	{
-		setStringProperty( ICellModel.BOOKMARK_PROP, bookmark );
+		setStringProperty( BOOKMARK_PROP, bookmark );
 	}
 
 	/**
@@ -558,7 +579,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 */
 	public String getBookmark( )
 	{
-		return getStringProperty( ICellModel.BOOKMARK_PROP );
+		return getStringProperty( BOOKMARK_PROP );
 	}
 
 	/**
@@ -568,7 +589,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 */
 	public String getHeaders( )
 	{
-		return getStringProperty( ICellModel.HEADERS_PROP );
+		return getStringProperty( HEADERS_PROP );
 	}
 
 	/**
@@ -581,7 +602,7 @@ public class CellHandle extends ReportElementHandle implements ICellModel
 	 */
 	public void setHeaders( String headers ) throws SemanticException
 	{
-		setStringProperty( ICellModel.HEADERS_PROP, headers );
+		setStringProperty( HEADERS_PROP, headers );
 	}
 
 }

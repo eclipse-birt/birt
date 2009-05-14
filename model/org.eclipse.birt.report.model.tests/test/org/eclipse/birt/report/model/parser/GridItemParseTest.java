@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.ColorHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
@@ -29,16 +30,16 @@ import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 
 /**
  * The test case of <code>GridItem</code> parser and writer.
  * <p>
- * <code>TableColumn</code>,<code>TableRow</code> and <code>Cell</code>
- * are also tested in this test case.
+ * <code>TableColumn</code>,<code>TableRow</code> and <code>Cell</code> are also
+ * tested in this test case.
  * 
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -106,7 +107,6 @@ public class GridItemParseTest extends ParserTestCase
 	String goldenFileName = "GridItemParseTest_golden.xml"; //$NON-NLS-1$
 	String semanticCheckFileName = "GridItemParseTest_1.xml"; //$NON-NLS-1$
 
-
 	/**
 	 * Test parser and its properties.
 	 * 
@@ -166,6 +166,10 @@ public class GridItemParseTest extends ParserTestCase
 				.getAntidiagonalStyle( ) );
 		assertEquals( 0, cell.getDiagonalNumber( ) );
 		assertEquals( 0, cell.getAntidiagonalNumber( ) );
+		assertEquals( ColorPropertyType.BLACK, cell.getDiagonalColor( )
+				.getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( ColorPropertyType.BLACK, cell.getAntidiagonalColor( )
+				.getStringValue( ) ); //$NON-NLS-1$
 		DimensionHandle dimensionHandle = cell.getDiagonalThickness( );
 		assertEquals( DesignChoiceConstants.LINE_WIDTH_MEDIUM, dimensionHandle
 				.getStringValue( ) );
@@ -194,6 +198,10 @@ public class GridItemParseTest extends ParserTestCase
 				.getAntidiagonalStyle( ) );
 		assertEquals( 10, cell.getDiagonalNumber( ) );
 		assertEquals( 20, cell.getAntidiagonalNumber( ) );
+		assertEquals( ColorPropertyType.RED, cell.getDiagonalColor( )
+				.getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( ColorPropertyType.BLUE, cell.getAntidiagonalColor( )
+				.getStringValue( ) ); //$NON-NLS-1$
 		dimensionHandle = cell.getDiagonalThickness( );
 		assertEquals( "10mm", dimensionHandle.getStringValue( ) ); //$NON-NLS-1$
 		dimensionHandle = cell.getAntidiagonalThickness( );
@@ -292,6 +300,12 @@ public class GridItemParseTest extends ParserTestCase
 		cell.setAntidiagonalNumber( 30 );
 		cell.setProperty( ICellModel.DIAGONAL_THICKNESS_PROP, "1.5mm" ); //$NON-NLS-1$
 		cell.setProperty( ICellModel.ANTIDIAGONAL_THICKNESS_PROP, "2.5mm" ); //$NON-NLS-1$
+
+		ColorHandle colorHandle = cell.getDiagonalColor( );
+		colorHandle.setStringValue( ColorPropertyType.YELLOW ); //$NON-NLS-1$
+
+		colorHandle = cell.getAntidiagonalColor( );
+		colorHandle.setStringValue( ColorPropertyType.OLIVE ); //$NON-NLS-1$
 
 		cell.setScope( DesignChoiceConstants.SCOPE_TYPE_COL );
 		cell.setBookmark( "new bookmark for cell" );//$NON-NLS-1$

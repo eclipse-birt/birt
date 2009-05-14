@@ -3106,6 +3106,12 @@
     	<Property detailType="lineStyle" displayNameID="Element.Cell.antidiagonalStyle" name="antidiagonalStyle" runtimeSettable="false" since="3.2" type="choice">
     		<Default>none</Default>
     	</Property>
+    	<Property displayNameID="Element.Cell.diagonalColor" name="diagonalColor" since="2.5" type="color">
+    		<Default>black</Default>
+    	</Property>
+    	<Property displayNameID="Element.Cell.antidiagonalColor" name="antidiagonalColor" since="2.5" type="color">
+    		<Default>black</Default>
+    	</Property>
     </PropertyGroup>
     <Method context="startup" displayNameID="Element.Cell.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Cell.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Cell.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.ICell"/>
