@@ -95,6 +95,7 @@ public interface IOConstants
 
 	// row
 	static final short FIELD_IS_START_OF_GROUP = 90;
+	static final short FIELD_IS_REPEATABLE = 91;
 
 	// cell
 	static final short FIELD_COLUMN = 100;

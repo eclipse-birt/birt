@@ -1282,6 +1282,12 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeShort( out, FIELD_IS_START_OF_GROUP );
 			IOUtil.writeBool( out, isStartOfGroup );
 		}
+		boolean repeatable = row.getRepeatable( );
+		if ( !repeatable )
+		{
+			IOUtil.writeShort( out, FIELD_IS_REPEATABLE );
+			IOUtil.writeBool( out, repeatable );
+		}
 	}
 
 	protected void writeCell( DataOutputStream out, CellDesign cell )

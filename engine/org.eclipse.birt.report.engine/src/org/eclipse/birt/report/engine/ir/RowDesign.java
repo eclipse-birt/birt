@@ -31,7 +31,7 @@ public class RowDesign extends ReportItemDesign
 	//TODO: this field should be removed
 	protected boolean isStartOfGroup = false;
 
-	protected boolean isRepeatable = false;
+	protected boolean isRepeatable = true;
 	
 	/**
 	 * @return the isStartOfGroup

@@ -1070,6 +1070,10 @@ public class EngineIRReaderImpl implements IOConstants
 				boolean isStartOfGroup = IOUtil.readBool( in );
 				row.setStartOfGroup( isStartOfGroup );
 				break;
+			case FIELD_IS_REPEATABLE :
+				boolean isRepeatable = IOUtil.readBool( in );
+				row.setRepeatable( isRepeatable );
+				break;
 			default :
 				readReportItemField( in, row, fieldType );
 		}
