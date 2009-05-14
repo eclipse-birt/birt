@@ -441,7 +441,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		table.setLinesVisible( true );
 		tableViewerColumns = new TableViewer( table );
 		tableViewerColumns.setUseHashlookup( true );
-		new TableColumn( table, SWT.CENTER );
+		new TableColumn( table, SWT.LEFT );
 		
 		table.addMouseMoveListener( new MouseMoveListener() {
 
