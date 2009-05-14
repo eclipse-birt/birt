@@ -12,7 +12,6 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,7 +24,6 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
-import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -86,15 +84,8 @@ public class AggregationResultSetWithOneMoreDummyAggr implements IAggregationRes
 	public int[] getAggregationDataType( )
 	{
 		int[] types = new int[ars.getAggregationCount( ) + 1];
-		if ( ars.getAggregationDataType( ) != null )
-		{
-			System.arraycopy( ars.getAggregationDataType( ), 
-					0, types, 0, ars.getAggregationDataType( ).length );
-		}
-		else
-		{
-			Arrays.fill( types, DataType.UNKNOWN_TYPE );
-		}
+		System.arraycopy( ars.getAggregationDataType( ), 
+				0, types, 0, ars.getAggregationDataType( ).length );
 		types[types.length - 1] = addedAggrExpression.getDataType( ); 
 		return types;
 	}

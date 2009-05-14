@@ -104,7 +104,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	public int getAggregationDataType( int aggregationIndex )
 			throws IOException
 	{
-		if ( aggregationDataType == null || aggregationIndex < 0 )
+		if ( aggregationDataType == null || aggregationIndex < 0 || aggregationIndex >= aggregationDataType.length )
 			return DataType.UNKNOWN_TYPE;
 		return aggregationDataType[aggregationIndex];
 	}

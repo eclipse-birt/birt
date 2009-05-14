@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -67,6 +68,13 @@ public class AggregationResultSet implements IAggregationResultSet
 		produceaggregationNameMap( );
 		this.keyNames = keyNames;
 		this.attributeNames = attributeNames;
+		int aggrCount = 0;
+		if ( aggregation.getAggregationFunctions( ) != null )
+		{
+			aggrCount = aggregation.getAggregationFunctions( ).length;
+		}
+		aggregationDataType = new int[aggrCount];
+		Arrays.fill( aggregationDataType, DataType.UNKNOWN_TYPE );
 		if( aggregationResultRow.size( ) == 0 )
 			return;
 		this.resultObject = (IAggregationResultRow) aggregationResultRow.get( 0 );
@@ -122,14 +130,6 @@ public class AggregationResultSet implements IAggregationResultSet
 			resultObject = (IAggregationResultRow) aggregationResultRows.get( i );
 			if( resultObject.getAggregationValues( ) == null )
 				continue;
-			else if( aggregationDataType == null )
-			{
-				aggregationDataType = new int[resultObject.getAggregationValues( ).length];
-				for ( int j = 0; j < aggregationDataType.length; j++ )
-				{
-					aggregationDataType[j] = DataType.UNKNOWN_TYPE;
-				}
-			}
 			boolean existUnknown = false;
 			if ( resultObject.getAggregationValues( ) == null )
 			{
