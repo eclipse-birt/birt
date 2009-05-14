@@ -138,24 +138,28 @@ public class MenuButton extends Composite
 	{
 		super.setBackground( color );
 		button.setBackground( color );
+		button.redraw( );
 	}
 
 	public void setForeground( Color color )
 	{
 		super.setBackground( color );
 		button.setForeground( color );
+		button.redraw( );
 	}
 
 	public void setFont( Font font )
 	{
 		super.setFont( font );
 		button.setFont( font );
+		button.redraw( );
 	}
 
 	public void setEnabled( boolean enable )
 	{
 		super.setEnabled( enable );
 		button.setEnabled( enable );
+		button.redraw( );
 	}
 
 	public MenuButton( Composite parent, int style )
