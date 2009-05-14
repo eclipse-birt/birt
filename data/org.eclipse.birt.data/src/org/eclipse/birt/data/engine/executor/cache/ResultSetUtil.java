@@ -92,7 +92,7 @@ public class ResultSetUtil
 	public static IResultObject readResultObject( DataInputStream dis,
 			IResultClass rsMeta, int count ) throws IOException
 	{
-		Object[] obs = new Object[count];
+		Object[] obs = new Object[rsMeta.getFieldCount( )];
 
 		for ( int i = 0; i < count; i++ )
 			obs[i] = IOUtil.readObject( dis, DataEngineSession.getCurrentClassLoader( ) );

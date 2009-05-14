@@ -212,6 +212,7 @@ public class ViewingTest2 extends RDTestCase
 	public void testBasic( ) throws Exception
 	{
 		this.GEN_add_filter = true;
+		this.GEN_print = true;
 		this.genBasicIV( );
 		this.closeArchiveWriter( );
 

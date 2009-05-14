@@ -78,7 +78,6 @@ import org.mozilla.javascript.Scriptable;
  */
 class PreparedQueryUtil
 {
-	private static final int BASED_ON_RESULTSET = 1;
 	private static final int BASED_ON_DATASET = 2;
 	private static final int BASED_ON_PRESENTATION = 3;
 	
@@ -365,8 +364,6 @@ class PreparedQueryUtil
 	{
 		switch ( runQueryOnRS( dataEngine, queryDefn ) )
 		{
-			case BASED_ON_RESULTSET:
-				return new PreparedIVQuery( dataEngine, queryDefn );
 			case BASED_ON_DATASET:	
 				return new PreparedIVDataSourceQuery( dataEngine, queryDefn );
 			default:
@@ -419,160 +416,7 @@ class PreparedQueryUtil
 		else
 		{
 			return BASED_ON_DATASET;
-		}
-		
-		// Executing a query based on history result set bring increased
-		// complexity. We would like to remove
-		// this mode. The followed code is marked as comment temporarily. If no
-		// performance problems are found by test these code will be removed.
-		/*if ( previousQueryDefn.getSorts( ) != null
-				&& previousQueryDefn.getSorts( ).size( ) > 0
-				&& ( queryDefn.getSorts( ) == null || queryDefn.getSorts( )
-						.size( ) == 0 ) )
-		{
-			return BASED_ON_DATASET;
-		}
-		
-		if( !queryDefn.usesDetails( ) )
-		{
-			queryDefn.getSorts( ).clear( );
-		}
-		
-		boolean runningOnRS = GroupDefnUtil.isEqualGroups( queryDefn.getGroups( ),
-				rdLoad.loadGroupDefn( StreamManager.ROOT_STREAM,
-						StreamManager.BASE_SCOPE ) );
-		if ( runningOnRS == false )
-			return BASED_ON_DATASET;
-
-		runningOnRS = !hasAggregationInFilter( queryDefn.getFilters( ) );
-		if ( runningOnRS == false )
-			return BASED_ON_DATASET;
-
-		runningOnRS = isCompatibleRSMap( rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE ).getBindings( ),
-				queryDefn.getBindings( ) );
-
-		if ( runningOnRS == false )
-			return BASED_ON_DATASET;
-		
-		IBaseQueryDefinition qd = rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE );
-		
-		runningOnRS = isCompatibleSubQuery( qd,
-				queryDefn );
-
-		if ( runningOnRS == false )
-			return BASED_ON_DATASET;
-		
-		List filters = qd.getFilters( );
-
-		if ( FilterDefnUtil.isConflictFilter( filters, queryDefn.getFilters( ) ) )
-		{
-			runningOnRS = false;
-			
-			FilterDefnUtil.getRealFilterList( rdLoad.loadOriginalQueryDefn( StreamManager.ROOT_STREAM,
-					StreamManager.BASE_SCOPE ).getFilters( ), queryDefn.getFilters( ) );
-		}
-
-		if ( runningOnRS == false )
-			return BASED_ON_DATASET;
-
-		if ( ! QueryCompUtil.isEqualSorts( queryDefn.getSorts( ),
-					qd.getSorts( )))
-		{
-			Iterator bindings = queryDefn.getBindings( ).values( ).iterator( );
-			while( bindings.hasNext( ) )
-			{
-				IBinding binding = (IBinding)bindings.next( );
-				final String aggrName = binding.getAggrFunction( );
-				if ( aggrName != null )
-				{
-					IAggrFunction aggrFunction = AggregationManager.getInstance( )
-							.getAggregation( aggrName );
-					if ( aggrFunction.isDataOrderSensitive( ) )
-					{
-						return BASED_ON_DATASET;
-					}
-				}
-				//TODO:Remove me after iportal team switch to use new aggregation definition in binding.
-				if( binding.getExpression( )!= null && binding.getExpression( ) instanceof IScriptExpression )
-				{
-					IScriptExpression expr = (IScriptExpression)binding.getExpression( );
-					if ( ExpressionUtil.hasAggregation( expr.getText( ) ))
-					{
-						if( expr.getText( ).matches( ".*\\QTotal.first\\E.*" ) || expr.getText( ).matches( ".*\\QTotal.last\\E.*" ))
-						{
-							return BASED_ON_DATASET;
-						}
-					}
-				}
-			}
-		}
-		// TODO enhance me
-		// If the following conditions hold, running on data set
-		// 1.There are sorts that different from that of original design
-		// 2.The query has subqueries.
-		// 3.The sorts are not direct reference to binding
-
-		if ( !isBindingReferenceSort( queryDefn.getSorts( )))
-			return BASED_ON_DATASET;	
-		
-		if ( hasSubquery( queryDefn ) )
-		{
-			if ( hasSubQueryInDetail( queryDefn.getSubqueries( ) ) )
-				return BASED_ON_DATASET;
-			
-			if ( !QueryCompUtil.isEqualSorts( queryDefn.getSorts( ),
-					qd.getSorts( ) ) )
-			{   
-				runningOnRS = false;
-			}
-
-			Collection subqueries = queryDefn.getSubqueries( );
-			List gps = queryDefn.getGroups( );
-			if ( gps != null && gps.size( ) > 0 )
-			{
-				for ( int i = 0; i < gps.size( ); i++ )
-				{
-					subqueries.addAll( ( (IGroupDefinition) gps.get( i ) ).getSubqueries( ) );
-				}
-			}
-			
-			Iterator it = subqueries.iterator( );
-			while ( it.hasNext( ) )
-			{
-				IBaseQueryDefinition query = (IBaseQueryDefinition) it.next( );
-				if ( !query.usesDetails( ) )
-					query.getSorts( ).clear( );
-				if ( query.getFilters( ) != null
-						&& query.getFilters( ).size( ) > 0 )
-				{
-					runningOnRS = false;
-					break;
-				}
-				//If there is group definition in subquery, do the query based on data source
-				List groups = query.getGroups( );
-				if ( groups != null && !groups.isEmpty( ) )
-					runningOnRS = false;
-				if ( runningOnRS == false )
-					break;
-			}
-		}
-
-		if ( runningOnRS == false )
-			return BASED_ON_DATASET;
-
-		if ( queryDefn.getFilters( ) != null
-				&& queryDefn.getFilters( ).size( ) > 0 )
-		{
-			if ( !isFiltersEquals( filters, queryDefn.getFilters( ) ) )
-				runningOnRS = queryDefn.getBindings( ).values( ) == null
-						|| !hasAggregationOnRowObjects( queryDefn.getBindings( )
-								.values( )
-								.iterator( ) );
-		}
-		return runningOnRS?BASED_ON_RESULTSET:BASED_ON_DATASET;*/
-		
+		}		
 	}
 	
 	private static boolean isBindingReferenceSort( List sorts )

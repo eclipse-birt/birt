@@ -178,11 +178,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			PreparedSubquery subQuery = (PreparedSubquery) queryService;
 			return subQuery.getGroupLevel( );
 		}
-		else if ( queryService instanceof PreparedIVSubQuery )
-		{
-			PreparedIVSubQuery subQuery = (PreparedIVSubQuery) queryService;
-			return subQuery.getGroupLevel( );
-		}
 		else
 		{
 			return 0;
@@ -928,9 +923,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	 */
 	public void validateQuery( ) throws DataException
 	{
-		if ( getPreparedQuery( ) instanceof PreparedIVQuery )
-			return;
-		
 		this.exprManager.validateColumnBinding( );
 		this.validateFilters( );
 		this.validateSorts( );

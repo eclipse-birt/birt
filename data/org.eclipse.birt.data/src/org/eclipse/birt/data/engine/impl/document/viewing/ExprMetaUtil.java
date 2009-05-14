@@ -58,7 +58,7 @@ public class ExprMetaUtil
 		instance.nameSet = nameSet;
 		
 		List exprMetaList = instance.prepareQueryDefn( queryDefn );
-		ExprMetaInfo[] exprMetas = (ExprMetaInfo[]) exprMetaList.toArray( new ExprMetaInfo[]{} );
+		ExprMetaInfo[] exprMetas = ExprMetaUtil.buildExprDataMetaInfo((ExprMetaInfo[]) exprMetaList.toArray( new ExprMetaInfo[]{} ));
 		
 		DataOutputStream dos = new DataOutputStream( outputStream );
 		try

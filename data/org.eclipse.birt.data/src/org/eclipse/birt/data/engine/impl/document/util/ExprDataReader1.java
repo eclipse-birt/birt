@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.document.RowSaveUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -136,7 +137,21 @@ class ExprDataReader1 implements IExprDataReader
 	 */
 	public int getRowId( )
 	{
-		return this.getRowIndex( );
+		try
+		{
+			if( this.dataSetData!= null)
+				return (Integer) this.dataSetData.getResultObject( )
+					.getFieldValue( ExprMetaUtil.POS_NAME );
+			if( this.bindingNameTypeMap.containsKey( ExprMetaUtil.POS_NAME ))
+				return (Integer)this.getRowValue( ).get( ExprMetaUtil.POS_NAME );
+			return this.getRowIndex( );
+		}
+		catch ( DataException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+		}
+		return -1;
 	}
 
 	/*

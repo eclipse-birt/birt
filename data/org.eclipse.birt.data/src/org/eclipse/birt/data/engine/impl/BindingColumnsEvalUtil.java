@@ -183,6 +183,21 @@ class BindingColumnsEvalUtil
 				valueMap.put( bindingColumn.columnName, exprValue );
 			}
 		}
+		
+		if( ExprMetaUtil.isBasedOnRD( this.odiResult.getResultClass( ) ))
+		{
+			if ( this.odiResult.getCurrentResult( ) != null )
+			{
+				valueMap.put( ExprMetaUtil.POS_NAME,
+						this.odiResult.getCurrentResult( )
+								.getFieldValue( ExprMetaUtil.POS_NAME ) );
+			}
+			else
+			{
+				//For dummy query case.
+				valueMap.put( ExprMetaUtil.POS_NAME, -1 );
+			}
+		}
 		saveHelper.doSaveExpr( valueMap );
 	}
 

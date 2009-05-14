@@ -13,10 +13,14 @@ package org.eclipse.birt.data.engine.impl.document.viewing;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.ResultClass;
+import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
@@ -69,11 +73,31 @@ public class DataSetResultSet implements IDataSetPopulator
 			e.printStackTrace();
 		}
 
-		this.rsMetaData = rsMetaData;
+		this.rsMetaData = populateResultClass(rsMetaData);
+		//Notice we should use column count in original metadata
 		this.colCount = rsMetaData.getFieldCount( );
 		this.initLoad( );
 	}
 	
+	private IResultClass populateResultClass( IResultClass meta ) throws DataException
+	{
+		//For dummy query we need not populate Postion
+		if( meta.getFieldCount( ) == 0 || meta.getFieldIndex( ExprMetaUtil.POS_NAME ) != -1 )
+			return meta;
+		List<ResultFieldMetadata> list = new ArrayList<ResultFieldMetadata>( );
+		for ( int i = 1; i <= meta.getFieldCount( ); i++ )
+		{
+			list.add( meta.getFieldMetaData( i ) );
+		}
+		ResultFieldMetadata rfm = new ResultFieldMetadata( 0,
+				ExprMetaUtil.POS_NAME,
+				null,
+				Integer.class,
+				null,
+				true );
+		list.add( rfm );
+		return new ResultClass( list );
+	}
 	/**
 	 * 
 	 * @return
@@ -96,6 +120,7 @@ public class DataSetResultSet implements IDataSetPopulator
 				this.currentObject = ResultSetUtil.readResultObject( dis,
 						rsMetaData,
 						colCount );
+				this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME, this.getCurrentIndex( ) );
 			}
 			catch ( IOException e )
 			{
@@ -136,6 +161,7 @@ public class DataSetResultSet implements IDataSetPopulator
 				this.inputStream.seek( position + this.initPos );
 				this.dis = new DataInputStream( inputStream );
 				this.currentObject = ResultSetUtil.readResultObject( dis, rsMetaData, colCount );
+				this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME, this.getCurrentIndex( ) );
 				return;
 			}
 		}

@@ -30,7 +30,9 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.eclipse.birt.data.engine.olap.data.util.DataType;
 
 /**
  * Save expression value of every row into report document. The output format in
@@ -135,6 +137,11 @@ class RDSave implements IRDSave
 			if( bindingNameColumnName.get( binding.getBindingName( ) ) == null )
 				bindingNamesToSave.add( binding.getBindingName( ) );
 			bindingNameType.put( binding.getBindingName( ), new Integer(binding.getDataType( )) );
+		}
+		if( this.context.getMode( ) == DataEngineContext.MODE_UPDATE )
+		{
+			bindingNamesToSave.add( ExprMetaUtil.POS_NAME );
+			bindingNameType.put( ExprMetaUtil.POS_NAME, DataType.INTEGER_TYPE );
 		}
 		this.rowSaveUtil = new RowSaveUtil( rowCount,
 				rowExprsOs,
