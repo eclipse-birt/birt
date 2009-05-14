@@ -2840,9 +2840,11 @@ Element.Cell.diagonal=Diagonal
 Element.Cell.diagonalNumber=Anzahl Diagonal
 Element.Cell.antidiagonalNumber=Anzahl Antidiagonal
 Element.Cell.diagonalThickness=Stärke Diagonal
+Element.Cell.diagonalColor=Diagonal color
 Element.Cell.antidiagonalThickness=Stärke Antidiagonal
 Element.Cell.diagonalStyle=Stil Diagonal
 Element.Cell.antidiagonalStyle=Stil Antidiagonal
+Element.Cell.antidiagonalColor=Antidiagonal color
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=Alternativer Text

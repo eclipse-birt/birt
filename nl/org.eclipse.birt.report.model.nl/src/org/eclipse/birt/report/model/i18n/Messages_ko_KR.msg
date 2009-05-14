@@ -2840,9 +2840,11 @@ Element.Cell.diagonal=대각선
 Element.Cell.diagonalNumber=대각선 수
 Element.Cell.antidiagonalNumber=반대각선 수
 Element.Cell.diagonalThickness=대각선 두께
+Element.Cell.diagonalColor=Diagonal color
 Element.Cell.antidiagonalThickness=반대각선 두께
 Element.Cell.diagonalStyle=대각선 스타일
 Element.Cell.antidiagonalStyle=반대각선 스타일
+Element.Cell.antidiagonalColor=Antidiagonal color
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=대체 텍스트

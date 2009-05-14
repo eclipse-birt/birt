@@ -2840,9 +2840,11 @@ Element.Cell.diagonal=対角線
 Element.Cell.diagonalNumber=対角線番号
 Element.Cell.antidiagonalNumber=非対角線番号
 Element.Cell.diagonalThickness=対角線の幅
+Element.Cell.diagonalColor=Diagonal color
 Element.Cell.antidiagonalThickness=非対角線の幅
 Element.Cell.diagonalStyle=対角線のスタイル
 Element.Cell.antidiagonalStyle=非対角線のスタイル
+Element.Cell.antidiagonalColor=Antidiagonal color
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=代替テキスト

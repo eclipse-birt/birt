@@ -2840,9 +2840,11 @@ Element.Cell.diagonal=对角线
 Element.Cell.diagonalNumber=对角线编号
 Element.Cell.antidiagonalNumber=反对角线编号
 Element.Cell.diagonalThickness=对角线粗细
+Element.Cell.diagonalColor=Diagonal color
 Element.Cell.antidiagonalThickness=反对角线粗细
 Element.Cell.diagonalStyle=对角线样式
 Element.Cell.antidiagonalStyle=反对角线样式
+Element.Cell.antidiagonalColor=Antidiagonal color
   
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=替代文本
