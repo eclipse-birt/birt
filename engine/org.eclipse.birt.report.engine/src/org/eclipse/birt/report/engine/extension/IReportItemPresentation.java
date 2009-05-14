@@ -49,7 +49,8 @@ public interface IReportItemPresentation
 	public static int OUTPUT_AS_DRAWING = 4;
 	public static int OUTPUT_AS_CUSTOM = 5;
 	public static int OUTPUT_AS_IMAGE_WITH_MAP = 6;
-
+	public static int OUTPUT_AS_UNKNOWN = 7;
+	
 	/**
 	 * @since BIRT 2.3
 	 * @param info Presentation info of report item
