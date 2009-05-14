@@ -370,7 +370,7 @@ public class DataSetColumnBindingsFormHandleProvider implements
 		}
 		if ( inputElement instanceof ReportItemHandle )
 		{
-			ReportItemHandle reportHandle = DEUtil.getBindingRoot( (ReportItemHandle) inputElement );
+			ReportItemHandle reportHandle = DEUtil.getBindingHolder( (ReportItemHandle) inputElement );
 			this.bindingObject = reportHandle;
 			List children = new ArrayList( );
 			if ( reportHandle != null )
@@ -437,7 +437,7 @@ public class DataSetColumnBindingsFormHandleProvider implements
 			DataSetHandle datasetHandle = null;
 			if ( bindingObject instanceof ReportItemHandle )
 			{
-				ReportItemHandle root = DEUtil.getBindingRoot( (ReportItemHandle) bindingObject );
+				ReportItemHandle root = DEUtil.getBindingHolder( (ReportItemHandle) bindingObject );
 				if ( root != null )
 				{
 					datasetHandle = root.getDataSet( );
@@ -445,7 +445,7 @@ public class DataSetColumnBindingsFormHandleProvider implements
 			}
 			else if ( bindingObject instanceof GroupHandle )
 			{
-				ReportItemHandle root = DEUtil.getBindingRoot( (ReportItemHandle) ( (GroupHandle) bindingObject ).getContainer( ) );
+				ReportItemHandle root = DEUtil.getBindingHolder( (ReportItemHandle) ( (GroupHandle) bindingObject ).getContainer( ) );
 				if ( root != null )
 				{
 					datasetHandle = root.getDataSet( );
