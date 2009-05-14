@@ -7,6 +7,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.util.ResourceLocatorImpl;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
@@ -25,7 +26,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class InputStreamURITest extends BaseTestCase
 {
 	private final String fileName = "inputStream_uri_Test.xml"; 
-	private DefaultResourceLocator rl;
+	private ResourceLocatorImpl rl;
 	
     public InputStreamURITest(String name) 
 	{	
@@ -45,7 +46,7 @@ public class InputStreamURITest extends BaseTestCase
 		copyInputToFile ( INPUT_FOLDER + "/" + "Library_Import_Test.xml" );
 		
 		openDesign( fileName );
-		rl = new DefaultResourceLocator( );
+		rl = new ResourceLocatorImpl( );
 	}
 	
 	public void tearDown( )

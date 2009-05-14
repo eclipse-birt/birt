@@ -10,9 +10,9 @@ package org.eclipse.birt.report.tests.model.regression;
 
 import java.net.URL;
 
-import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.util.ResourceLocatorImpl;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
@@ -32,7 +32,7 @@ public class Regression_155509 extends BaseTestCase
 	private String filename = "Regression_155509.xml"; //$NON-NLS-1$
 	private String propfile = "Regression_155509.properties"; //$NON-NLS-1$
 	private String jarfile = "Regression_155509.jar"; //$NON-NLS-1$
-	private DefaultResourceLocator rl;
+	private ResourceLocatorImpl rl;
 
 	public void setUp( ) throws Exception
 	{
@@ -60,7 +60,7 @@ public class Regression_155509 extends BaseTestCase
 	public void test_regression_155509( ) throws DesignFileException
 	{
 		openDesign( filename );
-		rl = new DefaultResourceLocator( );
+		rl = new ResourceLocatorImpl( );
 		//sessionHandle.setResourceFolder( getClassFolder( ) );
 		sessionHandle.setResourceFolder( getTempFolder( ) +"/"+INPUT_FOLDER);
 		

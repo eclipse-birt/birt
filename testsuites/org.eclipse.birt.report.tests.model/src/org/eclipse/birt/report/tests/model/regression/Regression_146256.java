@@ -12,8 +12,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.util.ResourceLocatorImpl;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
@@ -53,7 +53,7 @@ public class Regression_146256 extends BaseTestCase
 	public void test_regression_146256( ) throws Exception
 	{
 
-		DefaultResourceLocator rl = new DefaultResourceLocator( );
+		ResourceLocatorImpl rl = new ResourceLocatorImpl( );
 		//String resource = "jar:file:" + this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + "testRead.jar!/test/testRead.rptdesign"; //$NON-NLS-1$
 		String resource = "jar:file:" + getTempFolder() + "/" + INPUT_FOLDER + "/" + "testRead.jar!/test/testRead.rptdesign"; //$NON-NLS-1$
 		

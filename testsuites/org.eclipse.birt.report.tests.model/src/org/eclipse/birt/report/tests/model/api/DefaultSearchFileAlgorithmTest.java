@@ -16,10 +16,9 @@ import java.net.URL;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-
-import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.util.ResourceLocatorImpl;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
@@ -56,7 +55,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 	}
 	final static String INPUT = "DefaultSearchFileAlgorithm.xml";
 	//private final String fileName = "SimpleMasterPageHandleTest.xml"; //$NON-NLS-1$
-	private DefaultResourceLocator algorithm;
+	private ResourceLocatorImpl algorithm;
 
 	/*
 	 * (non-Javadoc)
@@ -72,7 +71,7 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 		copyResource_INPUT( INPUT , INPUT );
 		
 		openDesign( INPUT );
-		algorithm = new DefaultResourceLocator( );
+		algorithm = new ResourceLocatorImpl( );
 	}
 
 	/**
