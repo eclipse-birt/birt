@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.AbstractScalarParameter;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 
 /**
@@ -26,7 +27,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParamete
  * @see org.eclipse.birt.report.model.elements.AbstractScalarParameter
  */
 
-abstract class AbstractScalarParameterHandle extends ParameterHandle
+public abstract class AbstractScalarParameterHandle extends ParameterHandle
 		implements
 			IAbstractScalarParameterModel
 {
@@ -356,6 +357,24 @@ abstract class AbstractScalarParameterHandle extends ParameterHandle
 		return getStringProperty( DATASET_NAME_PROP );
 	}
 
+	/**
+	 * Returns the handle for the data set defined on the parameter. If the
+	 * parameter do not define the data set name or if the data set is not
+	 * defined in the design/library scope, return <code>null</code>.
+	 * 
+	 * @return the handle to the data set
+	 */
+
+	public DataSetHandle getDataSet( )
+	{
+		DesignElement dataSet = ( (AbstractScalarParameter) getElement( ) )
+				.getDataSetElement( module );
+		if ( dataSet == null )
+			return null;
+
+		return (DataSetHandle) dataSet.getHandle( dataSet.getRoot( ) );
+	}
+	
 	/**
 	 * Sets the default value list of the parameter. Each item in the list can
 	 * be an expression, but cannot reference any other parameters.

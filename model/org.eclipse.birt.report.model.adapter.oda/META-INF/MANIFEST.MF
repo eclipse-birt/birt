@@ -8,6 +8,7 @@ Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.model.adapter.oda,
+ org.eclipse.birt.report.model.adapter.oda.impl;x-friends:="org.eclipse.birt.report.model.adapter.oda.tests",
  org.eclipse.birt.report.model.adapter.oda.model;x-friends:="org.eclipse.birt.report.model.adapter.oda.tests",
  org.eclipse.birt.report.model.adapter.oda.model.util;x-friends:="org.eclipse.birt.report.model.adapter.oda.tests",
  org.eclipse.birt.report.model.adapter.oda.util;x-friends:="org.eclipse.birt.report.model.adapter.oda.tests"

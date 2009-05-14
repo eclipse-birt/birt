@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
@@ -83,13 +84,15 @@ class ResultSetsAdapter
 	 * Column hints for computed columns.
 	 */
 
-	private List columnHintsForComputedColumns = null;
+	private List<IStructure> columnHintsForComputedColumns = null;
 
 	/**
 	 * 
 	 */
 
 	private final IODADesignFactory designFactory;
+
+	private final FilterAdapter filterAdapter;
 
 	/**
 	 * The constructor.
@@ -105,6 +108,8 @@ class ResultSetsAdapter
 	{
 		this.setHandle = setHandle;
 		this.setDesign = setDesign;
+
+		filterAdapter = new FilterAdapter( setHandle, setDesign );
 
 		Iterator tmpIterator = setHandle.resultSetIterator( );
 		setDefinedResults = new ArrayList( );
@@ -167,15 +172,16 @@ class ResultSetsAdapter
 			return newHint;
 		}
 
-		DataElementAttributes cachedDataAttrs = tmpCachedColumnDefn == null
-				? null
+		DataElementAttributes cachedDataAttrs = tmpCachedColumnDefn == null ? null
 				: tmpCachedColumnDefn.getAttributes( );
 
 		updateColumnHintFromDataAttrs( columnDefn.getAttributes( ),
-				cachedDataAttrs, newHint );
+				cachedDataAttrs,
+				newHint );
 		updateColumnHintFromUsageHints( columnDefn.getUsageHints( ),
-				tmpCachedColumnDefn == null ? null : tmpCachedColumnDefn
-						.getUsageHints( ), newHint );
+				tmpCachedColumnDefn == null ? null
+						: tmpCachedColumnDefn.getUsageHints( ),
+				newHint );
 
 		if ( StringUtil.isBlank( (String) newHint.getProperty( null,
 				ColumnHint.COLUMN_NAME_MEMBER ) ) )
@@ -245,8 +251,8 @@ class ResultSetsAdapter
 		if ( dataAttrs == null )
 			return;
 
-		Object oldValue = cachedDataAttrs == null ? null : cachedDataAttrs
-				.getName( );
+		Object oldValue = cachedDataAttrs == null ? null
+				: cachedDataAttrs.getName( );
 		Object newValue = dataAttrs.getName( );
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 			newHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER, newValue );
@@ -255,11 +261,10 @@ class ResultSetsAdapter
 		if ( dataUIHints == null )
 			return;
 
-		DataElementUIHints cachedDataUIHints = cachedDataAttrs == null
-				? null
+		DataElementUIHints cachedDataUIHints = cachedDataAttrs == null ? null
 				: cachedDataAttrs.getUiHints( );
-		oldValue = cachedDataUIHints == null ? null : cachedDataUIHints
-				.getDisplayName( );
+		oldValue = cachedDataUIHints == null ? null
+				: cachedDataUIHints.getDisplayName( );
 		newValue = dataUIHints.getDisplayName( );
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
@@ -286,8 +291,8 @@ class ResultSetsAdapter
 		if ( outputAttrs == null )
 			return;
 
-		Object oldValue = cachedOutputAttrs == null ? null : cachedOutputAttrs
-				.getHelpText( );
+		Object oldValue = cachedOutputAttrs == null ? null
+				: cachedOutputAttrs.getHelpText( );
 		Object newValue = outputAttrs.getHelpText( );
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
@@ -298,11 +303,10 @@ class ResultSetsAdapter
 		if ( formatHints == null )
 			return;
 
-		ValueFormatHints cachedFormatHints = cachedOutputAttrs == null
-				? null
+		ValueFormatHints cachedFormatHints = cachedOutputAttrs == null ? null
 				: cachedOutputAttrs.getFormattingHints( );
-		oldValue = cachedFormatHints == null ? null : cachedFormatHints
-				.getDisplayFormat( );
+		oldValue = cachedFormatHints == null ? null
+				: cachedFormatHints.getDisplayFormat( );
 		newValue = formatHints.getDisplayFormat( );
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
@@ -335,8 +339,11 @@ class ResultSetsAdapter
 			return;
 
 		updateResultSetColumnFromDataAttrs( columnDefn.getAttributes( ),
-				cachedColumnDefn == null ? null : cachedColumnDefn
-						.getAttributes( ), setColumn, dataSourceId, dataSetId );
+				cachedColumnDefn == null ? null
+						: cachedColumnDefn.getAttributes( ),
+				setColumn,
+				dataSourceId,
+				dataSetId );
 	}
 
 	/**
@@ -366,8 +373,8 @@ class ResultSetsAdapter
 			return;
 		}
 
-		Object oldValue = cachedDataAttrs == null ? null : cachedDataAttrs
-				.getName( );
+		Object oldValue = cachedDataAttrs == null ? null
+				: cachedDataAttrs.getName( );
 		Object newValue = dataAttrs.getName( );
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
@@ -380,24 +387,26 @@ class ResultSetsAdapter
 			newColumn.setNativeName( tmpNativeName );
 		}
 
-		oldValue = cachedDataAttrs == null ? null : new Integer(
-				cachedDataAttrs.getPosition( ) );
+		oldValue = cachedDataAttrs == null ? null
+				: new Integer( cachedDataAttrs.getPosition( ) );
 		newValue = new Integer( dataAttrs.getPosition( ) );
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
 			newColumn.setPosition( (Integer) newValue );
 		}
 
-		oldValue = cachedDataAttrs == null ? null : new Integer(
-				cachedDataAttrs.getNativeDataTypeCode( ) );
+		oldValue = cachedDataAttrs == null ? null
+				: new Integer( cachedDataAttrs.getNativeDataTypeCode( ) );
 		newValue = new Integer( dataAttrs.getNativeDataTypeCode( ) );
-		if ( oldValue == null || !oldValue.equals( newValue )
+		if ( oldValue == null
+				|| !oldValue.equals( newValue )
 				|| newColumn.getNativeDataType( ) == null )
 		{
 			newColumn.setNativeDataType( (Integer) newValue );
 		}
 
-		newColumn.setDataType( getROMDataType( dataSourceId, dataSetId,
+		newColumn.setDataType( getROMDataType( dataSourceId,
+				dataSetId,
 				newColumn ) );
 	}
 
@@ -422,21 +431,29 @@ class ResultSetsAdapter
 		Integer position = column.getPosition( );
 		Integer nativeDataType = column.getNativeDataType( );
 
-		OdaResultSetColumnHandle tmpParam = findOdaResultSetColumn(
-				setDefinedResults.iterator( ), name, position, nativeDataType );
+		OdaResultSetColumnHandle tmpParam = findOdaResultSetColumn( setDefinedResults.iterator( ),
+				name,
+				position,
+				nativeDataType );
 
 		if ( tmpParam == null )
-			return convertNativeTypeToROMDataType( dataSourceId, dataSetId,
-					column.getNativeDataType( ).intValue( ), null );
+			return convertNativeTypeToROMDataType( dataSourceId,
+					dataSetId,
+					column.getNativeDataType( ).intValue( ),
+					null );
 
 		Integer tmpPosition = tmpParam.getPosition( );
 		if ( tmpPosition == null )
-			return convertNativeTypeToROMDataType( dataSourceId, dataSetId,
-					column.getNativeDataType( ).intValue( ), null );
+			return convertNativeTypeToROMDataType( dataSourceId,
+					dataSetId,
+					column.getNativeDataType( ).intValue( ),
+					null );
 
 		if ( !tmpPosition.equals( column.getPosition( ) ) )
-			return convertNativeTypeToROMDataType( dataSourceId, dataSetId,
-					column.getNativeDataType( ).intValue( ), null );
+			return convertNativeTypeToROMDataType( dataSourceId,
+					dataSetId,
+					column.getNativeDataType( ).intValue( ),
+					null );
 
 		Integer tmpNativeCodeType = tmpParam.getNativeDataType( );
 		if ( tmpNativeCodeType == null
@@ -444,8 +461,10 @@ class ResultSetsAdapter
 			return tmpParam.getDataType( );
 
 		String oldDataType = tmpParam.getDataType( );
-		return convertNativeTypeToROMDataType( dataSourceId, dataSetId, column
-				.getNativeDataType( ).intValue( ), oldDataType );
+		return convertNativeTypeToROMDataType( dataSourceId,
+				dataSetId,
+				column.getNativeDataType( ).intValue( ),
+				oldDataType );
 	}
 
 	/**
@@ -469,8 +488,10 @@ class ResultSetsAdapter
 
 		try
 		{
-			newRomDataType = NativeDataTypeUtil.getUpdatedDataType(
-					dataSourceId, dataSetId, nativeDataTypeCode, romDataType,
+			newRomDataType = NativeDataTypeUtil.getUpdatedDataType( dataSourceId,
+					dataSetId,
+					nativeDataTypeCode,
+					romDataType,
 					DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE );
 		}
 		catch ( BirtException e )
@@ -503,12 +524,11 @@ class ResultSetsAdapter
 
 		while ( columns.hasNext( ) )
 		{
-			OdaResultSetColumnHandle column = (OdaResultSetColumnHandle) columns
-					.next( );
+			OdaResultSetColumnHandle column = (OdaResultSetColumnHandle) columns.next( );
 
 			Integer tmpNativeDataType = column.getNativeDataType( );
 			String nativeName = column.getNativeName( );
-			
+
 			// nativeName/name, position and nativeDataType should match.
 
 			// case 1: if the native name is not blank, just use it.
@@ -521,9 +541,8 @@ class ResultSetsAdapter
 			// position
 
 			if ( StringUtil.isBlank( nativeName )
-					&& position.equals( column.getPosition( ))
-					&& ( tmpNativeDataType == null || tmpNativeDataType
-							.equals( nativeDataType ) ) )
+					&& position.equals( column.getPosition( ) )
+					&& ( tmpNativeDataType == null || tmpNativeDataType.equals( nativeDataType ) ) )
 				return column;
 		}
 		return null;
@@ -562,8 +581,7 @@ class ResultSetsAdapter
 				continue;
 
 			if ( columnName.equals( dataAttrs.getName( ) )
-					&& ( position == null || position.intValue( ) == dataAttrs
-							.getPosition( ) ) )
+					&& ( position == null || position.intValue( ) == dataAttrs.getPosition( ) ) )
 				return columnDefn;
 		}
 
@@ -584,11 +602,10 @@ class ResultSetsAdapter
 	 * @throws SemanticException
 	 */
 
-	List newROMResultSets( ResultSetDefinition cachedSetDefn )
-			throws SemanticException
+	List<ResultSetColumnInfo> newROMResultSets(
+			ResultSetDefinition cachedSetDefn ) throws SemanticException
 	{
-		ResultSetColumns cachedSetColumns = cachedSetDefn == null
-				? null
+		ResultSetColumns cachedSetColumns = cachedSetDefn == null ? null
 				: cachedSetDefn.getResultSetColumns( );
 
 		ResultSetDefinition resultDefn = setDesign.getPrimaryResultSet( );
@@ -597,8 +614,8 @@ class ResultSetsAdapter
 			ResultSets resultSets = setDesign.getResultSets( );
 			if ( resultSets != null
 					&& !resultSets.getResultSetDefinitions( ).isEmpty( ) )
-				resultDefn = (ResultSetDefinition) resultSets
-						.getResultSetDefinitions( ).get( 0 );
+				resultDefn = (ResultSetDefinition) resultSets.getResultSetDefinitions( )
+						.get( 0 );
 		}
 
 		if ( resultDefn == null )
@@ -612,14 +629,13 @@ class ResultSetsAdapter
 		if ( odaSetColumns.isEmpty( ) )
 			return null;
 
-		List retList = new ArrayList( );
+		List<ResultSetColumnInfo> retList = new ArrayList<ResultSetColumnInfo>( );
 
 		ResultSetColumnInfo setInfo = null;
 		for ( int i = 0; i < odaSetColumns.size( ); i++ )
 		{
 
-			ColumnDefinition columnDefn = (ColumnDefinition) odaSetColumns
-					.get( i );
+			ColumnDefinition columnDefn = (ColumnDefinition) odaSetColumns.get( i );
 
 			DataElementAttributes dataAttrs = columnDefn.getAttributes( );
 
@@ -630,10 +646,12 @@ class ResultSetsAdapter
 				String nativeName = dataAttrs.getName( );
 				Integer position = new Integer( dataAttrs.getPosition( ) );
 				cachedColumnDefn = findColumnDefinition( cachedSetColumns,
-						nativeName, position );
-				oldColumn = findOdaResultSetColumn( setDefinedResults
-						.iterator( ), nativeName, position, new Integer(
-						dataAttrs.getNativeDataTypeCode( ) ) );
+						nativeName,
+						position );
+				oldColumn = findOdaResultSetColumn( setDefinedResults.iterator( ),
+						nativeName,
+						position,
+						new Integer( dataAttrs.getNativeDataTypeCode( ) ) );
 			}
 
 			OdaResultSetColumn newColumn = null;
@@ -653,9 +671,10 @@ class ResultSetsAdapter
 						.copy( );
 
 			updateROMOdaResultSetColumnFromColumnDefinition( columnDefn,
-					cachedColumnDefn, newColumn, setDesign
-							.getOdaExtensionDataSourceId( ), setDesign
-							.getOdaExtensionDataSetId( ) );
+					cachedColumnDefn,
+					newColumn,
+					setDesign.getOdaExtensionDataSourceId( ),
+					setDesign.getOdaExtensionDataSetId( ) );
 
 			ColumnHint oldHint = null;
 			ColumnHintHandle oldHintHandle = findColumnHint( newColumn,
@@ -663,15 +682,16 @@ class ResultSetsAdapter
 			if ( oldHintHandle != null )
 				oldHint = (ColumnHint) oldHintHandle.getStructure( );
 
-			ColumnHint newHint = newROMColumnHintFromColumnDefinition(
-					columnDefn, cachedColumnDefn, oldHint, newColumn
-							.getColumnName( ) );
+			ColumnHint newHint = newROMColumnHintFromColumnDefinition( columnDefn,
+					cachedColumnDefn,
+					oldHint,
+					newColumn.getColumnName( ) );
 
 			setInfo = new ResultSetColumnInfo( newColumn, newHint );
 			retList.add( setInfo );
 		}
 
-		List columns = new ArrayList( );
+		List<OdaResultSetColumn> columns = new ArrayList<OdaResultSetColumn>( );
 
 		ResultSetColumnInfo.updateResultSetColumnList( retList, columns, null );
 
@@ -746,8 +766,7 @@ class ResultSetsAdapter
 
 		while ( columns.hasNext( ) )
 		{
-			ResultSetColumnHandle column = (ResultSetColumnHandle) columns
-					.next( );
+			ResultSetColumnHandle column = (ResultSetColumnHandle) columns.next( );
 			if ( name.equals( column.getColumnName( ) ) )
 				return column;
 		}
@@ -788,20 +807,16 @@ class ResultSetsAdapter
 			if ( odaSetColumns == null )
 				odaSetColumns = designFactory.createResultSetColumns( );
 
-			OdaResultSetColumnHandle setColumn = (OdaResultSetColumnHandle) romSets
-					.next( );
+			OdaResultSetColumnHandle setColumn = (OdaResultSetColumnHandle) romSets.next( );
 
 			// get the colum hint
 
-			ColumnHintHandle hint = findColumnHint(
-					(OdaResultSetColumn) setColumn.getStructure( ),
+			ColumnHintHandle hint = findColumnHint( (OdaResultSetColumn) setColumn.getStructure( ),
 					setDefinedColumnHints.iterator( ) );
 
-			ColumnDefinition columnDefn = designFactory
-					.createColumnDefinition( );
+			ColumnDefinition columnDefn = designFactory.createColumnDefinition( );
 
-			DataElementAttributes dataAttrs = designFactory
-					.createDataElementAttributes( );
+			DataElementAttributes dataAttrs = designFactory.createDataElementAttributes( );
 
 			String newName = setColumn.getNativeName( );
 			dataAttrs.setName( newName );
@@ -826,7 +841,26 @@ class ResultSetsAdapter
 
 		if ( odaSetDefn != null )
 			odaSetDefn.setResultSetColumns( odaSetColumns );
+
+		updateOdaFilterExpression( );
+
 		return odaSetDefn;
+	}
+
+	/**
+	 * Updates oda filter expression by ROM filter condition
+	 */
+	void updateOdaFilterExpression( )
+	{
+		filterAdapter.updateOdaFilterExpression( );
+	}
+
+	/**
+	 * Updates rom filter condition by ODA filter expression
+	 */
+	void updateROMFilterCondition( ) throws SemanticException
+	{
+		filterAdapter.updateROMFilterCondition( );
 	}
 
 	/**
@@ -837,16 +871,16 @@ class ResultSetsAdapter
 	 *            a list containing result set columns
 	 */
 
-	private static void createUniqueResultSetColumnNames( List columnInfo )
+	private static void createUniqueResultSetColumnNames(
+			List<ResultSetColumnInfo> columnInfo )
 	{
 		if ( columnInfo == null || columnInfo.isEmpty( ) )
 			return;
 
-		Set names = new HashSet( );
+		Set<String> names = new HashSet<String>( );
 		for ( int i = 0; i < columnInfo.size( ); i++ )
 		{
-			ResultSetColumnInfo tmpInfo = (ResultSetColumnInfo) columnInfo
-					.get( i );
+			ResultSetColumnInfo tmpInfo = columnInfo.get( i );
 			OdaResultSetColumn column = tmpInfo.column;
 
 			String nativeName = column.getNativeName( );
@@ -854,11 +888,10 @@ class ResultSetsAdapter
 				names.add( nativeName );
 		}
 
-		Set newNames = new HashSet( );
+		Set<String> newNames = new HashSet<String>( );
 		for ( int i = 0; i < columnInfo.size( ); i++ )
 		{
-			ResultSetColumnInfo tmpInfo = (ResultSetColumnInfo) columnInfo
-					.get( i );
+			ResultSetColumnInfo tmpInfo = columnInfo.get( i );
 
 			OdaResultSetColumn column = tmpInfo.column;
 			String nativeName = column.getNativeName( );
@@ -873,7 +906,9 @@ class ResultSetsAdapter
 			nativeName = StringUtil.trimString( nativeName );
 
 			String newName = IdentifierUtility.getUniqueColumnName( names,
-					newNames, nativeName, i );
+					newNames,
+					nativeName,
+					i );
 
 			newNames.add( newName );
 			column.setColumnName( newName );
@@ -894,24 +929,23 @@ class ResultSetsAdapter
 	private void updateHintsForComputedColumn( )
 	{
 		Iterator columns = setHandle.computedColumnsIterator( );
-		List columnNames = new ArrayList( );
+		List<String> columnNames = new ArrayList<String>( );
 		while ( columns.hasNext( ) )
 		{
-			ComputedColumnHandle tmpColumn = (ComputedColumnHandle) columns
-					.next( );
+			ComputedColumnHandle tmpColumn = (ComputedColumnHandle) columns.next( );
 			columnNames.add( tmpColumn.getName( ) );
 		}
 
 		for ( int i = 0; i < columnNames.size( ); i++ )
 		{
-			String columnName = (String) columnNames.get( i );
+			String columnName = columnNames.get( i );
 			ColumnHintHandle hintHandle = findColumnHint( columnName,
 					setDefinedColumnHints.iterator( ) );
 			if ( hintHandle == null )
 				continue;
 
 			if ( columnHintsForComputedColumns == null )
-				columnHintsForComputedColumns = new ArrayList( );
+				columnHintsForComputedColumns = new ArrayList<IStructure>( );
 
 			columnHintsForComputedColumns.add( hintHandle.getStructure( )
 					.copy( ) );
@@ -924,7 +958,7 @@ class ResultSetsAdapter
 	 * @return a list containing column hints structures.
 	 */
 
-	List getHintsForComputedColumn( )
+	List<IStructure> getHintsForComputedColumn( )
 	{
 		if ( columnHintsForComputedColumns == null )
 			return Collections.EMPTY_LIST;
@@ -946,17 +980,16 @@ class ResultSetsAdapter
 
 		for ( int i = 0; i < setDefinedColumnHints.size( ); i++ )
 		{
-			ColumnHintHandle hint = (ColumnHintHandle) setDefinedColumnHints
-					.get( i );
-			OdaResultSetColumnHandle column = (OdaResultSetColumnHandle) findColumn(
-					hint.getColumnName( ), setDefinedResults.iterator( ) );
+			ColumnHintHandle hint = (ColumnHintHandle) setDefinedColumnHints.get( i );
+			OdaResultSetColumnHandle column = (OdaResultSetColumnHandle) findColumn( hint.getColumnName( ),
+					setDefinedResults.iterator( ) );
 
 			if ( column == null )
 				continue;
 
-			ColumnDefinition odaColumn = findColumnDefinition( columnDefns
-					.getResultSetColumns( ), column.getNativeName( ), column
-					.getPosition( ) );
+			ColumnDefinition odaColumn = findColumnDefinition( columnDefns.getResultSetColumns( ),
+					column.getNativeName( ),
+					column.getPosition( ) );
 
 			if ( odaColumn == null )
 				continue;
@@ -982,8 +1015,7 @@ class ResultSetsAdapter
 		String displayName = hint.getDisplayName( );
 		if ( displayName != null )
 		{
-			DataElementUIHints uiHints = designFactory
-					.createDataElementUIHints( );
+			DataElementUIHints uiHints = designFactory.createDataElementUIHints( );
 			uiHints.setDisplayName( displayName );
 			dataAttrs.setUiHints( uiHints );
 		}
@@ -1002,8 +1034,7 @@ class ResultSetsAdapter
 			outputAttrs.setHelpText( helpText );
 			if ( format != null )
 			{
-				ValueFormatHints formatHint = designFactory
-						.createValueFormatHints( );
+				ValueFormatHints formatHint = designFactory.createValueFormatHints( );
 				formatHint.setDisplayFormat( format );
 				outputAttrs.setFormattingHints( formatHint );
 			}
@@ -1044,15 +1075,15 @@ class ResultSetsAdapter
 		 *            the list containing column hint
 		 */
 
-		static void updateResultSetColumnList( List infos, List columns,
-				List hints )
+		static void updateResultSetColumnList( List<ResultSetColumnInfo> infos,
+				List<OdaResultSetColumn> columns, List<ColumnHint> hints )
 		{
 			if ( infos == null || infos.isEmpty( ) )
 				return;
 
 			for ( int i = 0; i < infos.size( ); i++ )
 			{
-				ResultSetColumnInfo info = (ResultSetColumnInfo) infos.get( i );
+				ResultSetColumnInfo info = infos.get( i );
 				if ( columns != null )
 					columns.add( info.column );
 
@@ -1061,4 +1092,5 @@ class ResultSetsAdapter
 			}
 		}
 	}
+
 }

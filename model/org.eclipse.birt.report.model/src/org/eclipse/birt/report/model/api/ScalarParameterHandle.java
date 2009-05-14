@@ -579,24 +579,6 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	}
 
 	/**
-	 * Returns the handle for the data set defined on the parameter. If the
-	 * parameter do not define the data set name or if the data set is not
-	 * defined in the design/library scope, return <code>null</code>.
-	 * 
-	 * @return the handle to the data set
-	 */
-
-	public DataSetHandle getDataSet( )
-	{
-		DesignElement dataSet = ( (ScalarParameter) getElement( ) )
-				.getDataSetElement( module );
-		if ( dataSet == null )
-			return null;
-
-		return (DataSetHandle) dataSet.getHandle( dataSet.getRoot( ) );
-	}
-
-	/**
 	 * Returns the name of the query column that returns values for the choice
 	 * of the dynamic list for this parameter.
 	 * 

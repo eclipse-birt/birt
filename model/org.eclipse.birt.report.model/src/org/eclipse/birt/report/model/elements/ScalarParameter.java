@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.validators.CascadingParameterTypeValida
 import org.eclipse.birt.report.model.api.validators.DataSetNameRequiredValidator;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
-import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * This class represents a scalar (single-value) parameter. Scalar parameters
@@ -131,21 +130,4 @@ public class ScalarParameter extends AbstractScalarParameter
 		return list;
 	}
 
-	/**
-	 * Returns the data set element, if any, for this element.
-	 * 
-	 * @param module
-	 *            the report design of the report item
-	 * 
-	 * @return the data set element defined on this cascading parameter group.
-	 */
-
-	public DataSet getDataSetElement( Module module )
-	{
-		ElementRefValue dataSetRef = (ElementRefValue) getProperty( module,
-				DATASET_NAME_PROP );
-		if ( dataSetRef == null )
-			return null;
-		return (DataSet) dataSetRef.getElement( );
-	}
 }

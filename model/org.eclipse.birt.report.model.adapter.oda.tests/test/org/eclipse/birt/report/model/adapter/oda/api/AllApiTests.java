@@ -22,6 +22,7 @@ public class AllApiTests
 		test.addTestSuite( OdaDataSourceAdapterTest.class );
 		test.addTestSuite( ReportParameterAdapterTest.class );
 		test.addTestSuite( ResultSetColumnAdapterTest.class );
+		test.addTestSuite( FilterAdapterTest.class );
 
 		// add all test classes here
 
