@@ -270,15 +270,15 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			IRegisteredSubtaskEntry entry = vSortedEntries.get( i );
 			ISubtaskSheet sheet = entry.getSheet( );
 
+			String sNodePath = entry.getNodePath( );
+			sheet.setParentTask( this );
+			sheet.setNodePath( sNodePath );
+
 			// Provide customization for subtask visibility
 			if ( !checkSubtaskVisibility( sheet ) )
 			{
 				continue;
 			}
-
-			String sNodePath = entry.getNodePath( );
-			sheet.setParentTask( this );
-			sheet.setNodePath( sNodePath );
 
 			// Initially ALL registered sheets are visible
 			htVisibleSheets.put( sNodePath, sheet );
