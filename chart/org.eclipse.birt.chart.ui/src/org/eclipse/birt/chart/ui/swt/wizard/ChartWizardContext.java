@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.birt.chart.factory.IActionEvaluator;
 import org.eclipse.birt.chart.factory.IExternalizer;
 import org.eclipse.birt.chart.factory.IResourceFinder;
 import org.eclipse.birt.chart.model.Chart;
@@ -53,6 +54,7 @@ public class ChartWizardContext implements IWizardContext
 	private IExternalizer externalizer = null;
 	
 	private Boolean isShowingDataPreview = null;
+	private IActionEvaluator actionEvaluator;
 
 	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
 			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
@@ -376,5 +378,15 @@ public class ChartWizardContext implements IWizardContext
 	public boolean isSetShowingDataPreview( )
 	{
 		return this.isShowingDataPreview != null;
+	}
+
+	public void setActionEvaluator( IActionEvaluator birtActionEvaluator )
+	{
+		actionEvaluator = birtActionEvaluator;
+	}
+	
+	public IActionEvaluator getActionEvaluator( )
+	{
+		return actionEvaluator;
 	}
 }

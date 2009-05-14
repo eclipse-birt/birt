@@ -1097,7 +1097,8 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	public void doPreview( )
 	{
 		ChartUIUtil.prepareLivePreview( getCurrentModelState( ),
-				getDataServiceProvider( ) );
+				getDataServiceProvider( ),
+				( (ChartWizardContext) context ).getActionEvaluator( ) );
 		previewPainter.renderModel( getCurrentModelState( ) );
 	}
 

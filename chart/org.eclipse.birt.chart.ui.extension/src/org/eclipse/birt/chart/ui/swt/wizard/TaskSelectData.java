@@ -857,7 +857,8 @@ public class TaskSelectData extends SimpleTask implements
 	public void doPreview( )
 	{
 		ChartUIUtil.prepareLivePreview( getChartModel( ),
-				getDataServiceProvider( ) );
+				getDataServiceProvider( ),
+				( (ChartWizardContext) context ).getActionEvaluator( ) );
 		previewPainter.renderModel( getChartModel( ) );
 	}
 

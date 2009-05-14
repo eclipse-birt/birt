@@ -11,10 +11,14 @@
 
 package org.eclipse.birt.chart.integrate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.StructureType;
 import org.eclipse.birt.chart.factory.ActionEvaluatorAdapter;
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
@@ -30,14 +34,29 @@ public class SimpleActionEvaluator extends ActionEvaluatorAdapter
 	{
 		if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
 		{
-			URLValue uv = (URLValue) action.getValue( );
+			List<String> expList = new ArrayList<String>( );
+			if ( action.getValue( ) instanceof URLValue )
+			{
+				URLValue uv = (URLValue) action.getValue( );
 
-			String sa = uv.getBaseUrl( );
-			SimpleActionHandle handle = SimpleActionUtil.deserializeAction( sa );
-			return new String[]{
-				handle.getURI( )
-			};
+				String sa = uv.getBaseUrl( );
+				SimpleActionHandle handle = SimpleActionUtil.deserializeAction( sa );
+				expList.add( handle.getURI( ) );
+			}
+			else if ( action.getValue( ) instanceof MultiURLValues )
+			{
+				for ( URLValue uv : ( (MultiURLValues) action.getValue( ) ).getURLValues( ) )
+				{
+					String sa = uv.getBaseUrl( );
+					SimpleActionHandle handle = SimpleActionUtil.deserializeAction( sa );
+					expList.add( handle.getURI( ) );
+				}
+			}
 
+			if ( expList.size( ) > 0 )
+			{
+				return (String[]) expList.toArray( new String[expList.size( )] );
+			}
 		}
 		else if ( ActionType.SHOW_TOOLTIP_LITERAL.equals( action.getType( ) ) )
 		{

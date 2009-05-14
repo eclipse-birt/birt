@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.reportitem.BIRTActionEvaluator;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
@@ -253,6 +254,10 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						context.getModel( ) );
 				}
 			}
+			
+			// Add instance of BIRTActionEValuator into chart wizard context for the validation of expressions in chart UI.
+			context.setActionEvaluator( new BIRTActionEvaluator( ) );
+			
 			ChartAdapter.endIgnoreNotifications( );
 			
 			isChartWizardOpen = true;

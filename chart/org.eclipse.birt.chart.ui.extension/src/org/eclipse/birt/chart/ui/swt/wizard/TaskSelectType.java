@@ -1825,7 +1825,9 @@ public class TaskSelectType extends SimpleTask implements
 
 	public void doPreview( )
 	{
-		ChartUIUtil.prepareLivePreview( chartModel, getDataServiceProvider( ) );
+		ChartUIUtil.prepareLivePreview( chartModel,
+				getDataServiceProvider( ),
+				( (ChartWizardContext) context ).getActionEvaluator( ) );
 
 		// Repaint chart.
 		if ( previewPainter != null )
