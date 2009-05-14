@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.content.impl;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
@@ -849,7 +850,9 @@ abstract public class AbstractContent extends AbstractElement
 	public IBaseResultSet getResultSet( )
 	{
 		ReportContent reportContent = (ReportContent) report;
-		return QueryUtil.getResultSet( reportContent, instanceId );
+		List<IBaseResultSet> resultSet = QueryUtil.getResultSet( reportContent,
+				instanceId );
+		return resultSet.get( resultSet.size( ) - 1 );
 	}
 
 	protected boolean getBooleanValue( Expression<Boolean> boolExpression,
