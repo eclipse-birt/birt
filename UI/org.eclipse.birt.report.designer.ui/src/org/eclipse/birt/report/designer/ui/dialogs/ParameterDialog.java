@@ -2692,7 +2692,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			// Save control type
 			inputParameter.setControlType( newControlType );
 
-			inputParameter.setDefaultValueList( defaultValueList );
+			if ( !isStatic( )
+					|| ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( newControlType ) || DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( newControlType ) ) )
+				inputParameter.setDefaultValueList( defaultValueList );
+			else
+				inputParameter.setDefaultValueList( null );
 
 			// Set data type
 			inputParameter.setDataType( DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) )
