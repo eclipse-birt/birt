@@ -37,6 +37,8 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseAdapter;
@@ -86,7 +88,7 @@ public class GroupDialog extends TitleAreaDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_GROUP_DIALOG ); 
+		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_GROUP_DIALOG );
 		setTitle( Messages.getString( "DateGroupDialog.Title" ) ); //$NON-NLS-1$
 		getShell( ).setText( Messages.getString( "DateGroupDialog.Shell.Title" ) ); //$NON-NLS-1$
 		setMessage( Messages.getString( "DateGroupDialog.Message" ) ); //$NON-NLS-1$
@@ -493,6 +495,7 @@ public class GroupDialog extends TitleAreaDialog
 	private Button regularButton;
 	private Button dateButton;
 	private boolean isRegularButton = false;
+
 	private void createContentArea( Composite parent )
 	{
 		Composite content = new Composite( parent, SWT.NONE );
@@ -544,6 +547,19 @@ public class GroupDialog extends TitleAreaDialog
 				checkItem( item );
 			}
 		} );
+
+		levelViewer.getTree( ).addKeyListener( new KeyAdapter( ) {
+
+			public void keyPressed( KeyEvent e )
+			{
+				if ( e.character == ' ' )
+				{
+					TreeItem[] item = levelViewer.getTree( ).getSelection( );
+					if ( item != null && item.length == 1 )
+						checkItem( item[0] );
+				}
+			}
+		} );
 	}
 
 	protected void checkOKButtonStatus( )
@@ -569,16 +585,16 @@ public class GroupDialog extends TitleAreaDialog
 					&& ( isNew || dataField != null ) )
 			{
 				if ( getButton( IDialogConstants.OK_ID ) != null )
-				
+
 					getButton( IDialogConstants.OK_ID ).setEnabled( false );
 				setErrorMessage( null );
 				setMessage( Messages.getString( "DateGroupDialog.Message" ) ); //$NON-NLS-1$
-				
+
 			}
 			else if ( getButton( IDialogConstants.OK_ID ) != null )
 			{
 				getButton( IDialogConstants.OK_ID ).setEnabled( true );
-				if(isRegularButton)
+				if ( isRegularButton )
 				{
 					setErrorMessage( null );
 					setMessage( Messages.getString( "DateGroupDialog.Message.Regular" ) ); //$NON-NLS-1$
