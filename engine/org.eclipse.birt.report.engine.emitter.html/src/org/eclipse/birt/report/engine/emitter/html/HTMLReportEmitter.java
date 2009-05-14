@@ -2615,7 +2615,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 
 			// help text
-			writer.attribute( HTMLTags.ATTR_TITLE, image.getHelpText( ) );
+			String titleText = image.getHelpText( );
+			if ( titleText == null )
+			{
+				if ( hasAction )
+				{
+					titleText = image.getHyperlinkAction( ).getTooltip( );
+				}
+			}
+			writer.attribute( HTMLTags.ATTR_TITLE, titleText );
 
 			// build style
 			htmlEmitter.buildImageStyle( image, styleBuffer, display );
