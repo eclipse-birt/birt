@@ -300,6 +300,8 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.oUnit = oUnit;
 		sc.bMaximumFixed = bMaximumFixed;
 		sc.bMinimumFixed = bMinimumFixed;
+		sc.oMaximumFixed = oMaximumFixed;
+		sc.oMinimumFixed = oMinimumFixed;
 		sc.bStepFixed = bStepFixed;
 		sc.fs = fs;
 		sc.rtc = rtc;
@@ -315,6 +317,11 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.iMinUnit = iMinUnit;
 		sc.hmComputedLabelText = sc.hmComputedLabelText;
 		sc.tmpSC = tmpSC;
+		
+		sc.dZoomFactor = dZoomFactor;
+		sc.cacheNumFormat = cacheNumFormat;
+		sc.cacheDateFormat = cacheDateFormat;
+		sc.dPrecision= dPrecision;
 
 		return sc;
 	}
