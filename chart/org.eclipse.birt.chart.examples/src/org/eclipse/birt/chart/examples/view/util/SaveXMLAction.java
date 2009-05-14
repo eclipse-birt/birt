@@ -51,7 +51,7 @@ public class SaveXMLAction extends Action
 	 */
 	public void run( )
 	{
-		Chart cm = ChartExamples.getChartModel( );
+		Chart cm = ChartExamples.getChartModel( ).copyInstance( );
 		if ( cm != null )
 		{
 			final FileDialog saveDialog = new FileDialog( cmp.getShell( ),
