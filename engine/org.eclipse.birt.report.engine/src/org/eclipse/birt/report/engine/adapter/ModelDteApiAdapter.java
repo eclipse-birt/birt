@@ -80,6 +80,8 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.JoinConditionHandle;
@@ -97,6 +99,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
@@ -555,8 +558,21 @@ public class ModelDteApiAdapter
 
 		// Set query text; if binding exists, use its result; otherwise
 		// use static design
-		String queryTextBinding = modelDataSet
-				.getPropertyBinding( OdaDataSet.QUERY_TEXT_PROP );
+		Expression expression = modelDataSet.getPropertyBindingExpression( OdaDataSet.QUERY_TEXT_PROP );
+		String queryTextBinding = null;
+		if ( expression != null
+				&& ( expression.getExpression( ) instanceof String ) )
+		{
+			queryTextBinding = (String) expression.getExpression( );
+			if ( ExpressionType.CONSTANT.equals( expression.getType( ) ) )
+			{
+				queryTextBinding = "\""
+						+ JavascriptEvalUtil.transformToJsConstants( queryTextBinding )
+						+ "\"";
+			}
+
+		}
+
 		if ( needPropertyBinding( ) && queryTextBinding != null
 				&& queryTextBinding.length( ) > 0 && context.getDataEngine() instanceof DteDataEngine )
 		{
@@ -587,7 +603,18 @@ public class ModelDteApiAdapter
 				String propName = ( String ) propNamesItr.next( );
 				assert ( propName != null );
 				String propValue;
-				String bindingExpr = modelDataSet.getPropertyBinding( propName );
+				String bindingExpr = null;
+				Expression expr = modelDataSet.getPropertyBindingExpression( propName );
+				if ( expr != null && ( expr.getExpression( ) instanceof String ) )
+				{
+					bindingExpr = (String) expr.getExpression( );
+					if ( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
+					{
+						bindingExpr = "\""
+								+ JavascriptEvalUtil.transformToJsConstants( bindingExpr )
+								+ "\"";
+					}
+				}
 				if ( needPropertyBinding( ) && bindingExpr != null
 						&& bindingExpr.length( ) > 0 )
 				{
@@ -713,12 +740,32 @@ public class ModelDteApiAdapter
 						}
 						else
 						{
-							defaultValueExpr = modelParam.getDefaultValue( );							
+							if ( ExpressionType.CONSTANT.equals( modelParam.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER )
+									.getType( ) ) )
+							{
+								defaultValueExpr = "\""
+									+ JavascriptEvalUtil.transformToJsConstants( modelParam.getDefaultValue( ) )
+									+ "\"";
+							}
+							else
+							{
+								defaultValueExpr = modelParam.getDefaultValue( );
+							}
 						}
 					}
 					else
 					{
-						defaultValueExpr = modelParam.getDefaultValue( );
+						if ( ExpressionType.CONSTANT.equals( modelParam.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER )
+								.getType( ) ) )
+						{
+							defaultValueExpr = "\""
+								+ JavascriptEvalUtil.transformToJsConstants( modelParam.getDefaultValue( ) )
+								+ "\"";
+						}
+						else
+						{
+							defaultValueExpr = modelParam.getDefaultValue( );
+						}
 					}
 					dteDataSet.addParameter( newParam( modelParam ) );
 					paramBindingCandidates.put( modelParam.getName( ),

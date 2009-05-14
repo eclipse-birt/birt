@@ -21,6 +21,7 @@ import java.util.Map;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
@@ -32,6 +33,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -41,6 +43,7 @@ import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 
 /**
@@ -124,7 +127,18 @@ class DataAdapterUtil
 						defaultValueExpr = ExpressionUtil.createJSParameterExpression( ( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) ) );
 					}
 					else
-						defaultValueExpr = modelParam.getDefaultValue( );
+					{
+						if ( ExpressionType.CONSTANT.equals( modelParam.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER ).getType( ) ) )
+						{
+							defaultValueExpr = "\""
+									+ JavascriptEvalUtil.transformToJsConstants( modelParam.getDefaultValue( ) )
+									+ "\"";
+						}
+						else
+						{
+							defaultValueExpr = modelParam.getDefaultValue( );
+						}
+					}
 					if ( defaultValueExpr != null )
 					{
 						dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
