@@ -19,7 +19,7 @@ fragment@org.eclipse.birt.report.model.testhelper=v20081009,:pserver:anonymous@d
 !**************** automated test suite  *******************
 plugin@org.eclipse.birt.report.tests.chart=v20090422,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.chart
 plugin@org.eclipse.birt.report.tests.engine=v20090417a,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.engine
-plugin@org.eclipse.birt.report.tests.model=v20090508,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.model
+plugin@org.eclipse.birt.report.tests.model=v20090514,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.model
 plugin@org.eclipse.birt.report.tests.engine.emitter.html=v20090417a,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.engine.emitter.html
 plugin@org.eclipse.birt.tests.core=v20090417a,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests.core
 plugin@org.eclipse.birt.tests.data=v20090508,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests.data
