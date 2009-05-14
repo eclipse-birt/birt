@@ -90,6 +90,7 @@ public class ReportExecutor implements IReportExecutor
 	public IReportContent execute( )
 	{
 		reportContent = new ReportContent( report );
+		reportContent.setExecutionContext( context );
 		context.setReportContent( reportContent );
 		
 		try

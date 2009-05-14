@@ -130,6 +130,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="needOutputResultSet" type="boolean">
+            <annotation>
+               <documentation>
+                  Represents if the emitter needs to output query result set.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

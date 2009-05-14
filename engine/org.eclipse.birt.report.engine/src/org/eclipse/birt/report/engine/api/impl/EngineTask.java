@@ -1350,6 +1350,7 @@ public abstract class EngineTask implements IEngineTask
 			executionRenderOptions.setOption( IRenderOption.SUPPORTED_IMAGE_FORMATS,
 					supportedImageFormats );
 		}
+		executionContext.setNeedOutputResultSet( extManager.needOutputResultSet( emitterID ) );
 		IContentEmitter emitter = null;
 		try
 		{

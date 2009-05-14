@@ -103,6 +103,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 
 		reportContent = (ReportContent) ContentFactory
 				.createReportContent( report );
+		reportContent.setExecutionContext( context );
 		context.setReportContent( reportContent );
 		
 		dummyReportContent = reportContent.createLabelContent( );

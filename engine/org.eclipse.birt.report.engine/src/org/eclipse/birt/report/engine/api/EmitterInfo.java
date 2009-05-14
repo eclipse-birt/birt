@@ -30,6 +30,7 @@ public class EmitterInfo
 	private String fileExtension;
 	private Boolean isHidden;
 	private String supportedImageFormats;
+	private boolean needOutputResultSet;
 
 	/**
 	 * whether emitter need to output the display:none or process it in layout
@@ -41,7 +42,8 @@ public class EmitterInfo
 
 	public EmitterInfo( String format, String id, String pagination,
 			String mimeType, String icon, String namespace, String fileExt,
-			Boolean outputDisplayNone, Boolean isHidden, String supportedImageFormats,
+			Boolean outputDisplayNone, Boolean isHidden,
+			String supportedImageFormats, boolean needOutputResultSet,
 			IConfigurationElement emitter )
 	{
 		this.format = format;
@@ -158,4 +160,25 @@ public class EmitterInfo
 	{
 		return supportedImageFormats;
 	}
+
+	/**
+	 * If the emitter needs output query result set.
+	 * 
+	 * @return
+	 */
+	public boolean needOutputResultSet( )
+	{
+		return needOutputResultSet;
+	}
+
+	/**
+	 * Set needOutputResultSet.
+	 * 
+	 * @param needOutputResultSet
+	 */
+	public void setNeedOutputResultSet( boolean needOutputResultSet )
+	{
+		this.needOutputResultSet = needOutputResultSet;
+	}
+
 }

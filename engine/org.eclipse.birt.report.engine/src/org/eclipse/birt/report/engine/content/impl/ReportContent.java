@@ -41,6 +41,7 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 import org.eclipse.birt.report.engine.toc.TOCView;
@@ -81,6 +82,8 @@ public class ReportContent implements IReportContent
 	
 	private IReportContext reportContext;
 
+	private ExecutionContext executionContext;
+	
 	/**
 	 * default constructor.
 	 */
@@ -316,5 +319,15 @@ public class ReportContent implements IReportContent
 	public void setReportContext( IReportContext context )
 	{
 		this.reportContext = context;
+	}
+
+	public ExecutionContext getExecutionContext( )
+	{
+		return executionContext;
+	}
+
+	public void setExecutionContext( ExecutionContext executionContext )
+	{
+		this.executionContext = executionContext;
 	}
 }

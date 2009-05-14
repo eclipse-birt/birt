@@ -38,6 +38,8 @@ import org.mozilla.javascript.Scriptable;
 public class DteDataEngine extends AbstractDataEngine
 {
 	
+	private boolean needCache;
+	
 	//FIXME: code review. throw out all exceptions in data engines. And throw exception not return null.	
 
 	/**
@@ -51,10 +53,10 @@ public class DteDataEngine extends AbstractDataEngine
 	 * 
 	 * @param context
 	 */
-	public DteDataEngine( ExecutionContext context )
+	public DteDataEngine( ExecutionContext context, boolean needCache )
 	{
 		super( context );
-
+		this.needCache = needCache;
 		try
 		{
 			// create the DteData session.
@@ -102,7 +104,7 @@ public class DteDataEngine extends AbstractDataEngine
 		Scriptable scope = context.getSharedScope( );
 
 		IBaseQueryResults dteResults = null; // the dteResults of this query
-		boolean needExecute = queryCache.needExecute( query, queryOwner, useCache );
+		boolean needExecute = queryCache.needExecute( query, queryOwner, needCache || useCache );
 		if ( !needExecute )
 		{
 			dteResults = getCachedQueryResult( query, parentResultSet );
@@ -145,7 +147,7 @@ public class DteDataEngine extends AbstractDataEngine
 	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResultSet,
 			ICubeQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
 	{
-		if ( useCache )
+		if ( needCache || useCache )
 		{
 			Object obj = cachedQueryToResults.get( query );
 			String rsetId = obj == null ? null : String.valueOf( obj );

@@ -109,6 +109,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 
 		reportContent = (ReportContent) ContentFactory
 				.createReportContent( report );
+		reportContent.setExecutionContext( context );
 		context.setReportContent( reportContent );
 
 		reportDoc = (ReportDocumentReader) context.getReportDocument( );

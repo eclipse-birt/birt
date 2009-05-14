@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
@@ -431,5 +432,10 @@ public class ClonedCellContent implements ICellContent
 	public void setRepeatContent( boolean repeatContent )
 	{
 		cellContent.setRepeatContent( repeatContent );
+	}
+
+	public IBaseResultSet getResultSet( )
+	{
+		return cellContent.getResultSet( );
 	}
 }

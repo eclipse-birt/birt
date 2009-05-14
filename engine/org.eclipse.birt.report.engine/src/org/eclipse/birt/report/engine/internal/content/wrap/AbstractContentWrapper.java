@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.AbstractElement;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 abstract public class AbstractContentWrapper extends AbstractElement
@@ -460,4 +461,10 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	{
 		throw new UnsupportedOperationException( "setACL" );
 	}
+
+	public IBaseResultSet getResultSet( )
+	{
+		return content.getResultSet( );
+	}
+
 }

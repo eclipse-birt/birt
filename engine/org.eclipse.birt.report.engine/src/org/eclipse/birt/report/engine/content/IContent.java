@@ -18,6 +18,7 @@ import java.io.IOException;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
@@ -199,4 +200,6 @@ public interface IContent extends IElement, CSSStylableElement, IStyledElement
 	String getACL( );
 
 	void setACL( String acl );
+
+	IBaseResultSet getResultSet( );
 }

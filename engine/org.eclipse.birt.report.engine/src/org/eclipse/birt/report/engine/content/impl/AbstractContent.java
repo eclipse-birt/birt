@@ -29,10 +29,13 @@ import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
+import org.eclipse.birt.report.engine.util.QueryUtil;
 import org.w3c.dom.css.CSSValue;
 
 abstract public class AbstractContent extends AbstractElement
@@ -841,6 +844,12 @@ abstract public class AbstractContent extends AbstractElement
 	public void setACL( String acl )
 	{
 		this.acl = acl;
+	}
+
+	public IBaseResultSet getResultSet( )
+	{
+		ReportContent reportContent = (ReportContent) report;
+		return QueryUtil.getResultSet( reportContent, instanceId );
 	}
 
 	protected boolean getBooleanValue( Expression<Boolean> boolExpression,

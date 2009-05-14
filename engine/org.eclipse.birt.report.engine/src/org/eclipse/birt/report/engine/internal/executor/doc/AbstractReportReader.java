@@ -64,6 +64,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 
 		reportContent = (ReportContent) ContentFactory
 				.createReportContent( report );
+		reportContent.setExecutionContext( context );
 		context.setReportContent( reportContent );
 
 		reportDoc = context.getReportDocument( );

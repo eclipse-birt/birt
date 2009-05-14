@@ -63,7 +63,7 @@ public class DataEngineFactory
 	 *            the execution context
 	 * @return a data engine instance
 	 */
-	public IDataEngine createDataEngine( ExecutionContext context )
+	public IDataEngine createDataEngine( ExecutionContext context, boolean needCache )
 			throws Exception
 	{
 		//first we must test if we have the data source
@@ -98,6 +98,6 @@ public class DataEngineFactory
 			return new DataPresentationEngine( context, context
 					.getReportDocument( ).getArchive( ) );
 		}
-		return new DteDataEngine( context );
+		return new DteDataEngine( context, needCache  );
 	}
 }

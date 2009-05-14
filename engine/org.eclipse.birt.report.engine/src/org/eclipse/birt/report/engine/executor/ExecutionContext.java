@@ -306,6 +306,8 @@ public class ExecutionContext
 	
 	private IProgressMonitor progressMonitor;
 
+	private boolean needOutputResultSet;
+	
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
@@ -771,7 +773,7 @@ public class ExecutionContext
 			try
 			{
 				dataEngine = DataEngineFactory.getInstance( ).createDataEngine(
-						this );
+						this, needOutputResultSet );
 			}
 			catch ( BirtException bex )
 			{
@@ -2161,5 +2163,15 @@ public class ExecutionContext
 			progressMonitor = new ProgressMonitorProxy( null );
 		}
 		return progressMonitor;
+	}
+
+	public boolean needOutputResultSet( )
+	{
+		return needOutputResultSet;
+	}
+
+	public void setNeedOutputResultSet( boolean needOutputResultSet )
+	{
+		this.needOutputResultSet = needOutputResultSet;
 	}
 }

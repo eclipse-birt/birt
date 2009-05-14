@@ -77,6 +77,7 @@ abstract public class AbstractReportExecutor implements IReportExecutor
 
 		reportContent = (ReportContent) ContentFactory
 				.createReportContent( report );
+		reportContent.setExecutionContext( context );
 		context.setReportContent( reportContent );
 
 		IReportDocument reportDoc = context.getReportDocument( );

@@ -135,6 +135,11 @@ public class ExtensionManager
 	 * emitter default supported image formats.
 	 */
 	public static final String DEFAULT_SUPPORTED_IMAGE_FORMATS = "PNG;GIF;JPG;BMP";
+
+	/**
+	 * Emitter needn't output result set data defaultly.
+	 */
+	public static final boolean DEFAULT_NEED_OUTPUT_RESULTSET = false;
 	
 	/**
 	 * Dummy constructor
@@ -596,9 +601,12 @@ public class ExtensionManager
 						.getAttribute( "fileExtension" );
 				Boolean isHidden = new Boolean( configs[j]
 						.getAttribute( "isHidden" ) );
+				boolean needOutputResultSet = Boolean.valueOf( configs[j]
+						.getAttribute( "needOutputResultSet" ));
 				EmitterInfo emitterInfo = new EmitterInfo( format, id,
 						pagination, mimeType, icon, namespace, fileExtension,
-						outDisplayNone, isHidden, supportedImageFormats, configs[j] );
+						outDisplayNone, isHidden, supportedImageFormats,
+						needOutputResultSet, configs[j] );
 				emitterExtensions.add(emitterInfo);
 				assert( format != null );
 				formats.put( format, emitterInfo );
@@ -798,6 +806,27 @@ public class ExtensionManager
 			}
 		}
 		return DEFAULT_SUPPORTED_IMAGE_FORMATS;
+	}
+
+	public boolean needOutputResultSet( String emitterId )
+	{
+		EmitterInfo emitterInfo = getEmitter( emitterId );
+		return emitterInfo == null ? DEFAULT_NEED_OUTPUT_RESULTSET : emitterInfo.needOutputResultSet( );
+	}
+
+	private EmitterInfo getEmitter( String emitterId )
+	{
+		if ( emitterId != null )
+		{
+			for ( EmitterInfo emitterInfo : emitterExtensions )
+			{
+				if ( emitterId.equals( emitterInfo.getID( ) ) )
+				{
+					return emitterInfo;
+				}
+			}
+		}
+		return null;
 	}
 
 	public DataExtractionFormatInfo[] getDataExtractionExtensionInfo( )
