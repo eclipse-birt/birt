@@ -78,6 +78,21 @@ public class DerivedDataSetHandle extends DataSetHandle
 	}
 
 	/**
+	 * Removes a data set with the specified name from this derived data set.
+	 * 
+	 * @param dataSetName
+	 *            name of the data set to remove
+	 * @throws SemanticException
+	 */
+	public void removeInputDataSet( String dataSetName )
+			throws SemanticException
+	{
+		PropertyHandle propHandle = getPropertyHandle( INPUT_DATA_SETS_PROP );
+		if ( propHandle != null )
+			propHandle.removeItem( dataSetName );
+	}
+
+	/**
 	 * Gets the list of all the input data set handle that this derive data set
 	 * includes. If no data set is included or no data set is found for input
 	 * data set names, an empty list will be returned.

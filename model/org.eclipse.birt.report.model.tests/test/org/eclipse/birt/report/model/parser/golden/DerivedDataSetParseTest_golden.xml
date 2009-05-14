@@ -21,7 +21,6 @@
         <derived-data-set extensionID="derived.extension" name="derivedDataSet" id="6">
             <simple-property-list name="inputDataSets">
                 <value>DataSet1</value>
-                <value>DataSet2</value>
             </simple-property-list>
             <xml-property name="queryText"><![CDATA[updated query text for the derived data set]]></xml-property>
         </derived-data-set>

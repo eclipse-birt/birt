@@ -54,6 +54,7 @@ public class DerivedDataSetParseTest extends BaseTestCase
 		// set query-text
 		derivedDataSetHandle
 				.setQueryText( "updated " + derivedDataSetHandle.getQueryText( ) ); //$NON-NLS-1$
+		derivedDataSetHandle.removeInputDataSet( "DataSet2" ); //$NON-NLS-1$
 
 		// create another derived-data set
 		derivedDataSetHandle = designHandle.getElementFactory( )
