@@ -329,7 +329,7 @@ CascadingParametersDialog.display.controlType.comboBox=콤보 상자
 CascadingParametersDialog.display.controlType.listBox=목록 상자
 CascadingParametersDialog.Label.button.changeFormat=변경(&G)...
 CascadingParametersDialog.Label.button.createNew.dataset=새로 생성(&W)...
-CascadingParametersDialog.Label.cascadingParam.name=계단식 매개변수 이름(&R):
+CascadingParametersDialog.Label.cascadingParam.name=Cascading Paramete&r Group Name:
 CascadingParametersDialog.Label.column.displayText=표시 텍스트
 CascadingParametersDialog.Label.column.dataSet=데이터 집합
 CascadingParametersDialog.Label.column.name=이름
@@ -363,8 +363,8 @@ CascadingParametersDialog.Choice.SelectValue=<값 선택...>
 CascadingParametersDialog.Button.Add=추가(&A)
 CascadingParametersDialog.Button.Edit=편집(&D)
 CascadingParametersDialog.Button.Delete=삭제(&T)
-CascadingParametersDialog.Title.AddCascadingParameter=계단식 매개 변수 추가
-CascadingParametersDialog.Title.EditCascadingParameter=계단식 매개변수 편집
+CascadingParametersDialog.Title.AddCascadingParameter=Add Cascading Parameter Group
+CascadingParametersDialog.Title.EditCascadingParameter=Edit Cascading Parameter Group
 CascadingParametersDialog.items.None=<없음>
 
 ###########################################################
@@ -2876,9 +2876,9 @@ ParameterGroupProcess.text.Show=데이터 원본 편집기 페이지를 표시합니다.
 ###########################################################
 #ParameterNodeProvider properties
 
-ParameterNodeProvider.dial.title.editCascading=계단식 매개변수 편집
+ParameterNodeProvider.dial.title.editCascading=Edit Cascading Parameter Group
 ParameterNodeProvider.dial.title.editScalar=매개변수 편집
-ParameterNodeProvider.dial.title.newCascading=새 계단식 매개 변수
+ParameterNodeProvider.dial.title.newCascading=New Cascading Parameter Group
 ParameterNodeProvider.menu.text.edit=편집(&E)
 ParameterNodeProvider.menu.text.new=새 매개 변수
 
@@ -2905,7 +2905,7 @@ parameters.menuItem.reset=재설정
 
 ParametersNodeProvider.dialogue.title.group=새 매개 변수 그룹
 ParametersNodeProvider.dialogue.title.parameter=새 매개 변수
-ParametersNodeProvider.menu.text.cascadingParameter=새 계단식 매개 변수(&D)
+ParametersNodeProvider.menu.text.cascadingParameter=New Casca&ding Parameter Group
 ParametersNodeProvider.menu.text.group=새 매개 변수 그룹(&M)
 ParametersNodeProvider.menu.text.parameter=새 매개 변수(&A)
 

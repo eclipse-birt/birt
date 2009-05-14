@@ -329,7 +329,7 @@ CascadingParametersDialog.display.controlType.comboBox=Kombinationsfeld
 CascadingParametersDialog.display.controlType.listBox=Listenfeld
 CascadingParametersDialog.Label.button.changeFormat=&Ändern...
 CascadingParametersDialog.Label.button.createNew.dataset=&Neu erstellen...
-CascadingParametersDialog.Label.cascadingParam.name=Name des Verschachtelungspa&rameters
+CascadingParametersDialog.Label.cascadingParam.name=Cascading Paramete&r Group Name:
 CascadingParametersDialog.Label.column.displayText=Angezeigter Text
 CascadingParametersDialog.Label.column.dataSet=Datensatz
 CascadingParametersDialog.Label.column.name=Name
@@ -363,8 +363,8 @@ CascadingParametersDialog.Choice.SelectValue=<Wert auswählen ...>
 CascadingParametersDialog.Button.Add=&Hinzufügen
 CascadingParametersDialog.Button.Edit=&Bearbeiten
 CascadingParametersDialog.Button.Delete=&Löschen
-CascadingParametersDialog.Title.AddCascadingParameter=Verschachtelungsparameter hinzufügen
-CascadingParametersDialog.Title.EditCascadingParameter=Überlappenden Parameter bearbeiten
+CascadingParametersDialog.Title.AddCascadingParameter=Add Cascading Parameter Group
+CascadingParametersDialog.Title.EditCascadingParameter=Edit Cascading Parameter Group
 CascadingParametersDialog.items.None=<keine>
 
 ###########################################################
@@ -2876,9 +2876,9 @@ ParameterGroupProcess.text.Show=Blendet die Datenquelleditor-Seite ein
 ###########################################################
 #ParameterNodeProvider properties
 
-ParameterNodeProvider.dial.title.editCascading=Überlappenden Parameter bearbeiten
+ParameterNodeProvider.dial.title.editCascading=Edit Cascading Parameter Group
 ParameterNodeProvider.dial.title.editScalar=Parameter bearbeiten
-ParameterNodeProvider.dial.title.newCascading=Neuer Verschachtelungsparameter                                       
+ParameterNodeProvider.dial.title.newCascading=New Cascading Parameter Group
 ParameterNodeProvider.menu.text.edit=&Bearbeiten
 ParameterNodeProvider.menu.text.new=Neuer Parameter
 
@@ -2905,7 +2905,7 @@ parameters.menuItem.reset=Zurücksetzen
 
 ParametersNodeProvider.dialogue.title.group=Neue Parametergruppe
 ParametersNodeProvider.dialogue.title.parameter=Neuer Parameter
-ParametersNodeProvider.menu.text.cascadingParameter=Neuer Verscha&chtelungsparameter
+ParametersNodeProvider.menu.text.cascadingParameter=New Casca&ding Parameter Group
 ParametersNodeProvider.menu.text.group=Neue Para&metergruppe
 ParametersNodeProvider.menu.text.parameter=Neuer P&arameter
 

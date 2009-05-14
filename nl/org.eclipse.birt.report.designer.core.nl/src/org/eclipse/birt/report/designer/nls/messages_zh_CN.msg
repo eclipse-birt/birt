@@ -329,7 +329,7 @@ CascadingParametersDialog.display.controlType.comboBox=组合框
 CascadingParametersDialog.display.controlType.listBox=列表框
 CascadingParametersDialog.Label.button.changeFormat=更改(&G)...
 CascadingParametersDialog.Label.button.createNew.dataset=新建(&W)...
-CascadingParametersDialog.Label.cascadingParam.name=级联参数名称(&R):
+CascadingParametersDialog.Label.cascadingParam.name=Cascading Paramete&r Group Name:
 CascadingParametersDialog.Label.column.displayText=显示文本
 CascadingParametersDialog.Label.column.dataSet=数据集
 CascadingParametersDialog.Label.column.name=名称
@@ -363,8 +363,8 @@ CascadingParametersDialog.Choice.SelectValue=<选择值...>
 CascadingParametersDialog.Button.Add=添加(&A)
 CascadingParametersDialog.Button.Edit=编辑(&D)
 CascadingParametersDialog.Button.Delete=删除(&T)
-CascadingParametersDialog.Title.AddCascadingParameter=添加级联参数
-CascadingParametersDialog.Title.EditCascadingParameter=编辑级联参数
+CascadingParametersDialog.Title.AddCascadingParameter=Add Cascading Parameter Group
+CascadingParametersDialog.Title.EditCascadingParameter=Edit Cascading Parameter Group
 CascadingParametersDialog.items.None=<无>
 
 ###########################################################
@@ -2876,9 +2876,9 @@ ParameterGroupProcess.text.Show=显示数据源编辑器页
 ###########################################################
 #ParameterNodeProvider properties
 
-ParameterNodeProvider.dial.title.editCascading=编辑级联参数
+ParameterNodeProvider.dial.title.editCascading=Edit Cascading Parameter Group
 ParameterNodeProvider.dial.title.editScalar=编辑参数
-ParameterNodeProvider.dial.title.newCascading=新建级联参数
+ParameterNodeProvider.dial.title.newCascading=New Cascading Parameter Group
 ParameterNodeProvider.menu.text.edit=编辑(&E)
 ParameterNodeProvider.menu.text.new=新建参数
 
@@ -2905,7 +2905,7 @@ parameters.menuItem.reset=重置
 
 ParametersNodeProvider.dialogue.title.group=新建参数组
 ParametersNodeProvider.dialogue.title.parameter=新建参数
-ParametersNodeProvider.menu.text.cascadingParameter=新建级联参数(&D)
+ParametersNodeProvider.menu.text.cascadingParameter=New Casca&ding Parameter Group
 ParametersNodeProvider.menu.text.group=新建度量组(&M)
 ParametersNodeProvider.menu.text.parameter=新建参数(&A)
 
