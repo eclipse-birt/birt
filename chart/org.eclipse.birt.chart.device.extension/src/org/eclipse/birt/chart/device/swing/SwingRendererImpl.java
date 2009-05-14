@@ -351,8 +351,9 @@ public class SwingRendererImpl extends DeviceAdapter
 
 		ImageObserver io = (ImageObserver) _ids.getObserver( );
 
-		int width = img.getWidth( io );
-		int height = img.getHeight( io );
+		final boolean bSizeSet = pre.getWidth( ) * pre.getHeight( ) > 0;
+		int width = bSizeSet ? pre.getWidth( ) : img.getWidth( io );
+		int height = bSizeSet ? pre.getHeight( ) : img.getHeight( io );
 		int x = (int) loc.getX( );
 		int y = (int) loc.getY( );
 
@@ -1746,7 +1747,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 * Reusable 'strokes' for rendering lines may be obtained from here
 	 * 
 	 * @param ls
-	 * @return
+	 * @return stroke
 	 */
 	public final Stroke getCachedStroke( LineAttributes lia )
 	{
@@ -1813,7 +1814,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 * @param s
 	 * @param sWordToReplace
 	 * @param sReplaceWith
-	 * @return
+	 * @return result
 	 */
 	public static String csSearchAndReplace( String s, String sWordToReplace,
 			String sReplaceWith )

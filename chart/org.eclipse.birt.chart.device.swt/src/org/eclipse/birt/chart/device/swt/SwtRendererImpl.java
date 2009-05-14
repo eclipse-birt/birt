@@ -234,8 +234,9 @@ public class SwtRendererImpl extends DeviceAdapter
 			pos = Position.INSIDE_LITERAL;
 		}
 
-		int width = img.getBounds( ).width;
-		int height = img.getBounds( ).height;
+		final boolean bSizeSet = pre.getWidth( ) * pre.getHeight( ) > 0;
+		int width = bSizeSet ? pre.getWidth( ) : img.getBounds( ).width;
+		int height = bSizeSet ? pre.getHeight( ) : img.getBounds( ).height;
 		int x = (int) loc.getX( );
 		int y = (int) loc.getY( );
 
@@ -262,7 +263,22 @@ public class SwtRendererImpl extends DeviceAdapter
 				break;
 		}
 
-		_gc.drawImage( img, x, y );
+		if ( bSizeSet )
+		{
+			_gc.drawImage( img,
+					0,
+					0,
+					img.getBounds( ).width,
+					img.getBounds( ).height,
+					x,
+					y,
+					pre.getWidth( ),
+					pre.getHeight( ) );
+		}
+		else
+		{
+			_gc.drawImage( img, x, y );
+		}
 
 		img.dispose( );
 	}

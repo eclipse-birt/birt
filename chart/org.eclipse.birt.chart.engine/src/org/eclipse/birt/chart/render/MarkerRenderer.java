@@ -568,6 +568,8 @@ public final class MarkerRenderer
 			final Image3DRenderEvent ire = ( (EventObjectCache) ipr ).getEventObject( oSource,
 					Image3DRenderEvent.class );
 			ire.setLocation3D( lo3d );
+			ire.setWidth( (int) ( 2 * iSize + .5 ) );
+			ire.setHeight( (int) ( 2 * iSize + .5 ) );
 			ire.setImage( icon );
 
 			dc.addPlane( ire, PrimitiveRenderEvent.FILL );
@@ -577,6 +579,8 @@ public final class MarkerRenderer
 			final ImageRenderEvent ire = ( (EventObjectCache) ipr ).getEventObject( oSource,
 					ImageRenderEvent.class );
 			ire.setLocation( lo );
+			ire.setWidth( (int) ( 2 * iSize + .5 ) );
+			ire.setHeight( (int) ( 2 * iSize + .5 ) );
 			ire.setImage( icon );
 
 			final Location[] loa = new Location[4];

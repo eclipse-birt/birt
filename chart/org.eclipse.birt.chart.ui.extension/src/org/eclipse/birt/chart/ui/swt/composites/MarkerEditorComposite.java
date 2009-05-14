@@ -309,18 +309,21 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 	{
 		// Paint an icon sample, not a real icon in the Fill
 		Marker renderMarker = currentMarker;
+		int markerSize = 4;
 		if ( currentMarker.getType( ) == MarkerType.ICON_LITERAL )
 		{
 			renderMarker = currentMarker.copyInstance( );
 			renderMarker.setFill( ImageImpl.create( UIHelper.getURL( "icons/obj16/marker_icon.gif" ).toString( ) ) ); //$NON-NLS-1$
+			// To prevent the icon being too small in UI, use the original size
+			// for icon
+			markerSize = 0;
 		}
 
 		idrSWT.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gc );
 		final MarkerRenderer mr = new MarkerRenderer( idrSWT,
 				StructureSource.createUnknown( null ),
 				location,
-				LineAttributesImpl.create( getMarker( ).isVisible( )
-						? ColorDefinitionImpl.BLUE( )
+				LineAttributesImpl.create( getMarker( ).isVisible( ) ? ColorDefinitionImpl.BLUE( )
 						: ColorDefinitionImpl.GREY( ),
 						LineStyle.SOLID_LITERAL,
 						1 ),
@@ -328,7 +331,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 						168,
 						218 ) : ColorDefinitionImpl.GREY( ),
 				renderMarker,
-				Integer.valueOf( 4 ),
+				markerSize,
 				null,
 				false,
 				false );
