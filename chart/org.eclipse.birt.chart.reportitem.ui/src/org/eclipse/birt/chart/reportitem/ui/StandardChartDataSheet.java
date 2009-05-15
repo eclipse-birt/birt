@@ -704,9 +704,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			return;
 		}
 		
-		( (GridData) columnListDescription.getLayoutData( ) ).exclude = false;
-		columnListDescription.setVisible( true );
-		columnListDescription.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
+		if ( columnListDescription != null )
+		{
+			( (GridData) columnListDescription.getLayoutData( ) ).exclude = false;
+			columnListDescription.setVisible( true );
+			columnListDescription.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
+		}
 		btnShowDataPreviewB.setEnabled( true );
 		cmpColumnsList.layout( );
 
