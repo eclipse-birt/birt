@@ -2202,6 +2202,14 @@ public class ExecutionContext
 
 	public Object getPageVariable( String name )
 	{
+		if ( "totalPage".equals( name ) )
+		{
+			return Long.valueOf( totalPage );
+		}
+		if ( "pageNumber".equals( name ) )
+		{
+			return Long.valueOf( totalPage );
+		}
 		PageVariable var = pageVariables.get( name );
 		if ( var != null )
 		{
