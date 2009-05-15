@@ -376,12 +376,6 @@ public final class StyleSheetLoader
 									name = ( (ClassConditionImpl) condition )
 											.getValue( );
 
-									// to the Model, selectors are always lower
-									// case.
-
-									if ( name != null )
-										name = name.toLowerCase( );
-
 									isValid = true;
 								}
 							}

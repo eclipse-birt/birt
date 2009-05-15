@@ -344,12 +344,12 @@ public class ReportDesignParseTest extends BaseTestCase
 
 		// Check styles in css
 
-		assertEquals( "code", ( (StyleHandle) styles.get( 0 ) ).getName( ) );//$NON-NLS-1$
+		assertEquals( "Code", ( (StyleHandle) styles.get( 0 ) ).getName( ) );//$NON-NLS-1$
 		assertEquals(
-				"captionfigcolumn", ( (StyleHandle) styles.get( 1 ) ).getName( ) );//$NON-NLS-1$
-		assertEquals( "note", ( (StyleHandle) styles.get( 2 ) ).getName( ) );//$NON-NLS-1$
-		assertEquals( "uilabel", ( (StyleHandle) styles.get( 3 ) ).getName( ) );//$NON-NLS-1$
-		assertEquals( "codename", ( (StyleHandle) styles.get( 4 ) ).getName( ) );//$NON-NLS-1$
+				"CaptionFigColumn", ( (StyleHandle) styles.get( 1 ) ).getName( ) );//$NON-NLS-1$
+		assertEquals( "Note", ( (StyleHandle) styles.get( 2 ) ).getName( ) );//$NON-NLS-1$
+		assertEquals( "UILabel", ( (StyleHandle) styles.get( 3 ) ).getName( ) );//$NON-NLS-1$
+		assertEquals( "CodeName", ( (StyleHandle) styles.get( 4 ) ).getName( ) );//$NON-NLS-1$
 
 		StyleHandle style = (StyleHandle) styles.get( 0 );
 		assertEquals( "left", style.getTextAlign( ) );//$NON-NLS-1$

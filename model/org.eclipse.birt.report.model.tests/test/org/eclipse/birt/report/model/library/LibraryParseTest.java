@@ -176,7 +176,7 @@ public class LibraryParseTest extends BaseTestCase
 
 		// 'code' style name is the same.
 		assertNotNull( labelHandle.getStyle( ) );
-		assertEquals( "captionfigcolumn2", labelHandle.getStyle( ).getName( ) );//$NON-NLS-1$
+		assertEquals( "CaptionFigColumn2", labelHandle.getStyle( ).getName( ) );//$NON-NLS-1$
 
 		assertEquals( 0, labelHandle.getSemanticErrors( ).size( ) );
 	}
