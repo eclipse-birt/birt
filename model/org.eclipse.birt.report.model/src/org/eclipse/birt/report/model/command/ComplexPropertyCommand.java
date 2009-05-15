@@ -78,13 +78,13 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 *             if the item to add is invalid.
 	 */
 
-	private void addItem( StructureContext context, IStructure item )
+	private IStructure addItem( StructureContext context, IStructure item )
 			throws SemanticException
 	{
 		assert context != null;
 		checkAllowedOperation( );
 		if ( item == null )
-			return;
+			return null;
 
 		Structure struct = (Structure) item;
 		if ( struct.getContext( ) != null )
@@ -133,6 +133,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		stack.execute( record );
 		stack.commit( );
 
+		return struct;
 	}
 
 	/**
@@ -156,19 +157,18 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 *             if the item to add is invalid.
 	 */
 
-	public void addItem( StructureContext context, Object item )
+	public Object addItem( StructureContext context, Object item )
 			throws SemanticException
 	{
 		if ( item instanceof IStructure )
 		{
-			addItem( context, (IStructure) item );
-			return;
+			return addItem( context, (IStructure) item );
 		}
 
 		assert context != null;
 		checkAllowedOperation( );
 		if ( item == null )
-			return;
+			return null;
 
 		// this method is not called for structure list property
 
@@ -194,7 +194,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 								.getValueContainer( ) );
 
 				attrCmd.addItem( context, value );
-				return;
+				return value;
 			}
 		}
 
@@ -248,6 +248,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		}
 
 		stack.commit( );
+
+		return value;
 	}
 
 	/**
@@ -276,13 +278,13 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 *             <code>(index &lt; 0 || index &gt; list.size())</code>.
 	 */
 
-	public void insertItem( StructureContext context, IStructure item, int posn )
-			throws SemanticException
+	public IStructure insertItem( StructureContext context, IStructure item,
+			int posn ) throws SemanticException
 	{
 		assert context != null;
 		checkAllowedOperation( );
 		if ( item == null )
-			return;
+			return null;
 
 		Structure struct = (Structure) item;
 		if ( struct.getContext( ) != null )
@@ -325,6 +327,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		stack.execute( record );
 		stack.commit( );
+
+		return struct;
 	}
 
 	/**

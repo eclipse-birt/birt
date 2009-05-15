@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.eclipse.birt.report.model.activity.LayoutRecordTask;
 import org.eclipse.birt.report.model.activity.RecordTask;
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.Expression;
@@ -44,6 +45,7 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -1643,5 +1645,31 @@ public class ModelUtil
 		}
 
 		return newList;
+	}
+
+	/**
+	 * Sets the action for some element handle. The element may be label, image
+	 * and label and all other elements that defines action property.
+	 * 
+	 * @param elementHandle
+	 *            the element that to set the action
+	 * @param actionPropName
+	 *            the internal name of the action property
+	 * @param action
+	 *            the action structure to set
+	 * @return
+	 * @throws SemanticException
+	 */
+	public static ActionHandle setAction( DesignElementHandle elementHandle,
+			String actionPropName, Action action ) throws SemanticException
+	{
+		elementHandle.setProperty( actionPropName, action );
+
+		Action actionValue = (Action) elementHandle.getElement( ).getProperty(
+				elementHandle.getModule( ), actionPropName );
+		if ( actionValue == null )
+			return null;
+		return (ActionHandle) actionValue.getHandle( elementHandle
+				.getPropertyHandle( actionPropName ) );
 	}
 }

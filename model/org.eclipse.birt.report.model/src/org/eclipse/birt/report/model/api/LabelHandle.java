@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents a label report item. A label shows a static piece of text
@@ -55,7 +56,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public String getText( )
 	{
-		return getStringProperty( ILabelModel.TEXT_PROP );
+		return getStringProperty( TEXT_PROP );
 	}
 
 	/**
@@ -68,7 +69,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public String getDisplayText( )
 	{
-		return getExternalizedValue( ILabelModel.TEXT_ID_PROP , ILabelModel.TEXT_PROP );
+		return getExternalizedValue( TEXT_ID_PROP, TEXT_PROP );
 	}
 
 	/**
@@ -83,7 +84,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public void setText( String text ) throws SemanticException
 	{
-		setStringProperty( ILabelModel.TEXT_PROP, text );
+		setStringProperty( TEXT_PROP, text );
 	}
 
 	/**
@@ -94,7 +95,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public String getTextKey( )
 	{
-		return getStringProperty( ILabelModel.TEXT_ID_PROP );
+		return getStringProperty( TEXT_ID_PROP );
 	}
 
 	/**
@@ -109,21 +110,21 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public void setTextKey( String resourceKey ) throws SemanticException
 	{
-		setStringProperty( ILabelModel.TEXT_ID_PROP, resourceKey );
+		setStringProperty( TEXT_ID_PROP, resourceKey );
 	}
 
 	/**
 	 * Returns a handle to work with the action property, action is a structure
 	 * that defines a hyperlink.
 	 * 
-	 * @return a handle to the action property, return <code>null</code> if
-	 *         the action has not been set on the label.
+	 * @return a handle to the action property, return <code>null</code> if the
+	 *         action has not been set on the label.
 	 * @see ActionHandle
 	 */
 
 	public ActionHandle getActionHandle( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( ILabelModel.ACTION_PROP );
+		PropertyHandle propHandle = getPropertyHandle( ACTION_PROP );
 		Action action = (Action) propHandle.getValue( );
 
 		if ( action == null )
@@ -138,8 +139,8 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 	 * @param action
 	 *            new action to be set on the image, it represents a bookmark
 	 *            link, hyperlink, and drill through etc.
-	 * @return a handle to the action property, return <code>null</code> if
-	 *         the action has not been set on the image.
+	 * @return a handle to the action property, return <code>null</code> if the
+	 *         action has not been set on the image.
 	 * 
 	 * @throws SemanticException
 	 *             if member of the action is not valid.
@@ -147,12 +148,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public ActionHandle setAction( Action action ) throws SemanticException
 	{
-		setProperty( ILabelModel.ACTION_PROP, action );
-
-		if ( action == null )
-			return null;
-		return (ActionHandle) action
-				.getHandle( getPropertyHandle( ILabelModel.ACTION_PROP ) );
+		return ModelUtil.setAction( this, ACTION_PROP, action );
 	}
 
 	/**
@@ -163,7 +159,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public String getHelpText( )
 	{
-		return getStringProperty( ILabelModel.HELP_TEXT_PROP );
+		return getStringProperty( HELP_TEXT_PROP );
 	}
 
 	/**
@@ -178,7 +174,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public void setHelpText( String text ) throws SemanticException
 	{
-		setStringProperty( ILabelModel.HELP_TEXT_PROP, text );
+		setStringProperty( HELP_TEXT_PROP, text );
 	}
 
 	/**
@@ -189,7 +185,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public String getHelpTextKey( )
 	{
-		return getStringProperty( ILabelModel.HELP_TEXT_ID_PROP );
+		return getStringProperty( HELP_TEXT_ID_PROP );
 	}
 
 	/**
@@ -204,6 +200,6 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public void setHelpTextKey( String resourceKey ) throws SemanticException
 	{
-		setStringProperty( ILabelModel.HELP_TEXT_ID_PROP, resourceKey );
+		setStringProperty( HELP_TEXT_ID_PROP, resourceKey );
 	}
 }

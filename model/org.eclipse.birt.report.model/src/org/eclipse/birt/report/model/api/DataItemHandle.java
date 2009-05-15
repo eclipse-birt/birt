@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents a data item element. A data item has an action, value expression
@@ -50,8 +51,8 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 	 * Returns a handle to work with the action property, action is a structure
 	 * that defines a hyperlink.
 	 * 
-	 * @return a handle to the action property, return <code>null</code> if
-	 *         the action has not been set on the data item.
+	 * @return a handle to the action property, return <code>null</code> if the
+	 *         action has not been set on the data item.
 	 * @see ActionHandle
 	 */
 
@@ -72,8 +73,8 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 	 * @param action
 	 *            new action to be set on the image, it represents a bookmark
 	 *            link, hyperlink, and drill through etc.
-	 * @return a handle to the action property, return <code>null</code> if
-	 *         the action has not been set on the image.
+	 * @return a handle to the action property, return <code>null</code> if the
+	 *         action has not been set on the image.
 	 * 
 	 * @throws SemanticException
 	 *             if member of the action is not valid.
@@ -81,12 +82,7 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 
 	public ActionHandle setAction( Action action ) throws SemanticException
 	{
-		setProperty( IDataItemModel.ACTION_PROP, action );
-
-		if ( action == null )
-			return null;
-		return (ActionHandle) action
-				.getHandle( getPropertyHandle( IDataItemModel.ACTION_PROP ) );
+		return ModelUtil.setAction( this, ACTION_PROP, action );
 	}
 
 	/**

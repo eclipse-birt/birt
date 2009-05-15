@@ -555,9 +555,9 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.addItem( getContext( ), item );
+		Object struct = cmd.addItem( getContext( ), item );
 
-		return ( (Structure) item ).getHandle( this );
+		return ( (Structure) struct ).getHandle( this );
 	}
 
 	/**
@@ -599,9 +599,9 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
-		cmd.insertItem( getContext( ), item, posn );
+		IStructure struct = cmd.insertItem( getContext( ), item, posn );
 
-		return ( (Structure) item ).getHandle( this );
+		return ( (Structure) struct ).getHandle( this );
 	}
 
 	/**

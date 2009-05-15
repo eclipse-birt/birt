@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents an image report item. The image can come from a number of sources:
@@ -657,12 +658,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public ActionHandle setAction( Action action ) throws SemanticException
 	{
-		setProperty( IImageItemModel.ACTION_PROP, action );
-
-		if ( action == null )
-			return null;
-		return (ActionHandle) action
-				.getHandle( getPropertyHandle( IImageItemModel.ACTION_PROP ) );
+		return ModelUtil.setAction( this, ACTION_PROP, action );
 	}
 
 	/**
@@ -756,8 +752,6 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	{
 		setURIProperty( expr, DesignChoiceConstants.IMAGE_REF_TYPE_URL );
 	}
-
-
 
 	/**
 	 * Sets the image uri property by an expression. The source type is

@@ -367,6 +367,31 @@ public class PropertyCommandTest extends BaseTestCase
 	}
 
 	/**
+	 * Tests the setProperty that the value is structure and the context of it
+	 * is not null. In this case, we will make a copy of the given structure and
+	 * then set it to the element.
+	 * 
+	 * @throws Exception
+	 */
+	public void testSetProperty_1( ) throws Exception
+	{
+		// action has set in image, so it has structure context
+		Action action = (Action) actionHandle.getStructure( );
+		assertEquals( actionHandle.getStructure( ), imageHandle
+				.getProperty( ImageHandle.ACTION_PROP ) );
+		StructureContext context = action.getContext( );
+		assertNotNull( context );
+
+		// set this action to another element, we will make a copy and original
+		// action will have no change
+		LabelHandle labelHandle = designHandle.getElementFactory( ).newLabel(
+				null );
+		ActionHandle labelActionHandle = labelHandle.setAction( action );
+		assertNotSame( action, labelActionHandle.getStructure( ) );
+		assertEquals( context, action.getContext( ) );
+	}
+
+	/**
 	 * Test setProperty method. especially for compatible with set toc string
 	 * value.
 	 * 

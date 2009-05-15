@@ -240,6 +240,15 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		value = validateCompatibleObject( prop, value );
 
+		// if this structure has context, that may mean that it has been added
+		// to some element or structure container, then make a copy
+		if ( value instanceof Structure )
+		{
+			Structure struct = (Structure) value;
+			if ( struct.getContext( ) != null )
+				value = struct.copy( );
+		}
+
 		value = validateValue( prop, value );
 
 		if ( value instanceof ElementRefValue
@@ -977,6 +986,14 @@ public class PropertyCommand extends AbstractPropertyCommand
 		assertExtendedElement( module, element, propDefn );
 
 		assert memberDefn != null;
+		// if this structure has context, that may mean that it has been added
+		// to some element or structure container, then make a copy
+		if ( value instanceof Structure )
+		{
+			Structure struct = (Structure) value;
+			if ( struct.getContext( ) != null )
+				value = struct.copy( );
+		}
 		value = memberDefn.validateValue( module, value );
 
 		// if set the value to the name of a structure, must ensure this
