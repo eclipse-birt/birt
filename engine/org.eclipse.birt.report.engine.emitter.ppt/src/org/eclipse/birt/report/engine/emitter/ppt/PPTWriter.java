@@ -300,7 +300,7 @@ public class PPTWriter
 		BaseFont baseFont = fontInfo.getBaseFont( );
 		String fontName = getFontName( baseFont );
 
-		println( "<v:shape id=3D\"_x0000_s" + ( ++shapeCount ) + "\" type=3D\"#_x0000_t" + shapeCount + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+		println( "<v:shape id=3D\"_x0000_s" + ( ++shapeCount ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 		println( " style=3D'position:absolute;left:" + textX + "pt;top:" + textY + "pt;width:" + width + "pt;height:" + height + "pt;v-text-anchor:top;mso-wrap-style:none;'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		println( " filled=3D'f' stroked=3D'f'>" ); //$NON-NLS-1$
 		println( "<v:textbox style=3D'mso-fit-shape-to-text:f;' inset=3D'0.00pt 0.00pt 0.00pt 0.00pt'/>" ); //$NON-NLS-1$
