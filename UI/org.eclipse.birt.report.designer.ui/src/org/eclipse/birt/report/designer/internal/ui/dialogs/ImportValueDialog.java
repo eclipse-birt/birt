@@ -583,6 +583,7 @@ public class ImportValueDialog extends BaseDialog
 				IQueryDefinition query = DataUtil.getPreparedQuery( engine,
 						getDataSetHandle( ) ).getReportQueryDefn( );
 				String queryExpr = null;
+				int queryValueType = -1;
 				for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 				{
 					ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next( );
@@ -590,6 +591,7 @@ public class ImportValueDialog extends BaseDialog
 							.equals( columnChooser.getText( ) ) )
 					{
 						queryExpr = DEUtil.getResultSetColumnExpression( column.getColumnName( ) );
+						queryValueType = DataAdapterUtil.adaptModelDataType( column.getDataType( ) );
 						selectedColumn = column;
 						break;
 					}
@@ -602,8 +604,7 @@ public class ImportValueDialog extends BaseDialog
 				String columnBindingName = "_$_COLUMNBINDINGNAME_$_"; //$NON-NLS-1$
 				Binding binding = new Binding( columnBindingName );
 				binding.setExpression( expression );
-				if ( expression != null )
-					binding.setDataType( expression.getDataType( ) );
+				binding.setDataType( queryValueType );
 				query.addBinding( binding );
 				DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
 						getDataSetHandle( ).getModuleHandle( ) );
