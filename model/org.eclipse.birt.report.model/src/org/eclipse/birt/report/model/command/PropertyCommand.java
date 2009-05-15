@@ -723,7 +723,19 @@ public class PropertyCommand extends AbstractPropertyCommand
 			if ( propDefn == null )
 				continue;
 
-			if ( source.getDefn( ).getProperty( propName ) == null )
+			ElementPropertyDefn sourcePropDefn = (ElementPropertyDefn) source
+					.getDefn( ).getProperty( propName );
+
+			if ( sourcePropDefn == null )
+				continue;
+
+			// the filter is the special case. See
+			// IListingElementModel.FILTER_PROP and
+			// IExtendedItemModel.FILTER_PROP. Same to sorter
+
+			if ( propDefn != sourcePropDefn
+					&& !IListingElementModel.FILTER_PROP
+							.equalsIgnoreCase( propName ) )
 				continue;
 
 			Object value = targetElement.getStrategy( )
@@ -740,8 +752,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 			// Set the list value on the element itself.
 
-			PropertyRecord propRecord = new PropertyRecord( source, propDefn,
-					value );
+			PropertyRecord propRecord = new PropertyRecord( source,
+					sourcePropDefn, value );
 			getActivityStack( ).execute( propRecord );
 		}
 	}
