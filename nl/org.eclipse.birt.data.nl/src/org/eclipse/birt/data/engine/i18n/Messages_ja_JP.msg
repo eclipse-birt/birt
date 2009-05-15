@@ -411,3 +411,8 @@ data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can not be such t
 data.derivedDataSet.columnNotExist=列名 \"{0}\" が存在しません。
 data.derivedDataSet.UnionQueryTextParseError="和集合クエリを解析できません。 \"{0}\""
 data.derivedDataSet.JoinQueryTextParseError="ジョインクエリを解析できません。 \"{0}\""
+
+data.derivedDataSet.illegalClassInstance=Illegal class instance to initialize.
+data.derivedDataSet.classLoadError=Fail to load class instance.
+data.derivedDataSet.calculatorNotExist=Calculator is not defined or can not be found.
+data.derivedDataSet.invalidQueryText=Invalid query text.
