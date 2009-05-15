@@ -1120,7 +1120,10 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				ITextContent textObj = reportContent.createTextContent( );
 				textObj.setText( output.toString( ) );
 				return textObj;
-				
+
+			case IReportItemPresentation.OUTPUT_AS_UNKNOWN :
+				return content;
+
 			default :
 				assert false;
 				logger.log( Level.WARNING, "unsupported output format:{0}", //$NON-NLS-1$
