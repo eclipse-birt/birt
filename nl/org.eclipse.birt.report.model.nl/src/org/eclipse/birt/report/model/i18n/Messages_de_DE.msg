@@ -1959,7 +1959,7 @@ Structure.ResultSetColumn.nativeDataType=Programmeigener Datentypcode
 #15. ComputedColumn
 Structure.ComputedColumn.name=Spaltenname
 Structure.ComputedColumn.displayName=Spaltenanzeigename
-Structure.ComputedColumn.displayNameID=Column Display Name ID
+Structure.ComputedColumn.displayNameID=Spaltenanzeigenamen-ID
 Structure.ComputedColumn.expression=Ausdruck
 Structure.ComputedColumn.dataType=Datentyp
 Structure.ComputedColumn.aggregateOn=Ausdruck "AggregateOn"

@@ -9,10 +9,10 @@ Shared.mne.Background_K=背景 (&K):
 
 ChartWithAxesImpl.Z_Axis.title=Z 軸のタイトル
 ChartSheetImpl.Buttom.Auto=自動(&U)
-ChartSheetImpl.Button.AutoHide=Hi&de the chart if there is no data to display.
+ChartSheetImpl.Button.AutoHide=データがないグラフを非表示にする(&D)
 ChartSheetImpl.Button.EnableStudyLayout=Enable study layout
-ChartSheetImpl.Button.ShowEmptyMsg=Show the chart with the following &message:
-ChartSheetImpl.Group.EmptyMessage=Chart Visibility
+ChartSheetImpl.Button.ShowEmptyMsg=次のメッセージを持つグラフを表示する :
+ChartSheetImpl.Group.EmptyMessage=グラフの可視性
 ChartSheetImpl.Label.Outline=外枠 :
 ChartLegendImpl.Group.Rotation=回転
 ChartPlotSheetImpl.Label.Outline=外枠 :
@@ -1022,8 +1022,8 @@ ssPreferencesContentAssistFilter= ポップアップが開いたまま入力したとき :
 ssPreferencesContentAssistFilterCumulative= 累積入力でポップアップコンテンツをフィルタする(&L)
 ssPreferencesContentAssistFilterCharacter= 最後に入力した文字でポップアップをフィルタする(&T)
 ssPreferencesContentAssistFilterNone= フィルタなし(&N)
-ssPreferencesShowRequiredFieldLabelIndicator= Identify required fields
-ssPreferencesAssistSymbol= Location of the assist symbol
+ssPreferencesShowRequiredFieldLabelIndicator= 必須フィールドの識別
+ssPreferencesAssistSymbol= アシストシンボルの場所
 
 ssDecoratorContentAssist= このフィールドで利用できるコンテンツのアシストについては、{0} を押します。
 ssDecorationMenuItem=無効な文字を削除する

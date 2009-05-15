@@ -9,10 +9,10 @@ Shared.mne.Background_K=背景(&K):
 
 ChartWithAxesImpl.Z_Axis.title=Z 轴标题
 ChartSheetImpl.Buttom.Auto=自动(&U)
-ChartSheetImpl.Button.AutoHide=Hi&de the chart if there is no data to display.
+ChartSheetImpl.Button.AutoHide=如果没有可显示的数据，请隐藏图表(&D)。
 ChartSheetImpl.Button.EnableStudyLayout=Enable study layout
-ChartSheetImpl.Button.ShowEmptyMsg=Show the chart with the following &message:
-ChartSheetImpl.Group.EmptyMessage=Chart Visibility
+ChartSheetImpl.Button.ShowEmptyMsg=显示包括以下消息的图表：
+ChartSheetImpl.Group.EmptyMessage=图表可见性
 ChartSheetImpl.Label.Outline=边框:
 ChartLegendImpl.Group.Rotation=旋转
 ChartPlotSheetImpl.Label.Outline=边框:
@@ -1022,8 +1022,8 @@ ssPreferencesContentAssistFilter= 弹出窗口打开时键入内容:
 ssPreferencesContentAssistFilterCumulative= 使用累积键入方式筛选弹出窗口内容(&L)
 ssPreferencesContentAssistFilterCharacter= 根据最后键入的字符筛选弹出窗口(&T)
 ssPreferencesContentAssistFilterNone= 无筛选(&N)
-ssPreferencesShowRequiredFieldLabelIndicator= Identify required fields
-ssPreferencesAssistSymbol= Location of the assist symbol
+ssPreferencesShowRequiredFieldLabelIndicator= 识别必需字段
+ssPreferencesAssistSymbol= 辅助符号的位置
 
 ssDecoratorContentAssist= 可用于此字段的内容辅助，按 {0}
 ssDecorationMenuItem=删除非法字符

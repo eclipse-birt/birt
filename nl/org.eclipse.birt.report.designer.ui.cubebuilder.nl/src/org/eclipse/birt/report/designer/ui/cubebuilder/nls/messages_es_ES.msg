@@ -37,8 +37,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Title=Advertencia
 CubeBuilder.Title=Compilador de cubos de tabla de referencias cruzadas
 DatasePage.EmptyName.ErrorMessage=Se requiere el nombre de cubo.
 DatasetPage.Title=Conjunto de datos
-GroupDialog.Button.DateGroup=&Date Group
-GroupDialog.Button.RegularGroup=&Regular Group
+GroupDialog.Button.DateGroup=&Grupo de fecha
+GroupDialog.Button.RegularGroup=G&rupo regular
 GroupsPage.Title=Grupos y resúmenes
 LinkGroupsPage.Title=Grupos de link
 DatasetPage.Label.Name=&Nombre:
@@ -145,8 +145,8 @@ DateLevelDialog.Shell.Title=Editar nivel de fecha
 DateLevelDialog.Interval.Base=Utilizar un valor de base fijo para el intervalo:
 DateGroupDialog.Name=&Nombre:
 DateLevelDialog.Name=&Nombre:
-DateLevelDialog.Type=&Type:
-DateLevelDialog.Format=&Format:
+DateLevelDialog.Type=&Tipo:
+DateLevelDialog.Format=&Formato:
 DateLevelDialog.None=Ninguno
 
 ############################################################

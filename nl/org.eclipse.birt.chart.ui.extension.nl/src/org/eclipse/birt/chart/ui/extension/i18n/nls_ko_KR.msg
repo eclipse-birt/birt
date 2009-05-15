@@ -9,10 +9,10 @@ Shared.mne.Background_K=배경(&K):
 
 ChartWithAxesImpl.Z_Axis.title=Z축 제목
 ChartSheetImpl.Buttom.Auto=자동(&U)
-ChartSheetImpl.Button.AutoHide=Hi&de the chart if there is no data to display.
+ChartSheetImpl.Button.AutoHide=표시할 데이터가 없는 경우 차트 숨기기(&D)
 ChartSheetImpl.Button.EnableStudyLayout=Enable study layout
-ChartSheetImpl.Button.ShowEmptyMsg=Show the chart with the following &message:
-ChartSheetImpl.Group.EmptyMessage=Chart Visibility
+ChartSheetImpl.Button.ShowEmptyMsg=다음 메시지가 있는 차트 표시
+ChartSheetImpl.Group.EmptyMessage=차트 표시 유형
 ChartSheetImpl.Label.Outline=윤곽선:
 ChartLegendImpl.Group.Rotation=회전
 ChartPlotSheetImpl.Label.Outline=윤곽선:
@@ -1022,8 +1022,8 @@ ssPreferencesContentAssistFilter= 팝업이 열려 있는 동안 입력하는 경우:
 ssPreferencesContentAssistFilterCumulative= 누적 입력으로 팝업 내용 필터링(&L)
 ssPreferencesContentAssistFilterCharacter= 입력된 마지막 문자에 따라 팝업 필터링(&T)
 ssPreferencesContentAssistFilterNone= 필터링하지 않음(&N)
-ssPreferencesShowRequiredFieldLabelIndicator= Identify required fields
-ssPreferencesAssistSymbol= Location of the assist symbol
+ssPreferencesShowRequiredFieldLabelIndicator= 필수 필드 식별
+ssPreferencesAssistSymbol= 지원 기호 위치
 
 ssDecoratorContentAssist= 이 필드에 사용 가능한 내용 지원을 보려면 {0}을(를) 누르십시오.
 ssDecorationMenuItem=잘못된 문자 제거

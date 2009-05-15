@@ -1959,7 +1959,7 @@ Structure.ResultSetColumn.nativeDataType=本地数据类型代码
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
 Structure.ComputedColumn.displayName=列显示名称
-Structure.ComputedColumn.displayNameID=Column Display Name ID
+Structure.ComputedColumn.displayNameID=列显示名称 ID
 Structure.ComputedColumn.expression=表达式
 Structure.ComputedColumn.dataType=数据类型
 Structure.ComputedColumn.aggregateOn=AggregateOn 表达式

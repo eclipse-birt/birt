@@ -704,8 +704,8 @@ datasource.editor.duplicatedName=데이터 원본 이름 "{0}"이(가) 중복됨
 datasource.error.title.noReportDesign=오류
 datasource.error.msg.noReportDesign=보고서 디자인을 사용할 수 없습니다.
 datasource.exprotToCP.title=내보내기
-datasource.exportToCP.message=You are exporting "{0}" to Data Source Explorer.
-datasource.exportToCP.checkBox=Create a Connection Profile Store for the exported data source
+datasource.exportToCP.message=데이터 원본 탐색기로 "{0}"을(를) 내보내고 있습니다.
+datasource.exportToCP.checkBox=내보낸 데이터 원본에 대한 연결 프로필 저장소 생성
 
 ###########################################################
 #DataSourceProcess properties
@@ -1425,7 +1425,7 @@ ExportToLibraryAction.Message.RememberDecision=선택을 저장합니다.
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=라이브러리로 내보내기(&X)...
-ExportToCPSouceAction.action.text=Export to C&onnection Profile...
+ExportToCPSouceAction.action.text=연결 프로필로 내보내기(&O)...
 
 
 ###########################################################
@@ -1871,7 +1871,7 @@ HighlightRuleBuilderDialog.text.Description.Element.Row=행
 HighlightRuleBuilderDialog.text.Description.Element.Column=열
 HighlightRuleBuilderDialog.text.Description.Element.DataItem=데이터 항목
 HighlightRuleBuilderDialog.text.Description.Element.Cell=셀
-HighlightRuleBuilderDialog.text.Group.Condition=Con&dition
+HighlightRuleBuilderDialog.text.Group.Condition=조건(&D)
 HighlightRuleBuilderDialog.text.Group.Format=형식
 HighlightRuleBuilderDialog.text.Description.Element.ReportElement=보고서 요소
 
@@ -4536,7 +4536,7 @@ ShowPropertiesViewMenu.ErrorTitle=오류
 ###########################################################
 #ResetAttributePage
 ResetAttributePage.Style.Restore.TooltipText=현재 페이지의 스타일 속성을 기본 설정으로 복원합니다.
-ResetAttributePage.Style.Restore.Transaction.Name=Restore Style
+ResetAttributePage.Style.Restore.Transaction.Name=스타일 복원
 
 ###########################################################
 #TextEditor

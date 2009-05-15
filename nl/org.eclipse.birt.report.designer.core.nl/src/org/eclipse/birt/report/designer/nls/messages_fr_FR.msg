@@ -704,8 +704,8 @@ datasource.editor.duplicatedName=Le nom de la source de données "{0}" est dupliq
 datasource.error.title.noReportDesign=Erreur
 datasource.error.msg.noReportDesign=Aucun modèle d'état disponible.
 datasource.exprotToCP.title=Exporter
-datasource.exportToCP.message=You are exporting "{0}" to Data Source Explorer.
-datasource.exportToCP.checkBox=Create a Connection Profile Store for the exported data source
+datasource.exportToCP.message=Vous exportez "{0}" vers l'explorateur de source de données.
+datasource.exportToCP.checkBox=Créez un emplacement de stockage des profils de connexion pour la source de données exportée
 
 ###########################################################
 #DataSourceProcess properties
@@ -1425,7 +1425,7 @@ ExportToLibraryAction.Message.RememberDecision=Mémoriser ma décision.
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=E&xporter vers la bibliothèque...
-ExportToCPSouceAction.action.text=Export to C&onnection Profile...
+ExportToCPSouceAction.action.text=Exporter vers le profil de c&onnexion...
 
 
 ###########################################################
@@ -4536,7 +4536,7 @@ ShowPropertiesViewMenu.ErrorTitle=Erreur
 ###########################################################
 #ResetAttributePage
 ResetAttributePage.Style.Restore.TooltipText=Restaurer les paramètres par défaut des propriétés de style de la page en cours
-ResetAttributePage.Style.Restore.Transaction.Name=Restore Style
+ResetAttributePage.Style.Restore.Transaction.Name=Restaurer le style
 
 ###########################################################
 #TextEditor

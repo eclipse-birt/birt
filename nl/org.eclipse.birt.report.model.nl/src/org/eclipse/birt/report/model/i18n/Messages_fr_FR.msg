@@ -1959,7 +1959,7 @@ Structure.ResultSetColumn.nativeDataType=Code de type de données natives
 #15. ComputedColumn
 Structure.ComputedColumn.name=Nom de colonne
 Structure.ComputedColumn.displayName=Nom d'affichage de la colonne
-Structure.ComputedColumn.displayNameID=Column Display Name ID
+Structure.ComputedColumn.displayNameID=ID du nom d'affichage de la colonne
 Structure.ComputedColumn.expression=Expression
 Structure.ComputedColumn.dataType=Type de données
 Structure.ComputedColumn.aggregateOn=Expression AggregateOn

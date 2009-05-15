@@ -37,8 +37,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Title=警告
 CubeBuilder.Title=クロスタブキューブビルダ
 DatasePage.EmptyName.ErrorMessage=キューブの名前を指定する必要があります。
 DatasetPage.Title=データセット
-GroupDialog.Button.DateGroup=&Date Group
-GroupDialog.Button.RegularGroup=&Regular Group
+GroupDialog.Button.DateGroup=日付グループ(&D)
+GroupDialog.Button.RegularGroup=通常グループ(&R)
 GroupsPage.Title=グループとサマリ
 LinkGroupsPage.Title=リンクグループ
 DatasetPage.Label.Name=名前(&N) :
@@ -145,8 +145,8 @@ DateLevelDialog.Shell.Title=日付レベルの編集
 DateLevelDialog.Interval.Base=丸めた数値を間隔の基準値として使用する :
 DateGroupDialog.Name=名前(&N) :
 DateLevelDialog.Name=名前(&N) :
-DateLevelDialog.Type=&Type:
-DateLevelDialog.Format=&Format:
+DateLevelDialog.Type=型(&T) :
+DateLevelDialog.Format=形式(&F) :
 DateLevelDialog.None=なし
 
 ############################################################
