@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2008 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.internal.document.v4;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
@@ -31,6 +32,7 @@ import org.eclipse.birt.report.engine.emitter.DOMBuilderEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.executor.PageVariable;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
@@ -113,6 +115,12 @@ abstract public class AbstractReportExecutor implements IReportExecutor
 			pageReader = new CachedReportContentReaderV3( reportContent, in,
 					context );
 			hintsReader = new PageHintReader( reportDoc );
+			//load the report variables
+			Collection<PageVariable> vars = hintsReader.getPageVariables( );
+			if ( vars != null )
+			{
+				context.addPageVariables( vars );
+			}
 		}
 		catch ( IOException ex )
 		{

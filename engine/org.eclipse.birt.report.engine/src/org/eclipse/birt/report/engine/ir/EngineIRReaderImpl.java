@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -169,6 +170,29 @@ public class EngineIRReaderImpl implements IOConstants
 				case FIELD_REPORT_BODY :
 					readReportBodyContent( dis );
 					break;
+				case FIELD_REPORT_VARIABLE :
+					readReportVariable( dis );
+					break;
+				case FIELD_ON_PAGE_START :
+					String scriptText = IOUtil.readString( dis );
+					if ( scriptText != null )
+					{
+						ScriptExpression script = new ScriptExpression(
+								scriptText );
+						reportDesign.setOnPageStart( script );
+					}
+					break;
+
+				case FIELD_ON_PAGE_END:
+					scriptText = IOUtil.readString( dis );
+					if ( scriptText != null )
+					{
+						ScriptExpression script = new ScriptExpression(
+								scriptText );
+						reportDesign.setOnPageEnd( script );
+					}
+					break;
+
 				default :
 					throw new IOException( "unknow report segment type:" + reportSegmentType ); //$NON-NLS-1$
 			}
@@ -230,7 +254,19 @@ public class EngineIRReaderImpl implements IOConstants
 			reportDesign.addContent( item );
 		}
 	}
-
+	private void readReportVariable( DataInputStream dis ) throws IOException
+	{
+		// style informations
+		Collection<PageVariableDesign> vars = reportDesign.getPageVariables( );
+		int varCount = IOUtil.readInt( dis );
+		for ( int i = 0; i < varCount; i++ )
+		{
+			String varName = IOUtil.readString( dis );
+			String varScope = IOUtil.readString( dis );
+			vars.add( new PageVariableDesign( varName, varScope ) );
+		}
+	}
+	
 	protected Object readDesign( DataInputStream in ) throws IOException
 	{
 		// read the type

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -60,27 +60,34 @@ public class AutoTextItemExecutor extends StyledItemExecutor
 		initializeContent( textDesign, textContent );
 		processStyle( design, content );
 		processVisibility( design, content );
-		
-		String type = ((AutoTextItemDesign)design).getType();
-		if (DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER.equalsIgnoreCase(type))
+
+		String type = ( (AutoTextItemDesign) design ).getType( );
+		if ( DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER
+				.equalsIgnoreCase( type ) )
 		{
-			textContent.setType(IAutoTextContent.PAGE_NUMBER);
-			// If we can get the current page No., set it.
-			textContent.setText(String.valueOf(context.getPageNumber()));
+			textContent.setType( IAutoTextContent.PAGE_NUMBER );
 		}
-		else if (DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE.equalsIgnoreCase(type))
+		else if ( DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE
+				.equalsIgnoreCase( type ) )
 		{
-			textContent.setType(IAutoTextContent.TOTAL_PAGE);
-			long totalPage = context.getTotalPage();
-			if (totalPage <= 0)
-			{
-				textContent.setText("---");
-			}
-			else
-			{
-				textContent.setText(String.valueOf(context.getTotalPage()));
-			}
+			textContent.setType( IAutoTextContent.TOTAL_PAGE );
 		}
+		else if ( DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER_UNFILTERED
+				.equalsIgnoreCase( type ) )
+		{
+			textContent.setType( IAutoTextContent.UNFILTERED_PAGE_NUMBER );
+		}
+		else if ( DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE_UNFILTERED
+				.equalsIgnoreCase( type ) )
+		{
+			textContent.setType( IAutoTextContent.UNFILTERED_TOTAL_PAGE );
+		}
+		else if ( DesignChoiceConstants.AUTO_TEXT_PAGE_VARIABLE
+				.equalsIgnoreCase( type ) )
+		{
+			textContent.setType( IAutoTextContent.PAGE_VARIABLE );
+		}
+
 		if ( context.isInFactory( ) )
 		{
 			handleOnCreate( textContent );

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -46,6 +47,7 @@ import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
+import org.eclipse.birt.report.engine.executor.PageVariable;
 import org.eclipse.birt.report.engine.extension.engine.IContentProcessor;
 import org.eclipse.birt.report.engine.extension.engine.IDocumentExtension;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
@@ -57,7 +59,8 @@ import org.eclipse.birt.report.engine.internal.document.v4.PageHintWriterV4;
 import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
-import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
+import org.eclipse.birt.report.engine.ir.MasterPageDesign;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
@@ -102,10 +105,6 @@ public class ReportDocumentBuilder
 	 * current page number
 	 */
 	protected long pageNumber;
-	/**
-	 * the offset of the page content
-	 */
-	protected long pageOffset;
 
 	/**
 	 * report document used to save the informations.
@@ -153,11 +152,12 @@ public class ReportDocumentBuilder
 
 		// page handler is used to receive the layout engine's page event.
 		layoutPageHandler = new CompositeLayoutPageHandler( );
+		// used to call the onPageBreak script, collected by its
+		// PageContentEmitter, as the onPageBreak script may changes the page
+		// hint, so it should added before the layout page handler
+		layoutPageHandler.addPageHandler( onPageBreakHandler );
 		// used to write the page hint, created by itself.
 		layoutPageHandler.addPageHandler( new LayoutPageHandler( ) );
-		// used to call the onPageBreak script, collected by its
-		// PageContentEmitter.
-		layoutPageHandler.addPageHandler( onPageBreakHandler );
 		// used to call the onPageBreak of IPageBreakListener to reset the page
 		// row count.
 		layoutPageHandler.addPageHandler( new ContextPageBreakHandler(
@@ -390,7 +390,7 @@ public class ReportDocumentBuilder
 
 		IReportContentWriter pageWriter;
 		RAOutputStream indexStream;
-		HashSet masterPages = new HashSet( );
+		HashSet<String> savedMasterPages = new HashSet<String>( );
 
 		protected void open( )
 		{
@@ -452,32 +452,30 @@ public class ReportDocumentBuilder
 			// write the page contents
 			try
 			{
-				pageOffset = writeFullContent( pageWriter, page );
-				String masterPage = null;
+				String masterPageName = null;
 				Object generateBy = page.getGenerateBy( );
 				if ( generateBy != null
-						&& generateBy instanceof SimpleMasterPageDesign )
+						&& generateBy instanceof MasterPageDesign )
 				{
-					masterPage = ( (SimpleMasterPageDesign) generateBy )
+					masterPageName = ( (MasterPageDesign) generateBy )
 							.getName( );
 				}
 
-				if ( masterPage != null && !masterPages.contains( masterPage )
-						&& pageOffset >= 0 )
+				if ( !savedMasterPages.contains( masterPageName ) )
 				{
+					long pageOffset = writeFullContent( pageWriter, page );
 					writeBuffer.reset( );
 					DataOutputStream indexBuffer = new DataOutputStream(
 							writeBuffer );
-					IOUtil.writeString( indexBuffer, masterPage );
+					IOUtil.writeString( indexBuffer, masterPageName );
 					IOUtil.writeLong( indexBuffer, pageOffset );
 					indexStream.write( writeBuffer.toByteArray( ) );
-					masterPages.add( masterPage );
+					savedMasterPages.add( masterPageName );
 				}
 			}
 			catch ( IOException ex )
 			{
 				logger.log( Level.SEVERE, "write page content failed", ex );
-				pageOffset = -1;
 				close( );
 			}
 		}
@@ -546,6 +544,24 @@ public class ReportDocumentBuilder
 			}
 		}
 
+		void writePageVariables( )
+		{
+			if ( ensureOpen( ) )
+			{
+				try
+				{
+					Collection<PageVariable> vars = getReportVariable( );
+					hintWriter.writePageVariables( vars );
+				}
+				catch ( IOException ex )
+				{
+					logger.log( Level.SEVERE,
+							"Failed to save the page variables", ex );
+					close( );
+				}
+			}
+		}
+
 		void writePageHint( PageHint pageHint )
 		{
 			if ( ensureOpen( ) )
@@ -604,6 +620,34 @@ public class ReportDocumentBuilder
 			return section;
 		}
 
+		private Collection<PageVariable> getReportVariable( )
+		{
+			Collection<PageVariable> reportVars = new ArrayList<PageVariable>( );
+			Collection<PageVariable> vars = executionContext.getPageVariables( );
+			for ( PageVariable var : vars )
+			{
+				if ( PageVariable.SCOPE_REPORT.equals( var.getScope( ) ) )
+				{
+					reportVars.add( var );
+				}
+			}
+			return reportVars;
+		}
+
+		private Collection<PageVariable> getPageVariable( )
+		{
+			Collection<PageVariable> pageVars = new ArrayList<PageVariable>( );
+			Collection<PageVariable> vars = executionContext.getPageVariables( );
+			for ( PageVariable var : vars )
+			{
+				if ( PageVariable.SCOPE_PAGE.equals( var.getScope( ) ) )
+				{
+					pageVars.add( var );
+				}
+			}
+			return pageVars;
+		}
+
 		public void onPage( long pageNumber, Object context )
 		{
 			if ( context instanceof HTMLLayoutContext )
@@ -614,6 +658,7 @@ public class ReportDocumentBuilder
 				boolean reportFinished = htmlContext.isFinished( );
 				if ( reportFinished )
 				{
+					writePageVariables( );
 					writeTotalPage( pageNumber );
 					close( );
 					return;
@@ -644,6 +689,10 @@ public class ReportDocumentBuilder
 						.addUnresolvedRowHints( htmlContext
 								.getUnresolvedRowHints( ) );
 				hint.addTableColumnHints( htmlContext.getTableColumnHints( ) );
+
+				Collection<PageVariable> vars = getPageVariable( );
+				hint.getPageVariables( ).addAll( vars );
+
 				writePageHint( hint );
 
 				if ( checkpoint )
@@ -652,6 +701,7 @@ public class ReportDocumentBuilder
 					{
 						IDocArchiveWriter archive = document.getArchive( );
 						writeTotalPage( pageNumber );
+						
 						document
 								.savePersistentObjects( ReportDocumentBuilder.this.executionContext
 										.getGlobalBeans( ) );

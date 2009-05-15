@@ -288,7 +288,7 @@ public abstract class AbstractEmitterImpl
 
 	public void startAutoText( IAutoTextContent autoText )
 	{
-		writeContent( autoText.getType( ), null, autoText );
+		writeContent( autoText.getType( ), autoText.getText( ), autoText );
 	}
 
 	public void startData( IDataContent data )
@@ -820,7 +820,7 @@ public abstract class AbstractEmitterImpl
 		{
 			TextFlag textFlag = TextFlag.START;
 			String fontFamily = null;
-			if ( "".equals( txt ) || txt == null )
+			if ( "".equals( txt ) || txt == null || WordUtil.isField( content ) )
 			{
 				wordWriter.writeContent( type, txt, computedStyle, inlineStyle,
 						fontFamily, hyper, inlineFlag, textFlag );

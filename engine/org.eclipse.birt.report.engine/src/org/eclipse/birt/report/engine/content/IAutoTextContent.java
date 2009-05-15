@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,6 +28,7 @@ public interface IAutoTextContent extends ITextContent
 	public static final int PAGE_NUMBER = 1;
 	public static final int UNFILTERED_TOTAL_PAGE = 2;
 	public static final int UNFILTERED_PAGE_NUMBER = 3;
+	public static final int PAGE_VARIABLE = 4;
 	
 	/**
 	 * Set the type of the AutoText Content. This type must be one of the

@@ -55,6 +55,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setLetterSpacing( String spacing )
 	{
+		checkWritable( );
 		style.setLetterSpacing( spacing );
 	}
 
@@ -71,6 +72,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setLineHeight( String lineHeight )
 	{
+		checkWritable( );
 		style.setLineHeight( lineHeight );
 	}
 
@@ -89,6 +91,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setTextAlign( String align )
 	{
+		checkWritable( );
 		style.setTextAlign( align );
 	}
 
@@ -105,6 +108,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setTextIndent( String indent )
 	{
+		checkWritable( );
 		style.setTextIndent( indent );
 	}
 
@@ -123,6 +127,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setTextTransform( String transform )
 	{
+		checkWritable( );
 		style.setTextTransform( transform );
 	}
 
@@ -141,6 +146,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setVerticalAlign( String valign )
 	{
+		checkWritable( );
 		style.setVerticalAlign( valign );
 	}
 
@@ -157,6 +163,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setWhiteSpace( String whitespace )
 	{
+		checkWritable( );
 		style.setWhiteSpace( whitespace );
 	}
 
@@ -173,6 +180,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setWordSpacing( String wordspacing )
 	{
+		checkWritable( );
 		style.setWordSpacing( wordspacing );
 	}
 
@@ -189,13 +197,14 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setColor( String color )
 	{
+		checkWritable( );
 		style.setColor( color );
 	}
 
 	/**
 	 * Get the attachement type (either SCROLL or FIXED)
-	 * @deprecated
-	 * replaced by getBackgroundAttachment()
+	 * 
+	 * @deprecated replaced by getBackgroundAttachment()
 	 */
 	public String getBackgroundAttachement( )
 	{
@@ -204,14 +213,15 @@ public class StyleInstance implements IScriptStyle
 
 	/**
 	 * Set the attachement type (either SCROLL or FIXED)
-	 * @deprecated
-	 * replaced by setBackgroundAttachment( String attachment )
+	 * 
+	 * @deprecated replaced by setBackgroundAttachment( String attachment )
 	 */
 	public void setBackgroundAttachement( String attachement )
 	{
+		checkWritable( );
 		style.setBackgroundAttachment( attachement );
 	}
-	
+
 	/**
 	 * Get the attachment type (either SCROLL or FIXED)
 	 */
@@ -225,9 +235,10 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBackgroundAttachment( String attachment )
 	{
+		checkWritable( );
 		style.setBackgroundAttachment( attachment );
 	}
-	
+
 	/**
 	 * Get the background color
 	 */
@@ -241,6 +252,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBackgroundColor( String color )
 	{
+		checkWritable( );
 		style.setBackgroundColor( color );
 	}
 
@@ -257,6 +269,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBackgroundImage( String imageURI )
 	{
+		checkWritable( );
 		style.setBackgroundImage( imageURI );
 	}
 
@@ -275,6 +288,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBackgroundRepeat( String repeat )
 	{
+		checkWritable( );
 		style.setBackgroundRepeat( repeat );
 	}
 
@@ -291,6 +305,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBorderBottomColor( String color )
 	{
+		checkWritable( );
 		style.setBorderBottomColor( color );
 	}
 
@@ -307,6 +322,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBorderTopColor( String color )
 	{
+		checkWritable( );
 		style.setBorderTopColor( color );
 	}
 
@@ -323,6 +339,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBorderRightColor( String color )
 	{
+		checkWritable( );
 		style.setBorderRightColor( color );
 	}
 
@@ -339,6 +356,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBorderLeftColor( String color )
 	{
+		checkWritable( );
 		style.setBorderLeftColor( color );
 	}
 
@@ -357,6 +375,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBorderBottomStyle( String borderstyle )
 	{
+		checkWritable( );
 		style.setBorderBottomStyle( borderstyle );
 	}
 
@@ -375,6 +394,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBorderTopStyle( String borderstyle )
 	{
+		checkWritable( );
 		style.setBorderTopStyle( borderstyle );
 	}
 
@@ -393,6 +413,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBorderLeftStyle( String borderstyle )
 	{
+		checkWritable( );
 		style.setBorderLeftStyle( borderstyle );
 	}
 
@@ -411,6 +432,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBorderRightStyle( String borderstyle )
 	{
+		checkWritable( );
 		style.setBorderRightStyle( borderstyle );
 	}
 
@@ -427,6 +449,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBorderBottomWidth( String width )
 	{
+		checkWritable( );
 		style.setBorderBottomWidth( width );
 	}
 
@@ -443,6 +466,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBorderTopWidth( String width )
 	{
+		checkWritable( );
 		style.setBorderTopWidth( width );
 	}
 
@@ -459,6 +483,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBorderLeftWidth( String width )
 	{
+		checkWritable( );
 		style.setBorderLeftWidth( width );
 	}
 
@@ -475,6 +500,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setBorderRightWidth( String width )
 	{
+		checkWritable( );
 		style.setBorderRightWidth( width );
 	}
 
@@ -491,6 +517,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setMarginBottom( String margin )
 	{
+		checkWritable( );
 		style.setMarginBottom( margin );
 	}
 
@@ -507,6 +534,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setMarginTop( String margin )
 	{
+		checkWritable( );
 		style.setMarginTop( margin );
 	}
 
@@ -523,6 +551,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setMarginLeft( String margin )
 	{
+		checkWritable( );
 		style.setMarginLeft( margin );
 	}
 
@@ -539,6 +568,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setMarginRight( String margin )
 	{
+		checkWritable( );
 		style.setMarginRight( margin );
 	}
 
@@ -555,6 +585,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setPaddingBottom( String padding )
 	{
+		checkWritable( );
 		style.setPaddingBottom( padding );
 	}
 
@@ -571,6 +602,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setPaddingTop( String padding )
 	{
+		checkWritable( );
 		style.setPaddingTop( padding );
 	}
 
@@ -587,6 +619,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setPaddingLeft( String padding )
 	{
+		checkWritable( );
 		style.setPaddingLeft( padding );
 	}
 
@@ -603,6 +636,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setPaddingRight( String padding )
 	{
+		checkWritable( );
 		style.setPaddingRight( padding );
 	}
 
@@ -619,6 +653,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setDisplay( String display )
 	{
+		checkWritable( );
 		style.setDisplay( display );
 	}
 
@@ -635,6 +670,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setMasterPage( String masterPage )
 	{
+		checkWritable( );
 		style.setMasterPage( masterPage );
 	}
 
@@ -651,6 +687,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setPageBreakBefore( String pageBreak )
 	{
+		checkWritable( );
 		checkRunningState( );
 		style.setPageBreakBefore( pageBreak );
 	}
@@ -668,6 +705,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setPageBreakAfter( String pageBreak )
 	{
+		checkWritable( );
 		checkRunningState( );
 		style.setPageBreakAfter( pageBreak );
 	}
@@ -685,6 +723,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setPageBreakInside( String pageBreak )
 	{
+		checkWritable( );
 		checkRunningState( );
 		style.setPageBreakInside( pageBreak );
 	}
@@ -702,6 +741,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setShowIfBlank( String showIfBlank )
 	{
+		checkWritable( );
 		style.setShowIfBlank( showIfBlank );
 	}
 
@@ -718,6 +758,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setCanShrink( String canShrink )
 	{
+		checkWritable( );
 		style.setCanShrink( canShrink );
 	}
 
@@ -738,6 +779,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setNumberFormat( String numberFormat )
 	{
+		checkWritable( );
 		style.setNumberFormat( numberFormat );
 	}
 
@@ -758,6 +800,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setDateFormat( String dateTimeFormat )
 	{
+		checkWritable( );
 		style.setDateFormat( dateTimeFormat );
 	}
 
@@ -778,6 +821,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setStringFormat( String stringFormat )
 	{
+		checkWritable( );
 		style.setStringFormat( stringFormat );
 	}
 
@@ -788,6 +832,7 @@ public class StyleInstance implements IScriptStyle
 
 	public void setFontFamily( String fontFamily )
 	{
+		checkWritable( );
 		style.setFontFamily( fontFamily );
 	}
 
@@ -798,6 +843,7 @@ public class StyleInstance implements IScriptStyle
 
 	public void setFontStyle( String fontStyle )
 	{
+		checkWritable( );
 		style.setFontStyle( fontStyle );
 	}
 
@@ -808,6 +854,7 @@ public class StyleInstance implements IScriptStyle
 
 	public void setFontVariant( String fontVariant )
 	{
+		checkWritable( );
 		style.setFontVariant( fontVariant );
 	}
 
@@ -818,6 +865,7 @@ public class StyleInstance implements IScriptStyle
 
 	public void setFontWeight( String fontWeight )
 	{
+		checkWritable( );
 		style.setFontWeight( fontWeight );
 	}
 
@@ -828,6 +876,7 @@ public class StyleInstance implements IScriptStyle
 
 	public void setFontSize( String fontSize )
 	{
+		checkWritable( );
 		style.setFontSize( fontSize );
 	}
 
@@ -838,10 +887,12 @@ public class StyleInstance implements IScriptStyle
 
 	public void setTextUnderline( String underline ) throws ScriptException
 	{
+		checkWritable( );
 		try
 		{
 			style.setTextUnderline( underline );
-		} catch ( DOMException e )
+		}
+		catch ( DOMException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -854,10 +905,12 @@ public class StyleInstance implements IScriptStyle
 
 	public void setTextOverline( String overline ) throws ScriptException
 	{
+		checkWritable( );
 		try
 		{
 			style.setTextOverline( overline );
-		} catch ( DOMException e )
+		}
+		catch ( DOMException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -870,10 +923,12 @@ public class StyleInstance implements IScriptStyle
 
 	public void setTextLineThrough( String through ) throws ScriptException
 	{
+		checkWritable( );
 		try
 		{
 			style.setTextLineThrough( through );
-		} catch ( DOMException e )
+		}
+		catch ( DOMException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -886,10 +941,12 @@ public class StyleInstance implements IScriptStyle
 
 	public void setBackgroundPositionX( String x ) throws ScriptException
 	{
+		checkWritable( );
 		try
 		{
 			style.setBackgroundPositionX( x );
-		} catch ( DOMException e )
+		}
+		catch ( DOMException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -902,16 +959,18 @@ public class StyleInstance implements IScriptStyle
 
 	public void setBackgroundPositionY( String y ) throws ScriptException
 	{
+		checkWritable( );
 		try
 		{
 			style.setBackgroundPositionY( y );
-		} catch ( DOMException e )
+		}
+		catch ( DOMException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
 	}
-	
-	public CSSValue getProperty(int index)
+
+	public CSSValue getProperty( int index )
 	{
 		return style.getProperty( index );
 	}
@@ -933,6 +992,7 @@ public class StyleInstance implements IScriptStyle
 	 */
 	public void setDirection( String dir )
 	{
+		checkWritable( );
 		style.setDirection( dir );
 	}
 
@@ -950,4 +1010,12 @@ public class StyleInstance implements IScriptStyle
 		}
 	}
 
+	private void checkWritable( )
+	{
+		if ( runningState == RunningState.PAGEBREAK )
+		{
+			throw new UnsupportedOperationException(
+					"the content is read only in onPageBreak script." );
+		}
+	}
 }

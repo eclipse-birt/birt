@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2007 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,9 +12,11 @@
 package org.eclipse.birt.report.engine.internal.document;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.executor.PageVariable;
 import org.eclipse.birt.report.engine.internal.document.v1.PageHintReaderV1;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
 import org.eclipse.birt.report.engine.internal.document.v3.PageHintReaderV3;
@@ -48,7 +50,6 @@ public class PageHintReader implements IPageHintReader
 		{
 			this.reader = new PageHintReaderV3( document.getArchive( ) );
 		}
-		
 	}
 
 	public int getVersion( )
@@ -64,6 +65,11 @@ public class PageHintReader implements IPageHintReader
 	public long getTotalPage( ) throws IOException
 	{
 		return reader.getTotalPage( );
+	}
+
+	public Collection<PageVariable> getPageVariables( ) throws IOException
+	{
+		return reader.getPageVariables( );
 	}
 
 	public IPageHint getPageHint( long pageNumber ) throws IOException

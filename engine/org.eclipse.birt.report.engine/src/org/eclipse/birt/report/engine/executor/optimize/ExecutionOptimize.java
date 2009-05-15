@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2007,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -69,6 +69,7 @@ public class ExecutionOptimize
 	{
 
 		Report report;
+		boolean disableOptimization;
 
 		boolean suppressDuplicate;
 		PolicyNode currentNode;
@@ -85,9 +86,20 @@ public class ExecutionOptimize
 		{
 			ExecutionPolicy policies = new ExecutionPolicy( );
 
+			if ( report.getOnPageStart( ) != null
+					|| report.getOnPageEnd( ) != null )
+			{
+				disableOptimization = true;
+				return null;
+			}
 			handleContent( policies );
 			// add all page content
 			handleMasterPage( policies );
+
+			if ( disableOptimization )
+			{
+				return null;
+			}
 			return policies;
 		}
 
@@ -124,6 +136,15 @@ public class ExecutionOptimize
 			for ( int i = 0; i < count; i++ )
 			{
 				MasterPageDesign masterPage = pageSetup.getMasterPage( i );
+				if ( masterPage.getOnPageStart( ) != null
+						|| masterPage.getOnPageEnd( ) != null )
+				{
+					// disable the whole optimization as the user can user
+					// getInstancessByElementId to access any content in run
+					// task
+					disableOptimization = true;
+				}
+
 				// FIXME handle others masterpage
 				if ( masterPage instanceof SimpleMasterPageDesign )
 				{

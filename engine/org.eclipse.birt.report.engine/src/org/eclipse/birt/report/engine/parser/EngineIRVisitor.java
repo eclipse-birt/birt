@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.parser;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -55,6 +56,7 @@ import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.MapRuleDesign;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.PageSetupDesign;
+import org.eclipse.birt.report.engine.ir.PageVariableDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -111,6 +113,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
@@ -120,6 +123,8 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.core.runtime.Assert;
@@ -293,6 +298,33 @@ public class EngineIRVisitor extends DesignVisitor
 		// element.
 
 		// Handle Master Page
+		List<VariableElementHandle> varElements = handle.getPageVariables( );
+		Collection<PageVariableDesign> varDesigns = report.getPageVariables( );
+		for ( VariableElementHandle varElement : varElements )
+		{
+			String workMode = varElement.getWorkMode( );
+			String name = varElement.getVariableName( );
+			varDesigns.add( new PageVariableDesign( name, workMode ) );
+			// FIXME: support the initialize values
+		}
+		String onPageEnd = handle.getOnPageEnd( );
+		if ( onPageEnd != null && onPageEnd.trim( ).length( ) > 0 )
+		{
+			String scriptId = ModuleUtil
+					.getScriptUID( handle
+							.getPropertyHandle( IReportDesignModel.ON_PAGE_END_METHOD ) );
+			ScriptExpression script = new ScriptExpression( onPageEnd, scriptId );
+			report.setOnPageEnd( script );
+		}
+		String onPageStart = handle.getOnPageStart( );
+		if ( onPageStart != null && onPageStart.trim( ).length( ) > 0 )
+		{
+			String scriptId = ModuleUtil
+					.getScriptUID( handle
+							.getPropertyHandle( IReportDesignModel.ON_PAGE_START_METHOD ) );
+			ScriptExpression script = new ScriptExpression( onPageStart, scriptId );
+			report.setOnPageStart( script );
+		}
 		PageSetupDesign pageSetup = new PageSetupDesign( );
 		SlotHandle pageSlot = handle.getMasterPages( );
 		for ( int i = 0; i < pageSlot.getCount( ); i++ )
@@ -437,6 +469,24 @@ public class EngineIRVisitor extends DesignVisitor
 		DimensionType bottom = createDimension( handle.getBottomMargin( ), true  );
 		DimensionType right = createDimension( handle.getRightMargin( ), true  );
 		page.setMargin( top, left, bottom, right );
+		
+		String onPageEnd = handle.getOnPageEnd( );
+		if ( onPageEnd != null && onPageEnd.trim( ).length( ) > 0 )
+		{
+			String scriptId = ModuleUtil.getScriptUID( handle
+					.getPropertyHandle( IMasterPageModel.ON_PAGE_END_METHOD ) );
+			ScriptExpression script = new ScriptExpression( onPageEnd, scriptId );
+			page.setOnPageEnd( script );
+		}
+		String onPagedStart = handle.getOnPageStart( );
+		if ( onPagedStart != null && onPagedStart.trim( ).length( ) > 0 )
+		{
+			String scriptId = ModuleUtil
+					.getScriptUID( handle
+							.getPropertyHandle( IMasterPageModel.ON_PAGE_START_METHOD ) );
+			ScriptExpression script = new ScriptExpression( onPageEnd, scriptId );
+			page.setOnPageStart( script );
+		}
 	}
 
 	protected void visitDesignElement( DesignElementHandle obj )

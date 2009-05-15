@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -106,6 +106,19 @@ public class ReportPageReader extends AbstractReportReader
 
 	protected Fragment loadPageFragment( List pages ) throws IOException
 	{
+		// test if it is the whole report
+		if ( pages.size( ) == 1 )
+		{
+			long[] seg = (long[]) pages.get( 0 );
+			if ( seg != null && seg.length == 2 )
+			{
+				if ( seg[0] == 0 && seg[1] == hintReader.getTotalPage( ) )
+				{
+					return null;
+				}
+			}
+		}
+
 		Fragment fragment = new Fragment( new LongComparator( ) );
 		PageRangeIterator iter = new PageRangeIterator( pages );
 		while ( iter.hasNext( ) )

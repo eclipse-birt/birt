@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
+import org.eclipse.birt.report.engine.ir.PageVariableDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
@@ -119,7 +121,15 @@ public class ReportExecutor implements IReportExecutor
 		Map appContext = context.getAppContext( );
 		context.getDataEngine( ).prepare( report, appContext );
 		
-		
+		// register the report variables
+		Collection<PageVariableDesign> varDesigns = report.getPageVariables( );
+		for ( PageVariableDesign varDesign : varDesigns )
+		{
+			PageVariable var = new PageVariable( varDesign.getName( ),
+					varDesign.getScope( ) );
+			context.addPageVariable( var );
+		}
+
 		if ( reportletExecutor == null )
 		{
 			// create execution optimize policy

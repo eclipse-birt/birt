@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2009 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.internal.document.v1;
 
@@ -6,11 +16,13 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.executor.PageVariable;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.PageHint;
@@ -96,6 +108,11 @@ public class PageHintReaderV1 implements IPageHintReader
 			throws IOException
 	{
 		return getPageHint(pageNumber).getOffset( );
+	}
+
+	public Collection<PageVariable> getPageVariables( ) throws IOException
+	{
+		return new ArrayList<PageVariable>( );
 	}
 
 }

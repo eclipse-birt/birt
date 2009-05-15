@@ -15,6 +15,8 @@ import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.content.IAutoTextContent;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
@@ -367,5 +369,22 @@ public class WordUtil
 			value = height;
 		}
 		return value;
+	}
+
+	public static boolean isField( int autoTextType )
+	{
+		return autoTextType == IAutoTextContent.PAGE_NUMBER
+				|| autoTextType == IAutoTextContent.TOTAL_PAGE;
+	}
+
+	public static boolean isField( IContent content )
+	{
+		if ( content.getContentType( ) == IContent.AUTOTEXT_CONTENT )
+		{
+			IAutoTextContent autoText = (IAutoTextContent) content;
+			int type = autoText.getType( );
+			return isField( type );
+		}
+		return false;
 	}
 }

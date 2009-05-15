@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,15 +14,18 @@ package org.eclipse.birt.report.engine.presentation;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.birt.report.engine.executor.PageVariable;
+
 public class PageHint implements IPageHint
 {
 
 	ArrayList sections = new ArrayList( );
 	protected long pageNumber;
 	protected long offset;
-	ArrayList hints = new ArrayList();
+	ArrayList hints = new ArrayList( );
 	protected String masterPage;
-	ArrayList columnInfo = new ArrayList();
+	ArrayList columnInfo = new ArrayList( );
+	protected Collection<PageVariable> pageVariables = new ArrayList<PageVariable>( );
 
 	public PageHint( )
 	{
@@ -179,4 +182,8 @@ public class PageHint implements IPageHint
 		this.columnInfo.addAll( hints );
 	}
 
+	public Collection<PageVariable> getPageVariables( )
+	{
+		return pageVariables;
+	}
 }

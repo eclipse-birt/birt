@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2007,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,12 +13,15 @@ package org.eclipse.birt.report.engine.internal.document.v3;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.executor.PageVariable;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.internal.document.PageIndexReader;
@@ -29,6 +32,114 @@ import org.eclipse.birt.report.engine.presentation.PageSection;
 import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
+/**
+ * <h3>Format of VERSION_5</h3>
+ * 
+ * <h3>Format of VERSION_6</h3>
+ * 
+ * Compared with the VERSION_5, version 6 adds the support for page variables.
+ * There are two kinds of page variables: report level and the page level. Those
+ * two kinds of page variables are saved into different places, the report level
+ * page variables are saved at the end of page hint stream only once while the
+ * page level page variables are saved into each page hint.
+ * 
+ * <h4>structure of index stream</h4>
+ * 
+ * <table border="all" width="80%">
+ * <tr>
+ * <th>TYPE</th>
+ * <th>COMMENT</th>
+ * </tr>
+ * <tr>
+ * <td>LONG</td>
+ * <td>Total Page</td>
+ * </tr>
+ * <tr>
+ * <td>LONG</td>
+ * <td>Page variables offset</td>
+ * </tr>
+ * <tr>
+ * <td>LONG</td>
+ * <td>Offset of First Page</td>
+ * </tr>
+ * <tr>
+ * <td>LONG</td>
+ * <td>Offset of 2nd page</td>
+ * </tr>
+ * <tr>
+ * <td colspan="2">index to other pages...</td>
+ * </tr>
+ * </table>
+ * 
+ * <h4>structure of page hint stream</h4>
+ * 
+ * <table border="all" width="80%">
+ * <tr>
+ * <th>TYPE</th>
+ * <th>COMMENT</th>
+ * </tr>
+ * <tr>>
+ * <td>INT</td>
+ * <td>version, 6</td>
+ * </tr>
+ * <tr>
+ * <td>page hint v6</td>
+ * <td>page hint for the first page</td>
+ * </tr>
+ * <tr>
+ * <td colspan="2">page hints for other pages</td>
+ * </tr>
+ * <tr>
+ * <td colspan="2">report level page variables (saved only once)</td>
+ * <tr>
+ * </table>
+ * 
+ * <h4>structure for the page hint v6</h4>
+ * <table border="all" width="80%">
+ * <tr>
+ * <th>TYPE</th>
+ * <th>COMMENT</th>
+ * </tr>
+ * <tr>
+ * <td colspan="2">page hint v5</td>
+ * </tr>
+ * <tr>
+ * <td colspan="2">page variables</td>
+ * </tr>
+ * </table>
+ * 
+ * <h4>structure for page variables</h4>
+ * <table border="all" width="80%">
+ * <tr>
+ * <th>TYPE</th>
+ * <th>COMMENT</th>
+ * </tr>
+ * <tr>
+ * <td>INT</td>
+ * <td>count</td>
+ * </tr>
+ * <tr>
+ * <td>STRING</td>
+ * <td>LEVEL</td>
+ * </tr>
+ * <tr>
+ * <td>STRING</td>
+ * <td>SCOPE</td>
+ * </tr>
+ * <tr>
+ * <td>STRING</td>
+ * <td>NAME</td>
+ * </tr>
+ * <tr>
+ * <td>OBJECT</td>
+ * <td>VALUE</td>
+ * </tr>
+ * <tr>
+ * <td colspan="2">remain variables, each contains 3 string and 1 object
+ * <td>
+ * </tr>
+ * </table>
+ */
 public class PageHintReaderV3 implements IPageHintReader
 {
 
@@ -37,6 +148,7 @@ public class PageHintReaderV3 implements IPageHintReader
 	protected RAInputStream hintsStream;
 	protected PageIndexReader pageIndexReader;
 	protected long totalPage = -1;
+	protected ArrayList<PageVariable> pageVariables;
 	protected int version;
 
 	public PageHintReaderV3( IDocArchiveReader reader ) throws IOException
@@ -50,6 +162,11 @@ public class PageHintReaderV3 implements IPageHintReader
 					.getStream( ReportDocumentConstants.PAGEHINT_INDEX_STREAM );
 			pageIndexReader = new PageIndexReader( reader );
 			version = readHintVersion( hintsStream );
+			if ( version != VERSION_3 && version != VERSION_4
+					&& version != VERSION_5 && version != VERSION_6 )
+			{
+				throw new IOException( "unsupported hint version:" + version );
+			}
 		}
 		catch ( IOException ex )
 		{
@@ -109,10 +226,61 @@ public class PageHintReaderV3 implements IPageHintReader
 		return totalPage;
 	}
 
+	/**
+	 * The page variable is only supported in VERSION_6
+	 */
+	synchronized public Collection<PageVariable> getPageVariables( )
+			throws IOException
+	{
+		if ( pageVariables == null )
+		{
+			pageVariables = new ArrayList<PageVariable>( );
+			if ( version == VERSION_6 )
+			{
+				indexStream.seek( 8 );
+				long offset = indexStream.readLong( );
+				hintsStream.seek( offset );
+				readPageVariables( new DataInputStream( hintsStream ),
+						pageVariables );
+			}
+		}
+		return pageVariables;
+	}
+
+	/**
+	 * return the hint offset for the page.
+	 * 
+	 * before version 6, the offset is 8 * pageNumber. the 1st long is the total
+	 * page. the page number starts from integer 1.
+	 * 
+	 * after (include) version 6, the offset is 8 * (pageNumber + 1). the 1st
+	 * long is the total page, the 2nd long is the offset to page variable. the
+	 * page number is start from integer 1.
+	 * 
+	 * @param pageNumber
+	 * @return the offset of the hints in the hint stream.
+	 */
+	private long getHintOffset( long pageNumber )
+	{
+		switch ( version )
+		{
+			case VERSION_3 :
+			case VERSION_4 :
+			case VERSION_5 :
+				return pageNumber * 8;
+			case VERSION_6 :
+				return ( pageNumber + 1 ) * 8;
+			default :
+				assert false;
+				return -1;
+		}
+	}
+
 	synchronized public IPageHint getPageHint( long pageNumber )
 			throws IOException
 	{
-		indexStream.seek( pageNumber * 8 );
+		long indexOffset = getHintOffset( pageNumber );
+		indexStream.seek( indexOffset );
 		long offset = indexStream.readLong( );
 		hintsStream.seek( offset );
 		return readPageHint( version, new DataInputStream( hintsStream ) );
@@ -127,15 +295,25 @@ public class PageHintReaderV3 implements IPageHintReader
 				return readPageHintV4( in );
 			case IPageHintWriter.VERSION_5 :
 				return readPageHintV5( in );
+			case IPageHintWriter.VERSION_6 :
+				return readPageHintV6( in );
 			default :
 				throw new IOException( "Unsupported page hint version "
 						+ version );
 		}
 	}
 
-	public IPageHint readPageHintV5( DataInputStream in ) throws IOException
+	public PageHint readPageHintV6( DataInputStream in ) throws IOException
 	{
-		IPageHint hint = readPageHintV4( in );
+		PageHint hint = readPageHintV5( in );
+		Collection<PageVariable> variables = hint.getPageVariables( );
+		readPageVariables( in, variables );
+		return hint;
+	}
+
+	public PageHint readPageHintV5( DataInputStream in ) throws IOException
+	{
+		PageHint hint = readPageHintV4( in );
 		int columnHintSize = IOUtil.readInt( in );
 		for ( int i = 0; i < columnHintSize; i++ )
 		{
@@ -148,7 +326,7 @@ public class PageHintReaderV3 implements IPageHintReader
 		return hint;
 	}
 
-	public IPageHint readPageHintV4( DataInputStream in ) throws IOException
+	public PageHint readPageHintV4( DataInputStream in ) throws IOException
 	{
 		long pageNumber = IOUtil.readLong( in );
 		String masterPage = IOUtil.readString( in );
@@ -197,4 +375,23 @@ public class PageHintReaderV3 implements IPageHintReader
 		return pageIndexReader.getPageOffset( masterPage );
 	}
 
+	protected void readPageVariables( DataInputStream in,
+			Collection<PageVariable> variables ) throws IOException
+	{
+		int count = IOUtil.readInt( in );
+		for ( int i = 0; i < count; i++ )
+		{
+			PageVariable variable = readPageVariable( in );
+			variables.add( variable );
+		}
+	}
+
+	private PageVariable readPageVariable( DataInputStream in )
+			throws IOException
+	{
+		String name = IOUtil.readString( in );
+		String scope = IOUtil.readString( in );
+		Object value = IOUtil.readObject( in );
+		return new PageVariable( name, scope, value );
+	}
 }

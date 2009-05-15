@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005,2008 Actuate Corporation.
+ * Copyright (c) 2005,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -134,6 +134,10 @@ public interface IReportContext
 	 * Retireve an object from report document scope.
 	 */
 	Object getPersistentGlobalVariable( String name );
+
+	Object getPageVariable( String name );
+
+	void setPageVariable( String name, Object value );
 
 	/**
 	 * Finds user-defined messages for the current thread's locale.

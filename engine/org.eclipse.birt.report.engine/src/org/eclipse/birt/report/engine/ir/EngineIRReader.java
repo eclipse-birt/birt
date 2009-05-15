@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -67,7 +67,7 @@ public class EngineIRReader implements IOConstants
 		DataInputStream dis = new DataInputStream( in );
 		// read the version
 		long version = IOUtil.readLong( dis );
-		if ( version == ENGINE_IR_VERSION_5 )
+		if ( version == ENGINE_IR_VERSION_5 || version == ENGINE_IR_VERSION_6 )
 		{
 			reader = new EngineIRReaderImplV1( dis, checkDesignVersion );
 			reader.version = version;

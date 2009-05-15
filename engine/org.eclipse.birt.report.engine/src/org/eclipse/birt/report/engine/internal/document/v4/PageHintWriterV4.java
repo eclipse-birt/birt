@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2007,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,11 +14,13 @@ package org.eclipse.birt.report.engine.internal.document.v4;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Collection;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.executor.PageVariable;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.InstanceIndex;
@@ -28,7 +30,6 @@ import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
 public class PageHintWriterV4 implements IPageHintWriter
 {
-
 	protected IDocArchiveWriter writer;
 	protected RAOutputStream indexStream;
 	protected RAOutputStream hintsStream;
@@ -84,7 +85,10 @@ public class PageHintWriterV4 implements IPageHintWriter
 	public void writePageHint( IPageHint pageHint ) throws IOException
 	{
 		long offset = hintsStream.getOffset( );
-		indexStream.seek( pageHint.getPageNumber( ) * 8 );
+		// the 1st long is a version
+		// the 2nd long is the offset to page variables
+		// the 3nd long is the first page offset
+		indexStream.seek( pageHint.getPageNumber( ) * 8 + 8 );
 		indexStream.writeLong( offset );
 		writeBuffer.reset( );
 		writePageHint( hintBuffer, pageHint );
@@ -95,6 +99,16 @@ public class PageHintWriterV4 implements IPageHintWriter
 	{
 		indexStream.seek( 0 );
 		indexStream.writeLong( totalPage );
+	}
+	
+	public void writePageVariables(Collection<PageVariable> variables) throws IOException
+	{
+		long offset = hintsStream.getOffset();
+		writeBuffer.reset( );
+		writePageVariables( hintBuffer, variables );
+		hintsStream.write( writeBuffer.toByteArray( ) );
+		indexStream.seek( 8 );
+		indexStream.writeLong( offset );
 	}
 
 	protected void writePageHint( DataOutputStream out, IPageHint hint )
@@ -128,6 +142,10 @@ public class PageHintWriterV4 implements IPageHintWriter
 			IOUtil.writeInt( out, columnHint.getStart( ) );
 			IOUtil.writeInt( out, columnHint.getColumnCount( ) );
 		}
+		
+		Collection<PageVariable> variables = hint
+					.getPageVariables( );
+		writePageVariables(out, variables);
 	}
 
 	protected void writeInstanceIndex( DataOutputStream out,
@@ -143,6 +161,18 @@ public class PageHintWriterV4 implements IPageHintWriter
 		{
 			IOUtil.writeString( out, indexes[i].getInstanceID( ).toString( ) );
 			IOUtil.writeLong( out, indexes[i].getOffset( ) );
+		}
+	}
+
+	protected void writePageVariables( DataOutputStream out,
+			Collection<PageVariable> variables ) throws IOException
+	{
+		IOUtil.writeInt( out, variables.size( ) );
+		for ( PageVariable variable : variables )
+		{
+			IOUtil.writeString( out, variable.getName( ) );
+			IOUtil.writeString( out, variable.getScope( ) );
+			IOUtil.writeObject( out, variable.getValue( ) );
 		}
 	}
 }

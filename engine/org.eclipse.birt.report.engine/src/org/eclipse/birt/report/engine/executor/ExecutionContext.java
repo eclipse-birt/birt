@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -174,6 +175,8 @@ public class ExecutionContext
 	private Map persistentBeans = new HashMap( );
 
 	private Map transientBeans = new HashMap( );
+
+	private Map<String, PageVariable> pageVariables = new HashMap<String, PageVariable>( );
 
 	private ReportDocumentWriter docWriter;
 	
@@ -2195,5 +2198,42 @@ public class ExecutionContext
 	public void setNeedOutputResultSet( boolean needOutputResultSet )
 	{
 		this.needOutputResultSet = needOutputResultSet;
+	}
+
+	public Object getPageVariable( String name )
+	{
+		PageVariable var = pageVariables.get( name );
+		if ( var != null )
+		{
+			return var.getValue( );
+		}
+		return null;
+	}
+
+	public void setPageVariable( String name, Object value )
+	{
+		PageVariable var = pageVariables.get( name );
+		if ( var != null )
+		{
+			var.setValue( value );
+		}
+	}
+
+	public void addPageVariables( Collection<PageVariable> vars )
+	{
+		for ( PageVariable var : vars )
+		{
+			pageVariables.put( var.getName( ), var );
+		}
+	}
+
+	public Collection<PageVariable> getPageVariables( )
+	{
+		return pageVariables.values( );
+	}
+
+	public void addPageVariable( PageVariable var )
+	{
+		pageVariables.put( var.getName( ), var );
 	}
 }

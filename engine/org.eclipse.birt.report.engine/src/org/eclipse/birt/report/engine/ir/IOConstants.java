@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 , 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -162,12 +162,16 @@ public interface IOConstants
 	
 	// report item added
 	static final short FIELD_USE_CACHED_RESULT = 230;
-	
+
 	static final short FIELD_REPORT_STYLES = 240;
 	static final short FIELD_REPORT_NAMED_EXPRESSIONS = 241;
 	static final short FIELD_REPORT_MASTER_PAGES = 242;
 	static final short FIELD_REPORT_BODY = 243;
 	static final short FIELD_ROOT_STYLE = 244;
+	//added from V6
+	static final short FIELD_REPORT_VARIABLE = 245;
+	static final short FIELD_ON_PAGE_START = 246;
+	static final short FIELD_ON_PAGE_END = 247;
 	
 	static final long ENGINE_IR_VERSION_0 = 0L;
 	// Version 1: remove write isBookmark of ActionDesign.
@@ -180,5 +184,10 @@ public interface IOConstants
 	static final long ENGINE_IR_VERSION_4 = 4L;
 	// Version 5: support attribute as expression/constant.
 	static final long ENGINE_IR_VERSION_5 = 5L;
-	static final long ENGINE_IR_VERSION_CURRENT = ENGINE_IR_VERSION_5;
+	/**
+	 * version 6: support page variable/onPageStart/onPageEnd in the report and
+	 * master page
+	 */
+	static final long ENGINE_IR_VERSION_6 = 6L;
+	static final long ENGINE_IR_VERSION_CURRENT = ENGINE_IR_VERSION_6;
 }

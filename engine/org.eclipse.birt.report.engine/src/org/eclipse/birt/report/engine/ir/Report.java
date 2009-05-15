@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2007 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,10 +12,12 @@
 package org.eclipse.birt.report.engine.ir;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -101,6 +103,10 @@ public class Report
 	protected CSSEngine cssEngine;
 
 	private IStyle rootStyle;
+
+	private ArrayList<PageVariableDesign> pageVariables = new ArrayList<PageVariableDesign>( );
+	private ScriptExpression onPageStart;
+	private ScriptExpression onPageEnd;
 
 	/**
 	 * default constructor.
@@ -436,5 +442,30 @@ public class Report
 			return;
 		}
 		
+	}
+
+	public Collection<PageVariableDesign> getPageVariables( )
+	{
+		return pageVariables;
+	}
+
+	public ScriptExpression getOnPageStart( )
+	{
+		return onPageStart;
+	}
+
+	public void setOnPageStart( ScriptExpression onPageStart )
+	{
+		this.onPageStart = onPageStart;
+	}
+
+	public ScriptExpression getOnPageEnd( )
+	{
+		return onPageEnd;
+	}
+
+	public void setOnPageEnd( ScriptExpression onPageEnd )
+	{
+		this.onPageEnd = onPageEnd;
 	}
 }

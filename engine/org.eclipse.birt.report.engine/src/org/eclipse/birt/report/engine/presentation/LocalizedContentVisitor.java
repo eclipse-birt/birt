@@ -68,6 +68,7 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.engine.extension.internal.ReportItemPresentationInfo;
+import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
@@ -75,6 +76,7 @@ import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.script.internal.OnRenderScriptVisitor;
+import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -280,154 +282,151 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		else
 		{
 			Object value = data.getValue( );
-
-			if ( value instanceof Object[] )
+			IStyle style = data.getComputedStyle( );
+			text = format( value, style );
+			if ( value instanceof Number )
 			{
-				Object[] values = (Object[]) value;
-				if ( values.length > 0 )
+				CSSValue align = style.getProperty( IStyle.STYLE_NUMBER_ALIGN );
+				if ( align != null && align != CSSValueConstants.NONE_VALUE )
 				{
-					value = values[0];
-				}
-				else
-				{
-					value = null;
-				}
-			}
-			
-			if ( value != null )
-			{
-				IStyle style = data.getComputedStyle( );
-				DataFormatValue dataFormat = style.getDataFormat( );
-				if ( value instanceof Number )
-				{
-					NumberFormatter fmt = null;
-					if ( dataFormat == null )
-					{
-						fmt = context.getNumberFormatter( null, null );
-					}
-					else
-					{
-						String pattern = dataFormat.getNumberPattern( );
-						String locale = dataFormat.getNumberLocale( );
-						if ( locale == null )
-							fmt = context.getNumberFormatter( pattern, null );
-						else
-							fmt = context.getNumberFormatter( pattern,
-									new ULocale( locale ) );
-					}
-					
-					text = fmt.format( (Number) value );
-					CSSValue align = style
-							.getProperty( IStyle.STYLE_NUMBER_ALIGN );
-					if ( align != null && align != CSSValueConstants.NONE_VALUE )
-					{
-						data.getStyle( ).setProperty( IStyle.STYLE_TEXT_ALIGN,
-								align );
-					}
-				}
-				else if ( value instanceof String )
-				{
-					StringFormatter fmt = null;
-					if ( dataFormat == null )
-					{
-						fmt = context.getStringFormatter( null, null );
-					}
-					else
-					{
-						String pattern = dataFormat.getStringPattern( );
-						String locale = dataFormat.getStringLocale( );
-						if ( locale == null )
-							fmt = context.getStringFormatter( pattern, null );
-						else
-							fmt = context.getStringFormatter( pattern,
-									new ULocale( locale ) );
-					}
-					text = fmt.format( (String) value );
-
-				}
-				else if ( value instanceof java.util.Date )
-				{
-					DateFormatter fmt = null;
-					String pattern = null;
-					String locale = null;
-					if ( dataFormat != null )
-					{
-						if ( value instanceof java.sql.Date )
-						{
-							pattern = dataFormat.getDatePattern( );
-							locale = dataFormat.getDateLocale( );
-						}
-						else if ( value instanceof java.sql.Time )
-						{
-							pattern = dataFormat.getTimePattern( );
-							locale = dataFormat.getTimeLocale( );
-						}
-						if ( pattern == null && locale == null )
-						{
-							pattern = dataFormat.getDateTimePattern( );
-							locale = dataFormat.getDateTimeLocale( );
-						}
-						if ( locale == null )
-							fmt = context.getDateFormatter( pattern, null );
-						else
-							fmt = context.getDateFormatter( pattern,
-									new ULocale( locale ) );
-					}
-					else
-						fmt = context.getDateFormatter( null, null );
-
-					text = fmt.format( (java.util.Date) value );
-				}
-				else
-				{
-					if ( value instanceof byte[] )
-					{
-						byte[] bytes = (byte[]) value;
-						int length = ( bytes.length <= 8 ? bytes.length : 8 );
-
-						StringBuffer buffer = new StringBuffer( );
-						int index = 0;
-						while ( index < length )
-						{
-							byte byteValue = bytes[index];
-							int lowValue = byteValue & 0x0F;
-							int highValue = ( byteValue >> 4 ) & 0x0F;
-							buffer.append( HEX[highValue] ).append(
-									HEX[lowValue] ).append( ' ' );
-							index++;
-						}
-						if ( length > 0 )
-						{
-							if ( length != bytes.length )
-							{
-								buffer.append( "..." );
-							}
-							else
-							{
-								buffer.setLength( buffer.length( ) - 1 );
-							}
-						}
-
-						text = buffer.toString( );
-					}
-					else
-					{
-						text = value.toString( );
-					}
+					data.getStyle( ).setProperty( IStyle.STYLE_TEXT_ALIGN,
+							align );
 				}
 			}
 		}
+
 		// text can be null value after applying format
-		if ( text != null )
-		{
-			data.setText( text );
-		}
-		else
-		{
-			data.setText( "" ); //$NON-NLS-1$
-		}
+		data.setText( text == null ? "" : text );
 	}
 
+	protected String format( Object value, IStyle style )
+	{
+		if ( value instanceof Object[] )
+		{
+			Object[] values = (Object[]) value;
+			if ( values.length > 0 )
+			{
+				value = values[0];
+			}
+			else
+			{
+				value = null;
+			}
+		}
+		if ( value == null )
+		{
+			return null;
+		}
+
+		DataFormatValue dataFormat = style.getDataFormat( );
+		if ( value instanceof Number )
+		{
+			NumberFormatter fmt = null;
+			if ( dataFormat == null )
+			{
+				fmt = context.getNumberFormatter( null, null );
+			}
+			else
+			{
+				String pattern = dataFormat.getNumberPattern( );
+				String locale = dataFormat.getNumberLocale( );
+				if ( locale == null )
+					fmt = context.getNumberFormatter( pattern, null );
+				else
+					fmt = context.getNumberFormatter( pattern, new ULocale(
+							locale ) );
+			}
+
+			return fmt.format( (Number) value );
+		}
+
+		if ( value instanceof String )
+		{
+			StringFormatter fmt = null;
+			if ( dataFormat == null )
+			{
+				fmt = context.getStringFormatter( null, null );
+			}
+			else
+			{
+				String pattern = dataFormat.getStringPattern( );
+				String locale = dataFormat.getStringLocale( );
+				if ( locale == null )
+					fmt = context.getStringFormatter( pattern, null );
+				else
+					fmt = context.getStringFormatter( pattern, new ULocale(
+							locale ) );
+			}
+			return fmt.format( (String) value );
+
+		}
+
+		if ( value instanceof java.util.Date )
+		{
+			DateFormatter fmt = null;
+			String pattern = null;
+			String locale = null;
+			if ( dataFormat != null )
+			{
+				if ( value instanceof java.sql.Date )
+				{
+					pattern = dataFormat.getDatePattern( );
+					locale = dataFormat.getDateLocale( );
+				}
+				else if ( value instanceof java.sql.Time )
+				{
+					pattern = dataFormat.getTimePattern( );
+					locale = dataFormat.getTimeLocale( );
+				}
+				if ( pattern == null && locale == null )
+				{
+					pattern = dataFormat.getDateTimePattern( );
+					locale = dataFormat.getDateTimeLocale( );
+				}
+				if ( locale == null )
+					fmt = context.getDateFormatter( pattern, null );
+				else
+					fmt = context.getDateFormatter( pattern, new ULocale(
+							locale ) );
+			}
+			else
+				fmt = context.getDateFormatter( null, null );
+
+			return fmt.format( (java.util.Date) value );
+		}
+
+		if ( value instanceof byte[] )
+		{
+			byte[] bytes = (byte[]) value;
+			int length = ( bytes.length <= 8 ? bytes.length : 8 );
+
+			StringBuffer buffer = new StringBuffer( );
+			int index = 0;
+			while ( index < length )
+			{
+				byte byteValue = bytes[index];
+				int lowValue = byteValue & 0x0F;
+				int highValue = ( byteValue >> 4 ) & 0x0F;
+				buffer.append( HEX[highValue] ).append( HEX[lowValue] ).append(
+						' ' );
+				index++;
+			}
+			if ( length > 0 )
+			{
+				if ( length != bytes.length )
+				{
+					buffer.append( "..." );
+				}
+				else
+				{
+					buffer.setLength( buffer.length( ) - 1 );
+				}
+			}
+
+			return buffer.toString( );
+		}
+		return value.toString( );
+	}
 	/**
 	 * handle the label.
 	 * 
@@ -472,26 +471,13 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	public Object visitAutoText( IAutoTextContent autoText, Object value )
 	{
 		int type = autoText.getType( );
-		DataFormatValue dataFormat = autoText.getComputedStyle( )
-				.getDataFormat( );
-		NumberFormatter format = null;
-		if ( dataFormat == null )
-			format = new NumberFormatter( );
-		else
-		{
-			String pattern = dataFormat.getNumberPattern( );
-			String locale = dataFormat.getNumberLocale( );
-			if ( locale == null )
-				format = new NumberFormatter( pattern );
-			else
-				format = new NumberFormatter( pattern, new ULocale( locale ) );
-		}
-		
+		IStyle style = autoText.getComputedStyle( );
+
 		if ( type == IAutoTextContent.PAGE_NUMBER )
 		{
 			long number = context.getFilteredPageNumber( );
-			String text = format.format( number );
-			autoText.setText( text );
+			String text = format( number, style );
+			autoText.setText( text == null ? "" : text );
 		}
 		else if ( type == IAutoTextContent.TOTAL_PAGE )
 		{
@@ -502,15 +488,15 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			}
 			else
 			{
-				String text = format.format( totalPage );
-				autoText.setText( text );
+				String text = format( totalPage, style );
+				autoText.setText( text == null ? "" : text );
 			}
 		}
 		else if ( type == IAutoTextContent.UNFILTERED_PAGE_NUMBER )
 		{
 			long number = context.getPageNumber( );
-			String text = format.format( number );
-			autoText.setText( text );
+			String text = format( number, style );
+			autoText.setText( text == null ? "" : text );
 		}
 		else if ( type == IAutoTextContent.UNFILTERED_TOTAL_PAGE )
 		{
@@ -521,9 +507,19 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			}
 			else
 			{
-				String text = format.format( totalPage );
-				autoText.setText( text );
+				String text = format( totalPage, style );
+				autoText.setText( text == null ? "" : text );
 			}
+		}
+		else if ( type == IAutoTextContent.PAGE_VARIABLE )
+		{
+			AutoTextItemDesign design = (AutoTextItemDesign) autoText
+					.getGenerateBy( );
+			AutoTextHandle designHandle = (AutoTextHandle) design.getHandle( );
+			String varName = designHandle.getPageVariable( );
+			Object result = context.getPageVariable( varName );
+			String text = format( result, style );
+			autoText.setText( text == null ? "" : text );
 		}
 		handleOnRender( autoText );
 
@@ -614,7 +610,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	}
 
 	/**
-	 * localzie the text.
+	 * localize the text.
 	 * 
 	 * @param key
 	 *            text key

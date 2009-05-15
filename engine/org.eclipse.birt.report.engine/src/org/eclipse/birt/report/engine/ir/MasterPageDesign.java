@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-
+import org.eclipse.birt.core.script.ScriptExpression;
 
 /**
  * Master Page
@@ -55,7 +55,10 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	protected String orientation;
 
 	protected String bodyStyleName;
-	
+
+	private ScriptExpression onPageStart;
+	private ScriptExpression onPageEnd;
+
 	/**
 	 * default constuctor use A4, 5mm margin.
 	 */
@@ -198,15 +201,34 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	{
 		this.orientation = orientation;
 	}
-	
+
 	public String getBodyStyleName( )
 	{
 		return bodyStyleName;
 	}
-	
-	public void setBodyStyleName( String bodyStyleName)
+
+	public void setBodyStyleName( String bodyStyleName )
 	{
 		this.bodyStyleName = bodyStyleName;
 	}
 
+	public ScriptExpression getOnPageStart( )
+	{
+		return onPageStart;
+	}
+
+	public void setOnPageStart( ScriptExpression onPageStart )
+	{
+		this.onPageStart = onPageStart;
+	}
+
+	public ScriptExpression getOnPageEnd( )
+	{
+		return onPageEnd;
+	}
+
+	public void setOnPageEnd( ScriptExpression onPageEnd )
+	{
+		this.onPageEnd = onPageEnd;
+	}
 }

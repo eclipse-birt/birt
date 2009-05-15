@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005,2008 Actuate Corporation.
+ * Copyright (c) 2005,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.script.internal;
 
 import java.io.Serializable;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
@@ -102,6 +101,16 @@ public class ReportContextImpl implements IReportContext
 	public void setParameterValue( String name, Object value )
 	{
 		context.setParameterValue( name, value );
+	}
+
+	public Object getPageVariable( String name )
+	{
+		return context.getPageVariable( name );
+	}
+
+	public void setPageVariable( String name, Object value )
+	{
+		context.setPageVariable( name, value );
 	}
 
 	public Locale getLocale( )

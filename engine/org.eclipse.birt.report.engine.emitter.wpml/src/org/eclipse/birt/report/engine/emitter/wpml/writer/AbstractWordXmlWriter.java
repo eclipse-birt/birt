@@ -582,12 +582,6 @@ public abstract class AbstractWordXmlWriter
 		}
 	}
 
-	private boolean isAutoText( int type )
-	{
-		return type == IAutoTextContent.PAGE_NUMBER
-				|| type == IAutoTextContent.TOTAL_PAGE;
-	}
-
 	protected void writeField( boolean isStart )
 	{
 		String fldCharType = isStart ? "begin" : "end";
@@ -914,16 +908,16 @@ public abstract class AbstractWordXmlWriter
 		}
 
 		openHyperlink( info );
-		boolean isAutoText = isAutoText( type );
+		boolean isField = WordUtil.isField( type );
 		String direction = style.getDirection( );
 		boolean textIsRtl = CSSConstants.CSS_RTL_VALUE.equals( direction );
-		int nChunks = isAutoText ? 1 : 0;
+		int nChunks = isField ? 1 : 0;
 
 		writer.openTag( "w:pPr" );
 		writeBidi( textIsRtl );
 		writer.closeTag( "w:pPr" );
 
-		if ( isAutoText )
+		if ( isField )
 		{
 			writeField( true );
 		}
@@ -945,14 +939,14 @@ public abstract class AbstractWordXmlWriter
 				writeBackgroundColor( style.getBackgroundColor( ) );
 				writeRunBorders( style );
 			}
-			if ( !isAutoText && bidiLevels[i] == Bidi.DIRECTION_RIGHT_TO_LEFT )
+			if ( !isField && bidiLevels[i] == Bidi.DIRECTION_RIGHT_TO_LEFT )
 			{
 				writer.openTag( "w:rtl" );
 				writer.closeTag( "w:rtl" );
 			}
 			writer.closeTag( "w:rPr" );
 
-			if ( isAutoText )
+			if ( isField )
 			{
 				writeAutoText( type );
 			}
@@ -962,7 +956,7 @@ public abstract class AbstractWordXmlWriter
 			}
 			writer.closeTag( "w:r" );
 		}
-		if ( isAutoText )
+		if ( isField )
 		{
 			writeField( false );
 		}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,9 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * Version 2: remove write base path and unit of report.
  * Version 3: add extended item's children.
  * Version 4: change the way of writing and reading the style.
+ * 
+ * <h4>Version 5<h4>
+ * support the page script/page variable in the design and master page.
  */
 public class EngineIRWriter implements IOConstants
 {	
@@ -70,19 +74,40 @@ public class EngineIRWriter implements IOConstants
 			throws IOException
 	{
 		// report has four segments now.
-		IOUtil.writeShort( dos, (short) 5 );
+		IOUtil.writeShort( dos, (short) 8 );
+		
 		// write report styles and rootStyle
 		IOUtil.writeShort( dos, FIELD_REPORT_STYLES );
 		writeReportStyles( dos, design );
+		
 		IOUtil.writeShort( dos, FIELD_ROOT_STYLE );
 		design.getRootStyle( ).write( dos );
+		
 		// write named expressions
 		IOUtil.writeShort( dos, FIELD_REPORT_NAMED_EXPRESSIONS );
 		writeReportNamedExpressions( dos, design );
+
+		// write the page varaibles
+		IOUtil.writeShort( dos, FIELD_REPORT_VARIABLE );
+		writeReportVariable( dos, design );
+
+		// write the onPageStart
+		IOUtil.writeShort( dos, FIELD_ON_PAGE_START );
+		ScriptExpression onPageStart = design.getOnPageStart( );
+		IOUtil.writeString( dos, onPageStart == null ? null : onPageStart
+				.getScriptText( ) );
+
+		// write the on page end
+		IOUtil.writeShort( dos, FIELD_ON_PAGE_END );
+		ScriptExpression onPageEnd = design.getOnPageEnd( );
+		IOUtil.writeString( dos, onPageEnd == null ? null : onPageEnd
+				.getScriptText( ) );
+
 		// write the master pages
 		IOUtil.writeShort( dos, FIELD_REPORT_MASTER_PAGES );
 		ReportItemWriter writer = new ReportItemWriter( dos );
 		writeReportPageSetup( dos, writer, design );
+	
 		// write the report body
 		IOUtil.writeShort( dos, FIELD_REPORT_BODY );
 		writeReportBodyContent( dos, writer, design );
@@ -113,6 +138,18 @@ public class EngineIRWriter implements IOConstants
 		// named expression
 		Map namedExpressions = design.getNamedExpressions( );
 		IOUtil.writeMap( dos, namedExpressions );
+	}
+
+	private void writeReportVariable( DataOutputStream dos, Report design )
+			throws IOException
+	{
+		Collection<PageVariableDesign> vars = design.getPageVariables( );
+		IOUtil.writeInt( dos, vars.size( ) );
+		for ( PageVariableDesign var : vars )
+		{
+			IOUtil.writeString( dos, var.getName( ) );
+			IOUtil.writeString( dos, var.getScope( ) );
+		}
 	}
 
 	private void writeReportPageSetup( DataOutputStream dos, ReportItemWriter writer,

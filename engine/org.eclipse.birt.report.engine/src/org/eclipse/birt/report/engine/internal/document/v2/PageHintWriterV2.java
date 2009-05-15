@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,11 +14,13 @@ package org.eclipse.birt.report.engine.internal.document.v2;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Collection;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.executor.PageVariable;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.InstanceIndex;
@@ -124,5 +126,11 @@ public class PageHintWriterV2 implements IPageHintWriter
 			IOUtil.writeString( out, indexes[i].getInstanceID( ).toString( ) );
 			IOUtil.writeLong( out, indexes[i].getOffset( ) );
 		}
+	}
+
+	public void writePageVariables( Collection<PageVariable> variables )
+			throws IOException
+	{
+		throw new IOException( "unsupported operation: writePageVariables" );
 	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2007,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,11 +13,13 @@ package org.eclipse.birt.report.engine.internal.document.v4;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.executor.PageVariable;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.executor.doc.Fragment;
@@ -77,7 +79,11 @@ public class ReportPageExecutorV4 extends AbstractReportExecutor
 				if ( paged )
 				{
 					long pageNumber = pageIter.next( );
-					Fragment fragment = loadPageHint( pageNumber );
+					IPageHint pageHint = getPageHint( pageNumber );
+					Collection<PageVariable> vars = pageHint.getPageVariables( );
+					context.addPageVariables( vars );
+
+					Fragment fragment = createFragment( pageHint );
 					return new ReportBodyExecutor( manager, fragment );
 				}
 				else
@@ -136,11 +142,10 @@ public class ReportPageExecutorV4 extends AbstractReportExecutor
 		return fragment;
 	}
 
-	protected Fragment loadPageHint( long pageNumber ) throws IOException
+	protected Fragment createFragment( IPageHint pageHint )
 	{
 		Fragment fragment = new Fragment( new InstanceIDComparator( ) );
 
-		IPageHint pageHint = hintsReader.getPageHint( pageNumber );
 		int sectCount = pageHint.getSectionCount( );
 		for ( int i = 0; i < sectCount; i++ )
 		{
@@ -150,10 +155,8 @@ public class ReportPageExecutorV4 extends AbstractReportExecutor
 			fragment.addFragment( leftEdges, rightEdges );
 		}
 		return fragment;
-
 	}
 	
-	//FIXME: throw the exception out.
 	public IPageHint getPageHint(long pageNumber) throws IOException
 	{
 		return hintsReader.getPageHint( pageNumber );
