@@ -74,10 +74,8 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementException
 import org.eclipse.birt.report.engine.executor.css.HTMLProcessor;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
@@ -89,7 +87,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -1959,6 +1956,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	
 	protected void startDiagonalCell( ICellContent cell )
 	{
+		DimensionType cellWidth = getCellWidth( cell );
+		DimensionType cellHeight = getCellHeight( cell );
+		if ( cellWidth == null || cellHeight == null )
+			return;
 		String imgUri = diagonalCellImageMap.get( cell.getInstanceID( )
 				.getComponentID( ) );
 		if ( imgUri == null )
@@ -1972,8 +1973,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					cell.getAntidiagonalStyle( ),
 					cell.getAntidiagonalWidth( ) );
 			imageCreater.setImageDpi( imageDpi );
-			imageCreater.setImageSize( getCellWidth( cell ),
-					getCellHeight( cell ) );
+			imageCreater.setImageSize( cellWidth, cellHeight );
 			IStyle cellComputedStyle = cell.getComputedStyle( );
 			String strColor = cellComputedStyle.getColor( );
 			imageCreater.setColor( PropertyUtil.getColor( strColor ) );
@@ -2079,6 +2079,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	protected void endDiagonalCell( ICellContent cell )
 	{
+		DimensionType cellWidth = getCellWidth( cell );
+		DimensionType cellHeight = getCellHeight( cell );
+		if ( cellWidth == null || cellHeight == null )
+			return;
 		writer.closeTag( HTMLTags.TAG_DIV );
 	}
 

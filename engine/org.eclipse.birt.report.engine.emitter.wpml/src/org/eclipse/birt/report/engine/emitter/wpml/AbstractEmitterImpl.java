@@ -419,6 +419,12 @@ public abstract class AbstractEmitterImpl
 
 	private void drawDiagonalLine( ICellContent cell, double cellWidth )
 	{
+		if ( cellWidth == 0 )
+			return;
+		int cellHeight = WordUtil.convertTo( getCellHeight( cell ), 0 ) / 20;
+		if ( cellHeight == 0 )
+			return;
+
 		DiagonalLineInfo diagonalLineInfo = new DiagonalLineInfo( );
 		int diagonalWidth = PropertyUtil.getDimensionValue( cell, cell
 				.getDiagonalWidth( ), (int) cellWidth ) / 1000;
@@ -428,7 +434,6 @@ public abstract class AbstractEmitterImpl
 				.getAntidiagonalWidth( ), (int) cellWidth ) / 1000;
 		diagonalLineInfo.setAntidiagonalLine( cell.getAntidiagonalNumber( ),
 				cell.getAntidiagonalStyle( ), antidiagonalWidth );
-		int cellHeight = WordUtil.convertTo( getCellHeight( cell ), 0 ) / 20;
 		diagonalLineInfo.setCoordinateSize( cellWidth, cellHeight );
 		String lineColor = WordUtil.parseColor( cell.getComputedStyle( )
 				.getColor( ) );
