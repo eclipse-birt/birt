@@ -2278,7 +2278,7 @@ LibrariesNodeProvider.DisplayLabel.Libraries=Bibliotheken
 ###########################################################
 #LibraryExplorerView properties
 
-LibraryExplorerView.defaultText.notAvailable=Es stehen keine Bibliotheken zur Verfügung.
+LibraryExplorerView.defaultText.notAvailable=Resources are not available.
 
 ###########################################################
 #LibraryExplorerProvider properties

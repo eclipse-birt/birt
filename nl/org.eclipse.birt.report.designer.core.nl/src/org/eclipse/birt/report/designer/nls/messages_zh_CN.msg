@@ -2278,7 +2278,7 @@ LibrariesNodeProvider.DisplayLabel.Libraries=ø‚
 ###########################################################
 #LibraryExplorerView properties
 
-LibraryExplorerView.defaultText.notAvailable=ø‚≤ªø…”√°£
+LibraryExplorerView.defaultText.notAvailable=Resources are not available.
 
 ###########################################################
 #LibraryExplorerProvider properties

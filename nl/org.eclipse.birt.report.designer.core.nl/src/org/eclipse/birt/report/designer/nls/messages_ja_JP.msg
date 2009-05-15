@@ -2278,7 +2278,7 @@ LibrariesNodeProvider.DisplayLabel.Libraries=ライブラリ
 ###########################################################
 #LibraryExplorerView properties
 
-LibraryExplorerView.defaultText.notAvailable=ライブラリがありません。
+LibraryExplorerView.defaultText.notAvailable=Resources are not available.
 
 ###########################################################
 #LibraryExplorerProvider properties
