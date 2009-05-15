@@ -281,8 +281,7 @@ public class EngineIRVisitor extends DesignVisitor
 		// CODE MODULES
 
 		// Sets the report default style
-		StyleHandle defaultStyle = handle.findStyle( "report" );//$NON-NLS-1$
-		createReportDefaultStyles( defaultStyle );
+		createReportDefaultStyles( handle );
 
 		// TODO: add report style
 		// report.addStyle( );
@@ -2583,10 +2582,17 @@ public class EngineIRVisitor extends DesignVisitor
 	/**
 	 * Creates Report default styles
 	 */
-	protected void createReportDefaultStyles( StyleHandle handle )
+	protected void createReportDefaultStyles( ReportDesignHandle reportDesignHandle )
 	{
+		
+		StyleHandle handle = reportDesignHandle.findStyle( "report" );//$NON-NLS-1$
 		nonInheritableReportStyle = new StyleDeclaration( cssEngine );
 		inheritableReportStyle = new StyleDeclaration( cssEngine );
+		if ( handle == null )
+		{
+			report.setRootStyle( inheritableReportStyle );
+			return;
+		}
 
 		// Background
 		addReportDefaultPropertyValue( Style.BACKGROUND_COLOR_PROP, handle,
@@ -2669,8 +2675,12 @@ public class EngineIRVisitor extends DesignVisitor
 		 */
 		createDataFormat( handle, nonInheritableReportStyle );
 		createDataFormat( handle, inheritableReportStyle );
-		
-		report.setRootStyleName( assignStyleName( inheritableReportStyle ) );
+
+		if ( !inheritableReportStyle.isEmpty( ) )
+		{
+			report.addStyle( "report", inheritableReportStyle );
+			report.setRootStyleName( "report" );
+		}
 		report.setRootStyle( inheritableReportStyle );
 	}
 

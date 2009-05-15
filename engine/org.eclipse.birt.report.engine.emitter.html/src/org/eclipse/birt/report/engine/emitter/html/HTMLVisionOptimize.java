@@ -57,9 +57,10 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	protected boolean htmlRtLFlag = false;
 	
 	public HTMLVisionOptimize( HTMLReportEmitter reportEmitter,
-			HTMLWriter writer, String layoutPreference, boolean htmlRtLFlag )
+			HTMLWriter writer, String layoutPreference,
+			boolean enableInlineStyle, boolean htmlRtLFlag )
 	{
-		super( reportEmitter, writer, layoutPreference );
+		super( reportEmitter, writer, layoutPreference, enableInlineStyle );
 		this.htmlRtLFlag = htmlRtLFlag;
 	}
 	
