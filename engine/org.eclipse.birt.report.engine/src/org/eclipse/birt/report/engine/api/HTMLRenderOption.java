@@ -436,4 +436,30 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 		return getStringOption( HTML_ID_NAMESPACE );
 	}
 
+	/**
+	 * Sets the flag indicating that Trying to use inline style instead of CSS
+	 * class style. This option only works when the report is embeddable.
+	 * 
+	 * @param inlineStyleFlag
+	 *            the flag
+	 */
+	public void setEnableInlineStyle( boolean inlineStyleFlag )
+	{
+		options.put( HTML_ENABLE_INLINE_STYLE, new Boolean( inlineStyleFlag ) );
+	}
+
+	/**
+	 * @return the inline style flag value. The default value is false. True:
+	 *         Try to using the inline style to instead of style class. Fals:
+	 *         Try to use the style class to compress the HTML source.
+	 */
+	public boolean getEnableInlineStyle( )
+	{
+		Object value = options.get( HTML_ENABLE_INLINE_STYLE );
+		if ( value instanceof Boolean )
+		{
+			return ( (Boolean) value ).booleanValue( );
+		}
+		return false;
+	}
 }

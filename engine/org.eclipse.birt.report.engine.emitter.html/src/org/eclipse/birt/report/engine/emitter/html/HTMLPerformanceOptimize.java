@@ -32,9 +32,9 @@ import org.w3c.dom.css.CSSValue;
 public class HTMLPerformanceOptimize extends HTMLEmitter
 {
 	public HTMLPerformanceOptimize( HTMLReportEmitter reportEmitter,
-			HTMLWriter writer, String layoutPreference )
+			HTMLWriter writer, String layoutPreference, boolean enableInlineStyle )
 	{
-		super( reportEmitter, writer, layoutPreference );
+		super( reportEmitter, writer, layoutPreference, enableInlineStyle );
 	}
 	
 	/**

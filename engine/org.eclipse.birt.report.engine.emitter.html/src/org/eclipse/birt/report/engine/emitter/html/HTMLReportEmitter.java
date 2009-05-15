@@ -290,6 +290,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	private boolean enableAgentStyleEngine;
 	private boolean outputMasterPageMargins;
 	private String htmlIDNamespace;
+	private boolean enableInlineStyle = false;
 	
 	private HTMLEmitter htmlEmitter;
 	protected Stack tableDIVWrapedFlagStack = new Stack( );
@@ -382,6 +383,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				{
 					htmlIDNamespace = null;
 				}
+			}
+			if ( isEmbeddable )
+			{
+				enableInlineStyle = htmlOption.getEnableInlineStyle( );
 			}
 		}
 	}
@@ -511,41 +516,58 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			htmlEmitter = new HTMLPerformanceOptimize( this,
 					writer,
-					layoutPreference );
+					layoutPreference,
+					enableInlineStyle );
 		}
 		else
 		{
 			// we will use HTMLVisionOptimize as the default emitter.
 			htmlEmitter = new HTMLVisionOptimize( this,
 					writer,
-					layoutPreference );
+					layoutPreference,
+					enableInlineStyle );
 		}
-		
-		//build report default style
-		StringBuffer defaultStyleBuffer = new StringBuffer( );
-		if ( report != null )
-		{
-			String reportStyleName = report.getDesign( ).getRootStyleName( );
-			if ( reportStyleName != null )
-			{
-				IStyle style = report.findStyle( reportStyleName );
-
-				htmlEmitter.buildDefaultStyle( defaultStyleBuffer, style );
-			}
-		}
-		String defaultStyleName = "style_report";
 		
 		if ( isEmbeddable )
 		{
-			outputCSSStyles( defaultStyleName, defaultStyleBuffer, reportDesign, designHandle );
+			outputCSSStyles( reportDesign, designHandle );
 			fixTransparentPNG( );
 			fixRedirect( );
 
 			writer.openTag( HTMLTags.TAG_DIV );
 			writeBidiFlag( );
 			// output the report default style
-			writer.attribute( HTMLTags.ATTR_STYLE, defaultStyleBuffer
-					.toString( ) );
+			if ( report != null )
+			{
+				String defaultStyleName = report.getDesign( ).getRootStyleName( );
+				if ( defaultStyleName != null )
+				{
+					if ( enableInlineStyle )
+					{
+						StringBuffer defaultStyleBuffer = new StringBuffer( );
+						IStyle defaultStyle = report.findStyle( defaultStyleName );
+						htmlEmitter.buildDefaultStyle( defaultStyleBuffer,
+								defaultStyle );
+						if ( defaultStyleBuffer.length( ) > 0 )
+						{
+							writer.attribute( HTMLTags.ATTR_STYLE,
+									defaultStyleBuffer.toString( ) );
+						}
+					}
+					else
+					{
+						if ( htmlIDNamespace != null )
+						{
+							writer.attribute( HTMLTags.ATTR_CLASS, htmlIDNamespace
+									+ defaultStyleName );
+						}
+						else
+						{
+							writer.attribute( HTMLTags.ATTR_CLASS, defaultStyleName );
+						}
+					}
+				}
+			}
 			return;
 		}
 
@@ -581,23 +603,51 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.attribute( HTMLTags.ATTR_CONTENT, "text/html; charset=UTF-8" ); //$NON-NLS-1$ 
 		writer.closeTag( HTMLTags.TAG_META );
 
-		outputCSSStyles( defaultStyleName, defaultStyleBuffer, reportDesign, designHandle );
+		outputCSSStyles( reportDesign, designHandle );
 		
 		fixTransparentPNG( );
 		fixRedirect( );
 		writer.closeTag( HTMLTags.TAG_HEAD );
 
 		writer.openTag( HTMLTags.TAG_BODY );
-		//output the report default style
-		if ( defaultStyleBuffer.length( ) > 0 )
+		// output the report default style
+		StringBuffer defaultStyleBuffer = new StringBuffer( );
+		if ( report != null )
 		{
-			writer.attribute( HTMLTags.ATTR_CLASS, defaultStyleName );
+			String defaultStyleName = report.getDesign( ).getRootStyleName( );
+			if ( defaultStyleName != null )
+			{
+				if ( enableInlineStyle )
+				{
+					IStyle defaultStyle = report.findStyle( defaultStyleName );
+					htmlEmitter.buildDefaultStyle( defaultStyleBuffer,
+							defaultStyle );
+				}
+				else
+				{
+					if ( htmlIDNamespace != null )
+					{
+						writer.attribute( HTMLTags.ATTR_CLASS, htmlIDNamespace
+								+ defaultStyleName );
+					}
+					else
+					{
+						writer.attribute( HTMLTags.ATTR_CLASS, defaultStyleName );
+					}
+				}
+			}
 		}
 		
 		if ( outputMasterPageContent )
 		{
 			// remove the default margin of the html body
-			writer.attribute( HTMLTags.ATTR_STYLE, " margin:0px;" );
+			defaultStyleBuffer.append( " margin:0px;" );
+		}
+
+		if ( defaultStyleBuffer.length( ) > 0 )
+		{
+			writer.attribute( HTMLTags.ATTR_STYLE,
+					defaultStyleBuffer.toString( ) );
 		}
 	}
 
@@ -614,15 +664,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// bidi_hcg end
 	}
 	
-	private void outputCSSStyles( String defaultStyleName,
-			StringBuffer defaultStyleBuffer, Report reportDesign,
+	private void outputCSSStyles( Report reportDesign,
 			ReportDesignHandle designHandle )
 	{
-		writer.openTag( HTMLTags.TAG_STYLE );
-		writer.attribute( HTMLTags.ATTR_TYPE, "text/css" ); //$NON-NLS-1$
-
-		IStyle style;
-		StringBuffer styleBuffer = new StringBuffer( );
 		if ( report == null )
 		{
 			logger.log( Level.WARNING,
@@ -630,37 +674,51 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		else
 		{
-			// output the report default style
-			String styleNamePrefix;
-			if ( null != htmlIDNamespace )
+			// output the report CSS styles
+			if ( !enableInlineStyle )
 			{
-				styleNamePrefix = "." + htmlIDNamespace;
-			}
-			else
-			{
-				styleNamePrefix = ".";
-			}
-			writer.style( styleNamePrefix + defaultStyleName, defaultStyleBuffer.toString( ) );
-			Map styles = reportDesign.getStyles( );
-			Iterator iter = styles.entrySet( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				Map.Entry entry = (Map.Entry) iter.next( );
-				String styleName = (String) entry.getKey( );
-				style = (IStyle) entry.getValue( );
-
-				styleBuffer.setLength( 0 );
-				htmlEmitter.buildStyle( styleBuffer, style );
-
-				if ( styleBuffer.length( ) > 0 )
+				writer.openTag( HTMLTags.TAG_STYLE );
+				writer.attribute( HTMLTags.ATTR_TYPE, "text/css" ); //$NON-NLS-1$
+				String styleNamePrefix;
+				if ( null != htmlIDNamespace )
 				{
-					writer.style( styleNamePrefix + styleName, styleBuffer.toString( ) );
-					outputtedStyles.add( styleName );
+					styleNamePrefix = "." + htmlIDNamespace;
 				}
+				else
+				{
+					styleNamePrefix = ".";
+				}
+				String defaultStyleName = reportDesign.getRootStyleName( );
+				Map styles = reportDesign.getStyles( );
+				Iterator iter = styles.entrySet( ).iterator( );
+				while ( iter.hasNext( ) )
+				{
+					Map.Entry entry = (Map.Entry) iter.next( );
+					String styleName = (String) entry.getKey( );
+					if ( styleName != null )
+					{
+						IStyle style = (IStyle) entry.getValue( );
+						StringBuffer styleBuffer = new StringBuffer( );
+						if ( styleName.equals( defaultStyleName ) )
+						{
+							htmlEmitter.buildDefaultStyle( styleBuffer, style );
+						}
+						else
+						{
+							htmlEmitter.buildStyle( styleBuffer, style );
+						}
+
+						if ( styleBuffer.length( ) > 0 )
+						{
+							writer.style( styleNamePrefix + styleName,
+									styleBuffer.toString( ) );
+							outputtedStyles.add( styleName );
+						}
+					}
+				}
+				writer.closeTag( HTMLTags.TAG_STYLE );
 			}
 		}
-
-		writer.closeTag( HTMLTags.TAG_STYLE );
 
 		//export the CSS links in the HTML
 		hasCsslinks = false;
@@ -2561,7 +2619,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 		}
 		
-		if ( styleName != null )
+		if ( !enableInlineStyle && styleName != null )
 		{
 			if ( outputtedStyles.contains( styleName ) )
 			{

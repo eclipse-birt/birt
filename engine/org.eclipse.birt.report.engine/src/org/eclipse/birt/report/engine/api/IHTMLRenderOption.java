@@ -318,4 +318,11 @@ public interface IHTMLRenderOption extends IRenderOption
 	public static final String HTML_OUTPUT_MASTER_PAGE_MARGINS = "org.eclipse.birt.report.engine.api.IHTMLRenderOption.outputMasterPageMargins"; //$NON-NLS-1$//false
 	
 	public static final String HTML_ID_NAMESPACE = "HTMLIDNamespace";
+	
+	/**
+	 * Using inline style or not. This option only works when the report is
+	 * embeddable. True: Try to using the inline style to instead of style
+	 * class. Fals: Try to use the style class to compress the HTML source.
+	 */
+	public static final String HTML_ENABLE_INLINE_STYLE = "htmlEnableInlineStyle";
 }

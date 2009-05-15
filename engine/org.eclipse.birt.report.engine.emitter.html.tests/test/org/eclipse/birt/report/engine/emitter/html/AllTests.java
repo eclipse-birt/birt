@@ -35,6 +35,7 @@ public class AllTests
 		suite.addTestSuite( ScriptTest.class );
 		suite.addTestSuite( DrillThroughActionScriptTest.class );
 		suite.addTestSuite( HTMLEmitterOptimizeTest.class );
+		suite.addTestSuite( StyleTest.class );
 		
 		//$JUnit-END$
 		return suite;

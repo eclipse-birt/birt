@@ -38,6 +38,7 @@ public abstract class HTMLEmitter
 	protected HTMLReportEmitter reportEmitter;
 	protected HTMLWriter writer;
 	protected String layoutPreference;
+	protected boolean enableInlineStyle = false;
 	
 	/**
 	 * The <code>containerDisplayStack</code> that stores the display value of container.
@@ -45,11 +46,12 @@ public abstract class HTMLEmitter
 	protected Stack containerDisplayStack = new Stack( );
 
 	public HTMLEmitter( HTMLReportEmitter reportEmitter, HTMLWriter writer,
-			String layoutPreference )
+			String layoutPreference, boolean enableInlineStyle )
 	{
 		this.reportEmitter = reportEmitter;
 		this.writer = writer;
 		this.layoutPreference = layoutPreference;
+		this.enableInlineStyle = enableInlineStyle;
 	}
 	
 	// FIXME: code review: We shouldn��t pass the style directly. We should pass
@@ -146,7 +148,15 @@ public abstract class HTMLEmitter
 	
 	protected IStyle getElementStyle( IContent content )
 	{
-		IStyle style = content.getInlineStyle( );
+		IStyle style = null;
+		if ( enableInlineStyle )
+		{
+			style = content.getStyle( );
+		}
+		else
+		{
+			style = content.getInlineStyle( );
+		}
 		if ( style == null || style.isEmpty( ) )
 		{
 			return null;
