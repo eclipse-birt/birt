@@ -220,6 +220,10 @@ public class QueryUtil
 		{
 			throw new EngineException( ex );
 		}
+		if( parent != null && !results.contains( parent ) )
+		{
+			results.add( parent );
+		}
 		return results;
 	}
 
