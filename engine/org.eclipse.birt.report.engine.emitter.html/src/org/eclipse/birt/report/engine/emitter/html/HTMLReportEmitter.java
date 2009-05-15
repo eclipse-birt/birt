@@ -2910,19 +2910,25 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 		}
 		
-		if ( !enableInlineStyle && styleClass != null )
+		if ( !enableInlineStyle
+				&& styleClass != null && styleClass.length( ) > 0 )
 		{
-			if ( classBuffer.length( ) != 0 )
+			String[] strings = styleClass.split( "," );
+			for ( String string : strings )
 			{
-				classBuffer.append( " " );
-			}
-			if ( null != htmlIDNamespace )
-			{
-				classBuffer.append( getStyleClassWithNameSpace( styleClass ) );
-			}
-			else
-			{
-				classBuffer.append( styleClass );
+				string = string.trim( );
+				if ( string.length( ) > 0 )
+				{
+					if ( classBuffer.length( ) > 0 )
+					{
+						classBuffer.append( ' ' );
+					}
+					if ( null != htmlIDNamespace )
+					{
+						classBuffer.append( htmlIDNamespace );
+					}
+					classBuffer.append( string );
+				}
 			}
 		}
 
@@ -2956,26 +2962,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			writer.attribute( HTMLTags.ATTR_CLASS, classBuffer.toString( ) );
 		}
-	}
-
-	private String getStyleClassWithNameSpace( String styleClass )
-	{
-		String result = styleClass;
-		StringBuffer buffer = new StringBuffer( );
-		if ( styleClass != null && styleClass.length( ) > 0 )
-		{
-			String[] strings = styleClass.split( ", " );
-			for ( String string : strings )
-			{
-				if ( buffer.length( ) > 0 )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( htmlIDNamespace + string );
-			}
-			result = buffer.toString( );
-		}
-		return result;
 	}
 
 	protected void outputBookmark( IContent content, String tagName )
