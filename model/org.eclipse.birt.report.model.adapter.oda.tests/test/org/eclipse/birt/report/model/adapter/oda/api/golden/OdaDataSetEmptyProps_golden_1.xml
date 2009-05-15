@@ -21,7 +21,6 @@
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet1" id="3">
             <text-property name="displayName">data set display name</text-property>
-            <property name="dataSource">myDataSource1</property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">param1</property>
@@ -36,6 +35,7 @@
                     <property name="isOutput">true</property>
                 </structure>
             </list-property>
+            <property name="dataSource">myDataSource1</property>            
             <list-property name="resultSet">
                 <structure>
                     <property name="position">2</property>
@@ -44,7 +44,7 @@
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
-            </list-property>
+            </list-property>            
             <xml-property name="queryText"><![CDATA[new query text]]></xml-property>
             <property name="resultSetName">resultset1</property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>

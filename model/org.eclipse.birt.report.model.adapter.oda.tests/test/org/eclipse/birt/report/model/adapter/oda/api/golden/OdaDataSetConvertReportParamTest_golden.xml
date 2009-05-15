@@ -12,7 +12,7 @@
             <expression name="valueExpr">new value column 1</expression>
             <expression name="labelExpr">new lable column 1</expression>
             <simple-property-list name="defaultValue">
-                <value>new default value for report param 1</value>
+                <value type="constant">new default value for report param 1</value>
             </simple-property-list>
             <list-property name="selectionList">
                 <structure>
@@ -70,7 +70,6 @@
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet1" id="3">
             <text-property name="displayName">My Data Set One</text-property>
-            <property name="dataSource">myDataSource1</property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">dataSetParam1</property>
@@ -97,7 +96,8 @@
                     <property name="isInput">true</property>
                     <property name="isOutput">true</property>
                 </structure>
-            </list-property>        
+            </list-property>
+            <property name="dataSource">myDataSource1</property>
             <property name="resultSetName">userid</property>
             <list-property name="privateDriverProperties">
                 <ex-property>
