@@ -19,8 +19,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.birt.report.data.adapter,
  org.eclipse.birt.report.model.adapter.oda,
  org.eclipse.birt.report.engine
+Eclipse-ExtensibleAPI: true
 Export-Package: org.eclipse.birt.report.designer.data.ui.actions,
  org.eclipse.birt.report.designer.data.ui.dataset,
  org.eclipse.birt.report.designer.data.ui.datasource,
  org.eclipse.birt.report.designer.data.ui.providers,
  org.eclipse.birt.report.designer.data.ui.util
+Bundle-ClassPath: library.jar,
+ .

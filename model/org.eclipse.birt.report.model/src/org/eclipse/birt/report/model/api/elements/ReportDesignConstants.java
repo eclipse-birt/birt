@@ -29,6 +29,7 @@ public interface ReportDesignConstants
 	String DESIGN_ELEMENT = "DesignElement"; //$NON-NLS-1$	
 	String ODA_DATA_SET = "OdaDataSet"; //$NON-NLS-1$
 	String ODA_DATA_SOURCE = "OdaDataSource"; //$NON-NLS-1$
+	String DERIVED_DATA_SET = "DerivedDataSet"; //$NON-NLS-1$
 	String EXTENDED_ITEM = "ExtendedItem"; //$NON-NLS-1$
 	String FREE_FORM_ITEM = "FreeForm"; //$NON-NLS-1$ 
 	String GRAPHIC_MASTER_PAGE_ELEMENT = "GraphicMasterPage"; //$NON-NLS-1$

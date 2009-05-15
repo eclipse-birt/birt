@@ -3,10 +3,12 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Data Engine
 Bundle-SymbolicName: org.eclipse.birt.data; singleton:=true
 Bundle-Version: 2.5.0.qualifier
-Bundle-ClassPath: .
+Bundle-ClassPath: library.jar,
+ .
 Bundle-Activator: org.eclipse.birt.data.engine.plugin.DataEnginePlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
+Eclipse-ExtensibleAPI: true
 Export-Package: javax.olap,
  javax.olap.cursor,
  javax.olap.query.querycoremodel,

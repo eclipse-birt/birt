@@ -61,6 +61,7 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -108,6 +109,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 
 	private String parameterName;
 
+	private boolean isOdaDataSetHandle, isJointOrDerivedDataSetHandle;
 
 	private static String DEFAULT_MESSAGE = Messages.getString( "dataset.editor.parameters" ); //$NON-NLS-1$
 	private static String NONE_DEFAULT_VALUE = Messages.getString( "DataSetParametersPage.default.None" );//$NON-NLS-1$
@@ -147,9 +149,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		column.setText( " " ); //$NON-NLS-1$
 		column.setResizable( false );
 		column.setWidth( 23 );
+		
 		DataSetHandle dataSetHandle = (DataSetHandle) getContainer( ).getModel( );
-		boolean isOdaDataSetHandle = ParameterPageUtil.isOdaDataSetHandle( dataSetHandle );
-		boolean isJointDataSetHandle = ParameterPageUtil.isJointDataSetHandle( dataSetHandle );
+		isOdaDataSetHandle = ParameterPageUtil.isOdaDataSetHandle( dataSetHandle );
+		isJointOrDerivedDataSetHandle = ParameterPageUtil.isJointOrDerivedDataSetHandle( dataSetHandle );
 		
 		if ( isOdaDataSetHandle )
 		{
@@ -198,7 +201,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			column.setText( cellLabels[3] );
 			column.setWidth( 100 );
 			
-			if ( isJointDataSetHandle )
+			if ( isJointOrDerivedDataSetHandle )
 			{
 				column = new TableColumn( viewer.getViewer( ).getTable( ),
 						SWT.LEFT );
@@ -212,16 +215,16 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		viewer.getViewer( )
 				.setLabelProvider( new ParameterViewLableProvider( dataSetHandle ) );
 		adjustParameterOnPosition( parameters );
-		if ( isJointDataSetHandle )
+		if ( ParameterPageUtil.isJointDataSetHandle( dataSetHandle ) )
 		{
-			viewer.getViewer( ).setInput( (JointDataSetHandle)dataSetHandle );
+			viewer.getViewer( ).setInput( (JointDataSetHandle) dataSetHandle );
 		}
 		else
 		{
 			viewer.getViewer( ).setInput( parameters );
 		}
 		setToolTips( );
-		if ( !ParameterPageUtil.isJointDataSetHandle( dataSetHandle ) )
+		if ( isJointOrDerivedDataSetHandle )
 		{
 			addRefreshMenu( );
 			addListeners( );
@@ -399,7 +402,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	private void doNew( )
 	{
 		DataSetParameter newParam = null;
-		if ( ParameterPageUtil.isOdaDataSetHandle( (DataSetHandle) getContainer( ).getModel( ) ) )
+		if ( isOdaDataSetHandle )
 			newParam = new OdaDataSetParameter( );
 		else
 			newParam = new DataSetParameter( );
@@ -430,7 +433,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	private void doEdit( Object structureOrHandle )
 	{
 		ParameterInputDialog dlg = new ParameterInputDialog( structureOrHandle,
-				ParameterPageUtil.isOdaDataSetHandle( (DataSetHandle) getContainer( ).getModel( ) ) );
+				isOdaDataSetHandle );
 
 		if ( dlg.open( ) == Window.OK )
 		{
@@ -685,7 +688,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	private DataSetParameter newParameter( IParameterMetaData paramFromDataSet )
 	{
 		DataSetParameter parameter = null;
-		if ( ParameterPageUtil.isOdaDataSetHandle( (DataSetHandle) getContainer( ).getModel( ) ) )
+		if ( isOdaDataSetHandle )
 		{
 			parameter = new OdaDataSetParameter( );
 			if ( paramFromDataSet instanceof ParameterMetaData )
@@ -970,15 +973,19 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		else
 		{
 			String name = getNoneValuedParameterName( );
-			boolean confirm = MessageDialog.openConfirm( null,
-					Messages.getString( "dataset.editor.error.title" ), //$NON-NLS-1$
-					Messages.getFormattedString( "dataset.editor.error.validationParameter", //$NON-NLS-1$
-							new Object[]{
-								name
-							} ) );
-			if ( confirm )
-				( (DataSetEditor) getContainer( ) ).updateDataSetDesign( this );
-			return confirm;
+//			boolean confirm = MessageDialog.openConfirm( null,
+//					Messages.getString( "dataset.editor.error.title" ), //$NON-NLS-1$
+//					Messages.getFormattedString( "dataset.editor.error.validationParameter", //$NON-NLS-1$
+//							new Object[]{
+//								name
+//							} ) );
+//			if ( confirm )
+//				( (DataSetEditor) getContainer( ) ).updateDataSetDesign( this );
+			TestDialog a = new TestDialog( null, "Comfirm Dialog" );
+			if ( a.open( ) == Dialog.OK )
+				return true;
+			else
+				return false;
 		}
 	}
 
@@ -989,7 +996,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	 */
 	private boolean doSaveEmptyParameter( PropertyHandle parameters )
 	{
-		if ( ParameterPageUtil.isJointDataSetHandle( (DataSetHandle) getContainer( ).getModel( ) ) )
+		if ( isJointOrDerivedDataSetHandle )
 		{
 			return true;
 		}
@@ -1006,7 +1013,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 				while ( iter.hasNext( ) )
 				{
 					DataSetParameterHandle parameter = (DataSetParameterHandle) iter.next( );
-					if ( ParameterPageUtil.isOdaDataSetHandle( (DataSetHandle) getContainer( ).getModel( ) ) )
+					if ( isOdaDataSetHandle )
 						paramName = ( (OdaDataSetParameterHandle) parameter ).getParamName( );
 					if ( parameter.isInput( )
 							&& paramName == null
@@ -1109,27 +1116,27 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	 */
 	private void setPageProperties( )
 	{
-		boolean parametersExist = false, isJointDataSet = ParameterPageUtil.isJointDataSetHandle( (DataSetHandle) getContainer( ).getModel( ) );
+		boolean parametersExist = false;
 
 		parametersExist = ( parameters != null
 				&& parameters.getListValue( ) != null && parameters.getListValue( )
 				.size( ) > 0 );
 		if ( viewer != null )
 		{
-			viewer.getNewButton( ).setEnabled( !isJointDataSet );
-			viewer.getEditButton( ).setEnabled( !isJointDataSet
+			viewer.getNewButton( ).setEnabled( !isJointOrDerivedDataSetHandle );
+			viewer.getEditButton( ).setEnabled( !isJointOrDerivedDataSetHandle
 					&& parametersExist );
-			viewer.getRemoveButton( ).setEnabled( !isJointDataSet
+			viewer.getRemoveButton( ).setEnabled( !isJointOrDerivedDataSetHandle
 					&& parametersExist );
-			viewer.getUpButton( ).setEnabled( !isJointDataSet
+			viewer.getUpButton( ).setEnabled( !isJointOrDerivedDataSetHandle
 					&& parametersExist
 					&& parameters.getListValue( ).size( ) > 1 );
-			viewer.getDownButton( ).setEnabled( !isJointDataSet
+			viewer.getDownButton( ).setEnabled( !isJointOrDerivedDataSetHandle
 					&& parametersExist
 					&& parameters.getListValue( ).size( ) > 1 );
-			viewer.getRemoveMenuItem( ).setEnabled( !isJointDataSet
+			viewer.getRemoveMenuItem( ).setEnabled( !isJointOrDerivedDataSetHandle
 					&& parametersExist );
-			viewer.getRemoveAllMenuItem( ).setEnabled( !isJointDataSet
+			viewer.getRemoveAllMenuItem( ).setEnabled( !isJointOrDerivedDataSetHandle
 					&& parametersExist );
 		}
 		if ( parametersExist == false )
@@ -1375,12 +1382,12 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			String value = null;			
 			DataSetParameter parameter = getStructure( element );
 
-			if ( ParameterPageUtil.isOdaDataSetHandle( dataSetHandle ) )
+			if ( isOdaDataSetHandle )
 			{
 				value = getOdaParametersValue( (OdaDataSetParameter) parameter,
 						columnIndex );
 			}
-			else if ( ParameterPageUtil.isJointDataSetHandle( dataSetHandle ) )
+			else if ( isJointOrDerivedDataSetHandle )
 			{
 				value = getJointDataSetParametersValue( parameter, columnIndex );
 			}

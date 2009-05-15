@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.jface.wizard.WizardPage;
 
 /**
  * The wizard to joint dataset
@@ -28,15 +29,25 @@ public class JointDataSetWizard extends Wizard
 	private static final String CREATE_DATA_SET_TRANS_NAME = Messages.getString( "AbstractDataSetWizard.ModelTrans.Create" ); //$NON-NLS-1$
 
 	private transient boolean useTransaction = true;
-	private JointDataSetPage dataSetPage;
+	private WizardPage dataSetPage;
 	
 	/**
 	 *  
 	 */
 	public JointDataSetWizard( )
 	{
-		this( null, true );
+		this( (DataSourceHandle) null, true );
 	}
+
+	public JointDataSetWizard( WizardPage[] pages, boolean useTransaction )
+	{
+		super( );
+		this.useTransaction = useTransaction;
+		setForcePreviousAndNextButtons( true );
+		for ( int i = 0; i < pages.length; i++ )
+			addPage( pages[i] );
+	}
+		
 	
 	/**
 	 * 
@@ -62,26 +73,30 @@ public class JointDataSetWizard extends Wizard
 		if ( !canFinish( ) )
 			return false;
 
-		if ( useTransaction )
+
+		if ( dataSetPage != null && dataSetPage instanceof JointDataSetPage )
 		{
-			// Start the transaction
-			Utility.getCommandStack( ).startTrans( CREATE_DATA_SET_TRANS_NAME );
-		}
-		DataSetHandle joinDataSetHandle = dataSetPage.createSelectedDataSet( );
-		try
-		{
-			if ( joinDataSetHandle != null )
-				DataSetUIUtil.updateColumnCache( joinDataSetHandle );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		if ( useTransaction )
-		{
-			// Start the transaction
-			Utility.getCommandStack( ).commit( );
-		}
+			if ( useTransaction )
+			{
+				// Start the transaction
+				Utility.getCommandStack( ).startTrans( CREATE_DATA_SET_TRANS_NAME );
+			}
+			DataSetHandle joinDataSetHandle = ( (JointDataSetPage) dataSetPage ).createSelectedDataSet( );
+			try
+			{
+				if ( joinDataSetHandle != null )
+					DataSetUIUtil.updateColumnCache( joinDataSetHandle );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+			if ( useTransaction )
+			{
+				// Start the transaction
+				Utility.getCommandStack( ).commit( );
+			}
+		}				
 		return true;
 	}
 

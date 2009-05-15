@@ -46,11 +46,7 @@ import org.eclipse.birt.report.data.adapter.api.DimensionLevel;
 import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
-import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.ColumnMeta;
-import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
@@ -559,9 +555,11 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) ( cubeHandle.getDimension( target.getDimensionName( ) ).getContent( TabularDimensionHandle.HIERARCHIES_PROP,
 					0 ) );
 			if ( hierHandle.getDataSet( ) != null )
-				defineDataSourceAndDataSet( hierHandle.getDataSet( ) );
+				DefineDataSourceSetUtil.defineDataSourceAndDataSet( hierHandle.getDataSet( ),
+						this.sessionImpl );
 			else
-				defineDataSourceAndDataSet( cubeHandle.getDataSet( ) );
+				DefineDataSourceSetUtil.defineDataSourceAndDataSet( cubeHandle.getDataSet( ),
+						this.sessionImpl );
 			Map levelValueMap = new HashMap( );
 
 			DataSetIterator it = createDataSetIterator( appContext, hierHandle );
@@ -635,9 +633,11 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) ( cubeHandle.getDimension( target.getDimensionName( ) ).getContent( TabularDimensionHandle.HIERARCHIES_PROP,
 					0 ) );
 			if ( hierHandle.getDataSet( ) != null )
-				defineDataSourceAndDataSet( hierHandle.getDataSet( ) );
+				DefineDataSourceSetUtil.defineDataSourceAndDataSet( hierHandle.getDataSet( ),
+						this.sessionImpl );
 			else
-				defineDataSourceAndDataSet( cubeHandle.getDataSet( ) );
+				DefineDataSourceSetUtil.defineDataSourceAndDataSet( cubeHandle.getDataSet( ),
+						this.sessionImpl );
 			Map levelValueMap = new HashMap( );
 			if ( dimensionLevels != null )
 			{
@@ -697,9 +697,11 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) ( cubeHandle.getDimension( target.getDimensionName( ) ).getContent( TabularDimensionHandle.HIERARCHIES_PROP,
 					0 ) );
 			if ( hierHandle.getDataSet( ) != null )
-				defineDataSourceAndDataSet( hierHandle.getDataSet( ) );
+				DefineDataSourceSetUtil.defineDataSourceAndDataSet( hierHandle.getDataSet( ),
+						this.sessionImpl );
 			else
-				defineDataSourceAndDataSet( cubeHandle.getDataSet( ) );
+				DefineDataSourceSetUtil.defineDataSourceAndDataSet( cubeHandle.getDataSet( ),
+						this.sessionImpl );
 			Map levelValueMap = new HashMap( );
 			if ( higherLevelDefns != null )
 			{
@@ -759,37 +761,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	 * @param hierHandle
 	 * @throws BirtException
 	 */
-	private void defineDataSourceAndDataSet( DataSetHandle dataSet )
-			throws BirtException
-	{
-		IModelAdapter modelAdaptor = sessionImpl.getModelAdaptor( );
-		DataSourceHandle dataSource = dataSet.getDataSource( );
-		if ( dataSource != null )
-		{
-			sessionImpl.defineDataSource( modelAdaptor.adaptDataSource( dataSource ) );
-		}
-		if ( dataSet instanceof JointDataSetHandle )
-		{
-			JointDataSetHandle jointDataSet = (JointDataSetHandle) dataSet;
-			Iterator iter = jointDataSet.dataSetsIterator( );
-			while ( iter.hasNext( ) )
-			{
-				DataSetHandle childDataSet = (DataSetHandle) iter.next( );
-				if ( childDataSet != null )
-				{
-					DataSourceHandle childDataSource = childDataSet.getDataSource( );
-					if ( childDataSource != null )
-					{
-						sessionImpl.defineDataSource( modelAdaptor.adaptDataSource( childDataSource ) );
-					}
-					defineDataSourceAndDataSet( childDataSet );
-				}
-			}
 
-		}
-		sessionImpl.defineDataSet( modelAdaptor.adaptDataSet( dataSet ) );
-	}
-	
 	/**
 	 * 
 	 * @author Administrator

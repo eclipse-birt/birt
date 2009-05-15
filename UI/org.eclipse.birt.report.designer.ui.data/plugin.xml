@@ -116,6 +116,17 @@
                         type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
       </adapter>
    </adaptable>
+    <adaptable
+         class="org.eclipse.birt.report.model.api.DerivedDataSetHandle">
+      <adapter
+            class="org.eclipse.birt.report.designer.data.ui.providers.EditableDataSetNodeProvider"
+            id="DerivedDataSetHandle.NodeProvider.Editable"
+            overwrite="DerivedDataSetHandle.NodeProvider"
+            priority="3"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+      </adapter>
+   </adaptable>
+  
    </extension>
    <extension
          point="org.eclipse.birt.report.designer.ui.elementAdapters">

@@ -30,20 +30,14 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
-import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
-import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
-import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
-import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
-import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -262,52 +256,7 @@ public class DataEngineImpl extends DataEngine
 					"defineDataSet",
 					"DataEngine.defineDataSet: " + LogUtil.toString( dataSet ) );
 					
-		if ( !(dataSet instanceof IJointDataSetDesign) )
-		{
-			// Sanity check: a data set must have a data source with the proper
-			// type, and the data source must have be defined
-			String dataSourceName = dataSet.getDataSourceName( );
-			DataSourceRuntime dsource = this.getDataSourceRuntime( dataSourceName );
-			if ( dsource == null )
-			{
-				DataException e = new DataException( ResourceConstants.UNDEFINED_DATA_SOURCE,
-						dataSourceName );
-				logger.logp( Level.WARNING,
-						DataEngineImpl.class.getName( ),
-						"defineDataSet",
-						"Data source {" + dataSourceName + "} is not defined",
-						e );
-				throw e;
-			}
-
-			Class dSourceClass;
-			if ( dataSet instanceof IOdaDataSetDesign )
-				dSourceClass = IOdaDataSourceDesign.class;
-			else if ( dataSet instanceof IScriptDataSetDesign )
-				dSourceClass = IScriptDataSourceDesign.class;
-			else
-			{
-				DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE );
-				logger.logp( Level.WARNING,
-						DataEngineImpl.class.getName( ),
-						"defineDataSet",
-						"Unsupported data set type: " + dataSet.getName( ),
-						e );
-				throw e;
-			}
-
-			if ( !dSourceClass.isInstance( dsource.getDesign( ) ) )
-			{
-				DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE,
-						dsource.getName( ) );
-				logger.logp( Level.WARNING,
-						DataEngineImpl.class.getName( ),
-						"defineDataSet",
-						"Unsupported data source type: " + dsource.getName( ),
-						e );
-				throw e;
-			}
-		}
+		DataSetDesignHelper.vailidateDataSetDesign( dataSet, dataSources );
 		dataSetDesigns.put( name, dataSet );
 		logger.exiting( DataEngineImpl.class.getName( ), "defineDataSet" );
 	}

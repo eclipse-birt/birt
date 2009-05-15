@@ -173,8 +173,13 @@ class PreparedQueryUtil
 		}
 		else
 		{
-			throw new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE,
-					dset.getName( ) );
+			preparedQuery = DataSetDesignHelper.createPreparedQueryInstance( dset,
+					dataEngine,
+					queryDefn,
+					appContext );
+			if ( preparedQuery == null )
+				throw new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE,
+						dset.getName( ) );
 		}
 
 		return preparedQuery;
@@ -279,12 +284,15 @@ class PreparedQueryUtil
 		{
 			return new JointDataSetAdapter( dataSetDesign );
 		}
-		else if ( dataSetDesign == null )
+		else
 		{
-			return null;
+			IBaseDataSetDesign design = DataSetDesignHelper.createAdapter( dataSetDesign );
+			if( design == null )
+				throw new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE,
+						dataSetDesign.getName( ) );
+			else
+				return design;
 		}
-		throw new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE,
-				dataSetDesign.getName( ) );
 	}
 
 	/**

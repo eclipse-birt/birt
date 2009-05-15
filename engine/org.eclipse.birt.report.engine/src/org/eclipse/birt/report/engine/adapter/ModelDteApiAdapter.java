@@ -226,8 +226,7 @@ public class ModelDteApiAdapter
 		if ( dataSet instanceof JointDataSetHandle )
 			return newJointDataSet( (JointDataSetHandle)dataSet, context);
 		// any other types are not supported
-		assert false;
-		return null;
+		return dteSession.getModelAdaptor( ).adaptDataSet( dataSet );
 	}
 	
 	/**

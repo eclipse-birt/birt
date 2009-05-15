@@ -61,6 +61,8 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_ODA_DATA_SET = ReportDesignConstants.ODA_DATA_SET;
 
 	public final static String ICON_ELEMENT_ODA_DATA_SOURCE = ReportDesignConstants.ODA_DATA_SOURCE;
+	
+	public final static String ICON_ELEMENT_DERIVED_DATA_SET = ReportDesignConstants.DERIVED_DATA_SET;
 
 	public final static String ICON_ELEMENT_SCRIPT_DATA_SET = ReportDesignConstants.SCRIPT_DATA_SET;
 

@@ -276,17 +276,4 @@ public class NewDataSetAction extends Action implements UpdateAction
 		}
 		return null;
 	}
-
-	private DataSourceHandle findNewDataSource( List existingDataSources,
-			List newDataSources )
-	{
-		for ( int i = 0; i < newDataSources.size( ); i++ )
-		{
-			if ( !existingDataSources.contains( newDataSources.get( i ) ) )
-			{
-				return (DataSourceHandle) newDataSources.get( i );
-			}
-		}
-		return null;
-	}
 }

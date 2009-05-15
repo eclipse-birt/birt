@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.dialogs.Dialog;
@@ -30,7 +31,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.11 $ $Date: 2008/01/25 08:37:59 $
+ * @version $Revision$ $Date$
  */
 public class EditDataSetAction extends AbstractElementAction
 {
@@ -68,8 +69,9 @@ public class EditDataSetAction extends AbstractElementAction
 			System.out.println( "Edit data set action >> Runs ..." ); //$NON-NLS-1$
 		}
 		DataSetHandle dsHandle = (DataSetHandle) getSelection( );
-		if ( !( dsHandle instanceof JointDataSetHandle ) &&
-				dsHandle.getDataSource( ) == null )
+		if ( !( dsHandle instanceof JointDataSetHandle )
+				&& !( dsHandle instanceof DerivedDataSetHandle )
+				&& dsHandle.getDataSource( ) == null )
 		{
 			try
 			{

@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -65,7 +66,7 @@ public class EditableDataSetNodeProvider extends DataSetNodeProvider
 	protected boolean performEdit( ReportElementHandle handle )
 	{
 		DataSetHandle dsHandle = (DataSetHandle) handle;
-		if ( !( dsHandle instanceof JointDataSetHandle )
+		if ( !( dsHandle instanceof JointDataSetHandle || dsHandle instanceof DerivedDataSetHandle )
 				&& dsHandle.getDataSource( ) == null )
 		{
 			try

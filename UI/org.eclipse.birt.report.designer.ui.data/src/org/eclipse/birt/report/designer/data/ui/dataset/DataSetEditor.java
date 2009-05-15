@@ -128,31 +128,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	{
 		super( parentShell, ds );
 
-		if ( !( ds instanceof JointDataSetHandle ) )
-		{
-			if ( ds.getDataSource( ) == null )
-			{
-				throw new RuntimeException( Messages.getFormattedString( "dataset.editor.error.noDataSource", new String[]{ds.getQualifiedName( )} ) );//$NON-NLS-1$
-			}
-			if ( ( ds instanceof OdaDataSetHandle && !( ds.getDataSource( ) instanceof OdaDataSourceHandle ) ) )
-			{
-				throw new RuntimeException( Messages.getFormattedString( "dataset.editor.error.nonmatchedDataSource", //$NON-NLS-1$
-						new String[]{
-								ds.getQualifiedName( ),
-								( (OdaDataSetHandle) ds ).getExtensionID( )
-						} ) );
-			}
-			else if ( ds instanceof ScriptDataSetHandle
-					&& !( ds.getDataSource( ) instanceof ScriptDataSourceHandle ) )
-			{
-				throw new RuntimeException( Messages.getFormattedString( "dataset.editor.error.nonmatchedDataSource", //$NON-NLS-1$
-						new String[]{
-								ds.getQualifiedName( ),
-								DataUIConstants.DATA_SET_SCRIPT
-						} ) );
-			}
-		}
-
+		ExtenalUIUtil.validateDataSetHandle( ds );
+		
 		this.needToFocusOnOutput = needToFocusOnOutput;
 		// get the data source and dataset type from handle
 		String dataSourceType, dataSetType;
@@ -171,21 +148,17 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		{
 			dataSourceType = ""; //$NON-NLS-1$
 			dataSetType = ""; //$NON-NLS-1$
-			addPageTo( "/", //$NON-NLS-1$
-					JOINT_DATA_SET_PAGE,
-					Messages.getString( "JointDataSetPage.query" ), //$NON-NLS-1$
-					null,
-					new JointDataSetPage( Messages.getString( "dataset.editor.dataSource" ) ) ); //$NON-NLS-1$
 		}
 		else
 		{
-			throw new RuntimeException( Messages.getFormattedString( "dataset.editor.error.noDataSource", new String[]{ds.getClass( ).getName( )} ) );//$NON-NLS-1$
+			dataSourceType = ExtenalUIUtil.getDataSourceType( ds ); //$NON-NLS-1$
+			dataSetType = ExtenalUIUtil.getDataSetType( ds ); //$NON-NLS-1$
 		}
 
 		// according to the data source type, get the extension point.If
 		// extention is birt, populate birt page. or the ODA Custom page will be
 		// populated.
-		if ( !( ds instanceof JointDataSetHandle ) )
+		if ( ExtenalUIUtil.containsDataSource( ds ) )
 		{
 			addPageTo( "/", DATA_SOURCE_SELECTION_PAGE, Messages.getString( "dataset.editor.dataSource" ), null, new DataSetDataSourceSelectionPage( ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
@@ -331,6 +304,12 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		}
 		else if ( ds instanceof JointDataSetHandle )
 		{
+			addPageTo( "/", //$NON-NLS-1$
+					JOINT_DATA_SET_PAGE,
+					Messages.getString( "JointDataSetPage.query" ), //$NON-NLS-1$
+					null,
+					new JointDataSetPage( Messages.getString( "dataset.editor.dataSource" ) ) ); //$NON-NLS-1$
+
 			// Output column page
 			addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new OutputColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			// Computed column page
@@ -345,6 +324,30 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 			addPageTo( "/", FILTERS_PAGE, Messages.getString( "dataset.editor.filters" ), null, new DataSetFiltersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			// Result set preview page
 			addPageTo( "/", RESULTSET_PREVIEW_PAGE, Messages.getString( "dataset.editor.preview" ), null, new ResultSetPreviewPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		}
+		else
+		{
+			IPropertyPage[] pages = ExtenalUIUtil.getCommonPages( ds );
+			if ( pages != null && pages.length > 0 )
+			{
+				for ( int i = 0; i < pages.length; i++ )
+				{
+					addPageTo( "/", pages[i].getClass( ).getName( ), pages[i].getName( ), null, pages[i] );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$				
+				}
+				addPageTo( "/", OUTPUTCOLUMN_PAGE, Messages.getString( "dataset.editor.outputColumns" ), null, new OutputColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				// Computed column page
+				addPageTo( "/", COMPUTED_COLUMNS_PAGE, Messages.getString( "dataset.editor.computedColumns" ), null, new DataSetComputedColumnsPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				addPageTo( "/", PARAMETERS_PAGE, Messages.getString( "dataset.editor.parameters" ), null, new DataSetParametersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+				/*
+				 * // Setting page addDataSetSettingPage( ds );
+				 */
+
+				// Filter page
+				addPageTo( "/", FILTERS_PAGE, Messages.getString( "dataset.editor.filters" ), null, new DataSetFiltersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				// Result set preview page
+				addPageTo( "/", RESULTSET_PREVIEW_PAGE, Messages.getString( "dataset.editor.preview" ), null, new ResultSetPreviewPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			}
 		}
 		if ( needToFocusOnOutput )
 			setDefaultNode( OUTPUTCOLUMN_PAGE );

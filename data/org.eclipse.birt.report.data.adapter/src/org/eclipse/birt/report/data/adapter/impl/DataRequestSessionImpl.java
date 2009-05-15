@@ -84,12 +84,10 @@ import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.IDataProcessor;
 import org.eclipse.birt.report.data.adapter.internal.adapter.GroupAdapter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
-import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -133,7 +131,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			throw new AdapterException( ResourceConstants.CONEXT_NULL_ERROR );
 
 		dataEngine = (DataEngineImpl)DataEngine.newDataEngine( context.getDataEngineContext( ) );
-		modelAdaptor = new ModelAdapter( context );
+		modelAdaptor = new DataModelAdapter( context );
 		sessionContext = context;
 		cubeHandleMap = new HashMap( );
 		if( sessionContext!= null )
@@ -799,42 +797,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 	} 
 
 	/**
-	 * Clear the data set caches that are used in cube creation.
-	 * 
-	 * @param dataSetHandles
-	 * @throws BirtException
-	 */
-	private void clearCache( Set dataSetHandles )
-	{
-		Iterator it = dataSetHandles.iterator( );
-		while ( it.hasNext( ) )
-		{
-			try
-			{
-				DataSetHandle dsHandle = (DataSetHandle) it.next( );
-				BaseDataSourceDesign baseDataSource = this.modelAdaptor.adaptDataSource( dsHandle.getDataSource( ) );
-				BaseDataSetDesign baseDataSet = this.modelAdaptor.adaptDataSet( dsHandle );
-				this.dataEngine.clearCache( baseDataSource, baseDataSet );
-
-				if ( dsHandle instanceof JointDataSetHandle )
-				{
-					Set parentSet = new HashSet( );
-					Iterator parentIt = ( (JointDataSetHandle) dsHandle ).dataSetsIterator( );
-					while ( parentIt != null && parentIt.hasNext( ) )
-					{
-						parentSet.add( parentIt.next( ) );
-					}
-					clearCache( parentSet );
-				}
-			}
-			catch ( Exception e )
-			{
-				//Do nothing
-			}
-		}
-	}
-	
-	/**
 	 * 
 	 * @param cubeHandle
 	 * @return
@@ -1277,7 +1239,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		String dataSetName = queryDefn.getDataSetName( );
 
 		ModuleHandle module = sessionContext.getModuleHandle();
-		if ( module != null  )
+		if ( module != null )
 		{
 			List l = module.getAllDataSets( );
 			DataSetHandle handle = null;
@@ -1291,54 +1253,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 					break;
 				}
 			}
-			defineDataSourceDataSet( handle );
+			DefineDataSourceSetUtil.defineDataSourceAndDataSet( handle, dataEngine, this.modelAdaptor );
 		}
 	}
 	
-	private void defineDataSourceDataSet( DataSetHandle handle ) throws BirtException
-	{
-
-		if ( handle == null )
-			return;
-		
-		DataSourceHandle dataSourceHandle = handle.getDataSource( );
-		if ( dataSourceHandle != null
-				&& ( (DataEngineImpl) dataEngine ).getDataSourceRuntime( dataSourceHandle.getName( ) ) == null )
-		{
-			IBaseDataSourceDesign dsourceDesign = this.modelAdaptor.adaptDataSource( dataSourceHandle );
-			dataEngine.defineDataSource( dsourceDesign );
-		}
-		if ( handle instanceof JointDataSetHandle )
-		{
-			defineDataSourceDataSet( (JointDataSetHandle) handle );
-		}
-
-		if ( ( (DataEngineImpl) dataEngine ).getDataSetDesign( handle.getQualifiedName( ) ) == null )
-		{
-			BaseDataSetDesign baseDS = this.modelAdaptor.adaptDataSet( handle );
-			dataEngine.defineDataSet( baseDS );
-		}
-	}
-	
-	/**
-	 * @param dataSet
-	 * @param dataSetDesign
-	 * @throws BirtException
-	 */
-	private void defineDataSourceDataSet( JointDataSetHandle jointDataSetHandle )
-			throws BirtException
-	{
-		Iterator iter = ( (JointDataSetHandle) jointDataSetHandle ).dataSetsIterator();
-		while (iter.hasNext( ))
-		{
-			DataSetHandle dsHandle = (DataSetHandle) iter.next( ); 
-			if ( dsHandle != null )
-			{
-				defineDataSourceDataSet( dsHandle );
-			}
-		}
-	}
-
 	/**
 	 * 
 	 * @param query

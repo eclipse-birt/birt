@@ -397,4 +397,8 @@ public class ResourceConstants
 	public final static String UNION_QUERY_TEXT_PARSE_ERROR = "data.derivedDataSet.UnionQueryTextParseError";
 	public final static String JOIN_QUERY_TEXT_PARSE_ERROR = "data.derivedDataSet.JoinQueryTextParseError";
 	
+	public final static String ILLEGAL_CLASS_INSTANCE_ERROR = "data.derivedDataSet.illegalClassInstance";
+	public final static String CLASS_LODA_ERROR = "data.derivedDataSet.classLoadError";
+	public final static String CALCULATOR_NOT_EXIST = "data.derivedDataSet.calculatorNotExist";
+	public final static String INVALID_QUERY_TEXT = "data.derivedDataSet.invalidQueryText";
 }

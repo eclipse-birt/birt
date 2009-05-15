@@ -966,8 +966,13 @@ public abstract class QueryExecutor implements IQueryExecutor
 		}
 		else
 		{
-			return new ColumnBindingMetaData( baseQueryDefn,
-					( (ICandidateQuery) odiQuery ).getResultClass( ) );
+			IResultMetaData meta = DataSetDesignHelper.getResultMetaData( baseQueryDefn,
+					odiQuery );
+			if ( meta == null )
+				return new ColumnBindingMetaData( baseQueryDefn,
+						( (ICandidateQuery) odiQuery ).getResultClass( ) );
+			else
+				return meta;
 		}
 	}
 	
@@ -990,7 +995,11 @@ public abstract class QueryExecutor implements IQueryExecutor
 		}
 		else
 		{
-			return ( (ICandidateQuery) odiQuery ).getResultClass( );
+			IResultClass resultClass = DataSetDesignHelper.getResultClass( odiQuery );
+			if ( resultClass != null )
+				return resultClass;
+			else
+				return ( (ICandidateQuery) odiQuery ).getResultClass( );
 		}
 	}
 

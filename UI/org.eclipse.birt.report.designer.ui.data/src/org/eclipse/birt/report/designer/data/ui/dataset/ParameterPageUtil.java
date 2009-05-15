@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
@@ -88,6 +89,20 @@ final class ParameterPageUtil
 	{
 
 		if ( handle instanceof JointDataSetHandle )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	static boolean isJointOrDerivedDataSetHandle( DataSetHandle handle )
+	{
+
+		if ( handle instanceof JointDataSetHandle
+				|| handle instanceof DerivedDataSetHandle )
 		{
 			return true;
 		}

@@ -355,7 +355,11 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		}
 		else
 		{
-			throw new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE );
+			dataSet = DataSetDesignHelper.createExtenalInstance( dataSetDefn,
+					queryExecutor,
+					session );
+			if ( dataSet == null )
+				throw new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE );
 		}
 		
 		return dataSet;

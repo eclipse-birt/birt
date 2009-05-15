@@ -35,6 +35,7 @@ import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -278,6 +279,16 @@ class QueryExecutionHelper
 		if ( handle instanceof JointDataSetHandle )
 		{
 			defineSourceDataSets( (JointDataSetHandle) handle );
+		}
+		if( handle instanceof DerivedDataSetHandle )
+		{
+			List inputDataSet = ( (DerivedDataSetHandle) handle ).getInputDataSets( );
+			for ( int i = 0; i < inputDataSet.size( ); i++ )
+			{
+				defineDataSet( (DataSetHandle) inputDataSet.get( i ),
+						keepDataSetFilter,
+						disAllowAggregation );
+			}
 		}
 
 		BaseDataSetDesign baseDS = this.modelAdaptor.adaptDataSet( handle );

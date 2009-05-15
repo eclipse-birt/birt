@@ -21,6 +21,7 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -317,6 +318,15 @@ public class MetaDataPopulator
 					if ( checkHandleType( dsHandle ) )
 						return true;
 				}
+			}
+		}
+		else if( dataSetHandle instanceof DerivedDataSetHandle )
+		{
+			List handleList = ( (DerivedDataSetHandle) dataSetHandle ).getInputDataSets( );
+			for ( int i = 0; i < handleList.size( ); i++ )
+			{
+				if ( checkHandleType( (DataSetHandle) handleList.get( i ) ) )
+					return true;
 			}
 		}
 		return false;
