@@ -564,21 +564,38 @@ public class PPTWriter
 	private void drawRawLine( double startX, double startY, double endX,
 			double endY, double width, Color color, int lineStyle )
 	{
+		boolean needflip = false;
+		if ( endX > startX && endY < startY || endX < startX && endY > startY )
+		{
+			needflip = true;
+		}
 		print( "<v:line id=3D\"" + ( ++shapeCount ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
-		print( " style=3D'position:absolute' from=3D\"" + startX + "pt," + startY + "pt\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-		print( " to=3D\"" + endX + "pt," + endY + "pt\"" );
+		print( " style=3D'position:absolute" );
+		if ( needflip )
+		{
+			print( ";flip:y' from=3D\"" + startX + "pt," + endY + "pt\"" );
+			print( " to=3D\"" + endX + "pt," + startY + "pt\"" );
+		}
+		else
+		{
+			print( "' from=3D\"" + startX + "pt," + startY + "pt\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			print( " to=3D\"" + endX + "pt," + endY + "pt\"" );
+		}
 		print( " strokecolor=3D\"#" + getColorString( color ) + "\"" ); //$NON-NLS-1$
 		print( " strokeweight=3D\"" + width + "pt\"" ); //$NON-NLS-1$
 		if ( lineStyle==BorderInfo.BORDER_STYLE_DASHED )
 		{
+			println( ">" );
 			println( "<v:stroke dashstyle=3D\"dash\"/>" );
 		}
 		else if ( lineStyle==BorderInfo.BORDER_STYLE_DOTTED )
 		{
+			println( ">" );
 			println( "<v:stroke dashstyle=3D\"1 1\"/>" );
 		}
 		else if ( lineStyle==BorderInfo.BORDER_STYLE_DOUBLE)
 		{
+			println( ">" );
 			println( "<v:stroke linestyle=3D\"thinThin\"/>" );
 		}
 		else
@@ -586,7 +603,6 @@ public class PPTWriter
 			println( "/>" );
 			return;
 		}
-		println( ">" );
 		println( "</v:line>" );
 	}
 
