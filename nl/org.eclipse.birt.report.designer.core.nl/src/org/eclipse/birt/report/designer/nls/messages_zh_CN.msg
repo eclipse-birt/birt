@@ -3627,7 +3627,7 @@ TogglePropertyDescriptor.toolTipText.Text_Line_Through=文本删除线
 TextAlignPropertyDescriptor.0=左对齐
 TextAlignPropertyDescriptor.1=居中
 TextAlignPropertyDescriptor.2=右对齐
-TextAlignPropertyDescriptor.3=对齐
+TextAlignPropertyDescriptor.3=两端对齐
 
 ###########################################################
 #TextAreaContextMenu properties
