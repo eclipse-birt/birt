@@ -318,5 +318,20 @@ public interface IEngineTask {
 	 */
 	public void setUserACL( String[] acl );
 	
+	/**
+	 * the a progress monitor to keep track of the report progress
+	 * 
+	 * @param monitor
+	 *            a user defined progress monitor
+	 */
 	public void setProgressMonitor( IProgressMonitor monitor );
+
+	/**
+	 * set a task-level status handler, this handler will override the
+	 * engine-level one
+	 * 
+	 * @param handler
+	 *            a user defined status handler
+	 */
+	public void setStatusHandler( IStatusHandler handler );
 }

@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IStatusHandler;
 import org.eclipse.birt.report.engine.api.InstanceID;
 
 import com.ibm.icu.util.TimeZone;
@@ -295,5 +296,10 @@ public class DataExtractionTask implements IDataExtractionTask
 	public void setProgressMonitor( IProgressMonitor monitor )
 	{
 		task.setProgressMonitor( monitor );
+	}
+	
+	public void setStatusHandler( IStatusHandler handler )
+	{
+		task.setStatusHandler( handler );
 	}
 }

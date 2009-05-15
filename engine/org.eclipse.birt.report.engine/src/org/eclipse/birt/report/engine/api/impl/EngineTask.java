@@ -48,6 +48,7 @@ import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IStatusHandler;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.PDFRenderOption;
@@ -175,6 +176,8 @@ public abstract class EngineTask implements IEngineTask
 	protected IPageHandler pageHandler;
 	
 	protected IProgressMonitor progressMonitor;
+	
+	protected IStatusHandler statusHandler;
 	
 	/**
 	 * @param engine
@@ -2109,5 +2112,15 @@ public abstract class EngineTask implements IEngineTask
 	{
 		progressMonitor = monitor;
 		executionContext.setProgressMonitor( monitor );
+	}
+	
+	public void setStatusHandler( IStatusHandler handler )
+	{
+		statusHandler = handler;
+	}
+	
+	public IStatusHandler getStatusHandler( )
+	{
+		return statusHandler;
 	}
 }

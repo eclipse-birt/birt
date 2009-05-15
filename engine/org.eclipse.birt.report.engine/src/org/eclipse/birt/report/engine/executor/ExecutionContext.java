@@ -55,6 +55,7 @@ import org.eclipse.birt.report.engine.api.IProgressMonitor;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IStatusHandler;
 import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
@@ -397,6 +398,21 @@ public class ExecutionContext
 		scriptContext.getContext( ).setLocale( locale );
 		scriptContext.registerBean( "pageNumber", new Long( pageNumber ) );
 		scriptContext.registerBean( "totalPage", new Long( totalPage ) );
+		IStatusHandler handler = task.getStatusHandler( );
+		if ( handler != null )
+		{
+			handler.initialize( );
+			scriptContext.registerBean( "_statusHandle", handler );
+			try
+			{
+				scriptContext
+						.eval( "function writeStatus(msg) { _statusHandle.showStatus(msg); }" );
+			}
+			catch ( BirtException e )
+			{
+				addException( e );
+			}
+		}
 		if (transientBeans != null )
 		{
 			Iterator entries = transientBeans.entrySet( ).iterator( );
@@ -499,6 +515,12 @@ public class ExecutionContext
 				&& applicationClassLoader instanceof ApplicationClassLoader )
 		{
 			( (ApplicationClassLoader) applicationClassLoader ).close( );
+		}
+		
+		IStatusHandler handler = task.getStatusHandler( );
+		if ( handler != null )
+		{
+			handler.finish( );
 		}
 		
 		closeClassLoader = false;
