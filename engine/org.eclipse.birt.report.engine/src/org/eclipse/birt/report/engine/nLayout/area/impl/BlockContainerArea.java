@@ -153,7 +153,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 			localProperties = LocalProperties.DEFAULT;
 			if ( specifiedWidth > 0 )
 			{
-				this.width = specifiedWidth;
+				setContentWidth( specifiedWidth );
 			}
 			else
 			{
@@ -169,7 +169,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 			buildProperties( content, context );
 			if ( specifiedWidth > 0 )
 			{
-				this.width = specifiedWidth;
+				setContentWidth( specifiedWidth );
 			}
 			else
 			{
