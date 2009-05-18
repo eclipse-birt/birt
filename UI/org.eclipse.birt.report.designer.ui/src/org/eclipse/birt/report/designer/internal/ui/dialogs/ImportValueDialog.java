@@ -524,9 +524,10 @@ public class ImportValueDialog extends BaseDialog
 			return true;
 		}
 
-		int columnType = DataAdapterUtil.adaptModelDataType( column.getDataType( ) );
 		if ( compatibleDataTypes != null && compatibleDataTypes.length > 0 )
 		{
+			int columnType = DataAdapterUtil.adaptModelDataType( column.getDataType( ) );
+
 			for ( int i = 0; i < compatibleDataTypes.length; i++ )
 			{
 				if ( compatibleDataTypes[i] == columnType )
