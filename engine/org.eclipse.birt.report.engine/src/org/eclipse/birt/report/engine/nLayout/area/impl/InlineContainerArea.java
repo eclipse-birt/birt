@@ -47,11 +47,7 @@ public class InlineContainerArea extends InlineStackingArea
 	protected void close( boolean isLastLine ) throws BirtException
 	{
 		// TODO support specified height/width/alignment
-//		int width = currentIP + getOffsetX( )
-//				+ localProperties.getPaddingRight( )
-//				+ boxStyle.getRightBorderWidth( );
-		int contentWidth = currentIP - localProperties.getPaddingLeft( )
-				- boxStyle.getLeftBorderWidth( );
+		int contentWidth = currentIP;
 		if ( lineCount == 1 )
 		{
 			if ( specifiedWidth > contentWidth )
@@ -59,10 +55,7 @@ public class InlineContainerArea extends InlineStackingArea
 				contentWidth = specifiedWidth;
 			}
 		}
-		this.width = contentWidth + localProperties.getPaddingLeft( )
-				+ boxStyle.getLeftBorderWidth( )
-				+ localProperties.getPaddingRight( )
-				+ boxStyle.getRightBorderWidth( );
+		setContentWidth( contentWidth );
 		int height = 0;
 		Iterator iter = getChildren( );
 		while ( iter.hasNext( ) )
