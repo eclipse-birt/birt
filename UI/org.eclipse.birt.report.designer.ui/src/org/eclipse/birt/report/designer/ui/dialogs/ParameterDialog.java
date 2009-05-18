@@ -2682,6 +2682,32 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			if ( !isStatic( )
 					|| ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( newControlType ) || DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( newControlType ) ) )
 				inputParameter.setDefaultValueList( defaultValueList );
+			else if ( isStatic( ) )
+			{
+				boolean flag = false;
+				for ( int i = 0; i < defaultValueList.size( ); i++ )
+				{
+					String value = defaultValueList.get( i )
+							.getStringExpression( );
+					for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
+					{
+						SelectionChoice choice = (SelectionChoice) iter.next( );
+						if ( isEqual( choice.getValue( ), value ) )
+						{
+							flag = true;
+						}
+					}
+					if ( !flag )
+					{
+						defaultValueList.remove( i );
+						i--;
+					}
+				}
+				if ( flag )
+					inputParameter.setDefaultValueList( defaultValueList );
+				else
+					inputParameter.setDefaultValueList( null );
+			}
 			else
 				inputParameter.setDefaultValueList( null );
 
