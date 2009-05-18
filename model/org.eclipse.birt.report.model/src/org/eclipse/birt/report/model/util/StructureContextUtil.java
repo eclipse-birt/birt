@@ -34,21 +34,30 @@ public class StructureContextUtil
 	 * 
 	 * @param propDefn
 	 *            the property define
-	 * @param clonedValue
+	 * @param tmpValue
 	 *            the cloned value
 	 * @param element
 	 *            the design element.
 	 */
 	public static void setStructureContext( ElementPropertyDefn propDefn,
-			Object clonedValue, DesignElement element )
+			Object tmpValue, DesignElement element )
 	{
 		assert propDefn != null;
-		assert clonedValue != null;
 		assert element != null;
+
+		if ( tmpValue == null )
+			return;
+		
+		// only handle the case that this is a structure or structure list.
+
+		if ( propDefn.getTypeCode( ) != IPropertyType.STRUCT_TYPE )
+		{
+			return;
+		}
 
 		if ( propDefn.isList( ) )
 		{
-			List values = (ArrayList) clonedValue;
+			List values = (List) tmpValue;
 			for ( int i = 0; i < values.size( ); i++ )
 			{
 				Structure item = (Structure) values.get( i );
@@ -57,10 +66,10 @@ public class StructureContextUtil
 								item ) );
 			}
 		}
-		else
+		else if ( tmpValue instanceof Structure )
 		{
-			( (Structure) clonedValue ).setContext( new StructureContext(
-					element, propDefn, (Structure) clonedValue ) );
+			( (Structure) tmpValue ).setContext( new StructureContext(
+					element, propDefn, (Structure) tmpValue ) );
 		}
 	}
 

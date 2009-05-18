@@ -1192,30 +1192,10 @@ public abstract class DesignElement
 					(StructRefValue) value, prop );
 		}
 
-		if ( prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
-		{
-			if ( prop.isList( ) )
-			{
-				if ( value instanceof List )
-				{
-					List listValue = (List) value;
-					for ( Object item : listValue )
-					{
-						Structure struct = (Structure) item;
-						struct.setContext( new StructureContext( this, prop,
-								struct ) );
-					}
-				}
-			}
-			else
-			{
-				if ( value instanceof Structure )
-				{
-					( (Structure) value ).setContext( new StructureContext(
-							this, prop, (Structure) value ) );
-				}
-			}
-		}
+		// establish the context if the value is a structure or structure list.
+
+		StructureContextUtil.setStructureContext( prop, value, this );
+
 
 		// Set or clear the property.
 

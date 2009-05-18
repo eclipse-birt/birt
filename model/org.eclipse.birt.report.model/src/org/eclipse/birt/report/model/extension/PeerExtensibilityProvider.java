@@ -471,6 +471,11 @@ public abstract class PeerExtensibilityProvider
 					(ReferenceValue) value, prop );
 		}
 
+		// establish the context if the value is a structure or structure list.
+
+		StructureContextUtil.setStructureContext( prop, value, element );
+
+		
 		if ( value != null )
 			extensionPropValues.put( propName, value );
 		else
