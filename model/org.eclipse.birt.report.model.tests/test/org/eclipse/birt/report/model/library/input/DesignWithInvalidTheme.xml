@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.19">
+    <list-property name="libraries">
+		<structure>
+			<property name="fileName">LibraryTheme.xml</property>
+	        <property name="namespace">BadTheme</property>
+		</structure>
+    </list-property>	
+	<property name="theme">Theme.theme1</property>
+    <page-setup>
+        <simple-master-page name="page1"/>
+    </page-setup>
+	<body>
+	</body>
+</report>

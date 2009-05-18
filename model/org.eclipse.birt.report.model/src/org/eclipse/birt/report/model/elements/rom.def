@@ -1174,6 +1174,7 @@
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.IncludedCssStyleSheetValidator" modules="design, library" name="IncludedCssStyleSheetValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.IncludedLibraryValidator" modules="design, library" name="IncludedLibraryValidator"/>	  	  
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ImageDataValidator" modules="design, library" name="ImageDataValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ThemeReferenceValidator" modules="design, library" name="ThemeReferenceValidator"/>
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
     <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
@@ -1578,7 +1579,9 @@
     	<Trigger validator="IncludedLibraryValidator"/>
     </Property>
     <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.Module.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
-    <Property canInherit="false" detailType="Theme" displayNameID="Element.Module.theme" isIntrinsic="true" name="theme" runtimeSettable="false" since="2.0" type="elementRef" />	  	  
+    <Property canInherit="false" detailType="Theme" displayNameID="Element.Module.theme" isIntrinsic="true" name="theme" runtimeSettable="false" since="2.0" type="elementRef">
+    	<Trigger validator="ThemeReferenceValidator"/>
+    </Property>	  	  
     <Property canInherit="false" detailType="PropertyBinding" displayNameID="Element.Module.propertyBindings" isList="true" name="propertyBindings" runtimeSettable="false" since="2.0" type="structure"/>    
     <Property canInherit="false" detailType="ScriptLib" displayNameID="Element.Module.scriptLibs" isList="true" name="scriptLibs" runtimeSettable="false" since="2.1.1" type="structure"/>    
     <PropertyVisibility name="units" visibility="hide"/>

@@ -428,7 +428,7 @@ public class DesignElementCloneTest extends BaseTestCase
 		assertNotSame( design.getActivityStack( ), clonedDesign
 				.getActivityStack( ) );
 		assertNotNull( clonedDesign.getActivityStack( ) );
-		assertEquals( 2, clonedDesign.getAllExceptions( ).size( ) );
+		assertEquals( 3, clonedDesign.getAllExceptions( ).size( ) );
 		assertNull( clonedDesign.getFatalException( ) );
 
 		// test "theme" property

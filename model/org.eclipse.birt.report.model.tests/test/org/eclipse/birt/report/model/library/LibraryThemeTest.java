@@ -855,4 +855,22 @@ public class LibraryThemeTest extends BaseTestCase
 			return counter;
 		}
 	}
+	
+	/**
+	 * Test cases:
+	 * 
+	 * Open an design file containing an invalid theme. A content exception is
+	 * expected. Added for bugzilla 276218.
+	 * 
+	 * @throws Exception
+	 */
+	public void testAddNonExistingTheme( ) throws Exception
+	{
+		openDesign( "DesignWithInvalidTheme.xml" ); //$NON-NLS-1$		
+		assertEquals( 1, design.getAllExceptions( ).size( ) );
+		assertTrue( design.getAllExceptions( ).get( 0 ) instanceof ThemeException );
+		ThemeException e = (ThemeException) design.getAllExceptions( ).get( 0 );
+		assertEquals( ThemeException.DESIGN_EXCEPTION_NOT_FOUND,
+				e.getErrorCode( ) );
+	}
 }
