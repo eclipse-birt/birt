@@ -293,23 +293,22 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			switch ( diagonalInfo.getDiagonalNumber( ) )
 			{
 				case 2 :
-					pageGraphic.drawLine( startX, startY + dw / 2, startX
-							+ width, startY + height / 2 - dw / 2,
-							getScaledValue( diagonalInfo.getDiagonalWidth( ) ),
-							diagonalInfo.getColor( ), ds );
-					pageGraphic.drawLine( startX, startY + dw / 2, startX
-							+ width / 2, startY + height - dw / 2,
+					pageGraphic.drawLine( startX + width/2 , startY , startX
+							+ width, startY + height - dw/2,
+							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
+					pageGraphic.drawLine( startX, startY + height/2 , startX
+							+ width, startY + height - dw/2,
 							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
 					break;
 				case 3 :
 					pageGraphic.drawLine( startX, startY + dw / 2, startX
 							+ width, startY + height - dw / 2,
 							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
-					pageGraphic.drawLine( startX, startY + dw / 2, startX
-							+ width, startY + height / 2 - dw / 2,
+					pageGraphic.drawLine( startX + width/2 , startY + dw/2, startX
+							+ width, startY + height - dw/2,
 							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
-					pageGraphic.drawLine( startX, startY + dw / 2, startX
-							+ width / 2, startY + height - dw / 2,
+					pageGraphic.drawLine( startX, startY + height/2 , startX
+							+ width, startY + height - dw/2,
 							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
 					break;
 				default :
@@ -318,7 +317,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
 					break;
 			}
-			dw = diagonalInfo.getAntidiagonalWidth( );
+			//currently only support diagonal line, do not support antidiagonal line
+			/*dw = diagonalInfo.getAntidiagonalWidth( );
 			ds = diagonalInfo.getAntidiagonalStyle( );
 			// support double style, use solid style instead.
 			if ( ds == DiagonalInfo.BORDER_STYLE_DOUBLE )
@@ -370,7 +370,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 											.getAntidiagonalWidth( ) ),
 									diagonalInfo.getColor( ), ds );
 					break;
-			}
+			}*/
 		}
 	}
 	
