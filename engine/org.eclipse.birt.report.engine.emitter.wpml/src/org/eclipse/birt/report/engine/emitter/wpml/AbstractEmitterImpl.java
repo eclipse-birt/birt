@@ -431,8 +431,16 @@ public abstract class AbstractEmitterImpl
 				.getDiagonalStyle( ), diagonalWidth );
 		diagonalLineInfo.setAntidiagonalLine( 0, null, 0 );
 		diagonalLineInfo.setCoordinateSize( cellWidth, cellHeight );
-		String lineColor = WordUtil.parseColor( cell.getComputedStyle( )
-				.getColor( ) );
+		String lineColor = null;
+		if ( cell.getDiagonalColor( ) != null )
+		{
+			lineColor = WordUtil.parseColor( cell.getDiagonalColor( ) );
+		}
+		else
+		{
+			lineColor = WordUtil.parseColor( cell.getComputedStyle( )
+					.getColor( ) );
+		}
 		diagonalLineInfo.setColor( lineColor );
 		wordWriter.drawDiagonalLine( diagonalLineInfo );
 	}

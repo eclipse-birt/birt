@@ -189,6 +189,38 @@ public class WordUtil
 		{
 			return null;
 		}
+		else if ( color.equalsIgnoreCase( "Black" ) )
+			return "000000";
+		else if ( color.equalsIgnoreCase( "Gray" ) )
+			return "121212";
+		else if ( color.equalsIgnoreCase( "White" ) )
+			return "ffffff";
+		else if ( color.equalsIgnoreCase( "Red" ) )
+			return "ff0000";
+		else if ( color.equalsIgnoreCase( "Green" ) )
+			return "ff00ff";
+		else if ( color.equalsIgnoreCase( "Yellow" ) )
+			return "ffff00";
+		else if ( color.equalsIgnoreCase( "Blue" ) )
+			return "0000ff";
+		else if ( color.equalsIgnoreCase( "Teal" ) )
+			return "008080";
+		else if ( color.equalsIgnoreCase( "Aqua" ) )
+			return "00FFFF";
+		else if ( color.equalsIgnoreCase( "Silver" ) )
+			return "C0C0C0";
+		else if ( color.equalsIgnoreCase( "Navy" ) )
+			return "000080";
+		else if ( color.equalsIgnoreCase( "Lime" ) )
+			return "00FF00";
+		else if ( color.equalsIgnoreCase( "Olive" ) )
+			return "808000";
+		else if ( color.equalsIgnoreCase( "Purple" ) )
+			return "800080";
+		else if ( color.equalsIgnoreCase( "Fuchsia" ) )
+			return "FF00FF";
+		else if ( color.equalsIgnoreCase( "Maroon" ) )
+			return "800000";
 		String[] values = color.substring( color.indexOf( "(" ) + 1,
 				color.length( ) - 1 ).split( "," );
 		String value = "";
