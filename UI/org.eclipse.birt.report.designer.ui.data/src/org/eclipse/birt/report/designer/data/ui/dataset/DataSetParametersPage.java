@@ -223,7 +223,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			viewer.getViewer( ).setInput( parameters );
 		}
 		setToolTips( );
-		if ( isJointOrDerivedDataSetHandle )
+		if ( !isJointOrDerivedDataSetHandle )
 		{
 			addRefreshMenu( );
 			addListeners( );
