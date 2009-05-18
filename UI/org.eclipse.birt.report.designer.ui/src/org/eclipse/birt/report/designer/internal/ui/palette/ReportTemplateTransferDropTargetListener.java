@@ -285,10 +285,14 @@ public class ReportTemplateTransferDropTargetListener extends
 					return;
 				}
 
-				Request request = new Request();
-				if (getCreateRequest( ).getExtendedData( ).get( DesignerConstants.NEWOBJECT_FROM_LIBRARY ) != null)
+				Request request = new Request( );
+				if ( getCreateRequest( ).getExtendedData( )
+						.get( DesignerConstants.NEWOBJECT_FROM_LIBRARY ) != null )
 				{
-					request.getExtendedData( ).put( DesignerConstants.NEWOBJECT_FROM_LIBRARY, getCreateRequest( ).getExtendedData( ).get( DesignerConstants.NEWOBJECT_FROM_LIBRARY ) );
+					request.getExtendedData( )
+							.put( DesignerConstants.NEWOBJECT_FROM_LIBRARY,
+									getCreateRequest( ).getExtendedData( )
+											.get( DesignerConstants.NEWOBJECT_FROM_LIBRARY ) );
 				}
 				if ( isScalarparameter || isResultSetColumn )
 				{
@@ -469,7 +473,8 @@ public class ReportTemplateTransferDropTargetListener extends
 						if ( dragObj instanceof DataSourceHandle
 								|| dragObj instanceof MasterPageHandle )
 						{
-							return targetEditPart instanceof ReportDesignEditPart;
+							return targetEditPart instanceof ReportDesignEditPart
+									&& ( (ReportElementHandle) dragObj ).getRoot( ) != targetEditPart.getModel( );
 						}
 						if ( !DNDUtil.handleValidateTargetCanContain( targetEditPart.getModel( ),
 								dragObj )
@@ -548,7 +553,7 @@ public class ReportTemplateTransferDropTargetListener extends
 	 * Gets single transfer data from TemplateTransfer
 	 * 
 	 * @param template
-	 * 		object transfered by TemplateTransfer
+	 *            object transfered by TemplateTransfer
 	 * @return single transfer data in array or itself
 	 */
 	private Object getSingleTransferData( Object template )
