@@ -1390,7 +1390,7 @@ public class TextEditor extends BaseDialog
 			}
 			else
 			{
-				IChoice choice = contentTypeChoiceSet.findChoice( textTypeChoicer.getText( ) );
+				IChoice choice = contentTypeChoiceSet.findChoiceByDisplayName( textTypeChoicer.getText( ) );
 				if ( choice == null )
 				{
 					handle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_AUTO );
