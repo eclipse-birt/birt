@@ -365,8 +365,8 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 						}
 					}
 					ElementExportUtil.exportStyle( (StyleHandle) firstElement,
-								(ThemeHandle) result[0],
-								true );
+							(ThemeHandle) result[0],
+							true );
 				}
 			}
 			else if ( firstElement instanceof DesignElementHandle )
@@ -390,17 +390,14 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 							return;
 					}
 				}
-				else
-				{
 
-					ElementExportUtil.exportElement( (DesignElementHandle) firstElement,
-							libraryHandle,
-							true );
-					if ( firstElement instanceof ImageHandle )
-					{
-						exportEmbeddedImage( (ImageHandle) firstElement,
-								libraryHandle );
-					}
+				ElementExportUtil.exportElement( (DesignElementHandle) firstElement,
+						libraryHandle,
+						true );
+				if ( firstElement instanceof ImageHandle )
+				{
+					exportEmbeddedImage( (ImageHandle) firstElement,
+							libraryHandle );
 				}
 
 			}
