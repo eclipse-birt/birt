@@ -137,7 +137,7 @@ public class AggregationHelper implements IAggrValueHolder
 			{
 				validAggregationArray[i] = ( (Integer) validAggregations.get( i ) ).intValue( );
 			}
-			assert this.getCurrentResultIndex( ) == 0;
+			assert ( this.getCurrentResult( ) == null || this.getCurrentResultIndex( ) == 0 );
 			if ( this.getCurrentResult( ) == null )
 			{
 				// Empty result set; nothing to do
