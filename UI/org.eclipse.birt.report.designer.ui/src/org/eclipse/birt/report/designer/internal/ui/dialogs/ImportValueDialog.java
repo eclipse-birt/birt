@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.regex.PatternSyntaxException;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
@@ -51,7 +52,6 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.DataTypeConvertUtil;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -71,15 +71,11 @@ import org.eclipse.swt.widgets.Text;
 import com.ibm.icu.util.ULocale;
 
 /**
- * The dialog used to import values from data sets
- * <dt><b>Styles: (Defined in DesingChoicesConstants) </b></dt>
- * <dd>PARAM_TYPE_STRING</dd>
- * <dd>PARAM_TYPE_FLOAT</dd>
- * <dd>PARAM_TYPE_DECIMAL</dd>
- * <dd>PARAM_TYPE_DATETIME</dd>
+ * The dialog used to import values from data sets <dt><b>Styles: (Defined in
+ * DesingChoicesConstants) </b></dt> <dd>PARAM_TYPE_STRING</dd> <dd>
+ * PARAM_TYPE_FLOAT</dd> <dd>PARAM_TYPE_DECIMAL</dd> <dd>PARAM_TYPE_DATETIME</dd>
  * <dd>PARAM_TYPE_BOOLEAN</dd>
  */
-
 public class ImportValueDialog extends BaseDialog
 {
 
@@ -123,6 +119,34 @@ public class ImportValueDialog extends BaseDialog
 
 	private java.util.List choiceList;
 
+	private int expectedColumnDataType;
+
+	private int[] compatibleDataTypes;
+
+	/**
+	 * Constructs a new instance of the dialog
+	 */
+	public ImportValueDialog( String style, java.util.List choices )
+	{
+		super( DLG_TITLE );
+
+		assert DATA_TYPE_CHOICE_SET.contains( style );
+
+		this.style = style;
+		this.choiceList = choices;
+
+		String columnTypeStr = DataTypeConvertUtil.converToColumnDataType( style );
+		expectedColumnDataType = DataAdapterUtil.adaptModelDataType( columnTypeStr );
+		try
+		{
+			compatibleDataTypes = DataAdapterUtil.getCompatibleDataTypes( expectedColumnDataType );
+		}
+		catch ( AdapterException e )
+		{
+			e.printStackTrace( );
+		}
+	}
+
 	private String beforeValidateString( String value )
 	{
 		if ( value.equals( nullValue ) && hasNullValue )
@@ -135,20 +159,9 @@ public class ImportValueDialog extends BaseDialog
 		}
 	}
 
-	public void setDistinct(boolean distinct)
+	public void setDistinct( boolean distinct )
 	{
 		this.distinct = distinct;
-	}
-	
-	/**
-	 * Constructs a new instance of the dialog
-	 */
-	public ImportValueDialog( String style, java.util.List choices )
-	{
-		super( DLG_TITLE );
-		Assert.isTrue( DATA_TYPE_CHOICE_SET.contains( style ) );
-		this.style = style;
-		this.choiceList = choices;
 	}
 
 	public static interface IAddChoiceValidator
@@ -457,7 +470,8 @@ public class ImportValueDialog extends BaseDialog
 			if ( value != null )
 			{
 				selectedList.add( value );
-			}else
+			}
+			else
 			{
 				hasNullValue = true;
 				selectedList.add( nullValue );
@@ -487,14 +501,12 @@ public class ImportValueDialog extends BaseDialog
 		}
 		else
 		{
-			ArrayList matachedColumnList = new ArrayList( );
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 			{
 				ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next( );
 				if ( matchType( column ) )
 				{
 					columnChooser.add( column.getColumnName( ) );
-					matachedColumnList.add( column );
 					selectedColumnIndex = 0;
 				}
 			}
@@ -511,65 +523,20 @@ public class ImportValueDialog extends BaseDialog
 		{
 			return true;
 		}
-//		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( column.getDataType( ) ) )
-//		{
-//			return style.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME );
-//		}
-//		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( column.getDataType( ) ) )
-//		{
-//			return style.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
-//					|| style.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER );
-//		}
-//		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( column.getDataType( ) ) )
-//		{
-//			return style.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
-//		}
-//		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( column.getDataType( ) ) )
-//		{
-//			return style.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER );
-//		}
-//		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( column.getDataType( ) ) )
-//		{
-//			return style.equals( DesignChoiceConstants.PARAM_TYPE_BOOLEAN );
-//		}
-//		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( column.getDataType( ) ) )
-//		{
-//			return style.equals( DesignChoiceConstants.PARAM_TYPE_DATE );
-//		}
-//		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( column.getDataType( ) ) )
-//		{
-//			return style.equals( DesignChoiceConstants.PARAM_TYPE_TIME );
-//		}
-		String columnTypeStr = DataTypeConvertUtil.converToColumnDataType( style );
-		int dteType = DataAdapterUtil.adaptModelDataType( columnTypeStr );
-		try
+
+		int columnType = DataAdapterUtil.adaptModelDataType( column.getDataType( ) );
+		if ( compatibleDataTypes != null && compatibleDataTypes.length > 0 )
 		{
-			int compatibleDataTypes[] = DataAdapterUtil.getCompatibleDataTypes( dteType );
-			int columnType = DataAdapterUtil.adaptModelDataType( column.getDataType( ) );
-			if(compatibleDataTypes.length > 0)
+			for ( int i = 0; i < compatibleDataTypes.length; i++ )
 			{
-				java.util.List arrayList = new ArrayList();
-				for(int i = 0; i < compatibleDataTypes.length; i ++)
-				{
-					arrayList.add( compatibleDataTypes[i] );
-				}
-				if(arrayList.indexOf( columnType ) >= 0)
+				if ( compatibleDataTypes[i] == columnType )
 				{
 					return true;
-				}else
-				{
-					return false;
 				}
-			}else
-			{
-				return false;
 			}
 		}
-		catch ( AdapterException e )
-		{
-			// TODO Auto-generated catch block
-			return false;
-		}
+
+		return false;
 	}
 
 	private void refreshValues( )
@@ -577,13 +544,12 @@ public class ImportValueDialog extends BaseDialog
 		resultList.clear( );
 		if ( columnChooser.isEnabled( ) )
 		{
-			ResultSetColumnHandle selectedColumn = null;
 			try
 			{
 				IQueryDefinition query = DataUtil.getPreparedQuery( engine,
 						getDataSetHandle( ) ).getReportQueryDefn( );
 				String queryExpr = null;
-				int queryValueType = -1;
+				int queryColumnType = DataType.UNKNOWN_TYPE;
 				for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 				{
 					ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next( );
@@ -591,8 +557,7 @@ public class ImportValueDialog extends BaseDialog
 							.equals( columnChooser.getText( ) ) )
 					{
 						queryExpr = DEUtil.getResultSetColumnExpression( column.getColumnName( ) );
-						queryValueType = DataAdapterUtil.adaptModelDataType( column.getDataType( ) );
-						selectedColumn = column;
+						queryColumnType = DataAdapterUtil.adaptModelDataType( column.getDataType( ) );
 						break;
 					}
 				}
@@ -604,7 +569,7 @@ public class ImportValueDialog extends BaseDialog
 				String columnBindingName = "_$_COLUMNBINDINGNAME_$_"; //$NON-NLS-1$
 				Binding binding = new Binding( columnBindingName );
 				binding.setExpression( expression );
-				binding.setDataType( queryValueType );
+				binding.setDataType( queryColumnType );
 				query.addBinding( binding );
 				DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
 						getDataSetHandle( ).getModuleHandle( ) );
@@ -722,28 +687,29 @@ public class ImportValueDialog extends BaseDialog
 					if ( ( validator == null )
 							|| ( validator != null && validator.validateString( beforeValidateString( value ) ) == null ) )
 					{
-						if(distinct)
+						if ( distinct )
 						{
 							boolean exist = false;
-							for(int i = 0; i < selectedList.getItemCount( ); i ++)
+							for ( int i = 0; i < selectedList.getItemCount( ); i++ )
 							{
-								
+
 								String selectValue = selectedList.getItem( i );
-								if(isEqual(selectValue, value))
+								if ( isEqual( selectValue, value ) )
 								{
 									exist = true;
 									break;
 								}
 							}
-							if(!exist)
+							if ( !exist )
 							{
 								valueList.add( value );
 							}
-						}else
+						}
+						else
 						{
 							valueList.add( value );
 						}
-						
+
 					}
 
 				}
@@ -765,34 +731,37 @@ public class ImportValueDialog extends BaseDialog
 				&& selectedList.indexOf( valueEditor.getText( ).trim( ) ) == -1 )
 		{
 			if ( ( validator == null )
-					|| ( validator != null && validator.validateString( beforeValidateString( valueEditor.getText( ).trim( ) ) ) == null ) )
+					|| ( validator != null && validator.validateString( beforeValidateString( valueEditor.getText( )
+							.trim( ) ) ) == null ) )
 			{
-				if(distinct)
+				if ( distinct )
 				{
 					boolean exist = false;
-					for(int i = 0; i < selectedList.getItemCount( ); i ++)
+					for ( int i = 0; i < selectedList.getItemCount( ); i++ )
 					{
-						
+
 						String selectValue = selectedList.getItem( i );
-						if(isEqual(selectValue, valueEditor.getText( ).trim( )))
+						if ( isEqual( selectValue, valueEditor.getText( )
+								.trim( ) ) )
 						{
 							exist = true;
 							break;
 						}
 					}
-					if(exist)
+					if ( exist )
 					{
 						add.setEnabled( false );
-					}else
+					}
+					else
 					{
 						add.setEnabled( true );
 					}
-				}else
+				}
+				else
 				{
 					add.setEnabled( true );
 				}
 
-				
 			}
 			else
 			{
@@ -836,7 +805,7 @@ public class ImportValueDialog extends BaseDialog
 		}
 		return super.close( );
 	}
-	
+
 	private boolean isEqual( String value1, String value2 )
 	{
 		Object v1 = null;
@@ -874,7 +843,7 @@ public class ImportValueDialog extends BaseDialog
 		}
 		return v1.equals( v2 );
 	}
-	
+
 	private Object validateValue( String value ) throws BirtException
 	{
 		String tempdefaultValue = value;
@@ -903,7 +872,7 @@ public class ImportValueDialog extends BaseDialog
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( style ) )
 		{
 			if ( tempdefaultValue != null
-					&& tempdefaultValue.equals( Messages.getString( "ParameterDialog.Choice.NoDefault" ) ) )
+					&& tempdefaultValue.equals( Messages.getString( "ParameterDialog.Choice.NoDefault" ) ) ) //$NON-NLS-1$
 			{
 				return DataTypeUtil.toBoolean( null );
 			}
