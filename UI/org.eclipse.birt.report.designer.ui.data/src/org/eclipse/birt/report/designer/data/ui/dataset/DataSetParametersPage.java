@@ -61,7 +61,6 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.datatools.connectivity.oda.OdaException;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -973,19 +972,15 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		else
 		{
 			String name = getNoneValuedParameterName( );
-//			boolean confirm = MessageDialog.openConfirm( null,
-//					Messages.getString( "dataset.editor.error.title" ), //$NON-NLS-1$
-//					Messages.getFormattedString( "dataset.editor.error.validationParameter", //$NON-NLS-1$
-//							new Object[]{
-//								name
-//							} ) );
-//			if ( confirm )
-//				( (DataSetEditor) getContainer( ) ).updateDataSetDesign( this );
-			TestDialog a = new TestDialog( null, "Comfirm Dialog" );
-			if ( a.open( ) == Dialog.OK )
-				return true;
-			else
-				return false;
+			boolean confirm = MessageDialog.openConfirm( null,
+					Messages.getString( "dataset.editor.error.title" ), //$NON-NLS-1$
+					Messages.getFormattedString( "dataset.editor.error.validationParameter", //$NON-NLS-1$
+							new Object[]{
+								name
+							} ) );
+			if ( confirm )
+				( (DataSetEditor) getContainer( ) ).updateDataSetDesign( this );
+			return confirm;
 		}
 	}
 
