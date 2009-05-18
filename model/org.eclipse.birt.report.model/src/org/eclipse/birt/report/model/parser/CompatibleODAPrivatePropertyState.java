@@ -86,12 +86,14 @@ class CompatibleODAPrivatePropertyState extends CompatiblePropertyState
 		List privateProps = (List) element.getLocalProperty( handler.module,
 				(ElementPropertyDefn) privatePropDefn );
 		if ( privateProps == null )
-		{
 			privateProps = new ArrayList( );
-			element.setProperty( (ElementPropertyDefn) privatePropDefn,
-					privateProps );
-		}
+
+		// should first add the structure to list then set the list value so as
+		// to setup the structure context
 
 		privateProps.add( tmpStruct );
+
+		element.setProperty( (ElementPropertyDefn) privatePropDefn,
+				privateProps );
 	}
 }

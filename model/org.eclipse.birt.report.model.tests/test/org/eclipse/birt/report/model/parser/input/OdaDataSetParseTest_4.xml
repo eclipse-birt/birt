@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.10" id="1">
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.datatools.enablement.oda.xml" name="Data Source" id="4">
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.datatools.enablement.oda.xml.dataSet" name="DataSet" id="6">
+            <property name="queryText">table0#-TNAME-#table0#:#[/root/node]#:#{node;Bigdecimal;},{id;Bigdecimal;/@id}</property>
+            <property name="MAX_ROW">-1</property>
+            <property name="XML_FILE"></property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+    </body>
+</report>

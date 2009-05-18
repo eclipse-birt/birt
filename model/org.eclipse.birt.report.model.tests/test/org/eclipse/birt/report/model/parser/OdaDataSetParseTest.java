@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -99,6 +100,8 @@ public class OdaDataSetParseTest extends BaseTestCase
 
 	String queryTextInputFileName2 = "OdaDataSetParseTest_3.xml";//$NON-NLS-1$
 	String queryTextGoldenFileName2 = "OdaDataSetParseTest_golden_3.xml";//$NON-NLS-1$
+
+	String extendedPropertyInput = "OdaDataSetParseTest_4.xml";//$NON-NLS-1$
 
 	/*
 	 * @see BaseTestCase#setUp()
@@ -955,5 +958,24 @@ public class OdaDataSetParseTest extends BaseTestCase
 		save( );
 
 		assertTrue( compareFile( queryTextGoldenFileName2 ) );
+	}
+
+	/**
+	 * The structure context for the extended property is valid. Should not
+	 * null.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testExtendedPropertyContext( ) throws Exception
+	{
+		openDesign( extendedPropertyInput );
+
+		OdaDataSetHandle tmpSet = (OdaDataSetHandle) designHandle
+				.findDataSet( "DataSet" ); //$NON-NLS-1$
+
+		Iterator<ExtendedPropertyHandle> iter1 = tmpSet
+				.privateDriverPropertiesIterator( );
+		assertNotNull( iter1.next( ) );
 	}
 }
