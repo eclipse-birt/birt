@@ -692,7 +692,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			MarkerType newType = MarkerType.getByName( typeNameSet[newMarkerTypeIndex] );
 			if ( newType == MarkerType.ICON_LITERAL )
 			{
-				MarkerIconDialog iconDialog = new MarkerIconDialog( this.getShell( ),
+				MarkerIconDialog iconDialog = new MarkerIconDialog( new Shell( ),
 						getMarker( ).getFill( ) );
 				if ( iconDialog.open( ) == Window.OK )
 				{
@@ -726,7 +726,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				int markerIndex = ( (Integer) e.widget.getData( ) ).intValue( );
 				switchMarkerType( markerIndex );
 
-				if ( !this.getShell( ).isDisposed( ) )
+				if ( !this.isDisposed( ) && !this.getShell( ).isDisposed( ) )
 				{
 					this.getShell( ).close( );
 				}

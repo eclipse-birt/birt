@@ -34,6 +34,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -108,8 +109,6 @@ public class MarkerIconDialog extends TrayDialog
 	protected Control createContents( Composite parent )
 	{
 		getShell( ).setText( Messages.getString( "MarkerIconDialog.Title.MarkerIconSelector" ) ); //$NON-NLS-1$
-		getShell( ).setSize( 600, 435 );
-		UIHelper.centerOnScreen( getShell( ) );
 		Control c = super.createContents( parent );
 		
 		// Check icon type and set UI status.
@@ -120,6 +119,9 @@ public class MarkerIconDialog extends TrayDialog
 		}
 		c.pack( );
 		preview();
+		Point size = getShell( ).computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		getShell( ).setSize( size.x, size.y );
+		UIHelper.centerOnScreen( getShell( ) );
 		return c;
 	}
 
@@ -309,8 +311,9 @@ public class MarkerIconDialog extends TrayDialog
 		buttonBar.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		buttonBar.setLayout( gl );
 
-		Label description = new Label( buttonBar, SWT.NONE );
-		description.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING ) );
+		Label description = new Label( buttonBar, SWT.WRAP );
+		description.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
+				| GridData.HORIZONTAL_ALIGN_BEGINNING ) );
 		description.setText( Messages.getString( "MarkerIconDialog.Lbl.Description" ) ); //$NON-NLS-1$
 
 		btnBrowse = new Button( buttonBar, SWT.PUSH );
