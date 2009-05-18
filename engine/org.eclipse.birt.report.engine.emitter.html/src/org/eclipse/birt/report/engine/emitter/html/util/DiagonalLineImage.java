@@ -23,6 +23,7 @@ import javax.imageio.ImageIO;
 
 import org.eclipse.birt.report.engine.api.impl.Image;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 /**
  * 
@@ -48,6 +49,10 @@ public class DiagonalLineImage
 	 */
 	private int antidiagonalNumber = -1;
 	/**
+	 * The color of the diagonal line.
+	 */
+	private String diagonalColor = null;
+	/**
 	 * The style of the antidiagonal line.
 	 */
 	private String antidiagonalStyle = null;
@@ -55,9 +60,13 @@ public class DiagonalLineImage
 	 * The width of the antidiagonal line.
 	 */
 	private DimensionType antidiagonalWidth = null;
+	/**
+	 * The color of the antidiagonal line.
+	 */
+	private String antidiagonalColor = null;
 
 	/**
-	 * The line color. Default value is black;
+	 * The font color. Default value is black;
 	 */
 	private Color color = null;
 	/**
@@ -91,19 +100,22 @@ public class DiagonalLineImage
 	
 
 	public void setDiagonalLine( int diagonalNumber, String diagonalStyle,
-			DimensionType diagonalWidth )
+			DimensionType diagonalWidth, String diagonalColor )
 	{
 		this.diagonalNumber = diagonalNumber;
 		this.diagonalStyle = diagonalStyle;
 		this.diagonalWidth = diagonalWidth;
+		this.diagonalColor = diagonalColor;
 	}
 
 	public void setAntidiagonalLine( int antidiagonalNumber,
-			String antidiagonalStyle, DimensionType antidiagonalWidth )
+			String antidiagonalStyle, DimensionType antidiagonalWidth,
+			String antidiagonalColor )
 	{
 		this.antidiagonalNumber = antidiagonalNumber;
 		this.antidiagonalStyle = antidiagonalStyle;
 		this.antidiagonalWidth = antidiagonalWidth;
+		this.antidiagonalColor = antidiagonalColor;
 	}
 
 	public void setColor( Color color )
@@ -166,9 +178,14 @@ public class DiagonalLineImage
 		try
 		{
 			// set color
-			if ( color != null )
+			Color lineColor = PropertyUtil.getColor( diagonalColor );
+			if ( lineColor == null )
 			{
-				g2d.setColor( color );
+				lineColor = color;
+			}
+			if ( lineColor != null )
+			{
+				g2d.setColor( lineColor );
 			}
 
 			// Draw diagonal line.
@@ -282,6 +299,17 @@ public class DiagonalLineImage
 							imagePXWidth - 1,
 							imagePXHeight - 1 );
 				}
+			}
+			
+			// set color
+			lineColor = PropertyUtil.getColor( antidiagonalColor );
+			if ( lineColor == null )
+			{
+				lineColor = color;
+			}
+			if ( lineColor != null )
+			{
+				g2d.setColor( lineColor );
 			}
 
 			// Draw antidiagonal line.

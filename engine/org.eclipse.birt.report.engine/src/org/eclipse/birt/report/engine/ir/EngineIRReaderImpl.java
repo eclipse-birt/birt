@@ -1162,6 +1162,10 @@ public class EngineIRReaderImpl implements IOConstants
 				DimensionType diagonalWidth = readDimension( in );
 				cell.setDiagonalWidth( diagonalWidth );
 				break;
+			case FIELD_DIAGONAL_COLOR :
+				String diagonalColor = IOUtil.readString( in );
+				cell.setDiagonalColor( diagonalColor );
+				break;
 			case FIELD_ANTIDIAGONAL_NUMBER :
 				int antidiagonalNumber = IOUtil.readInt( in );
 				cell.setAntidiagonalNumber( antidiagonalNumber );
@@ -1173,6 +1177,10 @@ public class EngineIRReaderImpl implements IOConstants
 			case FIELD_ANTIDIAGONAL_WIDTH :
 				DimensionType antidiagonalWidth = readDimension( in );
 				cell.setAntidiagonalWidth( antidiagonalWidth );
+				break;
+			case FIELD_ANTIDIAGONAL_COLOR :
+				String antidiagonalColor = IOUtil.readString( in );
+				cell.setAntidiagonalColor( antidiagonalColor );
 				break;
 			case FIELD_HEADERS:
 				Expression<String> headers = readStringExpression(in);

@@ -1393,6 +1393,12 @@ public class EngineIRWriter implements IOConstants
 					IOUtil.writeShort( out, FIELD_DIAGONAL_WIDTH );
 					writeDimension( out, diagonalWidth );
 				}
+				String diagonalColor = cell.getDiagonalColor( );
+				if ( diagonalColor != null )
+				{
+					IOUtil.writeShort( out, FIELD_DIAGONAL_COLOR );
+					IOUtil.writeString( out, diagonalColor );
+				}
 			}
 			int antidiagonalNumber = cell.getAntidiagonalNumber( );
 			if ( antidiagonalNumber > 0 )
@@ -1410,6 +1416,12 @@ public class EngineIRWriter implements IOConstants
 				{
 					IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_WIDTH );
 					writeDimension( out, antidiagonalWidth );
+				}
+				String antidiagonalColor = cell.getAntidiagonalColor( );
+				if ( antidiagonalColor != null )
+				{
+					IOUtil.writeShort( out, FIELD_ANTIDIAGONAL_COLOR );
+					IOUtil.writeString( out, antidiagonalColor );
 				}
 			}
 		}

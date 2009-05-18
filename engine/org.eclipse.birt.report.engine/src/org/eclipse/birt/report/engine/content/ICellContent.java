@@ -64,12 +64,16 @@ public interface ICellContent extends IContainerContent
 	public String getDiagonalStyle( );
 
 	public DimensionType getDiagonalWidth( );
+	
+	public String getDiagonalColor( );
 
 	public int getAntidiagonalNumber( );
 
 	public String getAntidiagonalStyle( );
 
 	public DimensionType getAntidiagonalWidth( );
+	
+	public String getAntidiagonalColor( );
 
 	public String getHeaders( );
 

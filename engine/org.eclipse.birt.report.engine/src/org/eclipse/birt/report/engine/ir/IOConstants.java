@@ -109,6 +109,8 @@ public interface IOConstants
 	static final short FIELD_ANTIDIAGONAL_NUMBER = 108;
 	static final short FIELD_ANTIDIAGONAL_STYLE = 109;
 	static final short FIELD_ANTIDIAGONAL_WIDTH = 110;
+	static final short FIELD_DIAGONAL_COLOR = 111;
+	static final short FIELD_ANTIDIAGONAL_COLOR  = 112;
 	static final short FIELD_HEADERS = 99;
 	static final short FIELD_SCOPE = 98;
 

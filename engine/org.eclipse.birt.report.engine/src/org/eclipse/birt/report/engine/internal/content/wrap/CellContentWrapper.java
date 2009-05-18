@@ -175,6 +175,11 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 	{
 		return cell.getDiagonalWidth( );
 	}
+	
+	public String getDiagonalColor( )
+	{
+		return cell.getDiagonalColor( );
+	}
 
 	public int getAntidiagonalNumber( )
 	{
@@ -189,6 +194,11 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 	public DimensionType getAntidiagonalWidth( )
 	{
 		return cell.getAntidiagonalWidth( );
+	}
+	
+	public String getAntidiagonalColor( )
+	{
+		return cell.getAntidiagonalColor( );
 	}
 
 	public String getHeaders( )

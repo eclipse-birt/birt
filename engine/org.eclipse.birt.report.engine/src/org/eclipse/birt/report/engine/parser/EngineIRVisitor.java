@@ -74,6 +74,7 @@ import org.eclipse.birt.report.engine.ir.Expression.JSExpression;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.ColorHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -1438,6 +1439,11 @@ public class EngineIRVisitor extends DesignVisitor
 			cell.setDiagonalStyle( handle.getDiagonalStyle( ) );
 			cell.setDiagonalWidth( createDimension( handle.getDiagonalThickness( ),
 					true ) );
+			ColorHandle colorHandle = handle.getDiagonalColor( );
+			if ( colorHandle != null )
+			{
+				cell.setDiagonalColor( colorHandle.getStringValue( ) );
+			}
 		}
 		int antidiagonalNumber = handle.getAntidiagonalNumber( );
 		if ( antidiagonalNumber > 0 )
@@ -1447,6 +1453,11 @@ public class EngineIRVisitor extends DesignVisitor
 			cell.setAntidiagonalStyle( handle.getAntidiagonalStyle( ) );
 			cell.setAntidiagonalWidth( createDimension( handle.getAntidiagonalThickness( ),
 					true ) );
+			ColorHandle colorHandle = handle.getAntidiagonalColor( );
+			if ( colorHandle != null )
+			{
+				cell.setAntidiagonalColor( colorHandle.getStringValue( ) );
+			}
 		}
 				
 		setCurrentElement( cell );

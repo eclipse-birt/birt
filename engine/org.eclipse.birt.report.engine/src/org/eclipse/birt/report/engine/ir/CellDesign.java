@@ -64,6 +64,10 @@ public class CellDesign extends ReportItemDesign
 	 */
 	private DimensionType diagonalWidth = null;
 	/**
+	 * The color of the diagonal line.
+	 */
+	private String diagonalColor = null;
+	/**
 	 * The number of the antidiagonal line.
 	 */
 	private int antidiagonalNumber = 0;
@@ -75,6 +79,10 @@ public class CellDesign extends ReportItemDesign
 	 * The width of the antidiagonal line.
 	 */
 	private DimensionType antidiagonalWidth = null;
+	/**
+	 * The color of the antidiagonal line.
+	 */
+	private String antidiagonalColor = null;
 	
 	private Expression<String> headers;
 
@@ -240,6 +248,16 @@ public class CellDesign extends ReportItemDesign
 	{
 		return diagonalWidth;
 	}
+	
+	public void setDiagonalColor( String diagonalColor )
+	{
+		this.diagonalColor = diagonalColor;
+	}
+
+	public String getDiagonalColor( )
+	{
+		return diagonalColor;
+	}
 
 	public void setAntidiagonalNumber( int antidiagonalNumber )
 	{
@@ -277,6 +295,16 @@ public class CellDesign extends ReportItemDesign
 	public DimensionType getAntidiagonalWidth( )
 	{
 		return antidiagonalWidth;
+	}
+	
+	public void setAntidiagonalColor( String antidiagonalColor )
+	{
+		this.antidiagonalColor = antidiagonalColor;
+	}
+
+	public String getAntidiagonalColor( )
+	{
+		return antidiagonalColor;
 	}
 
 	public void setHeaders( Expression<String> headers )

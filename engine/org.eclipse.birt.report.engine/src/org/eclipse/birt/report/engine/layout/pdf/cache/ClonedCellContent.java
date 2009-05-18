@@ -388,6 +388,11 @@ public class ClonedCellContent implements ICellContent
 	{
 		return cellContent.getDiagonalWidth( );
 	}
+	
+	public String getDiagonalColor( )
+	{
+		return cellContent.getDiagonalColor( );
+	}
 
 	public int getAntidiagonalNumber( )
 	{
@@ -402,6 +407,11 @@ public class ClonedCellContent implements ICellContent
 	public DimensionType getAntidiagonalWidth( )
 	{
 		return cellContent.getAntidiagonalWidth( );
+	}
+	
+	public String getAntidiagonalColor( )
+	{
+		return cellContent.getAntidiagonalColor( );
 	}
 
 	public String getHeaders( )

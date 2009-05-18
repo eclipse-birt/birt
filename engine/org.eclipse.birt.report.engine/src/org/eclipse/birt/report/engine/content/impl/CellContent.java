@@ -423,6 +423,15 @@ public class CellContent extends AbstractContent implements ICellContent
 		}
 		return null;
 	}
+	
+	public String getDiagonalColor( )
+	{
+		if ( cellDesign != null )
+		{
+			return cellDesign.getDiagonalColor( );
+		}
+		return null;
+	}
 
 	public int getAntidiagonalNumber( )
 	{
@@ -447,6 +456,15 @@ public class CellContent extends AbstractContent implements ICellContent
 		if ( cellDesign != null )
 		{
 			return cellDesign.getAntidiagonalWidth( );
+		}
+		return null;
+	}
+	
+	public String getAntidiagonalColor( )
+	{
+		if ( cellDesign != null )
+		{
+			return cellDesign.getAntidiagonalColor( );
 		}
 		return null;
 	}

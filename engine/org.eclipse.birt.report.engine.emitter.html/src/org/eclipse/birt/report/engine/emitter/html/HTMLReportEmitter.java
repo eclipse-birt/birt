@@ -2022,10 +2022,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			DiagonalLineImage imageCreater = new DiagonalLineImage( );
 			imageCreater.setDiagonalLine( cell.getDiagonalNumber( ),
 					cell.getDiagonalStyle( ),
-					cell.getDiagonalWidth( ) );
+					cell.getDiagonalWidth( ),
+					cell.getDiagonalColor( ) );
 			imageCreater.setAntidiagonalLine( cell.getAntidiagonalNumber( ),
 					cell.getAntidiagonalStyle( ),
-					cell.getAntidiagonalWidth( ) );
+					cell.getAntidiagonalWidth( ),
+					cell.getAntidiagonalColor( ) );
 			imageCreater.setImageDpi( imageDpi );
 			imageCreater.setImageSize( cellWidth, cellHeight );
 			IStyle cellComputedStyle = cell.getComputedStyle( );
