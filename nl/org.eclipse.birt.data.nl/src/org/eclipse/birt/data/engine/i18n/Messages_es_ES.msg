@@ -394,6 +394,7 @@ data.olap.InvalidNestAggregationExpression=La expresión de una agregación de nid
 data.olap.InvalidNestAggregationOn="{0}" añadido a la agregación de nido de cubo "{1}" no existe en su agregación de base.
 data.olap.sort.exprError=El nivel de la dimensión a la que se hace referencia establecido sólo debería contener un nivel.
 data.olap.query.noCubeBinding=Error al ejecutar la consulta de cubo porque no hay disponible ningún enlace de cubo.
+data.olap.FailLoadCube=Failed to load cube:"{0}".
 
 data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.
 # Configuration file parser error code

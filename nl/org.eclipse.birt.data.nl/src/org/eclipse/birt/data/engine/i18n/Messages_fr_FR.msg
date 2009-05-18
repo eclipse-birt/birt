@@ -394,6 +394,7 @@ data.olap.InvalidNestAggregationExpression=L'expression d'agrégation imbriquée d
 data.olap.InvalidNestAggregationOn=Agrégation "{0}" sur l'agrégation imbriquée du cube "{1}" n'existe pas dans sa ou ses agrégation(s) de base.
 data.olap.sort.exprError=Le jeu de niveaux de dimension référencés ne doit contenir qu'un seul niveau.
 data.olap.query.noCubeBinding=Impossible d'exécuter la requête du cube car aucune liaison au cube n'est disponible.
+data.olap.FailLoadCube=Failed to load cube:"{0}".
 
 data.cache.UnsupportedIncrementalCacheMode=Le mode \"{0}\" de cache incrémentiel n''est pas encore pris en charge !
 # Configuration file parser error code

@@ -394,6 +394,7 @@ data.olap.InvalidNestAggregationExpression=ƒLƒ…[ƒuƒlƒXƒg‚³‚ê‚½WŒv‚Ì®‚ª–³Œø‚Å‚
 data.olap.InvalidNestAggregationOn=ƒLƒ…[ƒuƒlƒXƒg‚³‚ê‚½WŒv "{1}" ‚Å‚Ì "{0}" WŒv‚ÍAƒx[ƒX‚Æ‚È‚éWŒv‚É‚ ‚è‚Ü‚¹‚ñB
 data.olap.sort.exprError=QÆ‚·‚éƒfƒBƒƒ“ƒWƒ‡ƒ“ƒŒƒxƒ‹‚É‚Â‚« 1 ‚Â‚ÌƒŒƒxƒ‹‚µ‚©ŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
 data.olap.query.noCubeBinding=ƒLƒ…[ƒu‚ÌƒoƒCƒ“ƒh‚ªg—p‚Å‚«‚È‚¢‚½‚ßAƒLƒ…[ƒuƒNƒGƒŠ‚ğÀs‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B
+data.olap.FailLoadCube=Failed to load cube:"{0}".
 
 data.cache.UnsupportedIncrementalCacheMode=‘•ªƒLƒƒƒbƒVƒ…‚Ì \"{0}\" ƒ‚[ƒh‚Í‚Ü‚¾ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 # Configuration file parser error code

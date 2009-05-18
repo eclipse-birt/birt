@@ -394,6 +394,7 @@ data.olap.InvalidNestAggregationExpression=多维数据集嵌套聚合的表达式无效。
 data.olap.InvalidNestAggregationOn=多维数据集嵌套聚合“{1}”中的“{0}”聚合条件在基础聚合中不存在。
 data.olap.sort.exprError=设置的引用维级别只应包含一个级别!
 data.olap.query.noCubeBinding=由于没有可用的多维数据集绑定，无法执行多维数据集查询!
+data.olap.FailLoadCube=Failed to load cube:"{0}".
 
 data.cache.UnsupportedIncrementalCacheMode=尚未支持增量缓存的“{0}”模式!
 # Configuration file parser error code

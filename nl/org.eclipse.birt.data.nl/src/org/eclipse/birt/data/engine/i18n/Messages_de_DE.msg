@@ -394,6 +394,7 @@ data.olap.InvalidNestAggregationExpression=Der Ausdruck eines Quader-Verschachte
 data.olap.InvalidNestAggregationOn=Aggregat in '{0}' in Quader-Verschachtelungsaggregat '{1}' ist nicht in basierten Aggregaten vorhanden.
 data.olap.sort.exprError=Dimensionsebenensatz, auf den verwiesen wird, darf nur eine Ebene enthalten.
 data.olap.query.noCubeBinding=Fehler bei Ausführung der Quaderanfrage: Keine Quaderbindung verfügbar.
+data.olap.FailLoadCube=Failed to load cube:"{0}".
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!
 # Configuration file parser error code
