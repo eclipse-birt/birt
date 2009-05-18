@@ -33,6 +33,9 @@ public class DefineDataSourceSetUtil
 	public static void defineDataSourceAndDataSet( DataSetHandle dataSet,
 			DataRequestSession sessionImpl ) throws BirtException
 	{
+		if ( dataSet == null )
+			return;
+
 		IModelAdapter modelAdaptor = sessionImpl.getModelAdaptor( );
 		DataSourceHandle dataSource = dataSet.getDataSource( );
 		if ( dataSource != null )
@@ -74,6 +77,10 @@ public class DefineDataSourceSetUtil
 	public static void defineDataSourceAndDataSet( DataSetHandle dataSet,
 			DataEngine dataEngine, IModelAdapter modelAdaptor ) throws BirtException
 	{
+
+		if ( dataSet == null )
+			return;
+
 		DataSourceHandle dataSource = dataSet.getDataSource( );
 		if ( dataSource != null
 				&& ( (DataEngineImpl) dataEngine ).getDataSourceRuntime( dataSource.getName( ) ) == null )

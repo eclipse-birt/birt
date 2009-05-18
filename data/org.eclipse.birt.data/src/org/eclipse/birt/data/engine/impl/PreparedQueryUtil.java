@@ -287,11 +287,7 @@ class PreparedQueryUtil
 		else
 		{
 			IBaseDataSetDesign design = DataSetDesignHelper.createAdapter( dataSetDesign );
-			if( design == null )
-				throw new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE,
-						dataSetDesign.getName( ) );
-			else
-				return design;
+			return design;
 		}
 	}
 
