@@ -32,6 +32,7 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -1311,7 +1312,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		List list = new ArrayList( );
 
 		if ( !( this.getModelHandle( ).isInTemplateParameter( ) )
-				&& this.getCube( ) == null )
+				&& this.getCube( ) == null
+				&& !( this.getModelHandle( ).getRoot( ) instanceof LibraryHandle ) )
 		{
 			ExtendedElementException extendedException = new ExtendedElementException( this.getModelHandle( )
 					.getElement( ),
