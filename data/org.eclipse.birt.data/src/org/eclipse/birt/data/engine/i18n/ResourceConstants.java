@@ -377,6 +377,7 @@ public class ResourceConstants
 	public final static String DUPLICATE_MEASURE_NAME = "data.olap.duplicateMeasureName";
 	public static final String REFERENCED_DIM_LEVEL_SET_ERROR = "data.olap.sort.exprError";
 	public static final String CUBE_QUERY_NO_CUBE_BINDING = "data.olap.query.noCubeBinding";
+	public static final String FAIL_LOAD_CUBE = "data.olap.FailLoadCube";
 	
 	public final static String CONFIG_FILE_PARSER_MODE_FAIL = "data.executor.configFileParser.getModeByID";
 	public final static String CONFIG_FILE_PARSER_TIMESTAMP_FORMAT_FAIL = "data.executor.configFileParser.getTSFormatByID";

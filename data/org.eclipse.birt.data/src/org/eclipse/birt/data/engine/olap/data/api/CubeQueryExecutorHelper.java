@@ -146,6 +146,10 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	public static ICube loadCube( String cubeName,
 			IDocumentManager documentManager, StopSign stopSign ) throws IOException, DataException
 	{
+		if ( documentManager == null )
+		{
+			throw new DataException( ResourceConstants.FAIL_LOAD_CUBE, cubeName );
+		}
 		Cube cube = new Cube( cubeName, documentManager );
 		cube.load( stopSign );
 		return cube;
