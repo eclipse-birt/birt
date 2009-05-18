@@ -643,6 +643,9 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 			markPageStale( IPageStaleType.NONE );
 		}
 		hookModelEventManager( getModel( ) );
+		//Fix bug 276266
+		SessionHandleAdapter.getInstance( )
+			.getMediator( getProvider( ).getReportModuleHandle( getEditorInput( ) )).addColleague( this );
 		// ser the attribute view disedit.
 		ReportRequest request = new ReportRequest( ReportXMLSourceEditorFormPage.this );
 		List list = new ArrayList( );
