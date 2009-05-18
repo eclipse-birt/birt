@@ -33,7 +33,6 @@ import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
-import org.eclipse.birt.data.engine.api.IJoinCondition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
@@ -50,7 +49,6 @@ import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
-import org.eclipse.birt.data.engine.api.querydefn.JoinCondition;
 import org.eclipse.birt.data.engine.api.querydefn.JointDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
@@ -84,7 +82,6 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
-import org.eclipse.birt.report.model.api.JoinConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -224,7 +221,7 @@ public class ModelDteApiAdapter
 					context );
 		
 		if ( dataSet instanceof JointDataSetHandle )
-			return newJointDataSet( (JointDataSetHandle)dataSet, context);
+			return newJointDataSet( (JointDataSetHandle)dataSet );
 		// any other types are not supported
 		return dteSession.getModelAdaptor( ).adaptDataSet( dataSet );
 	}
@@ -298,64 +295,18 @@ public class ModelDteApiAdapter
 	 * @return
 	 * @throws BirtException
 	 */
-	private IJointDataSetDesign newJointDataSet( JointDataSetHandle handle, ExecutionContext context2 ) throws BirtException
+	private IJointDataSetDesign newJointDataSet( JointDataSetHandle handle ) throws BirtException
 	{
-		Iterator it = handle.joinConditionsIterator( );
-		List joinConditions = new ArrayList();
-		
-		JoinConditionHandle jc = null;
-		
-		while( it.hasNext( ) )
-		{
-			jc = (JoinConditionHandle)it.next( );
-			joinConditions.add( new JoinCondition( new ScriptExpression( jc.getLeftExpression( )), new ScriptExpression(jc.getRightExpression( )),toDteJoinOperator(jc.getOperator( )))) ;
-		}
-		
-		int joinType = toDteJoinType(jc.getJoinType( ));
-		
-		IBaseDataSetEventHandler eventHandler = new DataSetScriptExecutor(
-				handle, context );
 
-		JointDataSetDesign dteDataSet = new JointDataSetDesign( handle.getQualifiedName( ),
-				jc.getLeftDataSet( ),
-				jc.getRightDataSet( ),
-				joinType,
-				joinConditions );
+		IBaseDataSetEventHandler eventHandler = new DataSetScriptExecutor( handle,
+				context );
+
+		JointDataSetDesign dteDataSet = (JointDataSetDesign) this.dteSession.getModelAdaptor( )
+				.adaptDataSet( handle );
 		dteDataSet.setEventHandler( eventHandler );
-		// Adapt base class properties
-		adaptBaseDataSet( handle, dteDataSet );
-
 		return dteDataSet;
 	}
 
-	private int toDteJoinOperator( String operator )
-	{
-		if( operator.equals( DesignChoiceConstants.JOIN_OPERATOR_EQALS ))
-			return IJoinCondition.OP_EQ;
-		return -1;
-	}
-	
-	private int toDteJoinType ( String joinType )
-	{
-		if( joinType.equals( DesignChoiceConstants.JOIN_TYPE_INNER ))
-		{
-			return IJointDataSetDesign.INNER_JOIN;
-		}
-		else if( joinType.equals( DesignChoiceConstants.JOIN_TYPE_LEFT_OUT ))
-		{
-			return IJointDataSetDesign.LEFT_OUTER_JOIN;
-		}
-		else if( joinType.equals( DesignChoiceConstants.JOIN_TYPE_RIGHT_OUT ))
-		{
-			return IJointDataSetDesign.RIGHT_OUTER_JOIN;
-		}
-		else if( joinType.equals( DesignChoiceConstants.JOIN_TYPE_FULL_OUT ))
-		{
-			return IJointDataSetDesign.FULL_OUTER_JOIN;
-		}
-		return -1;
-	}
-	
 	/**
 	 * Evaluates a property binding Javascript expression
 	 */
