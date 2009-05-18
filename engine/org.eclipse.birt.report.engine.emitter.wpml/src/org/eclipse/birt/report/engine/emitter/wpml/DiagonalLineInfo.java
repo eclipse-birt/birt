@@ -38,7 +38,14 @@ public class DiagonalLineInfo
 	public void setDiagonalLine( int diagonalCount, String diagonalStyle,
 			int diagonalWidth )
 	{
-		this.diagonalCount = diagonalCount;
+		if ( diagonalCount > 3 )
+		{
+			this.diagonalCount = 3;
+		}
+		else
+		{
+			this.diagonalCount = diagonalCount;
+		}
 		this.diagonalStyle = diagonalStyle;
 		this.diagonalWidth = diagonalWidth;
 	}

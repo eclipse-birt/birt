@@ -410,8 +410,7 @@ public abstract class AbstractEmitterImpl
 		wordWriter.startTableCell( cellWidth, style, info );
 		context.addWidth( getCellWidth( cellWidth, style ) );
 		writeTableToc( );
-		if ( cell.getDiagonalNumber( ) != 0
-				|| cell.getAntidiagonalNumber( ) != 0 )
+		if ( cell.getDiagonalNumber( ) != 0 )
 		{
 			drawDiagonalLine( cell, WordUtil.twipToPt( cellWidth ) );
 		}
@@ -430,10 +429,7 @@ public abstract class AbstractEmitterImpl
 				.getDiagonalWidth( ), (int) cellWidth ) / 1000;
 		diagonalLineInfo.setDiagonalLine( cell.getDiagonalNumber( ), cell
 				.getDiagonalStyle( ), diagonalWidth );
-		int antidiagonalWidth = PropertyUtil.getDimensionValue( cell, cell
-				.getAntidiagonalWidth( ), (int) cellWidth ) / 1000;
-		diagonalLineInfo.setAntidiagonalLine( cell.getAntidiagonalNumber( ),
-				cell.getAntidiagonalStyle( ), antidiagonalWidth );
+		diagonalLineInfo.setAntidiagonalLine( 0, null, 0 );
 		diagonalLineInfo.setCoordinateSize( cellWidth, cellHeight );
 		String lineColor = WordUtil.parseColor( cell.getComputedStyle( )
 				.getColor( ) );
