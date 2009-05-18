@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -65,7 +66,7 @@ public class PropertyBindingTest extends BaseTestCase
 	{
 		List bindingList = moduleHandle
 				.getListProperty( Module.PROPERTY_BINDINGS_PROP );
-		assertEquals( 3, bindingList.size( ) );
+		assertEquals( 4, bindingList.size( ) );
 
 		// test list and member values
 
@@ -84,13 +85,19 @@ public class PropertyBindingTest extends BaseTestCase
 		assertEquals( 30, binding.getID( ).longValue( ) );
 		assertEquals( "newPassword", binding.getValue( ) ); //$NON-NLS-1$
 
+		binding = (PropertyBinding) bindingList.get( 3 );
+		assertEquals( PROP_NAME, binding.getName( ) );
+		assertEquals( 32, binding.getID( ).longValue( ) );
+		assertEquals( "unencryptedPassword", binding.getValue( ) ); //$NON-NLS-1$
+
 		// get the element based on the id and test getPropertyBinding method
 
 		DesignElementHandle tempHandle = moduleHandle.getElementByID( 23 );
 		assertNotNull( tempHandle );
 		assertTrue( tempHandle instanceof LabelHandle );
 		assertNotNull( tempHandle.getPropertyDefn( "text" ) ); //$NON-NLS-1$
-		assertEquals( "params[p1]", tempHandle.getPropertyBindingExpression( "text" ).getStringExpression( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals(
+				"params[p1]", tempHandle.getPropertyBindingExpression( "text" ).getStringExpression( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( bindingList.get( 0 ), moduleHandle.getModule( )
 				.findPropertyBinding( tempHandle.getElement( ), "text" ) ); //$NON-NLS-1$
 
@@ -132,13 +139,14 @@ public class PropertyBindingTest extends BaseTestCase
 
 		CellHandle cell = (CellHandle) designHandle.getElementByID( 22 );
 		assertNotNull( cell );
-		cell.setPropertyBinding( CellHandle.COLUMN_PROP, (String)null );
+		cell.setPropertyBinding( CellHandle.COLUMN_PROP, (String) null );
 
 		// update label property binding
 
 		LabelHandle label = (LabelHandle) designHandle.getElementByID( 23 );
 		assertNotNull( label );
-		label.setPropertyBinding( LabelHandle.TEXT_PROP, new Expression( "params[p3]", null ) ); //$NON-NLS-1$
+		label.setPropertyBinding( LabelHandle.TEXT_PROP, new Expression(
+				"params[p3]", null ) ); //$NON-NLS-1$
 
 		// set another label property binding with the same property
 
@@ -149,7 +157,9 @@ public class PropertyBindingTest extends BaseTestCase
 		// set the encrypted new value
 		ExtendedItemHandle extended = (ExtendedItemHandle) designHandle
 				.getElementByID( 30 );
-		extended.setPropertyBinding( PROP_NAME, "setNewPassword" ); //$NON-NLS-1$
+		Expression expr = new Expression(
+				"setNewPassword", IExpressionType.CONSTANT );//$NON-NLS-1$
+		extended.setPropertyBinding( PROP_NAME, expr );
 
 		// add a binding for another extended item
 		extended = (ExtendedItemHandle) designHandle.getElementByID( 31 );
@@ -225,7 +235,8 @@ public class PropertyBindingTest extends BaseTestCase
 
 		LabelHandle label = (LabelHandle) designHandle.getElementByID( 23 );
 		assertNotNull( label );
-		label.setPropertyBinding( LabelHandle.BOOKMARK_PROP, new Expression( "params[p]", null ) ); //$NON-NLS-1$
+		label.setPropertyBinding( LabelHandle.BOOKMARK_PROP, new Expression(
+				"params[p]", null ) ); //$NON-NLS-1$
 
 		label.drop( );
 

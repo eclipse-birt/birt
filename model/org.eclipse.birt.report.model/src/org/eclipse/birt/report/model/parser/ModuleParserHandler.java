@@ -365,7 +365,6 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		if ( versionNumber < VersionUtil.VERSION_3_2_19 )
 		{
 			handleStyleNameCompatibilities( );
-			handleEncryptionForPropertyBinding( );
 		}
 
 		// if module options not set the parser-semantic check options or set it
@@ -746,28 +745,6 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 
 		}
 
-	}
-
-	/**
-	 * Handles the backward compatibilities for encryption in property binding
-	 * value.
-	 */
-	private void handleEncryptionForPropertyBinding( )
-	{
-		List<Object> propBindingList = module.getListProperty( module,
-				IModuleModel.PROPERTY_BINDINGS_PROP );
-		if ( propBindingList != null )
-		{
-			for ( int i = 0; i < propBindingList.size( ); i++ )
-			{
-				PropertyBinding propBinding = (PropertyBinding) propBindingList
-						.get( i );
-				Object oldValue = propBinding.getValue( );
-				EncryptionUtil.setEncryptionBindingValue( module, propBinding,
-						(PropertyDefn) propBinding.getDefn( ).getMember(
-								PropertyBinding.VALUE_MEMBER ), oldValue );
-			}
-		}
 	}
 
 	static class ModuleLexicalHandler implements LexicalHandler

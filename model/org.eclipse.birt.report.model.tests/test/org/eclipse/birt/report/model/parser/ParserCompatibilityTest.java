@@ -542,8 +542,8 @@ public class ParserCompatibilityTest extends BaseTestCase
 	 * new OdaDataSet.resultSet.
 	 * <p>
 	 * The rule is by taking 1) the current ResultSet�s column name as the
-	 * �nativeName�, and 2) the ResultSetHints�s column name as the �name�, in
-	 * the merged OdaResultSetColumn structure.
+	 * �nativeName�, and 2) the ResultSetHints�s column name as the
+	 * �name�, in the merged OdaResultSetColumn structure.
 	 * 
 	 * 
 	 * @throws Exception
@@ -918,21 +918,6 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( "CompatiblePageMarginTest_golden.xml" ) ); //$NON-NLS-1$
-	}
-
-	/**
-	 * Tests the backward compatibility about the encryption in property binding
-	 * value. If the version is smaller than 3.2.19, handle the compatibilities;
-	 * otherwise do nothing.
-	 * 
-	 * @throws Exception
-	 */
-	public void testEncryptionForPropertyBindingValue( ) throws Exception
-	{
-		openDesign( "CompatiblePropertyBindingTest.xml" ); //$NON-NLS-1$
-
-		save( );
-		assertTrue( compareFile( "CompatiblePropertyBindingTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
@@ -170,7 +171,9 @@ public class EncryptedPropertyState extends PropertyState
 			if ( struct instanceof PropertyBinding )
 			{
 				PropertyBinding propBinding = (PropertyBinding) struct;
-				propBinding.setEncryption( encryptionID );
+				// only constant type should support encryption
+				if ( IExpressionType.CONSTANT.equalsIgnoreCase( exprType ) )
+					propBinding.setEncryption( encryptionID );
 			}
 			doSetMember( struct, propDefn.getName( ),
 					(StructPropertyDefn) propDefn, valueToSet );

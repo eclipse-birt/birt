@@ -135,7 +135,7 @@ class PropertyState extends AbstractPropertyState
 	 * The type for the expression.
 	 */
 
-	private String exprType = null;
+	protected String exprType = null;
 
 	/*
 	 * (non-Javadoc)

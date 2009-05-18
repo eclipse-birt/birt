@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -192,6 +193,13 @@ public class EncryptionUtil
 	{
 		if ( !( structure instanceof PropertyBinding ) )
 			return;
+
+		// if value is not constant, do nothing and set property directly
+		if ( !needEncryption( value ) )
+		{
+			structure.setProperty( memberDefn, value );
+			return;
+		}
 		PropertyBinding propBinding = (PropertyBinding) structure;
 		String encryptionID = getEncryptionForBindingValue( module, structure,
 				memberDefn, value );
@@ -217,6 +225,26 @@ public class EncryptionUtil
 		}
 		structure.setProperty( memberDefn, value );
 
+	}
+
+	/**
+	 * Determines whether this value should do the encryption. True if the value
+	 * is constant type.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	private static boolean needEncryption( Object value )
+	{
+		if ( value instanceof Expression )
+		{
+			Expression exprValue = (Expression) value;
+			if ( IExpressionType.CONSTANT
+					.equalsIgnoreCase( exprValue.getType( ) ) )
+				return true;
+		}
+
+		return false;
 	}
 
 }

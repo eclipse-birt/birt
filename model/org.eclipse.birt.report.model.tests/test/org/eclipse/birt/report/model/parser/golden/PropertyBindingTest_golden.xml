@@ -10,7 +10,12 @@
         <structure>
             <property name="name">pswd</property>
             <property name="id">30</property>
-            <encrypted-property name="value" encryptionID="oneEncryptionHelper">_ab_setNewPassword</encrypted-property>
+            <encrypted-property name="value" encryptionID="oneEncryptionHelper" type="constant">_ab_setNewPassword</encrypted-property>
+        </structure>
+        <structure>
+            <property name="name">pswd</property>
+            <property name="id">32</property>
+            <expression name="value">unencryptedPassword</expression>
         </structure>
         <structure>
             <property name="name">bookmark</property>
@@ -25,7 +30,7 @@
         <structure>
             <property name="name">pswd</property>
             <property name="id">31</property>
-            <encrypted-property name="value" encryptionID="oneEncryptionHelper">_ab_createPassword</encrypted-property>
+            <expression name="value">createPassword</expression>
         </structure>
     </list-property>
     <page-setup>
@@ -105,6 +110,9 @@
             <encrypted-property name="pswd" encryptionID="base64">TmV3IFBhc3N3b3Jk</encrypted-property>
         </extended-item>
         <extended-item extensionName="TestingTable" name="item_2" id="31">
+            <encrypted-property name="pswd" encryptionID="oneEncryptionHelper">_ab_mypswd</encrypted-property>
+        </extended-item>
+        <extended-item extensionName="TestingTable" name="item_3" id="32">
             <encrypted-property name="pswd" encryptionID="oneEncryptionHelper">_ab_mypswd</encrypted-property>
         </extended-item>
     </body>
