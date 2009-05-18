@@ -254,7 +254,7 @@ public class MapRuleBuilder extends BaseDialog
 
 	private ValueCombo expressionValue1, expressionValue2;
 
-	private Label andLable;
+	private Label andLabel;
 
 	private Text resourceKeytext;
 
@@ -499,8 +499,8 @@ public class MapRuleBuilder extends BaseDialog
 		disposeComposites( );
 
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.minimumWidth = 110;
-		gd.heightHint = 20;
+		gd.minimumWidth = 120;
+		//gd.heightHint = 20;
 		expressionValue1 = new ValueCombo( condition, SWT.NONE );
 		expressionValue1.setLayoutData( gd );
 		expressionValue1.setItems( popupItems );
@@ -516,12 +516,12 @@ public class MapRuleBuilder extends BaseDialog
 		Composite dummy = createDummy( condition, 3 );
 		compositeList.add( dummy );
 
-		andLable = new Label( condition, SWT.NONE );
-		andLable.setText( Messages.getString( "HighlightRuleBuilderDialog.text.AND" ) ); //$NON-NLS-1$
-		andLable.setVisible( false );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		andLable.setLayoutData( gd );
-		compositeList.add( andLable );
+		andLabel = new Label( condition, SWT.NONE );
+		andLabel.setText( Messages.getString( "HighlightRuleBuilderDialog.text.AND" ) ); //$NON-NLS-1$
+		andLabel.setVisible( false );
+		gd = new GridData( GridData.CENTER );
+		andLabel.setLayoutData( gd );
+		compositeList.add( andLabel );
 
 		dummy = createDummy( condition, 3 );
 
@@ -529,8 +529,8 @@ public class MapRuleBuilder extends BaseDialog
 
 		expressionValue2 = new ValueCombo( condition, SWT.NONE );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.minimumWidth = 110;
-		gd.heightHint = 20;
+		gd.minimumWidth = 120;
+		// gd.heightHint = 20;
 		expressionValue2.setLayoutData( gd );
 		expressionValue2.setItems( popupItems );
 		compositeList.add( expressionValue2 );
@@ -1182,8 +1182,8 @@ public class MapRuleBuilder extends BaseDialog
 			expressionValue2.setVisible( false );
 			( (GridData) expressionValue1.getLayoutData( ) ).exclude = true;
 			( (GridData) expressionValue2.getLayoutData( ) ).exclude = true;
-			( (GridData) andLable.getLayoutData( ) ).exclude = true;
-			andLable.setVisible( false );
+			( (GridData) andLabel.getLayoutData( ) ).exclude = true;
+			andLabel.setVisible( false );
 		}
 		else if ( valueVisible == 1 )
 		{
@@ -1191,8 +1191,8 @@ public class MapRuleBuilder extends BaseDialog
 			expressionValue2.setVisible( false );
 			( (GridData) expressionValue1.getLayoutData( ) ).exclude = false;
 			( (GridData) expressionValue2.getLayoutData( ) ).exclude = true;
-			( (GridData) andLable.getLayoutData( ) ).exclude = true;
-			andLable.setVisible( false );
+			( (GridData) andLabel.getLayoutData( ) ).exclude = true;
+			andLabel.setVisible( false );
 		}
 		else if ( valueVisible == 2 )
 		{
@@ -1200,8 +1200,8 @@ public class MapRuleBuilder extends BaseDialog
 			expressionValue2.setVisible( true );
 			( (GridData) expressionValue1.getLayoutData( ) ).exclude = false;
 			( (GridData) expressionValue2.getLayoutData( ) ).exclude = false;
-			( (GridData) andLable.getLayoutData( ) ).exclude = false;
-			andLable.setVisible( true );
+			( (GridData) andLabel.getLayoutData( ) ).exclude = false;
+			andLabel.setVisible( true );
 		}
 		updateButtons( );
 	}
@@ -1827,9 +1827,9 @@ public class MapRuleBuilder extends BaseDialog
 				expressionValue1.setEnabled( val );
 			if ( expressionValue2 != null && ( !expressionValue2.isDisposed( ) ) )
 				expressionValue2.setEnabled( val );
-			if ( andLable != null && ( !andLable.isDisposed( ) ) )
+			if ( andLabel != null && ( !andLabel.isDisposed( ) ) )
 			{
-				andLable.setEnabled( val );
+				andLabel.setEnabled( val );
 			}
 		}
 		else
@@ -1983,19 +1983,19 @@ public class MapRuleBuilder extends BaseDialog
 		{
 			expressionValue1.setVisible( false );
 			expressionValue2.setVisible( false );
-			andLable.setVisible( false );
+			andLabel.setVisible( false );
 		}
 		else if ( valueVisible == 1 )
 		{
 			expressionValue1.setVisible( true );
 			expressionValue2.setVisible( false );
-			andLable.setVisible( false );
+			andLabel.setVisible( false );
 		}
 		else if ( valueVisible == 2 )
 		{
 			expressionValue1.setVisible( true );
 			expressionValue2.setVisible( true );
-			andLable.setVisible( true );
+			andLabel.setVisible( true );
 		}
 		else if ( valueVisible == 3 )
 		{
