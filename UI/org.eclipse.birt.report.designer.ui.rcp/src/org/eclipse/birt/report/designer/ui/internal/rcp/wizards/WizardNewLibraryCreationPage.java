@@ -352,7 +352,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		{
 			ModuleHandle handle = SessionHandleAdapter.getInstance( )
 					.getSessionHandle( )
-					.openLibrary( sourceFileName );
+					.createLibraryFromTemplate( sourceFileName );
 
 			if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
 			{
