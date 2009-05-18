@@ -2109,4 +2109,37 @@ public class DesignLoadLibraryTest extends BaseTestCase
 		sheetHandle = sheets.get( 2 );
 		assertEquals( "outer2.css", sheetHandle.getFileName( ) ); //$NON-NLS-1$
 	}
+
+	/**
+	 * Tests the same library can be included in one design twice. The case: 1.
+	 * the design contains libA; 2. add the libB to the design, the libB uses
+	 * the libA file with the name space Lib1.
+	 * <p>
+	 * The expect result is libB can be used successfully and liB.Lib1 is valid.
+	 * see bug 276216.
+	 * 
+	 * @throws Exception
+	 *             if any exception
+	 */
+
+	public void testLoadDesignWithSameLibraryFile( ) throws Exception
+	{
+		openDesign( "BlankDesign.xml" ); //$NON-NLS-1$
+
+		designHandle.includeLibrary( "Library_1.xml", "libA" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		designHandle
+				.includeLibrary( "LibraryIncludingTwoLibraries.xml", "libB" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		assertNotNull( design.getLibraryWithNamespace( "Lib1" ) ); //$NON-NLS-1$
+
+		// creates a new grid, and make sure that the grid has its layout
+		// structure
+
+		GridHandle tmpGrid = (GridHandle) designHandle.getLibrary( "libB" ) //$NON-NLS-1$
+				.findElement( "myGrid" ); //$NON-NLS-1$
+		GridHandle newGrid = (GridHandle) designHandle.getElementFactory( )
+				.newElementFrom( tmpGrid, "testMyGrid" ); //$NON-NLS-1$
+		assertTrue( newGrid.getRows( ).getCount( ) > 0 );
+	}
 }

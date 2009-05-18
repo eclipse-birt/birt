@@ -93,21 +93,10 @@ public class LibraryUtil
 			}
 			else
 			{
+				// the name space must be unique since foundLib == null at this time.
+				
 				foundLib = outermostModule.getLibraryByLocation( url
 						.toExternalForm( ) );
-
-				// the case: if the name space is different and the file is the
-				// same, must throw exception.
-
-				if ( foundLib != null
-						&& !namespace
-								.equalsIgnoreCase( foundLib.getNamespace( ) ) )
-				{
-					throw new LibraryException(
-							module,
-							new String[]{namespace},
-							LibraryException.DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED );
-				}
 			}
 
 			if ( module.getLibraryByLocation( url.toExternalForm( ),
