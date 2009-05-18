@@ -63,12 +63,6 @@ class ExpressionState extends PropertyState
 			.toLowerCase( ).hashCode( );
 
 	/**
-	 * The type for the expression.
-	 */
-
-	private String exprType = null;
-
-	/**
 	 * 
 	 * @param theHandler
 	 * @param element
@@ -233,6 +227,19 @@ class ExpressionState extends PropertyState
 	{
 		String value = text.toString( );
 
+		doEnd( value );
+	}
+
+	/**
+	 * Constructs an expression object if necessary. THe condition is
+	 * context-related.
+	 * 
+	 * @param value
+	 *            the string value
+	 */
+
+	protected void doEnd( Object value )
+	{
 		Object toSet = value;
 
 		// in some old design file, the property/expression tags may be messed
@@ -250,7 +257,6 @@ class ExpressionState extends PropertyState
 		if ( tmpPropDefn != null && tmpPropDefn.allowExpression( ) )
 			toSet = new Expression( value, exprType );
 
-		doEnd( toSet );
+		super.doEnd( toSet );
 	}
-
 }

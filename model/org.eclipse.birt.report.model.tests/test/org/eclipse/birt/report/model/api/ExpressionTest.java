@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -241,5 +242,25 @@ public class ExpressionTest extends BaseTestCase
 		equals( tmpValues.get( 0 ), "new a", ExpressionType.CONSTANT ); //$NON-NLS-1$
 		equals( tmpValues.get( 1 ), "new b", ExpressionType.CONSTANT ); //$NON-NLS-1$
 		equals( tmpValues.get( 2 ), "new c", ExpressionType.CONSTANT ); //$NON-NLS-1$
+	}
+
+	/**
+	 * The expression type on Action won't be missed in the parser.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testConstantTypeOnAction( ) throws Exception
+	{
+		openDesign( INPUT_FILE );
+		
+		ActionHandle actionHandle = ( (ImageHandle) designHandle
+				.findElement( "Image1" ) ).getActionHandle( ); //$NON-NLS-1$
+
+		ExpressionHandle exprHandle = actionHandle
+				.getExpressionProperty( Action.URI_MEMBER );
+
+		// test the expression type.
+		assertEquals( ExpressionType.CONSTANT, exprHandle.getType( ) );
 	}
 }

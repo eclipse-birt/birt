@@ -109,7 +109,7 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 
 	protected void doEnd( Object value )
 	{
-		doEnd( (String) value, false );
+		doEnd( value, false );
 	}
 
 	/**
