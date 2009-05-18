@@ -30,6 +30,8 @@ import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
@@ -1439,39 +1441,24 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private boolean matchDataType( ResultSetColumnHandle column )
 	{
-		String type = getSelectedDataType( );
-		if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING )
+		if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING )
 				|| DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( column.getDataType( ) ) )
 		{
 			return true;
 		}
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( column.getDataType( ) ) )
+		int type = DataAdapterUtil.adaptModelDataType( getSelectedDataType( ) );
+		int columnType = DataAdapterUtil.adaptModelDataType( column.getDataType( ) );
+		try
 		{
-			return type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME );
+			int[] compatibleTypes = DataAdapterUtil.getCompatibleDataTypes( type );
+			for ( int at : compatibleTypes )
+			{
+				if ( columnType == at )
+					return true;
+			}
 		}
-		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( column.getDataType( ) ) )
+		catch ( AdapterException e )
 		{
-			return type.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL );
-		}
-		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( column.getDataType( ) ) )
-		{
-			return type.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
-		}
-		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( column.getDataType( ) ) )
-		{
-			return type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER );
-		}
-		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( column.getDataType( ) ) )
-		{
-			return type.equals( DesignChoiceConstants.PARAM_TYPE_DATE );
-		}
-		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( column.getDataType( ) ) )
-		{
-			return type.equals( DesignChoiceConstants.PARAM_TYPE_TIME );
-		}
-		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( column.getDataType( ) ) )
-		{
-			return type.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN );
 		}
 		return false;
 	}
