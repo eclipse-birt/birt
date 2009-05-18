@@ -581,7 +581,7 @@ public class NewReportWizard extends Wizard implements
 
 		// to refresh this project, or file does not exist will be told, though
 		// it's created.
-		container.refreshLocal( IResource.DEPTH_INFINITE, monitor );
+		file.refreshLocal( IResource.DEPTH_INFINITE, monitor );
 
 		monitor.worked( 1 );
 		monitor.setTaskName( OPENING_FILE_FOR_EDITING );
