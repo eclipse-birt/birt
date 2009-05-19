@@ -61,7 +61,7 @@ public abstract class InlineStackingArea extends ContainerArea
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea child = (AbstractArea) iter.next( );
-				baseLine = Math.max( baseLine, child.getBaseLine( ) );
+				baseLine = Math.max( baseLine, child.getY( ) + child.getBaseLine( ) );
 			}
 		}
 		return baseLine;
@@ -115,21 +115,20 @@ public abstract class InlineStackingArea extends ContainerArea
 				spacing = 0;
 			}
 
-			if (vAlign==null ||  IStyle.BASELINE_VALUE.equals( vAlign ) )
+			if ( vAlign == null || IStyle.BASELINE_VALUE.equals( vAlign ) )
 			{
 				// FIXME to implement basline alignment
 				int lineHeight = parent.getLineHeight( );
 				if ( lineHeight > 0 )
 				{
 					// align to middle, fix issue 164072
-					child.setPosition( child.getX( ), child.getY( )
-							+ getBaseLine( ) - child.getBaseLine( ) + spacing
-							/ 2 );
+					child.setPosition( child.getX( ), getBaseLine( )
+							- child.getBaseLine( ) + spacing / 2 );
 				}
 				else
 				{
-					child.setPosition( child.getX( ), child.getY( )
-							+ getBaseLine( ) - child.getBaseLine( ) );
+					child.setPosition( child.getX( ), getBaseLine( )
+							- child.getBaseLine( ) );
 				}
 			}
 			else if ( IStyle.BOTTOM_VALUE.equals( vAlign ) )

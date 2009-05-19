@@ -538,6 +538,24 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 	{
 		return result.size( ) > 0;
 	}
+	
+	public int getBaseLine( )
+	{
+		if ( baseLine == 0 )
+		{
+			// use the first child baseline.			
+			if ( children.size( ) > 0 )
+			{
+				AbstractArea child = (AbstractArea) children.get( children.size( ) - 1 );
+				baseLine = child.getY( ) + child.getBaseLine( );
+			}
+			else
+			{
+				baseLine = height;
+			}
+		}
+		return baseLine;
+	}
 
 	public boolean isPageBreakInsideAvoid( )
 	{

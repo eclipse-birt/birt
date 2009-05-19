@@ -12,10 +12,7 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
-import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea.SplitResult;
 
 
 public class TextLineArea extends LineArea
