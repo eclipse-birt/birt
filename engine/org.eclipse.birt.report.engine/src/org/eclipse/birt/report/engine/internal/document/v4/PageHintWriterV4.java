@@ -44,6 +44,8 @@ public class PageHintWriterV4 implements IPageHintWriter
 			hintsStream.writeInt( IPageHintWriter.VERSION );
 			indexStream = writer
 					.createRandomAccessStream( ReportDocumentConstants.PAGEHINT_INDEX_STREAM );
+			indexStream.writeLong( 0 ); // total page
+			indexStream.writeLong( -1 );// global variable offset
 		}
 		catch ( IOException ex )
 		{

@@ -510,9 +510,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			emitter.start( report );
 			layoutEngine.setTotalPageCount( getTotalPage( ) );
 
-			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination )
-					|| ExtensionManager.PAGE_BREAK_PAGINATION
-							.equals( pagination ) )
+			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
 				if ( !paged )
 				{
@@ -555,12 +553,56 @@ public class RenderTask extends EngineTask implements IRenderTask
 					}
 				}
 			}
+			else if ( ExtensionManager.PAGE_BREAK_PAGINATION
+					.equals( pagination ) )
+			{
+				if ( !paged )
+				{
+					long pageNumber = iter.next( );
+					if ( pageNumber != 1 )
+					{
+						layoutEngine.setLayoutPageHint( getPageHint(
+								pagesExecutor, pageNumber ) );
+					}
+
+					layoutEngine.layout( executor, report, emitter, false );
+				}
+				else
+				{
+					while ( iter.hasNext( ) )
+					{
+						long pageNumber = iter.next( );
+						if ( pageNumber != 1 )
+						{
+							IPageHint pageHint = getPageHint( pagesExecutor,
+									pageNumber );
+							layoutEngine.setLayoutPageHint( pageHint );
+						}
+						// here the pageExecutor will returns a report.root.
+						IReportItemExecutor pageExecutor = executor
+								.getNextChild( );
+						if ( pageExecutor != null )
+						{
+							if ( filteredTotalPage != totalPage )
+							{
+								long filteredPageNumber = getLogicalPageNumber( pageNumber );
+								executionContext
+										.setFilteredPageNumber( filteredPageNumber );
+							}
+							IReportExecutor pExecutor = new ReportExecutorWrapper(
+									pageExecutor, executor );
+							layoutEngine.layout( pExecutor, report, emitter,
+									false );
+						}
+					}
+				}
+			}
 			else if ( ExtensionManager.NO_PAGINATION.equals( pagination ) )
 			{
 				layoutEngine.layout( executor, report, emitter, false );
 			}
 			outputPageCount = layoutEngine.getPageCount( );
-			
+
 			layoutEngine.close( );
 			emitter.end( report );
 			closeRender( );

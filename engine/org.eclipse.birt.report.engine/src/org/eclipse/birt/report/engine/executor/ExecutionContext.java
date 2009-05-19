@@ -401,19 +401,22 @@ public class ExecutionContext
 		scriptContext.getContext( ).setLocale( locale );
 		scriptContext.registerBean( "pageNumber", new Long( pageNumber ) );
 		scriptContext.registerBean( "totalPage", new Long( totalPage ) );
-		IStatusHandler handler = task.getStatusHandler( );
-		if ( handler != null )
+		if ( task != null )
 		{
-			handler.initialize( );
-			scriptContext.registerBean( "_statusHandle", handler );
-			try
+			IStatusHandler handler = task.getStatusHandler( );
+			if ( handler != null )
 			{
-				scriptContext
-						.eval( "function writeStatus(msg) { _statusHandle.showStatus(msg); }" );
-			}
-			catch ( BirtException e )
-			{
-				addException( e );
+				handler.initialize( );
+				scriptContext.registerBean( "_statusHandle", handler );
+				try
+				{
+					scriptContext
+							.eval( "function writeStatus(msg) { _statusHandle.showStatus(msg); }" );
+				}
+				catch ( BirtException e )
+				{
+					addException( e );
+				}
 			}
 		}
 		if (transientBeans != null )

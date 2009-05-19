@@ -239,9 +239,12 @@ public class PageHintReaderV3 implements IPageHintReader
 			{
 				indexStream.seek( 8 );
 				long offset = indexStream.readLong( );
-				hintsStream.seek( offset );
-				readPageVariables( new DataInputStream( hintsStream ),
-						pageVariables );
+				if ( offset != -1 )
+				{
+					hintsStream.seek( offset );
+					readPageVariables( new DataInputStream( hintsStream ),
+							pageVariables );
+				}
 			}
 		}
 		return pageVariables;
