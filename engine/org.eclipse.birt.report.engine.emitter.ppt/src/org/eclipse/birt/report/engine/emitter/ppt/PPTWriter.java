@@ -791,7 +791,6 @@ public class PPTWriter
 
 		if ( rtl )
 		{
-			String bidiAttributes = " dir=3D'rtl'"; //$NON-NLS-1$
 			for ( int i = text.length( ); i-- > 0; )
 			{
 				UnicodeBlock block = UCharacter.UnicodeBlock.of( text
@@ -800,7 +799,7 @@ public class PPTWriter
 				// corresponding language attribute
 				if ( UCharacter.UnicodeBlock.HEBREW.equals( block ) )
 				{
-					return bidiAttributes + " lang=3D'HE'"; //$NON-NLS-1$
+					return " dir=3D'rtl' lang=3D'HE-IL'"; //$NON-NLS-1$
 				}
 				if ( UCharacter.UnicodeBlock.ARABIC.equals( block )
 						|| UCharacter.UnicodeBlock.ARABIC_PRESENTATION_FORMS_A
@@ -810,12 +809,12 @@ public class PPTWriter
 						|| UCharacter.UnicodeBlock.ARABIC_SUPPLEMENT
 								.equals( block ) )
 				{
-					return bidiAttributes + " lang=3D'AR'"; //$NON-NLS-1$
+					return " dir=3D'rtl' lang=3D'AR-DZ'"; //$NON-NLS-1$
 				}
 			}
 			// If no actual RTL content was found (e.g. in case the text
-			// consists of sheer neutral characters), indicate Hebrew language
-			return bidiAttributes + " lang=3D'HE'"; //$NON-NLS-1$
+			// consists of sheer neutral characters), indicate Arabic language
+			return " dir=3D'rtl' lang=3D'AR-DZ'"; //$NON-NLS-1$
 		}
 		else
 		{
