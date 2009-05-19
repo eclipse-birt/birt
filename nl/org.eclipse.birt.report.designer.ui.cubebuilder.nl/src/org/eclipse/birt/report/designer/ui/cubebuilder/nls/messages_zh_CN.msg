@@ -66,6 +66,7 @@ SimpleCubeBuilder.Title.Message=通过指定分组层次结构和摘要数据字段来为交叉表组织
 SimpleCubeBuilder.Title=交叉表多维数据集生成器
 SimpleCubeBuilder.Label.Name=名称:
 DatasetPage.Title.Message=为多维数据集定义数据集。 
+DatasetSelectionPage.Combo.NewDataSet0=<New Data Set...>
 GroupsPage.Button.Add=添加(&A)
 GroupsPage.Button.Edit=编辑(&E)
 GroupsPage.Button.Delete=删除(&D)

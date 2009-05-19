@@ -66,6 +66,7 @@ SimpleCubeBuilder.Title.Message=Daten für die Kreuztabelle durch das Angeben von
 SimpleCubeBuilder.Title=Kreuztabellen-Cube Builder
 SimpleCubeBuilder.Label.Name=Name:
 DatasetPage.Title.Message=Datensatz für Quader definieren. 
+DatasetSelectionPage.Combo.NewDataSet0=<New Data Set...>
 GroupsPage.Button.Add=&Hinzufügen
 GroupsPage.Button.Edit=&Bearbeiten
 GroupsPage.Button.Delete=&Löschen...
