@@ -1453,11 +1453,11 @@ public class EngineIRReaderImpl implements IOConstants
 						image.setImageName( imageName );
 						break;
 					case ImageItemDesign.IMAGE_FILE :
-						String imageFile = IOUtil.readString( in );
+						Expression<String> imageFile = readStringExpression( in );
 						image.setImageFile( imageFile );
 						break;
 					case ImageItemDesign.IMAGE_URI :
-						String imageUri = IOUtil.readString( in );
+						Expression<String> imageUri = readStringExpression( in );
 						image.setImageUri( imageUri );
 						break;
 					case ImageItemDesign.IMAGE_EXPRESSION :

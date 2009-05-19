@@ -46,7 +46,7 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * image uri, used if source type URI
 	 */
-	protected String imageUri;
+	protected Expression<String> imageUri;
 	/**
 	 * image name, used if source type NAME
 	 */
@@ -164,7 +164,7 @@ public class ImageItemDesign extends ReportItemDesign
 	 * @param imageUri
 	 *            The imageUri to set.
 	 */
-	public void setImageUri( String imageUri )
+	public void setImageUri( Expression<String> imageUri )
 	{
 		this.imageSource = IMAGE_URI;
 		this.imageUri = imageUri;
@@ -173,12 +173,12 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the imageUri.
 	 */
-	public String getImageUri( )
+	public Expression<String> getImageUri( )
 	{
 		return imageUri;
 	}
 	
-	public void setImageFile(String file)
+	public void setImageFile( Expression<String> file )
 	{
 		imageSource = IMAGE_FILE;
 		imageUri = file;

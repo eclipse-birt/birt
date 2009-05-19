@@ -18,6 +18,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -133,15 +134,15 @@ public class ImageItemExecutor extends QueryItemExecutor
 		switch ( imageDesign.getImageSource( ) )
 		{
 			case ImageItemDesign.IMAGE_URI : // URI
-				String imageExpr = imageDesign.getImageUri( );
-				if ( imageExpr != null )
+				Expression<String> uriExpr = imageDesign.getImageUri( );
+				if ( uriExpr != null )
 				{
-					handleURIImage( imageExpr, imageContent );
+					handleURIImage( uriExpr, imageContent );
 				}
 				break;
 
 			case ImageItemDesign.IMAGE_FILE : // File
-				String fileExpr = imageDesign.getImageUri( );
+				Expression<String> fileExpr = imageDesign.getImageUri( );
 				assert fileExpr != null;
 				handleFileExpressionImage( fileExpr, imageContent );
 				break;
@@ -173,7 +174,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		}
 	}
 
-	protected void handleURIImage( String uriExpr,
+	protected void handleURIImage( Expression<String> uriExpr,
 			IImageContent imageContent ) throws BirtException
 	{
 		// the expression is an expression, but UI may use
@@ -183,30 +184,18 @@ public class ImageItemExecutor extends QueryItemExecutor
 		imageContent.setImageSource( IImageContent.IMAGE_URL );
 
 		assert uriExpr != null;
-		try
-		{
-			Object uriObj = evaluate( uriExpr );
+		Object uriObj = evaluate( uriExpr );
 
-			String strUri = null;
-			if ( uriObj != null )
-			{
-				strUri = uriObj.toString( );
-			}
-			else if ( uriExpr != null && uriExpr.length( ) > 0 )
-			{
-				strUri = uriExpr;
-			}
-
-			imageContent.setURI( strUri );
-		}
-		catch ( BirtException ex )
+		String strUri = null;
+		if ( uriObj != null )
 		{
-			if ( uriExpr != null && uriExpr.length( ) > 0 )
-			{
-				imageContent.setURI( uriExpr );
-			}
-			throw ex;
+			strUri = uriObj.toString( );
 		}
+		else if ( uriExpr != null )
+		{
+			strUri = uriExpr.getValue( );
+		}
+		imageContent.setURI( strUri );
 	}
 
 	protected void handleNamedImage( String imageName,
@@ -295,31 +284,20 @@ public class ImageItemExecutor extends QueryItemExecutor
 		}
 	}
 
-	protected void handleFileExpressionImage( String fileExpr,
+	protected void handleFileExpressionImage( Expression<String> fileExpr,
 			IImageContent imageContent ) throws BirtException
 	{
 		String imageFile = "";
-		try
+		Object file = evaluate( fileExpr );
+		if ( file != null )
 		{
-			Object file = evaluate( fileExpr );
-			if ( file != null )
-			{
-				imageFile = file.toString( );
-			}
-			else if ( fileExpr != null && fileExpr.length( ) > 0 )
-			{
-				imageFile = fileExpr;
-			}
-			handleFileImage( imageFile, imageContent );
+			imageFile = file.toString( );
 		}
-		catch ( BirtException ex )
+		else if ( fileExpr != null )
 		{
-			if ( fileExpr != null && fileExpr.length( ) > 0 )
-			{
-				handleFileImage( fileExpr, imageContent );
-			}
-			throw ex;
+			imageFile = fileExpr.getValue( );
 		}
+		handleFileImage( imageFile, imageContent );
 	}
 
 	protected void handleFileImage( String imageFile, IImageContent imageContent )

@@ -121,13 +121,22 @@ public class ImageItemTest extends ReportItemTestCase
 	{
 		ImageItemDesign image = new ImageItemDesign( );
 
-		//Set
+		// test constant
 		image
-				.setImageUri( "http://www.actuate.com/images/navimages/v8/logo.gif" );
-
-		//Get
-		assertEquals( image.getImageUri( ),
+				.setImageUri( Expression
+						.newConstant( "http://www.actuate.com/images/navimages/v8/logo.gif" ) );
+		assertEquals( image.getImageUri( ).getValue( ),
 				"http://www.actuate.com/images/navimages/v8/logo.gif" );
+		assertEquals( image.getImageSource( ), ImageItemDesign.IMAGE_URI );
+
+		// test expression
+		image
+				.setImageUri( Expression
+						.newExpression( "http://www.actuate.com/images/navimages/v8/logo.gif" ) );
+		assertEquals(
+				image.getImageUri( ),
+				Expression
+						.newExpression( "http://www.actuate.com/images/navimages/v8/logo.gif" ) );
 		assertEquals( image.getImageSource( ), ImageItemDesign.IMAGE_URI );
 	}
 }

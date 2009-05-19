@@ -576,13 +576,13 @@ public class ReportQueryBuilder
 				}
 				else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_URI )
 				{
-					String newImageUri = transformExpression( image
+					Expression<String> newImageUri = transformExpression( image
 							.getImageUri( ), query );
 					image.setImageUri( newImageUri );
 				}
 				else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_FILE )
 				{
-					String newImageUri = transformExpression( image
+					Expression<String> newImageUri = transformExpression( image
 							.getImageUri( ), query );
 					image.setImageFile( newImageUri );
 				}

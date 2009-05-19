@@ -1583,10 +1583,10 @@ public class EngineIRWriter implements IOConstants
 				}
 				break;
 			case ImageItemDesign.IMAGE_FILE :
-				IOUtil.writeString( out, image.getImageUri( ) );
+				write( out, image.getImageUri( ) );
 				break;
 			case ImageItemDesign.IMAGE_URI :
-				IOUtil.writeString( out, image.getImageUri( ) );
+				write( out, image.getImageUri( ) );
 				break;
 			case ImageItemDesign.IMAGE_EXPRESSION :
 				IOUtil.writeString( out, image.getImageExpression( ) );

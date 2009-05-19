@@ -81,6 +81,7 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
@@ -117,7 +118,9 @@ import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -805,7 +808,7 @@ public class EngineIRVisitor extends DesignVisitor
 
 		if ( EngineIRConstants.IMAGE_REF_TYPE_URL.equals( imageSrc ) )
 		{
-			image.setImageUri( validateExpression( handle.getURL( ) ) );
+			image.setImageUri( getExpression(handle, ImageHandle.URI_PROP ) );
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_EXPR.equals( imageSrc ) )
 		{
@@ -821,7 +824,7 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_FILE.equals( imageSrc ) )
 		{
-			image.setImageFile( validateExpression( handle.getFile( ) ) );
+			image.setImageFile( getExpression( handle, ImageHandle.URI_PROP ) );
 		}
 		else
 		{
@@ -1225,8 +1228,8 @@ public class EngineIRVisitor extends DesignVisitor
 		row.setHeight( height );
 
 		// Book mark
-		Expression<String> bookmark = createExpression( validateExpression( handle
-				.getBookmark( ) ) );
+		Expression<String> bookmark = getExpression( handle,
+				ITableRowModel.BOOKMARK_PROP );
 		row.setBookmark( bookmark );
 
 		// Visibility
@@ -1465,10 +1468,8 @@ public class EngineIRVisitor extends DesignVisitor
 	
 	private void setupAuralInfomation( CellDesign cell, CellHandle handle )
 	{
-		String bookmark = validateExpression( handle.getBookmark( ) );
-		cell.setBookmark( createExpression( bookmark ) );
-		String headers = handle.getHeaders( );
-		cell.setHeaders( createExpression( validateExpression( headers ) ) );
+		cell.setBookmark( getExpression( handle, ICellModel.BOOKMARK_PROP ) );
+		cell.setHeaders( getExpression( handle, ICellModel.HEADERS_PROP ) );
 		String scope = handle.getScope( );
 		if ( scope != null )
 		{
@@ -1737,7 +1738,8 @@ public class EngineIRVisitor extends DesignVisitor
 			group.setTOC( createObjectExpression( validateExpression( toc ) ) );
 		}
 		// bookmark
-		Expression<String> bookmark = createExpression( handle.getBookmark( ) );
+		Expression<String> bookmark = getExpression( handle,
+				IGroupElementModel.BOOKMARK_PROP );
 		group.setBookmark( bookmark );
 		
 		// set up OnCreate, OnRender, OnPageBreak
@@ -1837,8 +1839,8 @@ public class EngineIRVisitor extends DesignVisitor
 	protected VisibilityRuleDesign createHide( HideRuleHandle handle )
 	{
 		VisibilityRuleDesign rule = new VisibilityRuleDesign( );
-		String expression = validateExpression( handle.getExpression( ) );
-		rule.setExpression( createBooleanExpression( expression ) );
+		rule.setExpression( createBooleanExpression( handle
+				.getExpressionProperty( HideRule.VALUE_EXPR_MEMBER ) ) );
 		String format = handle.getFormat( );
 		if ( "viewer".equalsIgnoreCase( format ) ) //$NON-NLS-1$
 		{
@@ -1879,8 +1881,9 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 
 		// setup book mark
-		String bookmark = handle.getBookmark( );
-		item.setBookmark( createExpression( validateExpression( bookmark ) ) );
+		item
+				.setBookmark( getExpression( handle,
+						IReportItemModel.BOOKMARK_PROP ) );
 
 		String onCreate = handle.getOnCreate( );
 		String onCreateScriptText = validateExpression( onCreate );
@@ -2005,16 +2008,15 @@ public class EngineIRVisitor extends DesignVisitor
 
 		if ( EngineIRConstants.ACTION_LINK_TYPE_HYPERLINK.equals( linkType ) )
 		{
-			action.setHyperlink( createExpression( validateExpression( handle
-					.getURI( ) ) ) );
+			action.setHyperlink( getExpression( handle, Action.URI_MEMBER ) );
 			action
 					.setTargetWindow( createConstant( handle.getTargetWindow( ) ) );
 		}
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
 				.equals( linkType ) )
 		{
-			action.setBookmark( createExpression( validateExpression( handle
-					.getTargetBookmark( ) ) ) );
+			action.setBookmark( getExpression( handle,
+					Action.TARGET_BOOKMARK_MEMBER ) );
 		}
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_DRILL_THROUGH
 				.equals( linkType ) )
@@ -2030,9 +2032,8 @@ public class EngineIRVisitor extends DesignVisitor
 			drillThrough
 					.setReportName( createConstant( handle.getReportName( ) ) );
 			drillThrough.setFormat( createConstant( handle.getFormatType( ) ) );
-			drillThrough
-					.setBookmark( createExpression( validateExpression( handle
-					.getTargetBookmark( ) ) ) );
+			drillThrough.setBookmark( getExpression( handle,
+					Action.TARGET_BOOKMARK_MEMBER ) );
 			drillThrough.setBookmarkType( createConstant( handle
 					.getTargetBookmarkType( ) ) );
 			Map params = new HashMap( );
@@ -2065,6 +2066,18 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 
 		return action;
+	}
+
+	private Expression<String> getExpression( ActionHandle handle,
+			String propertyName )
+	{
+		return createExpression( handle.getExpressionProperty( propertyName ) );
+	}
+
+	private Expression<String> getExpression( DesignElementHandle handle,
+			String propertyName )
+	{
+		return createExpression( handle.getExpressionProperty( propertyName ) );
 	}
 
 	/**
@@ -2794,6 +2807,49 @@ public class EngineIRVisitor extends DesignVisitor
 			return null;
 		}
 		return Expression.newConstant(value);
+	}
+
+	private Expression<String> createExpression(
+			ExpressionHandle expressionHandle )
+	{
+		return createExpression( expressionHandle, String.class );
+	}
+
+	private Expression<Boolean> createBooleanExpression(
+			ExpressionHandle expressionhandle )
+	{
+		return createExpression( expressionhandle, Boolean.class );
+	}
+
+	private Expression<Object> createObjectExpression(
+			ExpressionHandle expressionhandle )
+	{
+		return createExpression( expressionhandle, Object.class );
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T> Expression<T> createExpression(
+			ExpressionHandle expressionHandle, Class<T> classtype )
+	{
+		if ( expressionHandle == null )
+		{
+			return null;
+		}
+		if ( "constant".equalsIgnoreCase( expressionHandle.getType( ) ) )
+		{
+			return Expression
+					.newConstant( (T) expressionHandle.getExpression( ) );
+		}
+		else
+		{
+			String expression = (String) expressionHandle.getExpression( );
+			if ( expression == null || expression.length( ) == 0 )
+			{
+				return null;
+			}
+			return Expression.newExpression( expression, classtype );
+		}
+
 	}
 
 	private JSExpression<String> createExpression( String expression )
