@@ -1630,7 +1630,7 @@
     	<Default>false</Default>
     </Property>
     <Property detailType="reportLayoutPreference" displayNameID="Element.ReportDesign.layoutPreference" name="layoutPreference" runtimeSettable="false" since="2.2" type="choice">
-	  <Default>auto layout</Default>	
+	  <Default>fixed layout</Default>	
     </Property>
     <Property canInherit="false" detailType="IncludedCssStyleSheet" displayNameID="Element.ReportDesign.cssStyleSheets" isList="true" name="cssStyleSheets" runtimeSettable="false" since="2.2" type="structure">
     	<Trigger validator="IncludedCssStyleSheetValidator"/>
