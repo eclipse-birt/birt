@@ -38,6 +38,7 @@ public class AllCoreTests
 		test.addTestSuite( DesignSessionTest.class );
 		test.addTestSuite( ModuleTest.class );
 		test.addTestSuite( MultiElementSlotTest.class );
+		test.addTestSuite( NameHelperTest.class );
 		test.addTestSuite( NameSpaceTest.class );
 		test.addTestSuite( PropertyStructureCloneTest.class );
 		test.addTestSuite( SingleElementSlotTest.class );

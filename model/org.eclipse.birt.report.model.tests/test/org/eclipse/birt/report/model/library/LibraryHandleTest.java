@@ -103,7 +103,7 @@ public class LibraryHandleTest extends BaseTestCase
 		assertNull( tableHandle.getName( ) );
 
 		libraryHandle.rename( tableHandle );
-		assertEquals( "NewTable4", tableHandle.getName( ) ); //$NON-NLS-1$
+		assertEquals( "NewTable", tableHandle.getName( ) ); //$NON-NLS-1$
 	}
 
 	/**

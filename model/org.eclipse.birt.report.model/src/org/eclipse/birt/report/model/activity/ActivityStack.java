@@ -870,6 +870,12 @@ public class ActivityStack implements CommandStack
 				listener.stackChanged( event );
 			}
 		}
+		
+		// clear module namehelper
+		if ( module != null )
+		{
+			module.getNameHelper( ).clear( );
+		}
 	}
 
 	/*

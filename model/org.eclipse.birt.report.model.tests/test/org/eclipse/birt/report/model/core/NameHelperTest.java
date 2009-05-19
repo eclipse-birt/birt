@@ -11,7 +11,11 @@
 
 package org.eclipse.birt.report.model.core;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ElementFactory;
+import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
@@ -96,6 +100,7 @@ public class NameHelperTest extends BaseTestCase
 
 	/**
 	 * 
+	 * 
 	 * @throws Exception
 	 */
 	public void testResolve( ) throws Exception
@@ -116,5 +121,44 @@ public class NameHelperTest extends BaseTestCase
 		assertEquals( refValue, dimension.getNameHelper( ).resolve(
 				refValue.getName( ),
 				(PropertyDefn) testExtended.getPropertyDefn( propName ), null ) );
+	}
+
+	/**
+	 * Tests the clear of name helper when the transaction stack is empty.
+	 * 
+	 * @throws Exception
+	 */
+	public void testClear( ) throws Exception
+	{
+		openDesign( FILE_NAME );
+
+		ElementFactory factory = designHandle.getElementFactory( );
+		ActivityStack stack = design.getActivityStack( );
+
+		String labelName = "labelName"; //$NON-NLS-1$
+		String paramName = "paramName"; //$NON-NLS-1$
+
+		LabelHandle labelHandle = factory.newLabel( labelName );
+
+		stack.startTrans( null );
+
+		// this parameter is created and not inserted to design tree
+		ParameterHandle paramHandle = factory.newScalarParameter( paramName );
+		paramHandle.setHelpText( "helpTest" ); //$NON-NLS-1$
+		// this label is inserted to the tree
+		designHandle.getBody( ).add( labelHandle );
+
+		stack.commit( );
+
+		// for original label is inserted to tree, its name is inserted to name
+		// space and can not used again
+		labelHandle = factory.newLabel( labelName );
+		assertEquals( labelName + "1", labelHandle.getName( ) ); //$NON-NLS-1$
+
+		// for original parameter is not inserted to tree and when stack is
+		// commit and transaction is empty, at this case the cached parameter
+		// names are all cleared, so can use the original name
+		paramHandle = factory.newScalarParameter( paramName );
+		assertEquals( paramName, paramHandle.getName( ) );
 	}
 }
