@@ -266,7 +266,7 @@ public class DataAdapterUtil
 			case DataType.BINARY_TYPE:
 				return new int[]{ DataType.BINARY_TYPE };
 			case DataType.SQL_DATE_TYPE:
-				return new int[]{ DataType.SQL_DATE_TYPE };
+				return new int[]{ DataType.SQL_DATE_TYPE, DataType.DATE_TYPE };
 			case DataType.SQL_TIME_TYPE:
 				return new int[]{ DataType.SQL_TIME_TYPE };
 			default:
