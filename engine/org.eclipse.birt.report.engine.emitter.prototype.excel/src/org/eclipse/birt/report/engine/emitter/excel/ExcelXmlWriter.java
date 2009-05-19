@@ -120,7 +120,7 @@ public class ExcelXmlWriter implements IExcelWriter
 
 		protected String encodeText( String text )
 		{
-			return XLSEncodeUtil.encodeText( text );
+			return XLSEncodeUtil.encodeXLSText( text );
 		}
 	}
 
