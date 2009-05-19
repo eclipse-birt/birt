@@ -172,10 +172,15 @@ public abstract class Module extends DesignElement
 	public static final int CUBE_NAME_SPACE = 8;
 
 	/**
+	 * Identifier for the variable element name space.
+	 */
+	public static final int VARIABLE_ELEMENT_NAME_SPACE = 9;
+
+	/**
 	 * Number of defined name spaces.
 	 */
 
-	public static final int NAME_SPACE_COUNT = 9;
+	public static final int NAME_SPACE_COUNT = 10;
 
 	/**
 	 * The session that owns this module.

@@ -11,13 +11,18 @@
 
 package org.eclipse.birt.report.model.core;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Level;
@@ -33,6 +38,8 @@ public class NameHelperTest extends BaseTestCase
 {
 
 	private static final String FILE_NAME = "NameHelperTest.xml"; //$NON-NLS-1$
+	private static final String VARIABLE_ELEMENT_FILE_NAME = "VariableElementNameHelperTest.xml"; //$NON-NLS-1$
+	private static final String ADD_ELEMENT_TEST_FILE = "AddVariableElementNameTest.xml"; //$NON-NLS-1$
 
 	/**
 	 * 
@@ -160,5 +167,95 @@ public class NameHelperTest extends BaseTestCase
 		// names are all cleared, so can use the original name
 		paramHandle = factory.newScalarParameter( paramName );
 		assertEquals( paramName, paramHandle.getName( ) );
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	public void testMakeUniqueNameOnVariableElement( ) throws Exception
+	{
+		openDesign( VARIABLE_ELEMENT_FILE_NAME );
+
+		ElementFactory factory = designHandle.getElementFactory( );
+		VariableElementHandle handle = factory.newVariableElement( null );
+
+		design.makeUniqueName( handle.getElement( ) );
+
+		assertEquals( "NewVariableElement", handle.getName( ) ); //$NON-NLS-1$
+		assertEquals( "NewVariableElement", handle.getVariableName( ) ); //$NON-NLS-1$
+
+		handle = factory.newVariableElement( "testVariable" );//$NON-NLS-1$
+		design.makeUniqueName( handle.getElement( ) );
+		assertEquals( "testVariable1", handle.getName( ) ); //$NON-NLS-1$
+		assertEquals( "testVariable1", handle.getVariableName( ) ); //$NON-NLS-1$
+
+	}
+
+	/**
+	 * Tests verified variable element name.
+	 * 
+	 * @throws Exception
+	 */
+	public void testAddVariableElementName( ) throws Exception
+	{
+		openDesign( ADD_ELEMENT_TEST_FILE );
+
+		ElementFactory factory = designHandle.getElementFactory( );
+		VariableElementHandle handle = factory.newVariableElement( null );
+		handle.setName( "testVariable" ); //$NON-NLS-1$
+
+		// if the report design contains the same variable element name, the
+		// variable element could not be added.
+		try
+		{
+			designHandle.add( IReportDesignModel.PAGE_VARIABLES_PROP, handle );
+			fail( );
+		}
+		catch ( NameException e )
+		{
+			assertEquals( NameException.DESIGN_EXCEPTION_DUPLICATE, e
+					.getErrorCode( ) );
+		}
+
+		// the variable element could not be renamed as the same variable name
+		// in the report design scope.
+		handle = designHandle.getPageVariable( "testVariable1" ); //$NON-NLS-1$
+		try
+		{
+			handle.setName( "testVariable" ); //$NON-NLS-1$
+			fail( );
+		}
+		catch ( NameException e )
+		{
+			assertEquals( NameException.DESIGN_EXCEPTION_DUPLICATE, e
+					.getErrorCode( ) );
+		}
+
+		// if the extended item contains the same variable element name, the
+		// variable element could not be added.
+
+		handle = factory.newVariableElement( null );
+		handle.setName( "testExtendedItemVariable" ); //$NON-NLS-1$
+		DesignElementHandle extendedItem = designHandle.findElement( "action1" ); //$NON-NLS-1$
+		extendedItem.add( "variables", handle ); //$NON-NLS-1$
+		assertEquals( "testExtendedItemVariable", handle.getName( ) ); //$NON-NLS-1$
+		assertEquals( "testExtendedItemVariable", handle.getVariableName( ) ); //$NON-NLS-1$
+		List list = extendedItem.getListProperty( "variables" ); //$NON-NLS-1$
+		assertEquals( 3, list.size( ) );
+
+		// the variable element could be renamed as the same variable name
+		// in the extended scope.
+		handle = (VariableElementHandle) list.get( 1 );
+		assertEquals( "testExtendedItemVariable1", handle.getName( ) ); //$NON-NLS-1$
+		handle.setName( "testExtendedItemVariable" );//$NON-NLS-1$
+		assertEquals( "testExtendedItemVariable", handle.getName( ) ); //$NON-NLS-1$
+		assertEquals( "testExtendedItemVariable", handle.getVariableName( ) ); //$NON-NLS-1$
+
+		// the variable element could be renamed as the same variable name as
+		// the variable element which locates in the report design.
+		handle.setName( "testVariable" );//$NON-NLS-1$
+		assertEquals( "testVariable", handle.getName( ) ); //$NON-NLS-1$
+		assertEquals( "testVariable", handle.getVariableName( ) ); //$NON-NLS-1$
+
 	}
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -29,6 +30,8 @@ public class VariableElementParseTest extends BaseTestCase
 	 */
 
 	private static final String FILE_NAME = "VariableElementParseTest.xml"; //$NON-NLS-1$
+	private static final String DUPLICATE_NAME_FILE = "DuplicatedVariableNameTest.xml"; //$NON-NLS-1$
+	private static final String VARIABLE_ELEMENT_IN_EXTENDED_ELEMENT = "VariableElementInExtendedElement.xml"; //$NON-NLS-1$
 
 	/**
 	 * Tests to get values for variable element.
@@ -59,4 +62,31 @@ public class VariableElementParseTest extends BaseTestCase
 
 		assertTrue( compareFile( "VariableElementParseTest_golden.xml" ) ); //$NON-NLS-1$
 	}
+
+	/**
+	 * @throws Exception
+	 */
+	public void testDuplicatedVariableName( ) throws Exception
+	{
+		// the variable elements have same name, the report design could not be
+		// opened successfully.
+		try
+		{
+			openDesign( DUPLICATE_NAME_FILE );
+			fail( );
+		}
+		catch ( DesignFileException e )
+		{
+			assertEquals( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR, e
+					.getErrorCode( ) );
+		}
+
+		// the the variable elements have same name, they are located in
+		// extended item, the report design can be opened successfully..
+
+		openDesign( VARIABLE_ELEMENT_IN_EXTENDED_ELEMENT );
+		assertNotNull( designHandle );
+
+	}
+
 }

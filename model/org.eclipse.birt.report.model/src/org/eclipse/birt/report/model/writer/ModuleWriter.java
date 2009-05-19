@@ -4137,6 +4137,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.VARIABLE_ELEMENT_TAG );
 		markLineNumber( obj );
 
+		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
+				IDesignElementModel.NAME_PROP );
+
 		super.visitVariableElement( obj );
 		property( obj, IVariableElementModel.VARIABLE_NAME_PROP );
 		property( obj, IVariableElementModel.VALUE_PROP );

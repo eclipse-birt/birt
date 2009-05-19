@@ -47,6 +47,7 @@ public class AllCoreTests
 		test.addTestSuite( StyledElementTest.class );
 		test.addTestSuite( StyleElementTest.class );
 		test.addTestSuite( StyleNameTest.class );
+		test.addTestSuite( NameHelperTest.class );
 
 		return test;
 	}

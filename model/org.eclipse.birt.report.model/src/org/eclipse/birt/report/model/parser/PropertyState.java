@@ -51,6 +51,7 @@ import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -65,6 +66,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IVariableElementModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -689,6 +691,16 @@ class PropertyState extends AbstractPropertyState
 			CompatiblePropToExprState state = new CompatiblePropToExprState(
 					handler, element );
 			state.setName( name );
+			return state;
+		}
+		if ( handler.versionNumber <= VersionUtil.VERSION_3_2_19
+				&& element instanceof VariableElement
+				&& IVariableElementModel.VARIABLE_NAME_PROP
+						.equalsIgnoreCase( name ) )
+		{
+			CompatibleVariableNamePropertyState state = new CompatibleVariableNamePropertyState(
+					handler, element );
+			state.setName( IDesignElementModel.NAME_PROP );
 			return state;
 		}
 

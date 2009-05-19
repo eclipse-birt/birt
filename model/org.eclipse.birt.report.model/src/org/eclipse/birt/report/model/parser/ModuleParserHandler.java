@@ -20,8 +20,6 @@ import java.util.Map;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -40,14 +38,13 @@ import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem.StatusInfo;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.NamePropertyType;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.EncryptionUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -367,6 +364,13 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 			handleStyleNameCompatibilities( );
 		}
 
+		// if the report version is older than 3.2.19, the variable element with
+		// empty name should be made unique name.
+		if ( versionNumber < VersionUtil.VERSION_3_2_19 )
+		{
+			handleVariableElementEmptyName( );
+		}
+
 		// if module options not set the parser-semantic check options or set it
 		// to true, then perform semantic check. Semantic error is recoverable.
 
@@ -387,6 +391,31 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		{
 			module.getVersionManager( ).setHasExtensionCompatibilities(
 					handleExtendedItemCompatibility( ) );
+		}
+	}
+
+	/**
+	 * If the variable Element locates in the report design and its name is
+	 * empty, this element should be given an unique name.
+	 */
+	private void handleVariableElementEmptyName( )
+	{
+		if ( module instanceof ReportDesign )
+		{
+			ReportDesign design = (ReportDesign) module;
+			List list = design.getListProperty( module,
+					IReportDesignModel.PAGE_VARIABLES_PROP );
+			if ( list == null )
+				return;
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				VariableElement element = (VariableElement) list.get( i );
+				String name = element.getName( );
+				if ( StringUtil.isBlank( name ) )
+				{
+					module.makeUniqueName( element );
+				}
+			}
 		}
 	}
 

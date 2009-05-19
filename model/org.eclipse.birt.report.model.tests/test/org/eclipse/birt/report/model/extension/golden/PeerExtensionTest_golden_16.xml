@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
-    <page-setup>
-        <graphic-master-page name="My Page" id="2"/>
-    </page-setup>
     <body>
-        <extended-item extensionName="TestingAction" name="action1" id="3">
+        <extended-item extensionName="TestingAction" name="action1" id="2">
             <property name="variables">
-                <variable-element>
-                    <property name="variableName">variable1</property>
+                <variable-element name="variable1">
                     <expression name="value">expression for variable</expression>
                 </variable-element>
             </property>

@@ -33,8 +33,9 @@ public class NameSpaceFactory
 	static final String STYLE_NS_NAME = "style"; //$NON-NLS-1$
 	static final String THEME_NS_NAME = "theme"; //$NON-NLS-1$
 	static final String TEMPLATE_PARAMETER_DEFINITION_NS_NAME = "templateParameterDefinition"; //$NON-NLS-1$
-	static final String CUBE_NS_NAME = "cube"; //$NON-NLS-1$		
-	
+	static final String CUBE_NS_NAME = "cube"; //$NON-NLS-1$
+	static final String VARIABLE_ELEMENT_NAME = "variableElement"; //$NON-NLS-1$
+
 	/**
 	 * 
 	 * @param holdName
@@ -56,32 +57,26 @@ public class NameSpaceFactory
 				|| ReportDesignConstants.MODULE_ELEMENT
 						.equalsIgnoreCase( holdName ) )
 		{
-			if ( namespaceName
-					.equalsIgnoreCase( STYLE_NS_NAME ) )
+			if ( namespaceName.equalsIgnoreCase( STYLE_NS_NAME ) )
 				return Module.STYLE_NAME_SPACE;
-			else if ( namespaceName
-					.equalsIgnoreCase( THEME_NS_NAME ) )
+			else if ( namespaceName.equalsIgnoreCase( THEME_NS_NAME ) )
 				return Module.THEME_NAME_SPACE;
-			else if ( namespaceName
-					.equalsIgnoreCase( DATA_SET_NS_NAME ) )
+			else if ( namespaceName.equalsIgnoreCase( DATA_SET_NS_NAME ) )
 				return Module.DATA_SET_NAME_SPACE;
-			else if ( namespaceName
-					.equalsIgnoreCase( DATA_SOURCE_NS_NAME ) )
+			else if ( namespaceName.equalsIgnoreCase( DATA_SOURCE_NS_NAME ) )
 				return Module.DATA_SOURCE_NAME_SPACE;
-			else if ( namespaceName
-					.equalsIgnoreCase( ELEMENT_NS_NAME ) )
+			else if ( namespaceName.equalsIgnoreCase( ELEMENT_NS_NAME ) )
 				return Module.ELEMENT_NAME_SPACE;
-			else if ( namespaceName
-					.equalsIgnoreCase( PARAMETER_NS_NAME ) )
+			else if ( namespaceName.equalsIgnoreCase( PARAMETER_NS_NAME ) )
 				return Module.PARAMETER_NAME_SPACE;
-			else if ( namespaceName
-					.equalsIgnoreCase( MASTER_PAGE_NS_NAME ) )
+			else if ( namespaceName.equalsIgnoreCase( MASTER_PAGE_NS_NAME ) )
 				return Module.PAGE_NAME_SPACE;
-			else if ( namespaceName
-					.equalsIgnoreCase( NO_NS_NAME ) )
+			else if ( namespaceName.equalsIgnoreCase( NO_NS_NAME ) )
 				return MetaDataConstants.NO_NAME_SPACE;
+			else if ( namespaceName.equalsIgnoreCase( VARIABLE_ELEMENT_NAME ) )
+				return Module.VARIABLE_ELEMENT_NAME_SPACE;
 		}
 		return MetaDataConstants.NO_NAME_SPACE;
 	}
-	
+
 }

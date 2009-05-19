@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.IContainerDefn;
@@ -223,6 +224,20 @@ public final class ContainerContext
 		// if this element is a pending node, return false
 		if ( container.getRoot( ) == null )
 			return false;
+
+		// if this element is variableElement and it does not locate in report
+		// design, it will not be managed by name space.
+		if ( containerProp != null )
+		{
+			PropertyDefn propDefn = container.getPropertyDefn( containerProp );
+			IElementDefn variableElementDefn = MetaDataDictionary.getInstance( )
+					.getElement( ReportDesignConstants.VARIABLE_ELEMENT );
+			if ( propDefn.canContain( variableElementDefn )
+					&& !( container instanceof ReportDesign ) )
+			{
+				return false;
+			}
+		}
 
 		// check the slot
 		ContainerContext containerInfo = this;

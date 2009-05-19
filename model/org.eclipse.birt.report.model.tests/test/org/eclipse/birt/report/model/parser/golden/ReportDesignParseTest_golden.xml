@@ -91,15 +91,11 @@
         </graphic-master-page>
     </page-setup>
     <property name="pageVariables">
-    	<variable-element>
-			<property name="variableName">variable1</property>
-		</variable-element>
-		<variable-element>
-			<property name="variableName">variable2</property>
+    	<variable-element name="variable1"/>
+		<variable-element name="variable2">
 			<expression name="value" type="constant">testValue</expression>
 		</variable-element>
-		<variable-element>
-			<property name="variableName">variable10</property>
+		<variable-element name="variable10">
 			<expression name="value" type="constant">testValue10</expression>
 		</variable-element>
     </property>

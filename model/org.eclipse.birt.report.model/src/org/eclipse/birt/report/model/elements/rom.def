@@ -3619,8 +3619,8 @@
    		<Type name="ExtendedItem"/>
    	</Property>
   </Element>    
-  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.VariableElement" hasStyle="false" isAbstract="true" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.VariableElement" name="VariableElement" nameSpace="none" since="2.3" xmlName="variable-element">
-	<Property displayNameID="Element.VariableElement.variableName" name="variableName" since="2.3" type="string" />  		
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.VariableElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.VariableElement" name="VariableElement" nameSpace="(ReportDesign, variableElement)" since="2.3" xmlName="variable-element">
+	<Property displayNameID="Element.VariableElement.name" isIntrinsic="true" name="name" since="2.5" type="name" />  		
 	<Property displayNameID="Element.VariableElement.value" name="value" since="2.3" type="expression" />
 	<Property detailType="variableMode" displayNameID="Element.VariableElement.workMode" name="workMode" runtimeSettable="false" since="2.5" type="choice"/>
   </Element>

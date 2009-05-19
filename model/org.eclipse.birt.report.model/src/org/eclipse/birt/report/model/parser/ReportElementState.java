@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
@@ -312,6 +313,46 @@ public abstract class ReportElementState extends DesignParseState
 
 		String name = attrs.getValue( IDesignElementModel.NAME_PROP );
 
+		initElementName( name, nameRequired );
+
+		String extendsName = attrs
+				.getValue( DesignSchemaConstants.EXTENDS_ATTRIB );
+		if ( !StringUtil.isBlank( extendsName )
+				&& element.getDefn( ).canExtend( ) )
+		{
+			element.setExtendsName( extendsName );
+			resolveExtendsElement( );
+		}
+		else
+		{
+			// If "extends" is set on an element that can not be extended,
+			// exception will be thrown.
+
+			if ( !StringUtil.isBlank( attrs
+					.getValue( DesignSchemaConstants.EXTENDS_ATTRIB ) ) )
+				handler
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS ) );
+		}
+
+		initSimpleElement( attrs );
+	}
+
+	/**
+	 * Initializes a report element with "name" property.
+	 * 
+	 * @param attrs
+	 *            the SAX attributes object
+	 * @param nameRequired
+	 *            true if this element requires a name, false if the name is
+	 *            optional.
+	 */
+	protected void initElementName( String name, boolean nameRequired )
+	{
+		DesignElement element = getElement( );
+
 		// name is not defined on this element
 		PropertyDefn propDefn = element
 				.getPropertyDefn( IDesignElementModel.NAME_PROP );
@@ -362,30 +403,6 @@ public abstract class ReportElementState extends DesignParseState
 				}
 			}
 		}
-
-		String extendsName = attrs
-				.getValue( DesignSchemaConstants.EXTENDS_ATTRIB );
-		if ( !StringUtil.isBlank( extendsName )
-				&& element.getDefn( ).canExtend( ) )
-		{
-			element.setExtendsName( extendsName );
-			resolveExtendsElement( );
-		}
-		else
-		{
-			// If "extends" is set on an element that can not be extended,
-			// exception will be thrown.
-
-			if ( !StringUtil.isBlank( attrs
-					.getValue( DesignSchemaConstants.EXTENDS_ATTRIB ) ) )
-				handler
-						.getErrorHandler( )
-						.semanticError(
-								new DesignParserException(
-										DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS ) );
-		}
-
-		initSimpleElement( attrs );
 	}
 
 	/**
@@ -481,7 +498,7 @@ public abstract class ReportElementState extends DesignParseState
 	 * @param element
 	 *            the element.
 	 */
-	private void addToNamespace( DesignElement content )
+	protected void addToNamespace( DesignElement content )
 	{
 		String name = content.getName( );
 		// check whether style name is valid for css2 spec
@@ -494,7 +511,7 @@ public abstract class ReportElementState extends DesignParseState
 					// not fire error and handle it when all the styles are
 					// parsed in design file or a theme slot
 					return;
-					
+
 				}
 				else
 				{
@@ -512,10 +529,8 @@ public abstract class ReportElementState extends DesignParseState
 
 		name = content.getName( );
 		ElementDefn contentDefn = (ElementDefn) content.getDefn( );
-		boolean isManagedByNameSpace = slotID > DesignElement.NO_SLOT
-				? new ContainerContext( container, slotID )
-						.isManagedByNameSpace( )
-				: true;
+		assert content.getContainer( ) != null;
+		boolean isManagedByNameSpace = content.isManagedByNameSpace( );
 
 		// Disallow duplicate names.
 
@@ -528,6 +543,12 @@ public abstract class ReportElementState extends DesignParseState
 			// if element is extended-item and version less than 3.2.8, do
 			// nothing and returns
 			if ( ( content instanceof ExtendedItem && handler.versionNumber < VersionUtil.VERSION_3_2_8 ) )
+				return;
+
+			// for the report old than 3.2.19, do not check if the name of the
+			// variable element is null.
+			if ( content instanceof VariableElement
+					&& handler.versionNumber <= VersionUtil.VERSION_3_2_19 )
 				return;
 
 			handler.getErrorHandler( ).semanticError(

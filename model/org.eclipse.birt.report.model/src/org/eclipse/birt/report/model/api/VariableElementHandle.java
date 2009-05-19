@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.command.NameCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IVariableElementModel;
@@ -50,7 +52,7 @@ public class VariableElementHandle extends ContentElementHandle
 
 	public String getVariableName( )
 	{
-		return getStringProperty( IVariableElementModel.VARIABLE_NAME_PROP );
+		return getName( );
 	}
 
 	/**
@@ -66,7 +68,7 @@ public class VariableElementHandle extends ContentElementHandle
 
 	public void setVariableName( String name ) throws SemanticException
 	{
-		setStringProperty( IVariableElementModel.VARIABLE_NAME_PROP, name );
+		setName( name );
 	}
 
 	/**
@@ -125,5 +127,28 @@ public class VariableElementHandle extends ContentElementHandle
 	public void setWorkMode( String workMode ) throws SemanticException
 	{
 		setStringProperty( WORK_MODE_PROP, workMode );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.ContentElementHandle#getName()
+	 */
+	public String getName( )
+	{
+		return element.getName( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.ContentElementHandle#setName(java.lang
+	 * .String)
+	 */
+	public void setName( String name ) throws NameException
+	{
+		NameCommand cmd = new NameCommand( module, getElement( ) );
+		cmd.setName( name );
 	}
 }

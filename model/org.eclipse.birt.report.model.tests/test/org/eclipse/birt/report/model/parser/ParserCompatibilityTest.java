@@ -652,7 +652,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 	 * "isRequired". Rules are:
 	 * 
 	 * <table>
-	 * <th align="left"> For string data type </th>
+	 * <th align="left">For string data type</th>
 	 * <tr>
 	 * <td>Set isRequired=true; if allowBlank=false</td>
 	 * </tr>
@@ -661,7 +661,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 	 * </tr>
 	 * <br>
 	 * 
-	 * <th align="left"> For non string data type </th>
+	 * <th align="left">For non string data type</th>
 	 * <tr>
 	 * <td>Set isRequired=true; if allowNull=false</td>
 	 * </tr>
@@ -950,5 +950,20 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		assertTrue( compareFile( "CompatiblePropToExprTest_golden.xml" ) ); //$NON-NLS-1$
 
+	}
+
+	/**
+	 * Tests backward compatibility. The variableName property value will be
+	 * converted to name property value of the variableElement.
+	 * 
+	 * @throws Exception
+	 */
+	public void testVariableNameParser( ) throws Exception
+	{
+		openDesign( "CompatibleVariableNameTest.xml" ); //$NON-NLS-1$
+
+		save( );
+
+		assertTrue( compareFile( "CompatibleVariableNameTest_golden.xml" ) );//$NON-NLS-1$
 	}
 }

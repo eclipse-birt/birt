@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.CssStyleSheetHandleAdapter;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IVariableElementModel;
@@ -48,8 +49,7 @@ import org.eclipse.birt.report.model.util.StyleUtil;
  * Besides properties, it also contains a variety of elements that make up the
  * report. These include:
  * 
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Content Item</th>
  * <th width="40%">Description</th>
  * 
@@ -123,11 +123,11 @@ import org.eclipse.birt.report.model.util.StyleUtil;
  * <p>
  * Module allow to use the components defined in <code>Library</code>.
  * <ul>
- * <li> User can call {@link #includeLibrary(String, String)}to include one
+ * <li>User can call {@link #includeLibrary(String, String)}to include one
  * library.
- * <li> User can create one report item based on the one in library, and add it
+ * <li>User can create one report item based on the one in library, and add it
  * into design file.
- * <li> User can use style, data source, and data set, which are defined in
+ * <li>User can use style, data source, and data set, which are defined in
  * library, in design file.
  * </ul>
  * 
@@ -146,7 +146,7 @@ import org.eclipse.birt.report.model.util.StyleUtil;
  *                      // Add the new label into design file
  *                     
  *                      designHandle.getBody().add(myLabelHandle);
- *                   
+ * 
  * </pre>
  * 
  * @see org.eclipse.birt.report.model.elements.ReportDesign
@@ -1255,18 +1255,11 @@ public class ReportDesignHandle extends ModuleHandle
 	{
 		if ( pageVariableName == null )
 			return null;
-		List<VariableElementHandle> list = getPageVariables( );
-
-		if ( list == null )
+		VariableElement element = ( (ReportDesign) module )
+				.findVariableElement( pageVariableName );
+		if ( element == null )
 			return null;
-
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			VariableElementHandle handle = list.get( i );
-			if ( pageVariableName.equals( handle.getVariableName( ) ) )
-				return handle;
-		}
-		return null;
+		return element.handle( module );
 	}
 
 	/**
@@ -1286,7 +1279,7 @@ public class ReportDesignHandle extends ModuleHandle
 		VariableElementHandle handle = getPageVariable( pageVariableName );
 		if ( handle == null )
 		{
-			ElementFactory factory = new ElementFactory( module );
+			ElementFactory factory = getElementFactory( );
 
 			handle = factory.newVariableElement( );
 			handle.setVariableName( pageVariableName );

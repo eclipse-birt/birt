@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19">
+    <property name="pageVariables">
+    	<variable-element name="variable1"/>
+    </property>
+    <body>
+    	<extended-item extensionName="TestingAction" name="action1">
+        	<property name="variables">
+		        <variable-element name="variable1"/>
+				<variable-element name="variable1"/>
+		    </property>
+	    </extended-item>
+    </body>
+</report>

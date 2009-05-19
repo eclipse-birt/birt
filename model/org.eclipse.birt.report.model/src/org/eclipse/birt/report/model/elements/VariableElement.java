@@ -31,10 +31,23 @@ public class VariableElement extends ContentElement
 
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param name
+	 *            the element name.
+	 */
+	public VariableElement( String name )
+	{
+		this.name = name;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 
 	public void apply( ElementVisitor visitor )
@@ -69,9 +82,11 @@ public class VariableElement extends ContentElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
+	 * .birt.report.model.core.Module)
 	 */
-	
+
 	public DesignElementHandle getHandle( Module module )
 	{
 		return handle( module );

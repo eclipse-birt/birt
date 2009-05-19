@@ -1387,11 +1387,25 @@ public class ElementFactory
 	 * Creates a variable element.
 	 * 
 	 * @return the variable element
+	 * @deprecated replaced by newVariableElement( String variableName )
 	 */
 
 	public VariableElementHandle newVariableElement( )
 	{
-		VariableElement element = new VariableElement( );
+		return newVariableElement( null );
+	}
+
+	/**
+	 * Creates a variable element and set the variable name.
+	 * 
+	 * @param variableName
+	 *            the variable name.
+	 * @return the variable element handle.
+	 */
+	public VariableElementHandle newVariableElement( String variableName )
+	{
+		VariableElement element = new VariableElement( variableName );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 

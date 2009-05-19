@@ -13,8 +13,10 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.VariableElement;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /**
  * Parses a sort element state.
@@ -60,13 +62,31 @@ public class VariableElementState extends ReportElementState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		element = new VariableElement( );
-		initSimpleElement( attrs );
+		initElement( attrs, true );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.ReportElementState#end()
+	 */
+	public void end( ) throws SAXException
+	{
+		super.end( );
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_19 )
+		{
+			String name = element.getName( );
+			initElementName( name, true );
+			addToNamespace( element );
+		}
 	}
 
 }

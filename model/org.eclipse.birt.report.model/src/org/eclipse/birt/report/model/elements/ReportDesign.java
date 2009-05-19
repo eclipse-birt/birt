@@ -376,4 +376,17 @@ public class ReportDesign extends Module
 		}
 
 	}
+
+	/**
+	 * Finds a variable element in this report design itself.
+	 * 
+	 * @param name
+	 *            the variable name.
+	 * @return variable element.
+	 */
+	public VariableElement findVariableElement( String name )
+	{
+		return (VariableElement) nameHelper.getNameSpace(
+				VARIABLE_ELEMENT_NAME_SPACE ).getElement( name );
+	}
 }
