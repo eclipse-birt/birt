@@ -1663,8 +1663,10 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			// compare the parent div offsetTop
 			if( oFirstITC.parentNode && oFirstST.parentNode )
 			{
-				var offsetITC = oFirstITC.parentNode.offsetTop;
-				var offsetST = oFirstST.parentNode.offsetTop;
+				// Bugzilla 265615: need to use cumulative offset for special cases
+				// where one element is inside a group container
+				var offsetITC = Position.cumulativeOffset( oFirstITC );
+				var offsetST = Position.cumulativeOffset( oFirstST );
 				
 				if( offsetITC > offsetST )
 				{
