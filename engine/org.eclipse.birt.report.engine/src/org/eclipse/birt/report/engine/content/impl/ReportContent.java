@@ -91,7 +91,7 @@ public class ReportContent implements IReportContent
 	{
 		cssEngine = report.getCSSEngine( );
 		this.report = report;
-		this.root = new BodyContent( this, report );
+		this.root = createContainerContent();
 		this.root.setStyleClass( report.getRootStyleName( ) );
 	}
 

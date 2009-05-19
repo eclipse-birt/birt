@@ -1189,7 +1189,11 @@ public class EngineIRVisitor extends DesignVisitor
 		// we do not procee the style and highlight since model has change them
 		// from column to cell
 		setupReportElement(  col, handle );
-		setupClassStyles( col, handle );
+		StyleDeclaration style = this.createColumnStyle( handle );
+		if ( style != null && !style.isEmpty( ) )
+		{
+			col.setStyleName( assignStyleName( style ) );
+		}
 
 		// is column header
 		// FIXME: Model team hasn't finish the property "column-header", so the
@@ -1322,57 +1326,11 @@ public class EngineIRVisitor extends DesignVisitor
 		// Styled element is a report element
 		setupReportElement( design, handle );
 
-		setupClassStyles( design, handle );
-	}
-
-	private void setupClassStyles( StyledElementDesign design,
-			ReportElementHandle handle )
-	{
-		List<StyleHandle> styles = handle.getFactoryElementHandle( )
-				.getAllFactoryStyles( );
-		String lastName = null;
-		StringBuffer buffer = new StringBuffer( );
-		for ( int i = styles.size( ) - 1; i >= 0; i-- )
+		StyleDeclaration style = createStyle( handle, design);
+		if ( style != null && !style.isEmpty( ) )
 		{
-			StyleHandle styleHandle = styles.get( i );
-			StyleDeclaration style = createPrivateStyle( design, styleHandle );
-			String name = validateName( styleHandle.getName( ) );
-			if ( !report.getStyles( ).containsKey( name ) )
-				report.addStyle( name, style );
-			appendStyleName( buffer, name );
-			lastName = name;
+			design.setStyleName( assignStyleName( style ) );
 		}
-
-		StyleHandle privateStyle = handle.getPrivateStyle( );
-		if ( privateStyle != null )
-		{
-			StyleDeclaration style = createPrivateStyle( design, privateStyle );
-			if ( style != null && !style.isEmpty( ) )
-			{
-				String name = assignStyleName( style );
-				if ( !name.equals( lastName ))
-				{
-					appendStyleName( buffer, name );
-				}
-			}
-		}
-		if ( buffer.length( ) > 0 )
-		{
-			design.setStyleClass( buffer.toString( ) );
-		}
-		createStyle( handle, design );
-	}
-
-	private String validateName( String styleName )
-	{
-		return styleName.replaceAll( " ", "_" );
-	}
-
-	private void appendStyleName( StringBuffer buffer, String styleName )
-	{
-		if ( buffer.length( ) > 0 )
-			buffer.append( ", " );
-		buffer.append( styleName );
 	}
 
 	public void visitCell( CellHandle handle )
@@ -2345,8 +2303,7 @@ public class EngineIRVisitor extends DesignVisitor
 		return null;
 	}
 
-	protected String getElementColorProperty( ReportElementHandle handle,
-			String name )
+	String getElementColorProperty( ReportElementHandle handle, String name )
 	{
 		FactoryPropertyHandle prop = handle.getFactoryPropertyHandle( name );
 		if ( prop != null && prop.isSet( ) )
@@ -2481,29 +2438,7 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 	}
 
-	protected StyleDeclaration createPrivateStyle( StyledElementDesign design,
-			StyleHandle handle )
-	{
-		// Background
-		StyleDeclaration style = new StyleDeclaration( cssEngine );
-		Set<String> propertyNames = StyleUtil.styleName2Index.keySet( );
-		for ( String propertyName : propertyNames )
-		{
-			createPrivateStyle( handle, design, style, propertyName );
-		}
-		createDataFormat( handle, style );
-		return style;
-	}
-
-	private void createPrivateStyle( StyleHandle handle,
-			StyledElementDesign design, StyleDeclaration style,
-			String propertyName )
-	{
-		String styleProperty = getStyleProperty( handle, propertyName );
-		populateStyle( design, style, propertyName, styleProperty );
-	}
-
-	protected void createStyle( ReportElementHandle handle,
+	protected StyleDeclaration createStyle( ReportElementHandle handle,
 			StyledElementDesign design )
 	{
 		// Background
@@ -2514,7 +2449,7 @@ public class EngineIRVisitor extends DesignVisitor
 			populateElementProperty( handle, design, style, propertyName );
 		}
 		createDataFormat( handle, style );
-		design.setStyle( style );
+		return style;
 	}
 
 	private void populateElementProperty( ReportElementHandle handle,
@@ -2532,6 +2467,7 @@ public class EngineIRVisitor extends DesignVisitor
 			String propertyName, String elementProperty )
 	{
 		int propertyIndex = StyleUtil.styleName2Index.get( propertyName );
+		// TODO need support the expression style
 		// if ( elementProperty.isExpression( ) )
 		// {
 		// design.setExpressionStyle( propertyIndex, createExpression(
@@ -2662,11 +2598,6 @@ public class EngineIRVisitor extends DesignVisitor
 		StyleHandle handle = reportDesignHandle.findStyle( "report" );//$NON-NLS-1$
 		nonInheritableReportStyle = new StyleDeclaration( cssEngine );
 		inheritableReportStyle = new StyleDeclaration( cssEngine );
-		if ( handle == null )
-		{
-			report.setRootStyle( inheritableReportStyle );
-			return;
-		}
 
 		// Background
 		addReportDefaultPropertyValue( Style.BACKGROUND_COLOR_PROP, handle,
@@ -2752,10 +2683,8 @@ public class EngineIRVisitor extends DesignVisitor
 
 		if ( !inheritableReportStyle.isEmpty( ) )
 		{
-			report.addStyle( "report", inheritableReportStyle );
-			report.setRootStyleName( "report" );
+			report.setRootStyleName( assignStyleName( inheritableReportStyle ) );
 		}
-		report.setRootStyle( inheritableReportStyle );
 	}
 
 	/**
@@ -2767,7 +2696,8 @@ public class EngineIRVisitor extends DesignVisitor
 	 */
 	protected String setupBodyStyle( MasterPageDesign design )
 	{
-		IStyle style = design.getStyle( );
+		String styleName = design.getStyleName( );
+		IStyle style = report.findStyle( styleName );
 		if ( style == null || style.isEmpty( ) )
 		{
 			return null;

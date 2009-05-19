@@ -48,7 +48,7 @@ public interface IOConstants
 	static final short FIELD_CUSTOM_PROPERTIES = 5;
 
 	// styled element
-	static final short FIELD_STYLE_CLASS = 6;
+	static final short FIELD_STYLE_NAME = 6;
 	static final short FIELD_MAP = 7;
 	static final short FIELD_HIGHLIGHT = 8;
 	static final short FIELD_STYLE = 9;
@@ -169,7 +169,7 @@ public interface IOConstants
 	static final short FIELD_REPORT_NAMED_EXPRESSIONS = 241;
 	static final short FIELD_REPORT_MASTER_PAGES = 242;
 	static final short FIELD_REPORT_BODY = 243;
-	static final short FIELD_ROOT_STYLE = 244;
+
 	//added from V6
 	static final short FIELD_REPORT_VARIABLE = 245;
 	static final short FIELD_ON_PAGE_START = 246;

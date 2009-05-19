@@ -65,8 +65,6 @@ abstract public class AbstractContent extends AbstractElement
 
 	transient protected String styleClass;
 
-	protected IStyle classStyle;
-
 	protected IStyle inlineStyle;
 
 	transient protected IStyle style;
@@ -321,9 +319,10 @@ abstract public class AbstractContent extends AbstractElement
 			{
 				inlineStyle = report.createStyle( );
 			}
-			IStyle classStyle = getClassStyle( );
-			if ( classStyle != null )
+			String styleClass = getStyleClass();
+			if ( styleClass != null )
 			{
+				IStyle classStyle = report.findStyle( styleClass );
 				style = new CompositeStyle( classStyle, inlineStyle );
 			}
 			else
@@ -440,20 +439,7 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		if ( generateBy instanceof StyledElementDesign )
 		{
-			return ( (StyledElementDesign) generateBy ).getStyleClass( );
-		}
-		return null;
-	}
-
-	public IStyle getClassStyle( )
-	{
-		if ( classStyle != null )
-		{
-			return classStyle;
-		}
-		if ( generateBy instanceof StyledElementDesign )
-		{
-			return ( (StyledElementDesign) generateBy ).getStyle( );
+			return ( (StyledElementDesign) generateBy ).getStyleName( );
 		}
 		return null;
 	}
@@ -615,11 +601,6 @@ abstract public class AbstractContent extends AbstractElement
 				inlineStyle.write( out );
 			}
 		}
-		if ( classStyle != null && !classStyle.isEmpty( ) )
-		{
-			IOUtil.writeShort( out, FIELD_CLASS_STYLE );
-			classStyle.write( out );
-		}
 		if ( instanceId != null )
 		{
 			IOUtil.writeShort( out, FIELD_INSTANCE_ID );
@@ -681,10 +662,15 @@ abstract public class AbstractContent extends AbstractElement
 				}
 				break;
 			case FIELD_INLINESTYLE_VERSION_1 :
-				inlineStyle = readStyle( in );
-				break;
-			case FIELD_CLASS_STYLE :
-				classStyle = readStyle( in );
+				IStyle style = new StyleDeclaration( cssEngine );
+				if( null != style )
+				{
+					style.read( in );
+					if ( !style.isEmpty( ) )
+					{
+						inlineStyle = style;
+					}
+				}
 				break;
 			case FIELD_INSTANCE_ID :
 				String value = IOUtil.readString( in );

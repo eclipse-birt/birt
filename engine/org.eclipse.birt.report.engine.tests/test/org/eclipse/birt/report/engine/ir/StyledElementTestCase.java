@@ -33,8 +33,8 @@ abstract public class StyledElementTestCase extends ReportElementTestCase
 
 	public void testBaseStyle( )
 	{
-		( (StyledElementDesign) element ).setStyleClass( "style" );
-		assertEquals( "style", ( (StyledElementDesign) element ).getStyleClass( ) );
+		( (StyledElementDesign) element ).setStyleName( "style" );
+		assertEquals( "style", ( (StyledElementDesign) element ).getStyleName( ) );
 	}
 
 }

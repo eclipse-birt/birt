@@ -43,8 +43,6 @@ public class Column implements IColumn
 
 	protected String styleClass;
 	
-	protected IStyle classStyle;
-
 	protected InstanceID instanceId;
 	
 	protected String visibleFormat;
@@ -84,23 +82,11 @@ public class Column implements IColumn
 			{
 				inlineStyle = report.createStyle( );
 			}
-			IStyle classStyle = getClassStyle( );
+			String styleClass = getStyleClass( );
+			IStyle classStyle = report.findStyle( styleClass );
 			style = new CompositeStyle( classStyle, inlineStyle );
 		}
 		return style;
-	}
-
-	public IStyle getClassStyle( )
-	{
-		if ( classStyle != null )
-		{
-			return classStyle;
-		}
-		if ( generateBy instanceof StyledElementDesign )
-		{
-			return ( (StyledElementDesign) generateBy ).getStyle( );
-		}
-		return null;
 	}
 
 	/*
@@ -155,7 +141,7 @@ public class Column implements IColumn
 		}
 		if ( generateBy instanceof ColumnDesign )
 		{
-			return ( (ColumnDesign) generateBy ).getStyleClass( );
+			return ( (ColumnDesign) generateBy ).getStyleName( );
 		}
 		return null;
 	}

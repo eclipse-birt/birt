@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import org.eclipse.birt.report.engine.content.IStyle;
 
 
 /**
@@ -22,21 +21,19 @@ import org.eclipse.birt.report.engine.content.IStyle;
 abstract public class StyledElementDesign extends ReportElementDesign
 {
 
-	protected String styleClass;
+	protected String styleName;
 	
 	protected MapDesign map = null;
 	
 	protected HighlightDesign highlight = null;
 
-	protected IStyle style;
-
 	/**
 	 * get the style name
 	 * @return
 	 */
-	public String getStyleClass()
+	public String getStyleName()
 	{
-		return styleClass;
+		return styleName;
 	}
 
 	/**
@@ -45,9 +42,9 @@ abstract public class StyledElementDesign extends ReportElementDesign
 	 * @param style
 	 *            style of this element.
 	 */
-	public void setStyleClass( String styleClass )
+	public void setStyleName( String name )
 	{
-		this.styleClass = styleClass;
+		this.styleName = name;
 	}
 
 	/**
@@ -77,15 +74,5 @@ abstract public class StyledElementDesign extends ReportElementDesign
 	public void setMap( MapDesign map )
 	{
 		this.map = map;
-	}
-
-	public IStyle getStyle( )
-	{
-		return style;
-	}
-
-	public void setStyle( IStyle style )
-	{
-		this.style = style;
 	}
 }

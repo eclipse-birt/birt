@@ -378,16 +378,6 @@ public class Report
 		this.rootStyleName = rootStyleName;
 	}
 
-	public void setRootStyle( IStyle rootStyle )
-	{
-		this.rootStyle = rootStyle;
-	}
-
-	public IStyle getRootStyle( )
-	{
-		return rootStyle;
-	}
-
 	public List getErrors( )
 	{
 		return this.reportDesign.getErrorList( );

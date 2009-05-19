@@ -314,6 +314,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected Stack tableDIVWrapedFlagStack = new Stack( );
 	
 	/**
+	 * This set is used to store the style class which has been outputted.
+	 */
+	private Set outputtedStyles = new HashSet();
+	
+	/**
 	 * the constructor
 	 */
 	public HTMLReportEmitter( )
@@ -800,6 +805,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 						{
 							writer.style( styleNamePrefix + styleName,
 									styleBuffer.toString( ) );
+							outputtedStyles.add( styleName );
 						}
 					}
 				}
@@ -2896,10 +2902,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * Sets the <code>'class'</code> property and stores the style to styleMap
 	 * object.
 	 * 
-	 * @param styleClass
+	 * @param styleName
 	 *            the style name
 	 */
-	protected void setStyleName( String styleClass,IContent content)
+	protected void setStyleName( String styleName,IContent content)
 	{
 		StringBuffer classBuffer = new StringBuffer();
 
@@ -2912,25 +2918,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 		}
 		
-		if ( !enableInlineStyle
-				&& styleClass != null && styleClass.length( ) > 0 )
+		if ( !enableInlineStyle && styleName != null && styleName.length( ) > 0 )
 		{
-			String[] strings = styleClass.split( "," );
-			for ( String string : strings )
+			if ( outputtedStyles.contains( styleName ) )
 			{
-				string = string.trim( );
-				if ( string.length( ) > 0 )
+				if ( classBuffer.length( ) != 0 )
 				{
-					if ( classBuffer.length( ) > 0 )
-					{
-						classBuffer.append( ' ' );
-					}
-					if ( null != htmlIDNamespace )
-					{
-						classBuffer.append( htmlIDNamespace );
-					}
-					classBuffer.append( string );
+					classBuffer.append( " " );
 				}
+				if ( null != htmlIDNamespace )
+				{
+					classBuffer.append( htmlIDNamespace );
+				}
+				classBuffer.append( styleName );
 			}
 		}
 

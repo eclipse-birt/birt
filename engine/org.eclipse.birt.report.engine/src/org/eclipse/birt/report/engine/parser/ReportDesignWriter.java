@@ -130,7 +130,7 @@ public class ReportDesignWriter
 		private void writeStyledElement( StyledElementDesign item )
 		{
 			writeReportElement( item );
-			attribute( "style", item.getStyleClass( ) ); //$NON-NLS-1$
+			attribute( "style", item.getStyleName( ) ); //$NON-NLS-1$
 			writeMap( item.getMap( ) );
 			writeHighlight( item.getHighlight( ) );
 		}

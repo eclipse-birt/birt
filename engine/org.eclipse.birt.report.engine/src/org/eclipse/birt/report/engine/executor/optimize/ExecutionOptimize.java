@@ -605,9 +605,10 @@ public class ExecutionOptimize
 		{
 			ReportItemDesign item = node.design;
 			// test if it changes the pagination
-			IStyle style = item.getStyle( );
-			if ( style != null )
+			String styleClass = item.getStyleName( );
+			if ( styleClass != null )
 			{
+				IStyle style = report.findStyle( styleClass );
 				CSSValue masterPage = style
 						.getProperty( IStyle.STYLE_MASTER_PAGE );
 				CSSValue pageBreakBefore = style

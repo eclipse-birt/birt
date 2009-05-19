@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.parser;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.CellDesign;
+import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
@@ -43,7 +44,7 @@ public class StyleDesignTest extends AbstractDesignTestCase
 	public void testSharedStyle( )
 	{
 		GridItemDesign grid = (GridItemDesign) report.getContent( 0 );
-		IStyle style = grid.getStyle( );
+		IStyle style = report.findStyle( grid.getStyleName( ) );
 		assertEquals( style.getColor( ), "red" );
 		assertEquals( style.getBorderBottomStyle( ), "solid" );
 
@@ -53,18 +54,18 @@ public class StyleDesignTest extends AbstractDesignTestCase
 //		assertEquals( style.getColor( ), "yellow" );
 		
 		RowDesign row = grid.getRow(0);
-		style = row.getStyle( );
+		style = report.findStyle( row.getStyleName( ) );
 		assertEquals( style.getColor( ), "blue" );
 		assertEquals( style.getBorderBottomStyle( ), "double" );
 		
 		CellDesign cell = row.getCell(0);
-		style = cell.getStyle( );
+		style = report.findStyle( cell.getStyleName( ) );
 		assertEquals( style.getColor( ), "gray" );
 		assertEquals( style.getFontSize( ), "7pt" );
 		assertEquals( style.getBorderBottomStyle( ), "none" );
 		
 		
 		LabelItemDesign label = (LabelItemDesign)cell.getContent(0);
-		assertTrue(label.getStyleClass() == null);
+		assertTrue(label.getStyleName() == null);
 	}
 }

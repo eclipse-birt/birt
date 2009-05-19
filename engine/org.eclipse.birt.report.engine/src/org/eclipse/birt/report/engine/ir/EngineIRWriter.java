@@ -74,14 +74,11 @@ public class EngineIRWriter implements IOConstants
 			throws IOException
 	{
 		// report has four segments now.
-		IOUtil.writeShort( dos, (short) 8 );
+		IOUtil.writeShort( dos, (short) 7 );
 		
 		// write report styles and rootStyle
 		IOUtil.writeShort( dos, FIELD_REPORT_STYLES );
 		writeReportStyles( dos, design );
-		
-		IOUtil.writeShort( dos, FIELD_ROOT_STYLE );
-		design.getRootStyle( ).write( dos );
 		
 		// write named expressions
 		IOUtil.writeShort( dos, FIELD_REPORT_NAMED_EXPRESSIONS );
@@ -867,18 +864,11 @@ public class EngineIRWriter implements IOConstants
 	{
 		writeReportElement( out, design );
 
-		String styleClass = design.getStyleClass( );
+		String styleClass = design.getStyleName( );
 		if ( styleClass != null )
 		{
-			IOUtil.writeShort( out, FIELD_STYLE_CLASS );
+			IOUtil.writeShort( out, FIELD_STYLE_NAME );
 			IOUtil.writeString( out, styleClass );
-		}
-
-		IStyle style = design.getStyle( );
-		if ( style != null && !style.isEmpty( ) )
-		{
-			IOUtil.writeShort( out, FIELD_STYLE );
-			style.write( out );
 		}
 
 		MapDesign map = design.getMap( );
