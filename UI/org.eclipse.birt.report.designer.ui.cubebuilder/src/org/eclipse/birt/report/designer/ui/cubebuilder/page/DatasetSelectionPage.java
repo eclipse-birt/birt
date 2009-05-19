@@ -12,7 +12,10 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
+import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -20,7 +23,9 @@ import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.Filte
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.FilterListDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -44,6 +49,7 @@ import org.eclipse.swt.widgets.Text;
 public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 {
 
+	private static final String NEW_DATA_SET = Messages.getString("DatasetSelectionPage.Combo.NewDataSet0"); //$NON-NLS-1$
 	private CubeHandle input;
 	private Combo dataSetCombo;
 	private Text nameText;
@@ -106,24 +112,33 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 				if ( dataSetCombo.getItemCount( ) == 0 )
 					return;
 				String datasetName = dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) );
-				try
+				if ( NEW_DATA_SET.equals( datasetName ) )
 				{
-					( (TabularCubeHandle) input ).setDataSet( OlapUtil.getDataset( datasetName ) );
+
+					IColleague colleague = new IColleague( ) {
+
+						public void performRequest( ReportRequest request )
+						{
+							handleRequest( request );
+						}
+
+					};
+
+					SessionHandleAdapter.getInstance( )
+							.getMediator( )
+							.addGlobalColleague( colleague );
+
+					dataSetCombo.removeAll( );
+					refresh( );
+
+					DataService.getInstance( ).createDataSet( );
+
+					SessionHandleAdapter.getInstance( )
+							.getMediator( )
+							.removeGlobalColleague( colleague );
+					return;
 				}
-				catch ( SemanticException e1 )
-				{
-					ExceptionHandler.handle( e1 );
-				}
-				if ( dataSetCombo.getSelectionIndex( ) == -1 )
-				{
-					builder.setOKEnable( false );
-					filterButton.setEnabled( false );
-				}
-				else
-				{
-					builder.setOKEnable( true );
-					filterButton.setEnabled( true );
-				}
+				setDataset( datasetName );
 			}
 
 		} );
@@ -174,6 +189,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		if ( dataSetCombo != null && !dataSetCombo.isDisposed( ) )
 		{
 			dataSetCombo.setItems( OlapUtil.getAvailableDatasetNames( ) );
+			dataSetCombo.add( NEW_DATA_SET );
 			if ( ( (TabularCubeHandle) input ).getDataSet( ) != null )
 			{
 				String datasetName = ( (TabularCubeHandle) input ).getDataSet( )
@@ -204,6 +220,43 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 			if ( input.getName( ) != null )
 				nameText.setText( input.getName( ) );
 			refresh( );
+		}
+	}
+
+	private void setDataset( String datasetName )
+	{
+		if ( dataSetCombo.getSelectionIndex( ) == -1 )
+		{
+			builder.setOKEnable( false );
+			filterButton.setEnabled( false );
+		}
+		else
+		{
+			try
+			{
+				( (TabularCubeHandle) input ).setDataSet( OlapUtil.getDataset( datasetName ) );
+			}
+			catch ( SemanticException e1 )
+			{
+				ExceptionHandler.handle( e1 );
+			}
+			builder.setOKEnable( true );
+			filterButton.setEnabled( true );
+		}
+	}
+
+	private void handleRequest( ReportRequest request )
+	{
+		if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
+		{
+			Object obj = DEUtil.getInputFirstElement( request.getSelectionObject( ) );
+			if ( obj instanceof DataSetHandle )
+			{
+				dataSetCombo.removeAll( );
+				refresh( );
+				dataSetCombo.setText( ( (DataSetHandle) obj ).getQualifiedName( ) );
+				setDataset( dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) ) );
+			}
 		}
 	}
 
