@@ -196,12 +196,12 @@ public class DiagonalLineImage
 				// it
 				// will be treated as solid style. The double style should be
 				// implemented in the future.
-				/*
-				 * if ( "double".equalsIgnoreCase( diagonalStyle ) && (
-				 * diagonalPXWidth > 2 ) ) { // Double line has the same effect
-				 * with the solid line when the // line width equal 1px or 2px.
-				 * } else if ( "dotted".equalsIgnoreCase( diagonalStyle ) )
-				 */
+				
+				// if ( "double".equalsIgnoreCase( diagonalStyle ) && (
+				// diagonalPXWidth > 2 ) ) { // Double line has the same effect
+				// with the solid line when the // line width equal 1px or 2px.
+				// } else if ( "dotted".equalsIgnoreCase( diagonalStyle ) )
+				
 				if ( "dotted".equalsIgnoreCase( diagonalStyle ) )
 				{
 					float dash[] = {
@@ -308,7 +308,7 @@ public class DiagonalLineImage
 					}
 				}
 			}
-			
+			/*
 			if ( antidiagonalStyle != null
 					&& !"none".equalsIgnoreCase( antidiagonalStyle ) )
 			{
@@ -328,13 +328,13 @@ public class DiagonalLineImage
 				// it
 				// will be treated as solid style. The double style should be
 				// implemented in the future.
-				/*
-				 * if ( "double".equalsIgnoreCase( antidiagonalStyle ) && (
-				 * antidiagonalPXWidth > 2 ) ) { // Double line has the same
-				 * effect with the solid line when the // line width equal 1px
-				 * or 2px. // FIXME continue: implement the left double part. }
-				 * else if ( "dotted".equalsIgnoreCase( antidiagonalStyle ) )
-				 */
+				
+				// if ( "double".equalsIgnoreCase( antidiagonalStyle ) && (
+				// antidiagonalPXWidth > 2 ) ) { // Double line has the same
+				// effect with the solid line when the // line width equal 1px
+				// or 2px. // FIXME continue: implement the left double part. }
+				// else if ( "dotted".equalsIgnoreCase( antidiagonalStyle ) )
+
 				if ( "dotted".equalsIgnoreCase( antidiagonalStyle ) )
 				{
 					float dash[] = {
@@ -446,6 +446,7 @@ public class DiagonalLineImage
 					}
 				}
 			}
+			*/
 		}
 		finally
 		{
