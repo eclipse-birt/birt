@@ -25,8 +25,8 @@
                 </list-property>
             </structure>
             <property name="rowFetchLimit">3000</property>
-            <property name="dataSource">Data Source</property>
             <property name="dataSetRowLimit">500</property>
+            <property name="dataSource">Data Source</property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
@@ -36,6 +36,6 @@
                     <property name="nativeDataType">4</property>
                 </structure>
             </list-property>
-	</oda-data-set>
+        </oda-data-set>
     </data-sets>
 </report>

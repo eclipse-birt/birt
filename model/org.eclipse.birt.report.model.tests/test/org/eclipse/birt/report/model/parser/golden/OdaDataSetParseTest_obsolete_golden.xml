@@ -57,7 +57,7 @@
                     <property name="operator">is-not-null</property>
                     <expression name="expr">filter expression</expression>
                     <simple-property-list name="value1">
-                    	<value>value1 expression</value>
+                        <value>value1 expression</value>
                     </simple-property-list>
                     <expression name="value2">value2 expression</expression>
                 </structure>
@@ -65,7 +65,7 @@
                     <property name="operator">is-true</property>
                     <expression name="expr">filter expression</expression>
                     <simple-property-list name="value1">
-                    	<value>value1 expression</value>
+                        <value>value1 expression</value>
                     </simple-property-list>
                     <expression name="value2">value2 expression</expression>
                 </structure>
@@ -114,7 +114,6 @@
                     <property name="isOutput">true</property>
                 </structure>
             </list-property>
-            <property name="dataSource">extendedDataSource</property>
             <property name="dataSetRowLimit">20</property>
             <list-property name="paramBindings">
                 <structure>
@@ -125,7 +124,8 @@
                     <property name="paramName">new param2</property>
                     <expression name="expression">new value2</expression>
                 </structure>
-            </list-property>            
+            </list-property>
+            <property name="dataSource">extendedDataSource</property>
             <xml-property name="queryText"><![CDATA[new text]]></xml-property>
             <property name="resultSetName">new result set</property>
             <property name="resultSetNumber">3</property>

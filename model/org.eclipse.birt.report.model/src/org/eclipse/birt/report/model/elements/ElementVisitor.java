@@ -976,6 +976,6 @@ public class ElementVisitor
 	 */
 	public void visitDerivedDataSet( DerivedDataSet obj )
 	{
-		visitDataSet( obj );
+		visitSimpleDataSet( obj );
 	}
 }

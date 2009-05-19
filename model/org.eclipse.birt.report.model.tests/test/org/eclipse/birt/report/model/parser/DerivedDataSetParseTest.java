@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
+import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -16,6 +17,33 @@ public class DerivedDataSetParseTest extends BaseTestCase
 
 	private static final String fileName = "DerivedDataSetParseTest.xml"; //$NON-NLS-1$
 
+	/**
+	 * Tests properties. Added for TED 14963.
+	 * 
+	 * @throws Exception
+	 */
+	public void testProperties( ) throws Exception
+	{
+		createDesign( );
+		DerivedDataSetHandle setHandle = designHandle.getElementFactory( )
+				.newDerivedDataSet( null, "test" );
+		designHandle.getDataSets( ).add( setHandle );
+		assertNotNull( setHandle.paramBindingsIterator( ) );
+		assertNotNull( setHandle.parametersIterator( ) );
+		assertNull( setHandle.getDataSourceName( ) );
+		try
+		{
+			setHandle.setDataSource( "Test" );
+			fail( );
+		}
+		catch ( PropertyNameException e )
+		{
+			assertEquals( PropertyNameException.DESIGN_EXCEPTION_PROPERTY_NAME_INVALID,
+					e.getErrorCode( ) );
+		}
+
+	}
+	
 	/**
 	 * Tests the parser and get APIs for derived data set.
 	 * 
@@ -46,8 +74,7 @@ public class DerivedDataSetParseTest extends BaseTestCase
 	public void testWriter( ) throws Exception
 	{
 		openDesign( fileName );
-
-		openDesign( fileName );
+		
 		DerivedDataSetHandle derivedDataSetHandle = (DerivedDataSetHandle) designHandle
 				.findDataSet( "derivedDataSet" ); //$NON-NLS-1$
 
@@ -63,6 +90,7 @@ public class DerivedDataSetParseTest extends BaseTestCase
 		derivedDataSetHandle.addInputDataSets( "DataSet1" ); //$NON-NLS-1$
 		designHandle.getDataSets( ).add( derivedDataSetHandle );
 
+		
 		save( );
 		assertTrue( compareFile( "DerivedDataSetParseTest_golden.xml" ) ); //$NON-NLS-1$
 	}

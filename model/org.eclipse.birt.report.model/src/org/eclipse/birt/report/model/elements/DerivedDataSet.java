@@ -26,7 +26,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDerivedDataSetModel;
  * 
  */
 
-public class DerivedDataSet extends DataSet implements IDerivedDataSetModel
+public class DerivedDataSet extends SimpleDataSet implements IDerivedDataSetModel
 {
 
 	/**

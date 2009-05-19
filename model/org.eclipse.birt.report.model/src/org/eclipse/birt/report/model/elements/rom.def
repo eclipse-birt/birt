@@ -1867,13 +1867,12 @@
     <Method context="factory" displayNameID="Element.SimpleDataSet.afterClose" name="afterClose" since="1.0" toolTipID="Element.SimpleDataSet.afterClose.toolTip" >
       <Argument name="reportContext" tagID="Element.SimpleDataSet.afterClose.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
 	</Method>	 
-	<Property displayNameID="Element.SimpleDataSet.dataSetRowLimit" name="dataSetRowLimit" since="2.2" type="integer"/>
-    <Property detailType="DataSource" displayNameID="Element.SimpleDataSet.dataSource" name="dataSource" since="1.0" type="elementRef" valueRequired="true"/>    
+	<Property displayNameID="Element.SimpleDataSet.dataSetRowLimit" name="dataSetRowLimit" since="2.2" type="integer"/>        
     <Property detailType="ParamBinding" displayNameID="Element.SimpleDataSet.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
   	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.SimpleDataSet.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="elementRef"/>
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>
   </Element>
-  <Element canExtend="true" displayNameID="Element.ScriptDataSet" extends="SimpleDataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" name="ScriptDataSet" since="1.0" xmlName="script-data-set">      
+  <Element canExtend="true" displayNameID="Element.ScriptDataSet" extends="SimpleDataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" name="ScriptDataSet" since="1.0" xmlName="script-data-set">  	      
     <Method context="factory" displayNameID="Element.ScriptDataSet.open" name="open" since="1.0" toolTipID="Element.ScriptDataSet.open.toolTip" >
       <Argument name="this" tagID="Element.ScriptDataSet.open.this" type="org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance"/>
 	</Method>		
@@ -1888,8 +1887,10 @@
     <Method context="factory" displayNameID="Element.ScriptDataSet.close" name="close" since="1.0" toolTipID="Element.ScriptDataSet.close.toolTip" >
       <Argument name="this" tagID="Element.ScriptDataSet.close.this" type="org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance"/>
 	</Method>
+	<Property detailType="DataSource" displayNameID="Element.ScriptDataSet.dataSource" name="dataSource" since="1.0" type="elementRef" valueRequired="true"/>
   </Element>
-  <Element canExtend="true" displayNameID="Element.OdaDataSet" extends="SimpleDataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="oda-data-set">	  
+  <Element canExtend="true" displayNameID="Element.OdaDataSet" extends="SimpleDataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="oda-data-set">
+  	<Property detailType="DataSource" displayNameID="Element.OdaDataSet.dataSource" name="dataSource" since="1.0" type="elementRef" valueRequired="true"/>	  
 	<Property detailType="OdaResultSetColumn" displayNameID="Element.OdaDataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure" />
     <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string">
     	<Trigger validator="ExtensionValidator"/>
@@ -1911,7 +1912,7 @@
     <Property subType="elementRef" detailType="DataSet" displayNameID="Element.JointDataSet.dataSets" name="dataSets" runtimeSettable="true" since="2.1" type="list"/>
     <Property detailType="JoinCondition" displayNameID="Element.JointDataSet.joinConditions" isList="true" name="joinConditions" runtimeSettable="true" since="2.1" type="structure"/>
   </Element>
-  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.DerivedDataSet" extends="DataSet" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.DerivedDataSet" name="DerivedDataSet" since="2.5" xmlName="derived-data-set">
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.DerivedDataSet" extends="SimpleDataSet" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.DerivedDataSet" name="DerivedDataSet" since="2.5" xmlName="derived-data-set">
     <Property subType="elementRef" detailType="DataSet" displayNameID="Element.DerivedDataSet.inputDataSets" name="inputDataSets" runtimeSettable="true" since="2.5" type="list"/>
     <Property displayNameID="Element.DerivedDataSet.queryText" name="queryText" since="2.5" type="xml"/>
     <Property displayNameID="Element.DerivedDataSet.extensionID" isIntrinsic="true" name="extensionID" since="2.5" type="string"/>

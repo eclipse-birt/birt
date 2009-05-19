@@ -1669,6 +1669,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitScriptDataSet( obj );
 
+		property( obj, ISimpleDataSetModel.DATA_SOURCE_PROP );
 		property( obj, IScriptDataSetModel.OPEN_METHOD );
 		property( obj, IScriptDataSetModel.DESCRIBE_METHOD );
 		property( obj, IScriptDataSetModel.FETCH_METHOD );
@@ -3125,9 +3126,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitSimpleDataSet( SimpleDataSet obj )
 	{
-		super.visitSimpleDataSet( obj );
-
-		property( obj, ISimpleDataSetModel.DATA_SOURCE_PROP );
+		super.visitSimpleDataSet( obj );		
 
 		property( obj, ISimpleDataSetModel.BEFORE_OPEN_METHOD );
 		property( obj, ISimpleDataSetModel.BEFORE_CLOSE_METHOD );
@@ -3375,12 +3374,15 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	public void visitOdaDataSet( OdaDataSet obj )
 	{
-		writer.startElement( DesignSchemaConstants.ODA_DATA_SET_TAG );
+		writer.startElement( DesignSchemaConstants.ODA_DATA_SET_TAG );				
+		
 		attribute( obj, IOdaExtendableElementModel.EXTENSION_ID_PROP,
 				IOdaExtendableElementModel.EXTENSION_ID_PROP );
 
 		super.visitOdaDataSet( obj );
 
+		property( obj, ISimpleDataSetModel.DATA_SOURCE_PROP );
+		
 		writeStructureList( obj, IDataSetModel.RESULT_SET_PROP );
 
 		if ( (String) obj.getLocalProperty( getModule( ),
