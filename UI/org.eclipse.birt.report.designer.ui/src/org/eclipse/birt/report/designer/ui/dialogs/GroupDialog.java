@@ -203,7 +203,7 @@ public class GroupDialog extends BaseDialog
 
 	private Button exprButton;
 
-	private Button tocExprButton,bookmarkExprButton;
+	private Button tocExprButton, bookmarkExprButton;
 
 	/**
 	 * Constructor.
@@ -250,7 +250,9 @@ public class GroupDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
@@ -261,7 +263,8 @@ public class GroupDialog extends BaseDialog
 			sytleChoicesAll = getAllStyleChoices( );
 		}
 
-		//		Composite topComposite = (Composite) super.createDialogArea( parent );
+		// Composite topComposite = (Composite) super.createDialogArea( parent
+		// );
 
 		ScrolledComposite sc = new ScrolledComposite( parent, SWT.H_SCROLL
 				| SWT.V_SCROLL );
@@ -292,9 +295,9 @@ public class GroupDialog extends BaseDialog
 		sc.setContent( topComposite );
 		sc.setExpandHorizontal( true );
 		sc.setExpandVertical( true );
-		sc.setMinWidth(500);
-		sc.setMinHeight(650);
-		
+		sc.setMinWidth( 500 );
+		sc.setMinHeight( 650 );
+
 		return sc;
 	}
 
@@ -313,7 +316,7 @@ public class GroupDialog extends BaseDialog
 		gd = new GridData( );
 		gd.widthHint = 180;
 		bookmarkEditor.setLayoutData( gd );
-		
+
 		bookmarkExprButton = new Button( bookmakrComposite, SWT.PUSH );
 		UIUtil.setExpressionButtonImage( bookmarkExprButton );
 		bookmarkExprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) ); //$NON-NLS-1$
@@ -326,7 +329,8 @@ public class GroupDialog extends BaseDialog
 
 				if ( expressionBuilder.open( ) == OK )
 				{
-					bookmarkEditor.setText( expressionBuilder.getResult( ).trim( ) );
+					bookmarkEditor.setText( expressionBuilder.getResult( )
+							.trim( ) );
 				}
 			}
 		} );
@@ -612,7 +616,9 @@ public class GroupDialog extends BaseDialog
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.swt.events.VerifyListener#verifyText(org.eclipse.swt.events.VerifyEvent)
+			 * @see
+			 * org.eclipse.swt.events.VerifyListener#verifyText(org.eclipse.
+			 * swt.events.VerifyEvent)
 			 */
 			public void verifyText( VerifyEvent event )
 			{
@@ -848,7 +854,9 @@ public class GroupDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog
+	 * ()
 	 */
 	protected boolean initDialog( )
 	{
@@ -1210,10 +1218,14 @@ public class GroupDialog extends BaseDialog
 				}
 				if ( slotHandle != null )
 				{
-					DataItemHandle dataItemHandle = inputGroup.getElementFactory( )
-							.newDataItem( null );
-					dataItemHandle.setResultSetColumn( ( (ComputedColumnHandle) columnList.get( index ) ).getName( ) );
-					slotHandle.add( dataItemHandle );
+					// bugzilla 224242, add data item when cell is empty
+					if ( slotHandle.getContents( ).size( )==0 )
+					{
+						DataItemHandle dataItemHandle = inputGroup.getElementFactory( )
+								.newDataItem( null );
+						dataItemHandle.setResultSetColumn( ( (ComputedColumnHandle) columnList.get( index ) ).getName( ) );
+						slotHandle.add( dataItemHandle );
+					}
 				}
 			}
 
