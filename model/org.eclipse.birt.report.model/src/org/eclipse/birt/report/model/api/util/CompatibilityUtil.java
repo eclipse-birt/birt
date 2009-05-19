@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
-import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -120,13 +120,16 @@ public class CompatibilityUtil
 		if ( propHandle == null )
 			return;
 
-		DesignElementHandle element = propHandle.getElementHandle( );
+		DesignElementHandle elementHandle = propHandle.getElementHandle( );
 
-		IPropertyDefn propDefn = propHandle.getDefn( );
-		PropertyValueValidationUtil.validateProperty( element, propDefn
+		ElementPropertyDefn propDefn = (ElementPropertyDefn) propHandle
+				.getPropertyDefn( );
+		PropertyValueValidationUtil.validateProperty( elementHandle, propDefn
 				.getName( ), structures );
 
-		List oldList = element.getListProperty( propDefn.getName( ) );
+		DesignElement element = elementHandle.getElement( );
+		List oldList = element.getListProperty( elementHandle.getModule( ),
+				propDefn.getName( ) );
 		List newList = null;
 		if ( !propHandle.isLocal( ) )
 		{
@@ -134,14 +137,17 @@ public class CompatibilityUtil
 				newList = (List) ModelUtil.copyValue( propDefn, oldList );
 			else
 				newList = new ArrayList( );
-
-			element.getElement( ).setProperty( (ElementPropertyDefn) propDefn,
-					newList );
 		}
 		else
 			newList = oldList;
 
+		if ( newList == null )
+		{
+			newList = new ArrayList( );
+		}
 		newList.addAll( structures );
+
+		element.setProperty( propDefn, newList );
 	}
 
 	/**
