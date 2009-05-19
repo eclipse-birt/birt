@@ -154,6 +154,7 @@ public class GanttSeriesUIProvider extends DefaultSeriesUIProvider
 			String id = ChartWizard.Gatt_aggCheck_ID
 					+ series.eContainer( ).hashCode( )
 					+ series.getDataDefinition( ).indexOf( query );
+			ChartWizard.removeException( id );
 			if ( query.getGrouping( ) != null
 					&& query.getGrouping( ).isEnabled( ) )
 			{
@@ -215,7 +216,6 @@ public class GanttSeriesUIProvider extends DefaultSeriesUIProvider
 	private boolean isValidAggregation( SeriesGrouping grouping,
 			boolean isCategoryGrouping, String id )
 	{
-		ChartWizard.removeAllExceptions( id );
 		if ( grouping == null || !grouping.isEnabled( ) )
 		{
 			return true;
