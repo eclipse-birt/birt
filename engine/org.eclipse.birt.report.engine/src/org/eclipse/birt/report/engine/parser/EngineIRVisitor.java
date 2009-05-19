@@ -2837,8 +2837,9 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 		if ( "constant".equalsIgnoreCase( expressionHandle.getType( ) ) )
 		{
-			return Expression
-					.newConstant( (T) expressionHandle.getExpression( ) );
+			return Expression.newConstant( (String) expressionHandle
+					.getExpression( ),
+					classtype );
 		}
 		else
 		{

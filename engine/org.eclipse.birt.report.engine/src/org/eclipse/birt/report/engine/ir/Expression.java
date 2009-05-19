@@ -13,6 +13,8 @@ package org.eclipse.birt.report.engine.ir;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -22,6 +24,8 @@ public class Expression<T>
 {
 	protected T value;
 	protected Class<T> type;
+	private static Logger logger = Logger
+			.getLogger( Expression.class.getName( ) );
 
 	public static <Type> Expression<Type> newConstant( Type value )
 	{
@@ -32,6 +36,24 @@ public class Expression<T>
 		return new Expression<Type>( value, (Class<Type>)value.getClass( ) );
 	}
 	
+	public static <Type> Expression<Type> newConstant( String value,
+			Class<Type> type )
+	{
+		if ( value == null )
+		{
+			return null;
+		}
+		try
+		{
+			return new Expression<Type>( DataUtil.convertType( value, type ), type );
+		}
+		catch ( BirtException e )
+		{
+			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+			return null;
+		}
+	}
+
 	public static <Type> JSExpression<Type> newExpression( String expression, Class<Type> type )
 	{
 		return new JSExpression<Type>( expression, type );
