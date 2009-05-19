@@ -2391,7 +2391,6 @@ Element.DataSet.needsCache=データエンジン用のキャッシュが必要です。
 Element.DataSet.parameters=データセットのパラメタ
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
-Element.SimpleDataSet.dataSource=データソース
 Element.SimpleDataSet.beforeOpen=開く前
 Element.SimpleDataSet.beforeOpen.toolTip=BIRT によってデータセットが開かれる直前に呼び出されます
 Element.SimpleDataSet.beforeOpen.this=データセット
@@ -2977,6 +2976,7 @@ Element.ScriptDataSource.close.toolTip=データソースへの接続を切断します
 Element.ScriptDataSource.close.this=スクリプトデータソース
 
 #31 ScriptDataSet ( prefix Element.ScriptDataSet )
+Element.ScriptDataSet.dataSource=データソース
 Element.ScriptDataSet.open=開く
 Element.ScriptDataSet.open.toolTip=データセットを開きます
 Element.ScriptDataSet.open.this=スクリプトデータセット
@@ -3038,7 +3038,7 @@ Element.OdaDataSet.privateDriverProperties=プライベートドライバのプロパティ
 Element.OdaDataSet.designerState=Designer state
 Element.OdaDataSet.designerValues=Designer の値
 Element.OdaDataSet.resultSetNumber=結果セット番号
-
+Element.OdaDataSet.dataSource=データソース
 
 #37 DesignElement ( Prefix Element.DesignElement )
 Element.DesignElement.customXml=カスタム XML
@@ -3201,7 +3201,7 @@ Element.AbstractMultiViews.index=Index
 Element.MultiViews.views=ビュー
 
 #65. VariableElement ( prefix Element.VariableElement )
-Element.VariableElement.variableName=名前
+Element.VariableElement.name=Name
 Element.VariableElement.value=値
 Element.VariableElement.workMode=Work mode
 
@@ -3502,6 +3502,7 @@ New.OdaLevel=新規ODAレベル
 New.OdaMeasure=新規ODAメジャー
 New.OdaMeasureGroup=新規ODAメジャーグループ
 New.DerivedDataSet=新しい派生データセット
+New.VariableElement=NewVariableElement
 
 ###########################################################
 #Default theme name.

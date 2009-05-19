@@ -2391,7 +2391,6 @@ Element.DataSet.needsCache=Besoin d'un cache pour le moteur de données
 Element.DataSet.parameters=Paramètres du jeu de données
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
-Element.SimpleDataSet.dataSource=Source de données
 Element.SimpleDataSet.beforeOpen=Avant l'ouverture
 Element.SimpleDataSet.beforeOpen.toolTip=Commande appelée juste avant l'ouverture du jeu de données par BIRT
 Element.SimpleDataSet.beforeOpen.this=Jeu de données
@@ -2977,6 +2976,7 @@ Element.ScriptDataSource.close.toolTip=Supprime la connexion à la source de donn
 Element.ScriptDataSource.close.this=Source de données de script
 
 #31 ScriptDataSet ( prefix Element.ScriptDataSet )
+Element.ScriptDataSet.dataSource=Source de données
 Element.ScriptDataSet.open=Ouvrir
 Element.ScriptDataSet.open.toolTip=Ouvre le jeu de données
 Element.ScriptDataSet.open.this=Jeu de données de script
@@ -3038,7 +3038,7 @@ Element.OdaDataSet.privateDriverProperties=Propriétés de pilote privé
 Element.OdaDataSet.designerState=Designer state
 Element.OdaDataSet.designerValues=Valeurs du concepteur
 Element.OdaDataSet.resultSetNumber=Nombre de jeux de résultats
-
+Element.OdaDataSet.dataSource=Source de données
 
 #37 DesignElement ( Prefix Element.DesignElement )
 Element.DesignElement.customXml=XML personnalisé
@@ -3201,7 +3201,7 @@ Element.AbstractMultiViews.index=Index
 Element.MultiViews.views=Vues
 
 #65. VariableElement ( prefix Element.VariableElement )
-Element.VariableElement.variableName=Nom
+Element.VariableElement.name=Nom
 Element.VariableElement.value=Valeur
 Element.VariableElement.workMode=Work mode
 
@@ -3502,6 +3502,7 @@ New.OdaLevel=Nouveau niveau ODA
 New.OdaMeasure=Nouvelle mesure ODA
 New.OdaMeasureGroup=Nouveau groupe de mesures ODA
 New.DerivedDataSet=NouveauJeuDeDonnéesDérivées
+New.VariableElement=NewVariableElement
 
 ###########################################################
 #Default theme name.

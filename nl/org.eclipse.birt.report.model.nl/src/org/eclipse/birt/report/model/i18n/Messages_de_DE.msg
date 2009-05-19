@@ -2391,7 +2391,6 @@ Element.DataSet.needsCache=Cache wird für Daten-Engine benötigt
 Element.DataSet.parameters=Datensatzparameter
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
-Element.SimpleDataSet.dataSource=Datenquelle
 Element.SimpleDataSet.beforeOpen=Vor dem Öffnen
 Element.SimpleDataSet.beforeOpen.toolTip=Wird kurz vor dem Öffnen des Datensatzes durch BIRT aufgerufen
 Element.SimpleDataSet.beforeOpen.this=Datensatz
@@ -2977,6 +2976,7 @@ Element.ScriptDataSource.close.toolTip=Verwirft die Verbindung zur Datenquelle
 Element.ScriptDataSource.close.this=Skript-Datenquelle
 
 #31 ScriptDataSet ( prefix Element.ScriptDataSet )
+Element.ScriptDataSet.dataSource=Datenquelle
 Element.ScriptDataSet.open=Öffnen
 Element.ScriptDataSet.open.toolTip=Öffnet den Datensatz.
 Element.ScriptDataSet.open.this=Skript-Datensatz
@@ -3038,7 +3038,7 @@ Element.OdaDataSet.privateDriverProperties=Eigenschaften des privaten Treibers
 Element.OdaDataSet.designerState=Designer state
 Element.OdaDataSet.designerValues=Designer-Werte
 Element.OdaDataSet.resultSetNumber=Ergebnisnummer
-
+Element.OdaDataSet.dataSource=Datenquelle
 
 #37 DesignElement ( Prefix Element.DesignElement )
 Element.DesignElement.customXml=Benutzerdefiniertes XML
@@ -3201,7 +3201,7 @@ Element.AbstractMultiViews.index=Index
 Element.MultiViews.views=Ansichten
 
 #65. VariableElement ( prefix Element.VariableElement )
-Element.VariableElement.variableName=Name
+Element.VariableElement.name=Name
 Element.VariableElement.value=Wert
 Element.VariableElement.workMode=Work mode
 
@@ -3502,6 +3502,7 @@ New.OdaLevel=NewOdaLevel
 New.OdaMeasure=NewOdaMeasure
 New.OdaMeasureGroup=NewOdaMeasureGroup
 New.DerivedDataSet=NewDerivedDataSet
+New.VariableElement=NewVariableElement
 
 ###########################################################
 #Default theme name.

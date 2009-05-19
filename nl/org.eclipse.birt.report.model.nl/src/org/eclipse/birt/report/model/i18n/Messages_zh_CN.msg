@@ -2391,7 +2391,6 @@ Element.DataSet.needsCache=需要数据引擎缓存
 Element.DataSet.parameters=数据集参数
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
-Element.SimpleDataSet.dataSource=数据源
 Element.SimpleDataSet.beforeOpen=打开前
 Element.SimpleDataSet.beforeOpen.toolTip=仅在 BIRT 打开数据集前调用
 Element.SimpleDataSet.beforeOpen.this=数据集
@@ -2977,6 +2976,7 @@ Element.ScriptDataSource.close.toolTip=断开至数据源的连接
 Element.ScriptDataSource.close.this=脚本数据源
 
 #31 ScriptDataSet ( prefix Element.ScriptDataSet )
+Element.ScriptDataSet.dataSource=数据源
 Element.ScriptDataSet.open=打开
 Element.ScriptDataSet.open.toolTip=打开数据集
 Element.ScriptDataSet.open.this=脚本数据集
@@ -3038,7 +3038,7 @@ Element.OdaDataSet.privateDriverProperties=私有驱动程序属性
 Element.OdaDataSet.designerState=Designer state
 Element.OdaDataSet.designerValues=设计器值
 Element.OdaDataSet.resultSetNumber=结果集数值
-
+Element.OdaDataSet.dataSource=数据源
 
 #37 DesignElement ( Prefix Element.DesignElement )
 Element.DesignElement.customXml=自定义 XML
@@ -3201,7 +3201,7 @@ Element.AbstractMultiViews.index=Index
 Element.MultiViews.views=视图
 
 #65. VariableElement ( prefix Element.VariableElement )
-Element.VariableElement.variableName=名称
+Element.VariableElement.name=名称
 Element.VariableElement.value=值
 Element.VariableElement.workMode=Work mode
 
@@ -3502,6 +3502,7 @@ New.OdaLevel=新建 ODA 级别
 New.OdaMeasure=新建 ODA 度量
 New.OdaMeasureGroup=新建 ODA 度量组
 New.DerivedDataSet=新衍生数据集
+New.VariableElement=NewVariableElement
 
 ###########################################################
 #Default theme name.

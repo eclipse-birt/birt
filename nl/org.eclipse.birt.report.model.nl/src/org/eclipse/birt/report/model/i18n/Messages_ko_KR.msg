@@ -2391,7 +2391,6 @@ Element.DataSet.needsCache=데이터 엔진용 캐시가 필요합니다.
 Element.DataSet.parameters=데이터 집합 매개 변수
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
-Element.SimpleDataSet.dataSource=데이터 원본
 Element.SimpleDataSet.beforeOpen=열기 이전
 Element.SimpleDataSet.beforeOpen.toolTip=BIRT가 데이터 집합을 열기 직전 호출됩니다
 Element.SimpleDataSet.beforeOpen.this=데이터 집합
@@ -2977,6 +2976,7 @@ Element.ScriptDataSource.close.toolTip=데이터 원본에 대한 연결을 삭제합니다
 Element.ScriptDataSource.close.this=스크립트 데이터 원본
 
 #31 ScriptDataSet ( prefix Element.ScriptDataSet )
+Element.ScriptDataSet.dataSource=데이터 원본
 Element.ScriptDataSet.open=열기
 Element.ScriptDataSet.open.toolTip=데이터 집합을 엽니다
 Element.ScriptDataSet.open.this=스크립트 데이터 집합
@@ -3038,7 +3038,7 @@ Element.OdaDataSet.privateDriverProperties=개인 드라이버 속성
 Element.OdaDataSet.designerState=Designer state
 Element.OdaDataSet.designerValues=디자이너 값
 Element.OdaDataSet.resultSetNumber=결과 집합 수
-
+Element.OdaDataSet.dataSource=데이터 원본
 
 #37 DesignElement ( Prefix Element.DesignElement )
 Element.DesignElement.customXml=사용자 지정 XML
@@ -3201,7 +3201,7 @@ Element.AbstractMultiViews.index=Index
 Element.MultiViews.views=보기
 
 #65. VariableElement ( prefix Element.VariableElement )
-Element.VariableElement.variableName=이름
+Element.VariableElement.name=이름
 Element.VariableElement.value=값
 Element.VariableElement.workMode=Work mode
 
@@ -3502,6 +3502,7 @@ New.OdaLevel=NewOdaLevel
 New.OdaMeasure=NewOdaMeasure
 New.OdaMeasureGroup=NewOdaMeasureGroup
 New.DerivedDataSet=새 파생 데이터 집합
+New.VariableElement=NewVariableElement
 
 ###########################################################
 #Default theme name.
