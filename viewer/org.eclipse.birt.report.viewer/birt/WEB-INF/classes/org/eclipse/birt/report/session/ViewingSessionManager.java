@@ -78,9 +78,10 @@ public class ViewingSessionManager implements IViewingSessionManager,
 	 * Wrapper for the IViewingSession interface, to hook the interface's
 	 * methods.
 	 */
-	private static class ViewingSessionWrapper implements IViewingSession
+	private static class ViewingSessionWrapper implements IViewingSession, Serializable
 	{
-
+		private static final long serialVersionUID = -5837896305154946951L;
+		
 		private IViewingSession session;
 		private ViewingSessionManager manager;
 
