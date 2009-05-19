@@ -410,7 +410,8 @@ public abstract class AbstractEmitterImpl
 		wordWriter.startTableCell( cellWidth, style, info );
 		context.addWidth( getCellWidth( cellWidth, style ) );
 		writeTableToc( );
-		if ( cell.getDiagonalNumber( ) != 0 )
+		if ( cell.getDiagonalNumber( ) != 0 && cell.getDiagonalStyle( ) != null
+				&& !"none".equalsIgnoreCase( cell.getDiagonalStyle( ) ) )
 		{
 			drawDiagonalLine( cell, WordUtil.twipToPt( cellWidth ) );
 		}
