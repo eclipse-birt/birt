@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.parser;
 
 import org.eclipse.birt.report.engine.ir.ActionDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 
 /**
@@ -42,7 +43,7 @@ public class ImageItemDesignTest extends AbstractDesignTestCase
 				Double.MIN_VALUE );
 
 		assertEquals(
-				"C:\\Documents and Settings\\Administrator\\My Documents\\63.jpg",
+				Expression.newExpression( "C:\\Documents and Settings\\Administrator\\My Documents\\63.jpg"),
 				image.getImageUri( ) );
 
 		assertEquals( ActionDesign.ACTION_HYPERLINK, image.getAction( )
