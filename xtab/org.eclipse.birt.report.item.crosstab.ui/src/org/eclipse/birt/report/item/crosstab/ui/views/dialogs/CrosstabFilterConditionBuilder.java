@@ -28,10 +28,14 @@ import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
+import org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularDimensionNodeProvider;
+import org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularLevelNodeProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.TreeValueDialog;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -50,6 +54,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.CrosstabExpressionProvider;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.CrosstabFilterExpressionProvider;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
@@ -60,6 +65,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -70,6 +76,9 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.core.runtime.IStatus;
@@ -2609,9 +2618,54 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 						.getDisplay( )
 						.getActiveShell( ),
 						input );
+				if ( groupBtn.getSelection( ) )
+				{
+					dialog.setExpressionProvier( new CrosstabFilterExpressionProvider( designHandle ) );
+				}
+				else
+				{
+					dialog.setExpressionProvier( new CrosstabExpressionProvider( designHandle,
+							null ) {
 
-				dialog.setExpressionProvier( new CrosstabFilterExpressionProvider( designHandle ) );
+						protected List getChildrenList( Object parent )
+						{
+							if ( parent instanceof TabularDimensionHandle )
+							{
+								TabularDimensionHandle handle = (TabularDimensionHandle) parent;
+								return Arrays.asList( new TabularDimensionNodeProvider( ).getChildren( handle ) );
+							}
+							else if ( parent instanceof TabularLevelHandle )
+							{
+								TabularLevelHandle handle = (TabularLevelHandle) parent;
+								return Arrays.asList( new TabularLevelNodeProvider( ).getChildren( handle ) );
+							}
+							return super.getChildrenList( parent );
+						}
 
+						protected void addFilterToProvider( )
+						{
+							addFilter( new ExpressionFilter( ) {
+
+								public boolean select( Object parentElement,
+										Object element )
+								{
+									if ( ( parentElement instanceof String && ( (String) parentElement ).equals( CURRENT_CUBE ) )
+											&& ( element instanceof PropertyHandle ) )
+									{
+										PropertyHandle handle = (PropertyHandle) element;
+										if ( handle.getPropertyDefn( )
+												.getName( )
+												.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
+										{
+											return false;
+										}
+									}
+									return true;
+								}
+							} );
+						}
+					} );
+				}
 				if ( dialog.open( ) == IDialogConstants.OK_ID )
 				{
 					retValue = dialog.getResult( );
