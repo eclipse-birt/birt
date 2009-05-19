@@ -2457,11 +2457,17 @@ MarignPropertyDescriptor.error.title=入力した値が大きすぎます
 ###########################################################
 #MasterPageAction properties
 
+MasterColumnsPropertyDescriptor.Button.Text.Custom=&Custom
+MasterColumnsPropertyDescriptor.Button.Text.OneColumn=&One
+MasterColumnsPropertyDescriptor.Button.Text.ThreeColumns=Th&ree
+MasterColumnsPropertyDescriptor.Button.Text.TwoColumns=&Two
+MasterColumnsPropertyDescriptor.Combo.Text.Column.Number=&Number of columns:
 MasterPageAction.actionText.masterPage=マスタページ
 
 ###########################################################
 #MasterPageGenerator properties
 
+MasterPageGenerator.List.Columns=Columns
 MasterPageGenerator.List.General=全般
 MasterPageGenerator.List.Header&Footer=ヘッダ/フッタ
 MasterPageGenerator.List.Margins=余白
@@ -2798,7 +2804,7 @@ ParameterDialog.Label.DefaultValue=デフォルト値(&F) :
 ParameterDialog.Label.DisplayPrompt=プロンプトの表示 :
 ParameterDialog.Label.DisplayType=表示の種類(&T) :
 ParameterDialog.Label.Format=書式設定 :
-ParameterDialog.Label.HelpText=ヘルプテキスト(&:)
+ParameterDialog.Label.HelpText=Help te&xt:
 ParameterDialog.Label.ListOfValue=値リスト
 ParameterDialog.Label.SortGroup=ソート
 ParameterDialog.Label.Name=名前(&N) :
@@ -2815,7 +2821,7 @@ ParameterDialog.SelectionDialog.Label.DisplayText=表示テキスト(&T) :
 ParameterDialog.SelectionDialog.Label.Value=値(&V) :
 ParameterDialog.SelectionDialog.Button.Resource=...
 ParameterDialog.SelectionDialog.Label.Note=注 : 表示テキストキーを設定するには、レポートを選択し、[プロパティエディタ] の [リソース] タブでリソースファイルの名前を指定してください。
-ParameterDialog.Label.SelectDisplayText=表示テキストを選択(&X) :
+ParameterDialog.Label.SelectDisplayText=Select display t&ext:
 ParameterDialog.Label.SelectValueColumn=値列を選択(&U) :
 ParameterDialog.Label.Value=選択した値 :
 ParameterDialog.Label.values=個の値
@@ -4360,7 +4366,8 @@ BindingDialogHelper.text.Expression=式(&E) :
 BindingDialogHelper.text.displayName=表示名(&N) :
 BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
-BindingDialogHelper.error.nameduplicate={0} という名前の列バインドはすでに存在します。 
+BindingDialogHelper.error.nameduplicate=A Column Binding named as {0} already exists.
+BindingDialogHelper.error.improperexpression=Aggregation on cube measure can not be such type: "{0}" 
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=現在の関数に推奨されるデータ型は "{0}" です。選択したデータ型を保存しますか ?
 BindingDialogHelper.warning.parameter=式 "{0}" の戻り値のデータ型は、パラメタ "{1}" ではサポートされていません。このデータ型を保存しますか ?

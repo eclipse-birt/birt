@@ -2457,11 +2457,17 @@ MarignPropertyDescriptor.error.title=Valeur trop grande
 ###########################################################
 #MasterPageAction properties
 
+MasterColumnsPropertyDescriptor.Button.Text.Custom=&Custom
+MasterColumnsPropertyDescriptor.Button.Text.OneColumn=&One
+MasterColumnsPropertyDescriptor.Button.Text.ThreeColumns=Th&ree
+MasterColumnsPropertyDescriptor.Button.Text.TwoColumns=&Two
+MasterColumnsPropertyDescriptor.Combo.Text.Column.Number=&Number of columns:
 MasterPageAction.actionText.masterPage=Page maître
 
 ###########################################################
 #MasterPageGenerator properties
 
+MasterPageGenerator.List.Columns=Columns
 MasterPageGenerator.List.General=Général
 MasterPageGenerator.List.Header&Footer=En-tête/Pied de page
 MasterPageGenerator.List.Margins=Marge
@@ -2798,7 +2804,7 @@ ParameterDialog.Label.DefaultValue=Valeur par dé&faut :
 ParameterDialog.Label.DisplayPrompt=Afficher une invite :
 ParameterDialog.Label.DisplayType=&Type d'affichage :
 ParameterDialog.Label.Format=Format :
-ParameterDialog.Label.HelpText=Texte d'aide &:
+ParameterDialog.Label.HelpText=Help te&xt:
 ParameterDialog.Label.ListOfValue=Liste de valeurs
 ParameterDialog.Label.SortGroup=Trier
 ParameterDialog.Label.Name=&Nom :
@@ -2815,7 +2821,7 @@ ParameterDialog.SelectionDialog.Label.DisplayText=&Texte d'affichage :
 ParameterDialog.SelectionDialog.Label.Value=&Valeur :
 ParameterDialog.SelectionDialog.Button.Resource=...
 ParameterDialog.SelectionDialog.Label.Note=Remarque : pour définir la clé de texte à afficher, sélectionnez l'état et définissez le nom du fichier de ressources dans l'onglet Ressources de l'Editeur de propriétés.
-ParameterDialog.Label.SelectDisplayText=Sélectionner le te&xte à afficher :
+ParameterDialog.Label.SelectDisplayText=Select display t&ext:
 ParameterDialog.Label.SelectValueColumn=Sélectionner une colonne de vale&ur :
 ParameterDialog.Label.Value=Valeurs de sélection :
 ParameterDialog.Label.values=valeurs
@@ -4360,7 +4366,8 @@ BindingDialogHelper.text.Expression=&Expression :
 BindingDialogHelper.text.displayName=&Nom d'affichage :
 BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
-BindingDialogHelper.error.nameduplicate=Une liaison de colonne appelée {0} existe déjà. 
+BindingDialogHelper.error.nameduplicate=A Column Binding named as {0} already exists.
+BindingDialogHelper.error.improperexpression=Aggregation on cube measure can not be such type: "{0}" 
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Le type de données requis pour la fonction actuelle est "{0}". Voulez-vous vraiment conserver le type de données sélectionné ?
 BindingDialogHelper.warning.parameter=Le type de données de retour de l'expression "{0}" n'est pas pris en charge pour le paramètre "{1}". Voulez-vous vraiment le conserver ?
