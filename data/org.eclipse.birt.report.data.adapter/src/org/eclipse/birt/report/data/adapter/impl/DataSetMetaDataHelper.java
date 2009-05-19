@@ -313,7 +313,12 @@ public class DataSetMetaDataHelper
 			}
 			else
 			{
-				dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
+				if ( dataSetHandle.getCachedMetaDataHandle( ) != null )
+					dataSetHandle.getCachedMetaDataHandle( )
+							.getResultSet( )
+							.clearValue( );
+				else
+					dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
 			}
 			throw e1;
 		}
@@ -347,11 +352,11 @@ public class DataSetMetaDataHelper
 					if ( resultSetColumnHandles.size( ) == columnList.size( ) )
 					{
 						//update if needed, avoid writing "any" type to Model if old report contains "any" type
-						for ( int i=0; i<resultSetColumnHandles.size( ); i++)
+						for ( int i=0; i<resultSetColumnHandles.size( ); i++ )
 						{
 							ResultSetColumnHandle rsh = (ResultSetColumnHandle)resultSetColumnHandles.get( i );
 							ResultSetColumn rsc = (ResultSetColumn)columnList.get( i );
-							if ( !rsh.getColumnName( ).equals( rsc.getColumnName( ) ))
+							if ( !rsh.getColumnName( ).equals( rsc.getColumnName( ) ) )
 							{
 								rsh.setColumnName( rsc.getColumnName( ) );
 							}
@@ -362,10 +367,17 @@ public class DataSetMetaDataHelper
 						}
 						return rsMeta;
 					}
+					else
+					{
+						dataSetHandle.getCachedMetaDataHandle( )
+								.getResultSet( )
+								.clearValue( );
+					}
 				}
-				
-				//update totally
-				dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
+				else
+				{
+					dataSetHandle.setCachedMetaData( StructureFactory.createCachedMetaData( ) );
+				}
 
 				for ( int i = 0; i < columnList.size( ); i++ )
 				{
