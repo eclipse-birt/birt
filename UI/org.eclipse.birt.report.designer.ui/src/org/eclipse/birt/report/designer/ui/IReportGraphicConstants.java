@@ -61,7 +61,7 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_ODA_DATA_SET = ReportDesignConstants.ODA_DATA_SET;
 
 	public final static String ICON_ELEMENT_ODA_DATA_SOURCE = ReportDesignConstants.ODA_DATA_SOURCE;
-	
+
 	public final static String ICON_ELEMENT_DERIVED_DATA_SET = ReportDesignConstants.DERIVED_DATA_SET;
 
 	public final static String ICON_ELEMENT_SCRIPT_DATA_SET = ReportDesignConstants.SCRIPT_DATA_SET;
@@ -358,6 +358,12 @@ public interface IReportGraphicConstants
 	public final static String ICON_ATTRIBUTE_LEFT_MARGIN = MasterPageHandle.LEFT_MARGIN_PROP;
 
 	public final static String ICON_ATTRIBUTE_RIGHT_MARGIN = MasterPageHandle.RIGHT_MARGIN_PROP;
+
+	public final static String ICON_ATTRIBUTE_ONE_COLUMN = "Master Page One Column";//$NON-NLS-1$
+
+	public final static String ICON_ATTRIBUTE_TWO_COLUMNS = "Master Page Two Column";//$NON-NLS-1$
+
+	public final static String ICON_ATTRIBUTE_THTREE_COLUMNS = "Master Page Three Column";//$NON-NLS-1$
 
 	// Preview editer icons
 	public final static String ICON_PREVIEW_PARAMETERS = "PreviewParameters"; //$NON-NLS-1$	

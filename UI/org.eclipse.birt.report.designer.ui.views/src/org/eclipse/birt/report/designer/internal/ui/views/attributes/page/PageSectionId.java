@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
@@ -274,10 +284,16 @@ public class PageSectionId
 
 	public static final String GRID_SEPERATOR1 = "GRID_SEPERATOR1"; //$NON-NLS-1$
 
-	public static final String ALTER_ALT_TEXT_KEY = "ALTER_ALT_TEXT_KEY";
+	public static final String ALTER_ALT_TEXT_KEY = "ALTER_ALT_TEXT_KEY";//$NON-NLS-1$
 
-	public static final String REPORT_BIDI_ORIENTATION = "REPORT_BIDI_ORIENTATION"; // bidi_hcg
+	public static final String REPORT_BIDI_ORIENTATION = "REPORT_BIDI_ORIENTATION"; // //$NON-NLS-1$
 
-	public static final String GENERAL_LIBRARY_NOTE = "GENERAL_LIBRARY_NOTE";
+	public static final String GENERAL_LIBRARY_NOTE = "GENERAL_LIBRARY_NOTE";//$NON-NLS-1$
+
+	public static final String MASTER_PAGE_COLUMNS = "MASTER_PAGE_COLUMNS";//$NON-NLS-1$
+
+	public static final String MASTER_PAGE_COLUMN_SEPERATOR = "MASTER_PAGE_COLUMN_SEPERATOR";//$NON-NLS-1$
+
+	public static final String MASTER_PAGE_COLUMNS_SPACE = "MASTER_PAGE_COLUMNS_SPACE";//$NON-NLS-1$
 
 }

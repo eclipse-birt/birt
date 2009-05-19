@@ -607,6 +607,15 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_RIGHT_MARGIN,
 				ICONS_PATH + MISC_PATH + "right_margin.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_ONE_COLUMN,
+				ICONS_PATH + MISC_PATH + "master_one_column.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TWO_COLUMNS,
+				ICONS_PATH + MISC_PATH + "master_two_columns.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_THTREE_COLUMNS,
+				ICONS_PATH + MISC_PATH + "master_three_columns.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_RIGHT_MARGIN,
+				ICONS_PATH + MISC_PATH + "right_margin.gif" ); //$NON-NLS-1$
+
 		// **********************************************************
 		// Preview icons
 		declareImage( IReportGraphicConstants.ICON_PREVIEW_PARAMETERS,
