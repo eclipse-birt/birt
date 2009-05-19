@@ -270,7 +270,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 			justify(currentContext);
 		}
 		if ( context.getBidiProcessing( ) )
-			reorderVisually( );
+			reorderVisually( currentContext.root );
 		verticalAlign();
 	}
 	
@@ -433,33 +433,46 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 	 * 
 	 * @author Lina Kemmel
 	 */
-	private void reorderVisually( )
+	private void reorderVisually( ContainerArea parent )
 	{
-		int n = currentContext.root.getChildrenCount( );
-		if ( n < 2 )
+		int n = parent.getChildrenCount( );
+		if ( n == 0 )
 			return;
 
+		int i = 0;
 		AbstractArea[] children = new AbstractArea[n];
 		byte[] levels = new byte[n];
-		Iterator iter = currentContext.root.getChildren( );
-		int i = 0;
-
+		Iterator<?> iter = parent.getChildren( );
+		
 		for ( ; i < n && iter.hasNext( ); i++ )
 		{
 			children[i] = (AbstractArea) iter.next( );
+			
 			if ( children[i] instanceof TextArea )
 				levels[i] = (byte) ( (TextArea) children[i] ).getRunLevel( );
 			else
+			{
 				levels[i] = baseLevel;
+				if ( children[i] instanceof ContainerArea )
+				{
+					// We assume that each inline container area should be
+					// treated as an inline block-level element.
+					reorderVisually( (ContainerArea) children[i] );
+				}
+			}
 		}
-		int x = children[0].getX( );
-
-		Bidi.reorderVisually( levels, 0, children, 0, n );
-
-		for ( i = 0; i < n; i++ )
+		if ( n > 1 )
 		{
-			children[i].setPosition( x, children[i].getY( ) );
-			x += children[i].getAllocatedWidth( );
+			int x = children[0].getAllocatedX( );
+			Bidi.reorderVisually( levels, 0, children, 0, n );
+
+			for ( i = 0; i < n - 1; i++ )
+			{
+				children[i].setAllocatedPosition( x, children[i]
+						.getAllocatedY( ) );
+				x += children[i].getAllocatedWidth( );
+			}
+			children[i].setAllocatedPosition( x, children[i].getAllocatedY( ) );
 		}
 	}
 
