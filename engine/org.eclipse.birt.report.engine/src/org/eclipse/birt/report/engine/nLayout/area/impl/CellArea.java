@@ -168,14 +168,18 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 			int diagonalWidth = PropertyUtil.getDimensionValue( cellContent,
 					cellContent.getDiagonalWidth( ), width );
 			String diagonalStyle = cellContent.getDiagonalStyle( );
-			Color color = PropertyUtil.getColor( cellContent.getComputedStyle( )
-					.getProperty( IStyle.STYLE_COLOR ) );
 			if ( diagonalNumber > 0 && diagonalWidth > 0
 					&& diagonalStyle != null )
 			{
-				diagonalInfo = new DiagonalInfo( color );
+				Color dc = PropertyUtil.getColor( cellContent.getDiagonalColor( ) );
+				if ( dc == null )
+				{
+					dc = PropertyUtil.getColor( cellContent.getComputedStyle( )
+							.getProperty( IStyle.STYLE_COLOR ) );
+				}
+				diagonalInfo = new DiagonalInfo( );
 				diagonalInfo.setDiagonal( diagonalNumber, diagonalStyle,
-						diagonalWidth );
+						diagonalWidth, dc);
 			}
 			int antidiagonalNumber = cellContent.getAntidiagonalNumber( );
 			int antidiagonalWidth = PropertyUtil.getDimensionValue(
@@ -186,10 +190,17 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 			{
 				if ( diagonalInfo == null )
 				{
-					diagonalInfo = new DiagonalInfo( color );
+					diagonalInfo = new DiagonalInfo( );
 				}
+				Color adc = PropertyUtil.getColor( cellContent.getAntidiagonalColor( ) );
+				if ( adc == null )
+				{
+					adc = PropertyUtil.getColor( cellContent.getComputedStyle( )
+							.getProperty( IStyle.STYLE_COLOR ) );
+				}
+
 				diagonalInfo.setAntiDiagonal( antidiagonalNumber,
-						antidiagonalStyle, antidiagonalWidth );
+						antidiagonalStyle, antidiagonalWidth, adc );
 			}
 		}
 	}

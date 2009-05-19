@@ -15,7 +15,8 @@ import java.awt.Color;
 
 public class DiagonalInfo extends AreaConstants
 {
-	protected Color color;
+	protected Color diagonalColor;
+	protected Color antidiagonalColor;
 	protected int antidiagonalNumber;
 	protected int diagonalNumber;
 	protected int antidiagonalStyle;
@@ -25,7 +26,7 @@ public class DiagonalInfo extends AreaConstants
 	
 	public DiagonalInfo( int diagonalNumber, int diagonalStyle,
 			int diagonalWidth, int antidiagonalNumber, int antidiagonalStyle,
-			int antidiagonalWidth, Color color )
+			int antidiagonalWidth, Color diagonalColor, Color antidiagonalColor )
 	{
 		this.diagonalNumber = diagonalNumber;
 		this.diagonalStyle = diagonalStyle;
@@ -33,12 +34,12 @@ public class DiagonalInfo extends AreaConstants
 		this.antidiagonalNumber = antidiagonalNumber;
 		this.antidiagonalStyle = antidiagonalStyle;
 		this.antidiagonalWidth = antidiagonalWidth;
-		this.color = color;
+		this.diagonalColor = diagonalColor;
+		this.antidiagonalColor = antidiagonalColor;
 	}
 	
-	public DiagonalInfo(Color color)
+	public DiagonalInfo( )
 	{
-		this.color = color;
 	}
 	
 	public DiagonalInfo(DiagonalInfo diagonalInfo )
@@ -51,23 +52,30 @@ public class DiagonalInfo extends AreaConstants
 		this.antidiagonalWidth = diagonalInfo.antidiagonalWidth;
 	}
 	
-	public void setDiagonal(int diagonalNumber, String diagonalStyle, int diagonalWidth)
+	public void setDiagonal(int diagonalNumber, String diagonalStyle, int diagonalWidth, Color color)
 	{
 		this.diagonalNumber = diagonalNumber;
 		this.diagonalStyle = stringStyleMap.get( diagonalStyle );
 		this.diagonalWidth = diagonalWidth;
+		this.diagonalColor = color;
 	}
 	
-	public void setAntiDiagonal(int antidiagonalNumber, String antidiagonalStyle, int antidiagonalWidth)
+	public void setAntiDiagonal(int antidiagonalNumber, String antidiagonalStyle, int antidiagonalWidth, Color color)
 	{
 		this.antidiagonalNumber = antidiagonalNumber;
 		this.antidiagonalStyle =stringStyleMap.get( antidiagonalStyle );
 		this.antidiagonalWidth = antidiagonalWidth;
+		this.antidiagonalColor = color;
 	}
 	
-	public Color getColor( )
+	public Color getDiagonalColor( )
 	{
-		return color;
+		return diagonalColor;
+	}
+	
+	public Color getAntidiagonalColor()
+	{
+		return this.antidiagonalColor;
 	}
 	
 	public int getAntidiagonalNumber( )

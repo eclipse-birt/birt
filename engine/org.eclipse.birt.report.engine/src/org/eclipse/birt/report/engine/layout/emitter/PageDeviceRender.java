@@ -295,26 +295,27 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				case 2 :
 					pageGraphic.drawLine( startX + width/2 , startY , startX
 							+ width, startY + height - dw/2,
-							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
+							getScaledValue( dw ), diagonalInfo.getDiagonalColor( ), ds );
 					pageGraphic.drawLine( startX, startY + height/2 , startX
 							+ width, startY + height - dw/2,
-							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
+							getScaledValue( dw ), diagonalInfo.getDiagonalColor( ), ds );
 					break;
-				case 3 :
+				case 1 :
 					pageGraphic.drawLine( startX, startY + dw / 2, startX
 							+ width, startY + height - dw / 2,
-							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
-					pageGraphic.drawLine( startX + width/2 , startY + dw/2, startX
-							+ width, startY + height - dw/2,
-							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
-					pageGraphic.drawLine( startX, startY + height/2 , startX
-							+ width, startY + height - dw/2,
-							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
+							getScaledValue( dw ), diagonalInfo.getDiagonalColor( ), ds );
 					break;
+
 				default :
 					pageGraphic.drawLine( startX, startY + dw / 2, startX
 							+ width, startY + height - dw / 2,
-							getScaledValue( dw ), diagonalInfo.getColor( ), ds );
+							getScaledValue( dw ), diagonalInfo.getDiagonalColor( ), ds );
+					pageGraphic.drawLine( startX + width/2 , startY + dw/2, startX
+							+ width, startY + height - dw/2,
+							getScaledValue( dw ), diagonalInfo.getDiagonalColor( ), ds );
+					pageGraphic.drawLine( startX, startY + height/2 , startX
+							+ width, startY + height - dw/2,
+							getScaledValue( dw ), diagonalInfo.getDiagonalColor( ), ds );
 					break;
 			}
 			//currently only support diagonal line, do not support antidiagonal line
