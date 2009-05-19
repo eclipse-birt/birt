@@ -364,9 +364,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 			handleStyleNameCompatibilities( );
 		}
 
-		// if the report version is older than 3.2.19, the variable element with
+		// if the report version is older than 3.2.20, the variable element with
 		// empty name should be made unique name.
-		if ( versionNumber < VersionUtil.VERSION_3_2_19 )
+		if ( versionNumber < VersionUtil.VERSION_3_2_20 )
 		{
 			handleVariableElementEmptyName( );
 		}

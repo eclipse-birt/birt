@@ -545,10 +545,10 @@ public abstract class ReportElementState extends DesignParseState
 			if ( ( content instanceof ExtendedItem && handler.versionNumber < VersionUtil.VERSION_3_2_8 ) )
 				return;
 
-			// for the report old than 3.2.19, do not check if the name of the
+			// for the report old than 3.2.20, do not check if the name of the
 			// variable element is null.
 			if ( content instanceof VariableElement
-					&& handler.versionNumber <= VersionUtil.VERSION_3_2_19 )
+					&& handler.versionNumber < VersionUtil.VERSION_3_2_20 )
 				return;
 
 			handler.getErrorHandler( ).semanticError(

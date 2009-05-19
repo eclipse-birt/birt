@@ -81,7 +81,9 @@ public class VariableElementState extends ReportElementState
 	public void end( ) throws SAXException
 	{
 		super.end( );
-		if ( handler.versionNumber < VersionUtil.VERSION_3_2_19 )
+		// if the report version is older than 3.2.20, the variable element name
+		// should be added to the name space.
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_20 )
 		{
 			String name = element.getName( );
 			initElementName( name, true );

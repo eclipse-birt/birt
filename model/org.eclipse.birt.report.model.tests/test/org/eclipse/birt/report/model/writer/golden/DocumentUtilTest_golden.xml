@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
 	<styles>
 		<style name="new_style" id="4">
 			<property name="fontFamily">"Arial"</property>

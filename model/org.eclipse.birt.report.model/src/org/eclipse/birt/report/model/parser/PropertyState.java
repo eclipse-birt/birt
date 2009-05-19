@@ -693,7 +693,7 @@ class PropertyState extends AbstractPropertyState
 			state.setName( name );
 			return state;
 		}
-		if ( handler.versionNumber <= VersionUtil.VERSION_3_2_19
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_20
 				&& element instanceof VariableElement
 				&& IVariableElementModel.VARIABLE_NAME_PROP
 						.equalsIgnoreCase( name ) )
