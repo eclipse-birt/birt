@@ -68,7 +68,7 @@ public class PDFImageLMTest extends PDFLayoutTest
 					blockContainer );
 			logicContainers.next( );
 			checkChart( 162302, 40057, 39729, 11219,
-					"run\\?__report=.*120358.rptdesign&__overwrite=true", null,
+					"run\\?__report=.*120358.rptdesign&amp;__overwrite=true", null,
 					"_self", (ContainerArea) logicContainers.next( ) );
 			checkChart( 162302, 40057, 39729, 11219, "120358.rptdesign", null,
 					"_self", (ContainerArea) logicContainers.next( ) );
