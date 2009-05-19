@@ -713,9 +713,12 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			}
 
 			getMarker( ).setType( newType );
-			Control[] children = cmpType.getChildren( );
-			children[newMarkerTypeIndex].redraw( );
-			children[markerTypeIndex].redraw( );
+			// 276447, there's no need to redraw the markers composite since it
+			// will be closed after type changed, and it will be disposed when
+			// the icon dialog overlaps the markers composite on linux.
+			// Control[] children = cmpType.getChildren( );
+			// children[newMarkerTypeIndex].redraw( );
+			// children[markerTypeIndex].redraw( );
 			updateMarkerPreview( );
 		}
 
