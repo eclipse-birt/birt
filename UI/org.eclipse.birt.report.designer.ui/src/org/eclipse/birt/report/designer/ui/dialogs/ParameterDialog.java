@@ -2685,16 +2685,20 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			else if ( isStatic( ) )
 			{
 				boolean flag = false;
-				for ( int i = 0; i < defaultValueList.size( ); i++ )
+				for ( int i = 0; defaultValueList != null
+						&& i < defaultValueList.size( ); i++ )
 				{
 					String value = defaultValueList.get( i )
 							.getStringExpression( );
-					for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
+					if ( choiceList != null )
 					{
-						SelectionChoice choice = (SelectionChoice) iter.next( );
-						if ( isEqual( choice.getValue( ), value ) )
+						for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
 						{
-							flag = true;
+							SelectionChoice choice = (SelectionChoice) iter.next( );
+							if ( isEqual( choice.getValue( ), value ) )
+							{
+								flag = true;
+							}
 						}
 					}
 					if ( !flag )
@@ -2726,12 +2730,15 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				if ( !DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( newControlType )
 						&& !DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( newControlType ) )
 				{
-					for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
+					if ( choiceList != null )
 					{
-						SelectionChoice choice = (SelectionChoice) iter.next( );
-						if ( isValidValue( choice.getValue( ) ) == null )
+						for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
 						{
-							selectionChioceList.addItem( choice );
+							SelectionChoice choice = (SelectionChoice) iter.next( );
+							if ( isValidValue( choice.getValue( ) ) == null )
+							{
+								selectionChioceList.addItem( choice );
+							}
 						}
 					}
 				}
