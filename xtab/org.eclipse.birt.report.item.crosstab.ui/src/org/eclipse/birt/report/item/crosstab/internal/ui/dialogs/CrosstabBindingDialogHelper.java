@@ -29,6 +29,8 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.CubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -131,7 +133,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
-		gd.widthHint = 200;
+		gd.widthHint = 250;
 		txtName.setLayoutData( gd );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
@@ -494,10 +496,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private void initDataFields( Combo cmbDataField, IParameterDefn param )
 	{
 		List<String> datas = getMesures( );
-		datas.addAll( getDatas() );
+		datas.addAll( getDatas( ) );
 		String[] items = datas.toArray( new String[datas.size( )] );
 		cmbDataField.setItems( items );
-		
+
 		if ( paramsValueMap.containsKey( param.getName( ) ) )
 		{
 			cmbDataField.setText( paramsValueMap.get( param.getName( ) ) );
@@ -571,14 +573,14 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) getBindingHolder( ) ).getReportItem( );
 
-
 			try
 			{
 				IBinding[] aggregateBindings = CubeQueryUtil.getAggregationBindings( getCrosstabBindings( xtabHandle ) );
 				for ( IBinding binding : aggregateBindings )
 				{
-					if ( getBinding( )==null || !getBinding( ).getName( )
-							.equals( binding.getBindingName( ) ) )
+					if ( getBinding( ) == null
+							|| !getBinding( ).getName( )
+									.equals( binding.getBindingName( ) ) )
 						datas.add( ExpressionUtil.createJSDataExpression( binding.getBindingName( ) ) );
 				}
 			}
@@ -775,7 +777,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void createMessageSection( Composite composite )
 	{
-		messageLine = new CLabel( composite, SWT.NONE );
+		messageLine = new CLabel( composite, SWT.LEFT );
 		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
 		layoutData.horizontalSpan = 3;
 		messageLine.setLayoutData( layoutData );
@@ -811,7 +813,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					{
 						final Combo cmbDataField = new Combo( paramsComposite,
 								SWT.BORDER );
-						cmbDataField.setLayoutData( GridDataFactory.fillDefaults( ).grab( true, false ).span( 2, 1 ).create( ) );
+						cmbDataField.setLayoutData( GridDataFactory.fillDefaults( )
+								.grab( true, false )
+								.span( 2, 1 )
+								.create( ) );
 
 						initDataFields( cmbDataField, param );
 
@@ -968,6 +973,53 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					}
 				}
 			}
+			// bugzilla 273368
+			// if expression is "measure['...']", aggregation do not support
+			// IAggrFunction.RUNNING_AGGR function
+			IAggrFunction function = getFunctionByDisplayName( cmbFunction.getText( ) );
+			IParameterDefn[] params = function.getParameterDefn( );
+			if ( params.length > 0 )
+			{
+				for ( final IParameterDefn param : params )
+				{
+
+					if ( param.isDataField( ) )
+					{
+						Combo cmbDataField = (Combo) paramsMap.get( param.getName( ) );
+						String expression = cmbDataField.getText( );
+						DataRequestSession session = null;
+						try
+						{
+							session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+							if ( session.getCubeQueryUtil( )
+									.getReferencedMeasureName( expression ) != null
+									&& function.getType( ) == IAggrFunction.RUNNING_AGGR )
+							{
+								dialog.setCanFinish( false );
+								this.messageLine.setText( Messages.getFormattedString( "BindingDialogHelper.error.improperexpression", //$NON-NLS-1$
+										new Object[]{
+											function.getName( )
+										} ) );
+								this.messageLine.setImage( PlatformUI.getWorkbench( )
+										.getSharedImages( )
+										.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
+								return;
+							}
+						}
+						catch ( BirtException e )
+						{
+						}
+						finally
+						{
+							if ( session != null )
+							{
+								session.shutdown( );
+							}
+						}
+					}
+				}
+			}
+
 			dialog.setCanFinish( true );
 			this.messageLine.setText( "" ); //$NON-NLS-1$
 			this.messageLine.setImage( null );
@@ -1062,7 +1114,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						}
 						if ( param.isDataField( )
 								&& binding.getExpression( ) != null
-								&& !strEquals( binding.getExpression( ), paramValue ) )
+								&& !strEquals( binding.getExpression( ),
+										paramValue ) )
 						{
 							return true;
 						}
