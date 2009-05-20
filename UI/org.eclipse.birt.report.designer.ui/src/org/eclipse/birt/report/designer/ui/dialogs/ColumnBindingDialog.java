@@ -1072,7 +1072,7 @@ public class ColumnBindingDialog extends BaseDialog
 				addBinding( (ComputedColumn) iter.next( ) );
 			}
 		}
-		if ( inputElement != null )
+		if ( inputElement != null && inputElement.getDataSet( ) != null )
 			generateOutputParmsBindings( inputElement.getDataSet( ) );
 		refreshBindingTable( );
 	}
