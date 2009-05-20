@@ -80,6 +80,11 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 		convertToCubeOperations( );
 	}
 	
+	public ICubeQueryDefinition getCubeQueryDefinition( )
+	{
+		return this.cqd;
+	}
+	
 	private void convertToCubeOperations( ) throws DataException
 	{
 		Set<DirectedGraphEdge> edges = new HashSet<DirectedGraphEdge>( );

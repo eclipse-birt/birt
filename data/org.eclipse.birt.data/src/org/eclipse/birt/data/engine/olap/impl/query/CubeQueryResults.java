@@ -38,15 +38,15 @@ import org.mozilla.javascript.Scriptable;
 public class CubeQueryResults implements ICubeQueryResults
 {
 
-	private PreparedCubeQuery preparedQuery;
+	protected ICubeQueryDefinition cubeQueryDefinition;
 	private Scriptable scope;
-	private DataEngineContext context;
-	private DataEngineSession session;
+	protected DataEngineContext context;
+	protected DataEngineSession session;
 	private String queryResultsId;
-	private Map appContext;
+	protected Map appContext;
 	private StopSign stopSign;
 	private IBaseQueryResults outResults;
-	private ICubeCursor cubeCursor;
+	protected ICubeCursor cubeCursor;
 	private String name;
 	
 	/**
@@ -56,12 +56,12 @@ public class CubeQueryResults implements ICubeQueryResults
 	 */
 	public CubeQueryResults( IBaseQueryResults outResults, PreparedCubeQuery preparedQuery, DataEngineSession session, Scriptable scope, DataEngineContext context, Map appContext )
 	{
-		this.preparedQuery = preparedQuery;
+		this.cubeQueryDefinition = (ICubeQueryDefinition)preparedQuery.getCubeQueryDefinition( );
 		this.scope = scope;
 		this.context = context;
 		this.session = session;
 		this.appContext = appContext;
-		this.queryResultsId = ((ICubeQueryDefinition)preparedQuery.getCubeQueryDefinition( )).getQueryResultsID( );
+		this.queryResultsId = cubeQueryDefinition.getQueryResultsID( );
 		this.outResults = outResults;
 		this.stopSign = session.getStopSign( );
 	}
@@ -77,7 +77,7 @@ public class CubeQueryResults implements ICubeQueryResults
 		try
 		{
 			stopSign.start( );
-			CubeQueryExecutor executor = new CubeQueryExecutor( this.outResults, (ICubeQueryDefinition)preparedQuery.getCubeQueryDefinition( ), this.session,
+			CubeQueryExecutor executor = new CubeQueryExecutor( this.outResults, cubeQueryDefinition, this.session,
 					this.scope,
 					this.context );
 			BirtCubeView bcv = new BirtCubeView( executor, appContext );
@@ -92,14 +92,14 @@ public class CubeQueryResults implements ICubeQueryResults
 					new JSMeasureAccessor( cubeCursor, bcv.getMeasureMapping( )) );
 			this.scope.put( ScriptConstants.DIMENSION_SCRIPTABLE,
 					this.scope,
-					new JSLevelAccessor( (ICubeQueryDefinition) this.preparedQuery.getCubeQueryDefinition( ),
+					new JSLevelAccessor( cubeQueryDefinition,
 							bcv ) );
 
 			this.cubeCursor = new CubeCursorImpl( outResults,
 					cubeCursor,
 					this.scope,
 					session.getEngineContext( ).getScriptContext( ),
-					(ICubeQueryDefinition) this.preparedQuery.getCubeQueryDefinition( ),
+					cubeQueryDefinition,
 					bcv );
 			return this.cubeCursor;
 
