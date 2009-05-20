@@ -1049,8 +1049,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			( (GridData) paramsComposite.getLayoutData( ) ).exclude = true;
 			// new Label( argsComposite, SWT.NONE ).setText( "no args" );
 		}
-		paramsComposite.layout( );
-		composite.layout( );
+		composite.layout( true );
 		setContentSize(composite);
 	}
 
