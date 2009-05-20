@@ -398,7 +398,7 @@ public class ColumnDragTracker extends TableDragGuideTracker
 			part.getTableAdapter( ).rollBack( );
 			ExceptionHandler.handle( e );
 		}
-		adjustPercentageColumn( exclusion );
+		adjustOthersColumn( exclusion );
 		//check the % unit
 		
 		part.getTableAdapter( ).transEnd( );
@@ -413,7 +413,8 @@ public class ColumnDragTracker extends TableDragGuideTracker
 		handle.getWidth( ).setValue( dimensionValue );
 	}
 	
-	private void adjustPercentageColumn(List exclusion)
+	//If the column don't set the width or set the percentage unit, set the actual value
+	private void adjustOthersColumn(List exclusion)
 	{
 		AbstractTableEditPart part = getAbstractTableEditPart();
 		WorkingData data = getTableWorkingData( );
@@ -431,6 +432,10 @@ public class ColumnDragTracker extends TableDragGuideTracker
 			
 			ITableLayoutOwner.DimensionInfomation dim = part.getColumnWidth( datas[i].columnNumber );
 			if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( dim.getUnits( ) ))
+			{
+				resizeFixColumn(0,  datas[i].columnNumber, 1);
+			}
+			else if (dim.getUnits( ) == null || dim.getUnits( ).length( ) == 0)
 			{
 				resizeFixColumn(0,  datas[i].columnNumber, 1);
 			}

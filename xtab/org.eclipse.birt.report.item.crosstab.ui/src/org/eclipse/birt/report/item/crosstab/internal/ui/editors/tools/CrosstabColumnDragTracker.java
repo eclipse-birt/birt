@@ -294,7 +294,7 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker
 				.setWidth( converPixToDefaultUnit( tableSize.width + width ),
 						getDefaultUnits( ) );
 
-		adjustPercentageColumn( exclusion );
+		adjustOthersColumn( exclusion );
 		// check the % unit
 
 		stack.commit( );
@@ -315,7 +315,8 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker
 		return crosstabAdapter.getDesignElementHandle( ).getModuleHandle( ).getDefaultUnits( );
 	}
 	
-	protected void adjustPercentageColumn(List exclusion)
+	//If the column don't set the width or set the percentage unit, set the actual value
+	protected void adjustOthersColumn(List exclusion)
 	{
 		AbstractTableEditPart part = getAbstractTableEditPart();
 		WorkingData data = getTableWorkingData( );
@@ -333,6 +334,10 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker
 			
 			ITableLayoutOwner.DimensionInfomation dim = part.getColumnWidth( datas[i].columnNumber );
 			if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( dim.getUnits( ) ))
+			{
+				resizeFixColumn(0,  datas[i].columnNumber, 1);
+			}
+			else if (dim.getUnits( ) == null || dim.getUnits( ).length( ) == 0)
 			{
 				resizeFixColumn(0,  datas[i].columnNumber, 1);
 			}
