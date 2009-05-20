@@ -16,6 +16,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 
@@ -394,6 +395,15 @@ public class RowArea extends ContainerArea
 		}
 		else
 		{
+			if ( content != null )
+			{
+				IStyle style = content.getStyle( );
+				String pb = style.getPageBreakInside( );
+				if ( IStyle.CSS_AUTO_VALUE.equals( pb ) )
+				{
+					return false;
+				}
+			}
 			return true;
 		}
 	}
