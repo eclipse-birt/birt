@@ -1751,6 +1751,7 @@
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
       <Type name="TemplateReportItem"/>
+      <Type name="AutoText"/>
     </Slot>
     <Slot displayNameID="Element.ReportDesign.slot.scratchPad" multipleCardinality="true" name="scratchPad" since="reserved" xmlName="scratch-pad">
       <Type name="FreeForm"/>
@@ -2812,6 +2813,7 @@
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
       <Type name="TemplateReportItem"/>
+      <Type name="AutoText"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
     <Slot displayNameID="Element.List.slot.groups" multipleCardinality="true" name="groups" since="1.0">
@@ -2830,6 +2832,7 @@
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
       <Type name="TemplateReportItem"/>
+      <Type name="AutoText"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
     <Slot displayNameID="Element.List.slot.footer" multipleCardinality="true" name="footer" selector="list-footer" since="1.0" xmlName="footer">
@@ -2844,6 +2847,7 @@
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
       <Type name="TemplateReportItem"/>
+      <Type name="AutoText"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
     <Method context="startup" displayNameID="Element.List.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.List.onPrepare.toolTip">
@@ -2884,6 +2888,7 @@
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
       <Type name="TemplateReportItem"/>
+      <Type name="AutoText"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
     <Slot displayNameID="Element.ListGroup.slot.footer" multipleCardinality="true" name="footer" selector="list-group-footer" since="1.0" xmlName="footer">
@@ -2898,6 +2903,7 @@
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
       <Type name="TemplateReportItem"/>
+      <Type name="AutoText"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
   </Element>
