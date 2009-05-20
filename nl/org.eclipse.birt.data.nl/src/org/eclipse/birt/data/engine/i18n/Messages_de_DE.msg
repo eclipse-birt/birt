@@ -409,7 +409,7 @@ data.aggregation.argumentError=Der Ausdruck des Arguments \"{0}\" für Aggregat \
 data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can not be such type: "{0}".
 
 #derived dataSet
-data.derivedDataSet.columnNotExist=Der Spaltenname '{0}' ist nicht vorhanden.
+data.derivedDataSet.columnNotExist=The column \"{0}\" does not exist!
 data.derivedDataSet.UnionQueryTextParseError="Fehler bei Analyse von Union-Abfrage. \"{0}\""
 data.derivedDataSet.JoinQueryTextParseError="Fehler bei Analyse von Join-Abfrage. \"{0}\""
 

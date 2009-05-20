@@ -409,7 +409,7 @@ data.aggregation.argumentError=WŒv \"{1}\" ‚Ìˆø”® \"{0}\" ‚ª null ‚Ü‚½‚Í‹ó”’‚
 data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can not be such type: "{0}".
 
 #derived dataSet
-data.derivedDataSet.columnNotExist=—ñ–¼ \"{0}\" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
+data.derivedDataSet.columnNotExist=The column \"{0}\" does not exist!
 data.derivedDataSet.UnionQueryTextParseError="˜aW‡ƒNƒGƒŠ‚ğ‰ğÍ‚Å‚«‚Ü‚¹‚ñB \"{0}\""
 data.derivedDataSet.JoinQueryTextParseError="ƒWƒ‡ƒCƒ“ƒNƒGƒŠ‚ğ‰ğÍ‚Å‚«‚Ü‚¹‚ñB \"{0}\""
 

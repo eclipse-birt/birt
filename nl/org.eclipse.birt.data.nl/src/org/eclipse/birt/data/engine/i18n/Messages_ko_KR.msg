@@ -409,7 +409,7 @@ data.aggregation.argumentError=집계 \"{1}\"에 대한 인수 \"{0}\"의 식이 널(null)�
 data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can not be such type: "{0}".
 
 #derived dataSet
-data.derivedDataSet.columnNotExist=열 이름 \"{0}\"이(가) 없습니다!
+data.derivedDataSet.columnNotExist=The column \"{0}\" does not exist!
 data.derivedDataSet.UnionQueryTextParseError="통합 쿼리를 구문 분석하지 못했습니다. \"{0}\""
 data.derivedDataSet.JoinQueryTextParseError="조인 쿼리를 구문 분석하지 못했습니다. \"{0}\""
 

@@ -409,7 +409,7 @@ data.aggregation.argumentError=聚合“{1}”的参数“{0}”的表达式为 null 或空!
 data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can not be such type: "{0}".
 
 #derived dataSet
-data.derivedDataSet.columnNotExist=列名称“{0}”不存在!
+data.derivedDataSet.columnNotExist=The column \"{0}\" does not exist!
 data.derivedDataSet.UnionQueryTextParseError="无法分析联合查询。 \"{0}\""
 data.derivedDataSet.JoinQueryTextParseError="无法分析联接查询。 \"{0}\""
 
