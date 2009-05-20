@@ -1740,7 +1740,7 @@ public class ExecutionContext
 		{
 			closeClassLoader = true;
 			applicationClassLoader = new ApplicationClassLoader( engine,
-					runnable, this );
+					runnable, appContext );
 			if ( scriptContext != null )
 			{
 				scriptContext

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.executor;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,16 +49,16 @@ public class ApplicationClassLoader extends ClassLoader
 
 	private URLClassLoader designClassLoader = null;
 	private IReportRunnable runnable;
-	private ExecutionContext executionContext = null;
+	private Map<String, Object> appContext = null;
 
 	private ReportEngine engine;
 
 	public ApplicationClassLoader( ReportEngine engine,
-			IReportRunnable reportRunnable, ExecutionContext executionContext )
+			IReportRunnable reportRunnable, Map<String, Object> appContext )
 	{
 		this.runnable = reportRunnable;
 		this.engine = engine;
-		this.executionContext = executionContext;
+		this.appContext = appContext;
 	}
 
 	public void close( )
@@ -109,21 +110,13 @@ public class ApplicationClassLoader extends ClassLoader
 				ScriptLibHandle lib = (ScriptLibHandle) iter.next( );
 				String libPath = lib.getName( );
 				URL url = module.findResource( libPath,
-						IResourceLocator.LIBRARY, executionContext
-								.getAppContext( ) );
+						IResourceLocator.LIBRARY, appContext );
 				if ( url != null )
 				{
 					urls.add( url );
 				}
 				else
 				{
-					if ( executionContext != null )
-					{
-						executionContext
-								.addException( new EngineException(
-										MessageConstants.JAR_NOT_FOUND_ERROR,
-										libPath ) );
-					}
 					logger.log( Level.SEVERE,
 							"Can not find specified jar: " + libPath ); //$NON-NLS-1$
 				}

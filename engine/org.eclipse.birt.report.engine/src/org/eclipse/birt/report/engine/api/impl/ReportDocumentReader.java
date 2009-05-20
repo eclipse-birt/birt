@@ -1336,7 +1336,8 @@ public class ReportDocumentReader
 							public ApplicationClassLoader run( )
 							{
 								return new ApplicationClassLoader( engine,
-										getOnPreparedRunnable( ), null );
+										getOnPreparedRunnable( ), engine
+												.getConfig( ).getAppContext( ) );
 							}
 						} );
 			}
