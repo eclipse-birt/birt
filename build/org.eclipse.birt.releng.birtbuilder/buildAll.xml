@@ -327,13 +327,29 @@
             </java>
 
             <!--generator features and plugins metadata -->
-            <p2.generator source="${repo}" compress="true" append="true" flavor="tooling"
+            <!--p2.generator source="${repo}" compress="true" append="true" flavor="tooling"
                           metadataRepository="file:${repo}"
                           artifactRepository="file:${repo}"
                           metadataRepositoryName="${p2.repo.name}"
                           artifactRepositoryName="${p2.repo.name}"
                           publishArtifacts="true" p2OS="linux" mode="incremental"
-                          site="file:${updateJarWorkingDir}/site/site.xml"/>
+                          site="file:${updateJarWorkingDir}/site/site.xml"/-->
+            <copy file="${updateJarWorkingDir}/site/site.xml" todir="${repo}"/>
+            <java jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar"
+                  fork="true"
+                  timeout="10800000"
+                  jvm="${jvm15_home}/bin/java"
+                  failonerror="true"
+                  maxmemory="512m">
+                  <arg line="-application org.eclipse.equinox.p2.publisher.UpdateSitePublisher"/>
+                  <arg line="-metadataRepository file:${repo}"/>
+                  <arg line="-artifactRepository file:${repo}"/>
+                  <arg line="-source ${repo}"/>
+                  <arg line="-configs gtk.linux.x86"/>
+                  <arg line="-compress"/>
+                  <arg line="-publishArtifacts"/>
+            </java>
+            <delete file="${repo}/site.xml"/>
             
             <!--try create composite repository-->
             <p2.composite.artifact.repository.create location="file://${compsite.site}" name="${p2.repo.name}" compressed="true" failOnExists="false" />
