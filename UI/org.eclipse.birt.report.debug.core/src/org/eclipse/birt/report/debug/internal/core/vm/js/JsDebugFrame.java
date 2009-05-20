@@ -92,6 +92,10 @@ public class JsDebugFrame implements DebugFrame, VMStackFrame, VMConstants
 	{
 		return (JsContextData) cx.getDebuggerContextData( );
 	}
+	
+	public void onDebuggerStatement( Context arg0 )
+	{
+	}
 
 	public void onEnter( Context arg0, Scriptable arg1, Scriptable arg2,
 			Object[] arg3 )
