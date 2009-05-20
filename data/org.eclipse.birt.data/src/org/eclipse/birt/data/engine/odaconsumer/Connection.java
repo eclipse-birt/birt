@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *
  ******************************************************************************
  */ 
@@ -316,9 +316,10 @@ public class Connection
         }
         catch( UnsupportedOperationException ex )
         {
-            // log warning and ignore, so not to stop query preparation
-            sm_logger.logp( Level.WARNING, sm_className, methodName, 
-                    "Cannot set query specification.", ex );            //$NON-NLS-1$
+            // log and ignore, so not to stop query preparation
+            sm_logger.logp( Level.INFO, sm_className, methodName, 
+                    "Ignoring UnsupportedOperationException thrown by ODA driver (" + getDataSourceId() + //$NON-NLS-1$
+                    "); cannot set query specification before prepare." ); //$NON-NLS-1$
         }	    
 
         sm_logger.exiting( sm_className, methodName );
