@@ -84,7 +84,7 @@ public class StyleTest extends HTMLReportEmitterTestCase
 		
 		regex = "<div[^<>]*class=\"[^<>]*CustomerStyle[^<>]*>aaaa</div>";
 		matcher = Pattern.compile( regex ).matcher( content );
-		assertEquals( true, matcher.find( ) );
+		assertEquals( false, matcher.find( ) );
 		
 		regex = "<div[^<>]*style=\"[^<>]*color: rgb(255, 0, 0)[^<>]*>aaaa</div>";
 		matcher = Pattern.compile( regex ).matcher( content );
