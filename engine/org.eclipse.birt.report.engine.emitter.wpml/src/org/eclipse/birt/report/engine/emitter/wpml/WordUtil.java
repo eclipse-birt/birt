@@ -198,7 +198,7 @@ public class WordUtil
 		else if ( color.equalsIgnoreCase( "Red" ) )
 			return "ff0000";
 		else if ( color.equalsIgnoreCase( "Green" ) )
-			return "ff00ff";
+			return "00ff00";
 		else if ( color.equalsIgnoreCase( "Yellow" ) )
 			return "ffff00";
 		else if ( color.equalsIgnoreCase( "Blue" ) )
