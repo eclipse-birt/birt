@@ -660,9 +660,9 @@ Choices.scopeType.colgroup=列组
 Choices.dynamicFilterChoice.simple=简单
 Choices.dynamicFilterChoice.advanced=高级
 
-#81 variableMode
-Choices.variableMode.report=报表
-Choices.variableMode.page=页面
+#81 variableType
+Choices.variableType.report=报表
+Choices.variableType.page=页面
 
 ###########################################################
 # Classes
@@ -3203,7 +3203,7 @@ Element.MultiViews.views=视图
 #65. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.name=名称
 Element.VariableElement.value=值
-Element.VariableElement.workMode=Work mode
+Element.VariableElement.type=类型
 
 #66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=名称

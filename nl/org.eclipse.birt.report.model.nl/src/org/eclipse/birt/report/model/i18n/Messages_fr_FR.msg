@@ -660,9 +660,9 @@ Choices.scopeType.colgroup=Groupe de colonnes
 Choices.dynamicFilterChoice.simple=Simple
 Choices.dynamicFilterChoice.advanced=Avancé
 
-#81 variableMode
-Choices.variableMode.report=Etat
-Choices.variableMode.page=Page
+#81 variableType
+Choices.variableType.report=Etat
+Choices.variableType.page=Page
 
 ###########################################################
 # Classes
@@ -3203,7 +3203,7 @@ Element.MultiViews.views=Vues
 #65. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.name=Nom
 Element.VariableElement.value=Valeur
-Element.VariableElement.workMode=Work mode
+Element.VariableElement.type=Type
 
 #66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=Nom

@@ -660,9 +660,9 @@ Choices.scopeType.colgroup=列グループ
 Choices.dynamicFilterChoice.simple=簡易
 Choices.dynamicFilterChoice.advanced=詳細設定
 
-#81 variableMode
-Choices.variableMode.report=レポート
-Choices.variableMode.page=ページ
+#81 variableType
+Choices.variableType.report=レポート
+Choices.variableType.page=ページ
 
 ###########################################################
 # Classes
@@ -3203,7 +3203,7 @@ Element.MultiViews.views=ビュー
 #65. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.name=Name
 Element.VariableElement.value=値
-Element.VariableElement.workMode=Work mode
+Element.VariableElement.type=種類
 
 #66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=名前

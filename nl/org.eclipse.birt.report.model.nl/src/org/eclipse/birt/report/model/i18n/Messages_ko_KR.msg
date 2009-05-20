@@ -660,9 +660,9 @@ Choices.scopeType.colgroup=열 그룹
 Choices.dynamicFilterChoice.simple=단순
 Choices.dynamicFilterChoice.advanced=고급
 
-#81 variableMode
-Choices.variableMode.report=보고서
-Choices.variableMode.page=페이지
+#81 variableType
+Choices.variableType.report=보고서
+Choices.variableType.page=페이지
 
 ###########################################################
 # Classes
@@ -3203,7 +3203,7 @@ Element.MultiViews.views=보기
 #65. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.name=이름
 Element.VariableElement.value=값
-Element.VariableElement.workMode=Work mode
+Element.VariableElement.type=형식
 
 #66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=이름
