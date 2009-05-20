@@ -316,7 +316,7 @@ public class LineArea extends InlineStackingArea
 	private void reorderVisually( ContainerArea parent )
 	{
 		int n = parent.getChildrenCount( );
-		if (n == 0)
+		if ( n == 0 )
 			return;
 
 		int i = 0;
@@ -327,14 +327,14 @@ public class LineArea extends InlineStackingArea
 		for ( ; i < n && iter.hasNext( ); i++ )
 		{
 			AbstractArea area = (AbstractArea) iter.next( );
-						areas[i] = area;
-			
-						if ( area instanceof TextArea )
-							levels[i] = (byte) ( (TextArea) area ).getRunLevel( );
+			areas[i] = area;
+
+			if ( area instanceof TextArea )
+				levels[i] = (byte) ( (TextArea) area ).getRunLevel( );
 			else
-							{
- 				levels[i] = baseLevel;
-				if ( area instanceof ContainerArea )
+			{
+				levels[i] = baseLevel;
+				if ( area instanceof InlineStackingArea )
 				{
 					// We assume that each inline container area should be
 					// treated as an inline block-level element.
