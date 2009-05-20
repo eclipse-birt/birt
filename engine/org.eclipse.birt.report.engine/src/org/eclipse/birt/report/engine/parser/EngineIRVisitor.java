@@ -306,9 +306,9 @@ public class EngineIRVisitor extends DesignVisitor
 		Collection<PageVariableDesign> varDesigns = report.getPageVariables( );
 		for ( VariableElementHandle varElement : varElements )
 		{
-			String workMode = varElement.getWorkMode( );
+			String scope = varElement.getType( );
 			String name = varElement.getVariableName( );
-			varDesigns.add( new PageVariableDesign( name, workMode ) );
+			varDesigns.add( new PageVariableDesign( name, scope ) );
 			// FIXME: support the initialize values
 		}
 		String onPageEnd = handle.getOnPageEnd( );
