@@ -848,33 +848,35 @@ public class PlotWith3DAxes extends PlotWithAxes
 		{
 			if ( ( iType & NUMERICAL ) == NUMERICAL )
 			{
-				// TODO consistent with orthogonal sereis length;
+				// TODO consistent with orthogonal series length;
 				return new DataSetIterator( new Double[]{
 						new Double( 1 ), new Double( 2 )
 				} );
 			}
 			else if ( ( iType & DATE_TIME ) == DATE_TIME )
 			{
-				// TODO consistent with orthogonal sereis length;
+				// TODO consistent with orthogonal series length;
 				return new DataSetIterator( new Calendar[]{
 						new CDateTime( ), new CDateTime( )
 				} );
 			}
 			else if ( ( iType & TEXT ) == TEXT )
 			{
-				// use orthogonal sereis identifier instead.
+				// use orthogonal series identifier instead.
 				List<String> data = new ArrayList<String>( );
 
 				if ( osea.length > 0 )
 				{
-					for ( int i = 0; i < osea.length; i++ )
+					// Revert the order since the last series is in the nearest
+					// of origin.
+					for ( int i = osea.length - 1; i >= 0; i-- )
 					{
 						data.add( String.valueOf( osea[i].getSeriesIdentifier( ) ) );
 					}
 				}
 				else
 				{
-					data.add( "A" );
+					data.add( "A" ); //$NON-NLS-1$
 				}
 
 				return new DataSetIterator( data.toArray( new String[data.size( )] ) );
@@ -1336,12 +1338,12 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 						if ( bZCategoryTextStyle )
 						{
-							dZ = daZTickCoordinates.getStart( )
-									+ dZUnitSize
-									* seriesIndex;
+							dZ = daZTickCoordinates.getEnd( )
+									- dZUnitSize
+									* ( seriesIndex + 1 );
 							if ( !scAncillary.isTickBetweenCategories( ) )
 							{
-								dZ += dZUnitSize / 2;
+								dZ -= dZUnitSize / 2;
 							}
 						}
 						else
@@ -1383,12 +1385,12 @@ public class PlotWith3DAxes extends PlotWithAxes
 						}
 						if ( bZCategoryTextStyle )
 						{
-							dZ = daZTickCoordinates.getStart( )
-									+ dZUnitSize
-									* seriesIndex;
+							dZ = daZTickCoordinates.getEnd( )
+									- dZUnitSize
+									* ( seriesIndex + 1 );
 							if ( !scAncillary.isTickBetweenCategories( ) )
 							{
-								dZ += dZUnitSize / 2;
+								dZ -= dZUnitSize / 2;
 							}
 						}
 						else
