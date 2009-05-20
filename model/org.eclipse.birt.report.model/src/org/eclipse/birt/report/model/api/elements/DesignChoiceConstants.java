@@ -941,7 +941,7 @@ public interface DesignChoiceConstants
 	 * Choice constants for workMode.
 	 * 
 	 */
-	public static final String CHOICE_VARIABLE_MODE = "variableMode"; //$NON-NLS-1$
-	public static final String VARIABLE_MODE_REPORT = "report"; //$NON-NLS-1$
-	public static final String VARIABLE_MODE_PAGE = "page"; //$NON-NLS-1$
+	public static final String CHOICE_VARIABLE_TYPE = "variableType"; //$NON-NLS-1$
+	public static final String VARIABLE_TYPE_REPORT = "report"; //$NON-NLS-1$
+	public static final String VARIABLE_TYPE_PAGE = "page"; //$NON-NLS-1$
 };

@@ -107,9 +107,9 @@ public class VariableElementHandle extends ContentElementHandle
 	 * 
 	 * @return the work mode property value.
 	 */
-	public String getWorkMode( )
+	public String getType( )
 	{
-		return getStringProperty( WORK_MODE_PROP );
+		return getStringProperty( TYPE_PROP );
 	}
 
 	/**
@@ -124,9 +124,9 @@ public class VariableElementHandle extends ContentElementHandle
 	 *            the work mode property value.
 	 * @throws SemanticException
 	 */
-	public void setWorkMode( String workMode ) throws SemanticException
+	public void setType( String workMode ) throws SemanticException
 	{
-		setStringProperty( WORK_MODE_PROP, workMode );
+		setStringProperty( TYPE_PROP, workMode );
 	}
 
 	/*

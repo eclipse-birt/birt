@@ -600,9 +600,9 @@
   	<Choice displayNameID="Choices.dynamicFilterChoice.simple" name="simple"/>
   	<Choice displayNameID="Choices.dynamicFilterChoice.advanced" name="advanced"/>
   </ChoiceType>
-  <ChoiceType name="variableMode">
-  	<Choice displayNameID="Choices.variableMode.report" name="report"/>
-  	<Choice displayNameID="Choices.variableMode.page" name="page"/>
+  <ChoiceType name="variableType">
+  	<Choice displayNameID="Choices.variableType.report" name="report"/>
+  	<Choice displayNameID="Choices.variableType.page" name="page"/>
   </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
@@ -3629,7 +3629,7 @@
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.VariableElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.VariableElement" name="VariableElement" nameSpace="(ReportDesign, variableElement)" since="2.3" xmlName="variable-element">
 	<Property displayNameID="Element.VariableElement.name" isIntrinsic="true" name="name" since="2.5" type="name" />  		
 	<Property displayNameID="Element.VariableElement.value" name="value" since="2.3" type="expression" />
-	<Property detailType="variableMode" displayNameID="Element.VariableElement.workMode" name="workMode" runtimeSettable="false" since="2.5" type="choice"/>
+	<Property detailType="variableType" displayNameID="Element.VariableElement.type" name="type" runtimeSettable="false" since="2.5" type="choice"/>
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.DataGroup" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.DataGroup" name="DataGroup" nameSpace="none" since="2.2" xmlName="data-group">
     <Property displayNameID="Element.DataGroup.groupName" name="groupName" runtimeSettable="false" since="2.3" type="string"/>

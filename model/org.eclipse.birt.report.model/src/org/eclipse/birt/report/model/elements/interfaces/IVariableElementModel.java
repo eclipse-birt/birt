@@ -31,8 +31,10 @@ public interface IVariableElementModel
 	String VALUE_PROP = "value"; //$NON-NLS-1$
 
 	/**
-	 * Name of the work mode property which indicates how this variable works.
+	 * Name of the type property which indicates how this variable works. It can
+	 * be report variable or page variable.
 	 */
-	String WORK_MODE_PROP = "workMode"; //$NON-NLS-1$
+	
+	String TYPE_PROP = "type"; //$NON-NLS-1$
 
 }

@@ -11,7 +11,7 @@
 		        <variable-element>
 		        	<property name="variableName">variable1</property>
 		            <property name="value">expression for variable</property>
-		            <property name="workMode">report</property>
+		            <property name="type">report</property>
 		        </variable-element>
 		    </property>
 	    </extended-item>

@@ -51,12 +51,12 @@ public class VariableElementParseTest extends BaseTestCase
 
 		assertEquals( "variable1", var1.getVariableName( ) ); //$NON-NLS-1$
 		assertEquals( "expression for variable", var1.getValue( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.VARIABLE_MODE_REPORT, var1
-				.getWorkMode( ) );
+		assertEquals( DesignChoiceConstants.VARIABLE_TYPE_REPORT, var1
+				.getType( ) );
 
 		var1.setVariableName( "new variable1" ); //$NON-NLS-1$
 		var1.setValue( "new expression for variable" ); //$NON-NLS-1$
-		var1.setWorkMode( DesignChoiceConstants.VARIABLE_MODE_PAGE );
+		var1.setType( DesignChoiceConstants.VARIABLE_TYPE_PAGE );
 
 		save( );
 
