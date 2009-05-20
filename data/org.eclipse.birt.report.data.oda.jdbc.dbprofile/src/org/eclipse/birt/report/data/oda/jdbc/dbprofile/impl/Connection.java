@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -50,6 +50,7 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	    // (i.e. a profile instance uses its own jarList property)
 	    IConnectionProfile dbProfile = OdaProfileExplorer.getInstance()
                                         .getProfileByName( connProperties, null );
+
 	    OdaException originalEx = null;
 	    try
         {
@@ -66,7 +67,7 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         try
         {
             if( ! isOpen() )  
-                super.open( connProperties );
+                openJdbcConnection( connProperties );
         }
         catch( OdaException ex )
         {
@@ -74,7 +75,13 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
             if( originalEx != null )
                 throw originalEx;
             throw new OdaException( Messages.connection_openFailed );
-        }       
+        }
+	}
+	
+	protected void openJdbcConnection( Properties profileProperties ) throws OdaException
+	{
+        // TODO - adapt db profile properties to oda.jdbc properties
+        super.open( profileProperties );
 	}
 	
 	/**
@@ -153,7 +160,7 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         // ignores the specified dataSetType, 
         // as this driver currently supports only one data set type, and
         // the SQB data set type supports Select statements only
-        return new DBProfileStatement( super.jdbcConn );
+        return new DBProfileStatement( getRawConnection() );
     }
 
     /**
@@ -165,6 +172,11 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         return m_dbProfile;
     }
 
+    protected java.sql.Connection getRawConnection()
+    {
+        return super.jdbcConn;
+    }
+    
     /**
      * Internal method to collect the first exception from the specified status.
      * @param status    may be null

@@ -1,6 +1,6 @@
 /**
  *************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,7 +13,6 @@
  */
 package org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl;
 
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,9 +32,9 @@ public class DBProfileStatement extends Statement
 	public static final String CONST_PARAM_NAME_DELIMITER = ","; //$NON-NLS-1$
 	public static final String PROP_PRIVATE_PARAMETERMETADATA = "parameterMetaData"; //$NON-NLS-1$
 
-	private Map<Integer, String> paramNameMap;
-	
-	public DBProfileStatement( Connection connection ) throws OdaException
+	private Map<Integer, String> m_paramNameMap;
+
+	public DBProfileStatement( java.sql.Connection connection ) throws OdaException
 	{
 		super( connection );
 	}
@@ -53,7 +52,7 @@ public class DBProfileStatement extends Statement
 		{
 			if ( value != null && value.length( ) > 0 )
 			{
-				paramNameMap = new HashMap<Integer, String>( );
+				m_paramNameMap = new HashMap<Integer, String>( );
 
 				String conditionParams = value;
 
@@ -62,7 +61,7 @@ public class DBProfileStatement extends Statement
 				{
 					String[] posAndName = params[i].split( CONST_PARAM_NAME_DELIMITER );
 					if ( posAndName.length == 2 )
-						paramNameMap.put( Integer.valueOf( posAndName[0] ),
+						m_paramNameMap.put( Integer.valueOf( posAndName[0] ),
 								posAndName[1] );
 				}
 			}
@@ -77,6 +76,12 @@ public class DBProfileStatement extends Statement
 	public IParameterMetaData getParameterMetaData( ) throws OdaException
 	{
 		IParameterMetaData metaData = super.getParameterMetaData( );
-		return new ParameterMetaData( metaData, paramNameMap );
+		return new ParameterMetaData( metaData, getParameterNameMap() );
 	}
+	
+	protected Map<Integer, String> getParameterNameMap()
+	{
+	    return m_paramNameMap;
+	}
+	
 }

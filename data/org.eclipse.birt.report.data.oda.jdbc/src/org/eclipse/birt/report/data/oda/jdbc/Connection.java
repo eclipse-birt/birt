@@ -156,7 +156,7 @@ public class Connection implements IConnection
 	 * Opens a JDBC connection using the specified url and connection properties 
 	 * @param connProperies
 	 */
-	private void connectByUrl( String url, Properties connProperties )
+	protected void connectByUrl( String url, Properties connProperties )
 			throws OdaException
 	{
 		assert connProperties != null;
@@ -235,7 +235,7 @@ public class Connection implements IConnection
 	}
 
 	@SuppressWarnings("unchecked")
-	private Collection<String> getDriverClassPath( )
+	protected Collection<String> getDriverClassPath( )
 	{
 		if ( this.appContext == null )
 			return null;
