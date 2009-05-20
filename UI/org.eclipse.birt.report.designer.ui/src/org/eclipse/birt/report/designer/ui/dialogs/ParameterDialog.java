@@ -2688,8 +2688,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				for ( int i = 0; defaultValueList != null
 						&& i < defaultValueList.size( ); i++ )
 				{
-					String value = defaultValueList.get( i )
-							.getStringExpression( );
+					Expression expr = defaultValueList.get( i );
+					String value = null;
+					if ( expr != null )
+					{
+						value = expr.getStringExpression( );
+					}
+
 					if ( choiceList != null )
 					{
 						for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
