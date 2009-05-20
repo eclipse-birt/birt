@@ -100,8 +100,8 @@ public class VariableElementHandle extends ContentElementHandle
 	 * Gets the value of work mode property.The return value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
 	 * <ul>
-	 * <li><code>VARIABLE_MODE_REPORT</code>
-	 * <li><code>VARIABLE_MODE_PAGE</code>
+	 * <li><code>VARIABLE_TYPE_REPORT</code>
+	 * <li><code>VARIABLE_TYPE_PAGE</code>
 	 * </ul>
 	 * 
 	 * 
@@ -116,8 +116,8 @@ public class VariableElementHandle extends ContentElementHandle
 	 * Sets the value of work mode property. The value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
 	 * <ul>
-	 * <li><code>VARIABLE_MODE_REPORT</code>
-	 * <li><code>VARIABLE_MODE_PAGE</code>
+	 * <li><code>VARIABLE_TYPE_REPORT</code>
+	 * <li><code>VARIABLE_TYPE_PAGE</code>
 	 * </ul>
 	 * 
 	 * @param workMode
