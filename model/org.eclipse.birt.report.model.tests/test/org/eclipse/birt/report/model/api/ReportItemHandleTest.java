@@ -26,7 +26,6 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -34,8 +33,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * Test ReportItemHandle.
  * 
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -622,34 +620,7 @@ public class ReportItemHandleTest extends BaseTestCase
 				.getElementProperty( ReportItem.DATA_SET_PROP ) );
 		assertEquals( null, textHandle.getDataSet( ) );
 	}
-
-	/**
-	 * Tests the special "vertical-align" properties of report items that reside
-	 * in cells.
-	 * 
-	 * @throws Exception
-	 */
-
-	public void testCssProperties( ) throws Exception
-	{
-		openDesign( fileName );
-
-		// vertical-align defined on the rows.
-
-		LabelHandle label = (LabelHandle) designHandle
-				.findElement( "nested label1" ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.VERTICAL_ALIGN_TOP, label
-				.getProperty( Style.VERTICAL_ALIGN_PROP ) );
-
-		label = (LabelHandle) designHandle.findElement( "nested label2" ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM, label
-				.getProperty( Style.VERTICAL_ALIGN_PROP ) );
-
-		label = (LabelHandle) designHandle.findElement( "nested label3" ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE, label
-				.getProperty( Style.VERTICAL_ALIGN_PROP ) );
-	}
-
+	
 	/**
 	 * Tests the function for adding bound data columns.
 	 * 
