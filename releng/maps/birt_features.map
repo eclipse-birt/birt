@@ -10,7 +10,7 @@ feature@org.eclipse.birt.chart.cshelp=v20090402,:pserver:anonymous@dev.eclipse.o
 feature@org.eclipse.birt.chart.doc.isv=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.doc.isv.feature
 feature@org.eclipse.birt.cshelp=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.cshelp.feature
 feature@org.eclipse.birt.doc.isv=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.isv.feature
-feature@org.eclipse.birt.doc=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.feature
+feature@org.eclipse.birt.doc=v20090521,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.feature
 feature@org.eclipse.birt.example=v20090402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.example.feature
 
 !*************** BIRT  ***********
