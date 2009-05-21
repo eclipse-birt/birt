@@ -1,9 +1,9 @@
 !*************** REPORT DESIGNER ***********
 plugin@org.eclipse.birt.report.debug.core=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.debug.core
 plugin@org.eclipse.birt.report.debug.ui=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.debug.ui
-plugin@org.eclipse.birt.report.designer.core=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.core
+plugin@org.eclipse.birt.report.designer.core=r232_v20090521,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.core
 plugin@org.eclipse.birt.report.designer.samplereports=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.samplereports
-plugin@org.eclipse.birt.report.designer.ui=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui
+plugin@org.eclipse.birt.report.designer.ui=r232_v20090521,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui
 plugin@org.eclipse.birt.report.designer.ui.cubebuilder=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.cubebuilder
 plugin@org.eclipse.birt.report.designer.ui.editor.script=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.editor.script
 plugin@org.eclipse.birt.report.designer.ui.editor.xml.wtp=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.editor.xml.wtp
@@ -15,7 +15,7 @@ plugin@org.eclipse.birt.report.designer.ui.lib.explorer=r232_20090202,:pserver:a
 plugin@org.eclipse.birt.report.designer.ui.preview=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.preview
 plugin@org.eclipse.birt.report.designer.ui.preview.static_html=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.preview.static_html
 plugin@org.eclipse.birt.report.designer.ui.preview.web=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.preview.web
-plugin@org.eclipse.birt.report.designer.ui.rcp=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.rcp
+plugin@org.eclipse.birt.report.designer.ui.rcp=r232_v20090521,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.rcp
 plugin@org.eclipse.birt.report.designer.ui.samples.ide=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.samples.ide
 plugin@org.eclipse.birt.report.designer.ui.samples.rcp=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.samples.rcp
 plugin@org.eclipse.birt.report.designer.ui.samplesview=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.samplesview
