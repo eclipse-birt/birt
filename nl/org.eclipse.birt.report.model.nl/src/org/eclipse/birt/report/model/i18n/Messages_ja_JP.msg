@@ -1931,6 +1931,7 @@ Structure.ResultSetColumn.nativeDataType=ネイティブのデータ型コード
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
 Structure.ComputedColumn.displayName=列の表示名
+Structure.ComputedColumn.displayNameID=列の表示名 ID
 Structure.ComputedColumn.expression=式
 Structure.ComputedColumn.dataType=データ型
 Structure.ComputedColumn.aggregateOn=AggregateOn 式

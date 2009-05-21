@@ -1931,6 +1931,7 @@ Structure.ResultSetColumn.nativeDataType=고유 데이터 형식 코드
 #15. ComputedColumn
 Structure.ComputedColumn.name=열 이름
 Structure.ComputedColumn.displayName=열 표시 이름
+Structure.ComputedColumn.displayNameID=열 표시 이름 ID
 Structure.ComputedColumn.expression=식
 Structure.ComputedColumn.dataType=데이터 형식
 Structure.ComputedColumn.aggregateOn=AggregateOn 식
