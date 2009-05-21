@@ -966,4 +966,20 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		assertTrue( compareFile( "CompatibleVariableNameTest_golden.xml" ) );//$NON-NLS-1$
 	}
+
+	/**
+	 * Tests the compatibility about the default value change of
+	 * layoutPreference. In 3.2.20, we change it from auto layout to fixed
+	 * layout.
+	 * 
+	 * @throws Exception
+	 */
+	public void testReportLayoutPreference( ) throws Exception
+	{
+		openDesign("CompatibleReportLayoutPreferenceTest.xml"); //$NON-NLS-1$
+		
+		save();
+		
+		assertTrue( compareFile( "CompatibleReportLayoutPreferenceTest_golden.xml" ) );//$NON-NLS-1$
+	}
 }

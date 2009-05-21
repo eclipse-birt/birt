@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
+    <property name="layoutPreference">auto layout</property>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="topMargin">1in</property>

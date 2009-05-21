@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
     <property name="createdBy">Eclipse BIRT Designer Version 1.0.0 Build &lt;20050405-1230></property>
     <property name="units">in</property>
     <list-property name="propertyBindings">

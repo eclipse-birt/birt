@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
-<ReportMetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.2.18">
+<ReportMetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.2.20">
   <ChoiceType name="fontFamil">
     <Choice name="serif" displayNameID="Choices.fontFamily.serif" />
     <Choice name="sans-serif" displayNameID="Choices.fontFamily.sans-serif" />

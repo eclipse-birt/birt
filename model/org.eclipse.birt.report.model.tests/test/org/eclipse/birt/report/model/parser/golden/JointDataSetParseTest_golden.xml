@@ -17,13 +17,6 @@
             <property name="dataSource">extendedDataSource</property>
         </oda-data-set>
         <joint-data-set name="JointDataSet" id="48">
-            <list-property name="resultSetHints">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">name</property>
-                    <property name="dataType">string</property>
-                </structure>
-            </list-property>
             <list-property name="computedColumns">
                 <structure>
                     <property name="name">column1</property>
@@ -104,7 +97,6 @@
     <body>
         <table name="table1" id="42">
             <property name="dataSet">JointDataSet</property>
-            <property name="pageBreakInterval">50</property>
         </table>
     </body>
 </report>

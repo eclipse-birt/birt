@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
     <template-parameter-definitions>
         <template-parameter-definition name="NewTemplateParameterDefinition1" id="113">
             <property name="allowedType">Grid</property>

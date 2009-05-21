@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
     <property name="refreshRate">30</property>
     <styles>
         <style name="My-Style">
@@ -85,10 +85,10 @@
         <style name="footer">
             <property name="fontSize">x-large</property>
         </style>
-        <style name="Container Style">
+        <style name="Container-Style">
             <property name="fontSize">xx-large</property>
         </style>
-        <style name="Empty Style"/>
+        <style name="Empty-Style"/>
         <style name="free-form">
             <property name="fontVariant">small-caps</property>
         </style>
@@ -132,7 +132,7 @@
             <property name="fontSize">x-small</property>
             <property name="x">999mm</property>
             <report-items>
-                <label>
+                <label name="parentLabel">
                     <property name="x">1mm</property>
                     <property name="y">2mm</property>
                     <property name="height">3mm</property>

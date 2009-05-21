@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.18">
+<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.20">
 	<components>
-		<extended-item extensionName="TestingBox" name="parent" extensionversion="3.2.18">
+		<extended-item extensionName="TestingBox" name="parent" extensionversion="3.2.20">
         	<property name="y">11.2mm</property>
         	<property name="shape">circle</property>
         	<property name="noProp">123</property>

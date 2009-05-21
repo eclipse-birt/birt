@@ -6,6 +6,7 @@
     <text-property name="title">sdfasdf</text-property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <property name="layoutPreference">auto layout</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="282">
             <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>

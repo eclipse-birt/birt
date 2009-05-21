@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
     <page-setup>
-        <graphic-master-page name="My Page" id="2">
-        	<property name="topMargin">1in</property>
-            <property name="leftMargin">1.25in</property>
-            <property name="bottomMargin">1in</property>
-            <property name="rightMargin">1.25in</property>
-        </graphic-master-page>
+        <graphic-master-page name="My Page" id="2"/>
     </page-setup>
     <body>
         <extended-item extensionName="TestingMatrix" name="matrix1" id="5">
@@ -17,24 +12,6 @@
             <property name="dataSet">firstDataSet</property>
             <property name="x">1.2mm</property>
             <property name="y">11.2mm</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">value1</property>
-                    <expression name="expression">dataSetRow["value1"]</expression>
-                </structure>
-                <structure>
-                    <property name="name">value2</property>
-                    <expression name="expression">dataSetRow["value2"]</expression>
-                </structure>
-                <structure>
-                    <property name="name">value3</property>
-                    <expression name="expression">dataSetRow["value3"]</expression>
-                </structure>
-                <structure>
-                    <property name="name">tmpValue</property>
-                    <expression name="expression">dataSetRow["tmpValue"]</expression>
-                </structure>
-            </list-property>
         </extended-item>
     </body>
 </report>

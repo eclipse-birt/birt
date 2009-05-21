@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
     <data-sources>
         <oda-data-source extensionName="TestingOdaDataSource" name="myDataSource">
             <encrypted-property name="Password">RG9Ob3RLbm93</encrypted-property>

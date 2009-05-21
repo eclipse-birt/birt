@@ -2,6 +2,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
 	<property name="eventHandlerClass">birt.js.newTableHandler</property>
     <property name="newHandlerOnEachEvent">true</property>
+    <property name="layoutPreference">auto layout</property>
     <body>
         <table id="11">
             <group id="27">

@@ -12,11 +12,15 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
+import org.eclipse.birt.report.model.util.VersionUtil;
+import org.xml.sax.SAXException;
 
 /**
  * This class provides parser state for the top-level Report element.
@@ -187,6 +191,34 @@ public class ReportState extends ModuleState
 				return new TemplateParameterDefinitionState( handler, module,
 						ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 			return super.startElement( tagName );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+	 */
+	public void end( ) throws SAXException
+	{
+		super.end( );
+
+		// in version 3.2.20, we change the default value of layoutPreference
+		// from auto to fixed, do backward-compatibility about this
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_20 )
+		{
+			ElementPropertyDefn propDefn = module
+					.getPropertyDefn( IReportDesignModel.LAYOUT_PREFERENCE_PROP );
+			assert propDefn != null;
+			String layoutPreference = (String) module.getLocalProperty( module,
+					propDefn );
+			if ( layoutPreference == null )
+			{
+				module
+						.setProperty(
+								propDefn,
+								DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT );
+			}
 		}
 	}
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.18">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
     <property name="includeResource">labelHandle</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>

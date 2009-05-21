@@ -4,4 +4,5 @@
 		<value>message</value>
 	</simple-property-list>
     <property name="cheatSheet">cheet sheet</property>
+    <property name="layoutPreference">auto layout</property>
 </report>

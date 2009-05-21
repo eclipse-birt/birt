@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
     <template-parameter-definitions>
     	<template-parameter-definition name="templateLabelParam">
     		<property name="allowedType">Label</property>

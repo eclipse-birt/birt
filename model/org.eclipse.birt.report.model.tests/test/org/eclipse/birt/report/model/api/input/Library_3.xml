@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.18">
+<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.20">
    <parameters>
         <cascading-parameter-group name="NewCascadingParameterGroup" id="8">
             <property name="dataSet">Data Set</property>

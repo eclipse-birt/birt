@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.18">
+<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.20">
     <property name="refreshRate">30</property>
     <property name="base">c:\</property>
      <page-setup>
