@@ -975,50 +975,53 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			// bugzilla 273368
 			// if expression is "measure['...']", aggregation do not support
 			// IAggrFunction.RUNNING_AGGR function
-			IAggrFunction function = getFunctionByDisplayName( cmbFunction.getText( ) );
-			IParameterDefn[] params = function.getParameterDefn( );
-			if ( params.length > 0 )
+			if ( isAggregate( ) )
 			{
-				for ( final IParameterDefn param : params )
+				IAggrFunction function = getFunctionByDisplayName( cmbFunction.getText( ) );
+				IParameterDefn[] params = function.getParameterDefn( );
+				if ( params.length > 0 )
 				{
-
-					if ( param.isDataField( ) )
+					for ( final IParameterDefn param : params )
 					{
-						Combo cmbDataField = (Combo) paramsMap.get( param.getName( ) );
-						String expression = cmbDataField.getText( );
-						DataRequestSession session = null;
-						try
+
+						if ( param.isDataField( ) )
 						{
-							session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-							if ( session.getCubeQueryUtil( )
-									.getReferencedMeasureName( expression ) != null
-									&& function.getType( ) == IAggrFunction.RUNNING_AGGR )
+							Combo cmbDataField = (Combo) paramsMap.get( param.getName( ) );
+							String expression = cmbDataField.getText( );
+							DataRequestSession session = null;
+							try
 							{
-								dialog.setCanFinish( false );
-								this.messageLine.setText( Messages.getFormattedString( "BindingDialogHelper.error.improperexpression", //$NON-NLS-1$
-										new Object[]{
-											function.getName( )
-										} ) );
-								this.messageLine.setImage( PlatformUI.getWorkbench( )
-										.getSharedImages( )
-										.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
-								return;
+								session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+								if ( session.getCubeQueryUtil( )
+										.getReferencedMeasureName( expression ) != null
+										&& function.getType( ) == IAggrFunction.RUNNING_AGGR )
+								{
+									dialog.setCanFinish( false );
+									this.messageLine.setText( Messages.getFormattedString( "BindingDialogHelper.error.improperexpression", //$NON-NLS-1$
+											new Object[]{
+												function.getName( )
+											} ) );
+									this.messageLine.setImage( PlatformUI.getWorkbench( )
+											.getSharedImages( )
+											.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
+									return;
+								}
 							}
-						}
-						catch ( BirtException e )
-						{
-						}
-						finally
-						{
-							if ( session != null )
+							catch ( BirtException e )
 							{
-								session.shutdown( );
+							}
+							finally
+							{
+								if ( session != null )
+								{
+									session.shutdown( );
+								}
 							}
 						}
 					}
 				}
 			}
-
+			
 			dialog.setCanFinish( true );
 			this.messageLine.setText( "" ); //$NON-NLS-1$
 			this.messageLine.setImage( null );
