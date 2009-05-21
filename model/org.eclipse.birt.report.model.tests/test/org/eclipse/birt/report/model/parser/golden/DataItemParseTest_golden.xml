@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+    <simple-property-list name="includeResource">
+    	<value>dataitemparse_test</value>
+    </simple-property-list>
     <data-sets>
         <oda-data-set name="MyDataSet" id="3"/>
     </data-sets>
@@ -54,6 +57,7 @@
                 <structure>
                     <property name="name">column1</property>
                     <property name="displayName">New Display Name</property>
+                    <property name="displayNameID">new display name id</property>
                     <expression name="expression">column1 expr</expression>
                     <property name="dataType">integer</property>
                     <simple-property-list name="aggregateOn">

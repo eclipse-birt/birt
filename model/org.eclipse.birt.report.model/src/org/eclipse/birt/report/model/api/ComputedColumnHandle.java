@@ -68,6 +68,43 @@ public class ComputedColumnHandle extends StructureHandle
 	}
 
 	/**
+	 * Gets column display name id.
+	 * 
+	 * @return column display name id.
+	 */
+	public String getDisplayNameID( )
+	{
+		return getStringProperty( ComputedColumn.DISPLAY_NAME_ID_MEMBER );
+	}
+
+	/**
+	 * Sets column display name id.
+	 * 
+	 * @param displayNameID
+	 *            the column display name id.
+	 * @throws SemanticException
+	 */
+	public void setDisplayNameID( String displayNameID )
+			throws SemanticException
+	{
+		setProperty( ComputedColumn.DISPLAY_NAME_ID_MEMBER, displayNameID );
+	}
+
+	/**
+	 * Returns the localized text for the computed column. If the localized text
+	 * for the text resource key is found, it will be returned. Otherwise, the
+	 * static text will be returned.
+	 * 
+	 * @return the localized display name.
+	 * 
+	 */
+	public String getDisplayText( )
+	{
+		return getExternalizedValue( ComputedColumn.DISPLAY_NAME_ID_MEMBER,
+				ComputedColumn.DISPLAY_NAME_MEMBER );
+	}
+
+	/**
 	 * Returns the column name.
 	 * 
 	 * @return the column name

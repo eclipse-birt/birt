@@ -1366,6 +1366,7 @@
   <Structure displayNameID="Structure.ComputedColumn" name="ComputedColumn" since="1.0">
     <Member displayNameID="Structure.ComputedColumn.name" name="name" runtimeSettable="false" since="1.0" type="memberKey" valueRequired="true"/>
   	<Member displayNameID="Structure.ComputedColumn.displayName" name="displayName" runtimeSettable="false" since="2.2" type="string"/>
+  	<Member displayNameID="Structure.ComputedColumn.displayNameID" name="displayNameID" runtimeSettable="false" since="2.3" type="string"/>
   	<Member context="factory" displayNameID="Structure.ComputedColumn.expression" name="expression" returnType="any" runtimeSettable="false" since="1.0" type="expression" />
   	<Member detailType="columnDataType" displayNameID="Structure.ComputedColumn.dataType" name="dataType" runtimeSettable="false" since="2.0" type="choice"/>
     <Member displayNameID="Structure.ComputedColumn.aggregateOn" name="aggregateOn" since="2.2" subType="string" type="list" />	  

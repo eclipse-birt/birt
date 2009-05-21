@@ -55,7 +55,6 @@ public class DataItemParseTest extends BaseTestCase
 {
 
 	String fileName = "DataItemParseTest.xml"; //$NON-NLS-1$
-	String outFileName = "DataItemParseTest_out.xml"; //$NON-NLS-1$
 	String goldenFileName = "DataItemParseTest_golden.xml"; //$NON-NLS-1$
 	private String semanticFile = "DataItemParseTest_1.xml"; //$NON-NLS-1$
 
@@ -123,6 +122,8 @@ public class DataItemParseTest extends BaseTestCase
 		assertEquals( "column1", column.getName( ) ); //$NON-NLS-1$
 		assertEquals( "column1 expr", column.getExpression( ) ); //$NON-NLS-1$
 		assertEquals( "Display data value", column.getDisplayName( ) );//$NON-NLS-1$
+		assertEquals( "ResourceKey.DisplayName", column.getDisplayNameID( ) );//$NON-NLS-1$
+		assertEquals( "localized test", column.getDisplayText( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, column
 				.getDataType( ) );
 		assertEquals( "column1 aggre1", column.getAggregateOn( ) ); //$NON-NLS-1$
@@ -212,6 +213,7 @@ public class DataItemParseTest extends BaseTestCase
 		ComputedColumnHandle column = (ComputedColumnHandle) columnBindings
 				.next( );
 		column.setDisplayName( "New Display Name" );//$NON-NLS-1$
+		column.setDisplayNameID( "new display name id" ); //$NON-NLS-1$
 		column
 				.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_COUNT );
 
