@@ -185,9 +185,14 @@ public class WordUtil
 	// convert valid color format from "rgb(0,0,0)" to "000000"
 	public static String parseColor( String color )
 	{
-		if ( "transparent".equalsIgnoreCase( color ) || color == null )
+		if ( "transparent".equalsIgnoreCase( color ) || color == null
+				|| color.length( ) == 0 )
 		{
 			return null;
+		}
+		if ( color.startsWith( "#" ) )
+		{
+			return color.substring( 1, Math.min( color.length( ), 7 ) );
 		}
 		else if ( color.equalsIgnoreCase( "Black" ) )
 			return "000000";
