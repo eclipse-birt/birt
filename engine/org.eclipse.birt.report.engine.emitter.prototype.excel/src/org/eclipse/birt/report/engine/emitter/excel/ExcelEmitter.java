@@ -325,24 +325,12 @@ public class ExcelEmitter extends ContentEmitterAdapter
 				FileOutputStream tempOut = new FileOutputStream( tempfilePath );
 				tempWriter = new ExcelWriter( tempOut, context );
 			}
-			outputSheetData( tempWriter );
+			outputCacheData( tempWriter );
 		}
 		catch ( Exception e )
 		{
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
-	}
-	
-	private void outputSheetData(ExcelWriter writer )
-	{
-		startSheet( writer );
-
-		for ( int count = 0; count < engine.getRowCount( ); count++ )
-		{
-			outputData( engine.getRow( count ), writer );
-		}
-
-		endSheet( writer );		
 	}
 	
 	public void end( IReportContent report )
@@ -390,9 +378,10 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	private void outputCacheData( ExcelWriter writer )
 	{
 		startSheet( writer );
-		for ( int count = 0; count < engine.getRowCount( ); count++ )
+		Iterator<RowData> it = engine.getIterator( );
+		while ( it.hasNext( ) )
 		{
-			outputData( engine.getRow( count ), writer );
+			outputRowData( it.next( ),writer );
 		}
 		endSheet( writer );
 	}
@@ -411,14 +400,15 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		writer.closeSheet( );
 	}
 
-	private void outputData( Data[] row, ExcelWriter writer )
+	private void outputRowData( RowData rowData, ExcelWriter writer )
 	{
 		
 		writer.startRow( );
 
-		for ( int i = 0; i < row.length; i++ )
+		Data[] data = rowData.getRowdata( );
+		for ( int i = 0; i < data.length; i++ )
 		{
-			writer.writeTxtData( row[i] );
+			writer.writeTxtData( data[i] );
 		}
 
 		writer.endRow( );

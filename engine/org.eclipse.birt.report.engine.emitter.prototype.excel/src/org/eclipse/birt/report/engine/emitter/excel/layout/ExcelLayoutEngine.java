@@ -5,6 +5,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.eclipse.birt.report.engine.emitter.excel.DateTimeUtil;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelEmitter;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
 import org.eclipse.birt.report.engine.emitter.excel.HyperlinkDef;
+import org.eclipse.birt.report.engine.emitter.excel.RowData;
 import org.eclipse.birt.report.engine.emitter.excel.Span;
 import org.eclipse.birt.report.engine.emitter.excel.StyleBuilder;
 import org.eclipse.birt.report.engine.emitter.excel.StyleConstant;
@@ -48,6 +50,8 @@ public class ExcelLayoutEngine
 
 	private Hashtable<String, String> links = new Hashtable<String, String>( );
 	
+	private static final double DEFAULT_ROW_HEIGHT = 15;
+	
 	ExcelContext context = null;
 
 	public ExcelLayoutEngine( PageDef page, ExcelContext context,
@@ -66,7 +70,7 @@ public class ExcelLayoutEngine
 		setCacheSize();
 		
 		ContainerSizeInfo rule = new ContainerSizeInfo( 0, page.contentwidth );
-		cache = new DataCache( MAX_COLUMN, MAX_ROW, emitter );
+		cache = new DataCache( MAX_COLUMN, MAX_ROW );
 		engine = new StyleEngine( this );
 		containers.push( createContainer( rule, page.style, null ) );
 	}
@@ -105,7 +109,7 @@ public class ExcelLayoutEngine
 		createTable( table, style, currentContainer, columnStartCoordinates );
 	}
 
-	private void createTable( TableInfo table, IStyle style,
+	private void createTable( TableInfo tableInfo, IStyle style,
 			XlsContainer currentContainer, int[] columnStartCoordinates )
 	{
 		int leftCordinate = columnStartCoordinates[0];
@@ -113,11 +117,11 @@ public class ExcelLayoutEngine
 				- leftCordinate;
 		ContainerSizeInfo sizeInfo = new ContainerSizeInfo( leftCordinate,
 				width );
-		XlsContainer container = createContainer( sizeInfo, style,
-				currentContainer );
-		XlsTable tcontainer = new XlsTable( table, container );
-		addContainer( tcontainer );
-		tables.push( tcontainer );
+		StyleEntry styleEntry = engine.createEntry( sizeInfo, style );
+		XlsTable table = new XlsTable( tableInfo, styleEntry,
+				sizeInfo, currentContainer );
+		tables.push( table );
+		addContainer( table );
 	}
 
 	private void splitColumns( int startCoordinate, int endCoordinate,
@@ -216,20 +220,22 @@ public class ExcelLayoutEngine
 	{
 		XlsTable table = tables.peek( );
 		ContainerSizeInfo cellSizeInfo = table.getColumnSizeInfo( col, colSpan );
-		addContainer( createCellContainer( cellSizeInfo, style,
-				getCurrentContainer( ), rowSpan ) );
+		XlsCell cell = new XlsCell( engine.createEntry( cellSizeInfo, style ),
+				cellSizeInfo, getCurrentContainer( ), rowSpan );
+		addContainer( cell );
 	}
 
 	public void endCell( )
 	{
-		endContainer( );
+		endNormalContainer( );
 	}
 
 	public void addRow( IStyle style )
 	{
-		XlsTable table = (XlsTable) containers.peek( );
-		XlsContainer container = createContainer( table.getSizeInfo( ), style,
-				table );
+		XlsContainer parent = getCurrentContainer( );
+		ContainerSizeInfo sizeInfo = parent.getSizeInfo( );
+		XlsContainer container = createContainer( sizeInfo, style,
+				parent );
 		container.setEmpty( false );
 		addContainer( container );
 	}
@@ -249,27 +255,32 @@ public class ExcelLayoutEngine
 		int startColumnIndex = axis.getColumnIndexByCoordinate( startCoordinate );
 		int endColumnIndex = axis.getColumnIndexByCoordinate( endCoordinate );
 
-		int max = 0;
-		int len[] = new int[endColumnIndex - startColumnIndex];
+		int maxRowIndex = 0;
+		int rowIndexes[] = new int[endColumnIndex - startColumnIndex];
 
-		for ( int i = startColumnIndex; i < endColumnIndex; i++ )
+		for ( int currentColumnIndex = startColumnIndex; currentColumnIndex < endColumnIndex; currentColumnIndex++ )
 		{			
-			int columnsize = cache.getStartRowId( i );
-			len[i - startColumnIndex] = columnsize;
-			max = max > columnsize ? max : columnsize;
+			int rowIndex = cache.getMaxRowIndex( currentColumnIndex );
+			rowIndexes[currentColumnIndex - startColumnIndex] = rowIndex;
+			maxRowIndex = maxRowIndex > rowIndex ? maxRowIndex : rowIndex;
 		}
-
-		for ( int i = startColumnIndex; i < endColumnIndex; i++ )
+		int startRowIndex = rowContainer.getRowIndex( );
+		if ( maxRowIndex == startRowIndex )
 		{
-			int rowspan = max - len[i - startColumnIndex];
-			int last = len[i - startColumnIndex] - 1;
-
+			maxRowIndex++;
+		}
+		rowContainer.setRowIndex( maxRowIndex );
+		
+		for ( int currentColumnIndex = startColumnIndex; currentColumnIndex < endColumnIndex; currentColumnIndex++ )
+		{
+			int rowspan = maxRowIndex - rowIndexes[currentColumnIndex - startColumnIndex];
 			if ( rowspan > 0 )
 			{
 				Data data = null;				
-				Data upstair = cache.getData( i, last );
-                
-				if ( upstair != null && canSpan(upstair, rowContainer) )
+				Data upstair = cache
+						.getColumnLastData( currentColumnIndex );
+				
+				if ( upstair != null && canSpan(upstair, rowContainer ) )
 				{
 					Data predata = upstair;
 					int rs = predata.getRowSpan( ) + rowspan;
@@ -279,16 +290,13 @@ public class ExcelLayoutEngine
 					{
 						blankData.decreasRowSpanInDesign( );
 					}
-					data = blankData;
-				}
-				else
-				{
-					data = new BlankData(null);
-				}
-
-				for ( int p = 0; p < rowspan; p++ )
-				{
-					cache.addData( i, data );
+					int rowIndex = predata.getRowIndex( );
+					for ( int p = 1; p <= rowspan; p++ )
+					{
+						BlankData blank = new BlankData( predata );
+						blank.setRowIndex( rowIndex + p );
+						cache.addData( currentColumnIndex, blank );
+					}
 				}
 			}
 		}
@@ -346,19 +354,33 @@ public class ExcelLayoutEngine
 		addContainer( new XlsContainer( entry, sizeInfo, parent ) );
 	}
 
-	public void addContainer( XlsContainer container )
+	private void addContainer( XlsContainer child )
 	{
-		getCurrentContainer( ).setEmpty( false );
-		int startColumnIndex = axis.getColumnIndexByCoordinate( container.getSizeInfo( ).getStartCoordinate( ) );
-		int startRowId = cache.getStartRowId( startColumnIndex );
-		container.setStartRowId( startRowId );
-		containers.push( container );
+		XlsContainer parent = child.getParent( );
+		if ( parent != null )
+		{
+			parent.setEmpty( false );
+		}
+		containers.push( child);
 	}
-
+	
 	public void endContainer( )
 	{
+		setParentContainerIndex( );
+		endNormalContainer( );
+	}
+
+	private void setParentContainerIndex( )
+	{
 		XlsContainer container = getCurrentContainer( );
-		// Make sure there is an data in a container
+		XlsContainer parent = container.getParent( );
+		if ( parent != null )
+			parent.setRowIndex( container.getRowIndex( ) );
+	}
+
+	private void endNormalContainer( )
+	{
+		XlsContainer container = getCurrentContainer( );
 		if ( container.isEmpty( ) )
 		{
 			Data data = new Data( EMPTY, container.getStyle( ), Data.STRING,
@@ -366,11 +388,10 @@ public class ExcelLayoutEngine
 			data.setSizeInfo( container.getSizeInfo( ) );
 			addData( data );
 		}
-
-		engine.removeContainerStyle( );
+		engine.applyContainerBottomStyle( );
 		containers.pop( );
 	}
-
+	
 	public void addData( Object txt, IStyle style, HyperlinkDef link, BookmarkDef bookmark )
 	{
 		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );
@@ -481,19 +502,56 @@ public class ExcelLayoutEngine
 	{
 		XlsContainer container = getCurrentContainer( );
 		container.setEmpty( false );
-		int col = axis.getColumnIndexByCoordinate( data.getRule( ).getStartCoordinate( ) );
-		int span = axis.getColumnIndexByCoordinate( data.getRule( ).getEndCoordinate( ) ) - col;
+		int col = axis.getColumnIndexByCoordinate( data.getSizeInfo( ).getStartCoordinate( ) );
+		int span = axis.getColumnIndexByCoordinate( data.getSizeInfo( ).getEndCoordinate( ) ) - col;
+		applyTopBorderStyle( data );
+		updataRowIndex( data, container );
+		// FIXME: there is a bug when this data is in middle of a row.
+		outputDataIfBufferIsFull( );
 		addDatatoCache( col, data );
-
+		Data newData = new Data( data );
 		for ( int i = col + 1; i < col + span; i++ )
 		{
-			addDatatoCache( i, BlankData.BLANK );
+			BlankData blankData = new BlankData( newData );
+			addDatatoCache( i, blankData );
 		}
-		
 		if ( container instanceof XlsCell )
 		{
 			XlsCell cell = (XlsCell)container;
 			data.setRowSpanInDesign( cell.getRowSpan( ) - 1 );
+		}
+	}
+	
+	private void updataRowIndex( Data data, XlsContainer container )
+	{
+		int rowIndex = container.getRowIndex( ) + 1;
+		data.setRowIndex( rowIndex );
+		container.setRowIndex( rowIndex );
+	}
+
+	private void outputDataIfBufferIsFull( )
+	{
+		if ( getCurrentContainer( ).getRowIndex( ) >= MAX_ROW )
+		{
+			emitter.outputSheet( );
+			cache.clearCachedSheetData( );
+			resetContainers( );
+		}
+	}
+
+	/**
+	 * @param data
+	 */
+	private void applyTopBorderStyle( Data data )
+	{
+		XlsContainer container = getCurrentContainer( );
+		int rowIndex = container.getRowIndex( );
+		XlsContainer parent = container;
+		while ( parent != null && parent.getStartRowId( ) == rowIndex )
+		{
+			StyleBuilder.applyTopBorder( parent.getStyle( ), data
+					.getStyle( ) );
+			parent = parent.getParent( );
 		}
 	}
 
@@ -504,9 +562,9 @@ public class ExcelLayoutEngine
 				sizeInfo, parent );
 	}
 
-	public XlsContainer createCellContainer( ContainerSizeInfo sizeInfo,
-			IStyle style, XlsContainer parent, int rowSpan )
+	public XlsContainer createCellContainer( IStyle style, XlsContainer parent, int rowSpan )
 	{
+		ContainerSizeInfo sizeInfo = parent.getSizeInfo( );
 		return new XlsCell( engine.createEntry( sizeInfo, style ), sizeInfo,
 				parent, rowSpan );
 	}
@@ -548,50 +606,11 @@ public class ExcelLayoutEngine
 		return axis;
 	}
 
-	public int getColumnSize( int column )
-	{		
-		return cache.getStartRowId( column );
-	}
-
-	public Data getData( int col, int row )
-	{		
-		Object object = cache.getData( col, row );
-		Data data = (Data) object;
-		if ( data == null || data.isBlank( ) )
-		{
-			return null;
-		}
-		return data;
-	}
-
-	public Data[] getRow( int rownum )
+	public Data getColumnLastData( int column )
 	{
-		Data[] row = cache.getRowData( rownum );
-		List<Data> data = new ArrayList<Data>( );
-		int width = Math.min( row.length, MAX_COLUMN - 1 );
-
-		for ( int i = 0; i < width; i++ )
-		{
-			Data d = (Data) row[i];
-			if ( d.isBlank( ) )
-			{
-				continue;
-			}
-
-			if ( d.isProcessed( ) )
-			{
-				continue;
-			}
-
-			d.setProcessed( true );
-			data.add( row[i] );
-		}
-
-		Data[] rowdata = new Data[data.size( )];
-		data.toArray( rowdata );
-		return rowdata;
+		return cache.getColumnLastData( column );
 	}
-
+	
 	private void addDatatoCache( int col, Data value )
 	{
 		cache.addData( col, value );
@@ -599,52 +618,106 @@ public class ExcelLayoutEngine
 
 	public void complete( )
 	{
-		int rowcount = cache.getMaxRow( );
-
-		for ( int i = 0; i < rowcount; i++ )
+		Iterator<Data[]> iterator = cache.getRowIterator( );
+		while ( iterator.hasNext( ) )
 		{
-			Object[] row = cache.getRowData( i );
+			Data[] rowData = iterator.next( );
 
-			for ( int j = 0; j < row.length; j++ )
+			for ( int j = 0; j < rowData.length; j++ )
 			{
-				Data d = (Data) row[j];
-				if ( d.isBlank( ) )
+				Data data = rowData[j];
+				if ( data == null || data.isBlank( ) )
 				{
 					continue;
 				}
 
-				int styleid = engine.getStyleID( d.getStyleEntry( ) );
-				d.setStyleId( styleid );
-				ContainerSizeInfo rule = d.getRule( );
-				
-				//Excel Cell Starts From 1
-				int start = axis.getColumnIndexByCoordinate( rule.getStartCoordinate( ) ) + 1;
-				int end = axis.getColumnIndexByCoordinate( rule.getEndCoordinate( ) ) + 1;
-				
+				int styleid = engine.getStyleID( data.getStyle( ) );
+				data.setStyleId( styleid );
+				ContainerSizeInfo rule = data.getSizeInfo( );
+
+				// Excel Cell Starts From 1
+				int start = axis.getColumnIndexByCoordinate( rule
+						.getStartCoordinate( ) ) + 1;
+				int end = axis.getColumnIndexByCoordinate( rule
+						.getEndCoordinate( ) ) + 1;
+
 				end = Math.min( end, MAX_COLUMN );
-				int scount = Math.max(0, end - start - 1);
-				//Excel Span Starts From 1
+				int scount = Math.max( 0, end - start - 1 );
+				// Excel Span Starts From 1
 				Span span = new Span( start, scount );
-
-				HyperlinkDef link = d.getHyperlinkDef( );
-
-				if ( link != null && link.getBookmark( ) != null )
-				{
-					// Excel cell start is 1
-					links.put( link.getBookmark( ), 
-							   getCellName( i + 1,start + 1 ) );
-				}
-
-				d.setSpan( span );
+				data.setSpan( span );
 			}
 		}
 	}
 
-	private String getCellName( int row, int col )
+	/**
+	 * 
+	 */
+	public void resetContainers( )
 	{
-		char base = (char) ( col + 64 );
-		Character chr = new Character( base );
-
-		return chr.toString( ) + row;
+		for ( XlsContainer container : containers )
+		{
+			container.setRowIndex( 0 );
+			container.setStartRowId( 0 );
+		}
+		for ( XlsTable table : tables )
+		{
+			table.setRowIndex( 0 );
+		}
 	}
+
+	public ExcelLayoutEngineIterator getIterator( )
+	{
+		return new ExcelLayoutEngineIterator( );
+	}
+
+	private class ExcelLayoutEngineIterator implements Iterator<RowData>
+	{
+
+		Iterator<Data[]> rowIterator;
+
+		public ExcelLayoutEngineIterator( )
+		{
+			rowIterator = cache.getRowIterator( );
+		}
+
+		public boolean hasNext( )
+		{
+			return rowIterator.hasNext( );
+		}
+
+		public RowData next( )
+		{
+			Data[] row = rowIterator.next( );
+			List<Data> data = new ArrayList<Data>( );
+			int width = Math.min( row.length, MAX_COLUMN - 1 );
+			double rowHeight = DEFAULT_ROW_HEIGHT;
+			for ( int i = 0; i < width; i++ )
+			{
+				Data d = row[i];
+				if ( d == null || d.isBlank( ) )
+				{
+					continue;
+				}
+
+				if ( d.isProcessed( ) )
+				{
+					continue;
+				}
+
+				d.setProcessed( true );
+				data.add( row[i] );
+			}
+
+			Data[] rowdata = new Data[data.size( )];
+			data.toArray( rowdata );
+			return new RowData( rowdata, rowHeight );
+		}
+
+		public void remove( )
+		{
+			throw new UnsupportedOperationException( );
+		}
+	}
+	
 }

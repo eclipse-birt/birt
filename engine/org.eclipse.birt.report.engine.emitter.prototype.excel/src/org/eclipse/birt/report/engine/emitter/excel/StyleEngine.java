@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
@@ -33,7 +34,7 @@ public class StyleEngine
 	private int styleID = RESERVE_STYLE_ID;	
 	private Hashtable<StyleEntry,Integer> style2id = new Hashtable<StyleEntry,Integer>( );
 	private ExcelLayoutEngine engine;
-
+	private Stack<StyleEntry> containerStyles = new Stack<StyleEntry>( );
 	/**
 	 * 
 	 * @param dataMap
@@ -72,24 +73,6 @@ public class StyleEngine
 		return entry;
 	}
 
-	public void calculateTopStyles( )
-	{
-		if ( engine.getContainers( ).size( ) > 0 )
-		{
-			XlsContainer container = engine.getCurrentContainer( );
-			StyleEntry style = container.getStyle( );
-			boolean first = style.isStart( );
-
-			if ( first )
-			{
-				ContainerSizeInfo rule = container.getSizeInfo( );
-				int start = container.getStartRowId( );
-				applyContainerTopBorder( rule, start );
-				style.setStart( false );
-			}
-		}
-	}
-
 	public StyleEntry createHorizontalStyle( ContainerSizeInfo rule )
 	{
 		StyleEntry entry = StyleBuilder.createEmptyStyleEntry( );
@@ -115,47 +98,6 @@ public class StyleEngine
 
 		return entry;
 	}
-
-	public void removeContainerStyle( )
-	{
-		calculateBottomStyles( );
-	}
-
-	public void calculateBottomStyles( )
-	{
-		if(engine.getContainers( ).size() == 0)
-		{
-			return;
-		}	
-		
-		XlsContainer container = engine.getCurrentContainer( );
-		ContainerSizeInfo rule = container.getSizeInfo( );
-		StyleEntry entry = container.getStyle( );
-
-		if ( entry.isStart( ) )
-		{
-			calculateTopStyles( );
-		}
-
-		int start = rule.getStartCoordinate( );
-		int col = engine.getAxis().getColumnIndexByCoordinate( start );
-		int span = engine.getAxis().getColumnIndexByCoordinate( rule.getEndCoordinate( ) ) - col;
-		int cp = engine.getColumnSize( col );
-
-		cp = cp > 0 ? cp - 1 : 0;
-
-		for ( int i = 0; i < span; i++ )
-		{
-			Data data = engine.getData( i + col, cp );
-			
-			if(data == null)
-			{
-				continue;
-			}	
-			
-			StyleBuilder.applyBottomBorder( entry, data.style );
-		}		
-	}	
 
 	public StyleEntry getStyle( IStyle style, ContainerSizeInfo rule )
 	{
@@ -183,30 +125,6 @@ public class StyleEngine
 		return style2id;
 	}
 
-	private void applyContainerTopBorder( ContainerSizeInfo rule, int pos )
-	{
-		if(engine.getContainers( ).size( ) == 0)
-		{
-			return;
-		}	
-		
-		XlsContainer container = engine.getCurrentContainer( );
-		StyleEntry entry = container.getStyle( );
-		int col = engine.getAxis( ).getColumnIndexByCoordinate( rule.getStartCoordinate( ) );
-		int span = engine.getAxis( ).getColumnIndexByCoordinate( rule.getEndCoordinate( ) ) - col;
-
-		for ( int i = col; i < span + col; i++ )
-		{
-			Data data = engine.getData( i, pos );			
-			
-			if(data == null || data.isBlank( ) )
-			{
-				continue;
-			}	
-			StyleBuilder.applyTopBorder( entry,	data.style );
-		}
-	}
-
 	private void applyHBorders( StyleEntry centry, StyleEntry entry,
 			ContainerSizeInfo crule, ContainerSizeInfo rule )
 	{
@@ -227,9 +145,13 @@ public class StyleEngine
 
 	private StyleEntry initStyle( IStyle style, ContainerSizeInfo rule )
 	{
-		StyleEntry entry = StyleBuilder.createStyleEntry( style );
-		
-		if(engine.getContainers( ).size( ) > 0)		
+		StyleEntry entry = StyleBuilder.createStyleEntry( style );;
+		if ( !containerStyles.isEmpty( ) )
+		{
+			StyleEntry centry = containerStyles.peek( );
+			StyleBuilder.mergeInheritableProp( centry, entry );
+		}
+		if ( engine.getContainers( ).size( ) > 0 )
 		{
 			XlsContainer container = engine.getCurrentContainer( );
 			StyleEntry cEntry = container.getStyle( );
@@ -238,5 +160,50 @@ public class StyleEngine
 		}
 
 		return entry;
+	}
+
+	public void addContainderStyle( IStyle computedStyle )
+	{
+		StyleEntry entry = StyleBuilder.createStyleEntry( computedStyle );
+		if ( !containerStyles.isEmpty( ) )
+		{
+			StyleEntry centry = containerStyles.peek( );
+			StyleBuilder.mergeInheritableProp( centry, entry );
+		}
+		containerStyles.add( entry );
+	}
+
+	public void removeForeignContainerStyle( )
+	{
+		if ( !containerStyles.isEmpty( ) )
+			containerStyles.pop( );
+	}
+
+	
+
+	/**
+	 * 
+	 */
+	public void applyContainerBottomStyle( )
+	{
+		XlsContainer container = engine.getCurrentContainer( );
+		ContainerSizeInfo rule = container.getSizeInfo( );
+		StyleEntry entry = container.getStyle( );
+		int start = rule.getStartCoordinate( );
+		int col = engine.getAxis( ).getColumnIndexByCoordinate( start );
+		int span = engine.getAxis( ).getColumnIndexByCoordinate(
+				rule.getEndCoordinate( ) )
+				- col;
+		for ( int i = 0; i < span; i++ )
+		{
+			Data data = engine.getColumnLastData( i );
+
+			if ( data == null )
+			{
+				continue;
+			}
+
+			StyleBuilder.applyBottomBorder( entry, data.style );
+		}
 	}
 }

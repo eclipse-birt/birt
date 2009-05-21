@@ -7,12 +7,12 @@ public class BlankData extends Data
 
 	private Data data;
 	
-	public static BlankData BLANK = new BlankData(null);
-	
 	public BlankData( Data data )
 	{
-		super( null, null, null );
+		super(data.getText( ), data.getStyle( ), data.getDatatype( ), data
+				.getContainer( ) );
 		this.data = data;
+		this.rowIndex = data.getRowIndex( );
 	}
 
 	public boolean isBlank()

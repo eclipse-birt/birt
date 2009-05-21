@@ -185,17 +185,17 @@ public class ExcelWriter
 		String txt = d.getText( );
 		
 		if ( CSSConstants.CSS_CAPITALIZE_VALUE.equalsIgnoreCase( d
-				.getStyleEntry( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
+				.getStyle( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
 		{
 			txt = capitalize( txt );
 		}
 		else if ( CSSConstants.CSS_UPPERCASE_VALUE.equalsIgnoreCase( d
-				.getStyleEntry( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
+				.getStyle( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
 		{
 			txt = txt.toUpperCase( );
 		}
 		else if ( CSSConstants.CSS_LOWERCASE_VALUE.equalsIgnoreCase( d
-				.getStyleEntry( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
+				.getStyle( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
 		{
 			txt = txt.toLowerCase( );
 		}

@@ -48,6 +48,13 @@ public class Data implements Serializable, Cloneable
 	
 	Logger log = Logger.getLogger( Data.class.getName( ) );
 
+	public Data( Data data )
+	{
+		this(data.getText( ), data.getStyle( ), data.getDatatype( ), data
+				.getContainer( ) );
+		this.rowIndex = data.getRowIndex( );
+	}
+	
 	public Data(final Object txt, final String datatype, XlsContainer container )
 	{
 	   this(txt, null, datatype, container );
@@ -201,12 +208,12 @@ public class Data implements Serializable, Cloneable
 		return styleId;
 	}
 	
-	public void setStyleEntry(StyleEntry entry)
+	public void setStyle(StyleEntry entry)
 	{
 		this.style = entry;
 	}
 	
-	public StyleEntry getStyleEntry()
+	public StyleEntry getStyle()
 	{
 		return style;
 	}
@@ -224,7 +231,7 @@ public class Data implements Serializable, Cloneable
 		this.sizeInfo = sizeInfo;
 	}
 	
-	public ContainerSizeInfo getRule()
+	public ContainerSizeInfo getSizeInfo()
 	{
 		return sizeInfo;
 	}
@@ -297,4 +304,17 @@ public class Data implements Serializable, Cloneable
 	{
 		rowSpanInDesign--;
 	}
+	
+	int rowIndex;
+
+	public int getRowIndex( )
+	{
+		return rowIndex;
+	}
+
+	public void setRowIndex( int rowIndex )
+	{
+		this.rowIndex = rowIndex;
+	}
+
 }
