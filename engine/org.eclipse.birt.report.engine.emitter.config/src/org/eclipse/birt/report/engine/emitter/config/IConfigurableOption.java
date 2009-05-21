@@ -80,4 +80,10 @@ public interface IConfigurableOption
 	 * Returns if this option is enabled.
 	 */
 	boolean isEnabled( );
+
+	/**
+	 * Returns if this option is dynamic, which means the change of this option
+	 * may affect the other options.
+	 */
+	boolean isDynamic( );
 }

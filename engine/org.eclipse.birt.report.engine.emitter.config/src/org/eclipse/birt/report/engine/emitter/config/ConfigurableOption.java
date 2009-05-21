@@ -43,6 +43,8 @@ public final class ConfigurableOption implements IConfigurableOption
 
 	private boolean enabled = true;
 
+	private boolean dynamic = false;
+
 	private String category;
 
 	/**
@@ -277,6 +279,16 @@ public final class ConfigurableOption implements IConfigurableOption
 	public boolean isEnabled( )
 	{
 		return enabled;
+	}
+
+	public void setDynamic( boolean isDynamic )
+	{
+		this.dynamic = isDynamic;
+	}
+
+	public boolean isDynamic( )
+	{
+		return dynamic;
 	}
 
 	public String getCategory( )
