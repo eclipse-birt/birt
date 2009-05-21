@@ -857,7 +857,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			else
 			{
 				( (GridData) paramsComposite.getLayoutData( ) ).heightHint = 0;
-				// ( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
+//				( (GridData) paramsComposite.getLayoutData( ) ).exclude = true;
 			}
 
 			// this.cmbDataField.setEnabled( function.needDataField( ) );
@@ -875,9 +875,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		else
 		{
 			( (GridData) paramsComposite.getLayoutData( ) ).heightHint = 0;
-			// ( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
+			( (GridData) paramsComposite.getLayoutData( ) ).exclude = true;
 			// new Label( argsComposite, SWT.NONE ).setText( "no args" );
 		}
+		paramsComposite.layout( true );
 		composite.layout( true );
 		setContentSize( composite );
 	}
