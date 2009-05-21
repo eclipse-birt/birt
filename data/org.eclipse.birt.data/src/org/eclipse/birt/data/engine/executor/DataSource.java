@@ -430,27 +430,29 @@ class DataSource implements IDataSource
     		session = st;
     	}
     
-		public synchronized void run( )
+		public void run( )
 		{
 			try
 			{
-				Map<ConnectionProp, Set<CacheConnection>> odaConnectionsMap = DataSource.dataEngineLevelConnectionPool
-						.remove( session );
-				if ( odaConnectionsMap == null )
-					return;
-
-				for ( Set<CacheConnection> set : odaConnectionsMap.values( ) )
+				synchronized ( DataSource.dataEngineLevelConnectionPool )
 				{
-					for ( CacheConnection conn : set )
+					Map<ConnectionProp, Set<CacheConnection>> odaConnectionsMap = DataSource.dataEngineLevelConnectionPool.remove( session );
+					if ( odaConnectionsMap == null )
+						return;
+
+					for ( Set<CacheConnection> set : odaConnectionsMap.values( ) )
 					{
-						try
+						for ( CacheConnection conn : set )
 						{
-							conn.odaConn.close( );
-						}
-						catch ( DataException e )
-						{
-							// TODO Auto-generated catch block
-							e.printStackTrace( );
+							try
+							{
+								conn.odaConn.close( );
+							}
+							catch ( DataException e )
+							{
+								// TODO Auto-generated catch block
+								e.printStackTrace( );
+							}
 						}
 					}
 				}
@@ -460,10 +462,9 @@ class DataSource implements IDataSource
 				// TODO Auto-generated catch block
 				e.printStackTrace( );
 			}
-
 		}
+	}
 
-    }
     // Information about an open oda connection
 	static private final class CacheConnection
 	{
