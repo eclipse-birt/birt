@@ -143,7 +143,7 @@ public abstract class RepeatableArea extends BlockContainerArea
 						{
 							RowDesign rowDesign = (RowDesign) content
 									.getGenerateBy( );
-							if ( rowDesign != null && rowDesign.getRepeatable( ) )
+							if ( rowDesign == null || rowDesign.getRepeatable( ) )
 							{
 								repeatList.add( area );
 							}
