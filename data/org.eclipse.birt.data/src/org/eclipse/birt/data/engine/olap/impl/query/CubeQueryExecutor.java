@@ -95,7 +95,7 @@ public class CubeQueryExecutor
 		{
 			IFilterDefinition filter = (IFilterDefinition) filters.get( i );
 			switch ( this.getFilterType( filter, dimLevelInCubeQuery ))
-			{
+			{ 
 				case CubeQueryExecutor.DIMENSION_FILTER:
 				{
 					this.dimensionFilterEvalHelpers.add( BaseDimensionFilterEvalHelper.createFilterHelper( this.outResults, this.scope,
@@ -134,13 +134,10 @@ public class CubeQueryExecutor
 		Set<DimLevel> refDimLevels = OlapExpressionCompiler.getReferencedDimLevel( filter.getExpression( ),
 				this.defn.getBindings( ) );
 
-		refDimLevels.removeAll( dimLevelInCubeQuery );
-		if ( refDimLevels.isEmpty( ) )
-		{
-			return CubeQueryExecutor.AGGR_MEASURE_FILTER;
-		}
-
-		return CubeQueryExecutor.FACTTABLE_FILTER;
+		if( refDimLevels.size( ) > 0 )
+			return CubeQueryExecutor.FACTTABLE_FILTER;
+		
+		return CubeQueryExecutor.AGGR_MEASURE_FILTER;
 	}
 	/**
 	 * 
