@@ -59,10 +59,10 @@ import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
-import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -217,6 +217,13 @@ class PropertyState extends AbstractPropertyState
 			return;
 		}
 
+		IPropertyDefn jmpDefn = null;
+
+		if ( struct != null )
+			jmpDefn = struct.getDefn( ).getMember( name );
+		else
+			jmpDefn = element.getPropertyDefn( name );
+		
 		if ( IStyledElementModel.STYLE_PROP.equalsIgnoreCase( name ) )
 		{
 			// Ensure that the element can have a style.
@@ -232,7 +239,16 @@ class PropertyState extends AbstractPropertyState
 
 			( (StyledElement) element ).setStyleName( value );
 		}
-
+		else if ( handler.versionNumber >= VersionUtil.VERSION_3_2_16
+				&& isXMLorScriptType( jmpDefn )
+				&& !ModelUtil.isExtensionPropertyOwnModel( jmpDefn ) )
+		{
+			// for the old design file, there is not necessary to do this.
+			// But for the new design file, it is necessary to escape CDATA
+			// related characters.
+			value = deEscape( (String) value );
+			setProperty( name, value );
+		}
 		else
 		{
 			setProperty( name, value );
@@ -294,28 +310,6 @@ class PropertyState extends AbstractPropertyState
 					handler, element );
 			state.setName( name );
 			return state;
-		}
-
-		// for the old design file, there is not necessary to do this. But for
-		// the new design file, it is necessary to escape CDATA related
-		// characters.
-		
-		if ( jmpDefn != null
-				&& ( jmpDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE || jmpDefn
-						.getTypeCode( ) == IPropertyType.XML_TYPE )
-				&& handler.versionNumber >= VersionUtil.VERSION_3_2_16 )
-		{
-			// do not handle extension xml representation property
-
-			if ( !( jmpDefn instanceof ExtensionPropertyDefn && ( (ExtensionPropertyDefn) jmpDefn )
-					.hasOwnModel( ) ) )
-			{
-				CompatibleCDATAPropertyState state = new CompatibleCDATAPropertyState(
-						handler, element );
-				state.setName( name );
-				return state;
-			}
-
 		}
 
 		return super.generalJumpTo( );
@@ -611,4 +605,19 @@ class PropertyState extends AbstractPropertyState
 
 		return super.versionConditionalJumpTo( );
 	}
+	
+	/**
+	 * Checks input property definition is XML or script type.
+	 * 
+	 * @param jmpDefn
+	 *            the property definition.
+	 * @return true if the input property definition is XML or script type.
+	 */
+	private boolean isXMLorScriptType( IPropertyDefn jmpDefn )
+	{
+		return jmpDefn != null
+				&& ( jmpDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE || jmpDefn
+						.getTypeCode( ) == IPropertyType.XML_TYPE );
+	}
+	
 }

@@ -57,7 +57,7 @@ class CompatibleCDATATextPropertyState extends TextPropertyState
 		// Validate the value.
 
 		String newValue = (String) valueToSet;
-		newValue = CompatibleCDATAPropertyState.deEscape( newValue );
+		newValue = deEscape( newValue );
 		
 		super.doSetProperty( propDefn, newValue );
 	}

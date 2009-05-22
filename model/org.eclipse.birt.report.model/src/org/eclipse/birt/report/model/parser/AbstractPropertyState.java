@@ -39,7 +39,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
-import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ObjectDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -609,4 +608,28 @@ public class AbstractPropertyState extends AbstractParseState
 	{
 		return null;
 	}
+
+	/**
+	 * De-escapes characters in the CDATA. Two characters are needed to convert:
+	 * 
+	 * <ul>
+	 * <li>&amp; to &
+	 * <li>]]&gt; to ]]>
+	 * </ul>
+	 * 
+	 * @param value
+	 * @return the escaped string
+	 */
+	protected String deEscape( String value )
+	{
+		if ( value == null )
+			return null;
+
+		String retValue = value.replaceAll( "]]&gt;", "]]>" ); //$NON-NLS-1$ //$NON-NLS-2$
+		retValue = retValue.replaceAll( "&amp;", "&" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		return retValue;
+	}
+
+
 }

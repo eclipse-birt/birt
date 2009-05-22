@@ -96,6 +96,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
@@ -1720,7 +1721,25 @@ public class ModelUtil
 	}
 
 	/**
-	 * Sets structure context.
+	 * Checks whether the property is extension property and this property has
+	 * its own model.
+	 * 
+	 * @param propDefn
+	 *            the property definition.
+	 * @return if the property is extension property and this property has its
+	 *         own model return <true>, otherwise return <false>.
+	 */
+	public static boolean isExtensionPropertyOwnModel( IPropertyDefn propDefn )
+	{
+		assert propDefn != null;
+
+		return propDefn instanceof ExtensionPropertyDefn
+				&& ( (ExtensionPropertyDefn) propDefn ).hasOwnModel( );
+	}
+	
+	/**
+	 * Checks whether the property is extension property and this property has
+	 * its own model.
 	 * 
 	 * @param propDefn
 	 *            the property define

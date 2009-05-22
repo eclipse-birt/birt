@@ -600,8 +600,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( value == null )
 			return null;
 
-		if ( propDefn instanceof ExtensionPropertyDefn
-				&& ( (ExtensionPropertyDefn) propDefn ).hasOwnModel( ) )
+		if ( ModelUtil.isExtensionPropertyOwnModel( propDefn ) )
 			return value;
 
 		// the sequence matters. Do not change.
