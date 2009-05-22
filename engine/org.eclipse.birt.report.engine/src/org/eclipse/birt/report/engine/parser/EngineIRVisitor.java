@@ -2566,10 +2566,6 @@ public class EngineIRVisitor extends DesignVisitor
 		StyleHandle handle = reportDesignHandle.findStyle( "report" );//$NON-NLS-1$
 		nonInheritableReportStyle = new StyleDeclaration( cssEngine );
 		inheritableReportStyle = new StyleDeclaration( cssEngine );
-		if ( handle == null )
-		{
-			return;
-		}
 
 		// Background
 		addReportDefaultPropertyValue( Style.BACKGROUND_COLOR_PROP, handle,
