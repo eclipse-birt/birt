@@ -26,6 +26,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
+import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
@@ -47,6 +48,7 @@ import org.eclipse.birt.data.engine.script.JSResultSetRow;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.JSRows;
 import org.eclipse.birt.data.engine.script.ScriptDataSetJSEventHandler;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -343,7 +345,13 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		DataSetRuntime dataSet = null;
 		if ( dataSetDefn instanceof IOdaDataSetDesign )
 		{
-			dataSet = new OdaDataSetRuntime( (IOdaDataSetDesign) dataSetDefn, queryExecutor, session );
+			IOdaDataSetDesign odaDsetDesign = (IOdaDataSetDesign) dataSetDefn;
+			IOdaDataSourceDesign odaDataSourceDesign = (IOdaDataSourceDesign) ( (DataEngineImpl) session.getEngine( ) ).getDataSourceRuntime( odaDsetDesign.getDataSourceName( ) )
+					.getDesign( );
+			
+			dataSet = new OdaDataSetRuntime( odaDsetDesign,
+					queryExecutor,
+					session );
 		}
 		else if ( dataSetDefn instanceof IScriptDataSetDesign )
 		{

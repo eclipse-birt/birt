@@ -40,6 +40,7 @@ import org.eclipse.birt.data.engine.odi.IParameterMetaData;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -48,6 +49,8 @@ import org.mozilla.javascript.Scriptable;
 public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		implements	IPreparedQuery
 {
+	private QuerySpecification querySpec;
+	
 	/**
 	 * @param dataEngine
 	 * @param queryDefn
@@ -55,7 +58,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 	 * @throws DataException
 	 */
 	PreparedOdaDSQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn,
-			IBaseDataSetDesign dataSetDesign, Map appContext )
+			IBaseDataSetDesign dataSetDesign, Map appContext, QuerySpecification querySpec )
 			throws DataException
 	{
 		super( dataEngine, queryDefn, dataSetDesign, appContext != null
@@ -63,9 +66,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		Object[] params = {
 				dataEngine, queryDefn, dataSetDesign, appContext
 		};
-		logger.entering( PreparedOdaDSQuery.class.getName( ),
-				"PreparedOdaDSQuery",
-				params );
+		this.querySpec = querySpec;
 		logger.exiting( PreparedOdaDSQuery.class.getName( ),
 				"PreparedOdaDSQuery" );
 	}
@@ -255,6 +256,10 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			String dataSetType = extDataSet.getExtensionID( );
 			String dataText = extDataSet.getQueryText( );
 			odiQuery = odiDataSource.newQuery( dataSetType, dataText, this.fromCache( ) );
+			if( odiQuery instanceof IPreparedDSQuery )
+			{
+				((IPreparedDSQuery)odiQuery).setQuerySpecification( querySpec );
+			}
 			return odiQuery;
 	 	}
 		
@@ -343,6 +348,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			assert odiPreparedQuery == null;	// should not prepare more than once
 			
 			odiPreparedQuery = odiDSQuery.prepare();
+			odiPreparedQuery.setQuerySpecification( querySpec );
 		}
 		
 		

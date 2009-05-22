@@ -17,7 +17,7 @@ package org.eclipse.birt.data.engine.odi;
 import java.util.Collection;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.StopSign;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
 /**
  * A prepared IDataSourceQuery that is ready for input parameter
@@ -126,4 +126,5 @@ public interface IPreparedDSQuery
      */
     public void close( );
 
+    public void setQuerySpecification( QuerySpecification spec );
 }

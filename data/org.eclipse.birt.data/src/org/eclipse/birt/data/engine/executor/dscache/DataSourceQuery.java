@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
 /**
  * In design time, this query will retrieve data from cache.
@@ -173,6 +174,12 @@ public class DataSourceQuery extends BaseQuery
 			datasetCache = new DataSetResultCache( session );
 
 		return datasetCache;
+	}
+
+	public void setQuerySpecification( QuerySpecification spec )
+	{
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

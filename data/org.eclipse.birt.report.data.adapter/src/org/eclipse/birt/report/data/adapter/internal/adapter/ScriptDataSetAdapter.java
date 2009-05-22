@@ -15,6 +15,7 @@ package org.eclipse.birt.report.data.adapter.internal.adapter;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
+import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 
 /**
@@ -23,14 +24,14 @@ import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
  */
 public class ScriptDataSetAdapter extends ScriptDataSetDesign
 {
-	public ScriptDataSetAdapter( ScriptDataSetHandle modelDataSet ) 
+	public ScriptDataSetAdapter( ScriptDataSetHandle modelDataSet, ModelAdapter adapter ) 
 		throws BirtException
 	{
 		super( modelDataSet.getQualifiedName( ) );
 
 		// TODO: event handler!!
 		
-		DataAdapterUtil.adaptBaseDataSet( modelDataSet, this );
+		DataAdapterUtil.adaptBaseDataSet( modelDataSet, this, adapter );
 
 		// Adapt script data set elements
 		setOpenScript( modelDataSet.getOpen( ) );

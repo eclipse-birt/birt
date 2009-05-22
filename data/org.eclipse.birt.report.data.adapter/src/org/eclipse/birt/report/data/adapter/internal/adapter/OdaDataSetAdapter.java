@@ -20,6 +20,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
+import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
@@ -39,7 +40,7 @@ public class OdaDataSetAdapter extends OdaDataSetDesign
 	 *    If null, property binding is not resolved
 	 * @throws BirtException
 	 */
-	public OdaDataSetAdapter( OdaDataSetHandle modelDataSet, Scriptable propBindingScope ) 
+	public OdaDataSetAdapter( OdaDataSetHandle modelDataSet, Scriptable propBindingScope, ModelAdapter adapter ) 
 		throws BirtException
 	{
 		super( modelDataSet.getQualifiedName( ) );
@@ -47,7 +48,7 @@ public class OdaDataSetAdapter extends OdaDataSetDesign
 		// TODO: event handler
 		
 		// Adapt base class properties
-		DataAdapterUtil.adaptBaseDataSet( modelDataSet, this );
+		DataAdapterUtil.adaptBaseDataSet( modelDataSet, this, adapter );
 
 		// Adapt extended data set elements
 

@@ -153,6 +153,8 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	// input/output parameter hints (collection of ParameterHint objects)
 	private Collection parameterHints;
     
+	private QuerySpecification querySpecificaton;
+	
 	// input parameter values
 	private Collection inputParamValues;
 	
@@ -161,6 +163,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	private ArrayList propValues;
 	
 	private DataEngineSession session;
+
 	/**
 	 * Constructor. 
 	 * 
@@ -261,12 +264,12 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
             throw new DataException( ResourceConstants.QUERY_HAS_PREPARED );
 
         // create and populate a query specification for preparing a statement
-        QuerySpecification querySpec = populateQuerySpecification();
+        populateQuerySpecification();
         
-        odaStatement = dataSource.prepareStatement( queryText, queryType, querySpec );
+        odaStatement = dataSource.prepareStatement( queryText, queryType, this.querySpecificaton );
         
         // Add custom properties to odaStatement
-        addPropertiesToPreparedStatement( querySpec );
+        addPropertiesToPreparedStatement( );
         
         // Adds input and output parameter hints to odaStatement.
         // This step must be done before odaStatement.setColumnsProjection()
@@ -401,16 +404,20 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     @SuppressWarnings("restriction")
     private QuerySpecification populateQuerySpecification() throws DataException
     {
-        QuerySpecHelper querySpecHelper = new QuerySpecHelper( dataSource.getDriverName(), queryType );
-        QuerySpecification querySpec = querySpecHelper.getFactoryHelper().createQuerySpecification();
-        
-        // add custom properties
-        addPropertiesToQuerySpec( querySpec );
-        
-        // add parameter defns
-        addParametersToQuerySpec( querySpec );
-        
-        return querySpec;
+		if ( this.querySpecificaton == null )
+		{
+			QuerySpecHelper querySpecHelper = new QuerySpecHelper( dataSource.getDriverName( ),
+					queryType );
+			this.querySpecificaton = querySpecHelper.getFactoryHelper( )
+					.createQuerySpecification( );
+		}
+		// add custom properties
+		addPropertiesToQuerySpec( querySpecificaton );
+
+		// add parameter defns
+		addParametersToQuerySpec( querySpecificaton );
+
+		return querySpecificaton;
     }
     
     /** 
@@ -439,13 +446,13 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
      * use the same properties already set in querySpec before prepare  
      */
     @SuppressWarnings("restriction")
-    private void addPropertiesToPreparedStatement( QuerySpecification querySpec ) throws DataException
+    private void addPropertiesToPreparedStatement( ) throws DataException
 	{
-        if( querySpec == null || querySpec.getProperties().isEmpty() )
+        if( this.querySpecificaton == null || this.querySpecificaton.getProperties().isEmpty() )
             return;     // no properties to add
         
     	assert odaStatement != null;
-    	Map<String,Object> propertyMap = querySpec.getProperties();
+    	Map<String,Object> propertyMap = this.querySpecificaton.getProperties();
     	Iterator<Entry<String, Object>> iter = propertyMap.entrySet().iterator();
     	while( iter.hasNext() )
     	{
@@ -1074,6 +1081,11 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 							inputValue, typeClass
 					} );
 		}
+	}
+
+	public void setQuerySpecification( QuerySpecification spec )
+	{
+		this.querySpecificaton = spec;		
 	}
     
 }

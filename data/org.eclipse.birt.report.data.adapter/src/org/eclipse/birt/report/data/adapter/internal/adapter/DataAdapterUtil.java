@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
+import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -66,7 +67,7 @@ class DataAdapterUtil
 	 * Adapts base data set properties
 	 */
 	public static void adaptBaseDataSet( DataSetHandle modelDataSet,
-			BaseDataSetDesign dteDataSet ) throws BirtException
+			BaseDataSetDesign dteDataSet, ModelAdapter adapter ) throws BirtException
 	{
 		if ( ( !( modelDataSet instanceof JointDataSetHandle ) )
 				&& modelDataSet.getDataSource( ) == null )
@@ -89,7 +90,7 @@ class DataAdapterUtil
 		
 		populateComputedColumn( modelDataSet, dteDataSet );
 
-		populateFilter( modelDataSet, dteDataSet );
+		populateFilter( modelDataSet, dteDataSet, adapter );
 
 		dteDataSet.setRowFetchLimit( modelDataSet.getRowFetchLimit( ) );
 		
@@ -212,7 +213,7 @@ class DataAdapterUtil
 	 * @param modelDataSet
 	 * @param dteDataSet
 	 */
-	private static void populateFilter( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet )
+	private static void populateFilter( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet, ModelAdapter adapter )
 	{
 		// filter conditions
 		Iterator elmtIter = modelDataSet.filtersIterator( );
@@ -222,7 +223,7 @@ class DataAdapterUtil
 			{
 				FilterConditionHandle modelFilter = ( FilterConditionHandle ) elmtIter
 						.next( );
-				dteDataSet.addFilter( new FilterAdapter( modelFilter ) );
+				dteDataSet.addFilter( adapter.adaptFilter( modelFilter ) );
 			}
 		}
 	}

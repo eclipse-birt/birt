@@ -33,7 +33,7 @@ import org.mozilla.javascript.Scriptable;
  * Base class for a top-level prepared query that has its own data source (either extended data source, or 
  * scripted data source)  
  */
-abstract class PreparedDataSourceQuery
+public abstract class PreparedDataSourceQuery
 		implements
 			IPreparedQuery,
 			IPreparedQueryService
@@ -53,7 +53,7 @@ abstract class PreparedDataSourceQuery
 	 * @param dataSetDesign
 	 * @throws DataException
 	 */
-	PreparedDataSourceQuery( DataEngineImpl dataEngine,
+	public PreparedDataSourceQuery( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn, IBaseDataSetDesign dataSetDesign,
 			Map appContext )
 			throws DataException
@@ -274,7 +274,7 @@ abstract class PreparedDataSourceQuery
 	/**
 	 * 
 	 */
-	abstract class DSQueryExecutor extends QueryExecutor
+	public abstract class DSQueryExecutor extends QueryExecutor
 	{
 
 		public DSQueryExecutor( )

@@ -14,12 +14,14 @@
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
 import java.util.Iterator;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.JoinCondition;
 import org.eclipse.birt.data.engine.api.querydefn.JointDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 import org.eclipse.birt.report.model.api.JoinConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -29,7 +31,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  */
 public class JointDataSetAdapter extends JointDataSetDesign
 {
-	public JointDataSetAdapter( JointDataSetHandle handle ) throws BirtException
+	public JointDataSetAdapter( JointDataSetHandle handle, ModelAdapter adapter ) throws BirtException
 	{
 		super( handle.getQualifiedName( ));
 		
@@ -53,7 +55,7 @@ public class JointDataSetAdapter extends JointDataSetDesign
 			setJoinType( adaptJoinType(jc.getJoinType()) );
 		}
 		
-		DataAdapterUtil.adaptBaseDataSet( handle, this );
+		DataAdapterUtil.adaptBaseDataSet( handle, this, adapter );
 	}
 
 	/**

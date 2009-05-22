@@ -61,4 +61,17 @@ public interface IBaseExpression
      * @deprecated
      */
     public String getGroupName( ); 
+    
+    /**
+     * Return scriptId of the expression. The value of script id will be used to 
+     * determine by which script engine the script should be evaluated against.
+     */
+    public String getScriptId();
+
+    /**
+     * Set the script id of the expression. For javascript expression, the id could be
+     * "javascript".
+     */
+    public void setScriptId( String scriptId );
+
 }

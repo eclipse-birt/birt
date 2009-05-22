@@ -115,14 +115,14 @@ public class ModelAdapter implements IModelAdapter
 			Scriptable propBindingScope = context.hasExternalScope() ?
 					context.getTopScope() : null;
 			return new OdaDataSetAdapter( ( OdaDataSetHandle ) handle,
-					propBindingScope );
+					propBindingScope, this );
 		}
 		
 		if ( handle instanceof ScriptDataSetHandle )
-			return new ScriptDataSetAdapter( ( ScriptDataSetHandle ) handle);
+			return new ScriptDataSetAdapter( ( ScriptDataSetHandle ) handle, this );
 		
 		if ( handle instanceof JointDataSetHandle )
-			return new JointDataSetAdapter( (JointDataSetHandle) handle);
+			return new JointDataSetAdapter( (JointDataSetHandle) handle, this );
 
 		// other types are not supported
 		assert false;

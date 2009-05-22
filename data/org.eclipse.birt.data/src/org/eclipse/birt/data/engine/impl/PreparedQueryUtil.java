@@ -71,12 +71,13 @@ import org.eclipse.birt.data.engine.impl.document.QueryResults;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.mozilla.javascript.Scriptable;
 
 /**
  * Create concreate class of IPreparedQuery
  */
-class PreparedQueryUtil
+public class PreparedQueryUtil
 {
 	private static final int BASED_ON_DATASET = 2;
 	private static final int BASED_ON_PRESENTATION = 3;
@@ -92,7 +93,7 @@ class PreparedQueryUtil
 	 * @return PreparedReportQuery
 	 * @throws DataException
 	 */
-	static IPreparedQuery newInstance( DataEngineImpl dataEngine,
+	public static IPreparedQuery newInstance( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn, Map appContext ) throws DataException
 	{
 		assert dataEngine != null;
@@ -158,10 +159,12 @@ class PreparedQueryUtil
 			}
 			else
 			{
+				QuerySpecification querySpec = OdaQueryOptimizationUtil.optimizeExecution( dataEngine.getContext( )
+						.getScriptContext( ), dataEngine.getDataSourceRuntime( dset.getDataSourceName( ) ).getExtensionID( ), (IOdaDataSetDesign)dset, queryDefn );
 				preparedQuery = new PreparedOdaDSQuery( dataEngine,
 						queryDefn,
 						dset,
-						appContext );
+						appContext, querySpec );
 			}
 		}
 		else if ( dset instanceof IJointDataSetDesign )

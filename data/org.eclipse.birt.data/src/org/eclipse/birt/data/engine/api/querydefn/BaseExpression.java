@@ -26,7 +26,7 @@ public abstract class BaseExpression implements IBaseExpression
     protected int			dataType;
     protected Object		handle;
     private String groupName = GROUP_OVERALL;
-    
+    private String scriptId = null;
     /**
      * Constructs an instance with unknown data type
      */
@@ -102,5 +102,15 @@ public abstract class BaseExpression implements IBaseExpression
 	public String getGroupName( )
 	{
 		return this.groupName;
+	}
+	
+	public String getScriptId( )
+	{
+		return this.scriptId;
+	}
+	
+	public void setScriptId( String scriptId )
+	{
+		this.scriptId = scriptId;
 	}
 }
