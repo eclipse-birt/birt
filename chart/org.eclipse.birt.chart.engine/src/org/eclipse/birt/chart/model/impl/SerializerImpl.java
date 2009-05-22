@@ -466,8 +466,4 @@ public class SerializerImpl implements Serializer
 		return (ChartPreferences) rChart.getContents( ).get( 0 );
 	}
 
-	public Chart optimize( Chart cm )
-	{
-		return cm;
-	}
 }

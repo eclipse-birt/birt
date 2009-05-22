@@ -334,9 +334,6 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			ChartReportItemImpl crii, Chart cmOld, Chart cmNew,
 			String outputFormat, boolean bInheritColumnsOnly )
 	{
-		// Optimizer the chart.
-		cmNew = crii.getSerializer( ).optimize( cmNew );
-
 		// Revise chart version to current.
 		ChartUtil.reviseVersion( cmNew );
 		
