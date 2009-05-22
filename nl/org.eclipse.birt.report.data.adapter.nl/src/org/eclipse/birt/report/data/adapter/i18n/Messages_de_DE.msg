@@ -31,6 +31,6 @@ invalid.level.expression=Der Ebenenname "{0}" wurde nicht gefunden.
 invalid.measure.expression=Der Ausdruck für die Maßeinheit "{0}" darf nicht Null sein.
 invalid.data.type=Ungültiger Datentyp: {0}. 
 
-cube.error.createhierarchy=Error happens when create hierarchy:{0}.
-cube.error.createdimension=Error happens when create dimension:{0}.
-cube.error.createmeasure=Error happens when create measure.
+cube.error.createhierarchy=Fehler beim Erstellen von Hierarchie:{0}.
+cube.error.createdimension=Fehler beim Erstellen von Dimension:{0}.
+cube.error.createmeasure=Fehler beim Erstellen von Maßeinheit.

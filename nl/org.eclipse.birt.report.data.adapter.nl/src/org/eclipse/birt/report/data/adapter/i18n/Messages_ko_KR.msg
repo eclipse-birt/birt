@@ -31,6 +31,6 @@ invalid.level.expression=수준 이름 "{0}"을(를) 찾을 수 없습니다.
 invalid.measure.expression=측정값 "{0}"의 측정값 식은 널(null)일 수 없습니다.
 invalid.data.type=잘못된 데이터 형식: {0}. 
 
-cube.error.createhierarchy=Error happens when create hierarchy:{0}.
-cube.error.createdimension=Error happens when create dimension:{0}.
-cube.error.createmeasure=Error happens when create measure.
+cube.error.createhierarchy=계층 생성 도중 {0} 오류가 발생했습니다.
+cube.error.createdimension=차원 생성 도중 {0} 오류가 발생했습니다.
+cube.error.createmeasure=측정값 생성 도중 오류가 발생했습니다.

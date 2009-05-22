@@ -288,7 +288,7 @@ odaconsumer.CannotGetTimestampFromColumn=타임스탬프 값 열을 가져올 수 없습니다: 
 odaconsumer.CannotGetClobFromColumn=열에서 CLOB 값을 가져올 수 없습니다: {0}.
 odaconsumer.CannotGetBlobFromColumn=열에서 BLOB 값을 가져올 수 없습니다: {0}.
 odaconsumer.CannotGetBooleanFromColumn=열에서 부울 값을 가져올 수 없습니다: {0}.
-odaconsumer.CannotGetObjectFromColumn=Cannot get the object value from column: {0}.
+odaconsumer.CannotGetObjectFromColumn=열에서 개체 값을 가져올 수 없습니다: {0}.
 odaconsumer.CannotGetRowPosition=현재 행 위치를 가져올 수 없습니다.
 odaconsumer.CannotCloseResultSet=결과 집합을 닫을 수 없습니다.
 odaconsumer.CannotGetParameterCount=매개 변수 수를 가져올 수 없습니다.
@@ -302,7 +302,7 @@ odaconsumer.CannotGetTimestampFromParameter=매개 변수에서 타임스탬프 값을 가져올
 odaconsumer.CannotGetBlobFromParameter=매개 변수에서 BLOB 값을 가져올 수 없습니다: {0}.
 odaconsumer.CannotGetClobFromParameter=매개 변수에서 CLOB 값을 가져올 수 없습니다: {0}.
 odaconsumer.CannotGetBooleanFromParameter=매개 변수에서 부울 값을 가져올 수 없습니다: {0}.
-odaconsumer.CannotGetObjectFromParameter=Cannot get the object value from parameter: {0}.
+odaconsumer.CannotGetObjectFromParameter=매개 변수에서 개체 값을 가져올 수 없습니다: {0}.
 odaconsumer.CannotFindInParameter=입력 매개 변수를 찾을 수 없습니다: {0}.
 odaconsumer.CannotSetIntParameter=매개 변수 {1}에 대한 정수 값({0})을 설정할 수 없습니다.
 odaconsumer.CannotSetDoubleParameter=매개 변수 {1}에 대한 실수 값({0})을 설정할 수 없습니다.
@@ -312,7 +312,7 @@ odaconsumer.CannotSetDateParameter=매개 변수 {1}에 대한 날짜 값({0})을 설정할 수
 odaconsumer.CannotSetTimeParameter=매개 변수 {1}에 대한 시간 값({0})을 설정할 수 없습니다.
 odaconsumer.CannotSetTimestampParameter=매개 변수 {1}에 대한 타임스탬프 값({0})을 설정할 수 없습니다.
 odaconsumer.CannotSetBooleanParameter=매개 변수 {1}에 대한 부울 값({0})을 설정할 수 없습니다.
-odaconsumer.CannotSetObjectParameter=Cannot set the object value ({0}) to parameter {1}.
+odaconsumer.CannotSetObjectParameter=매개 변수 {1}에 대한 개체 값({0})을 설정할 수 없습니다.
 odaconsumer.CannotSetNullParameter=매개 변수 {0}에 대한 널(null) 값을 설정할 수 없습니다.
 odaconsumer.CannotClearInParameters=입력 매개 변수 값을 지울 수 없습니다.
 odaconsumer.UnrecognizedOdaType=인식할 수 없는 ODA 데이터 형식입니다: {0}
@@ -323,7 +323,7 @@ odaconsumer.MustSpecifyColumnName=열 힌트를 추가할 때 열 이름을 지정해야 합니다.
 odaconsumer.CannotFindLogDirectory=로그 디렉터리를 찾을 수 없습니다.
 odaconsumer.ParameterNames=\n모델 이름({0}) 및 드라이버 정의 이름({1})으로 정의된 매개 변수.
 odaconsumer.InvalidArgument=메서드({0})가 잘못된 인수({1})로 호출되었습니다.
-odaconsumer.CannotSetConnectionLocale=Unable to set connection locale ({0}).
+odaconsumer.CannotSetConnectionLocale=연결 로케일({0})을 설정할 수 없습니다.
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=executeQuery()를 호출한 후 결과 집합을 이름별로 가져올 수 없습니다.
 odaconsumer.manager.CannotSetParamBeforePrepare=입력 매개 변수를 설정하려면 문을 준비해야 합니다.
@@ -406,14 +406,14 @@ data.executor.configFileParser.getParametersByID=구성 파일의 지정된 데이터 집합 
 
 data.aggregation.expression.displayName=식
 data.aggregation.argumentError=집계 \"{1}\"에 대한 인수 \"{0}\"의 식이 널(null)이거나 비어 있습니다!
-data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can not be such type: "{0}".
+data.olap.InvalidAggrTypeOnMeasure=큐브 측정값의 집계는 "{0}" 유형이 될 수 없습니다.
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=The column \"{0}\" does not exist!
 data.derivedDataSet.UnionQueryTextParseError="통합 쿼리를 구문 분석하지 못했습니다. \"{0}\""
 data.derivedDataSet.JoinQueryTextParseError="조인 쿼리를 구문 분석하지 못했습니다. \"{0}\""
 
-data.derivedDataSet.illegalClassInstance=Illegal class instance to initialize.
-data.derivedDataSet.classLoadError=Fail to load class instance.
-data.derivedDataSet.calculatorNotExist=Calculator is not defined or can not be found.
-data.derivedDataSet.invalidQueryText=Invalid query text.
+data.derivedDataSet.illegalClassInstance=초기화할 클래스 인스턴스가 잘못되었습니다.
+data.derivedDataSet.classLoadError=클래스 인스턴스를 로드하지 못했습니다.
+data.derivedDataSet.calculatorNotExist=계산기가 정의되지 않았거나 찾을 수 없습니다.
+data.derivedDataSet.invalidQueryText=잘못된 쿼리 텍스트입니다.

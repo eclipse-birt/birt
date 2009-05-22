@@ -288,7 +288,7 @@ odaconsumer.CannotGetTimestampFromColumn=Impossible d''obtenir la valeur d'horod
 odaconsumer.CannotGetClobFromColumn=Impossible d''obtenir la valeur CLOB depuis la colonne : {0}.
 odaconsumer.CannotGetBlobFromColumn=Impossible d''obtenir la valeur BLOB depuis la colonne : {0}.
 odaconsumer.CannotGetBooleanFromColumn=Impossible d''obtenir la valeur booléenne depuis la colonne : {0}.
-odaconsumer.CannotGetObjectFromColumn=Cannot get the object value from column: {0}.
+odaconsumer.CannotGetObjectFromColumn=Impossible d''obtenir la valeur de l''objet depuis la colonne : {0}.
 odaconsumer.CannotGetRowPosition=Impossible d''obtenir la position de la ligne actuelle.
 odaconsumer.CannotCloseResultSet=Impossible de fermer le jeu de résultats.
 odaconsumer.CannotGetParameterCount=Impossible d''obtenir le nombre de paramètres.
@@ -302,7 +302,7 @@ odaconsumer.CannotGetTimestampFromParameter=Impossible d''obtenir la valeur d'ho
 odaconsumer.CannotGetBlobFromParameter=Impossible d''obtenir la valeur BLOB depuis le paramètre : {0}.
 odaconsumer.CannotGetClobFromParameter=Impossible d''obtenir la valeur CLOB depuis le paramètre : {0}.
 odaconsumer.CannotGetBooleanFromParameter=Impossible d''obtenir la valeur booléenne depuis le paramètre : {0}.
-odaconsumer.CannotGetObjectFromParameter=Cannot get the object value from parameter: {0}.
+odaconsumer.CannotGetObjectFromParameter=Impossible d''obtenir la valeur de l''objet depuis le paramètre : {0}.
 odaconsumer.CannotFindInParameter=Le paramètre d'entrée est introuvable : {0}.
 odaconsumer.CannotSetIntParameter=Impossible de définir la valeur d'entier ({0}) du paramètre {1}.
 odaconsumer.CannotSetDoubleParameter=Impossible de définir la valeur de double ({0}) du paramètre {1}.
@@ -312,7 +312,7 @@ odaconsumer.CannotSetDateParameter=Impossible de définir la valeur de date ({0})
 odaconsumer.CannotSetTimeParameter=Impossible de définir la valeur temporelle ({0}) du paramètre {1}.
 odaconsumer.CannotSetTimestampParameter=Impossible de définir la valeur d'horodatage ({0}) du paramètre {1}.
 odaconsumer.CannotSetBooleanParameter=Impossible de définir la valeur booléenne ({0}) du paramètre {1}.
-odaconsumer.CannotSetObjectParameter=Cannot set the object value ({0}) to parameter {1}.
+odaconsumer.CannotSetObjectParameter=Impossible de définir la valeur de l''objet ({0}) du paramètre {1}.
 odaconsumer.CannotSetNullParameter=Impossible d''attribuer une valeur nulle au paramètre {0}.
 odaconsumer.CannotClearInParameters=Impossible d''effacer les valeurs de paramètre d'entrée.
 odaconsumer.UnrecognizedOdaType=Type de données ODA non reconnu : {0}
@@ -323,7 +323,7 @@ odaconsumer.MustSpecifyColumnName=Un nom de colonne doit être spécifié lors de l
 odaconsumer.CannotFindLogDirectory=Le répertoire du journal est introuvable.
 odaconsumer.ParameterNames=\nParamètre défini avec le nom de modèle ({0}) et avec le nom défini par le pilote ({1}).
 odaconsumer.InvalidArgument=La méthode ({0}) a été appelée avec un argument non valide ({1}).
-odaconsumer.CannotSetConnectionLocale=Unable to set connection locale ({0}).
+odaconsumer.CannotSetConnectionLocale=Impossible de définir l''endroit de la connexion ({0}).
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=Impossible d''obtenir les jeux de résultats par nom après l'appel de executeQuery().
 odaconsumer.manager.CannotSetParamBeforePrepare=Impossible de définir les paramètres d'entrée avant que l'instruction n'ait été préparée.
@@ -406,14 +406,14 @@ data.executor.configFileParser.getParametersByID=Impossible d''obtenir les param
 
 data.aggregation.expression.displayName=Expression
 data.aggregation.argumentError=L'expression de l'argument \"{0}\" de l'agrégation \"{1}\" est nulle ou vide.
-data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can not be such type: "{0}".
+data.olap.InvalidAggrTypeOnMeasure=L''agrégation sur la mesure de cube ne peut pas être du type : "{0}".
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=The column \"{0}\" does not exist!
 data.derivedDataSet.UnionQueryTextParseError="Impossible d'analyser la requête Union. \"{0}\""
 data.derivedDataSet.JoinQueryTextParseError="Impossible d'analyser la requête Join. \"{0}\""
 
-data.derivedDataSet.illegalClassInstance=Illegal class instance to initialize.
-data.derivedDataSet.classLoadError=Fail to load class instance.
-data.derivedDataSet.calculatorNotExist=Calculator is not defined or can not be found.
-data.derivedDataSet.invalidQueryText=Invalid query text.
+data.derivedDataSet.illegalClassInstance=Initialisation d'une instance de classe incorrecte.
+data.derivedDataSet.classLoadError=Echec du chargement de l'instance de classe.
+data.derivedDataSet.calculatorNotExist=Le calcul n'est pas défini ou est introuvable.
+data.derivedDataSet.invalidQueryText=Texte de la requête incorrect.

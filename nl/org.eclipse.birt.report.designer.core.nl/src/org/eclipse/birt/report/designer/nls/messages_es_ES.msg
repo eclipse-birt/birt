@@ -329,7 +329,7 @@ CascadingParametersDialog.display.controlType.comboBox=Cuadro combinado
 CascadingParametersDialog.display.controlType.listBox=Cuadro de lista
 CascadingParametersDialog.Label.button.changeFormat=Camb&iar...
 CascadingParametersDialog.Label.button.createNew.dataset=Crear nue&vo...
-CascadingParametersDialog.Label.cascadingParam.name=Cascading Paramete&r Group Name:
+CascadingParametersDialog.Label.cascadingParam.name=Nombre de grupo de pa&rámetros en cascada:
 CascadingParametersDialog.Label.column.displayText=Mostrar texto
 CascadingParametersDialog.Label.column.dataSet=Conjunto de datos
 CascadingParametersDialog.Label.column.name=Nombre
@@ -363,8 +363,8 @@ CascadingParametersDialog.Choice.SelectValue=<Seleccionar valor...>
 CascadingParametersDialog.Button.Add=&Añadir
 CascadingParametersDialog.Button.Edit=Ed&itar
 CascadingParametersDialog.Button.Delete=Elimi&nar
-CascadingParametersDialog.Title.AddCascadingParameter=Add Cascading Parameter Group
-CascadingParametersDialog.Title.EditCascadingParameter=Edit Cascading Parameter Group
+CascadingParametersDialog.Title.AddCascadingParameter=Añadir grupo de parámetros en cascada
+CascadingParametersDialog.Title.EditCascadingParameter=Editar grupo de parámetros en cascada
 CascadingParametersDialog.items.None=<Ninguno>
 
 ###########################################################
@@ -2278,7 +2278,7 @@ LibrariesNodeProvider.DisplayLabel.Libraries=Librerías
 ###########################################################
 #LibraryExplorerView properties
 
-LibraryExplorerView.defaultText.notAvailable=Resources are not available.
+LibraryExplorerView.defaultText.notAvailable=Los recursos no están disponibles.
 
 ###########################################################
 #LibraryExplorerProvider properties
@@ -2882,9 +2882,9 @@ ParameterGroupProcess.text.Show=muestra la página del editor de fuente de datos
 ###########################################################
 #ParameterNodeProvider properties
 
-ParameterNodeProvider.dial.title.editCascading=Edit Cascading Parameter Group
+ParameterNodeProvider.dial.title.editCascading=Editar grupo de parámetros en cascada
 ParameterNodeProvider.dial.title.editScalar=Editar parámetro
-ParameterNodeProvider.dial.title.newCascading=New Cascading Parameter Group
+ParameterNodeProvider.dial.title.newCascading=Nuevo grupo de parámetros en cascada
 ParameterNodeProvider.menu.text.edit=&Editar
 ParameterNodeProvider.menu.text.new=Nuevo parámetro
 
@@ -2911,7 +2911,7 @@ parameters.menuItem.reset=Restablecer
 
 ParametersNodeProvider.dialogue.title.group=Nuevo grupo de parámetros
 ParametersNodeProvider.dialogue.title.parameter=Nuevo parámetro
-ParametersNodeProvider.menu.text.cascadingParameter=New Casca&ding Parameter Group
+ParametersNodeProvider.menu.text.cascadingParameter=Nuevo grupo de parámetros en casca&da
 ParametersNodeProvider.menu.text.group=Nu&evo grupo de parámetros
 ParametersNodeProvider.menu.text.parameter=Nuevo p&arámetro
 

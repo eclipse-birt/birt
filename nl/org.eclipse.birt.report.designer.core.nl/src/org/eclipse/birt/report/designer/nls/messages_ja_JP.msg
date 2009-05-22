@@ -329,7 +329,7 @@ CascadingParametersDialog.display.controlType.comboBox=コンボボックス
 CascadingParametersDialog.display.controlType.listBox=リストボックス
 CascadingParametersDialog.Label.button.changeFormat=変更(&G)...
 CascadingParametersDialog.Label.button.createNew.dataset=新規作成(&W)...
-CascadingParametersDialog.Label.cascadingParam.name=Cascading Paramete&r Group Name:
+CascadingParametersDialog.Label.cascadingParam.name=カスケードパラメタグループ名(&R) :
 CascadingParametersDialog.Label.column.displayText=表示テキスト
 CascadingParametersDialog.Label.column.dataSet=データセット
 CascadingParametersDialog.Label.column.name=名前
@@ -363,8 +363,8 @@ CascadingParametersDialog.Choice.SelectValue=<値の選択...>
 CascadingParametersDialog.Button.Add=追加(&A)
 CascadingParametersDialog.Button.Edit=編集(&D)
 CascadingParametersDialog.Button.Delete=削除(&T)
-CascadingParametersDialog.Title.AddCascadingParameter=Add Cascading Parameter Group
-CascadingParametersDialog.Title.EditCascadingParameter=Edit Cascading Parameter Group
+CascadingParametersDialog.Title.AddCascadingParameter=カスケードパラメタグループの追加
+CascadingParametersDialog.Title.EditCascadingParameter=カスケードパラメタグループの編集
 CascadingParametersDialog.items.None=<なし>
 
 ###########################################################
@@ -2278,7 +2278,7 @@ LibrariesNodeProvider.DisplayLabel.Libraries=ライブラリ
 ###########################################################
 #LibraryExplorerView properties
 
-LibraryExplorerView.defaultText.notAvailable=Resources are not available.
+LibraryExplorerView.defaultText.notAvailable=リソースがありません。
 
 ###########################################################
 #LibraryExplorerProvider properties
@@ -2882,9 +2882,9 @@ ParameterGroupProcess.text.Show=このデータソースのエディタページを表示します。
 ###########################################################
 #ParameterNodeProvider properties
 
-ParameterNodeProvider.dial.title.editCascading=Edit Cascading Parameter Group
+ParameterNodeProvider.dial.title.editCascading=カスケードパラメタグループの編集
 ParameterNodeProvider.dial.title.editScalar=パラメタの編集
-ParameterNodeProvider.dial.title.newCascading=New Cascading Parameter Group
+ParameterNodeProvider.dial.title.newCascading=カスケードパラメタグループの新規作成
 ParameterNodeProvider.menu.text.edit=編集(&E)
 ParameterNodeProvider.menu.text.new=パラメタの新規作成
 
@@ -2911,7 +2911,7 @@ parameters.menuItem.reset=リセット
 
 ParametersNodeProvider.dialogue.title.group=パラメタグループの新規作成
 ParametersNodeProvider.dialogue.title.parameter=パラメタの新規作成
-ParametersNodeProvider.menu.text.cascadingParameter=New Casca&ding Parameter Group
+ParametersNodeProvider.menu.text.cascadingParameter=カスケードパラメタグループの新規作成(&D)
 ParametersNodeProvider.menu.text.group=パラメタグループの新規作成(&M)
 ParametersNodeProvider.menu.text.parameter=パラメタの新規作成(&A)
 

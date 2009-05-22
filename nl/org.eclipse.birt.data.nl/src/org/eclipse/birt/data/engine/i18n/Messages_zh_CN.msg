@@ -288,7 +288,7 @@ odaconsumer.CannotGetTimestampFromColumn=ÎŞ·¨´ÓÁĞÖĞ»ñµÃÊ±¼ä´ÁÖµ: {0}¡£
 odaconsumer.CannotGetClobFromColumn=ÎŞ·¨´ÓÁĞÖĞ»ñµÃ CLOB Öµ: {0}¡£
 odaconsumer.CannotGetBlobFromColumn=ÎŞ·¨´ÓÁĞÖĞ»ñµÃ BLOB Öµ: {0}¡£
 odaconsumer.CannotGetBooleanFromColumn=ÎŞ·¨´ÓÁĞÖĞ»ñµÃ²¼¶ûÖµ: {0}¡£
-odaconsumer.CannotGetObjectFromColumn=Cannot get the object value from column: {0}.
+odaconsumer.CannotGetObjectFromColumn=ÎŞ·¨´ÓÁĞÖĞ»ñµÃ¶ÔÏóÖµ: {0}¡£
 odaconsumer.CannotGetRowPosition=ÎŞ·¨»ñÈ¡µ±Ç°ĞĞÎ»ÖÃ¡£
 odaconsumer.CannotCloseResultSet=ÎŞ·¨¹Ø±Õ½á¹û¼¯¡£
 odaconsumer.CannotGetParameterCount=ÎŞ·¨»ñÈ¡²ÎÊı¼ÆÊı¡£
@@ -302,7 +302,7 @@ odaconsumer.CannotGetTimestampFromParameter=ÎŞ·¨´Ó²ÎÊıÖĞ»ñµÃÊ±¼ä´ÁÖµ: {0}¡£
 odaconsumer.CannotGetBlobFromParameter=ÎŞ·¨´Ó²ÎÊıÖĞ»ñµÃ BLOB Öµ: {0}¡£
 odaconsumer.CannotGetClobFromParameter=ÎŞ·¨´Ó²ÎÊıÖĞ»ñµÃ CLOB Öµ: {0}¡£
 odaconsumer.CannotGetBooleanFromParameter=ÎŞ·¨´Ó²ÎÊıÖĞ»ñµÃ²¼¶ûÖµ: {0}¡£
-odaconsumer.CannotGetObjectFromParameter=Cannot get the object value from parameter: {0}.
+odaconsumer.CannotGetObjectFromParameter=ÎŞ·¨´Ó²ÎÊıÖĞ»ñµÃ¶ÔÏóÖµ: {0}¡£
 odaconsumer.CannotFindInParameter=ÎŞ·¨ÕÒµ½ÊäÈë²ÎÊı: {0}¡£
 odaconsumer.CannotSetIntParameter=ÎŞ·¨½«ÕûÊıÖµ({0})ÉèÖÃÎª²ÎÊı {1}¡£
 odaconsumer.CannotSetDoubleParameter=ÎŞ·¨½«Ë«¾«¶ÈÖµ({0})ÉèÖÃÎª²ÎÊı {1}¡£
@@ -312,7 +312,7 @@ odaconsumer.CannotSetDateParameter=ÎŞ·¨½«ÈÕÆÚÖµ({0})ÉèÖÃÎª²ÎÊı {1}¡£
 odaconsumer.CannotSetTimeParameter=ÎŞ·¨½«Ê±¼äÖµ({0})ÉèÖÃÎª²ÎÊı {1}¡£
 odaconsumer.CannotSetTimestampParameter=ÎŞ·¨½«Ê±¼ä´ÁÖµ({0})ÉèÖÃÎª²ÎÊı {1}¡£
 odaconsumer.CannotSetBooleanParameter=ÎŞ·¨½«²¼¶ûÖµ({0})ÉèÖÃÎª²ÎÊı {1}¡£
-odaconsumer.CannotSetObjectParameter=Cannot set the object value ({0}) to parameter {1}.
+odaconsumer.CannotSetObjectParameter=ÎŞ·¨½«¶ÔÏóÖµ ({0}) ÉèÎª²ÎÊı {1}¡£
 odaconsumer.CannotSetNullParameter=ÎŞ·¨½«¿ÕÖµÉèÖÃÎª²ÎÊı {0}¡£
 odaconsumer.CannotClearInParameters=ÎŞ·¨Çå³ıÊäÈë²ÎÊıÖµ¡£
 odaconsumer.UnrecognizedOdaType=ÎŞ·¨Ê¶±ğµÄ ODA Êı¾İÀàĞÍ: {0}
@@ -323,7 +323,7 @@ odaconsumer.MustSpecifyColumnName=Ìí¼ÓÁĞÌáÊ¾Ê±±ØĞëÖ¸¶¨ÁĞÃû³Æ¡£
 odaconsumer.CannotFindLogDirectory=ÎŞ·¨ÕÒµ½ÈÕÖ¾Ä¿Â¼¡£
 odaconsumer.ParameterNames=\n¶¨Òå²ÎÊıÊ±Ê¹ÓÃÁËÄ£ĞÍÃû³Æ({0})ºÍÇı¶¯³ÌĞò¶¨ÒåÃû³Æ({1})¡£
 odaconsumer.InvalidArgument=Ê¹ÓÃÎŞĞ§µÄ²ÎÊı ({1}) µ÷ÓÃÁË·½·¨ ({0})¡£
-odaconsumer.CannotSetConnectionLocale=Unable to set connection locale ({0}).
+odaconsumer.CannotSetConnectionLocale=ÎŞ·¨ÉèÖÃÁ¬½ÓÇøÓòÉèÖÃ ({0})¡£
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=µ÷ÓÃ executeQuery() ºó£¬ÎŞ·¨°´Ãû³Æ»ñµÃ½á¹û¼¯¡£
 odaconsumer.manager.CannotSetParamBeforePrepare=ÔÚÓï¾ä×¼±¸ºÃÖ®Ç°²»ÄÜÉèÖÃÊäÈë²ÎÊı¡£
@@ -406,14 +406,14 @@ data.executor.configFileParser.getParametersByID=ÎŞ·¨°´ÅäÖÃÎÄ¼şÖĞÖ¸¶¨µÄÊı¾İ¼¯Ãû³
 
 data.aggregation.expression.displayName=±í´ïÊ½
 data.aggregation.argumentError=¾ÛºÏ¡°{1}¡±µÄ²ÎÊı¡°{0}¡±µÄ±í´ïÊ½Îª null »ò¿Õ!
-data.olap.InvalidAggrTypeOnMeasure=Aggregation on cube measure can not be such type: "{0}".
+data.olap.InvalidAggrTypeOnMeasure=¶àÎ¬Êı¾İ¼¯¶ÈÁ¿¾ÛºÏ²»ÄÜÎª´ËÀàĞÍ:¡°{0}¡±¡£
 
 #derived dataSet
 data.derivedDataSet.columnNotExist=The column \"{0}\" does not exist!
 data.derivedDataSet.UnionQueryTextParseError="ÎŞ·¨·ÖÎöÁªºÏ²éÑ¯¡£ \"{0}\""
 data.derivedDataSet.JoinQueryTextParseError="ÎŞ·¨·ÖÎöÁª½Ó²éÑ¯¡£ \"{0}\""
 
-data.derivedDataSet.illegalClassInstance=Illegal class instance to initialize.
-data.derivedDataSet.classLoadError=Fail to load class instance.
-data.derivedDataSet.calculatorNotExist=Calculator is not defined or can not be found.
-data.derivedDataSet.invalidQueryText=Invalid query text.
+data.derivedDataSet.illegalClassInstance=Òª³õÊ¼»¯µÄÀàÊµÀı·Ç·¨¡£
+data.derivedDataSet.classLoadError=ÎŞ·¨¼ÓÔØÀàÊµÀı¡£
+data.derivedDataSet.calculatorNotExist=¼ÆËãÆ÷Î´¶¨Òå»òÎŞ·¨ÕÒµ½¡£
+data.derivedDataSet.invalidQueryText=ÎŞĞ§²éÑ¯ÎÄ±¾¡£
