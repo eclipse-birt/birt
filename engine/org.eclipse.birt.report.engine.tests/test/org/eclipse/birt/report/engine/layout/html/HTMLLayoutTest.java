@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2009 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.engine.layout.html;
 
 import java.util.List;
@@ -26,6 +37,7 @@ public class HTMLLayoutTest extends EngineCase
 		assertEquals( 2l, getPageNumber(document,  "Japan" ));
 		assertEquals( 2l, getPageNumber(document,  "UK" ));
 		assertEquals( 3l, getPageNumber(document,  "USA" ));
+		document.close( );
 	}
 
 	/**
@@ -43,6 +55,7 @@ public class HTMLLayoutTest extends EngineCase
 		checkBookmark( document, "Japan", 4);
 		checkBookmark( document, "UK", 5);
 		checkBookmark( document, "USA", 6);
+		document.close( );
 	}
 
 	/**

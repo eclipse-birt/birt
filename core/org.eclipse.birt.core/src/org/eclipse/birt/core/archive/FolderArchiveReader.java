@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2008 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,12 +14,18 @@ package org.eclipse.birt.core.archive;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FolderArchiveReader implements IDocArchiveReader
 {
 
+	static Logger logger = Logger.getLogger( FolderArchiveReader.class
+			.getName( ) );
 	private String folderName;
+	private HashSet<RAFolderInputStream> inputStreams = new HashSet<RAFolderInputStream>( );;
 
 	/**
 	 * @param folderName -
@@ -28,16 +34,19 @@ public class FolderArchiveReader implements IDocArchiveReader
 	public FolderArchiveReader( String folderName ) throws IOException
 	{
 		if ( folderName == null || folderName.length( ) == 0 )
+		{
 			throw new IOException(
 					"The folder archive name is null or empty string." );
+		}
 
 		File fd = new File( folderName );
 		if ( !fd.isDirectory( ) )
+		{
 			throw new IOException(
 					"The specified name is not a folder name. The FolderArchiveReader is expecting a valid folder archive name." );
-
-		this.folderName = fd.getCanonicalPath( ); // make sure the folder name
-													// is an absolute path
+		}
+		// make sure the folder name is an absolute path
+		this.folderName = fd.getCanonicalPath( );
 	}
 
 	/*
@@ -68,9 +77,33 @@ public class FolderArchiveReader implements IDocArchiveReader
 	 * 
 	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#close()
 	 */
-	public void close( )
+	public void close( ) throws IOException
 	{
-		// Do nothing
+		IOException exception = null;
+		synchronized ( inputStreams )
+		{
+			ArrayList<RAFolderInputStream> inputs = new ArrayList<RAFolderInputStream>(
+					inputStreams );
+			for ( RAFolderInputStream in : inputs )
+			{
+				try
+				{
+					in.close( );
+				}
+				catch ( IOException ex )
+				{
+					if ( exception != null )
+					{
+						exception = ex;
+					}
+					logger.log( Level.SEVERE, ex.getMessage( ), ex );
+				}
+			}
+			if ( exception != null )
+			{
+				throw exception;
+			}
+		}
 	}
 
 	/*
@@ -85,8 +118,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 		File file = new File( path );
 		if ( file.exists( ) )
 		{
-			RAFolderInputStream in = new RAFolderInputStream( file );
-			return in;
+			return new RAFolderInputStream( inputStreams, file );
 		}
 		throw new IOException( relativePath + " doesn't exit" );
 	}
@@ -107,7 +139,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 	}
 
 	/**
-	 * reurun a list of strings which are the relative path of streams
+	 * return a list of strings which are the relative path of streams
 	 */
 	public List listStreams( String relativeStoragePath ) throws IOException
 	{

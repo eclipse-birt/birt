@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,7 +23,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -35,24 +34,16 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
-import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryExecutionHints;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil;
 import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
 import org.eclipse.birt.report.engine.adapter.ITotalExprBindings;
-import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -95,7 +86,6 @@ import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.engine.ir.Expression.JSExpression;
-import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -104,13 +94,11 @@ import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
-import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * visit the report design and prepare all report queries and sub-queries to
@@ -1152,7 +1140,9 @@ public class ReportQueryBuilder
 			IGroupDefinition groupDefn;
 			if ( !query.cacheQueryResults( ) )
 			{
-				groupDefn = handleGroup( group, handle, query );
+				IModelAdapter adaptor = dteSession.getModelAdaptor( );
+				groupDefn = adaptor.adaptGroup( handle );
+				query.getGroups( ).add( groupDefn );
 			}
 			else
 			{
@@ -1194,38 +1184,6 @@ public class ReportQueryBuilder
 			logger.log( Level.WARNING, ex.getMessage( ), ex );
 			context.addException( design.getHandle( ), ex );
 			return null;
-		}
-
-		/**
-		 * processes a table/list group
-		 */
-		protected IGroupDefinition handleGroup( GroupDesign group,
-				GroupHandle handle, IBaseQueryDefinition query )
-		{
-			GroupDefinition groupDefn = new GroupDefinition( group.getName( ) );
-			groupDefn.setKeyExpression( handle.getKeyExpr( ) );
-			String interval = handle.getInterval( );
-			if ( interval != null )
-			{
-				groupDefn.setInterval( parseInterval( interval ) );
-			}
-			// inter-range
-			groupDefn.setIntervalRange( handle.getIntervalRange( ) );
-			// inter-start-value
-			groupDefn.setIntervalStart( handle.getIntervalBase( ) );
-			// sort-direction
-			String direction = handle.getSortDirection( );
-			if ( direction != null )
-			{
-				groupDefn.setSortDirection( parseSortDirection( direction ) );
-			}
-
-			groupDefn.getSorts( ).addAll( createSorts( handle ) );
-			groupDefn.getFilters( ).addAll( createFilters( handle ) );
-
-			query.getGroups( ).add( groupDefn );
-
-			return groupDefn;
 		}
 
 		/**
@@ -1305,59 +1263,6 @@ public class ReportQueryBuilder
 				return new IDataQueryDefinition[]{query};
 			}
 			return null;
-		}
-
-		protected void addColumBinding( IBaseQueryDefinition transfer,
-				ComputedColumnHandle columnBinding ) throws BirtException
-		{
-			String name = columnBinding.getName( );
-			String expr = columnBinding.getExpression( );
-			String type = columnBinding.getDataType( );
-			String displayName = columnBinding.getDisplayName( );
-			String aggregateOn = columnBinding.getAggregateOn( );
-			int dbType = ModelDteApiAdapter.toDteDataType( type );
-
-			IBaseExpression dbExpr = null;
-			if ( expr != null )
-			{
-				dbExpr = new ScriptExpression( expr, dbType );
-
-				if ( aggregateOn != null )
-				{
-					dbExpr.setGroupName( aggregateOn );
-				}
-			}
-			IBinding binding = new Binding( name, dbExpr );
-			binding.setDisplayName( displayName );
-			if ( aggregateOn != null )
-			{
-				binding.addAggregateOn( aggregateOn );
-			}
-			if ( columnBinding.getAggregateFunction( ) != null )
-			{
-				binding.setAggrFunction( DataAdapterUtil
-						.adaptModelAggregationType( columnBinding
-								.getAggregateFunction( ) ) );
-			}
-			String filter = columnBinding.getFilterExpression( );
-			if ( filter != null )
-			{
-				binding.setFilter( new ScriptExpression( filter ) );
-			}
-			Iterator arguments = columnBinding.argumentsIterator( );
-			if ( arguments != null )
-			{
-				while ( arguments.hasNext( ) )
-				{
-					AggregationArgumentHandle argumentHandle = (AggregationArgumentHandle) arguments
-							.next( );
-					String argument = argumentHandle.getValue( );
-					binding.addArgument( DataAdapterUtil.adaptArgumentName( argumentHandle.getName( ) ),
-								new ScriptExpression( argument ) );
-				}
-			}
-			binding.setDataType( dbType );
-			transfer.addBinding( binding );
 		}
 
 		/**
@@ -1506,30 +1411,12 @@ public class ReportQueryBuilder
 			QueryDefinition query = new QueryDefinition( parentQuery );
 			query.setDataSetName( dsHandle.getQualifiedName( ) );
 
-			// bind the query with parameters
-			query.getInputParamBindings( )
-					.addAll(
-							createParamBindings( designHandle
-									.paramBindingsIterator( ) ) );
-
 			// set max rows
 			query.setMaxRows( maxRows );
-
-			Iterator iter = designHandle.columnBindingsIterator( );
-			while ( iter.hasNext( ) )
-			{
-				ComputedColumnHandle binding = (ComputedColumnHandle) iter
-						.next( );
-				try
-				{
-					addColumBinding( query, binding );
-				}
-				catch ( BirtException ex )
-				{
-					context.addException( designHandle, ex );
-				}
-			}
-
+			
+			// bind the query with parameters
+			addParamBinding( item, query );
+			addColumnBinding( item, query );
 			addSortAndFilter( item, query );
 
 			return query;
@@ -1560,28 +1447,7 @@ public class ReportQueryBuilder
 
 			// set max rows
 			query.setMaxRows( maxRows );
-
-			if ( item.getHandle( ) instanceof ReportItemHandle )
-			{
-				ReportItemHandle designHandle = (ReportItemHandle) item
-						.getHandle( );
-
-				Iterator iter = designHandle.columnBindingsIterator( );
-				while ( iter.hasNext( ) )
-				{
-					ComputedColumnHandle binding = (ComputedColumnHandle) iter
-							.next( );
-					try
-					{
-						addColumBinding( query, binding );
-					}
-					catch ( BirtException ex )
-					{
-						context.addException( designHandle, ex );
-					}
-				}
-			}
-
+			addColumnBinding( item, query );
 			addSortAndFilter( item, query );
 
 			return query;
@@ -1684,86 +1550,65 @@ public class ReportQueryBuilder
 			return isBirt2_1_x.booleanValue( );
 		}
 
+		private void addColumnBinding( ReportItemDesign design,
+				IBaseQueryDefinition query )
+		{
+			DesignElementHandle elementHandle = design.getHandle( );
+			if ( elementHandle instanceof ReportItemHandle )
+			{
+				IModelAdapter adaptor = dteSession.getModelAdaptor( );
+				ReportItemHandle designHandle = (ReportItemHandle) elementHandle;
+				Iterator iter = designHandle.columnBindingsIterator( );;
+				if ( iter != null )
+				{
+					while ( iter.hasNext( ) )
+					{
+						try
+						{
+							ComputedColumnHandle bindingHandle = (ComputedColumnHandle) iter
+									.next( );
+							IBinding binding = adaptor
+									.adaptBinding( bindingHandle );
+							query.addBinding( binding );
+						}
+						catch ( BirtException ex )
+						{
+							context.addException( design, ex );
+						}
+					}
+				}
+			}
+		}
+
+		private void addParamBinding( ReportItemDesign item,
+				QueryDefinition query )
+		{
+			DesignElementHandle elementHandle = item.getHandle( );
+			if ( elementHandle instanceof ReportItemHandle )
+			{
+				ReportItemHandle itemHandle = (ReportItemHandle) elementHandle;
+				createParamBindings( itemHandle.paramBindingsIterator( ), query
+						.getInputParamBindings( ) );
+			}
+		}
+
 		private void addSortAndFilter( ReportItemDesign item,
 				BaseQueryDefinition query )
 		{
 			if ( item instanceof ListingDesign )
 			{
-				query.getSorts( ).addAll( createSorts( (ListingDesign) item ) );
-				query.getFilters( ).addAll(
-						createFilters( (ListingDesign) item ) );
+				ListingHandle listHandle = (ListingHandle) item.getHandle( );
+				createSorts( listHandle.sortsIterator( ), query.getSorts( ) );
+				createFilters( listHandle.filtersIterator( ), query
+						.getFilters( ) );
 			}
 			else if ( item instanceof ExtendedItemDesign )
 			{
-				query.getFilters( ).addAll(
-						createFilters( (ExtendedItemDesign) item ) );
+				// It is strange that the extended item doesn't support sorting
+				ExtendedItemHandle extHandle = (ExtendedItemHandle) item
+						.getHandle( );
+				createFilters( extHandle.filtersIterator( ), query.getFilters( ) );
 			}
-		}
-
-		/**
-		 * get Localized string by the resouce key and <code>Locale</code>
-		 * object in <code>context</code>
-		 * 
-		 * @param resourceKey
-		 *            the resource key
-		 * @param text
-		 *            the default value
-		 * @return the localized string if it is defined in report deign, else
-		 *         return the default value
-		 */
-		protected String getLocalizedString( String resourceKey, String text )
-		{
-			if ( resourceKey == null )
-			{
-				return text;
-			}
-			String ret = report.getReportDesign( ).getMessage( resourceKey,
-					context.getLocale( ) );
-			if ( ret == null )
-			{
-				logger.log( Level.SEVERE, "get resource error, resource key:" //$NON-NLS-1$
-						+ resourceKey + " Locale:" //$NON-NLS-1$
-						+ context.getLocale( ).toString( ) );
-				return text;
-			}
-			return ret;
-		}
-
-		/**
-		 * create one Filter given a filter condition handle
-		 * 
-		 * @param handle
-		 *            a filter condition handle
-		 * @return the filter
-		 */
-		private IFilterDefinition createFilter( FilterConditionHandle handle )
-		{
-			String filterExpr = handle.getExpr( );
-			if ( filterExpr == null || filterExpr.length( ) == 0 )
-				return null; // no filter defined
-
-			// converts to DtE exprFilter if there is no operator
-			String filterOpr = handle.getOperator( );
-			if ( filterOpr == null || filterOpr.length( ) == 0 )
-				return new FilterDefinition( new ScriptExpression( filterExpr ) );
-
-			/*
-			 * has operator defined, try to convert filter condition to
-			 * operator/operand style column filter with 0 to 2 operands
-			 */
-
-			String column = filterExpr;
-			int dteOpr = ModelDteApiAdapter.toDteFilterOperator( filterOpr );
-			if ( ModuleUtil.isListFilterValue( handle ) )
-			{
-				List operand1List = handle.getValue1List( );
-				return new FilterDefinition( new ConditionalExpression( column,
-						dteOpr, operand1List ) );
-			}
-			String operand1 = handle.getValue1( );
-			String operand2 = handle.getValue2( );
-			return new FilterDefinition( new ConditionalExpression( column,
-					dteOpr, operand1, operand2 ) );
 		}
 
 		/**
@@ -1773,88 +1618,19 @@ public class ReportQueryBuilder
 		 *            the iterator
 		 * @return filter array
 		 */
-		private ArrayList createFilters( Iterator iter )
+		private void createFilters( Iterator iter, List filters )
 		{
-			ArrayList filters = new ArrayList( );
 			if ( iter != null )
 			{
-
 				while ( iter.hasNext( ) )
 				{
 					FilterConditionHandle filterHandle = (FilterConditionHandle) iter
 							.next( );
-					IFilterDefinition filter = createFilter( filterHandle );
+					IFilterDefinition filter = dteSession.getModelAdaptor( )
+							.adaptFilter( filterHandle );
 					filters.add( filter );
 				}
 			}
-			return filters;
-		}
-
-		/**
-		 * create filter array given a Listing design element
-		 * 
-		 * @param listing
-		 *            the ListingDesign
-		 * @return the filter array
-		 */
-		public ArrayList createFilters( ListingDesign listing )
-		{
-			return createFilters( ( (ListingHandle) listing.getHandle( ) )
-					.filtersIterator( ) );
-		}
-
-		/**
-		 * create fileter array given a DataSetHandle
-		 * 
-		 * @param dataSet
-		 *            the DataSetHandle
-		 * @return the filer array
-		 */
-		public ArrayList createFilters( DataSetHandle dataSet )
-		{
-			return createFilters( dataSet.filtersIterator( ) );
-		}
-
-		/**
-		 * create filter array given a GroupHandle
-		 * 
-		 * @param group
-		 *            the GroupHandle
-		 * @return filter array
-		 */
-		public ArrayList createFilters( GroupHandle group )
-		{
-			return createFilters( group.filtersIterator( ) );
-		}
-
-		/**
-		 * create filter array given a ExtendedItemHandle
-		 * 
-		 * @param group
-		 *            the GroupHandle
-		 * @return filter array
-		 */
-		public ArrayList createFilters( ExtendedItemDesign extendedItem )
-		{
-			return createFilters( ( (ExtendedItemHandle) extendedItem
-					.getHandle( ) ).filtersIterator( ) );
-		}
-
-		/**
-		 * create one sort condition
-		 * 
-		 * @param handle
-		 *            the SortKeyHandle
-		 * @return the sort object
-		 */
-		private ISortDefinition createSort( SortKeyHandle handle )
-		{
-			SortDefinition sort = new SortDefinition( );
-			sort.setExpression( handle.getKey( ) );
-			sort.setSortDirection( handle.getDirection( ).equals(
-					DesignChoiceConstants.SORT_DIRECTION_ASC ) ? 0 : 1 );
-			return sort;
-
 		}
 
 		/**
@@ -1864,62 +1640,18 @@ public class ReportQueryBuilder
 		 *            the iterator
 		 * @return sort array
 		 */
-		private ArrayList createSorts( Iterator iter )
+		private void createSorts( Iterator iter, List sorts )
 		{
-			ArrayList sorts = new ArrayList( );
 			if ( iter != null )
 			{
-
+				IModelAdapter adaptor = dteSession.getModelAdaptor( );
 				while ( iter.hasNext( ) )
 				{
 					SortKeyHandle handle = (SortKeyHandle) iter.next( );
-					sorts.add( createSort( handle ) );
+					ISortDefinition sort = adaptor.adaptSort( handle );
+					sorts.add( sort );
 				}
 			}
-			return sorts;
-		}
-
-		/**
-		 * create all sort conditions in a listing element
-		 * 
-		 * @param listing
-		 *            ListingDesign
-		 * @return the sort array
-		 */
-		protected ArrayList createSorts( ListingDesign listing )
-		{
-			return createSorts( ( (ListingHandle) listing.getHandle( ) )
-					.sortsIterator( ) );
-		}
-
-		/**
-		 * create sort array by giving GroupHandle
-		 * 
-		 * @param group
-		 *            the GroupHandle
-		 * @return the sort array
-		 */
-		protected ArrayList createSorts( GroupHandle group )
-		{
-			return createSorts( group.sortsIterator( ) );
-		}
-
-		/**
-		 * create input parameter binding
-		 * 
-		 * @param handle
-		 * @return
-		 */
-		protected IInputParameterBinding createParamBinding(
-				ParamBindingHandle handle )
-		{
-			if ( handle.getExpression( ) == null )
-				return null; // no expression is bound
-			ScriptExpression expr = new ScriptExpression( handle
-					.getExpression( ) );
-			// model provides binding by name only
-			return new InputParameterBinding( handle.getParamName( ), expr );
-
 		}
 
 		/**
@@ -1929,86 +1661,23 @@ public class ReportQueryBuilder
 		 *            parameter bindings iterator
 		 * @return a list of input parameter bindings
 		 */
-		protected ArrayList createParamBindings( Iterator iter )
+		private void createParamBindings( Iterator iter, Collection bindings )
 		{
-			ArrayList list = new ArrayList( );
 			if ( iter != null )
 			{
+				IModelAdapter adaptor = dteSession.getModelAdaptor( );
 				while ( iter.hasNext( ) )
 				{
-					ParamBindingHandle modelParamBinding = (ParamBindingHandle) iter
+					ParamBindingHandle handle = (ParamBindingHandle) iter
 							.next( );
-					IInputParameterBinding binding = createParamBinding( modelParamBinding );
+					IInputParameterBinding binding = adaptor
+							.adaptInputParamBinding( handle );
 					if ( binding != null )
 					{
-						list.add( binding );
+						bindings.add( binding );
 					}
 				}
 			}
-			return list;
-		}
-
-		/**
-		 * converts interval string values to integer values
-		 */
-		protected int parseInterval( String interval )
-		{
-			if ( DesignChoiceConstants.INTERVAL_YEAR.equals( interval ) )
-			{
-				return IGroupDefinition.YEAR_INTERVAL;
-			}
-			if ( DesignChoiceConstants.INTERVAL_MONTH.equals( interval ) )
-			{
-				return IGroupDefinition.MONTH_INTERVAL;
-			}
-			if ( DesignChoiceConstants.INTERVAL_WEEK.equals( interval ) ) // 
-			{
-				return IGroupDefinition.WEEK_INTERVAL;
-			}
-			if ( DesignChoiceConstants.INTERVAL_QUARTER.equals( interval ) )
-			{
-				return IGroupDefinition.QUARTER_INTERVAL;
-			}
-			if ( DesignChoiceConstants.INTERVAL_DAY.equals( interval ) )
-			{
-				return IGroupDefinition.DAY_INTERVAL;
-			}
-			if ( DesignChoiceConstants.INTERVAL_HOUR.equals( interval ) )
-			{
-				return IGroupDefinition.HOUR_INTERVAL;
-			}
-			if ( DesignChoiceConstants.INTERVAL_MINUTE.equals( interval ) )
-			{
-				return IGroupDefinition.MINUTE_INTERVAL;
-			}
-			if ( DesignChoiceConstants.INTERVAL_PREFIX.equals( interval ) )
-			{
-				return IGroupDefinition.STRING_PREFIX_INTERVAL;
-			}
-			if ( DesignChoiceConstants.INTERVAL_SECOND.equals( interval ) )
-			{
-				return IGroupDefinition.SECOND_INTERVAL;
-			}
-			if ( DesignChoiceConstants.INTERVAL_INTERVAL.equals( interval ) )
-			{
-				return IGroupDefinition.NUMERIC_INTERVAL;
-			}
-			return IGroupDefinition.NO_INTERVAL;
-		}
-
-		/**
-		 * @param direction
-		 *            "asc" or "desc" string
-		 * @return integer value defined in <code>ISortDefn</code>
-		 */
-		protected int parseSortDirection( String direction )
-		{
-			if ( "asc".equals( direction ) ) //$NON-NLS-1$
-				return ISortDefinition.SORT_ASC;
-			if ( "desc".equals( direction ) ) //$NON-NLS-1$
-				return ISortDefinition.SORT_DESC;
-			assert false;
-			return 0;
 		}
 
 		/**

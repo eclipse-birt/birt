@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -78,6 +78,7 @@ public class ReportDocumentTest extends EngineCase
 			assertTrue( inputStream != null );
 			int streamLength = ( (RAInputStream) inputStream ).available( );
 			assertTrue( streamLength > 0 );
+			rptDoc.close( );
 		}
 		catch ( Exception ex )
 		{
@@ -107,6 +108,7 @@ public class ReportDocumentTest extends EngineCase
 			assertTrue( docReader.getBookmarks( ).isEmpty( ) );
 
 			docReader.close( );
+			reader.close( );
 
 		}
 		catch ( Exception ex )
@@ -164,6 +166,8 @@ public class ReportDocumentTest extends EngineCase
 			checkPersistentObjects( document.getGlobalVariables( null ) );
 
 			document.close( );
+
+			archive.close( );
 		}
 		catch ( Exception ex )
 		{

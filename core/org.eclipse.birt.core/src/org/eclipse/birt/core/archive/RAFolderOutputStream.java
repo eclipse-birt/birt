@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,28 +15,31 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Collection;
 
 /**
  * RAOutputStream implementation for folder based report archive  
  */
 public class RAFolderOutputStream extends RAOutputStream
 {
-	FolderArchiveWriter archive;
-	
+
+	private Collection<RAFolderOutputStream> manager;
 	private RandomAccessFile randomFile;
-	
+	private String name;
 	private RAStreamBufferMgr bufferMgr;
-	
-	public RAFolderOutputStream( FolderArchiveWriter archive, File file )
+
+	public RAFolderOutputStream( Collection<RAFolderOutputStream> manager, File file )
 			throws FileNotFoundException, IOException
 	{
-		this( archive, file, false );
+		this( manager, file, false );
 	}
 
-	public RAFolderOutputStream( FolderArchiveWriter archive, File file,
-			boolean append ) throws FileNotFoundException, IOException
+	public RAFolderOutputStream( Collection<RAFolderOutputStream> manager,
+			File file, boolean append ) throws FileNotFoundException,
+			IOException
 	{
-		this.archive = archive;
+		this.manager = manager;
+		this.name = file.getCanonicalPath( );
 		this.randomFile = new RandomAccessFile( file, "rw" ); //$NON-NLS-1$
 		try
 		{
@@ -45,14 +48,29 @@ public class RAFolderOutputStream extends RAOutputStream
 				this.randomFile.setLength( 0 );
 			}
 			this.bufferMgr = new RAStreamBufferMgr( this.randomFile );
+			if ( manager != null )
+			{
+				synchronized ( manager )
+				{
+					manager.add( this );
+				}
+			}
 		}
 		catch ( IOException ex )
 		{
-			randomFile.close( );
+			if ( randomFile != null )
+			{
+				randomFile.close( );
+			}
 			throw ex;
 		}
 	}
-	
+
+	public String getName( )
+	{
+		return name;
+	}
+
     /** Flush the internal buffer */
     private void flushBuffer() throws IOException 
     {
@@ -185,7 +203,13 @@ public class RAFolderOutputStream extends RAOutputStream
     	flushBuffer();
    		randomFile.close(); // Since the the underlying random access file is created by us, we need to close it
    		super.close();
-   		archive.removeStream( this );
+		if ( manager != null )
+		{
+			synchronized ( manager )
+			{
+				manager.remove( this );
+			}
+		}
     }
     
     public long length( ) throws IOException

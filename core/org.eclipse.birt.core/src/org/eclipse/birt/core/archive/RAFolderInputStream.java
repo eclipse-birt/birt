@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.HashSet;
 
 import org.eclipse.birt.core.util.IOUtil;
 
@@ -24,21 +25,45 @@ import org.eclipse.birt.core.util.IOUtil;
  */
 public class RAFolderInputStream extends RAInputStream
 {
+
+	private HashSet<RAFolderInputStream> manager;
+	private String name;
 	private RandomAccessFile randomFile;
 	private byte buf[];
 	private int bufLen;  // total bytes in the buffer 
 	private int bufCur;  // the pointer in the buffer
-	
+
+	public RAFolderInputStream( File file ) throws IOException
+	{
+		this( null, file );
+	}
+
 	/**
-	 * @param file - a regular file (i.e. stream) in the folder
-	 * @throws FileNotFoundException 
+	 * @param file
+	 *            - a regular file (i.e. stream) in the folder
+	 * @throws FileNotFoundException
 	 */
-	public RAFolderInputStream( File file ) throws FileNotFoundException
-	{	
+	public RAFolderInputStream( HashSet<RAFolderInputStream> manager, File file )
+			throws IOException
+	{
+		this.manager = manager;
+		this.name = file.getCanonicalPath( );
 		this.randomFile = new RandomAccessFile( file, "r" ); //$NON-NLS-1$
-		this.buf = new byte [IOUtil.RA_STREAM_BUFFER_LENGTH];
+		this.buf = new byte[IOUtil.RA_STREAM_BUFFER_LENGTH];
 		this.bufLen = 0;
 		this.bufCur = 0;
+		if ( this.manager != null )
+		{
+			synchronized ( manager )
+			{
+				manager.add( this );
+			}
+		}
+	}
+
+	public String getName( )
+	{
+		return this.name;
 	}
 
 	public void refresh( ) throws IOException
@@ -265,11 +290,21 @@ public class RAFolderInputStream extends RAInputStream
 	/**
 	 * Close the stream
 	 */
-    public void close() throws IOException
-    {
-    	randomFile.close();	// Since the the underlying random access file is created by us, we need to close it
-    	super.close();
-    }
+	public void close( ) throws IOException
+	{
+		if ( manager != null )
+		{
+			synchronized ( manager )
+			{
+				manager.remove( this );
+			}
+		}
+
+		this.randomFile.close( ); // Since the the underlying random access file
+									// is
+		// created by us, we need to close it
+		super.close( );
+	}
     
     public int available( ) throws IOException
 	{

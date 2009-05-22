@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2008 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,15 +13,20 @@ package org.eclipse.birt.core.archive;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FolderArchiveWriter implements IDocArchiveWriter
 {
 
+	private static Logger logger = Logger.getLogger( FolderArchiveWriter.class
+			.getName( ) );
 	private String folderName;
 	private IStreamSorter streamSorter = null;
-	private LinkedList openStreams = new LinkedList( );
+	private HashSet<RAFolderInputStream> inputStreams = new HashSet<RAFolderInputStream>( );
+	private HashSet<RAFolderOutputStream> outputStreams = new HashSet<RAFolderOutputStream>( );
 
 	/**
 	 * @param absolute
@@ -33,9 +38,11 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 			throw new IOException( "The folder name is null or empty string." );
 
 		File fd = new File( folderName );
-		folderName = fd.getCanonicalPath( ); // make sure the file name is an
-		// absolute path
-		this.folderName = folderName;
+		if ( !fd.exists( ) )
+		{
+			fd.mkdirs( );
+		}
+		this.folderName = fd.getCanonicalPath( ); // make sure the file name is an
 	}
 
 	/*
@@ -45,7 +52,6 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	 */
 	public void initialize( )
 	{
-		new File( folderName ).mkdirs( );
 		// Do nothing
 	}
 
@@ -62,11 +68,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 
 		ArchiveUtil.createParentFolder( fd );
 
-		RAFolderOutputStream out = new RAFolderOutputStream( this, fd );
-		synchronized ( openStreams )
-		{
-			openStreams.add( out );
-		}
+		RAFolderOutputStream out = new RAFolderOutputStream( outputStreams, fd );
 		return out;
 	}
 
@@ -77,12 +79,8 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 		File fd = new File( path );
 
 		ArchiveUtil.createParentFolder( fd );
-
-		RAFolderOutputStream out = new RAFolderOutputStream( this, fd, true );
-		synchronized ( openStreams )
-		{
-			openStreams.add( out );
-		}
+		RAFolderOutputStream out = new RAFolderOutputStream( outputStreams, fd,
+				true );
 		return out;
 	}
 
@@ -106,7 +104,8 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 		File file = new File( path );
 		if ( file.exists( ) )
 		{
-			RAFolderInputStream in = new RAFolderInputStream( file );
+			RAFolderInputStream in = new RAFolderInputStream( inputStreams,
+					file );
 			return in;
 		}
 		throw new IOException( relativePath + " doesn't exit" );
@@ -162,7 +161,58 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	 */
 	public void finish( ) throws IOException
 	{
-		closeAllStream( );
+		close( );
+	}
+
+	public void close( ) throws IOException
+	{
+		IOException exception = null;
+		synchronized ( outputStreams )
+		{
+			ArrayList<RAFolderOutputStream> outputs = new ArrayList<RAFolderOutputStream>(
+					outputStreams );
+			for ( RAFolderOutputStream output : outputs )
+			{
+				try
+				{
+					output.close( );
+				}
+				catch ( IOException ex )
+				{
+					logger.log(Level.SEVERE, ex.getMessage( ), ex);
+					if ( exception != null )
+					{
+						exception = ex;
+					}
+				}
+			}
+			outputStreams.clear( );
+		}
+		synchronized ( inputStreams )
+		{
+			ArrayList<RAFolderInputStream> inputs = new ArrayList<RAFolderInputStream>(
+					inputStreams );
+			for ( RAFolderInputStream input : inputs )
+			{
+				try
+				{
+					input.close( );
+				}
+				catch ( IOException ex )
+				{
+					logger.log( Level.SEVERE, ex.getMessage( ), ex );
+					if ( exception != null )
+					{
+						exception = ex;
+					}
+				}
+			}
+			inputStreams.clear( );
+		}
+		if ( exception != null )
+		{
+			throw exception;
+		}
 	}
 
 	/**
@@ -185,63 +235,16 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	public void flush( ) throws IOException
 	{
 		IOException ioex = null;
-		synchronized ( openStreams )
+		synchronized ( inputStreams )
 		{
-			Iterator iter = openStreams.iterator( );
-			while ( iter.hasNext( ) )
+			for ( RAOutputStream output : outputStreams )
 			{
-				RAFolderOutputStream stream = (RAFolderOutputStream) iter
-						.next( );
-				if ( stream != null )
-				{
-					try
-					{
-						stream.flush( );
-					}
-					catch ( IOException ex )
-					{
-						ioex = ex;
-					}
-				}
+				output.flush( );
 			}
 		}
 		if ( ioex != null )
 		{
 			throw ioex;
-		}
-	}
-
-	void removeStream( RAFolderOutputStream stream )
-	{
-		synchronized ( openStreams )
-		{
-			openStreams.remove( stream );
-		}
-		// remove the stream out from the ouptutStreams.
-	}
-
-	protected void closeAllStream( )
-	{
-		synchronized ( openStreams )
-		{
-			LinkedList streams = new LinkedList( openStreams );
-			Iterator iter = streams.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				RAFolderOutputStream stream = (RAFolderOutputStream) iter
-						.next( );
-				if ( stream != null )
-				{
-					try
-					{
-						stream.close( );
-					}
-					catch ( IOException ex )
-					{
-					}
-				}
-			}
-			openStreams.clear( );
 		}
 	}
 

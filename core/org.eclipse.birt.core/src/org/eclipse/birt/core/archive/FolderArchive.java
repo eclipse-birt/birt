@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2008 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,8 +13,6 @@ package org.eclipse.birt.core.archive;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
@@ -23,24 +21,27 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	private FolderArchiveReader reader;
 	private FolderArchiveWriter writer;
 	private boolean isOpen = false;
-	private LinkedList openStreams = new LinkedList( );
 	
 	/**
 	 * @param absolute fileName the archive file name
 	 */
 	public FolderArchive( String folderName ) throws IOException
 	{
-		if ( folderName == null ||
-			 folderName.length() == 0 )
-			throw new IOException("The folder name is null or empty string.");
-		
-		File fd = new File( folderName );
-		folderName = fd.getCanonicalPath();   // make sure the file name is an absolute path
-		this.folderName = folderName;
-		
-		reader = new FolderArchiveReader( folderName );
-		writer = new FolderArchiveWriter( folderName );
-		this.initialize();
+		if ( folderName == null || folderName.length( ) == 0 )
+			throw new IOException( "The folder name is null or empty string." );
+
+		this.folderName = new File( folderName ).getCanonicalPath( );
+
+		try
+		{
+			this.writer = new FolderArchiveWriter( folderName );
+			this.reader = new FolderArchiveReader( folderName );
+		}
+		catch ( IOException ex )
+		{
+			close( );
+			throw ex;
+		}
 	}
 
 	////////////////// Functions that are needed by IDocArchiveWriter ///////////////
@@ -51,12 +52,6 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	 */
 	public void initialize() throws IOException 
 	{
-		if ( !isOpen )
-		{
-			writer.initialize();
-			reader.open();
-			isOpen = true;
-		}
 	}
 
 	/*
@@ -72,30 +67,20 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#createRandomAccessStream(java.lang.String)
 	 */
-	public RAOutputStream createRandomAccessStream(String relativePath) throws IOException 
+	public RAOutputStream createRandomAccessStream( String relativePath )
+			throws IOException
 	{
-		RAOutputStream raOutputStream = writer
-				.createRandomAccessStream( relativePath );
-		synchronized ( openStreams )
-		{
-			openStreams.add( raOutputStream );
-		}
-		return raOutputStream;
+		return writer.createRandomAccessStream( relativePath );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#createRandomAccessStream(java.lang.String)
 	 */
-	public RAOutputStream openRandomAccessStream(String relativePath) throws IOException 
+	public RAOutputStream openRandomAccessStream( String relativePath )
+			throws IOException
 	{
-		RAOutputStream raOutputStream = writer
-				.openRandomAccessStream( relativePath );
-		synchronized ( openStreams )
-		{
-			openStreams.add( raOutputStream );
-		}
-		return raOutputStream;
+		return writer.openRandomAccessStream( relativePath );
 	}
 
 	public RAOutputStream createOutputStream( String relativePath )
@@ -113,15 +98,7 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	public RAInputStream getInputStream( String relativePath )
 			throws IOException
 	{
-		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
-
-		File file = new File( path );
-		if ( file.exists( ) )
-		{
-			RAFolderInputStream in = new RAFolderInputStream( file );
-			return in;
-		}
-		throw new IOException( relativePath + " doesn't exit" );
+		return reader.getInputStream( relativePath );
 	}
 
 	/*
@@ -155,15 +132,9 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#finish()
 	 */
-	public void finish() throws IOException 
+	public void finish( ) throws IOException
 	{
-		if ( isOpen )
-		{
-			closeAllStream( );
-			writer.finish( );
-			reader.close( );
-			isOpen = false;
-		}
+		close( );
 	}
 
 	////////////////// Functions that are needed by IDocArchiveReader ///////////////
@@ -174,7 +145,6 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	 */
 	public void open() throws IOException 
 	{
-		initialize();	
 	}
 
 	/*
@@ -204,10 +174,21 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#close()
 	 */
-	public void close() throws IOException 
+	public void close( ) throws IOException
 	{
-		this.finish();		
-	}	
+		if ( isOpen )
+		{
+			isOpen = false;
+			try
+			{
+				writer.finish( );
+			}
+			finally
+			{
+				reader.close( );
+			}
+		}
+	}
 
 	////////////////// Other FolderArchiveManager functions ///////////////
 	
@@ -222,55 +203,7 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	 */
 	public void flush( ) throws IOException
 	{
-		IOException ioex = null;
-		synchronized ( openStreams )
-		{
-			Iterator iter = openStreams.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				RAFolderOutputStream stream = (RAFolderOutputStream) iter
-						.next( );
-				if ( stream != null )
-				{
-					try
-					{
-						stream.flush( );
-					}
-					catch ( IOException ex )
-					{
-						ioex = ex;
-					}
-				}
-			}
-		}
-		if ( ioex != null )
-		{
-			throw ioex;
-		}
-	}
-	
-	protected void closeAllStream()
-	{
-		synchronized ( openStreams )
-		{
-			Iterator iter = openStreams.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				RAFolderOutputStream stream = (RAFolderOutputStream) iter
-						.next( );
-				if ( stream != null )
-				{
-					try
-					{
-						stream.close( );
-					}
-					catch ( IOException ex )
-					{
-					}
-				}
-			}
-			openStreams.clear( );
-		}
+		writer.flush( );
 	}
 	
 	/*

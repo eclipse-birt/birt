@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2007 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -148,9 +148,10 @@ public class DocumentIRTransferTest extends EngineCase
 		ByteArrayOutputStream out = new ByteArrayOutputStream( );
 		IRenderTask renderTask = engine.createRenderTask( document );
 		renderTask.getReportRunnable( ).setDesignHandle( reportHandle );
-		IRenderOption option = new HTMLRenderOption( );
+		HTMLRenderOption option = new HTMLRenderOption( );
 		option.setOutputFormat( HTMLRenderOption.OUTPUT_FORMAT_HTML );
 		option.setOutputStream( out );
+		option.setEnableMetadata( true );
 		renderTask.setRenderOption( option );
 		renderTask.render( );
 		renderTask.close( );
@@ -191,8 +192,8 @@ public class DocumentIRTransferTest extends EngineCase
 				}
 				else
 				{
-					// it contains the table and the single list
-					assertTrue( pageContent.indexOf( "reportlet_table" ) != -1 );
+					// it won't contains the table, only the inner single list exists.
+					assertTrue( pageContent.indexOf( "reportlet_table" ) == -1 );
 					int indexOf = pageContent.indexOf( "reportlet_group" );
 					int lastIndexOf = pageContent
 							.lastIndexOf( "reportlet_group" );
@@ -237,8 +238,8 @@ public class DocumentIRTransferTest extends EngineCase
 			}
 			else
 			{
-				// it contains the table and the single list
-				assertTrue( pageContent.indexOf( "reportlet_table" ) != -1 );
+				// it won't contains the table and only the inner single list exist.
+				assertTrue( pageContent.indexOf( "reportlet_table" ) == -1 );
 				int indexOf = pageContent.indexOf( "reportlet_group" );
 				int lastIndexOf = pageContent.lastIndexOf( "reportlet_group" );
 				assertTrue( indexOf != -1 && lastIndexOf != -1
