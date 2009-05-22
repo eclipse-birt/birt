@@ -878,8 +878,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			( (GridData) paramsComposite.getLayoutData( ) ).exclude = true;
 			// new Label( argsComposite, SWT.NONE ).setText( "no args" );
 		}
-		paramsComposite.layout( true );
-		composite.layout( true );
+		composite.layout( true, true );
 		setContentSize( composite );
 	}
 
