@@ -41,6 +41,7 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -225,7 +226,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 		
 		while ( columnBindings != null && columnBindings.hasNext( ) )
 		{
-			temp.add( columnBindings.next( ) );
+			IBinding binding =  this.modelAdaptor.adaptBinding( (ComputedColumnHandle) columnBindings.next( ) );
+			if( binding.getAggrFunction( ) == null )
+				temp.add( binding );
 		}
 		
 		IQueryResults queryResults = getQueryResults( dataSet,
