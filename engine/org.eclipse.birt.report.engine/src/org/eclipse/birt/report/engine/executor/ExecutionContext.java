@@ -390,6 +390,8 @@ public class ExecutionContext
 		scriptContext.registerBean( "currentPage", new Long( pageNumber ) );
 		scriptContext.registerBean( "totalPage", new Long( totalPage ) );
 		scriptContext.registerBean( "_jsContext", this );
+		scriptContext.registerBean( "vars", new ScriptablePageVariables(
+				pageVariables, scriptContext.getScope( ) ) );
 		if ( runnable != null )
 		{
 			registerDesign( runnable );
