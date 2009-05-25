@@ -31,6 +31,6 @@ invalid.level.expression=No se ha encontrado el nombre de nivel "{0}".
 invalid.measure.expression=La expresión de medida para la medida "{0}" no puede ser nula.
 invalid.data.type=Tipo de datos no válido: {0}. 
 
-cube.error.createhierarchy=Error happens when create hierarchy:{0}.
-cube.error.createdimension=Error happens when create dimension:{0}.
-cube.error.createmeasure=Error happens when create measure.
+cube.error.createhierarchy=Se produce un error al crear la jerarquía:{0}.
+cube.error.createdimension=Se produce un error al crear la dimensión:{0}.
+cube.error.createmeasure=Se produce un error al crear la medida.

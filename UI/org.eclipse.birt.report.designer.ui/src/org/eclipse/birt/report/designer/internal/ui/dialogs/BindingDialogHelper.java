@@ -1029,7 +1029,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			else
 			{
 				( (GridData) paramsComposite.getLayoutData( ) ).heightHint = 0;
-				// ( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
+				( (GridData) paramsComposite.getLayoutData( ) ).exclude = true;
 			}
 
 			try
@@ -1049,7 +1049,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			( (GridData) paramsComposite.getLayoutData( ) ).exclude = true;
 			// new Label( argsComposite, SWT.NONE ).setText( "no args" );
 		}
-		composite.layout( true );
+		paramsComposite.layout( true, true );
 		setContentSize(composite);
 	}
 

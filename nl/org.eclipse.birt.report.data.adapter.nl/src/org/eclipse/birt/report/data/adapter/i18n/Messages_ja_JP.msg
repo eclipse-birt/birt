@@ -31,6 +31,6 @@ invalid.level.expression=レベル名 "{0}" が見つかりません。
 invalid.measure.expression=メジャー "{0}" の式は null にできません。
 invalid.data.type=データ型が無効です : {0} 
 
-cube.error.createhierarchy=Error happens when create hierarchy:{0}.
-cube.error.createdimension=Error happens when create dimension:{0}.
-cube.error.createmeasure=Error happens when create measure.
+cube.error.createhierarchy=階層 {0} の作成中にエラーが発生しました。
+cube.error.createdimension=ディメンジョン {0} の作成中にエラーが発生しました。
+cube.error.createmeasure=メジャー要素の作成中にエラーが発生しました。

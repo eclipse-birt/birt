@@ -9,7 +9,6 @@
        <topic label="Report Core API Reference" href="core/api/index.html"/>
        <topic label="Report Core UI API Reference" href="coreui/api/index.html"/>
        <topic label="BIRT Report Scripting API Reference" href="enginescript/api/index.html"/>
-       <topic label="Open Data Access (ODA) 3.0.0 API Reference" href="../org.eclipse.datatools.doc.isv/html/reference/api/index.html"/>
        <topic label="Data Engine API Reference" href="data/api/index.html"/>
     </topic>
     <topic label="Extension Points Reference" >
@@ -23,7 +22,6 @@
       <topic label="org_eclipse_birt_report_engine_reportitemQuery" href="ref/ext/org_eclipse_birt_report_engine_reportitemQuery.html" />
       <topic label="org_eclipse_birt_report_model_encryptionHelper" href="ref/ext/org_eclipse_birt_report_model_encryptionHelper.html" />
       <topic label="org_eclipse_birt_report_model_reportItemModel" href="ref/ext/org_eclipse_birt_report_model_reportItem.html" />
-      <!--topic label="org_eclipse_datatools_connectivity_oda_datasource" href="ref/ext/org_eclipse_datatools_connectivity_oda_datasource.html" /-->
     </topic>
     <topic label="Report Object Model (ROM) Defintions Reference" href="doc/rom/index.html" />
   </topic>

@@ -31,6 +31,6 @@ invalid.level.expression=找不到级别名称“{0}”。
 invalid.measure.expression=度量“{0}”的度量表达式不能为空。
 invalid.data.type=无效数据类型: {0}。 
 
-cube.error.createhierarchy=Error happens when create hierarchy:{0}.
-cube.error.createdimension=Error happens when create dimension:{0}.
-cube.error.createmeasure=Error happens when create measure.
+cube.error.createhierarchy=创建层次结构时出现错误: {0}。
+cube.error.createdimension=创建维时出现错误: {0}。
+cube.error.createmeasure=创建度量时出现错误。
