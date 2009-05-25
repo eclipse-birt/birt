@@ -35,9 +35,14 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 {
 
 	public HTMLPerformanceOptimize( HTMLReportEmitter reportEmitter,
-			HTMLWriter writer, String layoutPreference, boolean enableInlineStyle )
+			HTMLWriter writer, String layoutPreference,
+			boolean enableInlineStyle, int browserVersion )
 	{
-		super( reportEmitter, writer, layoutPreference, enableInlineStyle );
+		super( reportEmitter,
+				writer,
+				layoutPreference,
+				enableInlineStyle,
+				browserVersion );
 	}
 	
 	/**

@@ -42,6 +42,7 @@ public abstract class HTMLEmitter
 	protected HTMLWriter writer;
 	protected String layoutPreference;
 	protected boolean enableInlineStyle = false;
+	protected int browserVersion = -1;
 	
 	/**
 	 * The <code>containerDisplayStack</code> that stores the display value of container.
@@ -49,12 +50,13 @@ public abstract class HTMLEmitter
 	protected Stack containerDisplayStack = new Stack( );
 
 	public HTMLEmitter( HTMLReportEmitter reportEmitter, HTMLWriter writer,
-			String layoutPreference, boolean enableInlineStyle )
+			String layoutPreference, boolean enableInlineStyle, int browserVersion )
 	{
 		this.reportEmitter = reportEmitter;
 		this.writer = writer;
 		this.layoutPreference = layoutPreference;
 		this.enableInlineStyle = enableInlineStyle;
+		this.browserVersion = browserVersion;
 	}
 	
 	// FIXME: code review: We shouldn��t pass the style directly. We should pass
@@ -616,14 +618,28 @@ public abstract class HTMLEmitter
 	protected void openInlineBoxTag( )
 	{
 		writer.openTag( HTMLTags.TAG_DIV );
-		// For the IE the display value will be "inline", because the IE can't
-		// identify the "!important". For the Firefox 1.5 and 2 the display
-		// value will be "-moz-inline-box", because only the Firefox 3 implement
-		// the "inline-block". For the Firefox 3 the display value will be
+		// For the IE6 the display value will be "inline", because the IE6
+		// can't identify the "!important".
+		// The IE7, IE8 and Firefox support "!important".
+		// IE7 hasn't impelmented inline-block. So we must output special
+		// diaplsy string for IE7.
+		// For the Firefox 1.5 and 2 the display value will be
+		// "-moz-inline-box", because only the Firefox 3 implement the
 		// "inline-block".
-		writer.attribute( HTMLTags.ATTR_STYLE,
-				" display:-moz-inline-box !important; display:inline-block !important; display:inline;" );
+		// For the Firefox 3 the display value will be "inline-block".
+		if ( browserVersion == HTMLEmitterUtil.BROWSER_IE7 )
+		{
+			// IE7 hasn't impelmented inline-block. 
+			writer.attribute( HTMLTags.ATTR_STYLE,
+					" display:-moz-inline-box !important; display:inline;" );
+		}
+		else
+		{
+			writer.attribute( HTMLTags.ATTR_STYLE,
+					" display:-moz-inline-box !important; display:inline-block !important; display:inline;" );
+		}
 		writer.openTag( HTMLTags.TAG_TABLE );
+		writer.attribute( HTMLTags.ATTR_STYLE, " display:table !important; display:inline;" );
 		writer.openTag( HTMLTags.TAG_TR );
 		writer.openTag( HTMLTags.TAG_TD );
 	}

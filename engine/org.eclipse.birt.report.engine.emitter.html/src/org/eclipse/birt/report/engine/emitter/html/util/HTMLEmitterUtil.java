@@ -222,4 +222,26 @@ public class HTMLEmitterUtil
 
 		return null;
 	}
+	
+	public static int BROWSER_UNKNOW = -1;
+	public static int BROWSER_FIREFOX1 = 11;
+	public static int BROWSER_FIREFOX2 = 12;
+	public static int BROWSER_FIREFOX3 = 13;
+	public static int BROWSER_IE5 = 21;
+	public static int BROWSER_IE6 = 22;
+	public static int BROWSER_IE7 = 23;
+	public static int BROWSER_IE8 = 24;
+	public static int getBrowserVersion( String userAgent )
+	{
+		if ( userAgent == null || userAgent.length( ) <= 0 )
+		{
+			return BROWSER_UNKNOW;
+		}
+		else if ( userAgent.contains( "; MSIE 7" ) )
+		{
+			return BROWSER_IE7;
+		}
+		else
+			return BROWSER_UNKNOW;
+	}
 }

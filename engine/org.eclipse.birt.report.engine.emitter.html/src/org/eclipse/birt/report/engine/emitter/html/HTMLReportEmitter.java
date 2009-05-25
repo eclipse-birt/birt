@@ -308,6 +308,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * b.id (bookmark). c.script name, which is created by BIRT.
 	 */
 	protected String htmlIDNamespace;
+	protected int browserVersion;
+	
 	protected int imageDpi = -1;
 	
 	protected HTMLEmitter htmlEmitter;
@@ -415,6 +417,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				enableInlineStyle = htmlOption.getEnableInlineStyle( );
 			}
+			browserVersion = HTMLEmitterUtil.getBrowserVersion( htmlOption.getUserAgent( ) );
 		}
 	}
 	
@@ -595,7 +598,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			htmlEmitter = new HTMLPerformanceOptimize( this,
 					writer,
 					layoutPreference,
-					enableInlineStyle );
+					enableInlineStyle,
+					browserVersion );
 		}
 		else
 		{
@@ -604,7 +608,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					writer,
 					layoutPreference,
 					enableInlineStyle,
-					htmlRtLFlag );
+					htmlRtLFlag,
+					browserVersion );
 		}
 		
 		if ( isEmbeddable )
@@ -1571,15 +1576,26 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				writer.openTag( HTMLTags.TAG_DIV );
 				DIVWrap = true;
 			}
-			// For the IE the display value will be "inline", because the IE
-			// can't
-			// identify the "!important". For the Firefox 1.5 and 2 the display
-			// value will be "-moz-inline-box", because only the Firefox 3
-			// implement
-			// the "inline-block". For the Firefox 3 the display value will be
+			// For the IE6 the display value will be "inline", because the IE6
+			// can't identify the "!important".
+			// The IE7, IE8 and Firefox support "!important".
+			// IE7 hasn't impelmented inline-block. So we must output special
+			// diaplsy string for IE7.
+			// For the Firefox 1.5 and 2 the display value will be
+			// "-moz-inline-box", because only the Firefox 3 implement the
 			// "inline-block".
-			writer.attribute( HTMLTags.ATTR_STYLE,
-					" display:-moz-inline-box !important; display:inline-block !important; display:inline;" );
+			// For the Firefox 3 the display value will be "inline-block".
+			if ( browserVersion == HTMLEmitterUtil.BROWSER_IE7 )
+			{
+				// IE7 hasn't impelmented inline-block. 
+				writer.attribute( HTMLTags.ATTR_STYLE,
+						" display:-moz-inline-box !important; display:inline;" );
+			}
+			else
+			{
+				writer.attribute( HTMLTags.ATTR_STYLE,
+						" display:-moz-inline-box !important; display:inline-block !important; display:inline;" );
+			}
 		}
 		
 		tableDIVWrapedFlagStack.push( new Boolean( DIVWrap ) );
