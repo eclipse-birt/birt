@@ -228,7 +228,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			Object nextBinding = columnBindings.next( );
 			IBinding binding = this.modelAdaptor.adaptBinding( (ComputedColumnHandle) nextBinding );
-			if( binding.getAggregatOns( ) == null || binding.getAggregatOns( ).size( ) == 0 )
+			if ( binding.getAggrFunction( ) == null
+					|| binding.getAggregatOns( ) == null
+					|| binding.getAggregatOns( ).size( ) == 0 )
 				temp.add( nextBinding );
 		}
 		
