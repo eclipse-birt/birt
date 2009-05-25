@@ -28,7 +28,7 @@ public class ImageData extends SheetData
 	{
 		super( );
 		this.style = style;
-		this.datatype = datatype;
+		this.dataType = datatype;
 		height = imageInfo.getHeight( ) * ExcelUtil.PX_PT;
 		double imageWidth = imageInfo.getWidth( ) * ExcelUtil.PX_PT;
 		width = Math.min( currentContainer.getSizeInfo( ).getWidth( ), imageWidth);

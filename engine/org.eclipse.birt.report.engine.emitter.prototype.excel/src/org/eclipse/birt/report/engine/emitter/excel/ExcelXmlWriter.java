@@ -187,6 +187,10 @@ public class ExcelXmlWriter implements IExcelWriter
 
 	private void writeDocumentProperties( IReportContent reportContent )
 	{
+		if ( reportContent == null )
+		{
+			return;
+		}
 		ReportDesignHandle reportDesign = reportContent.getDesign( )
 		.getReportDesign( );
 		writer.openTag( "DocumentProperties" );
@@ -209,12 +213,20 @@ public class ExcelXmlWriter implements IExcelWriter
 	// If possible, we can pass a format according the data type
 	private void writeText( Data d )
 	{
-		writer.openTag( "Data" );
+		int type = d.getDataType( );
+		StyleEntry style = d.getStyle( );
+		writeText( type, d.getValue( ), style );
+	}
 
-		int type = d.getDatatype( );
+	private void writeText( int type, Object value,
+			StyleEntry style )
+	{
+		String txt = ExcelUtil.format( value, type );
+		writer.openTag( "Data" );
 		if ( type == SheetData.NUMBER )
 		{
-			if ( d.isNaN( ) || d.isBigNumber( ) || d.isInfility( ) )
+			if ( ExcelUtil.isNaN( value ) || ExcelUtil.isBigNumber( value )
+					|| ExcelUtil.isInfinity( value ) )
 			{
 				writer.attribute( "ss:Type", "String" );
 			}
@@ -232,23 +244,23 @@ public class ExcelXmlWriter implements IExcelWriter
 			writer.attribute( "ss:Type", "String" );
 		}
 
-		d.formatTxt( );
-		String txt = d.getText( ).toString( );
-
-		if ( CSSConstants.CSS_CAPITALIZE_VALUE.equalsIgnoreCase( d.getStyle( )
-				.getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
+		if ( style != null )
 		{
-			txt = capitalize( txt );
-		}
-		else if ( CSSConstants.CSS_UPPERCASE_VALUE.equalsIgnoreCase( d
-				.getStyle( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
-		{
-			txt = txt.toUpperCase( );
-		}
-		else if ( CSSConstants.CSS_LOWERCASE_VALUE.equalsIgnoreCase( d
-				.getStyle( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
-		{
-			txt = txt.toLowerCase( );
+			if ( CSSConstants.CSS_CAPITALIZE_VALUE.equalsIgnoreCase( style
+					.getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
+			{
+				txt = capitalize( txt );
+			}
+			else if ( CSSConstants.CSS_UPPERCASE_VALUE.equalsIgnoreCase( style
+					.getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
+			{
+				txt = txt.toUpperCase( );
+			}
+			else if ( CSSConstants.CSS_LOWERCASE_VALUE.equalsIgnoreCase( style
+					.getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
+			{
+				txt = txt.toLowerCase( );
+			}
 		}
 
 		writer.text( txt );
@@ -278,7 +290,10 @@ public class ExcelXmlWriter implements IExcelWriter
 	{
 		writer.openTag( "Row" );
 		writer.attribute( "ss:AutoFitHeight", 0 );
-		writer.attribute( "ss:Height", rowHeight );
+		if ( rowHeight > 0 )
+		{
+			writer.attribute( "ss:Height", rowHeight );
+		}
 	}
 
 	public void endRow( )
@@ -286,12 +301,15 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "Row" );
 	}
 
-	private void startCell( int cellindex, int colspan, int rowspan,
-			int styleid, HyperlinkDef hyperLink ,BookmarkDef linkedBookmark)
+	private void startCell( int cellIndex, int colspan, int rowspan,
+			int styleId, HyperlinkDef hyperLink ,BookmarkDef linkedBookmark)
 	{
 		writer.openTag( "Cell" );
-		writer.attribute( "ss:Index", cellindex );
-		writer.attribute( "ss:StyleID", styleid );
+		writer.attribute( "ss:Index", cellIndex );
+		if ( styleId > 0 )
+		{
+			writer.attribute( "ss:StyleID", styleId );
+		}
 
 		if ( hyperLink != null )
 		{
@@ -314,8 +332,14 @@ public class ExcelXmlWriter implements IExcelWriter
 			}
 			writer.attribute( "ss:HRef", urlAddress );
 		}
-		writer.attribute( "ss:MergeAcross", colspan );
-		writer.attribute( "ss:MergeDown", rowspan );
+		if ( colspan > 0 )
+		{
+			writer.attribute( "ss:MergeAcross", colspan );
+		}
+		if ( rowspan > 0 )
+		{
+			writer.attribute( "ss:MergeDown", rowspan );
+		}
 	}
 
 	public void writeDefaultCell( Data d )
@@ -333,15 +357,36 @@ public class ExcelXmlWriter implements IExcelWriter
 
 	public void outputData( SheetData sheetData )
 	{
-		if ( sheetData.getDatatype( ) == SheetData.IMAGE )
+		if ( sheetData.getDataType( ) == SheetData.IMAGE )
 			return;
 		Data d = (Data) sheetData;
-		startCell( d.span.getCol( ), d.span.getColSpan( ), d.getRowSpan( ),
-				d.styleId, d.hyperLink, d.getLinkedBookmark( ) );
-		writeText( d );
-		if(d.hyperLink != null && d.hyperLink.getToolTip( ) != null)
+		int type = d.getDataType( );
+		Object value = d.getValue( );
+		StyleEntry style = d.getStyle( );
+		int column = d.span.getCol( );
+		int colSpan = d.span.getColSpan( );
+		int rowSpan = d.getRowSpan( );
+		int styleId = d.styleId;
+		HyperlinkDef hyperLink = d.hyperLink;
+		BookmarkDef linkedBookmark = d.getLinkedBookmark( );
+		outputData( type, value, style, column, colSpan, rowSpan, styleId,
+				hyperLink, linkedBookmark );
+	}
+
+	public void outputData( int col, int row, int type, Object value )
+	{
+		outputData( type, value, null, col, 0, 0, -1, null, null );
+	}
+
+	private void outputData( int type, Object value,
+			StyleEntry style, int column, int colSpan, int rowSpan,
+			int styleId, HyperlinkDef hyperLink, BookmarkDef linkedBookmark )
+	{
+		startCell( column, colSpan, rowSpan, styleId, hyperLink, linkedBookmark );
+		writeText( type, value, style );
+		if(hyperLink != null && hyperLink.getToolTip( ) != null)
 		{
-			writeComments(d.hyperLink);
+			writeComments(hyperLink);
 		}
 		endCell( );
 	}
@@ -361,16 +406,6 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "Font" );
 		writer.closeTag( "ss:Data" );
 		writer.closeTag( "Comment" );
-	}
-
-	protected void writeFormulaData( Data d )
-	{
-		writer.openTag( "Cell" );
-		writer.attribute( "ss:Index", d.span.getCol( ) );
-		writer.attribute( "ss:Formula", d.txt.toString( ) );
-		writer.attribute( "ss:MergeAcross", d.span.getColSpan( ) );
-		writer.attribute( "ss:StyleID", d.styleId );
-		writer.closeTag( "Cell" );
 	}
 
 	private void endCell( )
@@ -674,6 +709,11 @@ public class ExcelXmlWriter implements IExcelWriter
 
 	public void startSheet( String name )
 	{
+		startSheet( name, null );
+	}
+
+	public void startSheet( String name, int[] coordinates )
+	{
 		writer.openTag( "Worksheet" );
 		writer.attribute( "ss:Name", name );
 
@@ -682,6 +722,7 @@ public class ExcelXmlWriter implements IExcelWriter
 		if ( isRTLSheet )
 			writer.attribute( "ss:RightToLeft", rightToLeftisTrue );
 		// else : do nothing i.e. LTR
+		outputColumns( coordinates );
 	}
 
 	public void closeSheet( )
@@ -690,13 +731,13 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.endWriter( );
 	}
 
-	public void ouputColumns( int[] width )
+	public void outputColumns( int[] width )
 	{
 		writer.openTag( "ss:Table" );
 
 		if ( width == null )
 		{
-			logger.log( Level.SEVERE, "Invalid columns width" );
+			// logger.log( Level.SEVERE, "Invalid columns width" );
 			return;
 		}
 
@@ -777,9 +818,9 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "WorksheetOptions" );
 	}
 
-	private void startSheet( int sheetIndex )
+	private void startSheet( int sheetIndex, int[] coordinates )
 	{
-		startSheet( "Sheet" + String.valueOf( sheetIndex ) );
+		startSheet( "Sheet" + String.valueOf( sheetIndex ), coordinates );
 	}
 
 	public void startSheet( int[] coordinates, String pageHeader,
@@ -787,12 +828,11 @@ public class ExcelXmlWriter implements IExcelWriter
 	{
 		this.pageHeader = pageHeader;
 		this.pageFooter = pageFooter;
-		startSheet( sheetIndex );
-		ouputColumns( coordinates );
+		startSheet( sheetIndex, coordinates );
 		sheetIndex += 1;
 	}
 
-	public void endSheet( String orientaion )
+	public void endSheet( String orientation )
 	{
 		endTable( );
 		declareWorkSheetOptions( orientation, pageHeader, pageFooter );
@@ -838,4 +878,13 @@ public class ExcelXmlWriter implements IExcelWriter
 		this.sheetIndex = sheetIndex;
 	}
 
+	public void endSheet( )
+	{
+		endSheet( null );
+	}
+
+	public void startRow( )
+	{
+		startRow( -1 );
+	}
 }

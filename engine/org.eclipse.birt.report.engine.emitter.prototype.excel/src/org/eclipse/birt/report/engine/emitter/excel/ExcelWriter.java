@@ -119,6 +119,16 @@ public class ExcelWriter implements IExcelWriter
 		writer.startRow( rowHeight );
 	}
 
+	public void startSheet( String name ) throws IOException
+	{
+		if ( writer == null )
+		{
+			initializeWriterAsTempWriter( );
+		}
+		writer.startSheet( name );
+		sheetIndex++;
+	}
+
 	public void startSheet( int[] coordinates, String pageHeader,
 			String pageFooter ) throws IOException
 	{
@@ -142,6 +152,21 @@ public class ExcelWriter implements IExcelWriter
 		FileOutputStream out = new FileOutputStream( tempFilePath );
 		tempWriter = new ExcelXmlWriter( out, context, isRTLSheet );
 		writer = tempWriter;
+	}
+
+	public void endSheet( )
+	{
+		writer.endSheet( );
+	}
+
+	public void startRow( )
+	{
+		writer.startRow( );
+	}
+
+	public void outputData( int col, int row, int type, Object value )
+	{
+		writer.outputData( col, row, type, value );
 	}
 
 }

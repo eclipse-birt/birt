@@ -145,18 +145,18 @@ public class DataCache
 		return null;
 	}
 
-	public DataCahceIterator getRowIterator( )
+	public Iterator<SheetData[]> getRowIterator( )
 	{
-		return new DataCahceIterator( );
+		return new DataCacheIterator( );
 	}
 
-	private class DataCahceIterator implements Iterator<SheetData[]>
+	protected class DataCacheIterator implements Iterator<SheetData[]>
 	{
 
 		private int[] columnIndexes;
 		private int rowIndex = 1;
 
-		public DataCahceIterator( )
+		public DataCacheIterator( )
 		{
 			columnIndexes = new int[columns.size( )];
 		}

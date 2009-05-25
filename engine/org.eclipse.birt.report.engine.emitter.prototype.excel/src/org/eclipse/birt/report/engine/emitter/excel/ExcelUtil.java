@@ -573,6 +573,10 @@ public class ExcelUtil
 
 	public static boolean isBigNumber( Object number )
 	{
+		if ( number == null )
+		{
+			return false;
+		}
 		try
 		{
 			BigDecimal num = getBigDecimal( number );
@@ -623,6 +627,10 @@ public class ExcelUtil
 	
 	public static boolean isInfinity(Object number)
 	{
+		if ( number == null )
+		{
+			return false;
+		}
 		try
 		{
 			return Double.isInfinite( ( Double)number);
@@ -1104,6 +1112,19 @@ public class ExcelUtil
 	 */
 	public static String getRef( int row, int column )
 	{
+		return getCellId( row, getColumnId( column ) );
+	}
+
+	public static String getCellId( int row, String columnId )
+	{
+		String cellId = columnId;
+		if ( row >= 0 )
+			cellId = columnId + row;
+		return cellId;
+	}
+
+	public static String getColumnId( int column )
+	{
 		Stack<Character> digits = new Stack<Character>( );
 		int dividant = column;
 		while ( dividant > 26 )
@@ -1123,9 +1144,8 @@ public class ExcelUtil
 		{
 			buffer.append( digits.pop( ) );
 		}
-		if ( row >= 0 )
-			buffer.append( row );
-		return buffer.toString( );
+		String columnId = buffer.toString( );
+		return columnId;
 	}
 
 	public static double convertImageSize( DimensionType value, int ref )
@@ -1192,6 +1212,10 @@ public class ExcelUtil
 
 	public static boolean isNaN( Object number )
 	{
+		if ( number == null )
+		{
+			return false;
+		}
 		try
 		{
 			return Double.isNaN( (Double) number );
@@ -1202,4 +1226,35 @@ public class ExcelUtil
 		}
 	}
 
+	public static String format( Object value, int dataType )
+	{
+		if ( value == null )
+		{
+			return "";
+		}
+		else if ( dataType == SheetData.DATE )
+		{
+			return formatDate( value );
+		}
+		else if ( dataType == SheetData.NUMBER )
+		{
+			Number number = (Number) value;
+			if ( isBigNumber( number ) )
+			{
+				return formatNumberAsScienceNotation( number );
+			}
+			else if ( number.toString( ).length( ) > 31 )
+			{
+				if ( displayedAsScientific( number ) )
+				{
+					return formatNumberAsScienceNotation( number );
+				}
+				else
+				{
+					return formatNumberAsDecimal( number );
+				}
+			}
+		}
+		return value.toString( );
+	}
 }

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
@@ -43,7 +44,6 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.util.FlashFile;
 
@@ -94,7 +94,9 @@ public class ExcelLayoutEngine
 
 	private HashMap<String, BookmarkDef> bookmarkList = new HashMap<String, BookmarkDef>( );
 
-	public ExcelLayoutEngine( PageDef page, ExcelContext context,
+	private SheetData lastData = null;
+
+	public ExcelLayoutEngine( ExcelContext context,
 			ExcelEmitter emitter )
 	{
 		this.context = context;
@@ -103,10 +105,9 @@ public class ExcelLayoutEngine
 		EngineResourceHandle resourceHandle = new EngineResourceHandle( locale );
 		messageFlashObjectNotSupported = resourceHandle
 				.getMessage( MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT );
-		initalize( page );
 	}
 	
-	private void initalize(PageDef page)
+	public void initalize( PageDef page )
 	{
 		axis = new AxisProcessor( );		
 		axis.addCoordinate( page.contentwidth );
@@ -114,9 +115,14 @@ public class ExcelLayoutEngine
 		setCacheSize();
 		
 		ContainerSizeInfo rule = new ContainerSizeInfo( 0, page.contentwidth );
-		cache = new DataCache( maxCol, maxRow );
+		cache = createDataCache( maxCol, maxRow );
 		engine = new StyleEngine( this );
 		containers.push( createContainer( rule, page.style, null ) );
+	}
+
+	protected DataCache createDataCache( int maxColumn, int maxRow )
+	{
+		return new DataCache( maxColumn, maxRow );
 	}
 	
 	private void setCacheSize()
@@ -143,8 +149,10 @@ public class ExcelLayoutEngine
 		topContainer.setStyle( StyleBuilder.createStyleEntry( style ) );
 	}
 	
-	public void addTable( TableInfo table, IStyle style )
+	public void addTable( IContainerContent content, TableInfo table,
+			ContainerSizeInfo size )
 	{
+		IStyle style = content.getComputedStyle( );
 		XlsContainer currentContainer = getCurrentContainer( );
 		ContainerSizeInfo parentSizeInfo = currentContainer.getSizeInfo( );
 		int startCoordinate = parentSizeInfo.getStartCoordinate( );
@@ -267,13 +275,13 @@ public class ExcelLayoutEngine
 		addContainer( container );
 	}
 
-	public void endRow( DimensionType rowHeight )
+	public void endRow( double rowHeight )
 	{
 		synchronize( rowHeight );
 		endContainer( );
 	}
 
-	private void synchronize( DimensionType height )
+	private void synchronize( double height )
 	{
 		XlsContainer rowContainer = getCurrentContainer( );
 		ContainerSizeInfo rowSizeInfo = rowContainer.getSizeInfo( );
@@ -297,9 +305,7 @@ public class ExcelLayoutEngine
 			maxRowIndex++;
 		}
 		rowContainer.setRowIndex( maxRowIndex );
-		double rowHeight = height != null ? ExcelUtil.covertDimensionType(
-				height, 0 ) : 0;
-		double resize = rowHeight / ( maxRowIndex - startRowIndex );
+		double resize = height / ( maxRowIndex - startRowIndex );
 		for ( int i = startRowIndex + 1; i <= maxRowIndex; i++ )
 		{
 			cache.setRowHeight( i, resize );
@@ -416,8 +422,8 @@ public class ExcelLayoutEngine
 		XlsContainer container = getCurrentContainer( );
 		if ( container.isEmpty( ) )
 		{
-			Data data = new Data( EMPTY, container.getStyle( ), Data.STRING,
-					container );
+			Data data = createData( EMPTY, container.getStyle( ),
+					Data.STRING, container );
 			data.setSizeInfo( container.getSizeInfo( ) );
 			addData( data );
 		}
@@ -425,13 +431,13 @@ public class ExcelLayoutEngine
 		containers.pop( );
 	}
 
-	public void addData( Object txt, IStyle style, HyperlinkDef link,
+	public Data addData( Object txt, IStyle style, HyperlinkDef link,
 			BookmarkDef bookmark )
 	{
-		addData( txt, style, link, bookmark, null );
+		return addData( txt, style, link, bookmark, null );
 	}
 
-	public void addData( Object txt, IStyle style, HyperlinkDef link,
+	public Data addData( Object txt, IStyle style, HyperlinkDef link,
 			BookmarkDef bookmark, String dataLocale )
 	{
 		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );
@@ -441,6 +447,7 @@ public class ExcelLayoutEngine
 		data.setBookmark( bookmark );
 		data.setSizeInfo( rule );
 		addData( data );
+		return data;
 	}
 
 	public void addImageData( IImageContent image, IStyle style,
@@ -454,7 +461,6 @@ public class ExcelLayoutEngine
 		data.setBookmark( bookmark );
 		data.setSizeInfo( rule );
 		addData( data );
-
 	}
 
 	private SheetData createImageData( IImageContent image, StyleEntry entry, XlsContainer container )
@@ -490,7 +496,7 @@ public class ExcelLayoutEngine
 
 	}
 
-	public void addDateTime( Object txt, IStyle style, HyperlinkDef link,
+	public Data addDateTime( Object txt, IStyle style, HyperlinkDef link,
 			BookmarkDef bookmark, String dateTimeLocale )
 	{
 		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );
@@ -510,10 +516,11 @@ public class ExcelLayoutEngine
 			data.setBookmark( bookmark );
 			data.setSizeInfo( rule );
 			addData( data );
+			return data;
 		}
 		else
 		{
-			addData( dataContent.getText( ), style, link, bookmark,
+			return addData( dataContent.getText( ), style, link, bookmark,
 					dateTimeLocale );
 		}
 	}
@@ -562,7 +569,7 @@ public class ExcelLayoutEngine
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Integer
 				.toString( type ) );
 
-		return new Data( txt, entry, type, getCurrentContainer( ) );
+		return createData( txt, entry, type, getCurrentContainer( ) );
 	}
 
 	private Data createDateData( Object txt, StyleEntry entry,
@@ -574,7 +581,7 @@ public class ExcelLayoutEngine
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, timeFormat );
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Integer
 				.toString( SheetData.DATE ) );
-		return new Data( txt, entry, SheetData.DATE, getCurrentContainer( ) );
+		return createData( txt, entry, SheetData.DATE, getCurrentContainer( ) );
 	}
 
 	private ULocale getLocale( String dlocale )
@@ -593,10 +600,9 @@ public class ExcelLayoutEngine
 		outputDataIfBufferIsFull( );
 		updataRowIndex( data, container );
 		addDatatoCache( col, data );
-		SheetData newData = new Data( data );
 		for ( int i = col + 1; i < col + span; i++ )
 		{
-			BlankData blankData = new BlankData( newData );
+			BlankData blankData = new BlankData( data );
 			addDatatoCache( i, blankData );
 		}
 		
@@ -605,6 +611,7 @@ public class ExcelLayoutEngine
 			XlsCell cell = (XlsCell)container;
 			data.setRowSpanInDesign( cell.getRowSpan( ) - 1 );
 		}
+		lastData = data;
 	}
 
 	private void updataRowIndex( SheetData data, XlsContainer container )
@@ -877,6 +884,11 @@ public class ExcelLayoutEngine
 		return this.bookmarkList;
 	}
 
+	public SheetData getLastData( )
+	{
+		return lastData;
+	}
+
 	/**
 	 * @param bookmarkName
 	 * @return generatedBookmarkName
@@ -886,5 +898,29 @@ public class ExcelLayoutEngine
 		String generatedName = cachedBookmarks.get( bookmarkName );
 		return generatedName != null ? generatedName : AUTO_GENERATED_BOOKMARK
 				+ autoBookmarkIndex++;
+	}
+
+	protected Data createData( )
+	{
+		return new Data( );
+	}
+
+	private Data createData( Object text, StyleEntry style, int type,
+			XlsContainer container )
+	{
+		return createData( text, style, type, container, 0 );
+	}
+
+	private Data createData( Object text, StyleEntry s, int dataType,
+			XlsContainer container, int rowSpanOfDesign )
+	{
+		Data data = createData( );
+		data.setValue( text );
+		data.setStyle( s );
+		data.setDataType( dataType );
+		data.setContainer( container );
+		data.setRowSpanInDesign( rowSpanOfDesign );
+		lastData = data;
+		return data;
 	}
 }

@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.prototype.excel.test
 Bundle-Version: 2.5.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.prototype.excel.tests.Activator
 Require-Bundle: org.eclipse.birt.report.engine.emitter.prototype.excel;bundle-version="[2.1.0,3.0.0)",
+ org.eclipse.birt.report.engine;bundle-version="2.5.0",
  org.junit
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

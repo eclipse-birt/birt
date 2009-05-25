@@ -108,6 +108,10 @@ public class StyleEngine
 
 	public int getStyleID( StyleEntry entry )
 	{
+		if ( entry == null )
+		{
+			return 0;
+		}
 		if ( style2id.get( entry ) != null )
 		{
 			return style2id.get( entry ).intValue( );

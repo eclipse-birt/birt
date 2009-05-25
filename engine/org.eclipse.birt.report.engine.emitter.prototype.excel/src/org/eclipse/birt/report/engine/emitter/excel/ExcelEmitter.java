@@ -44,9 +44,10 @@ import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.emitter.excel.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.emitter.excel.layout.PageDef;
 import org.eclipse.birt.report.engine.emitter.excel.layout.TableInfo;
+import org.eclipse.birt.report.engine.ir.DataItemDesign;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
-import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 
@@ -121,12 +122,17 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		IStyle style = report.getRoot( ).getComputedStyle( );
 		SimpleMasterPageDesign master = (SimpleMasterPageDesign) report
 				.getDesign( ).getPageSetup( ).getMasterPage( 0 );
-		engine = new ExcelLayoutEngine( new PageDef( master, style ), context,
-				this );
+		engine = createLayoutEngine( context, this );
+		engine.initalize( new PageDef( master, style ) );
 		createWriter( );
 	}
 
-	
+	protected ExcelLayoutEngine createLayoutEngine( ExcelContext context,
+			ExcelEmitter emitter )
+	{
+		return new ExcelLayoutEngine( context, emitter );
+	}
+
 	private void setupRenderOptions()
 	{
 		IRenderOption renderOptions = service.getRenderOption( );
@@ -197,7 +203,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			engine.addCaption( caption );
 		}
 		
-		engine.addTable( info, table.getComputedStyle( ));
+		engine.addTable( table, info, sizeInfo );
 	}
 
 	public void startRow( IRowContent row )
@@ -207,7 +213,10 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void endRow( IRowContent row )
 	{
-		engine.endRow( row.getHeight( ) );
+		DimensionType height = row.getHeight( );
+		double rowHeight = height != null ? ExcelUtil.covertDimensionType(
+				height, 0 ) : 0;
+		engine.endRow( rowHeight );
 	}
 
 	public void startCell( ICellContent cell )
@@ -228,9 +237,9 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void startList( IListContent list )
 	{		
-		ContainerSizeInfo rule = engine.getCurrentContainer( ).getSizeInfo( );
-		TableInfo table = LayoutUtil.createTable( list, rule.getWidth( ) );
-		engine.addTable( table, list.getComputedStyle( ) );						 
+		ContainerSizeInfo size = engine.getCurrentContainer( ).getSizeInfo( );
+		TableInfo table = LayoutUtil.createTable( list, size.getWidth( ) );
+		engine.addTable( list, table, size );
 		
 		if(list.getChildren( ) == null)
 		{
@@ -278,15 +287,24 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void startData( IDataContent data )
 	{
+		addDataContent( data );
+	}
+
+	protected Data addDataContent( IDataContent data )
+	{
 		HyperlinkDef url = parseHyperLink( data );
 		BookmarkDef bookmark = getBookmark( data );
+		Data excelData = null;
+		Object generateBy = data.getGenerateBy( );
 		IStyle style = data.getComputedStyle( );
 		DataFormatValue dataformat = style.getDataFormat( );
-		MapDesign map = ( (StyledElementDesign) data.getGenerateBy( ) ).getMap( );
+		DataItemDesign design = (DataItemDesign) generateBy;
+		MapDesign map = design.getMap( );
 		if ( map != null && map.getRuleCount( ) > 0
 				&& data.getLabelText( ) != null )
 		{
-			engine.addData( data.getLabelText( ).trim( ), style, url, bookmark );
+			excelData = engine.addData( data.getLabelText( ).trim( ), style,
+					url, bookmark );
 		}
 		else
 		{
@@ -298,25 +316,28 @@ public class ExcelEmitter extends ContentEmitterAdapter
 				{
 					locale = dataformat.getStringLocale( );
 				}
-				engine.addData( data.getText( ), style, url, bookmark, locale );
+				excelData = engine.addData( data.getText( ), style, url,
+						bookmark, locale );
 			}
 			else if ( type == Data.NUMBER )
 			{
 				if ( dataformat != null )
 				{
-					locale = dataformat.getNumberLocale( );
+					locale = dataformat.getStringLocale( );
 				}
-				engine.addData( data.getValue( ), style, url, bookmark, locale );
+				excelData = engine.addData( data.getValue( ), style, url,
+						bookmark, locale );
 			}
 			else
 			{
 				if ( dataformat != null )
 				{
-					locale = dataformat.getDateTimeLocale( );
+					locale = dataformat.getStringLocale( );
 				}
-				engine.addDateTime( data, style, url, bookmark, locale );
+				excelData = engine.addDateTime( data, style, url, bookmark, locale );
 			}
 		}
+		return excelData;
 	}
 	
 	public void startImage( IImageContent image )
@@ -411,7 +432,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		writer.endSheet( orientation );
 	}
 
-	private void outputRowData( RowData rowData ) throws IOException
+	protected void outputRowData( RowData rowData ) throws IOException
 	{
 		writer.startRow( rowData.getHeight( ) );
 		SheetData[] data = rowData.getRowdata( );

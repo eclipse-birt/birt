@@ -36,35 +36,25 @@ public abstract class SheetData
 	private static final String HYPERLINK_COLOR = "#0000FF";
 	private static final String HYPERLINK_UNDERLINE = "1";
 
-	public int getRspan( )
+	public Object getValue( )
 	{
-		return rspan;
+		return value;
 	}
 
-	public void setRspan( int rspan )
+	public void setValue( Object txt )
 	{
-		this.rspan = rspan;
-	}
-
-	public Object getTxt( )
-	{
-		return txt;
-	}
-
-	public void setTxt( Object txt )
-	{
-		this.txt = txt;
+		this.value = txt;
 	}
 
 	StyleEntry style;
 
 	XlsContainer container;
 
-	int datatype;
+	protected int dataType;
 
-	Object txt;
+	Object value;
 
-	ContainerSizeInfo sizeInfo;
+	protected ContainerSizeInfo sizeInfo;
 
 	int styleId;
 
@@ -118,14 +108,14 @@ public abstract class SheetData
 		this.container = container;
 	}
 
-	public int getDatatype( )
+	public int getDataType( )
 	{
-		return datatype;
+		return dataType;
 	}
 
-	public void setDatatype( int datatype )
+	public void setDataType( int datatype )
 	{
-		this.datatype = datatype;
+		this.dataType = datatype;
 	}
 
 	public ContainerSizeInfo getSizeInfo( )
@@ -176,14 +166,6 @@ public abstract class SheetData
 	public int getStyleId( )
 	{
 		return styleId;
-	}
-
-	/**
-	 * @return
-	 */
-	public Object getText( )
-	{
-		return this.txt;
 	}
 
 	public HyperlinkDef getHyperlinkDef( )

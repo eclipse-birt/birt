@@ -11,172 +11,47 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
-import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.eclipse.birt.report.engine.emitter.excel.layout.XlsContainer;
 
 
 
-public class Data extends SheetData implements Serializable, Cloneable
+public class Data extends SheetData
 {
 
-	private static final long serialVersionUID = -316995334044186083L;
-
-	private static int ID = 0;
-
-	private int  id;
-
-	private static Logger log = Logger.getLogger( Data.class.getName( ) );
+	public Data( )
+	{
+	}
 
 	public Data( SheetData data )
 	{
-		this( data.getText( ), data.getStyle( ), data.getDatatype( ), data
+		this( data.getValue( ), data.getStyle( ), data.getDataType( ), data
 				.getContainer( ) );
 		this.rowIndex = data.getRowIndex( );
 	}
 	
-	public Data( final Object txt, final int datatype, XlsContainer container )
+	public Data( final Object value, final int datatype, XlsContainer container )
 	{
-		this( txt, null, datatype, container );
+		this( value, null, datatype, container );
 	}
 
-	public Data( final Object txt, final StyleEntry s, final int datatype,
+	public Data( final Object value, final StyleEntry s, final int datatype,
 			XlsContainer container )
 	{
-		this( txt, s, datatype, container, 0 );
+		this( value, s, datatype, container, 0 );
 	}
 
-	public Data( final Object txt, final StyleEntry s, final int datatype,
+	public Data( final Object value, final StyleEntry s, final int datatype,
 			XlsContainer container, int rowSpanOfDesign )
 	{
-		this.txt = txt;
+		this.value = value;
 		this.style = s;
-		this.datatype = datatype;
-		id = ID++;
+		this.dataType = datatype;
 		this.container = container;
-		this.rowSpanInDesign = 0;
-	}
-
-	public Object getText( )
-	{
-		if ( txt == null )
-			return " ";
-		return txt;
-	}
-
-	public void formatTxt( )
-	{
-		if ( txt == null )
-		{
-			return;
-		}
-		else if ( datatype == SheetData.DATE )
-		{
-			txt = ExcelUtil.formatDate( txt );
-		}
-		else if ( datatype == SheetData.NUMBER )
-		{
-			Number number = (Number) txt;
-			if ( ExcelUtil.isBigNumber( number ) )
-			{
-				txt = ExcelUtil.formatNumberAsScienceNotation( number );
-			}
-			else if ( number.toString( ).length( ) > 31 )
-			{
-				if ( ExcelUtil.displayedAsScientific( number ) )
-				{
-					txt = ExcelUtil.formatNumberAsScienceNotation( number );
-				}
-				else
-				{
-					txt = ExcelUtil.formatNumberAsDecimal( number );
-				}
-			}
-		}
-	}
-
-	public boolean isBigNumber( )
-	{
-		if ( txt == null )
-		{
-			return false;
-		}
-		else if ( datatype == Data.NUMBER )
-		{
-			return ExcelUtil.isBigNumber( txt );
-		}
-		return false;
-	}
-
-	public boolean isInfility( )
-	{
-		if ( txt == null )
-		{
-			return false;
-		}
-		else if ( datatype == SheetData.NUMBER )
-		{
-			return ExcelUtil.isInfinity( txt );
-		}
-		return false;
-	}
-	
-	public boolean isNaN( )
-	{
-		if ( txt == null )
-		{
-			return false;
-		}
-		else if ( datatype == SheetData.NUMBER )
-		{
-			return ExcelUtil.isNaN( txt );
-		}
-		return false;
+		this.rowSpanInDesign = rowSpanOfDesign;
 	}
 
 	public Object getValue( )
 	{
-		return txt;
-	}
-
-	public int hashCode( )
-	{
-		return id;
-	}
-//TODO:remove this method
-	// shallow copy is necessary and sufficient
-	protected Object clone( )
-	{
-		Object o = null;
-		try
-		{
-			o = super.clone( );
-		}
-		catch ( final CloneNotSupportedException e )
-		{
-			log.log( Level.WARNING, "clone data failed" );
-			// e.printStackTrace( );
-		}
-		return o;
-	}
-
-	public boolean equals( final Object o )
-	{
-		if ( o == this )
-		{
-			return true;
-		}
-		if ( !( o instanceof Data ) )
-		{
-			return false;
-		}
-		final Data data = (Data) o;
-		if ( data.id == id )
-		{
-			return true;
-		}
-		return false;
+		return value;
 	}
 }
