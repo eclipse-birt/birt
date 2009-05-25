@@ -835,9 +835,13 @@ abstract public class AbstractContent extends AbstractElement
 	public IBaseResultSet getResultSet( )
 	{
 		ReportContent reportContent = (ReportContent) report;
-		List<IBaseResultSet> resultSet = QueryUtil.getResultSet( reportContent,
+		List<IBaseResultSet> resultSets = QueryUtil.getResultSet( reportContent,
 				instanceId );
-		return resultSet.get( resultSet.size( ) - 1 );
+		if ( resultSets == null || resultSets.size( ) == 0 )
+		{
+			return null;
+		}
+		return new BaseResultSetDecorator( resultSets );
 	}
 
 	protected boolean getBooleanValue( Expression<Boolean> boolExpression,

@@ -1133,6 +1133,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				return textObj;
 
 			case IReportItemPresentation.OUTPUT_AS_UNKNOWN :
+				content.setRawValue( output );
 				return content;
 
 			default :
