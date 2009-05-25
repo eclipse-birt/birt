@@ -272,6 +272,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		if ( ob == null )
 			return null;
 
+		PreparedQueryUtil.mappingParentColumnBinding( (ISubqueryDefinition) ob );
 		PreparedDummyQuery preparedQuery = new PreparedDummyQuery( 	(ISubqueryDefinition) ob,session );
 		preparedQuery.subQueryName = name;
 		preparedQuery.subQueryIndex = 0;

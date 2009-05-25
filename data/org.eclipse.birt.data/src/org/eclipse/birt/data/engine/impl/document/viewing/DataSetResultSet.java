@@ -81,9 +81,6 @@ public class DataSetResultSet implements IDataSetPopulator
 	
 	private IResultClass populateResultClass( IResultClass meta ) throws DataException
 	{
-		//For dummy query we need not populate Postion
-		if( meta.getFieldCount( ) == 0 || meta.getFieldIndex( ExprMetaUtil.POS_NAME ) != -1 )
-			return meta;
 		List<ResultFieldMetadata> list = new ArrayList<ResultFieldMetadata>( );
 		for ( int i = 1; i <= meta.getFieldCount( ); i++ )
 		{

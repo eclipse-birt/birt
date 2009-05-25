@@ -40,6 +40,7 @@ import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.mozilla.javascript.Scriptable;
@@ -201,8 +202,11 @@ public class QueryResults implements IQueryResults, IQueryService
 	 */
 	private boolean isDummyQuery(org.eclipse.birt.data.engine.odi.IResultIterator odiIterator) throws DataException {
 		return queryService.getQueryDefn() instanceof IQueryDefinition
-				&& ((IQueryDefinition) queryService.getQueryDefn())
-						.getDataSetName() == null && odiIterator.getResultClass().getFieldCount() == 0;
+				&& ( (IQueryDefinition) queryService.getQueryDefn( ) ).getDataSetName( ) == null
+				&& ( odiIterator.getResultClass( ).getFieldCount( ) == 0 || ( odiIterator.getResultClass( )
+						.getFieldCount( ) == 1 && odiIterator.getResultClass( )
+						.getFieldName( 1 )
+						.equals( ExprMetaUtil.POS_NAME ) ) );
 	}
 	
 	/*
