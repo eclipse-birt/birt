@@ -43,7 +43,7 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 		wrappingText.setDisplayName( Messages
 				.getString( "OptionDisplayValue.WrappingText" ) ); //$NON-NLS-1$
 		wrappingText.setDataType( IConfigurableOption.DataType.BOOLEAN );
-		wrappingText.setDisplayType( IConfigurableOption.DispayType.CHECKBOX );
+		wrappingText.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
 		wrappingText.setDefaultValue( Boolean.TRUE );
 		wrappingText.setToolTip( null );
 		wrappingText.setDescription( Messages

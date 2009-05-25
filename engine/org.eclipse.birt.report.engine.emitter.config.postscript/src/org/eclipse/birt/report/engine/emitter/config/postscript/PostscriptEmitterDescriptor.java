@@ -44,7 +44,7 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		bidiProcessing.setDisplayName( Messages
 				.getString( "OptionDisplayValue.BidiProcessing" ) ); //$NON-NLS-1$
 		bidiProcessing.setDataType( IConfigurableOption.DataType.BOOLEAN );
-		bidiProcessing.setDisplayType( IConfigurableOption.DispayType.CHECKBOX );
+		bidiProcessing.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
 		bidiProcessing.setDefaultValue( Boolean.FALSE );
 		bidiProcessing.setToolTip( null );
 		bidiProcessing.setDescription( Messages
@@ -56,7 +56,7 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		textWrapping.setDisplayName( Messages
 				.getString( "OptionDisplayValue.TextWrapping" ) ); //$NON-NLS-1$
 		textWrapping.setDataType( IConfigurableOption.DataType.BOOLEAN );
-		textWrapping.setDisplayType( IConfigurableOption.DispayType.CHECKBOX );
+		textWrapping.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
 		textWrapping.setDefaultValue( Boolean.TRUE );
 		textWrapping.setToolTip( null );
 		textWrapping.setDescription( Messages
@@ -69,7 +69,7 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 				.getString( "OptionDisplayValue.fontSubstitution" ) );
 		fontSubstitution.setDataType( IConfigurableOption.DataType.BOOLEAN );
 		fontSubstitution
-				.setDisplayType( IConfigurableOption.DispayType.CHECKBOX );
+				.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
 		fontSubstitution.setDefaultValue( Boolean.TRUE );
 		fontSubstitution.setToolTip( null );
 		fontSubstitution.setDescription( Messages
@@ -81,7 +81,7 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		pageOverFlow.setDisplayName( Messages
 				.getString( "OptionDisplayValue.PageOverFlow" ) ); //$NON-NLS-1$
 		pageOverFlow.setDataType( IConfigurableOption.DataType.INTEGER );
-		pageOverFlow.setDisplayType( IConfigurableOption.DispayType.COMBO );
+		pageOverFlow.setDisplayType( IConfigurableOption.DisplayType.COMBO );
 		pageOverFlow
 				.setChoices( new OptionValue[]{
 						new OptionValue(

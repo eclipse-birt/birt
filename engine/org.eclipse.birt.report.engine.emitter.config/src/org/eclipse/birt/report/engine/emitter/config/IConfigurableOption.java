@@ -27,7 +27,7 @@ public interface IConfigurableOption
 	/**
 	 * The option display type constants
 	 */
-	enum DispayType {
+	enum DisplayType {
 		TEXT, COMBO, INPUTCOMBO, CHECKBOX,
 	};
 
@@ -49,7 +49,7 @@ public interface IConfigurableOption
 	/**
 	 * Returns the display type of this option.
 	 */
-	DispayType getDisplayType( );
+	DisplayType getDisplayType( );
 
 	/**
 	 * Returns all choice values of this option if applicable.
@@ -81,9 +81,4 @@ public interface IConfigurableOption
 	 */
 	boolean isEnabled( );
 
-	/**
-	 * Returns if this option is dynamic, which means the change of this option
-	 * may affect the other options.
-	 */
-	boolean isDynamic( );
 }

@@ -24,7 +24,7 @@ public final class ConfigurableOption implements IConfigurableOption
 	private DataType dataType = DataType.STRING;
 
 	/** The option type. */
-	private DispayType dispayType = DispayType.TEXT;
+	private DisplayType displayType = DisplayType.TEXT;
 
 	/** The default value. */
 	private Object defaultValue;
@@ -43,8 +43,6 @@ public final class ConfigurableOption implements IConfigurableOption
 
 	private boolean enabled = true;
 
-	private boolean dynamic = false;
-
 	private String category;
 
 	/**
@@ -61,12 +59,12 @@ public final class ConfigurableOption implements IConfigurableOption
 	}
 
 	public ConfigurableOption( String name, DataType dataType,
-			DispayType dispayType, Object defaultValue )
+			DisplayType displayType, Object defaultValue )
 	{
 		this( name );
 
 		setDataType( dataType );
-		setDisplayType( dispayType );
+		setDisplayType( displayType );
 		setDefaultValue( defaultValue );
 	}
 
@@ -77,7 +75,7 @@ public final class ConfigurableOption implements IConfigurableOption
 	 *            the option name.
 	 * @param dataType
 	 *            the data type.
-	 * @param dispayType
+	 * @param displayType
 	 *            the option type.
 	 * @param defaultValue
 	 *            the default value.
@@ -91,10 +89,10 @@ public final class ConfigurableOption implements IConfigurableOption
 	 *            the tool tip.
 	 */
 	public ConfigurableOption( String name, DataType dataType,
-			DispayType dispayType, Object defaultValue, IOptionValue[] choices,
+			DisplayType displayType, Object defaultValue, IOptionValue[] choices,
 			String displayName, String description, String toolTip )
 	{
-		this( name, dataType, dispayType, defaultValue );
+		this( name, dataType, displayType, defaultValue );
 
 		setChoices( choices );
 		setDescription( description );
@@ -131,20 +129,20 @@ public final class ConfigurableOption implements IConfigurableOption
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IConfigurableOption#
 	 * getOptionType()
 	 */
-	public DispayType getDisplayType( )
+	public DisplayType getDisplayType( )
 	{
-		return dispayType;
+		return displayType;
 	}
 
 	/**
 	 * Sets option type.
 	 * 
-	 * @param dispayType
+	 * @param displayType
 	 *            the option type to set.
 	 */
-	public void setDisplayType( DispayType dispayType )
+	public void setDisplayType( DisplayType displayType )
 	{
-		this.dispayType = dispayType;
+		this.displayType = displayType;
 	}
 
 	/*
@@ -279,16 +277,6 @@ public final class ConfigurableOption implements IConfigurableOption
 	public boolean isEnabled( )
 	{
 		return enabled;
-	}
-
-	public void setDynamic( boolean isDynamic )
-	{
-		this.dynamic = isDynamic;
-	}
-
-	public boolean isDynamic( )
-	{
-		return dynamic;
 	}
 
 	public String getCategory( )
