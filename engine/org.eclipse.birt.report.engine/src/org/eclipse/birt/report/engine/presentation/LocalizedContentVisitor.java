@@ -978,8 +978,23 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 							output, imageMIMEType, size );
 					if ( size != null )
 					{
-						DimensionType height = new DimensionType( size.getHeight( ), size.getUnit( ) );
-						DimensionType width = new DimensionType( size.getWidth( ), size.getUnit( ) );
+						DimensionType height = null;
+						DimensionType width = null;
+						// for the content whose unit is in pixel, we need to
+						// convert it to point, since the DPI of the content and
+						// the report may vary.
+						if ( DimensionType.UNITS_PX.equals( size.getUnit( ) ) )
+						{
+							height = new DimensionType( size.getHeight( )
+									/ resolution * 72, DimensionType.UNITS_PT );
+							width = new DimensionType( size.getWidth( )
+									/ resolution * 72, DimensionType.UNITS_PT );
+						}
+						else
+						{
+							height = new DimensionType( size.getHeight( ), size.getUnit( ) );
+							width = new DimensionType( size.getWidth( ), size.getUnit( ) );
+						}
 						generatedContent.setHeight( height );
 						generatedContent.setWidth( width );
 					}

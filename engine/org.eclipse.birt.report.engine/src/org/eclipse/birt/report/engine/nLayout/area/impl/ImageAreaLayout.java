@@ -246,38 +246,28 @@ class ConcreteImageLayout implements ILayout
 		{
 			// The DPI resolution of the image.
 			// the preference of the DPI setting is:
-			// 1. the resolution restored in content.
-			// 2. the resolution in image file.
-			// 3. the DPI in report designHandle.
-			// 4. use the DPI in render options.
-			// 5. the default DPI (96).
-			int contentResolution = content.getResolution( );
-			if ( contentResolution != 0 )
+			// 1. the resolution in image file.
+			// 2. the DPI in report designHandle.
+			// 3. use the DPI in render options.
+			// 4. the default DPI (96).
+			int resolutionX = image.getDpiX( );
+			int resolutionY = image.getDpiY( );
+			if ( 0 == resolutionX || 0 == resolutionY )
 			{
-				resolutionX = contentResolution;
-				resolutionY = contentResolution;
+				ReportDesignHandle designHandle = content.getReportContent( )
+						.getDesign( ).getReportDesign( );
+				resolutionX = designHandle.getImageDPI( );
+				resolutionY = designHandle.getImageDPI( );
 			}
-			else
+			if ( 0 == resolutionX || 0 == resolutionY )
 			{
-				resolutionX = image.getDpiX( );
-				resolutionY = image.getDpiY( );
-				if ( 0 == resolutionX || 0 == resolutionY )
-				{
-					ReportDesignHandle designHandle = content
-							.getReportContent( ).getDesign( ).getReportDesign( );
-					resolutionX = designHandle.getImageDPI( );
-					resolutionY = designHandle.getImageDPI( );
-				}
-				if ( 0 == resolutionX || 0 == resolutionY )
-				{
-					resolutionX = context.getDpi( );
-					resolutionY = context.getDpi( );
-				}
-				if ( 0 == resolutionX || 0 == resolutionY )
-				{
-					resolutionX = 96;
-					resolutionY = 96;
-				}
+				resolutionX = context.getDpi( );
+				resolutionY = context.getDpi( );
+			}
+			if ( 0 == resolutionX || 0 == resolutionY )
+			{
+				resolutionX = 96;
+				resolutionY = 96;
 			}
 			return new Dimension( (int) ( image.plainWidth( ) * 1000
 					/ resolutionX * 72 ), (int) ( image.plainHeight( ) * 1000

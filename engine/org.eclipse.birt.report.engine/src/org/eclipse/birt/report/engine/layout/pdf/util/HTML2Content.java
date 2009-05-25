@@ -764,25 +764,10 @@ public class HTML2Content
 			}
 
 			IForeignContent foreign = getForeignRoot( content );
-			if ( null != ele.getAttribute( "width" ) && !"".equals( ele.getAttribute( "width" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			if ( null != foreign )
 			{
-				flash.setWidth( PropertyUtil.getDimensionAttribute( ele,
-						"width" ) ); //$NON-NLS-1$
-			}
-			else
-			{
-				if ( null != foreign )
-					flash.setWidth( foreign.getWidth( ) );
-			}
-			if ( ele.getAttribute( "height" ) != null && !"".equals( ele.getAttribute( "height" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			{
-				flash.setHeight( PropertyUtil.getDimensionAttribute( ele,
-						"height" ) ); //$NON-NLS-1$
-			}
-			else
-			{
-				if ( null != foreign )
-					flash.setHeight( foreign.getHeight( ) );
+				flash.setWidth( foreign.getWidth( ) );
+				flash.setHeight( foreign.getHeight( ) );
 			}
 			String flashVars = ele.getAttribute( "flashvars" );
 			if ( flashVars != null && !"".equals( flashVars ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
