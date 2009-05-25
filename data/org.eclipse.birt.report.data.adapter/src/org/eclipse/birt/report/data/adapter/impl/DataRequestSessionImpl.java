@@ -226,9 +226,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 		
 		while ( columnBindings != null && columnBindings.hasNext( ) )
 		{
-			IBinding binding =  this.modelAdaptor.adaptBinding( (ComputedColumnHandle) columnBindings.next( ) );
+			Object nextBinding = columnBindings.next( );
+			IBinding binding = this.modelAdaptor.adaptBinding( (ComputedColumnHandle) nextBinding );
 			if( binding.getAggrFunction( ) == null )
-				temp.add( binding );
+				temp.add( nextBinding );
 		}
 		
 		IQueryResults queryResults = getQueryResults( dataSet,
