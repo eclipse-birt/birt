@@ -1047,32 +1047,29 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 	public FontDefinition copyInstance( )
 	{
 		FontDefinitionImpl dest = new FontDefinitionImpl( );
-		dest.set( this );
-		return dest;
-	}
-
-	protected void set( FontDefinition src )
-	{
-		if ( src.getAlignment( ) != null )
+		
+		TextAlignment tAlignment = getAlignment( );
+		if ( tAlignment != null )
 		{
-			setAlignment( src.getAlignment( ).copyInstance( ) );
+			dest.alignment = tAlignment.copyInstance( );
 		}
 
-		name = src.getName( );
-		size = src.getSize( );
-		sizeESet = src.isSetSize( );
-		bold = src.isBold( );
-		boldESet = src.isSetBold( );
-		italic = src.isItalic( );
-		italicESet = src.isSetItalic( );
-		strikethrough = src.isStrikethrough( );
-		strikethroughESet = src.isSetStrikethrough( );
-		underline = src.isUnderline( );
-		underlineESet = src.isSetUnderline( );
-		wordWrap = src.isWordWrap( );
-		wordWrapESet = src.isSetWordWrap( );
-		rotation = src.getRotation( );
-		rotationESet = src.isSetRotation( );
+		dest.name = getName( );
+		dest.size = getSize( );
+		dest.sizeESet = isSetSize( );
+		dest.bold = isBold( );
+		dest.boldESet = isSetBold( );
+		dest.italic = isItalic( );
+		dest.italicESet = isSetItalic( );
+		dest.strikethrough = isStrikethrough( );
+		dest.strikethroughESet = isSetStrikethrough( );
+		dest.underline = isUnderline( );
+		dest.underlineESet = isSetUnderline( );
+		dest.wordWrap = isWordWrap( );
+		dest.wordWrapESet = isSetWordWrap( );
+		dest.rotation = getRotation( );
+		dest.rotationESet = isSetRotation( );
+		return dest;
 	}
 
 	/*

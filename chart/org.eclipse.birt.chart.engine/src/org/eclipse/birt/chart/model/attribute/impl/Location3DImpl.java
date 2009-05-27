@@ -54,16 +54,10 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	public Location3D copyInstance( )
 	{
 		Location3DImpl dest = new Location3DImpl( );
-		dest.set( this );
+		dest.x = getX( );
+		dest.y = getY( );
+		dest.z = getZ( );
 		return dest;
-	}
-
-	protected void set( Location3D src )
-	{
-		super.set( src );
-
-		z = src.getZ( );
-		zESet = src.isSetZ( );
 	}
 
 	/**

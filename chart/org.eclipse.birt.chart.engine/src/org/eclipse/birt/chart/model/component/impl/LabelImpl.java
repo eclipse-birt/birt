@@ -836,7 +836,41 @@ public class LabelImpl extends EObjectImpl implements Label
 	public Label copyInstance( )
 	{
 		LabelImpl dest = new LabelImpl( );
-		dest.set( this );
+		
+		Text tCaption = getCaption( );
+		if ( tCaption != null )
+		{
+			dest.caption = tCaption.copyInstance( );
+		}
+
+		Fill tBackground = getBackground( );
+		if ( tBackground != null )
+		{
+			dest.background = tBackground.copyInstance( );
+		}
+
+		LineAttributes tOutline = getOutline( );
+		if ( tOutline != null )
+		{
+			dest.outline = tOutline.copyInstance( );
+		}
+
+		ColorDefinition tShadowColor = getShadowColor( );
+		if ( tShadowColor != null )
+		{
+			dest.shadowColor = tShadowColor.copyInstance( );
+		}
+
+		Insets tInsets = getInsets( );
+		if ( tInsets != null )
+		{
+			dest.insets = tInsets.copyInstance( );
+		}
+
+		dest.visible = isVisible( );
+		dest.visibleESet = isSetVisible( );
+		dest.ellipsis = getEllipsis( );
+		dest.ellipsisESet = isSetEllipsis( );
 		return dest;
 	}
 

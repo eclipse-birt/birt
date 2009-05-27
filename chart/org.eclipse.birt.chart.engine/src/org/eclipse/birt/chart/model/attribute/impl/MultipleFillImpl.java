@@ -178,22 +178,17 @@ public class MultipleFillImpl extends FillImpl implements MultipleFill
 	public MultipleFill copyInstance( )
 	{
 		MultipleFillImpl dest = new MultipleFillImpl( );
-		dest.set( this );
-		return dest;
-	}
 
-	protected void set( MultipleFill src )
-	{
-		super.set( src );
-
-		if ( src.getFills( ) != null )
+		EList<Fill> tFills = getFills( );
+		if ( tFills != null )
 		{
-			EList<Fill> list = getFills( );
-			for ( Fill element : src.getFills( ) )
+			EList<Fill> list = dest.getFills( );
+			for ( Fill element : tFills )
 			{
 				list.add( element.copyInstance( ) );
 			}
 		}
+		return dest;
 	}
 
 	public static MultipleFill create( EObject parent, EReference ref )

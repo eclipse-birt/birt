@@ -778,20 +778,15 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	public Bounds copyInstance( )
 	{
 		BoundsImpl dest = new BoundsImpl( );
-		dest.set( this );
+		dest.left = getLeft( );
+		dest.leftESet = isSetLeft( );
+		dest.top = getTop( );
+		dest.topESet = isSetTop( );
+		dest.width = getWidth( );
+		dest.widthESet = isSetWidth( );
+		dest.height = getHeight( );
+		dest.heightESet = isSetHeight( );
 		return dest;
-	}
-
-	protected void set( Bounds src )
-	{
-		left = src.getLeft( );
-		leftESet = src.isSetLeft( );
-		top = src.getTop( );
-		topESet = src.isSetTop( );
-		width = src.getWidth( );
-		widthESet = src.isSetWidth( );
-		height = src.getHeight( );
-		heightESet = src.isSetHeight( );
 	}
 
 	public static Bounds create( EObject parent, EReference ref )

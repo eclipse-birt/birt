@@ -752,9 +752,10 @@ public class MarkerImpl extends EObjectImpl implements Marker
 		mk.visible = src.isVisible( );
 		mk.visibleESet = src.isSetVisible( );
 		
-		if ( src.getOutline( ) != null )
+		LineAttributes tOutline = src.getOutline( );
+		if ( tOutline != null )
 		{
-			mk.setOutline( src.getOutline( ).copyInstance( ) );
+			mk.outline = tOutline.copyInstance( );
 		}
 
 		return mk;
@@ -782,7 +783,31 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	public Marker copyInstance( )
 	{
 		MarkerImpl dest = new MarkerImpl( );
-		dest.set( this );
+
+		Fill tFill = getFill( );
+		if ( tFill != null )
+		{
+			dest.fill = tFill.copyInstance( );
+		}
+
+		Palette tIconPalette = getIconPalette( );
+		if ( tIconPalette != null )
+		{
+			dest.setIconPalette( tIconPalette.copyInstance( ) );
+		}
+
+		LineAttributes tOutline = getOutline( );
+		if ( tOutline != null )
+		{
+			dest.outline = tOutline.copyInstance( );
+		}
+
+		dest.type = getType( );
+		dest.typeESet = isSetType( );
+		dest.size = getSize( );
+		dest.sizeESet = isSetSize( );
+		dest.visible = isVisible( );
+		dest.visibleESet = isSetVisible( );
 		return dest;
 	}
 

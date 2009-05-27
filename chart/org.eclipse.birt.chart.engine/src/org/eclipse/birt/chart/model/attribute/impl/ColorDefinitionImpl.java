@@ -38,7 +38,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 {
-
+	
 	/**
 	 * The default value of the '
 	 * {@link #getTransparency() <em>Transparency</em>}' attribute. <!--
@@ -815,22 +815,15 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	public ColorDefinition copyInstance( )
 	{
 		ColorDefinitionImpl dest = new ColorDefinitionImpl( );
-		dest.set( this );
+		dest.transparency = getTransparency( );
+		dest.transparencyESet = isSetTransparency( );
+		dest.red = getRed( );
+		dest.redESet = isSetRed( );
+		dest.green = getGreen( );
+		dest.greenESet = isSetGreen( );
+		dest.blue = getBlue( );
+		dest.blueESet = isSetBlue( );
 		return dest;
-	}
-
-	protected void set( ColorDefinition src )
-	{
-		super.set( src );
-
-		transparency = src.getTransparency( );
-		transparencyESet = src.isSetTransparency( );
-		red = src.getRed( );
-		redESet = src.isSetRed( );
-		green = src.getGreen( );
-		greenESet = src.isSetGreen( );
-		blue = src.getBlue( );
-		blueESet = src.isSetBlue( );
 	}
 
 	public static ColorDefinition create( EObject parent, EReference ref )

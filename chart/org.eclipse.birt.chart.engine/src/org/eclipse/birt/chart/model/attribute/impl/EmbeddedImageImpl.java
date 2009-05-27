@@ -201,16 +201,9 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 	public EmbeddedImage copyInstance( )
 	{
 		EmbeddedImageImpl dest = new EmbeddedImageImpl( );
-		dest.set( this );
+		dest.uRL = getURL( );
+		dest.data = getData( );
 		return dest;
-	}
-
-	protected void set( EmbeddedImage src )
-	{
-		super.set( src );
-
-		uRL = src.getURL( );
-		data = src.getData( );
 	}
 
 	public static EmbeddedImage create( EObject parent, EReference ref )

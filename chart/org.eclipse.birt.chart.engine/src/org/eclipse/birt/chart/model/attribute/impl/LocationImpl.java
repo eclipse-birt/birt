@@ -425,16 +425,15 @@ public class LocationImpl extends EObjectImpl implements Location
 	public Location copyInstance( )
 	{
 		LocationImpl dest = new LocationImpl( );
-		dest.set( this );
+		dest.x = getX( );
+		dest.y = getY( );
 		return dest;
 	}
 
 	protected void set( Location src )
 	{
 		x = src.getX( );
-		xESet = src.isSetX( );
 		y = src.getY( );
-		yESet = src.isSetY( );
 	}
 
 	/*

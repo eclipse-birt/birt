@@ -242,14 +242,12 @@ public class ImageImpl extends FillImpl implements Image
 	public Image copyInstance( )
 	{
 		ImageImpl dest = new ImageImpl( );
-		dest.set( this );
+		dest.uRL = getURL( );
 		return dest;
 	}
 
 	protected void set( Image src )
 	{
-		super.set( src );
-
 		uRL = src.getURL( );
 	}
 

@@ -658,30 +658,26 @@ public class GradientImpl extends FillImpl implements Gradient
 	public Gradient copyInstance( )
 	{
 		GradientImpl dest = new GradientImpl( );
-		dest.set( this );
+		
+		ColorDefinition tStartColor = getStartColor( );
+		if ( tStartColor != null )
+		{
+			dest.startColor = tStartColor.copyInstance( );
+		}
+
+		ColorDefinition tEndColor = getEndColor( );
+		if ( tEndColor != null )
+		{
+			dest.endColor = tEndColor.copyInstance( );
+		}
+
+		dest.direction = getDirection( );
+		dest.directionESet = isSetDirection( );
+		dest.cyclic = isCyclic( );
+		dest.cyclicESet = isSetCyclic( );
+		dest.transparency = getTransparency( );
+		dest.transparencyESet = isSetTransparency( );
 		return dest;
-	}
-
-	protected void set( Gradient src )
-	{
-		super.set( src );
-
-		if ( src.getStartColor( ) != null )
-		{
-			setStartColor( src.getStartColor( ).copyInstance( ) );
-		}
-
-		if ( src.getEndColor( ) != null )
-		{
-			setEndColor( src.getEndColor( ).copyInstance( ) );
-		}
-
-		direction = src.getDirection( );
-		directionESet = src.isSetDirection( );
-		cyclic = src.isCyclic( );
-		cyclicESet = src.isSetCyclic( );
-		transparency = src.getTransparency( );
-		transparencyESet = src.isSetTransparency( );
 	}
 
 	public static Gradient create( EObject parent, EReference ref )

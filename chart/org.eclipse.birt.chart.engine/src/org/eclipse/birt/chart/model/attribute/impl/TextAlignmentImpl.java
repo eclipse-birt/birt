@@ -355,16 +355,11 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 	public TextAlignment copyInstance( )
 	{
 		TextAlignmentImpl dest = new TextAlignmentImpl( );
-		dest.set( this );
+		dest.horizontalAlignment = getHorizontalAlignment( );
+		dest.horizontalAlignmentESet = isSetHorizontalAlignment( );
+		dest.verticalAlignment = getVerticalAlignment( );
+		dest.verticalAlignmentESet = isSetVerticalAlignment( );
 		return dest;
-	}
-
-	protected void set( TextAlignment src )
-	{
-		horizontalAlignment = src.getHorizontalAlignment( );
-		horizontalAlignmentESet = src.isSetHorizontalAlignment( );
-		verticalAlignment = src.getVerticalAlignment( );
-		verticalAlignmentESet = src.isSetVerticalAlignment( );
 	}
 
 	/*

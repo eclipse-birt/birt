@@ -404,7 +404,20 @@ public class TextImpl extends EObjectImpl implements Text
 	public Text copyInstance( )
 	{
 		TextImpl dest = new TextImpl( );
-		dest.set( this );
+		
+		FontDefinition tFont = getFont( );
+		if ( tFont != null )
+		{
+			dest.font = tFont.copyInstance( );
+		}
+
+		ColorDefinition tColor = getColor( );
+		if ( tColor != null )
+		{
+			dest.color = tColor.copyInstance( );
+		}
+
+		dest.value = getValue( );
 		return dest;
 	}
 

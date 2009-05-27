@@ -572,23 +572,20 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	public LineAttributes copyInstance( )
 	{
 		LineAttributesImpl dest = new LineAttributesImpl( );
-		dest.set( this );
-		return dest;
-	}
-
-	protected void set( LineAttributes src )
-	{
-		if ( src.getColor( ) != null )
+		
+		ColorDefinition tColor = getColor( );
+		if ( tColor != null )
 		{
-			setColor( src.getColor( ).copyInstance( ) );
+			dest.color = tColor.copyInstance( );
 		}
 
-		style = src.getStyle( );
-		styleESet = src.isSetStyle( );
-		thickness = src.getThickness( );
-		thicknessESet = src.isSetThickness( );
-		visible = src.isVisible( );
-		visibleESet = src.isSetVisible( );
+		dest.style = getStyle( );
+		dest.styleESet = isSetStyle( );
+		dest.thickness = getThickness( );
+		dest.thicknessESet = isSetThickness( );
+		dest.visible = isVisible( );
+		dest.visibleESet = isSetVisible( );
+		return dest;
 	}
 
 	public static LineAttributes create( EObject parent, EReference ref )

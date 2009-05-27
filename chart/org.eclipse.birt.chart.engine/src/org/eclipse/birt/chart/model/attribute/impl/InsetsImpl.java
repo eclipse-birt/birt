@@ -626,20 +626,15 @@ public class InsetsImpl extends EObjectImpl implements Insets
 	public Insets copyInstance( )
 	{
 		InsetsImpl dest = new InsetsImpl( );
-		dest.set( this );
+		dest.top = getTop( );
+		dest.topESet = isSetTop( );
+		dest.left = getLeft( );
+		dest.leftESet = isSetLeft( );
+		dest.bottom = getBottom( );
+		dest.bottomESet = isSetBottom( );
+		dest.right = getRight( );
+		dest.rightESet = isSetRight( );
 		return dest;
-	}
-
-	protected void set( Insets src )
-	{
-		top = src.getTop( );
-		topESet = src.isSetTop( );
-		left = src.getLeft( );
-		leftESet = src.isSetLeft( );
-		bottom = src.getBottom( );
-		bottomESet = src.isSetBottom( );
-		right = src.getRight( );
-		rightESet = src.isSetRight( );
 	}
 
 	/*
