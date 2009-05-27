@@ -1609,58 +1609,53 @@ public abstract class EngineTask implements IEngineTask
 		{
 			format = renderOptions.getOutputFormat( );
 			emitterID = renderOptions.getEmitterID( );
-			if ( emitterID == null )
+			if ( emitterID == null && format == null )
 			{
-				if ( format == null )
-				{
-					format = RenderOption.OUTPUT_FORMAT_HTML;
-					renderOptions.setOutputFormat( format );
-				}
-				emitterID = engine.getConfig( ).getDefaultEmitter(format);
+				// using the default format and emitter
+				format = RenderOption.OUTPUT_FORMAT_HTML;
+				emitterID = engine.getConfig( ).getDefaultEmitter( format );
 			}
-			if(emitterID!=null)
+			else if ( emitterID != null )
 			{
-				if(!extManager.isValidEmitterID( emitterID ))
+				// the user use the emitter id to define the output format
+				if ( !extManager.isValidEmitterID( emitterID ) )
 				{
-					log.log( Level.SEVERE, MessageConstants.INVALID_EMITTER_ID, emitterID);
-					throw new EngineException( MessageConstants.INVALID_EMITTER_ID, emitterID );
+					log.log( Level.SEVERE, MessageConstants.INVALID_EMITTER_ID,
+							emitterID );
+					throw new EngineException(
+							MessageConstants.INVALID_EMITTER_ID, emitterID );
 				}
-				String formatOfEmitter = extManager.getFormat( emitterID );
-				if ( null == format )
+				String emitterFormat = extManager.getFormat( emitterID );
+				if ( format != null )
 				{
-					renderOptions.setOutputFormat( formatOfEmitter );
+					// check if the format matches with the emitter id
+					if ( !emitterFormat.equalsIgnoreCase( format ) )
+					{
+						throw new EngineException(
+								MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION,
+								format );
+					}
 				}
-				else if ( !format.equalsIgnoreCase( formatOfEmitter ) )
-				{
-					throw new EngineException( MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
-				}
+				format = emitterFormat;
 			}
 			else
 			{
-				if ( format == null )
+				// the user defines the format
+				String innerFormat = extManager.getSupportedFormat( format );
+				if ( innerFormat == null )
 				{
-					format = RenderOption.OUTPUT_FORMAT_HTML;
-					renderOptions.setOutputFormat( format );
-					emitterID = RenderOption.OUTPUT_EMITTERID_HTML;
+					log.log( Level.SEVERE,
+							MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION,
+							format );
+					throw new UnsupportedFormatException(
+							MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION,
+							format );
 				}
-				else
-				{
-					String innerFormat = extManager.getSupportedFormat( format );
-					if ( innerFormat == null )
-					{
-						log.log( Level.SEVERE,
-								MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
-						throw new UnsupportedFormatException(
-								MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
-					}
-					else
-					{
-						renderOptions.setOutputFormat( innerFormat );
-						format = innerFormat;
-						emitterID = extManager.getEmitterID( format );
-					}
-				}
+				format = innerFormat;
+				emitterID = extManager.getEmitterID( format );
 			}
+			renderOptions.setEmitterID( emitterID );
+			renderOptions.setOutputFormat( format );
 		}
 
 		// copy the old setting to render options
