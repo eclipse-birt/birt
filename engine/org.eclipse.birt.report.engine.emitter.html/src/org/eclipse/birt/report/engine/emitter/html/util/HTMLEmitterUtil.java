@@ -153,16 +153,16 @@ public class HTMLEmitterUtil
 		try
 		{
 			String units = d.getUnits( );
-			if ( units.equals( EngineIRConstants.UNITS_PX ) )
+			if ( EngineIRConstants.UNITS_PX.equals( units ) )
 			{
 				// use the default DPI.
 				return (int) d.getMeasure( );
 			}
-			else if ( units.equals( EngineIRConstants.UNITS_PT )
-					|| units.equals( EngineIRConstants.UNITS_CM )
-					|| units.equals( EngineIRConstants.UNITS_MM )
-					|| units.equals( EngineIRConstants.UNITS_PC )
-					|| units.equals( EngineIRConstants.UNITS_IN ) )
+			else if ( EngineIRConstants.UNITS_PT.equals( units )
+					|| EngineIRConstants.UNITS_CM.equals( units )
+					|| EngineIRConstants.UNITS_MM.equals( units )
+					|| EngineIRConstants.UNITS_PC.equals( units )
+					|| EngineIRConstants.UNITS_IN.equals( units ) )
 			{
 				double point = d.convertTo( EngineIRConstants.UNITS_PT );
 				if ( dpi > 0 )
@@ -175,7 +175,7 @@ public class HTMLEmitterUtil
 					return (int) ( point / 72 * 96 );
 				}
 			}
-			else if ( units.equals( EngineIRConstants.UNITS_PERCENTAGE ) )
+			else if ( EngineIRConstants.UNITS_PERCENTAGE.equals( units ) )
 			{
 				return 0;
 			}
