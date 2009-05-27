@@ -373,14 +373,20 @@ public abstract class ContainerArea extends AbstractArea
 					}
 					float imageWidth = img.plainWidth( ) / resolutionX * 72;
 					float imageHeight = img.plainHeight( ) / resolutionY * 72;
-					bgi
-							.setXOffset( bgi.getXOffset( )
-									* ( width - (int) ( imageWidth * PDFConstants.LAYOUT_TO_PDF_RATIO ) )
-									/ 100 );
-					bgi
-							.setYOffset( bgi.getYOffset( )
-									* ( height - (int) ( imageHeight * PDFConstants.LAYOUT_TO_PDF_RATIO ) )
-									/ 100 );
+					if ( content != null )
+					{
+						IStyle style = content.getComputedStyle( );
+						int ox = getDimensionValue(
+								style
+										.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
+								( width - (int) ( imageWidth * PDFConstants.LAYOUT_TO_PDF_RATIO ) ) );
+						int oy = getDimensionValue(
+								style
+										.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
+								( height - (int) ( imageHeight * PDFConstants.LAYOUT_TO_PDF_RATIO ) ) );
+						bgi.setXOffset( ox );
+						bgi.setYOffset( oy );
+					}
 				}
 			}
 		}
@@ -1077,12 +1083,8 @@ public abstract class ContainerArea extends AbstractArea
 		{
 			boxStyle.setBackgroundImage( new BackgroundImageInfo(
 					getImageUrl( url.getCssText( ) ), style
-							.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
-					getDimensionValue( style
-							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
-							100 ), getDimensionValue( style
-							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
-							100 ), 0, 0 ) );
+							.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0,
+					0, 0, 0 ) );
 		}
 
 		action = content.getHyperlinkAction( );
@@ -1108,18 +1110,10 @@ public abstract class ContainerArea extends AbstractArea
 			String url = style.getBackgroundImage( );
 			if ( url != null )
 			{
-				boxStyle
-						.setBackgroundImage( new BackgroundImageInfo(
-								getImageUrl( url ),
-								cs.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
-								getDimensionValue(
-										cs
-												.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
-										100 ),
-								getDimensionValue(
-										cs
-												.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
-										100 ) , 0, 0) );
+				boxStyle.setBackgroundImage( new BackgroundImageInfo(
+						getImageUrl( url ), cs
+								.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
+						0, 0, 0, 0 ) );
 
 			}
 			if ( !isInInlineStacking )
