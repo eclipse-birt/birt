@@ -103,7 +103,7 @@ public class AggregationArgument extends Structure
 		if ( NAME_MEMBER.equals( propName ) )
 			name = (String) value;
 		else if ( VALUE_MEMBER.equals( propName ) )
-			this.value = convertObjectToExpression( value );
+			this.value = (Expression) value;
 		else
 			assert false;
 	}

@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.api.SearchKeyHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Structure for optional list of search criteria. It is used when we defined
@@ -70,7 +69,9 @@ public class SearchKey extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * .lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -85,14 +86,15 @@ public class SearchKey extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
 		if ( EXPRESSION_MEMBER.equals( propName ) )
-			expression = convertObjectToExpression( value );
+			expression = (Expression) value;
 		else
 			assert false;
 	}
@@ -123,8 +125,9 @@ public class SearchKey extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
 	 */
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{

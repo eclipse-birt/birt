@@ -85,7 +85,7 @@ public class SortKey extends Structure
 
 	public SortKey( String key, String direction )
 	{
-		this.key = convertObjectToExpression( key );
+		this.key = new Expression( key, null );
 		this.direction = direction;
 	}
 
@@ -139,7 +139,7 @@ public class SortKey extends Structure
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
 		if ( KEY_MEMBER.equals( propName ) )
-			key = convertObjectToExpression( value );
+			key = (Expression) value;
 		else if ( DIRECTION_MEMBER.equals( propName ) )
 			direction = (String) value;
 		else

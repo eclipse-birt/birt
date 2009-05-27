@@ -147,7 +147,7 @@ public class PropertyBinding extends Structure
 		else if ( ID_MEMBER.equalsIgnoreCase( propName ) )
 			id = (BigDecimal) value;
 		else if ( VALUE_MEMBER.equalsIgnoreCase( propName ) )
-			this.value = convertObjectToExpression( value );
+			this.value = (Expression) value;
 		else
 			assert false;
 

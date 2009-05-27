@@ -23,7 +23,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * This class presents the parameter binding that bind data set input parameter
@@ -120,7 +119,7 @@ public class ParamBinding extends Structure
 			paramName = (String) value;
 		else if ( EXPRESSION_MEMBER.equals( propName ) )
 		{
-			expression = convertObjectToExpression( value );
+			expression = (Expression) value;
 		}
 		else
 			assert false;

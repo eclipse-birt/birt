@@ -192,7 +192,7 @@ public class TOC extends PropertyStructure
 
 	public String getExpression( )
 	{
-		return (String) getProperty( null, TOC_EXPRESSION );
+		return getStringProperty( null, TOC_EXPRESSION );
 	}
 
 }

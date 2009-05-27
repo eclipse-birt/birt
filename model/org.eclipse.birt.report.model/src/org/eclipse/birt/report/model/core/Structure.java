@@ -257,11 +257,13 @@ public abstract class Structure implements IStructure
 
 	public void setProperty( PropertyDefn prop, Object value )
 	{
-		updateReference( prop, value );
-		setupContext( prop, value );
+		Object updatedValue = getCompatibleValue( prop, value );
+		
+		updateReference( prop, updatedValue );
+		setupContext( prop, updatedValue );
 
 		if ( prop.isIntrinsic( ) )
-			setIntrinsicProperty( prop.getName( ), value );
+			setIntrinsicProperty( prop.getName( ), updatedValue );
 
 	}
 
@@ -583,14 +585,12 @@ public abstract class Structure implements IStructure
 	 * @return the expression object
 	 */
 
-	protected static Expression convertObjectToExpression( Object value )
+	private static Expression convertObjectToExpression( Object value )
 	{
 		Expression expression = null;
 
-		if ( value instanceof String )
+		if ( !( value instanceof Expression ) )
 			expression = new Expression( value, null );
-		else if ( value instanceof Expression )
-			expression = (Expression) value;
 
 		return expression;
 	}
@@ -603,7 +603,7 @@ public abstract class Structure implements IStructure
 	 * @return the expression list
 	 */
 
-	protected static List<Expression> convertListToExpressionList(
+	private static List<Expression> convertListToExpressionList(
 			List<String> values )
 	{
 		if ( values == null )
@@ -654,5 +654,42 @@ public abstract class Structure implements IStructure
 	public Expression getExpressionProperty( String memberName )
 	{
 		return (Expression) getProperty( null, memberName );
+	}
+
+	/**
+	 * Converts the given value to the expression value for the compatibility
+	 * issue.
+	 * 
+	 * @param propDefn
+	 *            the member definition
+	 * @param value
+	 *            the value
+	 * @return the compatible value
+	 */
+
+	protected Object getCompatibleValue( PropertyDefn propDefn, Object value )
+	{
+		if ( propDefn.allowExpression( ) )
+		{
+			// for the case that the given value is a string/integer, etc.
+
+			if ( value != null && !( value instanceof List<?> )
+					&& !( value instanceof Expression ) )
+				return new Expression( value, null );
+
+			// for the case that the given value is a string/integer list
+
+			if ( value != null && value instanceof List<?> )
+			{
+				List tmpList = (List) value;
+				if ( !tmpList.isEmpty( )
+						&& !( tmpList.get( 0 ) instanceof Expression ) )
+				{
+					return convertListToExpressionList( tmpList );
+				}
+			}
+		}
+
+		return value;
 	}
 }

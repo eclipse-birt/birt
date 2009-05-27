@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * This class represents one rule. Each rule has the following properties:
@@ -112,11 +111,11 @@ public class Rule extends Structure
 	{
 		if ( RULE_EXPRE_MEMBER.equals( propName ) )
 		{
-			ruleExpre = convertObjectToExpression( value );
+			ruleExpre = (Expression) value;
 		}
 		else if ( DISPLAY_EXPRE_MEMBER.equals( propName ) )
 		{
-			displayExpre = convertObjectToExpression( value );
+			displayExpre = (Expression) value;
 		}
 	}
 }

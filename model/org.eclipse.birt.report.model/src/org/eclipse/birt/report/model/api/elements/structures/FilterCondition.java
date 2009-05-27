@@ -308,7 +308,6 @@ public class FilterCondition extends PropertyStructure
 		}
 		List valueList = new ArrayList( );
 		valueList.add( value1 );
-		valueList = convertListToExpressionList( (List<String>) valueList );
 
 		setProperty( VALUE1_MEMBER, valueList );
 	}
@@ -322,8 +321,7 @@ public class FilterCondition extends PropertyStructure
 
 	public void setValue1( List value1List )
 	{
-		List<Expression> tmpList = convertListToExpressionList( value1List );
-		setProperty( VALUE1_MEMBER, tmpList );
+		setProperty( VALUE1_MEMBER, value1List );
 	}
 
 	/**

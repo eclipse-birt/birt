@@ -97,7 +97,7 @@ public class HideRule extends Structure
 	public HideRule( String format, String expression )
 	{
 		this.format = format;
-		this.expression = convertObjectToExpression( expression );
+		this.expression = new Expression( expression, null );
 	}
 
 	/*
@@ -125,7 +125,7 @@ public class HideRule extends Structure
 			format = (String) value;
 		else if ( VALUE_EXPR_MEMBER.equalsIgnoreCase( propName ) )
 		{
-			expression = convertObjectToExpression( value );
+			expression = (Expression) value;
 		}
 		else
 			assert false;

@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents the parameter for ODA drivers. The parameter is the part of the
@@ -254,7 +253,7 @@ public class DataSetParameter extends Structure
 		else if ( IS_OPTIONAL_MEMBER.equals( propName ) )
 			isOptional = (Boolean) value;
 		else if ( DEFAULT_VALUE_MEMBER.equals( propName ) )
-			defaultValue = convertObjectToExpression( value );
+			defaultValue = (Expression) value;
 		else if ( IS_NULLABLE_MEMBER.equals( propName )
 				|| ALLOW_NULL_MEMBER.equals( propName ) )
 			allowNull = (Boolean) value;

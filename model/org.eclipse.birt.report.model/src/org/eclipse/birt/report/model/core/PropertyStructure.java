@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.core;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -97,15 +96,17 @@ public abstract class PropertyStructure extends Structure
 	{
 		assert prop != null;
 
-		updateReference( prop, value );
-		setupContext( prop, value );
+		Object newValue = getCompatibleValue( prop, value );
+
+		updateReference( prop, newValue );
+		setupContext( prop, newValue );
 
 		if ( prop.isIntrinsic( ) )
-			setIntrinsicProperty( prop.getName( ), value );
+			setIntrinsicProperty( prop.getName( ), newValue );
 		else if ( value == null )
 			propValues.remove( prop.getName( ) );
 		else
-			propValues.put( prop.getName( ), value );
+			propValues.put( prop.getName( ), newValue );
 
 	}
 
