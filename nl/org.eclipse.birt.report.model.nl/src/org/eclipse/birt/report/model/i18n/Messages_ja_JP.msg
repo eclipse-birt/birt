@@ -1912,6 +1912,8 @@ Structure.ConfigVar.value=値
 #7. SortKey
 Structure.SortKey.key=ソートキー
 Structure.SortKey.direction=ソートの方向
+Structure.SortKey.strength=Sort Strength
+Structure.SortKey.locale=Sort Locale
 
 #8. Hide
 Structure.HideRule.format=書式
@@ -2137,6 +2139,7 @@ Structure.TOC.text.align=文字配置
 Structure.TOC.text.indent=文字列のインデント
 Structure.TOC.text.transform=文字列の位置変更
 Structure.TOC.text.direction=文字列の向き 
+Structure.TOC.dataType=データ型
 
 #29. DimensionCondition
 Structure.DimensionCondition=ディメンジョン条件
@@ -3179,6 +3182,8 @@ Element.MemberValue.memberValues=メンバ値
 Element.SortElement.key=キー
 Element.SortElement.direction=方向
 Element.SortElement.member=メンバ
+Element.SortElement.strength=Sort strength
+Element.SortElement.locale=Sort locale
 
 #62. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=演算子
@@ -3204,6 +3209,7 @@ Element.MultiViews.views=ビュー
 Element.VariableElement.name=Name
 Element.VariableElement.value=値
 Element.VariableElement.type=種類
+Element.VariableElement.dataType=データ型
 
 #66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=名前

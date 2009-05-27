@@ -1912,6 +1912,8 @@ Structure.ConfigVar.value=Valeur
 #7. SortKey
 Structure.SortKey.key=Clé de tri
 Structure.SortKey.direction=Direction du tri
+Structure.SortKey.strength=Sort Strength
+Structure.SortKey.locale=Sort Locale
 
 #8. Hide
 Structure.HideRule.format=Format
@@ -2137,6 +2139,7 @@ Structure.TOC.text.align=Alignement du texte
 Structure.TOC.text.indent=Retrait du texte
 Structure.TOC.text.transform=Transformation du texte
 Structure.TOC.text.direction=Direction du texte 
+Structure.TOC.dataType=Type de données
 
 #29. DimensionCondition
 Structure.DimensionCondition=Condition de dimension
@@ -3179,6 +3182,8 @@ Element.MemberValue.memberValues=Valeurs de membre
 Element.SortElement.key=Clé
 Element.SortElement.direction=Direction
 Element.SortElement.member=Membre
+Element.SortElement.strength=Sort strength
+Element.SortElement.locale=Sort locale
 
 #62. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=Opérateur
@@ -3204,6 +3209,7 @@ Element.MultiViews.views=Vues
 Element.VariableElement.name=Nom
 Element.VariableElement.value=Valeur
 Element.VariableElement.type=Type
+Element.VariableElement.dataType=Type de données
 
 #66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=Nom

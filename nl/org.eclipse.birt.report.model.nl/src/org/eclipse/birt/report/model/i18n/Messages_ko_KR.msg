@@ -1912,6 +1912,8 @@ Structure.ConfigVar.value=값
 #7. SortKey
 Structure.SortKey.key=정렬 키
 Structure.SortKey.direction=정렬 방향
+Structure.SortKey.strength=Sort Strength
+Structure.SortKey.locale=Sort Locale
 
 #8. Hide
 Structure.HideRule.format=서식
@@ -2137,6 +2139,7 @@ Structure.TOC.text.align=텍스트 맞춤
 Structure.TOC.text.indent=텍스트 들여쓰기
 Structure.TOC.text.transform=텍스트 변환
 Structure.TOC.text.direction=텍스트 방향 
+Structure.TOC.dataType=데이터 형식
 
 #29. DimensionCondition
 Structure.DimensionCondition=차원 조건
@@ -3179,6 +3182,8 @@ Element.MemberValue.memberValues=구성원 값
 Element.SortElement.key=키
 Element.SortElement.direction=방향
 Element.SortElement.member=구성원
+Element.SortElement.strength=Sort strength
+Element.SortElement.locale=Sort locale
 
 #62. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=연산자
@@ -3204,6 +3209,7 @@ Element.MultiViews.views=보기
 Element.VariableElement.name=이름
 Element.VariableElement.value=값
 Element.VariableElement.type=형식
+Element.VariableElement.dataType=데이터 형식
 
 #66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=이름

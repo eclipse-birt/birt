@@ -1912,6 +1912,8 @@ Structure.ConfigVar.value=值
 #7. SortKey
 Structure.SortKey.key=排序关键字
 Structure.SortKey.direction=排序方向
+Structure.SortKey.strength=Sort Strength
+Structure.SortKey.locale=Sort Locale
 
 #8. Hide
 Structure.HideRule.format=格式
@@ -2137,6 +2139,7 @@ Structure.TOC.text.align=文本对齐
 Structure.TOC.text.indent=文本缩进
 Structure.TOC.text.transform=文本转换
 Structure.TOC.text.direction=文本方向 
+Structure.TOC.dataType=数据类型
 
 #29. DimensionCondition
 Structure.DimensionCondition=维条件
@@ -3179,6 +3182,8 @@ Element.MemberValue.memberValues=成员值
 Element.SortElement.key=关键字
 Element.SortElement.direction=方向
 Element.SortElement.member=成员
+Element.SortElement.strength=Sort strength
+Element.SortElement.locale=Sort locale
 
 #62. FilterConditionElement ( prefix Element.FilterConditionElement )
 Element.FilterConditionElement.operator=运算符
@@ -3204,6 +3209,7 @@ Element.MultiViews.views=视图
 Element.VariableElement.name=名称
 Element.VariableElement.value=值
 Element.VariableElement.type=类型
+Element.VariableElement.dataType=数据类型
 
 #66. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=名称
