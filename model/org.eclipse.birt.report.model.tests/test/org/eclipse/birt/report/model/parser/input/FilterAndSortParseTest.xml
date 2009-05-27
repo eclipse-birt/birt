@@ -57,6 +57,8 @@
     			<sort-element>
     				<property name="key">key_1</property>
     				<property name="direction">desc</property>
+    				<property name="strength">8</property>
+    				<property name="locale">de</property>
     				<property name="member">
                     	<member-value>
                     		<property name="value">value_1</property>

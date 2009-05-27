@@ -206,6 +206,24 @@ public class StructureHandle extends ValueHandle
 	}
 
 	/**
+	 * Get the integer value of a member.
+	 * 
+	 * @param memberName
+	 *            name of the member to get
+	 * @return integer value of the member, or <code>0</code> if the member is
+	 *         not set or is not defined.
+	 */
+
+	protected int getIntProperty( String memberName )
+	{
+		MemberHandle handle = getMember( memberName );
+		if ( handle == null )
+			return 0;
+
+		return handle.getIntValue( );
+	}
+
+	/**
 	 * Sets the value of the member.
 	 * 
 	 * @param memberName

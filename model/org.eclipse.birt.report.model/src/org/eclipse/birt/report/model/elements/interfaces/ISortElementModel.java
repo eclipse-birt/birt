@@ -33,5 +33,18 @@ public interface ISortElementModel
 	/**
 	 * Name of the property that gives the member value of this sort.
 	 */
+
 	String MEMBER_PROP = "member"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defines the strength of the sort collation.
+	 */
+
+	String STRENGTH_PROP = "strength"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defines the locale of the sort collation.
+	 */
+
+	String LOCALE_PROP = "locale"; //$NON-NLS-1$
 }

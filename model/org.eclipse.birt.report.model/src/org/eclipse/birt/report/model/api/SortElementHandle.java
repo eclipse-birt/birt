@@ -18,6 +18,8 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * 
  */
@@ -122,5 +124,61 @@ public class SortElementHandle extends ContentElementHandle
 		if ( contents != null && contents.size( ) > 0 )
 			return (MemberValueHandle) contents.get( 0 );
 		return null;
+	}
+
+	/**
+	 * Gets the strength of this sort collation. By default, it is -1.
+	 * 
+	 * @return the strength of this sort
+	 * 
+	 * @see #setStrength(int)
+	 */
+
+	public int getStrength( )
+	{
+		return getIntProperty( STRENGTH_PROP );
+	}
+
+	/**
+	 * Sets the strength for this sort.
+	 * 
+	 * @param strength
+	 *            the strength to sort
+	 * @throws SemanticException
+	 * 
+	 * @see #getStrength()
+	 */
+
+	public void setStrength( int strength ) throws SemanticException
+	{
+		setIntProperty( STRENGTH_PROP, strength );
+	}
+
+	/**
+	 * Gets the locale of this sort collation.
+	 * 
+	 * @return the locale of this sort
+	 * 
+	 * @see #setLocale(ULocale)
+	 */
+
+	public ULocale getLocale( )
+	{
+		return (ULocale) getProperty( LOCALE_PROP );
+	}
+
+	/**
+	 * Sets the locale for this sort.
+	 * 
+	 * @param locale
+	 *            the locale to sort
+	 * @throws SemanticException
+	 * 
+	 * @see #getLocale()
+	 */
+
+	public void setLocale( ULocale locale ) throws SemanticException
+	{
+		setProperty( LOCALE_PROP, locale );
 	}
 }

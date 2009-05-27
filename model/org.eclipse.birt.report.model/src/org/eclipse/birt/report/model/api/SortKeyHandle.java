@@ -14,6 +14,8 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Represents the handle of sort key structure. The sort key is the sort entry
  * for a table or list item, it defines the column and sort direction pair. Each
@@ -144,4 +146,59 @@ public class SortKeyHandle extends StructureHandle
 		setKey( columnName );
 	}
 
+	/**
+	 * Gets the strength of this sort collation. By default, it is -1.
+	 * 
+	 * @return the strength of this sort
+	 * 
+	 * @see #setStrength(int)
+	 */
+
+	public int getStrength( )
+	{
+		return getIntProperty( SortKey.STRENGTH_MEMBER );
+	}
+
+	/**
+	 * Sets the strength for this sort.
+	 * 
+	 * @param strength
+	 *            the strength to sort
+	 * @throws SemanticException
+	 * 
+	 * @see #getStrength()
+	 */
+
+	public void setStrength( int strength ) throws SemanticException
+	{
+		setProperty( SortKey.STRENGTH_MEMBER, strength );
+	}
+
+	/**
+	 * Gets the locale of this sort collation.
+	 * 
+	 * @return the locale of this sort
+	 * 
+	 * @see #setLocale(ULocale)
+	 */
+
+	public ULocale getLocale( )
+	{
+		return (ULocale) getProperty( SortKey.LOCALE_MEMBER );
+	}
+
+	/**
+	 * Sets the locale for this sort.
+	 * 
+	 * @param locale
+	 *            the locale to sort
+	 * @throws SemanticException
+	 * 
+	 * @see #getLocale()
+	 */
+
+	public void setLocale( ULocale locale ) throws SemanticException
+	{
+		setProperty( SortKey.LOCALE_MEMBER, locale );
+	}
 }

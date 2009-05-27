@@ -58,6 +58,8 @@
                 <sort-element>
                     <expression name="key">new key_1</expression>
                     <property name="direction">asc</property>
+                    <property name="strength">12</property>
+                    <property name="locale">fr_CA</property>
                     <property name="member">
                         <member-value>
                             <property name="value">new value_1</property>

@@ -15,11 +15,12 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
 
 /**
  * 
  */
-public class SortElement extends ContentElement
+public class SortElement extends ContentElement implements ISortElementModel
 {
 
 	/**
@@ -34,7 +35,9 @@ public class SortElement extends ContentElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 
 	public void apply( ElementVisitor visitor )
@@ -69,7 +72,9 @@ public class SortElement extends ContentElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
+	 * .birt.report.model.core.Module)
 	 */
 	public DesignElementHandle getHandle( Module module )
 	{

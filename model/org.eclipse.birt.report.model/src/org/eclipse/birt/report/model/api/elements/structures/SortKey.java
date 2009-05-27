@@ -23,6 +23,9 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * This class represents a sort entry for a table or list item, it defines the
@@ -63,6 +66,16 @@ public class SortKey extends Structure
 	public static final String DIRECTION_MEMBER = "direction"; //$NON-NLS-1$
 
 	/**
+	 * Name of the member that defines the strength of the sort collation.
+	 */
+	public static final String STRENGTH_MEMBER = "strength"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that defines the locale of the sort collation.
+	 */
+	public static final String LOCALE_MEMBER = "locale"; //$NON-NLS-1$
+
+	/**
 	 * Value of the "key" member.
 	 */
 
@@ -73,6 +86,18 @@ public class SortKey extends Structure
 	 */
 
 	private String direction = null;
+
+	/**
+	 * Value of sort strength.
+	 */
+
+	private Integer strength = null;
+
+	/**
+	 * Value of sort locale.
+	 */
+
+	private ULocale locale = null;
 
 	/**
 	 * Constructs the sort key with the key to sort and the direction.
@@ -123,6 +148,10 @@ public class SortKey extends Structure
 			return key;
 		else if ( DIRECTION_MEMBER.equals( propName ) )
 			return direction;
+		else if ( STRENGTH_MEMBER.equals( propName ) )
+			return strength;
+		else if ( LOCALE_MEMBER.equals( propName ) )
+			return locale;
 
 		assert false;
 		return null;
@@ -142,6 +171,10 @@ public class SortKey extends Structure
 			key = convertObjectToExpression( value );
 		else if ( DIRECTION_MEMBER.equals( propName ) )
 			direction = (String) value;
+		else if ( STRENGTH_MEMBER.equals( propName ) )
+			strength = (Integer) value;
+		else if ( LOCALE_MEMBER.equals( propName ) )
+			locale = (ULocale) value;
 		else
 			assert false;
 	}
@@ -203,6 +236,52 @@ public class SortKey extends Structure
 	public void setDirection( String direction )
 	{
 		setProperty( DIRECTION_MEMBER, direction );
+	}
+
+	/**
+	 * Gets the strength of the sort collation. By default it is -1.
+	 * 
+	 * @return the strength of the sort
+	 */
+
+	public int getStrength( )
+	{
+		PropertyDefn propDefn = (PropertyDefn) getMemberDefn( STRENGTH_MEMBER );
+		assert propDefn != null;
+
+		Object strength = getProperty( null, propDefn );
+		return propDefn.getIntValue( null, strength );
+	}
+
+	/**
+	 * Sets the strength of this sort collation.
+	 * 
+	 * @param strength
+	 */
+	public void setStrength( int strength )
+	{
+		setProperty( STRENGTH_MEMBER, Integer.valueOf( strength ) );
+	}
+
+	/**
+	 * Gets the locale of this sort.
+	 * 
+	 * @return locale of this sort
+	 */
+	public ULocale getLocale( )
+	{
+		return locale;
+	}
+
+	/**
+	 * Sets the locale of this sort.
+	 * 
+	 * @param locale
+	 *            the locale to set
+	 */
+	public void setLocale( ULocale locale )
+	{
+		this.locale = locale;
 	}
 
 	/*

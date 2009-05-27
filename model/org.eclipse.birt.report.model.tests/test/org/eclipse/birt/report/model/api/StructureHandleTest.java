@@ -206,10 +206,14 @@ public class StructureHandleTest extends BaseTestCase
 
 		sortHandle.setKey( "new column" ); //$NON-NLS-1$
 		sortHandle.setDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
+		sortHandle.setStrength( 10 );
+		sortHandle.setLocale( ULocale.GERMAN );
 
 		assertEquals( "new column", sortHandle.getKey( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.SORT_DIRECTION_DESC, sortHandle
 				.getDirection( ) );
+		assertEquals( 10, sortHandle.getStrength( ) );
+		assertEquals( ULocale.GERMAN, sortHandle.getLocale( ) );
 
 		propHandle = tableHandle.getPropertyHandle( ListingElement.FILTER_PROP );
 

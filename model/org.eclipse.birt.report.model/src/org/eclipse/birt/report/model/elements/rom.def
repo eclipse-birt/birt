@@ -1288,6 +1288,10 @@
     <Member detailType="sortDirection" displayNameID="Structure.SortKey.direction" isIntrinsic="true" name="direction" runtimeSettable="false" since="1.0" type="choice">
       <Default>asc</Default>
     </Member>
+    <Member displayNameID="Structure.SortKey.strength" isIntrinsic="true" name="strength" runtimeSettable="false" since="2.5" type="integer">
+      <Default>-1</Default>
+    </Member>
+    <Member displayNameID="Structure.SortKey.locale" isIntrinsic="true" name="locale" runtimeSettable="false" since="2.5" type="locale"/>
   </Structure>
   <Structure displayNameID="Structure.FilterCondition" name="FilterCondition" since="1.0">
     <Member detailType="filterOperator" displayNameID="Structure.FilterCondition.operator" name="operator" runtimeSettable="false" since="1.0" type="choice">
@@ -3561,6 +3565,10 @@
     <Property displayNameID="Element.SortElement.member" isList="false" name="member" since="2.2" type="contentElement">
 		<Type name="MemberValue"/>
 	</Property>
+	<Property displayNameID="Element.SortElement.strength" name="strength" runtimeSettable="false" since="2.5" type="integer">
+      <Default>-1</Default>
+    </Property>
+    <Property displayNameID="Element.SortElement.locale" name="locale" runtimeSettable="false" since="2.5" type="locale"/>
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.FilterConditionElement" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.FilterConditionElement" name="FilterConditionElement" nameSpace="none" since="2.2" xmlName="filter-condition-element">
     <Property detailType="filterOperator" displayNameID="Element.FilterConditionElement.operator" name="operator" runtimeSettable="false" since="2.2" type="choice">

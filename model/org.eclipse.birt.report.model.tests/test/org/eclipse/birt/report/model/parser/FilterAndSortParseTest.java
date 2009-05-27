@@ -27,6 +27,8 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Test cases for sort element and filter element.
  */
@@ -81,6 +83,8 @@ public class FilterAndSortParseTest extends BaseTestCase
 		assertEquals( "key_1", sort.getKey( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.SORT_DIRECTION_DESC, sort
 				.getDirection( ) );
+		assertEquals( 8, sort.getStrength( ) );
+		assertEquals( ULocale.GERMAN, sort.getLocale( ) );
 
 		// test member value in sort
 		memberValue = sort.getMember( );
@@ -156,6 +160,8 @@ public class FilterAndSortParseTest extends BaseTestCase
 		SortElementHandle sort = (SortElementHandle) valueList.get( 0 );
 		sort.setKey( valuePrefix + sort.getKey( ) );
 		sort.setDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
+		sort.setStrength( 12 );
+		sort.setLocale( ULocale.CANADA_FRENCH );
 
 		// test member value in sort
 		memberValue = sort.getMember( );
