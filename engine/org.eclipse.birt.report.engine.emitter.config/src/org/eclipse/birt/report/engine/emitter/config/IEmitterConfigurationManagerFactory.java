@@ -17,7 +17,7 @@ package org.eclipse.birt.report.engine.emitter.config;
 public interface IEmitterConfigurationManagerFactory
 {
 
-	String FACTORY_EXTENSION_ID = "EmitterConfigurationManagerFactory"; //$NON-NLS-1$
+	String FACTORY_EXTENSION_ID = "org.eclipse.birt.report.engine.emitter.config.EmitterConfigurationManagerFactory"; //$NON-NLS-1$
 
 	/**
 	 * Creats a new instance of the emitter configuration manager.
