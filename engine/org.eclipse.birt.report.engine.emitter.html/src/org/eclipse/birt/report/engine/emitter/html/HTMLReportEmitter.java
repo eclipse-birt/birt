@@ -2068,7 +2068,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			if ( imageByteArray != null )
 			{
 				// get the image URI.
-				Image image = new Image( imageByteArray, null, ".png" );
+				Image image = new Image( imageByteArray, cell.getInstanceID( ).toUniqueString( ), ".png" );
+				image.setReportRunnable( runnable );
+				image.setRenderOption( renderOption );
 				imgUri = imageHandler.onCustomImage( image, reportContext );
 				if ( imgUri != null )
 				{
