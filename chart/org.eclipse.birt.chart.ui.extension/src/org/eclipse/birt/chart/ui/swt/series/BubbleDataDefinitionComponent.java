@@ -22,6 +22,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 
 public class BubbleDataDefinitionComponent extends DefaultSelectDataComponent
 {
@@ -53,7 +54,8 @@ public class BubbleDataDefinitionComponent extends DefaultSelectDataComponent
 		dataComArray = new ISelectDataComponent[2];
 
 		// Value
-		dataComArray[0] = new BaseDataDefinitionComponent( ChartUIConstants.QUERY_VALUE,
+		dataComArray[0] = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+				ChartUIConstants.QUERY_VALUE,
 				seriesDefn,
 				ChartUIUtil.getDataQuery( seriesDefn, 0 ),
 				context,
@@ -74,7 +76,7 @@ public class BubbleDataDefinitionComponent extends DefaultSelectDataComponent
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			cmpSeries.setLayoutData( gridData );
 
-			GridLayout gridLayout = new GridLayout( 1, false );
+			GridLayout gridLayout = new GridLayout( 2, false );
 			gridLayout.marginWidth = 0;
 			gridLayout.marginHeight = 0;
 			cmpSeries.setLayout( gridLayout );
@@ -82,7 +84,8 @@ public class BubbleDataDefinitionComponent extends DefaultSelectDataComponent
 
 		for ( int i = 0; i < dataComArray.length; i++ )
 		{
-			( (BaseDataDefinitionComponent) dataComArray[i] ).setDescription( ChartUIUtil.getBubbleTitle( i ) + "*" ); //$NON-NLS-1$
+			Label labelArray = new Label( cmpSeries, SWT.NONE );
+			labelArray.setText( ChartUIUtil.getBubbleTitle( i ) + "*" ); //$NON-NLS-1$
 			Composite cmpData = dataComArray[i].createArea( cmpSeries );
 			cmpData.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
