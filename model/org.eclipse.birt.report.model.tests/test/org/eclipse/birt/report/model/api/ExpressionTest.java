@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -253,7 +254,7 @@ public class ExpressionTest extends BaseTestCase
 	public void testConstantTypeOnAction( ) throws Exception
 	{
 		openDesign( INPUT_FILE );
-		
+
 		ActionHandle actionHandle = ( (ImageHandle) designHandle
 				.findElement( "Image1" ) ).getActionHandle( ); //$NON-NLS-1$
 
@@ -262,5 +263,32 @@ public class ExpressionTest extends BaseTestCase
 
 		// test the expression type.
 		assertEquals( ExpressionType.CONSTANT, exprHandle.getType( ) );
+	}
+
+	/**
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testTOC( ) throws Exception
+	{
+		openDesign( INPUT_FILE );
+
+		DataItemHandle tmpData = (DataItemHandle) designHandle
+				.findElement( "bodyData" ); //$NON-NLS-1$
+
+		TOCHandle tocHandle = tmpData.getTOC( );
+		TOC toc = (TOC) tocHandle.getStructure( );
+		
+		// the compatible case 
+		
+		toc.setExpression( "new statistics" ); //$NON-NLS-1$
+
+		ExpressionHandle exprHandle = tocHandle
+				.getExpressionProperty( TOC.TOC_EXPRESSION );
+
+		// should have no exception.
+		
+		assertEquals( ExpressionType.JAVASCRIPT, exprHandle.getType( ) );
 	}
 }

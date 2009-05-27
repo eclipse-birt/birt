@@ -89,6 +89,8 @@ public class VariableElementHandle extends ContentElementHandle
 	 * @param value
 	 *            the value to set
 	 * @throws SemanticException
+	 * 
+	 * @Deprecated by getExpressionProperty(VALUE_PROP)
 	 */
 
 	public void setValue( String value ) throws SemanticException

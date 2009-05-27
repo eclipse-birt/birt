@@ -114,9 +114,9 @@ public abstract class StyleRule extends PropertyStructure
 	{
 		operator = op;
 		value1 = new ArrayList( );
-		value1.add( convertObjectToExpression( v1 ) );
-		value2 = convertObjectToExpression( v2 );
-		testExpression = convertObjectToExpression( testExpr );
+		value1.add( new Expression( v1, null ) );
+		value2 = new Expression( v2, null );
+		testExpression = new Expression( testExpr, null );
 	}
 
 	/*
@@ -163,18 +163,18 @@ public abstract class StyleRule extends PropertyStructure
 
 			if ( value instanceof List )
 			{
-				value1 = convertListToExpressionList( (List<String>) value );
+				value1 = (List<String>) value;
 			}
 			else
 			{
 				value1 = new ArrayList( );
-				value1.add( convertObjectToExpression( value ) );
+				value1.add( value );
 			}
 		}
 		else if ( VALUE2_MEMBER.equals( propName ) )
-			value2 = convertObjectToExpression( value );
+			value2 = (Expression) value;
 		else if ( TEST_EXPR_MEMBER.equals( propName ) )
-			testExpression = convertObjectToExpression( value );
+			testExpression = (Expression) value;
 		else if ( IS_DESIGN_TIME_MEMBER.equals( propName ) )
 			isDesignTime = (Boolean) value;
 		else

@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents a condition used for joint data set. The joint data set is data
@@ -216,9 +215,9 @@ public class JoinCondition extends Structure
 		else if ( RIGHT_DATASET_MEMBER.equals( propName ) )
 			rightDataSet = (String) value;
 		else if ( LEFT_EXPRESSION_MEMBER.equals( propName ) )
-			leftExpression = convertObjectToExpression( value );
+			leftExpression = (Expression) value;
 		else if ( RIGHT_EXPRESSION_MEMBER.equals( propName ) )
-			rightExpression = convertObjectToExpression( value );
+			rightExpression = (Expression) value;
 
 		else
 			assert false;
