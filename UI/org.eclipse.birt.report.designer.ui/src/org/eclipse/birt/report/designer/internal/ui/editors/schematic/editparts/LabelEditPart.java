@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.LabelCellEditorLocator;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.LabelEditManager;
+import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.ColorManager;
@@ -26,6 +27,7 @@ import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
@@ -184,10 +186,25 @@ public class LabelEditPart extends ReportElementEditPart
 		ReportItemHandle handle = (ReportItemHandle) getModel( );
 		ReportItemConstraint constraint = new ReportItemConstraint( );
 
-		constraint.setDisplay( handle.getPrivateStyle( ).getDisplay( ) );
+		StyleHandle style = handle.getPrivateStyle( );
+		constraint.setDisplay( style.getDisplay( ) );
 		DimensionHandle value = handle.getWidth( );
 		constraint.setMeasure( value.getMeasure( ) );
 		constraint.setUnits( value.getUnits( ) );
+		
+		String vAlign = style.getVerticalAlign( );
+		if ( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( vAlign ) )
+		{
+			constraint.setAlign( ReportFlowLayout.ALIGN_CENTER );
+		}
+		else if ( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals( vAlign ) )
+		{
+			constraint.setAlign( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
+		}
+		else if (DesignChoiceConstants.VERTICAL_ALIGN_TOP.equals( vAlign ))
+		{
+			constraint.setAlign( ReportFlowLayout.ALIGN_LEFTTOP );
+		}
 		return constraint;
 	}
 

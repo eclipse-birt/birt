@@ -288,8 +288,8 @@ public class ReportFlowLayout extends AbstractHintLayout
 		int majorAdjustment = 0;
 		int minorAdjustment = 0;
 		int correctMajorAlignment = majorAlignment;
-		int correctMinorAlignment = minorAlignment;
-
+		//int correctMinorAlignment = minorAlignment;
+		
 		majorAdjustment = data.area.width - data.rowWidth + getMinorSpacing( );
 		if (majorAdjustment < 0)
 		{
@@ -319,6 +319,8 @@ public class ReportFlowLayout extends AbstractHintLayout
 
 		for ( int j = data.rowPos; j < data.rowCount; j++ )
 		{
+			int correctMinorAlignment = getChildVerticalAlign( data.row[j] );
+			
 			if ( fill )
 			{
 				data.bounds[j].height = data.rowHeight;
@@ -567,6 +569,16 @@ public class ReportFlowLayout extends AbstractHintLayout
 				}
 			}
 		}
+	}
+	
+	private int getChildVerticalAlign(IFigure child)
+	{
+		ReportItemConstraint constraint = (ReportItemConstraint) getConstraint( child );
+		if (constraint == null)
+		{
+			return ALIGN_RIGHTBOTTOM;
+		}
+		return constraint.getAlign( );
 	}
 	
 	private int getParentClientArea(IFigure child)

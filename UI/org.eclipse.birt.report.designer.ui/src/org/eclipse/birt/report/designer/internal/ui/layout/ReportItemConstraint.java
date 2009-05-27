@@ -38,8 +38,20 @@ public class ReportItemConstraint extends Rectangle
 	
 	private boolean isFitTable = false;
 
+	private int align = ReportFlowLayout.ALIGN_RIGHTBOTTOM;
 	
 	
+	public int getAlign( )
+	{
+		return align;
+	}
+
+	
+	public void setAlign( int align )
+	{
+		this.align = align;
+	}
+
 	/**
 	 * @return
 	 */

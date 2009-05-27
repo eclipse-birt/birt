@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportElementNonResizablePolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
+import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -128,6 +129,20 @@ public class ExtendedEditPart extends ReportElementEditPart
 		DimensionHandle value = handle.getWidth( );
 		constraint.setMeasure( value.getMeasure( ) );
 		constraint.setUnits( value.getUnits( ) );
+		
+		String vAlign = handle.getPrivateStyle( ).getVerticalAlign( );
+		if ( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( vAlign ) )
+		{
+			constraint.setAlign( ReportFlowLayout.ALIGN_CENTER );
+		}
+		else if ( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals( vAlign ) )
+		{
+			constraint.setAlign( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
+		}
+		else if (DesignChoiceConstants.VERTICAL_ALIGN_TOP.equals( vAlign ))
+		{
+			constraint.setAlign( ReportFlowLayout.ALIGN_LEFTTOP );
+		}
 		return constraint;
 	}
 
