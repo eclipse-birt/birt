@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValu
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -86,11 +85,11 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * <ul>
 	 * <li><code>PARAM_TYPE_STRING</code>
 	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DECIMAL</code>
+	 * <li><code>PARAM_TYPE_DECIMAL</code>
 	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DATETYPE</code>
+	 * <li><code>PARAM_TYPE_DATETIME</code>
+	 * <li><code>PARAM_TYPE_DATE</code>
+	 * <li><code>PARAM_TYPE_TIME</code>
 	 * <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
 	 * 
@@ -113,11 +112,11 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * <ul>
 	 * <li><code>PARAM_TYPE_STRING</code>
 	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DECIMAL</code>
+	 * <li><code>PARAM_TYPE_DECIMAL</code>
 	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DATETYPE</code>
+	 * <li><code>PARAM_TYPE_DATETIME</code>
+	 * <li><code>PARAM_TYPE_DATE</code>
+	 * <li><code>PARAM_TYPE_TIME</code>
 	 * <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
 	 * 
@@ -648,11 +647,11 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * <ul>
 	 * <li><code>PARAM_TYPE_STRING</code>
 	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DECIMAL</code>
+	 * <li><code>PARAM_TYPE_DECIMAL</code>
 	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DATETYPE</code>
+	 * <li><code>PARAM_TYPE_DATETIME</code>
+	 * <li><code>PARAM_TYPE_DATE</code>
+	 * <li><code>PARAM_TYPE_TIME</code>
 	 * <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
 	 * 
@@ -677,11 +676,11 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * <ul>
 	 * <li><code>PARAM_TYPE_STRING</code>
 	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DECIMAL</code>
+	 * <li><code>PARAM_TYPE_DECIMAL</code>
 	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DATETYPE</code>
+	 * <li><code>PARAM_TYPE_DATETIME</code>
+	 * <li><code>PARAM_TYPE_DATE</code>
+	 * <li><code>PARAM_TYPE_TIME</code>
 	 * <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
 	 * 

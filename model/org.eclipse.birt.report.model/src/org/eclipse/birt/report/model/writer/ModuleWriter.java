@@ -4148,6 +4148,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IVariableElementModel.VARIABLE_NAME_PROP );
 		property( obj, IVariableElementModel.VALUE_PROP );
 		property( obj, IVariableElementModel.TYPE_PROP );
+		property( obj, IVariableElementModel.DATA_TYPE_PROP );
 
 		writer.endElement( );
 	}

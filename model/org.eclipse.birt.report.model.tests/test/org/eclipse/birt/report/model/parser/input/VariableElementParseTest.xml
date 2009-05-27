@@ -11,6 +11,7 @@
 		        <variable-element name="variable1">
 		            <property name="value">expression for variable</property>
 		            <property name="type">report</property>
+		            <property name="dataType">decimal</property>
 		        </variable-element>
 		    </property>
 	    </extended-item>
