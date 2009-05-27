@@ -573,6 +573,10 @@ public class ChartAggregationCellViewProvider extends
 		if ( info.getCrosstab( ).getCube( ) != null
 				&& info.getMeasureInfo( ) != null )
 		{
+			if ( info.getMeasureInfo( ).getMeasureName( ) == null )
+			{
+				return false;
+			}
 			String dataType = info.getCrosstab( )
 					.getCube( )
 					.getMeasure( info.getMeasureInfo( ).getMeasureName( ) )
