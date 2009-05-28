@@ -394,7 +394,7 @@ data.olap.InvalidNestAggregationExpression=La expresión de una agregación de nid
 data.olap.InvalidNestAggregationOn="{0}" añadido a la agregación de nido de cubo "{1}" no existe en su agregación de base.
 data.olap.sort.exprError=El nivel de la dimensión a la que se hace referencia establecido sólo debería contener un nivel.
 data.olap.query.noCubeBinding=Error al ejecutar la consulta de cubo porque no hay disponible ningún enlace de cubo.
-data.olap.FailLoadCube=Failed to load cube:"{0}".
+data.olap.FailLoadCube=Error al cargar el cubo:"{0}".
 
 data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.
 # Configuration file parser error code
@@ -409,7 +409,7 @@ data.aggregation.argumentError=Expresión del argumento \"{0}\" para la agregació
 data.olap.InvalidAggrTypeOnMeasure=La agregación en medidas de cubo no puede ser de este tipo: "{0}".
 
 #derived dataSet
-data.derivedDataSet.columnNotExist=The column \"{0}\" does not exist!
+data.derivedDataSet.columnNotExist=La columna \"{0}\" no existe.
 data.derivedDataSet.UnionQueryTextParseError="Error al analizar la consulta de unión. \"{0}\""
 data.derivedDataSet.JoinQueryTextParseError="Error al analizar la consulta de combinación. \"{0}\""
 

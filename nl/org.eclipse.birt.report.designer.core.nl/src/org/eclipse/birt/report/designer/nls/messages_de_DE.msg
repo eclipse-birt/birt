@@ -1123,7 +1123,7 @@ Element.ListingGroup.sortDirection=Sortierreihenfolge:
 Element.ListingGroup.toc=Inhaltsverzeichnis:
 Element.MasterPage.bottomMargin=&Unterer Rand:
 Element.MasterPage.columns=Spalten:
-Element.MasterPage.columnSpacing=&Spacing:
+Element.MasterPage.columnSpacing=Ab&stand:
 Element.MasterPage.height=Höh&e:
 Element.MasterPage.leftMargin=&Linker Rand:
 Element.MasterPage.margin=Rand:
@@ -2457,17 +2457,17 @@ MarignPropertyDescriptor.error.title=Wert zu groß
 ###########################################################
 #MasterPageAction properties
 
-MasterColumnsPropertyDescriptor.Button.Text.Custom=&Custom
-MasterColumnsPropertyDescriptor.Button.Text.OneColumn=&One
-MasterColumnsPropertyDescriptor.Button.Text.ThreeColumns=Th&ree
-MasterColumnsPropertyDescriptor.Button.Text.TwoColumns=&Two
-MasterColumnsPropertyDescriptor.Combo.Text.Column.Number=&Number of columns:
+MasterColumnsPropertyDescriptor.Button.Text.Custom=&Benutzerdefiniert
+MasterColumnsPropertyDescriptor.Button.Text.OneColumn=&Eine
+MasterColumnsPropertyDescriptor.Button.Text.ThreeColumns=D&rei
+MasterColumnsPropertyDescriptor.Button.Text.TwoColumns=&Zwei
+MasterColumnsPropertyDescriptor.Combo.Text.Column.Number=A&nzahl der Spalten:
 MasterPageAction.actionText.masterPage=Master-Seite
 
 ###########################################################
 #MasterPageGenerator properties
 
-MasterPageGenerator.List.Columns=Columns
+MasterPageGenerator.List.Columns=Spalten
 MasterPageGenerator.List.General=Allgemein
 MasterPageGenerator.List.Header&Footer=Kopfzeile/Fußzeile
 MasterPageGenerator.List.Margins=Seitenrand
@@ -2804,7 +2804,7 @@ ParameterDialog.Label.DefaultValue=&Standardwert:
 ParameterDialog.Label.DisplayPrompt=Anzeige-Aufforderung:
 ParameterDialog.Label.DisplayType=&Anzeigetyp:
 ParameterDialog.Label.Format=Formatieren als:
-ParameterDialog.Label.HelpText=Help te&xt:
+ParameterDialog.Label.HelpText=Hilfete&xt:
 ParameterDialog.Label.ListOfValue=Werteliste
 ParameterDialog.Label.SortGroup=Sortieren
 ParameterDialog.Label.Name=&Name:
@@ -2821,7 +2821,7 @@ ParameterDialog.SelectionDialog.Label.DisplayText=&Anzeigentext:
 ParameterDialog.SelectionDialog.Label.Value=&Wert:
 ParameterDialog.SelectionDialog.Button.Resource=...
 ParameterDialog.SelectionDialog.Label.Note=Hinweis: Um den Anzeigentextschlüssel einzustellen, wählen Sie den Bericht aus, und legen Sie den Namen der Ressourcendatei in der Registerkarte 'Ressourcen' im Eigenschaftseditor fest.
-ParameterDialog.Label.SelectDisplayText=Select display t&ext:
+ParameterDialog.Label.SelectDisplayText=Angezeigten T&ext auswählen:
 ParameterDialog.Label.SelectValueColumn=&Wertespalte auswählen:
 ParameterDialog.Label.Value=Auswahlwerte:
 ParameterDialog.Label.values=Werte
@@ -4366,8 +4366,8 @@ BindingDialogHelper.text.Expression=&Ausdruck:
 BindingDialogHelper.text.displayName=Anzeige&name:
 BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
-BindingDialogHelper.error.nameduplicate=A Column Binding named as {0} already exists.
-BindingDialogHelper.error.improperexpression=Aggregation on cube measure can not be such type: "{0}" 
+BindingDialogHelper.error.nameduplicate=Es ist bereits eine Spaltenbindung mit dem Namen {0} vorhanden.
+BindingDialogHelper.error.improperexpression=Ungültiger Typ für Aggregat in Quadereinheit: '{0}' 
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Der empfohlene Datentyp für die aktuelle Funktion ist '{0}'. Möchten Sie den ausgewählten Datentypen wirklich beibehalten?
 BindingDialogHelper.warning.parameter=Der Ausgabedatentyp des Ausdrucks '{0}' wird für den Parameter '{1}' nicht unterstützt. Möchten Sie ihn wirklich beibehalten?

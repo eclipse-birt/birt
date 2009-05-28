@@ -394,7 +394,7 @@ data.olap.InvalidNestAggregationExpression=Der Ausdruck eines Quader-Verschachte
 data.olap.InvalidNestAggregationOn=Aggregat in '{0}' in Quader-Verschachtelungsaggregat '{1}' ist nicht in basierten Aggregaten vorhanden.
 data.olap.sort.exprError=Dimensionsebenensatz, auf den verwiesen wird, darf nur eine Ebene enthalten.
 data.olap.query.noCubeBinding=Fehler bei Ausführung der Quaderanfrage: Keine Quaderbindung verfügbar.
-data.olap.FailLoadCube=Failed to load cube:"{0}".
+data.olap.FailLoadCube=Fehler beim Laden von Quader: '{0}'.
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!
 # Configuration file parser error code
@@ -409,7 +409,7 @@ data.aggregation.argumentError=Der Ausdruck des Arguments \"{0}\" für Aggregat \
 data.olap.InvalidAggrTypeOnMeasure=Ungültiger Typ für Aggregat in Quadereinheit: '{0}'.
 
 #derived dataSet
-data.derivedDataSet.columnNotExist=The column \"{0}\" does not exist!
+data.derivedDataSet.columnNotExist=Die Spalte '{0}' ist nicht vorhanden.
 data.derivedDataSet.UnionQueryTextParseError="Fehler bei Analyse von Union-Abfrage. \"{0}\""
 data.derivedDataSet.JoinQueryTextParseError="Fehler bei Analyse von Join-Abfrage. \"{0}\""
 

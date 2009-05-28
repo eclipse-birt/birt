@@ -3208,7 +3208,7 @@ Element.MultiViews.views=ビュー
 #65. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.name=Name
 Element.VariableElement.value=値
-Element.VariableElement.type=種類
+Element.VariableElement.type=型
 Element.VariableElement.dataType=データ型
 
 #66. DataGroup  ( prefix  Element.DataGroup )

@@ -394,7 +394,7 @@ data.olap.InvalidNestAggregationExpression=L'expression d'agrégation imbriquée d
 data.olap.InvalidNestAggregationOn=Agrégation "{0}" sur l'agrégation imbriquée du cube "{1}" n'existe pas dans sa ou ses agrégation(s) de base.
 data.olap.sort.exprError=Le jeu de niveaux de dimension référencés ne doit contenir qu'un seul niveau.
 data.olap.query.noCubeBinding=Impossible d'exécuter la requête du cube car aucune liaison au cube n'est disponible.
-data.olap.FailLoadCube=Failed to load cube:"{0}".
+data.olap.FailLoadCube=Echec du chargement du cube :"{0}".
 
 data.cache.UnsupportedIncrementalCacheMode=Le mode \"{0}\" de cache incrémentiel n''est pas encore pris en charge !
 # Configuration file parser error code
@@ -409,7 +409,7 @@ data.aggregation.argumentError=L'expression de l'argument \"{0}\" de l'agrégatio
 data.olap.InvalidAggrTypeOnMeasure=L''agrégation sur la mesure de cube ne peut pas être du type : "{0}".
 
 #derived dataSet
-data.derivedDataSet.columnNotExist=The column \"{0}\" does not exist!
+data.derivedDataSet.columnNotExist=La colonne "{0}" n'existe pas !
 data.derivedDataSet.UnionQueryTextParseError="Impossible d'analyser la requête Union. \"{0}\""
 data.derivedDataSet.JoinQueryTextParseError="Impossible d'analyser la requête Join. \"{0}\""
 

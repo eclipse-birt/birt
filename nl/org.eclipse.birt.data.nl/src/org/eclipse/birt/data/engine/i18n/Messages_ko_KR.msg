@@ -394,7 +394,7 @@ data.olap.InvalidNestAggregationExpression=큐브 중첩 집계의 식이 잘못되었습니다.
 data.olap.InvalidNestAggregationOn=큐브 중첩 집계 "{1}"의 "{0}" 집계가 해당 기본 집계에 없습니다.
 data.olap.sort.exprError=참조되는 차원 수준 집합에는 1개의 수준만 포함되어야 합니다!
 data.olap.query.noCubeBinding=사용 가능한 큐브 바인딩이 없어 큐브 쿼리를 실행하지 못했습니다!
-data.olap.FailLoadCube=Failed to load cube:"{0}".
+data.olap.FailLoadCube=큐브 "{0}"을(를) 로드하지 못했습니다.
 
 data.cache.UnsupportedIncrementalCacheMode=증가 캐시의 \"{0}\" 모드는 아직 지원되지 않습니다.
 # Configuration file parser error code
@@ -409,7 +409,7 @@ data.aggregation.argumentError=집계 \"{1}\"에 대한 인수 \"{0}\"의 식이 널(null)�
 data.olap.InvalidAggrTypeOnMeasure=큐브 측정값의 집계는 "{0}" 유형이 될 수 없습니다.
 
 #derived dataSet
-data.derivedDataSet.columnNotExist=The column \"{0}\" does not exist!
+data.derivedDataSet.columnNotExist=열 \"{0}\"이(가) 없습니다!
 data.derivedDataSet.UnionQueryTextParseError="통합 쿼리를 구문 분석하지 못했습니다. \"{0}\""
 data.derivedDataSet.JoinQueryTextParseError="조인 쿼리를 구문 분석하지 못했습니다. \"{0}\""
 

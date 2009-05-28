@@ -1123,7 +1123,7 @@ Element.ListingGroup.sortDirection=排序方向:
 Element.ListingGroup.toc=目录:
 Element.MasterPage.bottomMargin=下边距(&B):
 Element.MasterPage.columns=列:
-Element.MasterPage.columnSpacing=&Spacing:
+Element.MasterPage.columnSpacing=间距(&S):
 Element.MasterPage.height=高度(&E):
 Element.MasterPage.leftMargin=左边距(&L):
 Element.MasterPage.margin=边距:
@@ -2457,17 +2457,17 @@ MarignPropertyDescriptor.error.title=值太大
 ###########################################################
 #MasterPageAction properties
 
-MasterColumnsPropertyDescriptor.Button.Text.Custom=&Custom
-MasterColumnsPropertyDescriptor.Button.Text.OneColumn=&One
-MasterColumnsPropertyDescriptor.Button.Text.ThreeColumns=Th&ree
-MasterColumnsPropertyDescriptor.Button.Text.TwoColumns=&Two
-MasterColumnsPropertyDescriptor.Combo.Text.Column.Number=&Number of columns:
+MasterColumnsPropertyDescriptor.Button.Text.Custom=自定义(&C)
+MasterColumnsPropertyDescriptor.Button.Text.OneColumn=一(&O)
+MasterColumnsPropertyDescriptor.Button.Text.ThreeColumns=三(&R)
+MasterColumnsPropertyDescriptor.Button.Text.TwoColumns=二(&T)
+MasterColumnsPropertyDescriptor.Combo.Text.Column.Number=列数(&N):
 MasterPageAction.actionText.masterPage=主页
 
 ###########################################################
 #MasterPageGenerator properties
 
-MasterPageGenerator.List.Columns=Columns
+MasterPageGenerator.List.Columns=列
 MasterPageGenerator.List.General=常规
 MasterPageGenerator.List.Header&Footer=页眉/页脚
 MasterPageGenerator.List.Margins=边距
@@ -2804,7 +2804,7 @@ ParameterDialog.Label.DefaultValue=默认值(&F):
 ParameterDialog.Label.DisplayPrompt=显示提示:
 ParameterDialog.Label.DisplayType=显示类型(&T):
 ParameterDialog.Label.Format=格式为:
-ParameterDialog.Label.HelpText=Help te&xt:
+ParameterDialog.Label.HelpText=帮助文本(&X):
 ParameterDialog.Label.ListOfValue=值列表
 ParameterDialog.Label.SortGroup=排序
 ParameterDialog.Label.Name=名称(&N):
@@ -2821,7 +2821,7 @@ ParameterDialog.SelectionDialog.Label.DisplayText=显示文本(&T):
 ParameterDialog.SelectionDialog.Label.Value=值(&V):
 ParameterDialog.SelectionDialog.Button.Resource=...
 ParameterDialog.SelectionDialog.Label.Note=注：要设置显示文本关键字，请选择报表，然后在属性编辑器的“资源”选项卡上设置资源文件名称。
-ParameterDialog.Label.SelectDisplayText=Select display t&ext:
+ParameterDialog.Label.SelectDisplayText=选择显示文本(&E):
 ParameterDialog.Label.SelectValueColumn=选择值列(&U):
 ParameterDialog.Label.Value=选择值:
 ParameterDialog.Label.values=值
@@ -4366,8 +4366,8 @@ BindingDialogHelper.text.Expression=表达式(&E):
 BindingDialogHelper.text.displayName=显示名称(&N):
 BindingDialogHelper.bindingName.dataitem=列绑定
 BindingDialogHelper.bindingName.aggregation=聚合
-BindingDialogHelper.error.nameduplicate=A Column Binding named as {0} already exists.
-BindingDialogHelper.error.improperexpression=Aggregation on cube measure can not be such type: "{0}" 
+BindingDialogHelper.error.nameduplicate=名为 {0} 的列绑定已存在。
+BindingDialogHelper.error.improperexpression=多维数据集度量聚合不能为此类型:“{0}” 
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=当前函数的建议数据类型为“{0}”，是否要保留您选择的数据类型?
 BindingDialogHelper.warning.parameter=参数“{1}”不支持表达式“{0}”的返回数据类型，是否要保留?

@@ -394,7 +394,7 @@ data.olap.InvalidNestAggregationExpression=ƒLƒ…[ƒuƒlƒXƒg‚³‚ê‚½WŒv‚Ì®‚ª–³Œø‚Å‚
 data.olap.InvalidNestAggregationOn=ƒLƒ…[ƒuƒlƒXƒg‚³‚ê‚½WŒv "{1}" ‚Å‚Ì "{0}" WŒv‚ÍAƒx[ƒX‚Æ‚È‚éWŒv‚É‚ ‚è‚Ü‚¹‚ñB
 data.olap.sort.exprError=QÆ‚·‚éƒfƒBƒƒ“ƒWƒ‡ƒ“ƒŒƒxƒ‹‚É‚Â‚« 1 ‚Â‚ÌƒŒƒxƒ‹‚µ‚©ŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
 data.olap.query.noCubeBinding=ƒLƒ…[ƒu‚ÌƒoƒCƒ“ƒh‚ªg—p‚Å‚«‚È‚¢‚½‚ßAƒLƒ…[ƒuƒNƒGƒŠ‚ğÀs‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B
-data.olap.FailLoadCube=Failed to load cube:"{0}".
+data.olap.FailLoadCube=ƒLƒ…[ƒu‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñ : "{0}"
 
 data.cache.UnsupportedIncrementalCacheMode=‘•ªƒLƒƒƒbƒVƒ…‚Ì \"{0}\" ƒ‚[ƒh‚Í‚Ü‚¾ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 # Configuration file parser error code
@@ -409,7 +409,7 @@ data.aggregation.argumentError=WŒv \"{1}\" ‚Ìˆø”® \"{0}\" ‚ª null ‚Ü‚½‚Í‹ó”’‚
 data.olap.InvalidAggrTypeOnMeasure=ƒLƒ…[ƒu‚ÌƒƒWƒƒ[‚É‘Î‚·‚éWŒv‚Å‚Í‚±‚ÌŒ^‚Íg—p‚Å‚«‚Ü‚¹‚ñ : "{0}"
 
 #derived dataSet
-data.derivedDataSet.columnNotExist=The column \"{0}\" does not exist!
+data.derivedDataSet.columnNotExist=—ñ \"{0}\" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 data.derivedDataSet.UnionQueryTextParseError="˜aW‡ƒNƒGƒŠ‚ğ‰ğÍ‚Å‚«‚Ü‚¹‚ñB \"{0}\""
 data.derivedDataSet.JoinQueryTextParseError="ƒWƒ‡ƒCƒ“ƒNƒGƒŠ‚ğ‰ğÍ‚Å‚«‚Ü‚¹‚ñB \"{0}\""
 

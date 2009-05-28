@@ -3508,7 +3508,7 @@ New.OdaLevel=Nouveau niveau ODA
 New.OdaMeasure=Nouvelle mesure ODA
 New.OdaMeasureGroup=Nouveau groupe de mesures ODA
 New.DerivedDataSet=NouveauJeuDeDonnéesDérivées
-New.VariableElement=NewVariableElement
+New.VariableElement=NouvelElementVariable
 
 ###########################################################
 #Default theme name.

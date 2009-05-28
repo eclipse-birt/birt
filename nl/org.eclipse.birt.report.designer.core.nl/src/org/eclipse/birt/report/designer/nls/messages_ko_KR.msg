@@ -1123,7 +1123,7 @@ Element.ListingGroup.sortDirection=정렬 방향:
 Element.ListingGroup.toc=목차:
 Element.MasterPage.bottomMargin=아래쪽 여백(&B):
 Element.MasterPage.columns=열:
-Element.MasterPage.columnSpacing=&Spacing:
+Element.MasterPage.columnSpacing=간격(&S):
 Element.MasterPage.height=높이(&E):
 Element.MasterPage.leftMargin=왼쪽 여백(&L):
 Element.MasterPage.margin=여백:
@@ -2457,17 +2457,17 @@ MarignPropertyDescriptor.error.title=너무 큰 값
 ###########################################################
 #MasterPageAction properties
 
-MasterColumnsPropertyDescriptor.Button.Text.Custom=&Custom
-MasterColumnsPropertyDescriptor.Button.Text.OneColumn=&One
-MasterColumnsPropertyDescriptor.Button.Text.ThreeColumns=Th&ree
-MasterColumnsPropertyDescriptor.Button.Text.TwoColumns=&Two
-MasterColumnsPropertyDescriptor.Combo.Text.Column.Number=&Number of columns:
+MasterColumnsPropertyDescriptor.Button.Text.Custom=사용자 지정(&C)
+MasterColumnsPropertyDescriptor.Button.Text.OneColumn=1개(&O)
+MasterColumnsPropertyDescriptor.Button.Text.ThreeColumns=3개(&R)
+MasterColumnsPropertyDescriptor.Button.Text.TwoColumns=2개(&T)
+MasterColumnsPropertyDescriptor.Combo.Text.Column.Number=열 개수(&N):
 MasterPageAction.actionText.masterPage=마스터 페이지
 
 ###########################################################
 #MasterPageGenerator properties
 
-MasterPageGenerator.List.Columns=Columns
+MasterPageGenerator.List.Columns=열
 MasterPageGenerator.List.General=일반
 MasterPageGenerator.List.Header&Footer=머리글/바닥글
 MasterPageGenerator.List.Margins=여백
@@ -2804,7 +2804,7 @@ ParameterDialog.Label.DefaultValue=기본값(&F):
 ParameterDialog.Label.DisplayPrompt=프롬프트 표시:
 ParameterDialog.Label.DisplayType=표시 형식(&T):
 ParameterDialog.Label.Format=다음으로 형식 지정:
-ParameterDialog.Label.HelpText=Help te&xt:
+ParameterDialog.Label.HelpText=도움말 텍스트(&X):
 ParameterDialog.Label.ListOfValue=값 목록
 ParameterDialog.Label.SortGroup=정렬
 ParameterDialog.Label.Name=이름(&N):
@@ -2821,7 +2821,7 @@ ParameterDialog.SelectionDialog.Label.DisplayText=표시 텍스트(&T):
 ParameterDialog.SelectionDialog.Label.Value=값(&V):
 ParameterDialog.SelectionDialog.Button.Resource=...
 ParameterDialog.SelectionDialog.Label.Note=참고: 표시 텍스트 키를 설정하려면 속성 편집기의 리소스 탭에서 보고서를 선택하고 리소스 파일 이름을 설정하십시오.
-ParameterDialog.Label.SelectDisplayText=Select display t&ext:
+ParameterDialog.Label.SelectDisplayText=표시 텍스트 선택(&E):
 ParameterDialog.Label.SelectValueColumn=값 열 선택(&U):
 ParameterDialog.Label.Value=선택 값:
 ParameterDialog.Label.values=값
@@ -4366,8 +4366,8 @@ BindingDialogHelper.text.Expression=식(&E):
 BindingDialogHelper.text.displayName=표시 이름(&N):
 BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
-BindingDialogHelper.error.nameduplicate=A Column Binding named as {0} already exists.
-BindingDialogHelper.error.improperexpression=Aggregation on cube measure can not be such type: "{0}" 
+BindingDialogHelper.error.nameduplicate=이름이 {0}인 열 바인딩이 이미 있습니다.
+BindingDialogHelper.error.improperexpression=큐브 측정값의 집계는 "{0}" 유형이 될 수 없습니다. 
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=현재 함수에 대해 권장되는 날짜 형식은 "{0}"입니다. 선택한 데이터 형식을 그대로 유지하시겠습니까?
 BindingDialogHelper.warning.parameter=식 "{0}"의 반환 데이터 형식이 매개 변수 "{1}"에서 지원되지 않습니다. 그대로 유지하시겠습니까?

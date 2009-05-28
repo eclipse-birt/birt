@@ -394,7 +394,7 @@ data.olap.InvalidNestAggregationExpression=多维数据集嵌套聚合的表达式无效。
 data.olap.InvalidNestAggregationOn=多维数据集嵌套聚合“{1}”中的“{0}”聚合条件在基础聚合中不存在。
 data.olap.sort.exprError=设置的引用维级别只应包含一个级别!
 data.olap.query.noCubeBinding=由于没有可用的多维数据集绑定，无法执行多维数据集查询!
-data.olap.FailLoadCube=Failed to load cube:"{0}".
+data.olap.FailLoadCube=加载多维数据集失败:“{0}”。
 
 data.cache.UnsupportedIncrementalCacheMode=尚未支持增量缓存的“{0}”模式!
 # Configuration file parser error code
@@ -409,7 +409,7 @@ data.aggregation.argumentError=聚合“{1}”的参数“{0}”的表达式为 null 或空!
 data.olap.InvalidAggrTypeOnMeasure=多维数据集度量聚合不能为此类型:“{0}”。
 
 #derived dataSet
-data.derivedDataSet.columnNotExist=The column \"{0}\" does not exist!
+data.derivedDataSet.columnNotExist=列“{0}”不存在!
 data.derivedDataSet.UnionQueryTextParseError="无法分析联合查询。 \"{0}\""
 data.derivedDataSet.JoinQueryTextParseError="无法分析联接查询。 \"{0}\""
 
