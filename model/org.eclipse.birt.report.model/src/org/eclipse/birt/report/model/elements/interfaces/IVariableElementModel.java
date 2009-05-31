@@ -19,13 +19,13 @@ public interface IVariableElementModel
 {
 
 	/**
-	 * Name of the "name" member.
+	 * Name of the "name" property.
 	 */
 
 	String VARIABLE_NAME_PROP = "variableName"; //$NON-NLS-1$
 
 	/**
-	 * Name of the "value" member.
+	 * Name of the "value" property.
 	 */
 
 	String VALUE_PROP = "value"; //$NON-NLS-1$
@@ -37,4 +37,9 @@ public interface IVariableElementModel
 	
 	String TYPE_PROP = "type"; //$NON-NLS-1$
 
+	/**
+	 * Name of the data type property.
+	 */
+
+	String DATA_TYPE_PROP = "dataType"; //$NON-NLS-1$
 }

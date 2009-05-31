@@ -437,6 +437,8 @@ public class ReportItemParseTest extends BaseTestCase
 		assertEquals( "Short Date", tocHandle.getDateTimeFormatCategory( ) );//$NON-NLS-1$
 		assertEquals( "Currency", tocHandle.getNumberFormatCategory( ) );//$NON-NLS-1$
 		assertEquals( "<", tocHandle.getStringFormatCategory( ) );//$NON-NLS-1$
+		
+		assertEquals( DesignChoiceConstants.PARAM_TYPE_DATETIME, tocHandle.getDataType( ) );
 
 		StyleHandle styleHandle = (StyleHandle) designHandle.getStyles( ).get(
 				0 );
@@ -447,6 +449,8 @@ public class ReportItemParseTest extends BaseTestCase
 
 		tocHandle.setProperty( TOC.BORDER_BOTTOM_WIDTH_MEMBER, null );
 		tocHandle.setProperty( TOC.BORDER_RIGHT_COLOR_MEMBER, "white" );//$NON-NLS-1$
+		
+		tocHandle.setDataType( DesignChoiceConstants.PARAM_TYPE_DECIMAL );
 
 		assertEquals( "gray", tocHandle.getBorderTopColor( ).getStringValue( ) );//$NON-NLS-1$
 		assertEquals(
@@ -514,6 +518,8 @@ public class ReportItemParseTest extends BaseTestCase
 		tocHandle.setProperty( TOC.TEXT_INDENT_MEMBER, "4in" );//$NON-NLS-1$
 		tocHandle.setProperty( TOC.TEXT_TRANSFORM_MEMBER, "lowercase" );//$NON-NLS-1$
 
+		tocHandle.setDataType( DesignChoiceConstants.PARAM_TYPE_DECIMAL );
+		
 		FormatValue value = new DateTimeFormatValue( );
 		value.setPattern( "yyyy/mm/dd" );//$NON-NLS-1$
 		value.setCategory( "Short Date" );//$NON-NLS-1$

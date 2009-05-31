@@ -1071,4 +1071,59 @@ public class TOCHandle extends StructureHandle
 		return (String) value;
 	}
 
+	/**
+	 * Returns the data type for this toc. Types are defined
+	 * in <code>DesignChoiceConstants</code> can be one of the followings:
+	 * 
+	 * <ul>
+	 * <li><code>PARAM_TYPE_STRING</code>
+	 * <li><code>PARAM_TYPE_FLOAT</code>
+	 * <li><code>PARAM_TYPE_DECIMAL</code>
+	 * <li><code>PARAM_TYPE_INTEGER</code>
+	 * <li><code>PARAM_TYPE_DATETIME</code>
+	 * <li><code>PARAM_TYPE_DATE</code>
+	 * <li><code>PARAM_TYPE_TIME</code>
+	 * <li><code>PARAM_TYPE_BOOLEAN</code>
+	 * </ul>
+	 * 
+	 * @return the type for the toc
+	 * 
+	 * @see #setDataType(String)
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
+	 */
+
+	public String getDataType( )
+	{
+		return getStringProperty( TOC.DATA_TYPE_MEMBER );
+	}
+
+	/**
+	 * Sets the data type for this toc. Types are defined
+	 * in <code>DesignChoiceConstants</code> can be one of the followings:
+	 * 
+	 * <ul>
+	 * <li><code>PARAM_TYPE_STRING</code>
+	 * <li><code>PARAM_TYPE_FLOAT</code>
+	 * <li><code>PARAM_TYPE_DECIMAL</code>
+	 * <li><code>PARAM_TYPE_INTEGER</code>
+	 * <li><code>PARAM_TYPE_DATETIME</code>
+	 * <li><code>PARAM_TYPE_DATE</code>
+	 * <li><code>PARAM_TYPE_TIME</code>
+	 * <li><code>PARAM_TYPE_BOOLEAN</code>
+	 * </ul>
+	 * 
+	 * @param type
+	 *            the type for the toc
+	 * 
+	 * @throws SemanticException
+	 *             if the input type is not one of above choices.
+	 * @see #getDataType()
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
+	 */
+
+	public void setDataType( String type ) throws SemanticException
+	{
+		setProperty( TOC.DATA_TYPE_MEMBER, type );
+	}
+
 }
