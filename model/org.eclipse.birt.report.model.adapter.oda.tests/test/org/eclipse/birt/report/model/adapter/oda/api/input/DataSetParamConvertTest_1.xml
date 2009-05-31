@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
     <data-sources>
         <oda-data-source name="myDataSource1" extensionID="org.eclipse.birt.report.data.oda.jdbc" id="2">
         </oda-data-source>
@@ -15,14 +15,14 @@
                 </structure>
                 <structure>
                     <property name="name">date</property>
-                    <property name="dataType">date-time</property>
+                    <property name="dataType">dateTime</property>
 					<property name="position">2</property>
-					<property name="defaultValue">date time expression</property>
+					<property name="defaultValue" type="constant">date time expression</property>
                 </structure>
                 <structure>
                     <property name="name">name3</property>
                     <property name="dataType">string</property>
-					<property name="defaultValue">225</property>
+					<property name="defaultValue" type="constant">225</property>
 					<property name="position">3</property>
                 </structure>				
             </list-property>	
