@@ -98,10 +98,19 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 			CrosstabReportItemHandle crosstab = crosstabView.getCrosstab( );
 			if ( crosstab != null && measureList != null )
 			{
+				// if measure direction is parallel with the target axis, we
+				// need set the flag to check available aggreagtions on counter
+				// axis.
+				// !!! Note this check logic tightly adhere with the logic in
+				// <code>validateCrosstab</code>, should be careful in case it
+				// need be changed.
+				boolean isVerticalMeasure = MEASURE_DIRECTION_VERTICAL.equals( crosstab.getMeasureDirection( ) );
+				boolean needCheckCounterAxis = ( ( isVerticalMeasure && crosstabView.getAxisType( ) == COLUMN_AXIS_TYPE ) || ( !isVerticalMeasure && crosstabView.getAxisType( ) == ROW_AXIS_TYPE ) );
+
 				addMeasureAggregations( crosstabView.getAxisType( ),
 						measureList,
 						functionList,
-						false );
+						needCheckCounterAxis );
 
 				// adjust measure header
 				addTotalMeasureHeader( crosstabView.getAxisType( ),
