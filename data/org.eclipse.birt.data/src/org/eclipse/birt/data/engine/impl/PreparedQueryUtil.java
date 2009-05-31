@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.impl;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.AccessController;
@@ -34,6 +35,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -159,8 +161,28 @@ public class PreparedQueryUtil
 			}
 			else
 			{
-				QuerySpecification querySpec = OdaQueryOptimizationUtil.optimizeExecution( dataEngine.getContext( )
-						.getScriptContext( ), dataEngine.getDataSourceRuntime( dset.getDataSourceName( ) ).getExtensionID( ), (IOdaDataSetDesign)dset, queryDefn );
+				QuerySpecification querySpec = null;
+				try
+				{
+					Class optimizationUtil = Class.forName( "org.eclipse.birt.data.engine.impl.OdaQueryOptimizationUtil" );
+					Method m = optimizationUtil.getMethod( "optimizeExecution",
+							ScriptContext.class,
+							String.class,
+							IOdaDataSetDesign.class,
+							IQueryDefinition.class );
+					Object o = optimizationUtil.newInstance( );
+					m.invoke( o,
+							dataEngine.getContext( ).getScriptContext( ),
+							dataEngine.getDataSourceRuntime( dset.getDataSourceName( ) )
+									.getExtensionID( ),
+							(IOdaDataSetDesign) dset,
+							queryDefn );
+
+				}
+				catch ( Throwable e )
+				{
+				}
+			 
 				preparedQuery = new PreparedOdaDSQuery( dataEngine,
 						queryDefn,
 						dset,

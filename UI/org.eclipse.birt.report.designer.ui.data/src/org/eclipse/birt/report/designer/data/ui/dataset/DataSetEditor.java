@@ -35,7 +35,6 @@ import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
-import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
@@ -289,7 +288,18 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 			if ( includeInputParameterPage )
 				addPageTo( "/", PARAMETERS_PAGE, Messages.getString( "dataset.editor.parameters" ), null, new DataSetParametersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$		
 			// Filter page
-			addPageTo( "/", FILTERS_PAGE, Messages.getString( "dataset.editor.filters" ), null, new DataSetFiltersPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			IPropertyPage filterpage = new DataSetFiltersPage();
+			try
+			{
+				filterpage = (IPropertyPage) Class.forName( "org.eclipse.birt.report.designer.data.ui.dataset.AdvancedDataSetFiltersPage" )
+						.newInstance( );
+			}
+			catch ( Throwable e )
+			{
+
+			}
+			addPageTo( "/", FILTERS_PAGE, Messages.getString( "dataset.editor.filters" ), null, filterpage );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			
 			// Property binding page
 			addPageTo( "/", DATASOURCE_EDITOR_PROPERTY_PAGE, Messages.getString( "datasource.editor.property" ), null, new PropertyBindingPage( ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
