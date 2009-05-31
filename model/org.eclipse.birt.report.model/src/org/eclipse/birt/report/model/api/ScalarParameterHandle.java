@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValu
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -78,62 +77,6 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 		super( module, element );
 	}
 
-	/**
-	 * Returns the data type for this parameter. The data type controls how the
-	 * requester formats, parses and validates the parameter. Types are defined
-	 * in <code>DesignChoiceConstants</code> can be one of the followings:
-	 * 
-	 * <ul>
-	 * <li><code>PARAM_TYPE_STRING</code>
-	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DECIMAL</code>
-	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DATETYPE</code>
-	 * <li><code>PARAM_TYPE_BOOLEAN</code>
-	 * </ul>
-	 * 
-	 * @return the type for the parameter
-	 * 
-	 * @see #setDataType(String)
-	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
-	 */
-
-	public String getDataType( )
-	{
-		return getStringProperty( DATA_TYPE_PROP );
-	}
-
-	/**
-	 * Sets the data type for this parameter. The data type controls how the
-	 * Requester formats, parses and validates the parameter. Types are defined
-	 * in <code>DesignChoiceConstants</code> can be one of the followings:
-	 * 
-	 * <ul>
-	 * <li><code>PARAM_TYPE_STRING</code>
-	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DECIMAL</code>
-	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DATETYPE</code>
-	 * <li><code>PARAM_TYPE_BOOLEAN</code>
-	 * </ul>
-	 * 
-	 * @param type
-	 *            the type for the parameter
-	 * 
-	 * @throws SemanticException
-	 *             if the input type is not one of above choices.
-	 * @see #getDataType()
-	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
-	 */
-
-	public void setDataType( String type ) throws SemanticException
-	{
-		setStringProperty( DATA_TYPE_PROP, type );
-	}
 
 	/**
 	 * Returns the first default value of the parameter. The default value can
@@ -648,11 +591,11 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * <ul>
 	 * <li><code>PARAM_TYPE_STRING</code>
 	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DECIMAL</code>
+	 * <li><code>PARAM_TYPE_DECIMAL</code>
 	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DATETYPE</code>
+	 * <li><code>PARAM_TYPE_DATETIME</code>
+	 * <li><code>PARAM_TYPE_DATE</code>
+	 * <li><code>PARAM_TYPE_TIME</code>  
 	 * <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
 	 * 
@@ -677,13 +620,13 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * <ul>
 	 * <li><code>PARAM_TYPE_STRING</code>
 	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DECIMAL</code>
+	 * <li><code>PARAM_TYPE_DECIMAL</code>
 	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li>
-	 * <code>PARAM_TYPE_DATETYPE</code>
+	 * <li><code>PARAM_TYPE_DATETIME</code>
+	 * <li><code>PARAM_TYPE_DATE</code>
+	 * <li><code>PARAM_TYPE_TIME</code>  
 	 * <li><code>PARAM_TYPE_BOOLEAN</code>
-	 * </ul>
+	 * </ul> 
 	 * 
 	 * @param type
 	 *            the type for the parameter

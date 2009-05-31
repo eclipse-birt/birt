@@ -18,12 +18,6 @@ public interface IScalarParameterModel
 {
 
 	/**
-	 * Name of the parameter data type property.
-	 */
-
-	public static final String DATA_TYPE_PROP = "dataType"; //$NON-NLS-1$
-
-	/**
 	 * Name of the conceal-value property.
 	 */
 

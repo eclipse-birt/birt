@@ -2360,8 +2360,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.SCALAR_PARAMETER_TAG );
 
 		super.visitScalarParameter( obj );
-
-		property( obj, IScalarParameterModel.DATA_TYPE_PROP );
+		
 		property( obj, IScalarParameterModel.PARAM_TYPE_PROP );
 
 		property( obj, IScalarParameterModel.CONCEAL_VALUE_PROP );
@@ -2402,6 +2401,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IAbstractScalarParameterModel.SORT_BY_PROP );
 		property( obj, IAbstractScalarParameterModel.SORT_BY_COLUMN_PROP );
 		property( obj, IAbstractScalarParameterModel.SORT_DIRECTION_PROP );
+		property( obj, IAbstractScalarParameterModel.DATA_TYPE_PROP );
 
 		writeSimplePropertyList( obj,
 				IAbstractScalarParameterModel.DEFAULT_VALUE_PROP );

@@ -86,4 +86,11 @@ public interface IAbstractScalarParameterModel
 	 */
 
 	public static final String LABEL_EXPR_PROP = "labelExpr"; //$NON-NLS-1$ 
+	
+	/**
+	 * Name of the parameter data type property.
+	 */
+
+	public static final String DATA_TYPE_PROP = "dataType"; //$NON-NLS-1$
+
 }

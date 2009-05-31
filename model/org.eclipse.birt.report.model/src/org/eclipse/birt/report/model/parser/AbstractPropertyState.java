@@ -30,13 +30,13 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.AbstractScalarParameter;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
-import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.TextDataItem;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -465,8 +465,8 @@ public class AbstractPropertyState extends AbstractParseState
 							.equalsIgnoreCase( propDefn.getName( ) ) )
 				return true;
 
-			if ( element instanceof ScalarParameter
-					&& IScalarParameterModel.DATA_TYPE_PROP
+			if ( element instanceof AbstractScalarParameter
+					&& IAbstractScalarParameterModel.DATA_TYPE_PROP
 							.equalsIgnoreCase( propDefn.getName( ) ) )
 				return true;
 
