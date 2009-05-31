@@ -16,12 +16,18 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.Expressio
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
@@ -29,6 +35,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -51,6 +58,8 @@ public class VariableDialog extends BaseTitleAreaDialog
 
 	private static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
 	private IExpressionHelper helper;
+	private Combo dataTypeCombo;
+	private ExpressionButton expressionButton;
 
 	public VariableDialog( String title, ReportDesignHandle designHandle,
 			VariableElementHandle variable )
@@ -66,7 +75,7 @@ public class VariableDialog extends BaseTitleAreaDialog
 				if ( expressionTxt != null )
 					return expressionTxt.getText( );
 				else
-					return "";
+					return ""; //$NON-NLS-1$
 			}
 
 			public void setExpression( String expression )
@@ -118,7 +127,7 @@ public class VariableDialog extends BaseTitleAreaDialog
 				.numColumns( 3 )
 				.create( ) );
 
-		new Label( content, SWT.NONE ).setText( "Name:" );
+		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.Name" ) ); //$NON-NLS-1$
 
 		nameTxt = new Text( content, SWT.BORDER );
 		nameTxt.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -132,23 +141,28 @@ public class VariableDialog extends BaseTitleAreaDialog
 		// dummy
 		new Label( content, SWT.NONE );
 
-		new Label( content, SWT.NONE ).setText( "Type:" );
+		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.VariableType" ) ); //$NON-NLS-1$
 
 		Composite typeChoices = new Composite( content, SWT.NONE );
 		typeChoices.setLayout( GridLayoutFactory.swtDefaults( )
 				.numColumns( 2 )
 				.create( ) );
 		reportRadio = new Button( typeChoices, SWT.RADIO );
-		reportRadio.setText( "Report Variable" );
+		reportRadio.setText( Messages.getString( "VariableDialog.ReportVariable" ) ); //$NON-NLS-1$
 		pageRadio = new Button( typeChoices, SWT.RADIO );
-		pageRadio.setText( "Page Variable" );
+		pageRadio.setText( Messages.getString( "VariableDialog.PageVariable" ) ); //$NON-NLS-1$
 		new Label( content, SWT.NONE );
 
-		new Label( content, SWT.NONE ).setText( "Default Value:" );
+		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.DataType" ) ); //$NON-NLS-1$
+
+		dataTypeCombo = new Combo( content, SWT.NONE );
+		new Label( content, SWT.NONE );
+
+		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.DefaultValue" ) ); //$NON-NLS-1$
 		expressionTxt = new Text( content, SWT.BORDER );
 		expressionTxt.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		ExpressionButton expressionButton = UIUtil.createExpressionButton( content,
+		expressionButton = UIUtil.createExpressionButton( content,
 				SWT.PUSH );
 		expressionButton.setExpressionHelper( helper );
 
@@ -158,6 +172,12 @@ public class VariableDialog extends BaseTitleAreaDialog
 	@Override
 	protected boolean initDialog( )
 	{
+		IChoiceSet datatypes = DEUtil.getMetaDataDictionary( )
+				.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE );
+		for ( IChoice choice : datatypes.getChoices( ) )
+		{
+			dataTypeCombo.add( choice.getDisplayName( ) );
+		}
 		if ( this.variable != null )
 		{
 			this.nameTxt.setText( this.variable.getName( ) );
@@ -167,6 +187,19 @@ public class VariableDialog extends BaseTitleAreaDialog
 				this.reportRadio.setSelection( true );
 			else
 				this.pageRadio.setSelection( true );
+			if ( this.variable.getDataType( ) != null )
+			{
+				String displayName = getDisplayNameByDataType( this.variable.getDataType( ),
+						datatypes );
+				for ( int i = 0; i < dataTypeCombo.getItemCount( ); i++ )
+				{
+					if ( dataTypeCombo.getItem( i ).equals( displayName ) )
+					{
+						dataTypeCombo.select( i );
+						break;
+					}
+				}
+			}
 			if ( this.variable.getValue( ) != null )
 				this.expressionTxt.setText( this.variable.getValue( ) );
 		}
@@ -202,7 +235,13 @@ public class VariableDialog extends BaseTitleAreaDialog
 				this.variable.setType( DesignChoiceConstants.VARIABLE_TYPE_REPORT );
 			else
 				this.variable.setType( DesignChoiceConstants.VARIABLE_TYPE_PAGE );
+			this.variable.setDataType( getDataTypeByDisplayName( this.dataTypeCombo.getText( ),
+					DEUtil.getMetaDataDictionary( )
+							.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE ) ) );
+			Expression expression = new Expression( this.expressionTxt.getText( ),
+					(String) this.expressionTxt.getData( EXPR_TYPE ) );
 			this.variable.setValue( this.expressionTxt.getText( ) );
+			this.variable.setExpressionProperty( VariableElementHandle.VALUE_PROP, expression );
 		}
 		catch ( SemanticException e )
 		{
@@ -211,10 +250,30 @@ public class VariableDialog extends BaseTitleAreaDialog
 		super.okPressed( );
 	}
 
+	private String getDataTypeByDisplayName( String text, IChoiceSet datatypes )
+	{
+		for ( IChoice choice : datatypes.getChoices( ) )
+		{
+			if ( choice.getDisplayName( ).equals( text ) )
+				return choice.getName( );
+		}
+		return null;
+	}
+
+	private String getDisplayNameByDataType( String text, IChoiceSet datatypes )
+	{
+		for ( IChoice choice : datatypes.getChoices( ) )
+		{
+			if ( choice.getValue( ).equals( text ) )
+				return choice.getDisplayName( );
+		}
+		return null;
+	}
+
 	private void validate( )
 	{
 		if ( this.nameTxt.getText( ) == null
-				|| this.nameTxt.getText( ).equals( "" ) )
+				|| this.nameTxt.getText( ).equals( "" ) ) //$NON-NLS-1$
 		{
 			getOkButton( ).setEnabled( false );
 		}
