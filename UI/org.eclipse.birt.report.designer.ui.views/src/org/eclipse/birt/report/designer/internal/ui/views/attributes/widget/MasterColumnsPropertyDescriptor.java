@@ -39,7 +39,6 @@ import org.eclipse.swt.widgets.Spinner;
 public class MasterColumnsPropertyDescriptor extends PropertyDescriptor
 {
 
-
 	public MasterColumnsPropertyDescriptor( boolean formStyle )
 	{
 		setFormStyle( formStyle );
@@ -56,7 +55,8 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor
 
 		public void widgetSelected( SelectionEvent e )
 		{
-			checkButtonSelection( e );
+			if ( ( (Button) e.widget ).getSelection( ) )
+				checkButtonSelection( (Button) e.widget, true );
 		}
 
 	};
@@ -73,10 +73,9 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor
 		spanGd.widthHint = 40;
 		spanGd.verticalSpan = 2;
 
-
 		oneColumnsButton = FormWidgetFactory.getInstance( )
 				.createButton( content, SWT.RADIO, isFormStyle( ) );
-		oneColumnsButton.setText( Messages.getString("MasterColumnsPropertyDescriptor.Button.Text.OneColumn") ); //$NON-NLS-1$
+		oneColumnsButton.setText( Messages.getString( "MasterColumnsPropertyDescriptor.Button.Text.OneColumn" ) ); //$NON-NLS-1$
 		oneColumnsButton.addKeyListener( new KeyAdapter( ) {
 		} );
 		oneColumnsButton.addSelectionListener( listener );
@@ -87,7 +86,7 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor
 
 		twoColumnsButton = FormWidgetFactory.getInstance( )
 				.createButton( content, SWT.RADIO, isFormStyle( ) );
-		twoColumnsButton.setText( Messages.getString("MasterColumnsPropertyDescriptor.Button.Text.TwoColumns") ); //$NON-NLS-1$
+		twoColumnsButton.setText( Messages.getString( "MasterColumnsPropertyDescriptor.Button.Text.TwoColumns" ) ); //$NON-NLS-1$
 		twoColumnsButton.addSelectionListener( listener );
 		twoColumnsButton.addKeyListener( new KeyAdapter( ) {
 		} );
@@ -98,7 +97,7 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor
 
 		threeColumnsButton = FormWidgetFactory.getInstance( )
 				.createButton( content, SWT.RADIO, isFormStyle( ) );
-		threeColumnsButton.setText( Messages.getString("MasterColumnsPropertyDescriptor.Button.Text.ThreeColumns") ); //$NON-NLS-1$
+		threeColumnsButton.setText( Messages.getString( "MasterColumnsPropertyDescriptor.Button.Text.ThreeColumns" ) ); //$NON-NLS-1$
 		threeColumnsButton.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
 		threeColumnsButton.addSelectionListener( listener );
 		threeColumnsButton.addKeyListener( new KeyAdapter( ) {
@@ -110,7 +109,7 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor
 
 		customColumnsButton = FormWidgetFactory.getInstance( )
 				.createButton( content, SWT.RADIO, isFormStyle( ) );
-		customColumnsButton.setText( Messages.getString("MasterColumnsPropertyDescriptor.Button.Text.Custom") ); //$NON-NLS-1$
+		customColumnsButton.setText( Messages.getString( "MasterColumnsPropertyDescriptor.Button.Text.Custom" ) ); //$NON-NLS-1$
 		GridData gd = new GridData( );
 		gd.horizontalSpan = 2;
 		customColumnsButton.setLayoutData( gd );
@@ -133,7 +132,7 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor
 		Label customNumberLabel = FormWidgetFactory.getInstance( )
 				.createLabel( content, isFormStyle( ) );
 		customNumberLabel.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
-		customNumberLabel.setText( Messages.getString("MasterColumnsPropertyDescriptor.Combo.Text.Column.Number") ); //$NON-NLS-1$
+		customNumberLabel.setText( Messages.getString( "MasterColumnsPropertyDescriptor.Combo.Text.Column.Number" ) ); //$NON-NLS-1$
 		if ( isFormStyle( ) )
 		{
 			spinner = FormWidgetFactory.getInstance( ).createSpinner( content,
@@ -167,45 +166,57 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor
 		return content;
 	}
 
-	private void checkButtonSelection( SelectionEvent e )
+	private void checkButtonSelection( Button button )
+	{
+		checkButtonSelection( button, false );
+	}
+
+	private void checkButtonSelection( Button button, boolean save )
 	{
 		try
 		{
-			if ( oneColumnsButton.getSelection( ) )
+			if ( oneColumnsButton == button && oneColumnsButton.getSelection( ) )
 			{
 				oneColumnsButton.setSelection( true );
 				twoColumnsButton.setSelection( false );
 				threeColumnsButton.setSelection( false );
 				customColumnsButton.setSelection( false );
 				spinner.setEnabled( false );
-				save( MasterColumnsDescriptorProvider.ONE_COLUMN );
+				if ( save )
+					save( MasterColumnsDescriptorProvider.ONE_COLUMN );
 			}
-			else if ( twoColumnsButton.getSelection( ) )
+			else if ( twoColumnsButton == button
+					&& twoColumnsButton.getSelection( ) )
 			{
 				twoColumnsButton.setSelection( true );
 				oneColumnsButton.setSelection( false );
 				threeColumnsButton.setSelection( false );
 				customColumnsButton.setSelection( false );
 				spinner.setEnabled( false );
-				save( MasterColumnsDescriptorProvider.TWO_COLUMNS );
+				if ( save )
+					save( MasterColumnsDescriptorProvider.TWO_COLUMNS );
 			}
-			else if ( threeColumnsButton.getSelection( ) )
+			else if ( threeColumnsButton == button
+					&& threeColumnsButton.getSelection( ) )
 			{
 				threeColumnsButton.setSelection( true );
 				oneColumnsButton.setSelection( false );
 				twoColumnsButton.setSelection( false );
 				customColumnsButton.setSelection( false );
 				spinner.setEnabled( false );
-				save( MasterColumnsDescriptorProvider.THREE_COLUMNS );
+				if ( save )
+					save( MasterColumnsDescriptorProvider.THREE_COLUMNS );
 			}
-			else if ( customColumnsButton.getSelection( ) )
+			else if ( customColumnsButton == button
+					&& customColumnsButton.getSelection( ) )
 			{
 				customColumnsButton.setSelection( true );
 				oneColumnsButton.setSelection( false );
 				twoColumnsButton.setSelection( false );
 				threeColumnsButton.setSelection( false );
 				spinner.setEnabled( true );
-				save( spinner.getText( ) );
+				if ( save )
+					save( spinner.getText( ) );
 			}
 		}
 		catch ( SemanticException e1 )
@@ -231,27 +242,44 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor
 				{
 					int columns = Integer.parseInt( value.toString( ) );
 					if ( columns == 1 )
+					{
 						oneColumnsButton.setSelection( true );
+						checkButtonSelection( oneColumnsButton );
+					}
 					else if ( columns == 2 )
+					{
 						twoColumnsButton.setSelection( true );
+						checkButtonSelection( twoColumnsButton );
+					}
 					else if ( columns == 3 )
+					{
 						threeColumnsButton.setSelection( true );
+						checkButtonSelection( threeColumnsButton );
+					}
 					else if ( columns > 1 )
 					{
 						customColumnsButton.setSelection( true );
 						spinner.setSelection( columns );
 						spinner.setEnabled( true );
+						checkButtonSelection( customColumnsButton );
 					}
 					else
+					{
 						oneColumnsButton.setSelection( true );
+						checkButtonSelection( oneColumnsButton );
+					}
 				}
 				catch ( NumberFormatException e )
 				{
 					oneColumnsButton.setSelection( true );
+					checkButtonSelection( oneColumnsButton );
 				}
 			}
 			else
+			{
 				oneColumnsButton.setSelection( true );
+				checkButtonSelection( oneColumnsButton );
+			}
 			spinner.setEnabled( customColumnsButton.getSelection( ) );
 
 		}
