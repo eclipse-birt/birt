@@ -166,6 +166,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private Button btnShowDataPreviewB;
 	private TableViewer tableViewerColumns;
 	private Label columnListDescription;
+	private Label dataPreviewDescription;
 
 	public StandardChartDataSheet( ExtendedItemHandle itemHandle,
 			ReportDataServiceProvider dataProvider, int iSupportedDataItems )
@@ -374,12 +375,11 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		if ( !dataProvider.isInXTabMeasureCell( )
 				&& !dataProvider.isInMultiView( ) )
 		{
-			// No description if dnd is disabled
-			Label description = new Label( cmpDataPreview, SWT.WRAP );
+			dataPreviewDescription = new Label( cmpDataPreview, SWT.WRAP );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				description.setLayoutData( gd );
-				description.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
+				dataPreviewDescription.setLayoutData( gd );
+				dataPreviewDescription.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
 			}
 		}
 		
@@ -415,8 +415,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			label.setFont( JFaceResources.getBannerFont( ) );
 		}
 
-		if ( !dataProvider.isInXTabMeasureCell( )
-				&& !dataProvider.isInMultiView( ) )
+		if ( !dataProvider.isInXTabMeasureCell( ) )
 		{
 			columnListDescription = new Label( cmpColumnsList, SWT.WRAP );
 			{
@@ -667,10 +666,26 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	private void updateDragDataSource( )
 	{
+		if ( dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
+		{// hide the description if share chart
+			if ( columnListDescription != null )
+			{
+				( (GridData) columnListDescription.getLayoutData( ) ).exclude = true;
+				columnListDescription.setVisible( false );
+				cmpColumnsList.layout( );
+			}
+			if ( dataPreviewDescription != null )
+			{
+				( (GridData) dataPreviewDescription.getLayoutData( ) ).exclude = true;
+				dataPreviewDescription.setVisible( false );
+				cmpDataPreview.layout( );
+			}
+
+		}
 		
 		if ( isCubeMode( ) )
 		{
-			if ( getDataServiceProvider( ).getReportItemReference( ) != null )
+			if ( getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
 			{// share cube
 
 				if ( !getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
@@ -678,13 +693,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					( (GridData) columnListDescription.getLayoutData( ) ).exclude = false;
 					columnListDescription.setVisible( true );
 					columnListDescription.setText( Messages.getString("StandardChartDataSheet.Label.ShareCrossTab") ); //$NON-NLS-1$
+					cmpColumnsList.layout( );
 				}
-				else
-				{
-					( (GridData) columnListDescription.getLayoutData( ) ).exclude = true;
-					columnListDescription.setVisible( false );
-				}
-				cmpColumnsList.layout( );
 
 				getContext( ).setShowingDataPreview( Boolean.FALSE );
 				btnShowDataPreviewB.setSelection( false );
@@ -706,12 +716,15 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		
 		if ( columnListDescription != null )
 		{
-			( (GridData) columnListDescription.getLayoutData( ) ).exclude = false;
-			columnListDescription.setVisible( true );
-			columnListDescription.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
+			if ( !dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY ) )
+			{
+				( (GridData) columnListDescription.getLayoutData( ) ).exclude = false;
+				columnListDescription.setVisible( true );
+				columnListDescription.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
+				cmpColumnsList.layout( );
+			}
 		}
 		btnShowDataPreviewB.setEnabled( true );
-		cmpColumnsList.layout( );
 
 		// Clear data preview setting if current data item was changed.
 		String pValue = ( previousData == null ) ? "" : previousData; //$NON-NLS-1$
