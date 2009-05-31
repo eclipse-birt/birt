@@ -268,7 +268,7 @@ public class DataAdapterUtil
 			case DataType.SQL_DATE_TYPE:
 				return new int[]{ DataType.SQL_DATE_TYPE, DataType.DATE_TYPE };
 			case DataType.SQL_TIME_TYPE:
-				return new int[]{ DataType.SQL_TIME_TYPE };
+				return new int[]{ DataType.SQL_TIME_TYPE, DataType.DATE_TYPE };
 			default:
 				throw new AdapterException( ResourceConstants.INVALID_DATA_TYPE, type );
 		}
