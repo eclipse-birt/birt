@@ -524,26 +524,18 @@ class ResultSetsAdapter
 
 		while ( columns.hasNext( ) )
 		{
-			OdaResultSetColumnHandle column = (OdaResultSetColumnHandle) columns.next( );
+			OdaResultSetColumnHandle column = (OdaResultSetColumnHandle) columns
+					.next( );
 
 			Integer tmpNativeDataType = column.getNativeDataType( );
 			String nativeName = column.getNativeName( );
-
-			// nativeName/name, position and nativeDataType should match.
-
-			// case 1: if the native name is not blank, just use it.
-
-			if ( !StringUtil.isBlank( nativeName )
-					&& nativeName.equals( paramName ) )
-				return column;
-
-			// case 2: if the native name is blank, match native data type and
-			// position
-
-			if ( StringUtil.isBlank( nativeName )
+			if ( ( StringUtil.isBlank( nativeName ) || nativeName
+					.equalsIgnoreCase( paramName ) )
 					&& position.equals( column.getPosition( ) )
-					&& ( tmpNativeDataType == null || tmpNativeDataType.equals( nativeDataType ) ) )
+					&& ( tmpNativeDataType == null || nativeDataType
+							.equals( tmpNativeDataType ) ) )
 				return column;
+
 		}
 		return null;
 

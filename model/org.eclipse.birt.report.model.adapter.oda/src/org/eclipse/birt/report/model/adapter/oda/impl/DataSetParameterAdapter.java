@@ -571,18 +571,11 @@ class DataSetParameterAdapter
 			Integer tmpNativeDataType = param.getNativeDataType( );
 			String tmpNativeName = param.getNativeName( );
 
-			// nativeName/name, position and nativeDataType should match.
+			// nativeName/name, position and nativeDataType should match. If the
+			// native name is blank, match native data type and position
 
-			// case 1: if the native name is not blank, just use it.
-
-			if ( !StringUtil.isBlank( tmpNativeName )
-					&& tmpNativeName.equals( dataSetParamName ) )
-				return param;
-
-			// case 2: if the native name is blank, match native data type and
-			// position
-
-			if ( StringUtil.isBlank( tmpNativeName )
+			if ( ( StringUtil.isBlank( tmpNativeName ) || ( tmpNativeName != null && tmpNativeName
+					.equals( dataSetParamName ) ) )
 					&& position.equals( param.getPosition( ) )
 					&& ( tmpNativeDataType == null || tmpNativeDataType
 							.equals( nativeDataType ) ) )
