@@ -29,7 +29,8 @@ public class JoinSelectionEditPolicy extends SelectionEditPolicy
 		( (ColumnConnection) this.getHostFigure( ) ).setLineWidth( 1 );
 		if ( part.getTarget( ) instanceof ColumnEditPart )
 		{
-			part.getSource( ).setSelected( EditPart.SELECTED_NONE );
+			if ( part.getSource( ) instanceof EditPart )
+				part.getSource( ).setSelected( EditPart.SELECTED_NONE );
 			part.getTarget( ).setSelected( EditPart.SELECTED_NONE );
 		}
 	}
@@ -45,7 +46,8 @@ public class JoinSelectionEditPolicy extends SelectionEditPolicy
 		( (ColumnConnection) this.getHostFigure( ) ).setLineWidth( 2 );
 		if ( part.getTarget( ) instanceof ColumnEditPart )
 		{
-			part.getSource( ).setSelected( EditPart.SELECTED );
+			if ( part.getSource( ) instanceof EditPart )
+				part.getSource( ).setSelected( EditPart.SELECTED );
 			part.getTarget( ).setSelected( EditPart.SELECTED );
 		}
 	}
