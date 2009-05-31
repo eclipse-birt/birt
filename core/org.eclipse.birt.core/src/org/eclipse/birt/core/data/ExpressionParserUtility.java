@@ -153,7 +153,8 @@ public class ExpressionParserUtility
 				// A single expression
 				if ( tree.getFirstChild( ).getType( ) != Token.EXPR_RESULT
 						&& tree.getFirstChild( ).getType( ) != Token.EXPR_VOID
-						&& tree.getFirstChild( ).getType( ) != Token.BLOCK )
+						&& tree.getFirstChild( ).getType( ) != Token.BLOCK
+						&& tree.getFirstChild( ).getType( ) != Token.SCRIPT)
 				{
 					// This should never happen?
 					throw new CoreException( pluginId,
