@@ -159,6 +159,8 @@ public class AdvancePropertySection extends Section
 
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = GridData.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		gd.horizontalIndent = GridData.FILL;
 
 		if ( displayLabel != null )
 		{
