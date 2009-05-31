@@ -46,7 +46,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Librar
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ListPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ListingSectionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.MarginsPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.MasterColumnsPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.MasterPageGeneralPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.NamedExpressionsPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ParameterGroupI18nPage;
@@ -966,7 +965,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			return new CategoryHolder( new String[]{
 					CATEGORY_KEY_GENERAL,
 					CATEGORY_KEY_MARGIN,
-					CATEGORY_KEY_MASTER_COLUMNS,
+					// CATEGORY_KEY_MASTER_COLUMNS,
 					CATEGORY_KEY_HEADER_FOOTER,
 					CATEGORY_KEY_COMMENTS,
 					CATEGORY_KEY_ADVANCEPROPERTY,
@@ -974,7 +973,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 					new String[]{
 							Messages.getString( "MasterPageGenerator.List.General" ), //$NON-NLS-1$
 							Messages.getString( "MasterPageGenerator.List.Margins" ), //$NON-NLS-1$
-							Messages.getString( "MasterPageGenerator.List.Columns" ), //$NON-NLS-1$
+							//Messages.getString( "MasterPageGenerator.List.Columns" ), //$NON-NLS-1$
 							Messages.getString( "MasterPageGenerator.List.Header&Footer" ), //$NON-NLS-1$
 							Messages.getString( "ReportPageGenerator.List.Comments" ), //$NON-NLS-1$
 							Messages.getString( "ReportPageGenerator.List.AdvancedProperty" ), //$NON-NLS-1$
@@ -982,7 +981,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 					new Class[]{
 							MasterPageGeneralPage.class,
 							MarginsPage.class,
-							MasterColumnsPage.class,
+							// MasterColumnsPage.class,
 							HeaderFooterPage.class,
 							CommentsPage.class,
 							AdvancePropertyPage.class,
