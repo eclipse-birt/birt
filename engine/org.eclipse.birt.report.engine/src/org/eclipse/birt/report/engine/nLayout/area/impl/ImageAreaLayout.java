@@ -250,8 +250,8 @@ class ConcreteImageLayout implements ILayout
 			// 2. the DPI in report designHandle.
 			// 3. use the DPI in render options.
 			// 4. the default DPI (96).
-			int resolutionX = image.getDpiX( );
-			int resolutionY = image.getDpiY( );
+			resolutionX = image.getDpiX( );
+			resolutionY = image.getDpiY( );
 			if ( 0 == resolutionX || 0 == resolutionY )
 			{
 				ReportDesignHandle designHandle = content.getReportContent( )
