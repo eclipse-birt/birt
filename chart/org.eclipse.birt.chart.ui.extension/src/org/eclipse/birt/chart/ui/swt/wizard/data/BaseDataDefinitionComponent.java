@@ -650,20 +650,26 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	{
 		try
 		{
+			String oldExpr = getExpression( getInputControl( ) );
 			String sExpr = context.getUIServiceProvider( )
 					.invoke( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
-							getExpression( getInputControl( ) ),
+							oldExpr,
 							context.getExtendedItem( ),
 							sTitle );
-			boolean isSuccess = setUIText( getInputControl( ), sExpr );
-			updateQuery( sExpr );
-
-			if ( !isSuccess )
+			// do not need to save query if it's not changed, or it may throw a
+			// SWT exception(widget disposed).
+			if ( !oldExpr.equals( sExpr ) )
 			{
-				Event event = new Event( );
-				event.type = IChartDataSheet.EVENT_QUERY;
-				event.data = queryType;
-				context.getDataSheet( ).notifyListeners( event );
+				boolean isSuccess = setUIText( getInputControl( ), sExpr );
+				updateQuery( sExpr );
+
+				if ( !isSuccess )
+				{
+					Event event = new Event( );
+					event.type = IChartDataSheet.EVENT_QUERY;
+					event.data = queryType;
+					context.getDataSheet( ).notifyListeners( event );
+				}
 			}
 		}
 		catch ( ChartException e1 )
@@ -740,7 +746,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		// Null event is fired by Drop Listener manually
 		if ( e == null || e.widget.equals( getInputControl( ) ) )
 		{
-			saveQuery( );
+			if ( !ChartUIUtil.getText( getInputControl( ) )
+					.equals( query.getDefinition( ) ) )
+			{
+				saveQuery( );
+			}
 		}
 	}
 
