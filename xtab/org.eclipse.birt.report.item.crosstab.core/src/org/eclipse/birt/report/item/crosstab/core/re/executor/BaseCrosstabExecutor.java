@@ -473,8 +473,11 @@ public abstract class BaseCrosstabExecutor implements
 		{
 			return cubeRset;
 		}
-		else if ( parentExecutor instanceof BaseCrosstabExecutor )
+		else if ( parentExecutor instanceof BaseCrosstabExecutor
+				&& !( this instanceof CrosstabReportItemExecutor ) )
 		{
+			// for top level crosstab item executor, it needn't check the
+			// parent, in case it's nested in another Crosstab.
 			return ( (BaseCrosstabExecutor) parentExecutor ).getCubeResultSet( );
 		}
 
@@ -487,8 +490,11 @@ public abstract class BaseCrosstabExecutor implements
 		{
 			return cubeCursor;
 		}
-		else if ( parentExecutor instanceof BaseCrosstabExecutor )
+		else if ( parentExecutor instanceof BaseCrosstabExecutor
+				&& !( this instanceof CrosstabReportItemExecutor ) )
 		{
+			// for top level crosstab item executor, it needn't check the
+			// parent, in case it's nested in another Crosstab.
 			return ( (BaseCrosstabExecutor) parentExecutor ).getCubeCursor( );
 		}
 
