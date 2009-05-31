@@ -600,9 +600,10 @@ public class ExcelLayoutEngine
 		outputDataIfBufferIsFull( );
 		updataRowIndex( data, container );
 		addDatatoCache( col, data );
+		Data newData = new Data( data );
 		for ( int i = col + 1; i < col + span; i++ )
 		{
-			BlankData blankData = new BlankData( data );
+			BlankData blankData = new BlankData( newData );
 			addDatatoCache( i, blankData );
 		}
 		
