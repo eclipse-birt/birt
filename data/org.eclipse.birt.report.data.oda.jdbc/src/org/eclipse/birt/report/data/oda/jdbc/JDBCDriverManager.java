@@ -859,6 +859,8 @@ public class JDBCDriverManager
 		
 		if ( extraDriverLoader == null || refreshClassLoader )
 		{
+			if( extraDriverLoader!= null )
+				extraDriverLoader.close( );
 			extraDriverLoader = new DriverClassLoader( driverClassPath );
 		}
 
