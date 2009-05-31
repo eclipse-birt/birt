@@ -250,6 +250,7 @@ public abstract class BaseTestCase extends TestCase
 					.toString( ) );
 		else
 			designHandle = sessionHandle.openDesign( fileName );
+		
 	}
 
 	/**
@@ -266,68 +267,6 @@ public abstract class BaseTestCase extends TestCase
 	}
 
 	/**
-	 * Opens library file with given file name.
-	 * 
-	 * @param fileName
-	 *            the library file name
-	 * @throws DesignFileException
-	 *             if any exception
-	 */
-
-	protected void openLibrary( String fileName ) throws DesignFileException
-	{
-		openLibrary( fileName, ULocale.getDefault( ) );
-	}
-
-	/**
-	 * Opens library file with given file name and locale.
-	 * 
-	 * @param fileName
-	 *            the library file name
-	 * @param locale
-	 *            the user locale
-	 * @throws DesignFileException
-	 *             if any exception
-	 */
-
-	protected void openLibrary( String fileName, ULocale locale )
-			throws DesignFileException
-	{
-		openLibrary( fileName, locale, true );
-	}
-
-	/**
-	 * Opens library file with given file name and locale.
-	 * 
-	 * @param fileName
-	 *            the library file name
-	 * @param locale
-	 *            the user locale
-	 * @param inSingleJarMode
-	 *            <code>true</code> if open the design that is in the single
-	 *            jar. Otherwise <code>false</code>.
-	 * @throws DesignFileException
-	 *             if any exception
-	 */
-
-	protected void openLibrary( String fileName, ULocale locale,
-			boolean inSingleJarMode ) throws DesignFileException
-	{
-		if ( inSingleJarMode )
-			fileName = INPUT_FOLDER + fileName;
-
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( locale );
-		assertNotNull( sessionHandle );
-
-		if ( inSingleJarMode )
-			libraryHandle = sessionHandle.openLibrary( getResource( fileName ),
-					getResourceAStream( fileName ) );
-		else
-			libraryHandle = sessionHandle.openLibrary( fileName );
-	}
-
-	/**
 	 * Gets the input stream of the given name resources.
 	 * 
 	 * @name resource name
@@ -338,42 +277,6 @@ public abstract class BaseTestCase extends TestCase
 	protected InputStream getResourceAStream( String name )
 	{
 		return this.getClass( ).getResourceAsStream( name );
-	}
-
-	/**
-	 * Opens a module file with given file name.
-	 * 
-	 * @param fileName
-	 *            the module file name
-	 * @throws DesignFileException
-	 *             if any exception
-	 */
-
-	protected void openModule( String fileName ) throws DesignFileException
-	{
-		openModule( fileName, ULocale.getDefault( ) );
-	}
-
-	/**
-	 * Opend a module given file name and locale.
-	 * 
-	 * @param fileName
-	 *            the module file name
-	 * @param locale
-	 *            the user locale
-	 * @throws DesignFileException
-	 */
-
-	protected void openModule( String fileName, ULocale locale )
-			throws DesignFileException
-	{
-		fileName = INPUT_FOLDER + fileName;
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( locale );
-		assertNotNull( sessionHandle );
-
-		moduleHandle = sessionHandle.openModule( getResource( fileName )
-				.toString( ), getResourceAStream( fileName ) );
 	}
 
 	/**
