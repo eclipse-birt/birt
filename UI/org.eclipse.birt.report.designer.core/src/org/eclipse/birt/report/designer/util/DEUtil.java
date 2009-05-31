@@ -67,6 +67,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
@@ -1129,6 +1130,12 @@ public class DEUtil
 			return ExpressionUtil.createJSDimensionExpression( dimensionName,
 					levelName,
 					levelAttri.getName( ) );
+		}
+		if ( model instanceof VariableElementHandle )
+		{
+			VariableElementHandle variable = (VariableElementHandle) model;
+			
+			return "vars[\""+variable.getName( )+"\"]";
 		}
 		return null;
 	}

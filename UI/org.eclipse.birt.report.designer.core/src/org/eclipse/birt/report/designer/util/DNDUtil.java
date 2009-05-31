@@ -57,6 +57,7 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
@@ -641,7 +642,8 @@ public final class DNDUtil
 				|| selection instanceof TemplateElementHandle
 				|| selection instanceof DataSetItemModel
 				|| selection instanceof ResultSetColumnHandle
-				|| selection instanceof CubeHandle;
+				|| selection instanceof CubeHandle
+				|| selection instanceof VariableElementHandle;
 		// || selection instanceof DimensionHandle
 		// || selection instanceof MeasureHandle;
 	}
@@ -1204,6 +1206,13 @@ public final class DNDUtil
 					.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
 					: CONTAIN_NO;
 		}
+		if ( targetObj instanceof PropertyHandle )
+		{
+			PropertyHandle targetHandle = (PropertyHandle) targetObj;
+			return targetHandle.getElementHandle( )
+					.canContain( targetHandle.getPropertyDefn( ).getName( ), childHandle ) ? CONTAIN_THIS
+					: CONTAIN_NO;
+		}
 		return CONTAIN_NO;
 	}
 
@@ -1365,6 +1374,11 @@ public final class DNDUtil
 					.isMultipleCardinality( )
 					|| slot.getCount( ) < 1
 					&& length <= 1;
+		}
+		if ( targetObj instanceof PropertyHandle )
+		{
+			//FIXME
+			return true;
 		}
 		return targetObj instanceof DesignElementHandle
 				|| targetObj instanceof EmbeddedImageNode;

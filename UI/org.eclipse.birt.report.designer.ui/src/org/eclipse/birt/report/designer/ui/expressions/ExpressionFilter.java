@@ -32,6 +32,7 @@ public abstract class ExpressionFilter
 	public static final String CATEGORY_NATIVE_OBJECTS = "Native Objects"; //$NON-NLS-1$
 	public static final String CATEGORY_BIRT_OBJECTS = "Birt Objects"; //$NON-NLS-1$
 	public static final String CATEGORY_PARAMETERS = "Parameters"; //$NON-NLS-1$
+	public static final String CATEGORY_VARIABLES = "Variables"; //$NON-NLS-1$
 	public static final String CATEGORY_CONTEXT = "Context"; //$NON-NLS-1$
 
 	/**

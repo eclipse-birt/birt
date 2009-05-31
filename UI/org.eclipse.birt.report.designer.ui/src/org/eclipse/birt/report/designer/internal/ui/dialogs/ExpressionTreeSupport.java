@@ -35,10 +35,13 @@ import org.eclipse.birt.report.designer.ui.expressions.IContextExpressionProvide
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
@@ -223,7 +226,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	private Object currentEditObject;
 	private String currentMethodName;
 	private TreeItem contextItem, parametersItem, nativeObejctsItem,
-			birtObjectsItem, operatorsItem;
+			birtObjectsItem, operatorsItem, variablesItem;
 	private List<TreeItem> dynamicItems;
 
 	private List staticFilters;
@@ -325,6 +328,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		// flag to check if some bulit-in categories need be removed
 		boolean hasContext = false;
 		boolean hasParameters = false;
+		boolean hasVariables = false;
 		boolean hasNativeObjects = false;
 		boolean hasBirtObjects = false;
 		boolean hasOperators = false;
@@ -349,6 +353,14 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 				createParamtersCategory( );
 			}
 		}
+		if ( filter( ExpressionFilter.CATEGORY,
+				ExpressionFilter.CATEGORY_VARIABLES,
+				filters ) )
+		{
+			hasVariables = true;
+			createVariablesCategory( );
+		}
+
 		if ( filter( ExpressionFilter.CATEGORY,
 				ExpressionFilter.CATEGORY_NATIVE_OBJECTS,
 				filters ) )
@@ -390,6 +402,10 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		if ( !hasParameters )
 		{
 			clearTreeItem( parametersItem );
+		}
+		if ( !hasVariables )
+		{
+			clearTreeItem( variablesItem );
 		}
 		if ( !hasNativeObjects )
 		{
@@ -529,6 +545,41 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 							parameter.getDisplayLabel( ),
 							true );
 				}
+			}
+		}
+	}
+
+	protected void createVariablesCategory( )
+	{
+		if ( variablesItem == null )
+		{
+			int idx = getIndex( contextItem );
+			variablesItem = createTopTreeItem( tree, "Variables", idx );
+		}
+		buildVariableTree( );
+	}
+
+	private void buildVariableTree( )
+	{
+		clearSubTreeItem( variablesItem );
+
+		ModuleHandle handle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		if ( handle instanceof ReportDesignHandle )
+		{
+			for ( VariableElementHandle variableHandle : ( (ReportDesignHandle) handle ).getPageVariables( ) )
+			{
+				if ( DesignChoiceConstants.VARIABLE_TYPE_PAGE.equals( variableHandle.getType( ) )
+						&& !( currentMethodName.equals( "onPapgeStart" )
+								|| currentMethodName.equals( "onPageEnd" ) || currentMethodName.equals( "onRender" ) ) )
+					continue;
+				createSubTreeItem( variablesItem,
+						DEUtil.getDisplayLabel( variableHandle, false ),
+						ReportPlatformUIImages.getImage( variableHandle ),
+						DEUtil.getExpression( variableHandle ),
+						variableHandle.getDisplayLabel( ),
+						true );
 			}
 		}
 	}

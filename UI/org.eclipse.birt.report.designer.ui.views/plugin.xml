@@ -474,6 +474,28 @@
          </enablement>
       </adapter>
    </adaptable>
+   <adaptable
+         class="org.eclipse.birt.report.model.api.PropertyHandle">
+      <adapter
+            class="org.eclipse.birt.report.designer.internal.ui.views.data.providers.VariablesNodeProvider"
+            id="PropertyHandle.VariablesNode"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+         <enablement>
+            <test
+                  property="PropertyHandle.name"
+                  value="pageVariables">
+            </test>
+         </enablement>
+      </adapter>
+   </adaptable>
+   <adaptable
+         class="org.eclipse.birt.report.model.api.VariableElementHandle">
+      <adapter
+            class="org.eclipse.birt.report.designer.internal.ui.views.data.providers.VariableNodeProvider"
+            id="VariableElementHandle.NodeProvider"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+      </adapter>
+   </adaptable>
 </extension>
 <extension
       point="org.eclipse.birt.report.designer.ui.elementAdapters"><adaptable

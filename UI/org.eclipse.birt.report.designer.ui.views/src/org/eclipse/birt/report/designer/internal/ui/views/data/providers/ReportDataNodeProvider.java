@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import org.eclipse.birt.report.designer.core.model.views.data.ReportDataHandle;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.ReportDesignNodeProvider;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
 
@@ -47,6 +49,8 @@ public class ReportDataNodeProvider extends ReportDesignNodeProvider
 		list.add( handle.getDataSets( ) );
 		list.add( handle.getCubes( ) );
 		list.add( handle.getParameters( ) );
+		if(handle instanceof ReportDesignHandle)
+			list.add( ((ReportDesignHandle)handle).getPropertyHandle( IReportDesignModel.PAGE_VARIABLES_PROP ) );
 
 		return list.toArray( );
 	}

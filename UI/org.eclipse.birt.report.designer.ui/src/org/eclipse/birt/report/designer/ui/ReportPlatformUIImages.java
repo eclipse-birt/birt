@@ -276,6 +276,9 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_SCALAR_PARAMETER,
 				ICONS_PATH + OBJ16_PATH + "parameter.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_VARIABLE,
+				ICONS_PATH + OBJ16_PATH + "parameter.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMNET_SIMPLE_MASTERPAGE,
 				ICONS_PATH + EVIEW16_PATH + "master_page.gif" ); //$NON-NLS-1$

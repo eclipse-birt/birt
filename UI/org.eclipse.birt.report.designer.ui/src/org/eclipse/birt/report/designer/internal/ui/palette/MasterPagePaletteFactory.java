@@ -73,7 +73,12 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 	private static final String AUTOTEXT_AUTHOR_PAGE_DATE = Messages.getString( "MasterPagePaletteFactory.Autotext.Author_Page_Date" ); //$NON-NLS-1$
 
 	private static final String AUTOTEXT_PAGE = Messages.getString( "MasterPagePaletteFactory.Autotext.Page" ); //$NON-NLS-1$
+	
+	private static final String AUTOTEXT_VARIABLE = Messages.getString( "MasterPagePaletteFactory.Autotext.Variable" ); //$NON-NLS-1$
+	
+	private static final String AUTOTEXT_TOOLTIP_VARIABLE = Messages.getString( "MasterPagePaletteFactory.AutotextTooltip.Variable" ); //$NON-NLS-1$
 
+	
 	/**
 	 * Creates the palette and returns the palette
 	 * 
@@ -158,6 +163,11 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 		combined = createAutoText( AUTOTEXT_LAST_PRINTED,
 				AUTOTEXT_TOOLTIP_LAST_PRINTED,
 				IReportElementConstants.AUTOTEXT_LASTPRINTED );
+		entries.add( combined );
+
+		combined = createAutoText( AUTOTEXT_VARIABLE,
+				AUTOTEXT_TOOLTIP_VARIABLE,
+				IReportElementConstants.AUTOTEXT_VARIABLE );
 		entries.add( combined );
 
 //	Remove unsupported function			

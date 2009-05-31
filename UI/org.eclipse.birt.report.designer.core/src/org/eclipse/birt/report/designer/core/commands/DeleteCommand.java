@@ -382,9 +382,9 @@ public class DeleteCommand extends Command
 			}
 			return false;
 		}
-		else if ( source instanceof ReportElementHandle )
+		else if ( source instanceof DesignElementHandle )
 		{
-			return ( (ReportElementHandle) source ).canDrop( );
+			return ( (DesignElementHandle) source ).canDrop( );
 
 		}
 		else if ( source instanceof LibraryHandle )
