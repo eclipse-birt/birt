@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.DataSetColumnBindingsFormHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.dialogs.SelectVariableDialog;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -39,6 +40,7 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -57,6 +59,7 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.window.Window;
 
 /**
@@ -121,7 +124,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.IToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * IToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseUp( )
 		{
@@ -175,7 +179,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseDown( )
 		{
@@ -192,7 +197,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.IToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * IToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseUp( )
 		{
@@ -223,7 +229,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseDown( )
 		{
@@ -242,7 +249,6 @@ public class BasePaletteFactory
 
 		/*
 		 * get target design element handle
-		 * 
 		 */
 		private DesignElementHandle getDesignElementHandle( )
 		{
@@ -266,7 +272,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.IToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * IToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseUp( )
 		{
@@ -304,7 +311,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseDown( )
 		{
@@ -343,11 +351,56 @@ public class BasePaletteFactory
 			return super.preHandleMouseUp( );
 
 		} /*
-			 * (non-Javadoc)
-			 * 
-			 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
-			 */
+		 * (non-Javadoc)
+		 * 
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
+		 */
 
+		public boolean preHandleMouseDown( )
+		{
+			return false;
+		}
+	}
+
+	public static class VariableToolExtends extends AbstractToolHandleExtends
+	{
+
+		public boolean preHandleMouseUp( )
+		{
+			CreateRequest request = getRequest( );
+			if ( IReportElementConstants.AUTOTEXT_VARIABLE.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
+			{
+
+				SelectVariableDialog dialog = new SelectVariableDialog( (ReportDesignHandle) SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( ) );
+				if ( dialog.open( ) == Dialog.OK )
+				{
+					AutoTextHandle autoTextItemHandle = DesignElementFactory.getInstance( )
+							.newAutoText( null );
+					try
+					{
+						autoTextItemHandle.setPageVariable( (String) dialog.getResult( ) );
+						autoTextItemHandle.setAutoTextType( DesignChoiceConstants.AUTO_TEXT_PAGE_VARIABLE );
+						setModel( autoTextItemHandle );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+				return super.preHandleMouseUp( );
+
+			}
+			return false;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
+		 */
 		public boolean preHandleMouseDown( )
 		{
 			return false;
@@ -363,7 +416,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 
 		private static final String DEFAULT_AUTHOR = Messages.getString( "TextExtendsTools.Message.DefaultAuthor" ); //$NON-NLS-1$		
@@ -469,10 +523,11 @@ public class BasePaletteFactory
 			setModel( textItemHandle );
 			return super.preHandleMouseUp( );
 		} /*
-			 * (non-Javadoc)
-			 * 
-			 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
-			 */
+		 * (non-Javadoc)
+		 * 
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
+		 */
 
 		public boolean preHandleMouseDown( )
 		{
@@ -510,7 +565,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseDown( )
 		{
@@ -558,7 +614,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseDown( )
 		{
@@ -575,7 +632,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.IToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * IToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseUp( )
 		{
@@ -599,7 +657,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseDown( )
 		{
@@ -616,7 +675,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.IToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * IToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseUp( )
 		{
@@ -726,7 +786,8 @@ public class BasePaletteFactory
 						&& dlg.getResult( ) instanceof Object[] )
 				{
 					Object[] data = (Object[]) dlg.getResult( );
-					grid = factory.newGridItem( null, ( (Integer) data[1] ).intValue( ),
+					grid = factory.newGridItem( null,
+							( (Integer) data[1] ).intValue( ),
 							( (Integer) data[0] ).intValue( ) );
 				}
 				else
@@ -746,7 +807,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseDown( )
 		{
@@ -763,7 +825,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.IToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * IToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseUp( )
 		{
@@ -823,133 +886,137 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseDown( )
 		{
 			return false;
 		}
 	}
-	
-	/**for cross tab
-	 * Provides element building support for data set.
+
+	/**
+	 * for cross tab Provides element building support for data set.
 	 */
-	public static class DimensionHandleToolExtends extends AbstractToolHandleExtends
+	public static class DimensionHandleToolExtends extends
+			AbstractToolHandleExtends
 	{
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.IToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * IToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseUp( )
 		{
 			if ( getRequest( ).getNewObjectType( ) instanceof DimensionHandle )
 			{
 
-//				try
-//				{
+				// try
+				// {
 
-					// add extended dataset element.
-					Object newObj = getRequest( ).getNewObject( );
-					if ( newObj instanceof Object[]
-							&& ( (Object[]) newObj ).length > 0 )
-					{
-						newObj = ( (Object[]) newObj )[0];
-					}
-					DesignElementHandle elementHandle = (DesignElementHandle) newObj;
-//					ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-//							.getReportDesignHandle( );
-//					// element comes from library and not to itself.
-//					
-//					Object newHandle = InsertInLayoutUtil.performInsert( elementHandle,
-//							getTargetEditPart( ) );
-					if ( elementHandle == null )
-						return false;
-					setModel( elementHandle );
+				// add extended dataset element.
+				Object newObj = getRequest( ).getNewObject( );
+				if ( newObj instanceof Object[]
+						&& ( (Object[]) newObj ).length > 0 )
+				{
+					newObj = ( (Object[]) newObj )[0];
+				}
+				DesignElementHandle elementHandle = (DesignElementHandle) newObj;
+				// ModuleHandle moduleHandle = SessionHandleAdapter.getInstance(
+				// )
+				// .getReportDesignHandle( );
+				// // element comes from library and not to itself.
+				//					
+				// Object newHandle = InsertInLayoutUtil.performInsert(
+				// elementHandle,
+				// getTargetEditPart( ) );
+				if ( elementHandle == null )
+					return false;
+				setModel( elementHandle );
 
-					return super.preHandleMouseUp( );
-			//	}
-//				catch ( SemanticException e )
-//				{
-//					ExceptionHandler.handle( e );
-//				}
+				return super.preHandleMouseUp( );
+				// }
+				// catch ( SemanticException e )
+				// {
+				// ExceptionHandler.handle( e );
+				// }
 			}
 			return false;
 		}
-		
-		
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseDown( )
 		{
 			return false;
 		}
 	}
-	
-	
-	
-	public static class MeasureHandleToolExtends extends AbstractToolHandleExtends
+
+	public static class MeasureHandleToolExtends extends
+			AbstractToolHandleExtends
 	{
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.IToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * IToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseUp( )
 		{
 			if ( getRequest( ).getNewObjectType( ) instanceof MeasureHandle )
 			{
 
-//				try
-//				{
+				// try
+				// {
 
-					// add extended dataset element.
-					Object newObj = getRequest( ).getNewObject( );
-					if ( newObj instanceof Object[]
-							&& ( (Object[]) newObj ).length > 0 )
-					{
-						newObj = ( (Object[]) newObj )[0];
-					}
-					DesignElementHandle elementHandle = (DesignElementHandle) newObj;
-//					ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-//							.getReportDesignHandle( );
-//					// element comes from library and not to itself.
-//					
-//					Object newHandle = InsertInLayoutUtil.performInsert( elementHandle,
-//							getTargetEditPart( ) );
-					if ( elementHandle == null )
-						return false;
-					setModel( elementHandle );
+				// add extended dataset element.
+				Object newObj = getRequest( ).getNewObject( );
+				if ( newObj instanceof Object[]
+						&& ( (Object[]) newObj ).length > 0 )
+				{
+					newObj = ( (Object[]) newObj )[0];
+				}
+				DesignElementHandle elementHandle = (DesignElementHandle) newObj;
+				// ModuleHandle moduleHandle = SessionHandleAdapter.getInstance(
+				// )
+				// .getReportDesignHandle( );
+				// // element comes from library and not to itself.
+				//					
+				// Object newHandle = InsertInLayoutUtil.performInsert(
+				// elementHandle,
+				// getTargetEditPart( ) );
+				if ( elementHandle == null )
+					return false;
+				setModel( elementHandle );
 
-					return super.preHandleMouseUp( );
-			//	}
-//				catch ( SemanticException e )
-//				{
-//					ExceptionHandler.handle( e );
-//				}
+				return super.preHandleMouseUp( );
+				// }
+				// catch ( SemanticException e )
+				// {
+				// ExceptionHandler.handle( e );
+				// }
 			}
 			return false;
 		}
-		
-		
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseDown( )
 		{
 			return false;
 		}
 	}
-
 
 	/**
 	 * Provides element building support for data set column.
@@ -961,7 +1028,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.IToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * IToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseUp( )
 		{
@@ -989,7 +1057,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseDown( )
 		{
@@ -1007,7 +1076,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.IToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * IToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseUp( )
 		{
@@ -1075,7 +1145,8 @@ public class BasePaletteFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+		 * AbstractToolHandleExtends#preHandleMouseDown()
 		 */
 		public boolean preHandleMouseDown( )
 		{
@@ -1145,6 +1216,10 @@ public class BasePaletteFactory
 		{
 			String extensionName = template.substring( IReportElementConstants.REPORT_ELEMENT_EXTENDED.length( ) );
 			preHandle = new ExtendedElementToolExtends( extensionName );
+		}
+		else if ( IReportElementConstants.AUTOTEXT_VARIABLE.equalsIgnoreCase( template ) )
+		{
+			preHandle = new VariableToolExtends( );
 		}
 
 		if ( preHandle == null )

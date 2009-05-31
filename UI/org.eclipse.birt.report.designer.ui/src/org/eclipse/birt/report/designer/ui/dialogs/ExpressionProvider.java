@@ -45,8 +45,11 @@ import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
@@ -188,6 +191,9 @@ public class ExpressionProvider implements ISortableExpressionProvider
 	// public static final String DATASETS = Messages.getString(
 	// "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
 	public static final String PARAMETERS = Messages.getString( "ExpressionProvider.Category.Parameters" ); //$NON-NLS-1$
+	public static final String VARIABLES = Messages.getString( "ExpressionProvider.Variables" ); //$NON-NLS-1$
+	public static final String VARIABLES_REPORT = Messages.getString( "ExpressionProvider.Variables.Report" ); //$NON-NLS-1$
+	public static final String VARIABLES_PAGE = Messages.getString( "ExpressionProvider.Variables.Page" ); //$NON-NLS-1$
 	public static final String NATIVE_OBJECTS = Messages.getString( "ExpressionProvider.Category.NativeObjects" );//$NON-NLS-1$
 	public static final String BIRT_OBJECTS = Messages.getString( "ExpressionProvider.Category.BirtObjects" );//$NON-NLS-1$
 
@@ -319,6 +325,12 @@ public class ExpressionProvider implements ISortableExpressionProvider
 		if ( elementHandle.getModuleHandle( ).getParameters( ).getCount( ) != 0 )
 		{
 			categoryList.add( PARAMETERS );
+		}
+		if ( elementHandle.getModuleHandle( ) instanceof ReportDesignHandle
+				&& ( (ReportDesignHandle) elementHandle.getModuleHandle( ) ).getPageVariables( )
+						.size( ) > 0 )
+		{
+			categoryList.add( VARIABLES );
 		}
 		categoryList.add( NATIVE_OBJECTS );
 		categoryList.add( BIRT_OBJECTS );
@@ -547,6 +559,27 @@ public class ExpressionProvider implements ISortableExpressionProvider
 					}
 				}
 			}
+			if ( VARIABLES.equals( parent ) )
+			{
+				childrenList.add( VARIABLES_REPORT );
+//				childrenList.add( VARIABLES_PAGE );
+			}
+			if ( VARIABLES_REPORT.equals( parent ) )
+			{
+				for ( VariableElementHandle variable : ( (ReportDesignHandle) elementHandle.getModuleHandle( ) ).getPageVariables( ) )
+				{
+					if ( DesignChoiceConstants.VARIABLE_TYPE_REPORT.equals( variable.getType( ) ) )
+						childrenList.add( variable );
+				}
+			}
+//			if ( VARIABLES_PAGE.equals( parent ) )
+//			{
+//				for ( VariableElementHandle variable : ( (ReportDesignHandle) elementHandle.getModuleHandle( ) ).getPageVariables( ) )
+//				{
+//					if ( DesignChoiceConstants.VARIABLE_TYPE_PAGE.equals( variable.getType( ) ) )
+//						childrenList.add( variable );
+//				}
+//			}
 			else
 			{
 				if ( COLUMN_BINDINGS.equals( parent ) )
@@ -1174,6 +1207,10 @@ public class ExpressionProvider implements ISortableExpressionProvider
 			return insertText.toString( );
 		}
 		else if ( element instanceof ParameterHandle )
+		{
+			return DEUtil.getExpression( element );
+		}
+		else if ( element instanceof VariableElementHandle )
 		{
 			return DEUtil.getExpression( element );
 		}

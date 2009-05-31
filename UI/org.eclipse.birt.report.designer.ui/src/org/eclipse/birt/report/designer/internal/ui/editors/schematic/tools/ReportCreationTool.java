@@ -299,7 +299,8 @@ public class ReportCreationTool extends CreationTool
 			type = ReportDesignConstants.TEXT_ITEM;
 		}
 		else if ( IReportElementConstants.AUTOTEXT_TOTAL_PAGE_COUNT.equalsIgnoreCase( template )
-				|| IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( template ) )
+				|| IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( template )
+				|| IReportElementConstants.AUTOTEXT_VARIABLE.equalsIgnoreCase( template ) )
 		{
 			type = ReportDesignConstants.AUTOTEXT_ITEM;
 		}

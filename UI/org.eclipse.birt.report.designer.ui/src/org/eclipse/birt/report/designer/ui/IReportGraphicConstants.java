@@ -119,6 +119,8 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_CSS_STYLE_SHEET = "ReportDesignConstants.CSS_STYLE_SHEET"; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_TEMPLATEITEM = ReportDesignConstants.TEMPLATE_REPORT_ITEM;
+	
+	public final static String ICON_ELEMENT_VARIABLE = ReportDesignConstants.VARIABLE_ELEMENT;
 
 	// Library report item icons
 	public final static String LINK = "LINK"; //$NON-NLS-1$

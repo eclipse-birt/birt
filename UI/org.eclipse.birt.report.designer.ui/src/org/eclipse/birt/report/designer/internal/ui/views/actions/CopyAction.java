@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -213,7 +214,8 @@ public class CopyAction extends AbstractViewAction
 				|| selection instanceof LevelHandle
 				|| selection instanceof MeasureHandle
 				|| selection instanceof DimensionHandle
-				|| selection instanceof MeasureGroupHandle;
+				|| selection instanceof MeasureGroupHandle
+				|| selection instanceof VariableElementHandle;
 	}
 
 }
