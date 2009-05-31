@@ -1963,6 +1963,9 @@
     </Property>
     <Property allowExpression="true" displayNameID="Element.AbstractScalarParameter.defaultValue" name="defaultValue" runtimeSettable="false" since="1.0" subType="literalString" type="list"/>
     <Property detailType="SelectionChoice" displayNameID="Element.AbstractScalarParameter.selectionList" isList="true" name="selectionList" runtimeSettable="false" since="1.0" type="structure"/>
+    <Property detailType="paramType" displayNameID="Element.AbstractScalarParameter.dataType" name="dataType" runtimeSettable="false" since="1.0" type="choice">
+      <Default>string</Default>
+    </Property>    
   </Element>
   <Element displayNameID="Element.DynamicFilterParameter" extends="AbstractScalarParameter" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.DynamicFilterParameter" name="DynamicFilterParameter" since="2.5" xmlName="dynamic-filter-parameter">
   	<Property detailType="dynamicFilterChoice" displayNameID="Element.DynamicFilterParameter.displayType" name="displayType" runtimeSettable="false" since="2.5" type="choice">
@@ -1972,9 +1975,6 @@
   	<Property displayNameID="Element.DynamicFilterParameter.column" name="column" since="2.5" type="string" valueRequired="true"/>
   </Element>
   <Element displayNameID="Element.ScalarParameter" extends="AbstractScalarParameter" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScalarParameter" name="ScalarParameter" since="1.0" xmlName="scalar-parameter">
-    <Property detailType="paramType" displayNameID="Element.ScalarParameter.dataType" name="dataType" runtimeSettable="false" since="1.0" type="choice">
-      <Default>string</Default>
-    </Property>
     <Property detailType="scalarParamType" displayNameID="Element.ScalarParameter.paramType" name="paramType" runtimeSettable="false" since="2.2" type="choice" >
       	<Default>simple</Default>
     </Property>
