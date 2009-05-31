@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.impl.query;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -75,6 +77,69 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 				: scope );
 		cubeScope.setPrototype( scope == null ? this.session.getSharedScope( )
 				: scope );
+		
+		Object delegateObject = null;
+		try
+		{
+			delegateObject = Thread.currentThread( )
+					.getContextClassLoader( )
+					.loadClass( "org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQueryDelegate" )
+					.getConstructor( ICubeQueryDefinition.class,
+							DataEngineSession.class,
+							DataEngineContext.class,
+							Map.class )
+					.newInstance( cubeQueryDefn, session, context, appContext );
+		}
+		catch ( ClassNotFoundException e )
+		{
+		}
+		catch ( InstantiationException e )
+		{
+		}
+		catch ( IllegalAccessException e )
+		{
+		}
+		catch ( SecurityException e )
+		{
+		}
+		catch ( IllegalArgumentException e )
+		{
+		}
+		catch ( InvocationTargetException e )
+		{
+		}
+		catch ( NoSuchMethodException e )
+		{
+		}
+		if( delegateObject != null )
+		{
+			try
+			{
+				Method method = delegateObject.getClass( )
+						.getMethod( "execute", new Class[]{
+								IBaseQueryResults.class, Scriptable.class
+						} );
+				return (ICubeQueryResults) method.invoke( delegateObject,
+						new Object[]{
+								outerResults, scope
+						} );
+			}
+			catch ( SecurityException e )
+			{
+			}
+			catch ( NoSuchMethodException e )
+			{
+			}
+			catch ( IllegalArgumentException e )
+			{
+			}
+			catch ( IllegalAccessException e )
+			{
+			}
+			catch ( InvocationTargetException e )
+			{
+			}
+		}
 		return new CubeQueryResults( outerResults,
 				this,
 				this.session,
