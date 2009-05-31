@@ -2094,7 +2094,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.attributeAllowEmpty( HTMLTags.ATTR_ALT, "" );
 			writer.attribute( HTMLTags.ATTR_SRC, imgUri );
 			writer.attribute( HTMLTags.ATTR_STYLE,
-					"position: absolute; width: 100%; height: 100%; z-index: -1;" );
+					"position: absolute; width: 100%; height: 100%; z-index: -1; left:0px;" );
 			if ( null == htmlIDNamespace )
 			{
 				writer.attribute( HTMLTags.ATTR_ONLOAD, "fixPNG(this)" ); //$NON-NLS-1$
