@@ -755,13 +755,13 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	{
 		if ( name == null )
 		{
-			throw new CrosstabException( "name is required for ComputedMeasure." );
+			throw new CrosstabException( "name is required for ComputedMeasure." ); //$NON-NLS-1$
 		}
 
 		// check duplicate name
 		if ( getMeasure( name ) != null )
 		{
-			throw new CrosstabException( "the measure name specified is already used and cant not duplicate." );
+			throw new CrosstabException( "the measure name specified is already used and cant not duplicate." ); //$NON-NLS-1$
 		}
 
 		CommandStack stack = getCommandStack( );
@@ -961,8 +961,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 			throws SemanticException
 	{
 		// this add grand total for all measures
-		List measures = new ArrayList( );
-		List functions = new ArrayList( );
+		List<MeasureViewHandle> measures = new ArrayList<MeasureViewHandle>( );
+		List<String> functions = new ArrayList<String>( );
 
 		for ( int i = 0; i < getMeasureCount( ); i++ )
 		{

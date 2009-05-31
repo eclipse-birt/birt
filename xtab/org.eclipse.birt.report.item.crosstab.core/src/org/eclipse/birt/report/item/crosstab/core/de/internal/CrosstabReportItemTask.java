@@ -52,6 +52,10 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	}
 
 	/**
+	 * Adds the grandtotal on given axis for the specified measures. Depending
+	 * on the measure direction, it will automatically decide if need process
+	 * other measures even if it's not in the given list to resovle crosstab
+	 * model consistency.
 	 * 
 	 * @param axisType
 	 * @param measureList
@@ -136,9 +140,9 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	}
 
 	/**
-	 * Gets the measure view list that define aggregations for the row/column
-	 * grand total in the crosstab. Each item in the list is instance of
-	 * <code>MeasureViewHandle</code>.
+	 * Gets the measure view list that has defined aggregations for the
+	 * row/column grand total in the crosstab. Each item in the list is an
+	 * instance of <code>MeasureViewHandle</code>.
 	 * 
 	 * @param crosstab
 	 * @param axisType
@@ -197,7 +201,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	}
 
 	/**
-	 * Gets the aggregation function for the row/column grand total in the
+	 * Sets the aggregation function for the row/column grand total in the
 	 * crosstab.
 	 * 
 	 * @param crosstab
@@ -548,7 +552,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 	/**
 	 * Inserts a row/column dimension into the given position. The axis type can
 	 * be either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
-	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. And index is 0-based
+	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. The index is 0-based
 	 * integer.
 	 * 
 	 * @param dimensionHandle

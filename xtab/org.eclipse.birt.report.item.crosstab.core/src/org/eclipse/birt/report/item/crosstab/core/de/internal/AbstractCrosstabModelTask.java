@@ -195,6 +195,11 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 	}
 
 	/**
+	 * This method checks and adds the missing aggregations for given measures
+	 * on the specific level view. Note if <code>checkCounterAxis</code> is
+	 * <code>true</code>, in certain cases, the check in this method will be
+	 * skipped, and the remaining work is expected to be done in subsequent
+	 * <code>validateCrosstab</code>.
 	 * 
 	 * @param theLevelView
 	 * @param measureList
@@ -343,6 +348,11 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 	}
 
 	/**
+	 * This method checks and adds the missing aggregations for given measures
+	 * on the specific axis(grand total). Note if <code>checkCounterAxis</code>
+	 * is <code>true</code>, in certain cases, the check in this method will be
+	 * skipped, and the remaining work is expected to be done in subsequent
+	 * <code>validateCrosstab</code>.
 	 * 
 	 * @param axisType
 	 * @param measureList
@@ -476,7 +486,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 	}
 
 	/**
-	 * Removes all the aggregations related with the level view.
+	 * Removes all the aggregations related with the level view on all measures.
 	 * 
 	 * @param levelView
 	 */
@@ -526,7 +536,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 
 	/**
 	 * Removes all the aggregations related with the grand-total in the
-	 * specified axis type.
+	 * specified axis type on all measures.
 	 * 
 	 * @param axisType
 	 */
@@ -542,6 +552,14 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		}
 	}
 
+	/**
+	 * Removes all the aggregations related with the grand-total in the
+	 * specified axis type on particular measure.
+	 * 
+	 * @param axisType
+	 * @param measureIndex
+	 * @throws SemanticException
+	 */
 	protected void removeMeasureAggregations( int axisType, int measureIndex )
 			throws SemanticException
 	{
@@ -591,7 +609,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 	/**
 	 * Returns if aggregation is needed on given level on specific axis, this is
 	 * mainly to check if there's any existing aggregation cell on given level
-	 * subtotal or grantotal(given level view is null). One special case is the
+	 * subtotal or grantotal(if given level view is null). One special case is the
 	 * given axis area is blank(so level view is also null), in this case, we
 	 * need check subtotal and grandtotal on couter axis.
 	 * 
@@ -1073,7 +1091,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 	}
 
 	/**
-	 * Locates the cell which controls the column with for given cell
+	 * Validates the entire crosstab model.
 	 * 
 	 * @param crosstab
 	 * @throws SemanticException

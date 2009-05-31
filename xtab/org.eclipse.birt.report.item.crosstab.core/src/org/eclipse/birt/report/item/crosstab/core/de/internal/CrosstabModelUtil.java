@@ -53,6 +53,15 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		modelListener = listener;
 	}
 
+	/**
+	 * Notifies any creation event for crosstab model.
+	 * 
+	 * @param type
+	 *            see <code>ICrosstabModelListener</code> for the type
+	 *            constants.
+	 * @param model
+	 *            the model object associated with this event.
+	 */
 	public static void notifyCreation( int type, Object model )
 	{
 		if ( modelListener != null )
@@ -501,7 +510,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 	}
 
 	/**
-	 * Gets the aggregation function for this cell.
+	 * Sets the aggregation function for this cell.
 	 * 
 	 * @param crosstab
 	 * @param cell
@@ -533,7 +542,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 	}
 
 	/**
-	 * Locates the cell which controls the column with for given cell
+	 * Locates the cell which controls the column width for given cell
 	 * 
 	 * @param crosstabItem
 	 * 

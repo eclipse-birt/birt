@@ -105,7 +105,19 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 			// adjust the measure aggregations
 			if ( crosstab != null && measureList != null )
 			{
-				addMeasureAggregations( focus, measureList, functionList, false );
+				// if measure direction is parallel with the target axis, we
+				// need set the flag to check available aggreagtions on counter
+				// axis.
+				// !!! Note this check logic tightly adhere with the logic in
+				// <code>validateCrosstab</code>, should be careful in case it
+				// need be changed.
+				boolean isVerticalMeasure = MEASURE_DIRECTION_VERTICAL.equals( crosstab.getMeasureDirection( ) );
+				boolean needCheckCounterAxis = ( ( isVerticalMeasure && focus.getAxisType( ) == COLUMN_AXIS_TYPE ) || ( !isVerticalMeasure && focus.getAxisType( ) == ROW_AXIS_TYPE ) );
+
+				addMeasureAggregations( focus,
+						measureList,
+						functionList,
+						needCheckCounterAxis );
 
 				addTotalMeasureHeader( focus.getAxisType( ), focus, measureList );
 			}
@@ -353,26 +365,26 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 
 	/**
 	 * Gets the measure view list that define aggregations for the given level
-	 * view. Each item in the list is instance of <code>MeasureViewHandle</code>
-	 * .
+	 * view. Each item in the list is an instance of
+	 * <code>MeasureViewHandle</code> .
 	 * 
 	 * @param levelView
 	 * @return
 	 */
-	public List getAggregationMeasures( )
+	public List<MeasureViewHandle> getAggregationMeasures( )
 	{
 		// if level view is null, or aggregation header is not set, or cube
 		// level is not set, then return empty
 		if ( focus.getAggregationHeader( ) == null
 				|| focus.getCubeLevelName( ) == null
 				|| focus.getCubeLevelName( ).length( ) <= 0 )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		if ( crosstab == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 
 		int axisType = focus.getAxisType( );
 		String levelName = focus.getCubeLevelName( );
-		List measures = new ArrayList( );
+		List<MeasureViewHandle> measures = new ArrayList<MeasureViewHandle>( );
 		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
 		{
 			MeasureViewHandle measureView = crosstab.getMeasure( i );
