@@ -44,6 +44,7 @@ import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
@@ -691,11 +692,19 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		{
 			colList = new ArrayList( );
 			Iterator rsIter = this.rsColumnHandle.iterator( );
-			Iterator hintIter = this.chHandle.iterator( );
-			while( rsIter.hasNext( ) )
+			while ( rsIter.hasNext( ) )
 			{
-				colList.add( new ColumnDefn( (ResultSetColumnHandle) rsIter.next( ),
-						(ColumnHintHandle) hintIter.next( ) ) );
+				ResultSetColumnHandle handle = (ResultSetColumnHandle) rsIter.next( );
+				Iterator hintIter = this.chHandle.iterator( );
+				while ( hintIter.hasNext( ) )
+				{
+					ColumnHintHandle hint = (ColumnHintHandle) hintIter.next( );
+					if ( handle.getColumnName( ).equals( hint.getColumnName( ) ) )
+					{
+						colList.add( new ColumnDefn( handle, hint ) );
+						break;
+					}
+				}
 			}
 			return colList;
 		}
@@ -1221,25 +1230,30 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 	    	    	    
 	    private final void removeSelectedItem()
 	    {
-	        int index = viewer.getTable( ).getSelectionIndex( );
-	        //Do not allow deletion of the last item.
-	        if ( index > -1 && index < columnHandles.size( ) )
-	        {
-	            try
-	            {
+			int index = this.viewer.getTable( ).getSelectionIndex( );
+			ColumnDefn defn = (ColumnDefn) ( (StructuredSelection) viewer.getSelection( ) ).getFirstElement( );
+
+			if ( defn != null )
+			{
+				try
+				{
 					if ( rsColumns != null )
-						rsColumns.removeItem( index );
-					columnHints.removeItem( index );
+						rsColumns.removeItem( defn.rsColumnHandle );
+					
+					columnHints.removeItem( defn.columnHintHandle );
 				}
-	            catch ( Exception e1 )
-	            {
-	                ExceptionHandler.handle( e1 );
-	            }
-	            viewer.refresh( );
-	            viewer.getTable( ).select( index );
-	            refreshCachedMap( );
-	        }
-	        updateButtons( );
+				catch ( Exception e1 )
+				{
+					ExceptionHandler.handle( e1 );
+				}
+				viewer.refresh( );
+				
+				if ( viewer.getTable( ).getItemCount( ) > 0 )
+					viewer.getTable( ).select( index );
+				
+				refreshCachedMap( );
+			}
+			updateButtons( );
 	    }
 
 		private void doMoveUp( )
