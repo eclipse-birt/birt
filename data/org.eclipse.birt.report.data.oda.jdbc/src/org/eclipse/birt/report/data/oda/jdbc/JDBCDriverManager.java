@@ -70,11 +70,14 @@ public class JDBCDriverManager
 	//
 	private HashMap cachedDriversMap = new HashMap();
 	
+	// A HashMap of JDBC driver instances
+	private HashMap<String, Driver> cachedJdbcDriver = new HashMap<String, Driver>( );
+
 	// A HashMap of driverinfo extensions which provides IConnectionFactory implementation
 	// Map is from driverClass (String) to either IConfigurationElement or IConnectionFactory 
 	private HashMap driverExtensions = null;
 	
-	private  DriverClassLoader extraDriverLoader = null;
+	private DriverClassLoader extraDriverLoader = null;
 	
 	//The resource handle.
 	private JdbcResourceHandle resourceHandle = new JdbcResourceHandle(ULocale
@@ -99,12 +102,38 @@ public class JDBCDriverManager
 		return instance;
 	}
 	
+	public Driver getDriverInstance( Class driver ) throws OdaException
+	{
+		String driverName = driver.getName( );
+		if ( this.cachedJdbcDriver.containsKey( driverName ) )
+		{
+			return this.cachedJdbcDriver.get( driverName );
+		}
+		else
+		{
+			Driver instance = null;
+			try
+			{
+				instance = (Driver) driver.newInstance( );
+			}
+			catch ( Exception e )
+			{
+				throw new OdaException( e );
+			}
+			this.cachedJdbcDriver.put( driverName, instance );
+			return instance;
+		}
+	}
+	
 	/**
 	 * Release all the resources 
 	 */
 	public void close()
 	{
 		this.extraDriverLoader.close();
+		this.cachedJdbcDriver.clear( );
+		this.cachedDriversMap.clear( );
+		this.registeredDrivers.clear( );
 	}
 	
 	/**
@@ -714,7 +743,7 @@ public class JDBCDriverManager
 		Driver driver = null;
 		try
 		{
-			driver = (Driver) driverClass.newInstance( );
+			driver = this.getDriverInstance( driverClass );
 		}
 		catch ( Exception e )
 		{
