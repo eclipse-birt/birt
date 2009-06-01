@@ -3264,20 +3264,6 @@ public class PreparedStatement
                 setDate( paramNameObj, paramIndex, sqlDate );
                 return;
 			}
-			
-            // check for all other types of java.util.Date
-            if( paramValue instanceof java.util.Date )
-            {
-                /* java.util.Date is not a supported ODA data type;
-                 * the best ODA data type alternative is a java.sql.Timestamp 
-                 * that preserves the time portion of a java.util.Date.
-                 * A java.sql.Date has by definition a date portion only 
-                 */
-                java.util.Date date = (java.util.Date) paramValue;
-                Timestamp sqlDateTime = new Timestamp( date.getTime() );
-				setTimestamp( paramNameObj, paramIndex, sqlDateTime );
-				return;
-            }
             
             if( paramValue instanceof Boolean )
             {
@@ -3352,7 +3338,7 @@ public class PreparedStatement
 			( parameterType == Types.DECIMAL && paramValue instanceof BigDecimal ) ||
 			( parameterType == Types.TIME && paramValue instanceof Time ) ||
 			( parameterType == Types.TIMESTAMP && paramValue instanceof Timestamp ) ||
-            ( parameterType == Types.DATE && paramValue instanceof java.util.Date ) ||
+            ( parameterType == Types.DATE && paramValue instanceof Date ) ||
             ( parameterType == Types.BOOLEAN && paramValue instanceof Boolean ) )
 		{
 			throwSetParamValueLastException( lastException, "retrySetParameterValue" ); //$NON-NLS-1$
@@ -3415,10 +3401,9 @@ public class PreparedStatement
 			return;
 		}
         
-        // check for all other types of java.util.Date
-        if( paramValue instanceof java.util.Date )
+        if( paramValue instanceof Date )
         {
-            retrySetDateParamValue( paramName, paramIndex, (java.util.Date) paramValue, 
+            retrySetDateParamValue( paramName, paramIndex, (Date) paramValue, 
                                     parameterType );
             return;
         }
@@ -3696,7 +3681,7 @@ public class PreparedStatement
 	}
 
 	private void retrySetDateParamValue( ParameterName paramName, int paramIndex, 
-                                        java.util.Date paramValue, int parameterType ) 
+                                        Date paramValue, int parameterType ) 
 		throws DataException
 	{
 		switch( parameterType )
