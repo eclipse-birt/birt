@@ -362,4 +362,10 @@ public class JavascriptEvalUtil
 		}
 		return buffer.toString( );
 	}
+	
+	public static String transformToJsExpression( String s )
+	{
+		return s == null ? s : "\"" + transformToJsConstants( s ) + "\"";
+	}
+	
 }
