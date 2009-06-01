@@ -166,6 +166,10 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation
 
 			public int getMeasureIndex( String measureName )
 			{
+				if ( measureName == null )
+				{
+					return -1;
+				}
 				MeasureInfo[] measureInfo = getMeasureInfos( );
 				for ( int i = 0; i < measureInfo.length; i++ )
 				{
