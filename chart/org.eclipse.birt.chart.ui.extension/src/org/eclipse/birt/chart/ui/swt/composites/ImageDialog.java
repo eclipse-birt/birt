@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TrayDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -384,11 +385,16 @@ public class ImageDialog extends TrayDialog
 		URL url = null;
 		try
 		{
-			url = new URL( uriEditor.getText( ).trim( ) );
+			// handle double quotation
+			url = new URL( removeQuote( uriEditor.getText( ).trim( ) ) );
 			if ( selectedType == EMBEDDED_TYPE )
 			{
 				File file = new File( url.getPath( ) );
 				complete = file.exists( ) && file.isAbsolute( );
+			}
+			else if ( selectedType == URI_TYPE )
+			{
+				ImageDescriptor.createFromURL( url ).createImage( );
 			}
 		}
 		catch ( Exception e )
@@ -418,13 +424,13 @@ public class ImageDialog extends TrayDialog
 	public String removeQuote( String string )
 	{
 		if ( string != null
-				&& string.length( ) >= 2
-				&& string.startsWith( "\"" ) //$NON-NLS-1$
-				&& string.endsWith( "\"" ) ) //$NON-NLS-1$
+				&& string.trim( ).length( ) >= 2
+				&& string.trim( ).startsWith( "\"" ) //$NON-NLS-1$
+				&& string.trim( ).endsWith( "\"" ) ) //$NON-NLS-1$
 		{
-			return string.substring( 1, string.length( ) - 1 );
+			return string.trim( ).substring( 1, string.trim( ).length( ) - 1 );
 		}
-		return string;
+		return string.trim( );
 	}
 
 }
