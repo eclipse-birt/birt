@@ -959,6 +959,65 @@
    		<Argument name="lexicalDuration2">
    			<DataType value="%dataType.String"></DataType></Argument>
    	</Function>
+   		<Function
+              desc="Computes a new duration whose value is lexicalDuration1+lexicalDuration2.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              name="add">
+   		<DataType value="%dataType.String"></DataType>
+   		<Argument name="lexicalDuration1">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<Argument name="lexicalDuration2">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   	</Function>
+   		<Function
+              desc="Computes a new duration whose value is lexicalDuration1-lexicalDuration2.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              name="subtract">
+   		<DataType value="%dataType.String"></DataType>
+   		<Argument name="lexicalDuration1">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<Argument name="lexicalDuration2">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   	</Function>
+   		<Function
+              desc="Computes a new duration whose value is factor times longer than the value of lexicalDuration.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              name="multiply">
+   		<DataType value="%dataType.String"></DataType>
+   		<Argument name="lexicalDuration">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<Argument name="factor">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   	</Function>
+   		<Function
+              desc="Returns a new Duration object whose value is -lexicalDuration.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              name="negate">
+   		<DataType value="%dataType.String"></DataType>
+   		<Argument name="lexicalDuration">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   	</Function>
+   		<Function
+              desc="Returns the sign of this duration in -1,0, or 1.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              name="getSign">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="lexicalDuration">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   	</Function>
+   		<Function
+              desc="Partial order relation between lexicalDuration1 and lexicalDuration2.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              name="compare">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="lexicalDuration1">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<Argument name="lexicalDuration2">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   	</Function>
+   		<Function
+              desc="Adds this duration to a Date object.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              name="addTo">
+   		<DataType value="%dataType.DateTime"></DataType>
+   		<Argument name="lexicalDuration">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   	</Function>
    </Category>
   </extension>
 </plugin>
