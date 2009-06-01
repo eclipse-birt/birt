@@ -7,14 +7,14 @@
   <item href="/org.eclipse.birt.doc/birt/birt-02-1.html"
         title="Crear una fuente de datos" skip="true">
      <description>Abra la vista del explorador de datos. Haga clic con el botón derecho del ratón en las fuentes de datos y seleccione &quot;Nueva fuente de datos&quot;. </description>
-     <action class="org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction"
-     pluginId="org.eclipse.birt.report.designer.ui"/>
+     <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSourceAction"
+     pluginId="org.eclipse.birt.report.designer.ui.data"/>
   </item>
   <item href="/org.eclipse.birt.doc/birt/birt-03-01.html"
         title="Crear un conjunto de datos" skip="true">
      <description>Abra la vista del explorador de datos. Haga clic con el botón derecho del ratón en los conjuntos de datos y seleccione &quot;Nuevo conjunto de datos&quot;. </description>
-     <action class="org.eclipse.birt.report.designer.ui.actions.NewDataSetAction"
-     pluginId="org.eclipse.birt.report.designer.ui"/>
+     <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSetAction"
+     pluginId="org.eclipse.birt.report.designer.ui.data"/>
   </item>
   <item href="/org.eclipse.birt.doc/birt/birt-05-1.html"
         title="Vincular los datos a la tabla" skip="true">

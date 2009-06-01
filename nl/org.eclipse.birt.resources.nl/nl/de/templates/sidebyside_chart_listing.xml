@@ -7,7 +7,8 @@
   <item href="/org.eclipse.birt.doc/birt/birt-02-1.html" title="Erstellen einer Datenquelle" skip="true">
      <description>Klicken Sie in der Daten-Explorer-Ansicht mit der rechten Maustaste auf 'Datenquellen', und wählen Sie die Option 'Neue Datenquelle'.
      </description>
-     <action class="org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction" pluginId="org.eclipse.birt.report.designer.ui"/>
+     <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSourceAction"
+     pluginId="org.eclipse.birt.report.designer.ui.data"/>
   </item>
   <item href="/org.eclipse.birt.doc/birt/birt-03-01.html" title="Erstellen eines Datensatzes" skip="true">
      <description>- Klicken Sie in der Daten-Explorer-Ansicht mit der rechten Maustaste auf 'Datensätze', und wählen Sie die Option 'Neuer Datensatz'.<br/>
@@ -15,7 +16,8 @@
        - Erweitern Sie in 'Verfügbare Elemente' unter 'Abfrage' eine oder mehrere Tabellen in der ClassicModels-Datenbank.<br/>
        - Um eine SQL-Abfrage zu erstellen, ziehen Sie Spaltennamen aus 'Verfügbare Elemente' in den rechten Bereich, um die SELECT- und FROM-Anweisungen zu erstellen, und wählen Sie dann 'Fertig stellen'.
      </description>
-     <action class="org.eclipse.birt.report.designer.ui.actions.NewDataSetAction" pluginId="org.eclipse.birt.report.designer.ui"/>
+     <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSetAction"
+     pluginId="org.eclipse.birt.report.designer.ui.data"/>
   </item>
   <item href="/org.eclipse.birt.doc/birt/birt-05-4.html" title="Binden der Daten an die Liste" skip="true">
      <description>- Klicken Sie im Layout-Editor mit der rechten Maustaste auf die Registerkarte 'Liste', und wählen Sie 'Datenbindung bearbeiten'.<br/>
