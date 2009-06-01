@@ -320,19 +320,16 @@ public class ExcelLayoutEngine
 						.getColumnLastData( currentColumnIndex );
 				if ( upstair != null && canSpan( upstair, rowContainer ) )
 				{
-					SheetData predata = upstair;
-					int rs = predata.getRowSpan( ) + rowspan;
-					predata.setRowSpan( rs );
-					SheetData realData = getRealData( predata );
-					BlankData blankData = new BlankData( realData );
-					if ( !isInContainer( predata, rowContainer ) )
+					upstair.setRowSpan( rowspan );
+					SheetData realData = getRealData( upstair );
+					if ( !isInContainer( upstair, rowContainer ) )
 					{
-						blankData.decreasRowSpanInDesign( );
+						realData.decreasRowSpanInDesign( );
 					}
-					int rowIndex = predata.getRowIndex( );
+					int rowIndex = upstair.getRowIndex( );
 					for ( int p = 1; p <= rowspan; p++ )
 					{
-						BlankData blank = new BlankData( predata );
+						BlankData blank = new BlankData( upstair );
 						blank.setRowIndex( rowIndex + p );
 						cache.addData( currentColumnIndex, blank );
 					}
@@ -600,10 +597,9 @@ public class ExcelLayoutEngine
 		outputDataIfBufferIsFull( );
 		updataRowIndex( data, container );
 		addDatatoCache( col, data );
-		Data newData = new Data( data );
 		for ( int i = col + 1; i < col + span; i++ )
 		{
-			BlankData blankData = new BlankData( newData );
+			BlankData blankData = new BlankData( data );
 			addDatatoCache( i, blankData );
 		}
 		
