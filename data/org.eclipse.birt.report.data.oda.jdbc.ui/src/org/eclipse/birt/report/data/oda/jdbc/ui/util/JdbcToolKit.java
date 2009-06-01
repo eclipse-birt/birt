@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +28,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.eclipse.birt.core.framework.URLClassLoader;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.dialogs.JdbcDriverManagerDialog;
 import org.eclipse.ui.PlatformUI;
@@ -263,6 +263,7 @@ public class JdbcToolKit
 			file2Drivers.put( ( (File) fileList.get( i ) ).getName( ),
 					subDriverList );
 		}
+		urlClassLoader.close( );
 		return driverList;
 	}
 
@@ -315,6 +316,7 @@ public class JdbcToolKit
 			file2Drivers.put( ( (File) fileList.get( i ) ).getName( ),
 					subDriverList );
 		}
+		urlClassLoader.close( );
 		return driverList;
 	}
 
