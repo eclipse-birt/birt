@@ -2435,7 +2435,6 @@ Element.Parameter.promptText=Aufforderungstext
 Element.Parameter.promptTextID=Aufforderungstextschlüssel
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.dataType=Datentyp
 Element.ScalarParameter.paramType=Skalarparametertyp
 Element.ScalarParameter.displayPrompt=Anzeige-Aufforderung
 Element.ScalarParameter.concealValue=Wert verbergen
@@ -2612,7 +2611,7 @@ Element.Label.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements zum
 Element.Label.onRender.this=Beschriftungsinstanz
 Element.Label.onRender.reportContext=Berichtkontext
 Element.Label.onPageBreak=Bei Seitenumbruch
-Element.Label.onPageBreak.toolTip=TBD
+Element.Label.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Label.onPageBreak.this=Beschriftungsinstanz
 Element.Label.onPageBreak.reportContext=Berichtkontext
   
@@ -2640,7 +2639,7 @@ Element.Data.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements zum 
 Element.Data.onRender.this=Dateninstanz
 Element.Data.onRender.reportContext=Berichtkontext
 Element.Data.onPageBreak=Bei Seitenumbruch
-Element.Data.onPageBreak.toolTip=TBD
+Element.Data.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Data.onPageBreak.this=Dateninstanz
 Element.Data.onPageBreak.reportContext=Berichtkontext
   
@@ -2661,7 +2660,7 @@ Element.Text.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements zum 
 Element.Text.onRender.this=Text instance
 Element.Text.onRender.reportContext=Berichtkontext
 Element.Text.onPageBreak=Bei Seitenumbruch
-Element.Text.onPageBreak.toolTip=TBD
+Element.Text.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Text.onPageBreak.this=Textinstanz
 Element.Text.onPageBreak.reportContext=Berichtkontext
 Element.Text.hasExpression=Enthält Ausdruck
@@ -2723,7 +2722,7 @@ Element.List.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements zum 
 Element.List.onRender.this=Listeninstanz
 Element.List.onRender.reportContext=Berichtkontext
 Element.List.onPageBreak=Bei Seitenumbruch
-Element.List.onPageBreak.toolTip=TBD
+Element.List.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.List.onPageBreak.this=Listeninstanz
 Element.List.onPageBreak.reportContext=Berichtkontext
   
@@ -2735,7 +2734,7 @@ Element.ListGroup.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Daten
 Element.ListGroup.onPrepare.this=Listengruppe
 Element.ListGroup.onPrepare.reportContext=Berichtkontext
 Element.ListGroup.onPageBreak=Bei Seitenumbruch
-Element.ListGroup.onPageBreak.toolTip=TBD
+Element.ListGroup.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.ListGroup.onPageBreak.this=Listengruppe
 Element.ListGroup.onPageBreak.reportContext=Berichtkontext
   
@@ -2764,7 +2763,7 @@ Element.Table.onRender.this=Tabelleninstanz
 Element.Table.onRender.reportContext=Berichtkontext
 Element.Table.onRender.object=Objekt
 Element.Table.onPageBreak=Bei Seitenumbruch
-Element.Table.onPageBreak.toolTip=TBD
+Element.Table.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Table.onPageBreak.this=Tabelleninstanz
 Element.Table.onPageBreak.reportContext=Berichtkontext
   
@@ -2776,7 +2775,7 @@ Element.TableGroup.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Date
 Element.TableGroup.onPrepare.this=Tabellengruppe
 Element.TableGroup.onPrepare.reportContext=Berichtkontext
 Element.TableGroup.onPageBreak=Bei Seitenumbruch
-Element.TableGroup.onPageBreak.toolTip=TBD
+Element.TableGroup.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.TableGroup.onPageBreak.this=Tabellengruppe
 Element.TableGroup.onPageBreak.reportContext=Berichtkontext
   
@@ -2875,7 +2874,7 @@ Element.Image.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements zum
 Element.Image.onRender.this=Bildinstanz
 Element.Image.onRender.reportContext=Berichtkontext
 Element.Image.onPageBreak=Bei Seitenumbruch
-Element.Image.onPageBreak.toolTip=TBD
+Element.Image.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Image.onPageBreak.this=Bildinstanz
 Element.Image.onPageBreak.reportContext=Berichtkontext
 Element.Image.fitToContainer=An Container anpassen
@@ -2897,7 +2896,7 @@ Element.Grid.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements zum 
 Element.Grid.onRender.this=Rasterinstanz
 Element.Grid.onRender.reportContext=Berichtkontext
 Element.Grid.onPageBreak=Bei Seitenumbruch
-Element.Grid.onPageBreak.toolTip=TBD
+Element.Grid.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Grid.onPageBreak.this=Rasterinstanz
 Element.Grid.onPageBreak.reportContext=Berichtkontext
 Element.Grid.caption=Beschriftung
@@ -2925,7 +2924,7 @@ Element.TextData.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements 
 Element.TextData.onRender.this=Instanz für dynamischen Text
 Element.TextData.onRender.reportContext=Berichtkontext
 Element.TextData.onPageBreak=Bei Seitenumbruch
-Element.TextData.onPageBreak.toolTip=TBD
+Element.TextData.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.TextData.onPageBreak.this=Instanz für dynamischen Text
 Element.TextData.onPageBreak.reportContext=Berichtkontext
 Element.TextData.hasExpression=Enthält Ausdruck
@@ -2948,7 +2947,7 @@ Element.ExtendedItem.onRender.toolTip=Wird beim Vorbereiten des Elements zum Ren
 Element.ExtendedItem.onRender.this=Instanz für erweitertes Objekt
 Element.ExtendedItem.onRender.reportContext=Berichtkontext
 Element.ExtendedItem.onPageBreak=Bei Seitenumbruch
-Element.ExtendedItem.onPageBreak.toolTip=TBD
+Element.ExtendedItem.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.ExtendedItem.onPageBreak.this=Instanz für erweitertes Objekt
 Element.ExtendedItem.onPageBreak.reportContext=Berichtkontext
 Element.ExtendedItem.extensionVersion=Extension version
@@ -3090,7 +3089,7 @@ Element.AutoText.onRender.toolTip=Das Skript wird beim Vorbereiten des Elements 
 Element.AutoText.onRender.this=AutoText-Instanz
 Element.AutoText.onRender.reportContext=Berichtkontext
 Element.AutoText.onPageBreak=Bei Seitenumbruch
-Element.AutoText.onPageBreak.toolTip=TBD
+Element.AutoText.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.AutoText.onPageBreak.this=AutoText-Instanz
 Element.AutoText.onPageBreak.reportContext=Berichtkontext
 Element.AutoText.pageVariable=Seitenvariable
@@ -3241,6 +3240,7 @@ Element.AbstractScalarParameter.valueType=Werttyp
 Element.AbstractScalarParameter.sortByColumn=Nach Spalten sortieren
 Element.AbstractScalarParameter.defaultValue=Standardwert
 Element.AbstractScalarParameter.selectionList=Auswahlliste
+Element.AbstractScalarParameter.dataType=Datentyp
 
 #69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=Anzeigetyp
@@ -3451,6 +3451,7 @@ Message.ClearProperties=Eigenschaften löschen
 Message.CreateTemplateElement=Vorlagenelement erstellen
 Message.TransformToReportItem=In Berichtobjekt umwandeln
 Message.TransformToDataSet=In Datensatz umwandeln
+Message.ExportElementToLibrary=Export Element To Library
 
 ###########################################################
 #Element new names.
@@ -3655,6 +3656,9 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=Das Einfügen beim Element "{0}"
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=Der Zirkelbezug auf das Element wird gefunden, weil {0} sich bereits auf {1} verweist.
 Error.SemanticError.INCONSISTENT_DATA_GROUP=Der Datenbindungsverweis des Elements {0} verfügt über verschiedene Anzahlen von Gruppen mit dem Element {1}, auf das er verweist.
 Error.SemanticError.INVALID_MANIFEST=Das Verzeichnis des Elements {0} ist ungültig.
+
+#SemanticException
+Error.SemanticException.EXPORT_ELEMENT_FAIL=Duplicated element name in target library, the element {0} can not be exported. Please rename the exported element name.
 
 #StyleException
 Error.StyleException.FORBIDDEN={0} kann keinen Stil aufweisen.

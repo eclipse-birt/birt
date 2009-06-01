@@ -2435,7 +2435,6 @@ Element.Parameter.promptText=ƒvƒƒ“ƒvƒgƒeƒLƒXƒg
 Element.Parameter.promptTextID=ƒvƒƒ“ƒvƒgƒeƒLƒXƒgƒL[
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.dataType=ƒf[ƒ^Œ^
 Element.ScalarParameter.paramType=ƒXƒJƒ‰[ƒpƒ‰ƒƒ^‚ÌŒ^
 Element.ScalarParameter.displayPrompt=ƒvƒƒ“ƒvƒg‚Ì•\¦
 Element.ScalarParameter.concealValue=’l‚ğ‰B‚·
@@ -2612,7 +2611,7 @@ Element.Label.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO—p‚
 Element.Label.onRender.this=ƒ‰ƒxƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Label.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Label.onPageBreak=ƒy[ƒW‹æØ‚è
-Element.Label.onPageBreak.toolTip=TBD
+Element.Label.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Label.onPageBreak.this=ƒ‰ƒxƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Label.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
   
@@ -2640,7 +2639,7 @@ Element.Data.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO—p‚É
 Element.Data.onRender.this=ƒf[ƒ^ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Data.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Data.onPageBreak=ƒy[ƒW‹æØ‚è
-Element.Data.onPageBreak.toolTip=TBD
+Element.Data.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Data.onPageBreak.this=ƒf[ƒ^ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Data.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
   
@@ -2661,7 +2660,7 @@ Element.Text.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO—p‚É
 Element.Text.onRender.this=Text instance
 Element.Text.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Text.onPageBreak=ƒy[ƒW‹æØ‚è
-Element.Text.onPageBreak.toolTip=TBD
+Element.Text.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Text.onPageBreak.this=ƒeƒLƒXƒgƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Text.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Text.hasExpression=®‚ ‚è
@@ -2723,7 +2722,7 @@ Element.List.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO—p‚É
 Element.List.onRender.this=ƒŠƒXƒgƒCƒ“ƒXƒ^ƒ“ƒX
 Element.List.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.List.onPageBreak=ƒy[ƒW‹æØ‚è
-Element.List.onPageBreak.toolTip=TBD
+Element.List.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.List.onPageBreak.this=ƒŠƒXƒgƒCƒ“ƒXƒ^ƒ“ƒX
 Element.List.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
   
@@ -2735,7 +2734,7 @@ Element.ListGroup.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚Ü
 Element.ListGroup.onPrepare.this=ƒŠƒXƒgƒOƒ‹[ƒv
 Element.ListGroup.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.ListGroup.onPageBreak=ƒy[ƒW‹æØ‚è
-Element.ListGroup.onPageBreak.toolTip=TBD
+Element.ListGroup.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.ListGroup.onPageBreak.this=ƒŠƒXƒgƒOƒ‹[ƒv
 Element.ListGroup.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
   
@@ -2764,7 +2763,7 @@ Element.Table.onRender.this=ƒe[ƒuƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Table.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Table.onRender.object=ƒIƒuƒWƒFƒNƒg
 Element.Table.onPageBreak=ƒy[ƒW‹æØ‚è
-Element.Table.onPageBreak.toolTip=TBD
+Element.Table.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Table.onPageBreak.this=ƒe[ƒuƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Table.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
   
@@ -2776,7 +2775,7 @@ Element.TableGroup.onPrepare.toolTip=ƒXƒNƒŠƒvƒg‚ÌƒXƒ^[ƒgƒAƒbƒvƒtƒF[ƒY—p‚Å‚·B‚
 Element.TableGroup.onPrepare.this=ƒe[ƒuƒ‹ƒOƒ‹[ƒv
 Element.TableGroup.onPrepare.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.TableGroup.onPageBreak=ƒy[ƒW‹æØ‚è
-Element.TableGroup.onPageBreak.toolTip=TBD
+Element.TableGroup.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.TableGroup.onPageBreak.this=ƒe[ƒuƒ‹ƒOƒ‹[ƒv
 Element.TableGroup.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
   
@@ -2875,7 +2874,7 @@ Element.Image.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO—p‚
 Element.Image.onRender.this=ƒCƒ[ƒWƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Image.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Image.onPageBreak=ƒy[ƒW‹æØ‚è
-Element.Image.onPageBreak.toolTip=TBD
+Element.Image.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Image.onPageBreak.this=ƒCƒ[ƒWƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Image.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Image.fitToContainer=ƒRƒ“ƒeƒi‚É‡‚í‚¹‚é
@@ -2897,7 +2896,7 @@ Element.Grid.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO—p‚É
 Element.Grid.onRender.this=ƒOƒŠƒbƒhƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Grid.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Grid.onPageBreak=ƒy[ƒW‹æØ‚è
-Element.Grid.onPageBreak.toolTip=TBD
+Element.Grid.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Grid.onPageBreak.this=ƒOƒŠƒbƒhƒCƒ“ƒXƒ^ƒ“ƒX
 Element.Grid.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.Grid.caption=ƒLƒƒƒvƒVƒ‡ƒ“
@@ -2925,7 +2924,7 @@ Element.TextData.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO
 Element.TextData.onRender.this=ƒ_ƒCƒiƒ~ƒbƒNƒeƒLƒXƒgƒCƒ“ƒXƒ^ƒ“ƒX
 Element.TextData.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.TextData.onPageBreak=ƒy[ƒW‹æØ‚è
-Element.TextData.onPageBreak.toolTip=TBD
+Element.TextData.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.TextData.onPageBreak.this=ƒ_ƒCƒiƒ~ƒbƒNƒeƒLƒXƒgƒCƒ“ƒXƒ^ƒ“ƒX
 Element.TextData.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.TextData.hasExpression=®‚ ‚è
@@ -2948,7 +2947,7 @@ Element.ExtendedItem.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠ
 Element.ExtendedItem.onRender.this=Šg’£€–ÚƒCƒ“ƒXƒ^ƒ“ƒX
 Element.ExtendedItem.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.ExtendedItem.onPageBreak=ƒy[ƒW‹æØ‚è
-Element.ExtendedItem.onPageBreak.toolTip=TBD
+Element.ExtendedItem.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.ExtendedItem.onPageBreak.this=Šg’£€–ÚƒCƒ“ƒXƒ^ƒ“ƒX
 Element.ExtendedItem.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.ExtendedItem.extensionVersion=Extension version
@@ -3090,7 +3089,7 @@ Element.AutoText.onRender.toolTip=ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒGƒ“ƒWƒ“‚Å—v‘f‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO
 Element.AutoText.onRender.this=’èŒ^‹å‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
 Element.AutoText.onRender.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.AutoText.onPageBreak=ƒy[ƒW‹æØ‚è
-Element.AutoText.onPageBreak.toolTip=TBD
+Element.AutoText.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.AutoText.onPageBreak.this=’èŒ^‹å‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
 Element.AutoText.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 Element.AutoText.pageVariable=ƒy[ƒW•Ï”
@@ -3241,6 +3240,7 @@ Element.AbstractScalarParameter.valueType=’l‚ÌŒ^
 Element.AbstractScalarParameter.sortByColumn=—ñ‚ğŠî€‚É•À‚×‘Ö‚¦‚é
 Element.AbstractScalarParameter.defaultValue=ƒfƒtƒHƒ‹ƒg’l
 Element.AbstractScalarParameter.selectionList=‘I‘ğƒŠƒXƒg
+Element.AbstractScalarParameter.dataType=ƒf[ƒ^Œ^
 
 #69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=•\¦Œ^
@@ -3451,6 +3451,7 @@ Message.ClearProperties=ƒvƒƒpƒeƒB‚ÌƒNƒŠƒA
 Message.CreateTemplateElement=ƒeƒ“ƒvƒŒ[ƒg‚Ì—v‘f‚Ìì¬
 Message.TransformToReportItem=ƒŒƒ|[ƒg€–Ú‚É•ÏŠ·
 Message.TransformToDataSet=ƒf[ƒ^ƒZƒbƒg‚É•ÏŠ·
+Message.ExportElementToLibrary=Export Element To Library
 
 ###########################################################
 #Element new names.
@@ -3655,6 +3656,9 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=—v‘f "{0}" ‚Ì‘}“ü‚â“\‚è•t‚¯‚Í‚Å
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=—v‘f‚ÌQÆ‚ªzŠÂ‚µ‚Ä‚¢‚Ü‚·B{0} ‚ÍA‚·‚Å‚É {1} ‚ğQÆ‚µ‚Ä‚¢‚Ü‚·B
 Error.SemanticError.INCONSISTENT_DATA_GROUP=—v‘f {0} ‚Ìƒf[ƒ^ƒoƒCƒ“ƒh‚ÌQÆ‚É‚ÍA‚»‚ÌQÆæ‚Ì—v‘f {1} ‚Æ‚ÍˆÙ‚È‚é”‚ÌƒOƒ‹[ƒv‚ª‚ ‚è‚Ü‚·B
 Error.SemanticError.INVALID_MANIFEST=—v‘f {0} ‚É–³Œø‚Èƒ}ƒjƒtƒFƒXƒg‚ª‚ ‚è‚Ü‚·B
+
+#SemanticException
+Error.SemanticException.EXPORT_ELEMENT_FAIL=Duplicated element name in target library, the element {0} can not be exported. Please rename the exported element name.
 
 #StyleException
 Error.StyleException.FORBIDDEN={0} ‚É‚ÍƒXƒ^ƒCƒ‹‚ğ“K—p‚Å‚«‚Ü‚¹‚ñB

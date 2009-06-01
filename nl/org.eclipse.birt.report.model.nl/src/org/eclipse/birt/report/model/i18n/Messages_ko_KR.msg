@@ -2435,7 +2435,6 @@ Element.Parameter.promptText=프롬프트 텍스트
 Element.Parameter.promptTextID=프롬프트 텍스트 키
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.dataType=데이터 형식
 Element.ScalarParameter.paramType=스칼라 매개 변수 형식
 Element.ScalarParameter.displayPrompt=프롬프트 표시
 Element.ScalarParameter.concealValue=값 숨기기
@@ -2612,7 +2611,7 @@ Element.Label.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을 때
 Element.Label.onRender.this=레이블 인스턴스
 Element.Label.onRender.reportContext=보고서 컨텍스트
 Element.Label.onPageBreak=페이지 나누기
-Element.Label.onPageBreak.toolTip=TBD
+Element.Label.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Label.onPageBreak.this=레이블 인스턴스
 Element.Label.onPageBreak.reportContext=보고서 컨텍스트
   
@@ -2640,7 +2639,7 @@ Element.Data.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을 때 
 Element.Data.onRender.this=데이터 인스턴스
 Element.Data.onRender.reportContext=보고서 컨텍스트
 Element.Data.onPageBreak=페이지 나누기
-Element.Data.onPageBreak.toolTip=TBD
+Element.Data.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Data.onPageBreak.this=데이터 인스턴스
 Element.Data.onPageBreak.reportContext=보고서 컨텍스트
   
@@ -2661,7 +2660,7 @@ Element.Text.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을 때 
 Element.Text.onRender.this=Text instance
 Element.Text.onRender.reportContext=보고서 컨텍스트
 Element.Text.onPageBreak=페이지 나누기
-Element.Text.onPageBreak.toolTip=TBD
+Element.Text.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Text.onPageBreak.this=텍스트 인스턴스
 Element.Text.onPageBreak.reportContext=보고서 컨텍스트
 Element.Text.hasExpression=식 값
@@ -2723,7 +2722,7 @@ Element.List.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을 때 
 Element.List.onRender.this=목록 인스턴스
 Element.List.onRender.reportContext=보고서 컨텍스트
 Element.List.onPageBreak=페이지 나누기
-Element.List.onPageBreak.toolTip=TBD
+Element.List.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.List.onPageBreak.this=목록 인스턴스
 Element.List.onPageBreak.reportContext=보고서 컨텍스트
   
@@ -2735,7 +2734,7 @@ Element.ListGroup.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생
 Element.ListGroup.onPrepare.this=목록 그룹
 Element.ListGroup.onPrepare.reportContext=보고서 컨텍스트
 Element.ListGroup.onPageBreak=페이지 나누기
-Element.ListGroup.onPageBreak.toolTip=TBD
+Element.ListGroup.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.ListGroup.onPageBreak.this=목록 그룹
 Element.ListGroup.onPageBreak.reportContext=보고서 컨텍스트
   
@@ -2764,7 +2763,7 @@ Element.Table.onRender.this=테이블 인스턴스
 Element.Table.onRender.reportContext=보고서 컨텍스트
 Element.Table.onRender.object=객체
 Element.Table.onPageBreak=페이지 나누기
-Element.Table.onPageBreak.toolTip=TBD
+Element.Table.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Table.onPageBreak.this=테이블 인스턴스
 Element.Table.onPageBreak.reportContext=보고서 컨텍스트
   
@@ -2776,7 +2775,7 @@ Element.TableGroup.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 �
 Element.TableGroup.onPrepare.this=테이블 그룹
 Element.TableGroup.onPrepare.reportContext=보고서 컨텍스트
 Element.TableGroup.onPageBreak=페이지 나누기
-Element.TableGroup.onPageBreak.toolTip=TBD
+Element.TableGroup.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.TableGroup.onPageBreak.this=테이블 그룹
 Element.TableGroup.onPageBreak.reportContext=보고서 컨텍스트
   
@@ -2875,7 +2874,7 @@ Element.Image.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을 때
 Element.Image.onRender.this=이미지 인스턴스
 Element.Image.onRender.reportContext=보고서 컨텍스트
 Element.Image.onPageBreak=페이지 나누기
-Element.Image.onPageBreak.toolTip=TBD
+Element.Image.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Image.onPageBreak.this=이미지 인스턴스
 Element.Image.onPageBreak.reportContext=보고서 컨텍스트
 Element.Image.fitToContainer=컨테이너에 맞추기
@@ -2897,7 +2896,7 @@ Element.Grid.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을 때 
 Element.Grid.onRender.this=눈금 인스턴스
 Element.Grid.onRender.reportContext=보고서 컨텍스트
 Element.Grid.onPageBreak=페이지 나누기
-Element.Grid.onPageBreak.toolTip=TBD
+Element.Grid.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Grid.onPageBreak.this=눈금 인스턴스
 Element.Grid.onPageBreak.reportContext=보고서 컨텍스트
 Element.Grid.caption=캡션
@@ -2925,7 +2924,7 @@ Element.TextData.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을
 Element.TextData.onRender.this=동적 텍스트 인스턴스
 Element.TextData.onRender.reportContext=보고서 컨텍스트
 Element.TextData.onPageBreak=페이지 나누기
-Element.TextData.onPageBreak.toolTip=TBD
+Element.TextData.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.TextData.onPageBreak.this=동적 텍스트 인스턴스
 Element.TextData.onPageBreak.reportContext=보고서 컨텍스트
 Element.TextData.hasExpression=식 값
@@ -2948,7 +2947,7 @@ Element.ExtendedItem.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되
 Element.ExtendedItem.onRender.this=확장 항목 인스턴스
 Element.ExtendedItem.onRender.reportContext=보고서 컨텍스트
 Element.ExtendedItem.onPageBreak=페이지 나누기
-Element.ExtendedItem.onPageBreak.toolTip=TBD
+Element.ExtendedItem.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.ExtendedItem.onPageBreak.this=확장 항목 인스턴스
 Element.ExtendedItem.onPageBreak.reportContext=보고서 컨텍스트
 Element.ExtendedItem.extensionVersion=Extension version
@@ -3090,7 +3089,7 @@ Element.AutoText.onRender.toolTip=프리젠테이션 엔진에서 요소가 렌더링 준비되었을
 Element.AutoText.onRender.this=AutoText 인스턴스
 Element.AutoText.onRender.reportContext=보고서 컨텍스트
 Element.AutoText.onPageBreak=페이지 나누기
-Element.AutoText.onPageBreak.toolTip=TBD
+Element.AutoText.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.AutoText.onPageBreak.this=AutoText 인스턴스
 Element.AutoText.onPageBreak.reportContext=보고서 컨텍스트
 Element.AutoText.pageVariable=페이지 변수
@@ -3241,6 +3240,7 @@ Element.AbstractScalarParameter.valueType=값 형식
 Element.AbstractScalarParameter.sortByColumn=열을 기준으로 정렬
 Element.AbstractScalarParameter.defaultValue=기본값
 Element.AbstractScalarParameter.selectionList=선택 목록
+Element.AbstractScalarParameter.dataType=데이터 형식
 
 #69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=표시 형식
@@ -3451,6 +3451,7 @@ Message.ClearProperties=속성 지우기
 Message.CreateTemplateElement=템플릿 요소 생성
 Message.TransformToReportItem=보고서 항목으로 변환
 Message.TransformToDataSet=데이터 집합으로 변환
+Message.ExportElementToLibrary=Export Element To Library
 
 ###########################################################
 #Element new names.
@@ -3655,6 +3656,9 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=요소 "{0}"을(를) 삽입 및 붙여 �
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE= {0}은 이미 {1}을 참조하므로 순환 요소 참조를 찾을 수 있습니다.
 Error.SemanticError.INCONSISTENT_DATA_GROUP=요소 {0}의 데이터 바인딩 참조의 그룹 수와 참조하고 있는 요소 {1}의 그룹 수가 다릅니다.
 Error.SemanticError.INVALID_MANIFEST=요소 {0}에 잘못된 매니페스트가 있습니다.
+
+#SemanticException
+Error.SemanticException.EXPORT_ELEMENT_FAIL=Duplicated element name in target library, the element {0} can not be exported. Please rename the exported element name.
 
 #StyleException
 Error.StyleException.FORBIDDEN={0}은(는) 스타일을 가질 수 없습니다.

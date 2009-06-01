@@ -2435,7 +2435,6 @@ Element.Parameter.promptText=ÌáÊ¾ÎÄ±¾
 Element.Parameter.promptTextID=ÌáÊ¾ÎÄ±¾¹Ø¼ü×Ö
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.dataType=Êı¾İÀàĞÍ
 Element.ScalarParameter.paramType=±êÁ¿²ÎÊıÀàĞÍ
 Element.ScalarParameter.displayPrompt=ÏÔÊ¾ÌáÊ¾
 Element.ScalarParameter.concealValue=Òş²ØÖµ
@@ -2612,7 +2611,7 @@ Element.Label.onRender.toolTip=×¼±¸¸ÃÔªËØÒÔ±ãÔÚÕ¹Ê¾ÒıÇæÖĞ³ÊÏÖÊ±Ö´ĞĞµÄ½Å±¾¡£
 Element.Label.onRender.this=±êÇ©ÊµÀı
 Element.Label.onRender.reportContext=±¨±íÉÏÏÂÎÄ
 Element.Label.onPageBreak=³öÏÖ·ÖÒ³·ûÊ±
-Element.Label.onPageBreak.toolTip=TBD
+Element.Label.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Label.onPageBreak.this=±êÇ©ÊµÀı
 Element.Label.onPageBreak.reportContext=±¨±íÉÏÏÂÎÄ
   
@@ -2640,7 +2639,7 @@ Element.Data.onRender.toolTip=×¼±¸¸ÃÔªËØÒÔ±ãÔÚÕ¹Ê¾ÒıÇæÖĞ³ÊÏÖÊ±Ö´ĞĞµÄ½Å±¾¡£
 Element.Data.onRender.this=Êı¾İÊµÀı
 Element.Data.onRender.reportContext=±¨±íÉÏÏÂÎÄ
 Element.Data.onPageBreak=³öÏÖ·ÖÒ³·ûÊ±
-Element.Data.onPageBreak.toolTip=TBD
+Element.Data.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Data.onPageBreak.this=Êı¾İÊµÀı
 Element.Data.onPageBreak.reportContext=±¨±íÉÏÏÂÎÄ
   
@@ -2661,7 +2660,7 @@ Element.Text.onRender.toolTip=×¼±¸¸ÃÔªËØÒÔ±ãÔÚÕ¹Ê¾ÒıÇæÖĞ³ÊÏÖÊ±Ö´ĞĞµÄ½Å±¾¡£
 Element.Text.onRender.this=Text instance
 Element.Text.onRender.reportContext=±¨±íÉÏÏÂÎÄ
 Element.Text.onPageBreak=³öÏÖ·ÖÒ³·ûÊ±
-Element.Text.onPageBreak.toolTip=TBD
+Element.Text.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Text.onPageBreak.this=ÎÄ±¾ÊµÀı
 Element.Text.onPageBreak.reportContext=±¨±íÉÏÏÂÎÄ
 Element.Text.hasExpression=¾ßÓĞ±í´ïÊ½
@@ -2723,7 +2722,7 @@ Element.List.onRender.toolTip=×¼±¸¸ÃÔªËØÒÔ±ãÔÚÕ¹Ê¾ÒıÇæÖĞ³ÊÏÖÊ±Ö´ĞĞµÄ½Å±¾¡£
 Element.List.onRender.this=ÁĞ±íÊµÀı
 Element.List.onRender.reportContext=±¨±íÉÏÏÂÎÄ
 Element.List.onPageBreak=³öÏÖ·ÖÒ³·ûÊ±
-Element.List.onPageBreak.toolTip=TBD
+Element.List.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.List.onPageBreak.this=ÁĞ±íÊµÀı
 Element.List.onPageBreak.reportContext=±¨±íÉÏÏÂÎÄ
   
@@ -2735,7 +2734,7 @@ Element.ListGroup.onPrepare.toolTip=ËüÓÃÓÚ½Å±¾Æô¶¯½×¶Î¡£ÉĞÎ´½øĞĞÊı¾İ°ó¶¨¡£´Ë´¦¿É
 Element.ListGroup.onPrepare.this=ÁĞ±í×é
 Element.ListGroup.onPrepare.reportContext=±¨±íÉÏÏÂÎÄ
 Element.ListGroup.onPageBreak=³öÏÖ·ÖÒ³·ûÊ±
-Element.ListGroup.onPageBreak.toolTip=TBD
+Element.ListGroup.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.ListGroup.onPageBreak.this=ÁĞ±í×é
 Element.ListGroup.onPageBreak.reportContext=±¨±íÉÏÏÂÎÄ
   
@@ -2764,7 +2763,7 @@ Element.Table.onRender.this=±íÊµÀı
 Element.Table.onRender.reportContext=±¨±íÉÏÏÂÎÄ
 Element.Table.onRender.object=¶ÔÏó
 Element.Table.onPageBreak=³öÏÖ·ÖÒ³·ûÊ±
-Element.Table.onPageBreak.toolTip=TBD
+Element.Table.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Table.onPageBreak.this=±íÊµÀı
 Element.Table.onPageBreak.reportContext=±¨±íÉÏÏÂÎÄ
   
@@ -2776,7 +2775,7 @@ Element.TableGroup.onPrepare.toolTip=ËüÓÃÓÚ½Å±¾Æô¶¯½×¶Î¡£ÉĞÎ´½øĞĞÊı¾İ°ó¶¨¡£´Ë´¦¿
 Element.TableGroup.onPrepare.this=±í×é
 Element.TableGroup.onPrepare.reportContext=±¨±íÉÏÏÂÎÄ
 Element.TableGroup.onPageBreak=³öÏÖ·ÖÒ³·ûÊ±
-Element.TableGroup.onPageBreak.toolTip=TBD
+Element.TableGroup.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.TableGroup.onPageBreak.this=±í×é
 Element.TableGroup.onPageBreak.reportContext=±¨±íÉÏÏÂÎÄ
   
@@ -2875,7 +2874,7 @@ Element.Image.onRender.toolTip=×¼±¸¸ÃÔªËØÒÔ±ãÔÚÕ¹Ê¾ÒıÇæÖĞ³ÊÏÖÊ±Ö´ĞĞµÄ½Å±¾¡£
 Element.Image.onRender.this=Í¼ÏñÊµÀı
 Element.Image.onRender.reportContext=±¨±íÉÏÏÂÎÄ
 Element.Image.onPageBreak=³öÏÖ·ÖÒ³·ûÊ±
-Element.Image.onPageBreak.toolTip=TBD
+Element.Image.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Image.onPageBreak.this=Í¼ÏñÊµÀı
 Element.Image.onPageBreak.reportContext=±¨±íÉÏÏÂÎÄ
 Element.Image.fitToContainer=ÊÊºÏÈİÆ÷
@@ -2897,7 +2896,7 @@ Element.Grid.onRender.toolTip=×¼±¸¸ÃÔªËØÒÔ±ãÔÚÕ¹Ê¾ÒıÇæÖĞ³ÊÏÖÊ±Ö´ĞĞµÄ½Å±¾¡£
 Element.Grid.onRender.this=Íø¸ñÊµÀı
 Element.Grid.onRender.reportContext=±¨±íÉÏÏÂÎÄ
 Element.Grid.onPageBreak=³öÏÖ·ÖÒ³·ûÊ±
-Element.Grid.onPageBreak.toolTip=TBD
+Element.Grid.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Grid.onPageBreak.this=Íø¸ñÊµÀı
 Element.Grid.onPageBreak.reportContext=±¨±íÉÏÏÂÎÄ
 Element.Grid.caption=±êÌâ
@@ -2925,7 +2924,7 @@ Element.TextData.onRender.toolTip=×¼±¸¸ÃÔªËØÒÔ±ãÔÚÕ¹Ê¾ÒıÇæÖĞ³ÊÏÖÊ±Ö´ĞĞµÄ½Å±¾¡£
 Element.TextData.onRender.this=¶¯Ì¬ÎÄ±¾ÊµÀı
 Element.TextData.onRender.reportContext=±¨±íÉÏÏÂÎÄ
 Element.TextData.onPageBreak=³öÏÖ·ÖÒ³·ûÊ±
-Element.TextData.onPageBreak.toolTip=TBD
+Element.TextData.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.TextData.onPageBreak.this=¶¯Ì¬ÎÄ±¾ÊµÀı
 Element.TextData.onPageBreak.reportContext=±¨±íÉÏÏÂÎÄ
 Element.TextData.hasExpression=¾ßÓĞ±í´ïÊ½
@@ -2948,7 +2947,7 @@ Element.ExtendedItem.onRender.toolTip=×¼±¸¸ÃÔªËØÒÔ±ãÔÚÕ¹Ê¾ÒıÇæÖĞ³ÊÏÖÊ±Ö´ĞĞ¡£
 Element.ExtendedItem.onRender.this=À©Õ¹ÏîÊµÀı
 Element.ExtendedItem.onRender.reportContext=±¨±íÉÏÏÂÎÄ
 Element.ExtendedItem.onPageBreak=³öÏÖ·ÖÒ³·ûÊ±
-Element.ExtendedItem.onPageBreak.toolTip=TBD
+Element.ExtendedItem.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.ExtendedItem.onPageBreak.this=À©Õ¹ÏîÊµÀı
 Element.ExtendedItem.onPageBreak.reportContext=±¨±íÉÏÏÂÎÄ
 Element.ExtendedItem.extensionVersion=Extension version
@@ -3090,7 +3089,7 @@ Element.AutoText.onRender.toolTip=×¼±¸¸ÃÔªËØÒÔ±ãÔÚÕ¹Ê¾ÒıÇæÖĞ³ÊÏÖÊ±Ö´ĞĞµÄ½Å±¾¡£
 Element.AutoText.onRender.this=×Ô¶¯Í¼ÎÄ¼¯ÊµÀı
 Element.AutoText.onRender.reportContext=±¨±íÉÏÏÂÎÄ
 Element.AutoText.onPageBreak=³öÏÖ·ÖÒ³·ûÊ±
-Element.AutoText.onPageBreak.toolTip=TBD
+Element.AutoText.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.AutoText.onPageBreak.this=×Ô¶¯Í¼ÎÄ¼¯ÊµÀı
 Element.AutoText.onPageBreak.reportContext=±¨±íÉÏÏÂÎÄ
 Element.AutoText.pageVariable=Ò³Ãæ±äÁ¿
@@ -3241,6 +3240,7 @@ Element.AbstractScalarParameter.valueType=ÖµÀàĞÍ
 Element.AbstractScalarParameter.sortByColumn=°´ÁĞÅÅĞò
 Element.AbstractScalarParameter.defaultValue=Ä¬ÈÏÖµ
 Element.AbstractScalarParameter.selectionList=Ñ¡ÔñÁĞ±í
+Element.AbstractScalarParameter.dataType=Êı¾İÀàĞÍ
 
 #69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=ÏÔÊ¾ÀàĞÍ
@@ -3451,6 +3451,7 @@ Message.ClearProperties=Çå³ıÊôĞÔ
 Message.CreateTemplateElement=´´½¨Ä£°åÔªËØ
 Message.TransformToReportItem=×ª»»Îª±¨±íÏî
 Message.TransformToDataSet=×ª»»ÎªÊı¾İ¼¯
+Message.ExportElementToLibrary=Export Element To Library
 
 ###########################################################
 #Element new names.
@@ -3655,6 +3656,9 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=½ûÖ¹¶ÔÔªËØ¡°{0}¡±Ö´ĞĞ²åÈëºÍÕ³Ìù
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=ÕÒµ½Ñ­»·ÔªËØÒıÓÃ£¬ÒòÎª {0} ÒÑ¾­ÒıÓÃ {1}¡£
 Error.SemanticError.INCONSISTENT_DATA_GROUP=ÔªËØ {0} µÄÊı¾İ°ó¶¨ÒıÓÃÓëËüÒıÓÃµÄÔªËØ {1} µÄ×éÊı²»Í¬¡£
 Error.SemanticError.INVALID_MANIFEST=ÔªËØ {0} ¾ßÓĞÒ»¸öÎŞĞ§Çåµ¥¡£
+
+#SemanticException
+Error.SemanticException.EXPORT_ELEMENT_FAIL=Duplicated element name in target library, the element {0} can not be exported. Please rename the exported element name.
 
 #StyleException
 Error.StyleException.FORBIDDEN={0} ²»µÃ¾ßÓĞÑùÊ½¡£

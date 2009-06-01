@@ -2435,7 +2435,6 @@ Element.Parameter.promptText=Texte de l'invite
 Element.Parameter.promptTextID=Clé du texte de l'invite
   
 #7. ScalarParameter  ( prefix  Element.ScalarParameter )
-Element.ScalarParameter.dataType=Type de données
 Element.ScalarParameter.paramType=Type de paramètre scalaire
 Element.ScalarParameter.displayPrompt=Afficher une invite
 Element.ScalarParameter.concealValue=Masquer la valeur
@@ -2612,7 +2611,7 @@ Element.Label.onRender.toolTip=Script exécuté quand l'élément est préparé pour l
 Element.Label.onRender.this=Instance d'étiquette
 Element.Label.onRender.reportContext=Contexte d'état
 Element.Label.onPageBreak=Saut de page
-Element.Label.onPageBreak.toolTip=A définir
+Element.Label.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Label.onPageBreak.this=Instance d'étiquette
 Element.Label.onPageBreak.reportContext=Contexte d'état
   
@@ -2640,7 +2639,7 @@ Element.Data.onRender.toolTip=Script exécuté quand l'élément est préparé pour le
 Element.Data.onRender.this=Instance de données
 Element.Data.onRender.reportContext=Contexte d'état
 Element.Data.onPageBreak=Saut de page
-Element.Data.onPageBreak.toolTip=A définir
+Element.Data.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Data.onPageBreak.this=Instance de données
 Element.Data.onPageBreak.reportContext=Contexte d'état
   
@@ -2661,7 +2660,7 @@ Element.Text.onRender.toolTip=Script exécuté quand l'élément est préparé pour le
 Element.Text.onRender.this=Text instance
 Element.Text.onRender.reportContext=Contexte d'état
 Element.Text.onPageBreak=Saut de page
-Element.Text.onPageBreak.toolTip=A définir
+Element.Text.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Text.onPageBreak.this=Instance de texte
 Element.Text.onPageBreak.reportContext=Contexte d'état
 Element.Text.hasExpression=Est doté de l'expression
@@ -2723,7 +2722,7 @@ Element.List.onRender.toolTip=Script exécuté quand l'élément est préparé pour le
 Element.List.onRender.this=Instance de liste
 Element.List.onRender.reportContext=Contexte d'état
 Element.List.onPageBreak=Saut de page
-Element.List.onPageBreak.toolTip=A définir
+Element.List.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.List.onPageBreak.this=Instance de liste
 Element.List.onPageBreak.reportContext=Contexte d'état
   
@@ -2735,7 +2734,7 @@ Element.ListGroup.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucu
 Element.ListGroup.onPrepare.this=Groupe de listes
 Element.ListGroup.onPrepare.reportContext=Contexte d'état
 Element.ListGroup.onPageBreak=Saut de page
-Element.ListGroup.onPageBreak.toolTip=A définir
+Element.ListGroup.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.ListGroup.onPageBreak.this=Groupe de listes
 Element.ListGroup.onPageBreak.reportContext=Contexte d'état
   
@@ -2764,7 +2763,7 @@ Element.Table.onRender.this=Instance de table
 Element.Table.onRender.reportContext=Contexte d'état
 Element.Table.onRender.object=Objet
 Element.Table.onPageBreak=Saut de page
-Element.Table.onPageBreak.toolTip=A définir
+Element.Table.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Table.onPageBreak.this=Instance de table
 Element.Table.onPageBreak.reportContext=Contexte d'état
   
@@ -2776,7 +2775,7 @@ Element.TableGroup.onPrepare.toolTip=Pour la phase de démarrage d'un script. Auc
 Element.TableGroup.onPrepare.this=Groupe de tables
 Element.TableGroup.onPrepare.reportContext=Contexte d'état
 Element.TableGroup.onPageBreak=Saut de page
-Element.TableGroup.onPageBreak.toolTip=A définir
+Element.TableGroup.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.TableGroup.onPageBreak.this=Groupe de tables
 Element.TableGroup.onPageBreak.reportContext=Contexte d'état
   
@@ -2875,7 +2874,7 @@ Element.Image.onRender.toolTip=Script exécuté quand l'élément est préparé pour l
 Element.Image.onRender.this=Instance d'image
 Element.Image.onRender.reportContext=Contexte d'état
 Element.Image.onPageBreak=Saut de page
-Element.Image.onPageBreak.toolTip=A définir
+Element.Image.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Image.onPageBreak.this=Instance d'image
 Element.Image.onPageBreak.reportContext=Contexte d'état
 Element.Image.fitToContainer=Ajuster au conteneur
@@ -2897,7 +2896,7 @@ Element.Grid.onRender.toolTip=Script exécuté quand l'élément est préparé pour le
 Element.Grid.onRender.this=Instance de grille
 Element.Grid.onRender.reportContext=Contexte d'état
 Element.Grid.onPageBreak=Saut de page
-Element.Grid.onPageBreak.toolTip=A définir
+Element.Grid.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.Grid.onPageBreak.this=Instance de grille
 Element.Grid.onPageBreak.reportContext=Contexte d'état
 Element.Grid.caption=Légende
@@ -2925,7 +2924,7 @@ Element.TextData.onRender.toolTip=Script exécuté quand l'élément est préparé pou
 Element.TextData.onRender.this=Instance de texte dynamique
 Element.TextData.onRender.reportContext=Contexte d'état
 Element.TextData.onPageBreak=Saut de page
-Element.TextData.onPageBreak.toolTip=A définir
+Element.TextData.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.TextData.onPageBreak.this=Instance de texte dynamique
 Element.TextData.onPageBreak.reportContext=Contexte d'état
 Element.TextData.hasExpression=Est doté de l'expression
@@ -2948,7 +2947,7 @@ Element.ExtendedItem.onRender.toolTip=Action exécutée quand l'élément est prépar
 Element.ExtendedItem.onRender.this=Instance d'élément étendu
 Element.ExtendedItem.onRender.reportContext=Contexte d'état
 Element.ExtendedItem.onPageBreak=Saut de page
-Element.ExtendedItem.onPageBreak.toolTip=A définir
+Element.ExtendedItem.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.ExtendedItem.onPageBreak.this=Instance d'élément étendu
 Element.ExtendedItem.onPageBreak.reportContext=Contexte d'état
 Element.ExtendedItem.extensionVersion=Extension version
@@ -3090,7 +3089,7 @@ Element.AutoText.onRender.toolTip=Script exécuté quand l'élément est préparé pou
 Element.AutoText.onRender.this=Instance AutoText
 Element.AutoText.onRender.reportContext=Contexte d'état
 Element.AutoText.onPageBreak=Saut de page
-Element.AutoText.onPageBreak.toolTip=A définir
+Element.AutoText.onPageBreak.toolTip=Script is executed for all report items on a page when the page break occurs
 Element.AutoText.onPageBreak.this=Instance AutoText
 Element.AutoText.onPageBreak.reportContext=Contexte d'état
 Element.AutoText.pageVariable=Variable de la page
@@ -3241,6 +3240,7 @@ Element.AbstractScalarParameter.valueType=Type de valeur
 Element.AbstractScalarParameter.sortByColumn=Trier par colonne
 Element.AbstractScalarParameter.defaultValue=Valeur par défaut
 Element.AbstractScalarParameter.selectionList=Liste de sélection
+Element.AbstractScalarParameter.dataType=Type de données
 
 #69. DynamicFilterParameter  ( prefix  Element.DynamicFilterParameter )
 Element.DynamicFilterParameter.displayType=Type d'affichage
@@ -3451,6 +3451,7 @@ Message.ClearProperties=Effacer les propriétés
 Message.CreateTemplateElement=Créer un élément de modèle
 Message.TransformToReportItem=Transformer en élément d'état
 Message.TransformToDataSet=Transformer en jeu de données
+Message.ExportElementToLibrary=Export Element To Library
 
 ###########################################################
 #Element new names.
@@ -3655,6 +3656,9 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=L'opération d'insertion/collage
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=La référence d'élément circulaire a été trouvée, car {0} fait déjà référence à {1}.
 Error.SemanticError.INCONSISTENT_DATA_GROUP=Le nombre de groupes de la référence de liaison de données de l''élément {0} est différent du nombre de l''élément {1} auquel il se réfère.
 Error.SemanticError.INVALID_MANIFEST=L'élément {0} a un manifeste non valide.
+
+#SemanticException
+Error.SemanticException.EXPORT_ELEMENT_FAIL=Duplicated element name in target library, the element {0} can not be exported. Please rename the exported element name.
 
 #StyleException
 Error.StyleException.FORBIDDEN=L''élément {0} ne peut pas être associé à un style.
