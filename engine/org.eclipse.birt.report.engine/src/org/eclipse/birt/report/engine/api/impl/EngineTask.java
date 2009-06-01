@@ -1652,8 +1652,14 @@ public abstract class EngineTask implements IEngineTask
 							format );
 				}
 				format = innerFormat;
-				emitterID = extManager.getEmitterID( format );
+				emitterID = engine.getConfig( ).getDefaultEmitter( format );
+				if ( emitterID == null
+						|| !extManager.isValidEmitterID( emitterID ) )
+				{
+					emitterID = extManager.getEmitterID( format );
+				}
 			}
+
 			renderOptions.setEmitterID( emitterID );
 			renderOptions.setOutputFormat( format );
 		}
