@@ -2,6 +2,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
     <property name="units">in</property>
+    <property name="layoutPreference">auto layout</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
             <text-property name="displayName">Data Source</text-property>

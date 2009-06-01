@@ -3,6 +3,7 @@
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2008 &lt;&lt;Your Company Name here>></property>
     <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="31">
             <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>

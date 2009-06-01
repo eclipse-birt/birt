@@ -13,6 +13,7 @@
             <expression name="value">params[p2]</expression>
         </structure>
     </list-property>
+    <property name="layoutPreference">auto layout</property>
     <page-setup>
         <graphic-master-page name="My Page" id="6">
             <property name="comments">Sample page</property>

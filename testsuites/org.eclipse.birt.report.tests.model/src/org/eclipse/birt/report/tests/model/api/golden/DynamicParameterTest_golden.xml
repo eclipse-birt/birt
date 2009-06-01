@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051014-0742></property>
     <property name="units">in</property>
+    <property name="layoutPreference">auto layout</property>
     <parameters>
         <scalar-parameter name="Param 1" id="2">
             <text-property name="promptText">abc</text-property>
@@ -10,10 +11,10 @@
             <property name="isRequired">true</property>
             <property name="dataSetName">dataset1</property>
             <expression name="valueExpr">row["ORDERDATE"]</expression>
+            <property name="dataType">dateTime</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">10/15/2005</value>
             </simple-property-list>
-            <property name="dataType">dateTime</property>
             <property name="controlType">list-box</property>
             <property name="mustMatch">false</property>
             <property name="fixedOrder">true</property>

@@ -65,7 +65,7 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 		
 		CssStyleSheetHandle stylesheet = loadStyleSheet( getTempFolder()+"/"+INPUT_FOLDER+"/"+fileName );
 		assertNotNull(stylesheet);
-		SharedStyleHandle style1 = stylesheet.findStyle("style1");
+		SharedStyleHandle style1 = stylesheet.findStyle("STYLE1");
 		SharedStyleHandle style2 = stylesheet.findStyle("styl2");
 		SharedStyleHandle style3 = stylesheet.findStyle("style3");
 		assertNotNull(style1);
