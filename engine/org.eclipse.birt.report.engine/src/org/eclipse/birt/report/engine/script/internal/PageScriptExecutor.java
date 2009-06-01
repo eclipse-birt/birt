@@ -13,11 +13,11 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import java.util.Collection;
 
-import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.api.script.instance.IPageInstance;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.PageContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.script.internal.instance.PageInstance;
 
 public class PageScriptExecutor extends ScriptExecutor
@@ -25,7 +25,7 @@ public class PageScriptExecutor extends ScriptExecutor
 
 	public static void handleOnPageScript( ExecutionContext context,
 			PageContent pageContent, Collection<IContent> contents,
-			ScriptExpression pageScript )
+			Expression pageScript )
 	{
 		try
 		{

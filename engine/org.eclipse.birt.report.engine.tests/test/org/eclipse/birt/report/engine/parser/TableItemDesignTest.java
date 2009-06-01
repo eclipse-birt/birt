@@ -41,46 +41,45 @@ public class TableItemDesignTest extends AbstractDesignTestCase
 	public void testTable( )
 	{
 		TableItemDesign table = (TableItemDesign) report.getContent( 0 );
-		assertEquals( "Table Caption", table.getCaption( ).getDesignValue( ) );
+		assertEquals( "Table Caption", table.getCaption( ) );
 		// test columns
 		assertEquals( 6, table.getColumnCount( ) );
 		ColumnDesign column = table.getColumn( 0 );
 		assertEquals( "7cm", column.getWidth( ).toString( ) );
 
 		// test header
-		TableBandDesign header = (TableBandDesign)table.getHeader();
+		TableBandDesign header = (TableBandDesign) table.getHeader( );
 		assertEquals( 1, header.getRowCount( ) );
 		RowDesign row = header.getRow( 0 );
-		assertEquals( row.getBookmark( ).getDesignValue( ),
-				"row[\"COLUMN_32\"]" );
+		assertEquals( row.getBookmark( ).getScriptText( ), "row[\"COLUMN_32\"]" );
 		assertEquals( 1, row.getCellCount( ) );
 		CellDesign cell = row.getCell( 0 );
 		assertEquals( 6, cell.getColSpan( ) );
-		assertEquals(1, cell.getContentCount());
+		assertEquals( 1, cell.getContentCount( ) );
 
-		//test groups
-		assertEquals(2, table.getGroupCount( ) );
-		GroupDesign group = (GroupDesign)table.getGroup(0);
-		//group header
+		// test groups
+		assertEquals( 2, table.getGroupCount( ) );
+		GroupDesign group = (GroupDesign) table.getGroup( 0 );
+		// group header
 		header = (TableBandDesign) group.getHeader( );
-		assertEquals(1, header.getRowCount());
-		row = header.getRow(0);
-		assertEquals(6, row.getCellCount());
-		cell = row.getCell(0);
+		assertEquals( 1, header.getRowCount( ) );
+		row = header.getRow( 0 );
+		assertEquals( 6, row.getCellCount( ) );
+		cell = row.getCell( 0 );
 		assertEquals( "all", cell.getDrop( ) );
-		cell = row.getCell(1);
+		cell = row.getCell( 1 );
 		assertEquals( "detail", cell.getDrop( ) );
-		
+
 		TableBandDesign footer = (TableBandDesign) group.getFooter( );
-		assertEquals(1, footer.getRowCount());
-		
-		//group footer
-		
-		//test details
-		TableBandDesign detail = (TableBandDesign)table.getDetail();
-		assertEquals(1, detail.getRowCount());
-		
-		//test footer
-		assertEquals(1, detail.getRowCount());
+		assertEquals( 1, footer.getRowCount( ) );
+
+		// group footer
+
+		// test details
+		TableBandDesign detail = (TableBandDesign) table.getDetail( );
+		assertEquals( 1, detail.getRowCount( ) );
+
+		// test footer
+		assertEquals( 1, detail.getRowCount( ) );
 	}
 }

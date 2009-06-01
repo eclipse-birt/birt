@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,26 +13,26 @@ package org.eclipse.birt.report.engine.ir;
 
 public class TemplateDesign extends ReportItemDesign
 {
-	Expression<String> promptText;
-	Expression<String> promptTextKey;
+	String promptText;
+	String promptTextKey;
 	String allowedType;
 
-	public void setPromptText( Expression<String> text )
+	public void setPromptText( String text )
 	{
 		promptText = text;
 	}
 
-	public Expression<String> getPromptText( )
+	public String getPromptText( )
 	{
 		return promptText;
 	}
 	
-	public Expression<String> getPromptTextKey()
+	public String getPromptTextKey()
 	{
 		return promptTextKey;
 	}
 	
-	public void setPromptTextKey(Expression<String> key)
+	public void setPromptTextKey(String key)
 	{
 		promptTextKey = key;
 	}

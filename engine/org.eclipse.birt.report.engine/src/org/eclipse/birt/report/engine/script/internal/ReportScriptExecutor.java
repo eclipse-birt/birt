@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005, 2007 Actuate Corporation.
+ * Copyright (c) 2005, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,10 +11,10 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
-import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IReportEventHandler;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -32,11 +32,13 @@ public class ReportScriptExecutor extends ScriptExecutor
 		try
 		{
 			String scriptText = report.getInitialize( );
-			ScriptExpression scriptExpr = null;
+			Expression.Script scriptExpr = null;
 			if ( null != scriptText )
 			{
-				String id = ModuleUtil.getScriptUID( report.getPropertyHandle( IModuleModel.INITIALIZE_METHOD ) );
-				scriptExpr = new ScriptExpression( scriptText, id );
+				String id = ModuleUtil.getScriptUID( report
+						.getPropertyHandle( IModuleModel.INITIALIZE_METHOD ) );
+				scriptExpr = Expression.newScript( scriptText );
+				scriptExpr.setFileName( id );
 			}
 			if ( handleJS( null, scriptExpr, context ).didRun( ) )
 				return;
@@ -58,11 +60,14 @@ public class ReportScriptExecutor extends ScriptExecutor
 			IDesignElement element = SimpleElementFactory.getInstance( ).getElement( report );
 			IReportDesign reportDesign = new ReportDesign( report );
 			String scriptText = report.getBeforeFactory( );
-			ScriptExpression scriptExpr = null;
+			Expression.Script scriptExpr = null;
 			if ( null != scriptText )
 			{
-				String id = ModuleUtil.getScriptUID( report.getPropertyHandle( IReportDesignModel.BEFORE_FACTORY_METHOD ) );
-				scriptExpr = new ScriptExpression( scriptText, id );
+				String id = ModuleUtil
+						.getScriptUID( report
+								.getPropertyHandle( IReportDesignModel.BEFORE_FACTORY_METHOD ) );
+				scriptExpr = Expression.newScript( scriptText );
+				scriptExpr.setFileName( id );
 			}
 			if ( handleJS( element, scriptExpr, context ).didRun( ) )
 				return;
@@ -82,11 +87,14 @@ public class ReportScriptExecutor extends ScriptExecutor
 		try
 		{
 			String scriptText = report.getAfterFactory( );
-			ScriptExpression scriptExpr = null;
+			Expression.Script scriptExpr = null;
 			if ( null != scriptText )
 			{
-				String id = ModuleUtil.getScriptUID( report.getPropertyHandle( IReportDesignModel.AFTER_FACTORY_METHOD ) );
-				scriptExpr = new ScriptExpression( scriptText, id );
+				String id = ModuleUtil
+						.getScriptUID( report
+								.getPropertyHandle( IReportDesignModel.AFTER_FACTORY_METHOD ) );
+				scriptExpr = Expression.newScript( scriptText );
+				scriptExpr.setFileName( id );
 			}
 			if ( handleJS( null, scriptExpr, context ).didRun( ) )
 				return;
@@ -106,11 +114,14 @@ public class ReportScriptExecutor extends ScriptExecutor
 		try
 		{
 			String scriptText = report.getBeforeRender( );
-			ScriptExpression scriptExpr = null;
+			Expression.Script scriptExpr = null;
 			if ( null != scriptText )
 			{
-				String id = ModuleUtil.getScriptUID( report.getPropertyHandle( IReportDesignModel.BEFORE_RENDER_METHOD ) );
-				scriptExpr = new ScriptExpression( scriptText, id );
+				String id = ModuleUtil
+						.getScriptUID( report
+								.getPropertyHandle( IReportDesignModel.BEFORE_RENDER_METHOD ) );
+				scriptExpr = Expression.newScript( scriptText );
+				scriptExpr.setFileName( id );
 			}
 			if ( handleJS( null, scriptExpr, context ).didRun( ) )
 				return;
@@ -130,11 +141,14 @@ public class ReportScriptExecutor extends ScriptExecutor
 		try
 		{
 			String scriptText = report.getAfterRender( );
-			ScriptExpression scriptExpr = null;
+			Expression.Script scriptExpr = null;
 			if ( null != scriptText )
 			{
-				String id = ModuleUtil.getScriptUID( report.getPropertyHandle( IReportDesignModel.AFTER_RENDER_METHOD ) );
-				scriptExpr = new ScriptExpression( scriptText, id );
+				String id = ModuleUtil
+						.getScriptUID( report
+								.getPropertyHandle( IReportDesignModel.AFTER_RENDER_METHOD ) );
+				scriptExpr = Expression.newScript( scriptText );
+				scriptExpr.setFileName( id );
 			}
 			if ( handleJS( null, scriptExpr, context ).didRun( ) )
 				return;

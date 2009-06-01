@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.ir;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Row used in GridItem and TableItem.
@@ -26,7 +27,7 @@ public class RowDesign extends ReportItemDesign
 	/**
 	 * cells in this row.
 	 */
-	protected ArrayList cells = new ArrayList( );
+	protected ArrayList<CellDesign> cells = new ArrayList<CellDesign>( );
 
 	//TODO: this field should be removed
 	protected boolean isStartOfGroup = false;
@@ -48,6 +49,11 @@ public class RowDesign extends ReportItemDesign
 	public void setStartOfGroup( boolean isStartOfGroup )
 	{
 		this.isStartOfGroup = isStartOfGroup;
+	}
+
+	public Collection<CellDesign> getCells( )
+	{
+		return cells;
 	}
 
 	/**

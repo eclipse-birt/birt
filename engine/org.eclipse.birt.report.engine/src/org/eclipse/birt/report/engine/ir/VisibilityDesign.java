@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.ir;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Visibility Design.
@@ -23,8 +24,7 @@ public class VisibilityDesign
 	/**
 	 * Stores the VisibilityRuleDesign items.
 	 */
-	protected ArrayList rules = new ArrayList( );
-
+	protected ArrayList<VisibilityRuleDesign> rules = new ArrayList<VisibilityRuleDesign>( );
 
 	/**
 	 * Adds the VisibilityRuleDesign
@@ -36,6 +36,11 @@ public class VisibilityDesign
 	{
 		assert rule != null;
 		rules.add( rule );
+	}
+
+	public Collection<VisibilityRuleDesign> getRules( )
+	{
+		return rules;
 	}
 
 	/**

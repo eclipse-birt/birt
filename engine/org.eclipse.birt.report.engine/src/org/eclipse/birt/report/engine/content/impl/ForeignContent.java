@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -143,8 +143,7 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		{
 			if ( generateBy instanceof ExtendedItemDesign )
 			{
-				return getConstantValue( ( (ExtendedItemDesign) generateBy )
-						.getAltText( ) );
+				return ( (ExtendedItemDesign) generateBy ).getAltText( );
 			}
 		}
 		return altText;
@@ -156,8 +155,7 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		{
 			if ( generateBy instanceof ExtendedItemDesign )
 			{
-				return getConstantValue( ( (ExtendedItemDesign) generateBy )
-						.getAltTextKey( ) );
+				return ( (ExtendedItemDesign) generateBy ).getAltTextKey( );
 			}
 		}
 		return altTextKey;

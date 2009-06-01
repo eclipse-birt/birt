@@ -74,6 +74,7 @@ import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -680,30 +681,38 @@ public class ExecutionContext
 		root.put( name, root, sObj );
 	}
 
-	/**
-	 * Evaluate a BIRT expression
-	 * 
-	 * @param expr
-	 *            the expression to be evaluated
-	 * @param name
-	 *            the file name
-	 * @param lineNo
-	 *            the line number
-	 * 
-	 * @return the result if no error exists, otherwise null.
-	 */
-	public Object evaluate( ScriptExpression expr ) throws BirtException
+	public Object evaluate( Expression expr ) throws BirtException
 	{
-		if ( expr != null && expr.getScriptText( ) != null )
+		if ( expr != null )
 		{
-			return getScriptContext( ).eval( expr );
+			switch ( expr.getType( ) )
+			{
+				case Expression.CONSTANT :
+					return expr.getScriptText( );
+
+				case Expression.SCRIPT :
+					ScriptExpression se = ( (Expression.Script) expr )
+							.getScriptExpression( );
+					return evaluate( se );
+
+				case Expression.CONDITIONAL :
+					IConditionalExpression ce = ( (Expression.Conditional) expr )
+							.getConditionalExpression( );
+					return evaluateCondExpr( ce );
+
+			}
 		}
 		return null;
 	}
-	
+
 	public Object evaluate( String scriptText ) throws BirtException
 	{
 		return getScriptContext( ).eval( scriptText );
+	}
+
+	public Object evaluate( ScriptExpression expr ) throws BirtException
+	{
+		return getScriptContext( ).eval( expr );
 	}
 
 	/**
@@ -754,7 +763,7 @@ public class ExecutionContext
 	{
 		try
 		{
-			evaluate( expr );
+			getScriptContext( ).eval( expr );
 		}
 		catch ( BirtException ex )
 		{

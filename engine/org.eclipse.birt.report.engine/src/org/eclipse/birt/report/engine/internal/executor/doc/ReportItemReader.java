@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -613,16 +613,10 @@ public class ReportItemReader implements IReportItemExecutor
 			if ( label.getGenerateBy( ) instanceof TemplateDesign )
 			{
 				TemplateDesign design = (TemplateDesign) label.getGenerateBy( );
-				Expression<String> promptTextKey = design.getPromptTextKey( );
-				if ( !promptTextKey.isExpression( ) )
-				{
-					label.setLabelKey( promptTextKey.getValue( ) );
-				}
-				Expression<String> promptText = design.getPromptText( );
-				if ( !promptTextKey.isExpression( ) )
-				{
-					label.setLabelText( promptText.getValue( ) );
-				}
+				String promptTextKey = design.getPromptTextKey( );
+				label.setLabelKey( promptTextKey );
+				String promptText = design.getPromptText( );
+				label.setLabelText( promptText );
 			}
 			return value;
 		}

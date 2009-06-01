@@ -41,7 +41,7 @@ public class ActionTest extends TestCase
 	{
 		ActionDesign action = new ActionDesign( );
 
-		Expression<String> bookmark = Expression.newConstant( "" );
+		Expression bookmark = Expression.newConstant( "" );
 		//Set
 		action.setBookmark( bookmark );
 
@@ -64,7 +64,7 @@ public class ActionTest extends TestCase
 	{
 		ActionDesign action = new ActionDesign( );
 		//Set
-		Expression<String> hyperlink = Expression.newConstant( "" );
+		Expression hyperlink = Expression.newConstant( "" );
 		action.setHyperlink( hyperlink );
 
 		//Get

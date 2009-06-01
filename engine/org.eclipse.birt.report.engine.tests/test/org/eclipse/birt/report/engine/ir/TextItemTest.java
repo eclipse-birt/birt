@@ -34,8 +34,8 @@ public class TextItemTest extends ReportItemTestCase
 	{
 		TextItemDesign text = new TextItemDesign( );
 		//Set
-		Expression<String> testKey = newConstant( "TestKey" );
-		Expression<String> testText = newConstant( "TestText" );
+		String testKey = "TestKey";
+		String testText = "TestText";
 		text.setText( testKey, testText );
 
 		//Get

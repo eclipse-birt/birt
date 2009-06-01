@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,27 +28,27 @@ public abstract class GroupDesign extends ReportItemDesign
 	/**
 	 * the page break before property 
 	 */
-	protected Expression<String> pageBreakBefore;
+	protected String pageBreakBefore;
 	
 	/**
 	 * the page break after property
 	 */
-	protected Expression<String> pageBreakAfter;
+	protected String pageBreakAfter;
 	
 	/**
 	 * the page break inside property
 	 */
-	protected Expression<String> pageBreakInside;
+	protected String pageBreakInside;
 	
 	/**
 	 * group hideDetail
 	 */
-	protected Expression<Boolean> hideDetail = Expression.newConstant( false );
+	protected boolean hideDetail;
 	
 	/**
 	 * does the header need to be repeated in each page.
 	 */
-	protected Expression<Boolean> headerRepeat = Expression.newConstant( false );
+	protected boolean headerRepeat;
 
 	/**
 	 * group header
@@ -64,7 +64,7 @@ public abstract class GroupDesign extends ReportItemDesign
 	 * @param hide
 	 *            The hideDetail to set.
 	 */
-	public void setHideDetail( Expression<Boolean> hide )
+	public void setHideDetail( boolean hide )
 	{
 		hideDetail = hide;
 	}
@@ -72,27 +72,27 @@ public abstract class GroupDesign extends ReportItemDesign
 	/**
 	 * @return Returns the hideDetail.
 	 */
-	public Expression<Boolean> getHideDetail( )
+	public boolean getHideDetail( )
 	{
 		return hideDetail;
 	}
 	
-	public Expression<String> getPageBreakBefore()
+	public String getPageBreakBefore()
 	{
 		return pageBreakBefore;
 	}
 	
-	public void setPageBreakBefore(Expression<String> pageBreak)
+	public void setPageBreakBefore(String pageBreak)
 	{
 		pageBreakBefore = pageBreak;
 	}
 	
-	public Expression<String> getPageBreakAfter()
+	public String getPageBreakAfter()
 	{
 		return pageBreakAfter;
 	}
 	
-	public void setPageBreakAfter(Expression<String> pageBreak)
+	public void setPageBreakAfter(String pageBreak)
 	{
 		pageBreakAfter = pageBreak;
 	}
@@ -141,12 +141,12 @@ public abstract class GroupDesign extends ReportItemDesign
 		this.header = header;
 	}
 	
-	public Expression<Boolean> isHeaderRepeat()
+	public boolean isHeaderRepeat()
 	{
 		return headerRepeat;
 	}
 	
-	public void setHeaderRepeat(Expression<Boolean> repeat)
+	public void setHeaderRepeat(boolean repeat)
 	{
 		headerRepeat = repeat;
 	}
@@ -157,13 +157,13 @@ public abstract class GroupDesign extends ReportItemDesign
 	}
 
 	
-	public Expression<String> getPageBreakInside( )
+	public String getPageBreakInside( )
 	{
 		return pageBreakInside;
 	}
 
 	
-	public void setPageBreakInside( Expression<String> pageBreakInside )
+	public void setPageBreakInside( String pageBreakInside )
 	{
 		this.pageBreakInside = pageBreakInside;
 	}

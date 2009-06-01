@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.ir;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 
@@ -24,57 +23,58 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
  */
 abstract public class ReportItemDesign extends StyledElementDesign
 {
+
 	/**
 	 * x position
 	 */
-	protected Expression<DimensionType> x;
+	protected DimensionType x;
 	/**
 	 * y position
 	 */
-	protected Expression<DimensionType> y;
+	protected DimensionType y;
 	/**
 	 * width
 	 */
-	protected Expression<DimensionType> width;
+	protected DimensionType width;
 	/**
 	 * height
 	 */
-	protected Expression<DimensionType> height;
+	protected DimensionType height;
 
 	/**
 	 * book-mark associated with this element.
 	 */
-	protected Expression<String> bookmark;
+	protected Expression bookmark;
 	/**
 	 * TOC expression
 	 */
-	protected Expression<Object> toc;
-	
+	protected Expression toc;
+
 	/**
 	 * scripted called while on created
 	 */
-	protected ScriptExpression onCreate;
-	
+	protected Expression onCreate;
+
 	/**
 	 * script called while on render
 	 */
-	protected ScriptExpression onRender;
-	
+	protected Expression onRender;
+
 	/**
 	 * script called while on render
 	 */
-	protected ScriptExpression onPageBreak;	
+	protected Expression onPageBreak;
 
 	/**
 	 * Visibility property.
 	 */
 	protected VisibilityDesign visibility;
-	
+
 	/**
 	 * Action associated with this DataItem.
 	 */
-	protected ActionDesign action;	
-	
+	protected ActionDesign action;
+
 	/**
 	 * query used to create the data set.
 	 */
@@ -83,7 +83,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * execution state associated with this design
 	 */
 	transient protected Object executionState;
-	
+
 	/**
 	 * if the item use cached result or not.
 	 */
@@ -92,16 +92,16 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * Expression styles.
 	 */
-	protected Map<Integer, Expression<String>> expressionStyles;
+	protected Map<Integer, Expression> expressionStyles;
 
 	public ReportItemDesign( )
 	{
 	}
-	
+
 	/**
 	 * @return Returns the height.
 	 */
-	public Expression<DimensionType> getHeight( )
+	public DimensionType getHeight( )
 	{
 		return height;
 	}
@@ -110,7 +110,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * @param height
 	 *            The height to set.
 	 */
-	public void setHeight( Expression<DimensionType> height )
+	public void setHeight( DimensionType height )
 	{
 		this.height = height;
 	}
@@ -118,7 +118,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * @return Returns the width.
 	 */
-	public Expression<DimensionType> getWidth( )
+	public DimensionType getWidth( )
 	{
 		return width;
 	}
@@ -127,7 +127,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * @param width
 	 *            The width to set.
 	 */
-	public void setWidth( Expression<DimensionType> width )
+	public void setWidth( DimensionType width )
 	{
 		this.width = width;
 	}
@@ -135,7 +135,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * @return Returns the x.
 	 */
-	public Expression<DimensionType> getX( )
+	public DimensionType getX( )
 	{
 		return x;
 	}
@@ -144,7 +144,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * @param x
 	 *            The x to set.
 	 */
-	public void setX( Expression<DimensionType> x )
+	public void setX( DimensionType x )
 	{
 		this.x = x;
 	}
@@ -152,7 +152,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * @return Returns the y.
 	 */
-	public Expression<DimensionType> getY( )
+	public DimensionType getY( )
 	{
 		return y;
 	}
@@ -161,7 +161,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * @param y
 	 *            The y to set.
 	 */
-	public void setY( Expression<DimensionType> y )
+	public void setY( DimensionType y )
 	{
 		this.y = y;
 	}
@@ -171,33 +171,35 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * 
 	 * @param visitor
 	 */
-	abstract public Object accept( IReportItemVisitor visitor , Object value);
+	abstract public Object accept( IReportItemVisitor visitor, Object value );
 
-	
-	public Expression<Object> getTOC( )
+	public Expression getTOC( )
 	{
 		return toc;
 	}
-	
-	public void setTOC( Expression<Object> expr )
+
+	public void setTOC( Expression expr )
 	{
 		this.toc = expr;
 	}
+
 	/**
 	 * @return Returns the boo-kmark.
 	 */
-	public Expression<String> getBookmark( )
+	public Expression getBookmark( )
 	{
 		return bookmark;
 	}
+
 	/**
-	 * @param bookmark The book-mark to set.
+	 * @param bookmark
+	 *            The book-mark to set.
 	 */
-	public void setBookmark( Expression<String> bookmark )
+	public void setBookmark( Expression bookmark )
 	{
 		this.bookmark = bookmark;
 	}
-	
+
 	/**
 	 * @return Returns the queries.
 	 */
@@ -205,14 +207,16 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	{
 		return queries;
 	}
+
 	/**
-	 * @param query The queries to set.
+	 * @param query
+	 *            The queries to set.
 	 */
 	public void setQueries( IDataQueryDefinition[] queries )
 	{
 		this.queries = queries;
 	}
-	
+
 	/**
 	 * @return Returns the query.
 	 */
@@ -224,57 +228,67 @@ abstract public class ReportItemDesign extends StyledElementDesign
 		}
 		return null;
 	}
+
 	/**
-	 * @param query The query to set.
+	 * @param query
+	 *            The query to set.
 	 */
 	public void setQueries( IBaseQueryDefinition query )
 	{
-		this.queries = new IBaseQueryDefinition[]{ query };
+		this.queries = new IBaseQueryDefinition[]{query};
 	}
-	
-	
+
 	/**
 	 * @return Returns the onCreate.
 	 */
-	public ScriptExpression getOnCreate( )
+	public Expression getOnCreate( )
 	{
 		return onCreate;
 	}
+
 	/**
-	 * @param onCreate The onCreate to set.
+	 * @param onCreate
+	 *            The onCreate to set.
 	 */
-	public void setOnCreate( ScriptExpression expr )
+	public void setOnCreate( Expression expr )
 	{
 		onCreate = expr;
 	}
+
 	/**
 	 * @return Returns the onRender.
 	 */
-	public ScriptExpression getOnRender( )
+	public Expression getOnRender( )
 	{
 		return onRender;
 	}
+
 	/**
-	 * @param onPageBreak The onPageBreak to set.
+	 * @param onPageBreak
+	 *            The onPageBreak to set.
 	 */
-	public void setOnPageBreak( ScriptExpression expr )
+	public void setOnPageBreak( Expression expr )
 	{
 		onPageBreak = expr;
 	}
+
 	/**
 	 * @return Returns the onPageBreak.
 	 */
-	public ScriptExpression getOnPageBreak( )
+	public Expression getOnPageBreak( )
 	{
 		return onPageBreak;
 	}
+
 	/**
-	 * @param onRender The onRender to set.
+	 * @param onRender
+	 *            The onRender to set.
 	 */
-	public void setOnRender( ScriptExpression expr )
+	public void setOnRender( Expression expr )
 	{
 		onRender = expr;
 	}
+
 	/**
 	 * @return Returns the visibility.
 	 */
@@ -282,14 +296,16 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	{
 		return visibility;
 	}
+
 	/**
-	 * @param visibility The visibility to set.
+	 * @param visibility
+	 *            The visibility to set.
 	 */
 	public void setVisibility( VisibilityDesign visibility )
 	{
 		this.visibility = visibility;
 	}
-	
+
 	/**
 	 * @return Returns the action.
 	 */
@@ -307,37 +323,36 @@ abstract public class ReportItemDesign extends StyledElementDesign
 		this.action = action;
 	}
 
-	public void setExecutionState(Object state)
+	public void setExecutionState( Object state )
 	{
 		executionState = state;
 	}
-	
-	public Object getExecutionState()
+
+	public Object getExecutionState( )
 	{
 		return executionState;
 	}
-	
 
 	public void setUseCachedResult( boolean useCachedResult )
 	{
 		this.useCachedResult = useCachedResult;
 	}
-	
+
 	public boolean useCachedResult( )
 	{
 		return useCachedResult;
 	}
 
-	public void setExpressionStyle( int propertyIndex, Expression<String> value )
+	public void setExpressionStyle( int propertyIndex, Expression value )
 	{
 		if ( expressionStyles == null )
 		{
-			expressionStyles = new HashMap<Integer, Expression<String>>( );
+			expressionStyles = new HashMap<Integer, Expression>( );
 		}
 		expressionStyles.put( propertyIndex, value );
 	}
 
-	public Map<Integer, Expression<String>> getExpressionStyles( )
+	public Map<Integer, Expression> getExpressionStyles( )
 	{
 		return expressionStyles;
 	}

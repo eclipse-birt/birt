@@ -174,6 +174,10 @@ public interface IOConstants
 	static final short FIELD_REPORT_VARIABLE = 245;
 	static final short FIELD_ON_PAGE_START = 246;
 	static final short FIELD_ON_PAGE_END = 247;
+
+	//added from V7
+	static final short FIELD_REPORT_VERSION = 248;
+	static final short FIELD_TEXT_HAS_EXPRESSION = 249;
 	
 	static final long ENGINE_IR_VERSION_0 = 0L;
 	// Version 1: remove write isBookmark of ActionDesign.
@@ -184,12 +188,23 @@ public interface IOConstants
 	static final long ENGINE_IR_VERSION_3 = 3L;
 	// Version 4: change the way of writing and reading the style.
 	static final long ENGINE_IR_VERSION_4 = 4L;
-	// Version 5: support attribute as expression/constant.
+	/**
+	 * Version 5: support attribute as expression/constant.
+	 * 
+	 * @deprecated since 2.5.0 It is a internal version, won't supported
+	 */
 	static final long ENGINE_IR_VERSION_5 = 5L;
 	/**
 	 * version 6: support page variable/onPageStart/onPageEnd in the report and
-	 * master page
+	 * master page.
+	 * 
+	 * @deprecated since 2.5.0 It is a internal version, won't supported
 	 */
 	static final long ENGINE_IR_VERSION_6 = 6L;
-	static final long ENGINE_IR_VERSION_CURRENT = ENGINE_IR_VERSION_6;
+
+	/**
+	 * version 7: support script expression. 
+	 */
+	static final long ENGINE_IR_VERSION_7 = 7L;
+	static final long ENGINE_IR_VERSION_CURRENT = ENGINE_IR_VERSION_7;
 }

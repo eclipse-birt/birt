@@ -48,9 +48,4 @@ public abstract class ReportElementTestCase extends TestCase
 		assertEquals( element.getName( ), "name" );
 		assertEquals(element.getJavaClass(), "javaClass");
 	}
-
-	protected <T> Expression<T> newConstant(T value)
-	{
-		return Expression.newConstant( value );
-	}
 }

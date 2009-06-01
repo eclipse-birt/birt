@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,38 +19,38 @@ package org.eclipse.birt.report.engine.ir;
  */
 public class ColumnDesign extends StyledElementDesign
 {
+
 	/**
 	 * width of this column
 	 */
-	protected Expression<DimensionType> width;
+	protected DimensionType width;
 
 	/**
 	 * suppressDuplicate
 	 */
 	protected boolean suppressDuplicate = false;
-	
+
 	/**
 	 * Visibility property.
 	 */
 	protected VisibilityDesign visibility;
-	
+
 	/**
 	 * If the is any data item in the detail cell of this column.
 	 */
 	protected boolean hasDataItemsInDetail = false;
-	
+
 	/**
 	 * If this column is a column header.
 	 */
-	protected Expression<Boolean> isColumnHeader = Expression
-			.newConstant( false );;
+	protected boolean isColumnHeader;
 
 	/*
 	 * Set the column header state.
-	 * @param isColumnHeader
-	 *            this column is a column header or not.
+	 * 
+	 * @param isColumnHeader this column is a column header or not.
 	 */
-	public void setColumnHeaderState( Expression<Boolean> isColumnHeader )
+	public void setColumnHeaderState( boolean isColumnHeader )
 	{
 		this.isColumnHeader = isColumnHeader;
 	}
@@ -58,7 +58,7 @@ public class ColumnDesign extends StyledElementDesign
 	/*
 	 * Return this column is a column header or not.
 	 */
-	public Expression<Boolean> isColumnHeader( )
+	public boolean isColumnHeader( )
 	{
 		return isColumnHeader;
 	}
@@ -66,7 +66,7 @@ public class ColumnDesign extends StyledElementDesign
 	/**
 	 * @return Returns the width.
 	 */
-	public Expression<DimensionType> getWidth( )
+	public DimensionType getWidth( )
 	{
 		return width;
 	}
@@ -75,11 +75,11 @@ public class ColumnDesign extends StyledElementDesign
 	 * @param width
 	 *            The width to set.
 	 */
-	public void setWidth( Expression<DimensionType> width )
+	public void setWidth( DimensionType width )
 	{
 		this.width = width;
 	}
-	
+
 	/**
 	 * @param suppress
 	 *            The suppressDuplicate to set.
@@ -88,15 +88,15 @@ public class ColumnDesign extends StyledElementDesign
 	{
 		suppressDuplicate = suppress;
 	}
-	
+
 	/**
 	 * @return Returns the suppressDuplicate.
 	 */
-	public boolean getSuppressDuplicate()
+	public boolean getSuppressDuplicate( )
 	{
 		return suppressDuplicate;
 	}
-	
+
 	/**
 	 * @return Returns the visibility.
 	 */
@@ -104,15 +104,16 @@ public class ColumnDesign extends StyledElementDesign
 	{
 		return visibility;
 	}
+
 	/**
-	 * @param visibility The visibility to set.
+	 * @param visibility
+	 *            The visibility to set.
 	 */
 	public void setVisibility( VisibilityDesign visibility )
 	{
 		this.visibility = visibility;
 	}
 
-	
 	/**
 	 * @return the hasDataItemsInDetail
 	 */
@@ -122,7 +123,8 @@ public class ColumnDesign extends StyledElementDesign
 	}
 
 	/**
-	 * @param hasDataItemsInDetail the hasDataItemsInDetail to set
+	 * @param hasDataItemsInDetail
+	 *            the hasDataItemsInDetail to set
 	 */
 	public void setHasDataItemsInDetail( boolean hasDataItemsInDetail )
 	{

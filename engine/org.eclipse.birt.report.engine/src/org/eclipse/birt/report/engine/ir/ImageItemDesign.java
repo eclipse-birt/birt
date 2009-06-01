@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import org.eclipse.birt.report.model.api.ImageHandle;
 
 /**
  * Image Item definition.
@@ -46,37 +45,37 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * image uri, used if source type URI
 	 */
-	protected Expression<String> imageUri;
+	protected Expression imageUri;
 	/**
 	 * image name, used if source type NAME
 	 */
-	protected String imageName;
+	protected Expression imageName;
 	/**
 	 * image expression, used if source type EXPR
 	 */
-	protected String imageExpression;
+	protected Expression imageExpression;
 	/**
 	 * image type, used if source type EXPR.
 	 */
-	protected String imageFormat;
+	protected Expression imageFormat;
 
 	/**
 	 * Text associated with this image, used for default locale.
 	 */
-	protected Expression<String> altText;
+	protected String altText;
 	/**
 	 * Text Resource Key used for altText localization.
 	 */
-	protected Expression<String> altTextKey;
+	protected String altTextKey;
 	
 	/**
 	 * help text
 	 */
-	protected Expression<String> helpText;
+	protected String helpText;
 	/**
 	 * help text resource key
 	 */
-	protected Expression<String> helpTextKey;
+	protected String helpTextKey;
 	
 	protected boolean fitToContainer;
 
@@ -108,7 +107,7 @@ public class ImageItemDesign extends ReportItemDesign
 	 * @param imageType
 	 *            the image type.
 	 */
-	public void setImageExpression( String imageExpr, String imageType )
+	public void setImageExpression( Expression imageExpr, Expression imageType )
 	{
 		this.imageSource = IMAGE_EXPRESSION;
 		this.imageExpression = imageExpr;
@@ -118,26 +117,32 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the imageExpr.
 	 */
-	public String getImageExpression( )
+	public Expression getImageExpression( )
 	{
-		assert this.imageSource == IMAGE_EXPRESSION;
-		return imageExpression;
+		if ( this.imageSource == IMAGE_EXPRESSION )
+		{
+			return imageExpression;
+		}
+		return null;
 	}
 
 	/**
 	 * @return Returns the imageType.
 	 */
-	public String getImageFormat( )
+	public Expression getImageFormat( )
 	{
-		assert this.imageSource == IMAGE_EXPRESSION;
-		return imageFormat;
+		if ( this.imageSource == IMAGE_EXPRESSION )
+		{
+			return imageFormat;
+		}
+		return null;
 	}
 
 	/**
 	 * @param imageName
 	 *            The imageName to set.
 	 */
-	public void setImageName( String imageName )
+	public void setImageName( Expression imageName )
 	{
 		this.imageSource = IMAGE_NAME;
 		this.imageName = imageName;
@@ -146,16 +151,11 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the imageName.
 	 */
-	public String getImageName( )
+	public Expression getImageName( )
 	{
-		assert imageSource == IMAGE_NAME;
-		if (imageName != null)
+		if ( imageSource == IMAGE_NAME )
 		{
 			return imageName;
-		}
-		if ( handle instanceof ImageHandle )
-		{
-			return ( (ImageHandle) handle ).getImageName( );
 		}
 		return null;
 	}
@@ -164,7 +164,7 @@ public class ImageItemDesign extends ReportItemDesign
 	 * @param imageUri
 	 *            The imageUri to set.
 	 */
-	public void setImageUri( Expression<String> imageUri )
+	public void setImageUri( Expression imageUri )
 	{
 		this.imageSource = IMAGE_URI;
 		this.imageUri = imageUri;
@@ -173,12 +173,16 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the imageUri.
 	 */
-	public Expression<String> getImageUri( )
+	public Expression getImageUri( )
 	{
-		return imageUri;
+		if ( imageSource == IMAGE_URI || imageSource == IMAGE_FILE )
+		{
+			return imageUri;
+		}
+		return null;
 	}
-	
-	public void setImageFile( Expression<String> file )
+
+	public void setImageFile( Expression file )
 	{
 		imageSource = IMAGE_FILE;
 		imageUri = file;
@@ -188,7 +192,7 @@ public class ImageItemDesign extends ReportItemDesign
 	 * @param altText
 	 *            The altText to set.
 	 */
-	public void setAltText( Expression<String> altTextKey, Expression<String> altText )
+	public void setAltText( String altTextKey, String altText )
 	{
 		this.altTextKey = altTextKey;
 		this.altText = altText;
@@ -197,7 +201,7 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the altTextKey.
 	 */
-	public Expression<String> getAltTextKey( )
+	public String getAltTextKey( )
 	{
 		return altTextKey;
 	}
@@ -205,7 +209,7 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the altText.
 	 */
-	public Expression<String> getAltText( )
+	public String getAltText( )
 	{
 		return altText;
 	}
@@ -217,7 +221,7 @@ public class ImageItemDesign extends ReportItemDesign
 	 * @param text
 	 *            text content
 	 */
-	public void setHelpText( Expression<String> key, Expression<String> text )
+	public void setHelpText( String key, String text )
 	{
 		this.helpTextKey = key;
 		this.helpText = text;
@@ -227,7 +231,7 @@ public class ImageItemDesign extends ReportItemDesign
 	 * get the help text property.
 	 * @return help text
 	 */
-	public Expression<String> getHelpText()
+	public String getHelpText()
 	{
 		return this.helpText;
 	}
@@ -236,7 +240,7 @@ public class ImageItemDesign extends ReportItemDesign
 	 * get the help text resource key property.
 	 * @return resource key of the help text
 	 */
-	public Expression<String> getHelpTextKey()
+	public String getHelpTextKey()
 	{
 		return this.helpTextKey;
 	}

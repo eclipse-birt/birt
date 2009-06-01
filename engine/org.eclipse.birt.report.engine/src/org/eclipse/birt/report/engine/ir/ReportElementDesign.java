@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -54,16 +54,16 @@ public abstract class ReportElementDesign
 	/**
 	 * map a prepared expression to a name
 	 */
-	protected Map namedExpressions;
+	protected Map<String, Expression> namedExpressions;
 	
 	/**
 	 * return named expression map
 	 * @return
 	 */
-	public Map getNamedExpressions ( )
+	public Map<String, Expression> getNamedExpressions ( )
 	{
 		if( namedExpressions == null )
-			namedExpressions = new HashMap( );
+			namedExpressions = new HashMap<String, Expression>( );
 		
 		return namedExpressions;
 	}

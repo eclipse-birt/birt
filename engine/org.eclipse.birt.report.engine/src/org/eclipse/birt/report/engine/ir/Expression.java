@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,169 +11,199 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.executor.ExecutionContext;
-import org.eclipse.birt.report.engine.util.DataUtil;
+import org.eclipse.birt.core.script.ScriptExpression;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 
-public class Expression<T>
+public abstract class Expression
 {
-	protected T value;
-	protected Class<T> type;
-	private static Logger logger = Logger
-			.getLogger( Expression.class.getName( ) );
 
-	public static <Type> Expression<Type> newConstant( Type value )
+	public static final int CONSTANT = 0;
+	public static final int SCRIPT = 1;
+	public static final int CONDITIONAL = 2;
+
+	public static final String SCRIPT_JAVASCRIPT = "javascript";
+
+	protected String scriptText;
+
+	public abstract int getType( );
+
+	public String getScriptText( )
 	{
-		if ( value == null )
-		{
-			return null;
-		}
-		return new Expression<Type>( value, (Class<Type>)value.getClass( ) );
-	}
-	
-	public static <Type> Expression<Type> newConstant( String value,
-			Class<Type> type )
-	{
-		if ( value == null )
-		{
-			return null;
-		}
-		try
-		{
-			return new Expression<Type>( DataUtil.convertType( value, type ), type );
-		}
-		catch ( BirtException e )
-		{
-			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
-			return null;
-		}
+		return this.scriptText;
 	}
 
-	public static <Type> JSExpression<Type> newExpression( String expression, Class<Type> type )
-	{
-		return new JSExpression<Type>( expression, type );
-	}
-
-	public static JSExpression<String> newExpression( String expression )
-	{
-		return new JSExpression<String>( expression, String.class );
-	}
-
-	public static JSExpression<DimensionType> newDimensionExpression( String expression )
-	{
-		return new JSExpression<DimensionType>( expression, DimensionType.class );
-	}
-
-	public Expression( T value, Class<T> type )
-	{
-		this.value = value;
-		this.type = type;
-	}
-
-	public boolean isExpression( )
-	{
-		return false;
-	}
-
-	public T evaluate( ExecutionContext context ) throws BirtException
-	{
-		return value;
-	}
-
-	public T getValue( )
-	{
-		return value;
-	}
-
-	public Object getDesignValue( )
-	{
-		return value;
-	}
-	
-	public Class<T> getType( )
-	{
-		return type;
-	}
-	
-	public boolean equals( Object obj )
-	{
-		if ( obj == this )
-			return true;
-		if ( !( obj instanceof Expression<?> ) )
-			return false;
-		Expression<?> value = (Expression<?>)obj;
-		return equals( value.isExpression( ), isExpression( ) )
-				&& isSameType( value.getType( ), getType( ) )
-				&& equals( value.getDesignValue( ), getDesignValue( ) );
-	}
-	
 	public String toString( )
 	{
-		Object value = getDesignValue( );
-		return value == null ? null : value.toString( );
+		return scriptText;
 	}
 
-	private boolean equals( Object obj1, Object obj2 )
+	public void setScriptText( String scriptText )
 	{
-		return obj1 == null ? obj2 == null : obj1.equals( obj2 );
+		this.scriptText = scriptText;
 	}
-	
-	private boolean isSameType(Class<?> class1, Class<?> clazz2 )
+
+	static public Expression newConstant( int valueType, String expression )
 	{
-		if ( class1 == clazz2 )
+		return new Constant( valueType, expression );
+	}
+
+	static public Expression.Constant newConstant( String expression )
+	{
+		return new Constant( expression );
+	}
+
+	static public Expression.Script newScript( String expression )
+	{
+		return new Script( SCRIPT_JAVASCRIPT, "<inline>", 1, expression );
+	}
+
+	static public Expression.Script newScript( String language,
+			String expression )
+	{
+		return new Script( language, "<inline>", 1, expression );
+	}
+
+	static public Expression.Conditional newConditional(
+			IConditionalExpression condExpr )
+	{
+		return new Conditional( condExpr );
+	}
+
+	static public Expression.Script newScript( String language,
+			String fileName, int lineNumber, String expression )
+	{
+		return new Script( language, fileName, lineNumber, expression );
+	}
+
+	static public class Conditional extends Expression
+	{
+
+		IConditionalExpression expr;
+
+		public Conditional( IConditionalExpression expr )
 		{
-			return true;
+			this.expr = expr;
 		}
-		return isAssignableTo( class1, clazz2, Map.class ) || isAssignableTo( class1, clazz2, List.class);
-	}
 
-	private boolean isAssignableTo( Class<?> clazz1, Class<?> clazz2,
-			Class<?> testClass )
-	{
-		return testClass.isAssignableFrom( clazz1 ) && testClass.isAssignableFrom( clazz2 );
-	}
-	
-	public static class JSExpression<T> extends Expression<T>
-	{
-
-		private static final long serialVersionUID = -7309705570432813674L;
-		private String expression;
-
-		public JSExpression( String expression, Class<T> type )
+		public int getType( )
 		{
-			super( null, type );
-			this.expression = expression;
+			return CONDITIONAL;
 		}
 
-		public boolean isExpression( )
+		public IConditionalExpression getConditionalExpression( )
 		{
-			return true;
+			return expr;
 		}
 
-		@SuppressWarnings("unchecked")
-		public T evaluate( ExecutionContext context ) throws BirtException
+		public String toString( )
 		{
-			if ( expression != null )
+			if ( expr != null )
 			{
-				Object tempValue = context.evaluate( expression );
-				return DataUtil.convertType( tempValue, type );
+				return expr.toString( );
 			}
-			return null;
+			return "";
+		}
+	}
+
+	static public class Constant extends Expression
+	{
+
+		static final Object NOT_EVALUATED = "not evaluated";
+		Object value;
+		int valueType;
+
+		public Constant( int valueType, String expression )
+		{
+			this.valueType = valueType;
+			this.scriptText = expression;
+			this.value = NOT_EVALUATED;
 		}
 
-		public String getDesignValue( )
+		public Constant( String expression )
 		{
-			return expression;
+			this( -1, expression );
 		}
 
-		public void setExpression( String expression )
+		public int getType( )
 		{
-			this.expression = expression;
+			return CONSTANT;
+		}
+
+		public int getValueType( )
+		{
+			return valueType;
+		}
+
+		public Object getValue( )
+		{
+			if ( value != NOT_EVALUATED )
+			{
+				try
+				{
+					value = DataTypeUtil.convert( scriptText, valueType );
+				}
+				catch ( BirtException ex )
+				{
+					value = null;
+				}
+			}
+			return value;
+		}
+	}
+
+	static public class Script extends Expression
+	{
+
+		transient ScriptExpression scriptExpression;
+
+		String language;
+		String fileName;
+		int lineNumber;
+
+		public Script( String language, String fileName, int lineNumber,
+				String scriptText )
+		{
+			this.language = language;
+			this.fileName = fileName;
+			this.lineNumber = lineNumber;
+			this.scriptText = scriptText;
+		}
+
+		public int getType( )
+		{
+			return SCRIPT;
+		}
+
+		public ScriptExpression getScriptExpression( )
+		{
+			if ( scriptExpression == null )
+			{
+				scriptExpression = new ScriptExpression( scriptText, fileName,
+						lineNumber );
+			}
+			return scriptExpression;
+		}
+
+		public String getLanguage( )
+		{
+			return language;
+		}
+
+		public String getFileName( )
+		{
+			return fileName;
+		}
+
+		public int getLineNumber( )
+		{
+			return lineNumber;
+		}
+
+		public void setFileName( String fileName )
+		{
+			this.fileName = fileName;
 		}
 	}
 }

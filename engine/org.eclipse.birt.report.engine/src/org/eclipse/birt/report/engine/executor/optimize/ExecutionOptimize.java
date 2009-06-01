@@ -22,7 +22,6 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
@@ -417,9 +416,8 @@ public class ExecutionOptimize
 				PolicyNode parent = parentNode;
 				visitReportItem( detail, true );
 				parentNode = currentNode;
-				Expression<Integer> pageBreakInterval = listing.getPageBreakInterval( );
-				if ( !pageBreakInterval.isExpression( )
-						&& pageBreakInterval.getValue( ) > 0 )
+				int pageBreakInterval = listing.getPageBreakInterval( );
+				if ( pageBreakInterval > 0 )
 				{
 					currentNode.breakAfter = true;
 				}

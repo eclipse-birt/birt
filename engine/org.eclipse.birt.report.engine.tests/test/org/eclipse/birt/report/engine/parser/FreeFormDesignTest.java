@@ -31,16 +31,12 @@ public class FreeFormDesignTest extends AbstractDesignTestCase
 
 	public void testFreeForm( )
 	{
-		assertEquals( 3, freeItem.getHeight( ).getValue( ).getMeasure( ),
-				Double.MIN_VALUE );
-		assertEquals( 3, freeItem.getWidth( ).getValue( ).getMeasure( ),
-				Double.MIN_VALUE );
-		assertEquals( 2, freeItem.getX( ).getValue( ).getMeasure( ),
-				Double.MIN_VALUE );
-		assertEquals( 3, freeItem.getY( ).getValue( ).getMeasure( ),
-				Double.MIN_VALUE );
+		assertEquals( 3, freeItem.getHeight( ).getMeasure( ), Double.MIN_VALUE );
+		assertEquals( 3, freeItem.getWidth( ).getMeasure( ), Double.MIN_VALUE );
+		assertEquals( 2, freeItem.getX( ).getMeasure( ), Double.MIN_VALUE );
+		assertEquals( 3, freeItem.getY( ).getMeasure( ), Double.MIN_VALUE );
 		assertEquals( "myFreeForm", freeItem.getName( ) );
-		assertEquals(1, freeItem.getItemCount());
+		assertEquals( 1, freeItem.getItemCount( ) );
 	}
 
 }

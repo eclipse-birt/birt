@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,20 +19,20 @@ package org.eclipse.birt.report.engine.ir;
 public class VisibilityRuleDesign
 {
 	/** expression */
-	protected Expression<Boolean> expression;
+	protected Expression expression;
 	/** format */
 	protected String format;
 	/**
 	 * @return Returns the expression.
 	 */
-	public Expression<Boolean> getExpression( )
+	public Expression getExpression( )
 	{
 		return expression;
 	}
 	/**
 	 * @param expression The expression to set.
 	 */
-	public void setExpression( Expression<Boolean> expression )
+	public void setExpression( Expression expression )
 	{
 		this.expression = expression;
 	}

@@ -226,19 +226,18 @@ public class DocumentIRTransferTest extends EngineCase
 			assertTrue( renderTask.getErrors( ).isEmpty( ) );
 			renderTask.close( );
 			String pageContent = out.toString( "UTF-8" );
-			if ( bookmarks[i].indexOf( "group" ) == -1 )
+			if ( bookmarks[i].equals( "reportlet_table" ) )
 			{
-				// it cotains the table and all three lists
+				// it contains the table and all three groups
 				assertTrue( pageContent.indexOf( "reportlet_table" ) != -1 );
-				int indexOf = pageContent.indexOf( "reportlet_group" );
-				int lastIndexOf = pageContent.lastIndexOf( "reportlet_group" );
-				assertTrue( indexOf != -1 && lastIndexOf != -1
-						&& indexOf != lastIndexOf );
+				assertTrue( pageContent.indexOf( "reportlet_group_0" ) != -1 );
+				assertTrue( pageContent.indexOf( "reportlet_group_1" ) != -1 );
+				assertTrue( pageContent.indexOf( "reportlet_group_2" ) != -1 );
 			}
 			else
 			{
-				// it contains the table and the single list
-				assertTrue( pageContent.indexOf( "reportlet_table" ) != -1 );
+				// it contains the the groups only
+				assertTrue( pageContent.indexOf( "reportlet_table" ) == -1 );
 				int indexOf = pageContent.indexOf( "reportlet_group" );
 				int lastIndexOf = pageContent.lastIndexOf( "reportlet_group" );
 				assertTrue( indexOf != -1 && lastIndexOf != -1

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.adapter;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.report.engine.ir.Expression;
 
 /**
  * The instance of this class define a data structure used by engine. 
@@ -26,7 +27,7 @@ public interface ITotalExprBindings
 	 * 
 	 * @return
 	 */
-	public List getNewExpression( );
+	public List<Expression> getNewExpression( );
 	
 	/**
 	 * This method returns an array of IColumnBinding instance, the column names of which

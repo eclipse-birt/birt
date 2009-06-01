@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004,2009 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.executor;
 
@@ -144,7 +154,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			// 1 --> first group (0)
 			int groupLevel = groupDesign.getGroupLevel( ) + 1;
 			int startGroup = rset.getStartingGroupLevel( );
-			hiddenDetail = evaluate( groupDesign.getHideDetail( ) );
+			hiddenDetail = groupDesign.getHideDetail( );
 			if ( startGroup <= groupLevel )
 			{
 				// this is the first record
@@ -210,7 +220,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			GroupDesign groupDesign = (GroupDesign) design;
 			if ( groupDesign != null )
 			{
-				String pageBreakBefore = evaluate( groupDesign.getPageBreakBefore( ) );
+				String pageBreakBefore = groupDesign.getPageBreakBefore( );
 				int groupLevel = groupDesign.getGroupLevel( );
 				if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS
 						.equals( pageBreakBefore ) )
@@ -244,7 +254,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		GroupDesign groupDesign = (GroupDesign) design;
 		if ( groupDesign != null )
 		{
-			String pageBreakInside = evaluate( groupDesign.getPageBreakInside( ) );
+			String pageBreakInside = groupDesign.getPageBreakInside( );
 			if ( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID
 					.equals( pageBreakInside ) )
 			{
@@ -260,7 +270,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		GroupDesign groupDesign = (GroupDesign) design;
 		if ( groupDesign != null )
 		{
-			String pageBreakAfter = evaluate( groupDesign.getPageBreakAfter( ) );
+			String pageBreakAfter = groupDesign.getPageBreakAfter( );
 			if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS
 					.equals( pageBreakAfter ) )
 			{
@@ -299,7 +309,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			GroupDesign groupDesign = (GroupDesign) design;
 			if ( groupDesign != null )
 			{
-				String pageBreakAfter = evaluate( groupDesign.getPageBreakAfter( ) );
+				String pageBreakAfter = groupDesign.getPageBreakAfter( );
 				int groupLevel = groupDesign.getGroupLevel( );
 				if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST
 						.equals( pageBreakAfter ) )

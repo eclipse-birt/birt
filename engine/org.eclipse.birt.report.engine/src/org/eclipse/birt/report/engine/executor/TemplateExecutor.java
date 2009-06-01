@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -67,16 +67,16 @@ public class TemplateExecutor extends StyledItemExecutor
 		style.setProperty( IStyle.STYLE_VERTICAL_ALIGN, IStyle.MIDDLE_VALUE );
 
 		initializeContent( templateDesign, textContent );
-		String promptText = evaluate( templateDesign.getPromptText( ) );
+		String promptText = templateDesign.getPromptText( );
 		if ( promptText == null || promptText.trim( ).length( ) == 0 )
 		{
 			promptText = "<br/>";
 		}
 		textContent.setRawValue( promptText );
-		textContent.setRawKey( evaluate( templateDesign.getPromptTextKey( ) ) );
+		textContent.setRawKey( templateDesign.getPromptTextKey( ) );
 
 		processVisibility( templateDesign, textContent );
-		
+
 		return textContent;
 	}
 }

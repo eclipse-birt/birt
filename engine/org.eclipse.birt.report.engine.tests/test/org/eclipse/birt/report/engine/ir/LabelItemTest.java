@@ -38,8 +38,8 @@ public class LabelItemTest extends ReportItemTestCase
 
 		//Set
 		label.setAction( action );
-		Expression<String> key = newConstant( "TestKey" );
-		Expression<String> text = newConstant( "TestText" );
+		String key = "TestKey";
+		String text = "TestText";
 		label.setText( key, text );
 
 		//Get

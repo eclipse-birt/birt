@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -65,8 +65,7 @@ public class LabelContent extends TextContent implements ILabelContent
 		{
 			if ( generateBy instanceof LabelItemDesign )
 			{
-				return getConstantValue( ( (LabelItemDesign) generateBy )
-						.getHelpText( ) );
+				return ( (LabelItemDesign) generateBy ).getHelpText( );
 			}
 		}
 		return helpText;
@@ -83,8 +82,7 @@ public class LabelContent extends TextContent implements ILabelContent
 		{
 			if ( generateBy instanceof LabelItemDesign )
 			{
-				return getConstantValue( ( (LabelItemDesign) generateBy )
-						.getHelpTextKey( ) );
+				return ( (LabelItemDesign) generateBy ).getHelpTextKey( );
 			}
 		}
 		return helpTextKey;
@@ -101,8 +99,7 @@ public class LabelContent extends TextContent implements ILabelContent
 		{
 			if ( generateBy instanceof LabelItemDesign )
 			{
-				return getConstantValue( ( (LabelItemDesign) generateBy )
-						.getText( ) );
+				return ( (LabelItemDesign) generateBy ).getText( );
 			}
 		}
 		return labelText;
@@ -119,8 +116,7 @@ public class LabelContent extends TextContent implements ILabelContent
 		{
 			if ( generateBy instanceof LabelItemDesign )
 			{
-				return getConstantValue( ( (LabelItemDesign) generateBy )
-						.getTextKey( ) );
+				return ( (LabelItemDesign) generateBy ).getTextKey( );
 			}
 		}
 		return labelTextKey;

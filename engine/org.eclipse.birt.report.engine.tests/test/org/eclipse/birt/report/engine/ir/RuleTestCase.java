@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.ir;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.birt.report.engine.EngineCase;
 
@@ -54,8 +53,8 @@ abstract public class RuleTestCase extends EngineCase
 				EngineIRConstants.MAP_OPERATOR_NULL,
 				EngineIRConstants.MAP_OPERATOR_TRUE};
 
-		Expression<String> exp1 = newConstant( "exp1" );
-		Expression<String> exp2 = newConstant( "exp2" );
+		Expression exp1 = Expression.newConstant( "exp1" );
+		Expression exp2 = Expression.newConstant( "exp2" );
 		for ( int i = 0; i < operator.length; i++ )
 		{
 			//Set
@@ -63,6 +62,7 @@ abstract public class RuleTestCase extends EngineCase
 					exp2 );
 
 			//Get
+			assertFalse( rule.ifValueIsList( ) );
 			assertEquals( rule.getOperator( ), operator[i] );
 			assertEquals( rule.getValue1( ), exp1 );
 			assertEquals( rule.getValue2( ), exp2 );
@@ -71,17 +71,16 @@ abstract public class RuleTestCase extends EngineCase
 		// special operators
 		// IN
 		String operator1 = EngineIRConstants.MAP_OPERATOR_IN;
-		ArrayList values = new ArrayList();
-		values.add("exp1");
-		values.add("exp2");
-		values.add("exp3");
-		values.add("exp4");
-		
-		rule.setExpression( operator1, newConstant( values ) );
-		Expression<? extends List> vs = rule.getValue1List();
-		
-		assertEquals(rule.getOperator(), operator1);
-		assertFalse( vs.isExpression( ) );
-		assertEquals(values, vs.getValue( ));
+		ArrayList<Expression> values = new ArrayList<Expression>( );
+		values.add( Expression.newScript( "exp1" ) );
+		values.add( Expression.newScript( "exp2" ) );
+		values.add( Expression.newScript( "exp3" ) );
+		values.add( Expression.newScript( "exp4" ) );
+
+		rule.setExpression( operator1, values );
+
+		assertTrue( rule.ifValueIsList( ) );
+		assertEquals( rule.getOperator( ), operator1 );
+		assertEquals( values, rule.getValue1List( ) );
 	}
 }

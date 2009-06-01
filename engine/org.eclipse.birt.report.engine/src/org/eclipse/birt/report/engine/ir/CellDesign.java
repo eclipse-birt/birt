@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.ir;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Cell type
@@ -42,7 +43,7 @@ public class CellDesign extends ReportItemDesign
 	/**
 	 * content in this cell
 	 */
-	protected ArrayList contents = new ArrayList( );
+	protected ArrayList<ReportItemDesign> contents = new ArrayList<ReportItemDesign>( );
 	/**
 	 * If group icon should be displayed in this cell.
 	 */
@@ -84,7 +85,7 @@ public class CellDesign extends ReportItemDesign
 	 */
 	private String antidiagonalColor = null;
 	
-	private Expression<String> headers;
+	private Expression headers;
 
 	private String scope;
 
@@ -120,6 +121,11 @@ public class CellDesign extends ReportItemDesign
 	public void setColumn( int column )
 	{
 		this.column = column;
+	}
+
+	public Collection<ReportItemDesign> getContents( )
+	{
+		return contents;
 	}
 
 	/**
@@ -307,12 +313,12 @@ public class CellDesign extends ReportItemDesign
 		return antidiagonalColor;
 	}
 
-	public void setHeaders( Expression<String> headers )
+	public void setHeaders( Expression headers )
 	{
 		this.headers = headers;
 	}
 
-	public Expression<String> getHeaders( )
+	public Expression getHeaders( )
 	{
 		return this.headers;
 	}

@@ -33,30 +33,30 @@ abstract public class ReportItemTestCase extends StyledElementTestCase
 	public void testBaseItem( )
 	{
 		ReportItemDesign e = (ReportItemDesign) element;
-		Expression<DimensionType> h = createDimension( );
-		Expression<DimensionType> w = createDimension( );
-		Expression<DimensionType> x = createDimension( );
-		Expression<DimensionType> y = createDimension( );
-		Expression<String> bookmark = newConstant( "" );
+		DimensionType h = createDimension( );
+		DimensionType w = createDimension( );
+		DimensionType x = createDimension( );
+		DimensionType y = createDimension( );
+		Expression bookmark = Expression.newConstant( "" );
 
-		//Set
+		// Set
 		e.setHeight( h );
 		e.setWidth( w );
 		e.setX( x );
 		e.setY( y );
-		e.setBookmark(bookmark);
+		e.setBookmark( bookmark );
 
-		//Get
+		// Get
 		assertEquals( e.getHeight( ), h );
 		assertEquals( e.getWidth( ), w );
 		assertEquals( e.getX( ), x );
 		assertEquals( e.getY( ), y );
-		assertEquals( e.getBookmark(), bookmark);
+		assertEquals( e.getBookmark( ), bookmark );
 	}
 
-	private Expression<DimensionType> createDimension( )
+	private DimensionType createDimension( )
 	{
-		return newConstant( new DimensionType( 1, DimensionType.UNITS_CM ) );
+		return new DimensionType( 1, DimensionType.UNITS_CM );
 	}
 
 }

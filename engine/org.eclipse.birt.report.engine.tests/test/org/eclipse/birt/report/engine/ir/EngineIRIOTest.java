@@ -14,14 +14,35 @@ public class EngineIRIOTest extends EngineCase
 
 	// static final String DESIGN_STREAM =
 	// "org/eclipse/birt/report/engine/ir/ir_io_test.rptdesign";
-	static final String DESIGN_STREAM = "ir_io_test.rptdesign";
 
-	public void testIO( ) throws Exception
+	
+	public void testIO() throws Exception
+	{
+		String[] designStreams = new String[] {
+/*				"ir_io_test.rptdesign",
+				"../parser/action_test.rptdesign",
+				 "../parser/bookmark_test.rptdesign",
+				 "../parser/cell_test.rptdesign",
+				 "../parser/highlight_test.rptdesign",
+				 "../parser/image_test.rptdesign",
+				 "../parser/map_test.rptdesign", */
+				 "../parser/report_item_test.rptdesign",
+				 "../parser/text_test.rptdesign",
+				 "../parser/toc_test.rptdesign",
+				 "../parser/user_property_test.rptdesign",
+				 "../parser/visibility_test.rptdesign"		};
+		
+		for (int i = 0; i < designStreams.length; i++)
+		{
+			doTestIO(designStreams[i]);
+		}
+	}
+
+	public void doTestIO( String designName ) throws Exception
 	{
 		// load the report design
-		ReportParser parser = new ReportParser( );
-		Report report = parser.parse( ".", this.getClass( )
-				.getResourceAsStream( DESIGN_STREAM ) );
+		Report report = new ReportParser( ).parse( ".", this.getClass( )
+				.getResourceAsStream( designName ) );
 		assertTrue( report != null );
 
 		// write it into the stream
@@ -47,8 +68,6 @@ public class EngineIRIOTest extends EngineCase
 		String value = new String( out2.toByteArray( ) );
 
 		assertEquals( golden, value );
-
-		System.out.print( golden );
 	}
 
 }

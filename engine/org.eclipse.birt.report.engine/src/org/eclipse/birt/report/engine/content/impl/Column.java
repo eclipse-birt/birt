@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,8 +25,6 @@ import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.Expression;
-import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 
 /**
  * 
@@ -95,12 +93,13 @@ public class Column implements IColumn
 	public boolean isColumnHeader( )
 	{
 		if( null != isColumnHeader )
+		{
 			return isColumnHeader.booleanValue( );
-			
+		}
+
 		if ( generateBy instanceof ColumnDesign )
 		{
-			return getConstantValue( ( (ColumnDesign) generateBy )
-					.isColumnHeader( ) );
+			return ( (ColumnDesign) generateBy ).isColumnHeader( );
 		}
 		return false;
 	}
@@ -123,7 +122,7 @@ public class Column implements IColumn
 		}
 		if ( generateBy instanceof ColumnDesign )
 		{
-			return getConstantValue( ( (ColumnDesign) generateBy ).getWidth( ) );
+			return ( (ColumnDesign) generateBy ).getWidth( );
 		}
 		return null;
 	}
@@ -357,19 +356,5 @@ public class Column implements IColumn
 	public IStyle getComputedStyle( )
 	{
 		return getStyle( );
-	}
-
-	protected <T> T getConstantValue( Expression<T> value )
-	{
-		if ( value == null )
-		{
-			return null;
-		}
-		if ( value.isExpression( ) )
-		{
-			throw new IllegalStateException(
-					"Should not get value from expression." );
-		}
-		return (T) value.getDesignValue( );
 	}
 }

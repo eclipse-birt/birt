@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -95,8 +95,7 @@ public class DataContent extends TextContent implements IDataContent
 		{
 			if ( generateBy instanceof DataItemDesign )
 			{
-				return getConstantValue( ( (DataItemDesign) generateBy )
-						.getHelpText( ) );
+				return ( (DataItemDesign) generateBy ).getHelpText( );
 			}
 		}
 		return helpText;
@@ -108,8 +107,7 @@ public class DataContent extends TextContent implements IDataContent
 		{
 			if ( generateBy instanceof DataItemDesign )
 			{
-				return getConstantValue( ( (DataItemDesign) generateBy )
-						.getHelpTextKey( ) );
+				return ( (DataItemDesign) generateBy ).getHelpTextKey( );
 			}
 		}
 		return helpKey;

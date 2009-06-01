@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 , 2008 Actuate Corporation.
+ * Copyright (c) 2004 , 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.ir;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * 
@@ -20,30 +21,32 @@ import java.util.ArrayList;
  */
 public class TableItemDesign extends ListingDesign
 {
+
 	/**
 	 * table caption
 	 */
-	protected Expression<String> captionKey;
+	protected String captionKey;
 	/**
 	 * table caption resource key
 	 */
-	protected Expression<String> caption;
-	
+	protected String caption;
+
 	/**
 	 * table summary
 	 */
-	protected Expression<String> summary;
-	
+	protected String summary;
 
 	/**
 	 * column defined
 	 */
-	protected ArrayList columns = new ArrayList( );
+	protected ArrayList<ColumnDesign> columns = new ArrayList<ColumnDesign>( );
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.ir.ReportItem#accept(org.eclipse.birt.report.engine.ir.ReportItemVisitor)
+	 * @see
+	 * org.eclipse.birt.report.engine.ir.ReportItem#accept(org.eclipse.birt.
+	 * report.engine.ir.ReportItemVisitor)
 	 */
 	public Object accept( IReportItemVisitor visitor, Object value )
 	{
@@ -60,6 +63,11 @@ public class TableItemDesign extends ListingDesign
 	{
 		assert ( column != null );
 		columns.add( column );
+	}
+
+	public Collection<ColumnDesign> getColumns( )
+	{
+		return columns;
 	}
 
 	/**
@@ -102,7 +110,7 @@ public class TableItemDesign extends ListingDesign
 	 * @param caption
 	 *            caption
 	 */
-	public void setCaption( Expression<String> captionKey, Expression<String> caption )
+	public void setCaption( String captionKey, String caption )
 	{
 		this.captionKey = captionKey;
 		this.caption = caption;
@@ -111,7 +119,7 @@ public class TableItemDesign extends ListingDesign
 	/**
 	 * @return Returns the caption.
 	 */
-	public Expression<String> getCaption( )
+	public String getCaption( )
 	{
 		return caption;
 	}
@@ -119,28 +127,28 @@ public class TableItemDesign extends ListingDesign
 	/**
 	 * @return Returns the captionKey.
 	 */
-	public Expression<String> getCaptionKey( )
+	public String getCaptionKey( )
 	{
 		return captionKey;
 	}
-	
+
 	/**
 	 * set table summary
 	 * 
 	 * @param summary
-	 * 	          summary
+	 *            summary
 	 */
-	public void setSummary(Expression<String> summary)
+	public void setSummary( String summary )
 	{
 		this.summary = summary;
 	}
-	
+
 	/**
 	 * get table summary
 	 * 
 	 * @return Return table summary
 	 */
-	public Expression<String> getSummary()
+	public String getSummary( )
 	{
 		return summary;
 	}

@@ -70,7 +70,6 @@ import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.engine.extension.internal.ReportItemPresentationInfo;
 import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -724,12 +723,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 			if ( text == null )
 			{
-				Expression<String> textKeyValue = design.getTextKey( );
-				String textKey = textKeyValue == null ? null : textKeyValue
-						.getValue( );
-				Expression<String> textValue = design.getText( );
-				String textContent = textValue == null ? null : textValue
-						.getValue( );
+				String textKey = design.getTextKey( );
+				String textContent = design.getText( );
 				text = localize( foreignContent, textKey, textContent );
 			}
 			try

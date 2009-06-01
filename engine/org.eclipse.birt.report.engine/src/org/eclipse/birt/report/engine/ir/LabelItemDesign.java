@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,30 +21,29 @@ public class LabelItemDesign extends ReportItemDesign
 	/**
 	 * text content.
 	 */
-	protected Expression<String> text;
+	protected String text;
 
 	/**
 	 * text resource key
 	 */
-	protected Expression<String> textKey;
+	protected String textKey;
 
 	/**
 	 * help text
 	 */
-	protected Expression<String> helpText;
+	protected String helpText;
 	/**
 	 * help text resource key
 	 */
-	protected Expression<String> helpTextKey;
+	protected String helpTextKey;
 
-	
 	public LabelItemDesign( )
 	{
 	}
 
 	public Object accept( IReportItemVisitor visitor, Object value )
 	{
-		return visitor.visitLabelItem( this,value );
+		return visitor.visitLabelItem( this, value );
 	}
 
 	/**
@@ -52,7 +51,7 @@ public class LabelItemDesign extends ReportItemDesign
 	 * 
 	 * @return Returns the text.
 	 */
-	public Expression<String> getText( )
+	public String getText( )
 	{
 		return text;
 	}
@@ -63,7 +62,7 @@ public class LabelItemDesign extends ReportItemDesign
 	 * @param text
 	 *            The text to set.
 	 */
-	public void setText( Expression<String> textKey, Expression<String> text )
+	public void setText( String textKey, String text )
 	{
 		this.textKey = textKey;
 		this.text = text;
@@ -72,7 +71,7 @@ public class LabelItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the id.
 	 */
-	public Expression<String> getTextKey( )
+	public String getTextKey( )
 	{
 		return textKey;
 	}
@@ -85,7 +84,7 @@ public class LabelItemDesign extends ReportItemDesign
 	 * @param text
 	 *            text content
 	 */
-	public void setHelpText( Expression<String> key, Expression<String> text )
+	public void setHelpText( String key, String text )
 	{
 		this.helpTextKey = key;
 		this.helpText = text;
@@ -93,20 +92,22 @@ public class LabelItemDesign extends ReportItemDesign
 
 	/**
 	 * get the help text property.
+	 * 
 	 * @return help text
 	 */
-	public Expression<String> getHelpText()
+	public String getHelpText( )
 	{
 		return this.helpText;
 	}
-	
+
 	/**
 	 * get the help text resource key property.
+	 * 
 	 * @return resource key of the help text
 	 */
-	public Expression<String> getHelpTextKey()
+	public String getHelpTextKey( )
 	{
 		return this.helpTextKey;
 	}
-	
+
 }

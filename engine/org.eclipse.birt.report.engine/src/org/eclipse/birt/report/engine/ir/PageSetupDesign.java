@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.ir;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -24,7 +25,7 @@ public class PageSetupDesign
 	/**
 	 * sequence of master pages
 	 */
-	protected ArrayList masterPages = new ArrayList( );
+	protected ArrayList<MasterPageDesign> masterPages = new ArrayList<MasterPageDesign>( );
 	/**
 	 * maps used to map the page with the name.
 	 */
@@ -33,11 +34,16 @@ public class PageSetupDesign
 	/**
 	 * collection used to store the page sequence.
 	 */
-	protected ArrayList pageSequences = new ArrayList();
+	protected ArrayList<PageSequenceDesign> pageSequences = new ArrayList<PageSequenceDesign>( );
 	/**
 	 * maps used to map the page sequence with the name
 	 */
 	protected HashMap sequenceMaps = new HashMap();
+
+	public Collection<MasterPageDesign> getMasterPages( )
+	{
+		return masterPages;
+	}
 
 	/**
 	 * get total master pages count.
@@ -86,6 +92,12 @@ public class PageSetupDesign
 		assert ( pageName != null );
 		return (MasterPageDesign) this.pageMaps.get(pageName);
 	}
+
+	public Collection<PageSequenceDesign> getPageSequences( )
+	{
+		return pageSequences;
+	}
+
 	/**
 	 * get total pages sequence count.
 	 * 

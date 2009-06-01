@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,7 +18,6 @@ import java.util.Map;
 import org.eclipse.birt.core.template.TemplateParser;
 import org.eclipse.birt.core.template.TextTemplate;
 import org.eclipse.birt.core.template.TextTemplate.ValueNode;
-import org.eclipse.birt.report.model.api.TextItemHandle;
 
 /**
  * Text element captures a long string with internal formatting.
@@ -35,22 +34,28 @@ public class TextItemDesign extends ReportItemDesign
 	/**
 	 * text type, supports "html", "auto", "rtf", and "plain"
 	 */
-	protected Expression<String> textType;
+	protected String textType;
 
 	/**
 	 * the text key
 	 */
-	protected Expression<String> textKey;
+	protected String textKey;
 
 	/**
 	 * text content
 	 */
-	protected Expression<String> text;
+	protected String text;
 
-	protected HashMap<String, String> exprs = null;
+	protected boolean hasExpression;
 
-	public HashMap<String, String> getExpressions( )
+	protected HashMap<String, Expression> exprs = null;
+
+	public HashMap<String, Expression> getExpressions( )
 	{
+		if ( !hasExpression( ) )
+		{
+			return null;
+		}
 		if ( text == null )
 		{
 			return null;
@@ -59,21 +64,14 @@ public class TextItemDesign extends ReportItemDesign
 		{
 			return exprs;
 		}
-		if ( text.isExpression( ) || textType.isExpression( ) )
-		{
-			return null;
-		}
-		if ( !hasExpression( ) )
-		{
-			return null;
-		}
-		exprs = extractExpression( text.getValue( ), textType.getValue( ) );
+		exprs = extractExpression( text, textType );
 		return exprs;
 	}
 
-	public static HashMap<String, String> extractExpression( String textContent, String textType )
+	public static HashMap<String, Expression> extractExpression(
+			String textContent, String textType )
 	{
-		HashMap<String, String> expressions = new HashMap<String, String>( );
+		HashMap<String, Expression> expressions = new HashMap<String, Expression>( );
 		if ( HTML_TEXT.equals( textType )
 				|| ( AUTO_TEXT.equals( textType ) && startsWithIgnoreCase(
 						textContent, "<html>" ) ) )
@@ -89,37 +87,43 @@ public class TextItemDesign extends ReportItemDesign
 				// item is executed, otherwise the exception will be thrown out
 				// and stop the whole task.
 			}
-			if( template != null && template.getNodes() != null )
+			if ( template != null && template.getNodes( ) != null )
 			{
-				Iterator itor = template.getNodes().iterator();
+				Iterator itor = template.getNodes( ).iterator( );
 				Object obj;
-				while( itor.hasNext( ) )
+				while ( itor.hasNext( ) )
 				{
-					obj = itor.next();
+					obj = itor.next( );
 					if ( obj instanceof TextTemplate.ValueNode )
 					{
 						ValueNode valueNode = (TextTemplate.ValueNode) obj;
 						addExpression( expressions, valueNode.getValue( ) );
-						addExpression( expressions, valueNode.getFormatExpression( ) );
+						addExpression( expressions, valueNode
+								.getFormatExpression( ) );
 					}
 					else if ( obj instanceof TextTemplate.ImageNode )
 					{
-						addExpression( expressions, ( (TextTemplate.ImageNode) obj )
-								.getExpr( ) );
+						addExpression( expressions,
+								( (TextTemplate.ImageNode) obj ).getExpr( ) );
 					}
 
-					
 				}
 			}
 		}
 		return expressions;
 	}
 
-	private static void addExpression( Map<String, String> expressions, String expression )
+	private static void addExpression( Map<String, Expression> expressions,
+			String expression )
 	{
-		if ( expression != null && !expression.trim( ).equals( "" ) )
+		if ( expression != null )
 		{
-			expressions.put( expression, expression );
+			expression = expression.trim( );
+			if ( expression.length( ) > 0 )
+			{
+				expressions
+						.put( expression, Expression.newScript( expression ) );
+			}
 		}
 	}
 
@@ -132,14 +136,14 @@ public class TextItemDesign extends ReportItemDesign
 		}
 		return original.substring( 0, length ).equalsIgnoreCase( pattern );
 	}
-	
+
 	/**
 	 * @param textKey
 	 *            the message key for the text
 	 * @param text
 	 *            the actual text
 	 */
-	public void setText( Expression<String> textKey, Expression<String> text )
+	public void setText( String textKey, String text )
 	{
 		this.textKey = textKey;
 		this.text = text;
@@ -148,7 +152,7 @@ public class TextItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the resourceKey.
 	 */
-	public Expression<String> getTextKey( )
+	public String getTextKey( )
 	{
 		return textKey;
 	}
@@ -156,7 +160,7 @@ public class TextItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the content.
 	 */
-	public Expression<String> getText( )
+	public String getText( )
 	{
 		return text;
 	}
@@ -164,7 +168,9 @@ public class TextItemDesign extends ReportItemDesign
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.IReportItemVisitor)
+	 * @see
+	 * org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse
+	 * .birt.report.engine.ir.IReportItemVisitor)
 	 */
 	public Object accept( IReportItemVisitor visitor, Object value )
 	{
@@ -174,7 +180,7 @@ public class TextItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the encoding.
 	 */
-	public Expression<String> getTextType( )
+	public String getTextType( )
 	{
 		return textType;
 	}
@@ -183,18 +189,18 @@ public class TextItemDesign extends ReportItemDesign
 	 * @param encoding
 	 *            The encoding to set.
 	 */
-	public void setTextType( Expression<String> textType )
+	public void setTextType( String textType )
 	{
 		this.textType = textType;
 	}
 
 	public boolean hasExpression( )
 	{
-		if ( handle instanceof TextItemHandle )
-		{
-			TextItemHandle textItem = (TextItemHandle) handle;
-			return textItem.hasExpression( );
-		}
-		return true;
+		return hasExpression;
+	}
+
+	public void setHasExpression( boolean hasExpression )
+	{
+		this.hasExpression = hasExpression;
 	}
 }

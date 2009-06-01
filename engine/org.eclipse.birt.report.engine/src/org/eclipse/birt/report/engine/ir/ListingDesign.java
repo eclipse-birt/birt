@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 abstract public class ListingDesign extends ReportItemDesign
 {
 
-	protected Expression<Boolean> repeatHeader = Expression.newConstant( false );
+	protected boolean repeatHeader;
 	
 	/**
 	 * header of the listing design.
@@ -38,7 +38,7 @@ abstract public class ListingDesign extends ReportItemDesign
 	 * the page break interval. it will create a softpage break
 	 * for each page break interval rows.
 	 */
-	protected Expression<Integer> pageBreakInterval;
+	protected int pageBreakInterval = -1;
 	/**
 	 * groups. which corresponds to the group in query. which is created at
 	 * begin & end of each group.
@@ -48,7 +48,7 @@ abstract public class ListingDesign extends ReportItemDesign
 	/**
 	 * @return Returns the repeatHeader.
 	 */
-	public Expression<Boolean> isRepeatHeader( )
+	public boolean isRepeatHeader( )
 	{
 		return repeatHeader;
 	}
@@ -57,7 +57,7 @@ abstract public class ListingDesign extends ReportItemDesign
 	 * @param repeatHeader
 	 *            The repeatHeader to set.
 	 */
-	public void setRepeatHeader( Expression<Boolean> repeatHeader )
+	public void setRepeatHeader( boolean repeatHeader )
 	{
 		this.repeatHeader = repeatHeader;
 	}
@@ -127,13 +127,13 @@ abstract public class ListingDesign extends ReportItemDesign
 	{
 		this.groups.add( group );
 	}
-	
-	public void setPageBreakInterval(Expression<Integer> interval)
+
+	public void setPageBreakInterval( int interval )
 	{
 		this.pageBreakInterval = interval;
 	}
-	
-	public Expression<Integer> getPageBreakInterval()
+
+	public int getPageBreakInterval( )
 	{
 		return pageBreakInterval;
 	}

@@ -32,8 +32,8 @@ public class MapRuleTest extends RuleTestCase
 	public void testAccessor( )
 	{
 		//Set
-		Expression<String> key = newConstant( "Key" );
-		Expression<String> text = newConstant( "Test" );
+		String key = "Key";
+		String text = "Test";
 		( (MapRuleDesign) rule ).setDisplayText( key, text );
 
 		//Get

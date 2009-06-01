@@ -63,7 +63,7 @@ public class LabelItemDesignTest extends TestCase
 		assertEquals( "1.2cm", label.getHeight( ).toString( ) );
 		assertEquals( "10cm", label.getWidth( ).toString( ) );
 		assertEquals( "myLabel", label.getName( ) );
-		assertEquals( "PAGE HEADER", label.getText( ).getDesignValue( ) );
+		assertEquals( "PAGE HEADER", label.getText( ) );
 		// assertEquals( "test2", label.getDataSet( ).getName( ) );
 	}
 
@@ -73,6 +73,6 @@ public class LabelItemDesignTest extends TestCase
 		LabelItemDesign label = (LabelItemDesign) freeItem.getItem( 0 );
 		assertTrue( label != null );
 		assertEquals( "http://www.2t.cn", label.getAction( ).getHyperlink( )
-				.getDesignValue( ) );
+				.getScriptText( ) );
 	}
 }

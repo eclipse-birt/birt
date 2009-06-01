@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -49,28 +49,32 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	{
 		super( manager, type );
 	}
-	
-	protected void initializeContent( ReportElementDesign design, IContent content )
+
+	protected void initializeContent( ReportElementDesign design,
+			IContent content )
 	{
 		super.initializeContent( design, content );
-		if(isPageBreakIntervalValid((ListingDesign)design))
+		if ( isPageBreakIntervalValid( (ListingDesign) design ) )
 		{
-			pageBreakInterval = evaluate( ( (ListingDesign) design )
-					.getPageBreakInterval( ) );
-			context.addPageBreakListener( this );
+			pageBreakInterval = ( (ListingDesign) design )
+					.getPageBreakInterval( );
+			if ( pageBreakInterval > 0 )
+			{
+				context.addPageBreakListener( this );
+			}
 		}
 	}
 
-	boolean isPageBreakIntervalValid(ListingDesign design)
+	private boolean isPageBreakIntervalValid( ListingDesign design )
 	{
 		BandDesign detailBand = design.getDetail( );
-		if(detailBand==null || detailBand.getContentCount( )==0)
+		if ( detailBand == null || detailBand.getContentCount( ) == 0 )
 		{
 			return false;
 		}
-		for(int i=0; i<design.getGroupCount( ); i++)
+		for ( int i = 0; i < design.getGroupCount( ); i++ )
 		{
-			if ( evaluate( design.getGroup( i ).getHideDetail( ) ) )
+			if ( design.getGroup( i ).getHideDetail( ) )
 			{
 				return false;
 			}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.ir;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * 
@@ -24,9 +25,7 @@ public class MapDesign
 	/**
 	 * rules defined in this map
 	 */
-	protected ArrayList rules = new ArrayList( );
-
-
+	protected ArrayList<MapRuleDesign> rules = new ArrayList<MapRuleDesign>( );
 
 
 	/**
@@ -63,4 +62,8 @@ public class MapDesign
 		return (MapRuleDesign) this.rules.get( index );
 	}
 
+	public Collection<MapRuleDesign> getRules( )
+	{
+		return rules;
+	}
 }
