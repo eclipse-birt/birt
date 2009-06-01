@@ -14,6 +14,7 @@ package org.eclipse.birt.core.script;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +22,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.i18n.ResourceConstants;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.LazilyLoadedCtor;
@@ -28,6 +30,9 @@ import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+
+import com.ibm.icu.util.TimeZone;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Wraps around the Rhino Script context
@@ -69,6 +74,8 @@ public class ScriptContext
 	 * for BIRT globel varible "params"
 	 */
 	protected NativeObject params;
+	
+	private Map<String, Object> propertyMap = new HashMap<String, Object>();
 
 	/**
 	 * constructor
@@ -98,6 +105,22 @@ public class ScriptContext
 			{
 				global.initStandardObjects( context, true );
 			}
+			if ( global.get( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
+					global ) == org.mozilla.javascript.UniqueTag.NOT_FOUND )
+			{
+				IScriptFunctionContext functionContext = new IScriptFunctionContext( ) {
+
+					public Object findProperty( String name )
+					{
+						return propertyMap.get( name );
+					}
+				};
+
+				Object sObj = Context.javaToJS( functionContext, global );
+				global.put( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
+						global,
+						sObj );
+			}
 			this.scope = global;
 			sharedScope = context.newObject( scope );
 			sharedScope.setParentScope( scope );
@@ -120,6 +143,17 @@ public class ScriptContext
 		this.compiledScripts = compiledScripts;
 	}
 	
+	public void setTimeZone(TimeZone zone )
+	{
+		propertyMap.put( IScriptFunctionContext.TIMEZONE, zone );
+	}
+	
+	public void setLocale( Locale locale )
+	{
+		context.setLocale(  locale );
+		propertyMap.put( IScriptFunctionContext.LOCALE, ULocale.forLocale( locale) );
+	}
+		
 	/**
 	 * @param name
 	 *            the name of a property

@@ -777,10 +777,7 @@ public class ExecutionContext
 	public void setLocale( Locale locale )
 	{
 		this.locale = locale;
-		if (scriptContext != null)
-		{
-			scriptContext.getContext( ).setLocale( locale );
-		}
+		this.getScriptContext( ).setLocale( locale );
 	}
 	
 	public TimeZone getTimeZone()
@@ -791,6 +788,7 @@ public class ExecutionContext
 	public void setTimeZone( TimeZone timeZone )
 	{
 		this.timeZone = timeZone;
+		this.getScriptContext( ).setTimeZone( timeZone );
 	}
 
 

@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Shell;
 public class ExportDataSourceDialog extends BaseDialog
 {
 	private DataSourceHandle dataSourceHandle;
-	private boolean isSelected = false;
+	private boolean isSelected = false, isExternalToCP = true;
 	
     protected ExportDataSourceDialog( Shell parentShell, String title )
 	{
@@ -69,6 +69,21 @@ public class ExportDataSourceDialog extends BaseDialog
 		gd.verticalIndent = 10;
 		separator.setLayoutData( gd );
 
+		Button externalButton = new Button( composite, SWT.CHECK );
+		externalButton.setText( Messages.getString( "datasource.exportToCP.externalCheckBox" ) );
+		externalButton.setSelection( true );
+		externalButton.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetDefaultSelected( SelectionEvent arg0 )
+			{
+			}
+
+			public void widgetSelected( SelectionEvent arg0 )
+			{
+				isExternalToCP = !isExternalToCP;
+			}
+		} );
+		
 		Button button = new Button( composite, SWT.CHECK );
 		button.setText( Messages.getString( "datasource.exportToCP.checkBox" ) );
 		setResult( isSelected );
@@ -85,6 +100,11 @@ public class ExportDataSourceDialog extends BaseDialog
 			}
 		} );
 		return parent;
+	}
+	
+	public boolean isExternalToCP( )
+	{
+		return this.isExternalToCP;
 	}
     
 }

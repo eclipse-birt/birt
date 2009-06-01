@@ -22,6 +22,7 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -44,6 +45,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	
 	private static IScriptFunctionContext scriptContext;
 	private static ULocale defaultLocale = null;
+	private static TimeZone timeZone = null;
 	
 	/**
 	 * 
@@ -492,7 +494,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static Date today( )
 	{
-		Calendar calendar = Calendar.getInstance( );
+		Calendar calendar = Calendar.getInstance( timeZone );
 		calendar.set( Calendar.HOUR_OF_DAY, 0 );
 		calendar.clear( Calendar.MINUTE );
 		calendar.clear( Calendar.SECOND );
@@ -741,9 +743,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static long diffDay( Date d1, Date d2 )
 	{
-		Calendar c1 = Calendar.getInstance( );
+		Calendar c1 = Calendar.getInstance( timeZone );
 		c1.setTime( d1 );
-		Calendar c2 = Calendar.getInstance( );
+		Calendar c2 = Calendar.getInstance( timeZone );
 		c2.setTime( d2 );
 		if ( c1.after( c2 ) )
 		{
@@ -873,7 +875,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static Calendar getClearedCalendarInstance(int year, int month, int date )
 	{
-		Calendar c = Calendar.getInstance( );
+		Calendar c = Calendar.getInstance( timeZone );
 		
 		c.clear( );
 		
@@ -1259,7 +1261,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static Calendar getCalendar( Date d )
 	{
-		Calendar c = Calendar.getInstance( );
+		Calendar c = Calendar.getInstance( timeZone );
 		if ( d == null )
 		{
 			c.clear( );
@@ -1297,7 +1299,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		if ( scriptContext != null )
 		{
 			ULocale locale = (ULocale) scriptContext.findProperty( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.LOCALE );
-			if ( defaultLocale != null && !defaultLocale.equals( locale ) )
+			if ( defaultLocale != locale )
 			{
 				abbrMonthFormat = null;
 				monthFormat = null;
@@ -1305,8 +1307,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 				weekFormat = null;
 				defaultLocale = locale;
 			}
-			else
-				defaultLocale = locale;
+			
+			timeZone = (TimeZone) scriptContext.findProperty( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.TIMEZONE );
 		}
 		return this.executor.execute( arguments, context );
 	}
