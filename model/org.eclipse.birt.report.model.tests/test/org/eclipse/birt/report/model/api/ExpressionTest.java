@@ -62,10 +62,10 @@ public class ExpressionTest extends BaseTestCase
 				.getProperty( ScalarParameterHandle.DEFAULT_VALUE_PROP );
 
 		assertEquals( 3, values.size( ) );
-		assertTrue( equals( values.get( 0 ), "value1", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
-		assertTrue( equals( values.get( 1 ), "value2", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
-		assertTrue( equals( values.get( 2 ), "value3",//$NON-NLS-1$
-				ExpressionType.JAVASCRIPT ) );
+		equals( values.get( 0 ), "value1", ExpressionType.CONSTANT ); //$NON-NLS-1$
+		equals( values.get( 1 ), "value2", ExpressionType.CONSTANT ); //$NON-NLS-1$
+		equals( values.get( 2 ), "value3",//$NON-NLS-1$
+				ExpressionType.JAVASCRIPT );
 
 		values = new ArrayList<Expression>( );
 		values.add( new Expression( "value1", ExpressionType.JAVASCRIPT ) ); //$NON-NLS-1$
@@ -75,9 +75,8 @@ public class ExpressionTest extends BaseTestCase
 		values = (List<Expression>) param
 				.getListProperty( ScalarParameterHandle.DEFAULT_VALUE_PROP );
 		assertEquals( 2, values.size( ) );
-		assertTrue( equals( values.get( 0 ),
-				"value1", ExpressionType.JAVASCRIPT ) ); //$NON-NLS-1$
-		assertTrue( equals( values.get( 1 ), "123", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
+		equals( values.get( 0 ), "value1", ExpressionType.JAVASCRIPT ); //$NON-NLS-1$
+		equals( values.get( 1 ), "123", ExpressionType.CONSTANT ); //$NON-NLS-1$
 
 		// ReportItem.bookmark
 
@@ -94,7 +93,7 @@ public class ExpressionTest extends BaseTestCase
 
 		Expression expr = (Expression) tmpItem.getElement( ).getProperty(
 				design, IReportItemModel.BOOKMARK_PROP );
-		assertTrue( equals( expr, "123", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
+		equals( expr, "123", ExpressionType.CONSTANT ); //$NON-NLS-1$
 
 		// ReportItem.onRender
 
@@ -110,17 +109,16 @@ public class ExpressionTest extends BaseTestCase
 	 * @return
 	 */
 
-	private static boolean equals( Expression expr, Object expr1, String type )
+	private static void equals( Expression expr, Object expr1, String type )
 	{
 		assert expr != null;
 
 		if ( !ModelUtil.isEquals( expr.getExpression( ), expr1 ) )
-			return false;
+			assertTrue( false );
 
 		if ( !ModelUtil.isEquals( expr.getType( ), type ) )
-			return false;
+			assertTrue( false );
 
-		return true;
 	}
 
 	/**
@@ -142,10 +140,10 @@ public class ExpressionTest extends BaseTestCase
 				values );
 
 		assertEquals( 3, cloned.size( ) );
-		assertTrue( equals( cloned.get( 0 ), "value1", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
-		assertTrue( equals( cloned.get( 1 ), "value2", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
-		assertTrue( equals( cloned.get( 2 ), "value3",//$NON-NLS-1$
-				ExpressionType.JAVASCRIPT ) );
+		equals( cloned.get( 0 ), "value1", ExpressionType.CONSTANT ); //$NON-NLS-1$
+		equals( cloned.get( 1 ), "value2", ExpressionType.CONSTANT ); //$NON-NLS-1$
+		equals( cloned.get( 2 ), "value3",//$NON-NLS-1$
+				ExpressionType.JAVASCRIPT );
 
 		assertTrue( cloned.get( 0 ) != values.get( 0 ) );
 		assertTrue( cloned.get( 1 ) != values.get( 1 ) );
@@ -211,7 +209,15 @@ public class ExpressionTest extends BaseTestCase
 		ExpressionListHandle tmpHandle = tmpHighlight.getValue1ExpressionList( );
 		List<Expression> tmpValues = tmpHandle.getListValue( );
 		equals( tmpValues.get( 0 ), "hi_value1", ExpressionType.JAVASCRIPT ); //$NON-NLS-1$
-		equals( tmpValues.get( 1 ), "hi_value2", ExpressionType.JAVASCRIPT ); //$NON-NLS-1$
+		equals( tmpValues.get( 1 ), "hi_value2", ExpressionType.CONSTANT ); //$NON-NLS-1$
+
+		iter1 = tmpStyle.mapRulesIterator( );
+		MapRuleHandle tmpMapRule = (MapRuleHandle) iter1.next( );
+
+		tmpHandle = tmpMapRule.getValue1ExpressionList( );
+		tmpValues = tmpHandle.getListValue( );
+		equals( tmpValues.get( 0 ), "map_value1", ExpressionType.JAVASCRIPT ); //$NON-NLS-1$
+		equals( tmpValues.get( 1 ), "map_value2", ExpressionType.CONSTANT ); //$NON-NLS-1$
 
 		List<Expression> newValues = new ArrayList<Expression>( );
 
@@ -243,6 +249,21 @@ public class ExpressionTest extends BaseTestCase
 		equals( tmpValues.get( 0 ), "new a", ExpressionType.CONSTANT ); //$NON-NLS-1$
 		equals( tmpValues.get( 1 ), "new b", ExpressionType.CONSTANT ); //$NON-NLS-1$
 		equals( tmpValues.get( 2 ), "new c", ExpressionType.CONSTANT ); //$NON-NLS-1$
+
+		TableHandle tmpTable = (TableHandle) designHandle
+				.findElement( "table1" ); //$NON-NLS-1$
+		iter1 = tmpTable.getPrivateStyle( ).mapRulesIterator( );
+
+		// table map rules
+		tmpMapRule = (MapRuleHandle) iter1.next( );
+
+		tmpHandle = tmpMapRule.getValue1ExpressionList( );
+		tmpValues = tmpHandle.getListValue( );
+
+		equals( tmpValues.get( 0 ), "1", ExpressionType.CONSTANT ); //$NON-NLS-1$
+		equals( tmpValues.get( 1 ), "2", ExpressionType.CONSTANT ); //$NON-NLS-1$
+		equals( tmpValues.get( 2 ), "4", ExpressionType.CONSTANT ); //$NON-NLS-1$
+
 	}
 
 	/**
@@ -279,16 +300,16 @@ public class ExpressionTest extends BaseTestCase
 
 		TOCHandle tocHandle = tmpData.getTOC( );
 		TOC toc = (TOC) tocHandle.getStructure( );
-		
-		// the compatible case 
-		
+
+		// the compatible case
+
 		toc.setExpression( "new statistics" ); //$NON-NLS-1$
 
 		ExpressionHandle exprHandle = tocHandle
 				.getExpressionProperty( TOC.TOC_EXPRESSION );
 
 		// should have no exception.
-		
+
 		assertEquals( ExpressionType.JAVASCRIPT, exprHandle.getType( ) );
 	}
 }

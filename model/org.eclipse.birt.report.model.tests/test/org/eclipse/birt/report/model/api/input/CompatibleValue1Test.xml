@@ -6,7 +6,7 @@
 				<structure>
 					<simple-property-list name="value1">
 						<value type="javascript">hi_value1</value>
-						<value type="javascript">hi_value2</value>
+						<value type="constant">hi_value2</value>
 					</simple-property-list>
 				</structure>
 			</list-property>
@@ -14,7 +14,7 @@
 				<structure>
 					<simple-property-list name="value1">
 						<value type="javascript">map_value1</value>
-						<value type="javascript">map_value2</value>
+						<value type="constant">map_value2</value>
 					</simple-property-list>
 				</structure>
 			</list-property>
@@ -42,7 +42,19 @@
 					</simple-property-list>
                     <expression name="value2">value2 expression</expression>
                 </structure>
-            </list-property>   
-        </table> 		
+            </list-property>  
+            <list-property name="mapRules">
+                <structure>
+                    <expression name="testExpr" type="constant">2</expression>
+                    <property name="operator">in</property>
+                    <simple-property-list name="value1">
+                        <value type="constant">1</value>
+                        <value type="constant">2</value>
+                        <value type="constant">4</value>
+                    </simple-property-list>
+                    <expression name="value2" type="constant">3</expression>
+                </structure>
+            </list-property>             
+        </table>
 	</body>
 </report>

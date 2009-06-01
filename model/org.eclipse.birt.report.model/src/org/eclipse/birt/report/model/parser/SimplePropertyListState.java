@@ -189,7 +189,7 @@ public class SimplePropertyListState extends AbstractPropertyState
 		{
 			for ( int i = 0; i < ( (List) valueToSet ).size( ); i++ )
 			{
-				String item = (String) ( (List) valueToSet ).get( i );
+				Object item = ( (List) valueToSet ).get( i );
 				PropertyType type = memberDefn.getSubType( );
 				Object propValue = type.validateXml( handler.getModule( ),
 						memberDefn, item );
@@ -281,7 +281,9 @@ public class SimplePropertyListState extends AbstractPropertyState
 	{
 		super.parseAttrs( attrs );
 
-		if ( propDefn == null )
+		if ( struct != null )
+			propDefn = (PropertyDefn) struct.getDefn( ).getMember( name );
+		else
 			propDefn = element.getPropertyDefn( name );
 	}
 
