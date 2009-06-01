@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,23 +19,23 @@ import java.util.List;
  */
 public abstract class RuleDesign
 {
-	protected Expression<String> testExpression = null;
+	protected Expression testExpression = null;
 
-	protected Expression<String> value1;
-	protected Expression<String> value2;
+	protected Expression value1;
+	protected Expression value2;
 	protected String operator;
-	protected Object expr;
 	protected boolean valueIsList = false;
-	protected Expression<? extends List> value1List;
+	protected List<Expression> value1List;
+	transient protected Expression expr;
 
-	public void setExpression( String operator, Expression<? extends List> value )
+	public void setExpression( String operator, List<Expression> value )
 	{
 		this.operator = operator;
 		this.value1List = value;
 		this.valueIsList = true;
 	}
 
-	public Expression<? extends List> getValue1List( )
+	public List<Expression> getValue1List( )
 	{
 		return this.value1List;
 	}
@@ -50,8 +50,8 @@ public abstract class RuleDesign
 		this.valueIsList = valueIsList;
 	}
 
-	public void setExpression( String operator, Expression<String> value1,
-			Expression<String> value2 )
+	public void setExpression( String operator, Expression value1,
+			Expression value2 )
 	{
 		this.operator = operator;
 		this.value1 = value1;
@@ -59,12 +59,12 @@ public abstract class RuleDesign
 		this.valueIsList = false;
 	}
 	
-	public void setConditionExpr( Object expr )
+	public void setConditionExpr( Expression expr )
 	{
 		this.expr = expr;
 	}
 
-	public Object getConditionExpr( )
+	public Expression getConditionExpr( )
 	{
 		return expr;
 	}
@@ -80,7 +80,7 @@ public abstract class RuleDesign
 	/**
 	 * @return Returns the value1.
 	 */
-	public Expression<String> getValue1( )
+	public Expression getValue1( )
 	{
 		return value1;
 	}
@@ -88,7 +88,7 @@ public abstract class RuleDesign
 	/**
 	 * @return Returns the value2.
 	 */
-	public Expression<String> getValue2( )
+	public Expression getValue2( )
 	{
 		return value2;
 	}
@@ -96,13 +96,13 @@ public abstract class RuleDesign
 	/**
 	 * @return Returns the testExpression.
 	 */
-	public Expression<String> getTestExpression() {
+	public Expression getTestExpression() {
 		return testExpression;
 	}
 	/**
 	 * @param testExpression The testExpression to set.
 	 */
-	public void setTestExpression(Expression<String> testExpression) {
+	public void setTestExpression(Expression testExpression) {
 		this.testExpression = testExpression;
 	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -29,11 +29,11 @@ public class DataItemDesign extends ReportItemDesign
 	/**
 	 * help text
 	 */
-	protected Expression<String> helpText;
+	protected String helpText;
 	/**
 	 * help text resource key
 	 */
-	protected Expression<String> helpTextKey;
+	protected String helpTextKey;
 	
 	protected boolean suppressDuplicate = false; 
 	
@@ -75,7 +75,7 @@ public class DataItemDesign extends ReportItemDesign
 	 * @param text
 	 *            text content
 	 */
-	public void setHelpText( Expression<String> key, Expression<String> text )
+	public void setHelpText( String key, String text )
 	{
 		this.helpTextKey = key;
 		this.helpText = text;
@@ -86,7 +86,7 @@ public class DataItemDesign extends ReportItemDesign
 	 * 
 	 * @return help text
 	 */
-	public Expression<String> getHelpText( )
+	public String getHelpText( )
 	{
 		return this.helpText;
 	}
@@ -96,7 +96,7 @@ public class DataItemDesign extends ReportItemDesign
 	 * 
 	 * @return resource key of the help text
 	 */
-	public Expression<String> getHelpTextKey( )
+	public String getHelpTextKey( )
 	{
 		return this.helpTextKey;
 	}

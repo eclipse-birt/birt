@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
@@ -67,19 +66,15 @@ public class EngineIRReader implements IOConstants
 		DataInputStream dis = new DataInputStream( in );
 		// read the version
 		long version = IOUtil.readLong( dis );
-		if ( version == ENGINE_IR_VERSION_5 || version == ENGINE_IR_VERSION_6 )
-		{
-			reader = new EngineIRReaderImplV1( dis, checkDesignVersion );
-			reader.version = version;
-		}
-		else if ( version >= ENGINE_IR_VERSION_0
-				&& version <= ENGINE_IR_VERSION_4 )
+		if ( version == ENGINE_IR_VERSION_7
+				|| ( version >= ENGINE_IR_VERSION_0 && version <= ENGINE_IR_VERSION_4 ) )
 		{
 			reader = new EngineIRReaderImpl( dis, checkDesignVersion );
 			reader.version = version;
 		}
 		else
 		{
+			//V5, V6 is used in the 2.5.0 development, we won't support it anymore.
 			throw new IOException( "unsupported version:" + version ); //$NON-NLS-1$
 		}
 
@@ -134,6 +129,36 @@ public class EngineIRReader implements IOConstants
 				ReportItemDesign item = report.getContent( i );
 				item.accept( this, null );
 			}
+			// link the report design
+			linkReportDesign( report );
+		}
+
+		private void linkReportDesign( Report design )
+		{
+			setupScriptID( design );
+		}
+
+		private void setupScriptID( Report design )
+		{
+			ReportDesignHandle designHandle = design.getReportDesign( );;
+			Expression scriptExpr = design.getOnPageStart( );
+			if ( null != scriptExpr
+					&& scriptExpr.getType( ) == Expression.SCRIPT )
+			{
+				String id = ModuleUtil
+						.getScriptUID( designHandle
+								.getPropertyHandle( ReportDesignHandle.ON_PAGE_START_METHOD ) );
+				( (Expression.Script) scriptExpr ).setFileName( id );
+			}
+			scriptExpr = design.getOnPageEnd( );
+			if ( null != scriptExpr
+					&& scriptExpr.getType( ) == Expression.SCRIPT )
+			{
+				String id = ModuleUtil
+						.getScriptUID( designHandle
+								.getPropertyHandle( ReportDesignHandle.ON_PAGE_END_METHOD ) );
+				( (Expression.Script) scriptExpr ).setFileName( id );
+			}
 		}
 
 		protected void linkReportElement( ReportElementDesign element )
@@ -150,25 +175,44 @@ public class EngineIRReader implements IOConstants
 				}
 			}
 			element.setHandle( elementHandle );
-			getScriptIDBack( element );
+			setupScriptID( element );
 			report.setReportItemInstanceID( id, element );
 		}
 
-		private void getScriptIDBack( ReportElementDesign element )
+		private void setupScriptID( ReportElementDesign element )
 		{
 			if ( element instanceof ReportItemDesign )
 			{
 				ReportItemDesign item = (ReportItemDesign) element;
-				ScriptExpression scriptExpr = item.getOnRender( );
-				if ( null != scriptExpr )
+				DesignElementHandle elementHandle = item.getHandle( );
+				if ( elementHandle != null )
 				{
-					DesignElementHandle elementHandle = item.getHandle( );
-					if ( null != elementHandle )
+					Expression scriptExpr = item.getOnRender( );
+					if ( null != scriptExpr
+							&& scriptExpr.getType( ) == Expression.SCRIPT )
 					{
 						String id = ModuleUtil
 								.getScriptUID( elementHandle
 										.getPropertyHandle( IReportItemModel.ON_RENDER_METHOD ) );
-						scriptExpr.setId( id );
+						( (Expression.Script) scriptExpr ).setFileName( id );
+					}
+					scriptExpr = item.getOnCreate( );
+					if ( null != scriptExpr
+							&& scriptExpr.getType( ) == Expression.SCRIPT )
+					{
+						String id = ModuleUtil
+								.getScriptUID( elementHandle
+										.getPropertyHandle( IReportItemModel.ON_CREATE_METHOD ) );
+						( (Expression.Script) scriptExpr ).setFileName( id );
+					}
+					scriptExpr = item.getOnPageBreak( );
+					if ( null != scriptExpr
+							&& scriptExpr.getType( ) == Expression.SCRIPT )
+					{
+						String id = ModuleUtil
+								.getScriptUID( elementHandle
+										.getPropertyHandle( IReportItemModel.ON_PAGE_BREAK_METHOD ) );
+						( (Expression.Script) scriptExpr ).setFileName( id );
 					}
 				}
 			}

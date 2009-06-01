@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.script.internal;
 import java.util.Collection;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -35,6 +34,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
@@ -79,7 +79,7 @@ public class OnPageBreakScriptVisitor extends DefaultReportItemVisitorImpl
 	public void onPageStart( Report report, PageContent pageContent,
 			Collection<IContent> contents )
 	{
-		ScriptExpression onPageStart = report.getOnPageStart( );
+		Expression onPageStart = report.getOnPageStart( );
 		if ( onPageStart != null )
 		{
 			PageScriptExecutor.handleOnPageScript( context, pageContent,
@@ -92,7 +92,7 @@ public class OnPageBreakScriptVisitor extends DefaultReportItemVisitorImpl
 	{
 		MasterPageDesign pageDesign = (MasterPageDesign) pageContent
 				.getGenerateBy( );
-		ScriptExpression onPageStart = pageDesign.getOnPageStart( );
+		Expression onPageStart = pageDesign.getOnPageStart( );
 		if ( onPageStart != null )
 		{
 			PageScriptExecutor.handleOnPageScript( context, pageContent,
@@ -103,7 +103,7 @@ public class OnPageBreakScriptVisitor extends DefaultReportItemVisitorImpl
 	public void onPageEnd( Report report, PageContent pageContent,
 			Collection<IContent> contents )
 	{
-		ScriptExpression onPageEnd = report.getOnPageEnd( );
+		Expression onPageEnd = report.getOnPageEnd( );
 		if ( onPageEnd != null )
 		{
 			PageScriptExecutor.handleOnPageScript( context, pageContent,
@@ -116,7 +116,7 @@ public class OnPageBreakScriptVisitor extends DefaultReportItemVisitorImpl
 	{
 		MasterPageDesign pageDesign = (MasterPageDesign) pageContent
 				.getGenerateBy( );
-		ScriptExpression onPageEnd = pageDesign.getOnPageEnd( );
+		Expression onPageEnd = pageDesign.getOnPageEnd( );
 		if ( onPageEnd != null )
 		{
 			PageScriptExecutor.handleOnPageScript( context, pageContent,

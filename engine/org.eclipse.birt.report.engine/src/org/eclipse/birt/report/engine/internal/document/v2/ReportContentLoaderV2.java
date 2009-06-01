@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2008 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -66,7 +66,6 @@ import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.PageSection;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
@@ -910,8 +909,8 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			if ( label.getGenerateBy( ) instanceof TemplateDesign )
 			{
 				TemplateDesign design = (TemplateDesign) label.getGenerateBy( );
-				String promptKey = getConstantValue( design.getPromptTextKey( ) );
-				String promptText = getConstantValue( design.getPromptText( ) );
+				String promptKey = design.getPromptTextKey( );
+				String promptText = design.getPromptText( );
 				label.setLabelKey( promptKey );
 				label.setLabelText( promptText );
 			}
@@ -1170,11 +1169,5 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			return docExt.getIndex( );
 		}
 		return -1;
-	}
-
-	private String getConstantValue( Expression<String> value )
-	{
-		assert !value.isExpression( ); 
-		return value.getValue( );
 	}
 }

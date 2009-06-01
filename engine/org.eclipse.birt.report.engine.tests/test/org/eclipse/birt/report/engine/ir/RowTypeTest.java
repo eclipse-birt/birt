@@ -67,9 +67,8 @@ public class RowTypeTest extends EngineCase
 	public void testGetSet()
 	{
 		RowDesign row = new RowDesign( );
-		Expression<DimensionType> height = newConstant( new DimensionType( 1.0,
-				DimensionType.UNITS_CM ) );
-		Expression<String> bookmark = newConstant( "" );
+		DimensionType height = new DimensionType( 1.0, DimensionType.UNITS_CM );
+		Expression bookmark = Expression.newConstant( "" );
 
 		//set
 		row.setHeight(height);

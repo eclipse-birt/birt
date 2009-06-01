@@ -33,9 +33,8 @@ public class DynamicTextItemTest extends ReportItemTestCase
 	public void testExpression( )
 	{
 		DynamicTextItemDesign multi = new DynamicTextItemDesign( );
-		Expression<Object> exp = new Expression<Object>( "content",
-				Object.class );
-		Expression<String> type = Expression.newConstant( "auto" );
+		Expression exp = Expression.newScript( "content" );
+		String type = "auto";
 
 		//Set
 		multi.setContent( exp );

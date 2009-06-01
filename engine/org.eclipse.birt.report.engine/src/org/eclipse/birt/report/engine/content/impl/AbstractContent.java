@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -211,8 +211,7 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		if ( generateBy instanceof ReportItemDesign )
 		{
-			return getConstantValue( ( (ReportItemDesign) generateBy )
-					.getHeight( ) );
+			return ( (ReportItemDesign) generateBy ).getHeight( );
 		}
 		return null;
 	}
@@ -228,7 +227,7 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		if ( generateBy instanceof ReportItemDesign )
 		{
-			return getConstantValue( ( (ReportItemDesign) generateBy ).getWidth( ) );
+			return ( (ReportItemDesign) generateBy ).getWidth( );
 		}
 		return null;
 
@@ -245,7 +244,7 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		if ( generateBy instanceof ReportItemDesign )
 		{
-			return getConstantValue( ( (ReportItemDesign) generateBy ).getX( ) );
+			return ( (ReportItemDesign) generateBy ).getX( );
 		}
 		return null;
 	}
@@ -261,7 +260,7 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		if ( generateBy instanceof ReportItemDesign )
 		{
-			return getConstantValue( ( (ReportItemDesign) generateBy ).getY( ) );
+			return ( (ReportItemDesign) generateBy ).getY( );
 		}
 		return null;
 	}
@@ -844,27 +843,4 @@ abstract public class AbstractContent extends AbstractElement
 		return new BaseResultSetDecorator( resultSets );
 	}
 
-	protected boolean getBooleanValue( Expression<Boolean> boolExpression,
-			boolean defaultValue )
-	{
-		if ( boolExpression == null )
-		{
-			return defaultValue;
-		}
-		return getConstantValue( boolExpression );
-	}
-
-	protected <T> T getConstantValue(Expression<T> value)
-	{
-		if ( value == null )
-		{
-			return null;
-		}
-		if ( value.isExpression( ) )
-		{
-			throw new IllegalStateException(
-					"Should not get value from expression." );
-		}
-		return (T) value.getDesignValue( );
-	}
 }

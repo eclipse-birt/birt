@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,8 +12,7 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
+import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -62,8 +61,8 @@ public class TextItemExecutor extends QueryItemExecutor
 	public IContent execute( )
 	{
 		TextItemDesign textDesign = (TextItemDesign) getDesign( );
-		String textType = evaluate( textDesign.getTextType( ) );
-		String text = evaluate( textDesign.getText( ) );
+		String textType = textDesign.getTextType( );
+		String text = textDesign.getText( );
 		String contentType = ForeignContent.getTextRawType( textType, text );
 
 		if ( IForeignContent.HTML_TYPE.equals( contentType ) )
@@ -105,40 +104,15 @@ public class TextItemExecutor extends QueryItemExecutor
 		processStyle( textDesign, textContent );
 		processVisibility( textDesign, textContent );
 
-		Expression<String> textExpression = textDesign.getText( );
-		String text = evaluate( textExpression );
-		String textType = evaluate( textDesign.getTextType( ) );
-		
-		HashMap<String, String> exprs = null;
-		if ( textDesign.hasExpression( ) && textExpression != null )
-		{
-			if ( textExpression.isExpression( ) )
-			{
-				exprs = TextItemDesign.extractExpression( text, textType );
-			}
-			else
-			{
-				exprs = textDesign.getExpressions( );
-			}
-		}
+		HashMap<String, Expression> exprs = textDesign.getExpressions( );
 		if ( exprs != null && !exprs.isEmpty( ) )
 		{
 			HashMap<String, Object> results = new HashMap<String, Object>( );
-			Iterator<Entry<String, String>> iter = exprs.entrySet( ).iterator( );
-			while ( iter.hasNext( ) )
+			for ( Map.Entry<String, Expression> entry : exprs.entrySet( ) )
 			{
-				Entry<String, String> entry = (Entry<String, String>) iter
-						.next( );
-				String expr = (String) entry.getValue( );
-				try
-				{
-					Object value = evaluate( expr );
-					results.put( entry.getKey( ), value );
-				}
-				catch ( BirtException ex )
-				{
-					context.addException( ex );
-				}
+				Expression expr = entry.getValue( );
+				Object value = evaluate( expr );
+				results.put( entry.getKey( ), value );
 			}
 			Object[] value = new Object[2];
 			value[0] = null;
@@ -178,8 +152,8 @@ public class TextItemExecutor extends QueryItemExecutor
 		// accessQuery( design, emitter );
 
 		initializeContent( textDesign, textContent );
-		textContent.setLabelText( evaluate( textDesign.getText( ) ) );
-		textContent.setLabelKey( evaluate( textDesign.getTextKey( ) ) );
+		textContent.setLabelText( textDesign.getText( ) );
+		textContent.setLabelKey( textDesign.getTextKey( ) );
 
 		processAction( textDesign, textContent );
 		processBookmark( textDesign, textContent );

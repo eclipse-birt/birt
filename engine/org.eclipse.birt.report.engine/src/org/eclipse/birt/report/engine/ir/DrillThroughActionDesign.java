@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,19 +18,24 @@ import java.util.Map;
  */
 public class DrillThroughActionDesign
 {
-	protected Expression<String> reportName;
-	protected Expression<String> bookmark;
-	protected Expression<String> bookmarkType;
-	protected Expression<String> format;
 
-	protected Map<String, Expression<Object>> parameters;
+	protected Expression reportName;
+	/**
+	 * The type of the target file.
+	 */
+	protected String targetFileType = null;
+
+	protected Expression bookmark;
+	protected boolean bookmarkType;
+	protected String format;
+
+	protected Map<String, Expression> parameters;
 	protected Map search;
-
 
 	/**
 	 * @return Returns the bookmark.
 	 */
-	public Expression<String> getBookmark( )
+	public Expression getBookmark( )
 	{
 		return bookmark;
 	}
@@ -39,7 +44,7 @@ public class DrillThroughActionDesign
 	 * @param bookmark
 	 *            The bookmark to set.
 	 */
-	public void setBookmark( Expression<String> bookmark )
+	public void setBookmark( Expression bookmark )
 	{
 		this.bookmark = bookmark;
 	}
@@ -47,7 +52,7 @@ public class DrillThroughActionDesign
 	/**
 	 * @return Returns the reportName.
 	 */
-	public Expression<String> getReportName( )
+	public Expression getReportName( )
 	{
 		return reportName;
 	}
@@ -56,7 +61,7 @@ public class DrillThroughActionDesign
 	 * @param reportName
 	 *            The reportName to set.
 	 */
-	public void setReportName( Expression<String> reportName )
+	public void setReportName( Expression reportName )
 	{
 		this.reportName = reportName;
 	}
@@ -64,7 +69,7 @@ public class DrillThroughActionDesign
 	/**
 	 * @return Returns the parameters.
 	 */
-	public Map<String, Expression<Object>> getParameters( )
+	public Map<String, Expression> getParameters( )
 	{
 		return parameters;
 	}
@@ -73,7 +78,7 @@ public class DrillThroughActionDesign
 	 * @param parameters
 	 *            The parameters to set.
 	 */
-	public void setParameters( Map<String, Expression<Object>> parameters )
+	public void setParameters( Map<String, Expression> parameters )
 	{
 		this.parameters = parameters;
 	}
@@ -95,24 +100,43 @@ public class DrillThroughActionDesign
 		this.search = search;
 	}
 
-	
-	public Expression<String> getFormat( )
+	public String getFormat( )
 	{
 		return format;
 	}
-	
-	public void setFormat( Expression<String> format )
+
+	public void setFormat( String format )
 	{
 		this.format = format;
 	}
 
-	public void setBookmarkType( Expression<String> bookmarkType )
+	public void setBookmarkType( boolean bookmarkType )
 	{
 		this.bookmarkType = bookmarkType;
 	}
 
-	public Expression<String> getBookmarkType( )
+	public boolean getBookmarkType( )
 	{
 		return bookmarkType;
+	}
+
+	/**
+	 * Sets target report file type for a drill-through action. The format type
+	 * for action are defined in DesignChoiceConstants.
+	 * 
+	 * @param targetFileType
+	 *            the type of the target report file.
+	 */
+	public void setTargetFileType( String targetFileType )
+	{
+		this.targetFileType = targetFileType;
+	}
+
+	/**
+	 * @return the type of the target report file.
+	 */
+	public String getTargetFileType( )
+	{
+		return targetFileType;
 	}
 }

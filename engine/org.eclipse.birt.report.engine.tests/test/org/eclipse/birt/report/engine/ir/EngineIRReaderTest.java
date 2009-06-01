@@ -1,10 +1,13 @@
 package org.eclipse.birt.report.engine.ir;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.io.StringReader;
 
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.parser.ReportDesignWriter;
@@ -28,29 +31,33 @@ public class EngineIRReaderTest extends EngineCase
 	static final String VALUE_V1_STREAM = "org/eclipse/birt/report/engine/ir/ir_io_test_V1.xml";
 	static final String VALUE_V2_STREAM = "org/eclipse/birt/report/engine/ir/ir_io_test_V2.xml";
 	static final String VALUE_V3_STREAM = "org/eclipse/birt/report/engine/ir/ir_io_test_V3.xml";
+	static final String VALUE_V6_STREAM = "org/eclipse/birt/report/engine/ir/ir_io_test_V6.xml";
+	static final String VALUE_V7_STREAM = "org/eclipse/birt/report/engine/ir/ir_io_test_V7.xml";
 	static final String GOLDEN_V1_STREAM = "ir_io_test_V1.golden";
 	static final String GOLDEN_V2_STREAM = "ir_io_test_V2.golden";
 	static final String GOLDEN_V3_STREAM = "ir_io_test_V3.golden";
+	static final String GOLDEN_V6_STREAM = "ir_io_test_V6.golden";
+	static final String GOLDEN_V7_STREAM = "ir_io_test_V7.golden";
 
 	public void testV1( ) throws Exception
 	{
 		String value = getValue( VALUE_V1_STREAM );
 		String golden = getGolden( GOLDEN_V1_STREAM );
-		assertEquals( golden, value );
+		assertEquals( removeSpace( golden ), removeSpace( value ) );
 	}
 
 	public void testV2( ) throws Exception
 	{
 		String value = getValue( VALUE_V2_STREAM );
 		String golden = getGolden( GOLDEN_V2_STREAM );
-		assertEquals( golden, value );
+		assertEquals( removeSpace( golden ), removeSpace( value ) );
 	}
 
 	public void testV3( ) throws Exception
 	{
 		String value = getValue( VALUE_V3_STREAM );
 		String golden = getGolden( GOLDEN_V3_STREAM );
-		assertEquals( golden, value );
+		assertEquals( removeSpace( golden ), removeSpace( value ) );
 	}
 
 	private String getValue( String value )
@@ -126,5 +133,30 @@ public class EngineIRReaderTest extends EngineCase
 			RandomAccessFile rf = new RandomAccessFile( file, "rw" );
 			rf.write( out.toByteArray( ) );
 		}
+	}
+
+	String removeSpace( String v )
+	{
+		return v;
+/*		StringBuilder sb = new StringBuilder( v.length( ) );
+		try
+		{
+			BufferedReader reader = new BufferedReader( new StringReader( v ) );
+			String line = reader.readLine( );
+			while ( line != null )
+			{
+				line = line.trim( );
+				if ( !line.startsWith( "<?xml " ) )
+				{
+					sb.append( line );
+					sb.append( '\n' );
+				}
+				line = reader.readLine( );
+			}
+		}
+		catch ( IOException ex )
+		{
+		}
+		return sb.toString( );*/
 	}
 }

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.parser;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,7 +23,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
@@ -61,6 +61,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
+import org.eclipse.birt.report.engine.ir.RuleDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
@@ -70,7 +71,6 @@ import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
-import org.eclipse.birt.report.engine.ir.Expression.JSExpression;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -82,6 +82,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionListHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
@@ -109,6 +111,7 @@ import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.StyleRuleHandle;
 import org.eclipse.birt.report.model.api.TOCHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -121,6 +124,9 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
+import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -210,6 +216,11 @@ public class EngineIRVisitor extends DesignVisitor
 	protected Report report;
 
 	/**
+	 * default script language
+	 */
+	protected String defaultScriptLanguage;
+
+	/**
 	 * report design handle
 	 */
 	protected ReportDesignHandle handle;
@@ -283,6 +294,9 @@ public class EngineIRVisitor extends DesignVisitor
 	 */
 	public void visitReportDesign( ReportDesignHandle handle )
 	{
+		// 
+		this.defaultScriptLanguage = "javascript";
+
 		setupNamedExpressions( handle, report.getNamedExpressions( ) );
 
 		// INCLUDE LIBRARY
@@ -311,24 +325,27 @@ public class EngineIRVisitor extends DesignVisitor
 			varDesigns.add( new PageVariableDesign( name, scope ) );
 			// FIXME: support the initialize values
 		}
+		
 		String onPageEnd = handle.getOnPageEnd( );
-		if ( onPageEnd != null && onPageEnd.trim( ).length( ) > 0 )
+		Expression.Script onPageEndScript = createScript( onPageEnd );
+		if ( onPageEndScript != null )
 		{
-			String scriptId = ModuleUtil
-					.getScriptUID( handle
-							.getPropertyHandle( IReportDesignModel.ON_PAGE_END_METHOD ) );
-			ScriptExpression script = new ScriptExpression( onPageEnd, scriptId );
-			report.setOnPageEnd( script );
+			String scriptId = ModuleUtil.getScriptUID( handle
+					.getPropertyHandle( IReportDesignModel.ON_PAGE_END_METHOD ) );
+			onPageEndScript.setFileName( scriptId );
+			report.setOnPageEnd( onPageEndScript );
 		}
 		String onPageStart = handle.getOnPageStart( );
-		if ( onPageStart != null && onPageStart.trim( ).length( ) > 0 )
+		Expression.Script onPageStartScript = createScript( onPageStart );
+		if ( onPageStartScript != null )
 		{
 			String scriptId = ModuleUtil
 					.getScriptUID( handle
 							.getPropertyHandle( IReportDesignModel.ON_PAGE_START_METHOD ) );
-			ScriptExpression script = new ScriptExpression( onPageStart, scriptId );
-			report.setOnPageStart( script );
+			onPageStartScript.setFileName( scriptId );
+			report.setOnPageStart( onPageStartScript );
 		}
+
 		PageSetupDesign pageSetup = new PageSetupDesign( );
 		SlotHandle pageSlot = handle.getMasterPages( );
 		for ( int i = 0; i < pageSlot.getCount( ); i++ )
@@ -403,7 +420,7 @@ public class EngineIRVisitor extends DesignVisitor
 	 *            the data structure that hold named expressions
 	 */
 	private void setupNamedExpressions( DesignElementHandle handle,
-			Map namedExpressions )
+			Map<String, Expression> namedExpressions )
 	{
 		List userProperties = handle.getUserProperties( );
 		if ( userProperties == null || namedExpressions == null )
@@ -415,11 +432,11 @@ public class EngineIRVisitor extends DesignVisitor
 			if ( userDef.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
 			{
 				String name = userDef.getName( );
-				String exprString = handle.getStringProperty( name );
-				if ( exprString != null && !exprString.trim( ).equals( "" ) ) //$NON-NLS-1$
+				String valueExpr = handle.getStringProperty( name );
+				Expression expr = createExpression( valueExpr );
+				if ( expr != null )
 				{
-					//Expression expression = new Expression( exprString );
-					namedExpressions.put( name, exprString );
+					namedExpressions.put( name, expr );
 				}
 			}
 		}
@@ -473,23 +490,25 @@ public class EngineIRVisitor extends DesignVisitor
 		DimensionType bottom = createDimension( handle.getBottomMargin( ), true  );
 		DimensionType right = createDimension( handle.getRightMargin( ), true  );
 		page.setMargin( top, left, bottom, right );
-		
+
 		String onPageEnd = handle.getOnPageEnd( );
-		if ( onPageEnd != null && onPageEnd.trim( ).length( ) > 0 )
+		Expression.Script onPageEndScript = createScript( onPageEnd );
+		if ( onPageEndScript != null )
 		{
 			String scriptId = ModuleUtil.getScriptUID( handle
 					.getPropertyHandle( IMasterPageModel.ON_PAGE_END_METHOD ) );
-			ScriptExpression script = new ScriptExpression( onPageEnd, scriptId );
-			page.setOnPageEnd( script );
+			onPageEndScript.setFileName( scriptId );
+			page.setOnPageEnd( onPageEndScript );
 		}
-		String onPagedStart = handle.getOnPageStart( );
-		if ( onPagedStart != null && onPagedStart.trim( ).length( ) > 0 )
+		String onPageStart = handle.getOnPageStart( );
+		Expression.Script onPageStartScript = createScript( onPageStart );
+		if ( onPageStartScript != null )
 		{
 			String scriptId = ModuleUtil
 					.getScriptUID( handle
 							.getPropertyHandle( IMasterPageModel.ON_PAGE_START_METHOD ) );
-			ScriptExpression script = new ScriptExpression( onPageEnd, scriptId );
-			page.setOnPageStart( script );
+			onPageStartScript.setFileName( scriptId );
+			page.setOnPageStart( onPageStartScript );
 		}
 	}
 
@@ -582,8 +601,7 @@ public class EngineIRVisitor extends DesignVisitor
 			header.setBandType( ListBandDesign.BAND_HEADER );
 			listItem.setHeader( header );
 		}
-		Expression<Boolean> headerValue = createConstant( handle.repeatHeader( ) );
-		listItem.setRepeatHeader( headerValue );
+		listItem.setRepeatHeader( handle.repeatHeader( ) );
 
 		// Multiple groups
 		SlotHandle groupsSlot = handle.getGroups( );
@@ -645,14 +663,15 @@ public class EngineIRVisitor extends DesignVisitor
 
 		setupReportItem( dynamicTextItem, handle );
 
-		String valueExpr = handle.getValueExpr( );
-		String contentType = handle.getContentType( );
-		dynamicTextItem
-				.setContent( createObjectExpression( validateExpression( valueExpr ) ) );
-		dynamicTextItem.setContentType( createConstant( contentType ) );
+		ExpressionHandle valueExprHandle = handle
+				.getExpressionProperty( TextDataHandle.VALUE_EXPR_PROP );
+		Expression valueExpr = createExpression( valueExprHandle );
+		String contentType = handle.getContentType( );;
+		dynamicTextItem.setContent( valueExpr );
+		dynamicTextItem.setContentType( contentType );
 		setupHighlight( dynamicTextItem, valueExpr );
-		setMap( dynamicTextItem, valueExpr );
-		
+		setupMap( dynamicTextItem, valueExpr );
+
 		setCurrentElement( dynamicTextItem );
 	}
 
@@ -663,8 +682,8 @@ public class EngineIRVisitor extends DesignVisitor
 		setupReportItem( labelItem, handle );
 
 		// Text
-		Expression<String> text = createConstant( handle.getText( ) );
-		Expression<String> textKey = createConstant( handle.getTextKey( ) );
+		String text = handle.getText( );
+		String textKey = handle.getTextKey( );
 
 		labelItem.setText( textKey, text );
 
@@ -675,9 +694,7 @@ public class EngineIRVisitor extends DesignVisitor
 			labelItem.setAction( createAction( action ) );
 		}
 		// Fill in help text
-		Expression<String> helpTextKey = createConstant( handle.getHelpTextKey( ) );
-		Expression<String> helpText = createConstant( handle.getHelpText( ) );
-		labelItem.setHelpText( helpTextKey, helpText );
+		labelItem.setHelpText( handle.getHelpTextKey( ), handle.getHelpText( ) );
 		
 		setCurrentElement( labelItem );
 	}
@@ -713,13 +730,12 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 
 		// Fill in help text
-		Expression<String> helpTextKey = createConstant( handle.getHelpTextKey( ) );
-		Expression<String> helpText = createConstant( handle.getHelpText( ) );
-		data.setHelpText( helpTextKey, helpText );
+		data.setHelpText( handle.getHelpTextKey( ), handle.getHelpText( ) );
 
-		setupHighlight( data, expr );
-		setMap( data, expr );
-		
+		Expression defaultExpr = createExpression( expr );
+		setupHighlight( data, defaultExpr );
+		setupMap( data, defaultExpr );
+
 		setCurrentElement( data );
 	}
 
@@ -730,15 +746,15 @@ public class EngineIRVisitor extends DesignVisitor
 		setupReportItem( grid, handle );
 
 		//Handle grid summary
-		Expression<String> summary = createConstant( handle.getSummary( ) );
+		String summary = handle.getSummary( );
 		if(summary != null)
 		{
 			grid.setSummary( summary );
 		}
 		
 		//Handle grid caption
-		Expression<String> caption = createConstant( handle.getCaption( ) );
-		Expression<String> captionKey = createConstant( handle.getCaptionKey( ) );
+		String caption = handle.getCaption( );
+		String captionKey = handle.getCaptionKey( );
 		if ( caption != null || captionKey != null )
 		{
 			grid.setCaption( captionKey, caption );
@@ -791,15 +807,11 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 
 		// Alternative text for image
-		Expression<String> altTextKey = createConstant( handle.getAltTextKey( ) );
-		Expression<String> altText = createConstant( handle.getAltText( ) );
-		image.setAltText( altTextKey, altText );
+		image.setAltText( handle.getAltTextKey( ), handle.getAltText( ) );
 
 		// Help text for image
-		Expression<String> helpText = createConstant( handle.getHelpText( ) );
-		Expression<String> helpTextKey = createConstant( handle.getHelpTextKey( ) );
-		image.setHelpText( helpTextKey, helpText );
-		
+		image.setHelpText( handle.getHelpTextKey( ), handle.getHelpText( ) );
+
 		// Fit to Container property
 		image.setFitToContainer( handle.fitToContainer( ) );
 
@@ -808,23 +820,30 @@ public class EngineIRVisitor extends DesignVisitor
 
 		if ( EngineIRConstants.IMAGE_REF_TYPE_URL.equals( imageSrc ) )
 		{
-			image.setImageUri( getExpression(handle, ImageHandle.URI_PROP ) );
+			ExpressionHandle urlExpr = handle
+					.getExpressionProperty( ImageHandle.URI_PROP );
+			image.setImageUri( createExpression( urlExpr ) );
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_EXPR.equals( imageSrc ) )
 		{
-			String valueExpr = handle.getValueExpression( );
-			String typeExpr = handle.getTypeExpression( );
-			String imageValue = validateExpression( valueExpr );
-			String imageType = validateExpression( typeExpr );
-			image.setImageExpression( imageValue, imageType );
+			ExpressionHandle valueExpr = handle
+					.getExpressionProperty( ImageHandle.VALUE_EXPR_PROP );
+			ExpressionHandle typeExpr = handle
+					.getExpressionProperty( ImageHandle.TYPE_EXPR_PROP );
+			image.setImageExpression( createExpression( valueExpr ),
+					createExpression( typeExpr ) );
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_EMBED.equals( imageSrc ) )
 		{
-			image.setImageName( handle.getImageName( ) );
+			ExpressionHandle nameExpr = handle
+					.getExpressionProperty( ImageHandle.IMAGE_NAME_PROP );
+			image.setImageName( createExpression( nameExpr ) );
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_FILE.equals( imageSrc ) )
 		{
-			image.setImageFile( getExpression( handle, ImageHandle.URI_PROP ) );
+			ExpressionHandle fileExpr = handle
+					.getExpressionProperty( ImageHandle.URI_PROP );
+			image.setImageFile( createExpression( fileExpr ) );
 		}
 		else
 		{
@@ -838,21 +857,20 @@ public class EngineIRVisitor extends DesignVisitor
 	{
 		// Create Table Item
 		TableItemDesign table = new TableItemDesign( );
-		Expression<Boolean> repeatHeader = createConstant( handle.repeatHeader( ) );
-		table.setRepeatHeader( repeatHeader );
+		table.setRepeatHeader( handle.repeatHeader( ) );
 
 		setupListingItem( table, handle );
 
 		//Handle table summary
-		Expression<String> summary = createConstant( handle.getSummary( ) );
+		String summary = handle.getSummary( );
 		if( summary != null )
 		{
 			table.setSummary( summary );
 		}
 
 		// Handle table caption
-		Expression<String> caption = createConstant( handle.getCaption( ) );
-		Expression<String> captionKey = createConstant( handle.getCaptionKey( ) );
+		String caption = handle.getCaption( );
+		String captionKey = handle.getCaptionKey( );
 		if ( caption != null || captionKey != null )
 		{
 			table.setCaption( captionKey, caption );
@@ -1200,11 +1218,10 @@ public class EngineIRVisitor extends DesignVisitor
 		// false will be set here. It needs be fixed after Model team finish the
 		// work.
 		// col.setColumnHeaderState( handle.isColumnHeader( ) );
-		col.setColumnHeaderState( Expression.newConstant( false ) );
+		col.setColumnHeaderState( false );
 		
 		// Column Width
-		Expression<DimensionType> width = createConstant( createDimension(
-				handle.getWidth( ), false ) );
+		DimensionType width = createDimension( handle.getWidth( ), false );
 		col.setWidth( width );
 		
 		boolean supress = handle.suppressDuplicates( );
@@ -1227,14 +1244,13 @@ public class EngineIRVisitor extends DesignVisitor
 		setupStyledElement( row, handle );
 
 		// Row Height
-		Expression<DimensionType> height = createConstant( createDimension( handle
-				.getHeight( ), false ) );
+		DimensionType height = createDimension( handle.getHeight( ), false );
 		row.setHeight( height );
 
 		// Book mark
-		Expression<String> bookmark = getExpression( handle,
-				ITableRowModel.BOOKMARK_PROP );
-		row.setBookmark( bookmark );
+		ExpressionHandle bookmarkExpr = handle
+				.getExpressionProperty( RowHandle.BOOKMARK_PROP );
+		row.setBookmark( createExpression( bookmarkExpr ) );
 
 		// Visibility
 		VisibilityDesign visibility = createVisibility( handle
@@ -1253,22 +1269,23 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 
 		String onCreate = handle.getOnCreate( );
-		String OnCreateScriptText = validateExpression( onCreate );
-		if ( null != OnCreateScriptText )
+		Expression.Script onCreateScript = createScript( onCreate );
+		if ( onCreateScript != null )
 		{
-			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( ITableRowModel.ON_CREATE_METHOD ) );
-			ScriptExpression scriptExpr = new ScriptExpression( OnCreateScriptText,
-					id );
-			row.setOnCreate( scriptExpr );
+			String id = ModuleUtil.getScriptUID( handle
+					.getPropertyHandle( ITableRowModel.ON_CREATE_METHOD ) );
+			onCreateScript.setFileName( id );
+			row.setOnCreate( onCreateScript );
 		}
 
-		String OnRenderScriptText = ( (RowHandle) handle ).getOnRender( );
-		if ( null != OnRenderScriptText )
+		String onRender = handle.getOnRender( );
+		Expression.Script onRenderScript = createScript( onRender );
+		if ( onRenderScript != null )
 		{
-			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( ITableRowModel.ON_RENDER_METHOD ) );
-			ScriptExpression scriptExpr = new ScriptExpression( OnRenderScriptText,
-					id );
-			row.setOnRender( scriptExpr );
+			String id = ModuleUtil.getScriptUID( handle
+					.getPropertyHandle( ITableRowModel.ON_RENDER_METHOD ) );
+			onRenderScript.setFileName( id );
+			row.setOnRender( onRenderScript );
 		}
 
 		setupHighlight( row, null );
@@ -1366,24 +1383,25 @@ public class EngineIRVisitor extends DesignVisitor
 		{
 			cell.setDrop( handle.getDrop( ) );
 		}
-		
+
 		String onCreate = handle.getOnCreate( );
-		String onCreateScriptText = validateExpression( onCreate );
-		if ( null != onCreateScriptText )
+		Expression.Script onCreateScript = createScript( onCreate );
+		if ( onCreateScript != null )
 		{
-			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( ICellModel.ON_CREATE_METHOD ) );
-			ScriptExpression scriptExpr = new ScriptExpression( onCreateScriptText,
-					id );
-			cell.setOnCreate( scriptExpr );
+			String id = ModuleUtil.getScriptUID( handle
+					.getPropertyHandle( ICellModel.ON_CREATE_METHOD ) );
+			onCreateScript.setFileName( id );
+			cell.setOnCreate( onCreateScript );
 		}
 
-		String OnRenderScriptText = handle.getOnRender( );
-		if ( null != OnRenderScriptText )
+		String onRender = handle.getOnRender( );
+		Expression.Script onRenderScript = createScript( onRender );
+		if ( onRenderScript != null )
 		{
-			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( ICellModel.ON_RENDER_METHOD ) );
-			ScriptExpression scriptExpr = new ScriptExpression( OnRenderScriptText,
-					id );
-			cell.setOnRender( scriptExpr );
+			String id = ModuleUtil.getScriptUID( handle
+					.getPropertyHandle( ICellModel.ON_RENDER_METHOD ) );
+			onRenderScript.setFileName( id );
+			cell.setOnRender( onRenderScript );
 		}
 
 		setupHighlight( cell, null );
@@ -1423,11 +1441,15 @@ public class EngineIRVisitor extends DesignVisitor
 				
 		setCurrentElement( cell );
 	}
-	
+
 	private void setupAuralInfomation( CellDesign cell, CellHandle handle )
 	{
-		cell.setBookmark( getExpression( handle, ICellModel.BOOKMARK_PROP ) );
-		cell.setHeaders( getExpression( handle, ICellModel.HEADERS_PROP ) );
+		ExpressionHandle bookmarkExpr = handle
+				.getExpressionProperty( CellHandle.BOOKMARK_PROP );
+		cell.setBookmark( createExpression( bookmarkExpr ) );
+		ExpressionHandle headersExpr = handle
+				.getExpressionProperty( CellHandle.HEADERS_PROP );
+		cell.setHeaders( createExpression( headersExpr ) );
 		String scope = handle.getScope( );
 		if ( scope != null )
 		{
@@ -1501,19 +1523,15 @@ public class EngineIRVisitor extends DesignVisitor
 			header.setBandType( ListBandDesign.GROUP_HEADER );
 			header.setGroup( listGroup );
 			listGroup.setHeader( header );
-			Expression<Boolean> repeatHeader = createConstant( handle.repeatHeader( ) );
-			listGroup.setHeaderRepeat( repeatHeader );
+			listGroup.setHeaderRepeat( handle.repeatHeader( ) );
 
 			// flatten TOC on group to the first report item in group header
-			TOCHandle tocHandle = handle.getTOC( );
-			if ( tocHandle != null )
+			TOCHandle toc = handle.getTOC( );
+			if ( toc != null )
 			{
-				String toc = tocHandle.getExpression( );
-				if ( null != toc && !"".equals( toc.trim( ) ) ) //$NON-NLS-1$
-				{
-					listGroup
-							.setTOC( createObjectExpression( validateExpression( toc ) ) );
-				}
+				ExpressionHandle tocExpr = toc
+						.getExpressionProperty( TOC.TOC_EXPRESSION );
+				listGroup.setTOC( createExpression( tocExpr ) );
 			}
 		}
 
@@ -1526,8 +1544,7 @@ public class EngineIRVisitor extends DesignVisitor
 			listGroup.setFooter( footer );
 		}
 
-		Expression<Boolean> hideDetail = createConstant( handle.hideDetail( ) );
-		listGroup.setHideDetail( hideDetail );
+		listGroup.setHideDetail( handle.hideDetail( ) );
 		
 		setCurrentElement( listGroup );
 	}
@@ -1552,16 +1569,15 @@ public class EngineIRVisitor extends DesignVisitor
 			header.setBandType( TableBandDesign.GROUP_HEADER );
 			header.setGroup( tableGroup );
 			tableGroup.setHeader( header );
-			Expression<Boolean> repeatHeader = createConstant( handle.repeatHeader( ) );
-			tableGroup.setHeaderRepeat( repeatHeader );
+			tableGroup.setHeaderRepeat( handle.repeatHeader( ) );
 			
 			// flatten TOC on group to the first report item in group header
-			TOCHandle toc = handle.getTOC( );
-			if ( toc != null ) //$NON-NLS-1$
+			TOCHandle tocHandle = handle.getTOC( );
+			if ( tocHandle != null )
 			{
-				tableGroup
-						.setTOC( createObjectExpression( validateExpression( toc
-						.getExpression( ) ) ) );
+				ExpressionHandle tocExpr = tocHandle
+						.getExpressionProperty( TOC.TOC_EXPRESSION );
+				tableGroup.setTOC( createExpression( tocExpr ) );
 			}
 		}
 
@@ -1574,8 +1590,7 @@ public class EngineIRVisitor extends DesignVisitor
 			tableGroup.setFooter( footer );
 		}
 		
-		boolean hideDetail = handle.hideDetail( );
-		tableGroup.setHideDetail( createConstant( hideDetail ) );
+		tableGroup.setHideDetail( handle.hideDetail( ) );
 		
 		setCurrentElement( tableGroup );
 	}
@@ -1586,15 +1601,15 @@ public class EngineIRVisitor extends DesignVisitor
 		TextItemDesign textItem = new TextItemDesign( );
 		setupReportItem( textItem, handle );
 
-		Expression<String> contentType = createConstant( handle.getContentType( ) );
+		String contentType = handle.getContentType( );
 		if ( contentType != null )
 		{
 			textItem.setTextType( contentType );
 		}
-		Expression<String> contentKey = createConstant( handle.getContentKey( ) );
-		Expression<String> content = createConstant( handle.getContent( ) );
-		textItem.setText( contentKey, content );
-		
+		textItem.setText( handle.getContentKey( ), handle.getContent( ) );
+
+		textItem.setHasExpression( handle.hasExpression( ) );
+
 		currentElement = textItem;
 	}
 
@@ -1609,9 +1624,7 @@ public class EngineIRVisitor extends DesignVisitor
 		setupReportItem( extendedItem, obj );
 		
 		// Alternative text for extendedItem
-		Expression<String> altTextKey = createConstant( obj.getAltTextKey( ) );
-		Expression<String> altText = createConstant( obj.getAltText( ) );
-		extendedItem.setAltText( altTextKey, altText );
+		extendedItem.setAltText( obj.getAltTextKey( ), obj.getAltText( ) );
 		
 		handleExtendedItemChildren( extendedItem, obj );
 		
@@ -1663,10 +1676,8 @@ public class EngineIRVisitor extends DesignVisitor
 	{
 		TemplateDesign template = new TemplateDesign( );
 		setupTemplateReportElement( template, obj );
-		Expression<String> promptText = createConstant( obj.getDescription( ) );
-		Expression<String> promptTextKey = createConstant( obj.getDescriptionKey( ) );
-		template.setPromptText( promptText );
-		template.setPromptTextKey( promptTextKey );
+		template.setPromptText( obj.getDescription( ) );
+		template.setPromptTextKey( obj.getDescriptionKey( ) );
 		template.setAllowedType( obj.getAllowedType( ) );
 		
 		setCurrentElement( template );
@@ -1678,55 +1689,56 @@ public class EngineIRVisitor extends DesignVisitor
 		group.setID( handle.getID( ) );
 		setupElementIDMap( group );
 		group.setName( handle.getName( ) );
-		String pageBreakBefore = handle
-				.getStringProperty( StyleHandle.PAGE_BREAK_BEFORE_PROP );
-		String pageBreakAfter = handle
-				.getStringProperty( StyleHandle.PAGE_BREAK_AFTER_PROP );
-		String pageBreakInside = handle
-				.getStringProperty( StyleHandle.PAGE_BREAK_INSIDE_PROP );
-		group.setPageBreakBefore( createConstant( pageBreakBefore ) );
-		group.setPageBreakAfter( createConstant( pageBreakAfter ) );
-		group.setPageBreakInside( createConstant( pageBreakInside ) );
+		String pageBreakBefore = handle.getPageBreakBefore( );
+		String pageBreakAfter = handle.getPageBreakAfter( );
+		String pageBreakInside = handle.getPageBreakInside( );
+		group.setPageBreakBefore( pageBreakBefore );
+		group.setPageBreakAfter( pageBreakAfter );
+		group.setPageBreakInside( pageBreakInside );
 		
 		// setup TOC expression
 		TOCHandle tocHandle = handle.getTOC( );
 		if ( tocHandle != null )
 		{
-			String toc = tocHandle.getExpression( );
-			group.setTOC( createObjectExpression( validateExpression( toc ) ) );
+			ExpressionHandle tocExpr = tocHandle
+					.getExpressionProperty( TOC.TOC_EXPRESSION );
+			group.setTOC( createExpression( tocExpr ) );
 		}
 		// bookmark
-		Expression<String> bookmark = getExpression( handle,
-				IGroupElementModel.BOOKMARK_PROP );
-		group.setBookmark( bookmark );
+		ExpressionHandle bookmarkExpr = handle
+				.getExpressionProperty( GroupHandle.BOOKMARK_PROP );
+		group.setBookmark( createExpression( bookmarkExpr ) );;
 		
 		// set up OnCreate, OnRender, OnPageBreak
-		String scriptText = handle.getOnCreate( );
-		if ( null != scriptText )
+		String onCreate = handle.getOnCreate( );
+		Expression.Script onCreateScript = createScript(onCreate);
+		if ( onCreateScript != null )
 		{
 			String id = ModuleUtil.getScriptUID( handle
 					.getPropertyHandle( IGroupElementModel.ON_CREATE_METHOD ) );
-			ScriptExpression scriptExpr = new ScriptExpression( scriptText, id );
-			group.setOnCreate( scriptExpr );
+			onCreateScript.setFileName(id);
+			group.setOnCreate( onCreateScript );
 		}
 
-		scriptText = handle.getOnRender( );
-		if ( null != scriptText )
+		String onRender = handle.getOnRender( );
+		Expression.Script onRenderScript = createScript( onRender );
+		if ( onRenderScript != null )
 		{
 			String id = ModuleUtil.getScriptUID( handle
 					.getPropertyHandle( IGroupElementModel.ON_RENDER_METHOD ) );
-			ScriptExpression scriptExpr = new ScriptExpression( scriptText, id );
-			group.setOnRender( scriptExpr );
+			onRenderScript.setFileName( id );
+			group.setOnRender( onRenderScript );
 		}
 
-		scriptText = handle.getOnPageBreak( );
-		if ( null != scriptText )
+		String onPageBreak = handle.getOnPageBreak( );
+		Expression.Script onPageBreakScript = createScript( onPageBreak );
+		if ( onPageBreakScript != null )
 		{
 			String id = ModuleUtil
 					.getScriptUID( handle
 							.getPropertyHandle( IGroupElementModel.ON_PAGE_BREAK_METHOD ) );
-			ScriptExpression scriptExpr = new ScriptExpression( scriptText, id );
-			group.setOnPageBreak( scriptExpr );
+			onPageBreakScript.setFileName( id );
+			group.setOnPageBreak( onPageBreakScript );
 		}
 		
 		group.setHandle( handle );
@@ -1797,8 +1809,9 @@ public class EngineIRVisitor extends DesignVisitor
 	protected VisibilityRuleDesign createHide( HideRuleHandle handle )
 	{
 		VisibilityRuleDesign rule = new VisibilityRuleDesign( );
-		rule.setExpression( createBooleanExpression( handle
-				.getExpressionProperty( HideRule.VALUE_EXPR_MEMBER ) ) );
+		ExpressionHandle valueExpr = handle
+				.getExpressionProperty( HideRule.VALUE_EXPR_MEMBER );
+		rule.setExpression( createExpression( valueExpr ) );
 		String format = handle.getFormat( );
 		if ( "viewer".equalsIgnoreCase( format ) ) //$NON-NLS-1$
 		{
@@ -1825,50 +1838,54 @@ public class EngineIRVisitor extends DesignVisitor
 		DimensionType width = createDimension( handle.getWidth( ), false );
 		DimensionType x = createDimension( handle.getX( ), false );
 		DimensionType y = createDimension( handle.getY( ), false );
-		item.setHeight( createConstant ( height ) );
-		item.setWidth( createConstant ( width ) );
-		item.setX( createConstant ( x ) );
-		item.setY( createConstant ( y ) );
+		item.setHeight( height );
+		item.setWidth( width );
+		item.setX( x );
+		item.setY( y );
 
 		// setup TOC expression
 		TOCHandle tocHandle = handle.getTOC( );
 		if ( tocHandle != null )
 		{
-			String toc = tocHandle.getExpression( );
-			item.setTOC( createObjectExpression( validateExpression( toc ) ) );
+			ExpressionHandle tocExpr = tocHandle
+					.getExpressionProperty( TOC.TOC_EXPRESSION );
+			item.setTOC( createExpression( tocExpr ) );
 		}
 
 		// setup book mark
-		item
-				.setBookmark( getExpression( handle,
-						IReportItemModel.BOOKMARK_PROP ) );
+		ExpressionHandle bookmarkExpr = handle
+				.getExpressionProperty( ReportItemHandle.BOOKMARK_PROP );
+		item.setBookmark( createExpression( bookmarkExpr ) );
 
 		String onCreate = handle.getOnCreate( );
-		String onCreateScriptText = validateExpression( onCreate );
-		if ( null != onCreateScriptText )
+		Expression.Script onCreateScript = createScript( onCreate );
+		if ( onCreateScript != null )
 		{
-			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( IReportItemModel.ON_CREATE_METHOD ) );
-			ScriptExpression scriptExpr = new ScriptExpression( onCreateScriptText,
-					id );
-			item.setOnCreate( scriptExpr );
+			String id = ModuleUtil.getScriptUID( handle
+					.getPropertyHandle( IReportItemModel.ON_CREATE_METHOD ) );
+			onCreateScript.setFileName( id );
+			item.setOnCreate( onCreateScript );
 		}
 
-		String OnRenderScriptText = handle.getOnRender( );
-		if ( null != OnRenderScriptText )
+		String onRender = handle.getOnRender( );
+		Expression.Script onRenderScript = createScript( onRender );
+		if ( onRenderScript != null )
 		{
-			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( IReportItemModel.ON_RENDER_METHOD ) );
-			ScriptExpression scriptExpr = new ScriptExpression( OnRenderScriptText,
-					id );
-			item.setOnRender( scriptExpr );
+			String id = ModuleUtil.getScriptUID( handle
+					.getPropertyHandle( IReportItemModel.ON_RENDER_METHOD ) );
+			onRenderScript.setFileName( id );
+			item.setOnRender( onRenderScript );
 		}
-		
-		String OnPageBreakScriptText = handle.getOnPageBreak( );
-		if ( null != OnPageBreakScriptText )
+
+		String onPageBreak = handle.getOnPageBreak( );
+		Expression.Script onPageBreakScript = createScript( onPageBreak );
+		if ( onPageBreakScript != null )
 		{
-			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( IReportItemModel.ON_PAGE_BREAK_METHOD ) );
-			ScriptExpression scriptExpr = new ScriptExpression( OnPageBreakScriptText,
-					id );
-			item.setOnPageBreak( scriptExpr );
+			String id = ModuleUtil
+					.getScriptUID( handle
+							.getPropertyHandle( IReportItemModel.ON_PAGE_BREAK_METHOD ) );
+			onPageBreakScript.setFileName( id );
+			item.setOnPageBreak( onPageBreakScript );
 		}
 
 		// Sets up the visibility
@@ -1942,15 +1959,6 @@ public class EngineIRVisitor extends DesignVisitor
 		element.setVisibility( visibility );
 	}
 
-	protected String validateExpression( String expr )
-	{
-		if ( expr != null && !expr.trim( ).equals( "" ) ) //$NON-NLS-1$
-		{
-			return expr;
-		}
-		return null;
-	}
-
 	/**
 	 * create a Action.
 	 * 
@@ -1962,47 +1970,59 @@ public class EngineIRVisitor extends DesignVisitor
 	{
 		ActionDesign action = new ActionDesign( );
 		String linkType = handle.getLinkType( );
-		action.setTooltip( createConstant( handle.getToolTip( ) ) );
+		action.setTooltip( handle.getToolTip( ) );
 
 		if ( EngineIRConstants.ACTION_LINK_TYPE_HYPERLINK.equals( linkType ) )
 		{
-			action.setHyperlink( getExpression( handle, Action.URI_MEMBER ) );
-			action
-					.setTargetWindow( createConstant( handle.getTargetWindow( ) ) );
+			ExpressionHandle urlExpr = handle
+					.getExpressionProperty( Action.URI_MEMBER );
+			action.setHyperlink( createExpression( urlExpr ) );
+			action.setTargetWindow( handle.getTargetWindow( ) );
 		}
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
 				.equals( linkType ) )
 		{
-			action.setBookmark( getExpression( handle,
-					Action.TARGET_BOOKMARK_MEMBER ) );
+			ExpressionHandle bookmarkExpr = handle
+					.getExpressionProperty( Action.TARGET_BOOKMARK_MEMBER );
+			action.setBookmark( createExpression( bookmarkExpr ) );
 		}
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_DRILL_THROUGH
 				.equals( linkType ) )
 		{
-			action
-					.setTargetWindow( createConstant( handle
-							.getTargetWindow( ) ) );
-			action.setTargetFileType( createConstant( handle
-					.getTargetFileType( ) ) );
+			action.setTargetWindow( handle.getTargetWindow( ) );
 			DrillThroughActionDesign drillThrough = new DrillThroughActionDesign( );
 			action.setDrillThrough( drillThrough );
 
+			//FIXME: the report name should support expression
+			//ExpressionHandle reportNameExpr = handle
+			//		.getExpressionProperty( Action.REPORT_NAME_MEMBER );
+			String reportNameExpr = handle.getReportName( );
 			drillThrough
-					.setReportName( createConstant( handle.getReportName( ) ) );
-			drillThrough.setFormat( createConstant( handle.getFormatType( ) ) );
-			drillThrough.setBookmark( getExpression( handle,
-					Action.TARGET_BOOKMARK_MEMBER ) );
-			drillThrough.setBookmarkType( createConstant( handle
-					.getTargetBookmarkType( ) ) );
-			Map params = new HashMap( );
+					.setReportName( Expression.newConstant( reportNameExpr ) );
+			drillThrough.setTargetFileType( handle.getTargetFileType( ) );
+			drillThrough.setFormat( handle.getFormatType( ) );
+
+			ExpressionHandle bookmarkExpr = handle
+					.getExpressionProperty( Action.TARGET_BOOKMARK_MEMBER );
+			drillThrough.setBookmark( createExpression( bookmarkExpr ) );
+
+			drillThrough
+					.setBookmarkType( !DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC
+							.equals( handle.getTargetBookmarkType( ) ) );
+			Map<String, Expression> params = new HashMap<String, Expression>( );
 			Iterator paramIte = handle.paramBindingsIterator( );
 			while ( paramIte.hasNext( ) )
 			{
 				ParamBindingHandle member = (ParamBindingHandle) paramIte
 						.next( );
-				params.put( member.getParamName( ),
-						createExpression( validateExpression( member
-								.getExpression( ) ) ) );
+				String name = member.getParamName( );
+				ExpressionHandle exprHandle = member
+						.getExpressionProperty( ParamBinding.EXPRESSION_MEMBER );
+				Expression expr = createExpression( exprHandle );
+				if ( expr != null )
+				{
+					params.put( name, expr );
+				}
 			}
 			drillThrough.setParameters( params );
 			// XXX Search criteria is not supported yet.
@@ -2026,18 +2046,6 @@ public class EngineIRVisitor extends DesignVisitor
 		return action;
 	}
 
-	private Expression<String> getExpression( ActionHandle handle,
-			String propertyName )
-	{
-		return createExpression( handle.getExpressionProperty( propertyName ) );
-	}
-
-	private Expression<String> getExpression( DesignElementHandle handle,
-			String propertyName )
-	{
-		return createExpression( handle.getExpressionProperty( propertyName ) );
-	}
-
 	/**
 	 * create a highlight rule from a structure handle.
 	 * 
@@ -2047,39 +2055,11 @@ public class EngineIRVisitor extends DesignVisitor
 	 */
 	protected HighlightRuleDesign createHighlightRule(
 			StyledElementDesign design, HighlightRuleHandle ruleHandle,
-			String defaultStr )
+			Expression defaultExpr )
 	{
-		boolean isListStyle = ModuleUtil.isListStyleRuleValue( ruleHandle );
 		HighlightRuleDesign rule = new HighlightRuleDesign( );
 
-		if ( isListStyle )
-		{
-			rule.setExpression( ruleHandle.getOperator( ),
-					createConstant( ruleHandle.getValue1List( ) ) );
-		}
-		else
-		{
-			rule.setExpression( ruleHandle.getOperator( ),
-					createExpression( ruleHandle.getValue1( ) ),
-					createExpression( ruleHandle.getValue2( ) ) );
-		}
-
-		JSExpression<String> testExpr = createExpression( ruleHandle
-				.getTestExpression( ) );
-		testExpr = validateExpression( testExpr );
-		if ( testExpr != null )
-		{
-			rule.setTestExpression( testExpr );
-		}
-		else if ( ( defaultStr != null ) && defaultStr.length( ) > 0 )
-		{
-			rule.setTestExpression( createExpression( defaultStr ) );
-		}
-		else
-		{
-			// test expression is null
-			return null;
-		}
+		setupRuleDesign( rule, ruleHandle, defaultExpr );
 
 		// all other properties are style properties,
 		// copy those properties into a style design.
@@ -2096,24 +2076,14 @@ public class EngineIRVisitor extends DesignVisitor
 		return rule;
 	}
 
-	private JSExpression<String> validateExpression( JSExpression<String> expression )
-	{
-		JSExpression<String> tempValue = null;
-		if ( expression != null && expression.getDesignValue( ) != null
-				&& expression.getDesignValue( ).length( ) > 0 )
-		{
-			tempValue = expression;
-		}
-		return tempValue;
-	}
-
 	/**
 	 * create highlight defined in the handle.
 	 * 
 	 * @param item
 	 *            styled item.
 	 */
-	protected void setupHighlight( StyledElementDesign item, String defaultStr )
+	protected void setupHighlight( StyledElementDesign item,
+			Expression defaultExpr )
 	{
 		StyleHandle handle = item.getHandle( ).getPrivateStyle( );
 		if ( handle == null )
@@ -2137,7 +2107,7 @@ public class EngineIRVisitor extends DesignVisitor
 				HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iter
 						.next( );
 				HighlightRuleDesign rule = createHighlightRule( item,
-						ruleHandle, defaultStr );
+						ruleHandle, defaultExpr );
 				if ( rule != null )
 				{
 					highlight.addRule( rule );
@@ -2154,7 +2124,7 @@ public class EngineIRVisitor extends DesignVisitor
 	 * @param item
 	 *            styled item;
 	 */
-	protected void setMap( StyledElementDesign item, String defaultStr )
+	protected void setupMap( StyledElementDesign item, Expression defaultExpr)
 	{
 		StyleHandle handle = item.getHandle( ).getPrivateStyle( );
 		if ( handle == null )
@@ -2171,7 +2141,7 @@ public class EngineIRVisitor extends DesignVisitor
 		while ( iter.hasNext( ) )
 		{
 			MapRuleHandle ruleHandle = (MapRuleHandle) iter.next( );
-			MapRuleDesign rule = createMapRule( ruleHandle, defaultStr );
+			MapRuleDesign rule = createMapRule( ruleHandle, defaultExpr );
 			if ( rule != null )
 			{
 				map.addRule( rule );
@@ -2193,43 +2163,49 @@ public class EngineIRVisitor extends DesignVisitor
 	 * @return map rule in ENGINE.
 	 */
 	protected MapRuleDesign createMapRule( MapRuleHandle handle,
-			String defaultStr )
+			Expression defaultExpr )
+	{
+		MapRuleDesign rule = new MapRuleDesign( );
+		setupRuleDesign( rule, handle, defaultExpr );
+		String displayText = handle.getDisplay( );
+		rule.setDisplayText( handle.getDisplayKey( ), displayText == null ? "" //$NON-NLS-1$
+				: displayText );
+		return rule;
+	}
+
+	private void setupRuleDesign( RuleDesign rule, StyleRuleHandle handle,
+			Expression defaultExpr )
 	{
 		boolean isListStyle = ModuleUtil.isListStyleRuleValue( handle );
-		MapRuleDesign rule = new MapRuleDesign( );
 		if ( isListStyle )
 		{
-			rule.setExpression( handle.getOperator( ), createConstant( handle
-					.getValue1List( ) ) );
+			ExpressionListHandle exprHandles = handle.getValue1ExpressionList( );
+			List<Expression> exprs = createExpression( exprHandles );
+			rule.setExpression( handle.getOperator( ), exprs );
 		}
 		else
 		{
-			rule.setExpression( handle.getOperator( ), createConstant( handle.getValue1( ) ),
-					createConstant( handle.getValue2( ) ) );
-		}
-		String displayText = handle.getDisplay( );
-		rule.setDisplayText( createConstant( handle.getDisplayKey( ) ), displayText == null
-				? Expression.newConstant( "" )//$NON-NLS-1$
-				: createConstant( displayText ) );
+			ExpressionListHandle exprHandles = handle.getValue1ExpressionList( );
+			List<Expression> exprs = createExpression( exprHandles );
 
-		JSExpression<String> testExpr = createExpression( handle
-				.getTestExpression( ) );
-		testExpr = validateExpression(testExpr);
+			ExpressionHandle value2Expr = handle
+					.getExpressionProperty( StyleRule.VALUE2_MEMBER );
+
+			rule.setExpression( handle.getOperator( ), exprs.size( ) > 0
+					? exprs.get( 0 )
+					: null, createExpression( value2Expr ) );
+		}
+
+		Expression testExpr = createExpression( handle
+				.getExpressionProperty( StyleRule.TEST_EXPR_MEMBER ) );
 		if ( testExpr != null )
 		{
 			rule.setTestExpression( testExpr );
 		}
-		else if ( ( defaultStr != null ) && defaultStr.length( ) > 0 )
+		else if ( defaultExpr != null )
 		{
-			rule.setTestExpression( createExpression( defaultStr ) );
+			rule.setTestExpression( defaultExpr );
 		}
-		else
-		{
-			// test expression is null
-			return null;
-		}
-
-		return rule;
 	}
 
 	/**
@@ -2535,8 +2511,11 @@ public class EngineIRVisitor extends DesignVisitor
 		// setup related scripts
 		setupReportItem( listing, handle );
 
-		listing.setPageBreakInterval( createConstant( handle
-				.getPageBreakInterval( ) ) );
+		int interval = handle.getPageBreakInterval( );
+		if ( interval > 0 )
+		{
+			listing.setPageBreakInterval( interval );
+		}
 		// setup scripts
 		// listing.setOnStart( handle.getOnStart( ) );
 		// listing.setOnRow( handle.getOnRow( ) );
@@ -2730,80 +2709,106 @@ public class EngineIRVisitor extends DesignVisitor
 		return newCellId;
 	}
 
-	private <T> Expression<T> createConstant( T value )
+	private Expression createExpression( String expr )
 	{
-		if ( value == null )
+		if ( expr != null )
 		{
-			return null;
-		}
-		return Expression.newConstant(value);
-	}
-
-	private Expression<String> createExpression(
-			ExpressionHandle expressionHandle )
-	{
-		return createExpression( expressionHandle, String.class );
-	}
-
-	private Expression<Boolean> createBooleanExpression(
-			ExpressionHandle expressionhandle )
-	{
-		return createExpression( expressionhandle, Boolean.class );
-	}
-
-	private Expression<Object> createObjectExpression(
-			ExpressionHandle expressionhandle )
-	{
-		return createExpression( expressionhandle, Object.class );
-	}
-
-	@SuppressWarnings("unchecked")
-	private <T> Expression<T> createExpression(
-			ExpressionHandle expressionHandle, Class<T> classtype )
-	{
-		if ( expressionHandle == null )
-		{
-			return null;
-		}
-		if ( "constant".equalsIgnoreCase( expressionHandle.getType( ) ) )
-		{
-			return Expression.newConstant( (String) expressionHandle
-					.getExpression( ),
-					classtype );
-		}
-		else
-		{
-			String expression = (String) expressionHandle.getExpression( );
-			if ( expression == null || expression.length( ) == 0 )
+			expr = expr.trim( );
+			if ( expr.length( ) > 0 )
 			{
-				return null;
+				return Expression.newScript( defaultScriptLanguage, expr );
 			}
-			return Expression.newExpression( expression, classtype );
 		}
-
+		return null;
 	}
 
-	private JSExpression<String> createExpression( String expression )
+	private List<Expression> createExpression( ExpressionListHandle exprHandles )
 	{
-		return createExpression( expression, String.class );
-	}
-
-	private JSExpression<Boolean> createBooleanExpression( String expression )
-	{
-		return createExpression( expression, Boolean.class );
-	}
-
-	private JSExpression<Object> createObjectExpression( String expression )
-	{
-		return createExpression( expression, Object.class );
-	}
-
-	private <T> JSExpression<T> createExpression( String expression, Class<T> type )
-	{
-		if ( expression == null )
+		List<Expression> listExprs = new ArrayList<Expression>( );
+		List<org.eclipse.birt.report.model.api.Expression> exprs = exprHandles
+				.getListValue( );
+		if ( exprs != null )
 		{
-			return null;
+			for ( org.eclipse.birt.report.model.api.Expression expr : exprs )
+			{
+				Expression expression = createExpression( expr );
+				if ( expression != null )
+				{
+					listExprs.add( createExpression( expr ) );
+				}
+			}
 		}
-		return Expression.newExpression( expression, type );
+
+		return listExprs;
+	}
+
+	private Expression createExpression(
+			org.eclipse.birt.report.model.api.Expression expr )
+	{
+		if ( expr != null )
+		{
+			String type = expr.getType( );
+			if ( ExpressionType.CONSTANT.equals( type ) )
+			{
+				String text = expr.getStringExpression( );
+				return Expression.newConstant( -1, text );
+			}
+			else
+			{
+				String text = expr.getStringExpression( );
+				if ( text != null )
+				{
+					text = text.trim( );
+					if ( text.length( ) > 0 )
+					{
+						return Expression.newScript( type, text );
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	private Expression createExpression( ExpressionHandle expressionHandle )
+	{
+		if ( expressionHandle != null )
+		{
+			if ( expressionHandle.isSet( ) )
+			{
+				String type = expressionHandle.getType( );
+				if ( ExpressionType.CONSTANT.equals( type ) )
+				{
+					// String valueType = expressionHandle.getValue( );
+					String text = expressionHandle.getStringExpression( );
+					return Expression.newConstant( -1, text );
+				}
+				else
+				{
+					String text = expressionHandle.getStringExpression( );
+					if ( text != null )
+					{
+						text = text.trim( );
+						if ( text.length( ) > 0 )
+						{
+							return Expression.newScript( type, text );
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	private Expression.Script createScript( String script )
+	{
+		if ( script != null )
+		{
+			script = script.trim( );
+			if ( script.length( ) > 0 )
+			{
+				return Expression.newScript( defaultScriptLanguage, script );
+			}
+		}
+		return null;
 	}
 }

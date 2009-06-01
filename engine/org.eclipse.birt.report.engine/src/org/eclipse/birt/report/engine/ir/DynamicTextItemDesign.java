@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,39 +21,39 @@ public class DynamicTextItemDesign extends ReportItemDesign
 	 * content type must be one of:
 	 * html, plain, rtf or auto.
 	 */
-	protected Expression<String> contentType;
+	protected String contentType;
 	/**
 	 * content 
 	 */
-	protected Expression<Object> content;
+	protected Expression content;
 	
 	
 	
 	/**
 	 * @return Returns the content.
 	 */
-	public Expression<Object> getContent( )
+	public Expression getContent( )
 	{
 		return content;
 	}
 	/**
 	 * @param content The content to set.
 	 */
-	public void setContent( Expression<Object> content )
+	public void setContent( Expression content )
 	{
 		this.content = content;
 	}
 	/**
 	 * @return Returns the contentType.
 	 */
-	public Expression<String> getContentType( )
+	public String getContentType( )
 	{
 		return contentType;
 	}
 	/**
 	 * @param contentType The contentType to set.
 	 */
-	public void setContentType( Expression<String> contentType )
+	public void setContentType( String contentType )
 	{
 		this.contentType = contentType;
 	}

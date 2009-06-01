@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import org.eclipse.birt.core.script.ScriptExpression;
 
 /**
  * Master Page
@@ -56,8 +55,8 @@ abstract public class MasterPageDesign extends StyledElementDesign
 
 	protected String bodyStyleName;
 
-	private ScriptExpression onPageStart;
-	private ScriptExpression onPageEnd;
+	private Expression onPageStart;
+	private Expression onPageEnd;
 
 	/**
 	 * default constuctor use A4, 5mm margin.
@@ -212,22 +211,22 @@ abstract public class MasterPageDesign extends StyledElementDesign
 		this.bodyStyleName = bodyStyleName;
 	}
 
-	public ScriptExpression getOnPageStart( )
+	public Expression getOnPageStart( )
 	{
 		return onPageStart;
 	}
 
-	public void setOnPageStart( ScriptExpression onPageStart )
+	public void setOnPageStart( Expression onPageStart )
 	{
 		this.onPageStart = onPageStart;
 	}
 
-	public ScriptExpression getOnPageEnd( )
+	public Expression getOnPageEnd( )
 	{
 		return onPageEnd;
 	}
 
-	public void setOnPageEnd( ScriptExpression onPageEnd )
+	public void setOnPageEnd( Expression onPageEnd )
 	{
 		this.onPageEnd = onPageEnd;
 	}

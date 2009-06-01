@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2007,2008 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,9 +16,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
-import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
@@ -50,7 +50,6 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCEntry;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * Abstract class, Represents a report item executor. Report item executor
@@ -275,15 +274,46 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		context.setContent( content );
 		this.content = content;
 	}
-	
-	Object evaluate( String expr ) throws BirtException
+
+	protected Object evaluate( Expression expr )
 	{
-		return context.evaluate( expr );
-	}	
-	
-	Object evaluate( IConditionalExpression expr ) throws BirtException
+		try
+		{
+			return context.evaluate( expr );
+		}
+		catch ( BirtException ex )
+		{
+			context.addException( ex );
+		}
+		return null;
+	}
+
+	protected String evaluateString( Expression expr )
 	{
-		return context.evaluateCondExpr( expr );
+		try
+		{
+			Object value = context.evaluate( expr );
+			return DataTypeUtil.toString( value );
+		}
+		catch ( BirtException ex )
+		{
+			context.addException( ex );
+		}
+		return null;
+	}
+
+	protected Boolean evaluateBoolean( Expression expr )
+	{
+		try
+		{
+			Object value = context.evaluate( expr );
+			return DataTypeUtil.toBoolean( value );
+		}
+		catch ( BirtException ex )
+		{
+			context.addException( ex );
+		}
+		return null;
 	}
 
 	/**
@@ -315,10 +345,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				}
 			}
 		}
-		Expression<Object> tocValue = item.getTOC( );
-		if ( tocValue != null )
+		Expression tocExpr = item.getTOC( );
+		if ( tocExpr != null )
 		{
-			Object toc = evaluate( tocValue );
+			Object toc = evaluate( tocExpr );
 			if ( toc == null )
 			{
 				toc = "";
@@ -344,13 +374,13 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		if ( action != null )
 		{
 
-			String targetWindow = evaluate( action.getTargetWindow( ) );
-			String tooltip = evaluate( action.getTooltip( ) );
+			String targetWindow = action.getTargetWindow( );
+			String tooltip = action.getTooltip( );
 			switch ( action.getActionType( ) )
 			{
 				case ActionDesign.ACTION_HYPERLINK :
 					assert action.getHyperlink( ) != null;
-					String hyperlink = evaluate( action.getHyperlink( ) );
+					String hyperlink = evaluateString( action.getHyperlink( ) );
 					if ( hyperlink != null )
 					{
 						IHyperlinkAction obj = report.createActionContent( );
@@ -361,7 +391,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					break;
 				case ActionDesign.ACTION_BOOKMARK :
 					assert action.getBookmark( ) != null;
-					String bookmark = evaluate( action.getBookmark( ) );
+					String bookmark = evaluateString( action.getBookmark( ) );
 					if ( bookmark != null && !bookmark.equals( "" ) )
 					{
 						IHyperlinkAction obj = report.createActionContent( );
@@ -373,34 +403,26 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				case ActionDesign.ACTION_DRILLTHROUGH :
 					assert action.getDrillThrough( ) != null;
 					DrillThroughActionDesign drill = action.getDrillThrough( );
-					bookmark = evaluate( drill.getBookmark( ) );
-					boolean isBookmark = !DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC.equals( evaluate( drill.getBookmarkType( ) ) );
+					bookmark = evaluateString( drill.getBookmark( ) );
+					boolean isBookmark = drill.getBookmarkType( );
 					Map<String, Object> paramsVal = new HashMap<String, Object>( );
-					Map<String, Expression<Object>> params = drill.getParameters( );
+					Map<String, Expression> params = drill.getParameters( );
 					if ( params != null )
 					{
-						Set<Map.Entry<String, Expression<Object>>> entries = params
+						Set<Map.Entry<String, Expression>> entries = params
 								.entrySet( );
-						for ( Map.Entry<String, Expression<Object>> entry : entries )
+						for ( Map.Entry<String, Expression> entry : entries )
 						{
-							Object valueObj = entry.getValue( );
-							if ( valueObj != null )
+							Expression valueExpr = entry.getValue( );
+							if ( valueExpr != null )
 							{
-								String valueExpr = valueObj.toString( );
-								try
-								{
-									Object paramValue = evaluate( valueExpr );
-									paramsVal.put( entry.getKey( ), paramValue );
-								}
-								catch ( BirtException ex )
-								{
-									context.addException( ex );
-								}
+								Object paramValue = evaluate( valueExpr );
+								paramsVal.put( entry.getKey( ), paramValue );
 							}
 						}
 					}
 
-					String reportName = evaluate( drill.getReportName( ) );
+					String reportName = evaluateString( drill.getReportName( ) );
 					/*
 					 * we do not set absoluted path here. we now changed this in
 					 * render time ReportDesignHandle design =
@@ -410,11 +432,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					 * String reportFile = reportURL.getFile( ); if ( reportFile
 					 * != null ) { reportName = reportFile; } } }
 					 */
-					String format = evaluate( drill.getFormat( ) );
+					String format = drill.getFormat( );
 					// XXX Do not support Search criteria
 					IHyperlinkAction obj = report.createActionContent( );
-					String targetFileType = evaluate( action
-							.getTargetFileType( ) );
+					String targetFileType = drill.getTargetFileType( );
 					obj.setDrillThrough( bookmark, isBookmark, reportName,
 							paramsVal, null, targetWindow, format,
 							targetFileType );
@@ -445,30 +466,23 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			for ( int i = 0; i < visibility.count( ); i++ )
 			{
 				VisibilityRuleDesign rule = visibility.getRule( i );
-				Expression<Boolean> expr = rule.getExpression( );
-					try
-					{
-						Object result = evaluate( expr );
-						if ( result == null || !( result instanceof Boolean ) )
-						{
-							throw new EngineException(
-									MessageConstants.EXPRESSION_EVALUATION_ERROR, //$NON-NLS-1$
-									rule.getExpression( ) );
-						}
-						boolean isHidden = ( (Boolean) result ).booleanValue( );
-						// The report element appears by default and if the
-						// result is not hidden, then ignore it.
-						if ( isHidden )
-						{
-							// we should use rule as the string as
-							buffer.append( rule.getFormat( ) );
-							buffer.append( "," ); //$NON-NLS-1$
-						}
-					}
-					catch ( BirtException ex )
-					{
-						context.addException( ex );
-					}
+				Expression expr = rule.getExpression( );
+				Boolean result = evaluateBoolean( expr );
+				if ( result == null )
+				{
+					context.addException( new EngineException(
+							MessageConstants.EXPRESSION_EVALUATION_ERROR, rule
+									.getExpression( ) ) );
+				}
+				boolean isHidden = result.booleanValue( );
+				// The report element appears by default and if the
+				// result is not hidden, then ignore it.
+				if ( isHidden )
+				{
+					// we should use rule as the string as
+					buffer.append( rule.getFormat( ) );
+					buffer.append( "," ); //$NON-NLS-1$
+				}
 			}
 			if ( buffer.length( ) != 0 )
 			{
@@ -490,11 +504,11 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			for ( int i = 0; i < visibility.count( ); i++ )
 			{
 				VisibilityRuleDesign rule = visibility.getRule( i );
-				Expression<Boolean> expr = rule.getExpression( );
+				Expression expr = rule.getExpression( );
 				try
 				{
-					Object result = evaluate( expr );
-					if ( result == null || !( result instanceof Boolean ) )
+					Boolean result = evaluateBoolean( expr );
+					if ( result == null )
 					{
 						throw new EngineException(
 								MessageConstants.EXPRESSION_EVALUATION_ERROR, //$NON-NLS-1$
@@ -794,21 +808,5 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	protected Logger getLogger( )
 	{
 		return context.getLogger( );
-	}
-
-	protected <T> T evaluate(Expression<T> value)
-	{
-		if ( value != null )
-		{
-			try
-			{
-				return value.evaluate( context );
-			}
-			catch ( BirtException e )
-			{
-				context.addException( e );
-			}
-		}
-		return null;
 	}
 }

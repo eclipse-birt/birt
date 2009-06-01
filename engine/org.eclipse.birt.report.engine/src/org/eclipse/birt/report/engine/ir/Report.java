@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -81,9 +80,9 @@ public class Report
 	/**
 	 * Report body
 	 */
-	protected ArrayList contents = new ArrayList( );
+	protected ArrayList<ReportItemDesign> contents = new ArrayList<ReportItemDesign>( );
 
-	protected Map namedExpressions;
+	protected Map<String, Expression> namedExpressions;
 
 	protected Map mapReportItemIDtoInstance;
 
@@ -105,8 +104,8 @@ public class Report
 	private IStyle rootStyle;
 
 	private ArrayList<PageVariableDesign> pageVariables = new ArrayList<PageVariableDesign>( );
-	private ScriptExpression onPageStart;
-	private ScriptExpression onPageEnd;
+	private Expression onPageStart;
+	private Expression onPageEnd;
 
 	/**
 	 * default constructor.
@@ -208,10 +207,10 @@ public class Report
 	 * 
 	 * @return
 	 */
-	public Map getNamedExpressions( )
+	public Map<String, Expression> getNamedExpressions( )
 	{
 		if ( namedExpressions == null )
-			namedExpressions = new HashMap( );
+			namedExpressions = new HashMap<String, Expression>( );
 
 		return namedExpressions;
 	}
@@ -235,6 +234,11 @@ public class Report
 	public PageSetupDesign getPageSetup( )
 	{
 		return this.pageSetup;
+	}
+
+	public Collection<ReportItemDesign> getContents( )
+	{
+		return contents;
 	}
 
 	/**
@@ -439,22 +443,22 @@ public class Report
 		return pageVariables;
 	}
 
-	public ScriptExpression getOnPageStart( )
+	public Expression getOnPageStart( )
 	{
 		return onPageStart;
 	}
 
-	public void setOnPageStart( ScriptExpression onPageStart )
+	public void setOnPageStart( Expression onPageStart )
 	{
 		this.onPageStart = onPageStart;
 	}
 
-	public ScriptExpression getOnPageEnd( )
+	public Expression getOnPageEnd( )
 	{
 		return onPageEnd;
 	}
 
-	public void setOnPageEnd( ScriptExpression onPageEnd )
+	public void setOnPageEnd( Expression onPageEnd )
 	{
 		this.onPageEnd = onPageEnd;
 	}

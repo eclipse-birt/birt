@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -74,7 +74,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			inlineStyle = createHighlightStyle( design
 					.getHighlight( ) );
 		}
-		Map<Integer, Expression<String>> expressionStyles = design
+		Map<Integer, Expression> expressionStyles = design
 				.getExpressionStyles( );
 		if ( expressionStyles != null )
 		{
@@ -92,17 +92,16 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	}
 
 	private void populateExpressionStyles( StyleDeclaration style,
-			Map<Integer, Expression<String>> expressionStyles )
+			Map<Integer, Expression> expressionStyles )
 	{
-		Set<Entry<Integer, Expression<String>>> entrySet = expressionStyles
-				.entrySet( );
-		for ( Entry<Integer, Expression<String>> entry : entrySet )
+		Set<Entry<Integer, Expression>> entrySet = expressionStyles.entrySet( );
+		for ( Entry<Integer, Expression> entry : entrySet )
 		{
-			Expression<String> expression = entry.getValue( );
+			Expression expression = entry.getValue( );
 			int propertyIndex = entry.getKey( );
 			if ( expression != null )
 			{
-				String value = evaluate( expression );
+				String value = evaluateString( expression );
 				style.setCssText( propertyIndex, value );
 			}
 		}
@@ -148,57 +147,27 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			HighlightRuleDesign rule = highlight.getRule( i );
 			if ( rule != null )
 			{
-				Object value = null;
-				Object expression = rule.getConditionExpr( );
-				if ( expression != null )
+				Expression expression = rule.getConditionExpr( );
+				if ( expression == null )
 				{
-					try
-					{
-						if ( expression instanceof String )
-						{
-							value = evaluate( (String) expression );
-						}
-						else if ( expression instanceof IConditionalExpression )
-						{
-							value = evaluate( (IConditionalExpression) expression );
-						}
-					}
-					catch ( BirtException ex )
-					{
-						context.addException( this.design, ex );
-						value = Boolean.FALSE;
-					}
-				}
-				else
-				{
-					IConditionalExpression newExpression = null;
+					IConditionalExpression condExpr = null;
 					if ( rule.ifValueIsList( ) )
 					{
-						newExpression = expressionUtil
-								.createConditionExpression( rule
-										.getTestExpression( ), rule
-										.getOperator( ), rule.getValue1List( ) );
+						condExpr = expressionUtil.createConditionExpression(
+								rule.getTestExpression( ), rule.getOperator( ),
+								rule.getValue1List( ) );
 					}
 					else
 					{
-						newExpression = expressionUtil
-								.createConditionalExpression( rule
-										.getTestExpression( ), rule
-										.getOperator( ), rule.getValue1( ),
-										rule.getValue2( ) );
+						condExpr = expressionUtil.createConditionalExpression(
+								rule.getTestExpression( ), rule.getOperator( ),
+								rule.getValue1( ), rule.getValue2( ) );
 					}
-					try
-					{
-						value = evaluate( newExpression );
-					}
-					catch ( BirtException ex )
-					{
-						context.addException( this.design, ex );
-						value = Boolean.FALSE;
-					}
+					expression = Expression.newConditional( condExpr );
+					rule.setConditionExpr( expression );
 				}
-				if ( ( value != null ) && ( value instanceof Boolean ) &&
-						( ( (Boolean) value ).booleanValue( ) ) )
+				Boolean value = evaluateBoolean( expression );
+				if ( ( value != null ) && value.booleanValue( ) )
 				{
 					style.setProperties( rule.getStyle( ) );
 				}
@@ -221,70 +190,41 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			IDataContent dataObj )
 	{
 		MapDesign map = item.getMap( );
-
-		if ( map != null )
+		if ( map == null )
 		{
-			for ( int i = 0; i < map.getRuleCount( ); i++ )
+			return;
+		}
+
+		for ( int i = 0; i < map.getRuleCount( ); i++ )
+		{
+			MapRuleDesign rule = map.getRule( i );
+			if ( rule != null )
 			{
-				MapRuleDesign rule = map.getRule( i );
-				if ( rule != null )
+				Expression expression = rule.getConditionExpr( );
+				if ( expression == null )
 				{
-					Object value = null;
-					Object expression = rule.getConditionExpr( );
-					if ( expression != null )
+					IConditionalExpression condExpr = null;
+					if ( rule.ifValueIsList( ) )
 					{
-						try
-						{
-							if ( expression instanceof String )
-							{
-								value = evaluate( (String) expression );
-							}
-							else if ( expression instanceof IConditionalExpression )
-							{
-								value = evaluate( (IConditionalExpression) expression );
-							}
-						}
-						catch ( BirtException ex )
-						{
-							context.addException( item, ex );
-							value = Boolean.FALSE;
-						}
+						condExpr = expressionUtil.createConditionExpression(
+								rule.getTestExpression( ), rule.getOperator( ),
+								rule.getValue1List( ) );
 					}
 					else
 					{
-						IConditionalExpression newExpression = null;
-						if ( rule.ifValueIsList( ) )
-						{
-							newExpression = expressionUtil
-									.createConditionExpression( rule
-											.getTestExpression( ), rule
-											.getOperator( ), rule
-											.getValue1List( ) );
-						}
-						else
-						{
-							newExpression = expressionUtil
-									.createConditionalExpression( rule
-											.getTestExpression( ), rule
-											.getOperator( ), rule.getValue1( ),
-											rule.getValue2( ) );
-						}
-						try
-						{
-							value = evaluate( newExpression );
-						}
-						catch ( BirtException ex )
-						{
-							context.addException( item, ex );
-							value = Boolean.FALSE;
-						}
+						condExpr = expressionUtil.createConditionalExpression(
+								rule.getTestExpression( ), rule.getOperator( ),
+								rule.getValue1( ), rule.getValue2( ) );
 					}
-					if ( ( value != null ) && ( value instanceof Boolean ) &&
-							( ( (Boolean) value ).booleanValue( ) ) )
-					{
-						dataObj.setLabelText( evaluate( rule.getDisplayText( ) ) );
-						dataObj.setLabelKey( evaluate( rule.getDisplayKey( ) ) );
-					}
+					expression = Expression.newConditional( condExpr );
+					rule.setConditionExpr( expression );
+				}
+
+				Boolean value = evaluateBoolean( expression );
+				if ( value != null && value.booleanValue( ) )
+				{
+					dataObj.setLabelText( rule.getDisplayText( ) );
+					dataObj.setLabelKey( rule.getDisplayKey( ) );
 				}
 			}
 		}

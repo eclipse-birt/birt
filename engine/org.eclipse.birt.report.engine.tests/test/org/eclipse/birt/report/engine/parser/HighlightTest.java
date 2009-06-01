@@ -27,13 +27,13 @@ public class HighlightTest extends AbstractDesignTestCase
 
 		ReportItemDesign item = report.getContent( 0 );
 		HighlightDesign highlight = item.getHighlight( );
-		assertTrue(highlight != null);
+		assertTrue( highlight != null );
 
 		assertEquals( highlight.getRuleCount( ), 3 );
 		HighlightRuleDesign rule = highlight.getRule( 0 );
 		assertTrue( rule != null );
 		assertEquals( rule.getOperator( ), "lt" );
-		assertEquals( rule.getValue1( ).getDesignValue( ), "row[\"COLUMN_29\"]" );
+		assertEquals( rule.getValue1( ).getScriptText( ), "row[\"COLUMN_29\"]" );
 		assertEquals( rule.getValue2( ), null );
 		assertEquals( rule.getStyle( ).getColor( ), "red" );
 
@@ -45,8 +45,8 @@ public class HighlightTest extends AbstractDesignTestCase
 
 		rule = highlight.getRule( 2 );
 		assertEquals( rule.getOperator( ), "between" );
-		assertEquals( rule.getValue1( ).getDesignValue( ), "row[\"COLUMN_29\"]" );
-		assertEquals( rule.getValue2( ).getDesignValue( ), "row[\"COLUMN_31\"]" );
+		assertEquals( rule.getValue1( ).getScriptText( ), "row[\"COLUMN_29\"]" );
+		assertEquals( rule.getValue2( ).getScriptText( ), "row[\"COLUMN_31\"]" );
 		assertEquals( rule.getStyle( ).getColor( ), "blue" );
 	}
 

@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -85,7 +84,6 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
-import org.eclipse.birt.report.engine.ir.Expression.JSExpression;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -555,22 +553,22 @@ public class ReportQueryBuilder
 			{
 				if ( image.getImageSource( ) == ImageItemDesign.IMAGE_EXPRESSION )
 				{
-					String newImageExpression = transformExpression( image
+					Expression newImageExpression = transformExpression( image
 							.getImageExpression( ), query );
-					String newImageFormat = transformExpression( image
+					Expression newImageFormat = transformExpression( image
 							.getImageFormat( ), query );
 					image.setImageExpression( newImageExpression,
 							newImageFormat );
 				}
 				else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_URI )
 				{
-					Expression<String> newImageUri = transformExpression( image
+					Expression newImageUri = transformExpression( image
 							.getImageUri( ), query );
 					image.setImageUri( newImageUri );
 				}
 				else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_FILE )
 				{
-					Expression<String> newImageUri = transformExpression( image
+					Expression newImageUri = transformExpression( image
 							.getImageUri( ), query );
 					image.setImageFile( newImageUri );
 				}
@@ -842,18 +840,15 @@ public class ReportQueryBuilder
 			{
 				query = createQuery( text, (IDataQueryDefinition) value );
 			}
-			HashMap exprs = text.getExpressions( );
+			HashMap<String, Expression> exprs = text.getExpressions( );
 			if ( exprs != null )
 			{
-				Iterator ite = exprs.entrySet( ).iterator( );
-				while ( ite.hasNext( ) )
+				for ( Map.Entry<String, Expression> entry : exprs.entrySet( ) )
 				{
-					Map.Entry entry = (Map.Entry) ite.next( );
-					assert entry.getValue( ) instanceof String;
 					try
 					{
-						String newExpr = transformExpression( entry.getValue( )
-								.toString( ), query );
+						Expression newExpr = transformExpression( entry
+								.getValue( ), query );
 						entry.setValue( newExpr );
 					}
 					catch ( BirtException ex )
@@ -1022,8 +1017,8 @@ public class ReportQueryBuilder
 			}
 			try
 			{
-				Expression<Object> newContent = transformExpression(
-						dynamicText.getContent( ), query );
+				Expression newContent = transformExpression( dynamicText
+						.getContent( ), query );
 				dynamicText.setContent( newContent );
 				transformExpressions( dynamicText, query );
 				return getResultQuery( query, value );
@@ -1719,33 +1714,7 @@ public class ReportQueryBuilder
 		 *            expression to be transfered. return the transfered
 		 *            expression
 		 */
-		protected <T> Expression<T> transformExpression(
-				Expression<T> expr,
-				IDataQueryDefinition query ) throws BirtException
-		{
-			if ( expr == null )
-			{
-				return null;
-			}
-			if ( !expr.isExpression( ) )
-			{
-				return expr;
-			}
-			JSExpression<T> jsExpression = (JSExpression<T>) expr;
-			String expression = jsExpression.getDesignValue( );
-			jsExpression.setExpression( transformExpression( expression, query ) );
-			return expr;
-		}
-
-		/**
-		 * Transfer the old expression to column dataBinding and bind it to the
-		 * Query. And create a news expression to replace the old expression.
-		 * 
-		 * @param expr
-		 *            expression to be transfered. return the transfered
-		 *            expression
-		 */
-		protected String transformExpression( String expr,
+		protected Expression transformExpression( Expression expr,
 				IDataQueryDefinition query ) throws BirtException
 		{
 			if ( expr == null )
@@ -1754,7 +1723,7 @@ public class ReportQueryBuilder
 			}
 			if ( query != null )
 			{
-				List expressions = new ArrayList( );
+				List<Expression> expressions = new ArrayList<Expression>( );
 				expressions.add( expr );
 				ITotalExprBindings totalExpressionBinding = null;;
 
@@ -1763,8 +1732,9 @@ public class ReportQueryBuilder
 
 				addNewColumnBindings( query, totalExpressionBinding );
 
-				List newExpressions = totalExpressionBinding.getNewExpression( );
-				return (String) newExpressions.get( 0 );
+				List<Expression> newExpressions = totalExpressionBinding
+						.getNewExpression( );
+				return newExpressions.get( 0 );
 			}
 			return expr;
 		}
@@ -1782,7 +1752,7 @@ public class ReportQueryBuilder
 				return;
 			}
 
-			List expressions = new ArrayList( );
+			List<Expression> expressions = new ArrayList<Expression>( );
 			VisibilityDesign visibilities = column.getVisibility( );
 			if ( visibilities != null )
 			{
@@ -1813,22 +1783,21 @@ public class ReportQueryBuilder
 
 			// replace old expressions
 			int expressionIndex = 0;
-			List newExpressions = totalExpressionBindings.getNewExpression( );
+			List<Expression> newExpressions = totalExpressionBindings.getNewExpression( );
 			if ( visibilities != null )
 			{
 				for ( int i = 0; i < visibilities.count( ); i++ )
 				{
-					visibilities.getRule( i ).setExpression(
-							(Expression<Boolean>) newExpressions
-									.get( expressionIndex++ ) );
+					Expression expr = newExpressions.get( expressionIndex++ );
+					visibilities.getRule( i ).setExpression( expr );
 				}
 			}
 			if ( highlights != null )
 			{
 				for ( int i = 0; i < highlights.getRuleCount( ); i++ )
 				{
-					highlights.getRule( i ).setConditionExpr(
-							newExpressions.get( expressionIndex++ ) );
+					Expression expr = newExpressions.get( expressionIndex++ );
+					highlights.getRule( i ).setConditionExpr( expr );
 				}
 			}
 
@@ -1839,32 +1808,21 @@ public class ReportQueryBuilder
 		{
 			int expressionIndex = 0;
 
-			List newExpressions = totalExpressionBindings.getNewExpression( );
+			List<Expression> newExpressions = totalExpressionBindings.getNewExpression( );
 			item
-					.setTOC( (Expression<Object>) newExpressions
+					.setTOC(  newExpressions
 							.get( expressionIndex++ ) );
-			item.setBookmark( (Expression<String>) newExpressions
+			item.setBookmark(newExpressions
 					.get( expressionIndex++ ) );
 
-			String onCreateScriptText = (String) newExpressions
-					.get( expressionIndex++ );
-			String onRenderScriptText = (String) newExpressions
-					.get( expressionIndex++ );
-			String onPageBreakScriptText = (String) newExpressions
+			Expression onCreateScript = newExpressions.get( expressionIndex++ );
+			Expression onRenderScript = newExpressions.get( expressionIndex++ );
+			Expression onPageBreakScript = newExpressions
 					.get( expressionIndex++ );
 
-			if ( item.getOnCreate( ) != null )
-			{
-				item.getOnCreate( ).setScriptText( onCreateScriptText );
-			}
-			if ( item.getOnRender( ) != null )
-			{
-				item.getOnRender( ).setScriptText( onRenderScriptText );
-			}
-			if ( item.getOnPageBreak( ) != null )
-			{
-				item.getOnPageBreak( ).setScriptText( onPageBreakScriptText );
-			}
+			item.setOnCreate( onCreateScript );
+			item.setOnRender( onRenderScript );
+			item.setOnPageBreak( onPageBreakScript );
 
 			HighlightDesign highlights = item.getHighlight( );
 			if ( highlights != null )
@@ -1877,7 +1835,6 @@ public class ReportQueryBuilder
 			}
 
 			MapDesign maps = item.getMap( );
-
 			if ( maps != null )
 			{
 				for ( int i = 0; i < maps.getRuleCount( ); i++ )
@@ -1892,22 +1849,19 @@ public class ReportQueryBuilder
 			{
 				for ( int i = 0; i < visibilities.count( ); i++ )
 				{
-					visibilities.getRule( i ).setExpression(
-							(Expression<Boolean>) newExpressions
-									.get( expressionIndex++ ) );
+					visibilities.getRule( i )
+							.setExpression(
+									newExpressions
+											.get( expressionIndex++ ) );
 				}
 			}
 
-			Map namedExpressions = item.getNamedExpressions( );
+			Map<String, Expression> namedExpressions = item.getNamedExpressions( );
 			if ( namedExpressions != null )
 			{
-				Collection exprs = namedExpressions.entrySet( );
-				Iterator exprIter = exprs.iterator( );
-				Map.Entry entry = null;
-				while ( exprIter.hasNext( ) )
+				for (Map.Entry<String, Expression> entry : namedExpressions.entrySet( ))
 				{
-					entry = (Map.Entry) exprIter.next( );
-					entry.setValue( (String) newExpressions
+					entry.setValue( newExpressions
 							.get( expressionIndex++ ) );
 				}
 			}
@@ -1918,7 +1872,7 @@ public class ReportQueryBuilder
 				switch ( action.getActionType( ) )
 				{
 					case ActionDesign.ACTION_BOOKMARK :
-						action.setBookmark( (Expression<String>) newExpressions
+						action.setBookmark( (Expression) newExpressions
 								.get( expressionIndex++ ) );
 						break;
 					case ActionDesign.ACTION_DRILLTHROUGH :
@@ -1927,24 +1881,23 @@ public class ReportQueryBuilder
 						if ( drillThrough != null )
 						{
 							drillThrough
-									.setBookmark( (Expression<String>) newExpressions
+									.setBookmark( (Expression) newExpressions
 											.get( expressionIndex++ ) );
-							if ( drillThrough.getParameters( ) != null )
+							Map<String, Expression> params = drillThrough
+									.getParameters( );
+							if ( params != null )
 							{
-								Iterator ite = drillThrough.getParameters( )
-										.entrySet( ).iterator( );
-								while ( ite.hasNext( ) )
+								for ( Map.Entry<String, Expression> entry : params
+										.entrySet( ) )
 								{
-									Map.Entry entry = (Map.Entry) ite.next( );
-									entry
-											.setValue( (Expression<Object>) newExpressions
+									entry.setValue( (Expression) newExpressions
 											.get( expressionIndex++ ) );
 								}
 							}
 						}
 						break;
 					case ActionDesign.ACTION_HYPERLINK :
-						action.setHyperlink( (Expression<String>) newExpressions
+						action.setHyperlink( (Expression) newExpressions
 								.get( expressionIndex++ ) );
 						break;
 					default :
@@ -1957,12 +1910,12 @@ public class ReportQueryBuilder
 				ReportItemDesign item, IDataQueryDefinition query,
 				String groupName )
 		{
-			List expressions = new ArrayList( );
+			List<Expression> expressions = new ArrayList<Expression>( );
 			expressions.add( item.getTOC( ) );
 			expressions.add( item.getBookmark( ) );
 			if ( item.getOnCreate( ) != null )
 			{
-				expressions.add( item.getOnCreate( ).getScriptText( ) );
+				expressions.add( item.getOnCreate( ) );
 			}
 			else
 			{
@@ -1970,7 +1923,7 @@ public class ReportQueryBuilder
 			}
 			if ( item.getOnRender( ) != null )
 			{
-				expressions.add( item.getOnRender( ).getScriptText( ) );
+				expressions.add( item.getOnRender( ) );
 			}
 			else
 			{
@@ -1978,7 +1931,7 @@ public class ReportQueryBuilder
 			}
 			if ( item.getOnPageBreak( ) != null )
 			{
-				expressions.add( item.getOnPageBreak( ).getScriptText( ) );
+				expressions.add( item.getOnPageBreak( ) );
 			}
 			else
 			{
@@ -2015,15 +1968,13 @@ public class ReportQueryBuilder
 				}
 			}
 
-			Map namedExpressions = item.getNamedExpressions( );
+			Map<String, Expression> namedExpressions = item
+					.getNamedExpressions( );
 			if ( namedExpressions != null )
 			{
-				Collection exprs = namedExpressions.entrySet( );
-				Iterator exprIter = exprs.iterator( );
-				Map.Entry entry = null;
-				while ( exprIter.hasNext( ) )
+				for ( Map.Entry<String, Expression> entry : namedExpressions
+						.entrySet( ) )
 				{
-					entry = (Map.Entry) exprIter.next( );
 					expressions.add( entry.getValue( ) );
 				}
 			}
@@ -2042,13 +1993,11 @@ public class ReportQueryBuilder
 						if ( drillThrough != null )
 						{
 							expressions.add( drillThrough.getBookmark( ) );
-							if ( drillThrough.getParameters( ) != null )
+							Map<String, Expression> params = drillThrough.getParameters( ); 
+							if ( params != null )
 							{
-								Iterator ite = drillThrough.getParameters( )
-										.entrySet( ).iterator( );
-								while ( ite.hasNext( ) )
+								for (Map.Entry<String, Expression> entry : params.entrySet( ))
 								{
-									Map.Entry entry = (Map.Entry) ite.next( );
 									expressions.add( entry.getValue( ) );
 								}
 							}
@@ -2075,30 +2024,32 @@ public class ReportQueryBuilder
 			return totalExpressionBindings;
 		}
 
-		private void addRuleExpression( List expressions, RuleDesign rule )
+		private void addRuleExpression( List<Expression> expressions,
+				RuleDesign rule )
 		{
 			if ( rule != null )
 			{
-				IConditionalExpression highlightExpression = null;
+				Expression.Conditional highlightExpression = null;
 				if ( rule.ifValueIsList( ) )
 				{
-					Expression<String> testExpression = rule
-							.getTestExpression( );
-					Expression<? extends List> value1List = rule
-							.getValue1List( );
-					highlightExpression = expressionUtil
-							.createConditionExpression( testExpression, rule
-									.getOperator( ), value1List );
+					Expression testExpression = rule.getTestExpression( );
+					List<Expression> value1List = rule.getValue1List( );
+					highlightExpression = Expression
+							.newConditional( expressionUtil
+									.createConditionExpression(
+											testExpression,
+											rule.getOperator( ), value1List ) );
 				}
 				else
 				{
-					Expression<String> testExpression = rule
-							.getTestExpression( );
-					Expression<String> value1 = rule.getValue1( );
-					Expression<String> value2 = rule.getValue2( );
-					highlightExpression = expressionUtil
-							.createConditionalExpression( testExpression, rule
-									.getOperator( ), value1, value2 );
+					Expression testExpression = rule.getTestExpression( );
+					Expression value1 = rule.getValue1( );
+					Expression value2 = rule.getValue2( );
+					highlightExpression = Expression
+							.newConditional( expressionUtil
+									.createConditionalExpression(
+											testExpression,
+											rule.getOperator( ), value1, value2 ) );
 				}
 				expressions.add( highlightExpression );
 			}

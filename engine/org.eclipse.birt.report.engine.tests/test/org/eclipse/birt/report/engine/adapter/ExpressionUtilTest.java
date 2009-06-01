@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.ir.Expression;
 
 /**
  * 
@@ -76,22 +77,27 @@ public class ExpressionUtilTest extends TestCase
 				new ScriptExpression("5"),null
 		);
 		
-		List array = new ArrayList();
-		for( int i = 0; i < oldExpressions.length; i++ )
+		List<Expression> array = new ArrayList<Expression>(
+				oldExpressions.length );
+		for ( int i = 0; i < oldExpressions.length; i++ )
 		{
-			array.add( oldExpressions[i] );
+			array.add( Expression.newScript( oldExpressions[i] ) );
 		}
-		array.add( ce1 );
-		array.add( ce2 );
+		array.add( Expression.newConditional( ce1 ) );
+		array.add( Expression.newConditional( ce2 ) );
 				
-		ITotalExprBindings  l = expressionUtil.prepareTotalExpressions( array, null  );
-		for( int i = 0; i < oldExpressions.length; i++ )
+		ITotalExprBindings l = expressionUtil.prepareTotalExpressions( array,
+				null );
+		for ( int i = 0; i < oldExpressions.length; i++ )
 		{
-			assertEquals( newExpressions[i], l.getNewExpression( ).get( i ));
+			assertEquals( newExpressions[i], l.getNewExpression( ).get( i )
+					.getScriptText( ) );
 		}
 		
-		assertEquals( "row[\"TOTAL_COLUMN_13\"]", l.getNewExpression( ).get( oldExpressions.length ));
-		assertEquals( "row[\"TOTAL_COLUMN_14\"]", l.getNewExpression( ).get( oldExpressions.length+1));
+		assertEquals( "row[\"TOTAL_COLUMN_13\"]", l.getNewExpression( ).get(
+				oldExpressions.length ).getScriptText( ) );
+		assertEquals( "row[\"TOTAL_COLUMN_14\"]", l.getNewExpression( ).get(
+				oldExpressions.length + 1 ).getScriptText( ) );
 		
 		IBinding[] bindings = l.getColumnBindings( );
 		assertEquals( bindings.length, 15 );

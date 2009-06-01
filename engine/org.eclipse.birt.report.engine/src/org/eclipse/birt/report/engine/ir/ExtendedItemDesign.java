@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,12 +25,12 @@ public class ExtendedItemDesign extends ReportItemDesign
 	/**
 	 * Text associated with this extendedItem, used for default locale.
 	 */
-	protected Expression<String> altText;
+	protected String altText;
 	
 	/**
 	 * Text Resource Key used for altText localization.
 	 */
-	protected Expression<String> altTextKey;
+	protected String altTextKey;
 	
 	/**
 	 * children of this extended item.
@@ -49,7 +49,7 @@ public class ExtendedItemDesign extends ReportItemDesign
 	 * @param altText
 	 *            The altText to set.
 	 */
-	public void setAltText( Expression<String> altTextKey, Expression<String> altText )
+	public void setAltText( String altTextKey, String altText )
 	{
 		this.altTextKey = altTextKey;
 		this.altText = altText;
@@ -58,7 +58,7 @@ public class ExtendedItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the altTextKey.
 	 */
-	public Expression<String> getAltTextKey( )
+	public String getAltTextKey( )
 	{
 		return altTextKey;
 	}
@@ -66,7 +66,7 @@ public class ExtendedItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the altText.
 	 */
-	public Expression<String> getAltText( )
+	public String getAltText( )
 	{
 		return altText;
 	}

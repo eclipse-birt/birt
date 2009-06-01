@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2008 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,7 +26,6 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 
@@ -62,12 +61,11 @@ public class TableContent extends AbstractContent implements ITableContent
 
 	public void setHeaderRepeat( boolean headerRepeat )
 	{
-		if (generateBy instanceof TableItemDesign)
+		if ( generateBy instanceof TableItemDesign )
 		{
-			Expression<Boolean> repeatHeader = ( (TableItemDesign) generateBy )
+			boolean repeatHeader = ( (TableItemDesign) generateBy )
 					.isRepeatHeader( );
-			if ( !repeatHeader.isExpression( )
-					&& repeatHeader.getValue( ) == headerRepeat )
+			if ( repeatHeader == headerRepeat )
 			{
 				this.headerRepeat = null;
 				return;
@@ -84,11 +82,8 @@ public class TableContent extends AbstractContent implements ITableContent
 		}
 		if ( generateBy instanceof TableItemDesign )
 		{
-			Boolean constantValue = getConstantValue( ( (TableItemDesign) generateBy )
-					.isRepeatHeader( ) );
-			return constantValue == null ? false : constantValue;
+			return ( (TableItemDesign) generateBy ).isRepeatHeader( );
 		}
-
 		return false;
 	}
 
@@ -118,11 +113,11 @@ public class TableContent extends AbstractContent implements ITableContent
 		{
 			if ( generateBy instanceof TableItemDesign )
 			{
-				return getConstantValue( ( (TableItemDesign) generateBy ).getCaption( ) );
+				return ( (TableItemDesign) generateBy ).getCaption( );
 			}
-			else if( generateBy instanceof GridItemDesign )
+			else if ( generateBy instanceof GridItemDesign )
 			{
-				return getConstantValue( ( (GridItemDesign) generateBy ).getCaption( ) );
+				return ( (GridItemDesign) generateBy ).getCaption( );
 			}
 		}
 		return caption;
@@ -148,11 +143,11 @@ public class TableContent extends AbstractContent implements ITableContent
 		{
 			if ( generateBy instanceof TableItemDesign )
 			{
-				return getConstantValue( ( (TableItemDesign) generateBy ).getCaptionKey( ) );
+				return ( (TableItemDesign) generateBy ).getCaptionKey( );
 			}
 			else if ( generateBy instanceof GridItemDesign )
 			{
-				return getConstantValue( ( (GridItemDesign) generateBy ).getCaptionKey( ) );
+				return ( (GridItemDesign) generateBy ).getCaptionKey( );
 			}
 		}
 		return captionKey;
@@ -313,13 +308,11 @@ public class TableContent extends AbstractContent implements ITableContent
 		{
 			if ( generateBy instanceof TableItemDesign )
 			{
-				return getConstantValue( ( (TableItemDesign) generateBy )
-						.getSummary( ) );
+				return ( (TableItemDesign) generateBy ).getSummary( );
 			}
 			else if ( generateBy instanceof GridItemDesign )
 			{
-				return getConstantValue( ( (GridItemDesign) generateBy )
-						.getSummary( ) );
+				return ( (GridItemDesign) generateBy ).getSummary( );
 			}
 		}
 		return summary;

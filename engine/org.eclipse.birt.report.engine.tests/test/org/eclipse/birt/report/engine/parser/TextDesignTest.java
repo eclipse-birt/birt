@@ -33,17 +33,13 @@ public class TextDesignTest extends AbstractDesignTestCase
 	{
 		// assertEquals( "dset", text.getDataSet( ).getName( ) );
 		assertEquals( "text", text.getName( ) );
-		assertEquals( 1, text.getX( ).getValue( ).getMeasure( ),
-				Double.MIN_VALUE );
-		assertEquals( 2, text.getY( ).getValue( ).getMeasure( ),
-				Double.MIN_VALUE );
-		assertEquals( 3, text.getWidth( ).getValue( ).getMeasure( ),
-				Double.MIN_VALUE );
-		assertEquals( 4, text.getHeight( ).getValue( ).getMeasure( ),
-				Double.MIN_VALUE );
-		assertEquals( "auto", text.getTextType( ).getValue( ) );
+		assertEquals( 1, text.getX( ).getMeasure( ), Double.MIN_VALUE );
+		assertEquals( 2, text.getY( ).getMeasure( ), Double.MIN_VALUE );
+		assertEquals( 3, text.getWidth( ).getMeasure( ), Double.MIN_VALUE );
+		assertEquals( 4, text.getHeight( ).getMeasure( ), Double.MIN_VALUE );
+		assertEquals( "auto", text.getTextType( ) );
 
-		assertEquals( "text content", text.getText( ).getValue( ) );
-		assertEquals( "content-key", text.getTextKey( ).getValue( ) );
+		assertEquals( "text content", text.getText( ) );
+		assertEquals( "content-key", text.getTextKey( ) );
 	}
 }

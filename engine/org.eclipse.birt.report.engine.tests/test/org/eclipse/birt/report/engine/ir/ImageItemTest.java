@@ -56,8 +56,8 @@ public class ImageItemTest extends ReportItemTestCase
 		ImageItemDesign image = new ImageItemDesign( );
 
 		//Set
-		Expression<String> key = newConstant( "TestKey" );
-		Expression<String> text = newConstant( "AltText" );
+		String key = "TestKey";
+		String text = "AltText";
 		image.setAltText( key, text );
 
 		//Get
@@ -77,8 +77,8 @@ public class ImageItemTest extends ReportItemTestCase
 	public void testExpression( )
 	{
 		ImageItemDesign image = new ImageItemDesign( );
-		String exp = "exp";
-		String typeExp = "typeExp";
+		Expression exp = Expression.newScript( "exp" );
+		Expression typeExp = Expression.newScript( "typeExp" );
 
 		//Set
 		image.setImageExpression( exp, typeExp );
@@ -101,10 +101,11 @@ public class ImageItemTest extends ReportItemTestCase
 		ImageItemDesign image = new ImageItemDesign( );
 
 		//Set
-		image.setImageName( "TestImage.bmp" );
+		Expression imageName = Expression.newScript( "TestImage.bmp" );
+		image.setImageName( imageName );
 
-		//Get
-		assertEquals( image.getImageName( ), "TestImage.bmp" );
+		// Get
+		assertEquals( image.getImageName( ), imageName );
 		assertEquals( image.getImageSource( ), ImageItemDesign.IMAGE_NAME );
 
 	}
@@ -125,18 +126,15 @@ public class ImageItemTest extends ReportItemTestCase
 		image
 				.setImageUri( Expression
 						.newConstant( "http://www.actuate.com/images/navimages/v8/logo.gif" ) );
-		assertEquals( image.getImageUri( ).getValue( ),
+		assertEquals( image.getImageUri( ).getScriptText( ),
 				"http://www.actuate.com/images/navimages/v8/logo.gif" );
 		assertEquals( image.getImageSource( ), ImageItemDesign.IMAGE_URI );
 
 		// test expression
-		image
-				.setImageUri( Expression
-						.newExpression( "http://www.actuate.com/images/navimages/v8/logo.gif" ) );
-		assertEquals(
-				image.getImageUri( ),
-				Expression
-						.newExpression( "http://www.actuate.com/images/navimages/v8/logo.gif" ) );
+		Expression imageUriExpr = Expression
+				.newScript( "http://www.actuate.com/images/navimages/v8/logo.gif" );
+		image.setImageUri( imageUriExpr );
+		assertEquals( image.getImageUri( ), imageUriExpr );
 		assertEquals( image.getImageSource( ), ImageItemDesign.IMAGE_URI );
 	}
 }

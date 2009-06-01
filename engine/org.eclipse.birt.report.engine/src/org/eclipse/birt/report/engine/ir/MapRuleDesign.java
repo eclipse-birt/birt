@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import java.util.List;
 
 /**
  * 
@@ -22,18 +21,18 @@ public class MapRuleDesign extends RuleDesign
 	/**
 	 * display text key
 	 */
-	protected Expression<String> displayKey;
+	protected String displayKey;
 	/**
 	 * display text
 	 */
-	protected Expression<String> displayText;
+	protected String displayText;
 	
 
 	/**
 	 * @param displayKey
 	 *            The displayKey to set.
 	 */
-	public void setDisplayText( Expression<String> displayKey, Expression<String> displayText )
+	public void setDisplayText( String displayKey, String displayText )
 	{
 		this.displayKey = displayKey;
 		this.displayText = displayText;
@@ -42,7 +41,7 @@ public class MapRuleDesign extends RuleDesign
 	/**
 	 * @return Returns the displayText.
 	 */
-	public Expression<String> getDisplayText( )
+	public String getDisplayText( )
 	{
 		return displayText;
 	}
@@ -50,7 +49,7 @@ public class MapRuleDesign extends RuleDesign
 	/**
 	 * @return Returns the displayKey.
 	 */
-	public Expression<String> getDisplayKey( )
+	public String getDisplayKey( )
 	{
 		return displayKey;
 	}

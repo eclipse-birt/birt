@@ -14,21 +14,17 @@ package org.eclipse.birt.report.engine.ir;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
-import org.eclipse.birt.report.engine.ir.Expression.JSExpression;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
@@ -122,7 +118,7 @@ public class EngineIRReaderImpl implements IOConstants
 		reportDesign.setRootStyleName( rootStyleName );
 
 		// named expression
-		Map namedExpressions = IOUtil.readMap( dis );
+		Map<String, Expression> namedExpressions = readExprMap( dis );
 		if ( namedExpressions != null )
 		{
 			reportDesign.getNamedExpressions( ).putAll( namedExpressions );
@@ -137,7 +133,7 @@ public class EngineIRReaderImpl implements IOConstants
 			pageSetup.addMasterPage( masterPage );
 		}
 
-		// read the body conent
+		// read the body content
 		int count = IOUtil.readInt( dis );
 		for ( int i = 0; i < count; i++ )
 		{
@@ -171,25 +167,18 @@ public class EngineIRReaderImpl implements IOConstants
 					readReportVariable( dis );
 					break;
 				case FIELD_ON_PAGE_START :
-					String scriptText = IOUtil.readString( dis );
-					if ( scriptText != null )
-					{
-						ScriptExpression script = new ScriptExpression(
-								scriptText );
-						reportDesign.setOnPageStart( script );
-					}
+					Expression onPageStart = readExpression( dis );
+					reportDesign.setOnPageStart( onPageStart );
 					break;
 
-				case FIELD_ON_PAGE_END:
-					scriptText = IOUtil.readString( dis );
-					if ( scriptText != null )
-					{
-						ScriptExpression script = new ScriptExpression(
-								scriptText );
-						reportDesign.setOnPageEnd( script );
-					}
+				case FIELD_ON_PAGE_END :
+					Expression onPageEnd = readExpression( dis );
+					reportDesign.setOnPageStart( onPageEnd );
 					break;
-
+				case FIELD_REPORT_VERSION :
+					String version = IOUtil.readString( dis );
+					reportDesign.setVersion( version );
+					break;
 				default :
 					throw new IOException( "unknow report segment type:" + reportSegmentType ); //$NON-NLS-1$
 			}
@@ -214,7 +203,7 @@ public class EngineIRReaderImpl implements IOConstants
 			throws IOException
 	{
 		// named expression
-		Map namedExpressions = IOUtil.readMap( dis );
+		Map<String, Expression> namedExpressions = readExprMap( dis );
 		if ( namedExpressions != null )
 		{
 			reportDesign.getNamedExpressions( ).putAll( namedExpressions );
@@ -236,7 +225,7 @@ public class EngineIRReaderImpl implements IOConstants
 	private void readReportBodyContent( DataInputStream dis )
 			throws IOException
 	{
-		// read the body conent
+		// read the body content
 		int count = IOUtil.readInt( dis );
 		for ( int i = 0; i < count; i++ )
 		{
@@ -392,7 +381,7 @@ public class EngineIRReaderImpl implements IOConstants
 			{
 				ListBandDesign listBand = new ListBandDesign( );
 				readListBand( dis, listBand );
-				// read childern
+				// read children
 				int count = IOUtil.readInt( in );
 				for ( int i = 0; i < count; i++ )
 				{
@@ -457,7 +446,7 @@ public class EngineIRReaderImpl implements IOConstants
 			{
 				TableBandDesign band = new TableBandDesign( );
 				readTableBand( dis, band );
-				// read childern
+				// read children
 				int count = IOUtil.readInt( in );
 				for ( int i = 0; i < count; i++ )
 				{
@@ -554,7 +543,7 @@ public class EngineIRReaderImpl implements IOConstants
 				design.setJavaClass( javaClass );
 				break;
 			case FIELD_NAMED_EXPRESSIONS :
-				Map namedExpression = IOUtil.readMap( in );
+				Map<String, Expression> namedExpression = readExprMap( in );
 				if ( namedExpression != null )
 				{
 					design.getNamedExpressions( ).putAll( namedExpression );
@@ -600,40 +589,36 @@ public class EngineIRReaderImpl implements IOConstants
 		switch ( fieldType )
 		{
 			case FIELD_X :
-				design.setX( readDimensionExpression( in ) );
+				design.setX( readDimension( in ) );
 				break;
 			case FIELD_Y :
-				design.setY( readDimensionExpression( in ) );
+				design.setY( readDimension( in ) );
 				break;
 			case FIELD_HEIGHT :
-				design.setHeight( readDimensionExpression( in ) );
+				design.setHeight( readDimension( in ) );
 				break;
 			case FIELD_WIDTH :
-				design.setWidth( readDimensionExpression( in ) );
+				design.setWidth( readDimension( in ) );
 				break;
 			case FIELD_BOOKMARK :
-				Expression<String> bookmark = readStringExpression( in );
+				Expression bookmark = readExpression( in );
 				design.setBookmark( bookmark );
 				break;
 			case FIELD_TOC :
-
-				Expression<Object> toc = readObjectExpression( in );
+				Expression toc = readExpression( in );
 				design.setTOC( toc );
 				break;
 			case FIELD_ON_CREATE :
-				String onCreatScriptText = IOUtil.readString( in );
-				ScriptExpression onCreatScriptExpr = new ScriptExpression( onCreatScriptText );
-				design.setOnCreate( onCreatScriptExpr );
+				Expression onCreate = readExpression( in );
+				design.setOnCreate( onCreate );
 				break;
 			case FIELD_ON_RENDER :
-				String OnRenderScriptText = IOUtil.readString( in );
-				ScriptExpression OnRenderScriptExpr = new ScriptExpression( OnRenderScriptText );
-				design.setOnRender( OnRenderScriptExpr );
+				Expression onRender = readExpression( in );
+				design.setOnRender( onRender );
 				break;
 			case FIELD_ON_PAGE_BREAK :
-				String OnPageBreakScriptText = IOUtil.readString( in );
-				ScriptExpression OnPageBreakScriptExpr = new ScriptExpression( OnPageBreakScriptText );
-				design.setOnPageBreak( OnPageBreakScriptExpr );
+				Expression onPageBreak = readExpression( in );
+				design.setOnPageBreak( onPageBreak );
 				break;
 
 			case FIELD_VISIBILITY :
@@ -660,12 +645,6 @@ public class EngineIRReaderImpl implements IOConstants
 				readStyledElementField( in, design, fieldType );
 		}
 
-	}
-
-	protected Expression<DimensionType> readDimensionExpression( DataInputStream in )
-			throws IOException
-	{
-		return readConstant( in, DimensionType.class );
 	}
 
 	protected void readMasterPageField( DataInputStream in,
@@ -774,21 +753,15 @@ public class EngineIRReaderImpl implements IOConstants
 		{
 
 			case FIELD_REPEAT_HEADER :
-				listing.setRepeatHeader( readBoolExpression(in) );
+				listing.setRepeatHeader( IOUtil.readBool( in ) );
 				break;
 			case FIELD_PAGE_BREAK_INTERVAL :
-				Expression<Integer> pageBreakInterval = readIntConstant( in );
+				int pageBreakInterval = IOUtil.readInt( in );
 				listing.setPageBreakInterval( pageBreakInterval );
 				break;
 			default :
 				readReportItemField( in, listing, fieldType );
 		}
-	}
-
-	protected Expression<Boolean> readBoolExpression( DataInputStream in )
-			throws IOException
-	{
-		return readConstant(in, boolean.class);
 	}
 
 	protected void readGroupField( DataInputStream in, GroupDesign group,
@@ -801,29 +774,28 @@ public class EngineIRReaderImpl implements IOConstants
 				group.setGroupLevel( groupLevel );
 				break;
 			case FIELD_PAGE_BREAK_BEFORE :
-				Expression<String> pageBreakBefore = readStringConstant( in );
+				String pageBreakBefore = IOUtil.readString( in );
 				group.setPageBreakBefore( pageBreakBefore );
 				break;
 			case FIELD_PAGE_BREAK_AFTER :
-				Expression<String> pageBreakAfter = readStringConstant( in );
+				String pageBreakAfter = IOUtil.readString( in );
 				group.setPageBreakAfter( pageBreakAfter );
 				break;
 			case FIELD_PAGE_BREAK_INSIDE :
-				Expression<String> pageBreakInside = readStringConstant( in );
+				String pageBreakInside = IOUtil.readString( in );
 				group.setPageBreakInside( pageBreakInside );
 				break;
 			case FIELD_HIDE_DETAIL :
-				Expression<Boolean> hideDetail = readBoolExpression( in );
+				boolean hideDetail = IOUtil.readBool( in );
 				group.setHideDetail( hideDetail );
 				break;
 			case FIELD_HEADER_REPEAT :
-				Expression<Boolean> headerRepeat = readBoolExpression( in );
+				Boolean headerRepeat = IOUtil.readBool( in );
 				group.setHeaderRepeat( headerRepeat );
 				break;
 			default :
 				readReportItemField( in, group, fieldType );
 		}
-
 	}
 
 	protected void readBandField( DataInputStream in, BandDesign band,
@@ -905,12 +877,12 @@ public class EngineIRReaderImpl implements IOConstants
 		switch ( fieldType )
 		{
 			case FIELD_CAPTION :
-				Expression<String> captionKey = readStringConstant( in );
-				Expression<String> caption = readStringConstant( in );
+				String captionKey = IOUtil.readString( in );
+				String caption = IOUtil.readString( in );
 				table.setCaption( captionKey, caption );
 				break;
-			case FIELD_SUMMARY:
-				Expression<String> summary = readStringConstant( in );
+			case FIELD_SUMMARY :
+				String summary = IOUtil.readString( in );
 				table.setSummary( summary );
 				break;
 			case FIELD_COLUMNS :
@@ -979,12 +951,12 @@ public class EngineIRReaderImpl implements IOConstants
 		switch ( fieldType )
 		{
 			case FIELD_CAPTION :
-				Expression<String> captionKey = readStringConstant( in );
-				Expression<String> caption = readStringConstant( in );
+				String captionKey = IOUtil.readString( in );
+				String caption = IOUtil.readString( in );
 				grid.setCaption( captionKey, caption );
 				break;
 			case FIELD_SUMMARY:
-				Expression<String> summary = readStringConstant( in );
+				String summary = IOUtil.readString( in );
 				grid.setSummary( summary );
 				break;
 			case FIELD_COLUMNS :
@@ -1020,11 +992,11 @@ public class EngineIRReaderImpl implements IOConstants
 		switch ( fieldType )
 		{
 			case FIELD_IS_COLUMN_HEADER :
-				Expression<Boolean> isColumnHeader = readBoolExpression( in );
+				boolean isColumnHeader = IOUtil.readBool( in );
 				column.setColumnHeaderState( isColumnHeader );
 				break;
 			case FIELD_WIDTH :
-				Expression<DimensionType> width = readDimensionExpression( in );
+				DimensionType width = readDimension( in );
 				column.setWidth( width );
 				break;
 			case FIELD_SUPPRESS_DUPLICATE :
@@ -1142,7 +1114,7 @@ public class EngineIRReaderImpl implements IOConstants
 				cell.setAntidiagonalColor( antidiagonalColor );
 				break;
 			case FIELD_HEADERS:
-				Expression<String> headers = readStringExpression(in);
+				Expression headers = readExpression( in );
 				cell.setHeaders( headers );
 				break;
 			case FIELD_SCOPE:
@@ -1186,81 +1158,18 @@ public class EngineIRReaderImpl implements IOConstants
 		switch ( fieldType )
 		{
 			case FIELD_TEXT :
-				Expression<String> textKey = readStringConstant( in );
-				Expression<String> text = readStringConstant( in );
+				String textKey = IOUtil.readString( in );
+				String text = IOUtil.readString( in );
 				label.setText( textKey, text );
 				break;
 			case FIELD_HELP_TEXT :
-				Expression<String> helpTextKey = readStringConstant( in );
-				Expression<String> helpText = readStringConstant( in );
+				String helpTextKey = IOUtil.readString( in );
+				String helpText = IOUtil.readString( in );
 				label.setHelpText( helpTextKey, helpText );
 				break;
 			default :
 				readReportItemField( in, label, fieldType );
 		}
-	}
-
-	protected Expression<String> readStringExpression( DataInputStream in )
-			throws IOException
-	{
-		return readExpression( in, String.class );
-	}
-
-	protected Expression<String> readStringConstant( DataInputStream in )
-			throws IOException
-	{
-		return readConstant( in, String.class );
-	}
-
-	protected Expression<Boolean> readBooleanConstant( DataInputStream in )
-			throws IOException
-	{
-		return readConstant( in, Boolean.class );
-	}
-
-	protected Expression<Object> readObjectConstant( DataInputStream in )
-			throws IOException
-	{
-		return readConstant( in, Object.class );
-	}
-
-	protected Expression<Integer> readIntConstant( DataInputStream in )
-			throws IOException
-	{
-		return readConstant( in, int.class );
-	}
-	
-	protected <T> Expression<T> readConstant( DataInputStream in, Class<T> clazz )
-			throws IOException
-	{
-		T value = null;
-		if ( clazz == DimensionType.class )
-		{
-			Object dimensionType = readDimension( in );
-			value = (T)dimensionType;
-		}
-		else
-		{
-			value = IOUtil.read( in, clazz );
-		}
-		if ( value == null )
-		{
-			return null;
-		}
-		return Expression.newConstant( value );
-	}
-	
-	protected Expression<Object> readObjectExpression( DataInputStream in )
-			throws IOException
-	{
-		return readExpression( in, Object.class );
-	}
-
-	protected <T> Expression<T> readExpression( DataInputStream in, Class<T> clazz )
-			throws IOException
-	{
-		String expression = IOUtil.readString( in );
-		return Expression.newExpression( expression, clazz );
 	}
 
 	protected void readData( DataInputStream in, DataItemDesign data )
@@ -1317,8 +1226,8 @@ public class EngineIRReaderImpl implements IOConstants
 				data.setSuppressDuplicate( suppressDuplicate );
 				break;
 			case FIELD_HELP_TEXT :
-				Expression<String> helpTextKey = readStringConstant( in );
-				Expression<String> helpText = readStringConstant( in );
+				String helpTextKey = IOUtil.readString( in );
+				String helpText = IOUtil.readString( in );
 				data.setHelpText( helpTextKey, helpText );
 				break;
 			case FIELD_NEED_REFRESH_MAPPING:
@@ -1347,13 +1256,17 @@ public class EngineIRReaderImpl implements IOConstants
 		switch ( fieldType )
 		{
 			case FIELD_TEXT_TYPE :
-				Expression<String> textType = readStringConstant( in );
+				String textType = IOUtil.readString( in );
 				design.setTextType( textType );
 				break;
 			case FIELD_TEXT :
-				Expression<String> textKey = readStringConstant( in );
-				Expression<String> text = readStringConstant( in );
+				String textKey = IOUtil.readString( in );
+				String text = IOUtil.readString( in );
 				design.setText( textKey, text );
+				break;
+			case FIELD_TEXT_HAS_EXPRESSION :
+				boolean hasExpr = IOUtil.readBool( in );
+				design.setHasExpression( hasExpr );
 				break;
 			default :
 				readReportItemField( in, design, fieldType );
@@ -1376,11 +1289,11 @@ public class EngineIRReaderImpl implements IOConstants
 		switch ( fieldType )
 		{
 			case FIELD_CONTENT_TYPE :
-				Expression<String> contentType = readStringExpression( in );
+				String contentType = IOUtil.readString( in );
 				design.setContentType( contentType );
 				break;
 			case FIELD_CONTENT :
-				Expression<Object> content = readObjectExpression( in );
+				Expression content = readExpression( in );
 				design.setContent( content );
 				break;
 			default :
@@ -1408,20 +1321,20 @@ public class EngineIRReaderImpl implements IOConstants
 				switch ( imageSource )
 				{
 					case ImageItemDesign.IMAGE_NAME :
-						String imageName = IOUtil.readString( in );
+						Expression imageName = readExpression( in );
 						image.setImageName( imageName );
 						break;
 					case ImageItemDesign.IMAGE_FILE :
-						Expression<String> imageFile = readStringExpression( in );
+						Expression imageFile = readExpression( in );
 						image.setImageFile( imageFile );
 						break;
 					case ImageItemDesign.IMAGE_URI :
-						Expression<String> imageUri = readStringExpression( in );
+						Expression imageUri = readExpression( in );
 						image.setImageUri( imageUri );
 						break;
 					case ImageItemDesign.IMAGE_EXPRESSION :
-						String imageExpr = IOUtil.readString( in );
-						String imageFormat = IOUtil.readString( in );
+						Expression imageExpr = readExpression( in );
+						Expression imageFormat = readExpression( in );
 						image.setImageExpression( imageExpr, imageFormat );
 						break;
 					default :
@@ -1430,13 +1343,13 @@ public class EngineIRReaderImpl implements IOConstants
 				}
 				break;
 			case FIELD_ALT_TEXT :
-				Expression<String> altTextKey = readStringConstant( in );
-				Expression<String> altText = readStringConstant( in );
+				String altTextKey = IOUtil.readString( in );
+				String altText = IOUtil.readString( in );
 				image.setAltText( altTextKey, altText );
 				break;
 			case FIELD_HELP_TEXT :
-				Expression<String> helpTextKey = readStringConstant( in );
-				Expression<String> helpText = readStringConstant( in );
+				String helpTextKey = IOUtil.readString( in );
+				String helpText = IOUtil.readString( in );
 				image.setHelpText( helpTextKey, helpText );
 				break;
 			case FIELD_FIT_TO_CONTAINER:
@@ -1464,8 +1377,8 @@ public class EngineIRReaderImpl implements IOConstants
 		switch ( fieldType )
 		{
 			case FIELD_ALT_TEXT :
-				Expression<String> altTextKey = readStringConstant( in );
-				Expression<String> altText = readStringConstant( in );
+				String altTextKey = IOUtil.readString( in );
+				String altText = IOUtil.readString( in );
 				extended.setAltText( altTextKey, altText );
 				break;
 			default :
@@ -1525,8 +1438,8 @@ public class EngineIRReaderImpl implements IOConstants
 				break;
 
 			case FIELD_PROMPT_TEXT :
-				Expression<String> promptTextKey = readStringConstant( in );
-				Expression<String> promptText = readStringConstant( in );
+				String promptTextKey = IOUtil.readString( in );
+				String promptText = IOUtil.readString( in );
 				design.setPromptText( promptText );
 				design.setPromptTextKey( promptTextKey );
 				break;
@@ -1558,7 +1471,7 @@ public class EngineIRReaderImpl implements IOConstants
 		{
 			VisibilityRuleDesign rule = new VisibilityRuleDesign( );
 			String format = IOUtil.readString( in );
-			Expression<Boolean> expr = readBooleanConstant( in );
+			Expression expr = readExpression( in );
 			rule.setFormat( format );
 			rule.setExpression( expr );
 			visibility.addRule( rule );
@@ -1574,8 +1487,8 @@ public class EngineIRReaderImpl implements IOConstants
 		{
 			MapRuleDesign rule = new MapRuleDesign( );;
 			readRuleDesign( in, rule );
-			Expression<String> displayText = readStringConstant( in );
-			Expression<String> displayKey = readStringConstant( in );
+			String displayText = IOUtil.readString( in );
+			String displayKey = IOUtil.readString( in );
 			rule.setDisplayText( displayKey, displayText );
 			map.addRule( rule );
 		}
@@ -1601,23 +1514,78 @@ public class EngineIRReaderImpl implements IOConstants
 	protected void readRuleDesign( DataInputStream in, RuleDesign rule )
 			throws IOException
 	{
-		Expression<String> testExpr = readStringConstant( in );
-		rule.setTestExpression( testExpr );
+		if ( version < ENGINE_IR_VERSION_7 )
+		{
+			readRuleDesignV6( in, rule );
+		}
+		else
+		{
+			readRuleDesignV7( in, rule );
+		}
+	}
+
+	protected void readRuleDesignV6( DataInputStream in, RuleDesign rule )
+			throws IOException
+	{
+		String testExpr = IOUtil.readString( in );
 		String oper = IOUtil.readString( in );
 		Object object1 = IOUtil.readObject( in );
 		Object object2 = IOUtil.readObject( in );
-		if ( object1 instanceof List )
+		rule.setTestExpression( Expression.newScript( testExpr ) );
+		if ( object1 instanceof List<?> )
 		{
-			rule.setExpression( oper, Expression.newConstant((List)object1) );
+			List<?> list = (List<?>) object1;
+			List<Expression> exprs = new ArrayList<Expression>( list.size( ) );
+			for ( Object expr : list )
+			{
+				if ( expr instanceof String )
+				{
+					exprs.add( Expression.newScript( (String) expr ) );
+				}
+				else
+				{
+					exprs.add( null );
+				}
+			}
+			rule.setExpression( oper, exprs );
 			rule.setValueIsList( true );
 		}
 		else
 		{
-			Expression<String> value1 = createExpression( (String) object1 );
-			Expression<String> value2 = createExpression( (String) object2 );
-			rule.setExpression( oper, value1, value2 );
+			Expression expr1 = object1 == null ? null : Expression
+					.newScript( (String) object1 );
+			Expression expr2 = object2 == null ? null : Expression
+					.newScript( (String) object2 );
+			rule.setExpression( oper, expr1, expr2 );
 			rule.setValueIsList( false );
 		}
+	}
+
+	protected void readRuleDesignV7( DataInputStream in, RuleDesign rule )
+			throws IOException
+	{
+		Expression testExpr = readExpression( in );
+		String oper = IOUtil.readString( in );
+		boolean isList = IOUtil.readBool( in );
+		if ( isList )
+		{
+			int size = IOUtil.readInt( in );
+			ArrayList<Expression> exprs = new ArrayList<Expression>( size );
+			for ( int i = 0; i < size; i++ )
+			{
+				Expression expr = readExpression( in );
+				exprs.add( expr );
+			}
+			rule.setExpression( oper, exprs );
+		}
+		else
+		{
+			Expression expr1 = readExpression( in );
+			Expression expr2 = readExpression( in );
+			rule.setExpression( oper, expr1, expr2 );
+		}
+		rule.setValueIsList( isList );
+		rule.setTestExpression( testExpr );
 	}
 
 	protected IStyle readStyle( DataInputStream in ) throws IOException
@@ -1645,7 +1613,7 @@ public class EngineIRReaderImpl implements IOConstants
 		switch ( actionType )
 		{
 			case ActionDesign.ACTION_BOOKMARK :
-				Expression<String> bookmark = readStringExpression( in );
+				Expression bookmark = readExpression( in );
 				action.setBookmark( bookmark );
 				break;
 			case ActionDesign.ACTION_DRILLTHROUGH :
@@ -1653,7 +1621,7 @@ public class EngineIRReaderImpl implements IOConstants
 				action.setDrillThrough( drillThrough );
 				break;
 			case ActionDesign.ACTION_HYPERLINK :
-				Expression<String> hyperlink = readStringExpression( in );
+				Expression hyperlink = readExpression( in );
 				action.setHyperlink( hyperlink );
 				break;
 			default :
@@ -1664,7 +1632,7 @@ public class EngineIRReaderImpl implements IOConstants
 			// We remove isBookmark of ActionDesign from version 1.
 			IOUtil.readBool( in );
 		}
-		Expression<String> targetWindow = readStringConstant( in );
+		String targetWindow = IOUtil.readString( in );
 		action.setTargetWindow( targetWindow );
 		return action;
 	}
@@ -1673,8 +1641,18 @@ public class EngineIRReaderImpl implements IOConstants
 			throws IOException
 	{
 		ActionDesign action = readAction( in );
-		Expression<String> tooltip = readStringConstant( in );
+		String tooltip = IOUtil.readString( in );
 		action.setTooltip( tooltip );
+		if ( version < ENGINE_IR_VERSION_7 )
+		{
+			// before V7, this action is saved
+			String fileType = IOUtil.readString( in );
+			DrillThroughActionDesign drill = action.getDrillThrough( );
+			if ( drill != null )
+			{
+				drill.setTargetFileType( fileType );
+			}
+		}
 		return action;
 	}
 
@@ -1682,15 +1660,21 @@ public class EngineIRReaderImpl implements IOConstants
 			throws IOException
 	{
 		DrillThroughActionDesign drillThrough = new DrillThroughActionDesign( );
-		Expression<String> reportName = readStringConstant( in );
-		Map<String, Expression<Object>> parameters = readParameterBindings( in );
+		Expression reportName = readExpression( in );
+		String fileType = null;
+		if ( version >= ENGINE_IR_VERSION_7 )
+		{
+			fileType = IOUtil.readString( in );
+		}
+		Map<String, Expression> parameters = readExprMap( in );
 		Map search = IOUtil.readMap( in );
-		Expression<String> format = readStringConstant( in );
-		Expression<String> bookmarkType = readBookmarkType( in );
+		String format = IOUtil.readString( in );
+		boolean bookmarkType = IOUtil.readBool( in );
 		drillThrough.setBookmarkType( bookmarkType );
-		Expression<String> bookmark = readStringExpression( in );
+		Expression bookmark = readExpression( in );
 
 		drillThrough.setReportName( reportName );
+		drillThrough.setTargetFileType( fileType );
 		drillThrough.setParameters( parameters );
 		drillThrough.setSearch( search );
 		drillThrough.setFormat( format );
@@ -1699,54 +1683,59 @@ public class EngineIRReaderImpl implements IOConstants
 		return drillThrough;
 	}
 
-	protected Map<String, Expression<Object>> readParameterBindings(
-			DataInputStream in ) throws IOException
-	{
-		Map<String, String> tempParameters = IOUtil.readMap( in );
-		Set<Entry<String, String>> entrySet = tempParameters.entrySet( );
-		Map<String, Expression<Object>> parameters = new HashMap<String, Expression<Object>>( );
-		for ( Entry<String, String> entry : entrySet )
-		{
-			parameters.put( entry.getKey( ), createObjectExpression( entry
-					.getValue( ) ) );
-		}
-		return parameters;
-	}
-
-	protected Expression<String> readBookmarkType( DataInputStream in )
+	@SuppressWarnings("unchecked")
+	private Map<String, Expression> readExprMap( DataInputStream dis )
 			throws IOException
 	{
-		boolean isBookmark = IOUtil.readBool( in );
-		Expression<String> bookmarkType = null;
-		if ( !isBookmark )
+		HashMap<String, Expression> exprs = new HashMap<String, Expression>( );
+		if ( version < ENGINE_IR_VERSION_7 )
 		{
-			bookmarkType = Expression
-					.newConstant( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC );
+			Map<String, String> map = IOUtil.readMap( dis );
+			for ( Map.Entry<String, String> entry : map.entrySet( ) )
+			{
+				String name = entry.getKey( );
+				Expression expr = Expression.newScript( entry.getValue( ) );
+				exprs.put( name, expr );
+			}
 		}
-		return bookmarkType;
-	}
-
-	private JSExpression<String> createExpression( String expression )
-	{
-		return createExpression( expression, String.class );
-	}
-
-	private JSExpression<Boolean> createBooleanExpression( String expression )
-	{
-		return createExpression( expression, Boolean.class );
-	}
-
-	private JSExpression<Object> createObjectExpression( String expression )
-	{
-		return createExpression( expression, Object.class );
-	}
-
-	private <T> JSExpression<T> createExpression( String expression, Class<T> type )
-	{
-		if ( expression == null )
+		else
 		{
+			int size = IOUtil.readInt( dis );
+			for ( int i = 0; i < size; i++ )
+			{
+				String name = IOUtil.readString( dis );
+				Expression expr = readExpression( dis );
+				exprs.put( name, expr );
+			}
+		}
+		return exprs;
+	}
+
+	protected Expression readExpression( DataInputStream in )
+			throws IOException
+	{
+		if ( version < ENGINE_IR_VERSION_7 )
+		{
+			String scriptText = IOUtil.readString( in );
+			if ( scriptText != null )
+			{
+				return Expression.newScript( scriptText );
+			}
 			return null;
 		}
-		return Expression.newExpression( expression, type );
+		boolean isNull = IOUtil.readBool( in );
+		if ( !isNull )
+		{
+			int exprType = IOUtil.readInt( in );
+			String scriptText = IOUtil.readString( in );
+			switch ( exprType )
+			{
+				case Expression.CONSTANT :
+					return Expression.newConstant( scriptText );
+				case Expression.SCRIPT :
+					return Expression.newScript( scriptText );
+			}
+		}
+		return null;
 	}
 }

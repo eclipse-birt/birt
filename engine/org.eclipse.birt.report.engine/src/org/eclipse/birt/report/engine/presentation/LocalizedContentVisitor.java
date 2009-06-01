@@ -70,7 +70,6 @@ import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.engine.extension.internal.ReportItemPresentationInfo;
 import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -724,12 +723,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 			if ( text == null )
 			{
-				Expression<String> textKeyValue = design.getTextKey( );
-				String textKey = textKeyValue == null ? null : textKeyValue
-						.getValue( );
-				Expression<String> textValue = design.getText( );
-				String textContent = textValue == null ? null : textValue
-						.getValue( );
+				String textKey = design.getTextKey( );
+				String textContent = design.getText( );
 				text = localize( foreignContent, textKey, textContent );
 			}
 			try
@@ -978,23 +973,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 							output, imageMIMEType, size );
 					if ( size != null )
 					{
-						DimensionType height = null;
-						DimensionType width = null;
-						// for the content whose unit is in pixel, we need to
-						// convert it to point, since the DPI of the content and
-						// the report may vary.
-						if ( DimensionType.UNITS_PX.equals( size.getUnit( ) ) )
-						{
-							height = new DimensionType( size.getHeight( )
-									/ resolution * 72, DimensionType.UNITS_PT );
-							width = new DimensionType( size.getWidth( )
-									/ resolution * 72, DimensionType.UNITS_PT );
-						}
-						else
-						{
-							height = new DimensionType( size.getHeight( ), size.getUnit( ) );
-							width = new DimensionType( size.getWidth( ), size.getUnit( ) );
-						}
+						DimensionType height = new DimensionType( size.getHeight( ), size.getUnit( ) );
+						DimensionType width = new DimensionType( size.getWidth( ), size.getUnit( ) );
 						generatedContent.setHeight( height );
 						generatedContent.setWidth( width );
 					}

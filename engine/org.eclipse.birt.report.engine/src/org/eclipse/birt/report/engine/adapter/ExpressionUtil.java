@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,7 +27,6 @@ import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.ir.Expression;
-import org.eclipse.birt.report.engine.ir.Expression.JSExpression;
 
 /**
  * This class help to manipulate expressions.
@@ -39,7 +38,7 @@ public final class ExpressionUtil
 
 	private int totalColumnSuffix = 0;
 
-	public ITotalExprBindings prepareTotalExpressions( List exprs, IDataQueryDefinition queryDefn ) throws EngineException
+	public ITotalExprBindings prepareTotalExpressions( List<Expression> exprs, IDataQueryDefinition queryDefn ) throws EngineException
 	{
 		return prepareTotalExpressions( exprs, null, queryDefn );
 	}
@@ -50,58 +49,54 @@ public final class ExpressionUtil
 	 * @return
 	 * @throws EngineException 
 	 */
-	public ITotalExprBindings prepareTotalExpressions( List exprs, String groupName, IDataQueryDefinition queryDefn ) throws EngineException
+	public ITotalExprBindings prepareTotalExpressions( List<Expression> exprs,
+			String groupName, IDataQueryDefinition queryDefn )
+			throws EngineException
 	{
-		
-		TotalExprBinding result = new TotalExprBinding();
+
+		TotalExprBinding result = new TotalExprBinding( );
 		List l = new ArrayList( );
 		boolean isCube = false;
-		
-		if( queryDefn instanceof IBaseCubeQueryDefinition )
+
+		if ( queryDefn instanceof IBaseCubeQueryDefinition )
 		{
 			isCube = true;
 		}
-		
+
 		for ( int i = 0; i < exprs.size( ); i++ )
 		{
-			
-			Object key = exprs.get( i );
+
+			Expression expr = exprs.get( i );
 
 			result.addColumnBindings( l );
-			if ( key instanceof Expression )
-			{
-				if ( ( (Expression) key ).isExpression( ) )
-				{
-					JSExpression expression = (JSExpression) key;
-					String expr = key == null ? null : expression
-							.getDesignValue( );
-					String newExpr = prepareTotalExpression( expr, l,
-							groupName, isCube );
-					result.addColumnBindings( l );
-					result.addNewExpression( Expression.newExpression( newExpr,
-							expression.getType( ) ) );
-				}
-				else
-				{
-					result.addNewExpression( key );
-				}
-			}
-			else if ( key instanceof String )
-			{
-				String expr = key == null ? null : key.toString( );
-				String newExpr = prepareTotalExpression( expr, l, groupName, isCube );
-				result.addColumnBindings( l );
-				result.addNewExpression( newExpr );
-			}
-			else if ( key instanceof IConditionalExpression )
-			{
-				addConditionalExprBindings( result,
-						(IConditionalExpression) key,
-						l, groupName, isCube );
-			}
-			else if ( key == null )
+
+			if ( expr == null )
 			{
 				result.addNewExpression( null );
+			}
+			else
+			{
+				switch ( expr.getType( ) )
+				{
+					case Expression.CONSTANT :
+						result.addNewExpression( expr );
+						break;
+					case Expression.SCRIPT :
+						String newExpr = prepareTotalExpression( expr
+								.getScriptText( ), l, groupName, isCube );
+						result.addColumnBindings( l );
+						expr.setScriptText( newExpr );
+						result.addNewExpression( expr );
+						break;
+					case Expression.CONDITIONAL :
+						addConditionalExprBindings( result,
+								(Expression.Conditional) expr, l, groupName,
+								isCube );
+						break;
+					default :
+						throw new IllegalStateException(
+								"invalid expression type:" + expr.getType( ) );
+				}
 			}
 		}
 		return result;
@@ -153,15 +148,15 @@ public final class ExpressionUtil
 	 * @throws EngineException 
 	 */
 	private void addConditionalExprBindings( TotalExprBinding result,
-			IConditionalExpression key, List bindings, String groupName, boolean isCube ) throws EngineException
+			Expression.Conditional key, List bindings, String groupName, boolean isCube ) throws EngineException
 	{
 		try
 		{
-			IConditionalExpression ce = key;
-			
-			if ( !hasAggregationInFilter( key ) )
+			IConditionalExpression ce = key.getConditionalExpression( );
+
+			if ( !hasAggregationInFilter( ce ) )
 			{
-				result.addNewExpression( ce );
+				result.addNewExpression( key );
 				return;
 			}
 			if ( groupName != null )
@@ -185,11 +180,15 @@ public final class ExpressionUtil
 
 			if ( !isCube )
 			{
-				result.addNewExpression( org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression( bindingName ) );
+				String script = org.eclipse.birt.core.data.ExpressionUtil
+						.createJSRowExpression( bindingName );
+				result.addNewExpression( Expression.newScript( script ) );
 			}
 			else
 			{
-				result.addNewExpression( org.eclipse.birt.core.data.ExpressionUtil.createJSDataExpression( bindingName ) );
+				String script = org.eclipse.birt.core.data.ExpressionUtil
+						.createJSDataExpression( bindingName );
+				result.addNewExpression( Expression.newScript( script ) );
 			}
 		}
 		catch ( DataException e )
@@ -514,34 +513,38 @@ public final class ExpressionUtil
 
 		return true;
 	}
-	
+
 	public IConditionalExpression createConditionalExpression(
-			Expression<String> testExpression, String operator,
-			Expression<String> value1, Expression<String> value2 )
+			Expression testExpression, String operator, Expression value1,
+			Expression value2 )
 	{
 		String tempV1 = null, tempV2 = null;
 		if ( value1 != null )
 		{
-			tempV1 = (String) value1.getDesignValue( );
+			tempV1 = value1.getScriptText( );
 		}
 		if ( value2 != null )
 		{
-			tempV2 = (String) value2.getDesignValue( );
+			tempV2 = value2.getScriptText( );
 		}
 		ConditionalExpression expression = new ConditionalExpression(
-				(String) testExpression.getDesignValue( ), DataAdapterUtil
+				testExpression.getScriptText( ), DataAdapterUtil
 						.adaptModelFilterOperator( operator ), tempV1, tempV2 );
 		return ExpressionUtil.transformConditionalExpression( expression );
 	}
 
 	public IConditionalExpression createConditionExpression(
-			Expression<String> testExpression, String operator,
-			Expression<? extends List> valueList )
+			Expression testExpression, String operator,
+			List<Expression> valueList )
 	{
+		ArrayList<String> values = new ArrayList<String>( valueList.size( ) );
+		for ( Expression expr : valueList )
+		{
+			values.add( expr.getScriptText( ) );
+		}
 		ConditionalExpression expression = new ConditionalExpression(
-				(String) testExpression.getDesignValue( ), DataAdapterUtil
-						.adaptModelFilterOperator( operator ),
-				(List) valueList.getDesignValue( ) );
+				testExpression.getScriptText( ), DataAdapterUtil
+						.adaptModelFilterOperator( operator ), values );
 		return ExpressionUtil.transformConditionalExpression( expression );
 	}
 }

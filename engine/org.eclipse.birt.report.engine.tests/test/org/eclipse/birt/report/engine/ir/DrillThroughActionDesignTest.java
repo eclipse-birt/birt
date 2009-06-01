@@ -27,8 +27,8 @@ public class DrillThroughActionDesignTest extends EngineCase
 	public void testDrillThrough( )
 	{
 		DrillThroughActionDesign drillThrough = new DrillThroughActionDesign( );
-		Expression<String> reportName = newConstant( "reportName" );
-		Expression<String> bookmark = newConstant( "" );
+		Expression reportName = Expression.newConstant( "reportName" );
+		Expression bookmark = Expression.newConstant( "" );
 		Map params = new HashMap( );
 		//Adds
 		drillThrough.setReportName( reportName );

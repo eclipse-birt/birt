@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.css.dom.CellComputedStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.Expression;
 
 /**
  * 
@@ -475,9 +476,13 @@ public class CellContent extends AbstractContent implements ICellContent
 		{
 			return headers;
 		}
-		else if ( cellDesign != null && cellDesign.getHeaders( ) != null )
+		else if ( cellDesign != null )
 		{
-			return getConstantValue( cellDesign.getHeaders( ) );
+			Expression expr = cellDesign.getHeaders( );
+			if ( expr != null && expr.getType( ) == Expression.CONSTANT )
+			{
+				return expr.getScriptText( );
+			}
 		}
 		return null;
 	}
@@ -497,6 +502,18 @@ public class CellContent extends AbstractContent implements ICellContent
 
 	public void setHeaders( String headers )
 	{
+		if ( cellDesign != null )
+		{
+			Expression expr = cellDesign.getHeaders( );
+			if ( expr != null && expr.getType( ) == Expression.CONSTANT )
+			{
+				if ( headers.equals( expr.getScriptText( ) ) )
+				{
+					this.headers = null;
+					return;
+				}
+			}
+		}
 		this.headers = headers;
 	}
 

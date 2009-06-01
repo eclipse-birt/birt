@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 , 2008 Actuate Corporation.
+ * Copyright (c) 2004 , 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.ir;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Grid Item.
@@ -28,28 +29,28 @@ public class GridItemDesign extends ReportItemDesign
 	/**
 	 * grid caption
 	 */
-	protected Expression<String> caption;
+	protected String caption;
 	
 	/*
 	 * grid caption resource key
 	 */
-	protected Expression<String> captionKey;
+	protected String captionKey;
 	
 	/*
 	 * grid summary
 	 */
-	protected Expression<String> summary;
+	protected String summary;
 	
 	/**
 	 * column defines. the item type is Column.
 	 */
-	protected ArrayList columns = new ArrayList( );
+	protected ArrayList<ColumnDesign> columns = new ArrayList<ColumnDesign>( );
 	/**
 	 * rows. the item type is Row.
 	 * 
 	 * @see RowDesign
 	 */
-	protected ArrayList rows = new ArrayList( );
+	protected ArrayList<RowDesign> rows = new ArrayList<RowDesign>( );
 
 	/**
 	 * add column into the column define.
@@ -61,6 +62,11 @@ public class GridItemDesign extends ReportItemDesign
 	{
 		assert ( column != null );
 		this.columns.add( column );
+	}
+
+	public Collection<ColumnDesign> getColumns( )
+	{
+		return columns;
 	}
 
 	/**
@@ -96,6 +102,11 @@ public class GridItemDesign extends ReportItemDesign
 	{
 		assert ( row != null );
 		this.rows.add( row );
+	}
+
+	public Collection<RowDesign> getRows( )
+	{
+		return rows;
 	}
 
 	/**
@@ -139,7 +150,7 @@ public class GridItemDesign extends ReportItemDesign
 	 * @param caption
 	 *            caption
 	 */
-	public void setCaption(Expression<String> captionKey,Expression<String> caption)
+	public void setCaption(String captionKey,String caption)
 	{
 		this.captionKey = captionKey;
 		this.caption = caption;
@@ -149,7 +160,7 @@ public class GridItemDesign extends ReportItemDesign
 	/**
 	 * @returns Return grid caption
 	 */
-	public Expression<String> getCaption()
+	public String getCaption()
 	{
 		return caption;
 	}
@@ -157,7 +168,7 @@ public class GridItemDesign extends ReportItemDesign
 	/**
 	 * @returns Return grid captionKey
 	 */
-	public Expression<String> getCaptionKey()
+	public String getCaptionKey()
 	{
 		return captionKey;
 	}
@@ -168,7 +179,7 @@ public class GridItemDesign extends ReportItemDesign
 	 * @param summary
 	 * 	          summary
 	 */
-	public void setSummary(Expression<String> summary)
+	public void setSummary(String summary)
 	{
 		this.summary = summary;
 	}
@@ -178,7 +189,7 @@ public class GridItemDesign extends ReportItemDesign
 	 * 
 	 * @returns Return grid summary
 	 */
-	public Expression<String> getSummary()
+	public String getSummary()
 	{
 		return summary;
 	}

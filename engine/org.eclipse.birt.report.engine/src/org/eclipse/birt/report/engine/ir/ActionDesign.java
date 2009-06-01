@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,15 +36,15 @@ public class ActionDesign
 	 */
 	protected int actionType;
 	
-	protected Expression<String> tooltip;
+	protected String tooltip;
 	/**
 	 * hyper link
 	 */
-	protected Expression<String> hyperlink;
+	protected Expression hyperlink;
 	/**
 	 * bookmark.
 	 */
-	protected Expression<String> bookmark;
+	protected Expression bookmark;
 
 	/**
 	 * drill through
@@ -54,17 +54,12 @@ public class ActionDesign
 	/**
 	 * The name of a frame where a document is to be opened.
 	 */
-	protected Expression<String> target = null;
+	protected String target = null;
 	
-	/**
-	 * The type of the target file.
-	 */
-	protected Expression<String> targetFileType = null;
-
 	/**
 	 * @return Returns the bookmark.
 	 */
-	public Expression<String> getBookmark( )
+	public Expression getBookmark( )
 	{
 		assert this.actionType == ACTION_BOOKMARK;
 		return bookmark;
@@ -74,7 +69,7 @@ public class ActionDesign
 	 * @param bookmark
 	 *            The bookmark to set.
 	 */
-	public void setBookmark( Expression<String> bookmark )
+	public void setBookmark( Expression bookmark )
 	{
 		this.actionType = ActionDesign.ACTION_BOOKMARK;
 		this.bookmark = bookmark;
@@ -83,7 +78,7 @@ public class ActionDesign
 	/**
 	 * @return Returns the hyperlink.
 	 */
-	public Expression<String> getHyperlink( )
+	public Expression getHyperlink( )
 	{
 		assert this.actionType == ACTION_HYPERLINK;
 		return hyperlink;
@@ -93,7 +88,7 @@ public class ActionDesign
 	 * @param hyperlink
 	 *            The hyperlink to set.
 	 */
-	public void setHyperlink( Expression<String> hyperlink )
+	public void setHyperlink( Expression hyperlink )
 	{
 		this.hyperlink = hyperlink;
 		this.actionType = ActionDesign.ACTION_HYPERLINK;
@@ -129,7 +124,7 @@ public class ActionDesign
 	/**
 	 * @return the target window.
 	 */
-	public Expression<String> getTargetWindow( )
+	public String getTargetWindow( )
 	{
 		return target;
 	}
@@ -138,37 +133,17 @@ public class ActionDesign
 	 * @param target
 	 *            The name of a frame where a document is to be opened.
 	 */
-	public void setTargetWindow( Expression<String> target )
+	public void setTargetWindow( String target )
 	{
 		this.target = target;
 	}
 	
-	/**
-	 * Sets target report file type for a drill-through action. The format type
-	 * for action are defined in DesignChoiceConstants.
-	 * 
-	 * @param targetFileType
-	 *            the type of the target report file.
-	 */
-	public void setTargetFileType( Expression<String> targetFileType )
-	{
-		this.targetFileType = targetFileType;
-	}
-
-	/**
-	 * @return the type of the target report file.
-	 */
-	public Expression<String> getTargetFileType( )
-	{
-		return targetFileType;
-	}
-	
-	public void setTooltip(Expression<String> tooltip)
+	public void setTooltip(String tooltip)
 	{
 		this.tooltip = tooltip;
 	}
 	
-	public Expression<String> getTooltip()
+	public String getTooltip()
 	{
 		return tooltip;
 	}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005, 2007 Actuate Corporation.
+ * Copyright (c) 2005, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.EventHandlerManager;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
@@ -43,13 +44,13 @@ public class ScriptExecutor
 
 
 	protected static JSScriptStatus handleJS( Object scope,
-			ScriptExpression expr, ExecutionContext context ) throws BirtException
+			Expression expr, ExecutionContext context ) throws BirtException
 	{
 		return handleJSInternal( scope, expr, context );
 	}
 
 	private static JSScriptStatus handleJSInternal( Object scope,
-			ScriptExpression expr, ExecutionContext context ) throws BirtException
+			Expression expr, ExecutionContext context ) throws BirtException
 	{
 		if ( expr != null )
 		{

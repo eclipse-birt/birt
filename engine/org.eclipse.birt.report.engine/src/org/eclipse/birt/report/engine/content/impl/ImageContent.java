@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,6 +20,7 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -88,8 +89,7 @@ public class ImageContent extends AbstractContent implements IImageContent
 		{
 			if ( generateBy instanceof ImageItemDesign )
 			{
-				return getConstantValue( ( (ImageItemDesign) generateBy )
-						.getAltText( ) );
+				return ( (ImageItemDesign) generateBy ).getAltText( );
 			}
 		}
 		return altText;
@@ -101,8 +101,7 @@ public class ImageContent extends AbstractContent implements IImageContent
 		{
 			if ( generateBy instanceof ImageItemDesign )
 			{
-				return getConstantValue( ( (ImageItemDesign) generateBy )
-						.getAltTextKey( ) );
+				return ( (ImageItemDesign) generateBy ).getAltTextKey( );
 			}
 		}
 		return altTextKey;
@@ -119,8 +118,7 @@ public class ImageContent extends AbstractContent implements IImageContent
 		{
 			if ( generateBy instanceof ImageItemDesign )
 			{
-				return getConstantValue( ( (ImageItemDesign) generateBy )
-						.getHelpText( ) );
+				return ( (ImageItemDesign) generateBy ).getHelpText( );
 			}
 		}
 		return helpText;
@@ -132,8 +130,7 @@ public class ImageContent extends AbstractContent implements IImageContent
 		{
 			if ( generateBy instanceof ImageItemDesign )
 			{
-				return getConstantValue( ( (ImageItemDesign) generateBy )
-						.getHelpTextKey( ) );
+				return ( (ImageItemDesign) generateBy ).getHelpTextKey( );
 			}
 		}
 		return helpTextKey;
@@ -176,11 +173,11 @@ public class ImageContent extends AbstractContent implements IImageContent
 
 	public String getURI( )
 	{
-		if (sourceType == IMAGE_NAME)
+		if ( sourceType == IMAGE_NAME )
 		{
-			return getImageName();
+			return getImageName( );
 		}
-		return uri;
+		return getImageURI( );
 	}
 
 	public int getImageSource( )
@@ -205,10 +202,17 @@ public class ImageContent extends AbstractContent implements IImageContent
 		{
 			if ( generateBy instanceof ImageItemDesign )
 			{
-				if ( uri.equals( ( (ImageItemDesign) generateBy ).getImageName( ) ) )
+				Expression nameExpr = ( (ImageItemDesign) generateBy )
+						.getImageName( );
+				if ( nameExpr != null
+						&& nameExpr.getType( ) == Expression.CONSTANT )
 				{
-					uri = null;
+					if ( uri.equals( nameExpr.getScriptText( ) ) )
+					{
+						uri = null;
+					}
 				}
+
 			}
 		}
 		data = null;
@@ -217,12 +221,64 @@ public class ImageContent extends AbstractContent implements IImageContent
 	private String getImageName( )
 	{
 		assert sourceType == IMAGE_NAME;
-		if ( uri == null )
+		if ( uri != null )
+		{
+			return uri;
+		}
+		if ( generateBy instanceof ImageItemDesign )
+		{
+			Expression nameExpr = ( (ImageItemDesign) generateBy )
+					.getImageName( );
+			if ( nameExpr != null && nameExpr.getType( ) == Expression.CONSTANT )
+			{
+				return nameExpr.getScriptText( );
+			}
+		}
+		return null;
+	}
+
+
+	private void setImageURI( String uri )
+	{
+		assert ( sourceType == IMAGE_FILE || sourceType == IMAGE_URL );
+		if ( uri != null )
 		{
 			if ( generateBy instanceof ImageItemDesign )
-				return ( (ImageItemDesign) generateBy ).getImageName( );
+			{
+				Expression uriExpr = ( (ImageItemDesign) generateBy )
+						.getImageUri( );
+				if ( uriExpr != null
+						&& uriExpr.getType( ) == Expression.CONSTANT )
+				{
+					if ( uri.equals( uriExpr.getScriptText( ) ) )
+					{
+						uri = null;
+					}
+				}
+
+			}
 		}
-		return uri;
+		this.uri = uri;
+		data = null;
+	}
+
+	private String getImageURI( )
+	{
+		assert ( sourceType == IMAGE_FILE || sourceType == IMAGE_URL );
+		if ( uri != null )
+		{
+			return uri;
+		}
+		if ( generateBy instanceof ImageItemDesign )
+		{
+			Expression uriExpr = ( (ImageItemDesign) generateBy )
+					.getImageName( );
+			if ( uriExpr != null && uriExpr.getType( ) == Expression.CONSTANT )
+			{
+				return uriExpr.getScriptText( );
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -255,7 +311,7 @@ public class ImageContent extends AbstractContent implements IImageContent
 		}
 		else
 		{
-			this.uri = uri;
+			setImageURI( uri );
 		}
 	}
 

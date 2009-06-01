@@ -35,8 +35,7 @@ public class ColumnTest extends StyledElementTestCase
 	public void testAccessor( )
 	{
 		ColumnDesign column = (ColumnDesign) element;
-		Expression<DimensionType> width = newConstant( new DimensionType( 5.0,
-				DimensionType.UNITS_CM ) );
+		DimensionType width = new DimensionType( 5.0, DimensionType.UNITS_CM );
 
 		// Set
 		column.setWidth( width );
