@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.core.script.function.bre;
 
+import java.util.Date;
+
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
@@ -47,6 +49,20 @@ public class BirtDuration implements IScriptFunctionExecutor
 			this.executor = new Function_Longer( );
 		else if ( "isShorterThan".equals( functionName ) )
 			this.executor = new Function_Shorter( );
+		else if ( "getSign".equals( functionName ) )
+			this.executor = new Function_GetSign( );
+		else if ( "multiply".equals( functionName ) )
+			this.executor = new Function_Multiply( );
+		else if ( "negate".equals( functionName ) )
+			this.executor = new Function_Negate( );
+		else if ( "subtract".equals( functionName ) )
+			this.executor = new Function_Subtract( );
+		else if ( "add".equals( functionName ) )
+			this.executor = new Function_Add( );
+		else if ( "addTo".equals( functionName ) )
+			this.executor = new Function_AddTo( );
+		else if ( "compare".equals( functionName ) )
+			this.executor = new Function_Compare( );
 		else
 			throw new BirtException( PLUGIN_ID,
 					null,
@@ -311,7 +327,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 				duration1 = DatatypeFactory.newInstance( )
 						.newDuration( args[0].toString( ) );
 				duration2 = DatatypeFactory.newInstance( )
-				.newDuration( args[1].toString( ) );
+						.newDuration( args[1].toString( ) );
 			}
 			catch ( DatatypeConfigurationException e )
 			{
@@ -322,4 +338,190 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
+	private class Function_GetSign extends Function_temp
+	{
+		Function_GetSign( )
+		{
+			length = 1;
+			isFixed = true;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			Duration duration;
+			try
+			{
+				duration = DatatypeFactory.newInstance( )
+						.newDuration( args[0].toString( ) );
+			}
+			catch ( DatatypeConfigurationException e )
+			{
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.BirtDuration.literal.invalidArgument",
+						args ) );
+			}
+			return Integer.valueOf( duration.getSign( ) );
+		}
+	}
+	
+	private class Function_Multiply extends Function_temp
+	{
+		Function_Multiply( )
+		{
+			length = 2;
+			isFixed = true;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			Duration duration;
+			int factor;
+			try
+			{
+				duration = DatatypeFactory.newInstance( )
+						.newDuration( args[0].toString( ) );
+
+				factor = DataTypeUtil.toInteger( args[1] ).intValue( );
+			}
+			catch ( DatatypeConfigurationException e )
+			{
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.BirtDuration.literal.invalidArgument",
+						args ) );
+			}
+			return duration.multiply( factor ).toString( );
+		}
+	}
+	
+	private class Function_Negate extends Function_temp
+	{
+		Function_Negate( )
+		{
+			length = 1;
+			isFixed = true;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			Duration duration;
+			try
+			{
+				duration = DatatypeFactory.newInstance( )
+						.newDuration( args[0].toString( ) );
+			}
+			catch ( DatatypeConfigurationException e )
+			{
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.BirtDuration.literal.invalidArgument",
+						args ) );
+			}
+			return duration.negate( ).toString( );
+		}
+	}
+	
+	private class Function_Subtract extends Function_temp
+	{
+		Function_Subtract( )
+		{
+			length = 2;
+			isFixed = true;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			Duration duration1, duration2;
+			try
+			{
+				duration1 = DatatypeFactory.newInstance( )
+						.newDuration( args[0].toString( ) );
+				duration2 = DatatypeFactory.newInstance( )
+						.newDuration( args[1].toString( ) );
+			}
+			catch ( DatatypeConfigurationException e )
+			{
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.BirtDuration.literal.invalidArgument",
+						args ) );
+			}
+			return duration1.subtract( duration2 ).toString( );
+		}
+	}
+	
+	private class Function_Add extends Function_temp
+	{
+		Function_Add( )
+		{
+			length = 2;
+			isFixed = true;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			Duration duration1, duration2;
+			try
+			{
+				duration1 = DatatypeFactory.newInstance( )
+						.newDuration( args[0].toString( ) );
+				duration2 = DatatypeFactory.newInstance( )
+						.newDuration( args[1].toString( ) );
+			}
+			catch ( DatatypeConfigurationException e )
+			{
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.BirtDuration.literal.invalidArgument",
+						args ) );
+			}
+			return duration1.add( duration2 ).toString( );
+		}
+	}
+	
+	private class Function_AddTo extends Function_temp
+	{
+		Function_AddTo( )
+		{
+			length = 2;
+			isFixed = true;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			Duration duration;
+			Date date;
+			try
+			{
+				duration = DatatypeFactory.newInstance( )
+						.newDuration( args[0].toString( ) );
+				date = DataTypeUtil.toDate( args[1] );
+			}
+			catch ( DatatypeConfigurationException e )
+			{
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.BirtDuration.literal.invalidArgument",
+						args ) );
+			}
+			duration.addTo( date );
+			return date;
+		}
+	}
+	
+	private class Function_Compare extends Function_temp
+	{
+		Function_Compare( )
+		{
+			length = 2;
+			isFixed = true;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			Duration duration1, duration2;
+			try
+			{
+				duration1 = DatatypeFactory.newInstance( )
+						.newDuration( args[0].toString( ) );
+				duration2 = DatatypeFactory.newInstance( )
+						.newDuration( args[1].toString( ) );
+			}
+			catch ( DatatypeConfigurationException e )
+			{
+				throw new IllegalArgumentException( Messages.getFormattedString( "error.BirtDuration.literal.invalidArgument",
+						args ) );
+			}
+			return Integer.valueOf( duration1.compare( duration2 ) );
+		}
+	}
 }
