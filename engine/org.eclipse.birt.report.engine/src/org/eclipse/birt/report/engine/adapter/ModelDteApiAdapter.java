@@ -356,10 +356,12 @@ public class ModelDteApiAdapter
 				String propName = ( String ) propNamesItr.next( );
 				assert ( propName != null );
 
-				String propValue;
 				// If property binding expression exists, use its evaluation
 				// result
-				String bindingExpr = source.getPropertyBinding( propName );
+				Expression expr = source.getPropertyBindingExpression( propName );
+				String bindingExpr = getExpressionValue( expr );
+				
+				String propValue;
 				if ( needPropertyBinding( ) && bindingExpr != null
 						&& bindingExpr.length( ) > 0 && context.getDataEngine() instanceof DteDataEngine )
 				{
@@ -389,6 +391,19 @@ public class ModelDteApiAdapter
         addPropertyConfigurationId( dteSource );
 
 		return dteSource;
+	}
+
+	private String getExpressionValue( Expression expr )
+	{
+		if ( expr == null )
+		{
+			return null;
+		}
+		if ( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
+		{
+			return JavascriptEvalUtil.transformToJsExpression( expr.getStringExpression( ) );
+		}
+		return expr.getStringExpression( );
 	}
 
 	/**
@@ -509,19 +524,7 @@ public class ModelDteApiAdapter
 		// Set query text; if binding exists, use its result; otherwise
 		// use static design
 		Expression expression = modelDataSet.getPropertyBindingExpression( OdaDataSet.QUERY_TEXT_PROP );
-		String queryTextBinding = null;
-		if ( expression != null
-				&& ( expression.getExpression( ) instanceof String ) )
-		{
-			queryTextBinding = (String) expression.getExpression( );
-			if ( ExpressionType.CONSTANT.equals( expression.getType( ) ) )
-			{
-				queryTextBinding = "\""
-						+ JavascriptEvalUtil.transformToJsConstants( queryTextBinding )
-						+ "\"";
-			}
-
-		}
+		String queryTextBinding = getExpressionValue( expression );
 
 		if ( needPropertyBinding( ) && queryTextBinding != null
 				&& queryTextBinding.length( ) > 0 && context.getDataEngine() instanceof DteDataEngine )
@@ -552,19 +555,11 @@ public class ModelDteApiAdapter
 			{
 				String propName = ( String ) propNamesItr.next( );
 				assert ( propName != null );
-				String propValue;
-				String bindingExpr = null;
+				
 				Expression expr = modelDataSet.getPropertyBindingExpression( propName );
-				if ( expr != null && ( expr.getExpression( ) instanceof String ) )
-				{
-					bindingExpr = (String) expr.getExpression( );
-					if ( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
-					{
-						bindingExpr = "\""
-								+ JavascriptEvalUtil.transformToJsConstants( bindingExpr )
-								+ "\"";
-					}
-				}
+				String bindingExpr = getExpressionValue( expr );
+				
+				String propValue;
 				if ( needPropertyBinding( ) && bindingExpr != null
 						&& bindingExpr.length( ) > 0 )
 				{
@@ -690,32 +685,12 @@ public class ModelDteApiAdapter
 						}
 						else
 						{
-							if ( ExpressionType.CONSTANT.equals( modelParam.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER )
-									.getType( ) ) )
-							{
-								defaultValueExpr = "\""
-									+ JavascriptEvalUtil.transformToJsConstants( modelParam.getDefaultValue( ) )
-									+ "\"";
-							}
-							else
-							{
-								defaultValueExpr = modelParam.getDefaultValue( );
-							}
+							defaultValueExpr = getExpressionDefaultValue( modelParam );
 						}
 					}
 					else
 					{
-						if ( ExpressionType.CONSTANT.equals( modelParam.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER )
-								.getType( ) ) )
-						{
-							defaultValueExpr = "\""
-								+ JavascriptEvalUtil.transformToJsConstants( modelParam.getDefaultValue( ) )
-								+ "\"";
-						}
-						else
-						{
-							defaultValueExpr = modelParam.getDefaultValue( );
-						}
+						defaultValueExpr = getExpressionDefaultValue( modelParam );
 					}
 					dteDataSet.addParameter( newParam( modelParam ) );
 					paramBindingCandidates.put( modelParam.getName( ),
@@ -758,6 +733,17 @@ public class ModelDteApiAdapter
 			}
 		}
 		return elmtIter;
+	}
+
+	private String getExpressionDefaultValue( DataSetParameterHandle modelParam )
+	{
+		if ( ExpressionType.CONSTANT.equals( modelParam.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER )
+				.getType( ) ) )
+		{
+			return JavascriptEvalUtil.transformToJsExpression( modelParam.getDefaultValue( ) );
+		}
+		
+		return modelParam.getDefaultValue( );
 	}
 
 	/**

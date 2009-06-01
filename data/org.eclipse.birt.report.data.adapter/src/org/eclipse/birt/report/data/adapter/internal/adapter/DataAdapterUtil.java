@@ -128,11 +128,10 @@ class DataAdapterUtil
 					}
 					else
 					{
-						if ( ExpressionType.CONSTANT.equals( modelParam.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER ).getType( ) ) )
+						if ( ExpressionType.CONSTANT.equals( modelParam.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER )
+								.getType( ) ) )
 						{
-							defaultValueExpr = "\""
-									+ JavascriptEvalUtil.transformToJsConstants( modelParam.getDefaultValue( ) )
-									+ "\"";
+							defaultValueExpr = JavascriptEvalUtil.transformToJsExpression( modelParam.getDefaultValue( ) );
 						}
 						else
 						{

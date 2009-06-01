@@ -26,12 +26,12 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.Expressio
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -42,19 +42,14 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Property page to define the data source property binding. This page include
@@ -90,10 +85,6 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 	 * the text list used in composite
 	 */
 	private List<Text> propertyTextList = new ArrayList( );
-	/**
-	 * the button list used in composite
-	 */
-	private List buttonList = new ArrayList( );
 
 	// This is a temporary property for data set property binding
 	private final String QUERYTEXT = "queryText"; //$NON-NLS-1$
@@ -151,12 +142,6 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 			if ( ds instanceof OdaDataSourceHandle )
 			{
 				handle = (OdaDataSourceHandle)ds;
-				Button buildButton = new Button( composite, SWT.NONE );
-				UIUtil.setExpressionButtonImage( buildButton );
-				buttonList.add( buildButton );
-				// add button listener
-				addListener( );
-				
 				OdaDataSourceHandle odsh = (OdaDataSourceHandle)ds;
 				Utility.setSystemHelp( composite, 
 						IHelpConstants.PREFIX + "Wizard_DataSourcePropertyBinding"
@@ -168,33 +153,21 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 			{
 				handle = (OdaDataSetHandle) ds;
 				OdaDataSourceHandle odsh = (OdaDataSourceHandle) ( ( (OdaDataSetHandle) ds ).getDataSource( ) );
-				ExpressionButton button = createExpressionButton( composite, propertyText );
-				propertyText.setData( DataUIConstants.EXPR_BUTTON,
-						button );
-				Expression expr = handle.getPropertyBindingExpression( (String) bindingName.get( i ) );
-				propertyText.setText( expr == null
-						|| expr.getStringExpression( ) == null ? ""
-						: expr.getStringExpression( ) );
-				if ( expr != null && expr.getType( ) != null )
-					propertyText.setData( DataUIConstants.EXPR_TYPE,
-							expr.getType( ) );
-				
-				button = (ExpressionButton) propertyText.getData( DataUIConstants.EXPR_BUTTON );
-				if ( button != null )
-					button.refresh( );
 
 				Utility.setSystemHelp( composite, 
 						IHelpConstants.PREFIX + "Wizard_DataSetPropertyBinding"
 						+ "("+ odsh.getExtensionID( ).replace( '.', '_' ) + ")" //'.' char will interrupt help system
 						+ "_ID");
 			}
+			createExpressionButton( composite, propertyText, (String) bindingName.get( i ) );			
+
 		}
 		if ( size <= 0 )
 			setEmptyPropertyMessages( composite );
 		return composite;
 	}
-	
-	private ExpressionButton createExpressionButton( Composite composite, final Text property )
+
+	private void createExpressionButton( Composite composite, final Text property, String propName )
 	{
 		ExpressionButton exprButton = UIUtil.createExpressionButton( composite, SWT.PUSH );
 		if ( handle == null )
@@ -243,58 +216,20 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 		};
 		exprButton.setExpressionHelper( helper );
 		
-		buttonList.add( exprButton );		
-		return exprButton;
-	}
+		Expression expr = handle.getPropertyBindingExpression( propName );
+		property.setData( DataUIConstants.EXPR_BUTTON, exprButton );
+		
+		property.setText( ( expr == null
+				|| expr.getStringExpression( ) == null) ? ""
+				: expr.getStringExpression( ) );
+		
+		if ( expr != null )
+			property.setData( DataUIConstants.EXPR_TYPE, expr.getType( ) );
 
-	/**
-	 * add button selection listener to button list
-	 * 
-	 */
-	private void addListener( )
-	{
-		for ( int i = 0; i < buttonList.size( ); i++ )
-		{
-			Button buildButton = (Button) buttonList.get( i );
-			final Text text = (Text) propertyTextList.get( i );
-			final String name = (String) bindingName.get( i );
-			
-			buildButton.setToolTipText( Messages.getFormattedString( "PropertyBindingPage.button.tooltip",
-					new Object[]{
-						displayName.get( i )
-					} ) ); //$NON-NLS-1$
+		exprButton = (ExpressionButton) property.getData( DataUIConstants.EXPR_BUTTON );
+		if ( exprButton != null )
+			exprButton.refresh( );
 
-			buildButton.addSelectionListener( new SelectionListener( ) {
-
-				// new value from expression builder dialog
-
-				public void widgetSelected( SelectionEvent e )
-				{
-					String str = ""; //$NON-NLS-1$
-					// if the label is odaPassword, the text should not be
-					// displayed in builder
-					if ( name.equals( PASSWORD ) )
-						str = ""; //$NON-NLS-1$
-					else
-						str = text.getText( );
-					ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
-							.getDisplay( )
-							.getActiveShell( ),
-							str );
-					if ( dialog.open( ) == IDialogConstants.OK_ID )
-					{
-						str = dialog.getResult( );
-						text.setText( str );
-					}
-				}
-
-				public void widgetDefaultSelected( SelectionEvent e )
-				{
-					// TODO Auto-generated method stub
-
-				}
-			} );
-		}
 	}
 
 	/**
@@ -392,22 +327,21 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 			{
 				String value = null;
 				Text propertyText = (Text) propertyTextList.get( i );
-				if ( propertyText.isDisposed( )
-						|| propertyText.getText( ) == null
-						|| propertyText.getText( ).trim( ).length( ) == 0 )
-					value = null;
-				else
-					value = propertyText.getText( ).trim( );
 				
+				if ( !propertyText.isDisposed( )
+						&& propertyText.getText( ) != null
+						&& propertyText.getText( ).trim( ).length( ) > 0 )
+				{
+					value = propertyText.getText( ).trim( );
+				}
 				Expression expr = new Expression( value,
 						(String) propertyText.getData( DataUIConstants.EXPR_TYPE ) );
-
-				if ( ds instanceof DataSourceHandle )
-					( (DataSourceHandle) ds ).setPropertyBinding( (String) bindingName.get( i ),
-							value );
-				else if ( ds instanceof DataSetHandle )
-					( (DataSetHandle) ds ).setPropertyBinding( (String) bindingName.get( i ),
+				
+				if ( ds instanceof DesignElementHandle )
+				{
+					( (DesignElementHandle) ds ).setPropertyBinding( (String) bindingName.get( i ),
 							expr );
+				}
 			}
 			catch ( SemanticException e )
 			{
