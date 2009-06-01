@@ -705,7 +705,12 @@ datasource.error.title.noReportDesign=Erreur
 datasource.error.msg.noReportDesign=Aucun modèle d'état disponible.
 datasource.exprotToCP.title=Exporter
 datasource.exportToCP.message=Vous exportez "{0}" vers l'explorateur de source de données.
-datasource.exportToCP.checkBox=Créez un emplacement de stockage des profils de connexion pour la source de données exportée
+datasource.exportToCP.checkBox=&Create a Connection Profile Store for the exported data source.
+datasource.exportToCP.externalCheckBox=&Use the externalized connection profile in the data source.
+datasource.exportToCP.label.specifyName=Conn&ection profile name:
+datasource.exportToCP.error.emptyFileName=You must specify a non-empty connection profile name!
+datasource.exportToCP.error.invalidFileName=The specified connection profile name contains invalid character(s)!
+
 
 ###########################################################
 #DataSourceProcess properties
@@ -1168,6 +1173,7 @@ Element.OdaDataSource.publicDriverProperties=Propriétés de pilote public :
 Element.Parameter.helpText=Texte d'aide :
 Element.Parameter.helpTextID=C&lé du texte d'aide :
 Element.Parameter.hidden=Masqué :
+Element.Parameter.promptTextID=&Clé du texte de l'invite :
 Element.ParameterGroup.helpText=Texte d'aide :
 Element.ParameterGroup.helpTextID=C&lé du texte d'aide :
 Element.ParameterGroup.slot.parameters=Paramètres :
@@ -1425,7 +1431,7 @@ ExportToLibraryAction.Message.RememberDecision=Mémoriser ma décision.
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=E&xporter vers la bibliothèque...
-ExportToCPSouceAction.action.text=Exporter vers le profil de c&onnexion...
+ExportToCPSouceAction.action.text=Externalize to C&onnection Profile...
 
 
 ###########################################################
@@ -1512,6 +1518,9 @@ ExpressionProvider.Operators.Logical=Logique
 ExpressionProvider.EditBindings=Modification des liaisons...
 ExpressionProvider.Expression.RowNumName=RowNum
 ExpressionProvider.Expression.RowNumTooltip=Expression qui renvoie le nombre de lignes actuel.
+ExpressionProvider.Variables=Variables
+ExpressionProvider.Variables.Report=Report Variables
+ExpressionProvider.Variables.Page=Page Variables
 ExpressionTreeSupport.Category.Global=Global
 
 ###########################################################
@@ -2508,6 +2517,8 @@ MasterPagePaletteFactory.elementLabel.pageOf=Page n sur m
 MasterPagePaletteFactory.paletteDrawerName.autoText=AutoText
 MasterPagePaletteFactory.ToolTip.Grid=Elément d'état Grille
 MasterPagePaletteFactory.ToolTip.Text=Elément d'état Texte
+MasterPagePaletteFactory.Autotext.Variable=Variable
+MasterPagePaletteFactory.AutotextTooltip.Variable=Variable
 
 ###########################################################
 #MasterPageProcess properties
@@ -4552,3 +4563,28 @@ TextEditor.PasteFormattedText=Coller texte formaté
 ###########################################################
 #ReloadImageAction
 ReloadImageAction.Text=Recharger image
+
+###########################################################
+#VariablesNodeProvider
+VariablesNodeProvider.NewActionName=New Variable
+VariablesNodeProvider.NodeName=Variables
+
+###########################################################
+#VariableNodeProvider
+VariableNodeProvider.DialogTitle=Edit Variable
+
+###########################################################
+#SelectVariableDialog
+SelectVariableDialog.AvailableVariables=Available Variables:
+SelectVariableDialog.PageSeperator=----- Page Variables -----
+SelectVariableDialog.ReportSeperator=----- Report Variables -----
+SelectVariableDialog.Title=Insert Variable
+
+###########################################################
+#VariableDialog
+VariableDialog.DataType=Type de données :
+VariableDialog.DefaultValue=Default Value:
+VariableDialog.Name=Nom :
+VariableDialog.PageVariable=Page Variable
+VariableDialog.ReportVariable=Report Variable
+VariableDialog.VariableType=Variable Type:

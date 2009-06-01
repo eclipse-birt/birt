@@ -705,7 +705,12 @@ datasource.error.title.noReportDesign=오류
 datasource.error.msg.noReportDesign=보고서 디자인을 사용할 수 없습니다.
 datasource.exprotToCP.title=내보내기
 datasource.exportToCP.message=데이터 원본 탐색기로 "{0}"을(를) 내보내고 있습니다.
-datasource.exportToCP.checkBox=내보낸 데이터 원본에 대한 연결 프로필 저장소 생성
+datasource.exportToCP.checkBox=&Create a Connection Profile Store for the exported data source.
+datasource.exportToCP.externalCheckBox=&Use the externalized connection profile in the data source.
+datasource.exportToCP.label.specifyName=Conn&ection profile name:
+datasource.exportToCP.error.emptyFileName=You must specify a non-empty connection profile name!
+datasource.exportToCP.error.invalidFileName=The specified connection profile name contains invalid character(s)!
+
 
 ###########################################################
 #DataSourceProcess properties
@@ -1168,6 +1173,7 @@ Element.OdaDataSource.publicDriverProperties=공용 드라이버 속성:
 Element.Parameter.helpText=도움말 텍스트:
 Element.Parameter.helpTextID=도움말 텍스트 키(&Y):
 Element.Parameter.hidden=숨김:
+Element.Parameter.promptTextID=프롬프트 텍스트 키(&K):
 Element.ParameterGroup.helpText=도움말 텍스트:
 Element.ParameterGroup.helpTextID=도움말 텍스트 키(&Y):
 Element.ParameterGroup.slot.parameters=매개 변수:
@@ -1425,7 +1431,7 @@ ExportToLibraryAction.Message.RememberDecision=선택을 저장합니다.
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=라이브러리로 내보내기(&X)...
-ExportToCPSouceAction.action.text=연결 프로필로 내보내기(&O)...
+ExportToCPSouceAction.action.text=Externalize to C&onnection Profile...
 
 
 ###########################################################
@@ -1512,6 +1518,9 @@ ExpressionProvider.Operators.Logical=논리
 ExpressionProvider.EditBindings=바인딩 편집...
 ExpressionProvider.Expression.RowNumName=RowNum
 ExpressionProvider.Expression.RowNumTooltip=현재 행 개수를 반환하는 식
+ExpressionProvider.Variables=Variables
+ExpressionProvider.Variables.Report=Report Variables
+ExpressionProvider.Variables.Page=Page Variables
 ExpressionTreeSupport.Category.Global=전역
 
 ###########################################################
@@ -2508,6 +2517,8 @@ MasterPagePaletteFactory.elementLabel.pageOf=n / m페이지
 MasterPagePaletteFactory.paletteDrawerName.autoText=AutoText
 MasterPagePaletteFactory.ToolTip.Grid=눈금 보고서 항목
 MasterPagePaletteFactory.ToolTip.Text=텍스트 보고서 항목
+MasterPagePaletteFactory.Autotext.Variable=Variable
+MasterPagePaletteFactory.AutotextTooltip.Variable=Variable
 
 ###########################################################
 #MasterPageProcess properties
@@ -4552,3 +4563,28 @@ TextEditor.PasteFormattedText=서식 있는 텍스트 붙여넣기
 ###########################################################
 #ReloadImageAction
 ReloadImageAction.Text=이미지 다시 로드
+
+###########################################################
+#VariablesNodeProvider
+VariablesNodeProvider.NewActionName=New Variable
+VariablesNodeProvider.NodeName=Variables
+
+###########################################################
+#VariableNodeProvider
+VariableNodeProvider.DialogTitle=Edit Variable
+
+###########################################################
+#SelectVariableDialog
+SelectVariableDialog.AvailableVariables=Available Variables:
+SelectVariableDialog.PageSeperator=----- Page Variables -----
+SelectVariableDialog.ReportSeperator=----- Report Variables -----
+SelectVariableDialog.Title=Insert Variable
+
+###########################################################
+#VariableDialog
+VariableDialog.DataType=데이터 형식:
+VariableDialog.DefaultValue=Default Value:
+VariableDialog.Name=이름:
+VariableDialog.PageVariable=Page Variable
+VariableDialog.ReportVariable=Report Variable
+VariableDialog.VariableType=Variable Type:

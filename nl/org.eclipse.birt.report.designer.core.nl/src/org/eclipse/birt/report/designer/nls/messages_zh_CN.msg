@@ -705,7 +705,12 @@ datasource.error.title.noReportDesign=错误
 datasource.error.msg.noReportDesign=没有可用的报表设计。
 datasource.exprotToCP.title=导出
 datasource.exportToCP.message=您正在将“{0}”导出到数据源资源管理器。
-datasource.exportToCP.checkBox=为导出的数据源创建连接配置文件存储
+datasource.exportToCP.checkBox=&Create a Connection Profile Store for the exported data source.
+datasource.exportToCP.externalCheckBox=&Use the externalized connection profile in the data source.
+datasource.exportToCP.label.specifyName=Conn&ection profile name:
+datasource.exportToCP.error.emptyFileName=You must specify a non-empty connection profile name!
+datasource.exportToCP.error.invalidFileName=The specified connection profile name contains invalid character(s)!
+
 
 ###########################################################
 #DataSourceProcess properties
@@ -1168,6 +1173,7 @@ Element.OdaDataSource.publicDriverProperties=公共驱动程序属性:
 Element.Parameter.helpText=帮助文本:
 Element.Parameter.helpTextID=帮助文本关键字(&Y):
 Element.Parameter.hidden=隐藏:
+Element.Parameter.promptTextID=提示文本关键字(&Y):
 Element.ParameterGroup.helpText=帮助文本:
 Element.ParameterGroup.helpTextID=帮助文本关键字(&Y):
 Element.ParameterGroup.slot.parameters=参数:
@@ -1425,7 +1431,7 @@ ExportToLibraryAction.Message.RememberDecision=记住我的决定。
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=导出到库(&X)...
-ExportToCPSouceAction.action.text=导出到连接配置文件(&O)...
+ExportToCPSouceAction.action.text=Externalize to C&onnection Profile...
 
 
 ###########################################################
@@ -1512,6 +1518,9 @@ ExpressionProvider.Operators.Logical=逻辑
 ExpressionProvider.EditBindings=编辑绑定...
 ExpressionProvider.Expression.RowNumName=行数
 ExpressionProvider.Expression.RowNumTooltip=返回当前行数的表达式。
+ExpressionProvider.Variables=Variables
+ExpressionProvider.Variables.Report=Report Variables
+ExpressionProvider.Variables.Page=Page Variables
 ExpressionTreeSupport.Category.Global=全局
 
 ###########################################################
@@ -2508,6 +2517,8 @@ MasterPagePaletteFactory.elementLabel.pageOf=第 n 页，共 m 页
 MasterPagePaletteFactory.paletteDrawerName.autoText=自动图文集
 MasterPagePaletteFactory.ToolTip.Grid=网格报表项
 MasterPagePaletteFactory.ToolTip.Text=文本报表项
+MasterPagePaletteFactory.Autotext.Variable=Variable
+MasterPagePaletteFactory.AutotextTooltip.Variable=Variable
 
 ###########################################################
 #MasterPageProcess properties
@@ -4552,3 +4563,28 @@ TextEditor.PasteFormattedText=粘贴带格式文本
 ###########################################################
 #ReloadImageAction
 ReloadImageAction.Text=重新加载图像
+
+###########################################################
+#VariablesNodeProvider
+VariablesNodeProvider.NewActionName=New Variable
+VariablesNodeProvider.NodeName=Variables
+
+###########################################################
+#VariableNodeProvider
+VariableNodeProvider.DialogTitle=Edit Variable
+
+###########################################################
+#SelectVariableDialog
+SelectVariableDialog.AvailableVariables=Available Variables:
+SelectVariableDialog.PageSeperator=----- Page Variables -----
+SelectVariableDialog.ReportSeperator=----- Report Variables -----
+SelectVariableDialog.Title=Insert Variable
+
+###########################################################
+#VariableDialog
+VariableDialog.DataType=数据类型:
+VariableDialog.DefaultValue=Default Value:
+VariableDialog.Name=名称:
+VariableDialog.PageVariable=Page Variable
+VariableDialog.ReportVariable=Report Variable
+VariableDialog.VariableType=Variable Type:

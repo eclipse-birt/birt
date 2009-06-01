@@ -705,7 +705,12 @@ datasource.error.title.noReportDesign=エラー
 datasource.error.msg.noReportDesign=使用できるレポートデザインがありません。
 datasource.exprotToCP.title=エクスポート
 datasource.exportToCP.message="{0}" をデータソースのエクスプローラにエクスポート中です。
-datasource.exportToCP.checkBox=エクスポートされたデータソース用の接続プロファイルストアを作成してください。
+datasource.exportToCP.checkBox=&Create a Connection Profile Store for the exported data source.
+datasource.exportToCP.externalCheckBox=&Use the externalized connection profile in the data source.
+datasource.exportToCP.label.specifyName=Conn&ection profile name:
+datasource.exportToCP.error.emptyFileName=You must specify a non-empty connection profile name!
+datasource.exportToCP.error.invalidFileName=The specified connection profile name contains invalid character(s)!
+
 
 ###########################################################
 #DataSourceProcess properties
@@ -1168,6 +1173,7 @@ Element.OdaDataSource.publicDriverProperties=パブリックドライバのプロパティ :
 Element.Parameter.helpText=ヘルプテキスト :
 Element.Parameter.helpTextID=ヘルプテキストキー(&Y) :
 Element.Parameter.hidden=非表示 :
+Element.Parameter.promptTextID=プロンプトテキストキー(&K) :
 Element.ParameterGroup.helpText=ヘルプテキスト :
 Element.ParameterGroup.helpTextID=ヘルプテキストキー(&Y) :
 Element.ParameterGroup.slot.parameters=パラメタ :
@@ -1425,7 +1431,7 @@ ExportToLibraryAction.Message.RememberDecision=次回から同じ設定を使う
 ###########################################################
 #ExportElementToLibraryAction properties
 ExportElementToLibraryAction.action.text=ライブラリにエクスポート(&X)...
-ExportToCPSouceAction.action.text=接続プロファイルへのエクスポート(&O)...
+ExportToCPSouceAction.action.text=Externalize to C&onnection Profile...
 
 
 ###########################################################
@@ -1512,6 +1518,9 @@ ExpressionProvider.Operators.Logical=論理
 ExpressionProvider.EditBindings=バインドの編集...
 ExpressionProvider.Expression.RowNumName=行番号
 ExpressionProvider.Expression.RowNumTooltip=現在の行番号を返す式です。
+ExpressionProvider.Variables=Variables
+ExpressionProvider.Variables.Report=Report Variables
+ExpressionProvider.Variables.Page=Page Variables
 ExpressionTreeSupport.Category.Global=グローバル
 
 ###########################################################
@@ -2508,6 +2517,8 @@ MasterPagePaletteFactory.elementLabel.pageOf=n/m ページ
 MasterPagePaletteFactory.paletteDrawerName.autoText=定型句
 MasterPagePaletteFactory.ToolTip.Grid=グリッドのレポート項目
 MasterPagePaletteFactory.ToolTip.Text=テキストのレポート項目
+MasterPagePaletteFactory.Autotext.Variable=Variable
+MasterPagePaletteFactory.AutotextTooltip.Variable=Variable
 
 ###########################################################
 #MasterPageProcess properties
@@ -4552,3 +4563,28 @@ TextEditor.PasteFormattedText=書式付きテキストの貼り付け
 ###########################################################
 #ReloadImageAction
 ReloadImageAction.Text=イメージの再ロード
+
+###########################################################
+#VariablesNodeProvider
+VariablesNodeProvider.NewActionName=New Variable
+VariablesNodeProvider.NodeName=Variables
+
+###########################################################
+#VariableNodeProvider
+VariableNodeProvider.DialogTitle=Edit Variable
+
+###########################################################
+#SelectVariableDialog
+SelectVariableDialog.AvailableVariables=Available Variables:
+SelectVariableDialog.PageSeperator=----- Page Variables -----
+SelectVariableDialog.ReportSeperator=----- Report Variables -----
+SelectVariableDialog.Title=Insert Variable
+
+###########################################################
+#VariableDialog
+VariableDialog.DataType=データ型 :
+VariableDialog.DefaultValue=Default Value:
+VariableDialog.Name=名前 :
+VariableDialog.PageVariable=Page Variable
+VariableDialog.ReportVariable=Report Variable
+VariableDialog.VariableType=Variable Type:
