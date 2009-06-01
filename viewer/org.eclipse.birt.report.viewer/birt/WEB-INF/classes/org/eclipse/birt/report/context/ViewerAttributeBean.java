@@ -1103,9 +1103,14 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				}
 				else
 				{
+					// Bugzilla 259466: select empty string instead of null
 					if ( paramValue == null
 							&& parameter.getControlType( ) == ParameterDefinition.LIST_BOX
-							&& !parameter.isRequired( ) )
+							&& !parameter.isRequired( )
+							&& parameter.allowBlank( )
+							&& parameter.getGroup( ) != null
+							&& parameter.getGroup( ).cascade( )
+						)
 					{
 						paramValue = ""; //$NON-NLS-1$
 					}
