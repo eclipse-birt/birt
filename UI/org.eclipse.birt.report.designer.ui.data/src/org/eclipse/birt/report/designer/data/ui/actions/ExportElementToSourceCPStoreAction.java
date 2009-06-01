@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.datatools.connectivity.oda.design.DesignSessionRequest;
+import org.eclipse.datatools.connectivity.oda.design.OdaDesignSession;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DataSourceDesignSession;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -98,12 +99,17 @@ public class ExportElementToSourceCPStoreAction extends AbstractViewAction
 				{
 					DesignSessionRequest designSessionRequest = DTPUtil.getInstance( )
 							.createDesignSessionRequest( (OdaDataSourceHandle) selection );
-					DataSourceDesignSession.convertDesignToLinkedProfile( designSessionRequest,
-					        null, false,    // TODO UI enhancement to prompt user for their values
+					OdaDesignSession session = DataSourceDesignSession.convertDesignToLinkedProfile( designSessionRequest,
+							null,
+							dialog.isExternalToCP( ),
 							( (Boolean) dialog.getResult( ) ).booleanValue( ),
 							PlatformUI.getWorkbench( )
 									.getDisplay( )
 									.getActiveShell( ) );
+					DTPUtil.getInstance( )
+							.updateDataSourceHandle( session.getResponse( ),
+									session.getRequestDataSourceDesign( ),
+									(OdaDataSourceHandle) selection );
 				}
 				catch ( Exception ex )
 				{
