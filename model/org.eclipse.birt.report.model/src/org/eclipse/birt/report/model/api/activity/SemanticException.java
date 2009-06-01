@@ -15,11 +15,13 @@ import java.util.ResourceBundle;
 
 import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Represents exceptions encountered during parsing the xml file, it will
  * include a reference to the element which causes the error.
- *  
+ * 
  */
 
 public class SemanticException extends ModelException
@@ -28,9 +30,17 @@ public class SemanticException extends ModelException
 	/**
 	 * Comment for <code>serialVersionUID</code>.
 	 */
-	
+
 	private static final long serialVersionUID = -5947401970525709666L;
-	
+
+	/**
+	 * The error code that indicates the element can not be exported to the
+	 * library file, for it self or any of its contents has duplicate name with
+	 * that in the library file and the element in the library can not be
+	 * dropped.
+	 */
+	public static final String DESIGN_EXCEPTION__EXPORT_ELEMENT_FAIL = MessageConstants.SEMANTIC_EXCEPTION_EXPORT_ELEMENT_FAIL;
+
 	/**
 	 * The element with semantic error.
 	 */
@@ -42,7 +52,7 @@ public class SemanticException extends ModelException
 	 * 
 	 * @param errCode
 	 *            the error code
-	 *  
+	 * 
 	 */
 
 	protected SemanticException( String errCode )
@@ -120,7 +130,7 @@ public class SemanticException extends ModelException
 		super( errCode, values, cause );
 		this.element = element;
 	}
-	
+
 	/**
 	 * Constructs a new model exception with no cause object.
 	 * 
@@ -263,7 +273,7 @@ public class SemanticException extends ModelException
 	 * @param args
 	 *            string arguments used to format error messages
 	 */
-	
+
 	public SemanticException( String pluginId, String errorCode, Object[] args,
 			Throwable cause )
 	{
@@ -303,5 +313,18 @@ public class SemanticException extends ModelException
 	public String getMessage( )
 	{
 		return getLocalizedMessage( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.core.exception.BirtException#getLocalizedMessage()
+	 */
+	public String getLocalizedMessage( )
+	{
+		if ( oaMessageArguments != null )
+			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
+		return ModelMessages.getMessage( sResourceKey );
+
 	}
 }

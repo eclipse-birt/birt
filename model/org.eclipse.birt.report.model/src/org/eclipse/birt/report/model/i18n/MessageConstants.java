@@ -77,6 +77,8 @@ public interface MessageConstants
 	public static final String CREATE_TEMPLATE_ELEMENT_MESSAGE = "Message.CreateTemplateElement"; //$NON-NLS-1$
 	public static final String TRANSFORM_TO_REPORT_ITEM_MESSAGE = "Message.TransformToReportItem"; //$NON-NLS-1$
 	public static final String TRANSFORM_TO_DATA_SET_MESSAGE = "Message.TransformToDataSet"; //$NON-NLS-1$
+
+	public static final String EXPORT_ELEMENT_TO_LIBRARY = "Message.ExportElementToLibrary"; //$NON-NLS-1$
 	// Errors
 
 	// ContentException
@@ -226,6 +228,8 @@ public interface MessageConstants
 
 	public static final String SEMANTIC_ERROR_INVALID_MANIFEST = "Error.SemanticError.INVALID_MANIFEST"; //$NON-NLS-1$
 
+	public static final String SEMANTIC_EXCEPTION_EXPORT_ELEMENT_FAIL = "Error.SemanticException.EXPORT_ELEMENT_FAIL"; //$NON-NLS-1$
+
 	// ThemeException
 
 	public static final String THEME_EXCEPTION_NOT_FOUND = "Error.ThemeException.NOT_FOUND"; //$NON-NLS-1$
@@ -334,6 +338,5 @@ public interface MessageConstants
 	// EncryptionException
 	public static final String ENCRYPTION_EXCEPTION_INVALID_ENCRYPTABLE_PROPERTY = "Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY"; //$NON-NLS-1$
 	public static final String ENCRYPTION_EXCEPTION_INVALID_ENCRYPTION = "Error.EncryptionException.INVALID_ENCRYPTION"; //$NON-NLS-1$
-	
 
 }

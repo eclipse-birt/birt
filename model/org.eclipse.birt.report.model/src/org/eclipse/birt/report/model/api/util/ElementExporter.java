@@ -44,10 +44,12 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -342,8 +344,52 @@ class ElementExporter
 		DesignElement duplicateElement = nameSpace.getElement( element
 				.getName( ) );
 		if ( duplicateElement != null )
+		{
+			// check this element with duplicate name can be dropped or not
+			if ( !canDropInContext( duplicateElement ) )
+			{
+				throw new SemanticException( element, new String[]{element
+						.getName( )},
+						SemanticException.DESIGN_EXCEPTION__EXPORT_ELEMENT_FAIL );
+			}
+
 			duplicateElement.getHandle( targetLibraryHandle.getModule( ) )
 					.drop( );
+		}
+	}
+
+	/**
+	 * Checks if the element can be dropped according to the element context.
+	 * 
+	 * @param element
+	 *            the design element.
+	 * @return <true> if the element locates in <code>Cube</code> or the element
+	 *         is an extended item and locates in <code>ExtendedItem</code>
+	 *         ,otherwise return false.
+	 */
+	static boolean canDropInContext( DesignElement element )
+	{
+		assert element != null;
+		DesignElement container = element.getContainer( );
+		while ( container != null )
+		{
+			// checks element locates in cube
+			if ( container instanceof Cube )
+				return false;
+			else if ( container instanceof ExtendedItem )
+			{
+				// element locates in ExtendedItem, if the element is
+				// ElementItem type this element can not be dropped, otherwise
+				// it can
+				if ( element instanceof ExtendedItem )
+					return false;
+
+				return true;
+			}
+
+			container = container.getContainer( );
+		}
+		return true;
 	}
 
 	/**

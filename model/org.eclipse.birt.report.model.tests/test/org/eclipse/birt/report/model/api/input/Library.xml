@@ -60,11 +60,16 @@
     		<property name="dataSource">dataSource1</property>
         </oda-data-set>
     </data-sets>
-	<styles>
-		<style name="style1">
-			<property name="color">red</property>
-		</style>
-	</styles>
+	<property name="theme">defaultTheme</property>
+    <themes>
+    	<theme name="defaultTheme">
+    		<styles>
+        		<style name="style1">
+            		<property name="color">red</property>
+        		</style>
+    		</styles>
+    	</theme>
+    </themes>
     <page-setup>
         <graphic-master-page name="My Page">
             <property name="columns">1</property>
