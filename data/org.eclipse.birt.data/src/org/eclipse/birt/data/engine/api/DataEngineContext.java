@@ -224,7 +224,7 @@ public class DataEngineContext
 
 		this.classLoader = classLoader;
 		this.mode = mode;
-		this.scope = newSubScope( scope, context );
+		this.scope = scope;
 		this.reader = reader;
 		this.writer = writer;
 		this.cacheOption = CACHE_USE_DEFAULT;
@@ -452,8 +452,6 @@ public class DataEngineContext
 	public void setLocale( Locale locale )
 	{
 		currentLocale = ULocale.forLocale( locale );
-		propertyMap.put( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.LOCALE,
-				currentLocale );
 		DataException.setLocale( currentLocale );
 
 	}
@@ -468,30 +466,6 @@ public class DataEngineContext
 		return this.currentTimeZone;
 	}
 	
-	private Scriptable newSubScope( Scriptable parentAndProtoScope, ScriptContext scriptContext )
-	{
-		if ( parentAndProtoScope == null )
-			return null;
-
-		this.scope = parentAndProtoScope;
-		if ( scope.get( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
-				scope ) == org.mozilla.javascript.UniqueTag.NOT_FOUND )
-		{
-			IScriptFunctionContext functionContext = new IScriptFunctionContext( ) {
-
-				public Object findProperty( String name )
-				{
-					return propertyMap.get( name );
-				}
-			};
-
-			Object sObj = Context.javaToJS( functionContext, scope );
-			scope.put( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
-					scope,
-					sObj );
-		}
-		return scope;
-	}
 	/**
 	 * @return The current locale
 	 */
