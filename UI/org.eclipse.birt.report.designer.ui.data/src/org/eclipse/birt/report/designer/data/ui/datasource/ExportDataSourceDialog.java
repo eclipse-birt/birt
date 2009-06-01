@@ -11,9 +11,13 @@
 package org.eclipse.birt.report.designer.data.ui.datasource;
 
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.StatusDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
@@ -25,15 +29,21 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
-public class ExportDataSourceDialog extends BaseDialog
+public class ExportDataSourceDialog extends StatusDialog
 {
 	private DataSourceHandle dataSourceHandle;
-	private boolean isSelected = false, isExternalToCP = true;
+	private boolean doesCreateStore = false, isExternalToCP = true;
 	
-    protected ExportDataSourceDialog( Shell parentShell, String title )
+	private Text nameText;
+	private String fileName;
+
+	protected ExportDataSourceDialog( Shell parentShell, String title )
 	{
-		super( parentShell, title );
+		super( parentShell );
+		setTitle( title );
 	}
 
 	public ExportDataSourceDialog( Shell parentShell, String title,
@@ -41,15 +51,24 @@ public class ExportDataSourceDialog extends BaseDialog
 	{
 		this( parentShell, title );
 		this.dataSourceHandle = selection;
+		this.fileName = this.dataSourceHandle.getQualifiedName( );
 	}
 
+
+	protected Control createContents( Composite parent )
+	{
+		Control control = super.createContents( parent );
+		validate( );
+		return control;
+	}
 
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = new Composite( parent, SWT.None );
 
 		GridLayout parentLayout = new GridLayout( );
-		parentLayout.marginLeft = parentLayout.marginTop = parentLayout.marginRight = parentLayout.marginBottom = 10;
+		parentLayout.marginLeft = parentLayout.marginTop = parentLayout.marginRight = 10;
+		parentLayout.marginBottom = 15;
 		composite.setLayout( parentLayout );
 		GridData data = new GridData( GridData.FILL_BOTH );
 		composite.setLayoutData( data );
@@ -64,13 +83,68 @@ public class ExportDataSourceDialog extends BaseDialog
 					this.dataSourceHandle.getQualifiedName( )
 				} ) );
 
+		createSeparator( composite, 1 );
+
+		Composite content = new Composite( composite, SWT.None );
+		GridLayout layout = new GridLayout( );
+		layout.marginTop = 15;
+		layout.marginWidth = 10;
+		layout.numColumns = 2;
+		content.setLayout( layout );
+		GridData layoutData = new GridData( GridData.FILL_BOTH );
+		content.setLayoutData( layoutData );
+
+		createCheckboxArea( content );
+		
+		createSeparator( content, 2 );
+		
+		createNameText( content );
+		
+		return parent;
+	}
+
+	private void createSeparator( Composite composite, int span )
+	{
 		Label separator = new Label( composite, SWT.HORIZONTAL | SWT.SEPARATOR );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.verticalIndent = 10;
+		gd.horizontalSpan = span;
 		separator.setLayoutData( gd );
+	}
 
-		Button externalButton = new Button( composite, SWT.CHECK );
+	private void createNameText( Composite content )
+	{
+		final Label nameLabel = new Label( content, SWT.CHECK );
+		nameLabel.setText( Messages.getString( "datasource.exportToCP.label.specifyName" ) );
+		GridData labelData = new GridData( );
+		labelData.horizontalSpan = 1;
+		labelData.verticalIndent = 15;
+		nameLabel.setLayoutData( labelData );
+
+		nameText = new Text( content, SWT.BORDER );
+		GridData textGd = new GridData( GridData.FILL_HORIZONTAL );
+		textGd.verticalIndent = 15;
+		textGd.horizontalIndent = 10;
+		nameText.setLayoutData( textGd );
+		nameText.setText( this.fileName == null ? "" : this.fileName );
+		nameText.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				fileName = nameText.getText( ).trim( );
+				validate( );
+			}
+		} );
+	}
+
+	private void createCheckboxArea( Composite content )
+	{
+		GridData btnData1 = new GridData( );
+		btnData1.horizontalSpan = 2;
+
+		Button externalButton = new Button( content, SWT.CHECK );
 		externalButton.setText( Messages.getString( "datasource.exportToCP.externalCheckBox" ) );
+		externalButton.setLayoutData( btnData1 );
 		externalButton.setSelection( true );
 		externalButton.addSelectionListener( new SelectionListener( ) {
 
@@ -84,9 +158,12 @@ public class ExportDataSourceDialog extends BaseDialog
 			}
 		} );
 		
-		Button button = new Button( composite, SWT.CHECK );
+		GridData btnData2 = new GridData( );
+		btnData2.horizontalSpan = 2;
+
+		Button button = new Button( content, SWT.CHECK );
 		button.setText( Messages.getString( "datasource.exportToCP.checkBox" ) );
-		setResult( isSelected );
+		button.setLayoutData( btnData2 );
 		button.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent arg0 )
@@ -95,16 +172,85 @@ public class ExportDataSourceDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent arg0 )
 			{
-				isSelected = !isSelected;
-				setResult( isSelected );
+				doesCreateStore = !doesCreateStore;
 			}
 		} );
-		return parent;
 	}
 	
 	public boolean isExternalToCP( )
 	{
 		return this.isExternalToCP;
 	}
-    
+	
+	public boolean doesCreateProfileStore( )
+	{
+		return this.doesCreateStore;
+	}
+		
+	public String getProfileName( )
+	{
+		return fileName;
+	}
+
+	private void validate( )
+	{
+		Status status;
+		if ( fileName == null || fileName.trim( ).length( ) == 0 )
+		{
+			status = getMiscStatus( IStatus.ERROR,
+
+			Messages.getString( "datasource.exportToCP.error.emptyFileName" ) );
+		}
+		else if ( containInvalidCharactor( fileName ) )
+		{
+			status = getMiscStatus( IStatus.ERROR,
+
+			Messages.getString( "datasource.exportToCP.error.invalidFileName" ) );
+		}
+		else
+		{
+			status = getOKStatus( );
+		}
+		updateStatus( status );
+	}
+
+	/**
+	 * whether name contains ".", "/", "\", "!", ";", "," characters
+	 * 
+	 * @param name
+	 * @return
+	 */
+	private boolean containInvalidCharactor( String name )
+	{
+		if ( name == null )
+			return false;
+		else if ( name.indexOf( "." ) > -1 || //$NON-NLS-1$
+				name.indexOf( "\\" ) > -1 || name.indexOf( "/" ) > -1 || //$NON-NLS-1$ //$NON-NLS-2$
+				name.indexOf( "!" ) > -1 || name.indexOf( ";" ) > -1 || //$NON-NLS-1$ //$NON-NLS-2$
+				name.indexOf( "," ) > -1 ) //$NON-NLS-1$
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	protected Status getOKStatus( )
+	{
+		return getMiscStatus( IStatus.OK, "" ); //$NON-NLS-1$
+	}
+
+	/**
+	 * 
+	 * @param severity
+	 * @param message
+	 * @return
+	 */
+	protected Status getMiscStatus( int severity, String message )
+	{
+		return new Status( severity, PlatformUI.PLUGIN_ID, IStatus.OK, message, null );
+	}
+
 }

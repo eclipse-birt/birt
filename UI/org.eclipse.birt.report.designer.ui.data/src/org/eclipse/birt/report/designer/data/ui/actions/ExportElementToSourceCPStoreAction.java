@@ -100,9 +100,9 @@ public class ExportElementToSourceCPStoreAction extends AbstractViewAction
 					DesignSessionRequest designSessionRequest = DTPUtil.getInstance( )
 							.createDesignSessionRequest( (OdaDataSourceHandle) selection );
 					OdaDesignSession session = DataSourceDesignSession.convertDesignToLinkedProfile( designSessionRequest,
-							null,
+							dialog.getProfileName( ),
 							dialog.isExternalToCP( ),
-							( (Boolean) dialog.getResult( ) ).booleanValue( ),
+							dialog.doesCreateProfileStore( ),
 							PlatformUI.getWorkbench( )
 									.getDisplay( )
 									.getActiveShell( ) );
