@@ -14,9 +14,7 @@ package org.eclipse.birt.data.engine.api;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
@@ -80,8 +78,6 @@ public class DataEngineContext
 	private IDocArchiveReader reader;
 	private IDocArchiveWriter writer;
 	private ULocale currentLocale;
-
-	private final Map<String, Object> propertyMap = new HashMap<String, Object>( );
 	
 	/** cacheCount field */
 	private int cacheOption;
