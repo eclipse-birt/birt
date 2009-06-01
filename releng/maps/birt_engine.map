@@ -7,6 +7,6 @@ plugin@org.eclipse.birt.report.engine.fonts=r232_20090202,:pserver:anonymous@dev
 plugin@org.eclipse.birt.report.engine.emitter.postscript=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.postscript
 
 plugin@org.eclipse.birt.report.engine.emitter.wpml=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.wpml
-plugin@org.eclipse.birt.report.engine.emitter.prototype.excel=r232_v20090521,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.prototype.excel
+plugin@org.eclipse.birt.report.engine.emitter.prototype.excel=r232_v20090601,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.prototype.excel
 
 plugin@org.eclipse.birt.report.engine.emitter.ppt=r232_20090202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.ppt
