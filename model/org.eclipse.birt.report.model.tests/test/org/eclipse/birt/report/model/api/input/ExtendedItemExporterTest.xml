@@ -9,7 +9,7 @@
 		        </variable-element>
 		    </property>
 	    </extended-item>
-	    <extended-item extensionName="TestingBox" name="testBox">
+	    <extended-item extensionName="TestingTable1" name="testBox">
         	<property name="y">11.2mm</property>
         	<property name="shape">circle</property>
         	<property name="noProp">123</property>

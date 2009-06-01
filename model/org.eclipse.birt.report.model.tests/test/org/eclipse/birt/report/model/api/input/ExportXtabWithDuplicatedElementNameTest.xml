@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
+	<cubes>
+        <tabular-cube name="Cube" id="20">
+            <property name="dimensions">
+                <tabular-dimension name="test1" id="108"/>
+            </property>
+        </tabular-cube>
+    </cubes>
+	<body>		
+		<extended-item extensionName="TestingBox" name="table" id="8">
+            <property name="detail">
+                <label name="testLabel" id="10"/>
+            </property>
+        </extended-item>
+        <extended-item extensionName="TestingBox" name="table1" id="11">
+            <property name="detail">
+                <extended-item extensionName="TestingMatrix" name="NewMeasure View1" id="12"/>
+            </property>
+        </extended-item>
+	</body>
+</report>

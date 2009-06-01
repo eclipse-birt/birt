@@ -917,8 +917,8 @@ public class ElementExporterTest extends BaseTestCase
 	}
 
 	/**
-	 * Test the function that whether if extended item can be exported to
-	 * library
+	 * Test the function(canExport in IReportItem) that whether if extended item
+	 * can be exported to library
 	 * 
 	 * @throws Exception
 	 */
@@ -1050,5 +1050,58 @@ public class ElementExporterTest extends BaseTestCase
 				false );
 		save( libraryHandle );
 		assertTrue( compareFile( "ExportExpressionValuesTest_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests export Xtab to library. Both the report and library have Xtab.The
+	 * report's Xtab contains element with same names as the element locates in
+	 * library's Xtab. The report's Xtab can not be exported to the library.
+	 * 
+	 * @throws Exception
+	 */
+	public void testExportXtabWithDuplicatedElementName( ) throws Exception
+	{
+		openDesign( "ExportXtabWithDuplicatedElementNameTest.xml" ); //$NON-NLS-1$
+		openLibrary( "ExportXtabWithDuplicatedElementNameTestLibrary.xml" ); //$NON-NLS-1$
+
+		// some item in the cube has duplicate name with that in the library, so
+		// this cube can not be exported whether the override is TRUE or FALSE
+		DesignElementHandle handle = designHandle.findCube( "Cube" ); //$NON-NLS-1$
+		assertFalse( ElementExportUtil.canExport( handle, libraryHandle, true ) );
+		assertFalse( ElementExportUtil.canExport( handle, libraryHandle, false ) );
+		try
+		{
+			ElementExportUtil.exportElement( handle, libraryHandle, true );
+			fail( );
+		}
+		catch ( SemanticException e )
+		{
+			assertEquals(
+					SemanticException.DESIGN_EXCEPTION__EXPORT_ELEMENT_FAIL, e
+							.getErrorCode( ) );
+		}
+
+		handle = designHandle.findElement( "table" ); //$NON-NLS-1$
+		assertTrue( ElementExportUtil.canExport( handle, libraryHandle, true ) );
+		assertFalse( ElementExportUtil.canExport( handle, libraryHandle, false ) );
+
+		handle = designHandle.findElement( "table1" ); //$NON-NLS-1$
+		assertFalse( ElementExportUtil.canExport( handle, libraryHandle, true ) );
+		assertFalse( ElementExportUtil.canExport( handle, libraryHandle, false ) );
+		try
+		{
+			ElementExportUtil.exportElement( handle, libraryHandle, true );
+			fail( );
+		}
+		catch ( SemanticException e )
+		{
+
+			assertEquals(
+					SemanticException.DESIGN_EXCEPTION__EXPORT_ELEMENT_FAIL, e
+							.getErrorCode( ) );
+			assertEquals(
+					"Duplicated element name in target library, the element NewMeasure View1 can not be exported. Please rename the exported element name.", e.getLocalizedMessage( ) ); //$NON-NLS-1$
+		}
+
 	}
 }

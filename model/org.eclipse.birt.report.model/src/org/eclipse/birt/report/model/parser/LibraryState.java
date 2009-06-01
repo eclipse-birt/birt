@@ -112,7 +112,8 @@ public class LibraryState extends ModuleState
 					IModuleModel.DATA_SET_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.THEMES_TAG ) )
 			return new ThemesState( );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLES_TAG ) )
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLES_TAG )
+				&& handler.versionNumber < VersionUtil.VERSION_3_0_0 )
 			return new CompatibleLibraryStylesState( handler, getElement( ),
 					ILibraryModel.THEMES_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PAGE_SETUP_TAG ) )

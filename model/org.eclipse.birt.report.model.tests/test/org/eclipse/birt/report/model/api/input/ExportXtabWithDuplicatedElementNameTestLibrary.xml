@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
+    <cubes>
+        <tabular-cube name="Customer Cube" id="8">
+            <property name="dimensions">
+                <tabular-dimension name="test1" id="108">
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="109"/>
+                    </property>
+                </tabular-dimension>
+            </property>
+        </tabular-cube>
+    </cubes>
+    <components>
+        <extended-item extensionName="TestingBox" name="libTable" id="62">
+            <property name="detail">
+            	<label name="testLabel" id="19"/>
+            </property>          
+        </extended-item>
+        <extended-item extensionName="TestingBox" name="libTable1" id="63">
+            <property name="detail">
+            	<extended-item extensionName="TestingMatrix" name="NewMeasure View1" id="12"/>
+            </property>          
+        </extended-item>
+    </components>
+</library>

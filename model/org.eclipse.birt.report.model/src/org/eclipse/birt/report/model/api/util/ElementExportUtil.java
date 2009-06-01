@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -17,13 +18,13 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -32,9 +33,17 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.parser.DesignParserException;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
+import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.LibraryUtil;
 
 /**
@@ -187,7 +196,20 @@ public class ElementExportUtil
 	{
 		ElementExporter.checkElementToExport( elementToExport, true );
 		ElementExporter exporter = new ElementExporter( targetLibraryHandle );
-		exporter.exportElement( elementToExport, canOverride );
+		CommandStack stack = targetLibraryHandle.getCommandStack( );
+		try
+		{
+			stack
+					.startTrans( CommandLabelFactory
+							.getCommandLabel( MessageConstants.EXPORT_ELEMENT_TO_LIBRARY ) );
+			exporter.exportElement( elementToExport, canOverride );
+			stack.commit( );
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
 	}
 
 	/**
@@ -436,7 +458,22 @@ public class ElementExportUtil
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY );
 		}
 		ElementExporter exporter = new ElementExporter( targetLibraryHandle );
-		exporter.exportDesign( designToExport, canOverride, genDefaultName );
+		CommandStack stack = targetLibraryHandle.getCommandStack( );
+		try
+		{
+
+			stack
+					.startTrans( CommandLabelFactory
+							.getCommandLabel( MessageConstants.EXPORT_ELEMENT_TO_LIBRARY ) );
+			exporter.exportDesign( designToExport, canOverride, genDefaultName );
+			stack.commit( );
+
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
 	}
 
 	/**
@@ -509,70 +546,112 @@ public class ElementExportUtil
 		if ( targetLibraryHandle == null )
 			return false;
 
-		String name = elementToExport.getName( );
-
+		// check canExport in IReportItem for extended item
 		if ( elementToExport instanceof ExtendedItemHandle
 				&& !checkExportedExtendedItem( (ExtendedItemHandle) elementToExport ) )
 		{
 			return false;
 		}
 
-		if ( elementToExport instanceof ReportItemHandle )
+		if ( elementToExport instanceof ReportItemHandle
+				|| elementToExport instanceof CubeHandle
+				|| elementToExport instanceof DataSourceHandle
+				|| elementToExport instanceof DataSetHandle
+				|| elementToExport instanceof ParameterHandle
+				|| elementToExport instanceof ParameterGroupHandle
+				|| elementToExport instanceof MasterPageHandle
+				|| elementToExport instanceof StyleHandle )
 		{
-			if ( canOverride )
-				return true;
-
-			return targetLibraryHandle.findElement( name ) == null;
-		}
-
-		if ( elementToExport instanceof CubeHandle )
-		{
-			if ( canOverride )
-				return true;
-
-			return targetLibraryHandle.findCube( name ) == null;
-		}
-
-		if ( elementToExport instanceof DataSourceHandle )
-		{
-			if ( canOverride )
-				return true;
-
-			return targetLibraryHandle.findDataSource( name ) == null;
+			return checkExportElementByContext( elementToExport,
+					targetLibraryHandle, canOverride );
 
 		}
 
-		if ( elementToExport instanceof DataSetHandle )
-		{
-			if ( canOverride )
-				return true;
+		return false;
+	}
 
-			return targetLibraryHandle.findDataSet( name ) == null;
+	/**
+	 * Checks if extendedItem and cube's content element has the same name as
+	 * the exported element and its content elements.
+	 * 
+	 * @param handle
+	 *            the element handle.
+	 * @param targetLibraryHandle
+	 *            the target library handle.
+	 * @param canOverride
+	 *            indicates whether the element with the same name in target
+	 *            library will be overridden.
+	 * @return <true> if extendedItem and cube's content element has the same
+	 *         name as the exported element and its content elements, otherwise
+	 *         return <false>.
+	 */
+	private static boolean checkExportElementByContext(
+			DesignElementHandle handle, LibraryHandle targetLibraryHandle,
+			boolean canOverride )
+	{
+		if ( !checkExportableElementByContext( handle.getElement( ),
+				targetLibraryHandle, canOverride ) )
+			return false;
+
+		ContentIterator iter = new ContentIterator( handle.getModule( ), handle
+				.getElement( ) );
+
+		while ( iter.hasNext( ) )
+		{
+			DesignElement element = iter.next( );
+			if ( !checkExportableElementByContext( element,
+					targetLibraryHandle, canOverride ) )
+				return false;
 		}
 
-		if ( elementToExport instanceof ParameterHandle
-				|| elementToExport instanceof ParameterGroupHandle )
-		{
-			if ( canOverride )
-				return true;
+		return true;
+	}
 
-			return targetLibraryHandle.findParameter( name ) == null;
+	/**
+	 * Checks if extendedItem and cube's content element has the same name as
+	 * the exported element and its content elements.
+	 * 
+	 * @param element
+	 *            the design element.
+	 * @param targetLibraryHandle
+	 *            the target library handle.
+	 * @return <true> if extendedItem and cube's content element has the same
+	 *         name as the exported element and its content elements, otherwise
+	 *         return <false>.
+	 */
+	private static boolean checkExportableElementByContext(
+			DesignElement element, LibraryHandle targetLibraryHandle,
+			boolean canOverride )
+	{
+		String name = element.getName( );
+		if ( name == null )
+			return true;
+
+		// special handle about style exporting, for API compatibility for old
+		// method canExport did not provide the theme handle to export
+		if ( element instanceof StyleElement )
+		{
+			DesignElement style = targetLibraryHandle.getModule( ).findStyle(
+					name );
+			if ( style == null || canOverride )
+				return true;
+			return false;
 		}
 
-		if ( elementToExport instanceof MasterPageHandle )
+		int nameSpaceID = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
+		NameSpace nameSpace = targetLibraryHandle.getModule( ).getNameHelper( )
+				.getNameSpace( nameSpaceID );
+
+		DesignElement duplicateElement = nameSpace.getElement( name );
+
+		if ( duplicateElement == null )
+			return true;
+
+		if ( canOverride )
 		{
-			if ( canOverride )
+			if ( ElementExporter.canDropInContext( duplicateElement ) )
 				return true;
-
-			return targetLibraryHandle.findMasterPage( name ) == null;
-		}
-
-		if ( elementToExport instanceof StyleHandle )
-		{
-			if ( canOverride )
-				return true;
-
-			return targetLibraryHandle.findStyle( name ) == null;
+			return false;
 		}
 
 		return false;
