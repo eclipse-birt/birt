@@ -570,8 +570,9 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		{
 			for ( VariableElementHandle variableHandle : ( (ReportDesignHandle) handle ).getPageVariables( ) )
 			{
-				if ( DesignChoiceConstants.VARIABLE_TYPE_PAGE.equals( variableHandle.getType( ) )
-						&& !( currentMethodName.equals( "onPapgeStart" )
+				if ( currentMethodName != null
+						&& DesignChoiceConstants.VARIABLE_TYPE_PAGE.equals( variableHandle.getType( ) )
+						&& !( currentMethodName.equals( "onPageStart" )
 								|| currentMethodName.equals( "onPageEnd" ) || currentMethodName.equals( "onRender" ) ) )
 					continue;
 				createSubTreeItem( variablesItem,
