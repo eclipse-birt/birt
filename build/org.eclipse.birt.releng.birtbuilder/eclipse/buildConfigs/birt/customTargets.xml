@@ -43,7 +43,7 @@
 		<cvs cvsRoot="${mapCvsRoot}"
 			package="source/org.eclipse.birt.releng"
 			dest="${buildDirectory}/maps"
-			tag="v${mapVersionTag}"
+			tag="${mapVersionTag}"
 		/>
 		
 		<!--compare the map files project-->
@@ -65,7 +65,7 @@
 		<echo file="${mapTag.properties}">
 		lastMapTag=${buildId}
 		</echo>
-		<cvs dest="${buildDirectory}/maps/source/org.eclipse.birt.releng" command="tag ${package.version}_${buildId}" />
+		<cvs dest="${buildDirectory}/maps/source/org.eclipse.birt.releng" command="tag v${package.version}_${buildId}" />
 	</target>
 	
 	<!-- ===================================================================== -->
