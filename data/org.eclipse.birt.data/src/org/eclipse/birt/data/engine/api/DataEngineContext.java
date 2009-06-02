@@ -451,7 +451,7 @@ public class DataEngineContext
 	}
 
 	/**
-	 * 
+	 * set time zone
 	 * @param zone
 	 */
 	public void setTimeZone( TimeZone zone )
@@ -460,8 +460,7 @@ public class DataEngineContext
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return time zone
 	 */
 	public TimeZone getTimeZone( )
 	{
