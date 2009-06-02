@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.birt.report.designer.data.ui.datasource;
 
+import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.datatools.connectivity.oda.profile.OdaProfileExplorer;
 import org.eclipse.jface.dialogs.StatusDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -198,20 +200,32 @@ public class ExportDataSourceDialog extends StatusDialog
 		if ( fileName == null || fileName.trim( ).length( ) == 0 )
 		{
 			status = getMiscStatus( IStatus.ERROR,
-
-			Messages.getString( "datasource.exportToCP.error.emptyFileName" ) );
+					Messages.getString( "datasource.exportToCP.error.emptyFileName" ) );
 		}
 		else if ( containInvalidCharactor( fileName ) )
 		{
 			status = getMiscStatus( IStatus.ERROR,
-
-			Messages.getString( "datasource.exportToCP.error.invalidFileName" ) );
+					Messages.getString( "datasource.exportToCP.error.invalidFileName" ) );
+		}
+		else if ( isDuplicatedName( ) )
+		{
+			status = getMiscStatus( IStatus.ERROR,
+					Messages.getString( "datasource.exportToCP.error.duplicatedFileName" ) );
 		}
 		else
 		{
 			status = getOKStatus( );
 		}
 		updateStatus( status );
+	}
+	
+	private boolean isDuplicatedName( )
+	{
+		if ( ( !fileName.equals( this.dataSourceHandle.getName( ) ) && Utility.checkDataSourceName( fileName ) )
+				|| OdaProfileExplorer.isProfileNameUsed( fileName ) )
+			return true;
+		
+		return false;
 	}
 
 	/**
