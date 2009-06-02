@@ -594,7 +594,7 @@ class ConcreteImageLayout implements ILayout
 			try
 			{
 				int[] area = getArea( attributes.get( "coords" ) );
-				String url = attributes.get( "href" );
+				String url = attributes.get( "href" ).replaceAll("&amp;", "&");
 				String targetWindow = attributes.get( "target" );
 				createImageMap( area, imageArea, url, targetWindow );
 			}
