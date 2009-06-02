@@ -724,11 +724,6 @@
 				<include name="*_??_??.properties"/>
 			</fileset>
 		</copy>
-		<copy todir="${buildDirectory}/${buildLabel}/language_pack/features/org.eclipse.birt.chart.runtime_${org.eclipse.birt.chart.runtime}">
-			<fileset dir="${buildDirectory}/features/org.eclipse.birt.chart.runtime">
-				<include name="*_??_??.properties"/>
-			</fileset>
-		</copy>
 		<copy todir="${buildDirectory}/${buildLabel}/language_pack/features/org.eclipse.birt.doc_${org.eclipse.birt.doc}">
 			<fileset dir="${buildDirectory}/features/org.eclipse.birt.doc">
 				<include name="*_??_??.properties"/>
@@ -736,16 +731,6 @@
 		</copy>
 		<copy todir="${buildDirectory}/${buildLabel}/language_pack/features/org.eclipse.birt.example_${org.eclipse.birt.example}">
 			<fileset dir="${buildDirectory}/features/org.eclipse.birt.example">
-				<include name="*_??_??.properties"/>
-			</fileset>
-		</copy>
-		<copy todir="${buildDirectory}/${buildLabel}/language_pack/features/org.eclipse.birt.report.designer_${org.eclipse.birt.report.designer}">
-			<fileset dir="${buildDirectory}/features/org.eclipse.birt.report.designer">
-				<include name="*_??_??.properties"/>
-			</fileset>
-		</copy>
-		<copy todir="${buildDirectory}/${buildLabel}/language_pack/features/org.eclipse.birt.report.runtime_${org.eclipse.birt.report.runtime}">
-			<fileset dir="${buildDirectory}/features/org.eclipse.birt.report.runtime">
 				<include name="*_??_??.properties"/>
 			</fileset>
 		</copy>
