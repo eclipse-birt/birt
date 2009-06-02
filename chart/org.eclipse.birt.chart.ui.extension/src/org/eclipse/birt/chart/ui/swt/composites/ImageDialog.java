@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.apache.commons.codec.binary.Base64;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Image;
@@ -30,7 +32,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TrayDialog;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -73,6 +74,8 @@ public class ImageDialog extends TrayDialog
 	private String imageData;
 
 	private Label title;
+
+	private static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.composites" ); //$NON-NLS-1$
 
 	/**
 	 * The constructor.
@@ -258,7 +261,7 @@ public class ImageDialog extends TrayDialog
 		}
 		catch ( Exception e )
 		{
-			WizardBase.displayException( e );
+			logger.log( e );
 		}
 	}
 
@@ -392,10 +395,6 @@ public class ImageDialog extends TrayDialog
 				File file = new File( url.getPath( ) );
 				complete = file.exists( ) && file.isAbsolute( );
 			}
-			else if ( selectedType == URI_TYPE )
-			{
-				ImageDescriptor.createFromURL( url ).createImage( );
-			}
 		}
 		catch ( Exception e )
 		{
@@ -421,7 +420,7 @@ public class ImageDialog extends TrayDialog
 	 * @param string
 	 * @return string
 	 */
-	public String removeQuote( String string )
+	private String removeQuote( String string )
 	{
 		if ( string != null
 				&& string.trim( ).length( ) >= 2
