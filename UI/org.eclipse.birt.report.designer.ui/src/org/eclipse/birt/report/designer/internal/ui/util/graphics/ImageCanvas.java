@@ -408,6 +408,12 @@ public class ImageCanvas extends Canvas
 			sourceImage = null;
 		}
 
+		if (img == null)
+		{
+			sourceImage = null;
+			redraw( );
+			return null;
+		}
 		sourceImage = new Image( getDisplay( ), img.getImageData( ) );
 
 		if ( sourceImage.getBounds( ).width > this.getBounds( ).width
