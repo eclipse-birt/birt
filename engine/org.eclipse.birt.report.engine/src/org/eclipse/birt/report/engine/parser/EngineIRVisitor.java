@@ -322,8 +322,12 @@ public class EngineIRVisitor extends DesignVisitor
 		{
 			String scope = varElement.getType( );
 			String name = varElement.getVariableName( );
-			varDesigns.add( new PageVariableDesign( name, scope ) );
-			// FIXME: support the initialize values
+			ExpressionHandle exprHandle = varElement
+					.getExpressionProperty( VariableElementHandle.VALUE_PROP );
+			Expression defaultValue = createExpression( exprHandle );
+			PageVariableDesign pv = new PageVariableDesign( name, scope );
+			pv.setDefaultValue( defaultValue );
+			varDesigns.add( pv );
 		}
 		
 		String onPageEnd = handle.getOnPageEnd( );

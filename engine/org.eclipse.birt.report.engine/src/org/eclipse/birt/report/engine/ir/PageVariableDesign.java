@@ -19,6 +19,7 @@ public class PageVariableDesign
 
 	String name;
 	String scope;
+	Expression defaultValue;
 
 	public PageVariableDesign( String name, String scope )
 	{
@@ -46,4 +47,13 @@ public class PageVariableDesign
 		this.scope = scope;
 	}
 
+	public Expression getDefaultValue( )
+	{
+		return defaultValue;
+	}
+
+	public void setDefaultValue( Expression defaultValue )
+	{
+		this.defaultValue = defaultValue;
+	}
 }

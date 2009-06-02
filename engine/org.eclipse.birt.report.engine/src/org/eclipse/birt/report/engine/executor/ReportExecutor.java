@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.emitter.DOMBuilderEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.PageVariableDesign;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -120,14 +121,28 @@ public class ReportExecutor implements IReportExecutor
 		// Prepare necessary data for this report
 		Map appContext = context.getAppContext( );
 		context.getDataEngine( ).prepare( report, appContext );
-		
+
 		// register the report variables
 		Collection<PageVariableDesign> varDesigns = report.getPageVariables( );
 		for ( PageVariableDesign varDesign : varDesigns )
 		{
-			PageVariable var = new PageVariable( varDesign.getName( ),
-					varDesign.getScope( ) );
+			String name = varDesign.getName( );
+			String scope = varDesign.getScope( );
+			PageVariable var = new PageVariable( name, scope );
 			context.addPageVariable( var );
+			Expression expr = varDesign.getDefaultValue( );
+			if ( expr != null )
+			{
+				try
+				{
+					Object value = context.evaluate( expr );
+					var.setValue( value );
+				}
+				catch ( BirtException ex )
+				{
+					context.addException( ex );
+				}
+			}
 		}
 
 		if ( reportletExecutor == null )

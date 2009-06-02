@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptExpression;
@@ -110,7 +111,7 @@ public abstract class Expression
 	static public class Constant extends Expression
 	{
 
-		static final Object NOT_EVALUATED = "not evaluated";
+		static final Object NOT_EVALUATED = new String( "not evaluated" );
 		Object value;
 		int valueType;
 
@@ -123,7 +124,7 @@ public abstract class Expression
 
 		public Constant( String expression )
 		{
-			this( -1, expression );
+			this( DataType.UNKNOWN_TYPE, expression );
 		}
 
 		public int getType( )
@@ -138,7 +139,7 @@ public abstract class Expression
 
 		public Object getValue( )
 		{
-			if ( value != NOT_EVALUATED )
+			if ( value == NOT_EVALUATED )
 			{
 				try
 				{
