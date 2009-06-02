@@ -710,6 +710,7 @@ datasource.exportToCP.externalCheckBox=&Use the externalized connection profile 
 datasource.exportToCP.label.specifyName=Conn&ection profile name:
 datasource.exportToCP.error.emptyFileName=You must specify a non-empty connection profile name!
 datasource.exportToCP.error.invalidFileName=The specified connection profile name contains invalid character(s)!
+datasource.exportToCP.error.duplicatedFileName=The connection profile name has already existed!
 
 
 ###########################################################
@@ -1015,6 +1016,7 @@ EditLabelAction.text=&Bearbeiten
 ###########################################################
 #Element properties
 
+Element.AbstractScalarParameter.dataType=&Datentyp:
 Element.AutoText.type=Typ:
 Element.Cell.colSpan=Spaltenbereich:
 Element.Cell.column=Spalte:
@@ -1233,7 +1235,6 @@ Element.ScalarParameter.allowBlank=Leerwert zulässig:
 Element.ScalarParameter.allowNull=Nullwert zulässig:
 Element.ScalarParameter.concealValue=Wert verbergen:
 Element.ScalarParameter.controlType=&Steuerelementtyp:
-Element.ScalarParameter.dataType=&Datentyp:
 Element.ScalarParameter.defaultValue=Standardwert:
 Element.ScalarParameter.dynamicList.dataSetName=Name des Datensatzes:
 Element.ScalarParameter.dynamicList.labelExpr=Beschriftungsausdruck:
@@ -4575,16 +4576,17 @@ VariableNodeProvider.DialogTitle=Edit Variable
 
 ###########################################################
 #SelectVariableDialog
-SelectVariableDialog.AvailableVariables=Available Variables:
+SelectVariableDialog.AvailableVariables=&Available Variables:
 SelectVariableDialog.PageSeperator=----- Page Variables -----
 SelectVariableDialog.ReportSeperator=----- Report Variables -----
 SelectVariableDialog.Title=Insert Variable
 
 ###########################################################
 #VariableDialog
-VariableDialog.DataType=Datentyp:
-VariableDialog.DefaultValue=Default Value:
-VariableDialog.Name=Name:
-VariableDialog.PageVariable=Page Variable
-VariableDialog.ReportVariable=Report Variable
-VariableDialog.VariableType=Variable Type:
+VariableDialog.DataType=Daten&typ:
+VariableDialog.DefaultValue=&Standardwert:
+VariableDialog.Name=&Name:
+VariableDialog.PageVariable=&Page Variable
+VariableDialog.ReportVariable=&Report Variable
+VariableDialog.VariableType=Typ:
+VariableDialog.Error.NameDuplicate=The name \"{0}\" duplicates an existing name. Please choose a different name.

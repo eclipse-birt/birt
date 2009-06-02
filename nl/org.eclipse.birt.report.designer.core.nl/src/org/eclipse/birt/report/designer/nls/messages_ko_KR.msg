@@ -710,6 +710,7 @@ datasource.exportToCP.externalCheckBox=&Use the externalized connection profile 
 datasource.exportToCP.label.specifyName=Conn&ection profile name:
 datasource.exportToCP.error.emptyFileName=You must specify a non-empty connection profile name!
 datasource.exportToCP.error.invalidFileName=The specified connection profile name contains invalid character(s)!
+datasource.exportToCP.error.duplicatedFileName=The connection profile name has already existed!
 
 
 ###########################################################
@@ -1015,6 +1016,7 @@ EditLabelAction.text=편집(&E)
 ###########################################################
 #Element properties
 
+Element.AbstractScalarParameter.dataType=데이터 형식(&D):
 Element.AutoText.type=유형:
 Element.Cell.colSpan=열 범위:
 Element.Cell.column=열:
@@ -1233,7 +1235,6 @@ Element.ScalarParameter.allowBlank=빈 값 허용:
 Element.ScalarParameter.allowNull=널(null) 허용:
 Element.ScalarParameter.concealValue=값 숨기기:
 Element.ScalarParameter.controlType=컨트롤 형식(&C):
-Element.ScalarParameter.dataType=데이터 형식(&D):
 Element.ScalarParameter.defaultValue=기본값:
 Element.ScalarParameter.dynamicList.dataSetName=데이터 집합 이름:
 Element.ScalarParameter.dynamicList.labelExpr=레이블 식:
@@ -4575,16 +4576,17 @@ VariableNodeProvider.DialogTitle=Edit Variable
 
 ###########################################################
 #SelectVariableDialog
-SelectVariableDialog.AvailableVariables=Available Variables:
+SelectVariableDialog.AvailableVariables=&Available Variables:
 SelectVariableDialog.PageSeperator=----- Page Variables -----
 SelectVariableDialog.ReportSeperator=----- Report Variables -----
 SelectVariableDialog.Title=Insert Variable
 
 ###########################################################
 #VariableDialog
-VariableDialog.DataType=데이터 형식:
-VariableDialog.DefaultValue=Default Value:
-VariableDialog.Name=이름:
-VariableDialog.PageVariable=Page Variable
-VariableDialog.ReportVariable=Report Variable
-VariableDialog.VariableType=Variable Type:
+VariableDialog.DataType=데이터 형식(&T):
+VariableDialog.DefaultValue=기본값(&V):
+VariableDialog.Name=이름(&N):
+VariableDialog.PageVariable=&Page Variable
+VariableDialog.ReportVariable=&Report Variable
+VariableDialog.VariableType=유형:
+VariableDialog.Error.NameDuplicate=The name \"{0}\" duplicates an existing name. Please choose a different name.

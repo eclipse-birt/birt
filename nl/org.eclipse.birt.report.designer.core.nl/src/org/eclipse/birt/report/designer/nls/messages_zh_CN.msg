@@ -710,6 +710,7 @@ datasource.exportToCP.externalCheckBox=&Use the externalized connection profile 
 datasource.exportToCP.label.specifyName=Conn&ection profile name:
 datasource.exportToCP.error.emptyFileName=You must specify a non-empty connection profile name!
 datasource.exportToCP.error.invalidFileName=The specified connection profile name contains invalid character(s)!
+datasource.exportToCP.error.duplicatedFileName=The connection profile name has already existed!
 
 
 ###########################################################
@@ -1015,6 +1016,7 @@ EditLabelAction.text=编辑(&E)
 ###########################################################
 #Element properties
 
+Element.AbstractScalarParameter.dataType=数据类型(&D):
 Element.AutoText.type=类型:
 Element.Cell.colSpan=列跨度:
 Element.Cell.column=列:
@@ -1233,7 +1235,6 @@ Element.ScalarParameter.allowBlank=允许为空:
 Element.ScalarParameter.allowNull=允许 Null:
 Element.ScalarParameter.concealValue=隐藏值:
 Element.ScalarParameter.controlType=控件类型(&C):
-Element.ScalarParameter.dataType=数据类型(&D):
 Element.ScalarParameter.defaultValue=默认值:
 Element.ScalarParameter.dynamicList.dataSetName=数据集名称:
 Element.ScalarParameter.dynamicList.labelExpr=标签表达式:
@@ -4575,16 +4576,17 @@ VariableNodeProvider.DialogTitle=Edit Variable
 
 ###########################################################
 #SelectVariableDialog
-SelectVariableDialog.AvailableVariables=Available Variables:
+SelectVariableDialog.AvailableVariables=&Available Variables:
 SelectVariableDialog.PageSeperator=----- Page Variables -----
 SelectVariableDialog.ReportSeperator=----- Report Variables -----
 SelectVariableDialog.Title=Insert Variable
 
 ###########################################################
 #VariableDialog
-VariableDialog.DataType=数据类型:
-VariableDialog.DefaultValue=Default Value:
-VariableDialog.Name=名称:
-VariableDialog.PageVariable=Page Variable
-VariableDialog.ReportVariable=Report Variable
-VariableDialog.VariableType=Variable Type:
+VariableDialog.DataType=数据类型(&T):
+VariableDialog.DefaultValue=默认值(&V):
+VariableDialog.Name=名称(&N):
+VariableDialog.PageVariable=&Page Variable
+VariableDialog.ReportVariable=&Report Variable
+VariableDialog.VariableType=类型:
+VariableDialog.Error.NameDuplicate=The name \"{0}\" duplicates an existing name. Please choose a different name.

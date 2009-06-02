@@ -710,6 +710,7 @@ datasource.exportToCP.externalCheckBox=&Use the externalized connection profile 
 datasource.exportToCP.label.specifyName=Conn&ection profile name:
 datasource.exportToCP.error.emptyFileName=You must specify a non-empty connection profile name!
 datasource.exportToCP.error.invalidFileName=The specified connection profile name contains invalid character(s)!
+datasource.exportToCP.error.duplicatedFileName=The connection profile name has already existed!
 
 
 ###########################################################
@@ -1015,6 +1016,7 @@ EditLabelAction.text=編集(&E)
 ###########################################################
 #Element properties
 
+Element.AbstractScalarParameter.dataType=データ型(&D) :
 Element.AutoText.type=種類 :
 Element.Cell.colSpan=列の幅 :
 Element.Cell.column=列 :
@@ -1233,7 +1235,6 @@ Element.ScalarParameter.allowBlank=空白を許可する :
 Element.ScalarParameter.allowNull=Null を許可する :
 Element.ScalarParameter.concealValue=値を隠す :
 Element.ScalarParameter.controlType=コントロール型(&C) :
-Element.ScalarParameter.dataType=データ型(&D) :
 Element.ScalarParameter.defaultValue=デフォルト値 :
 Element.ScalarParameter.dynamicList.dataSetName=データセット名 :
 Element.ScalarParameter.dynamicList.labelExpr=ラベル式 :
@@ -4575,16 +4576,17 @@ VariableNodeProvider.DialogTitle=Edit Variable
 
 ###########################################################
 #SelectVariableDialog
-SelectVariableDialog.AvailableVariables=Available Variables:
+SelectVariableDialog.AvailableVariables=&Available Variables:
 SelectVariableDialog.PageSeperator=----- Page Variables -----
 SelectVariableDialog.ReportSeperator=----- Report Variables -----
 SelectVariableDialog.Title=Insert Variable
 
 ###########################################################
 #VariableDialog
-VariableDialog.DataType=データ型 :
-VariableDialog.DefaultValue=Default Value:
-VariableDialog.Name=名前 :
-VariableDialog.PageVariable=Page Variable
-VariableDialog.ReportVariable=Report Variable
-VariableDialog.VariableType=Variable Type:
+VariableDialog.DataType=データ型(&T) :
+VariableDialog.DefaultValue=デフォルト値(&V) :
+VariableDialog.Name=名前(&N) :
+VariableDialog.PageVariable=&Page Variable
+VariableDialog.ReportVariable=&Report Variable
+VariableDialog.VariableType=種類 :
+VariableDialog.Error.NameDuplicate=The name \"{0}\" duplicates an existing name. Please choose a different name.
