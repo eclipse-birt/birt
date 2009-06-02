@@ -43,7 +43,7 @@
 		<cvs cvsRoot="${mapCvsRoot}"
 			package="source/org.eclipse.birt.releng"
 			dest="${buildDirectory}/maps"
-			tag="${mapVersionTag}"
+			tag="v${mapVersionTag}"
 		/>
 		
 		<!--compare the map files project-->
