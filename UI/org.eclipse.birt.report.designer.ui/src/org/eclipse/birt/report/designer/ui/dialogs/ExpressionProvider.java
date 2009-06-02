@@ -326,15 +326,22 @@ public class ExpressionProvider implements ISortableExpressionProvider
 		{
 			categoryList.add( PARAMETERS );
 		}
+		categoryList.add( NATIVE_OBJECTS );
+		categoryList.add( BIRT_OBJECTS );
+		categoryList.add( OPERATORS );
 		if ( elementHandle.getModuleHandle( ) instanceof ReportDesignHandle
 				&& ( (ReportDesignHandle) elementHandle.getModuleHandle( ) ).getPageVariables( )
 						.size( ) > 0 )
 		{
-			categoryList.add( VARIABLES );
+			for ( VariableElementHandle veh : ( (ReportDesignHandle) elementHandle.getModuleHandle( ) ).getPageVariables( ) )
+			{
+				if ( DesignChoiceConstants.VARIABLE_TYPE_REPORT.equals( veh.getType( ) ) )
+				{
+					categoryList.add( VARIABLES );
+					break;
+				}
+			}
 		}
-		categoryList.add( NATIVE_OBJECTS );
-		categoryList.add( BIRT_OBJECTS );
-		categoryList.add( OPERATORS );
 
 		if ( adapterProvider != null )
 		{
@@ -562,7 +569,7 @@ public class ExpressionProvider implements ISortableExpressionProvider
 			if ( VARIABLES.equals( parent ) )
 			{
 				childrenList.add( VARIABLES_REPORT );
-//				childrenList.add( VARIABLES_PAGE );
+				// childrenList.add( VARIABLES_PAGE );
 			}
 			if ( VARIABLES_REPORT.equals( parent ) )
 			{
@@ -572,14 +579,16 @@ public class ExpressionProvider implements ISortableExpressionProvider
 						childrenList.add( variable );
 				}
 			}
-//			if ( VARIABLES_PAGE.equals( parent ) )
-//			{
-//				for ( VariableElementHandle variable : ( (ReportDesignHandle) elementHandle.getModuleHandle( ) ).getPageVariables( ) )
-//				{
-//					if ( DesignChoiceConstants.VARIABLE_TYPE_PAGE.equals( variable.getType( ) ) )
-//						childrenList.add( variable );
-//				}
-//			}
+			// if ( VARIABLES_PAGE.equals( parent ) )
+			// {
+			// for ( VariableElementHandle variable : ( (ReportDesignHandle)
+			// elementHandle.getModuleHandle( ) ).getPageVariables( ) )
+			// {
+			// if ( DesignChoiceConstants.VARIABLE_TYPE_PAGE.equals(
+			// variable.getType( ) ) )
+			// childrenList.add( variable );
+			// }
+			// }
 			else
 			{
 				if ( COLUMN_BINDINGS.equals( parent ) )
