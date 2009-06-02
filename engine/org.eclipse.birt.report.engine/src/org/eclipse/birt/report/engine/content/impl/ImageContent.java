@@ -259,7 +259,10 @@ public class ImageContent extends AbstractContent implements IImageContent
 			}
 		}
 		this.uri = uri;
-		data = null;
+		if ( uri != null )
+		{
+			data = null;
+		}
 	}
 
 	private String getImageURI( )
