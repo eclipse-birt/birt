@@ -127,6 +127,18 @@ public class VariableDialog extends BaseTitleAreaDialog
 				.numColumns( 3 )
 				.create( ) );
 
+		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.VariableType" ) ); //$NON-NLS-1$
+
+		Composite typeChoices = new Composite( content, SWT.NONE );
+		typeChoices.setLayout( GridLayoutFactory.swtDefaults( )
+				.numColumns( 2 )
+				.create( ) );
+		reportRadio = new Button( typeChoices, SWT.RADIO );
+		reportRadio.setText( Messages.getString( "VariableDialog.ReportVariable" ) ); //$NON-NLS-1$
+		pageRadio = new Button( typeChoices, SWT.RADIO );
+		pageRadio.setText( Messages.getString( "VariableDialog.PageVariable" ) ); //$NON-NLS-1$
+		new Label( content, SWT.NONE );
+
 		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.Name" ) ); //$NON-NLS-1$
 
 		nameTxt = new Text( content, SWT.BORDER );
@@ -139,18 +151,6 @@ public class VariableDialog extends BaseTitleAreaDialog
 			}
 		} );
 		// dummy
-		new Label( content, SWT.NONE );
-
-		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.VariableType" ) ); //$NON-NLS-1$
-
-		Composite typeChoices = new Composite( content, SWT.NONE );
-		typeChoices.setLayout( GridLayoutFactory.swtDefaults( )
-				.numColumns( 2 )
-				.create( ) );
-		reportRadio = new Button( typeChoices, SWT.RADIO );
-		reportRadio.setText( Messages.getString( "VariableDialog.ReportVariable" ) ); //$NON-NLS-1$
-		pageRadio = new Button( typeChoices, SWT.RADIO );
-		pageRadio.setText( Messages.getString( "VariableDialog.PageVariable" ) ); //$NON-NLS-1$
 		new Label( content, SWT.NONE );
 
 		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.DataType" ) ); //$NON-NLS-1$
