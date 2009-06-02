@@ -45,10 +45,14 @@ public interface IComputedColumn
 	public abstract String getAggregateFunction( );
 	
 	/**
-	 * Return the filter of this computed column iff it is an aggregation.
+	 * Return the filter of this computed column if it is an aggregation.
 	 * @return
 	 */
 	public abstract IScriptExpression getAggregateFilter( );
 	
+	/**
+	 * Return aggregation arguments of this computed column if it is an aggregation.
+	 * @return
+	 */
 	public abstract List getAggregateArgument();
 }

@@ -236,7 +236,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	}
 	
 	/*
-	 * 
+	 * set whether cache query results
 	 */
 	public void setCacheQueryResults( boolean cacheQueryResults )
 	{

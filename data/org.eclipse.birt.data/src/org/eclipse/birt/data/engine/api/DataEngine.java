@@ -361,7 +361,7 @@ abstract public class DataEngine
 	abstract public void removeListener( IShutdownListener listener );
 	
 	/**
-	 * 
+	 * Cancel this data engine execution
 	 */
 	abstract public void cancel();
 	

@@ -60,7 +60,7 @@ public class QueryExecutionHints implements IQueryExecutionHints
     }
     
     /**
-     * 
+     * add target group instance
      */
     public void addTargetGroupInstance( IGroupInstanceInfo info )
     {

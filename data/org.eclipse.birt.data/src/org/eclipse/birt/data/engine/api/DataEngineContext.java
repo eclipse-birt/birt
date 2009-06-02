@@ -450,11 +450,18 @@ public class DataEngineContext
 
 	}
 
+	/**
+	 * set time zone
+	 * @param zone
+	 */
 	public void setTimeZone( TimeZone zone )
 	{
 		currentTimeZone = zone;
 	}
 	
+	/**
+	 * @return time zone
+	 */
 	public TimeZone getTimeZone( )
 	{
 		return this.currentTimeZone;

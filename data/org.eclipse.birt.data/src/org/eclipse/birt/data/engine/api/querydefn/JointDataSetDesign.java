@@ -122,6 +122,10 @@ public class JointDataSetDesign extends BaseDataSetDesign
 		return joinType;
 	}
 
+	/**
+	 * 
+	 * @param joinType
+	 */
 	public void setJoinType( int joinType )
 	{
 		this.joinType = joinType;
@@ -137,6 +141,10 @@ public class JointDataSetDesign extends BaseDataSetDesign
 		return joinConditions;
 	}
 	
+	/**
+	 * add Join Condition
+	 * @param jc
+	 */
 	public void addJoinCondition( JoinCondition jc)
 	{
 		this.joinConditions.add( jc );

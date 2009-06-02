@@ -30,6 +30,9 @@ public abstract class Aggregation implements IAggregation
 		return 1;
 	}
 	
+	/**
+	 * get aggregation data type
+	 */
 	public int getDataType()
 	{
 		return DataType.ANY_TYPE;
