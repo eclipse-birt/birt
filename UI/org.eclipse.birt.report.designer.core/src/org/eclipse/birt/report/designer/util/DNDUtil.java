@@ -216,10 +216,12 @@ public final class DNDUtil
 		{
 			Object temp = targetObj;
 			targetObj = getDesignElementHandle( targetObj ).getContainerSlotHandle( );
-			// add for support the property handel
 			if ( targetObj == null )
 			{
-				targetObj = getDesignElementHandle( temp ).getContainer( );
+				// add for support the property handel
+				targetObj = getDesignElementHandle( temp ).getContainerPropertyHandle( );
+				if ( targetObj == null )
+					targetObj = getDesignElementHandle( temp ).getContainer( );
 			}
 		}
 		return copyHandles( transferData, targetObj, position );
@@ -1210,8 +1212,8 @@ public final class DNDUtil
 		{
 			PropertyHandle targetHandle = (PropertyHandle) targetObj;
 			return targetHandle.getElementHandle( )
-					.canContain( targetHandle.getPropertyDefn( ).getName( ), childHandle ) ? CONTAIN_THIS
-					: CONTAIN_NO;
+					.canContain( targetHandle.getPropertyDefn( ).getName( ),
+							childHandle ) ? CONTAIN_THIS : CONTAIN_NO;
 		}
 		return CONTAIN_NO;
 	}
@@ -1377,7 +1379,7 @@ public final class DNDUtil
 		}
 		if ( targetObj instanceof PropertyHandle )
 		{
-			//FIXME
+			// FIXME
 			return true;
 		}
 		return targetObj instanceof DesignElementHandle
