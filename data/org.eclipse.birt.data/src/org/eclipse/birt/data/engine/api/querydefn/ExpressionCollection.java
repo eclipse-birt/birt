@@ -69,9 +69,9 @@ public class ExpressionCollection extends BaseExpression
 		
 	}
 
-/*
- * @see
- */
+	/**
+	 * see org.eclipse.birt.data.engine.api.IExpressionCollection#getExpressions()
+	 */
 	public Collection getExpressions( )
 	{
 		return combinedExpression;

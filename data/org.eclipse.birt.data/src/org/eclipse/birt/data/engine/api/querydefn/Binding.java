@@ -203,16 +203,25 @@ public class Binding implements IBinding
 		return this.name;
 	}
 
+	/**
+	 * @see org.eclipse.birt.data.engine.api.IBinding#getExpression()
+	 */
 	public IBaseExpression getExpression( )
 	{
 		return this.expr;
 	}
 
+	/**
+	 * @see org.eclipse.birt.data.engine.api.IBinding#getDisplayName()
+	 */
 	public String getDisplayName( ) throws DataException
 	{
 		return this.displayName == null ? this.name:this.displayName;
 	}
 
+	/**
+	 * @see org.eclipse.birt.data.engine.api.IBinding#setDisplayName(String)
+	 */
 	public void setDisplayName( String displayName ) throws DataException
 	{
 		this.displayName = displayName;

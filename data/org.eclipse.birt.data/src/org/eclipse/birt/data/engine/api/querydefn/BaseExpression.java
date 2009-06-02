@@ -91,6 +91,9 @@ public abstract class BaseExpression implements IBaseExpression
 		this.handle = handle;
 	}
 
+	/**
+	 * @see org.eclipse.birt.data.engine.api.IBaseExpression#setGroupName(String)
+	 */
 	public void setGroupName( String name )
 	{
 		if ( name != null && name.trim( ).length( ) != 0 )
@@ -99,16 +102,25 @@ public abstract class BaseExpression implements IBaseExpression
 			this.groupName = GROUP_OVERALL;
 	}
 	
+	/**
+	 * @see org.eclipse.birt.data.engine.api.IBaseExpression#getGroupName()
+	 */
 	public String getGroupName( )
 	{
 		return this.groupName;
 	}
 	
+	/**
+	 * @see org.eclipse.birt.data.engine.api.IBaseExpression#getGroupName()
+	 */
 	public String getScriptId( )
 	{
 		return this.scriptId;
 	}
 	
+	/**
+	 * @see org.eclipse.birt.data.engine.api.IBaseExpression#setScriptId(String)
+	 */
 	public void setScriptId( String scriptId )
 	{
 		this.scriptId = scriptId;
