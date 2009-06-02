@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
@@ -153,10 +154,10 @@ public class ReportCreationTool extends CreationTool
 	/*
 	 * Add the newly created object to the viewer's selected objects.
 	 */
-	private void selectAddedObject(final EditPartViewer viewer )
+	private void selectAddedObject( final EditPartViewer viewer )
 	{
 		final Object model = getNewObjectFromRequest( );
-		//final EditPartViewer viewer = getCurrentViewer( );
+		// final EditPartViewer viewer = getCurrentViewer( );
 		selectAddedObject( model, viewer );
 	}
 
@@ -203,13 +204,14 @@ public class ReportCreationTool extends CreationTool
 	 * @param edit
 	 */
 	public static void selectAddedObject( final Object model,
-			final EditPartViewer viewer, boolean  edit)
+			final EditPartViewer viewer, boolean edit )
 	{
 		selectAddedObject( model,
 				viewer,
-				new Request( ReportRequest.CREATE_ELEMENT ), edit );
+				new Request( ReportRequest.CREATE_ELEMENT ),
+				edit );
 	}
-	
+
 	/**
 	 * @param model
 	 * @param viewer
@@ -218,8 +220,9 @@ public class ReportCreationTool extends CreationTool
 	public static void selectAddedObject( final Object model,
 			final EditPartViewer viewer, final Request request )
 	{
-		selectAddedObject(model, viewer, request, true);
+		selectAddedObject( model, viewer, request, true );
 	}
+
 	/**
 	 * Selects or clicks added object
 	 * 
@@ -231,7 +234,8 @@ public class ReportCreationTool extends CreationTool
 	 *            the request sended to EditPart
 	 */
 	public static void selectAddedObject( final Object model,
-			final EditPartViewer viewer, final Request request, final boolean edit )
+			final EditPartViewer viewer, final Request request,
+			final boolean edit )
 	{
 		if ( model == null || viewer == null )
 			return;
@@ -247,14 +251,15 @@ public class ReportCreationTool extends CreationTool
 				{
 					viewer.flush( );
 					viewer.select( (EditPart) editpart );
-					
-					if ( edit && ( (EditPart) editpart ).understandsRequest( request ) )
+
+					if ( edit
+							&& ( (EditPart) editpart ).understandsRequest( request ) )
 					{
 						( (EditPart) editpart ).performRequest( request );
 					}
-					
+
 					viewer.reveal( (EditPart) editpart );
-					
+
 				}
 				else
 				{
@@ -268,7 +273,7 @@ public class ReportCreationTool extends CreationTool
 							.getMediator( )
 							.notifyRequest( r );
 				}
-				
+
 			}
 		} );
 	}
@@ -345,6 +350,14 @@ public class ReportCreationTool extends CreationTool
 	public static boolean handleValidatePalette( Object objectType,
 			EditPart targetEditPart )
 	{
+		//bug #278597
+		ModuleHandle reportHandle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+		if ( reportHandle instanceof LibraryHandle
+				&& IReportElementConstants.AUTOTEXT_VARIABLE.equals( objectType ) )
+		{
+			return false;
+		}
 		return objectType instanceof String
 				&& targetEditPart != null
 				&& DNDUtil.handleValidateTargetCanContainType( targetEditPart.getModel( ),
