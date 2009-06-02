@@ -35,7 +35,9 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
@@ -220,7 +222,7 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_JOINT_DATA_SET,
 				ICONS_PATH + OBJ16_PATH + "data_set.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_DERIVED_DATA_SET,
 				ICONS_PATH + OBJ16_PATH + "data_set.gif" );//$NON-NLS-1$
 
@@ -276,9 +278,16 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_SCALAR_PARAMETER,
 				ICONS_PATH + OBJ16_PATH + "parameter.gif" ); //$NON-NLS-1$
-		
-		declareImage( IReportGraphicConstants.ICON_ELEMENT_VARIABLE,
-				ICONS_PATH + OBJ16_PATH + "parameter.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_VARIABLE, ICONS_PATH
+				+ OBJ16_PATH
+				+ "parameter.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_VARIABLE_REPORT,
+				ICONS_PATH + OBJ16_PATH + "variable_report.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_VARIABLE_PAGE,
+				ICONS_PATH + OBJ16_PATH + "variable_page.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMNET_SIMPLE_MASTERPAGE,
 				ICONS_PATH + EVIEW16_PATH + "master_page.gif" ); //$NON-NLS-1$
@@ -832,6 +841,18 @@ public class ReportPlatformUIImages
 			if ( image == null )
 			{
 				image = getImage( IReportGraphicConstants.ICON_ELEMENT_EXTENDED_ITEM );
+			}
+		}
+		if ( model instanceof VariableElementHandle )
+		{
+			VariableElementHandle variable = (VariableElementHandle) model;
+			if ( DesignChoiceConstants.VARIABLE_TYPE_REPORT.equals( variable.getType( ) ) )
+			{
+				return getImage( IReportGraphicConstants.ICON_ELEMENT_VARIABLE_REPORT );
+			}
+			else
+			{
+				return getImage( IReportGraphicConstants.ICON_ELEMENT_VARIABLE_PAGE );
 			}
 		}
 		else if ( model instanceof DesignElementHandle )

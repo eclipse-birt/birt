@@ -121,6 +121,10 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_TEMPLATEITEM = ReportDesignConstants.TEMPLATE_REPORT_ITEM;
 	
 	public final static String ICON_ELEMENT_VARIABLE = ReportDesignConstants.VARIABLE_ELEMENT;
+	
+	public final static String ICON_ELEMENT_VARIABLE_REPORT = ReportDesignConstants.VARIABLE_ELEMENT + "report";
+	
+	public final static String ICON_ELEMENT_VARIABLE_PAGE = ReportDesignConstants.VARIABLE_ELEMENT + "page";
 
 	// Library report item icons
 	public final static String LINK = "LINK"; //$NON-NLS-1$

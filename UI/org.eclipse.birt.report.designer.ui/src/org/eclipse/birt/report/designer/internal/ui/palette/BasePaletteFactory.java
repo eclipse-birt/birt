@@ -371,22 +371,25 @@ public class BasePaletteFactory
 			CreateRequest request = getRequest( );
 			if ( IReportElementConstants.AUTOTEXT_VARIABLE.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
 			{
-
-				SelectVariableDialog dialog = new SelectVariableDialog( (ReportDesignHandle) SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ) );
-				if ( dialog.open( ) == Dialog.OK )
-				{
-					AutoTextHandle autoTextItemHandle = DesignElementFactory.getInstance( )
-							.newAutoText( null );
-					try
+				ModuleHandle reportHandle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+				if(reportHandle instanceof ReportDesignHandle){
+					SelectVariableDialog dialog = new SelectVariableDialog( (ReportDesignHandle) SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( ) );
+					if ( dialog.open( ) == Dialog.OK )
 					{
-						autoTextItemHandle.setPageVariable( (String) dialog.getResult( ) );
-						autoTextItemHandle.setAutoTextType( DesignChoiceConstants.AUTO_TEXT_PAGE_VARIABLE );
-						setModel( autoTextItemHandle );
-					}
-					catch ( SemanticException e )
-					{
-						ExceptionHandler.handle( e );
+						AutoTextHandle autoTextItemHandle = DesignElementFactory.getInstance( )
+								.newAutoText( null );
+						try
+						{
+							autoTextItemHandle.setPageVariable( (String) dialog.getResult( ) );
+							autoTextItemHandle.setAutoTextType( DesignChoiceConstants.AUTO_TEXT_PAGE_VARIABLE );
+							setModel( autoTextItemHandle );
+						}
+						catch ( SemanticException e )
+						{
+							ExceptionHandler.handle( e );
+						}
 					}
 				}
 				return super.preHandleMouseUp( );
