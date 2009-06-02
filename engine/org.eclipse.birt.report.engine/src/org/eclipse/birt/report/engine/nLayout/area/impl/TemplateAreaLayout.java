@@ -85,8 +85,8 @@ public class TemplateAreaLayout implements	ILayout
 	{
 		TextStyle textStyle = TextAreaLayout.buildTextStyle( content,	fontInfo );
 		TemplateArea area = new TemplateArea( null, textStyle );
-		/*area.setAction( content.getHyperlinkAction( ) );
-		area.setBookmark( content.getBookmark( ) );*/
+		area.setAction( content.getHyperlinkAction( ) );
+		/*area.setBookmark( content.getBookmark( ) );*/
 		return area;
 	}
 

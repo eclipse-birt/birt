@@ -209,6 +209,7 @@ public class TextCompositor
 					fontInfo );
 		}
 		TextArea area = new TextArea( textContent.getText( ), textStyle );
+		area.setAction( textContent.getHyperlinkAction( ) );
 		area.setOffset( offset );
 		area.setRunLevel( runLevel );
 		area.setVerticalAlign( textContent.getComputedStyle( ).getProperty( IStyle.STYLE_VERTICAL_ALIGN ) );
