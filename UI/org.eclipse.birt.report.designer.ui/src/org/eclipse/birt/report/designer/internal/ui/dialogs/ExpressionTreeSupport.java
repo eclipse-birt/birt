@@ -551,7 +551,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 	protected void createVariablesCategory( )
 	{
-		if ( variablesItem == null )
+		if ( variablesItem == null || variablesItem.isDisposed( ) )
 		{
 			int idx = getIndex( contextItem );
 			variablesItem = createTopTreeItem( tree, "Variables", idx );
