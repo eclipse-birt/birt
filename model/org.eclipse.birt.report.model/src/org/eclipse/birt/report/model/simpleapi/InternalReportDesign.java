@@ -20,9 +20,8 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
-import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.simpleapi.IAction;
+import org.eclipse.birt.report.model.api.simpleapi.IDataBinding;
 import org.eclipse.birt.report.model.api.simpleapi.IDataItem;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSet;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSource;
@@ -259,42 +258,65 @@ class InternalReportDesign extends DesignElement implements IReportDesign
 	 */
 	public IFilterCondition createFilterCondition( )
 	{
-		FilterCondition c = new FilterCondition( );
-		IFilterCondition condition = new FilterConditionImpl( c );
-		return condition;
+		return new FilterConditionImpl( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHideRule()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHideRule
+	 * ()
 	 */
 	public IHideRule createHideRule( )
 	{
-		HideRule r = new HideRule( );
-		IHideRule rule = new HideRuleImpl( r );
-		return rule;
+		return new HideRuleImpl( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHighLightRule()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHighLightRule
+	 * ()
 	 */
 	public IHighlightRule createHighLightRule( )
 	{
 		return new HighlightRuleImpl( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createSortCondition()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createSortCondition
+	 * ()
 	 */
 	public ISortCondition createSortCondition( )
 	{
 		return new SortConditionImpl( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createAction()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createAction()
 	 */
 	public IAction createAction( )
 	{
 		return new ActionImpl( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createDataBinding
+	 * ()
+	 */
+	public IDataBinding createDataBinding( )
+	{
+		return new DataBindingImpl( );
 	}
 }

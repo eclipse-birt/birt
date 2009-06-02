@@ -259,4 +259,12 @@ public interface IReportDesign extends IDesignElement
 
 	public IAction createAction( );
 
+	/**
+	 * Create <code>IDataBinding</code>
+	 * 
+	 * @return instance
+	 */
+
+	public IDataBinding createDataBinding( );
+
 }
