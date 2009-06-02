@@ -144,24 +144,24 @@
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		
 		<!-- copy runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp_${org.eclipse.birt.integration.wtp}/runtime -->
-		<!--
+
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createWebViewerExample">
 			<property name="OutputDir" value="${buildDirectory}/plugins/org.eclipse.birt.integration.wtp.ui/runtime" />
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
-		-->
+
 		
 		<!-- copy chart runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime
 		 -->
 		
-		<!--
+
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createChartViewer">
 			<property name="runtime.tmp" value="${buildDirectory}/plugins/org.eclipse.birt.chart.integration.wtp.ui/runtime" />
 		</ant>
-		-->
+
 		
 		<!-- fix bugzilla bug 225500 -->
-	    <!--
+
 		<property name="temp.dir" value="${buildDirectory}/plugins/org.eclipse.birt.chart.integration.wtp.ui/runtime"/>
 		<mkdir dir="${temp.dir}/chart-viewer-sample"/>
 		<exec executable="unzip" dir="${temp.dir}/">
@@ -177,7 +177,6 @@
         </exec>
 
 		<delete dir="${temp.dir}/chart-viewer-sample" failonerror="false"/>
-	    -->
 
 		<!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="default">
@@ -291,11 +290,11 @@
 		<exec executable="unzip" dir="${buildDirectory}">
 			<arg line="-o -q birt-all-${package.version}.sign.zip -d ${updateJarWorkingDir}" />
 		</exec>
-		<!-- 
+	
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${updateJarWorkingDir}" />
 		</exec>
-		-->
+
 
 		<delete includeemptydirs="true">
 			<!-- <fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.thirdparty*/**" /> -->
