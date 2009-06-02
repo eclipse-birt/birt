@@ -55,4 +55,8 @@
          id="org.eclipse.birt.source"
          version="0.0.0"/>
          
+   <includes
+         id="org.eclipse.birt.chart.source"
+         version="0.0.0"/>
+            
 </feature>
