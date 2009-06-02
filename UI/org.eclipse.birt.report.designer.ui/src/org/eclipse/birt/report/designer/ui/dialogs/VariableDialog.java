@@ -163,8 +163,7 @@ public class VariableDialog extends BaseTitleAreaDialog
 		expressionTxt = new Text( content, SWT.BORDER );
 		expressionTxt.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		expressionButton = UIUtil.createExpressionButton( content,
-				SWT.PUSH );
+		expressionButton = UIUtil.createExpressionButton( content, SWT.PUSH );
 		expressionButton.setExpressionHelper( helper );
 
 		return content;
@@ -243,7 +242,8 @@ public class VariableDialog extends BaseTitleAreaDialog
 			Expression expression = new Expression( this.expressionTxt.getText( ),
 					(String) this.expressionTxt.getData( EXPR_TYPE ) );
 			this.variable.setValue( this.expressionTxt.getText( ) );
-			this.variable.setExpressionProperty( VariableElementHandle.VALUE_PROP, expression );
+			this.variable.setExpressionProperty( VariableElementHandle.VALUE_PROP,
+					expression );
 		}
 		catch ( SemanticException e )
 		{
@@ -279,10 +279,31 @@ public class VariableDialog extends BaseTitleAreaDialog
 		{
 			getOkButton( ).setEnabled( false );
 		}
+		else if ( isNameDuplicated( this.nameTxt.getText( ) ) )
+		{
+			setErrorMessage( Messages.getFormattedString( "VariableDialog.Error.NameDuplicate",
+					new String[]{
+						this.nameTxt.getText( )
+					} ) );
+			getOkButton( ).setEnabled( false );
+		}
 		else
 		{
+			setErrorMessage( null );
 			getOkButton( ).setEnabled( true );
 		}
+	}
+
+	private boolean isNameDuplicated( String text )
+	{
+		if ( this.variable != null && this.variable.getName( ).equals( text ) )
+			return false;
+		for ( VariableElementHandle veh : this.designHandle.getPageVariables( ) )
+		{
+			if ( veh.getName( ).equals( text ) )
+				return true;
+		}
+		return false;
 	}
 
 }
