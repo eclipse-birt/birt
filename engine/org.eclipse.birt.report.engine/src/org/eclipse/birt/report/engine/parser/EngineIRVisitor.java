@@ -835,9 +835,11 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_EMBED.equals( imageSrc ) )
 		{
-			ExpressionHandle nameExpr = handle
-					.getExpressionProperty( ImageHandle.IMAGE_NAME_PROP );
-			image.setImageName( createExpression( nameExpr ) );
+			String imageName = handle.getImageName( );
+			// FIXME: MODEL doesn't support the expression image name
+			// ExpressionHandle nameExpr = handle
+			// .getExpressionProperty( ImageHandle.IMAGE_NAME_PROP );
+			image.setImageName( Expression.newConstant( imageName ) );
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_FILE.equals( imageSrc ) )
 		{
