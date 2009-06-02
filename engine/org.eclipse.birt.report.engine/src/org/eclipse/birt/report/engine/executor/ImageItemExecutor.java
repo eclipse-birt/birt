@@ -185,7 +185,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		assert uriExpr != null;
 
 		String strUri = evaluateString( uriExpr );
-		if ( strUri != null )
+		if ( strUri == null )
 		{
 			strUri = uriExpr.getScriptText( );
 		}
@@ -199,7 +199,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		imageContent.setURI( null );
 
 		String imageName = evaluateString( nameExpr );
-		if ( imageName != null )
+		if ( imageName == null )
 		{
 			imageName = nameExpr.getScriptText( );
 		}
@@ -252,7 +252,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		if ( value instanceof byte[] )
 		{
 			imgData = (byte[]) value;
-		} 
+		}
 
 		if ( fmtExpr != null )
 		{

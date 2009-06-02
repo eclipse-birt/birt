@@ -271,8 +271,7 @@ public class ImageContent extends AbstractContent implements IImageContent
 		}
 		if ( generateBy instanceof ImageItemDesign )
 		{
-			Expression uriExpr = ( (ImageItemDesign) generateBy )
-					.getImageName( );
+			Expression uriExpr = ( (ImageItemDesign) generateBy ).getImageUri( );
 			if ( uriExpr != null && uriExpr.getType( ) == Expression.CONSTANT )
 			{
 				return uriExpr.getScriptText( );
