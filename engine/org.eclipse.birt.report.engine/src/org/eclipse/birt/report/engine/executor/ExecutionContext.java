@@ -391,6 +391,8 @@ public class ExecutionContext
 		scriptContext.registerBean( "currentPage", new Long( pageNumber ) );
 		scriptContext.registerBean( "totalPage", new Long( totalPage ) );
 		scriptContext.registerBean( "_jsContext", this );
+		scriptContext.registerBean( "vars", new ScriptablePageVariables(
+				pageVariables, scriptContext.getScope( ) ) );
 		if ( runnable != null )
 		{
 			registerDesign( runnable );
@@ -688,7 +690,8 @@ public class ExecutionContext
 			switch ( expr.getType( ) )
 			{
 				case Expression.CONSTANT :
-					return expr.getScriptText( );
+					Expression.Constant cs = (Expression.Constant) expr;
+					return cs.getValue( );
 
 				case Expression.SCRIPT :
 					ScriptExpression se = ( (Expression.Script) expr )

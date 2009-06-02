@@ -25,7 +25,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
- * Write the engine tansfered IR report. The Writing sequence of report root: 1.
+ * Write the engine transfered IR report. The Writing sequence of report root: 1.
  * Version. Version id stored in IR, to remember the document changes. 2. Report
  * Version. * in version 0 and 1, write: base path unit 4. Report Write design:
  * 1. Write design type 2. Write report item design. 3. Write the current
@@ -38,11 +38,13 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * 
  * <h4>Version 6<h4>
  * support the page script/page variable in the design and master page. <h4>
- * version 7</h4> From that version, we seperate the expression with the string.
+ * version 7</h4> From that version, we separate the expression with the string.
  */
 public class EngineIRWriter implements IOConstants
-{	
-	
+{
+
+	protected String scriptLanguage = Expression.SCRIPT_JAVASCRIPT;
+
 	public void write( OutputStream out, Report design ) throws IOException
 	{
 		DataOutputStream dos = new DataOutputStream( out );
@@ -127,6 +129,7 @@ public class EngineIRWriter implements IOConstants
 		{
 			IOUtil.writeString( dos, var.getName( ) );
 			IOUtil.writeString( dos, var.getScope( ) );
+			writeExpression( dos, var.getDefaultValue( ) );
 		}
 	}
 
@@ -1435,10 +1438,23 @@ public class EngineIRWriter implements IOConstants
 		switch ( expr.getType( ) )
 		{
 			case Expression.CONSTANT :
-				IOUtil.writeString( out, expr.getScriptText( ) );
+				Expression.Constant cs = (Expression.Constant) expr;
+				IOUtil.writeInt( out, cs.getValueType( ) );
+				IOUtil.writeString( out, cs.getScriptText( ) );
 				break;
 			case Expression.SCRIPT :
-				IOUtil.writeString( out, expr.getScriptText( ) );
+				Expression.Script sc = (Expression.Script) expr;
+				String language = sc.getLanguage( );
+				if ( language == null || scriptLanguage.equals( language ) )
+				{
+					IOUtil.writeShort( out, FIELD_EXPRESSION_WITHOUT_LANGUAGE );
+				}
+				else
+				{
+					IOUtil.writeShort( out, FIELD_EXPRESSION_WITH_LANGUAGE );
+					IOUtil.writeString( out, language );
+				}
+				IOUtil.writeString( out, sc.getScriptText( ) );
 				break;
 			default :
 				throw new IOException( "Unsupported Exprssion Type" );

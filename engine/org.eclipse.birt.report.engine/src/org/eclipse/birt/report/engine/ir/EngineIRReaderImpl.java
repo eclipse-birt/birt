@@ -51,6 +51,7 @@ public class EngineIRReaderImpl implements IOConstants
 {
 
 	protected Report reportDesign;
+	protected String scriptLanguage = Expression.SCRIPT_JAVASCRIPT;
 	
 	/**
 	 * The version wrote in EngineIRWriter.
@@ -179,6 +180,9 @@ public class EngineIRReaderImpl implements IOConstants
 					String version = IOUtil.readString( dis );
 					reportDesign.setVersion( version );
 					break;
+				case FIELD_REPORT_SCRIPT_LANGUAGE :
+					scriptLanguage = IOUtil.readString( dis );
+					break;
 				default :
 					throw new IOException( "unknow report segment type:" + reportSegmentType ); //$NON-NLS-1$
 			}
@@ -233,6 +237,7 @@ public class EngineIRReaderImpl implements IOConstants
 			reportDesign.addContent( item );
 		}
 	}
+
 	private void readReportVariable( DataInputStream dis ) throws IOException
 	{
 		// style informations
@@ -242,7 +247,11 @@ public class EngineIRReaderImpl implements IOConstants
 		{
 			String varName = IOUtil.readString( dis );
 			String varScope = IOUtil.readString( dis );
-			vars.add( new PageVariableDesign( varName, varScope ) );
+			Expression expr = readExpression( dis );
+			PageVariableDesign varDesign = new PageVariableDesign( varName,
+					varScope );
+			varDesign.setDefaultValue( expr );
+			vars.add( varDesign );
 		}
 	}
 	
@@ -1727,13 +1736,25 @@ public class EngineIRReaderImpl implements IOConstants
 		if ( !isNull )
 		{
 			int exprType = IOUtil.readInt( in );
-			String scriptText = IOUtil.readString( in );
 			switch ( exprType )
 			{
 				case Expression.CONSTANT :
-					return Expression.newConstant( scriptText );
+					int valueType = IOUtil.readInt( in );
+					String scriptText = IOUtil.readString( in );
+					return Expression.newConstant( valueType, scriptText );
 				case Expression.SCRIPT :
-					return Expression.newScript( scriptText );
+					int scriptType = IOUtil.readShort( in );
+					if ( scriptType == FIELD_EXPRESSION_WITH_LANGUAGE )
+					{
+						String language = IOUtil.readString( in );
+						String expression = IOUtil.readString( in );
+						return Expression.newScript( language, expression );
+					}
+					else if ( scriptType == FIELD_EXPRESSION_WITHOUT_LANGUAGE )
+					{
+						String expression = IOUtil.readString( in );
+						return Expression.newScript( expression );
+					}
 			}
 		}
 		return null;

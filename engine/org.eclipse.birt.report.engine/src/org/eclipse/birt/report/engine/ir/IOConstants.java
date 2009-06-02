@@ -178,6 +178,9 @@ public interface IOConstants
 	//added from V7
 	static final short FIELD_REPORT_VERSION = 248;
 	static final short FIELD_TEXT_HAS_EXPRESSION = 249;
+	static final short FIELD_EXPRESSION_WITH_LANGUAGE = 250;
+	static final short FIELD_EXPRESSION_WITHOUT_LANGUAGE = 251;
+	static final short FIELD_REPORT_SCRIPT_LANGUAGE = 252;
 	
 	static final long ENGINE_IR_VERSION_0 = 0L;
 	// Version 1: remove write isBookmark of ActionDesign.
