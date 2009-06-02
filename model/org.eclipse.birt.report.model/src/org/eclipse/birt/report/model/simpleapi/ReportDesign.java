@@ -19,13 +19,10 @@ import java.util.Set;
 
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.eclipse.birt.report.model.api.elements.structures.Action;
-import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
-import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.simpleapi.IAction;
+import org.eclipse.birt.report.model.api.simpleapi.IDataBinding;
 import org.eclipse.birt.report.model.api.simpleapi.IDataItem;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSet;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSource;
@@ -372,11 +369,9 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 		this.defineFunctionProperties( tmpArray, this.getClass( ), DONTENUM );
 
 		this.defineProperty( "getReportElementByID", //$NON-NLS-1$
-				new Function_getReportElementByID( ),
-				DONTENUM );
+				new Function_getReportElementByID( ), DONTENUM );
 		this.defineProperty( "setUserProperty", //$NON-NLS-1$
-				new Function_setUserProperty( ),
-				DONTENUM );
+				new Function_setUserProperty( ), DONTENUM );
 	}
 
 	private class Function_getReportElementByID extends BaseFunction
@@ -397,7 +392,8 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 		public Object call( Context cx, Scriptable scope, Scriptable thisObj,
 				java.lang.Object[] args )
 		{
-			Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects( args );
+			Object[] convertedArgs = JavascriptEvalUtil
+					.convertToJavaObjects( args );
 
 			return report.getReportElementByID( (Integer) convertedArgs[0] );
 		}
@@ -421,7 +417,8 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 		public Object call( Context cx, Scriptable scope, Scriptable thisObj,
 				java.lang.Object[] args )
 		{
-			Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects( args );
+			Object[] convertedArgs = JavascriptEvalUtil
+					.convertToJavaObjects( args );
 
 			try
 			{
@@ -430,8 +427,7 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 							(String) convertedArgs[1] );
 				else if ( convertedArgs.length == 3 )
 					report.setUserProperty( (String) convertedArgs[0],
-							convertedArgs[1],
-							(String) convertedArgs[2] );
+							convertedArgs[1], (String) convertedArgs[2] );
 
 			}
 			catch ( SemanticException e )
@@ -465,35 +461,62 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 		return report.createFilterCondition( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHideRule()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHideRule
+	 * ()
 	 */
 	public IHideRule createHideRule( )
 	{
 		return report.createHideRule( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHighLightRule()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHighLightRule
+	 * ()
 	 */
 	public IHighlightRule createHighLightRule( )
 	{
 		return report.createHighLightRule( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createSortCondition()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createSortCondition
+	 * ()
 	 */
 	public ISortCondition createSortCondition( )
 	{
 		return report.createSortCondition( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createAction()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createAction()
 	 */
 	public IAction createAction( )
 	{
 		return report.createAction( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createDataBinding
+	 * ()
+	 */
+	public IDataBinding createDataBinding( )
+	{
+		return report.createDataBinding( );
 	}
 }
