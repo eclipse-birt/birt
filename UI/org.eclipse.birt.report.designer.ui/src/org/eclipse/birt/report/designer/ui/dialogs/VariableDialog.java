@@ -155,7 +155,8 @@ public class VariableDialog extends BaseTitleAreaDialog
 
 		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.DataType" ) ); //$NON-NLS-1$
 
-		dataTypeCombo = new Combo( content, SWT.NONE );
+		dataTypeCombo = new Combo( content, SWT.READ_ONLY );
+		dataTypeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		new Label( content, SWT.NONE );
 
 		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.DefaultValue" ) ); //$NON-NLS-1$
@@ -206,6 +207,7 @@ public class VariableDialog extends BaseTitleAreaDialog
 		else
 		{
 			this.reportRadio.setSelection( true );
+			this.dataTypeCombo.select( 0 );
 		}
 		validate( );
 		return true;
