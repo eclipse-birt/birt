@@ -380,7 +380,18 @@ public class TableArea extends RepeatableArea
 						}
 					}
 				}
-				layout.addRow( (RowArea) container, context.isFixedLayout( ) );
+				int rh = row.getHeight( );
+				layout.addRow( row, context.isFixedLayout( ) );
+				int delta = row.getHeight( ) - rh;
+				if ( delta > 0 )
+				{
+					//need update all ancestor?
+					ContainerArea rowParent = row.getParent( );
+					if ( rowParent != null )
+					{
+						rowParent.updateChildrenPosition( );
+					}
+				}
 			}
 		}
 		else
