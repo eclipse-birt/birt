@@ -200,8 +200,12 @@ public class VariableDialog extends BaseTitleAreaDialog
 					}
 				}
 			}
-			if ( this.variable.getValue( ) != null )
-				this.expressionTxt.setText( this.variable.getValue( ) );
+			ExpressionHandle expression = this.variable.getExpressionProperty( VariableElementHandle.VALUE_PROP );
+			if ( expression.getValue( ) != null )
+				this.expressionTxt.setText( expression.getValue( ).toString( ) );
+			if ( expression.getType( ) != null )
+				this.expressionTxt.setData( EXPR_TYPE, expression.getType( ) );
+			this.expressionButton.refresh( );
 		}
 		else
 		{
