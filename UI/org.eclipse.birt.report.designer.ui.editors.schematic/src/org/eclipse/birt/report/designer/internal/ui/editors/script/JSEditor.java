@@ -176,7 +176,7 @@ public class JSEditor extends EditorPart implements IColleague
 
 	/** the script's description about current method. */
 	private Text descriptionText = null;
-	
+
 	private Label ano;
 
 	private final HashMap selectionMap = new HashMap( );
@@ -337,7 +337,7 @@ public class JSEditor extends EditorPart implements IColleague
 	{
 		saveModel( );
 	}
-	
+
 	public void doSave( IProgressMonitor monitor, boolean chnageText )
 	{
 		isSaveScript = !chnageText;
@@ -824,10 +824,10 @@ public class JSEditor extends EditorPart implements IColleague
 
 		layout = new GridLayout( );
 		layout.verticalSpacing = 0;
-		layout.marginHeight=0;
+		layout.marginHeight = 0;
 		editorPane.setLayout( layout );
 		editorPane.setLayoutData( layoutData );
-		
+
 		final Composite sep = new Composite( editorPane, SWT.NONE );
 
 		layoutData = new GridData( GridData.FILL_HORIZONTAL );
@@ -874,7 +874,7 @@ public class JSEditor extends EditorPart implements IColleague
 		Composite barPane = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( 8, false );
 		layout.verticalSpacing = 0;
-		layout.marginHeight=0;
+		layout.marginHeight = 0;
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 
 		barPane.setLayout( layout );
@@ -885,14 +885,14 @@ public class JSEditor extends EditorPart implements IColleague
 
 		Composite toolPane = new Composite( barPane, SWT.NONE );
 		layout = new GridLayout( 3, false );
-		layout.verticalSpacing=0;
-		layout.marginHeight=0;
+		layout.verticalSpacing = 0;
+		layout.marginHeight = 0;
 		toolPane.setLayout( layout );
 
 		GridData layoutData = new GridData( );
 		layoutData.horizontalIndent = 6;
 		toolPane.setLayoutData( layoutData );
-		
+
 		ToolBar toolBar = new ToolBar( toolPane, SWT.FLAT );
 
 		// Creates Reset button
@@ -993,8 +993,8 @@ public class JSEditor extends EditorPart implements IColleague
 		GridLayout layout = new GridLayout( );
 		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
 
-		layout.verticalSpacing=0;
-		layout.marginHeight=0;
+		layout.verticalSpacing = 0;
+		layout.marginHeight = 0;
 		descriptionPane.setLayout( layout );
 		descriptionPane.setLayoutData( layoutData );
 
@@ -1020,7 +1020,7 @@ public class JSEditor extends EditorPart implements IColleague
 				gc.drawLine( 0, 0, rect.width, 0 );
 			}
 		} );
-		
+
 		// Creates the label of script description
 		layoutData = new GridData( GridData.FILL_HORIZONTAL );
 		descriptionText = new Text( descriptionPane, SWT.WRAP | SWT.READ_ONLY );
@@ -1205,7 +1205,11 @@ public class JSEditor extends EditorPart implements IColleague
 				{
 					targetMethod = ( (PropertyHandle) editObject ).getPropertyDefn( );
 
-					editObject = ( (PropertyHandle) editObject ).getElementHandle( );
+					// check if this is a method property
+					if ( targetMethod.getMethodInfo( ) != null )
+					{
+						editObject = ( (PropertyHandle) editObject ).getElementHandle( );
+					}
 				}
 			}
 
@@ -1285,39 +1289,39 @@ public class JSEditor extends EditorPart implements IColleague
 				sel = new StructuredSelection( propDefn );
 			}
 		}
-		
+
 		cmbExprListViewer.setSelection( getNewSelection( sel ) );
 		return;
 	}
-	
-	private ISelection getNewSelection(ISelection selection)
+
+	private ISelection getNewSelection( ISelection selection )
 	{
-		
-		if (!(getModel() instanceof DesignElementHandle))
+
+		if ( !( getModel( ) instanceof DesignElementHandle ) )
 		{
 			return selection;
 		}
-		
-		DesignElementHandle model = (DesignElementHandle)getModel();
-		if (!(selection instanceof IStructuredSelection))
+
+		DesignElementHandle model = (DesignElementHandle) getModel( );
+		if ( !( selection instanceof IStructuredSelection ) )
 		{
 			return selection;
 		}
-		List temp = new ArrayList();
-		List list = ((IStructuredSelection)selection).toList( );
-		for (int i=0; i<list.size( ); i++)
+		List temp = new ArrayList( );
+		List list = ( (IStructuredSelection) selection ).toList( );
+		for ( int i = 0; i < list.size( ); i++ )
 		{
-			if (list.get( i ) instanceof IElementPropertyDefn)
+			if ( list.get( i ) instanceof IElementPropertyDefn )
 			{
-				String name = ((IElementPropertyDefn)list.get( i )).getName( );
+				String name = ( (IElementPropertyDefn) list.get( i ) ).getName( );
 				Object obj = findData( name );
-				if (obj != null)
+				if ( obj != null )
 				{
-					temp.add(obj);
+					temp.add( obj );
 				}
 				else
 				{
-					temp.add( list.get( i ));
+					temp.add( list.get( i ) );
 				}
 			}
 			else
@@ -1325,23 +1329,23 @@ public class JSEditor extends EditorPart implements IColleague
 				temp.add( list.get( i ) );
 			}
 		}
-		
-		return new StructuredSelection(temp);
+
+		return new StructuredSelection( temp );
 	}
-	
-	private Object findData(String name)
+
+	private Object findData( String name )
 	{
-		if (cmbExprListViewer.getCombo( ).getItemCount( ) <= 0 )
+		if ( cmbExprListViewer.getCombo( ).getItemCount( ) <= 0 )
 		{
 			return null;
 		}
-		//cmbExprListViewer.get
+		// cmbExprListViewer.get
 		int count = cmbExprListViewer.getCombo( ).getItemCount( );
-		for (int i=0; i<count; i++)
+		for ( int i = 0; i < count; i++ )
 		{
 			Object obj = cmbExprListViewer.getElementAt( i );
-			if (obj instanceof IElementPropertyDefn && 
-					((IElementPropertyDefn)obj).getName( ).equals( name ))
+			if ( obj instanceof IElementPropertyDefn
+					&& ( (IElementPropertyDefn) obj ).getName( ).equals( name ) )
 			{
 				return obj;
 			}
@@ -1413,7 +1417,8 @@ public class JSEditor extends EditorPart implements IColleague
 	 * @param desHdl
 	 * @return true if updated else false.
 	 */
-	private boolean saveEditorContentsDE( DesignElementHandle desHdl, boolean isSaveScript )
+	private boolean saveEditorContentsDE( DesignElementHandle desHdl,
+			boolean isSaveScript )
 	{
 		if ( desHdl != null && getEditorText( ) != null )
 		{
@@ -1424,7 +1429,7 @@ public class JSEditor extends EditorPart implements IColleague
 					String name = cmbItemLastSelected.getName( );
 
 					desHdl.setStringProperty( name, getEditorText( ) );
-					if(!isSaveScript)
+					if ( !isSaveScript )
 					{
 						setEditorText( desHdl.getStringProperty( name ) );
 					}
@@ -1447,7 +1452,8 @@ public class JSEditor extends EditorPart implements IColleague
 	{
 		if ( isCodeModified( ) && editObject instanceof DesignElementHandle )
 		{
-			saveEditorContentsDE( (DesignElementHandle) editObject, isSaveScript );
+			saveEditorContentsDE( (DesignElementHandle) editObject,
+					isSaveScript );
 		}
 
 		setIsModified( false );
