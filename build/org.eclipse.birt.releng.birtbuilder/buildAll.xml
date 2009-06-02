@@ -37,7 +37,7 @@
 
 	<target name="main" depends="init">
 		
-		<antcall target="buildBirtThirdPartyFeature"/>
+		<!-- <antcall target="buildBirtThirdPartyFeature"/> -->
 		<antcall target="buildBirtFeature"/>
 		<antcall target="fetchBirtWtpFeature"/>
 		<antcall target="fetchRCP"/>
@@ -55,12 +55,10 @@
 			</sequential>
 			<sequential>
 				<antcall target="buildBirtNLFeature"/>			
-				<antcall target="iPortalSetup"/>
-				
+				<antcall target="iPortalSetup"/>			
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
 				<antcall target="generateJavaDoc"/>   
-				     
 			</sequential>
 		</parallel>
 
@@ -117,6 +115,15 @@
 		<echo message="BIRT sdk feature build finished"/>
 	</target>
 
+	<target name="buildChartFeature">
+	      <echo message="Chart Framework feature build started"/>
+	        
+	        <ant antfile="build.xml" dir="${basedir}">
+	            <property name="component" value="${eclipse.build.configs}/birt.chart" />
+	        </ant>
+		   <echo message="Chart Framework feature build finished"/>
+	</target>
+		
 	<target name="CreateDistribute">
 		<echo message="Packaging started"/>
 		<mkdir dir="${postingDirectory}/${buildId}"/>
@@ -137,17 +144,24 @@
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		
 		<!-- copy runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp_${org.eclipse.birt.integration.wtp}/runtime -->
+		<!--
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createWebViewerExample">
 			<property name="OutputDir" value="${buildDirectory}/plugins/org.eclipse.birt.integration.wtp.ui/runtime" />
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
-			
-		<!-- copy chart runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime -->
+		-->
+		
+		<!-- copy chart runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime
+		 -->
+		
+		<!--
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createChartViewer">
 			<property name="runtime.tmp" value="${buildDirectory}/plugins/org.eclipse.birt.chart.integration.wtp.ui/runtime" />
 		</ant>
+		-->
+		
 		<!-- fix bugzilla bug 225500 -->
-
+	    <!--
 		<property name="temp.dir" value="${buildDirectory}/plugins/org.eclipse.birt.chart.integration.wtp.ui/runtime"/>
 		<mkdir dir="${temp.dir}/chart-viewer-sample"/>
 		<exec executable="unzip" dir="${temp.dir}/">
@@ -156,18 +170,14 @@
 		
 		<delete file="${temp.dir}/chart-viewer-sample.war" failonerror="false"/>
 		<delete file="${temp.dir}/chart-viewer-sample/WEB-INF/web.xml" failonerror="false"/>
-		<!--
-                <exec executable="zip" dir="${temp.dir}/chart-viewer-sample">
-                        <arg line="-q ${temp.dir}/chart.zip -r *.* WEB-INF/ META-INF/" />
-                </exec>
-		-->
+
         <exec executable="/bin/sh" dir="${temp.dir}/chart-viewer-sample">
             <arg value="-c"/>
             <arg value="zip -r -q ${temp.dir}/chart.zip *" />
         </exec>
 
 		<delete dir="${temp.dir}/chart-viewer-sample" failonerror="false"/>
-
+	    -->
 
 		<!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="default">
@@ -275,18 +285,20 @@
 		<mkdir dir="${updateJarWorkingDir}" />
 		<mkdir dir="${updateJarWorkingDir}/site" />
 		
-                <exec executable="unzip" dir="${buildDirectory}">
-                        <arg line="-o -q birt-all-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
-                </exec>
+        <exec executable="unzip" dir="${buildDirectory}">
+            <arg line="-o -q birt-all-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
+        </exec>
 		<exec executable="unzip" dir="${buildDirectory}">
 			<arg line="-o -q birt-all-${package.version}.sign.zip -d ${updateJarWorkingDir}" />
 		</exec>
+		<!-- 
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${updateJarWorkingDir}" />
 		</exec>
+		-->
 
 		<delete includeemptydirs="true">
-			<fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.thirdparty*/**" />
+			<!-- <fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.thirdparty*/**" /> -->
 			<fileset dir="${updateJarWorkingDir}/eclipse/plugins" includes="*.thirdparty*/**" />
 		</delete>
 		
@@ -368,16 +380,16 @@
 	    <property file="${buildDirectory}/finalFeaturesVersions.properties"/>
 	    <copy file="${eclipse.build.configs}/../../extras/site.xml" tofile="${updateJarWorkingDir}/site/site.xml"/>
 	    <!-- replace the feature version in site.xml -->
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${com.lowagie.itext}" token="@FEATURE.ITEXT@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.commons.codec}" token="@FEATURE.CODEC@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.mozilla.rhino}" token="@FEATURE.MOZILLA@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.w3c.sac}" token="@FEATURE.W3C@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.cshelp}" token="@FEATURE.BIRT.CSHELP@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.example}" token="@FEATURE.BIRT.EXAMPLE@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.doc.isv}" token="@FEATURE.BIRT.DOC.ISV@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.source}" token="@FEATURE.BIRT.SOURCE@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt}" token="@FEATURE.BIRT@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.sdk}" token="@FEATURE.BIRT.SDK@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart}" token="@@FEATURE.CHART@@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.doc}" token="@FEATURE.BIRT.DOC@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp.sdk}" token="@FEATURE.BIRT.WTP.SDK@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.integration.wtp}" token="@FEATURE.BIRT.WTP@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.integration.wtp}" token="@FEATURE.CHART.WTP@"/>	
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.cshelp}" token="@FEATURE.CHART.CSHELP@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.doc.isv}" token="@FEATURE.CHART.DOC.ISV@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.source}" token="@FEATURE.CHART.SOURCE@"/>	
 	</target>
 	
 	<target name="pushUpdateSiteLocal" if="createUpdateSite">
@@ -604,10 +616,11 @@
 			<arg line="-q birt-report-framework-sdk-${package.version}.zip -d ${tmpsite}" />
 		</exec>
 		<!-- BIRT third party -->
+		<!--
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-third-party-${package.version}.zip -d ${tmpsite}" />
 		</exec>
-		
+		-->
 		<!-- backup un-signed and packed version -->
 		<zip destfile="${buildDirectory}/birt-all-${package.version}.bak.zip">
                    <fileset dir="${tmpsite}" includes="eclipse/**"/>
