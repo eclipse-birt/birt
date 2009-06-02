@@ -451,23 +451,30 @@ public class ReportDesignHandle extends ModuleHandle
 	public void importCssStyles( CssStyleSheetHandle stylesheet,
 			List selectedStyles )
 	{
-		// do nothing now.
+		if ( stylesheet == null || selectedStyles == null
+				|| selectedStyles.isEmpty( ) )
+		{
+			// do nothing now.
+			return;
+		}
 
 		ActivityStack stack = module.getActivityStack( );
 		stack.startTrans( CommandLabelFactory
 				.getCommandLabel( MessageConstants.IMPORT_CSS_STYLES_MESSAGE ) );
 		for ( int i = 0; i < selectedStyles.size( ); i++ )
 		{
-			SharedStyleHandle style = (SharedStyleHandle) selectedStyles
-					.get( i );
+			Object selectedStyle = selectedStyles.get( i );
+			if ( !( selectedStyle instanceof SharedStyleHandle ) )
+			{
+				continue;
+			}
+			SharedStyleHandle style = (SharedStyleHandle) selectedStyle;
 			if ( stylesheet.findStyle( style.getName( ) ) != null )
 			{
 				// Copy CssStyle to Style
 				SharedStyleHandle newStyle = StyleUtil
 						.TransferCssStyleToSharedStyle( module, style );
-
 				module.makeUniqueName( newStyle.getElement( ) );
-
 				if ( newStyle == null )
 					continue;
 				try
