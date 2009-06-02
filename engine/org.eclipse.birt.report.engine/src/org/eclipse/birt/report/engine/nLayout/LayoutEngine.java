@@ -686,6 +686,7 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		String text = content.getText( );
 		TextArea area = new TextArea( text, textStyle );
 		area.setTextLength( text.length( ) );
+		area.setAction( content.getHyperlinkAction( ) );
 		return area;
 	}
 

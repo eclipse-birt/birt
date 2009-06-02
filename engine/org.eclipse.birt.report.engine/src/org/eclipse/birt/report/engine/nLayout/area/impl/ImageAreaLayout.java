@@ -541,6 +541,7 @@ class ConcreteImageLayout implements ILayout
 			ObjectContent object = ( ObjectContent ) content;
 			area.setParameters( object.getParamters( ) );
 		}
+		area.setAction( content.getHyperlinkAction( ) );
 		return area;
 	}
 
