@@ -50,7 +50,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.birt.report.model.api.util.DataTypeConvertUtil;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -135,8 +134,7 @@ public class ImportValueDialog extends BaseDialog
 		this.style = style;
 		this.choiceList = choices;
 
-		String columnTypeStr = DataTypeConvertUtil.converToColumnDataType( style );
-		expectedColumnDataType = DataAdapterUtil.adaptModelDataType( columnTypeStr );
+		expectedColumnDataType = DataAdapterUtil.modelDataTypeToCoreDataType( style );
 		try
 		{
 			compatibleDataTypes = DataAdapterUtil.getCompatibleDataTypes( expectedColumnDataType );
