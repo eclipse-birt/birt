@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site pack200="true">         
+        <feature url="features/org.eclipse.birt_@FEATURE.BIRT@.jar" id="org.eclipse.birt" version="@FEATURE.BIRT@">
+                <category name="Birt" />
+        </feature>
+        <feature url="features/org.eclipse.birt.cshelp_@FEATURE.BIRT.CSHELP@.jar" id="org.eclipse.birt.cshelp" version="@FEATURE.BIRT.CSHELP@">
+                <category name="Birt" />
+        </feature>
+        <feature url="features/org.eclipse.birt.doc_@FEATURE.BIRT.DOC@.jar" id="org.eclipse.birt.doc" version="@FEATURE.BIRT.DOC@">
+                <category name="Birt" />
+        </feature>
+        <feature url="features/org.eclipse.birt.example_@FEATURE.BIRT.EXAMPLE@.jar" id="org.eclipse.birt.example" version="@FEATURE.BIRT.EXAMPLE@">
+                <category name="Birt" />
+        </feature>
+        <feature url="features/org.eclipse.birt.doc.isv_@FEATURE.BIRT.DOC.ISV@.jar" id="org.eclipse.birt.doc.isv" version="@FEATURE.BIRT.DOC.ISV@">
+                <category name="Birt" />
+        </feature>
+        <feature url="features/org.eclipse.birt.source_@FEATURE.BIRT.SOURCE@.jar" id="org.eclipse.birt.source" version="@FEATURE.BIRT.SOURCE@">
+                <category name="Birt" />
+        </feature>
+        <category-def label="BIRT 2.5 Reporting SDK" name="Birt">
+        </category-def>
+        <feature url="features/org.eclipse.birt.chart_@FEATURE.CHART@.jar" id="org.eclipse.birt.chart" version="@FEATURE.CHART@">
+                <category name="Chart" />
+        </feature>
+        <feature url="features/org.eclipse.birt.chart.cshelp_@FEATURE.CHART.CSHELP@.jar" id="org.eclipse.birt.chart.cshelp" version="@FEATURE.CHART.CSHELP@">
+                <category name="Chart" />
+        </feature>
+        <feature url="features/org.eclipse.birt.chart.doc.isv_@FEATURE.CHART.DOC.ISV@.jar" id="org.eclipse.birt.chart.doc.isv" version="@FEATURE.CHART.DOC.ISV@">
+                <category name="Chart" />
+        </feature>
+        <feature url="features/org.eclipse.birt.chart.source_@FEATURE.CHART.SOURCE@.jar" id="org.eclipse.birt.chart.source" version="@FEATURE.CHART.SOURCE@">
+                <category name="Chart" />
+        </feature>
+        <category-def label="BIRT 2.5 Charting SDK" name="Chart">
+        </category-def>
+</site>
