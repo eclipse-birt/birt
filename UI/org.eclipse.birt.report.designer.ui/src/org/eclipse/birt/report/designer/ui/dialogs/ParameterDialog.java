@@ -1113,7 +1113,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				dataSetChooser.setText( inputParameter.getDataSetName( ) );
 			}
 			refreshColumns( false );
-			refresSortByItems( );
+			refreshSortByItems( );
 			String columnName = getColumnName( inputParameter.getValueExpr( ) );
 			if ( columnName != null )
 			{
@@ -1170,7 +1170,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private void initSorttingArea( )
 	{
-		refresSortByItems( );
+		refreshSortByItems( );
 		if ( !inputParameter.isFixedOrder( ) )
 		{
 			sortKeyLabel.setEnabled( true );
@@ -1366,7 +1366,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				dataSetChooser.select( dataSetChooser.indexOf( selectedDataSetName ) );
 				refreshColumns( false );
 			}
-			refresSortByItems( );
+			refreshSortByItems( );
 		}
 	}
 
@@ -1446,7 +1446,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		{
 			return true;
 		}
-		int type = DataAdapterUtil.adaptModelDataType( getSelectedDataType( ) );
+		int type = DataAdapterUtil.modelDataTypeToCoreDataType( getSelectedDataType( ) );
 		int columnType = DataAdapterUtil.adaptModelDataType( column.getDataType( ) );
 		try
 		{
@@ -2188,13 +2188,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
 				refreshColumns( false );
-				refresSortByItems( );
+				refreshSortByItems( );
 			}
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				refreshColumns( false );
-				refresSortByItems( );
+				refreshSortByItems( );
 			}
 		}
 
@@ -2281,7 +2281,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		listLimit.setEnabled( true );
 	}
 
-	private void refresSortByItems( )
+	private void refreshSortByItems( )
 	{
 		if ( sortKeyChooser == null || sortKeyChooser.isDisposed( ) )
 		{
