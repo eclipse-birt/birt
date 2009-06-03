@@ -492,7 +492,9 @@
 			<property name="builder" value="${eclipse.build.configs}/birt.wtp" />
 		</ant>
 		
+		<!--
 		<antcall target="signWTPJars"/>
+		-->
 		<!-- unpack BIRT wtp integration feature -->
 		
 		<mkdir dir="${buildDirectory}/wtptmpsite"/>
