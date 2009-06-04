@@ -33,7 +33,6 @@
       <import plugin="com.ibm.icu" version="3.4.4" match="greaterOrEqual"/>
       <import feature="org.eclipse.emf.common" version="2.3.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.emf.ecore" version="2.3.0" match="greaterOrEqual"/>
-      <import feature="org.mozilla.rhino" version="1.6.7" match="greaterOrEqual"/>
       <import feature="org.eclipse.datatools.enablement.oda.feature" version="1.6.0" match="greaterOrEqual"/>
    </requires>
 
