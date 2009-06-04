@@ -10,6 +10,7 @@
             <property name="dataSetName">myDataSet2</property>
             <expression name="valueExpr">value column</expression>
             <expression name="labelExpr">label column</expression>
+            <property name="dataType">decimal</property>            
             <list-property name="selectionList">
                 <structure>
                     <property name="value">option 1</property>
@@ -25,7 +26,6 @@
                     <property name="value">option 3</property>
                 </structure>
             </list-property>
-            <property name="dataType">decimal</property>
             <property name="concealValue">true</property>
             <property name="controlType">check-box</property>
             <property name="autoSuggestThreshold">1</property>
