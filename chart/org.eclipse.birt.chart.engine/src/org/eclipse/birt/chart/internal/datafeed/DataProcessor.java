@@ -139,7 +139,8 @@ public class DataProcessor
 					else
 					{
 						// cache orthogonal series grouping
-						if ( query.getGrouping( ) == null )
+						if ( query.getGrouping( ) == null
+								|| !query.getGrouping( ).isEnabled( ) )
 						{
 							// Keep backward compatibility by using aggregations
 							// in series definition
