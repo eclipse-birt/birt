@@ -1761,12 +1761,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final LabelBlock lb = (LabelBlock) b;
 		Map<Label, LabelLimiter> mapLimiter = rtc.getState( RunTimeContext.StateKey.LABEL_LIMITER_LOOKUP_KEY );
 		LabelLimiter lbLimiter = mapLimiter.get( lb.getLabel( ) );
-		lbLimiter.computeWrapping( xs, lb.getLabel( ) );
-		lbLimiter = lbLimiter.limitLabelSize( cComp, xs, lb.getLabel( ) );
 
-		if ( !lbLimiter.isSuccessed( ) )
+		if ( lbLimiter != null )
 		{
-			return;
+			lbLimiter.computeWrapping( xs, lb.getLabel( ) );
+			lbLimiter = lbLimiter.limitLabelSize( cComp, xs, lb.getLabel( ) );
+
+			if ( !lbLimiter.isSuccessed( ) )
+			{
+				return;
+			}
 		}
 
 		renderBlock( ipr, b, oSource );
