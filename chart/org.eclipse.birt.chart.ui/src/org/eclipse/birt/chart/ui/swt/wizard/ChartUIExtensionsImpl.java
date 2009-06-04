@@ -98,7 +98,9 @@ public class ChartUIExtensionsImpl
 
 	private static ChartUIExtensionsImpl uiExtensions = null;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/swt.wizard" ); //$NON-NLS-1$
+	private static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/swt.wizard" ); //$NON-NLS-1$
+	
+	private static final String NS_NATIVE_IMPL = "org.eclipse.birt.chart.ui.extension";//$NON-NLS-1$
 
 	/**
 	 * 
@@ -154,9 +156,26 @@ public class ChartUIExtensionsImpl
 						}
 					}
 				}
-				if ( cSheets.size( ) > 0 )
+				if ( !cSheets.isEmpty( ) )
 				{
-					mSheets.put( id, cSheets );
+					// Combine the entries of the same id extension
+					if ( mSheets.containsKey( id ) )
+					{
+						if ( extension.getNamespace( ).equals( NS_NATIVE_IMPL ) )
+						{
+							// Always let native charts be first
+							cSheets.addAll( mSheets.get( id ) );
+							mSheets.put( id, cSheets );
+						}
+						else
+						{
+							mSheets.get( id ).addAll( cSheets );
+						}
+					}
+					else
+					{
+						mSheets.put( id, cSheets );
+					}
 				}
 			}
 		}
@@ -182,16 +201,15 @@ public class ChartUIExtensionsImpl
 				}
 				catch ( InstantiationException e )
 				{
-					e.printStackTrace( );
+					logger.log( e );
 				}
 				catch ( IllegalAccessException e )
 				{
-					e.printStackTrace( );
+					logger.log( e );
 				}
 				catch ( ClassNotFoundException e )
 				{
-					// TODO remove comment
-					// e.printStackTrace();
+					logger.log( e );
 				}
 			}
 			// Default id is TaskFormatChart, which is registered in ui
@@ -250,13 +268,33 @@ public class ChartUIExtensionsImpl
 						{
 							cChartTypes.add( (IChartType) currentTag.createExecutableExtension( "classDefinition" ) ); //$NON-NLS-1$
 						}
-						catch ( FrameworkException e1 )
+						catch ( FrameworkException e )
 						{
-							e1.printStackTrace( );
+							logger.log( e );
 						}
 					}
 				}
-				mChartTypes.put( id, cChartTypes );
+				if ( !cChartTypes.isEmpty( ) )
+				{
+					// Combine the entries of the same id extension
+					if ( mChartTypes.containsKey( id ) )
+					{
+						if ( extension.getNamespace( ).equals( NS_NATIVE_IMPL ) )
+						{
+							// Always let native charts be first
+							cChartTypes.addAll( mChartTypes.get( id ) );
+							mChartTypes.put( id, cChartTypes );
+						}
+						else
+						{
+							mChartTypes.get( id ).addAll( cChartTypes );
+						}
+					}
+					else
+					{
+						mChartTypes.put( id, cChartTypes );
+					}
+				}
 			}
 		}
 		else
@@ -271,15 +309,15 @@ public class ChartUIExtensionsImpl
 				}
 				catch ( InstantiationException e )
 				{
-					e.printStackTrace( );
+					logger.log( e );
 				}
 				catch ( IllegalAccessException e )
 				{
-					e.printStackTrace( );
+					logger.log( e );
 				}
 				catch ( ClassNotFoundException e )
 				{
-					e.printStackTrace( );
+					logger.log( e );
 				}
 			}
 			mChartTypes.put( defaultExtensionId, cChartTypes );
@@ -326,7 +364,7 @@ public class ChartUIExtensionsImpl
 							}
 							catch ( FrameworkException e )
 							{
-								e.printStackTrace( );
+								logger.log( e );
 							}
 						}
 					}
@@ -343,15 +381,15 @@ public class ChartUIExtensionsImpl
 					}
 					catch ( InstantiationException e )
 					{
-						e.printStackTrace( );
+						logger.log( e );
 					}
 					catch ( IllegalAccessException e )
 					{
-						e.printStackTrace( );
+						logger.log( e );
 					}
 					catch ( ClassNotFoundException e )
 					{
-						e.printStackTrace( );
+						logger.log( e );
 					}
 				}
 			}
@@ -402,13 +440,33 @@ public class ChartUIExtensionsImpl
 						{
 							cSeriesUI.add( (ISeriesUIProvider) currentTag.createExecutableExtension( "seriesUIProvider" ) ); //$NON-NLS-1$
 						}
-						catch ( FrameworkException e1 )
+						catch ( FrameworkException e )
 						{
-							e1.printStackTrace( );
+							logger.log( e );
 						}
 					}
 				}
-				mSeriesUIs.put( id, cSeriesUI );
+				if ( !cSeriesUI.isEmpty( ) )
+				{
+					// Combine the entries of the same id extension
+					if ( mSeriesUIs.containsKey( id ) )
+					{
+						if ( extension.getNamespace( ).equals( NS_NATIVE_IMPL ) )
+						{
+							// Always let native charts be first
+							cSeriesUI.addAll( mSeriesUIs.get( id ) );
+							mSeriesUIs.put( id, cSeriesUI );
+						}
+						else
+						{
+							mSeriesUIs.get( id ).addAll( cSeriesUI );
+						}
+					}
+					else
+					{
+						mSeriesUIs.put( id, cSeriesUI );
+					}
+				}
 			}
 		}
 		else
@@ -423,15 +481,15 @@ public class ChartUIExtensionsImpl
 				}
 				catch ( InstantiationException e )
 				{
-					e.printStackTrace( );
+					logger.log( e );
 				}
 				catch ( IllegalAccessException e )
 				{
-					e.printStackTrace( );
+					logger.log( e );
 				}
 				catch ( ClassNotFoundException e )
 				{
-					e.printStackTrace( );
+					logger.log( e );
 				}
 			}
 			mSeriesUIs.put( defaultExtensionId, cSeriesUI );

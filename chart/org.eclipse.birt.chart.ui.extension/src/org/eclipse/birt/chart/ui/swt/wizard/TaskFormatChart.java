@@ -32,9 +32,6 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
-import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartPreviewPainter;
@@ -44,6 +41,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSubtaskEntry;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPreviewable;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIManager;
+import org.eclipse.birt.chart.ui.swt.type.PieChart;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -162,7 +160,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	{
 		// Gets all registered subtasks from extension id.
 		Collection<IRegisteredSubtaskEntry> cRegisteredEntries = new ArrayList<IRegisteredSubtaskEntry>( );
-		Class clazz = this.getClass( );
+		Class<?> clazz = this.getClass( );
 		if ( rootSubtaskEntry != null )
 		{
 			cRegisteredEntries.add( rootSubtaskEntry );
@@ -327,9 +325,9 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		{
 			String sKey = itKeys.next( );
 			Object oVal = htVisibleSheets.get( sKey );
-			if ( oVal instanceof Vector )
+			if ( oVal instanceof Vector<?> )
 			{
-				Vector vector = (Vector) oVal;
+				Vector<ISubtaskSheet> vector = (Vector<ISubtaskSheet>) oVal;
 				for ( int i = 0; i < vector.size( ); i++ )
 				{
 					String sSuffix = ""; //$NON-NLS-1$
@@ -351,7 +349,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 					// }
 					// else
 					{
-						String displayName = ( (ISubtaskSheet) vector.get( i ) ).getTitle( );
+						String displayName = vector.get( i ).getTitle( );
 						if ( displayName != null
 								&& displayName.trim( ).length( ) > 0 )
 						{
@@ -479,18 +477,18 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 	private void addVisibleSubtask( String sNodeName )
 	{
-		Vector vSheets = new Vector( );
+		Vector<ISubtaskSheet> vSheets = new Vector<ISubtaskSheet>( );
 		// check if node exists in tree
 		if ( htVisibleSheets.containsKey( sNodeName ) )
 		{
 			Object oSheets = htVisibleSheets.get( sNodeName );
-			if ( oSheets instanceof Vector )
+			if ( oSheets instanceof Vector<?> )
 			{
-				vSheets = (Vector) oSheets;
+				vSheets = (Vector<ISubtaskSheet>) oSheets;
 			}
 			else if ( oSheets instanceof ISubtaskSheet )
 			{
-				vSheets.add( oSheets );
+				vSheets.add( (ISubtaskSheet) oSheets );
 			}
 			else
 			{
@@ -511,18 +509,18 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 	private void removeVisibleTask( String sNodeName )
 	{
-		Vector vSheets = new Vector( );
+		Vector<ISubtaskSheet> vSheets = new Vector<ISubtaskSheet>( );
 		// check if node exists in tree
 		if ( htVisibleSheets.containsKey( sNodeName ) )
 		{
 			Object oSheets = htVisibleSheets.get( sNodeName );
-			if ( oSheets instanceof Vector )
+			if ( oSheets instanceof Vector<?> )
 			{
-				vSheets = (Vector) oSheets;
+				vSheets = (Vector<ISubtaskSheet>) oSheets;
 			}
 			else if ( oSheets instanceof ISubtaskSheet )
 			{
-				vSheets.add( oSheets );
+				vSheets.add( (ISubtaskSheet)oSheets );
 			}
 			else
 			{
@@ -918,19 +916,26 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			iOrthogonalSeriesCount = 0;
 			for ( int i = 0; i < iBaseAxisCount; i++ )
 			{
-				iOrthogonalAxisCount += ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-						.get( i ) ).getAssociatedAxes( ).size( );
+				iOrthogonalAxisCount += ( (ChartWithAxes) chartModel ).getAxes( )
+						.get( i )
+						.getAssociatedAxes( )
+						.size( );
 				if ( chartModel.getDimension( ).getValue( ) == ChartDimension.THREE_DIMENSIONAL )
 				{
-					iAncillaryAxisCount += ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-							.get( i ) ).getAncillaryAxes( ).size( );
+					iAncillaryAxisCount += ( (ChartWithAxes) chartModel ).getAxes( )
+							.get( i )
+							.getAncillaryAxes( )
+							.size( );
 				}
 				if ( isMultipleValueSeriesAllowed( ) )
 				{
 					for ( int iS = 0; iS < iOrthogonalAxisCount; iS++ )
 					{
-						iOrthogonalSeriesCount += ( (Axis) ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-								.get( i ) ).getAssociatedAxes( ).get( iS ) ).getSeriesDefinitions( )
+						iOrthogonalSeriesCount += ( (ChartWithAxes) chartModel ).getAxes( )
+								.get( i )
+								.getAssociatedAxes( )
+								.get( iS )
+								.getSeriesDefinitions( )
 								.size( );
 					}
 				}
@@ -981,8 +986,10 @@ public class TaskFormatChart extends TreeCompoundTask implements
 				iOrthogonalSeriesCount = 0;
 				for ( int iS = 0; iS < iBaseSeriesCount; iS++ )
 				{
-					iOrthogonalSeriesCount += ( (SeriesDefinition) ( (ChartWithoutAxes) chartModel ).getSeriesDefinitions( )
-							.get( iS ) ).getSeriesDefinitions( ).size( );
+					iOrthogonalSeriesCount += ( (ChartWithoutAxes) chartModel ).getSeriesDefinitions( )
+							.get( iS )
+							.getSeriesDefinitions( )
+							.size( );
 				}
 			}
 			else
@@ -1001,20 +1008,6 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			removeCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
 			removeCollectionInstance( DIAL_SERIES_SHEET_COLLECTION );
 
-			if ( ( (SeriesDefinition) ( ( (SeriesDefinition) ( (ChartWithoutAxes) chartModel ).getSeriesDefinitions( )
-					.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ) ).getSeries( )
-					.get( 0 ) instanceof PieSeries )
-			{
-				for ( int iBS = 0; iBS < iBaseSeriesCount; iBS++ )
-				{
-					addCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
-				}
-				for ( int iOS = 1; iOS < iOrthogonalSeriesCount; iOS++ )
-				{
-					addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
-				}
-			}
-
 			if ( chartModel instanceof DialChart )
 			{
 				if ( !( (DialChart) chartModel ).isDialSuperimposition( ) )
@@ -1030,6 +1023,22 @@ public class TaskFormatChart extends TreeCompoundTask implements
 					{
 						addCollectionInstance( DIAL_SERIES_SHEET_COLLECTION );
 					}
+				}
+			}
+			else
+			{
+				// Only add category series page for Pie chart, since default
+				// behavior is no category series settings.
+				if ( ( (ChartWizardContext) getContext( ) ).getChartType( ) instanceof PieChart )
+				{
+					for ( int iBS = 0; iBS < iBaseSeriesCount; iBS++ )
+					{
+						addCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+					}
+				}
+				for ( int iOS = 1; iOS < iOrthogonalSeriesCount; iOS++ )
+				{
+					addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
 				}
 			}
 		}
