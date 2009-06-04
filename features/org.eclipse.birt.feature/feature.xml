@@ -66,9 +66,9 @@
       <import plugin="org.eclipse.pde.ui" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.pde.core" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.pde" version="3.2.0" match="compatible"/>
-      <import feature="org.eclipse.datatools.modelbase.feature" version="1.7.0.v200905290400-77-3CcNBC0BTHmCjQd"/>
+      <import feature="org.eclipse.datatools.modelbase.feature" version="1.7.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.datatools.connectivity" version="1.1.1" match="greaterOrEqual"/>
-      <import feature="org.eclipse.draw2d" version="3.5.0.v20090422-2346-44-7w311A153303457"/>
+      <import feature="org.eclipse.draw2d" version="3.5.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
