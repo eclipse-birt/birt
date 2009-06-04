@@ -41,7 +41,6 @@
       <import plugin="org.eclipse.ui" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.birt.report.data.oda.jdbc.ui" version="2.1.0" match="compatible"/>
       <import plugin="org.eclipse.birt.report.data.oda.sampledb" version="2.1.0" match="compatible"/>
-      <import feature="org.apache.derby.core" version="10.1.2.1" match="greaterOrEqual"/>
       <import feature="org.eclipse.datatools.connectivity.oda.designer.feature" version="1.5.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.datatools.connectivity.oda.feature" version="1.5.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.datatools.doc.user" version="1.5.0" match="compatible"/>
