@@ -604,7 +604,7 @@ class ConcreteImageLayout implements ILayout
 			try
 			{
 				int[] area = getArea( attributes.get( "coords" ) );
-				String url = attributes.get( "href" ).replaceAll("&amp;", "&");
+				String url = attributes.get( "href" );
 				String targetWindow = attributes.get( "target" );
 				createImageMap( area, imageArea, url, targetWindow );
 			}
@@ -622,6 +622,7 @@ class ConcreteImageLayout implements ILayout
 		{
 			return;
 		}
+		url = url.replaceAll("&amp;", "&");
 		ActionContent link = new ActionContent( );
 		if ( isBookmark( url ) )
 		{
