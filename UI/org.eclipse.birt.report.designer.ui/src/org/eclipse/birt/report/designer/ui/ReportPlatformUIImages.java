@@ -843,7 +843,7 @@ public class ReportPlatformUIImages
 				image = getImage( IReportGraphicConstants.ICON_ELEMENT_EXTENDED_ITEM );
 			}
 		}
-		if ( model instanceof VariableElementHandle )
+		else if ( model instanceof VariableElementHandle )
 		{
 			VariableElementHandle variable = (VariableElementHandle) model;
 			if ( DesignChoiceConstants.VARIABLE_TYPE_REPORT.equals( variable.getType( ) ) )
