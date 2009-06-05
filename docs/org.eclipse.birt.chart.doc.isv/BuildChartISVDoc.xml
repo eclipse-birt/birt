@@ -229,6 +229,10 @@
 			destdir="${chartengine.javadoc.dir}" 
 			source="1.5" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
 		packagenames="
+					org.eclipse.birt.chart.api,
+          			org.eclipse.birt.chart.computation,
+          			org.eclipse.birt.chart.computation.withaxes,
+          			org.eclipse.birt.chart.computation.withoutaxes,
 					org.eclipse.birt.chart.model,
 					org.eclipse.birt.chart.model.data,
 					org.eclipse.birt.chart.model.type,
@@ -245,7 +249,10 @@
 					org.eclipse.birt.chart.device,
 					org.eclipse.birt.chart.datafeed,
 					org.eclipse.birt.chart.exception,
-					org.eclipse.birt.chart.log
+          			org.eclipse.birt.chart.factory,
+					org.eclipse.birt.chart.log,
+          			org.eclipse.birt.chart.render,
+          			org.eclipse.birt.chart.script
 					"
 		sourcefiles="
 			${chartengine.dir}/src/org/eclipse/birt/chart/aggregate/IAggregateFunction.java,
