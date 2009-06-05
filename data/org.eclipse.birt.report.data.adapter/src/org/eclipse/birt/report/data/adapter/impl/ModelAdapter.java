@@ -229,7 +229,11 @@ public class ModelAdapter implements IModelAdapter
 			return null;
 		Binding result = new Binding( handle.getName( ));
 		if ( handle.getExpression( )!= null )
-			result.setExpression( new ScriptExpression( handle.getExpression( ) ) );
+		{
+			ScriptExpression expr = new ScriptExpression( handle.getExpression( ) );
+			expr.setGroupName( handle.getAggregateOn( ) );
+			result.setExpression( expr );
+		}
 		result.setDataType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
 		result.setAggrFunction( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelAggregationType( handle.getAggregateFunction( ) ) );
 		result.setFilter( handle.getFilterExpression( ) == null ? null
