@@ -1196,7 +1196,6 @@ public abstract class DesignElement
 
 		StructureContextUtil.setStructureContext( prop, value, this );
 
-
 		// Set or clear the property.
 
 		if ( value == null )
@@ -3620,7 +3619,20 @@ public abstract class DesignElement
 	 */
 	public boolean isInTemplateParameterDefinitionSlot( )
 	{
+		return isInSlot( IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+	}
 
+	/**
+	 * Checks whether the given element is contained by the given slot.
+	 * 
+	 * @param slotID
+	 *            the id of the slot
+	 * 
+	 * @return <code>true</code> if the element is in the given slot .
+	 *         Otherwise, <code>false</code>.
+	 */
+	public boolean isInSlot( int slotID )
+	{
 		DesignElement tmpContainer = getContainer( );
 		ContainerContext containerInfo = null;
 
@@ -3634,7 +3646,7 @@ public abstract class DesignElement
 				? IDesignElementModel.NO_SLOT
 				: containerInfo.getSlotID( );
 
-		if ( IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT == slot )
+		if ( slotID == slot )
 			return true;
 
 		return false;

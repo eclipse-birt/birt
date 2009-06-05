@@ -64,6 +64,7 @@ import org.eclipse.birt.report.model.elements.MultiViews;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -764,8 +765,23 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 */
 	public List getMethods( )
 	{
-		return getElement( ).getDefn( ).getMethods( );
-
+		List<IElementPropertyDefn> methods = getElement( ).getDefn( )
+				.getMethods( );
+		if ( getElement( ).isInSlot( IModuleModel.PAGE_SLOT ) )
+		{
+			// Added for bugzila 276665, filter the method "onPageBreak" if the
+			// element is contained by a master page.
+			for ( IElementPropertyDefn method : methods )
+			{
+				if ( IReportItemModel.ON_PAGE_BREAK_METHOD.equals( method
+						.getName( ) ) )
+				{
+					methods.remove( method );
+					break;
+				}
+			}
+		}
+		return methods;
 	}
 
 	/**
@@ -2191,11 +2207,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public String getPropertyBinding( String propName )
 	{
 		PropertyBinding propBinding = findPropertyBinding( propName );
-		if ( propBinding != null ) 
+		if ( propBinding != null )
 		{
 			return propBinding.getValue( );
 		}
-		return null;				
+		return null;
 	}
 
 	/**
@@ -2274,13 +2290,14 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * 
 	 * @throws SemanticException
 	 *             if the maskValue is not one of the above.
-	 * @deprecated instead use setPropertyBinding( String propName, Expression value )
+	 * @deprecated instead use setPropertyBinding( String propName, Expression
+	 *             value )
 	 */
 
 	public void setPropertyBinding( String propName, String value )
 			throws SemanticException
 	{
-		setPropertyBinding( propName, (Object)value );
+		setPropertyBinding( propName, (Object) value );
 	}
 
 	/**
@@ -2924,7 +2941,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( defn == null )
 			return null;
 
-		if ( defn.allowExpression( ) && !defn.isListType( )  )
+		if ( defn.allowExpression( ) && !defn.isListType( ) )
 			return new ExpressionHandle( this, (ElementPropertyDefn) defn );
 
 		return null;
@@ -2945,7 +2962,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		setProperty( propName, expression );
 	}
-	
+
 	/**
 	 * Sets the mask of the specified property.
 	 * 
@@ -2963,7 +2980,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public void setPropertyBinding( String propName, Expression value )
 			throws SemanticException
 	{
-		setPropertyBinding( propName, (Object)value );
+		setPropertyBinding( propName, (Object) value );
 	}
 
 	/**
@@ -2980,13 +2997,14 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public Expression getPropertyBindingExpression( String propName )
 	{
 		PropertyBinding propBinding = findPropertyBinding( propName );
-		if ( propBinding != null ) 
+		if ( propBinding != null )
 		{
-			return propBinding.getExpressionProperty( PropertyBinding.VALUE_MEMBER );
+			return propBinding
+					.getExpressionProperty( PropertyBinding.VALUE_MEMBER );
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Sets the mask of the specified property.
 	 * 
@@ -3000,7 +3018,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @throws SemanticException
 	 *             if the maskValue is not one of the above.
 	 */
-	private void setPropertyBinding( String propName, Object value ) throws SemanticException
+	private void setPropertyBinding( String propName, Object value )
+			throws SemanticException
 	{
 		// check whether the property is defined on this element
 
@@ -3078,7 +3097,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns the specified property with its internal name.
 	 * 
