@@ -1,6 +1,7 @@
 caption
 summary
 captionID
+isSummaryTable
 onPrepare
 onCreate
 onRender

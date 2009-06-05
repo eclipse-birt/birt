@@ -2017,6 +2017,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitTable( obj );
 
 		property( obj, ITableItemModel.SUMMARY_PROP );
+		property( obj, ITableItemModel.IS_SUMMARY_TABLE_PROP );
 
 		resourceKey( obj, ITableItemModel.CAPTION_KEY_PROP,
 				ITableItemModel.CAPTION_PROP );

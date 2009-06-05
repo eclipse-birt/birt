@@ -194,9 +194,9 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 * @param columnIndex
 	 *            the column index from 1 to the number of columns in the table
 	 * @param inForce
-	 *            <code>true</code> indicates to paste the column regardless
-	 *            of the different layout of cells. <code>false</code>
-	 *            indicates not.
+	 *            <code>true</code> indicates to paste the column regardless of
+	 *            the different layout of cells. <code>false</code> indicates
+	 *            not.
 	 * @return <code>true</code> indicates the paste operation can be done.
 	 *         Otherwise <code>false</code>.
 	 */
@@ -283,8 +283,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 *            the copied table row
 	 * @param parameters
 	 *            parameters needed by insert operation.
-	 * @return <code>true</code> indicates the insert and paste operation can
-	 *         be done. Otherwise <code>false</code>.
+	 * @return <code>true</code> indicates the insert and paste operation can be
+	 *         done. Otherwise <code>false</code>.
 	 */
 
 	public boolean canInsertAndPasteRow( IDesignElement copiedRow,
@@ -537,8 +537,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	}
 
 	/**
-	 * Moves the column from <code>sourceColumn</code> to
-	 * <code>destIndex</code>.
+	 * Moves the column from <code>sourceColumn</code> to <code>destIndex</code>
+	 * .
 	 * 
 	 * @param sourceColumn
 	 *            the source column ranging from 1 to the column number
@@ -805,4 +805,33 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 
 		return null;
 	}
+
+	/**
+	 * Returns if the table is a summary table. A summary table should not allow
+	 * adding any detail rows.
+	 * 
+	 * @return
+	 *         <code>true<code> if the table is a summary table.Otherwise <code>false<code>.
+	 */
+	public boolean isSummaryTable( )
+	{
+		return getBooleanProperty( IS_SUMMARY_TABLE_PROP );
+	}
+
+	/**
+	 * Sets the flag to control whether the table is a summary table. If the
+	 * flag is checked, there should be no detail rows added for this table
+	 * allowed.
+	 * 
+	 * @param isSummaryTable
+	 *            the flag to set
+	 * @throws SemanticException
+	 */
+
+	public void setIsSummaryTable( boolean isSummaryTable )
+			throws SemanticException
+	{
+		setBooleanProperty( IS_SUMMARY_TABLE_PROP, isSummaryTable );
+	}
+
 }

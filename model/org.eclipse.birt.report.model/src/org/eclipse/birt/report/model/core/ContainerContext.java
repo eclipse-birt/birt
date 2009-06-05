@@ -28,7 +28,10 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TemplateElement;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.IContainerDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -784,6 +787,13 @@ public final class ContainerContext
 					|| focus.getElement( ).getExtendsName( ) != null )
 				return false;
 
+			// A summany table cannot contains any detail rows
+			if ( focus.getElement( ) instanceof TableItem
+					&& focus.getElement( ).getBooleanProperty( module,
+							ITableItemModel.IS_SUMMARY_TABLE_PROP )
+					&& focus.containerSlotID == IListingElementModel.DETAIL_SLOT )
+				return false;
+
 			// special cases check table header containment.
 
 			ContainerContext containerInfo = this.focus;
@@ -861,6 +871,16 @@ public final class ContainerContext
 
 			if ( focus.getElement( ).isVirtualElement( )
 					|| focus.getElement( ).getExtendsName( ) != null )
+			{
+				errors.add( e );
+				return errors;
+			}
+
+			// A summany table cannot contains any detail rows
+			if ( focus.getElement( ) instanceof TableItem
+					&& focus.getElement( ).getBooleanProperty( module,
+							ITableItemModel.IS_SUMMARY_TABLE_PROP )
+					&& focus.containerSlotID == IListingElementModel.DETAIL_SLOT )
 			{
 				errors.add( e );
 				return errors;

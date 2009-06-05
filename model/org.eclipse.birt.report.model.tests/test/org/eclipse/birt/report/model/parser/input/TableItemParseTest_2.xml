@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
+    <data-sources>
+        <oda-data-source name="myDataSource"/>
+        <oda-data-source name="myDataSource2"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="firstDataSet">
+            <property name="dataSource">myDataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <property name="comments">Sample page</property>
+            <property name="topMargin">0.95mm</property>
+            <property name="leftMargin">0.8mm</property>
+            <property name="bottomMargin">0.75mm</property>
+            <property name="rightMargin">0.9mm</property>
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+            <contents>
+                <label>
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+                <label>
+                    <property name="x">6mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">1mm</property>
+                    <text-property name="text">Today's Date</text-property>
+                </label>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <table name="My table">
+            <property name="dataSet">firstDataSet</property>
+            <property name="sortByGroups">false</property>
+            <property name="isSummaryTable">true</property>        
+        </table>       
+    </body>
+</report>

@@ -12,13 +12,16 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
@@ -29,8 +32,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <code>TableItemHandle</code>.
  * 
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -625,6 +627,39 @@ public class TableItemHandleTest extends BaseTestCase
 			assertEquals( NameException.DESIGN_EXCEPTION_DUPLICATE, e
 					.getErrorCode( ) );
 		}
+	}
+
+	/**
+	 * Tests to add a detail row into a summary table. The exception is expected
+	 * 
+	 * @throws NameException
+	 * @throws ContentException
+	 */
+	public void testSummaryTable( ) throws Exception
+	{
+		createDesign( );
+
+		TableHandle table = designHandle.getElementFactory( ).newTableItem(
+				"testTable" ); //$NON-NLS-1$
+
+		table.setIsSummaryTable( true );
+		table.getHeader( ).add( table.getElementFactory( ).newTableRow( ) );
+		table.getFooter( ).add( table.getElementFactory( ).newTableRow( ) );
+		try
+		{
+			table.getDetail( ).add( table.getElementFactory( ).newTableRow( ) );
+			fail( );
+		}
+		catch ( ContentException e )
+		{
+			assertEquals(
+					ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT,
+					e.getErrorCode( ) );
+		}
+		assertFalse( table.canContain( IListingElementModel.DETAIL_SLOT, table
+				.getElementFactory( ).newTableRow( ) ) );
+		assertFalse( table.canContain( IListingElementModel.DETAIL_SLOT,
+				ReportDesignConstants.ROW_ELEMENT ) );
 	}
 
 }

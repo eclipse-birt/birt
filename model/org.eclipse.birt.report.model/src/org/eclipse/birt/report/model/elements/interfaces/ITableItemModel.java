@@ -40,4 +40,9 @@ public interface ITableItemModel
 	 */
 	public static final String SUMMARY_PROP = "summary"; //$NON-NLS-1$
 
+	/**
+	 * Name of the property which indicates if the table is a summary table
+	 * which cannot contains any detail rows.
+	 */
+	public static final String IS_SUMMARY_TABLE_PROP = "isSummaryTable"; //$NON-NLS-1$
 }

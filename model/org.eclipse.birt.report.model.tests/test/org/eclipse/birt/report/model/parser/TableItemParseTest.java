@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
@@ -41,12 +42,11 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * <p>
  * <code>TableGroup</code> is also tested in this test case.
  * <p>
- * <code>TableColumn</code>,<code>TableRow</code> and <code>Cell</code>
- * are tested in {@link GridItemParseTest}.
+ * <code>TableColumn</code>,<code>TableRow</code> and <code>Cell</code> are
+ * tested in {@link GridItemParseTest}.
  * 
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -66,8 +66,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * 
  * <tr>
  * <td></td>
- * <td>Test all properties of <code>TableGroup</code> after parsing design
- * file</td>
+ * <td>Test all properties of <code>TableGroup</code> after parsing design file</td>
  * <td>All properties are right</td>
  * </tr>
  * 
@@ -130,6 +129,9 @@ public class TableItemParseTest extends ParserTestCase
 	String fileName = "TableItemParseTest.xml"; //$NON-NLS-1$
 	String goldenFileName = "TableItemParseTest_golden.xml"; //$NON-NLS-1$
 	String semanticCheckFileName = "TableItemParseTest_1.xml"; //$NON-NLS-1$
+
+	String summaryFileName = "TableItemParseTest_2.xml"; //$NON-NLS-1$
+	String summaryGoldenFileName = "TableItemParseTest_1_golden.xml"; //$NON-NLS-1$
 
 	/*
 	 * @see TestCase#setUp()
@@ -635,6 +637,26 @@ public class TableItemParseTest extends ParserTestCase
 		assertEquals( "First inner table", error.getElement( ).getName( ) ); //$NON-NLS-1$
 		assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET, error
 				.getErrorCode( ) );
+	}
+
+	/**
+	 * Tests to read and write a summary table and compare it with golden file.
+	 * 
+	 * @throws NameException
+	 * @throws ContentException
+	 */
+	public void testSummaryTable( ) throws Exception
+	{
+		openDesign( summaryFileName );
+		TableHandle tableHandle = (TableHandle) designHandle
+				.findElement( "My table" ); //$NON-NLS-1$
+		
+		assertTrue( tableHandle.isSummaryTable( ) );
+		
+		tableHandle.setIsSummaryTable( false );		
+		save();
+		
+		assertTrue( compareFile( summaryGoldenFileName ) );
 	}
 
 }

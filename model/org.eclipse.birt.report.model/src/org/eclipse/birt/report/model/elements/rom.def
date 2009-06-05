@@ -2918,6 +2918,9 @@
     <Property displayNameID="Element.Table.caption" name="caption" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Table.summary" name="summary" runtimeSettable="false" since="2.3" type="string"/>
     <Property displayNameID="Element.Table.captionID" name="captionID" since="1.0" type="resourceKey"/>
+    <Property displayNameID="Element.Table.isSummaryTable" name="isSummaryTable" runtimeSettable="false" since="2.5" type="boolean">
+      <Default>false</Default>    	
+    </Property>
     <Slot displayNameID="Element.Table.slot.header" multipleCardinality="true" name="header" selector="table-header" since="1.0" xmlName="header">
       <Type name="Row"/>
       <Trigger validator="InconsistentColumnsValidator"/>
