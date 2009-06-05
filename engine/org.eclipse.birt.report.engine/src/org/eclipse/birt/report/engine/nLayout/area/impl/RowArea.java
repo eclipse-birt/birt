@@ -216,11 +216,13 @@ public class RowArea extends ContainerArea
 			if ( current.getColumnID( ) >= columnId )
 			{
 				index = i;
-				break;
+				children.add( index, cell );
+				setCell( cell );
+				return;
 			}
 		}
-		children.add( index, cell );
-		setCell( cell );
+		children.add( children.size( ), cell );
+		setCell(cell);
 	}
 
 	public SplitResult split( int height, boolean force ) throws BirtException
@@ -376,7 +378,7 @@ public class RowArea extends ContainerArea
 					CellArea nCell = oCell.cloneArea( );
 					nCell.setHeight( height );
 					nCell.setParent( this );
-					children.add( nCell );
+					addChildByColumnId( nCell );
 					i = i + oCell.getColSpan( ) - 1;
 				}
 			}
