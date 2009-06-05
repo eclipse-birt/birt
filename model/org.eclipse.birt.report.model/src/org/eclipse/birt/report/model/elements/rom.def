@@ -1684,12 +1684,12 @@
       <Argument name="reportContext" tagID="Element.ReportDesign.afterRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>
     <Method context="factory" displayNameID="Element.ReportDesign.onPageStart" name="onPageStart" since="2.5" toolTipID="Element.ReportDesign.onPageStart.toolTip">
-      <Argument name="context" tagID="Element.ReportDesign.onPageStart.context" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ReportDesign.onPageStart.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="this" tagID="Element.ReportDesign.onPageStart.this" type="org.eclipse.birt.report.engine.api.script.element.IMasterPage"/>
       <Argument name="content" tagID="Element.ReportDesign.onPageStart.content" type="org.eclipse.birt.report.engine.api.script.instance.IMasterPageInstance"/>
     </Method>
     <Method context="factory" displayNameID="Element.ReportDesign.onPageEnd" name="onPageEnd" since="2.5" toolTipID="Element.ReportDesign.onPageEnd.toolTip">
-      <Argument name="context" tagID="Element.ReportDesign.onPageEnd.context" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="reportContext" tagID="Element.ReportDesign.onPageEnd.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="this" tagID="Element.ReportDesign.onPageEnd.this" type="org.eclipse.birt.report.engine.api.script.element.IMasterPage"/>
       <Argument name="content" tagID="Element.ReportDesign.onPageEnd.content" type="org.eclipse.birt.report.engine.api.script.instance.IMasterPageInstance"/>
     </Method>
@@ -2284,12 +2284,12 @@
       </Property>
     </PropertyGroup>
     <Method context="factory" displayNameID="Element.MasterPage.onPageStart" name="onPageStart" since="2.5" toolTipID="Element.MasterPage.onPageStart.toolTip">
-      <Argument name="context" tagID="Element.MasterPage.onPageStart.context" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="reportContext" tagID="Element.MasterPage.onPageStart.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="design" tagID="Element.MasterPage.onPageStart.design" type="org.eclipse.birt.report.engine.api.script.element.IMasterPage"/>
       <Argument name="content" tagID="Element.MasterPage.onPageStart.content" type="org.eclipse.birt.report.engine.api.script.instance.IMasterPageInstance"/>
     </Method>
     <Method context="factory" displayNameID="Element.MasterPage.onPageEnd" name="onPageEnd" since="2.5" toolTipID="Element.MasterPage.onPageEnd.toolTip">
-      <Argument name="context" tagID="Element.MasterPage.onPageEnd.context" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+      <Argument name="reportContext" tagID="Element.MasterPage.onPageEnd.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
       <Argument name="design" tagID="Element.MasterPage.onPageEnd.design" type="org.eclipse.birt.report.engine.api.script.element.IMasterPage"/>
       <Argument name="content" tagID="Element.MasterPage.onPageEnd.content" type="org.eclipse.birt.report.engine.api.script.instance.IMasterPageInstance"/>
     </Method>
