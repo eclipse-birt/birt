@@ -294,10 +294,16 @@ public class ExcelLayoutEngine
 		int rowIndexes[] = new int[endColumnIndex - startColumnIndex];
 
 		for ( int currentColumnIndex = startColumnIndex; currentColumnIndex < endColumnIndex; currentColumnIndex++ )
-		{			
+		{
 			int rowIndex = cache.getMaxRowIndex( currentColumnIndex );
+			SheetData lastData = cache.getColumnLastData( currentColumnIndex );
 			rowIndexes[currentColumnIndex - startColumnIndex] = rowIndex;
-			maxRowIndex = maxRowIndex > rowIndex ? maxRowIndex : rowIndex;
+			int span = lastData != null ? lastData.getRowSpanInDesign( ) : 0;
+			if ( span == 0
+					|| ( span == 1 && !isInContainer( lastData, rowContainer ) ) )
+			{
+				maxRowIndex = maxRowIndex > rowIndex ? maxRowIndex : rowIndex;
+			}
 		}
 		int startRowIndex = rowContainer.getRowIndex( );
 		if ( maxRowIndex == startRowIndex )
@@ -314,10 +320,9 @@ public class ExcelLayoutEngine
 		for ( int currentColumnIndex = startColumnIndex; currentColumnIndex < endColumnIndex; currentColumnIndex++ )
 		{
 			int rowspan = maxRowIndex - rowIndexes[currentColumnIndex - startColumnIndex];
+			SheetData upstair = cache.getColumnLastData( currentColumnIndex );
 			if ( rowspan > 0 )
 			{
-				SheetData upstair = cache
-						.getColumnLastData( currentColumnIndex );
 				if ( upstair != null && canSpan( upstair, rowContainer ) )
 				{
 					upstair.setRowSpan( rowspan );
@@ -334,6 +339,11 @@ public class ExcelLayoutEngine
 						cache.addData( currentColumnIndex, blank );
 					}
 				}
+			}
+			else if ( upstair.getRowSpanInDesign( ) > 0
+					&& !isInContainer( upstair, rowContainer ) )
+			{
+				upstair.decreasRowSpanInDesign( );
 			}
 		}
 	}
