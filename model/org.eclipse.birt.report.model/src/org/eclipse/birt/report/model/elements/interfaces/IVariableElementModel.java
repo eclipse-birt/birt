@@ -36,10 +36,4 @@ public interface IVariableElementModel
 	 */
 	
 	String TYPE_PROP = "type"; //$NON-NLS-1$
-
-	/**
-	 * Name of the data type property.
-	 */
-
-	String DATA_TYPE_PROP = "dataType"; //$NON-NLS-1$
 }

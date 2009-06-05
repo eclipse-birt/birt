@@ -76,7 +76,6 @@ public class TOC extends PropertyStructure
 	public static final String TEXT_TRANSFORM_MEMBER = Style.TEXT_TRANSFORM_PROP;
 	public static final String TEXT_INDENT_MEMBER = Style.TEXT_INDENT_PROP;
 	public static final String TEXT_DIRECTION_MEMBER = Style.TEXT_DIRECTION_PROP; // bidi_hcg
-	public static final String DATA_TYPE_MEMBER = "dataType"; //$NON-NLS-1$
 
 	/**
 	 * The reference to a style.

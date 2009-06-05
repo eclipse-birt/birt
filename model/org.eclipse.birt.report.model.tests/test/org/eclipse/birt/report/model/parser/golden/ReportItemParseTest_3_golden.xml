@@ -46,8 +46,7 @@
         		<property name="textLineThrough">line-through</property>
         		<property name="textAlign">right</property>
         		<property name="textIndent">4in</property>
-        		<property name="textTransform">lowercase</property>
-        		<property name="dataType">decimal</property>      
+        		<property name="textTransform">lowercase</property>    
         	</structure>
         </data>
     </body>

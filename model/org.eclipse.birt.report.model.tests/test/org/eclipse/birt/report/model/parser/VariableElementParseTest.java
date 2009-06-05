@@ -54,12 +54,10 @@ public class VariableElementParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.VARIABLE_TYPE_REPORT, var1
 				.getType( ) );
 		
-		assertEquals( DesignChoiceConstants.PARAM_TYPE_DATETIME, var1.getDataType( ) );
-
 		var1.setVariableName( "new variable1" ); //$NON-NLS-1$
 		var1.setValue( "new expression for variable" ); //$NON-NLS-1$
 		var1.setType( DesignChoiceConstants.VARIABLE_TYPE_PAGE );
-		var1.setDataType( DesignChoiceConstants.PARAM_TYPE_DECIMAL );
+		
 		save( );
 
 		assertTrue( compareFile( "VariableElementParseTest_golden.xml" ) ); //$NON-NLS-1$
