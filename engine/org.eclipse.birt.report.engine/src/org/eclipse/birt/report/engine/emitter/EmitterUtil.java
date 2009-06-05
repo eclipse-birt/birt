@@ -305,7 +305,28 @@ public class EmitterUtil
 	public static byte[] getImageData( String imageURI )
 	{
 		byte[] imageData = null;
+		if ( SvgFile.isSvg( imageURI ) )
+		{
+			try
+			{
+				imageData = SvgFile.transSvgToArray( imageURI );
+			}
+			catch ( IOException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
+			}
+		}
+		else
+		{
+			imageData = getNonSVGImageData( imageURI );
+		}
+		return imageData;
+	}
+
+	private static byte[] getNonSVGImageData( String imageURI )
+	{
 		InputStream imageStream = null;
+		byte[] imageData;
 		try
 		{
 			URL url = new URL( imageURI );
@@ -398,7 +419,7 @@ public class EmitterUtil
 						}
 						else
 						{
-							data = getImageData( uri );
+							data = getNonSVGImageData( uri );
 						}
 					}
 					break;
