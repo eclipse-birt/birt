@@ -11,43 +11,18 @@
 
 package org.eclipse.birt.report.model.api.filterExtension;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.filterExtension.interfaces.IFilterExprDefinition;
 
 /**
  * OdaFilterExprHelper
  */
 
-public class OdaFilterExprHelper 
+public class OdaFilterExprHelper
 {
-
-	/**
-	 * the flag to initialize the birt predefined filter operators.
-	 */
-	private static boolean initBirtExpr = false;
-
-	/**
-	 * Map to store the filter expression definition. The key is the BIRT
-	 * predefined filter operator id.
-	 */
-	private static Map filterExprDefMap = new HashMap( );
-
-	/**
-	 * The list contains the BIRT predefined filter definitions.
-	 */
-	private static List<IFilterExprDefinition> filterExprDefList = new ArrayList( );
-
-	/**
-	 * BIRT predefined filter expression id.
-	 */
-	public static Set birtPredefinedFilters = new HashSet( );
 
 	/**
 	 * Returns the list of IFilterExprDefinition. If under commercial BIRT, the
@@ -66,7 +41,22 @@ public class OdaFilterExprHelper
 			String dataSetExtId, String dataSourceExtId )
 	{
 
-		return filterExprDefList;
+		Object delegateObject = ExternalDelegateUtil.getExternalFilterHelper( );
+		if ( delegateObject != null )
+		{
+			Method method = ExternalDelegateUtil.getMethod(
+					"getMappedFilterExprDefinitions",
+					delegateObject.getClass( ), new Class[]{String.class,
+							String.class} );
+			if ( method != null )
+			{
+				return (List<IFilterExprDefinition>) ExternalDelegateUtil
+						.invokeMethod( method, delegateObject, new Object[]{
+								dataSetExtId, dataSourceExtId} );
+			}
+		}
+
+		return Collections.emptyList( );
 	}
 
 	/**
@@ -89,7 +79,22 @@ public class OdaFilterExprHelper
 	public static IFilterExprDefinition getFilterExpressionDefn(
 			String birtFilterExprId, String datasetExtId, String datasourceExtId )
 	{
-		return (IFilterExprDefinition) filterExprDefMap.get( birtFilterExprId );
+		Object delegateObject = ExternalDelegateUtil.getExternalFilterHelper( );
+		if ( delegateObject != null )
+		{
+			Method method = ExternalDelegateUtil.getMethod(
+					"getFilterExpressionDefn", delegateObject.getClass( ),
+					new Class[]{String.class, String.class, String.class} );
+			if ( method != null )
+			{
+				return (IFilterExprDefinition) ExternalDelegateUtil
+						.invokeMethod( method, delegateObject,
+								new Object[]{birtFilterExprId, datasetExtId,
+										datasourceExtId} );
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -99,87 +104,19 @@ public class OdaFilterExprHelper
 	 */
 	public static boolean supportOdaExtensionFilters( )
 	{
-		return false;
-	}
-
-	static
-	{
-		if ( !initBirtExpr )
+		Object delegateObject = ExternalDelegateUtil.getExternalFilterHelper( );
+		if ( delegateObject != null )
 		{
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_EQ );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_EQ );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_BETWEEN );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_BETWEEN );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_FALSE );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_FALSE );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_GE );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_GE );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_GT );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_GT );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_IN );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_IN );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_LE );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_LE );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_LIKE );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_LIKE );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_LT );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_LT );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_MATCH );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_MATCH );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_NE );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_NE );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_NOT_IN );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_NOT_IN );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_NOT_LIKE );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_NOT_LIKE );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_NOT_MATCH );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_NOT_MATCH );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_NOT_NULL );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_NOT_NULL );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_NULL );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_NULL );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_TOP_N );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_TOP_N );
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT);
-
-			birtPredefinedFilters.add( DesignChoiceConstants.FILTER_OPERATOR_TRUE );
-			addToList( DesignChoiceConstants.FILTER_OPERATOR_TRUE);
-
-			initBirtExpr = true;
+			Method method = ExternalDelegateUtil.getMethod(
+					"supportOdaExtensionFilters", delegateObject.getClass( ),
+					null );
+			if ( method != null )
+			{
+				return ( (Boolean) ExternalDelegateUtil.invokeMethod( method,
+						delegateObject, null ) ).booleanValue( );
+			}
 		}
-	}
 
-	private static void addToList( String key )
-	{
-		IFilterExprDefinition fed = new FilterExprDefinition( key );
-		filterExprDefMap.put( key, fed );
-		filterExprDefList.add( fed );
+		return false;
 	}
 }
