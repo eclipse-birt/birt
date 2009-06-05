@@ -156,7 +156,7 @@ public final class DataTypeUtil
         if ( toTypeClass == java.sql.Date.class)
            	return toSqlDate( source );
         if ( toTypeClass == java.sql.Timestamp.class ) 
-			return toDate( source );
+			return toTimestamp( source );
 		if ( toTypeClass == Date.class ) 
 			return toDate( source );
 		if ( toTypeClass == Double.class )
@@ -464,6 +464,20 @@ public final class DataTypeUtil
 		}
 	}
     
+	/**
+	 * 
+	 * @param source
+	 * @return
+	 * @throws BirtException
+	 */
+	public static Timestamp toTimestamp( Object source ) throws BirtException
+	{
+		Date date = toDate( source );
+		if( date == null )
+			return null;
+		return new Timestamp( date.getTime( ));
+	}
+	
     /**
      * Date -> Time
      * String -> Time
