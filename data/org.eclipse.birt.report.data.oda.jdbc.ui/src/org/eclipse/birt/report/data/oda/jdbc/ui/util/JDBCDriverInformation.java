@@ -15,8 +15,6 @@ import java.sql.Driver;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
-
 
 /**
  * This class maintains information about a specific JDBC driver
@@ -46,7 +44,7 @@ public final class JDBCDriverInformation
 	{
 		try
 		{
-			Driver d = JDBCDriverManager.getInstance( ).getDriverInstance( driverClass );
+			Driver d = (Driver) driverClass.newInstance( );
 			if ( d != null )
 			{
 				JDBCDriverInformation info = newInstance( driverClass.getName( ) );
