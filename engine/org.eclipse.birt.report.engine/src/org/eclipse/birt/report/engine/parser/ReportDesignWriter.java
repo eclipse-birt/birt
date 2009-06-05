@@ -159,10 +159,12 @@ public class ReportDesignWriter
 				return;
 			}
 			pushTag( name );
-			for ( Map.Entry<?, ?> entry : map.entrySet( ) )
+			ArrayList<String> keys = new ArrayList<String>( map.size( ) );
+			keys.addAll( (Collection<String>) map.keySet( ) );
+			Collections.sort( keys );
+			for ( String key : keys )
 			{
-				Object key = entry.getKey( );
-				Object value = entry.getValue( );
+				Object value = map.get( key );
 				pushTag( "entry" );
 				attribute( "name", key.toString( ) );
 				if ( value != null )

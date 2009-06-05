@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -47,26 +46,25 @@ public abstract class ReportElementDesign
 	protected String javaClass;
 
 	/**
-	 * map used to store the custom properties
-	 */
-	protected Map customProperties = new HashMap();
-	
-	/**
 	 * map a prepared expression to a name
 	 */
-	protected Map<String, Expression> namedExpressions;
+	protected Map<String, Expression> userProperties;
 	
 	/**
-	 * return named expression map
+	 * return user properties
+	 * 
 	 * @return
 	 */
-	public Map<String, Expression> getNamedExpressions ( )
+	public Map<String, Expression> getUserProperties( )
 	{
-		if( namedExpressions == null )
-			namedExpressions = new HashMap<String, Expression>( );
-		
-		return namedExpressions;
+		return userProperties;
 	}
+
+	public void setUserProperties( Map<String, Expression> userProperties )
+	{
+		this.userProperties = userProperties;
+	}
+
 	/**
 	 * @return Returns the extend.
 	 */
@@ -132,21 +130,6 @@ public abstract class ReportElementDesign
 		this.javaClass = javaClass;
 	}	
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.analyzer.IDataSource#getCustomProperties()
-	 */
-	public Map getCustomProperties( )
-	{
-		return customProperties;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.analyzer.IDataSource#getCustomPropertyValue(java.lang.String)
-	 */
-	public String getCustomPropertyValue( String name )
-	{
-		return (String) customProperties.get( name );
-	}
 	/**
 	 * @return Returns the handle.
 	 */

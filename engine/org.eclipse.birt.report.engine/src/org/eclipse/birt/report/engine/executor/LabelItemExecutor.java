@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -64,6 +64,7 @@ public class LabelItemExecutor extends QueryItemExecutor
 		processBookmark( labelDesign, labelContent );
 		processStyle( labelDesign, labelContent );
 		processVisibility( labelDesign, labelContent );
+		processUserProperties( labelDesign, labelContent );
 
 		if ( context.isInFactory( ) )
 		{

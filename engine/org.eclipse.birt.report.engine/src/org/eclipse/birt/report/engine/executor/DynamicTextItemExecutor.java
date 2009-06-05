@@ -78,6 +78,7 @@ public class DynamicTextItemExecutor extends QueryItemExecutor
 		processBookmark( textDesign, textContent );
 		processVisibility( textDesign, textContent );
 		processAction( textDesign, textContent );
+		processUserProperties( textDesign, textContent );
 
 		// strValue = getMapVal( strValue, multiLineItem );
 		String contentType = textDesign.getContentType( );

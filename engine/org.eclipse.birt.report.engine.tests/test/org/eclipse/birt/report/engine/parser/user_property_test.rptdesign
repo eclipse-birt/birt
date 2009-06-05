@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.19" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090512-0630 Build &lt;2.5.0.v20090512-0630></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090529-1200 Build &lt;2.5.0.v20090529-1200></property>
     <property name="units">in</property>
+    <list-property name="userProperties">
+        <structure>
+            <property name="name">report_expr</property>
+            <property name="type">expression</property>
+            <property name="isVisible">true</property>
+            <property name="default">report_expr</property>
+        </structure>
+    </list-property>
     <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <styles>
         <style name="report" id="4">
@@ -55,13 +64,13 @@
                     <property name="name">name_expr</property>
                     <property name="type">expression</property>
                     <property name="isVisible">true</property>
-                    <property name="default">name-expression</property>
+                    <property name="default">name_expression</property>
                 </structure>
                 <structure>
                     <property name="name">name_value</property>
                     <property name="type">expression</property>
                     <property name="isVisible">true</property>
-                    <property name="default">name-value</property>
+                    <property name="default">name_value</property>
                 </structure>
                 <structure>
                     <property name="name">name_string</property>
@@ -90,6 +99,11 @@
                 </structure>
             </list-property>
             <text-property name="text">Label</text-property>
+            <property name="name_string">string</property>
+            <property name="name_integer">1</property>
+            <property name="name_boolean">true</property>
+            <property name="name_datetime">2009-06-03 00:00:00</property>
+            <property name="name_float">1.0</property>
         </label>
     </body>
 </report>

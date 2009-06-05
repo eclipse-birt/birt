@@ -99,6 +99,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		processBookmark( imageDesign, imageContent );
 		processStyle( imageDesign, imageContent );
 		processVisibility( imageDesign, imageContent );
+		processUserProperties( imageDesign, imageContent );
 		
 		try
 		{

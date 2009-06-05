@@ -74,8 +74,8 @@ public class EngineIRWriter implements IOConstants
 		writeReportStyles( dos, design );
 		
 		// write named expressions
-		IOUtil.writeShort( dos, FIELD_REPORT_NAMED_EXPRESSIONS );
-		writeExprMap( dos, design.getNamedExpressions( ) );
+		IOUtil.writeShort( dos, FIELD_REPORT_USER_PROPERTIES );
+		writeExprMap( dos, design.getUserProperties( ) );
 
 		// write the page variables
 		IOUtil.writeShort( dos, FIELD_REPORT_VARIABLE );
@@ -828,18 +828,11 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeString( out, javaClass );
 		}
 
-		Map<String, Expression> namedExpression = design.getNamedExpressions( );
-		if ( namedExpression != null && !namedExpression.isEmpty( ) )
+		Map<String, Expression> userProperties = design.getUserProperties( );
+		if ( userProperties != null && !userProperties.isEmpty( ) )
 		{
-			IOUtil.writeShort( out, FIELD_NAMED_EXPRESSIONS );
-			writeExprMap( out, namedExpression );
-		}
-
-		Map customProperties = design.getCustomProperties( );
-		if ( customProperties != null && !customProperties.isEmpty( ) )
-		{
-			IOUtil.writeShort( out, FIELD_CUSTOM_PROPERTIES );
-			IOUtil.writeMap( out, customProperties );
+			IOUtil.writeShort( out, FIELD_USER_PROPERTIES );
+			writeExprMap( out, userProperties );
 		}
 	}
 

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.content.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
@@ -83,7 +84,9 @@ public class ReportContent implements IReportContent
 	private IReportContext reportContext;
 
 	private ExecutionContext executionContext;
-	
+
+	private Map<String, Object> userProperties;
+
 	/**
 	 * default constructor.
 	 */
@@ -329,5 +332,15 @@ public class ReportContent implements IReportContent
 	public void setExecutionContext( ExecutionContext executionContext )
 	{
 		this.executionContext = executionContext;
+	}
+
+	public Map<String, Object> getUserProperties( )
+	{
+		return userProperties;
+	}
+
+	public void setUserProperties( Map<String, Object> properties )
+	{
+		this.userProperties = properties;
 	}
 }

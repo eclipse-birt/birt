@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -297,7 +298,11 @@ public class EngineIRVisitor extends DesignVisitor
 		// 
 		this.defaultScriptLanguage = "javascript";
 
-		setupNamedExpressions( handle, report.getNamedExpressions( ) );
+		Map<String, Expression> userProperties = createUserProperties( handle );
+		if ( userProperties != null && !userProperties.isEmpty( ) )
+		{
+			report.setUserProperties( userProperties );
+		}
 
 		// INCLUDE LIBRARY
 		// INCLUDE SCRIPT
@@ -416,33 +421,55 @@ public class EngineIRVisitor extends DesignVisitor
 	}
 
 	/**
-	 * setup the named expression map
+	 * setup the user properties expression map
 	 * 
 	 * @param userProperties
 	 *            user defined named expressions in design file
 	 * @param namedExpressions
 	 *            the data structure that hold named expressions
 	 */
-	private void setupNamedExpressions( DesignElementHandle handle,
-			Map<String, Expression> namedExpressions )
+	private Map<String, Expression> createUserProperties(
+			DesignElementHandle handle )
 	{
-		List userProperties = handle.getUserProperties( );
-		if ( userProperties == null || namedExpressions == null )
-			return;
-		for ( int i = 0; i < userProperties.size( ); i++ )
+		List propDefns = handle.getUserProperties( );
+		if ( propDefns == null || propDefns.isEmpty( ) )
+			return null;
+		Map<String, Expression> propExprs = new HashMap<String, Expression>(
+				propDefns.size( ) );
+		for ( int i = 0; i < propDefns.size( ); i++ )
 		{
-			UserPropertyDefn userDef = (UserPropertyDefn) userProperties
-					.get( i );
-			if ( userDef.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
+			UserPropertyDefn userDef = (UserPropertyDefn) propDefns.get( i );
+			Expression expr = createUserProperty( handle, userDef );
+			if ( expr != null )
 			{
-				String name = userDef.getName( );
-				String valueExpr = handle.getStringProperty( name );
-				Expression expr = createExpression( valueExpr );
-				if ( expr != null )
-				{
-					namedExpressions.put( name, expr );
-				}
+				propExprs.put( userDef.getName( ), expr );
 			}
+		}
+		return propExprs;
+	}
+
+	private Expression createUserProperty( DesignElementHandle handle,
+			UserPropertyDefn userDef )
+	{
+		String propName = userDef.getName( );
+		String valueExpr = handle.getStringProperty( propName );
+		switch ( userDef.getTypeCode( ) )
+		{
+			case IPropertyType.SCRIPT_TYPE :
+			case IPropertyType.EXPRESSION_TYPE :
+				return createExpression( valueExpr );
+			case IPropertyType.NUMBER_TYPE :
+			case IPropertyType.INTEGER_TYPE :
+			case IPropertyType.FLOAT_TYPE :
+				return createConstant( DataType.DOUBLE_TYPE, valueExpr );
+			case IPropertyType.BOOLEAN_TYPE :
+				return createConstant( DataType.BOOLEAN_TYPE, valueExpr );
+
+			case IPropertyType.DATE_TIME_TYPE :
+				return createConstant( DataType.DATE_TYPE, valueExpr );
+
+			default :
+				return createConstant( DataType.STRING_TYPE, valueExpr );
 		}
 	}
 
@@ -1925,21 +1952,11 @@ public class EngineIRVisitor extends DesignVisitor
 		element.setID( id );
 				
 		// handle the properties
-		List list = handle.getUserProperties( );
-		if ( list != null )
+		Map<String, Expression> userProperties = createUserProperties( handle );
+		if ( userProperties != null && !userProperties.isEmpty( ) )
 		{
-			Iterator iter = list.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				UserPropertyDefn propDefn = (UserPropertyDefn) iter.next( );
-				String propName = propDefn.getName( );
-				PropertyHandle propHandle = handle.getPropertyHandle( propName );
-				String propValue = propHandle.getStringValue( );
-				element.getCustomProperties( ).put( propName, propValue );
-			}
+			element.setUserProperties( userProperties );
 		}
-
-		setupNamedExpressions( handle, element.getNamedExpressions( ) );
 
 		setupElementIDMap( element );
 		
@@ -2713,6 +2730,16 @@ public class EngineIRVisitor extends DesignVisitor
 	{
 		newCellId = newCellId - 1;
 		return newCellId;
+	}
+
+	private Expression createConstant( int type, String expr )
+	{
+		// we can't trim the expression as the white space has means in constant
+		if ( expr != null )
+		{
+			return Expression.newConstant( type, expr );
+		}
+		return null;
 	}
 
 	private Expression createExpression( String expr )

@@ -46,6 +46,7 @@ public class CellExecutor extends QueryItemExecutor
 		processHeaders( cellDesign, cellContent );
 		processStyle( cellDesign, cellContent );
 		processVisibility( cellDesign, cellContent );
+		processUserProperties( cellDesign, cellContent );
 
 		//cellContent.setDisplayGroupIcon( cellDesign.getDisplayGroupIcon( ) );
 		

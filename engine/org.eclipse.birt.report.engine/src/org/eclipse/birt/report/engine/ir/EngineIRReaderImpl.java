@@ -120,9 +120,9 @@ public class EngineIRReaderImpl implements IOConstants
 
 		// named expression
 		Map<String, Expression> namedExpressions = readExprMap( dis );
-		if ( namedExpressions != null )
+		if ( namedExpressions != null && !namedExpressions.isEmpty( ) )
 		{
-			reportDesign.getNamedExpressions( ).putAll( namedExpressions );
+			reportDesign.setUserProperties( namedExpressions );
 		}
 
 		// page setup
@@ -156,7 +156,8 @@ public class EngineIRReaderImpl implements IOConstants
 					readReportSytles( dis );
 					break;
 				case FIELD_REPORT_NAMED_EXPRESSIONS :
-					readReportNamedExpressions( dis );
+				case FIELD_REPORT_USER_PROPERTIES :
+					readReportUserProperties( dis );
 					break;
 				case FIELD_REPORT_MASTER_PAGES :
 					readReportPageSetup( dis );
@@ -202,15 +203,15 @@ public class EngineIRReaderImpl implements IOConstants
 		String rootStyleName = IOUtil.readString( dis );
 		reportDesign.setRootStyleName( rootStyleName );
 	}
-	
-	private void readReportNamedExpressions( DataInputStream dis )
+
+	private void readReportUserProperties( DataInputStream dis )
 			throws IOException
 	{
-		// named expression
-		Map<String, Expression> namedExpressions = readExprMap( dis );
-		if ( namedExpressions != null )
+		// user properties
+		Map<String, Expression> userProperties = readExprMap( dis );
+		if ( userProperties != null && !userProperties.isEmpty( ) )
 		{
-			reportDesign.getNamedExpressions( ).putAll( namedExpressions );
+			reportDesign.setUserProperties( userProperties );
 		}
 	}
 
@@ -552,18 +553,17 @@ public class EngineIRReaderImpl implements IOConstants
 				design.setJavaClass( javaClass );
 				break;
 			case FIELD_NAMED_EXPRESSIONS :
-				Map<String, Expression> namedExpression = readExprMap( in );
-				if ( namedExpression != null )
+			case FIELD_USER_PROPERTIES :
+				//the named expression has been replaced by the user properties
+				Map<String, Expression> userProperties = readExprMap( in );
+				if ( userProperties != null && !userProperties.isEmpty( ) )
 				{
-					design.getNamedExpressions( ).putAll( namedExpression );
+					design.setUserProperties( userProperties );
 				}
 				break;
 			case FIELD_CUSTOM_PROPERTIES :
-				Map customProperties = IOUtil.readMap( in );
-				if ( customProperties != null )
-				{
-					design.getCustomProperties( ).putAll( customProperties );
-				}
+				// skip the custom properties
+				IOUtil.readMap( in );
 				break;
 			default :
 				throw new IOException( "unknow field type " + fieldType ); //$NON-NLS-1$

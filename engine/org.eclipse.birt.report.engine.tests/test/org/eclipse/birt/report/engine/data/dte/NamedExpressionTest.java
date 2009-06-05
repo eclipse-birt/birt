@@ -84,17 +84,17 @@ public class NamedExpressionTest extends TestCase
 	{
 		Report report = getReport( NAMED_EXPRESSION_DESIGN );
 		assert report.getContentCount() == 5;
-		Map namedExpr = report.getContent( 0 ).getNamedExpressions( );
+		Map namedExpr = report.getContent( 0 ).getUserProperties( );
 		assertEquals( 1, namedExpr.size() );
 		
-		namedExpr = report.getContent( 1 ).getNamedExpressions( );
+		namedExpr = report.getContent( 1 ).getUserProperties( );
 		assertEquals( 2, namedExpr.size( ) );
 
-		namedExpr = report.getNamedExpressions();
+		namedExpr = report.getUserProperties();
 		assertEquals( 2, namedExpr.size() );
 		
 		ReportItemDesign reportItem = report.getContent( 2 );
-		namedExpr = reportItem.getNamedExpressions( );
+		namedExpr = reportItem.getUserProperties( );
 		assertEquals(1, namedExpr.size() );
 		
 		assert reportItem instanceof TableItemDesign;
@@ -133,7 +133,7 @@ public class NamedExpressionTest extends TestCase
 		
 		
 		reportItem = report.getContent( 3 );
-		namedExpr = reportItem.getNamedExpressions();
+		namedExpr = reportItem.getUserProperties();
 		assertEquals( 1, namedExpr.size( ) );
 		
 		assert reportItem instanceof ListItemDesign;
@@ -142,21 +142,21 @@ public class NamedExpressionTest extends TestCase
 		ListBandDesign listBand = (ListBandDesign)listItem.getHeader( ); 		
 		for ( int i = 0; i < listBand.getContentCount(); i++ )
 		{
-			namedExpr = listBand.getContent( i ).getNamedExpressions( );
+			namedExpr = listBand.getContent( i ).getUserProperties( );
 			assertEquals( 1, namedExpr.size( ) );
 		}
 		
 		listBand = (ListBandDesign)listItem.getFooter( );
 		for ( int i = 0; i < listBand.getContentCount(); i++ )
 		{
-			namedExpr = listBand.getContent( i ).getNamedExpressions( );
+			namedExpr = listBand.getContent( i ).getUserProperties( );
 			assertEquals( 1, namedExpr.size( ) );
 		}
 		
 		listBand = (ListBandDesign)listItem.getDetail( );
 		for ( int i = 0; i < listBand.getContentCount(); i++ )
 		{
-			namedExpr = listBand.getContent( i ).getNamedExpressions( );
+			namedExpr = listBand.getContent( i ).getUserProperties( );
 			assertEquals( 1, namedExpr.size( ) );
 		}
 				
@@ -164,14 +164,14 @@ public class NamedExpressionTest extends TestCase
 		listBand = (ListBandDesign)listGroup.getHeader(); 
 		for ( int i = 0; i < listBand.getContentCount(); i++ )
 		{
-			namedExpr = listBand.getContent( i ).getNamedExpressions( );
+			namedExpr = listBand.getContent( i ).getUserProperties( );
 			assertEquals( 1, namedExpr.size( ) );
 		}
 		
 		listBand = (ListBandDesign)listGroup.getFooter(); 
 		for ( int i = 0; i < listBand.getContentCount(); i++ )
 		{
-			namedExpr = listBand.getContent( i ).getNamedExpressions( );
+			namedExpr = listBand.getContent( i ).getUserProperties( );
 			assertEquals( 1, namedExpr.size( ) );
 		}
 		
@@ -179,20 +179,20 @@ public class NamedExpressionTest extends TestCase
 		assert reportItem instanceof GridItemDesign;
 		GridItemDesign gridItem = (GridItemDesign)reportItem;
 		
-		namedExpr = gridItem.getNamedExpressions();
+		namedExpr = gridItem.getUserProperties();
 		assertEquals( 1, namedExpr.size( ) );
 		
 		for ( int i = 0; i < gridItem.getRowCount(); i++ )
 		{
 			RowDesign row = gridItem.getRow( i );
-			namedExpr = row.getNamedExpressions();
+			namedExpr = row.getUserProperties();
 			assertEquals( 1, namedExpr.size( ) );
 		}
 	}
 	
 	private void assertRow( RowDesign row, int expected )
 	{
-		Map namedExpr = row.getNamedExpressions( );
+		Map namedExpr = row.getUserProperties( );
 		assertTrue( namedExpr != null );
 		assertEquals( expected, namedExpr.size());
 	}

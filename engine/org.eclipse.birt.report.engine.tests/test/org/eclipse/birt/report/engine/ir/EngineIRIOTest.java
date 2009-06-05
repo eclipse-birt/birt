@@ -18,19 +18,19 @@ public class EngineIRIOTest extends EngineCase
 	
 	public void testIO() throws Exception
 	{
-		String[] designStreams = new String[] {
-/*				"ir_io_test.rptdesign",
+		String[] designStreams = new String[]{"ir_io_test.rptdesign",
 				"../parser/action_test.rptdesign",
-				 "../parser/bookmark_test.rptdesign",
-				 "../parser/cell_test.rptdesign",
-				 "../parser/highlight_test.rptdesign",
-				 "../parser/image_test.rptdesign",
-				 "../parser/map_test.rptdesign", */
-				 "../parser/report_item_test.rptdesign",
-				 "../parser/text_test.rptdesign",
-				 "../parser/toc_test.rptdesign",
-				 "../parser/user_property_test.rptdesign",
-				 "../parser/visibility_test.rptdesign"		};
+				"../parser/bookmark_test.rptdesign",
+				"../parser/cell_test.rptdesign",
+				"../parser/highlight_test.rptdesign",
+				"../parser/image_test.rptdesign",
+				"../parser/map_test.rptdesign",
+				"../parser/report_item_test.rptdesign",
+				"../parser/text_test.rptdesign",
+				"../parser/toc_test.rptdesign",
+				"../parser/user_property_test.rptdesign",
+				"../parser/visibility_test.rptdesign",
+				"../parser/user_property_test.rptdesign"};
 		
 		for (int i = 0; i < designStreams.length; i++)
 		{

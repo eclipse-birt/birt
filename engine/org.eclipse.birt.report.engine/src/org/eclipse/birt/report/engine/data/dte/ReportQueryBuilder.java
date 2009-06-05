@@ -1856,13 +1856,13 @@ public class ReportQueryBuilder
 				}
 			}
 
-			Map<String, Expression> namedExpressions = item.getNamedExpressions( );
-			if ( namedExpressions != null )
+			Map<String, Expression> userProperties = item.getUserProperties( );
+			if ( userProperties != null )
 			{
-				for (Map.Entry<String, Expression> entry : namedExpressions.entrySet( ))
+				for ( Map.Entry<String, Expression> entry : userProperties
+						.entrySet( ) )
 				{
-					entry.setValue( newExpressions
-							.get( expressionIndex++ ) );
+					entry.setValue( newExpressions.get( expressionIndex++ ) );
 				}
 			}
 
@@ -1968,11 +1968,10 @@ public class ReportQueryBuilder
 				}
 			}
 
-			Map<String, Expression> namedExpressions = item
-					.getNamedExpressions( );
-			if ( namedExpressions != null )
+			Map<String, Expression> userProperties = item.getUserProperties( );
+			if ( userProperties != null )
 			{
-				for ( Map.Entry<String, Expression> entry : namedExpressions
+				for ( Map.Entry<String, Expression> entry : userProperties
 						.entrySet( ) )
 				{
 					expressions.add( entry.getValue( ) );

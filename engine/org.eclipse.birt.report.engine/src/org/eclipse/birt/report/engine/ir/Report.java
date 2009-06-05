@@ -82,7 +82,7 @@ public class Report
 	 */
 	protected ArrayList<ReportItemDesign> contents = new ArrayList<ReportItemDesign>( );
 
-	protected Map<String, Expression> namedExpressions;
+	protected Map<String, Expression> userProperties;
 
 	protected Map mapReportItemIDtoInstance;
 
@@ -207,12 +207,14 @@ public class Report
 	 * 
 	 * @return
 	 */
-	public Map<String, Expression> getNamedExpressions( )
+	public Map<String, Expression> getUserProperties( )
 	{
-		if ( namedExpressions == null )
-			namedExpressions = new HashMap<String, Expression>( );
+		return userProperties;
+	}
 
-		return namedExpressions;
+	public void setUserProperties( Map<String, Expression> userProperties )
+	{
+		this.userProperties = userProperties;
 	}
 
 	/**

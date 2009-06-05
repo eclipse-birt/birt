@@ -226,9 +226,6 @@
          </rows>
       </grid>
       <data id="110">
-         <custom-properties>
-            <entry name="A" value="&quot;Expression&quot;"/>
-         </custom-properties>
          <highlight>
             <rules>
                <rule operator="between">
@@ -247,11 +244,11 @@
                </rule>
             </rules>
          </map>
-         <named-expressions>
+         <user-properties>
             <entry name="A">
                <expr expr="&quot;Expression&quot;"/>
             </entry>
-         </named-expressions>
+         </user-properties>
       </data>
       <text-data content-type="html" id="111"/>
    </contents>

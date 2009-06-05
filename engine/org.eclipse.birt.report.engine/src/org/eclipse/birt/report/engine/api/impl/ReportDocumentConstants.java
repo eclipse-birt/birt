@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2008 Actuate Corporation. All rights reserved. This
+ * Copyright (c) 2004,2009 Actuate Corporation. All rights reserved. This
  * program and the accompanying materials are made available under the terms of
  * the Eclipse Public License v1.0 which accompanies this distribution, and is
  * available at http://www.eclipse.org/legal/epl-v10.html
@@ -169,10 +169,10 @@ public interface ReportDocumentConstants
 	static final String BIRT_ENGINE_VERSION_2_3_2 = "2.3.2";
 	/** the version value used by 2.5.0 */
 	static final String BIRT_ENGINE_VERSION_2_5_0 = "2.5.0";
-
+	/** the version value used by 2.5.1 */
+	static final String BIRT_ENGINE_VERSION_2_5_1 = "2.5.1";
 	/** the current version */
-	static final String BIRT_ENGINE_VERSION = BIRT_ENGINE_VERSION_2_5_0;
-
+	static final String BIRT_ENGINE_VERSION = BIRT_ENGINE_VERSION_2_5_1;
 	/**
 	 * extraction task version
 	 */

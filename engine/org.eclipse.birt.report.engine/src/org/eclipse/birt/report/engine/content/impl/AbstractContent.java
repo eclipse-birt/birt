@@ -14,7 +14,9 @@ package org.eclipse.birt.report.engine.content.impl;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
@@ -33,7 +35,6 @@ import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.w3c.dom.css.CSSValue;
@@ -78,6 +79,8 @@ abstract public class AbstractContent extends AbstractElement
 	protected Object toc;
 	
 	protected String acl;
+
+	protected Map<String, Object> userProperties;
 
 	transient protected long offset = -1;
 	
@@ -549,6 +552,7 @@ abstract public class AbstractContent extends AbstractElement
 	final static short FIELD_INLINESTYLE_VERSION_1 = 11;
 	final static short FIELD_ACL = 12;
 	final static short FIELD_CLASS_STYLE = 13;
+	final static short FIELD_USER_PROPERTIES = 14;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -615,8 +619,14 @@ abstract public class AbstractContent extends AbstractElement
 			IOUtil.writeShort( out, FIELD_ACL );
 			IOUtil.writeObject( out, acl );
 		}
+		if ( userProperties != null && userProperties.size( ) > 0 )
+		{
+			IOUtil.writeShort( out, FIELD_USER_PROPERTIES );
+			IOUtil.writeMap( out, userProperties );
+		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void readField( int version, int filedId, DataInputStream in,
 			ClassLoader loader ) throws IOException
 	{
@@ -680,6 +690,10 @@ abstract public class AbstractContent extends AbstractElement
 				break;
 			case FIELD_ACL :
 				acl = IOUtil.readString( in );
+				break;
+			case FIELD_USER_PROPERTIES :
+				userProperties = (HashMap<String, Object>) IOUtil.readMap( in );
+				break;
 		}
 	}
 
@@ -776,6 +790,10 @@ abstract public class AbstractContent extends AbstractElement
 		{
 			return true;
 		}
+		if ( userProperties != null && !userProperties.isEmpty( ) )
+		{
+			return true;
+		}
 		return false;
 	}
 
@@ -843,4 +861,13 @@ abstract public class AbstractContent extends AbstractElement
 		return new BaseResultSetDecorator( resultSets );
 	}
 
+	public Map<String, Object> getUserProperties( )
+	{
+		return userProperties;
+	}
+
+	public void setUserProperties( Map<String, Object> properties )
+	{
+		this.userProperties = properties;
+	}
 }

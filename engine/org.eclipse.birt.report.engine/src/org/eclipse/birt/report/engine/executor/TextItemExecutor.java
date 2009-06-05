@@ -103,6 +103,7 @@ public class TextItemExecutor extends QueryItemExecutor
 		processBookmark( textDesign, textContent );
 		processStyle( textDesign, textContent );
 		processVisibility( textDesign, textContent );
+		processUserProperties( textDesign, textContent );
 
 		HashMap<String, Expression> exprs = textDesign.getExpressions( );
 		if ( exprs != null && !exprs.isEmpty( ) )
@@ -159,6 +160,7 @@ public class TextItemExecutor extends QueryItemExecutor
 		processBookmark( textDesign, textContent );
 		processStyle( textDesign, textContent );
 		processVisibility( textDesign, textContent );
+		processUserProperties( textDesign, textContent );
 
 		if ( context.isInFactory( ) )
 		{

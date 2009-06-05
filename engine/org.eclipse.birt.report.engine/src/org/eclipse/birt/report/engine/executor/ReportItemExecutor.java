@@ -536,6 +536,38 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		}
 	}
 
+	protected void processUserProperties( ReportElementDesign design,
+			IContent content )
+	{
+		Map<String, Expression> exprs = design.getUserProperties( );
+		if ( exprs != null )
+		{
+			HashMap<String, Object> values = new HashMap<String, Object>( exprs
+					.size( ) );
+			for ( Map.Entry<String, Expression> entry : exprs.entrySet( ) )
+			{
+				String name = entry.getKey( );
+				Expression expr = entry.getValue( );
+				if ( expr != null && expr.getType( ) != Expression.CONSTANT )
+				{
+					try
+					{
+						Object value = context.evaluate( expr );
+						values.put( name, value );
+					}
+					catch ( BirtException ex )
+					{
+						context.addException( design, ex );
+					}
+				}
+			}
+			if ( !values.isEmpty( ) )
+			{
+				content.setUserProperties( values );
+			}
+		}
+	}
+
 	protected DataID getDataID( )
 	{
 		if ( parent != null )

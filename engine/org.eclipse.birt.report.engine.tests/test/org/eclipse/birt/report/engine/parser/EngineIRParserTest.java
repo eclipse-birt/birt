@@ -101,15 +101,23 @@ public class EngineIRParserTest extends TestCase
 	public void testUserProperty( ) throws Exception
 	{
 		Report report = loadDesign( "user_property_test.rptdesign" );
-		ReportItemDesign item = report.getContent( 0 );
-		Map<String, Expression> exprs = item.getNamedExpressions( );
-		Map props = item.getCustomProperties( );
+		Map<String, Expression> exprs = report.getUserProperties( );
+		assertEquals( 1, exprs.size( ) );
+		assertExpression( "report_expr", exprs.get( "report_expr" ) );
 
-		assertEquals( 2, exprs.size( ) );
-		assertEquals( "name-expression", exprs.get( "name_expr" )
-				.getScriptText( ) );
-		assertEquals( "name-value", exprs.get( "name_value" ).getScriptText( ) );
-		assertEquals( 7, props.size( ) );
+		ReportItemDesign item = report.getContent( 0 );
+		exprs = item.getUserProperties( );
+
+		assertEquals( 7, exprs.size( ) );
+		assertExpression( "name_expression", exprs.get( "name_expr" ) );
+		// FIXME: MODEL doens't support the constant yet
+		assertExpression( "name_value", exprs.get( "name_value" ) );
+
+		assertConstant( "string", exprs.get( "name_string" ) );
+		assertConstant( "1", exprs.get( "name_integer" ) );
+		assertConstant( "true", exprs.get( "name_boolean" ) );
+		assertConstant( "2009-06-03 00:00:00", exprs.get( "name_datetime" ) );
+		assertConstant( "1.0", exprs.get( "name_float" ) );
 	}
 
 	public void testMap( ) throws Exception

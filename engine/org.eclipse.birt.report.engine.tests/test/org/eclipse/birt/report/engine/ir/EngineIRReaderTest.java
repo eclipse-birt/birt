@@ -31,13 +31,9 @@ public class EngineIRReaderTest extends EngineCase
 	static final String VALUE_V1_STREAM = "org/eclipse/birt/report/engine/ir/ir_io_test_V1.xml";
 	static final String VALUE_V2_STREAM = "org/eclipse/birt/report/engine/ir/ir_io_test_V2.xml";
 	static final String VALUE_V3_STREAM = "org/eclipse/birt/report/engine/ir/ir_io_test_V3.xml";
-	static final String VALUE_V6_STREAM = "org/eclipse/birt/report/engine/ir/ir_io_test_V6.xml";
-	static final String VALUE_V7_STREAM = "org/eclipse/birt/report/engine/ir/ir_io_test_V7.xml";
 	static final String GOLDEN_V1_STREAM = "ir_io_test_V1.golden";
 	static final String GOLDEN_V2_STREAM = "ir_io_test_V2.golden";
 	static final String GOLDEN_V3_STREAM = "ir_io_test_V3.golden";
-	static final String GOLDEN_V6_STREAM = "ir_io_test_V6.golden";
-	static final String GOLDEN_V7_STREAM = "ir_io_test_V7.golden";
 
 	public void testV1( ) throws Exception
 	{
