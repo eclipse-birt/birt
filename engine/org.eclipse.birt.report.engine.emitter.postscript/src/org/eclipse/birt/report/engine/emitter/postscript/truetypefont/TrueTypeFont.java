@@ -1578,8 +1578,9 @@ public class TrueTypeFont
 
 		private void outputSfnts( PrintStream out )
 		{
-			String[] tablesDesired = {"cmap", "head", "hhea", "maxp", "name",
-					"OS/2", "cvt ", "fpgm", "prep", "post", "hmtx"};
+			String[] tablesDesired = {"head", "hhea", "maxp", "cvt ", "fpgm",
+					"prep", "hmtx"};
+			
 			List<String> tablesToAdd = new ArrayList<String>( );
 			addTables( tablesToAdd, tablesDesired );
 			Collections.sort( tablesToAdd );
