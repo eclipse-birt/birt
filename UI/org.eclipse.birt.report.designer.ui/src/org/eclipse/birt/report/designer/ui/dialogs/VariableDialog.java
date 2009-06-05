@@ -153,11 +153,11 @@ public class VariableDialog extends BaseTitleAreaDialog
 		// dummy
 		new Label( content, SWT.NONE );
 
-		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.DataType" ) ); //$NON-NLS-1$
-
-		dataTypeCombo = new Combo( content, SWT.READ_ONLY );
-		dataTypeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		new Label( content, SWT.NONE );
+//		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.DataType" ) ); //$NON-NLS-1$
+//
+//		dataTypeCombo = new Combo( content, SWT.READ_ONLY );
+//		dataTypeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+//		new Label( content, SWT.NONE );
 
 		new Label( content, SWT.NONE ).setText( Messages.getString( "VariableDialog.DefaultValue" ) ); //$NON-NLS-1$
 		expressionTxt = new Text( content, SWT.BORDER );
@@ -172,12 +172,12 @@ public class VariableDialog extends BaseTitleAreaDialog
 	@Override
 	protected boolean initDialog( )
 	{
-		IChoiceSet datatypes = DEUtil.getMetaDataDictionary( )
-				.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE );
-		for ( IChoice choice : datatypes.getChoices( ) )
-		{
-			dataTypeCombo.add( choice.getDisplayName( ) );
-		}
+//		IChoiceSet datatypes = DEUtil.getMetaDataDictionary( )
+//				.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE );
+//		for ( IChoice choice : datatypes.getChoices( ) )
+//		{
+//			dataTypeCombo.add( choice.getDisplayName( ) );
+//		}
 		if ( this.variable != null )
 		{
 			this.nameTxt.setText( this.variable.getName( ) );
@@ -187,19 +187,19 @@ public class VariableDialog extends BaseTitleAreaDialog
 				this.reportRadio.setSelection( true );
 			else
 				this.pageRadio.setSelection( true );
-			if ( this.variable.getDataType( ) != null )
-			{
-				String displayName = getDisplayNameByDataType( this.variable.getDataType( ),
-						datatypes );
-				for ( int i = 0; i < dataTypeCombo.getItemCount( ); i++ )
-				{
-					if ( dataTypeCombo.getItem( i ).equals( displayName ) )
-					{
-						dataTypeCombo.select( i );
-						break;
-					}
-				}
-			}
+//			if ( this.variable.getDataType( ) != null )
+//			{
+//				String displayName = getDisplayNameByDataType( this.variable.getDataType( ),
+//						datatypes );
+//				for ( int i = 0; i < dataTypeCombo.getItemCount( ); i++ )
+//				{
+//					if ( dataTypeCombo.getItem( i ).equals( displayName ) )
+//					{
+//						dataTypeCombo.select( i );
+//						break;
+//					}
+//				}
+//			}
 			ExpressionHandle expression = this.variable.getExpressionProperty( VariableElementHandle.VALUE_PROP );
 			if ( expression.getValue( ) != null )
 				this.expressionTxt.setText( expression.getValue( ).toString( ) );
@@ -210,7 +210,7 @@ public class VariableDialog extends BaseTitleAreaDialog
 		else
 		{
 			this.reportRadio.setSelection( true );
-			this.dataTypeCombo.select( 0 );
+//			this.dataTypeCombo.select( 0 );
 		}
 		validate( );
 		return true;
@@ -240,9 +240,9 @@ public class VariableDialog extends BaseTitleAreaDialog
 				this.variable.setType( DesignChoiceConstants.VARIABLE_TYPE_REPORT );
 			else
 				this.variable.setType( DesignChoiceConstants.VARIABLE_TYPE_PAGE );
-			this.variable.setDataType( getDataTypeByDisplayName( this.dataTypeCombo.getText( ),
-					DEUtil.getMetaDataDictionary( )
-							.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE ) ) );
+//			this.variable.setDataType( getDataTypeByDisplayName( this.dataTypeCombo.getText( ),
+//					DEUtil.getMetaDataDictionary( )
+//							.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE ) ) );
 			Expression expression = new Expression( this.expressionTxt.getText( ),
 					(String) this.expressionTxt.getData( EXPR_TYPE ) );
 			this.variable.setValue( this.expressionTxt.getText( ) );
