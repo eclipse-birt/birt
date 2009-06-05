@@ -1529,9 +1529,6 @@
     <Member displayNameID="Structure.TOC.text.indent" name="textIndent" since="1.0" type="dimension"/>
     <Member detailType="transform" displayNameID="Structure.TOC.text.transform" name="textTransform" since="1.0" type="choice"/>
     <Member detailType="bidiDirection" displayNameID="Structure.TOC.text.direction" name="bidiTextDirection" since="2.3" type="choice" />
-    <Member detailType="paramType" displayNameID="Structure.TOC.dataType" name="dataType" runtimeSettable="false" since="2.5" type="choice">
-        <Default>string</Default>
-    </Member> 	         
   </Structure>
   <Structure displayNameID="Structure.DimensionCondition" name="DimensionCondition" since="2.2">
   	<Member detailType="DimensionJoinCondition" displayNameID="Structure.DimensionCondition.joinConditions" isList="true" name="joinConditions" since="2.2" type="structure" />
@@ -3643,10 +3640,7 @@
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.VariableElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.VariableElement" name="VariableElement" nameSpace="(ReportDesign, variableElement)" since="2.3" xmlName="variable-element">
 	<Property displayNameID="Element.VariableElement.name" isIntrinsic="true" name="name" since="2.5" type="name" />  		
 	<Property displayNameID="Element.VariableElement.value" name="value" since="2.3" type="expression" />
-	<Property detailType="variableType" displayNameID="Element.VariableElement.type" name="type" runtimeSettable="false" since="2.5" type="choice"/>
-	<Property detailType="paramType" displayNameID="Element.VariableElement.dataType" name="dataType" runtimeSettable="false" since="2.5" type="choice">
-        <Default>string</Default>
-    </Property> 	
+	<Property detailType="variableType" displayNameID="Element.VariableElement.type" name="type" runtimeSettable="false" since="2.5" type="choice"/>	
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.DataGroup" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.DataGroup" name="DataGroup" nameSpace="none" since="2.2" xmlName="data-group">
     <Property displayNameID="Element.DataGroup.groupName" name="groupName" runtimeSettable="false" since="2.3" type="string"/>

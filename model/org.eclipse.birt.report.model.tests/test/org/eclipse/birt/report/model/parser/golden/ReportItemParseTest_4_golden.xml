@@ -43,7 +43,6 @@
                 <property name="textAlign">right</property>
                 <property name="textIndent">4in</property>
                 <property name="textTransform">lowercase</property>
-                <property name="dataType">decimal</property>
             </structure>
         </data>
     </body>
