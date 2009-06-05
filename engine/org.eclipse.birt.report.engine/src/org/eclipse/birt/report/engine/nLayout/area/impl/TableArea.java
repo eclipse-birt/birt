@@ -132,18 +132,10 @@ public class TableArea extends RepeatableArea
 			String url = style.getBackgroundImage( );
 			if ( url != null )
 			{
-				boxStyle
-						.setBackgroundImage( new BackgroundImageInfo(
-								getImageUrl( url ),
-								cs.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
-								getDimensionValue(
-										cs
-												.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
-										100 ),
-								getDimensionValue(
-										cs
-												.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
-										100 ), 0, 0 ) );
+				boxStyle.setBackgroundImage( new BackgroundImageInfo(
+						getImageUrl( url ), cs
+								.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
+						0, 0, 0, 0 ) );
 
 			}
 			localProperties = new LocalProperties( );
@@ -388,7 +380,18 @@ public class TableArea extends RepeatableArea
 						}
 					}
 				}
-				layout.addRow( (RowArea) container, context.isFixedLayout( ) );
+				int rh = row.getHeight( );
+				layout.addRow( row, context.isFixedLayout( ) );
+				int delta = row.getHeight( ) - rh;
+				if ( delta > 0 )
+				{
+					//need update all ancestor?
+					ContainerArea rowParent = row.getParent( );
+					if ( rowParent != null )
+					{
+						rowParent.updateChildrenPosition( );
+					}
+				}
 			}
 		}
 		else
