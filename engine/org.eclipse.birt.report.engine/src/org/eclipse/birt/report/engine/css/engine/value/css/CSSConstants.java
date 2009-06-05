@@ -84,6 +84,9 @@ public interface CSSConstants {
     String CSS_LEFT_VALUE = "left";
     String CSS_BOTTOM_VALUE = "bottom";
     
+	// background size
+	String CSS_CONTAIN_VALUE = "contain";
+	String CSS_COVER_VALUE = "cover";
     
     
     String CSS_100_VALUE = "100";

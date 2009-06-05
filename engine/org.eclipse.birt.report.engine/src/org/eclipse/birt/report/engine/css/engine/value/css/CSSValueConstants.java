@@ -871,6 +871,11 @@ public interface CSSValueConstants {
 	Value JUSTIFY_VALUE = new StringValue(CSSPrimitiveValue.CSS_IDENT,
 			CSSConstants.CSS_JUSTIFY_VALUE);
 	
+	Value CONTAIN_VALUE = new StringValue( CSSPrimitiveValue.CSS_IDENT,
+			CSSConstants.CSS_CONTAIN_VALUE );
+
+	Value COVER_VALUE = new StringValue( CSSPrimitiveValue.CSS_IDENT,
+			CSSConstants.CSS_COVER_VALUE );
 	
 	/**
 	 * the "baseline" value

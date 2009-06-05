@@ -19,12 +19,14 @@ import org.eclipse.birt.report.engine.css.engine.value.birt.DataFormatManager;
 import org.eclipse.birt.report.engine.css.engine.value.birt.VisibleFormatManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.BackgroundAttachmentManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.BackgroundRepeatManager;
+import org.eclipse.birt.report.engine.css.engine.value.css.BackgroundSizeManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.BorderColorManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.BorderStyleManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.BorderWidthManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.ColorManager;
+import org.eclipse.birt.report.engine.css.engine.value.css.DirectionManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.DisplayManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.FontFamilyManager;
 import org.eclipse.birt.report.engine.css.engine.value.css.FontSizeManager;
@@ -187,14 +189,12 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory
 		vms[StyleConstants.STYLE_VISIBLE_FORMAT] = new VisibleFormatManager( );
 
 		// bidi_hcg: Bidi direction
-		vms[StyleConstants.STYLE_DIRECTION] = new StringManager(
-				BIRTConstants.CSS_DIRECTION_PROPERTY, true,
-				CSSValueConstants.NULL_STRING_VALUE );
+		vms[StyleConstants.STYLE_DIRECTION] = new DirectionManager( );
 		
-		vms[StyleConstants.STYLE_BACKGROUND_HEIGHT] = new StringManager(
-				CSSConstants.CSS_BACKGROUND_HEIGHT_PROPERTY, false, null );
-		vms[StyleConstants.STYLE_BACKGROUND_WIDTH] = new StringManager(
-				CSSConstants.CSS_BACKGROUND_WIDTH_PROPERTY, false, null );
+		vms[StyleConstants.STYLE_BACKGROUND_HEIGHT] = new BackgroundSizeManager(
+				CSSConstants.CSS_BACKGROUND_HEIGHT_PROPERTY );
+		vms[StyleConstants.STYLE_BACKGROUND_WIDTH] = new BackgroundSizeManager(
+				CSSConstants.CSS_BACKGROUND_WIDTH_PROPERTY );
 		
 		vms[StyleConstants.STYLE_DATA_FORMAT] = new DataFormatManager( );
 	}
