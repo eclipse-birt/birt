@@ -5,11 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
-    <title>DateTimeSpan</title>
+    <title>BirtComp</title>
     <link rel="StyleSheet" href="css/ScriptingReference.css" type="text/css" media="all" />
     <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
     <link rel="StyleSheet" href="webworks.css" type="text/css" media="all" />
-
     <script type="text/javascript" language="JavaScript1.2">
       <!--
         var  WebWorksRootPath = "";
@@ -21,8 +20,6 @@
       <table cellspacing="0" summary="">
         <tr>
           <td>
-          </td>
-          <td>
             <a href="ScriptingReference.25.1.html"><img src="images/prev.gif" alt="Previous" border="0" /></a>
           </td>
           <td>
@@ -31,21 +28,169 @@
         </tr>
       </table>
     </div>
-    <br />
-    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
-      <a class="WebWorks_Breadcrumb_Link" href="ScriptingReference.25.1.html#206699">Scripting Reference</a> : Class  DateTimeSpan </div>
     <hr align="left" />
     <blockquote>
-      <h2 class="RH1_Class" style="margin-top: 15.0pt;">Class  <a name="206699">DateTimeSpan </a></h2>
-      <p class="b_Body"><a name="206705">The static DateTimeSpan class provides functions to determine the amount of </a>time between two dates or times, and to add or subtract time spans. It provides a set of functions for working with the difference between two dates. Since date spans are just numbers, the application can use normal math on them: multiplication, division, addition, subtraction, and so forth. This class is static. The application cannot create instances of the class.</p>
-      <h3 class="RH2_Method"><a name="188223">DateTimeSpan.addDate </a></h3>
-      <p class="b_Body"><a name="188226">This function returns a new date that is the sum of adding the given number of </a>years, months, and days to the start date. The months can be greater than 12, and the days can be greater than the number of days in a month. The net effect is as if there were three different operations. Add the years first. Then, using the resulting date, add the months. Then, using the resulting date, add the days.</p>
-      <p class="b_Body"><a name="188227">When adding a month, the resulting date may not be valid. For example, adding </a>one month to Jan. 31 would produce the invalid date Feb. 31. The function adjusts the date to be valid, in this case, if the year is not a leap year, then Feb. has 28 days and the resulting date would be Mar. 3.</p>
-      <p class="b_Body"><a name="188228">Any of the years, months or days arguments can be null or undefined. If so, then </a>that value is treated as if it was zero.</p>
-      <p class="b_Body"><a name="188229">Any of the years, months or days arguments can be negative. In this case, the </a>result is as if that unit was subtracted from the base date.</p>
-      <p class="N_sb_ScanBold"><a name="188230">Syntax</a></p>
-      <p class="b_Body"><a name="188231">DateTimeSpan.addDate( startDate, years, months, days )</a></p>
-      <p class="N_sb_ScanBold"><a name="188232">Arguments</a></p>
+      <h2 class="RH1_Class">Class  <a name="275951">BirtComp</a></h2>
+      <p class="b_Body"><a name="275952">The BirtComp class provides functions to compare values, for example, to test if a </a>value is equal to, greater than, or less than another value. All the functions return either true or false. This class is static. The application cannot create instances of the class.</p>
+      <h3 class="RH2_Method"><a name="275953">BirtComp.anyOf</a></h3>
+      <p class="b_Body"><a name="275954">This function tests if a value or values is found in a field.</a></p>
+      <p class="N_sb_ScanBold"><a name="275955">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="275956">BirtComp.anyOf( source, target1, ..., targetN )</a></div>
+      <p class="N_sb_ScanBold"><a name="275957">Parameters</a></p>
+      <p class="RParameter"><a name="275958">source</a></p>
+      <p class="bn_BodyNoLead"><a name="275959">The field that contains the values to compare to.</a></p>
+      <p class="RParameter"><a name="279956">target</a></p>
+      <p class="bn_BodyNoLead"><a name="279960">The value or values to find in source.</a></p>
+      <p class="N_sb_ScanBold"><a name="275960">Returns</a></p>
+      <p class="b_Body"><a name="275961">True if a target value matches a value in source; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="275962">Examples</a></p>
+      <p class="b_Body"><a name="275963">The following example tests if Canada, Mexico, or USA are values in the Country </a>field. If any one of the countries is in the field, the function returns true.</p>
+      <div class="cf_CodeFirst"><a name="275964">BirtComp.anyOf( row["Country"], "Canada", "Mexico", "USA" )</a></div>
+      <p class="b_Body"><a name="275965">The following example tests if Jan 15, 2009 or Jan 31, 2009 are values in the </a>payDate field:</p>
+      <div class="cf_CodeFirst"><a name="275966">BirtComp.anyOf( row["payDate"], "2009-01-15", "2009-01-31" )</a></div>
+      <p class="b_Body"><a name="279982">The following example tests if two specific product codes are values in the </a>productCode field. If either value appears in the field, the string Obsolete is displayed; otherwise the productCode value is displayed as it appears in the field.</p>
+      <div class="cf_CodeFirst"><a name="279991">if (BirtComp.anyOf(row["productCode"], "S18_1749", "S18_2248" </a>)){</div>
+      <div class="co_Code"><a name="279992">	</a>displayString = "Obsolete"</div>
+      <div class="co_Code"><a name="279993">	</a>}</div>
+      <div class="co_Code"><a name="279994">else{</a></div>
+      <div class="co_Code"><a name="279995">	</a>row["productCode"]</div>
+      <div class="co_Code"><a name="279986">	</a>}</div>
+      <h3 class="RH2_Method"><a name="280059">BirtComp.between</a></h3>
+      <p class="b_Body"><a name="280060">This function tests if a value is between two specified values.</a></p>
+      <p class="N_sb_ScanBold"><a name="280061">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="280062">BirtComp.between( source, target1, target2 )</a></div>
+      <p class="N_sb_ScanBold"><a name="280063">Parameters</a></p>
+      <p class="RParameter"><a name="280064">source</a></p>
+      <p class="bn_BodyNoLead"><a name="280065">The value to test.</a></p>
+      <p class="RParameter"><a name="280066">target1</a></p>
+      <p class="bn_BodyNoLead"><a name="280067">The first value in the range of values to compare to.</a></p>
+      <p class="RParameter"><a name="280458">target2</a></p>
+      <p class="bn_BodyNoLead"><a name="280462">The second value in the range of values to compare to.</a></p>
+      <p class="N_sb_ScanBold"><a name="280068">Returns</a></p>
+      <p class="b_Body"><a name="280069">True if the source value is between the target1 and target values; returns false </a>otherwise.</p>
+      <p class="N_sb_ScanBold"><a name="280070">Examples</a></p>
+      <p class="b_Body"><a name="280071">The following expressions test field values to see if they are within a specified </a>range of values:</p>
+      <div class="cf_CodeFirst"><a name="280072">BirtComp.between( row["SalesTotal"], 10000, 20000 )</a></div>
+      <div class="co_Code"><a name="280074">BirtComp.between( row["CustomerName"], "A", "M" )</a></div>
+      <div class="co_Code"><a name="280486">BirtComp.between( row["OrderDate"], "2009-01-01", "2009-01-31" </a>)</div>
+      <p class="b_Body"><a name="280075">The following example calculates shipment dates. If an OrderDate value is in </a>December 2008 (between 12/01/08 and 12/31/08), add 5 days to the OrderDate value. If an OrderDate value is in a month other than December, add 3 days to the OrderDate value.</p>
+      <div class="cf_CodeFirst"><a name="280076">if (BirtComp.between(row["OrderDate"], "2008-12-01", "2008-12-</a>31" )){</div>
+      <div class="co_Code"><a name="280077">	</a>shipDate = BirtDateTime.addDay( row["OrderDate"], 5 )</div>
+      <div class="co_Code"><a name="280078">	</a>}</div>
+      <div class="co_Code"><a name="280079">else{</a></div>
+      <div class="co_Code"><a name="280080">	</a>ShipDate = BirtDateTime.addDay( row["OrderDate"], 3 )</div>
+      <div class="co_Code"><a name="280081">	</a>}</div>
+      <h3 class="RH2_Method"><a name="287732">BirtComp.compareString</a></h3>
+      <p class="b_Body"><a name="287733">This function tests if a string value matches another string value, given specified </a>conditions.</p>
+      <p class="N_sb_ScanBold"><a name="287734">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="287735">BirtComp.compareString( source1, source2, ignoreCase, trim )</a></div>
+      <p class="N_sb_ScanBold"><a name="287736">Parameters</a></p>
+      <p class="RParameter"><a name="287737">source1</a></p>
+      <p class="bn_BodyNoLead"><a name="287738">The first string value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="288180">source2</a></p>
+      <p class="bn_BodyNoLead"><a name="288184">The second string value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="287739">ignoreCase</a></p>
+      <p class="bn_BodyNoLead"><a name="288343">Specify true to perform a case-insensitive comparison. Specify false to perform a </a>case-sensitive comparison.</p>
+      <p class="RParameter"><a name="288346">trim</a></p>
+      <p class="bn_BodyNoLead"><a name="288350">Specify true to remove any leading or trailing blanks before comparing the two </a>values. Blanks in the middle of a string are not removed. Specify false if you want the comparison to include leading or trailing blanks. </p>
+      <p class="N_sb_ScanBold"><a name="287750">Returns</a></p>
+      <p class="b_Body"><a name="287751">True if the source1 value matches the source2 value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="287752">Examples</a></p>
+      <p class="b_Body"><a name="287755">The following expressions compare strings with different conditions specified:</a></p>
+      <div class="cf_CodeFirst"><a name="287756">BirtComp.compareString( "Jackson", "Jackson", false, false ) // </a>returns true</div>
+      <div class="co_Code"><a name="292200">BirtComp.compareString( "Jackson", "jackson", false, true ) // </a>returns false</div>
+      <div class="co_Code"><a name="292628">BirtComp.compareString( "Jackson", "jackson", true, false ) // </a>returns true</div>
+      <div class="co_Code"><a name="292584">BirtComp.compareString( "Jackson ", "jackson", true, false ) // </a>returns false</div>
+      <div class="co_Code"><a name="292609">BirtComp.compareString( "Jackson ", "jackson", true, true ) // </a>returns true</div>
+      <h3 class="RH2_Method"><a name="280965">BirtComp.equalTo</a></h3>
+      <p class="b_Body"><a name="280966">This function tests if a value is equal to another value.</a></p>
+      <p class="N_sb_ScanBold"><a name="280967">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="280968">BirtComp.equalTo( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="280969">Parameters</a></p>
+      <p class="RParameter"><a name="280970">source</a></p>
+      <p class="bn_BodyNoLead"><a name="280971">The first value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="280972">target</a></p>
+      <p class="bn_BodyNoLead"><a name="280973">The second value to use in the comparison.</a></p>
+      <p class="N_sb_ScanBold"><a name="280976">Returns</a></p>
+      <p class="b_Body"><a name="280977">True if the source value is equal to the target value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="280978">Examples</a></p>
+      <p class="b_Body"><a name="280979">The following expressions test field values to see if they are equal to specified </a>values:</p>
+      <div class="cf_CodeFirst"><a name="280980">BirtComp.equalTo( row["SalesTotal"], 10000 )</a></div>
+      <div class="co_Code"><a name="280981">BirtComp.equalTo( row["Country"], "France" )</a></div>
+      <div class="co_Code"><a name="280982">BirtComp.equalTo( row["OrderDate"], "2009-02-15" )</a></div>
+      <h3 class="RH2_Method"><a name="285949">BirtComp.greaterOrEqual</a></h3>
+      <p class="b_Body"><a name="285950">This function tests if a value is greater than or equal to another value.</a></p>
+      <p class="N_sb_ScanBold"><a name="285951">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="285952">BirtComp.greaterOrEqual( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="285953">Parameters</a></p>
+      <p class="RParameter"><a name="285954">source</a></p>
+      <p class="bn_BodyNoLead"><a name="285955">The first value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="285956">target</a></p>
+      <p class="bn_BodyNoLead"><a name="285957">The second value to use in the comparison.</a></p>
+      <p class="N_sb_ScanBold"><a name="285958">Returns</a></p>
+      <p class="b_Body"><a name="285959">True if the source value is greater than or equal to the target value; returns false </a>otherwise.</p>
+      <p class="N_sb_ScanBold"><a name="285960">Examples</a></p>
+      <p class="b_Body"><a name="285961">The following expressions test field values to see if they are greater than or equal </a>to specified values:</p>
+      <div class="cf_CodeFirst"><a name="285962">BirtComp.greaterOrEqual( row["SalesTotal"], 10000 )</a></div>
+      <div class="co_Code"><a name="285963">BirtComp.greaterOrEqual( row["ProductCode"], "S50_4000" )</a></div>
+      <div class="co_Code"><a name="285964">BirtComp.greaterOrEqual( row["OrderDate"], "2009-02-15" )</a></div>
+      <h3 class="RH2_Method"><a name="286072">BirtComp.greaterThan</a></h3>
+      <p class="b_Body"><a name="286073">This function tests if a value is greater than another value.</a></p>
+      <p class="N_sb_ScanBold"><a name="286074">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="286075">BirtComp.greaterThan( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="286076">Parameters</a></p>
+      <p class="RParameter"><a name="286077">source</a></p>
+      <p class="bn_BodyNoLead"><a name="286078">The first value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="286079">target</a></p>
+      <p class="bn_BodyNoLead"><a name="286080">The second value to use in the comparison.</a></p>
+      <p class="N_sb_ScanBold"><a name="286081">Returns</a></p>
+      <p class="b_Body"><a name="286082">True if the source value is greater than the target value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="286083">Examples</a></p>
+      <p class="b_Body"><a name="286084">The following expressions test field values to see if they are greater than specified </a>values:</p>
+      <div class="cf_CodeFirst"><a name="286085">BirtComp.greaterThan( row["SalesTotal"], 10000 )</a></div>
+      <div class="co_Code"><a name="286086">BirtComp.greaterThan( row["CustomerName"], "M" )</a></div>
+      <div class="co_Code"><a name="286087">BirtComp.greaterThan( row["OrderDate"], "2009-02-15" )</a></div>
+      <h3 class="RH2_Method"><a name="286109">BirtComp.lessOrEqual</a></h3>
+      <p class="b_Body"><a name="286110">This function tests if a value is less than or equal to another value.</a></p>
+      <p class="N_sb_ScanBold"><a name="286111">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="286112">BirtComp.lessOrEqual( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="286113">Parameters</a></p>
+      <p class="RParameter"><a name="286114">source</a></p>
+      <p class="bn_BodyNoLead"><a name="286115">The first value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="286116">target</a></p>
+      <p class="bn_BodyNoLead"><a name="286117">The second value to use in the comparison.</a></p>
+      <p class="N_sb_ScanBold"><a name="286118">Returns</a></p>
+      <p class="b_Body"><a name="286119">True if the source value is less than or equal to the target value; returns false </a>otherwise.</p>
+      <p class="N_sb_ScanBold"><a name="286120">Examples</a></p>
+      <p class="b_Body"><a name="286121">The following expressions test field values to see if they are less than or equal to </a>specified values:</p>
+      <div class="cf_CodeFirst"><a name="286122">BirtComp.lessOrEqual( row["SalesTotal"], 10000 )</a></div>
+      <div class="co_Code"><a name="286123">BirtComp.lessOrEqual( row["ProductCode"], "S18_4000" )</a></div>
+      <div class="co_Code"><a name="286124">BirtComp.lessOrEqual( row["OrderDate"], "2009-02-15" )</a></div>
+      <h3 class="RH2_Method"><a name="285537">BirtComp.lessThan</a></h3>
+      <p class="b_Body"><a name="285538">This function tests if a value is less than another value.</a></p>
+      <p class="N_sb_ScanBold"><a name="285539">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="285540">BirtComp.lessThan( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="285541">Parameters</a></p>
+      <p class="RParameter"><a name="285542">source</a></p>
+      <p class="bn_BodyNoLead"><a name="285543">The first value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="285544">target</a></p>
+      <p class="bn_BodyNoLead"><a name="285545">The second value to use in the comparison.</a></p>
+      <p class="N_sb_ScanBold"><a name="285546">Returns</a></p>
+      <p class="b_Body"><a name="285547">True if the source value is less than the target value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="285548">Examples</a></p>
+      <p class="b_Body"><a name="285549">The following expressions test field values to see if they are less than specified </a>values:</p>
+      <div class="cf_CodeFirst"><a name="285550">BirtComp.lessThan( row["SalesTotal"], 10000 )</a></div>
+      <div class="co_Code"><a name="285551">BirtComp.lessThan( row["CustomerName"], "M" )</a></div>
+      <div class="co_Code"><a name="285552">BirtComp.lessThan( row["OrderDate"], "2009-02-15" )</a></div>
+      <h3 class="RH2_Method"><a name="286184">BirtComp.like</a></h3>
+      <p class="b_Body"><a name="286185">This function tests if a string value matches a pattern. The pattern must use SQL </a>pattern-matching syntax.</p>
+      <p class="N_sb_ScanBold"><a name="286186">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="286187">BirtComp.like( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="286188">Parameters</a></p>
+      <p class="RParameter"><a name="286189">source</a></p>
+      <p class="bn_BodyNoLead"><a name="286190">The string value to evaluate.</a></p>
+      <p class="RParameter"><a name="286191">target</a></p>
+      <p class="bn_BodyNoLead"><a name="286192">The string pattern to match. You must enclose the pattern in double quotation </a>marks (" "). Use the correct case when typing the characters that you want to match. You can use the following special character in a pattern:</p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline;">
@@ -55,12 +200,11 @@
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188234">startDate</a></div>
+              <div class="b1_Bullet1_inner"><a name="286797">A percent character (%) matches zero or more characters. For example, %ace% </a>matches any string value that contains the substring ace, such as Facebook and MySpace. It does not match Ace Corporation because this string contains a capital A, and not the lowercase a.</div>
             </td>
           </tr>
         </table>
       </div>
-      <div class="N_i_Indent1"><a name="188235">A date object that represents the base date.</a></div>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline;">
@@ -70,12 +214,31 @@
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188237">years</a></div>
+              <div class="b1_Bullet1_inner"><a name="286830">An underscore character (_) that matches exactly one character. For example, </a>t_n matches tan, ten, tin, and ton. It does not match teen or tn.</div>
             </td>
           </tr>
         </table>
       </div>
-      <div class="N_i_Indent1"><a name="188238">The number of years to add to the date.</a></div>
+      <p class="b_Body"><a name="286834">To match a literal percent (%) or underscore (_) character, precede those </a>characters with two backslash (\\) characters. For example, to match S_10, use the following pattern:</p>
+      <div class="cf_CodeFirst"><a name="286838">S\\_10</a></div>
+      <p class="b_Body"><a name="286842">To match 50%, use the following pattern:</a></p>
+      <div class="cf_CodeFirst"><a name="286846">50\\%</a></div>
+      <p class="N_sb_ScanBold"><a name="286193">Returns</a></p>
+      <p class="b_Body"><a name="286194">True if the source value matches the target value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="286195">Examples</a></p>
+      <p class="b_Body"><a name="286196">The following example returns true for values in the productCode field that start </a>with S18:</p>
+      <div class="cf_CodeFirst"><a name="286197">BirtComp.like( row["productCode"], "S18%" )</a></div>
+      <p class="b_Body"><a name="286720">The following example returns true for productName values that contain the </a>substring Ford preceded by a single character:</p>
+      <div class="cf_CodeFirst"><a name="286762">BirtComp.like( row["productName"], "_Ford%" )</a></div>
+      <h3 class="RH2_Method"><a name="287271">BirtComp.match</a></h3>
+      <p class="b_Body"><a name="287272">This function tests if a string value matches a pattern. The pattern must use </a>JavaScript regular expression syntax.</p>
+      <p class="N_sb_ScanBold"><a name="287273">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="287274">BirtComp.match( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="287275">Parameters</a></p>
+      <p class="RParameter"><a name="287276">source</a></p>
+      <p class="bn_BodyNoLead"><a name="287277">The string value to evaluate.</a></p>
+      <p class="RParameter"><a name="287278">target</a></p>
+      <p class="bn_BodyNoLead"><a name="287279">The string pattern to match. In JavaScript regular expression syntax, you specify a </a>pattern within a pair of forward slash (/) characters. You can use any special character supported by JavaScript regular expressions, such as the following:</p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline;">
@@ -85,12 +248,11 @@
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188240">months</a></div>
+              <div class="b1_Bullet1_inner"><a name="287280">A question mark character (?) matches zero or one occurrence of the character </a>previous to it. For example, /te?n/ matches tn, ten, and often. It does not match teen or intern.</div>
             </td>
           </tr>
         </table>
       </div>
-      <div class="N_i_Indent1"><a name="188241">The number of months to add to the date.</a></div>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline;">
@@ -100,31 +262,11 @@
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188243">days</a></div>
+              <div class="b1_Bullet1_inner"><a name="287281">An asterisk character (*) that matches zero or any number of occurrences of the </a>character previous to it. For example, /te*n/ matches tn, ten, often, and teen. It does not match intern.</div>
             </td>
           </tr>
         </table>
       </div>
-      <div class="N_i_Indent1"><a name="188244">The number of days to add to the date.</a></div>
-      <p class="N_sb_ScanBold"><a name="188245">Returns</a></p>
-      <p class="b_Body"><a name="188246">A date that results from adding the years, months, and days to the start date.</a></p>
-      <p class="N_sb_ScanBold"><a name="188247">Example</a></p>
-      <div class="cf_CodeFirst"><a name="188248">var startDate = date.parse( "2004-12-31" );</a></div>
-      <div class="co_Code"><a name="188249">var endDate;</a></div>
-      <div class="co_Code"><a name="188250">endDate = DateTimeSpan( startDate, 1, 0, 0 ); // returns 2005-12-31</a></div>
-      <div class="co_Code"><a name="188251">endDate = DateTimeSpan( startDate, 0, 1, 0 ); // returns 2005-1-31</a></div>
-      <div class="co_Code"><a name="188252">endDate = DateTimeSpan( startDate, 0, 0, 1 ); // returns 2005-1-1</a></div>
-      <div class="co_Code"><a name="188253">endDate = DateTimeSpan( startDate, 1, 1, 1 ); // returns 2005-3-4</a></div>
-      <p class="N_sb_ScanBold"><a name="188254">See also</a></p>
-      <p class="bn_BodyNoLead"><a href="#188264" name="188258">DateTimeSpan.addTime</a> function</p>
-      <p class="bn_BodyNoLead"><a href="#188372" name="188262">DateTimeSpan.subDate</a> function</p>
-      <h3 class="RH2_Method"><a name="188264">DateTimeSpan.addTime </a></h3>
-      <p class="b_Body"><a name="188267">This function returns a new date that is the sum of adding the given number of </a>hours, minutes, and seconds to the start date. The hours can be greater than 24, and the minutes and seconds can be greater than 60. The net effect is as if there were three different operations: add the hours first. Then, using the resulting date, add the minutes. Then, using the resulting date, add the seconds.</p>
-      <p class="b_Body"><a name="188268">Any of the hours, minutes, and seconds arguments can be null or undefined. If so, </a>then that value is treated as if it was zero.</p>
-      <p class="b_Body"><a name="188269">Any of the hours, minutes, and seconds arguments can be negative. In this case, </a>the result is as if that unit was subtracted from the base date.</p>
-      <p class="N_sb_ScanBold"><a name="188270">Syntax</a></p>
-      <p class="b_Body"><a name="188271">DateTimeSpan.addTime( startDate, hours, minutes, seconds )</a></p>
-      <p class="N_sb_ScanBold"><a name="188272">Arguments</a></p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline;">
@@ -134,12 +276,11 @@
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188274">startDate</a></div>
+              <div class="b1_Bullet1_inner"><a name="287714">A period character (.) matches any character. For example, /te.*/ matches ten, </a>often, teen, intern.</div>
             </td>
           </tr>
         </table>
       </div>
-      <div class="N_i_Indent1"><a name="188275">A date object that represents the base date.</a></div>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline;">
@@ -149,12 +290,11 @@
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188277">hours</a></div>
+              <div class="b1_Bullet1_inner"><a name="287724">A caret character (^) specifies that the substring to look for is at the beginning </a>of a string. For example, /^ten/ matches ten, tennis, and tense. It does not match often or pretend.</div>
             </td>
           </tr>
         </table>
       </div>
-      <div class="N_i_Indent1"><a name="188278">The number of hours to add to the date.</a></div>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline;">
@@ -164,12 +304,72 @@
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188280">minutes</a></div>
+              <div class="b1_Bullet1_inner"><a name="287725">An i character specifies a case-insensitive search. For example, /smith/i </a>matches Smith, blacksmith, and Smithsonian.</div>
             </td>
           </tr>
         </table>
       </div>
-      <div class="N_i_Indent1"><a name="188281">The number of minutes to add to the date.</a></div>
+      <p class="b_Body"><a name="287282">To match a special character literally, precede the special character with a </a>backslash (\) characters. For example, to match S*10, use the following pattern:</p>
+      <div class="cf_CodeFirst"><a name="287283">/S\*10/</a></div>
+      <p class="b_Body"><a name="287284">To match 50%, use the following pattern:</a></p>
+      <div class="cf_CodeFirst"><a name="287285">50\\%</a></div>
+      <p class="N_sb_ScanBold"><a name="287286">Returns</a></p>
+      <p class="b_Body"><a name="287287">True if the source value matches the target value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="287288">Examples</a></p>
+      <p class="b_Body"><a name="287289">The following example returns true for values in the productCode field that start </a>with S18:</p>
+      <div class="cf_CodeFirst"><a name="287290">BirtComp.match( row["productCode"], /^S18/ )</a></div>
+      <p class="b_Body"><a name="287291">The following example returns true for productName values that contain the </a>substring Ford:</p>
+      <div class="cf_CodeFirst"><a name="287292">BirtComp.match( row["productName"], /Ford/ )</a></div>
+      <h3 class="RH2_Method"><a name="280508">BirtComp.notBetween</a></h3>
+      <p class="b_Body"><a name="280509">This function tests if a value is not between two specified values.</a></p>
+      <p class="N_sb_ScanBold"><a name="280510">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="280511">BirtComp.notBetween( source, target1, target2 )</a></div>
+      <p class="N_sb_ScanBold"><a name="280512">Parameters</a></p>
+      <p class="RParameter"><a name="280513">source</a></p>
+      <p class="bn_BodyNoLead"><a name="280514">The value to test.</a></p>
+      <p class="RParameter"><a name="280515">target1</a></p>
+      <p class="bn_BodyNoLead"><a name="280516">The first value in the range of values to compare to.</a></p>
+      <p class="RParameter"><a name="280517">target2</a></p>
+      <p class="bn_BodyNoLead"><a name="280518">The second value in the range of values to compare to.</a></p>
+      <p class="N_sb_ScanBold"><a name="280519">Returns</a></p>
+      <p class="b_Body"><a name="280520">True if the source value is not between the target1 and target values; returns false </a>otherwise.</p>
+      <p class="N_sb_ScanBold"><a name="280521">Examples</a></p>
+      <p class="b_Body"><a name="280522">The following expressions test field values to see if they are outside a specified </a>range of values:</p>
+      <div class="cf_CodeFirst"><a name="280523">BirtComp.notBetween( row["SalesTotal"], 10000, 20000 )</a></div>
+      <div class="co_Code"><a name="280524">BirtComp.notBetween( row["CustomerName"], "A", "M" )</a></div>
+      <div class="co_Code"><a name="280525">BirtComp.notBetween( row["OrderDate"], "2009-01-01", "2009-01-</a>31" )</div>
+      <p class="b_Body"><a name="280526">The following example calculates shipment dates. If an OrderDate value is not in </a>December 2008 (not between 12/01/08 and 12/31/08), add 3 days to the OrderDate value. If an OrderDate value is in December, add 5days to the OrderDate value.</p>
+      <div class="cf_CodeFirst"><a name="280527">if (BirtComp.notBetween(row["OrderDate"], "2008-12-01", "2008-</a>12-31" )){</div>
+      <div class="co_Code"><a name="280528">	</a>shipDate = BirtDateTime.addDay( row["OrderDate"], 3 )</div>
+      <div class="co_Code"><a name="280529">	</a>}</div>
+      <div class="co_Code"><a name="280530">else{</a></div>
+      <div class="co_Code"><a name="280531">	</a>ShipDate = BirtDateTime.addDay( row["OrderDate"], 5 )</div>
+      <div class="co_Code"><a name="280532">	</a>}</div>
+      <h3 class="RH2_Method"><a name="285068">BirtComp.notEqual</a></h3>
+      <p class="b_Body"><a name="285069">This function tests if a value is not equal to another value.</a></p>
+      <p class="N_sb_ScanBold"><a name="285070">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="285071">BirtComp.notEqual( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="285072">Parameters</a></p>
+      <p class="RParameter"><a name="285073">source</a></p>
+      <p class="bn_BodyNoLead"><a name="285074">The first value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="285075">target</a></p>
+      <p class="bn_BodyNoLead"><a name="285076">The second value to use in the comparison.</a></p>
+      <p class="N_sb_ScanBold"><a name="285077">Returns</a></p>
+      <p class="b_Body"><a name="285078">True if the source value is not equal to the target value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="285079">Examples</a></p>
+      <p class="b_Body"><a name="285080">The following expressions test field values to see if they are not equal to specified </a>values:</p>
+      <div class="cf_CodeFirst"><a name="285081">BirtComp.notEqual( row["SalesTotal"], 10000 )</a></div>
+      <div class="co_Code"><a name="285082">BirtComp.notEqual( row["Country"], "France" )</a></div>
+      <div class="co_Code"><a name="285083">BirtComp.notEqual( row["OrderDate"], "2009-02-15" )</a></div>
+      <h3 class="RH2_Method"><a name="286853">BirtComp.notLike</a></h3>
+      <p class="b_Body"><a name="286854">This function tests if a string value matches a pattern. The pattern must use SQL </a>pattern-matching syntax.</p>
+      <p class="N_sb_ScanBold"><a name="286855">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="286856">BirtComp.notLike( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="286857">Parameters</a></p>
+      <p class="RParameter"><a name="286858">source</a></p>
+      <p class="bn_BodyNoLead"><a name="286859">The string value to evaluate.</a></p>
+      <p class="RParameter"><a name="286860">target</a></p>
+      <p class="bn_BodyNoLead"><a name="286861">The string pattern to match. You must enclose the pattern in double quotation </a>marks (" "). Use the correct case when typing the characters that you want to match. You can use the following special character in a pattern:</p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline;">
@@ -179,22 +379,11 @@
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188283">seconds</a></div>
+              <div class="b1_Bullet1_inner"><a name="286862">A percent character (%) matches zero or more characters. For example, %ace% </a>matches any string value that contains the substring ace, such as Facebook and MySpace. It does not match Ace Corporation because this string contains a capital A, and not the lowercase a.</div>
             </td>
           </tr>
         </table>
       </div>
-      <div class="N_i_Indent1"><a name="188284">The number of seconds to add to the date.</a></div>
-      <p class="N_sb_ScanBold"><a name="188285">Returns</a></p>
-      <p class="b_Body"><a name="188286">A date that results from adding the hours, minutes, and seconds to the start date.</a></p>
-      <p class="N_sb_ScanBold"><a name="188287">See also</a></p>
-      <p class="bn_BodyNoLead"><a href="#188223" name="188291">DateTimeSpan.addDate</a> function</p>
-      <p class="bn_BodyNoLead"><a href="#188406" name="188295">DateTimeSpan.subTime</a> function</p>
-      <h3 class="RH2_Method"><a name="188296">DateTimeSpan.days </a></h3>
-      <p class="b_Body"><a name="188299">Returns the number of days between two dates. A day is defined as a change of </a>the calendar. Thus, 11:59:59 PM Feb. 27 to Midnight Feb. 28 is one day, as is midnight Feb. 27 to 11:59:59 Feb. 28.</p>
-      <p class="N_sb_ScanBold"><a name="188300">Syntax</a></p>
-      <p class="b_Body"><a name="188301">DateTimeSpan.days( startDate, endDate )</a></p>
-      <p class="N_sb_ScanBold"><a name="188302">Arguments</a></p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline;">
@@ -204,365 +393,29 @@
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188304">startDate</a></div>
+              <div class="b1_Bullet1_inner"><a name="286863">An underscore character (_) that matches exactly one character. For example, </a>t_n matches tan, ten, tin, and ton. It does not match teen or tn.</div>
             </td>
           </tr>
         </table>
       </div>
-      <div class="N_i_Indent1"><a name="188305">A date object that represents the start of the span.</a></div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188307">endDate</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188308">A date object that represents the end of the span.</a></div>
-      <p class="N_sb_ScanBold"><a name="188309">Returns</a></p>
-      <p class="b_Body"><a name="188310">Returns number of days between two dates.</a></p>
-      <h3 class="RH2_Method"><a name="188311">DateTimeSpan.hours </a></h3>
-      <p class="b_Body"><a name="188314">This function returns the number of whole hours between two times. A whole </a>hour is defined a span from a given minute of the hour in hour, to the same minute in the next hour. For example, 1:23:00 to 2:23:00 is one hour, while 1:23:00 to 2:22:59 is zero whole hours.</p>
-      <p class="N_sb_ScanBold"><a name="188315">Syntax</a></p>
-      <p class="b_Body"><a name="188316">DateTimeSpan.hours( startDate, endDate )</a></p>
-      <p class="N_sb_ScanBold"><a name="188317">Arguments</a></p>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188319">startDate</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188320">A date object that represents the start of the span.</a></div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188322">endDate</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188323">A date object that represents the end of the span.</a></div>
-      <p class="N_sb_ScanBold"><a name="188324">Returns</a></p>
-      <p class="b_Body"><a name="188325">The number of whole hours between two dates.</a></p>
-      <h3 class="RH2_Method"><a name="188326">DateTimeSpan.minutes </a></h3>
-      <p class="b_Body"><a name="188329">This function returns the number of whole minutes between two times. A whole </a>minutes is defined a span from a given second of a minute, to the same second in the next minute. For example, 1:23:00 to 1:24:00 is one minute, while 1:23:00 to 1:22:59 is zero whole minutes.</p>
-      <p class="N_sb_ScanBold"><a name="188330">Syntax</a></p>
-      <p class="b_Body"><a name="188331">DateTimeSpan.minutes( startDate, endDate )</a></p>
-      <p class="N_sb_ScanBold"><a name="188332">Arguments</a></p>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188334">startDate</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188335">A date object that represents the start of the span.</a></div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188337">endDate</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188338">A date object that represents the end of the span.</a></div>
-      <p class="N_sb_ScanBold"><a name="188339">Returns</a></p>
-      <p class="b_Body"><a name="188340">The number of whole minutes between two dates.</a></p>
-      <h3 class="RH2_Method"><a name="188341">DateTimeSpan.months </a></h3>
-      <p class="b_Body"><a name="188344">This function returns the number of whole months between two dates. A whole </a>month is defined a span of time from the nth of one month to the nth of the following month. For example, Feb. 28 to Mar. 28 is one month, while Feb. 28 to Mar. 26 is zero whole months.</p>
-      <p class="N_sb_ScanBold"><a name="188345">Syntax</a></p>
-      <p class="b_Body"><a name="188346">DateTimeSpan.months( startDate, endDate )</a></p>
-      <p class="N_sb_ScanBold"><a name="188347">Arguments</a></p>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188349">startDate</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188350">A date object that represents the start of the span.</a></div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188352">endDate</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188353">A date object that represents the end of the span.</a></div>
-      <p class="N_sb_ScanBold"><a name="188354">Returns</a></p>
-      <p class="b_Body"><a name="188355">Returns the number of whole months between two dates.</a></p>
-      <h3 class="RH2_Method"><a name="188356">DateTimeSpan.seconds </a></h3>
-      <p class="b_Body"><a name="188359">This function returns the number of seconds between two times.</a></p>
-      <p class="N_sb_ScanBold"><a name="188360">Syntax</a></p>
-      <p class="b_Body"><a name="188361">DateTimeSpan.seconds( startDate, endDate )</a></p>
-      <p class="N_sb_ScanBold"><a name="188362">Arguments</a></p>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188364">startDate</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188365">A date object that represents the start of the span.</a></div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188367">endDate</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188368">A date object that represents the end of the span.</a></div>
-      <p class="N_sb_ScanBold"><a name="188369">Returns</a></p>
-      <p class="b_Body"><a name="188370">The number of whole minutes between two dates.</a></p>
-      <h3 class="RH2_Method"><a name="188372">DateTimeSpan.subDate </a></h3>
-      <p class="b_Body"><a name="188375">This function returns a new date that is the result of subtracting the given number </a>of years, months, and days from the start date. The months can be greater than 12, and the days can be greater than the number of days in a month. The net effect is as if there were three different operations. Subtract the years first. Then, using the resulting date, subtract the months. Then, using the resulting date, subtract the days.</p>
-      <p class="b_Body"><a name="188376">When subtracting a month, the resulting date may not be valid. For example, </a>subtracting one month from Mar. 30 would produce the invalid date Feb. 30. The function adjusts the date to be valid, adjusting the date to the last valid day in the month. In this case, if the year is not a leap year, the date would be adjusted to Feb. 28.</p>
-      <p class="b_Body"><a name="188377">Any of the years, months or days arguments can be null or undefined. In this </a>case, that value is treated as if it was zero.</p>
-      <p class="b_Body"><a name="188378">Any of the years, months or days arguments can be negative. In this case, the </a>result is as if that unit was added to the base date.</p>
-      <p class="N_sb_ScanBold"><a name="188379">Syntax</a></p>
-      <p class="b_Body"><a name="188380">DateTimeSpan.subDate( startDate, years, months, days )</a></p>
-      <p class="N_sb_ScanBold"><a name="188381">Arguments</a></p>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188383">startDate</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188384">A date object that represents the base date.</a></div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188386">years</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188387">The number of years to subtract from the date.</a></div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188389">months</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188390">The number of months to subtract from the date.</a></div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188392">days</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188393">The number of days to subtract from the date.</a></div>
-      <p class="N_sb_ScanBold"><a name="188394">Returns</a></p>
-      <p class="b_Body"><a name="188395">A date that results from subtracting the years, months, and days from the start </a>date.</p>
-      <p class="N_sb_ScanBold"><a name="188396">See also</a></p>
-      <p class="bn_BodyNoLead"><a href="#188223" name="188400">DateTimeSpan.addDate</a> function</p>
-      <p class="bn_BodyNoLead"><a href="#188406" name="188404">DateTimeSpan.subTime</a> function</p>
-      <h3 class="RH2_Method"><a name="188406">DateTimeSpan.subTime </a></h3>
-      <p class="b_Body"><a name="188410">This function returns a new date that is the result of subtracting the given number </a>of hours, minutes, and seconds from the start date. The hours can be greater than 24, and the minutes and seconds can be greater than 60. The net effect is as if there were three different operations. Subtract the hours first. Then, using the resulting date, subtract the minutes. Then, using the resulting date, subtract the seconds.</p>
-      <p class="b_Body"><a name="188411">Any of the hours, minutes, and seconds arguments can be null or undefined. In </a>this case, that value is treated as if it was zero.</p>
-      <p class="b_Body"><a name="188412">Any of the hours, minutes, and seconds arguments can be negative. In this case, </a>the result is as if that unit was added to the base date.</p>
-      <p class="N_sb_ScanBold"><a name="188413">Syntax</a></p>
-      <p class="b_Body"><a name="188414">DateTimeSpan.subTime( startDate, hours, minutes, seconds )</a></p>
-      <p class="N_sb_ScanBold"><a name="188415">Arguments</a></p>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188417">startDate</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188418">A date object that represents the base date.</a></div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188420">hours</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188421">The number of hours to subtract from the date.</a></div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188423">minutes</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188424">The number of minutes to subtract from the date.</a></div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188426">seconds</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188427">The number of seconds to subtract from the date.</a></div>
-      <p class="N_sb_ScanBold"><a name="188428">Returns</a></p>
-      <p class="b_Body"><a name="188429">A date that results from subtracting the hours, minutes, and seconds from the </a>start date.</p>
-      <p class="N_sb_ScanBold"><a name="188430">See also</a></p>
-      <p class="bn_BodyNoLead"><a href="#188264" name="188434">DateTimeSpan.addTime</a> function</p>
-      <p class="bn_BodyNoLead"><a href="#188372" name="188438">DateTimeSpan.subDate</a> function</p>
-      <h3 class="RH2_Method"><a name="188439">DateTimeSpan.years </a></h3>
-      <p class="b_Body"><a name="188442">This function computes the number of whole years between the two dates. A </a>whole year is defined as running from a given month, day, and time in one year to the same month, day, and time in the next year. Because of leap years, a whole year will sometimes include 365 days and sometimes 366 days.</p>
-      <p class="b_Body"><a name="188443">If either argument is other than a date, an exception is thrown. If either argument </a>is null, then the result is also null.</p>
-      <p class="N_sb_ScanBold"><a name="188444">Syntax</a></p>
-      <p class="b_Body"><a name="188445">DateTimeSpan.years( startDate, endDate )</a></p>
-      <p class="N_sb_ScanBold"><a name="188446">Arguments</a></p>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188448">startDate</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188449">A date object that represents the start of the span.</a></div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline;">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
-                <span class="zBullet">n	</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="188451">endDate</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="N_i_Indent1"><a name="188452">A date object that represents the end of the span.</a></div>
-      <p class="N_sb_ScanBold"><a name="188453">Returns</a></p>
-      <p class="b_Body"><a name="188456">The number of whole years between the two dates.</a></p>
+      <p class="b_Body"><a name="286864">To match a literal percent (%) or underscore (_) character, precede those </a>characters with two backslash (\\) characters. For example, to match S_10, use the following pattern:</p>
+      <div class="cf_CodeFirst"><a name="286865">S\\_10</a></div>
+      <p class="b_Body"><a name="286866">To match 50%, use the following pattern:</a></p>
+      <div class="cf_CodeFirst"><a name="286867">50\\%</a></div>
+      <p class="N_sb_ScanBold"><a name="286868">Returns</a></p>
+      <p class="b_Body"><a name="286869">True if the source value does not match the target value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="286870">Examples</a></p>
+      <p class="b_Body"><a name="286871">The following example returns false for values in the productCode field that start </a>with S18:</p>
+      <div class="cf_CodeFirst"><a name="286872">BirtComp.notLike( row["productCode"], "S18%" )</a></div>
+      <p class="b_Body"><a name="286873">The following example returns false for productName values that contain the </a>substring Ford preceded by a single character:</p>
+      <div class="cf_CodeFirst"><a name="286874">BirtComp.notLike( row["productName"], "_Ford%" )</a></div>
     </blockquote>
     <hr align="left" />
     <table align="right" summary="">
       <tr>
-        <td class="WebWorks_Company_Name_Bottom">(c) Copyright Actuate Corporation 2008</td>
+        <td class="WebWorks_Company_Name_Bottom">
+          <a href="notices.html">(c) Copyright Actuate Corporation 2009</a>
+        </td>
       </tr>
     </table>
   </body>
