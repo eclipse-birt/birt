@@ -28,7 +28,6 @@
       <import feature="org.eclipse.wst.common_ui.feature" version="3.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.wst.xml_ui.feature" version="3.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.wst.xml_ui.feature" version="3.0.0" match="greaterOrEqual"/>
-      <import feature="org.eclipse.birt.report.designer" version="2.3.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
