@@ -143,11 +143,11 @@ td.WebWorks_Company_Logo_Bottom
 
 td.WebWorks_Company_Name_Bottom
 {
-  font-family: sans-serif;
-  color: #0000CC;
-  text-align: right;
+  text-align: left;
   font-size: 12px;
   font-weight: bold;
+  color: blue;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 td.WebWorks_Company_Phone_Bottom
