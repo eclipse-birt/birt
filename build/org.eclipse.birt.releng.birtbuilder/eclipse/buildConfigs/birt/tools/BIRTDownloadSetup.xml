@@ -458,6 +458,8 @@
 				<exclude name="org.eclipse.birt.integration.wtp.ui*/**" />
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.sdk_*.jar" />
+				<exclude name="org.eclipse.birt.chart.doc.isv_*.jar"/>
+				<exclude name="org.eclipse.birt.doc.isv_*.jar"/>
 				<patternset refid="exclude.jars" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
@@ -469,6 +471,8 @@
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
                 <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
+				<exclude name="org.eclipse.birt.chart.doc.isv*/**"/>
+				<exclude name="org.eclipse.birt.doc.isv*/**"/>
 			</zipfileset>
 			<!--
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
