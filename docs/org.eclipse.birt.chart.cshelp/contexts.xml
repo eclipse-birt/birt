@@ -15,6 +15,8 @@ Use the Hint parameters for height and width to place constraints on the calcula
 Note: Before you can configure an outline, you must make it visible. To do this, in the Plot page, select the Visible check box for the outline that you want.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.3.html" label="How to modify the plot area"/>
 </context>
 
 <context id="ChartCustomProperties_ID" title="Custom Properties">
@@ -22,6 +24,7 @@ Note: Before you can configure an outline, you must make it visible. To do this,
 
 To add a key, type the key name in the text box below the list of keys and choose <b>Add</b>.
 </description>
+<!-- link updated JAHT 20090607  No available topic -->
 </context>
 
 <context id="ChartGeneralProperties_ID" title="General Properties">
@@ -30,11 +33,14 @@ To add a key, type the key name in the text box below the list of keys and choos
 The fields available in this dialog box change according to the type of chart you are defining. For three-dimensional charts and charts with depth, for example, you can define values for the "wall" and "floor" of the chart, and use the Series Depth setting to control how deep you want the chart to look.
 </description>
 
+<!-- link updated JAHT 20090607  No available topic apparent to me -->
 </context>
 
 <context id="CurveFitting_ID" title="Curve Fitting Line">
 <description>Use this dialog box to format the style, width, and color of the curve fitting line for the chart, and also to define and format an optional label.
 </description>
+
+<!-- link updated JAHT 20090607  No available topic -->
 </context>
 
 <context id="DataPointLabels_ID" title="Labels">
@@ -43,6 +49,8 @@ The fields available in this dialog box change according to the type of chart yo
 In addition to selecting the data to be displayed in the labels, you can specify the labels style. For example, you can position them inside or outside their associated chart element, change the font attributes by choosing the button next to the Font field, and specify a background, outline, or additional padding by defining insets.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.8.html" label="Refine the chart appearance"/>
 </context>
 
 <context id="DataSetFilter_ID" title="Filters">
@@ -53,6 +61,7 @@ For example, you can create filters to select customers in a certain region, or 
 To make entries, choose  a field. For Value 2, specify a value only if you selected the Between or Not Between operator.
 </description>
 
+<!-- link updated JAHT 20090607  No available topic -->
 </context>
 
 <context id="DataSetParameter_ID" title="Parameters">
@@ -61,40 +70,53 @@ To make entries, choose  a field. For Value 2, specify a value only if you selec
 If you bind a chart to a data set in which you defined parameters, you can access those parameters by choosing <b>Chart</b>   &gt; <b>Select Data</b> .
 </description>
 
+<!-- link updated JAHT 20090607  No available topic -->
 </context>
 
 <context id="EditURL_ID" title="Hyperlink Options">
+<!-- JAHT 20090607  I think this topic is obsolete. Chart UI now seems to use standard BIRT UI for Hyperlink Options -->
 <description>Use this dialog box to link a chart to a web page, document, or image. You can also use it to link two reports, or two sections of a report.
 
 If you are linking to an external report in HTML format, select a Target option. The target options are equivalent to the HTML Target attribute, which defines where the linked document opens. For example, Blank opens the document in a new browser window. For more information about Target, see HTML documentation about this attribute.
 </description>
 
+<!-- link updated JAHT 20090607  No available topic -->
 </context>
 
 <context id="ExpressionBuilder_ID" title="Expression Builder - Specify Data Definition">
+<!-- JAHT 20090607  I think this topic is obsolete. Chart UI now seems to use standard BIRT UI for Expression Builder -->
 <description>Use this dialog box to create expressions.
 
 You can either type in the complete expression, or use the controls in the dialog box to guide you.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/expressions.html" label="Writing Expressions"/>
 </context>
 
 <context id="ExternalizeText_ID" title="Externalize Text">
 <description>Use this dialog box to externalize chart text elements. Externalizing text separates it from the chart in a file of its own and so makes localization easier.
 </description>
 
+<!-- link updated JAHT 20090607  No available topic -->
 </context>
 
 <context id="FormatChartArea_ID" title="Edit Chart and New Chart: Chart Area">
 <description>Use this page to define the appearance of the area surrounding the chart, and to enable interactive linking for the chart area and the chart title.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.8.html" label="Refine the chart appearance"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.7.html" label="Change the chart title"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.2.html" label="How to set a chart’s background color"/>
 </context>
 
 <context id="FormatChartAxis_ID" title="Edit Chart and New Chart: Axis">
 <description>Use this page to define the appearance of the chart axes.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.5.html" label="How to set the data type and format of an axis"/>
 </context>
 
 <context id="FormatChartLegend_ID" title="Edit Chart and New Chart: Legend">
@@ -103,10 +125,13 @@ You can either type in the complete expression, or use the controls in the dialo
 Note: The legend title will not be visible unless the legend is set to visible. To make the legend visible, you may have to choose Layout, and then select Visible in the Layout Legend dialog box.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.8.html" label="Refine the chart appearance"/>
 </context>
 
 
 <context id="FormatChartPlot_ID" title="Edit Chart and New Chart: Plot">
+<!-- JAHT 20090607  I think this topic is obsolete. I can only find Chart Area on the UI, not Plot -->
 <description>Use this page to specify the background color for the area that is included within the axes and for the area that contains the axes. You can also choose whether to provide visible outlines for these areas.
 
 For outline formatting options, choose <b>Client Area</b>.
@@ -114,6 +139,8 @@ For outline formatting options, choose <b>Client Area</b>.
 To specify the background color for the area outside the axes, use the Chart Area page.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.2.html" label="How to set a chart’s background color"/>
 </context>
 
 <context id="FormatChartSeries_ID" title="Edit Chart and New Chart: Series">
@@ -122,6 +149,8 @@ To specify the background color for the area outside the axes, use the Chart Are
 Changing the "Color By" option changes which series the color-coding in the chart uses as a base. It also changes the legend to reflect the selected series.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatChartXAxis_ID" title="Edit Chart and New Chart: X-Axis">
@@ -132,6 +161,8 @@ For additional formatting options, choose <b>Scale</b>, <b>Text Format</b>, <b>G
 Note that if you want the x-axis title to be displayed, you may have to choose <b>Text Format</b> and select <b>Visible</b>.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatChartXSeries_ID" title="Edit Chart and New Chart: Category (X) Series">
@@ -146,6 +177,8 @@ You can also enable and define grouping. To define grouping, perform the followi
   3. In Aggregate Expression, select the function to use to aggregate the data in the group: Average or Sum (that is, total).
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatBarChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Bar Charts">
@@ -156,6 +189,8 @@ Note that you can select "Show Curve Fitting Line" to add a curve fitting line i
 Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatAreaChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Area Charts">
@@ -166,6 +201,8 @@ Note that you can select "Show Lines as Curves" to curve the line between data p
 Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatLineChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Line Charts">
@@ -176,6 +213,8 @@ Note that you can select "Show Lines as Curves" to replace straight lines betwee
 Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatScatterChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Scatter Charts">
@@ -186,6 +225,8 @@ Note that you can select "Show Lines as Curves" to use curved lines between data
 Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatStockChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Stock Charts">
@@ -194,6 +235,8 @@ Use the <b>Labels</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons t
 Use the <b>Interactivity</b> and <b>Series Palette</b> buttons to further refine the formatting of the value series.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatPieChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Pie Charts">
@@ -202,6 +245,8 @@ Use the <b>Interactivity</b> and <b>Series Palette</b> buttons to further refine
 Use the <b>Labels</b>, <b>Titles</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatMeterChartYSeries_ID" title="Edit Chart and New Chart: Value (Y) Series, Meter Charts">
@@ -210,18 +255,24 @@ Use the <b>Labels</b>, <b>Titles</b>, <b>Interactivity</b>, and <b>Series Palett
 Use the <b>Labels</b>, <b>Regions</b>, <b>Interactivity</b>, and <b>Series Palette</b> buttons to further refine the formatting of the value series.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatData_ID" title="Edit Format">
 <description>Use this dialog box to define a format for the selected Data Type.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="Gridlines_ID" title="Gridlines">
 <description>Use this dialog box to display or hide the selected axis line and gridlines that run parallel to the axis. Use it also to customize their appearance.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="Interactivity_ID" title="Interactivity">
@@ -229,6 +280,8 @@ Use the <b>Labels</b>, <b>Regions</b>, <b>Interactivity</b>, and <b>Series Palet
 Use this dialog box to define interactive features of your chart, both the types of interactivity and the actions that trigger the interactive responses.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="LegendLayout_ID" title="Layout Legend">
@@ -241,6 +294,8 @@ For additional formatting options, choose <b>Text Format</b> and <b>Layout</b>.
 Note: If the legend is not displayed, choose <b>Layout</b> and select Visible.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="Markers_ID" title="Markers">
@@ -251,12 +306,16 @@ Select a marker in the text box to work with its definition.
 You can you can access additional formatting options by choosing the buttons to the right of the Value and Font fields.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="NewDataSet_ID" title="New Data Set">
 <description>Use this dialog box to define a data set for graphing.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="Outline_ID" title="Outline">
@@ -267,6 +326,8 @@ Specify insets to adjust the padding between chart and outline.
 The default unit for specifying insets is points. To change the default units, from the New Chart of Edit Chart dialog box, choose <b>Format Chart</b>, then <b>Chart Area</b>, then <b>General Properties</b>.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="Scale_ID" title="Scale">
@@ -277,6 +338,8 @@ For both numerical and non-numerical axes, you can set the number of minor, or s
 Note: If the minor gridlines are not displayed, choose <b>Gridlines</b>, then select Visible for Minor Grid.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="SelectChartData_ID" title="Edit Chart and New Chart: Select Data Set">
@@ -288,6 +351,8 @@ In a Bubble chart, the values in the third data series specify the size of the b
 In a Difference chart, the values in the positive and negative series appear with a color band between them.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="SelectChartType_ID" title="Edit Chart and New Chart: Select Chart Type">
@@ -302,11 +367,15 @@ Note: If you select an output format that your system does not support, you will
 Choose <b>Finish</b> to save your selections.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="SeriesPalette_ID" title="Series Palette">
 <description>Use this dialog box to select colors for members of the series. Double-click a bar to display the options.
 </description>
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FontEditor_ID" title="Edit Font">
@@ -314,6 +383,8 @@ Choose <b>Finish</b> to save your selections.
 
 You can set the orientation of the text item either by dragging the Rotation dial or by specifying degrees.
 </description>
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="TextFormat_ID" title="Text Format">
@@ -322,6 +393,8 @@ You can set the orientation of the text item either by dragging the Rotation dia
 This dialog box is used to format text for many graph elements. The fields that are available for input depend on the element that you are working with.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="TitleFormat_ID" title="Title Format">
@@ -332,12 +405,16 @@ You can define outlines for both title and title area, and also specify inset va
 If you want to change the title font, choose <b>...</b> next to Format.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="Preferences_BIRTChart_ID" title="Preferences: Chart">
 <description>Use this page to enable or disable interactive chart previews as you modify the chart definition. Use it also to set the maximum number of rows in the chart data preview on the Select Data page of the chart builder.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatChartZAxis_ID" title="Edit Chart and New Chart: Z-Axis">
@@ -347,16 +424,22 @@ For additional formatting options, choose <b>Text Format</b>, <b>Gridlines</b>, 
 
 Note that if you want the z-axis title to be displayed, you may have to choose <b>Text Format</b> and select <b>Visible</b>.
 </description>
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatLineChartSeriesMarkers_ID" title="Markers">
 <description>Use this dialog box to add and remove line markers in your chart.
 </description>
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="MeterChartRegions_ID" title="Regions">
 <description>Use this dialog box to add and remove regions in your chart, and to specify the properties of the regions that you add.
 </description>
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="SelectDataBinding_ID" title="Select Data Binding">
@@ -365,30 +448,40 @@ Note that if you want the z-axis title to be displayed, you may have to choose <
 Note that you can also bind data in the Select Data page by dragging and dropping.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="GradientEditor_ID" title="Gradient Editor">
 <description>Use this dialog box to specify the starting and ending colors for gradual background color changes, and to specify the orientation of the gradient.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="SelectImage_ID" title="Select Image">
 <description>Use this dialog box to select an image for the chart background.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatChartAreaBackground_ID" title="Format Chart Area Background">
 <description>Use this dialog box to format the chart background. For the additional options, graduated color, custom color, and images, choose the appropriate buttons.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="BackgroundColor_ID" title="Color">
 <description>Use this dialog box to select the background color for the chart.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatChartYAxis_ID" title="Edit Chart and New Chart: Y-Axis">
@@ -398,6 +491,8 @@ For additional formatting options, choose <b>Scale</b>, <b>Text Format</b>, <b>G
 
 Note that if you want the x-axis title to be displayed, you may have to choose <b>Text Format</b> and select <b>Visible</b>.
 </description>
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatChartTitle_ID" title="Format Chart Title">
@@ -405,6 +500,8 @@ Note that if you want the x-axis title to be displayed, you may have to choose <
 Use this page to replace the default title, such as Bar Chart Title, with a name for your chart.  You can specify a font for the title or accept the default font.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatGanttChartYSeries_ID" title="Format Gantt Chart">
@@ -415,12 +512,16 @@ You can specify any number of Gantt series and a set of categories that represen
 
 With multiple Gantt series, for each category that represents the main task, you can have multiple sub-tasks, each being one series, and starting and ending on different dates. 
 </description>
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatBubbleChartYSeries_ID" title="Format Bubble Chart Y Series">
 <description>
 Use this page to format a bubble chart, which is basically a scatter plot with a third value that is used to size the bubble. You can specify the style and orientation of the acceleration line to the bubble.  From this page, you can choose Markers to specify any marker type that is available to the line and scatter charts. The default marker type of the chart is circular.
 </description>
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="TitleText_ID" title="Chart Title Text">
@@ -428,6 +529,8 @@ Use this page to format a bubble chart, which is basically a scatter plot with a
 Use this dialog to change the background and shadow of the text in the chart title from transparent, the default, to another color. Also specify the style, width, and color of the title text outline, and its visibility. Pad the chart title text to control the spacing between it and the chart by using insets.  
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="TitleBlock_ID" title="Chart Title Block">
@@ -435,6 +538,8 @@ Use this dialog to change the background and shadow of the text in the chart tit
 The title block is the modular area of the title that can be positioned within the title bounds. Select an Anchor location to position the chart title at the top, bottom, left, or right side of the chart. In Stretch, you can specify how the content of the block fills up available space, horizontally, vertically, or in both directions. Also specify the style, width, and color of the title block outline, and its visibility. Pad the chart title block to control the spacing between it and the chart by using insets. 
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="LegendTitle_ID" title="Chart Legend Title">
@@ -442,6 +547,8 @@ The title block is the modular area of the title that can be positioned within t
 Use this dialog to make a title for the chart legend. By default, the title appears above the legend items. You can modify the font style and the color of the title, add an outline, background color, shadow, or move the position of the legend title. 
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="LegendBlock_ID" title="Chart Legend Block">
@@ -449,6 +556,8 @@ Use this dialog to make a title for the chart legend. By default, the title appe
 The legend block is the modular area of a legend that can be positioned within the legend bounds. Use this dialog to change the font style and size of the legend text.  You can also add an outline, background color, or shadow to the legend text. Control the spacing of the legend by using insets. If the chart uses more than one series, you can add a separator line between the items in one series and the items in the next. You can control the visibility of legend text outlines and separators using this dialog.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="DialLabels_ID" title="Dial Labels">
@@ -458,6 +567,8 @@ A meter chart displays labels, similar to axis labels, that identify points on a
 You show or hide the dial labels themselves in Format Chart.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="DialNeedles_ID" title="Dial Needles">
@@ -470,6 +581,8 @@ Use this dialog to modify the appearance of the needle for a meter chart. You ca
 
 To change the color of the needle, change the value-series palette.
 </description>
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="GroupAndSort_ID" title="Group and Sort">
@@ -477,6 +590,8 @@ To change the color of the needle, change the value-series palette.
 Use this dialog to scale and group charts. You can group up to two levels along the x-axis, for example by year and months. You can group by datetime and range. You can group multiple Y aggregates for X series grouping, where each Y series can use its own aggregate function. You can group multiple Y series grouping, where each Y series can have its own grouping key. You can group along the linear axis for Line, Bar, Area charts that are not stacked. You can scale datetime and integers and customize steps numbering.
 </description>
 
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="FormatDifferenceChartYSeries_ID" title="Format Difference Chart Y Series">
@@ -488,16 +603,22 @@ Use this page to format a difference chart, which displays two related line plot
 - Choose Positive Markers or Negative to specify any marker type that is available to the line and scatter charts. The default marker type of the chart is none.
 - Choose Interactivity to specify an action to perform for a mouse event.
 </description>
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 <context id="ChartExamples_ID" title="Chart Examples">
 <description>
 Use this page to access Charting API examples, including Java code for building several chart types using the Chart Engine API. Select an example to see a preview of the type of chart it constructs. Select Open to see the Java snippet in the code window. You can copy the code if you want. Save the XML code and study it to learn how to create such a chart using the API.
 </description>
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 <context id="Preference_Chart_Content_Assist_ID" title="Preferences - Chart Content Assist page">
 <description>Use this page to control the behavior of the content assist tool in the chart builder. Content assist is available in fields for which you supply an expression. Use it to insert an expression in a field.
 </description>
+<!-- link updated JAHT 20090607 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/" label=""/>
 </context>
 
 
