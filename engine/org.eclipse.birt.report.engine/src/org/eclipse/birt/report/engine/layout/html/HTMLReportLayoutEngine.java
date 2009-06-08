@@ -88,7 +88,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 
 		if(pageHint!=null)
 		{
-			context.setLayoutPageHint( pageHint );
+			context.getPageHintManager( ).setLayoutPageHint( pageHint );
 		}
 		
 		HTMLPageLM pageLM = new HTMLPageLM( this, report, executor, emitter );
@@ -104,7 +104,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 
 		executor.close( );
 		pageCount += context.getPageCount( );
-		context.reset( );
+		context.getPageHintManager( ).reset( );
 		pageHint = null;
 	}
 

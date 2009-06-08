@@ -84,7 +84,7 @@ public class TableContentLayout
 		int start = 0;
 		int end = this.colCount;
 		String tableId = tableContent.getInstanceID( ).toUniqueString( );
-		List hints = context.getTableColumnHint( tableId );
+		List hints = context.getPageHintManager( ).getTableColumnHint( tableId );
 		
 		this.adjustedColumnIds = new int[colCount];
 		for(int i=0; i<colCount; i++)

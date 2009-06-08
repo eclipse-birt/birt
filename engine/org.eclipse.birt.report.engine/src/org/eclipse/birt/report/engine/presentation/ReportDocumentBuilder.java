@@ -676,7 +676,7 @@ public class ReportDocumentBuilder
 					}
 				}
 
-				ArrayList pageHint = htmlContext.getPageHint( );
+				ArrayList pageHint = htmlContext.getPageHintManager( ).getPageHint( );
 				PageHint hint = new PageHint( pageNumber, htmlContext
 						.getMasterPage( ) );
 				for ( int i = 0; i < pageHint.size( ); i++ )
@@ -687,8 +687,8 @@ public class ReportDocumentBuilder
 				}
 				hint
 						.addUnresolvedRowHints( htmlContext
-								.getUnresolvedRowHints( ) );
-				hint.addTableColumnHints( htmlContext.getTableColumnHints( ) );
+								.getPageHintManager( ).getUnresolvedRowHints( ) );
+				hint.addTableColumnHints( htmlContext.getPageHintManager( ).getTableColumnHints( ) );
 
 				Collection<PageVariable> vars = getPageVariable( );
 				hint.getPageVariables( ).addAll( vars );

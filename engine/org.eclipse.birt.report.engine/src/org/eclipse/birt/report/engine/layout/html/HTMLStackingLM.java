@@ -26,11 +26,11 @@ public abstract class HTMLStackingLM extends HTMLAbstractLM
 		boolean hasNext = layoutNodes();
 		if(hasNext)
 		{
-			context.addLayoutHint( content, false );
+			context.getPageHintManager( ).addLayoutHint( content, false );
 		}
 		else
 		{
-			context.removeLayoutHint( content );
+			context.getPageHintManager( ).removeLayoutHint( content );
 		}
 		return hasNext;
 	}

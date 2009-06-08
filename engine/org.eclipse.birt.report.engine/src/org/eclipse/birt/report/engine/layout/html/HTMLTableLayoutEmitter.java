@@ -119,7 +119,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	{
 		if(context!=null)
 		{
-			return context.getLayoutHint( content );
+			return context.getPageHintManager( ).getLayoutHint( content );
 		}
 		return true;
 	}
@@ -168,7 +168,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 
 	public void initLayout( ITableContent table )
 	{
-		String keyString = context.getHintMapKey(table.getInstanceID( ).toUniqueString( ));
+		String keyString = context.getPageHintManager( ).getHintMapKey(table.getInstanceID( ).toUniqueString( ));
 		this.layout = new TableContentLayout( table,
 				getOutputFormat( ), context, keyString );
 		this.layoutEvents = new Stack( );
@@ -177,7 +177,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 		{
 			if(context!=null)
 			{
-				hint = context.getUnresolvedRowHint( keyString );
+				hint = context.getPageHintManager( ).getUnresolvedRowHint( keyString );
 				isFirst = false;
 			}
 		}
@@ -398,7 +398,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 			hintMap.put( layout.getKeyString( ), hint );
 			if(context!=null )
 			{
-				context.addUnresolvedRowHint(layout.getKeyString( ), hint );
+				context.getPageHintManager( ).addUnresolvedRowHint(layout.getKeyString( ), hint );
 			}
 		}
 		

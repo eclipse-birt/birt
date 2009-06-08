@@ -183,7 +183,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			context.getPageBufferManager( ).endContainer( pageContent, finished, emitter, true );
 			context.getBufferFactory( ).close( );
 		}
-		context.resetRowHint( );
+		context.getPageHintManager( ).resetRowHint( );
 		context.setEmptyPage( false );
 	}
 	

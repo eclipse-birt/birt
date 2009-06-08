@@ -90,7 +90,7 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 
 	protected void pageBreakEvent( )
 	{
-		context.setPageHint( generator.getPageHint( ) );
+		context.getPageHintManager( ).setPageHint( generator.getPageHint( ) );
 		
 		long pageNumber = context.getPageNumber( );
 		ILayoutPageHandler pageHandler = context.getLayoutEngine( )
@@ -132,8 +132,8 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 		// current node should be page node
 		if ( page != null )
 		{
-			context.addTableColumnHints( columnHints );
-			context.generatePageRowHints( getTableKeys() );
+			context.getPageHintManager( ).addTableColumnHints( columnHints );
+			context.getPageHintManager( ).generatePageRowHints( getTableKeys() );
 			page.flush( );
 			pageBreakEvent( );
 			if ( !page.finished )
@@ -143,7 +143,7 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 			}
 			generator.reset( );
 			//context.removeLayoutHint( );
-			context.clearPageHint( );
+			context.getPageHintManager( ).clearPageHint( );
 			currentNode = null;
 
 		}

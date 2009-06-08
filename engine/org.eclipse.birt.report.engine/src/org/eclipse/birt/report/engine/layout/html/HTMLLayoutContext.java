@@ -11,19 +11,8 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
-import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
 import org.eclipse.birt.report.engine.layout.html.buffer.PageBufferFactory;
-import org.eclipse.birt.report.engine.presentation.IPageHint;
-import org.eclipse.birt.report.engine.presentation.TableColumnHint;
-import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
 public class HTMLLayoutContext
 {
@@ -41,9 +30,7 @@ public class HTMLLayoutContext
 
 	protected HTMLReportLayoutEngine engine;
 
-	protected HashMap layoutHint = new HashMap( );
-
-	protected ArrayList pageHints = new ArrayList( );
+	protected HTMLLayoutPageHintManager pageHintMgr = new HTMLLayoutPageHintManager( this );
 
 	protected IPageBuffer bufferMgr;
 
@@ -54,6 +41,14 @@ public class HTMLLayoutContext
 	protected PageBufferFactory bufferFactory = new PageBufferFactory( this );
 	
 	protected boolean emptyPage = false;
+
+	/**
+	 * The flag to indicate whether the emitter need output the display:none or process it in layout
+	 * engine. true: output display:none in emitter and do not process it in
+	 * layout engine. false: process it in layout engine, not output it in
+	 * emitter.
+	 */
+	protected boolean outputDisplayNone = false;
 
 	public PageBufferFactory getBufferFactory( )
 	{
@@ -98,58 +93,10 @@ public class HTMLLayoutContext
 	{
 		return this.bufferMgr;
 	}
-
-	public void setPageHint( List hints )
-	{
-		pageHints.addAll( hints );
-	}
-
-	public ArrayList getPageHint( )
-	{
-		ArrayList hints = new ArrayList( );
-		hints.addAll( pageHints );
-		return hints;
-	}
-
-	/**
-	 * whether emitter need to output the display:none or process it in layout
-	 * engine. true: output display:none in emitter and do not process it in
-	 * layout engine. false: process it in layout engine, not output it in
-	 * emitter.
-	 */
-	protected boolean outputDisplayNone = false;
-
-	public void reset( )
-	{
-		layoutHint = new HashMap( );
-		finished = false;
-		allowPageBreak = true;
-		masterPage = null;
-	}
-
-	public void addLayoutHint( IContent content, boolean finished )
-	{
-		layoutHint.put( content, new Boolean( finished ) );
-	}
 	
-	public void removeLayoutHint(IContent content)
+	public HTMLLayoutPageHintManager getPageHintManager( )
 	{
-		layoutHint.remove( content );
-	}
-
-	public boolean getLayoutHint( IContent content )
-	{
-		Object finished = layoutHint.get( content );
-		if ( finished != null && finished instanceof Boolean )
-		{
-			return ( (Boolean) finished ).booleanValue( );
-		}
-		return true;
-	}
-
-	public void removeLayoutHint( )
-	{
-		layoutHint.clear( );
+		return pageHintMgr;
 	}
 
 	public String getMasterPage( )
@@ -199,81 +146,6 @@ public class HTMLLayoutContext
 		return cancelFlag;
 	}
 
-	protected HashMap<String, UnresolvedRowHint> currentHints = new HashMap<String, UnresolvedRowHint>();
-	
-	protected HashMap<String, UnresolvedRowHint> hints = new HashMap<String, UnresolvedRowHint>();
-	
-	
-	public void generatePageRowHints(Collection<String> keys )
-	{
-		pageRowHints.clear( );
-		Iterator<String> iter = keys.iterator( );
-		while(iter.hasNext( ))
-		{
-			String key = iter.next( );
-			UnresolvedRowHint hint = hints.get( key );
-			if(hint!=null)
-			{
-				pageRowHints.add( hint );
-			}
-		}
-	}
-	
-	ArrayList pageRowHints = new ArrayList();
-	public List<UnresolvedRowHint> getUnresolvedRowHints()
-	{
-		return pageRowHints;
-	}
-	
-	
-	protected ArrayList columnHints = new ArrayList( );
-
-	public List getTableColumnHints( )
-	{
-		return columnHints;
-	}
-
-	public void addTableColumnHints( List hints )
-	{
-		columnHints.addAll( hints );
-	}
-	
-	public void addTableColumnHint(TableColumnHint hint)
-	{
-		columnHints.add( hint );
-	}
-
-	public UnresolvedRowHint getUnresolvedRowHint( String key )
-	{
-		if ( hints.size( ) > 0 )
-		{
-			return hints.get( key );
-		}
-		return null;
-	}
-
-	public void addUnresolvedRowHint(String key,  UnresolvedRowHint hint )
-	{
-		currentHints.put( key, hint );
-	}
-
-	public void clearPageHint( )
-	{
-		columnHints.clear( );
-		pageHints.clear( );
-		
-	}
-	
-	public void resetRowHint()
-	{
-		if(!emptyPage)
-		{
-			hints.clear( );
-			hints.putAll( currentHints );
-			currentHints.clear( );
-		}
-	}
-	
 	public void setEmptyPage(boolean emptyPage)
 	{
 		this.emptyPage = emptyPage;
@@ -296,64 +168,6 @@ public class HTMLLayoutContext
 		this.pageNumber = pageNumber;
 	}
 
-	public void setLayoutPageHint( IPageHint pageHint )
-	{
-		if ( pageHint != null )
-		{
-			pageNumber = pageHint.getPageNumber( );
-			masterPage = pageHint.getMasterPage( );
-			int count = pageHint.getTableColumnHintCount( );
-			for ( int i = 0; i < count; i++ )
-			{
-				columnHints.add( pageHint.getTableColumnHint( i ) );
-			}
-			count = pageHint.getUnresolvedRowCount( );
-			if(count>0)
-			{
-				
-				for ( int i = 0; i < count; i++ )
-				{
-					UnresolvedRowHint hint = pageHint.getUnresolvedRowHint( i );
-					String key = getHintMapKey(hint.getTableId( ));
-					hints.put( key, hint );
-				}
-			}
-		}
-	}
-	
-	public String getHintMapKey(String tableId)
-	{
-		String key = tableId;
-		List hints = getTableColumnHint( key );
-		Iterator iter = hints.iterator( );
-		while(iter.hasNext( ))
-		{
-			int[] vs = (int[])iter.next( );
-			key = key +"-" + vs[0] + "-" + vs[1];
-		}
-		return key;
-	}
-	
-
-	public List getTableColumnHint( String tableId )
-	{
-		List list = new ArrayList();
-		if ( columnHints.size( ) > 0 )
-		{
-			Iterator iter = columnHints.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				TableColumnHint hint = (TableColumnHint) iter.next( );
-				if ( tableId.equals( hint.getTableId( ) ) )
-				{
-					list.add( new int[]{hint.getStart( ),
-							hint.getStart( ) + hint.getColumnCount( )} );
-				}
-			}
-		}
-		return list;
-	}
-
 	public void setOutputDisplayNone( boolean outputDisplayNone )
 	{
 		this.outputDisplayNone = outputDisplayNone;
@@ -373,4 +187,5 @@ public class HTMLLayoutContext
 	{
 		this.pageCount = pageCount;
 	}
+	
 }

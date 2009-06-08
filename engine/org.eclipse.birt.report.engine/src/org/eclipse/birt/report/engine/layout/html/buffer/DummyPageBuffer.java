@@ -59,7 +59,7 @@ public class DummyPageBuffer implements IPageBuffer
 			{
 				ContentEmitterUtil.endContent( pageContent, emitter );
 				pageBreakEvent( );
-				context.clearPageHint( );
+				context.getPageHintManager( ).clearPageHint( );
 			}
 			else
 			{

@@ -316,7 +316,7 @@ public class HTMLPageBuffer implements IPageBuffer
 		this.finished = true;
 		generator.reset( );
 		//context.removeLayoutHint( );
-		context.clearPageHint( );
+		context.getPageHintManager( ).clearPageHint( );
 		currentNode = null;
 	}
 	
@@ -327,7 +327,7 @@ public class HTMLPageBuffer implements IPageBuffer
 		while(iter.hasNext( ))
 		{
 			String tableId = (String)iter.next( );
-			String key = context.getHintMapKey(tableId);
+			String key = context.getPageHintManager( ).getHintMapKey(tableId);
 			keys.add( key );
 		}
 		return keys;
@@ -335,9 +335,9 @@ public class HTMLPageBuffer implements IPageBuffer
 
 	protected void pageBreakEvent( )
 	{
-		context.setPageHint( generator.getPageHint( ) );
+		context.getPageHintManager( ).setPageHint( generator.getPageHint( ) );
 		//context.addTableColumnHints( columnHints );
-		context.generatePageRowHints( getTableKeys() );
+		context.getPageHintManager( ).generatePageRowHints( getTableKeys() );
 		long pageNumber = context.getPageNumber( );
 		ILayoutPageHandler pageHandler = context.getLayoutEngine( )
 				.getPageHandler( );
@@ -425,6 +425,6 @@ public class HTMLPageBuffer implements IPageBuffer
 
 	public void addTableColumnHint( TableColumnHint hint )
 	{
-		context.addTableColumnHint( hint );
+		context.getPageHintManager( ).addTableColumnHint( hint );
 	}
 }
