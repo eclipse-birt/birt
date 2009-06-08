@@ -118,8 +118,10 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 
 			// if we need do the paginate, do the paginate.
 			String format = executionContext.getOutputFormat( );
+			
+			
 			boolean paginate = true;
-			if ( FORMAT_HTML.equalsIgnoreCase( format ) ) //$NON-NLS-1$
+			if ( ExtensionManager.PAGE_BREAK_PAGINATION.equalsIgnoreCase( pagination ) ) //$NON-NLS-1$
 			{
 				HTMLRenderOption htmlOption = new HTMLRenderOption(
 						renderOptions );
