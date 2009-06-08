@@ -70,7 +70,24 @@ public class StyleEngine
 		}	
 		
 		StyleEntry entry = initStyle( style, sizeInfo );
-		entry.setStart( true );
+		return entry;
+	}
+
+	public StyleEntry createCellEntry( ContainerSizeInfo sizeInfo,
+			IStyle style, String diagonalLineColor, String diagonalLineStyle,
+			int diagonalLineWidth )
+	{
+		StyleEntry entry;
+		if ( style == null )
+		{
+			entry = StyleBuilder.createEmptyStyleEntry( );
+		}
+		else
+			entry = initStyle( style, sizeInfo );
+
+		StyleBuilder.applyDiagonalLine( entry, diagonalLineColor,
+				diagonalLineStyle, diagonalLineWidth );
+
 		return entry;
 	}
 

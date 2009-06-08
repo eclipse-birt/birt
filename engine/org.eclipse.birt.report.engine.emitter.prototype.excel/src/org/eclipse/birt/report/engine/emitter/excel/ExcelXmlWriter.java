@@ -581,6 +581,16 @@ public class ExcelXmlWriter implements IExcelWriter
 			String rightWeight = style
 					.getProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP );
 			writeBorder( "Right", rightLineStyle, rightWeight, rightColor );
+
+			String diagonalColor = style
+					.getProperty( StyleConstant.BORDER_DIAGONAL_COLOR_PROP );
+			String diagonalStyle = style
+					.getProperty( StyleConstant.BORDER_DIAGONAL_STYLE_PROP );
+			String diagonalWidth = style
+					.getProperty( StyleConstant.BORDER_DIAGONAL_WIDTH_PROP );
+			writeBorder( "DiagonalLeft", diagonalStyle, diagonalWidth,
+					diagonalColor );
+
 			writer.closeTag( "Borders" );
 
 			String fontName = style

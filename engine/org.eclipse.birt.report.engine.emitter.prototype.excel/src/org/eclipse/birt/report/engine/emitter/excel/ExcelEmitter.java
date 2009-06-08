@@ -222,7 +222,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	public void startCell( ICellContent cell )
 	{
 		IStyle style = cell.getComputedStyle( );
-		engine.addCell( cell.getColumn( ), cell.getColSpan( ),cell.getRowSpan( ), style );
+		engine.addCell( cell, cell.getColumn( ), cell.getColSpan( ), cell
+				.getRowSpan( ), style );
 	}
 
 	public void endCell( ICellContent cell )

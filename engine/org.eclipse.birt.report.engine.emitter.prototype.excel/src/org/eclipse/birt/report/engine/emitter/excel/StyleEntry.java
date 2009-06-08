@@ -74,16 +74,6 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 		return true;
 	}
 	
-	public boolean isStart()
-	{
-		return start;
-	}
-	
-	public void setStart(boolean start)
-	{
-		this.start = start;
-	}	 
-
 	public int hashCode( )
 	{
 		int code = 0;
@@ -139,5 +129,4 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 
 	private String[] props = null;	
 	
-	private boolean start = false;		
 }

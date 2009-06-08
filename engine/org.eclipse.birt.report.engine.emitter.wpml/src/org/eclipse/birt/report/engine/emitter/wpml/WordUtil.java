@@ -12,12 +12,12 @@
 package org.eclipse.birt.report.engine.emitter.wpml;
 
 import java.util.HashSet;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 public class WordUtil
@@ -182,75 +182,10 @@ public class WordUtil
 		return new String( array );
 	}
 
-	// convert valid color format from "rgb(0,0,0)" to "000000"
+	// convert valid color format from "rgb(0,0,0) or others" to "000000"
 	public static String parseColor( String color )
 	{
-		if ( "transparent".equalsIgnoreCase( color ) || color == null
-				|| color.length( ) == 0 )
-		{
-			return null;
-		}
-		if ( color.startsWith( "#" ) )
-		{
-			return color.substring( 1, Math.min( color.length( ), 7 ) );
-		}
-		else if ( color.equalsIgnoreCase( "Black" ) )
-			return "000000";
-		else if ( color.equalsIgnoreCase( "Gray" ) )
-			return "121212";
-		else if ( color.equalsIgnoreCase( "White" ) )
-			return "ffffff";
-		else if ( color.equalsIgnoreCase( "Red" ) )
-			return "ff0000";
-		else if ( color.equalsIgnoreCase( "Green" ) )
-			return "00ff00";
-		else if ( color.equalsIgnoreCase( "Yellow" ) )
-			return "ffff00";
-		else if ( color.equalsIgnoreCase( "Blue" ) )
-			return "0000ff";
-		else if ( color.equalsIgnoreCase( "Teal" ) )
-			return "008080";
-		else if ( color.equalsIgnoreCase( "Aqua" ) )
-			return "00FFFF";
-		else if ( color.equalsIgnoreCase( "Silver" ) )
-			return "C0C0C0";
-		else if ( color.equalsIgnoreCase( "Navy" ) )
-			return "000080";
-		else if ( color.equalsIgnoreCase( "Lime" ) )
-			return "00FF00";
-		else if ( color.equalsIgnoreCase( "Olive" ) )
-			return "808000";
-		else if ( color.equalsIgnoreCase( "Purple" ) )
-			return "800080";
-		else if ( color.equalsIgnoreCase( "Fuchsia" ) )
-			return "FF00FF";
-		else if ( color.equalsIgnoreCase( "Maroon" ) )
-			return "800000";
-		String[] values = color.substring( color.indexOf( "(" ) + 1,
-				color.length( ) - 1 ).split( "," );
-		String value = "";
-		for ( int i = 0; i < values.length; i++ )
-		{
-			try
-			{
-				String s = Integer.toHexString( ( Integer.parseInt( values[i]
-						.trim( ) ) ) );
-
-				if ( s.length( ) == 1 )
-				{
-					s = "0" + s;
-				}
-
-				value += s;
-			}
-			catch ( Exception e )
-			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
-				value = null;
-			}
-		}
-
-		return value;
+		return EmitterUtil.parseColor( color );
 	}
 
 	// run border, paragraph borders, table borders, table cell borders

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
@@ -45,6 +46,7 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.util.FlashFile;
 
 import com.ibm.icu.util.ULocale;
@@ -257,6 +259,31 @@ public class ExcelLayoutEngine
 		ContainerSizeInfo cellSizeInfo = table.getColumnSizeInfo( col, colSpan );
 		XlsCell cell = new XlsCell( engine.createEntry( cellSizeInfo, style ),
 				cellSizeInfo, getCurrentContainer( ), rowSpan );
+		addContainer( cell );
+	}
+
+	public void addCell( ICellContent cellcontent, int col, int colSpan,
+			int rowSpan, IStyle style )
+	{
+		XlsTable table = tables.peek( );
+		ContainerSizeInfo cellSizeInfo = table.getColumnSizeInfo( col, colSpan );
+		int diagonalNumber = cellcontent.getDiagonalNumber( );
+		StyleEntry cellStyleEntry = null;
+		if ( diagonalNumber != 0 )
+		{
+			String diagonalColor = cellcontent.getDiagonalColor( );
+			String diagonalStyle = cellcontent.getDiagonalStyle( );
+			int diagonalWidth = PropertyUtil.getDimensionValue( cellcontent,
+					cellcontent.getDiagonalWidth( ), cellSizeInfo.getWidth( ) );
+			cellStyleEntry = engine.createCellEntry( cellSizeInfo, style,
+					diagonalColor, diagonalStyle, diagonalWidth );
+		}
+		else
+		{
+			cellStyleEntry = engine.createEntry( cellSizeInfo, style );
+		}
+		XlsCell cell = new XlsCell( cellStyleEntry, cellSizeInfo,
+				getCurrentContainer( ), rowSpan );
 		addContainer( cell );
 	}
 

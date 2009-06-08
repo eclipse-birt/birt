@@ -13,10 +13,10 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 
 public class StyleBuilder
 {
@@ -149,39 +149,33 @@ public class StyleBuilder
 		return entry;
 	}
 
+	public static StyleEntry applyDiagonalLine( StyleEntry entry, String color,
+			String style, int width )
+	{
+		if ( width > 0 )
+		{
+			entry.setProperty( StyleConstant.BORDER_DIAGONAL_COLOR_PROP,
+					convertColor( color ) );
+			entry.setProperty( StyleConstant.BORDER_DIAGONAL_STYLE_PROP,
+					convertBorderStyle( style ) );
+			entry.setProperty( StyleConstant.BORDER_DIAGONAL_WIDTH_PROP,
+					convertBorderWeight( width ) );
+		}
+		return entry;
+	}
+
 	public static String convertColor( String value )
 	{
-		if ( value == null || "transparent".equalsIgnoreCase( value ) )
+		value = EmitterUtil.parseColor( ExcelUtil.getValue( value ) );
+
+		if ( value == null )
 		{
 			return StyleConstant.NULL;
 		}
-
-		value = ExcelUtil.getValue( value );
-
-		Matcher m = colorp.matcher( value );
-
-		if ( m.matches( ) )
+		else
 		{
-			StringBuffer buffer = new StringBuffer( );
-			buffer.append( "#" );
-
-			for ( int i = 2; i <= 4; i++ )
-			{
-				String hex = Integer.toHexString( Integer.parseInt( ExcelUtil
-						.getValue( m.group( i ) ).trim( ) ) );
-
-				if ( hex.length( ) < 2 )
-				{
-					buffer.append( 0 );
-				}
-
-				buffer.append( hex );
-			}
-
-			return buffer.toString( );
+			return "#" + value;
 		}
-
-		return StyleConstant.NULL;
 	}
 
 	public static String convertFontSize( String size )
@@ -208,25 +202,31 @@ public class StyleBuilder
 		if ( linestyle != null && !"0".equalsIgnoreCase( linestyle ) )
 		{
 			linestyle = ExcelUtil.getValue( linestyle );
-			int weight = (int)Double.parseDouble( linestyle );
-
-			if (  weight >= 749 && weight < 1499 )
-			{
-				w = "1";
-			}
-			else if ( weight >= 1499 && weight < 2249 )
-			{
-				w = "2";
-			}
-			else if(weight >= 2249)
-			{
-				w = "3";
-			}
-			else {
-				w = "2";
-			}
+			int weight = (int) Double.parseDouble( linestyle );
+			w = convertBorderWeight( weight );
 		}
+		return w;
+	}
 
+	public static String convertBorderWeight( double width )
+	{
+		String w = StyleConstant.NULL;
+		if ( width >= 749 && width < 1499 )
+		{
+			w = "1";
+		}
+		else if ( width >= 1499 && width < 2249 )
+		{
+			w = "2";
+		}
+		else if ( width >= 2249 )
+		{
+			w = "3";
+		}
+		else
+		{
+			w = "2";
+		}
 		return w;
 	}
 
