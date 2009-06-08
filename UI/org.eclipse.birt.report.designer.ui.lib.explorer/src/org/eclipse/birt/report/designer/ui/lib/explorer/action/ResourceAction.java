@@ -45,6 +45,9 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -721,6 +724,18 @@ public abstract class ResourceAction extends Action
 						if ( adapter instanceof IPathEditorInputFactory )
 						{
 							input = ( (IPathEditorInputFactory) adapter ).create( new Path( file.getAbsolutePath( ) ) );
+							IFile file= (IFile)input.getAdapter( IFile.class );
+							if (file != null)
+							{
+								try
+								{
+									file.refreshLocal( IResource.DEPTH_INFINITE, null );
+								}
+								catch ( CoreException e )
+								{
+									//do nothing now
+								}
+							}
 						}
 
 						if ( input == null )
