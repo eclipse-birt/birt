@@ -35,6 +35,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 import com.ibm.icu.text.Collator;
+import com.ibm.icu.util.ULocale;
 
 /**
  * The instance of this class is used by CachedResultSet to deal with
@@ -451,11 +452,19 @@ final class GroupBoundaryInfo implements ICachedObject
 				fields.add( comparator[i] == null
 						? ISortDefinition.ASCII_SORT_STRENGTH
 						: new Integer( comparator[i].getStrength( ) ) );
+			
+			for ( int i = 0; i < comparator.length; i++ )
+				fields.add( comparator[i] == null
+						? null
+						: comparator[i].getLocale( ULocale.ACTUAL_LOCALE ).getBaseName( )) ;
 		}
 		else
 		{
 			fields.add( null );
+			fields.add( null );
 		}
+		
+		
 		fields.add( new Boolean( accept ) );
 		return fields.toArray( );
 	}
@@ -502,7 +511,7 @@ final class GroupBoundaryInfo implements ICachedObject
 	 * @param sortKeys
 	 * @param sortOrderings
 	 */
-	void setSortCondition( Object[] sortKeys, boolean[] sortOrderings, int[] sortStrength )
+	void setSortCondition( Object[] sortKeys, boolean[] sortOrderings, int[] sortStrength, ULocale[] sortLocale )
 	{
 		this.sortKeys = sortKeys;
 		this.sortDirections = sortOrderings;
@@ -510,7 +519,7 @@ final class GroupBoundaryInfo implements ICachedObject
 		for( int i = 0; i < this.comparator.length; i++ )
 		{
 			this.comparator[i] = sortStrength[i] == ISortDefinition.ASCII_SORT_STRENGTH
-					? null : Collator.getInstance( );
+					? null : Collator.getInstance( sortLocale[i]);
 		}
 	}
 
@@ -657,7 +666,21 @@ class GroupBoundaryInfoCreator implements ICachedObjectCreator
 			}
 		}
 		
-		groupBoundaryInfo.setSortCondition( sortKeys, sortDirections, sortStrength );
+		ULocale[] locales = null;
+		if ( fields[2 + sortKeysTotalLength*3] != null )
+		{
+			locales = new ULocale[( (Integer) fields[2 + sortKeysTotalLength*3] ).intValue( )];
+			
+			for ( int i = 0; i < sortStrength.length; i++ )
+			{
+				Object locale = fields[3 + sortKeysTotalLength*3 + i ];
+				if( locale!= null )
+					locales[i] =  new ULocale( (String)locale) ;
+			}
+		}
+		
+		
+		groupBoundaryInfo.setSortCondition( sortKeys, sortDirections, sortStrength, locales );
 		
 		groupBoundaryInfo.setAccepted( ( (Boolean) fields[fields.length - 1] ).booleanValue( ) );
 

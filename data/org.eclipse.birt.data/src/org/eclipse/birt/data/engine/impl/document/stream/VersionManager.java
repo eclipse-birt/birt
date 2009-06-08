@@ -47,6 +47,9 @@ public class VersionManager
 	//In version 2_3_2_1 the IQueryExecutionHints is saved.
 	public final static int VERSION_2_3_2_1 = 95;
 	
+	//In version 2_5_0_1 the Sort strength is saved.
+	public final static int VERSION_2_5_0_1 = 100;
+	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
@@ -120,7 +123,7 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_2_3_2_1;
+		return VERSION_2_5_0_1;
 	}
 
 }

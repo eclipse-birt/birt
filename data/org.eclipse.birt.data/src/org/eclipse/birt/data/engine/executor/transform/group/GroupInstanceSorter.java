@@ -24,6 +24,8 @@ import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * The class which is used to do group instance sortings.
  */
@@ -139,6 +141,7 @@ class GroupInstanceSorter
 				.size( )];
 		boolean[] sortDirections = new boolean[sortKeys.length];
 		int[] sortStrength = new int[sortKeys.length];
+		ULocale[] sortLocale = new ULocale[sortKeys.length];
 		// populate the sortKeys
 		// this.smartCache.moveTo(((GroupBoundaryInfo)groupArray[groupPosition].get(groupIndex)).getStartIndex());
 		this.populator.getResultIterator( ).last( groupPosition + 1 );
@@ -155,11 +158,14 @@ class GroupInstanceSorter
 					? true : false;
 			sortStrength[l] =  ( (ISortDefinition) this.populator.getQuery( )
 					.getGrouping( )[groupPosition].getSorts( ).get( l ) ).getSortStrength( );
-			
-			
+			ULocale locale = ( (ISortDefinition) this.populator.getQuery( )
+					.getGrouping( )[groupPosition].getSorts( ).get( l ) ).getSortLocale( );
+			if( locale == null )
+				locale = populator.getSession( ).getEngineContext( ).getLocale( );
+			sortLocale[l] = locale;
 		}
 		( (GroupBoundaryInfo) groupArray[groupPosition].get( groupIndex ) ).setSortCondition( sortKeys,
-				sortDirections, sortStrength );
+				sortDirections, sortStrength, sortLocale );
 		this.populator.getResultIterator( ).next( );
 	}
 

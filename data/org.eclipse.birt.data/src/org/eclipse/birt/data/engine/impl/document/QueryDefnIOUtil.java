@@ -44,6 +44,8 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Save query definition structure into report document and loading from report
  * document.
@@ -262,6 +264,8 @@ public class QueryDefnIOUtil
 				IOUtil.writeInt( dos, sortDefn.getSortDirection( ) );
 				if ( version >= VersionManager.VERSION_2_3_1 )
 					IOUtil.writeInt( dos, sortDefn.getSortStrength( ) );
+				if ( version >= VersionManager.VERSION_2_5_0_1 )
+					IOUtil.writeString( dos, sortDefn.getSortLocale( ) == null? null:sortDefn.getSortLocale( ).getBaseName( ) );
 			}
 		}
 
@@ -434,6 +438,13 @@ public class QueryDefnIOUtil
 			
 			if ( version >= VersionManager.VERSION_2_3_1 )
 				sortDefn.setSortStrength( IOUtil.readInt( dis ));
+			
+			if ( version >= VersionManager.VERSION_2_5_0_1 )
+			{
+				String locale = IOUtil.readString( dis );
+				if( locale != null )
+					sortDefn.setSortLocale( new ULocale( locale ) );
+			}
 			sortList.add( sortDefn );
 		}
 		

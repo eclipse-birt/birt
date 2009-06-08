@@ -612,12 +612,17 @@ public abstract class QueryExecutor implements IQueryExecutor
 						sortKey,
 						getExpressionDataType( sortKey ) ) );
 				sortIndex = -1;
-				sortKey = String.valueOf( "_{$TEMP_SORT_" + i + "$}_");
+				sortKey = String.valueOf( "_{$TEMP_SORT_" + i + "$}_" );
 
 				IQuery.SortSpec dest = new IQuery.SortSpec( sortIndex,
 						sortKey,
 						src.getSortDirection( ) == ISortDefinition.SORT_ASC,
-						src.getSortStrength( ) == -1? null:Collator.getInstance( ));
+						src.getSortStrength( ) == -1
+								? null
+								: Collator.getInstance( src.getSortLocale( ) == null
+										? session.getEngineContext( )
+												.getLocale( )
+										: src.getSortLocale( ) ) );
 				sortSpecs[i] = dest;
 			}
 			odiQuery.setOrdering( Arrays.asList( sortSpecs ) );

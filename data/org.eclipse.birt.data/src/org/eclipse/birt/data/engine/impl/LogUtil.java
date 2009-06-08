@@ -134,9 +134,12 @@ public final class LogUtil
 		if ( !isEmpty(sort.getExpression()))
 			stringBuffer.append( "getExpression : " + sort.getExpression( )+", " );
 		
-		stringBuffer.append( "SortDirection : " + sort.getSortDirection( ) +")");
+		stringBuffer.append( "SortDirection : " + sort.getSortDirection( ) +",");
 		
-		stringBuffer.append( "SortStrength : " + sort.getSortStrength( ) +")" );
+		stringBuffer.append( "SortStrength : " + sort.getSortStrength( ) +"," );
+		
+		stringBuffer.append( "SortLocale : " + sort.getSortLocale( ) +  ")");
+		
 		return stringBuffer.toString( ); 
 	}
 	private static String toString_GroupDefinition(Object source){

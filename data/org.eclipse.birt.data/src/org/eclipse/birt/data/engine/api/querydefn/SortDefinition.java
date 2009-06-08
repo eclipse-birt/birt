@@ -16,6 +16,8 @@ package org.eclipse.birt.data.engine.api.querydefn;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 
+import com.ibm.icu.util.ULocale;
+
 
 /**
  * Default implementation of the {@link org.eclipse.birt.data.engine.api.ISortDefinition} interface.
@@ -27,7 +29,10 @@ public class SortDefinition implements ISortDefinition
 	protected String keyColumn;
 	protected int direction;
 	private int strength = ISortDefinition.ASCII_SORT_STRENGTH;
+	private ULocale locale = null;
 	
+	public SortDefinition()
+	{}
 	/**
 	 * Returns the name of the column to sort on. Either the KeyColumn or KeyExpr can
 	 * be used to define the sort key.
@@ -98,5 +103,19 @@ public class SortDefinition implements ISortDefinition
 	public void setSortStrength( int strength )
 	{
 		this.strength = strength;
+	}
+
+	/**
+	 * 
+	 * @param locale
+	 */
+	public void setSortLocale( ULocale locale )
+	{
+		this.locale = locale;
+	}
+	
+	public ULocale getSortLocale( )
+	{
+		return this.locale;
 	}
 }

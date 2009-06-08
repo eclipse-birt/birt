@@ -40,6 +40,9 @@ public class SortAdapter extends SortDefinition
 	{
 		this( keyHandle.getKey(), 
 			  keyHandle.getDirection() );
+		this.setSortStrength( keyHandle.getStrength( ) );
+		if( keyHandle.getLocale( )!= null )
+			this.setSortLocale( keyHandle.getLocale( ) );
 	}
 	
 	/**

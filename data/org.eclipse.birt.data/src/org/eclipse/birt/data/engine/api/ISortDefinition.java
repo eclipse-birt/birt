@@ -14,6 +14,7 @@
 package org.eclipse.birt.data.engine.api;
 
 import com.ibm.icu.text.Collator;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Describes one sort (key, direction) pair in a sort sequence. The sort key can be a single column name
@@ -68,4 +69,9 @@ public interface ISortDefinition
      * @return
      */
     public abstract int getSortStrength();
+    
+    /**
+     * Return the locale based on which the sort should be done.
+     */
+    public abstract ULocale getSortLocale();
 }
