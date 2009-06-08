@@ -12,13 +12,16 @@
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.GeneralPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.CheckSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -27,6 +30,7 @@ import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.HideMe
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.MeasureComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.swt.SWT;
 
 public class CrosstabGeneralPage extends GeneralPage
@@ -63,46 +67,6 @@ public class CrosstabGeneralPage extends GeneralPage
 		addSection( CrosstabPageSectionId.CROSSTAB_SEPERATOR_1,
 				seperatorSection );
 
-		// IDescriptorProvider cubeProvider = new
-		// CrosstabSimpleComboPropertyDescriptorProvider(
-		// ICrosstabReportItemConstants.CUBE_PROP,/*
-		// ICrosstabReportItemConstants.CUBE_PROP */
-		// ReportDesignConstants.EXTENDED_ITEM );
-		// CrosstabSimpleComboSection cubeSection = new
-		// CrosstabSimpleComboSection(
-		// cubeProvider.getDisplayName( ),
-		// container,
-		// true );
-		// cubeSection.setProvider( cubeProvider );
-		// cubeSection.setWidth( 280 );
-		// cubeSection.setGridPlaceholder( 2, true );
-		// addSection( CrosstabPageSectionId.CUBE, cubeSection );
-
-		// ContainerSection formatOptionSection = new ContainerSection(
-		// Messages.getString( "CrosstabGeneraPage.FormatOption" ),
-		// container,
-		// true );
-		// // formatOptionSection.setProvider( formatOptionProvider );
-		//
-		// formatOptionSection.setGridPlaceholder( 2, true );
-		// addSection( CrosstabPageSectionId.FORMAT_OPTION, formatOptionSection
-		// );
-
-		// layoutMeasuresProvider = new LayoutMeasuresProvider( );
-		// InnerCheckSection layoutMeasuresSection = new InnerCheckSection(
-		// container,
-		// true );
-		// layoutMeasuresSection.setProvider( layoutMeasuresProvider );
-		// layoutMeasuresSection.setLayoutNum( 4 );
-		// layoutMeasuresSection.setGridPlaceholder(2, true);
-		// addSection( CrosstabPageSectionId.LAYOUT_MEASURES,
-		// layoutMeasuresSection );
-
-		// IChoiceSet choiceSet =
-		// ChoiceSetFactory.getElementChoiceSet(ICrosstabConstants.
-		// CROSSTAB_EXTENSION_NAME
-		// ,
-		// ICrosstabReportItemConstants.MEASURE_DIRECTION_PROP );
 
 		layoutMeasuresProvider = new MeasureComboPropertyDescriptorProvider( ICrosstabReportItemConstants.MEASURE_DIRECTION_PROP,
 				ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
@@ -122,6 +86,32 @@ public class CrosstabGeneralPage extends GeneralPage
 		hideMeasureSection.setGridPlaceholder( 2, true );
 		addSection( CrosstabPageSectionId.HIDE_MEASURE_HEADER,
 				hideMeasureSection );
+
+		SeperatorSection seperator1 = new SeperatorSection( container,
+				SWT.HORIZONTAL );
+		addSection( CrosstabPageSectionId.CROSSTAB_SEPERATOR_2, seperator1 );
+
+		SimpleComboPropertyDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
+				ReportDesignConstants.REPORT_ITEM );
+		SimpleComboSection styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),
+				container,
+				true );
+		styleSection.setProvider( styleProvider );
+		styleSection.setLayoutNum( 2 );
+		styleSection.setWidth( 200 );
+		addSection( CrosstabPageSectionId.CROSSTAB_STYLE, styleSection );
+
+		ComboPropertyDescriptorProvider displayProvider = new ComboPropertyDescriptorProvider( IStyleModel.DISPLAY_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		ComboSection displaySection = new ComboSection( displayProvider.getDisplayName( ),
+				container,
+				true );
+		displaySection.setProvider( displayProvider );
+		displaySection.setLayoutNum( 4 );
+		displaySection.setGridPlaceholder( 2, true );
+		displaySection.setWidth( 200 );
+		addSection( CrosstabPageSectionId.CROSSTAB_DISPLAY, displaySection );
+
 	}
 
 	public boolean canReset( )

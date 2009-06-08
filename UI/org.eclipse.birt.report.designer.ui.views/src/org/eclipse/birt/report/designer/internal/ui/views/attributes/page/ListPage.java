@@ -12,10 +12,18 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ColorPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FontSizePropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FontStylePropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.PropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ColorSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FontSizeSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FontStyleSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
@@ -23,6 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Tex
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.swt.SWT;
 
 /**
@@ -54,6 +63,72 @@ public class ListPage extends GeneralPage
 		elementIdSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.LIST_ELEMENT_ID, elementIdSection );
 
+
+
+		Section seperatorSection = new SeperatorSection( container,
+				SWT.HORIZONTAL );
+		addSection( PageSectionId.LIST_SEPERATOR, seperatorSection ); //$NON-NLS-1$
+
+		ComboPropertyDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider( StyleHandle.FONT_FAMILY_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		fontFamilyProvider.enableReset( true );
+		ComboSection fontFamilySection = new ComboSection( fontFamilyProvider.getDisplayName( ),
+				container,
+				true );
+		fontFamilySection.setProvider( fontFamilyProvider );
+		fontFamilySection.setLayoutNum( 2 );
+		fontFamilySection.setWidth( 200 );
+		addSection( PageSectionId.FONT_FAMILY, fontFamilySection );
+
+		FontSizePropertyDescriptorProvider fontSizeProvider = new FontSizePropertyDescriptorProvider( StyleHandle.FONT_SIZE_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		fontSizeProvider.enableReset( true );
+		FontSizeSection fontSizeSection = new FontSizeSection( fontSizeProvider.getDisplayName( ),
+				container,
+				true );
+		fontSizeSection.setProvider( fontSizeProvider );
+		fontSizeSection.setLayoutNum( 4 );
+		fontSizeSection.setWidth( 200 );
+		fontSizeSection.setGridPlaceholder( 2, true );
+		addSection( PageSectionId.FONT_SIZE, fontSizeSection );
+
+		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider( StyleHandle.COLOR_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		colorProvider.enableReset( true );
+		ColorSection colorSection = new ColorSection( colorProvider.getDisplayName( ),
+				container,
+				true );
+		colorSection.setProvider( colorProvider );
+		colorSection.setLayoutNum( 2 );
+		colorSection.setWidth( 200 );
+		addSection( PageSectionId.FONT_COLOR, colorSection );
+
+		ColorPropertyDescriptorProvider bgColorProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		bgColorProvider.enableReset( true );
+		ColorSection bgColorSection = new ColorSection( bgColorProvider.getDisplayName( ),
+				container,
+				true );
+		bgColorSection.setProvider( bgColorProvider );
+		bgColorSection.setLayoutNum( 4 );
+		bgColorSection.setGridPlaceholder( 2, true );
+		bgColorSection.setWidth( 200 );
+		addSection( PageSectionId.LIST_BACKGROUND_COLOR, bgColorSection ); //$NON-NLS-1$
+
+		IDescriptorProvider[] fontStyleProviders = createFontStyleProviders( );
+
+		FontStyleSection fontStyleSection = new FontStyleSection( container,
+				true,
+				true );
+		fontStyleSection.setProviders( fontStyleProviders );
+		fontStyleSection.setLayoutNum( 6 );
+		fontStyleSection.setGridPlaceholder( 3, true );
+		addSection( PageSectionId.FONT_STYLE, fontStyleSection );
+
+		SeperatorSection seperator1 = new SeperatorSection( container,
+				SWT.HORIZONTAL );
+		addSection( PageSectionId.LIST_SEPERATOR_1, seperator1 );
+
 		SimpleComboPropertyDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
 				ReportDesignConstants.REPORT_ITEM );
 		SimpleComboSection styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),
@@ -64,48 +139,44 @@ public class ListPage extends GeneralPage
 		styleSection.setWidth( 200 );
 		addSection( PageSectionId.LIST_STYLE, styleSection );
 
-		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
+		ComboPropertyDescriptorProvider displayProvider = new ComboPropertyDescriptorProvider( IStyleModel.DISPLAY_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
-		colorProvider.enableReset( true );
-		ColorSection colorSection = new ColorSection( colorProvider.getDisplayName( ),
+		ComboSection displaySection = new ComboSection( displayProvider.getDisplayName( ),
 				container,
 				true );
-		colorSection.setProvider( colorProvider );
-		colorSection.setLayoutNum( 4 );
-		colorSection.setGridPlaceholder( 2, true );
-		colorSection.setWidth( 200 );
-		addSection( PageSectionId.LIST_COLOR, colorSection );
-		/*
-		 * Label styleLabel = FormWidgetFactory.getInstance( ).createLabel(
-		 * this, true ); TestSimpleComboPropertyDescriptor styleCombo =
-		 * DescriptorToolkit.createSimpleComboPropertyDescriptor( true );
-		 * SimpleComboPropertyDescriptorProvider comboProvider = new
-		 * SimpleComboPropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
-		 * ReportDesignConstants.REPORT_ITEM );
-		 * styleCombo.setDescriptorProvider( comboProvider );
-		 * styleLabel.setText( comboProvider.getDisplayName( ) );
-		 * WidgetUtil.setGridData( styleCombo.createControl( this ), 1, 200 );
-		 * descriptorContainer.add( styleCombo );
-		 * 
-		 * Label colorLabel = FormWidgetFactory.getInstance( ).createLabel(
-		 * this, true ); TestColorPropertyDescriptor colorBuilder =
-		 * DescriptorToolkit.createColorPropertyDescriptor( true );
-		 * ColorPropertyDescriptorProvider colorProvider = new
-		 * ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
-		 * ReportDesignConstants.STYLE_ELEMENT );
-		 * colorBuilder.setDescriptorProvider( colorProvider );
-		 * colorLabel.setText( colorProvider.getDisplayName( ) );
-		 * WidgetUtil.setGridData( colorBuilder.createControl( this ), 1, 200 );
-		 * descriptorContainer.add( colorBuilder );
-		 * 
-		 * WidgetUtil.createGridPlaceholder( this, 2, true );
-		 */
-
-		Section seperatorSection = new SeperatorSection( container,
-				SWT.HORIZONTAL );
-		addSection( PageSectionId.LIST_SEPERATOR, seperatorSection ); //$NON-NLS-1$
-
-		addFontsSection( );
+		displaySection.setProvider( displayProvider );
+		displaySection.setLayoutNum( 4 );
+		displaySection.setGridPlaceholder( 2, true );
+		displaySection.setWidth( 200 );
+		addSection( PageSectionId.LIST_DISPLAY, displaySection );
 	}
 
+	private IDescriptorProvider[] createFontStyleProviders( )
+	{
+		IDescriptorProvider[] providers = new IDescriptorProvider[]{
+
+				new FontStylePropertyDescriptorProvider( StyleHandle.FONT_WEIGHT_PROP,
+						ReportDesignConstants.STYLE_ELEMENT ),
+
+				new FontStylePropertyDescriptorProvider( StyleHandle.FONT_STYLE_PROP,
+						ReportDesignConstants.STYLE_ELEMENT ),
+
+				new FontStylePropertyDescriptorProvider( StyleHandle.TEXT_UNDERLINE_PROP,
+						ReportDesignConstants.STYLE_ELEMENT ),
+
+				new FontStylePropertyDescriptorProvider( StyleHandle.TEXT_LINE_THROUGH_PROP,
+						ReportDesignConstants.STYLE_ELEMENT ),
+
+				new PropertyDescriptorProvider( StyleHandle.TEXT_ALIGN_PROP,
+						ReportDesignConstants.STYLE_ELEMENT )
+		};
+
+		for ( int i = 0; i < providers.length; i++ )
+		{
+			if ( providers[i] instanceof PropertyDescriptorProvider )
+				( (PropertyDescriptorProvider) providers[i] ).enableReset( true );
+		}
+
+		return providers;
+	}
 }

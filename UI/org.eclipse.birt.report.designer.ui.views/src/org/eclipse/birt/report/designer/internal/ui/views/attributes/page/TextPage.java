@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.swt.SWT;
 
 /**
@@ -133,8 +134,8 @@ public class TextPage extends GeneralPage
 		// Sets layout num.
 
 		nameSection.setLayoutNum( 2 );
-		contentTypeSection.setLayoutNum( 2 );
-		styleSection.setLayoutNum( 4 );
+		contentTypeSection.setLayoutNum( 6 );
+		styleSection.setLayoutNum( 2 );
 		fontFamilySection.setLayoutNum( 2 );
 		fontSizeSection.setLayoutNum( 4 );
 		colorSection.setLayoutNum( 2 );
@@ -144,8 +145,8 @@ public class TextPage extends GeneralPage
 		// Sets fill grid num.
 
 		nameSection.setGridPlaceholder( 0, true );
-		contentTypeSection.setGridPlaceholder( 0, true );
-		styleSection.setGridPlaceholder( 2, true );
+		contentTypeSection.setGridPlaceholder( 4, true );
+		styleSection.setGridPlaceholder( 0, true );
 		fontFamilySection.setGridPlaceholder( 0, true );
 		fontSizeSection.setGridPlaceholder( 2, true );
 		colorSection.setGridPlaceholder( 0, true );
@@ -168,12 +169,28 @@ public class TextPage extends GeneralPage
 
 		addSection( PageSectionId.TEXT_SEPERATOR_1, seperator1Section ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_CONTENT_TYPE, contentTypeSection ); //$NON-NLS-1$
-		addSection( PageSectionId.TEXT_STYLE, styleSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_FONT_FAMILY, fontFamilySection ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_FONT_SIZE, fontSizeSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_COLOR, colorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_BACKGROUND_COLOR, bgColorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_FONT_STYLE, fontStyleSection ); //$NON-NLS-1$
+
+		SeperatorSection seperator1 = new SeperatorSection( container,
+				SWT.HORIZONTAL );
+		addSection( PageSectionId.TEXT_SEPERATOR_3, seperator1 );
+
+		addSection( PageSectionId.TEXT_STYLE, styleSection );
+
+		ComboPropertyDescriptorProvider displayProvider = new ComboPropertyDescriptorProvider( IStyleModel.DISPLAY_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		ComboSection displaySection = new ComboSection( displayProvider.getDisplayName( ),
+				container,
+				true );
+		displaySection.setProvider( displayProvider );
+		displaySection.setLayoutNum( 4 );
+		displaySection.setGridPlaceholder( 2, true );
+		displaySection.setWidth( 200 );
+		addSection( PageSectionId.TEXT_DISPLAY, displaySection );
 	}
 
 	/**

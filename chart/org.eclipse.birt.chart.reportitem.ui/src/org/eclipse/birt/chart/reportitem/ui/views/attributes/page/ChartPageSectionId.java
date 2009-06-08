@@ -12,5 +12,7 @@ public class ChartPageSectionId extends PageSectionId
 	public final static String CHART_WIDTH = "CHART_WIDTH";//$NON-NLS-1$
 	public final static String CHART_HEIGHT = "CHART_HEIGHT";//$NON-NLS-1$
 	public final static String CHART_STYLE = "CHART_STYLE";//$NON-NLS-1$
-	public static final String CHART_ELEMENT_ID = "CHART_ELEMENT_ID";
+	public static final String CHART_ELEMENT_ID = "CHART_ELEMENT_ID";//$NON-NLS-1$
+	public static final String CHART_DISPLAY = "CHART_DISPLAY";//$NON-NLS-1$
+	public static final String CHART_SEPERATOR_2 = "CHART_SEPERATOR_2";//$NON-NLS-1$
 }

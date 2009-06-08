@@ -15,14 +15,17 @@ import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartUnitP
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChoicePropertyDescriptorProvider;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.section.ChoiceSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.GeneralPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComplexUnitSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.swt.SWT;
 
 public class ChartGeneralPage extends GeneralPage
@@ -76,6 +79,10 @@ public class ChartGeneralPage extends GeneralPage
 		heightSection.setGridPlaceholder( 2, true );
 		addSection( ChartPageSectionId.CHART_HEIGHT, heightSection );
 
+		SeperatorSection seperator2 = new SeperatorSection( container,
+				SWT.HORIZONTAL );
+		addSection( ChartPageSectionId.CHART_SEPERATOR_2, seperator2 );
+
 		IDescriptorProvider styleProvider = new ChoicePropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
 				ReportDesignConstants.EXTENDED_ITEM );
 		ChoiceSection styleSection = new ChoiceSection( styleProvider.getDisplayName( ),
@@ -83,8 +90,19 @@ public class ChartGeneralPage extends GeneralPage
 				true );
 		styleSection.setProvider( styleProvider );
 		styleSection.setWidth( 200 );
-		styleSection.setGridPlaceholder( 4, true );
+		styleSection.setLayoutNum( 2 );
 		addSection( ChartPageSectionId.CHART_STYLE, styleSection );
+
+		ComboPropertyDescriptorProvider displayProvider = new ComboPropertyDescriptorProvider( IStyleModel.DISPLAY_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		ComboSection displaySection = new ComboSection( displayProvider.getDisplayName( ),
+				container,
+				true );
+		displaySection.setProvider( displayProvider );
+		displaySection.setLayoutNum( 4 );
+		displaySection.setGridPlaceholder( 2, true );
+		displaySection.setWidth( 200 );
+		addSection( ChartPageSectionId.CHART_DISPLAY, displaySection );
 
 		createSections( );
 		layoutSections( );

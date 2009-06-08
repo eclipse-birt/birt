@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.UnitPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComplexUnitSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
@@ -23,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Sim
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.swt.SWT;
 
 /**
@@ -44,7 +47,7 @@ public class ImagePage extends GeneralPage
 		IDescriptorProvider heightProvider = new UnitPropertyDescriptorProvider( ReportItemHandle.HEIGHT_PROP,
 				ReportDesignConstants.REPORT_ITEM );
 
-		IDescriptorProvider reportProvider = new SimpleComboPropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
+		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
 				ReportDesignConstants.REPORT_ITEM );
 
 		// Defines sections.
@@ -67,7 +70,7 @@ public class ImagePage extends GeneralPage
 		Section seperator2Section = new SeperatorSection( container,
 				SWT.HORIZONTAL );
 
-		SimpleComboSection reportSection = new SimpleComboSection( reportProvider.getDisplayName( ),
+		SimpleComboSection styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),
 				container,
 				true );
 
@@ -76,28 +79,28 @@ public class ImagePage extends GeneralPage
 		nameSection.setProvider( nameProvider );
 		widthSection.setProvider( widthProvider );
 		heightSection.setProvider( heightProvider );
-		reportSection.setProvider( reportProvider );
+		styleSection.setProvider( styleProvider );
 
 		// Sets widths.
 
 		nameSection.setWidth( 200 );
 		widthSection.setWidth( 200 );
 		heightSection.setWidth( 200 );
-		reportSection.setWidth( 200 );
+		styleSection.setWidth( 200 );
 
 		// Sets layout num.
 
 		nameSection.setLayoutNum( 2 );
 		widthSection.setLayoutNum( 2 );
 		heightSection.setLayoutNum( 4 );
-		reportSection.setLayoutNum( 6 );
+		styleSection.setLayoutNum( 2 );
 
 		// Sets fill grid num.
 
 		nameSection.setGridPlaceholder( 0, true );
 		widthSection.setGridPlaceholder( 0, true );
 		heightSection.setGridPlaceholder( 2, true );
-		reportSection.setGridPlaceholder( 4, true );
+		styleSection.setGridPlaceholder( 0, true );
 
 		// Adds sections into container page.
 
@@ -117,7 +120,18 @@ public class ImagePage extends GeneralPage
 		addSection( PageSectionId.IMAGE_WIDTH, widthSection ); //$NON-NLS-1$
 		addSection( PageSectionId.IMAGE_HEIGHT, heightSection ); //$NON-NLS-1$
 		addSection( PageSectionId.IMAGE_SEPERATOR_1, seperator2Section ); //$NON-NLS-1$
-		addSection( PageSectionId.IMAGE_REPORT, reportSection ); //$NON-NLS-1$
+		addSection( PageSectionId.IMAGE_STYLE, styleSection ); //$NON-NLS-1$
+
+		ComboPropertyDescriptorProvider displayProvider = new ComboPropertyDescriptorProvider( IStyleModel.DISPLAY_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		ComboSection displaySection = new ComboSection( displayProvider.getDisplayName( ),
+				container,
+				true );
+		displaySection.setProvider( displayProvider );
+		displaySection.setLayoutNum( 4 );
+		displaySection.setGridPlaceholder( 2, true );
+		displaySection.setWidth( 200 );
+		addSection( PageSectionId.IMAGE_DISPLAY, displaySection );
 	}
 
 	public boolean canReset( )

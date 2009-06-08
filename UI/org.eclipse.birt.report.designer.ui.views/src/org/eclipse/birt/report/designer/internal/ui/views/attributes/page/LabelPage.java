@@ -29,6 +29,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Tex
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.swt.SWT;
 
 /**
@@ -162,9 +163,20 @@ public class LabelPage extends GeneralPage
 				container,
 				true );
 		styleSection.setProvider( styleProvider );
-		styleSection.setGridPlaceholder( 4, true );
+		styleSection.setLayoutNum( 2 );
 		styleSection.setWidth( 200 );
 		addSection( PageSectionId.LABEL_STYLE, styleSection );
+
+		ComboPropertyDescriptorProvider displayProvider = new ComboPropertyDescriptorProvider( IStyleModel.DISPLAY_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		ComboSection displaySection = new ComboSection( displayProvider.getDisplayName( ),
+				container,
+				true );
+		displaySection.setProvider( displayProvider );
+		displaySection.setLayoutNum( 4 );
+		displaySection.setGridPlaceholder( 2, true );
+		displaySection.setWidth( 200 );
+		addSection( PageSectionId.LABEL_DISPLAY, displaySection );
 
 	}
 }

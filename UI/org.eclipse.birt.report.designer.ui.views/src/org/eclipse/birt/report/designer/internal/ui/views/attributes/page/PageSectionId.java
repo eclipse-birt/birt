@@ -97,7 +97,7 @@ public class PageSectionId
 	public final static String IMAGE_WIDTH = "IMAGE_WIDTH"; //$NON-NLS-1$
 	public final static String IMAGE_HEIGHT = "IMAGE_HEIGHT"; //$NON-NLS-1$
 	public final static String IMAGE_SEPERATOR_1 = "IMAGE_SEPERATOR_1"; //$NON-NLS-1$
-	public final static String IMAGE_REPORT = "IMAGE_REPORT"; //$NON-NLS-1$
+	public final static String IMAGE_STYLE = "IMAGE_STYLE"; //$NON-NLS-1$
 
 	public final static String ITEM_MARGIN_TOP = "ITEM_MARGIN_TOP"; //$NON-NLS-1$
 	public final static String ITEM_MARGIN_BOTTOM = "ITEM_MARGIN_BOTTOM"; //$NON-NLS-1$
@@ -295,5 +295,25 @@ public class PageSectionId
 	public static final String MASTER_PAGE_COLUMN_SEPERATOR = "MASTER_PAGE_COLUMN_SEPERATOR";//$NON-NLS-1$
 
 	public static final String MASTER_PAGE_COLUMNS_SPACE = "MASTER_PAGE_COLUMNS_SPACE";//$NON-NLS-1$
+
+	public static final String LABEL_DISPLAY = "LABEL_DISPLAY";//$NON-NLS-1$
+
+	public static final String TEXT_DISPLAY = "TEXT_DISPLAY";//$NON-NLS-1$
+
+	public static final String TEXT_SEPERATOR_3 = "TEXT_SEPERATOR_3";//$NON-NLS-1$
+
+	public static final String IMAGE_DISPLAY = "IMAGE_DISPLAY";//$NON-NLS-1$
+
+	public static final String GRID_SEPERATOR2 = "GRID_SEPERATOR2";//$NON-NLS-1$
+
+	public static final String GRID_DISPLAY = "GRID_DISPLAY";//$NON-NLS-1$
+
+	public static final String LIST_DISPLAY = "LIST_DISPLAY";//$NON-NLS-1$
+
+	public static final String LIST_SEPERATOR_1 = "LIST_SEPERATOR_1";//$NON-NLS-1$
+
+	public static final String LIST_BACKGROUND_COLOR = "LIST_BACKGROUND_COLOR";//$NON-NLS-1$
+
+	public static final String AUTOTEXT_SEPERATOR = "AUTOTEXT_SEPERATOR";//$NON-NLS-1$
 
 }
