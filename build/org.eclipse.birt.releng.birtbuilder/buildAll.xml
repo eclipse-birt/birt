@@ -55,14 +55,18 @@
 			</sequential>
 			<sequential>
 				<antcall target="buildBirtNLFeature"/>			
-				<antcall target="iPortalSetup"/>			
+				<antcall target="iPortalSetup"/>
+				<!--
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
-				<antcall target="generateJavaDoc"/>   
+				<antcall target="generateJavaDoc"/>
+				-->
 			</sequential>
 		</parallel>
-
+		<!-- comment out for the release build -->
+		<!--
 		<antcall target="runBirtTest"/>
+		-->
 		<!--
         <antcall target="runBirtPerformance"/>
 		-->
@@ -384,7 +388,7 @@
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.doc.isv}" token="@FEATURE.BIRT.DOC.ISV@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.source}" token="@FEATURE.BIRT.SOURCE@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt}" token="@FEATURE.BIRT@"/>
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart}" token="@@FEATURE.CHART@@"/>
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart}" token="@FEATURE.CHART@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.doc}" token="@FEATURE.BIRT.DOC@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.cshelp}" token="@FEATURE.CHART.CSHELP@"/>
 	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.chart.doc.isv}" token="@FEATURE.CHART.DOC.ISV@"/>
