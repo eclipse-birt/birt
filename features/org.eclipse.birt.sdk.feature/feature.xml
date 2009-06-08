@@ -54,7 +54,11 @@
    <includes
          id="org.eclipse.birt.chart"
          version="0.0.0"/>
-
+         
+   <includes
+         id="org.eclipse.birt.report.designer.ui.editor.xml.wtp.source"
+         version="0.0.0"/>
+         
    <includes
          id="org.eclipse.birt.source"
          version="0.0.0"/>
@@ -63,8 +67,6 @@
          id="org.eclipse.birt.chart.source"
          version="0.0.0"/>
 
-   <includes
-         id="org.eclipse.birt.report.designer.ui.editor.xml.wtp.source"
-         version="0.0.0"/>
+
 
 </feature>
