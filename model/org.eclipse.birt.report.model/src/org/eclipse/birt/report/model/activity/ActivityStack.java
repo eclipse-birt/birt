@@ -355,10 +355,7 @@ public class ActivityStack implements CommandStack
 
 		// if module is in the caching state and any record is executed, then
 		// the cache must be disabled
-		if ( module != null && module.isCached( ) )
-		{
-			module.setIsCached( false );
-		}
+		clearCachedValues( );
 
 		assert !( record instanceof CompoundRecord );
 
@@ -390,6 +387,19 @@ public class ActivityStack implements CommandStack
 	}
 
 	/**
+	 * Sets the cache status and clear the cached values.
+	 */
+	private void clearCachedValues( )
+	{
+		// if module is in the caching state and any record is executed, then
+		// the cache must be disabled
+		if ( module != null && module.isCached( ) )
+		{
+			module.setIsCached( false );
+		}
+	}
+
+	/**
 	 * Undoes the most recently executed (or redone) record. The record is
 	 * popped from the undo stack to and pushed onto the redo stack. This method
 	 * should only be called when {@link #canUndo()}returns <code>true</code>.
@@ -414,6 +424,9 @@ public class ActivityStack implements CommandStack
 				|| record.getState( ) == ActivityRecord.REDONE_STATE;
 		record.undo( );
 		record.setState( ActivityRecord.UNDONE_STATE );
+
+		// clear cached values
+		clearCachedValues( );
 
 		// Push the record onto the redo stack.
 
@@ -445,6 +458,9 @@ public class ActivityStack implements CommandStack
 		assert record.getState( ) == ActivityRecord.UNDONE_STATE;
 		record.redo( );
 		record.setState( ActivityRecord.REDONE_STATE );
+
+		// clear cached values
+		clearCachedValues( );
 
 		// Push the record back onto the undo stack. No need to check
 		// stack size here, it can't get any larger than it was when
@@ -870,7 +886,7 @@ public class ActivityStack implements CommandStack
 				listener.stackChanged( event );
 			}
 		}
-		
+
 		// clear module namehelper
 		if ( module != null )
 		{
