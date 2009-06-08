@@ -180,8 +180,7 @@ public interface Trigger extends EObject
 	boolean isSetTriggerFlow( );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	Trigger copyInstance( );
 

@@ -24,8 +24,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -812,8 +810,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public SeriesGrouping copyInstance( )
 	{
@@ -822,6 +819,9 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( SeriesGrouping src )
 	{
 		if ( src.getGroupingOrigin( ) != null )
@@ -853,11 +853,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 			aggregateParameters = list;
 		}
 
-	}
-
-	public static SeriesGrouping create( EObject parent, EReference ref )
-	{
-		return new SeriesGroupingImpl( );
 	}
 
 } //SeriesGroupingImpl

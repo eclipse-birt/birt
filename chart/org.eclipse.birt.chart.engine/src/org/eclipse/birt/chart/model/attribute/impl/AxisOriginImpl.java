@@ -19,8 +19,6 @@ import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -346,8 +344,7 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public AxisOrigin copyInstance( )
 	{
@@ -356,6 +353,9 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( AxisOrigin src )
 	{
 		if ( src.getValue( ) != null )
@@ -365,11 +365,6 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 
 		type = src.getType( );
 		typeESet = src.isSetType( );
-	}
-
-	public static AxisOrigin create( EObject parent, EReference ref )
-	{
-		return new AxisOriginImpl( );
 	}
 
 } // AxisOriginImpl

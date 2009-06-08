@@ -146,8 +146,7 @@ public interface Interactivity extends EObject
 	boolean isSetLegendBehavior( );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public Interactivity copyInstance( );
 

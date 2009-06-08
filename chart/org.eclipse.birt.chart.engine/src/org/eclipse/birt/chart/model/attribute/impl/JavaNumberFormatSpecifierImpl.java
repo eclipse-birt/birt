@@ -18,8 +18,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import com.ibm.icu.text.DecimalFormat;
@@ -322,8 +320,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public JavaNumberFormatSpecifier copyInstance( )
 	{
@@ -332,6 +329,9 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( JavaNumberFormatSpecifier src )
 	{
 		super.set( src );
@@ -339,12 +339,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 		pattern = src.getPattern( );
 		multiplier = src.getMultiplier( );
 		multiplierESet = src.isSetMultiplier( );
-	}
-
-	public static JavaNumberFormatSpecifier create( EObject parent,
-			EReference ref )
-	{
-		return new JavaNumberFormatSpecifierImpl( );
 	}
 
 } // JavaNumberFormatSpecifierImpl

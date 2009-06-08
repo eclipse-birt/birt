@@ -11,8 +11,6 @@ import org.eclipse.birt.chart.model.attribute.AccessibilityValue;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -253,21 +251,15 @@ public class AccessibilityValueImpl extends ActionValueImpl implements
 	public AccessibilityValue copyInstance( )
 	{
 		AccessibilityValueImpl dest = new AccessibilityValueImpl( );
-		dest.set( this );
+		dest.text = getText( );
+		dest.accessibility = getAccessibility( );
 		return dest;
 	}
 
 	protected void set( AccessibilityValue src )
 	{
-		super.set( src );
-
 		text = src.getText( );
 		accessibility = src.getAccessibility( );
-	}
-
-	public static AccessibilityValue create( EObject parent, EReference ref )
-	{
-		return new AccessibilityValueImpl( );
 	}
 
 } //AccessibilityValueImpl

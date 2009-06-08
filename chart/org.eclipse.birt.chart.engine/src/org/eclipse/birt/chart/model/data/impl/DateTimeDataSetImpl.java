@@ -15,8 +15,6 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Date Time Data Set</b></em>'. <!--
@@ -74,8 +72,7 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public DateTimeDataSet copyInstance( )
 	{
@@ -84,15 +81,13 @@ public class DateTimeDataSetImpl extends DataSetImpl implements DateTimeDataSet
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( DateTimeDataSet src )
 	{
 		super.set( src );
 
-	}
-
-	public static DateTimeDataSet create( EObject parent, EReference ref )
-	{
-		return new DateTimeDataSetImpl( );
 	}
 
 } //DateTimeDataSetImpl

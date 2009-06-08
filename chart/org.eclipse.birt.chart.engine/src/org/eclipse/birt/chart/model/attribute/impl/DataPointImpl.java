@@ -22,8 +22,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -385,8 +383,7 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public DataPoint copyInstance( )
 	{
@@ -395,6 +392,9 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( DataPoint src )
 	{
 		if ( src.getComponents( ) != null )
@@ -408,11 +408,6 @@ public class DataPointImpl extends EObjectImpl implements DataPoint
 		prefix = src.getPrefix( );
 		suffix = src.getSuffix( );
 		separator = src.getSeparator( );
-	}
-
-	public static DataPoint create( EObject parent, EReference ref )
-	{
-		return new DataPointImpl( );
 	}
 
 } // DataPointImpl

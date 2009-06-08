@@ -38,8 +38,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -1237,8 +1235,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public Series copyInstance( )
 	{
@@ -1247,6 +1244,9 @@ public class SeriesImpl extends EObjectImpl implements Series
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( Series src )
 	{
 		if ( src.getLabel( ) != null )
@@ -1307,11 +1307,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 		stackedESet = src.isSetStacked( );
 		translucent = src.isTranslucent( );
 		translucentESet = src.isSetTranslucent( );
-	}
-
-	public static Series create( EObject parent, EReference ref )
-	{
-		return new SeriesImpl( );
 	}
 
 } // SeriesImpl

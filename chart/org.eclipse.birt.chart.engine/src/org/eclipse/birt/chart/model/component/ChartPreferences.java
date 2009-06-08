@@ -74,8 +74,7 @@ public interface ChartPreferences extends EObject
 	EList<Block> getBlocks( );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	ChartPreferences copyInstance( );
 

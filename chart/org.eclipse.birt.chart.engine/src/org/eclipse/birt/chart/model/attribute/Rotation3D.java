@@ -52,8 +52,7 @@ public interface Rotation3D extends EObject
 	EList<Angle3D> getAngles( );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	Rotation3D copyInstance( );
 

@@ -16,13 +16,9 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.component.ComponentPackage;
-import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -586,29 +582,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 		dest.visible = isVisible( );
 		dest.visibleESet = isSetVisible( );
 		return dest;
-	}
-
-	public static LineAttributes create( EObject parent, EReference ref )
-	{
-		LineAttributesImpl lia = new LineAttributesImpl( );
-
-		if ( ref != null )
-		{
-			switch ( ref.getFeatureID( ) )
-			{
-				case LayoutPackage.CLIENT_AREA__OUTLINE : // 1
-					lia.thickness = 0;
-					break;
-				case LayoutPackage.LEGEND__SEPARATOR : // 23
-				case ComponentPackage.AXIS__LINE_ATTRIBUTES : // 9
-					lia.visible = true;
-					break;
-				default :
-					break;
-			}
-		}
-
-		return lia;
 	}
 
 } // LineAttributesImpl

@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelPackage;
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -36,14 +37,12 @@ import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -61,8 +60,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -1442,8 +1439,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	private Label newEmptyMessage( )
 	{
-		Label laAltText = LabelImpl.create( this,
-				ModelPackage.eINSTANCE.getChart_EmptyMessage( ) );
+		Label laAltText = ComponentFactory.eINSTANCE.createLabel( );
+		laAltText.setVisible( false );
 
 		laAltText.setCaption( TextImpl.create( Messages.getString( "ChartImpl.AltText" ) ) ); //$NON-NLS-1$
 		TextAlignment ta = laAltText.getCaption( ).getFont( ).getAlignment( );
@@ -1458,8 +1455,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 		ColorDefinition outlineColor = ColorDefinitionImpl.GREY( );
 		outlineColor.setTransparency( 128 );
-		LineAttributes lia = LineAttributesImpl.create( laAltText,
-				ComponentPackage.eINSTANCE.getLabel_Outline( ) );
+		LineAttributes lia = AttributeFactory.eINSTANCE.createLineAttributes( );
 		lia.setColor( outlineColor );
 		lia.setVisible( true );
 		laAltText.setOutline( lia );
@@ -1716,8 +1712,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public Chart copyInstance( )
 	{
@@ -1726,6 +1721,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( Chart src )
 	{
 		if ( src.getDescription( ) != null )
@@ -1781,11 +1779,6 @@ public class ChartImpl extends EObjectImpl implements Chart
 		seriesThicknessESet = src.isSetSeriesThickness( );
 		gridColumnCount = src.getGridColumnCount( );
 		gridColumnCountESet = src.isSetGridColumnCount( );
-	}
-
-	public static Chart create( EObject parent, EReference ref )
-	{
-		return new ChartImpl( );
 	}
 
 } // ChartImpl

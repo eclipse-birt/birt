@@ -119,8 +119,7 @@ public interface Location3D extends Location
 	public void linkToVector( Vector vector );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	Location3D copyInstance( );
 

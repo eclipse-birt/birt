@@ -135,8 +135,7 @@ public interface DataPoint extends EObject
 	void setSeparator( String value );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	DataPoint copyInstance( );
 

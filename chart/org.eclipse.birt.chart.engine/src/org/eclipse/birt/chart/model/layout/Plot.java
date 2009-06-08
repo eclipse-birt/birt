@@ -170,8 +170,7 @@ public interface Plot extends Block
 	void setClientArea( ClientArea value );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	Plot copyInstance( );
 

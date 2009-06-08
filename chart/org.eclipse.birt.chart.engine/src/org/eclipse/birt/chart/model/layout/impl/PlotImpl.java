@@ -19,8 +19,6 @@ import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -485,8 +483,7 @@ public class PlotImpl extends BlockImpl implements Plot
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public Plot copyInstance( )
 	{
@@ -495,6 +492,9 @@ public class PlotImpl extends BlockImpl implements Plot
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( Plot src )
 	{
 		super.set( src );
@@ -508,11 +508,6 @@ public class PlotImpl extends BlockImpl implements Plot
 		horizontalSpacingESet = src.isSetHorizontalSpacing( );
 		verticalSpacing = src.getVerticalSpacing( );
 		verticalSpacingESet = src.isSetVerticalSpacing( );
-	}
-
-	public static Plot create( EObject parent, EReference ref )
-	{
-		return new PlotImpl( );
 	}
 
 } // PlotImpl

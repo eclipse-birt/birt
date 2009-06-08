@@ -15,8 +15,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -240,8 +238,7 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public ExtendedProperty copyInstance( )
 	{
@@ -250,15 +247,13 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( ExtendedProperty src )
 	{
 		name = src.getName( );
 		value = src.getValue( );
-	}
-
-	public static ExtendedProperty create( EObject parent, EReference ref )
-	{
-		return new ExtendedPropertyImpl( );
 	}
 
 } // ExtendedPropertyImpl

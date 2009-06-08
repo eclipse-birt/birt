@@ -14,11 +14,8 @@ package org.eclipse.birt.chart.model.attribute.impl;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -824,28 +821,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 		dest.blue = getBlue( );
 		dest.blueESet = isSetBlue( );
 		return dest;
-	}
-
-	public static ColorDefinition create( EObject parent, EReference ref )
-	{
-		ColorDefinitionImpl color = new ColorDefinitionImpl( );
-
-		if ( ref == AttributePackage.eINSTANCE.getPalette_Entries( ) )
-		{
-			color.red = 128;
-			color.green = 128;
-			color.blue = 128;
-		}
-		else if ( ref == ComponentPackage.eINSTANCE.getLabel_Background( ) )
-		{
-			color.red = 255;
-			color.green = 255;
-			color.blue = 255;
-			color.transparency = 0;
-			color.transparencyESet = true;
-		}
-
-		return color;
 	}
 
 } // ColorDefinitionImpl

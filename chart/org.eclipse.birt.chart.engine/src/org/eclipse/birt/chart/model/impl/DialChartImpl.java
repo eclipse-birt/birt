@@ -17,8 +17,6 @@ import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -245,8 +243,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public DialChart copyInstance( )
 	{
@@ -255,6 +252,9 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( DialChart src )
 	{
 		super.set( src );
@@ -268,11 +268,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 		coverageESet = src.isSetCoverage( );
 		dialSuperimposition = src.isDialSuperimposition( );
 		dialSuperimpositionESet = src.isSetDialSuperimposition( );
-	}
-
-	public static DialChart create( EObject parent, EReference ref )
-	{
-		return new DialChartImpl( );
 	}
 
 } // DialChartImpl

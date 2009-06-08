@@ -11,8 +11,6 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.DifferenceDataSet;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Difference Data Set</b></em>'.
@@ -73,8 +71,7 @@ public class DifferenceDataSetImpl extends DataSetImpl implements
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public DifferenceDataSet copyInstance( )
 	{
@@ -83,15 +80,13 @@ public class DifferenceDataSetImpl extends DataSetImpl implements
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( DifferenceDataSet src )
 	{
 		super.set( src );
 
-	}
-
-	public static DifferenceDataSet create( EObject parent, EReference ref )
-	{
-		return new DifferenceDataSetImpl( );
 	}
 
 } // DifferenceDataSetImpl

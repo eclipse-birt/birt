@@ -92,8 +92,7 @@ public interface DialSeries extends Series
 	void setNeedle( Needle value );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	DialSeries copyInstance( );
 

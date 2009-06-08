@@ -60,8 +60,7 @@ public interface Image extends Fill
 	void setURL( String value );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	Image copyInstance( );
 

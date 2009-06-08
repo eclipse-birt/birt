@@ -16,8 +16,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -201,20 +199,13 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 	public ScriptValue copyInstance( )
 	{
 		ScriptValueImpl dest = new ScriptValueImpl( );
-		dest.set( this );
+		dest.script = getScript( );
 		return dest;
 	}
 
 	protected void set( ScriptValue src )
 	{
-		super.set( src );
-
 		script = src.getScript( );
-	}
-
-	public static ScriptValue create( EObject parent, EReference ref )
-	{
-		return new ScriptValueImpl( );
 	}
 
 } // ScriptValueImpl

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Cursor.java,v 1.3 2009/01/30 19:37:54 hchristense Exp $
+ * $Id: Cursor.java,v 1.4 2009/03/12 09:24:17 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -112,8 +112,7 @@ public interface Cursor extends EObject
 	EList<Image> getImage( );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	Cursor copyInstance( );
 

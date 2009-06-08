@@ -11,8 +11,6 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.GanttDataSet;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Gantt Data Set</b></em>'.
@@ -71,8 +69,7 @@ public class GanttDataSetImpl extends DataSetImpl implements GanttDataSet
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public GanttDataSet copyInstance( )
 	{
@@ -81,15 +78,13 @@ public class GanttDataSetImpl extends DataSetImpl implements GanttDataSet
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( GanttDataSet src )
 	{
 		super.set( src );
 
-	}
-
-	public static GanttDataSet create( EObject parent, EReference ref )
-	{
-		return new GanttDataSetImpl( );
 	}
 
 } // GanttDataSetImpl

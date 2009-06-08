@@ -15,8 +15,6 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Number Data Set</b></em>'. <!--
@@ -74,8 +72,7 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public NumberDataSet copyInstance( )
 	{
@@ -84,15 +81,13 @@ public class NumberDataSetImpl extends DataSetImpl implements NumberDataSet
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( NumberDataSet src )
 	{
 		super.set( src );
 
-	}
-
-	public static NumberDataSet create( EObject parent, EReference ref )
-	{
-		return new NumberDataSetImpl( );
 	}
 
 } //NumberDataSetImpl

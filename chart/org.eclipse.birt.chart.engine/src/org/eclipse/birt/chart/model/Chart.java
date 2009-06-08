@@ -618,8 +618,7 @@ public interface Chart extends EObject
 	void createSampleRuntimeSeries( );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	Chart copyInstance( );
 

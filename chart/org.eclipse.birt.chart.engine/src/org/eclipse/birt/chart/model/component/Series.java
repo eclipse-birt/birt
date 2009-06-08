@@ -559,8 +559,7 @@ public interface Series extends EObject
 	boolean isSingleCache( );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	Series copyInstance( );
 

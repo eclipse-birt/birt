@@ -200,8 +200,7 @@ public interface ClientArea extends EObject
 	boolean isSetVisible( );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	ClientArea copyInstance( );
 

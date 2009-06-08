@@ -13,8 +13,6 @@ import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -204,11 +202,6 @@ public class EmbeddedImageImpl extends ImageImpl implements EmbeddedImage
 		dest.uRL = getURL( );
 		dest.data = getData( );
 		return dest;
-	}
-
-	public static EmbeddedImage create( EObject parent, EReference ref )
-	{
-		return new EmbeddedImageImpl( );
 	}
 
 } // EmbeddedImageImpl

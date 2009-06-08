@@ -276,8 +276,7 @@ public interface Insets extends EObject
 	boolean areLessThan( double dValue );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	Insets copyInstance( );
 

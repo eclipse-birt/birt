@@ -122,8 +122,7 @@ public interface Needle extends EObject
 	boolean isSetDecorator( );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	Needle copyInstance( );
 

@@ -15,8 +15,6 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Text Data Set</b></em>'. <!-- end-user-doc
@@ -74,8 +72,7 @@ public class TextDataSetImpl extends DataSetImpl implements TextDataSet
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public TextDataSet copyInstance( )
 	{
@@ -84,15 +81,13 @@ public class TextDataSetImpl extends DataSetImpl implements TextDataSet
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( TextDataSet src )
 	{
 		super.set( src );
 
-	}
-
-	public static TextDataSet create( EObject parent, EReference ref )
-	{
-		return new TextDataSetImpl( );
 	}
 
 } //TextDataSetImpl

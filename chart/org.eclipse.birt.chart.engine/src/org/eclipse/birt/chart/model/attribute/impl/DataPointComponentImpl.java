@@ -19,8 +19,6 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -457,8 +455,7 @@ public class DataPointComponentImpl extends EObjectImpl implements
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public DataPointComponent copyInstance( )
 	{
@@ -467,6 +464,9 @@ public class DataPointComponentImpl extends EObjectImpl implements
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( DataPointComponent src )
 	{
 		if ( src.getFormatSpecifier( ) != null )
@@ -478,11 +478,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 		typeESet = src.isSetType( );
 		orthogonalType = src.getOrthogonalType( );
 		orthogonalTypeESet = src.isSetOrthogonalType( );
-	}
-
-	public static DataPointComponent create( EObject parent, EReference ref )
-	{
-		return new DataPointComponentImpl( );
 	}
 
 } // DataPointComponentImpl

@@ -16,8 +16,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -201,20 +199,13 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 	public SeriesValue copyInstance( )
 	{
 		SeriesValueImpl dest = new SeriesValueImpl( );
-		dest.set( this );
+		dest.name = getName( );
 		return dest;
 	}
 
 	protected void set( SeriesValue src )
 	{
-		super.set( src );
-
 		name = src.getName( );
-	}
-
-	public static SeriesValue create( EObject parent, EReference ref )
-	{
-		return new SeriesValueImpl( );
 	}
 
 } // SeriesValueImpl

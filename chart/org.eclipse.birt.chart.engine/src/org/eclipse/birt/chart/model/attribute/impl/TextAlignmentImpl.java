@@ -18,8 +18,6 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -348,10 +346,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 		setVerticalAlignment( VerticalAlignment.TOP_LITERAL );
 	}
 
-	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
-	 */
 	public TextAlignment copyInstance( )
 	{
 		TextAlignmentImpl dest = new TextAlignmentImpl( );
@@ -412,11 +406,6 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 			return false;
 		}
 		return true;
-	}
-
-	public static TextAlignment create( EObject parent, EReference ref )
-	{
-		return new TextAlignmentImpl( );
 	}
 
 } // TextAlignmentImpl

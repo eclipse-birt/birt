@@ -118,8 +118,7 @@ public interface BarSeries extends Series
 	void setRiserOutline( ColorDefinition value );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	BarSeries copyInstance( );
 

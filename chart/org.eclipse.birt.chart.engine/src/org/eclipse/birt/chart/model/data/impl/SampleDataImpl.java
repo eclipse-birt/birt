@@ -20,8 +20,6 @@ import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -255,8 +253,7 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public SampleData copyInstance( )
 	{
@@ -265,6 +262,9 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( SampleData src )
 	{
 		if ( src.getBaseSampleData( ) != null )
@@ -291,11 +291,6 @@ public class SampleDataImpl extends EObjectImpl implements SampleData
 				list.add( element.copyInstance( ) );
 			}
 		}
-	}
-
-	public static SampleData create( EObject parent, EReference ref )
-	{
-		return new SampleDataImpl( );
 	}
 
 } //SampleDataImpl

@@ -15,8 +15,6 @@ import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -182,8 +180,7 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public BaseSampleData copyInstance( )
 	{
@@ -192,14 +189,12 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( BaseSampleData src )
 	{
 		dataSetRepresentation = src.getDataSetRepresentation( );
-	}
-
-	public static BaseSampleData create( EObject parent, EReference ref )
-	{
-		return new BaseSampleDataImpl( );
 	}
 
 } //BaseSampleDataImpl

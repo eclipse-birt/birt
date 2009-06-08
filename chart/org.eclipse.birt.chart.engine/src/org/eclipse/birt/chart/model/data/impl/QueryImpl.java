@@ -22,8 +22,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -361,8 +359,7 @@ public class QueryImpl extends EObjectImpl implements Query
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public Query copyInstance( )
 	{
@@ -371,6 +368,9 @@ public class QueryImpl extends EObjectImpl implements Query
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( Query src )
 	{
 		if ( src.getRules( ) != null )
@@ -387,11 +387,6 @@ public class QueryImpl extends EObjectImpl implements Query
 		}
 
 		definition = src.getDefinition( );
-	}
-
-	public static Query create( EObject parent, EReference ref )
-	{
-		return new QueryImpl( );
 	}
 
 } //QueryImpl

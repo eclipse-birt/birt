@@ -16,8 +16,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import com.ibm.icu.util.ULocale;
@@ -690,8 +688,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public FractionNumberFormatSpecifier copyInstance( )
 	{
@@ -700,6 +697,9 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( FractionNumberFormatSpecifier src )
 	{
 		super.set( src );
@@ -714,12 +714,6 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		suffix = src.getSuffix( );
 		delimiter = src.getDelimiter( );
 		delimiterESet = src.isSetDelimiter( );
-	}
-
-	public static FractionNumberFormatSpecifier create( EObject parent,
-			EReference ref )
-	{
-		return new FractionNumberFormatSpecifierImpl( );
 	}
 
 } // FractionNumberFormatSpecifierImpl

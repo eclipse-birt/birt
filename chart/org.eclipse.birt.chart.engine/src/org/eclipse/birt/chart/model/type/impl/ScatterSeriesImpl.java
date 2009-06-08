@@ -18,8 +18,6 @@ import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -107,8 +105,7 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public ScatterSeries copyInstance( )
 	{
@@ -117,6 +114,9 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( ScatterSeries src )
 	{
 		super.set( src );
@@ -127,11 +127,6 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 		curveESet = src.isSetCurve( );
 		connectMissingValue = src.isConnectMissingValue( );
 		connectMissingValueESet = src.isSetConnectMissingValue( );
-	}
-
-	public static ScatterSeries create( EObject parent, EReference ref )
-	{
-		return new ScatterSeriesImpl( );
 	}
 
 } // ScatterSeriesImpl

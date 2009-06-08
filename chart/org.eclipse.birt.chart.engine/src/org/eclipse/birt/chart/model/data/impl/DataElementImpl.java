@@ -14,8 +14,6 @@ package org.eclipse.birt.chart.model.data.impl;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
@@ -48,8 +46,7 @@ public class DataElementImpl extends EObjectImpl implements DataElement
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public DataElement copyInstance( )
 	{
@@ -58,13 +55,11 @@ public class DataElementImpl extends EObjectImpl implements DataElement
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( DataElement src )
 	{
-	}
-
-	public static DataElement create( EObject parent, EReference ref )
-	{
-		return new DataElementImpl( );
 	}
 
 } //DataElementImpl

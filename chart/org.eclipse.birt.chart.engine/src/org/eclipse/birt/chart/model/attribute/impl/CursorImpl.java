@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CursorImpl.java,v 1.5 2009/04/22 08:40:24 ywang1 Exp $
+ * $Id: CursorImpl.java,v 1.6 2009/05/08 06:15:15 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
@@ -17,8 +17,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -296,8 +294,7 @@ public class CursorImpl extends EObjectImpl implements Cursor
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public Cursor copyInstance( )
 	{
@@ -306,6 +303,9 @@ public class CursorImpl extends EObjectImpl implements Cursor
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( Cursor src )
 	{
 		if ( src.getImage( ) != null )
@@ -318,11 +318,6 @@ public class CursorImpl extends EObjectImpl implements Cursor
 		}
 		type = src.getType( );
 		typeESet = src.isSetType( );
-	}
-
-	public static Cursor create( EObject parent, EReference ref )
-	{
-		return new CursorImpl( );
 	}
 
 } //CursorImpl

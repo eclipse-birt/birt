@@ -21,8 +21,6 @@ import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Area Series</b></em>'.
@@ -111,8 +109,7 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public AreaSeries copyInstance( )
 	{
@@ -121,6 +118,9 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( AreaSeries src )
 	{
 		super.set( src );
@@ -131,11 +131,6 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 		curveESet = src.isSetCurve( );
 		connectMissingValue = src.isConnectMissingValue( );
 		connectMissingValueESet = src.isSetConnectMissingValue( );
-	}
-
-	public static AreaSeries create( EObject parent, EReference ref )
-	{
-		return new AreaSeriesImpl( );
 	}
 
 } // AreaSeriesImpl

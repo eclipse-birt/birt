@@ -990,8 +990,7 @@ public interface Legend extends Block
 	void updateLayout( Chart cm );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	Legend copyInstance( );
 

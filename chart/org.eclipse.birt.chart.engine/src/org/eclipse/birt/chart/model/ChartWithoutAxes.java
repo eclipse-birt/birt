@@ -263,8 +263,7 @@ public interface ChartWithoutAxes extends Chart
 	Series[] getRunTimeSeries( );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	ChartWithoutAxes copyInstance( );
 

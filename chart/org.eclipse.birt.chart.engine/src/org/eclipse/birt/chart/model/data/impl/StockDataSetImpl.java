@@ -15,8 +15,6 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.StockDataSet;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Stock Data Set</b></em>'. <!--
@@ -74,8 +72,7 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public StockDataSet copyInstance( )
 	{
@@ -84,15 +81,13 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( StockDataSet src )
 	{
 		super.set( src );
 
-	}
-
-	public static StockDataSet create( EObject parent, EReference ref )
-	{
-		return new StockDataSetImpl( );
 	}
 
 } //StockDataSetImpl

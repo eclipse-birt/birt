@@ -167,8 +167,7 @@ public interface Style extends EObject
 	void setPadding( Insets value );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	Style copyInstance( );
 

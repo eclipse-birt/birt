@@ -315,8 +315,7 @@ public interface ColorDefinition extends Fill
 	public ColorDefinition transparent( );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	ColorDefinition copyInstance( );
 

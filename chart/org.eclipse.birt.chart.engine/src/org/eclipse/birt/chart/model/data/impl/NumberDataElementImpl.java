@@ -16,8 +16,6 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -238,8 +236,7 @@ public class NumberDataElementImpl extends DataElementImpl implements
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public NumberDataElement copyInstance( )
 	{
@@ -248,17 +245,15 @@ public class NumberDataElementImpl extends DataElementImpl implements
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( NumberDataElement src )
 	{
 		super.set( src );
 
 		value = src.getValue( );
 		valueESet = src.isSetValue( );
-	}
-
-	public static NumberDataElement create( EObject parent, EReference ref )
-	{
-		return new NumberDataElementImpl( );
 	}
 
 } //NumberDataElementImpl

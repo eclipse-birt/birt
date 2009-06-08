@@ -18,8 +18,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import com.ibm.icu.text.SimpleDateFormat;
@@ -223,8 +221,7 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public JavaDateFormatSpecifier copyInstance( )
 	{
@@ -233,16 +230,14 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( JavaDateFormatSpecifier src )
 	{
 		super.set( src );
 
 		pattern = src.getPattern( );
-	}
-
-	public static JavaDateFormatSpecifier create( EObject parent, EReference ref )
-	{
-		return new JavaDateFormatSpecifierImpl( );
 	}
 
 } // JavaDateFormatSpecifierImpl

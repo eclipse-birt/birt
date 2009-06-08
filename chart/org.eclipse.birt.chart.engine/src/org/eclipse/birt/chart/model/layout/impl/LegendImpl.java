@@ -42,8 +42,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -2147,8 +2145,7 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public Legend copyInstance( )
 	{
@@ -2157,6 +2154,9 @@ public class LegendImpl extends BlockImpl implements Legend
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( Legend src )
 	{
 		super.set( src );
@@ -2214,11 +2214,6 @@ public class LegendImpl extends BlockImpl implements Legend
 		titlePercentESet = src.isSetTitlePercent( );
 		ellipsis = src.getEllipsis( );
 		ellipsisESet = src.isSetEllipsis( );
-	}
-
-	public static Legend create( EObject parent, EReference ref )
-	{
-		return new LegendImpl( );
 	}
 
 } // LegendImpl

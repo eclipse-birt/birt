@@ -18,8 +18,6 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -678,11 +676,6 @@ public class GradientImpl extends FillImpl implements Gradient
 		dest.transparency = getTransparency( );
 		dest.transparencyESet = isSetTransparency( );
 		return dest;
-	}
-
-	public static Gradient create( EObject parent, EReference ref )
-	{
-		return new GradientImpl( );
 	}
 
 } // GradientImpl

@@ -18,8 +18,6 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -931,8 +929,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	protected void set( URLValue src )
 	{
-		super.set( src );
-
 		if ( src.getLabel( ) != null )
 		{
 			setLabel( src.getLabel( ).copyInstance( ) );
@@ -944,11 +940,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 		valueParameterName = src.getValueParameterName( );
 		seriesParameterName = src.getSeriesParameterName( );
 		tooltip = src.getTooltip( );
-	}
-
-	public static URLValue create( EObject parent, EReference ref )
-	{
-		return new URLValueImpl( );
 	}
 
 } // URLValueImpl

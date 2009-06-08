@@ -31,8 +31,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -541,8 +539,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public BarSeries copyInstance( )
 	{
@@ -551,6 +548,9 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( BarSeries src )
 	{
 		super.set( src );
@@ -562,11 +562,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 		riser = src.getRiser( );
 		riserESet = src.isSetRiser( );
-	}
-
-	public static BarSeries create( EObject parent, EReference ref )
-	{
-		return new BarSeriesImpl( );
 	}
 
 } // BarSeriesImpl

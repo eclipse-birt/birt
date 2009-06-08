@@ -153,8 +153,7 @@ public interface CurveFitting extends EObject
 	boolean isSetLabelAnchor( );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	CurveFitting copyInstance( );
 

@@ -20,8 +20,6 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -212,8 +210,7 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public ChartPreferences copyInstance( )
 	{
@@ -222,6 +219,9 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( ChartPreferences src )
 	{
 		if ( src.getLabels( ) != null )
@@ -240,11 +240,6 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 				list.add( element.copyInstance( ) );
 			}
 		}
-	}
-
-	public static ChartPreferences create( EObject parent, EReference ref )
-	{
-		return new ChartPreferencesImpl( );
 	}
 
 } // ChartPreferencesImpl

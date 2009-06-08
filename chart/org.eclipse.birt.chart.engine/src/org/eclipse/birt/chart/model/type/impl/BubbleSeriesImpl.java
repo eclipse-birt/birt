@@ -22,8 +22,6 @@ import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -381,8 +379,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public BubbleSeries copyInstance( )
 	{
@@ -391,6 +388,9 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( BubbleSeries src )
 	{
 		super.set( src );
@@ -408,11 +408,6 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 		connectMissingValueESet = src.isSetConnectMissingValue( );
 		accOrientation = src.getAccOrientation( );
 		accOrientationESet = src.isSetAccOrientation( );
-	}
-
-	public static BubbleSeries create( EObject parent, EReference ref )
-	{
-		return new BubbleSeriesImpl( );
 	}
 
 } // BubbleSeriesImpl

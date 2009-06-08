@@ -40,8 +40,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -821,8 +819,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public StockSeries copyInstance( )
 	{
@@ -831,6 +828,9 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( StockSeries src )
 	{
 		super.set( src );
@@ -849,11 +849,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 		showAsBarStickESet = src.isSetShowAsBarStick( );
 		stickLength = src.getStickLength( );
 		stickLengthESet = src.isSetStickLength( );
-	}
-
-	public static StockSeries create( EObject parent, EReference ref )
-	{
-		return new StockSeriesImpl( );
 	}
 
 } // StockSeriesImpl

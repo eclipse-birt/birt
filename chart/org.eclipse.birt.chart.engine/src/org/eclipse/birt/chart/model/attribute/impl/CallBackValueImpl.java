@@ -12,8 +12,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -200,20 +198,13 @@ public class CallBackValueImpl extends ActionValueImpl implements CallBackValue
 	public CallBackValue copyInstance( )
 	{
 		CallBackValueImpl dest = new CallBackValueImpl( );
-		dest.set( this );
+		dest.identifier = getIdentifier( );
 		return dest;
 	}
 
 	protected void set( CallBackValue src )
 	{
-		super.set( src );
-
 		identifier = src.getIdentifier( );
-	}
-
-	public static CallBackValue create( EObject parent, EReference ref )
-	{
-		return new CallBackValueImpl( );
 	}
 
 } // CallBackValueImpl

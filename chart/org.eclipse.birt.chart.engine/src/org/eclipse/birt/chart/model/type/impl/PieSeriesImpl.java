@@ -29,8 +29,6 @@ import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -1132,8 +1130,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public PieSeries copyInstance( )
 	{
@@ -1142,6 +1139,9 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( PieSeries src )
 	{
 		super.set( src );
@@ -1175,11 +1175,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		ratioESet = src.isSetRatio( );
 		rotation = src.getRotation( );
 		rotationESet = src.isSetRotation( );
-	}
-
-	public static PieSeries create( EObject parent, EReference ref )
-	{
-		return new PieSeriesImpl( );
 	}
 
 } // PieSeriesImpl

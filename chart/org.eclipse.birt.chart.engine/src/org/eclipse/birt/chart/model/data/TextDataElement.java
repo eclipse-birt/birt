@@ -51,15 +51,9 @@ public interface TextDataElement extends DataElement
      */
     String getValue();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.data.TextDataElement#getValue <em>Value</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Value</em>' attribute.
-     * @see #getValue()
-     * @generated
-     */
+	/**
+	 * @generated
+	 */
     void setValue(String value);
 
 } // TextDataElement

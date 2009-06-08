@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MultiURLValues.java,v 1.1 2009/03/05 12:25:19 heli Exp $
+ * $Id: MultiURLValues.java,v 1.2 2009/03/12 09:24:17 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -97,8 +97,7 @@ public interface MultiURLValues extends ActionValue
 	EMap<String, String> getPropertiesMap( );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	MultiURLValues copyInstance( );
 

@@ -13,8 +13,8 @@ package org.eclipse.birt.chart.model.component.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -48,8 +48,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -2934,22 +2932,18 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 */
 	public final Series[] getRuntimeSeries( )
 	{
-		final ArrayList al = new ArrayList( 8 );
-		final EList el = getSeriesDefinitions( );
-		SeriesDefinition sd;
+		List<Series> al = new ArrayList<Series>( 8 );
 
-		for ( int i = 0; i < el.size( ); i++ )
+		for ( SeriesDefinition sd : getSeriesDefinitions( ) )
 		{
-			sd = (SeriesDefinition) el.get( i );
 			al.addAll( sd.getRunTimeSeries( ) );
 		}
 
-		return (Series[]) al.toArray( new Series[al.size( )] );
+		return al.toArray( new Series[al.size( )] );
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public Axis copyInstance( )
 	{
@@ -2958,6 +2952,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( Axis src )
 	{
 		if ( src.getTitle( ) != null )
@@ -3088,21 +3085,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 		labelSpanESet = src.isSetLabelSpan( );
 		axisPercent = src.getAxisPercent( );
 		axisPercentESet = src.isSetAxisPercent( );
-	}
-
-	public static Axis create( EObject parent, EReference ref )
-	{
-		AxisImpl ax = new AxisImpl( );
-
-		if ( ref == ModelPackage.eINSTANCE.getChartWithAxes_Axes( ) )
-		{
-			ax.titlePosition = Position.BELOW_LITERAL;
-			ax.labelPosition = Position.BELOW_LITERAL;
-			ax.categoryAxis = true;
-			ax.orientation = Orientation.HORIZONTAL_LITERAL;
-		}
-
-		return ax;
 	}
 
 } // AxisImpl

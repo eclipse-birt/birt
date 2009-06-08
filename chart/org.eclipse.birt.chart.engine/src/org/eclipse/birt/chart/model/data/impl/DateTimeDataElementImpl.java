@@ -17,8 +17,6 @@ import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import com.ibm.icu.util.Calendar;
@@ -278,8 +276,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public DateTimeDataElement copyInstance( )
 	{
@@ -288,17 +285,15 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( DateTimeDataElement src )
 	{
 		super.set( src );
 
 		value = src.getValue( );
 		valueESet = src.isSetValue( );
-	}
-
-	public static DateTimeDataElement create( EObject parent, EReference ref )
-	{
-		return new DateTimeDataElementImpl( );
 	}
 
 } //DateTimeDataElementImpl

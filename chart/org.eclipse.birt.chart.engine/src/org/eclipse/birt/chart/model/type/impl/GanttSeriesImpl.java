@@ -27,8 +27,6 @@ import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -1231,8 +1229,7 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public GanttSeries copyInstance( )
 	{
@@ -1241,6 +1238,9 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( GanttSeries src )
 	{
 		super.set( src );
@@ -1285,11 +1285,6 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 		decorationLabelPositionESet = src.isSetDecorationLabelPosition( );
 		paletteLineColor = src.isPaletteLineColor( );
 		paletteLineColorESet = src.isSetPaletteLineColor( );
-	}
-
-	public static GanttSeries create( EObject parent, EReference ref )
-	{
-		return new GanttSeriesImpl( );
 	}
 
 } // GanttSeriesImpl

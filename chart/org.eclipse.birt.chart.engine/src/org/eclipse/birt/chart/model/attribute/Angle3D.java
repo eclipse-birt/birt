@@ -267,8 +267,7 @@ public interface Angle3D extends EObject
 	double getAxisAngle( );
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	Angle3D copyInstance( );
 

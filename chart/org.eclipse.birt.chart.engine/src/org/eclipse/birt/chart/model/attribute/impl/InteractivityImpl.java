@@ -13,8 +13,6 @@ import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -331,8 +329,7 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public Interactivity copyInstance( )
 	{
@@ -341,17 +338,15 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( Interactivity src )
 	{
 		enable = src.isEnable( );
 		enableESet = src.isSetEnable( );
 		legendBehavior = src.getLegendBehavior( );
 		legendBehaviorESet = src.isSetLegendBehavior( );
-	}
-
-	public static Interactivity create( EObject parent, EReference ref )
-	{
-		return new InteractivityImpl( );
 	}
 
 } // InteractivityImpl

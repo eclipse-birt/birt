@@ -24,8 +24,6 @@ import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -344,8 +342,7 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public DialSeries copyInstance( )
 	{
@@ -354,6 +351,9 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( DialSeries src )
 	{
 		super.set( src );
@@ -368,11 +368,6 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 			setNeedle( src.getNeedle( ).copyInstance( ) );
 		}
 
-	}
-
-	public static DialSeries create( EObject parent, EReference ref )
-	{
-		return new DialSeriesImpl( );
 	}
 
 } // DialSeriesImpl

@@ -16,8 +16,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -383,7 +381,10 @@ public class SizeImpl extends EObjectImpl implements Size
 	public Size copyInstance( )
 	{
 		SizeImpl dest = new SizeImpl( );
-		dest.set( this );
+		dest.height = getHeight( );
+		dest.heightESet = isSetHeight( );
+		dest.width = getWidth( );
+		dest.widthESet = isSetWidth( );
 		return dest;
 	}
 
@@ -393,11 +394,6 @@ public class SizeImpl extends EObjectImpl implements Size
 		heightESet = src.isSetHeight( );
 		width = src.getWidth( );
 		widthESet = src.isSetWidth( );
-	}
-
-	public static Size create( EObject parent, EReference ref )
-	{
-		return new SizeImpl( );
 	}
 
 } // SizeImpl

@@ -21,8 +21,6 @@ import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.DialRegion;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -352,8 +350,7 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public DialRegion copyInstance( )
 	{
@@ -362,6 +359,9 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( DialRegion src )
 	{
 		super.set( src );
@@ -370,11 +370,6 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 		innerRadiusESet = src.isSetInnerRadius( );
 		outerRadius = src.getOuterRadius( );
 		outerRadiusESet = src.isSetOuterRadius( );
-	}
-
-	public static DialRegion create( EObject parent, EReference ref )
-	{
-		return new DialRegionImpl( );
 	}
 
 } // DialRegionImpl

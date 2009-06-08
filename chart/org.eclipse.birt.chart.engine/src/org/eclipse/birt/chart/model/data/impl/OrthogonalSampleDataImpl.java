@@ -15,8 +15,6 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -282,8 +280,7 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public OrthogonalSampleData copyInstance( )
 	{
@@ -292,16 +289,14 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( OrthogonalSampleData src )
 	{
 		dataSetRepresentation = src.getDataSetRepresentation( );
 		seriesDefinitionIndex = src.getSeriesDefinitionIndex( );
 		seriesDefinitionIndexESet = src.isSetSeriesDefinitionIndex( );
-	}
-
-	public static OrthogonalSampleData create( EObject parent, EReference ref )
-	{
-		return new OrthogonalSampleDataImpl( );
 	}
 
 } //OrthogonalSampleDataImpl

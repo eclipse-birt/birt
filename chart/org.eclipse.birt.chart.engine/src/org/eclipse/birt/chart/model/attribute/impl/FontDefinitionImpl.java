@@ -18,8 +18,6 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -1144,11 +1142,6 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 		if ( wordWrap != other.isWordWrap( ) )
 			return false;
 		return true;
-	}
-
-	public static FontDefinition create( EObject parent, EReference ref )
-	{
-		return new FontDefinitionImpl( );
 	}
 
 } // FontDefinitionImpl

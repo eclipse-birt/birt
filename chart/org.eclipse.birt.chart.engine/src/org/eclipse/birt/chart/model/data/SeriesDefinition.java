@@ -335,8 +335,7 @@ public interface SeriesDefinition extends EObject
 	static final SeriesDefinition[] EMPTY_ARRAY = new SeriesDefinition[0];
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	SeriesDefinition copyInstance( );
 

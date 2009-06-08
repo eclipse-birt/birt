@@ -14,8 +14,6 @@ package org.eclipse.birt.chart.model.attribute.impl;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
@@ -49,8 +47,7 @@ public class FormatSpecifierImpl extends EObjectImpl implements FormatSpecifier
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public FormatSpecifier copyInstance( )
 	{
@@ -59,13 +56,11 @@ public class FormatSpecifierImpl extends EObjectImpl implements FormatSpecifier
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( FormatSpecifier src )
 	{
-	}
-
-	public static FormatSpecifier create( EObject parent, EReference ref )
-	{
-		return new FormatSpecifierImpl( );
 	}
 
 } // FormatSpecifierImpl

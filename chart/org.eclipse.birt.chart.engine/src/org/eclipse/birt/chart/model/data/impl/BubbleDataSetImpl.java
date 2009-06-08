@@ -11,8 +11,6 @@ import org.eclipse.birt.chart.model.data.BubbleDataSet;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Bubble Data Set</b></em>'.
@@ -62,8 +60,7 @@ public class BubbleDataSetImpl extends DataSetImpl implements BubbleDataSet
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public BubbleDataSet copyInstance( )
 	{
@@ -72,6 +69,9 @@ public class BubbleDataSetImpl extends DataSetImpl implements BubbleDataSet
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( BubbleDataSet src )
 	{
 		super.set( src );
@@ -87,9 +87,5 @@ public class BubbleDataSetImpl extends DataSetImpl implements BubbleDataSet
 	{
 	}
 
-	public static BubbleDataSet create( EObject parent, EReference ref )
-	{
-		return new BubbleDataSetImpl( );
-	}
 
 } // BubbleDataSetImpl

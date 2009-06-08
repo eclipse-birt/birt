@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.model.component.impl;
 
-import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -31,8 +30,6 @@ import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -943,19 +940,6 @@ public class LabelImpl extends EObjectImpl implements Label
 			lb.shadowColor = src.getShadowColor( ).copyInstance( );
 		}
 		return lb;
-	}
-
-	public static Label create( EObject parent, EReference ref )
-	{
-		LabelImpl la = new LabelImpl( );
-
-		if ( ref == ComponentPackage.eINSTANCE.getSeries_Label( )
-				|| ref == ModelPackage.eINSTANCE.getChart_EmptyMessage( ) )
-		{
-			la.visible = false;
-		}
-
-		return la;
 	}
 
 } // LabelImpl

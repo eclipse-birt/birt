@@ -28,8 +28,6 @@ import org.eclipse.birt.chart.model.layout.LayoutFactory;
 import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Title Block</b></em>'. <!-- end-user-doc
@@ -121,8 +119,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public TitleBlock copyInstance( )
 	{
@@ -131,15 +128,13 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( TitleBlock src )
 	{
 		super.set( src );
 
-	}
-
-	public static TitleBlock create( EObject parent, EReference ref )
-	{
-		return new TitleBlockImpl( );
 	}
 
 } //TitleBlockImpl

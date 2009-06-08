@@ -15,8 +15,6 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -165,8 +163,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public DataSet copyInstance( )
 	{
@@ -175,6 +172,9 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( DataSet src )
 	{
 		values = src.getValues( );
@@ -195,11 +195,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 		result.append( values );
 		result.append( ')' );
 		return result.toString( );
-	}
-
-	public static DataSet create( EObject parent, EReference ref )
-	{
-		return new DataSetImpl( );
 	}
 
 } //DataSetImpl

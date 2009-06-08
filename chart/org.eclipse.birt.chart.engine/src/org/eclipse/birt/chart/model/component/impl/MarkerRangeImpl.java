@@ -33,8 +33,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -977,8 +975,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public MarkerRange copyInstance( )
 	{
@@ -987,6 +984,9 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( MarkerRange src )
 	{
 		if ( src.getOutline( ) != null )
@@ -1034,11 +1034,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 		labelAnchor = src.getLabelAnchor( );
 		labelAnchorESet = src.isSetLabelAnchor( );
-	}
-
-	public static MarkerRange create( EObject parent, EReference ref )
-	{
-		return new MarkerRangeImpl( );
 	}
 
 } // MarkerRangeImpl

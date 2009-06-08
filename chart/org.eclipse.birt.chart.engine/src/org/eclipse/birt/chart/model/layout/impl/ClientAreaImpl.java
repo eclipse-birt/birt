@@ -24,8 +24,6 @@ import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -627,8 +625,7 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	}
 
 	/**
-	 * A convenient method to get an instance copy. This is much faster than the
-	 * ECoreUtil.copy().
+	 * @generated
 	 */
 	public ClientArea copyInstance( )
 	{
@@ -637,6 +634,9 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 		return dest;
 	}
 
+	/**
+	 * @generated
+	 */
 	protected void set( ClientArea src )
 	{
 		if ( src.getBackground( ) != null )
@@ -661,11 +661,6 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 
 		visible = src.isVisible( );
 		visibleESet = src.isSetVisible( );
-	}
-
-	public static ClientArea create( EObject parent, EReference ref )
-	{
-		return new ClientAreaImpl( );
 	}
 
 } //ClientAreaImpl
