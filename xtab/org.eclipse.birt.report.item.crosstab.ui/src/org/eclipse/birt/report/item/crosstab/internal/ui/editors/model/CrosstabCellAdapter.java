@@ -13,17 +13,19 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 
 /**
  * Ceosstab cell adapter
  */
 
-public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter
+public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements IVirtualValidator
 {
 
 	int rowNumber;
@@ -247,5 +249,49 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter
 		}
 
 		return ""; //$NON-NLS-1$
+	}
+	
+	public boolean handleValidate( Object obj )
+	{
+		if ( obj instanceof Object[] )
+		{
+			Object[] objects = (Object[]) obj;
+			int len = objects.length;
+			if ( len == 0 )
+			{
+				return false;
+			}
+			if ( len == 1 )
+			{
+				return handleValidate( objects[0] );
+			}
+			else
+			{
+				if (isAllParameter( objects ))
+				{
+					return true;
+				}
+			}
+
+		}
+		
+		if ( obj instanceof ScalarParameterHandle )
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean isAllParameter(Object[] objs)
+	{
+		for (int i=0; i<objs.length; i++)
+		{
+			if (!(objs[i] instanceof ScalarParameterHandle))
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }

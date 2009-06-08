@@ -56,7 +56,24 @@ public class CrosstabCellCreateCommand extends Command
 				CrosstabCellAdapter cellAdapter = (CrosstabCellAdapter) parent;
 				CrosstabCellHandle handle = cellAdapter.getCrosstabCellHandle( );
 				int pos = findInsertPosition( handle, after );
-				handle.addContent( getNewObject( ), pos );
+				Object obj = getNewObject( );
+				if (obj instanceof DesignElementHandle)
+				{
+					handle.addContent( (DesignElementHandle)obj, pos );
+				}
+				else if (obj instanceof Object[])
+				{
+					Object[] objs = (Object[])obj;
+					for (int i=0; i<objs.length; i++)
+					{
+						if (objs[i] instanceof DesignElementHandle)
+						{
+							handle.addContent( (DesignElementHandle)objs[i], pos );
+							pos = pos + 1;
+						}
+					}
+				}
+				
 			}
 		}
 		catch ( SemanticException e )
@@ -116,8 +133,8 @@ public class CrosstabCellCreateCommand extends Command
 	 * 
 	 * @return Return the object
 	 */
-	public DesignElementHandle getNewObject( )
+	public Object getNewObject( )
 	{
-		return (DesignElementHandle) extendsData.get( DesignerConstants.KEY_NEWOBJECT );
+		return  extendsData.get( DesignerConstants.KEY_NEWOBJECT );
 	}
 }

@@ -196,7 +196,7 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 				command.setLevelHandles( levelHandles );
 				return command;
 			}
-			else if ( newObject instanceof Object[] )
+			else if ( newObject instanceof Object[])
 			{
 				Class arrayType = getArrayType( (Object[]) newObject );
 				if ( LevelAttributeHandle.class.isAssignableFrom( arrayType ) )
@@ -218,13 +218,14 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 							afterObj );
 					return command;
 				}
+				else
+				{
+					return getCrosstabCellCreateCommand(request, after);
+				}
 			}
 			else
 			{
-				CrosstabCellCreateCommand command = new CrosstabCellCreateCommand( request.getExtendedData( ) );
-				command.setParent( getHost( ).getModel( ) );
-				command.setAfter( after == null ? null : after.getModel( ) );
-				return command;
+				return getCrosstabCellCreateCommand(request, after);
 			}
 		}
 		// TODO there is a bug, include design ui
@@ -233,6 +234,13 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 		return super.getCreateCommand( request );
 	}
 
+	private CrosstabCellCreateCommand getCrosstabCellCreateCommand(CreateRequest request, EditPart after)
+	{
+		CrosstabCellCreateCommand command = new CrosstabCellCreateCommand( request.getExtendedData( ) );
+		command.setParent( getHost( ).getModel( ) );
+		command.setAfter( after == null ? null : after.getModel( ) );
+		return command;
+	}
 	private boolean isLevelHandles( Object newObject )
 	{
 		if ( newObject instanceof Object[] )

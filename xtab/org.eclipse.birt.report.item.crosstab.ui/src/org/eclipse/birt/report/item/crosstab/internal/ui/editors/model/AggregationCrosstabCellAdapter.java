@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 
-import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
@@ -23,8 +22,7 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
  * Adapter for the AggregationCrosstabCell
  */
 
-public class AggregationCrosstabCellAdapter extends CrosstabCellAdapter implements
-		IVirtualValidator
+public class AggregationCrosstabCellAdapter extends CrosstabCellAdapter
 {
 
 	/**
@@ -73,6 +71,11 @@ public class AggregationCrosstabCellAdapter extends CrosstabCellAdapter implemen
 	 */
 	public boolean handleValidate( Object obj )
 	{
+		boolean bool = super.handleValidate( obj );
+		if (bool)
+		{
+			return bool;
+		}
 		CrosstabReportItemHandle crosstab = getCrosstabCellHandle( ).getCrosstab( );
 		if ( obj instanceof Object[] )
 		{

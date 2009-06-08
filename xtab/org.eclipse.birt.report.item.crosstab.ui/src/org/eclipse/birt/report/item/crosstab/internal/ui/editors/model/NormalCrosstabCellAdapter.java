@@ -11,13 +11,13 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 
-import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
@@ -26,8 +26,7 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 /**
  * The default cell adapter
  */
-public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements
-		IVirtualValidator
+public class NormalCrosstabCellAdapter extends CrosstabCellAdapter
 {
 
 	/**
@@ -80,6 +79,11 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements
 	 */
 	public boolean handleValidate( Object obj )
 	{
+		boolean bool = super.handleValidate( obj );
+		if (bool)
+		{
+			return bool;
+		}
 		CrosstabReportItemHandle crosstab = getCrosstabCellHandle( ).getCrosstab( );
 		if ( obj instanceof Object[] )
 		{
