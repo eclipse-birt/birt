@@ -943,6 +943,10 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		initDataSelector( );
 		updatePredefinedQueries( );
+		if ( dataProvider.checkState( IDataServiceProvider.IN_MULTI_VIEWS ) )
+		{
+			autoSelect( false );
+		}
 		return cmpDataSet;
 	}
 
@@ -1405,6 +1409,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							break;
 					}
 					updatePredefinedQueries( );
+					autoSelect( true );
 				}
 				else if ( event.widget == btnShowDataPreviewA || event.widget == btnShowDataPreviewB )
 				{
@@ -1422,6 +1427,39 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 	}
 
+	private void autoSelect( boolean force )
+	{
+		if ( dataProvider.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
+		{
+			// if only one item,select it for user
+			Query query = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getContext( ).getModel( ) )
+					.get( 0 )
+					.getDesignTimeSeries( )
+					.getDataDefinition( )
+					.get( 0 );
+
+			Object[] valueExprs = getContext( ).getPredefinedQuery( ChartUIConstants.QUERY_VALUE );
+
+			if ( ( force || query.getDefinition( ) == null || query.getDefinition( )
+					.trim( )
+					.length( ) == 0 )
+					&& valueExprs != null && valueExprs.length == 1 )
+			{
+				String text = valueExprs[0].toString( );
+				query.setDefinition( text );
+				if ( dataProvider.update( ChartUIConstants.QUERY_VALUE, text ) )
+				{
+					Event e = new Event( );
+					e.type = IChartDataSheet.EVENT_QUERY;
+					this.notifyListeners( e );
+				}
+				if ( force )
+				{
+					fireEvent( tablePreview, EVENT_PREVIEW );
+				}
+			}
+		}
+	}
 
 
 	private void selectDataSet( )
