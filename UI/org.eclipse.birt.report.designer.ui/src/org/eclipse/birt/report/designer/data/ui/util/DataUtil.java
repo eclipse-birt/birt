@@ -364,7 +364,7 @@ public class DataUtil
 		String functionName = bindingColumn.getAggregateFunction( );
 		try
 		{
-			IAggrFunction function = getAggregationManager( ).getAggregation( functionName );
+			IAggrFunction function = getAggregationManager( ).getAggregation( DataAdapterUtil.adaptModelAggregationType( functionName ));
 			for ( IParameterDefn param : function.getParameterDefn( ) )
 			{
 				if ( param.isDataField( ) )
