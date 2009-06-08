@@ -1500,16 +1500,17 @@ public class PropertyCommandTest extends BaseTestCase
 
 	public void testMoveItem( ) throws Exception
 	{
-		StyleElement style = design.findStyle( "Style2" ); //$NON-NLS-1$
+		StyleHandle styleHandle = designHandle.findStyle( "Style2" ); //$NON-NLS-1$
+		ActivityStack as = design.getActivityStack( );
 
 		// check if original Style2 has two properties
 
-		List rules = (List) style.getProperty( design, Style.MAP_RULES_PROP );
+		List rules = (List) styleHandle.getProperty( Style.MAP_RULES_PROP );
 		assertTrue( rules.size( ) == 2 );
 
 		// get map.rules handle
 
-		PropertyHandle propHandle = style.getHandle( design )
+		PropertyHandle propHandle = styleHandle
 				.getPropertyHandle( Style.MAP_RULES_PROP );
 
 		// move item from index zero to index one
@@ -1519,12 +1520,12 @@ public class PropertyCommandTest extends BaseTestCase
 
 		// undo and check result
 
-		design.getActivityStack( ).undo( );
+		as.undo( );
 		saveOperate( "PropertyCommandTest_golden_10.xml" );//$NON-NLS-1$
 
 		// redo and check result
 
-		design.getActivityStack( ).redo( );
+		as.redo( );
 		saveOperate( "PropertyCommandTest_golden_9.xml" );//$NON-NLS-1$
 
 		// move Item to the end of the list.
@@ -1534,9 +1535,8 @@ public class PropertyCommandTest extends BaseTestCase
 
 		// move item from null structure list
 
-		style = design.findStyle( "Style1" ); //$NON-NLS-1$
-		propHandle = style.getHandle( design ).getPropertyHandle(
-				Style.MAP_RULES_PROP );
+		styleHandle = designHandle.findStyle( "Style1" ); //$NON-NLS-1$
+		propHandle = styleHandle.getPropertyHandle( Style.MAP_RULES_PROP );
 
 		try
 		{
@@ -1547,6 +1547,22 @@ public class PropertyCommandTest extends BaseTestCase
 		{
 			assertTrue( e instanceof PropertyValueException );
 		}
+
+		// test the undo of MoveItemListRecord about the address reference about
+		// bug 279217
+		styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
+		propHandle = styleHandle.getPropertyHandle( Style.MAP_RULES_PROP );
+
+		as.startTrans( null );
+
+		rules = (List) styleHandle.getProperty( Style.MAP_RULES_PROP );
+		propHandle.moveItem( 0, 1 );
+		propHandle.clearValue( );
+		propHandle.addItem( rules.get( 0 ) );
+		propHandle.addItem( rules.get( 1 ) );
+		as.commit( );
+
+		as.undo( );
 
 		// move item within a member list.
 

@@ -692,7 +692,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		assert list != null;
 
 		MoveListItemRecord record = new MoveListItemRecord( element, context,
-				list, oldPosn, adjustedNewPosn );
+				oldPosn, adjustedNewPosn );
 		record.setEventTarget( getEventTarget( ) );
 
 		stack.execute( record );

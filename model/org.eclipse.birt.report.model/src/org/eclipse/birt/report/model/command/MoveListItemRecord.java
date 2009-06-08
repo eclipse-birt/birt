@@ -43,12 +43,6 @@ public class MoveListItemRecord extends SimpleRecord
 	protected StructureContext itemRef = null;
 
 	/**
-	 * The list that contains the item.
-	 */
-
-	protected List<Object> list = null;
-
-	/**
 	 * The old position of the item.
 	 */
 
@@ -76,21 +70,20 @@ public class MoveListItemRecord extends SimpleRecord
 	 */
 
 	public MoveListItemRecord( DesignElement obj, StructureContext ref,
-			List<Object> theList, int from, int to )
+			int from, int to )
 	{
 		assert obj != null;
 		assert ref != null;
-		assert theList != null;
-
-		assert from >= 0 && from < theList.size( );
-		assert to >= 0 && to < theList.size( );
 
 		assert obj.getPropertyDefn( ref.getElementProp( ).getName( ) ) == ref
 				.getElementProp( );
 
+		List theList = ref.getList( obj.getRoot( ) );
+		assert from >= 0 && from < theList.size( );
+		assert to >= 0 && to < theList.size( );
+
 		element = obj;
 		itemRef = ref;
-		list = theList;
 
 		oldPosn = from;
 		newPosn = to;
@@ -110,6 +103,7 @@ public class MoveListItemRecord extends SimpleRecord
 
 	protected void perform( boolean undo )
 	{
+		List list = itemRef.getList( element.getRoot( ) );
 		int from = undo ? newPosn : oldPosn;
 		int to = undo ? oldPosn : newPosn;
 

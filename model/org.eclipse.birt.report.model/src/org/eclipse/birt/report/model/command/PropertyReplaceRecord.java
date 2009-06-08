@@ -60,12 +60,6 @@ public class PropertyReplaceRecord extends SimpleRecord
 	IStructure newItem = null;
 
 	/**
-	 * The list itself.
-	 */
-
-	protected List<Object> list = null;
-
-	/**
 	 * The position of the old item in the structure list.
 	 */
 
@@ -99,11 +93,10 @@ public class PropertyReplaceRecord extends SimpleRecord
 
 		this.element = obj;
 		this.listRef = ref;
-		this.list = theList;
 
 		this.position = posn;
 
-		this.oldItem = (IStructure) list.get( posn );
+		this.oldItem = (IStructure) theList.get( posn );
 		this.newItem = newItem;
 
 		assert oldItem != null && newItem != null;
