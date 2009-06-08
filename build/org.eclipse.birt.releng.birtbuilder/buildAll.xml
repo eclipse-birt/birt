@@ -295,14 +295,15 @@
 			<arg line="-o -q birt-all-${package.version}.sign.zip -d ${updateJarWorkingDir}" />
 		</exec>
 	
+		<!--
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${updateJarWorkingDir}" />
 		</exec>
-
+		-->
 
 		<delete includeemptydirs="true">
-			<!-- <fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.thirdparty*/**" /> -->
-			<fileset dir="${updateJarWorkingDir}/eclipse/plugins" includes="*.thirdparty*/**" />
+			<fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.sdk*/**" />
+			<fileset dir="${updateJarWorkingDir}/eclipse/plugins" includes="*.thirdparty*/**" />		
 		</delete>
 		
 		<!-- repack update jar -->
@@ -315,7 +316,7 @@
 		
 		<antcall target="generateCategory"/>
 		<!-- TODO: generate p2 composite update site -->
-                <antcall target="GenP2CompositeUpdateSite"/>
+        <antcall target="GenP2CompositeUpdateSite"/>
                 
 		<!-- TODO: push to local update site -->
 		<antcall target = "pushUpdateSiteLocal"/>
