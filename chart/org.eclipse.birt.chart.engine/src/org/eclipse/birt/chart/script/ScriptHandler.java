@@ -12,16 +12,12 @@
 package org.eclipse.birt.chart.script;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.LegendEntryRenderingHints;
 import org.eclipse.birt.chart.computation.PlotComputation;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
-import org.eclipse.birt.chart.engine.i18n.Messages;
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -36,22 +32,11 @@ import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.layout.Block;
-import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.ISeriesRenderer;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.SecurityUtil;
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.ImporterTopLevel;
-import org.mozilla.javascript.RhinoException;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * This class forms the basis of script handling in the charting library. It
@@ -60,23 +45,10 @@ import com.ibm.icu.util.ULocale;
  * 
  * @see IChartEventHandler
  */
-public final class ScriptHandler extends ScriptableObject
+public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandler>
 {
 
 	private static final long serialVersionUID = 1L;
-
-	private static final Map<String, Method> JAVA_FUNTION_MAP = ChartUtil.newHashMap( );
-
-	static
-	{
-		// init java function name lookup table.
-		Method[] ms = SecurityUtil.getMethods( IChartEventHandler.class );
-
-		for ( int i = 0; i < ms.length; i++ )
-		{
-			JAVA_FUNTION_MAP.put( ms[i].getName( ), ms[i] );
-		}
-	}
 
 	/**
 	 * @deprecated This is kept for backward compatibility only.
@@ -125,19 +97,6 @@ public final class ScriptHandler extends ScriptableObject
 
 	// not supported yet
 	// public static final String ON_PREPARE = "onPrepare"; //$NON-NLS-1$
-
-	public static final String BEFORE_DATA_SET_FILLED = "beforeDataSetFilled"; //$NON-NLS-1$
-
-	public static final String AFTER_DATA_SET_FILLED = "afterDataSetFilled"; //$NON-NLS-1$
-
-	public static final String BEFORE_GENERATION = "beforeGeneration"; //$NON-NLS-1$
-
-	public static final String AFTER_GENERATION = "afterGeneration"; //$NON-NLS-1$
-
-	public static final String BEFORE_RENDERING = "beforeRendering"; //$NON-NLS-1$
-
-	public static final String AFTER_RENDERING = "afterRendering"; //$NON-NLS-1$
-
 	public static final String BEFORE_DRAW_BLOCK = "beforeDrawBlock"; //$NON-NLS-1$
 
 	public static final String AFTER_DRAW_BLOCK = "afterDrawBlock"; //$NON-NLS-1$
@@ -211,69 +170,33 @@ public final class ScriptHandler extends ScriptableObject
 	 */
 	public static final String SERIES_VALUE = "valueSeriesName"; //$NON-NLS-1$
 
-	// PRE-DEFINED INSTANCES AVAILABLE FOR REUSE
-	private final transient Object[] ONE_ELEMENT_ARRAY = new Object[1];
-
-	private final transient Object[] TWO_ELEMENT_ARRAY = new Object[2];
-
-	private final transient Object[] THREE_ELEMENT_ARRAY = new Object[3];
-
-	private transient Scriptable scope = null;
-
-	private transient IChartEventHandler javahandler = null;
 
 	private transient Chart cmDesignTime = null;
 
 	private transient Chart cmRunTime = null;
 
 	private transient GeneratedChartState gcs = null;
-
-	/**
-	 * @deprecated locale is stored in IChartScriptContext
-	 */
-	private transient ULocale lcl = null;
-
-	private transient IScriptClassLoader iscl = null;
-
-	private transient List<String> javaScriptFunctionNamesCache = null;
-
-	private IChartScriptContext csc;
-
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/model" ); //$NON-NLS-1$
-
+		
+	private static Map<String, Method> sJavaFunctoinMap = null;
+	static
+	{
+		sJavaFunctoinMap = ChartUtil.newHashMap( );
+		// init java function name lookup table.
+		Method[] ms = SecurityUtil.getMethods( IChartEventHandler.class );
+		for ( int i = 0; i < ms.length; i++ )
+		{
+			sJavaFunctoinMap.put( ms[i].getName( ), ms[i] );
+		}
+	}
+	
+	private static ILogger sLogger = Logger.getLogger( "org.eclipse.birt.chart.engine/model" ); //$NON-NLS-1$;
+	
 	/**
 	 * The constructor.
 	 */
 	public ScriptHandler( )
 	{
-		final Context cx = Context.enter( );
-		try
-		{
-			// scope = cx.initStandardObjects();
-			scope = new ImporterTopLevel( cx );
-		}
-		finally
-		{
-			Context.exit( );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
-	 */
-	public final String getClassName( )
-	{
-		return getClass( ).getName( );
-	}
-
-	/**
-	 * @return returns the scope of current JavaScript context.
-	 */
-	public final Scriptable getScope( )
-	{
-		return scope;
+		super();
 	}
 
 	/**
@@ -365,802 +288,231 @@ public final class ScriptHandler extends ScriptableObject
 	}
 
 	/**
-	 * @deprecated Not used anymore. Use IChartScriptContext to store the locale
-	 *             now. This is kept for backward compatibility only.
-	 * @param lcl
+	 * @param functionName
+	 * @param arguments
 	 */
-	public final void setLocale( ULocale lcl )
+	protected boolean callRegularJavaFunction( String functionName,
+			Object[] arguments )
 	{
-		this.lcl = lcl;
-	}
-
-	/**
-	 * Sets the script class loader. This loader is responsible to load all user
-	 * defined script class.
-	 * 
-	 * @param value
-	 */
-	public final void setScriptClassLoader( IScriptClassLoader value )
-	{
-		iscl = value;
-	}
-
-	/**
-	 * Initialize the JavaScript context using given parent scope.
-	 * 
-	 * @param scPrototype
-	 *            Parent scope object. If it's null, use default scope.
-	 */
-	public final void init( Scriptable scPrototype ) throws ChartException
-	{
-		final Context cx = Context.enter( );
-		try
+		if ( !sJavaFunctoinMap.containsKey( functionName ) )
 		{
-			if ( scPrototype == null ) // NO PROTOTYPE
-			{
-				// scope = cx.initStandardObjects();
-				scope = new ImporterTopLevel( cx );
-			}
-			else
-			{
-				scope = cx.newObject( scPrototype );
-				scope.setPrototype( scPrototype );
-				// !don't reset the parent scope here.
-				// scope.setParentScope( null );
-			}
-
-			// final Scriptable scopePrevious = scope;
-			// !deprecated, remove this later. use script context instead.
-			// registerExistingScriptableObject( this, "chart" ); //$NON-NLS-1$
-			// scope = scopePrevious; // RESTORE
-
-			// !deprecated, remove this later, use logger from script context
-			// instead.
-			// ADD LOGGING CAPABILITIES TO JAVASCRIPT ACCESS
-			final Object oConsole = Context.javaToJS( logger, scope );
-			scope.put( "logger", scope, oConsole ); //$NON-NLS-1$
+			return false;
 		}
-		catch ( RhinoException jsx )
-		{
-			throw convertException( jsx );
-		}
-		finally
-		{
-			Context.exit( );
-		}
-	}
-
-	/**
-	 * Registers an existing scriptable object into current JavaScript context.
-	 * 
-	 * @param so
-	 *            The existing scriptable object to be registered
-	 * @param sVarName
-	 *            The name of the javascript variable associated with the new
-	 *            scriptable object that will be added to the scope
-	 * @throws ChartException
-	 */
-	public final void registerExistingScriptableObject( ScriptableObject so,
-			String sVarName ) throws ChartException
-	{
-		try
-		{
-			ScriptableObject.defineClass( scope, so.getClass( ) );
-		}
-		catch ( Exception ex )
-		{
-			throw convertException( ex );
-		}
-
-		final Context cx = Context.enter( );
-		Scriptable soNew = null;
-		try
-		{
-			soNew = cx.newObject( scope, so.getClassName( ), null );
-		}
-		catch ( RhinoException ex )
-		{
-			throw convertException( ex );
-		}
-		finally
-		{
-			Context.exit( );
-		}
-		so.setPrototype( soNew.getPrototype( ) );
-		so.setParentScope( soNew.getParentScope( ) );
-		scope.put( sVarName, scope, so );
-	}
-
-	/**
-	 * Registers a new scriptable object into current JavaScript context.
-	 * 
-	 * @param clsScriptable
-	 *            The class representing the new scriptable object to be
-	 *            registered
-	 * @param sVarName
-	 *            The name of the javascript variable associated with the new
-	 *            scriptable object that will be added to the scope
-	 * @throws ChartException
-	 */
-	public final void registerNewScriptableObject(
-			Class<? extends Scriptable> clsScriptable, String sVarName )
-			throws ChartException
-	{
-		try
-		{
-			ScriptableObject.defineClass( scope, clsScriptable );
-		}
-		catch ( Exception ex )
-		{
-			throw convertException( ex );
-		}
-
-		final Context cx = Context.enter( );
-		Scriptable soNew = null;
-		try
-		{
-			soNew = cx.newObject( scope, clsScriptable.getName( ), null );
-		}
-		catch ( RuntimeException ex )
-		{
-			throw convertException( ex );
-		}
-		finally
-		{
-			Context.exit( );
-		}
-		scope.put( sVarName, scope, soNew );
-	}
-
-	/**
-	 * Registers a new variable to current JavaScript context. If the name
-	 * already exists, it'll be overwritten.
-	 * 
-	 * @param sVarName
-	 * @throws ChartException
-	 */
-	public final void registerVariable( String sVarName, Object var )
-			throws ChartException
-	{
-		Context.enter( );
-
-		try
-		{
-			final Object oConsole = Context.javaToJS( var, scope );
-			scope.put( sVarName, scope, oConsole );
-		}
-		finally
-		{
-			Context.exit( );
-		}
-	}
-
-	/**
-	 * Unregister a variable from current JavaScript context.
-	 * 
-	 * @param sVarName
-	 * @throws ChartException
-	 */
-	public final void unregisterVariable( String sVarName )
-			throws ChartException
-	{
-		scope.delete( sVarName );
-	}
-
-	/**
-	 * Finds the JavaScript funtion by given name.
-	 * 
-	 * @param sFunctionName
-	 *            The name of the function to be searched for
-	 * @return An instance of the function being searched for or null if it
-	 *         isn't found
-	 */
-	private final Function getJavascriptFunction( String sFunctionName )
-	{
-		// TODO: CACHE PREVIOUSLY CREATED FUNCTION REFERENCES IN A HASHTABLE?
-
-		// use names cache for quick validation to improve performance
-		if ( javaScriptFunctionNamesCache == null
-				|| javaScriptFunctionNamesCache.indexOf( sFunctionName ) < 0 )
-		{
-			return null;
-		}
-
-		Context.enter( );
-		try
-		{
-			final Object oFunction = scope.get( sFunctionName, scope );
-			if ( oFunction != Scriptable.NOT_FOUND
-					&& oFunction instanceof Function )
-			{
-				return (Function) oFunction;
-			}
-			return null;
-		}
-		finally
-		{
-			Context.exit( );
-		}
-	}
-
-	/**
-	 * Call JavaScript functions with an argument array.
-	 * 
-	 * @param f
-	 *            The function to be executed
-	 * @param oaArgs
-	 *            The Java object arguments passed to the function being
-	 *            executed
-	 */
-	private final Object callJavaScriptFunction( Function f, Object[] oaArgs )
-			throws ChartException
-
-	{
-		final Context cx = Context.enter( );
-		Object oReturnValue = null;
-		// #229402
-		ClassLoader oldLoader = cx.getApplicationClassLoader( );
-		ClassLoader appLader = SecurityUtil.getClassLoader( ScriptHandler.class );
-		cx.setApplicationClassLoader( appLader );
-
-		// Initialize BIRT functions, register them into current script context.
-		new CoreJavaScriptInitializer( ).initialize( cx, scope );
-
-		try
-		{
-			oReturnValue = f.call( cx, scope, scope, oaArgs );
-		}
-		catch ( RhinoException ex )
-		{
-			throw convertException( ex );
-		}
-		finally
-		{
-			cx.setApplicationClassLoader( oldLoader );
-			Context.exit( );
-		}
-		return oReturnValue;
-	}
-
-	private final boolean isJavaFuntion( String name )
-	{
-		return JAVA_FUNTION_MAP.get( name ) != null;
-	}
-
-	private final Object callJavaFunction( String name, Object[] oaArgs )
-	{
-		if ( javahandler == null )
-		{
-			return null;
-		}
-
-		Object[] tmpArgs = new Object[3];
-		if ( oaArgs.length > 0 )
-		{
-			tmpArgs[0] = oaArgs[0];
-		}
-		if ( oaArgs.length > 1 )
-		{
-			tmpArgs[1] = oaArgs[1];
-		}
-		if ( oaArgs.length > 2 )
-		{
-			tmpArgs[2] = oaArgs[2];
-		}
-
+		
 		// use regular interface call instead of reflection to gain performance.
 		/*
 		 * if ( ScriptHandler.ON_PREPARE.equals( name ) ) {
 		 * javahandler.onPrepare( (Chart) tmpArgs[0], (IChartScriptContext)
 		 * tmpArgs[1] ); } else
 		 */// not supported yet
-		if ( ScriptHandler.BEFORE_DATA_SET_FILLED.equals( name ) )
+		if ( ScriptHandler.BEFORE_DATA_SET_FILLED.equals( functionName ) )
 		{
-			javahandler.beforeDataSetFilled( (Series) tmpArgs[0],
-					(IDataSetProcessor) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.beforeDataSetFilled( (Series) arguments[0],
+					(IDataSetProcessor) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.AFTER_DATA_SET_FILLED.equals( name ) )
+		else if ( ScriptHandler.AFTER_DATA_SET_FILLED.equals( functionName ) )
 		{
-			javahandler.afterDataSetFilled( (Series) tmpArgs[0],
-					(DataSet) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.afterDataSetFilled( (Series) arguments[0],
+					(DataSet) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.BEFORE_GENERATION.equals( name ) )
+		else if ( ScriptHandler.BEFORE_GENERATION.equals( functionName ) )
 		{
-			javahandler.beforeGeneration( (Chart) tmpArgs[0],
-					(IChartScriptContext) tmpArgs[1] );
+			javahandler.beforeGeneration( (Chart) arguments[0],
+					(IChartScriptContext) arguments[1] );
 		}
-		else if ( ScriptHandler.AFTER_GENERATION.equals( name ) )
+		else if ( ScriptHandler.AFTER_GENERATION.equals( functionName ) )
 		{
-			javahandler.afterGeneration( (GeneratedChartState) tmpArgs[0],
-					(IChartScriptContext) tmpArgs[1] );
+			javahandler.afterGeneration( (GeneratedChartState) arguments[0],
+					(IChartScriptContext) arguments[1] );
 		}
-		else if ( ScriptHandler.BEFORE_COMPUTATIONS.equals( name ) )
+		else if ( ScriptHandler.BEFORE_COMPUTATIONS.equals( functionName ) )
 		{
-			javahandler.beforeComputations( (Chart) tmpArgs[0],
-					(PlotComputation) tmpArgs[1] );
+			javahandler.beforeComputations( (Chart) arguments[0],
+					(PlotComputation) arguments[1] );
 		}
-		else if ( ScriptHandler.AFTER_COMPUTATIONS.equals( name ) )
+		else if ( ScriptHandler.AFTER_COMPUTATIONS.equals( functionName ) )
 		{
-			javahandler.afterComputations( (Chart) tmpArgs[0],
-					(PlotComputation) tmpArgs[1] );
+			javahandler.afterComputations( (Chart) arguments[0],
+					(PlotComputation) arguments[1] );
 		}
-		else if ( ScriptHandler.BEFORE_RENDERING.equals( name ) )
+		else if ( ScriptHandler.BEFORE_RENDERING.equals( functionName ) )
 		{
-			javahandler.beforeRendering( (GeneratedChartState) tmpArgs[0],
-					(IChartScriptContext) tmpArgs[1] );
+			javahandler.beforeRendering( (GeneratedChartState) arguments[0],
+					(IChartScriptContext) arguments[1] );
 		}
-		else if ( ScriptHandler.AFTER_RENDERING.equals( name ) )
+		else if ( ScriptHandler.AFTER_RENDERING.equals( functionName ) )
 		{
-			javahandler.afterRendering( (GeneratedChartState) tmpArgs[0],
-					(IChartScriptContext) tmpArgs[1] );
+			javahandler.afterRendering( (GeneratedChartState) arguments[0],
+					(IChartScriptContext) arguments[1] );
 		}
-		else if ( ScriptHandler.BEFORE_DRAW_BLOCK.equals( name ) )
+		else if ( ScriptHandler.BEFORE_DRAW_BLOCK.equals( functionName ) )
 		{
-			javahandler.beforeDrawBlock( (Block) tmpArgs[0],
-					(IChartScriptContext) tmpArgs[1] );
+			javahandler.beforeDrawBlock( (Block) arguments[0],
+					(IChartScriptContext) arguments[1] );
 		}
-		else if ( ScriptHandler.AFTER_DRAW_BLOCK.equals( name ) )
+		else if ( ScriptHandler.AFTER_DRAW_BLOCK.equals( functionName ) )
 		{
-			javahandler.afterDrawBlock( (Block) tmpArgs[0],
-					(IChartScriptContext) tmpArgs[1] );
+			javahandler.afterDrawBlock( (Block) arguments[0],
+					(IChartScriptContext) arguments[1] );
 		}
-		else if ( ScriptHandler.BEFORE_DRAW_LEGEND_ENTRY.equals( name ) )
+		else if ( ScriptHandler.BEFORE_DRAW_LEGEND_ENTRY.equals( functionName ) )
 		{
-			javahandler.beforeDrawLegendEntry( (Label) tmpArgs[0],
-					(IChartScriptContext) tmpArgs[1] );
+			javahandler.beforeDrawLegendEntry( (Label) arguments[0],
+					(IChartScriptContext) arguments[1] );
 		}
-		else if ( ScriptHandler.AFTER_DRAW_LEGEND_ENTRY.equals( name ) )
+		else if ( ScriptHandler.AFTER_DRAW_LEGEND_ENTRY.equals( functionName ) )
 		{
-			javahandler.afterDrawLegendEntry( (Label) tmpArgs[0],
-					(IChartScriptContext) tmpArgs[1] );
+			javahandler.afterDrawLegendEntry( (Label) arguments[0],
+					(IChartScriptContext) arguments[1] );
 		}
-		else if ( ScriptHandler.BEFORE_DRAW_LEGEND_ITEM.equals( name ) )
+		else if ( ScriptHandler.BEFORE_DRAW_LEGEND_ITEM.equals( functionName ) )
 		{
-			javahandler.beforeDrawLegendItem( (LegendEntryRenderingHints) tmpArgs[0],
-					(Bounds) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.beforeDrawLegendItem( (LegendEntryRenderingHints) arguments[0],
+					(Bounds) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.AFTER_DRAW_LEGEND_ITEM.equals( name ) )
+		else if ( ScriptHandler.AFTER_DRAW_LEGEND_ITEM.equals( functionName ) )
 		{
-			javahandler.afterDrawLegendItem( (LegendEntryRenderingHints) tmpArgs[0],
-					(Bounds) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.afterDrawLegendItem( (LegendEntryRenderingHints) arguments[0],
+					(Bounds) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.BEFORE_DRAW_SERIES.equals( name ) )
+		else if ( ScriptHandler.BEFORE_DRAW_SERIES.equals( functionName ) )
 		{
-			javahandler.beforeDrawSeries( (Series) tmpArgs[0],
-					(ISeriesRenderer) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.beforeDrawSeries( (Series) arguments[0],
+					(ISeriesRenderer) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.AFTER_DRAW_SERIES.equals( name ) )
+		else if ( ScriptHandler.AFTER_DRAW_SERIES.equals( functionName ) )
 		{
-			javahandler.afterDrawSeries( (Series) tmpArgs[0],
-					(ISeriesRenderer) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.afterDrawSeries( (Series) arguments[0],
+					(ISeriesRenderer) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.BEFORE_DRAW_SERIES_TITLE.equals( name ) )
+		else if ( ScriptHandler.BEFORE_DRAW_SERIES_TITLE.equals( functionName ) )
 		{
-			javahandler.beforeDrawSeriesTitle( (Series) tmpArgs[0],
-					(Label) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.beforeDrawSeriesTitle( (Series) arguments[0],
+					(Label) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.AFTER_DRAW_SERIES_TITLE.equals( name ) )
+		else if ( ScriptHandler.AFTER_DRAW_SERIES_TITLE.equals( functionName ) )
 		{
-			javahandler.afterDrawSeriesTitle( (Series) tmpArgs[0],
-					(Label) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.afterDrawSeriesTitle( (Series) arguments[0],
+					(Label) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.BEFORE_DRAW_MARKER_LINE.equals( name ) )
+		else if ( ScriptHandler.BEFORE_DRAW_MARKER_LINE.equals( functionName ) )
 		{
-			javahandler.beforeDrawMarkerLine( (Axis) tmpArgs[0],
-					(MarkerLine) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.beforeDrawMarkerLine( (Axis) arguments[0],
+					(MarkerLine) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.AFTER_DRAW_MARKER_LINE.equals( name ) )
+		else if ( ScriptHandler.AFTER_DRAW_MARKER_LINE.equals( functionName ) )
 		{
-			javahandler.afterDrawMarkerLine( (Axis) tmpArgs[0],
-					(MarkerLine) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.afterDrawMarkerLine( (Axis) arguments[0],
+					(MarkerLine) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.BEFORE_DRAW_MARKER_RANGE.equals( name ) )
+		else if ( ScriptHandler.BEFORE_DRAW_MARKER_RANGE.equals( functionName ) )
 		{
-			javahandler.beforeDrawMarkerRange( (Axis) tmpArgs[0],
-					(MarkerRange) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.beforeDrawMarkerRange( (Axis) arguments[0],
+					(MarkerRange) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.AFTER_DRAW_MARKER_RANGE.equals( name ) )
+		else if ( ScriptHandler.AFTER_DRAW_MARKER_RANGE.equals( functionName ) )
 		{
-			javahandler.afterDrawMarkerRange( (Axis) tmpArgs[0],
-					(MarkerRange) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.afterDrawMarkerRange( (Axis) arguments[0],
+					(MarkerRange) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.BEFORE_DRAW_DATA_POINT.equals( name ) )
+		else if ( ScriptHandler.BEFORE_DRAW_DATA_POINT.equals( functionName ) )
 		{
-			javahandler.beforeDrawDataPoint( (DataPointHints) tmpArgs[0],
-					(Fill) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.beforeDrawDataPoint( (DataPointHints) arguments[0],
+					(Fill) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.AFTER_DRAW_DATA_POINT.equals( name ) )
+		else if ( ScriptHandler.AFTER_DRAW_DATA_POINT.equals( functionName ) )
 		{
-			javahandler.afterDrawDataPoint( (DataPointHints) tmpArgs[0],
-					(Fill) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.afterDrawDataPoint( (DataPointHints) arguments[0],
+					(Fill) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.BEFORE_DRAW_DATA_POINT_LABEL.equals( name ) )
+		else if ( ScriptHandler.BEFORE_DRAW_DATA_POINT_LABEL.equals( functionName ) )
 		{
-			javahandler.beforeDrawDataPointLabel( (DataPointHints) tmpArgs[0],
-					(Label) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.beforeDrawDataPointLabel( (DataPointHints) arguments[0],
+					(Label) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.AFTER_DRAW_DATA_POINT_LABEL.equals( name ) )
+		else if ( ScriptHandler.AFTER_DRAW_DATA_POINT_LABEL.equals( functionName ) )
 		{
-			javahandler.afterDrawDataPointLabel( (DataPointHints) tmpArgs[0],
-					(Label) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.afterDrawDataPointLabel( (DataPointHints) arguments[0],
+					(Label) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.BEFORE_DRAW_FITTING_CURVE.equals( name ) )
+		else if ( ScriptHandler.BEFORE_DRAW_FITTING_CURVE.equals( functionName ) )
 		{
-			javahandler.beforeDrawFittingCurve( (CurveFitting) tmpArgs[0],
-					(IChartScriptContext) tmpArgs[1] );
+			javahandler.beforeDrawFittingCurve( (CurveFitting) arguments[0],
+					(IChartScriptContext) arguments[1] );
 		}
-		else if ( ScriptHandler.AFTER_DRAW_FITTING_CURVE.equals( name ) )
+		else if ( ScriptHandler.AFTER_DRAW_FITTING_CURVE.equals( functionName ) )
 		{
-			javahandler.afterDrawFittingCurve( (CurveFitting) tmpArgs[0],
-					(IChartScriptContext) tmpArgs[1] );
+			javahandler.afterDrawFittingCurve( (CurveFitting) arguments[0],
+					(IChartScriptContext) arguments[1] );
 		}
-		else if ( ScriptHandler.BEFORE_DRAW_AXIS_LABEL.equals( name ) )
+		else if ( ScriptHandler.BEFORE_DRAW_AXIS_LABEL.equals( functionName ) )
 		{
-			javahandler.beforeDrawAxisLabel( (Axis) tmpArgs[0],
-					(Label) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.beforeDrawAxisLabel( (Axis) arguments[0],
+					(Label) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.AFTER_DRAW_AXIS_LABEL.equals( name ) )
+		else if ( ScriptHandler.AFTER_DRAW_AXIS_LABEL.equals( functionName ) )
 		{
-			javahandler.afterDrawAxisLabel( (Axis) tmpArgs[0],
-					(Label) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.afterDrawAxisLabel( (Axis) arguments[0],
+					(Label) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.BEFORE_DRAW_AXIS_TITLE.equals( name ) )
+		else if ( ScriptHandler.BEFORE_DRAW_AXIS_TITLE.equals( functionName ) )
 		{
-			javahandler.beforeDrawAxisTitle( (Axis) tmpArgs[0],
-					(Label) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.beforeDrawAxisTitle( (Axis) arguments[0],
+					(Label) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else if ( ScriptHandler.AFTER_DRAW_AXIS_TITLE.equals( name ) )
+		else if ( ScriptHandler.AFTER_DRAW_AXIS_TITLE.equals( functionName ) )
 		{
-			javahandler.afterDrawAxisTitle( (Axis) tmpArgs[0],
-					(Label) tmpArgs[1],
-					(IChartScriptContext) tmpArgs[2] );
+			javahandler.afterDrawAxisTitle( (Axis) arguments[0],
+					(Label) arguments[1],
+					(IChartScriptContext) arguments[2] );
 		}
-		else
-		{
-			// Use reflect to call other methods
-			Method mtd = JAVA_FUNTION_MAP.get( name );
-			try
-			{
-				return SecurityUtil.invokeMethod( mtd, javahandler, oaArgs );
-			}
-			catch ( Exception e )
-			{
-				logger.log( e );
-			}
-		}
-
-		return null;
+		
+		return true;
 	}
 
-	/**
-	 * Call JavaScript functions with one argument.
-	 * 
-	 * @param sh
-	 * @param sFunction
-	 * @param oArg1
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.script.AbstractScriptHandler#getLogger()
 	 */
-	public static final Object callFunction( ScriptHandler sh,
-			String sFunction, Object oArg1 ) throws ChartException
+	@Override
+	protected ILogger getLogger( )
 	{
-		if ( sh == null )
-		{
-			return null;
-		}
-
-		if ( sh.javahandler != null && sh.isJavaFuntion( sFunction ) )
-		{
-			sh.ONE_ELEMENT_ARRAY[0] = oArg1;
-			return sh.callJavaFunction( sFunction, sh.ONE_ELEMENT_ARRAY );
-		}
-		else
-		{
-			final Function f = sh.getJavascriptFunction( sFunction );
-			if ( f != null )
-			{
-				sh.ONE_ELEMENT_ARRAY[0] = oArg1;
-				Object oReturnValue = null;
-				oReturnValue = sh.callJavaScriptFunction( f,
-						sh.ONE_ELEMENT_ARRAY );
-
-				return oReturnValue;
-			}
-			else
-			{
-				return null;
-			}
-		}
+		return sLogger;
 	}
 
-	/**
-	 * Call JavaScript functions with two arguments.
-	 * 
-	 * @param sh
-	 * @param sFunction
-	 * @param oArg1
-	 * @param oArg2
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.script.AbstractScriptHandler#getEventHandlerClass()
 	 */
-	public static final Object callFunction( ScriptHandler sh,
-			String sFunction, Object oArg1, Object oArg2 )
-			throws ChartException
+	@Override
+	protected Class getEventHandlerClass( )
 	{
-		if ( sh == null )
-		{
-			return null;
-		}
-
-		if ( sh.javahandler != null && sh.isJavaFuntion( sFunction ) )
-		{
-			sh.TWO_ELEMENT_ARRAY[0] = oArg1;
-			sh.TWO_ELEMENT_ARRAY[1] = oArg2;
-			return sh.callJavaFunction( sFunction, sh.TWO_ELEMENT_ARRAY );
-		}
-		else
-		{
-			final Function f = sh.getJavascriptFunction( sFunction );
-			if ( f != null )
-			{
-				sh.TWO_ELEMENT_ARRAY[0] = oArg1;
-				sh.TWO_ELEMENT_ARRAY[1] = oArg2;
-				Object oReturnValue = null;
-				oReturnValue = sh.callJavaScriptFunction( f,
-						sh.TWO_ELEMENT_ARRAY );
-
-				return oReturnValue;
-			}
-			else
-			{
-				return null;
-			}
-		}
+		return IChartEventHandler.class;
 	}
 
-	/**
-	 * Call JavaScript functions with three arguments.
-	 * 
-	 * @param sh
-	 * @param sFunction
-	 * @param oArg1
-	 * @param oArg2
-	 * @param oArg3
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.script.AbstractScriptHandler#getJavaFunctionMap()
 	 */
-	public static final Object callFunction( ScriptHandler sh,
-			String sFunction, Object oArg1, Object oArg2, Object oArg3 )
-			throws ChartException
+	@Override
+	protected Map<String, Method> getJavaFunctionMap( )
 	{
-		if ( sh == null )
-		{
-			return null;
-		}
-
-		if ( sh.javahandler != null && sh.isJavaFuntion( sFunction ) )
-		{
-			sh.THREE_ELEMENT_ARRAY[0] = oArg1;
-			sh.THREE_ELEMENT_ARRAY[1] = oArg2;
-			sh.THREE_ELEMENT_ARRAY[2] = oArg3;
-			return sh.callJavaFunction( sFunction, sh.THREE_ELEMENT_ARRAY );
-		}
-		else
-		{
-			final Function f = sh.getJavascriptFunction( sFunction );
-			if ( f != null )
-			{
-				sh.THREE_ELEMENT_ARRAY[0] = oArg1;
-				sh.THREE_ELEMENT_ARRAY[1] = oArg2;
-				sh.THREE_ELEMENT_ARRAY[2] = oArg3;
-				Object oReturnValue = null;
-				oReturnValue = sh.callJavaScriptFunction( f,
-						sh.THREE_ELEMENT_ARRAY );
-
-				return oReturnValue;
-			}
-			else
-			{
-				return null;
-			}
-		}
-	}
-
-	/**
-	 * Evaluates the given expression and returns the value.
-	 * 
-	 * @param sScriptContent
-	 */
-	public final Object evaluate( String sScriptContent ) throws ChartException
-	{
-		final Context cx = Context.enter( );
-		try
-		{
-			return cx.evaluateString( scope, sScriptContent, "<cmd>", 1, null ); //$NON-NLS-1$
-		}
-		catch ( RhinoException jsx )
-		{
-			throw convertException( jsx );
-		}
-		finally
-		{
-			Context.exit( );
-		}
-	}
-
-	/**
-	 * Register the script content for current script handler.
-	 * 
-	 * @param sScriptContent
-	 *            This is either the JavaSciprt code content or a full class
-	 *            name which has implemented
-	 *            <code>IChartItemScriptHandler</code>
-	 */
-	public final void register( String sScriptName, String sScriptContent )
-			throws ChartException
-	{
-		try
-		{
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "Info.try.load.java.handler" ) ); //$NON-NLS-1$
-
-			Class<?> handlerClass = null;
-
-			try
-			{
-				handlerClass = Class.forName( sScriptContent );
-			}
-			catch ( ClassNotFoundException ex )
-			{
-				if ( iscl != null )
-				{
-					handlerClass = iscl.loadClass( sScriptContent,
-							SecurityUtil.getClassLoader( ScriptHandler.class ) );
-				}
-				else
-				{
-					throw ex;
-				}
-
-			}
-
-			if ( IChartEventHandler.class.isAssignableFrom( handlerClass ) )
-			{
-				try
-				{
-					javahandler = (IChartEventHandler) SecurityUtil.newClassInstance( handlerClass );
-				}
-				catch ( InstantiationException e )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							BirtException.ERROR,
-							e );
-				}
-				catch ( IllegalAccessException e )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							BirtException.ERROR,
-							e );
-				}
-
-				logger.log( ILogger.INFORMATION,
-						Messages.getString( "Info.java.handler.loaded", //$NON-NLS-1$
-								handlerClass,
-								ULocale.getDefault( ) ) );
-			}
-			else
-			{
-				logger.log( ILogger.WARNING,
-						Messages.getString( "Info.invalid.java.handler", //$NON-NLS-1$
-								handlerClass,
-								ULocale.getDefault( ) ) );
-			}
-		}
-		catch ( ClassNotFoundException e )
-		{
-			// Not a Java class name, so this must be JavaScript code
-			javahandler = null;
-
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "Info.try.register.javascript.content" ) ); //$NON-NLS-1$
-
-			final Context cx = Context.enter( );
-			try
-			{
-				cx.evaluateString( scope,
-						sScriptContent,
-						sScriptName == null ? "<cmd>" : sScriptName, 1, null ); //$NON-NLS-1$
-
-				logger.log( ILogger.INFORMATION,
-						Messages.getString( "Info.javascript.content.registered" ) ); //$NON-NLS-1$
-
-				// prepare function name cache.
-				Object[] objs = scope.getIds( );
-
-				if ( objs != null )
-				{
-					javaScriptFunctionNamesCache = new ArrayList<String>( );
-					for ( int i = 0; i < objs.length; i++ )
-					{
-						javaScriptFunctionNamesCache.add( String.valueOf( objs[i] ) );
-					}
-				}
-				else
-				{
-					javaScriptFunctionNamesCache = null;
-				}
-
-			}
-			catch ( RhinoException jsx )
-			{
-				throw convertException( jsx );
-			}
-			finally
-			{
-				Context.exit( );
-			}
-		}
-
-	}
-
-	/**
-	 * Sets the context object of current script handler.
-	 * 
-	 * @param csc
-	 */
-	public void setScriptContext( IChartScriptContext csc )
-	{
-		this.csc = csc;
-
-	}
-
-	/**
-	 * Converts general exception to more readable format.
-	 * 
-	 * @param ex
-	 * @return
-	 */
-	protected ChartException convertException( Exception ex )
-	{
-		if ( ex instanceof RhinoException )
-		{
-			RhinoException e = (RhinoException) ex;
-			String lineSource = e.lineSource( );
-			String details = e.details( );
-			String lineNumber = String.valueOf( e.lineNumber( ) );
-			if ( lineSource == null )
-				lineSource = "";//$NON-NLS-1$
-			return new ChartException( ChartEnginePlugin.ID,
-					ChartException.SCRIPT,
-					"exception.javascript.error", //$NON-NLS-1$
-					new Object[]{
-							details, lineNumber, lineSource
-					},
-					Messages.getResourceBundle( csc.getULocale( ) ),
-					e );
-		}
-		/*
-		 * TODO convert those exceptions too else if ( ex instanceof
-		 * IllegalAccessException ) {} else if ( ex instanceof
-		 * InstantiationException ) {} else if ( ex instanceof
-		 * InvocationTargetException ) { }
-		 */
-		else
-			return new ChartException( ChartEnginePlugin.ID,
-					ChartException.SCRIPT,
-					ex );
+		return sJavaFunctoinMap;
 	}
 }

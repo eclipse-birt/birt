@@ -41,7 +41,7 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 
 	private IMethodInfo mi = null;
 
-	ChartPropertyDefinitionImpl( String sGroupNameID, String sName,
+	public ChartPropertyDefinitionImpl( String sGroupNameID, String sName,
 			String sDisplayNameID, boolean bList, int iType, List liChoices,
 			List liMembers, Object oDefaultValue )
 	{
@@ -56,7 +56,7 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 				null );
 	}
 
-	ChartPropertyDefinitionImpl( String sGroupNameID, String sName,
+	public ChartPropertyDefinitionImpl( String sGroupNameID, String sName,
 			String sDisplayNameID, boolean bList, int iType, List liChoices,
 			List liMembers, Object oDefaultValue, IMethodInfo mi )
 	{

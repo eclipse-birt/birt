@@ -30,7 +30,7 @@ public final class ChartPropertyMethodInfo implements IMethodInfo
 	private boolean isConstructor;
 	private boolean isStatic;
 
-	ChartPropertyMethodInfo( String name, String displayName,
+	public ChartPropertyMethodInfo( String name, String displayName,
 			String displayNameKey, String tooltip, String tooltipKey,
 			boolean isConstructor, boolean isStatic )
 	{

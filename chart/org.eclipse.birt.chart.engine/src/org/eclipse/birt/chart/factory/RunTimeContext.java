@@ -28,9 +28,9 @@ import org.eclipse.birt.chart.event.StructureChangeEvent;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.render.IActionRenderer;
-import org.eclipse.birt.chart.script.IChartScriptContext;
+import org.eclipse.birt.chart.script.AbstractScriptHandler;
 import org.eclipse.birt.chart.script.IScriptClassLoader;
-import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.script.IScriptContext;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 
 import com.ibm.icu.util.ULocale;
@@ -52,12 +52,13 @@ public final class RunTimeContext implements Serializable
 	/**
 	 * A chart script context associated with a chart model.
 	 */
-	private IChartScriptContext csc = null;
+	private IScriptContext csc = null;
 
 	/**
 	 * A script handler associated with a chart model.
 	 */
-	private transient ScriptHandler sh = null;
+	@SuppressWarnings("unchecked")
+	private transient AbstractScriptHandler sh = null;
 
 	/**
 	 * A resource handle capable of retrieving externalized messages.
@@ -462,7 +463,8 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return An instance of the script handler.
 	 */
-	public ScriptHandler getScriptHandler( )
+	@SuppressWarnings("unchecked")
+	public AbstractScriptHandler getScriptHandler( )
 	{
 		return sh;
 	}
@@ -475,7 +477,8 @@ public final class RunTimeContext implements Serializable
 	 * @param sh
 	 *            An instance of the script handler.
 	 */
-	public void setScriptHandler( ScriptHandler sh )
+	@SuppressWarnings("unchecked")
+	public void setScriptHandler( AbstractScriptHandler sh )
 	{
 		this.sh = sh;
 	}
@@ -486,7 +489,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return An instance of the script context.
 	 */
-	public IChartScriptContext getScriptContext( )
+	public IScriptContext getScriptContext( )
 	{
 		return csc;
 	}
@@ -498,7 +501,7 @@ public final class RunTimeContext implements Serializable
 	 * @param csc
 	 *            An instance of the chart script context.
 	 */
-	public void setScriptContext( IChartScriptContext csc )
+	public void setScriptContext( IScriptContext csc )
 	{
 		this.csc = csc;
 	}

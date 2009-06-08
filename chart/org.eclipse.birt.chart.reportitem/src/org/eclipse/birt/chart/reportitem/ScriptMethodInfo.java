@@ -5,8 +5,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.birt.report.model.api.scripts.MethodInfo;
-
 /*************************************************************************************
  * Copyright (c) 2007 Actuate Corporation and others. All rights reserved. This
  * program and the accompanying materials are made available under the terms of
@@ -16,36 +14,28 @@ import org.eclipse.birt.report.model.api.scripts.MethodInfo;
  * Contributors: Actuate Corporation - Initial implementation.
  ************************************************************************************/
 
-public class ScriptMethodInfo extends MethodInfo
+public class ScriptMethodInfo extends AbstractScriptMethodInfo
 {
+
+	private static Map<String, String> sJavaDoc;
 
 	protected ScriptMethodInfo( Method method )
 	{
 		super( method );
 	}
 
-	public boolean isDeprecated( )
-	{
-		String javaDoc = getJavaDoc( );
-		if ( javaDoc == null )
-			return true;
-		return getJavaDoc( ).indexOf( "@deprecated" ) != -1; //$NON-NLS-1$
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#getJavaDoc()
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.reportitem.AbstractScriptMethodInfo#getMethodsJavaDoc()
 	 */
-	public String getJavaDoc( )
+	protected Map<String, String> getMethodsJavaDoc( )
 	{
-		return javaDoc.get( getMethod( ).getName( ) );
+		return sJavaDoc;
 	}
 
-	private final static Map<String, String> javaDoc = new HashMap<String, String>( );
 	static
 	{
-		javaDoc.put( "beforeDataSetFilled",
+		sJavaDoc = new HashMap<String, String>( );
+		sJavaDoc.put( "beforeDataSetFilled",
 				"/**\n"
 						+ " * Called before populating the series dataset using the DataSetProcessor.\n"
 						+ " *\n"
@@ -57,7 +47,7 @@ public class ScriptMethodInfo extends MethodInfo
 						+ " *            IChartScriptContext\n"
 						+ " */\n" );
 
-		javaDoc.put( "afterDataSetFilled", "/**\n"
+		sJavaDoc.put( "afterDataSetFilled", "/**\n"
 				+ " * Called after populating the series dataset.\n"
 				+ " * \n"
 				+ " * @param series\n"
@@ -68,7 +58,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "beforeGeneration",
+		sJavaDoc.put( "beforeGeneration",
 				"/**\n"
 						+ " * Called before generation of chart model to GeneratedChartState.\n"
 						+ " * \n"
@@ -78,7 +68,7 @@ public class ScriptMethodInfo extends MethodInfo
 						+ " *            IChartScriptContext\n"
 						+ " */\n" );
 
-		javaDoc.put( "afterGeneration",
+		sJavaDoc.put( "afterGeneration",
 				"/**\n"
 						+ " * Called after generation of chart model to GeneratedChartState.\n"
 						+ " * \n"
@@ -88,7 +78,7 @@ public class ScriptMethodInfo extends MethodInfo
 						+ " *            IChartScriptContext\n"
 						+ " */\n" );
 
-		javaDoc.put( "beforeRendering", "/**\n"
+		sJavaDoc.put( "beforeRendering", "/**\n"
 				+ " * Called befoer the chart is rendered.\n"
 				+ " * \n"
 				+ " * @param gcs\n"
@@ -97,7 +87,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "afterRendering", "/**\n"
+		sJavaDoc.put( "afterRendering", "/**\n"
 				+ " * Called after the chart is rendered.\n"
 				+ " * \n"
 				+ " * @param gcs\n"
@@ -106,7 +96,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "beforeDrawBlock", "/**\n"
+		sJavaDoc.put( "beforeDrawBlock", "/**\n"
 				+ " * Called before drawing each block.\n"
 				+ " * \n"
 				+ " * @param block\n"
@@ -115,7 +105,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "afterDrawBlock", "/**\n"
+		sJavaDoc.put( "afterDrawBlock", "/**\n"
 				+ " * Called after drawing each block.\n"
 				+ " * \n"
 				+ " * @param block\n"
@@ -124,7 +114,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "beforeDrawLegendEntry", "/**\n"
+		sJavaDoc.put( "beforeDrawLegendEntry", "/**\n"
 				+ " * Called before drawing each entry in the legend.\n"
 				+ " * \n"
 				+ " * @param label\n"
@@ -135,7 +125,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " * 			  use beforeDrawLegendItem( ) instead\n"
 				+ " */\n" );
 
-		javaDoc.put( "afterDrawLegendEntry", "/**\n"
+		sJavaDoc.put( "afterDrawLegendEntry", "/**\n"
 				+ " * Called after drawing each entry in the legend.\n"
 				+ " * \n"
 				+ " * @param label\n"
@@ -146,7 +136,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " * 			  use afterDrawLegendItem( ) instead\n"
 				+ " */\n" );
 
-		javaDoc.put( "beforeDrawLegendItem", "/**\n"
+		sJavaDoc.put( "beforeDrawLegendItem", "/**\n"
 				+ " * Called before drawing the legend item.\n"
 				+ " * \n"
 				+ " * @param lerh\n"
@@ -158,7 +148,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " * @since Version 2.2.0\n"
 				+ " */\n" );
 
-		javaDoc.put( "afterDrawLegendItem", "/**\n"
+		sJavaDoc.put( "afterDrawLegendItem", "/**\n"
 				+ " * Called after drawing the legend item.\n"
 				+ " * \n"
 				+ " * @param lerh\n"
@@ -170,7 +160,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " * @since Version 2.2.0\n"
 				+ " */\n" );
 
-		javaDoc.put( "beforeDrawSeries", "/**\n"
+		sJavaDoc.put( "beforeDrawSeries", "/**\n"
 				+ " * Called before rendering Series.\n"
 				+ " * \n"
 				+ " * @param series\n"
@@ -181,7 +171,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "afterDrawSeries", "/**\n"
+		sJavaDoc.put( "afterDrawSeries", "/**\n"
 				+ " * Called after rendering Series.\n"
 				+ " * \n"
 				+ " * @param series\n"
@@ -192,7 +182,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "beforeDrawSeriesTitle", "/**\n"
+		sJavaDoc.put( "beforeDrawSeriesTitle", "/**\n"
 				+ " * Called before rendering the title of a Series.\n"
 				+ " * \n"
 				+ " * @param series\n"
@@ -203,7 +193,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "afterDrawSeriesTitle", "/**\n"
+		sJavaDoc.put( "afterDrawSeriesTitle", "/**\n"
 				+ " * Called after rendering the title of a Series .\n"
 				+ " * \n"
 				+ " * @param series\n"
@@ -214,7 +204,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "beforeDrawMarker", "/**\n"
+		sJavaDoc.put( "beforeDrawMarker", "/**\n"
 				+ " * Called before drawing each marker.\n"
 				+ " * \n"
 				+ " * @param marker\n"
@@ -225,7 +215,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "afterDrawMarker", "/**\n"
+		sJavaDoc.put( "afterDrawMarker", "/**\n"
 				+ " * Called after drawing each marker.\n"
 				+ " * \n"
 				+ " * @param marker\n"
@@ -236,7 +226,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "beforeDrawMarkerLine", "/**\n"
+		sJavaDoc.put( "beforeDrawMarkerLine", "/**\n"
 				+ " * Called before drawing each marker line in an Axis.\n"
 				+ " * \n"
 				+ " * @param axis\n"
@@ -247,7 +237,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "afterDrawMarkerLine", "/**\n"
+		sJavaDoc.put( "afterDrawMarkerLine", "/**\n"
 				+ " * Called after drawing each marker line in an Axis.\n"
 				+ " * \n"
 				+ " * @param axis\n"
@@ -258,7 +248,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "beforeDrawMarkerRange", "/**\n"
+		sJavaDoc.put( "beforeDrawMarkerRange", "/**\n"
 				+ " * Called before drawing each marker range in an Axis.\n"
 				+ " * \n"
 				+ " * @param axis\n"
@@ -269,7 +259,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "afterDrawMarkerRange", "/**\n"
+		sJavaDoc.put( "afterDrawMarkerRange", "/**\n"
 				+ " * Called after drawing each marker range in an Axis.\n"
 				+ " * \n"
 				+ " * @param axis\n"
@@ -280,7 +270,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "beforeDrawDataPoint",
+		sJavaDoc.put( "beforeDrawDataPoint",
 				"/**\n"
 						+ " * Called before drawing each datapoint graphical representation or marker.\n"
 						+ " * \n"
@@ -292,7 +282,7 @@ public class ScriptMethodInfo extends MethodInfo
 						+ " *            IChartScriptContext\n"
 						+ " */\n" );
 
-		javaDoc.put( "afterDrawDataPoint",
+		sJavaDoc.put( "afterDrawDataPoint",
 				"/**\n"
 						+ " * Called after drawing each datapoint graphical representation or marker.\n"
 						+ " * \n"
@@ -304,7 +294,7 @@ public class ScriptMethodInfo extends MethodInfo
 						+ " *            IChartScriptContext\n"
 						+ " */\n" );
 
-		javaDoc.put( "beforeDrawDataPointLabel", "/**\n"
+		sJavaDoc.put( "beforeDrawDataPointLabel", "/**\n"
 				+ " * Called before rendering the label for each datapoint.\n"
 				+ " * \n"
 				+ " * @param dph\n"
@@ -315,7 +305,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "afterDrawDataPointLabel", "/**\n"
+		sJavaDoc.put( "afterDrawDataPointLabel", "/**\n"
 				+ " * Called after rendering the label for each datapoint.\n"
 				+ " * \n"
 				+ " * @param dph\n"
@@ -326,7 +316,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "beforeDrawFittingCurve", "/**\n"
+		sJavaDoc.put( "beforeDrawFittingCurve", "/**\n"
 				+ " * Called before rendering curve fitting.\n"
 				+ " * \n"
 				+ " * @param curveFitting\n"
@@ -335,7 +325,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "afterDrawFittingCurve", "/**\n"
+		sJavaDoc.put( "afterDrawFittingCurve", "/**\n"
 				+ " * Called after rendering curve fitting.\n"
 				+ " * \n"
 				+ " * @param curveFitting\n"
@@ -344,7 +334,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "beforeDrawAxisLabel", "/**\n"
+		sJavaDoc.put( "beforeDrawAxisLabel", "/**\n"
 				+ " * Called before rendering each label on a given Axis.\n"
 				+ " * \n"
 				+ " * @param axis\n"
@@ -355,7 +345,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "afterDrawAxisLabel", "/**\n"
+		sJavaDoc.put( "afterDrawAxisLabel", "/**\n"
 				+ " * Called after rendering each label on a given Axis.\n"
 				+ " * \n"
 				+ " * @param axis\n"
@@ -366,7 +356,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "beforeDrawAxisTitle", "/**\n"
+		sJavaDoc.put( "beforeDrawAxisTitle", "/**\n"
 				+ " * Called before rendering the Title of an Axis.\n"
 				+ " * \n"
 				+ " * @param axis\n"
@@ -377,7 +367,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "afterDrawAxisTitle", "/**\n"
+		sJavaDoc.put( "afterDrawAxisTitle", "/**\n"
 				+ " * Called after rendering the Title of an Axis.\n"
 				+ " * \n"
 				+ " * @param axis\n"
@@ -388,7 +378,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            IChartScriptContext\n"
 				+ " */\n" );
 
-		javaDoc.put( "beforeComputations", "/**\n"
+		sJavaDoc.put( "beforeComputations", "/**\n"
 				+ " * Called before computations of chart model.\n"
 				+ " * \n"
 				+ " * @param chart\n"
@@ -397,7 +387,7 @@ public class ScriptMethodInfo extends MethodInfo
 				+ " *            PlotComputation\n"
 				+ " */\n" );
 
-		javaDoc.put( "afterComputations", "/**\n"
+		sJavaDoc.put( "afterComputations", "/**\n"
 				+ " * Called after computations of chart model.\n"
 				+ " * \n"
 				+ " * @param chart\n"

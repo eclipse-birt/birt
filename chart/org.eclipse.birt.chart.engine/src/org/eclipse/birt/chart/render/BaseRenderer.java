@@ -106,6 +106,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.script.AbstractScriptHandler;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.FillUtil;
@@ -412,7 +413,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final Enumeration<Block> e = bl.children( true );
 		final BlockGenerationEvent bge = new BlockGenerationEvent( this );
 		final IDeviceRenderer idr = getDevice( );
-		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		final AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
 
 		if ( bFirstInSequence )
 		{
@@ -1220,7 +1221,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				valueLa,
 				dataIndex,
 				fPaletteEntry );
-		ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.BEFORE_DRAW_LEGEND_ENTRY,
 				la,

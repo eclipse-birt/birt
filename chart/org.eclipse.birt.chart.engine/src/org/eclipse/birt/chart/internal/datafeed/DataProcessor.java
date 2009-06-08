@@ -45,6 +45,7 @@ import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.script.AbstractScriptHandler;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -1277,7 +1278,7 @@ public class DataProcessor
 			DataSet ds, String[] userKeys, DataSet[] userDs )
 			throws ChartException
 	{
-		final ScriptHandler sh = rtc.getScriptHandler( );
+		final AbstractScriptHandler sh = rtc.getScriptHandler( );
 
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.BEFORE_DATA_SET_FILLED,
@@ -1319,7 +1320,7 @@ public class DataProcessor
 			IResultSetDataSet rsds, String[] userKeys,
 			IResultSetDataSet userRsds ) throws ChartException
 	{
-		final ScriptHandler sh = rtc.getScriptHandler( );
+		final AbstractScriptHandler sh = rtc.getScriptHandler( );
 		IDataSetProcessor idsp = null;
 		try
 		{

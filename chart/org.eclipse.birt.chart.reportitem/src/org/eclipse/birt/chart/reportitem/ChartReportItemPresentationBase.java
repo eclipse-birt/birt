@@ -839,7 +839,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		// INITIALIZE THE SCRIPT HANDLER
 		// UPDATE THE CHART SCRIPT CONTEXT
 
-		ScriptHandler sh = rtc.getScriptHandler( );
+		ScriptHandler sh = (ScriptHandler) rtc.getScriptHandler( );
 
 		if ( sh == null ) // IF NOT PREVIOUSLY DEFINED BY
 		// REPORTITEM ADAPTER

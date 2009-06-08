@@ -337,6 +337,17 @@ public final class DataPointHints
 	}
 
 	/**
+	 * Sets orthogonal value.
+	 * 
+	 * @param value
+	 * @since 2.5
+	 */
+	public final void setOrthogonalValue( Object value )
+	{
+		this.oOrthogonalValue = value;
+	}
+	
+	/**
 	 * Returns the stacked orthogonal value.
 	 * 
 	 * @return stacked value or null if not stacked

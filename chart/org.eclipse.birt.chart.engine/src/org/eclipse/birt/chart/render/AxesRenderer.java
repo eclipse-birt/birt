@@ -96,6 +96,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.script.AbstractScriptHandler;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -159,7 +160,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
 		final Chart cm = getModel( );
 		final IDeviceRenderer idr = getDevice( );
-		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		final AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
 
 		if ( bFirstInSequence ) // SEQUENCE OF MULTIPLE SERIES RENDERERS
 		// (POSSIBLY PARTICIPATING IN A COMBINATION CHART)
@@ -870,7 +871,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		final Bounds bo = goFactory.createBounds( 0, 0, 0, 0 );
 		final IDeviceRenderer idr = getDevice( );
-		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		final AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
 		final boolean bTransposed = ( (ChartWithAxes) getModel( ) ).isTransposed( );
 		final PlotWithAxes pwa = (PlotWithAxes) getComputations( );
 		final StringBuffer sb = new StringBuffer( );
@@ -2371,7 +2372,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			m.setFill( goFactory.copyOf( markerFill ) );
 		}
 		
-		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		final AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.BEFORE_DRAW_MARKER,
 				m,
@@ -2508,7 +2509,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		int iOrientation;
 
 		final IDeviceRenderer idr = getDevice( );
-		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		final AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
 		final Location loStart = goFactory.createLocation( 0, 0 );
 		final Location loEnd = goFactory.createLocation( 0, 0 );
 

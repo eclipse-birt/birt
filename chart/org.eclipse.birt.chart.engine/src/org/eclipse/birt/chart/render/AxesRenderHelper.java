@@ -67,6 +67,7 @@ import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.script.AbstractScriptHandler;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -95,7 +96,7 @@ public final class AxesRenderHelper
 	private PlotWithAxes pwa;
 	private IChartComputation cComp;
 	private Insets insCA;
-	private ScriptHandler sh;
+	private AbstractScriptHandler sh;
 	private double dLocation;
 	private AutoScale sc;
 	private IntersectionValue iv;

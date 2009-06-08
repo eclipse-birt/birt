@@ -591,7 +591,7 @@ public final class Generator implements IGenerator
 		// Since beforeDatasetFilled and afterDatasetFilled script functions are
 		// invoked when data binding, they might use chart model, so chat model
 		// is set into chart script context for the invoking in scripting.
-		IChartScriptContext icsc = rtc.getScriptContext( );
+		IChartScriptContext icsc = (IChartScriptContext) rtc.getScriptContext( );
 		if ( icsc == null )
 		{
 			// re-init chart script context.
@@ -894,7 +894,7 @@ public final class Generator implements IGenerator
 		}
 
 		// UPDATE THE CHART SCRIPT CONTEXT
-		IChartScriptContext icsc = rtc.getScriptContext( );
+		IChartScriptContext icsc = (IChartScriptContext) rtc.getScriptContext( );
 		if ( icsc == null )
 		{
 			// re-init chart script context.
@@ -927,7 +927,7 @@ public final class Generator implements IGenerator
 		final Chart cmRunTime = icsc.getChartInstance( );
 
 		// INITIALIZE THE SCRIPT HANDLER
-		ScriptHandler sh = rtc.getScriptHandler( );
+		ScriptHandler sh = (ScriptHandler) rtc.getScriptHandler( );
 		if ( sh == null ) // IF NOT PREVIOUSLY DEFINED BY
 		// REPORTITEM ADAPTER
 		{

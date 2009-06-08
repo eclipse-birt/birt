@@ -11,13 +11,7 @@
 
 package org.eclipse.birt.chart.script;
 
-import java.io.Serializable;
-import java.util.Locale;
-
-import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * This interface allows the script to get access to common chart varialbes and
@@ -25,7 +19,7 @@ import com.ibm.icu.util.ULocale;
  * Java and JavaScript. It deprecates the JavaScript global functions.
  * 
  */
-public interface IChartScriptContext extends Serializable
+public interface IChartScriptContext extends IScriptContext
 {
 
 	/**
@@ -33,27 +27,4 @@ public interface IChartScriptContext extends Serializable
 	 *         yet.
 	 */
 	Chart getChartInstance( );
-
-	/**
-	 * @return Returns the locale of current context.
-	 * @deprecated Use {@link #getULocale()} instead.
-	 */
-	Locale getLocale( );
-
-	/**
-	 * @return Returns the locale of current context.
-	 * @since 2.1
-	 */
-	ULocale getULocale( );
-
-	/**
-	 * @return Returns the external context.
-	 */
-	IExternalContext getExternalContext( );
-
-	/**
-	 * @return Returns an ILogger instance, to allow logging from script.
-	 * @see org.eclipse.birt.chart.log.ILogger
-	 */
-	ILogger getLogger( );
 }

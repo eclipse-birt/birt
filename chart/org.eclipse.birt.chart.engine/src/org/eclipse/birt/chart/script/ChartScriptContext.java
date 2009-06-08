@@ -11,32 +11,17 @@
 
 package org.eclipse.birt.chart.script;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Locale;
-
-import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.impl.SerializerImpl;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * An internal implementation for IChartScriptContext
  */
-public class ChartScriptContext implements IChartScriptContext
+public class ChartScriptContext extends AbstractScriptContext implements IChartScriptContext
 {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient IExternalContext externalContext;
-
-	private ULocale locale;
-
 	private transient Chart cm;
-
-	private transient ILogger logger;
 
 	/**
 	 * The constructor.
@@ -109,76 +94,5 @@ public class ChartScriptContext implements IChartScriptContext
 	public void setChartInstance( Chart cm )
 	{
 		this.cm = cm;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.script.IChartScriptContext#getExternalContext()
-	 */
-	public IExternalContext getExternalContext( )
-	{
-		return externalContext;
-	}
-
-	/**
-	 * @param externalContext
-	 *            the context of script
-	 */
-	public void setExternalContext( IExternalContext externalContext )
-	{
-		this.externalContext = externalContext;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.script.IChartScriptContext#getLocale()
-	 */
-	public Locale getLocale( )
-	{
-		return locale == null ? null : locale.toLocale( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.script.IChartScriptContext#getULocale()
-	 */
-	public ULocale getULocale( )
-	{
-		return locale;
-	}
-
-	/**
-	 * Sets associated locale.
-	 * 
-	 * @param locale
-	 *            Locale
-	 */
-	public void setULocale( ULocale locale )
-	{
-		this.locale = locale;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.script.IChartScriptContext#getLogger()
-	 */
-	public ILogger getLogger( )
-	{
-		return logger;
-	}
-
-	/**
-	 * Sets associated logger.
-	 * 
-	 * @param logger
-	 *            Logger
-	 */
-	public void setLogger( ILogger logger )
-	{
-		this.logger = logger;
 	}
 }
