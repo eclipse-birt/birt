@@ -60,7 +60,7 @@ feature@org.apache.derby.core=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsr
 plugin@org.apache.derby.core=v20080317,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
 
 feature@org.mozilla.rhino=v20090521,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.mozilla.rhino.feature 
-plugin@org.mozilla.rhino=v20090521,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
+plugin@org.mozilla.rhino=v20090608,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
 
 feature@org.w3c.sac=v20081027,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.w3c.sac.feature 
-plugin@org.w3c.sac=v20070710,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
+plugin@org.w3c.sac=v20090608,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
