@@ -109,7 +109,7 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 			{
 				IAggrFunction aggregationFunc = AggregationManager.getInstance( )
 						.getAggregation( aggregationFunctions[i].getFunctionName( ) );
-				if ( aggregation == null )
+				if ( aggregationFunc == null )
 				{
 					throw new DataException( DataResourceHandle.getInstance( )
 							.getMessage( ResourceConstants.UNSUPPORTED_FUNCTION )
