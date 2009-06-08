@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
 
@@ -54,6 +55,9 @@ public class ReportDesignNodeProvider extends DefaultNodeProvider
 		ArrayList list = new ArrayList( );
 
 		list.add( handle.getParameters( ) );
+		
+		if(handle instanceof ReportDesignHandle)
+			list.add( ((ReportDesignHandle)handle).getPropertyHandle( IReportDesignModel.PAGE_VARIABLES_PROP ) );
 
 		// Add the children handle - Body
 		list.add( handle.getBody( ) );
