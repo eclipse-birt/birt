@@ -1463,17 +1463,15 @@ public class HyperlinkBuilder extends BaseDialog
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
 		{
 			ExpressionHandle uri = (ExpressionHandle) getURI( );
-			if ( uri != null )
-			{
-				locationEditor.setText( uri == null
-						|| uri.getExpression( ) == null ? "" : (String) uri.getExpression( ) ); //$NON-NLS-1$
-				locationEditor.setData( EXPR_TYPE, uri == null
-						|| uri.getType( ) == null ? null
-						: (String) uri.getType( ) );
-				ExpressionButton button = (ExpressionButton) locationEditor.getData( EXPR_BUTTON );
-				if ( button != null )
-					button.refresh( );
-			}
+
+			locationEditor.setText( uri == null || uri.getExpression( ) == null ? "" : (String) uri.getExpression( ) ); //$NON-NLS-1$
+			locationEditor.setData( EXPR_TYPE, uri == null
+					|| uri.getType( ) == null ? ExpressionType.CONSTANT
+					: (String) uri.getType( ) );
+			ExpressionButton button = (ExpressionButton) locationEditor.getData( EXPR_BUTTON );
+			if ( button != null )
+				button.refresh( );
+
 			if ( bTargetEnabled )
 			{
 				if ( inputHandle.getTargetWindow( ) != null )

@@ -807,13 +807,13 @@ public class ImageBuilder extends BaseDialog
 
 	private void setURIEditor( )
 	{
-		PropertyHandle uriPropertyHandel = inputImage.getPropertyHandle( IImageItemModel.URI_PROP );
+		PropertyHandle uriPropertyHandle = inputImage.getPropertyHandle( IImageItemModel.URI_PROP );
 		ExpressionHandle uri = (ExpressionHandle) getURI( );
 		if ( uri != null )
 		{
 			uriEditor.setText( uri == null || uri.getExpression( ) == null ? "" : (String) uri.getExpression( ) ); //$NON-NLS-1$
 		}
-		if ( uriPropertyHandel != null && uriPropertyHandel.isLocal( ) )
+		if ( uriPropertyHandle != null && uriPropertyHandle.isLocal( ) )
 		{
 			uriEditor.setData( EXPR_TYPE,
 					uri == null || uri.getType( ) == null ? ExpressionType.CONSTANT
