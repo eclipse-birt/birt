@@ -2466,4 +2466,41 @@ public class UIUtil
 		return buffer.toString( ).trim( );
 	}
 
+	public static Object[] getInsertPamaterElements(Object[] newObjs)
+	{
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+		Object[] insertedObjs = new Object[newObjs.length];
+		for ( int i = 0; i < newObjs.length; i++ )
+		{
+			insertedObjs[i] = newObjs[i];
+			DesignElementHandle elementHandle = (DesignElementHandle) newObjs[i];
+			if ( elementHandle.getRoot( ) instanceof LibraryHandle )
+			{
+				LibraryHandle library = (LibraryHandle) elementHandle.getRoot( );
+				if ( moduleHandle != library )
+				{
+					try
+					{
+						if ( UIUtil.includeLibrary( moduleHandle,
+								library ) )
+						{
+							elementHandle = moduleHandle.getElementFactory( )
+									.newElementFrom( elementHandle,
+											elementHandle.getName( ) );
+							moduleHandle.addElement( elementHandle,
+									ModuleHandle.PARAMETER_SLOT );
+							insertedObjs[i] = elementHandle;
+							continue;
+						}
+					}
+					catch ( Exception e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+			}
+		}
+		return insertedObjs;
+	}
 }

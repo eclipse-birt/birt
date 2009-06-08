@@ -540,7 +540,7 @@ public class InsertInLayoutUtil
 		return result;
 	}
 
-	protected static DataItemHandle performInsertParameter(
+	public static DataItemHandle performInsertParameter(
 			ScalarParameterHandle model ) throws SemanticException
 	{
 		// DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
