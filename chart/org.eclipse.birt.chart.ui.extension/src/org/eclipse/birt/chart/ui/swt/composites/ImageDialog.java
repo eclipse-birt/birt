@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -249,15 +248,15 @@ public class ImageDialog extends TrayDialog
 	{
 		try
 		{
-			if ( imageData != null )
-			{
-				ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decodeBase64( imageData.getBytes( ) ) );
-				previewCanvas.loadImage( bis );
-			}
-			else
-			{
-				previewCanvas.loadImage( new URL( uri ) );
-			}
+			// if ( imageData != null )
+			// {
+			// ByteArrayInputStream bis = new ByteArrayInputStream(
+			// Base64.decodeBase64( imageData.getBytes( ) ) );
+			// previewCanvas.loadImage( bis );
+			// }
+
+			previewCanvas.loadImage( new URL( uri ) );
+
 		}
 		catch ( Exception e )
 		{
