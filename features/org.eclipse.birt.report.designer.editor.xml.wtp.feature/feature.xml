@@ -137,27 +137,28 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-      
+
    <plugin
          id="org.apache.batik.css"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.apache.batik.dom"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.apache.batik.dom.svg"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
    <plugin
          id="org.apache.batik.parser"
          download-size="0"
@@ -178,7 +179,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.apache.batik.util"
          download-size="0"
@@ -199,7 +200,8 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-            <plugin
+
+   <plugin
          id="org.w3c.dom.smil"
          download-size="0"
          install-size="0"
@@ -219,10 +221,19 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
    <plugin
          id="org.w3c.css.sac"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.designer.ui.views"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
