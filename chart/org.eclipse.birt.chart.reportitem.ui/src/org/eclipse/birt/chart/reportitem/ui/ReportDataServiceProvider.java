@@ -2958,7 +2958,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		DesignElementHandle container = itemHandle.getContainer( );
 		while ( container != null )
 		{
-			if ( container instanceof ListingHandle )
+			if ( container instanceof ListingHandle
+					&& ( (ListingHandle) container ).getDataSet( ) != null )
 			{
 				return (ListingHandle) container;
 			}
