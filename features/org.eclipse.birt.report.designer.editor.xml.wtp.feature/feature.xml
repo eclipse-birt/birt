@@ -236,4 +236,25 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="org.eclipse.birt.core.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.fonts"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.model.adapter.oda"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
