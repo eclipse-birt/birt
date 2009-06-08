@@ -1092,40 +1092,7 @@ public class BasePaletteFactory
 					if ( newObj instanceof Object[] )
 					{
 						Object[] newObjs = (Object[]) newObj;
-						Object[] insertedObjs = new Object[newObjs.length];
-						for ( int i = 0; i < newObjs.length; i++ )
-						{
-							DesignElementHandle elementHandle = (DesignElementHandle) newObjs[i];
-							if ( elementHandle.getRoot( ) instanceof LibraryHandle )
-							{
-								ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-										.getReportDesignHandle( );
-								LibraryHandle library = (LibraryHandle) elementHandle.getRoot( );
-								if ( moduleHandle != library )
-								{
-									try
-									{
-										if ( UIUtil.includeLibrary( moduleHandle,
-												library ) )
-										{
-											elementHandle = moduleHandle.getElementFactory( )
-													.newElementFrom( elementHandle,
-															elementHandle.getName( ) );
-											moduleHandle.addElement( elementHandle,
-													ModuleHandle.PARAMETER_SLOT );
-											insertedObjs[i] = elementHandle;
-											continue;
-										}
-									}
-									catch ( Exception e )
-									{
-										ExceptionHandler.handle( e );
-									}
-								}
-							}
-							insertedObjs[i] = newObjs[i];
-						}
-						newObj = insertedObjs;
+						newObj = UIUtil.getInsertPamaterElements(newObjs);
 					}
 
 					Object newHandle = InsertInLayoutUtil.performInsert( newObj,
