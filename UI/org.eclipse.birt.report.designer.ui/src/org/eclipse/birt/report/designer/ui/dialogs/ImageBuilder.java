@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -356,13 +357,14 @@ public class ImageBuilder extends BaseDialog
 		if ( type == EMBEDDED_TYPE )
 		{
 			buildEmbeddedImageList( );
+			buildInputAreaButton( type );
 		}
 		else
 		{
 			buildURIEditor( type );
+			buildInputAreaButton( type );
+			initURIEditor( );
 		}
-		// Button
-		buildInputAreaButton( type );
 	}
 
 	private void buildURIEditor( int type )
@@ -402,8 +404,6 @@ public class ImageBuilder extends BaseDialog
 				preview( DEUtil.removeQuote( uriEditor.getText( ).trim( ) ) );
 			}
 		} );
-
-		initURIEditor( );
 	}
 
 	private void buildEmbeddedImageList( )
@@ -778,23 +778,18 @@ public class ImageBuilder extends BaseDialog
 
 	private void initURIEditor( )
 	{
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equals( inputImage.getSource( ) ) )
+
+		if ( getURI( ) != null && selectedType == URI_TYPE )
 		{
-			if ( getURI( ) != null && selectedType == URI_TYPE )
-			{
-				setURIEditor( );
-			}
-		}
-		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equals( inputImage.getSource( ) ) )
-		{
-			if ( getURI( ) != null && selectedType == FILE_TYPE )
-			{
-				setURIEditor( );
-			};
+			setURIEditor( );
 		}
 
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equals( inputImage.getSource( ) )
-				&& selectedType == BLOB_TYPE )
+		if ( getURI( ) != null && selectedType == FILE_TYPE )
+		{
+			setURIEditor( );
+		};
+
+		if ( selectedType == BLOB_TYPE )
 		{
 			if ( inputImage.getValueExpression( ) != null )
 			{
@@ -812,17 +807,25 @@ public class ImageBuilder extends BaseDialog
 
 	private void setURIEditor( )
 	{
+		PropertyHandle uriPropertyHandel = inputImage.getPropertyHandle( IImageItemModel.URI_PROP );
 		ExpressionHandle uri = (ExpressionHandle) getURI( );
 		if ( uri != null )
 		{
 			uriEditor.setText( uri == null || uri.getExpression( ) == null ? "" : (String) uri.getExpression( ) ); //$NON-NLS-1$
-			uriEditor.setData( EXPR_TYPE,
-					uri == null || uri.getType( ) == null ? null
-							: (String) uri.getType( ) );
-			ExpressionButton button = (ExpressionButton) uriEditor.getData( EXPR_BUTTON );
-			if ( button != null )
-				button.refresh( );
 		}
+		if ( uriPropertyHandel != null && uriPropertyHandel.isLocal( ) )
+		{
+			uriEditor.setData( EXPR_TYPE,
+					uri == null || uri.getType( ) == null ? ExpressionType.CONSTANT
+							: (String) uri.getType( ) );
+		}
+		else
+		{
+			uriEditor.setData( EXPR_TYPE, ExpressionType.CONSTANT );
+		}
+		ExpressionButton button = (ExpressionButton) uriEditor.getData( EXPR_BUTTON );
+		if ( button != null )
+			button.refresh( );
 	}
 
 	private void initList( )
