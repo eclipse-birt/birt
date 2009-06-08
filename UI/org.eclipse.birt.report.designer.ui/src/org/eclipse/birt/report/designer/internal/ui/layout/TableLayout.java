@@ -130,7 +130,7 @@ public class TableLayout extends XYLayout
 			return;
 		}
 
-		if ( !isCalculating )
+		//if ( !isCalculating )
 		{
 			helper = new TableBorderHelper( owner );
 
