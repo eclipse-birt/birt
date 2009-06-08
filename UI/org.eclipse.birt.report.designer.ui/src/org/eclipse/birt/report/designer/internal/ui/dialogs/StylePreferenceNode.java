@@ -39,9 +39,10 @@ public class StylePreferenceNode extends PreferenceNode
 			BaseStylePreferencePage page = (BaseStylePreferencePage) getPage( );
 			if ( page.hasLocaleProperties( ) )
 			{
-
 				image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_STYLE_MODIFIED );
 			}
+			else
+				image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_STYLE_DEFAULT );
 		}
 
 		return image;

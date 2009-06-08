@@ -131,7 +131,9 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createContents(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createContents
+	 * (org.eclipse.swt.widgets.Composite)
 	 */
 	protected Control createContents( Composite parent )
 	{
@@ -193,7 +195,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 				handleTableKeyPressEvent( e );
 			}
 		} );
-		
+
 		innerParent.addControlListener( new ControlAdapter( ) {
 
 			// Resize the columns by proportion when the parent control is
@@ -213,14 +215,14 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 				if ( oldSize.x > width )
 				{
 					column1.setWidth( 2 * width / 5 );
-					column2.setWidth( width - column1.getWidth( ) );
-					table.setSize( width, area.height );
+					column2.setWidth( width - column1.getWidth( ) - 50 );
+					// table.setSize( width, area.height );
 				}
 				else
 				{
-					table.setSize( width, area.height );
+					// table.setSize( width, area.height );
 					column1.setWidth( 2 * width / 5 );
-					column2.setWidth( width - column1.getWidth( ) );
+					column2.setWidth( width - column1.getWidth( ) - 50 );
 				}
 			}
 		} );
@@ -519,7 +521,7 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 	{
 		if ( e.keyCode == SWT.DEL )
 		{
-			delete();
+			delete( );
 		}
 	}
 

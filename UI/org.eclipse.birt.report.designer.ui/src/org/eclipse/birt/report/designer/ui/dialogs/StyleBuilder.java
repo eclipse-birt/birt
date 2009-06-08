@@ -46,13 +46,14 @@ import org.eclipse.jface.preference.IPreferenceNode;
 import org.eclipse.jface.preference.IPreferencePage;
 import org.eclipse.jface.preference.PreferenceContentProvider;
 import org.eclipse.jface.preference.PreferenceDialog;
-import org.eclipse.jface.preference.PreferenceLabelProvider;
 import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.SafeRunnable;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -70,6 +71,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 
 /**
  * Presents style builder dialog.
@@ -119,9 +122,21 @@ public class StyleBuilder extends PreferenceDialog
 
 	protected TreeViewer createTreeViewer( Composite parent )
 	{
-		viewer = new TreeViewer( parent, SWT.FULL_SELECTION );
+		Tree tree = new Tree( parent, SWT.FULL_SELECTION
+				| SWT.SINGLE
+				| SWT.HIDE_SELECTION );
+
+		// configure the widget
+		tree.setLinesVisible( false );
+		tree.setHeaderVisible( false );
+		TreeColumn[] columns = new TreeColumn[2];
+		columns[0] = new TreeColumn( tree, SWT.LEFT );
+		columns[0].setWidth( 0 );
+		columns[1] = new TreeColumn( tree, SWT.LEFT );
+		columns[1].setWidth( 100 );
+		viewer = new TreeViewer( tree );
 		addListeners( viewer );
-		viewer.setLabelProvider( new PreferenceLabelProvider( ) );
+		viewer.setLabelProvider( new PreferenceTreeLabelProvider( ) );
 		viewer.setContentProvider( new PreferenceContentProvider( ) );
 		return viewer;
 	}
@@ -275,8 +290,7 @@ public class StyleBuilder extends PreferenceDialog
 
 				setSelectedNodePreference( null );
 				String message = ""; //$NON-NLS-1$
-				MessageDialog.openError( getShell( ),
-						"", message ); //$NON-NLS-1$
+				MessageDialog.openError( getShell( ), "", message ); //$NON-NLS-1$
 
 			}
 		} );
@@ -310,7 +324,6 @@ public class StyleBuilder extends PreferenceDialog
 	private String message = ""; //$NON-NLS-1$
 	private Image messageImage;
 
-
 	private static final int H_GAP_IMAGE = 5;
 	static
 	{
@@ -325,7 +338,7 @@ public class StyleBuilder extends PreferenceDialog
 	{
 		createDialogTitleArea( parent );
 
-		setTitleTitle( Messages.getString("StyleBuilder.Title") ); //$NON-NLS-1$
+		setTitleTitle( Messages.getString( "StyleBuilder.Title" ) ); //$NON-NLS-1$
 
 		updateMessage( "" ); //$NON-NLS-1$
 
@@ -648,12 +661,10 @@ public class StyleBuilder extends PreferenceDialog
 		if ( newMessage != null && newMessage.length( ) > 0 )
 			messageLabel.setText( newMessage );
 		else if ( DLG_TITLE_EDIT.equals( title ) )
-			setTitleMessage( Messages.getString("StyleBuilder.Edit.Info") ); //$NON-NLS-1$
+			setTitleMessage( Messages.getString( "StyleBuilder.Edit.Info" ) ); //$NON-NLS-1$
 		else if ( DLG_TITLE_NEW.equals( title ) )
-			setTitleMessage( Messages.getString("StyleBuilder.New.Info") ); //$NON-NLS-1$
+			setTitleMessage( Messages.getString( "StyleBuilder.New.Info" ) ); //$NON-NLS-1$
 	}
-
-
 
 	public void setTitleMessage( String message )
 	{
@@ -673,7 +684,6 @@ public class StyleBuilder extends PreferenceDialog
 
 	private Composite dialogTitleArea;
 
-
 	public boolean isTitleImageLargest( )
 	{
 		return titleImageLargest;
@@ -692,6 +702,47 @@ public class StyleBuilder extends PreferenceDialog
 	public void setTitleImage( Image titleImage )
 	{
 		this.titleImage = titleImage;
+	}
+
+	class PreferenceTreeLabelProvider implements ITableLabelProvider
+	{
+
+		public Image getColumnImage( Object element, int columnIndex )
+		{
+			if ( columnIndex == 1 )
+				return ( (IPreferenceNode) element ).getLabelImage( );
+			else
+				return null;
+		}
+
+		public String getColumnText( Object element, int columnIndex )
+		{
+			if ( columnIndex == 1 )
+				return ( (IPreferenceNode) element ).getLabelText( );
+			else
+				return "";
+		}
+
+		public void addListener( ILabelProviderListener listener )
+		{
+
+		}
+
+		public void dispose( )
+		{
+
+		}
+
+		public boolean isLabelProperty( Object element, String property )
+		{
+			return false;
+		}
+
+		public void removeListener( ILabelProviderListener listener )
+		{
+
+		}
+
 	}
 
 }

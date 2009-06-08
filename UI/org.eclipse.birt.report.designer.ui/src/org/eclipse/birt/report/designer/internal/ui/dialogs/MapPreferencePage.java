@@ -129,7 +129,9 @@ public class MapPreferencePage extends BaseStylePreferencePage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createContents(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createContents
+	 * (org.eclipse.swt.widgets.Composite)
 	 */
 	protected Control createContents( Composite ancestor )
 	{
@@ -178,7 +180,7 @@ public class MapPreferencePage extends BaseStylePreferencePage
 				edit( );
 			}
 		} );
-		
+
 		table.addKeyListener( new KeyAdapter( ) {
 
 			public void keyPressed( KeyEvent e )
@@ -205,14 +207,14 @@ public class MapPreferencePage extends BaseStylePreferencePage
 				if ( oldSize.x > width )
 				{
 					column1.setWidth( width / 4 );
-					column2.setWidth( width - column1.getWidth( ) );
-					table.setSize( width, area.height );
+					column2.setWidth( width - column1.getWidth( ) - 50 );
+					// table.setSize( width, area.height );
 				}
 				else
 				{
-					table.setSize( width, area.height );
+					// table.setSize( width, area.height );
 					column1.setWidth( width / 4 );
-					column2.setWidth( width - column1.getWidth( ) );
+					column2.setWidth( width - column1.getWidth( ) - 50 );
 				}
 			}
 		} );
@@ -392,7 +394,7 @@ public class MapPreferencePage extends BaseStylePreferencePage
 					.getItemCount( ) );
 
 			builder.setDesignHandle( (DesignElementHandle) model );
-			
+
 			if ( model instanceof ReportItemHandle )
 			{
 				builder.setReportElement( (ReportItemHandle) model );
@@ -501,7 +503,7 @@ public class MapPreferencePage extends BaseStylePreferencePage
 	{
 		if ( e.keyCode == SWT.DEL )
 		{
-			delete();
+			delete( );
 		}
 	}
 

@@ -484,5 +484,7 @@ public interface IReportGraphicConstants
 
 	public static final String ICON_STYLE_MODIFIED = "StyleModified";
 
+	public static final String ICON_STYLE_DEFAULT = "StyleDefault";
+
 	public static final String ICON_STYLE_RESOTRE = "StyleRestore";
 }

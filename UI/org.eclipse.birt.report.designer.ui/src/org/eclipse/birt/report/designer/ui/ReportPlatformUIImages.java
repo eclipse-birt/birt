@@ -758,6 +758,10 @@ public class ReportPlatformUIImages
 				+ OBJ16_PATH
 				+ "style_modified.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_STYLE_DEFAULT, ICONS_PATH
+				+ OBJ16_PATH
+				+ "style_default.gif" ); //$NON-NLS-1$
+
 		declareImage( IReportGraphicConstants.ICON_STYLE_RESOTRE, ICONS_PATH
 				+ OBJ16_PATH
 				+ "style_restore.gif" ); //$NON-NLS-1$
