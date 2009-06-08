@@ -855,7 +855,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		}
 	}
 
-	protected void updateRelatedViews( )
+	public void updateRelatedViews( )
 	{
 		updatePaletteView( getCurrentPageInstance( ) );
 		updateOutLineView( getCurrentPageInstance( ) );

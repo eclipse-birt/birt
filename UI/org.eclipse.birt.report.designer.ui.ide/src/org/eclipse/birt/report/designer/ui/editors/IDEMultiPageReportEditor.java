@@ -234,6 +234,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 					( (IReportEditorPage) page ).setInput( input );
 				}
 			}
+			updateRelatedViews();
 		}
 	}
 
