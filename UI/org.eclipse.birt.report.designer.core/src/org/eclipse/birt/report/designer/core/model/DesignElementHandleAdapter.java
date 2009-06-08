@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -259,6 +260,47 @@ public abstract class DesignElementHandleAdapter
 		return retValue;
 	}
 
+	/**
+	 * @param handle
+	 * @return
+	 */
+	public int getBackgroundImageWidth(DesignElementHandle handle)
+	{
+		DimensionHandle obj = handle.getDimensionProperty( StyleHandle.BACKGROUND_SIZE_WIDTH );
+		if (obj == null || obj.getUnits( ) == null || obj.getUnits( ).length( ) == 0)
+		{
+			return 0;
+		}
+		int fontSize = DEUtil.getFontSizeIntValue( getHandle( ) );
+
+		double px = 0;
+		
+		
+		px = DEUtil.convertToPixel( obj, fontSize );
+		
+		return (int)px;
+	}
+	
+	/**
+	 * @param handle
+	 * @return
+	 */
+	public int getBackgroundImageHeight(DesignElementHandle handle)
+	{
+		DimensionHandle obj = handle.getDimensionProperty( StyleHandle.BACKGROUND_SIZE_HEIGHT );
+		if (obj == null || obj.getUnits( ) == null || obj.getUnits( ).length( ) == 0)
+		{
+			return 0;
+		}
+		int fontSize = DEUtil.getFontSizeIntValue( getHandle( ) );
+
+		double py = 0;
+		
+		
+		py = DEUtil.convertToPixel( obj, fontSize );
+		
+		return (int)py;
+	}
 	/**
 	 * Get the foreground color.
 	 * 

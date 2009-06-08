@@ -193,10 +193,11 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 		ArrayList xyList = createImageList( x, y );
 
 		Iterator iter = xyList.iterator( );
+		Dimension imageSize = new Rectangle( image.getBounds( ) ).getSize( );
 		while ( iter.hasNext( ) )
 		{
 			Point point = (Point) iter.next( );
-			graphics.drawImage( image, point );
+			graphics.drawImage( image, 0, 0, imageSize.width, imageSize.height,  point.x, point.y, size.width, size.height);
 		}
 		xyList.clear( );
 
@@ -412,5 +413,38 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	public Dimension getFixMinimumSize( int w, int h )
 	{
 		return getMinimumSize( w, h );
+	}
+	
+	/**
+	 * @param backGroundImageWidth
+	 */
+	public void setBackGroundImageSize( int backGroundImageWidth, int backGroundImageHeight )
+	{
+		
+		if (img == null)
+		{
+			return;
+		}
+		Dimension ori = new Rectangle( img.getBounds( ) ).getSize( );
+		if (backGroundImageWidth <= 0 && backGroundImageHeight <= 0)
+		{
+			size = ori;
+			return;
+		}
+		else if (backGroundImageWidth <= 0)
+		{
+			backGroundImageWidth = (int)(ori.width * ((double)backGroundImageHeight/ori.height));
+		}
+		else if (backGroundImageHeight <= 0)
+		{
+			backGroundImageHeight = (int)(ori.height * ((double)backGroundImageWidth/ori.width));
+		}
+		
+		if  (backGroundImageWidth <= 0 || backGroundImageHeight <= 0)
+		{
+			return;
+		}
+		size.width = backGroundImageWidth;
+		size.height = backGroundImageHeight;
 	}
 }

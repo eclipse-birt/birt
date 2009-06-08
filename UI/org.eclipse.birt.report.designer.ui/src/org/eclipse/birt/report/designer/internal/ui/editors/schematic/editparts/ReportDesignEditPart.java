@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.Lin
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportRootFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.RootDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
@@ -186,6 +187,8 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 		getFigure( ).setBackgroundColor( getBackGroundColor( color ) );
 
 		refreshBackground( masterPageHandle );
+		((ReportElementFigure)getFigure( )).setBackGroundImageSize( getModelAdapter( ).getBackgroundImageWidth( masterPageHandle ),
+				getModelAdapter( ).getBackgroundImageHeight( masterPageHandle ));
 	}
 
 	public void refreshMarginBorder( ReportDesignMarginBorder border )

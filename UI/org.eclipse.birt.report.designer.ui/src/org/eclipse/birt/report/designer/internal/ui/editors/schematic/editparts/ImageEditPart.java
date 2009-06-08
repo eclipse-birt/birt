@@ -154,12 +154,12 @@ public class ImageEditPart extends ReportElementEditPart implements IResourceEdi
 			else if ( rawSize.height == 0 )
 			{
 				this.getFigure( ).setSize( new Dimension( rawSize.width,
-						image.getBounds( ).height ) );
+						(int)(image.getBounds( ).height *((double)rawSize.width/image.getBounds( ).width) ) ));
 			}
 			else
 			{
 				this.getFigure( )
-						.setSize( new Dimension( image.getBounds( ).width,
+						.setSize( new Dimension( (int)(image.getBounds( ).width*((double)rawSize.height/image.getBounds( ).height) ) ,
 								rawSize.height ) );
 			}
 
