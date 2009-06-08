@@ -130,7 +130,11 @@ public class JDBCDriverManager
 	 */
 	public void close()
 	{
-		this.extraDriverLoader.close();
+		if( this.extraDriverLoader != null )
+		{
+			this.extraDriverLoader.close();
+			this.extraDriverLoader = null;
+		}
 		this.cachedJdbcDriver.clear( );
 		this.cachedDriversMap.clear( );
 		this.registeredDrivers.clear( );
