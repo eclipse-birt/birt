@@ -275,6 +275,15 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage
 			}	
 		}
 
+		public void doSave( IProgressMonitor monitor, boolean chnageText )
+		{
+			super.doSave( monitor, chnageText );
+			if ( getScriptEditor( ) instanceof IDebugScriptEditor )
+			{
+				( (IDebugScriptEditor) getScriptEditor( ) ).saveDocument( );
+			}
+		}
+		
 		@Override
 		public void doSave( IProgressMonitor monitor )
 		{
