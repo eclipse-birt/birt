@@ -13,7 +13,7 @@ package org.eclipse.birt.chart.model.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -556,7 +556,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	/**
 	 * A convenience method to create an initialized 'ChartWithoutAxes' instance
 	 * 
-	 * @return
+	 * @return chart model
 	 */
 	public static ChartWithoutAxes create( )
 	{
@@ -580,33 +580,14 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.model.Chart#getSeriesForLegend()
-	 */
-	public final SeriesDefinition[] getSeriesForLegend( )
-	{
-		final ArrayList al = new ArrayList( );
-		EList elOrthogonalSD;
-		final EList elBaseSD = getSeriesDefinitions( );
-		for ( int i = 0; i < elBaseSD.size( ); i++ )
-		{
-			elOrthogonalSD = ( (SeriesDefinition) elBaseSD.get( i ) ).getSeriesDefinitions( );
-			al.addAll( elOrthogonalSD );
-		}
-
-		return (SeriesDefinition[]) al.toArray( new SeriesDefinition[al.size( )] );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.chart.model.ChartWithoutAxes#getRunTimeSeries()
 	 */
 	public final Series[] getRunTimeSeries( )
 	{
-		final ArrayList al = new ArrayList( 8 );
-		final EList el = getSeriesDefinitions( );
+		final ArrayList<Series> al = new ArrayList<Series>( 8 );
+		final EList<SeriesDefinition> el = getSeriesDefinitions( );
 		recursivelyGetSeries( el, al, 0, -1 );
-		return (Series[]) al.toArray( new Series[al.size( )] );
+		return al.toArray( new Series[al.size( )] );
 	}
 
 	/**
@@ -616,21 +597,20 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 * @param al
 	 * @param iLevel
 	 */
-	public final void recursivelyGetSeries( EList elSDs, ArrayList al,
-			int iLevel, int iLevelToOmit )
+	public final void recursivelyGetSeries( EList<SeriesDefinition> elSDs,
+			ArrayList<Series> al, int iLevel, int iLevelToOmit )
 	{
-		SeriesDefinition sd;
-		EList el;
-
 		for ( int i = 0; i < elSDs.size( ); i++ )
 		{
-			sd = (SeriesDefinition) elSDs.get( i );
+			SeriesDefinition sd = elSDs.get( i );
 			if ( iLevel != iLevelToOmit )
 			{
 				al.addAll( sd.getRunTimeSeries( ) );
 			}
-			el = sd.getSeriesDefinitions( );
-			recursivelyGetSeries( el, al, iLevel + 1, iLevelToOmit );
+			recursivelyGetSeries( sd.getSeriesDefinitions( ),
+					al,
+					iLevel + 1,
+					iLevelToOmit );
 		}
 	}
 
@@ -641,23 +621,18 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 * @param al
 	 * @param iLevel
 	 */
-	private static final void recursivelyRemoveRuntimeSeries( EList elSDs,
+	private static final void recursivelyRemoveRuntimeSeries( EList<SeriesDefinition> elSDs,
 			int iLevel, int iLevelToOmit )
 	{
-		SeriesDefinition sd;
-		EList el;
-
 		for ( int i = 0; i < elSDs.size( ); i++ )
 		{
-			sd = (SeriesDefinition) elSDs.get( i );
+			SeriesDefinition sd = elSDs.get( i );
 			if ( iLevel != iLevelToOmit )
 			{
 				if ( sd.getSeries( ).size( ) == sd.getRunTimeSeries( ).size( ) )
 				{
-					Iterator it = ( sd.getRunTimeSeries( ) ).iterator( );
-					while ( it.hasNext( ) )
+					for ( Series se : sd.getRunTimeSeries( ) )
 					{
-						Series se = (Series) it.next( );
 						se.getDataSets( ).clear( );
 					}
 				}
@@ -666,8 +641,9 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 					sd.getSeries( ).removeAll( sd.getRunTimeSeries( ) );
 				}
 			}
-			el = sd.getSeriesDefinitions( );
-			recursivelyRemoveRuntimeSeries( el, iLevel + 1, iLevelToOmit );
+			recursivelyRemoveRuntimeSeries( sd.getSeriesDefinitions( ),
+					iLevel + 1,
+					iLevelToOmit );
 		}
 	}
 
@@ -749,4 +725,21 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 		}
 		return true;
 	}
-} // ChartWithoutAxesImpl
+	
+	@Override
+	protected SeriesDefinition getBaseSeriesDefinition( )
+	{
+		return getSeriesDefinitions( ).get( 0 );
+	}
+	
+	@Override
+	protected List<SeriesDefinition> getOrthogonalSeriesDefinitions( )
+	{
+		List<SeriesDefinition> osds = new ArrayList<SeriesDefinition>( );
+		for ( SeriesDefinition bsd : getSeriesDefinitions( ) )
+		{
+			osds.addAll( bsd.getSeriesDefinitions( ) );
+		}
+		return osds;
+	}
+} 

@@ -13,7 +13,7 @@ package org.eclipse.birt.chart.model.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -875,16 +875,16 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * 
 	 * NOTE: Manually written
 	 * 
-	 * @return
+	 * @return Axis array
 	 */
 	public final Axis[] getBaseAxes( )
 	{
-		final EList elAxes = getAxes( );
+		final EList<Axis> elAxes = getAxes( );
 		final int iAxisCount = elAxes.size( );
 		final Axis[] axa = new Axis[iAxisCount];
 		for ( int i = 0; i < iAxisCount; i++ )
 		{
-			axa[i] = (Axis) elAxes.get( i );
+			axa[i] = elAxes.get( i );
 		}
 		return axa;
 	}
@@ -894,16 +894,16 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * 
 	 * NOTE: Manually written
 	 * 
-	 * @return
+	 * @return Axis array
 	 */
 	public final Axis[] getPrimaryBaseAxes( )
 	{
-		final EList elAxes = getAxes( );
+		final EList<Axis> elAxes = getAxes( );
 		final int iAxisCount = elAxes.size( );
 		final Axis[] axa = new Axis[iAxisCount];
 		for ( int i = 0; i < iAxisCount; i++ )
 		{
-			axa[i] = (Axis) elAxes.get( i );
+			axa[i] = elAxes.get( i );
 		}
 		return axa;
 	}
@@ -916,19 +916,18 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * NOTE: Manually written
 	 * 
 	 * @param axBase
-	 * @return
+	 * @return Axis array
 	 */
 	public final Axis[] getOrthogonalAxes( Axis axBase, boolean bIncludePrimary )
 	{
-		final EList elAxes = axBase.getAssociatedAxes( );
+		final EList<Axis> elAxes = axBase.getAssociatedAxes( );
 		final int iAxisCount = elAxes.size( );
 		final int iDecrease = bIncludePrimary ? 0 : 1;
 		final Axis[] axa = new Axis[iAxisCount - iDecrease];
-		Axis ax;
 
 		for ( int i = 0, j = 1 - iDecrease; i < iAxisCount; i++ )
 		{
-			ax = (Axis) elAxes.get( i );
+			Axis ax = elAxes.get( i );
 			if ( !ax.isPrimaryAxis( ) )
 			{
 				axa[j++] = ax;
@@ -947,16 +946,16 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * NOTE: Manually written
 	 * 
 	 * @param axBase
-	 * @return
+	 * @return primary orthongal axis
 	 */
 	public final Axis getPrimaryOrthogonalAxis( Axis axBase )
 	{
-		final EList elAxes = axBase.getAssociatedAxes( );
+		final EList<Axis> elAxes = axBase.getAssociatedAxes( );
 		final int iAxisCount = elAxes.size( );
 		Axis ax;
 		for ( int i = 0; i < iAxisCount; i++ )
 		{
-			ax = (Axis) elAxes.get( i );
+			ax = elAxes.get( i );
 			if ( ax.isPrimaryAxis( ) )
 			{
 				return ax;
@@ -972,12 +971,12 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 */
 	public Axis getAncillaryBaseAxis( Axis axBase )
 	{
-		final EList elAxes = axBase.getAncillaryAxes( );
+		final EList<Axis> elAxes = axBase.getAncillaryAxes( );
 		final int iAxisCount = elAxes.size( );
 
 		if ( iAxisCount > 0 )
 		{
-			return (Axis) elAxes.get( 0 );
+			return  elAxes.get( 0 );
 		}
 
 		return null;
@@ -988,7 +987,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return
+	 * @return chart model
 	 */
 	public static final ChartWithAxes create( )
 	{
@@ -1057,11 +1056,11 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 */
 	public final Series[] getSeries( int iBaseOrOrthogonal )
 	{
-		final ArrayList al = new ArrayList( 8 );
+		final ArrayList<Series> al = new ArrayList<Series>( 8 );
 		final Axis[] axaBase = getBaseAxes( );
 		Axis[] axaOrthogonal;
 		SeriesDefinition sd;
-		EList el;
+		EList<SeriesDefinition> el;
 
 		for ( int i = 0; i < axaBase.length; i++ )
 		{
@@ -1070,7 +1069,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 				el = axaBase[i].getSeriesDefinitions( );
 				for ( int j = 0; j < el.size( ); j++ )
 				{
-					sd = (SeriesDefinition) el.get( j );
+					sd = el.get( j );
 					al.addAll( sd.getRunTimeSeries( ) );
 				}
 			}
@@ -1082,14 +1081,14 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 					el = axaOrthogonal[j].getSeriesDefinitions( );
 					for ( int k = 0; k < el.size( ); k++ )
 					{
-						sd = (SeriesDefinition) el.get( k );
+						sd = el.get( k );
 						al.addAll( sd.getRunTimeSeries( ) );
 					}
 				}
 			}
 		}
 
-		return (Series[]) al.toArray( new Series[al.size( )] );
+		return al.toArray( new Series[al.size( )] );
 	}
 
 	/*
@@ -1117,31 +1116,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.model.Chart#getSeriesForLegend()
-	 */
-	public final SeriesDefinition[] getSeriesForLegend( )
-	{
-		final ArrayList al = new ArrayList( 8 );
-		final Axis[] axaBase = getBaseAxes( );
-		Axis[] axaOrthogonal;
-		EList el;
-
-		for ( int i = 0; i < axaBase.length; i++ )
-		{
-			axaOrthogonal = getOrthogonalAxes( axaBase[i], true );
-			for ( int j = 0; j < axaOrthogonal.length; j++ )
-			{
-				el = axaOrthogonal[j].getSeriesDefinitions( );
-				al.addAll( el );
-			}
-		}
-
-		return (SeriesDefinition[]) al.toArray( new SeriesDefinition[al.size( )] );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.chart.model.Chart#clearSections(int)
 	 */
 	public final void clearSections( int iSectionType )
@@ -1152,21 +1126,19 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 			Axis[] axaOrthogonal;
 			Axis axaAncillary;
 			SeriesDefinition sd;
-			EList el;
+			EList<SeriesDefinition> el;
 
 			for ( int i = 0; i < axaBase.length; i++ )
 			{
 				el = axaBase[i].getSeriesDefinitions( );
 				for ( int j = 0; j < el.size( ); j++ )
 				{
-					sd = (SeriesDefinition) el.get( j );
+					sd = el.get( j );
 					if ( sd.getSeries( ).size( ) == sd.getRunTimeSeries( )
 							.size( ) )
 					{
-						Iterator it = ( sd.getRunTimeSeries( ) ).iterator( );
-						while ( it.hasNext( ) )
+						for ( Series se : sd.getRunTimeSeries( ) )
 						{
-							Series se = (Series) it.next( );
 							se.getDataSets( ).clear( );
 						}
 					}
@@ -1181,14 +1153,12 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 					el = axaOrthogonal[j].getSeriesDefinitions( );
 					for ( int k = 0; k < el.size( ); k++ )
 					{
-						sd = (SeriesDefinition) el.get( k );
+						sd = el.get( k );
 						if ( sd.getSeries( ).size( ) == sd.getRunTimeSeries( )
 								.size( ) )
 						{
-							Iterator it = ( sd.getRunTimeSeries( ) ).iterator( );
-							while ( it.hasNext( ) )
+							for ( Series se : sd.getRunTimeSeries( ) )
 							{
-								Series se = (Series) it.next( );
 								se.getDataSets( ).clear( );
 							}
 						}
@@ -1205,7 +1175,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 					el = axaAncillary.getSeriesDefinitions( );
 					for ( int k = 0; k < el.size( ); k++ )
 					{
-						sd = (SeriesDefinition) el.get( k );
+						sd = el.get( k );
 						if ( sd.getSeries( ).size( ) == sd.getRunTimeSeries( )
 								.size( ) )
 						{
@@ -1271,6 +1241,40 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		reverseCategoryESet = src.isSetReverseCategory( );
 		studyLayout = src.isStudyLayout( );
 		studyLayoutESet = src.isSetStudyLayout( );
+	}
+	
+	@Override
+	protected SeriesDefinition getBaseSeriesDefinition( )
+	{
+		return getAxes( ).get( 0 ).getSeriesDefinitions( ).get( 0 );
+	}
+
+	@Override
+	protected List<SeriesDefinition> getOrthogonalSeriesDefinitions( )
+	{
+		List<SeriesDefinition> osds = new ArrayList<SeriesDefinition>( );
+		for ( Axis xAxis : getAxes( ) )
+		{
+			for ( Axis yAxis : xAxis.getAssociatedAxes( ) )
+			{
+				osds.addAll( yAxis.getSeriesDefinitions( ) );
+			}
+		}
+		return osds;
+	}
+	
+	@Override
+	protected SeriesDefinition getAncillaryBaseSeriesDefinition( )
+	{
+		Axis baseAxis = getAxes( ).get( 0 );
+		if ( baseAxis.getAncillaryAxes( ).size( ) > 0 )
+		{
+			return baseAxis.getAncillaryAxes( )
+					.get( 0 )
+					.getSeriesDefinitions( )
+					.get( 0 );
+		}
+		return null;
 	}
 
 }

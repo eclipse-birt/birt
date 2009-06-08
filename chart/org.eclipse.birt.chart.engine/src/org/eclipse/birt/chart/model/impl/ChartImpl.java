@@ -12,15 +12,14 @@
 package org.eclipse.birt.chart.model.impl;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -1339,7 +1338,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return
+	 * @return Legend
 	 */
 	public final Legend getLegend( )
 	{
@@ -1350,7 +1349,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return
+	 * @return Plot
 	 */
 	public final Plot getPlot( )
 	{
@@ -1361,7 +1360,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return
+	 * @return TitleBlock
 	 */
 	public final TitleBlock getTitle( )
 	{
@@ -1374,7 +1373,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * 
 	 * @param blStart
 	 * @param c
-	 * @return
+	 * @return Block
 	 */
 	private static final Block find( Block bl, Class<?> c )
 	{
@@ -1470,7 +1469,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 */
 	public SeriesDefinition[] getSeriesForLegend( )
 	{
-		return null;
+		final List<SeriesDefinition> al = getOrthogonalSeriesDefinitions( );
+		return al.toArray( new SeriesDefinition[al.size( )] );
 	}
 
 	/*
@@ -1480,8 +1480,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 */
 	public void clearSections( int iSectionType )
 	{
-		// TODO: Recursively walk through the model and clear unwanted sections
-		// as requested
+		// To override
 	}
 
 	/*
@@ -1503,7 +1502,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 		try
 		{
 			// Process Base SeriesDefinitions
-			Series seriesBaseRuntime = getBaseSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
+			SeriesDefinition bsd = getBaseSeriesDefinition( );
+			Series seriesBaseRuntime = bsd.getDesignTimeSeries( )
 					.copyInstance( );
 
 			// Clear existing values from the dataset
@@ -1515,9 +1515,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 			String baseDataSetRepresentation = sd.getBaseSampleData( )
 					.get( 0 )
 					.getDataSetRepresentation( );
-			if ( chart instanceof ChartWithAxes )
+			if ( bsd.eContainer( ) instanceof Axis )
 			{
-				baseDataSetRepresentation = ChartUtil.getNewSampleData( ( (Axis) ( getBaseSeriesDefinitionForProcessing( ).eContainer( ) ) ).getType( ),
+				baseDataSetRepresentation = ChartUtil.getNewSampleData( ( (Axis) ( bsd.eContainer( ) ) ).getType( ),
 						0 );
 			}
 			else
@@ -1526,17 +1526,17 @@ public class ChartImpl extends EObjectImpl implements Chart
 						0 );
 			}
 			// Get the BaseSampleData and use it to construct dataset
-			seriesBaseRuntime.setDataSet( ( PluginSettings.instance( ).getDataSetProcessor( getBaseSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
+			seriesBaseRuntime.setDataSet( ( PluginSettings.instance( ).getDataSetProcessor( bsd.getDesignTimeSeries( )
 					.getClass( ) ) ).fromString( baseDataSetRepresentation,
 					seriesBaseRuntime.getDataSet( ) ) );
-			getBaseSeriesDefinitionForProcessing( ).getSeries( )
+			bsd.getSeries( )
 					.add( seriesBaseRuntime );
 
 			// Set sample series identifier
 			seriesBaseRuntime.setSeriesIdentifier( "Category" ); //$NON-NLS-1$
 
 			// Process Orthogonal SeriesDefinitions
-			Vector vOSD = getOrthogonalSeriesDefinitions( );
+			List<SeriesDefinition> vOSD = getOrthogonalSeriesDefinitions( );
 			int[] iOSD = new int[vOSD.size( )];
 			SeriesDefinition sdTmp = null;
 			Series seriesOrthogonalRuntime = null;
@@ -1545,7 +1545,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 			for ( int i = 0; i < iOSD.length; i++ )
 			{
 				iOSD[i] = 0;
-				sdTmp = (SeriesDefinition) vOSD.get( i );
+				sdTmp = vOSD.get( i );
 			}
 
 			// Fetch the DataSetRepresentations for orthogonal sample data
@@ -1570,7 +1570,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 				}
 
 				// Create runtime series for SeriesDefinition index
-				sdTmp = (SeriesDefinition) vOSD.get( iSDIndex );
+				sdTmp = vOSD.get( iSDIndex );
 				seriesOrthogonalRuntime = sdTmp.getDesignTimeSeries( )
 						.copyInstance( );
 
@@ -1578,7 +1578,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 				seriesOrthogonalRuntime.setDataSet( null );
 
 				String orthogonalDataSetRepresentation = osd.getDataSetRepresentation( );
-				if ( chart instanceof ChartWithAxes )
+				if ( sdTmp.eContainer( ) instanceof Axis )
 				{
 					orthogonalDataSetRepresentation = ChartUtil.getNewSampleData( ( (Axis) ( sdTmp.eContainer( ) ) ).getType( ),
 							iO );
@@ -1605,7 +1605,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 			if ( chart.getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL )
 			{
 				// Process Ancillary Base SeriesDefinitions
-				SeriesDefinition sdZ = getAncillaryBaseSeriesDefinitionForProcessing( );
+				SeriesDefinition sdZ = getAncillaryBaseSeriesDefinition( );
 
 				if ( sdZ != null && sd.getAncillarySampleData( ).size( ) > 0 )
 				{
@@ -1614,7 +1614,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 					seriesZRuntime.setDataSet( null );
 
-					String ancillaryDataSetRepresentation = ChartUtil.getNewAncillarySampleData( vOSD );
+					String ancillaryDataSetRepresentation = getNewAncillarySampleData( vOSD );
 					seriesZRuntime.setDataSet( ( PluginSettings.instance( ).getDataSetProcessor( sdZ.getDesignTimeSeries( )
 							.getClass( ) ) ).fromString( ancillaryDataSetRepresentation,
 							seriesZRuntime.getDataSet( ) ) );
@@ -1630,85 +1630,40 @@ public class ChartImpl extends EObjectImpl implements Chart
 			logger.log( e1 );
 		}
 	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	private SeriesDefinition getBaseSeriesDefinitionForProcessing( )
+	
+	private String getNewAncillarySampleData( List<SeriesDefinition> vOSD )
 	{
-		Chart chart = this;
-		if ( chart instanceof ChartWithAxes )
-		{
-			return ( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 )
-					.getSeriesDefinitions( )
-					.get( 0 );
-		}
-		return ( (ChartWithoutAxes) chart ).getSeriesDefinitions( ).get( 0 );
-	}
+		StringBuffer sb = new StringBuffer( );
 
-	private SeriesDefinition getAncillaryBaseSeriesDefinitionForProcessing( )
-	{
-		Chart chart = this;
-		if ( chart instanceof ChartWithAxes )
+		for ( int i = 0; i < vOSD.size( ); i++ )
 		{
-			Axis baseAxis = ( (ChartWithAxes) chart ).getAxes( ).get( 0 );
-
-			if ( baseAxis.getAncillaryAxes( ).size( ) > 0 )
+			sb.append( vOSD.get( i )
+					.getDesignTimeSeries( )
+					.getSeriesIdentifier( ) );
+			if ( i < vOSD.size( ) - 1 )
 			{
-				return baseAxis.getAncillaryAxes( )
-						.get( 0 )
-						.getSeriesDefinitions( )
-						.get( 0 );
+				sb.append( "," ); //$NON-NLS-1$
 			}
 		}
+		return sb.toString( );
+	}
+	
+	protected SeriesDefinition getBaseSeriesDefinition( )
+	{
+		// To override
 		return null;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	private Vector getOrthogonalSeriesDefinitions( )
+	protected SeriesDefinition getAncillaryBaseSeriesDefinition( )
 	{
-		Chart chart = this;
-		Vector vTmp = new Vector( );
-		if ( chart instanceof ChartWithAxes )
-		{
-			Axis axisBase = null;
-			Object[] oSD = null;
-			for ( int iC = 0; iC < ( (ChartWithAxes) chart ).getAxes( ).size( ); iC++ )
-			{
-				axisBase = ( (ChartWithAxes) chart ).getAxes( ).get( iC );
-				for ( int iAC = 0; iAC < axisBase.getAssociatedAxes( ).size( ); iAC++ )
-				{
-					oSD = axisBase.getAssociatedAxes( )
-							.get( iAC )
-							.getSeriesDefinitions( )
-							.toArray( );
-					for ( int iA = 0; iA < oSD.length; iA++ )
-					{
-						vTmp.add( oSD[iA] );
-					}
-				}
-			}
-			return vTmp;
-		}
-		Object[] oSD = null;
-		for ( int iC = 0; iC < ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
-				.size( ); iC++ )
-		{
-			oSD = ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
-					.get( iC )
-					.getSeriesDefinitions( )
-					.toArray( );
-			for ( int iA = 0; iA < oSD.length; iA++ )
-			{
-				vTmp.add( oSD[iA] );
-			}
-		}
-		return vTmp;
+		// To override
+		return null;
+	}
+
+	protected List<SeriesDefinition> getOrthogonalSeriesDefinitions( )
+	{
+		// To override
+		return Collections.emptyList( );
 	}
 
 	/**
