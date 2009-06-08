@@ -12,7 +12,11 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -21,6 +25,7 @@ import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -29,9 +34,14 @@ import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
+import org.eclipse.birt.data.engine.impl.util.DirectedGraph;
+import org.eclipse.birt.data.engine.impl.util.DirectedGraphEdge;
+import org.eclipse.birt.data.engine.impl.util.GraphNode;
+import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeOperationFactory;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 /**
@@ -479,6 +489,7 @@ class ComputedColumnHelperInstance
 		// identify those computed columns that are projected
 		// in the result set by checking the result metadata
 		List cmptList = new ArrayList( );
+		Map<String, IComputedColumn> nameToComptCol = new HashMap<String, IComputedColumn>( );
 		for ( int i = 0; i < ccList.size( ); i++ )
 		{
 			IComputedColumn cmptdColumn = (IComputedColumn) ccList.get( i );
@@ -488,7 +499,10 @@ class ComputedColumnHelperInstance
 			// is indeed declared as a custom field
 			if ( cmptdColumnIdx >= 1
 					&& resultClass.isCustomField( cmptdColumnIdx ) )
+			{
 				cmptList.add( new Integer( i ) );
+				nameToComptCol.put( cmptdColumn.getName( ), cmptdColumn );
+			}
 			// else computed column is not projected, skip to next computed
 			// column
 		}
@@ -496,14 +510,63 @@ class ComputedColumnHelperInstance
 		int size = cmptList.size( );
 		columnIndexArray = new int[size];
 		computedColumn = new IComputedColumn[size];
-
+		int cmptColPos = 0;
+		Set<DirectedGraphEdge> edges = new HashSet<DirectedGraphEdge>( );
 		for ( int i = 0; i < size; i++ )
 		{
 			int pos = ( (Integer) cmptList.get( i ) ).intValue( );
 			IComputedColumn cmptdColumn = (IComputedColumn) ccList.get( pos );
-			computedColumn[i] = cmptdColumn;
-			columnIndexArray[i] = resultClass.getFieldIndex( cmptdColumn.getName( ) );
+			List<String> referencedBindings = 
+				ExpressionCompilerUtil.extractColumnExpression( 
+						cmptdColumn.getExpression( ), ExpressionUtil.ROW_INDICATOR );
+			
+			boolean existReference = false;
+			for ( String name : referencedBindings )
+			{
+				if ( nameToComptCol.containsKey( name ) )
+				{
+					edges.add( new DirectedGraphEdge( new GraphNode( cmptdColumn.getName( ) ),
+							new GraphNode( name ) ) );
+					existReference = true;
+				}
+			}
+			if( !existReference )
+			{
+				computedColumn[cmptColPos] = cmptdColumn;
+				columnIndexArray[cmptColPos] = resultClass.getFieldIndex( cmptdColumn.getName( ) );
+				cmptColPos ++;
+			}
 		}
+		
+		GraphNode[] nodes = null;
+		try
+		{
+			nodes = new DirectedGraph( edges ).flattenNodesByDependency( );
+		}
+		catch ( CycleFoundException e )
+		{
+			throw new DataException( ResourceConstants.COMPUTED_COLUMN_CYCLE, e.getNode( ).getValue( ));
+		}
+		for ( GraphNode node : nodes )
+		{
+			String name = (String) node.getValue( );
+			boolean isAdded = false;
+			for ( int i = 0; i < cmptColPos; i++ )
+			{
+				if( name.equals( computedColumn[i].getName( ) ) )
+				{
+					isAdded = true;
+					break;
+				}
+			}
+			if( isAdded )
+				continue;
+			IComputedColumn cmptdColumn = nameToComptCol.get( name );
+			computedColumn[cmptColPos] = cmptdColumn;
+			columnIndexArray[cmptColPos] = resultClass.getFieldIndex( cmptdColumn.getName( ) );
+			cmptColPos ++;
+		}
+		
 
 		isPrepared = true;
 	}
