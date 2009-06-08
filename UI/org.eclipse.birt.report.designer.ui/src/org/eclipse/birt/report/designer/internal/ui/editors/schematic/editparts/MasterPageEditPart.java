@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
@@ -23,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayou
 import org.eclipse.birt.report.designer.internal.ui.layout.MasterPageLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.extensions.ReportItemFigureProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -32,6 +35,7 @@ import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -280,6 +284,9 @@ public class MasterPageEditPart extends AbstractReportEditPart
 		refreshMarginBorder( reportDesignMarginBorder );
 		
 		refreshBackground( (MasterPageHandle) getModel( ) );
+		
+//		((ReportElementFigure)getFigure( )).setBackGroundImageSize( getModelAdapter( ).getBackgroundImageWidth( (MasterPageHandle) getModel( ) ),
+//				getModelAdapter( ).getBackgroundImageHeight( (MasterPageHandle) getModel( ) ));
 	}
 	
 	/* (non-Javadoc)
@@ -321,6 +328,51 @@ public class MasterPageEditPart extends AbstractReportEditPart
 		return children;
 	}
 
+	@Override
+	protected void contentChange( Object focus, Map info )
+	{
+		if (getViewer( )==null)
+		{
+			return;
+		}
+		Object action = info.get( GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
+		if ( action instanceof Integer )
+		{
+			if ( ( (Integer) action ).intValue( ) == ContentEvent.REMOVE )
+			{
+				List list = (List)info.get( GraphicsViewModelEventProcessor.EVENT_CONTENTS );
+				for (int i=0; i<list.size( ); i++)
+				{
+					if (list.get( i ) == getModel( ))
+					{
+						SlotHandle slotHandle = ( ((SimpleMasterPageHandle) getModel( )).getModuleHandle( ) ).getMasterPages( );
+						Iterator iter = slotHandle.iterator( );
+						SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next( );
+						
+						final List temp = new ArrayList();
+						temp.add(masterPageHandle);
+						
+						Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+							public void run( )
+							{
+								ReportRequest r = new ReportRequest( );
+								r.setType( ReportRequest.LOAD_MASTERPAGE );
+
+								r.setSelectionObject( temp );
+								SessionHandleAdapter.getInstance( )
+										.getMediator( )
+										.notifyRequest( r );
+							}
+						} );
+						return;
+					}
+				}
+			}
+		}
+		super.contentChange( focus, info );
+	}
+	
 	public boolean isinterest( Object model )
 	{
 		return super.isinterest( model ) || model instanceof ModuleHandle;
