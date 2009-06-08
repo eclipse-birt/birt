@@ -27,6 +27,8 @@ import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.SearchKeyHandle;
@@ -105,11 +107,15 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 
 			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
 			{
-				exp = handle.getURI( );
+				ExpressionHandle expHandle = handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.Action.URI_MEMBER );
+				if ( ExpressionType.JAVASCRIPT.equals( expHandle.getType( ) ) )
+				{// only add when type is js.
+					exp = expHandle.getStringExpression( );
 
-				if ( !expList.contains( exp ) )
-				{
-					expList.add( exp );
+					if ( !expList.contains( exp ) )
+					{
+						expList.add( exp );
+					}
 				}
 			}
 			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )

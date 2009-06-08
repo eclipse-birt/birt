@@ -37,6 +37,8 @@ import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
@@ -210,7 +212,19 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			ActionHandle handle )
 	{
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
-			return ChartUtil.stringValue( chAction.evaluate( handle.getURI( ) ) );
+		{
+			ExpressionHandle urlExpr = handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.Action.URI_MEMBER );
+			String text = urlExpr.getStringExpression( );
+			if ( ExpressionType.CONSTANT.equals( urlExpr.getType( ) ) )
+			{
+				return text;
+			}
+			else
+			{
+				return ChartUtil.stringValue( chAction.evaluate( text ) );
+			}
+		}
+
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
 			return ChartUtil.stringValue( chAction.evaluate( handle.getTargetBookmark( ) ) );
 		return null;
