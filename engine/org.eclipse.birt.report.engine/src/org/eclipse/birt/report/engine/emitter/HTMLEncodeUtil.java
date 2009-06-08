@@ -20,7 +20,7 @@ public class HTMLEncodeUtil extends XMLEncodeUtil
 	static char[] HTML_WHITE_SPACE_ENCODING = new char[]{'&', '<', ' ', '\t',
 			'\r', '\n'};
 
-	static final String ESCAPE_BR = "<br>";
+	static final String ESCAPE_BR = "<br/>";
 	static final String ESCAPE_NBSP = "&#xa0;";
 	static final String ESCAPE_AMP = "&amp;";
 	static final String ESCAPE_LT = "&lt;";
