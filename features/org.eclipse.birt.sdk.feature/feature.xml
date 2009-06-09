@@ -58,7 +58,7 @@
    <includes
          id="org.eclipse.birt.source.all"
          version="0.0.0"/>    
-   <!--                 
+                
    <includes
          id="org.eclipse.birt.source"
          version="0.0.0"/>
@@ -70,5 +70,9 @@
    <includes
          id="org.eclipse.birt.report.designer.editor.xml.wtp.source"
          version="0.0.0"/>
-   -->
+
+   <includes
+         id="org.eclipse.birt.example.source"
+         version="0.0.0"/>
+         
 </feature>
