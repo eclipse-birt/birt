@@ -25,10 +25,13 @@ import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Traversalor;
+import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
+import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableAccessor.FTSUDocumentObjectNamingUtil;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
@@ -72,7 +75,9 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	private static Logger logger = Logger.getLogger( FactTableRowIterator.class.getName( ) );
 	
 	//All the dimensions, dimIndex and levelIndex are got from it
-	IDimensionResultIterator[] allCubeDimensionResultIterators;
+	private IDimensionResultIterator[] allCubeDimensionResultIterators;
+	private IDimension[] allCubeDimensions;
+	
 	/**
 	 * 
 	 * @param factTable
@@ -96,7 +101,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 * @throws IOException
 	 */
 	public FactTableRowIterator( FactTable factTable, String[] dimensionName,
-			IDiskArray[] dimensionPos, IDimensionResultIterator[] allCubeDimensionResultIterators, IComputedMeasureHelper computedMeasureHelper, StopSign stopSign ) throws IOException
+			IDiskArray[] dimensionPos, IDimension[] allCubeDimensions, IComputedMeasureHelper computedMeasureHelper, StopSign stopSign ) throws IOException
 	{
 		Object[] params = {
 				factTable, dimensionName, dimensionPos, stopSign
@@ -111,7 +116,9 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		this.stopSign = stopSign;
 		this.measureFilters = new ArrayList( );
 		this.cubePosFilters = new ArrayList( );
-		this.allCubeDimensionResultIterators = allCubeDimensionResultIterators;
+		if( allCubeDimensions != null )
+			this.allCubeDimensionResultIterators = new IDimensionResultIterator[allCubeDimensions.length];
+		this.allCubeDimensions = allCubeDimensions;
 		this.computedMeasureHelper = computedMeasureHelper;
 		assert dimensionName.length == dimensionPos.length;
 		
@@ -289,6 +296,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	private Member getLevelObject( int dimIndex, int levelIndex,
 			int dimensionPosition ) throws BirtException, IOException
 	{
+		checkAndInitDimIterator( dimIndex );
 		allCubeDimensionResultIterators[dimIndex].seek(dimensionPosition );
 		return allCubeDimensionResultIterators[dimIndex].getLevelMember( levelIndex );
 	}
@@ -531,6 +539,19 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		}
 	}
 	
+	/**
+	 * 
+	 * @param index
+	 * @throws IOException
+	 */
+	void checkAndInitDimIterator( int index ) throws IOException
+	{
+		if( allCubeDimensionResultIterators[index] != null )
+			return;
+		allCubeDimensionResultIterators[index] = new DimensionResultIterator( (Dimension) allCubeDimensions[index],
+				allCubeDimensions[index].findAll( ), stopSign);
+	}
+	
 	class MeasureMap implements IFacttableRow
 	{
 		private MeasureInfo[] measureInfos = null;
@@ -586,7 +607,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 			{
 				throw DataException.wrap( e );
 			}
-			
+			checkAndInitDimIterator( dimensionIndex );
 			int attributeIndex = allCubeDimensionResultIterators[dimensionIndex].getLevelAttributeIndex( levelName, attributeName );
 			if( member != null && attributeIndex >= 0 )
 				return member.getAttributes( )[attributeIndex];
@@ -623,6 +644,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 			int levelIndex = -1;
 			if ( dimIndex >= 0 )
 			{
+				checkAndInitDimIterator( dimIndex );
 				IDimensionResultIterator itr = allCubeDimensionResultIterators[dimIndex];
 				levelIndex = itr.getLevelIndex( levelName );
 				if ( levelIndex >= 0 )

@@ -481,7 +481,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		FactTableRowIterator factTableRowIterator = new FactTableRowIterator( cube.getFactTable( ),
 				validDimensionName,
 				validDimPosition,
-				populateDimensionResultIterator( stopSign ),
+				cube.getDimesions( ),
 				null,
 				stopSign );
 		if ( cubePosFilters != null && !cubePosFilters.isEmpty( ) )
