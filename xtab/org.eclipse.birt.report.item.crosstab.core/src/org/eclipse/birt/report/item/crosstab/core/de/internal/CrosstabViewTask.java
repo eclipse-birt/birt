@@ -339,8 +339,19 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 
 		try
 		{
+			// check if this is the last dimension in current view, then we need
+			// remove the grand total on this axis after the removing.
+			// !!! Note this operatin must be before the removing of the
+			// dimension view, as during removing dimension view, it will
+			// automatically adjust the grandtotal aggregations according to
+			// counter axis state.
+			if ( crosstabView.getDimensionCount( ) == 1 )
+			{
+				removeGrandTotal( false );
+			}
+
 			// adjust measure aggregations and then remove dimension view from
-			// the design tree, the order can not reversed
+			// the design tree, the order can not be reversed
 			if ( crosstab != null )
 			{
 				DimensionViewTask dimTask = new DimensionViewTask( dimensionView );
@@ -357,13 +368,6 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 			}
 
 			dimensionView.getModelHandle( ).drop( );
-
-			// check if all dimensions are removed in current view, we need to
-			// remove grand total on this axis
-			if ( crosstabView.getDimensionCount( ) == 0 )
-			{
-				removeGrandTotal( false );
-			}
 		}
 		catch ( SemanticException e )
 		{
