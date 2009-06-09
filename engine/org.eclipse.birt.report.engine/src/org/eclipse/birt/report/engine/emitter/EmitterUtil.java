@@ -302,19 +302,12 @@ public class EmitterUtil
 		return imageSize;
 	}
 
-	public static byte[] getImageData( String imageURI )
+	public static byte[] getImageData( String imageURI ) throws IOException
 	{
 		byte[] imageData = null;
 		if ( SvgFile.isSvg( imageURI ) )
 		{
-			try
-			{
-				imageData = SvgFile.transSvgToArray( imageURI );
-			}
-			catch ( IOException e )
-			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
-			}
+			imageData = SvgFile.transSvgToArray( imageURI );
 		}
 		else
 		{
@@ -324,6 +317,7 @@ public class EmitterUtil
 	}
 
 	private static byte[] getNonSVGImageData( String imageURI )
+			throws IOException
 	{
 		InputStream imageStream = null;
 		byte[] imageData;
@@ -332,11 +326,6 @@ public class EmitterUtil
 			URL url = new URL( imageURI );
 			imageStream = url.openStream( );
 			imageData = readData( imageStream );
-		}
-		catch ( IOException ioe )
-		{
-			logger.log( Level.WARNING, ioe.getMessage( ), ioe );
-			imageData = null;
 		}
 		finally
 		{
@@ -399,8 +388,8 @@ public class EmitterUtil
 	}
 
 	public static org.eclipse.birt.report.engine.layout.emitter.Image parseImage(
-			IImageContent image, int imageSource,
-			String uri, String mimeType, String extension )
+			IImageContent image, int imageSource, String uri, String mimeType,
+			String extension ) throws IOException
 	{
 		org.eclipse.birt.report.engine.layout.emitter.Image imageInfo = null;
 		byte[] data = null;
@@ -443,10 +432,6 @@ public class EmitterUtil
 					imageInfo.setData( null );
 				}
 			}
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 		finally
 		{

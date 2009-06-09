@@ -645,27 +645,34 @@ public abstract class AbstractEmitterImpl
 			return;
 		}
 
-		Image imageInfo = EmitterUtil
-				.parseImage( image, image.getImageSource( ), uri, mimeType,
-						extension );
-		byte[] data=imageInfo.getData( );
-		if ( data == null || data.length == 0 )
+		try
 		{
-			wordWriter.drawImage( null, 0.0, 0.0, null, style, inlineFlag,
-					altText, uri );
-			return;
+			Image imageInfo = EmitterUtil.parseImage( image, image
+					.getImageSource( ), uri, mimeType, extension );
+
+			byte[] data = imageInfo.getData( );
+			if ( data == null || data.length == 0 )
+			{
+				wordWriter.drawImage( null, 0.0, 0.0, null, style, inlineFlag,
+						altText, uri );
+				return;
+			}
+
+			double height = WordUtil.convertImageSize( image.getHeight( ),
+					imageInfo.getHeight( ) );
+			double width = WordUtil.convertImageSize( image.getWidth( ),
+					imageInfo.getWidth( ) );
+
+			writeBookmark( image );
+			writeToc( image );
+			HyperlinkInfo hyper = getHyperlink( image );
+			wordWriter.drawImage( data, height, width, hyper, style,
+					inlineFlag, altText, uri );
 		}
-
-		double height = WordUtil.convertImageSize( image.getHeight( ),
-				imageInfo.getHeight( ) );
-		double width = WordUtil.convertImageSize( image.getWidth( ), imageInfo
-				.getWidth( ) );
-
-		writeBookmark( image );
-		writeToc( image );
-		HyperlinkInfo hyper = getHyperlink( image );
-		wordWriter.drawImage( data, height, width, hyper, style, inlineFlag,
-				altText, uri );
+		catch ( IOException e )
+		{
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+		}
 	}
 
 	protected void endTable( )

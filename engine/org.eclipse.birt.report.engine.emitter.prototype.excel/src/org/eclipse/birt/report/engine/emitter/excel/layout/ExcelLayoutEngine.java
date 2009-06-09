@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
+import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -54,6 +57,10 @@ import com.ibm.icu.util.ULocale;
 
 public class ExcelLayoutEngine
 {
+
+	protected static Logger logger = Logger.getLogger( ExcelLayoutEngine.class
+			.getName( ) );
+
 	public final static String EMPTY = "";
 	
 	private static final double DEFAULT_ROW_HEIGHT = 15;
@@ -515,19 +522,27 @@ public class ExcelLayoutEngine
 			return createData( altText, entry);
 		}
 
-		Image imageInfo = EmitterUtil.parseImage( image,
-				image.getImageSource( ), image.getURI( ), image.getMIMEType( ),
-				image.getExtension( ) );
-		byte[] data=imageInfo.getData( );
-		if ( data != null )
+		try
 		{
-			return new ImageData( image, entry, type, imageInfo, container);
+			Image imageInfo = EmitterUtil.parseImage( image, image
+					.getImageSource( ), image.getURI( ), image.getMIMEType( ),
+					image.getExtension( ) );
+
+			byte[] data = imageInfo.getData( );
+			if ( data != null )
+			{
+				return new ImageData( image, entry, type, imageInfo, container );
+			}
+			else
+			{
+				return createData( image.getAltText( ), entry );
+			}
 		}
-		else
+		catch ( IOException e )
 		{
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
 			return createData( image.getAltText( ), entry );
 		}
-
 	}
 
 	public Data addDateTime( Object txt, IStyle style, HyperlinkDef link,

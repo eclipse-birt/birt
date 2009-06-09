@@ -672,31 +672,38 @@ public class PPTWriter
 		float imageWidth = iWidth;
 		float imageHeight = iHeight;
 		String extension = getImageExtension( imageURI );
-
-		Image image = EmitterUtil.parseImage( null, IImageContent.IMAGE_URL,
-				imageURI, null, extension );
-		byte[] imageData = image.getData( );
-		if ( imageWidth == 0 || imageHeight == 0 )
+		try
 		{
-			imageWidth = image.getWidth( );
-			imageHeight = image.getHeight( );
+			Image image = EmitterUtil.parseImage( null,
+					IImageContent.IMAGE_URL, imageURI, null, extension );
+			byte[] imageData = image.getData( );
+			if ( imageWidth == 0 || imageHeight == 0 )
+			{
+				imageWidth = image.getWidth( );
+				imageHeight = image.getHeight( );
+			}
+
+			ImageInfo imageInfo = getImageInfo( imageURI, imageData, extension );
+
+			Position areaPosition = new Position( x, y );
+			Position areaSize = new Position( width, height );
+			Position imagePosition = new Position( x + positionX, y + positionY );
+			Position imageSize = new Position( imageWidth, imageHeight );
+			BackgroundImageLayout layout = new BackgroundImageLayout(
+					areaPosition, areaSize, imagePosition, imageSize );
+			Collection positions = layout.getImagePositions( repeat );
+			Iterator iterator = positions.iterator( );
+			while ( iterator.hasNext( ) )
+			{
+				Position position = (Position) iterator.next( );
+				exportImageDefn( imageInfo.imageName, imageInfo.imageId,
+						imageWidth, imageHeight, position.getX( ), position
+								.getY( ), null );
+			}
 		}
-
-		ImageInfo imageInfo = getImageInfo(imageURI, imageData, extension );
-
-		Position areaPosition = new Position( x, y );
-		Position areaSize = new Position( width, height );
-		Position imagePosition = new Position( x + positionX, y + positionY );
-		Position imageSize = new Position( imageWidth, imageHeight );
-		BackgroundImageLayout layout = new BackgroundImageLayout( areaPosition,
-				areaSize, imagePosition, imageSize );
-		Collection positions = layout.getImagePositions( repeat );
-		Iterator iterator = positions.iterator( );
-		while ( iterator.hasNext( ) )
+		catch ( IOException e )
 		{
-			Position position = (Position) iterator.next( );
-			exportImageDefn( imageInfo.imageName, imageInfo.imageId, imageWidth, imageHeight,
-					position.getX( ), position.getY( ), null );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
 		}
 	}
 
