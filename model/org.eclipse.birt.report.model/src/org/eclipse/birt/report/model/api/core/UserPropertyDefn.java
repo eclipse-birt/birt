@@ -129,6 +129,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 			switch ( type )
 			{
 				case IPropertyType.STRING_TYPE :
+				case IPropertyType.LITERAL_STRING_TYPE :
 				case IPropertyType.BOOLEAN_TYPE :
 				case IPropertyType.DATE_TIME_TYPE :
 				case IPropertyType.FLOAT_TYPE :
