@@ -1012,6 +1012,11 @@ DeleteGroupAction.stackMsg.deleteGroup=Gruppe löschen
 #EditLabelAction properties
 
 EditLabelAction.text=&Bearbeiten
+EditorDragGuidePolicy.pixels.label=Pixel
+EditorGuide.bottom.label=Unten:
+EditorGuide.left.label=Links:
+EditorGuide.right.label=Rechts:
+EditorGuide.top.label=Oben:
 
 ###########################################################
 #Element properties

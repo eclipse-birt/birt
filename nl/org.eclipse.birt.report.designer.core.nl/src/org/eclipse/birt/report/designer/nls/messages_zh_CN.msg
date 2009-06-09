@@ -1012,6 +1012,11 @@ DeleteGroupAction.stackMsg.deleteGroup=É¾³ý×é
 #EditLabelAction properties
 
 EditLabelAction.text=±à¼­(&E)
+EditorDragGuidePolicy.pixels.label=ÏñËØ
+EditorGuide.bottom.label=µ×²¿:
+EditorGuide.left.label=×ó:
+EditorGuide.right.label=ÓÒ:
+EditorGuide.top.label=¶¥²¿:
 
 ###########################################################
 #Element properties

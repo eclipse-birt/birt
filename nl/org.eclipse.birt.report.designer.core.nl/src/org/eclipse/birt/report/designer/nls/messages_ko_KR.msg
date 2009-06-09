@@ -1012,6 +1012,11 @@ DeleteGroupAction.stackMsg.deleteGroup=그룹 삭제
 #EditLabelAction properties
 
 EditLabelAction.text=편집(&E)
+EditorDragGuidePolicy.pixels.label=픽셀
+EditorGuide.bottom.label=아래쪽:
+EditorGuide.left.label=왼쪽:
+EditorGuide.right.label=오른쪽:
+EditorGuide.top.label=위쪽:
 
 ###########################################################
 #Element properties

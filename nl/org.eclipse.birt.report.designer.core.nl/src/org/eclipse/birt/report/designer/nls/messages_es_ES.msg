@@ -1012,6 +1012,11 @@ DeleteGroupAction.stackMsg.deleteGroup=Eliminar grupo
 #EditLabelAction properties
 
 EditLabelAction.text=&Editar
+EditorDragGuidePolicy.pixels.label=píxeles
+EditorGuide.bottom.label=Inferior:
+EditorGuide.left.label=Izquierdo:
+EditorGuide.right.label=Derecho:
+EditorGuide.top.label=Superior:
 
 ###########################################################
 #Element properties
