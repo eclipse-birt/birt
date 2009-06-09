@@ -17,6 +17,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
@@ -185,5 +186,26 @@ public class EditorGuide
 			return MasterPageHandle.BOTTOM_MARGIN_PROP;
 		}
 		return null;
+	}
+	
+	public String getPrefixLabel()
+	{
+		if (getDirection() == LEFT && !isHorizontal())
+		{
+			return Messages.getString("EditorGuide.left.label"); //$NON-NLS-1$
+		}
+		else if (getDirection() == RIGHT && !isHorizontal())
+		{
+			return Messages.getString("EditorGuide.right.label"); //$NON-NLS-1$
+		}
+		else if (getDirection() == LEFT && isHorizontal())
+		{
+			return Messages.getString("EditorGuide.top.label"); //$NON-NLS-1$
+		}
+		else if (getDirection() == RIGHT && isHorizontal())
+		{
+			return Messages.getString("EditorGuide.bottom.label"); //$NON-NLS-1$
+		}
+		return ""; //$NON-NLS-1$
 	}
 }

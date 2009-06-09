@@ -11,17 +11,41 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
 
+import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.MetricUtility;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.FigureCanvas;
+import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.PositionConstants;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.SharedCursors;
 import org.eclipse.gef.commands.Command;
@@ -29,6 +53,7 @@ import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * The class is used for the EditorGuideEditPart EditPolicy.PRIMARY_DRAG_ROLE
@@ -37,10 +62,19 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
  */
 public class EditorDragGuidePolicy extends GraphicalEditPolicy
 {
-
+	private static final String PIXELS_LABEL = Messages.getString("EditorDragGuidePolicy.pixels.label"); //$NON-NLS-1$
+	private static final DecimalFormat FORMAT = new DecimalFormat("#0.000"); //$NON-NLS-1$
+	private static final int DEFAULT_VALUE = 10;
+	private static final int DISTANCE = 40;
+	private static final Insets INSETS = new Insets(2,4,2,4);
 	private List attachedEditParts = null;
 	private IFigure dummyGuideFigure, dummyLineFigure;
-
+	private Label infoLabel;
+	//private static final String PREFIX_LABEL = "Margin";
+	private IChoiceSet choiceSet = ChoiceSetFactory.getElementChoiceSet(
+			ReportDesignConstants.REPORT_DESIGN_ELEMENT,
+			ReportDesignHandle.UNITS_PROP );
+	private int maxWidth = -1;
 	//private boolean dragInProgress = false;
 
 	/**
@@ -79,6 +113,36 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 				}
 			}
 		};
+	}
+	
+	protected Label createInfoLabel()
+	{
+		Label labelFigure = new Label( );
+		
+		labelFigure.setBorder( new MarginBorder(new Insets(0,3,0,0)) 
+		{
+			public void paint(IFigure figure, Graphics graphics, Insets insets) 
+			{ 
+				tempRect.setBounds(getPaintRectangle(figure, insets));
+				if (getWidth() % 2 != 0) {
+					tempRect.width--;
+					tempRect.height--;
+				}
+				tempRect.shrink(getWidth() / 2, getWidth() / 2);
+				graphics.setLineWidth(getWidth());
+				
+				graphics.drawRectangle(tempRect);
+			}
+			
+			private int getWidth()
+			{
+				return 1;
+			}
+		});
+		labelFigure.setLabelAlignment( PositionConstants.LEFT );
+		labelFigure.setOpaque( true );
+		labelFigure.setBackgroundColor( ReportColorConstants.TableGuideFillColor );
+		return labelFigure;
 	}
 
 	/**
@@ -142,6 +206,8 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		//dragInProgress = false;
 
 		eraseAttachedPartsFeedback( request );
+		
+		maxWidth = -1;
 	}
 
 	private List getAttachedEditParts( )
@@ -225,6 +291,15 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		}
 		return dummyLineFigure;
 	}
+	
+	protected IFigure getInfoLabel()
+	{
+		if (infoLabel ==  null)
+		{
+			infoLabel = createInfoLabel( );
+		}
+		return infoLabel;
+	}
 
 	/**
 	 * Gets the GuideEditPart
@@ -268,6 +343,10 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		{
 			getDummyLineFigure( ).getParent( ).remove( getDummyLineFigure( ) );
 		}
+		if (getInfoLabel( ).getParent( ) != null)
+		{
+			getInfoLabel( ).getParent( ).remove( getInfoLabel( ) );
+		}
 	}
 
 	private void showAttachedPartsFeedback( ChangeBoundsRequest request )
@@ -309,6 +388,14 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		//			getDummyLineFigure( ).setBounds(
 		//					getGuideEditPart( ).getGuideLineFigure( ).getBounds( ) );
 		getDummyLineFigure( ).setBounds( getDummyLineFigureBounds( req ) );
+		//add the info label
+		getGuideEditPart( ).getGuideLayer( ).add( getInfoLabel( ), 0 );
+//		getGuideEditPart( ).getGuideLayer( ).setConstraint(
+//				getInfoLabel( ),
+//				Boolean.valueOf( getGuideEditPart( ).isHorizontal( ) ) );
+		
+		updateInfomation( getShowLable( req ) );
+		
 		// move the guide being dragged to the last index so that it's drawn
 		// on
 		// top of other guides
@@ -406,5 +493,161 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 	{
 		return req.getType( ).equals( REQ_MOVE );
 	}
+	
+	private String getShowLable(ChangeBoundsRequest req)
+	{
+		int pDelta;
+		if ( getGuideEditPart( ).isHorizontal( ) )
+		{
+			pDelta = req.getMoveDelta( ).y;
+		}
+		else
+		{
+			pDelta = req.getMoveDelta( ).x;
+		}
+		
+		ZoomManager zoomManager = getGuideEditPart( ).getZoomManager( );
+		if ( zoomManager != null )
+		{
+			pDelta = (int) Math.round( pDelta / zoomManager.getZoom( ) );
+		}
+		
+		int marginValue = ((EditorRulerProvider)getGuideEditPart( ).getRulerProvider( )).getMarginValue( getHost( ).getModel( ), pDelta );
+		
+		ModuleHandle handle = SessionHandleAdapter.getInstance( )
+		.getReportDesignHandle( );
+//		MasterPageHandle page = SessionHandleAdapter.getInstance( )
+//			.getFirstMasterPageHandle( handle );
+		String unit = handle.getDefaultUnits( );
 
+
+		if ( unit == null )
+		{
+			unit = DesignChoiceConstants.UNITS_IN;
+		}
+		double value = MetricUtility.pixelToPixelInch( marginValue );
+		if ( value < 0.0 )
+		{
+			value = 0.0;
+		}
+		DimensionValue dim = DimensionUtil.convertTo( value,
+				DesignChoiceConstants.UNITS_IN,
+				unit );
+		double showValue = dim.getMeasure( );
+		String prefix = ((EditorRulerProvider)getGuideEditPart( ).getRulerProvider( )).getPrefixLabel( getHost( ).getModel( ) );
+		return prefix + " "  + getShowValue( showValue )+ " " + getUnitDisplayName(unit)  + " (" + marginValue +" " + PIXELS_LABEL + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$;
+	}
+	
+	private String getShowValue(double value)
+	{
+		return FORMAT.format( value );
+	}
+	
+	protected String getUnitDisplayName(String unit)
+	{
+		IChoice choice = choiceSet.findChoice( unit );
+		return choice.getDisplayName( );
+	}
+	
+	private Dimension getDistance( )
+	{
+//		Point p = getStartLocation( );
+//		
+//		Control canvas = getGuideEditPart( ).getViewer( ).getControl( );
+//		org.eclipse.swt.graphics.Rectangle rect = canvas.getBounds( );
+//	
+//		Dimension retValue = new Dimension(rect.width - p.x, p.y);
+//		
+//		return retValue;
+		
+		Point p = getStartLocation( );
+		
+		FigureCanvas canvas = ((DeferredGraphicalViewer)getGuideEditPart().getViewer( ).getProperty( GraphicalViewer.class.toString( ))).getFigureCanvas( );
+		org.eclipse.swt.graphics.Rectangle rect = canvas.getBounds( );
+	
+		Dimension retValue = new Dimension(rect.width - p.x, p.y);
+		if (canvas.getVerticalBar( ).isVisible( ))
+		{
+			retValue.width = retValue.width - canvas.getVerticalBar( ).getSize( ).x;
+		}
+		return retValue;
+	}
+	
+	private void adjustLocation( )
+	{
+		if (infoLabel == null)
+		{
+			return;
+		}
+		Rectangle rect = infoLabel.getBounds( ).getCopy();
+		Dimension dim = getDistance(  );
+		Point p = ((Figure)infoLabel).getLocation( ).getCopy( );
+		if (dim.width < rect.width)
+		{
+			p.x = p.x - (rect.width - dim.width);
+		}
+		
+		if (dim.height < rect.height + DISTANCE)
+		{
+			p.y = p.y + (rect.height + DISTANCE - dim.height);
+		}
+		
+		infoLabel.setLocation( p );
+	}
+	
+	private void setLabelLocation()
+	{
+		if (infoLabel == null)
+		{
+			return;
+		}
+		Point p = getStartLocation( );
+		Point location = p.getCopy( );
+		infoLabel.translateToRelative( p );
+		if ( getGuideEditPart( ).isHorizontal( ) )
+		{
+			p.y= location.y;
+		}
+		else
+		{
+			p.x = location.x;
+		}
+		infoLabel.setLocation( new Point(p.x, p.y - DISTANCE ));
+	}
+	
+	private Point getStartLocation()
+	{
+		if ( getGuideEditPart( ).isHorizontal( ) )
+		{
+			return new Point(DISTANCE - DEFAULT_VALUE, getGuideEditPart( ).getZoomedPosition( ) + DISTANCE);
+		}
+		else
+		{
+			return new Point(getGuideEditPart( ).getZoomedPosition( ), DEFAULT_VALUE );
+		}
+	}
+	
+	protected void updateInfomation(String label)
+	{
+		if (infoLabel == null)
+		{
+			return;
+		}
+		infoLabel.setText( label );
+		Dimension size = FigureUtilities.getTextExtents(  label, infoLabel.getFont( ) );
+		//Insets insets = getInfomationLabel( ).getInsets( );
+		Insets insets = INSETS;
+		Dimension newSize  = size.getCopy( ).expand( insets.getWidth( ), insets.getHeight( ) ) ;
+		if (size.width > maxWidth)
+		{
+			maxWidth = size.width;
+		}
+		else
+		{
+			newSize = new Dimension(maxWidth, size.height).expand( insets.getWidth( ), insets.getHeight( ) );
+		}
+		infoLabel.setSize( newSize);
+		setLabelLocation( );
+		adjustLocation(  );
+	}
 }

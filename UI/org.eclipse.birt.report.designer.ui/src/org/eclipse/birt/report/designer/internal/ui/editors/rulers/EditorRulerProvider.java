@@ -176,6 +176,15 @@ public class EditorRulerProvider extends RulerProvider
 	{
 		EditorGuide guide = (EditorGuide) obj;
 		String propertyName = guide.getPropertyName( );
+		pDelta = getMarginValue( obj, pDelta );
+
+		return new MoveGuideCommand( pDelta, guide.getPropertyName( ) );
+	}
+	
+	public int getMarginValue(Object obj, int pDelta)
+	{
+		EditorGuide guide = (EditorGuide) obj;
+		String propertyName = guide.getPropertyName( );
 		if ( MasterPageHandle.RIGHT_MARGIN_PROP.equals( propertyName ) )
 		{
 			pDelta = getLayoutSize( ).right( )
@@ -194,8 +203,14 @@ public class EditorRulerProvider extends RulerProvider
 		{
 			pDelta = guide.getPosition( ) + pDelta - getLeftSpace( ).y;
 		}
-
-		return new MoveGuideCommand( pDelta, guide.getPropertyName( ) );
+		
+		return pDelta;
+	}
+	
+	public String getPrefixLabel(Object obj)
+	{
+		EditorGuide guide = (EditorGuide) obj;
+		return guide.getPrefixLabel( );
 	}
 
 	/**

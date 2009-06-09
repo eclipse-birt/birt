@@ -145,7 +145,7 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 * 
 	 * @return graphical viewer associated with the diagram.
 	 */
-	protected GraphicalViewer getDiagramViewer( )
+	public GraphicalViewer getDiagramViewer( )
 	{
 		return diagramViewer;
 	}
