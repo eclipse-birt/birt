@@ -374,7 +374,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 				if ( pageSequences != null && pageSequences.size( ) == 1 )
 				{
 					long[] pages = pageSequences.get( 0 );
-					if ( pages[0] == 1 )
+					if ( pages[0] == 1
+							&& pages[1] == reportDocument.getPageCount( ) )
 					{
 						return false;
 					}
@@ -528,12 +529,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 					while ( iter.hasNext( ) )
 					{
 						long pageNumber = iter.next( );
-						if ( pageNumber != 1 )
-						{
-							IPageHint pageHint = getPageHint( pagesExecutor,
-									pageNumber );
-							layoutEngine.setLayoutPageHint( pageHint );
-						}
+						IPageHint pageHint = getPageHint( pagesExecutor,
+								pageNumber );
+						layoutEngine.setLayoutPageHint( pageHint );
 						// here the pageExecutor will returns a report.root.
 						IReportItemExecutor pageExecutor = executor
 								.getNextChild( );
@@ -572,12 +570,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 					while ( iter.hasNext( ) )
 					{
 						long pageNumber = iter.next( );
-						if ( pageNumber != 1 )
-						{
-							IPageHint pageHint = getPageHint( pagesExecutor,
-									pageNumber );
-							layoutEngine.setLayoutPageHint( pageHint );
-						}
+						IPageHint pageHint = getPageHint( pagesExecutor,
+								pageNumber );
+						layoutEngine.setLayoutPageHint( pageHint );
 						// here the pageExecutor will returns a report.root.
 						IReportItemExecutor pageExecutor = executor
 								.getNextChild( );
