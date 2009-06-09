@@ -56,7 +56,7 @@
          version="0.0.0"/>
          
    <includes
-         id="org.eclipse.birt.a.all"
+         id="org.eclipse.birt.source.all"
          version="0.0.0"/>    
    <!--                 
    <includes
