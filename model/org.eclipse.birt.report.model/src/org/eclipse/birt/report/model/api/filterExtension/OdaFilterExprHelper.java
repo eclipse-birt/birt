@@ -25,11 +25,10 @@ public class OdaFilterExprHelper
 {
 
 	/**
-	 * Returns the list of IFilterExprDefinition. If under commercial BIRT, the
-	 * list contains both of ODA extension provider registered filter
-	 * definitions, and BIRT predefined filter definitions. If under OS BIRT,
-	 * the list will only contain the IFilterExprDefinition instance which
-	 * represent the BIRT predefined ones.
+	 * Returns the list of IFilterExprDefinition. The list contains both of ODA
+	 * extension provider registered filter definitions, and BIRT predefined
+	 * filter definitions. If under OS BIRT, the list will only contain the
+	 * IFilterExprDefinition instance which represent the BIRT predefined ones.
 	 * 
 	 *@param odaDatasetExtensionId
 	 *            oda datasource extension id.
@@ -61,11 +60,10 @@ public class OdaFilterExprHelper
 
 	/**
 	 * Return the IFilterExprDefinition instance based on the passed in BIRT
-	 * predefined Filter expression name. For commercial BIRT, the returned
-	 * IFilterExprDefinition will provide the information that mapped to a
-	 * corresponding ODA extension Filter if there is one. For OS BIRT, the
-	 * returned IFilterExprDefinition will not have any map information to the
-	 * ODA extension filters.
+	 * predefined Filter expression name. The returned IFilterExprDefinition
+	 * will provide the information that mapped to a corresponding ODA extension
+	 * Filter if there is one. For OS BIRT, the returned IFilterExprDefinition
+	 * will not have any map information to the ODA extension filters.
 	 * 
 	 * @param birtFilterExprId
 	 *            the BIRT predefined fitler expression id.
