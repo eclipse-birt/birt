@@ -2016,8 +2016,8 @@ public class UIUtil
 		{
 			return MessageDialog.openConfirm( Display.getCurrent( )
 					.getActiveShell( ),
-					Messages.getString( "UIUtil.previewconfirm.title" ),
-					Messages.getString( "UIUtil.previewconfirm.message" ) );
+					Messages.getString( "UIUtil.previewconfirm.title" ), //$NON-NLS-1$
+					Messages.getString( "UIUtil.previewconfirm.message" ) ); //$NON-NLS-1$
 		}
 		return true;
 	}

@@ -240,7 +240,7 @@ public class ReportPreviewEditor extends EditorPart
 		gd.widthHint = 100;
 		progressBar.setLayoutData( gd );
 		// When initialize preview, show the progress bar
-		progressBar.setVisible( true );
+		progressBar.setVisible( false );
 
 		createMainBrowser( );
 
@@ -401,6 +401,22 @@ public class ReportPreviewEditor extends EditorPart
 		if ( bParameter != null && !bParameter.isDisposed( ) )
 		{
 			bParameter.setEnabled( value );
+		}
+	}
+
+	protected void showProgress( )
+	{
+		if ( progressBar != null && !progressBar.isDisposed( ) )
+		{
+			progressBar.setVisible( true );
+		}
+	}
+
+	protected void hideProgress( )
+	{
+		if ( progressBar != null && !progressBar.isDisposed( ) )
+		{
+			progressBar.setVisible( false );
 		}
 	}
 

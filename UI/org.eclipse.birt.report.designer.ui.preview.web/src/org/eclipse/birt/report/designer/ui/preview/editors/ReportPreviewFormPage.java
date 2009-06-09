@@ -130,6 +130,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		}
 
 		boolean isDisplay = false;
+		
+		showProgress( );
 
 		// if miss parameter, pop up parameter dialog
 		if ( isMissingParameter( ) )
@@ -147,6 +149,10 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 					{
 						return false;
 					}
+				}
+				else
+				{
+					hideProgress( );
 				}
 			}
 		}
